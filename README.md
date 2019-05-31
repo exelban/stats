@@ -13,6 +13,7 @@ You can download latest version [here](https://github.com/exelban/mini-stats/rel
  - [ ] add tests
  - [ ] OTA updates
  - [ ] charts
+ - [ ] autostart on boot
 
 ## License
 [GNU General Public License](https://github.com/exelban/mini-stats/blob/master/LICENSE)
