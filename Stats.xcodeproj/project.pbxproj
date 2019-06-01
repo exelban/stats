@@ -9,16 +9,20 @@
 /* Begin PBXBuildFile section */
 		9A1410F9229E721100D29793 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1410F8229E721100D29793 /* AppDelegate.swift */; };
 		9A141100229E721200D29793 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A1410FE229E721200D29793 /* Main.storyboard */; };
-		9A5B1CB6229E73BB008B9D3C /* StatusBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5B1CB4229E73BB008B9D3C /* StatusBarView.swift */; };
-		9A5B1CB7229E73BB008B9D3C /* StatusBarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9A5B1CB5229E73BB008B9D3C /* StatusBarView.xib */; };
-		9A5B1CB9229E7664008B9D3C /* CpuUsage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5B1CB8229E7664008B9D3C /* CpuUsage.swift */; };
-		9A5B1CBC229E78B3008B9D3C /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5B1CBB229E78B3008B9D3C /* Store.swift */; };
+		9A57A18522A1D26D0033E318 /* MenuBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A57A18422A1D26D0033E318 /* MenuBar.swift */; };
+		9A57A19B22A1E1C50033E318 /* Module.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A57A19A22A1E1C50033E318 /* Module.swift */; };
+		9A57A19D22A1E3270033E318 /* CPU.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A57A19C22A1E3270033E318 /* CPU.swift */; };
 		9A5B1CBF229E78F0008B9D3C /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5B1CBE229E78F0008B9D3C /* Observable.swift */; };
-		9A5B1CC1229E7A1C008B9D3C /* NilLoadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5B1CC0229E7A1C008B9D3C /* NilLoadable.swift */; };
 		9A5B1CC5229E7B40008B9D3C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5B1CC4229E7B40008B9D3C /* Extensions.swift */; };
-		9A5B1CC7229E7F44008B9D3C /* MemoryUsage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5B1CC6229E7F44008B9D3C /* MemoryUsage.swift */; };
-		9A5B1CC9229E8621008B9D3C /* DiskUsage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5B1CC8229E8621008B9D3C /* DiskUsage.swift */; };
 		9A6CFC0122A1C9F5001E782D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9A6CFC0022A1C9F5001E782D /* Assets.xcassets */; };
+		9A7B8F5B22A290A200DEB352 /* CPU.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9A7B8F5A22A290A200DEB352 /* CPU.xib */; };
+		9A7B8F5E22A2A57600DEB352 /* CPUReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7B8F5D22A2A57600DEB352 /* CPUReader.swift */; };
+		9A7B8F6522A2C19D00DEB352 /* Memory.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9A7B8F6422A2C19D00DEB352 /* Memory.xib */; };
+		9A7B8F6722A2C1B900DEB352 /* Disk.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9A7B8F6622A2C1B900DEB352 /* Disk.xib */; };
+		9A7B8F6922A2C3A100DEB352 /* Memory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7B8F6822A2C3A100DEB352 /* Memory.swift */; };
+		9A7B8F6B22A2C3A700DEB352 /* Disk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7B8F6A22A2C3A700DEB352 /* Disk.swift */; };
+		9A7B8F6D22A2C3D600DEB352 /* MemoryReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7B8F6C22A2C3D600DEB352 /* MemoryReader.swift */; };
+		9A7B8F6F22A2C57000DEB352 /* DiskReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7B8F6E22A2C57000DEB352 /* DiskReader.swift */; };
 		9A82C38F22A1A41700B914CA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A82C38E22A1A41700B914CA /* Main.storyboard */; };
 		9AB54D9E22A19EC7006192E0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB54D9D22A19EC7006192E0 /* AppDelegate.swift */; };
 		9AB54DA222A19EC8006192E0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AB54DA122A19EC8006192E0 /* Assets.xcassets */; };
@@ -56,16 +60,20 @@
 		9A1410FF229E721200D29793 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9A141101229E721200D29793 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9A141102229E721200D29793 /* Stats.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Stats.entitlements; sourceTree = "<group>"; };
-		9A5B1CB4229E73BB008B9D3C /* StatusBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusBarView.swift; sourceTree = "<group>"; };
-		9A5B1CB5229E73BB008B9D3C /* StatusBarView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StatusBarView.xib; sourceTree = "<group>"; };
-		9A5B1CB8229E7664008B9D3C /* CpuUsage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CpuUsage.swift; sourceTree = "<group>"; };
-		9A5B1CBB229E78B3008B9D3C /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
+		9A57A18422A1D26D0033E318 /* MenuBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBar.swift; sourceTree = "<group>"; };
+		9A57A19A22A1E1C50033E318 /* Module.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Module.swift; sourceTree = "<group>"; };
+		9A57A19C22A1E3270033E318 /* CPU.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPU.swift; sourceTree = "<group>"; };
 		9A5B1CBE229E78F0008B9D3C /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
-		9A5B1CC0229E7A1C008B9D3C /* NilLoadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NilLoadable.swift; sourceTree = "<group>"; };
 		9A5B1CC4229E7B40008B9D3C /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-		9A5B1CC6229E7F44008B9D3C /* MemoryUsage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryUsage.swift; sourceTree = "<group>"; };
-		9A5B1CC8229E8621008B9D3C /* DiskUsage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskUsage.swift; sourceTree = "<group>"; };
 		9A6CFC0022A1C9F5001E782D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		9A7B8F5A22A290A200DEB352 /* CPU.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CPU.xib; sourceTree = "<group>"; };
+		9A7B8F5D22A2A57600DEB352 /* CPUReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPUReader.swift; sourceTree = "<group>"; };
+		9A7B8F6422A2C19D00DEB352 /* Memory.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Memory.xib; sourceTree = "<group>"; };
+		9A7B8F6622A2C1B900DEB352 /* Disk.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Disk.xib; sourceTree = "<group>"; };
+		9A7B8F6822A2C3A100DEB352 /* Memory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memory.swift; sourceTree = "<group>"; };
+		9A7B8F6A22A2C3A700DEB352 /* Disk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Disk.swift; sourceTree = "<group>"; };
+		9A7B8F6C22A2C3D600DEB352 /* MemoryReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryReader.swift; sourceTree = "<group>"; };
+		9A7B8F6E22A2C57000DEB352 /* DiskReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskReader.swift; sourceTree = "<group>"; };
 		9A82C38E22A1A41700B914CA /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		9A998CD722A199920087ADE7 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		9A998CD922A199970087ADE7 /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = System/Library/Frameworks/ServiceManagement.framework; sourceTree = SDKROOT; };
@@ -116,13 +124,11 @@
 		9A1410F7229E721100D29793 /* Stats */ = {
 			isa = PBXGroup;
 			children = (
-				9A5B1CBD229E78D2008B9D3C /* libs */,
-				9A5B1CBA229E7892008B9D3C /* Readers */,
 				9A5B1CB3229E72A7008B9D3C /* Supporting Files */,
+				9A5B1CBA229E7892008B9D3C /* Modules */,
+				9A5B1CBD229E78D2008B9D3C /* libs */,
 				9A1410F8229E721100D29793 /* AppDelegate.swift */,
-				9A5B1CB4229E73BB008B9D3C /* StatusBarView.swift */,
-				9A5B1CB5229E73BB008B9D3C /* StatusBarView.xib */,
-				9A5B1CBB229E78B3008B9D3C /* Store.swift */,
+				9A57A18422A1D26D0033E318 /* MenuBar.swift */,
 			);
 			path = Stats;
 			sourceTree = "<group>";
@@ -130,32 +136,62 @@
 		9A5B1CB3229E72A7008B9D3C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				9A6CFC0022A1C9F5001E782D /* Assets.xcassets */,
 				9A1410FE229E721200D29793 /* Main.storyboard */,
 				9A141101229E721200D29793 /* Info.plist */,
-				9A6CFC0022A1C9F5001E782D /* Assets.xcassets */,
 				9A141102229E721200D29793 /* Stats.entitlements */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		9A5B1CBA229E7892008B9D3C /* Readers */ = {
+		9A5B1CBA229E7892008B9D3C /* Modules */ = {
 			isa = PBXGroup;
 			children = (
-				9A5B1CB8229E7664008B9D3C /* CpuUsage.swift */,
-				9A5B1CC6229E7F44008B9D3C /* MemoryUsage.swift */,
-				9A5B1CC8229E8621008B9D3C /* DiskUsage.swift */,
+				9A7B8F5C22A2926500DEB352 /* CPU */,
+				9A7B8F6222A2C17000DEB352 /* Memory */,
+				9A7B8F6322A2C17500DEB352 /* Disk */,
 			);
-			path = Readers;
+			path = Modules;
 			sourceTree = "<group>";
 		};
 		9A5B1CBD229E78D2008B9D3C /* libs */ = {
 			isa = PBXGroup;
 			children = (
 				9A5B1CBE229E78F0008B9D3C /* Observable.swift */,
-				9A5B1CC0229E7A1C008B9D3C /* NilLoadable.swift */,
+				9A57A19A22A1E1C50033E318 /* Module.swift */,
 				9A5B1CC4229E7B40008B9D3C /* Extensions.swift */,
 			);
 			path = libs;
+			sourceTree = "<group>";
+		};
+		9A7B8F5C22A2926500DEB352 /* CPU */ = {
+			isa = PBXGroup;
+			children = (
+				9A7B8F5A22A290A200DEB352 /* CPU.xib */,
+				9A57A19C22A1E3270033E318 /* CPU.swift */,
+				9A7B8F5D22A2A57600DEB352 /* CPUReader.swift */,
+			);
+			path = CPU;
+			sourceTree = "<group>";
+		};
+		9A7B8F6222A2C17000DEB352 /* Memory */ = {
+			isa = PBXGroup;
+			children = (
+				9A7B8F6422A2C19D00DEB352 /* Memory.xib */,
+				9A7B8F6822A2C3A100DEB352 /* Memory.swift */,
+				9A7B8F6C22A2C3D600DEB352 /* MemoryReader.swift */,
+			);
+			path = Memory;
+			sourceTree = "<group>";
+		};
+		9A7B8F6322A2C17500DEB352 /* Disk */ = {
+			isa = PBXGroup;
+			children = (
+				9A7B8F6622A2C1B900DEB352 /* Disk.xib */,
+				9A7B8F6A22A2C3A700DEB352 /* Disk.swift */,
+				9A7B8F6E22A2C57000DEB352 /* DiskReader.swift */,
+			);
+			path = Disk;
 			sourceTree = "<group>";
 		};
 		9A998CD622A199920087ADE7 /* Frameworks */ = {
@@ -260,9 +296,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9A5B1CB7229E73BB008B9D3C /* StatusBarView.xib in Resources */,
 				9AB54DAB22A19F8B006192E0 /* StatsLauncher.app in Resources */,
+				9A7B8F5B22A290A200DEB352 /* CPU.xib in Resources */,
 				9A6CFC0122A1C9F5001E782D /* Assets.xcassets in Resources */,
+				9A7B8F6722A2C1B900DEB352 /* Disk.xib in Resources */,
+				9A7B8F6522A2C19D00DEB352 /* Memory.xib in Resources */,
 				9A141100229E721200D29793 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -283,14 +321,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9A5B1CB6229E73BB008B9D3C /* StatusBarView.swift in Sources */,
-				9A5B1CC1229E7A1C008B9D3C /* NilLoadable.swift in Sources */,
-				9A5B1CC7229E7F44008B9D3C /* MemoryUsage.swift in Sources */,
+				9A7B8F6F22A2C57000DEB352 /* DiskReader.swift in Sources */,
+				9A7B8F6922A2C3A100DEB352 /* Memory.swift in Sources */,
+				9A7B8F5E22A2A57600DEB352 /* CPUReader.swift in Sources */,
+				9A7B8F6D22A2C3D600DEB352 /* MemoryReader.swift in Sources */,
+				9A57A18522A1D26D0033E318 /* MenuBar.swift in Sources */,
+				9A57A19D22A1E3270033E318 /* CPU.swift in Sources */,
+				9A57A19B22A1E1C50033E318 /* Module.swift in Sources */,
 				9A5B1CBF229E78F0008B9D3C /* Observable.swift in Sources */,
+				9A7B8F6B22A2C3A700DEB352 /* Disk.swift in Sources */,
 				9A1410F9229E721100D29793 /* AppDelegate.swift in Sources */,
-				9A5B1CC9229E8621008B9D3C /* DiskUsage.swift in Sources */,
-				9A5B1CB9229E7664008B9D3C /* CpuUsage.swift in Sources */,
-				9A5B1CBC229E78B3008B9D3C /* Store.swift in Sources */,
 				9A5B1CC5229E7B40008B9D3C /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

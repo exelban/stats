@@ -7,84 +7,30 @@
 //
 
 import Cocoa
-import ServiceManagement
-import os.log
 
-extension Notification.Name {
-    static let killLauncher = Notification.Name("killLauncher")
-}
+let modules: Observable<[Module]> = Observable([CPU(), Memory(), Disk()])
+let colors: Observable<Bool> = Observable(true)
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
-    var statusItem = NSStatusBar.system.statusItem(withLength: CGFloat(84))
-    let statusBarView: StatusBarView = StatusBarView.createFromNib()!
     let defaults = UserDefaults.standard
-    let launcherAppId = "eu.exelban.StatsLauncher"
-
+    var menuBarItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
+    
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        if NSRunningApplication.runningApplications(withBundleIdentifier: "eu.exelban.StatsLauncher").isEmpty {
-            DistributedNotificationCenter.default().post(name: .killLauncher, object: Bundle.main.bundleIdentifier!)
-        }
-        if defaults.object(forKey: "startOnLogin") != nil {
-            SMLoginItemSetEnabled(launcherAppId as CFString, defaults.bool(forKey: "startOnLogin"))
-        } else {
-            SMLoginItemSetEnabled(launcherAppId as CFString, true)
+        guard let menuBarButton = self.menuBarItem.button else {
+            NSApp.terminate(nil)
+            return
         }
         
-        self.statusItem.length = CGFloat(28 * store.activeWidgets.value)
-        
-        let _ = CpuUsage()
-        let _ = MemoryUsage()
-        let _ = DiskUsage()
-        
-        if let button = statusItem.button {
-            button.addSubview(statusBarView)
-        }
-        statusItem.menu = statusBarView.buildMenu()
-        
-        store.activeWidgets.subscribe(observer: self) { (newValue, oldValue) in
-            self.statusItem.length = CGFloat(28 * newValue)
-            
-            if let button = self.statusItem.button {
-                if newValue == 0 {
-                    self.statusItem.length = NSStatusItem.squareLength
-                    for view in button.subviews {
-                        view.removeFromSuperview()
-                    }
-                    button.image = NSImage(named:NSImage.Name("tray_icon"))
-                } else {
-                    button.image = nil
-                    button.addSubview(self.statusBarView)
-                }
-            }
-        }
+        colors << (defaults.object(forKey: "colors") != nil ? defaults.bool(forKey: "colors") : false)
+        _ = MenuBar(menuBarItem, menuBarButton: menuBarButton)
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
-    }
-    
-    @objc func toggleStatus(_ sender : NSMenuItem) {
-        let status = sender.state != NSControl.StateValue.on
-        sender.state = sender.state == NSControl.StateValue.on ? NSControl.StateValue.off : NSControl.StateValue.on
-        
-        switch sender.title {
-        case "CPU":
-            store.cpuStatus << status
-        case "Memory":
-            store.memoryStatus << status
-        case "Disk":
-            store.diskStatus << status
-        case "Colors":
-            store.colors << status
-            return
-        default: break
+        if modules.value.count != 0 {
+            for module in modules.value{
+                module.stop()
+            }
         }
-        
-        store.activeWidgets << (status ? store.activeWidgets.value+1 : store.activeWidgets.value-1)
-    }
-    
-    @objc func toggleStartOnLogin(_ sender : NSMenuItem) {
-        sender.state = sender.state == NSControl.StateValue.on ? NSControl.StateValue.off : NSControl.StateValue.on
-        SMLoginItemSetEnabled(launcherAppId as CFString, sender.state == NSControl.StateValue.on)
     }
 }

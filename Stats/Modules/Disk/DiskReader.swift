@@ -1,19 +1,35 @@
 //
-//  DiskUsage.swift
-//  Mini Stats
+//  DiskReader.swift
+//  Stats
 //
-//  Created by Serhiy Mytrovtsiy on 29/05/2019.
+//  Created by Serhiy Mytrovtsiy on 01.06.2019.
 //  Copyright © 2019 Serhiy Mytrovtsiy. All rights reserved.
 //
 
 import Foundation
 
-class DiskUsage {
+class DiskReader: Reader {
+    var usage: Observable<Float>!
     var updateTimer: Timer!
     
     init() {
+        self.usage = Observable(0)
         read()
-        updateTimer = Timer.scheduledTimer(timeInterval: 30, target: self, selector: #selector(read), userInfo: nil, repeats: true)
+    }
+    
+    func start() {
+        if updateTimer != nil {
+            return
+        }
+        updateTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(read), userInfo: nil, repeats: true)
+    }
+    
+    func stop() {
+        if updateTimer == nil {
+            return
+        }
+        updateTimer.invalidate()
+        updateTimer = nil
     }
     
     @objc func read() {
@@ -21,7 +37,7 @@ class DiskUsage {
         let free = freeDiskSpaceInBytes()
         let usedSpace = total - free
         
-        store.diskUsage << (Float(usedSpace) / Float(total))
+        self.usage << (Float(usedSpace) / Float(total))
     }
     
     func totalDiskSpaceInBytes() -> Int64 {

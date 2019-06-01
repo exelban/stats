@@ -1,18 +1,20 @@
 //
-//  MemoryUsage.swift
-//  Mini Stats
+//  reader.swift
+//  Stats
 //
-//  Created by Serhiy Mytrovtsiy on 29/05/2019.
+//  Created by Serhiy Mytrovtsiy on 01.06.2019.
 //  Copyright © 2019 Serhiy Mytrovtsiy. All rights reserved.
 //
 
 import Foundation
 
-class MemoryUsage {
+class MemoryReader: Reader {
+    var usage: Observable<Float>!
     var updateTimer: Timer!
     var totalSize: Float
     
     init() {
+        self.usage = Observable(0)
         var stats = host_basic_info()
         var count = UInt32(MemoryLayout<host_basic_info_data_t>.size / MemoryLayout<integer_t>.size)
         
@@ -31,7 +33,21 @@ class MemoryUsage {
         }
         
         read()
+    }
+    
+    func start() {
+        if updateTimer != nil {
+            return
+        }
         updateTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(read), userInfo: nil, repeats: true)
+    }
+    
+    func stop() {
+        if updateTimer == nil {
+            return
+        }
+        updateTimer.invalidate()
+        updateTimer = nil
     }
     
     @objc func read() {
@@ -46,12 +62,12 @@ class MemoryUsage {
         
         if kerr == KERN_SUCCESS {
             let active = Float(stats.active_count) * Float(PAGE_SIZE)
-//            let inactive = Float(stats.inactive_count) * Float(PAGE_SIZE)
+            //            let inactive = Float(stats.inactive_count) * Float(PAGE_SIZE)
             let wired = Float(stats.wire_count) * Float(PAGE_SIZE)
             let compressed = Float(stats.compressor_page_count) * Float(PAGE_SIZE)
-    
+            
             let free = totalSize - (active + wired + compressed)
-            store.memoryUsage << ((totalSize - free) / totalSize)
+            self.usage << ((totalSize - free) / totalSize)
         }
         else {
             print("Error with host_statistics64(): " + (String(cString: mach_error_string(kerr), encoding: String.Encoding.ascii) ?? "unknown error"))

@@ -15,6 +15,10 @@ extension Float {
     }
     
     func usageColor() -> NSColor {
+        if !colors.value {
+            return NSColor.textColor
+        }
+        
         switch self {
         case 0.6...0.8:
             return NSColor.systemOrange
@@ -32,3 +36,4 @@ public enum Unit : Float {
     case megabyte = 1048576
     case gigabyte = 1073741824
 }
+
