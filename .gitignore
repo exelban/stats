@@ -21,3 +21,6 @@ timeline.xctimeline
 playground.xcworkspace
 
 .build
+Stats.dmg
+Stats.app
+create-dmg
