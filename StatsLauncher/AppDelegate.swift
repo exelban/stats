@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  StatsLauncher
 //
-//  Created by Samuel Grant on 31.05.2019.
+//  Created by Serhiy Mytrovtsiy on 31.05.2019.
 //  Copyright © 2019 Serhiy Mytrovtsiy. All rights reserved.
 //
 
