@@ -7,6 +7,11 @@
 //
 
 import Cocoa
+import ServiceManagement
+
+extension Notification.Name {
+    static let killLauncher = Notification.Name("killLauncher")
+}
 
 let modules: Observable<[Module]> = Observable([CPU(), Memory(), Disk()])
 let colors: Observable<Bool> = Observable(true)
@@ -24,6 +29,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         colors << (defaults.object(forKey: "colors") != nil ? defaults.bool(forKey: "colors") : false)
         _ = MenuBar(menuBarItem, menuBarButton: menuBarButton)
+        
+        let launcherAppId = "eu.exelban.Stats"
+        let runningApps = NSWorkspace.shared.runningApplications
+        let isRunning = !runningApps.filter { $0.bundleIdentifier == launcherAppId }.isEmpty
+        
+        if isRunning {
+            DistributedNotificationCenter.default().post(name: .killLauncher, object: Bundle.main.bundleIdentifier!)
+        }
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {

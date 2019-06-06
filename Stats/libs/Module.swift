@@ -19,7 +19,7 @@ protocol Module {
     func stop()
 }
 
-extension Module where Self: Module {
+extension Module {
     func stop() {
         self.reader.stop()
         self.reader.usage.unsubscribe(observer: self as AnyObject)

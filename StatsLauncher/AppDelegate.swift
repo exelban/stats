@@ -7,7 +7,6 @@
 //
 
 import Cocoa
-import os.log
 
 extension Notification.Name {
     static let killLauncher = Notification.Name("killLauncher")
@@ -26,28 +25,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                                                                 selector: #selector(self.terminate),
                                                                 name: .killLauncher,
                                                                 object: mainAppIdentifier)
-            
-            let path = Bundle.main.bundlePath as NSString
-            var components = path.pathComponents
-            components.removeLast(3)
-            components.append("MacOS")
-            components.append("Stats")
-            
-            let newPath = NSString.path(withComponents: components)            
-            NSWorkspace.shared.launchApplication(newPath)
+            var path = Bundle.main.bundlePath as NSString
+            for _ in 1...4 {
+                path = path.deletingLastPathComponent as NSString
+            }
+            NSWorkspace.shared.launchApplication(path as String)
         }
         else {
             self.terminate()
         }
     }
-
-    func applicationWillTerminate(_ aNotification: Notification) {
-        // Insert code here to tear down your application
-    }
-
-
+    
     @objc func terminate() {
-        os_log("WTF")
         NSApp.terminate(nil)
     }
 }
