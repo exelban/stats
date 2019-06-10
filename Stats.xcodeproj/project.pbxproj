@@ -23,22 +23,11 @@
 		9A7B8F6B22A2C3A700DEB352 /* Disk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7B8F6A22A2C3A700DEB352 /* Disk.swift */; };
 		9A7B8F6D22A2C3D600DEB352 /* MemoryReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7B8F6C22A2C3D600DEB352 /* MemoryReader.swift */; };
 		9A7B8F6F22A2C57000DEB352 /* DiskReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7B8F6E22A2C57000DEB352 /* DiskReader.swift */; };
-		9A82C38F22A1A41700B914CA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A82C38E22A1A41700B914CA /* Main.storyboard */; };
-		9AB54D9E22A19EC7006192E0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB54D9D22A19EC7006192E0 /* AppDelegate.swift */; };
-		9AB54DA222A19EC8006192E0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AB54DA122A19EC8006192E0 /* Assets.xcassets */; };
-		9AB54DAB22A19F8B006192E0 /* StatsLauncher.app in Resources */ = {isa = PBXBuildFile; fileRef = 9AB54D9B22A19EC7006192E0 /* StatsLauncher.app */; };
-		9AB54DAF22A19F9E006192E0 /* StatsLauncher.app in Copy Files */ = {isa = PBXBuildFile; fileRef = 9AB54D9B22A19EC7006192E0 /* StatsLauncher.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		9AFA402522AE49A200FE90BC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AFA402422AE49A200FE90BC /* Assets.xcassets */; };
+		9AFA402822AE49A200FE90BC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9AFA402622AE49A200FE90BC /* Main.storyboard */; };
+		9AFA402F22AE49AE00FE90BC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFA402E22AE49AE00FE90BC /* AppDelegate.swift */; };
+		9AFA403022AE49DD00FE90BC /* StatsLauncher.app in Copy Files */ = {isa = PBXBuildFile; fileRef = 9AFA401E22AE49A100FE90BC /* StatsLauncher.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		9AB54DAC22A19F8B006192E0 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9A1410ED229E721100D29793 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 9AB54D9A22A19EC7006192E0;
-			remoteInfo = StatsLauncher;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		9AB54DAE22A19F96006192E0 /* Copy Files */ = {
@@ -47,7 +36,7 @@
 			dstPath = Contents/Library/LoginItems;
 			dstSubfolderSpec = 1;
 			files = (
-				9AB54DAF22A19F9E006192E0 /* StatsLauncher.app in Copy Files */,
+				9AFA403022AE49DD00FE90BC /* StatsLauncher.app in Copy Files */,
 			);
 			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -74,14 +63,14 @@
 		9A7B8F6A22A2C3A700DEB352 /* Disk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Disk.swift; sourceTree = "<group>"; };
 		9A7B8F6C22A2C3D600DEB352 /* MemoryReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryReader.swift; sourceTree = "<group>"; };
 		9A7B8F6E22A2C57000DEB352 /* DiskReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskReader.swift; sourceTree = "<group>"; };
-		9A82C38E22A1A41700B914CA /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		9A998CD722A199920087ADE7 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		9A998CD922A199970087ADE7 /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = System/Library/Frameworks/ServiceManagement.framework; sourceTree = SDKROOT; };
-		9AB54D9B22A19EC7006192E0 /* StatsLauncher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StatsLauncher.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		9AB54D9D22A19EC7006192E0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		9AB54DA122A19EC8006192E0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		9AB54DA622A19EC8006192E0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9AB54DA722A19EC8006192E0 /* StatsLauncher.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = StatsLauncher.entitlements; sourceTree = "<group>"; };
+		9AFA401E22AE49A100FE90BC /* StatsLauncher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StatsLauncher.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9AFA402422AE49A200FE90BC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		9AFA402722AE49A200FE90BC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		9AFA402922AE49A200FE90BC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9AFA402A22AE49A200FE90BC /* StatsLauncher.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = StatsLauncher.entitlements; sourceTree = "<group>"; };
+		9AFA402E22AE49AE00FE90BC /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,7 +81,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9AB54D9822A19EC7006192E0 /* Frameworks */ = {
+		9AFA401B22AE49A100FE90BC /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -106,7 +95,7 @@
 			isa = PBXGroup;
 			children = (
 				9A1410F7229E721100D29793 /* Stats */,
-				9AB54D9C22A19EC7006192E0 /* StatsLauncher */,
+				9AFA401F22AE49A100FE90BC /* StatsLauncher */,
 				9A1410F6229E721100D29793 /* Products */,
 				9A998CD622A199920087ADE7 /* Frameworks */,
 			);
@@ -116,7 +105,7 @@
 			isa = PBXGroup;
 			children = (
 				9A1410F5229E721100D29793 /* Stats.app */,
-				9AB54D9B22A19EC7006192E0 /* StatsLauncher.app */,
+				9AFA401E22AE49A100FE90BC /* StatsLauncher.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -203,14 +192,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		9AB54D9C22A19EC7006192E0 /* StatsLauncher */ = {
+		9AFA401F22AE49A100FE90BC /* StatsLauncher */ = {
 			isa = PBXGroup;
 			children = (
-				9AB54D9D22A19EC7006192E0 /* AppDelegate.swift */,
-				9AB54DA122A19EC8006192E0 /* Assets.xcassets */,
-				9AB54DA622A19EC8006192E0 /* Info.plist */,
-				9AB54DA722A19EC8006192E0 /* StatsLauncher.entitlements */,
-				9A82C38E22A1A41700B914CA /* Main.storyboard */,
+				9AFA402E22AE49AE00FE90BC /* AppDelegate.swift */,
+				9AFA402422AE49A200FE90BC /* Assets.xcassets */,
+				9AFA402622AE49A200FE90BC /* Main.storyboard */,
+				9AFA402922AE49A200FE90BC /* Info.plist */,
+				9AFA402A22AE49A200FE90BC /* StatsLauncher.entitlements */,
 			);
 			path = StatsLauncher;
 			sourceTree = "<group>";
@@ -230,20 +219,19 @@
 			buildRules = (
 			);
 			dependencies = (
-				9AB54DAD22A19F8B006192E0 /* PBXTargetDependency */,
 			);
 			name = Stats;
 			productName = "Mini Stats";
 			productReference = 9A1410F5229E721100D29793 /* Stats.app */;
 			productType = "com.apple.product-type.application";
 		};
-		9AB54D9A22A19EC7006192E0 /* StatsLauncher */ = {
+		9AFA401D22AE49A100FE90BC /* StatsLauncher */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9AB54DAA22A19EC8006192E0 /* Build configuration list for PBXNativeTarget "StatsLauncher" */;
+			buildConfigurationList = 9AFA402B22AE49A200FE90BC /* Build configuration list for PBXNativeTarget "StatsLauncher" */;
 			buildPhases = (
-				9AB54D9722A19EC7006192E0 /* Sources */,
-				9AB54D9822A19EC7006192E0 /* Frameworks */,
-				9AB54D9922A19EC7006192E0 /* Resources */,
+				9AFA401A22AE49A100FE90BC /* Sources */,
+				9AFA401B22AE49A100FE90BC /* Frameworks */,
+				9AFA401C22AE49A100FE90BC /* Resources */,
 			);
 			buildRules = (
 			);
@@ -251,7 +239,7 @@
 			);
 			name = StatsLauncher;
 			productName = StatsLauncher;
-			productReference = 9AB54D9B22A19EC7006192E0 /* StatsLauncher.app */;
+			productReference = 9AFA401E22AE49A100FE90BC /* StatsLauncher.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -260,15 +248,15 @@
 		9A1410ED229E721100D29793 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1010;
+				LastSwiftUpdateCheck = 1020;
 				LastUpgradeCheck = 1100;
 				ORGANIZATIONNAME = "Serhiy Mytrovtsiy";
 				TargetAttributes = {
 					9A1410F4229E721100D29793 = {
 						CreatedOnToolsVersion = 10.2.1;
 					};
-					9AB54D9A22A19EC7006192E0 = {
-						CreatedOnToolsVersion = 10.1;
+					9AFA401D22AE49A100FE90BC = {
+						CreatedOnToolsVersion = 10.2.1;
 					};
 				};
 			};
@@ -286,7 +274,7 @@
 			projectRoot = "";
 			targets = (
 				9A1410F4229E721100D29793 /* Stats */,
-				9AB54D9A22A19EC7006192E0 /* StatsLauncher */,
+				9AFA401D22AE49A100FE90BC /* StatsLauncher */,
 			);
 		};
 /* End PBXProject section */
@@ -296,7 +284,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9AB54DAB22A19F8B006192E0 /* StatsLauncher.app in Resources */,
 				9A7B8F5B22A290A200DEB352 /* CPU.xib in Resources */,
 				9A6CFC0122A1C9F5001E782D /* Assets.xcassets in Resources */,
 				9A7B8F6722A2C1B900DEB352 /* Disk.xib in Resources */,
@@ -305,12 +292,12 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9AB54D9922A19EC7006192E0 /* Resources */ = {
+		9AFA401C22AE49A100FE90BC /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9AB54DA222A19EC8006192E0 /* Assets.xcassets in Resources */,
-				9A82C38F22A1A41700B914CA /* Main.storyboard in Resources */,
+				9AFA402522AE49A200FE90BC /* Assets.xcassets in Resources */,
+				9AFA402822AE49A200FE90BC /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -335,29 +322,29 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9AB54D9722A19EC7006192E0 /* Sources */ = {
+		9AFA401A22AE49A100FE90BC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9AB54D9E22A19EC7006192E0 /* AppDelegate.swift in Sources */,
+				9AFA402F22AE49AE00FE90BC /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		9AB54DAD22A19F8B006192E0 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 9AB54D9A22A19EC7006192E0 /* StatsLauncher */;
-			targetProxy = 9AB54DAC22A19F8B006192E0 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		9A1410FE229E721200D29793 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				9A1410FF229E721200D29793 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		9AFA402622AE49A200FE90BC /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9AFA402722AE49A200FE90BC /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -483,10 +470,9 @@
 		9A141106229E721200D29793 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Stats/Supporting Files/Stats.entitlements";
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = RP2S87B72W;
@@ -499,6 +485,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_BUNDLE_IDENTIFIER = eu.exelban.Stats;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
@@ -506,10 +493,9 @@
 		9A141107229E721200D29793 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Stats/Supporting Files/Stats.entitlements";
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = RP2S87B72W;
@@ -522,55 +508,50 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_BUNDLE_IDENTIFIER = eu.exelban.Stats;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};
-		9AB54DA822A19EC8006192E0 /* Debug */ = {
+		9AFA402C22AE49A200FE90BC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = StatsLauncher/StatsLauncher.entitlements;
-				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = NO;
 				DEVELOPMENT_TEAM = RP2S87B72W;
-				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = StatsLauncher/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				PRODUCT_BUNDLE_IDENTIFIER = eu.exelban.StatsLauncher;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
-		9AB54DA922A19EC8006192E0 /* Release */ = {
+		9AFA402D22AE49A200FE90BC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = StatsLauncher/StatsLauncher.entitlements;
-				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = NO;
 				DEVELOPMENT_TEAM = RP2S87B72W;
-				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = StatsLauncher/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				PRODUCT_BUNDLE_IDENTIFIER = eu.exelban.StatsLauncher;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -595,11 +576,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9AB54DAA22A19EC8006192E0 /* Build configuration list for PBXNativeTarget "StatsLauncher" */ = {
+		9AFA402B22AE49A200FE90BC /* Build configuration list for PBXNativeTarget "StatsLauncher" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				9AB54DA822A19EC8006192E0 /* Debug */,
-				9AB54DA922A19EC8006192E0 /* Release */,
+				9AFA402C22AE49A200FE90BC /* Debug */,
+				9AFA402D22AE49A200FE90BC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

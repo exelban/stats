@@ -30,10 +30,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         colors << (defaults.object(forKey: "colors") != nil ? defaults.bool(forKey: "colors") : false)
         _ = MenuBar(menuBarItem, menuBarButton: menuBarButton)
         
-        let launcherAppId = "eu.exelban.Stats"
+        let launcherAppId = "eu.exelban.StatsLauncher"
         let runningApps = NSWorkspace.shared.runningApplications
         let isRunning = !runningApps.filter { $0.bundleIdentifier == launcherAppId }.isEmpty
         
+        SMLoginItemSetEnabled(launcherAppId as CFString, true)
         if isRunning {
             DistributedNotificationCenter.default().post(name: .killLauncher, object: Bundle.main.bundleIdentifier!)
         }

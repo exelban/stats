@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  StatsLauncher
 //
-//  Created by Serhiy Mytrovtsiy on 31.05.2019.
+//  Created by Samuel Grant on 10/06/2019.
 //  Copyright © 2019 Serhiy Mytrovtsiy. All rights reserved.
 //
 
@@ -14,7 +14,7 @@ extension Notification.Name {
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
-
+    
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         let mainAppIdentifier = "eu.exelban.Stats"
         let runningApps = NSWorkspace.shared.runningApplications
