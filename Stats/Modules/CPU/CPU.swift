@@ -21,8 +21,6 @@ class CPU: Module {
     init() {
         self.active = Observable(defaults.object(forKey: name) != nil ? defaults.bool(forKey: name) : true)
         self.view = loadViewFromNib()
-        
-//        self.view.frame = CGRect(x: 20, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height )
     }
     
     func start() {
