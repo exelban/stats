@@ -1,7 +1,7 @@
 # Stats
 Application for macos that shows CPU, Memory and Disk usage on the menu bar
 
-[<img src="https://serhiy.s3.eu-central-1.amazonaws.com/Github_repo/stats/widgets%3Fv1.0.0.png" width="500">](https://github.com/exelban/stats/releases/download/latests/Stats.dmg)
+[<img src="https://serhiy.s3.eu-central-1.amazonaws.com/Github_repo/stats/widgets%3Fv1.0.0.png" width="500">](https://github.com/exelban/stats/releases)
 
 ## Installation
 You can download latest version [here](https://github.com/exelban/stats/releases).
