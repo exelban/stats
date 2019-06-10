@@ -34,7 +34,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let runningApps = NSWorkspace.shared.runningApplications
         let isRunning = !runningApps.filter { $0.bundleIdentifier == launcherAppId }.isEmpty
         
-        SMLoginItemSetEnabled(launcherAppId as CFString, true)
+        if defaults.object(forKey: "runAtLogin") != nil {
+            SMLoginItemSetEnabled(launcherAppId as CFString, defaults.bool(forKey: "runAtLogin"))
+        } else {
+            SMLoginItemSetEnabled(launcherAppId as CFString, true)
+            self.defaults.set(true, forKey: "runAtLogin")
+        }
+        
         if isRunning {
             DistributedNotificationCenter.default().post(name: .killLauncher, object: Bundle.main.bundleIdentifier!)
         }

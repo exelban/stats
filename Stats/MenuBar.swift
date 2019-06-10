@@ -51,12 +51,12 @@ class MenuBar {
         let preferencesMenu = NSMenu()
         
         let colorStatus = NSMenuItem(title: "Colors", action: #selector(toggleMenu), keyEquivalent: "")
-        colorStatus.state = defaults.object(forKey: "colors") != nil && !defaults.bool(forKey: "colors") ? NSControl.StateValue.off : NSControl.StateValue.on
+        colorStatus.state = defaults.bool(forKey: "colors") ? NSControl.StateValue.on : NSControl.StateValue.off
         colorStatus.target = self
         preferencesMenu.addItem(colorStatus)
         
         let runAtLogin = NSMenuItem(title: "Run at login", action: #selector(toggleMenu), keyEquivalent: "")
-        runAtLogin.state = defaults.object(forKey: "runAtLogin") != nil && !defaults.bool(forKey: "runAtLogin") ? NSControl.StateValue.off : NSControl.StateValue.on
+        runAtLogin.state = defaults.bool(forKey: "runAtLogin") || defaults.object(forKey: "runAtLogin") == nil ? NSControl.StateValue.on : NSControl.StateValue.off
         runAtLogin.target = self
         preferencesMenu.addItem(runAtLogin)
         
