@@ -34,7 +34,7 @@ Each widget can be disabled in menu.
 
 ## What's new
 
-### v0.0.1
+### v1.0.0
     - first release
 
 ## License
