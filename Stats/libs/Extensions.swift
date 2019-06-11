@@ -37,3 +37,15 @@ public enum Unit : Float {
     case gigabyte = 1073741824
 }
 
+//extension NSView {
+//    var backgroundColor: NSColor? {
+//        get {
+//            guard let color = layer?.backgroundColor else { return nil }
+//            return NSColor(cgColor: color)
+//        }
+//        set {
+//            wantsLayer = true
+//            layer?.backgroundColor = newValue?.cgColor
+//        }
+//    }
+//}

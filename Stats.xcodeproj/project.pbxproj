@@ -15,7 +15,6 @@
 		9A5B1CBF229E78F0008B9D3C /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5B1CBE229E78F0008B9D3C /* Observable.swift */; };
 		9A5B1CC5229E7B40008B9D3C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5B1CC4229E7B40008B9D3C /* Extensions.swift */; };
 		9A6CFC0122A1C9F5001E782D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9A6CFC0022A1C9F5001E782D /* Assets.xcassets */; };
-		9A7B8F5B22A290A200DEB352 /* CPU.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9A7B8F5A22A290A200DEB352 /* CPU.xib */; };
 		9A7B8F5E22A2A57600DEB352 /* CPUReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7B8F5D22A2A57600DEB352 /* CPUReader.swift */; };
 		9A7B8F6522A2C19D00DEB352 /* Memory.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9A7B8F6422A2C19D00DEB352 /* Memory.xib */; };
 		9A7B8F6722A2C1B900DEB352 /* Disk.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9A7B8F6622A2C1B900DEB352 /* Disk.xib */; };
@@ -55,7 +54,6 @@
 		9A5B1CBE229E78F0008B9D3C /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		9A5B1CC4229E7B40008B9D3C /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		9A6CFC0022A1C9F5001E782D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		9A7B8F5A22A290A200DEB352 /* CPU.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CPU.xib; sourceTree = "<group>"; };
 		9A7B8F5D22A2A57600DEB352 /* CPUReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPUReader.swift; sourceTree = "<group>"; };
 		9A7B8F6422A2C19D00DEB352 /* Memory.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Memory.xib; sourceTree = "<group>"; };
 		9A7B8F6622A2C1B900DEB352 /* Disk.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Disk.xib; sourceTree = "<group>"; };
@@ -156,7 +154,6 @@
 		9A7B8F5C22A2926500DEB352 /* CPU */ = {
 			isa = PBXGroup;
 			children = (
-				9A7B8F5A22A290A200DEB352 /* CPU.xib */,
 				9A57A19C22A1E3270033E318 /* CPU.swift */,
 				9A7B8F5D22A2A57600DEB352 /* CPUReader.swift */,
 			);
@@ -284,7 +281,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9A7B8F5B22A290A200DEB352 /* CPU.xib in Resources */,
 				9A6CFC0122A1C9F5001E782D /* Assets.xcassets in Resources */,
 				9A7B8F6722A2C1B900DEB352 /* Disk.xib in Resources */,
 				9A7B8F6522A2C19D00DEB352 /* Memory.xib in Resources */,
