@@ -14,9 +14,11 @@ class Battery: Module {
     let defaults = UserDefaults.standard
     
     var active: Observable<Bool>
+    var available: Observable<Bool>
     var reader: Reader = BatteryReader()
     
     init() {
+        self.available = Observable(self.reader.available)
         self.active = Observable(defaults.object(forKey: name) != nil ? defaults.bool(forKey: name) : true)
         self.view = BatteryView(frame: NSMakeRect(0, 0, MODULE_WIDTH, MODULE_HEIGHT))
     }

@@ -14,11 +14,13 @@ class CPU: Module {
     let defaults = UserDefaults.standard
     
     var active: Observable<Bool>
+    var available: Observable<Bool>
     var reader: Reader = CPUReader()
     
     @IBOutlet weak var value: NSTextField!
     
     init() {
+        self.available = Observable(true)
         self.active = Observable(defaults.object(forKey: name) != nil ? defaults.bool(forKey: name) : true)
         self.view = loadViewFromNib()
     }

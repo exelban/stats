@@ -11,6 +11,7 @@ import Cocoa
 protocol Module {
     var name: String { get }
     var active: Observable<Bool> { get }
+    var available: Observable<Bool> { get }
     var reader: Reader { get }
     var view: NSView { get }
     
@@ -36,7 +37,9 @@ extension Module {
 
 protocol Reader {
     var usage: Observable<Float>! { get }
+    var available: Bool { get }
+    var updateTimer: Timer! { get set }
     func start()
-    func read()
     func stop()
+    func read()
 }

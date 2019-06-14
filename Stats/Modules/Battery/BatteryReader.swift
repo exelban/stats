@@ -11,27 +11,8 @@ import IOKit.ps
 
 class BatteryReader: Reader {
     var usage: Observable<Float>!
+    var available: Bool = false
     var updateTimer: Timer!
-    
-    fileprivate static let IOSERVICE_BATTERY = "AppleSmartBattery"
-    fileprivate var service: io_service_t = 0
-    fileprivate enum Key: String {
-        case ACPowered        = "ExternalConnected"
-        case Amperage         = "Amperage"
-        /// Current charge
-        case CurrentCapacity  = "CurrentCapacity"
-        case CycleCount       = "CycleCount"
-        /// Originally DesignCapacity == MaxCapacity
-        case DesignCapacity   = "DesignCapacity"
-        case DesignCycleCount = "DesignCycleCount9C"
-        case FullyCharged     = "FullyCharged"
-        case IsCharging       = "IsCharging"
-        /// Current max charge (this degrades over time)
-        case MaxCapacity      = "MaxCapacity"
-        case Temperature      = "Temperature"
-        /// Time remaining to charge/discharge
-        case TimeRemaining    = "TimeRemaining"
-    }
     
     init() {
         self.usage = Observable(0)
@@ -56,10 +37,10 @@ class BatteryReader: Reader {
     @objc func read() {
         let psInfo = IOPSCopyPowerSourcesInfo().takeRetainedValue()
         let psList = IOPSCopyPowerSourcesList(psInfo).takeRetainedValue() as [CFTypeRef]
+        self.available = psList.count != 0
         
         for ps in psList {
             if let psDesc = IOPSGetPowerSourceDescription(psInfo, ps).takeUnretainedValue() as? [String: Any] {
-//                let type = psDesc[kIOPSTypeKey] as? String
                 let isCharging = (psDesc[kIOPSIsChargingKey] as? Bool)
                 var cap: Float = Float(psDesc[kIOPSCurrentCapacityKey] as! Int) / 100
                 
