@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9A09C89E22B3A7C90018426F /* Battery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A09C89D22B3A7C90018426F /* Battery.swift */; };
+		9A09C8A022B3A7E20018426F /* BatteryReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A09C89F22B3A7E20018426F /* BatteryReader.swift */; };
 		9A1410F9229E721100D29793 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1410F8229E721100D29793 /* AppDelegate.swift */; };
 		9A141100229E721200D29793 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A1410FE229E721200D29793 /* Main.storyboard */; };
 		9A57A18522A1D26D0033E318 /* MenuBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A57A18422A1D26D0033E318 /* MenuBar.swift */; };
@@ -44,6 +46,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		9A09C89D22B3A7C90018426F /* Battery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Battery.swift; sourceTree = "<group>"; };
+		9A09C89F22B3A7E20018426F /* BatteryReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryReader.swift; sourceTree = "<group>"; };
 		9A1410F5229E721100D29793 /* Stats.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Stats.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A1410F8229E721100D29793 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9A1410FF229E721200D29793 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -91,6 +95,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9A09C89C22B3A7BB0018426F /* Battery */ = {
+			isa = PBXGroup;
+			children = (
+				9A09C89D22B3A7C90018426F /* Battery.swift */,
+				9A09C89F22B3A7E20018426F /* BatteryReader.swift */,
+			);
+			path = Battery;
+			sourceTree = "<group>";
+		};
 		9A1410EC229E721100D29793 = {
 			isa = PBXGroup;
 			children = (
@@ -136,6 +149,7 @@
 		9A5B1CBA229E7892008B9D3C /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				9A09C89C22B3A7BB0018426F /* Battery */,
 				9A7B8F5C22A2926500DEB352 /* CPU */,
 				9A7B8F6222A2C17000DEB352 /* Memory */,
 				9A7B8F6322A2C17500DEB352 /* Disk */,
@@ -311,9 +325,11 @@
 				9A7B8F6F22A2C57000DEB352 /* DiskReader.swift in Sources */,
 				9A7B8F6922A2C3A100DEB352 /* Memory.swift in Sources */,
 				9A7B8F5E22A2A57600DEB352 /* CPUReader.swift in Sources */,
+				9A09C89E22B3A7C90018426F /* Battery.swift in Sources */,
 				9A7B8F6D22A2C3D600DEB352 /* MemoryReader.swift in Sources */,
 				9A57A18522A1D26D0033E318 /* MenuBar.swift in Sources */,
 				9A57A19D22A1E3270033E318 /* CPU.swift in Sources */,
+				9A09C8A022B3A7E20018426F /* BatteryReader.swift in Sources */,
 				9A57A19B22A1E1C50033E318 /* Module.swift in Sources */,
 				9A5B1CBF229E78F0008B9D3C /* Observable.swift in Sources */,
 				9A7B8F6B22A2C3A700DEB352 /* Disk.swift in Sources */,
