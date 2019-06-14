@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import IOKit.ps
 
 class BatteryReader: Reader {
     var usage: Observable<Float>!
@@ -38,7 +39,6 @@ class BatteryReader: Reader {
     }
     
     func start() {
-        _ = self.open()
         if updateTimer != nil {
             return
         }
@@ -46,7 +46,6 @@ class BatteryReader: Reader {
     }
     
     func stop() {
-        _ = self.close()
         if updateTimer == nil {
             return
         }
@@ -55,110 +54,21 @@ class BatteryReader: Reader {
     }
     
     @objc func read() {
-        var cap = charge()
-        let charging = isCharging()
+        let psInfo = IOPSCopyPowerSourcesInfo().takeRetainedValue()
+        let psList = IOPSCopyPowerSourcesList(psInfo).takeRetainedValue() as [CFTypeRef]
         
-        if !charging {
-            cap = 0 - cap
+        for ps in psList {
+            if let psDesc = IOPSGetPowerSourceDescription(psInfo, ps).takeUnretainedValue() as? [String: Any] {
+//                let type = psDesc[kIOPSTypeKey] as? String
+                let isCharging = (psDesc[kIOPSIsChargingKey] as? Bool)
+                var cap: Float = Float(psDesc[kIOPSCurrentCapacityKey] as! Int) / 100
+                
+                if !isCharging! {
+                    cap = 0 - cap
+                }
+                
+                self.usage << Float(cap)
+            }
         }
-        
-        self.usage << Float(cap)
-    }
-    
-    public func open() -> kern_return_t {
-        if (service != 0) {
-            #if DEBUG
-            print("WARNING - \(#file):\(#function) - connection already open")
-            #endif
-            return kIOReturnStillOpen
-        }
-        
-        service = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceNameMatching("AppleSmartBattery"))
-        
-        if (service == 0) {
-            #if DEBUG
-            print("ERROR - \(#file):\(#function) - service not found")
-            #endif
-            return kIOReturnNotFound
-        }
-        
-        return kIOReturnSuccess
-    }
-    
-    public func close() -> kern_return_t {
-        let result = IOObjectRelease(service)
-        service = 0
-        
-        #if DEBUG
-        if (result != kIOReturnSuccess) {
-            print("ERROR - \(#file):\(#function) - Failed to close")
-        }
-        #endif
-        
-        return result
-    }
-    
-    public func maxCapactiy() -> Int {
-        let prop = IORegistryEntryCreateCFProperty(service, Key.MaxCapacity.rawValue as CFString, kCFAllocatorDefault, 0)
-        
-        if prop != nil {
-            return prop!.takeUnretainedValue() as! Int
-        }
-        return 0
-    }
-    
-    public func currentCapacity() -> Int {
-        let prop = IORegistryEntryCreateCFProperty(service, Key.CurrentCapacity.rawValue as CFString, kCFAllocatorDefault, 0)
-        
-        if prop != nil {
-            return prop!.takeUnretainedValue() as! Int
-        }
-        return 0
-    }
-    
-    public func isACPowered() -> Bool {
-        let prop = IORegistryEntryCreateCFProperty(service, Key.ACPowered.rawValue as CFString, kCFAllocatorDefault, 0)
-        
-        if prop != nil {
-            return prop!.takeUnretainedValue() as! Bool
-        }
-        return false
-    }
-    
-    public func isCharging() -> Bool {
-        let prop = IORegistryEntryCreateCFProperty(service, Key.IsCharging.rawValue as CFString, kCFAllocatorDefault, 0)
-        
-        if prop != nil {
-            return prop!.takeUnretainedValue() as! Bool
-        }
-        return false
-    }
-    
-    public func isCharged() -> Bool {
-        let prop = IORegistryEntryCreateCFProperty(service, Key.FullyCharged.rawValue as CFString, kCFAllocatorDefault, 0)
-        
-        if prop != nil {
-            return prop!.takeUnretainedValue() as! Bool
-        }
-        return false
-    }
-    
-    public func charge() -> Double {
-        let ccap = Double(currentCapacity())
-        let mcap = Double(maxCapactiy())
-        
-        if ccap != 0 && mcap != 0 {
-            return ccap / mcap
-        }
-        return 0
-    }
-    
-    public func timeRemaining() -> Int {
-        let prop = IORegistryEntryCreateCFProperty(service, Key.TimeRemaining.rawValue as CFString, kCFAllocatorDefault, 0)
-        
-        if prop != nil {
-            return prop!.takeUnretainedValue() as! Int
-        }
-        return 0
     }
 }
