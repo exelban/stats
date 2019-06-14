@@ -10,6 +10,7 @@ import Cocoa
 
 class Disk: Module {
     let name: String = "Disk"
+    var colors: Bool = false
     var view: NSView = NSView()
     let defaults = UserDefaults.standard
     
@@ -35,10 +36,6 @@ class Disk: Module {
                 self.value.stringValue = "\(Int(Float(value.roundTo(decimalPlaces: 2))! * 100))%"
                 self.value.textColor = value.usageColor()
             }
-        }
-        
-        colors.subscribe(observer: self) { (value, _) in
-            self.value.textColor = self.reader.usage.value.usageColor()
         }
     }
     

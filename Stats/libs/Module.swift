@@ -10,9 +10,9 @@ import Cocoa
 
 protocol Module {
     var name: String { get }
+    var view: NSView { get }
     var active: Observable<Bool> { get }
     var reader: Reader { get }
-    var view: NSView { get }
     
     func menu() -> NSMenuItem
     func start()
