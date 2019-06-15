@@ -66,9 +66,19 @@ class MenuBar {
         menu.addItem(preferences)
         
         menu.addItem(NSMenuItem.separator())
+        let aboutMenu = NSMenuItem(title: "About Stats", action: #selector(openAbout), keyEquivalent: "")
+        aboutMenu.target = self
+        menu.addItem(aboutMenu)
         menu.addItem(NSMenuItem(title: "Quit Stats", action: #selector(NSApplication.terminate(_:)), keyEquivalent: ""))
         
         return menu
+    }
+    
+    @objc func openAbout(_ sender : NSMenuItem) {
+        let aboutVC: NSWindowController? = NSStoryboard(name: "About", bundle: nil).instantiateController(withIdentifier: "AboutVC") as? NSWindowController
+        aboutVC?.window?.center()
+        aboutVC?.window?.level = .floating
+        aboutVC!.showWindow(self)
     }
     
     @objc func toggleMenu(_ sender : NSMenuItem) {

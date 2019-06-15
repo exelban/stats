@@ -26,6 +26,7 @@
 		9AFA402822AE49A200FE90BC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9AFA402622AE49A200FE90BC /* Main.storyboard */; };
 		9AFA402F22AE49AE00FE90BC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFA402E22AE49AE00FE90BC /* AppDelegate.swift */; };
 		9AFA403022AE49DD00FE90BC /* StatsLauncher.app in Copy Files */ = {isa = PBXBuildFile; fileRef = 9AFA401E22AE49A100FE90BC /* StatsLauncher.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		9AFFCB3B22B3FD0500B0E6D8 /* About.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9AFFCB3A22B3FD0500B0E6D8 /* About.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -69,6 +70,7 @@
 		9AFA402922AE49A200FE90BC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9AFA402A22AE49A200FE90BC /* StatsLauncher.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = StatsLauncher.entitlements; sourceTree = "<group>"; };
 		9AFA402E22AE49AE00FE90BC /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		9AFFCB3A22B3FD0500B0E6D8 /* About.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = About.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +127,7 @@
 			isa = PBXGroup;
 			children = (
 				9A6CFC0022A1C9F5001E782D /* Assets.xcassets */,
+				9AFFCB3A22B3FD0500B0E6D8 /* About.storyboard */,
 				9A1410FE229E721200D29793 /* Main.storyboard */,
 				9A141101229E721200D29793 /* Info.plist */,
 				9A141102229E721200D29793 /* Stats.entitlements */,
@@ -290,6 +293,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9A6CFC0122A1C9F5001E782D /* Assets.xcassets in Resources */,
+				9AFFCB3B22B3FD0500B0E6D8 /* About.storyboard in Resources */,
 				9A141100229E721200D29793 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
