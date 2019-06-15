@@ -10,6 +10,7 @@ import Foundation
 
 class DiskReader: Reader {
     var usage: Observable<Float>!
+    var available: Bool = true
     var updateTimer: Timer!
     
     init() {

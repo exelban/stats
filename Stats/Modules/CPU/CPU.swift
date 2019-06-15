@@ -15,12 +15,14 @@ class CPU: Module {
     var menu: NSMenuItem = NSMenuItem()
     var submenu: NSMenu = NSMenu()
     var active: Observable<Bool>
+    var available: Observable<Bool>
     var reader: Reader = CPUReader()
     
     let defaults = UserDefaults.standard
     var widgetType: WidgetType
     
     init() {
+        self.available = Observable(true)
         self.active = Observable(defaults.object(forKey: name) != nil ? defaults.bool(forKey: name) : true)
         self.widgetType = defaults.object(forKey: "\(name)_widget") != nil ? defaults.float(forKey: "\(name)_widget") : Widgets.Mini
         initMenu()

@@ -10,6 +10,7 @@ import Foundation
 
 class MemoryReader: Reader {
     var usage: Observable<Float>!
+    var available: Bool = true
     var updateTimer: Timer!
     var totalSize: Float
     

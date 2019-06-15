@@ -12,8 +12,7 @@ class Chart: NSView, Widget {
     var height: CGFloat = 0.0
     var points: [Float] {
         didSet {
-            self.needsDisplay = true
-            setNeedsDisplay(self.frame)
+            self.redraw()
         }
     }
     
@@ -77,6 +76,11 @@ class Chart: NSView, Widget {
         
         graphPath.lineWidth = 0.5
         graphPath.stroke()
+    }
+    
+    func redraw() {
+        self.needsDisplay = true
+        setNeedsDisplay(self.frame)
     }
     
     func value(value: Float) {

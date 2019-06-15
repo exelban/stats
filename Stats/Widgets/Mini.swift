@@ -65,6 +65,12 @@ class Mini: NSView, Widget {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func redraw() {
+        self.valueView.textColor = Float(self.value).usageColor()
+        self.needsDisplay = true
+        setNeedsDisplay(self.frame)
+    }
+    
     func value(value: Float) {
         if self.value != value {
             self.value = value

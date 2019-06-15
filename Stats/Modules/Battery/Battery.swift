@@ -1,37 +1,47 @@
 //
-//  Disk.swift
+//  Battery.swift
 //  Stats
 //
-//  Created by Serhiy Mytrovtsiy on 01.06.2019.
+//  Created by Serhiy Mytrovtsiy on 14/06/2019.
 //  Copyright © 2019 Serhiy Mytrovtsiy. All rights reserved.
 //
 
 import Cocoa
 
-class Disk: Module {
-    let name: String = "Disk"
-    let shortName: String = "SSD"
+class Battery: Module {
+    let name: String = "Battery"
+    let shortName: String = ""
     var view: NSView = NSView()
     var menu: NSMenuItem = NSMenuItem()
-    let defaults = UserDefaults.standard
-    var widgetType: WidgetType
-    
+    var submenu: NSMenu = NSMenu()
     var active: Observable<Bool>
     var available: Observable<Bool>
-    var reader: Reader = DiskReader()
+    var reader: Reader = BatteryReader()
     
-    @IBOutlet weak var value: NSTextField!
+    let defaults = UserDefaults.standard
+    var widgetType: WidgetType = Widgets.Mini
     
     init() {
-        self.available = Observable(true)
+        self.available = Observable(self.reader.available)
         self.active = Observable(defaults.object(forKey: name) != nil ? defaults.bool(forKey: name) : true)
-        self.widgetType = defaults.object(forKey: "\(name)_widget") != nil ? defaults.float(forKey: "\(name)_widget") : Widgets.Mini
+        self.view = BatteryView(frame: NSMakeRect(0, 0, MODULE_WIDTH, MODULE_HEIGHT))
+        initMenu()
+    }
+    
+    func start() {
+        if !self.reader.usage.value.isNaN {
+            let value = self.reader.usage!.value
+            (self.view as! BatteryView).setCharging(value: value > 0)
+            (self.view as! Widget).value(value: abs(value))
+        }
         
-        self.initMenu()
-        
-        let widget = Mini(frame: NSMakeRect(0, 0, MODULE_WIDTH, MODULE_HEIGHT))
-        widget.label = self.shortName
-        self.view = widget
+        self.reader.start()
+        self.reader.usage.subscribe(observer: self) { (value, _) in
+            if !value.isNaN {
+                (self.view as! BatteryView).setCharging(value: value > 0)
+                (self.view as! Widget).value(value: abs(value))
+            }
+        }
     }
     
     func initMenu() {
@@ -59,3 +69,4 @@ class Disk: Module {
         }
     }
 }
+

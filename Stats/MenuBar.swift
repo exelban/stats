@@ -37,6 +37,11 @@ class MenuBar {
                 self.menuBarItem.menu?.removeAllItems()
                 self.menuBarItem.menu = self.buildMenu()
             }
+            module.available.subscribe(observer: self) { (value, _) in
+                self.buildModulesView()
+                self.menuBarItem.menu?.removeAllItems()
+                self.menuBarItem.menu = self.buildMenu()
+            }
         }
     }
     
@@ -44,7 +49,9 @@ class MenuBar {
         let menu = NSMenu()
         
         for module in modules.value {
-            menu.addItem(module.menu)
+            if module.available.value {
+                menu.addItem(module.menu)
+            }
         }
         
         menu.addItem(NSMenuItem.separator())
@@ -115,7 +122,7 @@ class MenuBar {
         
         WIDTH = 0
         for module in modules.value {
-            if module.active.value {
+            if module.active.value && module.available.value {
                 module.start()
                 WIDTH = WIDTH + module.view.frame.size.width
                 stack.addView(module.view, in: NSStackView.Gravity.center)
