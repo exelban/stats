@@ -8,10 +8,8 @@
 
 import Cocoa
 
-class ChartView: NSView {
-    var valueLabel: NSTextField = NSTextField()
-    
-    var label: Bool = true
+class Chart: NSView, Widget {
+    var height: CGFloat = 0.0
     var points: [Float] {
         didSet {
             self.needsDisplay = true
@@ -22,29 +20,8 @@ class ChartView: NSView {
     override init(frame: NSRect) {
         self.points = Array(repeating: 0.0, count: 50)
         super.init(frame: frame)
-        
         self.wantsLayer = true
-        
-        if self.label {
-            let valueLabel = NSTextField(frame: NSMakeRect(2, MODULE_HEIGHT - 11, self.frame.size.width, 10))
-            valueLabel.textColor = NSColor.red
-            valueLabel.isEditable = false
-            valueLabel.isSelectable = false
-            valueLabel.isBezeled = false
-            valueLabel.wantsLayer = true
-            valueLabel.textColor = .labelColor
-            valueLabel.backgroundColor = .controlColor
-            valueLabel.canDrawSubviewsIntoLayer = true
-            valueLabel.alignment = .natural
-            valueLabel.font = NSFont.systemFont(ofSize: 8, weight: .ultraLight)
-            valueLabel.stringValue = ""
-            valueLabel.addSubview(NSView())
-            
-            self.valueLabel = valueLabel
-            self.addSubview(self.valueLabel)
-        } else {
-            self.addSubview(NSView())
-        }
+        self.addSubview(NSView())
     }
     
     required init?(coder decoder: NSCoder) {
@@ -60,9 +37,8 @@ class ChartView: NSView {
         let context = NSGraphicsContext.current!.cgContext
         let xOffset: CGFloat = 4.0
         let yOffset: CGFloat = 3.0
-        var height: CGFloat = self.frame.size.height - CGFloat((yOffset * 2))
-        if self.label {
-            height = 7.0
+        if height == 0 {
+            height = self.frame.size.height - CGFloat((yOffset * 2))
         }
         let xRatio = Double(self.frame.size.width - (xOffset * 2)) / (Double(self.points.count) - 1)
         
@@ -70,7 +46,7 @@ class ChartView: NSView {
             return CGFloat((Double(point) * xRatio)) + xOffset
         }
         let columnYPoint = { (point: Int) -> CGFloat in
-            return CGFloat((CGFloat(truncating: self.points[point] as NSNumber) * height)) + yOffset
+            return CGFloat((CGFloat(truncating: self.points[point] as NSNumber) * self.height)) + yOffset
         }
         
         let graphPath = NSBezierPath()
@@ -99,15 +75,59 @@ class ChartView: NSView {
         
         context.restoreGState()
         
-        graphPath.lineWidth = 1.0
+        graphPath.lineWidth = 0.5
         graphPath.stroke()
     }
     
     func value(value: Float) {
-        if self.label {
-            self.valueLabel.stringValue = "\(Int(Float(Float(value).roundTo(decimalPlaces: 2))! * 100))%"
-            self.valueLabel.textColor = Float(value).usageColor()
+        if self.points.count < 50 {
+            self.points.append(value)
+            return
         }
+        
+        for (i, _) in self.points.enumerated() {
+            if i+1 < self.points.count {
+                self.points[i] = self.points[i+1]
+            } else {
+                self.points[i] = value
+            }
+        }
+    }
+}
+
+class ChartWithValue: Chart {
+    var valueLabel: NSTextField = NSTextField()
+    
+    override init(frame: NSRect) {
+        super.init(frame: frame)
+        
+        self.wantsLayer = true
+        
+        valueLabel = NSTextField(frame: NSMakeRect(2, MODULE_HEIGHT - 11, self.frame.size.width, 10))
+        valueLabel.textColor = NSColor.red
+        valueLabel.isEditable = false
+        valueLabel.isSelectable = false
+        valueLabel.isBezeled = false
+        valueLabel.wantsLayer = true
+        valueLabel.textColor = .labelColor
+        valueLabel.backgroundColor = .controlColor
+        valueLabel.canDrawSubviewsIntoLayer = true
+        valueLabel.alignment = .natural
+        valueLabel.font = NSFont.systemFont(ofSize: 8, weight: .ultraLight)
+        valueLabel.stringValue = ""
+        valueLabel.addSubview(NSView())
+        
+        self.height = 7.0
+        self.addSubview(valueLabel)
+    }
+    
+    required init?(coder decoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func value(value: Float) {
+        self.valueLabel.stringValue = "\(Int(Float(Float(value).roundTo(decimalPlaces: 2))! * 100))%"
+        self.valueLabel.textColor = Float(value).usageColor()
         
         if self.points.count < 50 {
             self.points.append(value)
