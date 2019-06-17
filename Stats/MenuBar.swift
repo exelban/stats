@@ -10,7 +10,7 @@ import Cocoa
 import ServiceManagement
 
 let MODULE_HEIGHT = CGFloat(NSApplication.shared.mainMenu?.menuBarHeight ?? 22)
-let MODULE_WIDTH = CGFloat(28)
+let MODULE_WIDTH = CGFloat(32)
 
 class MenuBar {
     let defaults = UserDefaults.standard
@@ -34,6 +34,13 @@ class MenuBar {
         for module in modules.value {
             module.active.subscribe(observer: self) { (value, _) in
                 self.buildModulesView()
+                self.menuBarItem.menu?.removeAllItems()
+                self.menuBarItem.menu = self.buildMenu()
+            }
+            module.available.subscribe(observer: self) { (value, _) in
+                self.buildModulesView()
+                self.menuBarItem.menu?.removeAllItems()
+                self.menuBarItem.menu = self.buildMenu()
             }
         }
     }
@@ -42,7 +49,9 @@ class MenuBar {
         let menu = NSMenu()
         
         for module in modules.value {
-            menu.addItem(module.menu())
+            if module.available.value {
+                menu.addItem(module.menu)
+            }
         }
         
         menu.addItem(NSMenuItem.separator())
@@ -64,9 +73,19 @@ class MenuBar {
         menu.addItem(preferences)
         
         menu.addItem(NSMenuItem.separator())
+        let aboutMenu = NSMenuItem(title: "About Stats", action: #selector(openAbout), keyEquivalent: "")
+        aboutMenu.target = self
+        menu.addItem(aboutMenu)
         menu.addItem(NSMenuItem(title: "Quit Stats", action: #selector(NSApplication.terminate(_:)), keyEquivalent: ""))
         
         return menu
+    }
+    
+    @objc func openAbout(_ sender : NSMenuItem) {
+        let aboutVC: NSWindowController? = NSStoryboard(name: "About", bundle: nil).instantiateController(withIdentifier: "AboutVC") as? NSWindowController
+        aboutVC?.window?.center()
+        aboutVC?.window?.level = .floating
+        aboutVC!.showWindow(self)
     }
     
     @objc func toggleMenu(_ sender : NSMenuItem) {
@@ -92,32 +111,32 @@ class MenuBar {
         }
         
         self.menuBarButton.image = NSImage(named:NSImage.Name("tray_icon"))
-        var WIDTH = CGFloat(modules.value.count * 28)
-        
-        let view: NSView = NSView(frame: NSMakeRect(0, 0, WIDTH, MODULE_HEIGHT))
-        
-        let stack: NSStackView = NSStackView(frame: NSMakeRect(0, 0, WIDTH, MODULE_HEIGHT))
-        stack.orientation = NSUserInterfaceLayoutOrientation.horizontal
-        stack.distribution  = NSStackView.Distribution.fillEqually
-        stack.spacing = 0
+        self.menuBarItem.length = MODULE_WIDTH
+        var WIDTH = CGFloat(modules.value.count) * MODULE_WIDTH
         
         WIDTH = 0
         for module in modules.value {
-            if module.active.value {
+            if module.active.value && module.available.value {
                 module.start()
                 WIDTH = WIDTH + module.view.frame.size.width
-                stack.addView(module.view, in: NSStackView.Gravity.center)
             }
         }
         
-        if stack.subviews.count != 0 {
+        let view: NSView = NSView(frame: NSMakeRect(0, 0, WIDTH, MODULE_HEIGHT))
+        
+        var x: CGFloat = 0
+        for module in modules.value {
+            if module.active.value && module.available.value {
+                module.view.frame = CGRect(x: x, y: 0, width: module.view.frame.size.width, height: module.view.frame.size.height)
+                view.addSubview(module.view)
+                x = x + module.view.frame.size.width
+            }
+        }
+        
+        if view.subviews.count != 0 {
             view.frame.size.width = WIDTH
-            stack.frame.size.width = WIDTH
-            self.menuBarItem.length = WIDTH
-            
-            view.addSubview(stack)
-            
             self.menuBarButton.image = nil
+            self.menuBarItem.length = WIDTH
             self.menuBarButton.addSubview(view)
         }
     }

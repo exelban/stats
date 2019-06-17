@@ -10,40 +10,32 @@ import Cocoa
 
 class Disk: Module {
     let name: String = "Disk"
+    let shortName: String = "SSD"
     var view: NSView = NSView()
+    var menu: NSMenuItem = NSMenuItem()
     let defaults = UserDefaults.standard
+    var widgetType: WidgetType
     
     var active: Observable<Bool>
+    var available: Observable<Bool>
     var reader: Reader = DiskReader()
     
     @IBOutlet weak var value: NSTextField!
     
     init() {
+        self.available = Observable(true)
         self.active = Observable(defaults.object(forKey: name) != nil ? defaults.bool(forKey: name) : true)
-        self.view = loadViewFromNib()
+        self.widgetType = defaults.object(forKey: "\(name)_widget") != nil ? defaults.float(forKey: "\(name)_widget") : Widgets.Mini
+        
+        self.initMenu()
+        
+        let widget = Mini(frame: NSMakeRect(0, 0, MODULE_WIDTH, MODULE_HEIGHT))
+        widget.label = self.shortName
+        self.view = widget
     }
     
-    func start() {
-        if !self.reader.usage.value.isNaN {
-            self.value.stringValue = "\(Int(Float(self.reader.usage.value.roundTo(decimalPlaces: 2))! * 100))%"
-            self.value.textColor = self.reader.usage.value.usageColor()
-        }
-        
-        self.reader.start()
-        self.reader.usage.subscribe(observer: self) { (value, _) in
-            if !value.isNaN {
-                self.value.stringValue = "\(Int(Float(value.roundTo(decimalPlaces: 2))! * 100))%"
-                self.value.textColor = value.usageColor()
-            }
-        }
-        
-        colors.subscribe(observer: self) { (value, _) in
-            self.value.textColor = self.reader.usage.value.usageColor()
-        }
-    }
-    
-    func menu() -> NSMenuItem {
-        let menu = NSMenuItem(title: name, action: #selector(toggle), keyEquivalent: "")
+    func initMenu() {
+        menu = NSMenuItem(title: name, action: #selector(toggle), keyEquivalent: "")
         if defaults.object(forKey: name) != nil {
             menu.state = defaults.bool(forKey: name) ? NSControl.StateValue.on : NSControl.StateValue.off
         } else {
@@ -51,7 +43,6 @@ class Disk: Module {
         }
         menu.target = self
         menu.isEnabled = true
-        return menu
     }
     
     @objc func toggle(_ sender: NSMenuItem) {

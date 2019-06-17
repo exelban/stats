@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9A09C89E22B3A7C90018426F /* Battery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A09C89D22B3A7C90018426F /* Battery.swift */; };
+		9A09C8A022B3A7E20018426F /* BatteryReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A09C89F22B3A7E20018426F /* BatteryReader.swift */; };
+		9A09C8A222B3D94D0018426F /* BatteryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A09C8A122B3D94D0018426F /* BatteryView.swift */; };
 		9A1410F9229E721100D29793 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1410F8229E721100D29793 /* AppDelegate.swift */; };
 		9A141100229E721200D29793 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A1410FE229E721200D29793 /* Main.storyboard */; };
 		9A57A18522A1D26D0033E318 /* MenuBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A57A18422A1D26D0033E318 /* MenuBar.swift */; };
@@ -15,10 +18,9 @@
 		9A5B1CBF229E78F0008B9D3C /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5B1CBE229E78F0008B9D3C /* Observable.swift */; };
 		9A5B1CC5229E7B40008B9D3C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5B1CC4229E7B40008B9D3C /* Extensions.swift */; };
 		9A6CFC0122A1C9F5001E782D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9A6CFC0022A1C9F5001E782D /* Assets.xcassets */; };
-		9A7B8F5B22A290A200DEB352 /* CPU.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9A7B8F5A22A290A200DEB352 /* CPU.xib */; };
+		9A74D59422B4315C004FE1FA /* Chart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A74D59322B4315C004FE1FA /* Chart.swift */; };
+		9A74D59722B44498004FE1FA /* Mini.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A74D59622B44498004FE1FA /* Mini.swift */; };
 		9A7B8F5E22A2A57600DEB352 /* CPUReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7B8F5D22A2A57600DEB352 /* CPUReader.swift */; };
-		9A7B8F6522A2C19D00DEB352 /* Memory.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9A7B8F6422A2C19D00DEB352 /* Memory.xib */; };
-		9A7B8F6722A2C1B900DEB352 /* Disk.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9A7B8F6622A2C1B900DEB352 /* Disk.xib */; };
 		9A7B8F6922A2C3A100DEB352 /* Memory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7B8F6822A2C3A100DEB352 /* Memory.swift */; };
 		9A7B8F6B22A2C3A700DEB352 /* Disk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7B8F6A22A2C3A700DEB352 /* Disk.swift */; };
 		9A7B8F6D22A2C3D600DEB352 /* MemoryReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7B8F6C22A2C3D600DEB352 /* MemoryReader.swift */; };
@@ -27,6 +29,7 @@
 		9AFA402822AE49A200FE90BC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9AFA402622AE49A200FE90BC /* Main.storyboard */; };
 		9AFA402F22AE49AE00FE90BC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFA402E22AE49AE00FE90BC /* AppDelegate.swift */; };
 		9AFA403022AE49DD00FE90BC /* StatsLauncher.app in Copy Files */ = {isa = PBXBuildFile; fileRef = 9AFA401E22AE49A100FE90BC /* StatsLauncher.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		9AFFCB3B22B3FD0500B0E6D8 /* About.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9AFFCB3A22B3FD0500B0E6D8 /* About.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -44,6 +47,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		9A09C89D22B3A7C90018426F /* Battery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Battery.swift; sourceTree = "<group>"; };
+		9A09C89F22B3A7E20018426F /* BatteryReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryReader.swift; sourceTree = "<group>"; };
+		9A09C8A122B3D94D0018426F /* BatteryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryView.swift; sourceTree = "<group>"; };
 		9A1410F5229E721100D29793 /* Stats.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Stats.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A1410F8229E721100D29793 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9A1410FF229E721200D29793 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -55,10 +61,9 @@
 		9A5B1CBE229E78F0008B9D3C /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		9A5B1CC4229E7B40008B9D3C /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		9A6CFC0022A1C9F5001E782D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		9A7B8F5A22A290A200DEB352 /* CPU.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CPU.xib; sourceTree = "<group>"; };
+		9A74D59322B4315C004FE1FA /* Chart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chart.swift; sourceTree = "<group>"; };
+		9A74D59622B44498004FE1FA /* Mini.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mini.swift; sourceTree = "<group>"; };
 		9A7B8F5D22A2A57600DEB352 /* CPUReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPUReader.swift; sourceTree = "<group>"; };
-		9A7B8F6422A2C19D00DEB352 /* Memory.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Memory.xib; sourceTree = "<group>"; };
-		9A7B8F6622A2C1B900DEB352 /* Disk.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Disk.xib; sourceTree = "<group>"; };
 		9A7B8F6822A2C3A100DEB352 /* Memory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memory.swift; sourceTree = "<group>"; };
 		9A7B8F6A22A2C3A700DEB352 /* Disk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Disk.swift; sourceTree = "<group>"; };
 		9A7B8F6C22A2C3D600DEB352 /* MemoryReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryReader.swift; sourceTree = "<group>"; };
@@ -71,6 +76,7 @@
 		9AFA402922AE49A200FE90BC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9AFA402A22AE49A200FE90BC /* StatsLauncher.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = StatsLauncher.entitlements; sourceTree = "<group>"; };
 		9AFA402E22AE49AE00FE90BC /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		9AFFCB3A22B3FD0500B0E6D8 /* About.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = About.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,6 +97,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9A09C89C22B3A7BB0018426F /* Battery */ = {
+			isa = PBXGroup;
+			children = (
+				9A09C89D22B3A7C90018426F /* Battery.swift */,
+				9A09C89F22B3A7E20018426F /* BatteryReader.swift */,
+			);
+			path = Battery;
+			sourceTree = "<group>";
+		};
 		9A1410EC229E721100D29793 = {
 			isa = PBXGroup;
 			children = (
@@ -113,6 +128,7 @@
 		9A1410F7229E721100D29793 /* Stats */ = {
 			isa = PBXGroup;
 			children = (
+				9A74D59522B440D4004FE1FA /* Widgets */,
 				9A5B1CB3229E72A7008B9D3C /* Supporting Files */,
 				9A5B1CBA229E7892008B9D3C /* Modules */,
 				9A5B1CBD229E78D2008B9D3C /* libs */,
@@ -126,6 +142,7 @@
 			isa = PBXGroup;
 			children = (
 				9A6CFC0022A1C9F5001E782D /* Assets.xcassets */,
+				9AFFCB3A22B3FD0500B0E6D8 /* About.storyboard */,
 				9A1410FE229E721200D29793 /* Main.storyboard */,
 				9A141101229E721200D29793 /* Info.plist */,
 				9A141102229E721200D29793 /* Stats.entitlements */,
@@ -136,6 +153,7 @@
 		9A5B1CBA229E7892008B9D3C /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				9A09C89C22B3A7BB0018426F /* Battery */,
 				9A7B8F5C22A2926500DEB352 /* CPU */,
 				9A7B8F6222A2C17000DEB352 /* Memory */,
 				9A7B8F6322A2C17500DEB352 /* Disk */,
@@ -153,10 +171,19 @@
 			path = libs;
 			sourceTree = "<group>";
 		};
+		9A74D59522B440D4004FE1FA /* Widgets */ = {
+			isa = PBXGroup;
+			children = (
+				9A09C8A122B3D94D0018426F /* BatteryView.swift */,
+				9A74D59322B4315C004FE1FA /* Chart.swift */,
+				9A74D59622B44498004FE1FA /* Mini.swift */,
+			);
+			path = Widgets;
+			sourceTree = "<group>";
+		};
 		9A7B8F5C22A2926500DEB352 /* CPU */ = {
 			isa = PBXGroup;
 			children = (
-				9A7B8F5A22A290A200DEB352 /* CPU.xib */,
 				9A57A19C22A1E3270033E318 /* CPU.swift */,
 				9A7B8F5D22A2A57600DEB352 /* CPUReader.swift */,
 			);
@@ -166,7 +193,6 @@
 		9A7B8F6222A2C17000DEB352 /* Memory */ = {
 			isa = PBXGroup;
 			children = (
-				9A7B8F6422A2C19D00DEB352 /* Memory.xib */,
 				9A7B8F6822A2C3A100DEB352 /* Memory.swift */,
 				9A7B8F6C22A2C3D600DEB352 /* MemoryReader.swift */,
 			);
@@ -176,7 +202,6 @@
 		9A7B8F6322A2C17500DEB352 /* Disk */ = {
 			isa = PBXGroup;
 			children = (
-				9A7B8F6622A2C1B900DEB352 /* Disk.xib */,
 				9A7B8F6A22A2C3A700DEB352 /* Disk.swift */,
 				9A7B8F6E22A2C57000DEB352 /* DiskReader.swift */,
 			);
@@ -284,10 +309,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9A7B8F5B22A290A200DEB352 /* CPU.xib in Resources */,
 				9A6CFC0122A1C9F5001E782D /* Assets.xcassets in Resources */,
-				9A7B8F6722A2C1B900DEB352 /* Disk.xib in Resources */,
-				9A7B8F6522A2C19D00DEB352 /* Memory.xib in Resources */,
+				9AFFCB3B22B3FD0500B0E6D8 /* About.storyboard in Resources */,
 				9A141100229E721200D29793 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -308,16 +331,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A09C8A222B3D94D0018426F /* BatteryView.swift in Sources */,
 				9A7B8F6F22A2C57000DEB352 /* DiskReader.swift in Sources */,
 				9A7B8F6922A2C3A100DEB352 /* Memory.swift in Sources */,
 				9A7B8F5E22A2A57600DEB352 /* CPUReader.swift in Sources */,
+				9A74D59422B4315C004FE1FA /* Chart.swift in Sources */,
+				9A09C89E22B3A7C90018426F /* Battery.swift in Sources */,
 				9A7B8F6D22A2C3D600DEB352 /* MemoryReader.swift in Sources */,
 				9A57A18522A1D26D0033E318 /* MenuBar.swift in Sources */,
 				9A57A19D22A1E3270033E318 /* CPU.swift in Sources */,
+				9A09C8A022B3A7E20018426F /* BatteryReader.swift in Sources */,
 				9A57A19B22A1E1C50033E318 /* Module.swift in Sources */,
 				9A5B1CBF229E78F0008B9D3C /* Observable.swift in Sources */,
 				9A7B8F6B22A2C3A700DEB352 /* Disk.swift in Sources */,
 				9A1410F9229E721100D29793 /* AppDelegate.swift in Sources */,
+				9A74D59722B44498004FE1FA /* Mini.swift in Sources */,
 				9A5B1CC5229E7B40008B9D3C /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

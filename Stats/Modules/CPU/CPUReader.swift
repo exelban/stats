@@ -10,6 +10,7 @@ import Foundation
 
 class CPUReader: Reader {
     var usage: Observable<Float>!
+    var available: Bool = true
     var cpuInfo: processor_info_array_t!
     var prevCpuInfo: processor_info_array_t?
     var numCpuInfo: mach_msg_type_number_t = 0

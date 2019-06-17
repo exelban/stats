@@ -13,7 +13,7 @@ extension Notification.Name {
     static let killLauncher = Notification.Name("killLauncher")
 }
 
-let modules: Observable<[Module]> = Observable([CPU(), Memory(), Disk()])
+let modules: Observable<[Module]> = Observable([CPU(), Memory(), Disk(), Battery()])
 let colors: Observable<Bool> = Observable(true)
 
 @NSApplicationMain
@@ -51,6 +51,33 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             for module in modules.value{
                 module.stop()
             }
+        }
+    }
+}
+
+class AboutVC: NSViewController {
+    @IBOutlet weak var versionLabel: NSTextField!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.view.wantsLayer = true
+    }
+    
+    @IBAction func openLink(_ sender: Any) {
+        NSWorkspace.shared.open(URL(string: "https://github.com/exelban/stats")!)
+    }
+    
+    @IBAction func exit(_ sender: Any) {
+        self.view.window?.close()
+    }
+    
+    override func awakeFromNib() {
+        if self.view.layer != nil {
+            self.view.window?.backgroundColor = .white
+            self.view.layer?.backgroundColor = .white
+            
+            let versionNumber = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
+            versionLabel.stringValue = "Version \(versionNumber)"
         }
     }
 }

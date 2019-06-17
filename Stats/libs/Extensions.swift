@@ -14,18 +14,49 @@ extension Float {
         return NSString(format: "%.\(decimalPlaces)f" as NSString, self) as String
     }
     
-    func usageColor() -> NSColor {
+    func usageColor(reversed: Bool = false) -> NSColor {
         if !colors.value {
             return NSColor.textColor
         }
         
+        if reversed {
+            switch self {
+            case 0.6...0.8:
+                return NSColor.systemOrange
+            case 0.8...1:
+                return NSColor.systemGreen
+            default:
+                return NSColor.systemRed
+            }
+        } else {
+            switch self {
+            case 0.6...0.8:
+                return NSColor.systemOrange
+            case 0.8...1:
+                return NSColor.systemRed
+            default:
+                return NSColor.systemGreen
+            }
+        }
+    }
+    
+    func batteryColor() -> NSColor {
         switch self {
-        case 0.6...0.8:
+        case 0.2...0.4:
+            if !colors.value {
+                return NSColor.controlTextColor
+            }
             return NSColor.systemOrange
-        case 0.8...1:
-            return NSColor.systemRed
-        default:
+        case 0.4...1:
+            if self == 1 {
+                return NSColor.controlTextColor
+            }
+            if !colors.value {
+                return NSColor.controlTextColor
+            }
             return NSColor.systemGreen
+        default:
+            return NSColor.systemRed
         }
     }
 }
@@ -37,3 +68,15 @@ public enum Unit : Float {
     case gigabyte = 1073741824
 }
 
+//extension NSView {
+//    var backgroundColor: NSColor? {
+//        get {
+//            guard let color = layer?.backgroundColor else { return nil }
+//            return NSColor(cgColor: color)
+//        }
+//        set {
+//            wantsLayer = true
+//            layer?.backgroundColor = newValue?.cgColor
+//        }
+//    }
+//}
