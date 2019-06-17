@@ -70,8 +70,8 @@ class BatteryView: NSView, Widget {
         batteryPoint.stroke()
         batteryPoint.fill()
         
-        let maxWidth = w-4.25
-        let inner = NSBezierPath(roundedRect: NSRect(x: x+0.75, y: y+1.5, width: maxWidth*CGFloat(self.value), height: h-3), xRadius: 0.5, yRadius: 0.5)
+        let maxWidth = w-4
+        let inner = NSBezierPath(roundedRect: NSRect(x: x+0.5, y: y+1.5, width: maxWidth*CGFloat(self.value), height: h-3), xRadius: 0.5, yRadius: 0.5)
         self.value.batteryColor().set()
         inner.lineWidth = 0
         inner.stroke()
