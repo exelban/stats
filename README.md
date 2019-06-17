@@ -33,7 +33,7 @@ You can download latest version [here](https://github.com/exelban/stats/releases
 | 10.14.1 *(Mojave)* | **true** |
 
 ## Todo
- - [ ] Battery percentage
+ - [X] Battery percentage
  - [ ] Create new logo
  - [ ] Window with preferences
  - [ ] Save last modules values
