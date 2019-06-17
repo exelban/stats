@@ -33,7 +33,7 @@ class BatteryReader: Reader {
         updateTimer.invalidate()
         updateTimer = nil
     }
-    
+
     @objc func read() {
         let psInfo = IOPSCopyPowerSourcesInfo().takeRetainedValue()
         let psList = IOPSCopyPowerSourcesList(psInfo).takeRetainedValue() as [CFTypeRef]
@@ -41,10 +41,11 @@ class BatteryReader: Reader {
         
         for ps in psList {
             if let psDesc = IOPSGetPowerSourceDescription(psInfo, ps).takeUnretainedValue() as? [String: Any] {
-                let isCharging = (psDesc[kIOPSIsChargingKey] as? Bool)
+                let powerSourceState = (psDesc[kIOPSPowerSourceStateKey] as? String)
+                let isCharged = (psDesc[kIOPSIsChargedKey] as? Bool)
                 var cap: Float = Float(psDesc[kIOPSCurrentCapacityKey] as! Int) / 100
                 
-                if !isCharging! {
+                if isCharged == nil && powerSourceState! == "Battery Power" {
                     cap = 0 - cap
                 }
                 

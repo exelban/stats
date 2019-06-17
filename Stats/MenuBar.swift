@@ -111,32 +111,32 @@ class MenuBar {
         }
         
         self.menuBarButton.image = NSImage(named:NSImage.Name("tray_icon"))
-        var WIDTH = CGFloat(modules.value.count * 28)
-        
-        let view: NSView = NSView(frame: NSMakeRect(0, 0, WIDTH, MODULE_HEIGHT))
-        
-        let stack: NSStackView = NSStackView(frame: NSMakeRect(0, 0, WIDTH, MODULE_HEIGHT))
-        stack.orientation = NSUserInterfaceLayoutOrientation.horizontal
-        stack.distribution  = NSStackView.Distribution.fillEqually
-        stack.spacing = 0
+        self.menuBarItem.length = MODULE_WIDTH
+        var WIDTH = CGFloat(modules.value.count) * MODULE_WIDTH
         
         WIDTH = 0
         for module in modules.value {
             if module.active.value && module.available.value {
                 module.start()
                 WIDTH = WIDTH + module.view.frame.size.width
-                stack.addView(module.view, in: NSStackView.Gravity.center)
             }
         }
         
-        if stack.subviews.count != 0 {
+        let view: NSView = NSView(frame: NSMakeRect(0, 0, WIDTH, MODULE_HEIGHT))
+        
+        var x: CGFloat = 0
+        for module in modules.value {
+            if module.active.value && module.available.value {
+                module.view.frame = CGRect(x: x, y: 0, width: module.view.frame.size.width, height: module.view.frame.size.height)
+                view.addSubview(module.view)
+                x = x + module.view.frame.size.width
+            }
+        }
+        
+        if view.subviews.count != 0 {
             view.frame.size.width = WIDTH
-            stack.frame.size.width = WIDTH
-            self.menuBarItem.length = WIDTH
-            
-            view.addSubview(stack)
-            
             self.menuBarButton.image = nil
+            self.menuBarItem.length = WIDTH
             self.menuBarButton.addSubview(view)
         }
     }

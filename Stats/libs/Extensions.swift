@@ -48,6 +48,9 @@ extension Float {
             }
             return NSColor.systemOrange
         case 0.4...1:
+            if self == 1 {
+                return NSColor.controlTextColor
+            }
             if !colors.value {
                 return NSColor.controlTextColor
             }
