@@ -20,12 +20,15 @@ class Battery: Module {
     
     let defaults = UserDefaults.standard
     var widgetType: WidgetType = Widgets.Mini
+    let percentageView: Observable<Bool>
     
     init() {
         self.available = Observable(self.reader.available)
         self.active = Observable(defaults.object(forKey: name) != nil ? defaults.bool(forKey: name) : true)
+        self.percentageView = Observable(defaults.object(forKey: "\(self.name)_percentage") != nil ? defaults.bool(forKey: "\(self.name)_percentage") : false)
         self.view = BatteryView(frame: NSMakeRect(0, 0, MODULE_WIDTH, MODULE_HEIGHT))
         initMenu()
+        initWidget()
     }
     
     func start() {
@@ -44,8 +47,16 @@ class Battery: Module {
         }
     }
     
+    func initWidget() {
+        self.active << false
+        (self.view as! BatteryView).setPercentage(value: self.percentageView.value)
+        self.active << true
+    }
+    
     func initMenu() {
         menu = NSMenuItem(title: name, action: #selector(toggle), keyEquivalent: "")
+        submenu = NSMenu()
+        
         if defaults.object(forKey: name) != nil {
             menu.state = defaults.bool(forKey: name) ? NSControl.StateValue.on : NSControl.StateValue.off
         } else {
@@ -53,6 +64,13 @@ class Battery: Module {
         }
         menu.target = self
         menu.isEnabled = true
+        
+        let percentage = NSMenuItem(title: "Percentage", action: #selector(togglePercentage), keyEquivalent: "")
+        percentage.state = defaults.bool(forKey: "\(self.name)_percentage") ? NSControl.StateValue.on : NSControl.StateValue.off
+        percentage.target = self
+        
+        submenu.addItem(percentage)
+        menu.submenu = submenu
     }
     
     @objc func toggle(_ sender: NSMenuItem) {
@@ -63,10 +81,21 @@ class Battery: Module {
         self.active << state
         
         if !state {
+            menu.submenu = nil
             self.stop()
         } else {
+            menu.submenu = submenu
             self.start()
         }
+    }
+    
+    @objc func togglePercentage(_ sender: NSMenuItem) {
+        let state = sender.state != NSControl.StateValue.on
+        
+        sender.state = sender.state == NSControl.StateValue.on ? NSControl.StateValue.off : NSControl.StateValue.on
+        self.defaults.set(state, forKey: "\(self.name)_percentage")
+        self.percentageView << state
+        self.initWidget()
     }
 }
 

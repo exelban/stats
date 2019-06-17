@@ -9,6 +9,9 @@
 import Cocoa
 
 class BatteryView: NSView, Widget {
+    let batteryWidth: CGFloat = 32
+    let percentageWidth: CGFloat = 40
+    
     var value: Float {
         didSet {
             self.redraw()
@@ -19,13 +22,21 @@ class BatteryView: NSView, Widget {
             self.redraw()
         }
     }
+    var percentage: Bool {
+        didSet {
+            self.redraw()
+        }
+    }
+    
+    var percentageValue: NSTextField = NSTextField()
     
     override init(frame: NSRect) {
         self.value = 1.0
         self.charging = false
+        self.percentage = false
         super.init(frame: frame)
         self.wantsLayer = true
-        self.addSubview(NSView())
+        self.percentageView()
     }
     
     required init?(coder decoder: NSCoder) {
@@ -35,11 +46,15 @@ class BatteryView: NSView, Widget {
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         
-        let x: CGFloat = 4.0
-        let w: CGFloat = dirtyRect.size.width - (x * 2)
+        var x: CGFloat = 4.0
+        var w: CGFloat = dirtyRect.size.width - (x * 2)
         let h: CGFloat = 11.0
         let y: CGFloat = (dirtyRect.size.height - h) / 2
         let r: CGFloat = 1.0
+        if self.percentage {
+            w = batteryWidth - (x * 2)
+            x = percentageWidth + x
+        }
         
         let battery = NSBezierPath(roundedRect: NSRect(x: x-1, y: y, width: w-1, height: h), xRadius: r, yRadius: r)
         
@@ -72,6 +87,32 @@ class BatteryView: NSView, Widget {
         battery.stroke()
     }
     
+    func percentageView() {
+        if self.percentage {
+            percentageValue = NSTextField(frame: NSMakeRect(0, 0, percentageWidth, self.frame.size.height - 2))
+            percentageValue.textColor = NSColor.red
+            percentageValue.isEditable = false
+            percentageValue.isSelectable = false
+            percentageValue.isBezeled = false
+            percentageValue.wantsLayer = true
+            percentageValue.textColor = .labelColor
+            percentageValue.backgroundColor = .controlColor
+            percentageValue.canDrawSubviewsIntoLayer = true
+            percentageValue.alignment = .natural
+            percentageValue.font = NSFont.systemFont(ofSize: 13, weight: .light)
+            percentageValue.stringValue = "\(Int(self.value * 100))%"
+            
+            self.addSubview(percentageValue)
+            self.frame = CGRect(x: 0, y: 0, width: batteryWidth + percentageWidth, height: self.frame.size.height)
+        } else {
+            for subview in self.subviews {
+                subview.removeFromSuperview()
+            }
+            self.addSubview(NSView())
+            self.frame = CGRect(x: 0, y: 0, width: batteryWidth, height: self.frame.size.height)
+        }
+    }
+    
     func redraw() {
         self.needsDisplay = true
         setNeedsDisplay(self.frame)
@@ -80,12 +121,23 @@ class BatteryView: NSView, Widget {
     func value(value: Float) {
         if self.value != value {
             self.value = value
+            
+            if percentage {
+                self.percentageValue.stringValue = "\(Int(self.value * 100))%"
+            }
         }
     }
     
     func setCharging(value: Bool) {
         if self.charging != value {
             self.charging = value
+        }
+    }
+    
+    func setPercentage(value: Bool) {
+        if self.percentage != value {
+            self.percentage = value
+            self.percentageView()
         }
     }
 }

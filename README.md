@@ -24,7 +24,7 @@ You can download latest version [here](https://github.com/exelban/stats/releases
 | **CPU** | Percentage / Chart / Chart with value | Shows CPU usage |
 | **Memory** | Percentage / Chart / Chart with value | Shows RAM usage |
 | **Disk** | Percentage | Shows disk filling |
-| **Battery** | Graphic | Shows battery level and charging status |
+| **Battery** | Graphic / Percentage | Shows battery level and charging status |
 
 ## Compatibility
 | macOS | Compatible |
