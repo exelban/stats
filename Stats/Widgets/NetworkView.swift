@@ -2,7 +2,7 @@
 //  NetworkView.swift
 //  Stats
 //
-//  Created by Samuel Grant on 24.06.2019.
+//  Created by Serhiy Mytrovtsiy on 24.06.2019.
 //  Copyright © 2019 Serhiy Mytrovtsiy. All rights reserved.
 //
 
