@@ -101,6 +101,8 @@ class CPU: Module {
         sender.state = sender.state == NSControl.StateValue.on ? NSControl.StateValue.off : NSControl.StateValue.on
         self.defaults.set(widgetCode, forKey: "\(name)_widget")
         self.widgetType = widgetCode
-        self.initWidget()
+        self.active << false
+        initWidget()
+        self.active << true
     }
 }

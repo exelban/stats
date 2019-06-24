@@ -10,7 +10,7 @@ import Cocoa
 
 class Chart: NSView, Widget {
     var height: CGFloat = 0.0
-    var points: [Float] {
+    var points: [Double] {
         didSet {
             self.redraw()
         }
@@ -30,7 +30,7 @@ class Chart: NSView, Widget {
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         
-        let lineColor: NSColor = NSColor.selectedMenuItemColor
+        let lineColor: NSColor = NSColor(red: (26/255.0), green: (126/255.0), blue: (252/255.0), alpha: 1.0)
         let gradientColor: NSColor = NSColor(red: (26/255.0), green: (126/255.0), blue: (252/255.0), alpha: 0.5)
         
         let context = NSGraphicsContext.current!.cgContext
@@ -83,7 +83,7 @@ class Chart: NSView, Widget {
         setNeedsDisplay(self.frame)
     }
     
-    func value(value: Float) {
+    func value(value: Double) {
         if self.points.count < 50 {
             self.points.append(value)
             return
@@ -129,9 +129,9 @@ class ChartWithValue: Chart {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func value(value: Float) {
-        self.valueLabel.stringValue = "\(Int(Float(Float(value).roundTo(decimalPlaces: 2))! * 100))%"
-        self.valueLabel.textColor = Float(value).usageColor()
+    override func value(value: Double) {
+        self.valueLabel.stringValue = "\(Int(Float(value.roundTo(decimalPlaces: 2))! * 100))%"
+        self.valueLabel.textColor = value.usageColor()
         
         if self.points.count < 50 {
             self.points.append(value)

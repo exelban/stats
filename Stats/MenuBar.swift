@@ -9,8 +9,9 @@
 import Cocoa
 import ServiceManagement
 
-let MODULE_HEIGHT = CGFloat(NSApplication.shared.mainMenu?.menuBarHeight ?? 22)
-let MODULE_WIDTH = CGFloat(32)
+let MODULE_HEIGHT: CGFloat = NSApplication.shared.mainMenu?.menuBarHeight ?? 22
+let MODULE_WIDTH: CGFloat = 32
+let MODULE_MARGIN: CGFloat = 2
 
 class MenuBar {
     let defaults = UserDefaults.standard

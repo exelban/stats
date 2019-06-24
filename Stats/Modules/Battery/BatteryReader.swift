@@ -10,7 +10,7 @@ import Foundation
 import IOKit.ps
 
 class BatteryReader: Reader {
-    var usage: Observable<Float>!
+    var usage: Observable<Double>!
     var available: Bool = false
     var updateTimer: Timer!
     
@@ -49,7 +49,7 @@ class BatteryReader: Reader {
                     cap = 0 - cap
                 }
                 
-                self.usage << Float(cap)
+                self.usage << Double(cap)
             }
         }
     }

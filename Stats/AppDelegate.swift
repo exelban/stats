@@ -13,7 +13,7 @@ extension Notification.Name {
     static let killLauncher = Notification.Name("killLauncher")
 }
 
-let modules: Observable<[Module]> = Observable([CPU(), Memory(), Disk(), Battery()])
+let modules: Observable<[Module]> = Observable([CPU(), Memory(), Disk(), Battery(), Network()])
 let colors: Observable<Bool> = Observable(true)
 
 @NSApplicationMain
