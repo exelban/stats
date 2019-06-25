@@ -131,6 +131,13 @@ class UpdatesVC: NSViewController {
         }
     }
     
+    override func awakeFromNib() {
+        if self.view.layer != nil {
+            self.view.window?.backgroundColor = .white
+            self.view.layer?.backgroundColor = .white
+        }
+    }
+    
     @IBAction func download(_ sender: Any) {
         guard let urlString = self.url, let url = URL(string: urlString) else {
             return

@@ -10,8 +10,8 @@
         <scene sceneID="Qxa-eF-fGn">
             <objects>
                 <windowController storyboardIdentifier="UpdatesVC" id="eTp-5e-KuD" sceneMemberID="viewController">
-                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" titleVisibility="hidden" id="MdT-C2-Xn6">
-                        <windowStyleMask key="styleMask" titled="YES"/>
+                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" titlebarAppearsTransparent="YES" titleVisibility="hidden" id="MdT-C2-Xn6">
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="425" y="313" width="440" height="140"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1057"/>
