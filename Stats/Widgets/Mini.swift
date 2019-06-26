@@ -12,7 +12,7 @@ class Mini: NSView, Widget {
     var valueView: NSTextField = NSTextField()
     var labelView: NSTextField = NSTextField()
     
-    var value: Float = 0
+    var value: Double = 0
     var label: String = "" {
         didSet {
             self.labelView.stringValue = label
@@ -66,17 +66,17 @@ class Mini: NSView, Widget {
     }
     
     func redraw() {
-        self.valueView.textColor = Float(self.value).usageColor()
+        self.valueView.textColor = self.value.usageColor()
         self.needsDisplay = true
         setNeedsDisplay(self.frame)
     }
     
-    func value(value: Float) {
+    func value(value: Double) {
         if self.value != value {
             self.value = value
             
-            self.valueView.stringValue = "\(Int(Float(Float(value).roundTo(decimalPlaces: 2))! * 100))%"
-            self.valueView.textColor = Float(value).usageColor()
+            self.valueView.stringValue = "\(Int(Float(value.roundTo(decimalPlaces: 2))! * 100))%"
+            self.valueView.textColor = value.usageColor()
         }
     }
 }

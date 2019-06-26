@@ -12,7 +12,7 @@ class BatteryView: NSView, Widget {
     let batteryWidth: CGFloat = 32
     let percentageWidth: CGFloat = 40
     
-    var value: Float {
+    var value: Double {
         didSet {
             self.redraw()
         }
@@ -90,7 +90,6 @@ class BatteryView: NSView, Widget {
     func percentageView() {
         if self.percentage {
             percentageValue = NSTextField(frame: NSMakeRect(0, 0, percentageWidth, self.frame.size.height - 2))
-            percentageValue.textColor = NSColor.red
             percentageValue.isEditable = false
             percentageValue.isSelectable = false
             percentageValue.isBezeled = false
@@ -118,7 +117,7 @@ class BatteryView: NSView, Widget {
         setNeedsDisplay(self.frame)
     }
     
-    func value(value: Float) {
+    func value(value: Double) {
         if self.value != value {
             self.value = value
             

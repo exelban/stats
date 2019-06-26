@@ -9,7 +9,7 @@
 import Foundation
 
 class CPUReader: Reader {
-    var usage: Observable<Float>!
+    var usage: Observable<Double>!
     var available: Bool = true
     var cpuInfo: processor_info_array_t!
     var prevCpuInfo: processor_info_array_t?
@@ -77,7 +77,7 @@ class CPUReader: Reader {
                 inUseOnAllCores = inUseOnAllCores + inUse
                 totalOnAllCores = totalOnAllCores + total
             }
-            self.usage << (Float(inUseOnAllCores) / Float(totalOnAllCores))
+            self.usage << (Double(inUseOnAllCores) / Double(totalOnAllCores))
             
             CPUUsageLock.unlock()
             

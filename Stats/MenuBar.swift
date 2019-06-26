@@ -9,8 +9,9 @@
 import Cocoa
 import ServiceManagement
 
-let MODULE_HEIGHT = CGFloat(NSApplication.shared.mainMenu?.menuBarHeight ?? 22)
-let MODULE_WIDTH = CGFloat(32)
+let MODULE_HEIGHT: CGFloat = NSApplication.shared.mainMenu?.menuBarHeight ?? 22
+let MODULE_WIDTH: CGFloat = 32
+let MODULE_MARGIN: CGFloat = 2
 
 class MenuBar {
     let defaults = UserDefaults.standard
@@ -73,12 +74,25 @@ class MenuBar {
         menu.addItem(preferences)
         
         menu.addItem(NSMenuItem.separator())
+        
+        let updateMenu = NSMenuItem(title: "Check for updates", action: #selector(checkUpdate), keyEquivalent: "")
+        updateMenu.target = self
+        
         let aboutMenu = NSMenuItem(title: "About Stats", action: #selector(openAbout), keyEquivalent: "")
         aboutMenu.target = self
+        
+        menu.addItem(updateMenu)
         menu.addItem(aboutMenu)
         menu.addItem(NSMenuItem(title: "Quit Stats", action: #selector(NSApplication.terminate(_:)), keyEquivalent: ""))
         
         return menu
+    }
+    
+    @objc func checkUpdate(_ sender : NSMenuItem) {
+        let updatesVC: NSWindowController? = NSStoryboard(name: "Updates", bundle: nil).instantiateController(withIdentifier: "UpdatesVC") as? NSWindowController
+        updatesVC?.window?.center()
+        updatesVC?.window?.level = .floating
+        updatesVC!.showWindow(self)
     }
     
     @objc func openAbout(_ sender : NSMenuItem) {

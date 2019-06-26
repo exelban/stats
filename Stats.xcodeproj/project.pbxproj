@@ -12,9 +12,14 @@
 		9A09C8A222B3D94D0018426F /* BatteryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A09C8A122B3D94D0018426F /* BatteryView.swift */; };
 		9A1410F9229E721100D29793 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1410F8229E721100D29793 /* AppDelegate.swift */; };
 		9A141100229E721200D29793 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A1410FE229E721200D29793 /* Main.storyboard */; };
+		9A426DB822C2B5EE00C064C4 /* macAppUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A426DB722C2B5EE00C064C4 /* macAppUpdater.swift */; };
+		9A426DBE22C2BE0000C064C4 /* Updates.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A426DBD22C2BE0000C064C4 /* Updates.storyboard */; };
 		9A57A18522A1D26D0033E318 /* MenuBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A57A18422A1D26D0033E318 /* MenuBar.swift */; };
 		9A57A19B22A1E1C50033E318 /* Module.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A57A19A22A1E1C50033E318 /* Module.swift */; };
 		9A57A19D22A1E3270033E318 /* CPU.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A57A19C22A1E3270033E318 /* CPU.swift */; };
+		9A58D1B022C150C800405315 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A58D1AF22C150C800405315 /* Network.swift */; };
+		9A58D1B222C150D700405315 /* NetworkReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A58D1B122C150D700405315 /* NetworkReader.swift */; };
+		9A58D1B422C179B200405315 /* NetworkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A58D1B322C179B200405315 /* NetworkView.swift */; };
 		9A5B1CBF229E78F0008B9D3C /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5B1CBE229E78F0008B9D3C /* Observable.swift */; };
 		9A5B1CC5229E7B40008B9D3C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5B1CC4229E7B40008B9D3C /* Extensions.swift */; };
 		9A6CFC0122A1C9F5001E782D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9A6CFC0022A1C9F5001E782D /* Assets.xcassets */; };
@@ -55,9 +60,14 @@
 		9A1410FF229E721200D29793 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9A141101229E721200D29793 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9A141102229E721200D29793 /* Stats.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Stats.entitlements; sourceTree = "<group>"; };
+		9A426DB722C2B5EE00C064C4 /* macAppUpdater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = macAppUpdater.swift; sourceTree = "<group>"; };
+		9A426DBD22C2BE0000C064C4 /* Updates.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Updates.storyboard; sourceTree = "<group>"; };
 		9A57A18422A1D26D0033E318 /* MenuBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBar.swift; sourceTree = "<group>"; };
 		9A57A19A22A1E1C50033E318 /* Module.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Module.swift; sourceTree = "<group>"; };
 		9A57A19C22A1E3270033E318 /* CPU.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPU.swift; sourceTree = "<group>"; };
+		9A58D1AF22C150C800405315 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
+		9A58D1B122C150D700405315 /* NetworkReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkReader.swift; sourceTree = "<group>"; };
+		9A58D1B322C179B200405315 /* NetworkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkView.swift; sourceTree = "<group>"; };
 		9A5B1CBE229E78F0008B9D3C /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		9A5B1CC4229E7B40008B9D3C /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		9A6CFC0022A1C9F5001E782D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -138,12 +148,22 @@
 			path = Stats;
 			sourceTree = "<group>";
 		};
+		9A58D1AE22C150B800405315 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				9A58D1AF22C150C800405315 /* Network.swift */,
+				9A58D1B122C150D700405315 /* NetworkReader.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
 		9A5B1CB3229E72A7008B9D3C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
 				9A6CFC0022A1C9F5001E782D /* Assets.xcassets */,
-				9AFFCB3A22B3FD0500B0E6D8 /* About.storyboard */,
 				9A1410FE229E721200D29793 /* Main.storyboard */,
+				9AFFCB3A22B3FD0500B0E6D8 /* About.storyboard */,
+				9A426DBD22C2BE0000C064C4 /* Updates.storyboard */,
 				9A141101229E721200D29793 /* Info.plist */,
 				9A141102229E721200D29793 /* Stats.entitlements */,
 			);
@@ -153,10 +173,11 @@
 		9A5B1CBA229E7892008B9D3C /* Modules */ = {
 			isa = PBXGroup;
 			children = (
-				9A09C89C22B3A7BB0018426F /* Battery */,
 				9A7B8F5C22A2926500DEB352 /* CPU */,
 				9A7B8F6222A2C17000DEB352 /* Memory */,
 				9A7B8F6322A2C17500DEB352 /* Disk */,
+				9A09C89C22B3A7BB0018426F /* Battery */,
+				9A58D1AE22C150B800405315 /* Network */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -167,6 +188,7 @@
 				9A5B1CBE229E78F0008B9D3C /* Observable.swift */,
 				9A57A19A22A1E1C50033E318 /* Module.swift */,
 				9A5B1CC4229E7B40008B9D3C /* Extensions.swift */,
+				9A426DB722C2B5EE00C064C4 /* macAppUpdater.swift */,
 			);
 			path = libs;
 			sourceTree = "<group>";
@@ -177,6 +199,7 @@
 				9A09C8A122B3D94D0018426F /* BatteryView.swift */,
 				9A74D59322B4315C004FE1FA /* Chart.swift */,
 				9A74D59622B44498004FE1FA /* Mini.swift */,
+				9A58D1B322C179B200405315 /* NetworkView.swift */,
 			);
 			path = Widgets;
 			sourceTree = "<group>";
@@ -279,6 +302,11 @@
 				TargetAttributes = {
 					9A1410F4229E721100D29793 = {
 						CreatedOnToolsVersion = 10.2.1;
+						SystemCapabilities = {
+							com.apple.Sandbox = {
+								enabled = 1;
+							};
+						};
 					};
 					9AFA401D22AE49A100FE90BC = {
 						CreatedOnToolsVersion = 10.2.1;
@@ -312,6 +340,7 @@
 				9A6CFC0122A1C9F5001E782D /* Assets.xcassets in Resources */,
 				9AFFCB3B22B3FD0500B0E6D8 /* About.storyboard in Resources */,
 				9A141100229E721200D29793 /* Main.storyboard in Resources */,
+				9A426DBE22C2BE0000C064C4 /* Updates.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -332,15 +361,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				9A09C8A222B3D94D0018426F /* BatteryView.swift in Sources */,
+				9A426DB822C2B5EE00C064C4 /* macAppUpdater.swift in Sources */,
 				9A7B8F6F22A2C57000DEB352 /* DiskReader.swift in Sources */,
 				9A7B8F6922A2C3A100DEB352 /* Memory.swift in Sources */,
 				9A7B8F5E22A2A57600DEB352 /* CPUReader.swift in Sources */,
 				9A74D59422B4315C004FE1FA /* Chart.swift in Sources */,
+				9A58D1B422C179B200405315 /* NetworkView.swift in Sources */,
 				9A09C89E22B3A7C90018426F /* Battery.swift in Sources */,
 				9A7B8F6D22A2C3D600DEB352 /* MemoryReader.swift in Sources */,
 				9A57A18522A1D26D0033E318 /* MenuBar.swift in Sources */,
 				9A57A19D22A1E3270033E318 /* CPU.swift in Sources */,
+				9A58D1B222C150D700405315 /* NetworkReader.swift in Sources */,
 				9A09C8A022B3A7E20018426F /* BatteryReader.swift in Sources */,
+				9A58D1B022C150C800405315 /* Network.swift in Sources */,
 				9A57A19B22A1E1C50033E318 /* Module.swift in Sources */,
 				9A5B1CBF229E78F0008B9D3C /* Observable.swift in Sources */,
 				9A7B8F6B22A2C3A700DEB352 /* Disk.swift in Sources */,
@@ -505,6 +538,10 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = RP2S87B72W;
 				ENABLE_HARDENED_RUNTIME = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/Stats/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -528,6 +565,10 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = RP2S87B72W;
 				ENABLE_HARDENED_RUNTIME = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/Stats/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

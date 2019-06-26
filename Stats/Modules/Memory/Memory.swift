@@ -102,6 +102,8 @@ class Memory: Module {
         sender.state = sender.state == NSControl.StateValue.on ? NSControl.StateValue.off : NSControl.StateValue.on
         self.defaults.set(widgetCode, forKey: "\(name)_widget")
         self.widgetType = widgetCode
+        self.active << false
         self.initWidget()
+        self.active << true
     }
 }
