@@ -40,7 +40,7 @@ class NetworkDotsView: NSView, Widget {
         
         var uploadCircle = NSBezierPath()
         uploadCircle = NSBezierPath(ovalIn: CGRect(x: MODULE_MARGIN, y: height + (MODULE_MARGIN * 2) + 1, width: height, height: height))
-        if self.upload != 0 {
+        if self.upload >= 1_024 {
             NSColor.red.setFill()
         } else {
             NSColor.labelColor.setFill()
@@ -49,7 +49,7 @@ class NetworkDotsView: NSView, Widget {
         
         var downloadCircle = NSBezierPath()
         downloadCircle = NSBezierPath(ovalIn: CGRect(x: MODULE_MARGIN, y: MODULE_MARGIN, width: height, height: height))
-        if self.download != 0 {
+        if self.download >= 1_024 {
             NSColor(red: (26/255.0), green: (126/255.0), blue: (252/255.0), alpha: 0.8).setFill()
         } else {
             NSColor.labelColor.setFill()
@@ -170,7 +170,7 @@ class NetworkArrowsView: NSView, Widget {
         
         downloadArrow.addArrow(start: downloadStart, end: downloadEnd, pointerLineLength: pointerLineLength, arrowAngle: arrowAngle)
         
-        if self.download != 0 {
+        if self.download >= 1_024 {
             NSColor(red: (26/255.0), green: (126/255.0), blue: (252/255.0), alpha: 0.8).set()
         } else {
             NSColor.labelColor.set()
@@ -246,7 +246,7 @@ class NetworkDotsTextView: NSView, Widget {
         
         var uploadCircle = NSBezierPath()
         uploadCircle = NSBezierPath(ovalIn: CGRect(x: MODULE_MARGIN, y: height + (MODULE_MARGIN * 2) + 1, width: height, height: height))
-        if self.upload != 0 {
+        if self.upload >= 1_024 {
             NSColor.red.setFill()
         } else {
             NSColor.labelColor.setFill()
@@ -351,7 +351,7 @@ class NetworkArrowsTextView: NSView, Widget {
         
         downloadArrow.addArrow(start: downloadStart, end: downloadEnd, pointerLineLength: pointerLineLength, arrowAngle: arrowAngle)
         
-        if self.download != 0 {
+        if self.download >= 1_024 {
             NSColor(red: (26/255.0), green: (126/255.0), blue: (252/255.0), alpha: 0.8).set()
         } else {
             NSColor.labelColor.set()
@@ -366,7 +366,7 @@ class NetworkArrowsTextView: NSView, Widget {
         
         uploadArrow.addArrow(start: uploadStart, end: uploadEnd, pointerLineLength: pointerLineLength, arrowAngle: arrowAngle)
         
-        if self.upload != 0 {
+        if self.upload >= 1_024 {
             NSColor.red.set()
         } else {
             NSColor.labelColor.set()

@@ -3,16 +3,15 @@ Simple macOS system monitor in your menu bar
 
 [<img src="https://serhiy.s3.eu-central-1.amazonaws.com/Github_repo/stats/widgets%3Fv1.1.0.1.png">](https://github.com/exelban/stats/releases)
 
-## Why
+## Features
 Stats is a application which allows you to monitor your macOS system.  
-Also its:
 
- - free
- - easy to use
- - no advertisement
- - no tracking
- - few types of widgets
- - black theme compatible
+ - CPU Usage
+ - Memory Usage
+ - Disk utilization
+ - Battery level
+ - Network usage
+ - Black theme compatible
 
 ## Installation
 You can download latest version [here](https://github.com/exelban/stats/releases).
@@ -23,8 +22,9 @@ You can download latest version [here](https://github.com/exelban/stats/releases
 | --- | --- | --- |
 | **CPU** | Percentage / Chart / Chart with value | Shows CPU usage |
 | **Memory** | Percentage / Chart / Chart with value | Shows RAM usage |
-| **Disk** | Percentage | Shows disk filling |
+| **Disk** | Percentage | Shows disk utilization |
 | **Battery** | Graphic / Percentage | Shows battery level and charging status |
+| **Newtork** | Dots / Upload/Download traffic | Shows network activity |
 
 ## Compatibility
 | macOS | Compatible |
@@ -33,7 +33,7 @@ You can download latest version [here](https://github.com/exelban/stats/releases
 | 10.14.1 *(Mojave)* | **true** |
 
 ## Todo
- - [ ] Battery percentage
+ - [X] Battery percentage
  - [ ] Create new logo
  - [ ] Window with preferences
  - [ ] Save last modules values
@@ -41,13 +41,18 @@ You can download latest version [here](https://github.com/exelban/stats/releases
  - [ ] temperature module
  - [X] battery module
  - [X] move to module system (CPU, RAM, DISK)
- - [ ] network module
+ - [X] network module
  - [X] save settings
  - [ ] OTA updates
  - [X] charts
  - [X] autostart on boot
 
 ## What's new
+
+### v1.2.0
+    - added network module
+    - added Check for updates window
+    - fixed few bugs
 
 ### v1.1.0
     - added battery module
@@ -58,4 +63,4 @@ You can download latest version [here](https://github.com/exelban/stats/releases
     - first release
 
 ## License
-[GNU General Public License](https://github.com/exelban/stats/blob/master/LICENSE)
+[MIT License](https://github.com/exelban/stats/blob/master/LICENSE)
