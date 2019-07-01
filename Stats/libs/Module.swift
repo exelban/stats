@@ -33,6 +33,9 @@ extension Module {
         case Widgets.Chart:
             self.view = Chart(frame: NSMakeRect(0, 0, MODULE_WIDTH + 7, MODULE_HEIGHT))
             break
+        case Widgets.ChartWithValue:
+            self.view = ChartWithValue(frame: NSMakeRect(0, 0, MODULE_WIDTH + 7, MODULE_HEIGHT))
+            break
         case Widgets.Dots:
             self.view = NetworkDotsView(frame: NSMakeRect(0, 0, MODULE_WIDTH, MODULE_HEIGHT))
             break

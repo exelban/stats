@@ -13,6 +13,7 @@ class Disk: Module {
     let shortName: String = "SSD"
     var view: NSView = NSView()
     var menu: NSMenuItem = NSMenuItem()
+    var submenu: NSMenu = NSMenu()
     let defaults = UserDefaults.standard
     var widgetType: WidgetType
     
@@ -28,21 +29,37 @@ class Disk: Module {
         self.widgetType = defaults.object(forKey: "\(name)_widget") != nil ? defaults.float(forKey: "\(name)_widget") : Widgets.Mini
         
         self.initMenu()
-        
-        let widget = Mini(frame: NSMakeRect(0, 0, MODULE_WIDTH, MODULE_HEIGHT))
-        widget.label = self.shortName
-        self.view = widget
+        initWidget()
     }
     
     func initMenu() {
         menu = NSMenuItem(title: name, action: #selector(toggle), keyEquivalent: "")
+        submenu = NSMenu()
+        
         if defaults.object(forKey: name) != nil {
             menu.state = defaults.bool(forKey: name) ? NSControl.StateValue.on : NSControl.StateValue.off
         } else {
             menu.state = NSControl.StateValue.on
         }
         menu.target = self
-        menu.isEnabled = true
+        
+        let mini = NSMenuItem(title: "Mini", action: #selector(toggleWidget), keyEquivalent: "")
+        mini.state = self.widgetType == Widgets.Mini ? NSControl.StateValue.on : NSControl.StateValue.off
+        mini.target = self
+        
+        let chart = NSMenuItem(title: "Chart", action: #selector(toggleWidget), keyEquivalent: "")
+        chart.state = self.widgetType == Widgets.Chart ? NSControl.StateValue.on : NSControl.StateValue.off
+        chart.target = self
+        
+        let chartWithValue = NSMenuItem(title: "Chart with value", action: #selector(toggleWidget), keyEquivalent: "")
+        chartWithValue.state = self.widgetType == Widgets.ChartWithValue ? NSControl.StateValue.on : NSControl.StateValue.off
+        chartWithValue.target = self
+        
+        submenu.addItem(mini)
+        submenu.addItem(chart)
+        submenu.addItem(chartWithValue)
+        
+        menu.submenu = submenu
     }
     
     @objc func toggle(_ sender: NSMenuItem) {
@@ -57,5 +74,37 @@ class Disk: Module {
         } else {
             self.start()
         }
+    }
+    
+    @objc func toggleWidget(_ sender: NSMenuItem) {
+        var widgetCode: Float = 0.0
+        
+        switch sender.title {
+        case "Mini":
+            widgetCode = Widgets.Mini
+        case "Chart":
+            widgetCode = Widgets.Chart
+        case "Chart with value":
+            widgetCode = Widgets.ChartWithValue
+        default:
+            break
+        }
+        
+        if self.widgetType == widgetCode {
+            return
+        }
+        
+        for item in self.submenu.items {
+            if item.title == "Mini" || item.title == "Chart" || item.title == "Chart with value" {
+                item.state = NSControl.StateValue.off
+            }
+        }
+        
+        sender.state = sender.state == NSControl.StateValue.on ? NSControl.StateValue.off : NSControl.StateValue.on
+        self.defaults.set(widgetCode, forKey: "\(name)_widget")
+        self.widgetType = widgetCode
+        self.active << false
+        initWidget()
+        self.active << true
     }
 }
