@@ -4,10 +4,10 @@ if [ ! -d "./create-dmg" ]; then
     git clone https://github.com/andreyvit/create-dmg
 fi
 
-xcodebuild -configuration Distribution clean build
+# xcodebuild -configuration Distribution clean build
 
-cp -rf $PWD/build/Release/Stats.app ./
-rm -rf echo $PWD/build
+# cp -rf $PWD/build/Release/Stats.app ./
+# rm -rf echo $PWD/build
 
 ./create-dmg/create-dmg \
     --volname "Stats" \

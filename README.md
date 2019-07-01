@@ -49,6 +49,10 @@ You can download latest version [here](https://github.com/exelban/stats/releases
 
 ## What's new
 
+### v1.2.1
+    - added charts and charts with value to Disk module
+    - fixed bug when Chart with value does not shows
+
 ### v1.2.0
     - added network module
     - added Check for updates window
