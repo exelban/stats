@@ -50,7 +50,7 @@ You can download latest version [here](https://github.com/exelban/stats/releases
 ## What's new
 
 ### v1.2.2
-    - added name of the indicators in the Chart/Chart with value ([#6](https://github.com/exelban/stats/issues/6))
+    - added name of the indicators in the Chart/Chart with value
     - added check for new version on start
     - removed charts and charts with value to Disk module
     - now module submenu is disabled if module is disabled
