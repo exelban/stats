@@ -13,6 +13,7 @@ protocol Module: class {
     var shortName: String { get }
     var view: NSView { get set }
     var menu: NSMenuItem { get }
+    var submenu: NSMenu { get }
     var active: Observable<Bool> { get }
     var available: Observable<Bool> { get }
     var reader: Reader { get }
@@ -31,10 +32,14 @@ extension Module {
             self.view = widget
             break
         case Widgets.Chart:
-            self.view = Chart(frame: NSMakeRect(0, 0, MODULE_WIDTH + 7, MODULE_HEIGHT))
+            let widget = Chart(frame: NSMakeRect(0, 0, MODULE_WIDTH + 7, MODULE_HEIGHT))
+            widget.label = self.shortName
+            self.view = widget
             break
         case Widgets.ChartWithValue:
-            self.view = ChartWithValue(frame: NSMakeRect(0, 0, MODULE_WIDTH + 7, MODULE_HEIGHT))
+            let widget = ChartWithValue(frame: NSMakeRect(0, 0, MODULE_WIDTH + 7, MODULE_HEIGHT))
+            widget.label = self.shortName
+            self.view = widget
             break
         case Widgets.Dots:
             self.view = NetworkDotsView(frame: NSMakeRect(0, 0, MODULE_WIDTH, MODULE_HEIGHT))

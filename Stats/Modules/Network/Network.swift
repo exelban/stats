@@ -87,8 +87,10 @@ class Network: Module {
         self.active << state
         
         if !state {
+            menu.submenu = nil
             self.stop()
         } else {
+            menu.submenu = submenu
             self.start()
         }
     }

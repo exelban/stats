@@ -9,6 +9,10 @@
 import Cocoa
 
 class Chart: NSView, Widget {
+    var labelPadding: CGFloat = 10.0
+    var labelEnabled: Bool = false
+    var label: String = ""
+    
     var height: CGFloat = 0.0
     var points: [Double] {
         didSet {
@@ -21,6 +25,11 @@ class Chart: NSView, Widget {
         super.init(frame: frame)
         self.wantsLayer = true
         self.addSubview(NSView())
+        self.labelEnabled = labelForChart.value
+        
+        if self.labelEnabled {
+            self.frame = CGRect(x: self.frame.origin.x, y: self.frame.origin.y, width: self.frame.size.width + labelPadding, height: self.frame.size.height)
+        }
     }
     
     required init?(coder decoder: NSCoder) {
@@ -34,12 +43,19 @@ class Chart: NSView, Widget {
         let gradientColor: NSColor = NSColor(red: (26/255.0), green: (126/255.0), blue: (252/255.0), alpha: 0.5)
         
         let context = NSGraphicsContext.current!.cgContext
-        let xOffset: CGFloat = 4.0
+        var xOffset: CGFloat = 4.0
+        if labelEnabled {
+            xOffset = xOffset + labelPadding
+        }
         let yOffset: CGFloat = 3.0
         if height == 0 {
             height = self.frame.size.height - CGFloat((yOffset * 2))
         }
-        let xRatio = Double(self.frame.size.width - (xOffset * 2)) / (Double(self.points.count) - 1)
+        
+        var xRatio = Double(self.frame.size.width - (xOffset * 2)) / (Double(self.points.count) - 1)
+        if labelEnabled {
+            xRatio = Double(self.frame.size.width - (xOffset * 2) + labelPadding) / (Double(self.points.count) - 1)
+        }
         
         let columnXPoint = { (point: Int) -> CGFloat in
             return CGFloat((Double(point) * xRatio)) + xOffset
@@ -76,6 +92,30 @@ class Chart: NSView, Widget {
         
         graphPath.lineWidth = 0.5
         graphPath.stroke()
+        
+        if !self.labelEnabled {
+            return
+        }
+        
+        let style = NSMutableParagraphStyle()
+        style.alignment = .center
+        let stringAttributes = [
+            NSAttributedString.Key.font: NSFont.systemFont(ofSize: 7.2, weight: .bold),
+            NSAttributedString.Key.foregroundColor: NSColor.labelColor,
+            NSAttributedString.Key.paragraphStyle: style
+        ]
+    
+        let letterHeight = (self.frame.size.height - (MODULE_MARGIN*2)) / 3
+        let letterWidth: CGFloat = 10.0
+        
+        var yMargin = MODULE_MARGIN
+        for char in self.label.reversed() {
+            let rect = CGRect(x: MODULE_MARGIN, y: yMargin, width: letterWidth, height: letterHeight)
+            let str = NSAttributedString.init(string: "\(char)", attributes: stringAttributes)
+            str.draw(with: rect)
+            
+            yMargin += letterHeight
+        }
     }
     
     func redraw() {
@@ -97,6 +137,15 @@ class Chart: NSView, Widget {
             }
         }
     }
+    
+    func toggleLabel(value: Bool) {
+        labelEnabled = value
+        if value {
+            self.frame = CGRect(x: self.frame.origin.x, y: self.frame.origin.y, width: self.frame.size.width + labelPadding, height: self.frame.size.height)
+        } else {
+            self.frame = CGRect(x: self.frame.origin.x, y: self.frame.origin.y, width: self.frame.size.width - labelPadding, height: self.frame.size.height)
+        }
+    }
 }
 
 class ChartWithValue: Chart {
@@ -104,10 +153,12 @@ class ChartWithValue: Chart {
     
     override init(frame: NSRect) {
         super.init(frame: frame)
-        
         self.wantsLayer = true
         
         valueLabel = NSTextField(frame: NSMakeRect(2, MODULE_HEIGHT - 11, self.frame.size.width, 10))
+        if labelEnabled {
+            valueLabel = NSTextField(frame: NSMakeRect(labelPadding + 2, MODULE_HEIGHT - 11, self.frame.size.width, 10))
+        }
         valueLabel.textColor = NSColor.red
         valueLabel.isEditable = false
         valueLabel.isSelectable = false
@@ -144,6 +195,17 @@ class ChartWithValue: Chart {
             } else {
                 self.points[i] = value
             }
+        }
+    }
+    
+    override func toggleLabel(value: Bool) {
+        labelEnabled = value
+        if value {
+            valueLabel.frame = NSMakeRect(labelPadding + 2, MODULE_HEIGHT - 11, self.frame.size.width, 10)
+            self.frame = CGRect(x: self.frame.origin.x, y: self.frame.origin.y, width: self.frame.size.width + labelPadding, height: self.frame.size.height)
+        } else {
+            valueLabel.frame = NSMakeRect(2, MODULE_HEIGHT - 11, self.frame.size.width, 10)
+            self.frame = CGRect(x: self.frame.origin.x, y: self.frame.origin.y, width: self.frame.size.width - labelPadding, height: self.frame.size.height)
         }
     }
 }

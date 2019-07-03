@@ -27,6 +27,15 @@ class CPU: Module {
         self.widgetType = defaults.object(forKey: "\(name)_widget") != nil ? defaults.float(forKey: "\(name)_widget") : Widgets.Mini
         initMenu()
         initWidget()
+        
+        labelForChart.subscribe(observer: self) { (value, _) in
+            guard let chartView: Chart = self.view as? Chart else {
+                return
+            }
+            self.active << false
+            chartView.toggleLabel(value: value)
+            self.active << true
+        }
     }
     
     func initMenu() {

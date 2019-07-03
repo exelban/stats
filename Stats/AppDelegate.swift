@@ -15,6 +15,9 @@ extension Notification.Name {
 
 let modules: Observable<[Module]> = Observable([CPU(), Memory(), Disk(), Battery(), Network()])
 let colors: Observable<Bool> = Observable(true)
+let labelForChart: Observable<Bool> = Observable(false)
+
+let updater = macAppUpdater(user: "exelban", repo: "stats")
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -27,7 +30,28 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             return
         }
         
+        updater.check() { result, error in
+            if error != nil && error as! String == "No internet connection" {
+                return
+            }
+            
+            guard error == nil, let version: version = result else {
+                print("Error: \(error ?? "check error")")
+                return
+            }
+            
+            if version.newest {
+                DispatchQueue.main.async(execute: {
+                    let updatesVC: NSWindowController? = NSStoryboard(name: "Updates", bundle: nil).instantiateController(withIdentifier: "UpdatesVC") as? NSWindowController
+                    updatesVC?.window?.center()
+                    updatesVC?.window?.level = .floating
+                    updatesVC!.showWindow(self)
+                })
+            }
+        }
+        
         colors << (defaults.object(forKey: "colors") != nil ? defaults.bool(forKey: "colors") : false)
+        labelForChart << (defaults.object(forKey: "labelForChart") != nil ? defaults.bool(forKey: "labelForChart") : false)
         _ = MenuBar(menuBarItem, menuBarButton: menuBarButton)
         
         let launcherAppId = "eu.exelban.StatsLauncher"
@@ -92,7 +116,6 @@ class UpdatesVC: NSViewController {
     @IBOutlet weak var downloadButton: NSButton!
     @IBOutlet weak var spinner: NSProgressIndicator!
     
-    let updater = macAppUpdater(user: "exelban", repo: "stats")
     var url: String?
     
     override func viewDidLoad() {
