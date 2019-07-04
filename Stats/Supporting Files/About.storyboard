@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="QiE-cC-2Ak">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="QiE-cC-2Ak">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.70"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -59,8 +59,8 @@
                                                 <rect key="frame" x="0.0" y="95" width="252" height="61"/>
                                                 <subviews>
                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="I2K-b4-4R0">
-                                                        <rect key="frame" x="-2" y="17" width="142" height="44"/>
-                                                        <textFieldCell key="cell" lineBreakMode="clipping" title="macStats" id="4dC-76-a7n">
+                                                        <rect key="frame" x="-2" y="17" width="73" height="44"/>
+                                                        <textFieldCell key="cell" lineBreakMode="clipping" title="stats" id="4dC-76-a7n">
                                                             <font key="font" metaFont="systemThin" size="36"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -85,7 +85,7 @@
                                                 </customSpacing>
                                             </stackView>
                                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="hXC-tE-nSc">
-                                                <rect key="frame" x="-2" y="41" width="256" height="34"/>
+                                                <rect key="frame" x="-2" y="41" width="234" height="34"/>
                                                 <textFieldCell key="cell" title="Simple macOS system monitor in your menu bar" id="w6j-75-PxU">
                                                     <font key="font" metaFont="systemLight" size="13"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
