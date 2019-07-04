@@ -50,6 +50,7 @@ You can download latest version [here](https://github.com/exelban/stats/releases
 ## What's new
 
 ### v1.2.2
+    - fully automated build and sign app process
     - added name of the indicators in the Chart/Chart with value
     - added check for new version on start
     - removed charts and charts with value to Disk module
