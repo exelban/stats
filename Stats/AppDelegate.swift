@@ -102,9 +102,7 @@ class AboutVC: NSViewController {
     
     override func awakeFromNib() {
         if self.view.layer != nil {
-            self.view.window?.backgroundColor = .white
-            self.view.layer?.backgroundColor = .white
-            
+            self.view.window?.backgroundColor = .windowBackgroundColor
             let versionNumber = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
             versionLabel.stringValue = "Version \(versionNumber)"
         }
@@ -161,8 +159,7 @@ class UpdatesVC: NSViewController {
     
     override func awakeFromNib() {
         if self.view.layer != nil {
-            self.view.window?.backgroundColor = .white
-            self.view.layer?.backgroundColor = .white
+            self.view.window?.backgroundColor = .windowBackgroundColor
         }
     }
     
