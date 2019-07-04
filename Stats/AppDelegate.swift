@@ -15,7 +15,7 @@ extension Notification.Name {
 
 let modules: Observable<[Module]> = Observable([CPU(), Memory(), Disk(), Battery(), Network()])
 let colors: Observable<Bool> = Observable(true)
-let labelForChart: Observable<Bool> = Observable(false)
+let labelForChart: Observable<Bool> = Observable(true)
 
 let updater = macAppUpdater(user: "exelban", repo: "stats")
 
@@ -65,6 +65,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             self.defaults.set(true, forKey: "runAtLogin")
         }
         
+        if defaults.object(forKey: "labelForChart") == nil {
+            self.defaults.set(true, forKey: "labelForChart")
+            labelForChart << true
+        }
+        
         if isRunning {
             DistributedNotificationCenter.default().post(name: .killLauncher, object: Bundle.main.bundleIdentifier!)
         }
@@ -97,9 +102,7 @@ class AboutVC: NSViewController {
     
     override func awakeFromNib() {
         if self.view.layer != nil {
-            self.view.window?.backgroundColor = .white
-            self.view.layer?.backgroundColor = .white
-            
+            self.view.window?.backgroundColor = .windowBackgroundColor
             let versionNumber = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
             versionLabel.stringValue = "Version \(versionNumber)"
         }
@@ -156,8 +159,7 @@ class UpdatesVC: NSViewController {
     
     override func awakeFromNib() {
         if self.view.layer != nil {
-            self.view.window?.backgroundColor = .white
-            self.view.layer?.backgroundColor = .white
+            self.view.window?.backgroundColor = .windowBackgroundColor
         }
     }
     
