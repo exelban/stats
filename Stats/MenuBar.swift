@@ -65,6 +65,11 @@ class MenuBar {
         colorStatus.target = self
         preferencesMenu.addItem(colorStatus)
         
+        let chartLabels = NSMenuItem(title: "Label in chart", action: #selector(toggleMenu), keyEquivalent: "")
+        chartLabels.state = defaults.bool(forKey: "labelForChart") || defaults.object(forKey: "labelForChart") == nil ? NSControl.StateValue.on : NSControl.StateValue.off
+        chartLabels.target = self
+        preferencesMenu.addItem(chartLabels)
+        
         let runAtLogin = NSMenuItem(title: "Run at login", action: #selector(toggleMenu), keyEquivalent: "")
         runAtLogin.state = defaults.bool(forKey: "runAtLogin") || defaults.object(forKey: "runAtLogin") == nil ? NSControl.StateValue.on : NSControl.StateValue.off
         runAtLogin.target = self
@@ -114,6 +119,10 @@ class MenuBar {
         case "Colors":
             self.defaults.set(status, forKey: "colors")
             colors << status
+            return
+        case "Label in chart":
+            self.defaults.set(status, forKey: "labelForChart")
+            labelForChart << status
             return
         default: break
         }

@@ -15,6 +15,9 @@ extension Notification.Name {
 
 let modules: Observable<[Module]> = Observable([CPU(), Memory(), Disk(), Battery(), Network()])
 let colors: Observable<Bool> = Observable(true)
+let labelForChart: Observable<Bool> = Observable(true)
+
+let updater = macAppUpdater(user: "exelban", repo: "stats")
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -27,7 +30,28 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             return
         }
         
+        updater.check() { result, error in
+            if error != nil && error as! String == "No internet connection" {
+                return
+            }
+            
+            guard error == nil, let version: version = result else {
+                print("Error: \(error ?? "check error")")
+                return
+            }
+            
+            if version.newest {
+                DispatchQueue.main.async(execute: {
+                    let updatesVC: NSWindowController? = NSStoryboard(name: "Updates", bundle: nil).instantiateController(withIdentifier: "UpdatesVC") as? NSWindowController
+                    updatesVC?.window?.center()
+                    updatesVC?.window?.level = .floating
+                    updatesVC!.showWindow(self)
+                })
+            }
+        }
+        
         colors << (defaults.object(forKey: "colors") != nil ? defaults.bool(forKey: "colors") : false)
+        labelForChart << (defaults.object(forKey: "labelForChart") != nil ? defaults.bool(forKey: "labelForChart") : false)
         _ = MenuBar(menuBarItem, menuBarButton: menuBarButton)
         
         let launcherAppId = "eu.exelban.StatsLauncher"
@@ -39,6 +63,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         } else {
             SMLoginItemSetEnabled(launcherAppId as CFString, true)
             self.defaults.set(true, forKey: "runAtLogin")
+        }
+        
+        if defaults.object(forKey: "labelForChart") == nil {
+            self.defaults.set(true, forKey: "labelForChart")
+            labelForChart << true
         }
         
         if isRunning {
@@ -73,9 +102,7 @@ class AboutVC: NSViewController {
     
     override func awakeFromNib() {
         if self.view.layer != nil {
-            self.view.window?.backgroundColor = .white
-            self.view.layer?.backgroundColor = .white
-            
+            self.view.window?.backgroundColor = .windowBackgroundColor
             let versionNumber = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
             versionLabel.stringValue = "Version \(versionNumber)"
         }
@@ -92,7 +119,6 @@ class UpdatesVC: NSViewController {
     @IBOutlet weak var downloadButton: NSButton!
     @IBOutlet weak var spinner: NSProgressIndicator!
     
-    let updater = macAppUpdater(user: "exelban", repo: "stats")
     var url: String?
     
     override func viewDidLoad() {
@@ -133,8 +159,7 @@ class UpdatesVC: NSViewController {
     
     override func awakeFromNib() {
         if self.view.layer != nil {
-            self.view.window?.backgroundColor = .white
-            self.view.layer?.backgroundColor = .white
+            self.view.window?.backgroundColor = .windowBackgroundColor
         }
     }
     

@@ -33,33 +33,37 @@ class NetworkReader: Reader {
             defer {
                 self.pipe.fileHandleForReading.waitForDataInBackgroundAndNotify()
             }
-            
+
             let output = self.pipe.fileHandleForReading.availableData
             if output.isEmpty {
                 return
             }
-            
+
             let outputString = String(data: output, encoding: String.Encoding.utf8) ?? ""
             let arr = outputString.condenseWhitespace().split(separator: " ")
-            
+
             if !arr.isEmpty && Int64(arr[0]) != nil {
                 guard let download = Int64(arr[2]), let upload = Int64(arr[5]) else {
                     return
                 }
-                
+
                 guard let value: Double = Double("\(download).\(upload)") else {
                     return
                 }
-                
+
                 self.usage << value
             }
         }
         
-        netProcess.launch()
+        do {
+            try netProcess.run()
+        } catch let error {
+            print(error)
+        }
     }
     
     func stop() {
-        netProcess.interrupt()
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.NSFileHandleDataAvailable, object: nil)
     }
     
     func read() {}

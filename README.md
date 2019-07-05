@@ -49,6 +49,16 @@ You can download latest version [here](https://github.com/exelban/stats/releases
 
 ## What's new
 
+### v1.2.2
+    - fully automated build and sign app process
+    - fixed update and about visibility window in dark mode
+    - added name of the indicators in the Chart/Chart with value
+    - added check for new version on start
+    - removed charts and charts with value to Disk module
+    - now module submenu is disabled if module is disabled
+    - fixed bug when network module stop working after turn on/of
+    - fixed few bugs
+    
 ### v1.2.1
     - added charts and charts with value to Disk module
     - fixed bug when Chart with value does not shows
