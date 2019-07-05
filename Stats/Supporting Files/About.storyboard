@@ -59,8 +59,8 @@
                                                 <rect key="frame" x="0.0" y="95" width="252" height="61"/>
                                                 <subviews>
                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="I2K-b4-4R0">
-                                                        <rect key="frame" x="-2" y="17" width="73" height="44"/>
-                                                        <textFieldCell key="cell" lineBreakMode="clipping" title="stats" id="4dC-76-a7n">
+                                                        <rect key="frame" x="-2" y="17" width="78" height="44"/>
+                                                        <textFieldCell key="cell" lineBreakMode="clipping" title="Stats" id="4dC-76-a7n">
                                                             <font key="font" metaFont="systemThin" size="36"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
