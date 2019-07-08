@@ -100,7 +100,7 @@ class Chart: NSView, Widget {
         let style = NSMutableParagraphStyle()
         style.alignment = .center
         let stringAttributes = [
-            NSAttributedString.Key.font: NSFont.systemFont(ofSize: 7.2, weight: .bold),
+            NSAttributedString.Key.font: NSFont.systemFont(ofSize: 7.2, weight: .regular),
             NSAttributedString.Key.foregroundColor: NSColor.labelColor,
             NSAttributedString.Key.paragraphStyle: style
         ]
