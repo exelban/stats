@@ -16,6 +16,7 @@ class Network: Module {
     var submenu: NSMenu = NSMenu()
     var active: Observable<Bool>
     var available: Observable<Bool>
+    var color: Observable<Bool>
     var reader: Reader = NetworkReader()
     var widgetType: WidgetType = 2.0
     
@@ -25,6 +26,7 @@ class Network: Module {
         self.available = Observable(self.reader.available)
         self.active = Observable(defaults.object(forKey: name) != nil ? defaults.bool(forKey: name) : true)
         self.widgetType = defaults.object(forKey: "\(name)_widget") != nil ? defaults.float(forKey: "\(name)_widget") : Widgets.NetworkDots
+        self.color = Observable(defaults.object(forKey: "\(name)_color") != nil ? defaults.bool(forKey: "\(name)_color") : false)
         initMenu()
         initWidget()
     }

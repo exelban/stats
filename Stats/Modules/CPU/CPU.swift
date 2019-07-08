@@ -16,6 +16,7 @@ class CPU: Module {
     var submenu: NSMenu = NSMenu()
     var active: Observable<Bool>
     var available: Observable<Bool>
+    var color: Observable<Bool>
     var reader: Reader = CPUReader()
     
     let defaults = UserDefaults.standard
@@ -25,17 +26,17 @@ class CPU: Module {
         self.available = Observable(true)
         self.active = Observable(defaults.object(forKey: name) != nil ? defaults.bool(forKey: name) : true)
         self.widgetType = defaults.object(forKey: "\(name)_widget") != nil ? defaults.float(forKey: "\(name)_widget") : Widgets.Mini
+        self.color = Observable(defaults.object(forKey: "\(name)_color") != nil ? defaults.bool(forKey: "\(name)_color") : false)
         initMenu()
         initWidget()
         
-        labelForChart.subscribe(observer: self) { (value, _) in
-            guard let chartView: Chart = self.view as? Chart else {
-                return
-            }
-            self.active << false
-            chartView.toggleLabel(value: value)
-            self.active << true
+        let labelStatus = defaults.bool(forKey: "\(name)_label") || defaults.object(forKey: "\(name)_label") == nil ? true : false
+        guard let chartView: Chart = self.view as? Chart else {
+            return
         }
+        self.active << false
+        chartView.toggleLabel(value: labelStatus)
+        self.active << true
     }
     
     func initMenu() {
@@ -61,9 +62,22 @@ class CPU: Module {
         chartWithValue.state = self.widgetType == Widgets.ChartWithValue ? NSControl.StateValue.on : NSControl.StateValue.off
         chartWithValue.target = self
         
+        let color = NSMenuItem(title: "Color", action: #selector(toggleColor), keyEquivalent: "")
+        color.state = defaults.bool(forKey: "\(name)_color") ? NSControl.StateValue.on : NSControl.StateValue.off
+        color.target = self
+        
+        let label = NSMenuItem(title: "Label", action: #selector(toggleLabel), keyEquivalent: "")
+        label.state = defaults.bool(forKey: "\(name)_label") || defaults.object(forKey: "\(name)_label") == nil ? NSControl.StateValue.on : NSControl.StateValue.off
+        label.target = self
+        
         submenu.addItem(mini)
         submenu.addItem(chart)
         submenu.addItem(chartWithValue)
+        
+        submenu.addItem(NSMenuItem.separator())
+        
+        submenu.addItem(label)
+        submenu.addItem(color)
         
         menu.submenu = submenu
     }
@@ -111,7 +125,25 @@ class CPU: Module {
         self.defaults.set(widgetCode, forKey: "\(name)_widget")
         self.widgetType = widgetCode
         self.active << false
-        initWidget()
+        initWidget(color: defaults.object(forKey: "\(name)_color") != nil ? defaults.bool(forKey: "\(name)_color") : false)
+        self.active << true
+    }
+    
+    @objc func toggleColor(_ sender: NSMenuItem) {
+        sender.state = sender.state == NSControl.StateValue.on ? NSControl.StateValue.off : NSControl.StateValue.on
+        self.defaults.set(sender.state == NSControl.StateValue.on, forKey: "\(name)_color")
+        self.color << (sender.state == NSControl.StateValue.on)
+    }
+    
+    @objc func toggleLabel(_ sender: NSMenuItem) {
+        sender.state = sender.state == NSControl.StateValue.on ? NSControl.StateValue.off : NSControl.StateValue.on
+        self.defaults.set(sender.state == NSControl.StateValue.on, forKey: "\(name)_label")
+        
+        guard let chartView: Chart = self.view as? Chart else {
+            return
+        }
+        self.active << false
+        chartView.toggleLabel(value: sender.state == NSControl.StateValue.on)
         self.active << true
     }
 }

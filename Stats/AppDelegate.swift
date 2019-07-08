@@ -14,8 +14,6 @@ extension Notification.Name {
 }
 
 let modules: Observable<[Module]> = Observable([CPU(), Memory(), Disk(), Battery(), Network()])
-let colors: Observable<Bool> = Observable(true)
-let labelForChart: Observable<Bool> = Observable(true)
 
 let updater = macAppUpdater(user: "exelban", repo: "stats")
 
@@ -50,8 +48,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
         }
         
-        colors << (defaults.object(forKey: "colors") != nil ? defaults.bool(forKey: "colors") : false)
-        labelForChart << (defaults.object(forKey: "labelForChart") != nil ? defaults.bool(forKey: "labelForChart") : false)
         _ = MenuBar(menuBarItem, menuBarButton: menuBarButton)
         
         let launcherAppId = "eu.exelban.StatsLauncher"
@@ -63,11 +59,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         } else {
             SMLoginItemSetEnabled(launcherAppId as CFString, true)
             self.defaults.set(true, forKey: "runAtLogin")
-        }
-        
-        if defaults.object(forKey: "labelForChart") == nil {
-            self.defaults.set(true, forKey: "labelForChart")
-            labelForChart << true
         }
         
         if defaults.object(forKey: "dockIcon") != nil {

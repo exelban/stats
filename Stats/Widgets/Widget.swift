@@ -9,7 +9,11 @@
 import Foundation
 
 protocol Widget {
+    var label: String { get set }
+    
     func value(value: Double)
+    func color(state: Bool)
+    
     func redraw()
 }
 
