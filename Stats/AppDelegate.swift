@@ -28,26 +28,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             return
         }
         
-        updater.check() { result, error in
-            if error != nil && error as! String == "No internet connection" {
-                return
-            }
-            
-            guard error == nil, let version: version = result else {
-                print("Error: \(error ?? "check error")")
-                return
-            }
-            
-            if version.newest {
-                DispatchQueue.main.async(execute: {
-                    let updatesVC: NSWindowController? = NSStoryboard(name: "Updates", bundle: nil).instantiateController(withIdentifier: "UpdatesVC") as? NSWindowController
-                    updatesVC?.window?.center()
-                    updatesVC?.window?.level = .floating
-                    updatesVC!.showWindow(self)
-                })
-            }
-        }
-        
         _ = MenuBar(menuBarItem, menuBarButton: menuBarButton)
         
         let launcherAppId = "eu.exelban.StatsLauncher"
@@ -64,6 +44,28 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if defaults.object(forKey: "dockIcon") != nil {
             let dockIconStatus = defaults.bool(forKey: "dockIcon") ? NSApplication.ActivationPolicy.regular : NSApplication.ActivationPolicy.accessory
             NSApp.setActivationPolicy(dockIconStatus)
+        }
+        
+        if defaults.object(forKey: "checkUpdatesOnLogin") == nil || defaults.bool(forKey: "checkUpdatesOnLogin") {
+            updater.check() { result, error in
+                if error != nil && error as! String == "No internet connection" {
+                    return
+                }
+                
+                guard error == nil, let version: version = result else {
+                    print("Error: \(error ?? "check error")")
+                    return
+                }
+                
+                if version.newest {
+                    DispatchQueue.main.async(execute: {
+                        let updatesVC: NSWindowController? = NSStoryboard(name: "Updates", bundle: nil).instantiateController(withIdentifier: "UpdatesVC") as? NSWindowController
+                        updatesVC?.window?.center()
+                        updatesVC?.window?.level = .floating
+                        updatesVC!.showWindow(self)
+                    })
+                }
+            }
         }
         
         if isRunning {

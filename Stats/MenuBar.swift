@@ -60,6 +60,11 @@ class MenuBar {
         let preferences = NSMenuItem(title: "Preferences", action: nil, keyEquivalent: "")
         let preferencesMenu = NSMenu()
         
+        let checkForUpdates = NSMenuItem(title: "Check for updates on start", action: #selector(toggleMenu), keyEquivalent: "")
+        checkForUpdates.state = defaults.bool(forKey: "checkUpdatesOnLogin") || defaults.object(forKey: "checkUpdatesOnLogin") == nil ? NSControl.StateValue.on : NSControl.StateValue.off
+        checkForUpdates.target = self
+        preferencesMenu.addItem(checkForUpdates)
+        
         let runAtLogin = NSMenuItem(title: "Start at login", action: #selector(toggleMenu), keyEquivalent: "")
         runAtLogin.state = defaults.bool(forKey: "runAtLogin") || defaults.object(forKey: "runAtLogin") == nil ? NSControl.StateValue.on : NSControl.StateValue.off
         runAtLogin.target = self
@@ -111,6 +116,8 @@ class MenuBar {
         case "Run at login":
             SMLoginItemSetEnabled(launcherId as CFString, !status)
             self.defaults.set(status, forKey: "runAtLogin")
+        case "Check for updates on start":
+            self.defaults.set(status, forKey: "checkUpdatesOnLogin")
         case "Show icon in dock":
             self.defaults.set(status, forKey: "dockIcon")
             let iconStatus = status ? NSApplication.ActivationPolicy.regular : NSApplication.ActivationPolicy.accessory
