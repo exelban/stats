@@ -70,10 +70,15 @@ class MenuBar {
         chartLabels.target = self
         preferencesMenu.addItem(chartLabels)
         
-        let runAtLogin = NSMenuItem(title: "Run at login", action: #selector(toggleMenu), keyEquivalent: "")
+        let runAtLogin = NSMenuItem(title: "Start at login", action: #selector(toggleMenu), keyEquivalent: "")
         runAtLogin.state = defaults.bool(forKey: "runAtLogin") || defaults.object(forKey: "runAtLogin") == nil ? NSControl.StateValue.on : NSControl.StateValue.off
         runAtLogin.target = self
         preferencesMenu.addItem(runAtLogin)
+        
+        let dockIcon = NSMenuItem(title: "Show icon in dock", action: #selector(toggleMenu), keyEquivalent: "")
+        dockIcon.state = defaults.bool(forKey: "dockIcon") ? NSControl.StateValue.on : NSControl.StateValue.off
+        dockIcon.target = self
+        preferencesMenu.addItem(dockIcon)
         
         preferences.submenu = preferencesMenu
         menu.addItem(preferences)
@@ -116,6 +121,11 @@ class MenuBar {
         case "Run at login":
             SMLoginItemSetEnabled(launcherId as CFString, !status)
             self.defaults.set(status, forKey: "runAtLogin")
+        case "Show icon in dock":
+            self.defaults.set(status, forKey: "dockIcon")
+            let iconStatus = status ? NSApplication.ActivationPolicy.regular : NSApplication.ActivationPolicy.accessory
+            NSApp.setActivationPolicy(iconStatus)
+            return
         case "Colors":
             self.defaults.set(status, forKey: "colors")
             colors << status

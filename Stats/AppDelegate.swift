@@ -70,6 +70,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             labelForChart << true
         }
         
+        if defaults.object(forKey: "dockIcon") != nil {
+            let dockIconStatus = defaults.bool(forKey: "dockIcon") ? NSApplication.ActivationPolicy.regular : NSApplication.ActivationPolicy.accessory
+            NSApp.setActivationPolicy(dockIconStatus)
+        }
+        
         if isRunning {
             DistributedNotificationCenter.default().post(name: .killLauncher, object: Bundle.main.bundleIdentifier!)
         }
