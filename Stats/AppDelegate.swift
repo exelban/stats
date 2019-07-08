@@ -14,7 +14,6 @@ extension Notification.Name {
 }
 
 let modules: Observable<[Module]> = Observable([CPU(), Memory(), Disk(), Battery(), Network()])
-
 let updater = macAppUpdater(user: "exelban", repo: "stats")
 
 @NSApplicationMain
