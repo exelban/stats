@@ -9,7 +9,7 @@
 import Foundation
 
 class CPUReader: Reader {
-    var usage: Observable<Double>!
+    var value: Observable<Double>!
     var available: Bool = true
     var cpuInfo: processor_info_array_t!
     var prevCpuInfo: processor_info_array_t?
@@ -21,7 +21,7 @@ class CPUReader: Reader {
     
     init() {
         let mibKeys: [Int32] = [ CTL_HW, HW_NCPU ]
-        self.usage = Observable(0)
+        self.value = Observable(0)
         mibKeys.withUnsafeBufferPointer() { mib in
             var sizeOfNumCPUs: size_t = MemoryLayout<uint>.size
             let status = sysctl(processor_info_array_t(mutating: mib.baseAddress), 2, &numCPUs, &sizeOfNumCPUs, nil, 0)
@@ -77,7 +77,7 @@ class CPUReader: Reader {
                 inUseOnAllCores = inUseOnAllCores + inUse
                 totalOnAllCores = totalOnAllCores + total
             }
-            self.usage << (Double(inUseOnAllCores) / Double(totalOnAllCores))
+            self.value << (Double(inUseOnAllCores) / Double(totalOnAllCores))
             
             CPUUsageLock.unlock()
             

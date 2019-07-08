@@ -9,13 +9,13 @@
 import Foundation
 
 class MemoryReader: Reader {
-    var usage: Observable<Double>!
+    var value: Observable<Double>!
     var available: Bool = true
     var updateTimer: Timer!
     var totalSize: Float
     
     init() {
-        self.usage = Observable(0)
+        self.value = Observable(0)
         var stats = host_basic_info()
         var count = UInt32(MemoryLayout<host_basic_info_data_t>.size / MemoryLayout<integer_t>.size)
         
@@ -68,7 +68,7 @@ class MemoryReader: Reader {
             let compressed = Float(stats.compressor_page_count) * Float(PAGE_SIZE)
             
             let free = totalSize - (active + wired + compressed)
-            self.usage << Double((totalSize - free) / totalSize)
+            self.value << Double((totalSize - free) / totalSize)
         }
         else {
             print("Error with host_statistics64(): " + (String(cString: mach_error_string(kerr), encoding: String.Encoding.ascii) ?? "unknown error"))

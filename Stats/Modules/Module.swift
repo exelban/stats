@@ -2,7 +2,7 @@
 //  Module.swift
 //  Stats
 //
-//  Created by Serhiy Mytrovtsiy on 01.06.2019.
+//  Created by Serhiy Mytrovtsiy on 08.07.2019.
 //  Copyright © 2019 Serhiy Mytrovtsiy. All rights reserved.
 //
 
@@ -11,13 +11,14 @@ import Cocoa
 protocol Module: class {
     var name: String { get }
     var shortName: String { get }
+    
     var view: NSView { get set }
     var menu: NSMenuItem { get }
-    var submenu: NSMenu { get }
+    var widgetType: WidgetType { get }
+    
     var active: Observable<Bool> { get }
     var available: Observable<Bool> { get }
     var reader: Reader { get }
-    var widgetType: WidgetType { get }
     
     func start()
     func stop()
@@ -41,19 +42,19 @@ extension Module {
             widget.label = self.shortName
             self.view = widget
             break
-        case Widgets.Dots:
+        case Widgets.NetworkDots:
             self.view = NetworkDotsView(frame: NSMakeRect(0, 0, MODULE_WIDTH, MODULE_HEIGHT))
             break
-        case Widgets.Arrows:
+        case Widgets.NetworkArrows:
             self.view = NetworkArrowsView(frame: NSMakeRect(0, 0, MODULE_WIDTH, MODULE_HEIGHT))
             break
-        case Widgets.Text:
+        case Widgets.NetworkText:
             self.view = NetworkTextView(frame: NSMakeRect(0, 0, MODULE_WIDTH, MODULE_HEIGHT))
             break
-        case Widgets.DotsWithText:
+        case Widgets.NetworkDotsWithText:
             self.view = NetworkDotsTextView(frame: NSMakeRect(0, 0, MODULE_WIDTH, MODULE_HEIGHT))
             break
-        case Widgets.ArrowsWithText:
+        case Widgets.NetworkArrowsWithText:
             self.view = NetworkArrowsTextView(frame: NSMakeRect(0, 0, MODULE_WIDTH, MODULE_HEIGHT))
             break
         default:
@@ -64,15 +65,15 @@ extension Module {
     }
     
     func start() {
-        if !self.reader.usage.value.isNaN {
+        if !self.reader.value.value.isNaN {
             guard let widget = self.view as? Widget else {
                 return
             }
-            widget.value(value: self.reader.usage.value)
+            widget.value(value: self.reader.value.value)
         }
         
         self.reader.start()
-        self.reader.usage.subscribe(observer: self) { (value, _) in
+        self.reader.value.subscribe(observer: self) { (value, _) in
             if !value.isNaN {
                 guard let widget = self.view as? Widget else {
                     return
@@ -91,35 +92,7 @@ extension Module {
     
     func stop() {
         self.reader.stop()
-        self.reader.usage.unsubscribe(observer: self)
+        self.reader.value.unsubscribe(observer: self)
         colors.unsubscribe(observer: self)
     }
-}
-
-protocol Reader {
-    var usage: Observable<Double>! { get }
-    var available: Bool { get }
-    var updateTimer: Timer! { get set }
-    func start()
-    func stop()
-    func read()
-}
-
-protocol Widget {
-    func value(value: Double)
-    func redraw()
-}
-
-typealias WidgetType = Float
-
-struct Widgets {
-    static let Mini: WidgetType = 0.0
-    static let Chart: WidgetType = 1.0
-    static let ChartWithValue: WidgetType = 1.1
-    
-    static let Dots: WidgetType = 2.0
-    static let Arrows: WidgetType = 2.1
-    static let Text: WidgetType = 2.2
-    static let DotsWithText: WidgetType = 2.3
-    static let ArrowsWithText: WidgetType = 2.4
 }

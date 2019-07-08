@@ -32,14 +32,14 @@ class Battery: Module {
     }
     
     func start() {
-        if !self.reader.usage.value.isNaN {
-            let value = self.reader.usage!.value
+        if !self.reader.value.value.isNaN {
+            let value = self.reader.value!.value
             (self.view as! BatteryView).setCharging(value: value > 0)
             (self.view as! Widget).value(value: abs(value))
         }
         
         self.reader.start()
-        self.reader.usage.subscribe(observer: self) { (value, _) in
+        self.reader.value.subscribe(observer: self) { (value, _) in
             if !value.isNaN {
                 (self.view as! BatteryView).setCharging(value: value > 0)
                 (self.view as! Widget).value(value: abs(value))
