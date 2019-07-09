@@ -9,7 +9,7 @@
 import Cocoa
 
 class NetworkReader: Reader {
-    var usage: Observable<Double>!
+    var value: Observable<Double>!
     var available: Bool = true
     var updateTimer: Timer!
     
@@ -17,7 +17,7 @@ class NetworkReader: Reader {
     var pipe: Pipe = Pipe()
     
     init() {
-        self.usage = Observable(0)
+        self.value = Observable(0)
         netProcess.launchPath = "/usr/bin/env"
         netProcess.arguments = ["netstat", "-w1", "-l", "en0"]
         netProcess.standardOutput = pipe
@@ -51,7 +51,7 @@ class NetworkReader: Reader {
                     return
                 }
 
-                self.usage << value
+                self.value << value
             }
         }
         

@@ -60,20 +60,20 @@ class MenuBar {
         let preferences = NSMenuItem(title: "Preferences", action: nil, keyEquivalent: "")
         let preferencesMenu = NSMenu()
         
-        let colorStatus = NSMenuItem(title: "Colors", action: #selector(toggleMenu), keyEquivalent: "")
-        colorStatus.state = defaults.bool(forKey: "colors") ? NSControl.StateValue.on : NSControl.StateValue.off
-        colorStatus.target = self
-        preferencesMenu.addItem(colorStatus)
+        let checkForUpdates = NSMenuItem(title: "Check for updates on start", action: #selector(toggleMenu), keyEquivalent: "")
+        checkForUpdates.state = defaults.bool(forKey: "checkUpdatesOnLogin") || defaults.object(forKey: "checkUpdatesOnLogin") == nil ? NSControl.StateValue.on : NSControl.StateValue.off
+        checkForUpdates.target = self
+        preferencesMenu.addItem(checkForUpdates)
         
-        let chartLabels = NSMenuItem(title: "Label in chart", action: #selector(toggleMenu), keyEquivalent: "")
-        chartLabels.state = defaults.bool(forKey: "labelForChart") || defaults.object(forKey: "labelForChart") == nil ? NSControl.StateValue.on : NSControl.StateValue.off
-        chartLabels.target = self
-        preferencesMenu.addItem(chartLabels)
-        
-        let runAtLogin = NSMenuItem(title: "Run at login", action: #selector(toggleMenu), keyEquivalent: "")
+        let runAtLogin = NSMenuItem(title: "Start at login", action: #selector(toggleMenu), keyEquivalent: "")
         runAtLogin.state = defaults.bool(forKey: "runAtLogin") || defaults.object(forKey: "runAtLogin") == nil ? NSControl.StateValue.on : NSControl.StateValue.off
         runAtLogin.target = self
         preferencesMenu.addItem(runAtLogin)
+        
+        let dockIcon = NSMenuItem(title: "Show icon in dock", action: #selector(toggleMenu), keyEquivalent: "")
+        dockIcon.state = defaults.bool(forKey: "dockIcon") ? NSControl.StateValue.on : NSControl.StateValue.off
+        dockIcon.target = self
+        preferencesMenu.addItem(dockIcon)
         
         preferences.submenu = preferencesMenu
         menu.addItem(preferences)
@@ -116,13 +116,12 @@ class MenuBar {
         case "Run at login":
             SMLoginItemSetEnabled(launcherId as CFString, !status)
             self.defaults.set(status, forKey: "runAtLogin")
-        case "Colors":
-            self.defaults.set(status, forKey: "colors")
-            colors << status
-            return
-        case "Label in chart":
-            self.defaults.set(status, forKey: "labelForChart")
-            labelForChart << status
+        case "Check for updates on start":
+            self.defaults.set(status, forKey: "checkUpdatesOnLogin")
+        case "Show icon in dock":
+            self.defaults.set(status, forKey: "dockIcon")
+            let iconStatus = status ? NSApplication.ActivationPolicy.regular : NSApplication.ActivationPolicy.accessory
+            NSApp.setActivationPolicy(iconStatus)
             return
         default: break
         }

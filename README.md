@@ -34,10 +34,10 @@ You can download latest version [here](https://github.com/exelban/stats/releases
 
 ## Todo
  - [X] Battery percentage
- - [ ] Create new logo
+ - [X] Create new logo ([IconArchive](http://www.iconarchive.com/show/simple-icons-by-kxmylo/utilities-system-monitor-icon.html))
  - [ ] Window with preferences
  - [ ] Save last modules values
- - [ ] Colors toggle for each module
+ - [X] Colors toggle for each module
  - [ ] temperature module
  - [X] battery module
  - [X] move to module system (CPU, RAM, DISK)
@@ -48,6 +48,15 @@ You can download latest version [here](https://github.com/exelban/stats/releases
  - [X] autostart on boot
 
 ## What's new
+
+### v1.2.3
+    - new icon
+    - small code refactoring
+    - changed font style name of the indicator in the Chart/Chart with value
+    - added dock icon visibility to preferences
+    - moved color and label preference from global to local (now each module can be configurated separately)
+    - now check for updates on start can be disabled in preferences
+    - fixed few bugs
 
 ### v1.2.2
     - fully automated build and sign app process

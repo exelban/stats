@@ -16,6 +16,7 @@ class Network: Module {
     var submenu: NSMenu = NSMenu()
     var active: Observable<Bool>
     var available: Observable<Bool>
+    var color: Observable<Bool>
     var reader: Reader = NetworkReader()
     var widgetType: WidgetType = 2.0
     
@@ -24,7 +25,8 @@ class Network: Module {
     init() {
         self.available = Observable(self.reader.available)
         self.active = Observable(defaults.object(forKey: name) != nil ? defaults.bool(forKey: name) : true)
-        self.widgetType = defaults.object(forKey: "\(name)_widget") != nil ? defaults.float(forKey: "\(name)_widget") : Widgets.Dots
+        self.widgetType = defaults.object(forKey: "\(name)_widget") != nil ? defaults.float(forKey: "\(name)_widget") : Widgets.NetworkDots
+        self.color = Observable(defaults.object(forKey: "\(name)_color") != nil ? defaults.bool(forKey: "\(name)_color") : false)
         initMenu()
         initWidget()
     }
@@ -32,7 +34,7 @@ class Network: Module {
     func start() {
         self.reader.start()
         
-        self.reader.usage.subscribe(observer: self) { (value, _) in
+        self.reader.value.subscribe(observer: self) { (value, _) in
             if !value.isNaN {
                 (self.view as! Widget).value(value: value)
             }
@@ -51,23 +53,23 @@ class Network: Module {
         menu.target = self
         
         let dots = NSMenuItem(title: "Dots", action: #selector(toggleWidget), keyEquivalent: "")
-        dots.state = self.widgetType == Widgets.Dots ? NSControl.StateValue.on : NSControl.StateValue.off
+        dots.state = self.widgetType == Widgets.NetworkDots ? NSControl.StateValue.on : NSControl.StateValue.off
         dots.target = self
         
         let arrows = NSMenuItem(title: "Arrows", action: #selector(toggleWidget), keyEquivalent: "")
-        arrows.state = self.widgetType == Widgets.Arrows ? NSControl.StateValue.on : NSControl.StateValue.off
+        arrows.state = self.widgetType == Widgets.NetworkArrows ? NSControl.StateValue.on : NSControl.StateValue.off
         arrows.target = self
         
         let text = NSMenuItem(title: "Text", action: #selector(toggleWidget), keyEquivalent: "")
-        text.state = self.widgetType == Widgets.Text ? NSControl.StateValue.on : NSControl.StateValue.off
+        text.state = self.widgetType == Widgets.NetworkText ? NSControl.StateValue.on : NSControl.StateValue.off
         text.target = self
         
         let dotsWithText = NSMenuItem(title: "Dots with text", action: #selector(toggleWidget), keyEquivalent: "")
-        dotsWithText.state = self.widgetType == Widgets.DotsWithText ? NSControl.StateValue.on : NSControl.StateValue.off
+        dotsWithText.state = self.widgetType == Widgets.NetworkDotsWithText ? NSControl.StateValue.on : NSControl.StateValue.off
         dotsWithText.target = self
         
         let arrowsWithText = NSMenuItem(title: "Arrows with text", action: #selector(toggleWidget), keyEquivalent: "")
-        arrowsWithText.state = self.widgetType == Widgets.ArrowsWithText ? NSControl.StateValue.on : NSControl.StateValue.off
+        arrowsWithText.state = self.widgetType == Widgets.NetworkArrowsWithText ? NSControl.StateValue.on : NSControl.StateValue.off
         arrowsWithText.target = self
         
         submenu.addItem(dots)
@@ -100,15 +102,15 @@ class Network: Module {
         
         switch sender.title {
         case "Dots":
-            widgetCode = Widgets.Dots
+            widgetCode = Widgets.NetworkDots
         case "Arrows":
-            widgetCode = Widgets.Arrows
+            widgetCode = Widgets.NetworkArrows
         case "Text":
-            widgetCode = Widgets.Text
+            widgetCode = Widgets.NetworkText
         case "Dots with text":
-            widgetCode = Widgets.DotsWithText
+            widgetCode = Widgets.NetworkDotsWithText
         case "Arrows with text":
-            widgetCode = Widgets.ArrowsWithText
+            widgetCode = Widgets.NetworkArrowsWithText
         default:
             break
         }

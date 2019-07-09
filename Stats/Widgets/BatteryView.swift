@@ -9,9 +9,12 @@
 import Cocoa
 
 class BatteryView: NSView, Widget {
+    var label: String = ""
+    
     let batteryWidth: CGFloat = 32
     let percentageWidth: CGFloat = 40
     
+    var color: Bool = false
     var value: Double {
         didSet {
             self.redraw()
@@ -72,7 +75,7 @@ class BatteryView: NSView, Widget {
         
         let maxWidth = w-4
         let inner = NSBezierPath(roundedRect: NSRect(x: x+0.5, y: y+1.5, width: maxWidth*CGFloat(self.value), height: h-3), xRadius: 0.5, yRadius: 0.5)
-        self.value.batteryColor().set()
+        self.value.batteryColor(color: self.color).set()
         inner.lineWidth = 0
         inner.stroke()
         inner.close()
@@ -124,6 +127,12 @@ class BatteryView: NSView, Widget {
             if percentage {
                 self.percentageValue.stringValue = "\(Int(self.value * 100))%"
             }
+        }
+    }
+    
+    func color(state: Bool) {
+        if self.color != state {
+            self.color = state
         }
     }
     

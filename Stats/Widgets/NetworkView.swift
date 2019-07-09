@@ -9,6 +9,9 @@
 import Cocoa
 
 class NetworkDotsView: NSView, Widget {
+    var label: String = ""
+    
+    var color: Bool = false
     var download: Int64 {
         didSet {
             self.redraw()
@@ -71,9 +74,19 @@ class NetworkDotsView: NSView, Widget {
             self.upload = values[1]
         }
     }
+    
+    func color(state: Bool) {
+        if self.color != state {
+            self.color = state
+            self.redraw()
+        }
+    }
 }
 
 class NetworkTextView: NSView, Widget {
+    var label: String = ""
+    
+    var color: Bool = false
     var downloadValue: NSTextField = NSTextField()
     var uploadValue: NSTextField = NSTextField()
     
@@ -100,6 +113,13 @@ class NetworkTextView: NSView, Widget {
         let values = value.splitAtDecimal()
         downloadValue.stringValue = Units(bytes: values[0]).getReadableUnit()
         uploadValue.stringValue = Units(bytes: values[1]).getReadableUnit()
+    }
+    
+    func color(state: Bool) {
+        if self.color != state {
+            self.color = state
+            self.redraw()
+        }
     }
     
     func valueView() {
@@ -133,6 +153,9 @@ class NetworkTextView: NSView, Widget {
 }
 
 class NetworkArrowsView: NSView, Widget {
+    var label: String = ""
+    
+    var color: Bool = false
     var download: Int64 {
         didSet {
             self.redraw()
@@ -209,9 +232,19 @@ class NetworkArrowsView: NSView, Widget {
             self.upload = values[1]
         }
     }
+    
+    func color(state: Bool) {
+        if self.color != state {
+            self.color = state
+            self.redraw()
+        }
+    }
 }
 
 class NetworkDotsTextView: NSView, Widget {
+    var label: String = ""
+    
+    var color: Bool = false
     var download: Int64 {
         didSet {
             self.redraw()
@@ -280,6 +313,13 @@ class NetworkDotsTextView: NSView, Widget {
         }
     }
     
+    func color(state: Bool) {
+        if self.color != state {
+            self.color = state
+            self.redraw()
+        }
+    }
+    
     func valueView() {
         downloadValue = NSTextField(frame: NSMakeRect(MODULE_MARGIN, MODULE_MARGIN, self.frame.size.width - MODULE_MARGIN, 9))
         downloadValue.isEditable = false
@@ -311,6 +351,9 @@ class NetworkDotsTextView: NSView, Widget {
 }
 
 class NetworkArrowsTextView: NSView, Widget {
+    var label: String = ""
+    
+    var color: Bool = false
     var download: Int64 {
         didSet {
             self.redraw()
@@ -390,6 +433,13 @@ class NetworkArrowsTextView: NSView, Widget {
         if self.upload != values[1] {
             self.upload = values[1]
             uploadValue.stringValue = Units(bytes: self.upload).getReadableUnit()
+        }
+    }
+    
+    func color(state: Bool) {
+        if self.color != state {
+            self.color = state
+            self.redraw()
         }
     }
     

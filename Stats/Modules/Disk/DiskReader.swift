@@ -9,12 +9,12 @@
 import Foundation
 
 class DiskReader: Reader {
-    var usage: Observable<Double>!
+    var value: Observable<Double>!
     var available: Bool = true
     var updateTimer: Timer!
     
     init() {
-        self.usage = Observable(0)
+        self.value = Observable(0)
         read()
     }
     
@@ -38,7 +38,7 @@ class DiskReader: Reader {
         let free = freeDiskSpaceInBytes()
         let usedSpace = total - free
         
-        self.usage << (Double(usedSpace) / Double(total))
+        self.value << (Double(usedSpace) / Double(total))
     }
     
     func totalDiskSpaceInBytes() -> Int64 {

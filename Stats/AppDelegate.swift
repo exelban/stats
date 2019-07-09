@@ -14,9 +14,6 @@ extension Notification.Name {
 }
 
 let modules: Observable<[Module]> = Observable([CPU(), Memory(), Disk(), Battery(), Network()])
-let colors: Observable<Bool> = Observable(true)
-let labelForChart: Observable<Bool> = Observable(true)
-
 let updater = macAppUpdater(user: "exelban", repo: "stats")
 
 @NSApplicationMain
@@ -30,28 +27,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             return
         }
         
-        updater.check() { result, error in
-            if error != nil && error as! String == "No internet connection" {
-                return
-            }
-            
-            guard error == nil, let version: version = result else {
-                print("Error: \(error ?? "check error")")
-                return
-            }
-            
-            if version.newest {
-                DispatchQueue.main.async(execute: {
-                    let updatesVC: NSWindowController? = NSStoryboard(name: "Updates", bundle: nil).instantiateController(withIdentifier: "UpdatesVC") as? NSWindowController
-                    updatesVC?.window?.center()
-                    updatesVC?.window?.level = .floating
-                    updatesVC!.showWindow(self)
-                })
-            }
-        }
-        
-        colors << (defaults.object(forKey: "colors") != nil ? defaults.bool(forKey: "colors") : false)
-        labelForChart << (defaults.object(forKey: "labelForChart") != nil ? defaults.bool(forKey: "labelForChart") : false)
         _ = MenuBar(menuBarItem, menuBarButton: menuBarButton)
         
         let launcherAppId = "eu.exelban.StatsLauncher"
@@ -65,9 +40,31 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             self.defaults.set(true, forKey: "runAtLogin")
         }
         
-        if defaults.object(forKey: "labelForChart") == nil {
-            self.defaults.set(true, forKey: "labelForChart")
-            labelForChart << true
+        if defaults.object(forKey: "dockIcon") != nil {
+            let dockIconStatus = defaults.bool(forKey: "dockIcon") ? NSApplication.ActivationPolicy.regular : NSApplication.ActivationPolicy.accessory
+            NSApp.setActivationPolicy(dockIconStatus)
+        }
+        
+        if defaults.object(forKey: "checkUpdatesOnLogin") == nil || defaults.bool(forKey: "checkUpdatesOnLogin") {
+            updater.check() { result, error in
+                if error != nil && error as! String == "No internet connection" {
+                    return
+                }
+                
+                guard error == nil, let version: version = result else {
+                    print("Error: \(error ?? "check error")")
+                    return
+                }
+                
+                if version.newest {
+                    DispatchQueue.main.async(execute: {
+                        let updatesVC: NSWindowController? = NSStoryboard(name: "Updates", bundle: nil).instantiateController(withIdentifier: "UpdatesVC") as? NSWindowController
+                        updatesVC?.window?.center()
+                        updatesVC?.window?.level = .floating
+                        updatesVC!.showWindow(self)
+                    })
+                }
+            }
         }
         
         if isRunning {

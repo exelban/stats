@@ -14,11 +14,11 @@ extension Double {
         return NSString(format: "%.\(decimalPlaces)f" as NSString, self) as String
     }
     
-    func usageColor(reversed: Bool = false) -> NSColor {
-        if !colors.value {
+    func usageColor(reversed: Bool = false, color: Bool = false) -> NSColor {
+        if !color {
             return NSColor.textColor
         }
-        
+
         if reversed {
             switch self {
             case 0.6...0.8:
@@ -40,10 +40,10 @@ extension Double {
         }
     }
     
-    func batteryColor() -> NSColor {
+    func batteryColor(color: Bool = false) -> NSColor {
         switch self {
         case 0.2...0.4:
-            if !colors.value {
+            if !color {
                 return NSColor.controlTextColor
             }
             return NSColor.systemOrange
@@ -51,7 +51,7 @@ extension Double {
             if self == 1 {
                 return NSColor.controlTextColor
             }
-            if !colors.value {
+            if !color {
                 return NSColor.controlTextColor
             }
             return NSColor.systemGreen

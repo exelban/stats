@@ -14,6 +14,7 @@ class Chart: NSView, Widget {
     var label: String = ""
     
     var height: CGFloat = 0.0
+    var color: Bool = false
     var points: [Double] {
         didSet {
             self.redraw()
@@ -25,7 +26,6 @@ class Chart: NSView, Widget {
         super.init(frame: frame)
         self.wantsLayer = true
         self.addSubview(NSView())
-        self.labelEnabled = labelForChart.value
         
         if self.labelEnabled {
             self.frame = CGRect(x: self.frame.origin.x, y: self.frame.origin.y, width: self.frame.size.width + labelPadding, height: self.frame.size.height)
@@ -100,7 +100,7 @@ class Chart: NSView, Widget {
         let style = NSMutableParagraphStyle()
         style.alignment = .center
         let stringAttributes = [
-            NSAttributedString.Key.font: NSFont.systemFont(ofSize: 7.2, weight: .bold),
+            NSAttributedString.Key.font: NSFont.systemFont(ofSize: 7.2, weight: .regular),
             NSAttributedString.Key.foregroundColor: NSColor.labelColor,
             NSAttributedString.Key.paragraphStyle: style
         ]
@@ -135,6 +135,12 @@ class Chart: NSView, Widget {
             } else {
                 self.points[i] = value
             }
+        }
+    }
+    
+    func color(state: Bool) {
+        if self.color != state {
+            self.color = state
         }
     }
     
@@ -182,7 +188,7 @@ class ChartWithValue: Chart {
     
     override func value(value: Double) {
         self.valueLabel.stringValue = "\(Int(Float(value.roundTo(decimalPlaces: 2))! * 100))%"
-        self.valueLabel.textColor = value.usageColor()
+        self.valueLabel.textColor = value.usageColor(color: self.color)
         
         if self.points.count < 50 {
             self.points.append(value)
@@ -206,6 +212,13 @@ class ChartWithValue: Chart {
         } else {
             valueLabel.frame = NSMakeRect(2, MODULE_HEIGHT - 11, self.frame.size.width, 10)
             self.frame = CGRect(x: self.frame.origin.x, y: self.frame.origin.y, width: self.frame.size.width - labelPadding, height: self.frame.size.height)
+        }
+    }
+    
+    override func color(state: Bool) {
+        if self.color != state {
+            self.color = state
+            self.valueLabel.textColor = self.points.last?.usageColor(color: state)
         }
     }
 }

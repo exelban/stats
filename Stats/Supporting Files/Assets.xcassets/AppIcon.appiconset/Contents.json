@@ -45,13 +45,13 @@
     {
       "size" : "256x256",
       "idiom" : "mac",
-      "filename" : "512.png",
+      "filename" : "512-1.png",
       "scale" : "2x"
     },
     {
       "size" : "512x512",
       "idiom" : "mac",
-      "filename" : "512-1.png",
+      "filename" : "512.png",
       "scale" : "1x"
     },
     {

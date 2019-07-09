@@ -19,6 +19,8 @@ class Disk: Module {
     
     var active: Observable<Bool>
     var available: Observable<Bool>
+    var color: Observable<Bool>
+    
     var reader: Reader = DiskReader()
     
     @IBOutlet weak var value: NSTextField!
@@ -27,23 +29,30 @@ class Disk: Module {
         self.available = Observable(true)
         self.active = Observable(defaults.object(forKey: name) != nil ? defaults.bool(forKey: name) : true)
         self.widgetType = defaults.object(forKey: "\(name)_widget") != nil ? defaults.float(forKey: "\(name)_widget") : Widgets.Mini
+        self.color = Observable(defaults.object(forKey: "\(name)_color") != nil ? defaults.bool(forKey: "\(name)_color") : false)
         
         self.initMenu()
-        
-        let widget = Mini(frame: NSMakeRect(0, 0, MODULE_WIDTH, MODULE_HEIGHT))
-        widget.label = self.shortName
-        self.view = widget
+        self.initWidget()
     }
     
     func initMenu() {
         menu = NSMenuItem(title: name, action: #selector(toggle), keyEquivalent: "")
+        submenu = NSMenu()
+        
         if defaults.object(forKey: name) != nil {
             menu.state = defaults.bool(forKey: name) ? NSControl.StateValue.on : NSControl.StateValue.off
         } else {
             menu.state = NSControl.StateValue.on
         }
         menu.target = self
-        menu.isEnabled = true
+        
+        let color = NSMenuItem(title: "Color", action: #selector(toggleColor), keyEquivalent: "")
+        color.state = defaults.bool(forKey: "\(name)_color") ? NSControl.StateValue.on : NSControl.StateValue.off
+        color.target = self
+        
+        submenu.addItem(color)
+        
+        menu.submenu = submenu
     }
     
     @objc func toggle(_ sender: NSMenuItem) {
@@ -58,5 +67,11 @@ class Disk: Module {
         } else {
             self.start()
         }
+    }
+    
+    @objc func toggleColor(_ sender: NSMenuItem) {
+        sender.state = sender.state == NSControl.StateValue.on ? NSControl.StateValue.off : NSControl.StateValue.on
+        self.defaults.set(sender.state == NSControl.StateValue.on, forKey: "\(name)_color")
+        self.color << (sender.state == NSControl.StateValue.on)
     }
 }
