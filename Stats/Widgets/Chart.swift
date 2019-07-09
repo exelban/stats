@@ -9,6 +9,7 @@
 import Cocoa
 
 class Chart: NSView, Widget {
+    var size: CGFloat = MODULE_WIDTH + 7
     var labelPadding: CGFloat = 10.0
     var labelEnabled: Bool = false
     var label: String = ""
@@ -144,13 +145,14 @@ class Chart: NSView, Widget {
         }
     }
     
-    func toggleLabel(value: Bool) {
-        labelEnabled = value
-        if value {
-            self.frame = CGRect(x: self.frame.origin.x, y: self.frame.origin.y, width: self.frame.size.width + labelPadding, height: self.frame.size.height)
-        } else {
-            self.frame = CGRect(x: self.frame.origin.x, y: self.frame.origin.y, width: self.frame.size.width - labelPadding, height: self.frame.size.height)
+    func label(state: Bool) {
+        labelEnabled = state
+        var width = self.size
+        if state {
+            width = width + labelPadding
         }
+        self.frame = CGRect(x: self.frame.origin.x, y: self.frame.origin.y, width: width, height: self.frame.size.height)
+        self.redraw()
     }
 }
 
@@ -160,26 +162,7 @@ class ChartWithValue: Chart {
     override init(frame: NSRect) {
         super.init(frame: frame)
         self.wantsLayer = true
-        
-        valueLabel = NSTextField(frame: NSMakeRect(2, MODULE_HEIGHT - 11, self.frame.size.width, 10))
-        if labelEnabled {
-            valueLabel = NSTextField(frame: NSMakeRect(labelPadding + 2, MODULE_HEIGHT - 11, self.frame.size.width, 10))
-        }
-        valueLabel.textColor = NSColor.red
-        valueLabel.isEditable = false
-        valueLabel.isSelectable = false
-        valueLabel.isBezeled = false
-        valueLabel.wantsLayer = true
-        valueLabel.textColor = .labelColor
-        valueLabel.backgroundColor = .controlColor
-        valueLabel.canDrawSubviewsIntoLayer = true
-        valueLabel.alignment = .natural
-        valueLabel.font = NSFont.systemFont(ofSize: 8, weight: .ultraLight)
-        valueLabel.stringValue = ""
-        valueLabel.addSubview(NSView())
-        
-        self.height = 7.0
-        self.addSubview(valueLabel)
+        self.drawValue()
     }
     
     required init?(coder decoder: NSCoder) {
@@ -204,15 +187,14 @@ class ChartWithValue: Chart {
         }
     }
     
-    override func toggleLabel(value: Bool) {
-        labelEnabled = value
-        if value {
-            valueLabel.frame = NSMakeRect(labelPadding + 2, MODULE_HEIGHT - 11, self.frame.size.width, 10)
-            self.frame = CGRect(x: self.frame.origin.x, y: self.frame.origin.y, width: self.frame.size.width + labelPadding, height: self.frame.size.height)
-        } else {
-            valueLabel.frame = NSMakeRect(2, MODULE_HEIGHT - 11, self.frame.size.width, 10)
-            self.frame = CGRect(x: self.frame.origin.x, y: self.frame.origin.y, width: self.frame.size.width - labelPadding, height: self.frame.size.height)
+    override func label(state: Bool) {
+        labelEnabled = state
+        var width = self.size
+        if state {
+            width = width + labelPadding
         }
+        self.frame = CGRect(x: self.frame.origin.x, y: self.frame.origin.y, width: width, height: self.frame.size.height)
+        self.drawValue()
     }
     
     override func color(state: Bool) {
@@ -220,5 +202,31 @@ class ChartWithValue: Chart {
             self.color = state
             self.valueLabel.textColor = self.points.last?.usageColor(color: state)
         }
+    }
+    
+    func drawValue () {
+        for subview in self.subviews {
+            subview.removeFromSuperview()
+        }
+        
+        valueLabel = NSTextField(frame: NSMakeRect(2, MODULE_HEIGHT - 11, self.frame.size.width, 10))
+        if labelEnabled {
+            valueLabel = NSTextField(frame: NSMakeRect(labelPadding + 2, MODULE_HEIGHT - 11, self.frame.size.width, 10))
+        }
+        valueLabel.textColor = NSColor.red
+        valueLabel.isEditable = false
+        valueLabel.isSelectable = false
+        valueLabel.isBezeled = false
+        valueLabel.wantsLayer = true
+        valueLabel.textColor = .labelColor
+        valueLabel.backgroundColor = .controlColor
+        valueLabel.canDrawSubviewsIntoLayer = true
+        valueLabel.alignment = .natural
+        valueLabel.font = NSFont.systemFont(ofSize: 8, weight: .ultraLight)
+        valueLabel.stringValue = ""
+        valueLabel.addSubview(NSView())
+        
+        self.height = 7.0
+        self.addSubview(valueLabel)
     }
 }

@@ -17,6 +17,7 @@ class Memory: Module {
     var active: Observable<Bool>
     var available: Observable<Bool>
     var color: Observable<Bool>
+    var label: Observable<Bool>
     var reader: Reader = MemoryReader()
     var widgetType: WidgetType
     
@@ -29,16 +30,9 @@ class Memory: Module {
         self.active = Observable(defaults.object(forKey: name) != nil ? defaults.bool(forKey: name) : true)
         self.widgetType = defaults.object(forKey: "\(name)_widget") != nil ? defaults.float(forKey: "\(name)_widget") : Widgets.Mini
         self.color = Observable(defaults.object(forKey: "\(name)_color") != nil ? defaults.bool(forKey: "\(name)_color") : false)
+        self.label = Observable(defaults.object(forKey: "\(name)_label") != nil ? defaults.bool(forKey: "\(name)_label") : false)
         initMenu()
         initWidget()
-        
-        let labelStatus = defaults.bool(forKey: "\(name)_label") || defaults.object(forKey: "\(name)_label") == nil ? true : false
-        guard let chartView: Chart = self.view as? Chart else {
-            return
-        }
-        self.active << false
-        chartView.toggleLabel(value: labelStatus)
-        self.active << true
     }
     
     func initMenu() {
@@ -110,6 +104,8 @@ class Memory: Module {
             widgetCode = Widgets.Chart
         case "Chart with value":
             widgetCode = Widgets.ChartWithValue
+        case "Bar chart":
+            widgetCode = Widgets.BarChart
         default:
             break
         }
@@ -141,12 +137,8 @@ class Memory: Module {
     @objc func toggleLabel(_ sender: NSMenuItem) {
         sender.state = sender.state == NSControl.StateValue.on ? NSControl.StateValue.off : NSControl.StateValue.on
         self.defaults.set(sender.state == NSControl.StateValue.on, forKey: "\(name)_label")
-        
-        guard let chartView: Chart = self.view as? Chart else {
-            return
-        }
         self.active << false
-        chartView.toggleLabel(value: sender.state == NSControl.StateValue.on)
+        self.label << (sender.state == NSControl.StateValue.on)
         self.active << true
     }
 }

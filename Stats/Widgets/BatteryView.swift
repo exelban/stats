@@ -9,6 +9,7 @@
 import Cocoa
 
 class BatteryView: NSView, Widget {
+    var size: CGFloat = MODULE_WIDTH
     var label: String = ""
     
     let batteryWidth: CGFloat = 32
@@ -135,6 +136,8 @@ class BatteryView: NSView, Widget {
             self.color = state
         }
     }
+    
+    func label(state: Bool) {}
     
     func setCharging(value: Bool) {
         if self.charging != value {

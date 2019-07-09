@@ -32,6 +32,7 @@
 		9A7B8F6B22A2C3A700DEB352 /* Disk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7B8F6A22A2C3A700DEB352 /* Disk.swift */; };
 		9A7B8F6D22A2C3D600DEB352 /* MemoryReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7B8F6C22A2C3D600DEB352 /* MemoryReader.swift */; };
 		9A7B8F6F22A2C57000DEB352 /* DiskReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7B8F6E22A2C57000DEB352 /* DiskReader.swift */; };
+		9A9696EC22D526D900F967A5 /* BarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9696EB22D526D900F967A5 /* BarChart.swift */; };
 		9AFA402522AE49A200FE90BC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AFA402422AE49A200FE90BC /* Assets.xcassets */; };
 		9AFA402822AE49A200FE90BC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9AFA402622AE49A200FE90BC /* Main.storyboard */; };
 		9AFA402F22AE49AE00FE90BC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFA402E22AE49AE00FE90BC /* AppDelegate.swift */; };
@@ -82,6 +83,7 @@
 		9A7B8F6A22A2C3A700DEB352 /* Disk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Disk.swift; sourceTree = "<group>"; };
 		9A7B8F6C22A2C3D600DEB352 /* MemoryReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryReader.swift; sourceTree = "<group>"; };
 		9A7B8F6E22A2C57000DEB352 /* DiskReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskReader.swift; sourceTree = "<group>"; };
+		9A9696EB22D526D900F967A5 /* BarChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChart.swift; sourceTree = "<group>"; };
 		9A998CD722A199920087ADE7 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		9A998CD922A199970087ADE7 /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = System/Library/Frameworks/ServiceManagement.framework; sourceTree = SDKROOT; };
 		9AFA401E22AE49A100FE90BC /* StatsLauncher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StatsLauncher.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -206,6 +208,7 @@
 				9A74D59622B44498004FE1FA /* Mini.swift */,
 				9A58D1B322C179B200405315 /* NetworkView.swift */,
 				9A79B36922D3BEE600BF1C3A /* Widget.swift */,
+				9A9696EB22D526D900F967A5 /* BarChart.swift */,
 			);
 			path = Widgets;
 			sourceTree = "<group>";
@@ -385,6 +388,7 @@
 				9A5B1CBF229E78F0008B9D3C /* Observable.swift in Sources */,
 				9A7B8F6B22A2C3A700DEB352 /* Disk.swift in Sources */,
 				9A1410F9229E721100D29793 /* AppDelegate.swift in Sources */,
+				9A9696EC22D526D900F967A5 /* BarChart.swift in Sources */,
 				9A74D59722B44498004FE1FA /* Mini.swift in Sources */,
 				9A5B1CC5229E7B40008B9D3C /* Extensions.swift in Sources */,
 				9A79B36A22D3BEE600BF1C3A /* Widget.swift in Sources */,
