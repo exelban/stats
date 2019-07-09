@@ -17,6 +17,7 @@ class CPU: Module {
     var active: Observable<Bool>
     var available: Observable<Bool>
     var color: Observable<Bool>
+    var label: Observable<Bool>
     var reader: Reader = CPUReader()
     
     let defaults = UserDefaults.standard
@@ -27,16 +28,9 @@ class CPU: Module {
         self.active = Observable(defaults.object(forKey: name) != nil ? defaults.bool(forKey: name) : true)
         self.widgetType = defaults.object(forKey: "\(name)_widget") != nil ? defaults.float(forKey: "\(name)_widget") : Widgets.Mini
         self.color = Observable(defaults.object(forKey: "\(name)_color") != nil ? defaults.bool(forKey: "\(name)_color") : false)
+        self.label = Observable(defaults.object(forKey: "\(name)_label") != nil ? defaults.bool(forKey: "\(name)_label") : false)
         initMenu()
         initWidget()
-        
-        let labelStatus = defaults.bool(forKey: "\(name)_label") || defaults.object(forKey: "\(name)_label") == nil ? true : false
-        guard let chartView: Chart = self.view as? Chart else {
-            return
-        }
-        self.active << false
-        chartView.toggleLabel(value: labelStatus)
-        self.active << true
     }
     
     func initMenu() {
@@ -62,6 +56,10 @@ class CPU: Module {
         chartWithValue.state = self.widgetType == Widgets.ChartWithValue ? NSControl.StateValue.on : NSControl.StateValue.off
         chartWithValue.target = self
         
+        let barChart = NSMenuItem(title: "Bar chart", action: #selector(toggleWidget), keyEquivalent: "")
+        barChart.state = self.widgetType == Widgets.BarChart ? NSControl.StateValue.on : NSControl.StateValue.off
+        barChart.target = self
+        
         let color = NSMenuItem(title: "Color", action: #selector(toggleColor), keyEquivalent: "")
         color.state = defaults.bool(forKey: "\(name)_color") ? NSControl.StateValue.on : NSControl.StateValue.off
         color.target = self
@@ -73,6 +71,7 @@ class CPU: Module {
         submenu.addItem(mini)
         submenu.addItem(chart)
         submenu.addItem(chartWithValue)
+//        submenu.addItem(barChart)
         
         submenu.addItem(NSMenuItem.separator())
         
@@ -107,6 +106,8 @@ class CPU: Module {
             widgetCode = Widgets.Chart
         case "Chart with value":
             widgetCode = Widgets.ChartWithValue
+        case "Bar chart":
+            widgetCode = Widgets.BarChart
         default:
             break
         }
@@ -116,7 +117,7 @@ class CPU: Module {
         }
         
         for item in self.submenu.items {
-            if item.title == "Mini" || item.title == "Chart" || item.title == "Chart with value" {
+            if item.title == "Mini" || item.title == "Chart" || item.title == "Chart with value" || item.title == "Bar chart" {
                 item.state = NSControl.StateValue.off
             }
         }
@@ -125,7 +126,7 @@ class CPU: Module {
         self.defaults.set(widgetCode, forKey: "\(name)_widget")
         self.widgetType = widgetCode
         self.active << false
-        initWidget(color: defaults.object(forKey: "\(name)_color") != nil ? defaults.bool(forKey: "\(name)_color") : false)
+        initWidget()
         self.active << true
     }
     
@@ -138,12 +139,8 @@ class CPU: Module {
     @objc func toggleLabel(_ sender: NSMenuItem) {
         sender.state = sender.state == NSControl.StateValue.on ? NSControl.StateValue.off : NSControl.StateValue.on
         self.defaults.set(sender.state == NSControl.StateValue.on, forKey: "\(name)_label")
-        
-        guard let chartView: Chart = self.view as? Chart else {
-            return
-        }
         self.active << false
-        chartView.toggleLabel(value: sender.state == NSControl.StateValue.on)
+        self.label << (sender.state == NSControl.StateValue.on)
         self.active << true
     }
 }

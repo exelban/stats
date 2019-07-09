@@ -17,6 +17,7 @@ class Network: Module {
     var active: Observable<Bool>
     var available: Observable<Bool>
     var color: Observable<Bool>
+    var label: Observable<Bool>
     var reader: Reader = NetworkReader()
     var widgetType: WidgetType = 2.0
     
@@ -27,6 +28,7 @@ class Network: Module {
         self.active = Observable(defaults.object(forKey: name) != nil ? defaults.bool(forKey: name) : true)
         self.widgetType = defaults.object(forKey: "\(name)_widget") != nil ? defaults.float(forKey: "\(name)_widget") : Widgets.NetworkDots
         self.color = Observable(defaults.object(forKey: "\(name)_color") != nil ? defaults.bool(forKey: "\(name)_color") : false)
+        self.label = Observable(defaults.object(forKey: "\(name)_label") != nil ? defaults.bool(forKey: "\(name)_label") : false)
         initMenu()
         initWidget()
     }

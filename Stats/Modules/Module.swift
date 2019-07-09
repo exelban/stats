@@ -18,7 +18,8 @@ protocol Module: class {
     
     var active: Observable<Bool> { get }
     var available: Observable<Bool> { get }
-    var color: Observable<Bool> { get set }
+    var color: Observable<Bool> { get }
+    var label: Observable<Bool> { get }
     
     var reader: Reader { get }
     
@@ -27,7 +28,7 @@ protocol Module: class {
 }
 
 extension Module {
-    func initWidget(color: Bool = false) {
+    func initWidget(label: Bool = false) {
         var widget: Widget = Mini(frame: NSMakeRect(0, 0, MODULE_WIDTH, MODULE_HEIGHT))
         
         switch self.widgetType {
@@ -47,12 +48,15 @@ extension Module {
             widget = NetworkDotsTextView(frame: NSMakeRect(0, 0, MODULE_WIDTH, MODULE_HEIGHT))
         case Widgets.NetworkArrowsWithText:
             widget = NetworkArrowsTextView(frame: NSMakeRect(0, 0, MODULE_WIDTH, MODULE_HEIGHT))
+        case Widgets.BarChart:
+            widget = BarChart(frame: NSMakeRect(0, 0, MODULE_WIDTH + 10, MODULE_HEIGHT))
         default:
             widget = Mini(frame: NSMakeRect(0, 0, MODULE_WIDTH, MODULE_HEIGHT))
         }
         
         widget.label = self.shortName
         widget.color(state: self.color.value)
+        widget.label(state: self.label.value)
         self.view = widget as! NSView
     }
     
@@ -81,11 +85,19 @@ extension Module {
             widget.color(state: value)
             widget.redraw()
         }
+        
+        self.label.subscribe(observer: self) { (value, _) in
+            guard let widget = self.view as? Widget else {
+                return
+            }
+            widget.label(state: value)
+        }
     }
     
     func stop() {
         self.reader.stop()
         self.reader.value.unsubscribe(observer: self)
         self.color.unsubscribe(observer: self)
+        self.label.unsubscribe(observer: self)
     }
 }

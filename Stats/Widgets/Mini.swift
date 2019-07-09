@@ -9,6 +9,7 @@
 import Cocoa
 
 class Mini: NSView, Widget {
+    var size: CGFloat = MODULE_WIDTH
     var valueView: NSTextField = NSTextField()
     var labelView: NSTextField = NSTextField()
     
@@ -87,4 +88,6 @@ class Mini: NSView, Widget {
             self.valueView.textColor = value.usageColor(color: state)
         }
     }
+    
+    func label(state: Bool) {}
 }

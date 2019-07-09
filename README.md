@@ -49,6 +49,11 @@ You can download latest version [here](https://github.com/exelban/stats/releases
 
 ## What's new
 
+### v1.2.4
+    - fixed bug when widgets don't display properly (or don't shows at all)
+    - initialized bar chart widget
+    - fixed few bugs
+
 ### v1.2.3
     - new icon
     - small code refactoring

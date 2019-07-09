@@ -9,6 +9,7 @@
 import Cocoa
 
 class NetworkDotsView: NSView, Widget {
+    var size: CGFloat = 12
     var label: String = ""
     
     var color: Bool = false
@@ -26,7 +27,7 @@ class NetworkDotsView: NSView, Widget {
     override init(frame: NSRect) {
         self.download = 0
         self.upload = 0
-        super.init(frame: CGRect(x: 0, y: 0, width: 12, height: frame.size.height))
+        super.init(frame: CGRect(x: 0, y: 0, width: self.size, height: frame.size.height))
         self.wantsLayer = true
         self.addSubview(NSView())
     }
@@ -81,9 +82,12 @@ class NetworkDotsView: NSView, Widget {
             self.redraw()
         }
     }
+    
+    func label(state: Bool) {}
 }
 
 class NetworkTextView: NSView, Widget {
+    var size: CGFloat = MODULE_WIDTH + 20
     var label: String = ""
     
     var color: Bool = false
@@ -91,7 +95,7 @@ class NetworkTextView: NSView, Widget {
     var uploadValue: NSTextField = NSTextField()
     
     override init(frame: NSRect) {
-        super.init(frame: CGRect(x: 0, y: 0, width: MODULE_WIDTH + 20, height: frame.size.height))
+        super.init(frame: CGRect(x: 0, y: 0, width: self.size, height: frame.size.height))
         self.wantsLayer = true
         self.valueView()
     }
@@ -121,6 +125,8 @@ class NetworkTextView: NSView, Widget {
             self.redraw()
         }
     }
+    
+    func label(state: Bool) {}
     
     func valueView() {
         downloadValue = NSTextField(frame: NSMakeRect(MODULE_MARGIN, MODULE_MARGIN, self.frame.size.width - MODULE_MARGIN, 9))
@@ -153,6 +159,7 @@ class NetworkTextView: NSView, Widget {
 }
 
 class NetworkArrowsView: NSView, Widget {
+    var size: CGFloat = 8
     var label: String = ""
     
     var color: Bool = false
@@ -170,7 +177,7 @@ class NetworkArrowsView: NSView, Widget {
     override init(frame: NSRect) {
         self.download = 0
         self.upload = 0
-        super.init(frame: CGRect(x: 0, y: 0, width: 8, height: frame.size.height))
+        super.init(frame: CGRect(x: 0, y: 0, width: self.size, height: frame.size.height))
         self.wantsLayer = true
         self.addSubview(NSView())
     }
@@ -239,9 +246,12 @@ class NetworkArrowsView: NSView, Widget {
             self.redraw()
         }
     }
+    
+    func label(state: Bool) {}
 }
 
 class NetworkDotsTextView: NSView, Widget {
+    var size: CGFloat = MODULE_WIDTH + 26
     var label: String = ""
     
     var color: Bool = false
@@ -262,7 +272,7 @@ class NetworkDotsTextView: NSView, Widget {
     override init(frame: NSRect) {
         self.download = 0
         self.upload = 0
-        super.init(frame: CGRect(x: 0, y: 0, width: MODULE_WIDTH + 26, height: frame.size.height))
+        super.init(frame: CGRect(x: 0, y: 0, width: self.size, height: frame.size.height))
         self.wantsLayer = true
         self.valueView()
     }
@@ -320,6 +330,8 @@ class NetworkDotsTextView: NSView, Widget {
         }
     }
     
+    func label(state: Bool) {}
+    
     func valueView() {
         downloadValue = NSTextField(frame: NSMakeRect(MODULE_MARGIN, MODULE_MARGIN, self.frame.size.width - MODULE_MARGIN, 9))
         downloadValue.isEditable = false
@@ -351,6 +363,7 @@ class NetworkDotsTextView: NSView, Widget {
 }
 
 class NetworkArrowsTextView: NSView, Widget {
+    var size: CGFloat = MODULE_WIDTH + 24
     var label: String = ""
     
     var color: Bool = false
@@ -371,7 +384,7 @@ class NetworkArrowsTextView: NSView, Widget {
     override init(frame: NSRect) {
         self.download = 0
         self.upload = 0
-        super.init(frame: CGRect(x: 0, y: 0, width: MODULE_WIDTH + 24, height: frame.size.height))
+        super.init(frame: CGRect(x: 0, y: 0, width: self.size, height: frame.size.height))
         self.wantsLayer = true
         self.valueView()
     }
@@ -442,6 +455,8 @@ class NetworkArrowsTextView: NSView, Widget {
             self.redraw()
         }
     }
+    
+    func label(state: Bool) {}
     
     func valueView() {
         downloadValue = NSTextField(frame: NSMakeRect(MODULE_MARGIN, MODULE_MARGIN, self.frame.size.width - MODULE_MARGIN, 9))
