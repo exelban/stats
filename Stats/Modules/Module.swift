@@ -55,26 +55,26 @@ extension Module {
         }
         
         widget.label = self.shortName
-        widget.color(state: self.color.value)
-        widget.label(state: self.label.value)
+        widget.toggleColor(state: self.color.value)
+        widget.toggleLabel(state: self.label.value)
         self.view = widget as! NSView
     }
     
     func start() {
-        if !self.reader.value.value.isNaN {
+        if !self.reader.value.value.isEmpty {
             guard let widget = self.view as? Widget else {
                 return
             }
-            widget.value(value: self.reader.value.value)
+            widget.setValue(data: self.reader.value.value)
         }
         
         self.reader.start()
         self.reader.value.subscribe(observer: self) { (value, _) in
-            if !value.isNaN {
+            if !value.isEmpty {
                 guard let widget = self.view as? Widget else {
                     return
                 }
-                widget.value(value: value)
+                widget.setValue(data: value)
             }
         }
         
@@ -82,7 +82,7 @@ extension Module {
             guard let widget = self.view as? Widget else {
                 return
             }
-            widget.color(state: value)
+            widget.toggleColor(state: value)
             widget.redraw()
         }
         
@@ -90,7 +90,7 @@ extension Module {
             guard let widget = self.view as? Widget else {
                 return
             }
-            widget.label(state: value)
+            widget.toggleLabel(state: value)
         }
     }
     

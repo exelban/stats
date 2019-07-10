@@ -73,7 +73,8 @@ class Mini: NSView, Widget {
         setNeedsDisplay(self.frame)
     }
     
-    func value(value: Double) {
+    func setValue(data: [Double]) {
+        let value: Double = data.first!
         if self.value != value {
             self.value = value
             
@@ -82,12 +83,12 @@ class Mini: NSView, Widget {
         }
     }
     
-    func color(state: Bool) {
+    func toggleColor(state: Bool) {
         if self.color != state {
             self.color = state
             self.valueView.textColor = value.usageColor(color: state)
         }
     }
     
-    func label(state: Bool) {}
+    func toggleLabel(state: Bool) {}
 }

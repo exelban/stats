@@ -9,7 +9,7 @@
 import Foundation
 
 class CPUReader: Reader {
-    var value: Observable<Double>!
+    var value: Observable<[Double]>!
     var available: Bool = true
     var cpuInfo: processor_info_array_t!
     var prevCpuInfo: processor_info_array_t?
@@ -19,9 +19,11 @@ class CPUReader: Reader {
     var updateTimer: Timer!
     let CPUUsageLock: NSLock = NSLock()
     
+    var perCoreMode: Bool = true
+    
     init() {
         let mibKeys: [Int32] = [ CTL_HW, HW_NCPU ]
-        self.value = Observable(0)
+        self.value = Observable([])
         mibKeys.withUnsafeBufferPointer() { mib in
             var sizeOfNumCPUs: size_t = MemoryLayout<uint>.size
             let status = sysctl(processor_info_array_t(mutating: mib.baseAddress), 2, &numCPUs, &sizeOfNumCPUs, nil, 0)
@@ -55,6 +57,8 @@ class CPUReader: Reader {
             
             var inUseOnAllCores: Int32 = 0
             var totalOnAllCores: Int32 = 0
+            var usagePerCore: [Double] = []
+            
             for i in 0 ..< Int32(numCPUs) {
                 var inUse: Int32
                 var total: Int32
@@ -76,8 +80,14 @@ class CPUReader: Reader {
                 
                 inUseOnAllCores = inUseOnAllCores + inUse
                 totalOnAllCores = totalOnAllCores + total
+                usagePerCore.insert((Double(inUse) / Double(total)), at: Int(i))
             }
-            self.value << (Double(inUseOnAllCores) / Double(totalOnAllCores))
+            
+            if perCoreMode {
+                self.value << usagePerCore
+            } else {
+                self.value << [(Double(inUseOnAllCores) / Double(totalOnAllCores))]
+            }
             
             CPUUsageLock.unlock()
             

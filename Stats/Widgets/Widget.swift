@@ -12,9 +12,9 @@ protocol Widget {
     var size: CGFloat { get }
     var label: String { get set }
     
-    func value(value: Double)
-    func color(state: Bool)
-    func label(state: Bool)
+    func setValue(data: [Double])
+    func toggleColor(state: Bool)
+    func toggleLabel(state: Bool)
     
     func redraw()
 }

@@ -121,7 +121,8 @@ class BatteryView: NSView, Widget {
         setNeedsDisplay(self.frame)
     }
     
-    func value(value: Double) {
+    func setValue(data: [Double]) {
+        let value: Double = data.first!
         if self.value != value {
             self.value = value
             
@@ -131,13 +132,13 @@ class BatteryView: NSView, Widget {
         }
     }
     
-    func color(state: Bool) {
+    func toggleColor(state: Bool) {
         if self.color != state {
             self.color = state
         }
     }
     
-    func label(state: Bool) {}
+    func toggleLabel(state: Bool) {}
     
     func setCharging(value: Bool) {
         if self.charging != value {

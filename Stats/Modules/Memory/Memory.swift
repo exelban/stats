@@ -30,7 +30,7 @@ class Memory: Module {
         self.active = Observable(defaults.object(forKey: name) != nil ? defaults.bool(forKey: name) : true)
         self.widgetType = defaults.object(forKey: "\(name)_widget") != nil ? defaults.float(forKey: "\(name)_widget") : Widgets.Mini
         self.color = Observable(defaults.object(forKey: "\(name)_color") != nil ? defaults.bool(forKey: "\(name)_color") : false)
-        self.label = Observable(defaults.object(forKey: "\(name)_label") != nil ? defaults.bool(forKey: "\(name)_label") : false)
+        self.label = Observable(defaults.object(forKey: "\(name)_label") != nil ? defaults.bool(forKey: "\(name)_label") : true)
         initMenu()
         initWidget()
     }
@@ -58,22 +58,31 @@ class Memory: Module {
         chartWithValue.state = self.widgetType == Widgets.ChartWithValue ? NSControl.StateValue.on : NSControl.StateValue.off
         chartWithValue.target = self
         
+        let barChart = NSMenuItem(title: "Bar chart", action: #selector(toggleWidget), keyEquivalent: "")
+        barChart.state = self.widgetType == Widgets.BarChart ? NSControl.StateValue.on : NSControl.StateValue.off
+        barChart.target = self
+        
         let color = NSMenuItem(title: "Color", action: #selector(toggleColor), keyEquivalent: "")
-        color.state = defaults.bool(forKey: "\(name)_color") ? NSControl.StateValue.on : NSControl.StateValue.off
+        color.state = self.color.value ? NSControl.StateValue.on : NSControl.StateValue.off
         color.target = self
         
         let label = NSMenuItem(title: "Label", action: #selector(toggleLabel), keyEquivalent: "")
-        label.state = defaults.bool(forKey: "\(name)_label") ? NSControl.StateValue.on : NSControl.StateValue.off
+        label.state = self.label.value ? NSControl.StateValue.on : NSControl.StateValue.off
         label.target = self
         
         submenu.addItem(mini)
         submenu.addItem(chart)
         submenu.addItem(chartWithValue)
+        submenu.addItem(barChart)
         
         submenu.addItem(NSMenuItem.separator())
         
-        submenu.addItem(label)
-        submenu.addItem(color)
+        if self.widgetType == Widgets.BarChart || self.widgetType == Widgets.ChartWithValue || self.widgetType == Widgets.Chart {
+            submenu.addItem(label)
+        }
+        if self.widgetType == Widgets.Mini || self.widgetType == Widgets.ChartWithValue {
+            submenu.addItem(color)
+        }
         
         menu.submenu = submenu
     }
@@ -115,7 +124,7 @@ class Memory: Module {
         }
         
         for item in self.submenu.items {
-            if item.title == "Mini" || item.title == "Chart" || item.title == "Chart with value" {
+            if item.title == "Mini" || item.title == "Chart" || item.title == "Chart with value" || item.title == "Bar chart" {
                 item.state = NSControl.StateValue.off
             }
         }
@@ -125,6 +134,7 @@ class Memory: Module {
         self.widgetType = widgetCode
         self.active << false
         self.initWidget()
+        self.initMenu()
         self.active << true
     }
     
