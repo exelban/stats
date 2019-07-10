@@ -63,7 +63,7 @@ class Memory: Module {
         color.target = self
         
         let label = NSMenuItem(title: "Label", action: #selector(toggleLabel), keyEquivalent: "")
-        label.state = defaults.bool(forKey: "\(name)_label") || defaults.object(forKey: "\(name)_label") == nil ? NSControl.StateValue.on : NSControl.StateValue.off
+        label.state = defaults.bool(forKey: "\(name)_label") ? NSControl.StateValue.on : NSControl.StateValue.off
         label.target = self
         
         submenu.addItem(mini)
