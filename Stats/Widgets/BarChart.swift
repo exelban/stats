@@ -42,7 +42,7 @@ class BarChart: NSView, Widget {
         
         let gradientColor: NSColor = NSColor(red: (26/255.0), green: (126/255.0), blue: (252/255.0), alpha: 0.8)
         let width = self.frame.size.width - (MODULE_MARGIN * 2)
-        let height = self.frame.size.height - (MODULE_MARGIN * 2) + 1
+        let height = self.frame.size.height - (MODULE_MARGIN * 2)
         
         var x = MODULE_MARGIN
         if labelEnabled {
@@ -58,7 +58,7 @@ class BarChart: NSView, Widget {
         
         for i in 0..<partitions.count {
             let partitionValue = partitions[i]
-            var partitonHeight = (((height  - 4.8) * CGFloat(partitionValue)) / 1)
+            var partitonHeight = ((height * CGFloat(partitionValue)) / 1)
             if partitonHeight < 1 {
                 partitonHeight = 1
             }
@@ -117,7 +117,7 @@ class BarChart: NSView, Widget {
     }
     
     func redraw() {
-        var width: CGFloat = MODULE_WIDTH
+        var width: CGFloat = 18
         if self.labelEnabled {
             width += labelPadding
         }
