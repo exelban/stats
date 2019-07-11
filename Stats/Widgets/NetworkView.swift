@@ -66,7 +66,9 @@ class NetworkDotsView: NSView, Widget {
         setNeedsDisplay(self.frame)
     }
     
-    func value(value: Double) {
+    func setValue(data: [Double]) {
+        let value: Double = data.first!
+        
         let values = value.splitAtDecimal()
         if self.download != values[0] {
             self.download = values[0]
@@ -76,14 +78,14 @@ class NetworkDotsView: NSView, Widget {
         }
     }
     
-    func color(state: Bool) {
+    func toggleColor(state: Bool) {
         if self.color != state {
             self.color = state
             self.redraw()
         }
     }
     
-    func label(state: Bool) {}
+    func toggleLabel(state: Bool) {}
 }
 
 class NetworkTextView: NSView, Widget {
@@ -113,20 +115,21 @@ class NetworkTextView: NSView, Widget {
         setNeedsDisplay(self.frame)
     }
     
-    func value(value: Double) {
+    func setValue(data: [Double]) {
+        let value: Double = data.first!
         let values = value.splitAtDecimal()
         downloadValue.stringValue = Units(bytes: values[0]).getReadableUnit()
         uploadValue.stringValue = Units(bytes: values[1]).getReadableUnit()
     }
     
-    func color(state: Bool) {
+    func toggleColor(state: Bool) {
         if self.color != state {
             self.color = state
             self.redraw()
         }
     }
     
-    func label(state: Bool) {}
+    func toggleLabel(state: Bool) {}
     
     func valueView() {
         downloadValue = NSTextField(frame: NSMakeRect(MODULE_MARGIN, MODULE_MARGIN, self.frame.size.width - MODULE_MARGIN, 9))
@@ -230,7 +233,8 @@ class NetworkArrowsView: NSView, Widget {
         setNeedsDisplay(self.frame)
     }
     
-    func value(value: Double) {
+    func setValue(data: [Double]) {
+        let value: Double = data.first!
         let values = value.splitAtDecimal()
         if self.download != values[0] {
             self.download = values[0]
@@ -240,14 +244,14 @@ class NetworkArrowsView: NSView, Widget {
         }
     }
     
-    func color(state: Bool) {
+    func toggleColor(state: Bool) {
         if self.color != state {
             self.color = state
             self.redraw()
         }
     }
     
-    func label(state: Bool) {}
+    func toggleLabel(state: Bool) {}
 }
 
 class NetworkDotsTextView: NSView, Widget {
@@ -311,7 +315,8 @@ class NetworkDotsTextView: NSView, Widget {
         setNeedsDisplay(self.frame)
     }
     
-    func value(value: Double) {
+    func setValue(data: [Double]) {
+        let value: Double = data.first!
         let values = value.splitAtDecimal()
         if self.download != values[0] {
             self.download = values[0]
@@ -323,14 +328,14 @@ class NetworkDotsTextView: NSView, Widget {
         }
     }
     
-    func color(state: Bool) {
+    func toggleColor(state: Bool) {
         if self.color != state {
             self.color = state
             self.redraw()
         }
     }
     
-    func label(state: Bool) {}
+    func toggleLabel(state: Bool) {}
     
     func valueView() {
         downloadValue = NSTextField(frame: NSMakeRect(MODULE_MARGIN, MODULE_MARGIN, self.frame.size.width - MODULE_MARGIN, 9))
@@ -437,7 +442,8 @@ class NetworkArrowsTextView: NSView, Widget {
         setNeedsDisplay(self.frame)
     }
     
-    func value(value: Double) {
+    func setValue(data: [Double]) {
+        let value: Double = data.first!
         let values = value.splitAtDecimal()
         if self.download != values[0] {
             self.download = values[0]
@@ -449,14 +455,14 @@ class NetworkArrowsTextView: NSView, Widget {
         }
     }
     
-    func color(state: Bool) {
+    func toggleColor(state: Bool) {
         if self.color != state {
             self.color = state
             self.redraw()
         }
     }
     
-    func label(state: Bool) {}
+    func toggleLabel(state: Bool) {}
     
     func valueView() {
         downloadValue = NSTextField(frame: NSMakeRect(MODULE_MARGIN, MODULE_MARGIN, self.frame.size.width - MODULE_MARGIN, 9))

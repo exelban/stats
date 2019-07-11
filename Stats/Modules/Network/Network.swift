@@ -37,8 +37,8 @@ class Network: Module {
         self.reader.start()
         
         self.reader.value.subscribe(observer: self) { (value, _) in
-            if !value.isNaN {
-                (self.view as! Widget).value(value: value)
+            if !value.isEmpty {
+                (self.view as! Widget).setValue(data: value)
             }
         }
     }

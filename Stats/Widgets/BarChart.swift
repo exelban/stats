@@ -41,9 +41,8 @@ class BarChart: NSView, Widget {
         super.draw(dirtyRect)
         
         let gradientColor: NSColor = NSColor(red: (26/255.0), green: (126/255.0), blue: (252/255.0), alpha: 0.8)
-        
         let width = self.frame.size.width - (MODULE_MARGIN * 2)
-        let height = self.frame.size.height - (MODULE_MARGIN * 2) + 1
+        let height = self.frame.size.height - (MODULE_MARGIN * 2)
         
         var x = MODULE_MARGIN
         if labelEnabled {
@@ -59,7 +58,10 @@ class BarChart: NSView, Widget {
         
         for i in 0..<partitions.count {
             let partitionValue = partitions[i]
-            let partitonHeight = (((height  - 4.8) * CGFloat(partitionValue)) / 1)
+            var partitonHeight = ((height * CGFloat(partitionValue)) / 1)
+            if partitonHeight < 1 {
+                partitonHeight = 1
+            }
             let partition = NSBezierPath(rect: NSRect(x: x, y: MODULE_MARGIN, width: partitionWidth - 0.5, height: partitonHeight))
             gradientColor.setFill()
             partition.fill()
@@ -93,13 +95,11 @@ class BarChart: NSView, Widget {
         }
     }
     
-    func value(value: Double) {
-        if self.partitions[0] != value {
-            self.partitions[0] = value
-        }
+    func setValue(data: [Double]) {
+        self.partitions = data
     }
     
-    func label(state: Bool) {
+    func toggleLabel(state: Bool) {
         labelEnabled = state
         var width = self.frame.size.width
         if width == MODULE_WIDTH + 10 && state {
@@ -110,13 +110,22 @@ class BarChart: NSView, Widget {
         self.frame = CGRect(x: self.frame.origin.x, y: self.frame.origin.y, width: width, height: self.frame.size.height)
     }
     
-    func color(state: Bool) {
+    func toggleColor(state: Bool) {
         if self.color != state {
             self.color = state
         }
     }
     
     func redraw() {
+        var width: CGFloat = 18
+        if self.labelEnabled {
+            width += labelPadding
+        }
+        
+        if self.partitions.count == 1 && self.frame.size.width != width{
+            self.frame = CGRect(x: self.frame.origin.x, y: self.frame.origin.y, width: width, height: self.frame.size.height)
+        }
+        
         self.needsDisplay = true
         setNeedsDisplay(self.frame)
     }

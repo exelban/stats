@@ -20,9 +20,9 @@ You can download latest version [here](https://github.com/exelban/stats/releases
 
 | Name | Available widgets | Description |
 | --- | --- | --- |
-| **CPU** | Percentage / Chart / Chart with value | Shows CPU usage |
-| **Memory** | Percentage / Chart / Chart with value | Shows RAM usage |
-| **Disk** | Percentage | Shows disk utilization |
+| **CPU** | Percentage / Chart / Chart with value / Chart Bar | Shows CPU usage |
+| **Memory** | Percentage / Chart / Chart with value / Chart Bar | Shows RAM usage |
+| **Disk** | Percentage / Chart Bar | Shows disk utilization |
 | **Battery** | Graphic / Percentage | Shows battery level and charging status |
 | **Newtork** | Dots / Upload/Download traffic | Shows network activity |
 
@@ -32,63 +32,9 @@ You can download latest version [here](https://github.com/exelban/stats/releases
 | 10.13.6 *(High Sierra)* | **true** |
 | 10.14.1 *(Mojave)* | **true** |
 
-## Todo
- - [X] Battery percentage
- - [X] Create new logo ([IconArchive](http://www.iconarchive.com/show/simple-icons-by-kxmylo/utilities-system-monitor-icon.html))
- - [ ] Window with preferences
- - [ ] Save last modules values
- - [X] Colors toggle for each module
- - [ ] temperature module
- - [X] battery module
- - [X] move to module system (CPU, RAM, DISK)
- - [X] network module
- - [X] save settings
- - [ ] OTA updates
- - [X] charts
- - [X] autostart on boot
-
 ## What's new
+[CHANGELOG](https://github.com/exelban/stats/blob/master/CHANGELOG.md)
 
-### v1.2.4
-    - fixed bug when widgets don't display properly (or don't shows at all)
-    - initialized bar chart widget
-    - fixed few bugs
-
-### v1.2.3
-    - new icon
-    - small code refactoring
-    - changed font style name of the indicator in the Chart/Chart with value
-    - added dock icon visibility to preferences
-    - moved color and label preference from global to local (now each module can be configurated separately)
-    - now check for updates on start can be disabled in preferences
-    - fixed few bugs
-
-### v1.2.2
-    - fully automated build and sign app process
-    - fixed update and about visibility window in dark mode
-    - added name of the indicators in the Chart/Chart with value
-    - added check for new version on start
-    - removed charts and charts with value to Disk module
-    - now module submenu is disabled if module is disabled
-    - fixed bug when network module stop working after turn on/of
-    - fixed few bugs
-    
-### v1.2.1
-    - added charts and charts with value to Disk module
-    - fixed bug when Chart with value does not shows
-
-### v1.2.0
-    - added network module
-    - added Check for updates window
-    - fixed few bugs
-
-### v1.1.0
-    - added battery module
-    - added chart widget for CPU and Memory
-    - added About Stats window
-
-### v1.0.0
-    - first release
 
 ## License
 [MIT License](https://github.com/exelban/stats/blob/master/LICENSE)

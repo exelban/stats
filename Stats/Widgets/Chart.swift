@@ -124,7 +124,9 @@ class Chart: NSView, Widget {
         setNeedsDisplay(self.frame)
     }
     
-    func value(value: Double) {
+    func setValue(data: [Double]) {
+        let value: Double = data.first!
+        
         if self.points.count < 50 {
             self.points.append(value)
             return
@@ -139,13 +141,13 @@ class Chart: NSView, Widget {
         }
     }
     
-    func color(state: Bool) {
+    func toggleColor(state: Bool) {
         if self.color != state {
             self.color = state
         }
     }
     
-    func label(state: Bool) {
+    func toggleLabel(state: Bool) {
         labelEnabled = state
         var width = self.size
         if state {
@@ -169,7 +171,9 @@ class ChartWithValue: Chart {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func value(value: Double) {
+    override func setValue(data: [Double]) {
+        let value: Double = data.first!
+        
         self.valueLabel.stringValue = "\(Int(Float(value.roundTo(decimalPlaces: 2))! * 100))%"
         self.valueLabel.textColor = value.usageColor(color: self.color)
         
@@ -187,7 +191,7 @@ class ChartWithValue: Chart {
         }
     }
     
-    override func label(state: Bool) {
+    override func toggleLabel(state: Bool) {
         labelEnabled = state
         var width = self.size
         if state {
@@ -197,7 +201,7 @@ class ChartWithValue: Chart {
         self.drawValue()
     }
     
-    override func color(state: Bool) {
+    override func toggleColor(state: Bool) {
         if self.color != state {
             self.color = state
             self.valueLabel.textColor = self.points.last?.usageColor(color: state)
