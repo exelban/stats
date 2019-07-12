@@ -19,7 +19,7 @@ class CPUReader: Reader {
     var updateTimer: Timer!
     let CPUUsageLock: NSLock = NSLock()
     
-    var perCoreMode: Bool = true
+    var perCoreMode: Bool = false
     
     init() {
         let mibKeys: [Int32] = [ CTL_HW, HW_NCPU ]
@@ -83,7 +83,7 @@ class CPUReader: Reader {
                 usagePerCore.insert((Double(inUse) / Double(total)), at: Int(i))
             }
             
-            if perCoreMode {
+            if self.perCoreMode {
                 self.value << usagePerCore
             } else {
                 self.value << [(Double(inUseOnAllCores) / Double(totalOnAllCores))]

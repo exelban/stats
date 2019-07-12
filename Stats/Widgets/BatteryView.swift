@@ -9,6 +9,7 @@
 import Cocoa
 
 class BatteryView: NSView, Widget {
+    var active: Observable<Bool> = Observable(false)
     var size: CGFloat = MODULE_WIDTH
     var label: String = ""
     

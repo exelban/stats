@@ -9,6 +9,7 @@
 import Cocoa
 
 class NetworkDotsView: NSView, Widget {
+    var active: Observable<Bool> = Observable(false)
     var size: CGFloat = 12
     var label: String = ""
     
@@ -89,6 +90,7 @@ class NetworkDotsView: NSView, Widget {
 }
 
 class NetworkTextView: NSView, Widget {
+    var active: Observable<Bool> = Observable(false)
     var size: CGFloat = MODULE_WIDTH + 20
     var label: String = ""
     
@@ -162,6 +164,7 @@ class NetworkTextView: NSView, Widget {
 }
 
 class NetworkArrowsView: NSView, Widget {
+    var active: Observable<Bool> = Observable(false)
     var size: CGFloat = 8
     var label: String = ""
     
@@ -255,6 +258,7 @@ class NetworkArrowsView: NSView, Widget {
 }
 
 class NetworkDotsTextView: NSView, Widget {
+    var active: Observable<Bool> = Observable(false)
     var size: CGFloat = MODULE_WIDTH + 26
     var label: String = ""
     
@@ -368,6 +372,7 @@ class NetworkDotsTextView: NSView, Widget {
 }
 
 class NetworkArrowsTextView: NSView, Widget {
+    var active: Observable<Bool> = Observable(false)
     var size: CGFloat = MODULE_WIDTH + 24
     var label: String = ""
     

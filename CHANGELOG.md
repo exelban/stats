@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+### [v1.2.6]
+    - fixed CPU usage
+
 ### [v1.2.5]
     - added chart bar widget for CPU, Memory and Disk module
     - label in Charts are enabled by default
@@ -48,6 +51,7 @@ All notable changes to this project will be documented in this file.
 ### [v1.0.0]
     - first release
 
+[v1.2.6]: https://github.com/exelban/stats/releases/tag/v1.2.6
 [v1.2.5]: https://github.com/exelban/stats/releases/tag/v1.2.5
 [v1.2.4]: https://github.com/exelban/stats/releases/tag/v1.2.4
 [v1.2.3]: https://github.com/exelban/stats/releases/tag/v1.2.3

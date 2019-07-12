@@ -9,6 +9,7 @@
 import Cocoa
 
 class Chart: NSView, Widget {
+    var active: Observable<Bool> = Observable(false)
     var size: CGFloat = MODULE_WIDTH + 7
     var labelPadding: CGFloat = 10.0
     var labelEnabled: Bool = false

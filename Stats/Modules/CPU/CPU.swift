@@ -31,6 +31,10 @@ class CPU: Module {
         self.label = Observable(defaults.object(forKey: "\(name)_label") != nil ? defaults.bool(forKey: "\(name)_label") : true)
         initMenu()
         initWidget()
+        
+        if self.widgetType == Widgets.BarChart {
+            (self.reader as! CPUReader).perCoreMode = true
+        }
     }
     
     func initMenu() {
@@ -114,6 +118,12 @@ class CPU: Module {
             widgetCode = Widgets.BarChart
         default:
             break
+        }
+        
+        if widgetCode == Widgets.BarChart {
+            (self.reader as! CPUReader).perCoreMode = true
+        } else {
+            (self.reader as! CPUReader).perCoreMode = false
         }
         
         if self.widgetType == widgetCode {
