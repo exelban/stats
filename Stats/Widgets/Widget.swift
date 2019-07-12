@@ -11,6 +11,7 @@ import Foundation
 protocol Widget {
     var size: CGFloat { get }
     var label: String { get set }
+    var active: Observable<Bool> { get set }
     
     func setValue(data: [Double])
     func toggleColor(state: Bool)

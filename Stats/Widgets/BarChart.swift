@@ -9,6 +9,7 @@
 import Cocoa
 
 class BarChart: NSView, Widget {
+    var active: Observable<Bool> = Observable(false)
     var size: CGFloat = MODULE_WIDTH + 10
     
     var labelPadding: CGFloat = 12.0
@@ -117,13 +118,18 @@ class BarChart: NSView, Widget {
     }
     
     func redraw() {
-        var width: CGFloat = 18
+        var width: CGFloat = MODULE_WIDTH + 10
+        if self.partitions.count == 1 {
+            width = 18
+        }
         if self.labelEnabled {
             width += labelPadding
         }
         
-        if self.partitions.count == 1 && self.frame.size.width != width{
+        if self.frame.size.width != width {
+            self.active << false
             self.frame = CGRect(x: self.frame.origin.x, y: self.frame.origin.y, width: width, height: self.frame.size.height)
+            self.active << true
         }
         
         self.needsDisplay = true

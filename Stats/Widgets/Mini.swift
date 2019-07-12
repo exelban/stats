@@ -9,6 +9,8 @@
 import Cocoa
 
 class Mini: NSView, Widget {
+    var active: Observable<Bool> = Observable(false)
+    
     var size: CGFloat = MODULE_WIDTH
     var valueView: NSTextField = NSTextField()
     var labelView: NSTextField = NSTextField()

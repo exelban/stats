@@ -57,6 +57,7 @@ extension Module {
         widget.label = self.shortName
         widget.toggleColor(state: self.color.value)
         widget.toggleLabel(state: self.label.value)
+        widget.active = self.active
         self.view = widget as! NSView
     }
     
