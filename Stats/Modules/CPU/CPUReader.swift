@@ -20,6 +20,7 @@ class CPUReader: Reader {
     let CPUUsageLock: NSLock = NSLock()
     
     var perCoreMode: Bool = false
+    var hyperthreading: Bool = true
     
     init() {
         let mibKeys: [Int32] = [ CTL_HW, HW_NCPU ]
@@ -59,7 +60,12 @@ class CPUReader: Reader {
             var totalOnAllCores: Int32 = 0
             var usagePerCore: [Double] = []
             
-            for i in 0 ..< Int32(numCPUs) {
+            var incrementNumber = 1
+            if !self.hyperthreading && self.perCoreMode {
+                incrementNumber = 2
+            }
+            
+            for i in stride(from: 0, to: Int32(numCPUs), by: incrementNumber){
                 var inUse: Int32
                 var total: Int32
                 if let prevCpuInfo = prevCpuInfo {
@@ -80,7 +86,7 @@ class CPUReader: Reader {
                 
                 inUseOnAllCores = inUseOnAllCores + inUse
                 totalOnAllCores = totalOnAllCores + total
-                usagePerCore.insert((Double(inUse) / Double(total)), at: Int(i))
+                usagePerCore.append(Double(inUse) / Double(total))
             }
             
             if self.perCoreMode {
