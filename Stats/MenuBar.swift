@@ -82,7 +82,9 @@ class MenuBar {
         let aboutMenu = NSMenuItem(title: "About Stats", action: #selector(openAbout), keyEquivalent: "")
         aboutMenu.target = self
         
-        menu.addItem(updateMenu)
+        if !appStoreMode {
+            menu.addItem(updateMenu)
+        }
         menu.addItem(aboutMenu)
         menu.addItem(NSMenuItem(title: "Quit Stats", action: #selector(NSApplication.terminate(_:)), keyEquivalent: ""))
         
