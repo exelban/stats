@@ -9,26 +9,15 @@
 import Cocoa
 
 protocol Widget {
-    var labelText: String { get set }
+    var name: String { get set }
+    var shortName: String { get set }
     var activeModule: Observable<Bool> { get set }
+    var menus: [NSMenuItem] { get }
     
     func setValue(data: [Double])
-    func toggleLabel(state: Bool)
     
     func redraw()
-}
-
-protocol ColorMode: Widget {
-    var color: Observable<Bool> { get set }
-    func toggleColor(state: Bool)
-}
-extension ColorMode {
-    func toggleColor(state: Bool) {
-        if self.color.value != state {
-            self.color << state
-            self.redraw()
-        }
-    }
+    func Init()
 }
 
 typealias WidgetType = Float

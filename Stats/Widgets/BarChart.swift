@@ -10,12 +10,15 @@ import Cocoa
 
 class BarChart: NSView, Widget {
     var activeModule: Observable<Bool> = Observable(false)
-    var active: Observable<Bool> = Observable(false)
     var size: CGFloat = widgetSize.width + 10
+    let defaults = UserDefaults.standard
     
     var labelPadding: CGFloat = 12.0
-    var labelEnabled: Bool = false
-    var labelText: String = ""
+    var label: Bool = false
+    var name: String = ""
+    var shortName: String = ""
+    
+    var menus: [NSMenuItem] = []
     
     var partitions: [Double] {
         didSet {
@@ -24,18 +27,38 @@ class BarChart: NSView, Widget {
     }
     
     override init(frame: NSRect) {
+        self.label = defaults.object(forKey: "\(name)_label") != nil ? defaults.bool(forKey: "\(name)_label") : true
         self.partitions = Array(repeating: 0.0, count: 1)
         super.init(frame: CGRect(x: 0, y: 0, width: self.size, height: widgetSize.height))
         self.wantsLayer = true
         self.addSubview(NSView())
-        
-        if self.labelEnabled {
-            self.frame = CGRect(x: self.frame.origin.x, y: self.frame.origin.y, width: self.frame.size.width + labelPadding, height: self.frame.size.height)
-        }
     }
     
     required init?(coder decoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func Init() {
+        self.label = defaults.object(forKey: "\(name)_label") != nil ? defaults.bool(forKey: "\(name)_label") : true
+        self.initPreferences()
+        
+        if self.label {
+            self.frame = CGRect(x: self.frame.origin.x, y: self.frame.origin.y, width: self.frame.size.width + labelPadding, height: self.frame.size.height)
+        }
+    }
+    
+    func initPreferences() {
+        let label = NSMenuItem(title: "Label", action: #selector(toggleLabel), keyEquivalent: "")
+        label.state = self.label ? NSControl.StateValue.on : NSControl.StateValue.off
+        label.target = self
+        
+        self.menus.append(label)
+    }
+    
+    @objc func toggleLabel(_ sender: NSMenuItem) {
+        sender.state = sender.state == NSControl.StateValue.on ? NSControl.StateValue.off : NSControl.StateValue.on
+        self.defaults.set(sender.state == NSControl.StateValue.on, forKey: "\(self.name)_label")
+        self.label = (sender.state == NSControl.StateValue.on)
     }
     
     override func draw(_ dirtyRect: NSRect) {
@@ -46,7 +69,7 @@ class BarChart: NSView, Widget {
         let height = self.frame.size.height - (widgetSize.margin * 2)
         
         var x = widgetSize.margin
-        if labelEnabled {
+        if label {
             x = x + labelPadding
         }
         
@@ -71,7 +94,7 @@ class BarChart: NSView, Widget {
             x += partitionWidth + partitionMargin
         }
         
-        if !self.labelEnabled {
+        if !self.label {
             return
         }
         
@@ -87,7 +110,7 @@ class BarChart: NSView, Widget {
         let letterWidth: CGFloat = 10.0
         
         var yMargin = widgetSize.margin
-        for char in self.labelText.reversed() {
+        for char in self.shortName.reversed() {
             let rect = CGRect(x: widgetSize.margin, y: yMargin, width: letterWidth, height: letterHeight)
             let str = NSAttributedString.init(string: "\(char)", attributes: stringAttributes)
             str.draw(with: rect)
@@ -100,17 +123,6 @@ class BarChart: NSView, Widget {
         self.partitions = data
     }
     
-    func toggleLabel(state: Bool) {
-        labelEnabled = state
-        var width = self.frame.size.width
-        if width == widgetSize.width + 10 && state {
-            width = width + labelPadding
-        } else {
-            width = widgetSize.width + 10
-        }
-        self.frame = CGRect(x: self.frame.origin.x, y: self.frame.origin.y, width: width, height: self.frame.size.height)
-    }
-    
     func redraw() {
         var width: CGFloat = widgetSize.width + 10
         if self.partitions.count == 1 {
@@ -119,7 +131,7 @@ class BarChart: NSView, Widget {
         if self.partitions.count == 2 {
             width = 28
         }
-        if self.labelEnabled {
+        if self.label {
             width += labelPadding
         }
         

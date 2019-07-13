@@ -18,8 +18,6 @@ protocol Module: class {
     
     var active: Observable<Bool> { get }
     var available: Observable<Bool> { get }
-    var color: Observable<Bool> { get }
-    var label: Observable<Bool> { get }
     
     var reader: Reader { get }
     
@@ -54,12 +52,11 @@ extension Module {
             widget = Mini()
         }
         
-        widget.labelText = self.shortName
-        if let colorMode = widget as? ColorMode {
-            colorMode.toggleColor(state: self.color.value)
-        }
-        widget.toggleLabel(state: self.label.value)
+        widget.name = self.name
+        widget.shortName = self.shortName
         widget.activeModule = self.active
+        widget.Init()
+        
         self.view = widget as! NSView
     }
     
@@ -80,27 +77,10 @@ extension Module {
                 widget.setValue(data: value)
             }
         }
-        
-        self.color.subscribe(observer: self) { (value, _) in
-            guard let widget = self.view as? ColorMode else {
-                return
-            }
-            widget.toggleColor(state: value)
-            widget.redraw()
-        }
-        
-        self.label.subscribe(observer: self) { (value, _) in
-            guard let widget = self.view as? Widget else {
-                return
-            }
-            widget.toggleLabel(state: value)
-        }
     }
     
     func stop() {
         self.reader.stop()
         self.reader.value.unsubscribe(observer: self)
-        self.color.unsubscribe(observer: self)
-        self.label.unsubscribe(observer: self)
     }
 }

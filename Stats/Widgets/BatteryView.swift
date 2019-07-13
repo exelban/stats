@@ -8,16 +8,18 @@
 
 import Cocoa
 
-class BatteryView: NSView, Widget, ColorMode {
+class BatteryView: NSView, Widget {
     var activeModule: Observable<Bool> = Observable(false)
-    var active: Observable<Bool> = Observable(true)
     var size: CGFloat = widgetSize.width
-    var labelText: String = ""
+    var name: String = ""
+    var shortName: String = ""
+    var menus: [NSMenuItem] = []
+    let defaults = UserDefaults.standard
     
     let batteryWidth: CGFloat = 32
     let percentageWidth: CGFloat = 40
     
-    var color: Observable<Bool> = Observable(false)
+    var color: Bool = false
     var value: Double {
         didSet {
             self.redraw()
@@ -49,6 +51,20 @@ class BatteryView: NSView, Widget, ColorMode {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func Init() {
+        self.color = defaults.object(forKey: "\(name)_color") != nil ? defaults.bool(forKey: "\(name)_color") : false
+        self.initMenu()
+        self.redraw()
+    }
+    
+    func initMenu() {
+        let color = NSMenuItem(title: "Color", action: #selector(toggleColor), keyEquivalent: "")
+        color.state = self.color ? NSControl.StateValue.on : NSControl.StateValue.off
+        color.target = self
+        
+        self.menus.append(color)
+    }
+    
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         
@@ -78,7 +94,7 @@ class BatteryView: NSView, Widget, ColorMode {
         
         let maxWidth = w-4
         let inner = NSBezierPath(roundedRect: NSRect(x: x+0.5, y: y+1.5, width: maxWidth*CGFloat(self.value), height: h-3), xRadius: 0.5, yRadius: 0.5)
-        self.value.batteryColor(color: self.color.value).set()
+        self.value.batteryColor(color: self.color).set()
         inner.lineWidth = 0
         inner.stroke()
         inner.close()
@@ -134,8 +150,6 @@ class BatteryView: NSView, Widget, ColorMode {
         }
     }
     
-    func toggleLabel(state: Bool) {}
-    
     func setCharging(value: Bool) {
         if self.charging != value {
             self.charging = value
@@ -147,5 +161,11 @@ class BatteryView: NSView, Widget, ColorMode {
             self.percentage = value
             self.percentageView()
         }
+    }
+    
+    @objc func toggleColor(_ sender: NSMenuItem) {
+        sender.state = sender.state == NSControl.StateValue.on ? NSControl.StateValue.off : NSControl.StateValue.on
+        self.defaults.set(sender.state == NSControl.StateValue.on, forKey: "\(name)_color")
+        self.color = sender.state == NSControl.StateValue.on
     }
 }

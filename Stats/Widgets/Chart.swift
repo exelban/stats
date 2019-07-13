@@ -8,16 +8,17 @@
 
 import Cocoa
 
-class Chart: NSView, Widget, ColorMode {
+class Chart: NSView, Widget {
     var activeModule: Observable<Bool> = Observable(false)
-    var active: Observable<Bool> = Observable(true)
     var size: CGFloat = widgetSize.width + 7
     var labelPadding: CGFloat = 10.0
-    var labelEnabled: Bool = false
-    var labelText: String = ""
+    var label: Bool = false
+    var name: String = ""
+    var shortName: String = ""
+    var menus: [NSMenuItem] = []
+    let defaults = UserDefaults.standard
     
     var height: CGFloat = 0.0
-    var color: Observable<Bool> = Observable(false)
     var points: [Double] {
         didSet {
             self.redraw()
@@ -29,14 +30,43 @@ class Chart: NSView, Widget, ColorMode {
         super.init(frame: CGRect(x: 0, y: 0, width: self.size, height: widgetSize.height))
         self.wantsLayer = true
         self.addSubview(NSView())
-        
-        if self.labelEnabled {
-            self.frame = CGRect(x: self.frame.origin.x, y: self.frame.origin.y, width: self.frame.size.width + labelPadding, height: self.frame.size.height)
-        }
     }
     
     required init?(coder decoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func Init() {
+        self.label = defaults.object(forKey: "\(name)_label") != nil ? defaults.bool(forKey: "\(name)_label") : true
+        self.initMenu()
+        
+        if self.label {
+            self.frame = CGRect(x: self.frame.origin.x, y: self.frame.origin.y, width: self.frame.size.width + labelPadding, height: self.frame.size.height)
+        }
+    }
+    
+    func initMenu() {
+        let label = NSMenuItem(title: "Label", action: #selector(toggleLabel), keyEquivalent: "")
+        label.state = self.label ? NSControl.StateValue.on : NSControl.StateValue.off
+        label.target = self
+        
+        self.menus.append(label)
+    }
+    
+    @objc func toggleLabel(_ sender: NSMenuItem) {
+        sender.state = sender.state == NSControl.StateValue.on ? NSControl.StateValue.off : NSControl.StateValue.on
+        self.defaults.set(sender.state == NSControl.StateValue.on, forKey: "\(self.name)_label")
+        self.label = (sender.state == NSControl.StateValue.on)
+        
+        var width = self.size
+        if self.label {
+            width = width + labelPadding
+        }
+        
+        self.activeModule << false
+        self.frame = CGRect(x: self.frame.origin.x, y: self.frame.origin.y, width: width, height: self.frame.size.height)
+        self.activeModule << true
+        self.redraw()
     }
     
     override func draw(_ dirtyRect: NSRect) {
@@ -47,7 +77,7 @@ class Chart: NSView, Widget, ColorMode {
         
         let context = NSGraphicsContext.current!.cgContext
         var xOffset: CGFloat = 4.0
-        if labelEnabled {
+        if label {
             xOffset = xOffset + labelPadding
         }
         let yOffset: CGFloat = 3.0
@@ -56,7 +86,7 @@ class Chart: NSView, Widget, ColorMode {
         }
         
         var xRatio = Double(self.frame.size.width - (xOffset * 2)) / (Double(self.points.count) - 1)
-        if labelEnabled {
+        if label {
             xRatio = Double(self.frame.size.width - (xOffset * 2) + labelPadding) / (Double(self.points.count) - 1)
         }
         
@@ -96,7 +126,7 @@ class Chart: NSView, Widget, ColorMode {
         graphPath.lineWidth = 0.5
         graphPath.stroke()
         
-        if !self.labelEnabled {
+        if !self.label {
             return
         }
         
@@ -112,7 +142,7 @@ class Chart: NSView, Widget, ColorMode {
         let letterWidth: CGFloat = 10.0
         
         var yMargin = widgetSize.margin
-        for char in self.labelText.reversed() {
+        for char in self.shortName.reversed() {
             let rect = CGRect(x: widgetSize.margin, y: yMargin, width: letterWidth, height: letterHeight)
             let str = NSAttributedString.init(string: "\(char)", attributes: stringAttributes)
             str.draw(with: rect)
@@ -142,36 +172,50 @@ class Chart: NSView, Widget, ColorMode {
             }
         }
     }
-    
-    func toggleLabel(state: Bool) {
-        labelEnabled = state
-        var width = self.size
-        if state {
-            width = width + labelPadding
-        }
-        self.frame = CGRect(x: self.frame.origin.x, y: self.frame.origin.y, width: width, height: self.frame.size.height)
-        self.redraw()
-    }
 }
 
 class ChartWithValue: Chart {
     var valueLabel: NSTextField = NSTextField()
+    var color: Bool = false
     
     override init(frame: NSRect) {
         super.init(frame: CGRect(x: 0, y: 0, width: widgetSize.width + 7, height: widgetSize.height))
         self.wantsLayer = true
-        self.drawValue()
     }
     
     required init?(coder decoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func Init() {
+        self.label = defaults.object(forKey: "\(name)_label") != nil ? defaults.bool(forKey: "\(name)_label") : true
+        self.color = defaults.object(forKey: "\(name)_color") != nil ? defaults.bool(forKey: "\(name)_color") : false
+        self.initMenu()
+        
+        if self.label {
+            self.frame = CGRect(x: self.frame.origin.x, y: self.frame.origin.y, width: self.frame.size.width + labelPadding, height: self.frame.size.height)
+        }
+        self.drawValue()
+    }
+    
+    override func initMenu() {
+        let label = NSMenuItem(title: "Label", action: #selector(toggleLabel), keyEquivalent: "")
+        label.state = self.label ? NSControl.StateValue.on : NSControl.StateValue.off
+        label.target = self
+        
+        let color = NSMenuItem(title: "Color", action: #selector(toggleColor), keyEquivalent: "")
+        color.state = self.color ? NSControl.StateValue.on : NSControl.StateValue.off
+        color.target = self
+        
+        self.menus.append(label)
+        self.menus.append(color)
+    }
+    
     override func setValue(data: [Double]) {
         let value: Double = data.first!
         
         self.valueLabel.stringValue = "\(Int(Float(value.roundTo(decimalPlaces: 2))! * 100))%"
-        self.valueLabel.textColor = value.usageColor(color: self.color.value)
+        self.valueLabel.textColor = value.usageColor(color: self.color)
         
         if self.points.count < 50 {
             self.points.append(value)
@@ -187,23 +231,13 @@ class ChartWithValue: Chart {
         }
     }
     
-    override func toggleLabel(state: Bool) {
-        labelEnabled = state
-        var width = self.size
-        if state {
-            width = width + labelPadding
-        }
-        self.frame = CGRect(x: self.frame.origin.x, y: self.frame.origin.y, width: width, height: self.frame.size.height)
-        self.drawValue()
-    }
-    
     func drawValue () {
         for subview in self.subviews {
             subview.removeFromSuperview()
         }
         
         valueLabel = NSTextField(frame: NSMakeRect(2, widgetSize.height - 11, self.frame.size.width, 10))
-        if labelEnabled {
+        if label {
             valueLabel = NSTextField(frame: NSMakeRect(labelPadding + 2, widgetSize.height - 11, self.frame.size.width, 10))
         }
         valueLabel.textColor = NSColor.red
@@ -221,5 +255,26 @@ class ChartWithValue: Chart {
         
         self.height = 7.0
         self.addSubview(valueLabel)
+    }
+    
+    @objc override func toggleLabel(_ sender: NSMenuItem) {
+        sender.state = sender.state == NSControl.StateValue.on ? NSControl.StateValue.off : NSControl.StateValue.on
+        self.defaults.set(sender.state == NSControl.StateValue.on, forKey: "\(self.name)_label")
+        self.label = (sender.state == NSControl.StateValue.on)
+        
+        var width = self.size
+        if self.label {
+            width = width + labelPadding
+        }
+        self.activeModule << false
+        self.frame = CGRect(x: self.frame.origin.x, y: self.frame.origin.y, width: width, height: self.frame.size.height)
+        self.activeModule << true
+        self.drawValue()
+    }
+    
+    @objc func toggleColor(_ sender: NSMenuItem) {
+        sender.state = sender.state == NSControl.StateValue.on ? NSControl.StateValue.off : NSControl.StateValue.on
+        self.defaults.set(sender.state == NSControl.StateValue.on, forKey: "\(name)_color")
+        self.color = sender.state == NSControl.StateValue.on
     }
 }

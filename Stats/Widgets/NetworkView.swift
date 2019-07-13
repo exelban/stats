@@ -8,11 +8,12 @@
 
 import Cocoa
 
-class NetworkDotsView: NSView, Widget, ColorMode {
+class NetworkDotsView: NSView, Widget {
     var activeModule: Observable<Bool> = Observable(false)
-    var active: Observable<Bool> = Observable(true)
     var size: CGFloat = 12
-    var labelText: String = ""
+    var name: String = ""
+    var shortName: String = ""
+    var menus: [NSMenuItem] = []
     
     var color: Observable<Bool> = Observable(false)
     var download: Int64 {
@@ -37,6 +38,8 @@ class NetworkDotsView: NSView, Widget, ColorMode {
     required init?(coder decoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    func Init() {}
     
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
@@ -79,15 +82,14 @@ class NetworkDotsView: NSView, Widget, ColorMode {
             self.upload = upload
         }
     }
-    
-    func toggleLabel(state: Bool) {}
 }
 
-class NetworkTextView: NSView, Widget, ColorMode {
+class NetworkTextView: NSView, Widget {
+    var menus: [NSMenuItem] = []
     var activeModule: Observable<Bool> = Observable(false)
-    var active: Observable<Bool> = Observable(true)
     var size: CGFloat = widgetSize.width + 20
-    var labelText: String = ""
+    var name: String = ""
+    var shortName: String = ""
     
     var color: Observable<Bool> = Observable(false)
     var downloadValue: NSTextField = NSTextField()
@@ -102,6 +104,8 @@ class NetworkTextView: NSView, Widget, ColorMode {
     required init?(coder decoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    func Init() {}
     
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
@@ -119,8 +123,6 @@ class NetworkTextView: NSView, Widget, ColorMode {
         downloadValue.stringValue = Units(bytes: download).getReadableUnit()
         uploadValue.stringValue = Units(bytes: upload).getReadableUnit()
     }
-    
-    func toggleLabel(state: Bool) {}
     
     func valueView() {
         downloadValue = NSTextField(frame: NSMakeRect(widgetSize.width, widgetSize.margin, self.frame.size.width - widgetSize.margin, 9))
@@ -152,11 +154,12 @@ class NetworkTextView: NSView, Widget, ColorMode {
     }
 }
 
-class NetworkArrowsView: NSView, Widget, ColorMode {
+class NetworkArrowsView: NSView, Widget {
+    var menus: [NSMenuItem] = []
     var activeModule: Observable<Bool> = Observable(false)
-    var active: Observable<Bool> = Observable(true)
     var size: CGFloat = 8
-    var labelText: String = ""
+    var name: String = ""
+    var shortName: String = ""
     
     var color: Observable<Bool> = Observable(false)
     var download: Int64 {
@@ -181,6 +184,8 @@ class NetworkArrowsView: NSView, Widget, ColorMode {
     required init?(coder decoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    func Init() {}
     
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
@@ -237,15 +242,14 @@ class NetworkArrowsView: NSView, Widget, ColorMode {
             self.upload = upload
         }
     }
-    
-    func toggleLabel(state: Bool) {}
 }
 
-class NetworkDotsTextView: NSView, Widget, ColorMode {
+class NetworkDotsTextView: NSView, Widget {
+    var menus: [NSMenuItem] = []
     var activeModule: Observable<Bool> = Observable(false)
-    var active: Observable<Bool> = Observable(true)
     var size: CGFloat = widgetSize.width + 26
-    var labelText: String = ""
+    var name: String = ""
+    var shortName: String = ""
     
     var color: Observable<Bool> = Observable(false)
     var download: Int64 {
@@ -273,6 +277,8 @@ class NetworkDotsTextView: NSView, Widget, ColorMode {
     required init?(coder decoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    func Init() {}
     
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
@@ -318,8 +324,6 @@ class NetworkDotsTextView: NSView, Widget, ColorMode {
         }
     }
     
-    func toggleLabel(state: Bool) {}
-    
     func valueView() {
         downloadValue = NSTextField(frame: NSMakeRect(widgetSize.margin, widgetSize.margin, self.frame.size.width - widgetSize.margin, 9))
         downloadValue.isEditable = false
@@ -350,11 +354,12 @@ class NetworkDotsTextView: NSView, Widget, ColorMode {
     }
 }
 
-class NetworkArrowsTextView: NSView, Widget, ColorMode {
+class NetworkArrowsTextView: NSView, Widget {
+    var menus: [NSMenuItem] = []
     var activeModule: Observable<Bool> = Observable(false)
-    var active: Observable<Bool> = Observable(true)
     var size: CGFloat = widgetSize.width + 24
-    var labelText: String = ""
+    var name: String = ""
+    var shortName: String = ""
     
     var color: Observable<Bool> = Observable(false)
     var download: Int64 {
@@ -382,6 +387,8 @@ class NetworkArrowsTextView: NSView, Widget, ColorMode {
     required init?(coder decoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    func Init() {}
     
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
@@ -440,8 +447,6 @@ class NetworkArrowsTextView: NSView, Widget, ColorMode {
             uploadValue.stringValue = Units(bytes: self.upload).getReadableUnit()
         }
     }
-    
-    func toggleLabel(state: Bool) {}
     
     func valueView() {
         downloadValue = NSTextField(frame: NSMakeRect(widgetSize.margin, widgetSize.margin, self.frame.size.width - widgetSize.margin, 9))
