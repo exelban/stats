@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ### [v1.2.7]
-    - added trigger for hyperthreading mode in Bar Chart
+    - added hyperthreading mode in Bar Chart for CPU
     - fixed few bugs
 
 ### [v1.2.6]
