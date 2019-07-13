@@ -9,13 +9,13 @@
 import Cocoa
 
 class BarChart: NSView, Widget {
+    var activeModule: Observable<Bool> = Observable(false)
     var active: Observable<Bool> = Observable(false)
-    var size: CGFloat = MODULE_WIDTH + 10
+    var size: CGFloat = widgetSize.width + 10
     
     var labelPadding: CGFloat = 12.0
     var labelEnabled: Bool = false
-    var label: String = ""
-    var color: Bool = false
+    var labelText: String = ""
     
     var partitions: [Double] {
         didSet {
@@ -25,7 +25,7 @@ class BarChart: NSView, Widget {
     
     override init(frame: NSRect) {
         self.partitions = Array(repeating: 0.0, count: 1)
-        super.init(frame: frame)
+        super.init(frame: CGRect(x: 0, y: 0, width: self.size, height: widgetSize.height))
         self.wantsLayer = true
         self.addSubview(NSView())
         
@@ -42,10 +42,10 @@ class BarChart: NSView, Widget {
         super.draw(dirtyRect)
         
         let gradientColor: NSColor = NSColor(red: (26/255.0), green: (126/255.0), blue: (252/255.0), alpha: 0.8)
-        let width = self.frame.size.width - (MODULE_MARGIN * 2)
-        let height = self.frame.size.height - (MODULE_MARGIN * 2)
+        let width = self.frame.size.width - (widgetSize.margin * 2)
+        let height = self.frame.size.height - (widgetSize.margin * 2)
         
-        var x = MODULE_MARGIN
+        var x = widgetSize.margin
         if labelEnabled {
             x = x + labelPadding
         }
@@ -63,7 +63,7 @@ class BarChart: NSView, Widget {
             if partitonHeight < 1 {
                 partitonHeight = 1
             }
-            let partition = NSBezierPath(rect: NSRect(x: x, y: MODULE_MARGIN, width: partitionWidth - 0.5, height: partitonHeight))
+            let partition = NSBezierPath(rect: NSRect(x: x, y: widgetSize.margin, width: partitionWidth - 0.5, height: partitonHeight))
             gradientColor.setFill()
             partition.fill()
             partition.close()
@@ -83,12 +83,12 @@ class BarChart: NSView, Widget {
             NSAttributedString.Key.paragraphStyle: style
         ]
         
-        let letterHeight = (self.frame.size.height - (MODULE_MARGIN*2)) / 3
+        let letterHeight = (self.frame.size.height - (widgetSize.margin*2)) / 3
         let letterWidth: CGFloat = 10.0
         
-        var yMargin = MODULE_MARGIN
-        for char in self.label.reversed() {
-            let rect = CGRect(x: MODULE_MARGIN, y: yMargin, width: letterWidth, height: letterHeight)
+        var yMargin = widgetSize.margin
+        for char in self.labelText.reversed() {
+            let rect = CGRect(x: widgetSize.margin, y: yMargin, width: letterWidth, height: letterHeight)
             let str = NSAttributedString.init(string: "\(char)", attributes: stringAttributes)
             str.draw(with: rect)
             
@@ -103,22 +103,16 @@ class BarChart: NSView, Widget {
     func toggleLabel(state: Bool) {
         labelEnabled = state
         var width = self.frame.size.width
-        if width == MODULE_WIDTH + 10 && state {
+        if width == widgetSize.width + 10 && state {
             width = width + labelPadding
         } else {
-            width = MODULE_WIDTH + 10
+            width = widgetSize.width + 10
         }
         self.frame = CGRect(x: self.frame.origin.x, y: self.frame.origin.y, width: width, height: self.frame.size.height)
     }
     
-    func toggleColor(state: Bool) {
-        if self.color != state {
-            self.color = state
-        }
-    }
-    
     func redraw() {
-        var width: CGFloat = MODULE_WIDTH + 10
+        var width: CGFloat = widgetSize.width + 10
         if self.partitions.count == 1 {
             width = 18
         }
@@ -130,9 +124,9 @@ class BarChart: NSView, Widget {
         }
         
         if self.frame.size.width != width {
-            self.active << false
+            self.activeModule << false
             self.frame = CGRect(x: self.frame.origin.x, y: self.frame.origin.y, width: width, height: self.frame.size.height)
-            self.active << true
+            self.activeModule << true
         }
         
         self.needsDisplay = true

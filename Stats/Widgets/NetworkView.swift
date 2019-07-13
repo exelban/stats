@@ -8,12 +8,13 @@
 
 import Cocoa
 
-class NetworkDotsView: NSView, Widget {
-    var active: Observable<Bool> = Observable(false)
+class NetworkDotsView: NSView, Widget, ColorMode {
+    var activeModule: Observable<Bool> = Observable(false)
+    var active: Observable<Bool> = Observable(true)
     var size: CGFloat = 12
-    var label: String = ""
+    var labelText: String = ""
     
-    var color: Bool = false
+    var color: Observable<Bool> = Observable(false)
     var download: Int64 {
         didSet {
             self.redraw()
@@ -28,7 +29,7 @@ class NetworkDotsView: NSView, Widget {
     override init(frame: NSRect) {
         self.download = 0
         self.upload = 0
-        super.init(frame: CGRect(x: 0, y: 0, width: self.size, height: frame.size.height))
+        super.init(frame: CGRect(x: 0, y: 0, width: self.size, height: widgetSize.height))
         self.wantsLayer = true
         self.addSubview(NSView())
     }
@@ -40,11 +41,11 @@ class NetworkDotsView: NSView, Widget {
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         
-        let workingHeight: CGFloat = (self.frame.size.height - (MODULE_MARGIN * 2))
-        let height: CGFloat = ((workingHeight - MODULE_MARGIN) / 2) - 1
+        let workingHeight: CGFloat = (self.frame.size.height - (widgetSize.margin * 2))
+        let height: CGFloat = ((workingHeight - widgetSize.margin) / 2) - 1
         
         var uploadCircle = NSBezierPath()
-        uploadCircle = NSBezierPath(ovalIn: CGRect(x: MODULE_MARGIN, y: height + (MODULE_MARGIN * 2) + 1, width: height, height: height))
+        uploadCircle = NSBezierPath(ovalIn: CGRect(x: widgetSize.margin, y: height + (widgetSize.margin * 2) + 1, width: height, height: height))
         if self.upload >= 1_024 {
             NSColor.red.setFill()
         } else {
@@ -53,7 +54,7 @@ class NetworkDotsView: NSView, Widget {
         uploadCircle.fill()
         
         var downloadCircle = NSBezierPath()
-        downloadCircle = NSBezierPath(ovalIn: CGRect(x: MODULE_MARGIN, y: MODULE_MARGIN, width: height, height: height))
+        downloadCircle = NSBezierPath(ovalIn: CGRect(x: widgetSize.margin, y: widgetSize.margin, width: height, height: height))
         if self.download >= 1_024 {
             NSColor(red: (26/255.0), green: (126/255.0), blue: (252/255.0), alpha: 0.8).setFill()
         } else {
@@ -79,27 +80,21 @@ class NetworkDotsView: NSView, Widget {
         }
     }
     
-    func toggleColor(state: Bool) {
-        if self.color != state {
-            self.color = state
-            self.redraw()
-        }
-    }
-    
     func toggleLabel(state: Bool) {}
 }
 
-class NetworkTextView: NSView, Widget {
-    var active: Observable<Bool> = Observable(false)
-    var size: CGFloat = MODULE_WIDTH + 20
-    var label: String = ""
+class NetworkTextView: NSView, Widget, ColorMode {
+    var activeModule: Observable<Bool> = Observable(false)
+    var active: Observable<Bool> = Observable(true)
+    var size: CGFloat = widgetSize.width + 20
+    var labelText: String = ""
     
-    var color: Bool = false
+    var color: Observable<Bool> = Observable(false)
     var downloadValue: NSTextField = NSTextField()
     var uploadValue: NSTextField = NSTextField()
     
     override init(frame: NSRect) {
-        super.init(frame: CGRect(x: 0, y: 0, width: self.size, height: frame.size.height))
+        super.init(frame: CGRect(x: 0, y: 0, width: self.size, height: widgetSize.height))
         self.wantsLayer = true
         self.valueView()
     }
@@ -125,17 +120,10 @@ class NetworkTextView: NSView, Widget {
         uploadValue.stringValue = Units(bytes: upload).getReadableUnit()
     }
     
-    func toggleColor(state: Bool) {
-        if self.color != state {
-            self.color = state
-            self.redraw()
-        }
-    }
-    
     func toggleLabel(state: Bool) {}
     
     func valueView() {
-        downloadValue = NSTextField(frame: NSMakeRect(MODULE_MARGIN, MODULE_MARGIN, self.frame.size.width - MODULE_MARGIN, 9))
+        downloadValue = NSTextField(frame: NSMakeRect(widgetSize.width, widgetSize.margin, self.frame.size.width - widgetSize.margin, 9))
         downloadValue.isEditable = false
         downloadValue.isSelectable = false
         downloadValue.isBezeled = false
@@ -147,7 +135,7 @@ class NetworkTextView: NSView, Widget {
         downloadValue.font = NSFont.systemFont(ofSize: 9, weight: .light)
         downloadValue.stringValue = "0 KB/s"
         
-        uploadValue = NSTextField(frame: NSMakeRect(MODULE_MARGIN, self.frame.size.height - 10, self.frame.size.width - MODULE_MARGIN, 9))
+        uploadValue = NSTextField(frame: NSMakeRect(widgetSize.margin, self.frame.size.height - 10, self.frame.size.width - widgetSize.margin, 9))
         uploadValue.isEditable = false
         uploadValue.isSelectable = false
         uploadValue.isBezeled = false
@@ -164,12 +152,13 @@ class NetworkTextView: NSView, Widget {
     }
 }
 
-class NetworkArrowsView: NSView, Widget {
-    var active: Observable<Bool> = Observable(false)
+class NetworkArrowsView: NSView, Widget, ColorMode {
+    var activeModule: Observable<Bool> = Observable(false)
+    var active: Observable<Bool> = Observable(true)
     var size: CGFloat = 8
-    var label: String = ""
+    var labelText: String = ""
     
-    var color: Bool = false
+    var color: Observable<Bool> = Observable(false)
     var download: Int64 {
         didSet {
             self.redraw()
@@ -184,7 +173,7 @@ class NetworkArrowsView: NSView, Widget {
     override init(frame: NSRect) {
         self.download = 0
         self.upload = 0
-        super.init(frame: CGRect(x: 0, y: 0, width: self.size, height: frame.size.height))
+        super.init(frame: CGRect(x: 0, y: 0, width: self.size, height: widgetSize.height))
         self.wantsLayer = true
         self.addSubview(NSView())
     }
@@ -198,12 +187,12 @@ class NetworkArrowsView: NSView, Widget {
         
         let arrowAngle = CGFloat(Double.pi / 5)
         let pointerLineLength: CGFloat = 3.5
-        let workingHeight: CGFloat = (self.frame.size.height - (MODULE_MARGIN * 2))
-        let height: CGFloat = ((workingHeight - MODULE_MARGIN) / 2)
+        let workingHeight: CGFloat = (self.frame.size.height - (widgetSize.margin * 2))
+        let height: CGFloat = ((workingHeight - widgetSize.margin) / 2)
         
         let downloadArrow = NSBezierPath()
-        let downloadStart = CGPoint(x: MODULE_MARGIN + (pointerLineLength/2), y: height + MODULE_MARGIN)
-        let downloadEnd = CGPoint(x: MODULE_MARGIN + (pointerLineLength/2), y: MODULE_MARGIN)
+        let downloadStart = CGPoint(x: widgetSize.margin + (pointerLineLength/2), y: height + widgetSize.margin)
+        let downloadEnd = CGPoint(x: widgetSize.margin + (pointerLineLength/2), y: widgetSize.margin)
         
         downloadArrow.addArrow(start: downloadStart, end: downloadEnd, pointerLineLength: pointerLineLength, arrowAngle: arrowAngle)
         
@@ -217,8 +206,8 @@ class NetworkArrowsView: NSView, Widget {
         downloadArrow.close()
         
         let uploadArrow = NSBezierPath()
-        let uploadStart = CGPoint(x: MODULE_MARGIN + (pointerLineLength/2), y: height + (MODULE_MARGIN * 2))
-        let uploadEnd = CGPoint(x: MODULE_MARGIN + (pointerLineLength/2), y: (MODULE_MARGIN * 2) + (height * 2))
+        let uploadStart = CGPoint(x: widgetSize.margin + (pointerLineLength/2), y: height + (widgetSize.margin * 2))
+        let uploadEnd = CGPoint(x: widgetSize.margin + (pointerLineLength/2), y: (widgetSize.margin * 2) + (height * 2))
         
         uploadArrow.addArrow(start: uploadStart, end: uploadEnd, pointerLineLength: pointerLineLength, arrowAngle: arrowAngle)
         
@@ -249,22 +238,16 @@ class NetworkArrowsView: NSView, Widget {
         }
     }
     
-    func toggleColor(state: Bool) {
-        if self.color != state {
-            self.color = state
-            self.redraw()
-        }
-    }
-    
     func toggleLabel(state: Bool) {}
 }
 
-class NetworkDotsTextView: NSView, Widget {
-    var active: Observable<Bool> = Observable(false)
-    var size: CGFloat = MODULE_WIDTH + 26
-    var label: String = ""
+class NetworkDotsTextView: NSView, Widget, ColorMode {
+    var activeModule: Observable<Bool> = Observable(false)
+    var active: Observable<Bool> = Observable(true)
+    var size: CGFloat = widgetSize.width + 26
+    var labelText: String = ""
     
-    var color: Bool = false
+    var color: Observable<Bool> = Observable(false)
     var download: Int64 {
         didSet {
             self.redraw()
@@ -282,7 +265,7 @@ class NetworkDotsTextView: NSView, Widget {
     override init(frame: NSRect) {
         self.download = 0
         self.upload = 0
-        super.init(frame: CGRect(x: 0, y: 0, width: self.size, height: frame.size.height))
+        super.init(frame: CGRect(x: 0, y: 0, width: self.size, height: widgetSize.height))
         self.wantsLayer = true
         self.valueView()
     }
@@ -294,11 +277,11 @@ class NetworkDotsTextView: NSView, Widget {
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         
-        let workingHeight: CGFloat = (self.frame.size.height - (MODULE_MARGIN * 2))
-        let height: CGFloat = ((workingHeight - MODULE_MARGIN) / 2) - 1
+        let workingHeight: CGFloat = (self.frame.size.height - (widgetSize.margin * 2))
+        let height: CGFloat = ((workingHeight - widgetSize.margin) / 2) - 1
         
         var uploadCircle = NSBezierPath()
-        uploadCircle = NSBezierPath(ovalIn: CGRect(x: MODULE_MARGIN, y: height + (MODULE_MARGIN * 2) + 1, width: height, height: height))
+        uploadCircle = NSBezierPath(ovalIn: CGRect(x: widgetSize.margin, y: height + (widgetSize.margin * 2) + 1, width: height, height: height))
         if self.upload >= 1_024 {
             NSColor.red.setFill()
         } else {
@@ -307,7 +290,7 @@ class NetworkDotsTextView: NSView, Widget {
         uploadCircle.fill()
         
         var downloadCircle = NSBezierPath()
-        downloadCircle = NSBezierPath(ovalIn: CGRect(x: MODULE_MARGIN, y: MODULE_MARGIN, width: height, height: height))
+        downloadCircle = NSBezierPath(ovalIn: CGRect(x: widgetSize.margin, y: widgetSize.margin, width: height, height: height))
         if self.download >= 1_024 {
             NSColor(red: (26/255.0), green: (126/255.0), blue: (252/255.0), alpha: 0.8).setFill()
         } else {
@@ -335,17 +318,10 @@ class NetworkDotsTextView: NSView, Widget {
         }
     }
     
-    func toggleColor(state: Bool) {
-        if self.color != state {
-            self.color = state
-            self.redraw()
-        }
-    }
-    
     func toggleLabel(state: Bool) {}
     
     func valueView() {
-        downloadValue = NSTextField(frame: NSMakeRect(MODULE_MARGIN, MODULE_MARGIN, self.frame.size.width - MODULE_MARGIN, 9))
+        downloadValue = NSTextField(frame: NSMakeRect(widgetSize.margin, widgetSize.margin, self.frame.size.width - widgetSize.margin, 9))
         downloadValue.isEditable = false
         downloadValue.isSelectable = false
         downloadValue.isBezeled = false
@@ -357,7 +333,7 @@ class NetworkDotsTextView: NSView, Widget {
         downloadValue.font = NSFont.systemFont(ofSize: 9, weight: .light)
         downloadValue.stringValue = "0 KB/s"
         
-        uploadValue = NSTextField(frame: NSMakeRect(MODULE_MARGIN, self.frame.size.height - 10, self.frame.size.width - MODULE_MARGIN, 9))
+        uploadValue = NSTextField(frame: NSMakeRect(widgetSize.margin, self.frame.size.height - 10, self.frame.size.width - widgetSize.margin, 9))
         uploadValue.isEditable = false
         uploadValue.isSelectable = false
         uploadValue.isBezeled = false
@@ -374,12 +350,13 @@ class NetworkDotsTextView: NSView, Widget {
     }
 }
 
-class NetworkArrowsTextView: NSView, Widget {
-    var active: Observable<Bool> = Observable(false)
-    var size: CGFloat = MODULE_WIDTH + 24
-    var label: String = ""
+class NetworkArrowsTextView: NSView, Widget, ColorMode {
+    var activeModule: Observable<Bool> = Observable(false)
+    var active: Observable<Bool> = Observable(true)
+    var size: CGFloat = widgetSize.width + 24
+    var labelText: String = ""
     
-    var color: Bool = false
+    var color: Observable<Bool> = Observable(false)
     var download: Int64 {
         didSet {
             self.redraw()
@@ -397,7 +374,7 @@ class NetworkArrowsTextView: NSView, Widget {
     override init(frame: NSRect) {
         self.download = 0
         self.upload = 0
-        super.init(frame: CGRect(x: 0, y: 0, width: self.size, height: frame.size.height))
+        super.init(frame: CGRect(x: 0, y: 0, width: self.size, height: widgetSize.height))
         self.wantsLayer = true
         self.valueView()
     }
@@ -411,12 +388,12 @@ class NetworkArrowsTextView: NSView, Widget {
         
         let arrowAngle = CGFloat(Double.pi / 5)
         let pointerLineLength: CGFloat = 3.5
-        let workingHeight: CGFloat = (self.frame.size.height - (MODULE_MARGIN * 2))
-        let height: CGFloat = ((workingHeight - MODULE_MARGIN) / 2)
+        let workingHeight: CGFloat = (self.frame.size.height - (widgetSize.margin * 2))
+        let height: CGFloat = ((workingHeight - widgetSize.margin) / 2)
         
         let downloadArrow = NSBezierPath()
-        let downloadStart = CGPoint(x: MODULE_MARGIN + (pointerLineLength/2), y: height + MODULE_MARGIN)
-        let downloadEnd = CGPoint(x: MODULE_MARGIN + (pointerLineLength/2), y: MODULE_MARGIN)
+        let downloadStart = CGPoint(x: widgetSize.margin + (pointerLineLength/2), y: height + widgetSize.margin)
+        let downloadEnd = CGPoint(x: widgetSize.margin + (pointerLineLength/2), y: widgetSize.margin)
         
         downloadArrow.addArrow(start: downloadStart, end: downloadEnd, pointerLineLength: pointerLineLength, arrowAngle: arrowAngle)
         
@@ -430,8 +407,8 @@ class NetworkArrowsTextView: NSView, Widget {
         downloadArrow.close()
         
         let uploadArrow = NSBezierPath()
-        let uploadStart = CGPoint(x: MODULE_MARGIN + (pointerLineLength/2), y: height + (MODULE_MARGIN * 2))
-        let uploadEnd = CGPoint(x: MODULE_MARGIN + (pointerLineLength/2), y: (MODULE_MARGIN * 2) + (height * 2))
+        let uploadStart = CGPoint(x: widgetSize.margin + (pointerLineLength/2), y: height + (widgetSize.margin * 2))
+        let uploadEnd = CGPoint(x: widgetSize.margin + (pointerLineLength/2), y: (widgetSize.margin * 2) + (height * 2))
         
         uploadArrow.addArrow(start: uploadStart, end: uploadEnd, pointerLineLength: pointerLineLength, arrowAngle: arrowAngle)
         
@@ -464,17 +441,10 @@ class NetworkArrowsTextView: NSView, Widget {
         }
     }
     
-    func toggleColor(state: Bool) {
-        if self.color != state {
-            self.color = state
-            self.redraw()
-        }
-    }
-    
     func toggleLabel(state: Bool) {}
     
     func valueView() {
-        downloadValue = NSTextField(frame: NSMakeRect(MODULE_MARGIN, MODULE_MARGIN, self.frame.size.width - MODULE_MARGIN, 9))
+        downloadValue = NSTextField(frame: NSMakeRect(widgetSize.margin, widgetSize.margin, self.frame.size.width - widgetSize.margin, 9))
         downloadValue.isEditable = false
         downloadValue.isSelectable = false
         downloadValue.isBezeled = false
@@ -486,7 +456,7 @@ class NetworkArrowsTextView: NSView, Widget {
         downloadValue.font = NSFont.systemFont(ofSize: 9, weight: .light)
         downloadValue.stringValue = "0 KB/s"
         
-        uploadValue = NSTextField(frame: NSMakeRect(MODULE_MARGIN, self.frame.size.height - 10, self.frame.size.width - MODULE_MARGIN, 9))
+        uploadValue = NSTextField(frame: NSMakeRect(widgetSize.margin, self.frame.size.height - 10, self.frame.size.width - widgetSize.margin, 9))
         uploadValue.isEditable = false
         uploadValue.isSelectable = false
         uploadValue.isBezeled = false

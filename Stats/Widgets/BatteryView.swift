@@ -8,15 +8,16 @@
 
 import Cocoa
 
-class BatteryView: NSView, Widget {
-    var active: Observable<Bool> = Observable(false)
-    var size: CGFloat = MODULE_WIDTH
-    var label: String = ""
+class BatteryView: NSView, Widget, ColorMode {
+    var activeModule: Observable<Bool> = Observable(false)
+    var active: Observable<Bool> = Observable(true)
+    var size: CGFloat = widgetSize.width
+    var labelText: String = ""
     
     let batteryWidth: CGFloat = 32
     let percentageWidth: CGFloat = 40
     
-    var color: Bool = false
+    var color: Observable<Bool> = Observable(false)
     var value: Double {
         didSet {
             self.redraw()
@@ -39,7 +40,7 @@ class BatteryView: NSView, Widget {
         self.value = 1.0
         self.charging = false
         self.percentage = false
-        super.init(frame: frame)
+        super.init(frame: CGRect(x: 0, y: 0, width: self.size, height: widgetSize.height))
         self.wantsLayer = true
         self.percentageView()
     }
@@ -77,7 +78,7 @@ class BatteryView: NSView, Widget {
         
         let maxWidth = w-4
         let inner = NSBezierPath(roundedRect: NSRect(x: x+0.5, y: y+1.5, width: maxWidth*CGFloat(self.value), height: h-3), xRadius: 0.5, yRadius: 0.5)
-        self.value.batteryColor(color: self.color).set()
+        self.value.batteryColor(color: self.color.value).set()
         inner.lineWidth = 0
         inner.stroke()
         inner.close()
@@ -130,12 +131,6 @@ class BatteryView: NSView, Widget {
             if percentage {
                 self.percentageValue.stringValue = "\(Int(self.value * 100))%"
             }
-        }
-    }
-    
-    func toggleColor(state: Bool) {
-        if self.color != state {
-            self.color = state
         }
     }
     

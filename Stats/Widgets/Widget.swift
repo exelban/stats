@@ -6,26 +6,32 @@
 //  Copyright © 2019 Serhiy Mytrovtsiy. All rights reserved.
 //
 
-import Foundation
+import Cocoa
 
 protocol Widget {
-    var size: CGFloat { get }
-    var label: String { get set }
-    var active: Observable<Bool> { get set }
+    var labelText: String { get set }
+    var activeModule: Observable<Bool> { get set }
     
     func setValue(data: [Double])
-    func toggleColor(state: Bool)
     func toggleLabel(state: Bool)
     
     func redraw()
 }
 
-extension Widget {
-    func lable(state: Bool) {}
+protocol ColorMode: Widget {
+    var color: Observable<Bool> { get set }
+    func toggleColor(state: Bool)
+}
+extension ColorMode {
+    func toggleColor(state: Bool) {
+        if self.color.value != state {
+            self.color << state
+            self.redraw()
+        }
+    }
 }
 
 typealias WidgetType = Float
-
 struct Widgets {
     static let Mini: WidgetType = 0.0
     static let Chart: WidgetType = 1.0
@@ -40,3 +46,10 @@ struct Widgets {
     
     static let BarChart: WidgetType = 3.0
 }
+
+struct WidgetSize {
+    let width: CGFloat = 32
+    let height: CGFloat = NSApplication.shared.mainMenu?.menuBarHeight ?? 22
+    let margin: CGFloat = 2
+}
+let widgetSize = WidgetSize()

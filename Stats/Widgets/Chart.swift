@@ -8,15 +8,16 @@
 
 import Cocoa
 
-class Chart: NSView, Widget {
-    var active: Observable<Bool> = Observable(false)
-    var size: CGFloat = MODULE_WIDTH + 7
+class Chart: NSView, Widget, ColorMode {
+    var activeModule: Observable<Bool> = Observable(false)
+    var active: Observable<Bool> = Observable(true)
+    var size: CGFloat = widgetSize.width + 7
     var labelPadding: CGFloat = 10.0
     var labelEnabled: Bool = false
-    var label: String = ""
+    var labelText: String = ""
     
     var height: CGFloat = 0.0
-    var color: Bool = false
+    var color: Observable<Bool> = Observable(false)
     var points: [Double] {
         didSet {
             self.redraw()
@@ -25,7 +26,7 @@ class Chart: NSView, Widget {
     
     override init(frame: NSRect) {
         self.points = Array(repeating: 0.0, count: 50)
-        super.init(frame: frame)
+        super.init(frame: CGRect(x: 0, y: 0, width: self.size, height: widgetSize.height))
         self.wantsLayer = true
         self.addSubview(NSView())
         
@@ -107,12 +108,12 @@ class Chart: NSView, Widget {
             NSAttributedString.Key.paragraphStyle: style
         ]
     
-        let letterHeight = (self.frame.size.height - (MODULE_MARGIN*2)) / 3
+        let letterHeight = (self.frame.size.height - (widgetSize.margin*2)) / 3
         let letterWidth: CGFloat = 10.0
         
-        var yMargin = MODULE_MARGIN
-        for char in self.label.reversed() {
-            let rect = CGRect(x: MODULE_MARGIN, y: yMargin, width: letterWidth, height: letterHeight)
+        var yMargin = widgetSize.margin
+        for char in self.labelText.reversed() {
+            let rect = CGRect(x: widgetSize.margin, y: yMargin, width: letterWidth, height: letterHeight)
             let str = NSAttributedString.init(string: "\(char)", attributes: stringAttributes)
             str.draw(with: rect)
             
@@ -142,12 +143,6 @@ class Chart: NSView, Widget {
         }
     }
     
-    func toggleColor(state: Bool) {
-        if self.color != state {
-            self.color = state
-        }
-    }
-    
     func toggleLabel(state: Bool) {
         labelEnabled = state
         var width = self.size
@@ -163,7 +158,7 @@ class ChartWithValue: Chart {
     var valueLabel: NSTextField = NSTextField()
     
     override init(frame: NSRect) {
-        super.init(frame: frame)
+        super.init(frame: CGRect(x: 0, y: 0, width: widgetSize.width + 7, height: widgetSize.height))
         self.wantsLayer = true
         self.drawValue()
     }
@@ -176,7 +171,7 @@ class ChartWithValue: Chart {
         let value: Double = data.first!
         
         self.valueLabel.stringValue = "\(Int(Float(value.roundTo(decimalPlaces: 2))! * 100))%"
-        self.valueLabel.textColor = value.usageColor(color: self.color)
+        self.valueLabel.textColor = value.usageColor(color: self.color.value)
         
         if self.points.count < 50 {
             self.points.append(value)
@@ -202,21 +197,14 @@ class ChartWithValue: Chart {
         self.drawValue()
     }
     
-    override func toggleColor(state: Bool) {
-        if self.color != state {
-            self.color = state
-            self.valueLabel.textColor = self.points.last?.usageColor(color: state)
-        }
-    }
-    
     func drawValue () {
         for subview in self.subviews {
             subview.removeFromSuperview()
         }
         
-        valueLabel = NSTextField(frame: NSMakeRect(2, MODULE_HEIGHT - 11, self.frame.size.width, 10))
+        valueLabel = NSTextField(frame: NSMakeRect(2, widgetSize.height - 11, self.frame.size.width, 10))
         if labelEnabled {
-            valueLabel = NSTextField(frame: NSMakeRect(labelPadding + 2, MODULE_HEIGHT - 11, self.frame.size.width, 10))
+            valueLabel = NSTextField(frame: NSMakeRect(labelPadding + 2, widgetSize.height - 11, self.frame.size.width, 10))
         }
         valueLabel.textColor = NSColor.red
         valueLabel.isEditable = false

@@ -8,23 +8,24 @@
 
 import Cocoa
 
-class Mini: NSView, Widget {
-    var active: Observable<Bool> = Observable(false)
+class Mini: NSView, Widget, ColorMode {
+    var activeModule: Observable<Bool> = Observable(false)
+    var active: Observable<Bool> = Observable(true)
     
-    var size: CGFloat = MODULE_WIDTH
+    var size: CGFloat = widgetSize.width
     var valueView: NSTextField = NSTextField()
     var labelView: NSTextField = NSTextField()
     
-    var color: Bool = false
+    var color: Observable<Bool> = Observable(false)
     var value: Double = 0
-    var label: String = "" {
+    var labelText: String = "" {
         didSet {
-            self.labelView.stringValue = label
+            self.labelView.stringValue = labelText
         }
     }
     
     override init(frame: NSRect) {
-        super.init(frame: frame)
+        super.init(frame: CGRect(x: 0, y: 0, width: self.size, height: widgetSize.height))
         
         self.wantsLayer = true
         
@@ -41,7 +42,7 @@ class Mini: NSView, Widget {
         labelView.canDrawSubviewsIntoLayer = true
         labelView.alignment = .natural
         labelView.font = NSFont.systemFont(ofSize: 7, weight: .ultraLight)
-        labelView.stringValue = self.label
+        labelView.stringValue = self.labelText
         labelView.addSubview(NSView())
         
         let valueView = NSTextField(frame: NSMakeRect(xOffset, 3, self.frame.size.width, 10))
@@ -70,7 +71,7 @@ class Mini: NSView, Widget {
     }
     
     func redraw() {
-        self.valueView.textColor = self.value.usageColor(color: self.color)
+        self.valueView.textColor = self.value.usageColor(color: self.color.value)
         self.needsDisplay = true
         setNeedsDisplay(self.frame)
     }
@@ -81,14 +82,7 @@ class Mini: NSView, Widget {
             self.value = value
             
             self.valueView.stringValue = "\(Int(Float(value.roundTo(decimalPlaces: 2))! * 100))%"
-            self.valueView.textColor = value.usageColor(color: self.color)
-        }
-    }
-    
-    func toggleColor(state: Bool) {
-        if self.color != state {
-            self.color = state
-            self.valueView.textColor = value.usageColor(color: state)
+            self.valueView.textColor = value.usageColor(color: self.color.value)
         }
     }
     
