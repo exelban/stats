@@ -74,6 +74,10 @@ class Network: Module {
         arrowsWithText.state = self.widgetType == Widgets.NetworkArrowsWithText ? NSControl.StateValue.on : NSControl.StateValue.off
         arrowsWithText.target = self
         
+        let chart = NSMenuItem(title: "Chart", action: #selector(toggleWidget), keyEquivalent: "")
+        chart.state = self.widgetType == Widgets.NetworkChart ? NSControl.StateValue.on : NSControl.StateValue.off
+        chart.target = self
+        
         submenu.addItem(dots)
         submenu.addItem(arrows)
         submenu.addItem(text)
@@ -113,6 +117,8 @@ class Network: Module {
             widgetCode = Widgets.NetworkDotsWithText
         case "Arrows with text":
             widgetCode = Widgets.NetworkArrowsWithText
+        case "Chart":
+            widgetCode = Widgets.NetworkChart
         default:
             break
         }
@@ -122,7 +128,7 @@ class Network: Module {
         }
         
         for item in self.submenu.items {
-            if item.title == "Dots" || item.title == "Arrows" || item.title == "Text" || item.title == "Dots with text" || item.title == "Arrows with text" {
+            if item.title == "Dots" || item.title == "Arrows" || item.title == "Text" || item.title == "Dots with text" || item.title == "Arrows with text" || item.title == "Chart" {
                 item.state = NSControl.StateValue.off
             }
         }

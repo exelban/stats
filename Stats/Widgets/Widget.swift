@@ -36,6 +36,7 @@ struct Widgets {
     static let NetworkText: WidgetType = 2.2
     static let NetworkDotsWithText: WidgetType = 2.3
     static let NetworkArrowsWithText: WidgetType = 2.4
+    static let NetworkChart: WidgetType = 2.5
     
     static let BarChart: WidgetType = 3.0
 }

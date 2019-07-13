@@ -68,14 +68,14 @@ class NetworkDotsView: NSView, Widget {
     }
     
     func setValue(data: [Double]) {
-        let value: Double = data.first!
+        let download: Int64 = Int64(data[0])
+        let upload: Int64 = Int64(data[1])
         
-        let values = value.splitAtDecimal()
-        if self.download != values[0] {
-            self.download = values[0]
+        if self.download != download {
+            self.download = download
         }
-        if self.upload != values[1] {
-            self.upload = values[1]
+        if self.upload != upload {
+            self.upload = upload
         }
     }
     
@@ -118,10 +118,11 @@ class NetworkTextView: NSView, Widget {
     }
     
     func setValue(data: [Double]) {
-        let value: Double = data.first!
-        let values = value.splitAtDecimal()
-        downloadValue.stringValue = Units(bytes: values[0]).getReadableUnit()
-        uploadValue.stringValue = Units(bytes: values[1]).getReadableUnit()
+        let download: Int64 = Int64(data[0])
+        let upload: Int64 = Int64(data[1])
+        
+        downloadValue.stringValue = Units(bytes: download).getReadableUnit()
+        uploadValue.stringValue = Units(bytes: upload).getReadableUnit()
     }
     
     func toggleColor(state: Bool) {
@@ -237,13 +238,14 @@ class NetworkArrowsView: NSView, Widget {
     }
     
     func setValue(data: [Double]) {
-        let value: Double = data.first!
-        let values = value.splitAtDecimal()
-        if self.download != values[0] {
-            self.download = values[0]
+        let download: Int64 = Int64(data[0])
+        let upload: Int64 = Int64(data[1])
+        
+        if self.download != download {
+            self.download = download
         }
-        if self.upload != values[1] {
-            self.upload = values[1]
+        if self.upload != upload {
+            self.upload = upload
         }
     }
     
@@ -320,14 +322,15 @@ class NetworkDotsTextView: NSView, Widget {
     }
     
     func setValue(data: [Double]) {
-        let value: Double = data.first!
-        let values = value.splitAtDecimal()
-        if self.download != values[0] {
-            self.download = values[0]
+        let download: Int64 = Int64(data[0])
+        let upload: Int64 = Int64(data[1])
+        
+        if self.download != download {
+            self.download = download
             downloadValue.stringValue = Units(bytes: self.download).getReadableUnit()
         }
-        if self.upload != values[1] {
-            self.upload = values[1]
+        if self.upload != upload {
+            self.upload = upload
             uploadValue.stringValue = Units(bytes: self.upload).getReadableUnit()
         }
     }
@@ -448,14 +451,15 @@ class NetworkArrowsTextView: NSView, Widget {
     }
     
     func setValue(data: [Double]) {
-        let value: Double = data.first!
-        let values = value.splitAtDecimal()
-        if self.download != values[0] {
-            self.download = values[0]
+        let download: Int64 = Int64(data[0])
+        let upload: Int64 = Int64(data[1])
+        
+        if self.download != download {
+            self.download = download
             downloadValue.stringValue = Units(bytes: self.download).getReadableUnit()
         }
-        if self.upload != values[1] {
-            self.upload = values[1]
+        if self.upload != upload {
+            self.upload = upload
             uploadValue.stringValue = Units(bytes: self.upload).getReadableUnit()
         }
     }

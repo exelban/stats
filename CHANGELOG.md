@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+### [v1.2.7]
+    - added hyperthreading mode in Bar Chart for CPU
+    - fixed few bugs
+
 ### [v1.2.6]
     - fixed CPU usage
 
@@ -51,6 +55,7 @@ All notable changes to this project will be documented in this file.
 ### [v1.0.0]
     - first release
 
+[v1.2.7]: https://github.com/exelban/stats/releases/tag/v1.2.7
 [v1.2.6]: https://github.com/exelban/stats/releases/tag/v1.2.6
 [v1.2.5]: https://github.com/exelban/stats/releases/tag/v1.2.5
 [v1.2.4]: https://github.com/exelban/stats/releases/tag/v1.2.4

@@ -18,6 +18,7 @@ class CPU: Module {
     var available: Observable<Bool>
     var color: Observable<Bool>
     var label: Observable<Bool>
+    var hyperthreading: Observable<Bool>
     var reader: Reader = CPUReader()
     
     let defaults = UserDefaults.standard
@@ -26,6 +27,7 @@ class CPU: Module {
     init() {
         self.available = Observable(true)
         self.active = Observable(defaults.object(forKey: name) != nil ? defaults.bool(forKey: name) : true)
+        self.hyperthreading = Observable(defaults.object(forKey: "\(name)_hyperthreading") != nil ? defaults.bool(forKey: "\(name)_hyperthreading") : true)
         self.widgetType = defaults.object(forKey: "\(name)_widget") != nil ? defaults.float(forKey: "\(name)_widget") : Widgets.Mini
         self.color = Observable(defaults.object(forKey: "\(name)_color") != nil ? defaults.bool(forKey: "\(name)_color") : false)
         self.label = Observable(defaults.object(forKey: "\(name)_label") != nil ? defaults.bool(forKey: "\(name)_label") : true)
@@ -34,6 +36,7 @@ class CPU: Module {
         
         if self.widgetType == Widgets.BarChart {
             (self.reader as! CPUReader).perCoreMode = true
+            (self.reader as! CPUReader).hyperthreading = self.hyperthreading.value
         }
     }
     
@@ -64,6 +67,10 @@ class CPU: Module {
         barChart.state = self.widgetType == Widgets.BarChart ? NSControl.StateValue.on : NSControl.StateValue.off
         barChart.target = self
         
+        let hyperthreading = NSMenuItem(title: "Hyperthreading", action: #selector(toggleHyperthreading), keyEquivalent: "")
+        hyperthreading.state = self.hyperthreading.value ? NSControl.StateValue.on : NSControl.StateValue.off
+        hyperthreading.target = self
+        
         let color = NSMenuItem(title: "Color", action: #selector(toggleColor), keyEquivalent: "")
         color.state = self.color.value ? NSControl.StateValue.on : NSControl.StateValue.off
         color.target = self
@@ -79,6 +86,9 @@ class CPU: Module {
         
         submenu.addItem(NSMenuItem.separator())
         
+        if self.widgetType == Widgets.BarChart {
+            submenu.addItem(hyperthreading)
+        }
         if self.widgetType == Widgets.BarChart || self.widgetType == Widgets.ChartWithValue || self.widgetType == Widgets.Chart {
             submenu.addItem(label)
         }
@@ -143,6 +153,13 @@ class CPU: Module {
         self.initWidget()
         self.initMenu()
         self.active << true
+    }
+    
+    @objc func toggleHyperthreading(_ sender: NSMenuItem) {
+        sender.state = sender.state == NSControl.StateValue.on ? NSControl.StateValue.off : NSControl.StateValue.on
+        self.defaults.set(sender.state == NSControl.StateValue.on, forKey: "\(name)_hyperthreading")
+        self.hyperthreading << (sender.state == NSControl.StateValue.on)
+        (self.reader as! CPUReader).hyperthreading = sender.state == NSControl.StateValue.on
     }
     
     @objc func toggleColor(_ sender: NSMenuItem) {

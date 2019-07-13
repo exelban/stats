@@ -46,12 +46,7 @@ class NetworkReader: Reader {
                 guard let download = Int64(arr[2]), let upload = Int64(arr[5]) else {
                     return
                 }
-
-                guard let value: Double = Double("\(download).\(upload)") else {
-                    return
-                }
-
-                self.value << [value]
+                self.value << [Double(download), Double(upload)]
             }
         }
         

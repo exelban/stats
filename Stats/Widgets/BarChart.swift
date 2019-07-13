@@ -122,6 +122,9 @@ class BarChart: NSView, Widget {
         if self.partitions.count == 1 {
             width = 18
         }
+        if self.partitions.count == 2 {
+            width = 28
+        }
         if self.labelEnabled {
             width += labelPadding
         }
