@@ -86,7 +86,9 @@ class CPUReader: Reader {
                 
                 inUseOnAllCores = inUseOnAllCores + inUse
                 totalOnAllCores = totalOnAllCores + total
-                usagePerCore.append(Double(inUse) / Double(total))
+                if total != 0 {
+                    usagePerCore.append(Double(inUse) / Double(total))
+                }
             }
             
             if self.perCoreMode {

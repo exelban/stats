@@ -29,15 +29,18 @@ class CPU: Module {
         self.active = Observable(defaults.object(forKey: name) != nil ? defaults.bool(forKey: name) : true)
         self.hyperthreading = Observable(defaults.object(forKey: "\(name)_hyperthreading") != nil ? defaults.bool(forKey: "\(name)_hyperthreading") : true)
         self.widgetType = defaults.object(forKey: "\(name)_widget") != nil ? defaults.float(forKey: "\(name)_widget") : Widgets.Mini
-        self.color = Observable(defaults.object(forKey: "\(name)_color") != nil ? defaults.bool(forKey: "\(name)_color") : false)
-        self.label = Observable(defaults.object(forKey: "\(name)_label") != nil ? defaults.bool(forKey: "\(name)_label") : true)
-        initMenu()
-        initWidget()
         
         if self.widgetType == Widgets.BarChart {
             (self.reader as! CPUReader).perCoreMode = true
             (self.reader as! CPUReader).hyperthreading = self.hyperthreading.value
+            self.reader.read()
         }
+        
+        self.color = Observable(defaults.object(forKey: "\(name)_color") != nil ? defaults.bool(forKey: "\(name)_color") : false)
+        self.label = Observable(defaults.object(forKey: "\(name)_label") != nil ? defaults.bool(forKey: "\(name)_label") : true)
+        
+        initMenu()
+        initWidget()
     }
     
     func initMenu() {
