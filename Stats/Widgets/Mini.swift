@@ -9,22 +9,25 @@
 import Cocoa
 
 class Mini: NSView, Widget {
-    var active: Observable<Bool> = Observable(false)
+    var activeModule: Observable<Bool> = Observable(false)
+    var menus: [NSMenuItem] = []
+    let defaults = UserDefaults.standard
     
-    var size: CGFloat = MODULE_WIDTH
+    var size: CGFloat = widgetSize.width
     var valueView: NSTextField = NSTextField()
     var labelView: NSTextField = NSTextField()
     
     var color: Bool = false
     var value: Double = 0
-    var label: String = "" {
+    var name: String = ""
+    var shortName: String = "" {
         didSet {
-            self.labelView.stringValue = label
+            self.labelView.stringValue = shortName
         }
     }
     
     override init(frame: NSRect) {
-        super.init(frame: frame)
+        super.init(frame: CGRect(x: 0, y: 0, width: self.size, height: widgetSize.height))
         
         self.wantsLayer = true
         
@@ -41,7 +44,7 @@ class Mini: NSView, Widget {
         labelView.canDrawSubviewsIntoLayer = true
         labelView.alignment = .natural
         labelView.font = NSFont.systemFont(ofSize: 7, weight: .ultraLight)
-        labelView.stringValue = self.label
+        labelView.stringValue = self.shortName
         labelView.addSubview(NSView())
         
         let valueView = NSTextField(frame: NSMakeRect(xOffset, 3, self.frame.size.width, 10))
@@ -69,6 +72,20 @@ class Mini: NSView, Widget {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func Init() {
+        self.color = defaults.object(forKey: "\(name)_color") != nil ? defaults.bool(forKey: "\(name)_color") : false
+        self.initMenu()
+        self.redraw()
+    }
+    
+    func initMenu() {
+        let color = NSMenuItem(title: "Color", action: #selector(toggleColor), keyEquivalent: "")
+        color.state = self.color ? NSControl.StateValue.on : NSControl.StateValue.off
+        color.target = self
+        
+        self.menus.append(color)
+    }
+    
     func redraw() {
         self.valueView.textColor = self.value.usageColor(color: self.color)
         self.needsDisplay = true
@@ -85,12 +102,9 @@ class Mini: NSView, Widget {
         }
     }
     
-    func toggleColor(state: Bool) {
-        if self.color != state {
-            self.color = state
-            self.valueView.textColor = value.usageColor(color: state)
-        }
+    @objc func toggleColor(_ sender: NSMenuItem) {
+        sender.state = sender.state == NSControl.StateValue.on ? NSControl.StateValue.off : NSControl.StateValue.on
+        self.defaults.set(sender.state == NSControl.StateValue.on, forKey: "\(name)_color")
+        self.color = sender.state == NSControl.StateValue.on
     }
-    
-    func toggleLabel(state: Bool) {}
 }

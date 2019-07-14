@@ -9,10 +9,6 @@
 import Cocoa
 import ServiceManagement
 
-let MODULE_HEIGHT: CGFloat = NSApplication.shared.mainMenu?.menuBarHeight ?? 22
-let MODULE_WIDTH: CGFloat = 32
-let MODULE_MARGIN: CGFloat = 2
-
 class MenuBar {
     let defaults = UserDefaults.standard
     let menuBarItem: NSStatusItem
@@ -86,7 +82,9 @@ class MenuBar {
         let aboutMenu = NSMenuItem(title: "About Stats", action: #selector(openAbout), keyEquivalent: "")
         aboutMenu.target = self
         
-        menu.addItem(updateMenu)
+        if !appStoreMode {
+            menu.addItem(updateMenu)
+        }
         menu.addItem(aboutMenu)
         menu.addItem(NSMenuItem(title: "Quit Stats", action: #selector(NSApplication.terminate(_:)), keyEquivalent: ""))
         
@@ -133,8 +131,8 @@ class MenuBar {
         }
         
         self.menuBarButton.image = NSImage(named:NSImage.Name("tray_icon"))
-        self.menuBarItem.length = MODULE_WIDTH
-        var WIDTH = CGFloat(modules.value.count) * MODULE_WIDTH
+        self.menuBarItem.length = widgetSize.width
+        var WIDTH = CGFloat(modules.value.count) * widgetSize.width
         
         WIDTH = 0
         for module in modules.value {
@@ -144,7 +142,7 @@ class MenuBar {
             }
         }
         
-        let view: NSView = NSView(frame: NSMakeRect(0, 0, WIDTH, MODULE_HEIGHT))
+        let view: NSView = NSView(frame: NSMakeRect(0, 0, WIDTH, widgetSize.height))
         
         var x: CGFloat = 0
         for module in modules.value {

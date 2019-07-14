@@ -9,13 +9,16 @@
 import Cocoa
 
 class BarChart: NSView, Widget {
-    var active: Observable<Bool> = Observable(false)
-    var size: CGFloat = MODULE_WIDTH + 10
+    var activeModule: Observable<Bool> = Observable(false)
+    var size: CGFloat = widgetSize.width + 10
+    let defaults = UserDefaults.standard
     
     var labelPadding: CGFloat = 12.0
-    var labelEnabled: Bool = false
-    var label: String = ""
-    var color: Bool = false
+    var label: Bool = false
+    var name: String = ""
+    var shortName: String = ""
+    
+    var menus: [NSMenuItem] = []
     
     var partitions: [Double] {
         didSet {
@@ -24,29 +27,49 @@ class BarChart: NSView, Widget {
     }
     
     override init(frame: NSRect) {
+        self.label = defaults.object(forKey: "\(name)_label") != nil ? defaults.bool(forKey: "\(name)_label") : true
         self.partitions = Array(repeating: 0.0, count: 1)
-        super.init(frame: frame)
+        super.init(frame: CGRect(x: 0, y: 0, width: self.size, height: widgetSize.height))
         self.wantsLayer = true
         self.addSubview(NSView())
-        
-        if self.labelEnabled {
-            self.frame = CGRect(x: self.frame.origin.x, y: self.frame.origin.y, width: self.frame.size.width + labelPadding, height: self.frame.size.height)
-        }
     }
     
     required init?(coder decoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func Init() {
+        self.label = defaults.object(forKey: "\(name)_label") != nil ? defaults.bool(forKey: "\(name)_label") : true
+        self.initPreferences()
+        
+        if self.label {
+            self.frame = CGRect(x: self.frame.origin.x, y: self.frame.origin.y, width: self.frame.size.width + labelPadding, height: self.frame.size.height)
+        }
+    }
+    
+    func initPreferences() {
+        let label = NSMenuItem(title: "Label", action: #selector(toggleLabel), keyEquivalent: "")
+        label.state = self.label ? NSControl.StateValue.on : NSControl.StateValue.off
+        label.target = self
+        
+        self.menus.append(label)
+    }
+    
+    @objc func toggleLabel(_ sender: NSMenuItem) {
+        sender.state = sender.state == NSControl.StateValue.on ? NSControl.StateValue.off : NSControl.StateValue.on
+        self.defaults.set(sender.state == NSControl.StateValue.on, forKey: "\(self.name)_label")
+        self.label = (sender.state == NSControl.StateValue.on)
+    }
+    
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         
         let gradientColor: NSColor = NSColor(red: (26/255.0), green: (126/255.0), blue: (252/255.0), alpha: 0.8)
-        let width = self.frame.size.width - (MODULE_MARGIN * 2)
-        let height = self.frame.size.height - (MODULE_MARGIN * 2)
+        let width = self.frame.size.width - (widgetSize.margin * 2)
+        let height = self.frame.size.height - (widgetSize.margin * 2)
         
-        var x = MODULE_MARGIN
-        if labelEnabled {
+        var x = widgetSize.margin
+        if label {
             x = x + labelPadding
         }
         
@@ -63,7 +86,7 @@ class BarChart: NSView, Widget {
             if partitonHeight < 1 {
                 partitonHeight = 1
             }
-            let partition = NSBezierPath(rect: NSRect(x: x, y: MODULE_MARGIN, width: partitionWidth - 0.5, height: partitonHeight))
+            let partition = NSBezierPath(rect: NSRect(x: x, y: widgetSize.margin, width: partitionWidth - 0.5, height: partitonHeight))
             gradientColor.setFill()
             partition.fill()
             partition.close()
@@ -71,7 +94,7 @@ class BarChart: NSView, Widget {
             x += partitionWidth + partitionMargin
         }
         
-        if !self.labelEnabled {
+        if !self.label {
             return
         }
         
@@ -83,12 +106,12 @@ class BarChart: NSView, Widget {
             NSAttributedString.Key.paragraphStyle: style
         ]
         
-        let letterHeight = (self.frame.size.height - (MODULE_MARGIN*2)) / 3
+        let letterHeight = (self.frame.size.height - (widgetSize.margin*2)) / 3
         let letterWidth: CGFloat = 10.0
         
-        var yMargin = MODULE_MARGIN
-        for char in self.label.reversed() {
-            let rect = CGRect(x: MODULE_MARGIN, y: yMargin, width: letterWidth, height: letterHeight)
+        var yMargin = widgetSize.margin
+        for char in self.shortName.reversed() {
+            let rect = CGRect(x: widgetSize.margin, y: yMargin, width: letterWidth, height: letterHeight)
             let str = NSAttributedString.init(string: "\(char)", attributes: stringAttributes)
             str.draw(with: rect)
             
@@ -100,39 +123,22 @@ class BarChart: NSView, Widget {
         self.partitions = data
     }
     
-    func toggleLabel(state: Bool) {
-        labelEnabled = state
-        var width = self.frame.size.width
-        if width == MODULE_WIDTH + 10 && state {
-            width = width + labelPadding
-        } else {
-            width = MODULE_WIDTH + 10
-        }
-        self.frame = CGRect(x: self.frame.origin.x, y: self.frame.origin.y, width: width, height: self.frame.size.height)
-    }
-    
-    func toggleColor(state: Bool) {
-        if self.color != state {
-            self.color = state
-        }
-    }
-    
     func redraw() {
-        var width: CGFloat = MODULE_WIDTH + 10
+        var width: CGFloat = widgetSize.width + 10
         if self.partitions.count == 1 {
             width = 18
         }
         if self.partitions.count == 2 {
             width = 28
         }
-        if self.labelEnabled {
+        if self.label {
             width += labelPadding
         }
         
         if self.frame.size.width != width {
-            self.active << false
+            self.activeModule << false
             self.frame = CGRect(x: self.frame.origin.x, y: self.frame.origin.y, width: width, height: self.frame.size.height)
-            self.active << true
+            self.activeModule << true
         }
         
         self.needsDisplay = true

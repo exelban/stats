@@ -19,8 +19,6 @@ class Disk: Module {
     
     var active: Observable<Bool>
     var available: Observable<Bool>
-    var color: Observable<Bool>
-    var label: Observable<Bool>
     
     var reader: Reader = DiskReader()
     
@@ -30,11 +28,9 @@ class Disk: Module {
         self.available = Observable(true)
         self.active = Observable(defaults.object(forKey: name) != nil ? defaults.bool(forKey: name) : true)
         self.widgetType = defaults.object(forKey: "\(name)_widget") != nil ? defaults.float(forKey: "\(name)_widget") : Widgets.Mini
-        self.color = Observable(defaults.object(forKey: "\(name)_color") != nil ? defaults.bool(forKey: "\(name)_color") : false)
-        self.label = Observable(defaults.object(forKey: "\(name)_label") != nil ? defaults.bool(forKey: "\(name)_label") : true)
         
-        self.initMenu()
         self.initWidget()
+        self.initMenu()
     }
     
     func initMenu() {
@@ -56,24 +52,15 @@ class Disk: Module {
         barChart.state = self.widgetType == Widgets.BarChart ? NSControl.StateValue.on : NSControl.StateValue.off
         barChart.target = self
         
-        let color = NSMenuItem(title: "Color", action: #selector(toggleColor), keyEquivalent: "")
-        color.state = self.color.value ? NSControl.StateValue.on : NSControl.StateValue.off
-        color.target = self
-        
-        let label = NSMenuItem(title: "Label", action: #selector(toggleLabel), keyEquivalent: "")
-        label.state = self.label.value ? NSControl.StateValue.on : NSControl.StateValue.off
-        label.target = self
-        
         submenu.addItem(mini)
         submenu.addItem(barChart)
         
         submenu.addItem(NSMenuItem.separator())
         
-        if self.widgetType == Widgets.BarChart {
-            submenu.addItem(label)
-        }
-        if self.widgetType == Widgets.Mini {
-            submenu.addItem(color)
+        if let view = self.view as? Widget {
+            for widgetMenu in view.menus {
+                submenu.addItem(widgetMenu)
+            }
         }
         
         menu.submenu = submenu
@@ -119,22 +106,8 @@ class Disk: Module {
         self.defaults.set(widgetCode, forKey: "\(name)_widget")
         self.widgetType = widgetCode
         self.active << false
-        self.initMenu()
         self.initWidget()
-        self.active << true
-    }
-    
-    @objc func toggleColor(_ sender: NSMenuItem) {
-        sender.state = sender.state == NSControl.StateValue.on ? NSControl.StateValue.off : NSControl.StateValue.on
-        self.defaults.set(sender.state == NSControl.StateValue.on, forKey: "\(name)_color")
-        self.color << (sender.state == NSControl.StateValue.on)
-    }
-    
-    @objc func toggleLabel(_ sender: NSMenuItem) {
-        sender.state = sender.state == NSControl.StateValue.on ? NSControl.StateValue.off : NSControl.StateValue.on
-        self.defaults.set(sender.state == NSControl.StateValue.on, forKey: "\(name)_label")
-        self.active << false
-        self.label << (sender.state == NSControl.StateValue.on)
+        self.initMenu()
         self.active << true
     }
 }

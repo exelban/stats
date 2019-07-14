@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+### [v1.2.8]
+    - small changes in Widgets structure
+    - widgets settings moved from modules to widgets
+    - fixed Bar chart visibility on start
+    - small changes in Widget protocol
+    - appStore mode added
+    - fixed few bugs
+
 ### [v1.2.7]
     - added hyperthreading mode in Bar Chart for CPU
     - fixed few bugs
@@ -55,6 +63,7 @@ All notable changes to this project will be documented in this file.
 ### [v1.0.0]
     - first release
 
+[v1.2.8]: https://github.com/exelban/stats/releases/tag/v1.2.8
 [v1.2.7]: https://github.com/exelban/stats/releases/tag/v1.2.7
 [v1.2.6]: https://github.com/exelban/stats/releases/tag/v1.2.6
 [v1.2.5]: https://github.com/exelban/stats/releases/tag/v1.2.5

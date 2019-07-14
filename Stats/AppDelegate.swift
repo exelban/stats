@@ -16,6 +16,8 @@ extension Notification.Name {
 let modules: Observable<[Module]> = Observable([CPU(), Memory(), Disk(), Battery(), Network()])
 let updater = macAppUpdater(user: "exelban", repo: "stats")
 
+let appStoreMode: Bool = false
+
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
     let defaults = UserDefaults.standard
@@ -45,7 +47,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             NSApp.setActivationPolicy(dockIconStatus)
         }
         
-        if defaults.object(forKey: "checkUpdatesOnLogin") == nil || defaults.bool(forKey: "checkUpdatesOnLogin") {
+        if !appStoreMode && defaults.object(forKey: "checkUpdatesOnLogin") == nil || defaults.bool(forKey: "checkUpdatesOnLogin") {
             updater.check() { result, error in
                 if error != nil && error as! String == "No internet connection" {
                     return

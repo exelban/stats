@@ -16,8 +16,6 @@ class Battery: Module {
     var submenu: NSMenu = NSMenu()
     var active: Observable<Bool>
     var available: Observable<Bool>
-    var color: Observable<Bool>
-    var label: Observable<Bool>
     var reader: Reader = BatteryReader()
     
     let defaults = UserDefaults.standard
@@ -28,9 +26,7 @@ class Battery: Module {
         self.available = Observable(self.reader.available)
         self.active = Observable(defaults.object(forKey: name) != nil ? defaults.bool(forKey: name) : true)
         self.percentageView = Observable(defaults.object(forKey: "\(self.name)_percentage") != nil ? defaults.bool(forKey: "\(self.name)_percentage") : false)
-        self.color = Observable(defaults.object(forKey: "\(name)_color") != nil ? defaults.bool(forKey: "\(name)_color") : false)
-        self.label = Observable(defaults.object(forKey: "\(name)_label") != nil ? defaults.bool(forKey: "\(name)_label") : false)
-        self.view = BatteryView(frame: NSMakeRect(0, 0, MODULE_WIDTH, MODULE_HEIGHT))
+        self.view = BatteryView(frame: NSMakeRect(0, 0, widgetSize.width, widgetSize.height))
         initMenu()
         initWidget()
     }
@@ -73,12 +69,12 @@ class Battery: Module {
         percentage.state = defaults.bool(forKey: "\(self.name)_percentage") ? NSControl.StateValue.on : NSControl.StateValue.off
         percentage.target = self
         
-        let color = NSMenuItem(title: "Color", action: #selector(toggleColor), keyEquivalent: "")
-        color.state = defaults.bool(forKey: "\(name)_color") ? NSControl.StateValue.on : NSControl.StateValue.off
-        color.target = self
-        
+        if let view = self.view as? Widget {
+            for widgetMenu in view.menus {
+                submenu.addItem(widgetMenu)
+            }
+        }
         submenu.addItem(percentage)
-        submenu.addItem(color)
         
         menu.submenu = submenu
     }
@@ -106,12 +102,6 @@ class Battery: Module {
         self.defaults.set(state, forKey: "\(self.name)_percentage")
         self.percentageView << state
         self.initWidget()
-    }
-    
-    @objc func toggleColor(_ sender: NSMenuItem) {
-        sender.state = sender.state == NSControl.StateValue.on ? NSControl.StateValue.off : NSControl.StateValue.on
-        self.defaults.set(sender.state == NSControl.StateValue.on, forKey: "\(name)_color")
-        self.color << (sender.state == NSControl.StateValue.on)
     }
 }
 

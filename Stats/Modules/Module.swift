@@ -18,8 +18,6 @@ protocol Module: class {
     
     var active: Observable<Bool> { get }
     var available: Observable<Bool> { get }
-    var color: Observable<Bool> { get }
-    var label: Observable<Bool> { get }
     
     var reader: Reader { get }
     
@@ -29,35 +27,36 @@ protocol Module: class {
 
 extension Module {
     func initWidget(label: Bool = false) {
-        var widget: Widget = Mini(frame: NSMakeRect(0, 0, MODULE_WIDTH, MODULE_HEIGHT))
+        var widget: Widget = Mini()
         
         switch self.widgetType {
         case Widgets.Mini:
-            widget = Mini(frame: NSMakeRect(0, 0, MODULE_WIDTH, MODULE_HEIGHT))
+            widget = Mini()
         case Widgets.Chart:
-            widget = Chart(frame: NSMakeRect(0, 0, MODULE_WIDTH + 7, MODULE_HEIGHT))
+            widget = Chart()
         case Widgets.ChartWithValue:
-            widget = ChartWithValue(frame: NSMakeRect(0, 0, MODULE_WIDTH + 7, MODULE_HEIGHT))
+            widget = ChartWithValue()
         case Widgets.NetworkDots:
-            widget = NetworkDotsView(frame: NSMakeRect(0, 0, MODULE_WIDTH, MODULE_HEIGHT))
+            widget = NetworkDotsView()
         case Widgets.NetworkArrows:
-            widget = NetworkArrowsView(frame: NSMakeRect(0, 0, MODULE_WIDTH, MODULE_HEIGHT))
+            widget = NetworkArrowsView()
         case Widgets.NetworkText:
-            widget = NetworkTextView(frame: NSMakeRect(0, 0, MODULE_WIDTH, MODULE_HEIGHT))
+            widget = NetworkTextView()
         case Widgets.NetworkDotsWithText:
-            widget = NetworkDotsTextView(frame: NSMakeRect(0, 0, MODULE_WIDTH, MODULE_HEIGHT))
+            widget = NetworkDotsTextView()
         case Widgets.NetworkArrowsWithText:
-            widget = NetworkArrowsTextView(frame: NSMakeRect(0, 0, MODULE_WIDTH, MODULE_HEIGHT))
+            widget = NetworkArrowsTextView()
         case Widgets.BarChart:
-            widget = BarChart(frame: NSMakeRect(0, 0, MODULE_WIDTH + 10, MODULE_HEIGHT))
+            widget = BarChart()
         default:
-            widget = Mini(frame: NSMakeRect(0, 0, MODULE_WIDTH, MODULE_HEIGHT))
+            widget = Mini()
         }
         
-        widget.label = self.shortName
-        widget.toggleColor(state: self.color.value)
-        widget.toggleLabel(state: self.label.value)
-        widget.active = self.active
+        widget.name = self.name
+        widget.shortName = self.shortName
+        widget.activeModule = self.active
+        widget.Init()
+        
         self.view = widget as! NSView
     }
     
@@ -78,27 +77,10 @@ extension Module {
                 widget.setValue(data: value)
             }
         }
-        
-        self.color.subscribe(observer: self) { (value, _) in
-            guard let widget = self.view as? Widget else {
-                return
-            }
-            widget.toggleColor(state: value)
-            widget.redraw()
-        }
-        
-        self.label.subscribe(observer: self) { (value, _) in
-            guard let widget = self.view as? Widget else {
-                return
-            }
-            widget.toggleLabel(state: value)
-        }
     }
     
     func stop() {
         self.reader.stop()
         self.reader.value.unsubscribe(observer: self)
-        self.color.unsubscribe(observer: self)
-        self.label.unsubscribe(observer: self)
     }
 }

@@ -9,9 +9,12 @@
 import Cocoa
 
 class BatteryView: NSView, Widget {
-    var active: Observable<Bool> = Observable(false)
-    var size: CGFloat = MODULE_WIDTH
-    var label: String = ""
+    var activeModule: Observable<Bool> = Observable(false)
+    var size: CGFloat = widgetSize.width
+    var name: String = ""
+    var shortName: String = ""
+    var menus: [NSMenuItem] = []
+    let defaults = UserDefaults.standard
     
     let batteryWidth: CGFloat = 32
     let percentageWidth: CGFloat = 40
@@ -39,13 +42,27 @@ class BatteryView: NSView, Widget {
         self.value = 1.0
         self.charging = false
         self.percentage = false
-        super.init(frame: frame)
+        super.init(frame: CGRect(x: 0, y: 0, width: self.size, height: widgetSize.height))
         self.wantsLayer = true
         self.percentageView()
     }
     
     required init?(coder decoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func Init() {
+        self.color = defaults.object(forKey: "\(name)_color") != nil ? defaults.bool(forKey: "\(name)_color") : false
+        self.initMenu()
+        self.redraw()
+    }
+    
+    func initMenu() {
+        let color = NSMenuItem(title: "Color", action: #selector(toggleColor), keyEquivalent: "")
+        color.state = self.color ? NSControl.StateValue.on : NSControl.StateValue.off
+        color.target = self
+        
+        self.menus.append(color)
     }
     
     override func draw(_ dirtyRect: NSRect) {
@@ -133,14 +150,6 @@ class BatteryView: NSView, Widget {
         }
     }
     
-    func toggleColor(state: Bool) {
-        if self.color != state {
-            self.color = state
-        }
-    }
-    
-    func toggleLabel(state: Bool) {}
-    
     func setCharging(value: Bool) {
         if self.charging != value {
             self.charging = value
@@ -152,5 +161,11 @@ class BatteryView: NSView, Widget {
             self.percentage = value
             self.percentageView()
         }
+    }
+    
+    @objc func toggleColor(_ sender: NSMenuItem) {
+        sender.state = sender.state == NSControl.StateValue.on ? NSControl.StateValue.off : NSControl.StateValue.on
+        self.defaults.set(sender.state == NSControl.StateValue.on, forKey: "\(name)_color")
+        self.color = sender.state == NSControl.StateValue.on
     }
 }

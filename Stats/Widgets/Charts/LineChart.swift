@@ -1,22 +1,24 @@
 //
-//  CPUView.swift
+//  LineChart.swift
 //  Stats
 //
-//  Created by Serhiy Mytrovtsiy on 14.06.2019.
+//  Created by Serhiy Mytrovtsiy on 14.07.2019.
 //  Copyright © 2019 Serhiy Mytrovtsiy. All rights reserved.
 //
 
 import Cocoa
 
 class Chart: NSView, Widget {
-    var active: Observable<Bool> = Observable(false)
-    var size: CGFloat = MODULE_WIDTH + 7
+    var activeModule: Observable<Bool> = Observable(false)
+    var size: CGFloat = widgetSize.width + 7
     var labelPadding: CGFloat = 10.0
-    var labelEnabled: Bool = false
-    var label: String = ""
+    var label: Bool = false
+    var name: String = ""
+    var shortName: String = ""
+    var menus: [NSMenuItem] = []
+    let defaults = UserDefaults.standard
     
     var height: CGFloat = 0.0
-    var color: Bool = false
     var points: [Double] {
         didSet {
             self.redraw()
@@ -25,17 +27,46 @@ class Chart: NSView, Widget {
     
     override init(frame: NSRect) {
         self.points = Array(repeating: 0.0, count: 50)
-        super.init(frame: frame)
+        super.init(frame: CGRect(x: 0, y: 0, width: self.size, height: widgetSize.height))
         self.wantsLayer = true
         self.addSubview(NSView())
-        
-        if self.labelEnabled {
-            self.frame = CGRect(x: self.frame.origin.x, y: self.frame.origin.y, width: self.frame.size.width + labelPadding, height: self.frame.size.height)
-        }
     }
     
     required init?(coder decoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func Init() {
+        self.label = defaults.object(forKey: "\(name)_label") != nil ? defaults.bool(forKey: "\(name)_label") : true
+        self.initMenu()
+        
+        if self.label {
+            self.frame = CGRect(x: self.frame.origin.x, y: self.frame.origin.y, width: self.frame.size.width + labelPadding, height: self.frame.size.height)
+        }
+    }
+    
+    func initMenu() {
+        let label = NSMenuItem(title: "Label", action: #selector(toggleLabel), keyEquivalent: "")
+        label.state = self.label ? NSControl.StateValue.on : NSControl.StateValue.off
+        label.target = self
+        
+        self.menus.append(label)
+    }
+    
+    @objc func toggleLabel(_ sender: NSMenuItem) {
+        sender.state = sender.state == NSControl.StateValue.on ? NSControl.StateValue.off : NSControl.StateValue.on
+        self.defaults.set(sender.state == NSControl.StateValue.on, forKey: "\(self.name)_label")
+        self.label = (sender.state == NSControl.StateValue.on)
+        
+        var width = self.size
+        if self.label {
+            width = width + labelPadding
+        }
+        
+        self.activeModule << false
+        self.frame = CGRect(x: self.frame.origin.x, y: self.frame.origin.y, width: width, height: self.frame.size.height)
+        self.activeModule << true
+        self.redraw()
     }
     
     override func draw(_ dirtyRect: NSRect) {
@@ -46,7 +77,7 @@ class Chart: NSView, Widget {
         
         let context = NSGraphicsContext.current!.cgContext
         var xOffset: CGFloat = 4.0
-        if labelEnabled {
+        if label {
             xOffset = xOffset + labelPadding
         }
         let yOffset: CGFloat = 3.0
@@ -55,7 +86,7 @@ class Chart: NSView, Widget {
         }
         
         var xRatio = Double(self.frame.size.width - (xOffset * 2)) / (Double(self.points.count) - 1)
-        if labelEnabled {
+        if label {
             xRatio = Double(self.frame.size.width - (xOffset * 2) + labelPadding) / (Double(self.points.count) - 1)
         }
         
@@ -95,7 +126,7 @@ class Chart: NSView, Widget {
         graphPath.lineWidth = 0.5
         graphPath.stroke()
         
-        if !self.labelEnabled {
+        if !self.label {
             return
         }
         
@@ -106,13 +137,13 @@ class Chart: NSView, Widget {
             NSAttributedString.Key.foregroundColor: NSColor.labelColor,
             NSAttributedString.Key.paragraphStyle: style
         ]
-    
-        let letterHeight = (self.frame.size.height - (MODULE_MARGIN*2)) / 3
+        
+        let letterHeight = (self.frame.size.height - (widgetSize.margin*2)) / 3
         let letterWidth: CGFloat = 10.0
         
-        var yMargin = MODULE_MARGIN
-        for char in self.label.reversed() {
-            let rect = CGRect(x: MODULE_MARGIN, y: yMargin, width: letterWidth, height: letterHeight)
+        var yMargin = widgetSize.margin
+        for char in self.shortName.reversed() {
+            let rect = CGRect(x: widgetSize.margin, y: yMargin, width: letterWidth, height: letterHeight)
             let str = NSAttributedString.init(string: "\(char)", attributes: stringAttributes)
             str.draw(with: rect)
             
@@ -140,98 +171,5 @@ class Chart: NSView, Widget {
                 self.points[i] = value
             }
         }
-    }
-    
-    func toggleColor(state: Bool) {
-        if self.color != state {
-            self.color = state
-        }
-    }
-    
-    func toggleLabel(state: Bool) {
-        labelEnabled = state
-        var width = self.size
-        if state {
-            width = width + labelPadding
-        }
-        self.frame = CGRect(x: self.frame.origin.x, y: self.frame.origin.y, width: width, height: self.frame.size.height)
-        self.redraw()
-    }
-}
-
-class ChartWithValue: Chart {
-    var valueLabel: NSTextField = NSTextField()
-    
-    override init(frame: NSRect) {
-        super.init(frame: frame)
-        self.wantsLayer = true
-        self.drawValue()
-    }
-    
-    required init?(coder decoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func setValue(data: [Double]) {
-        let value: Double = data.first!
-        
-        self.valueLabel.stringValue = "\(Int(Float(value.roundTo(decimalPlaces: 2))! * 100))%"
-        self.valueLabel.textColor = value.usageColor(color: self.color)
-        
-        if self.points.count < 50 {
-            self.points.append(value)
-            return
-        }
-        
-        for (i, _) in self.points.enumerated() {
-            if i+1 < self.points.count {
-                self.points[i] = self.points[i+1]
-            } else {
-                self.points[i] = value
-            }
-        }
-    }
-    
-    override func toggleLabel(state: Bool) {
-        labelEnabled = state
-        var width = self.size
-        if state {
-            width = width + labelPadding
-        }
-        self.frame = CGRect(x: self.frame.origin.x, y: self.frame.origin.y, width: width, height: self.frame.size.height)
-        self.drawValue()
-    }
-    
-    override func toggleColor(state: Bool) {
-        if self.color != state {
-            self.color = state
-            self.valueLabel.textColor = self.points.last?.usageColor(color: state)
-        }
-    }
-    
-    func drawValue () {
-        for subview in self.subviews {
-            subview.removeFromSuperview()
-        }
-        
-        valueLabel = NSTextField(frame: NSMakeRect(2, MODULE_HEIGHT - 11, self.frame.size.width, 10))
-        if labelEnabled {
-            valueLabel = NSTextField(frame: NSMakeRect(labelPadding + 2, MODULE_HEIGHT - 11, self.frame.size.width, 10))
-        }
-        valueLabel.textColor = NSColor.red
-        valueLabel.isEditable = false
-        valueLabel.isSelectable = false
-        valueLabel.isBezeled = false
-        valueLabel.wantsLayer = true
-        valueLabel.textColor = .labelColor
-        valueLabel.backgroundColor = .controlColor
-        valueLabel.canDrawSubviewsIntoLayer = true
-        valueLabel.alignment = .natural
-        valueLabel.font = NSFont.systemFont(ofSize: 8, weight: .ultraLight)
-        valueLabel.stringValue = ""
-        valueLabel.addSubview(NSView())
-        
-        self.height = 7.0
-        self.addSubview(valueLabel)
     }
 }
