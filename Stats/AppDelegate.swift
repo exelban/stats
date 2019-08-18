@@ -35,9 +35,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let runningApps = NSWorkspace.shared.runningApplications
         let isRunning = !runningApps.filter { $0.bundleIdentifier == launcherAppId }.isEmpty
         
-        if defaults.object(forKey: "runAtLogin") != nil {
-            SMLoginItemSetEnabled(launcherAppId as CFString, defaults.bool(forKey: "runAtLogin"))
-        } else {
+        if defaults.object(forKey: "runAtLogin") == nil {
             SMLoginItemSetEnabled(launcherAppId as CFString, true)
             self.defaults.set(true, forKey: "runAtLogin")
         }

@@ -112,7 +112,7 @@ class MenuBar {
         
         switch sender.title {
         case "Start at login":
-            SMLoginItemSetEnabled(launcherId as CFString, !status)
+            SMLoginItemSetEnabled(launcherId as CFString, status)
             self.defaults.set(status, forKey: "runAtLogin")
         case "Check for updates on start":
             self.defaults.set(status, forKey: "checkUpdatesOnLogin")
