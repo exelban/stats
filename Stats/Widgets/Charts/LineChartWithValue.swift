@@ -83,7 +83,7 @@ class ChartWithValue: Chart {
         valueLabel.backgroundColor = .controlColor
         valueLabel.canDrawSubviewsIntoLayer = true
         valueLabel.alignment = .natural
-        valueLabel.font = NSFont.systemFont(ofSize: 8, weight: .ultraLight)
+        valueLabel.font = NSFont.systemFont(ofSize: 8, weight: .light)
         valueLabel.stringValue = ""
         valueLabel.addSubview(NSView())
         

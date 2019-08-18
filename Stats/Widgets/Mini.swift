@@ -43,7 +43,7 @@ class Mini: NSView, Widget {
         labelView.backgroundColor = .controlColor
         labelView.canDrawSubviewsIntoLayer = true
         labelView.alignment = .natural
-        labelView.font = NSFont.systemFont(ofSize: 7, weight: .ultraLight)
+        labelView.font = NSFont.systemFont(ofSize: 7, weight: .light)
         labelView.stringValue = self.shortName
         labelView.addSubview(NSView())
         
