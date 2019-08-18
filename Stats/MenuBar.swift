@@ -111,7 +111,7 @@ class MenuBar {
         sender.state = sender.state == NSControl.StateValue.on ? NSControl.StateValue.off : NSControl.StateValue.on
         
         switch sender.title {
-        case "Run at login":
+        case "Start at login":
             SMLoginItemSetEnabled(launcherId as CFString, !status)
             self.defaults.set(status, forKey: "runAtLogin")
         case "Check for updates on start":
