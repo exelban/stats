@@ -49,7 +49,7 @@ class NetworkTextView: NSView, Widget {
     }
     
     func valueView() {
-        downloadValue = NSTextField(frame: NSMakeRect(widgetSize.width, widgetSize.margin, self.frame.size.width - widgetSize.margin, 9))
+        downloadValue = NSTextField(frame: NSMakeRect(widgetSize.margin, widgetSize.margin, self.frame.size.width - widgetSize.margin, 9))
         downloadValue.isEditable = false
         downloadValue.isSelectable = false
         downloadValue.isBezeled = false
