@@ -1,6 +1,17 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+### [v1.2.11]
+    - fixed network text widget visibility
+
+### [v1.2.10]
+    - moved to swift 5
+    - fixed start on boot
+
+### [v1.2.9]
+    - fixed start on boot button
+    - changed the weight of some fonts
+
 ### [v1.2.8]
     - small changes in Widgets structure
     - widgets settings moved from modules to widgets
@@ -63,6 +74,9 @@ All notable changes to this project will be documented in this file.
 ### [v1.0.0]
     - first release
 
+[v1.2.11]: https://github.com/exelban/stats/releases/tag/v1.2.11
+[v1.2.10]: https://github.com/exelban/stats/releases/tag/v1.2.10
+[v1.2.9]: https://github.com/exelban/stats/releases/tag/v1.2.9
 [v1.2.8]: https://github.com/exelban/stats/releases/tag/v1.2.8
 [v1.2.7]: https://github.com/exelban/stats/releases/tag/v1.2.7
 [v1.2.6]: https://github.com/exelban/stats/releases/tag/v1.2.6
