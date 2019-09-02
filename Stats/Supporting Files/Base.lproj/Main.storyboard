@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.70"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--Application-->
@@ -19,6 +20,52 @@
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="75" y="0.0"/>
+        </scene>
+        <!--Main View Controller-->
+        <scene sceneID="Bmi-PC-JO4">
+            <objects>
+                <viewController storyboardIdentifier="MainViewController" id="dfW-5f-6r7" customClass="MainViewController" customModule="Stats" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="tkB-rI-I3L">
+                        <rect key="frame" x="0.0" y="0.0" width="300" height="400"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <stackView distribution="fill" orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="r7W-52-3OS">
+                                <rect key="frame" x="10" y="364" width="280" height="26"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="280" id="ST8-py-pZs"/>
+                                    <constraint firstAttribute="height" constant="26" id="gmW-gr-uvi"/>
+                                </constraints>
+                            </stackView>
+                            <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="xUf-TB-ZyV">
+                                <rect key="frame" x="0.0" y="354" width="300" height="5"/>
+                            </box>
+                            <tabView type="noTabsNoBorder" translatesAutoresizingMaskIntoConstraints="NO" id="Qvr-de-co3">
+                                <rect key="frame" x="0.0" y="0.0" width="300" height="356"/>
+                                <font key="font" metaFont="system"/>
+                            </tabView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="r7W-52-3OS" firstAttribute="leading" secondItem="tkB-rI-I3L" secondAttribute="leading" constant="10" id="6fT-TM-mkd"/>
+                            <constraint firstAttribute="trailing" secondItem="Qvr-de-co3" secondAttribute="trailing" id="830-7Y-2vJ"/>
+                            <constraint firstItem="r7W-52-3OS" firstAttribute="top" secondItem="tkB-rI-I3L" secondAttribute="top" constant="10" id="9ED-Zz-TMm"/>
+                            <constraint firstItem="Qvr-de-co3" firstAttribute="top" secondItem="r7W-52-3OS" secondAttribute="bottom" constant="8" id="BA2-Rh-TQV"/>
+                            <constraint firstItem="Qvr-de-co3" firstAttribute="top" secondItem="xUf-TB-ZyV" secondAttribute="bottom" id="Iy3-bM-jjN"/>
+                            <constraint firstAttribute="bottom" secondItem="Qvr-de-co3" secondAttribute="bottom" id="OND-Qc-XXz"/>
+                            <constraint firstAttribute="trailing" secondItem="r7W-52-3OS" secondAttribute="trailing" constant="10" id="aef-o6-X4m"/>
+                            <constraint firstItem="xUf-TB-ZyV" firstAttribute="top" secondItem="r7W-52-3OS" secondAttribute="bottom" constant="7" id="dd6-Oy-q3o"/>
+                            <constraint firstAttribute="trailing" secondItem="xUf-TB-ZyV" secondAttribute="trailing" id="nyL-Ph-xdF"/>
+                            <constraint firstItem="xUf-TB-ZyV" firstAttribute="leading" secondItem="tkB-rI-I3L" secondAttribute="leading" id="sOd-a5-mm3"/>
+                            <constraint firstItem="Qvr-de-co3" firstAttribute="leading" secondItem="tkB-rI-I3L" secondAttribute="leading" id="ugc-Do-YbI"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="tabView" destination="Qvr-de-co3" id="WdB-aV-v0r"/>
+                        <outlet property="topStackView" destination="r7W-52-3OS" id="6Fj-HX-MBJ"/>
+                    </connections>
+                </viewController>
+                <customObject id="LNG-EP-CNb" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="66" y="295"/>
         </scene>
     </scenes>
 </document>

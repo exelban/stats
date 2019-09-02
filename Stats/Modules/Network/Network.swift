@@ -18,6 +18,8 @@ class Network: Module {
     var available: Observable<Bool>
     var reader: Reader = NetworkReader()
     var widgetType: WidgetType = 2.0
+    var viewAvailable: Bool = true
+    var tabView: NSTabViewItem = NSTabViewItem()
     
     let defaults = UserDefaults.standard
     
@@ -27,6 +29,25 @@ class Network: Module {
         self.widgetType = defaults.object(forKey: "\(name)_widget") != nil ? defaults.float(forKey: "\(name)_widget") : Widgets.NetworkDots
         initMenu()
         initWidget()
+        initTab()
+    }
+    
+    func initTab() {
+        self.tabView.view?.frame = NSRect(x: 0, y: 0, width: TabWidth, height: TabHeight)
+        
+        let text: NSTextField = NSTextField(string: self.name)
+        text.isEditable = false
+        text.isSelectable = false
+        text.isBezeled = false
+        text.wantsLayer = true
+        text.textColor = .labelColor
+        text.canDrawSubviewsIntoLayer = true
+        text.alignment = .natural
+        text.font = NSFont.systemFont(ofSize: 13, weight: .regular)
+        text.frame.origin.x = ((self.tabView.view?.frame.size.width)! - 50) / 2
+        text.frame.origin.y = ((self.tabView.view?.frame.size.height)! - 22) / 2
+        
+        self.tabView.view?.addSubview(text)
     }
     
     func start() {

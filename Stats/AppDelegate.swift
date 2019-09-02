@@ -15,6 +15,7 @@ extension Notification.Name {
 
 let modules: Observable<[Module]> = Observable([CPU(), Memory(), Disk(), Battery(), Network()])
 let updater = macAppUpdater(user: "exelban", repo: "stats")
+let menu = NSPopover()
 
 let appStoreMode: Bool = false
 
@@ -29,33 +30,37 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             return
         }
         
-        _ = MenuBar(menuBarItem, menuBarButton: menuBarButton)
+        menuBarButton.action = #selector(toggleMenu)
+        menu.contentViewController = MainViewController.Init()
+        menu.behavior = NSPopover.Behavior.transient
         
+        _ = MenuBar(menuBarItem, menuBarButton: menuBarButton)
+
         let launcherAppId = "eu.exelban.StatsLauncher"
         let runningApps = NSWorkspace.shared.runningApplications
         let isRunning = !runningApps.filter { $0.bundleIdentifier == launcherAppId }.isEmpty
-        
+
         if defaults.object(forKey: "runAtLogin") == nil {
             SMLoginItemSetEnabled(launcherAppId as CFString, true)
             self.defaults.set(true, forKey: "runAtLogin")
         }
-        
+
         if defaults.object(forKey: "dockIcon") != nil {
             let dockIconStatus = defaults.bool(forKey: "dockIcon") ? NSApplication.ActivationPolicy.regular : NSApplication.ActivationPolicy.accessory
             NSApp.setActivationPolicy(dockIconStatus)
         }
-        
+
         if !appStoreMode && defaults.object(forKey: "checkUpdatesOnLogin") == nil || defaults.bool(forKey: "checkUpdatesOnLogin") {
             updater.check() { result, error in
                 if error != nil && error as! String == "No internet connection" {
                     return
                 }
-                
+
                 guard error == nil, let version: version = result else {
                     print("Error: \(error ?? "check error")")
                     return
                 }
-                
+
                 if version.newest {
                     DispatchQueue.main.async(execute: {
                         let updatesVC: NSWindowController? = NSStoryboard(name: "Updates", bundle: nil).instantiateController(withIdentifier: "UpdatesVC") as? NSWindowController
@@ -66,7 +71,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 }
             }
         }
-        
+
         if isRunning {
             DistributedNotificationCenter.default().post(name: .killLauncher, object: Bundle.main.bundleIdentifier!)
         }
@@ -78,6 +83,22 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 module.stop()
             }
         }
+    }
+    
+    @objc func toggleMenu(_ sender: Any?) {
+        if menu.isShown {
+            menu.performClose(sender)
+        } else {
+            if let button = self.menuBarItem.button {
+                NSApplication.shared.activate(ignoringOtherApps: true)
+                menu.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
+                menu.becomeFirstResponder()
+            }
+        }
+    }
+    
+    func applicationWillResignActive(_ notification: Notification) {
+        menu.performClose(self)
     }
 }
 

@@ -26,102 +26,16 @@ class MenuBar {
     
     func generateMenuBar() {
         buildModulesView()
-        menuBarItem.menu = buildMenu()
         
         for module in modules.value {
             module.active.subscribe(observer: self) { (value, _) in
                 self.buildModulesView()
                 self.menuBarItem.menu?.removeAllItems()
-                self.menuBarItem.menu = self.buildMenu()
             }
             module.available.subscribe(observer: self) { (value, _) in
                 self.buildModulesView()
                 self.menuBarItem.menu?.removeAllItems()
-                self.menuBarItem.menu = self.buildMenu()
             }
-        }
-    }
-    
-    func buildMenu() -> NSMenu {
-        let menu = NSMenu()
-        
-        for module in modules.value {
-            if module.available.value {
-                menu.addItem(module.menu)
-            }
-        }
-        
-        menu.addItem(NSMenuItem.separator())
-        
-        let preferences = NSMenuItem(title: "Preferences", action: nil, keyEquivalent: "")
-        let preferencesMenu = NSMenu()
-        
-        let checkForUpdates = NSMenuItem(title: "Check for updates on start", action: #selector(toggleMenu), keyEquivalent: "")
-        checkForUpdates.state = defaults.bool(forKey: "checkUpdatesOnLogin") || defaults.object(forKey: "checkUpdatesOnLogin") == nil ? NSControl.StateValue.on : NSControl.StateValue.off
-        checkForUpdates.target = self
-        preferencesMenu.addItem(checkForUpdates)
-        
-        let runAtLogin = NSMenuItem(title: "Start at login", action: #selector(toggleMenu), keyEquivalent: "")
-        runAtLogin.state = defaults.bool(forKey: "runAtLogin") || defaults.object(forKey: "runAtLogin") == nil ? NSControl.StateValue.on : NSControl.StateValue.off
-        runAtLogin.target = self
-        preferencesMenu.addItem(runAtLogin)
-        
-        let dockIcon = NSMenuItem(title: "Show icon in dock", action: #selector(toggleMenu), keyEquivalent: "")
-        dockIcon.state = defaults.bool(forKey: "dockIcon") ? NSControl.StateValue.on : NSControl.StateValue.off
-        dockIcon.target = self
-        preferencesMenu.addItem(dockIcon)
-        
-        preferences.submenu = preferencesMenu
-        menu.addItem(preferences)
-        
-        menu.addItem(NSMenuItem.separator())
-        
-        let updateMenu = NSMenuItem(title: "Check for updates", action: #selector(checkUpdate), keyEquivalent: "")
-        updateMenu.target = self
-        
-        let aboutMenu = NSMenuItem(title: "About Stats", action: #selector(openAbout), keyEquivalent: "")
-        aboutMenu.target = self
-        
-        if !appStoreMode {
-            menu.addItem(updateMenu)
-        }
-        menu.addItem(aboutMenu)
-        menu.addItem(NSMenuItem(title: "Quit Stats", action: #selector(NSApplication.terminate(_:)), keyEquivalent: ""))
-        
-        return menu
-    }
-    
-    @objc func checkUpdate(_ sender : NSMenuItem) {
-        let updatesVC: NSWindowController? = NSStoryboard(name: "Updates", bundle: nil).instantiateController(withIdentifier: "UpdatesVC") as? NSWindowController
-        updatesVC?.window?.center()
-        updatesVC?.window?.level = .floating
-        updatesVC!.showWindow(self)
-    }
-    
-    @objc func openAbout(_ sender : NSMenuItem) {
-        let aboutVC: NSWindowController? = NSStoryboard(name: "About", bundle: nil).instantiateController(withIdentifier: "AboutVC") as? NSWindowController
-        aboutVC?.window?.center()
-        aboutVC?.window?.level = .floating
-        aboutVC!.showWindow(self)
-    }
-    
-    @objc func toggleMenu(_ sender : NSMenuItem) {
-        let launcherId = "eu.exelban.StatsLauncher"
-        let status = sender.state != NSControl.StateValue.on
-        sender.state = sender.state == NSControl.StateValue.on ? NSControl.StateValue.off : NSControl.StateValue.on
-        
-        switch sender.title {
-        case "Start at login":
-            SMLoginItemSetEnabled(launcherId as CFString, status)
-            self.defaults.set(status, forKey: "runAtLogin")
-        case "Check for updates on start":
-            self.defaults.set(status, forKey: "checkUpdatesOnLogin")
-        case "Show icon in dock":
-            self.defaults.set(status, forKey: "dockIcon")
-            let iconStatus = status ? NSApplication.ActivationPolicy.regular : NSApplication.ActivationPolicy.accessory
-            NSApp.setActivationPolicy(iconStatus)
-            return
-        default: break
         }
     }
     

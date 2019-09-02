@@ -17,6 +17,8 @@ class Battery: Module {
     var active: Observable<Bool>
     var available: Observable<Bool>
     var reader: Reader = BatteryReader()
+    var viewAvailable: Bool = true
+    var tabView: NSTabViewItem = NSTabViewItem()
     
     let defaults = UserDefaults.standard
     var widgetType: WidgetType = Widgets.Mini
@@ -29,6 +31,25 @@ class Battery: Module {
         self.view = BatteryView(frame: NSMakeRect(0, 0, widgetSize.width, widgetSize.height))
         initMenu()
         initWidget()
+        initTab()
+    }
+    
+    func initTab() {
+        self.tabView.view?.frame = NSRect(x: 0, y: 0, width: TabWidth, height: TabHeight)
+        
+        let text: NSTextField = NSTextField(string: self.name)
+        text.isEditable = false
+        text.isSelectable = false
+        text.isBezeled = false
+        text.wantsLayer = true
+        text.textColor = .labelColor
+        text.canDrawSubviewsIntoLayer = true
+        text.alignment = .natural
+        text.font = NSFont.systemFont(ofSize: 13, weight: .regular)
+        text.frame.origin.x = ((self.tabView.view?.frame.size.width)! - 50) / 2
+        text.frame.origin.y = ((self.tabView.view?.frame.size.height)! - 22) / 2
+        
+        self.tabView.view?.addSubview(text)
     }
     
     func start() {

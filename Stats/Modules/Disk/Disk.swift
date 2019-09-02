@@ -19,6 +19,8 @@ class Disk: Module {
     
     var active: Observable<Bool>
     var available: Observable<Bool>
+    var viewAvailable: Bool = false
+    var tabView: NSTabViewItem = NSTabViewItem()
     
     var reader: Reader = DiskReader()
     
@@ -31,6 +33,11 @@ class Disk: Module {
         
         self.initWidget()
         self.initMenu()
+        initTab()
+    }
+    
+    func initTab() {
+        self.tabView.view?.frame = NSRect(x: 0, y: 0, width: TabWidth, height: TabHeight)
     }
     
     func initMenu() {
