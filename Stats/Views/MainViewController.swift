@@ -9,8 +9,8 @@
 import Cocoa
 import ServiceManagement
 
-let TabWidth: CGFloat = 300
-let TabHeight: CGFloat = 356
+public let TabWidth: CGFloat = 300
+public let TabHeight: CGFloat = 356
 
 class MainViewController: NSViewController {
     let defaults = UserDefaults.standard

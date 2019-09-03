@@ -18,7 +18,7 @@ class Network: Module {
     var available: Observable<Bool>
     var reader: Reader = NetworkReader()
     var widgetType: WidgetType = 2.0
-    var viewAvailable: Bool = true
+    var viewAvailable: Bool = false
     var tabView: NSTabViewItem = NSTabViewItem()
     
     let defaults = UserDefaults.standard
