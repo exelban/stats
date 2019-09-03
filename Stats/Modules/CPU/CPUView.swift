@@ -29,7 +29,7 @@ extension CPU {
         let lineColor: NSColor = NSColor(red: (26/255.0), green: (126/255.0), blue: (252/255.0), alpha: 1.0)
         let gradientColor: NSColor = NSColor(red: (26/255.0), green: (126/255.0), blue: (252/255.0), alpha: 0.5)
 
-        self.chart = LineChartView(frame: CGRect(x: 0, y: TabHeight - 108, width: TabWidth, height: 100))
+        self.chart = LineChartView(frame: CGRect(x: 0, y: TabHeight - 110, width: TabWidth, height: 102))
         self.chart.animate(xAxisDuration: 2.0, yAxisDuration: 2.0, easingOption: .easeInCubic)
         self.chart.backgroundColor = .white
         self.chart.noDataText = "No data about CPU usage"
@@ -104,12 +104,12 @@ extension CPU {
         overviewLabel.layer?.backgroundColor = NSColor(hexString: "#eeeeee", alpha: 0.5).cgColor
         
         let overviewText: NSTextField = NSTextField(string: "Overview")
-        overviewText.frame = NSRect(x: 0, y: 0, width: TabWidth, height: overviewLabel.frame.size.height - 5)
+        overviewText.frame = NSRect(x: 0, y: 0, width: TabWidth, height: overviewLabel.frame.size.height - 4)
         overviewText.isEditable = false
         overviewText.isSelectable = false
         overviewText.isBezeled = false
         overviewText.wantsLayer = true
-        overviewText.textColor = .labelColor
+        overviewText.textColor = .darkGray
         overviewText.canDrawSubviewsIntoLayer = true
         overviewText.alignment = .center
         overviewText.backgroundColor = NSColor(hexString: "#dddddd", alpha: 0)
@@ -166,12 +166,12 @@ extension CPU {
         label.layer?.backgroundColor = NSColor(hexString: "#eeeeee", alpha: 0.5).cgColor
         
         let text: NSTextField = NSTextField(string: "Top Processes")
-        text.frame = NSRect(x: 0, y: 0, width: TabWidth, height: label.frame.size.height - 5)
+        text.frame = NSRect(x: 0, y: 0, width: TabWidth, height: label.frame.size.height - 4)
         text.isEditable = false
         text.isSelectable = false
         text.isBezeled = false
         text.wantsLayer = true
-        text.textColor = .labelColor
+        text.textColor = .darkGray
         text.canDrawSubviewsIntoLayer = true
         text.alignment = .center
         text.backgroundColor = NSColor(hexString: "#dddddd", alpha: 0)
@@ -236,9 +236,10 @@ extension CPU {
         label.isEditable = false
         label.isSelectable = false
         label.isBezeled = false
-        label.textColor = .labelColor
+        label.textColor = .black
         label.alignment = .center
         label.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+        label.backgroundColor = NSColor(hexString: "#dddddd", alpha: 0)
         
         return label
     }
@@ -252,6 +253,7 @@ extension CPU {
         label.textColor = .black
         label.alignment = .center
         label.font = NSFont.systemFont(ofSize: 13, weight: .regular)
+        label.backgroundColor = NSColor(hexString: "#dddddd", alpha: 0)
         
         return label
     }
