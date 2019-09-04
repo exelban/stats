@@ -7,23 +7,23 @@
 //
 
 import Cocoa
+import Charts
 
 class Memory: Module {
-    let name: String = "Memory"
-    let shortName: String = "MEM"
-    var view: NSView = NSView()
-    var menu: NSMenuItem = NSMenuItem()
-    var submenu: NSMenu = NSMenu()
-    var active: Observable<Bool>
-    var available: Observable<Bool>
-    var reader: Reader = MemoryReader()
-    var widgetType: WidgetType
-    var viewAvailable: Bool = true
-    var tabView: NSTabViewItem = NSTabViewItem()
+    public let name: String = "Memory"
+    public let shortName: String = "MEM"
+    public var view: NSView = NSView()
+    public var menu: NSMenuItem = NSMenuItem()
+    public var active: Observable<Bool>
+    public var available: Observable<Bool>
+    public var reader: Reader = MemoryReader()
+    public var widgetType: WidgetType
+    public var viewAvailable: Bool = true
+    public var tabView: NSTabViewItem = NSTabViewItem()
+    public var chart: LineChartView = LineChartView()
     
-    let defaults = UserDefaults.standard
-    
-    @IBOutlet weak var value: NSTextField!
+    private let defaults = UserDefaults.standard
+    private var submenu: NSMenu = NSMenu()
     
     init() {
         self.available = Observable(true)
@@ -32,24 +32,6 @@ class Memory: Module {
         initWidget()
         initMenu()
         initTab()
-    }
-    
-    func initTab() {
-        self.tabView.view?.frame = NSRect(x: 0, y: 0, width: TabWidth, height: TabHeight)
-        
-        let text: NSTextField = NSTextField(string: self.name)
-        text.isEditable = false
-        text.isSelectable = false
-        text.isBezeled = false
-        text.wantsLayer = true
-        text.textColor = .labelColor
-        text.canDrawSubviewsIntoLayer = true
-        text.alignment = .natural
-        text.font = NSFont.systemFont(ofSize: 13, weight: .regular)
-        text.frame.origin.x = ((self.tabView.view?.frame.size.width)! - 50) / 2
-        text.frame.origin.y = ((self.tabView.view?.frame.size.height)! - 22) / 2
-        
-        self.tabView.view?.addSubview(text)
     }
     
     func initMenu() {

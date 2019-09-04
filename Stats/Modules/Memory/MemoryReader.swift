@@ -8,16 +8,31 @@
 
 import Foundation
 
+struct MemoryUsage {
+    var total: Double = 0
+    var used: Double = 0
+    var free: Double = 0
+}
+
 class MemoryReader: Reader {
-    var value: Observable<[Double]>!
-    var available: Bool = true
-    var updateTimer: Timer!
-    var totalSize: Float
+    public var value: Observable<[Double]>!
+    public var usage: Observable<MemoryUsage> = Observable(MemoryUsage())
+    public var processes: Observable<[TopProcess]> = Observable([TopProcess]())
+    public var available: Bool = true
+    public var updateTimer: Timer!
+    public var totalSize: Float
+    
+    private var topProcess: Process = Process()
+    private var pipe: Pipe = Pipe()
     
     init() {
         self.value = Observable([])
         var stats = host_basic_info()
         var count = UInt32(MemoryLayout<host_basic_info_data_t>.size / MemoryLayout<integer_t>.size)
+        
+        self.topProcess.launchPath = "/usr/bin/top"
+        self.topProcess.arguments = ["-s", "1", "-o", "mem", "-n", "5", "-stats", "pid,command,mem"]
+        self.topProcess.standardOutput = pipe
         
         let kerr: kern_return_t = withUnsafeMutablePointer(to: &stats) {
             $0.withMemoryRebound(to: integer_t.self, capacity: Int(count)) {
@@ -41,6 +56,43 @@ class MemoryReader: Reader {
             return
         }
         updateTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(read), userInfo: nil, repeats: true)
+        
+        if topProcess.isRunning {
+            return
+        }
+        self.pipe.fileHandleForReading.waitForDataInBackgroundAndNotify()
+        
+        NotificationCenter.default.addObserver(forName: NSNotification.Name.NSFileHandleDataAvailable, object: self.pipe.fileHandleForReading , queue: nil) { _ -> Void in
+            defer {
+                self.pipe.fileHandleForReading.waitForDataInBackgroundAndNotify()
+            }
+            
+            let output = self.pipe.fileHandleForReading.availableData
+            if output.isEmpty {
+                return
+            }
+            
+            let outputString = String(data: output, encoding: String.Encoding.utf8) ?? ""
+            var processes: [TopProcess] = []
+            outputString.enumerateLines { (line, stop) -> () in
+                if line.matches("^\\d+ + .+ +\\d+.\\d[M\\+\\-]+ *$") {
+                    let arr = line.condenseWhitespace().split(separator: " ")
+                    let pid = Int(arr[0]) ?? 0
+                    let command = String(arr[1])
+                    let usage = Double(arr[2].filter("01234567890.".contains))! * Double(1024 * 1024)
+                    let process = TopProcess(pid: pid, command: command, usage: usage)
+                    processes.append(process)
+                }
+            }
+            
+            self.processes << processes
+        }
+        
+        do {
+            try topProcess.run()
+        } catch let error {
+            print(error)
+        }
     }
     
     func stop() {
@@ -49,6 +101,7 @@ class MemoryReader: Reader {
         }
         updateTimer.invalidate()
         updateTimer = nil
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.NSFileHandleDataAvailable, object: nil)
     }
     
     @objc func read() {
@@ -63,11 +116,14 @@ class MemoryReader: Reader {
         
         if kerr == KERN_SUCCESS {
             let active = Float(stats.active_count) * Float(PAGE_SIZE)
-            //            let inactive = Float(stats.inactive_count) * Float(PAGE_SIZE)
+//            let inactive = Float(stats.inactive_count) * Float(PAGE_SIZE)
             let wired = Float(stats.wire_count) * Float(PAGE_SIZE)
             let compressed = Float(stats.compressor_page_count) * Float(PAGE_SIZE)
             
-            let free = totalSize - (active + wired + compressed)
+            let used = active + wired + compressed
+            let free = totalSize - used
+            
+            self.usage << MemoryUsage(total: Double(totalSize), used: Double(used), free: Double(free))
             self.value << [Double((totalSize - free) / totalSize)]
         }
         else {

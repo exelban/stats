@@ -94,11 +94,11 @@ class NetworkArrowsTextView: NSView, Widget {
         
         if self.download != download {
             self.download = download
-            downloadValue.stringValue = Units(bytes: self.download).getReadableUnit()
+            downloadValue.stringValue = "\(Units(bytes: self.download).getReadableUnit())/s"
         }
         if self.upload != upload {
             self.upload = upload
-            uploadValue.stringValue = Units(bytes: self.upload).getReadableUnit()
+            uploadValue.stringValue = "\(Units(bytes: self.upload).getReadableUnit())/s"
         }
     }
     

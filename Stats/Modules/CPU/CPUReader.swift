@@ -15,7 +15,7 @@ struct CPUUsage {
     var idle: Double = 0
 }
 
-struct CPUProcess {
+struct TopProcess {
     var pid: Int = 0
     var command: String = ""
     var usage: Double = 0
@@ -24,7 +24,7 @@ struct CPUProcess {
 class CPUReader: Reader {
     public var value: Observable<[Double]>!
     public var usage: Observable<CPUUsage> = Observable(CPUUsage())
-    public var processes: Observable<[CPUProcess]> = Observable([CPUProcess]())
+    public var processes: Observable<[TopProcess]> = Observable([TopProcess]())
     public var available: Bool = true
     public var updateTimer: Timer!
     public var perCoreMode: Bool = false
@@ -81,14 +81,14 @@ class CPUReader: Reader {
             }
             
             let outputString = String(data: output, encoding: String.Encoding.utf8) ?? ""
-            var processes: [CPUProcess] = []
+            var processes: [TopProcess] = []
             outputString.enumerateLines { (line, stop) -> () in
                 if line.matches("^\\d+ + .+ +\\d+.\\d *$") {
                     let arr = line.condenseWhitespace().split(separator: " ")
                     let pid = Int(arr[0]) ?? 0
                     let command = String(arr[1])
                     let usage = Double(arr[2]) ?? 0
-                    let process = CPUProcess(pid: pid, command: command, usage: usage)
+                    let process = TopProcess(pid: pid, command: command, usage: usage)
                     processes.append(process)
                 }
             }

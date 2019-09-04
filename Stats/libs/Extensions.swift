@@ -107,15 +107,15 @@ public struct Units {
     public func getReadableUnit() -> String {
         switch bytes {
         case 0..<1_024:
-            return "0 KB/s"
+            return "0 KB"
         case 1_024..<(1_024 * 1_024):
-            return String(format: "%.0f KB/s", kilobytes)
+            return String(format: "%.0f KB", kilobytes)
         case 1_024..<(1_024 * 1_024 * 1_024):
-            return String(format: "%.2f MB/s", megabytes)
+            return String(format: "%.2f MB", megabytes)
         case (1_024 * 1_024 * 1_024)...Int64.max:
-            return String(format: "%.2f GB/s", gigabytes)
+            return String(format: "%.2f GB", gigabytes)
         default:
-            return String(format: "%.0f KB/s", kilobytes)
+            return String(format: "%.0f KB", kilobytes)
         }
     }
 }

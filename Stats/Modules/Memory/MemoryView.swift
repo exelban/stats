@@ -1,8 +1,8 @@
 //
-//  CPUView.swift
+//  MemoryView.swift
 //  Stats
 //
-//  Created by Serhiy Mytrovtsiy on 03/09/2019.
+//  Created by Serhiy Mytrovtsiy on 04/09/2019.
 //  Copyright © 2019 Serhiy Mytrovtsiy. All rights reserved.
 //
 
@@ -10,7 +10,7 @@ import Cocoa
 import Foundation
 import Charts
 
-extension CPU {
+extension Memory {
     
     func initTab() {
         self.tabView.view?.frame = NSRect(x: 0, y: 0, width: TabWidth, height: TabHeight)
@@ -19,16 +19,16 @@ extension CPU {
         makeOverview()
         makeProcesses()
         
-        (self.reader as! CPUReader).usage.subscribe(observer: self) { (value, _) in
-            let v: Double = Double((value.value * 100).roundTo(decimalPlaces: 2))!
-            self.updateChart(value: v)
+        (self.reader as! MemoryReader).usage.subscribe(observer: self) { (value, _) in
+            self.updateChart(value: Units(bytes: Int64(value.used)).getReadableTuple().0)
         }
     }
     
     func makeChart() {
+        let reader = self.reader as! MemoryReader
         let lineColor: NSColor = NSColor(red: (26/255.0), green: (126/255.0), blue: (252/255.0), alpha: 1.0)
         let gradientColor: NSColor = NSColor(red: (26/255.0), green: (126/255.0), blue: (252/255.0), alpha: 0.5)
-
+        
         self.chart = LineChartView(frame: CGRect(x: 0, y: TabHeight - 110, width: TabWidth, height: 102))
         self.chart.animate(xAxisDuration: 2.0, yAxisDuration: 2.0, easingOption: .easeInCubic)
         self.chart.backgroundColor = .white
@@ -43,8 +43,8 @@ extension CPU {
         self.chart.rightAxis.enabled = false
         
         self.chart.leftAxis.axisMinimum = 0
-        self.chart.leftAxis.axisMaximum = 100
-        self.chart.leftAxis.labelCount = 6
+        self.chart.leftAxis.axisMaximum = Units(bytes: Int64(reader.totalSize)).gigabytes
+        self.chart.leftAxis.labelCount = Units(bytes: Int64(reader.totalSize)).gigabytes > 16 ? 6 : 4
         self.chart.leftAxis.drawGridLinesEnabled = false
         self.chart.leftAxis.drawAxisLineEnabled = false
         
@@ -118,40 +118,40 @@ extension CPU {
         let vertical: NSStackView = NSStackView(frame: NSRect(x: 0, y: 147, width: TabWidth, height: stackHeight*3))
         vertical.orientation = .vertical
         
-        let system: NSStackView = NSStackView(frame: NSRect(x: 10, y: stackHeight*2, width: TabWidth - 20, height: stackHeight))
-        system.orientation = .horizontal
-        system.distribution = .equalCentering
-        let systemLabel = labelField(string: "System")
-        let systemValue = valueField(string: "0 %")
-        system.addView(systemLabel, in: .center)
-        system.addView(systemValue, in: .center)
+        let total: NSStackView = NSStackView(frame: NSRect(x: 10, y: stackHeight*2, width: TabWidth - 20, height: stackHeight))
+        total.orientation = .horizontal
+        total.distribution = .equalCentering
+        let totalLabel = labelField(string: "Total")
+        let totalValue = valueField(string: "0 GB")
+        total.addView(totalLabel, in: .center)
+        total.addView(totalValue, in: .center)
         
-        let user: NSStackView = NSStackView(frame: NSRect(x: 10, y: stackHeight*1, width: TabWidth - 20, height: stackHeight))
-        user.orientation = .horizontal
-        user.distribution = .equalCentering
-        let userLabel = labelField(string: "User")
-        let userValue = valueField(string: "0 %")
-        user.addView(userLabel, in: .center)
-        user.addView(userValue, in: .center)
+        let used: NSStackView = NSStackView(frame: NSRect(x: 10, y: stackHeight*1, width: TabWidth - 20, height: stackHeight))
+        used.orientation = .horizontal
+        used.distribution = .equalCentering
+        let usedLabel = labelField(string: "Used")
+        let usedValue = valueField(string: "0 GB")
+        used.addView(usedLabel, in: .center)
+        used.addView(usedValue, in: .center)
         
-        let idle: NSStackView = NSStackView(frame: NSRect(x: 10, y: 0, width: TabWidth - 20, height: stackHeight))
-        idle.orientation = .horizontal
-        idle.distribution = .equalCentering
-        let idleLabel = labelField(string: "Idle")
-        let idleValue = valueField(string: "0 %")
-        idle.addView(idleLabel, in: .center)
-        idle.addView(idleValue, in: .center)
+        let free: NSStackView = NSStackView(frame: NSRect(x: 10, y: 0, width: TabWidth - 20, height: stackHeight))
+        free.orientation = .horizontal
+        free.distribution = .equalCentering
+        let freeLabel = labelField(string: "Free")
+        let freeValue = valueField(string: "0 GB")
+        free.addView(freeLabel, in: .center)
+        free.addView(freeValue, in: .center)
         
-        vertical.addSubview(system)
-        vertical.addSubview(user)
-        vertical.addSubview(idle)
+        vertical.addSubview(total)
+        vertical.addSubview(used)
+        vertical.addSubview(free)
         
         self.tabView.view?.addSubview(vertical)
         
-        (self.reader as! CPUReader).usage.subscribe(observer: self) { (value, _) in
-            systemValue.stringValue = "\(value.system.roundTo(decimalPlaces: 2)) %"
-            userValue.stringValue = "\(value.user.roundTo(decimalPlaces: 2)) %"
-            idleValue.stringValue = "\(value.idle.roundTo(decimalPlaces: 2)) %"
+        (self.reader as! MemoryReader).usage.subscribe(observer: self) { (value, _) in
+            totalValue.stringValue = Units(bytes: Int64(value.total)).getReadableUnit()
+            usedValue.stringValue = Units(bytes: Int64(value.used)).getReadableUnit()
+            freeValue.stringValue = Units(bytes: Int64(value.free)).getReadableUnit()
         }
     }
     
@@ -204,13 +204,13 @@ extension CPU {
         label.frame = NSRect(x: 0, y: vertical.frame.origin.y + vertical.frame.size.height + 2, width: TabWidth, height: 25)
         self.tabView.view?.addSubview(label)
         
-        (self.reader as! CPUReader).processes.subscribe(observer: self) { (processes, _) in
+        (self.reader as! MemoryReader).processes.subscribe(observer: self) { (processes, _) in
             for (i, process) in processes.enumerated() {
                 if i < 5 {
                     let processView = processViewList[i]
                     
                     (processView.subviews[0] as! NSTextField).stringValue = process.command
-                    (processView.subviews[1] as! NSTextField).stringValue = "\(process.usage.roundTo(decimalPlaces: 2)) %"
+                    (processView.subviews[1] as! NSTextField).stringValue = Units(bytes: Int64(process.usage)).getReadableUnit()
                 }
             }
         }
