@@ -8,6 +8,7 @@
 
 import Cocoa
 import ServiceManagement
+import LaunchAtLogin
 
 public let TabWidth: CGFloat = 300
 public let TabHeight: CGFloat = 356
@@ -102,7 +103,7 @@ class MainViewController: NSViewController {
         checkForUpdates.target = self
         
         let runAtLogin = NSMenuItem(title: "Start at login", action: #selector(toggleMenu), keyEquivalent: "")
-        runAtLogin.state = defaults.bool(forKey: "runAtLogin") || defaults.object(forKey: "runAtLogin") == nil ? NSControl.StateValue.on : NSControl.StateValue.off
+        runAtLogin.state = LaunchAtLogin.isEnabled ? NSControl.StateValue.on : NSControl.StateValue.off
         runAtLogin.target = self
         
         let dockIcon = NSMenuItem(title: "Show icon in dock", action: #selector(toggleMenu), keyEquivalent: "")
@@ -143,14 +144,15 @@ class MainViewController: NSViewController {
     }
     
     @objc func toggleMenu(_ sender : NSMenuItem) {
-        let launcherId = "eu.exelban.StatsLauncher"
         let status = sender.state != NSControl.StateValue.on
         sender.state = sender.state == NSControl.StateValue.on ? NSControl.StateValue.off : NSControl.StateValue.on
         
         switch sender.title {
         case "Start at login":
-            SMLoginItemSetEnabled(launcherId as CFString, status)
-            self.defaults.set(status, forKey: "runAtLogin")
+            LaunchAtLogin.isEnabled = status
+            if self.defaults.object(forKey: "runAtLoginInitialized") == nil {
+                self.defaults.set(true, forKey: "runAtLoginInitialized")
+            }
         case "Check for updates on start":
             self.defaults.set(status, forKey: "checkUpdatesOnLogin")
         case "Show icon in dock":

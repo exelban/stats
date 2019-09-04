@@ -2,17 +2,21 @@ PODS:
   - Charts (3.3.0):
     - Charts/Core (= 3.3.0)
   - Charts/Core (3.3.0)
+  - LaunchAtLogin (2.5.0)
 
 DEPENDENCIES:
   - Charts
+  - LaunchAtLogin
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Charts
+    - LaunchAtLogin
 
 SPEC CHECKSUMS:
   Charts: ec1f57f9340054155691e84d4544a1d239d382c5
+  LaunchAtLogin: 550b0cbbdaf1b13f87a0fab6a3f8e2fbafe067fe
 
-PODFILE CHECKSUM: 1935eab6769b7093597e74f1286aedc1ea7c755a
+PODFILE CHECKSUM: dee05cc24d20d667671a5f594bfbb948dcc3d791
 
 COCOAPODS: 1.7.1

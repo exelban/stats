@@ -8,6 +8,7 @@
 
 import Cocoa
 import ServiceManagement
+import LaunchAtLogin
 
 let modules: Observable<[Module]> = Observable([CPU(), Memory(), Disk(), Battery(), Network()])
 let updater = macAppUpdater(user: "exelban", repo: "stats")
@@ -30,6 +31,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         _ = MenuBar(menuBarItem, menuBarButton: menuBarButton)
 
+        if self.defaults.object(forKey: "runAtLoginInitialized") == nil {
+            LaunchAtLogin.isEnabled = true
+        }
+        
         if defaults.object(forKey: "dockIcon") != nil {
             let dockIconStatus = defaults.bool(forKey: "dockIcon") ? NSApplication.ActivationPolicy.regular : NSApplication.ActivationPolicy.accessory
             NSApp.setActivationPolicy(dockIconStatus)
