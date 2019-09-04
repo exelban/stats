@@ -35,10 +35,10 @@ class CPU: Module {
         }
         
         initWidget()
-        initMenu()
+        initMenu(active: self.active.value)
     }
     
-    func initMenu() {
+    func initMenu(active: Bool) {
         menu = NSMenuItem(title: name, action: #selector(toggle), keyEquivalent: "")
         submenu = NSMenu()
         
@@ -86,7 +86,9 @@ class CPU: Module {
             submenu.addItem(hyperthreading)
         }
         
-        menu.submenu = submenu
+        if active {
+            menu.submenu = submenu
+        }
     }
     
     @objc func toggle(_ sender: NSMenuItem) {
@@ -141,7 +143,7 @@ class CPU: Module {
         self.widgetType = widgetCode
         self.active << false
         self.initWidget()
-        self.initMenu()
+        self.initMenu(active: true)
         self.active << true
     }
     

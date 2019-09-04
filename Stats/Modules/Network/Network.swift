@@ -25,7 +25,7 @@ class Network: Module {
         self.available = Observable(self.reader.available)
         self.active = Observable(defaults.object(forKey: name) != nil ? defaults.bool(forKey: name) : true)
         self.widgetType = defaults.object(forKey: "\(name)_widget") != nil ? defaults.float(forKey: "\(name)_widget") : Widgets.NetworkDots
-        initMenu()
+        initMenu(active: self.active.value)
         initWidget()
     }
     
@@ -39,7 +39,7 @@ class Network: Module {
         }
     }
     
-    func initMenu() {
+    func initMenu(active: Bool) {
         menu = NSMenuItem(title: name, action: #selector(toggle), keyEquivalent: "")
         submenu = NSMenu()
         
@@ -88,7 +88,9 @@ class Network: Module {
             }
         }
         
-        menu.submenu = submenu
+        if active {
+            menu.submenu = submenu
+        }
     }
     
     @objc func toggle(_ sender: NSMenuItem) {

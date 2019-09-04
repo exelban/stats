@@ -30,10 +30,10 @@ class Disk: Module {
         self.widgetType = defaults.object(forKey: "\(name)_widget") != nil ? defaults.float(forKey: "\(name)_widget") : Widgets.Mini
         
         self.initWidget()
-        self.initMenu()
+        initMenu(active: self.active.value)
     }
     
-    func initMenu() {
+    func initMenu(active: Bool) {
         menu = NSMenuItem(title: name, action: #selector(toggle), keyEquivalent: "")
         submenu = NSMenu()
         
@@ -63,7 +63,9 @@ class Disk: Module {
             }
         }
         
-        menu.submenu = submenu
+        if active {
+            menu.submenu = submenu
+        }
     }
     
     @objc func toggle(_ sender: NSMenuItem) {
@@ -107,7 +109,7 @@ class Disk: Module {
         self.widgetType = widgetCode
         self.active << false
         self.initWidget()
-        self.initMenu()
+        self.initMenu(active: true)
         self.active << true
     }
 }
