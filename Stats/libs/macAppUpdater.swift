@@ -18,6 +18,12 @@ struct version {
     let url: String
 }
 
+struct Version {
+    var major: Int = 0
+    var minor: Int = 0
+    var patch: Int = 0
+}
+
 public class macAppUpdater {
     let user: String
     let repo: String
@@ -61,16 +67,29 @@ public class macAppUpdater {
         task.resume()
     }
     
-    func checkIfNewer(current: String, latest: String) -> Bool {
-        guard let currentNumber: Int64 = Int64(current.replacingOccurrences(of: "[v.]", with: "", options: [.regularExpression])) else {
-            print("Error: wrong version tag \(current)")
-            return false
+    func checkIfNewer(currentVersion: String, latestVersion: String) -> Bool {
+        let currentNumber = currentVersion.replacingOccurrences(of: "v", with: "")
+        let latestNumber = latestVersion.replacingOccurrences(of: "v", with: "")
+        
+        let currentArray = currentNumber.condenseWhitespace().split(separator: ".")
+        let latestArray = latestNumber.condenseWhitespace().split(separator: ".")
+        
+        let current = Version(major: Int(currentArray[0]) ?? 0, minor: Int(currentArray[1]) ?? 0, patch: Int(currentArray[2]) ?? 0)
+        let latest = Version(major: Int(latestArray[0]) ?? 0, minor: Int(latestArray[1]) ?? 0, patch: Int(latestArray[2]) ?? 0)
+
+        if latest.major > current.major {
+            return true
         }
-        guard let latestNumber: Int64 = Int64(latest.replacingOccurrences(of: "[v.]", with: "", options: [.regularExpression])) else {
-            print("Error: wrong version tag \(latest)")
-            return false
+        
+        if latest.minor > current.minor && latest.major >= current.major {
+            return true
         }
-        return latestNumber>currentNumber
+        
+        if latest.patch > current.patch && latest.minor >= current.minor && latest.major >= current.major {
+            return true
+        }
+        
+        return false
     }
     
     func check(completionHandler: @escaping (_ result: version?, _ error: Error?) -> Void) {
@@ -92,7 +111,7 @@ public class macAppUpdater {
 
             let downloadURL: String = result![1]
             let lastVersion: String = result![0]
-            let newVersion: Bool = self.checkIfNewer(current: self.currentVersion, latest: lastVersion)
+            let newVersion: Bool = self.checkIfNewer(currentVersion: self.currentVersion, latestVersion: lastVersion)
 
             completionHandler(version(current: self.currentVersion, latest: lastVersion, newest: newVersion, url: downloadURL), nil)
         }
