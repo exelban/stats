@@ -48,9 +48,7 @@ class Battery: Module {
     }
     
     func initWidget() {
-        self.active << false
         (self.view as! BatteryView).setPercentage(value: self.percentageView.value)
-        self.active << true
     }
     
     func initMenu() {
@@ -101,7 +99,9 @@ class Battery: Module {
         sender.state = sender.state == NSControl.StateValue.on ? NSControl.StateValue.off : NSControl.StateValue.on
         self.defaults.set(state, forKey: "\(self.name)_percentage")
         self.percentageView << state
+        self.active << false
         self.initWidget()
+        self.active << true
     }
 }
 
