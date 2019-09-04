@@ -9,15 +9,9 @@
 import Cocoa
 import ServiceManagement
 
-extension Notification.Name {
-    static let killLauncher = Notification.Name("killLauncher")
-}
-
 let modules: Observable<[Module]> = Observable([CPU(), Memory(), Disk(), Battery(), Network()])
 let updater = macAppUpdater(user: "exelban", repo: "stats")
 let menu = NSPopover()
-
-let appStoreMode: Bool = false
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -36,21 +30,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         _ = MenuBar(menuBarItem, menuBarButton: menuBarButton)
 
-        let launcherAppId = "eu.exelban.StatsLauncher"
-        let runningApps = NSWorkspace.shared.runningApplications
-        let isRunning = !runningApps.filter { $0.bundleIdentifier == launcherAppId }.isEmpty
-
-        if defaults.object(forKey: "runAtLogin") == nil {
-            SMLoginItemSetEnabled(launcherAppId as CFString, true)
-            self.defaults.set(true, forKey: "runAtLogin")
-        }
-
         if defaults.object(forKey: "dockIcon") != nil {
             let dockIconStatus = defaults.bool(forKey: "dockIcon") ? NSApplication.ActivationPolicy.regular : NSApplication.ActivationPolicy.accessory
             NSApp.setActivationPolicy(dockIconStatus)
         }
 
-        if !appStoreMode && defaults.object(forKey: "checkUpdatesOnLogin") == nil || defaults.bool(forKey: "checkUpdatesOnLogin") {
+        if defaults.object(forKey: "checkUpdatesOnLogin") == nil || defaults.bool(forKey: "checkUpdatesOnLogin") {
             updater.check() { result, error in
                 if error != nil && error as! String == "No internet connection" {
                     return
@@ -70,10 +55,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                     })
                 }
             }
-        }
-
-        if isRunning {
-            DistributedNotificationCenter.default().post(name: .killLauncher, object: Bundle.main.bundleIdentifier!)
         }
     }
 

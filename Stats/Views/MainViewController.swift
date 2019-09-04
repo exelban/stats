@@ -121,9 +121,7 @@ class MainViewController: NSViewController {
         let aboutMenu = NSMenuItem(title: "About Stats", action: #selector(openAbout), keyEquivalent: "")
         aboutMenu.target = self
         
-        if !appStoreMode {
-            menu.addItem(updateMenu)
-        }
+        menu.addItem(updateMenu)
         menu.addItem(aboutMenu)
         menu.addItem(NSMenuItem(title: "Quit Stats", action: #selector(NSApplication.terminate(_:)), keyEquivalent: ""))
         
