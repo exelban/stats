@@ -9,19 +9,19 @@
 import Cocoa
 
 class Network: Module {
-    var name: String = "Network"
-    var shortName: String = "NET"
-    var view: NSView = NSView()
-    var menu: NSMenuItem = NSMenuItem()
-    var submenu: NSMenu = NSMenu()
-    var active: Observable<Bool>
-    var available: Observable<Bool>
-    var reader: Reader = NetworkReader()
-    var widgetType: WidgetType = 2.0
-    var viewAvailable: Bool = false
-    var tabView: NSTabViewItem = NSTabViewItem()
+    public var name: String = "Network"
+    public var shortName: String = "NET"
+    public var view: NSView = NSView()
+    public var menu: NSMenuItem = NSMenuItem()
+    public var active: Observable<Bool>
+    public var available: Observable<Bool>
+    public var reader: Reader = NetworkReader()
+    public var widgetType: WidgetType = 2.0
+    public var viewAvailable: Bool = false
+    public var tabView: NSTabViewItem = NSTabViewItem()
     
-    let defaults = UserDefaults.standard
+    private let defaults = UserDefaults.standard
+    private var submenu: NSMenu = NSMenu()
     
     init() {
         self.available = Observable(self.reader.available)

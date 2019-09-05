@@ -16,8 +16,8 @@ let popover = NSPopover()
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
-    let defaults = UserDefaults.standard
-    var menuBarItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
+    private let defaults = UserDefaults.standard
+    private var menuBarItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         guard let menuBarButton = self.menuBarItem.button else {
@@ -85,97 +85,5 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func applicationWillResignActive(_ notification: Notification) {
         popover.performClose(self)
-    }
-}
-
-class AboutVC: NSViewController {
-    @IBOutlet weak var versionLabel: NSTextField!
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.view.wantsLayer = true
-    }
-    
-    @IBAction func openLink(_ sender: Any) {
-        NSWorkspace.shared.open(URL(string: "https://github.com/exelban/stats")!)
-    }
-    
-    @IBAction func exit(_ sender: Any) {
-        self.view.window?.close()
-    }
-    
-    override func awakeFromNib() {
-        if self.view.layer != nil {
-            self.view.window?.backgroundColor = .windowBackgroundColor
-            let versionNumber = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
-            versionLabel.stringValue = "Version \(versionNumber)"
-        }
-    }
-}
-
-class UpdatesVC: NSViewController {
-    @IBOutlet weak var mainView: NSStackView!
-    @IBOutlet weak var spinnerView: NSView!
-    @IBOutlet weak var noInternetView: NSView!
-    @IBOutlet weak var mainTextLabel: NSTextFieldCell!
-    @IBOutlet weak var currentVersionLabel: NSTextField!
-    @IBOutlet weak var latestVersionLabel: NSTextField!
-    @IBOutlet weak var downloadButton: NSButton!
-    @IBOutlet weak var spinner: NSProgressIndicator!
-    
-    var url: String?
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.view.wantsLayer = true
-        
-        self.spinner.startAnimation(self)
-        
-        updater.check() { result, error in
-            if error != nil && error as! String == "No internet connection" {
-                DispatchQueue.main.async(execute: {
-                    self.spinnerView.isHidden = true
-                    self.noInternetView.isHidden = false
-                })
-                return
-            }
-            
-            guard error == nil, let version: version = result else {
-                print("Error: \(error ?? "check error")")
-                return
-            }
-            
-            DispatchQueue.main.async(execute: {
-                self.spinner.stopAnimation(self)
-                self.spinnerView.isHidden = true
-                self.mainView.isHidden = false
-                self.currentVersionLabel.stringValue = version.current
-                self.latestVersionLabel.stringValue = version.latest
-                self.url = version.url
-                
-                if !version.newest {
-                    self.mainTextLabel.stringValue = "No new version available"
-                    self.downloadButton.isEnabled = false
-                }
-            })
-        }
-    }
-    
-    override func awakeFromNib() {
-        if self.view.layer != nil {
-            self.view.window?.backgroundColor = .windowBackgroundColor
-        }
-    }
-    
-    @IBAction func download(_ sender: Any) {
-        guard let urlString = self.url, let url = URL(string: urlString) else {
-            return
-        }
-        NSWorkspace.shared.open(url)
-        self.view.window?.close()
-    }
-    
-    @IBAction func exit(_ sender: Any) {
-        self.view.window?.close()
     }
 }

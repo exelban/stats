@@ -10,9 +10,10 @@ import Cocoa
 import ServiceManagement
 
 class MenuBar {
-    let defaults = UserDefaults.standard
-    let menuBarItem: NSStatusItem
-    lazy var menuBarButton: NSButton = NSButton()
+    private let defaults = UserDefaults.standard
+    private let menuBarItem: NSStatusItem
+    private var menuBarButton: NSButton = NSButton()
+    private var view: NSView? = nil
     
     init(_ menuBarItem: NSStatusItem, menuBarButton: NSButton) {
         self.menuBarItem = menuBarItem
@@ -24,7 +25,7 @@ class MenuBar {
         }
     }
     
-    func generateMenuBar() {
+    private func generateMenuBar() {
         buildModulesView()
         
         for module in modules.value {
@@ -39,16 +40,14 @@ class MenuBar {
         }
     }
     
-    func buildModulesView() {
-        for subview in self.menuBarButton.subviews {
-            subview.removeFromSuperview()
+    private func buildModulesView() {
+        if self.view == nil {
+            self.view = NSView(frame: NSMakeRect(0, 0, widgetSize.width, widgetSize.height))
+            self.menuBarButton.addSubview(self.view!)
         }
+        let view = self.view!
         
-        self.menuBarButton.image = NSImage(named:NSImage.Name("tray_icon"))
-        self.menuBarItem.length = widgetSize.width
-        var WIDTH = CGFloat(modules.value.count) * widgetSize.width
-        
-        WIDTH = 0
+        var WIDTH: CGFloat = 0
         for module in modules.value {
             if module.active.value && module.available.value {
                 module.start()
@@ -56,7 +55,10 @@ class MenuBar {
             }
         }
         
-        let view: NSView = NSView(frame: NSMakeRect(0, 0, WIDTH, widgetSize.height))
+        self.menuBarButton.image = nil
+        for v in view.subviews {
+            v.removeFromSuperview()
+        }
         
         var x: CGFloat = 0
         for module in modules.value {
@@ -67,11 +69,12 @@ class MenuBar {
             }
         }
         
-        if view.subviews.count != 0 {
-            view.frame.size.width = WIDTH
-            self.menuBarButton.image = nil
+        if view.subviews.count == 0 {
+            self.menuBarButton.image = NSImage(named:NSImage.Name("tray_icon"))
+            self.menuBarItem.length = widgetSize.width
+        } else {
             self.menuBarItem.length = WIDTH
-            self.menuBarButton.addSubview(view)
+            view.frame.size.width = WIDTH
         }
     }
 }

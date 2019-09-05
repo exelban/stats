@@ -40,10 +40,10 @@ class MainViewController: NSViewController {
     }
     
     func makeHeader() {
-        var items: [String] = []
+        var list: [String] = []
         for module in modules.value {
             if module.viewAvailable && module.available.value {
-                items.append(module.name)
+                list.append(module.name)
                 
                 let tab = module.tabView
                 tab.label = module.name
@@ -55,7 +55,7 @@ class MainViewController: NSViewController {
             }
         }
         
-        self.segmentsControl = NSSegmentedControl(labels: items, trackingMode: NSSegmentedControl.SwitchTracking.selectOne, target: self, action: #selector(switchTabs))
+        self.segmentsControl = NSSegmentedControl(labels: list, trackingMode: NSSegmentedControl.SwitchTracking.selectOne, target: self, action: #selector(switchTabs))
         self.segmentsControl.setSelected(true, forSegment: 0)
 //        self.tabView.selectTabViewItem(at: 2)
         self.segmentsControl.segmentDistribution = .fillEqually

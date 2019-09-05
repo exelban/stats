@@ -29,7 +29,7 @@ extension Battery {
         level.orientation = .horizontal
         level.distribution = .equalCentering
         let levelLabel = LabelField(string: "Level")
-        let levelValue = ValueField(string: "0%")
+        let levelValue = ValueField(string: "0 %")
         level.addView(levelLabel, in: .center)
         level.addView(levelValue, in: .center)
         
@@ -56,7 +56,7 @@ extension Battery {
         self.tabView.view?.addSubview(vertical)
         
         (self.reader as! BatteryReader).usage.subscribe(observer: self) { (value, _) in
-            levelValue.stringValue = "\(Int(value.capacity * 100))%"
+            levelValue.stringValue = "\(Int(value.capacity * 100)) %"
             sourceValue.stringValue = value.powerSource
             
             if value.powerSource == "Battery Power" {
@@ -139,7 +139,7 @@ extension Battery {
         (self.reader as! BatteryReader).usage.subscribe(observer: self) { (value, _) in
             cyclesValue.stringValue = "\(value.cycles)"
             stateValue.stringValue = value.state
-            healthValue.stringValue = "\(value.health)%"
+            healthValue.stringValue = "\(value.health) %"
         }
     }
     

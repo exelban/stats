@@ -106,5 +106,6 @@ class Mini: NSView, Widget {
         sender.state = sender.state == NSControl.StateValue.on ? NSControl.StateValue.off : NSControl.StateValue.on
         self.defaults.set(sender.state == NSControl.StateValue.on, forKey: "\(name)_color")
         self.color = sender.state == NSControl.StateValue.on
+        self.redraw()
     }
 }

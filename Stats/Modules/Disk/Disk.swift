@@ -9,22 +9,21 @@
 import Cocoa
 
 class Disk: Module {
-    let name: String = "Disk"
-    let shortName: String = "SSD"
-    var view: NSView = NSView()
-    var menu: NSMenuItem = NSMenuItem()
-    var submenu: NSMenu = NSMenu()
-    let defaults = UserDefaults.standard
-    var widgetType: WidgetType
+    public let name: String = "Disk"
+    public let shortName: String = "SSD"
+    public var view: NSView = NSView()
+    public var menu: NSMenuItem = NSMenuItem()
+    public var widgetType: WidgetType
     
-    var active: Observable<Bool>
-    var available: Observable<Bool>
-    var viewAvailable: Bool = false
-    var tabView: NSTabViewItem = NSTabViewItem()
+    public var active: Observable<Bool>
+    public var available: Observable<Bool>
+    public var viewAvailable: Bool = false
+    public var tabView: NSTabViewItem = NSTabViewItem()
     
-    var reader: Reader = DiskReader()
+    public var reader: Reader = DiskReader()
     
-    @IBOutlet weak var value: NSTextField!
+    private var submenu: NSMenu = NSMenu()
+    private let defaults = UserDefaults.standard
     
     init() {
         self.available = Observable(true)

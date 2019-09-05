@@ -13,7 +13,7 @@
 		9A09C8A222B3D94D0018426F /* BatteryWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A09C8A122B3D94D0018426F /* BatteryWidget.swift */; };
 		9A1410F9229E721100D29793 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1410F8229E721100D29793 /* AppDelegate.swift */; };
 		9A141100229E721200D29793 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A1410FE229E721200D29793 /* Main.storyboard */; };
-		9A426DB822C2B5EE00C064C4 /* macAppUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A426DB722C2B5EE00C064C4 /* macAppUpdater.swift */; };
+		9A426DB822C2B5EE00C064C4 /* MacAppUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A426DB722C2B5EE00C064C4 /* MacAppUpdater.swift */; };
 		9A426DBE22C2BE0000C064C4 /* Updates.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A426DBD22C2BE0000C064C4 /* Updates.storyboard */; };
 		9A493CDF23202B620064570C /* MemoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A493CDE23202B620064570C /* MemoryView.swift */; };
 		9A57A18522A1D26D0033E318 /* MenuBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A57A18422A1D26D0033E318 /* MenuBar.swift */; };
@@ -25,6 +25,8 @@
 		9A5B1CBF229E78F0008B9D3C /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5B1CBE229E78F0008B9D3C /* Observable.swift */; };
 		9A5B1CC5229E7B40008B9D3C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5B1CC4229E7B40008B9D3C /* Extensions.swift */; };
 		9A606B482321025C00642F51 /* BatteryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A606B472321025C00642F51 /* BatteryView.swift */; };
+		9A606B4A2321577400642F51 /* UpdatesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A606B492321577400642F51 /* UpdatesViewController.swift */; };
+		9A606B4C232157BA00642F51 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A606B4B232157BA00642F51 /* AboutViewController.swift */; };
 		9A6CFC0122A1C9F5001E782D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9A6CFC0022A1C9F5001E782D /* Assets.xcassets */; };
 		9A74D59722B44498004FE1FA /* Mini.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A74D59622B44498004FE1FA /* Mini.swift */; };
 		9A79B36A22D3BEE600BF1C3A /* Widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A79B36922D3BEE600BF1C3A /* Widget.swift */; };
@@ -43,7 +45,7 @@
 		9AF0F32522DA92C400026AE6 /* NetworkText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF0F32422DA92C400026AE6 /* NetworkText.swift */; };
 		9AF0F32722DA92DD00026AE6 /* NetworkDotsText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF0F32622DA92DD00026AE6 /* NetworkDotsText.swift */; };
 		9AF0F32922DA92E800026AE6 /* NetworkArrowsText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF0F32822DA92E800026AE6 /* NetworkArrowsText.swift */; };
-		9AF6F1FE231D732600B8E1E4 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF6F1FD231D732600B8E1E4 /* MainViewController.swift */; };
+		9AF6F1FE231D732600B8E1E4 /* PopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF6F1FD231D732600B8E1E4 /* PopupViewController.swift */; };
 		9AFFCB3B22B3FD0500B0E6D8 /* About.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9AFFCB3A22B3FD0500B0E6D8 /* About.storyboard */; };
 /* End PBXBuildFile section */
 
@@ -74,7 +76,7 @@
 		9A1410FF229E721200D29793 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9A141101229E721200D29793 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9A141102229E721200D29793 /* Stats.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Stats.entitlements; sourceTree = "<group>"; };
-		9A426DB722C2B5EE00C064C4 /* macAppUpdater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = macAppUpdater.swift; sourceTree = "<group>"; };
+		9A426DB722C2B5EE00C064C4 /* MacAppUpdater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MacAppUpdater.swift; sourceTree = "<group>"; };
 		9A426DBD22C2BE0000C064C4 /* Updates.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Updates.storyboard; sourceTree = "<group>"; };
 		9A493CDE23202B620064570C /* MemoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryView.swift; sourceTree = "<group>"; };
 		9A57A18422A1D26D0033E318 /* MenuBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBar.swift; sourceTree = "<group>"; };
@@ -86,6 +88,8 @@
 		9A5B1CBE229E78F0008B9D3C /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		9A5B1CC4229E7B40008B9D3C /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		9A606B472321025C00642F51 /* BatteryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryView.swift; sourceTree = "<group>"; };
+		9A606B492321577400642F51 /* UpdatesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatesViewController.swift; sourceTree = "<group>"; };
+		9A606B4B232157BA00642F51 /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		9A6CFC0022A1C9F5001E782D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9A74D59622B44498004FE1FA /* Mini.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mini.swift; sourceTree = "<group>"; };
 		9A79B36922D3BEE600BF1C3A /* Widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Widget.swift; sourceTree = "<group>"; };
@@ -106,7 +110,7 @@
 		9AF0F32422DA92C400026AE6 /* NetworkText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkText.swift; sourceTree = "<group>"; };
 		9AF0F32622DA92DD00026AE6 /* NetworkDotsText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkDotsText.swift; sourceTree = "<group>"; };
 		9AF0F32822DA92E800026AE6 /* NetworkArrowsText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkArrowsText.swift; sourceTree = "<group>"; };
-		9AF6F1FD231D732600B8E1E4 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		9AF6F1FD231D732600B8E1E4 /* PopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupViewController.swift; sourceTree = "<group>"; };
 		9AFFCB3A22B3FD0500B0E6D8 /* About.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = About.storyboard; sourceTree = "<group>"; };
 		B76EECB31DFC37E1EA558662 /* Pods_StatsLauncher.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StatsLauncher.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -206,7 +210,7 @@
 			children = (
 				9A5B1CBE229E78F0008B9D3C /* Observable.swift */,
 				9A5B1CC4229E7B40008B9D3C /* Extensions.swift */,
-				9A426DB722C2B5EE00C064C4 /* macAppUpdater.swift */,
+				9A426DB722C2B5EE00C064C4 /* MacAppUpdater.swift */,
 				9A59AE55231EE02F007989D6 /* ChartMarker.swift */,
 			);
 			path = libs;
@@ -289,7 +293,9 @@
 		9AF6F1FC231D72EC00B8E1E4 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				9AF6F1FD231D732600B8E1E4 /* MainViewController.swift */,
+				9AF6F1FD231D732600B8E1E4 /* PopupViewController.swift */,
+				9A606B492321577400642F51 /* UpdatesViewController.swift */,
+				9A606B4B232157BA00642F51 /* AboutViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -450,20 +456,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				9A09C8A222B3D94D0018426F /* BatteryWidget.swift in Sources */,
-				9A426DB822C2B5EE00C064C4 /* macAppUpdater.swift in Sources */,
+				9A426DB822C2B5EE00C064C4 /* MacAppUpdater.swift in Sources */,
 				9A79B36E22D3BEF900BF1C3A /* Reader.swift in Sources */,
+				9A606B4C232157BA00642F51 /* AboutViewController.swift in Sources */,
 				9A59AE54231ED1AC007989D6 /* CPUView.swift in Sources */,
 				9A7B8F6F22A2C57000DEB352 /* DiskReader.swift in Sources */,
 				9A7B8F6922A2C3A100DEB352 /* Memory.swift in Sources */,
 				9AF0F32522DA92C400026AE6 /* NetworkText.swift in Sources */,
 				9A7B8F5E22A2A57600DEB352 /* CPUReader.swift in Sources */,
 				9AF0F32322DA92B900026AE6 /* NetworkArrows.swift in Sources */,
+				9A606B4A2321577400642F51 /* UpdatesViewController.swift in Sources */,
 				9AF0F31D22DA925000026AE6 /* LineChartWithValue.swift in Sources */,
 				9A09C89E22B3A7C90018426F /* Battery.swift in Sources */,
 				9A7B8F6D22A2C3D600DEB352 /* MemoryReader.swift in Sources */,
 				9A79B36C22D3BEF000BF1C3A /* Module.swift in Sources */,
 				9A57A18522A1D26D0033E318 /* MenuBar.swift in Sources */,
-				9AF6F1FE231D732600B8E1E4 /* MainViewController.swift in Sources */,
+				9AF6F1FE231D732600B8E1E4 /* PopupViewController.swift in Sources */,
 				9A57A19D22A1E3270033E318 /* CPU.swift in Sources */,
 				9A58D1B222C150D700405315 /* NetworkReader.swift in Sources */,
 				9A09C8A022B3A7E20018426F /* BatteryReader.swift in Sources */,

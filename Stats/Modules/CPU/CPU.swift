@@ -21,7 +21,6 @@ class CPU: Module {
     public var tabView: NSTabViewItem = NSTabViewItem()
     public var viewAvailable: Bool = true
     public var widgetType: WidgetType
-    
     public var chart: LineChartView = LineChartView()
     
     private let defaults = UserDefaults.standard

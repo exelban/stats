@@ -9,20 +9,21 @@
 import Cocoa
 
 class Battery: Module {
-    let name: String = "Battery"
-    let shortName: String = ""
-    var view: NSView = NSView()
-    var menu: NSMenuItem = NSMenuItem()
-    var submenu: NSMenu = NSMenu()
-    var active: Observable<Bool>
-    var available: Observable<Bool>
-    var reader: Reader = BatteryReader()
-    var viewAvailable: Bool = true
-    var tabView: NSTabViewItem = NSTabViewItem()
+    public let name: String = "Battery"
+    public let shortName: String = ""
+    public var view: NSView = NSView()
+    public var menu: NSMenuItem = NSMenuItem()
+    public var active: Observable<Bool>
+    public var available: Observable<Bool>
+    public var reader: Reader = BatteryReader()
+    public var viewAvailable: Bool = true
+    public var tabView: NSTabViewItem = NSTabViewItem()
     
-    let defaults = UserDefaults.standard
-    var widgetType: WidgetType = Widgets.Mini
-    let percentageView: Observable<Bool>
+    public var widgetType: WidgetType = Widgets.Mini
+    public let percentageView: Observable<Bool>
+    
+    private let defaults = UserDefaults.standard
+    private var submenu: NSMenu = NSMenu()
     
     init() {
         self.available = Observable(self.reader.available)
