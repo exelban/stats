@@ -173,7 +173,7 @@ func LabelField(string: String) -> NSTextField {
     label.isEditable = false
     label.isSelectable = false
     label.isBezeled = false
-    label.textColor = .black
+    label.textColor = .darkGray
     label.alignment = .center
     label.font = NSFont.systemFont(ofSize: 12, weight: .regular)
     label.backgroundColor = NSColor(hexString: "#dddddd", alpha: 0)

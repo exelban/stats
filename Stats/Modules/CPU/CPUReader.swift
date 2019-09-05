@@ -28,7 +28,7 @@ class CPUReader: Reader {
     public var available: Bool = true
     public var updateTimer: Timer!
     public var perCoreMode: Bool = false
-    public var hyperthreading: Bool = true
+    public var hyperthreading: Bool = false
     
     private var cpuInfo: processor_info_array_t!
     private var prevCpuInfo: processor_info_array_t?
