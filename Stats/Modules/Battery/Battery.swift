@@ -30,7 +30,7 @@ class Battery: Module {
         self.active = Observable(defaults.object(forKey: name) != nil ? defaults.bool(forKey: name) : true)
         self.percentageView = Observable(defaults.object(forKey: "\(self.name)_percentage") != nil ? defaults.bool(forKey: "\(self.name)_percentage") : false)
         self.view = BatteryWidget(frame: NSMakeRect(0, 0, widgetSize.width, widgetSize.height))
-        initMenu()
+        initMenu(active: self.active.value)
         initWidget()
         initTab()
     }
@@ -52,12 +52,10 @@ class Battery: Module {
     }
     
     func initWidget() {
-        self.active << false
         (self.view as! BatteryWidget).setPercentage(value: self.percentageView.value)
-        self.active << true
     }
     
-    func initMenu() {
+    func initMenu(active: Bool) {
         menu = NSMenuItem(title: name, action: #selector(toggle), keyEquivalent: "")
         submenu = NSMenu()
         
@@ -80,7 +78,9 @@ class Battery: Module {
         }
         submenu.addItem(percentage)
         
-        menu.submenu = submenu
+        if active {
+            menu.submenu = submenu
+        }
     }
     
     @objc func toggle(_ sender: NSMenuItem) {
@@ -105,7 +105,9 @@ class Battery: Module {
         sender.state = sender.state == NSControl.StateValue.on ? NSControl.StateValue.off : NSControl.StateValue.on
         self.defaults.set(state, forKey: "\(self.name)_percentage")
         self.percentageView << state
+        self.active << false
         self.initWidget()
+        self.active << true
     }
 }
 
