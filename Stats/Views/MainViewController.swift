@@ -57,6 +57,7 @@ class MainViewController: NSViewController {
         
         self.segmentsControl = NSSegmentedControl(labels: items, trackingMode: NSSegmentedControl.SwitchTracking.selectOne, target: self, action: #selector(switchTabs))
         self.segmentsControl.setSelected(true, forSegment: 0)
+//        self.tabView.selectTabViewItem(at: 2)
         self.segmentsControl.segmentDistribution = .fillEqually
         
         let button = NSButton(frame: NSRect(x: 0, y: 0, width: 26, height: 20))
@@ -163,4 +164,33 @@ class MainViewController: NSViewController {
         default: break
         }
     }
+}
+
+
+func LabelField(string: String) -> NSTextField {
+    let label: NSTextField = NSTextField(string: string)
+    
+    label.isEditable = false
+    label.isSelectable = false
+    label.isBezeled = false
+    label.textColor = .black
+    label.alignment = .center
+    label.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+    label.backgroundColor = NSColor(hexString: "#dddddd", alpha: 0)
+    
+    return label
+}
+
+func ValueField(string: String) -> NSTextField {
+    let label: NSTextField = NSTextField(string: string)
+    
+    label.isEditable = false
+    label.isSelectable = false
+    label.isBezeled = false
+    label.textColor = .black
+    label.alignment = .center
+    label.font = NSFont.systemFont(ofSize: 13, weight: .regular)
+    label.backgroundColor = NSColor(hexString: "#dddddd", alpha: 0)
+    
+    return label
 }

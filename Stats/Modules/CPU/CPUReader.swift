@@ -46,7 +46,7 @@ class CPUReader: Reader {
         self.value = Observable([])
         
         self.topProcess.launchPath = "/usr/bin/top"
-        self.topProcess.arguments = ["-s", "1", "-o", "cpu", "-n", "5", "-stats", "pid,command,cpu"]
+        self.topProcess.arguments = ["-s", "3", "-o", "cpu", "-n", "5", "-stats", "pid,command,cpu"]
         self.topProcess.standardOutput = pipe
         
         mibKeys.withUnsafeBufferPointer() { mib in

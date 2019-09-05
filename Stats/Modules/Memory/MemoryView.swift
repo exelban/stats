@@ -121,24 +121,24 @@ extension Memory {
         let total: NSStackView = NSStackView(frame: NSRect(x: 10, y: stackHeight*2, width: TabWidth - 20, height: stackHeight))
         total.orientation = .horizontal
         total.distribution = .equalCentering
-        let totalLabel = labelField(string: "Total")
-        let totalValue = valueField(string: "0 GB")
+        let totalLabel = LabelField(string: "Total")
+        let totalValue = ValueField(string: "0 GB")
         total.addView(totalLabel, in: .center)
         total.addView(totalValue, in: .center)
         
         let used: NSStackView = NSStackView(frame: NSRect(x: 10, y: stackHeight*1, width: TabWidth - 20, height: stackHeight))
         used.orientation = .horizontal
         used.distribution = .equalCentering
-        let usedLabel = labelField(string: "Used")
-        let usedValue = valueField(string: "0 GB")
+        let usedLabel = LabelField(string: "Used")
+        let usedValue = ValueField(string: "0 GB")
         used.addView(usedLabel, in: .center)
         used.addView(usedValue, in: .center)
         
         let free: NSStackView = NSStackView(frame: NSRect(x: 10, y: 0, width: TabWidth - 20, height: stackHeight))
         free.orientation = .horizontal
         free.distribution = .equalCentering
-        let freeLabel = labelField(string: "Free")
-        let freeValue = valueField(string: "0 GB")
+        let freeLabel = LabelField(string: "Free")
+        let freeValue = ValueField(string: "0 GB")
         free.addView(freeLabel, in: .center)
         free.addView(freeValue, in: .center)
         
@@ -220,39 +220,11 @@ extension Memory {
         let view: NSStackView = NSStackView(frame: NSRect(x: 10, y: CGFloat(num)*height, width: TabWidth - 20, height: height))
         view.orientation = .horizontal
         view.distribution = .equalCentering
-        let viewLabel = labelField(string: label)
-        let viewValue = valueField(string: value)
+        let viewLabel = LabelField(string: label)
+        let viewValue = ValueField(string: value)
         view.addView(viewLabel, in: .center)
         view.addView(viewValue, in: .center)
         
         return view
-    }
-    
-    func labelField(string: String) -> NSTextField {
-        let label: NSTextField = NSTextField(string: string)
-        
-        label.isEditable = false
-        label.isSelectable = false
-        label.isBezeled = false
-        label.textColor = .black
-        label.alignment = .center
-        label.font = NSFont.systemFont(ofSize: 12, weight: .regular)
-        label.backgroundColor = NSColor(hexString: "#dddddd", alpha: 0)
-        
-        return label
-    }
-    
-    func valueField(string: String) -> NSTextField {
-        let label: NSTextField = NSTextField(string: string)
-        
-        label.isEditable = false
-        label.isSelectable = false
-        label.isBezeled = false
-        label.textColor = .black
-        label.alignment = .center
-        label.font = NSFont.systemFont(ofSize: 13, weight: .regular)
-        label.backgroundColor = NSColor(hexString: "#dddddd", alpha: 0)
-        
-        return label
     }
 }

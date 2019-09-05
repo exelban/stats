@@ -121,24 +121,24 @@ extension CPU {
         let system: NSStackView = NSStackView(frame: NSRect(x: 10, y: stackHeight*2, width: TabWidth - 20, height: stackHeight))
         system.orientation = .horizontal
         system.distribution = .equalCentering
-        let systemLabel = labelField(string: "System")
-        let systemValue = valueField(string: "0 %")
+        let systemLabel = LabelField(string: "System")
+        let systemValue = ValueField(string: "0 %")
         system.addView(systemLabel, in: .center)
         system.addView(systemValue, in: .center)
         
         let user: NSStackView = NSStackView(frame: NSRect(x: 10, y: stackHeight*1, width: TabWidth - 20, height: stackHeight))
         user.orientation = .horizontal
         user.distribution = .equalCentering
-        let userLabel = labelField(string: "User")
-        let userValue = valueField(string: "0 %")
+        let userLabel = LabelField(string: "User")
+        let userValue = ValueField(string: "0 %")
         user.addView(userLabel, in: .center)
         user.addView(userValue, in: .center)
         
         let idle: NSStackView = NSStackView(frame: NSRect(x: 10, y: 0, width: TabWidth - 20, height: stackHeight))
         idle.orientation = .horizontal
         idle.distribution = .equalCentering
-        let idleLabel = labelField(string: "Idle")
-        let idleValue = valueField(string: "0 %")
+        let idleLabel = LabelField(string: "Idle")
+        let idleValue = ValueField(string: "0 %")
         idle.addView(idleLabel, in: .center)
         idle.addView(idleValue, in: .center)
         
@@ -220,39 +220,11 @@ extension CPU {
         let view: NSStackView = NSStackView(frame: NSRect(x: 10, y: CGFloat(num)*height, width: TabWidth - 20, height: height))
         view.orientation = .horizontal
         view.distribution = .equalCentering
-        let viewLabel = labelField(string: label)
-        let viewValue = valueField(string: value)
+        let viewLabel = LabelField(string: label)
+        let viewValue = ValueField(string: value)
         view.addView(viewLabel, in: .center)
         view.addView(viewValue, in: .center)
         
         return view
-    }
-    
-    func labelField(string: String) -> NSTextField {
-        let label: NSTextField = NSTextField(string: string)
-        
-        label.isEditable = false
-        label.isSelectable = false
-        label.isBezeled = false
-        label.textColor = .black
-        label.alignment = .center
-        label.font = NSFont.systemFont(ofSize: 12, weight: .regular)
-        label.backgroundColor = NSColor(hexString: "#dddddd", alpha: 0)
-        
-        return label
-    }
-    
-    func valueField(string: String) -> NSTextField {
-        let label: NSTextField = NSTextField(string: string)
-        
-        label.isEditable = false
-        label.isSelectable = false
-        label.isBezeled = false
-        label.textColor = .black
-        label.alignment = .center
-        label.font = NSFont.systemFont(ofSize: 13, weight: .regular)
-        label.backgroundColor = NSColor(hexString: "#dddddd", alpha: 0)
-        
-        return label
     }
 }

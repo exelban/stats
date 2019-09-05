@@ -31,7 +31,7 @@ class MemoryReader: Reader {
         var count = UInt32(MemoryLayout<host_basic_info_data_t>.size / MemoryLayout<integer_t>.size)
         
         self.topProcess.launchPath = "/usr/bin/top"
-        self.topProcess.arguments = ["-s", "1", "-o", "mem", "-n", "5", "-stats", "pid,command,mem"]
+        self.topProcess.arguments = ["-s", "3", "-o", "mem", "-n", "5", "-stats", "pid,command,mem"]
         self.topProcess.standardOutput = pipe
         
         let kerr: kern_return_t = withUnsafeMutablePointer(to: &stats) {
@@ -79,8 +79,10 @@ class MemoryReader: Reader {
                     let arr = line.condenseWhitespace().split(separator: " ")
                     let pid = Int(arr[0]) ?? 0
                     let command = String(arr[1])
-                    let usage = Double(arr[2].filter("01234567890.".contains))! * Double(1024 * 1024)
-                    let process = TopProcess(pid: pid, command: command, usage: usage)
+                    guard let usage = Double(arr[2].filter("01234567890.".contains)) else {
+                        return
+                    }
+                    let process = TopProcess(pid: pid, command: command, usage: usage * Double(1024 * 1024))
                     processes.append(process)
                 }
             }

@@ -10,7 +10,7 @@
 		628D2DE0AAA753E9F47625B0 /* Pods_Stats.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56B63995EBD3A1D1EBD3AF38 /* Pods_Stats.framework */; };
 		9A09C89E22B3A7C90018426F /* Battery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A09C89D22B3A7C90018426F /* Battery.swift */; };
 		9A09C8A022B3A7E20018426F /* BatteryReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A09C89F22B3A7E20018426F /* BatteryReader.swift */; };
-		9A09C8A222B3D94D0018426F /* BatteryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A09C8A122B3D94D0018426F /* BatteryView.swift */; };
+		9A09C8A222B3D94D0018426F /* BatteryWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A09C8A122B3D94D0018426F /* BatteryWidget.swift */; };
 		9A1410F9229E721100D29793 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1410F8229E721100D29793 /* AppDelegate.swift */; };
 		9A141100229E721200D29793 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A1410FE229E721200D29793 /* Main.storyboard */; };
 		9A426DB822C2B5EE00C064C4 /* macAppUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A426DB722C2B5EE00C064C4 /* macAppUpdater.swift */; };
@@ -24,6 +24,7 @@
 		9A59AE56231EE02F007989D6 /* ChartMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A59AE55231EE02F007989D6 /* ChartMarker.swift */; };
 		9A5B1CBF229E78F0008B9D3C /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5B1CBE229E78F0008B9D3C /* Observable.swift */; };
 		9A5B1CC5229E7B40008B9D3C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5B1CC4229E7B40008B9D3C /* Extensions.swift */; };
+		9A606B482321025C00642F51 /* BatteryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A606B472321025C00642F51 /* BatteryView.swift */; };
 		9A6CFC0122A1C9F5001E782D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9A6CFC0022A1C9F5001E782D /* Assets.xcassets */; };
 		9A74D59722B44498004FE1FA /* Mini.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A74D59622B44498004FE1FA /* Mini.swift */; };
 		9A79B36A22D3BEE600BF1C3A /* Widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A79B36922D3BEE600BF1C3A /* Widget.swift */; };
@@ -67,7 +68,7 @@
 		56B63995EBD3A1D1EBD3AF38 /* Pods_Stats.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Stats.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A09C89D22B3A7C90018426F /* Battery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Battery.swift; sourceTree = "<group>"; };
 		9A09C89F22B3A7E20018426F /* BatteryReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryReader.swift; sourceTree = "<group>"; };
-		9A09C8A122B3D94D0018426F /* BatteryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryView.swift; sourceTree = "<group>"; };
+		9A09C8A122B3D94D0018426F /* BatteryWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryWidget.swift; sourceTree = "<group>"; };
 		9A1410F5229E721100D29793 /* Stats.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Stats.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A1410F8229E721100D29793 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9A1410FF229E721200D29793 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -84,6 +85,7 @@
 		9A59AE55231EE02F007989D6 /* ChartMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartMarker.swift; sourceTree = "<group>"; };
 		9A5B1CBE229E78F0008B9D3C /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		9A5B1CC4229E7B40008B9D3C /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		9A606B472321025C00642F51 /* BatteryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryView.swift; sourceTree = "<group>"; };
 		9A6CFC0022A1C9F5001E782D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9A74D59622B44498004FE1FA /* Mini.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mini.swift; sourceTree = "<group>"; };
 		9A79B36922D3BEE600BF1C3A /* Widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Widget.swift; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 			children = (
 				9A09C89D22B3A7C90018426F /* Battery.swift */,
 				9A09C89F22B3A7E20018426F /* BatteryReader.swift */,
+				9A606B472321025C00642F51 /* BatteryView.swift */,
 			);
 			path = Battery;
 			sourceTree = "<group>";
@@ -214,7 +217,7 @@
 			children = (
 				9AF0F31922DA923100026AE6 /* Network */,
 				9AF0F31822DA922800026AE6 /* Charts */,
-				9A09C8A122B3D94D0018426F /* BatteryView.swift */,
+				9A09C8A122B3D94D0018426F /* BatteryWidget.swift */,
 				9A74D59622B44498004FE1FA /* Mini.swift */,
 				9A79B36922D3BEE600BF1C3A /* Widget.swift */,
 			);
@@ -446,7 +449,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9A09C8A222B3D94D0018426F /* BatteryView.swift in Sources */,
+				9A09C8A222B3D94D0018426F /* BatteryWidget.swift in Sources */,
 				9A426DB822C2B5EE00C064C4 /* macAppUpdater.swift in Sources */,
 				9A79B36E22D3BEF900BF1C3A /* Reader.swift in Sources */,
 				9A59AE54231ED1AC007989D6 /* CPUView.swift in Sources */,
@@ -470,6 +473,7 @@
 				9A1410F9229E721100D29793 /* AppDelegate.swift in Sources */,
 				9AF0F32722DA92DD00026AE6 /* NetworkDotsText.swift in Sources */,
 				9AF0F32922DA92E800026AE6 /* NetworkArrowsText.swift in Sources */,
+				9A606B482321025C00642F51 /* BatteryView.swift in Sources */,
 				9AF0F31F22DA925700026AE6 /* BarChart.swift in Sources */,
 				9AF0F31B22DA924000026AE6 /* LineChart.swift in Sources */,
 				9A59AE56231EE02F007989D6 /* ChartMarker.swift in Sources */,

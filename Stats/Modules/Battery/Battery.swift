@@ -28,41 +28,23 @@ class Battery: Module {
         self.available = Observable(self.reader.available)
         self.active = Observable(defaults.object(forKey: name) != nil ? defaults.bool(forKey: name) : true)
         self.percentageView = Observable(defaults.object(forKey: "\(self.name)_percentage") != nil ? defaults.bool(forKey: "\(self.name)_percentage") : false)
-        self.view = BatteryView(frame: NSMakeRect(0, 0, widgetSize.width, widgetSize.height))
+        self.view = BatteryWidget(frame: NSMakeRect(0, 0, widgetSize.width, widgetSize.height))
         initMenu()
         initWidget()
         initTab()
     }
     
-    func initTab() {
-        self.tabView.view?.frame = NSRect(x: 0, y: 0, width: TabWidth, height: TabHeight)
-        
-        let text: NSTextField = NSTextField(string: self.name)
-        text.isEditable = false
-        text.isSelectable = false
-        text.isBezeled = false
-        text.wantsLayer = true
-        text.textColor = .labelColor
-        text.canDrawSubviewsIntoLayer = true
-        text.alignment = .natural
-        text.font = NSFont.systemFont(ofSize: 13, weight: .regular)
-        text.frame.origin.x = ((self.tabView.view?.frame.size.width)! - 50) / 2
-        text.frame.origin.y = ((self.tabView.view?.frame.size.height)! - 22) / 2
-        
-        self.tabView.view?.addSubview(text)
-    }
-    
     func start() {
         if !self.reader.value.value.isEmpty {
             let value = self.reader.value!.value
-            (self.view as! BatteryView).setCharging(value: value.first! > 0)
+            (self.view as! BatteryWidget).setCharging(value: value.first! > 0)
             (self.view as! Widget).setValue(data: [abs(value.first!)])
         }
         
         self.reader.start()
         self.reader.value.subscribe(observer: self) { (value, _) in
             if !value.isEmpty {
-                (self.view as! BatteryView).setCharging(value: value.first! > 0)
+                (self.view as! BatteryWidget).setCharging(value: value.first! > 0)
                 (self.view as! Widget).setValue(data: [abs(value.first!)])
             }
         }
@@ -70,7 +52,7 @@ class Battery: Module {
     
     func initWidget() {
         self.active << false
-        (self.view as! BatteryView).setPercentage(value: self.percentageView.value)
+        (self.view as! BatteryWidget).setPercentage(value: self.percentageView.value)
         self.active << true
     }
     

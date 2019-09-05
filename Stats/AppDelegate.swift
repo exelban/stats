@@ -12,7 +12,7 @@ import LaunchAtLogin
 
 let modules: Observable<[Module]> = Observable([CPU(), Memory(), Disk(), Battery(), Network()])
 let updater = macAppUpdater(user: "exelban", repo: "stats")
-let menu = NSPopover()
+let popover = NSPopover()
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -26,8 +26,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         
         menuBarButton.action = #selector(toggleMenu)
-        menu.contentViewController = MainViewController.Init()
-        menu.behavior = NSPopover.Behavior.transient
+        popover.contentViewController = MainViewController.Init()
+        popover.behavior = NSPopover.Behavior.transient
         
         _ = MenuBar(menuBarItem, menuBarButton: menuBarButton)
 
@@ -72,19 +72,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     @objc func toggleMenu(_ sender: Any?) {
-        if menu.isShown {
-            menu.performClose(sender)
+        if popover.isShown {
+            popover.performClose(sender)
         } else {
             if let button = self.menuBarItem.button {
                 NSApplication.shared.activate(ignoringOtherApps: true)
-                menu.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
-                menu.becomeFirstResponder()
+                popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
+                popover.becomeFirstResponder()
             }
         }
     }
     
     func applicationWillResignActive(_ notification: Notification) {
-        menu.performClose(self)
+        popover.performClose(self)
     }
 }
 
