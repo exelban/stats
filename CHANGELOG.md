@@ -1,6 +1,17 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+### [v1.3.0]
+    - CPU hyperthreading mode disabled by default in bar chart widget
+    - added view for CPU module
+    - added view for Memory module
+    - added view for Battery module
+    - changed the menu item with preferences to list
+    - improved widgets draw algorithm
+    - implemented view for modules with charts and some information
+    - moved from own implementation to LauncAtLogin library
+    - fixed a lot of bugs
+
 ### [v1.2.13]
     - changed version checker logic
 
@@ -81,6 +92,7 @@ All notable changes to this project will be documented in this file.
 ### [v1.0.0]
     - first release
 
+[v1.3.0]: https://github.com/exelban/stats/releases/tag/v1.3.0
 [v1.2.13]: https://github.com/exelban/stats/releases/tag/v1.2.13
 [v1.2.12]: https://github.com/exelban/stats/releases/tag/v1.2.12
 [v1.2.11]: https://github.com/exelban/stats/releases/tag/v1.2.11
