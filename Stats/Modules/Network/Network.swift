@@ -9,17 +9,19 @@
 import Cocoa
 
 class Network: Module {
-    var name: String = "Network"
-    var shortName: String = "NET"
-    var view: NSView = NSView()
-    var menu: NSMenuItem = NSMenuItem()
-    var submenu: NSMenu = NSMenu()
-    var active: Observable<Bool>
-    var available: Observable<Bool>
-    var reader: Reader = NetworkReader()
-    var widgetType: WidgetType = 2.0
+    public var name: String = "Network"
+    public var shortName: String = "NET"
+    public var view: NSView = NSView()
+    public var menu: NSMenuItem = NSMenuItem()
+    public var active: Observable<Bool>
+    public var available: Observable<Bool>
+    public var reader: Reader = NetworkReader()
+    public var widgetType: WidgetType = 2.0
+    public var viewAvailable: Bool = false
+    public var tabView: NSTabViewItem = NSTabViewItem()
     
-    let defaults = UserDefaults.standard
+    private let defaults = UserDefaults.standard
+    private var submenu: NSMenu = NSMenu()
     
     init() {
         self.available = Observable(self.reader.available)
@@ -27,6 +29,25 @@ class Network: Module {
         self.widgetType = defaults.object(forKey: "\(name)_widget") != nil ? defaults.float(forKey: "\(name)_widget") : Widgets.NetworkDots
         initMenu(active: self.active.value)
         initWidget()
+        initTab()
+    }
+    
+    func initTab() {
+        self.tabView.view?.frame = NSRect(x: 0, y: 0, width: TabWidth, height: TabHeight)
+        
+        let text: NSTextField = NSTextField(string: self.name)
+        text.isEditable = false
+        text.isSelectable = false
+        text.isBezeled = false
+        text.wantsLayer = true
+        text.textColor = .labelColor
+        text.canDrawSubviewsIntoLayer = true
+        text.alignment = .natural
+        text.font = NSFont.systemFont(ofSize: 13, weight: .regular)
+        text.frame.origin.x = ((self.tabView.view?.frame.size.width)! - 50) / 2
+        text.frame.origin.y = ((self.tabView.view?.frame.size.height)! - 22) / 2
+        
+        self.tabView.view?.addSubview(text)
     }
     
     func start() {

@@ -107,15 +107,48 @@ public struct Units {
     public func getReadableUnit() -> String {
         switch bytes {
         case 0..<1_024:
-            return "0 KB/s"
+            return "0 KB"
         case 1_024..<(1_024 * 1_024):
-            return String(format: "%.0f KB/s", kilobytes)
+            return String(format: "%.0f KB", kilobytes)
         case 1_024..<(1_024 * 1_024 * 1_024):
-            return String(format: "%.2f MB/s", megabytes)
+            return String(format: "%.2f MB", megabytes)
         case (1_024 * 1_024 * 1_024)...Int64.max:
-            return String(format: "%.2f GB/s", gigabytes)
+            return String(format: "%.2f GB", gigabytes)
         default:
-            return String(format: "%.0f KB/s", kilobytes)
+            return String(format: "%.0f KB", kilobytes)
+        }
+    }
+}
+
+extension Double {
+    
+    func secondsToHoursMinutesSeconds () -> (Int?, Int?, Int?) {
+        let hrs = self / 3600
+        let mins = (self.truncatingRemainder(dividingBy: 3600)) / 60
+        let seconds = (self.truncatingRemainder(dividingBy:3600)).truncatingRemainder(dividingBy:60)
+        return (Int(hrs) > 0 ? Int(hrs) : nil , Int(mins) > 0 ? Int(mins) : nil, Int(seconds) > 0 ? Int(seconds) : nil)
+    }
+    
+    func printSecondsToHoursMinutesSeconds () -> String {
+        let time = self.secondsToHoursMinutesSeconds()
+        
+        switch time {
+        case (nil, let x? , let y?):
+            return "\(x) min \(y) sec"
+        case (nil, let x?, nil):
+            return "\(x) min"
+        case (let x?, nil, nil):
+            return "\(x) hr"
+        case (nil, nil, let x?):
+            return "\(x) sec"
+        case (let x?, nil, let z?):
+            return "\(x) hr \(z) sec"
+        case (let x?, let y?, nil):
+            return "\(x) hr \(y) min"
+        case (let x?, let y?, let z?):
+            return "\(x) hr \(y) min \(z) sec"
+        default:
+            return "n/a"
         }
     }
 }
@@ -139,5 +172,36 @@ extension NSBezierPath {
         self.line(to: arrowLine1)
         self.move(to: end)
         self.line(to: arrowLine2)
+    }
+}
+
+extension NSColor {
+    
+    convenience init(hexString: String, alpha: CGFloat = 1.0) {
+        let hexString: String = hexString.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+        let scanner = Scanner(string: hexString)
+        if (hexString.hasPrefix("#")) {
+            scanner.scanLocation = 1
+        }
+        var color: UInt32 = 0
+        scanner.scanHexInt32(&color)
+        let mask = 0x000000FF
+        let r = Int(color >> 16) & mask
+        let g = Int(color >> 8) & mask
+        let b = Int(color) & mask
+        let red   = CGFloat(r) / 255.0
+        let green = CGFloat(g) / 255.0
+        let blue  = CGFloat(b) / 255.0
+        self.init(red:red, green:green, blue:blue, alpha:alpha)
+    }
+    
+    func toHexString() -> String {
+        var r:CGFloat = 0
+        var g:CGFloat = 0
+        var b:CGFloat = 0
+        var a:CGFloat = 0
+        getRed(&r, green: &g, blue: &b, alpha: &a)
+        let rgb:Int = (Int)(r*255)<<16 | (Int)(g*255)<<8 | (Int)(b*255)<<0
+        return String(format:"#%06x", rgb)
     }
 }

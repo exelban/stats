@@ -9,46 +9,50 @@
 import Cocoa
 
 class Battery: Module {
-    let name: String = "Battery"
-    let shortName: String = ""
-    var view: NSView = NSView()
-    var menu: NSMenuItem = NSMenuItem()
-    var submenu: NSMenu = NSMenu()
-    var active: Observable<Bool>
-    var available: Observable<Bool>
-    var reader: Reader = BatteryReader()
+    public let name: String = "Battery"
+    public let shortName: String = ""
+    public var view: NSView = NSView()
+    public var menu: NSMenuItem = NSMenuItem()
+    public var active: Observable<Bool>
+    public var available: Observable<Bool>
+    public var reader: Reader = BatteryReader()
+    public var viewAvailable: Bool = true
+    public var tabView: NSTabViewItem = NSTabViewItem()
     
-    let defaults = UserDefaults.standard
-    var widgetType: WidgetType = Widgets.Mini
-    let percentageView: Observable<Bool>
+    public var widgetType: WidgetType = Widgets.Mini
+    public let percentageView: Observable<Bool>
+    
+    private let defaults = UserDefaults.standard
+    private var submenu: NSMenu = NSMenu()
     
     init() {
         self.available = Observable(self.reader.available)
         self.active = Observable(defaults.object(forKey: name) != nil ? defaults.bool(forKey: name) : true)
         self.percentageView = Observable(defaults.object(forKey: "\(self.name)_percentage") != nil ? defaults.bool(forKey: "\(self.name)_percentage") : false)
-        self.view = BatteryView(frame: NSMakeRect(0, 0, widgetSize.width, widgetSize.height))
+        self.view = BatteryWidget(frame: NSMakeRect(0, 0, widgetSize.width, widgetSize.height))
         initMenu(active: self.active.value)
         initWidget()
+        initTab()
     }
     
     func start() {
         if !self.reader.value.value.isEmpty {
             let value = self.reader.value!.value
-            (self.view as! BatteryView).setCharging(value: value.first! > 0)
+            (self.view as! BatteryWidget).setCharging(value: value.first! > 0)
             (self.view as! Widget).setValue(data: [abs(value.first!)])
         }
         
         self.reader.start()
         self.reader.value.subscribe(observer: self) { (value, _) in
             if !value.isEmpty {
-                (self.view as! BatteryView).setCharging(value: value.first! > 0)
+                (self.view as! BatteryWidget).setCharging(value: value.first! > 0)
                 (self.view as! Widget).setValue(data: [abs(value.first!)])
             }
         }
     }
     
     func initWidget() {
-        (self.view as! BatteryView).setPercentage(value: self.percentageView.value)
+        (self.view as! BatteryWidget).setPercentage(value: self.percentageView.value)
     }
     
     func initMenu(active: Bool) {

@@ -7,25 +7,29 @@
 //
 
 import Cocoa
+import Charts
 
 class CPU: Module {
-    let name: String = "CPU"
-    let shortName: String = "CPU"
-    var view: NSView = NSView()
-    var menu: NSMenuItem = NSMenuItem()
-    var submenu: NSMenu = NSMenu()
-    var active: Observable<Bool>
-    var available: Observable<Bool>
-    var hyperthreading: Observable<Bool>
-    var reader: Reader = CPUReader()
+    public let name: String = "CPU"
+    public let shortName: String = "CPU"
+    public var view: NSView = NSView()
+    public var menu: NSMenuItem = NSMenuItem()
+    public var active: Observable<Bool>
+    public var available: Observable<Bool>
+    public var hyperthreading: Observable<Bool>
+    public var reader: Reader = CPUReader()
+    public var tabView: NSTabViewItem = NSTabViewItem()
+    public var viewAvailable: Bool = true
+    public var widgetType: WidgetType
+    public var chart: LineChartView = LineChartView()
     
-    let defaults = UserDefaults.standard
-    var widgetType: WidgetType
+    private let defaults = UserDefaults.standard
+    private var submenu: NSMenu = NSMenu()
     
     init() {
         self.available = Observable(true)
         self.active = Observable(defaults.object(forKey: name) != nil ? defaults.bool(forKey: name) : true)
-        self.hyperthreading = Observable(defaults.object(forKey: "\(name)_hyperthreading") != nil ? defaults.bool(forKey: "\(name)_hyperthreading") : true)
+        self.hyperthreading = Observable(defaults.object(forKey: "\(name)_hyperthreading") != nil ? defaults.bool(forKey: "\(name)_hyperthreading") : false)
         self.widgetType = defaults.object(forKey: "\(name)_widget") != nil ? defaults.float(forKey: "\(name)_widget") : Widgets.Mini
         
         if self.widgetType == Widgets.BarChart {
@@ -36,6 +40,7 @@ class CPU: Module {
         
         initWidget()
         initMenu(active: self.active.value)
+        initTab()
     }
     
     func initMenu(active: Bool) {

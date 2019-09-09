@@ -7,27 +7,30 @@
 //
 
 import Cocoa
+import Charts
 
 class Memory: Module {
-    let name: String = "Memory"
-    let shortName: String = "MEM"
-    var view: NSView = NSView()
-    var menu: NSMenuItem = NSMenuItem()
-    var submenu: NSMenu = NSMenu()
-    var active: Observable<Bool>
-    var available: Observable<Bool>
-    var reader: Reader = MemoryReader()
-    var widgetType: WidgetType
+    public let name: String = "Memory"
+    public let shortName: String = "MEM"
+    public var view: NSView = NSView()
+    public var menu: NSMenuItem = NSMenuItem()
+    public var active: Observable<Bool>
+    public var available: Observable<Bool>
+    public var reader: Reader = MemoryReader()
+    public var widgetType: WidgetType
+    public var viewAvailable: Bool = true
+    public var tabView: NSTabViewItem = NSTabViewItem()
+    public var chart: LineChartView = LineChartView()
     
-    let defaults = UserDefaults.standard
-    
-    @IBOutlet weak var value: NSTextField!
+    private let defaults = UserDefaults.standard
+    private var submenu: NSMenu = NSMenu()
     
     init() {
         self.available = Observable(true)
         self.active = Observable(defaults.object(forKey: name) != nil ? defaults.bool(forKey: name) : true)
         self.widgetType = defaults.object(forKey: "\(name)_widget") != nil ? defaults.float(forKey: "\(name)_widget") : Widgets.Mini
         initWidget()
+        initTab()
         initMenu(active: self.active.value)
     }
     

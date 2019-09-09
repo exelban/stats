@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="HelveticaNeueLights.ttc">
+            <string>HelveticaNeue-Light</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CubicLineChartViewController" customModule="ChartsDemo" customModuleProvider="target">
+            <connections>
+                <outlet property="chartView" destination="Oqd-Ej-1xl" id="tSA-aU-J9W"/>
+                <outlet property="sliderTextX" destination="It4-Tc-0qK" id="esc-84-jQT"/>
+                <outlet property="sliderTextY" destination="vDG-Fm-61Z" id="lzU-1J-rZl"/>
+                <outlet property="sliderX" destination="Xhn-cI-Tqm" id="Bnt-sB-nHc"/>
+                <outlet property="sliderY" destination="IuK-nU-ZPT" id="LcN-C4-Zs8"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zdz-nd-u7k">
+                    <rect key="frame" x="289" y="4" width="78" height="35"/>
+                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
+                    <inset key="contentEdgeInsets" minX="10" minY="7" maxX="10" maxY="7"/>
+                    <state key="normal" title="Options">
+                        <color key="titleColor" red="0.24040704965591431" green="0.48385584354400635" blue="0.68625134229660034" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="optionsButtonTapped:" destination="-1" eventType="touchUpInside" id="ig5-8o-JhO"/>
+                    </connections>
+                </button>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Oqd-Ej-1xl" customClass="LineChartView" customModule="Charts">
+                    <rect key="frame" x="0.0" y="47" width="375" height="501"/>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                </view>
+                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="1" maxValue="500" translatesAutoresizingMaskIntoConstraints="NO" id="Xhn-cI-Tqm">
+                    <rect key="frame" x="6" y="573" width="285" height="31"/>
+                    <connections>
+                        <action selector="slidersValueChanged:" destination="-1" eventType="valueChanged" id="VlG-hf-e0E"/>
+                    </connections>
+                </slider>
+                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="1" maxValue="200" translatesAutoresizingMaskIntoConstraints="NO" id="IuK-nU-ZPT">
+                    <rect key="frame" x="6" y="611" width="285" height="31"/>
+                    <connections>
+                        <action selector="slidersValueChanged:" destination="-1" eventType="valueChanged" id="y5C-Ny-GVF"/>
+                    </connections>
+                </slider>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="500" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vDG-Fm-61Z">
+                    <rect key="frame" x="297" y="611.5" width="70" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="70" id="EAG-hU-sTu"/>
+                        <constraint firstAttribute="height" constant="30" id="GB4-g0-PGO"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="500" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="It4-Tc-0qK">
+                    <rect key="frame" x="297" y="573.5" width="70" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="70" id="SsZ-2p-GDE"/>
+                        <constraint firstAttribute="height" constant="30" id="Yzk-h7-HPb"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+            </subviews>
+            <color key="backgroundColor" red="0.94117647059999998" green="0.94117647059999998" blue="0.94117647059999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="Oqd-Ej-1xl" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="47" id="3NA-if-rAO"/>
+                <constraint firstItem="IuK-nU-ZPT" firstAttribute="leading" secondItem="Wmu-Cs-mqH" secondAttribute="leading" constant="8" id="66R-JE-JSc"/>
+                <constraint firstItem="Oqd-Ej-1xl" firstAttribute="leading" secondItem="Wmu-Cs-mqH" secondAttribute="leading" id="6Mc-iO-BuY"/>
+                <constraint firstItem="IuK-nU-ZPT" firstAttribute="top" secondItem="Xhn-cI-Tqm" secondAttribute="bottom" constant="8" id="Aa8-g3-hZn"/>
+                <constraint firstAttribute="bottom" secondItem="IuK-nU-ZPT" secondAttribute="bottom" constant="26" id="B7P-HB-AG2"/>
+                <constraint firstItem="vDG-Fm-61Z" firstAttribute="centerY" secondItem="IuK-nU-ZPT" secondAttribute="centerY" id="FQM-m5-jqx"/>
+                <constraint firstItem="Wmu-Cs-mqH" firstAttribute="trailing" secondItem="vDG-Fm-61Z" secondAttribute="trailing" constant="8" id="JaG-vb-Ax6"/>
+                <constraint firstItem="Xhn-cI-Tqm" firstAttribute="leading" secondItem="Wmu-Cs-mqH" secondAttribute="leading" constant="8" id="LkY-Dx-7d6"/>
+                <constraint firstItem="Zdz-nd-u7k" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="4" id="QYu-uI-rC8"/>
+                <constraint firstItem="It4-Tc-0qK" firstAttribute="leading" secondItem="Xhn-cI-Tqm" secondAttribute="trailing" constant="8" id="TmF-V6-O8f"/>
+                <constraint firstItem="Wmu-Cs-mqH" firstAttribute="trailing" secondItem="It4-Tc-0qK" secondAttribute="trailing" constant="8" id="eKh-bB-c2R"/>
+                <constraint firstItem="Wmu-Cs-mqH" firstAttribute="trailing" secondItem="Zdz-nd-u7k" secondAttribute="trailing" constant="8" id="hkP-f4-aXC"/>
+                <constraint firstItem="Xhn-cI-Tqm" firstAttribute="centerY" secondItem="It4-Tc-0qK" secondAttribute="centerY" id="jxE-OZ-bpN"/>
+                <constraint firstItem="Wmu-Cs-mqH" firstAttribute="trailing" secondItem="Oqd-Ej-1xl" secondAttribute="trailing" id="mC3-xy-2CS"/>
+                <constraint firstItem="Xhn-cI-Tqm" firstAttribute="top" secondItem="Oqd-Ej-1xl" secondAttribute="bottom" constant="25" id="r0S-JG-wnp"/>
+                <constraint firstItem="vDG-Fm-61Z" firstAttribute="leading" secondItem="IuK-nU-ZPT" secondAttribute="trailing" constant="8" id="zz3-mA-tmf"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="Wmu-Cs-mqH"/>
+            <point key="canvasLocation" x="157.5" y="222.5"/>
+        </view>
+    </objects>
+</document>
