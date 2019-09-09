@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="HelveticaNeueLights.ttc">
+            <string>HelveticaNeue-Light</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RealmDemosViewController" customModule="ChartsDemo" customModuleProvider="target">
+            <connections>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="X92-k4-Oz9">
+                    <rect key="frame" x="16" y="277" width="343" height="113"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <string key="text">Realm demos are now part of the separate ChartsRealm repo.
+
+Please go to https://github.com/danielgindi/ChartsRealm and follow the instructions there.</string>
+                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="16"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                    <dataDetectorType key="dataDetectorTypes" link="YES"/>
+                </textView>
+            </subviews>
+            <color key="backgroundColor" red="0.94117647059999998" green="0.94117647059999998" blue="0.94117647059999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="X92-k4-Oz9" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="PmD-ST-eOi"/>
+                <constraint firstItem="X92-k4-Oz9" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="WeM-ZA-u7S"/>
+                <constraint firstItem="X92-k4-Oz9" firstAttribute="leading" secondItem="x4u-hY-XZP" secondAttribute="leading" constant="16" id="nX1-IK-pQh"/>
+                <constraint firstItem="x4u-hY-XZP" firstAttribute="trailing" secondItem="X92-k4-Oz9" secondAttribute="trailing" constant="16" id="vfJ-xE-LAn"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="x4u-hY-XZP"/>
+            <point key="canvasLocation" x="157.5" y="222.5"/>
+        </view>
+    </objects>
+</document>

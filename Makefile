@@ -13,7 +13,7 @@ APP_PATH = "$(BUILD_PATH)/$(APP).app"
 ZIP_PATH = "$(BUILD_PATH)/$(APP).zip"
 DMG_PATH = $(PWD)/$(APP).dmg
 
-all: clean archive notarize sign build clean
+all: clean archive notarize sign build
 
 clean:
 	rm -rf $(BUILD_PATH)
@@ -70,6 +70,7 @@ build: sign
 	    $(APP_PATH)
 
 	rm -rf ./create-dmg
+	rm -rf $(BUILD_PATH)
 	open $(PWD)
 
 check:
