@@ -1,7 +1,8 @@
 # Stats
 Simple macOS system monitor in your menu bar
 
-![](https://serhiy.s3.eu-central-1.amazonaws.com/Github_repo/stats/cover%3Fv1.3.0.png)
+
+[![Stats](https://serhiy.s3.eu-central-1.amazonaws.com/Github_repo/stats/cover%3Fv1.3.0.png)](https://github.com/exelban/stats/releases)
 
 ## Features
 Stats is a application which allows you to monitor your macOS system.  
