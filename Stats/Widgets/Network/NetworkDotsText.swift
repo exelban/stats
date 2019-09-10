@@ -80,11 +80,11 @@ class NetworkDotsTextView: NSView, Widget {
         
         if self.download != download {
             self.download = download
-            downloadValue.stringValue = "\(Units(bytes: self.download).getReadableUnit())/s"
+            downloadValue.stringValue = Units(bytes: self.download).getReadableSpeed()
         }
         if self.upload != upload {
             self.upload = upload
-            uploadValue.stringValue = "\(Units(bytes: self.upload).getReadableUnit())/s"
+            uploadValue.stringValue = Units(bytes: self.upload).getReadableSpeed()
         }
     }
     

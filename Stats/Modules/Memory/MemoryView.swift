@@ -149,9 +149,9 @@ extension Memory {
         self.tabView.view?.addSubview(vertical)
         
         (self.reader as! MemoryReader).usage.subscribe(observer: self) { (value, _) in
-            totalValue.stringValue = Units(bytes: Int64(value.total)).getReadableUnit()
-            usedValue.stringValue = Units(bytes: Int64(value.used)).getReadableUnit()
-            freeValue.stringValue = Units(bytes: Int64(value.free)).getReadableUnit()
+            totalValue.stringValue = Units(bytes: Int64(value.total)).getReadableMemory()
+            usedValue.stringValue = Units(bytes: Int64(value.used)).getReadableMemory()
+            freeValue.stringValue = Units(bytes: Int64(value.free)).getReadableMemory()
         }
     }
     
@@ -210,7 +210,7 @@ extension Memory {
                     let processView = processViewList[i]
                     
                     (processView.subviews[0] as! NSTextField).stringValue = process.command
-                    (processView.subviews[1] as! NSTextField).stringValue = Units(bytes: Int64(process.usage)).getReadableUnit()
+                    (processView.subviews[1] as! NSTextField).stringValue = Units(bytes: Int64(process.usage)).getReadableMemory()
                 }
             }
         }

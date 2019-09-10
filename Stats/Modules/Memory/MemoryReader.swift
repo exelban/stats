@@ -78,8 +78,12 @@ class MemoryReader: Reader {
                 if line.matches("^\\d+ + .+ +\\d+.\\d[M\\+\\-]+ *$") {
                     var str = line.trimmingCharacters(in: .whitespaces)
                     let pidString = str.findAndCrop(pattern: "^\\d+")
-                    let usageString = str.findAndCrop(pattern: " [0-9]+M(\\+)*(\\-)*$")
-                    let command = str.trimmingCharacters(in: .whitespaces)
+                    let usageString = str.findAndCrop(pattern: " [0-9]+M(\\+|\\-)*$")
+                    var command = str.trimmingCharacters(in: .whitespaces)
+                    
+                    if let regex = try? NSRegularExpression(pattern: " (\\+|\\-)*$", options: .caseInsensitive) {
+                        command = regex.stringByReplacingMatches(in: command, options: [], range: NSRange(location: 0, length:  command.count), withTemplate: "")
+                    }
                     
                     let pid = Int(pidString) ?? 0
                     guard let usage = Double(usageString.filter("01234567890.".contains)) else {

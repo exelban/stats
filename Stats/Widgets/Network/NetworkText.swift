@@ -44,8 +44,8 @@ class NetworkTextView: NSView, Widget {
         let download: Int64 = Int64(data[0])
         let upload: Int64 = Int64(data[1])
         
-        downloadValue.stringValue = "\(Units(bytes: download).getReadableUnit())/s"
-        uploadValue.stringValue = "\(Units(bytes: upload).getReadableUnit())/s"
+        downloadValue.stringValue = Units(bytes: download).getReadableSpeed()
+        uploadValue.stringValue = Units(bytes: upload).getReadableSpeed()
     }
     
     func valueView() {

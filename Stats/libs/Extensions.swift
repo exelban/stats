@@ -104,14 +104,31 @@ public struct Units {
         }
     }
     
-    public func getReadableUnit() -> String {
+    public func getReadableSpeed() -> String {
+        switch bytes {
+        case 0..<1_024:
+            return "0 KB"
+        case 1_024..<(1_024 * 1_024):
+            return String(format: "%.0f KB/s", kilobytes)
+        case 1_024..<(1_024 * 1_024 * 100):
+            return String(format: "%.1f MB/s", megabytes)
+        case (1_024 * 1_024 * 100)..<(1_024 * 1_024 * 1_024):
+            return String(format: "%.0f MB/s", megabytes)
+        case (1_024 * 1_024 * 1_024)...Int64.max:
+            return String(format: "%.1f GB/s", gigabytes)
+        default:
+            return String(format: "%.0f KB/s", kilobytes)
+        }
+    }
+    
+    public func getReadableMemory() -> String {
         switch bytes {
         case 0..<1_024:
             return "0 KB"
         case 1_024..<(1_024 * 1_024):
             return String(format: "%.0f KB", kilobytes)
         case 1_024..<(1_024 * 1_024 * 1_024):
-            return String(format: "%.2f MB", megabytes)
+            return String(format: "%.0f MB", megabytes)
         case (1_024 * 1_024 * 1_024)...Int64.max:
             return String(format: "%.2f GB", gigabytes)
         default:
@@ -215,7 +232,7 @@ extension String {
         if let searchRange = regex.firstMatch(in: self, options: [], range: stringRange) {
             let start = self.index(self.startIndex, offsetBy: searchRange.range.lowerBound)
             let end = self.index(self.startIndex, offsetBy: searchRange.range.upperBound)
-            let value  = String(self[start..<end])
+            let value  = String(self[start..<end]).trimmingCharacters(in: .whitespaces)
             line = self.replacingOccurrences(
                 of: value,
                 with: "",
