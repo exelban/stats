@@ -37,12 +37,25 @@ class MainViewController: NSViewController {
         super.viewDidLoad()
         
         makeHeader()
+        
+        for module in modules.value {
+            module.active.subscribe(observer: self) { (value, _) in
+                for tab in self.tabView.tabViewItems {
+                    self.tabView.removeTabViewItem(tab)
+                    self.segmentsControl = NSSegmentedControl(labels: [], trackingMode: NSSegmentedControl.SwitchTracking.selectOne, target: self, action: #selector(self.switchTabs))
+                }
+                for view in self.topStackView.subviews {
+                    view.removeFromSuperview()
+                }
+                self.makeHeader()
+            }
+        }
     }
     
     func makeHeader() {
         var list: [String] = []
         for module in modules.value {
-            if module.viewAvailable && module.available.value {
+            if module.viewAvailable && module.available.value && module.active.value {
                 list.append(module.name)
                 
                 let tab = module.tabView
@@ -57,7 +70,6 @@ class MainViewController: NSViewController {
         
         self.segmentsControl = NSSegmentedControl(labels: list, trackingMode: NSSegmentedControl.SwitchTracking.selectOne, target: self, action: #selector(switchTabs))
         self.segmentsControl.setSelected(true, forSegment: 0)
-//        self.tabView.selectTabViewItem(at: 2)
         self.segmentsControl.segmentDistribution = .fillEqually
         
         let button = NSButton(frame: NSRect(x: 0, y: 0, width: 26, height: 20))
