@@ -68,10 +68,6 @@ class MainViewController: NSViewController {
             }
         }
         
-        self.segmentsControl = NSSegmentedControl(labels: list, trackingMode: NSSegmentedControl.SwitchTracking.selectOne, target: self, action: #selector(switchTabs))
-        self.segmentsControl.setSelected(true, forSegment: 0)
-        self.segmentsControl.segmentDistribution = .fillEqually
-        
         let button = NSButton(frame: NSRect(x: 0, y: 0, width: 26, height: 20))
         button.title = ""
         button.image = NSImage(named: NSImage.Name("NSActionTemplate"))
@@ -83,7 +79,16 @@ class MainViewController: NSViewController {
         button.widthAnchor.constraint(equalToConstant: 26).isActive = true
         button.heightAnchor.constraint(equalToConstant: 21).isActive = true
         
-        self.topStackView.addView(self.segmentsControl, in: NSStackView.Gravity.center)
+        if list.count > 0 {
+            self.segmentsControl = NSSegmentedControl(labels: list, trackingMode: NSSegmentedControl.SwitchTracking.selectOne, target: self, action: #selector(switchTabs))
+            self.segmentsControl.setSelected(true, forSegment: 0)
+            self.segmentsControl.segmentDistribution = .fillEqually
+            
+            self.topStackView.addView(self.segmentsControl, in: NSStackView.Gravity.center)
+        } else {
+            self.topStackView.addView(NSView(frame: NSRect(x: 0, y: 0, width: 0, height: 0)), in: NSStackView.Gravity.center)
+            tabView.addTabViewItem(generateEmptyTabView())
+        }
         self.topStackView.addView(button, in: NSStackView.Gravity.center)
     }
     
@@ -205,4 +210,29 @@ func ValueField(string: String) -> NSTextField {
     label.backgroundColor = NSColor(hexString: "#dddddd", alpha: 0)
     
     return label
+}
+
+func generateEmptyTabView() -> NSTabViewItem {
+    let emptyTabView = NSTabViewItem()
+    emptyTabView.view?.frame = NSRect(x: 0, y: 0, width: TabWidth, height: TabHeight)
+    emptyTabView.label = "empty"
+    emptyTabView.identifier = "empty"
+    emptyTabView.view?.wantsLayer = true
+    emptyTabView.view?.layer?.backgroundColor = NSColor.white.cgColor
+    
+    let text: NSTextField = NSTextField(string: "No dashboard available")
+    text.isEditable = false
+    text.isSelectable = false
+    text.isBezeled = false
+    text.wantsLayer = true
+    text.textColor = .labelColor
+    text.canDrawSubviewsIntoLayer = true
+    text.alignment = .center
+    text.font = NSFont.systemFont(ofSize: 13, weight: .regular)
+    text.frame = NSRect(x: 0, y: 0, width: TabWidth, height: 22)
+    text.frame.origin.y = ((emptyTabView.view?.frame.size.height)! - 22) / 2
+    
+    emptyTabView.view?.addSubview(text)
+    
+    return emptyTabView
 }
