@@ -25,6 +25,10 @@ class Chart: NSView, Widget {
         }
     }
     
+    override var intrinsicContentSize: CGSize {
+        return CGSize(width: self.frame.size.width, height: self.frame.size.height)
+    }
+    
     override init(frame: NSRect) {
         self.points = Array(repeating: 0.0, count: 50)
         super.init(frame: CGRect(x: 0, y: 0, width: self.size, height: widgetSize.height))
@@ -63,10 +67,9 @@ class Chart: NSView, Widget {
             width = width + labelPadding
         }
         
-        self.activeModule << false
         self.frame = CGRect(x: self.frame.origin.x, y: self.frame.origin.y, width: width, height: self.frame.size.height)
-        self.activeModule << true
         self.redraw()
+        menuBar!.updateWidget(name: self.name)
     }
     
     override func draw(_ dirtyRect: NSRect) {

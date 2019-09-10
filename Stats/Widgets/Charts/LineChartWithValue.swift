@@ -12,6 +12,10 @@ class ChartWithValue: Chart {
     var valueLabel: NSTextField = NSTextField()
     var color: Bool = false
     
+    override var intrinsicContentSize: CGSize {
+        return CGSize(width: self.frame.size.width, height: self.frame.size.height)
+    }
+    
     override init(frame: NSRect) {
         super.init(frame: CGRect(x: 0, y: 0, width: widgetSize.width + 7, height: widgetSize.height))
         self.wantsLayer = true
@@ -100,10 +104,9 @@ class ChartWithValue: Chart {
         if self.label {
             width = width + labelPadding
         }
-        self.activeModule << false
         self.frame = CGRect(x: self.frame.origin.x, y: self.frame.origin.y, width: width, height: self.frame.size.height)
-        self.activeModule << true
         self.drawValue()
+        menuBar!.updateWidget(name: self.name)
     }
     
     @objc func toggleColor(_ sender: NSMenuItem) {

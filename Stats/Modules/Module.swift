@@ -26,9 +26,13 @@ protocol Module: class {
     
     func start()
     func stop()
+    
+    func initMenu(active: Bool)
+    func initTab()
 }
 
 extension Module {
+    
     func initWidget(label: Bool = false) {
         var widget: Widget = Mini()
         
@@ -64,20 +68,15 @@ extension Module {
     }
     
     func start() {
+        self.reader.start()
+        
         if !self.reader.value.value.isEmpty {
-            guard let widget = self.view as? Widget else {
-                return
-            }
-            widget.setValue(data: self.reader.value.value)
+            (self.view as! Widget).setValue(data: self.reader.value.value)
         }
         
-        self.reader.start()
         self.reader.value.subscribe(observer: self) { (value, _) in
             if !value.isEmpty {
-                guard let widget = self.view as? Widget else {
-                    return
-                }
-                widget.setValue(data: value)
+                (self.view as! Widget).setValue(data: value)
             }
         }
     }

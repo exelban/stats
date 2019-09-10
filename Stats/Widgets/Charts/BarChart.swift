@@ -26,10 +26,14 @@ class BarChart: NSView, Widget {
         }
     }
     
+    override var intrinsicContentSize: CGSize {
+        return CGSize(width: self.frame.size.width, height: self.frame.size.height)
+    }
+    
     override init(frame: NSRect) {
         self.label = defaults.object(forKey: "\(name)_label") != nil ? defaults.bool(forKey: "\(name)_label") : true
         self.partitions = Array(repeating: 0.0, count: 1)
-        super.init(frame: CGRect(x: 0, y: 0, width: self.size, height: widgetSize.height))
+        super.init(frame: CGRect(x: 0, y: 0, width: 0, height: widgetSize.height))
         self.wantsLayer = true
         self.addSubview(NSView())
     }
@@ -41,10 +45,6 @@ class BarChart: NSView, Widget {
     func Init() {
         self.label = defaults.object(forKey: "\(name)_label") != nil ? defaults.bool(forKey: "\(name)_label") : true
         self.initPreferences()
-        
-        if self.label {
-            self.frame = CGRect(x: self.frame.origin.x, y: self.frame.origin.y, width: self.frame.size.width + labelPadding, height: self.frame.size.height)
-        }
     }
     
     func initPreferences() {
@@ -136,9 +136,8 @@ class BarChart: NSView, Widget {
         }
         
         if self.frame.size.width != width {
-            self.activeModule << false
             self.frame = CGRect(x: self.frame.origin.x, y: self.frame.origin.y, width: width, height: self.frame.size.height)
-            self.activeModule << true
+            menuBar!.updateWidget(name: self.name)
         }
         
         self.needsDisplay = true

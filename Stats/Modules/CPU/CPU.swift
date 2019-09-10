@@ -25,6 +25,7 @@ class CPU: Module {
     
     private let defaults = UserDefaults.standard
     private var submenu: NSMenu = NSMenu()
+    private var initialized: Bool = false
     
     init() {
         self.available = Observable(true)
@@ -35,12 +36,7 @@ class CPU: Module {
         if self.widgetType == Widgets.BarChart {
             (self.reader as! CPUReader).perCoreMode = true
             (self.reader as! CPUReader).hyperthreading = self.hyperthreading.value
-            self.reader.read()
         }
-        
-        initWidget()
-        initMenu(active: self.active.value)
-        initTab()
     }
     
     func initMenu(active: Bool) {
@@ -146,10 +142,9 @@ class CPU: Module {
         sender.state = sender.state == NSControl.StateValue.on ? NSControl.StateValue.off : NSControl.StateValue.on
         self.defaults.set(widgetCode, forKey: "\(name)_widget")
         self.widgetType = widgetCode
-        self.active << false
         self.initWidget()
         self.initMenu(active: true)
-        self.active << true
+        menuBar!.updateWidget(name: self.name)
     }
     
     @objc func toggleHyperthreading(_ sender: NSMenuItem) {

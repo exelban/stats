@@ -29,9 +29,6 @@ class Memory: Module {
         self.available = Observable(true)
         self.active = Observable(defaults.object(forKey: name) != nil ? defaults.bool(forKey: name) : true)
         self.widgetType = defaults.object(forKey: "\(name)_widget") != nil ? defaults.float(forKey: "\(name)_widget") : Widgets.Mini
-        initWidget()
-        initTab()
-        initMenu(active: self.active.value)
     }
     
     func initMenu(active: Bool) {

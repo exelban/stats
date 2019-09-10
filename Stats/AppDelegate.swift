@@ -13,6 +13,7 @@ import LaunchAtLogin
 let modules: Observable<[Module]> = Observable([CPU(), Memory(), Disk(), Battery(), Network()])
 let updater = macAppUpdater(user: "exelban", repo: "stats")
 let popover = NSPopover()
+var menuBar: MenuBar?
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -27,9 +28,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         menuBarButton.action = #selector(toggleMenu)
         popover.contentViewController = MainViewController.Init()
-        popover.behavior = NSPopover.Behavior.transient
+        popover.behavior = .transient
+        popover.animates = true
         
-        _ = MenuBar(menuBarItem, menuBarButton: menuBarButton)
+        menuBar = MenuBar(menuBarItem, menuBarButton: menuBarButton)
+        menuBar!.build()
 
         if self.defaults.object(forKey: "runAtLoginInitialized") == nil {
             LaunchAtLogin.isEnabled = true
@@ -77,7 +80,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         } else {
             if let button = self.menuBarItem.button {
                 NSApplication.shared.activate(ignoringOtherApps: true)
-                popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
+                popover.show(relativeTo: .zero, of: button, preferredEdge: .maxY)
                 popover.becomeFirstResponder()
             }
         }

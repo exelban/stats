@@ -27,9 +27,6 @@ class Network: Module {
         self.available = Observable(self.reader.available)
         self.active = Observable(defaults.object(forKey: name) != nil ? defaults.bool(forKey: name) : true)
         self.widgetType = defaults.object(forKey: "\(name)_widget") != nil ? defaults.float(forKey: "\(name)_widget") : Widgets.NetworkDots
-        initMenu(active: self.active.value)
-        initWidget()
-        initTab()
     }
     
     func initTab() {
@@ -54,7 +51,7 @@ class Network: Module {
         self.reader.start()
         
         self.reader.value.subscribe(observer: self) { (value, _) in
-            if !value.isEmpty {
+            if  !value.isEmpty {
                 (self.view as! Widget).setValue(data: value)
             }
         }

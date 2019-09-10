@@ -63,7 +63,8 @@ extension CPU {
         marker.chartView = self.chart
         self.chart.marker = marker
         
-        let lineChartEntry  = [ChartDataEntry]()
+        var lineChartEntry  = [ChartDataEntry]()
+        lineChartEntry.append(ChartDataEntry(x: 0, y: 0))
         let chartDataSet = LineChartDataSet(entries: lineChartEntry, label: "\(self.name) Usage")
         chartDataSet.drawCirclesEnabled = false
         chartDataSet.mode = .cubicBezier

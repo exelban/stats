@@ -26,6 +26,10 @@ class Mini: NSView, Widget {
         }
     }
     
+    override var intrinsicContentSize: CGSize {
+        return CGSize(width: self.frame.size.width, height: self.frame.size.height)
+    }
+    
     override init(frame: NSRect) {
         super.init(frame: CGRect(x: 0, y: 0, width: self.size, height: widgetSize.height))
         

@@ -29,10 +29,6 @@ class Disk: Module {
         self.available = Observable(true)
         self.active = Observable(defaults.object(forKey: name) != nil ? defaults.bool(forKey: name) : true)
         self.widgetType = defaults.object(forKey: "\(name)_widget") != nil ? defaults.float(forKey: "\(name)_widget") : Widgets.Mini
-        
-        self.initWidget()
-        self.initMenu(active: self.active.value)
-        initTab()
     }
     
     func initTab() {

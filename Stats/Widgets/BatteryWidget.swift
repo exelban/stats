@@ -39,6 +39,10 @@ class BatteryWidget: NSView, Widget {
     
     var percentageValue: NSTextField = NSTextField()
     
+    override var intrinsicContentSize: CGSize {
+        return CGSize(width: self.frame.size.width, height: self.frame.size.height)
+    }
+    
     override init(frame: NSRect) {
         self.value = 0.0
         self.charging = false

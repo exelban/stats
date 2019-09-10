@@ -27,6 +27,10 @@ class NetworkDotsTextView: NSView, Widget {
         }
     }
     
+    override var intrinsicContentSize: CGSize {
+        return CGSize(width: self.frame.size.width, height: self.frame.size.height)
+    }
+    
     var downloadValue: NSTextField = NSTextField()
     var uploadValue: NSTextField = NSTextField()
     
