@@ -205,3 +205,26 @@ extension NSColor {
         return String(format:"#%06x", rgb)
     }
 }
+
+extension String {
+    mutating func findAndCrop(pattern: String) -> String {
+        let regex = try! NSRegularExpression(pattern: pattern)
+        let stringRange = NSRange(location: 0, length: self.utf16.count)
+        var line = self
+        
+        if let searchRange = regex.firstMatch(in: self, options: [], range: stringRange) {
+            let start = self.index(self.startIndex, offsetBy: searchRange.range.lowerBound)
+            let end = self.index(self.startIndex, offsetBy: searchRange.range.upperBound)
+            let value  = String(self[start..<end])
+            line = self.replacingOccurrences(
+                of: value,
+                with: "",
+                options: .regularExpression
+            )
+            self = line.trimmingCharacters(in: .whitespaces)
+            return value.trimmingCharacters(in: .whitespaces)
+        }
+        
+        return ""
+    }
+}

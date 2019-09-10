@@ -84,15 +84,17 @@ class CPUReader: Reader {
             var processes: [TopProcess] = []
             outputString.enumerateLines { (line, stop) -> () in
                 if line.matches("^\\d+ + .+ +\\d+.\\d *$") {
-                    let arr = line.condenseWhitespace().split(separator: " ")
-                    let pid = Int(arr[0]) ?? 0
-                    let command = String(arr[1])
-                    let usage = Double(arr[2]) ?? 0
+                    var str = line.trimmingCharacters(in: .whitespaces)
+                    let pidString = str.findAndCrop(pattern: "^\\d+")
+                    let usageString = str.findAndCrop(pattern: " [0-9]+\\.[0-9]*$")
+                    let command = str.trimmingCharacters(in: .whitespaces)
+                    
+                    let pid = Int(pidString) ?? 0
+                    let usage = Double(usageString) ?? 0
                     let process = TopProcess(pid: pid, command: command, usage: usage)
                     processes.append(process)
                 }
             }
-            
             self.processes << processes
         }
         

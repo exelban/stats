@@ -76,10 +76,13 @@ class MemoryReader: Reader {
             var processes: [TopProcess] = []
             outputString.enumerateLines { (line, stop) -> () in
                 if line.matches("^\\d+ + .+ +\\d+.\\d[M\\+\\-]+ *$") {
-                    let arr = line.condenseWhitespace().split(separator: " ")
-                    let pid = Int(arr[0]) ?? 0
-                    let command = String(arr[1])
-                    guard let usage = Double(arr[2].filter("01234567890.".contains)) else {
+                    var str = line.trimmingCharacters(in: .whitespaces)
+                    let pidString = str.findAndCrop(pattern: "^\\d+")
+                    let usageString = str.findAndCrop(pattern: " [0-9]+M(\\+)*(\\-)*$")
+                    let command = str.trimmingCharacters(in: .whitespaces)
+                    
+                    let pid = Int(pidString) ?? 0
+                    guard let usage = Double(usageString.filter("01234567890.".contains)) else {
                         return
                     }
                     let process = TopProcess(pid: pid, command: command, usage: usage * Double(1024 * 1024))
