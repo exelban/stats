@@ -38,16 +38,18 @@ class Battery: Module {
     func start() {
         if !self.reader.value.value.isEmpty {
             let value = self.reader.value!.value
-            (self.view as! BatteryWidget).setCharging(value: value.first! > 0)
             (self.view as! Widget).setValue(data: [abs(value.first!)])
         }
+        (self.view as! BatteryWidget).setCharging(value: (self.reader as! BatteryReader).usage.value.isCharged)
         
         self.reader.start()
         self.reader.value.subscribe(observer: self) { (value, _) in
             if !value.isEmpty {
-                (self.view as! BatteryWidget).setCharging(value: value.first! > 0)
                 (self.view as! Widget).setValue(data: [abs(value.first!)])
             }
+        }
+        (self.reader as! BatteryReader).usage.subscribe(observer: self) { (value, _) in
+            (self.view as! BatteryWidget).setCharging(value: value.isCharged)
         }
     }
     

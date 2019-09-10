@@ -17,7 +17,8 @@ class BatteryWidget: NSView, Widget {
     let defaults = UserDefaults.standard
     
     let batteryWidth: CGFloat = 32
-    let percentageWidth: CGFloat = 40
+    let percentageWidth: CGFloat = 30
+    let percentageWidthFull: CGFloat = 37
     
     var color: Bool = false
     var value: Double {
@@ -39,7 +40,7 @@ class BatteryWidget: NSView, Widget {
     var percentageValue: NSTextField = NSTextField()
     
     override init(frame: NSRect) {
-        self.value = 1.0
+        self.value = 0.0
         self.charging = false
         self.percentage = false
         super.init(frame: CGRect(x: 0, y: 0, width: self.size, height: widgetSize.height))
@@ -111,7 +112,12 @@ class BatteryWidget: NSView, Widget {
     
     func percentageView() {
         if self.percentage {
-            percentageValue = NSTextField(frame: NSMakeRect(0, 0, percentageWidth, self.frame.size.height - 2))
+            var width = percentageWidth
+            if self.value == 1 {
+                width = percentageWidthFull
+            }
+            
+            percentageValue = NSTextField(frame: NSMakeRect(0, 0, width, self.frame.size.height - 2))
             percentageValue.isEditable = false
             percentageValue.isSelectable = false
             percentageValue.isBezeled = false
@@ -119,12 +125,12 @@ class BatteryWidget: NSView, Widget {
             percentageValue.textColor = .labelColor
             percentageValue.backgroundColor = .controlColor
             percentageValue.canDrawSubviewsIntoLayer = true
-            percentageValue.alignment = .natural
-            percentageValue.font = NSFont.systemFont(ofSize: 13, weight: .light)
+            percentageValue.alignment = .right
+            percentageValue.font = NSFont.systemFont(ofSize: 12, weight: .regular)
             percentageValue.stringValue = "\(Int(self.value * 100))%"
             
             self.addSubview(percentageValue)
-            self.frame = CGRect(x: 0, y: 0, width: batteryWidth + percentageWidth, height: self.frame.size.height)
+            self.frame = CGRect(x: 0, y: 0, width: batteryWidth + width, height: self.frame.size.height)
         } else {
             for subview in self.subviews {
                 subview.removeFromSuperview()
@@ -143,6 +149,18 @@ class BatteryWidget: NSView, Widget {
         let value: Double = data.first!
         if self.value != value {
             self.value = value
+            
+            if self.value == 1 && self.frame.size.width != batteryWidth + percentageWidthFull {
+                self.percentage = false
+                self.percentageView()
+                self.percentage = true
+                self.percentageView()
+            } else if self.value != 1 && self.frame.size.width != batteryWidth + percentageWidth {
+                self.percentage = false
+                self.percentageView()
+                self.percentage = true
+                self.percentageView()
+            }
             
             if percentage {
                 self.percentageValue.stringValue = "\(Int(self.value * 100))%"
