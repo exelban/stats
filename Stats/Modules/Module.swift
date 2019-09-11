@@ -29,11 +29,12 @@ protocol Module: class {
     
     func initMenu(active: Bool)
     func initTab()
+    func initWidget()
 }
 
 extension Module {
     
-    func initWidget(label: Bool = false) {
+    func initWidget() {
         var widget: Widget = Mini()
         
         switch self.widgetType {
