@@ -1,6 +1,16 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+### [v1.3.1]
+    - fixed battery widget width
+    - fixed initWidget function in battery module
+    - new build and update algorithm for menu bar
+    - added view with empty text in popup when no active module
+    - changed the source for battery charging information
+    - changed battery widget percentage view
+    - fixed values visibility in network widget
+    - fixed parsing data from top output in cpu and memory reader
+
 ### [v1.3.0]
     - CPU hyperthreading mode disabled by default in bar chart widget
     - added view for CPU module
@@ -92,6 +102,7 @@ All notable changes to this project will be documented in this file.
 ### [v1.0.0]
     - first release
 
+[v1.3.1]: https://github.com/exelban/stats/releases/tag/v1.3.1
 [v1.3.0]: https://github.com/exelban/stats/releases/tag/v1.3.0
 [v1.2.13]: https://github.com/exelban/stats/releases/tag/v1.2.13
 [v1.2.12]: https://github.com/exelban/stats/releases/tag/v1.2.12
