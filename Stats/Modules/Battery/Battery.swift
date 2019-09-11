@@ -10,7 +10,7 @@ import Cocoa
 
 class Battery: Module {
     public let name: String = "Battery"
-    public let shortName: String = ""
+    public let shortName: String = "BAT"
     public var view: NSView = NSView()
     public var menu: NSMenuItem = NSMenuItem()
     public var active: Observable<Bool>
@@ -53,7 +53,8 @@ class Battery: Module {
     
     func initWidget() {
         self.view = BatteryWidget(frame: NSMakeRect(0, 0, widgetSize.width, widgetSize.height))
-        (self.view as! BatteryWidget).setPercentage(value: (self.reader as! BatteryReader).usage.value.ACstatus)
+        (self.view as! BatteryWidget).setCharging(value: (self.reader as! BatteryReader).usage.value.ACstatus)
+        (self.view as! BatteryWidget).setPercentage(value: self.percentageView.value)
     }
     
     func initMenu(active: Bool) {

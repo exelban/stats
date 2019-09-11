@@ -42,11 +42,11 @@ class MainViewController: NSViewController {
             module.active.subscribe(observer: self) { (value, _) in
                 for tab in self.tabView.tabViewItems {
                     self.tabView.removeTabViewItem(tab)
-                    self.segmentsControl = NSSegmentedControl(labels: [], trackingMode: NSSegmentedControl.SwitchTracking.selectOne, target: self, action: #selector(self.switchTabs))
                 }
                 for view in self.topStackView.subviews {
                     view.removeFromSuperview()
                 }
+                self.segmentsControl = NSSegmentedControl(labels: [], trackingMode: .selectOne, target: self, action: #selector(self.switchTabs))
                 self.makeHeader()
             }
         }

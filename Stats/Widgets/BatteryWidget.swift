@@ -11,8 +11,8 @@ import Cocoa
 class BatteryWidget: NSView, Widget {
     var activeModule: Observable<Bool> = Observable(false)
     var size: CGFloat = widgetSize.width
-    var name: String = ""
-    var shortName: String = ""
+    var name: String = "Battery"
+    var shortName: String = "BAT"
     var menus: [NSMenuItem] = []
     let defaults = UserDefaults.standard
     
@@ -80,7 +80,11 @@ class BatteryWidget: NSView, Widget {
         let r: CGFloat = 1.0
         if self.percentage {
             w = batteryWidth - (x * 2)
-            x = percentageWidth + x
+            if self.percentage && self.value == 1 {
+                x = percentageWidthFull + x
+            } else {
+                x = percentageWidth + x
+            }
         }
         
         let battery = NSBezierPath(roundedRect: NSRect(x: x-1, y: y, width: w-1, height: h), xRadius: r, yRadius: r)
@@ -154,20 +158,19 @@ class BatteryWidget: NSView, Widget {
         if self.value != value {
             self.value = value
             
-            if self.value == 1 && self.frame.size.width != batteryWidth + percentageWidthFull {
-                self.percentage = false
-                self.percentageView()
-                self.percentage = true
-                self.percentageView()
-            } else if self.value != 1 && self.frame.size.width != batteryWidth + percentageWidth {
-                self.percentage = false
-                self.percentageView()
-                self.percentage = true
-                self.percentageView()
-            }
-            
             if percentage {
                 self.percentageValue.stringValue = "\(Int(self.value * 100))%"
+                if self.value == 1 && self.frame.size.width != batteryWidth + percentageWidthFull {
+                    self.percentageValue.removeFromSuperview()
+                    self.percentageView()
+                    self.redraw()
+                    menuBar?.updateWidget(name: self.name)
+                } else if self.value != 1 && self.frame.size.width != batteryWidth + percentageWidth {
+                    self.percentageValue.removeFromSuperview()
+                    self.percentageView()
+                    self.redraw()
+                    menuBar?.updateWidget(name: self.name)
+                }
             }
         }
     }
