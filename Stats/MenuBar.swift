@@ -28,7 +28,9 @@ class MenuBar {
                     module.initWidget()
                 }
                 module.initMenu(active: value)
-                module.initTab()
+                if !module.tabInitialized {
+                    module.initTab()
+                }
                 self.updateWidget(name: module.name)
             }
         }

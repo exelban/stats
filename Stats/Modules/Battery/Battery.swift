@@ -16,7 +16,8 @@ class Battery: Module {
     public var active: Observable<Bool>
     public var available: Observable<Bool>
     public var reader: Reader = BatteryReader()
-    public var viewAvailable: Bool = true
+    public var tabAvailable: Bool = true
+    public var tabInitialized: Bool = false
     public var tabView: NSTabViewItem = NSTabViewItem()
     
     public var widgetType: WidgetType = Widgets.Mini

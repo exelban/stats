@@ -17,7 +17,8 @@ class Network: Module {
     public var available: Observable<Bool>
     public var reader: Reader = NetworkReader()
     public var widgetType: WidgetType = 2.0
-    public var viewAvailable: Bool = false
+    public var tabAvailable: Bool = false
+    public var tabInitialized: Bool = false
     public var tabView: NSTabViewItem = NSTabViewItem()
     
     private let defaults = UserDefaults.standard
@@ -45,6 +46,8 @@ class Network: Module {
         text.frame.origin.y = ((self.tabView.view?.frame.size.height)! - 22) / 2
         
         self.tabView.view?.addSubview(text)
+        
+        self.tabInitialized = true
     }
     
     func start() {

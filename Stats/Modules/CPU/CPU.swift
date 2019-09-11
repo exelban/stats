@@ -19,13 +19,13 @@ class CPU: Module {
     public var hyperthreading: Observable<Bool>
     public var reader: Reader = CPUReader()
     public var tabView: NSTabViewItem = NSTabViewItem()
-    public var viewAvailable: Bool = true
+    public var tabAvailable: Bool = true
+    public var tabInitialized: Bool = false
     public var widgetType: WidgetType
     public var chart: LineChartView = LineChartView()
     
     private let defaults = UserDefaults.standard
     private var submenu: NSMenu = NSMenu()
-    private var initialized: Bool = false
     
     init() {
         self.available = Observable(true)

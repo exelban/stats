@@ -55,7 +55,7 @@ class MainViewController: NSViewController {
     func makeHeader() {
         var list: [String] = []
         for module in modules.value {
-            if module.viewAvailable && module.available.value && module.active.value {
+            if module.tabAvailable && module.available.value && module.active.value {
                 list.append(module.name)
                 
                 let tab = module.tabView

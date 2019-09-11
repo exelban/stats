@@ -19,6 +19,8 @@ extension CPU {
         makeOverview()
         makeProcesses()
         
+        self.tabInitialized = true
+        
         (self.reader as! CPUReader).usage.subscribe(observer: self) { (value, _) in
             let v: Double = Double((value.value * 100).roundTo(decimalPlaces: 2))!
             self.updateChart(value: v)

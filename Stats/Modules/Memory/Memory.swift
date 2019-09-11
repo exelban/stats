@@ -18,7 +18,8 @@ class Memory: Module {
     public var available: Observable<Bool>
     public var reader: Reader = MemoryReader()
     public var widgetType: WidgetType
-    public var viewAvailable: Bool = true
+    public var tabAvailable: Bool = true
+    public var tabInitialized: Bool = false
     public var tabView: NSTabViewItem = NSTabViewItem()
     public var chart: LineChartView = LineChartView()
     

@@ -18,6 +18,8 @@ extension Battery {
         makeOverview()
         makeBattery()
         makePowerAdapter()
+        
+        self.tabInitialized = true
     }
     
     func makeMain() {

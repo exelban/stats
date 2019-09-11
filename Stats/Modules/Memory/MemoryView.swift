@@ -19,6 +19,8 @@ extension Memory {
         makeOverview()
         makeProcesses()
         
+        self.tabInitialized = true
+        
         (self.reader as! MemoryReader).usage.subscribe(observer: self) { (value, _) in
             self.updateChart(value: Units(bytes: Int64(value.used)).getReadableTuple().0)
         }

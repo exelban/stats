@@ -19,8 +19,9 @@ protocol Module: class {
     var active: Observable<Bool> { get }
     var available: Observable<Bool> { get }
     
-    var viewAvailable: Bool { get }
     var tabView: NSTabViewItem { get }
+    var tabAvailable: Bool { get }
+    var tabInitialized: Bool { get }
     
     var reader: Reader { get }
     
