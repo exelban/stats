@@ -115,7 +115,11 @@ class MainViewController: NSViewController {
         }
         
         menu.addItem(NSMenuItem.separator())
-        
+      
+        let openActivityMonitorMenu = NSMenuItem(title: "Open Activity Monitor", action: #selector(openActivityMonitor), keyEquivalent: "")
+        openActivityMonitorMenu.target = self
+        menu.addItem(openActivityMonitorMenu)
+
         let checkForUpdates = NSMenuItem(title: "Check for updates on start", action: #selector(toggleMenu), keyEquivalent: "")
         checkForUpdates.state = defaults.bool(forKey: "checkUpdatesOnLogin") || defaults.object(forKey: "checkUpdatesOnLogin") == nil ? NSControl.StateValue.on : NSControl.StateValue.off
         checkForUpdates.target = self
@@ -145,6 +149,14 @@ class MainViewController: NSViewController {
         menu.addItem(NSMenuItem(title: "Quit Stats", action: #selector(NSApplication.terminate(_:)), keyEquivalent: ""))
         
         return menu
+    }
+  
+    @objc func openActivityMonitor(_ sender: NSMenuItem) {
+        NSWorkspace.shared.launchApplication(
+            withBundleIdentifier: "com.apple.ActivityMonitor",
+            options: [.default],
+            additionalEventParamDescriptor: nil,
+            launchIdentifier: nil)
     }
     
     @objc func checkUpdate(_ sender : NSMenuItem) {
