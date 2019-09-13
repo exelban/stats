@@ -126,7 +126,15 @@ class BatteryReader: Reader {
                 if powerSource == "Battery Power" {
                     cap = 0 - cap
                 }
-                self.value << [Double(cap)]
+                
+                var time = 0
+                if timeToEmpty != 0 && timeToCharged == 0 {
+                    time = timeToEmpty
+                } else if timeToEmpty == 0 && timeToCharged != 0 {
+                    time = timeToCharged
+                }
+                
+                self.value << [Double(cap), Double(time)]
             }
         }
     }

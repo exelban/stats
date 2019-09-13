@@ -47,6 +47,7 @@ class MenuBar {
         }
         
         let newView = newViewList.first!.view
+        newView.invalidateIntrinsicContentSize()
         let oldView = oldViewList.first!
         
         self.stackView.replaceSubview(oldView, with: newView)

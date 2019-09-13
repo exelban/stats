@@ -15,6 +15,8 @@
 		9A426DB822C2B5EE00C064C4 /* MacAppUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A426DB722C2B5EE00C064C4 /* MacAppUpdater.swift */; };
 		9A426DBE22C2BE0000C064C4 /* Updates.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A426DBD22C2BE0000C064C4 /* Updates.storyboard */; };
 		9A493CDF23202B620064570C /* MemoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A493CDE23202B620064570C /* MemoryView.swift */; };
+		9A54EF67232AB81800F7DC20 /* BatteryPercentageWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A54EF66232AB81800F7DC20 /* BatteryPercentageWidget.swift */; };
+		9A54EF69232AB82700F7DC20 /* BatteryTimeWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A54EF68232AB82700F7DC20 /* BatteryTimeWidget.swift */; };
 		9A57A18522A1D26D0033E318 /* MenuBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A57A18422A1D26D0033E318 /* MenuBar.swift */; };
 		9A57A19D22A1E3270033E318 /* CPU.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A57A19C22A1E3270033E318 /* CPU.swift */; };
 		9A58D1B022C150C800405315 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A58D1AF22C150C800405315 /* Network.swift */; };
@@ -87,6 +89,8 @@
 		9A426DB722C2B5EE00C064C4 /* MacAppUpdater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MacAppUpdater.swift; sourceTree = "<group>"; };
 		9A426DBD22C2BE0000C064C4 /* Updates.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Updates.storyboard; sourceTree = "<group>"; };
 		9A493CDE23202B620064570C /* MemoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryView.swift; sourceTree = "<group>"; };
+		9A54EF66232AB81800F7DC20 /* BatteryPercentageWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryPercentageWidget.swift; sourceTree = "<group>"; };
+		9A54EF68232AB82700F7DC20 /* BatteryTimeWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryTimeWidget.swift; sourceTree = "<group>"; };
 		9A57A18422A1D26D0033E318 /* MenuBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBar.swift; sourceTree = "<group>"; };
 		9A57A19C22A1E3270033E318 /* CPU.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPU.swift; sourceTree = "<group>"; };
 		9A58D1AF22C150C800405315 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
@@ -176,6 +180,16 @@
 			path = Stats;
 			sourceTree = "<group>";
 		};
+		9A54EF65232AB48100F7DC20 /* Battery */ = {
+			isa = PBXGroup;
+			children = (
+				9A09C8A122B3D94D0018426F /* BatteryWidget.swift */,
+				9A54EF66232AB81800F7DC20 /* BatteryPercentageWidget.swift */,
+				9A54EF68232AB82700F7DC20 /* BatteryTimeWidget.swift */,
+			);
+			path = Battery;
+			sourceTree = "<group>";
+		};
 		9A58D1AE22C150B800405315 /* Network */ = {
 			isa = PBXGroup;
 			children = (
@@ -226,9 +240,9 @@
 		9A74D59522B440D4004FE1FA /* Widgets */ = {
 			isa = PBXGroup;
 			children = (
+				9A54EF65232AB48100F7DC20 /* Battery */,
 				9AF0F31922DA923100026AE6 /* Network */,
 				9AF0F31822DA922800026AE6 /* Charts */,
-				9A09C8A122B3D94D0018426F /* BatteryWidget.swift */,
 				9A74D59622B44498004FE1FA /* Mini.swift */,
 				9A79B36922D3BEE600BF1C3A /* Widget.swift */,
 			);
@@ -444,6 +458,7 @@
 				9A606B4A2321577400642F51 /* UpdatesViewController.swift in Sources */,
 				9AF0F31D22DA925000026AE6 /* LineChartWithValue.swift in Sources */,
 				9A09C89E22B3A7C90018426F /* Battery.swift in Sources */,
+				9A54EF67232AB81800F7DC20 /* BatteryPercentageWidget.swift in Sources */,
 				9A7B8F6D22A2C3D600DEB352 /* MemoryReader.swift in Sources */,
 				9A79B36C22D3BEF000BF1C3A /* Module.swift in Sources */,
 				9A57A18522A1D26D0033E318 /* MenuBar.swift in Sources */,
@@ -457,6 +472,7 @@
 				9A1410F9229E721100D29793 /* AppDelegate.swift in Sources */,
 				9AF0F32722DA92DD00026AE6 /* NetworkDotsText.swift in Sources */,
 				9AF0F32922DA92E800026AE6 /* NetworkArrowsText.swift in Sources */,
+				9A54EF69232AB82700F7DC20 /* BatteryTimeWidget.swift in Sources */,
 				9A606B482321025C00642F51 /* BatteryView.swift in Sources */,
 				9AF0F31F22DA925700026AE6 /* BarChart.swift in Sources */,
 				9AF0F31B22DA924000026AE6 /* LineChart.swift in Sources */,

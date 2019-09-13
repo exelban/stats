@@ -57,6 +57,12 @@ extension Module {
             widget = NetworkArrowsTextView()
         case Widgets.BarChart:
             widget = BarChart()
+        case Widgets.Battery:
+            widget = BatteryWidget()
+        case Widgets.BatteryPercentage:
+            widget = BatteryPercentageWidget()
+        case Widgets.BatteryTime:
+            widget = BatteryTimeWidget()
         default:
             widget = Mini()
         }

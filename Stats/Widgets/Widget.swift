@@ -34,6 +34,10 @@ struct Widgets {
     static let NetworkChart: WidgetType = 2.5
     
     static let BarChart: WidgetType = 3.0
+    
+    static let Battery: WidgetType = 4.0
+    static let BatteryPercentage: WidgetType = 4.1
+    static let BatteryTime: WidgetType = 4.2
 }
 
 struct WidgetSize {
