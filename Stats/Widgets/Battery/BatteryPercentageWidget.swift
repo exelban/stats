@@ -51,7 +51,7 @@ class BatteryPercentageWidget: BatteryWidget {
         } else if self.value < 0.1 && self.size != self.batterySize + percentageLowWidth {
             self.changeWidth(width: percentageLowWidth)
             self.percentageValue.frame.size.width = percentageLowWidth
-        } else if self.size != self.batterySize + percentageWidth {
+        } else if self.value >= 0.1 && self.value != 1 && self.size != self.batterySize + percentageWidth {
             self.changeWidth(width: percentageWidth)
             self.percentageValue.frame.size.width = percentageWidth
         }

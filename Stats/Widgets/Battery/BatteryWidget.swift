@@ -25,7 +25,12 @@ class BatteryWidget: NSView, Widget {
             self.update()
         }
     }
-    public var time: Double = 0
+    public var time: Double {
+        didSet {
+            self.redraw()
+            self.update()
+        }
+    }
     public var charging: Bool {
         didSet {
             self.redraw()
@@ -39,6 +44,7 @@ class BatteryWidget: NSView, Widget {
     
     override init(frame: NSRect) {
         self.value = 0.0
+        self.time = 0.0
         self.charging = false
         super.init(frame: CGRect(x: 0, y: 0, width: self.size, height: widgetSize.height))
         self.wantsLayer = true
@@ -107,8 +113,12 @@ class BatteryWidget: NSView, Widget {
     
     func setValue(data: [Double]) {
         let value: Double = data.first!
+        let time: Double = data.last!
         if self.value != value {
             self.value = value
+        }
+        if self.time != time {
+            self.time = time
         }
     }
     

@@ -155,15 +155,15 @@ extension Double {
         case (nil, let x?, nil):
             return "\(x) min"
         case (let x?, nil, nil):
-            return "\(x) hr"
+            return "\(x) h"
         case (nil, nil, let x?):
             return "\(x) sec"
         case (let x?, nil, let z?):
-            return "\(x) hr \(z) sec"
+            return "\(x) h \(z) sec"
         case (let x?, let y?, nil):
-            return "\(x) hr \(y) min"
+            return "\(x) h \(y) min"
         case (let x?, let y?, let z?):
-            return "\(x) hr \(y) min \(z) sec"
+            return "\(x) h \(y) min \(z) sec"
         default:
             return "n/a"
         }

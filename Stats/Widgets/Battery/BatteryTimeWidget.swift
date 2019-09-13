@@ -10,7 +10,7 @@ import Cocoa
 
 class BatteryTimeWidget: BatteryWidget {
     private var timeValue: NSTextField = NSTextField()
-    private let timeWidth: CGFloat = 60
+    private let timeWidth: CGFloat = 62
     
     override init(frame: NSRect) {
         super.init(frame: CGRect(x: 0, y: 0, width: widgetSize.width, height: widgetSize.height))
@@ -23,7 +23,7 @@ class BatteryTimeWidget: BatteryWidget {
     }
     
     private func drawTime() {
-        self.timeValue = NSTextField(frame: NSMakeRect(0, 0, timeWidth, self.frame.size.height - 2))
+        self.timeValue = NSTextField(frame: NSMakeRect(0, 0, timeWidth, self.frame.size.height - 4))
         timeValue.isEditable = false
         timeValue.isSelectable = false
         timeValue.isBezeled = false
@@ -32,16 +32,19 @@ class BatteryTimeWidget: BatteryWidget {
         timeValue.backgroundColor = .controlColor
         timeValue.canDrawSubviewsIntoLayer = true
         timeValue.alignment = .right
-        timeValue.font = NSFont.systemFont(ofSize: 12, weight: .regular)
-        timeValue.stringValue = "\(Int(self.value * 100))%"
+        timeValue.font = NSFont.systemFont(ofSize: 11, weight: .regular)
+        timeValue.stringValue = (self.time*60).printSecondsToHoursMinutesSeconds()
         
         self.addSubview(timeValue)
     }
     
     override func update() {
-        if self.value == 0 { return }
-        self.timeValue.stringValue = "\(Int(self.value * 100))%"
+        if self.time == 0 && self.size == self.batterySize + timeWidth {
+            self.changeWidth(width: 0)
+        } else if self.time != 0 || self.size != self.batterySize + timeWidth {
+            self.changeWidth(width: timeWidth)
+        }
         
-        
+        self.timeValue.stringValue = (self.time*60).printSecondsToHoursMinutesSeconds()
     }
 }

@@ -118,7 +118,6 @@ class MainViewController: NSViewController {
       
         let openActivityMonitorMenu = NSMenuItem(title: "Open Activity Monitor", action: #selector(openActivityMonitor), keyEquivalent: "")
         openActivityMonitorMenu.target = self
-        menu.addItem(openActivityMonitorMenu)
 
         let checkForUpdates = NSMenuItem(title: "Check for updates on start", action: #selector(toggleMenu), keyEquivalent: "")
         checkForUpdates.state = defaults.bool(forKey: "checkUpdatesOnLogin") || defaults.object(forKey: "checkUpdatesOnLogin") == nil ? NSControl.StateValue.on : NSControl.StateValue.off
@@ -132,18 +131,19 @@ class MainViewController: NSViewController {
         dockIcon.state = defaults.bool(forKey: "dockIcon") ? NSControl.StateValue.on : NSControl.StateValue.off
         dockIcon.target = self
         
-        menu.addItem(checkForUpdates)
-        menu.addItem(runAtLogin)
-        menu.addItem(dockIcon)
-        
-        menu.addItem(NSMenuItem.separator())
-        
         let updateMenu = NSMenuItem(title: "Check for updates", action: #selector(checkUpdate), keyEquivalent: "")
         updateMenu.target = self
         
         let aboutMenu = NSMenuItem(title: "About Stats", action: #selector(openAbout), keyEquivalent: "")
         aboutMenu.target = self
         
+        menu.addItem(checkForUpdates)
+        menu.addItem(runAtLogin)
+        menu.addItem(dockIcon)
+        
+        menu.addItem(NSMenuItem.separator())
+        
+        menu.addItem(openActivityMonitorMenu)
         menu.addItem(updateMenu)
         menu.addItem(aboutMenu)
         menu.addItem(NSMenuItem(title: "Quit Stats", action: #selector(NSApplication.terminate(_:)), keyEquivalent: ""))
