@@ -20,6 +20,7 @@ class Network: Module {
     public var tabAvailable: Bool = false
     public var tabInitialized: Bool = false
     public var tabView: NSTabViewItem = NSTabViewItem()
+    public var updateInterval: Int
     
     private let defaults = UserDefaults.standard
     private var submenu: NSMenu = NSMenu()
@@ -28,6 +29,8 @@ class Network: Module {
         self.available = Observable(self.reader.available)
         self.active = Observable(defaults.object(forKey: name) != nil ? defaults.bool(forKey: name) : true)
         self.widgetType = defaults.object(forKey: "\(name)_widget") != nil ? defaults.float(forKey: "\(name)_widget") : Widgets.NetworkDots
+        self.updateInterval = defaults.object(forKey: "\(name)_interval") != nil ? defaults.integer(forKey: "\(name)_interval") : 3
+        self.reader.updateInterval << self.updateInterval
     }
     
     func initTab() {

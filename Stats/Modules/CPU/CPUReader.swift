@@ -23,6 +23,7 @@ struct TopProcess {
 
 class CPUReader: Reader {
     public var value: Observable<[Double]>!
+    public var updateInterval: Observable<Int> = Observable(0)
     public var usage: Observable<CPUUsage> = Observable(CPUUsage())
     public var processes: Observable<[TopProcess]> = Observable([TopProcess]())
     public var available: Bool = true
@@ -57,13 +58,18 @@ class CPUReader: Reader {
             }
             read()
         }
+        
+        self.updateInterval.subscribe(observer: self) { (value, _) in
+            self.stop()
+            self.start()
+        }
     }
     
     func start() {
         if updateTimer != nil {
             return
         }
-        updateTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(read), userInfo: nil, repeats: true)
+        updateTimer = Timer.scheduledTimer(timeInterval: TimeInterval(self.updateInterval.value), target: self, selector: #selector(read), userInfo: nil, repeats: true)
         
         if topProcess.isRunning {
             return

@@ -30,6 +30,7 @@ struct BatteryUsage {
 
 class BatteryReader: Reader {
     public var value: Observable<[Double]>!
+    public var updateInterval: Observable<Int> = Observable(0)
     public var usage: Observable<BatteryUsage> = Observable(BatteryUsage())
     public var updateTimer: Timer!
     
@@ -52,6 +53,10 @@ class BatteryReader: Reader {
     init() {
         self.value = Observable([])
         read()
+        self.updateInterval.subscribe(observer: self) { (value, _) in
+            self.stop()
+            self.start()
+        }
     }
     
     func start() {
@@ -59,7 +64,7 @@ class BatteryReader: Reader {
         if updateTimer != nil {
             return
         }
-        updateTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(read), userInfo: nil, repeats: true)
+        updateTimer = Timer.scheduledTimer(timeInterval: TimeInterval(self.updateInterval.value), target: self, selector: #selector(read), userInfo: nil, repeats: true)
     }
     
     func stop() {

@@ -9,12 +9,13 @@
 import Cocoa
 
 class NetworkReader: Reader {
-    var value: Observable<[Double]>!
-    var available: Bool = true
-    var updateTimer: Timer!
+    public var value: Observable<[Double]>!
+    public var updateInterval: Observable<Int> = Observable(0)
+    public var available: Bool = true
+    public var updateTimer: Timer!
     
-    var netProcess: Process = Process()
-    var pipe: Pipe = Pipe()
+    private var netProcess: Process = Process()
+    private var pipe: Pipe = Pipe()
     
     init() {
         self.value = Observable([])

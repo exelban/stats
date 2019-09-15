@@ -10,6 +10,7 @@ import Foundation
 
 protocol Reader {
     var value: Observable<[Double]>! { get }
+    var updateInterval: Observable<Int> { get }
     
     var available: Bool { get }
     var updateTimer: Timer! { get set }

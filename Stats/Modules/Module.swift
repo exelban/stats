@@ -24,6 +24,7 @@ protocol Module: class {
     var tabInitialized: Bool { get }
     
     var reader: Reader { get }
+    var updateInterval: Int { get }
     
     func start()
     func stop()
