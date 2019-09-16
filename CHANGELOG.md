@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+### [v1.3.3]
+    - new option to set update time for each module
+    - fixed widget initialization
+
 ### [v1.3.2]
     - new battery widget with time remaining
     - rewrited battery widget
@@ -107,6 +111,7 @@ All notable changes to this project will be documented in this file.
 ### [v1.0.0]
     - first release
 
+[v1.3.3]: https://github.com/exelban/stats/releases/tag/v1.3.3
 [v1.3.2]: https://github.com/exelban/stats/releases/tag/v1.3.2
 [v1.3.1]: https://github.com/exelban/stats/releases/tag/v1.3.1
 [v1.3.0]: https://github.com/exelban/stats/releases/tag/v1.3.0
