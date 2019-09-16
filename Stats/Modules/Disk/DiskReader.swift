@@ -16,7 +16,6 @@ class DiskReader: Reader {
     
     init() {
         self.value = Observable([])
-        read()
         self.updateInterval.subscribe(observer: self) { (value, _) in
             self.stop()
             self.start()
@@ -24,6 +23,8 @@ class DiskReader: Reader {
     }
     
     func start() {
+        read()
+        
         if updateTimer != nil {
             return
         }

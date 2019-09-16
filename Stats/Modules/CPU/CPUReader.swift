@@ -56,7 +56,6 @@ class CPUReader: Reader {
             if status != 0 {
                 numCPUs = 1
             }
-            read()
         }
         
         self.updateInterval.subscribe(observer: self) { (value, _) in
@@ -66,6 +65,8 @@ class CPUReader: Reader {
     }
     
     func start() {
+        read()
+        
         if updateTimer != nil {
             return
         }

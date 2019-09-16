@@ -49,8 +49,6 @@ class MemoryReader: Reader {
             print("Error with host_info(): " + (String(cString: mach_error_string(kerr), encoding: String.Encoding.ascii) ?? "unknown error"))
         }
         
-        read()
-        
         self.updateInterval.subscribe(observer: self) { (value, _) in
             self.stop()
             self.start()
@@ -58,6 +56,8 @@ class MemoryReader: Reader {
     }
     
     func start() {
+        read()
+        
         if updateTimer != nil {
             return
         }

@@ -52,7 +52,6 @@ class BatteryReader: Reader {
     
     init() {
         self.value = Observable([])
-        read()
         self.updateInterval.subscribe(observer: self) { (value, _) in
             self.stop()
             self.start()
@@ -60,6 +59,8 @@ class BatteryReader: Reader {
     }
     
     func start() {
+        read()
+        
         self.service = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("AppleSmartBattery"))
         if updateTimer != nil {
             return
