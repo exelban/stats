@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Cocoa
 
 struct CPUUsage {
     var value: Double = 0
@@ -27,7 +28,9 @@ class CPUReader: Reader {
     public var usage: Observable<CPUUsage> = Observable(CPUUsage())
     public var processes: Observable<[TopProcess]> = Observable([TopProcess]())
     public var available: Bool = true
+    public var availableAdditional: Bool = true
     public var updateTimer: Timer!
+    public var updateAdditionalTimer: Timer!
     public var perCoreMode: Bool = false
     public var hyperthreading: Bool = false
     
@@ -39,16 +42,9 @@ class CPUReader: Reader {
     private let CPUUsageLock: NSLock = NSLock()
     private var loadPrevious = host_cpu_load_info()
     
-    private var topProcess: Process = Process()
-    private var pipe: Pipe = Pipe()
-    
     init() {
         let mibKeys: [Int32] = [ CTL_HW, HW_NCPU ]
         self.value = Observable([])
-        
-        self.topProcess.launchPath = "/usr/bin/top"
-        self.topProcess.arguments = ["-s", "3", "-o", "cpu", "-n", "5", "-stats", "pid,command,cpu"]
-        self.topProcess.standardOutput = pipe
         
         mibKeys.withUnsafeBufferPointer() { mib in
             var sizeOfNumCPUs: size_t = MemoryLayout<uint>.size
@@ -71,45 +67,6 @@ class CPUReader: Reader {
             return
         }
         updateTimer = Timer.scheduledTimer(timeInterval: TimeInterval(self.updateInterval.value), target: self, selector: #selector(read), userInfo: nil, repeats: true)
-        
-        if topProcess.isRunning {
-            return
-        }
-        self.pipe.fileHandleForReading.waitForDataInBackgroundAndNotify()
-        
-        NotificationCenter.default.addObserver(forName: NSNotification.Name.NSFileHandleDataAvailable, object: self.pipe.fileHandleForReading , queue: nil) { _ -> Void in
-            defer {
-                self.pipe.fileHandleForReading.waitForDataInBackgroundAndNotify()
-            }
-            
-            let output = self.pipe.fileHandleForReading.availableData
-            if output.isEmpty {
-                return
-            }
-            
-            let outputString = String(data: output, encoding: String.Encoding.utf8) ?? ""
-            var processes: [TopProcess] = []
-            outputString.enumerateLines { (line, stop) -> () in
-                if line.matches("^\\d+ + .+ +\\d+.\\d *$") {
-                    var str = line.trimmingCharacters(in: .whitespaces)
-                    let pidString = str.findAndCrop(pattern: "^\\d+")
-                    let usageString = str.findAndCrop(pattern: " [0-9]+\\.[0-9]*$")
-                    let command = str.trimmingCharacters(in: .whitespaces)
-                    
-                    let pid = Int(pidString) ?? 0
-                    let usage = Double(usageString) ?? 0
-                    let process = TopProcess(pid: pid, command: command, usage: usage)
-                    processes.append(process)
-                }
-            }
-            self.processes << processes
-        }
-        
-        do {
-            try topProcess.run()
-        } catch let error {
-            print(error)
-        }
     }
     
     func stop() {
@@ -118,7 +75,70 @@ class CPUReader: Reader {
         }
         updateTimer.invalidate()
         updateTimer = nil
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.NSFileHandleDataAvailable, object: nil)
+    }
+    
+    func startAdditional() {
+        readAdditional()
+        
+        if updateAdditionalTimer != nil {
+            return
+        }
+        updateAdditionalTimer = Timer.scheduledTimer(timeInterval: TimeInterval(self.updateInterval.value), target: self, selector: #selector(readAdditional), userInfo: nil, repeats: true)
+    }
+    
+    func stopAdditional() {
+        if updateAdditionalTimer == nil {
+            return
+        }
+        updateAdditionalTimer.invalidate()
+        updateAdditionalTimer = nil
+    }
+    
+    @objc func readAdditional() {
+        let task = Process()
+        task.launchPath = "/bin/ps"
+        task.arguments = ["-Aceo pid,pcpu,comm", "-r"]
+        
+        let outputPipe = Pipe()
+        let errorPipe = Pipe()
+        
+        task.standardOutput = outputPipe
+        task.standardError = errorPipe
+        
+        do {
+            try task.run()
+        } catch let error {
+            print(error)
+        }
+        
+        let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
+        let errorData = errorPipe.fileHandleForReading.readDataToEndOfFile()
+        let output = String(decoding: outputData, as: UTF8.self)
+        _ = String(decoding: errorData, as: UTF8.self)
+        
+        if output.isEmpty {
+            return
+        }
+        
+        var index = 0
+        var processes: [TopProcess] = []
+        output.enumerateLines { (line, stop) -> () in
+            if index != 0 {
+                var str = line.trimmingCharacters(in: .whitespaces)
+                let pidString = str.findAndCrop(pattern: "^\\d+")
+                let usageString = str.findAndCrop(pattern: "^[0-9]+\\.[0-9]* ")
+                let command = str.trimmingCharacters(in: .whitespaces)
+
+                let pid = Int(pidString) ?? 0
+                let usage = Double(usageString) ?? 0
+                
+                processes.append(TopProcess(pid: pid, command: command, usage: usage))
+            }
+            
+            if index == 5 { stop = true }
+            index += 1
+        }
+        self.processes << processes
     }
     
     @objc func read() {

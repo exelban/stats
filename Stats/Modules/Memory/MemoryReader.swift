@@ -20,20 +20,15 @@ class MemoryReader: Reader {
     public var usage: Observable<MemoryUsage> = Observable(MemoryUsage())
     public var processes: Observable<[TopProcess]> = Observable([TopProcess]())
     public var available: Bool = true
+    public var availableAdditional: Bool = true
     public var updateTimer: Timer!
+    public var updateAdditionalTimer: Timer!
     public var totalSize: Float
-    
-    private var topProcess: Process = Process()
-    private var pipe: Pipe = Pipe()
     
     init() {
         self.value = Observable([])
         var stats = host_basic_info()
         var count = UInt32(MemoryLayout<host_basic_info_data_t>.size / MemoryLayout<integer_t>.size)
-        
-        self.topProcess.launchPath = "/usr/bin/top"
-        self.topProcess.arguments = ["-s", "3", "-o", "mem", "-n", "5", "-stats", "pid,command,mem"]
-        self.topProcess.standardOutput = pipe
         
         let kerr: kern_return_t = withUnsafeMutablePointer(to: &stats) {
             $0.withMemoryRebound(to: integer_t.self, capacity: Int(count)) {
@@ -62,52 +57,6 @@ class MemoryReader: Reader {
             return
         }
         updateTimer = Timer.scheduledTimer(timeInterval: TimeInterval(self.updateInterval.value), target: self, selector: #selector(read), userInfo: nil, repeats: true)
-        
-        if topProcess.isRunning {
-            return
-        }
-        self.pipe.fileHandleForReading.waitForDataInBackgroundAndNotify()
-        
-        NotificationCenter.default.addObserver(forName: NSNotification.Name.NSFileHandleDataAvailable, object: self.pipe.fileHandleForReading , queue: nil) { _ -> Void in
-            defer {
-                self.pipe.fileHandleForReading.waitForDataInBackgroundAndNotify()
-            }
-            
-            let output = self.pipe.fileHandleForReading.availableData
-            if output.isEmpty {
-                return
-            }
-            
-            let outputString = String(data: output, encoding: String.Encoding.utf8) ?? ""
-            var processes: [TopProcess] = []
-            outputString.enumerateLines { (line, stop) -> () in
-                if line.matches("^\\d+ + .+ +\\d+.\\d[M\\+\\-]+ *$") {
-                    var str = line.trimmingCharacters(in: .whitespaces)
-                    let pidString = str.findAndCrop(pattern: "^\\d+")
-                    let usageString = str.findAndCrop(pattern: " [0-9]+M(\\+|\\-)*$")
-                    var command = str.trimmingCharacters(in: .whitespaces)
-                    
-                    if let regex = try? NSRegularExpression(pattern: " (\\+|\\-)*$", options: .caseInsensitive) {
-                        command = regex.stringByReplacingMatches(in: command, options: [], range: NSRange(location: 0, length:  command.count), withTemplate: "")
-                    }
-                    
-                    let pid = Int(pidString) ?? 0
-                    guard let usage = Double(usageString.filter("01234567890.".contains)) else {
-                        return
-                    }
-                    let process = TopProcess(pid: pid, command: command, usage: usage * Double(1024 * 1024))
-                    processes.append(process)
-                }
-            }
-            
-            self.processes << processes
-        }
-        
-        do {
-            try topProcess.run()
-        } catch let error {
-            print(error)
-        }
     }
     
     func stop() {
@@ -116,7 +65,76 @@ class MemoryReader: Reader {
         }
         updateTimer.invalidate()
         updateTimer = nil
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.NSFileHandleDataAvailable, object: nil)
+    }
+    
+    func startAdditional() {
+        if self.processes.value.isEmpty {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.readAdditional()
+            }
+        }
+        
+        if updateAdditionalTimer != nil {
+            return
+        }
+        updateAdditionalTimer = Timer.scheduledTimer(timeInterval: TimeInterval(self.updateInterval.value), target: self, selector: #selector(readAdditional), userInfo: nil, repeats: true)
+    }
+    
+    func stopAdditional() {
+        if updateAdditionalTimer == nil {
+            return
+        }
+        updateAdditionalTimer.invalidate()
+        updateAdditionalTimer = nil
+    }
+    
+    @objc func readAdditional() {
+        let task = Process()
+        task.launchPath = "/usr/bin/top"
+        task.arguments = ["-l", "1", "-o", "mem", "-n", "5", "-stats", "pid,command,mem"]
+        
+        let outputPipe = Pipe()
+        let errorPipe = Pipe()
+        
+        task.standardOutput = outputPipe
+        task.standardError = errorPipe
+        
+        do {
+            try task.run()
+        } catch let error {
+            print(error)
+        }
+        
+        let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
+        let errorData = errorPipe.fileHandleForReading.readDataToEndOfFile()
+        let output = String(decoding: outputData, as: UTF8.self)
+        _ = String(decoding: errorData, as: UTF8.self)
+        
+        if output.isEmpty {
+            return
+        }
+        
+        var processes: [TopProcess] = []
+        output.enumerateLines { (line, stop) -> () in
+            if line.matches("^\\d+ + .+ +\\d+.\\d[M\\+\\-]+ *$") {
+                var str = line.trimmingCharacters(in: .whitespaces)
+                let pidString = str.findAndCrop(pattern: "^\\d+")
+                let usageString = str.findAndCrop(pattern: " [0-9]+M(\\+|\\-)*$")
+                var command = str.trimmingCharacters(in: .whitespaces)
+                
+                if let regex = try? NSRegularExpression(pattern: " (\\+|\\-)*$", options: .caseInsensitive) {
+                    command = regex.stringByReplacingMatches(in: command, options: [], range: NSRange(location: 0, length:  command.count), withTemplate: "")
+                }
+                
+                let pid = Int(pidString) ?? 0
+                guard let usage = Double(usageString.filter("01234567890.".contains)) else {
+                    return
+                }
+                let process = TopProcess(pid: pid, command: command, usage: usage * Double(1024 * 1024))
+                processes.append(process)
+            }
+        }
+        self.processes << processes
     }
     
     @objc func read() {

@@ -52,6 +52,22 @@ class MainViewController: NSViewController {
         }
     }
     
+    override func viewWillAppear() {
+        for module in modules.value {
+            if module.tabAvailable && module.available.value && module.active.value && module.reader.availableAdditional {
+                module.reader.startAdditional()
+            }
+        }
+    }
+    
+    override func viewWillDisappear() {
+        for module in modules.value {
+            if module.tabAvailable && module.available.value && module.active.value && module.reader.availableAdditional {
+                module.reader.stopAdditional()
+            }
+        }
+    }
+    
     func makeHeader() {
         var list: [String] = []
         for module in modules.value {

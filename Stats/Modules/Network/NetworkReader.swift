@@ -12,6 +12,7 @@ class NetworkReader: Reader {
     public var value: Observable<[Double]>!
     public var updateInterval: Observable<Int> = Observable(0)
     public var available: Bool = true
+    public var availableAdditional: Bool = false
     public var updateTimer: Timer!
     
     private var netProcess: Process = Process()

@@ -13,9 +13,17 @@ protocol Reader {
     var updateInterval: Observable<Int> { get }
     
     var available: Bool { get }
+    var availableAdditional: Bool { get }
     var updateTimer: Timer! { get set }
     
     func start()
     func stop()
-    func read()
+    
+    func startAdditional()
+    func stopAdditional()
+}
+
+extension Reader {
+    func startAdditional() {}
+    func stopAdditional() {}
 }

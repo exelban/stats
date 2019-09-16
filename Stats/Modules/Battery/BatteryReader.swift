@@ -33,6 +33,7 @@ class BatteryReader: Reader {
     public var updateInterval: Observable<Int> = Observable(0)
     public var usage: Observable<BatteryUsage> = Observable(BatteryUsage())
     public var updateTimer: Timer!
+    public var availableAdditional: Bool = false
     
     private var service: io_connect_t = 0
     private var internalChecked: Bool = false
