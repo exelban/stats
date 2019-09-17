@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+### [v1.3.4]
+    - rewrited readers for Top Processes in CPU and Memory modules
+    - improved power consumption
+
 ### [v1.3.3]
     - new option to set update time for each module
     - fixed widget initialization
@@ -111,6 +115,7 @@ All notable changes to this project will be documented in this file.
 ### [v1.0.0]
     - first release
 
+[v1.3.4]: https://github.com/exelban/stats/releases/tag/v1.3.4
 [v1.3.3]: https://github.com/exelban/stats/releases/tag/v1.3.3
 [v1.3.2]: https://github.com/exelban/stats/releases/tag/v1.3.2
 [v1.3.1]: https://github.com/exelban/stats/releases/tag/v1.3.1
