@@ -39,9 +39,9 @@ class BatteryTimeWidget: BatteryWidget {
     }
     
     override func update() {
-        if self.time == 0 && self.size == self.batterySize + timeWidth {
+        if self.time <= 0 && self.size == self.batterySize + timeWidth {
             self.changeWidth(width: 0)
-        } else if self.time != 0 || self.size != self.batterySize + timeWidth {
+        } else if self.time >= 0 || self.size != self.batterySize + timeWidth {
             self.changeWidth(width: timeWidth)
         }
         
