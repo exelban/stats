@@ -31,14 +31,13 @@ struct BatteryUsage {
 class BatteryReader: Reader {
     public var value: Observable<[Double]>!
     public var usage: Observable<BatteryUsage> = Observable(BatteryUsage())
-    public var updateTimer: Timer!
-    public var updateAdditionalTimer: Timer!
     public var availableAdditional: Bool = false
     public var updateInterval: Int = 0
     
     private var service: io_connect_t = 0
     private var internalChecked: Bool = false
     private var hasInternalBattery: Bool = false
+    private var timer: Repeater?
     
     public var available: Bool {
         get {
@@ -54,6 +53,7 @@ class BatteryReader: Reader {
     
     init() {
         self.value = Observable([])
+        self.service = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("AppleSmartBattery"))
         
         if self.available {
             self.read()
@@ -62,21 +62,13 @@ class BatteryReader: Reader {
     
     func start() {
         read()
-        
-        self.service = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("AppleSmartBattery"))
-        if updateTimer != nil {
-            return
+        if self.timer != nil && self.timer!.state.isRunning == false {
+            self.timer!.start()
         }
-        updateTimer = Timer.scheduledTimer(timeInterval: TimeInterval(self.updateInterval), target: self, selector: #selector(read), userInfo: nil, repeats: true)
     }
     
     func stop() {
-        if updateTimer == nil {
-            return
-        }
-        updateTimer.invalidate()
-        updateTimer = nil
-        
+        self.timer?.pause()
         IOServiceClose(self.service)
         IOObjectRelease(self.service)
     }
@@ -111,25 +103,27 @@ class BatteryReader: Reader {
                     }
                 }
                 let ACstatus = self.getBoolValue("IsCharging" as CFString) ?? false
-                
-                self.usage << BatteryUsage(
-                    powerSource: powerSource,
-                    state: state,
-                    isCharged: isCharged,
-                    capacity: Double(cap),
-                    cycles: cycles,
-                    health: (100 * maxCapacity) / designCapacity,
+
+                DispatchQueue.main.async(execute: {
+                    self.usage << BatteryUsage(
+                        powerSource: powerSource,
+                        state: state,
+                        isCharged: isCharged,
+                        capacity: Double(cap),
+                        cycles: cycles,
+                        health: (100 * maxCapacity) / designCapacity,
+                        
+                        amperage: amperage,
+                        voltage: voltage,
+                        temperature: temperature,
+                        
+                        ACwatts: ACwatts,
+                        ACstatus: ACstatus,
                     
-                    amperage: amperage,
-                    voltage: voltage,
-                    temperature: temperature,
-                    
-                    ACwatts: ACwatts,
-                    ACstatus: ACstatus,
-                
-                    timeToEmpty: timeToEmpty,
-                    timeToCharge: timeToCharged
-                )
+                        timeToEmpty: timeToEmpty,
+                        timeToCharge: timeToCharged
+                    )
+                })
 
                 if powerSource == "Battery Power" {
                     cap = 0 - cap
@@ -141,8 +135,10 @@ class BatteryReader: Reader {
                 } else if timeToEmpty == 0 && timeToCharged != 0 {
                     time = timeToCharged
                 }
-                
-                self.value << [Double(cap), Double(time)]
+
+                DispatchQueue.main.async(execute: {
+                    self.value << [Double(cap), Double(time)]
+                })
             }
         }
     }
@@ -188,13 +184,6 @@ class BatteryReader: Reader {
         }
         
         self.updateInterval = value
-        if self.updateTimer != nil {
-            self.stop()
-            self.start()
-        }
-        if self.updateAdditionalTimer != nil {
-            self.stopAdditional()
-            self.startAdditional()
-        }
+        self.timer?.reset(.seconds(Double(value)))
     }
 }

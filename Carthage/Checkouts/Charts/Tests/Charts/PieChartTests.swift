@@ -70,4 +70,18 @@ class PieChartTests: FBSnapshotTestCase
         chart.drawCenterTextEnabled = false
         ChartsSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), overallTolerance: Snapshot.tolerance)
     }
+
+    func testHighlightDisabled()
+    {
+        chart.data?.dataSets[0].highlightEnabled = false
+        chart.highlightValue(x: 1.0, dataSetIndex: 0, callDelegate: false)
+        ChartsSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), overallTolerance: Snapshot.tolerance)
+    }
+
+    func testHighlightEnabled()
+    {
+        // by default, it's enabled
+        chart.highlightValue(x: 1.0, dataSetIndex: 0, callDelegate: false)
+        ChartsSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), overallTolerance: Snapshot.tolerance)
+    }
 }

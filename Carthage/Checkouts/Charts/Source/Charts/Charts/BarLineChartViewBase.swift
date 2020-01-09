@@ -12,6 +12,14 @@
 import Foundation
 import CoreGraphics
 
+#if canImport(UIKit)
+    import UIKit
+#endif
+
+#if canImport(Cocoa)
+import Cocoa
+#endif
+
 /// Base-class of LineChart, BarChart, ScatterChart and CandleStickChart.
 open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartDataProvider, NSUIGestureRecognizerDelegate
 {

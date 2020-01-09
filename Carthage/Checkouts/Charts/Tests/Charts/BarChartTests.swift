@@ -109,6 +109,16 @@ class BarChartTests: FBSnapshotTestCase
         let dataSet = setupDefaultDataSet(chartDataEntries: dataEntries)
         let chart = setupDefaultChart(dataSets: [dataSet])
         ChartsSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), overallTolerance: Snapshot.tolerance)
+
+    }
+
+    func testDefaultBarDataSetLabels()
+    {
+        let dataEntries = setupDefaultValuesDataEntries()
+        let dataSet = BarChartDataSet(entries: dataEntries)
+        dataSet.drawIconsEnabled = false
+        let chart = setupDefaultChart(dataSets: [dataSet])
+        ChartsSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), overallTolerance: Snapshot.tolerance)
     }
 
     func testZeroValues()

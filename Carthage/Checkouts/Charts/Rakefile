@@ -56,8 +56,8 @@ def devices
   {
     iOS: {
       sdk: 'iphonesimulator',
-      device: "name='iPhone 7'",
-      name: 'iPhone 7'
+      device: "name='iPhone 8'",
+      name: 'iPhone 8'
     },
     macOS: {
       sdk: 'macosx',

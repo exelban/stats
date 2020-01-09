@@ -12,6 +12,14 @@
 import Foundation
 import CoreGraphics
 
+#if canImport(UIKit)
+    import UIKit
+#endif
+
+#if canImport(Cocoa)
+import Cocoa
+#endif
+
 open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
 {
     /// A nested array of elements ordered logically (i.e not in visual/drawing order) for use with VoiceOver
@@ -482,7 +490,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 let barData = dataProvider.barData
                 else { return }
 
-            var dataSets = barData.dataSets
+            let dataSets = barData.dataSets
 
             let valueOffsetPlus: CGFloat = 4.5
             var posOffset: CGFloat
@@ -867,9 +875,12 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
             } else {
                 stackLabel = nil
             }
-
+            
+            //Handles empty array of yValues
+            let yValue = vals.isEmpty ? 0.0 : vals[idx % vals.count]
+            
             elementValueText = dataSet.valueFormatter?.stringForValue(
-                vals[idx % stackSize],
+                yValue,
                 entry: e,
                 dataSetIndex: dataSetIndex,
                 viewPortHandler: viewPortHandler) ?? "\(e.y)"

@@ -13,9 +13,6 @@ protocol Reader {
     
     var available: Bool { get }
     var availableAdditional: Bool { get }
-    var updateTimer: Timer! { get set }
-    var updateAdditionalTimer: Timer! { get set }
-    var updateInterval: Int { get }
     
     func start()
     func stop()

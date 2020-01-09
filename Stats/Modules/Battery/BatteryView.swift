@@ -58,7 +58,7 @@ extension Battery {
         self.tabView.view?.addSubview(vertical)
         
         (self.reader as! BatteryReader).usage.subscribe(observer: self) { (value, _) in
-            levelValue.stringValue = "\(Int(value.capacity * 100)) %"
+            levelValue.stringValue = "\(Int(abs(value.capacity) * 100)) %"
             sourceValue.stringValue = value.powerSource
             
             if value.powerSource == "Battery Power" {
@@ -200,7 +200,7 @@ extension Battery {
         
         self.tabView.view?.addSubview(vertical)
         (self.reader as! BatteryReader).usage.subscribe(observer: self) { (value, _) in
-            amperageValue.stringValue = "\(value.amperage) mA"
+            amperageValue.stringValue = "\(abs(value.amperage)) mA"
             voltageValue.stringValue = "\(value.voltage.roundTo(decimalPlaces: 2)) V"
             temperatureValue.stringValue = "\(value.temperature) °C"
         }

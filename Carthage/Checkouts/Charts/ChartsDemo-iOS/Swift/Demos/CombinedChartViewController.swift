@@ -6,8 +6,13 @@
 //  Copyright © 2017 jc. All rights reserved.
 //
 
-import UIKit
+#if canImport(UIKit)
+    import UIKit
+#endif
 import Charts
+#if canImport(UIKit)
+    import UIKit
+#endif
 
 private let ITEM_COUNT = 12
 

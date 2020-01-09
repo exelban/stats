@@ -12,9 +12,9 @@ class DiskReader: Reader {
     public var value: Observable<[Double]>!
     public var available: Bool = true
     public var availableAdditional: Bool = false
-    public var updateTimer: Timer!
-    public var updateAdditionalTimer: Timer!
     public var updateInterval: Int = 0
+    
+    private var timer: Repeater?
     
     init() {
         self.value = Observable([])
@@ -25,19 +25,13 @@ class DiskReader: Reader {
     
     func start() {
         read()
-        
-        if updateTimer != nil {
-            return
+        if self.timer != nil && self.timer!.state.isRunning == false {
+            self.timer!.start()
         }
-        updateTimer = Timer.scheduledTimer(timeInterval: TimeInterval(self.updateInterval), target: self, selector: #selector(read), userInfo: nil, repeats: true)
     }
     
     func stop() {
-        if updateTimer == nil {
-            return
-        }
-        updateTimer.invalidate()
-        updateTimer = nil
+        self.timer?.pause()
     }
     
     @objc func read() {
@@ -45,7 +39,9 @@ class DiskReader: Reader {
         let free = freeDiskSpaceInBytes()
         let usedSpace = total - free
         
-        self.value << [(Double(usedSpace) / Double(total))]
+        DispatchQueue.main.async(execute: {
+            self.value << [(Double(usedSpace) / Double(total))]
+        })
     }
     
     func totalDiskSpaceInBytes() -> Int64 {
@@ -74,13 +70,6 @@ class DiskReader: Reader {
         }
         
         self.updateInterval = value
-        if self.updateTimer != nil {
-            self.stop()
-            self.start()
-        }
-        if self.updateAdditionalTimer != nil {
-            self.stopAdditional()
-            self.startAdditional()
-        }
+        self.timer?.reset(.seconds(Double(value)))
     }
 }

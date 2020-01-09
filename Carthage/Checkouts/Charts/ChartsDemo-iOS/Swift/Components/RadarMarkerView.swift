@@ -11,6 +11,9 @@
 
 import Foundation
 import Charts
+#if canImport(UIKit)
+    import UIKit
+#endif
 
 public class RadarMarkerView: MarkerView {
     @IBOutlet var label: UILabel!

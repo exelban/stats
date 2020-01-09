@@ -28,8 +28,6 @@ class CPUReader: Reader {
     public var processes: Observable<[TopProcess]> = Observable([TopProcess]())
     public var available: Bool = true
     public var availableAdditional: Bool = true
-    public var updateTimer: Timer!
-    public var updateAdditionalTimer: Timer!
     public var perCoreMode: Bool = false
     public var hyperthreading: Bool = false
     public var updateInterval: Int = 0
@@ -41,6 +39,9 @@ class CPUReader: Reader {
     private var numCPUs: uint = 0
     private let CPUUsageLock: NSLock = NSLock()
     private var loadPrevious = host_cpu_load_info()
+    
+    private var timer: Repeater?
+    private var additionalTimer: Repeater?
     
     init() {
         let mibKeys: [Int32] = [ CTL_HW, HW_NCPU ]
@@ -57,40 +58,35 @@ class CPUReader: Reader {
         if self.available {
             self.read()
         }
+        
+        self.timer = Repeater.every(.seconds(1)) { timer in
+            self.read()
+        }
+        self.additionalTimer = Repeater.every(.seconds(1)) { timer in
+            self.readAdditional()
+        }
     }
     
     func start() {
         read()
-        
-        if updateTimer != nil {
-            return
+        if self.timer != nil && self.timer!.state.isRunning == false {
+            self.timer!.start()
         }
-        updateTimer = Timer.scheduledTimer(timeInterval: TimeInterval(self.updateInterval), target: self, selector: #selector(read), userInfo: nil, repeats: true)
     }
     
     func stop() {
-        if updateTimer == nil {
-            return
-        }
-        updateTimer.invalidate()
-        updateTimer = nil
+        self.timer?.pause()
     }
     
     func startAdditional() {
         readAdditional()
-        
-        if updateAdditionalTimer != nil {
-            return
+        if self.additionalTimer != nil && self.additionalTimer!.state.isRunning == false {
+            self.additionalTimer!.start()
         }
-        updateAdditionalTimer = Timer.scheduledTimer(timeInterval: TimeInterval(self.updateInterval), target: self, selector: #selector(readAdditional), userInfo: nil, repeats: true)
     }
     
     func stopAdditional() {
-        if updateAdditionalTimer == nil {
-            return
-        }
-        updateAdditionalTimer.invalidate()
-        updateAdditionalTimer = nil
+        self.additionalTimer?.pause()
     }
     
     @objc func readAdditional() {
@@ -137,26 +133,28 @@ class CPUReader: Reader {
             if index == 5 { stop = true }
             index += 1
         }
-        self.processes << processes
+        DispatchQueue.main.async(execute: {
+            self.processes << processes
+        })
     }
     
     @objc func read() {
         var numCPUsU: natural_t = 0
         let err: kern_return_t = host_processor_info(mach_host_self(), PROCESSOR_CPU_LOAD_INFO, &numCPUsU, &cpuInfo, &numCpuInfo);
         let usage = getUsage()
-        
+//
         if err == KERN_SUCCESS {
             CPUUsageLock.lock()
-            
+
             var inUseOnAllCores: Int32 = 0
             var totalOnAllCores: Int32 = 0
             var usagePerCore: [Double] = []
-            
+
             var incrementNumber = 1
             if !self.hyperthreading && self.perCoreMode {
                 incrementNumber = 2
             }
-            
+
             for i in stride(from: 0, to: Int32(numCPUs), by: incrementNumber) {
                 var inUse: Int32
                 var total: Int32
@@ -175,33 +173,35 @@ class CPUReader: Reader {
                         + cpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_NICE)]
                     total = inUse + cpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_IDLE)]
                 }
-                
+
                 inUseOnAllCores = inUseOnAllCores + inUse
                 totalOnAllCores = totalOnAllCores + total
                 if total != 0 {
                     usagePerCore.append(Double(inUse) / Double(total))
                 }
             }
-            
-            if self.perCoreMode {
-                self.value << usagePerCore
-            } else {
-                self.value << [(Double(inUseOnAllCores) / Double(totalOnAllCores))]
-            }
-            if !usage.system.isNaN && !usage.user.isNaN && !usage.idle.isNaN {
-                self.usage << CPUUsage(value: Double(inUseOnAllCores) / Double(totalOnAllCores), system: usage.system, user: usage.user, idle: usage.idle)
-            }
-            
+
+            DispatchQueue.main.async(execute: {
+                if self.perCoreMode {
+                    self.value << usagePerCore
+                } else {
+                    self.value << [(Double(inUseOnAllCores) / Double(totalOnAllCores))]
+                }
+                if !usage.system.isNaN && !usage.user.isNaN && !usage.idle.isNaN {
+                    self.usage << CPUUsage(value: Double(inUseOnAllCores) / Double(totalOnAllCores), system: usage.system, user: usage.user, idle: usage.idle)
+                }
+            })
+
             CPUUsageLock.unlock()
-            
+
             if let prevCpuInfo = prevCpuInfo {
                 let prevCpuInfoSize: size_t = MemoryLayout<integer_t>.stride * Int(numPrevCpuInfo)
                 vm_deallocate(mach_task_self_, vm_address_t(bitPattern: prevCpuInfo), vm_size_t(prevCpuInfoSize))
             }
-            
+
             prevCpuInfo = cpuInfo
             numPrevCpuInfo = numCpuInfo
-            
+
             cpuInfo = nil
             numCpuInfo = 0
         } else {
@@ -251,14 +251,8 @@ class CPUReader: Reader {
         }
         
         self.updateInterval = value
-        if self.updateTimer != nil {
-            self.stop()
-            self.start()
-        }
-        if self.updateAdditionalTimer != nil {
-            self.stopAdditional()
-            self.startAdditional()
-        }
+        self.timer?.reset(.seconds(Double(value)))
+        self.additionalTimer?.reset(.seconds(Double(value)))
     }
 }
 

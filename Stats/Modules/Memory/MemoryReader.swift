@@ -20,10 +20,11 @@ class MemoryReader: Reader {
     public var processes: Observable<[TopProcess]> = Observable([TopProcess]())
     public var available: Bool = true
     public var availableAdditional: Bool = true
-    public var updateTimer: Timer!
-    public var updateAdditionalTimer: Timer!
     public var totalSize: Float
     public var updateInterval: Int = 0
+    
+    private var timer: Repeater?
+    private var additionalTimer: Repeater?
     
     init() {
         self.value = Observable([])
@@ -47,44 +48,35 @@ class MemoryReader: Reader {
         if self.available {
             self.read()
         }
+        
+        self.timer = Repeater.every(.seconds(1)) { timer in
+            self.read()
+        }
+        self.additionalTimer = Repeater.every(.seconds(1)) { timer in
+            self.readAdditional()
+        }
     }
     
     func start() {
         read()
-        
-        if updateTimer != nil {
-            return
+        if self.timer != nil && self.timer!.state.isRunning == false {
+            self.timer!.start()
         }
-        updateTimer = Timer.scheduledTimer(timeInterval: TimeInterval(self.updateInterval), target: self, selector: #selector(read), userInfo: nil, repeats: true)
     }
     
     func stop() {
-        if updateTimer == nil {
-            return
-        }
-        updateTimer.invalidate()
-        updateTimer = nil
+        self.timer?.pause()
     }
     
     func startAdditional() {
-        if self.processes.value.isEmpty {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                self.readAdditional()
-            }
+        readAdditional()
+        if self.additionalTimer != nil && self.additionalTimer!.state.isRunning == false {
+            self.additionalTimer!.start()
         }
-        
-        if updateAdditionalTimer != nil {
-            return
-        }
-        updateAdditionalTimer = Timer.scheduledTimer(timeInterval: TimeInterval(self.updateInterval), target: self, selector: #selector(readAdditional), userInfo: nil, repeats: true)
     }
     
     func stopAdditional() {
-        if updateAdditionalTimer == nil {
-            return
-        }
-        updateAdditionalTimer.invalidate()
-        updateAdditionalTimer = nil
+        self.additionalTimer?.pause()
     }
     
     @objc func readAdditional() {
@@ -133,7 +125,9 @@ class MemoryReader: Reader {
                 processes.append(process)
             }
         }
-        self.processes << processes
+        DispatchQueue.main.async(execute: {
+            self.processes << processes
+        })
     }
     
     @objc func read() {
@@ -154,9 +148,11 @@ class MemoryReader: Reader {
             
             let used = active + wired + compressed
             let free = totalSize - used
-            
-            self.usage << MemoryUsage(total: Double(totalSize), used: Double(used), free: Double(free))
-            self.value << [Double((totalSize - free) / totalSize)]
+
+            DispatchQueue.main.async(execute: {
+                self.usage << MemoryUsage(total: Double(self.totalSize), used: Double(used), free: Double(free))
+                self.value << [Double((self.totalSize - free) / self.totalSize)]
+            })
         }
         else {
             print("Error with host_statistics64(): " + (String(cString: mach_error_string(kerr), encoding: String.Encoding.ascii) ?? "unknown error"))
@@ -169,13 +165,7 @@ class MemoryReader: Reader {
         }
         
         self.updateInterval = value
-        if self.updateTimer != nil {
-            self.stop()
-            self.start()
-        }
-        if self.updateAdditionalTimer != nil {
-            self.stopAdditional()
-            self.startAdditional()
-        }
+        self.timer?.reset(.seconds(Double(value)))
+        self.additionalTimer?.reset(.seconds(Double(value)))
     }
 }

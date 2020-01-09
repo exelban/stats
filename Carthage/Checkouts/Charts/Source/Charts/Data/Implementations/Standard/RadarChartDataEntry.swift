@@ -40,7 +40,7 @@ open class RadarChartDataEntry: ChartDataEntry
     @objc open var value: Double
     {
         get { return y }
-        set { y = value }
+        set { y = newValue }
     }
     
     // MARK: NSCopying

@@ -8,6 +8,9 @@
 
 import Foundation
 import Charts
+#if canImport(UIKit)
+    import UIKit
+#endif
 
 public class XYMarkerView: BalloonMarker {
     public var xAxisValueFormatter: IAxisValueFormatter
