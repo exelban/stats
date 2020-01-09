@@ -30,7 +30,7 @@ class Network: Module {
         self.active = Observable(defaults.object(forKey: name) != nil ? defaults.bool(forKey: name) : true)
         self.widgetType = defaults.object(forKey: "\(name)_widget") != nil ? defaults.float(forKey: "\(name)_widget") : Widgets.NetworkDots
         self.updateInterval = defaults.object(forKey: "\(name)_interval") != nil ? defaults.integer(forKey: "\(name)_interval") : 1
-        self.reader.updateInterval << self.updateInterval
+        self.reader.setInterval(value: self.updateInterval)
     }
     
     func initTab() {

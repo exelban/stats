@@ -16,7 +16,6 @@ struct MemoryUsage {
 
 class MemoryReader: Reader {
     public var value: Observable<[Double]>!
-    public var updateInterval: Observable<Int> = Observable(0)
     public var usage: Observable<MemoryUsage> = Observable(MemoryUsage())
     public var processes: Observable<[TopProcess]> = Observable([TopProcess]())
     public var available: Bool = true
@@ -24,6 +23,7 @@ class MemoryReader: Reader {
     public var updateTimer: Timer!
     public var updateAdditionalTimer: Timer!
     public var totalSize: Float
+    public var updateInterval: Int = 0
     
     init() {
         self.value = Observable([])
@@ -44,9 +44,8 @@ class MemoryReader: Reader {
             print("Error with host_info(): " + (String(cString: mach_error_string(kerr), encoding: String.Encoding.ascii) ?? "unknown error"))
         }
         
-        self.updateInterval.subscribe(observer: self) { (value, _) in
-            self.stop()
-            self.start()
+        if self.available {
+            self.read()
         }
     }
     
@@ -56,7 +55,7 @@ class MemoryReader: Reader {
         if updateTimer != nil {
             return
         }
-        updateTimer = Timer.scheduledTimer(timeInterval: TimeInterval(self.updateInterval.value), target: self, selector: #selector(read), userInfo: nil, repeats: true)
+        updateTimer = Timer.scheduledTimer(timeInterval: TimeInterval(self.updateInterval), target: self, selector: #selector(read), userInfo: nil, repeats: true)
     }
     
     func stop() {
@@ -77,7 +76,7 @@ class MemoryReader: Reader {
         if updateAdditionalTimer != nil {
             return
         }
-        updateAdditionalTimer = Timer.scheduledTimer(timeInterval: TimeInterval(self.updateInterval.value), target: self, selector: #selector(readAdditional), userInfo: nil, repeats: true)
+        updateAdditionalTimer = Timer.scheduledTimer(timeInterval: TimeInterval(self.updateInterval), target: self, selector: #selector(readAdditional), userInfo: nil, repeats: true)
     }
     
     func stopAdditional() {
@@ -161,6 +160,22 @@ class MemoryReader: Reader {
         }
         else {
             print("Error with host_statistics64(): " + (String(cString: mach_error_string(kerr), encoding: String.Encoding.ascii) ?? "unknown error"))
+        }
+    }
+    
+    func setInterval(value: Int) {
+        if value == 0 {
+            return
+        }
+        
+        self.updateInterval = value
+        if self.updateTimer != nil {
+            self.stop()
+            self.start()
+        }
+        if self.updateAdditionalTimer != nil {
+            self.stopAdditional()
+            self.startAdditional()
         }
     }
 }

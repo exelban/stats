@@ -35,7 +35,7 @@ class Battery: Module {
         self.timeView = Observable(defaults.object(forKey: "\(self.name)_time") != nil ? defaults.bool(forKey: "\(self.name)_time") : false)
         self.widgetType = defaults.object(forKey: "\(name)_widget") != nil ? defaults.float(forKey: "\(name)_widget") : Widgets.Battery
         self.updateInterval = defaults.object(forKey: "\(name)_interval") != nil ? defaults.integer(forKey: "\(name)_interval") : 3
-        self.reader.updateInterval << self.updateInterval
+        self.reader.setInterval(value: self.updateInterval)
     }
     
     func start() {
@@ -209,7 +209,7 @@ class Battery: Module {
         sender.state = NSControl.StateValue.on
         self.updateInterval = interval
         self.defaults.set(interval, forKey: "\(name)_interval")
-        self.reader.updateInterval << interval
+        self.reader.setInterval(value: interval)
     }
 }
 

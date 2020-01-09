@@ -10,16 +10,16 @@ import Foundation
 
 class DiskReader: Reader {
     public var value: Observable<[Double]>!
-    public var updateInterval: Observable<Int> = Observable(0)
     public var available: Bool = true
     public var availableAdditional: Bool = false
     public var updateTimer: Timer!
+    public var updateAdditionalTimer: Timer!
+    public var updateInterval: Int = 0
     
     init() {
         self.value = Observable([])
-        self.updateInterval.subscribe(observer: self) { (value, _) in
-            self.stop()
-            self.start()
+        if self.available {
+            self.read()
         }
     }
     
@@ -29,7 +29,7 @@ class DiskReader: Reader {
         if updateTimer != nil {
             return
         }
-        updateTimer = Timer.scheduledTimer(timeInterval: TimeInterval(self.updateInterval.value), target: self, selector: #selector(read), userInfo: nil, repeats: true)
+        updateTimer = Timer.scheduledTimer(timeInterval: TimeInterval(self.updateInterval), target: self, selector: #selector(read), userInfo: nil, repeats: true)
     }
     
     func stop() {
@@ -65,6 +65,22 @@ class DiskReader: Reader {
             return freeSpace!
         } catch {
             return 0
+        }
+    }
+    
+    func setInterval(value: Int) {
+        if value == 0 {
+            return
+        }
+        
+        self.updateInterval = value
+        if self.updateTimer != nil {
+            self.stop()
+            self.start()
+        }
+        if self.updateAdditionalTimer != nil {
+            self.stopAdditional()
+            self.startAdditional()
         }
     }
 }

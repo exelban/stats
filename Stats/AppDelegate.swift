@@ -25,19 +25,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             NSApp.terminate(nil)
             return
         }
-        
+
         menuBarButton.action = #selector(toggleMenu)
         popover.contentViewController = MainViewController.Init()
         popover.behavior = .transient
         popover.animates = true
-        
+
         menuBar = MenuBar(menuBarItem, menuBarButton: menuBarButton)
         menuBar!.build()
 
         if self.defaults.object(forKey: "runAtLoginInitialized") == nil {
             LaunchAtLogin.isEnabled = true
         }
-        
+
         if defaults.object(forKey: "dockIcon") != nil {
             let dockIconStatus = defaults.bool(forKey: "dockIcon") ? NSApplication.ActivationPolicy.regular : NSApplication.ActivationPolicy.accessory
             NSApp.setActivationPolicy(dockIconStatus)
@@ -85,7 +85,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
         }
     }
-    
+
     func applicationWillResignActive(_ notification: Notification) {
         popover.performClose(self)
     }

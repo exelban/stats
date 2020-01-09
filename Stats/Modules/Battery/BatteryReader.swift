@@ -30,10 +30,11 @@ struct BatteryUsage {
 
 class BatteryReader: Reader {
     public var value: Observable<[Double]>!
-    public var updateInterval: Observable<Int> = Observable(0)
     public var usage: Observable<BatteryUsage> = Observable(BatteryUsage())
     public var updateTimer: Timer!
+    public var updateAdditionalTimer: Timer!
     public var availableAdditional: Bool = false
+    public var updateInterval: Int = 0
     
     private var service: io_connect_t = 0
     private var internalChecked: Bool = false
@@ -53,9 +54,9 @@ class BatteryReader: Reader {
     
     init() {
         self.value = Observable([])
-        self.updateInterval.subscribe(observer: self) { (value, _) in
-            self.stop()
-            self.start()
+        
+        if self.available {
+            self.read()
         }
     }
     
@@ -66,7 +67,7 @@ class BatteryReader: Reader {
         if updateTimer != nil {
             return
         }
-        updateTimer = Timer.scheduledTimer(timeInterval: TimeInterval(self.updateInterval.value), target: self, selector: #selector(read), userInfo: nil, repeats: true)
+        updateTimer = Timer.scheduledTimer(timeInterval: TimeInterval(self.updateInterval), target: self, selector: #selector(read), userInfo: nil, repeats: true)
     }
     
     func stop() {
@@ -179,5 +180,21 @@ class BatteryReader: Reader {
             return value.takeRetainedValue() as! Double / 100.0
         }
         return nil
+    }
+    
+    func setInterval(value: Int) {
+        if value == 0 {
+            return
+        }
+        
+        self.updateInterval = value
+        if self.updateTimer != nil {
+            self.stop()
+            self.start()
+        }
+        if self.updateAdditionalTimer != nil {
+            self.stopAdditional()
+            self.startAdditional()
+        }
     }
 }

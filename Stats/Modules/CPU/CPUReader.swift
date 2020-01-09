@@ -24,7 +24,6 @@ struct TopProcess {
 
 class CPUReader: Reader {
     public var value: Observable<[Double]>!
-    public var updateInterval: Observable<Int> = Observable(0)
     public var usage: Observable<CPUUsage> = Observable(CPUUsage())
     public var processes: Observable<[TopProcess]> = Observable([TopProcess]())
     public var available: Bool = true
@@ -33,6 +32,7 @@ class CPUReader: Reader {
     public var updateAdditionalTimer: Timer!
     public var perCoreMode: Bool = false
     public var hyperthreading: Bool = false
+    public var updateInterval: Int = 0
     
     private var cpuInfo: processor_info_array_t!
     private var prevCpuInfo: processor_info_array_t?
@@ -54,9 +54,8 @@ class CPUReader: Reader {
             }
         }
         
-        self.updateInterval.subscribe(observer: self) { (value, _) in
-            self.stop()
-            self.start()
+        if self.available {
+            self.read()
         }
     }
     
@@ -66,7 +65,7 @@ class CPUReader: Reader {
         if updateTimer != nil {
             return
         }
-        updateTimer = Timer.scheduledTimer(timeInterval: TimeInterval(self.updateInterval.value), target: self, selector: #selector(read), userInfo: nil, repeats: true)
+        updateTimer = Timer.scheduledTimer(timeInterval: TimeInterval(self.updateInterval), target: self, selector: #selector(read), userInfo: nil, repeats: true)
     }
     
     func stop() {
@@ -83,7 +82,7 @@ class CPUReader: Reader {
         if updateAdditionalTimer != nil {
             return
         }
-        updateAdditionalTimer = Timer.scheduledTimer(timeInterval: TimeInterval(self.updateInterval.value), target: self, selector: #selector(readAdditional), userInfo: nil, repeats: true)
+        updateAdditionalTimer = Timer.scheduledTimer(timeInterval: TimeInterval(self.updateInterval), target: self, selector: #selector(readAdditional), userInfo: nil, repeats: true)
     }
     
     func stopAdditional() {
@@ -244,6 +243,22 @@ class CPUReader: Reader {
         self.loadPrevious = load!
         
         return (sys, user, idle)
+    }
+    
+    func setInterval(value: Int) {
+        if value == 0 {
+            return
+        }
+        
+        self.updateInterval = value
+        if self.updateTimer != nil {
+            self.stop()
+            self.start()
+        }
+        if self.updateAdditionalTimer != nil {
+            self.stopAdditional()
+            self.startAdditional()
+        }
     }
 }
 

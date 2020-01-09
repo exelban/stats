@@ -35,10 +35,14 @@ class CPU: Module {
         self.widgetType = defaults.object(forKey: "\(name)_widget") != nil ? defaults.float(forKey: "\(name)_widget") : Widgets.Mini
         self.updateInterval = defaults.object(forKey: "\(name)_interval") != nil ? defaults.integer(forKey: "\(name)_interval") : 1
         
-        self.reader.updateInterval << self.updateInterval
+        self.reader.setInterval(value: self.updateInterval)
         if self.widgetType == Widgets.BarChart {
             (self.reader as! CPUReader).perCoreMode = true
             (self.reader as! CPUReader).hyperthreading = self.hyperthreading.value
+        }
+        
+        if !self.available.value {
+            self.reader.stop()
         }
     }
     
@@ -225,6 +229,6 @@ class CPU: Module {
         sender.state = NSControl.StateValue.on
         self.updateInterval = interval
         self.defaults.set(interval, forKey: "\(name)_interval")
-        self.reader.updateInterval << interval
+        self.reader.setInterval(value: interval)
     }
 }

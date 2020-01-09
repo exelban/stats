@@ -10,17 +10,20 @@ import Foundation
 
 protocol Reader {
     var value: Observable<[Double]>! { get }
-    var updateInterval: Observable<Int> { get }
     
     var available: Bool { get }
     var availableAdditional: Bool { get }
     var updateTimer: Timer! { get set }
+    var updateAdditionalTimer: Timer! { get set }
+    var updateInterval: Int { get }
     
     func start()
     func stop()
     
     func startAdditional()
     func stopAdditional()
+    
+    func setInterval(value: Int)
 }
 
 extension Reader {

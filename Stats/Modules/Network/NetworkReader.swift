@@ -10,10 +10,11 @@ import Cocoa
 
 class NetworkReader: Reader {
     public var value: Observable<[Double]>!
-    public var updateInterval: Observable<Int> = Observable(0)
     public var available: Bool = true
     public var availableAdditional: Bool = false
     public var updateTimer: Timer!
+    public var updateAdditionalTimer: Timer!
+    public var updateInterval: Int = 0
     
     private var netProcess: Process = Process()
     private var pipe: Pipe = Pipe()
@@ -23,6 +24,10 @@ class NetworkReader: Reader {
         netProcess.launchPath = "/usr/bin/env"
         netProcess.arguments = ["netstat", "-w1", "-l", "en0"]
         netProcess.standardOutput = pipe
+        
+        if self.available {
+            self.read()
+        }
     }
     
     func start() {
@@ -64,4 +69,20 @@ class NetworkReader: Reader {
     }
     
     func read() {}
+    
+    func setInterval(value: Int) {
+        if value == 0 {
+            return
+        }
+        
+        self.updateInterval = value
+        if self.updateTimer != nil {
+            self.stop()
+            self.start()
+        }
+        if self.updateAdditionalTimer != nil {
+            self.stopAdditional()
+            self.startAdditional()
+        }
+    }
 }

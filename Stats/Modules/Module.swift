@@ -78,6 +78,7 @@ extension Module {
     
     func start() {
         self.reader.start()
+        self.reader.startAdditional()
         
         if !self.reader.value.value.isEmpty {
             (self.view as! Widget).setValue(data: self.reader.value.value)
@@ -92,6 +93,7 @@ extension Module {
     
     func stop() {
         self.reader.stop()
+        self.reader.stopAdditional()
         self.reader.value.unsubscribe(observer: self)
     }
 }
