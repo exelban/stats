@@ -38,7 +38,7 @@ class MainViewController: NSViewController {
         
         makeHeader()
         
-        for module in modules.value {
+        for module in modules {
             module.active.subscribe(observer: self) { (value, _) in
                 for tab in self.tabView.tabViewItems {
                     self.tabView.removeTabViewItem(tab)
@@ -53,7 +53,7 @@ class MainViewController: NSViewController {
     }
     
     override func viewWillAppear() {
-        for module in modules.value {
+        for module in modules {
             if module.tabAvailable && module.available.value && module.active.value && module.reader.availableAdditional {
                 module.reader.startAdditional()
             }
@@ -61,7 +61,7 @@ class MainViewController: NSViewController {
     }
     
     override func viewWillDisappear() {
-        for module in modules.value {
+        for module in modules {
             if module.tabAvailable && module.available.value && module.active.value && module.reader.availableAdditional {
                 module.reader.stopAdditional()
             }
@@ -70,7 +70,7 @@ class MainViewController: NSViewController {
     
     func makeHeader() {
         var list: [String] = []
-        for module in modules.value {
+        for module in modules {
             if module.tabAvailable && module.available.value && module.active.value {
                 list.append(module.name)
                 
@@ -124,7 +124,7 @@ class MainViewController: NSViewController {
     func buildSettings() -> NSMenu {
         let menu = NSMenu()
         
-        for module in modules.value {
+        for module in modules {
             if module.available.value {
                 menu.addItem(module.menu)
             }

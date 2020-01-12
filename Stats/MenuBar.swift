@@ -18,7 +18,7 @@ class MenuBar {
         self.menuBarItem = menuBarItem
         self.menuBarButton = menuBarButton
         
-        for module in modules.value {
+        for module in modules {
             module.active.subscribe(observer: self) { (value, _) in
                 if !value {
                     let emptyWidget = Empty()
@@ -37,7 +37,7 @@ class MenuBar {
     }
     
     public func updateWidget(name: String) {
-        let newViewList = modules.value.filter{ $0.name == name }
+        let newViewList = modules.filter{ $0.name == name }
         if newViewList.isEmpty {
             return
         }
@@ -56,7 +56,7 @@ class MenuBar {
     
     private func updateWidth() {
         var WIDTH: CGFloat = 0
-        for module in modules.value {
+        for module in modules {
             if module.active.value && module.available.value {
                 WIDTH = WIDTH + module.view.frame.size.width
             }
@@ -82,7 +82,7 @@ class MenuBar {
         self.stackView = stackView
         
         var WIDTH: CGFloat = 0
-        for module in modules.value {
+        for module in modules {
             if module.available.value {
                 if module.active.value {
                     module.initWidget()

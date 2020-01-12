@@ -1,6 +1,6 @@
 //
 //  AppDelegate.swift
-//  Mini Stats
+//  Stats
 //
 //  Created by Serhiy Mytrovtsiy on 28.05.2019.
 //  Copyright © 2019 Serhiy Mytrovtsiy. All rights reserved.
@@ -10,7 +10,7 @@ import Cocoa
 import ServiceManagement
 import LaunchAtLogin
 
-let modules: Observable<[Module]> = Observable([CPU(), Memory(), Disk(), Battery(), Network()])
+let modules: [Module] = [CPU(), Memory(), Disk(), Battery(), Network()]
 let updater = macAppUpdater(user: "exelban", repo: "stats")
 let popover = NSPopover()
 var menuBar: MenuBar?
@@ -67,8 +67,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
-        if modules.value.count != 0 {
-            for module in modules.value{
+        if modules.count != 0 {
+            for module in modules {
                 module.stop()
             }
         }

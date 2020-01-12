@@ -59,12 +59,12 @@ class CPUReader: Reader {
             self.read()
         }
         
-        self.timer = Repeater.every(.seconds(1)) { timer in
+        self.timer = Repeater.init(interval: .seconds(1), observer: { _ in
             self.read()
-        }
-        self.additionalTimer = Repeater.every(.seconds(1)) { timer in
+        })
+        self.additionalTimer = Repeater.init(interval: .seconds(1), observer: { _ in
             self.readAdditional()
-        }
+        })
     }
     
     func start() {
@@ -142,7 +142,7 @@ class CPUReader: Reader {
         var numCPUsU: natural_t = 0
         let err: kern_return_t = host_processor_info(mach_host_self(), PROCESSOR_CPU_LOAD_INFO, &numCPUsU, &cpuInfo, &numCpuInfo);
         let usage = getUsage()
-//
+        
         if err == KERN_SUCCESS {
             CPUUsageLock.lock()
 
@@ -251,8 +251,8 @@ class CPUReader: Reader {
         }
         
         self.updateInterval = value
-        self.timer?.reset(.seconds(Double(value)))
-        self.additionalTimer?.reset(.seconds(Double(value)))
+        self.timer?.reset(.seconds(Double(value)), restart: false)
+        self.additionalTimer?.reset(.seconds(Double(value)), restart: false)
     }
 }
 

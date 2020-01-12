@@ -1,6 +1,6 @@
 //
 //  Extensions.swift
-//  Mini Stats
+//  Stats
 //
 //  Created by Serhiy Mytrovtsiy on 29/05/2019.
 //  Copyright © 2019 Serhiy Mytrovtsiy. All rights reserved.

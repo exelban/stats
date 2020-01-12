@@ -14,59 +14,80 @@ class NetworkReader: Reader {
     public var availableAdditional: Bool = false
     public var updateInterval: Int = 0
     
-    private var netProcess: Process = Process()
-    private var pipe: Pipe = Pipe()
+    private var timer: Repeater?
+    private var uploadValue: Int64 = 0
+    private var downloadValue: Int64 = 0
+    
     
     init() {
         self.value = Observable([])
-        netProcess.launchPath = "/usr/bin/env"
-        netProcess.arguments = ["netstat", "-w1", "-l", "en0"]
-        netProcess.standardOutput = pipe
         
         if self.available {
             self.read()
         }
+        
+        self.timer = Repeater.init(interval: .seconds(1), observer: { _ in
+            self.read()
+        })
     }
     
     func start() {
-        if netProcess.isRunning {
-            return
-        }
-        self.pipe.fileHandleForReading.waitForDataInBackgroundAndNotify()
-        
-        NotificationCenter.default.addObserver(forName: NSNotification.Name.NSFileHandleDataAvailable, object: self.pipe.fileHandleForReading , queue: nil) { _ -> Void in
-            defer {
-                self.pipe.fileHandleForReading.waitForDataInBackgroundAndNotify()
-            }
-
-            let output = self.pipe.fileHandleForReading.availableData
-            if output.isEmpty {
-                return
-            }
-
-            let outputString = String(data: output, encoding: String.Encoding.utf8) ?? ""
-            let arr = outputString.condenseWhitespace().split(separator: " ")
-
-            if !arr.isEmpty && Int64(arr[0]) != nil {
-                guard let download = Int64(arr[2]), let upload = Int64(arr[5]) else {
-                    return
-                }
-                self.value << [Double(download), Double(upload)]
-            }
-        }
-        
-        do {
-            try netProcess.run()
-        } catch let error {
-            print(error)
+        read()
+        if self.timer != nil && self.timer!.state.isRunning == false {
+            self.timer!.start()
         }
     }
     
     func stop() {
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.NSFileHandleDataAvailable, object: nil)
+        self.timer?.pause()
     }
     
-    func read() {}
+    func read() {
+        var interfaceAddresses: UnsafeMutablePointer<ifaddrs>? = nil
+
+        var upload: Int64 = 0
+        var download: Int64 = 0
+        guard getifaddrs(&interfaceAddresses) == 0 else { return }
+
+        var pointer = interfaceAddresses
+        while pointer != nil {
+            guard let info = getDataUsageInfo(from: pointer!) else {
+                pointer = pointer!.pointee.ifa_next
+                continue
+            }
+            pointer = pointer!.pointee.ifa_next
+            upload = info[0]
+            download = info[1]
+        }
+        freeifaddrs(interfaceAddresses)
+        
+        let lastUpload = self.uploadValue
+        let lastDownload = self.downloadValue
+        if lastUpload != 0 && lastDownload != 0 {
+            DispatchQueue.main.async(execute: {
+                self.value << [Double(download - lastDownload), Double(upload - lastUpload)]
+            })
+        }
+
+        self.uploadValue = upload
+        self.downloadValue = download
+    }
+    
+    func getDataUsageInfo(from infoPointer: UnsafeMutablePointer<ifaddrs>) -> [Int64]? {
+        let pointer = infoPointer
+
+        let name: String! = String(cString: infoPointer.pointee.ifa_name)
+        let addr = pointer.pointee.ifa_addr.pointee
+        guard addr.sa_family == UInt8(AF_LINK) else { return nil }
+        var networkData: UnsafeMutablePointer<if_data>? = nil
+        
+        if name.hasPrefix("en") {
+            networkData = unsafeBitCast(pointer.pointee.ifa_data, to: UnsafeMutablePointer<if_data>.self)
+            return [Int64(networkData?.pointee.ifi_obytes ?? 0), Int64(networkData?.pointee.ifi_ibytes ?? 0)] // upload, download
+        }
+        
+        return nil
+    }
     
     func setInterval(value: Int) {}
 }
