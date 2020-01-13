@@ -67,8 +67,10 @@ class UpdatesVC: NSViewController {
         guard let urlString = self.url, let url = URL(string: urlString) else {
             return
         }
-        NSWorkspace.shared.open(url)
-        self.view.window?.close()
+        updater.download(url)
+        self.spinner.startAnimation(self)
+        self.spinnerView.isHidden = false
+        self.mainView.isHidden = true
     }
     
     @IBAction func exit(_ sender: Any) {

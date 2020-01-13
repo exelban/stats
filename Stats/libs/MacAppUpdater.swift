@@ -116,8 +116,73 @@ public class macAppUpdater {
             completionHandler(version(current: self.currentVersion, latest: lastVersion, newest: newVersion, url: downloadURL), nil)
         }
     }
-}
+    
+    func download(_ url: URL) {
+        let downloadTask = URLSession.shared.downloadTask(with: url) {
+            urlOrNil, responseOrNil, errorOrNil in
+            // check for and handle errors:
+            // * errorOrNil should be nil
+            // * responseOrNil should be an HTTPURLResponse with statusCode in 200..<299
+            
+            guard let fileURL = urlOrNil else { return }
+            do {
+                let downloadsURL = try FileManager.default.url(for: .downloadsDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+                let destinationURL = downloadsURL.appendingPathComponent(url.lastPathComponent)
+                
+                self.copyFile(from: fileURL, to: destinationURL) { error in
+                    if error != nil {
+                        print ("copy file error: \(error ?? "copy error")")
+                        return
+                    }
+                    
+                    self.openDMG(url: destinationURL.absoluteString)
+                }
+            } catch {
+                print ("file error: \(error)")
+            }
+        }
+        downloadTask.resume()
+    }
+    
+    private func copyFile(from: URL, to: URL, completionHandler: @escaping (_ error: Error?) -> Void) {
+        var toPath = to
+        let fileName = (URL(fileURLWithPath: to.absoluteString)).lastPathComponent
+        let fileExt  = (URL(fileURLWithPath: to.absoluteString)).pathExtension
+        var fileNameWithotSuffix : String!
+        var newFileName : String!
+        var counter = 0
+        
+        if fileName.hasSuffix(fileExt) {
+            fileNameWithotSuffix = String(fileName.prefix(fileName.count - (fileExt.count+1)))
+        }
 
+        while toPath.checkFileExist() {
+            counter += 1
+            newFileName =  "\(fileNameWithotSuffix!)-\(counter).\(fileExt)"
+            toPath = to.deletingLastPathComponent().appendingPathComponent(newFileName)
+        }
+        
+        do {
+            try FileManager.default.moveItem(at: from, to: toPath)
+            completionHandler(nil)
+        } catch {
+            completionHandler(error)
+        }
+    }
+    
+    private func openDMG(url: String) {
+        let task = Process()
+        task.launchPath = "/usr/bin/hdiutil"
+        task.arguments = ["attach", url]
+
+        let pipe = Pipe()
+        task.standardOutput = pipe
+        task.launch()
+        task.waitUntilExit()
+
+        exit(0)
+    }
+}
 
 // https://stackoverflow.com/questions/30743408/check-for-internet-connection-with-swift
 public class Reachability {

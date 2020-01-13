@@ -46,11 +46,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if defaults.object(forKey: "checkUpdatesOnLogin") == nil || defaults.bool(forKey: "checkUpdatesOnLogin") {
             updater.check() { result, error in
                 if error != nil && error as! String == "No internet connection" {
+                    print("Error: \(error ?? "check error")")
                     return
                 }
 
                 guard error == nil, let version: version = result else {
-                    print("Error: \(error ?? "check error")")
+                    print("Error: \(error ?? "download error")")
                     return
                 }
 
