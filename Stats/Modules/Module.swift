@@ -7,39 +7,65 @@
 //
 
 import Cocoa
+import Charts
 
 protocol Module: class {
-    var name: String { get }
-    var shortName: String { get }
+    var name: String { get } // module name
+    var updateInterval: Double { get } // module update interval
     
-    var view: NSView { get set }
-    var menu: NSMenuItem { get }
-    var widgetType: WidgetType { get }
+    var enabled: Bool { get } // determine if module is enabled or disabled
+    var available: Bool { get } // determine if module is available on this PC
     
-    var active: Bool { get }
-    var available: Bool { get }
+    var widget: ModuleWidget { get set } // view for widget
+    var menu: NSMenuItem { get } // view for menu
+    var popup: ModulePopup { get } // popup
     
-    var tabView: NSTabViewItem { get }
-    var tabAvailable: Bool { get }
-    var tabInitialized: Bool { get }
+    var readers: [Reader] { get } // list of readers available for module
+    var task: Repeater? { get set } // reader cron task
     
-    var reader: Reader { get }
-    var updateInterval: Int { get }
+    func start() // start module internal processes
+    func stop() // stop module internal processes
+    func restart() // restart module internal processes
     
-    func start()
-    func stop()
-    
-    func initMenu(active: Bool)
-    func initTab()
     func initWidget()
 }
 
-extension Module {
+protocol Reader {
+    var name: String { get } // reader name
+    var enabled: Bool { get set } // determine if reader is enabled or disabled
+    var available: Bool { get } // determine if reader is available on this PC
+    var optional: Bool { get } // say if reader are optional (additional information)
+    var initialized: Bool { get } // to check if first read already done
     
+    func read() // make one read
+    
+    func toggleEnable(_ value: Bool) -> Void // enable/disable optional reader
+}
+
+struct ModulePopup {
+    var available: Bool = true // say if module have popup view
+    var view: NSTabViewItem = NSTabViewItem() // module popup view
+    var chart: LineChartView = LineChartView() // chart view for popup
+    
+    init(_ a: Bool = true) {
+        available = a
+    }
+}
+
+struct ModuleWidget {
+    var type: WidgetType = Widgets.Mini // determine a widget typ
+    var view: NSView = NSView() // widget view
+    
+    init(_ t: WidgetType = Widgets.Mini) {
+        type = t
+    }
+}
+
+extension Module {
     func initWidget() {
         var widget: Widget = Mini()
         
-        switch self.widgetType {
+        switch self.widget.type {
         case Widgets.Mini:
             widget = Mini()
         case Widgets.Chart:
@@ -69,29 +95,9 @@ extension Module {
         }
         
         widget.name = self.name
-        widget.shortName = self.shortName
+        widget.shortName = String(self.name.prefix(3)).uppercased()
         widget.Init()
         
-        self.view = widget as! NSView
-    }
-    
-    func start() {
-        self.reader.start()
-        
-        if !self.reader.value.value.isEmpty && self.view is Widget {
-            (self.view as! Widget).setValue(data: self.reader.value.value)
-        }
-        
-        self.reader.value.subscribe(observer: self) { (value, _) in
-            if !value.isEmpty && self.view is Widget {
-                (self.view as! Widget).setValue(data: value)
-            }
-        }
-    }
-    
-    func stop() {
-        self.reader.stop()
-        self.reader.stopAdditional()
-        self.reader.value.unsubscribe(observer: self)
+        self.widget.view = widget as! NSView
     }
 }

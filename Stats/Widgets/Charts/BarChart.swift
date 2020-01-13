@@ -9,7 +9,6 @@
 import Cocoa
 
 class BarChart: NSView, Widget {
-    var activeModule: Observable<Bool> = Observable(false)
     var size: CGFloat = widgetSize.width + 10
     let defaults = UserDefaults.standard
     

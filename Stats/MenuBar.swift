@@ -13,7 +13,7 @@ import ServiceManagement
  Class keeps a status bar item and has the main function for updating widgets.
  */
 class MenuBar {
-    public let modules: [Module] = [CPU(), Memory(), Disk(), Battery(), Network()]
+    public let modules: [Module] = [CPU()]
     
     private let menuBarItem: NSStatusItem
     private var menuBarButton: NSButton = NSButton()
@@ -43,15 +43,10 @@ class MenuBar {
         var WIDTH: CGFloat = 0
         for module in self.modules {
             if module.available {
-                if module.active {
-                    module.initWidget()
-                    module.initTab()
+                if module.enabled {
                     module.start()
-                }
-                module.initMenu(active: module.active)
-                if module.active {
-                    stackView.addArrangedSubview(module.view)
-                    WIDTH = WIDTH + module.view.frame.size.width
+                    stackView.addArrangedSubview(module.widget.view)
+                    WIDTH = WIDTH + module.widget.view.frame.size.width
                 }
             }
         }
@@ -82,33 +77,30 @@ class MenuBar {
         let view = self.stackView.subviews.filter{ $0 is Widget && ($0 as! Widget).name == name }
         if view.isEmpty {
             // if module is active but not exist in stack, add it to stack (enable module)
-            if module.first!.active {
-                let activeModules = self.modules.filter{ $0.active && $0.available }
+            if module.first!.enabled {
+                let activeModules = self.modules.filter{ $0.enabled && $0.available }
                 let position = activeModules.firstIndex { $0.name == name }
-                
-                module.first!.initWidget()
-                if !module.first!.tabInitialized {
-                    module.first!.initTab()
-                }
+
+                module.first!.start()
                 
                 if position! >= activeModules.count-1 {
-                    stackView.addArrangedSubview(module.first!.view)
+                    stackView.addArrangedSubview(module.first!.widget.view)
                 } else {
-                    stackView.insertArrangedSubview(module.first!.view, at: position!)
+                    stackView.insertArrangedSubview(module.first!.widget.view, at: position!)
                     stackView.updateLayer()
                 }
             }
         } else {
             // if module not active but exist, remove from stack (disable module), else replace
-            if !module.first!.active {
+            if !module.first!.enabled {
                 view.first!.removeFromSuperview()
             } else {
-                let newView = module.first!.view
+                let newView = module.first!.widget.view
                 newView.invalidateIntrinsicContentSize()
                 self.stackView.replaceSubview(view.first!, with: newView)
             }
         }
-        
+
         self.updateWidth()
         self.popup.reload()
     }
@@ -125,9 +117,9 @@ class MenuBar {
             if module == nil {
                 return
             }
-  
-            module!.view.invalidateIntrinsicContentSize()
-            self.stackView.replaceSubview(view, with: module!.view)
+
+            module!.widget.view.invalidateIntrinsicContentSize()
+            self.stackView.replaceSubview(view, with: module!.widget.view)
             self.updateWidth()
         }
     }
@@ -136,14 +128,16 @@ class MenuBar {
      Destroy will destroy status bar view.
      */
     public func destroy() {
-        
+        for module in self.modules {
+            module.stop()
+        }
     }
     
     private func updateWidth() {
         var WIDTH: CGFloat = 0
         for module in self.modules {
-            if module.active && module.available {
-                WIDTH = WIDTH + module.view.frame.size.width
+            if module.enabled && module.available {
+                WIDTH = WIDTH + module.widget.view.frame.size.width
             }
         }
         
@@ -154,6 +148,7 @@ class MenuBar {
         if WIDTH == 0 {
             self.menuBarButton.image = NSImage(named:NSImage.Name("tray_icon"))
             self.menuBarItem.length = widgetSize.width
+            self.stackView.frame.size.width = widgetSize.width
             return
         }
         

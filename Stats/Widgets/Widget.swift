@@ -11,7 +11,6 @@ import Cocoa
 protocol Widget {
     var name: String { get set }
     var shortName: String { get set }
-    var activeModule: Observable<Bool> { get set }
     var menus: [NSMenuItem] { get }
     
     func setValue(data: [Double])

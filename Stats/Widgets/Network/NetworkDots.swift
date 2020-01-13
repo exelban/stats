@@ -9,13 +9,11 @@
 import Cocoa
 
 class NetworkDotsView: NSView, Widget {
-    var activeModule: Observable<Bool> = Observable(false)
     var size: CGFloat = 12
     var name: String = ""
     var shortName: String = ""
     var menus: [NSMenuItem] = []
     
-    var color: Observable<Bool> = Observable(false)
     var download: Int64 {
         didSet {
             self.redraw()

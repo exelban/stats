@@ -10,12 +10,10 @@ import Cocoa
 
 class NetworkArrowsView: NSView, Widget {
     var menus: [NSMenuItem] = []
-    var activeModule: Observable<Bool> = Observable(false)
     var size: CGFloat = 8
     var name: String = ""
     var shortName: String = ""
     
-    var color: Observable<Bool> = Observable(false)
     var download: Int64 {
         didSet {
             self.redraw()

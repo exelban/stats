@@ -9,7 +9,6 @@
 import Cocoa
 
 class BatteryWidget: NSView, Widget {
-    public var activeModule: Observable<Bool> = Observable(false)
     public var name: String = "Battery"
     public var shortName: String = "BAT"
     public var menus: [NSMenuItem] = []

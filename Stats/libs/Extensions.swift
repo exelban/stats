@@ -246,7 +246,7 @@ extension String {
     }
 }
 
-extension URL    {
+extension URL {
     func checkFileExist() -> Bool {
         return FileManager.default.fileExists(atPath: self.path)
     }

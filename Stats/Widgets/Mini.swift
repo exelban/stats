@@ -9,7 +9,6 @@
 import Cocoa
 
 class Mini: NSView, Widget {
-    var activeModule: Observable<Bool> = Observable(false)
     var menus: [NSMenuItem] = []
     let defaults = UserDefaults.standard
     
@@ -38,7 +37,6 @@ class Mini: NSView, Widget {
         let xOffset: CGFloat = 1.0
         
         let labelView = NSTextField(frame: NSMakeRect(xOffset, 13, self.frame.size.width, 7))
-        labelView.textColor = NSColor.red
         labelView.isEditable = false
         labelView.isSelectable = false
         labelView.isBezeled = false
@@ -52,7 +50,6 @@ class Mini: NSView, Widget {
         labelView.addSubview(NSView())
         
         let valueView = NSTextField(frame: NSMakeRect(xOffset, 3, self.frame.size.width, 10))
-        valueView.textColor = NSColor.red
         valueView.isEditable = false
         valueView.isSelectable = false
         valueView.isBezeled = false

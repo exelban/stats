@@ -42,8 +42,10 @@ class MainViewController: NSViewController {
     override func viewWillAppear() {
         DispatchQueue.global(qos: .background).async {
             for module in menuBar!.modules {
-                if module.tabAvailable && module.available && module.active && module.reader.availableAdditional {
-                    module.reader.startAdditional()
+                if module.popup.available && module.available && module.enabled {
+                    module.readers.filter{ $0.optional }.forEach { reader in
+                        reader.toggleEnable(true)
+                    }
                 }
             }
         }
@@ -52,8 +54,12 @@ class MainViewController: NSViewController {
     override func viewWillDisappear() {
         DispatchQueue.global(qos: .background).async {
             for module in menuBar!.modules {
-                if module.tabAvailable && module.available && module.active && module.reader.availableAdditional {
-                    module.reader.stopAdditional()
+                if module.popup.available && module.available && module.enabled {
+                    if module.popup.available && module.available && module.enabled {
+                        module.readers.filter{ $0.optional }.forEach { reader in
+                            reader.toggleEnable(false)
+                        }
+                    }
                 }
             }
         }
@@ -73,16 +79,16 @@ class MainViewController: NSViewController {
     private func makeHeader() {
         var list: [String] = []
         for module in menuBar!.modules {
-            if module.tabAvailable && module.available && module.active {
+            if module.popup.available && module.available && module.enabled {
                 list.append(module.name)
                 
-                let tab = module.tabView
+                let tab = module.popup.view
                 tab.label = module.name
                 tab.identifier = module.name
                 tab.view?.wantsLayer = true
                 tab.view?.layer?.backgroundColor = NSColor.white.cgColor
                 
-                tabView.addTabViewItem(module.tabView)
+                tabView.addTabViewItem(tab)
             }
         }
         

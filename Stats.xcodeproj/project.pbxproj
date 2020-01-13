@@ -7,26 +7,24 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9A09C89E22B3A7C90018426F /* Battery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A09C89D22B3A7C90018426F /* Battery.swift */; };
-		9A09C8A022B3A7E20018426F /* BatteryReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A09C89F22B3A7E20018426F /* BatteryReader.swift */; };
 		9A09C8A222B3D94D0018426F /* BatteryWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A09C8A122B3D94D0018426F /* BatteryWidget.swift */; };
 		9A1410F9229E721100D29793 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1410F8229E721100D29793 /* AppDelegate.swift */; };
 		9A141100229E721200D29793 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A1410FE229E721200D29793 /* Main.storyboard */; };
 		9A2D15D023C77BA300C4C417 /* Repeater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2D15CF23C77BA300C4C417 /* Repeater.swift */; };
+		9A2D15D223CCEC7600C4C417 /* Module.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2D15D123CCEC7600C4C417 /* Module.swift */; };
+		9A2D15D523CCEFF700C4C417 /* CPU.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2D15D423CCEFF700C4C417 /* CPU.swift */; };
+		9A2D15D723CCFE1B00C4C417 /* CPULoadReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2D15D623CCFE1B00C4C417 /* CPULoadReader.swift */; };
+		9A2D15D923CD036400C4C417 /* CPUMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2D15D823CD036400C4C417 /* CPUMenu.swift */; };
+		9A2D15DB23CD0B2100C4C417 /* CPUPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2D15DA23CD0B2100C4C417 /* CPUPopup.swift */; };
+		9A2D15E123CD133300C4C417 /* CPUUsageReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2D15E023CD133300C4C417 /* CPUUsageReader.swift */; };
+		9A2D15E323CD1E4B00C4C417 /* CPUProcessReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2D15E223CD1E4B00C4C417 /* CPUProcessReader.swift */; };
 		9A426DB822C2B5EE00C064C4 /* MacAppUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A426DB722C2B5EE00C064C4 /* MacAppUpdater.swift */; };
 		9A426DBE22C2BE0000C064C4 /* Updates.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A426DBD22C2BE0000C064C4 /* Updates.storyboard */; };
-		9A493CDF23202B620064570C /* MemoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A493CDE23202B620064570C /* MemoryView.swift */; };
 		9A54EF67232AB81800F7DC20 /* BatteryPercentageWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A54EF66232AB81800F7DC20 /* BatteryPercentageWidget.swift */; };
 		9A54EF69232AB82700F7DC20 /* BatteryTimeWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A54EF68232AB82700F7DC20 /* BatteryTimeWidget.swift */; };
 		9A57A18522A1D26D0033E318 /* MenuBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A57A18422A1D26D0033E318 /* MenuBar.swift */; };
-		9A57A19D22A1E3270033E318 /* CPU.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A57A19C22A1E3270033E318 /* CPU.swift */; };
-		9A58D1B022C150C800405315 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A58D1AF22C150C800405315 /* Network.swift */; };
-		9A58D1B222C150D700405315 /* NetworkReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A58D1B122C150D700405315 /* NetworkReader.swift */; };
-		9A59AE54231ED1AC007989D6 /* CPUView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A59AE53231ED1AC007989D6 /* CPUView.swift */; };
 		9A59AE56231EE02F007989D6 /* ChartMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A59AE55231EE02F007989D6 /* ChartMarker.swift */; };
-		9A5B1CBF229E78F0008B9D3C /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5B1CBE229E78F0008B9D3C /* Observable.swift */; };
 		9A5B1CC5229E7B40008B9D3C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5B1CC4229E7B40008B9D3C /* Extensions.swift */; };
-		9A606B482321025C00642F51 /* BatteryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A606B472321025C00642F51 /* BatteryView.swift */; };
 		9A606B4A2321577400642F51 /* UpdatesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A606B492321577400642F51 /* UpdatesViewController.swift */; };
 		9A606B4C232157BA00642F51 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A606B4B232157BA00642F51 /* AboutViewController.swift */; };
 		9A6698E62326AB16001D00E1 /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A6698E32326AAE5001D00E1 /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -34,13 +32,6 @@
 		9A6CFC0122A1C9F5001E782D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9A6CFC0022A1C9F5001E782D /* Assets.xcassets */; };
 		9A74D59722B44498004FE1FA /* Mini.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A74D59622B44498004FE1FA /* Mini.swift */; };
 		9A79B36A22D3BEE600BF1C3A /* Widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A79B36922D3BEE600BF1C3A /* Widget.swift */; };
-		9A79B36C22D3BEF000BF1C3A /* Module.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A79B36B22D3BEF000BF1C3A /* Module.swift */; };
-		9A79B36E22D3BEF900BF1C3A /* Reader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A79B36D22D3BEF900BF1C3A /* Reader.swift */; };
-		9A7B8F5E22A2A57600DEB352 /* CPUReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7B8F5D22A2A57600DEB352 /* CPUReader.swift */; };
-		9A7B8F6922A2C3A100DEB352 /* Memory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7B8F6822A2C3A100DEB352 /* Memory.swift */; };
-		9A7B8F6B22A2C3A700DEB352 /* Disk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7B8F6A22A2C3A700DEB352 /* Disk.swift */; };
-		9A7B8F6D22A2C3D600DEB352 /* MemoryReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7B8F6C22A2C3D600DEB352 /* MemoryReader.swift */; };
-		9A7B8F6F22A2C57000DEB352 /* DiskReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7B8F6E22A2C57000DEB352 /* DiskReader.swift */; };
 		9AF0F31B22DA924000026AE6 /* LineChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF0F31A22DA924000026AE6 /* LineChart.swift */; };
 		9AF0F31D22DA925000026AE6 /* LineChartWithValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF0F31C22DA925000026AE6 /* LineChartWithValue.swift */; };
 		9AF0F31F22DA925700026AE6 /* BarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF0F31E22DA925700026AE6 /* BarChart.swift */; };
@@ -79,8 +70,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		9A09C89D22B3A7C90018426F /* Battery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Battery.swift; sourceTree = "<group>"; };
-		9A09C89F22B3A7E20018426F /* BatteryReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryReader.swift; sourceTree = "<group>"; };
 		9A09C8A122B3D94D0018426F /* BatteryWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryWidget.swift; sourceTree = "<group>"; };
 		9A1410F5229E721100D29793 /* Stats.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Stats.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A1410F8229E721100D29793 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -89,20 +78,20 @@
 		9A141102229E721200D29793 /* Stats.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Stats.entitlements; sourceTree = "<group>"; };
 		9A2D15CC23C77A7700C4C417 /* Repeat.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Repeat.framework; path = Carthage/Build/Mac/Repeat.framework; sourceTree = "<group>"; };
 		9A2D15CF23C77BA300C4C417 /* Repeater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repeater.swift; sourceTree = "<group>"; };
+		9A2D15D123CCEC7600C4C417 /* Module.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Module.swift; sourceTree = "<group>"; };
+		9A2D15D423CCEFF700C4C417 /* CPU.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPU.swift; sourceTree = "<group>"; };
+		9A2D15D623CCFE1B00C4C417 /* CPULoadReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPULoadReader.swift; sourceTree = "<group>"; };
+		9A2D15D823CD036400C4C417 /* CPUMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPUMenu.swift; sourceTree = "<group>"; };
+		9A2D15DA23CD0B2100C4C417 /* CPUPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPUPopup.swift; sourceTree = "<group>"; };
+		9A2D15E023CD133300C4C417 /* CPUUsageReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPUUsageReader.swift; sourceTree = "<group>"; };
+		9A2D15E223CD1E4B00C4C417 /* CPUProcessReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPUProcessReader.swift; sourceTree = "<group>"; };
 		9A426DB722C2B5EE00C064C4 /* MacAppUpdater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MacAppUpdater.swift; sourceTree = "<group>"; };
 		9A426DBD22C2BE0000C064C4 /* Updates.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Updates.storyboard; sourceTree = "<group>"; };
-		9A493CDE23202B620064570C /* MemoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryView.swift; sourceTree = "<group>"; };
 		9A54EF66232AB81800F7DC20 /* BatteryPercentageWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryPercentageWidget.swift; sourceTree = "<group>"; };
 		9A54EF68232AB82700F7DC20 /* BatteryTimeWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryTimeWidget.swift; sourceTree = "<group>"; };
 		9A57A18422A1D26D0033E318 /* MenuBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBar.swift; sourceTree = "<group>"; };
-		9A57A19C22A1E3270033E318 /* CPU.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPU.swift; sourceTree = "<group>"; };
-		9A58D1AF22C150C800405315 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
-		9A58D1B122C150D700405315 /* NetworkReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkReader.swift; sourceTree = "<group>"; };
-		9A59AE53231ED1AC007989D6 /* CPUView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPUView.swift; sourceTree = "<group>"; };
 		9A59AE55231EE02F007989D6 /* ChartMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartMarker.swift; sourceTree = "<group>"; };
-		9A5B1CBE229E78F0008B9D3C /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		9A5B1CC4229E7B40008B9D3C /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-		9A606B472321025C00642F51 /* BatteryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryView.swift; sourceTree = "<group>"; };
 		9A606B492321577400642F51 /* UpdatesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatesViewController.swift; sourceTree = "<group>"; };
 		9A606B4B232157BA00642F51 /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		9A6698DF2326AAD6001D00E1 /* LaunchAtLogin.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LaunchAtLogin.framework; path = Carthage/Build/Mac/LaunchAtLogin.framework; sourceTree = "<group>"; };
@@ -110,13 +99,6 @@
 		9A6CFC0022A1C9F5001E782D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9A74D59622B44498004FE1FA /* Mini.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mini.swift; sourceTree = "<group>"; };
 		9A79B36922D3BEE600BF1C3A /* Widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Widget.swift; sourceTree = "<group>"; };
-		9A79B36B22D3BEF000BF1C3A /* Module.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Module.swift; sourceTree = "<group>"; };
-		9A79B36D22D3BEF900BF1C3A /* Reader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reader.swift; sourceTree = "<group>"; };
-		9A7B8F5D22A2A57600DEB352 /* CPUReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPUReader.swift; sourceTree = "<group>"; };
-		9A7B8F6822A2C3A100DEB352 /* Memory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memory.swift; sourceTree = "<group>"; };
-		9A7B8F6A22A2C3A700DEB352 /* Disk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Disk.swift; sourceTree = "<group>"; };
-		9A7B8F6C22A2C3D600DEB352 /* MemoryReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryReader.swift; sourceTree = "<group>"; };
-		9A7B8F6E22A2C57000DEB352 /* DiskReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskReader.swift; sourceTree = "<group>"; };
 		9A998CD722A199920087ADE7 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		9A998CD922A199970087ADE7 /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = System/Library/Frameworks/ServiceManagement.framework; sourceTree = SDKROOT; };
 		9AF0F31A22DA924000026AE6 /* LineChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChart.swift; sourceTree = "<group>"; };
@@ -142,16 +124,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		9A09C89C22B3A7BB0018426F /* Battery */ = {
-			isa = PBXGroup;
-			children = (
-				9A09C89D22B3A7C90018426F /* Battery.swift */,
-				9A09C89F22B3A7E20018426F /* BatteryReader.swift */,
-				9A606B472321025C00642F51 /* BatteryView.swift */,
-			);
-			path = Battery;
-			sourceTree = "<group>";
-		};
 		9A1410EC229E721100D29793 = {
 			isa = PBXGroup;
 			children = (
@@ -183,6 +155,19 @@
 			path = Stats;
 			sourceTree = "<group>";
 		};
+		9A2D15D323CCEFEC00C4C417 /* CPU */ = {
+			isa = PBXGroup;
+			children = (
+				9A2D15D423CCEFF700C4C417 /* CPU.swift */,
+				9A2D15D623CCFE1B00C4C417 /* CPULoadReader.swift */,
+				9A2D15D823CD036400C4C417 /* CPUMenu.swift */,
+				9A2D15DA23CD0B2100C4C417 /* CPUPopup.swift */,
+				9A2D15E023CD133300C4C417 /* CPUUsageReader.swift */,
+				9A2D15E223CD1E4B00C4C417 /* CPUProcessReader.swift */,
+			);
+			path = CPU;
+			sourceTree = "<group>";
+		};
 		9A54EF65232AB48100F7DC20 /* Battery */ = {
 			isa = PBXGroup;
 			children = (
@@ -191,15 +176,6 @@
 				9A54EF68232AB82700F7DC20 /* BatteryTimeWidget.swift */,
 			);
 			path = Battery;
-			sourceTree = "<group>";
-		};
-		9A58D1AE22C150B800405315 /* Network */ = {
-			isa = PBXGroup;
-			children = (
-				9A58D1AF22C150C800405315 /* Network.swift */,
-				9A58D1B122C150D700405315 /* NetworkReader.swift */,
-			);
-			path = Network;
 			sourceTree = "<group>";
 		};
 		9A5B1CB3229E72A7008B9D3C /* Supporting Files */ = {
@@ -218,13 +194,8 @@
 		9A5B1CBA229E7892008B9D3C /* Modules */ = {
 			isa = PBXGroup;
 			children = (
-				9A7B8F5C22A2926500DEB352 /* CPU */,
-				9A7B8F6222A2C17000DEB352 /* Memory */,
-				9A7B8F6322A2C17500DEB352 /* Disk */,
-				9A09C89C22B3A7BB0018426F /* Battery */,
-				9A58D1AE22C150B800405315 /* Network */,
-				9A79B36B22D3BEF000BF1C3A /* Module.swift */,
-				9A79B36D22D3BEF900BF1C3A /* Reader.swift */,
+				9A2D15D323CCEFEC00C4C417 /* CPU */,
+				9A2D15D123CCEC7600C4C417 /* Module.swift */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -232,7 +203,6 @@
 		9A5B1CBD229E78D2008B9D3C /* libs */ = {
 			isa = PBXGroup;
 			children = (
-				9A5B1CBE229E78F0008B9D3C /* Observable.swift */,
 				9A5B1CC4229E7B40008B9D3C /* Extensions.swift */,
 				9A426DB722C2B5EE00C064C4 /* MacAppUpdater.swift */,
 				9A59AE55231EE02F007989D6 /* ChartMarker.swift */,
@@ -251,35 +221,6 @@
 				9A79B36922D3BEE600BF1C3A /* Widget.swift */,
 			);
 			path = Widgets;
-			sourceTree = "<group>";
-		};
-		9A7B8F5C22A2926500DEB352 /* CPU */ = {
-			isa = PBXGroup;
-			children = (
-				9A57A19C22A1E3270033E318 /* CPU.swift */,
-				9A7B8F5D22A2A57600DEB352 /* CPUReader.swift */,
-				9A59AE53231ED1AC007989D6 /* CPUView.swift */,
-			);
-			path = CPU;
-			sourceTree = "<group>";
-		};
-		9A7B8F6222A2C17000DEB352 /* Memory */ = {
-			isa = PBXGroup;
-			children = (
-				9A7B8F6822A2C3A100DEB352 /* Memory.swift */,
-				9A7B8F6C22A2C3D600DEB352 /* MemoryReader.swift */,
-				9A493CDE23202B620064570C /* MemoryView.swift */,
-			);
-			path = Memory;
-			sourceTree = "<group>";
-		};
-		9A7B8F6322A2C17500DEB352 /* Disk */ = {
-			isa = PBXGroup;
-			children = (
-				9A7B8F6A22A2C3A700DEB352 /* Disk.swift */,
-				9A7B8F6E22A2C57000DEB352 /* DiskReader.swift */,
-			);
-			path = Disk;
 			sourceTree = "<group>";
 		};
 		9A998CD622A199920087ADE7 /* Frameworks */ = {
@@ -452,42 +393,33 @@
 			files = (
 				9A09C8A222B3D94D0018426F /* BatteryWidget.swift in Sources */,
 				9A426DB822C2B5EE00C064C4 /* MacAppUpdater.swift in Sources */,
-				9A79B36E22D3BEF900BF1C3A /* Reader.swift in Sources */,
 				9A606B4C232157BA00642F51 /* AboutViewController.swift in Sources */,
-				9A59AE54231ED1AC007989D6 /* CPUView.swift in Sources */,
-				9A7B8F6F22A2C57000DEB352 /* DiskReader.swift in Sources */,
-				9A7B8F6922A2C3A100DEB352 /* Memory.swift in Sources */,
 				9AF0F32522DA92C400026AE6 /* NetworkText.swift in Sources */,
-				9A7B8F5E22A2A57600DEB352 /* CPUReader.swift in Sources */,
 				9AF0F32322DA92B900026AE6 /* NetworkArrows.swift in Sources */,
+				9A2D15D223CCEC7600C4C417 /* Module.swift in Sources */,
 				9A606B4A2321577400642F51 /* UpdatesViewController.swift in Sources */,
 				9AF0F31D22DA925000026AE6 /* LineChartWithValue.swift in Sources */,
-				9A09C89E22B3A7C90018426F /* Battery.swift in Sources */,
 				9A54EF67232AB81800F7DC20 /* BatteryPercentageWidget.swift in Sources */,
-				9A7B8F6D22A2C3D600DEB352 /* MemoryReader.swift in Sources */,
-				9A79B36C22D3BEF000BF1C3A /* Module.swift in Sources */,
 				9A57A18522A1D26D0033E318 /* MenuBar.swift in Sources */,
+				9A2D15D923CD036400C4C417 /* CPUMenu.swift in Sources */,
 				9AF6F1FE231D732600B8E1E4 /* PopupViewController.swift in Sources */,
-				9A57A19D22A1E3270033E318 /* CPU.swift in Sources */,
-				9A58D1B222C150D700405315 /* NetworkReader.swift in Sources */,
-				9A09C8A022B3A7E20018426F /* BatteryReader.swift in Sources */,
 				9A2D15D023C77BA300C4C417 /* Repeater.swift in Sources */,
-				9A58D1B022C150C800405315 /* Network.swift in Sources */,
-				9A5B1CBF229E78F0008B9D3C /* Observable.swift in Sources */,
-				9A7B8F6B22A2C3A700DEB352 /* Disk.swift in Sources */,
 				9A1410F9229E721100D29793 /* AppDelegate.swift in Sources */,
+				9A2D15DB23CD0B2100C4C417 /* CPUPopup.swift in Sources */,
 				9AF0F32722DA92DD00026AE6 /* NetworkDotsText.swift in Sources */,
 				9AF0F32922DA92E800026AE6 /* NetworkArrowsText.swift in Sources */,
 				9A54EF69232AB82700F7DC20 /* BatteryTimeWidget.swift in Sources */,
-				9A606B482321025C00642F51 /* BatteryView.swift in Sources */,
+				9A2D15D723CCFE1B00C4C417 /* CPULoadReader.swift in Sources */,
 				9AF0F31F22DA925700026AE6 /* BarChart.swift in Sources */,
 				9AF0F31B22DA924000026AE6 /* LineChart.swift in Sources */,
 				9A59AE56231EE02F007989D6 /* ChartMarker.swift in Sources */,
 				9A74D59722B44498004FE1FA /* Mini.swift in Sources */,
 				9A5B1CC5229E7B40008B9D3C /* Extensions.swift in Sources */,
+				9A2D15E123CD133300C4C417 /* CPUUsageReader.swift in Sources */,
+				9A2D15D523CCEFF700C4C417 /* CPU.swift in Sources */,
+				9A2D15E323CD1E4B00C4C417 /* CPUProcessReader.swift in Sources */,
 				9A79B36A22D3BEE600BF1C3A /* Widget.swift in Sources */,
 				9AF0F32122DA92AD00026AE6 /* NetworkDots.swift in Sources */,
-				9A493CDF23202B620064570C /* MemoryView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

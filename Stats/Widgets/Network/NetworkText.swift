@@ -10,12 +10,10 @@ import Cocoa
 
 class NetworkTextView: NSView, Widget {
     var menus: [NSMenuItem] = []
-    var activeModule: Observable<Bool> = Observable(false)
     var size: CGFloat = widgetSize.width + 20
     var name: String = ""
     var shortName: String = ""
     
-    var color: Observable<Bool> = Observable(false)
     var downloadValue: NSTextField = NSTextField()
     var uploadValue: NSTextField = NSTextField()
     

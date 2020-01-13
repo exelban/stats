@@ -1,42 +1,17 @@
 //
-//  Memory.swift
+//  CPUMenu.swift
 //  Stats
 //
-//  Created by Serhiy Mytrovtsiy on 01.06.2019.
-//  Copyright © 2019 Serhiy Mytrovtsiy. All rights reserved.
+//  Created by Serhiy Mytrovtsiy on 13/01/2020.
+//  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
 //
 
 import Cocoa
-import Charts
 
-class Memory: Module {
-    public let name: String = "Memory"
-    public let shortName: String = "MEM"
-    public var view: NSView = NSView()
-    public var menu: NSMenuItem = NSMenuItem()
-    public var active: Bool = true
-    public var available: Bool = true
-    public var reader: Reader = MemoryReader()
-    public var widgetType: WidgetType
-    public var tabAvailable: Bool = true
-    public var tabInitialized: Bool = false
-    public var tabView: NSTabViewItem = NSTabViewItem()
-    public var chart: LineChartView = LineChartView()
-    public var updateInterval: Int
-    
-    private let defaults = UserDefaults.standard
-    private var submenu: NSMenu = NSMenu()
-    
-    init() {
-        self.active = defaults.object(forKey: name) != nil ? defaults.bool(forKey: name) : true
-        self.widgetType = defaults.object(forKey: "\(name)_widget") != nil ? defaults.float(forKey: "\(name)_widget") : Widgets.Mini
-        self.updateInterval = defaults.object(forKey: "\(name)_interval") != nil ? defaults.integer(forKey: "\(name)_interval") : 5
-        self.reader.setInterval(value: self.updateInterval)
-    }
-    
-    func initMenu(active: Bool) {
-        menu = NSMenuItem(title: name, action: #selector(toggle), keyEquivalent: "")
-        submenu = NSMenu()
+extension CPU {
+    public func initMenu() {
+        self.menu = NSMenuItem(title: name, action: #selector(toggle), keyEquivalent: "")
+        self.submenu = NSMenu()
         
         if defaults.object(forKey: name) != nil {
             menu.state = defaults.bool(forKey: name) ? NSControl.StateValue.on : NSControl.StateValue.off
@@ -46,20 +21,25 @@ class Memory: Module {
         menu.target = self
         
         let mini = NSMenuItem(title: "Mini", action: #selector(toggleWidget), keyEquivalent: "")
-        mini.state = self.widgetType == Widgets.Mini ? NSControl.StateValue.on : NSControl.StateValue.off
+        mini.state = self.widget.type == Widgets.Mini ? NSControl.StateValue.on : NSControl.StateValue.off
         mini.target = self
         
         let chart = NSMenuItem(title: "Chart", action: #selector(toggleWidget), keyEquivalent: "")
-        chart.state = self.widgetType == Widgets.Chart ? NSControl.StateValue.on : NSControl.StateValue.off
+        chart.state = self.widget.type == Widgets.Chart ? NSControl.StateValue.on : NSControl.StateValue.off
         chart.target = self
         
         let chartWithValue = NSMenuItem(title: "Chart with value", action: #selector(toggleWidget), keyEquivalent: "")
-        chartWithValue.state = self.widgetType == Widgets.ChartWithValue ? NSControl.StateValue.on : NSControl.StateValue.off
+        chartWithValue.state = self.widget.type == Widgets.ChartWithValue ? NSControl.StateValue.on : NSControl.StateValue.off
         chartWithValue.target = self
         
         let barChart = NSMenuItem(title: "Bar chart", action: #selector(toggleWidget), keyEquivalent: "")
-        barChart.state = self.widgetType == Widgets.BarChart ? NSControl.StateValue.on : NSControl.StateValue.off
+        barChart.state = self.widget.type == Widgets.BarChart ? NSControl.StateValue.on : NSControl.StateValue.off
         barChart.target = self
+        
+        let hyperthreading = NSMenuItem(title: "Hyperthreading", action: #selector(toggleHyperthreading), keyEquivalent: "")
+        let hyper = UserDefaults.standard.object(forKey: "\(name)_hyperthreading") != nil ? UserDefaults.standard.bool(forKey: "\(name)_hyperthreading") : false
+        hyperthreading.state = hyper ? NSControl.StateValue.on : NSControl.StateValue.off
+        hyperthreading.target = self
         
         submenu.addItem(mini)
         submenu.addItem(chart)
@@ -68,35 +48,38 @@ class Memory: Module {
         
         submenu.addItem(NSMenuItem.separator())
         
-        if let view = self.view as? Widget {
+        if let view = self.widget.view as? Widget {
             for widgetMenu in view.menus {
                 submenu.addItem(widgetMenu)
             }
         }
         
+        if self.widget.type == Widgets.BarChart {
+            submenu.addItem(hyperthreading)
+        }
+        
         submenu.addItem(NSMenuItem.separator())
         submenu.addItem(generateIntervalMenu())
         
-        if active {
+        if self.enabled {
             menu.submenu = submenu
         }
     }
     
     @objc func toggle(_ sender: NSMenuItem) {
         let state = sender.state != NSControl.StateValue.on
-        
         sender.state = sender.state == NSControl.StateValue.on ? NSControl.StateValue.off : NSControl.StateValue.on
         self.defaults.set(state, forKey: name)
-        self.active = state
+        self.enabled = state
         menuBar!.reload(name: self.name)
         
         if !state {
             menu.submenu = nil
-            self.stop()
         } else {
             menu.submenu = submenu
-            self.start()
         }
+        
+        self.restart()
     }
     
     @objc func toggleWidget(_ sender: NSMenuItem) {
@@ -115,7 +98,19 @@ class Memory: Module {
             break
         }
         
-        if self.widgetType == widgetCode {
+        if widgetCode == Widgets.BarChart {
+            self.readers.forEach { reader in
+                if reader is CPULoadReader {
+                    (reader as! CPULoadReader).perCoreMode = true
+                }
+            }
+        } else {
+            self.readers.filter{ $0 is CPULoadReader }.forEach { reader in
+                (reader as! CPULoadReader).perCoreMode = false
+            }
+        }
+        
+        if self.widget.type == widgetCode {
             return
         }
         
@@ -127,13 +122,21 @@ class Memory: Module {
         
         sender.state = sender.state == NSControl.StateValue.on ? NSControl.StateValue.off : NSControl.StateValue.on
         self.defaults.set(widgetCode, forKey: "\(name)_widget")
-        self.widgetType = widgetCode
+        self.self.widget.type = widgetCode
         self.initWidget()
-        self.initMenu(active: true)
+        self.initMenu()
         menuBar!.reload(name: self.name)
     }
     
-    func generateIntervalMenu() -> NSMenuItem {
+    @objc func toggleHyperthreading(_ sender: NSMenuItem) {
+        sender.state = sender.state == NSControl.StateValue.on ? NSControl.StateValue.off : NSControl.StateValue.on
+        self.defaults.set(sender.state == NSControl.StateValue.on, forKey: "\(name)_hyperthreading")
+        self.readers.filter{ $0 is CPULoadReader }.forEach { reader in
+            (reader as! CPULoadReader).hyperthreading = sender.state == NSControl.StateValue.on
+        }
+    }
+    
+    private func generateIntervalMenu() -> NSMenuItem {
         let updateInterval = NSMenuItem(title: "Update interval", action: nil, keyEquivalent: "")
         
         let updateIntervals = NSMenu()
@@ -165,7 +168,7 @@ class Memory: Module {
     }
     
     @objc func changeInterval(_ sender: NSMenuItem) {
-        var interval: Int = self.updateInterval
+        var interval: Double = self.updateInterval
         
         switch sender.title {
         case "1s":
@@ -198,6 +201,6 @@ class Memory: Module {
         sender.state = NSControl.StateValue.on
         self.updateInterval = interval
         self.defaults.set(interval, forKey: "\(name)_interval")
-        self.reader.setInterval(value: interval)
+        self.task?.reset(.seconds(interval), restart: self.task!.state.isRunning)
     }
 }
