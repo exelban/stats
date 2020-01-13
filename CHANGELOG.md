@@ -1,6 +1,17 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+### [v1.4.0]
+    - fix bug when readers work in disabled modules
+    - replace NSTimer with GCD
+    - fix GCD initialization
+    - starting to remove observable from project (because of memory leak)
+    - a new version will be download and mount automatically
+    - fully rewritten menuBar
+    - remove observability from AppDelegate, MenuBar
+    - additional readers read fix
+    - small fixes
+
 ### [v1.3.5]
     - removed first empty point from CPU and Memory charts
     - percentage value disabled if battery is fully charged
@@ -121,6 +132,7 @@ All notable changes to this project will be documented in this file.
 ### [v1.0.0]
     - first release
 
+[v1.4.0]: https://github.com/exelban/stats/releases/tag/v1.4.0
 [v1.3.5]: https://github.com/exelban/stats/releases/tag/v1.3.5
 [v1.3.4]: https://github.com/exelban/stats/releases/tag/v1.3.4
 [v1.3.3]: https://github.com/exelban/stats/releases/tag/v1.3.3
