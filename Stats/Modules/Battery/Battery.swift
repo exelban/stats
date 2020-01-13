@@ -13,8 +13,8 @@ class Battery: Module {
     public let shortName: String = "BAT"
     public var view: NSView = NSView()
     public var menu: NSMenuItem = NSMenuItem()
-    public var active: Observable<Bool>
-    public var available: Observable<Bool>
+    public var active: Bool = true
+    public var available: Bool = true
     public var reader: Reader = BatteryReader()
     public var tabAvailable: Bool = true
     public var tabInitialized: Bool = false
@@ -29,8 +29,8 @@ class Battery: Module {
     private var submenu: NSMenu = NSMenu()
     
     init() {
-        self.available = Observable(self.reader.available)
-        self.active = Observable(defaults.object(forKey: name) != nil ? defaults.bool(forKey: name) : true)
+        self.available = self.reader.available
+        self.active = defaults.object(forKey: name) != nil ? defaults.bool(forKey: name) : true
         self.percentageView = Observable(defaults.object(forKey: "\(self.name)_percentage") != nil ? defaults.bool(forKey: "\(self.name)_percentage") : false)
         self.timeView = Observable(defaults.object(forKey: "\(self.name)_time") != nil ? defaults.bool(forKey: "\(self.name)_time") : false)
         self.widgetType = defaults.object(forKey: "\(name)_widget") != nil ? defaults.float(forKey: "\(name)_widget") : Widgets.Battery
@@ -102,7 +102,8 @@ class Battery: Module {
         
         sender.state = sender.state == NSControl.StateValue.on ? NSControl.StateValue.off : NSControl.StateValue.on
         self.defaults.set(state, forKey: name)
-        self.active << state
+        self.active = state
+        menuBar!.reload(name: self.name)
         
         if !state {
             menu.submenu = nil
@@ -141,7 +142,7 @@ class Battery: Module {
         self.widgetType = widgetCode
         self.initWidget()
         self.initMenu(active: true)
-        menuBar!.updateWidget(name: self.name)
+        menuBar!.refresh()
     }
     
     func generateIntervalMenu() -> NSMenuItem {

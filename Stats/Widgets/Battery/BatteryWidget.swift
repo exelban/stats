@@ -131,6 +131,6 @@ class BatteryWidget: NSView, Widget {
     func changeWidth(width: CGFloat) {
         self.size = batterySize + width
         self.frame.size.width = self.size
-        menuBar?.updateWidget(name: self.name)
+        menuBar!.refresh()
     }
 }

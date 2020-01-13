@@ -13,8 +13,8 @@ class Network: Module {
     public var shortName: String = "NET"
     public var view: NSView = NSView()
     public var menu: NSMenuItem = NSMenuItem()
-    public var active: Observable<Bool>
-    public var available: Observable<Bool>
+    public var active: Bool = true
+    public var available: Bool = true
     public var reader: Reader = NetworkReader()
     public var widgetType: WidgetType = 2.0
     public var tabAvailable: Bool = false
@@ -26,8 +26,8 @@ class Network: Module {
     private var submenu: NSMenu = NSMenu()
     
     init() {
-        self.available = Observable(self.reader.available)
-        self.active = Observable(defaults.object(forKey: name) != nil ? defaults.bool(forKey: name) : true)
+        self.available = self.reader.available
+        self.active = defaults.object(forKey: name) != nil ? defaults.bool(forKey: name) : true
         self.widgetType = defaults.object(forKey: "\(name)_widget") != nil ? defaults.float(forKey: "\(name)_widget") : Widgets.NetworkDots
         self.updateInterval = defaults.object(forKey: "\(name)_interval") != nil ? defaults.integer(forKey: "\(name)_interval") : 1
         self.reader.setInterval(value: self.updateInterval)
@@ -122,7 +122,8 @@ class Network: Module {
         
         sender.state = sender.state == NSControl.StateValue.on ? NSControl.StateValue.off : NSControl.StateValue.on
         self.defaults.set(state, forKey: name)
-        self.active << state
+        self.active = state
+        menuBar!.reload(name: self.name)
         
         if !state {
             menu.submenu = nil
@@ -166,8 +167,7 @@ class Network: Module {
         sender.state = sender.state == NSControl.StateValue.on ? NSControl.StateValue.off : NSControl.StateValue.on
         self.defaults.set(widgetCode, forKey: "\(name)_widget")
         self.widgetType = widgetCode
-        self.active << false
         initWidget()
-        self.active << true
+        menuBar!.reload(name: self.name)
     }
 }

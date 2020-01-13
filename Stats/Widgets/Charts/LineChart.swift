@@ -69,7 +69,7 @@ class Chart: NSView, Widget {
         
         self.frame = CGRect(x: self.frame.origin.x, y: self.frame.origin.y, width: width, height: self.frame.size.height)
         self.redraw()
-        menuBar!.updateWidget(name: self.name)
+        menuBar!.refresh()
     }
     
     override func draw(_ dirtyRect: NSRect) {

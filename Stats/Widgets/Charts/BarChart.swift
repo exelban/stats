@@ -136,8 +136,8 @@ class BarChart: NSView, Widget {
         }
         
         if self.frame.size.width != width {
-            self.frame = CGRect(x: self.frame.origin.x, y: self.frame.origin.y, width: width, height: self.frame.size.height)
-            menuBar!.updateWidget(name: self.name)
+            self.setFrameSize(NSSize(width: width, height: self.frame.size.height))
+            menuBar!.refresh()
         }
         
         self.needsDisplay = true

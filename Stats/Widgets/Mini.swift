@@ -98,7 +98,7 @@ class Mini: NSView, Widget {
     
     func setValue(data: [Double]) {
         let value: Double = data.first!
-        if self.value != value {
+        if self.value != value && !value.isNaN {
             self.value = value
             
             self.valueView.stringValue = "\(Int(Float(value.roundTo(decimalPlaces: 2))! * 100))%"

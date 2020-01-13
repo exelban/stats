@@ -15,8 +15,8 @@ class Disk: Module {
     public var menu: NSMenuItem = NSMenuItem()
     public var widgetType: WidgetType
     
-    public var active: Observable<Bool>
-    public var available: Observable<Bool>
+    public var active: Bool = true
+    public var available: Bool = true
     public var tabAvailable: Bool = false
     public var tabInitialized: Bool = false
     public var tabView: NSTabViewItem = NSTabViewItem()
@@ -28,8 +28,7 @@ class Disk: Module {
     private let defaults = UserDefaults.standard
     
     init() {
-        self.available = Observable(true)
-        self.active = Observable(defaults.object(forKey: name) != nil ? defaults.bool(forKey: name) : true)
+        self.active = defaults.object(forKey: name) != nil ? defaults.bool(forKey: name) : true
         self.widgetType = defaults.object(forKey: "\(name)_widget") != nil ? defaults.float(forKey: "\(name)_widget") : Widgets.Mini
         self.updateInterval = defaults.object(forKey: "\(name)_interval") != nil ? defaults.integer(forKey: "\(name)_interval") : 5
         self.reader.setInterval(value: self.updateInterval)
@@ -83,7 +82,8 @@ class Disk: Module {
         
         sender.state = sender.state == NSControl.StateValue.on ? NSControl.StateValue.off : NSControl.StateValue.on
         self.defaults.set(state, forKey: name)
-        self.active << state
+        self.active = state
+        menuBar!.reload(name: self.name)
         
         if !state {
             self.stop()
@@ -117,10 +117,9 @@ class Disk: Module {
         sender.state = sender.state == NSControl.StateValue.on ? NSControl.StateValue.off : NSControl.StateValue.on
         self.defaults.set(widgetCode, forKey: "\(name)_widget")
         self.widgetType = widgetCode
-        self.active << false
         self.initWidget()
         self.initMenu(active: true)
-        self.active << true
+        menuBar!.reload(name: self.name)
     }
     
     func generateIntervalMenu() -> NSMenuItem {

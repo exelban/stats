@@ -37,41 +37,43 @@ class MainViewController: NSViewController {
         super.viewDidLoad()
         
         makeHeader()
-        
-        for module in modules {
-            module.active.subscribe(observer: self) { (value, _) in
-                for tab in self.tabView.tabViewItems {
-                    self.tabView.removeTabViewItem(tab)
-                }
-                for view in self.topStackView.subviews {
-                    view.removeFromSuperview()
-                }
-                self.segmentsControl = NSSegmentedControl(labels: [], trackingMode: .selectOne, target: self, action: #selector(self.switchTabs))
-                self.makeHeader()
-            }
-        }
     }
     
     override func viewWillAppear() {
-        for module in modules {
-            if module.tabAvailable && module.available.value && module.active.value && module.reader.availableAdditional {
-                module.reader.startAdditional()
+        DispatchQueue.global(qos: .background).async {
+            for module in menuBar!.modules {
+                if module.tabAvailable && module.available && module.active && module.reader.availableAdditional {
+                    module.reader.startAdditional()
+                }
             }
         }
     }
     
     override func viewWillDisappear() {
-        for module in modules {
-            if module.tabAvailable && module.available.value && module.active.value && module.reader.availableAdditional {
-                module.reader.stopAdditional()
+        DispatchQueue.global(qos: .background).async {
+            for module in menuBar!.modules {
+                if module.tabAvailable && module.available && module.active && module.reader.availableAdditional {
+                    module.reader.stopAdditional()
+                }
             }
         }
     }
     
-    func makeHeader() {
+    public func reload() {
+        for tab in self.tabView.tabViewItems {
+            self.tabView.removeTabViewItem(tab)
+        }
+        for view in self.topStackView.subviews {
+            view.removeFromSuperview()
+        }
+        self.segmentsControl = NSSegmentedControl(labels: [], trackingMode: .selectOne, target: self, action: #selector(self.switchTabs))
+        self.makeHeader()
+    }
+    
+    private func makeHeader() {
         var list: [String] = []
-        for module in modules {
-            if module.tabAvailable && module.available.value && module.active.value {
+        for module in menuBar!.modules {
+            if module.tabAvailable && module.available && module.active {
                 list.append(module.name)
                 
                 let tab = module.tabView
@@ -121,17 +123,17 @@ class MainViewController: NSViewController {
         settings.popUp(positioning: settings.item(at: 0), at:p , in: nil)
     }
     
-    func buildSettings() -> NSMenu {
+    private func buildSettings() -> NSMenu {
         let menu = NSMenu()
         
-        for module in modules {
-            if module.available.value {
+        for module in menuBar!.modules {
+            if module.available {
                 menu.addItem(module.menu)
             }
         }
         
         menu.addItem(NSMenuItem.separator())
-      
+        
         let openActivityMonitorMenu = NSMenuItem(title: "Open Activity Monitor", action: #selector(openActivityMonitor), keyEquivalent: "")
         openActivityMonitorMenu.target = self
 

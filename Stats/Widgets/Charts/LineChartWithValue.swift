@@ -106,7 +106,7 @@ class ChartWithValue: Chart {
         }
         self.frame = CGRect(x: self.frame.origin.x, y: self.frame.origin.y, width: width, height: self.frame.size.height)
         self.drawValue()
-        menuBar!.updateWidget(name: self.name)
+        menuBar!.refresh()
     }
     
     @objc func toggleColor(_ sender: NSMenuItem) {

@@ -14,8 +14,8 @@ class CPU: Module {
     public let shortName: String = "CPU"
     public var view: NSView = NSView()
     public var menu: NSMenuItem = NSMenuItem()
-    public var active: Observable<Bool>
-    public var available: Observable<Bool>
+    public var active: Bool = true
+    public var available: Bool = true
     public var hyperthreading: Observable<Bool>
     public var reader: Reader = CPUReader()
     public var tabView: NSTabViewItem = NSTabViewItem()
@@ -29,8 +29,7 @@ class CPU: Module {
     private var submenu: NSMenu = NSMenu()
     
     init() {
-        self.available = Observable(true)
-        self.active = Observable(defaults.object(forKey: name) != nil ? defaults.bool(forKey: name) : true)
+        self.active = defaults.object(forKey: name) != nil ? defaults.bool(forKey: name) : true
         self.hyperthreading = Observable(defaults.object(forKey: "\(name)_hyperthreading") != nil ? defaults.bool(forKey: "\(name)_hyperthreading") : false)
         self.widgetType = defaults.object(forKey: "\(name)_widget") != nil ? defaults.float(forKey: "\(name)_widget") : Widgets.Mini
         self.updateInterval = defaults.object(forKey: "\(name)_interval") != nil ? defaults.integer(forKey: "\(name)_interval") : 1
@@ -41,7 +40,7 @@ class CPU: Module {
             (self.reader as! CPUReader).hyperthreading = self.hyperthreading.value
         }
         
-        if !self.available.value {
+        if !self.available {
             self.reader.stop()
         }
     }
@@ -106,7 +105,8 @@ class CPU: Module {
         let state = sender.state != NSControl.StateValue.on
         sender.state = sender.state == NSControl.StateValue.on ? NSControl.StateValue.off : NSControl.StateValue.on
         self.defaults.set(state, forKey: name)
-        self.active << state
+        self.active = state
+        menuBar!.reload(name: self.name)
         
         if !state {
             menu.submenu = nil
@@ -154,7 +154,7 @@ class CPU: Module {
         self.widgetType = widgetCode
         self.initWidget()
         self.initMenu(active: true)
-        menuBar!.updateWidget(name: self.name)
+        menuBar!.reload(name: self.name)
     }
     
     @objc func toggleHyperthreading(_ sender: NSMenuItem) {

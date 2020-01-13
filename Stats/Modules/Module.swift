@@ -16,8 +16,8 @@ protocol Module: class {
     var menu: NSMenuItem { get }
     var widgetType: WidgetType { get }
     
-    var active: Observable<Bool> { get }
-    var available: Observable<Bool> { get }
+    var active: Bool { get }
+    var available: Bool { get }
     
     var tabView: NSTabViewItem { get }
     var tabAvailable: Bool { get }
@@ -70,7 +70,6 @@ extension Module {
         
         widget.name = self.name
         widget.shortName = self.shortName
-        widget.activeModule = self.active
         widget.Init()
         
         self.view = widget as! NSView
@@ -80,12 +79,12 @@ extension Module {
         self.reader.start()
         self.reader.startAdditional()
         
-        if !self.reader.value.value.isEmpty {
+        if !self.reader.value.value.isEmpty && self.view is Widget {
             (self.view as! Widget).setValue(data: self.reader.value.value)
         }
         
         self.reader.value.subscribe(observer: self) { (value, _) in
-            if !value.isEmpty {
+            if !value.isEmpty && self.view is Widget {
                 (self.view as! Widget).setValue(data: value)
             }
         }

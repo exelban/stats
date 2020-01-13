@@ -46,23 +46,3 @@ struct WidgetSize {
     let margin: CGFloat = 2
 }
 let widgetSize = WidgetSize()
-
-
-class Empty: NSView, Widget {
-    var name: String = "Empty"
-    var shortName: String = "empty"
-    var activeModule: Observable<Bool> = Observable(false)
-    var menus: [NSMenuItem] = []
-
-    override init(frame: NSRect) {
-        super.init(frame: CGRect(x: 0, y: 0, width: 0, height: widgetSize.height))
-    }
-    
-    required init?(coder decoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    func setValue(data: [Double]) {}
-    func redraw() {}
-    func Init() {}
-}
