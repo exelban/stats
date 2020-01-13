@@ -77,7 +77,6 @@ extension Module {
     
     func start() {
         self.reader.start()
-        self.reader.startAdditional()
         
         if !self.reader.value.value.isEmpty && self.view is Widget {
             (self.view as! Widget).setValue(data: self.reader.value.value)
