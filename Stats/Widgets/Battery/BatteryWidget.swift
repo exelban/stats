@@ -60,7 +60,9 @@ class BatteryWidget: NSView, Widget {
     }
     
     func initMenu() {}
-    func update() {}
+    func update() {
+        self.changeWidth(width: 0)
+    }
     
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
@@ -130,6 +132,8 @@ class BatteryWidget: NSView, Widget {
     func changeWidth(width: CGFloat) {
         self.size = batterySize + width
         self.frame.size.width = self.size
-        menuBar!.refresh()
+        if menuBar != nil {
+            menuBar!.refresh()
+        }
     }
 }

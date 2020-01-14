@@ -1,2 +1,2 @@
 github "sindresorhus/LaunchAtLogin"
-github "danielgindi/Charts" ~> 3.3.0
+github "danielgindi/Charts" ~> 3.4.0

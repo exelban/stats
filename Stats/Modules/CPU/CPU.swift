@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import Charts
 
 class CPU: Module {
     public var name: String = "CPU"
@@ -25,10 +26,11 @@ class CPU: Module {
     public let defaults = UserDefaults.standard
     public var submenu: NSMenu = NSMenu()
     
-    var systemValue: NSTextField = NSTextField()
-    var userValue: NSTextField = NSTextField()
-    var idleValue: NSTextField = NSTextField()
-    var processViewList: [NSStackView] = []
+    public var systemValue: NSTextField = NSTextField()
+    public var userValue: NSTextField = NSTextField()
+    public var idleValue: NSTextField = NSTextField()
+    public var processViewList: [NSStackView] = []
+    public var chart: LineChartView = LineChartView()
     
     init() {
         self.enabled = defaults.object(forKey: name) != nil ? defaults.bool(forKey: name) : true
@@ -38,7 +40,7 @@ class CPU: Module {
         self.initMenu()
         self.initPopup()
         
-        readers.append(CPULoadReader(self.name, self.loadUpdater, self.updateChart, true))
+        readers.append(CPULoadReader(self.name, self.loadUpdater, self.chartUpdater, true))
         readers.append(CPUUsageReader(self.usageUpdater))
         readers.append(CPUProcessReader(self.processesUpdater))
         

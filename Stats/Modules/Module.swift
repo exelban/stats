@@ -45,7 +45,6 @@ protocol Reader {
 struct ModulePopup {
     var available: Bool = true // say if module have popup view
     var view: NSTabViewItem = NSTabViewItem() // module popup view
-    var chart: LineChartView = LineChartView() // chart view for popup
     
     init(_ a: Bool = true) {
         available = a

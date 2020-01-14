@@ -15,7 +15,7 @@ struct TopProcess {
 }
 
 class CPUProcessReader: Reader {
-    public var name: String = "Processes"
+    public var name: String = "Process"
     public var enabled: Bool = false
     public var available: Bool = true
     public var optional: Bool = true

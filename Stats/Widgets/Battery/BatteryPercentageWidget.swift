@@ -37,12 +37,19 @@ class BatteryPercentageWidget: BatteryWidget {
         percentageValue.alignment = .right
         percentageValue.font = NSFont.systemFont(ofSize: 12, weight: .regular)
         percentageValue.stringValue = "\(Int(self.value * 100))%"
+        if self.value == 0 {
+            percentageValue.isHidden = true
+        }
         
         self.addSubview(percentageValue)
     }
     
     override func update() {
         if self.value == 0 { return }
+        
+        if percentageValue.isHidden {
+            percentageValue.isHidden = false
+        }
         self.percentageValue.stringValue = "\(Int(self.value * 100))%"
         
         if self.value == 1 && self.size != self.batterySize + percentageFullWidth {

@@ -13,7 +13,7 @@ import ServiceManagement
  Class keeps a status bar item and has the main function for updating widgets.
  */
 class MenuBar {
-    public let modules: [Module] = [CPU()]
+    public let modules: [Module] = [CPU(), RAM(), Disk(), Battery(), Network()]
     
     private let menuBarItem: NSStatusItem
     private var menuBarButton: NSButton = NSButton()
@@ -52,9 +52,10 @@ class MenuBar {
         }
         
         self.menuBarButton.addSubview(stackView)
-        
-        if WIDTH == 0 {
+
+        if self.stackView.subviews.count == 0 {
             self.menuBarButton.image = NSImage(named:NSImage.Name("tray_icon"))
+            self.stackView.frame.size.width = widgetSize.width
             self.menuBarItem.length = widgetSize.width
             return
         }
@@ -140,20 +141,15 @@ class MenuBar {
                 WIDTH = WIDTH + module.widget.view.frame.size.width
             }
         }
-        
-        if self.stackView.frame.size.width == WIDTH {
-            return
-        }
-        
-        if WIDTH == 0 {
+
+        if self.stackView.subviews.count == 0 || WIDTH == 0 {
             self.menuBarButton.image = NSImage(named:NSImage.Name("tray_icon"))
             self.menuBarItem.length = widgetSize.width
             self.stackView.frame.size.width = widgetSize.width
-            return
+        } else {
+            self.menuBarButton.image = nil
+            self.stackView.frame.size.width = WIDTH
+            self.menuBarItem.length = WIDTH
         }
-        
-        self.menuBarButton.image = nil
-        self.stackView.frame.size.width = WIDTH
-        self.menuBarItem.length = WIDTH
     }
 }

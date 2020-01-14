@@ -22,39 +22,39 @@ extension CPU {
         let lineColor: NSColor = NSColor(red: (26/255.0), green: (126/255.0), blue: (252/255.0), alpha: 1.0)
         let gradientColor: NSColor = NSColor(red: (26/255.0), green: (126/255.0), blue: (252/255.0), alpha: 0.5)
 
-        self.popup.chart = LineChartView(frame: CGRect(x: 0, y: TabHeight - 110, width: TabWidth, height: 102))
-        self.popup.chart.animate(xAxisDuration: 2.0, yAxisDuration: 2.0, easingOption: .easeInCubic)
-        self.popup.chart.backgroundColor = .white
-        self.popup.chart.noDataText = "No \(self.name) usage data"
-        self.popup.chart.legend.enabled = false
-        self.popup.chart.scaleXEnabled = false
-        self.popup.chart.scaleYEnabled = false
-        self.popup.chart.pinchZoomEnabled = false
-        self.popup.chart.doubleTapToZoomEnabled = false
-        self.popup.chart.drawBordersEnabled = false
+        self.chart = LineChartView(frame: CGRect(x: 0, y: TabHeight - 110, width: TabWidth, height: 102))
+        self.chart.animate(xAxisDuration: 2.0, yAxisDuration: 2.0, easingOption: .easeInCubic)
+        self.chart.backgroundColor = .white
+        self.chart.noDataText = "No \(self.name) usage data"
+        self.chart.legend.enabled = false
+        self.chart.scaleXEnabled = false
+        self.chart.scaleYEnabled = false
+        self.chart.pinchZoomEnabled = false
+        self.chart.doubleTapToZoomEnabled = false
+        self.chart.drawBordersEnabled = false
         
-        self.popup.chart.rightAxis.enabled = false
+        self.chart.rightAxis.enabled = false
         
-        self.popup.chart.leftAxis.axisMinimum = 0
-        self.popup.chart.leftAxis.axisMaximum = 100
-        self.popup.chart.leftAxis.labelCount = 6
-        self.popup.chart.leftAxis.drawGridLinesEnabled = false
-        self.popup.chart.leftAxis.drawAxisLineEnabled = false
+        self.chart.leftAxis.axisMinimum = 0
+        self.chart.leftAxis.axisMaximum = 100
+        self.chart.leftAxis.labelCount = 6
+        self.chart.leftAxis.drawGridLinesEnabled = false
+        self.chart.leftAxis.drawAxisLineEnabled = false
         
-        self.popup.chart.leftAxis.gridColor = NSColor(red:220/255, green:220/255, blue:220/255, alpha:1)
-        self.popup.chart.leftAxis.gridLineWidth = 0.5
-        self.popup.chart.leftAxis.drawGridLinesEnabled = true
-        self.popup.chart.leftAxis.labelTextColor = NSColor(red:150/255, green:150/255, blue:150/255, alpha:1)
+        self.chart.leftAxis.gridColor = NSColor(red:220/255, green:220/255, blue:220/255, alpha:1)
+        self.chart.leftAxis.gridLineWidth = 0.5
+        self.chart.leftAxis.drawGridLinesEnabled = true
+        self.chart.leftAxis.labelTextColor = NSColor(red:150/255, green:150/255, blue:150/255, alpha:1)
         
-        self.popup.chart.xAxis.drawAxisLineEnabled = false
-        self.popup.chart.xAxis.drawLimitLinesBehindDataEnabled = false
-        self.popup.chart.xAxis.gridLineWidth = 0.5
-        self.popup.chart.xAxis.drawGridLinesEnabled = false
-        self.popup.chart.xAxis.drawLabelsEnabled = false
+        self.chart.xAxis.drawAxisLineEnabled = false
+        self.chart.xAxis.drawLimitLinesBehindDataEnabled = false
+        self.chart.xAxis.gridLineWidth = 0.5
+        self.chart.xAxis.drawGridLinesEnabled = false
+        self.chart.xAxis.drawLabelsEnabled = false
         
         let marker = ChartMarker()
-        marker.chartView = self.popup.chart
-        self.popup.chart.marker = marker
+        marker.chartView = self.chart
+        self.chart.marker = marker
         
         let lineChartEntry  = [ChartDataEntry]()
         let chartDataSet = LineChartDataSet(entries: lineChartEntry, label: "\(self.name) Usage")
@@ -69,24 +69,24 @@ extension CPU {
         data.addDataSet(chartDataSet)
         data.setDrawValues(false)
         
-        self.popup.chart.data = LineChartData(dataSet: chartDataSet)
+        self.chart.data = LineChartData(dataSet: chartDataSet)
         
-        self.popup.view.view?.addSubview(self.popup.chart)
+        self.popup.view.view?.addSubview(self.chart)
     }
     
-    public func updateChart(value: Double) {
+    public func chartUpdater(value: Double) {
         let v: Double = Double((value * 100).roundTo(decimalPlaces: 2))!
         
-        let index = Double((self.popup.chart.data?.getDataSetByIndex(0)?.entryCount)!)
-        self.popup.chart.data?.addEntry(ChartDataEntry(x: index, y: v), dataSetIndex: 0)
+        let index = Double((self.chart.data?.getDataSetByIndex(0)?.entryCount)!)
+        self.chart.data?.addEntry(ChartDataEntry(x: index, y: v), dataSetIndex: 0)
 
         if index > 120 {
-            self.popup.chart.xAxis.axisMinimum = index - 120
+            self.chart.xAxis.axisMinimum = index - 120
         }
 
-        self.popup.chart.xAxis.axisMaximum = index
-        self.popup.chart.notifyDataSetChanged()
-        self.popup.chart.moveViewToX(index)
+        self.chart.xAxis.axisMaximum = index
+        self.chart.notifyDataSetChanged()
+        self.chart.moveViewToX(index)
     }
     
     private func makeOverview() {
