@@ -30,7 +30,7 @@ You can download latest version [here](https://github.com/exelban/stats/releases
 ## Compatibility
 | macOS | Compatible |
 | --- | --- |
-| 10.15.2 *(Catalina)* | **false** |
+| 10.15.2 *(Catalina)* | **true** |
 | 10.14.6 *(Mojave)* | **true** |
 | 10.13.6 *(High Sierra)* | **true** |
 
