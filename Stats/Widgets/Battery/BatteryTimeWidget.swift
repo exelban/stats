@@ -34,17 +34,25 @@ class BatteryTimeWidget: BatteryWidget {
         timeValue.alignment = .right
         timeValue.font = NSFont.systemFont(ofSize: 11, weight: .regular)
         timeValue.stringValue = (self.time*60).printSecondsToHoursMinutesSeconds()
+        if self.time == 0 {
+            timeValue.isHidden = true
+        }
         
         self.addSubview(timeValue)
     }
     
     override func update() {
-        if self.time <= 0 && self.size == self.batterySize + timeWidth {
+        if self.value == 0 { return }
+        
+        if self.timeValue.isHidden {
+            self.timeValue.isHidden = false
+        }
+        self.timeValue.stringValue = (self.time*60).printSecondsToHoursMinutesSeconds()
+        
+        if self.time == 0 && self.size == self.batterySize + timeWidth {
             self.changeWidth(width: 0)
-        } else if self.time >= 0 || self.size != self.batterySize + timeWidth {
+        } else if self.time > 0 && self.size != self.batterySize + timeWidth {
             self.changeWidth(width: timeWidth)
         }
-        
-        self.timeValue.stringValue = (self.time*60).printSecondsToHoursMinutesSeconds()
     }
 }

@@ -47,8 +47,8 @@ class BatteryPercentageWidget: BatteryWidget {
     override func update() {
         if self.value == 0 { return }
         
-        if percentageValue.isHidden {
-            percentageValue.isHidden = false
+        if self.percentageValue.isHidden {
+            self.percentageValue.isHidden = false
         }
         self.percentageValue.stringValue = "\(Int(self.value * 100))%"
         

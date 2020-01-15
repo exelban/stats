@@ -107,7 +107,7 @@ public struct Units {
     public func getReadableSpeed() -> String {
         switch bytes {
         case 0..<1_024:
-            return "0 KB"
+            return "0 KB/s"
         case 1_024..<(1_024 * 1_024):
             return String(format: "%.0f KB/s", kilobytes)
         case 1_024..<(1_024 * 1_024 * 100):
@@ -124,7 +124,7 @@ public struct Units {
     public func getReadableMemory() -> String {
         switch bytes {
         case 0..<1_024:
-            return "0 KB"
+            return "0 KB/s"
         case 1_024..<(1_024 * 1_024):
             return String(format: "%.0f KB", kilobytes)
         case 1_024..<(1_024 * 1_024 * 1_024):

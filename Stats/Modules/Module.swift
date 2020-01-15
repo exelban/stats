@@ -97,6 +97,10 @@ extension Module {
         widget.shortName = String(self.name.prefix(3)).uppercased()
         widget.Init()
         
+        self.readers.forEach { reader in
+            reader.read()
+        }
+        
         self.widget.view = widget as! NSView
     }
 }

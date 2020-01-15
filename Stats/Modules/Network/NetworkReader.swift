@@ -26,7 +26,7 @@ class NetworkReader: Reader {
             self.read()
         }
     }
-
+    
     public func read() {
         if !self.enabled && self.initialized { return }
         self.initialized = true
@@ -44,13 +44,14 @@ class NetworkReader: Reader {
                 continue
             }
             pointer = pointer!.pointee.ifa_next
-            upload = info[0]
-            download = info[1]
+            upload += info[0]
+            download += info[1]
         }
         freeifaddrs(interfaceAddresses)
         
         let lastUpload = self.uploadValue
         let lastDownload = self.downloadValue
+
         if lastUpload != 0 && lastDownload != 0 {
             DispatchQueue.main.async(execute: {
                 self.callback([Double(download - lastDownload), Double(upload - lastUpload)])
