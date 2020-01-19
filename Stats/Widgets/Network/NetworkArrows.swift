@@ -9,21 +9,12 @@
 import Cocoa
 
 class NetworkArrowsView: NSView, Widget {
-    var menus: [NSMenuItem] = []
-    var size: CGFloat = 8
-    var name: String = ""
-    var shortName: String = ""
+    public var menus: [NSMenuItem] = []
+    public var size: CGFloat = 8
+    public var name: String = ""
     
-    var download: Int64 {
-        didSet {
-            self.redraw()
-        }
-    }
-    var upload: Int64 {
-        didSet {
-            self.redraw()
-        }
-    }
+    private var download: Int64 = 0
+    private var upload: Int64 = 0
     
     override var intrinsicContentSize: CGSize {
         return CGSize(width: self.frame.size.width, height: self.frame.size.height)
@@ -41,7 +32,7 @@ class NetworkArrowsView: NSView, Widget {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func Init() {}
+    func start() {}
     
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
@@ -97,5 +88,7 @@ class NetworkArrowsView: NSView, Widget {
         if self.upload != upload {
             self.upload = upload
         }
+        
+        self.redraw()
     }
 }

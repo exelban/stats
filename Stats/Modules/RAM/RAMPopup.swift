@@ -57,7 +57,8 @@ extension RAM {
         marker.chartView = self.chart
         self.chart.marker = marker
         
-        let lineChartEntry  = [ChartDataEntry]()
+        var lineChartEntry  = [ChartDataEntry]()
+        lineChartEntry.append(ChartDataEntry(x: 0, y: 0))
         let chartDataSet = LineChartDataSet(entries: lineChartEntry, label: "\(self.name) Usage")
         chartDataSet.drawCirclesEnabled = false
         chartDataSet.mode = .cubicBezier
@@ -76,16 +77,21 @@ extension RAM {
     }
     
     public func chartUpdater(value: RAMUsage) {
+        if self.chart.data == nil { return }
+
         let index = Double((self.chart.data?.getDataSetByIndex(0)?.entryCount)!)
         let usage = Units(bytes: Int64(value.used)).getReadableTuple().0
         self.chart.data?.addEntry(ChartDataEntry(x: index, y: usage), dataSetIndex: 0)
-        
+
         if index > 120 {
             self.chart.xAxis.axisMinimum = index - 120
         }
         self.chart.xAxis.axisMaximum = index
-        self.chart.notifyDataSetChanged()
-        self.chart.moveViewToX(index)
+        
+        if self.popup.active {
+            self.chart.notifyDataSetChanged()
+            self.chart.moveViewToX(index)
+        }
     }
     
     private func makeOverview() {
@@ -201,6 +207,8 @@ extension RAM {
     }
     
     public func processesUpdater(value: [TopProcess]) {
+        if self.processViewList.isEmpty { return }
+        
         for (i, process) in value.enumerated() {
             if i < 5 {
                 let processView = self.processViewList[i]

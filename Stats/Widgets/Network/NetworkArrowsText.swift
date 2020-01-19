@@ -9,21 +9,12 @@
 import Cocoa
 
 class NetworkArrowsTextView: NSView, Widget {
-    var menus: [NSMenuItem] = []
-    var size: CGFloat = widgetSize.width + 24
-    var name: String = ""
-    var shortName: String = ""
+    public var menus: [NSMenuItem] = []
+    public var size: CGFloat = widgetSize.width + 24
+    public var name: String = ""
     
-    var download: Int64 {
-        didSet {
-            self.redraw()
-        }
-    }
-    var upload: Int64 {
-        didSet {
-            self.redraw()
-        }
-    }
+    private var download: Int64 = 0
+    private var upload: Int64 = 0
     
     var downloadValue: NSTextField = NSTextField()
     var uploadValue: NSTextField = NSTextField()
@@ -44,7 +35,7 @@ class NetworkArrowsTextView: NSView, Widget {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func Init() {}
+    func start() {}
     
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
@@ -102,6 +93,8 @@ class NetworkArrowsTextView: NSView, Widget {
             self.upload = upload
             uploadValue.stringValue = Units(bytes: self.upload).getReadableSpeed()
         }
+        
+        self.redraw()
     }
     
     func valueView() {

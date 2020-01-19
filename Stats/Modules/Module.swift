@@ -18,7 +18,7 @@ protocol Module: class {
     
     var widget: ModuleWidget { get set } // view for widget
     var menu: NSMenuItem { get } // view for menu
-    var popup: ModulePopup { get } // popup
+    var popup: ModulePopup { get set } // popup
     
     var readers: [Reader] { get } // list of readers available for module
     var task: Repeater? { get set } // reader cron task
@@ -45,9 +45,16 @@ protocol Reader {
 struct ModulePopup {
     var available: Bool = true // say if module have popup view
     var view: NSTabViewItem = NSTabViewItem() // module popup view
+    var active: Bool = false // indicate that popup is opened and selected this view
     
     init(_ a: Bool = true) {
         available = a
+    }
+    
+    mutating func setActive(_ state: Bool) {
+        if self.active != state {
+            self.active = state
+        }
     }
 }
 
@@ -94,13 +101,12 @@ extension Module {
         }
         
         widget.name = self.name
-        widget.shortName = String(self.name.prefix(3)).uppercased()
-        widget.Init()
-        
-        self.readers.forEach { reader in
-            reader.read()
-        }
-        
+        widget.start()
+
+//        self.readers.forEach { reader in
+//            reader.read()
+//        }
+
         self.widget.view = widget as! NSView
     }
 }

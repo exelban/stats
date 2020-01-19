@@ -10,7 +10,6 @@ import Cocoa
 
 class BatteryWidget: NSView, Widget {
     public var name: String = "Battery"
-    public var shortName: String = "BAT"
     public var menus: [NSMenuItem] = []
     public var size: CGFloat = 30
     public var batterySize: CGFloat = 30
@@ -18,24 +17,9 @@ class BatteryWidget: NSView, Widget {
     private let defaults = UserDefaults.standard
     private var color: Bool = false
     
-    public var value: Double {
-        didSet {
-            self.redraw()
-            self.update()
-        }
-    }
-    public var time: Double {
-        didSet {
-            self.redraw()
-            self.update()
-        }
-    }
-    public var charging: Bool {
-        didSet {
-            self.redraw()
-            self.update()
-        }
-    }
+    public var value: Double = 0
+    public var time: Double = 0
+    public var charging: Bool = false
     
     override var intrinsicContentSize: CGSize {
         return CGSize(width: self.frame.size.width, height: self.frame.size.height)
@@ -53,7 +37,7 @@ class BatteryWidget: NSView, Widget {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func Init() {
+    func start() {
         self.color = defaults.object(forKey: "\(name)_color") != nil ? defaults.bool(forKey: "\(name)_color") : false
         self.initMenu()
         self.redraw()
@@ -115,17 +99,26 @@ class BatteryWidget: NSView, Widget {
     func setValue(data: [Double]) {
         let value: Double = data.first!
         let time: Double = data.last!
+        var changed: Bool = false
+        
         if self.value != value {
             self.value = value
+            changed = true
         }
         if self.time != time {
             self.time = time
+            changed = true
+        }
+        
+        if changed {
+            self.redraw()
         }
     }
     
     func setCharging(value: Bool) {
         if self.charging != value {
             self.charging = value
+            self.redraw()
         }
     }
     

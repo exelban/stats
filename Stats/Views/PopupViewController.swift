@@ -40,6 +40,9 @@ class MainViewController: NSViewController {
     }
     
     override func viewWillAppear() {
+        if self.segmentsControl == nil { return }
+        menuBar?.modules[self.segmentsControl.selectedSegment].popup.setActive(true)
+        
         DispatchQueue.global(qos: .background).async {
             for module in menuBar!.modules {
                 if module.popup.available && module.available && module.enabled {
@@ -52,6 +55,9 @@ class MainViewController: NSViewController {
     }
     
     override func viewWillDisappear() {
+        if self.segmentsControl == nil { return }
+        menuBar?.modules[self.segmentsControl.selectedSegment].popup.setActive(false)
+        
         DispatchQueue.global(qos: .background).async {
             for module in menuBar!.modules {
                 if module.popup.available && module.available && module.enabled {
@@ -119,6 +125,10 @@ class MainViewController: NSViewController {
     @objc func switchTabs(_ sender: NSSegmentedControl) {
         if let selectedLabel = self.segmentsControl.label(forSegment: sender.selectedSegment) {
             let tabNumber = self.tabView.indexOfTabViewItem(withIdentifier: selectedLabel)
+
+            menuBar?.modules[self.segmentsControl.selectedSegment].popup.setActive(false)
+            menuBar?.modules[sender.selectedSegment].popup.setActive(true)
+            
             self.tabView.selectTabViewItem(at: tabNumber)
         }
     }

@@ -9,14 +9,13 @@
 import Cocoa
 
 protocol Widget {
-    var name: String { get set }
-    var shortName: String { get set }
-    var menus: [NSMenuItem] { get }
+    var name: String { get set } // module name
+    var menus: [NSMenuItem] { get } // module settings
     
-    func setValue(data: [Double])
-    
+    func start()
     func redraw()
-    func Init()
+    
+    func setValue(data: [Double]) // pass value to widget
 }
 
 typealias WidgetType = Float

@@ -9,13 +9,12 @@
 import Cocoa
 
 class NetworkTextView: NSView, Widget {
-    var menus: [NSMenuItem] = []
-    var size: CGFloat = widgetSize.width + 20
-    var name: String = ""
-    var shortName: String = ""
+    public var menus: [NSMenuItem] = []
+    public var size: CGFloat = widgetSize.width + 20
+    public var name: String = ""
     
-    var downloadValue: NSTextField = NSTextField()
-    var uploadValue: NSTextField = NSTextField()
+    private var downloadValue: NSTextField = NSTextField()
+    private var uploadValue: NSTextField = NSTextField()
     
     override var intrinsicContentSize: CGSize {
         return CGSize(width: self.frame.size.width, height: self.frame.size.height)
@@ -31,7 +30,7 @@ class NetworkTextView: NSView, Widget {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func Init() {}
+    func start() {}
     
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
@@ -48,6 +47,8 @@ class NetworkTextView: NSView, Widget {
         
         downloadValue.stringValue = Units(bytes: download).getReadableSpeed()
         uploadValue.stringValue = Units(bytes: upload).getReadableSpeed()
+        
+        self.redraw()
     }
     
     func valueView() {

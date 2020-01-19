@@ -26,6 +26,8 @@ class Network: Module {
     public var submenu: NSMenu = NSMenu()
     
     init() {
+        if !self.available { return }
+        
         self.enabled = defaults.object(forKey: name) != nil ? defaults.bool(forKey: name) : true
         self.widget.type = defaults.object(forKey: "\(name)_widget") != nil ? defaults.float(forKey: "\(name)_widget") : Widgets.Mini
         

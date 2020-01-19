@@ -9,8 +9,8 @@
 import Cocoa
 
 class ChartWithValue: Chart {
-    var valueLabel: NSTextField = NSTextField()
-    var color: Bool = false
+    private var valueLabel: NSTextField = NSTextField()
+    private var color: Bool = false
     
     override var intrinsicContentSize: CGSize {
         return CGSize(width: self.frame.size.width, height: self.frame.size.height)
@@ -25,7 +25,7 @@ class ChartWithValue: Chart {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func Init() {
+    override  func start() {
         self.label = defaults.object(forKey: "\(name)_label") != nil ? defaults.bool(forKey: "\(name)_label") : true
         self.color = defaults.object(forKey: "\(name)_color") != nil ? defaults.bool(forKey: "\(name)_color") : false
         self.initMenu()
@@ -67,6 +67,8 @@ class ChartWithValue: Chart {
                 self.points[i] = value
             }
         }
+        
+        self.redraw()
     }
     
     func drawValue () {

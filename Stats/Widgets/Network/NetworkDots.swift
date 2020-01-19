@@ -9,21 +9,12 @@
 import Cocoa
 
 class NetworkDotsView: NSView, Widget {
-    var size: CGFloat = 12
-    var name: String = ""
-    var shortName: String = ""
-    var menus: [NSMenuItem] = []
+    public var size: CGFloat = 12
+    public var name: String = ""
+    public var menus: [NSMenuItem] = []
     
-    var download: Int64 {
-        didSet {
-            self.redraw()
-        }
-    }
-    var upload: Int64 {
-        didSet {
-            self.redraw()
-        }
-    }
+    private var download: Int64 = 0
+    private var upload: Int64 = 0
     
     override var intrinsicContentSize: CGSize {
         return CGSize(width: self.frame.size.width, height: self.frame.size.height)
@@ -41,7 +32,7 @@ class NetworkDotsView: NSView, Widget {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func Init() {}
+    func start() {}
     
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
@@ -83,5 +74,7 @@ class NetworkDotsView: NSView, Widget {
         if self.upload != upload {
             self.upload = upload
         }
+        
+        self.redraw()
     }
 }

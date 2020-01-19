@@ -9,21 +9,15 @@
 import Cocoa
 
 class BarChart: NSView, Widget {
-    var size: CGFloat = widgetSize.width + 10
-    let defaults = UserDefaults.standard
+    public var name: String = ""
+    public var menus: [NSMenuItem] = []
     
-    var labelPadding: CGFloat = 12.0
-    var label: Bool = false
-    var name: String = ""
-    var shortName: String = ""
+    private var size: CGFloat = widgetSize.width + 10
+    private var labelPadding: CGFloat = 12.0
+    private var label: Bool = false
+    private let defaults = UserDefaults.standard
     
-    var menus: [NSMenuItem] = []
-    
-    var partitions: [Double] {
-        didSet {
-            self.redraw()
-        }
-    }
+    private var partitions: [Double] = []
     
     override var intrinsicContentSize: CGSize {
         return CGSize(width: self.frame.size.width, height: self.frame.size.height)
@@ -41,7 +35,7 @@ class BarChart: NSView, Widget {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func Init() {
+    func start() {
         self.label = defaults.object(forKey: "\(name)_label") != nil ? defaults.bool(forKey: "\(name)_label") : true
         self.initPreferences()
     }
@@ -109,7 +103,7 @@ class BarChart: NSView, Widget {
         let letterWidth: CGFloat = 10.0
         
         var yMargin = widgetSize.margin
-        for char in self.shortName.reversed() {
+        for char in String(self.name.prefix(3)).uppercased().reversed() {
             let rect = CGRect(x: widgetSize.margin, y: yMargin, width: letterWidth, height: letterHeight)
             let str = NSAttributedString.init(string: "\(char)", attributes: stringAttributes)
             str.draw(with: rect)
@@ -119,7 +113,13 @@ class BarChart: NSView, Widget {
     }
     
     func setValue(data: [Double]) {
-        self.partitions = data
+        let values = data.map { v -> Double in
+            return v.rounded(toPlaces: 2)
+        }
+        if self.partitions != values {
+            self.partitions = values
+            self.redraw()
+        }
     }
     
     func redraw() {
@@ -133,13 +133,12 @@ class BarChart: NSView, Widget {
         if self.label {
             width += labelPadding
         }
-        
+
         if self.frame.size.width != width {
             self.setFrameSize(NSSize(width: width, height: self.frame.size.height))
             menuBar!.refresh()
         }
         
-        self.needsDisplay = true
-        setNeedsDisplay(self.frame)
+        self.display()
     }
 }

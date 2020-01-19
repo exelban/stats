@@ -9,21 +9,16 @@
 import Cocoa
 
 class Mini: NSView, Widget {
-    var menus: [NSMenuItem] = []
-    let defaults = UserDefaults.standard
+    public var name: String = ""
+    public var menus: [NSMenuItem] = []
     
-    var size: CGFloat = widgetSize.width
-    var valueView: NSTextField = NSTextField()
-    var labelView: NSTextField = NSTextField()
+    private var value: Double = 0
+    private var size: CGFloat = widgetSize.width
+    private var valueView: NSTextField = NSTextField()
+    private var labelView: NSTextField = NSTextField()
+    private let defaults = UserDefaults.standard
     
-    var color: Bool = false
-    var value: Double = 0
-    var name: String = ""
-    var shortName: String = "" {
-        didSet {
-            self.labelView.stringValue = shortName
-        }
-    }
+    private var color: Bool = false
     
     override var intrinsicContentSize: CGSize {
         return CGSize(width: self.frame.size.width, height: self.frame.size.height)
@@ -46,7 +41,7 @@ class Mini: NSView, Widget {
         labelView.canDrawSubviewsIntoLayer = true
         labelView.alignment = .natural
         labelView.font = NSFont.systemFont(ofSize: 7, weight: .light)
-        labelView.stringValue = self.shortName
+        labelView.stringValue = String(self.name.prefix(3)).uppercased()
         labelView.addSubview(NSView())
         
         let valueView = NSTextField(frame: NSMakeRect(xOffset, 3, self.frame.size.width, 10))
@@ -73,8 +68,9 @@ class Mini: NSView, Widget {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func Init() {
+    func start() {
         self.color = defaults.object(forKey: "\(name)_color") != nil ? defaults.bool(forKey: "\(name)_color") : false
+        self.labelView.stringValue = String(self.name.prefix(3)).uppercased()
         self.initMenu()
         self.redraw()
     }
