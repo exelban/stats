@@ -1,6 +1,16 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+### [v1.5.0]
+    - change modules
+    - a lot of improvements related to widget updates
+    - remove observability from application
+    - improve CPU and battery consumption
+    - improve widgets
+    - now charts updates only if a popup is opened
+    - widgets refactored
+    - a lot of small fixes
+
 ### [v1.4.0]
     - fix bug when readers work in disabled modules
     - replace NSTimer with GCD
@@ -132,6 +142,7 @@ All notable changes to this project will be documented in this file.
 ### [v1.0.0]
     - first release
 
+[v1.5.0]: https://github.com/exelban/stats/releases/tag/v1.5.0
 [v1.4.0]: https://github.com/exelban/stats/releases/tag/v1.4.0
 [v1.3.5]: https://github.com/exelban/stats/releases/tag/v1.3.5
 [v1.3.4]: https://github.com/exelban/stats/releases/tag/v1.3.4
