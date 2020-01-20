@@ -11,7 +11,7 @@ import IOKit.ps
 
 class Battery: Module {
     public var name: String = "Battery"
-    public var updateInterval: Double = 1
+    public var updateInterval: Double = 15
     
     public var enabled: Bool = true
     public var available: Bool {

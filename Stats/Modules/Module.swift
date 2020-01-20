@@ -103,9 +103,9 @@ extension Module {
         widget.name = self.name
         widget.start()
 
-//        self.readers.forEach { reader in
-//            reader.read()
-//        }
+        self.readers.forEach { reader in
+            reader.read()
+        }
 
         self.widget.view = widget as! NSView
     }

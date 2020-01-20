@@ -53,7 +53,7 @@ class MenuBar {
         
         self.menuBarButton.addSubview(stackView)
         
-        if self.stackView.subviews.count == 0 {
+        if self.stackView.subviews.count == 0 || WIDTH == 0 {
             self.menuBarButton.image = NSImage(named:NSImage.Name("tray_icon"))
             self.stackView.frame.size.width = widgetSize.width
             self.menuBarItem.length = widgetSize.width

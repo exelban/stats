@@ -92,8 +92,7 @@ class BatteryWidget: NSView, Widget {
     }
     
     func redraw() {
-        self.needsDisplay = true
-        setNeedsDisplay(self.frame)
+        self.display()
     }
     
     func setValue(data: [Double]) {
@@ -112,6 +111,7 @@ class BatteryWidget: NSView, Widget {
         
         if changed {
             self.redraw()
+            self.update()
         }
     }
     

@@ -40,7 +40,7 @@ class MainViewController: NSViewController {
     }
     
     override func viewWillAppear() {
-        if self.segmentsControl == nil { return }
+        if self.segmentsControl == nil || self.segmentsControl.selectedSegment == -1 { return }
         menuBar?.modules[self.segmentsControl.selectedSegment].popup.setActive(true)
         
         DispatchQueue.global(qos: .background).async {
@@ -55,7 +55,7 @@ class MainViewController: NSViewController {
     }
     
     override func viewWillDisappear() {
-        if self.segmentsControl == nil { return }
+        if self.segmentsControl == nil || self.segmentsControl.selectedSegment == -1 { return }
         menuBar?.modules[self.segmentsControl.selectedSegment].popup.setActive(false)
         
         DispatchQueue.global(qos: .background).async {

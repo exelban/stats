@@ -11,11 +11,13 @@ import Cocoa
 class BatteryTimeWidget: BatteryWidget {
     private var timeValue: NSTextField = NSTextField()
     private let timeWidth: CGFloat = 62
+    private let timeHourWidth: CGFloat = 42
     
     override init(frame: NSRect) {
         super.init(frame: CGRect(x: 0, y: 0, width: widgetSize.width, height: widgetSize.height))
         self.drawTime()
         self.changeWidth(width: self.timeWidth)
+        self.update()
     }
     
     required init?(coder decoder: NSCoder) {
@@ -23,7 +25,7 @@ class BatteryTimeWidget: BatteryWidget {
     }
     
     private func drawTime() {
-        self.timeValue = NSTextField(frame: NSMakeRect(0, 0, timeWidth, self.frame.size.height - 4))
+        self.timeValue = NSTextField(frame: NSMakeRect(0, 0, timeHourWidth, self.frame.size.height - 4))
         timeValue.isEditable = false
         timeValue.isSelectable = false
         timeValue.isBezeled = false
@@ -34,7 +36,7 @@ class BatteryTimeWidget: BatteryWidget {
         timeValue.alignment = .right
         timeValue.font = NSFont.systemFont(ofSize: 11, weight: .regular)
         timeValue.stringValue = (self.time*60).printSecondsToHoursMinutesSeconds()
-        if self.time == 0 {
+        if self.time <= 0 {
             timeValue.isHidden = true
         }
         
@@ -49,10 +51,15 @@ class BatteryTimeWidget: BatteryWidget {
         }
         self.timeValue.stringValue = (self.time*60).printSecondsToHoursMinutesSeconds()
         
-        if self.time == 0 && self.size == self.batterySize + timeWidth {
+        if self.time <= 0 && self.size == self.batterySize + timeWidth {
             self.changeWidth(width: 0)
-        } else if self.time > 0 && self.size != self.batterySize + timeWidth {
+            self.timeValue.frame.size.width = 0
+        } else if self.time <= 59 && self.size != self.batterySize + timeHourWidth {
+            self.changeWidth(width: timeHourWidth)
+            self.timeValue.frame.size.width = timeHourWidth
+        } else if self.time > 59 && self.size != self.batterySize + timeWidth {
             self.changeWidth(width: timeWidth)
+            self.timeValue.frame.size.width = timeWidth
         }
     }
 }

@@ -85,8 +85,7 @@ class Mini: NSView, Widget {
     
     func redraw() {
         self.valueView.textColor = self.value.usageColor(color: self.color)
-        self.needsDisplay = true
-        setNeedsDisplay(self.frame)
+        self.display()
     }
     
     func setValue(data: [Double]) {

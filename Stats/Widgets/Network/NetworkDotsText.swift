@@ -16,10 +16,6 @@ class NetworkDotsTextView: NSView, Widget {
     private var download: Int64 = 0
     private var upload: Int64 = 0
     
-    override var intrinsicContentSize: CGSize {
-        return CGSize(width: self.frame.size.width, height: self.frame.size.height)
-    }
-    
     var downloadValue: NSTextField = NSTextField()
     var uploadValue: NSTextField = NSTextField()
     
@@ -39,10 +35,10 @@ class NetworkDotsTextView: NSView, Widget {
     
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
-        
+
         let workingHeight: CGFloat = (self.frame.size.height - (widgetSize.margin * 2))
         let height: CGFloat = ((workingHeight - widgetSize.margin) / 2) - 1
-        
+
         var uploadCircle = NSBezierPath()
         uploadCircle = NSBezierPath(ovalIn: CGRect(x: widgetSize.margin, y: height + (widgetSize.margin * 2) + 1, width: height, height: height))
         if self.upload >= 1_024 {
@@ -51,7 +47,7 @@ class NetworkDotsTextView: NSView, Widget {
             NSColor.labelColor.setFill()
         }
         uploadCircle.fill()
-        
+
         var downloadCircle = NSBezierPath()
         downloadCircle = NSBezierPath(ovalIn: CGRect(x: widgetSize.margin, y: widgetSize.margin, width: height, height: height))
         if self.download >= 1_024 {
@@ -62,10 +58,7 @@ class NetworkDotsTextView: NSView, Widget {
         downloadCircle.fill()
     }
     
-    func redraw() {
-        self.needsDisplay = true
-        setNeedsDisplay(self.frame)
-    }
+    func redraw() {}
     
     func setValue(data: [Double]) {
         let download: Int64 = Int64(data[0])
@@ -79,8 +72,6 @@ class NetworkDotsTextView: NSView, Widget {
             self.upload = upload
             uploadValue.stringValue = Units(bytes: self.upload).getReadableSpeed()
         }
-        
-        self.redraw()
     }
     
     func valueView() {
@@ -94,7 +85,7 @@ class NetworkDotsTextView: NSView, Widget {
         downloadValue.canDrawSubviewsIntoLayer = true
         downloadValue.alignment = .right
         downloadValue.font = NSFont.systemFont(ofSize: 9, weight: .light)
-        downloadValue.stringValue = "0 KB/s"
+        downloadValue.stringValue = Units(bytes: self.download).getReadableSpeed()
         
         uploadValue = NSTextField(frame: NSMakeRect(widgetSize.margin, self.frame.size.height - 10, self.frame.size.width - widgetSize.margin, 9))
         uploadValue.isEditable = false
@@ -106,7 +97,7 @@ class NetworkDotsTextView: NSView, Widget {
         uploadValue.canDrawSubviewsIntoLayer = true
         uploadValue.alignment = .right
         uploadValue.font = NSFont.systemFont(ofSize: 9, weight: .light)
-        uploadValue.stringValue = "0 KB/s"
+        uploadValue.stringValue = Units(bytes: self.upload).getReadableSpeed()
         
         self.addSubview(downloadValue)
         self.addSubview(uploadValue)
