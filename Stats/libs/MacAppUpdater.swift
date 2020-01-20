@@ -129,13 +129,13 @@ public class macAppUpdater {
                 let downloadsURL = try FileManager.default.url(for: .downloadsDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
                 let destinationURL = downloadsURL.appendingPathComponent(url.lastPathComponent)
                 
-                self.copyFile(from: fileURL, to: destinationURL) { error in
+                self.copyFile(from: fileURL, to: destinationURL) { (path, error) in
                     if error != nil {
                         print ("copy file error: \(error ?? "copy error")")
                         return
                     }
                     
-                    self.openDMG(url: destinationURL.absoluteString)
+                    self.openDMG(url: path)
                 }
             } catch {
                 print ("file error: \(error)")
@@ -144,7 +144,7 @@ public class macAppUpdater {
         downloadTask.resume()
     }
     
-    private func copyFile(from: URL, to: URL, completionHandler: @escaping (_ error: Error?) -> Void) {
+    private func copyFile(from: URL, to: URL, completionHandler: @escaping (_ path: String, _ error: Error?) -> Void) {
         var toPath = to
         let fileName = (URL(fileURLWithPath: to.absoluteString)).lastPathComponent
         let fileExt  = (URL(fileURLWithPath: to.absoluteString)).pathExtension
@@ -164,9 +164,9 @@ public class macAppUpdater {
         
         do {
             try FileManager.default.moveItem(at: from, to: toPath)
-            completionHandler(nil)
+            completionHandler(toPath.absoluteString, nil)
         } catch {
-            completionHandler(error)
+            completionHandler("", error)
         }
     }
     
