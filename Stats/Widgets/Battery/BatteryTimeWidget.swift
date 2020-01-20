@@ -25,7 +25,7 @@ class BatteryTimeWidget: BatteryWidget {
     }
     
     private func drawTime() {
-        self.timeValue = NSTextField(frame: NSMakeRect(0, 0, timeHourWidth, self.frame.size.height - 4))
+        self.timeValue = NSTextField(frame: NSMakeRect(0, 0, timeWidth, self.frame.size.height - 4))
         timeValue.isEditable = false
         timeValue.isSelectable = false
         timeValue.isBezeled = false
@@ -46,18 +46,21 @@ class BatteryTimeWidget: BatteryWidget {
     override func update() {
         if self.value == 0 { return }
         
-        if self.timeValue.isHidden {
-            self.timeValue.isHidden = false
+        if self.time > 0 {
+            if self.timeValue.isHidden {
+                self.timeValue.isHidden = false
+            }
+            self.timeValue.stringValue = (self.time*60).printSecondsToHoursMinutesSeconds()
         }
-        self.timeValue.stringValue = (self.time*60).printSecondsToHoursMinutesSeconds()
-        
-        if self.time <= 0 && self.size == self.batterySize + timeWidth {
+
+        if self.time <= 0 {
             self.changeWidth(width: 0)
             self.timeValue.frame.size.width = 0
-        } else if self.time <= 59 && self.size != self.batterySize + timeHourWidth {
+            self.timeValue.isHidden = true
+        } else if self.time <= 59 {
             self.changeWidth(width: timeHourWidth)
             self.timeValue.frame.size.width = timeHourWidth
-        } else if self.time > 59 && self.size != self.batterySize + timeWidth {
+        } else if self.time > 59 {
             self.changeWidth(width: timeWidth)
             self.timeValue.frame.size.width = timeWidth
         }

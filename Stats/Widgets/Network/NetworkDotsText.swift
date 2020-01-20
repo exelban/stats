@@ -62,19 +62,28 @@ class NetworkDotsTextView: NSView, Widget {
         downloadCircle.fill()
     }
     
-    func redraw() {}
+    func redraw() {
+        self.display()
+    }
     
     func setValue(data: [Double]) {
         let download: Int64 = Int64(data[0])
         let upload: Int64 = Int64(data[1])
+        var changed: Bool = false
         
         if self.download != download {
             self.download = download
             downloadValue.stringValue = Units(bytes: self.download).getReadableSpeed()
+            changed = true
         }
         if self.upload != upload {
             self.upload = upload
             uploadValue.stringValue = Units(bytes: self.upload).getReadableSpeed()
+            changed = true
+        }
+        
+        if changed {
+            self.redraw()
         }
     }
     

@@ -77,8 +77,7 @@ class NetworkArrowsTextView: NSView, Widget {
     }
     
     func redraw() {
-        self.needsDisplay = true
-        setNeedsDisplay(self.frame)
+        self.display()
     }
     
     func setValue(data: [Double]) {

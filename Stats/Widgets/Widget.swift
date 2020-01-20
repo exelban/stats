@@ -11,6 +11,7 @@ import Cocoa
 protocol Widget {
     var name: String { get set } // module name
     var menus: [NSMenuItem] { get } // module settings
+    
     var intrinsicContentSize: CGSize { get }
     
     func start()
