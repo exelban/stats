@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder.AppleTV.Storyboard" version="3.0" toolsVersion="13771" targetRuntime="AppleTV" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="appleTV" orientation="landscape">
+        <adaptation id="light"/>
+    </device>
+    <dependencies>
+        <deployment identifier="tvOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="ReachabilityAppleTVSample" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jew-4p-o9x">
+                                <rect key="frame" x="924" y="468" width="72" height="91"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="91" id="dMv-aK-0ih"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wE4-fM-BF3">
+                                <rect key="frame" x="906" y="567" width="108" height="55"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="46"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="Jew-4p-o9x" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="McL-OC-xmz"/>
+                            <constraint firstItem="wE4-fM-BF3" firstAttribute="top" secondItem="Jew-4p-o9x" secondAttribute="bottom" constant="8" id="TRM-vy-Pvk"/>
+                            <constraint firstItem="Jew-4p-o9x" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="408" id="j6d-xn-evu"/>
+                            <constraint firstItem="wE4-fM-BF3" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="ne8-Vk-QZp"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="hostNameLabel" destination="Jew-4p-o9x" id="UxK-9M-yNN"/>
+                        <outlet property="networkStatus" destination="wE4-fM-BF3" id="0lK-Zo-X5G"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="302" y="343"/>
+        </scene>
+    </scenes>
+</document>

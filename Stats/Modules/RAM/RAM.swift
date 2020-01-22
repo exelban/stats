@@ -23,14 +23,14 @@ class RAM: Module {
     public var popup: ModulePopup = ModulePopup(true)
     public var menu: NSMenuItem = NSMenuItem()
     
-    public let defaults = UserDefaults.standard
-    public var submenu: NSMenu = NSMenu()
+    internal let defaults = UserDefaults.standard
+    internal var submenu: NSMenu = NSMenu()
     
-    public var totalValue: NSTextField = NSTextField()
-    public var usedValue: NSTextField = NSTextField()
-    public var freeValue: NSTextField = NSTextField()
-    public var processViewList: [NSStackView] = []
-    public var chart: LineChartView = LineChartView()
+    internal var totalValue: NSTextField = NSTextField()
+    internal var usedValue: NSTextField = NSTextField()
+    internal var freeValue: NSTextField = NSTextField()
+    internal var processViewList: [NSStackView] = []
+    internal var chart: LineChartView = LineChartView()
     
     init() {
         if !self.available { return }

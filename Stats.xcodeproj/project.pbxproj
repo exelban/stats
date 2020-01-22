@@ -35,6 +35,10 @@
 		9A2D160723CE462400C4C417 /* NetworkReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2D160623CE462400C4C417 /* NetworkReader.swift */; };
 		9A426DB822C2B5EE00C064C4 /* MacAppUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A426DB722C2B5EE00C064C4 /* MacAppUpdater.swift */; };
 		9A426DBE22C2BE0000C064C4 /* Updates.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A426DBD22C2BE0000C064C4 /* Updates.storyboard */; };
+		9A5349C723D8535900C23824 /* NetworkPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5349C623D8535900C23824 /* NetworkPopup.swift */; };
+		9A5349C923D8642A00C23824 /* NetworkInterfaceReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5349C823D8642A00C23824 /* NetworkInterfaceReader.swift */; };
+		9A5349CE23D8832E00C23824 /* Reachability.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A5349CD23D8832E00C23824 /* Reachability.framework */; };
+		9A5349CF23D8832E00C23824 /* Reachability.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A5349CD23D8832E00C23824 /* Reachability.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9A54EF67232AB81800F7DC20 /* BatteryPercentageWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A54EF66232AB81800F7DC20 /* BatteryPercentageWidget.swift */; };
 		9A54EF69232AB82700F7DC20 /* BatteryTimeWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A54EF68232AB82700F7DC20 /* BatteryTimeWidget.swift */; };
 		9A57A18522A1D26D0033E318 /* MenuBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A57A18422A1D26D0033E318 /* MenuBar.swift */; };
@@ -67,6 +71,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				9A6698E92326AB19001D00E1 /* LaunchAtLogin.framework in Embed Frameworks */,
+				9A5349CF23D8832E00C23824 /* Reachability.framework in Embed Frameworks */,
 				9A6698E62326AB16001D00E1 /* Charts.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -117,6 +122,9 @@
 		9A2D160623CE462400C4C417 /* NetworkReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkReader.swift; sourceTree = "<group>"; };
 		9A426DB722C2B5EE00C064C4 /* MacAppUpdater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MacAppUpdater.swift; sourceTree = "<group>"; };
 		9A426DBD22C2BE0000C064C4 /* Updates.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Updates.storyboard; sourceTree = "<group>"; };
+		9A5349C623D8535900C23824 /* NetworkPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkPopup.swift; sourceTree = "<group>"; };
+		9A5349C823D8642A00C23824 /* NetworkInterfaceReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkInterfaceReader.swift; sourceTree = "<group>"; };
+		9A5349CD23D8832E00C23824 /* Reachability.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Reachability.framework; path = Carthage/Build/Mac/Reachability.framework; sourceTree = "<group>"; };
 		9A54EF66232AB81800F7DC20 /* BatteryPercentageWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryPercentageWidget.swift; sourceTree = "<group>"; };
 		9A54EF68232AB82700F7DC20 /* BatteryTimeWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryTimeWidget.swift; sourceTree = "<group>"; };
 		9A57A18422A1D26D0033E318 /* MenuBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBar.swift; sourceTree = "<group>"; };
@@ -148,6 +156,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A5349CE23D8832E00C23824 /* Reachability.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -236,7 +245,9 @@
 			children = (
 				9A2D160223CE445900C4C417 /* Network.swift */,
 				9A2D160423CE451B00C4C417 /* NetworkMenu.swift */,
+				9A5349C623D8535900C23824 /* NetworkPopup.swift */,
 				9A2D160623CE462400C4C417 /* NetworkReader.swift */,
+				9A5349C823D8642A00C23824 /* NetworkInterfaceReader.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -303,6 +314,7 @@
 		9A998CD622A199920087ADE7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9A5349CD23D8832E00C23824 /* Reachability.framework */,
 				9A2D15CC23C77A7700C4C417 /* Repeat.framework */,
 				9A6698E32326AAE5001D00E1 /* Charts.framework */,
 				9A6698DF2326AAD6001D00E1 /* LaunchAtLogin.framework */,
@@ -470,6 +482,7 @@
 			files = (
 				9A2D15E623CE291600C4C417 /* RAM.swift in Sources */,
 				9A09C8A222B3D94D0018426F /* BatteryWidget.swift in Sources */,
+				9A5349C723D8535900C23824 /* NetworkPopup.swift in Sources */,
 				9A426DB822C2B5EE00C064C4 /* MacAppUpdater.swift in Sources */,
 				9A606B4C232157BA00642F51 /* AboutViewController.swift in Sources */,
 				9AF0F32522DA92C400026AE6 /* NetworkText.swift in Sources */,
@@ -512,6 +525,7 @@
 				9A2D15F523CE393A00C4C417 /* DiskMenu.swift in Sources */,
 				9A79B36A22D3BEE600BF1C3A /* Widget.swift in Sources */,
 				9AF0F32122DA92AD00026AE6 /* NetworkDots.swift in Sources */,
+				9A5349C923D8642A00C23824 /* NetworkInterfaceReader.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

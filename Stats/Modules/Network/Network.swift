@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import Charts
 
 class Network: Module {
     public var name: String = "Network"
@@ -19,11 +20,21 @@ class Network: Module {
     public var task: Repeater?
     
     public var widget: ModuleWidget = ModuleWidget()
-    public var popup: ModulePopup = ModulePopup(false)
+    public var popup: ModulePopup = ModulePopup(true)
     public var menu: NSMenuItem = NSMenuItem()
     
-    public let defaults = UserDefaults.standard
-    public var submenu: NSMenu = NSMenu()
+    internal let defaults = UserDefaults.standard
+    internal var submenu: NSMenu = NSMenu()
+    internal var chart: LineChartView = LineChartView()
+    
+    internal var publicIPValue: NSTextField = NSTextField()
+    internal var localIPValue: NSTextField = NSTextField()
+    internal var networkValue: NSTextField = NSTextField()
+    internal var physicalValue: NSTextField = NSTextField()
+    internal var downloadValue: NSTextField = NSTextField()
+    internal var uploadValue: NSTextField = NSTextField()
+    internal var totalDownloadValue: NSTextField = NSTextField()
+    internal var totalUploadValue: NSTextField = NSTextField()
     
     init() {
         if !self.available { return }
@@ -33,8 +44,10 @@ class Network: Module {
         
         self.initWidget()
         self.initMenu()
+        self.initPopup()
         
         readers.append(NetworkReader(self.usageUpdater))
+        readers.append(NetworkInterfaceReader(self.overviewUpdater))
         
         self.task = Repeater.init(interval: .seconds(self.updateInterval), observer: { _ in
             self.readers.forEach { reader in
@@ -60,9 +73,12 @@ class Network: Module {
         self.start()
     }
     
-    private func usageUpdater(value: [Double]) {
+    private func usageUpdater(value: NetworkUsage) {
+        self.dataUpdater(value: value)
+        self.chartUpdater(value: value)
+        
         if self.widget.view is Widget {
-            (self.widget.view as! Widget).setValue(data: value)
+            (self.widget.view as! Widget).setValue(data: [Double(value.download), Double(value.upload)])
         }
     }
 }

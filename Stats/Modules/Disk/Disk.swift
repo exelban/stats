@@ -22,8 +22,8 @@ class Disk: Module {
     public var popup: ModulePopup = ModulePopup(false)
     public var menu: NSMenuItem = NSMenuItem()
     
-    public let defaults = UserDefaults.standard
-    public var submenu: NSMenu = NSMenu()
+    internal let defaults = UserDefaults.standard
+    internal var submenu: NSMenu = NSMenu()
     
     init() {
         if !self.available { return }

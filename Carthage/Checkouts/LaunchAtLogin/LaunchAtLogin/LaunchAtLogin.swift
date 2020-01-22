@@ -9,7 +9,9 @@ public struct LaunchAtLogin {
 			guard let jobs = (SMCopyAllJobDictionaries(kSMDomainUserLaunchd).takeRetainedValue() as? [[String: AnyObject]]) else {
 				return false
 			}
+
 			let job = jobs.first { $0["Label"] as! String == id }
+
 			return job?["OnDemand"] as? Bool ?? false
 		}
 		set {

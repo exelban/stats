@@ -1,2 +1,3 @@
 github "sindresorhus/LaunchAtLogin"
 github "danielgindi/Charts" ~> 3.4.0
+github "ashleymills/Reachability.swift"

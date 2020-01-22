@@ -23,7 +23,7 @@ extension Battery {
         let vertical: NSStackView = NSStackView(frame: NSRect(x: 0, y: TabHeight - stackHeight*3 - 4, width: TabWidth, height: stackHeight*3))
         vertical.orientation = .vertical
         
-        let level: NSStackView = NSStackView(frame: NSRect(x: 10, y: stackHeight*2, width: TabWidth - 20, height: stackHeight))
+        let level: NSStackView = NSStackView(frame: NSRect(x: 11, y: stackHeight*2, width: TabWidth - 19, height: stackHeight))
         level.orientation = .horizontal
         level.distribution = .equalCentering
         let levelLabel = LabelField(string: "Level")
@@ -214,6 +214,9 @@ extension Battery {
     }
     
     public func popupUpdater(value: BatteryUsage) {
+        if !self.popup.active && self.popup.initialized { return }
+        self.popup.initialized = true
+        
         // makeMain
         self.levelValue.stringValue = "\(Int(abs(value.capacity) * 100)) %"
         self.sourceValue.stringValue = value.powerSource

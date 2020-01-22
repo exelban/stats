@@ -6,8 +6,8 @@
 //  Copyright © 2019 Serhiy Mytrovtsiy. All rights reserved.
 //
 
-import Foundation
 import Cocoa
+import Charts
 
 extension Double {
     func roundTo(decimalPlaces: Int) -> String {
@@ -258,5 +258,11 @@ extension String {
 extension URL {
     func checkFileExist() -> Bool {
         return FileManager.default.fileExists(atPath: self.path)
+    }
+}
+
+class ChartsNetworkAxisFormatter: IAxisValueFormatter {
+    func stringForValue(_ value: Double, axis: AxisBase?) -> String {
+        return Units(bytes: Int64(value)).getReadableSpeed()
     }
 }

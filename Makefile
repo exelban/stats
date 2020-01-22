@@ -86,3 +86,7 @@ history:
 	  -itc_provider $(ITC_PROVIDER) \
 	  -u $(ITC_USERNAME) \
 	  -p $(ITC_PASSWORD)
+
+.PHONY: dep
+dep:
+	carthage update --platform macOS

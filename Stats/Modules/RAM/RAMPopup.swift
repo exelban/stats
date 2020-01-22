@@ -151,6 +151,8 @@ extension RAM {
     }
     
     public func overviewUpdater(value: RAMUsage) {
+        if !self.popup.active && self.popup.initialized { return }
+        
         self.totalValue.stringValue = Units(bytes: Int64(value.total)).getReadableMemory()
         self.usedValue.stringValue = Units(bytes: Int64(value.used)).getReadableMemory()
         self.freeValue.stringValue = Units(bytes: Int64(value.free)).getReadableMemory()
@@ -207,7 +209,8 @@ extension RAM {
     }
     
     public func processesUpdater(value: [TopProcess]) {
-        if self.processViewList.isEmpty { return }
+        if self.processViewList.isEmpty || !self.popup.active && self.popup.initialized { return }
+        self.popup.initialized = true
         
         for (i, process) in value.enumerated() {
             if i < 5 {

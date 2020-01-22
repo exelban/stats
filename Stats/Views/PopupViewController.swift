@@ -125,9 +125,14 @@ class MainViewController: NSViewController {
     @objc func switchTabs(_ sender: NSSegmentedControl) {
         if let selectedLabel = self.segmentsControl.label(forSegment: sender.selectedSegment) {
             let tabNumber = self.tabView.indexOfTabViewItem(withIdentifier: selectedLabel)
-
-            menuBar?.modules[self.segmentsControl.selectedSegment].popup.setActive(false)
-            menuBar?.modules[sender.selectedSegment].popup.setActive(true)
+            
+            menuBar?.modules.forEach({ module in
+                if module.name == selectedLabel && !module.popup.active {
+                    module.popup.setActive(true)
+                } else if module.popup.active {
+                    module.popup.setActive(false)
+                }
+            })
             
             self.tabView.selectTabViewItem(at: tabNumber)
         }

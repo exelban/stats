@@ -1,0 +1,963 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		00C54B221C09CF68001C3F12 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C54B211C09CF68001C3F12 /* AppDelegate.swift */; };
+		00C54B241C09CF68001C3F12 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C54B231C09CF68001C3F12 /* ViewController.swift */; };
+		00C54B261C09CF68001C3F12 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 00C54B251C09CF68001C3F12 /* Assets.xcassets */; };
+		00C54B291C09CF68001C3F12 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00C54B271C09CF68001C3F12 /* Main.storyboard */; };
+		335AD58E2052EA92000D4D08 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335AD5882052EA92000D4D08 /* Reachability.swift */; };
+		335AD58F2052EA92000D4D08 /* Reachability.h in Headers */ = {isa = PBXBuildFile; fileRef = 335AD5892052EA92000D4D08 /* Reachability.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		335AD5A22052EB32000D4D08 /* ReachabilityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335AD58C2052EA92000D4D08 /* ReachabilityTests.swift */; };
+		335AD5A52052EE07000D4D08 /* Reachability.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA7344721BE7678B008AFE69 /* Reachability.framework */; };
+		57A45A041C197BE800384AE4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A45A031C197BE800384AE4 /* AppDelegate.swift */; };
+		57A45A061C197BE800384AE4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A45A051C197BE800384AE4 /* ViewController.swift */; };
+		57A45A091C197BE800384AE4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 57A45A071C197BE800384AE4 /* Main.storyboard */; };
+		57A45A0B1C197BE800384AE4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 57A45A0A1C197BE800384AE4 /* Assets.xcassets */; };
+		AA7344931BE76820008AFE69 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7344921BE76820008AFE69 /* AppDelegate.swift */; };
+		AA7344951BE76820008AFE69 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7344941BE76820008AFE69 /* ViewController.swift */; };
+		AA7344981BE76820008AFE69 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA7344961BE76820008AFE69 /* Main.storyboard */; };
+		AA73449A1BE76820008AFE69 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA7344991BE76820008AFE69 /* Assets.xcassets */; };
+		AA7344B51BE769D6008AFE69 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA7344B31BE769D6008AFE69 /* LaunchScreen.xib */; };
+		CA0FDB6E22B6C7C1008CAD21 /* Reachability.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA7344721BE7678B008AFE69 /* Reachability.framework */; };
+		CA0FDB6F22B6C7C1008CAD21 /* Reachability.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AA7344721BE7678B008AFE69 /* Reachability.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		CAC230C51BF2180000F6464E /* Reachability.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA7344721BE7678B008AFE69 /* Reachability.framework */; };
+		CAC230C61BF2180000F6464E /* Reachability.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AA7344721BE7678B008AFE69 /* Reachability.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		CAE85CCD2136B21B00320E68 /* Reachability.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA7344721BE7678B008AFE69 /* Reachability.framework */; };
+		CAE85CCE2136B21B00320E68 /* Reachability.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AA7344721BE7678B008AFE69 /* Reachability.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		335AD59D2052EB22000D4D08 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AA7344691BE7678B008AFE69 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AA7344711BE7678B008AFE69;
+			remoteInfo = Reachability;
+		};
+		CA0FDB7022B6C7C2008CAD21 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AA7344691BE7678B008AFE69 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AA7344711BE7678B008AFE69;
+			remoteInfo = Reachability;
+		};
+		CAC230C71BF2180000F6464E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AA7344691BE7678B008AFE69 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AA7344711BE7678B008AFE69;
+			remoteInfo = Reachability;
+		};
+		CAE85CCF2136B21B00320E68 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AA7344691BE7678B008AFE69 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AA7344711BE7678B008AFE69;
+			remoteInfo = Reachability;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		57A45A361C197F4800384AE4 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				CAE85CCE2136B21B00320E68 /* Reachability.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CA0FDB7222B6C7C2008CAD21 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				CA0FDB6F22B6C7C1008CAD21 /* Reachability.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CAC230C91BF2180100F6464E /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				CAC230C61BF2180000F6464E /* Reachability.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		00C54B1F1C09CF67001C3F12 /* ReachabilityMacSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ReachabilityMacSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		00C54B211C09CF68001C3F12 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		00C54B231C09CF68001C3F12 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		00C54B251C09CF68001C3F12 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		00C54B281C09CF68001C3F12 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		00C54B2A1C09CF68001C3F12 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		335AD5882052EA92000D4D08 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
+		335AD5892052EA92000D4D08 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		335AD58A2052EA92000D4D08 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		335AD58C2052EA92000D4D08 /* ReachabilityTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReachabilityTests.swift; sourceTree = "<group>"; };
+		335AD58D2052EA92000D4D08 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		335AD5972052EB22000D4D08 /* ReachabilityTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ReachabilityTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		57A45A011C197BE800384AE4 /* ReachabilityAppleTVSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ReachabilityAppleTVSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		57A45A031C197BE800384AE4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		57A45A051C197BE800384AE4 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		57A45A081C197BE800384AE4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		57A45A0A1C197BE800384AE4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		57A45A0C1C197BE800384AE4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AA7344721BE7678B008AFE69 /* Reachability.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Reachability.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA7344901BE76820008AFE69 /* ReachabilitySample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ReachabilitySample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA7344921BE76820008AFE69 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		AA7344941BE76820008AFE69 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		AA7344971BE76820008AFE69 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		AA7344991BE76820008AFE69 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		AA73449E1BE76820008AFE69 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AA7344B41BE769D6008AFE69 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		CA1983301F6FD0CD007D2DD1 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		CA6187601F8D21D700FD5234 /* CONTRIBUTING.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CONTRIBUTING.md; sourceTree = "<group>"; };
+		CA6187611F8D21D700FD5234 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		CA6187621F8D21D700FD5234 /* ReachabilitySwift.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = ReachabilitySwift.podspec; sourceTree = "<group>"; };
+		CA6187651F8D220200FD5234 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
+		CA66930222BACD5E001BB352 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		00C54B321C09D1AA001C3F12 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CA0FDB6E22B6C7C1008CAD21 /* Reachability.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		335AD5942052EB22000D4D08 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				335AD5A52052EE07000D4D08 /* Reachability.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		57A459FE1C197BE800384AE4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CAE85CCD2136B21B00320E68 /* Reachability.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA73446E1BE7678B008AFE69 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA73448D1BE76820008AFE69 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CAC230C51BF2180000F6464E /* Reachability.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		00C54B201C09CF68001C3F12 /* ReachabilityMacSample */ = {
+			isa = PBXGroup;
+			children = (
+				00C54B211C09CF68001C3F12 /* AppDelegate.swift */,
+				00C54B231C09CF68001C3F12 /* ViewController.swift */,
+				00C54B251C09CF68001C3F12 /* Assets.xcassets */,
+				00C54B271C09CF68001C3F12 /* Main.storyboard */,
+				00C54B2A1C09CF68001C3F12 /* Info.plist */,
+			);
+			path = ReachabilityMacSample;
+			sourceTree = "<group>";
+		};
+		335AD5872052EA92000D4D08 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				335AD5882052EA92000D4D08 /* Reachability.swift */,
+				335AD5892052EA92000D4D08 /* Reachability.h */,
+				335AD58A2052EA92000D4D08 /* Info.plist */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		335AD58B2052EA92000D4D08 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				335AD58C2052EA92000D4D08 /* ReachabilityTests.swift */,
+				335AD58D2052EA92000D4D08 /* Info.plist */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		335AD5A42052EE07000D4D08 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		57A45A021C197BE800384AE4 /* ReachabilityAppleTVSample */ = {
+			isa = PBXGroup;
+			children = (
+				57A45A031C197BE800384AE4 /* AppDelegate.swift */,
+				57A45A051C197BE800384AE4 /* ViewController.swift */,
+				57A45A071C197BE800384AE4 /* Main.storyboard */,
+				57A45A0A1C197BE800384AE4 /* Assets.xcassets */,
+				57A45A0C1C197BE800384AE4 /* Info.plist */,
+			);
+			path = ReachabilityAppleTVSample;
+			sourceTree = "<group>";
+		};
+		AA7344681BE7678B008AFE69 = {
+			isa = PBXGroup;
+			children = (
+				CA66930222BACD5E001BB352 /* Package.swift */,
+				CA1983301F6FD0CD007D2DD1 /* README.md */,
+				CA6187651F8D220200FD5234 /* CHANGELOG.md */,
+				CA6187601F8D21D700FD5234 /* CONTRIBUTING.md */,
+				CA6187611F8D21D700FD5234 /* LICENSE */,
+				CA6187621F8D21D700FD5234 /* ReachabilitySwift.podspec */,
+				335AD5872052EA92000D4D08 /* Sources */,
+				335AD58B2052EA92000D4D08 /* Tests */,
+				AA7344911BE76820008AFE69 /* ReachabilitySample */,
+				00C54B201C09CF68001C3F12 /* ReachabilityMacSample */,
+				57A45A021C197BE800384AE4 /* ReachabilityAppleTVSample */,
+				AA7344731BE7678B008AFE69 /* Products */,
+				335AD5A42052EE07000D4D08 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		AA7344731BE7678B008AFE69 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AA7344721BE7678B008AFE69 /* Reachability.framework */,
+				AA7344901BE76820008AFE69 /* ReachabilitySample.app */,
+				00C54B1F1C09CF67001C3F12 /* ReachabilityMacSample.app */,
+				57A45A011C197BE800384AE4 /* ReachabilityAppleTVSample.app */,
+				335AD5972052EB22000D4D08 /* ReachabilityTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AA7344911BE76820008AFE69 /* ReachabilitySample */ = {
+			isa = PBXGroup;
+			children = (
+				AA7344921BE76820008AFE69 /* AppDelegate.swift */,
+				AA7344941BE76820008AFE69 /* ViewController.swift */,
+				AA7344961BE76820008AFE69 /* Main.storyboard */,
+				AA7344991BE76820008AFE69 /* Assets.xcassets */,
+				AA7344B31BE769D6008AFE69 /* LaunchScreen.xib */,
+				AA73449E1BE76820008AFE69 /* Info.plist */,
+			);
+			path = ReachabilitySample;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		AA73446F1BE7678B008AFE69 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				335AD58F2052EA92000D4D08 /* Reachability.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		00C54B1E1C09CF67001C3F12 /* ReachabilityMacSample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 00C54B2B1C09CF68001C3F12 /* Build configuration list for PBXNativeTarget "ReachabilityMacSample" */;
+			buildPhases = (
+				00C54B1B1C09CF67001C3F12 /* Sources */,
+				00C54B1D1C09CF67001C3F12 /* Resources */,
+				00C54B321C09D1AA001C3F12 /* Frameworks */,
+				CA0FDB7222B6C7C2008CAD21 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CA0FDB7122B6C7C2008CAD21 /* PBXTargetDependency */,
+			);
+			name = ReachabilityMacSample;
+			productName = ReachabilityMacSample;
+			productReference = 00C54B1F1C09CF67001C3F12 /* ReachabilityMacSample.app */;
+			productType = "com.apple.product-type.application";
+		};
+		335AD5962052EB22000D4D08 /* ReachabilityTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 335AD59F2052EB22000D4D08 /* Build configuration list for PBXNativeTarget "ReachabilityTests" */;
+			buildPhases = (
+				335AD5932052EB22000D4D08 /* Sources */,
+				335AD5942052EB22000D4D08 /* Frameworks */,
+				335AD5952052EB22000D4D08 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				335AD59E2052EB22000D4D08 /* PBXTargetDependency */,
+			);
+			name = ReachabilityTests;
+			productName = ReachabilityTests;
+			productReference = 335AD5972052EB22000D4D08 /* ReachabilityTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		57A45A001C197BE800384AE4 /* ReachabilityAppleTVSample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 57A45A0F1C197BE800384AE4 /* Build configuration list for PBXNativeTarget "ReachabilityAppleTVSample" */;
+			buildPhases = (
+				57A459FD1C197BE800384AE4 /* Sources */,
+				57A459FE1C197BE800384AE4 /* Frameworks */,
+				57A459FF1C197BE800384AE4 /* Resources */,
+				57A45A361C197F4800384AE4 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CAE85CD02136B21B00320E68 /* PBXTargetDependency */,
+			);
+			name = ReachabilityAppleTVSample;
+			productName = ReachabilityAppleTVSample;
+			productReference = 57A45A011C197BE800384AE4 /* ReachabilityAppleTVSample.app */;
+			productType = "com.apple.product-type.application";
+		};
+		AA7344711BE7678B008AFE69 /* Reachability */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AA7344861BE7678B008AFE69 /* Build configuration list for PBXNativeTarget "Reachability" */;
+			buildPhases = (
+				AA73446D1BE7678B008AFE69 /* Sources */,
+				AA73446E1BE7678B008AFE69 /* Frameworks */,
+				AA73446F1BE7678B008AFE69 /* Headers */,
+				AA7344701BE7678B008AFE69 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Reachability;
+			productName = Reachability;
+			productReference = AA7344721BE7678B008AFE69 /* Reachability.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		AA73448F1BE76820008AFE69 /* ReachabilitySample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AA7344AA1BE76820008AFE69 /* Build configuration list for PBXNativeTarget "ReachabilitySample" */;
+			buildPhases = (
+				AA73448C1BE76820008AFE69 /* Sources */,
+				AA73448D1BE76820008AFE69 /* Frameworks */,
+				AA73448E1BE76820008AFE69 /* Resources */,
+				CAC230C91BF2180100F6464E /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CAC230C81BF2180000F6464E /* PBXTargetDependency */,
+			);
+			name = ReachabilitySample;
+			productName = ReachabilitySample;
+			productReference = AA7344901BE76820008AFE69 /* ReachabilitySample.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		AA7344691BE7678B008AFE69 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0920;
+				LastUpgradeCheck = 1110;
+				ORGANIZATIONNAME = "Ashley Mills";
+				TargetAttributes = {
+					00C54B1E1C09CF67001C3F12 = {
+						CreatedOnToolsVersion = 7.1.1;
+						LastSwiftMigration = 0900;
+						ProvisioningStyle = Manual;
+					};
+					335AD5962052EB22000D4D08 = {
+						CreatedOnToolsVersion = 9.2;
+						LastSwiftMigration = 1000;
+						ProvisioningStyle = Automatic;
+					};
+					57A45A001C197BE800384AE4 = {
+						CreatedOnToolsVersion = 7.1.1;
+						LastSwiftMigration = 0900;
+						ProvisioningStyle = Manual;
+					};
+					AA7344711BE7678B008AFE69 = {
+						CreatedOnToolsVersion = 7.1;
+						DevelopmentTeamName = "Joylord Systems Ltd";
+						LastSwiftMigration = 1000;
+						ProvisioningStyle = Manual;
+					};
+					AA73448F1BE76820008AFE69 = {
+						CreatedOnToolsVersion = 7.1;
+						LastSwiftMigration = 0900;
+						ProvisioningStyle = Manual;
+					};
+				};
+			};
+			buildConfigurationList = AA73446C1BE7678B008AFE69 /* Build configuration list for PBXProject "Reachability" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = AA7344681BE7678B008AFE69;
+			productRefGroup = AA7344731BE7678B008AFE69 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				AA7344711BE7678B008AFE69 /* Reachability */,
+				335AD5962052EB22000D4D08 /* ReachabilityTests */,
+				AA73448F1BE76820008AFE69 /* ReachabilitySample */,
+				00C54B1E1C09CF67001C3F12 /* ReachabilityMacSample */,
+				57A45A001C197BE800384AE4 /* ReachabilityAppleTVSample */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		00C54B1D1C09CF67001C3F12 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				00C54B261C09CF68001C3F12 /* Assets.xcassets in Resources */,
+				00C54B291C09CF68001C3F12 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		335AD5952052EB22000D4D08 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		57A459FF1C197BE800384AE4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				57A45A0B1C197BE800384AE4 /* Assets.xcassets in Resources */,
+				57A45A091C197BE800384AE4 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA7344701BE7678B008AFE69 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA73448E1BE76820008AFE69 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA7344B51BE769D6008AFE69 /* LaunchScreen.xib in Resources */,
+				AA73449A1BE76820008AFE69 /* Assets.xcassets in Resources */,
+				AA7344981BE76820008AFE69 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		00C54B1B1C09CF67001C3F12 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				00C54B241C09CF68001C3F12 /* ViewController.swift in Sources */,
+				00C54B221C09CF68001C3F12 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		335AD5932052EB22000D4D08 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				335AD5A22052EB32000D4D08 /* ReachabilityTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		57A459FD1C197BE800384AE4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				57A45A061C197BE800384AE4 /* ViewController.swift in Sources */,
+				57A45A041C197BE800384AE4 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA73446D1BE7678B008AFE69 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				335AD58E2052EA92000D4D08 /* Reachability.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA73448C1BE76820008AFE69 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA7344951BE76820008AFE69 /* ViewController.swift in Sources */,
+				AA7344931BE76820008AFE69 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		335AD59E2052EB22000D4D08 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AA7344711BE7678B008AFE69 /* Reachability */;
+			targetProxy = 335AD59D2052EB22000D4D08 /* PBXContainerItemProxy */;
+		};
+		CA0FDB7122B6C7C2008CAD21 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AA7344711BE7678B008AFE69 /* Reachability */;
+			targetProxy = CA0FDB7022B6C7C2008CAD21 /* PBXContainerItemProxy */;
+		};
+		CAC230C81BF2180000F6464E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AA7344711BE7678B008AFE69 /* Reachability */;
+			targetProxy = CAC230C71BF2180000F6464E /* PBXContainerItemProxy */;
+		};
+		CAE85CD02136B21B00320E68 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AA7344711BE7678B008AFE69 /* Reachability */;
+			targetProxy = CAE85CCF2136B21B00320E68 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		00C54B271C09CF68001C3F12 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				00C54B281C09CF68001C3F12 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		57A45A071C197BE800384AE4 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				57A45A081C197BE800384AE4 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		AA7344961BE76820008AFE69 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AA7344971BE76820008AFE69 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		AA7344B31BE769D6008AFE69 /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AA7344B41BE769D6008AFE69 /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		00C54B2C1C09CF68001C3F12 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = ReachabilityMacSample/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = uk.co.joylordsystems.Reachability.ReachabilityMacSample;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		00C54B2D1C09CF68001C3F12 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = ReachabilityMacSample/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = uk.co.joylordsystems.Reachability.ReachabilityMacSample;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+			};
+			name = Release;
+		};
+		335AD5A02052EB22000D4D08 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = "$(SRCROOT)/Tests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				PRODUCT_BUNDLE_IDENTIFIER = uk.co.joylordsystems.Reachability.ReachabilityTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = "";
+				SUPPORTED_PLATFORMS = "macosx appletvsimulator appletvos iphoneos iphonesimulator";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+			};
+			name = Debug;
+		};
+		335AD5A12052EB22000D4D08 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = "$(SRCROOT)/Tests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				PRODUCT_BUNDLE_IDENTIFIER = uk.co.joylordsystems.Reachability.ReachabilityTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = "";
+				SUPPORTED_PLATFORMS = "macosx appletvsimulator appletvos iphoneos iphonesimulator";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+			};
+			name = Release;
+		};
+		57A45A0D1C197BE800384AE4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = ReachabilityAppleTVSample/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = swift.reachability.ReachabilityAppleTVSample;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				TARGETED_DEVICE_FAMILY = 3;
+			};
+			name = Debug;
+		};
+		57A45A0E1C197BE800384AE4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = ReachabilityAppleTVSample/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = swift.reachability.ReachabilityAppleTVSample;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				TARGETED_DEVICE_FAMILY = 3;
+			};
+			name = Release;
+		};
+		AA7344841BE7678B008AFE69 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		AA7344851BE7678B008AFE69 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		AA7344871BE7678B008AFE69 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "$(SRCROOT)/Sources/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = uk.co.joylordsystems.Reachability;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = "";
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "macosx iphonesimulator iphoneos appletvsimulator appletvos";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2,3,4";
+			};
+			name = Debug;
+		};
+		AA7344881BE7678B008AFE69 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_CODE_COVERAGE = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "$(SRCROOT)/Sources/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = uk.co.joylordsystems.Reachability;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = "";
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "macosx iphonesimulator iphoneos appletvsimulator appletvos";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				TARGETED_DEVICE_FAMILY = "1,2,3,4";
+			};
+			name = Release;
+		};
+		AA7344AB1BE76820008AFE69 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = ReachabilitySample/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = uk.co.joylordsystems.ReachabilitySample;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		AA7344AC1BE76820008AFE69 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = ReachabilitySample/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = uk.co.joylordsystems.ReachabilitySample;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		00C54B2B1C09CF68001C3F12 /* Build configuration list for PBXNativeTarget "ReachabilityMacSample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				00C54B2C1C09CF68001C3F12 /* Debug */,
+				00C54B2D1C09CF68001C3F12 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		335AD59F2052EB22000D4D08 /* Build configuration list for PBXNativeTarget "ReachabilityTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				335AD5A02052EB22000D4D08 /* Debug */,
+				335AD5A12052EB22000D4D08 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		57A45A0F1C197BE800384AE4 /* Build configuration list for PBXNativeTarget "ReachabilityAppleTVSample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				57A45A0D1C197BE800384AE4 /* Debug */,
+				57A45A0E1C197BE800384AE4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AA73446C1BE7678B008AFE69 /* Build configuration list for PBXProject "Reachability" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA7344841BE7678B008AFE69 /* Debug */,
+				AA7344851BE7678B008AFE69 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AA7344861BE7678B008AFE69 /* Build configuration list for PBXNativeTarget "Reachability" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA7344871BE7678B008AFE69 /* Debug */,
+				AA7344881BE7678B008AFE69 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AA7344AA1BE76820008AFE69 /* Build configuration list for PBXNativeTarget "ReachabilitySample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA7344AB1BE76820008AFE69 /* Debug */,
+				AA7344AC1BE76820008AFE69 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = AA7344691BE7678B008AFE69 /* Project object */;
+}

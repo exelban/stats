@@ -23,14 +23,14 @@ class CPU: Module {
     public var popup: ModulePopup = ModulePopup(true)
     public var menu: NSMenuItem = NSMenuItem()
     
-    public let defaults = UserDefaults.standard
-    public var submenu: NSMenu = NSMenu()
+    internal let defaults = UserDefaults.standard
+    internal var submenu: NSMenu = NSMenu()
     
-    public var systemValue: NSTextField = NSTextField()
-    public var userValue: NSTextField = NSTextField()
-    public var idleValue: NSTextField = NSTextField()
-    public var processViewList: [NSStackView] = []
-    public var chart: LineChartView = LineChartView()
+    internal var systemValue: NSTextField = NSTextField()
+    internal var userValue: NSTextField = NSTextField()
+    internal var idleValue: NSTextField = NSTextField()
+    internal var processViewList: [NSStackView] = []
+    internal var chart: LineChartView = LineChartView()
     
     init() {
         if !self.available { return }

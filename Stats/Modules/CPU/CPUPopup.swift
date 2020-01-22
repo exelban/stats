@@ -150,6 +150,8 @@ extension CPU {
     }
     
     public func usageUpdater(value: CPUUsage) {
+        if !self.popup.active && self.popup.initialized { return }
+        
         self.systemValue.stringValue = "\(value.system.roundTo(decimalPlaces: 2)) %"
         self.userValue.stringValue = "\(value.user.roundTo(decimalPlaces: 2)) %"
         self.idleValue.stringValue = "\(value.idle.roundTo(decimalPlaces: 2)) %"
@@ -206,7 +208,8 @@ extension CPU {
     }
     
     public func processesUpdater(value: [TopProcess]) {
-        if self.processViewList.isEmpty { return }
+        if self.processViewList.isEmpty || !self.popup.active && self.popup.initialized { return }
+        self.popup.initialized = true
         
         for (i, process) in value.enumerated() {
             if i < 5 {

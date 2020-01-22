@@ -46,6 +46,7 @@ struct ModulePopup {
     var available: Bool = true // say if module have popup view
     var view: NSTabViewItem = NSTabViewItem() // module popup view
     var active: Bool = false // indicate that popup is opened and selected this view
+    var initialized: Bool = false // allows to set some value when on first load
     
     init(_ a: Bool = true) {
         available = a

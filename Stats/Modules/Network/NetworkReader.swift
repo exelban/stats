@@ -8,18 +8,26 @@
 
 import Cocoa
 
+struct NetworkUsage {
+    var download: Int64 = 0
+    var upload: Int64 = 0
+    
+    var totalDownload: Int64 = 0
+    var totalUpload: Int64 = 0
+}
+
 class NetworkReader: Reader {
     public var name: String = "Network"
     public var enabled: Bool = true
     public var available: Bool = true
     public var optional: Bool = false
     public var initialized: Bool = false
-    public var callback: ([Double]) -> Void = {_ in}
+    public var callback: (NetworkUsage) -> Void = {_ in}
     
     private var uploadValue: Int64 = 0
     private var downloadValue: Int64 = 0
     
-    init(_ updater: @escaping ([Double]) -> Void) {
+    init(_ updater: @escaping (NetworkUsage) -> Void) {
         self.callback = updater
         
         if self.available {
@@ -54,7 +62,12 @@ class NetworkReader: Reader {
 
         if lastUpload != 0 && lastDownload != 0 {
             DispatchQueue.main.async(execute: {
-                self.callback([Double(download - lastDownload), Double(upload - lastUpload)])
+                self.callback(NetworkUsage(
+                    download: download - lastDownload,
+                    upload: upload - lastUpload,
+                    totalDownload: download,
+                    totalUpload: upload
+                ))
             })
         }
 

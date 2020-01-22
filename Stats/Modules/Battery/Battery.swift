@@ -29,21 +29,21 @@ class Battery: Module {
     public var popup: ModulePopup = ModulePopup(true)
     public var menu: NSMenuItem = NSMenuItem()
     
-    public let defaults = UserDefaults.standard
-    public var submenu: NSMenu = NSMenu()
+    internal let defaults = UserDefaults.standard
+    internal var submenu: NSMenu = NSMenu()
     
-    public var cyclesValue: NSTextField = NSTextField()
-    public var stateValue: NSTextField = NSTextField()
-    public var healthValue: NSTextField = NSTextField()
-    public var amperageValue: NSTextField = NSTextField()
-    public var voltageValue: NSTextField = NSTextField()
-    public var temperatureValue: NSTextField = NSTextField()
-    public var powerValue: NSTextField = NSTextField()
-    public var chargingValue: NSTextField = NSTextField()
-    public var levelValue: NSTextField = NSTextField()
-    public var sourceValue: NSTextField = NSTextField()
-    public var timeLabel: NSTextField = NSTextField()
-    public var timeValue: NSTextField = NSTextField()
+    internal var cyclesValue: NSTextField = NSTextField()
+    internal var stateValue: NSTextField = NSTextField()
+    internal var healthValue: NSTextField = NSTextField()
+    internal var amperageValue: NSTextField = NSTextField()
+    internal var voltageValue: NSTextField = NSTextField()
+    internal var temperatureValue: NSTextField = NSTextField()
+    internal var powerValue: NSTextField = NSTextField()
+    internal var chargingValue: NSTextField = NSTextField()
+    internal var levelValue: NSTextField = NSTextField()
+    internal var sourceValue: NSTextField = NSTextField()
+    internal var timeLabel: NSTextField = NSTextField()
+    internal var timeValue: NSTextField = NSTextField()
     
     init() {
         if !self.available { return }

@@ -31,7 +31,7 @@ If you are reporting a bug which can be observed visually, please add to your is
 ````
     First line must be up to 50 chars (Fixes #1234)
 
-    The first line should be a short statement as to what have changed, and should also include an issue number, prefixed with a dash.
+    The first line should be a short statement as to what have changed, and should also include an issue number, prefixed with a hash.
     The body of the message comes after an empty new line, and describes the changes
     more thoroughly, especially if there was a special case handled there,
     or maybe some trickery that only code wizards can understand.
