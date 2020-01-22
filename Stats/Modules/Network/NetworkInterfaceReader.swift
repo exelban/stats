@@ -113,15 +113,15 @@ class NetworkInterfaceReader: Reader {
             }
             
             result.active = true
-
-            if self.reachability!.connection == .wifi {
+            
+            if self.reachability!.connection == .wifi && CWWiFiClient.shared().interface() != nil {
                 result.networkType = "Wi-Fi"
                 result.wifiName = CWWiFiClient.shared().interface()!.ssid()
                 result.countryCode = CWWiFiClient.shared().interface()!.countryCode()
                 result.macAddress = CWWiFiClient.shared().interface()!.hardwareAddress()
             } else {
                 result.networkType = "Ethernet"
-                print("ethernet")
+                result.macAddress = getMacAddress()
             }
 
             result.localIP = getLocalIP()
@@ -148,6 +148,58 @@ class NetworkInterfaceReader: Reader {
             }
         }
         return false
+    }
+    
+    // https://stackoverflow.com/questions/31835418/how-to-get-mac-address-from-os-x-with-swift
+    private func getMacAddress() -> String? {
+        var macAddressAsString : String?
+        if let intfIterator = FindEthernetInterfaces() {
+            if let macAddress = GetMACAddress(intfIterator) {
+                macAddressAsString = macAddress.map( { String(format:"%02x", $0) } ).joined(separator: ":")
+            }
+            IOObjectRelease(intfIterator)
+        }
+        return macAddressAsString
+    }
+    
+    private func FindEthernetInterfaces() -> io_iterator_t? {
+        let matchingDictUM = IOServiceMatching("IOEthernetInterface");
+        if matchingDictUM == nil {
+            return nil
+        }
+
+        let matchingDict = matchingDictUM! as NSMutableDictionary
+        matchingDict["IOPropertyMatch"] = [ "IOPrimaryInterface" : true]
+
+        var matchingServices : io_iterator_t = 0
+        if IOServiceGetMatchingServices(kIOMasterPortDefault, matchingDict, &matchingServices) != KERN_SUCCESS {
+            return nil
+        }
+
+        return matchingServices
+    }
+
+    private func GetMACAddress(_ intfIterator : io_iterator_t) -> [UInt8]? {
+        var macAddress : [UInt8]?
+        var intfService = IOIteratorNext(intfIterator)
+        
+        while intfService != 0 {
+            var controllerService : io_object_t = 0
+            if IORegistryEntryGetParentEntry(intfService, kIOServicePlane, &controllerService) == KERN_SUCCESS {
+                let dataUM = IORegistryEntryCreateCFProperty(controllerService, "IOMACAddress" as CFString, kCFAllocatorDefault, 0)
+                if dataUM != nil {
+                    let data = (dataUM!.takeRetainedValue() as! CFData) as Data
+                    macAddress = [0, 0, 0, 0, 0, 0]
+                    data.copyBytes(to: &macAddress!, count: macAddress!.count)
+                }
+                IOObjectRelease(controllerService)
+            }
+
+            IOObjectRelease(intfService)
+            intfService = IOIteratorNext(intfIterator)
+        }
+
+        return macAddress
     }
     
     private func getPublicIP() -> String? {
