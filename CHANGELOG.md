@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+### [v1.5.1]
+    - now update open downloaded file, not just file with name Stats.dmg
+    - add a popup view for network module
+    - new reader in network module
+    - fix changing active popup view when switching the tabs
+    - remove Carthage vendor folder from project
+    - small fixes
+
 ### [v1.5.0]
     - change modules
     - a lot of improvements related to widget updates
@@ -142,6 +150,7 @@ All notable changes to this project will be documented in this file.
 ### [v1.0.0]
     - first release
 
+[v1.5.1]: https://github.com/exelban/stats/releases/tag/v1.5.1
 [v1.5.0]: https://github.com/exelban/stats/releases/tag/v1.5.0
 [v1.4.0]: https://github.com/exelban/stats/releases/tag/v1.4.0
 [v1.3.5]: https://github.com/exelban/stats/releases/tag/v1.3.5
