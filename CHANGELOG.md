@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+### [v1.5.2]
+    - fixed crashing
+
 ### [v1.5.1]
     - now update open downloaded file, not just file with name Stats.dmg
     - add a popup view for network module
@@ -150,6 +153,7 @@ All notable changes to this project will be documented in this file.
 ### [v1.0.0]
     - first release
 
+[v1.5.2]: https://github.com/exelban/stats/releases/tag/v1.5.2
 [v1.5.1]: https://github.com/exelban/stats/releases/tag/v1.5.1
 [v1.5.0]: https://github.com/exelban/stats/releases/tag/v1.5.0
 [v1.4.0]: https://github.com/exelban/stats/releases/tag/v1.4.0

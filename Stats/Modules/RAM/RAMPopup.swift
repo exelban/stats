@@ -32,6 +32,7 @@ extension RAM {
         self.chart.pinchZoomEnabled = false
         self.chart.doubleTapToZoomEnabled = false
         self.chart.drawBordersEnabled = false
+        self.chart.autoScaleMinMaxEnabled = true
         
         self.chart.rightAxis.enabled = false
         
