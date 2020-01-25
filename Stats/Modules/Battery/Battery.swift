@@ -71,7 +71,7 @@ class Battery: Module {
     }
     
     public func stop() {
-        if self.task!.state.isRunning {
+        if self.task != nil && self.task!.state.isRunning {
             self.task?.pause()
         }
     }
