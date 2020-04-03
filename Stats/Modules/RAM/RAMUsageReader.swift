@@ -47,7 +47,9 @@ class RAMUsageReader: Reader {
         }
         
         if self.available {
-            self.read()
+            DispatchQueue.global(qos: .default).async {
+                self.read()
+            }
         }
     }
     

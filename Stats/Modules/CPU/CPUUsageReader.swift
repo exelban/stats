@@ -27,7 +27,9 @@ class CPUUsageReader: Reader {
     init(_ updater: @escaping (CPUUsage) -> Void) {
         self.callback = updater
         if self.available {
-            self.read()
+            DispatchQueue.global(qos: .default).async {
+                self.read()
+            }
         }
     }
     

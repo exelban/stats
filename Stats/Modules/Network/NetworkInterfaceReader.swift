@@ -72,7 +72,9 @@ class NetworkInterfaceReader: Reader {
         self.callback = updater
         
         if self.available {
-            self.read()
+            DispatchQueue.global(qos: .default).async {
+                self.read()
+            }
         }
         
         if self.reachability != nil {

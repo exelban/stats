@@ -18,9 +18,11 @@ class RAMProcessReader: Reader {
     
     init(_ updater: @escaping ([TopProcess]) -> Void) {
         self.callback = updater
-        
+
         if self.available {
-            self.read()
+            DispatchQueue.global(qos: .default).async {
+                self.read()
+            }
         }
     }
     

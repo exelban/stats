@@ -40,11 +40,11 @@ class RAM: Module {
         
         readers.append(RAMUsageReader(self.usageUpdater))
         readers.append(RAMProcessReader(self.processesUpdater))
-        
+
         self.initWidget()
         self.initMenu()
         self.initPopup()
-        
+
         self.task = Repeater.init(interval: .seconds(self.updateInterval), observer: { _ in
             self.readers.forEach { reader in
                 reader.read()

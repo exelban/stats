@@ -56,7 +56,9 @@ class BatteryReader: Reader {
         self.service = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("AppleSmartBattery"))
         
         if self.available {
-            self.read()
+            DispatchQueue.global(qos: .default).async {
+                self.read()
+            }
         }
     }
 
