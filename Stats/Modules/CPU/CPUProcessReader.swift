@@ -72,11 +72,11 @@ class CPUProcessReader: Reader {
             if index != 0 {
                 var str = line.trimmingCharacters(in: .whitespaces)
                 let pidString = str.findAndCrop(pattern: "^\\d+")
-                let usageString = str.findAndCrop(pattern: "^[0-9]+\\.[0-9]* ")
+                let usageString = str.findAndCrop(pattern: "^[0-9,.]+ ")
                 let command = str.trimmingCharacters(in: .whitespaces)
 
                 let pid = Int(pidString) ?? 0
-                let usage = Double(usageString) ?? 0
+                let usage = Double(usageString.replacingOccurrences(of: ",", with: ".")) ?? 0
                 
                 processes.append(TopProcess(pid: pid, command: command, usage: usage))
             }

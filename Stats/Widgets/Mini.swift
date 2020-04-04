@@ -30,7 +30,7 @@ class Mini: NSView, Widget {
         
         let xOffset: CGFloat = 1.0
         
-        let labelView = NSTextField(frame: NSMakeRect(xOffset, 13, self.frame.size.width, 7))
+        let labelView = NSTextField(frame: NSMakeRect(xOffset, 13, self.frame.size.width, 9))
         labelView.isEditable = false
         labelView.isSelectable = false
         labelView.isBezeled = false
@@ -39,7 +39,7 @@ class Mini: NSView, Widget {
         labelView.backgroundColor = .controlColor
         labelView.canDrawSubviewsIntoLayer = true
         labelView.alignment = .natural
-        labelView.font = NSFont.systemFont(ofSize: 7, weight: .light)
+        labelView.font = NSFont.systemFont(ofSize: 8, weight: .light)
         labelView.stringValue = String(self.name.prefix(3)).uppercased()
         labelView.addSubview(NSView())
         
