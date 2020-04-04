@@ -11,7 +11,7 @@ import Cocoa
 class NetworkDotsTextView: NSView, Widget {
     public var menus: [NSMenuItem] = []
     public var size: CGFloat = widgetSize.width + 26
-    public var name: String = ""
+    public var name: String = "NetworkDotsText"
     
     private var download: Int64 = 0
     private var upload: Int64 = 0
@@ -88,7 +88,7 @@ class NetworkDotsTextView: NSView, Widget {
     }
     
     func valueView() {
-        downloadValue = NSTextField(frame: NSMakeRect(widgetSize.margin, widgetSize.margin, self.frame.size.width - widgetSize.margin, 9))
+        downloadValue = NSTextField(frame: NSMakeRect(widgetSize.margin, widgetSize.margin + 1, self.frame.size.width - widgetSize.margin, 9))
         downloadValue.isEditable = false
         downloadValue.isSelectable = false
         downloadValue.isBezeled = false

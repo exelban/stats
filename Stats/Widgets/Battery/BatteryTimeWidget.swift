@@ -15,6 +15,7 @@ class BatteryTimeWidget: BatteryWidget {
     
     override init(frame: NSRect) {
         super.init(frame: CGRect(x: 0, y: 0, width: widgetSize.width, height: widgetSize.height))
+        self.name = "BatteryTime"
         self.drawTime()
         self.changeWidth(width: self.timeWidth)
         self.update()

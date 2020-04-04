@@ -9,7 +9,7 @@
 import Cocoa
 
 class BarChart: NSView, Widget {
-    public var name: String = ""
+    public var name: String = "BarChart"
     public var menus: [NSMenuItem] = []
     
     private var size: CGFloat = widgetSize.width + 10
@@ -136,7 +136,9 @@ class BarChart: NSView, Widget {
 
         if self.frame.size.width != width {
             self.setFrameSize(NSSize(width: width, height: self.frame.size.height))
-            menuBar!.refresh()
+            if menuBar != nil {
+                menuBar!.refresh()
+            }
         }
         
         self.display()

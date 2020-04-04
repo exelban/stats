@@ -218,7 +218,7 @@ extension Battery {
         self.popup.initialized = true
         
         // makeMain
-        self.levelValue.stringValue = "\(Int(abs(value.capacity) * 100)) %"
+        self.levelValue.stringValue = "\(Int(abs(value.level) * 100)) %"
         self.sourceValue.stringValue = value.powerSource
         if value.powerSource == "Battery Power" {
             self.timeLabel.stringValue = "Time to discharge"
@@ -252,6 +252,6 @@ extension Battery {
         
         // makePowerAdapter
         self.powerValue.stringValue = value.powerSource == "Battery Power" ? "Not connected" : "\(value.ACwatts) W"
-        self.chargingValue.stringValue = value.capacity > 0 ? "Yes" : "No"
+        self.chargingValue.stringValue = value.level > 0 ? "Yes" : "No"
     }
 }

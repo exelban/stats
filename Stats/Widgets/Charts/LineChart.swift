@@ -9,7 +9,7 @@
 import Cocoa
 
 class Chart: NSView, Widget {
-    public var name: String = ""
+    public var name: String = "LineChart"
     public var menus: [NSMenuItem] = []
     
     internal let defaults = UserDefaults.standard

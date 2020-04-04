@@ -10,7 +10,7 @@ import Cocoa
 
 class NetworkDotsView: NSView, Widget {
     public var size: CGFloat = 12
-    public var name: String = ""
+    public var name: String = "NetworkDots"
     public var menus: [NSMenuItem] = []
     
     private var download: Int64 = 0

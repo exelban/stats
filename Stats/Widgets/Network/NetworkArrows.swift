@@ -11,7 +11,7 @@ import Cocoa
 class NetworkArrowsView: NSView, Widget {
     public var menus: [NSMenuItem] = []
     public var size: CGFloat = 8
-    public var name: String = ""
+    public var name: String = "NetworkArrows"
     
     private var download: Int64 = 0
     private var upload: Int64 = 0

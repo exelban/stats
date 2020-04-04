@@ -11,7 +11,7 @@ import Cocoa
 class NetworkTextView: NSView, Widget {
     public var menus: [NSMenuItem] = []
     public var size: CGFloat = widgetSize.width + 20
-    public var name: String = ""
+    public var name: String = "NetworkText"
     
     private var downloadValue: NSTextField = NSTextField()
     private var uploadValue: NSTextField = NSTextField()
@@ -51,7 +51,7 @@ class NetworkTextView: NSView, Widget {
     }
     
     func valueView() {
-        downloadValue = NSTextField(frame: NSMakeRect(widgetSize.margin, widgetSize.margin, self.frame.size.width - widgetSize.margin, 9))
+        downloadValue = NSTextField(frame: NSMakeRect(widgetSize.margin, widgetSize.margin + 1, self.frame.size.width - widgetSize.margin, 9))
         downloadValue.isEditable = false
         downloadValue.isSelectable = false
         downloadValue.isBezeled = false

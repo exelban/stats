@@ -56,24 +56,14 @@ class Battery: Module {
         self.initPopup()
         
         readers.append(BatteryReader(self.usageUpdater))
-        
-        self.task = Repeater.init(interval: .seconds(self.updateInterval), observer: { _ in
-            self.readers.forEach { reader in
-                reader.read()
-            }
-        })
     }
     
     public func start() {
-        if self.task != nil && self.task!.state.isRunning == false {
-            self.task!.start()
-        }
+        (readers[0] as! BatteryReader).start()
     }
     
     public func stop() {
-        if self.task != nil && self.task!.state.isRunning {
-            self.task?.pause()
-        }
+        (readers[0] as! BatteryReader).stop()
     }
     
     public func restart() {
@@ -90,11 +80,11 @@ class Battery: Module {
         }
         
         if self.widget.view is Widget {
-            (self.widget.view as! Widget).setValue(data: [abs(value.capacity), Double(time)])
+            (self.widget.view as! Widget).setValue(data: [abs(value.level), Double(time)])
             
-            if self.widget.view is BatteryWidget && value.capacity != 100 {
-                (self.widget.view as! BatteryWidget).setCharging(value: value.capacity > 0)
-            } else if self.widget.view is BatteryWidget && value.capacity == 100 {
+            if self.widget.view is BatteryWidget && value.level != 100 {
+                (self.widget.view as! BatteryWidget).setCharging(value: value.level > 0)
+            } else if self.widget.view is BatteryWidget && value.level == 100 {
                 (self.widget.view as! BatteryWidget).setCharging(value: false)
             }
         }

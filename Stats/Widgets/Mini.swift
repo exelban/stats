@@ -9,7 +9,7 @@
 import Cocoa
 
 class Mini: NSView, Widget {
-    public var name: String = ""
+    public var name: String = "Mini"
     public var menus: [NSMenuItem] = []
     
     private var value: Double = 0
@@ -26,7 +26,6 @@ class Mini: NSView, Widget {
     
     override init(frame: NSRect) {
         super.init(frame: CGRect(x: 0, y: 0, width: self.size, height: widgetSize.height))
-        
         self.wantsLayer = true
         
         let xOffset: CGFloat = 1.0

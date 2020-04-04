@@ -40,9 +40,6 @@ extension Battery {
             }
         }
         
-        submenu.addItem(NSMenuItem.separator())
-        submenu.addItem(generateIntervalMenu())
-        
         if self.enabled {
             menu.submenu = submenu
         }
@@ -93,72 +90,5 @@ extension Battery {
         self.initWidget()
         self.initMenu()
         menuBar!.reload(name: self.name)
-    }
-    
-    private func generateIntervalMenu() -> NSMenuItem {
-        let updateInterval = NSMenuItem(title: "Update interval", action: nil, keyEquivalent: "")
-        
-        let updateIntervals = NSMenu()
-        let updateInterval_1 = NSMenuItem(title: "1s", action: #selector(changeInterval), keyEquivalent: "")
-        updateInterval_1.state = self.updateInterval == 1 ? NSControl.StateValue.on : NSControl.StateValue.off
-        updateInterval_1.target = self
-        let updateInterval_2 = NSMenuItem(title: "3s", action: #selector(changeInterval), keyEquivalent: "")
-        updateInterval_2.state = self.updateInterval == 3 ? NSControl.StateValue.on : NSControl.StateValue.off
-        updateInterval_2.target = self
-        let updateInterval_3 = NSMenuItem(title: "5s", action: #selector(changeInterval), keyEquivalent: "")
-        updateInterval_3.state = self.updateInterval == 5 ? NSControl.StateValue.on : NSControl.StateValue.off
-        updateInterval_3.target = self
-        let updateInterval_4 = NSMenuItem(title: "10s", action: #selector(changeInterval), keyEquivalent: "")
-        updateInterval_4.state = self.updateInterval == 10 ? NSControl.StateValue.on : NSControl.StateValue.off
-        updateInterval_4.target = self
-        let updateInterval_5 = NSMenuItem(title: "15s", action: #selector(changeInterval), keyEquivalent: "")
-        updateInterval_5.state = self.updateInterval == 15 ? NSControl.StateValue.on : NSControl.StateValue.off
-        updateInterval_5.target = self
-        
-        updateIntervals.addItem(updateInterval_1)
-        updateIntervals.addItem(updateInterval_2)
-        updateIntervals.addItem(updateInterval_3)
-        updateIntervals.addItem(updateInterval_4)
-        updateIntervals.addItem(updateInterval_5)
-        
-        updateInterval.submenu = updateIntervals
-        
-        return updateInterval
-    }
-    
-    @objc func changeInterval(_ sender: NSMenuItem) {
-        var interval: Double = self.updateInterval
-        
-        switch sender.title {
-        case "1s":
-            interval = 1
-        case "3s":
-            interval = 3
-        case "5s":
-            interval = 5
-        case "10s":
-            interval = 10
-        case "15s":
-            interval = 15
-        default:
-            break
-        }
-        
-        if interval == self.updateInterval {
-            return
-        }
-        
-        for item in self.submenu.items {
-            if item.title == "Update interval" {
-                for subitem in item.submenu!.items {
-                    subitem.state = NSControl.StateValue.off
-                }
-            }
-        }
-        
-        sender.state = NSControl.StateValue.on
-        self.updateInterval = interval
-        self.defaults.set(interval, forKey: "\(name)_interval")
-        self.task?.reset(.seconds(interval), restart: self.task!.state.isRunning)
     }
 }

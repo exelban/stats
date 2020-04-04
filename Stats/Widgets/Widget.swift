@@ -23,6 +23,8 @@ protocol Widget {
 typealias WidgetType = Float
 struct Widgets {
     static let Mini: WidgetType = 0.0
+    static let Temperature: WidgetType = 0.1
+    
     static let Chart: WidgetType = 1.0
     static let ChartWithValue: WidgetType = 1.1
     

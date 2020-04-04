@@ -19,6 +19,7 @@ class ChartWithValue: Chart {
     override init(frame: NSRect) {
         super.init(frame: CGRect(x: 0, y: 0, width: widgetSize.width + 7, height: widgetSize.height))
         self.wantsLayer = true
+        self.name = "LineChartWithValue"
     }
     
     required init?(coder decoder: NSCoder) {

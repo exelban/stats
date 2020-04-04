@@ -11,7 +11,7 @@ import Cocoa
 class NetworkArrowsTextView: NSView, Widget {
     public var menus: [NSMenuItem] = []
     public var size: CGFloat = widgetSize.width + 24
-    public var name: String = ""
+    public var name: String = "NetworkArrowsText"
     
     private var download: Int64 = 0
     private var upload: Int64 = 0
@@ -97,7 +97,7 @@ class NetworkArrowsTextView: NSView, Widget {
     }
     
     func valueView() {
-        downloadValue = NSTextField(frame: NSMakeRect(widgetSize.margin, widgetSize.margin, self.frame.size.width - widgetSize.margin, 9))
+        downloadValue = NSTextField(frame: NSMakeRect(widgetSize.margin, widgetSize.margin + 1, self.frame.size.width - widgetSize.margin, 9))
         downloadValue.isEditable = false
         downloadValue.isSelectable = false
         downloadValue.isBezeled = false

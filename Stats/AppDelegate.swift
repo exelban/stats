@@ -20,6 +20,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private let popover = NSPopover()
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
+        SMCOpen();
+        
         guard let menuBarButton = self.menuBarItem.button else {
             NSApp.terminate(nil)
             return
@@ -40,6 +42,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
+        SMCClose()
         menuBar?.destroy()
     }
 

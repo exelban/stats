@@ -65,6 +65,23 @@ extension Double {
         }
     }
     
+    func temperatureColor(color: Bool = false) -> NSColor {
+        switch self {
+        case 0...70:
+            return NSColor.controlTextColor
+        case 70...90:
+            if !color {
+                return NSColor.controlTextColor
+            }
+            return NSColor.systemOrange
+        default:
+            if !color {
+                return NSColor.controlTextColor
+            }
+            return NSColor.systemRed
+        }
+    }
+    
     func splitAtDecimal() -> [Int64] {
         return "\(self)".split(separator: ".").map{Int64($0)!}
     }
@@ -179,6 +196,10 @@ extension String {
     func condenseWhitespace() -> String {
         let components = self.components(separatedBy: .whitespacesAndNewlines)
         return components.filter { !$0.isEmpty }.joined(separator: " ")
+    }
+    
+    var UTF8CString: UnsafeMutablePointer<Int8> {
+        return UnsafeMutablePointer(mutating: (self as NSString).utf8String!)
     }
 }
 

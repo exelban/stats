@@ -75,6 +75,8 @@ extension Module {
         switch self.widget.type {
         case Widgets.Mini:
             widget = Mini()
+        case Widgets.Temperature:
+            widget = TemperatureWidget()
         case Widgets.Chart:
             widget = Chart()
         case Widgets.ChartWithValue:

@@ -13,7 +13,7 @@ struct BatteryUsage {
     var powerSource: String = ""
     var state: String = ""
     var isCharged: Bool = false
-    var capacity: Double = 0
+    var level: Double = 0
     var cycles: Int = 0
     var health: Int = 0
     
@@ -46,29 +46,49 @@ class BatteryReader: Reader {
     public var initialized: Bool = false
     public var callback: (BatteryUsage) -> Void = {_ in}
     
-    private var service: io_connect_t = 0
+    private var service: io_connect_t = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("AppleSmartBattery"))
     private var internalChecked: Bool = false
     private var hasInternalBattery: Bool = false
     
+    private var source: CFRunLoopSource?
+    private var loop: CFRunLoop?
+    
     init(_ updater: @escaping (BatteryUsage) -> Void) {
         self.callback = updater
-        
-        self.service = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("AppleSmartBattery"))
-        
-        if self.available {
-            DispatchQueue.global(qos: .default).async {
-                self.read()
-            }
-        }
+        self.read()
     }
-
+    
+    public func start() {
+        let context = UnsafeMutableRawPointer(Unmanaged.passUnretained(self).toOpaque())
+        
+        source = IOPSNotificationCreateRunLoopSource({ (context) in
+            guard let ctx = context else {
+                return
+            }
+            
+            let watcher = Unmanaged<BatteryReader>.fromOpaque(ctx).takeUnretainedValue()
+            watcher.read()
+        }, context).takeRetainedValue()
+        
+        loop = RunLoop.current.getCFRunLoop()
+        CFRunLoopAddSource(loop, source, .defaultMode)
+    }
+    
+    public func stop() {
+        guard let runLoop = loop, let source = source else {
+            return
+        }
+        
+        CFRunLoopRemoveSource(runLoop, source, .defaultMode)
+    }
+    
     public func read() {
         if !self.enabled && self.initialized { return }
         self.initialized = true
-        
+
         let psInfo = IOPSCopyPowerSourcesInfo().takeRetainedValue()
         let psList = IOPSCopyPowerSourcesList(psInfo).takeRetainedValue() as [CFTypeRef]
-        
+
         for ps in psList {
             if let list = IOPSGetPowerSourceDescription(psInfo, ps).takeUnretainedValue() as? Dictionary<String, Any> {
                 let powerSource = list[kIOPSPowerSourceStateKey] as? String ?? "AC Power"
@@ -80,42 +100,45 @@ class BatteryReader: Reader {
                 let timeToCharged = Int(list[kIOPSTimeToFullChargeKey] as! Int)
 
                 let cycles = self.getIntValue("CycleCount" as CFString) ?? 0
-                
+
                 let maxCapacity = self.getIntValue("MaxCapacity" as CFString) ?? 1
                 let designCapacity = self.getIntValue("DesignCapacity" as CFString) ?? 1
-                
+
                 let amperage = self.getIntValue("Amperage" as CFString) ?? 0
                 let voltage = self.getVoltage() ?? 0
                 let temperature = self.getTemperature() ?? 0
-                
+
                 var ACwatts: Int = 0
                 if let ACDetails = IOPSCopyExternalPowerAdapterDetails() {
                     if let ACList = ACDetails.takeUnretainedValue() as? Dictionary<String, Any> {
-                        ACwatts = Int(ACList[kIOPSPowerAdapterWattsKey] as! Int)
+                        guard let watts = ACList[kIOPSPowerAdapterWattsKey] else {
+                            return
+                        }
+                        ACwatts = Int(watts as! Int)
                     }
                 }
                 let ACstatus = self.getBoolValue("IsCharging" as CFString) ?? false
-                
+
                 if powerSource == "Battery Power" {
                     cap = 0 - cap
                 }
-                
+
                 DispatchQueue.main.async(execute: {
                     let usage = BatteryUsage(
                         powerSource: powerSource,
                         state: state,
                         isCharged: isCharged,
-                        capacity: Double(cap),
+                        level: Double(cap),
                         cycles: cycles,
                         health: (100 * maxCapacity) / designCapacity,
-                        
+
                         amperage: amperage,
                         voltage: voltage,
                         temperature: temperature,
-                        
+
                         ACwatts: ACwatts,
                         ACstatus: ACstatus,
-                    
+
                         timeToEmpty: timeToEmpty,
                         timeToCharge: timeToCharged
                     )
@@ -135,28 +158,28 @@ class BatteryReader: Reader {
         }
         return nil
     }
-    
+
     private func getIntValue(_ identifier: CFString) -> Int? {
         if let value = IORegistryEntryCreateCFProperty(self.service, identifier, kCFAllocatorDefault, 0) {
             return value.takeRetainedValue() as? Int
         }
         return nil
     }
-    
+
     private func getDoubleValue(_ identifier: CFString) -> Double? {
         if let value = IORegistryEntryCreateCFProperty(self.service, identifier, kCFAllocatorDefault, 0) {
             return value.takeRetainedValue() as? Double
         }
         return nil
     }
-    
+
     private func getVoltage() -> Double? {
         if let value = self.getDoubleValue("Voltage" as CFString) {
             return value / 1000.0
         }
         return nil
     }
-    
+
     private func getTemperature() -> Double? {
         if let value = IORegistryEntryCreateCFProperty(self.service, "Temperature" as CFString, kCFAllocatorDefault, 0) {
             return value.takeRetainedValue() as! Double / 100.0

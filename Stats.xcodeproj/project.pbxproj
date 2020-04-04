@@ -51,6 +51,11 @@
 		9A6CFC0122A1C9F5001E782D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9A6CFC0022A1C9F5001E782D /* Assets.xcassets */; };
 		9A74D59722B44498004FE1FA /* Mini.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A74D59622B44498004FE1FA /* Mini.swift */; };
 		9A79B36A22D3BEE600BF1C3A /* Widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A79B36922D3BEE600BF1C3A /* Widget.swift */; };
+		9AA28DC1243774ED00D2B196 /* Temperature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA28DC0243774ED00D2B196 /* Temperature.swift */; };
+		9AA28DC32437752D00D2B196 /* TemperatureMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA28DC22437752D00D2B196 /* TemperatureMenu.swift */; };
+		9AA28DC52437762C00D2B196 /* TemperatureReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA28DC42437762C00D2B196 /* TemperatureReader.swift */; };
+		9AA28DCF2437884200D2B196 /* SystemKit.c in Sources */ = {isa = PBXBuildFile; fileRef = 9AA28DCE2437884200D2B196 /* SystemKit.c */; };
+		9AA28DD1243799E500D2B196 /* TemperatureWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA28DD0243799E500D2B196 /* TemperatureWidget.swift */; };
 		9AF0F31B22DA924000026AE6 /* LineChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF0F31A22DA924000026AE6 /* LineChart.swift */; };
 		9AF0F31D22DA925000026AE6 /* LineChartWithValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF0F31C22DA925000026AE6 /* LineChartWithValue.swift */; };
 		9AF0F31F22DA925700026AE6 /* BarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF0F31E22DA925700026AE6 /* BarChart.swift */; };
@@ -139,6 +144,13 @@
 		9A79B36922D3BEE600BF1C3A /* Widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Widget.swift; sourceTree = "<group>"; };
 		9A998CD722A199920087ADE7 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		9A998CD922A199970087ADE7 /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = System/Library/Frameworks/ServiceManagement.framework; sourceTree = SDKROOT; };
+		9AA28DC0243774ED00D2B196 /* Temperature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Temperature.swift; sourceTree = "<group>"; };
+		9AA28DC22437752D00D2B196 /* TemperatureMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemperatureMenu.swift; sourceTree = "<group>"; };
+		9AA28DC42437762C00D2B196 /* TemperatureReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemperatureReader.swift; sourceTree = "<group>"; };
+		9AA28DC9243780C500D2B196 /* Stats.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Stats.h; sourceTree = "<group>"; };
+		9AA28DCD2437884200D2B196 /* SystemKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SystemKit.h; sourceTree = "<group>"; };
+		9AA28DCE2437884200D2B196 /* SystemKit.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = SystemKit.c; sourceTree = "<group>"; };
+		9AA28DD0243799E500D2B196 /* TemperatureWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemperatureWidget.swift; sourceTree = "<group>"; };
 		9AF0F31A22DA924000026AE6 /* LineChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChart.swift; sourceTree = "<group>"; };
 		9AF0F31C22DA925000026AE6 /* LineChartWithValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartWithValue.swift; sourceTree = "<group>"; };
 		9AF0F31E22DA925700026AE6 /* BarChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChart.swift; sourceTree = "<group>"; };
@@ -283,6 +295,7 @@
 				9A2D15F123CE390500C4C417 /* Disk */,
 				9A2D15F823CE3BDA00C4C417 /* Battery */,
 				9A2D160123CE444D00C4C417 /* Network */,
+				9AA28DBF243774DD00D2B196 /* Temperature */,
 				9A2D15D123CCEC7600C4C417 /* Module.swift */,
 			);
 			path = Modules;
@@ -295,6 +308,9 @@
 				9A426DB722C2B5EE00C064C4 /* MacAppUpdater.swift */,
 				9A59AE55231EE02F007989D6 /* ChartMarker.swift */,
 				9A2D15CF23C77BA300C4C417 /* Repeater.swift */,
+				9AA28DC9243780C500D2B196 /* Stats.h */,
+				9AA28DCD2437884200D2B196 /* SystemKit.h */,
+				9AA28DCE2437884200D2B196 /* SystemKit.c */,
 			);
 			path = libs;
 			sourceTree = "<group>";
@@ -305,6 +321,7 @@
 				9A54EF65232AB48100F7DC20 /* Battery */,
 				9AF0F31922DA923100026AE6 /* Network */,
 				9AF0F31822DA922800026AE6 /* Charts */,
+				9AA28DD224379F8700D2B196 /* Temperature */,
 				9A74D59622B44498004FE1FA /* Mini.swift */,
 				9A79B36922D3BEE600BF1C3A /* Widget.swift */,
 			);
@@ -322,6 +339,24 @@
 				9A998CD722A199920087ADE7 /* Cocoa.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9AA28DBF243774DD00D2B196 /* Temperature */ = {
+			isa = PBXGroup;
+			children = (
+				9AA28DC0243774ED00D2B196 /* Temperature.swift */,
+				9AA28DC22437752D00D2B196 /* TemperatureMenu.swift */,
+				9AA28DC42437762C00D2B196 /* TemperatureReader.swift */,
+			);
+			path = Temperature;
+			sourceTree = "<group>";
+		};
+		9AA28DD224379F8700D2B196 /* Temperature */ = {
+			isa = PBXGroup;
+			children = (
+				9AA28DD0243799E500D2B196 /* TemperatureWidget.swift */,
+			);
+			path = Temperature;
 			sourceTree = "<group>";
 		};
 		9AF0F31822DA922800026AE6 /* Charts */ = {
@@ -483,8 +518,10 @@
 				9A2D15E623CE291600C4C417 /* RAM.swift in Sources */,
 				9A09C8A222B3D94D0018426F /* BatteryWidget.swift in Sources */,
 				9A5349C723D8535900C23824 /* NetworkPopup.swift in Sources */,
+				9AA28DC32437752D00D2B196 /* TemperatureMenu.swift in Sources */,
 				9A426DB822C2B5EE00C064C4 /* MacAppUpdater.swift in Sources */,
 				9A606B4C232157BA00642F51 /* AboutViewController.swift in Sources */,
+				9AA28DC1243774ED00D2B196 /* Temperature.swift in Sources */,
 				9AF0F32522DA92C400026AE6 /* NetworkText.swift in Sources */,
 				9AF0F32322DA92B900026AE6 /* NetworkArrows.swift in Sources */,
 				9A2D15D223CCEC7600C4C417 /* Module.swift in Sources */,
@@ -493,8 +530,11 @@
 				9A606B4A2321577400642F51 /* UpdatesViewController.swift in Sources */,
 				9AF0F31D22DA925000026AE6 /* LineChartWithValue.swift in Sources */,
 				9A2D160723CE462400C4C417 /* NetworkReader.swift in Sources */,
+				9AA28DD1243799E500D2B196 /* TemperatureWidget.swift in Sources */,
 				9A2D15FA23CE3BE600C4C417 /* Battery.swift in Sources */,
 				9A54EF67232AB81800F7DC20 /* BatteryPercentageWidget.swift in Sources */,
+				9AA28DCF2437884200D2B196 /* SystemKit.c in Sources */,
+				9AA28DC52437762C00D2B196 /* TemperatureReader.swift in Sources */,
 				9A57A18522A1D26D0033E318 /* MenuBar.swift in Sources */,
 				9A2D15D923CD036400C4C417 /* CPUMenu.swift in Sources */,
 				9AF6F1FE231D732600B8E1E4 /* PopupViewController.swift in Sources */,
@@ -683,6 +723,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = eu.exelban.Stats;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(PROJECT_NAME)/libs/$(SWIFT_MODULE_NAME).h";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -712,6 +753,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = eu.exelban.Stats;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(PROJECT_NAME)/libs/$(SWIFT_MODULE_NAME).h";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
