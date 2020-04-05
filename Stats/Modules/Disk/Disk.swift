@@ -10,7 +10,7 @@ import Cocoa
 
 class Disk: Module {
     public var name: String = "SSD"
-    public var updateInterval: Double = 15
+    public var updateInterval: Double = 5
     
     public var enabled: Bool = true
     public var available: Bool = true
@@ -24,12 +24,16 @@ class Disk: Module {
     
     internal let defaults = UserDefaults.standard
     internal var submenu: NSMenu = NSMenu()
+    internal var selectedDisk: String = ""
+    internal var disks: disksList = disksList()
     
     init() {
         if !self.available { return }
         
         self.enabled = defaults.object(forKey: name) != nil ? defaults.bool(forKey: name) : true
+        self.updateInterval = defaults.object(forKey: "\(name)_interval") != nil ? defaults.double(forKey: "\(name)_interval") : self.updateInterval
         self.widget.type = defaults.object(forKey: "\(name)_widget") != nil ? defaults.float(forKey: "\(name)_widget") : Widgets.Mini
+        self.selectedDisk = defaults.object(forKey: "\(name)_disk") != nil ? defaults.string(forKey: "\(name)_disk")! : self.selectedDisk
         
         self.initWidget()
         self.initMenu()
@@ -60,9 +64,26 @@ class Disk: Module {
         self.start()
     }
     
-    private func usageUpdater(value: Double) {
+    private func usageUpdater(disks: disksList) {
+        if self.disks.list.count != disks.list.count && disks.list.count != 0 {
+            self.disks = disks
+            self.initMenu()
+        }
+        
         if self.widget.view is Widget {
-            (self.widget.view as! Widget).setValue(data: [value])
+            var d: diskInfo? = disks.getDiskByBSDName(self.selectedDisk)
+            if d == nil {
+                d = disks.getRootDisk()
+            }
+            
+            if d != nil {
+                let total = d!.totalSize
+                let free = d!.freeSize
+                let usedSpace = total - free
+                let percentage = Double(usedSpace) / Double(total)
+                
+                (self.widget.view as! Widget).setValue(data: [percentage])
+            }
         }
     }
 }

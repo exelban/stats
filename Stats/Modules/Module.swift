@@ -11,7 +11,6 @@ import Charts
 
 protocol Module: class {
     var name: String { get } // module name
-    var updateInterval: Double { get } // module update interval
     
     var enabled: Bool { get } // determine if module is enabled or disabled
     var available: Bool { get } // determine if module is available on this PC

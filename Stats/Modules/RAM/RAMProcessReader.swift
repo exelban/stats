@@ -44,6 +44,7 @@ class RAMProcessReader: Reader {
             try task.run()
         } catch let error {
             print(error)
+            return
         }
         
         let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()

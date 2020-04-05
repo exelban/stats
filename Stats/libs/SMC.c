@@ -1,5 +1,5 @@
 //
-//  SystemKit.c
+//  SMC.c
 //  Stats
 //
 // SMC code borrowed from https://github.com/lavoiesl/osx-cpu-temp.
@@ -8,13 +8,14 @@
 //  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
 //
 
-#include <IOKit/ps/IOPowerSources.h>
-#include <IOKit/ps/IOPSKeys.h>
 #include <IOKit/IOKitLib.h>
 #include <stdio.h>
 #include <string.h>
 
-#include "SystemKit.h"
+#include <sys/types.h>
+#include <sys/sysctl.h>
+
+#include "SMC.h"
 
 static io_connect_t conn;
 
@@ -151,6 +152,79 @@ double GetTemperature(char* key) {
     return 0.0;
 }
 
+void GetTemperatures(Temperatures *list) {
+    list->termal_zone_0 = GetTemperature(SMC_TEMP_TERMALZONE_0);
+    list->termal_zone_1 = GetTemperature(SMC_TEMP_TERMALZONE_1);
+    list->termal_ambient_0 = GetTemperature(SMC_TEMP_AMBIENT_AIR_0);
+    list->termal_ambient_1 = GetTemperature(SMC_TEMP_AMBIENT_AIR_1);
+    list->termal_heatpipe_0 = GetTemperature(SMC_TEMP_HEATPIPE_0);
+    list->termal_heatpipe_1 = GetTemperature(SMC_TEMP_HEATPIPE_1);
+    list->termal_heatpipe_2 = GetTemperature(SMC_TEMP_HEATPIPE_2);
+    list->termal_heatpipe_3 = GetTemperature(SMC_TEMP_HEATPIPE_3);
+    
+    list->cpu_0_die = GetTemperature(SMC_TEMP_CPU_0_DIE);
+    list->cpu_0_diode = GetTemperature(SMC_TEMP_CPU_0_DIODE);
+    list->cpu_0_heatsink = GetTemperature(SMC_TEMP_CPU_0_HEATSINK);
+    list->cpu_0_proximity = GetTemperature(SMC_TEMP_CPU_0_PROXIMITY);
+    list->cpu_1_die = GetTemperature(SMC_TEMP_CPU_1_DIE);
+    list->cpu_1_diode = GetTemperature(SMC_TEMP_CPU_1_DIODE);
+    list->cpu_1_heatsink = GetTemperature(SMC_TEMP_CPU_1_HEATSINK);
+    list->cpu_1_proximity = GetTemperature(SMC_TEMP_CPU_1_PROXIMITY);
+    
+    list->cpu_1 = GetTemperature(SMC_TEMP_CPU_CORE_1);
+    list->cpu_2 = GetTemperature(SMC_TEMP_CPU_CORE_2);
+    list->cpu_3 = GetTemperature(SMC_TEMP_CPU_CORE_3);
+    list->cpu_4 = GetTemperature(SMC_TEMP_CPU_CORE_4);
+    list->cpu_5 = GetTemperature(SMC_TEMP_CPU_CORE_5);
+    list->cpu_6 = GetTemperature(SMC_TEMP_CPU_CORE_6);
+    list->cpu_7 = GetTemperature(SMC_TEMP_CPU_CORE_7);
+    list->cpu_8 = GetTemperature(SMC_TEMP_CPU_CORE_8);
+    
+    list->gpu_diode = GetTemperature(SMC_TEMP_GPU_0_DIODE);
+    list->gpu_heatsink = GetTemperature(SMC_TEMP_GPU_0_HEATSINK);
+    list->gpu_proximity = GetTemperature(SMC_TEMP_GPU_0_PROXIMITY);
+    
+    list->mem_proximity = GetTemperature(SMC_TEMP_MEM_SLOTS);
+    list->mem_0 = GetTemperature(SMC_TEMP_MEM_SLOT_0);
+    list->mem_1 = GetTemperature(SMC_TEMP_MEM_SLOT_1);
+    list->mem_2 = GetTemperature(SMC_TEMP_MEM_SLOT_2);
+    list->mem_3 = GetTemperature(SMC_TEMP_MEM_SLOT_3);
+    
+    list->pci_proximity = GetTemperature(SMC_TEMP_PCI_SLOTS);
+    list->pci_0 = GetTemperature(SMC_TEMP_PCI_SLOT_0);
+    list->pci_1 = GetTemperature(SMC_TEMP_PCI_SLOT_1);
+    list->pci_2 = GetTemperature(SMC_TEMP_PCI_SLOT_2);
+    list->pci_3 = GetTemperature(SMC_TEMP_PCI_SLOT_3);
+    
+    list->sensor_mainboard = GetTemperature(SMC_TEMP_MAINBOARD_PROXIMITY);
+    list->sensor_powerboard = GetTemperature(SMC_TEMP_POWERBOARD_PROXIMITY);
+    list->sensor_battery = GetTemperature(SMC_TEMP_BATTERY_PROXIMITY);
+    list->sensor_airport = GetTemperature(SMC_TEMP_AIRPORT_PROXIMITY);
+    list->sensor_lcd = GetTemperature(SMC_TEMP_LCD_PROXIMITY);
+    list->sensor_odd = GetTemperature(SMC_TEMP_ODD_PROXIMITY);
+    
+    list->northbridge_die = GetTemperature(SMC_TEMP_NORTHBRIDGE_DIE);
+    list->northbridge_proximity = GetTemperature(SMC_TEMP_NORTHBRIDGE_PROXIMITY);
+    
+    list->hdd_0 = GetTemperature(SMC_TEMP_HDD_0);
+    list->hdd_1 = GetTemperature(SMC_TEMP_HDD_1);
+    list->hdd_2 = GetTemperature(SMC_TEMP_HDD_2);
+    list->hdd_3 = GetTemperature(SMC_TEMP_HDD_3);
+    
+    list->thunderbolt_0 = GetTemperature(SMC_TEMP_THUNDERBOLT_0);
+    list->thunderbolt_1 = GetTemperature(SMC_TEMP_THUNDERBOLT_1);
+    list->thunderbolt_2 = GetTemperature(SMC_TEMP_THUNDERBOLT_2);
+    list->thunderbolt_3 = GetTemperature(SMC_TEMP_THUNDERBOLT_3);
+}
+
+void GetVoltages(Voltages *list) {
+    
+}
+
+void GetPowers(Powers *list) {
+    
+}
+
 float GetFanRPM(char* key) {
     SMCVal_t val;
     kern_return_t result;
@@ -166,112 +240,16 @@ float GetFanRPM(char* key) {
     return -1.f;
 }
 
-PowerManagmentInformation *GetPowerInfo() {
-    PowerManagmentInformation *info = malloc(sizeof(PowerManagmentInformation));
-    
-    CFTypeRef power_sources = IOPSCopyPowerSourcesInfo();
-    CFTypeRef external_adapter = IOPSCopyExternalPowerAdapterDetails();
-    
-    /* Get information aboud external adapter */
-    if (external_adapter != NULL) {
-        CFNumberRef watts = CFDictionaryGetValue(external_adapter, CFSTR(kIOPSPowerAdapterWattsKey));
-        if (watts) {
-            CFNumberGetValue(watts, kCFNumberDoubleType, &info->ACWatts);
-            CFRelease(watts);
-        }
-        
-        CFRelease(external_adapter);
-    }
-    
-    if(power_sources == NULL) {
-        return NULL;
-    }
-    
-    CFArrayRef list = IOPSCopyPowerSourcesList(power_sources);
-    CFDictionaryRef battery = NULL;
 
-    if(list == NULL) {
-        CFRelease(power_sources);
-        return NULL;
-    }
-    
-    /* Get the battery */
-    for(int i = 0; i < CFArrayGetCount(list) && battery == NULL; ++i) {
-        CFDictionaryRef candidate = IOPSGetPowerSourceDescription(power_sources, CFArrayGetValueAtIndex(list, i));
-        CFStringRef type;
-        
-        if(candidate != NULL) {
-            type = (CFStringRef) CFDictionaryGetValue(candidate, CFSTR(kIOPSTransportTypeKey));
+int64_t GetCPUFrequency() {
+    int mib[2];
+    unsigned int freq;
+    size_t len;
 
-            if(kCFCompareEqualTo == CFStringCompare(type, CFSTR(kIOPSInternalType), 0)) {
-                CFRetain(candidate);
-                battery = candidate;
-            }
-        }
-    }
+    mib[0] = CTL_HW;
+    mib[1] = HW_CPU_FREQ;
+    len = sizeof(freq);
+    sysctl(mib, 2, &freq, &len, NULL, 0);
 
-    if(battery != NULL) {
-        CFStringRef power_state = CFDictionaryGetValue(battery, CFSTR(kIOPSPowerSourceStateKey));
-        
-        CFNumberRef max_capacity = CFDictionaryGetValue(battery, CFSTR(kIOPSMaxCapacityKey));
-        CFNumberRef design_capacity = CFDictionaryGetValue(battery, CFSTR(kIOPSDesignCapacityKey));
-        CFNumberRef current_capacity = CFDictionaryGetValue(battery, CFSTR(kIOPSCurrentCapacityKey));
-        
-        CFNumberRef amperage = CFDictionaryGetValue(battery, CFSTR(kIOPSCurrentKey));
-        CFNumberRef voltage = CFDictionaryGetValue(battery, CFSTR(kIOPSVoltageKey));
-        CFNumberRef temperature = CFDictionaryGetValue(battery, CFSTR(kIOPSTemperatureKey));
-        
-        /* Determine the AC state */
-        info->isCharging = kCFCompareEqualTo == CFStringCompare(power_state, CFSTR(kIOPSACPowerValue), 0);
-        
-        /* Get capacity */
-        if (max_capacity) {
-            CFNumberGetValue(max_capacity, kCFNumberDoubleType, &info->maxCapacity);
-            CFRelease(max_capacity);
-        }
-        if (design_capacity) {
-            CFNumberGetValue(design_capacity, kCFNumberDoubleType, &info->designCapacity);
-            CFRelease(design_capacity);
-        }
-        if (current_capacity) {
-            CFNumberGetValue(current_capacity, kCFNumberDoubleType, &info->currentCapacity);
-            CFRelease(current_capacity);
-        }
-        
-        /* Determine the level */
-        if (info->currentCapacity && info->maxCapacity) {
-            info->level = (info->currentCapacity * 100.0) / info->maxCapacity;
-        }
-        
-        /* Get the parameters */
-        if (amperage) {
-            CFNumberGetValue(amperage, kCFNumberDoubleType, &info->amperage);
-            CFRelease(amperage);
-        }
-        if (voltage) {
-            printf("2\n");
-            CFNumberGetValue(voltage, kCFNumberDoubleType, &info->voltage);
-            CFRelease(voltage);
-        }
-        if (temperature) {
-            printf("3\n");
-            CFNumberGetValue(temperature, kCFNumberDoubleType, &info->voltage);
-            CFRelease(temperature);
-        }
-        
-//        printf("%f\n", info->amperage);
-//        printf("%f\n", test);
-//        printf("%f\n", info->temperature);
-//        printf("\n%hhu\n", info->isCharging);
-        
-//        printf("%u", info->level);
-        
-        CFRelease(battery);
-    }
-
-    CFRelease(list);
-    CFRelease(power_sources);
-    
-    free(info);
-    return info;
+    return freq;
 }

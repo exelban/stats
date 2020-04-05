@@ -54,7 +54,7 @@
 		9AA28DC1243774ED00D2B196 /* Temperature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA28DC0243774ED00D2B196 /* Temperature.swift */; };
 		9AA28DC32437752D00D2B196 /* TemperatureMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA28DC22437752D00D2B196 /* TemperatureMenu.swift */; };
 		9AA28DC52437762C00D2B196 /* TemperatureReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA28DC42437762C00D2B196 /* TemperatureReader.swift */; };
-		9AA28DCF2437884200D2B196 /* SystemKit.c in Sources */ = {isa = PBXBuildFile; fileRef = 9AA28DCE2437884200D2B196 /* SystemKit.c */; };
+		9AA28DCF2437884200D2B196 /* SMC.c in Sources */ = {isa = PBXBuildFile; fileRef = 9AA28DCE2437884200D2B196 /* SMC.c */; };
 		9AA28DD1243799E500D2B196 /* TemperatureWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA28DD0243799E500D2B196 /* TemperatureWidget.swift */; };
 		9AF0F31B22DA924000026AE6 /* LineChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF0F31A22DA924000026AE6 /* LineChart.swift */; };
 		9AF0F31D22DA925000026AE6 /* LineChartWithValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF0F31C22DA925000026AE6 /* LineChartWithValue.swift */; };
@@ -148,8 +148,8 @@
 		9AA28DC22437752D00D2B196 /* TemperatureMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemperatureMenu.swift; sourceTree = "<group>"; };
 		9AA28DC42437762C00D2B196 /* TemperatureReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemperatureReader.swift; sourceTree = "<group>"; };
 		9AA28DC9243780C500D2B196 /* Stats.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Stats.h; sourceTree = "<group>"; };
-		9AA28DCD2437884200D2B196 /* SystemKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SystemKit.h; sourceTree = "<group>"; };
-		9AA28DCE2437884200D2B196 /* SystemKit.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = SystemKit.c; sourceTree = "<group>"; };
+		9AA28DCD2437884200D2B196 /* SMC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SMC.h; sourceTree = "<group>"; };
+		9AA28DCE2437884200D2B196 /* SMC.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = SMC.c; sourceTree = "<group>"; };
 		9AA28DD0243799E500D2B196 /* TemperatureWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemperatureWidget.swift; sourceTree = "<group>"; };
 		9AF0F31A22DA924000026AE6 /* LineChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChart.swift; sourceTree = "<group>"; };
 		9AF0F31C22DA925000026AE6 /* LineChartWithValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartWithValue.swift; sourceTree = "<group>"; };
@@ -304,13 +304,13 @@
 		9A5B1CBD229E78D2008B9D3C /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				9AA28DCD2437884200D2B196 /* SMC.h */,
+				9AA28DCE2437884200D2B196 /* SMC.c */,
 				9A5B1CC4229E7B40008B9D3C /* Extensions.swift */,
 				9A426DB722C2B5EE00C064C4 /* MacAppUpdater.swift */,
 				9A59AE55231EE02F007989D6 /* ChartMarker.swift */,
 				9A2D15CF23C77BA300C4C417 /* Repeater.swift */,
 				9AA28DC9243780C500D2B196 /* Stats.h */,
-				9AA28DCD2437884200D2B196 /* SystemKit.h */,
-				9AA28DCE2437884200D2B196 /* SystemKit.c */,
 			);
 			path = libs;
 			sourceTree = "<group>";
@@ -533,7 +533,7 @@
 				9AA28DD1243799E500D2B196 /* TemperatureWidget.swift in Sources */,
 				9A2D15FA23CE3BE600C4C417 /* Battery.swift in Sources */,
 				9A54EF67232AB81800F7DC20 /* BatteryPercentageWidget.swift in Sources */,
-				9AA28DCF2437884200D2B196 /* SystemKit.c in Sources */,
+				9AA28DCF2437884200D2B196 /* SMC.c in Sources */,
 				9AA28DC52437762C00D2B196 /* TemperatureReader.swift in Sources */,
 				9A57A18522A1D26D0033E318 /* MenuBar.swift in Sources */,
 				9A2D15D923CD036400C4C417 /* CPUMenu.swift in Sources */,

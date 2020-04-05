@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-#import "SystemKit.h"
+#import "SMC.h"
 
 //! Project version number for SMCKit.
 FOUNDATION_EXPORT double SMCKitVersionNumber;

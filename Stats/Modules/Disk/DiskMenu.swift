@@ -20,6 +20,18 @@ extension Disk {
         }
         menu.target = self
         
+        self.disks.list.forEach { (d: diskInfo) in
+            let disk = NSMenuItem(title: d.name, action: #selector(toggleDisk), keyEquivalent: "")
+            if self.selectedDisk == "" && d.root {
+                disk.state = NSControl.StateValue.on
+            } else {
+                disk.state = self.selectedDisk == d.mediaBSDName ? NSControl.StateValue.on : NSControl.StateValue.off
+            }
+            disk.target = self
+            
+            submenu.addItem(disk)
+        }
+        
         let mini = NSMenuItem(title: "Mini", action: #selector(toggleWidget), keyEquivalent: "")
         mini.state = self.widget.type == Widgets.Mini ? NSControl.StateValue.on : NSControl.StateValue.off
         mini.target = self
@@ -27,6 +39,8 @@ extension Disk {
         let barChart = NSMenuItem(title: "Bar chart", action: #selector(toggleWidget), keyEquivalent: "")
         barChart.state = self.widget.type == Widgets.BarChart ? NSControl.StateValue.on : NSControl.StateValue.off
         barChart.target = self
+        
+        submenu.addItem(NSMenuItem.separator())
         
         submenu.addItem(mini)
         submenu.addItem(barChart)
@@ -158,5 +172,28 @@ extension Disk {
         self.updateInterval = interval
         self.defaults.set(interval, forKey: "\(name)_interval")
         self.task?.reset(.seconds(interval), restart: self.task!.state.isRunning)
+    }
+    
+    @objc func toggleDisk(_ sender: NSMenuItem) {
+        let name: String = sender.title
+        let d: diskInfo? = self.disks.getDiskByName(name)
+        if d == nil {
+            return
+        }
+        
+        if d!.mediaBSDName == self.selectedDisk {
+            return
+        }
+        
+        for item in self.submenu.items {
+            if self.disks.getDiskByName(item.title) != nil {
+                item.state = NSControl.StateValue.off
+            }
+        }
+        
+        sender.state = NSControl.StateValue.on
+        self.selectedDisk = d!.mediaBSDName
+        self.defaults.set(d!.mediaBSDName, forKey: "\(name)_disk")
+        menuBar!.reload(name: self.name)
     }
 }

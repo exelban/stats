@@ -25,17 +25,19 @@ class Temperature: Module {
     internal let defaults = UserDefaults.standard
     internal var submenu: NSMenu = NSMenu()
     
-    internal var cpu: String = SMC_TEMP_CPU_0_PROXIMITY
-    internal var gpu: String = SMC_TEMP_GPU_0_PROXIMITY
+    internal var value_1: String = "cpu_1_diode"
+    internal var value_2: String = "gpu_diode"
+    internal var once: Int = 0
     
     init() {
         if !self.available { return }
         
         self.enabled = defaults.object(forKey: name) != nil ? defaults.bool(forKey: name) : true
         self.widget.type = defaults.object(forKey: "\(name)_widget") != nil ? defaults.float(forKey: "\(name)_widget") : Widgets.Temperature
-        self.cpu = (defaults.object(forKey: "\(name)_cpu") != nil ? defaults.string(forKey: "\(name)_cpu") : cpu)!
-        self.gpu = (defaults.object(forKey: "\(name)_gpu") != nil ? defaults.string(forKey: "\(name)_gpu") : gpu)!
+        self.value_1 = (defaults.object(forKey: "\(name)_value_1") != nil ? defaults.string(forKey: "\(name)_value_1")! : value_1)
+        self.value_2 = (defaults.object(forKey: "\(name)_value_2") != nil ? defaults.string(forKey: "\(name)_value_2")! : value_2)
         
+        self.initGroups()
         self.initWidget()
         self.initMenu()
         
@@ -65,13 +67,23 @@ class Temperature: Module {
         self.start()
     }
     
-    private func usageUpdater(value: TemperatureValue) {
+    private func usageUpdater(value: Temperatures) {
         if self.widget.view is Widget {
             DispatchQueue.main.async(execute: {
-                let cpu: Double = self.cpu == SMC_TEMP_CPU_0_DIE ? value.CPUDie : value.CPUProximity
-                let gpu: Double = self.gpu == SMC_TEMP_GPU_0_DIODE ? value.GPUDie : value.GPUProximity
+                var value_1: Double = 0
+                var value_2: Double = 0
                 
-                (self.widget.view as! Widget).setValue(data: [cpu, gpu])
+                let v1 = value.asDictionary.first { $0.key == self.value_1 }
+                let v2 = value.asDictionary.first { $0.key == self.value_2 }
+                
+                if v1 != nil {
+                    value_1 = v1!.value as! Double
+                }
+                if v2 != nil {
+                    value_2 = v2!.value as! Double
+                }
+                
+                (self.widget.view as! Widget).setValue(data: [value_1, value_2])
             })
         }
     }

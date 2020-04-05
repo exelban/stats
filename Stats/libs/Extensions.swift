@@ -274,6 +274,13 @@ extension String {
     func matches(_ regex: String) -> Bool {
         return self.range(of: regex, options: .regularExpression, range: nil, locale: nil) != nil
     }
+
+    func toUpperCase()  -> String {
+        return prefix(1).capitalized + dropFirst()
+    }
+    func toLowwerCase()  -> String {
+        return prefix(1).lowercased() + dropFirst()
+    }
 }
 
 extension URL {
@@ -285,5 +292,18 @@ extension URL {
 class ChartsNetworkAxisFormatter: IAxisValueFormatter {
     func stringForValue(_ value: Double, axis: AxisBase?) -> String {
         return Units(bytes: Int64(value)).getReadableSpeed()
+    }
+}
+
+extension Temperatures {
+    var asDictionary : [String: Any] {
+        let mirror = Mirror(reflecting: self)
+        
+        var dict: Dictionary<String, Any> = [:]
+        for (_, element) in mirror.children.enumerated() {
+            dict[element.label!] = element.value
+        }
+        
+        return dict
     }
 }

@@ -11,7 +11,6 @@ import IOKit.ps
 
 class Battery: Module {
     public var name: String = "Battery"
-    public var updateInterval: Double = 15
     
     public var enabled: Bool = true
     public var available: Bool {
@@ -63,7 +62,9 @@ class Battery: Module {
     }
     
     public func stop() {
-        (readers[0] as! BatteryReader).stop()
+        if readers.count > 0 {
+            (readers[0] as! BatteryReader).stop()
+        }
     }
     
     public func restart() {

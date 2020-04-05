@@ -36,6 +36,7 @@ class RAM: Module {
         if !self.available { return }
         
         self.enabled = defaults.object(forKey: name) != nil ? defaults.bool(forKey: name) : true
+        self.updateInterval = defaults.object(forKey: "\(name)_interval") != nil ? defaults.double(forKey: "\(name)_interval") : self.updateInterval
         self.widget.type = defaults.object(forKey: "\(name)_widget") != nil ? defaults.float(forKey: "\(name)_widget") : Widgets.Mini
         
         readers.append(RAMUsageReader(self.usageUpdater))
