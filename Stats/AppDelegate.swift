@@ -48,7 +48,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
-//        SMCClose()
+        _ = smc.close()
         menuBar?.destroy()
     }
 

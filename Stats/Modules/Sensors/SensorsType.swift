@@ -19,6 +19,8 @@ enum SensorType: SensorType_t {
     case Temperature = "Temperature"
     case Voltage = "Voltage"
     case Power = "Power"
+    case Frequency = "Frequency"
+    case Battery = "Battery"
 }
 
 struct Sensor_t {
@@ -27,6 +29,19 @@ struct Sensor_t {
     
     var group: SensorGroup_t
     var type: SensorType_t
+    var unit: String {
+        get {
+            switch self.type{
+            case SensorType.Temperature.rawValue:
+                return "°"
+            case SensorType.Voltage.rawValue:
+                return "V"
+            case SensorType.Power.rawValue:
+                return "W"
+            default: return ""
+            }
+        }
+    }
     
     var value: Double? = nil
     
@@ -125,7 +140,6 @@ let SensorsDict: [String: Sensor_t] = [
     "VG0C": Sensor_t(name: "GPU", group: SensorGroup.GPU.rawValue, type: SensorType.Voltage.rawValue),
     
     "VM0R": Sensor_t(name: "Memory", group: SensorGroup.System.rawValue, type: SensorType.Voltage.rawValue),
-    "VBAT": Sensor_t(name: "Battery", group: SensorGroup.System.rawValue, type: SensorType.Voltage.rawValue),
     "Vb0R": Sensor_t(name: "CMOS", group: SensorGroup.System.rawValue, type: SensorType.Voltage.rawValue),
     
     "VD0R": Sensor_t(name: "DC In", group: SensorGroup.Sensor.rawValue, type: SensorType.Voltage.rawValue),
@@ -148,4 +162,22 @@ let SensorsDict: [String: Sensor_t] = [
     "PPBR": Sensor_t(name: "Battery", group: SensorGroup.Sensor.rawValue, type: SensorType.Power.rawValue),
     "PDTR": Sensor_t(name: "DC In", group: SensorGroup.Sensor.rawValue, type: SensorType.Power.rawValue),
     "PSTR": Sensor_t(name: "System total", group: SensorGroup.Sensor.rawValue, type: SensorType.Power.rawValue),
+    
+    /// Frequency
+    "FRC0": Sensor_t(name: "CPU 1", group: SensorGroup.CPU.rawValue, type: SensorType.Frequency.rawValue),
+    "FRC1": Sensor_t(name: "CPU 2", group: SensorGroup.CPU.rawValue, type: SensorType.Frequency.rawValue),
+    "FRC2": Sensor_t(name: "CPU 3", group: SensorGroup.CPU.rawValue, type: SensorType.Frequency.rawValue),
+    "FRC3": Sensor_t(name: "CPU 4", group: SensorGroup.CPU.rawValue, type: SensorType.Frequency.rawValue),
+    "FRC4": Sensor_t(name: "CPU 5", group: SensorGroup.CPU.rawValue, type: SensorType.Frequency.rawValue),
+    "FRC5": Sensor_t(name: "CPU 6", group: SensorGroup.CPU.rawValue, type: SensorType.Frequency.rawValue),
+    "FRC6": Sensor_t(name: "CPU 7", group: SensorGroup.CPU.rawValue, type: SensorType.Frequency.rawValue),
+    "FRC7": Sensor_t(name: "CPU 8", group: SensorGroup.CPU.rawValue, type: SensorType.Frequency.rawValue),
+    
+    "CG0C": Sensor_t(name: "GPU", group: SensorGroup.GPU.rawValue, type: SensorType.Frequency.rawValue),
+    "CG0S": Sensor_t(name: "GPU shader", group: SensorGroup.GPU.rawValue, type: SensorType.Frequency.rawValue),
+    "CG0M": Sensor_t(name: "GPU memory", group: SensorGroup.GPU.rawValue, type: SensorType.Frequency.rawValue),
+    
+    /// Battery
+    "B0AV": Sensor_t(name: "Voltage", group: SensorGroup.Sensor.rawValue, type: SensorType.Battery.rawValue),
+    "B0AC": Sensor_t(name: "Amperage", group: SensorGroup.Sensor.rawValue, type: SensorType.Battery.rawValue),
 ]

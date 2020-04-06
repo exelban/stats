@@ -71,8 +71,10 @@ class Sensors: Module {
     }
     
     private func update() {
-        var value_1: Double = 0
-        var value_2: Double = 0
+        var value_1_unit: Double = 0
+        var value_1_value: Double = 0
+        var value_2_unit: Double = 0
+        var value_2_value: Double = 0
         
         var sensor_1: Sensor_t? = self.sensors.find(byKey: self.value_1)
         var sensor_2: Sensor_t? = self.sensors.find(byKey: self.value_2)
@@ -80,18 +82,20 @@ class Sensors: Module {
         if sensor_1 != nil {
             sensor_1!.update()
             if sensor_1!.value != nil {
-                value_1 = sensor_1!.value!
+                value_1_value = sensor_1!.value!
+                value_1_unit = Double(sensor_1!.unit[0].unicodeScalarCodePoint())
             }
         }
         if sensor_2 != nil {
             sensor_2!.update()
             if sensor_2!.value != nil {
-                value_2 = sensor_2!.value!
+                value_2_value = sensor_2!.value!
+                value_2_unit = Double(sensor_2!.unit[0].unicodeScalarCodePoint())
             }
         }
-
+        
         DispatchQueue.main.async(execute: {
-            (self.widget.view as! Widget).setValue(data: [value_1, value_2])
+            (self.widget.view as! Widget).setValue(data: [value_1_value, value_1_unit, value_2_value, value_2_unit])
         })
     }
 }

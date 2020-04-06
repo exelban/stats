@@ -5,13 +5,14 @@ ITC_USERNAME = $(AC_USERNAME)
 ITC_PASSWORD = @keychain:AC_PASSWORD
 ITC_PROVIDER = $(AC_PROVIDER)
 
-RequestUUID = e6c7b954-d9fa-4c74-8927-ba2172c9526e
+RequestUUID = 32c80f6c-36ed-4042-9837-b9093c9f4eb9
 
 BUILD_PATH = $(PWD)/build
 ARCHIVE_PATH = $(BUILD_PATH)/$(APP).xcarchive
 APP_PATH = "$(BUILD_PATH)/$(APP).app"
 ZIP_PATH = "$(BUILD_PATH)/$(APP).zip"
 DMG_PATH = $(PWD)/$(APP).dmg
+LOCATION=$(BUILD_PATH)/$(APP).app/Contents/Library/LoginItems/LaunchAtLoginHelper.app
 
 all: clean archive notarize sign build
 

@@ -82,11 +82,13 @@ class SensorsWidget: NSView, Widget {
     }
     
     func setValue(data: [Double]) {
-        if self.value != data && data.count == 2 {
-            self.value = data
-
-            self.topValueView.stringValue = "\(Int(self.value[0]))°"
-            self.bottomValueView.stringValue = "\(Int(self.value[1]))°"
+        if self.value != data && data.count == 4 {
+            self.value = [data[0], data[2]]
+            let unit_1: String = String(UnicodeScalar(Int(data[1]))!)
+            let unit_2: String = String(UnicodeScalar(Int(data[3]))!)
+            
+            self.topValueView.stringValue = "\(Int(self.value[0]))\(unit_1)"
+            self.bottomValueView.stringValue = "\(Int(self.value[1]))\(unit_2)"
 
             self.topValueView.textColor = self.value[0].temperatureColor(color: self.color)
             self.bottomValueView.textColor = self.value[1].temperatureColor(color: self.color)

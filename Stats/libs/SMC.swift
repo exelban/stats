@@ -14,6 +14,7 @@ enum SMCDataType: String {
     case SP87 = "sp87"
     case FLT = "flt "
     case FPE2 = "fpe2"
+    case FP2E = "fp2e"
 }
 
 enum SMCKeys: UInt8 {
@@ -151,12 +152,8 @@ class SMCService {
                     return Double(value!)
                 }
                 return nil
-            case SMCDataType.FPE2.rawValue:
-                // ntohs(*(UInt16*)val.bytes) / 4.0;
-                print("FPE2")
-                break
             default:
-                print("unsupported data type \(val.dataType)")
+                print("unsupported data type \(val.dataType) for key: \(key)")
                 return nil
             }
         }

@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import Charts
 
 class Chart: NSView, Widget {
     public var name: String = "LineChart"
@@ -170,5 +171,11 @@ class Chart: NSView, Widget {
         }
         
         self.redraw()
+    }
+}
+
+class ChartsNetworkAxisFormatter: IAxisValueFormatter {
+    func stringForValue(_ value: Double, axis: AxisBase?) -> String {
+        return Units(bytes: Int64(value)).getReadableSpeed()
     }
 }

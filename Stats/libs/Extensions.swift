@@ -7,7 +7,123 @@
 //
 
 import Cocoa
-import Charts
+
+public enum Unit : Float {
+    case byte     = 1
+    case kilobyte = 1024
+    case megabyte = 1048576
+    case gigabyte = 1073741824
+}
+
+public struct Units {
+    public let bytes: Int64
+    
+    public init(bytes: Int64) {
+        self.bytes = bytes
+    }
+    
+    public var kilobytes: Double {
+        return Double(bytes) / 1_024
+    }
+    public var megabytes: Double {
+        return kilobytes / 1_024
+    }
+    public var gigabytes: Double {
+        return megabytes / 1_024
+    }
+    
+    public func getReadableTuple() -> (Double, String) {
+        switch bytes {
+        case 0..<1_024:
+            return (0, "KB/s")
+        case 1_024..<(1_024 * 1_024):
+            return (Double(String(format: "%.2f", kilobytes))!, "KB/s")
+        case 1_024..<(1_024 * 1_024 * 1_024):
+            return (Double(String(format: "%.2f", megabytes))!, "MB/s")
+        case (1_024 * 1_024 * 1_024)...Int64.max:
+            return (Double(String(format: "%.2f", gigabytes))!, "GB/s")
+        default:
+            return (Double(String(format: "%.2f", kilobytes))!, "KB/s")
+        }
+    }
+    
+    public func getReadableSpeed() -> String {
+        switch bytes {
+        case 0..<1_024:
+            return "0 KB/s"
+        case 1_024..<(1_024 * 1_024):
+            return String(format: "%.0f KB/s", kilobytes)
+        case 1_024..<(1_024 * 1_024 * 100):
+            return String(format: "%.1f MB/s", megabytes)
+        case (1_024 * 1_024 * 100)..<(1_024 * 1_024 * 1_024):
+            return String(format: "%.0f MB/s", megabytes)
+        case (1_024 * 1_024 * 1_024)...Int64.max:
+            return String(format: "%.1f GB/s", gigabytes)
+        default:
+            return String(format: "%.0f KB/s", kilobytes)
+        }
+    }
+    
+    public func getReadableMemory() -> String {
+        switch bytes {
+        case 0..<1_024:
+            return "0 KB/s"
+        case 1_024..<(1_024 * 1_024):
+            return String(format: "%.0f KB", kilobytes)
+        case 1_024..<(1_024 * 1_024 * 1_024):
+            return String(format: "%.0f MB", megabytes)
+        case (1_024 * 1_024 * 1_024)...Int64.max:
+            return String(format: "%.2f GB", gigabytes)
+        default:
+            return String(format: "%.0f KB", kilobytes)
+        }
+    }
+}
+
+extension String {
+    func condenseWhitespace() -> String {
+        let components = self.components(separatedBy: .whitespacesAndNewlines)
+        return components.filter { !$0.isEmpty }.joined(separator: " ")
+    }
+    
+    var UTF8CString: UnsafeMutablePointer<Int8> {
+        return UnsafeMutablePointer(mutating: (self as NSString).utf8String!)
+    }
+    
+    mutating func findAndCrop(pattern: String) -> String {
+        let regex = try! NSRegularExpression(pattern: pattern)
+        let stringRange = NSRange(location: 0, length: self.utf16.count)
+        var line = self
+        
+        if let searchRange = regex.firstMatch(in: self, options: [], range: stringRange) {
+            let start = self.index(self.startIndex, offsetBy: searchRange.range.lowerBound)
+            let end = self.index(self.startIndex, offsetBy: searchRange.range.upperBound)
+            let value  = String(self[start..<end]).trimmingCharacters(in: .whitespaces)
+            line = self.replacingOccurrences(
+                of: value,
+                with: "",
+                options: .regularExpression
+            )
+            self = line.trimmingCharacters(in: .whitespaces)
+            return value.trimmingCharacters(in: .whitespaces)
+        }
+        
+        return ""
+    }
+    
+    func matches(_ regex: String) -> Bool {
+        return self.range(of: regex, options: .regularExpression, range: nil, locale: nil) != nil
+    }
+
+    func toUpperCase()  -> String {
+        return prefix(1).capitalized + dropFirst()
+    }
+    func toLowwerCase()  -> String {
+        return prefix(1).lowercased() + dropFirst()
+    }
+    
+    subscript(offset: Int) -> Character { self[index(startIndex, offsetBy: offset)] }
+}
 
 extension Double {
     func roundTo(decimalPlaces: Int) -> String {
@@ -85,81 +201,6 @@ extension Double {
     func splitAtDecimal() -> [Int64] {
         return "\(self)".split(separator: ".").map{Int64($0)!}
     }
-}
-
-public enum Unit : Float {
-    case byte     = 1
-    case kilobyte = 1024
-    case megabyte = 1048576
-    case gigabyte = 1073741824
-}
-
-public struct Units {
-    public let bytes: Int64
-    
-    public init(bytes: Int64) {
-        self.bytes = bytes
-    }
-    
-    public var kilobytes: Double {
-        return Double(bytes) / 1_024
-    }
-    public var megabytes: Double {
-        return kilobytes / 1_024
-    }
-    public var gigabytes: Double {
-        return megabytes / 1_024
-    }
-    
-    public func getReadableTuple() -> (Double, String) {
-        switch bytes {
-        case 0..<1_024:
-            return (0, "KB/s")
-        case 1_024..<(1_024 * 1_024):
-            return (Double(String(format: "%.2f", kilobytes))!, "KB/s")
-        case 1_024..<(1_024 * 1_024 * 1_024):
-            return (Double(String(format: "%.2f", megabytes))!, "MB/s")
-        case (1_024 * 1_024 * 1_024)...Int64.max:
-            return (Double(String(format: "%.2f", gigabytes))!, "GB/s")
-        default:
-            return (Double(String(format: "%.2f", kilobytes))!, "KB/s")
-        }
-    }
-    
-    public func getReadableSpeed() -> String {
-        switch bytes {
-        case 0..<1_024:
-            return "0 KB/s"
-        case 1_024..<(1_024 * 1_024):
-            return String(format: "%.0f KB/s", kilobytes)
-        case 1_024..<(1_024 * 1_024 * 100):
-            return String(format: "%.1f MB/s", megabytes)
-        case (1_024 * 1_024 * 100)..<(1_024 * 1_024 * 1_024):
-            return String(format: "%.0f MB/s", megabytes)
-        case (1_024 * 1_024 * 1_024)...Int64.max:
-            return String(format: "%.1f GB/s", gigabytes)
-        default:
-            return String(format: "%.0f KB/s", kilobytes)
-        }
-    }
-    
-    public func getReadableMemory() -> String {
-        switch bytes {
-        case 0..<1_024:
-            return "0 KB/s"
-        case 1_024..<(1_024 * 1_024):
-            return String(format: "%.0f KB", kilobytes)
-        case 1_024..<(1_024 * 1_024 * 1_024):
-            return String(format: "%.0f MB", megabytes)
-        case (1_024 * 1_024 * 1_024)...Int64.max:
-            return String(format: "%.2f GB", gigabytes)
-        default:
-            return String(format: "%.0f KB", kilobytes)
-        }
-    }
-}
-
-extension Double {
     
     func secondsToHoursMinutesSeconds () -> (Int?, Int?, Int?) {
         let hrs = self / 3600
@@ -192,17 +233,6 @@ extension Double {
     }
 }
 
-extension String {
-    func condenseWhitespace() -> String {
-        let components = self.components(separatedBy: .whitespacesAndNewlines)
-        return components.filter { !$0.isEmpty }.joined(separator: " ")
-    }
-    
-    var UTF8CString: UnsafeMutablePointer<Int8> {
-        return UnsafeMutablePointer(mutating: (self as NSString).utf8String!)
-    }
-}
-
 extension NSBezierPath {
     func addArrow(start: CGPoint, end: CGPoint, pointerLineLength: CGFloat, arrowAngle: CGFloat) {
         self.move(to: start)
@@ -219,7 +249,6 @@ extension NSBezierPath {
 }
 
 extension NSColor {
-    
     convenience init(hexString: String, alpha: CGFloat = 1.0) {
         let hexString: String = hexString.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         let scanner = Scanner(string: hexString)
@@ -249,53 +278,13 @@ extension NSColor {
     }
 }
 
-extension String {
-    mutating func findAndCrop(pattern: String) -> String {
-        let regex = try! NSRegularExpression(pattern: pattern)
-        let stringRange = NSRange(location: 0, length: self.utf16.count)
-        var line = self
-        
-        if let searchRange = regex.firstMatch(in: self, options: [], range: stringRange) {
-            let start = self.index(self.startIndex, offsetBy: searchRange.range.lowerBound)
-            let end = self.index(self.startIndex, offsetBy: searchRange.range.upperBound)
-            let value  = String(self[start..<end]).trimmingCharacters(in: .whitespaces)
-            line = self.replacingOccurrences(
-                of: value,
-                with: "",
-                options: .regularExpression
-            )
-            self = line.trimmingCharacters(in: .whitespaces)
-            return value.trimmingCharacters(in: .whitespaces)
-        }
-        
-        return ""
-    }
-    
-    func matches(_ regex: String) -> Bool {
-        return self.range(of: regex, options: .regularExpression, range: nil, locale: nil) != nil
-    }
-
-    func toUpperCase()  -> String {
-        return prefix(1).capitalized + dropFirst()
-    }
-    func toLowwerCase()  -> String {
-        return prefix(1).lowercased() + dropFirst()
-    }
-}
-
 extension URL {
     func checkFileExist() -> Bool {
         return FileManager.default.fileExists(atPath: self.path)
     }
 }
 
-class ChartsNetworkAxisFormatter: IAxisValueFormatter {
-    func stringForValue(_ value: Double, axis: AxisBase?) -> String {
-        return Units(bytes: Int64(value)).getReadableSpeed()
-    }
-}
-
-public extension FourCharCode {
+extension FourCharCode {
     init(fromString str: String) {
         precondition(str.count == 4)
 
@@ -338,5 +327,14 @@ extension NSMenuItem {
             let tmpAddress = String(format: "%p", unsafeBitCast(self, to: Int.self))
             NSMenuItem._extraString[tmpAddress] = newValue
         }
+    }
+}
+
+extension Character {
+    func unicodeScalarCodePoint() -> UInt32 {
+        let characterString = String(self)
+        let scalars = characterString.unicodeScalars
+
+        return scalars[scalars.startIndex].value
     }
 }
