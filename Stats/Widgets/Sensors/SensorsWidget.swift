@@ -1,5 +1,5 @@
 //
-//  DoubleRow.swift
+//  Sensors.swift
 //  Stats
 //
 //  Created by Serhiy Mytrovtsiy on 03/04/2020.
@@ -8,8 +8,8 @@
 
 import Foundation
 
-class TemperatureWidget: NSView, Widget {
-    public var name: String = "Temperature"
+class SensorsWidget: NSView, Widget {
+    public var name: String = "Sensors"
     public var menus: [NSMenuItem] = []
     
     private var value: [Double] = []
@@ -84,10 +84,10 @@ class TemperatureWidget: NSView, Widget {
     func setValue(data: [Double]) {
         if self.value != data && data.count == 2 {
             self.value = data
-            
+
             self.topValueView.stringValue = "\(Int(self.value[0]))°"
             self.bottomValueView.stringValue = "\(Int(self.value[1]))°"
-            
+
             self.topValueView.textColor = self.value[0].temperatureColor(color: self.color)
             self.bottomValueView.textColor = self.value[1].temperatureColor(color: self.color)
         }

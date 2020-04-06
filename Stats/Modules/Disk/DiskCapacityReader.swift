@@ -96,7 +96,9 @@ class DiskCapacityReader: Reader {
                             continue
                         }
                         
-                        self.disks.list.append(getDisk(disk))
+                        if let d = getDisk(disk) {
+                            self.disks.list.append(d)
+                        }
                     }
                 }
             }
@@ -111,7 +113,7 @@ class DiskCapacityReader: Reader {
         self.enabled = value
     }
     
-    private func getDisk(_ disk: DADisk) -> diskInfo {
+    private func getDisk(_ disk: DADisk) -> diskInfo? {
         var d: diskInfo = diskInfo()
         
         if let bsdName = DADiskGetBSDName(disk) {
@@ -120,6 +122,12 @@ class DiskCapacityReader: Reader {
         
         if let diskDescription = DADiskCopyDescription(disk) {
             if let dict = diskDescription as? [String: AnyObject] {
+                if let removable = dict[kDADiskDescriptionMediaRemovableKey as String] {
+                    if removable as! Bool {
+                        return nil
+                    }
+                }
+                
                 if let mediaName = dict[kDADiskDescriptionMediaNameKey as String] {
                     d.name = mediaName as! String
                 }

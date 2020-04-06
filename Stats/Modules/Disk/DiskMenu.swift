@@ -20,16 +20,18 @@ extension Disk {
         }
         menu.target = self
         
-        self.disks.list.forEach { (d: diskInfo) in
-            let disk = NSMenuItem(title: d.name, action: #selector(toggleDisk), keyEquivalent: "")
-            if self.selectedDisk == "" && d.root {
-                disk.state = NSControl.StateValue.on
-            } else {
-                disk.state = self.selectedDisk == d.mediaBSDName ? NSControl.StateValue.on : NSControl.StateValue.off
+        if self.disks.list.count > 1 {
+            self.disks.list.forEach { (d: diskInfo) in
+                let disk = NSMenuItem(title: d.name, action: #selector(toggleDisk), keyEquivalent: "")
+                if self.selectedDisk == "" && d.root {
+                    disk.state = NSControl.StateValue.on
+                } else {
+                    disk.state = self.selectedDisk == d.mediaBSDName ? NSControl.StateValue.on : NSControl.StateValue.off
+                }
+                disk.target = self
+                
+                submenu.addItem(disk)
             }
-            disk.target = self
-            
-            submenu.addItem(disk)
         }
         
         let mini = NSMenuItem(title: "Mini", action: #selector(toggleWidget), keyEquivalent: "")

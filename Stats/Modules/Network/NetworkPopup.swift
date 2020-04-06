@@ -59,7 +59,9 @@ extension Network {
         marker.chartView = self.chart
         self.chart.marker = marker
         
-        let download = LineChartDataSet(label: "Download")
+        var downloadLineChartEntry  = [ChartDataEntry]()
+        downloadLineChartEntry.append(ChartDataEntry(x: 0, y: 0))
+        let download = LineChartDataSet(entries: downloadLineChartEntry, label: "Download")
         download.drawCirclesEnabled = false
         download.mode = .cubicBezier
         download.cubicIntensity = 0.1
@@ -67,7 +69,9 @@ extension Network {
         download.fillColor = downloadGradientColor
         download.drawFilledEnabled = true
         
-        let upload = LineChartDataSet(label: "Upload")
+        var uploadLineChartEntry  = [ChartDataEntry]()
+        uploadLineChartEntry.append(ChartDataEntry(x: 0, y: 0))
+        let upload = LineChartDataSet(entries: uploadLineChartEntry, label: "Upload")
         upload.drawCirclesEnabled = false
         upload.mode = .cubicBezier
         upload.cubicIntensity = 0.1

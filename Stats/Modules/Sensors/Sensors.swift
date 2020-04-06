@@ -1,5 +1,5 @@
 //
-//  Temperature.swift
+//  Sensors.swift
 //  Stats
 //
 //  Created by Serhiy Mytrovtsiy on 03/04/2020.
@@ -8,8 +8,8 @@
 
 import Cocoa
 
-class Temperature: Module {
-    public var name: String = "Temperature"
+class Sensors: Module {
+    public var name: String = "Sensors"
     public var updateInterval: Double = 1
     
     public var enabled: Bool = true
@@ -25,66 +25,73 @@ class Temperature: Module {
     internal let defaults = UserDefaults.standard
     internal var submenu: NSMenu = NSMenu()
     
-    internal var value_1: String = "cpu_1_diode"
-    internal var value_2: String = "gpu_diode"
+    internal var value_1: String = "TC0P"
+    internal var value_2: String = "TG0D"
     internal var once: Int = 0
+    
+    internal var sensors: Sensors_t = Sensors_t()
     
     init() {
         if !self.available { return }
         
         self.enabled = defaults.object(forKey: name) != nil ? defaults.bool(forKey: name) : true
-        self.widget.type = defaults.object(forKey: "\(name)_widget") != nil ? defaults.float(forKey: "\(name)_widget") : Widgets.Temperature
+        self.widget.type = defaults.object(forKey: "\(name)_widget") != nil ? defaults.float(forKey: "\(name)_widget") : Widgets.Sensors
         self.value_1 = (defaults.object(forKey: "\(name)_value_1") != nil ? defaults.string(forKey: "\(name)_value_1")! : value_1)
         self.value_2 = (defaults.object(forKey: "\(name)_value_2") != nil ? defaults.string(forKey: "\(name)_value_2")! : value_2)
         
-        self.initGroups()
         self.initWidget()
         self.initMenu()
-        
-        readers.append(TemperatureReader(self.usageUpdater))
+
+        if self.enabled {
+            self.update()
+        }
         
         self.task = Repeater.init(interval: .seconds(self.updateInterval), observer: { _ in
-            self.readers.forEach { reader in
-                reader.read()
+            if self.enabled {
+                self.update()
             }
         })
     }
     
-    func start() {
+    public func start() {
         if self.task != nil && self.task!.state.isRunning == false {
             self.task!.start()
         }
     }
     
-    func stop() {
+    public func stop() {
         if self.task!.state.isRunning {
             self.task?.pause()
         }
     }
     
-    func restart() {
+    public func restart() {
         self.stop()
         self.start()
     }
     
-    private func usageUpdater(value: Temperatures) {
-        if self.widget.view is Widget {
-            DispatchQueue.main.async(execute: {
-                var value_1: Double = 0
-                var value_2: Double = 0
-                
-                let v1 = value.asDictionary.first { $0.key == self.value_1 }
-                let v2 = value.asDictionary.first { $0.key == self.value_2 }
-                
-                if v1 != nil {
-                    value_1 = v1!.value as! Double
-                }
-                if v2 != nil {
-                    value_2 = v2!.value as! Double
-                }
-                
-                (self.widget.view as! Widget).setValue(data: [value_1, value_2])
-            })
+    private func update() {
+        var value_1: Double = 0
+        var value_2: Double = 0
+        
+        var sensor_1: Sensor_t? = self.sensors.find(byKey: self.value_1)
+        var sensor_2: Sensor_t? = self.sensors.find(byKey: self.value_2)
+        
+        if sensor_1 != nil {
+            sensor_1!.update()
+            if sensor_1!.value != nil {
+                value_1 = sensor_1!.value!
+            }
         }
+        if sensor_2 != nil {
+            sensor_2!.update()
+            if sensor_2!.value != nil {
+                value_2 = sensor_2!.value!
+            }
+        }
+
+        DispatchQueue.main.async(execute: {
+            (self.widget.view as! Widget).setValue(data: [value_1, value_2])
+        })
     }
 }

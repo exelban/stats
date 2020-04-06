@@ -295,15 +295,48 @@ class ChartsNetworkAxisFormatter: IAxisValueFormatter {
     }
 }
 
-extension Temperatures {
-    var asDictionary : [String: Any] {
-        let mirror = Mirror(reflecting: self)
-        
-        var dict: Dictionary<String, Any> = [:]
-        for (_, element) in mirror.children.enumerated() {
-            dict[element.label!] = element.value
+public extension FourCharCode {
+    init(fromString str: String) {
+        precondition(str.count == 4)
+
+        self = str.utf8.reduce(0) { sum, character in
+            return sum << 8 | UInt32(character)
         }
-        
-        return dict
+    }
+    
+    func toString() -> String {
+        return String(describing: UnicodeScalar(self >> 24 & 0xff)!) +
+               String(describing: UnicodeScalar(self >> 16 & 0xff)!) +
+               String(describing: UnicodeScalar(self >> 8  & 0xff)!) +
+               String(describing: UnicodeScalar(self       & 0xff)!)
+    }
+}
+
+extension UInt32 {
+    init(bytes: (UInt8, UInt8, UInt8, UInt8)) {
+        self = UInt32(bytes.0) << 24 | UInt32(bytes.1) << 16 | UInt32(bytes.2) << 8 | UInt32(bytes.3)
+    }
+}
+
+extension FloatingPoint {
+    init?(_ bytes: [UInt8]) {
+        self = bytes.withUnsafeBytes {
+            return $0.load(fromByteOffset: 0, as: Self.self)
+        }
+    }
+}
+
+extension NSMenuItem {
+    private static var _extraString = [String:String]()
+    
+    var extraString: String {
+        get {
+            let tmpAddress = String(format: "%p", unsafeBitCast(self, to: Int.self))
+            return NSMenuItem._extraString[tmpAddress] ?? ""
+        }
+        set(newValue) {
+            let tmpAddress = String(format: "%p", unsafeBitCast(self, to: Int.self))
+            NSMenuItem._extraString[tmpAddress] = newValue
+        }
     }
 }

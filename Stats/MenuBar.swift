@@ -13,7 +13,7 @@ import ServiceManagement
  Class keeps a status bar item and has the main function for updating widgets.
  */
 class MenuBar {
-    public let modules: [Module] = [CPU(), RAM(), Temperature(), Disk(), Battery(), Network()]
+    public let modules: [Module] = [CPU(), RAM(), Sensors(), Disk(), Battery(), Network()]
     
     private let menuBarItem: NSStatusItem
     private var menuBarButton: NSButton = NSButton()

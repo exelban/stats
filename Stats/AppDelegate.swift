@@ -12,6 +12,7 @@ import LaunchAtLogin
 
 let updater = macAppUpdater(user: "exelban", repo: "stats")
 var menuBar: MenuBar?
+let smc = SMCService()
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -20,7 +21,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private let popover = NSPopover()
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        SMCOpen();
+        let res = smc.open()
+        if res != kIOReturnSuccess {
+            print("ERROR open SMC")
+            NSApp.terminate(nil)
+            return
+        }
         
         guard let menuBarButton = self.menuBarItem.button else {
             NSApp.terminate(nil)
@@ -42,7 +48,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
-        SMCClose()
+//        SMCClose()
         menuBar?.destroy()
     }
 
