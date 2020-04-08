@@ -8,7 +8,6 @@
 
 import Cocoa
 import ServiceManagement
-import LaunchAtLogin
 
 let updater = macAppUpdater(user: "exelban", repo: "stats")
 var menuBar: MenuBar?

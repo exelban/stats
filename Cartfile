@@ -1,3 +1,2 @@
-github "sindresorhus/LaunchAtLogin" ~> 3.0.0
 github "danielgindi/Charts" ~> 3.4.0
 github "ashleymills/Reachability.swift" ~> 5.0.0

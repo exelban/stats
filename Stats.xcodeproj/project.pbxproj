@@ -33,6 +33,9 @@
 		9A2D160323CE445900C4C417 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2D160223CE445900C4C417 /* Network.swift */; };
 		9A2D160523CE451B00C4C417 /* NetworkMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2D160423CE451B00C4C417 /* NetworkMenu.swift */; };
 		9A2D160723CE462400C4C417 /* NetworkReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2D160623CE462400C4C417 /* NetworkReader.swift */; };
+		9A3434F1243E19E6006B19F9 /* LaunchAtLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3434F0243E19E6006B19F9 /* LaunchAtLogin.swift */; };
+		9A34353B243E278D006B19F9 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A34353A243E278D006B19F9 /* main.swift */; };
+		9A34353C243E27E8006B19F9 /* LaunchAtLogin.app in Copy Files */ = {isa = PBXBuildFile; fileRef = 9A343527243E26A0006B19F9 /* LaunchAtLogin.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		9A426DB822C2B5EE00C064C4 /* MacAppUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A426DB722C2B5EE00C064C4 /* MacAppUpdater.swift */; };
 		9A426DBE22C2BE0000C064C4 /* Updates.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A426DBD22C2BE0000C064C4 /* Updates.storyboard */; };
 		9A5349C723D8535900C23824 /* NetworkPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5349C623D8535900C23824 /* NetworkPopup.swift */; };
@@ -47,7 +50,6 @@
 		9A606B4A2321577400642F51 /* UpdatesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A606B492321577400642F51 /* UpdatesViewController.swift */; };
 		9A606B4C232157BA00642F51 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A606B4B232157BA00642F51 /* AboutViewController.swift */; };
 		9A6698E62326AB16001D00E1 /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A6698E32326AAE5001D00E1 /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9A6698E92326AB19001D00E1 /* LaunchAtLogin.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A6698DF2326AAD6001D00E1 /* LaunchAtLogin.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9A6CFC0122A1C9F5001E782D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9A6CFC0022A1C9F5001E782D /* Assets.xcassets */; };
 		9A74D59722B44498004FE1FA /* Mini.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A74D59622B44498004FE1FA /* Mini.swift */; };
 		9A79B36A22D3BEE600BF1C3A /* Widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A79B36922D3BEE600BF1C3A /* Widget.swift */; };
@@ -75,7 +77,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				9A6698E92326AB19001D00E1 /* LaunchAtLogin.framework in Embed Frameworks */,
 				9A5349CF23D8832E00C23824 /* Reachability.framework in Embed Frameworks */,
 				9A6698E62326AB16001D00E1 /* Charts.framework in Embed Frameworks */,
 			);
@@ -88,6 +89,7 @@
 			dstPath = Contents/Library/LoginItems;
 			dstSubfolderSpec = 1;
 			files = (
+				9A34353C243E27E8006B19F9 /* LaunchAtLogin.app in Copy Files */,
 			);
 			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -100,7 +102,6 @@
 		9A1410F8229E721100D29793 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9A1410FF229E721200D29793 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9A141101229E721200D29793 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9A2D15CC23C77A7700C4C417 /* Repeat.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Repeat.framework; path = Carthage/Build/Mac/Repeat.framework; sourceTree = "<group>"; };
 		9A2D15CF23C77BA300C4C417 /* Repeater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repeater.swift; sourceTree = "<group>"; };
 		9A2D15D123CCEC7600C4C417 /* Module.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Module.swift; sourceTree = "<group>"; };
 		9A2D15D423CCEFF700C4C417 /* CPU.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPU.swift; sourceTree = "<group>"; };
@@ -124,6 +125,11 @@
 		9A2D160223CE445900C4C417 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		9A2D160423CE451B00C4C417 /* NetworkMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMenu.swift; sourceTree = "<group>"; };
 		9A2D160623CE462400C4C417 /* NetworkReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkReader.swift; sourceTree = "<group>"; };
+		9A3434F0243E19E6006B19F9 /* LaunchAtLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchAtLogin.swift; sourceTree = "<group>"; };
+		9A343527243E26A0006B19F9 /* LaunchAtLogin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LaunchAtLogin.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9A343535243E26A0006B19F9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9A343536243E26A0006B19F9 /* LaunchAtLogin.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LaunchAtLogin.entitlements; sourceTree = "<group>"; };
+		9A34353A243E278D006B19F9 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		9A426DB722C2B5EE00C064C4 /* MacAppUpdater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MacAppUpdater.swift; sourceTree = "<group>"; };
 		9A426DBD22C2BE0000C064C4 /* Updates.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Updates.storyboard; sourceTree = "<group>"; };
 		9A5349C623D8535900C23824 /* NetworkPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkPopup.swift; sourceTree = "<group>"; };
@@ -136,7 +142,6 @@
 		9A5B1CC4229E7B40008B9D3C /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		9A606B492321577400642F51 /* UpdatesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatesViewController.swift; sourceTree = "<group>"; };
 		9A606B4B232157BA00642F51 /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
-		9A6698DF2326AAD6001D00E1 /* LaunchAtLogin.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LaunchAtLogin.framework; path = Carthage/Build/Mac/LaunchAtLogin.framework; sourceTree = "<group>"; };
 		9A6698E32326AAE5001D00E1 /* Charts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Charts.framework; path = Carthage/Build/Mac/Charts.framework; sourceTree = "<group>"; };
 		9A6CFC0022A1C9F5001E782D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9A74D59622B44498004FE1FA /* Mini.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mini.swift; sourceTree = "<group>"; };
@@ -169,6 +174,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9A343524243E26A0006B19F9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -176,6 +188,7 @@
 			isa = PBXGroup;
 			children = (
 				9A1410F7229E721100D29793 /* Stats */,
+				9A343528243E26A0006B19F9 /* LaunchAtLogin */,
 				9A1410F6229E721100D29793 /* Products */,
 				9A998CD622A199920087ADE7 /* Frameworks */,
 			);
@@ -185,6 +198,7 @@
 			isa = PBXGroup;
 			children = (
 				9A1410F5229E721100D29793 /* Stats.app */,
+				9A343527243E26A0006B19F9 /* LaunchAtLogin.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -261,6 +275,16 @@
 			path = Network;
 			sourceTree = "<group>";
 		};
+		9A343528243E26A0006B19F9 /* LaunchAtLogin */ = {
+			isa = PBXGroup;
+			children = (
+				9A34353A243E278D006B19F9 /* main.swift */,
+				9A343535243E26A0006B19F9 /* Info.plist */,
+				9A343536243E26A0006B19F9 /* LaunchAtLogin.entitlements */,
+			);
+			path = LaunchAtLogin;
+			sourceTree = "<group>";
+		};
 		9A54EF65232AB48100F7DC20 /* Battery */ = {
 			isa = PBXGroup;
 			children = (
@@ -305,6 +329,7 @@
 				9A426DB722C2B5EE00C064C4 /* MacAppUpdater.swift */,
 				9A59AE55231EE02F007989D6 /* ChartMarker.swift */,
 				9A2D15CF23C77BA300C4C417 /* Repeater.swift */,
+				9A3434F0243E19E6006B19F9 /* LaunchAtLogin.swift */,
 			);
 			path = libs;
 			sourceTree = "<group>";
@@ -326,9 +351,7 @@
 			isa = PBXGroup;
 			children = (
 				9A5349CD23D8832E00C23824 /* Reachability.framework */,
-				9A2D15CC23C77A7700C4C417 /* Repeat.framework */,
 				9A6698E32326AAE5001D00E1 /* Charts.framework */,
-				9A6698DF2326AAD6001D00E1 /* LaunchAtLogin.framework */,
 				9A998CD922A199970087ADE7 /* ServiceManagement.framework */,
 				9A998CD722A199920087ADE7 /* Cocoa.framework */,
 			);
@@ -397,7 +420,6 @@
 				9A1410F3229E721100D29793 /* Resources */,
 				9AB54DAE22A19F96006192E0 /* Copy Files */,
 				9A6698D82326A903001D00E1 /* Run Script */,
-				9A493CE1232047F00064570C /* Run Script */,
 				9A6698E72326AB16001D00E1 /* Embed Frameworks */,
 			);
 			buildRules = (
@@ -409,14 +431,31 @@
 			productReference = 9A1410F5229E721100D29793 /* Stats.app */;
 			productType = "com.apple.product-type.application";
 		};
+		9A343526243E26A0006B19F9 /* LaunchAtLogin */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9A343537243E26A0006B19F9 /* Build configuration list for PBXNativeTarget "LaunchAtLogin" */;
+			buildPhases = (
+				9A343523243E26A0006B19F9 /* Sources */,
+				9A343524243E26A0006B19F9 /* Frameworks */,
+				9A343525243E26A0006B19F9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LaunchAtLogin;
+			productName = LaunchAtLogin;
+			productReference = 9A343527243E26A0006B19F9 /* LaunchAtLogin.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		9A1410ED229E721100D29793 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1020;
-				LastUpgradeCheck = 1100;
+				LastSwiftUpdateCheck = 1140;
+				LastUpgradeCheck = 1140;
 				ORGANIZATIONNAME = "Serhiy Mytrovtsiy";
 				TargetAttributes = {
 					9A1410F4229E721100D29793 = {
@@ -430,6 +469,9 @@
 								enabled = 0;
 							};
 						};
+					};
+					9A343526243E26A0006B19F9 = {
+						CreatedOnToolsVersion = 11.4;
 					};
 				};
 			};
@@ -447,6 +489,7 @@
 			projectRoot = "";
 			targets = (
 				9A1410F4229E721100D29793 /* Stats */,
+				9A343526243E26A0006B19F9 /* LaunchAtLogin */,
 			);
 		};
 /* End PBXProject section */
@@ -463,27 +506,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-/* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		9A493CE1232047F00064570C /* Run Script */ = {
-			isa = PBXShellScriptBuildPhase;
+		9A343525243E26A0006B19F9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Run Script";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PROJECT_DIR}/Carthage/Build/Mac/LaunchAtLogin.framework/Resources/copy-helper.sh\"\n";
 		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
 		9A6698D82326A903001D00E1 /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 8;
@@ -492,7 +524,6 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/Mac/LaunchAtLogin.framework",
 				"$(SRCROOT)/Carthage/Build/Mac/Charts.framework",
 			);
 			name = "Run Script";
@@ -542,6 +573,7 @@
 				9AF0F32922DA92E800026AE6 /* NetworkArrowsText.swift in Sources */,
 				9A54EF69232AB82700F7DC20 /* BatteryTimeWidget.swift in Sources */,
 				9A2D15D723CCFE1B00C4C417 /* CPULoadReader.swift in Sources */,
+				9A3434F1243E19E6006B19F9 /* LaunchAtLogin.swift in Sources */,
 				9A2D15F323CE391300C4C417 /* Disk.swift in Sources */,
 				9A2D15F723CE3A1200C4C417 /* DiskCapacityReader.swift in Sources */,
 				9A2D160323CE445900C4C417 /* Network.swift in Sources */,
@@ -562,6 +594,14 @@
 				9A79B36A22D3BEE600BF1C3A /* Widget.swift in Sources */,
 				9AF0F32122DA92AD00026AE6 /* NetworkDots.swift in Sources */,
 				9A5349C923D8642A00C23824 /* NetworkInterfaceReader.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9A343523243E26A0006B19F9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9A34353B243E278D006B19F9 /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -702,7 +742,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = RP2S87B72W;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -733,7 +773,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = RP2S87B72W;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -756,6 +796,54 @@
 			};
 			name = Release;
 		};
+		9A343538243E26A0006B19F9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = LaunchAtLogin/LaunchAtLogin.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = RP2S87B72W;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = LaunchAtLogin/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				PRODUCT_BUNDLE_IDENTIFIER = eu.exelban.Stats.LaunchAtLogin;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		9A343539243E26A0006B19F9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = LaunchAtLogin/LaunchAtLogin.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = RP2S87B72W;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = LaunchAtLogin/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				PRODUCT_BUNDLE_IDENTIFIER = eu.exelban.Stats.LaunchAtLogin;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -773,6 +861,15 @@
 			buildConfigurations = (
 				9A141106229E721200D29793 /* Debug */,
 				9A141107229E721200D29793 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9A343537243E26A0006B19F9 /* Build configuration list for PBXNativeTarget "LaunchAtLogin" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9A343538243E26A0006B19F9 /* Debug */,
+				9A343539243E26A0006B19F9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

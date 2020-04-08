@@ -12,7 +12,6 @@ ARCHIVE_PATH = $(BUILD_PATH)/$(APP).xcarchive
 APP_PATH = "$(BUILD_PATH)/$(APP).app"
 ZIP_PATH = "$(BUILD_PATH)/$(APP).zip"
 DMG_PATH = $(PWD)/$(APP).dmg
-LOCATION=$(BUILD_PATH)/$(APP).app/Contents/Library/LoginItems/LaunchAtLoginHelper.app
 
 all: clean archive notarize sign build
 

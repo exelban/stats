@@ -8,7 +8,6 @@
 
 import Cocoa
 import ServiceManagement
-import LaunchAtLogin
 
 public let TabWidth: CGFloat = 300
 public let TabHeight: CGFloat = 356
