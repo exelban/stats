@@ -6,6 +6,7 @@
 //  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
 //
 
+import Cocoa
 import Foundation
 
 class SensorsWidget: NSView, Widget {
@@ -14,6 +15,8 @@ class SensorsWidget: NSView, Widget {
     
     private var value: [Double] = []
     private var size: CGFloat = 24
+    private var smallSize: CGFloat = 24
+    private var bigSize: CGFloat = 36
     private var topValueView: NSTextField = NSTextField()
     private var bottomValueView: NSTextField = NSTextField()
     private let defaults = UserDefaults.standard
@@ -83,12 +86,48 @@ class SensorsWidget: NSView, Widget {
     
     func setValue(data: [Double]) {
         if self.value != data && data.count == 4 {
-            self.value = [data[0], data[2]]
+            var width = self.smallSize
             let unit_1: String = String(UnicodeScalar(Int(data[1]))!)
             let unit_2: String = String(UnicodeScalar(Int(data[3]))!)
-            
-            self.topValueView.stringValue = "\(Int(self.value[0]))\(unit_1)"
-            self.bottomValueView.stringValue = "\(Int(self.value[1]))\(unit_2)"
+            self.value = [data[0], data[2]]
+
+            if data[1] == 176 {
+                self.topValueView.stringValue = "\(Int(self.value[0]))\(unit_1)"
+            } else {
+                width = bigSize
+                switch value[0] {
+                case 0..<10:
+                    self.topValueView.stringValue = "\(self.value[0].rounded(toPlaces: 2))\(unit_1)"
+                    break
+                case 10..<100:
+                    self.topValueView.stringValue = "\(self.value[0].rounded(toPlaces: 1))\(unit_1)"
+                    break
+                default:
+                    self.topValueView.stringValue = "\(Int(self.value[0]))\(unit_1)"
+                    break
+                }
+            }
+
+            if data[3] == 176 {
+                self.bottomValueView.stringValue = "\(Int(self.value[1]))\(unit_2)"
+            } else {
+                width = self.bigSize
+                switch value[1] {
+                case 0..<10:
+                    self.bottomValueView.stringValue = "\(self.value[1].rounded(toPlaces: 2))\(unit_2)"
+                    break
+                case 10..<100:
+                    self.bottomValueView.stringValue = "\(self.value[1].rounded(toPlaces: 1))\(unit_2)"
+                    break
+                default:
+                    self.bottomValueView.stringValue = "\(Int(self.value[1]))\(unit_2)"
+                    break
+                }
+            }
+
+            if self.size != width {
+                setWidth(width)
+            }
 
             self.topValueView.textColor = self.value[0].temperatureColor(color: self.color)
             self.bottomValueView.textColor = self.value[1].temperatureColor(color: self.color)
@@ -114,5 +153,17 @@ class SensorsWidget: NSView, Widget {
         }
         
         self.redraw()
+    }
+    
+    private func setWidth(_ width: CGFloat) {
+        self.size = width
+        
+        self.topValueView.frame.size.width = width
+        self.bottomValueView.frame.size.width = width
+        
+        self.frame.size.width = self.size
+        if menuBar != nil {
+            menuBar!.refresh()
+        }
     }
 }

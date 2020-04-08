@@ -6,6 +6,8 @@
 //  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
 //
 
+import Cocoa
+
 extension Sensors {
     public func initMenu() {
         menu = NSMenuItem(title: name, action: #selector(toggle), keyEquivalent: "")

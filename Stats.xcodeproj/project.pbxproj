@@ -100,7 +100,6 @@
 		9A1410F8229E721100D29793 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9A1410FF229E721200D29793 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9A141101229E721200D29793 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9A141102229E721200D29793 /* Stats.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Stats.entitlements; sourceTree = "<group>"; };
 		9A2D15CC23C77A7700C4C417 /* Repeat.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Repeat.framework; path = Carthage/Build/Mac/Repeat.framework; sourceTree = "<group>"; };
 		9A2D15CF23C77BA300C4C417 /* Repeater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repeater.swift; sourceTree = "<group>"; };
 		9A2D15D123CCEC7600C4C417 /* Module.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Module.swift; sourceTree = "<group>"; };
@@ -146,7 +145,6 @@
 		9A998CD922A199970087ADE7 /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = System/Library/Frameworks/ServiceManagement.framework; sourceTree = SDKROOT; };
 		9AA28DC0243774ED00D2B196 /* Sensors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sensors.swift; sourceTree = "<group>"; };
 		9AA28DC22437752D00D2B196 /* SensorsMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorsMenu.swift; sourceTree = "<group>"; };
-		9AA28DC9243780C500D2B196 /* Stats.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Stats.h; sourceTree = "<group>"; };
 		9AA28DD0243799E500D2B196 /* SensorsWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorsWidget.swift; sourceTree = "<group>"; };
 		9AA28DD5243A8A3D00D2B196 /* SMC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMC.swift; sourceTree = "<group>"; };
 		9AA28DDA243B4AF500D2B196 /* SensorsType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorsType.swift; sourceTree = "<group>"; };
@@ -281,7 +279,6 @@
 				9AFFCB3A22B3FD0500B0E6D8 /* About.storyboard */,
 				9A426DBD22C2BE0000C064C4 /* Updates.storyboard */,
 				9A141101229E721200D29793 /* Info.plist */,
-				9A141102229E721200D29793 /* Stats.entitlements */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -308,7 +305,6 @@
 				9A426DB722C2B5EE00C064C4 /* MacAppUpdater.swift */,
 				9A59AE55231EE02F007989D6 /* ChartMarker.swift */,
 				9A2D15CF23C77BA300C4C417 /* Repeater.swift */,
-				9AA28DC9243780C500D2B196 /* Stats.h */,
 			);
 			path = libs;
 			sourceTree = "<group>";
@@ -702,7 +698,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = "Stats/Supporting Files/Stats.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -724,7 +720,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = eu.exelban.Stats;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(PROJECT_NAME)/libs/$(SWIFT_MODULE_NAME).h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -733,7 +729,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = "Stats/Supporting Files/Stats.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -755,7 +751,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = eu.exelban.Stats;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(PROJECT_NAME)/libs/$(SWIFT_MODULE_NAME).h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
