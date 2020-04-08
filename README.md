@@ -36,9 +36,5 @@ You can download latest version [here](https://github.com/exelban/stats/releases
 | 10.14.6 *(Mojave)* | **true** |
 | 10.13.6 *(High Sierra)* | **true** |
 
-## What's new
-[CHANGELOG](https://github.com/exelban/stats/blob/master/CHANGELOG.md)
-
-
 ## License
 [MIT License](https://github.com/exelban/stats/blob/master/LICENSE)
