@@ -44,7 +44,12 @@ struct Widgets {
 
 struct WidgetSize {
     let width: CGFloat = 32
-    let height: CGFloat = NSApplication.shared.mainMenu?.menuBarHeight ?? 22
+    var height: CGFloat {
+        get {
+            let systemHeight = NSApplication.shared.mainMenu?.menuBarHeight
+            return (systemHeight == 0 ? 22 : systemHeight)!
+        }
+    }
     let margin: CGFloat = 2
 }
 let widgetSize = WidgetSize()
