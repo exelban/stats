@@ -14,14 +14,41 @@ import Memory
 
 class AppDelegate: NSObject, NSApplicationDelegate {
     private let log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: "Stats")
-    private var modules: [Module] = []
     
-    private let cpuMenuBar = NSStatusBar.system.statusItem(withLength: -1)
-    private let memoryMenuBar = NSStatusBar.system.statusItem(withLength: -1)
+    private var modules: [Module] = []
+    private let window: SettingsWindow = SettingsWindow()
+    
+    private let cpuMenuBar = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
+    private let memoryMenuBar = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         let startingPoint = Date()
         
+        loadModules()
+        window.setModules(self.modules)
+        NotificationCenter.default.addObserver(self, selector: #selector(toggleSettingsHandler(_:)), name: .toggleSettings, object: nil)
+        
+        os_log(.info, log: log, "Stats started in %.4f seconds", startingPoint.timeIntervalSinceNow * -1)
+    }
+
+    func applicationWillTerminate(_ aNotification: Notification) {
+        modules.forEach { (m: Module) in
+            m.terminate()
+        }
+    }
+
+    @objc func toggleSettingsHandler(_ notification: Notification) {
+        if !self.window.isVisible {
+            self.window.setIsVisible(true)
+            self.window.makeKeyAndOrderFront(nil)
+        }
+
+        if let name = notification.userInfo?["module"] as? String {
+            self.window.openMenu(name)
+        }
+    }
+    
+    private func loadModules() {
         do {
             os_log(.debug, log: log, "Starting CPU module initialization...")
             let module = try CPU(menuBarItem: cpuMenuBar)
@@ -44,14 +71,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
         } catch {
             os_log(.error, log: log, "%s", error.localizedDescription)
-        }
-        
-        os_log(.info, log: log, "Stats started in %.4f seconds", startingPoint.timeIntervalSinceNow * -1)
-    }
-
-    func applicationWillTerminate(_ aNotification: Notification) {
-        modules.forEach { (m: Module) in
-            m.terminate()
         }
     }
 }

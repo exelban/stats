@@ -51,3 +51,28 @@ extension Double {
         }
     }
 }
+
+extension NSView {
+    var isDarkMode: Bool {
+        if #available(OSX 10.14, *) {
+            switch effectiveAppearance.name {
+            case .darkAqua, .vibrantDark, .accessibilityHighContrastDarkAqua, .accessibilityHighContrastVibrantDark:
+                return true
+            default:
+                return false
+            }
+        } else {
+            switch effectiveAppearance.name {
+            case .vibrantDark:
+                return true
+            default:
+                return false
+            }
+        }
+    }
+}
+
+public extension Notification.Name {
+    static let toggleSettings = Notification.Name("toggleSettings")
+    static let toggleModule = Notification.Name("toggleModule")
+}

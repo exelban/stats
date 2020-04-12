@@ -11,6 +11,7 @@ import os.log
 
 public protocol Module_p {
     var name: String { get set }
+    var icon: NSImage { get set }
     
     var available: Bool { get }
     var enabled: Bool { get }
@@ -23,6 +24,7 @@ public protocol Module_p {
 open class Module: Module_p {
     public let log: OSLog
     public var name: String
+    public var icon: NSImage
     public var widget: Widget_p?
     
     public var available: Bool = false
@@ -43,13 +45,14 @@ open class Module: Module_p {
     }
     private let window: NSWindow
     
-    public init(name: String, menuBarItem: NSStatusItem, defaultWidget: String) {
+    public init(name: String, icon: NSImage, menuBarItem: NSStatusItem, defaultWidget: String) {
         self.log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: name)
         self.name = name
+        self.icon = icon
         self.defaultWidget = defaultWidget
         self.menuBarItem = menuBarItem
         
-        self.window = initWindow(title: name)
+        self.window = PopupWindow(title: name)
         
         self.menuBarItem.button?.target = self
         self.menuBarItem.button?.action = #selector(toggleMenu)
@@ -57,7 +60,9 @@ open class Module: Module_p {
     }
     
     public func terminate() {
+        self.readers.forEach{ $0.stop() }
         NSStatusBar.system.removeStatusItem(self.menuBarItem)
+        os_log(.debug, log: log, "Module terminated")
     }
     
     public func load() throws {
@@ -112,6 +117,7 @@ open class Module: Module_p {
             let windowCenter = self.window.frame.width / 2
             
             var x = buttonOrigin!.x - windowCenter + buttonCenter
+            let y = buttonOrigin!.y - self.window.frame.height - 3
             
             if let screen = NSScreen.main {
                 let width = screen.frame.size.width
@@ -124,7 +130,7 @@ open class Module: Module_p {
                 x = 0
             }
             
-            self.window.setFrameOrigin(NSPoint(x: x, y: buttonOrigin!.y))
+            self.window.setFrameOrigin(NSPoint(x: x, y: y))
             self.window.setIsVisible(true)
         }
     }

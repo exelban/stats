@@ -18,7 +18,7 @@ public class CPU: Module {
     private var loadReader: Reader_p?
     
     public init(menuBarItem: NSStatusItem) throws {
-        super.init(name: "CPU", menuBarItem: menuBarItem, defaultWidget: "Mini")
+        super.init(name: "CPU", icon: NSImage(), menuBarItem: menuBarItem, defaultWidget: "Mini")
         
         do {
             try self.load()
