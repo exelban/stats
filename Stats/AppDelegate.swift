@@ -7,101 +7,51 @@
 //
 
 import Cocoa
-import ServiceManagement
+import os.log
+import ModuleKit
+import CPU
+import Memory
 
-let updater = macAppUpdater(user: "exelban", repo: "stats")
-var menuBar: MenuBar?
-let smc = SMCService()
-
-@NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
-    private let defaults = UserDefaults.standard
-    private var menuBarItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
-    private let popover = NSPopover()
+    private let log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: "Stats")
+    private var modules: [Module] = []
+    
+    private let cpuMenuBar = NSStatusBar.system.statusItem(withLength: -1)
+    private let memoryMenuBar = NSStatusBar.system.statusItem(withLength: -1)
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        let res = smc.open()
-        if res != kIOReturnSuccess {
-            print("ERROR open SMC")
-            NSApp.terminate(nil)
-            return
+        let startingPoint = Date()
+        
+        do {
+            os_log(.debug, log: log, "Starting CPU module initialization...")
+            let module = try CPU(menuBarItem: cpuMenuBar)
+            os_log(.debug, log: log, "Successfully initialize %s module with availability: %d", "\(type(of: module))", module.available)
+            
+            if module.available {
+                self.modules.append(module)
+            }
+        } catch {
+            os_log(.error, log: log, "%s", error.localizedDescription)
         }
         
-        guard let menuBarButton = self.menuBarItem.button else {
-            NSApp.terminate(nil)
-            return
+        do {
+            os_log(.debug, log: log, "Starting Memory module initialization...")
+            let module = try Memory(menuBarItem: memoryMenuBar)
+            os_log(.debug, log: log, "Successfully initialize %s module with availability: %d", "\(type(of: module))", module.available)
+            
+            if module.available {
+                self.modules.append(module)
+            }
+        } catch {
+            os_log(.error, log: log, "%s", error.localizedDescription)
         }
-
-        menuBarButton.action = #selector(toggleMenu)
-        menuBarButton.sendAction(on: [.leftMouseDown, .rightMouseDown])
         
-        let mcv = MainViewController.Init()
-        self.popover.contentViewController = mcv
-        self.popover.behavior = .transient
-        self.popover.animates = true
-
-        menuBar = MenuBar(menuBarItem, menuBarButton: menuBarButton, popup: mcv)
-        menuBar!.build()
-
-        self.defaultValues()
+        os_log(.info, log: log, "Stats started in %.4f seconds", startingPoint.timeIntervalSinceNow * -1)
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
-        _ = smc.close()
-        menuBar?.destroy()
-    }
-
-    func applicationWillResignActive(_ notification: Notification) {
-        self.popover.performClose(self)
-    }
-    
-    @objc func toggleMenu(_ sender: Any?) {
-        if self.popover.isShown {
-            self.popover.performClose(sender)
-        } else {
-            if let button = self.menuBarItem.button {
-                NSApplication.shared.activate(ignoringOtherApps: true)
-                self.popover.show(relativeTo: .zero, of: button, preferredEdge: .maxY)
-                self.popover.becomeFirstResponder()
-            }
-        }
-    }
-    
-    private func defaultValues() {
-        if self.defaults.object(forKey: "runAtLoginInitialized") == nil {
-            LaunchAtLogin.isEnabled = true
-        }
-
-        if defaults.object(forKey: "dockIcon") != nil {
-            let dockIconStatus = defaults.bool(forKey: "dockIcon") ? NSApplication.ActivationPolicy.regular : NSApplication.ActivationPolicy.accessory
-            NSApp.setActivationPolicy(dockIconStatus)
-        }
-        
-        if defaults.object(forKey: "checkUpdatesOnLogin") == nil || defaults.bool(forKey: "checkUpdatesOnLogin") {
-            self.checkForNewVersion()
-        }
-    }
-    
-    private func checkForNewVersion() {
-        updater.check() { result, error in
-            if error != nil && error as! String == "No internet connection" {
-                print("Error: \(error ?? "check error")")
-                return
-            }
-
-            guard error == nil, let version: version = result else {
-                print("Error: \(error ?? "download error")")
-                return
-            }
-
-            if version.newest {
-                DispatchQueue.main.async(execute: {
-                    let updatesVC: NSWindowController? = NSStoryboard(name: "Updates", bundle: nil).instantiateController(withIdentifier: "UpdatesVC") as? NSWindowController
-                    updatesVC?.window?.center()
-                    updatesVC?.window?.level = .floating
-                    updatesVC!.showWindow(self)
-                })
-            }
+        modules.forEach { (m: Module) in
+            m.terminate()
         }
     }
 }

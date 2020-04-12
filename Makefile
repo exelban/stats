@@ -90,3 +90,9 @@ history:
 .PHONY: dep
 dep:
 	carthage update --platform macOS
+
+.PHONY: zip
+zip:
+	cd ../
+	zip -r archive.zip ./
+	open $(PWD)

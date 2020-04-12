@@ -1,0 +1,131 @@
+//
+//  module.swift
+//  ModuleKit
+//
+//  Created by Serhiy Mytrovtsiy on 09/04/2020.
+//  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
+//
+
+import Cocoa
+import os.log
+
+public protocol Module_p {
+    var name: String { get set }
+    
+    var available: Bool { get }
+    var enabled: Bool { get }
+    
+    var widget: Widget_p? { get }
+    
+    func readyCallback()
+}
+
+open class Module: Module_p {
+    public let log: OSLog
+    public var name: String
+    public var widget: Widget_p?
+    
+    public var available: Bool = false
+    public var enabled: Bool {
+        get {
+            return self.store.bool(key: "\(self.name)_state", defaultValue: true)
+        }
+    }
+    
+    private let store: Store = Store()
+    private let menuBarItem: NSStatusItem
+    private var readers: [Reader_p] = []
+    private var defaultWidget: String
+    private var activeWidget: String {
+        get {
+            return self.store.string(key: "\(self.name)_widget", defaultValue: self.defaultWidget)
+        }
+    }
+    private let window: NSWindow
+    
+    public init(name: String, menuBarItem: NSStatusItem, defaultWidget: String) {
+        self.log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: name)
+        self.name = name
+        self.defaultWidget = defaultWidget
+        self.menuBarItem = menuBarItem
+        
+        self.window = initWindow(title: name)
+        
+        self.menuBarItem.button?.target = self
+        self.menuBarItem.button?.action = #selector(toggleMenu)
+        self.menuBarItem.button?.sendAction(on: [.leftMouseDown, .rightMouseDown])
+    }
+    
+    public func terminate() {
+        NSStatusBar.system.removeStatusItem(self.menuBarItem)
+    }
+    
+    public func load() throws {
+        self.available = self.isAvailable()
+        
+        if !self.available {
+            self.terminate()
+            return
+        }
+        
+        guard let widget = LoadWidget(type: self.activeWidget) else {
+            throw "widget with type \(self.activeWidget) not found"
+        }
+        os_log(.debug, log: log, "Successfully load widget: %s", "\(type(of: widget))")
+        
+        widget.setTitle(self.name)
+        widget.widthHandler = self.setWidgetWidth
+        self.widget = widget
+
+        os_log(.debug, log: log, "Successfully load module")
+    }
+    
+    public func addReader(_ reader: Reader_p) {
+        reader.start()
+        self.readers.append(reader)
+        
+        os_log(.debug, log: log, "Successfully add reader %s", "\(type(of: reader))")
+    }
+    
+    public func readyCallback() {
+        self.menuBarItem.length = self.widget!.frame.width
+        self.menuBarItem.button?.addSubview(self.widget!)
+        os_log(.debug, log: log, "Reader report readiness")
+    }
+    
+    public func setWidgetWidth(_ width: CGFloat) {
+        os_log(.debug, log: log, "Widget %s adjust width to %.2f", "\(type(of: self.widget!))", width)
+        self.menuBarItem.length = width
+    }
+    
+    open func isAvailable() -> Bool { return true }
+    
+    @objc private func toggleMenu(_ sender: Any?) {
+        let openedWindows = NSApplication.shared.windows.filter{ $0 is NSPanel }
+        openedWindows.forEach{ $0.setIsVisible(false) }
+        
+        if self.window.occlusionState.rawValue == 8192 {
+            NSApplication.shared.activate(ignoringOtherApps: true)
+
+            let buttonOrigin = self.menuBarItem.button?.window?.frame.origin
+            let buttonCenter = (self.menuBarItem.button?.window?.frame.width)! / 2
+            let windowCenter = self.window.frame.width / 2
+            
+            var x = buttonOrigin!.x - windowCenter + buttonCenter
+            
+            if let screen = NSScreen.main {
+                let width = screen.frame.size.width
+                
+                if x + self.window.frame.width > width {
+                    x = width - self.window.frame.width
+                }
+            }
+            if buttonOrigin!.x - self.window.frame.width < 0 {
+                x = 0
+            }
+            
+            self.window.setFrameOrigin(NSPoint(x: x, y: buttonOrigin!.y))
+            self.window.setIsVisible(true)
+        }
+    }
+}
