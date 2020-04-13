@@ -31,6 +31,7 @@ class PopupWindow: NSPanel {
         self.animationBehavior = .default
         self.collectionBehavior = .transient
         self.backgroundColor = .clear
+        self.hasShadow = true
         self.setIsVisible(false)
     }
 }
@@ -92,6 +93,8 @@ class PopupView: NSView {
 class HeaderView: NSView {
     public var titleView: NSTextField? = nil
     
+    private var settingsButton: NSButton?
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -115,18 +118,25 @@ class HeaderView: NSView {
         self.titleView = titleView
         self.addSubview(titleView)
         
-        let button = NSButton()
-        button.frame = CGRect(x: frame.width - 32, y: 12, width: 30, height: 30)
+        let button = NSButtonWithPadding()
+        button.frame = CGRect(x: frame.width - 38, y: 5, width: 30, height: 30)
+        button.verticalPadding = 14
+        button.horizontalPadding = 14
         button.bezelStyle = .regularSquare
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.imageScaling = .scaleAxesIndependently
+        button.imageScaling = .scaleNone
         button.image = Bundle(for: type(of: self)).image(forResource: "settings")!
         button.contentTintColor = .lightGray
         button.isBordered = false
         button.action = #selector(openMenu)
         button.target = self
         
+        let trackingArea = NSTrackingArea(rect: button.frame, options: [NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited, NSTrackingArea.Options.activeInActiveApp], owner: self, userInfo: nil)
+        self.addTrackingArea(trackingArea)
+        
         self.addSubview(button)
+        
+        self.settingsButton = button
     }
     
     override func draw(_ dirtyRect: NSRect) {
@@ -138,6 +148,16 @@ class HeaderView: NSView {
         line.line(to: NSMakePoint(self.frame.width, 0))
         line.lineWidth = 1
         line.stroke()
+    }
+    
+    override func mouseEntered(with: NSEvent) {
+        self.settingsButton!.contentTintColor = .gray
+        NSCursor.pointingHand.set()
+    }
+    
+    override func mouseExited(with: NSEvent) {
+        self.settingsButton!.contentTintColor = .lightGray
+        NSCursor.arrow.set()
     }
     
     @objc func openMenu(_ sender: Any) {

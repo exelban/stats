@@ -21,6 +21,7 @@
 		9A7C61B12440DD410032695D /* widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7C61B02440DD410032695D /* widget.swift */; };
 		9A7C61B42440DF810032695D /* Mini.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7C61B32440DF810032695D /* Mini.swift */; };
 		9A7C61B8244119AA0032695D /* readers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7C61B7244119AA0032695D /* readers.swift */; };
+		9A7D0CB72444C2C800B09070 /* SystemKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7D0CB62444C2C800B09070 /* SystemKit.swift */; };
 		9AA0E9BF24426D1F00825127 /* popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA0E9BE24426D1F00825127 /* popup.swift */; };
 		9AA0E9CC2442769F00825127 /* Memory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AA0E9C52442769F00825127 /* Memory.framework */; };
 		9AA0E9CD2442769F00825127 /* Memory.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9AA0E9C52442769F00825127 /* Memory.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -28,6 +29,7 @@
 		9AA0E9D2244276A500825127 /* ModuleKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9AABEADD243FB13500668CB0 /* ModuleKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9AA0E9D7244276B600825127 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA0E9D6244276B600825127 /* main.swift */; };
 		9AA0E9D92442778100825127 /* readers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA0E9D82442778100825127 /* readers.swift */; };
+		9AA37F992444A13300120488 /* settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA37F982444A13300120488 /* settings.swift */; };
 		9AA4A00A2443656D00ECCF07 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AA4A0092443656D00ECCF07 /* Assets.xcassets */; };
 		9AA4A00C2443821700ECCF07 /* settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA4A00B2443821700ECCF07 /* settings.swift */; };
 		9AABEAE4243FB13500668CB0 /* ModuleKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AABEADD243FB13500668CB0 /* ModuleKit.framework */; };
@@ -159,6 +161,7 @@
 		9A7C61B02440DD410032695D /* widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = widget.swift; sourceTree = "<group>"; };
 		9A7C61B32440DF810032695D /* Mini.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mini.swift; sourceTree = "<group>"; };
 		9A7C61B7244119AA0032695D /* readers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = readers.swift; sourceTree = "<group>"; };
+		9A7D0CB62444C2C800B09070 /* SystemKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemKit.swift; sourceTree = "<group>"; };
 		9A998CD722A199920087ADE7 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		9A998CD922A199970087ADE7 /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = System/Library/Frameworks/ServiceManagement.framework; sourceTree = SDKROOT; };
 		9AA0E9BE24426D1F00825127 /* popup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = popup.swift; sourceTree = "<group>"; };
@@ -166,6 +169,7 @@
 		9AA0E9C82442769F00825127 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9AA0E9D6244276B600825127 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		9AA0E9D82442778100825127 /* readers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = readers.swift; sourceTree = "<group>"; };
+		9AA37F982444A13300120488 /* settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = settings.swift; sourceTree = "<group>"; };
 		9AA4A0092443656D00ECCF07 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9AA4A00B2443821700ECCF07 /* settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = settings.swift; sourceTree = "<group>"; };
 		9AABEADD243FB13500668CB0 /* ModuleKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ModuleKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -255,6 +259,7 @@
 				9A5B1CB3229E72A7008B9D3C /* Supporting Files */,
 				9AABEB79243FD26200668CB0 /* AppDelegate.swift */,
 				9AA4A00B2443821700ECCF07 /* settings.swift */,
+				9A7D0CB62444C2C800B09070 /* SystemKit.swift */,
 			);
 			path = Stats;
 			sourceTree = "<group>";
@@ -337,6 +342,7 @@
 				9A654926244085F000E30B74 /* reader.swift */,
 				9A7C61B02440DD410032695D /* widget.swift */,
 				9AA0E9BE24426D1F00825127 /* popup.swift */,
+				9AA37F982444A13300120488 /* settings.swift */,
 			);
 			path = ModuleKit;
 			sourceTree = "<group>";
@@ -611,6 +617,7 @@
 				9AABEB7E243FDEF100668CB0 /* main.swift in Sources */,
 				9AABEB7A243FD26200668CB0 /* AppDelegate.swift in Sources */,
 				9AA4A00C2443821700ECCF07 /* settings.swift in Sources */,
+				9A7D0CB72444C2C800B09070 /* SystemKit.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -637,6 +644,7 @@
 			files = (
 				9A7C61B42440DF810032695D /* Mini.swift in Sources */,
 				9A65492324407EA600E30B74 /* store.swift in Sources */,
+				9AA37F992444A13300120488 /* settings.swift in Sources */,
 				9AABEAEA243FB15E00668CB0 /* module.swift in Sources */,
 				9A654927244085F000E30B74 /* reader.swift in Sources */,
 				9A7C61B12440DD410032695D /* widget.swift in Sources */,
@@ -809,7 +817,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = RP2S87B72W;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -823,7 +831,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 1.6.0;
+				MARKETING_VERSION = 2.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = eu.exelban.Stats;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -841,7 +849,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = RP2S87B72W;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -855,7 +863,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 1.6.0;
+				MARKETING_VERSION = 2.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = eu.exelban.Stats;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

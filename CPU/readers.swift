@@ -35,9 +35,9 @@ public class LoadReader: Reader<CPULoad> {
     
     public override func read() {
         var numCPUsU: natural_t = 0
-        let err: kern_return_t = host_processor_info(mach_host_self(), PROCESSOR_CPU_LOAD_INFO, &numCPUsU, &cpuInfo, &numCpuInfo);
+        let result: kern_return_t = host_processor_info(mach_host_self(), PROCESSOR_CPU_LOAD_INFO, &numCPUsU, &cpuInfo, &numCpuInfo);
         
-        if err == KERN_SUCCESS {
+        if result == KERN_SUCCESS {
             CPUUsageLock.lock()
 
             var inUseOnAllCores: Int32 = 0
@@ -89,8 +89,9 @@ public class LoadReader: Reader<CPULoad> {
             } else {
                 self.callback(CPULoad(totalUsage: usage, usagePerCore: usagePerCore))
             }
-        } else {
-            print("Error KERN_SUCCESS!")
+            return
         }
+
+        print("Error with host_processor_info(): " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
     }
 }

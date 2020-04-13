@@ -27,24 +27,24 @@ public class UsageReader: Reader<MemoryUsage> {
         
         if kerr == KERN_SUCCESS {
             self.totalSize = Float(stats.max_mem)
+            return
         }
-        else {
-            self.totalSize = 0
-            print("Error with host_info(): " + (String(cString: mach_error_string(kerr), encoding: String.Encoding.ascii) ?? "unknown error"))
-        }
+
+        self.totalSize = 0
+        print("Error with host_info(): " + (String(cString: mach_error_string(kerr), encoding: String.Encoding.ascii) ?? "unknown error"))
     }
     
     public override func read() {
         var stats = vm_statistics64()
         var count = UInt32(MemoryLayout<vm_statistics64_data_t>.size / MemoryLayout<integer_t>.size)
                 
-        let kerr: kern_return_t = withUnsafeMutablePointer(to: &stats) {
+        let result: kern_return_t = withUnsafeMutablePointer(to: &stats) {
             $0.withMemoryRebound(to: integer_t.self, capacity: 1) {
                 host_statistics64(mach_host_self(), HOST_VM_INFO64, $0, &count)
             }
         }
 
-        if kerr == KERN_SUCCESS {
+        if result == KERN_SUCCESS {
             let active = Float(stats.active_count) * Float(PAGE_SIZE)
         //            let inactive = Float(stats.inactive_count) * Float(PAGE_SIZE)
             let wired = Float(stats.wire_count) * Float(PAGE_SIZE)
@@ -54,8 +54,9 @@ public class UsageReader: Reader<MemoryUsage> {
             let free = self.totalSize - used
             
             self.callback(MemoryUsage(usage: Double((self.totalSize - free) / self.totalSize), total: Double(self.totalSize), used: Double(used), free: Double(free)))
-        } else {
-            print("Error with host_statistics64(): " + (String(cString: mach_error_string(kerr), encoding: String.Encoding.ascii) ?? "unknown error"))
+            return
         }
+
+        print("Error with host_statistics64(): " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
     }
 }

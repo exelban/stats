@@ -11,10 +11,12 @@
 
 import Cocoa
 
-class Store {
+public class Store {
     private let defaults = UserDefaults.standard
     
-    private func exist(key: String) -> Bool {
+    public init() {}
+    
+    public func exist(key: String) -> Bool {
         return self.defaults.object(forKey: key) == nil ? false : true
     }
     
@@ -24,5 +26,9 @@ class Store {
     
     public func string(key: String, defaultValue value: String) -> String {
         return (!self.exist(key: key) ? value : defaults.string(forKey: key))!
+    }
+    
+    public func set(key: String, value: Bool) {
+        self.defaults.set(value, forKey: key)
     }
 }

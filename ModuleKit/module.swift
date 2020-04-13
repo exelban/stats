@@ -26,13 +26,10 @@ open class Module: Module_p {
     public var name: String
     public var icon: NSImage
     public var widget: Widget_p?
+    public var settings: Settings_p?
     
     public var available: Bool = false
-    public var enabled: Bool {
-        get {
-            return self.store.bool(key: "\(self.name)_state", defaultValue: true)
-        }
-    }
+    public var enabled: Bool
     
     private let store: Store = Store()
     private let menuBarItem: NSStatusItem
@@ -47,12 +44,16 @@ open class Module: Module_p {
     
     public init(name: String, icon: NSImage, menuBarItem: NSStatusItem, defaultWidget: String) {
         self.log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: name)
+        self.enabled = self.store.bool(key: "\(name)_state", defaultValue: true)
         self.name = name
         self.icon = icon
         self.defaultWidget = defaultWidget
         self.menuBarItem = menuBarItem
+        self.menuBarItem.isVisible = false
+        self.menuBarItem.autosaveName = name
         
         self.window = PopupWindow(title: name)
+        self.settings = Settings(title: name, enabled: self.enabled, toggleEnable: self.toggleEnable)
         
         self.menuBarItem.button?.target = self
         self.menuBarItem.button?.action = #selector(toggleMenu)
@@ -63,6 +64,31 @@ open class Module: Module_p {
         self.readers.forEach{ $0.stop() }
         NSStatusBar.system.removeStatusItem(self.menuBarItem)
         os_log(.debug, log: log, "Module terminated")
+    }
+    
+    public func enable() {
+        self.enabled = true
+        self.store.set(key: "\(name)_state", value: true)
+        self.readers.forEach{ $0.start() }
+        self.menuBarItem.isVisible = true
+        os_log(.debug, log: log, "Module enabled")
+    }
+    
+    public func disable() {
+        self.enabled = false
+        self.store.set(key: "\(name)_state", value: false)
+        self.readers.forEach{ $0.pause() }
+        self.menuBarItem.isVisible = false
+        self.window.setIsVisible(false)
+        os_log(.debug, log: log, "Module disabled")
+    }
+    
+    private func toggleEnable() {
+        if self.enabled {
+            self.disable()
+        } else {
+            self.enable()
+        }
     }
     
     public func load() throws {
@@ -81,21 +107,29 @@ open class Module: Module_p {
         widget.setTitle(self.name)
         widget.widthHandler = self.setWidgetWidth
         self.widget = widget
-
+        
         os_log(.debug, log: log, "Successfully load module")
     }
     
     public func addReader(_ reader: Reader_p) {
-        reader.start()
+        if self.enabled {
+            reader.start()
+        }
         self.readers.append(reader)
         
         os_log(.debug, log: log, "Successfully add reader %s", "\(type(of: reader))")
     }
     
     public func readyCallback() {
-        self.menuBarItem.length = self.widget!.frame.width
-        self.menuBarItem.button?.addSubview(self.widget!)
-        os_log(.debug, log: log, "Reader report readiness")
+        if self.widget != nil {
+            self.menuBarItem.length = self.widget!.frame.width
+            self.menuBarItem.button?.addSubview(self.widget!)
+            os_log(.debug, log: log, "Reader report readiness")
+        }
+        
+        if self.enabled {
+            self.menuBarItem.isVisible = true
+        }
     }
     
     public func setWidgetWidth(_ width: CGFloat) {

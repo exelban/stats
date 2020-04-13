@@ -25,24 +25,25 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let startingPoint = Date()
         
         loadModules()
-        window.setModules(self.modules)
+        window.setModules(&self.modules)
         NotificationCenter.default.addObserver(self, selector: #selector(toggleSettingsHandler(_:)), name: .toggleSettings, object: nil)
         
+        setVersion()
         os_log(.info, log: log, "Stats started in %.4f seconds", startingPoint.timeIntervalSinceNow * -1)
     }
-
+    
     func applicationWillTerminate(_ aNotification: Notification) {
         modules.forEach { (m: Module) in
             m.terminate()
         }
     }
-
+    
     @objc func toggleSettingsHandler(_ notification: Notification) {
         if !self.window.isVisible {
             self.window.setIsVisible(true)
             self.window.makeKeyAndOrderFront(nil)
         }
-
+        
         if let name = notification.userInfo?["module"] as? String {
             self.window.openMenu(name)
         }
@@ -72,5 +73,23 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         } catch {
             os_log(.error, log: log, "%s", error.localizedDescription)
         }
+    }
+    
+    private func setVersion() {
+        let defaults = UserDefaults.standard
+        let key = "version"
+        let currentVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
+        
+        if defaults.object(forKey: key) == nil {
+            os_log(.info, log: log, "Previous version not detected. Current version (%s) set", currentVersion)
+        } else {
+            let prevVersion = defaults.string(forKey: key)
+            if prevVersion == currentVersion {
+                return
+            }
+            os_log(.info, log: log, "Detected previous version %s. Current version (%s) set", prevVersion!, currentVersion)
+        }
+
+        defaults.set(currentVersion, forKey: key)
     }
 }

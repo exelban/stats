@@ -54,7 +54,7 @@ open class Reader<T>: ReaderInternal_p {
             self.read()
         })
         
-        os_log(.error, log: self.log, "Successfully initialized reader")
+        os_log(.error, log: self.log, "Successfully initialize reader")
     }
     
     public func callback(_ value: T?) {
@@ -78,7 +78,9 @@ open class Reader<T>: ReaderInternal_p {
         }
         
         self.value = value
-        self.callbackHandler(value!)
+        if value != nil {
+            self.callbackHandler(value!)
+        }
     }
     
     open func read() {}
