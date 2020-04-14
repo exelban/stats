@@ -10,6 +10,7 @@
 //
 
 import Cocoa
+import StatsKit
 
 class PopupWindow: NSPanel {
     let viewController: PopupViewController = PopupViewController()

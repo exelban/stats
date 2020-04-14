@@ -11,6 +11,7 @@
 
 import Cocoa
 import ModuleKit
+import StatsKit
 
 class SettingsWindow: NSWindow, NSWindowDelegate {
     private let viewController: SettingsViewController = SettingsViewController()
@@ -30,8 +31,8 @@ class SettingsWindow: NSWindow, NSWindowDelegate {
         self.collectionBehavior = .transient
         self.titlebarAppearsTransparent = true
         self.appearance = NSAppearance(named: .darkAqua)
-//        self.center()
-        self.setIsVisible(true)
+        self.center()
+        self.setIsVisible(false)
         
         let windowController = NSWindowController()
         windowController.window = self
@@ -105,7 +106,6 @@ class SettingsView: NSView {
         
         buttonsView.addSubview(self.makeButton(4, title: "Open Activity Monitor", image: "chart", action: #selector(openActivityMonitor)))
         buttonsView.addSubview(self.makeButton(3, title: "Report a bug", image: "bug", action: #selector(reportBug)))
-//        buttonsView.addSubview(self.makeButton(2, title: "About application", image: "info", action: #selector(aboutApp)))
         buttonsView.addSubview(self.makeButton(1, title: "Close application", image: "power", action: #selector(closeApp)))
         
         let mainView: NSView = NSView(frame: NSRect(x: navigationWidth, y: 0, width: frame.width - navigationWidth, height: frame.height))
@@ -371,12 +371,11 @@ class ApplicationSettings: NSView {
         
         let sizeFormatter = ByteCountFormatter()
         sizeFormatter.allowedUnits = [.useGB]
-        sizeFormatter.countStyle = .file
-        let ramSize = sizeFormatter.string(fromByteCount: Int64(self.systemKit.device.info?.ram?.total ?? 0))
+        sizeFormatter.countStyle = .memory
         leftPanel.addSubview(makeInfoRow(
             frame: NSRect(x: rowHorizontalPadding, y: rowHeight*2, width: leftPanel.frame.width - (rowHorizontalPadding*1.5), height: rowHeight),
             title: "Memory",
-            value: "\(ramSize.split(separator: ",")[0]) \(ramSize.split(separator: " ")[1])"
+            value: "\(sizeFormatter.string(fromByteCount: Int64(self.systemKit.device.info?.ram?.total ?? 0)))"
         ))
         
         let gpus = self.systemKit.device.info?.gpu

@@ -11,10 +11,8 @@
 
 import Cocoa
 import os.log
-import ModuleKit
-import Metal
 
-enum deviceType: Int {
+public enum deviceType: Int {
     case unknown = -1
     case macMini = 1
     case macPro = 2
@@ -25,61 +23,61 @@ enum deviceType: Int {
     case macbookPro = 7
 }
 
-struct model_s {
-    let name: String
-    let year: Int
-    let type: deviceType
-    var icon: NSImage? = nil
+public struct model_s {
+    public let name: String
+    public let year: Int
+    public let type: deviceType
+    public var icon: NSImage? = nil
 }
 
-struct os_s {
-    let name: String
-    let version: OperatingSystemVersion
-    let build: String
+public struct os_s {
+    public let name: String
+    public let version: OperatingSystemVersion
+    public let build: String
 }
 
-struct cpu_s {
-    let physicalCores: Int8
-    let logicalCores: Int8
+public struct cpu_s {
+    public let physicalCores: Int8
+    public let logicalCores: Int8
 }
 
-struct ram_s {
-    var active: Double
-    var inactive: Double
-    var wired: Double
-    var compressed: Double
-    var total: Double
-    var used: Double
+public struct ram_s {
+    public var active: Double
+    public var inactive: Double
+    public var wired: Double
+    public var compressed: Double
+    public var total: Double
+    public var used: Double
 }
 
-struct gpu_s {
-    let name: String
+public struct gpu_s {
+    public let name: String
 }
 
-struct disk_s {
-    let name: String
-    let model: String
-    let size: Int64
+public struct disk_s {
+    public let name: String
+    public let model: String
+    public let size: Int64
 }
 
-struct info_s {
-    var cpu: cpu_s? = nil
-    var ram: ram_s? = nil
-    var gpu: [gpu_s]? = nil
-    var disk: disk_s? = nil
+public struct info_s {
+    public var cpu: cpu_s? = nil
+    public var ram: ram_s? = nil
+    public var gpu: [gpu_s]? = nil
+    public var disk: disk_s? = nil
 }
 
-struct device_s {
-    var model: model_s? = nil
-    var os: os_s? = nil
-    var info: info_s? = info_s()
+public struct device_s {
+    public var model: model_s? = nil
+    public var os: os_s? = nil
+    public var info: info_s? = info_s()
 }
 
-class SystemKit {
+public class SystemKit {
     public var device: device_s
     private let log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: "SystemKit")
     
-    init() {
+    public init() {
         self.device = device_s()
         
         if let modelName = self.modelName() {
@@ -231,13 +229,30 @@ class SystemKit {
     }
     
     public func getRamInfo() -> ram_s? {
+        var vmStats = host_basic_info()
+        var count = UInt32(MemoryLayout<host_basic_info_data_t>.size / MemoryLayout<integer_t>.size)
+        var totalSize: Double = 0
+        
+        var result: kern_return_t = withUnsafeMutablePointer(to: &vmStats) {
+            $0.withMemoryRebound(to: integer_t.self, capacity: Int(count)) {
+                host_info(mach_host_self(), HOST_BASIC_INFO, $0, &count)
+            }
+        }
+        
+        if result == KERN_SUCCESS {
+            totalSize = Double(vmStats.max_mem)
+        } else {
+            os_log(.error, log: self.log, "host_basic_info(): %v", (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
+            return nil
+        }
+        
         var pageSize: vm_size_t = 0
-        var result = withUnsafeMutablePointer(to: &pageSize) { (size) -> kern_return_t in
+        result = withUnsafeMutablePointer(to: &pageSize) { (size) -> kern_return_t in
             host_page_size(mach_host_self(), size)
         }
         
         var stats = vm_statistics64()
-        var count = UInt32(MemoryLayout<vm_statistics64_data_t>.size / MemoryLayout<integer_t>.size)
+        count = UInt32(MemoryLayout<vm_statistics64_data_t>.size / MemoryLayout<integer_t>.size)
         
         result = withUnsafeMutablePointer(to: &stats) {
             $0.withMemoryRebound(to: integer_t.self, capacity: 1) {
@@ -256,7 +271,7 @@ class SystemKit {
                 inactive: inactive,
                 wired: wired,
                 compressed: compressed,
-                total: active + inactive + wired + compressed,
+                total: totalSize,
                 used: active + wired + compressed
             )
         }

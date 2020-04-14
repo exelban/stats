@@ -1,6 +1,6 @@
 //
 //  extensions.swift
-//  ModuleKit
+//  StatsKit
 //
 //  Created by Serhiy Mytrovtsiy on 10/04/2020.
 //  Using Swift 5.0.
@@ -10,7 +10,6 @@
 //
 
 import Cocoa
-import ServiceManagement
 
 extension String: LocalizedError {
     public var errorDescription: String? { return self }
@@ -31,19 +30,24 @@ extension String: LocalizedError {
         let fontAttributes = [NSAttributedString.Key.font: font]
         return self.size(withAttributes: fontAttributes)
     }
+    
+    public func condenseWhitespace() -> String {
+        let components = self.components(separatedBy: .whitespacesAndNewlines)
+        return components.filter { !$0.isEmpty }.joined(separator: " ")
+    }
 }
 
-extension Double {
-    public func roundTo(decimalPlaces: Int) -> String {
+public extension Double {
+    func roundTo(decimalPlaces: Int) -> String {
         return NSString(format: "%.\(decimalPlaces)f" as NSString, self) as String
     }
     
-    public func rounded(toPlaces places:Int) -> Double {
+    func rounded(toPlaces places:Int) -> Double {
         let divisor = pow(10.0, Double(places))
         return (self * divisor).rounded() / divisor
     }
     
-    public func usageColor(reversed: Bool = false, color: Bool = false) -> NSColor {
+    func usageColor(reversed: Bool = false, color: Bool = false) -> NSColor {
         if !color {
             return NSColor.textColor
         }
@@ -70,7 +74,7 @@ extension Double {
     }
 }
 
-extension NSView {
+public extension NSView {
     var isDarkMode: Bool {
         if #available(OSX 10.14, *) {
             switch effectiveAppearance.name {
@@ -132,21 +136,8 @@ public extension OperatingSystemVersion {
     }
 }
 
-public struct LaunchAtLogin {
-    private static let id = "\(Bundle.main.bundleIdentifier!).LaunchAtLogin"
-
-    public static var isEnabled: Bool {
-        get {
-            guard let jobs = (SMCopyAllJobDictionaries(kSMDomainUserLaunchd).takeRetainedValue() as? [[String: AnyObject]]) else {
-                return false
-            }
-
-            let job = jobs.first { $0["Label"] as! String == id }
-
-            return job?["OnDemand"] as? Bool ?? false
-        }
-        set {
-            SMLoginItemSetEnabled(id as CFString, newValue)
-        }
+extension URL {
+    func checkFileExist() -> Bool {
+        return FileManager.default.fileExists(atPath: self.path)
     }
 }

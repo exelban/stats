@@ -11,12 +11,16 @@ import os.log
 import ModuleKit
 import CPU
 import Memory
+import StatsKit
+
+let updater = macAppUpdater(user: "exelban", repo: "stats")
 
 class AppDelegate: NSObject, NSApplicationDelegate {
     private let log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: "Stats")
     
     private var modules: [Module] = []
     private let window: SettingsWindow = SettingsWindow()
+    private let store: Store = Store()
     
     private let cpuMenuBar = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
     private let memoryMenuBar = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
@@ -24,16 +28,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         let startingPoint = Date()
         
-        loadModules()
-        window.setModules(&self.modules)
+        self.loadModules()
+        self.window.setModules(&self.modules)
         NotificationCenter.default.addObserver(self, selector: #selector(toggleSettingsHandler(_:)), name: .toggleSettings, object: nil)
         
-        setVersion()
+        self.setVersion()
+        self.defaultValues()
         os_log(.info, log: log, "Stats started in %.4f seconds", startingPoint.timeIntervalSinceNow * -1)
     }
     
     func applicationWillTerminate(_ aNotification: Notification) {
-        modules.forEach { (m: Module) in
+        self.modules.forEach { (m: Module) in
             m.terminate()
         }
     }
@@ -76,20 +81,54 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     private func setVersion() {
-        let defaults = UserDefaults.standard
         let key = "version"
         let currentVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
         
-        if defaults.object(forKey: key) == nil {
+        if !self.store.exist(key: key) {
             os_log(.info, log: log, "Previous version not detected. Current version (%s) set", currentVersion)
         } else {
-            let prevVersion = defaults.string(forKey: key)
+            let prevVersion = self.store.string(key: key, defaultValue: "")
             if prevVersion == currentVersion {
                 return
             }
-            os_log(.info, log: log, "Detected previous version %s. Current version (%s) set", prevVersion!, currentVersion)
+            os_log(.info, log: log, "Detected previous version %s. Current version (%s) set", prevVersion, currentVersion)
         }
 
-        defaults.set(currentVersion, forKey: key)
+        self.store.set(key: key, value: currentVersion)
+    }
+    
+    private func defaultValues() {
+        if !self.store.exist(key: "runAtLoginInitialized") {
+            LaunchAtLogin.isEnabled = true
+        }
+
+        if self.store.exist(key: "dockIcon") {
+            let dockIconStatus = self.store.bool(key: "dockIcon", defaultValue: false) ? NSApplication.ActivationPolicy.regular : NSApplication.ActivationPolicy.accessory
+            NSApp.setActivationPolicy(dockIconStatus)
+        }
+        
+        if self.store.bool(key: "checkUpdatesOnLogin", defaultValue: false) {
+            updater.check() { result, error in
+                if error != nil {
+                    os_log(.error, log: self.log, "error updater.check(): %s", "\(error!.localizedDescription)")
+                    return
+                }
+
+                guard error == nil, let version: version = result else {
+                    os_log(.error, log: self.log, "download error(): %s", "\(error!.localizedDescription)")
+                    return
+                }
+                
+                if version.newest {
+                    DispatchQueue.main.async(execute: {
+                        print("new version detected, open updater window!")
+//                        let updatesVC: NSWindowController? = NSStoryboard(name: "Updates", bundle: nil).instantiateController(withIdentifier: "UpdatesVC") as? NSWindowController
+//                        updatesVC?.window?.center()
+//                        updatesVC?.window?.level = .floating
+//                        updatesVC!.showWindow(self)
+                    })
+                }
+            }
+        }
     }
 }

@@ -1,6 +1,6 @@
 //
 //  store.swift
-//  ModuleKit
+//  StatsKit
 //
 //  Created by Serhiy Mytrovtsiy on 10/04/2020.
 //  Using Swift 5.0.
@@ -29,6 +29,10 @@ public class Store {
     }
     
     public func set(key: String, value: Bool) {
+        self.defaults.set(value, forKey: key)
+    }
+    
+    public func set(key: String, value: String) {
         self.defaults.set(value, forKey: key)
     }
 }

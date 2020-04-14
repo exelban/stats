@@ -8,6 +8,7 @@
 
 import Cocoa
 import os.log
+import StatsKit
 
 public protocol Module_p {
     var name: String { get set }
