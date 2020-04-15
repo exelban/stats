@@ -29,6 +29,18 @@
 		9A7C61B12440DD410032695D /* widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7C61B02440DD410032695D /* widget.swift */; };
 		9A7C61B42440DF810032695D /* Mini.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7C61B32440DF810032695D /* Mini.swift */; };
 		9A7C61B8244119AA0032695D /* readers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7C61B7244119AA0032695D /* readers.swift */; };
+		9A9D728A24471FAE005CF997 /* SMC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9D728924471FAE005CF997 /* SMC.swift */; };
+		9A9D728C24472105005CF997 /* popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9D728B24472105005CF997 /* popup.swift */; };
+		9A9D728E244722CA005CF997 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9D728D244722CA005CF997 /* Constants.swift */; };
+		9A9D729024474906005CF997 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9D728F24474906005CF997 /* AppSettings.swift */; };
+		9A9D729224474B0D005CF997 /* ChartMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9D729124474B0D005CF997 /* ChartMarker.swift */; };
+		9A9D729524474B49005CF997 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A6698E32326AAE5001D00E1 /* Charts.framework */; };
+		9A9D729624474B49005CF997 /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A6698E32326AAE5001D00E1 /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9A9D729824474BF1005CF997 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A6698E32326AAE5001D00E1 /* Charts.framework */; };
+		9A9D729924474BF1005CF997 /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A6698E32326AAE5001D00E1 /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9A9D72AC24478DB9005CF997 /* IntelPowerGadget.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A9D729A2447747D005CF997 /* IntelPowerGadget.framework */; };
+		9A9D72AF24478DCD005CF997 /* IntelPowerGadget.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A9D72AD24478DCD005CF997 /* IntelPowerGadget.h */; };
+		9A9D72B024478DCD005CF997 /* IntelPowerGadget.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A9D72AE24478DCD005CF997 /* IntelPowerGadget.c */; };
 		9AA0E9BF24426D1F00825127 /* popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA0E9BE24426D1F00825127 /* popup.swift */; };
 		9AA0E9CC2442769F00825127 /* Memory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AA0E9C52442769F00825127 /* Memory.framework */; };
 		9AA0E9CD2442769F00825127 /* Memory.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9AA0E9C52442769F00825127 /* Memory.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -132,6 +144,17 @@
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9A9D729724474B49005CF997 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				9A9D729624474B49005CF997 /* Charts.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9AA0E9D5244276A500825127 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -150,6 +173,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				9AABEB73243FCEEF00668CB0 /* ModuleKit.framework in Embed Frameworks */,
+				9A9D729924474BF1005CF997 /* Charts.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -192,6 +216,14 @@
 		9A7D0CB62444C2C800B09070 /* system.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = system.swift; sourceTree = "<group>"; };
 		9A998CD722A199920087ADE7 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		9A998CD922A199970087ADE7 /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = System/Library/Frameworks/ServiceManagement.framework; sourceTree = SDKROOT; };
+		9A9D728924471FAE005CF997 /* SMC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMC.swift; sourceTree = "<group>"; };
+		9A9D728B24472105005CF997 /* popup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = popup.swift; sourceTree = "<group>"; };
+		9A9D728D244722CA005CF997 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		9A9D728F24474906005CF997 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
+		9A9D729124474B0D005CF997 /* ChartMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartMarker.swift; sourceTree = "<group>"; };
+		9A9D729A2447747D005CF997 /* IntelPowerGadget.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IntelPowerGadget.framework; path = ../../../Library/Frameworks/IntelPowerGadget.framework; sourceTree = "<group>"; };
+		9A9D72AD24478DCD005CF997 /* IntelPowerGadget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IntelPowerGadget.h; sourceTree = "<group>"; };
+		9A9D72AE24478DCD005CF997 /* IntelPowerGadget.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = IntelPowerGadget.c; sourceTree = "<group>"; };
 		9AA0E9BE24426D1F00825127 /* popup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = popup.swift; sourceTree = "<group>"; };
 		9AA0E9C52442769F00825127 /* Memory.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Memory.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AA0E9C82442769F00825127 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -215,6 +247,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A9D729524474B49005CF997 /* Charts.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -258,7 +291,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A9D72AC24478DB9005CF997 /* IntelPowerGadget.framework in Frameworks */,
 				9AABEB72243FCEEF00668CB0 /* ModuleKit.framework in Frameworks */,
+				9A9D729824474BF1005CF997 /* Charts.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -275,6 +310,8 @@
 				9A654920244074B500E30B74 /* extensions.swift */,
 				9A0C82DC24460F7200FAE3D4 /* StatsKit.h */,
 				9A0C82DD24460F7200FAE3D4 /* Info.plist */,
+				9A9D728924471FAE005CF997 /* SMC.swift */,
+				9A9D729124474B0D005CF997 /* ChartMarker.swift */,
 			);
 			path = StatsKit;
 			sourceTree = "<group>";
@@ -311,6 +348,7 @@
 			children = (
 				9A5B1CB3229E72A7008B9D3C /* Supporting Files */,
 				9AABEB79243FD26200668CB0 /* AppDelegate.swift */,
+				9A9D728F24474906005CF997 /* AppSettings.swift */,
 				9AA4A00B2443821700ECCF07 /* settings.swift */,
 			);
 			path = Stats;
@@ -347,6 +385,7 @@
 		9A998CD622A199920087ADE7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9A9D729A2447747D005CF997 /* IntelPowerGadget.framework */,
 				9A6549282440A57200E30B74 /* Repeat.framework */,
 				9A5349CD23D8832E00C23824 /* Reachability.framework */,
 				9A6698E32326AAE5001D00E1 /* Charts.framework */,
@@ -385,6 +424,7 @@
 				9A7C61B02440DD410032695D /* widget.swift */,
 				9AA0E9BE24426D1F00825127 /* popup.swift */,
 				9AA37F982444A13300120488 /* settings.swift */,
+				9A9D728D244722CA005CF997 /* Constants.swift */,
 			);
 			path = ModuleKit;
 			sourceTree = "<group>";
@@ -394,7 +434,10 @@
 			children = (
 				9AABEB70243FCE9400668CB0 /* main.swift */,
 				9A7C61B7244119AA0032695D /* readers.swift */,
+				9A9D728B24472105005CF997 /* popup.swift */,
 				9AABEB67243FCE8A00668CB0 /* Info.plist */,
+				9A9D72AD24478DCD005CF997 /* IntelPowerGadget.h */,
+				9A9D72AE24478DCD005CF997 /* IntelPowerGadget.c */,
 			);
 			path = CPU;
 			sourceTree = "<group>";
@@ -428,6 +471,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A9D72AF24478DCD005CF997 /* IntelPowerGadget.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -442,6 +486,7 @@
 				9A0C82D624460F7200FAE3D4 /* Sources */,
 				9A0C82D724460F7200FAE3D4 /* Frameworks */,
 				9A0C82D824460F7200FAE3D4 /* Resources */,
+				9A9D729724474B49005CF997 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -568,6 +613,7 @@
 				TargetAttributes = {
 					9A0C82D924460F7200FAE3D4 = {
 						CreatedOnToolsVersion = 11.4;
+						LastSwiftMigration = 1140;
 					};
 					9A1410F4229E721100D29793 = {
 						CreatedOnToolsVersion = 10.2.1;
@@ -698,6 +744,8 @@
 				9A0C82E624460F9A00FAE3D4 /* extensions.swift in Sources */,
 				9A0C82E724460F9C00FAE3D4 /* updater.swift in Sources */,
 				9A0C82EE2446124800FAE3D4 /* system.swift in Sources */,
+				9A9D729224474B0D005CF997 /* ChartMarker.swift in Sources */,
+				9A9D728A24471FAE005CF997 /* SMC.swift in Sources */,
 				9A0C82E824460F9E00FAE3D4 /* launchAtLogin.swift in Sources */,
 				9A0C82E924460F9F00FAE3D4 /* store.swift in Sources */,
 			);
@@ -709,6 +757,7 @@
 			files = (
 				9AABEB7E243FDEF100668CB0 /* main.swift in Sources */,
 				9AABEB7A243FD26200668CB0 /* AppDelegate.swift in Sources */,
+				9A9D729024474906005CF997 /* AppSettings.swift in Sources */,
 				9AA4A00C2443821700ECCF07 /* settings.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -738,6 +787,7 @@
 				9AA37F992444A13300120488 /* settings.swift in Sources */,
 				9AABEAEA243FB15E00668CB0 /* module.swift in Sources */,
 				9A654927244085F000E30B74 /* reader.swift in Sources */,
+				9A9D728E244722CA005CF997 /* Constants.swift in Sources */,
 				9A7C61B12440DD410032695D /* widget.swift in Sources */,
 				9AA0E9BF24426D1F00825127 /* popup.swift in Sources */,
 			);
@@ -747,6 +797,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A9D72B024478DCD005CF997 /* IntelPowerGadget.c in Sources */,
+				9A9D728C24472105005CF997 /* popup.swift in Sources */,
 				9A7C61B8244119AA0032695D /* readers.swift in Sources */,
 				9AABEB71243FCE9400668CB0 /* main.swift in Sources */,
 			);
@@ -796,6 +848,9 @@
 		9A0C82E424460F7200FAE3D4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -805,6 +860,11 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+				);
 				INFOPLIST_FILE = StatsKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -816,6 +876,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = eu.exelban.Stats.StatsKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -825,6 +887,9 @@
 		9A0C82E524460F7200FAE3D4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -834,6 +899,11 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+				);
 				INFOPLIST_FILE = StatsKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -845,6 +915,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = eu.exelban.Stats.StatsKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -1221,6 +1292,11 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+				);
 				INFOPLIST_FILE = CPU/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1232,6 +1308,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = eu.exelban.Stats.CPU;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = CPU/IntelPowerGadget.h;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1252,6 +1329,11 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+				);
 				INFOPLIST_FILE = CPU/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1263,6 +1345,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = eu.exelban.Stats.CPU;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = CPU/IntelPowerGadget.h;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";

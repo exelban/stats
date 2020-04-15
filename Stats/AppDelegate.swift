@@ -21,12 +21,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private var modules: [Module] = []
     private let window: SettingsWindow = SettingsWindow()
     private let store: Store = Store()
+    private var smc: SMCService = SMCService()
     
     private let cpuMenuBar = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
     private let memoryMenuBar = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         let startingPoint = Date()
+        let result = self.smc.open()
+        if result != kIOReturnSuccess {
+            os_log(.error, log: log, "open SMC: %s", (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
+            NSApp.terminate(nil)
+            return
+        }
         
         self.loadModules()
         self.window.setModules(&self.modules)
@@ -41,6 +48,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         self.modules.forEach { (m: Module) in
             m.terminate()
         }
+        _ = self.smc.close()
     }
     
     @objc func toggleSettingsHandler(_ notification: Notification) {
@@ -57,7 +65,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private func loadModules() {
         do {
             os_log(.debug, log: log, "Starting CPU module initialization...")
-            let module = try CPU(menuBarItem: cpuMenuBar)
+            let module = try CPU(menuBarItem: cpuMenuBar, smc: &smc)
             os_log(.debug, log: log, "Successfully initialize %s module with availability: %d", "\(type(of: module))", module.available)
             
             if module.available {

@@ -15,8 +15,8 @@ import StatsKit
 class PopupWindow: NSPanel {
     let viewController: PopupViewController = PopupViewController()
     
-    init(title: String) {
-        self.viewController.setup(title: title)
+    init(title: String, view: NSView?) {
+        self.viewController.setup(title: title, view: view)
         
         super.init(
             contentRect: NSMakeRect(0, 0, self.viewController.view.frame.width, self.viewController.view.frame.height),
@@ -40,11 +40,8 @@ class PopupWindow: NSPanel {
 class PopupViewController: NSViewController {
     private var popup: PopupView
     
-    let width: CGFloat = 300
-    let height: CGFloat = 400
-    
     public init() {
-        self.popup = PopupView(frame: NSRect(x: 0, y: 0, width: self.width, height: self.height))
+        self.popup = PopupView(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width + (Constants.Popup.margins * 2), height: Constants.Popup.height+Constants.Popup.headerHeight))
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -60,14 +57,16 @@ class PopupViewController: NSViewController {
         super.viewDidLoad()
     }
     
-    public func setup(title: String) {
+    public func setup(title: String, view: NSView?) {
         self.title = title
         self.popup.headerView?.titleView?.stringValue = title
+        self.popup.setView(view)
     }
 }
 
 class PopupView: NSView {
     public var headerView: HeaderView? = nil
+    private var mainView: NSView? = nil
     
     override init(frame: NSRect) {
         super.init(frame: CGRect(x: frame.origin.x, y: frame.origin.y, width: frame.width, height: frame.height))
@@ -76,10 +75,14 @@ class PopupView: NSView {
         self.layer!.cornerRadius = 3
         self.layer!.backgroundColor = self.isDarkMode ? NSColor.windowBackgroundColor.cgColor : NSColor.white.cgColor
         
-        let headerHeight: CGFloat = 42
-        self.headerView = HeaderView(frame: NSRect(x: 0, y: frame.height - headerHeight, width: frame.width, height: headerHeight))
+        self.headerView = HeaderView(frame: NSRect(x: 0, y: frame.height - Constants.Popup.headerHeight, width: frame.width, height: Constants.Popup.headerHeight))
+        
+        let mainView: NSView = NSView(frame: NSRect(x: Constants.Popup.margins, y: 0, width: frame.width - (Constants.Popup.margins*2), height: Constants.Popup.height - Constants.Popup.margins))
         
         self.addSubview(self.headerView!)
+        self.addSubview(mainView)
+        
+        self.mainView = mainView
     }
     
     required init?(coder: NSCoder) {
@@ -88,6 +91,19 @@ class PopupView: NSView {
     
     override func updateLayer() {
         self.layer!.backgroundColor = self.isDarkMode ? NSColor.windowBackgroundColor.cgColor : NSColor.white.cgColor
+    }
+    
+    public func setView(_ view: NSView?) {
+        if view == nil {
+            self.setFrameSize(NSSize(width: Constants.Popup.width+(Constants.Popup.margins*2), height: Constants.Popup.headerHeight))
+            self.headerView?.setFrameOrigin(NSPoint(x: 0, y: 0))
+            return
+        }
+        
+        self.mainView?.addSubview(view!)
+        self.mainView?.setFrameSize(NSSize(width: view!.frame.width + (Constants.Popup.margins*2), height: view!.frame.height))
+        self.setFrameSize(NSSize(width: view!.frame.width + (Constants.Popup.margins*2), height: view!.frame.height + Constants.Popup.headerHeight + Constants.Popup.margins))
+        self.headerView?.setFrameOrigin(NSPoint(x: 0, y: self.frame.height - Constants.Popup.headerHeight))
     }
 }
 
@@ -102,7 +118,6 @@ class HeaderView: NSView {
     
     override init(frame: NSRect) {
         super.init(frame: CGRect(x: frame.origin.x, y: frame.origin.y, width: frame.width, height: frame.height))
-        self.wantsLayer = true
         
         let titleView = NSTextField(frame: NSMakeRect(frame.width/4, (frame.height - 18)/2, frame.width/2, 18))
         titleView.isEditable = false

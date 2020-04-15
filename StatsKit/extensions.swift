@@ -37,6 +37,14 @@ extension String: LocalizedError {
     }
 }
 
+extension Float {
+    init?(_ bytes: [UInt8]) {
+        self = bytes.withUnsafeBytes {
+            return $0.load(fromByteOffset: 0, as: Self.self)
+        }
+    }
+}
+
 public extension Double {
     func roundTo(decimalPlaces: Int) -> String {
         return NSString(format: "%.\(decimalPlaces)f" as NSString, self) as String
@@ -139,5 +147,58 @@ public extension OperatingSystemVersion {
 extension URL {
     func checkFileExist() -> Bool {
         return FileManager.default.fileExists(atPath: self.path)
+    }
+}
+
+extension UInt32 {
+    init(bytes: (UInt8, UInt8, UInt8, UInt8)) {
+        self = UInt32(bytes.0) << 24 | UInt32(bytes.1) << 16 | UInt32(bytes.2) << 8 | UInt32(bytes.3)
+    }
+}
+
+extension FourCharCode {
+    init(fromString str: String) {
+        precondition(str.count == 4)
+
+        self = str.utf8.reduce(0) { sum, character in
+            return sum << 8 | UInt32(character)
+        }
+    }
+    
+    func toString() -> String {
+        return String(describing: UnicodeScalar(self >> 24 & 0xff)!) +
+               String(describing: UnicodeScalar(self >> 16 & 0xff)!) +
+               String(describing: UnicodeScalar(self >> 8  & 0xff)!) +
+               String(describing: UnicodeScalar(self       & 0xff)!)
+    }
+}
+
+public extension NSColor {
+    convenience init(hexString: String, alpha: CGFloat = 1.0) {
+        let hexString: String = hexString.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+        let scanner = Scanner(string: hexString)
+        if (hexString.hasPrefix("#")) {
+            scanner.scanLocation = 1
+        }
+        var color: UInt32 = 0
+        scanner.scanHexInt32(&color)
+        let mask = 0x000000FF
+        let r = Int(color >> 16) & mask
+        let g = Int(color >> 8) & mask
+        let b = Int(color) & mask
+        let red   = CGFloat(r) / 255.0
+        let green = CGFloat(g) / 255.0
+        let blue  = CGFloat(b) / 255.0
+        self.init(red:red, green:green, blue:blue, alpha:alpha)
+    }
+    
+    func toHexString() -> String {
+        var r:CGFloat = 0
+        var g:CGFloat = 0
+        var b:CGFloat = 0
+        var a:CGFloat = 0
+        getRed(&r, green: &g, blue: &b, alpha: &a)
+        let rgb:Int = (Int)(r*255)<<16 | (Int)(g*255)<<8 | (Int)(b*255)<<0
+        return String(format:"#%06x", rgb)
     }
 }

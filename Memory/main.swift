@@ -23,7 +23,7 @@ public class Memory: Module {
     private var usageReader: Reader_p?
     
     public init(menuBarItem: NSStatusItem) throws {
-        super.init(name: "RAM", icon: NSImage(), menuBarItem: menuBarItem, defaultWidget: "Mini")
+        super.init(name: "RAM", icon: NSImage(), menuBarItem: menuBarItem, defaultWidget: "Mini", popup: nil)
         
         do {
             try self.load()

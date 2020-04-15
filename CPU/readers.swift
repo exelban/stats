@@ -19,7 +19,11 @@ public class LoadReader: Reader<CPULoad> {
     private var numPrevCpuInfo: mach_msg_type_number_t = 0
     private var numCPUs: uint = 0
     private let CPUUsageLock: NSLock = NSLock()
-    private var loadPrevious = host_cpu_load_info()
+    private var previousInfo = host_cpu_load_info()
+    
+    private var result: kern_return_t = 0
+    private var response: CPULoad = CPULoad()
+    private var numCPUsU: natural_t = 0
     
     public override func setup() {
         let mibKeys: [Int32] = [ CTL_HW, HW_NCPU ]
@@ -34,33 +38,32 @@ public class LoadReader: Reader<CPULoad> {
     }
     
     public override func read() {
-        var numCPUsU: natural_t = 0
-        let result: kern_return_t = host_processor_info(mach_host_self(), PROCESSOR_CPU_LOAD_INFO, &numCPUsU, &cpuInfo, &numCpuInfo);
+        self.result = host_processor_info(mach_host_self(), PROCESSOR_CPU_LOAD_INFO, &self.numCPUsU, &self.cpuInfo, &self.numCpuInfo);
         
-        if result == KERN_SUCCESS {
-            CPUUsageLock.lock()
+        if self.result == KERN_SUCCESS {
+            self.CPUUsageLock.lock()
 
             var inUseOnAllCores: Int32 = 0
             var totalOnAllCores: Int32 = 0
             var usagePerCore: [Double] = []
 
-            for i in stride(from: 0, to: Int32(numCPUs), by: 2) {
+            for i in stride(from: 0, to: Int32(self.numCPUs), by: 2) {
                 var inUse: Int32
                 var total: Int32
-                if let prevCpuInfo = prevCpuInfo {
-                    inUse = cpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_USER)]
+                if let prevCpuInfo = self.prevCpuInfo {
+                    inUse = self.cpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_USER)]
                         - prevCpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_USER)]
-                        + cpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_SYSTEM)]
+                        + self.cpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_SYSTEM)]
                         - prevCpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_SYSTEM)]
-                        + cpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_NICE)]
+                        + self.cpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_NICE)]
                         - prevCpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_NICE)]
-                    total = inUse + (cpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_IDLE)]
+                    total = inUse + (self.cpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_IDLE)]
                         - prevCpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_IDLE)])
                 } else {
-                    inUse = cpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_USER)]
-                        + cpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_SYSTEM)]
-                        + cpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_NICE)]
-                    total = inUse + cpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_IDLE)]
+                    inUse = self.cpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_USER)]
+                        + self.cpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_SYSTEM)]
+                        + self.cpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_NICE)]
+                    total = inUse + self.cpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_IDLE)]
                 }
 
                 inUseOnAllCores = inUseOnAllCores + inUse
@@ -70,28 +73,60 @@ public class LoadReader: Reader<CPULoad> {
                 }
             }
             
-            CPUUsageLock.unlock()
+            self.CPUUsageLock.unlock()
 
-            if let prevCpuInfo = prevCpuInfo {
-                let prevCpuInfoSize: size_t = MemoryLayout<integer_t>.stride * Int(numPrevCpuInfo)
+            if let prevCpuInfo = self.prevCpuInfo {
+                let prevCpuInfoSize: size_t = MemoryLayout<integer_t>.stride * Int(self.numPrevCpuInfo)
                 vm_deallocate(mach_task_self_, vm_address_t(bitPattern: prevCpuInfo), vm_size_t(prevCpuInfoSize))
             }
-
-            prevCpuInfo = cpuInfo
-            numPrevCpuInfo = numCpuInfo
-
-            cpuInfo = nil
-            numCpuInfo = 0
             
-            let usage: Double = Double(inUseOnAllCores) / Double(totalOnAllCores)
-            if usage.isNaN {
-                self.callback(nil)
-            } else {
-                self.callback(CPULoad(totalUsage: usage, usagePerCore: usagePerCore))
-            }
+            self.prevCpuInfo = cpuInfo
+            self.numPrevCpuInfo = numCpuInfo
+            self.cpuInfo = nil
+            self.numCpuInfo = 0
+            
+            self.response.totalUsage = Double(inUseOnAllCores) / Double(totalOnAllCores)
+            self.response.usagePerCore = usagePerCore
+        } else {
+            print("ERROR host_processor_info(): " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
             return
         }
-
-        print("Error with host_processor_info(): " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
+        
+        let cpuInfo = hostCPULoadInfo()
+        if cpuInfo == nil {
+            self.callback(nil)
+            return
+        }
+        
+        let userDiff = Double(cpuInfo!.cpu_ticks.0 - self.previousInfo.cpu_ticks.0)
+        let sysDiff  = Double(cpuInfo!.cpu_ticks.1 - self.previousInfo.cpu_ticks.1)
+        let idleDiff = Double(cpuInfo!.cpu_ticks.2 - self.previousInfo.cpu_ticks.2)
+        let niceDiff = Double(cpuInfo!.cpu_ticks.3 - self.previousInfo.cpu_ticks.3)
+        let totalTicks = sysDiff + userDiff + niceDiff + idleDiff
+        
+        self.response.systemLoad  = sysDiff  / totalTicks
+        self.response.userLoad = userDiff / totalTicks
+        self.response.idleLoad = idleDiff / totalTicks
+        self.previousInfo = cpuInfo!
+        
+        self.callback(self.response)
+    }
+    
+    private func hostCPULoadInfo() -> host_cpu_load_info? {
+        let HOST_CPU_LOAD_INFO_COUNT = MemoryLayout<host_cpu_load_info>.stride/MemoryLayout<integer_t>.stride
+        var size = mach_msg_type_number_t(HOST_CPU_LOAD_INFO_COUNT)
+        var cpuLoadInfo = host_cpu_load_info()
+        
+        self.result = withUnsafeMutablePointer(to: &cpuLoadInfo) {
+            $0.withMemoryRebound(to: integer_t.self, capacity: HOST_CPU_LOAD_INFO_COUNT) {
+                host_statistics(mach_host_self(), HOST_CPU_LOAD_INFO, $0, &size)
+            }
+        }
+        if self.result != KERN_SUCCESS {
+            print("Error  - \(#file): \(#function) - kern_result_t = \(result)")
+            return nil
+        }
+        
+        return cpuLoadInfo
     }
 }

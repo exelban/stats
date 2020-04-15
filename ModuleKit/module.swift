@@ -20,6 +20,7 @@ public protocol Module_p {
     var widget: Widget_p? { get }
     
     func readyCallback()
+    func willTerminate()
 }
 
 open class Module: Module_p {
@@ -43,7 +44,7 @@ open class Module: Module_p {
     }
     private let window: NSWindow
     
-    public init(name: String, icon: NSImage, menuBarItem: NSStatusItem, defaultWidget: String) {
+    public init(name: String, icon: NSImage, menuBarItem: NSStatusItem, defaultWidget: String, popup: NSView?) {
         self.log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: name)
         self.enabled = self.store.bool(key: "\(name)_state", defaultValue: true)
         self.name = name
@@ -53,7 +54,7 @@ open class Module: Module_p {
         self.menuBarItem.isVisible = false
         self.menuBarItem.autosaveName = name
         
-        self.window = PopupWindow(title: name)
+        self.window = PopupWindow(title: name, view: popup)
         self.settings = Settings(title: name, enabled: self.enabled, toggleEnable: self.toggleEnable)
         
         self.menuBarItem.button?.target = self
@@ -62,6 +63,7 @@ open class Module: Module_p {
     }
     
     public func terminate() {
+        self.willTerminate()
         self.readers.forEach{ $0.stop() }
         NSStatusBar.system.removeStatusItem(self.menuBarItem)
         os_log(.debug, log: log, "Module terminated")
@@ -139,6 +141,7 @@ open class Module: Module_p {
     }
     
     open func isAvailable() -> Bool { return true }
+    open func willTerminate() {}
     
     @objc private func toggleMenu(_ sender: Any?) {
         let openedWindows = NSApplication.shared.windows.filter{ $0 is NSPanel }

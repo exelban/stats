@@ -16,18 +16,15 @@ public protocol Settings_p: NSView {
 }
 
 open class Settings: NSView, Settings_p {
-    private let width: CGFloat = 540
-    private let height: CGFloat = 480
-    
     private let toggleCallback: () -> ()
     
     init(title: String, enabled: Bool, toggleEnable: @escaping () -> ()) {
         self.toggleCallback = toggleEnable
-        super.init(frame: NSRect(x: 0, y: 0, width: width, height: height))
+        super.init(frame: NSRect(x: 0, y: 0, width: Constants.Settings.width, height: Constants.Settings.height))
         self.wantsLayer = true
         self.layer?.backgroundColor = .white
         
-        let titleView = NSTextField(frame: NSMakeRect((width-100)/2, (height - 20)/2, 100, 20))
+        let titleView = NSTextField(frame: NSMakeRect((self.frame.width-100)/2, (self.frame.height - 20)/2, 100, 20))
         titleView.isEditable = false
         titleView.isSelectable = false
         titleView.isBezeled = false
@@ -40,7 +37,7 @@ open class Settings: NSView, Settings_p {
         titleView.stringValue = title
         
         if #available(OSX 10.15, *) {
-            let switchButton = NSSwitch(frame: NSRect(x: (width-100)/2, y: ((height - 20)/2) - 30, width: 100, height: 30))
+            let switchButton = NSSwitch(frame: NSRect(x: (self.frame.width-100)/2, y: ((self.frame.height - 20)/2) - 30, width: 100, height: 30))
             switchButton.state = enabled ? .on : .off
             switchButton.action = #selector(self.toggleEnable)
             switchButton.target = self
