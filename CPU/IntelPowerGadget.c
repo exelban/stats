@@ -35,7 +35,7 @@ void *listener () {
         PG_ReadSample(0, &sampleID_2);
         
         PGSample_GetIAFrequency(sampleID_1, sampleID_2, &CPUFrequency, &min, &max);
-
+        
         PGSample_Release(sampleID_2);
         PGSample_Release(sampleID_1);
     }
@@ -44,14 +44,14 @@ void *listener () {
 }
 
 void PG_start() {
-    stop = false;
-    PG_Initialize();
-    pthread_create(&thread_id, NULL, listener, NULL);
+//    stop = false;
+//    PG_Initialize();
+//    pthread_create(&thread_id, NULL, listener, NULL);
 }
 
 void PG_stop() {
-    stop = true;
-    PG_Shutdown();
+//    stop = true;
+//    PG_Shutdown();
 }
 
 double* PG_getCPUFrequency() {

@@ -24,6 +24,7 @@ public class LoadReader: Reader<CPULoad> {
     private var result: kern_return_t = 0
     private var response: CPULoad = CPULoad()
     private var numCPUsU: natural_t = 0
+    private var usagePerCore: [Double] = []
     
     public override func setup() {
         let mibKeys: [Int32] = [ CTL_HW, HW_NCPU ]
@@ -45,7 +46,7 @@ public class LoadReader: Reader<CPULoad> {
 
             var inUseOnAllCores: Int32 = 0
             var totalOnAllCores: Int32 = 0
-            var usagePerCore: [Double] = []
+            self.usagePerCore = []
 
             for i in stride(from: 0, to: Int32(self.numCPUs), by: 2) {
                 var inUse: Int32
@@ -69,7 +70,7 @@ public class LoadReader: Reader<CPULoad> {
                 inUseOnAllCores = inUseOnAllCores + inUse
                 totalOnAllCores = totalOnAllCores + total
                 if total != 0 {
-                    usagePerCore.append(Double(inUse) / Double(total))
+                    self.usagePerCore.append(Double(inUse) / Double(total))
                 }
             }
             
@@ -86,7 +87,7 @@ public class LoadReader: Reader<CPULoad> {
             self.numCpuInfo = 0
             
             self.response.totalUsage = Double(inUseOnAllCores) / Double(totalOnAllCores)
-            self.response.usagePerCore = usagePerCore
+            self.response.usagePerCore = self.usagePerCore
         } else {
             print("ERROR host_processor_info(): " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
             return

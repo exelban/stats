@@ -30,7 +30,7 @@ public class CPU: Module {
         self.smc = smc
         super.init(
             name: "CPU",
-            icon: NSImage(),
+            icon: nil,
             menuBarItem: menuBarItem,
             defaultWidget: "Mini",
             popup: self.popup
@@ -42,7 +42,7 @@ public class CPU: Module {
             throw "failed to load CPU module: \(error.localizedDescription)"
         }
         
-        self.loadReader = LoadReader(callback: self.loadCallback, ready: self.readyCallback)
+        self.loadReader = LoadReader(delegate: self, callback: self.loadCallback, ready: self.readyCallback)
         self.addReader(self.loadReader!)
     }
     

@@ -13,14 +13,15 @@ import CPU
 import Memory
 import StatsKit
 
+let store: Store = Store()
 let updater = macAppUpdater(user: "exelban", repo: "stats")
+let systemKit: SystemKit = SystemKit()
 
 class AppDelegate: NSObject, NSApplicationDelegate {
     private let log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: "Stats")
     
     private var modules: [Module] = []
     private let window: SettingsWindow = SettingsWindow()
-    private let store: Store = Store()
     private var smc: SMCService = SMCService()
     
     private let cpuMenuBar = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
@@ -30,7 +31,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let startingPoint = Date()
         let result = self.smc.open()
         if result != kIOReturnSuccess {
-            os_log(.error, log: log, "open SMC: %s", (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
+            os_log(.error, log: log, "open SMC: %s", result)
             NSApp.terminate(nil)
             return
         }
@@ -92,30 +93,31 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let key = "version"
         let currentVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
         
-        if !self.store.exist(key: key) {
+        if !store.exist(key: key) {
             os_log(.info, log: log, "Previous version not detected. Current version (%s) set", currentVersion)
         } else {
-            let prevVersion = self.store.string(key: key, defaultValue: "")
+            let prevVersion = store.string(key: key, defaultValue: "")
             if prevVersion == currentVersion {
                 return
             }
             os_log(.info, log: log, "Detected previous version %s. Current version (%s) set", prevVersion, currentVersion)
         }
-
-        self.store.set(key: key, value: currentVersion)
+        
+        store.set(key: key, value: currentVersion)
     }
     
     private func defaultValues() {
-        if !self.store.exist(key: "runAtLoginInitialized") {
+        if !store.exist(key: "runAtLoginInitialized") {
+            store.set(key: "runAtLoginInitialized", value: true)
             LaunchAtLogin.isEnabled = true
         }
-
-        if self.store.exist(key: "dockIcon") {
-            let dockIconStatus = self.store.bool(key: "dockIcon", defaultValue: false) ? NSApplication.ActivationPolicy.regular : NSApplication.ActivationPolicy.accessory
+        
+        if store.exist(key: "dockIcon") {
+            let dockIconStatus = store.bool(key: "dockIcon", defaultValue: false) ? NSApplication.ActivationPolicy.regular : NSApplication.ActivationPolicy.accessory
             NSApp.setActivationPolicy(dockIconStatus)
         }
         
-        if self.store.bool(key: "checkUpdatesOnLogin", defaultValue: false) {
+        if store.bool(key: "checkUpdatesOnLogin", defaultValue: false) {
             updater.check() { result, error in
                 if error != nil {
                     os_log(.error, log: self.log, "error updater.check(): %s", "\(error!.localizedDescription)")
@@ -126,7 +128,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                     os_log(.error, log: self.log, "download error(): %s", "\(error!.localizedDescription)")
                     return
                 }
-                
+
                 if version.newest {
                     DispatchQueue.main.async(execute: {
                         print("new version detected, open updater window!")

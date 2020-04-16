@@ -31,7 +31,7 @@ public class Memory: Module {
             throw "failed to load RAM module: \(error.localizedDescription)"
         }
         
-        self.usageReader = UsageReader(callback: self.loadCallback, ready: self.readyCallback)
+        self.usageReader = UsageReader(delegate: self, callback: self.loadCallback, ready: self.readyCallback)
         self.addReader(self.usageReader!)
     }
     

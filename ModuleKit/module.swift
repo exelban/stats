@@ -12,13 +12,13 @@ import StatsKit
 
 public protocol Module_p {
     var name: String { get set }
-    var icon: NSImage { get set }
-    
+    var icon: NSImage? { get set }
+
     var available: Bool { get }
     var enabled: Bool { get }
-    
+
     var widget: Widget_p? { get }
-    
+
     func readyCallback()
     func willTerminate()
 }
@@ -26,10 +26,10 @@ public protocol Module_p {
 open class Module: Module_p {
     public let log: OSLog
     public var name: String
-    public var icon: NSImage
+    public var icon: NSImage? = nil
     public var widget: Widget_p?
-    public var settings: Settings_p?
-    
+    public var settings: Settings_p? = nil
+
     public var available: Bool = false
     public var enabled: Bool
     
@@ -44,7 +44,7 @@ open class Module: Module_p {
     }
     private let window: NSWindow
     
-    public init(name: String, icon: NSImage, menuBarItem: NSStatusItem, defaultWidget: String, popup: NSView?) {
+    public init(name: String, icon: NSImage?, menuBarItem: NSStatusItem, defaultWidget: String, popup: NSView?) {
         self.log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: name)
         self.enabled = self.store.bool(key: "\(name)_state", defaultValue: true)
         self.name = name
@@ -55,11 +55,20 @@ open class Module: Module_p {
         self.menuBarItem.autosaveName = name
         
         self.window = PopupWindow(title: name, view: popup)
-        self.settings = Settings(title: name, enabled: self.enabled, toggleEnable: self.toggleEnable)
+        self.settings = Settings(delegate: self, title: name, enabled: self.enabled, enableCallback: self.toggleEnable)
         
         self.menuBarItem.button?.target = self
         self.menuBarItem.button?.action = #selector(toggleMenu)
         self.menuBarItem.button?.sendAction(on: [.leftMouseDown, .rightMouseDown])
+    }
+    
+    public init(fake: Bool) {
+        self.log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: "fake")
+        self.enabled = false
+        self.name = "fake"
+        self.defaultWidget = "fake"
+        self.menuBarItem = NSStatusItem()
+        self.window = NSWindow()
     }
     
     public func terminate() {

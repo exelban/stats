@@ -41,11 +41,15 @@ open class Reader<T>: ReaderInternal_p {
     private var task: Repeater?
     private var nilCallbackCounter: Int = 0
     
-    public init(callback: @escaping ((T?) -> Void), ready: @escaping () -> Void) {
+    public init<Object: AnyObject>(delegate: Object, callback: @escaping ((T?) -> Void), ready: @escaping () -> Void) {
         self.log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: "\(type(of: self)).\(T.Type.self)")
         
-        self.callbackHandler = callback
-        self.readyCallback = ready
+        self.callbackHandler = { [weak delegate] value in
+            callback(value)
+        }
+        self.readyCallback = { [weak delegate] in
+            ready()
+        }
         
         self.setup()
         self.read()

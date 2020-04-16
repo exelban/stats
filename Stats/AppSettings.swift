@@ -17,9 +17,6 @@ class ApplicationSettings: NSView {
     private let height: CGFloat = 480
     private let deviceInfoHeight: CGFloat = 300
     
-    private let systemKit: SystemKit = SystemKit()
-    private let store: Store = Store()
-    
     init() {
         super.init(frame: NSRect(x: 0, y: 0, width: width, height: height))
         self.wantsLayer = true
@@ -44,7 +41,7 @@ class ApplicationSettings: NSView {
         leftPanel.addSubview(makeInfoRow(
             frame: NSRect(x: rowHorizontalPadding, y: rowHeight*3, width: leftPanel.frame.width - (rowHorizontalPadding*1.5), height: rowHeight),
             title: "Processor",
-            value: "\(self.systemKit.device.info?.cpu?.physicalCores ?? 0) cores (\(self.systemKit.device.info?.cpu?.logicalCores ?? 0) threads)"
+            value: "\(systemKit.device.info?.cpu?.physicalCores ?? 0) cores (\(systemKit.device.info?.cpu?.logicalCores ?? 0) threads)"
         ))
         
         let sizeFormatter = ByteCountFormatter()
@@ -53,10 +50,10 @@ class ApplicationSettings: NSView {
         leftPanel.addSubview(makeInfoRow(
             frame: NSRect(x: rowHorizontalPadding, y: rowHeight*2, width: leftPanel.frame.width - (rowHorizontalPadding*1.5), height: rowHeight),
             title: "Memory",
-            value: "\(sizeFormatter.string(fromByteCount: Int64(self.systemKit.device.info?.ram?.total ?? 0)))"
+            value: "\(sizeFormatter.string(fromByteCount: Int64(systemKit.device.info?.ram?.total ?? 0)))"
         ))
         
-        let gpus = self.systemKit.device.info?.gpu
+        let gpus = systemKit.device.info?.gpu
         var gpu: String = "Unknown"
         if gpus != nil {
             if gpus?.count == 1 {
@@ -75,7 +72,7 @@ class ApplicationSettings: NSView {
         leftPanel.addSubview(makeInfoRow(
             frame: NSRect(x: rowHorizontalPadding, y: 0, width: leftPanel.frame.width - (rowHorizontalPadding*1.5), height: rowHeight),
             title: "Disk",
-            value: "\(self.systemKit.device.info?.disk?.model ?? self.systemKit.device.info?.disk?.name ?? "Unknown")"
+            value: "\(systemKit.device.info?.disk?.model ?? systemKit.device.info?.disk?.name ?? "Unknown")"
         ))
         
         let rightPanel: NSView = NSView(frame: NSRect(x: self.width/2, y: 0, width: view.frame.width/2, height: view.frame.height))
@@ -179,18 +176,18 @@ class ApplicationSettings: NSView {
         let leftPanel: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.width/2, height: self.deviceInfoHeight))
         leftPanel.wantsLayer = true
         
-        let deviceImageView: NSImageView = NSImageView(image: (self.systemKit.device.model?.icon)!)
+        let deviceImageView: NSImageView = NSImageView(image: systemKit.device.model.icon)
         deviceImageView.frame = NSRect(x: (leftPanel.frame.width - 160)/2, y: ((self.deviceInfoHeight - 120)/2) + 22, width: 160, height: 120)
-        
+
         let deviceNameField: NSTextField = TextView(frame: NSRect(x: 0, y: 72, width: leftPanel.frame.width, height: 20))
         deviceNameField.alignment = .center
         deviceNameField.font = NSFont.systemFont(ofSize: 14, weight: .regular)
-        deviceNameField.stringValue = (self.systemKit.device.model?.name)!
+        deviceNameField.stringValue = systemKit.device.model.name
 
         let osField: NSTextField = TextView(frame: NSRect(x: 0, y: 52, width: leftPanel.frame.width, height: 18))
         osField.alignment = .center
         osField.font = NSFont.systemFont(ofSize: 12, weight: .regular)
-        osField.stringValue = "macOS \(self.systemKit.device.os!.name) (\(self.systemKit.device.os!.version.getFullVersion()))"
+        osField.stringValue = "macOS \(systemKit.device.os?.name ?? "Unknown") (\(systemKit.device.os?.version.getFullVersion() ?? ""))"
         
         leftPanel.addSubview(deviceImageView)
         leftPanel.addSubview(deviceNameField)
@@ -241,7 +238,7 @@ class ApplicationSettings: NSView {
         }
         
         if state != nil {
-            self.store.set(key: "checkUpdatesOnLogin", value: state! == NSControl.StateValue.on)
+            store.set(key: "checkUpdatesOnLogin", value: state! == NSControl.StateValue.on)
         }
     }
     
@@ -254,7 +251,7 @@ class ApplicationSettings: NSView {
         }
   
         if state != nil {
-            self.store.set(key: "dockIcon", value: state! == NSControl.StateValue.on)
+            store.set(key: "dockIcon", value: state! == NSControl.StateValue.on)
         }
     }
     
@@ -267,8 +264,8 @@ class ApplicationSettings: NSView {
         }
         
         LaunchAtLogin.isEnabled = state! == NSControl.StateValue.on
-        if !self.store.exist(key: "runAtLoginInitialized") {
-            self.store.set(key: "runAtLoginInitialized", value: true)
+        if !store.exist(key: "runAtLoginInitialized") {
+            store.set(key: "runAtLoginInitialized", value: true)
         }
     }
 }

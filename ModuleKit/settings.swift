@@ -18,8 +18,10 @@ public protocol Settings_p: NSView {
 open class Settings: NSView, Settings_p {
     private let toggleCallback: () -> ()
     
-    init(title: String, enabled: Bool, toggleEnable: @escaping () -> ()) {
-        self.toggleCallback = toggleEnable
+    init<Object: AnyObject>(delegate: Object, title: String, enabled: Bool, enableCallback: @escaping () -> ()) {
+        self.toggleCallback = { [weak delegate] in
+            enableCallback()
+        }
         super.init(frame: NSRect(x: 0, y: 0, width: Constants.Settings.width, height: Constants.Settings.height))
         self.wantsLayer = true
         self.layer?.backgroundColor = .white

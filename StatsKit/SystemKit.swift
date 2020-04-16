@@ -27,7 +27,7 @@ public struct model_s {
     public let name: String
     public let year: Int
     public let type: deviceType
-    public var icon: NSImage? = nil
+    public var icon: NSImage = NSImage(named: NSImage.Name("imacPro"))!
 }
 
 public struct os_s {
@@ -68,41 +68,30 @@ public struct info_s {
 }
 
 public struct device_s {
-    public var model: model_s? = nil
+    public var model: model_s = model_s(name: "Unknown", year: 2020, type: .unknown)
     public var os: os_s? = nil
     public var info: info_s? = info_s()
 }
 
 public class SystemKit {
-    public var device: device_s
+    public var device: device_s = device_s()
     private let log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: "SystemKit")
     
     public init() {
-        self.device = device_s()
-        
         if let modelName = self.modelName() {
             if let modelInfo = deviceDict[modelName] {
                 self.device.model = modelInfo
             } else {
                 os_log(.error, log: self.log, "unknown device %v", modelName)
-                self.device.model = model_s(name: "Unknown", year: 1970, type: .unknown)
             }
         }
-        
+
         let procInfo = ProcessInfo()
         let systemVersion = procInfo.operatingSystemVersion
         let build = procInfo.operatingSystemVersionString.split(separator: "(")[1].replacingOccurrences(of: "Build ", with: "").replacingOccurrences(of: ")", with: "")
-        
+
         self.device.os = os_s(name: osDict[systemVersion.minorVersion] ?? "Unknown", version: systemVersion, build: build)
-        
-        if self.device.model != nil {
-            if self.device.model?.icon == nil {
-                var model = self.device.model
-                model?.icon = self.getIcon(type: self.device.model?.type ?? deviceType.unknown)
-                self.device.model = model
-            }
-        }
-        
+
         self.device.info?.cpu = self.getCPUInfo()
         self.device.info?.ram = self.getRamInfo()
         self.device.info?.gpu = self.getGPUInfo()
@@ -300,7 +289,7 @@ public class SystemKit {
             icon = NSImage(named: NSImage.Name("macbookPro"))!
             break
         default:
-            icon = NSImage(named: NSImage.Name("unknownDevice"))!
+            icon = NSImage(named: NSImage.Name("imacPro"))!
             break
         }
         

@@ -95,11 +95,13 @@ class SettingsView: NSView {
         super.init(frame: CGRect(x: frame.origin.x, y: frame.origin.y, width: frame.width, height: frame.height))
         self.wantsLayer = true
         
+        NotificationCenter.default.addObserver(self, selector: #selector(menuCallback), name: .openSettingsView, object: nil)
+        
         let navigationView: NSScrollView = NSScrollView(frame: NSRect(x: 0, y: buttonHeight, width: navigationWidth, height: frame.height - buttonHeight))
         navigationView.wantsLayer = true
         navigationView.drawsBackground = false
         
-        navigationView.addSubview(MenuView(n: 0, icon: NSImage(named: NSImage.Name("apps"))!, title: "Stats", callback: self.menuCallback(_:)))
+        navigationView.addSubview(MenuView(n: 0, icon: NSImage(named: NSImage.Name("apps"))!, title: "Stats"))
         
         let buttonsView: NSView = NSView(frame: NSRect(x: 0, y: 0, width: navigationWidth, height: buttonHeight))
         buttonsView.wantsLayer = true
@@ -156,33 +158,35 @@ class SettingsView: NSView {
     public func setModules(_ list: UnsafeMutablePointer<[Module]>) {
         list.pointee.forEach { (m: Module) in
             let n: Int = (self.navigationView?.subviews.count ?? 2)!-1
-            let menu: NSView = MenuView(n: n, icon: m.icon, title: m.name, callback: self.menuCallback(_:))
+            let menu: NSView = MenuView(n: n, icon: m.icon, title: m.name)
             self.navigationView?.addSubview(menu)
         }
         self.modules = list
 //        self.openMenu("CPU")
     }
     
-    private func menuCallback(_ title: String) {
-        var view: NSView = self.applicationSettings
-        
-        let detectedModule = self.modules?.pointee.first{ $0.name == title }
-        if detectedModule != nil {
-            if let v = detectedModule?.settings {
-                view = v
-            }
-        }
-        
-        self.mainView?.subviews.forEach{ $0.removeFromSuperview() }
-        self.mainView?.addSubview(view)
-        
-        self.navigationView?.subviews.forEach({ (m: NSView) in
-            if let menu = m as? MenuView {
-                if menu.active {
-                    menu.reset()
+    @objc private func menuCallback(_ notification: Notification) {
+        if let title = notification.userInfo?["module"] as? String {
+            var view: NSView = self.applicationSettings
+            
+            let detectedModule = self.modules?.pointee.first{ $0.name == title }
+            if detectedModule != nil {
+                if let v = detectedModule?.settings {
+                    view = v
                 }
             }
-        })
+            
+            self.mainView?.subviews.forEach{ $0.removeFromSuperview() }
+            self.mainView?.addSubview(view)
+            
+            self.navigationView?.subviews.forEach({ (m: NSView) in
+                if let menu = m as? MenuView {
+                    if menu.active {
+                        menu.reset()
+                    }
+                }
+            })
+        }
     }
     
     private func makeButton(_ n: Int, title: String, image: String, action: Selector) -> NSButton {
@@ -263,12 +267,10 @@ class MenuView: NSView {
     private var imageView: NSImageView? = nil
     private var titleView: NSTextField? = nil
     
-    private let callback: (String) -> ()
     public let title: String
     public var active: Bool = false
     
-    init(n: Int, icon: NSImage, title: String, callback: @escaping (String)->()) {
-        self.callback = callback
+    init(n: Int, icon: NSImage?, title: String) {
         self.title = title
         super.init(frame: NSRect(x: 0, y: self.height*CGFloat(n), width: width, height: self.height))
         self.wantsLayer = true
@@ -278,7 +280,10 @@ class MenuView: NSView {
         let trackingArea = NSTrackingArea(rect: rect, options: [NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited, NSTrackingArea.Options.activeInActiveApp], owner: self, userInfo: ["menu": title])
         self.addTrackingArea(trackingArea)
         
-        let imageView = NSImageView(image: icon)
+        let imageView = NSImageView()
+        if icon != nil {
+            imageView.image = icon!
+        }
         imageView.frame = NSRect(x: 8, y: (self.height - 18)/2, width: 18, height: 18)
         imageView.wantsLayer = true
         imageView.contentTintColor = .secondaryLabelColor
@@ -325,7 +330,7 @@ class MenuView: NSView {
     }
     
     public func activate() {
-        self.callback(self.title)
+        NotificationCenter.default.post(name: .openSettingsView, object: nil, userInfo: ["module": self.title])
         
         self.titleView?.textColor = .labelColor
         self.imageView?.contentTintColor = .labelColor

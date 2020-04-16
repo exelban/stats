@@ -105,6 +105,7 @@ public extension NSView {
 public extension Notification.Name {
     static let toggleSettings = Notification.Name("toggleSettings")
     static let toggleModule = Notification.Name("toggleModule")
+    static let openSettingsView = Notification.Name("openSettingsView")
 }
 
 public class NSButtonWithPadding: NSButton {

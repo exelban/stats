@@ -16,7 +16,7 @@
 		9A0C82E924460F9F00FAE3D4 /* store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A65492224407EA600E30B74 /* store.swift */; };
 		9A0C82EA24460FB100FAE3D4 /* StatsKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A0C82DA24460F7200FAE3D4 /* StatsKit.framework */; };
 		9A0C82EB24460FB100FAE3D4 /* StatsKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A0C82DA24460F7200FAE3D4 /* StatsKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9A0C82EE2446124800FAE3D4 /* system.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7D0CB62444C2C800B09070 /* system.swift */; };
+		9A0C82EE2446124800FAE3D4 /* SystemKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7D0CB62444C2C800B09070 /* SystemKit.swift */; };
 		9A34353B243E278D006B19F9 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A34353A243E278D006B19F9 /* main.swift */; };
 		9A34353C243E27E8006B19F9 /* LaunchAtLogin.app in Copy Files */ = {isa = PBXBuildFile; fileRef = 9A343527243E26A0006B19F9 /* LaunchAtLogin.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		9A5349CE23D8832E00C23824 /* Reachability.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A5349CD23D8832E00C23824 /* Reachability.framework */; };
@@ -213,7 +213,7 @@
 		9A7C61B02440DD410032695D /* widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = widget.swift; sourceTree = "<group>"; };
 		9A7C61B32440DF810032695D /* Mini.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mini.swift; sourceTree = "<group>"; };
 		9A7C61B7244119AA0032695D /* readers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = readers.swift; sourceTree = "<group>"; };
-		9A7D0CB62444C2C800B09070 /* system.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = system.swift; sourceTree = "<group>"; };
+		9A7D0CB62444C2C800B09070 /* SystemKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemKit.swift; sourceTree = "<group>"; };
 		9A998CD722A199920087ADE7 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		9A998CD922A199970087ADE7 /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = System/Library/Frameworks/ServiceManagement.framework; sourceTree = SDKROOT; };
 		9A9D728924471FAE005CF997 /* SMC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMC.swift; sourceTree = "<group>"; };
@@ -303,7 +303,7 @@
 		9A0C82DB24460F7200FAE3D4 /* StatsKit */ = {
 			isa = PBXGroup;
 			children = (
-				9A7D0CB62444C2C800B09070 /* system.swift */,
+				9A7D0CB62444C2C800B09070 /* SystemKit.swift */,
 				9A0C82D124460DFF00FAE3D4 /* updater.swift */,
 				9A65492224407EA600E30B74 /* store.swift */,
 				9A0C82D324460E4400FAE3D4 /* launchAtLogin.swift */,
@@ -743,7 +743,7 @@
 			files = (
 				9A0C82E624460F9A00FAE3D4 /* extensions.swift in Sources */,
 				9A0C82E724460F9C00FAE3D4 /* updater.swift in Sources */,
-				9A0C82EE2446124800FAE3D4 /* system.swift in Sources */,
+				9A0C82EE2446124800FAE3D4 /* SystemKit.swift in Sources */,
 				9A9D729224474B0D005CF997 /* ChartMarker.swift in Sources */,
 				9A9D728A24471FAE005CF997 /* SMC.swift in Sources */,
 				9A0C82E824460F9E00FAE3D4 /* launchAtLogin.swift in Sources */,

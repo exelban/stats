@@ -12,7 +12,6 @@
 import Cocoa
 import ModuleKit
 import StatsKit
-import Charts
 
 public class Popup: NSView {
     private let firstHeight: CGFloat = 90
@@ -26,10 +25,8 @@ public class Popup: NSView {
     private var userField: NSTextField? = nil
     private var idleField: NSTextField? = nil
     
-    private var chart: LineChartView = LineChartView()
-    
     public init() {
-        super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: firstHeight + secondHeight + (Constants.Popup.margins*3)))
+        super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: firstHeight + secondHeight + (Constants.Popup.margins*2)))
         
         initFirstView()
         initDescription()
@@ -40,7 +37,7 @@ public class Popup: NSView {
     }
     
     private func initDescription() {
-        let y: CGFloat = self.frame.height - self.firstHeight - self.secondHeight - (Constants.Popup.margins*2)
+        let y: CGFloat = self.frame.height - self.firstHeight - self.secondHeight - (Constants.Popup.margins*1)
         let view: NSView = NSView(frame: NSRect(x: 0, y: y, width: self.frame.width, height: self.secondHeight))
         
         addTitleSeparator("Overview", view)
@@ -56,63 +53,18 @@ public class Popup: NSView {
         let rightWidth: CGFloat = 110
         let view: NSView = NSView(frame: NSRect(x: 0, y: self.frame.height - self.firstHeight, width: self.frame.width, height: self.firstHeight))
         
-        let chartView = LineChartView(frame: NSRect(x: 0, y: 0, width: view.frame.width - rightWidth - Constants.Popup.margins, height: view.frame.height))
-        //: ### General
-        chartView.noDataText = "No data"
-        chartView.backgroundColor = .clear
-        chartView.dragEnabled = false
-        chartView.setScaleEnabled (false)
-        chartView.drawGridBackgroundEnabled = false
-        chartView.pinchZoomEnabled = false
-        chartView.drawBordersEnabled = false
-        chartView.legend.enabled = false
-        chartView.autoScaleMinMaxEnabled = true
-        chartView.minOffset = 0
-        //: ### xAxis
-        chartView.xAxis.drawAxisLineEnabled = false
-        chartView.xAxis.drawLimitLinesBehindDataEnabled = false
-        chartView.xAxis.drawGridLinesEnabled = false
-        chartView.xAxis.drawLabelsEnabled = false
-        //: ### LeftAxis & RightAxis
-        chartView.leftAxis.axisMinimum = 0
-        chartView.leftAxis.axisMaximum = 100
-        chartView.leftAxis.labelCount = 6
-        chartView.leftAxis.drawAxisLineEnabled = false
-        chartView.leftAxis.drawLabelsEnabled = false
-        chartView.leftAxis.gridColor = NSColor(red: 220/255, green: 220/255, blue: 220/255, alpha: 0.5)
-        chartView.leftAxis.gridLineWidth = 0.5
-        chartView.rightAxis.enabled = false
-        //: ### Marker
-        let marker = ChartMarker()
-        marker.chartView = self.chart
-        chartView.marker = marker
-        
-        let values: [ChartDataEntry] = [ChartDataEntry(x: 0, y: 0)]
-        let chartDataSet = LineChartDataSet(entries: values, label: "CPU Usage")
-        chartDataSet.drawValuesEnabled = false
-        chartDataSet.drawCirclesEnabled = false
-        chartDataSet.drawFilledEnabled = true
-        chartDataSet.mode = .linear
-        chartDataSet.cubicIntensity = 0.1
-        chartDataSet.lineWidth = 0
-        chartDataSet.fillColor = NSColor.systemBlue
-        chartDataSet.fillAlpha = 0.5
-        
-        chartView.data = LineChartData(dataSets: [chartDataSet])
-        
-        chartView.data?.notifyDataChanged()
-        chartView.notifyDataSetChanged()
+        let leftPanel = NSView(frame: NSRect(x: 0, y: 0, width: view.frame.width - rightWidth - Constants.Popup.margins, height: view.frame.height))
+        leftPanel.wantsLayer = true
+        leftPanel.layer?.backgroundColor = NSColor.yellow.cgColor
         
         let rightPanel: NSView = NSView(frame: NSRect(x: view.frame.width - rightWidth, y: 0, width: rightWidth, height: view.frame.height))
         self.loadField = addFirstRow(mView: rightPanel, y: ((rightPanel.frame.height - 16)/2)+20, title: "Load:", value: "")
         self.frequencyField = addFirstRow(mView: rightPanel, y: (rightPanel.frame.height - 16)/2, title: "Frequency:", value: "")
         self.temperatureField = addFirstRow(mView: rightPanel, y: ((rightPanel.frame.height - 16)/2)-20, title: "Temperature:", value: "")
         
-        view.addSubview(chartView)
+        view.addSubview(leftPanel)
         view.addSubview(rightPanel)
         self.addSubview(view)
-        
-        self.chart = chartView
     }
     
     private func addFirstRow(mView: NSView, y: CGFloat, title: String, value: String) -> NSTextField {
@@ -197,26 +149,6 @@ public class Popup: NSView {
             
             let v = Int(value.totalUsage.rounded(toPlaces: 2) * 100)
             self.loadField?.stringValue = "\(v)%"
-                
-            let ds = self.chart.data?.getDataSetByIndex(0)
-            let count: Double = Double(ds!.entryCount)
-                
-            if count == 1 && ds?.entryForIndex(0)!.x == 0 && ds?.entryForIndex(0)!.y == 0 {
-                _ = ds?.removeEntry(index: 0)
-                self.chart.data?.addEntry(ChartDataEntry(x: 0, y: Double(v)), dataSetIndex: 0)
-            } else {
-                self.chart.data?.addEntry(ChartDataEntry(x: count, y: Double(v)), dataSetIndex: 0)
-            }
-                
-            if ds!.entryCount > 120 {
-                self.chart.xAxis.axisMinimum = count - 120
-            }
-                
-            self.chart.xAxis.axisMaximum = count
-            if self.window!.isVisible {
-                self.chart.notifyDataSetChanged()
-                self.chart.moveViewToX(count)
-            }
         })
     }
 }
