@@ -22,13 +22,12 @@
 pthread_t thread_id;
 double CPUFrequency;
 bool stop;
+double min;
+double max;
+PGSampleID sampleID_1;
+PGSampleID sampleID_2;
 
 void *listener () {
-    double min;
-    double max;
-    PGSampleID sampleID_1;
-    PGSampleID sampleID_2;
-    
     while(stop == false) {
         PG_ReadSample(0, &sampleID_1);
         sleep(1);
@@ -44,14 +43,14 @@ void *listener () {
 }
 
 void PG_start() {
-//    stop = false;
-//    PG_Initialize();
-//    pthread_create(&thread_id, NULL, listener, NULL);
+    stop = false;
+    PG_Initialize();
+    pthread_create(&thread_id, NULL, listener, NULL);
 }
 
 void PG_stop() {
-//    stop = true;
-//    PG_Shutdown();
+    stop = true;
+    PG_Shutdown();
 }
 
 double* PG_getCPUFrequency() {

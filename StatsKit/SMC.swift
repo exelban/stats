@@ -91,9 +91,7 @@ struct SMCVal_t {
 public class SMCService {
     private var conn: io_connect_t = 0;
     
-    public init() {}
-    
-    public func open() -> kern_return_t {
+    public init() {
         var result: kern_return_t
         var iterator: io_iterator_t = 0
         let device: io_object_t
@@ -102,24 +100,22 @@ public class SMCService {
         result = IOServiceGetMatchingServices(kIOMasterPortDefault, matchingDictionary, &iterator)
         if (result != kIOReturnSuccess) {
             print("Error IOServiceGetMatchingServices(): " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
-            return result
+            return
         }
 
         device = IOIteratorNext(iterator)
         IOObjectRelease(iterator)
         if (device == 0) {
             print("Error IOIteratorNext(): " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
-            return kIOReturnError
+            return
         }
 
         result = IOServiceOpen(device, mach_task_self_, 0, &conn)
         IOObjectRelease(device)
         if (result != kIOReturnSuccess) {
             print("Error IOServiceOpen(): " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
-            return result
+            return
         }
-        
-        return kIOReturnSuccess
     }
     
     public func close() -> kern_return_t{

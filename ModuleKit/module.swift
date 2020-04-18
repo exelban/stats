@@ -11,76 +11,90 @@ import os.log
 import StatsKit
 
 public protocol Module_p {
-    var name: String { get set }
-    var icon: NSImage? { get set }
-
+    var name: String { get }
+    var icon: NSImage? { get }
     var available: Bool { get }
     var enabled: Bool { get }
-
+    var defaultWidget: widget_t { get }
+    var availableWidgets: [widget_t] { get set }
+    
     var widget: Widget_p? { get }
-
-    func readyCallback()
-    func willTerminate()
+    var settings: Settings_p? { get }
+    
+    func load()
+    func terminate()
 }
 
 open class Module: Module_p {
-    public let log: OSLog
-    public var name: String
+    public var name: String = ""
     public var icon: NSImage? = nil
-    public var widget: Widget_p?
-    public var settings: Settings_p? = nil
-
+    public var defaultWidget: widget_t = .unknown
     public var available: Bool = false
-    public var enabled: Bool
+    public var enabled: Bool = false
+    public var availableWidgets: [widget_t] = []
     
-    private let store: Store = Store()
-    private let menuBarItem: NSStatusItem
+    public var widget: Widget_p? = nil
+    public var settings: Settings_p? = nil
+    
+    private let log: OSLog
+    private var store: UnsafePointer<Store>? = nil
     private var readers: [Reader_p] = []
-    private var defaultWidget: String
-    private var activeWidget: String {
+    private var menuBarItem: NSStatusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
+    private var activeWidget: widget_t {
         get {
-            return self.store.string(key: "\(self.name)_widget", defaultValue: self.defaultWidget)
+            let widgetStr = self.store?.pointee.string(key: "\(self.name)_widget", defaultValue: self.defaultWidget.rawValue)
+            return widget_t.allCases.first{ $0.rawValue == widgetStr } ?? widget_t.unknown
         }
+        set {}
     }
-    private let window: NSWindow
+    private var ready: Bool = false
+    private var window: NSWindow = NSWindow()
     
-    public init(name: String, icon: NSImage?, menuBarItem: NSStatusItem, defaultWidget: String, popup: NSView?) {
+    public init(store: UnsafePointer<Store>?, name: String, icon: NSImage?, popup: NSView?, defaultWidget: widget_t, widgets: UnsafePointer<[widget_t]>?, defaultState: Bool) {
         self.log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: name)
-        self.enabled = self.store.bool(key: "\(name)_state", defaultValue: true)
         self.name = name
         self.icon = icon
+        self.store = store
         self.defaultWidget = defaultWidget
-        self.menuBarItem = menuBarItem
-        self.menuBarItem.isVisible = false
-        self.menuBarItem.autosaveName = name
+        self.available = self.isAvailable()
+        self.enabled = self.store?.pointee.bool(key: "\(name)_state", defaultValue: defaultState) ?? false
         
-        self.window = PopupWindow(title: name, view: popup)
-        self.settings = Settings(delegate: self, title: name, enabled: self.enabled, enableCallback: self.toggleEnable)
+        NotificationCenter.default.addObserver(self, selector: #selector(listenForWidgetSwitch), name: .switchWidget, object: nil)
         
+        self.setWidget()
+        self.settings = Settings(title: name, enabled: self.enabled, activeWidget: self.activeWidget, widgets: widgets)
+//        self.settings?.toggleCallback = { [weak self] in
+//            self?.toggleEnabled()
+//        }
+        
+        self.menuBarItem.isVisible = self.enabled
+        self.menuBarItem.autosaveName = self.name
         self.menuBarItem.button?.target = self
         self.menuBarItem.button?.action = #selector(toggleMenu)
         self.menuBarItem.button?.sendAction(on: [.leftMouseDown, .rightMouseDown])
+        
+        self.window = PopupWindow(title: name, view: popup)
     }
     
-    public init(fake: Bool) {
-        self.log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: "fake")
-        self.enabled = false
-        self.name = "fake"
-        self.defaultWidget = "fake"
-        self.menuBarItem = NSStatusItem()
-        self.window = NSWindow()
+    open func load() {
+        if self.enabled && self.widget != nil {
+            self.menuBarItem.length = self.widget!.frame.width
+            self.menuBarItem.button?.addSubview(self.widget!)
+        }
     }
     
-    public func terminate() {
-        self.willTerminate()
-        self.readers.forEach{ $0.stop() }
+    open func terminate() {
+        self.readers.forEach{
+            $0.stop()
+            $0.terminate()
+        }
         NSStatusBar.system.removeStatusItem(self.menuBarItem)
         os_log(.debug, log: log, "Module terminated")
     }
     
     public func enable() {
         self.enabled = true
-        self.store.set(key: "\(name)_state", value: true)
+        self.store?.pointee.set(key: "\(name)_state", value: true)
         self.readers.forEach{ $0.start() }
         self.menuBarItem.isVisible = true
         os_log(.debug, log: log, "Module enabled")
@@ -88,14 +102,14 @@ open class Module: Module_p {
     
     public func disable() {
         self.enabled = false
-        self.store.set(key: "\(name)_state", value: false)
+        self.store?.pointee.set(key: "\(name)_state", value: false)
         self.readers.forEach{ $0.pause() }
         self.menuBarItem.isVisible = false
         self.window.setIsVisible(false)
         os_log(.debug, log: log, "Module disabled")
     }
     
-    private func toggleEnable() {
+    private func toggleEnabled() {
         if self.enabled {
             self.disable()
         } else {
@@ -103,54 +117,27 @@ open class Module: Module_p {
         }
     }
     
-    public func load() throws {
-        self.available = self.isAvailable()
-        
-        if !self.available {
-            self.terminate()
-            return
-        }
-        
-        guard let widget = LoadWidget(type: self.activeWidget) else {
-            throw "widget with type \(self.activeWidget) not found"
-        }
-        os_log(.debug, log: log, "Successfully load widget: %s", "\(type(of: widget))")
-        
-        widget.setTitle(self.name)
-        widget.widthHandler = self.setWidgetWidth
-        self.widget = widget
-        
-        os_log(.debug, log: log, "Successfully load module")
-    }
-    
     public func addReader(_ reader: Reader_p) {
         if self.enabled {
+            reader.read()
             reader.start()
         }
         self.readers.append(reader)
         
-        os_log(.debug, log: log, "Successfully add reader %s", "\(type(of: reader))")
+        os_log(.debug, log: log, "Successfully add reader %s", "\(reader.self)")
     }
     
-    public func readyCallback() {
-        if self.widget != nil {
-            self.menuBarItem.length = self.widget!.frame.width
-            self.menuBarItem.button?.addSubview(self.widget!)
-            os_log(.debug, log: log, "Reader report readiness")
-        }
-        
-        if self.enabled {
-            self.menuBarItem.isVisible = true
-        }
+    public func readyHandler() {
+        os_log(.debug, log: log, "Reader report readiness")
+        self.ready = true
     }
     
-    public func setWidgetWidth(_ width: CGFloat) {
+    public func widgetWidthHandler(_ width: CGFloat) {
         os_log(.debug, log: log, "Widget %s adjust width to %.2f", "\(type(of: self.widget!))", width)
         self.menuBarItem.length = width
     }
     
     open func isAvailable() -> Bool { return true }
-    open func willTerminate() {}
     
     @objc private func toggleMenu(_ sender: Any?) {
         let openedWindows = NSApplication.shared.windows.filter{ $0 is NSPanel }
@@ -180,5 +167,40 @@ open class Module: Module_p {
             self.window.setFrameOrigin(NSPoint(x: x, y: y))
             self.window.setIsVisible(true)
         }
+    }
+    
+    @objc private func listenForWidgetSwitch(_ notification: Notification) {
+        if let moduleName = notification.userInfo?["module"] as? String {
+            if let widgetName = notification.userInfo?["widget"] as? String {
+                if moduleName == self.name {
+                    if let widgetType = widget_t.allCases.first(where: { $0.rawValue == widgetName }) {
+                        self.activeWidget = widgetType
+                        self.store?.pointee.set(key: "\(self.name)_widget", value: widgetType.rawValue)
+                        self.setWidget()
+                        os_log(.debug, log: log, "Widget is changed to: %s", "\(widgetName)")
+                    }
+                }
+            }
+        }
+    }
+    
+    private func setWidget() {
+        self.widget = LoadWidget(self.activeWidget, preview: false)
+        if self.widget == nil {
+            self.enabled = false
+            os_log(.error, log: log, "widget with type %s not found", "\(self.activeWidget)")
+        }
+        os_log(.debug, log: log, "Successfully initialize widget: %s", "\(String(describing: self.widget!))")
+        
+        self.widget?.setTitle(self.name)
+        self.widget?.widthHandler = { [weak self] value in
+            self?.widgetWidthHandler(value)
+        }
+        
+        self.readers.forEach{ $0.read() }
+        
+        self.menuBarItem.length = self.widget!.frame.width
+        self.menuBarItem.button?.subviews.forEach{ $0.removeFromSuperview() }
+        self.menuBarItem.button?.addSubview(self.widget!)
     }
 }

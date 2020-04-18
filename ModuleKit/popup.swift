@@ -181,3 +181,47 @@ class HeaderView: NSView {
         NotificationCenter.default.post(name: .toggleSettings, object: nil, userInfo: ["module": self.titleView?.stringValue ?? ""])
     }
 }
+
+public class LabelField: NSTextField {
+    public init(frame: NSRect, _ label: String) {
+        super.init(frame: frame)
+        
+        self.isEditable = false
+        self.isSelectable = false
+        self.isBezeled = false
+        self.wantsLayer = true
+        self.backgroundColor = .clear
+        self.canDrawSubviewsIntoLayer = true
+        
+        self.stringValue = label
+        self.textColor = .secondaryLabelColor
+        self.alignment = .natural
+        self.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+public class ValueField: NSTextField {
+    public init(frame: NSRect, _ value: String) {
+        super.init(frame: frame)
+        
+        self.isEditable = false
+        self.isSelectable = false
+        self.isBezeled = false
+        self.wantsLayer = true
+        self.backgroundColor = .clear
+        self.canDrawSubviewsIntoLayer = true
+        
+        self.stringValue = value
+        self.textColor = .textColor
+        self.alignment = .right
+        self.font = NSFont.systemFont(ofSize: 13, weight: .medium)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}

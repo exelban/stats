@@ -31,17 +31,17 @@ class SettingsWindow: NSWindow, NSWindowDelegate {
         self.collectionBehavior = .transient
         self.titlebarAppearsTransparent = true
         self.appearance = NSAppearance(named: .darkAqua)
-        self.center()
-        self.setIsVisible(false)
+//        self.center()
+        self.setIsVisible(true)
         
         let windowController = NSWindowController()
         windowController.window = self
         windowController.loadWindow()
     }
     
-    public func setModules(_ list: UnsafeMutablePointer<[Module]>) {
-        self.viewController.setModules(list)
-        if list.pointee.filter({ $0.enabled != false}).count == 0 {
+    public func setModules() {
+        self.viewController.setModules(&modules)
+        if modules.filter({ $0.enabled != false}).count == 0 {
             self.setIsVisible(true)
         }
     }
@@ -110,8 +110,10 @@ class SettingsView: NSView {
         buttonsView.addSubview(self.makeButton(3, title: "Report a bug", image: "bug", action: #selector(reportBug)))
         buttonsView.addSubview(self.makeButton(1, title: "Close application", image: "power", action: #selector(closeApp)))
         
-        let mainView: NSView = NSView(frame: NSRect(x: navigationWidth, y: 0, width: frame.width - navigationWidth, height: frame.height))
+        let mainView: NSView = NSView(frame: NSRect(x: navigationWidth, y: 1, width: frame.width - navigationWidth-1, height: frame.height-1))
         mainView.wantsLayer = true
+        mainView.layer?.cornerRadius = 3
+        mainView.layer?.maskedCorners = [.layerMaxXMinYCorner]
         
         self.addSubview(navigationView)
         self.addSubview(buttonsView)
@@ -162,7 +164,7 @@ class SettingsView: NSView {
             self.navigationView?.addSubview(menu)
         }
         self.modules = list
-//        self.openMenu("CPU")
+        self.openMenu("CPU")
     }
     
     @objc private func menuCallback(_ notification: Notification) {

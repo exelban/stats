@@ -20,12 +20,13 @@ public class Mini: Widget {
     
     private let onlyValueWidth: CGFloat = 42
     
-    override init(frame: NSRect) {
-        super.init(frame: CGRect(x: 0, y: widgetConst.y, width: widgetConst.width, height: widgetConst.height - (2*widgetConst.y)))
+    public init(preview: Bool) {
+        super.init(frame: CGRect(x: 0, y: Constants.Widget.margin, width: Constants.Widget.width, height: Constants.Widget.height - (2*Constants.Widget.margin)))
+        self.type = .mini
         self.wantsLayer = true
         
-        var xOffset: CGFloat = 2
-        var width: CGFloat = self.frame.size.width - (xOffset * 3)
+        var xOffset: CGFloat = 1
+        var width: CGFloat = self.frame.size.width
         var height: CGFloat = 10
         var y: CGFloat = 1
         var fontSize: CGFloat = 10
@@ -44,20 +45,20 @@ public class Mini: Widget {
             labelView.font = NSFont.systemFont(ofSize: 8, weight: .light)
             labelView.stringValue = ""
             labelView.addSubview(NSView())
-
+            
             self.labelView = labelView
             self.addSubview(self.labelView)
         } else {
             xOffset = 0
-            width = onlyValueWidth
+            width = self.onlyValueWidth
             height = self.frame.height - 2
             y = 1
             fontSize = 13
             valueAligment = .center
-            self.setWidth(onlyValueWidth)
+            self.setWidth(self.onlyValueWidth)
         }
         
-        let valueView = NSTextField(frame: NSMakeRect(xOffset, y, width, height))
+        let valueView = NSTextField(frame: NSMakeRect(xOffset, y, self.frame.size.width, height))
         valueView.isEditable = false
         valueView.isSelectable = false
         valueView.isBezeled = false
@@ -69,6 +70,11 @@ public class Mini: Widget {
         valueView.font = NSFont.systemFont(ofSize: fontSize, weight: .regular)
         valueView.stringValue = ""
         valueView.addSubview(NSView())
+        
+        if preview {
+            valueView.stringValue = "38%"
+            valueView.textColor = 0.38.usageColor(color: true)
+        }
         
         self.valueView = valueView
         self.addSubview(self.valueView)

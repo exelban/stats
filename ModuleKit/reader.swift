@@ -15,6 +15,8 @@ import os.log
 
 public protocol Reader_p {
     func setup() -> Void
+    func read() -> Void
+    func terminate() -> Void
     
     func getValue<T>() -> T
     
@@ -36,25 +38,18 @@ open class Reader<T>: ReaderInternal_p {
     public var interval: Int = 1000
     public var optional: Bool = false
     
-    private var readyCallback: () -> Void
-    private var callbackHandler: (T?) -> Void
-    private var task: Repeater?
+    public var readyCallback: () -> Void = {}
+    public var callbackHandler: (T?) -> Void = {_ in }
+    
+    private var repeatTask: Repeater?
     private var nilCallbackCounter: Int = 0
     
-    public init<Object: AnyObject>(delegate: Object, callback: @escaping ((T?) -> Void), ready: @escaping () -> Void) {
-        self.log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: "\(type(of: self)).\(T.Type.self)")
-        
-        self.callbackHandler = { [weak delegate] value in
-            callback(value)
-        }
-        self.readyCallback = { [weak delegate] in
-            ready()
-        }
+    public init() {
+        self.log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: "\(T.self)")
         
         self.setup()
-        self.read()
         
-        self.task = Repeater.init(interval: .milliseconds(self.interval), observer: { _ in
+        self.repeatTask = Repeater.init(interval: .milliseconds(self.interval), observer: { _ in
             self.read()
         })
         
@@ -89,6 +84,7 @@ open class Reader<T>: ReaderInternal_p {
     
     open func read() {}
     open func setup() {}
+    open func terminate() {}
 }
 
 extension Reader: Reader_p {
@@ -97,14 +93,14 @@ extension Reader: Reader_p {
     }
     
     public func start() {
-        self.task!.start()
+        self.repeatTask!.start()
     }
     
     public func pause() {
-        self.task!.pause()
+        self.repeatTask!.pause()
     }
     
     public func stop() {
-        self.task!.removeAllObservers(thenStop: true)
+        self.repeatTask!.removeAllObservers(thenStop: true)
     }
 }

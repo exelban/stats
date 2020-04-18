@@ -10,9 +10,15 @@
 //
 
 import Cocoa
+import StatsKit
 import ModuleKit
 
 public struct MemoryUsage {
+    var active: Double?
+    var inactive: Double?
+    var wired: Double?
+    var compressed: Double?
+    
     var usage: Double?
     var total: Double?
     var used: Double?
@@ -20,19 +26,22 @@ public struct MemoryUsage {
 }
 
 public class Memory: Module {
-    private var usageReader: Reader_p?
+    private let popup: Popup = Popup()
     
-    public init(menuBarItem: NSStatusItem) throws {
-        super.init(name: "RAM", icon: NSImage(), menuBarItem: menuBarItem, defaultWidget: "Mini", popup: nil)
+    private var usageReader: UsageReader = UsageReader()
+    
+    public init(_ store: UnsafePointer<Store>?) {
+        var widgets: [widget_t] = [.mini]
+        super.init(store: store, name: "RAM", icon: nil, popup: self.popup, defaultWidget: .mini, widgets: &widgets, defaultState: true)
         
-        do {
-            try self.load()
-        } catch {
-            throw "failed to load RAM module: \(error.localizedDescription)"
+        self.usageReader.readyCallback = { [unowned self] in
+            self.readyHandler()
+        }
+        self.usageReader.callbackHandler = { [unowned self] value in
+            self.loadCallback(value: value)
         }
         
-        self.usageReader = UsageReader(delegate: self, callback: self.loadCallback, ready: self.readyCallback)
-        self.addReader(self.usageReader!)
+        self.addReader(self.usageReader)
     }
     
     private func loadCallback(value: MemoryUsage?) {
@@ -41,9 +50,13 @@ public class Memory: Module {
                 return
             }
             
+            self.popup.loadCallback(value!)
+            let v = "\(Int(value!.usage!.rounded(toPlaces: 2) * 100))%"
             DispatchQueue.main.async(execute: {
-                widget.valueView.stringValue = "\(Int(value!.usage!.rounded(toPlaces: 2) * 100))%"
-                widget.valueView.textColor = value!.usage!.usageColor(color: widget.color)
+                if v != widget.valueView.stringValue {
+                    widget.valueView.stringValue = v
+                    widget.valueView.textColor = value!.usage!.usageColor(color: widget.color)
+                }
             })
         }
     }

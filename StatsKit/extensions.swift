@@ -11,6 +11,78 @@
 
 import Cocoa
 
+public enum Unit : Float {
+    case byte     = 1
+    case kilobyte = 1024
+    case megabyte = 1048576
+    case gigabyte = 1073741824
+}
+
+public struct Units {
+    public let bytes: Int64
+    
+    public init(bytes: Int64) {
+        self.bytes = bytes
+    }
+    
+    public var kilobytes: Double {
+        return Double(bytes) / 1_024
+    }
+    public var megabytes: Double {
+        return kilobytes / 1_024
+    }
+    public var gigabytes: Double {
+        return megabytes / 1_024
+    }
+    
+    public func getReadableTuple() -> (Double, String) {
+        switch bytes {
+        case 0..<1_024:
+            return (0, "KB/s")
+        case 1_024..<(1_024 * 1_024):
+            return (Double(String(format: "%.2f", kilobytes))!, "KB/s")
+        case 1_024..<(1_024 * 1_024 * 1_024):
+            return (Double(String(format: "%.2f", megabytes))!, "MB/s")
+        case (1_024 * 1_024 * 1_024)...Int64.max:
+            return (Double(String(format: "%.2f", gigabytes))!, "GB/s")
+        default:
+            return (Double(String(format: "%.2f", kilobytes))!, "KB/s")
+        }
+    }
+    
+    public func getReadableSpeed() -> String {
+        switch bytes {
+        case 0..<1_024:
+            return "0 KB/s"
+        case 1_024..<(1_024 * 1_024):
+            return String(format: "%.0f KB/s", kilobytes)
+        case 1_024..<(1_024 * 1_024 * 100):
+            return String(format: "%.1f MB/s", megabytes)
+        case (1_024 * 1_024 * 100)..<(1_024 * 1_024 * 1_024):
+            return String(format: "%.0f MB/s", megabytes)
+        case (1_024 * 1_024 * 1_024)...Int64.max:
+            return String(format: "%.1f GB/s", gigabytes)
+        default:
+            return String(format: "%.0f KB/s", kilobytes)
+        }
+    }
+    
+    public func getReadableMemory() -> String {
+        switch bytes {
+        case 0..<1_024:
+            return "0 KB"
+        case 1_024..<(1_024 * 1_024):
+            return String(format: "%.0f KB", kilobytes)
+        case 1_024..<(1_024 * 1_024 * 1_024):
+            return String(format: "%.0f MB", megabytes)
+        case (1_024 * 1_024 * 1_024)...Int64.max:
+            return String(format: "%.2f GB", gigabytes)
+        default:
+            return String(format: "%.0f KB", kilobytes)
+        }
+    }
+}
+
 extension String: LocalizedError {
     public var errorDescription: String? { return self }
 
@@ -34,6 +106,27 @@ extension String: LocalizedError {
     public func condenseWhitespace() -> String {
         let components = self.components(separatedBy: .whitespacesAndNewlines)
         return components.filter { !$0.isEmpty }.joined(separator: " ")
+    }
+    
+    public mutating func findAndCrop(pattern: String) -> String {
+        let regex = try! NSRegularExpression(pattern: pattern)
+        let stringRange = NSRange(location: 0, length: self.utf16.count)
+        var line = self
+        
+        if let searchRange = regex.firstMatch(in: self, options: [], range: stringRange) {
+            let start = self.index(self.startIndex, offsetBy: searchRange.range.lowerBound)
+            let end = self.index(self.startIndex, offsetBy: searchRange.range.upperBound)
+            let value  = String(self[start..<end]).trimmingCharacters(in: .whitespaces)
+            line = self.replacingOccurrences(
+                of: value,
+                with: "",
+                options: .regularExpression
+            )
+            self = line.trimmingCharacters(in: .whitespaces)
+            return value.trimmingCharacters(in: .whitespaces)
+        }
+        
+        return ""
     }
 }
 
@@ -106,6 +199,7 @@ public extension Notification.Name {
     static let toggleSettings = Notification.Name("toggleSettings")
     static let toggleModule = Notification.Name("toggleModule")
     static let openSettingsView = Notification.Name("openSettingsView")
+    static let switchWidget = Notification.Name("switchWidget")
 }
 
 public class NSButtonWithPadding: NSButton {

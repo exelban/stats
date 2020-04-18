@@ -13,4 +13,3 @@ void PG_start(void);
 void PG_stop(void);
 
 double* PG_getCPUFrequency(void);
-

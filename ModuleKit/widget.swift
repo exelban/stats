@@ -11,8 +11,16 @@
 
 import Cocoa
 
+public enum widget_t: String {
+    case unknown = ""
+    case mini = "mini"
+    case chart = "chart"
+}
+extension widget_t: CaseIterable {}
+
 public protocol Widget_p: NSView {
     var title: String { get }
+    var type: widget_t { get }
     var widthHandler: ((CGFloat) -> Void)? { get set }
     
     func setTitle(_ title: String)
@@ -22,6 +30,7 @@ public protocol Widget_p: NSView {
 open class Widget: NSView, Widget_p {
     public var widthHandler: ((CGFloat) -> Void)? = nil
     public var title: String = ""
+    public var type: widget_t = .unknown
     
     open override var intrinsicContentSize: CGSize {
         return CGSize(width: self.frame.size.width, height: self.frame.size.height)
@@ -42,33 +51,24 @@ open class Widget: NSView, Widget_p {
         self.widthHandler!(width)
     }
     
-    public func setTitle(_ title: String) {}
+    public func setTitle(_ title: String) {
+        self.title = title
+    }
     @objc dynamic open func setValue(_ value: AnyObject) {}
 }
 
-func LoadWidget(type: String) -> Widget_p? {
-    var widget: Widget_p?
+func LoadWidget(_ type: widget_t, preview: Bool) -> Widget_p? {
+    var widget: Widget_p? = nil
     
     switch type {
-    case "Mini":
-        widget = Mini()
+    case .mini:
+        widget = Mini(preview: preview)
+        break
+    case .chart:
+        widget = ChartWidget(preview: preview)
         break
     default: break
     }
     
     return widget
 }
-
-struct WidgetSize {
-    let x: CGFloat = 2
-    let y: CGFloat = 2
-    
-    let width: CGFloat = 32
-    var height: CGFloat {
-        get {
-            let systemHeight = NSApplication.shared.mainMenu?.menuBarHeight
-            return (systemHeight == 0 ? 22 : systemHeight) ?? 22
-        }
-    }
-}
-let widgetConst = WidgetSize()

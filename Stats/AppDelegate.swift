@@ -13,32 +13,24 @@ import CPU
 import Memory
 import StatsKit
 
-let store: Store = Store()
+var store: Store = Store()
 let updater = macAppUpdater(user: "exelban", repo: "stats")
 let systemKit: SystemKit = SystemKit()
+var smc: SMCService = SMCService()
+var modules: [Module] = [CPU(&store, &smc), Memory(&store)]
 
 class AppDelegate: NSObject, NSApplicationDelegate {
     private let log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: "Stats")
-    
-    private var modules: [Module] = []
     private let window: SettingsWindow = SettingsWindow()
-    private var smc: SMCService = SMCService()
-    
-    private let cpuMenuBar = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
-    private let memoryMenuBar = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         let startingPoint = Date()
-        let result = self.smc.open()
-        if result != kIOReturnSuccess {
-            os_log(.error, log: log, "open SMC: %s", result)
-            NSApp.terminate(nil)
-            return
-        }
         
-        self.loadModules()
-        self.window.setModules(&self.modules)
-        NotificationCenter.default.addObserver(self, selector: #selector(toggleSettingsHandler(_:)), name: .toggleSettings, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(toggleSettingsHandler), name: .toggleSettings, object: nil)
+        
+        modules.forEach{ $0.load() }
+        
+        self.window.setModules()
         
         self.setVersion()
         self.defaultValues()
@@ -46,13 +38,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func applicationWillTerminate(_ aNotification: Notification) {
-        self.modules.forEach { (m: Module) in
-            m.terminate()
-        }
-        _ = self.smc.close()
+        modules.forEach{ $0.terminate() }
+        _ = smc.close()
     }
     
-    @objc func toggleSettingsHandler(_ notification: Notification) {
+    @objc private func toggleSettingsHandler(_ notification: Notification) {
         if !self.window.isVisible {
             self.window.setIsVisible(true)
             self.window.makeKeyAndOrderFront(nil)
@@ -60,32 +50,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         if let name = notification.userInfo?["module"] as? String {
             self.window.openMenu(name)
-        }
-    }
-    
-    private func loadModules() {
-        do {
-            os_log(.debug, log: log, "Starting CPU module initialization...")
-            let module = try CPU(menuBarItem: cpuMenuBar, smc: &smc)
-            os_log(.debug, log: log, "Successfully initialize %s module with availability: %d", "\(type(of: module))", module.available)
-            
-            if module.available {
-                self.modules.append(module)
-            }
-        } catch {
-            os_log(.error, log: log, "%s", error.localizedDescription)
-        }
-        
-        do {
-            os_log(.debug, log: log, "Starting Memory module initialization...")
-            let module = try Memory(menuBarItem: memoryMenuBar)
-            os_log(.debug, log: log, "Successfully initialize %s module with availability: %d", "\(type(of: module))", module.available)
-            
-            if module.available {
-                self.modules.append(module)
-            }
-        } catch {
-            os_log(.error, log: log, "%s", error.localizedDescription)
         }
     }
     
@@ -123,19 +87,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                     os_log(.error, log: self.log, "error updater.check(): %s", "\(error!.localizedDescription)")
                     return
                 }
-
+                
                 guard error == nil, let version: version = result else {
                     os_log(.error, log: self.log, "download error(): %s", "\(error!.localizedDescription)")
                     return
                 }
-
+                
                 if version.newest {
                     DispatchQueue.main.async(execute: {
                         print("new version detected, open updater window!")
-//                        let updatesVC: NSWindowController? = NSStoryboard(name: "Updates", bundle: nil).instantiateController(withIdentifier: "UpdatesVC") as? NSWindowController
-//                        updatesVC?.window?.center()
-//                        updatesVC?.window?.level = .floating
-//                        updatesVC!.showWindow(self)
                     })
                 }
             }

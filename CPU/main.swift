@@ -19,57 +19,65 @@ public struct CPULoad {
     var idleLoad: Double = 0
 }
 
+public struct TopProcess {
+    var pid: Int = 0
+    var command: String = ""
+    var usage: Double = 0
+}
+
 public class CPU: Module {
-    private var loadReader: Reader_p?
+    private var loadReader: LoadReader = LoadReader()
+    
     private let popup: Popup = Popup()
+    private let smc: UnsafePointer<SMCService>?
     
-    private let smc: UnsafeMutablePointer<SMCService>?
-    
-    public init(menuBarItem: NSStatusItem, smc: UnsafeMutablePointer<SMCService>) throws {
-        PG_start()
+    public init(_ store: UnsafePointer<Store>, _ smc: UnsafePointer<SMCService>) {
+        var widgets: [widget_t] = [.mini, .chart]
+//        PG_start()
         self.smc = smc
         super.init(
+            store: store,
             name: "CPU",
             icon: nil,
-            menuBarItem: menuBarItem,
-            defaultWidget: "Mini",
-            popup: self.popup
+            popup: self.popup,
+            defaultWidget: .mini,
+            widgets: &widgets,
+            defaultState: true
         )
         
-        do {
-            try self.load()
-        } catch {
-            throw "failed to load CPU module: \(error.localizedDescription)"
+        self.loadReader.readyCallback = { [unowned self] in
+            self.readyHandler()
+        }
+        self.loadReader.callbackHandler = { [unowned self] value in
+            self.loadCallback(value)
         }
         
-        self.loadReader = LoadReader(delegate: self, callback: self.loadCallback, ready: self.readyCallback)
-        self.addReader(self.loadReader!)
+        self.addReader(self.loadReader)
     }
     
-    public override func willTerminate() {
-        PG_stop()
-    }
-    
-    private func loadCallback(value: CPULoad?) {
+    private func loadCallback(_ value: CPULoad?) {
         if value == nil {
             return
         }
         
         let temperature = self.smc?.pointee.getValue("TC0F") ?? self.smc?.pointee.getValue("TC0P") ?? self.smc?.pointee.getValue("TC0H")
-        var frequency: Double? = nil
-        if let readFrequency = PG_getCPUFrequency() {
-            frequency = readFrequency.pointee
-        }
-        self.popup.loadCallback(value!, freqValue: frequency, tempValue: temperature)
+////        var frequency: Double? = nil
+////        if let readFrequency = PG_getCPUFrequency() {
+////            frequency = readFrequency.pointee
+////        }
+        self.popup.loadCallback(value!, freqValue: 0, tempValue: temperature)
         
         if let widget = self.widget as? Mini {
             if value == nil {
                 return
             }
             
+            let v = "\(Int((value?.totalUsage.rounded(toPlaces: 2))! * 100))%"
             DispatchQueue.main.async(execute: {
-                widget.valueView.stringValue = "\(Int((value?.totalUsage.rounded(toPlaces: 2))! * 100))%"
-                widget.valueView.textColor = value?.totalUsage.usageColor(color: widget.color)
+                if v != widget.valueView.stringValue {
+                    widget.valueView.stringValue = v
+                    widget.valueView.textColor = value?.totalUsage.usageColor(color: widget.color)
+                }
             })
         }
     }

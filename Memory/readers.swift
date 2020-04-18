@@ -13,7 +13,7 @@ import Cocoa
 import ModuleKit
 
 public class UsageReader: Reader<MemoryUsage> {
-    public var totalSize: Float = 0
+    public var totalSize: Double = 0
     
     public override func setup() {
         var stats = host_basic_info()
@@ -26,7 +26,7 @@ public class UsageReader: Reader<MemoryUsage> {
         }
         
         if kerr == KERN_SUCCESS {
-            self.totalSize = Float(stats.max_mem)
+            self.totalSize = Double(stats.max_mem)
             return
         }
 
@@ -45,15 +45,25 @@ public class UsageReader: Reader<MemoryUsage> {
         }
 
         if result == KERN_SUCCESS {
-            let active = Float(stats.active_count) * Float(PAGE_SIZE)
-        //            let inactive = Float(stats.inactive_count) * Float(PAGE_SIZE)
-            let wired = Float(stats.wire_count) * Float(PAGE_SIZE)
-            let compressed = Float(stats.compressor_page_count) * Float(PAGE_SIZE)
+            let active = Double(stats.active_count) * Double(PAGE_SIZE)
+            let inactive = Double(stats.inactive_count) * Double(PAGE_SIZE)
+            let wired = Double(stats.wire_count) * Double(PAGE_SIZE)
+            let compressed = Double(stats.compressor_page_count) * Double(PAGE_SIZE)
                             
             let used = active + wired + compressed
             let free = self.totalSize - used
             
-            self.callback(MemoryUsage(usage: Double((self.totalSize - free) / self.totalSize), total: Double(self.totalSize), used: Double(used), free: Double(free)))
+            self.callback(MemoryUsage(
+                active: active,
+                inactive: inactive,
+                wired: wired,
+                compressed: compressed,
+                
+                usage: Double((self.totalSize - free) / self.totalSize),
+                total: Double(self.totalSize),
+                used: Double(used),
+                free: Double(free))
+            )
             return
         }
 

@@ -86,7 +86,10 @@ public class LoadReader: Reader<CPULoad> {
             self.cpuInfo = nil
             self.numCpuInfo = 0
             
-            self.response.totalUsage = Double(inUseOnAllCores) / Double(totalOnAllCores)
+            let totalUsage = Double(inUseOnAllCores) / Double(totalOnAllCores)
+            if !totalUsage.isNaN {
+                self.response.totalUsage = Double(inUseOnAllCores) / Double(totalOnAllCores)
+            }
             self.response.usagePerCore = self.usagePerCore
         } else {
             print("ERROR host_processor_info(): " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
@@ -105,9 +108,19 @@ public class LoadReader: Reader<CPULoad> {
         let niceDiff = Double(cpuInfo!.cpu_ticks.3 - self.previousInfo.cpu_ticks.3)
         let totalTicks = sysDiff + userDiff + niceDiff + idleDiff
         
-        self.response.systemLoad  = sysDiff  / totalTicks
-        self.response.userLoad = userDiff / totalTicks
-        self.response.idleLoad = idleDiff / totalTicks
+        let system = sysDiff  / totalTicks
+        let user = userDiff  / totalTicks
+        let idle = idleDiff  / totalTicks
+        
+        if !system.isNaN {
+            self.response.systemLoad  = system
+        }
+        if !user.isNaN {
+            self.response.userLoad = user
+        }
+        if !idle.isNaN {
+            self.response.idleLoad = idle
+        }
         self.previousInfo = cpuInfo!
         
         self.callback(self.response)
