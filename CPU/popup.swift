@@ -28,7 +28,8 @@ public class Popup: NSView {
     
 //    private var processes: [ProcessView] = [ProcessView(0), ProcessView(1), ProcessView(2), ProcessView(3), ProcessView(4)]
     
-    private var chart: Chart? = nil
+    public var chart: Chart? = nil
+    private var ready: Bool = false
     
     public init() {
         super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: firstHeight + secondHeight + (Constants.Popup.margins*2)))
@@ -143,26 +144,29 @@ public class Popup: NSView {
         var frequency: String = "Unknown"
         var temperature: String = "Unknown"
         
-        if tempValue != nil {
-            let formatter = MeasurementFormatter()
-            let measurement = Measurement(value: tempValue!, unit: UnitTemperature.celsius)
-            temperature = formatter.string(from: measurement)
-        }
-        
-        if freqValue != nil {
-            frequency = "\((freqValue!/1000).rounded(toPlaces: 2))GHz"
-        }
-        
         DispatchQueue.main.async(execute: {
-            self.frequencyField?.stringValue = frequency
-            self.temperatureField?.stringValue = temperature
-            
-            self.systemField?.stringValue = "\(Int(value.systemLoad.rounded(toPlaces: 2) * 100))%"
-            self.userField?.stringValue = "\(Int(value.userLoad.rounded(toPlaces: 2) * 100))%"
-            self.idleField?.stringValue = "\(Int(value.idleLoad.rounded(toPlaces: 2) * 100))%"
-            
-            let v = Int(value.totalUsage.rounded(toPlaces: 2) * 100)
-            self.loadField?.stringValue = "\(v)%"
+            if self.window!.isVisible || !self.ready {
+                if tempValue != nil {
+                    let formatter = MeasurementFormatter()
+                    let measurement = Measurement(value: tempValue!, unit: UnitTemperature.celsius)
+                    temperature = formatter.string(from: measurement)
+                }
+                
+                if freqValue != nil {
+                    frequency = "\((freqValue!/1000).rounded(toPlaces: 2))GHz"
+                }
+                
+                self.frequencyField?.stringValue = frequency
+                self.temperatureField?.stringValue = temperature
+                    
+                self.systemField?.stringValue = "\(Int(value.systemLoad.rounded(toPlaces: 2) * 100))%"
+                self.userField?.stringValue = "\(Int(value.userLoad.rounded(toPlaces: 2) * 100))%"
+                self.idleField?.stringValue = "\(Int(value.idleLoad.rounded(toPlaces: 2) * 100))%"
+                    
+                let v = Int(value.totalUsage.rounded(toPlaces: 2) * 100)
+                self.loadField?.stringValue = "\(v)%"
+                self.ready = true
+            }
             
             self.chart?.addValue(value.totalUsage)
         })

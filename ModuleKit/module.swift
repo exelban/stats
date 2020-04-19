@@ -62,10 +62,10 @@ open class Module: Module_p {
         NotificationCenter.default.addObserver(self, selector: #selector(listenForWidgetSwitch), name: .switchWidget, object: nil)
         
         self.setWidget()
-        self.settings = Settings(title: name, enabled: self.enabled, activeWidget: self.activeWidget, widgets: widgets)
-//        self.settings?.toggleCallback = { [weak self] in
-//            self?.toggleEnabled()
-//        }
+        self.settings = Settings(title: name, enabled: self.enabled, activeWidget: self.widget, widgets: widgets)
+        self.settings?.toggleCallback = { [weak self] in
+            self?.toggleEnabled()
+        }
         
         self.menuBarItem.isVisible = self.enabled
         self.menuBarItem.autosaveName = self.name
@@ -185,14 +185,13 @@ open class Module: Module_p {
     }
     
     private func setWidget() {
-        self.widget = LoadWidget(self.activeWidget, preview: false)
+        self.widget = LoadWidget(self.activeWidget, preview: false, title: self.name, store: self.store)
         if self.widget == nil {
             self.enabled = false
             os_log(.error, log: log, "widget with type %s not found", "\(self.activeWidget)")
         }
         os_log(.debug, log: log, "Successfully initialize widget: %s", "\(String(describing: self.widget!))")
         
-        self.widget?.setTitle(self.name)
         self.widget?.widthHandler = { [weak self] value in
             self?.widgetWidthHandler(value)
         }
@@ -202,5 +201,7 @@ open class Module: Module_p {
         self.menuBarItem.length = self.widget!.frame.width
         self.menuBarItem.button?.subviews.forEach{ $0.removeFromSuperview() }
         self.menuBarItem.button?.addSubview(self.widget!)
+        
+        self.settings?.setActiveWidget(self.widget)
     }
 }

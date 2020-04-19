@@ -27,6 +27,7 @@ public class Popup: NSView {
     private var compressedField: NSTextField? = nil
     
     private var chart: Chart? = nil
+    private var ready: Bool = false
     
     public init() {
         super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: firstHeight + secondHeight + (Constants.Popup.margins*2)))
@@ -125,14 +126,17 @@ public class Popup: NSView {
     
     public func loadCallback(_ value: MemoryUsage) {
         DispatchQueue.main.async(execute: {
-            self.activeField?.stringValue = Units(bytes: Int64(value.active!)).getReadableMemory()
-            self.inactiveField?.stringValue = Units(bytes: Int64(value.inactive!)).getReadableMemory()
-            self.wiredField?.stringValue = Units(bytes: Int64(value.wired!)).getReadableMemory()
-            self.compressedField?.stringValue = Units(bytes: Int64(value.compressed!)).getReadableMemory()
-            
-            self.totalField?.stringValue = Units(bytes: Int64(value.total!)).getReadableMemory()
-            self.usedField?.stringValue = Units(bytes: Int64(value.used!)).getReadableMemory()
-            self.freeField?.stringValue = Units(bytes: Int64(value.free!)).getReadableMemory()
+            if self.window!.isVisible || !self.ready {
+                self.activeField?.stringValue = Units(bytes: Int64(value.active!)).getReadableMemory()
+                self.inactiveField?.stringValue = Units(bytes: Int64(value.inactive!)).getReadableMemory()
+                self.wiredField?.stringValue = Units(bytes: Int64(value.wired!)).getReadableMemory()
+                self.compressedField?.stringValue = Units(bytes: Int64(value.compressed!)).getReadableMemory()
+
+                self.totalField?.stringValue = Units(bytes: Int64(value.total!)).getReadableMemory()
+                self.usedField?.stringValue = Units(bytes: Int64(value.used!)).getReadableMemory()
+                self.freeField?.stringValue = Units(bytes: Int64(value.free!)).getReadableMemory()
+                self.ready = true
+            }
             
             self.chart?.addValue(value.usage!)
         })

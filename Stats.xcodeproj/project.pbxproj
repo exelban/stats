@@ -23,7 +23,6 @@
 		9A5349CF23D8832E00C23824 /* Reachability.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A5349CD23D8832E00C23824 /* Reachability.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9A6549292440A57200E30B74 /* Repeat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A6549282440A57200E30B74 /* Repeat.framework */; };
 		9A65492A2440A57200E30B74 /* Repeat.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A6549282440A57200E30B74 /* Repeat.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9A6698E62326AB16001D00E1 /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A6698E32326AAE5001D00E1 /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9A6CFC0122A1C9F5001E782D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9A6CFC0022A1C9F5001E782D /* Assets.xcassets */; };
 		9A7C61B42440DF810032695D /* Mini.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7C61B32440DF810032695D /* Mini.swift */; };
 		9A81C74D24499C7000825D92 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A81C74B24499C7000825D92 /* AppSettings.swift */; };
@@ -47,8 +46,6 @@
 		9A944D6424492FE20058F32A /* IntelPowerGadget.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A944D6224492FE20058F32A /* IntelPowerGadget.c */; };
 		9A944D6524492FE20058F32A /* IntelPowerGadget.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A944D6324492FE20058F32A /* IntelPowerGadget.h */; };
 		9A9D728A24471FAE005CF997 /* SMC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9D728924471FAE005CF997 /* SMC.swift */; };
-		9A9D729524474B49005CF997 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A6698E32326AAE5001D00E1 /* Charts.framework */; };
-		9A9D729624474B49005CF997 /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A6698E32326AAE5001D00E1 /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9A9D72AC24478DB9005CF997 /* IntelPowerGadget.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A9D729A2447747D005CF997 /* IntelPowerGadget.framework */; };
 		9AA4A00A2443656D00ECCF07 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AA4A0092443656D00ECCF07 /* Assets.xcassets */; };
 		9AA64260244B274200416A33 /* popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA6425F244B274200416A33 /* popup.swift */; };
@@ -147,7 +144,6 @@
 				9A5349CF23D8832E00C23824 /* Reachability.framework in Embed Frameworks */,
 				9A81C75E2449A41400825D92 /* Memory.framework in Embed Frameworks */,
 				9AABEB6C243FCE8A00668CB0 /* CPU.framework in Embed Frameworks */,
-				9A6698E62326AB16001D00E1 /* Charts.framework in Embed Frameworks */,
 				9AABEAE5243FB13500668CB0 /* ModuleKit.framework in Embed Frameworks */,
 				9A0C82E224460F7200FAE3D4 /* StatsKit.framework in Embed Frameworks */,
 			);
@@ -162,17 +158,6 @@
 			files = (
 				9A81C7632449A41E00825D92 /* ModuleKit.framework in Embed Frameworks */,
 				9A81C76C2449AE9400825D92 /* StatsKit.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		9A9D729724474B49005CF997 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				9A9D729624474B49005CF997 /* Charts.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -261,7 +246,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9A9D729524474B49005CF997 /* Charts.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -520,7 +504,6 @@
 				9A0C82D624460F7200FAE3D4 /* Sources */,
 				9A0C82D724460F7200FAE3D4 /* Frameworks */,
 				9A0C82D824460F7200FAE3D4 /* Resources */,
-				9A9D729724474B49005CF997 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);

@@ -71,6 +71,7 @@ class PopupView: NSView {
     override init(frame: NSRect) {
         super.init(frame: CGRect(x: frame.origin.x, y: frame.origin.y, width: frame.width, height: frame.height))
         self.wantsLayer = true
+        self.canDrawConcurrently = true
         
         self.layer!.cornerRadius = 3
         self.layer!.backgroundColor = self.isDarkMode ? NSColor.windowBackgroundColor.cgColor : NSColor.white.cgColor

@@ -13,8 +13,9 @@ import Cocoa
 
 public class ChartWidget: Widget {
     
-    public init(preview: Bool) {
+    public init(preview: Bool, title: String) {
         super.init(frame: CGRect(x: 0, y: Constants.Widget.margin, width: Constants.Widget.width, height: Constants.Widget.height - (2*Constants.Widget.margin)))
+        self.title = title
         self.type = .chart
         self.wantsLayer = true
     }

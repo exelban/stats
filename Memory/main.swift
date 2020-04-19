@@ -45,19 +45,13 @@ public class Memory: Module {
     }
     
     private func loadCallback(value: MemoryUsage?) {
+        if value == nil {
+            return
+        }
+        
+        self.popup.loadCallback(value!)
         if let widget = self.widget as? Mini {
-            if value == nil {
-                return
-            }
-            
-            self.popup.loadCallback(value!)
-            let v = "\(Int(value!.usage!.rounded(toPlaces: 2) * 100))%"
-            DispatchQueue.main.async(execute: {
-                if v != widget.valueView.stringValue {
-                    widget.valueView.stringValue = v
-                    widget.valueView.textColor = value!.usage!.usageColor(color: widget.color)
-                }
-            })
+            widget.setValue(value!.usage, sufix: "%")
         }
     }
 }

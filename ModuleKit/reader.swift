@@ -43,6 +43,7 @@ open class Reader<T>: ReaderInternal_p {
     
     private var repeatTask: Repeater?
     private var nilCallbackCounter: Int = 0
+    private var ready: Bool = false
     
     public init() {
         self.log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: "\(T.self)")
@@ -57,7 +58,7 @@ open class Reader<T>: ReaderInternal_p {
     }
     
     public func callback(_ value: T?) {
-        if !self.optional {
+        if !self.optional && !self.ready {
             if self.value == nil && value != nil {
                 self.readyCallback()
             } else if self.value == nil && value == nil {
@@ -77,6 +78,7 @@ open class Reader<T>: ReaderInternal_p {
         }
         
         self.value = value
+        self.ready = true
         if value != nil {
             self.callbackHandler(value!)
         }

@@ -13,6 +13,7 @@ import Cocoa
 
 public protocol Settings_p: NSView {
     var toggleCallback: () -> () { get set }
+    func setActiveWidget(_ widget: Widget_p?)
 }
 
 open class Settings: NSView, Settings_p {
@@ -21,20 +22,47 @@ open class Settings: NSView, Settings_p {
     private let headerHeight: CGFloat = 42
     private var widgetSelectorHeight: CGFloat = Constants.Widget.height + (Constants.Settings.margin*2)
     
-    private var title: String
+    private var widgetSettingsView: NSView? = nil
     
-    init(title: String, enabled: Bool, activeWidget: widget_t?, widgets: UnsafePointer<[widget_t]>?) {
+    private var title: String
+    private var widgets: UnsafePointer<[widget_t]>? = nil
+    private var activeWidget: Widget_p? = nil
+    
+    init(title: String, enabled: Bool, activeWidget: Widget_p?, widgets: UnsafePointer<[widget_t]>?) {
         self.title = title
+        self.widgets = widgets
+        self.activeWidget = activeWidget
         super.init(frame: NSRect(x: 0, y: 0, width: Constants.Settings.width, height: Constants.Settings.height))
         self.wantsLayer = true
         self.layer?.backgroundColor = NSColor(hexString: "#e7e7e7").cgColor
         
         header(self.title, state: enabled)
-        widgetSelector(widgets, activeWidget: activeWidget)
+        widgetSelector()
+        widgetSettings()
     }
     
-    private func widgetSelector(_ list: UnsafePointer<[widget_t]>?, activeWidget: widget_t?) {
-        if list == nil || list?.pointee.count == 0 {
+    private func widgetSettings() {
+        self.subviews.first{ $0 == self.widgetSettingsView }?.removeFromSuperview()
+        
+        if self.activeWidget == nil {
+            return
+        }
+        
+        let view: NSView = NSView(frame: NSRect(x: Constants.Settings.margin, y: self.frame.height - headerHeight - widgetSelectorHeight - (Constants.Settings.margin*2), width: self.frame.width - (Constants.Settings.margin*2), height: 0))
+        view.wantsLayer = true
+        view.layer?.backgroundColor = .white
+        view.layer!.cornerRadius = 3
+        
+        self.activeWidget?.settings(superview: view)
+        
+        if view.frame.height != 0 {
+            self.addSubview(view)
+            self.widgetSettingsView = view
+        }
+    }
+    
+    private func widgetSelector() {
+        if self.widgets == nil || self.widgets?.pointee.count == 0 {
             self.widgetSelectorHeight = 0
             return
         }
@@ -46,15 +74,14 @@ open class Settings: NSView, Settings_p {
         
         self.appearance = NSAppearance(named: .aqua)
         var x: CGFloat = Constants.Settings.margin
-        for i in 0...(list?.pointee.count ?? 1) - 1 {
-            if let widgetType = list?.pointee[i] {
-                if let widget = LoadWidget(widgetType, preview: true) {
-                    widget.setTitle(self.title)
+        for i in 0...(self.widgets?.pointee.count ?? 1) - 1 {
+            if let widgetType = self.widgets?.pointee[i] {
+                if let widget = LoadWidget(widgetType, preview: true, title: self.title, store: nil) {
                     view.addSubview(WidgetPreview(
                         frame: NSRect(x: x, y: Constants.Settings.margin, width: widget.frame.width, height: widgetSelectorHeight - (Constants.Settings.margin*2)),
                         title: self.title,
                         widget: widget,
-                        state: activeWidget == widgetType
+                        state: self.activeWidget?.type == widgetType
                     ))
                     x = widget.frame.width + (Constants.Settings.margin*2)
                 }
@@ -113,6 +140,11 @@ open class Settings: NSView, Settings_p {
     
     @objc func toggleEnable(_ sender: Any) {
         self.toggleCallback()
+    }
+    
+    public func setActiveWidget(_ widget: Widget_p?) {
+        self.activeWidget = widget
+        self.widgetSettings()
     }
     
     required public init?(coder: NSCoder) {

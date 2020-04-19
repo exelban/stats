@@ -33,7 +33,7 @@ public class CPU: Module {
     
     public init(_ store: UnsafePointer<Store>, _ smc: UnsafePointer<SMCService>) {
         var widgets: [widget_t] = [.mini, .chart]
-//        PG_start()
+        PG_start()
         self.smc = smc
         super.init(
             store: store,
@@ -61,24 +61,14 @@ public class CPU: Module {
         }
         
         let temperature = self.smc?.pointee.getValue("TC0F") ?? self.smc?.pointee.getValue("TC0P") ?? self.smc?.pointee.getValue("TC0H")
-////        var frequency: Double? = nil
-////        if let readFrequency = PG_getCPUFrequency() {
-////            frequency = readFrequency.pointee
-////        }
-        self.popup.loadCallback(value!, freqValue: 0, tempValue: temperature)
+        var frequency: Double? = nil
+        if let readFrequency = PG_getCPUFrequency() {
+            frequency = readFrequency.pointee
+        }
+        self.popup.loadCallback(value!, freqValue: frequency, tempValue: temperature)
         
         if let widget = self.widget as? Mini {
-            if value == nil {
-                return
-            }
-            
-            let v = "\(Int((value?.totalUsage.rounded(toPlaces: 2))! * 100))%"
-            DispatchQueue.main.async(execute: {
-                if v != widget.valueView.stringValue {
-                    widget.valueView.stringValue = v
-                    widget.valueView.textColor = value?.totalUsage.usageColor(color: widget.color)
-                }
-            })
+            widget.setValue(value?.totalUsage, sufix: "%")
         }
     }
 }
