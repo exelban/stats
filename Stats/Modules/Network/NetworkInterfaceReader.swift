@@ -63,6 +63,8 @@ class NetworkInterfaceReader: Reader {
     private var reachability: Reachability? = nil
     private var forceRead: Bool = false
     
+    private var repeatCounter: Int8 = 0
+    
     init(_ updater: @escaping (NetworkInterface) -> Void) {
         do {
             self.reachability = try Reachability()
@@ -79,6 +81,7 @@ class NetworkInterfaceReader: Reader {
         
         if self.reachability != nil {
             self.reachability!.whenReachable = { reachability in
+                self.repeatCounter = 0
                 self.forceRead = true
                 self.read()
             }
@@ -98,24 +101,29 @@ class NetworkInterfaceReader: Reader {
     public func read() {
         if (!self.enabled && self.initialized && !self.forceRead) || self.reachability == nil { return }
         self.initialized = true
-        
+  
         var result = NetworkInterface(active: false)
         result.force = self.forceRead
         if self.forceRead {
             self.forceRead = false
         }
-        
+
         if self.reachability!.connection != .unavailable && isConnectedToNetwork() {
             if self.publicIP == nil {
-                DispatchQueue.global(qos: .background).async {
-                    self.publicIP = self.getPublicIP()
-                    self.forceRead = true
-                    self.read()
-                }
+                DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 3, execute: {
+                    if self.repeatCounter < 5 {
+                        self.publicIP = self.getPublicIP()
+                        self.forceRead = true
+                        self.read()
+                        self.repeatCounter += 1
+                    } else {
+                        self.publicIP = "Unknown"
+                    }
+                })
             }
-            
+
             result.active = true
-            
+
             if self.reachability!.connection == .wifi && CWWiFiClient.shared().interface() != nil {
                 result.networkType = "Wi-Fi"
                 result.wifiName = CWWiFiClient.shared().interface()!.ssid()
@@ -131,7 +139,7 @@ class NetworkInterfaceReader: Reader {
         } else {
             self.publicIP = nil
         }
-        
+
         DispatchQueue.main.async(execute: {
             self.callback(result)
         })
@@ -218,7 +226,7 @@ class NetworkInterfaceReader: Reader {
         } catch let error {
             print("get public ip \(error)")
         }
-        
+
         return address
     }
     

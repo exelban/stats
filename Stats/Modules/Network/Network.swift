@@ -48,7 +48,7 @@ class Network: Module {
         
         readers.append(NetworkReader(self.usageUpdater))
         readers.append(NetworkInterfaceReader(self.overviewUpdater))
-        
+
         self.task = Repeater.init(interval: .seconds(self.updateInterval), observer: { _ in
             self.readers.forEach { reader in
                 reader.read()
