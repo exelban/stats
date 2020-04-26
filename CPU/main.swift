@@ -10,13 +10,19 @@ import Cocoa
 import ModuleKit
 import StatsKit
 
-public struct CPULoad {
+public struct CPULoad: value_t {
     var totalUsage: Double = 0
     var usagePerCore: [Double] = []
     
     var systemLoad: Double = 0
     var userLoad: Double = 0
     var idleLoad: Double = 0
+    
+    public var widget_value: Double {
+        get {
+            return self.totalUsage
+        }
+    }
 }
 
 public struct TopProcess {
@@ -32,7 +38,7 @@ public class CPU: Module {
     private let smc: UnsafePointer<SMCService>?
     
     public init(_ store: UnsafePointer<Store>, _ smc: UnsafePointer<SMCService>) {
-        var widgets: [widget_t] = [.mini, .chart]
+        var widgets: [widget_t] = [.mini, .lineChart, .barChart]
         PG_start()
         self.smc = smc
         super.init(
@@ -68,7 +74,10 @@ public class CPU: Module {
         self.popup.loadCallback(value!, freqValue: frequency, tempValue: temperature)
         
         if let widget = self.widget as? Mini {
-            widget.setValue(value?.totalUsage, sufix: "%")
+            widget.setValue(value!.totalUsage, sufix: "%")
+        }
+        if let widget = self.widget as? LineChart {
+            widget.setValue(value!.totalUsage)
         }
     }
 }

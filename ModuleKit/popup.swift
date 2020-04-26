@@ -12,7 +12,7 @@
 import Cocoa
 import StatsKit
 
-class PopupWindow: NSPanel {
+class PopupWindow: NSPanel, NSWindowDelegate {
     let viewController: PopupViewController = PopupViewController()
     
     init(title: String, view: NSView?) {
@@ -28,6 +28,7 @@ class PopupWindow: NSPanel {
         self.contentViewController = viewController
         self.backingType = .buffered
         self.isFloatingPanel = true
+        self.becomesKeyOnlyIfNeeded = true
         self.styleMask = .borderless
         self.animationBehavior = .default
         self.collectionBehavior = .transient
@@ -55,6 +56,14 @@ class PopupViewController: NSViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    override func viewWillAppear() {
+        self.popup.appear()
+    }
+    
+    override func viewWillDisappear() {
+        self.popup.disappear()
     }
     
     public func setup(title: String, view: NSView?) {
@@ -106,6 +115,9 @@ class PopupView: NSView {
         self.setFrameSize(NSSize(width: view!.frame.width + (Constants.Popup.margins*2), height: view!.frame.height + Constants.Popup.headerHeight + Constants.Popup.margins))
         self.headerView?.setFrameOrigin(NSPoint(x: 0, y: self.frame.height - Constants.Popup.headerHeight))
     }
+    
+    open func appear() {}
+    open func disappear() {}
 }
 
 class HeaderView: NSView {

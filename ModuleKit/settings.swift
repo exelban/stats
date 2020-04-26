@@ -56,6 +56,7 @@ open class Settings: NSView, Settings_p {
         self.activeWidget?.settings(superview: view)
         
         if view.frame.height != 0 {
+            view.setFrameOrigin(NSPoint(x: view.frame.origin.x, y: view.frame.origin.y - view.frame.height))
             self.addSubview(view)
             self.widgetSettingsView = view
         }
@@ -67,7 +68,7 @@ open class Settings: NSView, Settings_p {
             return
         }
         
-        let view: NSView = NSView(frame: NSRect(x: Constants.Settings.margin, y: self.frame.height - headerHeight - widgetSelectorHeight - Constants.Settings.margin, width: self.frame.width - (Constants.Settings.margin*2), height: widgetSelectorHeight))
+        let view: NSView = NSView(frame: NSRect(x: Constants.Settings.margin, y: self.frame.height - self.headerHeight - self.widgetSelectorHeight - Constants.Settings.margin, width: self.frame.width - (Constants.Settings.margin*2), height: self.widgetSelectorHeight))
         view.wantsLayer = true
         view.layer?.backgroundColor = .white
         view.layer!.cornerRadius = 3
@@ -78,12 +79,12 @@ open class Settings: NSView, Settings_p {
             if let widgetType = self.widgets?.pointee[i] {
                 if let widget = LoadWidget(widgetType, preview: true, title: self.title, store: nil) {
                     view.addSubview(WidgetPreview(
-                        frame: NSRect(x: x, y: Constants.Settings.margin, width: widget.frame.width, height: widgetSelectorHeight - (Constants.Settings.margin*2)),
+                        frame: NSRect(x: x, y: Constants.Settings.margin, width: widget.frame.width, height: self.widgetSelectorHeight - (Constants.Settings.margin*2)),
                         title: self.title,
                         widget: widget,
                         state: self.activeWidget?.type == widgetType
                     ))
-                    x = widget.frame.width + (Constants.Settings.margin*2)
+                    x += widget.frame.width + Constants.Settings.margin
                 }
             }
         }
@@ -92,7 +93,7 @@ open class Settings: NSView, Settings_p {
     }
     
     private func header(_ title: String, state: Bool) {
-        let view: NSView = NSView(frame: NSRect(x: 0, y: self.frame.height - headerHeight, width: self.frame.width, height: headerHeight))
+        let view: NSView = NSView(frame: NSRect(x: 0, y: self.frame.height - self.headerHeight, width: self.frame.width, height: self.headerHeight))
         view.wantsLayer = true
         
         let titleView = NSTextField(frame: NSRect(x: Constants.Settings.margin, y: (view.frame.height-20)/2, width: self.frame.width - 65, height: 20))
@@ -167,7 +168,7 @@ class WidgetPreview: NSView {
         
         self.wantsLayer = true
         self.layer?.cornerRadius = 2
-        self.layer?.borderColor = self.state ? NSColor.systemBlue.cgColor : NSColor.tertiaryLabelColor.cgColor
+        self.layer?.borderColor = self.state ? NSColor.systemBlue.cgColor : NSColor(hexString: "#dddddd").cgColor
         self.layer?.borderWidth = 1
         
         self.addSubview(widget)

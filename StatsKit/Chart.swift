@@ -11,16 +11,22 @@
 
 import Cocoa
 
-public class Chart: NSView {
-    internal var points: [Double] = Array(repeating: 0.0, count: 60)
-//    internal var points: [Double] = []
+public enum chart_t: Int {
+    case line = 0
+    case bar = 1
     
-    public override init(frame: NSRect) {
-        super.init(frame: frame)
+    init?(value: Int) {
+        self.init(rawValue: value)
+    }
+}
 
-//        for _ in 0..<60 {
-//            points.append(Double(CGFloat(Float(arc4random()) / Float(UINT32_MAX))))
-//        }
+public class Chart: NSView {
+    public var points: [Double]? = nil
+    public var transparent: Bool = true
+    
+    public init(frame: NSRect, num: Int) {
+        self.points = Array(repeating: 0, count: num)
+        super.init(frame: frame)
     }
     
     required init?(coder: NSCoder) {
@@ -30,41 +36,47 @@ public class Chart: NSView {
     public override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         
-        let lineColor: NSColor = NSColor(red: (26/255.0), green: (126/255.0), blue: (252/255.0), alpha: 1.0)
-        let gradientColor: NSColor = NSColor(red: (26/255.0), green: (126/255.0), blue: (252/255.0), alpha: 0.5)
+        if self.points?.count == 0 {
+            return
+        }
+        
+        var lineColor: NSColor = NSColor(red: (26/255.0), green: (126/255.0), blue: (252/255.0), alpha: 1.0)
+        var gradientColor: NSColor = NSColor(red: (26/255.0), green: (126/255.0), blue: (252/255.0), alpha: 0.5)
+        if !self.transparent {
+            lineColor = NSColor(hexString: "#5c91f4")
+            gradientColor = NSColor(hexString: "#5c91f4")
+        }
         
         let context = NSGraphicsContext.current!.cgContext
-        let xOffset: CGFloat = 4.0
-        let yOffset: CGFloat = 3.0
-        let height: CGFloat = self.frame.size.height - CGFloat((yOffset * 2))
-        let xRatio = Double(self.frame.size.width - (xOffset * 2)) / (Double(self.points.count) - 1)
+        let height: CGFloat = self.frame.size.height - self.frame.origin.y - 0.5
+        let xRatio: CGFloat = self.frame.size.width / CGFloat(self.points!.count)
         
         let columnXPoint = { (point: Int) -> CGFloat in
-            return CGFloat((Double(point) * xRatio)) + xOffset
+            return (CGFloat(point) * xRatio) + dirtyRect.origin.x
         }
         let columnYPoint = { (point: Int) -> CGFloat in
-            return CGFloat((CGFloat(truncating: self.points[point] as NSNumber) * height)) + yOffset
+            return CGFloat((CGFloat(truncating: self.points![point] as NSNumber) * height)) + dirtyRect.origin.y + 0.5
         }
         
-        let graphPath = NSBezierPath()
+        let linePath = NSBezierPath()
         let x: CGFloat = columnXPoint(0)
         let y: CGFloat = columnYPoint(0)
-        graphPath.move(to: CGPoint(x: x, y: y))
+        linePath.move(to: CGPoint(x: x, y: y))
         
-        for i in 1..<self.points.count {
-            graphPath.line(to: CGPoint(x: columnXPoint(i), y: columnYPoint(i)))
+        for i in 1..<self.points!.count {
+            linePath.line(to: CGPoint(x: columnXPoint(i), y: columnYPoint(i)))
         }
         
         lineColor.setStroke()
-        graphPath.stroke()
+        
         context.saveGState()
         
-        let clippingPath = graphPath.copy() as! NSBezierPath
+        let underLinePath = linePath.copy() as! NSBezierPath
         
-        clippingPath.line(to: CGPoint(x: columnXPoint(self.points.count - 1), y: yOffset - 0.5))
-        clippingPath.line(to: CGPoint(x: columnXPoint(0), y: yOffset - 0.5))
-        clippingPath.close()
-        clippingPath.addClip()
+        underLinePath.line(to: CGPoint(x: columnXPoint(self.points!.count - 1), y: 0))
+        underLinePath.line(to: CGPoint(x: columnXPoint(0), y: 0))
+        underLinePath.close()
+        underLinePath.addClip()
         
         gradientColor.setFill()
         let rectPath = NSBezierPath(rect: dirtyRect)
@@ -72,14 +84,14 @@ public class Chart: NSView {
         
         context.restoreGState()
         
-        graphPath.lineWidth = 0.5
-        graphPath.stroke()
+        linePath.stroke()
+        linePath.lineWidth = 0.5
     }
     
     public func addValue(_ value: Double) {
-        self.points.remove(at: 0)
-        self.points.append(value)
-        if self.window?.isVisible ?? false {
+        self.points!.remove(at: 0)
+        self.points!.append(value)
+        if self.window?.isVisible ?? true {
             self.display()
         }
     }

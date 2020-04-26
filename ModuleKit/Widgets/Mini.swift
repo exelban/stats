@@ -16,8 +16,8 @@ public class Mini: Widget {
     public var valueView: NSTextField = NSTextField()
     public var labelView: NSTextField = NSTextField()
     
-    public var color: Bool = true
-    public var label: Bool = true
+    public var colorState: Bool = true
+    public var labelState: Bool = true
     
     private let onlyValueWidth: CGFloat = 42
     private var value: Double = 0
@@ -29,12 +29,11 @@ public class Mini: Widget {
         self.title = title
         self.type = .mini
         self.preview = preview
-        self.wantsLayer = true
         self.canDrawConcurrently = true
         
         if self.store != nil {
-            self.color = store!.pointee.bool(key: "\(self.title)_\(self.type.rawValue)_color", defaultValue: self.color)
-            self.label = store!.pointee.bool(key: "\(self.title)_\(self.type.rawValue)_label", defaultValue: self.label)
+            self.colorState = store!.pointee.bool(key: "\(self.title)_\(self.type.rawValue)_color", defaultValue: self.colorState)
+            self.labelState = store!.pointee.bool(key: "\(self.title)_\(self.type.rawValue)_label", defaultValue: self.labelState)
         }
         
         self.build()
@@ -48,7 +47,7 @@ public class Mini: Widget {
         var fontSize: CGFloat = 10
         var valueAligment: NSTextAlignment = .natural
         
-        if self.label {
+        if self.labelState {
             let labelView = NSTextField(frame: NSMakeRect(xOffset, 11, width, 8))
             labelView.isEditable = false
             labelView.isSelectable = false
@@ -80,7 +79,7 @@ public class Mini: Widget {
         valueView.isSelectable = false
         valueView.isBezeled = false
         valueView.wantsLayer = true
-        valueView.textColor = self.value.usageColor(color: self.color)
+        valueView.textColor = self.value.usageColor(color: self.colorState)
         valueView.backgroundColor = .controlColor
         valueView.canDrawSubviewsIntoLayer = true
         valueView.alignment = valueAligment
@@ -105,22 +104,21 @@ public class Mini: Widget {
         let height: CGFloat = 60 + (Constants.Settings.margin*3)
         let rowHeight: CGFloat = 30
         superview.setFrameSize(NSSize(width: superview.frame.width, height: height))
-        superview.setFrameOrigin(NSPoint(x: superview.frame.origin.x, y: superview.frame.origin.y - height))
         
         let view: NSView = NSView(frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin, width: superview.frame.width - (Constants.Settings.margin*2), height: superview.frame.height - (Constants.Settings.margin*2)))
         
-        view.addSubview(makeSettingsRow(
+        view.addSubview(self.makeSettingsRow(
             frame: NSRect(x: 0, y: rowHeight + Constants.Settings.margin, width: view.frame.width, height: rowHeight),
             title: "Label",
             action: #selector(toggleLabel),
-            state: self.label
+            state: self.labelState
         ))
         
-        view.addSubview(makeSettingsRow(
+        view.addSubview(self.makeSettingsRow(
             frame: NSRect(x: 0, y: 0, width: view.frame.width, height: rowHeight),
             title: "Colorize",
             action: #selector(toggleColors),
-            state: self.color
+            state: self.colorState
         ))
         
         superview.addSubview(view)
@@ -133,9 +131,9 @@ public class Mini: Widget {
         } else {
             state = sender is NSButton ? (sender as! NSButton).state: nil
         }
-        self.color = state! == .on ? true : false
-        self.valueView.textColor = value.usageColor(color: self.color)
-        self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_color", value: self.color)
+        self.colorState = state! == .on ? true : false
+        self.valueView.textColor = value.usageColor(color: self.colorState)
+        self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_color", value: self.colorState)
     }
     
     @objc func toggleLabel(_ sender: NSControl) {
@@ -145,55 +143,21 @@ public class Mini: Widget {
         } else {
             state = sender is NSButton ? (sender as! NSButton).state: nil
         }
-        self.label = state! == .on ? true : false
-        self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_label", value: self.label)
+        self.labelState = state! == .on ? true : false
+        self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_label", value: self.labelState)
         self.subviews.forEach{ $0.removeFromSuperview() }
         self.build()
     }
     
-    private func makeSettingsRow(frame: NSRect, title: String, action: Selector, state: Bool) -> NSView {
-        let row: NSView = NSView(frame: frame)
-        let state: NSControl.StateValue = state ? .on : .off
-        
-        let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: (row.frame.height - 16)/2, width: row.frame.width - 52, height: 17), title)
-        rowTitle.font = NSFont.systemFont(ofSize: 13, weight: .light)
-        rowTitle.textColor = .secondaryLabelColor
-        
-        var toggle: NSControl = NSControl()
-        if #available(OSX 10.15, *) {
-            let switchButton = NSSwitch(frame: NSRect(x: row.frame.width - 50, y: 0, width: 50, height: row.frame.height))
-            switchButton.state = state
-            switchButton.action = action
-            switchButton.target = self
-
-            toggle = switchButton
-        } else {
-            let button: NSButton = NSButton(frame: NSRect(x: row.frame.width - 30, y: 0, width: 30, height: row.frame.height))
-            button.setButtonType(.switch)
-            button.state = state
-            button.title = ""
-            button.action = action
-            button.isBordered = false
-            button.isTransparent = true
-            
-            toggle = button
-        }
-
-        row.addSubview(toggle)
-        row.addSubview(rowTitle)
-        
-        return row
-    }
-    
-    public func setValue(_ value: Double?, sufix: String) {
-        if value == self.value || value == nil {
+    public func setValue(_ value: Double, sufix: String) {
+        if value == self.value {
             return
         }
         
-        self.value = value!
+        self.value = value
         DispatchQueue.main.async(execute: {
-            self.valueView.stringValue = "\(Int((value!.rounded(toPlaces: 2)) * 100))\(sufix)"
-            self.valueView.textColor = value!.usageColor(color: self.color)
+            self.valueView.stringValue = "\(Int((value.rounded(toPlaces: 2)) * 100))\(sufix)"
+            self.valueView.textColor = value.usageColor(color: self.colorState)
         })
     }
 }

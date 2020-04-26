@@ -15,7 +15,8 @@ import StatsKit
 public enum widget_t: String {
     case unknown = ""
     case mini = "mini"
-    case chart = "chart"
+    case lineChart = "line_chart"
+    case barChart = "bar_chart"
 }
 extension widget_t: CaseIterable {}
 
@@ -25,7 +26,7 @@ public protocol Widget_p: NSView {
     var type: widget_t { get }
     var widthHandler: ((CGFloat) -> Void)? { get set }
     
-    func setValue(_ value: AnyObject)
+    func setValues(_ values: [value_t])
     func settings(superview: NSView)
 }
 
@@ -53,17 +54,50 @@ open class Widget: NSView, Widget_p {
             }
             return
         }
-
-        self.display()
+        
         self.setFrameSize(NSSize(width: width, height: self.frame.size.height))
         self.invalidateIntrinsicContentSize()
-
+        self.display()
+        
         self.widthHandler!(width)
     }
     
     open func settings(superview: NSView) {}
+    open func setValues(_ values: [value_t]) {}
     
-    @objc dynamic open func setValue(_ value: AnyObject) {}
+    internal func makeSettingsRow(frame: NSRect, title: String, action: Selector, state: Bool) -> NSView {
+        let row: NSView = NSView(frame: frame)
+        let state: NSControl.StateValue = state ? .on : .off
+        
+        let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: (row.frame.height - 16)/2, width: row.frame.width - 52, height: 17), title)
+        rowTitle.font = NSFont.systemFont(ofSize: 13, weight: .light)
+        rowTitle.textColor = .labelColor
+        
+        var toggle: NSControl = NSControl()
+        if #available(OSX 10.15, *) {
+            let switchButton = NSSwitch(frame: NSRect(x: row.frame.width - 50, y: 0, width: 50, height: row.frame.height))
+            switchButton.state = state
+            switchButton.action = action
+            switchButton.target = self
+
+            toggle = switchButton
+        } else {
+            let button: NSButton = NSButton(frame: NSRect(x: row.frame.width - 30, y: 0, width: 30, height: row.frame.height))
+            button.setButtonType(.switch)
+            button.state = state
+            button.title = ""
+            button.action = action
+            button.isBordered = false
+            button.isTransparent = true
+            
+            toggle = button
+        }
+
+        row.addSubview(toggle)
+        row.addSubview(rowTitle)
+        
+        return row
+    }
 }
 
 func LoadWidget(_ type: widget_t, preview: Bool, title: String, store: UnsafePointer<Store>?) -> Widget_p? {
@@ -73,8 +107,11 @@ func LoadWidget(_ type: widget_t, preview: Bool, title: String, store: UnsafePoi
     case .mini:
         widget = Mini(preview: preview, title: title, store: store)
         break
-    case .chart:
-        widget = ChartWidget(preview: preview, title: title)
+    case .lineChart:
+        widget = LineChart(preview: preview, title: title, store: store)
+        break
+    case .barChart:
+        widget = BarChart(preview: preview, title: title, store: store)
         break
     default: break
     }

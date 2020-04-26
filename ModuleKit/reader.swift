@@ -13,12 +13,20 @@ import Cocoa
 import Repeat
 import os.log
 
+
+public protocol value_t {
+    var widget_value: Double { get }
+}
+
 public protocol Reader_p {
+    var optional: Bool { get }
+    
     func setup() -> Void
     func read() -> Void
     func terminate() -> Void
     
     func getValue<T>() -> T
+    func getHistory() -> [value_t]
     
     func start() -> Void
     func pause() -> Void
@@ -45,8 +53,11 @@ open class Reader<T>: ReaderInternal_p {
     private var nilCallbackCounter: Int = 0
     private var ready: Bool = false
     
+    private var history: [T]?
+    
     public init() {
         self.log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: "\(T.self)")
+        self.history = []
         
         self.setup()
         
@@ -80,6 +91,10 @@ open class Reader<T>: ReaderInternal_p {
         self.value = value
         self.ready = true
         if value != nil {
+            if self.history?.count ?? 0 >= 300 {
+                self.history!.remove(at: 0)
+            }
+            self.history?.append(value!)
             self.callbackHandler(value!)
         }
     }
@@ -92,6 +107,10 @@ open class Reader<T>: ReaderInternal_p {
 extension Reader: Reader_p {
     public func getValue<T>() -> T {
         return self.value as! T
+    }
+    
+    public func getHistory<T>() -> [T] {
+        return self.history as! [T]
     }
     
     public func start() {

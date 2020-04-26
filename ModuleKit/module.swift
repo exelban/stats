@@ -189,6 +189,7 @@ open class Module: Module_p {
         if self.widget == nil {
             self.enabled = false
             os_log(.error, log: log, "widget with type %s not found", "\(self.activeWidget)")
+            return
         }
         os_log(.debug, log: log, "Successfully initialize widget: %s", "\(String(describing: self.widget!))")
         
@@ -197,6 +198,9 @@ open class Module: Module_p {
         }
         
         self.readers.forEach{ $0.read() }
+        if let mainReader = self.readers.first(where: { !$0.optional }) {
+            self.widget?.setValues(mainReader.getHistory())
+        }
         
         self.menuBarItem.length = self.widget!.frame.width
         self.menuBarItem.button?.subviews.forEach{ $0.removeFromSuperview() }

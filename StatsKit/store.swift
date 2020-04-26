@@ -28,6 +28,10 @@ public class Store {
         return (!self.exist(key: key) ? value : defaults.string(forKey: key))!
     }
     
+    public func int(key: String, defaultValue value: Int) -> Int {
+        return (!self.exist(key: key) ? value : defaults.integer(forKey: key))
+    }
+    
     public func set(key: String, value: Bool) {
         self.defaults.set(value, forKey: key)
     }
