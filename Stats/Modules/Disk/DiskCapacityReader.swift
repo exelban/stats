@@ -28,33 +28,27 @@ struct disksList {
     var list: [diskInfo] = []
     
     func getDiskByBSDName(_ name: String) -> diskInfo? {
-        let idx = self.list.firstIndex { $0.mediaBSDName == name }
-        
-        if idx == nil {
-            return nil
+        if let idx = self.list.firstIndex(where: { $0.mediaBSDName == name }) {
+            return self.list[idx]
         }
         
-        return self.list[idx!]
+        return nil
     }
     
     func getDiskByName(_ name: String) -> diskInfo? {
-        let idx = self.list.firstIndex { $0.name == name }
-        
-        if idx == nil {
-            return nil
+        if let idx = self.list.firstIndex(where: { $0.name == name }) {
+            return self.list[idx]
         }
         
-        return self.list[idx!]
+        return nil
     }
     
     func getRootDisk() -> diskInfo? {
-        let idx = self.list.firstIndex { $0.root }
-        
-        if idx == nil {
-            return nil
+        if let idx = self.list.firstIndex(where: { $0.root }) {
+            return self.list[idx]
         }
         
-        return self.list[idx!]
+        return nil
     }
 }
 
@@ -91,8 +85,11 @@ class DiskCapacityReader: Reader {
                         let BSDName: String = String(cString: DADiskGetBSDName(disk)!)
                         
                         if let _: diskInfo = self.disks.getDiskByBSDName(BSDName) {
-                            let idx = self.disks.list.firstIndex { $0.mediaBSDName == BSDName }
-                            self.disks.list[idx!].freeSize = freeDiskSpaceInBytes(self.disks.list[idx!].path!.absoluteString)
+                            if let idx = self.disks.list.firstIndex(where: { $0.mediaBSDName == BSDName }) {
+                                if let path = self.disks.list[idx].path {
+                                    self.disks.list[idx].freeSize = freeDiskSpaceInBytes(path.absoluteString)
+                                }
+                            }
                             continue
                         }
                         
