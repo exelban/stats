@@ -8,6 +8,7 @@
 
 import Cocoa
 import Charts
+import Repeat
 
 protocol Module: class {
     var name: String { get } // module name

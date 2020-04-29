@@ -8,6 +8,7 @@
 
 import Cocoa
 import IOKit.ps
+import Repeat
 
 class Battery: Module {
     public var name: String = "Battery"

@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import Repeat
 
 class Disk: Module {
     public var name: String = "SSD"

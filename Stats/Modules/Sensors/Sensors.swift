@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import Repeat
 
 class Sensors: Module {
     public var name: String = "Sensors"

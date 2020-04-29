@@ -8,6 +8,7 @@
 
 import Cocoa
 import Charts
+import Repeat
 
 class Network: Module {
     public var name: String = "Network"

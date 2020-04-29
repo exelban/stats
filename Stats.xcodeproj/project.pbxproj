@@ -10,7 +10,6 @@
 		9A09C8A222B3D94D0018426F /* BatteryWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A09C8A122B3D94D0018426F /* BatteryWidget.swift */; };
 		9A1410F9229E721100D29793 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1410F8229E721100D29793 /* AppDelegate.swift */; };
 		9A141100229E721200D29793 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A1410FE229E721200D29793 /* Main.storyboard */; };
-		9A2D15D023C77BA300C4C417 /* Repeater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2D15CF23C77BA300C4C417 /* Repeater.swift */; };
 		9A2D15D223CCEC7600C4C417 /* Module.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2D15D123CCEC7600C4C417 /* Module.swift */; };
 		9A2D15D523CCEFF700C4C417 /* CPU.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2D15D423CCEFF700C4C417 /* CPU.swift */; };
 		9A2D15D723CCFE1B00C4C417 /* CPULoadReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2D15D623CCFE1B00C4C417 /* CPULoadReader.swift */; };
@@ -53,6 +52,8 @@
 		9A6CFC0122A1C9F5001E782D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9A6CFC0022A1C9F5001E782D /* Assets.xcassets */; };
 		9A74D59722B44498004FE1FA /* Mini.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A74D59622B44498004FE1FA /* Mini.swift */; };
 		9A79B36A22D3BEE600BF1C3A /* Widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A79B36922D3BEE600BF1C3A /* Widget.swift */; };
+		9A7DE036245982460084BD7A /* Repeat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A7DE035245982460084BD7A /* Repeat.framework */; };
+		9A7DE037245982460084BD7A /* Repeat.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A7DE035245982460084BD7A /* Repeat.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9AA28DC1243774ED00D2B196 /* Sensors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA28DC0243774ED00D2B196 /* Sensors.swift */; };
 		9AA28DC32437752D00D2B196 /* SensorsMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA28DC22437752D00D2B196 /* SensorsMenu.swift */; };
 		9AA28DD1243799E500D2B196 /* SensorsWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA28DD0243799E500D2B196 /* SensorsWidget.swift */; };
@@ -78,6 +79,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				9A5349CF23D8832E00C23824 /* Reachability.framework in Embed Frameworks */,
+				9A7DE037245982460084BD7A /* Repeat.framework in Embed Frameworks */,
 				9A6698E62326AB16001D00E1 /* Charts.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -102,7 +104,6 @@
 		9A1410F8229E721100D29793 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9A1410FF229E721200D29793 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9A141101229E721200D29793 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9A2D15CF23C77BA300C4C417 /* Repeater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repeater.swift; sourceTree = "<group>"; };
 		9A2D15D123CCEC7600C4C417 /* Module.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Module.swift; sourceTree = "<group>"; };
 		9A2D15D423CCEFF700C4C417 /* CPU.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPU.swift; sourceTree = "<group>"; };
 		9A2D15D623CCFE1B00C4C417 /* CPULoadReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPULoadReader.swift; sourceTree = "<group>"; };
@@ -146,6 +147,7 @@
 		9A6CFC0022A1C9F5001E782D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9A74D59622B44498004FE1FA /* Mini.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mini.swift; sourceTree = "<group>"; };
 		9A79B36922D3BEE600BF1C3A /* Widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Widget.swift; sourceTree = "<group>"; };
+		9A7DE035245982460084BD7A /* Repeat.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Repeat.framework; path = Carthage/Build/Mac/Repeat.framework; sourceTree = "<group>"; };
 		9A998CD722A199920087ADE7 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		9A998CD922A199970087ADE7 /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = System/Library/Frameworks/ServiceManagement.framework; sourceTree = SDKROOT; };
 		9AA28DC0243774ED00D2B196 /* Sensors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sensors.swift; sourceTree = "<group>"; };
@@ -171,6 +173,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9A5349CE23D8832E00C23824 /* Reachability.framework in Frameworks */,
+				9A7DE036245982460084BD7A /* Repeat.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -328,7 +331,6 @@
 				9A5B1CC4229E7B40008B9D3C /* Extensions.swift */,
 				9A426DB722C2B5EE00C064C4 /* MacAppUpdater.swift */,
 				9A59AE55231EE02F007989D6 /* ChartMarker.swift */,
-				9A2D15CF23C77BA300C4C417 /* Repeater.swift */,
 				9A3434F0243E19E6006B19F9 /* LaunchAtLogin.swift */,
 			);
 			path = libs;
@@ -350,6 +352,7 @@
 		9A998CD622A199920087ADE7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9A7DE035245982460084BD7A /* Repeat.framework */,
 				9A5349CD23D8832E00C23824 /* Reachability.framework */,
 				9A6698E32326AAE5001D00E1 /* Charts.framework */,
 				9A998CD922A199970087ADE7 /* ServiceManagement.framework */,
@@ -564,7 +567,6 @@
 				9A57A18522A1D26D0033E318 /* MenuBar.swift in Sources */,
 				9A2D15D923CD036400C4C417 /* CPUMenu.swift in Sources */,
 				9AF6F1FE231D732600B8E1E4 /* PopupViewController.swift in Sources */,
-				9A2D15D023C77BA300C4C417 /* Repeater.swift in Sources */,
 				9A1410F9229E721100D29793 /* AppDelegate.swift in Sources */,
 				9A2D15E823CE29A400C4C417 /* RAMMenu.swift in Sources */,
 				9A2D15DB23CD0B2100C4C417 /* CPUPopup.swift in Sources */,
@@ -756,7 +758,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MARKETING_VERSION = 1.6.2;
+				MARKETING_VERSION = 1.6.3;
 				PRODUCT_BUNDLE_IDENTIFIER = eu.exelban.Stats;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -787,7 +789,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MARKETING_VERSION = 1.6.2;
+				MARKETING_VERSION = 1.6.3;
 				PRODUCT_BUNDLE_IDENTIFIER = eu.exelban.Stats;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

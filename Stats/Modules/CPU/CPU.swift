@@ -8,6 +8,7 @@
 
 import Cocoa
 import Charts
+import Repeat
 
 class CPU: Module {
     public var name: String = "CPU"
