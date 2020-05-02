@@ -28,7 +28,7 @@ public class Popup: NSView {
     
 //    private var processes: [ProcessView] = [ProcessView(0), ProcessView(1), ProcessView(2), ProcessView(3), ProcessView(4)]
     
-    public var chart: Chart? = nil
+    public var chart: LineChartView? = nil
     private var ready: Bool = false
     
     public init() {
@@ -76,7 +76,7 @@ public class Popup: NSView {
         
         let leftPanel = NSView(frame: NSRect(x: 0, y: 0, width: view.frame.width - rightWidth - Constants.Popup.margins, height: view.frame.height))
         
-        self.chart = Chart(frame: NSRect(x: 4, y: 3, width: leftPanel.frame.width, height: leftPanel.frame.height), num: 120)
+        self.chart = LineChartView(frame: NSRect(x: 4, y: 3, width: leftPanel.frame.width, height: leftPanel.frame.height), num: 120)
         leftPanel.addSubview(self.chart!)
         
         let rightPanel: NSView = NSView(frame: NSRect(x: view.frame.width - rightWidth, y: 0, width: rightWidth, height: view.frame.height))

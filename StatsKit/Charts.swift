@@ -20,7 +20,7 @@ public enum chart_t: Int {
     }
 }
 
-public class Chart: NSView {
+public class LineChartView: NSView {
     public var points: [Double]? = nil
     public var transparent: Bool = true
     

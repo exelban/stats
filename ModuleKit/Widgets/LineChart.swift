@@ -19,12 +19,12 @@ public class LineChart: Widget {
     private var colorState: Bool = true
     
     private let store: UnsafePointer<Store>?
-    private var chart: Chart
+    private var chart: LineChartView
     private var value: Double = 0
     
     public init(preview: Bool, title: String, store: UnsafePointer<Store>?) {
         self.store = store
-        self.chart = Chart(frame: NSRect(x: 0, y: 0, width: Constants.Widget.width, height: Constants.Widget.height - (2*Constants.Widget.margin)), num: 60)
+        self.chart = LineChartView(frame: NSRect(x: 0, y: 0, width: Constants.Widget.width, height: Constants.Widget.height - (2*Constants.Widget.margin)), num: 60)
         super.init(frame: CGRect(x: 0, y: Constants.Widget.margin, width: Constants.Widget.width, height: Constants.Widget.height - (2*Constants.Widget.margin)))
         self.preview = preview
         self.title = title
@@ -84,9 +84,9 @@ public class LineChart: Widget {
             width = width + letterWidth + (Constants.Widget.margin*2)
             x = letterWidth + (Constants.Widget.margin*3)
         }
-
+        
         let box = NSBezierPath(roundedRect: NSRect(x: x, y: 0, width: Constants.Widget.width - (Constants.Widget.margin*2), height: self.frame.size.height), xRadius: 2, yRadius: 2)
-
+        
         var color = isDarkMode ? NSColor.white : NSColor.black
         if self.boxState {
             NSColor.black.set()
@@ -94,15 +94,15 @@ public class LineChart: Widget {
             box.fill()
             self.chart.transparent = false
             color = NSColor.white
-            chartPadding = 2
+            chartPadding = 1
         } else {
             self.chart.transparent = true
         }
-
+        
         if self.colorState {
             color = self.value.usageColor(reversed: false, color: self.colorState)
         }
-
+        
         var height = box.bounds.height - chartPadding
         if self.valueState {
             let style = NSMutableParagraphStyle()
@@ -112,17 +112,17 @@ public class LineChart: Widget {
                 NSAttributedString.Key.foregroundColor: color,
                 NSAttributedString.Key.paragraphStyle: style
             ]
-
+            
             let rect = CGRect(x: x, y: height-7+chartPadding, width: box.bounds.width - chartPadding, height: 7)
             let str = NSAttributedString.init(string: "\(Int((value.rounded(toPlaces: 2)) * 100))%", attributes: stringAttributes)
             str.draw(with: rect)
-
+            
             height = 8
         }
-
+        
         chart.setFrameSize(NSSize(width: box.bounds.width - chartPadding, height: height))
-        chart.draw(NSRect(x: box.bounds.origin.x + 1, y: chartPadding/2, width: box.bounds.width - chartPadding, height: height))
-
+        chart.draw(NSRect(x: box.bounds.origin.x + 1, y: chartPadding, width: box.bounds.width - chartPadding, height: height))
+        
         ctx.restoreGState()
         self.setWidth(width)
     }
@@ -193,7 +193,7 @@ public class LineChart: Widget {
         }
         self.labelState = state! == .on ? true : false
         self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_label", value: self.labelState)
-//        self.display()
+        self.display()
     }
     
     @objc private func toggleBox(_ sender: NSControl) {

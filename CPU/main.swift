@@ -79,5 +79,8 @@ public class CPU: Module {
         if let widget = self.widget as? LineChart {
             widget.setValue(value!.totalUsage)
         }
+        if let widget = self.widget as? BarChart {
+            widget.setValue(value!.usagePerCore)
+        }
     }
 }

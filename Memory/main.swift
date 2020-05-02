@@ -37,7 +37,7 @@ public class Memory: Module {
     private var usageReader: UsageReader = UsageReader()
     
     public init(_ store: UnsafePointer<Store>?) {
-        var widgets: [widget_t] = [.mini, .lineChart]
+        var widgets: [widget_t] = [.mini, .lineChart, .barChart]
         super.init(store: store, name: "RAM", icon: nil, popup: self.popup, defaultWidget: .mini, widgets: &widgets, defaultState: true)
         
         self.usageReader.readyCallback = { [unowned self] in
@@ -61,6 +61,9 @@ public class Memory: Module {
         }
         if let widget = self.widget as? LineChart {
             widget.setValue(value!.usage ?? 0)
+        }
+        if let widget = self.widget as? BarChart {
+            widget.setValue([value!.usage ?? 0])
         }
     }
 }
