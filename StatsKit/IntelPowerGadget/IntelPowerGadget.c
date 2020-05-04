@@ -10,7 +10,6 @@
 //
 
 #include "IntelPowerGadget.h"
-
 #include <IntelPowerGadget/PowerGadgetLib.h>
 
 #include <unistd.h>
@@ -59,4 +58,5 @@ double* PG_getCPUFrequency() {
     } else {
         return &CPUFrequency;
     }
+    return NULL;
 }

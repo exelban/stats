@@ -85,14 +85,15 @@ open class Module: Module_p {
         self.popup = PopupWindow(title: name, view: popup)
     }
     
-    open func load() {
+    public func load() {
         if self.enabled && self.widget != nil {
             self.menuBarItem.length = self.widget!.frame.width
             self.menuBarItem.button?.addSubview(self.widget!)
         }
     }
     
-    open func terminate() {
+    public func terminate() {
+        self.willTerminate()
         self.readers.forEach{
             $0.stop()
             $0.terminate()
@@ -100,6 +101,8 @@ open class Module: Module_p {
         NSStatusBar.system.removeStatusItem(self.menuBarItem)
         os_log(.debug, log: log, "Module terminated")
     }
+    
+    open func willTerminate() {}
     
     public func enable() {
         self.enabled = true

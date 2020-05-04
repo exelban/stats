@@ -40,10 +40,11 @@ public class CPU: Module {
     
     public init(_ store: UnsafePointer<Store>, _ smc: UnsafePointer<SMCService>) {
         var widgets: [widget_t] = [.mini, .lineChart, .barChart]
-        PG_start()
         self.smc = smc
         self.settingsView = Settings("CPU", store: store)
         self.loadReader.store = store
+        
+        PG_start()
         
         super.init(
             store: store,
@@ -64,6 +65,10 @@ public class CPU: Module {
         }
         
         self.addReader(self.loadReader)
+    }
+    
+    public override func willTerminate() {
+        PG_stop()
     }
     
     private func loadCallback(_ value: CPULoad?) {

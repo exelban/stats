@@ -20,8 +20,6 @@
 		9A1A7ABA24561F0B00A84F7A /* BarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1A7AB924561F0B00A84F7A /* BarChart.swift */; };
 		9A34353B243E278D006B19F9 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A34353A243E278D006B19F9 /* main.swift */; };
 		9A34353C243E27E8006B19F9 /* LaunchAtLogin.app in Copy Files */ = {isa = PBXBuildFile; fileRef = 9A343527243E26A0006B19F9 /* LaunchAtLogin.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		9A5349CE23D8832E00C23824 /* Reachability.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A5349CD23D8832E00C23824 /* Reachability.framework */; };
-		9A5349CF23D8832E00C23824 /* Reachability.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A5349CD23D8832E00C23824 /* Reachability.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9A6549292440A57200E30B74 /* Repeat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A6549282440A57200E30B74 /* Repeat.framework */; };
 		9A65492A2440A57200E30B74 /* Repeat.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A6549282440A57200E30B74 /* Repeat.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9A6CFC0122A1C9F5001E782D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9A6CFC0022A1C9F5001E782D /* Assets.xcassets */; };
@@ -47,7 +45,6 @@
 		9A944D6424492FE20058F32A /* IntelPowerGadget.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A944D6224492FE20058F32A /* IntelPowerGadget.c */; };
 		9A944D6524492FE20058F32A /* IntelPowerGadget.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A944D6324492FE20058F32A /* IntelPowerGadget.h */; };
 		9A9D728A24471FAE005CF997 /* SMC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9D728924471FAE005CF997 /* SMC.swift */; };
-		9A9D72AC24478DB9005CF997 /* IntelPowerGadget.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A9D729A2447747D005CF997 /* IntelPowerGadget.framework */; };
 		9AA4A00A2443656D00ECCF07 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AA4A0092443656D00ECCF07 /* Assets.xcassets */; };
 		9AA64260244B274200416A33 /* popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA6425F244B274200416A33 /* popup.swift */; };
 		9AA64262244B57C800416A33 /* settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA64261244B57C800416A33 /* settings.swift */; };
@@ -62,6 +59,10 @@
 		9AABEB73243FCEEF00668CB0 /* ModuleKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9AABEADD243FB13500668CB0 /* ModuleKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9AABEB7A243FD26200668CB0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AABEB79243FD26200668CB0 /* AppDelegate.swift */; };
 		9AABEB7E243FDEF100668CB0 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AABEB7D243FDEF100668CB0 /* main.swift */; };
+		9AAD72702460B5AA003D9EEE /* IntelPowerGadget.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AAD726E2460B5A5003D9EEE /* IntelPowerGadget.framework */; };
+		9AAD72712460B5AA003D9EEE /* IntelPowerGadget.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9AAD726E2460B5A5003D9EEE /* IntelPowerGadget.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9AAD72772460BCD7003D9EEE /* Reachability.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A5349CD23D8832E00C23824 /* Reachability.framework */; };
+		9AAD72782460BCD7003D9EEE /* Reachability.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A5349CD23D8832E00C23824 /* Reachability.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -142,9 +143,9 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				9A5349CF23D8832E00C23824 /* Reachability.framework in Embed Frameworks */,
 				9A81C75E2449A41400825D92 /* Memory.framework in Embed Frameworks */,
 				9AABEB6C243FCE8A00668CB0 /* CPU.framework in Embed Frameworks */,
+				9AAD72782460BCD7003D9EEE /* Reachability.framework in Embed Frameworks */,
 				9AABEAE5243FB13500668CB0 /* ModuleKit.framework in Embed Frameworks */,
 				9A0C82E224460F7200FAE3D4 /* StatsKit.framework in Embed Frameworks */,
 			);
@@ -165,13 +166,24 @@
 		};
 		9AABEB76243FCEEF00668CB0 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 12;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
 				9AABEB73243FCEEF00668CB0 /* ModuleKit.framework in Embed Frameworks */,
+				9AAD72712460B5AA003D9EEE /* IntelPowerGadget.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9AAD72722460B95F003D9EEE /* Copy Files */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		9AB54DAE22A19F96006192E0 /* Copy Files */ = {
@@ -226,7 +238,6 @@
 		9A998CD722A199920087ADE7 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		9A998CD922A199970087ADE7 /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = System/Library/Frameworks/ServiceManagement.framework; sourceTree = SDKROOT; };
 		9A9D728924471FAE005CF997 /* SMC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMC.swift; sourceTree = "<group>"; };
-		9A9D729A2447747D005CF997 /* IntelPowerGadget.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IntelPowerGadget.framework; path = ../../../Library/Frameworks/IntelPowerGadget.framework; sourceTree = "<group>"; };
 		9AA4A0092443656D00ECCF07 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9AA6425E244B254600416A33 /* CPU.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CPU.h; sourceTree = "<group>"; };
 		9AA6425F244B274200416A33 /* popup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = popup.swift; sourceTree = "<group>"; };
@@ -240,6 +251,7 @@
 		9AABEB70243FCE9400668CB0 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		9AABEB79243FD26200668CB0 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9AABEB7D243FDEF100668CB0 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		9AAD726E2460B5A5003D9EEE /* IntelPowerGadget.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IntelPowerGadget.framework; path = StatsKit/IntelPowerGadget/IntelPowerGadget.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -254,9 +266,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9A5349CE23D8832E00C23824 /* Reachability.framework in Frameworks */,
 				9AABEAE4243FB13500668CB0 /* ModuleKit.framework in Frameworks */,
 				9A81C75D2449A41400825D92 /* Memory.framework in Frameworks */,
+				9AAD72772460BCD7003D9EEE /* Reachability.framework in Frameworks */,
 				9A0C82E124460F7200FAE3D4 /* StatsKit.framework in Frameworks */,
 				9AABEB6B243FCE8A00668CB0 /* CPU.framework in Frameworks */,
 			);
@@ -291,8 +303,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9A9D72AC24478DB9005CF997 /* IntelPowerGadget.framework in Frameworks */,
 				9AABEB72243FCEEF00668CB0 /* ModuleKit.framework in Frameworks */,
+				9AAD72702460B5AA003D9EEE /* IntelPowerGadget.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -406,7 +418,7 @@
 		9A998CD622A199920087ADE7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				9A9D729A2447747D005CF997 /* IntelPowerGadget.framework */,
+				9AAD726E2460B5A5003D9EEE /* IntelPowerGadget.framework */,
 				9A6549282440A57200E30B74 /* Repeat.framework */,
 				9A5349CD23D8832E00C23824 /* Reachability.framework */,
 				9A998CD922A199970087ADE7 /* ServiceManagement.framework */,
@@ -606,6 +618,7 @@
 				9AABEB61243FCE8A00668CB0 /* Frameworks */,
 				9AABEB62243FCE8A00668CB0 /* Resources */,
 				9AABEB76243FCEEF00668CB0 /* Embed Frameworks */,
+				9AAD72722460B95F003D9EEE /* Copy Files */,
 			);
 			buildRules = (
 			);
@@ -742,7 +755,6 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/Mac/Charts.framework",
 			);
 			name = "Run Script";
 			outputFileListPaths = (
@@ -1081,6 +1093,8 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+					"$(PROJECT_DIR)/StatsKit/IntelPowerGadget",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Stats/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1113,6 +1127,8 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+					"$(PROJECT_DIR)/StatsKit/IntelPowerGadget",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Stats/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1310,6 +1326,7 @@
 		9AABEB6E243FCE8A00668CB0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -1324,12 +1341,15 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+					"$(PROJECT_DIR)/StatsKit/IntelPowerGadget",
 				);
 				INFOPLIST_FILE = CPU/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
+					"$(inherited)",
+					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
@@ -1347,6 +1367,7 @@
 		9AABEB6F243FCE8A00668CB0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -1361,12 +1382,15 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+					"$(PROJECT_DIR)/StatsKit/IntelPowerGadget",
 				);
 				INFOPLIST_FILE = CPU/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
+					"$(inherited)",
+					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
