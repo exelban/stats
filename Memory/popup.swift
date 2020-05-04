@@ -41,7 +41,7 @@ public class Popup: NSView {
     }
     
     private func initFirstView() {
-        let rightWidth: CGFloat = 110
+        let rightWidth: CGFloat = 116
         let view: NSView = NSView(frame: NSRect(x: 0, y: self.frame.height - self.firstHeight, width: self.frame.width, height: self.firstHeight))
         
         let leftPanel = NSView(frame: NSRect(x: 0, y: 0, width: view.frame.width - rightWidth - Constants.Popup.margins, height: view.frame.height))
@@ -75,8 +75,6 @@ public class Popup: NSView {
     
     private func addTitleSeparator(_ title: String, _ mView: NSView) {
         let view: NSView = NSView(frame: NSRect(x: 0, y: mView.frame.height - 26, width: mView.frame.width, height: 26))
-        view.wantsLayer = true
-        view.layer?.backgroundColor = NSColor.separatorColor.cgColor
         
         let labelView: NSTextField = TextView(frame: NSRect(x: 0, y: (view.frame.height-15)/2, width: view.frame.width, height: 15))
         labelView.stringValue = title

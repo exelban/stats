@@ -368,7 +368,7 @@ public class ValueField: NSTextField {
         self.stringValue = value
         self.textColor = .textColor
         self.alignment = .right
-        self.font = NSFont.systemFont(ofSize: 13, weight: .medium)
+        self.font = NSFont.systemFont(ofSize: 13, weight: .regular)
     }
     
     required init?(coder: NSCoder) {

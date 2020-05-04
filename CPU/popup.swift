@@ -112,8 +112,6 @@ public class Popup: NSView {
     
     private func addTitleSeparator(_ title: String, _ mView: NSView) {
         let view: NSView = NSView(frame: NSRect(x: 0, y: mView.frame.height - 26, width: mView.frame.width, height: 26))
-        view.wantsLayer = true
-        view.layer?.backgroundColor = NSColor.separatorColor.cgColor
         
         let labelView: NSTextField = TextView(frame: NSRect(x: 0, y: (view.frame.height-15)/2, width: view.frame.width, height: 15))
         labelView.stringValue = title
@@ -141,14 +139,14 @@ public class Popup: NSView {
     }
     
     public func loadCallback(_ value: CPULoad, freqValue: Double?, tempValue: Double?) {
-        var frequency: String = "Unknown"
+        var frequency: String = "0 GHz"
         var temperature: String = "Unknown"
         
         DispatchQueue.main.async(execute: {
             if self.window!.isVisible || !self.ready {
                 if tempValue != nil {
                     let formatter = MeasurementFormatter()
-                    let measurement = Measurement(value: tempValue!, unit: UnitTemperature.celsius)
+                    let measurement = Measurement(value: tempValue!.rounded(toPlaces: 0), unit: UnitTemperature.celsius)
                     temperature = formatter.string(from: measurement)
                 }
                 

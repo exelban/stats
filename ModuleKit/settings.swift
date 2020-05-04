@@ -42,7 +42,7 @@ open class Settings: NSView, Settings_p {
         self.moduleSettings = moduleSettings
         super.init(frame: NSRect(x: 0, y: 0, width: Constants.Settings.width, height: Constants.Settings.height))
         self.wantsLayer = true
-        self.layer?.backgroundColor = NSColor(hexString: "#e7e7e7").cgColor
+        self.layer?.backgroundColor = NSColor.windowBackgroundColor.cgColor
         
         addHeader(self.title, state: enabled)
         addWidgetSelector()

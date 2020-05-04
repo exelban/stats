@@ -49,6 +49,9 @@
 		9AA64260244B274200416A33 /* popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA6425F244B274200416A33 /* popup.swift */; };
 		9AA64262244B57C800416A33 /* settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA64261244B57C800416A33 /* settings.swift */; };
 		9AA64264244B94F300416A33 /* LineChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA64263244B94F300416A33 /* LineChart.swift */; };
+		9AA674CE2460D36900DF5EB7 /* IntelPowerGadget.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AA674CD2460D36800DF5EB7 /* IntelPowerGadget.framework */; };
+		9AA674CF2460D36900DF5EB7 /* IntelPowerGadget.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9AA674CD2460D36800DF5EB7 /* IntelPowerGadget.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9AA674D12460D39300DF5EB7 /* IntelPowerGadget.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9AA674D02460D39300DF5EB7 /* IntelPowerGadget.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		9AABEAE4243FB13500668CB0 /* ModuleKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AABEADD243FB13500668CB0 /* ModuleKit.framework */; };
 		9AABEAE5243FB13500668CB0 /* ModuleKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9AABEADD243FB13500668CB0 /* ModuleKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9AABEAEA243FB15E00668CB0 /* module.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AABEAE9243FB15E00668CB0 /* module.swift */; };
@@ -59,8 +62,6 @@
 		9AABEB73243FCEEF00668CB0 /* ModuleKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9AABEADD243FB13500668CB0 /* ModuleKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9AABEB7A243FD26200668CB0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AABEB79243FD26200668CB0 /* AppDelegate.swift */; };
 		9AABEB7E243FDEF100668CB0 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AABEB7D243FDEF100668CB0 /* main.swift */; };
-		9AAD72702460B5AA003D9EEE /* IntelPowerGadget.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AAD726E2460B5A5003D9EEE /* IntelPowerGadget.framework */; };
-		9AAD72712460B5AA003D9EEE /* IntelPowerGadget.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9AAD726E2460B5A5003D9EEE /* IntelPowerGadget.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9AAD72772460BCD7003D9EEE /* Reachability.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A5349CD23D8832E00C23824 /* Reachability.framework */; };
 		9AAD72782460BCD7003D9EEE /* Reachability.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A5349CD23D8832E00C23824 /* Reachability.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
@@ -164,6 +165,16 @@
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9AA674CA2460D2DA00DF5EB7 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 12;
+			dstPath = "";
+			dstSubfolderSpec = 16;
+			files = (
+				9AA674D12460D39300DF5EB7 /* IntelPowerGadget.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9AABEB76243FCEEF00668CB0 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 12;
@@ -171,7 +182,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				9AABEB73243FCEEF00668CB0 /* ModuleKit.framework in Embed Frameworks */,
-				9AAD72712460B5AA003D9EEE /* IntelPowerGadget.framework in Embed Frameworks */,
+				9AA674CF2460D36900DF5EB7 /* IntelPowerGadget.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -243,6 +254,8 @@
 		9AA6425F244B274200416A33 /* popup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = popup.swift; sourceTree = "<group>"; };
 		9AA64261244B57C800416A33 /* settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = settings.swift; sourceTree = "<group>"; };
 		9AA64263244B94F300416A33 /* LineChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChart.swift; sourceTree = "<group>"; };
+		9AA674CD2460D36800DF5EB7 /* IntelPowerGadget.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IntelPowerGadget.framework; path = StatsKit/IntelPowerGadget/IntelPowerGadget.framework; sourceTree = "<group>"; };
+		9AA674D02460D39300DF5EB7 /* IntelPowerGadget.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IntelPowerGadget.framework; path = StatsKit/IntelPowerGadget/IntelPowerGadget.framework; sourceTree = "<group>"; };
 		9AABEADD243FB13500668CB0 /* ModuleKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ModuleKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AABEAE0243FB13500668CB0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9AABEAE9243FB15E00668CB0 /* module.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = module.swift; sourceTree = "<group>"; };
@@ -251,7 +264,6 @@
 		9AABEB70243FCE9400668CB0 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		9AABEB79243FD26200668CB0 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9AABEB7D243FDEF100668CB0 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		9AAD726E2460B5A5003D9EEE /* IntelPowerGadget.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IntelPowerGadget.framework; path = StatsKit/IntelPowerGadget/IntelPowerGadget.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -304,7 +316,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9AABEB72243FCEEF00668CB0 /* ModuleKit.framework in Frameworks */,
-				9AAD72702460B5AA003D9EEE /* IntelPowerGadget.framework in Frameworks */,
+				9AA674CE2460D36900DF5EB7 /* IntelPowerGadget.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -337,6 +349,7 @@
 				9AABEADE243FB13500668CB0 /* ModuleKit */,
 				9AABEB65243FCE8A00668CB0 /* CPU */,
 				9A81C7572449A41400825D92 /* Memory */,
+				9AA674D02460D39300DF5EB7 /* IntelPowerGadget.framework */,
 				9A1410F6229E721100D29793 /* Products */,
 				9A998CD622A199920087ADE7 /* Frameworks */,
 			);
@@ -418,7 +431,7 @@
 		9A998CD622A199920087ADE7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				9AAD726E2460B5A5003D9EEE /* IntelPowerGadget.framework */,
+				9AA674CD2460D36800DF5EB7 /* IntelPowerGadget.framework */,
 				9A6549282440A57200E30B74 /* Repeat.framework */,
 				9A5349CD23D8832E00C23824 /* Reachability.framework */,
 				9A998CD922A199970087ADE7 /* ServiceManagement.framework */,
@@ -537,6 +550,7 @@
 				9AB54DAE22A19F96006192E0 /* Copy Files */,
 				9A6698D82326A903001D00E1 /* Run Script */,
 				9A6698E72326AB16001D00E1 /* Embed Frameworks */,
+				9AA674CA2460D2DA00DF5EB7 /* CopyFiles */,
 			);
 			buildRules = (
 			);

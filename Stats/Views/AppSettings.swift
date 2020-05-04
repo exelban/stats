@@ -123,9 +123,10 @@ class ApplicationSettings: NSView {
         rowValue.font = NSFont.systemFont(ofSize: 13, weight: .light)
         rowValue.alignment = .right
         rowValue.stringValue = value
+        rowValue.isSelectable = true
         
         if value.contains("\n") {
-            rowValue.frame = NSRect(x: 80, y: 0, width: rowValue.frame.width, height: row.frame.height)
+            rowValue.frame = NSRect(x: titleWidth, y: 0, width: rowValue.frame.width, height: row.frame.height)
         }
         
         row.addSubview(rowTitle)
@@ -183,11 +184,13 @@ class ApplicationSettings: NSView {
         deviceNameField.alignment = .center
         deviceNameField.font = NSFont.systemFont(ofSize: 14, weight: .regular)
         deviceNameField.stringValue = systemKit.device.model.name
+        deviceNameField.isSelectable = true
 
         let osField: NSTextField = TextView(frame: NSRect(x: 0, y: 52, width: leftPanel.frame.width, height: 18))
         osField.alignment = .center
         osField.font = NSFont.systemFont(ofSize: 12, weight: .regular)
         osField.stringValue = "macOS \(systemKit.device.os?.name ?? "Unknown") (\(systemKit.device.os?.version.getFullVersion() ?? ""))"
+        osField.isSelectable = true
         
         leftPanel.addSubview(deviceImageView)
         leftPanel.addSubview(deviceNameField)
@@ -206,12 +209,14 @@ class ApplicationSettings: NSView {
         statsName.alignment = .center
         statsName.font = NSFont.systemFont(ofSize: 20, weight: .regular)
         statsName.stringValue = "Stats"
+        statsName.isSelectable = true
         
         let statsVersion: NSTextField = TextView(frame: NSRect(x: 0, y: 0, width: leftPanel.frame.width, height: 16))
         statsVersion.alignment = .center
         statsVersion.font = NSFont.systemFont(ofSize: 12, weight: .regular)
         let versionNumber = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
         statsVersion.stringValue = "Version \(versionNumber)"
+        statsVersion.isSelectable = true
         
         infoView.addSubview(statsName)
         infoView.addSubview(statsVersion)
