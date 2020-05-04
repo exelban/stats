@@ -193,6 +193,40 @@ public extension NSView {
             }
         }
     }
+    
+    func ToggleTitleRow(frame: NSRect, title: String, action: Selector, state: Bool) -> NSView {
+        let row: NSView = NSView(frame: frame)
+        let state: NSControl.StateValue = state ? .on : .off
+        
+        let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: (row.frame.height - 16)/2, width: row.frame.width - 52, height: 17), title)
+        rowTitle.font = NSFont.systemFont(ofSize: 13, weight: .light)
+        rowTitle.textColor = .labelColor
+        
+        var toggle: NSControl = NSControl()
+        if #available(OSX 10.15, *) {
+            let switchButton = NSSwitch(frame: NSRect(x: row.frame.width - 50, y: 0, width: 50, height: row.frame.height))
+            switchButton.state = state
+            switchButton.action = action
+            switchButton.target = self
+            
+            toggle = switchButton
+        } else {
+            let button: NSButton = NSButton(frame: NSRect(x: row.frame.width - 30, y: 0, width: 30, height: row.frame.height))
+            button.setButtonType(.switch)
+            button.state = state
+            button.title = ""
+            button.action = action
+            button.isBordered = false
+            button.isTransparent = true
+            
+            toggle = button
+        }
+
+        row.addSubview(toggle)
+        row.addSubview(rowTitle)
+        
+        return row
+    }
 }
 
 public extension Notification.Name {
@@ -295,5 +329,49 @@ public extension NSColor {
         getRed(&r, green: &g, blue: &b, alpha: &a)
         let rgb:Int = (Int)(r*255)<<16 | (Int)(g*255)<<8 | (Int)(b*255)<<0
         return String(format:"#%06x", rgb)
+    }
+}
+
+public class LabelField: NSTextField {
+    public init(frame: NSRect, _ label: String) {
+        super.init(frame: frame)
+        
+        self.isEditable = false
+        self.isSelectable = false
+        self.isBezeled = false
+        self.wantsLayer = true
+        self.backgroundColor = .clear
+        self.canDrawSubviewsIntoLayer = true
+        
+        self.stringValue = label
+        self.textColor = .secondaryLabelColor
+        self.alignment = .natural
+        self.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+public class ValueField: NSTextField {
+    public init(frame: NSRect, _ value: String) {
+        super.init(frame: frame)
+        
+        self.isEditable = false
+        self.isSelectable = false
+        self.isBezeled = false
+        self.wantsLayer = true
+        self.backgroundColor = .clear
+        self.canDrawSubviewsIntoLayer = true
+        
+        self.stringValue = value
+        self.textColor = .textColor
+        self.alignment = .right
+        self.font = NSFont.systemFont(ofSize: 13, weight: .medium)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }

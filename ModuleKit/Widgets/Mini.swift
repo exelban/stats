@@ -107,14 +107,14 @@ public class Mini: Widget {
         
         let view: NSView = NSView(frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin, width: superview.frame.width - (Constants.Settings.margin*2), height: superview.frame.height - (Constants.Settings.margin*2)))
         
-        view.addSubview(self.makeSettingsRow(
+        view.addSubview(ToggleTitleRow(
             frame: NSRect(x: 0, y: rowHeight + Constants.Settings.margin, width: view.frame.width, height: rowHeight),
             title: "Label",
             action: #selector(toggleLabel),
             state: self.labelState
         ))
         
-        view.addSubview(self.makeSettingsRow(
+        view.addSubview(ToggleTitleRow(
             frame: NSRect(x: 0, y: 0, width: view.frame.width, height: rowHeight),
             title: "Colorize",
             action: #selector(toggleColors),

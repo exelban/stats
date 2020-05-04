@@ -36,6 +36,9 @@ open class Module: Module_p {
     public var widget: Widget_p? = nil
     public var settings: Settings_p? = nil
     
+    private var settingsView: Settings_v? = nil
+    private var popup: NSWindow = NSWindow()
+    
     private let log: OSLog
     private var store: UnsafePointer<Store>? = nil
     private var readers: [Reader_p] = []
@@ -48,13 +51,13 @@ open class Module: Module_p {
         set {}
     }
     private var ready: Bool = false
-    private var window: NSWindow = NSWindow()
     
-    public init(store: UnsafePointer<Store>?, name: String, icon: NSImage?, popup: NSView?, defaultWidget: widget_t, widgets: UnsafePointer<[widget_t]>?, defaultState: Bool) {
+    public init(store: UnsafePointer<Store>?, name: String, icon: NSImage?, popup: NSView?, settings: Settings_v?, defaultWidget: widget_t, widgets: UnsafePointer<[widget_t]>?, defaultState: Bool) {
         self.log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: name)
         self.name = name
         self.icon = icon
         self.store = store
+        self.settingsView = settings
         self.defaultWidget = defaultWidget
         self.available = self.isAvailable()
         self.enabled = self.store?.pointee.bool(key: "\(name)_state", defaultValue: defaultState) ?? false
@@ -62,7 +65,13 @@ open class Module: Module_p {
         NotificationCenter.default.addObserver(self, selector: #selector(listenForWidgetSwitch), name: .switchWidget, object: nil)
         
         self.setWidget()
-        self.settings = Settings(title: name, enabled: self.enabled, activeWidget: self.widget, widgets: widgets)
+        self.settings = Settings(title: name, enabled: self.enabled, activeWidget: self.widget, widgets: widgets, moduleSettings: { [weak self] (_ superview: NSView) in
+            if self != nil && self?.settingsView != nil {
+                self!.settingsView!.load(rect: superview.frame, widget: self!.activeWidget)
+                superview.setFrameSize(NSSize(width: superview.frame.width, height: self!.settingsView!.frame.height))
+                superview.addSubview(self!.settingsView!)
+            }
+        })
         self.settings?.toggleCallback = { [weak self] in
             self?.toggleEnabled()
         }
@@ -73,7 +82,7 @@ open class Module: Module_p {
         self.menuBarItem.button?.action = #selector(toggleMenu)
         self.menuBarItem.button?.sendAction(on: [.leftMouseDown, .rightMouseDown])
         
-        self.window = PopupWindow(title: name, view: popup)
+        self.popup = PopupWindow(title: name, view: popup)
     }
     
     open func load() {
@@ -105,7 +114,7 @@ open class Module: Module_p {
         self.store?.pointee.set(key: "\(name)_state", value: false)
         self.readers.forEach{ $0.pause() }
         self.menuBarItem.isVisible = false
-        self.window.setIsVisible(false)
+        self.popup.setIsVisible(false)
         os_log(.debug, log: log, "Module disabled")
     }
     
@@ -143,29 +152,29 @@ open class Module: Module_p {
         let openedWindows = NSApplication.shared.windows.filter{ $0 is NSPanel }
         openedWindows.forEach{ $0.setIsVisible(false) }
         
-        if self.window.occlusionState.rawValue == 8192 {
+        if self.popup.occlusionState.rawValue == 8192 {
             NSApplication.shared.activate(ignoringOtherApps: true)
 
             let buttonOrigin = self.menuBarItem.button?.window?.frame.origin
             let buttonCenter = (self.menuBarItem.button?.window?.frame.width)! / 2
-            let windowCenter = self.window.frame.width / 2
+            let windowCenter = self.popup.frame.width / 2
             
             var x = buttonOrigin!.x - windowCenter + buttonCenter
-            let y = buttonOrigin!.y - self.window.frame.height - 3
+            let y = buttonOrigin!.y - self.popup.frame.height - 3
             
             if let screen = NSScreen.main {
                 let width = screen.frame.size.width
                 
-                if x + self.window.frame.width > width {
-                    x = width - self.window.frame.width
+                if x + self.popup.frame.width > width {
+                    x = width - self.popup.frame.width
                 }
             }
-            if buttonOrigin!.x - self.window.frame.width < 0 {
+            if buttonOrigin!.x - self.popup.frame.width < 0 {
                 x = 0
             }
             
-            self.window.setFrameOrigin(NSPoint(x: x, y: y))
-            self.window.setIsVisible(true)
+            self.popup.setFrameOrigin(NSPoint(x: x, y: y))
+            self.popup.setIsVisible(true)
         }
     }
     

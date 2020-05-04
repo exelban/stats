@@ -85,43 +85,46 @@ public class LineChart: Widget {
             x = letterWidth + (Constants.Widget.margin*3)
         }
         
-        let box = NSBezierPath(roundedRect: NSRect(x: x, y: 0, width: Constants.Widget.width - (Constants.Widget.margin*2), height: self.frame.size.height), xRadius: 2, yRadius: 2)
+        var boxHeight: CGFloat = self.frame.size.height
+        var boxRadius: CGFloat = 2
+        let boxWidth: CGFloat = Constants.Widget.width - (Constants.Widget.margin*2)
         
-        var color = isDarkMode ? NSColor.white : NSColor.black
+        if self.valueState {
+            let style = NSMutableParagraphStyle()
+            style.alignment = .right
+            
+            var color = isDarkMode ? NSColor.white : NSColor.black
+            if self.colorState {
+                color = self.value.usageColor(reversed: false, color: self.colorState)
+            }
+            
+            let stringAttributes = [
+                NSAttributedString.Key.font: NSFont.systemFont(ofSize: 8, weight: .regular),
+                NSAttributedString.Key.foregroundColor: color,
+                NSAttributedString.Key.paragraphStyle: style
+            ]
+            
+            let rect = CGRect(x: x, y: boxHeight-7, width: boxWidth - chartPadding, height: 7)
+            let str = NSAttributedString.init(string: "\(Int((value.rounded(toPlaces: 2)) * 100))%", attributes: stringAttributes)
+            str.draw(with: rect)
+            
+            boxHeight = 9
+            boxRadius = 1
+        }
+        
+        let box = NSBezierPath(roundedRect: NSRect(x: x, y: 0, width: boxWidth, height: boxHeight), xRadius: boxRadius, yRadius: boxRadius)
         if self.boxState {
             NSColor.black.set()
             box.stroke()
             box.fill()
             self.chart.transparent = false
-            color = NSColor.white
             chartPadding = 1
         } else {
             self.chart.transparent = true
         }
         
-        if self.colorState {
-            color = self.value.usageColor(reversed: false, color: self.colorState)
-        }
-        
-        var height = box.bounds.height - chartPadding
-        if self.valueState {
-            let style = NSMutableParagraphStyle()
-            style.alignment = .right
-            let stringAttributes = [
-                NSAttributedString.Key.font: NSFont.systemFont(ofSize: 7, weight: .regular),
-                NSAttributedString.Key.foregroundColor: color,
-                NSAttributedString.Key.paragraphStyle: style
-            ]
-            
-            let rect = CGRect(x: x, y: height-7+chartPadding, width: box.bounds.width - chartPadding, height: 7)
-            let str = NSAttributedString.init(string: "\(Int((value.rounded(toPlaces: 2)) * 100))%", attributes: stringAttributes)
-            str.draw(with: rect)
-            
-            height = 8
-        }
-        
-        chart.setFrameSize(NSSize(width: box.bounds.width - chartPadding, height: height))
-        chart.draw(NSRect(x: box.bounds.origin.x + 1, y: chartPadding, width: box.bounds.width - chartPadding, height: height))
+        chart.setFrameSize(NSSize(width: box.bounds.width - chartPadding, height: box.bounds.height - (chartPadding*2)))
+        chart.draw(NSRect(x: box.bounds.origin.x + 1, y: chartPadding, width: chart.frame.width, height: chart.frame.height))
         
         ctx.restoreGState()
         self.setWidth(width)
@@ -138,28 +141,28 @@ public class LineChart: Widget {
         
         let view: NSView = NSView(frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin, width: superview.frame.width - (Constants.Settings.margin*2), height: superview.frame.height - (Constants.Settings.margin*2)))
         
-        view.addSubview(self.makeSettingsRow(
+        view.addSubview(ToggleTitleRow(
             frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 3, width: view.frame.width, height: rowHeight),
             title: "Label",
             action: #selector(toggleLabel),
             state: self.labelState
         ))
         
-        view.addSubview(self.makeSettingsRow(
+        view.addSubview(ToggleTitleRow(
             frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 2, width: view.frame.width, height: rowHeight),
             title: "Box",
             action: #selector(toggleBox),
             state: self.boxState
         ))
         
-        view.addSubview(self.makeSettingsRow(
+        view.addSubview(ToggleTitleRow(
             frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 1, width: view.frame.width, height: rowHeight),
             title: "Value",
             action: #selector(toggleValue),
             state: self.valueState
         ))
         
-        view.addSubview(self.makeSettingsRow(
+        view.addSubview(ToggleTitleRow(
             frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 0, width: view.frame.width, height: rowHeight),
             title: "Color",
             action: #selector(toggleColor),

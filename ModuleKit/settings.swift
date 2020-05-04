@@ -16,6 +16,10 @@ public protocol Settings_p: NSView {
     func setActiveWidget(_ widget: Widget_p?)
 }
 
+public protocol Settings_v: NSView {
+    func load(rect: NSRect, widget: widget_t)
+}
+
 open class Settings: NSView, Settings_p {
     public var toggleCallback: () -> () = {}
     
@@ -23,27 +27,46 @@ open class Settings: NSView, Settings_p {
     private var widgetSelectorHeight: CGFloat = Constants.Widget.height + (Constants.Settings.margin*2)
     
     private var widgetSettingsView: NSView? = nil
+    private var moduleSettingsView: NSView? = nil
     
     private var title: String
     private var widgets: UnsafePointer<[widget_t]>? = nil
     private var activeWidget: Widget_p? = nil
     
-    init(title: String, enabled: Bool, activeWidget: Widget_p?, widgets: UnsafePointer<[widget_t]>?) {
+    private var moduleSettings: (_ superview: NSView) -> ()
+    
+    init(title: String, enabled: Bool, activeWidget: Widget_p?, widgets: UnsafePointer<[widget_t]>?, moduleSettings: @escaping (_ superview: NSView) -> ()) {
         self.title = title
         self.widgets = widgets
         self.activeWidget = activeWidget
+        self.moduleSettings = moduleSettings
         super.init(frame: NSRect(x: 0, y: 0, width: Constants.Settings.width, height: Constants.Settings.height))
         self.wantsLayer = true
         self.layer?.backgroundColor = NSColor(hexString: "#e7e7e7").cgColor
         
-        header(self.title, state: enabled)
-        widgetSelector()
-        widgetSettings()
+        addHeader(self.title, state: enabled)
+        addWidgetSelector()
+        addWidgetSettings()
+        addModuleSettings()
     }
     
-    private func widgetSettings() {
-        self.subviews.first{ $0 == self.widgetSettingsView }?.removeFromSuperview()
+    private func addModuleSettings() {
+        let y: CGFloat = self.frame.height - headerHeight - widgetSelectorHeight - (self.widgetSettingsView?.frame.height ?? 0)
+        let view: NSView = NSView(frame: NSRect(x: Constants.Settings.margin, y: y - (Constants.Settings.margin*3), width: self.frame.width - (Constants.Settings.margin*2), height: 0))
+        view.wantsLayer = true
+        view.layer?.backgroundColor = .white
+        view.layer!.cornerRadius = 3
         
+        self.moduleSettings(view)
+        
+        if view.frame.height != 0 {
+            view.setFrameOrigin(NSPoint(x: view.frame.origin.x, y: view.frame.origin.y - view.frame.height))
+            self.addSubview(view)
+            self.moduleSettingsView = view
+        }
+    }
+    
+    private func addWidgetSettings() {
         if self.activeWidget == nil {
             return
         }
@@ -62,7 +85,7 @@ open class Settings: NSView, Settings_p {
         }
     }
     
-    private func widgetSelector() {
+    private func addWidgetSelector() {
         if self.widgets == nil || self.widgets?.pointee.count == 0 {
             self.widgetSelectorHeight = 0
             return
@@ -92,7 +115,7 @@ open class Settings: NSView, Settings_p {
         self.addSubview(view)
     }
     
-    private func header(_ title: String, state: Bool) {
+    private func addHeader(_ title: String, state: Bool) {
         let view: NSView = NSView(frame: NSRect(x: 0, y: self.frame.height - self.headerHeight, width: self.frame.width, height: self.headerHeight))
         view.wantsLayer = true
         
@@ -145,7 +168,10 @@ open class Settings: NSView, Settings_p {
     
     public func setActiveWidget(_ widget: Widget_p?) {
         self.activeWidget = widget
-        self.widgetSettings()
+        
+        self.subviews.filter{ $0 == self.widgetSettingsView || $0 == self.moduleSettingsView }.forEach{ $0.removeFromSuperview() }
+        self.addWidgetSettings()
+        self.addModuleSettings()
     }
     
     required public init?(coder: NSCoder) {

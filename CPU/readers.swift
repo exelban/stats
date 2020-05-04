@@ -10,9 +10,12 @@
 //
 
 import Cocoa
+import StatsKit
 import ModuleKit
 
 public class LoadReader: Reader<CPULoad> {
+    public var store: UnsafePointer<Store>? = nil
+    
     private var cpuInfo: processor_info_array_t!
     private var prevCpuInfo: processor_info_array_t?
     private var numCpuInfo: mach_msg_type_number_t = 0
@@ -27,6 +30,7 @@ public class LoadReader: Reader<CPULoad> {
     private var usagePerCore: [Double] = []
     
     public override func setup() {
+        self.interval = 1500
         let mibKeys: [Int32] = [ CTL_HW, HW_NCPU ]
         
         mibKeys.withUnsafeBufferPointer() { mib in
@@ -43,12 +47,17 @@ public class LoadReader: Reader<CPULoad> {
         
         if self.result == KERN_SUCCESS {
             self.CPUUsageLock.lock()
-
+            
             var inUseOnAllCores: Int32 = 0
             var totalOnAllCores: Int32 = 0
             self.usagePerCore = []
-
-            for i in stride(from: 0, to: Int32(self.numCPUs), by: 2) {
+            
+            var devider = 2
+            if self.store?.pointee.bool(key: "CPU_multithread", defaultValue: false) ?? false {
+                devider = 1
+            }
+            
+            for i in stride(from: 0, to: Int32(self.numCPUs), by: devider) {
                 var inUse: Int32
                 var total: Int32
                 if let prevCpuInfo = self.prevCpuInfo {
@@ -75,7 +84,6 @@ public class LoadReader: Reader<CPULoad> {
             }
             
             self.CPUUsageLock.unlock()
-
             if let prevCpuInfo = self.prevCpuInfo {
                 let prevCpuInfoSize: size_t = MemoryLayout<integer_t>.stride * Int(self.numPrevCpuInfo)
                 vm_deallocate(mach_task_self_, vm_address_t(bitPattern: prevCpuInfo), vm_size_t(prevCpuInfoSize))
@@ -86,14 +94,9 @@ public class LoadReader: Reader<CPULoad> {
             self.cpuInfo = nil
             self.numCpuInfo = 0
             
-            let totalUsage = Double(inUseOnAllCores) / Double(totalOnAllCores)
-            if !totalUsage.isNaN {
-                self.response.totalUsage = Double(inUseOnAllCores) / Double(totalOnAllCores)
-            }
             self.response.usagePerCore = self.usagePerCore
         } else {
             print("ERROR host_processor_info(): " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
-            return
         }
         
         let cpuInfo = hostCPULoadInfo()
@@ -122,6 +125,7 @@ public class LoadReader: Reader<CPULoad> {
             self.response.idleLoad = idle
         }
         self.previousInfo = cpuInfo!
+        self.response.totalUsage = self.response.systemLoad + self.response.userLoad
         
         self.callback(self.response)
     }

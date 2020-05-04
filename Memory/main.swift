@@ -32,13 +32,22 @@ public struct MemoryUsage: value_t {
 }
 
 public class Memory: Module {
-    private let popup: Popup = Popup()
+    private let popupView: Popup = Popup()
     
     private var usageReader: UsageReader = UsageReader()
     
     public init(_ store: UnsafePointer<Store>?) {
         var widgets: [widget_t] = [.mini, .lineChart, .barChart]
-        super.init(store: store, name: "RAM", icon: nil, popup: self.popup, defaultWidget: .mini, widgets: &widgets, defaultState: true)
+        super.init(
+            store: store,
+            name: "RAM",
+            icon: nil,
+            popup: self.popupView,
+            settings: nil,
+            defaultWidget: .mini,
+            widgets: &widgets,
+            defaultState: true
+        )
         
         self.usageReader.readyCallback = { [unowned self] in
             self.readyHandler()
@@ -55,7 +64,7 @@ public class Memory: Module {
             return
         }
         
-        self.popup.loadCallback(value!)
+        self.popupView.loadCallback(value!)
         if let widget = self.widget as? Mini {
             widget.setValue(value!.usage ?? 0, sufix: "%")
         }

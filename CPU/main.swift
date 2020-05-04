@@ -32,20 +32,25 @@ public struct TopProcess {
 }
 
 public class CPU: Module {
-    private var loadReader: LoadReader = LoadReader()
+    private let popupView: Popup = Popup()
+    private var settingsView: Settings
     
-    private let popup: Popup = Popup()
+    private var loadReader: LoadReader = LoadReader()
     private let smc: UnsafePointer<SMCService>?
     
     public init(_ store: UnsafePointer<Store>, _ smc: UnsafePointer<SMCService>) {
         var widgets: [widget_t] = [.mini, .lineChart, .barChart]
         PG_start()
         self.smc = smc
+        self.settingsView = Settings("CPU", store: store)
+        self.loadReader.store = store
+        
         super.init(
             store: store,
             name: "CPU",
             icon: nil,
-            popup: self.popup,
+            popup: self.popupView,
+            settings: self.settingsView,
             defaultWidget: .mini,
             widgets: &widgets,
             defaultState: true
@@ -71,7 +76,7 @@ public class CPU: Module {
         if let readFrequency = PG_getCPUFrequency() {
             frequency = readFrequency.pointee
         }
-        self.popup.loadCallback(value!, freqValue: frequency, tempValue: temperature)
+        self.popupView.loadCallback(value!, freqValue: frequency, tempValue: temperature)
         
         if let widget = self.widget as? Mini {
             widget.setValue(value!.totalUsage, sufix: "%")

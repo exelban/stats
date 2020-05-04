@@ -64,40 +64,6 @@ open class Widget: NSView, Widget_p {
     
     open func settings(superview: NSView) {}
     open func setValues(_ values: [value_t]) {}
-    
-    internal func makeSettingsRow(frame: NSRect, title: String, action: Selector, state: Bool) -> NSView {
-        let row: NSView = NSView(frame: frame)
-        let state: NSControl.StateValue = state ? .on : .off
-        
-        let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: (row.frame.height - 16)/2, width: row.frame.width - 52, height: 17), title)
-        rowTitle.font = NSFont.systemFont(ofSize: 13, weight: .light)
-        rowTitle.textColor = .labelColor
-        
-        var toggle: NSControl = NSControl()
-        if #available(OSX 10.15, *) {
-            let switchButton = NSSwitch(frame: NSRect(x: row.frame.width - 50, y: 0, width: 50, height: row.frame.height))
-            switchButton.state = state
-            switchButton.action = action
-            switchButton.target = self
-
-            toggle = switchButton
-        } else {
-            let button: NSButton = NSButton(frame: NSRect(x: row.frame.width - 30, y: 0, width: 30, height: row.frame.height))
-            button.setButtonType(.switch)
-            button.state = state
-            button.title = ""
-            button.action = action
-            button.isBordered = false
-            button.isTransparent = true
-            
-            toggle = button
-        }
-
-        row.addSubview(toggle)
-        row.addSubview(rowTitle)
-        
-        return row
-    }
 }
 
 func LoadWidget(_ type: widget_t, preview: Bool, title: String, store: UnsafePointer<Store>?) -> Widget_p? {
