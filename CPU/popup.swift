@@ -19,7 +19,6 @@ public class Popup: NSView {
     private let thirdHeight: CGFloat = 136 // -26
     
     private var loadField: NSTextField? = nil
-    private var frequencyField: NSTextField? = nil
     private var temperatureField: NSTextField? = nil
     
     private var systemField: NSTextField? = nil
@@ -80,9 +79,8 @@ public class Popup: NSView {
         leftPanel.addSubview(self.chart!)
         
         let rightPanel: NSView = NSView(frame: NSRect(x: view.frame.width - rightWidth, y: 0, width: rightWidth, height: view.frame.height))
-        self.loadField = addFirstRow(mView: rightPanel, y: ((rightPanel.frame.height - 16)/2)+20, title: "Load:", value: "")
-        self.frequencyField = addFirstRow(mView: rightPanel, y: (rightPanel.frame.height - 16)/2, title: "Frequency:", value: "")
-        self.temperatureField = addFirstRow(mView: rightPanel, y: ((rightPanel.frame.height - 16)/2)-20, title: "Temperature:", value: "")
+        self.loadField = addFirstRow(mView: rightPanel, y: ((rightPanel.frame.height - 16)/2)+9, title: "Load:", value: "")
+        self.temperatureField = addFirstRow(mView: rightPanel, y: ((rightPanel.frame.height - 16)/2)-9, title: "Temperature:", value: "")
         
         view.addSubview(leftPanel)
         view.addSubview(rightPanel)
@@ -138,8 +136,7 @@ public class Popup: NSView {
         return valueView
     }
     
-    public func loadCallback(_ value: CPULoad, freqValue: Double?, tempValue: Double?) {
-        var frequency: String = "0 GHz"
+    public func loadCallback(_ value: CPULoad, tempValue: Double?) {
         var temperature: String = "Unknown"
         
         DispatchQueue.main.async(execute: {
@@ -150,11 +147,6 @@ public class Popup: NSView {
                     temperature = formatter.string(from: measurement)
                 }
                 
-                if freqValue != nil {
-                    frequency = "\((freqValue!/1000).rounded(toPlaces: 2))GHz"
-                }
-                
-                self.frequencyField?.stringValue = frequency
                 self.temperatureField?.stringValue = temperature
                     
                 self.systemField?.stringValue = "\(Int(value.systemLoad.rounded(toPlaces: 2) * 100))%"

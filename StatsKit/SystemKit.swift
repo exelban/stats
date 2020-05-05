@@ -82,7 +82,7 @@ public class SystemKit {
             if let modelInfo = deviceDict[modelName] {
                 self.device.model = modelInfo
             } else {
-                os_log(.error, log: self.log, "unknown device %v", modelName)
+                os_log(.error, log: self.log, "unknown device %s", modelName)
             }
         }
 

@@ -12,6 +12,4 @@
 #ifndef CPU_h
 #define CPU_h
 
-#include "IntelPowerGadget.h"
-
 #endif /* CPU_h */

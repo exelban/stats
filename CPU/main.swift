@@ -44,8 +44,6 @@ public class CPU: Module {
         self.settingsView = Settings("CPU", store: store)
         self.loadReader.store = store
         
-        PG_start()
-        
         super.init(
             store: store,
             name: "CPU",
@@ -67,21 +65,13 @@ public class CPU: Module {
         self.addReader(self.loadReader)
     }
     
-    public override func willTerminate() {
-        PG_stop()
-    }
-    
     private func loadCallback(_ value: CPULoad?) {
         if value == nil {
             return
         }
         
         let temperature = self.smc?.pointee.getValue("TC0F") ?? self.smc?.pointee.getValue("TC0P") ?? self.smc?.pointee.getValue("TC0H")
-        var frequency: Double? = nil
-        if let readFrequency = PG_getCPUFrequency() {
-            frequency = readFrequency.pointee
-        }
-        self.popupView.loadCallback(value!, freqValue: frequency, tempValue: temperature)
+        self.popupView.loadCallback(value!, tempValue: temperature)
         
         if let widget = self.widget as? Mini {
             widget.setValue(value!.totalUsage, sufix: "%")
