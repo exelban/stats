@@ -8,16 +8,17 @@
 
 import Cocoa
 import os.log
+import StatsKit
 import ModuleKit
 import CPU
 import Memory
-import StatsKit
+import Disk
 
 var store: Store = Store()
 let updater = macAppUpdater(user: "exelban", repo: "stats")
 let systemKit: SystemKit = SystemKit()
 var smc: SMCService = SMCService()
-var modules: [Module] = [CPU(&store, &smc), Memory(&store)]
+var modules: [Module] = [CPU(&store, &smc), Memory(&store), Disk(&store)]
 
 class AppDelegate: NSObject, NSApplicationDelegate {
     private let log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: "Stats")

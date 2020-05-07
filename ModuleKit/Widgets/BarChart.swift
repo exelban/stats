@@ -19,11 +19,23 @@ public class BarChart: Widget {
     private let store: UnsafePointer<Store>?
     private var value: [Double] = []
     
-    public init(preview: Bool, title: String, store: UnsafePointer<Store>?) {
+    public init(preview: Bool, title: String, config: NSDictionary?, store: UnsafePointer<Store>?) {
+        var widgetTitle: String = title
         self.store = store
+        if config != nil {
+            if let titleFromConfig = config!["Title"] as? String {
+                widgetTitle = titleFromConfig
+            }
+            if let label = config!["Label"] as? Bool {
+                self.labelState = label
+            }
+            if let box = config!["Box"] as? Bool {
+                self.boxState = box
+            }
+        }
         super.init(frame: CGRect(x: 0, y: Constants.Widget.margin, width: Constants.Widget.width, height: Constants.Widget.height - (2*Constants.Widget.margin)))
         self.preview = preview
-        self.title = title
+        self.title = widgetTitle
         self.type = .barChart
         self.canDrawConcurrently = true
         
@@ -77,7 +89,7 @@ public class BarChart: Widget {
         }
         
         switch self.value.count {
-        case 1:
+        case 0, 1:
             width += 14
             break
         case 2:
@@ -123,7 +135,7 @@ public class BarChart: Widget {
         for i in 0..<self.value.count {
             let partitionValue = self.value[i]
             let partitonHeight = maxPartitionHeight * CGFloat(partitionValue)
-            let partition = NSBezierPath(rect: NSRect(x: x, y: chartPadding, width: partitionWidth, height: partitonHeight))
+            let partition = NSBezierPath(rect: NSRect(x: x-0.1, y: chartPadding, width: partitionWidth, height: partitonHeight))
             gradientColor.setFill()
             partition.fill()
             partition.close()

@@ -22,8 +22,22 @@ public class LineChart: Widget {
     private var chart: LineChartView
     private var value: Double = 0
     
-    public init(preview: Bool, title: String, store: UnsafePointer<Store>?) {
+    public init(preview: Bool, title: String, config: NSDictionary?, store: UnsafePointer<Store>?) {
         self.store = store
+        if config != nil {
+            if let label = config!["Label"] as? Bool {
+                self.labelState = label
+            }
+            if let box = config!["Box"] as? Bool {
+                self.boxState = box
+            }
+            if let value = config!["Value"] as? Bool {
+                self.valueState = value
+            }
+            if let color = config!["Color"] as? Bool {
+                self.colorState = color
+            }
+        }
         self.chart = LineChartView(frame: NSRect(x: 0, y: 0, width: Constants.Widget.width, height: Constants.Widget.height - (2*Constants.Widget.margin)), num: 60)
         super.init(frame: CGRect(x: 0, y: Constants.Widget.margin, width: Constants.Widget.width, height: Constants.Widget.height - (2*Constants.Widget.margin)))
         self.preview = preview

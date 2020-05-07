@@ -33,20 +33,14 @@ public struct MemoryUsage: value_t {
 
 public class Memory: Module {
     private let popupView: Popup = Popup()
-    
     private var usageReader: UsageReader = UsageReader()
     
     public init(_ store: UnsafePointer<Store>?) {
-        var widgets: [widget_t] = [.mini, .lineChart, .barChart]
         super.init(
             store: store,
-            name: "RAM",
             icon: nil,
             popup: self.popupView,
-            settings: nil,
-            defaultWidget: .mini,
-            widgets: &widgets,
-            defaultState: true
+            settings: nil
         )
         
         self.usageReader.readyCallback = { [unowned self] in

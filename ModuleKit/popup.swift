@@ -116,7 +116,9 @@ class PopupView: NSView {
         self.headerView?.setFrameOrigin(NSPoint(x: 0, y: self.frame.height - Constants.Popup.headerHeight))
     }
     
-    open func appear() {}
+    open func appear() {
+        self.display()
+    }
     open func disappear() {}
 }
 

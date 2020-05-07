@@ -160,7 +160,7 @@ class SettingsView: NSView {
     public func setModules(_ list: UnsafeMutablePointer<[Module]>) {
         list.pointee.forEach { (m: Module) in
             let n: Int = (self.navigationView?.subviews.count ?? 2)!-1
-            let menu: NSView = MenuView(n: n, icon: m.icon, title: m.name)
+            let menu: NSView = MenuView(n: n, icon: m.config.icon, title: m.config.name)
             self.navigationView?.addSubview(menu)
         }
         self.modules = list
@@ -171,7 +171,7 @@ class SettingsView: NSView {
         if let title = notification.userInfo?["module"] as? String {
             var view: NSView = self.applicationSettings
             
-            let detectedModule = self.modules?.pointee.first{ $0.name == title }
+            let detectedModule = self.modules?.pointee.first{ $0.config.name == title }
             if detectedModule != nil {
                 if let v = detectedModule?.settings {
                     view = v

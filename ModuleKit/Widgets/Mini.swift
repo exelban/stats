@@ -13,8 +13,8 @@ import Cocoa
 import StatsKit
 
 public class Mini: Widget {
-    public var valueView: NSTextField = NSTextField()
-    public var labelView: NSTextField = NSTextField()
+    private var valueView: NSTextField = NSTextField()
+    private var labelView: NSTextField = NSTextField()
     
     public var colorState: Bool = true
     public var labelState: Bool = true
@@ -23,8 +23,16 @@ public class Mini: Widget {
     private var value: Double = 0
     private let store: UnsafePointer<Store>?
     
-    public init(preview: Bool, title: String, store: UnsafePointer<Store>?) {
+    public init(preview: Bool, title: String, config: NSDictionary?, store: UnsafePointer<Store>?) {
         self.store = store
+        if config != nil {
+            if let label = config!["Label"] as? Bool {
+                self.labelState = label
+            }
+            if let color = config!["Color"] as? Bool {
+                self.colorState = color
+            }
+        }
         super.init(frame: CGRect(x: 0, y: Constants.Widget.margin, width: Constants.Widget.width, height: Constants.Widget.height - (2*Constants.Widget.margin)))
         self.title = title
         self.type = .mini

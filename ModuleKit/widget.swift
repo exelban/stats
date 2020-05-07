@@ -66,18 +66,20 @@ open class Widget: NSView, Widget_p {
     open func setValues(_ values: [value_t]) {}
 }
 
-func LoadWidget(_ type: widget_t, preview: Bool, title: String, store: UnsafePointer<Store>?) -> Widget_p? {
+func LoadWidget(_ type: widget_t, preview: Bool, title: String, config: NSDictionary?, store: UnsafePointer<Store>?) -> Widget_p? {
     var widget: Widget_p? = nil
+
+    let widgetConfig: NSDictionary? = config?[type.rawValue] as? NSDictionary
     
     switch type {
     case .mini:
-        widget = Mini(preview: preview, title: title, store: store)
+        widget = Mini(preview: preview, title: title, config: widgetConfig, store: store)
         break
     case .lineChart:
-        widget = LineChart(preview: preview, title: title, store: store)
+        widget = LineChart(preview: preview, title: title, config: widgetConfig, store: store)
         break
     case .barChart:
-        widget = BarChart(preview: preview, title: title, store: store)
+        widget = BarChart(preview: preview, title: title, config: widgetConfig, store: store)
         break
     default: break
     }

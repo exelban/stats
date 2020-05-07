@@ -39,20 +39,15 @@ public class CPU: Module {
     private let smc: UnsafePointer<SMCService>?
     
     public init(_ store: UnsafePointer<Store>, _ smc: UnsafePointer<SMCService>) {
-        var widgets: [widget_t] = [.mini, .lineChart, .barChart]
         self.smc = smc
         self.settingsView = Settings("CPU", store: store)
         self.loadReader.store = store
         
         super.init(
             store: store,
-            name: "CPU",
             icon: nil,
             popup: self.popupView,
-            settings: self.settingsView,
-            defaultWidget: .mini,
-            widgets: &widgets,
-            defaultState: true
+            settings: self.settingsView
         )
         
         self.loadReader.readyCallback = { [unowned self] in

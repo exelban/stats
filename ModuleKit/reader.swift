@@ -53,11 +53,10 @@ open class Reader<T>: ReaderInternal_p {
     private var nilCallbackCounter: Int = 0
     private var ready: Bool = false
     
-    private var history: [T]?
+    private var history: [T]? = []
     
     public init() {
         self.log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: "\(T.self)")
-        self.history = []
         
         self.setup()
         

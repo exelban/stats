@@ -57,6 +57,8 @@ open class Settings: NSView, Settings_p {
         view.layer?.backgroundColor = .white
         view.layer!.cornerRadius = 3
         
+        self.appearance = NSAppearance(named: .aqua)
+        
         self.moduleSettings(view)
         
         if view.frame.height != 0 {
@@ -96,11 +98,10 @@ open class Settings: NSView, Settings_p {
         view.layer?.backgroundColor = .white
         view.layer!.cornerRadius = 3
         
-        self.appearance = NSAppearance(named: .aqua)
         var x: CGFloat = Constants.Settings.margin
         for i in 0...(self.widgets?.pointee.count ?? 1) - 1 {
             if let widgetType = self.widgets?.pointee[i] {
-                if let widget = LoadWidget(widgetType, preview: true, title: self.title, store: nil) {
+                if let widget = LoadWidget(widgetType, preview: true, title: self.title, config: nil, store: nil) {
                     view.addSubview(WidgetPreview(
                         frame: NSRect(x: x, y: Constants.Settings.margin, width: widget.frame.width, height: self.widgetSelectorHeight - (Constants.Settings.margin*2)),
                         title: self.title,
