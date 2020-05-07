@@ -15,6 +15,7 @@ import StatsKit
 public class BarChart: Widget {
     private var labelState: Bool = true
     private var boxState: Bool = true
+    private var colorState: Bool = false
     
     private let store: UnsafePointer<Store>?
     private var value: [Double] = []
@@ -32,6 +33,9 @@ public class BarChart: Widget {
             if let box = config!["Box"] as? Bool {
                 self.boxState = box
             }
+            if let color = config!["Color"] as? Bool {
+                self.colorState = color
+            }
         }
         super.init(frame: CGRect(x: 0, y: Constants.Widget.margin, width: Constants.Widget.width, height: Constants.Widget.height - (2*Constants.Widget.margin)))
         self.preview = preview
@@ -42,6 +46,7 @@ public class BarChart: Widget {
         if self.store != nil && !preview {
             self.boxState = store!.pointee.bool(key: "\(self.title)_\(self.type.rawValue)_box", defaultValue: self.boxState)
             self.labelState = store!.pointee.bool(key: "\(self.title)_\(self.type.rawValue)_label", defaultValue: self.labelState)
+            self.colorState = store!.pointee.bool(key: "\(self.title)_\(self.type.rawValue)_color", defaultValue: self.colorState)
         }
         
         if preview {
@@ -125,6 +130,13 @@ public class BarChart: Widget {
             gradientColor = NSColor(hexString: "#5c91f4")
         }
         
+        if self.colorState {
+            let newGradientColor = self.value[0].usageColor(color: self.colorState)
+            if newGradientColor != NSColor.systemGreen {
+                gradientColor = newGradientColor
+            }
+        }
+        
         let widthForBarChart = box.bounds.width - chartPadding
         let partitionMargin: CGFloat = 0.5
         let partitionsMargin: CGFloat = (CGFloat(self.value.count - 1)) * partitionMargin / CGFloat(self.value.count - 1)
@@ -135,7 +147,7 @@ public class BarChart: Widget {
         for i in 0..<self.value.count {
             let partitionValue = self.value[i]
             let partitonHeight = maxPartitionHeight * CGFloat(partitionValue)
-            let partition = NSBezierPath(rect: NSRect(x: x-0.1, y: chartPadding, width: partitionWidth, height: partitonHeight))
+            let partition = NSBezierPath(rect: NSRect(x: x, y: chartPadding, width: partitionWidth, height: partitonHeight))
             gradientColor.setFill()
             partition.fill()
             partition.close()
@@ -156,23 +168,30 @@ public class BarChart: Widget {
     
     public override func settings(superview: NSView) {
         let rowHeight: CGFloat = 30
-        let height: CGFloat = ((rowHeight + Constants.Settings.margin) * 2) + Constants.Settings.margin
+        let height: CGFloat = ((rowHeight + Constants.Settings.margin) * 3) + Constants.Settings.margin
         superview.setFrameSize(NSSize(width: superview.frame.width, height: height))
         
         let view: NSView = NSView(frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin, width: superview.frame.width - (Constants.Settings.margin*2), height: superview.frame.height - (Constants.Settings.margin*2)))
         
         view.addSubview(ToggleTitleRow(
-            frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 1, width: view.frame.width, height: rowHeight),
+            frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 2, width: view.frame.width, height: rowHeight),
             title: "Label",
             action: #selector(toggleLabel),
             state: self.labelState
         ))
         
         view.addSubview(ToggleTitleRow(
-            frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 0, width: view.frame.width, height: rowHeight),
+            frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 1, width: view.frame.width, height: rowHeight),
             title: "Box",
             action: #selector(toggleBox),
             state: self.boxState
+        ))
+        
+        view.addSubview(ToggleTitleRow(
+            frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 0, width: view.frame.width, height: rowHeight),
+            title: "Colorize",
+            action: #selector(toggleColor),
+            state: self.colorState
         ))
         
         superview.addSubview(view)
@@ -200,5 +219,16 @@ public class BarChart: Widget {
         self.boxState = state! == .on ? true : false
         self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_box", value: self.boxState)
         self.display()
+    }
+    
+    @objc private func toggleColor(_ sender: NSControl) {
+        var state: NSControl.StateValue? = nil
+        if #available(OSX 10.15, *) {
+            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
+        } else {
+            state = sender is NSButton ? (sender as! NSButton).state: nil
+        }
+        self.colorState = state! == .on ? true : false
+        self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_color", value: self.colorState)
     }
 }

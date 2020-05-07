@@ -23,6 +23,8 @@
 			<false/>
 			<key>Title</key>
 			<string>SSD</string>
+			<key>Color</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>

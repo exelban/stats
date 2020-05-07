@@ -22,6 +22,8 @@
 		<dict>
 			<key>Default</key>
 			<false/>
+			<key>Color</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>

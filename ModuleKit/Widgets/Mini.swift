@@ -125,14 +125,14 @@ public class Mini: Widget {
         view.addSubview(ToggleTitleRow(
             frame: NSRect(x: 0, y: 0, width: view.frame.width, height: rowHeight),
             title: "Colorize",
-            action: #selector(toggleColors),
+            action: #selector(toggleColor),
             state: self.colorState
         ))
         
         superview.addSubview(view)
     }
     
-    @objc func toggleColors(_ sender: NSControl) {
+    @objc private func toggleColor(_ sender: NSControl) {
         var state: NSControl.StateValue? = nil
         if #available(OSX 10.15, *) {
             state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
@@ -144,7 +144,7 @@ public class Mini: Widget {
         self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_color", value: self.colorState)
     }
     
-    @objc func toggleLabel(_ sender: NSControl) {
+    @objc private func toggleLabel(_ sender: NSControl) {
         var state: NSControl.StateValue? = nil
         if #available(OSX 10.15, *) {
             state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
