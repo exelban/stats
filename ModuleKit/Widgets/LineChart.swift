@@ -178,7 +178,7 @@ public class LineChart: Widget {
         
         view.addSubview(ToggleTitleRow(
             frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 0, width: view.frame.width, height: rowHeight),
-            title: "Color",
+            title: "Colorize",
             action: #selector(toggleColor),
             state: self.colorState
         ))

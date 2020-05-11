@@ -81,13 +81,11 @@ class PopupView: NSView {
         super.init(frame: CGRect(x: frame.origin.x, y: frame.origin.y, width: frame.width, height: frame.height))
         self.wantsLayer = true
         self.canDrawConcurrently = true
-        
         self.layer!.cornerRadius = 3
-        self.layer!.backgroundColor = self.isDarkMode ? NSColor.windowBackgroundColor.cgColor : NSColor.white.cgColor
         
         self.headerView = HeaderView(frame: NSRect(x: 0, y: frame.height - Constants.Popup.headerHeight, width: frame.width, height: Constants.Popup.headerHeight))
         
-        let mainView: NSView = NSView(frame: NSRect(x: Constants.Popup.margins, y: 0, width: frame.width - (Constants.Popup.margins*2), height: Constants.Popup.height - Constants.Popup.margins))
+        let mainView: NSView = NSView(frame: NSRect(x: Constants.Popup.margins, y: Constants.Popup.margins, width: frame.width - (Constants.Popup.margins*2), height: Constants.Popup.height - (Constants.Popup.margins*2)))
         
         self.addSubview(self.headerView!)
         self.addSubview(mainView)
@@ -111,8 +109,12 @@ class PopupView: NSView {
         }
         
         self.mainView?.addSubview(view!)
-        self.mainView?.setFrameSize(NSSize(width: view!.frame.width + (Constants.Popup.margins*2), height: view!.frame.height))
-        self.setFrameSize(NSSize(width: view!.frame.width + (Constants.Popup.margins*2), height: view!.frame.height + Constants.Popup.headerHeight + Constants.Popup.margins))
+        self.setHeight(view!.frame.size)
+    }
+    
+    private func setHeight(_ size: CGSize) {
+        self.mainView?.setFrameSize(NSSize(width: self.mainView!.frame.width, height: size.height))
+        self.setFrameSize(NSSize(width: size.width + (Constants.Popup.margins*2), height: size.height + Constants.Popup.headerHeight + Constants.Popup.margins*2))
         self.headerView?.setFrameOrigin(NSPoint(x: 0, y: self.frame.height - Constants.Popup.headerHeight))
     }
     

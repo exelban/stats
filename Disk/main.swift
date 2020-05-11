@@ -14,8 +14,6 @@ import StatsKit
 import ModuleKit
 
 struct diskInfo {
-    var ID: String = ""
-    
     var name: String = ""
     var model: String = ""
     var path: URL?
@@ -64,6 +62,7 @@ struct DiskList: value_t {
 }
 
 public class Disk: Module {
+    private let popupView: Popup = Popup()
     private var capacityReader: CapacityReader = CapacityReader()
     private var selectedDisk: String = ""
     
@@ -71,7 +70,7 @@ public class Disk: Module {
         super.init(
             store: store,
             icon: nil,
-            popup: nil,
+            popup: self.popupView,
             settings: nil
         )
         self.selectedDisk = store!.pointee.string(key: "\(self.config.name)_disk", defaultValue: self.selectedDisk)
@@ -90,6 +89,7 @@ public class Disk: Module {
         if value == nil {
             return
         }
+        self.popupView.usageCallback(value!)
         
         var d: diskInfo? = value!.getDiskByBSDName(self.selectedDisk)
         if d == nil {

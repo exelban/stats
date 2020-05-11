@@ -1,0 +1,138 @@
+//
+//  popup.swift
+//  Disk
+//
+//  Created by Serhiy Mytrovtsiy on 11/05/2020.
+//  Using Swift 5.0.
+//  Running on macOS 10.15.
+//
+//  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
+//
+
+import Cocoa
+import ModuleKit
+import StatsKit
+
+public class Popup: NSView {
+    let diskFullHeight: CGFloat = 60
+    var list: [String: DiskView] = [:]
+    
+    public init() {
+        super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: ((self.diskFullHeight + Constants.Popup.margins) * 4) - Constants.Popup.margins))
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    internal func usageCallback(_ value: DiskList) {
+        value.list.reversed().forEach { (d: diskInfo) in
+            if self.list[d.name] == nil {
+                self.list[d.name] = DiskView(
+                    NSRect(x: 0, y: (self.diskFullHeight + Constants.Popup.margins) * CGFloat(self.list.count), width: self.frame.width, height: self.diskFullHeight),
+                    name: d.name,
+                    size: d.totalSize,
+                    free: d.freeSize
+                )
+                self.addSubview(self.list[d.name]!)
+
+                DispatchQueue.main.async(execute: {
+                    self.setFrameSize(NSSize(width: self.frame.width, height: ((self.diskFullHeight + Constants.Popup.margins) * CGFloat(self.list.count)) - Constants.Popup.margins))
+                })
+            } else {
+                self.list[d.name]?.update(free: d.freeSize)
+            }
+        }
+    }
+}
+
+internal class DiskView: NSView {
+    public let name: String
+    public let size: Int64
+    
+    private let nameHeight: CGFloat = 20
+    private let legendHeight: CGFloat = 11
+    private let barHeight: CGFloat = 10
+    
+    private var legendField: NSTextField? = nil
+    private var usedBarSpace: NSView? = nil
+    
+    private var mainView: NSView
+    
+    public init(_ frame: NSRect, name: String, size: Int64, free: Int64) {
+        self.mainView = NSView(frame: NSRect(x: 5, y: 5, width: frame.width - 10, height: frame.height - 10))
+        self.name = name
+        self.size = size
+        super.init(frame: frame)
+        
+        self.wantsLayer = true
+        self.layer?.cornerRadius = 2
+        
+        self.addName()
+        self.addLegend(free: free)
+        self.addHorizontalBar(free: free)
+        
+        self.addSubview(self.mainView)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func updateLayer() {
+        self.layer?.backgroundColor = isDarkMode ? NSColor(hexString: "#111111", alpha: 0.25).cgColor : NSColor(hexString: "#f5f5f5", alpha: 1).cgColor
+    }
+    
+    private func addName() {
+        let view: NSView = NSView(frame: NSRect(x: 0, y: self.mainView.frame.height - nameHeight, width: self.mainView.frame.width, height: nameHeight))
+        
+        let nameField: NSTextField = TextView(frame: NSRect(x: 0, y: 0, width: self.mainView.frame.width, height: view.frame.height))
+        nameField.stringValue = self.name
+        
+        view.addSubview(nameField)
+        self.mainView.addSubview(view)
+    }
+    
+    private func addLegend(free: Int64) {
+        let view: NSView = NSView(frame: NSRect(x: 0, y: self.mainView.frame.height - self.nameHeight - 8, width: self.mainView.frame.width, height: self.legendHeight))
+        
+        self.legendField = TextView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height))
+        self.legendField?.font = NSFont.systemFont(ofSize: 11, weight: .light)
+        self.legendField?.stringValue = "Used \(Units(bytes: (self.size - free)).getReadableMemory()) from \(Units(bytes: self.size).getReadableMemory())"
+        
+        view.addSubview(self.legendField!)
+        self.mainView.addSubview(view)
+    }
+    
+    private func addHorizontalBar(free: Int64) {
+        let view: NSView = NSView(frame: NSRect(x: 1, y: 3, width: self.mainView.frame.width - 2, height: self.barHeight))
+        view.wantsLayer = true
+        view.layer?.backgroundColor = NSColor.white.cgColor
+        view.layer?.borderColor = NSColor.secondaryLabelColor.cgColor
+        view.layer?.borderWidth = 0.25
+        view.layer?.cornerRadius = 3
+        
+        let percentage = CGFloat(self.size - free) / CGFloat(self.size)
+        let width: CGFloat = (view.frame.width * percentage) / 1
+        self.usedBarSpace = NSView(frame: NSRect(x: 0, y: 0, width: width, height: view.frame.height))
+        self.usedBarSpace?.wantsLayer = true
+        self.usedBarSpace?.layer?.backgroundColor = NSColor.systemBlue.cgColor
+        
+        view.addSubview(self.usedBarSpace!)
+        self.mainView.addSubview(view)
+    }
+    
+    public func update(free: Int64) {
+        DispatchQueue.main.async(execute: {
+            if self.legendField != nil {
+                self.legendField?.stringValue = "Used \(Units(bytes: (self.size - free)).getReadableMemory()) from \(Units(bytes: self.size).getReadableMemory())"
+            }
+            
+            if self.usedBarSpace != nil {
+                let percentage = CGFloat(self.size - free) / CGFloat(self.size)
+                let width: CGFloat = ((self.mainView.frame.width - 2) * percentage) / 1
+                self.usedBarSpace?.setFrameSize(NSSize(width: width, height: self.usedBarSpace!.frame.height))
+            }
+        })
+    }
+}
