@@ -40,7 +40,6 @@ public class Settings: NSView, Settings_v {
         
         let rowHeight: CGFloat = 30
         var height: CGFloat = 0
-        self.setFrameSize(NSSize(width: rect.width - (Constants.Settings.margin*2), height: self.frame.height))
         
         if widget == .barChart {
             self.addSubview(ToggleTitleRow(

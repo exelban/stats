@@ -230,5 +230,6 @@ public class BarChart: Widget {
         }
         self.colorState = state! == .on ? true : false
         self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_color", value: self.colorState)
+        self.display()
     }
 }

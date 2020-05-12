@@ -64,14 +64,17 @@ struct DiskList: value_t {
 public class Disk: Module {
     private let popupView: Popup = Popup()
     private var capacityReader: CapacityReader = CapacityReader()
+    private var settingsView: Settings
     private var selectedDisk: String = ""
     
     public init(_ store: UnsafePointer<Store>?) {
+        self.settingsView = Settings("Disk", store: store!)
+        
         super.init(
             store: store,
             icon: nil,
             popup: self.popupView,
-            settings: nil
+            settings: self.settingsView
         )
         self.selectedDisk = store!.pointee.string(key: "\(self.config.name)_disk", defaultValue: self.selectedDisk)
         
@@ -82,6 +85,11 @@ public class Disk: Module {
             self.capacityCallback(value: value)
         }
         
+        self.settingsView.selectedDiskHandler = { [unowned self] value in
+            self.selectedDisk = value
+            self.capacityReader.read()
+        }
+        
         self.addReader(self.capacityReader)
     }
     
@@ -90,8 +98,9 @@ public class Disk: Module {
             return
         }
         self.popupView.usageCallback(value!)
+        self.settingsView.setList(value!)
         
-        var d: diskInfo? = value!.getDiskByBSDName(self.selectedDisk)
+        var d: diskInfo? = value!.getDiskByName(self.selectedDisk)
         if d == nil {
             d = value!.getRootDisk()
         }

@@ -225,13 +225,14 @@ open class Module: Module_p {
         
         if self.popup.occlusionState.rawValue == 8192 {
             NSApplication.shared.activate(ignoringOtherApps: true)
-
+            
             let buttonOrigin = self.menuBarItem.button?.window?.frame.origin
             let buttonCenter = (self.menuBarItem.button?.window?.frame.width)! / 2
             let windowCenter = self.popup.frame.width / 2
             
+            self.popup.contentView?.invalidateIntrinsicContentSize()
             var x = buttonOrigin!.x - windowCenter + buttonCenter
-            let y = buttonOrigin!.y - self.popup.frame.height - 3
+            let y = buttonOrigin!.y - self.popup.contentView!.intrinsicContentSize.height - 3
             
             if let screen = NSScreen.main {
                 let width = screen.frame.size.width

@@ -18,7 +18,7 @@ public class Popup: NSView {
     var list: [String: DiskView] = [:]
     
     public init() {
-        super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: ((self.diskFullHeight + Constants.Popup.margins) * 4) - Constants.Popup.margins))
+        super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: 0))
     }
     
     required init?(coder: NSCoder) {
@@ -32,7 +32,8 @@ public class Popup: NSView {
                     NSRect(x: 0, y: (self.diskFullHeight + Constants.Popup.margins) * CGFloat(self.list.count), width: self.frame.width, height: self.diskFullHeight),
                     name: d.name,
                     size: d.totalSize,
-                    free: d.freeSize
+                    free: d.freeSize,
+                    path: d.path
                 )
                 self.addSubview(self.list[d.name]!)
 
@@ -49,6 +50,7 @@ public class Popup: NSView {
 internal class DiskView: NSView {
     public let name: String
     public let size: Int64
+    private let uri: URL?
     
     private let nameHeight: CGFloat = 20
     private let legendHeight: CGFloat = 11
@@ -59,10 +61,11 @@ internal class DiskView: NSView {
     
     private var mainView: NSView
     
-    public init(_ frame: NSRect, name: String, size: Int64, free: Int64) {
+    public init(_ frame: NSRect, name: String, size: Int64, free: Int64, path: URL?) {
         self.mainView = NSView(frame: NSRect(x: 5, y: 5, width: frame.width - 10, height: frame.height - 10))
         self.name = name
         self.size = size
+        self.uri = path
         super.init(frame: frame)
         
         self.wantsLayer = true
@@ -84,10 +87,15 @@ internal class DiskView: NSView {
     }
     
     private func addName() {
-        let view: NSView = NSView(frame: NSRect(x: 0, y: self.mainView.frame.height - nameHeight, width: self.mainView.frame.width, height: nameHeight))
+        let nameWidth = self.name.widthOfString(usingFont: .systemFont(ofSize: 13, weight: .light)) + 4
+        let view: NSView = NSView(frame: NSRect(x: 0, y: self.mainView.frame.height - nameHeight, width: nameWidth, height: nameHeight))
         
-        let nameField: NSTextField = TextView(frame: NSRect(x: 0, y: 0, width: self.mainView.frame.width, height: view.frame.height))
+        let nameField: NSTextField = TextView(frame: NSRect(x: 0, y: 0, width: nameWidth, height: view.frame.height))
         nameField.stringValue = self.name
+        
+        let rect: CGRect = CGRect(x: 0, y: 6, width: view.frame.width, height: view.frame.height - 6)
+        let trackingArea = NSTrackingArea(rect: rect, options: [NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited, NSTrackingArea.Options.activeInActiveApp], owner: self, userInfo: nil)
+        view.addTrackingArea(trackingArea)
         
         view.addSubview(nameField)
         self.mainView.addSubview(view)
@@ -134,5 +142,19 @@ internal class DiskView: NSView {
                 self.usedBarSpace?.setFrameSize(NSSize(width: width, height: self.usedBarSpace!.frame.height))
             }
         })
+    }
+    
+    override func mouseEntered(with: NSEvent) {
+        NSCursor.pointingHand.set()
+    }
+    
+    override func mouseExited(with: NSEvent) {
+        NSCursor.arrow.set()
+    }
+    
+    override func mouseDown(with: NSEvent) {
+        if let uri = self.uri {
+            NSWorkspace.shared.openFile(uri.absoluteString, withApplication: "Finder")
+        }
     }
 }

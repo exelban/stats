@@ -13,7 +13,7 @@ import Cocoa
 import StatsKit
 
 class PopupWindow: NSPanel, NSWindowDelegate {
-    let viewController: PopupViewController = PopupViewController()
+    private let viewController: PopupViewController = PopupViewController()
     
     init(title: String, view: NSView?) {
         self.viewController.setup(title: title, view: view)
@@ -77,6 +77,10 @@ class PopupView: NSView {
     public var headerView: HeaderView? = nil
     private var mainView: NSView? = nil
     
+    override var intrinsicContentSize: CGSize {
+        return CGSize(width: self.frame.size.width, height: self.mainView!.subviews.first!.frame.size.height + Constants.Popup.headerHeight + Constants.Popup.margins*2)
+    }
+    
     override init(frame: NSRect) {
         super.init(frame: CGRect(x: frame.origin.x, y: frame.origin.y, width: frame.width, height: frame.height))
         self.wantsLayer = true
@@ -98,6 +102,9 @@ class PopupView: NSView {
     }
     
     override func updateLayer() {
+        if self.mainView?.frame.height != self.mainView!.subviews.first!.frame.size.height {
+            self.setHeight(self.mainView!.subviews.first!.frame.size)
+        }
         self.layer!.backgroundColor = self.isDarkMode ? NSColor.windowBackgroundColor.cgColor : NSColor.white.cgColor
     }
     
@@ -116,6 +123,10 @@ class PopupView: NSView {
         self.mainView?.setFrameSize(NSSize(width: self.mainView!.frame.width, height: size.height))
         self.setFrameSize(NSSize(width: size.width + (Constants.Popup.margins*2), height: size.height + Constants.Popup.headerHeight + Constants.Popup.margins*2))
         self.headerView?.setFrameOrigin(NSPoint(x: 0, y: self.frame.height - Constants.Popup.headerHeight))
+        
+        var frame = self.window?.frame
+        frame?.size = self.frame.size
+        self.window?.setFrame(frame!, display: true)
     }
     
     open func appear() {

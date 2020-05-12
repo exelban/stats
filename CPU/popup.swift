@@ -31,7 +31,7 @@ public class Popup: NSView {
     private var ready: Bool = false
     
     public init() {
-        super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: firstHeight + secondHeight + (Constants.Popup.margins*2)))
+        super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: firstHeight + secondHeight + Constants.Popup.margins))
         
         initFirstView()
         initDescription()
@@ -123,7 +123,7 @@ public class Popup: NSView {
     }
     
     private func addSecondRow(mView: NSView, y: CGFloat, title: String, value: String) -> NSTextField {
-        let rowView: NSView = NSView(frame: NSRect(x: Constants.Popup.margins, y: y, width: mView.frame.width - (Constants.Popup.margins*2), height: 16))
+        let rowView: NSView = NSView(frame: NSRect(x: 0, y: y, width: mView.frame.width, height: 16))
         
         let labelWidth = title.widthOfString(usingFont: .systemFont(ofSize: 13, weight: .regular)) + 5
         let labelView: LabelField = LabelField(frame: NSRect(x: 0, y: 0.5, width: labelWidth, height: 15), title)

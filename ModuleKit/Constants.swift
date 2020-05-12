@@ -13,7 +13,7 @@ import Cocoa
 
 public struct Popup_c_s {
     public let width: CGFloat = 264
-    public let height: CGFloat = 400
+    public let height: CGFloat = 300
     public let margins: CGFloat = 8
     public let headerHeight: CGFloat = 42
 }

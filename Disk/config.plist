@@ -25,6 +25,17 @@
 			<string>SSD</string>
 			<key>Color</key>
 			<true/>
+			<key>Preview</key>
+			<dict>
+				<key>Label</key>
+				<false/>
+				<key>Box</key>
+				<false/>
+				<key>Colorize</key>
+				<false/>
+				<key>Value</key>
+				<string>0.36</string>
+			</dict>
 		</dict>
 	</dict>
 </dict>
