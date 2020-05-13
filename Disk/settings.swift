@@ -64,7 +64,9 @@ public class Settings: NSView, Settings_v {
         DispatchQueue.main.async(execute: {
             if disks != self.button?.itemTitles {
                 self.button?.addItems(withTitles: disks)
-                self.button?.selectItem(withTitle: self.selectedDisk)
+                if self.selectedDisk != "" {
+                    self.button?.selectItem(withTitle: self.selectedDisk)
+                }
             }
         })
     }

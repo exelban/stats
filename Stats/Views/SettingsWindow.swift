@@ -205,6 +205,7 @@ class SettingsView: NSView {
         button.isBordered = false
         button.action = action
         button.target = self
+        button.focusRingType = .none
         
         let rect = NSRect(x: Int(self.navigationWidth) - (45*n), y: 0, width: 44, height: 44)
         let trackingArea = NSTrackingArea(rect: rect, options: [NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited, NSTrackingArea.Options.activeInActiveApp], owner: self, userInfo: ["button": title])
