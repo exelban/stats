@@ -24,16 +24,27 @@ public class BarChart: Widget {
         var widgetTitle: String = title
         self.store = store
         if config != nil {
+            var configuration = config!
             if let titleFromConfig = config!["Title"] as? String {
                 widgetTitle = titleFromConfig
             }
-            if let label = config!["Label"] as? Bool {
+            
+            if preview {
+                if let previewConfig = config!["Preview"] as? NSDictionary {
+                    configuration = previewConfig
+                    if let value = configuration["Value"] as? String {
+                        self.value = value.split(separator: ",").map{ (Double($0) ?? 0) }
+                    }
+                }
+            }
+            
+            if let label = configuration["Label"] as? Bool {
                 self.labelState = label
             }
-            if let box = config!["Box"] as? Bool {
+            if let box = configuration["Box"] as? Bool {
                 self.boxState = box
             }
-            if let color = config!["Color"] as? Bool {
+            if let color = configuration["Color"] as? Bool {
                 self.colorState = color
             }
         }
@@ -50,7 +61,9 @@ public class BarChart: Widget {
         }
         
         if preview {
-            self.value = [0.72, 0.38]
+            if self.value.count == 0 {
+                self.value = [0.72, 0.38]
+            }
             self.setFrameSize(NSSize(width: 36, height: self.frame.size.height))
             self.invalidateIntrinsicContentSize()
         }

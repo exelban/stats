@@ -24,8 +24,12 @@ public class Mini: Widget {
     private let store: UnsafePointer<Store>?
     
     public init(preview: Bool, title: String, config: NSDictionary?, store: UnsafePointer<Store>?) {
+        var widgetTitle: String = title
         self.store = store
         if config != nil {
+            if let titleFromConfig = config!["Title"] as? String {
+                widgetTitle = titleFromConfig
+            }
             if let label = config!["Label"] as? Bool {
                 self.labelState = label
             }
@@ -34,7 +38,7 @@ public class Mini: Widget {
             }
         }
         super.init(frame: CGRect(x: 0, y: Constants.Widget.margin, width: Constants.Widget.width, height: Constants.Widget.height - (2*Constants.Widget.margin)))
-        self.title = title
+        self.title = widgetTitle
         self.type = .mini
         self.preview = preview
         self.canDrawConcurrently = true

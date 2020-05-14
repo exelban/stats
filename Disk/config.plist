@@ -12,6 +12,8 @@
 		<dict>
 			<key>Default</key>
 			<true/>
+			<key>Title</key>
+			<string>SSD</string>
 			<key>Label</key>
 			<true/>
 			<key>Color</key>
@@ -23,16 +25,20 @@
 			<false/>
 			<key>Title</key>
 			<string>SSD</string>
+			<key>Label</key>
+			<true/>
+			<key>Box</key>
+			<true/>
 			<key>Color</key>
 			<true/>
 			<key>Preview</key>
 			<dict>
 				<key>Label</key>
-				<false/>
+				<true/>
 				<key>Box</key>
-				<false/>
-				<key>Colorize</key>
-				<false/>
+				<true/>
+				<key>Color</key>
+				<true/>
 				<key>Value</key>
 				<string>0.36</string>
 			</dict>

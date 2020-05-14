@@ -55,9 +55,11 @@ open class Widget: NSView, Widget_p {
             return
         }
         
-        self.setFrameSize(NSSize(width: width, height: self.frame.size.height))
-        self.invalidateIntrinsicContentSize()
-        self.display()
+        DispatchQueue.main.async {
+            self.setFrameSize(NSSize(width: width, height: self.frame.size.height))
+            self.invalidateIntrinsicContentSize()
+            self.display()
+        }
         
         self.widthHandler!(width)
     }
@@ -68,7 +70,6 @@ open class Widget: NSView, Widget_p {
 
 func LoadWidget(_ type: widget_t, preview: Bool, title: String, config: NSDictionary?, store: UnsafePointer<Store>?) -> Widget_p? {
     var widget: Widget_p? = nil
-
     let widgetConfig: NSDictionary? = config?[type.rawValue] as? NSDictionary
     
     switch type {

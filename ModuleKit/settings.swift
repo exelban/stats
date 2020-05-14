@@ -29,22 +29,20 @@ open class Settings: NSView, Settings_p {
     private var widgetSettingsView: NSView? = nil
     private var moduleSettingsView: NSView? = nil
     
-    private var title: String
-    private var widgets: UnsafePointer<[widget_t]>? = nil
-    private var activeWidget: Widget_p? = nil
+    private var config: UnsafePointer<module_c>
+    private var activeWidget: Widget_p?
     
     private var moduleSettings: (_ superview: NSView) -> ()
     
-    init(title: String, enabled: Bool, activeWidget: Widget_p?, widgets: UnsafePointer<[widget_t]>?, moduleSettings: @escaping (_ superview: NSView) -> ()) {
-        self.title = title
-        self.widgets = widgets
+    init(config: UnsafePointer<module_c>, enabled: Bool, activeWidget: Widget_p?, moduleSettings: @escaping (_ superview: NSView) -> ()) {
+        self.config = config
         self.activeWidget = activeWidget
         self.moduleSettings = moduleSettings
         super.init(frame: NSRect(x: 0, y: 0, width: Constants.Settings.width, height: Constants.Settings.height))
         self.wantsLayer = true
         self.layer?.backgroundColor = NSColor.windowBackgroundColor.cgColor
         
-        addHeader(self.title, state: enabled)
+        addHeader(state: enabled)
         addWidgetSelector()
         addWidgetSettings()
         addModuleSettings()
@@ -88,7 +86,7 @@ open class Settings: NSView, Settings_p {
     }
     
     private func addWidgetSelector() {
-        if self.widgets == nil || self.widgets?.pointee.count == 0 {
+        if self.config.pointee.availableWidgets.count == 0 {
             self.widgetSelectorHeight = 0
             return
         }
@@ -99,24 +97,23 @@ open class Settings: NSView, Settings_p {
         view.layer!.cornerRadius = 3
         
         var x: CGFloat = Constants.Settings.margin
-        for i in 0...(self.widgets?.pointee.count ?? 1) - 1 {
-            if let widgetType = self.widgets?.pointee[i] {
-                if let widget = LoadWidget(widgetType, preview: true, title: self.title, config: nil, store: nil) {
-                    view.addSubview(WidgetPreview(
-                        frame: NSRect(x: x, y: Constants.Settings.margin, width: widget.frame.width, height: self.widgetSelectorHeight - (Constants.Settings.margin*2)),
-                        title: self.title,
-                        widget: widget,
-                        state: self.activeWidget?.type == widgetType
-                    ))
-                    x += widget.frame.width + Constants.Settings.margin
-                }
+        for i in 0...self.config.pointee.availableWidgets.count - 1 {
+            let widgetType = self.config.pointee.availableWidgets[i]
+            if let widget = LoadWidget(widgetType, preview: true, title: self.config.pointee.name, config: self.config.pointee.widgetsConfig, store: nil) {
+                view.addSubview(WidgetPreview(
+                    frame: NSRect(x: x, y: Constants.Settings.margin, width: widget.frame.width, height: self.widgetSelectorHeight - (Constants.Settings.margin*2)),
+                    title: self.config.pointee.name,
+                    widget: widget,
+                    state: self.activeWidget?.type == widgetType
+                ))
+                x += widget.frame.width + Constants.Settings.margin
             }
         }
         
         self.addSubview(view)
     }
     
-    private func addHeader(_ title: String, state: Bool) {
+    private func addHeader(state: Bool) {
         let view: NSView = NSView(frame: NSRect(x: 0, y: self.frame.height - self.headerHeight, width: self.frame.width, height: self.headerHeight))
         view.wantsLayer = true
         
@@ -130,7 +127,7 @@ open class Settings: NSView, Settings_p {
         titleView.canDrawSubviewsIntoLayer = true
         titleView.alignment = .natural
         titleView.font = NSFont.systemFont(ofSize: 18, weight: .light)
-        titleView.stringValue = title
+        titleView.stringValue = self.config.pointee.name
         
         var toggle: NSControl = NSControl()
         if #available(OSX 10.15, *) {
@@ -198,11 +195,20 @@ class WidgetPreview: NSView {
         self.layer?.borderColor = self.state ? NSColor.systemBlue.cgColor : NSColor(hexString: "#dddddd").cgColor
         self.layer?.borderWidth = 1
         
+        widget.widthHandler = { [weak self] value in
+            self?.widgetWidthHandler(value)
+        }
         self.addSubview(widget)
         
         let rect = NSRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
         let trackingArea = NSTrackingArea(rect: rect, options: [NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited, NSTrackingArea.Options.activeInActiveApp], owner: self, userInfo: ["menu": self.type])
         self.addTrackingArea(trackingArea)
+    }
+    
+    private func widgetWidthHandler(_ width: CGFloat) {
+        DispatchQueue.main.async(execute: {
+            self.setFrameSize(NSSize(width: width, height: self.frame.height))
+        })
     }
     
     required init?(coder: NSCoder) {

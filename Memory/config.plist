@@ -22,8 +22,23 @@
 		<dict>
 			<key>Default</key>
 			<false/>
+			<key>Label</key>
+			<true/>
+			<key>Box</key>
+			<true/>
 			<key>Color</key>
 			<true/>
+			<key>Preview</key>
+			<dict>
+				<key>Label</key>
+				<true/>
+				<key>Box</key>
+				<true/>
+				<key>Color</key>
+				<true/>
+				<key>Value</key>
+				<string>0.48</string>
+			</dict>
 		</dict>
 	</dict>
 </dict>

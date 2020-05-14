@@ -97,7 +97,7 @@ open class Module: Module_p {
         
         self.setWidget()
         
-        self.settings = Settings(title: self.config.name, enabled: self.enabled, activeWidget: self.widget, widgets: &self.config.availableWidgets, moduleSettings: { [weak self] (_ superview: NSView) in
+        self.settings = Settings(config: &self.config, enabled: self.enabled, activeWidget: self.widget, moduleSettings: { [weak self] (_ superview: NSView) in
             if self != nil && self?.settingsView != nil {
                 self!.settingsView!.load(rect: superview.frame, widget: self!.activeWidget)
                 superview.setFrameSize(NSSize(width: superview.frame.width, height: self!.settingsView!.frame.height))
