@@ -143,6 +143,9 @@ open class Module: Module_p {
         self.store?.pointee.set(key: "\(self.config.name)_state", value: true)
         self.readers.forEach{ $0.start() }
         self.menuBarItem.isVisible = true
+        if self.menuBarItem.length < 0 {
+            self.load()
+        }
         os_log(.debug, log: log, "Module enabled")
     }
     
@@ -168,7 +171,6 @@ open class Module: Module_p {
     // add reader to module. If module is enabled will fire a read function and start a reader
     public func addReader(_ reader: Reader_p) {
         if self.enabled {
-            reader.read()
             reader.start()
         }
         self.readers.append(reader)

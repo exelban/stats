@@ -113,6 +113,7 @@ extension Reader: Reader_p {
     }
     
     public func start() {
+        self.read()
         self.repeatTask!.start()
     }
     

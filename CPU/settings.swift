@@ -43,7 +43,7 @@ public class Settings: NSView, Settings_v {
         
         if widget == .barChart {
             self.addSubview(ToggleTitleRow(
-                frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 0, width: self.frame.width, height: rowHeight),
+                frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 0, width: rect.width - (Constants.Settings.margin*2), height: rowHeight),
                 title: "Multithreading",
                 action: #selector(toggleMultithreading),
                 state: self.multithreadState

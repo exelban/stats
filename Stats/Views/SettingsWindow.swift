@@ -293,6 +293,7 @@ class MenuView: NSView {
         
         let titleView = TextView(frame: NSMakeRect(34, (self.height - 16)/2, 100, 17))
         titleView.alignment = .natural
+        titleView.textColor = .secondaryLabelColor
         titleView.font = NSFont.systemFont(ofSize: 14, weight: .regular)
         titleView.stringValue = title
         

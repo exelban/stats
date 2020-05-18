@@ -43,7 +43,7 @@ public class LoadReader: Reader<CPULoad> {
     }
     
     public override func read() {
-        self.result = host_processor_info(mach_host_self(), PROCESSOR_CPU_LOAD_INFO, &self.numCPUsU, &self.cpuInfo, &self.numCpuInfo);
+        self.result = host_processor_info(mach_host_self(), PROCESSOR_CPU_LOAD_INFO, &self.numCPUsU, &self.cpuInfo, &self.numCpuInfo)
         
         if self.result == KERN_SUCCESS {
             self.CPUUsageLock.lock()
@@ -58,6 +58,10 @@ public class LoadReader: Reader<CPULoad> {
             }
             
             for i in stride(from: 0, to: Int32(self.numCPUs), by: devider) {
+                if self.cpuInfo == nil {
+                    return
+                }
+                
                 var inUse: Int32
                 var total: Int32
                 if let prevCpuInfo = self.prevCpuInfo {

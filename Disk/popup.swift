@@ -28,16 +28,16 @@ public class Popup: NSView {
     internal func usageCallback(_ value: DiskList) {
         value.list.reversed().forEach { (d: diskInfo) in
             if self.list[d.name] == nil {
-                self.list[d.name] = DiskView(
-                    NSRect(x: 0, y: (self.diskFullHeight + Constants.Popup.margins) * CGFloat(self.list.count), width: self.frame.width, height: self.diskFullHeight),
-                    name: d.name,
-                    size: d.totalSize,
-                    free: d.freeSize,
-                    path: d.path
-                )
-                self.addSubview(self.list[d.name]!)
-
                 DispatchQueue.main.async(execute: {
+                    self.list[d.name] = DiskView(
+                        NSRect(x: 0, y: (self.diskFullHeight + Constants.Popup.margins) * CGFloat(self.list.count), width: self.frame.width, height: self.diskFullHeight),
+                        name: d.name,
+                        size: d.totalSize,
+                        free: d.freeSize,
+                        path: d.path
+                    )
+                    self.addSubview(self.list[d.name]!)
+
                     self.setFrameSize(NSSize(width: self.frame.width, height: ((self.diskFullHeight + Constants.Popup.margins) * CGFloat(self.list.count)) - Constants.Popup.margins))
                 })
             } else {

@@ -77,12 +77,12 @@ class ApplicationSettings: NSView {
         
         let rightPanel: NSView = NSView(frame: NSRect(x: self.width/2, y: 0, width: view.frame.width/2, height: view.frame.height))
         
-        rightPanel.addSubview(makeSettingRow(
-            frame: NSRect(x: rowHorizontalPadding*0.5, y: rowHeight*3, width: rightPanel.frame.width - (rowHorizontalPadding*1.5), height: rowHeight),
-            title: "Reserved",
-            action: #selector(self.toggleSomething),
-            state: true
-        ))
+//        rightPanel.addSubview(makeSettingRow(
+//            frame: NSRect(x: rowHorizontalPadding*0.5, y: rowHeight*3, width: rightPanel.frame.width - (rowHorizontalPadding*1.5), height: rowHeight),
+//            title: "Reserved",
+//            action: #selector(self.toggleSomething),
+//            state: true
+//        ))
         
         rightPanel.addSubview(makeSettingRow(
             frame: NSRect(x: rowHorizontalPadding*0.5, y: rowHeight*2, width: rightPanel.frame.width - (rowHorizontalPadding*1.5), height: rowHeight),
@@ -258,6 +258,8 @@ class ApplicationSettings: NSView {
         if state != nil {
             store.set(key: "dockIcon", value: state! == NSControl.StateValue.on)
         }
+        let dockIconStatus = state == NSControl.StateValue.on ? NSApplication.ActivationPolicy.regular : NSApplication.ActivationPolicy.accessory
+        NSApp.setActivationPolicy(dockIconStatus)
     }
     
     @objc func toggleLaunchAtLogin(_ sender: NSControl) {

@@ -129,10 +129,11 @@ class PopupView: NSView {
         self.window?.setFrame(frame!, display: true)
     }
     
-    open func appear() {
+    internal func appear() {
         self.display()
+        self.mainView?.subviews.first{ !($0 is HeaderView) }?.display()
     }
-    open func disappear() {}
+    internal func disappear() {}
 }
 
 class HeaderView: NSView {

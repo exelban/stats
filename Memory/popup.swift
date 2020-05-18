@@ -40,6 +40,10 @@ public class Popup: NSView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    public override func updateLayer() {
+        self.chart?.display()
+    }
+    
     private func initFirstView() {
         let rightWidth: CGFloat = 116
         let view: NSView = NSView(frame: NSRect(x: 0, y: self.frame.height - self.firstHeight, width: self.frame.width, height: self.firstHeight))
