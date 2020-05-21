@@ -234,6 +234,7 @@ public extension Notification.Name {
     static let toggleModule = Notification.Name("toggleModule")
     static let openSettingsView = Notification.Name("openSettingsView")
     static let switchWidget = Notification.Name("switchWidget")
+    static let checkForUpdates = Notification.Name("checkForUpdates")
 }
 
 public class NSButtonWithPadding: NSButton {

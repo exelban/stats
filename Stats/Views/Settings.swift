@@ -1,5 +1,5 @@
 //
-//  settings.swift
+//  Settings.swift
 //  Stats
 //
 //  Created by Serhiy Mytrovtsiy on 12/04/2020.
@@ -51,7 +51,7 @@ class SettingsWindow: NSWindow, NSWindowDelegate {
     }
 }
 
-class SettingsViewController: NSViewController {
+private class SettingsViewController: NSViewController {
     private var settings: SettingsView
     
     public init() {
@@ -80,7 +80,7 @@ class SettingsViewController: NSViewController {
     }
 }
 
-class SettingsView: NSView {
+private class SettingsView: NSView {
     private var modules: UnsafeMutablePointer<[Module]>?
     private let navigationWidth: CGFloat = 180
     private let buttonHeight: CGFloat = 45
@@ -263,7 +263,7 @@ class SettingsView: NSView {
     }
 }
 
-class MenuView: NSView {
+private class MenuView: NSView {
     private let height: CGFloat = 40
     private let width: CGFloat = 180
     

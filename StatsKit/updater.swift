@@ -118,7 +118,7 @@ public class macAppUpdater {
         return false
     }
     
-    private func download(_ url: URL) {
+    public func download(_ url: URL) {
         let downloadTask = URLSession.shared.downloadTask(with: url) {
             urlOrNil, responseOrNil, errorOrNil in
             // check for and handle errors:

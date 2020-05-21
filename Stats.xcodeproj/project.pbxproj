@@ -26,7 +26,7 @@
 		9A6CFC0122A1C9F5001E782D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9A6CFC0022A1C9F5001E782D /* Assets.xcassets */; };
 		9A7C61B42440DF810032695D /* Mini.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7C61B32440DF810032695D /* Mini.swift */; };
 		9A81C74D24499C7000825D92 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A81C74B24499C7000825D92 /* AppSettings.swift */; };
-		9A81C74E24499C7000825D92 /* SettingsWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A81C74C24499C7000825D92 /* SettingsWindow.swift */; };
+		9A81C74E24499C7000825D92 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A81C74C24499C7000825D92 /* Settings.swift */; };
 		9A81C75024499D6600825D92 /* settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A81C74F24499D6600825D92 /* settings.swift */; };
 		9A81C75D2449A41400825D92 /* Memory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A81C7562449A41400825D92 /* Memory.framework */; };
 		9A81C75E2449A41400825D92 /* Memory.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A81C7562449A41400825D92 /* Memory.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -44,6 +44,7 @@
 		9A944D5F24492AA60058F32A /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A944D5E24492AA60058F32A /* Constants.swift */; };
 		9A944D6124492B6D0058F32A /* popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A944D6024492B6D0058F32A /* popup.swift */; };
 		9A9D728A24471FAE005CF997 /* SMC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9D728924471FAE005CF997 /* SMC.swift */; };
+		9A9EA9452476D34500E3B883 /* Update.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9EA9442476D34500E3B883 /* Update.swift */; };
 		9AA4A00A2443656D00ECCF07 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AA4A0092443656D00ECCF07 /* Assets.xcassets */; };
 		9AA64260244B274200416A33 /* popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA6425F244B274200416A33 /* popup.swift */; };
 		9AA64262244B57C800416A33 /* settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA64261244B57C800416A33 /* settings.swift */; };
@@ -241,7 +242,7 @@
 		9A7C61B32440DF810032695D /* Mini.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mini.swift; sourceTree = "<group>"; };
 		9A7D0CB62444C2C800B09070 /* SystemKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemKit.swift; sourceTree = "<group>"; };
 		9A81C74B24499C7000825D92 /* AppSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
-		9A81C74C24499C7000825D92 /* SettingsWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsWindow.swift; sourceTree = "<group>"; };
+		9A81C74C24499C7000825D92 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		9A81C74F24499D6600825D92 /* settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = settings.swift; sourceTree = "<group>"; };
 		9A81C7562449A41400825D92 /* Memory.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Memory.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A81C7592449A41400825D92 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -257,6 +258,7 @@
 		9A998CD722A199920087ADE7 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		9A998CD922A199970087ADE7 /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = System/Library/Frameworks/ServiceManagement.framework; sourceTree = SDKROOT; };
 		9A9D728924471FAE005CF997 /* SMC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMC.swift; sourceTree = "<group>"; };
+		9A9EA9442476D34500E3B883 /* Update.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Update.swift; sourceTree = "<group>"; };
 		9AA4A0092443656D00ECCF07 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9AA6425E244B254600416A33 /* CPU.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CPU.h; sourceTree = "<group>"; };
 		9AA6425F244B274200416A33 /* popup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = popup.swift; sourceTree = "<group>"; };
@@ -433,7 +435,8 @@
 			isa = PBXGroup;
 			children = (
 				9A81C74B24499C7000825D92 /* AppSettings.swift */,
-				9A81C74C24499C7000825D92 /* SettingsWindow.swift */,
+				9A81C74C24499C7000825D92 /* Settings.swift */,
+				9A9EA9442476D34500E3B883 /* Update.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -847,7 +850,8 @@
 			files = (
 				9AABEB7E243FDEF100668CB0 /* main.swift in Sources */,
 				9AABEB7A243FD26200668CB0 /* AppDelegate.swift in Sources */,
-				9A81C74E24499C7000825D92 /* SettingsWindow.swift in Sources */,
+				9A9EA9452476D34500E3B883 /* Update.swift in Sources */,
+				9A81C74E24499C7000825D92 /* Settings.swift in Sources */,
 				9A81C74D24499C7000825D92 /* AppSettings.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

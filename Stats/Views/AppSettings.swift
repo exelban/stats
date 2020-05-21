@@ -77,13 +77,6 @@ class ApplicationSettings: NSView {
         
         let rightPanel: NSView = NSView(frame: NSRect(x: self.width/2, y: 0, width: view.frame.width/2, height: view.frame.height))
         
-//        rightPanel.addSubview(makeSettingRow(
-//            frame: NSRect(x: rowHorizontalPadding*0.5, y: rowHeight*3, width: rightPanel.frame.width - (rowHorizontalPadding*1.5), height: rowHeight),
-//            title: "Reserved",
-//            action: #selector(self.toggleSomething),
-//            state: true
-//        ))
-        
         rightPanel.addSubview(makeSettingRow(
             frame: NSRect(x: rowHorizontalPadding*0.5, y: rowHeight*2, width: rightPanel.frame.width - (rowHorizontalPadding*1.5), height: rowHeight),
             title: "Check for updates on start",
@@ -172,10 +165,7 @@ class ApplicationSettings: NSView {
     
     private func addDeviceInfo() {
         let view: NSView = NSView(frame: NSRect(x: 0, y: self.height - self.deviceInfoHeight, width: self.width, height: self.deviceInfoHeight))
-        view.wantsLayer = true
-        
         let leftPanel: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.width/2, height: self.deviceInfoHeight))
-        leftPanel.wantsLayer = true
         
         let deviceImageView: NSImageView = NSImageView(image: systemKit.device.model.icon)
         deviceImageView.frame = NSRect(x: (leftPanel.frame.width - 160)/2, y: ((self.deviceInfoHeight - 120)/2) + 22, width: 160, height: 120)
@@ -197,13 +187,11 @@ class ApplicationSettings: NSView {
         leftPanel.addSubview(osField)
         
         let rightPanel: NSView = NSView(frame: NSRect(x: self.width/2, y: 0, width: self.width/2, height: self.deviceInfoHeight))
-        rightPanel.wantsLayer = true
         
         let iconView: NSImageView = NSImageView(frame: NSRect(x: (leftPanel.frame.width - 100)/2, y: ((self.deviceInfoHeight - 100)/2) + 32, width: 100, height: 100))
         iconView.image = NSImage(named: NSImage.Name("AppIcon"))!
         
         let infoView: NSView = NSView(frame: NSRect(x: 0, y: 54, width: self.width/2, height: 42))
-        infoView.wantsLayer = true
         
         let statsName: NSTextField = TextView(frame: NSRect(x: 0, y: 20, width: leftPanel.frame.width, height: 22))
         statsName.alignment = .center
@@ -221,8 +209,15 @@ class ApplicationSettings: NSView {
         infoView.addSubview(statsName)
         infoView.addSubview(statsVersion)
         
+        let button: NSButton = NSButton(frame: NSRect(x: (rightPanel.frame.width - 160)/2, y: 20, width: 160, height: 28))
+        button.title = "Check for updates"
+        button.bezelStyle = .rounded
+        button.target = self
+        button.action = #selector(checkNewVersion)
+        
         rightPanel.addSubview(iconView)
         rightPanel.addSubview(infoView)
+        rightPanel.addSubview(button)
         
         view.addSubview(leftPanel)
         view.addSubview(rightPanel)
@@ -230,8 +225,8 @@ class ApplicationSettings: NSView {
         self.addSubview(view)
     }
     
-    @objc func toggleSomething(_ sender: NSObject) {
-        
+    @objc func checkNewVersion(_ sender: NSObject) {
+        NotificationCenter.default.post(name: .checkForUpdates, object: nil, userInfo: nil)
     }
     
     @objc func toggleUpdates(_ sender: NSObject) {

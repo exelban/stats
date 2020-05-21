@@ -76,6 +76,10 @@ internal class DiskView: NSView {
         self.addHorizontalBar(free: free)
         
         self.addSubview(self.mainView)
+        
+        let rect: CGRect = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
+        let trackingArea = NSTrackingArea(rect: rect, options: [NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited, NSTrackingArea.Options.activeInActiveApp], owner: self, userInfo: nil)
+        self.addTrackingArea(trackingArea)
     }
     
     required init?(coder: NSCoder) {
@@ -93,10 +97,6 @@ internal class DiskView: NSView {
         let nameField: NSTextField = TextView(frame: NSRect(x: 0, y: 0, width: nameWidth, height: view.frame.height))
         nameField.stringValue = self.name
         
-        let rect: CGRect = CGRect(x: 0, y: 6, width: view.frame.width, height: view.frame.height - 6)
-        let trackingArea = NSTrackingArea(rect: rect, options: [NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited, NSTrackingArea.Options.activeInActiveApp], owner: self, userInfo: nil)
-        view.addTrackingArea(trackingArea)
-        
         view.addSubview(nameField)
         self.mainView.addSubview(view)
     }
@@ -106,7 +106,8 @@ internal class DiskView: NSView {
         
         self.legendField = TextView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height))
         self.legendField?.font = NSFont.systemFont(ofSize: 11, weight: .light)
-        self.legendField?.stringValue = "Used \(Units(bytes: (self.size - free)).getReadableMemory()) from \(Units(bytes: self.size).getReadableMemory())"
+        let percentage = Int8((Double(self.size - free) / Double(self.size)) * 100)
+        self.legendField?.stringValue = "Used \(Units(bytes: (self.size - free)).getReadableMemory()) (\(percentage)%) from \(Units(bytes: self.size).getReadableMemory())"
         
         view.addSubview(self.legendField!)
         self.mainView.addSubview(view)
@@ -133,7 +134,8 @@ internal class DiskView: NSView {
     public func update(free: Int64) {
         DispatchQueue.main.async(execute: {
             if self.legendField != nil {
-                self.legendField?.stringValue = "Used \(Units(bytes: (self.size - free)).getReadableMemory()) from \(Units(bytes: self.size).getReadableMemory())"
+                let percentage = Int8((Double(self.size - free) / Double(self.size)) * 100)
+                self.legendField?.stringValue = "Used \(Units(bytes: (self.size - free)).getReadableMemory()) (\(percentage)%) from \(Units(bytes: self.size).getReadableMemory())"
             }
             
             if self.usedBarSpace != nil {

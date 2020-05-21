@@ -19,19 +19,21 @@ let updater = macAppUpdater(user: "exelban", repo: "stats")
 let systemKit: SystemKit = SystemKit()
 var smc: SMCService = SMCService()
 var modules: [Module] = [CPU(&store, &smc), Memory(&store), Disk(&store)]
+var log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: "Stats")
 
 class AppDelegate: NSObject, NSApplicationDelegate {
-    private let log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: "Stats")
-    private let window: SettingsWindow = SettingsWindow()
+    private let settingsWindow: SettingsWindow = SettingsWindow()
+    private let updateWindow: UpdateWindow = UpdateWindow()
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         let startingPoint = Date()
         
         NotificationCenter.default.addObserver(self, selector: #selector(toggleSettingsHandler), name: .toggleSettings, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(checkForUpdates), name: .checkForUpdates, object: nil)
         
         modules.forEach{ $0.load() }
         
-        self.window.setModules()
+        self.settingsWindow.setModules()
         
         self.setVersion()
         self.defaultValues()
@@ -41,16 +43,36 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationWillTerminate(_ aNotification: Notification) {
         modules.forEach{ $0.terminate() }
         _ = smc.close()
+        NotificationCenter.default.removeObserver(self)
     }
     
     @objc private func toggleSettingsHandler(_ notification: Notification) {
-        if !self.window.isVisible {
-            self.window.setIsVisible(true)
-            self.window.makeKeyAndOrderFront(nil)
+        if !self.settingsWindow.isVisible {
+            self.settingsWindow.setIsVisible(true)
+            self.settingsWindow.makeKeyAndOrderFront(nil)
         }
         
         if let name = notification.userInfo?["module"] as? String {
-            self.window.openMenu(name)
+            self.settingsWindow.openMenu(name)
+        }
+    }
+    
+    @objc private func checkForUpdates(_ notification: Notification) {
+        updater.check() { result, error in
+            if error != nil {
+                os_log(.error, log: log, "error updater.check(): %s", "\(error!.localizedDescription)")
+                return
+            }
+            
+            guard error == nil, let version: version = result else {
+                os_log(.error, log: log, "download error(): %s", "\(error!.localizedDescription)")
+                return
+            }
+            
+            DispatchQueue.main.async(execute: {
+                os_log(.error, log: log, "open update window: %s", "\(version.latest)")
+                self.updateWindow.open(version)
+            })
         }
     }
     
@@ -82,21 +104,22 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             NSApp.setActivationPolicy(dockIconStatus)
         }
         
-        if store.bool(key: "checkUpdatesOnLogin", defaultValue: false) {
+        if store.bool(key: "checkUpdatesOnLogin", defaultValue: true) {
             updater.check() { result, error in
                 if error != nil {
-                    os_log(.error, log: self.log, "error updater.check(): %s", "\(error!.localizedDescription)")
+                    os_log(.error, log: log, "error updater.check(): %s", "\(error!.localizedDescription)")
                     return
                 }
                 
                 guard error == nil, let version: version = result else {
-                    os_log(.error, log: self.log, "download error(): %s", "\(error!.localizedDescription)")
+                    os_log(.error, log: log, "download error(): %s", "\(error!.localizedDescription)")
                     return
                 }
                 
                 if version.newest {
                     DispatchQueue.main.async(execute: {
-                        print("new version detected, open updater window!")
+                        os_log(.error, log: log, "show update window because new version of app found: %s", "\(version.latest)")
+                        self.updateWindow.open(version)
                     })
                 }
             }
