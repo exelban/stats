@@ -64,7 +64,7 @@ open class Reader<T>: ReaderInternal_p {
             self.read()
         })
         
-        os_log(.error, log: self.log, "Successfully initialize reader")
+        os_log(.debug, log: self.log, "Successfully initialize reader")
     }
     
     public func callback(_ value: T?) {
@@ -88,7 +88,10 @@ open class Reader<T>: ReaderInternal_p {
         }
         
         self.value = value
-        self.ready = true
+        if !self.ready {
+            self.ready = true
+            os_log(.debug, log: self.log, "Reader is ready")
+        }
         if value != nil {
             if self.history?.count ?? 0 >= 300 {
                 self.history!.remove(at: 0)

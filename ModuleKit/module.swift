@@ -81,8 +81,9 @@ open class Module: Module_p {
         set {}
     }
     private var ready: Bool = false
+    private var widgetLoaded: Bool = false
     
-    public init(store: UnsafePointer<Store>?, icon: NSImage?, popup: NSView?, settings: Settings_v?) {
+    public init(store: UnsafePointer<Store>?, popup: NSView?, settings: Settings_v?) {
         self.config = module_c(in: Bundle(for: type(of: self)).path(forResource: "config", ofType: "plist")!)
         
         self.log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: self.config.name)
@@ -95,7 +96,11 @@ open class Module: Module_p {
         
         NotificationCenter.default.addObserver(self, selector: #selector(listenForWidgetSwitch), name: .switchWidget, object: nil)
         
-        self.setWidget()
+        if self.config.widgetsConfig.count != 0 {
+            self.setWidget()
+        } else {
+            os_log(.debug, log: log, "Module started without widget")
+        }
         
         self.settings = Settings(config: &self.config, enabled: self.enabled, activeWidget: self.widget, moduleSettings: { [weak self] (_ superview: NSView) in
             if self != nil && self?.settingsView != nil {
@@ -114,12 +119,15 @@ open class Module: Module_p {
     // load function which call when app start
     public func load() {
         if self.enabled && self.widget != nil && self.ready {
-            self.menuBarItem.button?.target = self
-            self.menuBarItem.button?.action = #selector(togglePopup)
-            self.menuBarItem.button?.sendAction(on: [.leftMouseDown, .rightMouseDown])
-            
-            self.menuBarItem.length = self.widget!.frame.width
-            self.menuBarItem.button?.addSubview(self.widget!)
+            DispatchQueue.main.async {
+                self.menuBarItem.button?.target = self
+                self.menuBarItem.button?.action = #selector(self.togglePopup)
+                self.menuBarItem.button?.sendAction(on: [.leftMouseDown, .rightMouseDown])
+                
+                self.menuBarItem.length = self.widget!.frame.width
+                self.menuBarItem.button?.addSubview(self.widget!)
+                self.widgetLoaded = true
+            }
         }
     }
     
@@ -182,6 +190,9 @@ open class Module: Module_p {
     public func readyHandler() {
         os_log(.debug, log: log, "Reader report readiness")
         self.ready = true
+        if !self.widgetLoaded {
+            self.load()
+        }
     }
     
     // change menu item width
@@ -206,18 +217,18 @@ open class Module: Module_p {
         self.widget?.widthHandler = { [weak self] value in
             self?.widgetWidthHandler(value)
         }
-
+        
         self.readers.forEach{ $0.read() }
         if let mainReader = self.readers.first(where: { !$0.optional }) {
             self.widget?.setValues(mainReader.getHistory())
         }
-
+        
         if self.ready {
             self.menuBarItem.length = self.widget!.frame.width
             self.menuBarItem.button?.subviews.forEach{ $0.removeFromSuperview() }
             self.menuBarItem.button?.addSubview(self.widget!)
         }
-
+        
         self.settings?.setActiveWidget(self.widget)
     }
     

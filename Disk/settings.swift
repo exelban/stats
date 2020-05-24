@@ -13,7 +13,7 @@ import Cocoa
 import StatsKit
 import ModuleKit
 
-public class Settings: NSView, Settings_v {
+internal class Settings: NSView, Settings_v {
     public var selectedDiskHandler: (String) -> Void = {_ in }
     
     private let title: String

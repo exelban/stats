@@ -13,7 +13,7 @@ import Cocoa
 import ModuleKit
 import StatsKit
 
-public class Popup: NSView {
+internal class Popup: NSView {
     private let firstHeight: CGFloat = 90
     private let secondHeight: CGFloat = 92 // -26
     private let thirdHeight: CGFloat = 136 // -26

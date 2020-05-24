@@ -13,7 +13,7 @@ import Cocoa
 import ModuleKit
 import StatsKit
 
-public class Popup: NSView {
+internal class Popup: NSView {
     let diskFullHeight: CGFloat = 60
     var list: [String: DiskView] = [:]
     
@@ -53,10 +53,11 @@ internal class DiskView: NSView {
     private let uri: URL?
     
     private let nameHeight: CGFloat = 20
-    private let legendHeight: CGFloat = 11
+    private let legendHeight: CGFloat = 12
     private let barHeight: CGFloat = 10
     
     private var legendField: NSTextField? = nil
+    private var percentageField: NSTextField? = nil
     private var usedBarSpace: NSView? = nil
     
     private var mainView: NSView
@@ -72,8 +73,8 @@ internal class DiskView: NSView {
         self.layer?.cornerRadius = 2
         
         self.addName()
-        self.addLegend(free: free)
         self.addHorizontalBar(free: free)
+        self.addLegend(free: free)
         
         self.addSubview(self.mainView)
         
@@ -102,19 +103,24 @@ internal class DiskView: NSView {
     }
     
     private func addLegend(free: Int64) {
-        let view: NSView = NSView(frame: NSRect(x: 0, y: self.mainView.frame.height - self.nameHeight - 8, width: self.mainView.frame.width, height: self.legendHeight))
+        let view: NSView = NSView(frame: NSRect(x: 0, y: 2, width: self.mainView.frame.width, height: self.legendHeight))
         
-        self.legendField = TextView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height))
+        self.legendField = TextView(frame: NSRect(x: 0, y: 0, width: view.frame.width - 40, height: view.frame.height))
         self.legendField?.font = NSFont.systemFont(ofSize: 11, weight: .light)
-        let percentage = Int8((Double(self.size - free) / Double(self.size)) * 100)
-        self.legendField?.stringValue = "Used \(Units(bytes: (self.size - free)).getReadableMemory()) (\(percentage)%) from \(Units(bytes: self.size).getReadableMemory())"
+        self.legendField?.stringValue = "Used \(Units(bytes: (self.size - free)).getReadableMemory()) from \(Units(bytes: self.size).getReadableMemory())"
+        
+        self.percentageField = TextView(frame: NSRect(x: view.frame.width - 40, y: 0, width: 40, height: view.frame.height))
+        self.percentageField?.font = NSFont.systemFont(ofSize: 11, weight: .regular)
+        self.percentageField?.alignment = .right
+        self.percentageField?.stringValue = "\(Int8((Double(self.size - free) / Double(self.size)) * 100))%"
         
         view.addSubview(self.legendField!)
+        view.addSubview(self.percentageField!)
         self.mainView.addSubview(view)
     }
     
     private func addHorizontalBar(free: Int64) {
-        let view: NSView = NSView(frame: NSRect(x: 1, y: 3, width: self.mainView.frame.width - 2, height: self.barHeight))
+        let view: NSView = NSView(frame: NSRect(x: 1, y: self.mainView.frame.height - self.nameHeight - 11, width: self.mainView.frame.width - 2, height: self.barHeight))
         view.wantsLayer = true
         view.layer?.backgroundColor = NSColor.white.cgColor
         view.layer?.borderColor = NSColor.secondaryLabelColor.cgColor
@@ -134,8 +140,8 @@ internal class DiskView: NSView {
     public func update(free: Int64) {
         DispatchQueue.main.async(execute: {
             if self.legendField != nil {
-                let percentage = Int8((Double(self.size - free) / Double(self.size)) * 100)
-                self.legendField?.stringValue = "Used \(Units(bytes: (self.size - free)).getReadableMemory()) (\(percentage)%) from \(Units(bytes: self.size).getReadableMemory())"
+                self.legendField?.stringValue = "Used \(Units(bytes: (self.size - free)).getReadableMemory()) from \(Units(bytes: self.size).getReadableMemory())"
+                self.percentageField?.stringValue = "\(Int8((Double(self.size - free) / Double(self.size)) * 100))%"
             }
             
             if self.usedBarSpace != nil {

@@ -72,7 +72,6 @@ public class Disk: Module {
         
         super.init(
             store: store,
-            icon: nil,
             popup: self.popupView,
             settings: self.settingsView
         )

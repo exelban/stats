@@ -78,7 +78,11 @@ class PopupView: NSView {
     private var mainView: NSView? = nil
     
     override var intrinsicContentSize: CGSize {
-        return CGSize(width: self.frame.size.width, height: self.mainView!.subviews.first!.frame.size.height + Constants.Popup.headerHeight + Constants.Popup.margins*2)
+        var h: CGFloat = self.mainView?.subviews.first?.frame.height ?? 0
+        if h != 0 {
+            h += Constants.Popup.margins*2
+        }
+        return CGSize(width: self.frame.size.width, height: h + Constants.Popup.headerHeight)
     }
     
     override init(frame: NSRect) {
@@ -89,7 +93,7 @@ class PopupView: NSView {
         
         self.headerView = HeaderView(frame: NSRect(x: 0, y: frame.height - Constants.Popup.headerHeight, width: frame.width, height: Constants.Popup.headerHeight))
         
-        let mainView: NSView = NSView(frame: NSRect(x: Constants.Popup.margins, y: Constants.Popup.margins, width: frame.width - (Constants.Popup.margins*2), height: Constants.Popup.height - (Constants.Popup.margins*2)))
+        let mainView: NSView = NSView(frame: NSRect(x: Constants.Popup.margins, y: Constants.Popup.margins, width: frame.width - (Constants.Popup.margins*2), height: 0))
         
         self.addSubview(self.headerView!)
         self.addSubview(mainView)
@@ -102,8 +106,10 @@ class PopupView: NSView {
     }
     
     override func updateLayer() {
-        if self.mainView?.frame.height != self.mainView!.subviews.first!.frame.size.height {
-            self.setHeight(self.mainView!.subviews.first!.frame.size)
+        if self.mainView!.subviews.count != 0 {
+            if self.mainView?.frame.height != self.mainView!.subviews.first!.frame.size.height {
+                self.setHeight(self.mainView!.subviews.first!.frame.size)
+            }
         }
         self.layer!.backgroundColor = self.isDarkMode ? NSColor.windowBackgroundColor.cgColor : NSColor.white.cgColor
     }

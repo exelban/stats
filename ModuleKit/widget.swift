@@ -17,6 +17,7 @@ public enum widget_t: String {
     case mini = "mini"
     case lineChart = "line_chart"
     case barChart = "bar_chart"
+    case network = "network"
 }
 extension widget_t: CaseIterable {}
 
@@ -81,6 +82,9 @@ func LoadWidget(_ type: widget_t, preview: Bool, title: String, config: NSDictio
         break
     case .barChart:
         widget = BarChart(preview: preview, title: title, config: widgetConfig, store: store)
+        break
+    case .network:
+        widget = NetworkWidget(preview: preview, title: title, config: widgetConfig, store: store)
         break
     default: break
     }

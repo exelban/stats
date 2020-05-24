@@ -13,7 +13,7 @@ import Cocoa
 import StatsKit
 import ModuleKit
 
-public class LoadReader: Reader<CPULoad> {
+internal class LoadReader: Reader<CPULoad> {
     public var store: UnsafePointer<Store>? = nil
     
     private var cpuInfo: processor_info_array_t!

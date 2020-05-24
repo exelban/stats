@@ -128,6 +128,23 @@ extension String: LocalizedError {
         
         return ""
     }
+    
+    public var trimmed: String {
+        var buf = [UInt8]()
+        var trimming = true
+        for c in self.utf8 {
+            if trimming && c < 33 { continue }
+            trimming = false
+            buf.append(c)
+        }
+        
+        while let last = buf.last, last < 33 {
+            buf.removeLast()
+        }
+        
+        buf.append(0)
+        return String(cString: buf)
+    }
 }
 
 extension Float {
@@ -223,6 +240,29 @@ public extension NSView {
         }
 
         row.addSubview(toggle)
+        row.addSubview(rowTitle)
+        
+        return row
+    }
+    
+    func SelectTitleRow(frame: NSRect, title: String, action: Selector, items: [String], selected: String) -> NSView {
+        let row: NSView = NSView(frame: frame)
+        
+        let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: (row.frame.height - 16)/2, width: row.frame.width - 52, height: 17), title)
+        rowTitle.font = NSFont.systemFont(ofSize: 13, weight: .light)
+        rowTitle.textColor = .labelColor
+        
+        let select: NSPopUpButton = NSPopUpButton(frame: NSRect(x: row.frame.width - 50, y: 0, width: 50, height: row.frame.height))
+        select.target = self
+        select.action = action
+        select.addItems(withTitles: items)
+        select.selectItem(withTitle: selected)
+        select.sizeToFit()
+        
+        rowTitle.setFrameSize(NSSize(width: row.frame.width - select.frame.width, height: rowTitle.frame.height))
+        select.setFrameOrigin(NSPoint(x: row.frame.width - select.frame.width, y: 0))
+        
+        row.addSubview(select)
         row.addSubview(rowTitle)
         
         return row
@@ -374,5 +414,20 @@ public class ValueField: NSTextField {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+}
+
+public extension NSBezierPath {
+    func addArrow(start: CGPoint, end: CGPoint, pointerLineLength: CGFloat, arrowAngle: CGFloat) {
+        self.move(to: start)
+        self.line(to: end)
+        
+        let startEndAngle = atan((end.y - start.y) / (end.x - start.x)) + ((end.x - start.x) < 0 ? CGFloat(Double.pi) : 0)
+        let arrowLine1 = CGPoint(x: end.x + pointerLineLength * cos(CGFloat(Double.pi) - startEndAngle + arrowAngle), y: end.y - pointerLineLength * sin(CGFloat(Double.pi) - startEndAngle + arrowAngle))
+        let arrowLine2 = CGPoint(x: end.x + pointerLineLength * cos(CGFloat(Double.pi) - startEndAngle - arrowAngle), y: end.y - pointerLineLength * sin(CGFloat(Double.pi) - startEndAngle - arrowAngle))
+        
+        self.line(to: arrowLine1)
+        self.move(to: end)
+        self.line(to: arrowLine2)
     }
 }

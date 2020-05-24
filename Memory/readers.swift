@@ -12,7 +12,7 @@
 import Cocoa
 import ModuleKit
 
-public class UsageReader: Reader<MemoryUsage> {
+internal class UsageReader: Reader<MemoryUsage> {
     public var totalSize: Double = 0
     
     public override func setup() {

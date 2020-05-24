@@ -197,6 +197,11 @@ class WidgetPreview: NSView {
         
         widget.widthHandler = { [weak self] value in
             self?.widgetWidthHandler(value)
+            self?.removeTrackingArea((self?.trackingAreas.first)!)
+            
+            let rect = NSRect(x: 0, y: 0, width: value, height: self!.frame.height)
+            let trackingArea = NSTrackingArea(rect: rect, options: [NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited, NSTrackingArea.Options.activeInActiveApp], owner: self, userInfo: ["menu": self!.type])
+            self!.addTrackingArea(trackingArea)
         }
         self.addSubview(widget)
         

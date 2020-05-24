@@ -38,7 +38,6 @@ public class Memory: Module {
     public init(_ store: UnsafePointer<Store>?) {
         super.init(
             store: store,
-            icon: nil,
             popup: self.popupView,
             settings: nil
         )

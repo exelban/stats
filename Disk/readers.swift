@@ -12,7 +12,7 @@
 import Cocoa
 import ModuleKit
 
-class CapacityReader: Reader<DiskList> {
+internal class CapacityReader: Reader<DiskList> {
     private var disks: DiskList = DiskList()
     
     public override func setup() {

@@ -13,7 +13,7 @@ import Cocoa
 import StatsKit
 import ModuleKit
 
-public class Settings: NSView, Settings_v {
+internal class Settings: NSView, Settings_v {
     private var multithreadState: Bool = false
     
     private let title: String
