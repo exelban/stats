@@ -5,7 +5,7 @@
 	<key>Name</key>
 	<string>Network</string>
 	<key>State</key>
-	<true/>
+	<false/>
 	<key>Widgets</key>
 	<dict>
 		<key>network</key>

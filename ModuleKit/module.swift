@@ -95,6 +95,7 @@ open class Module: Module_p {
         self.menuBarItem.autosaveName = self.config.name
         
         NotificationCenter.default.addObserver(self, selector: #selector(listenForWidgetSwitch), name: .switchWidget, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(listenForMouseDownInSettings), name: .clickInSettings, object: nil)
         
         if self.config.widgetsConfig.count != 0 {
             self.setWidget()
@@ -275,6 +276,12 @@ open class Module: Module_p {
                     }
                 }
             }
+        }
+    }
+    
+    @objc private func listenForMouseDownInSettings(_ notification: Notification) {
+        if self.popup.isVisible {
+            self.popup.setIsVisible(false)
         }
     }
 }

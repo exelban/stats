@@ -15,7 +15,7 @@ import StatsKit
 
 internal class Popup: NSView {
     private let firstHeight: CGFloat = 90
-    private let secondHeight: CGFloat = 92 // -26
+    private let secondHeight: CGFloat = 66 // -26
     private let thirdHeight: CGFloat = 136 // -26
     
     private var loadField: NSTextField? = nil
@@ -31,7 +31,7 @@ internal class Popup: NSView {
     private var ready: Bool = false
     
     public init() {
-        super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: firstHeight + secondHeight + Constants.Popup.margins))
+        super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: firstHeight + Constants.Popup.separatorHeight + secondHeight))
         
         initFirstView()
         initDescription()
@@ -50,8 +50,6 @@ internal class Popup: NSView {
         let y: CGFloat = Constants.Popup.margins*1
         let view: NSView = NSView(frame: NSRect(x: 0, y: y, width: self.frame.width, height: self.thirdHeight))
         
-        addTitleSeparator("Top processes", view)
-        
 //        self.processes.forEach { (process: ProcessView) in
 //            process.width = view.frame.width
 //            view.addSubview(process)
@@ -61,14 +59,15 @@ internal class Popup: NSView {
     }
     
     private func initDescription() {
-        let y: CGFloat = self.frame.height - self.firstHeight - self.secondHeight - (Constants.Popup.margins*1)
-        let view: NSView = NSView(frame: NSRect(x: 0, y: y, width: self.frame.width, height: self.secondHeight))
+        let y: CGFloat = self.frame.height - self.firstHeight - Constants.Popup.separatorHeight
+        let separator = SeparatorView("Overview", origin: NSPoint(x: 0, y: y), width: self.frame.width)
+        self.addSubview(separator)
         
-        addTitleSeparator("Overview", view)
+        let view: NSView = NSView(frame: NSRect(x: 0, y: separator.frame.origin.y - self.secondHeight, width: self.frame.width, height: self.secondHeight))
         
-        self.systemField = addSecondRow(mView: view, y: 44, title: "System:", value: "")
-        self.userField = addSecondRow(mView: view, y: 22, title: "User:", value: "")
-        self.idleField = addSecondRow(mView: view, y: 0, title: "Idle:", value: "")
+        self.systemField = PopupRow(view, n: 2, title: "System:", value: "")
+        self.userField = PopupRow(view, n: 1, title: "User:", value: "")
+        self.idleField = PopupRow(view, n: 0, title: "Idle:", value: "")
         
         self.addSubview(view)
     }
@@ -104,34 +103,6 @@ internal class Popup: NSView {
         valueView.stringValue = value
         valueView.alignment = .right
         valueView.font = NSFont.systemFont(ofSize: 11, weight: .medium)
-        
-        rowView.addSubview(labelView)
-        rowView.addSubview(valueView)
-        mView.addSubview(rowView)
-        
-        return valueView
-    }
-    
-    private func addTitleSeparator(_ title: String, _ mView: NSView) {
-        let view: NSView = NSView(frame: NSRect(x: 0, y: mView.frame.height - 26, width: mView.frame.width, height: 26))
-        
-        let labelView: NSTextField = TextView(frame: NSRect(x: 0, y: (view.frame.height-15)/2, width: view.frame.width, height: 15))
-        labelView.stringValue = title
-        labelView.alignment = .center
-        labelView.textColor = .secondaryLabelColor
-        labelView.font = NSFont.systemFont(ofSize: 12, weight: .medium)
-        labelView.stringValue = title
-        
-        view.addSubview(labelView)
-        mView.addSubview(view)
-    }
-    
-    private func addSecondRow(mView: NSView, y: CGFloat, title: String, value: String) -> NSTextField {
-        let rowView: NSView = NSView(frame: NSRect(x: 0, y: y, width: mView.frame.width, height: 16))
-        
-        let labelWidth = title.widthOfString(usingFont: .systemFont(ofSize: 13, weight: .regular)) + 5
-        let labelView: LabelField = LabelField(frame: NSRect(x: 0, y: 0.5, width: labelWidth, height: 15), title)
-        let valueView: ValueField = ValueField(frame: NSRect(x: labelWidth, y: 0, width: rowView.frame.width - labelWidth, height: 16), value)
         
         rowView.addSubview(labelView)
         rowView.addSubview(valueView)

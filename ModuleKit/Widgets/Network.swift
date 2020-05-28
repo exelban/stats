@@ -60,6 +60,9 @@ public class NetworkWidget: Widget {
     public override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         
+        let ctx = NSGraphicsContext.current!.cgContext
+        ctx.saveGState()
+        
         var width: CGFloat = 10
         var x: CGFloat = 10
         
@@ -98,6 +101,7 @@ public class NetworkWidget: Widget {
             width += rowWidth
         }
         
+        ctx.restoreGState()
         if width == 0 {
             width = 1
         }
@@ -165,18 +169,23 @@ public class NetworkWidget: Widget {
     
     private func drawChars(_ dirtyRect: NSRect) {
         let rowHeight: CGFloat = self.frame.height / 2
-        let stringAttributes = [
+        
+        let downloadAttributes = [
             NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .regular),
-            NSAttributedString.Key.foregroundColor: NSColor.black,
+            NSAttributedString.Key.foregroundColor: downloadValue >= 1_024 ? NSColor(red: (26/255.0), green: (126/255.0), blue: (252/255.0), alpha: 0.8) : NSColor.labelColor,
             NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
         ]
-        
         var rect = CGRect(x: Constants.Widget.margin, y: 1, width: 8, height: rowHeight)
-        var str = NSAttributedString.init(string: "D", attributes: stringAttributes)
+        var str = NSAttributedString.init(string: "D", attributes: downloadAttributes)
         str.draw(with: rect)
         
+        let uploadAttributes = [
+            NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .regular),
+            NSAttributedString.Key.foregroundColor: uploadValue >= 1_024 ? NSColor.red : NSColor.labelColor,
+            NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
+        ]
         rect = CGRect(x: Constants.Widget.margin, y: rect.height+1, width: 8, height: rowHeight)
-        str = NSAttributedString.init(string: "U", attributes: stringAttributes)
+        str = NSAttributedString.init(string: "U", attributes: uploadAttributes)
         str.draw(with: rect)
     }
     

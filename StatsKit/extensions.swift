@@ -35,18 +35,20 @@ public struct Units {
         return megabytes / 1_024
     }
     
-    public func getReadableTuple() -> (Double, String) {
+    public func getReadableTuple() -> (String, String) {
         switch bytes {
         case 0..<1_024:
-            return (0, "KB/s")
+            return ("0", "KB/s")
         case 1_024..<(1_024 * 1_024):
-            return (Double(String(format: "%.2f", kilobytes))!, "KB/s")
-        case 1_024..<(1_024 * 1_024 * 1_024):
-            return (Double(String(format: "%.2f", megabytes))!, "MB/s")
+            return (String(format: "%.0f", kilobytes), "KB/s")
+        case 1_024..<(1_024 * 1_024 * 100):
+            return (String(format: "%.1f", megabytes), "MB/s")
+        case (1_024 * 1_024 * 100)..<(1_024 * 1_024 * 1_024):
+            return (String(format: "%.0f", megabytes), "MB/s")
         case (1_024 * 1_024 * 1_024)...Int64.max:
-            return (Double(String(format: "%.2f", gigabytes))!, "GB/s")
+            return (String(format: "%.1f", gigabytes), "GB/s")
         default:
-            return (Double(String(format: "%.2f", kilobytes))!, "KB/s")
+            return (String(format: "%.0f", kilobytes), "KB/s")
         }
     }
     
@@ -275,6 +277,7 @@ public extension Notification.Name {
     static let openSettingsView = Notification.Name("openSettingsView")
     static let switchWidget = Notification.Name("switchWidget")
     static let checkForUpdates = Notification.Name("checkForUpdates")
+    static let clickInSettings = Notification.Name("clickInSettings")
 }
 
 public class NSButtonWithPadding: NSButton {
@@ -430,4 +433,32 @@ public extension NSBezierPath {
         self.move(to: end)
         self.line(to: arrowLine2)
     }
+}
+
+public func SeparatorView(_ title: String, origin: NSPoint, width: CGFloat) -> NSView {
+    let view: NSView = NSView(frame: NSRect(x: origin.x, y: origin.y, width: width, height: 30))
+    
+    let labelView: NSTextField = TextView(frame: NSRect(x: 0, y: (view.frame.height-15)/2, width: view.frame.width, height: 15))
+    labelView.stringValue = title
+    labelView.alignment = .center
+    labelView.textColor = .secondaryLabelColor
+    labelView.font = NSFont.systemFont(ofSize: 12, weight: .medium)
+    labelView.stringValue = title
+    
+    view.addSubview(labelView)
+    return view
+}
+
+public func PopupRow(_ view: NSView, n: CGFloat, title: String, value: String) -> NSTextField {
+    let rowView: NSView = NSView(frame: NSRect(x: 0, y: 22*n, width: view.frame.width, height: 22))
+    
+    let labelWidth = title.widthOfString(usingFont: .systemFont(ofSize: 13, weight: .regular)) + 5
+    let labelView: LabelField = LabelField(frame: NSRect(x: 0, y: (22-15)/2, width: labelWidth, height: 15), title)
+    let valueView: ValueField = ValueField(frame: NSRect(x: labelWidth, y: (22-16)/2, width: rowView.frame.width - labelWidth, height: 16), value)
+    
+    rowView.addSubview(labelView)
+    rowView.addSubview(valueView)
+    view.addSubview(rowView)
+    
+    return valueView
 }

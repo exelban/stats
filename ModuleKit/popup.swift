@@ -12,7 +12,7 @@
 import Cocoa
 import StatsKit
 
-class PopupWindow: NSPanel, NSWindowDelegate {
+internal class PopupWindow: NSPanel, NSWindowDelegate {
     private let viewController: PopupViewController = PopupViewController()
     
     init(title: String, view: NSView?) {
@@ -38,7 +38,7 @@ class PopupWindow: NSPanel, NSWindowDelegate {
     }
 }
 
-class PopupViewController: NSViewController {
+internal class PopupViewController: NSViewController {
     private var popup: PopupView
     
     public init() {
@@ -73,7 +73,7 @@ class PopupViewController: NSViewController {
     }
 }
 
-class PopupView: NSView {
+internal class PopupView: NSView {
     public var headerView: HeaderView? = nil
     private var mainView: NSView? = nil
     
@@ -142,7 +142,7 @@ class PopupView: NSView {
     internal func disappear() {}
 }
 
-class HeaderView: NSView {
+internal class HeaderView: NSView {
     public var titleView: NSTextField? = nil
     
     private var settingsButton: NSButton?

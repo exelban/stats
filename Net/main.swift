@@ -13,10 +13,41 @@ import Cocoa
 import StatsKit
 import ModuleKit
 
+public enum Network_t: String {
+    case wifi
+    case ethernet
+}
+
 public struct NetworkUsage {
-    var laddr: String = ""
+    var active: Bool = false
+    
     var download: Int64 = 0
     var upload: Int64 = 0
+    
+    var laddr: String? = nil // local ip
+    var paddr: String? = nil // remote ip
+    var iaddr: String? = nil // mac adress
+    
+    var connectionType: Network_t? = nil
+    
+    var countryCode: String? = nil
+    var networkName: String? = nil
+    
+    mutating func reset() {
+        self.active = false
+        
+        self.download = 0
+        self.upload = 0
+        
+        self.laddr = nil
+        self.paddr = nil
+        self.iaddr = nil
+        
+        self.connectionType = nil
+        
+        self.countryCode = nil
+        self.networkName = nil
+    }
 }
 
 public class Network: Module {
@@ -45,6 +76,7 @@ public class Network: Module {
             return
         }
         
+        self.popupView.usageCallback(value!)
         if let widget = self.widget as? NetworkWidget {
             widget.setValue(upload: value!.upload, download: value!.download)
         }

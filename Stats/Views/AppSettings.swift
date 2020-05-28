@@ -38,10 +38,15 @@ class ApplicationSettings: NSView {
         let leftPanel: NSView = NSView(frame: NSRect(x: 0, y: 0, width: view.frame.width/2, height: view.frame.height))
         leftPanel.wantsLayer = true
         
+        var processorInfo = ""
+        if systemKit.device.info?.cpu?.name != "" {
+            processorInfo += "\(systemKit.device.info?.cpu?.name ?? "Unknown")\n"
+        }
+        processorInfo += "\(systemKit.device.info?.cpu?.physicalCores ?? 0) cores (\(systemKit.device.info?.cpu?.logicalCores ?? 0) threads)"
         leftPanel.addSubview(makeInfoRow(
             frame: NSRect(x: rowHorizontalPadding, y: rowHeight*3, width: leftPanel.frame.width - (rowHorizontalPadding*1.5), height: rowHeight),
             title: "Processor",
-            value: "\(systemKit.device.info?.cpu?.physicalCores ?? 0) cores (\(systemKit.device.info?.cpu?.logicalCores ?? 0) threads)"
+            value: processorInfo
         ))
         
         let sizeFormatter = ByteCountFormatter()
@@ -255,6 +260,9 @@ class ApplicationSettings: NSView {
         }
         let dockIconStatus = state == NSControl.StateValue.on ? NSApplication.ActivationPolicy.regular : NSApplication.ActivationPolicy.accessory
         NSApp.setActivationPolicy(dockIconStatus)
+        if state == .off {
+            NSApplication.shared.activate(ignoringOtherApps: true)
+        }
     }
     
     @objc func toggleLaunchAtLogin(_ sender: NSControl) {

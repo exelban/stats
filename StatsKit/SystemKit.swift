@@ -39,6 +39,7 @@ public struct os_s {
 public struct cpu_s {
     public let physicalCores: Int8
     public let logicalCores: Int8
+    public let name: String
 }
 
 public struct ram_s {
@@ -99,7 +100,7 @@ public class SystemKit {
     }
     
     public func modelName() -> String? {
-        var mib  = [CTL_HW, HW_MODEL]
+        var mib = [CTL_HW, HW_MODEL]
         var size = MemoryLayout<io_name_t>.size
         
         let pointer = UnsafeMutablePointer<io_name_t>.allocate(capacity: 1)
@@ -111,13 +112,25 @@ public class SystemKit {
         if result == KERN_SUCCESS {
             return String(cString: UnsafeRawPointer(pointer).assumingMemoryBound(to: CChar.self))
         }
-
+        
         os_log(.error, log: self.log, "error call sysctl(): %v", (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
         return nil
     }
     
     private func getCPUInfo() -> cpu_s? {
-        var size     = UInt32(MemoryLayout<host_basic_info_data_t>.size / MemoryLayout<integer_t>.size)
+        var sizeOfName = 0
+        sysctlbyname("machdep.cpu.brand_string", nil, &sizeOfName, nil, 0)
+        var nameCharts = [CChar](repeating: 0,  count: sizeOfName)
+        sysctlbyname("machdep.cpu.brand_string", &nameCharts, &sizeOfName, nil, 0)
+        var name = String(cString: nameCharts)
+        if name != "" {
+            name = name.replacingOccurrences(of: "(TM)", with: "")
+            name = name.replacingOccurrences(of: "(R)", with: "")
+            name = name.replacingOccurrences(of: "CPU", with: "")
+            name = name.replacingOccurrences(of: " @ ", with: "")
+        }
+        
+        var size = UInt32(MemoryLayout<host_basic_info_data_t>.size / MemoryLayout<integer_t>.size)
         let hostInfo = host_basic_info_t.allocate(capacity: 1)
         defer {
             hostInfo.deallocate()
@@ -129,7 +142,7 @@ public class SystemKit {
         
         if result == KERN_SUCCESS {
             let data = hostInfo.move()
-            return cpu_s(physicalCores: Int8(data.physical_cpu), logicalCores: Int8(data.logical_cpu))
+            return cpu_s(physicalCores: Int8(data.physical_cpu), logicalCores: Int8(data.logical_cpu), name: name)
         }
         
         os_log(.error, log: self.log, "hostInfo.withMemoryRebound(): %v", (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))

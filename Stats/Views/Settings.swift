@@ -49,6 +49,10 @@ class SettingsWindow: NSWindow, NSWindowDelegate {
     public func openMenu(_ title: String) {
         self.viewController.openMenu(title)
     }
+    
+    override func mouseUp(with: NSEvent) {
+        NotificationCenter.default.post(name: .clickInSettings, object: nil, userInfo: nil)
+    }
 }
 
 private class SettingsViewController: NSViewController {
