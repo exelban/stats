@@ -134,20 +134,11 @@ public class BarChart: Widget {
         }
         
         let box = NSBezierPath(roundedRect: NSRect(x: x, y: 0, width: width - x - Constants.Widget.margin, height: self.frame.size.height), xRadius: 2, yRadius: 2)
-        var gradientColor: NSColor = NSColor(red: (26/255.0), green: (126/255.0), blue: (252/255.0), alpha: 0.8)
         if self.boxState {
             NSColor.black.set()
             box.stroke()
             box.fill()
             chartPadding = 1
-            gradientColor = NSColor(hexString: "#5c91f4")
-        }
-        
-        if self.colorState {
-            let newGradientColor = self.value[0].usageColor(color: self.colorState)
-            if newGradientColor != NSColor.systemGreen {
-                gradientColor = newGradientColor
-            }
         }
         
         let widthForBarChart = box.bounds.width - chartPadding
@@ -161,7 +152,8 @@ public class BarChart: Widget {
             let partitionValue = self.value[i]
             let partitonHeight = maxPartitionHeight * CGFloat(partitionValue)
             let partition = NSBezierPath(rect: NSRect(x: x, y: chartPadding, width: partitionWidth, height: partitonHeight))
-            gradientColor.setFill()
+            
+            partitionValue.usageColor().setFill()
             partition.fill()
             partition.close()
             

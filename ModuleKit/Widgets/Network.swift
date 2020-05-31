@@ -58,10 +58,8 @@ public class NetworkWidget: Widget {
     }
     
     public override func draw(_ dirtyRect: NSRect) {
+//        guard let ctx = NSGraphicsContext.current?.cgContext else { return }
         super.draw(dirtyRect)
-        
-        let ctx = NSGraphicsContext.current!.cgContext
-        ctx.saveGState()
         
         var width: CGFloat = 10
         var x: CGFloat = 10
@@ -101,7 +99,6 @@ public class NetworkWidget: Widget {
             width += rowWidth
         }
         
-        ctx.restoreGState()
         if width == 0 {
             width = 1
         }

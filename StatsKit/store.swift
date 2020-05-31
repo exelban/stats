@@ -39,4 +39,10 @@ public class Store {
     public func set(key: String, value: String) {
         self.defaults.set(value, forKey: key)
     }
+    
+    public func reset() {
+        self.defaults.dictionaryRepresentation().keys.forEach { key in
+            self.defaults.removeObject(forKey: key)
+        }
+    }
 }

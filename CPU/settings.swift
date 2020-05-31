@@ -14,7 +14,7 @@ import StatsKit
 import ModuleKit
 
 internal class Settings: NSView, Settings_v {
-    private var multithreadState: Bool = false
+    private var hyperthreadState: Bool = false
     
     private let title: String
     private let store: UnsafePointer<Store>?
@@ -27,7 +27,7 @@ internal class Settings: NSView, Settings_v {
         self.canDrawConcurrently = true
         
         if self.store != nil {
-            self.multithreadState = store!.pointee.bool(key: "\(self.title)_multithread", defaultValue: self.multithreadState)
+            self.hyperthreadState = store!.pointee.bool(key: "\(self.title)_hyperhreading", defaultValue: self.hyperthreadState)
         }
     }
     
@@ -44,9 +44,9 @@ internal class Settings: NSView, Settings_v {
         if widget == .barChart {
             self.addSubview(ToggleTitleRow(
                 frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 0, width: rect.width - (Constants.Settings.margin*2), height: rowHeight),
-                title: "Multithreading",
+                title: "Show hyper-threading cores",
                 action: #selector(toggleMultithreading),
-                state: self.multithreadState
+                state: self.hyperthreadState
             ))
             height += rowHeight
         }
@@ -65,7 +65,7 @@ internal class Settings: NSView, Settings_v {
             state = sender is NSButton ? (sender as! NSButton).state: nil
         }
         
-        self.multithreadState = state! == .on ? true : false
-        self.store?.pointee.set(key: "\(self.title)_multithread", value: self.multithreadState)
+        self.hyperthreadState = state! == .on ? true : false
+        self.store?.pointee.set(key: "\(self.title)_hyperhreading", value: self.hyperthreadState)
     }
 }

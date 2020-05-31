@@ -14,10 +14,6 @@
 			<true/>
 			<key>Title</key>
 			<string>SSD</string>
-			<key>Label</key>
-			<true/>
-			<key>Color</key>
-			<true/>
 		</dict>
 		<key>bar_chart</key>
 		<dict>

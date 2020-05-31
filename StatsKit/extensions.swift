@@ -167,30 +167,41 @@ public extension Double {
         return (self * divisor).rounded() / divisor
     }
     
-    func usageColor(reversed: Bool = false, color: Bool = false) -> NSColor {
-        if !color {
-            return NSColor.textColor
+    func usageColor(reversed: Bool = false, color: NSColor = NSColor(hexString: "#5c91f4")) -> NSColor {
+        var firstColor = color
+        if UserDefaults.standard.object(forKey: "color") != nil {
+            firstColor = NSColor(hexString: UserDefaults.standard.string(forKey: "color")!)
         }
-
+        
+        let secondColor: NSColor = NSColor.systemOrange
+        let thirdColor: NSColor = NSColor.systemRed
+        
         if reversed {
             switch self {
             case 0.6...0.8:
-                return NSColor.systemOrange
+                return secondColor
             case 0.8...1:
-                return NSColor.systemGreen
+                return firstColor
             default:
-                return NSColor.systemRed
+                return thirdColor
             }
         } else {
             switch self {
             case 0.6...0.8:
-                return NSColor.systemOrange
+                return secondColor
             case 0.8...1:
-                return NSColor.systemRed
+                return thirdColor
             default:
-                return NSColor.systemGreen
+                return firstColor
             }
         }
+    }
+    
+    func textUsageColor(color: Bool) -> NSColor {
+        if !color {
+            return NSColor.textColor
+        }
+        return usageColor(color: NSColor.textColor)
     }
 }
 

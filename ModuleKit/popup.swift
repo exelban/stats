@@ -126,13 +126,15 @@ internal class PopupView: NSView {
     }
     
     private func setHeight(_ size: CGSize) {
-        self.mainView?.setFrameSize(NSSize(width: self.mainView!.frame.width, height: size.height))
-        self.setFrameSize(NSSize(width: size.width + (Constants.Popup.margins*2), height: size.height + Constants.Popup.headerHeight + Constants.Popup.margins*2))
-        self.headerView?.setFrameOrigin(NSPoint(x: 0, y: self.frame.height - Constants.Popup.headerHeight))
-        
-        var frame = self.window?.frame
-        frame?.size = self.frame.size
-        self.window?.setFrame(frame!, display: true)
+        DispatchQueue.main.async(execute: {
+            self.mainView?.setFrameSize(NSSize(width: self.mainView!.frame.width, height: size.height))
+            self.setFrameSize(NSSize(width: size.width + (Constants.Popup.margins*2), height: size.height + Constants.Popup.headerHeight + Constants.Popup.margins*2))
+            self.headerView?.setFrameOrigin(NSPoint(x: 0, y: self.frame.height - Constants.Popup.headerHeight))
+            
+            var frame = self.window?.frame
+            frame?.size = self.frame.size
+            self.window?.setFrame(frame!, display: true)
+        })
     }
     
     internal func appear() {

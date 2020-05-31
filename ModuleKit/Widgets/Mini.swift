@@ -16,7 +16,7 @@ public class Mini: Widget {
     private var valueView: NSTextField = NSTextField()
     private var labelView: NSTextField = NSTextField()
     
-    public var colorState: Bool = true
+    public var colorState: Bool = false
     public var labelState: Bool = true
     
     private let onlyValueWidth: CGFloat = 42
@@ -65,7 +65,7 @@ public class Mini: Widget {
             labelView.isSelectable = false
             labelView.isBezeled = false
             labelView.wantsLayer = true
-            labelView.textColor = .labelColor
+            labelView.textColor = .textColor
             labelView.backgroundColor = .controlColor
             labelView.canDrawSubviewsIntoLayer = true
             labelView.alignment = .natural
@@ -91,7 +91,7 @@ public class Mini: Widget {
         valueView.isSelectable = false
         valueView.isBezeled = false
         valueView.wantsLayer = true
-        valueView.textColor = self.value.usageColor(color: self.colorState)
+        valueView.textColor = self.value.textUsageColor(color: self.colorState)
         valueView.backgroundColor = .controlColor
         valueView.canDrawSubviewsIntoLayer = true
         valueView.alignment = valueAligment
@@ -101,7 +101,7 @@ public class Mini: Widget {
         
         if self.preview {
             valueView.stringValue = "38%"
-            valueView.textColor = 0.38.usageColor(color: true)
+            valueView.textColor = 0.38.textUsageColor(color: false)
         }
         
         self.valueView = valueView
@@ -144,7 +144,7 @@ public class Mini: Widget {
             state = sender is NSButton ? (sender as! NSButton).state: nil
         }
         self.colorState = state! == .on ? true : false
-        self.valueView.textColor = value.usageColor(color: self.colorState)
+        self.valueView.textColor = value.textUsageColor(color: self.colorState)
         self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_color", value: self.colorState)
     }
     
@@ -169,7 +169,7 @@ public class Mini: Widget {
         self.value = value
         DispatchQueue.main.async(execute: {
             self.valueView.stringValue = "\(Int((value.rounded(toPlaces: 2)) * 100))\(sufix)"
-            self.valueView.textColor = value.usageColor(color: self.colorState)
+            self.valueView.textColor = value.textUsageColor(color: self.colorState)
         })
     }
 }

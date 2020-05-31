@@ -19,7 +19,7 @@ var store: Store = Store()
 let updater = macAppUpdater(user: "exelban", repo: "stats")
 let systemKit: SystemKit = SystemKit()
 var smc: SMCService = SMCService()
-var modules: [Module] = [CPU(&store, &smc), Memory(&store), Disk(&store), Network(&store)]
+var modules: [Module] = [Network(&store), Disk(&store), Memory(&store), CPU(&store, &smc)].reversed()
 var log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: "Stats")
 
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -82,6 +82,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let currentVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
         
         if !store.exist(key: key) {
+            store.reset()
             os_log(.info, log: log, "Previous version not detected. Current version (%s) set", currentVersion)
         } else {
             let prevVersion = store.string(key: key, defaultValue: "")

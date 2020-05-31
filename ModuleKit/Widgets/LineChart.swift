@@ -15,8 +15,8 @@ import StatsKit
 public class LineChart: Widget {
     private var labelState: Bool = true
     private var boxState: Bool = true
-    private var valueState: Bool = true
-    private var colorState: Bool = true
+    private var valueState: Bool = false
+    private var colorState: Bool = false
     
     private let store: UnsafePointer<Store>?
     private var chart: LineChartView
@@ -113,7 +113,7 @@ public class LineChart: Widget {
             
             var color = isDarkMode ? NSColor.white : NSColor.black
             if self.colorState {
-                color = self.value.usageColor(reversed: false, color: self.colorState)
+                color = self.value.textUsageColor(color: self.colorState)
             }
             
             let stringAttributes = [

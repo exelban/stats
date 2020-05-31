@@ -48,6 +48,7 @@ public class LineChartView: NSView {
         }
         
         let context = NSGraphicsContext.current!.cgContext
+        context.setShouldAntialias(true)
         let height: CGFloat = self.frame.size.height - self.frame.origin.y - 0.5
         let xRatio: CGFloat = self.frame.size.width / CGFloat(self.points!.count)
         

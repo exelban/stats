@@ -24,44 +24,29 @@ internal class LoadReader: Reader<CPULoad> {
     private let CPUUsageLock: NSLock = NSLock()
     private var previousInfo = host_cpu_load_info()
     
-    private var result: kern_return_t = 0
     private var response: CPULoad = CPULoad()
     private var numCPUsU: natural_t = 0
     private var usagePerCore: [Double] = []
     
     public override func setup() {
         self.interval = 1500
-        let mibKeys: [Int32] = [ CTL_HW, HW_NCPU ]
         
-        mibKeys.withUnsafeBufferPointer() { mib in
+        [CTL_HW, HW_NCPU].withUnsafeBufferPointer() { mib in
             var sizeOfNumCPUs: size_t = MemoryLayout<uint>.size
             let status = sysctl(processor_info_array_t(mutating: mib.baseAddress), 2, &numCPUs, &sizeOfNumCPUs, nil, 0)
             if status != 0 {
-                numCPUs = 1
+                self.numCPUs = 1
             }
         }
     }
     
     public override func read() {
-        self.result = host_processor_info(mach_host_self(), PROCESSOR_CPU_LOAD_INFO, &self.numCPUsU, &self.cpuInfo, &self.numCpuInfo)
-        
-        if self.result == KERN_SUCCESS {
+        let result: kern_return_t = host_processor_info(mach_host_self(), PROCESSOR_CPU_LOAD_INFO, &self.numCPUsU, &self.cpuInfo, &self.numCpuInfo)
+        if result == KERN_SUCCESS {
             self.CPUUsageLock.lock()
-            
-            var inUseOnAllCores: Int32 = 0
-            var totalOnAllCores: Int32 = 0
             self.usagePerCore = []
             
-            var devider = 2
-            if self.store?.pointee.bool(key: "CPU_multithread", defaultValue: false) ?? false {
-                devider = 1
-            }
-            
-            for i in stride(from: 0, to: Int32(self.numCPUs), by: devider) {
-                if self.cpuInfo == nil {
-                    return
-                }
-                
+            for i in 0 ..< Int32(numCPUs) {
                 var inUse: Int32
                 var total: Int32
                 if let prevCpuInfo = self.prevCpuInfo {
@@ -79,26 +64,39 @@ internal class LoadReader: Reader<CPULoad> {
                         + self.cpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_NICE)]
                     total = inUse + self.cpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_IDLE)]
                 }
-
-                inUseOnAllCores = inUseOnAllCores + inUse
-                totalOnAllCores = totalOnAllCores + total
+                
                 if total != 0 {
                     self.usagePerCore.append(Double(inUse) / Double(total))
                 }
             }
-            
             self.CPUUsageLock.unlock()
+            
+            if self.store?.pointee.bool(key: "CPU_hyperhreading", defaultValue: false) ?? false {
+                self.response.usagePerCore = self.usagePerCore
+            } else {
+                var i = 0
+                var a = 0
+                
+                self.response.usagePerCore = []
+                while i < Int(self.usagePerCore.count/2) {
+                    a = i*2
+                    if self.usagePerCore.indices.contains(a) && self.usagePerCore.indices.contains(a+1) {
+                        self.response.usagePerCore.append((Double(self.usagePerCore[a]) + Double(self.usagePerCore[a+1])) / 2)
+                    }
+                    i += 1
+                }
+            }
+            
             if let prevCpuInfo = self.prevCpuInfo {
                 let prevCpuInfoSize: size_t = MemoryLayout<integer_t>.stride * Int(self.numPrevCpuInfo)
                 vm_deallocate(mach_task_self_, vm_address_t(bitPattern: prevCpuInfo), vm_size_t(prevCpuInfoSize))
             }
             
-            self.prevCpuInfo = cpuInfo
-            self.numPrevCpuInfo = numCpuInfo
+            self.prevCpuInfo = self.cpuInfo
+            self.numPrevCpuInfo = self.numCpuInfo
+            
             self.cpuInfo = nil
             self.numCpuInfo = 0
-            
-            self.response.usagePerCore = self.usagePerCore
         } else {
             print("ERROR host_processor_info(): " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
         }
@@ -139,12 +137,12 @@ internal class LoadReader: Reader<CPULoad> {
         var size = mach_msg_type_number_t(HOST_CPU_LOAD_INFO_COUNT)
         var cpuLoadInfo = host_cpu_load_info()
         
-        self.result = withUnsafeMutablePointer(to: &cpuLoadInfo) {
+        let result: kern_return_t = withUnsafeMutablePointer(to: &cpuLoadInfo) {
             $0.withMemoryRebound(to: integer_t.self, capacity: HOST_CPU_LOAD_INFO_COUNT) {
                 host_statistics(mach_host_self(), HOST_CPU_LOAD_INFO, $0, &size)
             }
         }
-        if self.result != KERN_SUCCESS {
+        if result != KERN_SUCCESS {
             print("Error  - \(#file): \(#function) - kern_result_t = \(result)")
             return nil
         }
