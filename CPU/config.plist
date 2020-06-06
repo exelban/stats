@@ -12,6 +12,11 @@
 		<dict>
 			<key>Default</key>
 			<true/>
+			<key>Preview</key>
+			<dict>
+				<key>Value</key>
+				<string>0.08</string>
+			</dict>
 		</dict>
 		<key>line_chart</key>
 		<dict>

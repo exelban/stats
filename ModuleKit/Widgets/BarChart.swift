@@ -123,10 +123,10 @@ public class BarChart: Widget {
             width += 52
             break
         case 13...16: // 13..16
-            width += 64
+            width += 78
             break
         case 17...32: // 17..32
-            width += 72
+            width += 86
             break
         default: // > 32
             width += 120

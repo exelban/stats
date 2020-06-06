@@ -12,7 +12,7 @@
 import Cocoa
 import ModuleKit
 
-internal class UsageReader: Reader<MemoryUsage> {
+internal class UsageReader: Reader<Usage> {
     public var totalSize: Double = 0
     
     public override func setup() {
@@ -53,7 +53,7 @@ internal class UsageReader: Reader<MemoryUsage> {
             let used = active + wired + compressed
             let free = self.totalSize - used
             
-            self.callback(MemoryUsage(
+            self.callback(Usage(
                 active: active,
                 inactive: inactive,
                 wired: wired,

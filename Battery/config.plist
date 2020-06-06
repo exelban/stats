@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>Name</key>
-	<string>RAM</string>
+	<string>Battery</string>
 	<key>State</key>
 	<true/>
 	<key>Widgets</key>
@@ -11,39 +11,25 @@
 		<key>mini</key>
 		<dict>
 			<key>Default</key>
-			<true/>
-			<key>Preview</key>
-			<dict>
-				<key>Value</key>
-				<string>0.58</string>
-			</dict>
-		</dict>
-		<key>line_chart</key>
-		<dict>
-			<key>Default</key>
-			<false/>
-		</dict>
-		<key>bar_chart</key>
-		<dict>
-			<key>Default</key>
 			<false/>
 			<key>Label</key>
-			<true/>
-			<key>Box</key>
-			<true/>
-			<key>Color</key>
-			<true/>
+			<false/>
+			<key>Title</key>
+			<string>BAT</string>
 			<key>Preview</key>
 			<dict>
 				<key>Label</key>
-				<true/>
-				<key>Box</key>
-				<true/>
-				<key>Color</key>
-				<true/>
+				<false/>
+				<key>Title</key>
+				<string>BAT</string>
 				<key>Value</key>
-				<string>0.48</string>
+				<string>0.72</string>
 			</dict>
+		</dict>
+		<key>battery</key>
+		<dict>
+			<key>Default</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>

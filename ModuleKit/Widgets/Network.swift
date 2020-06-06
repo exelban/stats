@@ -84,7 +84,7 @@ public class NetworkWidget: Widget {
             style.alignment = .right
             let stringAttributes = [
                 NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .light),
-                NSAttributedString.Key.foregroundColor: NSColor.labelColor,
+                NSAttributedString.Key.foregroundColor: NSColor.textColor,
                 NSAttributedString.Key.paragraphStyle: style
             ]
             
@@ -232,6 +232,7 @@ public class NetworkWidget: Widget {
     
     public func setValue(upload: Int64, download: Int64) {
         var updated: Bool = false
+        
         if self.downloadValue != download {
             self.downloadValue = download
             updated = true

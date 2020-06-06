@@ -19,7 +19,7 @@ public class Mini: Widget {
     public var colorState: Bool = false
     public var labelState: Bool = true
     
-    private let onlyValueWidth: CGFloat = 42
+    private let onlyValueWidth: CGFloat = 38
     private var value: Double = 0
     private let store: UnsafePointer<Store>?
     
@@ -27,13 +27,28 @@ public class Mini: Widget {
         var widgetTitle: String = title
         self.store = store
         if config != nil {
-            if let titleFromConfig = config!["Title"] as? String {
+            var configuration = config!
+            
+            if preview {
+                if let previewConfig = config!["Preview"] as? NSDictionary {
+                    configuration = previewConfig
+                    if let value = configuration["Value"] as? String {
+                        self.value = Double(value) ?? 0.38
+                    } else {
+                        self.value = 0.38
+                    }
+                } else {
+                    self.value = 0.38
+                }
+            }
+            
+            if let titleFromConfig = configuration["Title"] as? String {
                 widgetTitle = titleFromConfig
             }
-            if let label = config!["Label"] as? Bool {
+            if let label = configuration["Label"] as? Bool {
                 self.labelState = label
             }
-            if let color = config!["Color"] as? Bool {
+            if let color = configuration["Color"] as? Bool {
                 self.colorState = color
             }
         }
@@ -47,65 +62,44 @@ public class Mini: Widget {
             self.colorState = store!.pointee.bool(key: "\(self.title)_\(self.type.rawValue)_color", defaultValue: self.colorState)
             self.labelState = store!.pointee.bool(key: "\(self.title)_\(self.type.rawValue)_label", defaultValue: self.labelState)
         }
-        
-        self.build()
     }
     
-    private func build() {
-        var xOffset: CGFloat = 1
-        var width: CGFloat = self.frame.size.width
-        var height: CGFloat = 10
-        var y: CGFloat = 1
-        var fontSize: CGFloat = 10
-        var valueAligment: NSTextAlignment = .natural
+    public override func draw(_ dirtyRect: NSRect) {
+        super.draw(dirtyRect)
+        
+        var width: CGFloat = onlyValueWidth
+        let x: CGFloat = Constants.Widget.margin
+        var valueSize: CGFloat = 13
+        var y: CGFloat = (Constants.Widget.height-valueSize)/2
+        let style = NSMutableParagraphStyle()
+        style.alignment = .center
         
         if self.labelState {
-            let labelView = NSTextField(frame: NSMakeRect(xOffset, 11, width, 8))
-            labelView.isEditable = false
-            labelView.isSelectable = false
-            labelView.isBezeled = false
-            labelView.wantsLayer = true
-            labelView.textColor = .textColor
-            labelView.backgroundColor = .controlColor
-            labelView.canDrawSubviewsIntoLayer = true
-            labelView.alignment = .natural
-            labelView.font = NSFont.systemFont(ofSize: 8, weight: .light)
-            labelView.stringValue = self.title
-            labelView.addSubview(NSView())
+            let stringAttributes = [
+                NSAttributedString.Key.font: NSFont.systemFont(ofSize: 7, weight: .light),
+                NSAttributedString.Key.foregroundColor: isDarkMode ? NSColor.white : NSColor.textColor,
+                NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
+            ]
+            let rect = CGRect(x: x, y: 12, width: 20, height: 7)
+            let str = NSAttributedString.init(string: self.title, attributes: stringAttributes)
+            str.draw(with: rect)
             
-            self.labelView = labelView
-            self.addSubview(self.labelView)
-            self.setWidth(Constants.Widget.width)
-        } else {
-            xOffset = 0
-            width = self.onlyValueWidth
-            height = self.frame.height - 2
             y = 1
-            fontSize = 13
-            valueAligment = .center
-            self.setWidth(self.onlyValueWidth)
+            valueSize = 11
+            width = Constants.Widget.width
+            style.alignment = .left
         }
         
-        let valueView = NSTextField(frame: NSMakeRect(xOffset, y, width, height))
-        valueView.isEditable = false
-        valueView.isSelectable = false
-        valueView.isBezeled = false
-        valueView.wantsLayer = true
-        valueView.textColor = self.value.textUsageColor(color: self.colorState)
-        valueView.backgroundColor = .controlColor
-        valueView.canDrawSubviewsIntoLayer = true
-        valueView.alignment = valueAligment
-        valueView.font = NSFont.systemFont(ofSize: fontSize, weight: .regular)
-        valueView.stringValue = "\(Int(self.value.rounded(toPlaces: 2) * 100))%"
-        valueView.addSubview(NSView())
+        let stringAttributes = [
+            NSAttributedString.Key.font: NSFont.systemFont(ofSize: valueSize, weight: .regular),
+            NSAttributedString.Key.foregroundColor: isDarkMode ? NSColor.white : NSColor.textColor,
+            NSAttributedString.Key.paragraphStyle: style
+        ]
+        let rect = CGRect(x: x, y: y, width: width - (Constants.Widget.margin*2), height: valueSize)
+        let str = NSAttributedString.init(string: "\(Int(self.value.rounded(toPlaces: 2) * 100))%", attributes: stringAttributes)
+        str.draw(with: rect)
         
-        if self.preview {
-            valueView.stringValue = "38%"
-            valueView.textColor = 0.38.textUsageColor(color: false)
-        }
-        
-        self.valueView = valueView
-        self.addSubview(self.valueView)
+        self.setWidth(width)
     }
     
     required init?(coder: NSCoder) {
@@ -146,6 +140,7 @@ public class Mini: Widget {
         self.colorState = state! == .on ? true : false
         self.valueView.textColor = value.textUsageColor(color: self.colorState)
         self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_color", value: self.colorState)
+        self.display()
     }
     
     @objc private func toggleLabel(_ sender: NSControl) {
@@ -157,8 +152,7 @@ public class Mini: Widget {
         }
         self.labelState = state! == .on ? true : false
         self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_label", value: self.labelState)
-        self.subviews.forEach{ $0.removeFromSuperview() }
-        self.build()
+        self.display()
     }
     
     public func setValue(_ value: Double, sufix: String) {
@@ -168,8 +162,7 @@ public class Mini: Widget {
         
         self.value = value
         DispatchQueue.main.async(execute: {
-            self.valueView.stringValue = "\(Int((value.rounded(toPlaces: 2)) * 100))\(sufix)"
-            self.valueView.textColor = value.textUsageColor(color: self.colorState)
+            self.display()
         })
     }
 }

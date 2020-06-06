@@ -41,7 +41,7 @@ class SettingsWindow: NSWindow, NSWindowDelegate {
     
     public func setModules() {
         self.viewController.setModules(&modules)
-        if modules.filter({ $0.enabled != false}).count == 0 {
+        if modules.filter({ $0.enabled != false && $0.available != false }).count == 0 {
             self.setIsVisible(true)
         }
     }
@@ -163,6 +163,7 @@ private class SettingsView: NSView {
     
     public func setModules(_ list: UnsafeMutablePointer<[Module]>) {
         list.pointee.forEach { (m: Module) in
+            if !m.available { return }
             let n: Int = (self.navigationView?.subviews.count ?? 2)!-1
             let menu: NSView = MenuView(n: n, icon: m.config.icon, title: m.config.name)
             self.navigationView?.addSubview(menu)

@@ -10,7 +10,7 @@ import Cocoa
 import ModuleKit
 import StatsKit
 
-public struct CPULoad: value_t {
+public struct Load: value_t {
     var totalUsage: Double = 0
     var usagePerCore: [Double] = []
     
@@ -59,7 +59,7 @@ public class CPU: Module {
         self.addReader(self.loadReader)
     }
     
-    private func loadCallback(_ value: CPULoad?) {
+    private func loadCallback(_ value: Load?) {
         if value == nil {
             return
         }

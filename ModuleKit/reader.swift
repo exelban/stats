@@ -13,7 +13,6 @@ import Cocoa
 import Repeat
 import os.log
 
-
 public protocol value_t {
     var widget_value: Double { get }
 }
@@ -104,6 +103,19 @@ open class Reader<T>: ReaderInternal_p {
     open func read() {}
     open func setup() {}
     open func terminate() {}
+    
+    open func start() {
+        self.read()
+        self.repeatTask!.start()
+    }
+    
+    open func pause() {
+        self.repeatTask!.pause()
+    }
+    
+    open func stop() {
+        self.repeatTask!.removeAllObservers(thenStop: true)
+    }
 }
 
 extension Reader: Reader_p {
@@ -113,18 +125,5 @@ extension Reader: Reader_p {
     
     public func getHistory<T>() -> [T] {
         return self.history as! [T]
-    }
-    
-    public func start() {
-        self.read()
-        self.repeatTask!.start()
-    }
-    
-    public func pause() {
-        self.repeatTask!.pause()
-    }
-    
-    public func stop() {
-        self.repeatTask!.removeAllObservers(thenStop: true)
     }
 }

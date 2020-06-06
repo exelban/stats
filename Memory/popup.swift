@@ -14,8 +14,8 @@ import ModuleKit
 import StatsKit
 
 internal class Popup: NSView {
-    private let firstHeight: CGFloat = 90
-    private let secondHeight: CGFloat = 66
+    private let dashboardHeight: CGFloat = 90
+    private let detailsHeight: CGFloat = 66
     
     private var totalField: NSTextField? = nil
     private var usedField: NSTextField? = nil
@@ -27,13 +27,13 @@ internal class Popup: NSView {
     private var compressedField: NSTextField? = nil
     
     private var chart: LineChartView? = nil
-    private var ready: Bool = false
+    private var initialized: Bool = false
     
     public init() {
-        super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: firstHeight + Constants.Popup.separatorHeight + secondHeight))
+        super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: dashboardHeight + Constants.Popup.separatorHeight + detailsHeight))
         
         initFirstView()
-        initOverview()
+        initDetails()
     }
     
     required init?(coder: NSCoder) {
@@ -46,7 +46,7 @@ internal class Popup: NSView {
     
     private func initFirstView() {
         let rightWidth: CGFloat = 116
-        let view: NSView = NSView(frame: NSRect(x: 0, y: self.frame.height - self.firstHeight, width: self.frame.width, height: self.firstHeight))
+        let view: NSView = NSView(frame: NSRect(x: 0, y: self.frame.height - self.dashboardHeight, width: self.frame.width, height: self.dashboardHeight))
         
         let leftPanel = NSView(frame: NSRect(x: 0, y: 0, width: view.frame.width - rightWidth - Constants.Popup.margins, height: view.frame.height))
         
@@ -64,12 +64,12 @@ internal class Popup: NSView {
         self.addSubview(view)
     }
     
-    private func initOverview() {
-        let y: CGFloat = self.frame.height - self.firstHeight - Constants.Popup.separatorHeight
-        let separator = SeparatorView("Overview", origin: NSPoint(x: 0, y: y), width: self.frame.width)
+    private func initDetails() {
+        let y: CGFloat = self.frame.height - self.dashboardHeight - Constants.Popup.separatorHeight
+        let separator = SeparatorView("Details", origin: NSPoint(x: 0, y: y), width: self.frame.width)
         self.addSubview(separator)
         
-        let view: NSView = NSView(frame: NSRect(x: 0, y: separator.frame.origin.y - self.secondHeight, width: self.frame.width, height: self.secondHeight))
+        let view: NSView = NSView(frame: NSRect(x: 0, y: separator.frame.origin.y - self.detailsHeight, width: self.frame.width, height: self.detailsHeight))
         
         self.totalField = PopupRow(view, n: 2, title: "Total:", value: "")
         self.usedField = PopupRow(view, n: 1, title: "Used:", value: "")
@@ -99,9 +99,9 @@ internal class Popup: NSView {
         return valueView
     }
     
-    public func loadCallback(_ value: MemoryUsage) {
+    public func loadCallback(_ value: Usage) {
         DispatchQueue.main.async(execute: {
-            if self.window!.isVisible || !self.ready {
+            if self.window!.isVisible || !self.initialized {
                 self.activeField?.stringValue = Units(bytes: Int64(value.active!)).getReadableMemory()
                 self.inactiveField?.stringValue = Units(bytes: Int64(value.inactive!)).getReadableMemory()
                 self.wiredField?.stringValue = Units(bytes: Int64(value.wired!)).getReadableMemory()
@@ -110,7 +110,7 @@ internal class Popup: NSView {
                 self.totalField?.stringValue = Units(bytes: Int64(value.total!)).getReadableMemory()
                 self.usedField?.stringValue = Units(bytes: Int64(value.used!)).getReadableMemory()
                 self.freeField?.stringValue = Units(bytes: Int64(value.free!)).getReadableMemory()
-                self.ready = true
+                self.initialized = true
             }
             
             self.chart?.addValue(value.usage!)

@@ -15,7 +15,7 @@ import StatsKit
 
 internal class Popup: NSView {
     let dashboardHeight: CGFloat = 90
-    let overviewHeight: CGFloat = 88
+    let detailsHeight: CGFloat = 88
     
     private var dashboardView: NSView? = nil
     
@@ -34,11 +34,13 @@ internal class Popup: NSView {
     private var networkTypeField: NSTextField? = nil
     private var macAdressField: NSTextField? = nil
     
+    private var initialized: Bool = false
+    
     public init() {
-        super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: dashboardHeight + Constants.Popup.separatorHeight + overviewHeight))
+        super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: dashboardHeight + Constants.Popup.separatorHeight + detailsHeight))
         
         initDashboard()
-        initOverview()
+        initDetails()
     }
     
     required init?(coder: NSCoder) {
@@ -128,12 +130,12 @@ internal class Popup: NSView {
         self.downloadUnitField?.stringValue = download.1
     }
     
-    private func initOverview() {
+    private func initDetails() {
         let y: CGFloat = self.dashboardView!.frame.origin.y - Constants.Popup.separatorHeight
-        let separator = SeparatorView("Overview", origin: NSPoint(x: 0, y: y), width: self.frame.width)
+        let separator = SeparatorView("Details", origin: NSPoint(x: 0, y: y), width: self.frame.width)
         self.addSubview(separator)
         
-        let view: NSView = NSView(frame: NSRect(x: 0, y: separator.frame.origin.y - self.overviewHeight, width: self.frame.width, height: self.overviewHeight))
+        let view: NSView = NSView(frame: NSRect(x: 0, y: separator.frame.origin.y - self.detailsHeight, width: self.frame.width, height: self.detailsHeight))
         
         self.publicIPField = PopupRow(view, n: 3, title: "Public IP:", value: "")
         self.localIPField = PopupRow(view, n: 2, title: "Local IP:", value: "")
@@ -143,9 +145,9 @@ internal class Popup: NSView {
         self.addSubview(view)
     }
     
-    public func usageCallback(_ value: NetworkUsage) {
+    public func usageCallback(_ value: Usage) {
         DispatchQueue.main.async(execute: {
-            if !self.window!.isVisible {
+            if !self.window!.isVisible && self.initialized {
                 return
             }
             
@@ -186,6 +188,8 @@ internal class Popup: NSView {
                     self.networkTypeField?.stringValue = networkType
                 }
             }
+            
+            self.initialized = true
         })
     }
 }

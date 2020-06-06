@@ -14,9 +14,8 @@ import ModuleKit
 import StatsKit
 
 internal class Popup: NSView {
-    private let firstHeight: CGFloat = 90
-    private let secondHeight: CGFloat = 66 // -26
-    private let thirdHeight: CGFloat = 136 // -26
+    private let dashboardHeight: CGFloat = 90
+    private let detailsHeight: CGFloat = 66 // -26
     
     private var loadField: NSTextField? = nil
     private var temperatureField: NSTextField? = nil
@@ -25,17 +24,14 @@ internal class Popup: NSView {
     private var userField: NSTextField? = nil
     private var idleField: NSTextField? = nil
     
-//    private var processes: [ProcessView] = [ProcessView(0), ProcessView(1), ProcessView(2), ProcessView(3), ProcessView(4)]
-    
     public var chart: LineChartView? = nil
     private var ready: Bool = false
     
     public init() {
-        super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: firstHeight + Constants.Popup.separatorHeight + secondHeight))
+        super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: dashboardHeight + Constants.Popup.separatorHeight + detailsHeight))
         
-        initFirstView()
-        initDescription()
-//        initProcessesView()
+        initDashboard()
+        initDetails()
     }
     
     required init?(coder: NSCoder) {
@@ -46,35 +42,9 @@ internal class Popup: NSView {
         self.chart?.display()
     }
     
-    private func initProcessesView() {
-        let y: CGFloat = Constants.Popup.margins*1
-        let view: NSView = NSView(frame: NSRect(x: 0, y: y, width: self.frame.width, height: self.thirdHeight))
-        
-//        self.processes.forEach { (process: ProcessView) in
-//            process.width = view.frame.width
-//            view.addSubview(process)
-//        }
-        
-        self.addSubview(view)
-    }
-    
-    private func initDescription() {
-        let y: CGFloat = self.frame.height - self.firstHeight - Constants.Popup.separatorHeight
-        let separator = SeparatorView("Overview", origin: NSPoint(x: 0, y: y), width: self.frame.width)
-        self.addSubview(separator)
-        
-        let view: NSView = NSView(frame: NSRect(x: 0, y: separator.frame.origin.y - self.secondHeight, width: self.frame.width, height: self.secondHeight))
-        
-        self.systemField = PopupRow(view, n: 2, title: "System:", value: "")
-        self.userField = PopupRow(view, n: 1, title: "User:", value: "")
-        self.idleField = PopupRow(view, n: 0, title: "Idle:", value: "")
-        
-        self.addSubview(view)
-    }
-    
-    private func initFirstView() {
+    private func initDashboard() {
         let rightWidth: CGFloat = 110
-        let view: NSView = NSView(frame: NSRect(x: 0, y: self.frame.height - self.firstHeight, width: self.frame.width, height: self.firstHeight))
+        let view: NSView = NSView(frame: NSRect(x: 0, y: self.frame.height - self.dashboardHeight, width: self.frame.width, height: self.dashboardHeight))
         
         let leftPanel = NSView(frame: NSRect(x: 0, y: 0, width: view.frame.width - rightWidth - Constants.Popup.margins, height: view.frame.height))
         
@@ -87,6 +57,20 @@ internal class Popup: NSView {
         
         view.addSubview(leftPanel)
         view.addSubview(rightPanel)
+        self.addSubview(view)
+    }
+    
+    private func initDetails() {
+        let y: CGFloat = self.frame.height - self.dashboardHeight - Constants.Popup.separatorHeight
+        let separator = SeparatorView("Details", origin: NSPoint(x: 0, y: y), width: self.frame.width)
+        self.addSubview(separator)
+        
+        let view: NSView = NSView(frame: NSRect(x: 0, y: separator.frame.origin.y - self.detailsHeight, width: self.frame.width, height: self.detailsHeight))
+        
+        self.systemField = PopupRow(view, n: 2, title: "System:", value: "")
+        self.userField = PopupRow(view, n: 1, title: "User:", value: "")
+        self.idleField = PopupRow(view, n: 0, title: "Idle:", value: "")
+        
         self.addSubview(view)
     }
     
@@ -111,7 +95,7 @@ internal class Popup: NSView {
         return valueView
     }
     
-    public func loadCallback(_ value: CPULoad, tempValue: Double?) {
+    public func loadCallback(_ value: Load, tempValue: Double?) {
         var temperature: String = "Unknown"
         
         DispatchQueue.main.async(execute: {
@@ -124,28 +108,18 @@ internal class Popup: NSView {
                 
                 self.temperatureField?.stringValue = temperature
                     
-                self.systemField?.stringValue = "\(Int(value.systemLoad.rounded(toPlaces: 2) * 100))%"
-                self.userField?.stringValue = "\(Int(value.userLoad.rounded(toPlaces: 2) * 100))%"
-                self.idleField?.stringValue = "\(Int(value.idleLoad.rounded(toPlaces: 2) * 100))%"
+                self.systemField?.stringValue = "\(Int(value.systemLoad.rounded(toPlaces: 2) * 100)) %"
+                self.userField?.stringValue = "\(Int(value.userLoad.rounded(toPlaces: 2) * 100)) %"
+                self.idleField?.stringValue = "\(Int(value.idleLoad.rounded(toPlaces: 2) * 100)) %"
                     
                 let v = Int(value.totalUsage.rounded(toPlaces: 2) * 100)
-                self.loadField?.stringValue = "\(v)%"
+                self.loadField?.stringValue = "\(v) %"
                 self.ready = true
             }
             
             self.chart?.addValue(value.totalUsage)
         })
     }
-    
-//    public func processesCallback(_ list: [TopProcess]) {
-//        DispatchQueue.main.async(execute: {
-//            for i in 0...self.processes.count-1 {
-//                let process = self.processes[i]
-//                process.label = list[i].command
-//                process.value = "\(list[i].usage.roundTo(decimalPlaces: 2)) %"
-//            }
-//        })
-//    }
 }
 
 private class ProcessView: NSView {

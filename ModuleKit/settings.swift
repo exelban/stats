@@ -26,6 +26,7 @@ open class Settings: NSView, Settings_p {
     private let headerHeight: CGFloat = 42
     private var widgetSelectorHeight: CGFloat = Constants.Widget.height + (Constants.Settings.margin*2)
     
+    private var widgetSelectorView: NSView? = nil
     private var widgetSettingsView: NSView? = nil
     private var moduleSettingsView: NSView? = nil
     
@@ -100,17 +101,30 @@ open class Settings: NSView, Settings_p {
         for i in 0...self.config.pointee.availableWidgets.count - 1 {
             let widgetType = self.config.pointee.availableWidgets[i]
             if let widget = LoadWidget(widgetType, preview: true, title: self.config.pointee.name, config: self.config.pointee.widgetsConfig, store: nil) {
-                view.addSubview(WidgetPreview(
+                let preview = WidgetPreview(
                     frame: NSRect(x: x, y: Constants.Settings.margin, width: widget.frame.width, height: self.widgetSelectorHeight - (Constants.Settings.margin*2)),
                     title: self.config.pointee.name,
                     widget: widget,
                     state: self.activeWidget?.type == widgetType
-                ))
+                )
+                preview.widthCallback = { [weak self] in
+                    self?.recalculateWidgetSelectorOptionsWidth()
+                }
+                view.addSubview(preview)
                 x += widget.frame.width + Constants.Settings.margin
             }
         }
         
         self.addSubview(view)
+        self.widgetSelectorView = view
+    }
+    
+    private func recalculateWidgetSelectorOptionsWidth() {
+        var x: CGFloat = Constants.Settings.margin
+        self.widgetSelectorView?.subviews.forEach({ (v: NSView) in
+            v.setFrameOrigin(NSPoint(x: x, y: v.frame.origin.y))
+            x += v.frame.width + Constants.Settings.margin
+        })
     }
     
     private func addHeader(state: Bool) {
@@ -182,6 +196,8 @@ class WidgetPreview: NSView {
     private var state: Bool
     private let title: String
     
+    public var widthCallback: () -> Void = {}
+    
     public init(frame: NSRect, title: String, widget: Widget_p, state: Bool) {
         self.type = widget.type
         self.state = state
@@ -196,24 +212,22 @@ class WidgetPreview: NSView {
         self.layer?.borderWidth = 1
         
         widget.widthHandler = { [weak self] value in
-            self?.widgetWidthHandler(value)
             self?.removeTrackingArea((self?.trackingAreas.first)!)
             
             let rect = NSRect(x: 0, y: 0, width: value, height: self!.frame.height)
             let trackingArea = NSTrackingArea(rect: rect, options: [NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited, NSTrackingArea.Options.activeInActiveApp], owner: self, userInfo: ["menu": self!.type])
-            self!.addTrackingArea(trackingArea)
+            self?.addTrackingArea(trackingArea)
+            
+            DispatchQueue.main.async(execute: {
+                self?.setFrameSize(NSSize(width: value, height: self?.frame.height ?? Constants.Widget.height))
+                self?.widthCallback()
+            })
         }
         self.addSubview(widget)
         
         let rect = NSRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
         let trackingArea = NSTrackingArea(rect: rect, options: [NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited, NSTrackingArea.Options.activeInActiveApp], owner: self, userInfo: ["menu": self.type])
         self.addTrackingArea(trackingArea)
-    }
-    
-    private func widgetWidthHandler(_ width: CGFloat) {
-        DispatchQueue.main.async(execute: {
-            self.setFrameSize(NSSize(width: width, height: self.frame.height))
-        })
     }
     
     required init?(coder: NSCoder) {

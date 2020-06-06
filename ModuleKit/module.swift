@@ -198,7 +198,7 @@ open class Module: Module_p {
     
     // change menu item width
     public func widgetWidthHandler(_ width: CGFloat) {
-        os_log(.debug, log: log, "Widget %s adjust width to %.2f", "\(type(of: self.widget!))", width)
+        os_log(.debug, log: log, "Widget %s change width to %.2f", "\(type(of: self.widget!))", width)
         self.menuBarItem.length = width
     }
     

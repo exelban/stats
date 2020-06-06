@@ -13,7 +13,7 @@ import Cocoa
 import StatsKit
 import ModuleKit
 
-public struct MemoryUsage: value_t {
+public struct Usage: value_t {
     var active: Double?
     var inactive: Double?
     var wired: Double?
@@ -52,7 +52,7 @@ public class Memory: Module {
         self.addReader(self.usageReader)
     }
     
-    private func loadCallback(value: MemoryUsage?) {
+    private func loadCallback(value: Usage?) {
         if value == nil {
             return
         }

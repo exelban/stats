@@ -18,7 +18,7 @@ public enum Network_t: String {
     case ethernet
 }
 
-public struct NetworkUsage {
+public struct Usage: value_t {
     var active: Bool = false
     
     var download: Int64 = 0
@@ -48,6 +48,8 @@ public struct NetworkUsage {
         self.countryCode = nil
         self.networkName = nil
     }
+    
+    public var widget_value: Double = 0
 }
 
 public class Network: Module {
@@ -71,7 +73,7 @@ public class Network: Module {
         self.addReader(self.usageReader)
     }
     
-    private func usageCallback(_ value: NetworkUsage?) {
+    private func usageCallback(_ value: Usage?) {
         if value == nil {
             return
         }
