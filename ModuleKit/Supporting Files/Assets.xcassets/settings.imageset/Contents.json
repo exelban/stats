@@ -1,15 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "baseline_settings_black_24dp.png",
+      "filename" : "baseline_settings_black_24pt_1x.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "baseline_settings_black_24pt_2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "baseline_settings_black_24pt_3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
@@ -19,9 +21,6 @@
     "version" : 1
   },
   "properties" : {
-    "on-demand-resource-tags" : [
-      "New"
-    ],
     "template-rendering-intent" : "template"
   }
 }

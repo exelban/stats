@@ -135,7 +135,7 @@ internal class Popup: NSView {
                 return
             }
             
-            self.dashboardBatteryView?.setValue(value.level)
+            self.dashboardBatteryView?.setValue(abs(value.level))
             
             self.levelField?.stringValue = "\(Int(abs(value.level) * 100)) %"
             self.sourceField?.stringValue = value.powerSource

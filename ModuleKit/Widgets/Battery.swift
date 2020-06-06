@@ -26,7 +26,7 @@ public class BatterykWidget: Widget {
     
     private let store: UnsafePointer<Store>?
     
-    private var percentage: Double = 0.72
+    private var percentage: Double = 1
     private var time: Int = 0
     private var charging: Bool = false
     
@@ -110,8 +110,8 @@ public class BatterykWidget: Widget {
         batteryFrame.lineWidth = 1
         batteryFrame.stroke()
         
-        let maxWidth = w-4
-        let inner = NSBezierPath(roundedRect: NSRect(x: x+3, y: y+1.5, width: maxWidth * CGFloat(self.percentage), height: h-3), xRadius: 0.5, yRadius: 0.5)
+        let maxWidth = w - 3
+        let inner = NSBezierPath(roundedRect: NSRect(x: x+2.5, y: y+1.5, width: maxWidth * CGFloat(self.percentage), height: h-3), xRadius: 0.5, yRadius: 0.5)
         self.percentage.batteryColor(color: self.colorState).set()
         inner.lineWidth = 0
         inner.stroke()
@@ -125,7 +125,7 @@ public class BatterykWidget: Widget {
         var updated: Bool = false
         
         if self.percentage != percentage {
-            self.percentage = percentage
+            self.percentage = abs(percentage)
             updated = true
         }
         if self.charging != isCharging {

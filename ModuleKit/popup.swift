@@ -172,7 +172,7 @@ internal class HeaderView: NSView {
         self.addSubview(titleView)
         
         let button = NSButtonWithPadding()
-        button.frame = CGRect(x: frame.width - 38, y: 5, width: 30, height: 30)
+        button.frame = CGRect(x: frame.width - 38, y: 2, width: 30, height: 30)
         button.verticalPadding = 14
         button.horizontalPadding = 14
         button.bezelStyle = .regularSquare

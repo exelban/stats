@@ -82,6 +82,7 @@ public class SystemKit {
         if let modelName = self.modelName() {
             if let modelInfo = deviceDict[modelName] {
                 self.device.model = modelInfo
+                self.device.model.icon = self.getIcon(type: self.device.model.type)
             } else {
                 os_log(.error, log: self.log, "unknown device %s", modelName)
             }
@@ -129,6 +130,7 @@ public class SystemKit {
             name = name.replacingOccurrences(of: "CPU", with: "")
             name = name.replacingOccurrences(of: " @ ", with: "")
         }
+        print(name)
         
         var size = UInt32(MemoryLayout<host_basic_info_data_t>.size / MemoryLayout<integer_t>.size)
         let hostInfo = host_basic_info_t.allocate(capacity: 1)
@@ -326,15 +328,52 @@ let deviceDict: [String: model_s] = [
     "iMac14,2": model_s(name: "iMac 27-Inch (Late 2013)", year: 2012, type: .imac),
     "iMac15,1": model_s(name: "iMac 27-Inch (5K, Late 2014)", year: 2012, type: .imac),
     "iMac17,1": model_s(name: "iMac 27-Inch (5K, Late 2015)", year: 2012, type: .imac),
-    "iMac18,3": model_s(name: "iMac 27-Inch (5K, Mid-2017)", year: 2012, type: .imac),
+    "iMac18,3": model_s(name: "iMac 27-Inch (5K, Mid 2017)", year: 2012, type: .imac),
     "iMac19,1": model_s(name: "iMac 27-Inch (5K, 2019)", year: 2012, type: .imac),
     
     // iMac Pro
     "iMacPro1,1": model_s(name: "iMac Pro (5K, Late 2017)", year: 2017, type: .imacpro),
     
     // MacBook
+    "MacBook8,1": model_s(name: "MacBook (Early 2015)", year: 2015, type: .macbook),
+    "MacBook9,1": model_s(name: "MacBook (Early 2016)", year: 2016, type: .macbook),
+    "MacBook10,1": model_s(name: "MacBook (Early 2017)", year: 2017, type: .macbook),
+    
     // MacBook Air
+    "MacBookAir5,1": model_s(name: "MacBook Air 11\" (Mid 2012)", year: 2012, type: .macbookAir),
+    "MacBookAir5,2": model_s(name: "MacBook Air 13\" (Mid 2012)", year: 2012, type: .macbookAir),
+    "MacBookAir6,1": model_s(name: "MacBook Air 11\" (Early 2014)", year: 2014, type: .macbookAir),
+    "MacBookAir6,2": model_s(name: "MacBook Air 13\" (Early 2014)", year: 2014, type: .macbookAir),
+    "MacBookAir7,1": model_s(name: "MacBook Air 11\" (Early 2015)", year: 2015, type: .macbookAir),
+    "MacBookAir7,2": model_s(name: "MacBook Air 13\" (Early 2015)", year: 2015, type: .macbookAir),
+    "MacBookAir8,1": model_s(name: "MacBook Air 13\" (2018)", year: 2018, type: .macbookAir),
+    "MacBookAir8,2": model_s(name: "MacBook Air 13\" (2019)", year: 2019, type: .macbookAir),
+    "MacBookAir9,1": model_s(name: "MacBook Air 13\" (2020)", year: 2020, type: .macbookAir),
+    
     // MacBook Pro
+    "MacBookPro9,1": model_s(name: "MacBook Pro 15\" (Mid 2012)", year: 2012, type: .macbookPro),
+    "MacBookPro9,2": model_s(name: "MacBook Pro 13\" (Mid 2012)", year: 2012, type: .macbookPro),
+    "MacBookPro10,1": model_s(name: "MacBook Pro 15\" (Retina, Mid 2012)", year: 2012, type: .macbookPro),
+    "MacBookPro10,2": model_s(name: "MacBook Pro 13\" (Retina, Late 2012)", year: 2012, type: .macbookPro),
+    "MacBookPro11,1": model_s(name: "MacBook Pro 13\" (Retina, Mid 2014)", year: 2014, type: .macbookPro),
+    "MacBookPro11,2": model_s(name: "MacBook Pro 15\" (Retina, Mid 2014)", year: 2014, type: .macbookPro),
+    "MacBookPro11,3": model_s(name: "MacBook Pro 15\" (Retina, Mid 2014)", year: 2014, type: .macbookPro),
+    "MacBookPro11,4": model_s(name: "MacBook Pro 15\" (Retina, Mid 2015)", year: 2015, type: .macbookPro),
+    "MacBookPro11,5": model_s(name: "MacBook Pro 15\" (Retina, Mid 2015)", year: 2015, type: .macbookPro),
+    "MacBookPro12,1": model_s(name: "MacBook Pro 13\" (Mid 2015)", year: 2015, type: .macbookPro),
+    "MacBookPro13,1": model_s(name: "MacBook Pro 13\" (Late 2016)", year: 2016, type: .macbookPro),
+    "MacBookPro13,2": model_s(name: "MacBook Pro 13\" (Late 2016)", year: 2016, type: .macbookPro),
+    "MacBookPro13,3": model_s(name: "MacBook Pro 15\" (Late 2016)", year: 2016, type: .macbookPro),
+    "MacBookPro14,1": model_s(name: "MacBook Pro 13\" (Mid 2017)", year: 2017, type: .macbookPro),
+    "MacBookPro14,2": model_s(name: "MacBook Pro 13\" (Mid 2017)", year: 2017, type: .macbookPro),
+    "MacBookPro14,3": model_s(name: "MacBook Pro 15\" (Mid 2017)", year: 2017, type: .macbookPro),
+    "MacBookPro15,1": model_s(name: "MacBook Pro 15\" (Mid 2018)", year: 2018, type: .macbookPro),
+    "MacBookPro15,2": model_s(name: "MacBook Pro 13\" (Mid 2019)", year: 2019, type: .macbookPro),
+    "MacBookPro15,3": model_s(name: "MacBook Pro 15\" (Mid 2019)", year: 2019, type: .macbookPro),
+    "MacBookPro15,4": model_s(name: "MacBook Pro 13\" (Mid 2019)", year: 2019, type: .macbookPro),
+    "MacBookPro16,1": model_s(name: "MacBook Pro 16\" (Late 2019)", year: 2019, type: .macbookPro),
+    "MacBookPro16,2": model_s(name: "MacBook Pro 13\" (Mid 2020)", year: 2019, type: .macbookPro),
+    "MacBookPro16,3": model_s(name: "MacBook Pro 13\" (Mid 2020)", year: 2020, type: .macbookPro),
 ]
 
 let osDict: [Int: String] = [

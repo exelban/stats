@@ -34,6 +34,8 @@ internal class UsageReader: Reader<Usage> {
         
         self.loop = RunLoop.current.getCFRunLoop()
         CFRunLoopAddSource(self.loop, source, .defaultMode)
+        
+        self.read()
     }
     
     public override func stop() {
