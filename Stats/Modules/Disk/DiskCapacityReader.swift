@@ -82,19 +82,21 @@ class DiskCapacityReader: Reader {
             for url in paths {
                 if url.pathComponents.count == 1 || (url.pathComponents.count > 1 && url.pathComponents[1] == "Volumes") {
                     if let disk = DADiskCreateFromVolumePath(kCFAllocatorDefault, session, url as CFURL) {
-                        let BSDName: String = String(cString: DADiskGetBSDName(disk)!)
-                        
-                        if let _: diskInfo = self.disks.getDiskByBSDName(BSDName) {
-                            if let idx = self.disks.list.firstIndex(where: { $0.mediaBSDName == BSDName }) {
-                                if let path = self.disks.list[idx].path {
-                                    self.disks.list[idx].freeSize = freeDiskSpaceInBytes(path.absoluteString)
+                        if let diskName = DADiskGetBSDName(disk) {
+                            let BSDName: String = String(cString: diskName)
+                            
+                            if let _: diskInfo = self.disks.getDiskByBSDName(BSDName) {
+                                if let idx = self.disks.list.firstIndex(where: { $0.mediaBSDName == BSDName }) {
+                                    if let path = self.disks.list[idx].path {
+                                        self.disks.list[idx].freeSize = freeDiskSpaceInBytes(path.absoluteString)
+                                    }
                                 }
+                                continue
                             }
-                            continue
-                        }
-                        
-                        if let d = getDisk(disk) {
-                            self.disks.list.append(d)
+                            
+                            if let d = getDisk(disk) {
+                                self.disks.list.append(d)
+                            }
                         }
                     }
                 }
