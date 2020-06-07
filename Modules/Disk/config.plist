@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Name</key>
+	<string>Disk</string>
+	<key>State</key>
+	<true/>
+	<key>Widgets</key>
+	<dict>
+		<key>mini</key>
+		<dict>
+			<key>Default</key>
+			<true/>
+			<key>Title</key>
+			<string>SSD</string>
+			<key>Preview</key>
+			<dict>
+				<key>Title</key>
+				<string>SSD</string>
+				<key>Value</key>
+				<string>0.36</string>
+			</dict>
+		</dict>
+		<key>bar_chart</key>
+		<dict>
+			<key>Default</key>
+			<false/>
+			<key>Title</key>
+			<string>SSD</string>
+			<key>Label</key>
+			<true/>
+			<key>Box</key>
+			<true/>
+			<key>Color</key>
+			<true/>
+			<key>Preview</key>
+			<dict>
+				<key>Label</key>
+				<true/>
+				<key>Box</key>
+				<true/>
+				<key>Color</key>
+				<true/>
+				<key>Value</key>
+				<string>0.36</string>
+			</dict>
+		</dict>
+	</dict>
+</dict>
+</plist>

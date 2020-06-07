@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Name</key>
+	<string>CPU</string>
+	<key>State</key>
+	<true/>
+	<key>Widgets</key>
+	<dict>
+		<key>mini</key>
+		<dict>
+			<key>Default</key>
+			<true/>
+			<key>Preview</key>
+			<dict>
+				<key>Value</key>
+				<string>0.08</string>
+			</dict>
+		</dict>
+		<key>line_chart</key>
+		<dict>
+			<key>Default</key>
+			<false/>
+		</dict>
+		<key>bar_chart</key>
+		<dict>
+			<key>Default</key>
+			<false/>
+			<key>Preview</key>
+			<dict>
+				<key>Value</key>
+				<string>0.36,0.28</string>
+			</dict>
+		</dict>
+	</dict>
+</dict>
+</plist>

@@ -7,100 +7,124 @@
 //
 
 import Cocoa
-import ServiceManagement
+import os.log
+import StatsKit
+import ModuleKit
+import CPU
+import Memory
+import Disk
+import Net
+import Battery
 
+var store: Store = Store()
 let updater = macAppUpdater(user: "exelban", repo: "stats")
-var menuBar: MenuBar?
-let smc = SMCService()
+let systemKit: SystemKit = SystemKit()
+var smc: SMCService = SMCService()
+var modules: [Module] = [Battery(&store), Network(&store), Disk(&store), Memory(&store), CPU(&store, &smc)].reversed()
+var log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: "Stats")
 
-@NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
-    private let defaults = UserDefaults.standard
-    private var menuBarItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
-    private let popover = NSPopover()
+    private let settingsWindow: SettingsWindow = SettingsWindow()
+    private let updateWindow: UpdateWindow = UpdateWindow()
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        let res = smc.open()
-        if res != kIOReturnSuccess {
-            print("ERROR open SMC")
-            NSApp.terminate(nil)
-            return
-        }
+        let startingPoint = Date()
         
-        guard let menuBarButton = self.menuBarItem.button else {
-            NSApp.terminate(nil)
-            return
-        }
-
-        menuBarButton.action = #selector(toggleMenu)
-        menuBarButton.sendAction(on: [.leftMouseDown, .rightMouseDown])
+        NotificationCenter.default.addObserver(self, selector: #selector(toggleSettingsHandler), name: .toggleSettings, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(checkForUpdates), name: .checkForUpdates, object: nil)
         
-        let mcv = MainViewController.Init()
-        self.popover.contentViewController = mcv
-        self.popover.behavior = .transient
-        self.popover.animates = true
-
-        menuBar = MenuBar(menuBarItem, menuBarButton: menuBarButton, popup: mcv)
-        menuBar!.build()
-
+        modules.forEach{ $0.load() }
+        
+        self.settingsWindow.setModules()
+        
+        self.setVersion()
         self.defaultValues()
-    }
-
-    func applicationWillTerminate(_ aNotification: Notification) {
-        _ = smc.close()
-        menuBar?.destroy()
-    }
-
-    func applicationWillResignActive(_ notification: Notification) {
-        self.popover.performClose(self)
+        os_log(.info, log: log, "Stats started in %.4f seconds", startingPoint.timeIntervalSinceNow * -1)
     }
     
-    @objc func toggleMenu(_ sender: Any?) {
-        if self.popover.isShown {
-            self.popover.performClose(sender)
-        } else {
-            if let button = self.menuBarItem.button {
-                NSApplication.shared.activate(ignoringOtherApps: true)
-                self.popover.show(relativeTo: .zero, of: button, preferredEdge: .maxY)
-                self.popover.becomeFirstResponder()
-            }
+    func applicationWillTerminate(_ aNotification: Notification) {
+        modules.forEach{ $0.terminate() }
+        _ = smc.close()
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    @objc private func toggleSettingsHandler(_ notification: Notification) {
+        if !self.settingsWindow.isVisible {
+            self.settingsWindow.setIsVisible(true)
+            self.settingsWindow.makeKeyAndOrderFront(nil)
         }
+        
+        if let name = notification.userInfo?["module"] as? String {
+            self.settingsWindow.openMenu(name)
+        }
+    }
+    
+    @objc private func checkForUpdates(_ notification: Notification) {
+        updater.check() { result, error in
+            if error != nil {
+                os_log(.error, log: log, "error updater.check(): %s", "\(error!.localizedDescription)")
+                return
+            }
+            
+            guard error == nil, let version: version = result else {
+                os_log(.error, log: log, "download error(): %s", "\(error!.localizedDescription)")
+                return
+            }
+            
+            DispatchQueue.main.async(execute: {
+                os_log(.error, log: log, "open update window: %s", "\(version.latest)")
+                self.updateWindow.open(version)
+            })
+        }
+    }
+    
+    private func setVersion() {
+        let key = "version"
+        let currentVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
+        
+        if !store.exist(key: key) {
+            store.reset()
+            os_log(.info, log: log, "Previous version not detected. Current version (%s) set", currentVersion)
+        } else {
+            let prevVersion = store.string(key: key, defaultValue: "")
+            if prevVersion == currentVersion {
+                return
+            }
+            os_log(.info, log: log, "Detected previous version %s. Current version (%s) set", prevVersion, currentVersion)
+        }
+        
+        store.set(key: key, value: currentVersion)
     }
     
     private func defaultValues() {
-        if self.defaults.object(forKey: "runAtLoginInitialized") == nil {
+        if !store.exist(key: "runAtLoginInitialized") {
+            store.set(key: "runAtLoginInitialized", value: true)
             LaunchAtLogin.isEnabled = true
         }
-
-        if defaults.object(forKey: "dockIcon") != nil {
-            let dockIconStatus = defaults.bool(forKey: "dockIcon") ? NSApplication.ActivationPolicy.regular : NSApplication.ActivationPolicy.accessory
+        
+        if store.exist(key: "dockIcon") {
+            let dockIconStatus = store.bool(key: "dockIcon", defaultValue: false) ? NSApplication.ActivationPolicy.regular : NSApplication.ActivationPolicy.accessory
             NSApp.setActivationPolicy(dockIconStatus)
         }
         
-        if defaults.object(forKey: "checkUpdatesOnLogin") == nil || defaults.bool(forKey: "checkUpdatesOnLogin") {
-            self.checkForNewVersion()
-        }
-    }
-    
-    private func checkForNewVersion() {
-        updater.check() { result, error in
-            if error != nil && error as! String == "No internet connection" {
-                print("Error: \(error ?? "check error")")
-                return
-            }
-
-            guard error == nil, let version: version = result else {
-                print("Error: \(error ?? "download error")")
-                return
-            }
-
-            if version.newest {
-                DispatchQueue.main.async(execute: {
-                    let updatesVC: NSWindowController? = NSStoryboard(name: "Updates", bundle: nil).instantiateController(withIdentifier: "UpdatesVC") as? NSWindowController
-                    updatesVC?.window?.center()
-                    updatesVC?.window?.level = .floating
-                    updatesVC!.showWindow(self)
-                })
+        if store.bool(key: "checkUpdatesOnLogin", defaultValue: true) {
+            updater.check() { result, error in
+                if error != nil {
+                    os_log(.error, log: log, "error updater.check(): %s", "\(error!.localizedDescription)")
+                    return
+                }
+                
+                guard error == nil, let version: version = result else {
+                    os_log(.error, log: log, "download error(): %s", "\(error!.localizedDescription)")
+                    return
+                }
+                
+                if version.newest {
+                    DispatchQueue.main.async(execute: {
+                        os_log(.error, log: log, "show update window because new version of app found: %s", "\(version.latest)")
+                        self.updateWindow.open(version)
+                    })
+                }
             }
         }
     }

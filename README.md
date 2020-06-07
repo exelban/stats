@@ -1,40 +1,39 @@
 # Stats
-Simple macOS system monitor in your menu bar
 
+<p align="center"><img src="https://serhiy.s3.eu-central-1.amazonaws.com/Github_repo/stats/logo.png?raw=true" width="120"></p>
 
 [![Stats](https://serhiy.s3.eu-central-1.amazonaws.com/Github_repo/stats/cover%3Fv1.6.0.png)](https://github.com/exelban/stats/releases)
+
+Simple macOS system monitor in your menu bar
+
+## Installation
+You can download latest version [here](https://github.com/exelban/stats/releases).
+
+## Requirements
+
+Stats is currently supported on macOS 10.14 (Mojave) and higher.
 
 ## Features
 Stats is a application which allows you to monitor your macOS system.  
 
  - CPU Usage
  - Memory Usage
- - Sensors (Temperature/Voltage/Power)
  - Disk utilization
  - Battery level
  - Network usage
- - Black theme compatible
 
-## Installation
-You can download latest version [here](https://github.com/exelban/stats/releases).
+## Developing
 
-## Modules
+Pull requests and impovment proposals are welcomed.
 
-| Name | Available widgets | Description |
-| --- | --- | --- |
-| **CPU** | Percentage / Chart / Chart with value / Chart Bar | Shows CPU usage |
-| **Memory** | Percentage / Chart / Chart with value / Chart Bar | Shows RAM usage |
-| **Sensors** | Text | Shows data from internal sensors |
-| **Disk** | Percentage / Chart Bar | Shows disk utilization |
-| **Battery** | Graphic / Percentage | Shows battery level and charging status |
-| **Newtork** | Dots / Upload/Download traffic | Shows network activity |
+If you want to run the project locally you need to have [carthage](https://github.com/Carthage/Carthage#installing-carthage) installed.
 
-## Compatibility
-| macOS | Compatible |
-| --- | --- |
-| 10.15.3 *(Catalina)* | **true** |
-| 10.14.6 *(Mojave)* | **true** |
-| 10.13.6 *(High Sierra)* | **true** |
+```bash
+git clone https://github.com/exelban/stats
+cd stats
+make dep
+open ./Stats.xcodeproj
+```
 
 ## License
 [MIT License](https://github.com/exelban/stats/blob/master/LICENSE)

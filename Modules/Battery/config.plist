@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Name</key>
+	<string>Battery</string>
+	<key>State</key>
+	<true/>
+	<key>Widgets</key>
+	<dict>
+		<key>mini</key>
+		<dict>
+			<key>Default</key>
+			<false/>
+			<key>Label</key>
+			<false/>
+			<key>Title</key>
+			<string>BAT</string>
+			<key>Preview</key>
+			<dict>
+				<key>Label</key>
+				<false/>
+				<key>Title</key>
+				<string>BAT</string>
+				<key>Value</key>
+				<string>0.72</string>
+			</dict>
+		</dict>
+		<key>battery</key>
+		<dict>
+			<key>Default</key>
+			<true/>
+		</dict>
+	</dict>
+</dict>
+</plist>
