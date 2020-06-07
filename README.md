@@ -1,11 +1,17 @@
 # Stats
-Simple macOS system monitor in your menu bar
 
+<p align="center"><img src="https://serhiy.s3.eu-central-1.amazonaws.com/Github_repo/stats/logo.png?raw=true" width="120"></p>
 
 [![Stats](https://serhiy.s3.eu-central-1.amazonaws.com/Github_repo/stats/cover%3Fv1.6.0.png)](https://github.com/exelban/stats/releases)
 
+Simple macOS system monitor in your menu bar
+
 ## Installation
 You can download latest version [here](https://github.com/exelban/stats/releases).
+
+## Requirements
+
+Stats is currently supported on macOS 10.14 (Mojave) and higher.
 
 ## Features
 Stats is a application which allows you to monitor your macOS system.  
@@ -15,13 +21,6 @@ Stats is a application which allows you to monitor your macOS system.
  - Disk utilization
  - Battery level
  - Network usage
-
-## Compatibility
-| macOS | Compatible |
-| --- | --- |
-| 10.15.5 *(Catalina)* | **true** |
-| 10.14.6 *(Mojave)* | **true** |
-| 10.13.6 *(High Sierra)* | **false** |
 
 ## Developing
 

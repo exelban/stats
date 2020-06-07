@@ -59,7 +59,7 @@ build: sign
 
 	./create-dmg/create-dmg \
 	    --volname $(APP) \
-	    --background "./resources/background.png" \
+	    --background "./Stats/Supporting Files/background.png" \
 	    --window-pos 200 120 \
 	    --window-size 500 320 \
 	    --icon-size 80 \

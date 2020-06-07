@@ -30,7 +30,6 @@
 		9A3E17D4247A94AF00449CD1 /* Net.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A3E17CC247A94AF00449CD1 /* Net.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9A3E17D9247A94B500449CD1 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3E17D8247A94B500449CD1 /* main.swift */; };
 		9A3E17DB247A94BC00449CD1 /* readers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3E17DA247A94BC00449CD1 /* readers.swift */; };
-		9A3E17DD247A94C300449CD1 /* config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9A3E17DC247A94C300449CD1 /* config.plist */; };
 		9A3E17DE247A94DC00449CD1 /* ModuleKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AABEADD243FB13500668CB0 /* ModuleKit.framework */; };
 		9A3E17DF247A94DC00449CD1 /* ModuleKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9AABEADD243FB13500668CB0 /* ModuleKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9A3E17E2247A94DC00449CD1 /* StatsKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A0C82DA24460F7200FAE3D4 /* StatsKit.framework */; };
@@ -76,11 +75,15 @@
 		9AABEB73243FCEEF00668CB0 /* ModuleKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9AABEADD243FB13500668CB0 /* ModuleKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9AABEB7A243FD26200668CB0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AABEB79243FD26200668CB0 /* AppDelegate.swift */; };
 		9AABEB7E243FDEF100668CB0 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AABEB7D243FDEF100668CB0 /* main.swift */; };
+		9AB14B77248CEF3500DC6731 /* config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9AF9EE192464A7B3005D2270 /* config.plist */; };
+		9AB14B78248CEF3B00DC6731 /* config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9AF9EE12246492E8005D2270 /* config.plist */; };
+		9AB14B79248CEF4100DC6731 /* config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9A3E17DC247A94C300449CD1 /* config.plist */; };
+		9AB14B7A248CEF4900DC6731 /* config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9ABFF904248BEC0B00C9041A /* config.plist */; };
+		9AB14B7B248CF00F00DC6731 /* config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9AF9EE1B2464A7BA005D2270 /* config.plist */; };
 		9AB7FD7C246B48DB00387FDA /* settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB7FD7B246B48DB00387FDA /* settings.swift */; };
 		9ABFF8FD248BEBCB00C9041A /* Battery.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ABFF8F6248BEBCB00C9041A /* Battery.framework */; };
 		9ABFF8FE248BEBCB00C9041A /* Battery.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9ABFF8F6248BEBCB00C9041A /* Battery.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9ABFF903248BEBD700C9041A /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABFF902248BEBD700C9041A /* main.swift */; };
-		9ABFF905248BEC0B00C9041A /* config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9ABFF904248BEC0B00C9041A /* config.plist */; };
 		9ABFF906248BEC2600C9041A /* ModuleKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AABEADD243FB13500668CB0 /* ModuleKit.framework */; };
 		9ABFF907248BEC2600C9041A /* ModuleKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9AABEADD243FB13500668CB0 /* ModuleKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9ABFF90B248BEC2900C9041A /* StatsKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A0C82DA24460F7200FAE3D4 /* StatsKit.framework */; };
@@ -92,11 +95,8 @@
 		9AF9EE0A24648751005D2270 /* Disk.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9AF9EE0224648751005D2270 /* Disk.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9AF9EE0F2464875F005D2270 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF9EE0E2464875F005D2270 /* main.swift */; };
 		9AF9EE1124648ADC005D2270 /* readers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF9EE1024648ADC005D2270 /* readers.swift */; };
-		9AF9EE13246492E8005D2270 /* config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9AF9EE12246492E8005D2270 /* config.plist */; };
 		9AF9EE1424649BAD005D2270 /* ModuleKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AABEADD243FB13500668CB0 /* ModuleKit.framework */; };
 		9AF9EE1524649BAD005D2270 /* ModuleKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9AABEADD243FB13500668CB0 /* ModuleKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9AF9EE1A2464A7B3005D2270 /* config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9AF9EE192464A7B3005D2270 /* config.plist */; };
-		9AF9EE1C2464A7BA005D2270 /* config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9AF9EE1B2464A7BA005D2270 /* config.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -380,7 +380,6 @@
 		9A9D728924471FAE005CF997 /* SMC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMC.swift; sourceTree = "<group>"; };
 		9A9EA9442476D34500E3B883 /* Update.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Update.swift; sourceTree = "<group>"; };
 		9AA4A0092443656D00ECCF07 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		9AA6425E244B254600416A33 /* CPU.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CPU.h; sourceTree = "<group>"; };
 		9AA6425F244B274200416A33 /* popup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = popup.swift; sourceTree = "<group>"; };
 		9AA64261244B57C800416A33 /* settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = settings.swift; sourceTree = "<group>"; };
 		9AA64263244B94F300416A33 /* LineChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChart.swift; sourceTree = "<group>"; };
@@ -519,11 +518,7 @@
 				9A0C82DB24460F7200FAE3D4 /* StatsKit */,
 				9A343528243E26A0006B19F9 /* LaunchAtLogin */,
 				9AABEADE243FB13500668CB0 /* ModuleKit */,
-				9AABEB65243FCE8A00668CB0 /* CPU */,
-				9A81C7572449A41400825D92 /* Memory */,
-				9AF9EE0324648751005D2270 /* Disk */,
-				9A3E17CD247A94AF00449CD1 /* Net */,
-				9ABFF8F7248BEBCB00C9041A /* Battery */,
+				9AB14B75248CEEC600DC6731 /* Modules */,
 				9A1410F6229E721100D29793 /* Products */,
 				9A998CD622A199920087ADE7 /* Frameworks */,
 			);
@@ -664,11 +659,22 @@
 				9A944D58244920FE0058F32A /* readers.swift */,
 				9A944D6024492B6D0058F32A /* popup.swift */,
 				9AA64261244B57C800416A33 /* settings.swift */,
-				9AA6425E244B254600416A33 /* CPU.h */,
 				9AABEB67243FCE8A00668CB0 /* Info.plist */,
 				9AF9EE1B2464A7BA005D2270 /* config.plist */,
 			);
 			path = CPU;
+			sourceTree = "<group>";
+		};
+		9AB14B75248CEEC600DC6731 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				9AABEB65243FCE8A00668CB0 /* CPU */,
+				9A81C7572449A41400825D92 /* Memory */,
+				9AF9EE0324648751005D2270 /* Disk */,
+				9A3E17CD247A94AF00449CD1 /* Net */,
+				9ABFF8F7248BEBCB00C9041A /* Battery */,
+			);
+			path = Modules;
 			sourceTree = "<group>";
 		};
 		9ABFF8F7248BEBCB00C9041A /* Battery */ = {
@@ -1049,7 +1055,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9A3E17DD247A94C300449CD1 /* config.plist in Resources */,
+				9AB14B79248CEF4100DC6731 /* config.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1057,7 +1063,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9AF9EE1A2464A7B3005D2270 /* config.plist in Resources */,
+				9AB14B77248CEF3500DC6731 /* config.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1073,7 +1079,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9AF9EE1C2464A7BA005D2270 /* config.plist in Resources */,
+				9AB14B7B248CF00F00DC6731 /* config.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1081,7 +1087,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9ABFF905248BEC0B00C9041A /* config.plist in Resources */,
+				9AB14B7A248CEF4900DC6731 /* config.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1089,7 +1095,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9AF9EE13246492E8005D2270 /* config.plist in Resources */,
+				9AB14B78248CEF3B00DC6731 /* config.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1619,7 +1625,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
 				);
-				INFOPLIST_FILE = Net/Info.plist;
+				INFOPLIST_FILE = Modules/Net/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1654,7 +1660,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
 				);
-				INFOPLIST_FILE = Net/Info.plist;
+				INFOPLIST_FILE = Modules/Net/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1684,7 +1690,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = Memory/Info.plist;
+				INFOPLIST_FILE = Modules/Memory/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1715,7 +1721,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = Memory/Info.plist;
+				INFOPLIST_FILE = Modules/Memory/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1820,7 +1826,7 @@
 					"$(inherited)",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 				);
-				INFOPLIST_FILE = CPU/Info.plist;
+				INFOPLIST_FILE = Modules/CPU/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1832,7 +1838,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				REEXPORTED_LIBRARY_PATHS = "";
 				SKIP_INSTALL = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = CPU/CPU.h;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1859,7 +1865,7 @@
 					"$(inherited)",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 				);
-				INFOPLIST_FILE = CPU/Info.plist;
+				INFOPLIST_FILE = Modules/CPU/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1871,7 +1877,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				REEXPORTED_LIBRARY_PATHS = "";
 				SKIP_INSTALL = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = CPU/CPU.h;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -1891,7 +1897,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = Battery/Info.plist;
+				INFOPLIST_FILE = Modules/Battery/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1922,7 +1928,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = Battery/Info.plist;
+				INFOPLIST_FILE = Modules/Battery/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1953,7 +1959,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = Disk/Info.plist;
+				INFOPLIST_FILE = Modules/Disk/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1985,7 +1991,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = Disk/Info.plist;
+				INFOPLIST_FILE = Modules/Disk/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
