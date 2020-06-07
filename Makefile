@@ -16,7 +16,7 @@ DMG_PATH = $(PWD)/$(APP).dmg
 all: clean archive notarize sign build
 
 clean:
-	rm -rf $(BUILD_PATH)
+# 	rm -rf $(BUILD_PATH)
 
 .PHONY: archive
 archive: clean
@@ -70,7 +70,7 @@ build: sign
 	    $(APP_PATH)
 
 	rm -rf ./create-dmg
-	rm -rf $(BUILD_PATH)
+# 	rm -rf $(BUILD_PATH)
 	open $(PWD)
 
 check:
