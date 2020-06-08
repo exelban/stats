@@ -38,8 +38,6 @@ internal class Popup: NSView {
     private var powerField: NSTextField? = nil
     private var chargingStateField: NSTextField? = nil
     
-    private var initialized: Bool = false
-    
     public init() {
         super.init(frame: NSRect(
             x: 0,
@@ -131,10 +129,6 @@ internal class Popup: NSView {
     
     public func usageCallback(_ value: Usage) {
         DispatchQueue.main.async(execute: {
-            if !self.window!.isVisible && self.initialized {
-                return
-            }
-            
             self.dashboardBatteryView?.setValue(abs(value.level))
             
             self.levelField?.stringValue = "\(Int(abs(value.level) * 100)) %"
@@ -153,7 +147,7 @@ internal class Popup: NSView {
                 }
             }
             
-            if value.timeToEmpty == -1 || value.timeToEmpty == -1 {
+            if value.timeToEmpty == -1 || value.timeToCharge == -1 {
                 self.timeField?.stringValue = "Calculating"
             }
             
@@ -169,8 +163,6 @@ internal class Popup: NSView {
             
             self.powerField?.stringValue = value.powerSource == "Battery Power" ? "Not connected" : "\(value.ACwatts) W"
             self.chargingStateField?.stringValue = value.level > 0 ? "Yes" : "No"
-            
-            self.initialized = true
         })
     }
 }

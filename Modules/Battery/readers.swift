@@ -60,20 +60,20 @@ internal class UsageReader: Reader<Usage> {
                 self.usage.state = list[kIOPSBatteryHealthKey] as! String
                 self.usage.isCharged = list[kIOPSIsChargedKey] as? Bool ?? false
                 var cap = Double(list[kIOPSCurrentCapacityKey] as! Int) / 100
-
+                
                 self.usage.timeToEmpty = Int(list[kIOPSTimeToEmptyKey] as! Int)
                 self.usage.timeToCharge = Int(list[kIOPSTimeToFullChargeKey] as! Int)
-
+                
                 self.usage.cycles = self.getIntValue("CycleCount" as CFString) ?? 0
-
+                
                 let maxCapacity = self.getIntValue("MaxCapacity" as CFString) ?? 1
                 let designCapacity = self.getIntValue("DesignCapacity" as CFString) ?? 1
                 self.usage.health = (100 * maxCapacity) / designCapacity
-
+                
                 self.usage.amperage = self.getIntValue("Amperage" as CFString) ?? 0
                 self.usage.voltage = self.getVoltage() ?? 0
                 self.usage.temperature = self.getTemperature() ?? 0
-
+                
                 var ACwatts: Int = 0
                 if let ACDetails = IOPSCopyExternalPowerAdapterDetails() {
                     if let ACList = ACDetails.takeUnretainedValue() as? Dictionary<String, Any> {
@@ -85,12 +85,12 @@ internal class UsageReader: Reader<Usage> {
                 }
                 self.usage.ACwatts = ACwatts
                 self.usage.ACstatus = self.getBoolValue("IsCharging" as CFString) ?? false
-
+                
                 if self.usage.powerSource == "Battery Power" {
                     cap = 0 - cap
                 }
                 self.usage.level = cap
-
+                
                 DispatchQueue.main.async(execute: {
                     self.callback(self.usage)
                 })
@@ -104,28 +104,28 @@ internal class UsageReader: Reader<Usage> {
         }
         return nil
     }
-
+    
     private func getIntValue(_ identifier: CFString) -> Int? {
         if let value = IORegistryEntryCreateCFProperty(self.service, identifier, kCFAllocatorDefault, 0) {
             return value.takeRetainedValue() as? Int
         }
         return nil
     }
-
+    
     private func getDoubleValue(_ identifier: CFString) -> Double? {
         if let value = IORegistryEntryCreateCFProperty(self.service, identifier, kCFAllocatorDefault, 0) {
             return value.takeRetainedValue() as? Double
         }
         return nil
     }
-
+    
     private func getVoltage() -> Double? {
         if let value = self.getDoubleValue("Voltage" as CFString) {
             return value / 1000.0
         }
         return nil
     }
-
+    
     private func getTemperature() -> Double? {
         if let value = IORegistryEntryCreateCFProperty(self.service, "Temperature" as CFString, kCFAllocatorDefault, 0) {
             return value.takeRetainedValue() as! Double / 100.0
