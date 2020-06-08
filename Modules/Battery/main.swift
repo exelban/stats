@@ -78,7 +78,7 @@ public class Battery: Module {
         if let widget = self.widget as? BatterykWidget {
             widget.setValue(
                 percentage: value?.level ?? 0,
-                isCharging: false,
+                isCharging: value!.level == 100 ? true : value!.level > 0,
                 time: (value?.timeToEmpty == 0 && value?.timeToCharge != 0 ? value?.timeToCharge : value?.timeToEmpty) ?? 0
             )
         }
