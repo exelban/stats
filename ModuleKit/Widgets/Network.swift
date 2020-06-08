@@ -31,7 +31,7 @@ public class NetworkWidget: Widget {
     private var downloadValue: Int64 = 0
     
     private let store: UnsafePointer<Store>?
-    private var width: CGFloat = 52
+    private var width: CGFloat = 54
     
     public init(preview: Bool, title: String, config: NSDictionary?, store: UnsafePointer<Store>?) {
         let widgetTitle: String = title
@@ -78,7 +78,7 @@ public class NetworkWidget: Widget {
         }
         
         if self.valueState {
-            let rowWidth: CGFloat = 42
+            let rowWidth: CGFloat = 44
             let rowHeight: CGFloat = self.frame.height / 2
             let style = NSMutableParagraphStyle()
             style.alignment = .right
@@ -234,11 +234,11 @@ public class NetworkWidget: Widget {
         var updated: Bool = false
         
         if self.downloadValue != download {
-            self.downloadValue = download
+//            self.downloadValue = download
             updated = true
         }
         if self.uploadValue != upload {
-            self.uploadValue = upload
+//            self.uploadValue = upload
             updated = true
         }
         
