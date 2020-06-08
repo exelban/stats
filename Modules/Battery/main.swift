@@ -73,7 +73,7 @@ public class Battery: Module {
         
         self.popupView.usageCallback(value!)
         if let widget = self.widget as? Mini {
-            widget.setValue(value!.level, sufix: "%")
+            widget.setValue(abs(value!.level), sufix: "%")
         }
         if let widget = self.widget as? BatterykWidget {
             widget.setValue(
