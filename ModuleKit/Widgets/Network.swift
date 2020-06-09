@@ -234,11 +234,11 @@ public class NetworkWidget: Widget {
         var updated: Bool = false
         
         if self.downloadValue != download {
-//            self.downloadValue = download
+            self.downloadValue = download
             updated = true
         }
         if self.uploadValue != upload {
-//            self.uploadValue = upload
+            self.uploadValue = upload
             updated = true
         }
         
