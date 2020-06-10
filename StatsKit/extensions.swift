@@ -208,15 +208,15 @@ public extension Double {
         switch self {
         case 0.2...0.4:
             if !color {
-                return NSColor.black
+                return NSColor.textColor
             }
             return NSColor.systemOrange
         case 0.4...1:
             if self == 1 {
-                return NSColor.black
+                return NSColor.textColor
             }
             if !color {
-                return NSColor.black
+                return NSColor.textColor
             }
             return NSColor.systemGreen
         default:

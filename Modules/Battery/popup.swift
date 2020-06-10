@@ -187,7 +187,7 @@ private class BatteryView: NSView {
         let y: CGFloat = (dirtyRect.size.height - h) / 2
         let radius: CGFloat = 3
         let batteryFrame = NSBezierPath(roundedRect: NSRect(x: x+1, y: y, width: w, height: h), xRadius: radius, yRadius: radius)
-        NSColor.black.set()
+        NSColor.textColor.set()
         
         let bPX: CGFloat = x+w+1
         let bPY: CGFloat = (dirtyRect.size.height / 2) - 4

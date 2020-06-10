@@ -97,7 +97,7 @@ public class BatterykWidget: Widget {
         if self.charging {
             NSColor.systemGreen.set()
         } else {
-            NSColor.black.set()
+            NSColor.textColor.set()
         }
         
         let bPX: CGFloat = x+w+1
