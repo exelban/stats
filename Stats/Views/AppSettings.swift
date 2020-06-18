@@ -158,6 +158,7 @@ class ApplicationSettings: NSView {
             button.action = action
             button.isBordered = false
             button.isTransparent = true
+            button.target = self
             
             toggle = button
         }

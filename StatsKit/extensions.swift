@@ -298,10 +298,11 @@ public extension NSView {
             button.action = action
             button.isBordered = false
             button.isTransparent = true
+            button.target = self
             
             toggle = button
         }
-
+        
         row.addSubview(toggle)
         row.addSubview(rowTitle)
         

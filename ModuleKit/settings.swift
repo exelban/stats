@@ -152,13 +152,14 @@ open class Settings: NSView, Settings_p {
 
             toggle = switchButton
         } else {
-            let button: NSButton = NSButton(frame: NSRect(x: self.frame.width-55, y: 0, width: 30, height: view.frame.height))
+            let button: NSButton = NSButton(frame: NSRect(x: self.frame.width-30, y: 0, width: 15, height: view.frame.height))
             button.setButtonType(.switch)
             button.state = state ? .on : .off
             button.title = ""
             button.action = #selector(self.toggleEnable)
             button.isBordered = false
             button.isTransparent = true
+            button.target = self
             
             toggle = button
         }
