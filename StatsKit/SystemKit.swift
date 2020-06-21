@@ -130,7 +130,6 @@ public class SystemKit {
             name = name.replacingOccurrences(of: "CPU", with: "")
             name = name.replacingOccurrences(of: " @ ", with: "")
         }
-        print(name)
         
         var size = UInt32(MemoryLayout<host_basic_info_data_t>.size / MemoryLayout<integer_t>.size)
         let hostInfo = host_basic_info_t.allocate(capacity: 1)

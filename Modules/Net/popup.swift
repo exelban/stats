@@ -147,7 +147,7 @@ internal class Popup: NSView {
     
     public func usageCallback(_ value: Usage) {
         DispatchQueue.main.async(execute: {
-            if !self.window!.isVisible && self.initialized {
+            if !self.window!.isVisible && self.initialized && value.active {
                 return
             }
             

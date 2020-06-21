@@ -259,10 +259,6 @@ private class SettingsView: NSView {
         NSWorkspace.shared.open(URL(string: "https://github.com/exelban/stats/issues/new")!)
     }
     
-    @objc public func aboutApp(_ sender: Any) {
-        print("about app")
-    }
-    
     @objc public func closeApp(_ sender: Any) {
         NSApp.terminate(sender)
     }
