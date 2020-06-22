@@ -253,6 +253,17 @@ public extension Double {
             return "n/a"
         }
     }
+    
+    func localizeTemperature() -> Measurement<UnitTemperature> {
+        let locale = NSLocale.current as NSLocale
+        var unit = UnitTemperature.celsius
+        if let unitLocale = locale.object(forKey: NSLocale.Key(rawValue: "kCFLocaleTemperatureUnitKey")) {
+            unit = "\(unitLocale)" == "Celsius" ? UnitTemperature.celsius : UnitTemperature.fahrenheit
+        }
+        let measurement = Measurement(value: self, unit: unit)
+        
+        return measurement
+    }
 }
 
 public extension NSView {
@@ -388,6 +399,12 @@ extension URL {
 extension UInt32 {
     init(bytes: (UInt8, UInt8, UInt8, UInt8)) {
         self = UInt32(bytes.0) << 24 | UInt32(bytes.1) << 16 | UInt32(bytes.2) << 8 | UInt32(bytes.3)
+    }
+}
+
+extension UInt16 {
+    init(bytes: (UInt8, UInt8)) {
+        self = UInt16(bytes.0) << 8 | UInt16(bytes.1)
     }
 }
 

@@ -62,8 +62,6 @@ internal class DiskView: NSView {
     
     private var mainView: NSView
     
-    private var initialized: Bool = false
-    
     public init(_ frame: NSRect, name: String, size: Int64, free: Int64, path: URL?) {
         self.mainView = NSView(frame: NSRect(x: 5, y: 5, width: frame.width - 10, height: frame.height - 10))
         self.name = name
@@ -141,10 +139,6 @@ internal class DiskView: NSView {
     
     public func update(free: Int64) {
         DispatchQueue.main.async(execute: {
-            if !self.window!.isVisible && self.initialized {
-                return
-            }
-            
             if self.legendField != nil {
                 self.legendField?.stringValue = "Used \(Units(bytes: (self.size - free)).getReadableMemory()) from \(Units(bytes: self.size).getReadableMemory())"
                 self.percentageField?.stringValue = "\(Int8((Double(self.size - free) / Double(self.size)) * 100))%"
@@ -155,8 +149,6 @@ internal class DiskView: NSView {
                 let width: CGFloat = ((self.mainView.frame.width - 2) * percentage) / 1
                 self.usedBarSpace?.setFrameSize(NSSize(width: width, height: self.usedBarSpace!.frame.height))
             }
-            
-            self.initialized = true
         })
     }
     

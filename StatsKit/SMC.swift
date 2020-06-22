@@ -13,8 +13,16 @@ import IOKit
 
 enum SMCDataType: String {
     case UI32 = "ui32"
+    case SP1E = "sp1e"
+    case SP3C = "sp3c"
+    case SP4B = "sp5b"
+    case SP5A = "sp5a"
+    case SP69 = "sp669"
     case SP78 = "sp78"
     case SP87 = "sp87"
+    case SP96 = "sp96"
+    case SPB4 = "spb4"
+    case SPF0 = "spf0"
     case FLT = "flt "
     case FPE2 = "fpe2"
     case FP2E = "fp2e"
@@ -140,9 +148,36 @@ public class SMCService {
             switch val.dataType {
             case SMCDataType.UI32.rawValue:
                 return Double(UInt32(bytes: (val.bytes[0], val.bytes[1], val.bytes[2], val.bytes[3])))
-            case SMCDataType.SP78.rawValue, SMCDataType.SP87.rawValue:
+            case SMCDataType.SP1E.rawValue:
+                let result: Double = Double(UInt16(val.bytes[0]) * 256 + UInt16(val.bytes[1]))
+                return Double(result / 16384)
+            case SMCDataType.SP3C.rawValue:
+                let result: Double = Double(UInt16(val.bytes[0]) * 256 + UInt16(val.bytes[1]))
+                return Double(result / 4096)
+            case SMCDataType.SP4B.rawValue:
+                let result: Double = Double(UInt16(val.bytes[0]) * 256 + UInt16(val.bytes[1]))
+                return Double(result / 2048)
+            case SMCDataType.SP5A.rawValue:
+                let result: Double = Double(UInt16(val.bytes[0]) * 256 + UInt16(val.bytes[1]))
+                return Double(result / 1024)
+            case SMCDataType.SP69.rawValue:
+                let result: Double = Double(UInt16(val.bytes[0]) * 256 + UInt16(val.bytes[1]))
+                return Double(result / 512)
+            case SMCDataType.SP78.rawValue:
                 let intValue: Double = Double(Int(val.bytes[0]) * 256 + Int(val.bytes[1]))
                 return Double(intValue / 256.0)
+            case SMCDataType.SP87.rawValue:
+                let intValue: Double = Double(Int(val.bytes[0]) * 256 + Int(val.bytes[1]))
+                return Double(intValue / 128)
+            case SMCDataType.SP96.rawValue:
+                let intValue: Double = Double(Int(val.bytes[0]) * 256 + Int(val.bytes[1]))
+                return Double(intValue / 64)
+            case SMCDataType.SPB4.rawValue:
+                let intValue: Double = Double(Int(val.bytes[0]) * 256 + Int(val.bytes[1]))
+                return Double(intValue / 16)
+            case SMCDataType.SPF0.rawValue:
+                let intValue: Double = Double(Int(val.bytes[0]) * 256 + Int(val.bytes[1]))
+                return intValue
             case SMCDataType.FLT.rawValue:
                 let value: Float? = Float(val.bytes)
                 if value != nil {

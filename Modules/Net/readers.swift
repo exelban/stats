@@ -31,6 +31,7 @@ internal class UsageReader: Reader<Usage> {
         }
         
         self.reachability!.whenReachable = { _ in
+            self.usage.reset()  
             self.readInformation()
         }
         self.reachability!.whenUnreachable = { _ in

@@ -15,12 +15,13 @@ import Memory
 import Disk
 import Net
 import Battery
+import Sensors
 
 var store: Store = Store()
 let updater = macAppUpdater(user: "exelban", repo: "stats")
 let systemKit: SystemKit = SystemKit()
 var smc: SMCService = SMCService()
-var modules: [Module] = [Battery(&store), Network(&store), Disk(&store), Memory(&store), CPU(&store, &smc)].reversed()
+var modules: [Module] = [Battery(&store), Network(&store), Sensors(&store, &smc), Disk(&store), Memory(&store), CPU(&store, &smc)].reversed()
 var log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: "Stats")
 
 class AppDelegate: NSObject, NSApplicationDelegate {
