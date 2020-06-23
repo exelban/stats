@@ -541,3 +541,12 @@ public func PopupRow(_ view: NSView, n: CGFloat, title: String, value: String) -
     
     return valueView
 }
+
+public extension Array where Element : Equatable {
+    func allEqual() -> Bool {
+        if let firstElem = first {
+            return !dropFirst().contains { $0 != firstElem }
+        }
+        return true
+    }
+}
