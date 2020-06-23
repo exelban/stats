@@ -17,10 +17,13 @@ class SettingsWindow: NSWindow, NSWindowDelegate {
     private let viewController: SettingsViewController = SettingsViewController()
     
     init() {
-        let w = NSScreen.main!.frame.width
-        let h = NSScreen.main!.frame.height
         super.init(
-            contentRect: NSMakeRect(w - self.viewController.view.frame.width, h - self.viewController.view.frame.height, self.viewController.view.frame.width, self.viewController.view.frame.height),
+            contentRect: NSMakeRect(
+                NSScreen.main!.frame.width - self.viewController.view.frame.width,
+                NSScreen.main!.frame.height - self.viewController.view.frame.height,
+                self.viewController.view.frame.width,
+                self.viewController.view.frame.height
+            ),
             styleMask: [.closable, .titled, .miniaturizable],
             backing: .buffered,
             defer: true

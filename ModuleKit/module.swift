@@ -103,13 +103,7 @@ open class Module: Module_p {
             os_log(.debug, log: log, "Module started without widget")
         }
         
-        self.settings = Settings(config: &self.config, enabled: self.enabled, activeWidget: self.widget, moduleSettings: { [weak self] (_ superview: NSView) in
-            if self != nil && self?.settingsView != nil {
-                self!.settingsView!.load(rect: superview.frame, widget: self!.activeWidget)
-                superview.setFrameSize(NSSize(width: superview.frame.width, height: self!.settingsView!.frame.height))
-                superview.addSubview(self!.settingsView!)
-            }
-        })
+        self.settings = Settings(config: &self.config, enabled: self.enabled, activeWidget: self.widget, moduleSettings: self.settingsView)
         self.settings?.toggleCallback = { [weak self] in
             self?.toggleEnabled()
         }

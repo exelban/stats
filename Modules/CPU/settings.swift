@@ -19,10 +19,12 @@ internal class Settings: NSView, Settings_v {
     private let title: String
     private let store: UnsafePointer<Store>?
     
+    public var callback: (() -> Void) = {}
+    
     public init(_ title: String, store: UnsafePointer<Store>?) {
         self.title = title
         self.store = store
-        super.init(frame: CGRect(x: Constants.Settings.margin, y: Constants.Settings.margin, width: 0, height: 0))
+        super.init(frame: CGRect(x: Constants.Settings.margin, y: Constants.Settings.margin, width: Constants.Settings.width - (Constants.Settings.margin*2), height: 0))
         self.wantsLayer = true
         self.canDrawConcurrently = true
         
@@ -35,15 +37,15 @@ internal class Settings: NSView, Settings_v {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func load(rect: NSRect, widget: widget_t) {
+    public func load(widget: widget_t) {
         self.subviews.forEach{ $0.removeFromSuperview() }
         
-        let rowHeight: CGFloat = 30
+        let rowHeight: CGFloat = 29
         var height: CGFloat = 0
         
         if widget == .barChart {
             self.addSubview(ToggleTitleRow(
-                frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 0, width: rect.width - (Constants.Settings.margin*2), height: rowHeight),
+                frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * 0, width: self.frame.width - (Constants.Settings.margin*2), height: rowHeight),
                 title: "Show hyper-threading cores",
                 action: #selector(toggleMultithreading),
                 state: self.hyperthreadState
@@ -54,7 +56,7 @@ internal class Settings: NSView, Settings_v {
         if height != 0 {
             height += (Constants.Settings.margin*2)
         }
-        self.setFrameSize(NSSize(width: rect.width - (Constants.Settings.margin*2), height: height))
+        self.setFrameSize(NSSize(width: self.frame.width, height: height))
     }
     
     @objc func toggleMultithreading(_ sender: NSControl) {
@@ -67,5 +69,6 @@ internal class Settings: NSView, Settings_v {
         
         self.hyperthreadState = state! == .on ? true : false
         self.store?.pointee.set(key: "\(self.title)_hyperhreading", value: self.hyperthreadState)
+        self.callback()
     }
 }

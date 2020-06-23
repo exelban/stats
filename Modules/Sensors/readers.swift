@@ -19,10 +19,9 @@ internal class SensorsReader: Reader<[Sensor_t]> {
     
     init(_ smc: UnsafePointer<SMCService>) {
         self.smc = smc
-    }
-    
-    public override func setup() {
+        
         var available: [String] = self.smc.pointee.getAllKeys()
+        var list: [Sensor_t] = []
         
         available = available.filter({ (key: String) -> Bool in
             switch key.prefix(1) {
@@ -33,19 +32,20 @@ internal class SensorsReader: Reader<[Sensor_t]> {
         
         available.forEach { (key: String) in
             if var sensor = SensorsDict[key] {
-                sensor.value = self.smc.pointee.getValue(key)
+                sensor.value = smc.pointee.getValue(key)
                 if sensor.value != nil {
                     sensor.key = key
-                    self.list.append(sensor)
+                    list.append(sensor)
                 }
             }
         }
+        
+        self.list = list
     }
     
     public override func read() {
         for i in 0..<self.list.count {
             if let newValue = self.smc.pointee.getValue(self.list[i].key) {
-//                print(self.list[i].type, measurement.unit)
                 self.list[i].value = newValue
             }
         }

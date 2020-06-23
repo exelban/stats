@@ -291,7 +291,7 @@ public extension NSView {
         
         let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: (row.frame.height - 16)/2, width: row.frame.width - 52, height: 17), title)
         rowTitle.font = NSFont.systemFont(ofSize: 13, weight: .light)
-        rowTitle.textColor = .labelColor
+        rowTitle.textColor = .textColor
         
         var toggle: NSControl = NSControl()
         if #available(OSX 10.15, *) {
@@ -325,7 +325,7 @@ public extension NSView {
         
         let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: (row.frame.height - 16)/2, width: row.frame.width - 52, height: 17), title)
         rowTitle.font = NSFont.systemFont(ofSize: 13, weight: .light)
-        rowTitle.textColor = .labelColor
+        rowTitle.textColor = .textColor
         
         let select: NSPopUpButton = NSPopUpButton(frame: NSRect(x: row.frame.width - 50, y: 0, width: 50, height: row.frame.height))
         select.target = self

@@ -161,11 +161,11 @@ internal class HeaderView: NSView {
         titleView.isSelectable = false
         titleView.isBezeled = false
         titleView.wantsLayer = true
-        titleView.textColor = .labelColor
+        titleView.textColor = .textColor
         titleView.backgroundColor = .clear
         titleView.canDrawSubviewsIntoLayer = true
         titleView.alignment = .center
-        titleView.font = NSFont.systemFont(ofSize: 16, weight: .medium)
+        titleView.font = NSFont.systemFont(ofSize: 16, weight: .regular)
         titleView.stringValue = ""
         
         self.titleView = titleView

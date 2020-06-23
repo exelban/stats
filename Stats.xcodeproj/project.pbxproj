@@ -63,6 +63,8 @@
 		9A944D6124492B6D0058F32A /* popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A944D6024492B6D0058F32A /* popup.swift */; };
 		9A9D728A24471FAE005CF997 /* SMC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9D728924471FAE005CF997 /* SMC.swift */; };
 		9A9EA9452476D34500E3B883 /* Update.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9EA9442476D34500E3B883 /* Update.swift */; };
+		9A9FB99E24A2865B00FD072C /* settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9FB99D24A2865B00FD072C /* settings.swift */; };
+		9A9FB99F24A2866500FD072C /* settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9FB99D24A2865B00FD072C /* settings.swift */; };
 		9AA4A00A2443656D00ECCF07 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AA4A0092443656D00ECCF07 /* Assets.xcassets */; };
 		9AA64260244B274200416A33 /* popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA6425F244B274200416A33 /* popup.swift */; };
 		9AA64262244B57C800416A33 /* settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA64261244B57C800416A33 /* settings.swift */; };
@@ -430,6 +432,7 @@
 		9A998CD922A199970087ADE7 /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = System/Library/Frameworks/ServiceManagement.framework; sourceTree = SDKROOT; };
 		9A9D728924471FAE005CF997 /* SMC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMC.swift; sourceTree = "<group>"; };
 		9A9EA9442476D34500E3B883 /* Update.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Update.swift; sourceTree = "<group>"; };
+		9A9FB99D24A2865B00FD072C /* settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = settings.swift; path = ModuleKit/Widgets/settings.swift; sourceTree = SOURCE_ROOT; };
 		9AA4A0092443656D00ECCF07 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9AA6425F244B274200416A33 /* popup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = popup.swift; sourceTree = "<group>"; };
 		9AA64261244B57C800416A33 /* settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = settings.swift; sourceTree = "<group>"; };
@@ -765,6 +768,7 @@
 				9AE29AF1249A50CD0071B02D /* main.swift */,
 				9AE29AF9249A53780071B02D /* readers.swift */,
 				9A2DD8CB24A1190A00F6F48D /* popup.swift */,
+				9A9FB99D24A2865B00FD072C /* settings.swift */,
 				9AE29AF7249A53420071B02D /* values.swift */,
 				9AE29AEC249A50960071B02D /* Info.plist */,
 				9AE29AF4249A52870071B02D /* config.plist */,
@@ -1252,6 +1256,7 @@
 				9A2DD8CC24A1190A00F6F48D /* popup.swift in Sources */,
 				9AE29AFA249A53780071B02D /* readers.swift in Sources */,
 				9A9EA9452476D34500E3B883 /* Update.swift in Sources */,
+				9A9FB99E24A2865B00FD072C /* settings.swift in Sources */,
 				9A81C74E24499C7000825D92 /* Settings.swift in Sources */,
 				9A81C74D24499C7000825D92 /* AppSettings.swift in Sources */,
 				9AE29AF8249A53420071B02D /* values.swift in Sources */,
@@ -1330,6 +1335,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A9FB99F24A2866500FD072C /* settings.swift in Sources */,
 				9A2DD8CD24A1193500F6F48D /* popup.swift in Sources */,
 				9AE29AFB249A53DC0071B02D /* readers.swift in Sources */,
 				9AE29AFC249A53DC0071B02D /* values.swift in Sources */,

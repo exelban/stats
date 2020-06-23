@@ -17,7 +17,8 @@ public protocol Settings_p: NSView {
 }
 
 public protocol Settings_v: NSView {
-    func load(rect: NSRect, widget: widget_t)
+    var callback: (() -> Void) { get set }
+    func load(widget: widget_t)
 }
 
 open class Settings: NSView, Settings_p {
@@ -33,38 +34,57 @@ open class Settings: NSView, Settings_p {
     private var config: UnsafePointer<module_c>
     private var activeWidget: Widget_p?
     
-    private var moduleSettings: (_ superview: NSView) -> ()
+    private var moduleSettings: Settings_v?
     
-    init(config: UnsafePointer<module_c>, enabled: Bool, activeWidget: Widget_p?, moduleSettings: @escaping (_ superview: NSView) -> ()) {
+    init(config: UnsafePointer<module_c>, enabled: Bool, activeWidget: Widget_p?, moduleSettings: Settings_v?) {
         self.config = config
         self.activeWidget = activeWidget
         self.moduleSettings = moduleSettings
         super.init(frame: NSRect(x: 0, y: 0, width: Constants.Settings.width, height: Constants.Settings.height))
         self.wantsLayer = true
+        self.appearance = NSAppearance(named: .aqua)
         self.layer?.backgroundColor = NSColor(hexString: "#ececec").cgColor
         
         addHeader(state: enabled)
         addWidgetSelector()
         addWidgetSettings()
-        addModuleSettings()
+        if self.moduleSettings != nil {
+            self.moduleSettings?.load(widget: self.activeWidget?.type ?? .unknown)
+            addModuleSettings()
+        }
     }
     
     private func addModuleSettings() {
-        let y: CGFloat = self.frame.height - headerHeight - widgetSelectorHeight - (self.widgetSettingsView?.frame.height ?? 0)
-        let view: NSView = NSView(frame: NSRect(x: Constants.Settings.margin, y: y - (Constants.Settings.margin*3), width: self.frame.width - (Constants.Settings.margin*2), height: 0))
+        guard self.moduleSettings?.frame.height != 0 else {
+            return
+        }
+        
+        let maxHeight: CGFloat = Constants.Settings.height - self.headerHeight - self.widgetSelectorHeight - (self.widgetSettingsView?.frame.height ?? 0) - (Constants.Settings.margin*3)
+        let h: CGFloat = self.moduleSettings!.frame.height > maxHeight ? maxHeight : self.moduleSettings!.frame.height
+        var y: CGFloat = Constants.Settings.height - self.headerHeight - self.widgetSelectorHeight - (self.widgetSettingsView?.frame.height ?? 0) - (Constants.Settings.margin*3) - h
+        if y == 0 {
+            y = Constants.Settings.margin
+        }
+        
+        let view: NSScrollView = NSScrollView(frame: NSRect(
+            x: Constants.Settings.margin,
+            y: y,
+            width: self.frame.width - (Constants.Settings.margin*2),
+            height: h
+        ))
         view.wantsLayer = true
         view.layer?.backgroundColor = .white
         view.layer!.cornerRadius = 3
+        view.translatesAutoresizingMaskIntoConstraints = true
+        view.borderType = .noBorder
+        view.hasVerticalScroller = true
+        view.autohidesScrollers = true
         
-        self.appearance = NSAppearance(named: .aqua)
+        view.documentView = self.moduleSettings
+        view.documentView?.scroll(NSPoint(x: 0, y: view.documentView!.bounds.size.height))
         
-        self.moduleSettings(view)
-        
-        if view.frame.height != 0 {
-            view.setFrameOrigin(NSPoint(x: view.frame.origin.x, y: view.frame.origin.y - view.frame.height))
-            self.addSubview(view)
-            self.moduleSettingsView = view
-        }
+        self.addSubview(view)
+        self.moduleSettingsView = view
     }
     
     private func addWidgetSettings() {
@@ -184,7 +204,10 @@ open class Settings: NSView, Settings_p {
         
         self.subviews.filter{ $0 == self.widgetSettingsView || $0 == self.moduleSettingsView }.forEach{ $0.removeFromSuperview() }
         self.addWidgetSettings()
-        self.addModuleSettings()
+        if self.moduleSettings != nil {
+            self.moduleSettings?.load(widget: self.activeWidget?.type ?? .unknown)
+            addModuleSettings()
+        }
     }
     
     required public init?(coder: NSCoder) {

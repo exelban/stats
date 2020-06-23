@@ -16,16 +16,23 @@ import StatsKit
 public class Sensors: Module {
     private var sensorsReader: SensorsReader
     private let popupView: Popup = Popup()
+    private var settingsView: Settings
     
     public init(_ store: UnsafePointer<Store>?, _ smc: UnsafePointer<SMCService>) {
         self.sensorsReader = SensorsReader(smc)
+        self.settingsView = Settings("Disk", store: store!, list: &self.sensorsReader.list)
+        
         super.init(
             store: store,
             popup: self.popupView,
-            settings: nil
+            settings: self.settingsView
         )
         
         self.popupView.setup(self.sensorsReader.list)
+        
+        self.settingsView.callback = { [unowned self] in
+            self.sensorsReader.read()
+        }
         
         self.sensorsReader.readyCallback = { [unowned self] in
             self.readyHandler()
@@ -43,12 +50,8 @@ public class Sensors: Module {
         }
         
         self.popupView.usageCallback(value!)
-        
-        let value_1 = value?.first{ $0.key == "TC0F" }
-        let value_2 = value?.first{ $0.key == "TC0P" }
-        
         if let widget = self.widget as? SensorsWidget {
-            widget.setValues([value_1!.formattedMiniValue, value_2!.formattedMiniValue])
+            widget.setValues(value?.filter{ $0.state }.map{ $0.formattedMiniValue } ?? [])
         }
     }
 }

@@ -80,7 +80,7 @@ internal class Popup: NSView {
         
         let valueField = LabelField(frame: NSRect(x: 0, y: 0, width: valueWidth, height: 30), "0")
         valueField.font = NSFont.systemFont(ofSize: 26, weight: .light)
-        valueField.textColor = .labelColor
+        valueField.textColor = .textColor
         valueField.alignment = .right
         
         let unitField = LabelField(frame: NSRect(x: valueField.frame.width, y: 4, width: unitWidth, height: 15), "KB/s")

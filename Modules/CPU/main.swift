@@ -49,6 +49,10 @@ public class CPU: Module {
             settings: self.settingsView
         )
         
+        self.settingsView.callback = { [unowned self] in
+            self.loadReader.read()
+        }
+        
         self.loadReader.readyCallback = { [unowned self] in
             self.readyHandler()
         }

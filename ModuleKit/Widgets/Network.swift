@@ -115,7 +115,7 @@ public class NetworkWidget: Widget {
         if self.downloadValue >= 1_024 {
             NSColor(red: (26/255.0), green: (126/255.0), blue: (252/255.0), alpha: 0.8).setFill()
         } else {
-            NSColor.labelColor.setFill()
+            NSColor.textColor.setFill()
         }
         downloadCircle.fill()
         
@@ -124,7 +124,7 @@ public class NetworkWidget: Widget {
         if self.uploadValue >= 1_024 {
             NSColor.red.setFill()
         } else {
-            NSColor.labelColor.setFill()
+            NSColor.textColor.setFill()
         }
         uploadCircle.fill()
     }
@@ -143,7 +143,7 @@ public class NetworkWidget: Widget {
         if self.downloadValue >= 1_024 {
             NSColor(red: (26/255.0), green: (126/255.0), blue: (252/255.0), alpha: 0.8).set()
         } else {
-            NSColor.labelColor.set()
+            NSColor.textColor.set()
         }
         downloadArrow.lineWidth = 1
         downloadArrow.stroke()
@@ -157,7 +157,7 @@ public class NetworkWidget: Widget {
         if self.uploadValue >= 1_024 {
             NSColor.red.set()
         } else {
-            NSColor.labelColor.set()
+            NSColor.textColor.set()
         }
         uploadArrow.lineWidth = 1
         uploadArrow.stroke()
@@ -169,7 +169,7 @@ public class NetworkWidget: Widget {
         
         let downloadAttributes = [
             NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .regular),
-            NSAttributedString.Key.foregroundColor: downloadValue >= 1_024 ? NSColor(red: (26/255.0), green: (126/255.0), blue: (252/255.0), alpha: 0.8) : NSColor.labelColor,
+            NSAttributedString.Key.foregroundColor: downloadValue >= 1_024 ? NSColor(red: (26/255.0), green: (126/255.0), blue: (252/255.0), alpha: 0.8) : NSColor.textColor,
             NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
         ]
         var rect = CGRect(x: Constants.Widget.margin, y: 1, width: 8, height: rowHeight)
@@ -178,7 +178,7 @@ public class NetworkWidget: Widget {
         
         let uploadAttributes = [
             NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .regular),
-            NSAttributedString.Key.foregroundColor: uploadValue >= 1_024 ? NSColor.red : NSColor.labelColor,
+            NSAttributedString.Key.foregroundColor: uploadValue >= 1_024 ? NSColor.red : NSColor.textColor,
             NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
         ]
         rect = CGRect(x: Constants.Widget.margin, y: rect.height+1, width: 8, height: rowHeight)

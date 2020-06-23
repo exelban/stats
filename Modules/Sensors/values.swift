@@ -29,6 +29,7 @@ enum SensorType: SensorType_t {
 }
 
 struct Sensor_t {
+    let store: Store = Store()
     var name: String
     var key: String = ""
     
@@ -74,6 +75,12 @@ struct Sensor_t {
                 return String(format: "%.1f\(unit)", value ?? 0)
             default: return String(format: "%.1f", value ?? 0)
             }
+        }
+    }
+    
+    var state: Bool {
+        get {
+            return store.bool(key: "sensor_\(self.key)", defaultValue: false)
         }
     }
 }

@@ -88,7 +88,7 @@ public class BarChart: Widget {
             style.alignment = .center
             let stringAttributes = [
                 NSAttributedString.Key.font: NSFont.systemFont(ofSize: 7, weight: .regular),
-                NSAttributedString.Key.foregroundColor: NSColor.labelColor,
+                NSAttributedString.Key.foregroundColor: NSColor.textColor,
                 NSAttributedString.Key.paragraphStyle: style
             ]
             

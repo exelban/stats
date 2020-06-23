@@ -79,13 +79,13 @@ public class SensorsWidget: Widget {
         var x: CGFloat = Constants.Widget.margin
         for i in 0..<num {
             if self.values.indices.contains(i*2) {
-                let rect = CGRect(x: x, y: 1, width: rowWidth, height: rowHeight)
+                let rect = CGRect(x: x, y: rowHeight+1, width: rowWidth, height: rowHeight)
                 let str = NSAttributedString.init(string: self.values[i*2], attributes: attributes)
                 str.draw(with: rect)
             }
             
             if self.values.indices.contains((i*2)+1) {
-                let rect = CGRect(x: x, y: rowHeight+1, width: rowWidth, height: rowHeight)
+                let rect = CGRect(x: x, y: 1, width: rowWidth, height: rowHeight)
                 let str = NSAttributedString.init(string: self.values[(i*2)+1], attributes: attributes)
                 str.draw(with: rect)
             }
