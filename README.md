@@ -9,6 +9,12 @@ Simple macOS system monitor in your menu bar
 ## Installation
 You can download latest version [here](https://github.com/exelban/stats/releases).
 
+### Homebrew
+
+```bash
+brew cask install stats
+```
+
 ## Requirements
 
 Stats is currently supported on macOS 10.14 (Mojave) and higher.
