@@ -44,7 +44,7 @@ class ApplicationSettings: NSView {
         }
         processorInfo += "\(systemKit.device.info?.cpu?.physicalCores ?? 0) cores (\(systemKit.device.info?.cpu?.logicalCores ?? 0) threads)"
         leftPanel.addSubview(makeInfoRow(
-            frame: NSRect(x: rowHorizontalPadding, y: rowHeight*3, width: leftPanel.frame.width - (rowHorizontalPadding*1.5), height: rowHeight),
+            frame: NSRect(x: rowHorizontalPadding, y: rowHeight*3, width: leftPanel.frame.width - (rowHorizontalPadding*1.5), height: rowHeight+8),
             title: "Processor",
             value: processorInfo
         ))
@@ -175,13 +175,13 @@ class ApplicationSettings: NSView {
         
         let deviceImageView: NSImageView = NSImageView(image: systemKit.device.model.icon)
         deviceImageView.frame = NSRect(x: (leftPanel.frame.width - 160)/2, y: ((self.deviceInfoHeight - 120)/2) + 22, width: 160, height: 120)
-
+        
         let deviceNameField: NSTextField = TextView(frame: NSRect(x: 0, y: 72, width: leftPanel.frame.width, height: 20))
         deviceNameField.alignment = .center
         deviceNameField.font = NSFont.systemFont(ofSize: 14, weight: .regular)
         deviceNameField.stringValue = systemKit.device.model.name
         deviceNameField.isSelectable = true
-
+        
         let osField: NSTextField = TextView(frame: NSRect(x: 0, y: 52, width: leftPanel.frame.width, height: 18))
         osField.alignment = .center
         osField.font = NSFont.systemFont(ofSize: 12, weight: .regular)
