@@ -31,7 +31,7 @@ class SettingsWindow: NSWindow, NSWindowDelegate {
         
         self.contentViewController = self.viewController
         self.animationBehavior = .default
-        self.collectionBehavior = .transient
+        self.collectionBehavior = .moveToActiveSpace
         self.titlebarAppearsTransparent = true
         self.appearance = NSAppearance(named: .darkAqua)
         self.center()

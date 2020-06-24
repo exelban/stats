@@ -25,13 +25,14 @@ internal class PopupWindow: NSPanel, NSWindowDelegate {
             defer: true
         )
         
-        self.contentViewController = viewController
+        self.contentViewController = self.viewController
         self.backingType = .buffered
         self.isFloatingPanel = true
+        self.worksWhenModal = true
         self.becomesKeyOnlyIfNeeded = true
         self.styleMask = .borderless
         self.animationBehavior = .default
-        self.collectionBehavior = .transient
+        self.collectionBehavior = .moveToActiveSpace
         self.backgroundColor = .clear
         self.hasShadow = true
         self.setIsVisible(false)

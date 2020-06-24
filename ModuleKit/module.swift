@@ -227,7 +227,7 @@ open class Module: Module_p {
         self.settings?.setActiveWidget(self.widget)
     }
     
-    @objc private func togglePopup(_ sender: Any?) {
+    @objc private func togglePopup(_ sender: NSStatusBarButton) {
         let openedWindows = NSApplication.shared.windows.filter{ $0 is NSPanel }
         openedWindows.forEach{ $0.setIsVisible(false) }
         
@@ -242,15 +242,9 @@ open class Module: Module_p {
             var x = buttonOrigin!.x - windowCenter + buttonCenter
             let y = buttonOrigin!.y - self.popup.contentView!.intrinsicContentSize.height - 3
             
-            if let screen = NSScreen.main {
-                let width = screen.frame.size.width
-                
-                if x + self.popup.frame.width > width {
-                    x = width - self.popup.frame.width
-                }
-            }
-            if buttonOrigin!.x - self.popup.frame.width < 0 {
-                x = 0
+            let maxWidth = NSScreen.screens.map{ $0.frame.width }.reduce(0, +)
+            if x + self.popup.frame.width > maxWidth {
+                x = maxWidth - self.popup.frame.width - 3
             }
             
             self.popup.setFrameOrigin(NSPoint(x: x, y: y))
