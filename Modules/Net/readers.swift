@@ -16,9 +16,9 @@ import Reachability
 import os.log
 import CoreWLAN
 
-internal class UsageReader: Reader<Usage> {
+internal class UsageReader: Reader<Network_Usage> {
     private var reachability: Reachability? = nil
-    private var usage: Usage = Usage()
+    private var usage: Network_Usage = Network_Usage()
     
     private var interfaceID: String? = nil
     

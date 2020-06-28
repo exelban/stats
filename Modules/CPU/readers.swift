@@ -13,7 +13,7 @@ import Cocoa
 import StatsKit
 import ModuleKit
 
-internal class LoadReader: Reader<Load> {
+internal class LoadReader: Reader<CPU_Load> {
     public var store: UnsafePointer<Store>? = nil
     
     private var cpuInfo: processor_info_array_t!
@@ -24,7 +24,7 @@ internal class LoadReader: Reader<Load> {
     private let CPUUsageLock: NSLock = NSLock()
     private var previousInfo = host_cpu_load_info()
     
-    private var response: Load = Load()
+    private var response: CPU_Load = CPU_Load()
     private var numCPUsU: natural_t = 0
     private var usagePerCore: [Double] = []
     

@@ -31,10 +31,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         let startingPoint = Date()
         
+        self.parseArguments()
+        
         NotificationCenter.default.addObserver(self, selector: #selector(toggleSettingsHandler), name: .toggleSettings, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(checkForUpdates), name: .checkForUpdates, object: nil)
         
-        modules.forEach{ $0.load() }
+        modules.forEach{ $0.mount() }
         
         self.settingsWindow.setModules()
         
@@ -95,6 +97,27 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         
         store.set(key: key, value: currentVersion)
+    }
+    
+    private func parseArguments() {
+        let args = CommandLine.arguments
+        
+        if args.contains("--reset") {
+            os_log(.info, log: log, "Receive --reset argument. Reseting store (UserDefaults)...")
+            store.reset()
+        }
+        
+        if let disableIndex = args.firstIndex(of: "--disable") {
+            if args.indices.contains(disableIndex+1) {
+                let disableModules = args[disableIndex+1].split(separator: ",")
+                
+                disableModules.forEach { (moduleName: Substring) in
+                    if let module = modules.first(where: { $0.config.name.lowercased() == moduleName.lowercased()}) {
+                        module.unmount()
+                    }
+                }
+            }
+        }
     }
     
     private func defaultValues() {

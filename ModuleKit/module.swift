@@ -17,7 +17,9 @@ public protocol Module_p {
     var widget: Widget_p? { get }
     var settings: Settings_p? { get }
     
-    func load()
+    func mount()
+    func unmount()
+    
     func terminate()
 }
 
@@ -112,18 +114,18 @@ open class Module: Module_p {
     }
     
     // load function which call when app start
-    public func load() {
-        if self.enabled && self.widget != nil && self.ready {
-            DispatchQueue.main.async {
-                self.menuBarItem.button?.target = self
-                self.menuBarItem.button?.action = #selector(self.togglePopup)
-                self.menuBarItem.button?.sendAction(on: [.leftMouseDown, .rightMouseDown])
-                
-                self.menuBarItem.length = self.widget!.frame.width
-                self.menuBarItem.button?.addSubview(self.widget!)
-                self.widgetLoaded = true
-            }
+    public func mount() {
+        guard self.enabled else {
+            return
         }
+        
+        self.readers.forEach{ $0.start() }
+    }
+    
+    // disable module
+    public func unmount() {
+        self.enabled = false
+        self.available = false
     }
     
     // terminate function which call before app termination
@@ -147,7 +149,7 @@ open class Module: Module_p {
         self.readers.forEach{ $0.start() }
         self.menuBarItem.isVisible = true
         if self.menuBarItem.length < 0 {
-            self.load()
+            self.loadWidget()
         }
         os_log(.debug, log: log, "Module enabled")
     }
@@ -173,20 +175,17 @@ open class Module: Module_p {
     
     // add reader to module. If module is enabled will fire a read function and start a reader
     public func addReader(_ reader: Reader_p) {
-        if self.enabled {
-            reader.start()
-        }
         self.readers.append(reader)
-        
-        os_log(.debug, log: log, "Successfully add reader %s", "\(reader.self)")
+        os_log(.debug, log: log, "Reader %s was added", "\(reader.self)")
     }
     
     // handler for reader, calls when main reader is ready, and return first value
     public func readyHandler() {
         os_log(.debug, log: log, "Reader report readiness")
         self.ready = true
+        
         if !self.widgetLoaded {
-            self.load()
+            self.loadWidget()
         }
     }
     
@@ -198,6 +197,21 @@ open class Module: Module_p {
     
     // determine if module is available (can be overrided in module)
     open func isAvailable() -> Bool { return true }
+    
+    // setup menu ber item
+    private func loadWidget() {
+        if self.widget != nil && self.ready {
+            DispatchQueue.main.async {
+                self.menuBarItem.button?.target = self
+                self.menuBarItem.button?.action = #selector(self.togglePopup)
+                self.menuBarItem.button?.sendAction(on: [.leftMouseDown, .rightMouseDown])
+                
+                self.menuBarItem.length = self.widget!.frame.width
+                self.menuBarItem.button?.addSubview(self.widget!)
+                self.widgetLoaded = true
+            }
+        }
+    }
     
     // load and setup widget
     private func setWidget() {

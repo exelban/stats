@@ -99,7 +99,7 @@ internal class Popup: NSView {
         return valueView
     }
     
-    public func loadCallback(_ value: Usage) {
+    public func loadCallback(_ value: RAM_Usage) {
         DispatchQueue.main.async(execute: {
             if self.window!.isVisible || !self.initialized {
                 self.activeField?.stringValue = Units(bytes: Int64(value.active!)).getReadableMemory()

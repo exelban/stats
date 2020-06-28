@@ -127,7 +127,7 @@ internal class Popup: NSView {
         self.adapterView = view
     }
     
-    public func usageCallback(_ value: Usage) {
+    public func usageCallback(_ value: Battery_Usage) {
         DispatchQueue.main.async(execute: {
             self.dashboardBatteryView?.setValue(abs(value.level))
             

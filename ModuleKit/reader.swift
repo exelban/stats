@@ -69,8 +69,10 @@ open class Reader<T>: ReaderInternal_p {
     public func callback(_ value: T?) {
         if !self.optional && !self.ready {
             if self.value == nil && value != nil {
+                self.ready = true
                 self.readyCallback()
-            } else if self.value == nil && value == nil {
+                os_log(.debug, log: self.log, "Reader is ready")
+            } else if self.value == nil && value != nil {
                 if self.nilCallbackCounter > 5 {
                     os_log(.error, log: self.log, "Callback receive nil value more than 5 times. Please check this reader!")
                     self.stop()
@@ -87,10 +89,6 @@ open class Reader<T>: ReaderInternal_p {
         }
         
         self.value = value
-        if !self.ready {
-            self.ready = true
-            os_log(.debug, log: self.log, "Reader is ready")
-        }
         if value != nil {
             if self.history?.count ?? 0 >= 300 {
                 self.history!.remove(at: 0)

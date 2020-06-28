@@ -14,7 +14,7 @@ import StatsKit
 import ModuleKit
 import IOKit.ps
 
-struct Usage: value_t {
+struct Battery_Usage: value_t {
     var powerSource: String = ""
     var state: String = ""
     var isCharged: Bool = false
@@ -66,7 +66,7 @@ public class Battery: Module {
         return sources.count > 0
     }
     
-    private func usageCallback(_ value: Usage?) {
+    private func usageCallback(_ value: Battery_Usage?) {
         if value == nil {
             return
         }

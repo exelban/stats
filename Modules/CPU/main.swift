@@ -10,7 +10,7 @@ import Cocoa
 import ModuleKit
 import StatsKit
 
-public struct Load: value_t {
+public struct CPU_Load: value_t {
     var totalUsage: Double = 0
     var usagePerCore: [Double] = []
     
@@ -35,13 +35,13 @@ public class CPU: Module {
     private let popupView: Popup = Popup()
     private var settingsView: Settings
     
-    private var loadReader: LoadReader = LoadReader()
+    private var loadReader: LoadReader? = LoadReader()
     private let smc: UnsafePointer<SMCService>?
     
     public init(_ store: UnsafePointer<Store>, _ smc: UnsafePointer<SMCService>) {
         self.smc = smc
         self.settingsView = Settings("CPU", store: store)
-        self.loadReader.store = store
+        self.loadReader!.store = store
         
         super.init(
             store: store,
@@ -50,20 +50,20 @@ public class CPU: Module {
         )
         
         self.settingsView.callback = { [unowned self] in
-            self.loadReader.read()
+            self.loadReader?.read()
         }
         
-        self.loadReader.readyCallback = { [unowned self] in
+        self.loadReader?.readyCallback = { [unowned self] in
             self.readyHandler()
         }
-        self.loadReader.callbackHandler = { [unowned self] value in
+        self.loadReader?.callbackHandler = { [unowned self] value in
             self.loadCallback(value)
         }
         
-        self.addReader(self.loadReader)
+        self.addReader(self.loadReader!)
     }
     
-    private func loadCallback(_ value: Load?) {
+    private func loadCallback(_ value: CPU_Load?) {
         if value == nil {
             return
         }

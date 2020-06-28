@@ -12,13 +12,13 @@
 import Cocoa
 import ModuleKit
 
-internal class UsageReader: Reader<Usage> {
+internal class UsageReader: Reader<Battery_Usage> {
     private var service: io_connect_t = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("AppleSmartBattery"))
     
     private var source: CFRunLoopSource?
     private var loop: CFRunLoop?
     
-    private var usage: Usage = Usage()
+    private var usage: Battery_Usage = Battery_Usage()
     
     public override func start() {
         let context = UnsafeMutableRawPointer(Unmanaged.passUnretained(self).toOpaque())

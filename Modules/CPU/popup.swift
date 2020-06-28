@@ -95,7 +95,7 @@ internal class Popup: NSView {
         return valueView
     }
     
-    public func loadCallback(_ value: Load, tempValue: Double?) {
+    public func loadCallback(_ value: CPU_Load, tempValue: Double?) {
         var temperature: String = "Unknown"
         
         DispatchQueue.main.async(execute: {
