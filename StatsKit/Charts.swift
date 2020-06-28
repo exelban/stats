@@ -40,11 +40,10 @@ public class LineChartView: NSView {
             return
         }
         
-        var lineColor: NSColor = NSColor(red: (26/255.0), green: (126/255.0), blue: (252/255.0), alpha: 1.0)
-        var gradientColor: NSColor = NSColor(red: (26/255.0), green: (126/255.0), blue: (252/255.0), alpha: 0.5)
+        let lineColor: NSColor = NSColor.controlAccentColor
+        var gradientColor: NSColor = NSColor.controlAccentColor.withAlphaComponent(0.5)
         if !self.transparent {
-            lineColor = NSColor(hexString: "#5c91f4")
-            gradientColor = NSColor(hexString: "#5c91f4")
+            gradientColor = NSColor.controlAccentColor.withAlphaComponent(0.8)
         }
         
         let context = NSGraphicsContext.current!.cgContext

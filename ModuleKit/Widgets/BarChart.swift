@@ -135,7 +135,7 @@ public class BarChart: Widget {
         
         let box = NSBezierPath(roundedRect: NSRect(x: x, y: 0, width: width - x - Constants.Widget.margin, height: self.frame.size.height), xRadius: 2, yRadius: 2)
         if self.boxState {
-            NSColor.black.set()
+            (isDarkMode ? NSColor.white : NSColor.black).set()
             box.stroke()
             box.fill()
             chartPadding = 1
@@ -153,7 +153,11 @@ public class BarChart: Widget {
             let partitonHeight = maxPartitionHeight * CGFloat(partitionValue)
             let partition = NSBezierPath(rect: NSRect(x: x, y: chartPadding, width: partitionWidth, height: partitonHeight))
             
-            partitionValue.usageColor().setFill()
+            if self.colorState {
+                partitionValue.usageColor().setFill()
+            } else {
+                NSColor.controlAccentColor.set()
+            }
             partition.fill()
             partition.close()
             

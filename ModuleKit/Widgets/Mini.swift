@@ -13,9 +13,6 @@ import Cocoa
 import StatsKit
 
 public class Mini: Widget {
-    private var valueView: NSTextField = NSTextField()
-    private var labelView: NSTextField = NSTextField()
-    
     public var colorState: Bool = false
     public var labelState: Bool = true
     
@@ -92,7 +89,7 @@ public class Mini: Widget {
         
         let stringAttributes = [
             NSAttributedString.Key.font: NSFont.systemFont(ofSize: valueSize, weight: .regular),
-            NSAttributedString.Key.foregroundColor: isDarkMode ? NSColor.white : NSColor.textColor,
+            NSAttributedString.Key.foregroundColor: self.value.percentageColor(color: self.colorState),
             NSAttributedString.Key.paragraphStyle: style
         ]
         let rect = CGRect(x: x, y: y, width: width - (Constants.Widget.margin*2), height: valueSize)
@@ -138,7 +135,6 @@ public class Mini: Widget {
             state = sender is NSButton ? (sender as! NSButton).state: nil
         }
         self.colorState = state! == .on ? true : false
-        self.valueView.textColor = value.textUsageColor(color: self.colorState)
         self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_color", value: self.colorState)
         self.display()
     }

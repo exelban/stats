@@ -113,7 +113,7 @@ public class LineChart: Widget {
             
             var color = isDarkMode ? NSColor.white : NSColor.black
             if self.colorState {
-                color = self.value.textUsageColor(color: self.colorState)
+                color = self.value.percentageColor(color: self.colorState)
             }
             
             let stringAttributes = [
@@ -132,7 +132,7 @@ public class LineChart: Widget {
         
         let box = NSBezierPath(roundedRect: NSRect(x: x, y: 0, width: boxWidth, height: boxHeight), xRadius: boxRadius, yRadius: boxRadius)
         if self.boxState {
-            NSColor.black.set()
+            (isDarkMode ? NSColor.white : NSColor.black).set()
             box.stroke()
             box.fill()
             self.chart.transparent = false
@@ -182,7 +182,7 @@ public class LineChart: Widget {
         
         view.addSubview(ToggleTitleRow(
             frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 0, width: view.frame.width, height: rowHeight),
-            title: "Colorize",
+            title: "Colorize value",
             action: #selector(toggleColor),
             state: self.colorState
         ))

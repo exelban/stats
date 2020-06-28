@@ -167,14 +167,10 @@ public extension Double {
         return (self * divisor).rounded() / divisor
     }
     
-    func usageColor(reversed: Bool = false, color: NSColor = NSColor(hexString: "#5c91f4")) -> NSColor {
-        var firstColor = color
-        if UserDefaults.standard.object(forKey: "color") != nil {
-            firstColor = NSColor(hexString: UserDefaults.standard.string(forKey: "color")!)
-        }
-        
-        let secondColor: NSColor = NSColor.systemOrange
-        let thirdColor: NSColor = NSColor.systemRed
+    func usageColor(reversed: Bool = false) -> NSColor {
+        let firstColor = NSColor(hexString: "#5c91f4")
+        let secondColor: NSColor = NSColor.orange
+        let thirdColor: NSColor = NSColor.red
         
         if reversed {
             switch self {
@@ -197,11 +193,19 @@ public extension Double {
         }
     }
     
-    func textUsageColor(color: Bool) -> NSColor {
+    func percentageColor(color: Bool) -> NSColor {
         if !color {
             return NSColor.textColor
         }
-        return usageColor(color: NSColor.textColor)
+        
+        switch self {
+        case 0.6...0.8:
+            return NSColor.systemOrange
+        case 0.8...1:
+            return NSColor.systemRed
+        default:
+            return NSColor.systemGreen
+        }
     }
     
     func batteryColor(color: Bool = false) -> NSColor {

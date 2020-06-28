@@ -131,7 +131,7 @@ internal class DiskView: NSView {
         let width: CGFloat = (view.frame.width * percentage) / 1
         self.usedBarSpace = NSView(frame: NSRect(x: 0, y: 0, width: width, height: view.frame.height))
         self.usedBarSpace?.wantsLayer = true
-        self.usedBarSpace?.layer?.backgroundColor = NSColor(red: (26/255.0), green: (126/255.0), blue: (252/255.0), alpha: 1).cgColor
+        self.usedBarSpace?.layer?.backgroundColor = NSColor.controlAccentColor.cgColor
         
         view.addSubview(self.usedBarSpace!)
         self.mainView.addSubview(view)
