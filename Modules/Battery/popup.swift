@@ -107,7 +107,7 @@ internal class Popup: NSView {
         
         self.amperageField = PopupRow(view, n: 2, title: "Amperage:", value: "")
         self.voltageField = PopupRow(view, n: 1, title: "Voltage:", value: "")
-        self.temperatureField = PopupRow(view, n: 0, title: "Temperatrure:", value: "")
+        self.temperatureField = PopupRow(view, n: 0, title: "Temperature:", value: "")
         
         self.addSubview(view)
         self.batteryView = view
