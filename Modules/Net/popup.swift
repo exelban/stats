@@ -147,7 +147,7 @@ internal class Popup: NSView {
     
     public func usageCallback(_ value: Network_Usage) {
         DispatchQueue.main.async(execute: {
-            if !self.window!.isVisible && self.initialized && value.active {
+            if !(self.window?.isVisible ?? false) && self.initialized && value.active {
                 return
             }
             
@@ -179,7 +179,7 @@ internal class Popup: NSView {
             if value.connectionType != nil {
                 var networkType = ""
                 if value.connectionType == .wifi {
-                    networkType = "\(value.networkName!) (WiFi)"
+                    networkType = "\(value.networkName ?? "unknown") (WiFi)"
                 } else if value.connectionType == .ethernet {
                     networkType = "Ethernet"
                 }

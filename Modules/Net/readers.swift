@@ -179,12 +179,12 @@ internal class UsageReader: Reader<Network_Usage> {
         
         let matchingDict = matchingDictUM! as NSMutableDictionary
         matchingDict["IOPropertyMatch"] = [ "IOPrimaryInterface" : true]
-
+        
         var matchingServices : io_iterator_t = 0
         if IOServiceGetMatchingServices(kIOMasterPortDefault, matchingDict, &matchingServices) != KERN_SUCCESS {
             return nil
         }
-
+        
         return matchingServices
     }
     
@@ -203,11 +203,11 @@ internal class UsageReader: Reader<Network_Usage> {
                 }
                 IOObjectRelease(controllerService)
             }
-
+            
             IOObjectRelease(intfService)
             intfService = IOIteratorNext(intfIterator)
         }
-
+        
         return macAddress
     }
 }

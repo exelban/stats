@@ -71,7 +71,7 @@ internal class Popup: NSView {
         values.forEach { (s: Sensor_t) in
             if self.list[s.key] != nil {
                 DispatchQueue.main.async(execute: {
-                    if self.window!.isVisible {
+                    if (self.window?.isVisible ?? false) {
                         self.list[s.key]?.stringValue = s.formattedValue
                     }
                 })

@@ -99,7 +99,7 @@ internal class Popup: NSView {
         var temperature: String = "Unknown"
         
         DispatchQueue.main.async(execute: {
-            if self.window!.isVisible || !self.ready {
+            if (self.window?.isVisible ?? false) || !self.ready {
                 if tempValue != nil {
                     let formatter = MeasurementFormatter()
                     let measurement = Measurement(value: tempValue!.rounded(toPlaces: 0), unit: UnitTemperature.celsius)
@@ -107,7 +107,7 @@ internal class Popup: NSView {
                 }
                 
                 self.temperatureField?.stringValue = temperature
-                    
+                
                 self.systemField?.stringValue = "\(Int(value.systemLoad.rounded(toPlaces: 2) * 100)) %"
                 self.userField?.stringValue = "\(Int(value.userLoad.rounded(toPlaces: 2) * 100)) %"
                 self.idleField?.stringValue = "\(Int(value.idleLoad.rounded(toPlaces: 2) * 100)) %"

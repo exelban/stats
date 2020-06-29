@@ -101,7 +101,7 @@ internal class Popup: NSView {
     
     public func loadCallback(_ value: RAM_Usage) {
         DispatchQueue.main.async(execute: {
-            if self.window!.isVisible || !self.initialized {
+            if (self.window?.isVisible ?? false) || !self.initialized {
                 self.activeField?.stringValue = Units(bytes: Int64(value.active!)).getReadableMemory()
                 self.inactiveField?.stringValue = Units(bytes: Int64(value.inactive!)).getReadableMemory()
                 self.wiredField?.stringValue = Units(bytes: Int64(value.wired!)).getReadableMemory()
