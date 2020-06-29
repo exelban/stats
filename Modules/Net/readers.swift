@@ -95,11 +95,13 @@ internal class UsageReader: Reader<Network_Usage> {
             self.usage.paddr = self.getPublicIP()
         }
         
-        if self.reachability!.connection == .wifi && CWWiFiClient.shared().interface() != nil {
+        if self.reachability!.connection == .wifi {
             self.usage.connectionType = .wifi
-            self.usage.networkName = CWWiFiClient.shared().interface()!.ssid()
-            self.usage.countryCode = CWWiFiClient.shared().interface()!.countryCode()
-            self.usage.iaddr = CWWiFiClient.shared().interface()!.hardwareAddress()
+            if let interface = CWWiFiClient.shared().interface() {
+                self.usage.networkName = interface.ssid()
+                self.usage.countryCode = interface.countryCode()
+                self.usage.iaddr = interface.hardwareAddress()
+            }
         } else {
             self.usage.connectionType = .ethernet
             self.usage.iaddr = getMacAddress()

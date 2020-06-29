@@ -111,7 +111,7 @@ internal class Popup: NSView {
                 self.systemField?.stringValue = "\(Int(value.systemLoad.rounded(toPlaces: 2) * 100)) %"
                 self.userField?.stringValue = "\(Int(value.userLoad.rounded(toPlaces: 2) * 100)) %"
                 self.idleField?.stringValue = "\(Int(value.idleLoad.rounded(toPlaces: 2) * 100)) %"
-                    
+                
                 let v = Int(value.totalUsage.rounded(toPlaces: 2) * 100)
                 self.loadField?.stringValue = "\(v) %"
                 self.ready = true

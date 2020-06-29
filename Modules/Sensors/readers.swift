@@ -12,6 +12,7 @@
 import Cocoa
 import ModuleKit
 import StatsKit
+import os.log
 
 internal class SensorsReader: Reader<[Sensor_t]> {
     internal var list: [Sensor_t] = []
@@ -25,7 +26,11 @@ internal class SensorsReader: Reader<[Sensor_t]> {
         
         available = available.filter({ (key: String) -> Bool in
             switch key.prefix(1) {
-            case "T", "V", "P": return SensorsDict[key] != nil
+            case "T", "V", "P":
+                if SensorsDict[key] == nil {
+                    os_log(.debug, "Missing sensor key %s on the list", key)
+                }
+                return SensorsDict[key] != nil
             default: return false
             }
         })
