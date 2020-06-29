@@ -168,7 +168,7 @@ public extension Double {
     }
     
     func usageColor(reversed: Bool = false) -> NSColor {
-        let firstColor = NSColor(hexString: "#5c91f4")
+        let firstColor: NSColor = NSColor.controlAccentColor
         let secondColor: NSColor = NSColor.orange
         let thirdColor: NSColor = NSColor.red
         

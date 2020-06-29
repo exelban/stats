@@ -113,7 +113,7 @@ public class NetworkWidget: Widget {
         var downloadCircle = NSBezierPath()
         downloadCircle = NSBezierPath(ovalIn: CGRect(x: Constants.Widget.margin, y: y-0.2, width: size, height: size))
         if self.downloadValue >= 1_024 {
-            NSColor(red: (26/255.0), green: (126/255.0), blue: (252/255.0), alpha: 0.8).setFill()
+            NSColor.systemBlue.set()
         } else {
             NSColor.textColor.setFill()
         }
@@ -141,7 +141,7 @@ public class NetworkWidget: Widget {
         downloadArrow.addArrow(start: downloadStart, end: downloadEnd, pointerLineLength: pointerLineLength, arrowAngle: arrowAngle)
         
         if self.downloadValue >= 1_024 {
-            NSColor(red: (26/255.0), green: (126/255.0), blue: (252/255.0), alpha: 0.8).set()
+            NSColor.systemBlue.set()
         } else {
             NSColor.textColor.set()
         }
