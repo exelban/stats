@@ -39,7 +39,7 @@ There are 2 arguments available:
 
 ## Developing
 
-Pull requests and impovment proposals are welcomed.
+Pull requests and improvement proposals are welcome.
 
 If you want to run the project locally you need to have [carthage](https://github.com/Carthage/Carthage#installing-carthage) and [XCode](https://apps.apple.com/app/xcode/id497799835) installed.
 
