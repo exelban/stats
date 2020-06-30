@@ -29,10 +29,10 @@ internal class Popup: NSView {
     private var downloadValueField: NSTextField? = nil
     private var downloadUnitField: NSTextField? = nil
     
-    private var publicIPField: NSTextField? = nil
-    private var localIPField: NSTextField? = nil
-    private var networkTypeField: NSTextField? = nil
-    private var macAdressField: NSTextField? = nil
+    private var publicIPField: ValueField? = nil
+    private var localIPField: ValueField? = nil
+    private var networkTypeField: ValueField? = nil
+    private var macAdressField: ValueField? = nil
     
     private var initialized: Bool = false
     
@@ -142,6 +142,16 @@ internal class Popup: NSView {
         self.networkTypeField = PopupRow(view, n: 1, title: "Network:", value: "")
         self.macAdressField = PopupRow(view, n: 0, title: "Physical address:", value: "")
         
+        self.publicIPField?.addTracking()
+        self.localIPField?.addTracking()
+        self.networkTypeField?.addTracking()
+        self.macAdressField?.addTracking()
+        
+        self.publicIPField?.isSelectable = true
+        self.localIPField?.isSelectable = true
+        self.networkTypeField?.isSelectable = true
+        self.macAdressField?.isSelectable = true
+        
         self.addSubview(view)
     }
     
@@ -168,6 +178,8 @@ internal class Popup: NSView {
                     publicIP = "\(publicIP) (\(value.countryCode!))"
                 }
                 self.publicIPField?.stringValue = publicIP
+            } else {
+                self.publicIPField?.stringValue = "Unknown"
             }
             if value.laddr != nil && self.localIPField?.stringValue != value.laddr {
                 self.localIPField?.stringValue = value.laddr!
@@ -191,5 +203,38 @@ internal class Popup: NSView {
             
             self.initialized = true
         })
+    }
+}
+
+extension ValueField {
+    func addTracking() {
+        let rect = NSRect(x: 0, y: 0, width: self.frame.size.width, height: self.frame.size.height)
+        let trackingArea = NSTrackingArea(rect: rect, options: [NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited, NSTrackingArea.Options.activeInActiveApp], owner: self, userInfo: nil)
+        self.addTrackingArea(trackingArea)
+    }
+    
+    public override func mouseEntered(with: NSEvent) {
+        guard self.stringValue != "No connection" && self.stringValue != "Unknown" else {
+            return
+        }
+        
+        NSCursor.pointingHand.set()
+    }
+    
+    public override func mouseExited(with: NSEvent) {
+        NSCursor.arrow.set()
+    }
+    
+    public override func mouseDown(with: NSEvent) {
+        guard self.stringValue != "No connection" && self.stringValue != "Unknown" else {
+            return
+        }
+        
+        let arr = self.stringValue.split(separator: " ")
+        let value: String = arr.count > 0 ? String(arr[0]) : self.stringValue
+        
+        let pasteboard = NSPasteboard.general
+        pasteboard.declareTypes([.string], owner: nil)
+        pasteboard.setString(value, forType: .string)
     }
 }
