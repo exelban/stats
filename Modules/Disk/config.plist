@@ -46,6 +46,16 @@
 				<string>0.36</string>
 			</dict>
 		</dict>
+		<key>disk</key>
+		<dict>
+			<key>Default</key>
+			<false/>
+			<key>Preview</key>
+			<dict>
+				<key>Value</key>
+				<string>51383185408,198466408448</string>
+			</dict>
+		</dict>
 	</dict>
 </dict>
 </plist>

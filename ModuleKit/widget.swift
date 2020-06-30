@@ -20,6 +20,7 @@ public enum widget_t: String {
     case network = "network"
     case battery = "battery"
     case sensors = "sensors"
+    case disk = "disk"
 }
 extension widget_t: CaseIterable {}
 
@@ -93,6 +94,9 @@ func LoadWidget(_ type: widget_t, preview: Bool, title: String, config: NSDictio
         break
     case .sensors:
         widget = SensorsWidget(preview: preview, title: title, config: widgetConfig, store: store)
+        break
+    case .disk:
+        widget = DiskWidget(preview: preview, title: title, config: widgetConfig, store: store)
         break
     default: break
     }

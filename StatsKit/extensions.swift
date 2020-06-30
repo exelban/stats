@@ -34,6 +34,9 @@ public struct Units {
     public var gigabytes: Double {
         return megabytes / 1_024
     }
+    public var terabytes: Double {
+        return gigabytes / 1_024
+    }
     
     public func getReadableTuple() -> (String, String) {
         switch bytes {
@@ -77,8 +80,10 @@ public struct Units {
             return String(format: "%.0f KB", kilobytes)
         case 1_024..<(1_024 * 1_024 * 1_024):
             return String(format: "%.0f MB", megabytes)
-        case (1_024 * 1_024 * 1_024)...Int64.max:
+        case 1_024..<(1_024 * 1_024 * 1_024 * 1_024):
             return String(format: "%.2f GB", gigabytes)
+        case (1_024 * 1_024 * 1_024 * 1_024)...Int64.max:
+            return String(format: "%.2f TB", terabytes)
         default:
             return String(format: "%.0f KB", kilobytes)
         }
