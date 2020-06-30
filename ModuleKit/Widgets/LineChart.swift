@@ -17,7 +17,7 @@ public class LineChart: Widget {
     private var boxState: Bool = true
     private var valueState: Bool = false
     private var colorState: Bool = false
-    private var pressureState: Bool = true
+    private var pressureState: Bool = false
     
     private let store: UnsafePointer<Store>?
     private var chart: LineChartView

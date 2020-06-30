@@ -16,7 +16,7 @@ public class BarChart: Widget {
     private var labelState: Bool = true
     private var boxState: Bool = true
     private var colorState: Bool = false
-    private var pressureState: Bool = true
+    private var pressureState: Bool = false
     
     private let store: UnsafePointer<Store>?
     private var value: [Double] = []
