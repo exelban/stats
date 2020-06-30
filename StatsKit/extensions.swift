@@ -154,6 +154,21 @@ extension String: LocalizedError {
     }
 }
 
+public extension Int {
+    func pressureColor() -> NSColor {
+        switch self {
+        case 1:
+            return NSColor.systemGreen
+        case 2:
+            return NSColor.systemYellow
+        case 3:
+            return NSColor.systemRed
+        default:
+            return NSColor.controlAccentColor
+        }
+    }
+}
+
 extension Float {
     init?(_ bytes: [UInt8]) {
         self = bytes.withUnsafeBytes {
@@ -557,5 +572,19 @@ public extension Array where Element : Equatable {
             return !dropFirst().contains { $0 != firstElem }
         }
         return true
+    }
+}
+
+public func ToggleNSControlState(_ view: NSView?, state: NSControl.StateValue) {
+    if let control = view?.subviews.first(where: { $0 is NSControl }) {
+        if #available(OSX 10.15, *) {
+            if let checkbox = control as? NSSwitch {
+                checkbox.state = state
+            }
+        } else {
+            if let checkbox = control as? NSButton {
+                checkbox.state = state
+            }
+        }
     }
 }

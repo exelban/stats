@@ -215,7 +215,7 @@ open class Module: Module_p {
     
     // load and setup widget
     private func setWidget() {
-        self.widget = LoadWidget(self.activeWidget, preview: false, title: self.config.name, config: self.config.widgetsConfig, store: self.store)
+        self.widget = LoadWidget(self.activeWidget, preview: false, name: self.config.name, config: self.config.widgetsConfig, store: self.store)
         if self.widget == nil {
             self.enabled = false
             os_log(.error, log: log, "widget with type %s not found", "\(self.activeWidget)")

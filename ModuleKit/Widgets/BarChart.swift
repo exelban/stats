@@ -16,9 +16,14 @@ public class BarChart: Widget {
     private var labelState: Bool = true
     private var boxState: Bool = true
     private var colorState: Bool = false
+    private var pressureState: Bool = true
     
     private let store: UnsafePointer<Store>?
     private var value: [Double] = []
+    private var pressureLevel: Int = 0
+    
+    private var pressureLevelSettingsView: NSView? = nil
+    private var colorizeSettingsView: NSView? = nil
     
     public init(preview: Bool, title: String, config: NSDictionary?, store: UnsafePointer<Store>?) {
         var widgetTitle: String = title
@@ -58,6 +63,7 @@ public class BarChart: Widget {
             self.boxState = store!.pointee.bool(key: "\(self.title)_\(self.type.rawValue)_box", defaultValue: self.boxState)
             self.labelState = store!.pointee.bool(key: "\(self.title)_\(self.type.rawValue)_label", defaultValue: self.labelState)
             self.colorState = store!.pointee.bool(key: "\(self.title)_\(self.type.rawValue)_color", defaultValue: self.colorState)
+            self.pressureState = store!.pointee.bool(key: "\(self.title)_\(self.type.rawValue)_pressure", defaultValue: self.pressureState)
         }
         
         if preview {
@@ -66,6 +72,7 @@ public class BarChart: Widget {
             }
             self.setFrameSize(NSSize(width: 36, height: self.frame.size.height))
             self.invalidateIntrinsicContentSize()
+            self.pressureState = false
         }
     }
     
@@ -155,6 +162,8 @@ public class BarChart: Widget {
             
             if self.colorState {
                 partitionValue.usageColor().setFill()
+            } else if self.pressureState {
+                self.pressureLevel.pressureColor().setFill()
             } else {
                 NSColor.controlAccentColor.set()
             }
@@ -175,12 +184,34 @@ public class BarChart: Widget {
         })
     }
     
+    public func setPressure(_ level: Int) {
+        guard self.pressureLevel != level else {
+            return
+        }
+        
+        self.pressureLevel = level
+        DispatchQueue.main.async(execute: {
+            self.display()
+        })
+    }
+    
     public override func settings(superview: NSView) {
         let rowHeight: CGFloat = 30
-        let height: CGFloat = ((rowHeight + Constants.Settings.margin) * 3) + Constants.Settings.margin
+        let settingsNumber: CGFloat = self.title == "RAM" ? 4 : 3
+        let height: CGFloat = ((rowHeight + Constants.Settings.margin) * settingsNumber) + Constants.Settings.margin
         superview.setFrameSize(NSSize(width: superview.frame.width, height: height))
         
         let view: NSView = NSView(frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin, width: superview.frame.width - (Constants.Settings.margin*2), height: superview.frame.height - (Constants.Settings.margin*2)))
+        
+        if self.title == "RAM" {
+            self.pressureLevelSettingsView = ToggleTitleRow(
+                frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 3, width: view.frame.width, height: rowHeight),
+                title: "Pressure level",
+                action: #selector(togglePressure),
+                state: self.pressureState
+            )
+            view.addSubview(self.pressureLevelSettingsView!)
+        }
         
         view.addSubview(ToggleTitleRow(
             frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 2, width: view.frame.width, height: rowHeight),
@@ -196,12 +227,13 @@ public class BarChart: Widget {
             state: self.boxState
         ))
         
-        view.addSubview(ToggleTitleRow(
+        self.colorizeSettingsView = ToggleTitleRow(
             frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 0, width: view.frame.width, height: rowHeight),
             title: "Colorize",
             action: #selector(toggleColor),
             state: self.colorState
-        ))
+        )
+        view.addSubview(self.colorizeSettingsView!)
         
         superview.addSubview(view)
     }
@@ -239,6 +271,32 @@ public class BarChart: Widget {
         }
         self.colorState = state! == .on ? true : false
         self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_color", value: self.colorState)
+        
+        if self.colorState {
+            self.pressureState = false
+            self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_pressure", value: self.pressureState)
+            ToggleNSControlState(self.pressureLevelSettingsView, state: .off)
+        }
+        
+        self.display()
+    }
+    
+    @objc private func togglePressure(_ sender: NSControl) {
+        var state: NSControl.StateValue? = nil
+        if #available(OSX 10.15, *) {
+            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
+        } else {
+            state = sender is NSButton ? (sender as! NSButton).state: nil
+        }
+        self.pressureState = state! == .on ? true : false
+        self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_pressure", value: self.pressureState)
+        
+        if self.pressureState {
+            self.colorState = false
+            self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_color", value: self.colorState)
+            ToggleNSControlState(self.colorizeSettingsView, state: .off)
+        }
+        
         self.display()
     }
 }

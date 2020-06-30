@@ -72,31 +72,31 @@ open class Widget: NSView, Widget_p {
     open func setValues(_ values: [value_t]) {}
 }
 
-func LoadWidget(_ type: widget_t, preview: Bool, title: String, config: NSDictionary?, store: UnsafePointer<Store>?) -> Widget_p? {
+func LoadWidget(_ type: widget_t, preview: Bool, name: String, config: NSDictionary?, store: UnsafePointer<Store>?) -> Widget_p? {
     var widget: Widget_p? = nil
     let widgetConfig: NSDictionary? = config?[type.rawValue] as? NSDictionary
     
     switch type {
     case .mini:
-        widget = Mini(preview: preview, title: title, config: widgetConfig, store: store)
+        widget = Mini(preview: preview, title: name, config: widgetConfig, store: store)
         break
     case .lineChart:
-        widget = LineChart(preview: preview, title: title, config: widgetConfig, store: store)
+        widget = LineChart(preview: preview, title: name, config: widgetConfig, store: store)
         break
     case .barChart:
-        widget = BarChart(preview: preview, title: title, config: widgetConfig, store: store)
+        widget = BarChart(preview: preview, title: name, config: widgetConfig, store: store)
         break
     case .network:
-        widget = NetworkWidget(preview: preview, title: title, config: widgetConfig, store: store)
+        widget = NetworkWidget(preview: preview, title: name, config: widgetConfig, store: store)
         break
     case .battery:
-        widget = BatterykWidget(preview: preview, title: title, config: widgetConfig, store: store)
+        widget = BatterykWidget(preview: preview, title: name, config: widgetConfig, store: store)
         break
     case .sensors:
-        widget = SensorsWidget(preview: preview, title: title, config: widgetConfig, store: store)
+        widget = SensorsWidget(preview: preview, title: name, config: widgetConfig, store: store)
         break
     case .disk:
-        widget = DiskWidget(preview: preview, title: title, config: widgetConfig, store: store)
+        widget = DiskWidget(preview: preview, title: name, config: widgetConfig, store: store)
         break
     default: break
     }

@@ -17,10 +17,12 @@ public class LineChart: Widget {
     private var boxState: Bool = true
     private var valueState: Bool = false
     private var colorState: Bool = false
+    private var pressureState: Bool = true
     
     private let store: UnsafePointer<Store>?
     private var chart: LineChartView
     private var value: Double = 0
+    private var pressureLevel: Int = 0
     
     public init(preview: Bool, title: String, config: NSDictionary?, store: UnsafePointer<Store>?) {
         var widgetTitle: String = title
@@ -54,6 +56,7 @@ public class LineChart: Widget {
             self.valueState = store!.pointee.bool(key: "\(self.title)_\(self.type.rawValue)_value", defaultValue: self.valueState)
             self.labelState = store!.pointee.bool(key: "\(self.title)_\(self.type.rawValue)_label", defaultValue: self.labelState)
             self.colorState = store!.pointee.bool(key: "\(self.title)_\(self.type.rawValue)_color", defaultValue: self.colorState)
+            self.pressureState = store!.pointee.bool(key: "\(self.title)_\(self.type.rawValue)_pressure", defaultValue: self.pressureState)
         }
         
         if self.labelState {
@@ -67,6 +70,7 @@ public class LineChart: Widget {
             }
             self.chart.points = list
             self.value = 0.38
+            self.pressureState = false
         }
     }
     
@@ -142,6 +146,11 @@ public class LineChart: Widget {
         }
         
         chart.setFrameSize(NSSize(width: box.bounds.width - chartPadding, height: box.bounds.height - (chartPadding*2)))
+        if self.pressureState {
+            self.chart.color = self.pressureLevel.pressureColor()
+        } else {
+            self.chart.color = NSColor.controlAccentColor
+        }
         chart.draw(NSRect(x: box.bounds.origin.x + 1, y: chartPadding, width: chart.frame.width, height: chart.frame.height))
         
         ctx.restoreGState()
@@ -154,10 +163,20 @@ public class LineChart: Widget {
     
     public override func settings(superview: NSView) {
         let rowHeight: CGFloat = 30
-        let height: CGFloat = ((rowHeight + Constants.Settings.margin) * 4) + Constants.Settings.margin
+        let settingsNumber: CGFloat = self.title == "RAM" ? 5 : 4
+        let height: CGFloat = ((rowHeight + Constants.Settings.margin) * settingsNumber) + Constants.Settings.margin
         superview.setFrameSize(NSSize(width: superview.frame.width, height: height))
         
         let view: NSView = NSView(frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin, width: superview.frame.width - (Constants.Settings.margin*2), height: superview.frame.height - (Constants.Settings.margin*2)))
+        
+        if self.title == "RAM" {
+            view.addSubview(ToggleTitleRow(
+                frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 4, width: view.frame.width, height: rowHeight),
+                title: "Pressure level",
+                action: #selector(togglePressure),
+                state: self.pressureState
+            ))
+        }
         
         view.addSubview(ToggleTitleRow(
             frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 3, width: view.frame.width, height: rowHeight),
@@ -201,6 +220,17 @@ public class LineChart: Widget {
         self.value = value
         DispatchQueue.main.async(execute: {
             self.chart.addValue(value)
+            self.display()
+        })
+    }
+    
+    public func setPressure(_ level: Int) {
+        guard self.pressureLevel != level else {
+            return
+        }
+        
+        self.pressureLevel = level
+        DispatchQueue.main.async(execute: {
             self.display()
         })
     }
@@ -250,6 +280,18 @@ public class LineChart: Widget {
         }
         self.colorState = state! == .on ? true : false
         self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_color", value: self.colorState)
+        self.display()
+    }
+    
+    @objc private func togglePressure(_ sender: NSControl) {
+        var state: NSControl.StateValue? = nil
+        if #available(OSX 10.15, *) {
+            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
+        } else {
+            state = sender is NSButton ? (sender as! NSButton).state: nil
+        }
+        self.pressureState = state! == .on ? true : false
+        self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_pressure", value: self.pressureState)
         self.display()
     }
 }

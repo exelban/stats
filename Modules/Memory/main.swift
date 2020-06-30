@@ -24,6 +24,8 @@ public struct RAM_Usage: value_t {
     var used: Double?
     var free: Double?
     
+    var pressureLevel: Int
+    
     public var widget_value: Double {
         get {
             return self.usage ?? 0
@@ -63,9 +65,11 @@ public class Memory: Module {
         }
         if let widget = self.widget as? LineChart {
             widget.setValue(value!.usage ?? 0)
+            widget.setPressure(value?.pressureLevel ?? 0)
         }
         if let widget = self.widget as? BarChart {
             widget.setValue([value!.usage ?? 0])
+            widget.setPressure(value?.pressureLevel ?? 0)
         }
     }
 }

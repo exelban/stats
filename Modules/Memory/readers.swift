@@ -29,7 +29,7 @@ internal class UsageReader: Reader<RAM_Usage> {
             self.totalSize = Double(stats.max_mem)
             return
         }
-
+        
         self.totalSize = 0
         print("Error with host_info(): " + (String(cString: mach_error_string(kerr), encoding: String.Encoding.ascii) ?? "unknown error"))
     }
@@ -37,21 +37,25 @@ internal class UsageReader: Reader<RAM_Usage> {
     public override func read() {
         var stats = vm_statistics64()
         var count = UInt32(MemoryLayout<vm_statistics64_data_t>.size / MemoryLayout<integer_t>.size)
-                
+        
         let result: kern_return_t = withUnsafeMutablePointer(to: &stats) {
             $0.withMemoryRebound(to: integer_t.self, capacity: 1) {
                 host_statistics64(mach_host_self(), HOST_VM_INFO64, $0, &count)
             }
         }
-
+        
         if result == KERN_SUCCESS {
             let active = Double(stats.active_count) * Double(PAGE_SIZE)
             let inactive = Double(stats.inactive_count) * Double(PAGE_SIZE)
             let wired = Double(stats.wire_count) * Double(PAGE_SIZE)
             let compressed = Double(stats.compressor_page_count) * Double(PAGE_SIZE)
-                            
+            
             let used = active + wired + compressed
             let free = self.totalSize - used
+            
+            var size: size_t = MemoryLayout<uint>.size
+            var pressureLevel: Int = 0
+            sysctlbyname("kern.memorystatus_vm_pressure_level", &pressureLevel, &size, nil, 0)
             
             self.callback(RAM_Usage(
                 active: active,
@@ -62,11 +66,13 @@ internal class UsageReader: Reader<RAM_Usage> {
                 usage: Double((self.totalSize - free) / self.totalSize),
                 total: Double(self.totalSize),
                 used: Double(used),
-                free: Double(free))
-            )
+                free: Double(free),
+                
+                pressureLevel: pressureLevel
+            ))
             return
         }
-
+        
         print("Error with host_statistics64(): " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
     }
 }

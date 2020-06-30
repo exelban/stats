@@ -24,6 +24,8 @@ public class LineChartView: NSView {
     public var points: [Double]? = nil
     public var transparent: Bool = true
     
+    public var color: NSColor = NSColor.controlAccentColor
+    
     public init(frame: NSRect, num: Int) {
         self.points = Array(repeating: 0, count: num)
         super.init(frame: frame)
@@ -40,10 +42,10 @@ public class LineChartView: NSView {
             return
         }
         
-        let lineColor: NSColor = NSColor.controlAccentColor
-        var gradientColor: NSColor = NSColor.controlAccentColor.withAlphaComponent(0.5)
+        let lineColor: NSColor = self.color
+        var gradientColor: NSColor = self.color.withAlphaComponent(0.5)
         if !self.transparent {
-            gradientColor = NSColor.controlAccentColor.withAlphaComponent(0.8)
+            gradientColor = self.color.withAlphaComponent(0.8)
         }
         
         let context = NSGraphicsContext.current!.cgContext

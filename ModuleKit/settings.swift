@@ -120,7 +120,7 @@ open class Settings: NSView, Settings_p {
         var x: CGFloat = Constants.Settings.margin
         for i in 0...self.config.pointee.availableWidgets.count - 1 {
             let widgetType = self.config.pointee.availableWidgets[i]
-            if let widget = LoadWidget(widgetType, preview: true, title: self.config.pointee.name, config: self.config.pointee.widgetsConfig, store: nil) {
+            if let widget = LoadWidget(widgetType, preview: true, name: self.config.pointee.name, config: self.config.pointee.widgetsConfig, store: nil) {
                 let preview = WidgetPreview(
                     frame: NSRect(x: x, y: Constants.Settings.margin, width: widget.frame.width, height: self.widgetSelectorHeight - (Constants.Settings.margin*2)),
                     title: self.config.pointee.name,
