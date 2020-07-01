@@ -136,7 +136,9 @@ public class macAppUpdater {
                         return
                     }
                     
-                    self.openDMG(url: path)
+                    let pwd = Bundle.main.bundleURL.absoluteString.replacingOccurrences(of: "file://", with: "").replacingOccurrences(of: "Stats.app/", with: "")
+                    let pid: Int32 = ProcessInfo.processInfo.processIdentifier
+                    asyncShell("sh \(pwd)/Stats.app/Contents/Resources/Scripts/updater.sh --current \(pwd) --dmg \(url) --pid \(pid)")
                 }
             } catch {
                 print ("file error: \(error)")
@@ -171,19 +173,6 @@ public class macAppUpdater {
         }
     }
     
-    private func openDMG(url: String) {
-        let task = Process()
-        task.launchPath = "/usr/bin/hdiutil"
-        task.arguments = ["attach", url]
-        
-        let pipe = Pipe()
-        task.standardOutput = pipe
-        task.launch()
-        task.waitUntilExit()
-        
-        exit(0)
-    }
-
     // https://stackoverflow.com/questions/30743408/check-for-internet-connection-with-swift
     private func isConnectedToNetwork() -> Bool {
         var zeroAddress = sockaddr_in(sin_len: 0, sin_family: 0, sin_port: 0, sin_addr: in_addr(s_addr: 0), sin_zero: (0, 0, 0, 0, 0, 0, 0, 0))

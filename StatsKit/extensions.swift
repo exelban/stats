@@ -602,3 +602,12 @@ public func dialogOKCancel(question: String, text: String) {
     alert.addButton(withTitle: "Cancel")
     alert.runModal()
 }
+
+public func asyncShell(_ args: String) {
+    let task = Process()
+    task.launchPath = "/bin/sh"
+    task.arguments = ["-c", args]
+    let pipe = Pipe()
+    task.standardOutput = pipe
+    task.launch()
+}

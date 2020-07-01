@@ -127,6 +127,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 }
             }
         }
+        
+        if let dmgIndex = args.firstIndex(of: "--dmg") {
+            if args.indices.contains(dmgIndex+1) {
+                let dmgPath = args[dmgIndex+1]
+                let pwd = Bundle.main.bundleURL.absoluteString.replacingOccurrences(of: "file://", with: "").replacingOccurrences(of: "Stats.app/", with: "")
+                asyncShell("sh \(pwd)/Stats.app/Contents/Resources/Scripts/updater.sh --step 3 --dmg \(dmgPath)")
+            }
+        }
     }
     
     private func defaultValues() {
