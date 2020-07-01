@@ -10,6 +10,7 @@
 //
 
 import Cocoa
+import StatsKit
 
 public protocol Settings_p: NSView {
     var toggleCallback: () -> () { get set }
@@ -35,6 +36,7 @@ open class Settings: NSView, Settings_p {
     private var activeWidget: Widget_p?
     
     private var moduleSettings: Settings_v?
+    private var enableControl: NSControl?
     
     init(config: UnsafePointer<module_c>, enabled: Bool, activeWidget: Widget_p?, moduleSettings: Settings_v?) {
         self.config = config
@@ -45,12 +47,28 @@ open class Settings: NSView, Settings_p {
         self.appearance = NSAppearance(named: .aqua)
         self.layer?.backgroundColor = NSColor(hexString: "#ececec").cgColor
         
-        addHeader(state: enabled)
-        addWidgetSelector()
-        addWidgetSettings()
+        NotificationCenter.default.addObserver(self, selector: #selector(externalModuleToggle), name: .toggleModule, object: nil)
+        
+        self.addHeader(state: enabled)
+        self.addWidgetSelector()
+        self.addWidgetSettings()
         if self.moduleSettings != nil {
             self.moduleSettings?.load(widget: self.activeWidget?.type ?? .unknown)
-            addModuleSettings()
+            self.addModuleSettings()
+        }
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    @objc func externalModuleToggle(_ notification: Notification) {
+        if let name = notification.userInfo?["module"] as? String {
+            if name == self.config.pointee.name {
+                if let state = notification.userInfo?["state"] as? Bool {
+                    ToggleNSControlState(self.enableControl, state: state ? .on : .off)
+                }
+            }
         }
     }
     
@@ -192,6 +210,7 @@ open class Settings: NSView, Settings_p {
         view.addSubview(toggle)
         view.addSubview(line)
         
+        self.enableControl = toggle
         self.addSubview(view)
     }
     

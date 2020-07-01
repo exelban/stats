@@ -51,6 +51,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         NotificationCenter.default.removeObserver(self)
     }
     
+    func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
+        if flag {
+            self.settingsWindow.makeKeyAndOrderFront(self)
+        } else {
+            self.settingsWindow.setIsVisible(true)
+        }
+        return true
+    }
+    
     @objc private func toggleSettingsHandler(_ notification: Notification) {
         if !self.settingsWindow.isVisible {
             self.settingsWindow.setIsVisible(true)

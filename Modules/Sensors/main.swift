@@ -27,10 +27,12 @@ public class Sensors: Module {
             popup: self.popupView,
             settings: self.settingsView
         )
-        
+
+        self.checkIfNoSensorsEnabled()
         self.popupView.setup(self.sensorsReader.list)
         
         self.settingsView.callback = { [unowned self] in
+            self.checkIfNoSensorsEnabled()
             self.sensorsReader.read()
         }
         
@@ -42,6 +44,12 @@ public class Sensors: Module {
         }
         
         self.addReader(self.sensorsReader)
+    }
+    
+    private func checkIfNoSensorsEnabled() {
+        if self.sensorsReader.list.filter({ $0.state }).count == 0 {
+            NotificationCenter.default.post(name: .toggleModule, object: nil, userInfo: ["module": self.config.name, "state": false])
+        }
     }
     
     private func usageCallback(_ value: [Sensor_t]?) {

@@ -575,16 +575,30 @@ public extension Array where Element : Equatable {
     }
 }
 
-public func ToggleNSControlState(_ view: NSView?, state: NSControl.StateValue) {
+public func FindAndToggleNSControlState(_ view: NSView?, state: NSControl.StateValue) {
     if let control = view?.subviews.first(where: { $0 is NSControl }) {
-        if #available(OSX 10.15, *) {
-            if let checkbox = control as? NSSwitch {
-                checkbox.state = state
-            }
-        } else {
-            if let checkbox = control as? NSButton {
-                checkbox.state = state
-            }
+        ToggleNSControlState(control as? NSControl, state: state)
+    }
+}
+
+public func ToggleNSControlState(_ control: NSControl?, state: NSControl.StateValue) {
+    if #available(OSX 10.15, *) {
+        if let checkbox = control as? NSSwitch {
+            checkbox.state = state
+        }
+    } else {
+        if let checkbox = control as? NSButton {
+            checkbox.state = state
         }
     }
+}
+
+public func dialogOKCancel(question: String, text: String) {
+    let alert = NSAlert()
+    alert.messageText = question
+    alert.informativeText = text
+    alert.alertStyle = .warning
+    alert.addButton(withTitle: "OK")
+    alert.addButton(withTitle: "Cancel")
+    alert.runModal()
 }

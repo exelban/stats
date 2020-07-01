@@ -98,6 +98,7 @@ open class Module: Module_p {
         
         NotificationCenter.default.addObserver(self, selector: #selector(listenForWidgetSwitch), name: .switchWidget, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(listenForMouseDownInSettings), name: .clickInSettings, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(listenForModuleToggle), name: .toggleModule, object: nil)
         
         if self.config.widgetsConfig.count != 0 {
             self.setWidget()
@@ -263,6 +264,20 @@ open class Module: Module_p {
             
             self.popup.setFrameOrigin(NSPoint(x: x, y: y))
             self.popup.setIsVisible(true)
+        }
+    }
+    
+    @objc private func listenForModuleToggle(_ notification: Notification) {
+        if let name = notification.userInfo?["module"] as? String {
+            if name == self.config.name {
+                if let state = notification.userInfo?["state"] as? Bool {
+                    if state && !self.enabled {
+                        self.enable()
+                    } else if !state && self.enabled {
+                        self.disable()
+                    }
+                }
+            }
         }
     }
     

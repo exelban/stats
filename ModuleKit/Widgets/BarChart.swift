@@ -275,7 +275,7 @@ public class BarChart: Widget {
         if self.colorState {
             self.pressureState = false
             self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_pressure", value: self.pressureState)
-            ToggleNSControlState(self.pressureLevelSettingsView, state: .off)
+            FindAndToggleNSControlState(self.pressureLevelSettingsView, state: .off)
         }
         
         self.display()
@@ -294,7 +294,7 @@ public class BarChart: Widget {
         if self.pressureState {
             self.colorState = false
             self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_color", value: self.colorState)
-            ToggleNSControlState(self.colorizeSettingsView, state: .off)
+            FindAndToggleNSControlState(self.colorizeSettingsView, state: .off)
         }
         
         self.display()
