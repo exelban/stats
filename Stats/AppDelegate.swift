@@ -24,9 +24,11 @@ var smc: SMCService = SMCService()
 var modules: [Module] = [Battery(&store), Network(&store), Sensors(&store, &smc), Disk(&store), Memory(&store), CPU(&store, &smc)].reversed()
 var log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: "Stats")
 
-class AppDelegate: NSObject, NSApplicationDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDelegate {
     private let settingsWindow: SettingsWindow = SettingsWindow()
     private let updateWindow: UpdateWindow = UpdateWindow()
+    
+    let notification = NSUserNotification()
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         let startingPoint = Date()
@@ -43,6 +45,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         self.setVersion()
         self.defaultValues()
         os_log(.info, log: log, "Stats started in %.4f seconds", startingPoint.timeIntervalSinceNow * -1)
+    }
+    
+    func userNotificationCenter(_ center: NSUserNotificationCenter, didActivate notification: NSUserNotification) {
+        if let uri = notification.userInfo?["url"] as? String {
+            os_log(.error, log: log, "Downloading new version of app...")
+            if let url = URL(string: uri) {
+                updater.download(url)
+            }
+        }
+        
+        NSUserNotificationCenter.default.removeDeliveredNotification(self.notification)
     }
     
     func applicationWillTerminate(_ aNotification: Notification) {
@@ -163,7 +176,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 if version.newest {
                     DispatchQueue.main.async(execute: {
                         os_log(.error, log: log, "show update window because new version of app found: %s", "\(version.latest)")
-                        self.updateWindow.open(version)
+
+                        self.notification.identifier = UUID().uuidString
+                        self.notification.title = "New version available"
+                        self.notification.subtitle = "Click to install the new version of Stats"
+                        self.notification.soundName = NSUserNotificationDefaultSoundName
+                        
+                        self.notification.hasActionButton = true
+                        self.notification.actionButtonTitle = "Install"
+                        self.notification.userInfo = ["url": version.url]
+                        
+                        NSUserNotificationCenter.default.delegate = self
+                        NSUserNotificationCenter.default.deliver(self.notification)
                     })
                 }
             }
