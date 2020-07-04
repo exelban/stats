@@ -8,7 +8,7 @@ ZIP_PATH = "$(BUILD_PATH)/$(APP).zip"
 .SILENT: archive notarize sign prepare-dmg prepare-dSYM clean next-version check history
 .PHONY: build archive notarize sign prepare-dmg prepare-dSYM clean next-version check history
 
-build: clean archive notarize sign prepare-dmg prepare-dSYM open
+build: clean next-version archive notarize sign prepare-dmg prepare-dSYM open
 
 # --- MAIN WORLFLOW FUNCTIONS --- #
 
