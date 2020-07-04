@@ -1,58 +1,73 @@
 APP = Stats
-BUNDLE_ID = eu.exelban.Stats
-
-ITC_USERNAME = $(AC_USERNAME)
-ITC_PASSWORD = @keychain:AC_PASSWORD
-ITC_PROVIDER = $(AC_PROVIDER)
-
-RequestUUID = 32c80f6c-36ed-4042-9837-b9093c9f4eb9
+BUNDLE_ID = eu.exelban.$(APP)
 
 BUILD_PATH = $(PWD)/build
-ARCHIVE_PATH = $(BUILD_PATH)/$(APP).xcarchive
 APP_PATH = "$(BUILD_PATH)/$(APP).app"
 ZIP_PATH = "$(BUILD_PATH)/$(APP).zip"
-DMG_PATH = $(PWD)/$(APP).dmg
 
-all: clean archive notarize sign build
+.SILENT: archive notarize sign prepare-dmg prepare-dSYM clean next-version check history
+.PHONY: build archive notarize sign prepare-dmg prepare-dSYM clean next-version check history
 
-clean:
-# 	rm -rf $(BUILD_PATH)
+build: clean archive notarize sign prepare-dmg prepare-dSYM open
 
-.PHONY: archive
-archive: clean
+# --- MAIN WORLFLOW FUNCTIONS --- #
+
+archive: next-version clean
+	echo "Starting archiving the project..."
+
 	xcodebuild \
   		-scheme $(APP) \
   		-destination 'platform=OS X,arch=x86_64' \
   		-configuration AppStoreDistribution archive \
-  		-archivePath $(ARCHIVE_PATH)
+  		-archivePath $(BUILD_PATH)/$(APP).xcarchive
 
-	xcodebuild \
-  		-exportArchive \
+	echo "Application built, starting the export archive..."
+
+	xcodebuild -exportArchive \
   		-exportOptionsPlist "$(PWD)/exportOptions.plist" \
-  		-archivePath $(ARCHIVE_PATH) \
+  		-archivePath $(BUILD_PATH)/$(APP).xcarchive \
   		-exportPath $(BUILD_PATH)
 
 	ditto -c -k --keepParent $(APP_PATH) $(ZIP_PATH)
 
-.PHONY: notarize
+	echo "Project archived successfully"
+
 notarize:
-	xcrun altool \
-	  --notarize-app \
+	echo "Starting notarizing the project..."
+
+	xcrun altool --notarize-app \
 	  --primary-bundle-id $(BUNDLE_ID)\
-	  -itc_provider $(ITC_PROVIDER) \
-	  -u $(ITC_USERNAME) \
-	  -p $(ITC_PASSWORD) \
-	  --file $(ZIP_PATH) 
+	  -itc_provider $(AC_PROVIDER) \
+	  -u $(AC_USERNAME) \
+	  -p @keychain:AC_PASSWORD \
+	  --file $(ZIP_PATH)
 
-	sleep 380
+	echo "Application sent to the notarization center"
 
-.PHONY: sign
+	sleep 30s
+
+LAST_REQUEST="test"
+
 sign:
+	echo "Checking if package is approved by Apple..."
+
+	while true; do \
+		if [[ "$$(xcrun altool --notarization-history 0 -itc_provider $(AC_PROVIDER) -u $(AC_USERNAME) -p @keychain:AC_PASSWORD | sed -n '6p')" == *"success"* ]]; then \
+			echo "OK" ;\
+			break ;\
+		fi ;\
+		echo "Package was not approved by Apple, recheck in 10s..."; \
+		sleep 10s ;\
+	done
+
+	echo "Going to staple an application..."
+
 	xcrun stapler staple $(APP_PATH)
 	spctl -a -t exec -vvv $(APP_PATH)
 
-.PHONY: build
-build: sign
+	echo "Application successfully stapled"
+
+prepare-dmg:
 	if [ ! -d $(PWD)/create-dmg ]; then \
 	    git clone https://github.com/andreyvit/create-dmg; \
 	fi
@@ -66,33 +81,43 @@ build: sign
 	    --icon "Stats.app" 125 175 \
 	    --hide-extension "Stats.app" \
 	    --app-drop-link 375 175 \
-	    $(DMG_PATH) \
+	    $(PWD)/$(APP).dmg \
 	    $(APP_PATH)
 
 	rm -rf ./create-dmg
-# 	rm -rf $(BUILD_PATH)
-	open $(PWD)
+
+prepare-dSYM:
+	echo "Zipping dSYMs..."
+	zip -r $(PWD)/dSYM.zip $(BUILD_PATH)/Stats.xcarchive/dSYMs
+	echo "Created zip with dSYMs"
+
+# --- HELPERS --- #
+
+clean:
+	rm -rf $(BUILD_PATH)
+	if [ -a $(PWD)/dSYM.zip ]; then rm $(PWD)/dSYM.zip; fi;
+	if [ -a $(PWD)/Stats.dmg ]; then rm $(PWD)/Stats.dmg; fi;
+
+next-version:
+	versionNumber=$$(/usr/libexec/PlistBuddy -c "Print CFBundleVersion" "$(PWD)/Stats/Supporting Files/Info.plist") ;\
+	echo "Actual version is: $$versionNumber" ;\
+	versionNumber=$$((versionNumber + 1)) ;\
+	echo "Next version is: $$versionNumber" ;\
+	/usr/libexec/PlistBuddy -c "Set :CFBundleVersion $$versionNumber" "$(PWD)/Stats/Supporting Files/Info.plist" ;\
 
 check:
 	xcrun altool \
-	  --notarization-info $(RequestUUID) \
-	  -itc_provider $(ITC_PROVIDER) \
-	  -u $(ITC_USERNAME) \
-	  -p $(ITC_PASSWORD)
+	  --notarization-info 9b7c4d1f-ae81-4571-9ab1-592289f9d57a \
+	  -itc_provider $(AC_PROVIDER) \
+	  -u $(AC_USERNAME) \
+	  -p @keychain:AC_PASSWORD
 
 history:
-	xcrun altool \
-	  --notarization-history 0 \
-	  -itc_provider $(ITC_PROVIDER) \
-	  -u $(ITC_USERNAME) \
-	  -p $(ITC_PASSWORD)
+	xcrun altool --notarization-history 0 \
+		-itc_provider $(AC_PROVIDER) \
+		-u $(AC_USERNAME) \
+		-p @keychain:AC_PASSWORD
 
-.PHONY: dep
-dep:
-	carthage update --platform macOS
-
-.PHONY: zip
-zip:
-	cd ../
-	zip -r archive.zip ./
+open:
+	echo "Opening working folder..."
 	open $(PWD)
