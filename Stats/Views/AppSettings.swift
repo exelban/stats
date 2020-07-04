@@ -84,7 +84,7 @@ class ApplicationSettings: NSView {
         
         rightPanel.addSubview(makeSettingRow(
             frame: NSRect(x: rowHorizontalPadding*0.5, y: rowHeight*2, width: rightPanel.frame.width - (rowHorizontalPadding*1.5), height: rowHeight),
-            title: "Check for updates on start",
+            title: "Check for updates",
             action: #selector(self.toggleUpdates),
             state: store.bool(key: "checkUpdatesOnLogin", defaultValue: true)
         ))

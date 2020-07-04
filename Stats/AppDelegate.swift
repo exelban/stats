@@ -28,7 +28,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     private let settingsWindow: SettingsWindow = SettingsWindow()
     private let updateWindow: UpdateWindow = UpdateWindow()
     
-    let notification = NSUserNotification()
+    private let notification = NSUserNotification()
+    private let updateActivity = NSBackgroundActivityScheduler(identifier: "eu.exelban.Stats.updateCheck")
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         let startingPoint = Date()
@@ -36,7 +37,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         self.parseArguments()
         
         NotificationCenter.default.addObserver(self, selector: #selector(toggleSettingsHandler), name: .toggleSettings, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(checkForUpdates), name: .checkForUpdates, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(checkForNewVersion), name: .checkForUpdates, object: nil)
         
         modules.forEach{ $0.mount() }
         
@@ -44,6 +45,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         
         self.setVersion()
         self.defaultValues()
+        self.updateCron()
         os_log(.info, log: log, "Stats started in %.4f seconds", startingPoint.timeIntervalSinceNow * -1)
     }
     
@@ -62,6 +64,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         modules.forEach{ $0.terminate() }
         _ = smc.close()
         NotificationCenter.default.removeObserver(self)
+        self.updateActivity.invalidate()
     }
     
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
@@ -81,25 +84,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         
         if let name = notification.userInfo?["module"] as? String {
             self.settingsWindow.openMenu(name)
-        }
-    }
-    
-    @objc private func checkForUpdates(_ notification: Notification) {
-        updater.check() { result, error in
-            if error != nil {
-                os_log(.error, log: log, "error updater.check(): %s", "\(error!.localizedDescription)")
-                return
-            }
-            
-            guard error == nil, let version: version = result else {
-                os_log(.error, log: log, "download error(): %s", "\(error!.localizedDescription)")
-                return
-            }
-            
-            DispatchQueue.main.async(execute: {
-                os_log(.error, log: log, "open update window: %s", "\(version.latest)")
-                self.updateWindow.open(version)
-            })
         }
     }
     
@@ -160,37 +144,58 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             let dockIconStatus = store.bool(key: "dockIcon", defaultValue: false) ? NSApplication.ActivationPolicy.regular : NSApplication.ActivationPolicy.accessory
             NSApp.setActivationPolicy(dockIconStatus)
         }
-        
-        if store.bool(key: "checkUpdatesOnLogin", defaultValue: true) {
-            updater.check() { result, error in
-                if error != nil {
-                    os_log(.error, log: log, "error updater.check(): %s", "\(error!.localizedDescription)")
-                    return
-                }
-                
-                guard error == nil, let version: version = result else {
-                    os_log(.error, log: log, "download error(): %s", "\(error!.localizedDescription)")
-                    return
-                }
-                
-                if version.newest {
-                    DispatchQueue.main.async(execute: {
-                        os_log(.error, log: log, "show update window because new version of app found: %s", "\(version.latest)")
-
-                        self.notification.identifier = UUID().uuidString
-                        self.notification.title = "New version available"
-                        self.notification.subtitle = "Click to install the new version of Stats"
-                        self.notification.soundName = NSUserNotificationDefaultSoundName
-                        
-                        self.notification.hasActionButton = true
-                        self.notification.actionButtonTitle = "Install"
-                        self.notification.userInfo = ["url": version.url]
-                        
-                        NSUserNotificationCenter.default.delegate = self
-                        NSUserNotificationCenter.default.deliver(self.notification)
-                    })
-                }
+    }
+    
+    @objc private func checkForNewVersion(_ window: Bool = false) {
+        updater.check() { result, error in
+            if error != nil {
+                os_log(.error, log: log, "error updater.check(): %s", "\(error!.localizedDescription)")
+                return
             }
+            
+            guard error == nil, let version: version = result else {
+                os_log(.error, log: log, "download error(): %s", "\(error!.localizedDescription)")
+                return
+            }
+
+            DispatchQueue.main.async(execute: {
+                if window {
+                    os_log(.error, log: log, "open update window: %s", "\(version.latest)")
+                    self.updateWindow.open(version)
+                    return
+                }
+
+                if version.newest {
+                    os_log(.error, log: log, "show update window because new version of app found: %s", "\(version.latest)")
+                        
+                    self.notification.identifier = UUID().uuidString
+                    self.notification.title = "New version available"
+                    self.notification.subtitle = "Click to install the new version of Stats"
+                    self.notification.soundName = NSUserNotificationDefaultSoundName
+                        
+                    self.notification.hasActionButton = true
+                    self.notification.actionButtonTitle = "Install"
+                    self.notification.userInfo = ["url": version.url]
+                        
+                    NSUserNotificationCenter.default.delegate = self
+                    NSUserNotificationCenter.default.deliver(self.notification)
+                }
+            })
+        }
+    }
+    
+    private func updateCron() {
+        self.updateActivity.repeats = true
+        self.updateActivity.interval = 60 * 60 * 12 // once in 12 hour
+        
+        self.updateActivity.schedule { (completion: @escaping NSBackgroundActivityScheduler.CompletionHandler) in
+            if !store.bool(key: "checkUpdatesOnLogin", defaultValue: true) {
+                completion(NSBackgroundActivityScheduler.Result.finished)
+                return
+            }
+            
+            self.checkForNewVersion(false)
+            completion(NSBackgroundActivityScheduler.Result.finished)
         }
     }
 }
