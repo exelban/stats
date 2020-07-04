@@ -188,6 +188,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         self.updateActivity.repeats = true
         self.updateActivity.interval = 60 * 60 * 12 // once in 12 hour
         
+        if store.bool(key: "checkUpdatesOnLogin", defaultValue: true) {
+            self.checkForNewVersion(false)
+        }
+        
         self.updateActivity.schedule { (completion: @escaping NSBackgroundActivityScheduler.CompletionHandler) in
             if !store.bool(key: "checkUpdatesOnLogin", defaultValue: true) {
                 completion(NSBackgroundActivityScheduler.Result.finished)
