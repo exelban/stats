@@ -28,7 +28,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     private let settingsWindow: SettingsWindow = SettingsWindow()
     private let updateWindow: UpdateWindow = UpdateWindow()
     
-    private let notification = NSUserNotification()
+    private let updateNotification = NSUserNotification()
     private let updateActivity = NSBackgroundActivityScheduler(identifier: "eu.exelban.Stats.updateCheck")
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
@@ -57,7 +57,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             }
         }
         
-        NSUserNotificationCenter.default.removeDeliveredNotification(self.notification)
+        NSUserNotificationCenter.default.removeDeliveredNotification(self.updateNotification)
     }
     
     func applicationWillTerminate(_ aNotification: Notification) {
@@ -99,6 +99,16 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             if prevVersion == currentVersion {
                 return
             }
+            
+            let notification = NSUserNotification()
+            notification.identifier = UUID().uuidString
+            notification.title = "Successfully updated"
+            notification.subtitle = "Stats was updated to the latest version"
+            notification.soundName = NSUserNotificationDefaultSoundName
+            notification.hasActionButton = false
+            
+            NSUserNotificationCenter.default.deliver(notification)
+            
             os_log(.info, log: log, "Detected previous version %s. Current version (%s) set", prevVersion, currentVersion)
         }
         
@@ -157,28 +167,28 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
                 os_log(.error, log: log, "download error(): %s", "\(error!.localizedDescription)")
                 return
             }
-
+            
             DispatchQueue.main.async(execute: {
                 if window {
                     os_log(.error, log: log, "open update window: %s", "\(version.latest)")
                     self.updateWindow.open(version)
                     return
                 }
-
+                
                 if version.newest {
                     os_log(.error, log: log, "show update window because new version of app found: %s", "\(version.latest)")
-                        
-                    self.notification.identifier = UUID().uuidString
-                    self.notification.title = "New version available"
-                    self.notification.subtitle = "Click to install the new version of Stats"
-                    self.notification.soundName = NSUserNotificationDefaultSoundName
-                        
-                    self.notification.hasActionButton = true
-                    self.notification.actionButtonTitle = "Install"
-                    self.notification.userInfo = ["url": version.url]
-                        
+                    
+                    self.updateNotification.identifier = UUID().uuidString
+                    self.updateNotification.title = "New version available"
+                    self.updateNotification.subtitle = "Click to install the new version of Stats"
+                    self.updateNotification.soundName = NSUserNotificationDefaultSoundName
+                    
+                    self.updateNotification.hasActionButton = true
+                    self.updateNotification.actionButtonTitle = "Install"
+                    self.updateNotification.userInfo = ["url": version.url]
+                    
                     NSUserNotificationCenter.default.delegate = self
-                    NSUserNotificationCenter.default.deliver(self.notification)
+                    NSUserNotificationCenter.default.deliver(self.updateNotification)
                 }
             })
         }
