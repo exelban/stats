@@ -10,6 +10,7 @@
 //
 
 import Cocoa
+import StatsKit
 import ModuleKit
 import SystemConfiguration
 import Reachability
@@ -17,10 +18,27 @@ import os.log
 import CoreWLAN
 
 internal class UsageReader: Reader<Network_Usage> {
+    public var store: UnsafePointer<Store>? = nil
     private var reachability: Reachability? = nil
     private var usage: Network_Usage = Network_Usage()
     
-    private var interfaceID: String? = nil
+    private var primaryInterface: String {
+        get {
+            if let global = SCDynamicStoreCopyValue(nil, "State:/Network/Global/IPv4" as CFString), let name = global["PrimaryInterface"] as? String {
+                return name
+            }
+            return "eth0"
+        }
+    }
+    
+    private var interfaceID: String {
+        get {
+            return self.store?.pointee.string(key: "network_interface", defaultValue: self.primaryInterface) ?? self.primaryInterface
+        }
+        set {
+            self.store?.pointee.set(key: "network_interface", value: newValue)
+        }
+    }
     
     public override func setup() {
         do {
@@ -85,10 +103,6 @@ internal class UsageReader: Reader<Network_Usage> {
     
     private func readInformation() {
         guard self.reachability != nil && self.reachability!.connection != .unavailable else { return }
-        
-        if let global = SCDynamicStoreCopyValue(nil, "State:/Network/Global/IPv4" as CFString) {
-            self.interfaceID = global["PrimaryInterface"] as? String
-        }
         
         self.usage.active = true
         DispatchQueue.global(qos: .background).async {

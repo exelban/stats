@@ -57,6 +57,8 @@ public class Network: Module {
     private let popupView: Popup = Popup()
     
     public init(_ store: UnsafePointer<Store>?) {
+        self.usageReader.store = store
+        
         super.init(
             store: store,
             popup: self.popupView,
