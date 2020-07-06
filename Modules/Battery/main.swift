@@ -40,7 +40,7 @@ struct Battery_Usage: value_t {
 }
 
 public class Battery: Module {
-    private var usageReader: UsageReader = UsageReader()
+    private var usageReader: UsageReader? = nil
     private let popupView: Popup = Popup()
     
     public init(_ store: UnsafePointer<Store>?) {
@@ -49,15 +49,20 @@ public class Battery: Module {
             popup: self.popupView,
             settings: nil
         )
+        guard self.available else { return }
         
-        self.usageReader.readyCallback = { [unowned self] in
+        self.usageReader = UsageReader()
+        
+        self.usageReader?.readyCallback = { [unowned self] in
             self.readyHandler()
         }
-        self.usageReader.callbackHandler = { [unowned self] value in
+        self.usageReader?.callbackHandler = { [unowned self] value in
             self.usageCallback(value)
         }
         
-        self.addReader(self.usageReader)
+        if let reader = self.usageReader {
+            self.addReader(reader)
+        }
     }
     
     public override func isAvailable() -> Bool {

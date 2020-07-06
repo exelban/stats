@@ -35,19 +35,22 @@ public class CPU: Module {
     private let popupView: Popup = Popup()
     private var settingsView: Settings
     
-    private var loadReader: LoadReader? = LoadReader()
+    private var loadReader: LoadReader? = nil
     private let smc: UnsafePointer<SMCService>?
     
     public init(_ store: UnsafePointer<Store>, _ smc: UnsafePointer<SMCService>) {
         self.smc = smc
         self.settingsView = Settings("CPU", store: store)
-        self.loadReader!.store = store
         
         super.init(
             store: store,
             popup: self.popupView,
             settings: self.settingsView
         )
+        guard self.available else { return }
+        
+        self.loadReader = LoadReader()
+        self.loadReader?.store = store
         
         self.settingsView.callback = { [unowned self] in
             self.loadReader?.read()
@@ -60,7 +63,9 @@ public class CPU: Module {
             self.loadCallback(value)
         }
         
-        self.addReader(self.loadReader!)
+        if let reader = self.loadReader {
+            self.addReader(reader)
+        }
     }
     
     private func loadCallback(_ value: CPU_Load?) {

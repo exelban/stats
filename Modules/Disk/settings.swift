@@ -50,7 +50,7 @@ internal class Settings: NSView, Settings_v {
         rowTitle.font = NSFont.systemFont(ofSize: 13, weight: .light)
         rowTitle.textColor = .textColor
         
-        self.button = NSPopUpButton(frame: NSRect(x: view.frame.width - 164, y: -1, width: 140, height: 30))
+        self.button = NSPopUpButton(frame: NSRect(x: view.frame.width - 140 - Constants.Settings.margin*2, y: -1, width: 140, height: 30))
         self.button!.target = self
         self.button?.action = #selector(self.handleSelection)
         

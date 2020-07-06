@@ -17,8 +17,15 @@ import Reachability
 import os.log
 import CoreWLAN
 
+struct ipResponse: Decodable {
+    var ip: String
+    var country: String
+    var cc: String
+}
+
 internal class UsageReader: Reader<Network_Usage> {
     public var store: UnsafePointer<Store>? = nil
+    
     private var reachability: Reachability? = nil
     private var usage: Network_Usage = Network_Usage()
     
@@ -27,16 +34,16 @@ internal class UsageReader: Reader<Network_Usage> {
             if let global = SCDynamicStoreCopyValue(nil, "State:/Network/Global/IPv4" as CFString), let name = global["PrimaryInterface"] as? String {
                 return name
             }
-            return "eth0"
+            return ""
         }
     }
     
     private var interfaceID: String {
         get {
-            return self.store?.pointee.string(key: "network_interface", defaultValue: self.primaryInterface) ?? self.primaryInterface
+            return self.store?.pointee.string(key: "Network_interface", defaultValue: self.primaryInterface) ?? self.primaryInterface
         }
         set {
-            self.store?.pointee.set(key: "network_interface", value: newValue)
+            self.store?.pointee.set(key: "Network_interface", value: newValue)
         }
     }
     
@@ -49,8 +56,7 @@ internal class UsageReader: Reader<Network_Usage> {
         }
         
         self.reachability!.whenReachable = { _ in
-            self.usage.reset()  
-            self.readInformation()
+            self.getDetails()
         }
         self.reachability!.whenUnreachable = { _ in
             self.usage.reset()
@@ -59,14 +65,6 @@ internal class UsageReader: Reader<Network_Usage> {
     }
     
     public override func read() {
-        guard self.reachability?.connection != .unavailable else {
-            if self.usage.active {
-                self.usage.reset()
-                self.callback(self.usage)
-            }
-            return
-        }
-        
         var interfaceAddresses: UnsafeMutablePointer<ifaddrs>? = nil
         var upload: Int64 = 0
         var download: Int64 = 0
@@ -80,13 +78,13 @@ internal class UsageReader: Reader<Network_Usage> {
                 continue
             }
             
+            if let ip = getLocalIP(pointer!), self.usage.laddr != ip {
+                self.usage.laddr = ip
+            }
+            
             if let info = getBytesInfo(pointer!) {
                 upload += info.upload
                 download += info.download
-            }
-            
-            if let ip = getLocalIP(pointer!), self.usage.laddr != ip {
-                self.usage.laddr = ip
             }
         }
         freeifaddrs(interfaceAddresses)
@@ -96,52 +94,53 @@ internal class UsageReader: Reader<Network_Usage> {
             self.usage.download = download - self.usage.download
         }
         
+        if self.usage.upload < 0 {
+            self.usage.upload = 0
+        }
+        if self.usage.download < 0 {
+            self.usage.download = 0
+        }
+        
         self.callback(self.usage)
+        
         self.usage.upload = upload
         self.usage.download = download
     }
     
-    private func readInformation() {
-        guard self.reachability != nil && self.reachability!.connection != .unavailable else { return }
+    public func getDetails() {
+        self.usage.reset()
         
-        self.usage.active = true
         DispatchQueue.global(qos: .background).async {
-            self.usage.paddr = self.getPublicIP()
+            self.getPublicIP()
         }
         
-        if self.reachability!.connection == .wifi {
-            self.usage.connectionType = .wifi
-            if let interface = CWWiFiClient.shared().interface() {
-                self.usage.networkName = interface.ssid()
-                self.usage.countryCode = interface.countryCode()
-                self.usage.iaddr = interface.hardwareAddress()
+        if self.interfaceID != "" {
+            for interface in SCNetworkInterfaceCopyAll() as NSArray {
+                if  let bsdName = SCNetworkInterfaceGetBSDName(interface as! SCNetworkInterface),
+                    bsdName as String == self.interfaceID,
+                    let type = SCNetworkInterfaceGetInterfaceType(interface as! SCNetworkInterface),
+                    let displayName = SCNetworkInterfaceGetLocalizedDisplayName(interface as! SCNetworkInterface),
+                    let address = SCNetworkInterfaceGetHardwareAddressString(interface as! SCNetworkInterface) {
+                    self.usage.interface = Network_interface(displayName: displayName as String, BSDName: bsdName as String, address: address as String)
+                    
+                    switch type {
+                    case kSCNetworkInterfaceTypeEthernet:
+                        self.usage.connectionType = .ethernet
+                    case kSCNetworkInterfaceTypeIEEE80211, kSCNetworkInterfaceTypeWWAN:
+                        self.usage.connectionType = .wifi
+                    case kSCNetworkInterfaceTypeBluetooth:
+                        self.usage.connectionType = .bluetooth
+                    default:
+                        self.usage.connectionType = .other
+                    }
+                }
             }
-        } else {
-            self.usage.connectionType = .ethernet
-            self.usage.iaddr = getMacAddress()
-        }
-    }
-    
-    private func getDataUsageInfo(from infoPointer: UnsafeMutablePointer<ifaddrs>) -> (upload: Int64, download: Int64)? {
-        let pointer = infoPointer
-        
-        let addr = pointer.pointee.ifa_addr.pointee
-        guard addr.sa_family == UInt8(AF_LINK) else { return nil }
-        var networkData: UnsafeMutablePointer<if_data>? = nil
-        
-        networkData = unsafeBitCast(pointer.pointee.ifa_data, to: UnsafeMutablePointer<if_data>.self)
-        return (upload: Int64(networkData?.pointee.ifi_obytes ?? 0), download: Int64(networkData?.pointee.ifi_ibytes ?? 0))
-    }
-    
-    private func getBytesInfo(_ pointer: UnsafeMutablePointer<ifaddrs>) -> (upload: Int64, download: Int64)? {
-        let addr = pointer.pointee.ifa_addr.pointee
-        
-        guard addr.sa_family == UInt8(AF_LINK) else {
-            return nil
         }
         
-        let data: UnsafeMutablePointer<if_data>? = unsafeBitCast(pointer.pointee.ifa_data, to: UnsafeMutablePointer<if_data>.self)
-        return (upload: Int64(data?.pointee.ifi_obytes ?? 0), download: Int64(data?.pointee.ifi_ibytes ?? 0))
+        if let interface = CWWiFiClient.shared().interface(), self.usage.connectionType == .wifi {
+            self.usage.ssid = interface.ssid()
+            self.usage.countryCode = interface.countryCode()
+        }
     }
     
     private func getLocalIP(_ pointer: UnsafeMutablePointer<ifaddrs>) -> String? {
@@ -157,73 +156,35 @@ internal class UsageReader: Reader<Network_Usage> {
         return String(cString: ip)
     }
     
-    private func getPublicIP() -> String? {
-        let url = URL(string: "https://api.ipify.org")
+    private func getPublicIP() {
+        let url = URL(string: "https://api.myip.com")
         var address: String? = nil
         
         do {
             if let url = url {
                 address = try String(contentsOf: url)
-                if address!.contains("<") {
-                    address = nil
+                
+                if address != nil {
+                    let jsonData = address!.data(using: .utf8)
+                    let response: ipResponse = try JSONDecoder().decode(ipResponse.self, from: jsonData!)
+                    
+                    self.usage.countryCode = response.cc
+                    self.usage.raddr = response.ip
                 }
             }
         } catch let error {
             os_log(.error, log: log, "get public ip %s", "\(error)")
         }
+    }
+    
+    private func getBytesInfo(_ pointer: UnsafeMutablePointer<ifaddrs>) -> (upload: Int64, download: Int64)? {
+        let addr = pointer.pointee.ifa_addr.pointee
         
-        return address
-    }
-    
-    // https://stackoverflow.com/questions/31835418/how-to-get-mac-address-from-os-x-with-swift
-    private func getMacAddress() -> String? {
-        var macAddressAsString : String?
-        if let intfIterator = findEthernetInterfaces() {
-            if let macAddress = getMACAddress(intfIterator) {
-                macAddressAsString = macAddress.map( { String(format:"%02x", $0) } ).joined(separator: ":")
-            }
-            IOObjectRelease(intfIterator)
-        }
-        return macAddressAsString
-    }
-    
-    private func findEthernetInterfaces() -> io_iterator_t? {
-        let matchingDictUM = IOServiceMatching("IOEthernetInterface");
-        if matchingDictUM == nil {
+        guard addr.sa_family == UInt8(AF_LINK) else {
             return nil
         }
         
-        let matchingDict = matchingDictUM! as NSMutableDictionary
-        matchingDict["IOPropertyMatch"] = [ "IOPrimaryInterface" : true]
-        
-        var matchingServices : io_iterator_t = 0
-        if IOServiceGetMatchingServices(kIOMasterPortDefault, matchingDict, &matchingServices) != KERN_SUCCESS {
-            return nil
-        }
-        
-        return matchingServices
-    }
-    
-    private func getMACAddress(_ intfIterator : io_iterator_t) -> [UInt8]? {
-        var macAddress : [UInt8]?
-        var intfService = IOIteratorNext(intfIterator)
-        
-        while intfService != 0 {
-            var controllerService : io_object_t = 0
-            if IORegistryEntryGetParentEntry(intfService, kIOServicePlane, &controllerService) == KERN_SUCCESS {
-                let dataUM = IORegistryEntryCreateCFProperty(controllerService, "IOMACAddress" as CFString, kCFAllocatorDefault, 0)
-                if dataUM != nil {
-                    let data = (dataUM!.takeRetainedValue() as! CFData) as Data
-                    macAddress = [0, 0, 0, 0, 0, 0]
-                    data.copyBytes(to: &macAddress!, count: macAddress!.count)
-                }
-                IOObjectRelease(controllerService)
-            }
-            
-            IOObjectRelease(intfService)
-            intfService = IOIteratorNext(intfIterator)
-        }
-        
-        return macAddress
+        let data: UnsafeMutablePointer<if_data>? = unsafeBitCast(pointer.pointee.ifa_data, to: UnsafeMutablePointer<if_data>.self)
+        return (upload: Int64(data?.pointee.ifi_obytes ?? 0), download: Int64(data?.pointee.ifi_ibytes ?? 0))
     }
 }

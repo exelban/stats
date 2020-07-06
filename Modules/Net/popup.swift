@@ -15,7 +15,7 @@ import StatsKit
 
 internal class Popup: NSView {
     let dashboardHeight: CGFloat = 90
-    let detailsHeight: CGFloat = 88
+    let detailsHeight: CGFloat = 110
     
     private var dashboardView: NSView? = nil
     
@@ -31,7 +31,8 @@ internal class Popup: NSView {
     
     private var publicIPField: ValueField? = nil
     private var localIPField: ValueField? = nil
-    private var networkTypeField: ValueField? = nil
+    private var interfaceField: ValueField? = nil
+    private var ssidField: ValueField? = nil
     private var macAdressField: ValueField? = nil
     
     private var initialized: Bool = false
@@ -137,19 +138,20 @@ internal class Popup: NSView {
         
         let view: NSView = NSView(frame: NSRect(x: 0, y: separator.frame.origin.y - self.detailsHeight, width: self.frame.width, height: self.detailsHeight))
         
-        self.publicIPField = PopupRow(view, n: 3, title: "Public IP:", value: "")
-        self.localIPField = PopupRow(view, n: 2, title: "Local IP:", value: "")
-        self.networkTypeField = PopupRow(view, n: 1, title: "Network:", value: "")
+        self.publicIPField = PopupRow(view, n: 4, title: "Public IP:", value: "")
+        self.localIPField = PopupRow(view, n: 3, title: "Local IP:", value: "")
+        self.interfaceField = PopupRow(view, n: 2, title: "Interface:", value: "")
+        self.ssidField = PopupRow(view, n: 1, title: "Network:", value: "")
         self.macAdressField = PopupRow(view, n: 0, title: "Physical address:", value: "")
         
         self.publicIPField?.addTracking()
         self.localIPField?.addTracking()
-        self.networkTypeField?.addTracking()
+        self.ssidField?.addTracking()
         self.macAdressField?.addTracking()
         
         self.publicIPField?.isSelectable = true
         self.localIPField?.isSelectable = true
-        self.networkTypeField?.isSelectable = true
+        self.ssidField?.isSelectable = true
         self.macAdressField?.isSelectable = true
         
         self.addSubview(view)
@@ -157,48 +159,37 @@ internal class Popup: NSView {
     
     public func usageCallback(_ value: Network_Usage) {
         DispatchQueue.main.async(execute: {
-            if !(self.window?.isVisible ?? false) && self.initialized && value.active {
+            if !(self.window?.isVisible ?? false) && self.initialized {
                 return
             }
             
-            self.uploadValue = value.upload
-            self.downloadValue = value.download
-            self.setUploadDownloadFields()
-            
-            if !value.active {
-                self.publicIPField?.stringValue = "No connection"
-                self.localIPField?.stringValue = "No connection"
-                self.networkTypeField?.stringValue = "No connection"
-                self.macAdressField?.stringValue = "No connection"
-                return
-            }
-            
-            if var publicIP = value.paddr, self.publicIPField?.stringValue != publicIP {
-                if value.countryCode != nil {
-                    publicIP = "\(publicIP) (\(value.countryCode!))"
-                }
-                self.publicIPField?.stringValue = publicIP
+            if let interface = value.interface {
+                self.interfaceField?.stringValue = "\(interface.displayName) (\(interface.BSDName))"
+                self.macAdressField?.stringValue = interface.address
             } else {
-                self.publicIPField?.stringValue = "Unknown"
-            }
-            if value.laddr != nil && self.localIPField?.stringValue != value.laddr {
-                self.localIPField?.stringValue = value.laddr!
-            }
-            if value.iaddr != nil && self.macAdressField?.stringValue != value.iaddr {
-                self.macAdressField?.stringValue = value.iaddr!
+                self.interfaceField?.stringValue = "Unknown"
+                self.macAdressField?.stringValue = "Unknown"
             }
             
-            if value.connectionType != nil {
-                var networkType = ""
-                if value.connectionType == .wifi {
-                    networkType = "\(value.networkName ?? "unknown") (WiFi)"
-                } else if value.connectionType == .ethernet {
-                    networkType = "Ethernet"
+            if value.connectionType == .wifi {
+                self.ssidField?.stringValue = value.ssid ?? "Unknown"
+            } else {
+                self.ssidField?.stringValue = "Unavailable"
+            }
+            
+            if self.publicIPField?.stringValue != value.raddr {
+                if value.raddr == nil {
+                    self.publicIPField?.stringValue = "Unknown"
+                } else {
+                    if value.countryCode == nil {
+                        self.publicIPField?.stringValue = value.raddr!
+                    } else {
+                        self.publicIPField?.stringValue = "\(value.raddr!) (\(value.countryCode!))"
+                    }
                 }
-                
-                if self.networkTypeField?.stringValue != networkType {
-                    self.networkTypeField?.stringValue = networkType
-                }
+            }
+            if self.localIPField?.stringValue != value.laddr {
+                self.localIPField?.stringValue = value.laddr ?? "Unknown"
             }
             
             self.initialized = true
@@ -214,7 +205,7 @@ extension ValueField {
     }
     
     public override func mouseEntered(with: NSEvent) {
-        guard self.stringValue != "No connection" && self.stringValue != "Unknown" else {
+        guard self.stringValue != "No connection" && self.stringValue != "Unknown" && self.stringValue != "Unavailable" else {
             return
         }
         
@@ -226,7 +217,7 @@ extension ValueField {
     }
     
     public override func mouseDown(with: NSEvent) {
-        guard self.stringValue != "No connection" && self.stringValue != "Unknown" else {
+        guard self.stringValue != "No connection" && self.stringValue != "Unknown" && self.stringValue != "Unavailable" else {
             return
         }
         

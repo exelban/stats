@@ -96,6 +96,11 @@ open class Module: Module_p {
         self.menuBarItem.isVisible = self.enabled
         self.menuBarItem.autosaveName = self.config.name
         
+        if !self.available {
+            os_log(.debug, log: log, "Module is not available")
+            return
+        }
+        
         NotificationCenter.default.addObserver(self, selector: #selector(listenForWidgetSwitch), name: .switchWidget, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(listenForMouseDownInSettings), name: .clickInSettings, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(listenForModuleToggle), name: .toggleModule, object: nil)
@@ -145,6 +150,8 @@ open class Module: Module_p {
     
     // set module state to enabled
     public func enable() {
+        guard self.available else { return }
+        
         self.enabled = true
         self.store?.pointee.set(key: "\(self.config.name)_state", value: true)
         self.readers.forEach{ $0.start() }
@@ -157,6 +164,8 @@ open class Module: Module_p {
     
     // set module state to disabled
     public func disable() {
+        guard self.available else { return }
+        
         self.enabled = false
         self.store?.pointee.set(key: "\(self.config.name)_state", value: false)
         self.readers.forEach{ $0.pause() }
@@ -201,6 +210,8 @@ open class Module: Module_p {
     
     // setup menu ber item
     private func loadWidget() {
+        guard self.available else { return }
+        
         if self.widget != nil && self.ready {
             DispatchQueue.main.async {
                 self.menuBarItem.button?.target = self
@@ -216,6 +227,8 @@ open class Module: Module_p {
     
     // load and setup widget
     private func setWidget() {
+        guard self.available else { return }
+        
         self.widget = LoadWidget(self.activeWidget, preview: false, name: self.config.name, config: self.config.widgetsConfig, store: self.store)
         if self.widget == nil {
             self.enabled = false

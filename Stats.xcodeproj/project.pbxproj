@@ -39,6 +39,7 @@
 		9A41530C24ABC3AF00A2BDA7 /* Disk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A41530B24ABC3AF00A2BDA7 /* Disk.swift */; };
 		9A58DE9E24B363D800716A9F /* popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A58DE9D24B363D800716A9F /* popup.swift */; };
 		9A58DEA024B363F300716A9F /* settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A58DE9F24B363F300716A9F /* settings.swift */; };
+		9A58DEA424B3647600716A9F /* settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A58DEA324B3647600716A9F /* settings.swift */; };
 		9A5AF11B2469CE9B00684737 /* popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5AF11A2469CE9B00684737 /* popup.swift */; };
 		9A6549292440A57200E30B74 /* Repeat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A6549282440A57200E30B74 /* Repeat.framework */; };
 		9A65492A2440A57200E30B74 /* Repeat.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A6549282440A57200E30B74 /* Repeat.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -418,6 +419,7 @@
 		9A5349CD23D8832E00C23824 /* Reachability.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Reachability.framework; path = Carthage/Build/Mac/Reachability.framework; sourceTree = "<group>"; };
 		9A58DE9D24B363D800716A9F /* popup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = popup.swift; sourceTree = "<group>"; };
 		9A58DE9F24B363F300716A9F /* settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = settings.swift; sourceTree = "<group>"; };
+		9A58DEA324B3647600716A9F /* settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = settings.swift; sourceTree = "<group>"; };
 		9A5AF11A2469CE9B00684737 /* popup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = popup.swift; sourceTree = "<group>"; };
 		9A654920244074B500E30B74 /* extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = extensions.swift; sourceTree = "<group>"; };
 		9A65492224407EA600E30B74 /* store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = store.swift; sourceTree = "<group>"; };
@@ -650,6 +652,7 @@
 				9A3E17D8247A94B500449CD1 /* main.swift */,
 				9A3E17DA247A94BC00449CD1 /* readers.swift */,
 				9A3E17E9247B07BF00449CD1 /* popup.swift */,
+				9A58DEA324B3647600716A9F /* settings.swift */,
 				9A3E17CF247A94AF00449CD1 /* Info.plist */,
 				9A3E17DC247A94C300449CD1 /* config.plist */,
 			);
@@ -1287,6 +1290,7 @@
 			files = (
 				9A3E17DB247A94BC00449CD1 /* readers.swift in Sources */,
 				9A3E17EA247B07BF00449CD1 /* popup.swift in Sources */,
+				9A58DEA424B3647600716A9F /* settings.swift in Sources */,
 				9A3E17D9247A94B500449CD1 /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

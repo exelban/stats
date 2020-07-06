@@ -20,6 +20,10 @@ public class Store {
         return self.defaults.object(forKey: key) == nil ? false : true
     }
     
+    public func remove(_ key: String) {
+        self.defaults.removeObject(forKey: key)
+    }
+    
     public func bool(key: String, defaultValue value: Bool) -> Bool {
         return !self.exist(key: key) ? value : defaults.bool(forKey: key)
     }

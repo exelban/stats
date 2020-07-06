@@ -63,7 +63,7 @@ struct DiskList: value_t {
 
 public class Disk: Module {
     private let popupView: Popup = Popup()
-    private var capacityReader: CapacityReader = CapacityReader()
+    private var capacityReader: CapacityReader? = nil
     private var settingsView: Settings
     private var selectedDisk: String = ""
     
@@ -75,21 +75,26 @@ public class Disk: Module {
             popup: self.popupView,
             settings: self.settingsView
         )
+        guard self.available else { return }
+        
+        self.capacityReader = CapacityReader()
         self.selectedDisk = store!.pointee.string(key: "\(self.config.name)_disk", defaultValue: self.selectedDisk)
         
-        self.capacityReader.readyCallback = { [unowned self] in
+        self.capacityReader?.readyCallback = { [unowned self] in
             self.readyHandler()
         }
-        self.capacityReader.callbackHandler = { [unowned self] value in
+        self.capacityReader?.callbackHandler = { [unowned self] value in
             self.capacityCallback(value: value)
         }
         
         self.settingsView.selectedDiskHandler = { [unowned self] value in
             self.selectedDisk = value
-            self.capacityReader.read()
+            self.capacityReader?.read()
         }
         
-        self.addReader(self.capacityReader)
+        if let reader = self.capacityReader {
+            self.addReader(reader)
+        }
     }
     
     private func capacityCallback(value: DiskList?) {
