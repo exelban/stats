@@ -1,6 +1,6 @@
 //
 //  main.swift
-//  Stats
+//  Sensors
 //
 //  Created by Serhiy Mytrovtsiy on 17/06/2020.
 //  Using Swift 5.0.
