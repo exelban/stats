@@ -69,6 +69,7 @@ internal class PopupViewController: NSViewController {
     
     public func setup(title: String, view: NSView?) {
         self.title = title
+        self.popup.title = title
         self.popup.headerView?.titleView?.stringValue = title
         self.popup.setView(view)
     }
@@ -76,6 +77,7 @@ internal class PopupViewController: NSViewController {
 
 internal class PopupView: NSView {
     public var headerView: HeaderView? = nil
+    public var title: String? = nil
     private var mainView: NSView? = nil
     
     override var intrinsicContentSize: CGSize {
@@ -92,6 +94,7 @@ internal class PopupView: NSView {
         self.canDrawConcurrently = true
         self.layer!.cornerRadius = 3
         
+        NotificationCenter.default.addObserver(self, selector: #selector(listenChangingPopupSize), name: .updatePopupSize, object: nil)
         self.headerView = HeaderView(frame: NSRect(x: 0, y: frame.height - Constants.Popup.headerHeight, width: frame.width, height: Constants.Popup.headerHeight))
         
         let mainView: NSView = NSView(frame: NSRect(x: Constants.Popup.margins, y: Constants.Popup.margins, width: frame.width - (Constants.Popup.margins*2), height: 0))
@@ -143,6 +146,13 @@ internal class PopupView: NSView {
         self.mainView?.subviews.first{ !($0 is HeaderView) }?.display()
     }
     internal func disappear() {}
+    
+    
+    @objc private func listenChangingPopupSize(_ notification: Notification) {
+        if let moduleName = notification.userInfo?["module"] as? String, moduleName == self.title {
+            self.updateLayer()
+        }
+    }
 }
 
 internal class HeaderView: NSView {

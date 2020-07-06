@@ -104,6 +104,7 @@ open class Module: Module_p {
         NotificationCenter.default.addObserver(self, selector: #selector(listenForWidgetSwitch), name: .switchWidget, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(listenForMouseDownInSettings), name: .clickInSettings, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(listenForModuleToggle), name: .toggleModule, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(listenChangingPopupSize), name: .updatePopupSize, object: nil)
         
         if self.config.widgetsConfig.count != 0 {
             self.setWidget()
@@ -255,24 +256,25 @@ open class Module: Module_p {
         self.settings?.setActiveWidget(self.widget)
     }
     
-    @objc private func togglePopup(_ sender: NSStatusBarButton) {
+    @objc private func togglePopup(_ sender: Any) {
         let openedWindows = NSApplication.shared.windows.filter{ $0 is NSPanel }
         openedWindows.forEach{ $0.setIsVisible(false) }
         
         if self.popup.occlusionState.rawValue == 8192 {
             NSApplication.shared.activate(ignoringOtherApps: true)
             
+            self.popup.contentView?.invalidateIntrinsicContentSize()
+            
             let buttonOrigin = self.menuBarItem.button?.window?.frame.origin
             let buttonCenter = (self.menuBarItem.button?.window?.frame.width)! / 2
-            let windowCenter = self.popup.frame.width / 2
             
-            self.popup.contentView?.invalidateIntrinsicContentSize()
+            let windowCenter = self.popup.contentView!.intrinsicContentSize.width / 2
             var x = buttonOrigin!.x - windowCenter + buttonCenter
             let y = buttonOrigin!.y - self.popup.contentView!.intrinsicContentSize.height - 3
             
             let maxWidth = NSScreen.screens.map{ $0.frame.width }.reduce(0, +)
-            if x + self.popup.frame.width > maxWidth {
-                x = maxWidth - self.popup.frame.width - 3
+            if x + self.popup.contentView!.intrinsicContentSize.width > maxWidth {
+                x = maxWidth - self.popup.contentView!.intrinsicContentSize.width - 3
             }
             
             self.popup.setFrameOrigin(NSPoint(x: x, y: y))
@@ -312,6 +314,14 @@ open class Module: Module_p {
     @objc private func listenForMouseDownInSettings(_ notification: Notification) {
         if self.popup.isVisible {
             self.popup.setIsVisible(false)
+        }
+    }
+    
+    @objc private func listenChangingPopupSize(_ notification: Notification) {
+        if let moduleName = notification.userInfo?["module"] as? String, moduleName == self.config.name {
+            if self.popup.isVisible {
+                self.popup.setIsVisible(false)
+            }
         }
     }
 }

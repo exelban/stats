@@ -26,6 +26,11 @@ internal class Popup: NSView {
     }
     
     internal func usageCallback(_ value: DiskList) {
+        if self.list.count != value.list.count {
+            self.subviews.forEach{ $0.removeFromSuperview() }
+            self.list = [:]
+        }
+        
         value.list.reversed().forEach { (d: diskInfo) in
             if self.list[d.name] == nil {
                 DispatchQueue.main.async(execute: {
@@ -37,13 +42,19 @@ internal class Popup: NSView {
                         path: d.path
                     )
                     self.addSubview(self.list[d.name]!)
-
-                    self.setFrameSize(NSSize(width: self.frame.width, height: ((self.diskFullHeight + Constants.Popup.margins) * CGFloat(self.list.count)) - Constants.Popup.margins))
                 })
             } else {
                 self.list[d.name]?.update(free: d.freeSize)
             }
         }
+
+        DispatchQueue.main.async(execute: {
+            let h: CGFloat = ((self.diskFullHeight + Constants.Popup.margins) * CGFloat(self.list.count)) - Constants.Popup.margins
+            if self.frame.size.height != h {
+                self.setFrameSize(NSSize(width: self.frame.width, height: h))
+                NotificationCenter.default.post(name: .updatePopupSize, object: nil, userInfo: ["module": "Disk"])
+            }
+        })
     }
 }
 

@@ -375,6 +375,7 @@ public extension Notification.Name {
     static let switchWidget = Notification.Name("switchWidget")
     static let checkForUpdates = Notification.Name("checkForUpdates")
     static let clickInSettings = Notification.Name("clickInSettings")
+    static let updatePopupSize = Notification.Name("updatePopupSize")
 }
 
 public class NSButtonWithPadding: NSButton {

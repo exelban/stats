@@ -25,6 +25,8 @@ struct diskInfo {
     
     var mediaBSDName: String = ""
     var root: Bool = false
+    
+    var removable: Bool = false
 }
 
 struct DiskList: value_t {
@@ -78,6 +80,7 @@ public class Disk: Module {
         guard self.available else { return }
         
         self.capacityReader = CapacityReader()
+        self.capacityReader?.store = store
         self.selectedDisk = store!.pointee.string(key: "\(self.config.name)_disk", defaultValue: self.selectedDisk)
         
         self.capacityReader?.readyCallback = { [unowned self] in
@@ -89,6 +92,9 @@ public class Disk: Module {
         
         self.settingsView.selectedDiskHandler = { [unowned self] value in
             self.selectedDisk = value
+            self.capacityReader?.read()
+        }
+        self.settingsView.callback = { [unowned self] in
             self.capacityReader?.read()
         }
         

@@ -22,10 +22,13 @@ internal class Settings: NSView, Settings_v {
     private var selectedDisk: String
     private var button: NSPopUpButton?
     
+    private var removableState: Bool = false
+    
     public init(_ title: String, store: UnsafePointer<Store>) {
         self.title = title
         self.store = store
         self.selectedDisk = store.pointee.string(key: "\(self.title)_disk", defaultValue: "")
+        self.removableState = store.pointee.bool(key: "\(self.title)_removable", defaultValue: self.removableState)
         super.init(frame: CGRect(x: Constants.Settings.margin, y: Constants.Settings.margin, width: Constants.Settings.width - (Constants.Settings.margin*2), height: 0))
         self.wantsLayer = true
         self.canDrawConcurrently = true
@@ -38,13 +41,21 @@ internal class Settings: NSView, Settings_v {
     public func load(widget: widget_t) {
         self.subviews.forEach{ $0.removeFromSuperview() }
         
+        let rowHeight: CGFloat = 30
         self.addDiskSelector()
         
-        self.setFrameSize(NSSize(width: self.frame.width, height: 30 + (Constants.Settings.margin*2)))
+        self.addSubview(ToggleTitleRow(
+            frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * 0, width: self.frame.width - (Constants.Settings.margin*2), height: rowHeight),
+            title: "Show removable disks",
+            action: #selector(toggleRemovable),
+            state: self.removableState
+        ))
+        
+        self.setFrameSize(NSSize(width: self.frame.width, height: rowHeight*2 + (Constants.Settings.margin*3)))
     }
     
     private func addDiskSelector() {
-        let view: NSView = NSView(frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin, width: self.frame.width, height: 29))
+        let view: NSView = NSView(frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin*2 + 30, width: self.frame.width, height: 29))
         
         let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: (view.frame.height - 16)/2, width: view.frame.width - 52, height: 17), "Disk to show")
         rowTitle.font = NSFont.systemFont(ofSize: 13, weight: .light)
@@ -63,6 +74,10 @@ internal class Settings: NSView, Settings_v {
     internal func setList(_ list: DiskList) {
         let disks = list.list.map{ $0.name }
         DispatchQueue.main.async(execute: {
+            if self.button?.itemTitles.count != disks.count {
+                self.button?.removeAllItems()
+            }
+            
             if disks != self.button?.itemTitles {
                 self.button?.addItems(withTitles: disks)
                 if self.selectedDisk != "" {
@@ -72,10 +87,23 @@ internal class Settings: NSView, Settings_v {
         })
     }
     
-    @objc func handleSelection(_ sender: NSPopUpButton) {
+    @objc private func handleSelection(_ sender: NSPopUpButton) {
         guard let item = sender.selectedItem else { return }
         self.selectedDisk = item.title
         self.store.pointee.set(key: "\(self.title)_disk", value: item.title)
         self.selectedDiskHandler(item.title)
+    }
+    
+    @objc private func toggleRemovable(_ sender: NSControl) {
+        var state: NSControl.StateValue? = nil
+        if #available(OSX 10.15, *) {
+            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
+        } else {
+            state = sender is NSButton ? (sender as! NSButton).state: nil
+        }
+        
+        self.removableState = state! == .on ? true : false
+        self.store.pointee.set(key: "\(self.title)_removable", value: self.removableState)
+        self.callback()
     }
 }

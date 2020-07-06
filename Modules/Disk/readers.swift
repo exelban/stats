@@ -11,9 +11,11 @@
 
 import Cocoa
 import ModuleKit
+import StatsKit
 
 internal class CapacityReader: Reader<DiskList> {
     private var disks: DiskList = DiskList()
+    public var store: UnsafePointer<Store>? = nil
     
     public override func setup() {
         self.interval = 10000
@@ -21,7 +23,9 @@ internal class CapacityReader: Reader<DiskList> {
     
     public override func read() {
         let keys: [URLResourceKey] = [.volumeNameKey]
+        let removableState = store?.pointee.bool(key: "Disk_removable", defaultValue: false) ?? false
         let paths = FileManager.default.mountedVolumeURLs(includingResourceValuesForKeys: keys)!
+        
         if let session = DASessionCreate(kCFAllocatorDefault) {
             for url in paths {
                 if url.pathComponents.count == 1 || (url.pathComponents.count > 1 && url.pathComponents[1] == "Volumes") {
@@ -29,8 +33,13 @@ internal class CapacityReader: Reader<DiskList> {
                         if let diskName = DADiskGetBSDName(disk) {
                             let BSDName: String = String(cString: diskName)
                             
-                            if let _: diskInfo = self.disks.getDiskByBSDName(BSDName) {
+                            if let d: diskInfo = self.disks.getDiskByBSDName(BSDName) {
                                 if let idx = self.disks.list.firstIndex(where: { $0.mediaBSDName == BSDName }) {
+                                    if d.removable && !removableState {
+                                        self.disks.list.remove(at: idx)
+                                        continue
+                                    }
+                                    
                                     if let path = self.disks.list[idx].path {
                                         self.disks.list[idx].freeSize = freeDiskSpaceInBytes(path.absoluteString)
                                     }
@@ -38,8 +47,9 @@ internal class CapacityReader: Reader<DiskList> {
                                 continue
                             }
                             
-                            if let d = getDisk(disk) {
+                            if let d = getDisk(disk, removableState: removableState) {
                                 self.disks.list.append(d)
+                                self.disks.list.sort{ $1.removable }
                             }
                         }
                     }
@@ -50,7 +60,7 @@ internal class CapacityReader: Reader<DiskList> {
         self.callback(self.disks)
     }
     
-    private func getDisk(_ disk: DADisk) -> diskInfo? {
+    private func getDisk(_ disk: DADisk, removableState: Bool) -> diskInfo? {
         var d: diskInfo = diskInfo()
         
         if let bsdName = DADiskGetBSDName(disk) {
@@ -61,7 +71,10 @@ internal class CapacityReader: Reader<DiskList> {
             if let dict = diskDescription as? [String: AnyObject] {
                 if let removable = dict[kDADiskDescriptionMediaRemovableKey as String] {
                     if removable as! Bool {
-                        return nil
+                        if !removableState {
+                            return nil
+                        }
+                        d.removable = true
                     }
                 }
                 
