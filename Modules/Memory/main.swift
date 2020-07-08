@@ -67,6 +67,7 @@ public class Memory: Module {
         self.popupView.loadCallback(value!)
         if let widget = self.widget as? Mini {
             widget.setValue(value!.usage ?? 0, sufix: "%")
+            widget.setPressure(value?.pressureLevel ?? 0)
         }
         if let widget = self.widget as? LineChart {
             widget.setValue(value!.usage ?? 0)

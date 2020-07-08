@@ -15,10 +15,10 @@ import StatsKit
 public class BarChart: Widget {
     private var labelState: Bool = true
     private var boxState: Bool = true
-    private var colorState: Bool = false
-    private var pressureState: Bool = false
+    private var colorState: widget_c = .systemAccent
     
     private let store: UnsafePointer<Store>?
+    private var colors: [widget_c] = widget_c.allCases
     private var value: [Double] = []
     private var pressureLevel: Int = 0
     
@@ -49,8 +49,15 @@ public class BarChart: Widget {
             if let box = configuration["Box"] as? Bool {
                 self.boxState = box
             }
-            if let color = configuration["Color"] as? Bool {
-                self.colorState = color
+            if let colorsToDisable = configuration["Unsupported colors"] as? [String] {
+                self.colors = self.colors.filter { (color: widget_c) -> Bool in
+                    return !colorsToDisable.contains("\(color.self)")
+                }
+            }
+            if let color = configuration["Color"] as? String {
+                if let defaultColor = colors.first(where: { "\($0.self)" == color }) {
+                    self.colorState = defaultColor
+                }
             }
         }
         super.init(frame: CGRect(x: 0, y: Constants.Widget.margin, width: Constants.Widget.width, height: Constants.Widget.height - (2*Constants.Widget.margin)))
@@ -62,8 +69,7 @@ public class BarChart: Widget {
         if self.store != nil && !preview {
             self.boxState = store!.pointee.bool(key: "\(self.title)_\(self.type.rawValue)_box", defaultValue: self.boxState)
             self.labelState = store!.pointee.bool(key: "\(self.title)_\(self.type.rawValue)_label", defaultValue: self.labelState)
-            self.colorState = store!.pointee.bool(key: "\(self.title)_\(self.type.rawValue)_color", defaultValue: self.colorState)
-            self.pressureState = store!.pointee.bool(key: "\(self.title)_\(self.type.rawValue)_pressure", defaultValue: self.pressureState)
+            self.colorState = widget_c(rawValue: store!.pointee.string(key: "\(self.title)_\(self.type.rawValue)_color", defaultValue: self.colorState.rawValue)) ?? self.colorState
         }
         
         if preview {
@@ -72,7 +78,6 @@ public class BarChart: Widget {
             }
             self.setFrameSize(NSSize(width: 36, height: self.frame.size.height))
             self.invalidateIntrinsicContentSize()
-            self.pressureState = false
         }
     }
     
@@ -146,6 +151,7 @@ public class BarChart: Widget {
             box.stroke()
             box.fill()
             chartPadding = 1
+            x += 0.5
         }
         
         let widthForBarChart = box.bounds.width - chartPadding
@@ -154,19 +160,24 @@ public class BarChart: Widget {
         let partitionWidth: CGFloat = (widthForBarChart / CGFloat(self.value.count)) - CGFloat(partitionsMargin.isNaN ? 0 : partitionsMargin)
         let maxPartitionHeight: CGFloat = box.bounds.height - (chartPadding*2)
         
-        x += partitionMargin
         for i in 0..<self.value.count {
             let partitionValue = self.value[i]
             let partitonHeight = maxPartitionHeight * CGFloat(partitionValue)
             let partition = NSBezierPath(rect: NSRect(x: x, y: chartPadding, width: partitionWidth, height: partitonHeight))
             
-            if self.colorState {
-                partitionValue.usageColor().setFill()
-            } else if self.pressureState {
-                self.pressureLevel.pressureColor().setFill()
-            } else {
-                NSColor.controlAccentColor.set()
+            switch self.colorState {
+            case .systemAccent: NSColor.controlAccentColor.set()
+            case .utilization: partitionValue.usageColor().setFill()
+            case .pressure: self.pressureLevel.pressureColor().setFill()
+            case .monochrome:
+                if self.boxState {
+                    (isDarkMode ? NSColor.black : NSColor.white).set()
+                } else {
+                    (isDarkMode ? NSColor.white : NSColor.black).set()
+                }
+            default: colorFromString("\(self.colorState.self)").set()
             }
+            
             partition.fill()
             partition.close()
             
@@ -197,21 +208,11 @@ public class BarChart: Widget {
     
     public override func settings(superview: NSView) {
         let rowHeight: CGFloat = 30
-        let settingsNumber: CGFloat = self.title == "RAM" ? 4 : 3
+        let settingsNumber: CGFloat = 3
         let height: CGFloat = ((rowHeight + Constants.Settings.margin) * settingsNumber) + Constants.Settings.margin
         superview.setFrameSize(NSSize(width: superview.frame.width, height: height))
         
         let view: NSView = NSView(frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin, width: superview.frame.width - (Constants.Settings.margin*2), height: superview.frame.height - (Constants.Settings.margin*2)))
-        
-        if self.title == "RAM" {
-            self.pressureLevelSettingsView = ToggleTitleRow(
-                frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 3, width: view.frame.width, height: rowHeight),
-                title: "Pressure level",
-                action: #selector(togglePressure),
-                state: self.pressureState
-            )
-            view.addSubview(self.pressureLevelSettingsView!)
-        }
         
         view.addSubview(ToggleTitleRow(
             frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 2, width: view.frame.width, height: rowHeight),
@@ -227,13 +228,13 @@ public class BarChart: Widget {
             state: self.boxState
         ))
         
-        self.colorizeSettingsView = ToggleTitleRow(
+        view.addSubview(SelectColorRow(
             frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 0, width: view.frame.width, height: rowHeight),
-            title: "Colorize",
+            title: "Color",
             action: #selector(toggleColor),
-            state: self.colorState
-        )
-        view.addSubview(self.colorizeSettingsView!)
+            items: self.colors.map{ $0.rawValue },
+            selected: self.colorState.rawValue
+        ))
         
         superview.addSubview(view)
     }
@@ -262,41 +263,11 @@ public class BarChart: Widget {
         self.display()
     }
     
-    @objc private func toggleColor(_ sender: NSControl) {
-        var state: NSControl.StateValue? = nil
-        if #available(OSX 10.15, *) {
-            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
-        } else {
-            state = sender is NSButton ? (sender as! NSButton).state: nil
+    @objc private func toggleColor(_ sender: NSMenuItem) {
+        if let newColor = widget_c.allCases.first(where: { $0.rawValue == sender.title }) {
+            self.colorState = newColor
+            self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_color", value: self.colorState.rawValue)
+            self.display()
         }
-        self.colorState = state! == .on ? true : false
-        self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_color", value: self.colorState)
-        
-        if self.colorState {
-            self.pressureState = false
-            self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_pressure", value: self.pressureState)
-            FindAndToggleNSControlState(self.pressureLevelSettingsView, state: .off)
-        }
-        
-        self.display()
-    }
-    
-    @objc private func togglePressure(_ sender: NSControl) {
-        var state: NSControl.StateValue? = nil
-        if #available(OSX 10.15, *) {
-            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
-        } else {
-            state = sender is NSButton ? (sender as! NSButton).state: nil
-        }
-        self.pressureState = state! == .on ? true : false
-        self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_pressure", value: self.pressureState)
-        
-        if self.pressureState {
-            self.colorState = false
-            self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_color", value: self.colorState)
-            FindAndToggleNSControlState(self.colorizeSettingsView, state: .off)
-        }
-        
-        self.display()
     }
 }

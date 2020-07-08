@@ -21,6 +21,10 @@
 				<key>Value</key>
 				<string>0.36</string>
 			</dict>
+			<key>Unsupported colors</key>
+			<array>
+				<string>pressure</string>
+			</array>
 		</dict>
 		<key>bar_chart</key>
 		<dict>
@@ -40,11 +44,13 @@
 				<true/>
 				<key>Box</key>
 				<true/>
-				<key>Color</key>
-				<true/>
 				<key>Value</key>
 				<string>0.36</string>
 			</dict>
+			<key>Unsupported colors</key>
+			<array>
+				<string>pressure</string>
+			</array>
 		</dict>
 		<key>disk</key>
 		<dict>

@@ -366,6 +366,42 @@ public extension NSView {
         
         return row
     }
+    
+    func SelectColorRow(frame: NSRect, title: String, action: Selector, items: [String], selected: String) -> NSView {
+        let row: NSView = NSView(frame: frame)
+        
+        let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: (row.frame.height - 16)/2, width: row.frame.width - 52, height: 17), title)
+        rowTitle.font = NSFont.systemFont(ofSize: 13, weight: .light)
+        rowTitle.textColor = .textColor
+        
+        let select: NSPopUpButton = NSPopUpButton(frame: NSRect(x: row.frame.width - 50, y: 0, width: 50, height: row.frame.height))
+        select.target = self
+        select.action = action
+        
+        let menu = NSMenu()
+        items.forEach { (color: String) in
+            if color.contains("separator") {
+                menu.addItem(NSMenuItem.separator())
+            } else {
+                let interfaceMenu = NSMenuItem(title: color, action: nil, keyEquivalent: "")
+                menu.addItem(interfaceMenu)
+                if selected == color {
+                    interfaceMenu.state = .on
+                }
+            }
+        }
+        
+        select.menu = menu
+        select.sizeToFit()
+        
+        rowTitle.setFrameSize(NSSize(width: row.frame.width - select.frame.width, height: rowTitle.frame.height))
+        select.setFrameOrigin(NSPoint(x: row.frame.width - select.frame.width, y: 0))
+        
+        row.addSubview(select)
+        row.addSubview(rowTitle)
+        
+        return row
+    }
 }
 
 public extension Notification.Name {
@@ -611,4 +647,67 @@ public func asyncShell(_ args: String) {
     let pipe = Pipe()
     task.standardOutput = pipe
     task.launch()
+}
+
+public func colorFromString(_ colorString: String) -> NSColor {
+    switch colorString {
+    case "black":
+        return NSColor.black
+    case "darkGray":
+        return NSColor.darkGray
+    case "lightGray":
+        return NSColor.lightGray
+    case "gray":
+        return NSColor.gray
+    case "secondGray":
+        return NSColor.systemGray
+    case "white":
+        return NSColor.white
+    case "red":
+        return NSColor.red
+    case "secondRed":
+        return NSColor.systemRed
+    case "green":
+        return NSColor.green
+    case "secondGreen":
+        return NSColor.systemGreen
+    case "blue":
+        return NSColor.blue
+    case "secondBlue":
+        return NSColor.systemBlue
+    case "yellow":
+        return NSColor.yellow
+    case "secondYellow":
+        return NSColor.systemYellow
+    case "orange":
+        return NSColor.orange
+    case "secondOrange":
+        return NSColor.systemOrange
+    case "purple":
+        return NSColor.purple
+    case "secondPurple":
+        return NSColor.systemPurple
+    case "brown":
+        return NSColor.brown
+    case "secondBrown":
+        return NSColor.systemBrown
+    case "cyan":
+        return NSColor.cyan
+    case "magenta":
+        return NSColor.magenta
+    case "clear":
+        return NSColor.clear
+    case "pink":
+        return NSColor.systemPink
+    case "teal":
+        return NSColor.systemTeal
+    case "indigo":
+        if #available(OSX 10.15, *) {
+            return NSColor.systemIndigo
+        } else {
+            return NSColor(hexString: "#4B0082")
+        }
+    default:
+        return NSColor.controlAccentColor
+    }
 }

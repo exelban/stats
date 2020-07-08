@@ -27,7 +27,9 @@ internal class Popup: NSView {
     
     internal func usageCallback(_ value: DiskList) {
         if self.list.count != value.list.count {
-            self.subviews.forEach{ $0.removeFromSuperview() }
+            DispatchQueue.main.async(execute: {
+                self.subviews.forEach{ $0.removeFromSuperview() }
+            })
             self.list = [:]
         }
         

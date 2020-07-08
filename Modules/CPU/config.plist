@@ -17,11 +17,19 @@
 				<key>Value</key>
 				<string>0.08</string>
 			</dict>
+			<key>Unsupported colors</key>
+			<array>
+				<string>pressure</string>
+			</array>
 		</dict>
 		<key>line_chart</key>
 		<dict>
 			<key>Default</key>
 			<false/>
+			<key>Unsupported colors</key>
+			<array>
+				<string>pressure</string>
+			</array>
 		</dict>
 		<key>bar_chart</key>
 		<dict>
@@ -34,6 +42,10 @@
 				<key>Color</key>
 				<true/>
 			</dict>
+			<key>Unsupported colors</key>
+			<array>
+				<string>pressure</string>
+			</array>
 		</dict>
 	</dict>
 </dict>

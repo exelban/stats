@@ -12,6 +12,46 @@
 import Cocoa
 import StatsKit
 
+public enum widget_c: String {
+    case utilization = "Based on utilization"
+    case pressure = "Based on pressure"
+    
+    case separator_1 = "separator_1"
+    
+    case systemAccent = "System accent"
+    case monochrome = "Monochrome accent"
+    
+    case separator_2 = "separator_2"
+    
+    case clear = "Clear"
+    case white = "White"
+    case black = "Black"
+    case gray = "Gray"
+    case secondGray = "Second gray"
+    case darkGray = "Dark gray"
+    case lightGray = "Light gray"
+    case red = "Red"
+    case secondRed = "Second red"
+    case green = "Green"
+    case secondGreen = "Second green"
+    case blue = "Blue"
+    case secondBlue = "Second blue"
+    case yellow = "Yellow"
+    case secondYellow = "Second yellow"
+    case orange = "Orange"
+    case secondOrange = "Second orange"
+    case purple = "Purple"
+    case secondPurple = "Second purple"
+    case brown = "Brown"
+    case secondBrown = "Second brown"
+    case cyan = "Cyan"
+    case magenta = "Magenta"
+    case pink = "Pink"
+    case teal = "Teal"
+    case indigo = "Indigo"
+}
+extension widget_c: CaseIterable {}
+
 public enum widget_t: String {
     case unknown = ""
     case mini = "mini"

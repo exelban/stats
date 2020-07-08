@@ -41,6 +41,7 @@ public class SensorsWidget: Widget {
         self.type = .sensors
         self.preview = preview
         self.canDrawConcurrently = true
+        self.layer?.backgroundColor = NSColor.clear.cgColor
         
         if self.store != nil {
             self.labelState = store!.pointee.bool(key: "\(self.title)_\(self.type.rawValue)_label", defaultValue: self.labelState)
