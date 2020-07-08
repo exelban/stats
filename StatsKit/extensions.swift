@@ -354,7 +354,9 @@ public extension NSView {
         let select: NSPopUpButton = NSPopUpButton(frame: NSRect(x: row.frame.width - 50, y: 0, width: 50, height: row.frame.height))
         select.target = self
         select.action = action
-        select.addItems(withTitles: items)
+        items.forEach { (item: String) in
+            select.addItem(withTitle: item == "" ? "None" : item)
+        }
         select.selectItem(withTitle: selected)
         select.sizeToFit()
         

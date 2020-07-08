@@ -13,7 +13,7 @@ import Cocoa
 import StatsKit
 
 public enum network_icon_t: String {
-    case no = ""
+    case none = ""
     case dot = "Dots"
     case arrow = "Arrows"
     case char = "Character"
@@ -22,6 +22,7 @@ extension network_icon_t: CaseIterable {}
 
 public class NetworkWidget: Widget {
     private var icon: network_icon_t = .dot
+    private var state: Bool = false
     private var valueState: Bool = true
     
     private var uploadField: NSTextField? = nil
@@ -47,6 +48,10 @@ public class NetworkWidget: Widget {
             self.icon = network_icon_t(rawValue: store!.pointee.string(key: "\(self.title)_\(self.type.rawValue)_icon", defaultValue: self.icon.rawValue)) ?? self.icon
         }
         
+        if self.valueState && self.icon != .none {
+            self.state = true
+        }
+        
         if preview {
             self.downloadValue = 8947141
             self.uploadValue = 478678
@@ -58,7 +63,6 @@ public class NetworkWidget: Widget {
     }
     
     public override func draw(_ dirtyRect: NSRect) {
-//        guard let ctx = NSGraphicsContext.current?.cgContext else { return }
         super.draw(dirtyRect)
         
         var width: CGFloat = 10
@@ -221,13 +225,29 @@ public class NetworkWidget: Widget {
         self.valueState = state! == .on ? true : false
         self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_value", value: self.valueState)
         self.display()
+        
+        if !self.valueState && self.icon == .none {
+            NotificationCenter.default.post(name: .toggleModule, object: nil, userInfo: ["module": self.title, "state": false])
+            self.state = false
+        } else if !self.state {
+            NotificationCenter.default.post(name: .toggleModule, object: nil, userInfo: ["module": self.title, "state": true])
+            self.state = true
+        }
     }
     
     @objc private func toggleIcon(_ sender: NSMenuItem) {
-        let newIcon: network_icon_t = network_icon_t(rawValue: sender.title) ?? .no
+        let newIcon: network_icon_t = network_icon_t(rawValue: sender.title) ?? .none
         self.icon = newIcon
         self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_icon", value: self.icon.rawValue)
         self.display()
+        
+        if !self.valueState && self.icon == .none {
+            NotificationCenter.default.post(name: .toggleModule, object: nil, userInfo: ["module": self.title, "state": false])
+            self.state = false
+        } else if !self.state {
+            NotificationCenter.default.post(name: .toggleModule, object: nil, userInfo: ["module": self.title, "state": true])
+            self.state = true
+        }
     }
     
     public func setValue(upload: Int64, download: Int64) {
