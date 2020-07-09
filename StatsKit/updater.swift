@@ -119,10 +119,10 @@ public class macAppUpdater {
                         _ = syncShell("/usr/bin/hdiutil attach \(path) -mountpoint /tmp/Stats -noverify -nobrowse -noautoopen")
                     }
                     
-                    _ = syncShell("cp $TMPDIR/Stats/app/Stats.app/Contents/Resources/Scripts/updater.sh $TMPDIR/Stats/updater.sh") // copy updater script to tmp folder
+                    _ = syncShell("cp /tmp/Stats/Stats.app/Contents/Resources/Scripts/updater.sh $TMPDIR/updater.sh") // copy updater script to tmp folder
                     
                     let pwd = Bundle.main.bundleURL.absoluteString.replacingOccurrences(of: "file://", with: "").replacingOccurrences(of: "Stats.app/", with: "")
-                    asyncShell("sh $TMPDIR/updater.sh --step 2 --app \(pwd) --dmg \(path) >/dev/null &") // run updater script in in background
+                    _ = asyncShell("sh $TMPDIR/updater.sh --app \(pwd) --dmg \(path) >/dev/null &") // run updater script in in background
                     exit(0)
                 }
             } catch {
