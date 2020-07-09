@@ -88,7 +88,7 @@ prepare-dmg:
 
 prepare-dSYM:
 	echo "Zipping dSYMs..."
-	zip -r $(PWD)/dSYM.zip $(BUILD_PATH)/Stats.xcarchive/dSYMs
+	cd $(BUILD_PATH)/Stats.xcarchive/dSYMs && zip -r $(PWD)/dSYMs.zip .
 	echo "Created zip with dSYMs"
 
 # --- HELPERS --- #
