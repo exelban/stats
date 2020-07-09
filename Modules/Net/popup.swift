@@ -163,6 +163,10 @@ internal class Popup: NSView {
                 return
             }
             
+            self.uploadValue = value.upload
+            self.downloadValue = value.download
+            self.setUploadDownloadFields()
+            
             if let interface = value.interface {
                 self.interfaceField?.stringValue = "\(interface.displayName) (\(interface.BSDName))"
                 self.macAdressField?.stringValue = interface.address
