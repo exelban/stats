@@ -157,7 +157,7 @@ public class SystemKit {
         
         let result = IOServiceGetMatchingServices(kIOMasterPortDefault, IOServiceMatching("IOPCIDevice"), &iterator)
         if result == kIOReturnSuccess {
-
+            
             while device != 0 {
                 device = IOIteratorNext(iterator)
                 var serviceDictionary: Unmanaged<CFMutableDictionary>?
@@ -172,7 +172,9 @@ public class SystemKit {
                     
                     if let d = dict.object(forKey: "IOName") as? String {
                         if d == "display" {
-                            let model = dict.object(forKey: "model") as! Data
+                            guard let model = dict.object(forKey: "model") as? Data else {
+                                continue
+                            }
                             let modelName = String(data: model, encoding: .ascii)!.replacingOccurrences(of: "\0", with: "")
                             gpu.append(gpu_s(name: modelName))
                         }
