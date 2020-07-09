@@ -137,11 +137,17 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             }
         }
         
-        if let dmgIndex = args.firstIndex(of: "--dmg") {
+        if let mountIndex = args.firstIndex(of: "--mount-path") {
+            if args.indices.contains(mountIndex+1) {
+                let mountPath = args[mountIndex+1]
+                asyncShell("/usr/bin/hdiutil detach \(mountPath)")
+                asyncShell("/bin/rm -rf \(mountPath)")
+            }
+        }
+        
+        if let dmgIndex = args.firstIndex(of: "--dmg-path") {
             if args.indices.contains(dmgIndex+1) {
-                let dmgPath = args[dmgIndex+1]
-                let pwd = Bundle.main.bundleURL.absoluteString.replacingOccurrences(of: "file://", with: "").replacingOccurrences(of: "Stats.app/", with: "")
-                asyncShell("sh \(pwd)/Stats.app/Contents/Resources/Scripts/updater.sh --step 3 --dmg \(dmgPath)")
+                asyncShell("/bin/rm -rf \(args[dmgIndex+1])")
             }
         }
     }

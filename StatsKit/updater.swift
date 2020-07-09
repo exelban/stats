@@ -111,9 +111,19 @@ public class macAppUpdater {
                         return
                     }
                     
+                    _ = syncShell("mkdir /tmp/Stats") // make sure that directory exist
+                    let res = syncShell("/usr/bin/hdiutil attach \(path) -mountpoint /tmp/Stats -noverify -nobrowse -noautoopen") // mount the dmg
+                    
+                    if res.contains("is busy") { // dmg can be busy, if yes, unmount it and mount again
+                        _ = syncShell("/usr/bin/hdiutil detach $TMPDIR/Stats")
+                        _ = syncShell("/usr/bin/hdiutil attach \(path) -mountpoint /tmp/Stats -noverify -nobrowse -noautoopen")
+                    }
+                    
+                    _ = syncShell("cp $TMPDIR/Stats/app/Stats.app/Contents/Resources/Scripts/updater.sh $TMPDIR/Stats/updater.sh") // copy updater script to tmp folder
+                    
                     let pwd = Bundle.main.bundleURL.absoluteString.replacingOccurrences(of: "file://", with: "").replacingOccurrences(of: "Stats.app/", with: "")
-                    let pid: Int32 = ProcessInfo.processInfo.processIdentifier
-                    asyncShell("sh \(pwd)/Stats.app/Contents/Resources/Scripts/updater.sh --current \(pwd) --dmg \(url) --pid \(pid)")
+                    asyncShell("sh $TMPDIR/updater.sh --step 2 --app \(pwd) --dmg \(path) >/dev/null &") // run updater script in in background
+                    exit(0)
                 }
             } catch {
                 print ("file error: \(error)")

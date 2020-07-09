@@ -651,6 +651,22 @@ public func asyncShell(_ args: String) {
     task.launch()
 }
 
+public func syncShell(_ args: String) -> String {
+    let task = Process()
+    task.launchPath = "/bin/sh"
+    task.arguments = ["-c", args]
+    let pipe = Pipe()
+    
+    task.standardOutput = pipe
+    task.launch()
+    task.waitUntilExit()
+    
+    let data = pipe.fileHandleForReading.readDataToEndOfFile()
+    let output = String(data: data, encoding: .utf8)!
+    
+    return output
+}
+
 public func colorFromString(_ colorString: String) -> NSColor {
     switch colorString {
     case "black":
