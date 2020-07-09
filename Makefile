@@ -95,7 +95,7 @@ prepare-dSYM:
 
 clean:
 	rm -rf $(BUILD_PATH)
-	if [ -a $(PWD)/dSYM.zip ]; then rm $(PWD)/dSYM.zip; fi;
+	if [ -a $(PWD)/dSYMs.zip ]; then rm $(PWD)/dSYMs.zip; fi;
 	if [ -a $(PWD)/Stats.dmg ]; then rm $(PWD)/Stats.dmg; fi;
 
 next-version:

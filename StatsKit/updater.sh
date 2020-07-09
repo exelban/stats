@@ -31,7 +31,7 @@ if [[ "$STEP" == "1" ]]; then
     /usr/bin/hdiutil attach "$DMG_PATH" -mountpoint "$MOUNT_PATH" -noverify -nobrowse -noautoopen
 
     cp $MOUNT_PATH/Stats.app/Contents/Resources/Scripts/updater.sh $TMPDIR/updater.sh
-    sh $TMPDIR/updater.sh --step 2 --app "$CURRENT_PATH" --dmg "$DMG_PATH" &
+    sh $TMPDIR/updater.sh --step 2 --app "$CURRENT_PATH" --dmg "$DMG_PATH" >/dev/null &
 
     kill -9 $PID
 

@@ -713,3 +713,28 @@ public func colorFromString(_ colorString: String) -> NSColor {
         return NSColor.controlAccentColor
     }
 }
+
+public func IsNewestVersion(currentVersion: String, latestVersion: String) -> Bool {
+    let currentNumber = currentVersion.replacingOccurrences(of: "v", with: "")
+    let latestNumber = latestVersion.replacingOccurrences(of: "v", with: "")
+    
+    let currentArray = currentNumber.condenseWhitespace().split(separator: ".")
+    let latestArray = latestNumber.condenseWhitespace().split(separator: ".")
+    
+    let current = Version(major: Int(currentArray[0]) ?? 0, minor: Int(currentArray[1]) ?? 0, patch: Int(currentArray[2]) ?? 0)
+    let latest = Version(major: Int(latestArray[0]) ?? 0, minor: Int(latestArray[1]) ?? 0, patch: Int(latestArray[2]) ?? 0)
+    
+    if latest.major > current.major {
+        return true
+    }
+    
+    if latest.minor > current.minor && latest.major >= current.major {
+        return true
+    }
+    
+    if latest.patch > current.patch && latest.minor >= current.minor && latest.major >= current.major {
+        return true
+    }
+    
+    return false
+}

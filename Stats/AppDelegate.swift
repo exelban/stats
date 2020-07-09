@@ -100,14 +100,16 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
                 return
             }
             
-            let notification = NSUserNotification()
-            notification.identifier = UUID().uuidString
-            notification.title = "Successfully updated"
-            notification.subtitle = "Stats was updated to the latest version"
-            notification.soundName = NSUserNotificationDefaultSoundName
-            notification.hasActionButton = false
-            
-            NSUserNotificationCenter.default.deliver(notification)
+            if IsNewestVersion(currentVersion: prevVersion, latestVersion: currentVersion) {
+                let notification = NSUserNotification()
+                notification.identifier = UUID().uuidString
+                notification.title = "Successfully updated"
+                notification.subtitle = "Stats was updated to the v\(currentVersion)"
+                notification.soundName = NSUserNotificationDefaultSoundName
+                notification.hasActionButton = false
+                
+                NSUserNotificationCenter.default.deliver(notification)
+            }
             
             os_log(.info, log: log, "Detected previous version %s. Current version (%s) set", prevVersion, currentVersion)
         }

@@ -60,7 +60,7 @@ public class macAppUpdater {
             
             let downloadURL: String = result![1]
             let lastVersion: String = result![0]
-            let newVersion: Bool = self.checkIfNewer(currentVersion: self.currentVersion, latestVersion: lastVersion)
+            let newVersion: Bool = IsNewestVersion(currentVersion: self.currentVersion, latestVersion: lastVersion)
             
             completionHandler(version(current: self.currentVersion, latest: lastVersion, newest: newVersion, url: downloadURL), nil)
         }
@@ -91,31 +91,6 @@ public class macAppUpdater {
             }
         }
         task.resume()
-    }
-    
-    private func checkIfNewer(currentVersion: String, latestVersion: String) -> Bool {
-        let currentNumber = currentVersion.replacingOccurrences(of: "v", with: "")
-        let latestNumber = latestVersion.replacingOccurrences(of: "v", with: "")
-        
-        let currentArray = currentNumber.condenseWhitespace().split(separator: ".")
-        let latestArray = latestNumber.condenseWhitespace().split(separator: ".")
-        
-        let current = Version(major: Int(currentArray[0]) ?? 0, minor: Int(currentArray[1]) ?? 0, patch: Int(currentArray[2]) ?? 0)
-        let latest = Version(major: Int(latestArray[0]) ?? 0, minor: Int(latestArray[1]) ?? 0, patch: Int(latestArray[2]) ?? 0)
-        
-        if latest.major > current.major {
-            return true
-        }
-        
-        if latest.minor > current.minor && latest.major >= current.major {
-            return true
-        }
-        
-        if latest.patch > current.patch && latest.minor >= current.minor && latest.major >= current.major {
-            return true
-        }
-        
-        return false
     }
     
     public func download(_ url: URL) {
