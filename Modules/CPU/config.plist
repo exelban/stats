@@ -26,6 +26,8 @@
 		<dict>
 			<key>Default</key>
 			<false/>
+			<key>Color</key>
+			<string>systemAccent</string>
 			<key>Unsupported colors</key>
 			<array>
 				<string>pressure</string>

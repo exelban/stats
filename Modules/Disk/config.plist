@@ -37,7 +37,7 @@
 			<key>Box</key>
 			<true/>
 			<key>Color</key>
-			<true/>
+			<string>systemAccent</string>
 			<key>Preview</key>
 			<dict>
 				<key>Label</key>
