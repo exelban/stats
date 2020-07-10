@@ -63,6 +63,7 @@
 		9A944D5D24492A8B0058F32A /* popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A944D5C24492A8B0058F32A /* popup.swift */; };
 		9A944D5F24492AA60058F32A /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A944D5E24492AA60058F32A /* Constants.swift */; };
 		9A944D6124492B6D0058F32A /* popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A944D6024492B6D0058F32A /* popup.swift */; };
+		9A953A1424B9D22D0038EF4B /* settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A953A1324B9D22D0038EF4B /* settings.swift */; };
 		9A9D728A24471FAE005CF997 /* SMC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9D728924471FAE005CF997 /* SMC.swift */; };
 		9A9EA9452476D34500E3B883 /* Update.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9EA9442476D34500E3B883 /* Update.swift */; };
 		9AA4A00A2443656D00ECCF07 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AA4A0092443656D00ECCF07 /* Assets.xcassets */; };
@@ -441,6 +442,7 @@
 		9A944D5C24492A8B0058F32A /* popup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = popup.swift; sourceTree = "<group>"; };
 		9A944D5E24492AA60058F32A /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		9A944D6024492B6D0058F32A /* popup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = popup.swift; sourceTree = "<group>"; };
+		9A953A1324B9D22D0038EF4B /* settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = settings.swift; sourceTree = "<group>"; };
 		9A998CD722A199920087ADE7 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		9A998CD922A199970087ADE7 /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = System/Library/Frameworks/ServiceManagement.framework; sourceTree = SDKROOT; };
 		9A9D728924471FAE005CF997 /* SMC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMC.swift; sourceTree = "<group>"; };
@@ -699,6 +701,7 @@
 				9A81C7672449A43600825D92 /* main.swift */,
 				9A81C7682449A43600825D92 /* readers.swift */,
 				9AA6425F244B274200416A33 /* popup.swift */,
+				9A953A1324B9D22D0038EF4B /* settings.swift */,
 				9A81C7592449A41400825D92 /* Info.plist */,
 				9AF9EE192464A7B3005D2270 /* config.plist */,
 			);
@@ -1301,6 +1304,7 @@
 			files = (
 				9A81C76A2449A43600825D92 /* readers.swift in Sources */,
 				9AA64260244B274200416A33 /* popup.swift in Sources */,
+				9A953A1424B9D22D0038EF4B /* settings.swift in Sources */,
 				9A81C7692449A43600825D92 /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

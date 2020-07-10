@@ -29,8 +29,6 @@ internal class LoadReader: Reader<CPU_Load> {
     private var usagePerCore: [Double] = []
     
     public override func setup() {
-        self.interval = 1500
-        
         [CTL_HW, HW_NCPU].withUnsafeBufferPointer() { mib in
             var sizeOfNumCPUs: size_t = MemoryLayout<uint>.size
             let status = sysctl(processor_info_array_t(mutating: mib.baseAddress), 2, &numCPUs, &sizeOfNumCPUs, nil, 0)

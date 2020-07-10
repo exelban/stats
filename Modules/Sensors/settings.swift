@@ -14,19 +14,32 @@ import StatsKit
 import ModuleKit
 
 internal class Settings: NSView, Settings_v {
+    private var updateIntervalValue: String = "3"
+    private let listOfUpdateIntervals: [String] = ["1", "2", "3", "5", "10", "15", "30"]
+    
     private let title: String
     private let store: UnsafePointer<Store>
     private var button: NSPopUpButton?
     private let list: UnsafeMutablePointer<[Sensor_t]>
     public var callback: (() -> Void) = {}
+    public var setInterval: ((_ value: Double) -> Void) = {_ in }
     
     public init(_ title: String, store: UnsafePointer<Store>, list: UnsafeMutablePointer<[Sensor_t]>) {
         self.title = title
         self.store = store
         self.list = list
-        super.init(frame: CGRect(x: Constants.Settings.margin, y: Constants.Settings.margin, width: Constants.Settings.width - (Constants.Settings.margin*2), height: 0))
+        
+        super.init(frame: CGRect(
+            x: Constants.Settings.margin,
+            y: Constants.Settings.margin,
+            width: Constants.Settings.width - (Constants.Settings.margin*2),
+            height: 0
+        ))
+        
         self.wantsLayer = true
         self.canDrawConcurrently = true
+        
+        self.updateIntervalValue = store.pointee.string(key: "\(self.title)_updateInterval", defaultValue: self.updateIntervalValue)
     }
     
     required init?(coder: NSCoder) {
@@ -45,9 +58,17 @@ internal class Settings: NSView, Settings_v {
         }
         
         let rowHeight: CGFloat = 30
-        let height: CGFloat = ((rowHeight+Constants.Settings.margin) * CGFloat(self.list.pointee.count)) + ((rowHeight+Constants.Settings.margin) * CGFloat(types.count))
+        let height: CGFloat = ((rowHeight+Constants.Settings.margin) * CGFloat(self.list.pointee.count) + rowHeight) + ((rowHeight+Constants.Settings.margin) * CGFloat(types.count) + 1)
         let x: CGFloat = height < 360 ? 0 : Constants.Settings.margin
         let view: NSView = NSView(frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin, width: self.frame.width - (Constants.Settings.margin*2) - x, height: height))
+        
+        self.addSubview(SelectTitleRow(
+            frame: NSRect(x: Constants.Settings.margin, y: height - rowHeight, width: self.frame.width - (Constants.Settings.margin*2), height: rowHeight),
+            title: "Update interval",
+            action: #selector(changeUpdateInterval),
+            items: self.listOfUpdateIntervals.map{ "\($0) sec" },
+            selected: "\(self.updateIntervalValue) sec"
+        ))
         
         var y: CGFloat = 0
         types.sorted{ $0.1 < $1.1 }.forEach { (t: (key: SensorType_t, value: Int)) in
@@ -100,5 +121,15 @@ internal class Settings: NSView, Settings_v {
         
         self.store.pointee.set(key: "sensor_\(id.rawValue)", value:  state! == NSControl.StateValue.on)
         self.callback()
+    }
+    
+    @objc private func changeUpdateInterval(_ sender: NSMenuItem) {
+        let newUpdateInterval = sender.title.replacingOccurrences(of: " sec", with: "")
+        self.updateIntervalValue = newUpdateInterval
+        store.pointee.set(key: "\(self.title)_updateInterval", value: self.updateIntervalValue)
+        
+        if let value = Double(self.updateIntervalValue) {
+            self.setInterval(value)
+        }
     }
 }

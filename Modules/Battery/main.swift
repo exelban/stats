@@ -43,7 +43,7 @@ public class Battery: Module {
     private var usageReader: UsageReader? = nil
     private let popupView: Popup = Popup()
     
-    public init(_ store: UnsafePointer<Store>?) {
+    public init(_ store: UnsafePointer<Store>) {
         super.init(
             store: store,
             popup: self.popupView,

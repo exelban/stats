@@ -17,10 +17,6 @@ internal class CapacityReader: Reader<DiskList> {
     private var disks: DiskList = DiskList()
     public var store: UnsafePointer<Store>? = nil
     
-    public override func setup() {
-        self.interval = 10000
-    }
-    
     public override func read() {
         let keys: [URLResourceKey] = [.volumeNameKey]
         let removableState = store?.pointee.bool(key: "Disk_removable", defaultValue: false) ?? false

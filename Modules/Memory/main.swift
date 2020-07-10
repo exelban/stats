@@ -36,14 +36,21 @@ public struct RAM_Usage: value_t {
 public class Memory: Module {
     private let popupView: Popup = Popup()
     private var usageReader: UsageReader? = nil
+    private var settingsView: Settings
     
-    public init(_ store: UnsafePointer<Store>?) {
+    public init(_ store: UnsafePointer<Store>) {
+        self.settingsView = Settings("RAM", store: store)
+        
         super.init(
             store: store,
             popup: self.popupView,
-            settings: nil
+            settings: self.settingsView
         )
         guard self.available else { return }
+        
+        self.settingsView.setInterval = { [unowned self] value in
+            self.usageReader?.setInterval(value)
+        }
         
         self.usageReader = UsageReader()
         

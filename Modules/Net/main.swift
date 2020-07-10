@@ -62,8 +62,8 @@ public class Network: Module {
     private let popupView: Popup = Popup()
     private var settingsView: Settings
     
-    public init(_ store: UnsafePointer<Store>?) {
-        self.settingsView = Settings("Network", store: store!)
+    public init(_ store: UnsafePointer<Store>) {
+        self.settingsView = Settings("Network", store: store)
         
         super.init(
             store: store,

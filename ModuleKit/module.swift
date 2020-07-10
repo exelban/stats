@@ -72,12 +72,12 @@ open class Module: Module_p {
     private var popup: NSWindow = NSWindow()
     
     private let log: OSLog
-    private var store: UnsafePointer<Store>? = nil
+    private var store: UnsafePointer<Store>
     private var readers: [Reader_p] = []
     private var menuBarItem: NSStatusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
     private var activeWidget: widget_t {
         get {
-            let widgetStr = self.store?.pointee.string(key: "\(self.config.name)_widget", defaultValue: self.config.defaultWidget.rawValue)
+            let widgetStr = self.store.pointee.string(key: "\(self.config.name)_widget", defaultValue: self.config.defaultWidget.rawValue)
             return widget_t.allCases.first{ $0.rawValue == widgetStr } ?? widget_t.unknown
         }
         set {}
@@ -85,14 +85,14 @@ open class Module: Module_p {
     private var ready: Bool = false
     private var widgetLoaded: Bool = false
     
-    public init(store: UnsafePointer<Store>?, popup: NSView?, settings: Settings_v?) {
+    public init(store: UnsafePointer<Store>, popup: NSView?, settings: Settings_v?) {
         self.config = module_c(in: Bundle(for: type(of: self)).path(forResource: "config", ofType: "plist")!)
         
         self.log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: self.config.name)
         self.store = store
         self.settingsView = settings
         self.available = self.isAvailable()
-        self.enabled = self.store?.pointee.bool(key: "\(self.config.name)_state", defaultValue: self.config.defaultState) ?? false
+        self.enabled = self.store.pointee.bool(key: "\(self.config.name)_state", defaultValue: self.config.defaultState)
         self.menuBarItem.isVisible = self.enabled
         self.menuBarItem.autosaveName = self.config.name
         
@@ -126,7 +126,10 @@ open class Module: Module_p {
             return
         }
         
-        self.readers.forEach{ $0.start() }
+        self.readers.forEach { (reader: Reader_p) in
+            reader.initStoreValues(title: self.config.name, store: self.store)
+            reader.start()
+        }
     }
     
     // disable module
@@ -154,8 +157,11 @@ open class Module: Module_p {
         guard self.available else { return }
         
         self.enabled = true
-        self.store?.pointee.set(key: "\(self.config.name)_state", value: true)
-        self.readers.forEach{ $0.start() }
+        self.store.pointee.set(key: "\(self.config.name)_state", value: true)
+        self.readers.forEach { (reader: Reader_p) in
+            reader.initStoreValues(title: self.config.name, store: self.store)
+            reader.start()
+        }
         self.menuBarItem.isVisible = true
         if self.menuBarItem.length < 0 {
             self.loadWidget()
@@ -168,7 +174,7 @@ open class Module: Module_p {
         guard self.available else { return }
         
         self.enabled = false
-        self.store?.pointee.set(key: "\(self.config.name)_state", value: false)
+        self.store.pointee.set(key: "\(self.config.name)_state", value: false)
         self.readers.forEach{ $0.pause() }
         self.menuBarItem.isVisible = false
         self.popup.setIsVisible(false)
@@ -302,7 +308,7 @@ open class Module: Module_p {
                 if moduleName == self.config.name {
                     if let widgetType = widget_t.allCases.first(where: { $0.rawValue == widgetName }) {
                         self.activeWidget = widgetType
-                        self.store?.pointee.set(key: "\(self.config.name)_widget", value: widgetType.rawValue)
+                        self.store.pointee.set(key: "\(self.config.name)_widget", value: widgetType.rawValue)
                         self.setWidget()
                         os_log(.debug, log: log, "Widget is changed to: %s", "\(widgetName)")
                     }

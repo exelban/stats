@@ -12,6 +12,7 @@
 import Cocoa
 import Repeat
 import os.log
+import StatsKit
 
 public protocol value_t {
     var widget_value: Double { get }
@@ -30,6 +31,9 @@ public protocol Reader_p {
     func start() -> Void
     func pause() -> Void
     func stop() -> Void
+    
+    func initStoreValues(title: String, store: UnsafePointer<Store>) -> Void
+    func setInterval(_ value: Double) -> Void
 }
 
 public protocol ReaderInternal_p {
@@ -42,7 +46,7 @@ public protocol ReaderInternal_p {
 open class Reader<T>: ReaderInternal_p {
     public let log: OSLog
     public var value: T?
-    public var interval: Int = 1000
+    public var interval: Double? = nil
     public var optional: Bool = false
     
     public var readyCallback: () -> Void = {}
@@ -59,11 +63,18 @@ open class Reader<T>: ReaderInternal_p {
         
         self.setup()
         
-        self.repeatTask = Repeater.init(interval: .milliseconds(self.interval), observer: { _ in
-            self.read()
-        })
-        
         os_log(.debug, log: self.log, "Successfully initialize reader")
+    }
+    
+    public func initStoreValues(title: String, store: UnsafePointer<Store>) {
+        guard self.interval == nil else {
+            return
+        }
+        
+        let updateIntervalString = store.pointee.string(key: "\(title)_updateInterval", defaultValue: "1")
+        if let updateInterval = Double(updateIntervalString) {
+            self.interval = updateInterval
+        }
     }
     
     public func callback(_ value: T?) {
@@ -103,16 +114,29 @@ open class Reader<T>: ReaderInternal_p {
     open func terminate() {}
     
     open func start() {
+        if let interval = self.interval, self.repeatTask == nil {
+            os_log(.debug, log: self.log, "Set up update interval: %.0f sec", interval)
+            
+            self.repeatTask = Repeater.init(interval: .seconds(interval), observer: { _ in
+                self.read()
+            })
+        }
+        
         self.read()
-        self.repeatTask!.start()
+        self.repeatTask?.start()
     }
     
     open func pause() {
-        self.repeatTask!.pause()
+        self.repeatTask?.pause()
     }
     
     open func stop() {
-        self.repeatTask!.removeAllObservers(thenStop: true)
+        self.repeatTask?.removeAllObservers(thenStop: true)
+    }
+    
+    public func setInterval(_ value: Double) {
+        os_log(.debug, log: self.log, "Set update interval: %.0f sec", value)
+        self.repeatTask?.reset(.seconds(value), restart: true)
     }
 }
 

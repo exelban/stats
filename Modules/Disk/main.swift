@@ -69,8 +69,8 @@ public class Disk: Module {
     private var settingsView: Settings
     private var selectedDisk: String = ""
     
-    public init(_ store: UnsafePointer<Store>?) {
-        self.settingsView = Settings("Disk", store: store!)
+    public init(_ store: UnsafePointer<Store>) {
+        self.settingsView = Settings("Disk", store: store)
         
         super.init(
             store: store,
@@ -81,7 +81,7 @@ public class Disk: Module {
         
         self.capacityReader = CapacityReader()
         self.capacityReader?.store = store
-        self.selectedDisk = store!.pointee.string(key: "\(self.config.name)_disk", defaultValue: self.selectedDisk)
+        self.selectedDisk = store.pointee.string(key: "\(self.config.name)_disk", defaultValue: self.selectedDisk)
         
         self.capacityReader?.readyCallback = { [unowned self] in
             self.readyHandler()
@@ -96,6 +96,9 @@ public class Disk: Module {
         }
         self.settingsView.callback = { [unowned self] in
             self.capacityReader?.read()
+        }
+        self.settingsView.setInterval = { [unowned self] value in
+            self.capacityReader?.setInterval(value)
         }
         
         if let reader = self.capacityReader {

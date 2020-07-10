@@ -18,9 +18,9 @@ public class Sensors: Module {
     private let popupView: Popup = Popup()
     private var settingsView: Settings
     
-    public init(_ store: UnsafePointer<Store>?, _ smc: UnsafePointer<SMCService>) {
+    public init(_ store: UnsafePointer<Store>, _ smc: UnsafePointer<SMCService>) {
         self.sensorsReader = SensorsReader(smc)
-        self.settingsView = Settings("Disk", store: store!, list: &self.sensorsReader.list)
+        self.settingsView = Settings("Sensors", store: store, list: &self.sensorsReader.list)
         
         super.init(
             store: store,
@@ -35,6 +35,9 @@ public class Sensors: Module {
         self.settingsView.callback = { [unowned self] in
             self.checkIfNoSensorsEnabled()
             self.sensorsReader.read()
+        }
+        self.settingsView.setInterval = { [unowned self] value in
+            self.sensorsReader.setInterval(value)
         }
         
         self.sensorsReader.readyCallback = { [unowned self] in

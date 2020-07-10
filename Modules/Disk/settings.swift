@@ -14,22 +14,33 @@ import StatsKit
 import ModuleKit
 
 internal class Settings: NSView, Settings_v {
+    private var removableState: Bool = false
+    private var updateIntervalValue: String = "10"
+    private let listOfUpdateIntervals: [String] = ["1", "2", "3", "5", "10", "15", "30"]
+    
     public var selectedDiskHandler: (String) -> Void = {_ in }
     public var callback: (() -> Void) = {}
+    public var setInterval: ((_ value: Double) -> Void) = {_ in }
     
     private let title: String
     private let store: UnsafePointer<Store>
     private var selectedDisk: String
     private var button: NSPopUpButton?
     
-    private var removableState: Bool = false
-    
     public init(_ title: String, store: UnsafePointer<Store>) {
         self.title = title
         self.store = store
         self.selectedDisk = store.pointee.string(key: "\(self.title)_disk", defaultValue: "")
         self.removableState = store.pointee.bool(key: "\(self.title)_removable", defaultValue: self.removableState)
-        super.init(frame: CGRect(x: Constants.Settings.margin, y: Constants.Settings.margin, width: Constants.Settings.width - (Constants.Settings.margin*2), height: 0))
+        self.updateIntervalValue = store.pointee.string(key: "\(self.title)_updateInterval", defaultValue: self.updateIntervalValue)
+        
+        super.init(frame: CGRect(
+            x: Constants.Settings.margin,
+            y: Constants.Settings.margin,
+            width: Constants.Settings.width - (Constants.Settings.margin*2),
+            height: 0
+        ))
+        
         self.wantsLayer = true
         self.canDrawConcurrently = true
     }
@@ -42,6 +53,15 @@ internal class Settings: NSView, Settings_v {
         self.subviews.forEach{ $0.removeFromSuperview() }
         
         let rowHeight: CGFloat = 30
+        
+        self.addSubview(SelectTitleRow(
+            frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * 2, width: self.frame.width - (Constants.Settings.margin*2), height: rowHeight),
+            title: "Update interval",
+            action: #selector(changeUpdateInterval),
+            items: self.listOfUpdateIntervals.map{ "\($0) sec" },
+            selected: "\(self.updateIntervalValue) sec"
+        ))
+        
         self.addDiskSelector()
         
         self.addSubview(ToggleTitleRow(
@@ -51,7 +71,7 @@ internal class Settings: NSView, Settings_v {
             state: self.removableState
         ))
         
-        self.setFrameSize(NSSize(width: self.frame.width, height: rowHeight*2 + (Constants.Settings.margin*3)))
+        self.setFrameSize(NSSize(width: self.frame.width, height: rowHeight*3 + (Constants.Settings.margin*4)))
     }
     
     private func addDiskSelector() {
@@ -105,5 +125,15 @@ internal class Settings: NSView, Settings_v {
         self.removableState = state! == .on ? true : false
         self.store.pointee.set(key: "\(self.title)_removable", value: self.removableState)
         self.callback()
+    }
+    
+    @objc private func changeUpdateInterval(_ sender: NSMenuItem) {
+        let newUpdateInterval = sender.title.replacingOccurrences(of: " sec", with: "")
+        self.updateIntervalValue = newUpdateInterval
+        store.pointee.set(key: "\(self.title)_updateInterval", value: self.updateIntervalValue)
+        
+        if let value = Double(self.updateIntervalValue) {
+            self.setInterval(value)
+        }
     }
 }
