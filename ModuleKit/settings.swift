@@ -140,7 +140,7 @@ open class Settings: NSView, Settings_p {
             let widgetType = self.config.pointee.availableWidgets[i]
             if let widget = LoadWidget(widgetType, preview: true, name: self.config.pointee.name, config: self.config.pointee.widgetsConfig, store: nil) {
                 let preview = WidgetPreview(
-                    frame: NSRect(x: x, y: Constants.Settings.margin, width: widget.frame.width, height: self.widgetSelectorHeight - (Constants.Settings.margin*2)),
+                    frame: NSRect(x: x, y: Constants.Settings.margin, width: widget.frame.width + 1, height: self.widgetSelectorHeight - (Constants.Settings.margin*2)),
                     title: self.config.pointee.name,
                     widget: widget,
                     state: self.activeWidget?.type == widgetType
@@ -256,13 +256,14 @@ class WidgetPreview: NSView {
         
         widget.widthHandler = { [weak self] value in
             self?.removeTrackingArea((self?.trackingAreas.first)!)
+            let newWidth = value + 1
             
-            let rect = NSRect(x: 0, y: 0, width: value, height: self!.frame.height)
+            let rect = NSRect(x: 0, y: 0, width: newWidth, height: self!.frame.height)
             let trackingArea = NSTrackingArea(rect: rect, options: [NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited, NSTrackingArea.Options.activeInActiveApp], owner: self, userInfo: ["menu": self!.type])
             self?.addTrackingArea(trackingArea)
             
             DispatchQueue.main.async(execute: {
-                self?.setFrameSize(NSSize(width: value, height: self?.frame.height ?? Constants.Widget.height))
+                self?.setFrameSize(NSSize(width: newWidth, height: self?.frame.height ?? Constants.Widget.height))
                 self?.widthCallback()
             })
         }

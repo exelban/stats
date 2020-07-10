@@ -36,7 +36,7 @@ public class DiskWidget: Widget {
                 }
             }
         }
-        super.init(frame: CGRect(x: 0, y: Constants.Widget.margin, width: 64, height: Constants.Widget.height - (2*Constants.Widget.margin)))
+        super.init(frame: CGRect(x: 0, y: Constants.Widget.margin, width: 62, height: Constants.Widget.height - (2*Constants.Widget.margin)))
         self.title = title
         self.type = .disk
         self.preview = preview
@@ -59,7 +59,7 @@ public class DiskWidget: Widget {
         super.draw(dirtyRect)
         
         let letterWidth: CGFloat = 8
-        let rowWidth: CGFloat = self.frame.width - (Constants.Widget.margin*2) - letterWidth
+        let rowWidth: CGFloat = self.frame.width - Constants.Widget.margin - letterWidth
         let rowHeight: CGFloat = self.frame.height / 2
         
         let style = NSMutableParagraphStyle()
