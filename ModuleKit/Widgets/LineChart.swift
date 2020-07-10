@@ -15,6 +15,7 @@ import StatsKit
 public class LineChart: Widget {
     private var labelState: Bool = true
     private var boxState: Bool = true
+    private var frameState: Bool = false
     private var valueState: Bool = false
     private var valueColorState: Bool = false
     private var colorState: widget_c = .systemAccent
@@ -24,6 +25,9 @@ public class LineChart: Widget {
     private var colors: [widget_c] = widget_c.allCases
     private var value: Double = 0
     private var pressureLevel: Int = 0
+    
+    private var boxSettingsView: NSView? = nil
+    private var frameSettingsView: NSView? = nil
     
     public init(preview: Bool, title: String, config: NSDictionary?, store: UnsafePointer<Store>?) {
         var widgetTitle: String = title
@@ -61,6 +65,7 @@ public class LineChart: Widget {
         
         if self.store != nil && !preview {
             self.boxState = store!.pointee.bool(key: "\(self.title)_\(self.type.rawValue)_box", defaultValue: self.boxState)
+            self.frameState = store!.pointee.bool(key: "\(self.title)_\(self.type.rawValue)_frame", defaultValue: self.frameState)
             self.valueState = store!.pointee.bool(key: "\(self.title)_\(self.type.rawValue)_value", defaultValue: self.valueState)
             self.labelState = store!.pointee.bool(key: "\(self.title)_\(self.type.rawValue)_label", defaultValue: self.labelState)
             self.valueColorState = store!.pointee.bool(key: "\(self.title)_\(self.type.rawValue)_valueColor", defaultValue: self.valueColorState)
@@ -162,6 +167,9 @@ public class LineChart: Widget {
             box.fill()
             self.chart.transparent = false
             chartPadding = 1
+        } else if self.frameState {
+            chartPadding = 1
+            self.chart.transparent = true
         } else {
             self.chart.transparent = true
         }
@@ -169,6 +177,12 @@ public class LineChart: Widget {
         chart.setFrameSize(NSSize(width: box.bounds.width - chartPadding, height: box.bounds.height - (chartPadding*2)))
         self.chart.color = color
         chart.draw(NSRect(x: box.bounds.origin.x + 1, y: chartPadding, width: chart.frame.width, height: chart.frame.height))
+        
+        if self.boxState || self.frameState {
+            (isDarkMode ? NSColor.white : NSColor.black).set()
+            box.lineWidth = 1
+            box.stroke()
+        }
         
         ctx.restoreGState()
         self.setWidth(width)
@@ -180,32 +194,41 @@ public class LineChart: Widget {
     
     public override func settings(superview: NSView) {
         let rowHeight: CGFloat = 30
-        let settingsNumber: CGFloat = 5
+        let settingsNumber: CGFloat = 6
         let height: CGFloat = ((rowHeight + Constants.Settings.margin) * settingsNumber) + Constants.Settings.margin
         superview.setFrameSize(NSSize(width: superview.frame.width, height: height))
         
         let view: NSView = NSView(frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin, width: superview.frame.width - (Constants.Settings.margin*2), height: superview.frame.height - (Constants.Settings.margin*2)))
         
         view.addSubview(ToggleTitleRow(
-            frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 4, width: view.frame.width, height: rowHeight),
+            frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 5, width: view.frame.width, height: rowHeight),
             title: "Label",
             action: #selector(toggleLabel),
             state: self.labelState
         ))
         
         view.addSubview(ToggleTitleRow(
-            frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 3, width: view.frame.width, height: rowHeight),
-            title: "Box",
-            action: #selector(toggleBox),
-            state: self.boxState
-        ))
-        
-        view.addSubview(ToggleTitleRow(
-            frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 2, width: view.frame.width, height: rowHeight),
+            frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 4, width: view.frame.width, height: rowHeight),
             title: "Value",
             action: #selector(toggleValue),
             state: self.valueState
         ))
+        
+        self.boxSettingsView = ToggleTitleRow(
+            frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 3, width: view.frame.width, height: rowHeight),
+            title: "Box",
+            action: #selector(toggleBox),
+            state: self.boxState
+        )
+        view.addSubview(self.boxSettingsView!)
+        
+        self.frameSettingsView = ToggleTitleRow(
+            frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 2, width: view.frame.width, height: rowHeight),
+            title: "Frame",
+            action: #selector(toggleFrame),
+            state: self.frameState
+        )
+        view.addSubview(self.frameSettingsView!)
         
         view.addSubview(SelectColorRow(
             frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 1, width: view.frame.width, height: rowHeight),
@@ -272,6 +295,32 @@ public class LineChart: Widget {
         }
         self.boxState = state! == .on ? true : false
         self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_box", value: self.boxState)
+        
+        if self.frameState {
+            FindAndToggleNSControlState(self.frameSettingsView, state: .off)
+            self.frameState = false
+            self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_frame", value: self.frameState)
+        }
+        
+        self.display()
+    }
+    
+    @objc private func toggleFrame(_ sender: NSControl) {
+        var state: NSControl.StateValue? = nil
+        if #available(OSX 10.15, *) {
+            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
+        } else {
+            state = sender is NSButton ? (sender as! NSButton).state: nil
+        }
+        self.frameState = state! == .on ? true : false
+        self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_frame", value: self.frameState)
+        
+        if self.boxState {
+            FindAndToggleNSControlState(self.boxSettingsView, state: .off)
+            self.boxState = false
+            self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_box", value: self.boxState)
+        }
+        
         self.display()
     }
     
