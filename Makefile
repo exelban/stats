@@ -6,7 +6,7 @@ APP_PATH = "$(BUILD_PATH)/$(APP).app"
 ZIP_PATH = "$(BUILD_PATH)/$(APP).zip"
 
 .SILENT: archive notarize sign prepare-dmg prepare-dSYM clean next-version check history
-.PHONY: build archive notarize sign prepare-dmg prepare-dSYM clean next-version check history
+.PHONY: build archive notarize sign prepare-dmg prepare-dSYM clean next-version check history dep
 
 build: clean next-version archive notarize sign prepare-dmg prepare-dSYM open
 
@@ -121,3 +121,6 @@ history:
 open:
 	echo "Opening working folder..."
 	open $(PWD)
+
+dep:
+	carthage update --platform macOS
