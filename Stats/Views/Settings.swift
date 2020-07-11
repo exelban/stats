@@ -205,6 +205,7 @@ private class SettingsView: NSView {
         button.verticalPadding = 20
         button.horizontalPadding = 20
         button.title = title
+        button.toolTip = title
         button.bezelStyle = .regularSquare
         button.translatesAutoresizingMaskIntoConstraints = false
         button.imageScaling = .scaleNone
@@ -248,7 +249,7 @@ private class SettingsView: NSView {
         }
     }
     
-    @objc public func openActivityMonitor(_ sender: Any) {
+    @objc private func openActivityMonitor(_ sender: Any) {
         NSWorkspace.shared.launchApplication(
             withBundleIdentifier: "com.apple.ActivityMonitor",
             options: [.default],
@@ -258,11 +259,11 @@ private class SettingsView: NSView {
         self.window?.setIsVisible(false)
     }
     
-    @objc public func reportBug(_ sender: Any) {
+    @objc private func reportBug(_ sender: Any) {
         NSWorkspace.shared.open(URL(string: "https://github.com/exelban/stats/issues/new")!)
     }
     
-    @objc public func closeApp(_ sender: Any) {
+    @objc private func closeApp(_ sender: Any) {
         NSApp.terminate(sender)
     }
 }
@@ -282,6 +283,7 @@ private class MenuView: NSView {
         super.init(frame: NSRect(x: 0, y: self.height*CGFloat(n), width: width, height: self.height))
         self.wantsLayer = true
         self.layer?.backgroundColor = .clear
+        self.toolTip = "Open \(title == "Stats" ? "application" : title) settings"
         
         let rect = NSRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
         let trackingArea = NSTrackingArea(rect: rect, options: [NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited, NSTrackingArea.Options.activeInActiveApp], owner: self, userInfo: ["menu": title])

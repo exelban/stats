@@ -28,7 +28,7 @@ public class Sensors: Module {
             settings: self.settingsView
         )
         guard self.available else { return }
-
+        
         self.checkIfNoSensorsEnabled()
         self.popupView.setup(self.sensorsReader.list)
         
