@@ -36,6 +36,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         
         self.parseArguments()
         
+        NSUserNotificationCenter.default.removeAllDeliveredNotifications()
         NotificationCenter.default.addObserver(self, selector: #selector(toggleSettingsHandler), name: .toggleSettings, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(checkForNewVersion), name: .checkForUpdates, object: nil)
         
@@ -102,7 +103,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             
             if IsNewestVersion(currentVersion: prevVersion, latestVersion: currentVersion) {
                 let notification = NSUserNotification()
-                notification.identifier = UUID().uuidString
+                notification.identifier = "updated-from-\(prevVersion)-to-\(currentVersion)"
                 notification.title = "Successfully updated"
                 notification.subtitle = "Stats was updated to the v\(currentVersion)"
                 notification.soundName = NSUserNotificationDefaultSoundName
@@ -186,7 +187,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
                 if version.newest {
                     os_log(.error, log: log, "show update window because new version of app found: %s", "\(version.latest)")
                     
-                    self.updateNotification.identifier = UUID().uuidString
+                    self.updateNotification.identifier = "new-version-\(version.latest)"
                     self.updateNotification.title = "New version available"
                     self.updateNotification.subtitle = "Click to install the new version of Stats"
                     self.updateNotification.soundName = NSUserNotificationDefaultSoundName
