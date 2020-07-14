@@ -96,6 +96,7 @@
 		9ABFF910248BEE7200C9041A /* readers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABFF90F248BEE7200C9041A /* readers.swift */; };
 		9ABFF912248BF39500C9041A /* Battery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABFF911248BF39500C9041A /* Battery.swift */; };
 		9ABFF914248C30A800C9041A /* popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABFF913248C30A800C9041A /* popup.swift */; };
+		9AD33AC624BCD3EE007E8820 /* helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD33AC524BCD3EE007E8820 /* helpers.swift */; };
 		9AE29ADC249A50350071B02D /* Sensors.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AE29AD5249A50350071B02D /* Sensors.framework */; };
 		9AE29ADD249A50350071B02D /* Sensors.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9AE29AD5249A50350071B02D /* Sensors.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9AE29AE1249A50640071B02D /* ModuleKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AABEADD243FB13500668CB0 /* ModuleKit.framework */; };
@@ -467,6 +468,7 @@
 		9ABFF90F248BEE7200C9041A /* readers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = readers.swift; sourceTree = "<group>"; };
 		9ABFF911248BF39500C9041A /* Battery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Battery.swift; sourceTree = "<group>"; };
 		9ABFF913248C30A800C9041A /* popup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = popup.swift; sourceTree = "<group>"; };
+		9AD33AC524BCD3EE007E8820 /* helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = helpers.swift; sourceTree = "<group>"; };
 		9AE29AD5249A50350071B02D /* Sensors.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Sensors.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AE29AEC249A50960071B02D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = Info.plist; path = Modules/Sensors/Info.plist; sourceTree = SOURCE_ROOT; };
 		9AE29AF1249A50CD0071B02D /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = main.swift; path = Modules/Sensors/main.swift; sourceTree = SOURCE_ROOT; };
@@ -634,6 +636,7 @@
 				9A81C74A24499C4B00825D92 /* Views */,
 				9A5B1CB3229E72A7008B9D3C /* Supporting Files */,
 				9AABEB79243FD26200668CB0 /* AppDelegate.swift */,
+				9AD33AC524BCD3EE007E8820 /* helpers.swift */,
 			);
 			path = Stats;
 			sourceTree = "<group>";
@@ -1276,6 +1279,7 @@
 				9A9EA9452476D34500E3B883 /* Update.swift in Sources */,
 				9A81C74E24499C7000825D92 /* Settings.swift in Sources */,
 				9A81C74D24499C7000825D92 /* AppSettings.swift in Sources */,
+				9AD33AC624BCD3EE007E8820 /* helpers.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

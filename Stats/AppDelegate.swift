@@ -37,14 +37,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         self.parseArguments()
         
         NSUserNotificationCenter.default.removeAllDeliveredNotifications()
-        NotificationCenter.default.addObserver(self, selector: #selector(toggleSettingsHandler), name: .toggleSettings, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(checkForNewVersion), name: .checkForUpdates, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateCron), name: .changeCronInterval, object: nil)
         
         modules.forEach{ $0.mount() }
         
         self.settingsWindow.setModules()
         
-        self.setVersion()
+        self.parseVersion()
         self.defaultValues()
         self.updateCron()
         os_log(.info, log: log, "Stats started in %.4f seconds", startingPoint.timeIntervalSinceNow * -1)
@@ -52,7 +52,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     
     func userNotificationCenter(_ center: NSUserNotificationCenter, didActivate notification: NSUserNotification) {
         if let uri = notification.userInfo?["url"] as? String {
-            os_log(.error, log: log, "Downloading new version of app...")
+            os_log(.debug, log: log, "Downloading new version of app...")
             if let url = URL(string: uri) {
                 updater.download(url)
             }
@@ -65,7 +65,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         modules.forEach{ $0.terminate() }
         _ = smc.close()
         NotificationCenter.default.removeObserver(self)
-        self.updateActivity.invalidate()
     }
     
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
@@ -77,95 +76,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         return true
     }
     
-    @objc private func toggleSettingsHandler(_ notification: Notification) {
-        if !self.settingsWindow.isVisible {
-            self.settingsWindow.setIsVisible(true)
-            self.settingsWindow.makeKeyAndOrderFront(nil)
-        }
-        
-        if let name = notification.userInfo?["module"] as? String {
-            self.settingsWindow.openMenu(name)
-        }
-    }
-    
-    private func setVersion() {
-        let key = "version"
-        let currentVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
-        
-        if !store.exist(key: key) {
-            store.reset()
-            os_log(.info, log: log, "Previous version not detected. Current version (%s) set", currentVersion)
-        } else {
-            let prevVersion = store.string(key: key, defaultValue: "")
-            if prevVersion == currentVersion {
-                return
-            }
-            
-            if IsNewestVersion(currentVersion: prevVersion, latestVersion: currentVersion) {
-                let notification = NSUserNotification()
-                notification.identifier = "updated-from-\(prevVersion)-to-\(currentVersion)"
-                notification.title = "Successfully updated"
-                notification.subtitle = "Stats was updated to the v\(currentVersion)"
-                notification.soundName = NSUserNotificationDefaultSoundName
-                notification.hasActionButton = false
-                
-                NSUserNotificationCenter.default.deliver(notification)
-            }
-            
-            os_log(.info, log: log, "Detected previous version %s. Current version (%s) set", prevVersion, currentVersion)
-        }
-        
-        store.set(key: key, value: currentVersion)
-    }
-    
-    private func parseArguments() {
-        let args = CommandLine.arguments
-        
-        if args.contains("--reset") {
-            os_log(.info, log: log, "Receive --reset argument. Reseting store (UserDefaults)...")
-            store.reset()
-        }
-        
-        if let disableIndex = args.firstIndex(of: "--disable") {
-            if args.indices.contains(disableIndex+1) {
-                let disableModules = args[disableIndex+1].split(separator: ",")
-                
-                disableModules.forEach { (moduleName: Substring) in
-                    if let module = modules.first(where: { $0.config.name.lowercased() == moduleName.lowercased()}) {
-                        module.unmount()
-                    }
-                }
-            }
-        }
-        
-        if let mountIndex = args.firstIndex(of: "--mount-path") {
-            if args.indices.contains(mountIndex+1) {
-                let mountPath = args[mountIndex+1]
-                asyncShell("/usr/bin/hdiutil detach \(mountPath)")
-                asyncShell("/bin/rm -rf \(mountPath)")
-            }
-        }
-        
-        if let dmgIndex = args.firstIndex(of: "--dmg-path") {
-            if args.indices.contains(dmgIndex+1) {
-                asyncShell("/bin/rm -rf \(args[dmgIndex+1])")
-            }
-        }
-    }
-    
-    private func defaultValues() {
-        if !store.exist(key: "runAtLoginInitialized") {
-            store.set(key: "runAtLoginInitialized", value: true)
-            LaunchAtLogin.isEnabled = true
-        }
-        
-        if store.exist(key: "dockIcon") {
-            let dockIconStatus = store.bool(key: "dockIcon", defaultValue: false) ? NSApplication.ActivationPolicy.regular : NSApplication.ActivationPolicy.accessory
-            NSApp.setActivationPolicy(dockIconStatus)
-        }
-    }
-    
-    @objc private func checkForNewVersion(_ window: Bool = false) {
+    @objc internal func checkForNewVersion(_ window: Bool = false) {
         updater.check() { result, error in
             if error != nil {
                 os_log(.error, log: log, "error updater.check(): %s", "\(error!.localizedDescription)")
@@ -179,13 +90,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             
             DispatchQueue.main.async(execute: {
                 if window {
-                    os_log(.error, log: log, "open update window: %s", "\(version.latest)")
+                    os_log(.debug, log: log, "open update window: %s", "\(version.latest)")
                     self.updateWindow.open(version)
                     return
                 }
                 
                 if version.newest {
-                    os_log(.error, log: log, "show update window because new version of app found: %s", "\(version.latest)")
+                    os_log(.debug, log: log, "show update window because new version of app found: %s", "\(version.latest)")
                     
                     self.updateNotification.identifier = "new-version-\(version.latest)"
                     self.updateNotification.title = "New version available"
@@ -203,20 +114,24 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         }
     }
     
-    private func updateCron() {
+    @objc private func updateCron() {
+        self.updateActivity.invalidate()
         self.updateActivity.repeats = true
-        self.updateActivity.interval = 60 * 60 * 12 // once in 12 hour
         
-        if store.bool(key: "checkUpdatesOnLogin", defaultValue: true) {
-            self.checkForNewVersion(false)
+        guard let updateInterval = updateIntervals(rawValue: store.string(key: "update-interval", defaultValue: updateIntervals.atStart.rawValue)) else {
+            return
+        }
+        os_log(.debug, log: log, "Application update interval is '%s'", "\(updateInterval.rawValue)")
+        
+        switch updateInterval {
+        case .oncePerDay: self.updateActivity.interval = 60 * 60 * 24
+        case .oncePerWeek: self.updateActivity.interval = 60 * 60 * 24 * 7
+        case .oncePerMonth: self.updateActivity.interval = 60 * 60 * 24 * 30
+        case .never, .atStart: return
+        default: return
         }
         
         self.updateActivity.schedule { (completion: @escaping NSBackgroundActivityScheduler.CompletionHandler) in
-            if !store.bool(key: "checkUpdatesOnLogin", defaultValue: true) {
-                completion(NSBackgroundActivityScheduler.Result.finished)
-                return
-            }
-            
             self.checkForNewVersion(false)
             completion(NSBackgroundActivityScheduler.Result.finished)
         }

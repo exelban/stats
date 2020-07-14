@@ -40,6 +40,23 @@ class SettingsWindow: NSWindow, NSWindowDelegate {
         let windowController = NSWindowController()
         windowController.window = self
         windowController.loadWindow()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(toggleSettingsHandler), name: .toggleSettings, object: nil)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    @objc private func toggleSettingsHandler(_ notification: Notification) {
+        if !self.isVisible {
+            self.setIsVisible(true)
+            self.makeKeyAndOrderFront(nil)
+        }
+        
+        if let name = notification.userInfo?["module"] as? String {
+            self.viewController.openMenu(name)
+        }
     }
     
     public func setModules() {

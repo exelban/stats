@@ -17,6 +17,12 @@ class ApplicationSettings: NSView {
     private let height: CGFloat = 480
     private let deviceInfoHeight: CGFloat = 300
     
+    private var updateIntervalValue: updateInterval {
+        get {
+            return store.string(key: "update-interval", defaultValue: updateIntervals.atStart.rawValue)
+        }
+    }
+    
     init() {
         super.init(frame: NSRect(x: 0, y: 0, width: width, height: height))
         self.wantsLayer = true
@@ -82,11 +88,12 @@ class ApplicationSettings: NSView {
         
         let rightPanel: NSView = NSView(frame: NSRect(x: self.width/2, y: 0, width: view.frame.width/2, height: view.frame.height))
         
-        rightPanel.addSubview(makeSettingRow(
+        rightPanel.addSubview(makeSelectRow(
             frame: NSRect(x: rowHorizontalPadding*0.5, y: rowHeight*2, width: rightPanel.frame.width - (rowHorizontalPadding*1.5), height: rowHeight),
             title: "Check for updates",
-            action: #selector(self.toggleUpdates),
-            state: store.bool(key: "checkUpdatesOnLogin", defaultValue: true)
+            action: #selector(self.toggleUpdateInterval),
+            items: updateIntervals.allCases.map{ $0.rawValue },
+            selected: self.updateIntervalValue
         ))
         
         rightPanel.addSubview(makeSettingRow(
@@ -106,6 +113,42 @@ class ApplicationSettings: NSView {
         view.addSubview(leftPanel)
         view.addSubview(rightPanel)
         self.addSubview(view)
+    }
+    
+    func makeSelectRow(frame: NSRect, title: String, action: Selector, items: [String], selected: String) -> NSView {
+        let row: NSView = NSView(frame: frame)
+        
+        let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: (row.frame.height - 32)/2, width: row.frame.width - 52, height: 32), title)
+        rowTitle.font = NSFont.systemFont(ofSize: 13, weight: .light)
+        rowTitle.textColor = .secondaryLabelColor
+        
+        let select: NSPopUpButton = NSPopUpButton(frame: NSRect(x: row.frame.width - 50, y: (row.frame.height-28)/2, width: 50, height: 28))
+        select.target = self
+        select.action = action
+        
+        let menu = NSMenu()
+        items.forEach { (color: String) in
+            if color.contains("separator") {
+                menu.addItem(NSMenuItem.separator())
+            } else {
+                let interfaceMenu = NSMenuItem(title: color, action: nil, keyEquivalent: "")
+                menu.addItem(interfaceMenu)
+                if selected == color {
+                    interfaceMenu.state = .on
+                }
+            }
+        }
+        
+        select.menu = menu
+        select.sizeToFit()
+        
+        rowTitle.setFrameSize(NSSize(width: row.frame.width - select.frame.width, height: rowTitle.frame.height))
+        select.setFrameOrigin(NSPoint(x: row.frame.width - select.frame.width, y: select.frame.origin.y))
+        
+        row.addSubview(select)
+        row.addSubview(rowTitle)
+        
+        return row
     }
     
     private func makeInfoRow(frame: NSRect, title: String, value: String) -> NSView {
@@ -235,16 +278,10 @@ class ApplicationSettings: NSView {
         NotificationCenter.default.post(name: .checkForUpdates, object: nil, userInfo: nil)
     }
     
-    @objc func toggleUpdates(_ sender: NSObject) {
-        var state: NSControl.StateValue? = nil
-        if #available(OSX 10.15, *) {
-            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
-        } else {
-            state = sender is NSButton ? (sender as! NSButton).state: nil
-        }
-        
-        if state != nil {
-            store.set(key: "checkUpdatesOnLogin", value: state! == NSControl.StateValue.on)
+    @objc private func toggleUpdateInterval(_ sender: NSMenuItem) {
+        if let newUpdateInterval = updateIntervals(rawValue: sender.title) {
+            store.set(key: "update-interval", value: newUpdateInterval.rawValue)
+            NotificationCenter.default.post(name: .changeCronInterval, object: nil, userInfo: nil)
         }
     }
     

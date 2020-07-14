@@ -351,7 +351,7 @@ public extension NSView {
         rowTitle.font = NSFont.systemFont(ofSize: 13, weight: .light)
         rowTitle.textColor = .textColor
         
-        let select: NSPopUpButton = NSPopUpButton(frame: NSRect(x: row.frame.width - 50, y: 0, width: 50, height: row.frame.height))
+        let select: NSPopUpButton = NSPopUpButton(frame: NSRect(x: row.frame.width - 50, y: (row.frame.height-26)/2, width: 50, height: 26))
         select.target = self
         select.action = action
         items.forEach { (item: String) in
@@ -361,7 +361,7 @@ public extension NSView {
         select.sizeToFit()
         
         rowTitle.setFrameSize(NSSize(width: row.frame.width - select.frame.width, height: rowTitle.frame.height))
-        select.setFrameOrigin(NSPoint(x: row.frame.width - select.frame.width, y: 0))
+        select.setFrameOrigin(NSPoint(x: row.frame.width - select.frame.width, y: select.frame.origin.y))
         
         row.addSubview(select)
         row.addSubview(rowTitle)
@@ -376,7 +376,7 @@ public extension NSView {
         rowTitle.font = NSFont.systemFont(ofSize: 13, weight: .light)
         rowTitle.textColor = .textColor
         
-        let select: NSPopUpButton = NSPopUpButton(frame: NSRect(x: row.frame.width - 50, y: 0, width: 50, height: row.frame.height))
+        let select: NSPopUpButton = NSPopUpButton(frame: NSRect(x: row.frame.width - 50, y: (row.frame.height-26)/2, width: 50, height: 26))
         select.target = self
         select.action = action
         
@@ -397,7 +397,7 @@ public extension NSView {
         select.sizeToFit()
         
         rowTitle.setFrameSize(NSSize(width: row.frame.width - select.frame.width, height: rowTitle.frame.height))
-        select.setFrameOrigin(NSPoint(x: row.frame.width - select.frame.width, y: 0))
+        select.setFrameOrigin(NSPoint(x: row.frame.width - select.frame.width, y: select.frame.origin.y))
         
         row.addSubview(select)
         row.addSubview(rowTitle)
@@ -412,6 +412,7 @@ public extension Notification.Name {
     static let openSettingsView = Notification.Name("openSettingsView")
     static let switchWidget = Notification.Name("switchWidget")
     static let checkForUpdates = Notification.Name("checkForUpdates")
+    static let changeCronInterval = Notification.Name("changeCronInterval")
     static let clickInSettings = Notification.Name("clickInSettings")
     static let updatePopupSize = Notification.Name("updatePopupSize")
 }
@@ -754,3 +755,15 @@ public func IsNewestVersion(currentVersion: String, latestVersion: String) -> Bo
     
     return false
 }
+
+public typealias updateInterval = String
+public enum updateIntervals: updateInterval {
+    case atStart = "At start"
+    case separator_1 = "separator_1"
+    case oncePerDay = "Once per day"
+    case oncePerWeek = "Once per week"
+    case oncePerMonth = "Once per month"
+    case separator_2 = "separator_2"
+    case never = "Never"
+}
+extension updateIntervals: CaseIterable {}

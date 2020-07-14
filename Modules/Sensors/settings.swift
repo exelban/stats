@@ -63,7 +63,7 @@ internal class Settings: NSView, Settings_v {
         let view: NSView = NSView(frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin, width: self.frame.width - (Constants.Settings.margin*2) - x, height: height))
         
         self.addSubview(SelectTitleRow(
-            frame: NSRect(x: Constants.Settings.margin, y: height - rowHeight, width: self.frame.width - (Constants.Settings.margin*2), height: rowHeight),
+            frame: NSRect(x: Constants.Settings.margin, y: height - rowHeight, width: view.frame.width, height: rowHeight),
             title: "Update interval",
             action: #selector(changeUpdateInterval),
             items: self.listOfUpdateIntervals.map{ "\($0) sec" },
