@@ -27,7 +27,7 @@ struct Battery_Usage: value_t {
     var temperature: Double = 0
     
     var ACwatts: Int = 0
-    var ACstatus: Bool = true
+    var ACstatus: Bool = false
     
     var timeToEmpty: Int = 0
     var timeToCharge: Int = 0
@@ -42,12 +42,18 @@ struct Battery_Usage: value_t {
 public class Battery: Module {
     private var usageReader: UsageReader? = nil
     private let popupView: Popup = Popup()
+    private var settingsView: Settings
+    
+    private let store: UnsafePointer<Store>
     
     public init(_ store: UnsafePointer<Store>) {
+        self.store = store
+        self.settingsView = Settings("Battery", store: store)
+        
         super.init(
             store: store,
             popup: self.popupView,
-            settings: nil
+            settings: self.settingsView
         )
         guard self.available else { return }
         
@@ -76,6 +82,7 @@ public class Battery: Module {
             return
         }
         
+        self.checkNotification(value: value!)
         self.popupView.usageCallback(value!)
         if let widget = self.widget as? Mini {
             widget.setValue(abs(value!.level), sufix: "%")
@@ -85,6 +92,26 @@ public class Battery: Module {
                 percentage: value?.level ?? 0,
                 isCharging: value?.level == 100 ? true : value!.level > 0,
                 time: (value?.timeToEmpty == 0 && value?.timeToCharge != 0 ? value?.timeToCharge : value?.timeToEmpty) ?? 0
+            )
+        }
+    }
+    
+    private func checkNotification(value: Battery_Usage) {
+        let level = self.store.pointee.string(key: "\(self.config.name)_lowLevelNotification", defaultValue: "0.15")
+        if level == "Disabled" {
+            return
+        }
+        
+        var subtitle = "\((Int(value.level*100)))% remaining"
+        if value.timeToEmpty != 0 {
+            subtitle += " (\(Double(value.timeToEmpty*60).printSecondsToHoursMinutesSeconds()))"
+        }
+        if let notificationLevel = Double(level), value.level <= notificationLevel {
+            showNotification(
+                title: "Low battery",
+                subtitle: subtitle,
+                id: "battery-level",
+                icon: NSImage(named: NSImage.Name("low-battery"))!
             )
         }
     }

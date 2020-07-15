@@ -67,14 +67,8 @@ extension AppDelegate {
             }
             
             if IsNewestVersion(currentVersion: prevVersion, latestVersion: currentVersion) {
-                let notification = NSUserNotification()
-                notification.identifier = "updated-from-\(prevVersion)-to-\(currentVersion)"
-                notification.title = "Successfully updated"
-                notification.subtitle = "Stats was updated to the v\(currentVersion)"
-                notification.soundName = NSUserNotificationDefaultSoundName
-                notification.hasActionButton = false
-                
-                NSUserNotificationCenter.default.deliver(notification)
+                showNotification(title: "Successfully updated", subtitle: "Stats was updated to the v\(currentVersion)", id: "updated-from-\(prevVersion)-to-\(currentVersion)"
+                )
             }
             
             os_log(.debug, log: log, "Detected previous version %s. Current version (%s) set", prevVersion, currentVersion)

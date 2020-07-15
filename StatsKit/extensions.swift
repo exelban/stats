@@ -767,3 +767,19 @@ public enum updateIntervals: updateInterval {
     case never = "Never"
 }
 extension updateIntervals: CaseIterable {}
+
+public func showNotification(title: String, subtitle: String, id: String = UUID().uuidString, icon: NSImage? = nil) {
+    let notification = NSUserNotification()
+    
+    notification.identifier = id
+    notification.title = title
+    notification.subtitle = subtitle
+    notification.soundName = NSUserNotificationDefaultSoundName
+    notification.hasActionButton = false
+    
+    if icon != nil {
+        notification.setValue(icon, forKey: "_identityImage")
+    }
+    
+    NSUserNotificationCenter.default.deliver(notification)
+}
