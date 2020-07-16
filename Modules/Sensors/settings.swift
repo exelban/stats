@@ -52,9 +52,11 @@ internal class Settings: NSView, Settings_v {
         }
         self.subviews.forEach{ $0.removeFromSuperview() }
         
-        var types: [SensorType_t: Int] = [:]
+        var types: [SensorType_t] = []
         self.list.pointee.forEach { (s: Sensor_t) in
-            types[s.type] = (types[s.type] ?? 0) + 1
+            if !types.contains(s.type) {
+                types.append(s.type)
+            }
         }
         
         let rowHeight: CGFloat = 30
@@ -71,15 +73,17 @@ internal class Settings: NSView, Settings_v {
         ))
         
         var y: CGFloat = 0
-        types.sorted{ $0.1 < $1.1 }.forEach { (t: (key: SensorType_t, value: Int)) in
-            let filtered = self.list.pointee.filter{ $0.type == t.key }
-            var groups: [SensorGroup_t: Int] = [:]
+        types.reversed().forEach { (typ: SensorType_t) in
+            let filtered = self.list.pointee.filter{ $0.type == typ }
+            var groups: [SensorGroup_t] = []
             filtered.forEach { (s: Sensor_t) in
-                groups[s.group] = (groups[s.group] ?? 0) + 1
+                if !groups.contains(s.group) {
+                    groups.append(s.group)
+                }
             }
             
-            groups.sorted{ $0.1 < $1.1 }.forEach { (g: (key: SensorGroup_t, value: Int)) in
-                filtered.reversed().filter{ $0.group == g.key }.forEach { (s: Sensor_t) in
+            groups.reversed().forEach { (group: SensorGroup_t) in
+                filtered.reversed().filter{ $0.group == group }.forEach { (s: Sensor_t) in
                     let row: NSView = ToggleTitleRow(
                         frame: NSRect(x: 0, y: y, width: view.frame.width, height: rowHeight),
                         title: s.name,
@@ -95,7 +99,7 @@ internal class Settings: NSView, Settings_v {
             }
             
             let rowTitleView: NSView = NSView(frame: NSRect(x: 0, y: y, width: view.frame.width, height: rowHeight))
-            let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: (rowHeight-19)/2, width: view.frame.width, height: 19), t.key)
+            let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: (rowHeight-19)/2, width: view.frame.width, height: 19), typ)
             rowTitle.font = NSFont.systemFont(ofSize: 14, weight: .regular)
             rowTitle.textColor = .secondaryLabelColor
             rowTitle.alignment = .center

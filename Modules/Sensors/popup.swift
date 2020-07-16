@@ -29,9 +29,11 @@ internal class Popup: NSView {
             return
         }
         
-        var types: [SensorType_t: Int] = [:]
+        var types: [SensorType_t] = []
         values!.forEach { (s: Sensor_t) in
-            types[s.type] = (types[s.type] ?? 0) + 1
+            if !types.contains(s.type) {
+                types.append(s.type)
+            }
         }
         
         self.subviews.forEach { (v: NSView) in
@@ -39,22 +41,23 @@ internal class Popup: NSView {
         }
         
         var y: CGFloat = 0
-        types.sorted{ $0.1 < $1.1 }.forEach { (t: (key: SensorType_t, value: Int)) in
-            let filtered = values!.filter{ $0.type == t.key }
-            var groups: [SensorGroup_t: Int] = [:]
+        types.reversed().forEach { (typ: SensorType_t) in
+            let filtered = values!.filter{ $0.type == typ }
+            var groups: [SensorGroup_t] = []
             filtered.forEach { (s: Sensor_t) in
-                groups[s.group] = (groups[s.group] ?? 0) + 1
+                if !groups.contains(s.group) {
+                    groups.append(s.group)
+                }
             }
             
             let height: CGFloat = CGFloat((22*filtered.count)) + Constants.Popup.separatorHeight
-            
             let view: NSView = NSView(frame: NSRect(x: 0, y: y, width: self.frame.width, height: height))
-            let separator = SeparatorView(t.key, origin: NSPoint(x: 0, y: view.frame.height - Constants.Popup.separatorHeight), width: self.frame.width)
+            let separator = SeparatorView(typ, origin: NSPoint(x: 0, y: view.frame.height - Constants.Popup.separatorHeight), width: self.frame.width)
             view.addSubview(separator)
             
             var i: CGFloat = 0
-            groups.sorted{ $0.1 < $1.1 }.forEach { (g: (key: SensorGroup_t, value: Int)) in
-                filtered.reversed().filter{ $0.group == g.key }.forEach { (s: Sensor_t) in
+            groups.reversed().forEach { (group: SensorGroup_t) in
+                filtered.reversed().filter{ $0.group == group }.forEach { (s: Sensor_t) in
                     self.list[s.key] = PopupRow(view, n: i, title: "\(s.name):", value: s.formattedValue)
                     i += 1
                 }

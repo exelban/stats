@@ -61,9 +61,16 @@ public class Sensors: Module {
             return
         }
         
+        var list: [String] = []
+        value!.forEach { (s: Sensor_t) in
+            if s.state {
+                list.append(s.formattedMiniValue)
+            }
+        }
+        
         self.popupView.usageCallback(value!)
         if let widget = self.widget as? SensorsWidget {
-            widget.setValues(value?.filter{ $0.state }.map{ $0.formattedMiniValue } ?? [])
+            widget.setValues(list)
         }
     }
 }
