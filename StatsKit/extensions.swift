@@ -621,6 +621,12 @@ public func FindAndToggleNSControlState(_ view: NSView?, state: NSControl.StateV
     }
 }
 
+public func FindAndToggleEnableNSControlState(_ view: NSView?, state: Bool) {
+    if let control = view?.subviews.first(where: { $0 is NSControl }) {
+        ToggleEnableNSControlState(control as? NSControl, state: state)
+    }
+}
+
 public func ToggleNSControlState(_ control: NSControl?, state: NSControl.StateValue) {
     if #available(OSX 10.15, *) {
         if let checkbox = control as? NSSwitch {
@@ -629,6 +635,18 @@ public func ToggleNSControlState(_ control: NSControl?, state: NSControl.StateVa
     } else {
         if let checkbox = control as? NSButton {
             checkbox.state = state
+        }
+    }
+}
+
+public func ToggleEnableNSControlState(_ control: NSControl?, state: Bool) {
+    if #available(OSX 10.15, *) {
+        if let checkbox = control as? NSSwitch {
+            checkbox.isEnabled = state
+        }
+    } else {
+        if let checkbox = control as? NSButton {
+            checkbox.isEnabled = state
         }
     }
 }

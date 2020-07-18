@@ -37,8 +37,16 @@ public class CPU: Module {
     
     private var loadReader: LoadReader? = nil
     private let smc: UnsafePointer<SMCService>?
+    private let store: UnsafePointer<Store>
+    
+    private var usagePerCoreState: Bool {
+        get {
+            return self.store.pointee.bool(key: "\(self.config.name)_usagePerCore", defaultValue: false)
+        }
+    }
     
     public init(_ store: UnsafePointer<Store>, _ smc: UnsafePointer<SMCService>) {
+        self.store = store
         self.smc = smc
         self.settingsView = Settings("CPU", store: store)
         
@@ -86,7 +94,7 @@ public class CPU: Module {
             widget.setValue(value!.totalUsage)
         }
         if let widget = self.widget as? BarChart {
-            widget.setValue(value!.usagePerCore)
+            widget.setValue(self.usagePerCoreState ? value!.usagePerCore : [value!.totalUsage])
         }
     }
 }
