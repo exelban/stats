@@ -18,6 +18,7 @@ struct Battery_Usage: value_t {
     var powerSource: String = ""
     var state: String = ""
     var isCharged: Bool = false
+    var isCharging: Bool = false
     var level: Double = 0
     var cycles: Int = 0
     var health: Int = 0
@@ -27,7 +28,6 @@ struct Battery_Usage: value_t {
     var temperature: Double = 0
     
     var ACwatts: Int = 0
-    var ACstatus: Bool = false
     
     var timeToEmpty: Int = 0
     var timeToCharge: Int = 0
@@ -90,7 +90,8 @@ public class Battery: Module {
         if let widget = self.widget as? BatterykWidget {
             widget.setValue(
                 percentage: value?.level ?? 0,
-                isCharging: value?.level == 100 ? true : value!.level > 0,
+                ACStatus: value?.powerSource != "Battery Power",
+                isCharging: value?.isCharging ?? false,
                 time: (value?.timeToEmpty == 0 && value?.timeToCharge != 0 ? value?.timeToCharge : value?.timeToEmpty) ?? 0
             )
         }
@@ -102,11 +103,12 @@ public class Battery: Module {
             return
         }
         
-        var subtitle = "\((Int(value.level*100)))% remaining"
-        if value.timeToEmpty != 0 {
-            subtitle += " (\(Double(value.timeToEmpty*60).printSecondsToHoursMinutesSeconds()))"
-        }
-        if let notificationLevel = Double(level), value.level <= notificationLevel {
+        if let notificationLevel = Double(level), abs(value.level) <= notificationLevel {
+            var subtitle = "\((Int(abs(value.level)*100)))% remaining"
+            if value.timeToEmpty != 0 {
+                subtitle += " (\(Double(value.timeToEmpty*60).printSecondsToHoursMinutesSeconds()))"
+            }
+            
             showNotification(
                 title: "Low battery",
                 subtitle: subtitle,

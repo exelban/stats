@@ -16,6 +16,8 @@
 			<false/>
 			<key>Title</key>
 			<string>BAT</string>
+			<key>Color</key>
+			<string>monochrome</string>
 			<key>Preview</key>
 			<dict>
 				<key>Label</key>
@@ -25,6 +27,10 @@
 				<key>Value</key>
 				<string>0.72</string>
 			</dict>
+			<key>Unsupported colors</key>
+			<array>
+				<string>pressure</string>
+			</array>
 		</dict>
 		<key>battery</key>
 		<dict>

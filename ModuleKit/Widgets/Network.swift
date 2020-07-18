@@ -13,7 +13,8 @@ import Cocoa
 import StatsKit
 
 public enum network_icon_t: String {
-    case none = ""
+    case none = "None"
+    case separator = "separator"
     case dot = "Dots"
     case arrow = "Arrows"
     case char = "Character"

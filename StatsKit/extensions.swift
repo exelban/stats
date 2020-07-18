@@ -354,10 +354,21 @@ public extension NSView {
         let select: NSPopUpButton = NSPopUpButton(frame: NSRect(x: row.frame.width - 50, y: (row.frame.height-26)/2, width: 50, height: 26))
         select.target = self
         select.action = action
-        items.forEach { (item: String) in
-            select.addItem(withTitle: item == "" ? "None" : item)
+        
+        let menu = NSMenu()
+        items.forEach { (color: String) in
+            if color.contains("separator") {
+                menu.addItem(NSMenuItem.separator())
+            } else {
+                let interfaceMenu = NSMenuItem(title: color, action: nil, keyEquivalent: "")
+                menu.addItem(interfaceMenu)
+                if selected == color {
+                    interfaceMenu.state = .on
+                }
+            }
         }
-        select.selectItem(withTitle: selected)
+        
+        select.menu = menu
         select.sizeToFit()
         
         rowTitle.setFrameSize(NSSize(width: row.frame.width - select.frame.width, height: rowTitle.frame.height))

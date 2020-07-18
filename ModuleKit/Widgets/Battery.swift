@@ -14,6 +14,7 @@ import StatsKit
 
 public enum battery_additional_t: String {
     case none = "None"
+    case separator_1 = "separator_1"
     case percentage = "Percentage"
     case time = "Time"
 }
@@ -29,6 +30,7 @@ public class BatterykWidget: Widget {
     private var percentage: Double = 1
     private var time: Int = 0
     private var charging: Bool = false
+    private var ACStatus: Bool = false
     
     public init(preview: Bool, title: String, config: NSDictionary?, store: UnsafePointer<Store>?) {
         let widgetTitle: String = title
@@ -61,7 +63,7 @@ public class BatterykWidget: Widget {
         super.draw(dirtyRect)
         
         var width: CGFloat = 30
-        var x: CGFloat = Constants.Widget.margin
+        var x: CGFloat = Constants.Widget.margin+1
         
         let stringAttributes = [
             NSAttributedString.Key.font: NSFont.systemFont(ofSize: 12, weight: .regular),
@@ -89,20 +91,15 @@ public class BatterykWidget: Widget {
             x += stringWidth + Constants.Widget.margin
         }
         
-        let w: CGFloat = 30 - (Constants.Widget.margin*2) - 4
+        let w: CGFloat = 28 - (Constants.Widget.margin*2) - 4
         let h: CGFloat = 11
         let y: CGFloat = (dirtyRect.size.height - h) / 2
-        let batteryFrame = NSBezierPath(roundedRect: NSRect(x: x+1, y: y, width: w, height: h), xRadius: 1, yRadius: 1)
-        
-        if self.charging {
-            NSColor.systemGreen.set()
-        } else {
-            NSColor.textColor.set()
-        }
+        let batteryFrame = NSBezierPath(roundedRect: NSRect(x: x+1, y: y, width: w, height: h), xRadius: 1.5, yRadius: 1.5)
         
         let bPX: CGFloat = x+w+1
         let bPY: CGFloat = (dirtyRect.size.height / 2) - 2
         let batteryPoint = NSBezierPath(roundedRect: NSRect(x: bPX, y: bPY, width: 2, height: 4), xRadius: 1, yRadius: 1)
+        NSColor.textColor.set()
         batteryPoint.lineWidth = 1.1
         batteryPoint.stroke()
         batteryPoint.fill()
@@ -110,22 +107,75 @@ public class BatterykWidget: Widget {
         batteryFrame.lineWidth = 1
         batteryFrame.stroke()
         
-        let maxWidth = w - 3
-        let inner = NSBezierPath(roundedRect: NSRect(x: x+2.5, y: y+1.5, width: maxWidth * CGFloat(self.percentage), height: h-3), xRadius: 0.5, yRadius: 0.5)
-        self.percentage.batteryColor(color: self.colorState).set()
-        inner.lineWidth = 0
-        inner.stroke()
-        inner.close()
-        inner.fill()
+        if !self.charging || !self.ACStatus {
+            let maxWidth = w - 3
+            let innerWidth: CGFloat = self.ACStatus ? maxWidth : maxWidth * CGFloat(self.percentage)
+            let inner = NSBezierPath(roundedRect: NSRect(x: x+2.5, y: y+1.5, width: innerWidth, height: h-3), xRadius: 0.5, yRadius: 0.5)
+            self.percentage.batteryColor(color: self.colorState).set()
+            inner.lineWidth = 0
+            inner.stroke()
+            inner.close()
+            inner.fill()
+        }
+        
+        if self.ACStatus {
+            let batteryCenter: CGPoint = CGPoint(x: x+1+(w/2), y: y+(h/2))
+            let boltSize: CGSize = CGSize(width: 8, height: h+3+4)
+            
+            let minX = batteryCenter.x - (boltSize.width/2) - (self.charging ? 1 : 0)
+            let maxX = batteryCenter.x + (boltSize.width/2) + (self.charging ? 1 : 0)
+            let minY = batteryCenter.y - (boltSize.height/2) - (self.charging ? 4 : 0)
+            let maxY = batteryCenter.y + (boltSize.height/2) + (self.charging ? 4 : 0)
+            
+            let points: [CGPoint] = self.charging ? [
+                CGPoint(x: batteryCenter.x-3, y: minY),
+                CGPoint(x: maxX, y: batteryCenter.y+2),
+                CGPoint(x: batteryCenter.x+1, y: batteryCenter.y+2),
+                CGPoint(x: batteryCenter.x+3, y: maxY),
+                CGPoint(x: minX, y: batteryCenter.y-2),
+                CGPoint(x: batteryCenter.x-1, y: batteryCenter.y-2),
+            ] : [
+                CGPoint(x: batteryCenter.x-2, y: minY),
+                CGPoint(x: maxX, y: batteryCenter.y+1.5),
+                CGPoint(x: batteryCenter.x+1, y: batteryCenter.y+1.5),
+                CGPoint(x: batteryCenter.x+2, y: maxY),
+                CGPoint(x: minX, y: batteryCenter.y-1.5),
+                CGPoint(x: batteryCenter.x-1, y: batteryCenter.y-1.5),
+            ]
+            
+            let linePath = NSBezierPath()
+            linePath.move(to: CGPoint(x: points[0].x, y: points[0].y))
+            for i in 1..<points.count {
+                linePath.line(to: CGPoint(x: points[i].x, y: points[i].y))
+            }
+            linePath.line(to: CGPoint(x: points[0].x, y: points[0].y))
+            
+            NSColor.textColor.set()
+            linePath.fill()
+            
+            let ctx = NSGraphicsContext.current!.cgContext
+            ctx.saveGState()
+            ctx.setBlendMode(.destinationOut)
+            
+            NSColor.orange.set()
+            linePath.lineWidth = self.charging ? 2 : 1
+            linePath.stroke()
+            
+            ctx.restoreGState()
+        }
         
         self.setWidth(width)
     }
     
-    public func setValue(percentage: Double, isCharging: Bool, time: Int) {
+    public func setValue(percentage: Double, ACStatus: Bool, isCharging: Bool, time: Int) {
         var updated: Bool = false
         
         if self.percentage != percentage {
             self.percentage = abs(percentage)
+            updated = true
+        }
+        if self.ACStatus != ACStatus {
+            self.ACStatus = ACStatus
             updated = true
         }
         if self.charging != isCharging {

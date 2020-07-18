@@ -84,12 +84,12 @@ internal class UsageReader: Reader<Battery_Usage> {
                     }
                 }
                 self.usage.ACwatts = ACwatts
-                self.usage.ACstatus = self.getBoolValue("IsCharging" as CFString) ?? false
                 
                 if self.usage.powerSource == "Battery Power" {
                     cap = 0 - cap
                 }
                 self.usage.level = cap
+                self.usage.isCharging = self.getBoolValue("IsCharging" as CFString) ?? false
                 
                 DispatchQueue.main.async(execute: {
                     self.callback(self.usage)
