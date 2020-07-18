@@ -12,11 +12,18 @@
 import Cocoa
 import SystemConfiguration
 
-public struct version {
+public struct version_s {
     public let current: String
     public let latest: String
     public let newest: Bool
     public let url: String
+    
+    public init(current: String, latest: String, newest: Bool, url: String) {
+        self.current = current
+        self.latest = latest
+        self.newest = newest
+        self.url = url
+    }
 }
 
 public struct Version {
@@ -32,6 +39,9 @@ public class macAppUpdater {
     private let appName: String = Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as! String
     private let currentVersion: String = "v\(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String)"
     
+    public var latest: version_s? = nil
+    private var observation: NSKeyValueObservation?
+    
     private var url: String {
         return "https://api.github.com/repos/\(user)/\(repo)/releases/latest"
     }
@@ -41,7 +51,11 @@ public class macAppUpdater {
         self.repo = repo
     }
     
-    public func check(completionHandler: @escaping (_ result: version?, _ error: Error?) -> Void) {
+    deinit {
+      observation?.invalidate()
+    }
+    
+    public func check(completionHandler: @escaping (_ result: version_s?, _ error: Error?) -> Void) {
         if !isConnectedToNetwork() {
             completionHandler(nil, "No internet connection")
             return
@@ -62,7 +76,8 @@ public class macAppUpdater {
             let lastVersion: String = result![0]
             let newVersion: Bool = IsNewestVersion(currentVersion: self.currentVersion, latestVersion: lastVersion)
             
-            completionHandler(version(current: self.currentVersion, latest: lastVersion, newest: newVersion, url: downloadURL), nil)
+            self.latest = version_s(current: self.currentVersion, latest: lastVersion, newest: newVersion, url: downloadURL)
+            completionHandler(self.latest, nil)
         }
     }
     
@@ -93,13 +108,8 @@ public class macAppUpdater {
         task.resume()
     }
     
-    public func download(_ url: URL) {
-        let downloadTask = URLSession.shared.downloadTask(with: url) {
-            urlOrNil, responseOrNil, errorOrNil in
-            // check for and handle errors:
-            // * errorOrNil should be nil
-            // * responseOrNil should be an HTTPURLResponse with statusCode in 200..<299
-            
+    public func download(_ url: URL, progressHandler: @escaping (_ progress: Progress) -> Void = {_ in }, doneHandler: @escaping (_ path: String) -> Void = {_ in }) {
+        let downloadTask = URLSession.shared.downloadTask(with: url) { urlOrNil, responseOrNil, errorOrNil in
             guard let fileURL = urlOrNil else { return }
             do {
                 let downloadsURL = try FileManager.default.url(for: .downloadsDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
@@ -111,25 +121,45 @@ public class macAppUpdater {
                         return
                     }
                     
-                    _ = syncShell("mkdir /tmp/Stats") // make sure that directory exist
-                    let res = syncShell("/usr/bin/hdiutil attach \(path) -mountpoint /tmp/Stats -noverify -nobrowse -noautoopen") // mount the dmg
-                    
-                    if res.contains("is busy") { // dmg can be busy, if yes, unmount it and mount again
-                        _ = syncShell("/usr/bin/hdiutil detach $TMPDIR/Stats")
-                        _ = syncShell("/usr/bin/hdiutil attach \(path) -mountpoint /tmp/Stats -noverify -nobrowse -noautoopen")
-                    }
-                    
-                    _ = syncShell("cp /tmp/Stats/Stats.app/Contents/Resources/Scripts/updater.sh $TMPDIR/updater.sh") // copy updater script to tmp folder
-                    
-                    let pwd = Bundle.main.bundleURL.absoluteString.replacingOccurrences(of: "file://", with: "").replacingOccurrences(of: "Stats.app/", with: "")
-                    _ = asyncShell("sh $TMPDIR/updater.sh --app \(pwd) --dmg \(path) >/dev/null &") // run updater script in in background
-                    exit(0)
+                    doneHandler(path)
                 }
             } catch {
                 print ("file error: \(error)")
             }
         }
+        
+        self.observation = downloadTask.progress.observe(\.fractionCompleted) { progress, _ in
+            progressHandler(progress)
+        }
+        
         downloadTask.resume()
+    }
+    
+    public func install(path: String) {
+        print("Started new version installation...")
+        
+        _ = syncShell("mkdir /tmp/Stats") // make sure that directory exist
+        let res = syncShell("/usr/bin/hdiutil attach \(path) -mountpoint /tmp/Stats -noverify -nobrowse -noautoopen") // mount the dmg
+        
+        print("DMG is mounted")
+        
+        if res.contains("is busy") { // dmg can be busy, if yes, unmount it and mount again
+            print("DMG is busy, remounting")
+            
+            _ = syncShell("/usr/bin/hdiutil detach $TMPDIR/Stats")
+            _ = syncShell("/usr/bin/hdiutil attach \(path) -mountpoint /tmp/Stats -noverify -nobrowse -noautoopen")
+        }
+        
+        _ = syncShell("cp -rf /tmp/Stats/Stats.app/Contents/Resources/Scripts/updater.sh $TMPDIR/updater.sh") // copy updater script to tmp folder
+        
+        print("Script is copied to $TMPDIR/updater.sh")
+        
+        let pwd = Bundle.main.bundleURL.absoluteString.replacingOccurrences(of: "file://", with: "").replacingOccurrences(of: "Stats.app/", with: "")
+        _ = asyncShell("sh $TMPDIR/updater.sh --app \(pwd) --dmg \(path) >/dev/null &") // run updater script in in background
+        
+        print("Run updater.sh with app: \(pwd) and dmg: \(path)")
+        
+        exit(0)
     }
     
     private func copyFile(from: URL, to: URL, completionHandler: @escaping (_ path: String, _ error: Error?) -> Void) {

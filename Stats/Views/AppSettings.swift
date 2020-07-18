@@ -11,6 +11,7 @@
 
 import Cocoa
 import StatsKit
+import os.log
 
 class ApplicationSettings: NSView {
     private let width: CGFloat = 540
@@ -23,6 +24,9 @@ class ApplicationSettings: NSView {
         }
     }
     
+    private var updateButton: NSButton? = nil
+    private let updateWindow: UpdateWindow = UpdateWindow()
+    
     init() {
         super.init(frame: NSRect(x: 0, y: 0, width: width, height: height))
         self.wantsLayer = true
@@ -34,6 +38,16 @@ class ApplicationSettings: NSView {
     
     required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    public override func viewDidMoveToWindow() {
+        if let button = self.updateButton, let version = updater.latest {
+            if version.newest {
+                button.title = "Update application"
+            } else {
+                button.title = "Check for updates"
+            }
+        }
     }
     
     private func addSettings() {
@@ -262,7 +276,8 @@ class ApplicationSettings: NSView {
         button.title = "Check for updates"
         button.bezelStyle = .rounded
         button.target = self
-        button.action = #selector(checkNewVersion)
+        button.action = #selector(updateAction)
+        self.updateButton = button
         
         rightPanel.addSubview(iconView)
         rightPanel.addSubview(infoView)
@@ -274,8 +289,23 @@ class ApplicationSettings: NSView {
         self.addSubview(view)
     }
     
-    @objc func checkNewVersion(_ sender: NSObject) {
-        NotificationCenter.default.post(name: .checkForUpdates, object: nil, userInfo: nil)
+    @objc func updateAction(_ sender: NSObject) {
+        updater.check() { result, error in
+            if error != nil {
+                os_log(.error, log: log, "error updater.check(): %s", "\(error!.localizedDescription)")
+                return
+            }
+            
+            guard error == nil, let version: version_s = result else {
+                os_log(.error, log: log, "download error(): %s", "\(error!.localizedDescription)")
+                return
+            }
+            
+            DispatchQueue.main.async(execute: {
+                self.updateWindow.open(version)
+                return
+            })
+        }
     }
     
     @objc private func toggleUpdateInterval(_ sender: NSMenuItem) {

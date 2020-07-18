@@ -25,10 +25,9 @@ var modules: [Module] = [Battery(&store), Network(&store), Sensors(&store, &smc)
 var log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: "Stats")
 
 class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDelegate {
-    private let settingsWindow: SettingsWindow = SettingsWindow()
-    private let updateWindow: UpdateWindow = UpdateWindow()
+    internal let settingsWindow: SettingsWindow = SettingsWindow()
+    internal let updateNotification = NSUserNotification()
     
-    private let updateNotification = NSUserNotification()
     private let updateActivity = NSBackgroundActivityScheduler(identifier: "eu.exelban.Stats.updateCheck")
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
@@ -37,7 +36,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         self.parseArguments()
         
         NSUserNotificationCenter.default.removeAllDeliveredNotifications()
-        NotificationCenter.default.addObserver(self, selector: #selector(checkForNewVersion), name: .checkForUpdates, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateCron), name: .changeCronInterval, object: nil)
         
         modules.forEach{ $0.mount() }
@@ -54,7 +52,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         if let uri = notification.userInfo?["url"] as? String {
             os_log(.debug, log: log, "Downloading new version of app...")
             if let url = URL(string: uri) {
-                updater.download(url)
+                updater.download(url, doneHandler: { path in
+                    updater.install(path: path)
+                })
             }
         }
         
@@ -76,44 +76,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         return true
     }
     
-    @objc internal func checkForNewVersion(_ window: Bool = false) {
-        updater.check() { result, error in
-            if error != nil {
-                os_log(.error, log: log, "error updater.check(): %s", "\(error!.localizedDescription)")
-                return
-            }
-            
-            guard error == nil, let version: version = result else {
-                os_log(.error, log: log, "download error(): %s", "\(error!.localizedDescription)")
-                return
-            }
-            
-            DispatchQueue.main.async(execute: {
-                if window {
-                    os_log(.debug, log: log, "open update window: %s", "\(version.latest)")
-                    self.updateWindow.open(version)
-                    return
-                }
-                
-                if version.newest {
-                    os_log(.debug, log: log, "show update window because new version of app found: %s", "\(version.latest)")
-                    
-                    self.updateNotification.identifier = "new-version-\(version.latest)"
-                    self.updateNotification.title = "New version available"
-                    self.updateNotification.subtitle = "Click to install the new version of Stats"
-                    self.updateNotification.soundName = NSUserNotificationDefaultSoundName
-                    
-                    self.updateNotification.hasActionButton = true
-                    self.updateNotification.actionButtonTitle = "Install"
-                    self.updateNotification.userInfo = ["url": version.url]
-                    
-                    NSUserNotificationCenter.default.delegate = self
-                    NSUserNotificationCenter.default.deliver(self.updateNotification)
-                }
-            })
-        }
-    }
-    
     @objc private func updateCron() {
         self.updateActivity.invalidate()
         self.updateActivity.repeats = true
@@ -132,7 +94,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         }
         
         self.updateActivity.schedule { (completion: @escaping NSBackgroundActivityScheduler.CompletionHandler) in
-            self.checkForNewVersion(false)
+            self.checkForNewVersion()
             completion(NSBackgroundActivityScheduler.Result.finished)
         }
     }

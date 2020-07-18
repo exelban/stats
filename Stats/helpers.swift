@@ -89,7 +89,39 @@ extension AppDelegate {
         }
         
         if updateIntervals(rawValue: store.string(key: "update-interval", defaultValue: updateIntervals.atStart.rawValue)) != .never {
-            self.checkForNewVersion(false)
+            self.checkForNewVersion()
+        }
+    }
+    
+    internal func checkForNewVersion() {
+        updater.check() { result, error in
+            if error != nil {
+                os_log(.error, log: log, "error updater.check(): %s", "\(error!.localizedDescription)")
+                return
+            }
+            
+            guard error == nil, let version: version_s = result else {
+                os_log(.error, log: log, "download error(): %s", "\(error!.localizedDescription)")
+                return
+            }
+            
+            DispatchQueue.main.async(execute: {
+                if version.newest {
+                    os_log(.debug, log: log, "show update window because new version of app found: %s", "\(version.latest)")
+                    
+                    self.updateNotification.identifier = "new-version-\(version.latest)"
+                    self.updateNotification.title = "New version available"
+                    self.updateNotification.subtitle = "Click to install the new version of Stats"
+                    self.updateNotification.soundName = NSUserNotificationDefaultSoundName
+                    
+                    self.updateNotification.hasActionButton = true
+                    self.updateNotification.actionButtonTitle = "Install"
+                    self.updateNotification.userInfo = ["url": version.url]
+                    
+                    NSUserNotificationCenter.default.delegate = self
+                    NSUserNotificationCenter.default.deliver(self.updateNotification)
+                }
+            })
         }
     }
 }
