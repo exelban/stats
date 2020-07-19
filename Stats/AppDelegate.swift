@@ -48,19 +48,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         os_log(.info, log: log, "Stats started in %.4f seconds", startingPoint.timeIntervalSinceNow * -1)
     }
     
-    func userNotificationCenter(_ center: NSUserNotificationCenter, didActivate notification: NSUserNotification) {
-        if let uri = notification.userInfo?["url"] as? String {
-            os_log(.debug, log: log, "Downloading new version of app...")
-            if let url = URL(string: uri) {
-                updater.download(url, doneHandler: { path in
-                    updater.install(path: path)
-                })
-            }
-        }
-        
-        NSUserNotificationCenter.default.removeDeliveredNotification(self.updateNotification)
-    }
-    
     func applicationWillTerminate(_ aNotification: Notification) {
         modules.forEach{ $0.terminate() }
         _ = smc.close()
@@ -74,6 +61,19 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             self.settingsWindow.setIsVisible(true)
         }
         return true
+    }
+    
+    func userNotificationCenter(_ center: NSUserNotificationCenter, didActivate notification: NSUserNotification) {
+        if let uri = notification.userInfo?["url"] as? String {
+            os_log(.debug, log: log, "Downloading new version of app...")
+            if let url = URL(string: uri) {
+                updater.download(url, doneHandler: { path in
+                    updater.install(path: path)
+                })
+            }
+        }
+        
+        NSUserNotificationCenter.default.removeDeliveredNotification(self.updateNotification)
     }
     
     @objc private func updateCron() {
