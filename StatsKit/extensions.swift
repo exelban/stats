@@ -188,7 +188,7 @@ public extension Double {
     }
     
     func usageColor(reversed: Bool = false) -> NSColor {
-        let firstColor: NSColor = NSColor.controlAccentColor
+        let firstColor: NSColor = NSColor.systemBlue
         let secondColor: NSColor = NSColor.orange
         let thirdColor: NSColor = NSColor.red
         
