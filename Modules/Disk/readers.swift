@@ -111,7 +111,7 @@ internal class CapacityReader: Reader<DiskList> {
             d.freeSize = freeDiskSpaceInBytes(d.path!.absoluteString)
         }
         
-        return d
+        return d.name == "Recovery" ? nil : d
     }
     
     private func freeDiskSpaceInBytes(_ path: String) -> Int64 {
