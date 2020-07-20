@@ -797,7 +797,7 @@ public enum updateIntervals: updateInterval {
 }
 extension updateIntervals: CaseIterable {}
 
-public func showNotification(title: String, subtitle: String, id: String = UUID().uuidString, icon: NSImage? = nil) {
+public func showNotification(title: String, subtitle: String, id: String = UUID().uuidString, icon: NSImage? = nil) -> NSUserNotification {
     let notification = NSUserNotification()
     
     notification.identifier = id
@@ -811,4 +811,6 @@ public func showNotification(title: String, subtitle: String, id: String = UUID(
     }
     
     NSUserNotificationCenter.default.deliver(notification)
+    
+    return notification
 }

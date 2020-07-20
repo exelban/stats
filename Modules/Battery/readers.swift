@@ -59,7 +59,8 @@ internal class UsageReader: Reader<Battery_Usage> {
                 self.usage.powerSource = list[kIOPSPowerSourceStateKey] as? String ?? "AC Power"
                 self.usage.state = list[kIOPSBatteryHealthKey] as! String
                 self.usage.isCharged = list[kIOPSIsChargedKey] as? Bool ?? false
-                var cap = Double(list[kIOPSCurrentCapacityKey] as! Int) / 100
+                self.usage.isCharging = self.getBoolValue("IsCharging" as CFString) ?? false
+                self.usage.level = Double(list[kIOPSCurrentCapacityKey] as! Int) / 100
                 
                 self.usage.timeToEmpty = Int(list[kIOPSTimeToEmptyKey] as! Int)
                 self.usage.timeToCharge = Int(list[kIOPSTimeToFullChargeKey] as! Int)
@@ -84,12 +85,6 @@ internal class UsageReader: Reader<Battery_Usage> {
                     }
                 }
                 self.usage.ACwatts = ACwatts
-                
-                if self.usage.powerSource == "Battery Power" {
-                    cap = 0 - cap
-                }
-                self.usage.level = cap
-                self.usage.isCharging = self.getBoolValue("IsCharging" as CFString) ?? false
                 
                 DispatchQueue.main.async(execute: {
                     self.callback(self.usage)

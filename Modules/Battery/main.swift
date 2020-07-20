@@ -46,6 +46,8 @@ public class Battery: Module {
     
     private let store: UnsafePointer<Store>
     
+    private var notification: NSUserNotification? = nil
+    
     public init(_ store: UnsafePointer<Store>) {
         self.store = store
         self.settingsView = Settings("Battery", store: store)
@@ -103,13 +105,29 @@ public class Battery: Module {
             return
         }
         
-        if let notificationLevel = Double(level), abs(value.level) <= notificationLevel {
-            var subtitle = "\((Int(abs(value.level)*100)))% remaining"
-            if value.timeToEmpty != 0 {
+        guard let notificationLevel = Double(level) else {
+            return
+        }
+        
+        if (value.level > notificationLevel || value.powerSource != "Battery Power") && self.notification != nil {
+            NSUserNotificationCenter.default.removeDeliveredNotification(self.notification!)
+            if value.level > notificationLevel {
+                self.notification = nil
+            }
+            return
+        }
+        
+        if value.isCharging {
+            return
+        }
+        
+        if value.level <= notificationLevel && self.notification == nil {
+            var subtitle = "\((Int(value.level*100)))% remaining"
+            if value.timeToEmpty > 0 {
                 subtitle += " (\(Double(value.timeToEmpty*60).printSecondsToHoursMinutesSeconds()))"
             }
             
-            showNotification(
+            self.notification = showNotification(
                 title: "Low battery",
                 subtitle: subtitle,
                 id: "battery-level",

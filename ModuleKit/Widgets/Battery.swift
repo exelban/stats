@@ -171,7 +171,7 @@ public class BatterykWidget: Widget {
         var updated: Bool = false
         
         if self.percentage != percentage {
-            self.percentage = abs(percentage)
+            self.percentage = percentage
             updated = true
         }
         if self.ACStatus != ACStatus {
