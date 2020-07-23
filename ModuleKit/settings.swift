@@ -254,6 +254,8 @@ class WidgetPreview: NSView {
         self.layer?.borderColor = self.state ? NSColor.systemBlue.cgColor : NSColor(hexString: "#dddddd").cgColor
         self.layer?.borderWidth = 1
         
+        self.toolTip = "Select \(widget.name) widget"
+        
         widget.widthHandler = { [weak self] value in
             self?.removeTrackingArea((self?.trackingAreas.first)!)
             let newWidth = value + 1

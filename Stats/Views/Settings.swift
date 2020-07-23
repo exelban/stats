@@ -300,7 +300,7 @@ private class MenuView: NSView {
         super.init(frame: NSRect(x: 0, y: self.height*CGFloat(n), width: width, height: self.height))
         self.wantsLayer = true
         self.layer?.backgroundColor = .clear
-        self.toolTip = "Open \(title == "Stats" ? "application" : title) settings"
+        self.toolTip = "Open \(title == "Stats" ? "application" : "\(title) module") settings"
         
         let rect = NSRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
         let trackingArea = NSTrackingArea(rect: rect, options: [NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited, NSTrackingArea.Options.activeInActiveApp], owner: self, userInfo: ["menu": title])

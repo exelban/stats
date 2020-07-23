@@ -65,6 +65,7 @@ public enum widget_t: String {
 extension widget_t: CaseIterable {}
 
 public protocol Widget_p: NSView {
+    var name: String { get }
     var title: String { get }
     var preview: Bool { get }
     var type: widget_t { get }
@@ -76,6 +77,20 @@ public protocol Widget_p: NSView {
 
 open class Widget: NSView, Widget_p {
     public var widthHandler: ((CGFloat) -> Void)? = nil
+    public var name: String {
+        get {
+            switch self.type {
+            case .mini: return "Mini"
+            case .lineChart: return "Line chart"
+            case .barChart: return "Bar chart"
+            case .network: return "Network"
+            case .battery: return "Battery"
+            case .sensors: return "Text"
+            case .disk: return "Text"
+            default: return ""
+            }
+        }
+    }
     public var title: String = ""
     public var preview: Bool = false
     public var type: widget_t = .unknown
