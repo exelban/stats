@@ -106,12 +106,21 @@ public class BatterykWidget: Widget {
         
         batteryFrame.lineWidth = 1
         batteryFrame.stroke()
-        
+
         if !self.charging || !self.ACStatus {
             let maxWidth = w - 3
             let innerWidth: CGFloat = self.ACStatus ? maxWidth : maxWidth * CGFloat(self.percentage)
             let inner = NSBezierPath(roundedRect: NSRect(x: x+2.5, y: y+1.5, width: innerWidth, height: h-3), xRadius: 0.5, yRadius: 0.5)
             self.percentage.batteryColor(color: self.colorState).set()
+            inner.lineWidth = 0
+            inner.stroke()
+            inner.close()
+            inner.fill()
+        } else if self.charging {
+            let maxHeight = h - 3
+            let height: CGFloat = maxHeight * CGFloat(self.percentage)
+            let inner = NSBezierPath(roundedRect: NSRect(x: x+2.5, y: y+1.5, width: w-3, height: height), xRadius: 0.5, yRadius: 0.5)
+            (self.percentage == 1 ? NSColor.textColor : NSColor.systemGreen).set()
             inner.lineWidth = 0
             inner.stroke()
             inner.close()
@@ -122,19 +131,12 @@ public class BatterykWidget: Widget {
             let batteryCenter: CGPoint = CGPoint(x: x+1+(w/2), y: y+(h/2))
             let boltSize: CGSize = CGSize(width: 8, height: h+3+4)
             
-            let minX = batteryCenter.x - (boltSize.width/2) - (self.charging ? 1 : 0)
-            let maxX = batteryCenter.x + (boltSize.width/2) + (self.charging ? 1 : 0)
-            let minY = batteryCenter.y - (boltSize.height/2) - (self.charging ? 4 : 0)
-            let maxY = batteryCenter.y + (boltSize.height/2) + (self.charging ? 4 : 0)
+            let minX = batteryCenter.x - (boltSize.width/2)
+            let maxX = batteryCenter.x + (boltSize.width/2)
+            let minY = batteryCenter.y - (boltSize.height/2)
+            let maxY = batteryCenter.y + (boltSize.height/2)
             
-            let points: [CGPoint] = self.charging ? [
-                CGPoint(x: batteryCenter.x-3, y: minY),
-                CGPoint(x: maxX, y: batteryCenter.y+2),
-                CGPoint(x: batteryCenter.x+1, y: batteryCenter.y+2),
-                CGPoint(x: batteryCenter.x+3, y: maxY),
-                CGPoint(x: minX, y: batteryCenter.y-2),
-                CGPoint(x: batteryCenter.x-1, y: batteryCenter.y-2),
-            ] : [
+            let points: [CGPoint] = [
                 CGPoint(x: batteryCenter.x-2, y: minY),
                 CGPoint(x: maxX, y: batteryCenter.y+1.5),
                 CGPoint(x: batteryCenter.x+1, y: batteryCenter.y+1.5),
@@ -158,7 +160,7 @@ public class BatterykWidget: Widget {
             ctx.setBlendMode(.destinationOut)
             
             NSColor.orange.set()
-            linePath.lineWidth = self.charging ? 2 : 1
+            linePath.lineWidth = 1
             linePath.stroke()
             
             ctx.restoreGState()
