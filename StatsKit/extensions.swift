@@ -814,3 +814,15 @@ public func showNotification(title: String, subtitle: String, id: String = UUID(
     
     return notification
 }
+
+public struct TopProcess {
+    public var pid: Int
+    public var command: String
+    public var usage: Double
+    
+    public init(pid: Int, command: String, usage: Double) {
+        self.pid = pid
+        self.command = command
+        self.usage = usage
+    }
+}

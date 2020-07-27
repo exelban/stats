@@ -15,8 +15,9 @@ import StatsKit
 internal class PopupWindow: NSPanel, NSWindowDelegate {
     private let viewController: PopupViewController = PopupViewController()
     
-    init(title: String, view: NSView?) {
+    init(title: String, view: NSView?, visibilityCallback: @escaping (_ state: Bool) -> Void) {
         self.viewController.setup(title: title, view: view)
+        self.viewController.visibilityCallback = visibilityCallback
         
         super.init(
             contentRect: NSMakeRect(0, 0, self.viewController.view.frame.width, self.viewController.view.frame.height),
@@ -40,6 +41,7 @@ internal class PopupWindow: NSPanel, NSWindowDelegate {
 }
 
 internal class PopupViewController: NSViewController {
+    public var visibilityCallback: (_ state: Bool) -> Void = {_ in }
     private var popup: PopupView
     
     public init() {
@@ -61,10 +63,12 @@ internal class PopupViewController: NSViewController {
     
     override func viewWillAppear() {
         self.popup.appear()
+        self.visibilityCallback(true)
     }
     
     override func viewWillDisappear() {
         self.popup.disappear()
+        self.visibilityCallback(false)
     }
     
     public func setup(title: String, view: NSView?) {

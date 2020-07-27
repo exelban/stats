@@ -14,8 +14,12 @@ import ModuleKit
 import StatsKit
 
 internal class Popup: NSView {
+    private var store: UnsafePointer<Store>
+    private var title: String
+    
     private let dashboardHeight: CGFloat = 90
     private let detailsHeight: CGFloat = 66 // -26
+    private let processesHeight: CGFloat = 22*5
     
     private var loadField: NSTextField? = nil
     private var temperatureField: NSTextField? = nil
@@ -24,14 +28,32 @@ internal class Popup: NSView {
     private var userField: NSTextField? = nil
     private var idleField: NSTextField? = nil
     
-    public var chart: LineChartView? = nil
+    private var chart: LineChartView? = nil
     private var ready: Bool = false
     
-    public init() {
-        super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: dashboardHeight + Constants.Popup.separatorHeight + detailsHeight))
+    private var processes: [ProcessView] = []
+    private var processesView: NSView? = nil
+    
+    private var topProcessState: Bool {
+        get {
+            return self.store.pointee.bool(key: "\(self.title)_topProcesses", defaultValue: false)
+        }
+    }
+    
+    public init(_ title: String, store: UnsafePointer<Store>) {
+        self.store = store
+        self.title = title
+        
+        let topProcessState = store.pointee.bool(key: "\(title)_topProcesses", defaultValue: false)
+        let height = topProcessState ? dashboardHeight + (Constants.Popup.separatorHeight*2) + detailsHeight + processesHeight : dashboardHeight + Constants.Popup.separatorHeight + detailsHeight
+        
+        super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: height))
         
         initDashboard()
         initDetails()
+        if topProcessState {
+            self.initProcesses()
+        }
     }
     
     required init?(coder: NSCoder) {
@@ -72,6 +94,24 @@ internal class Popup: NSView {
         self.idleField = PopupRow(view, n: 0, title: "Idle:", value: "")
         
         self.addSubview(view)
+    }
+    
+    private func initProcesses() {
+        let separator = SeparatorView("Top processes", origin: NSPoint(x: 0, y: self.processesHeight), width: self.frame.width)
+        self.addSubview(separator)
+        
+        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.processesHeight))
+        
+        processes.append(ProcessView(0))
+        processes.append(ProcessView(1))
+        processes.append(ProcessView(2))
+        processes.append(ProcessView(3))
+        processes.append(ProcessView(4))
+        
+        processes.forEach{ view.addSubview($0) }
+        
+        self.addSubview(view)
+        self.processesView = view
     }
     
     private func addFirstRow(mView: NSView, y: CGFloat, title: String, value: String) -> NSTextField {
@@ -120,6 +160,19 @@ internal class Popup: NSView {
             self.chart?.addValue(value.totalUsage)
         })
     }
+    
+    public func processCallback(_ list: [TopProcess]) {
+        DispatchQueue.main.async(execute: {
+            for i in 0..<list.count {
+                let process = list[i]
+                let index = list.count-i-1
+                if self.processes.indices.contains(index) {
+                    self.processes[index].label = process.command
+                    self.processes[index].value = "\(process.usage)%"
+                }
+            }
+        })
+    }
 }
 
 private class ProcessView: NSView {
@@ -149,10 +202,10 @@ private class ProcessView: NSView {
     init(_ n: CGFloat) {
         super.init(frame: NSRect(x: 0, y: n*22, width: Constants.Popup.width, height: 16))
         
-        let rowView: NSView = NSView(frame: NSRect(x: Constants.Popup.margins, y: 0, width: self.frame.width - (Constants.Popup.margins*2), height: 16))
+        let rowView: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 16))
         
-        let labelView: LabelField = LabelField(frame: NSRect(x: 0, y: 0.5, width: 50, height: 15), "")
-        let valueView: ValueField = ValueField(frame: NSRect(x: 50, y: 0, width: rowView.frame.width - 50, height: 16), "")
+        let labelView: LabelField = LabelField(frame: NSRect(x: 0, y: 0.5, width: rowView.frame.width - 50, height: 15), "")
+        let valueView: ValueField = ValueField(frame: NSRect(x: rowView.frame.width - 50, y: 0, width: 50, height: 16), "")
         
         rowView.addSubview(labelView)
         rowView.addSubview(valueView)

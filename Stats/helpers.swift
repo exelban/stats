@@ -67,7 +67,7 @@ extension AppDelegate {
             }
             
             if IsNewestVersion(currentVersion: prevVersion, latestVersion: currentVersion) {
-                showNotification(title: "Successfully updated", subtitle: "Stats was updated to v\(currentVersion)", id: "updated-from-\(prevVersion)-to-\(currentVersion)"
+                _ = showNotification(title: "Successfully updated", subtitle: "Stats was updated to v\(currentVersion)", id: "updated-from-\(prevVersion)-to-\(currentVersion)"
                 )
             }
             

@@ -20,6 +20,7 @@ public protocol value_t {
 
 public protocol Reader_p {
     var optional: Bool { get }
+    var popup: Bool { get }
     
     func setup() -> Void
     func read() -> Void
@@ -31,6 +32,9 @@ public protocol Reader_p {
     func start() -> Void
     func pause() -> Void
     func stop() -> Void
+    
+    func lock() -> Void
+    func unlock() -> Void
     
     func initStoreValues(title: String, store: UnsafePointer<Store>) -> Void
     func setInterval(_ value: Double) -> Void
@@ -47,7 +51,10 @@ open class Reader<T>: ReaderInternal_p {
     public let log: OSLog
     public var value: T?
     public var interval: Double? = nil
+    public var defaultInterval: Double = 1
     public var optional: Bool = false
+    public var popup: Bool = false
+    open var enabled: Bool = true
     
     public var readyCallback: () -> Void = {}
     public var callbackHandler: (T?) -> Void = {_ in }
@@ -55,6 +62,7 @@ open class Reader<T>: ReaderInternal_p {
     private var repeatTask: Repeater?
     private var nilCallbackCounter: Int = 0
     private var ready: Bool = false
+    private var locked: Bool = true
     
     private var history: [T]? = []
     
@@ -71,7 +79,7 @@ open class Reader<T>: ReaderInternal_p {
             return
         }
         
-        let updateIntervalString = store.pointee.string(key: "\(title)_updateInterval", defaultValue: "1")
+        let updateIntervalString = store.pointee.string(key: "\(title)_updateInterval", defaultValue: "\(self.defaultInterval)")
         if let updateInterval = Double(updateIntervalString) {
             self.interval = updateInterval
         }
@@ -114,6 +122,10 @@ open class Reader<T>: ReaderInternal_p {
     open func terminate() {}
     
     open func start() {
+        if !self.enabled || (self.popup && self.locked) {
+            return
+        }
+        
         if let interval = self.interval, self.repeatTask == nil {
             os_log(.debug, log: self.log, "Set up update interval: %.0f sec", interval)
             
@@ -132,6 +144,7 @@ open class Reader<T>: ReaderInternal_p {
     
     open func stop() {
         self.repeatTask?.removeAllObservers(thenStop: true)
+        self.repeatTask = nil
     }
     
     public func setInterval(_ value: Double) {
@@ -147,5 +160,13 @@ extension Reader: Reader_p {
     
     public func getHistory<T>() -> [T] {
         return self.history as! [T]
+    }
+    
+    public func lock() {
+        self.locked = true
+    }
+    
+    public func unlock() {
+        self.locked = false
     }
 }
