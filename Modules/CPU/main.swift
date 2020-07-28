@@ -65,10 +65,6 @@ public class CPU: Module {
         self.settingsView.setInterval = { [unowned self] value in
             self.loadReader?.setInterval(value)
         }
-        self.settingsView.topProcessesCallback = {
-            self.popupView = Popup(self.config.name, store: self.store)
-            self.replacePopup(self.popupView)
-        }
         
         self.loadReader?.readyCallback = { [unowned self] in
             self.readyHandler()

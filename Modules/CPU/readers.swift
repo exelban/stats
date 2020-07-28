@@ -154,13 +154,6 @@ public class ProcessReader: Reader<[TopProcess]> {
     
     private var loadPrevious = host_cpu_load_info()
     
-    public override var enabled: Bool {
-        set {}
-        get {
-            return self.store?.pointee.bool(key: "CPU_topProcesses", defaultValue: false) ?? false
-        }
-    }
-    
     public override func setup() {
         self.popup = true
     }
@@ -200,7 +193,7 @@ public class ProcessReader: Reader<[TopProcess]> {
                 let pidString = str.findAndCrop(pattern: "^\\d+")
                 let usageString = str.findAndCrop(pattern: "^[0-9,.]+ ")
                 let command = str.trimmingCharacters(in: .whitespaces)
-
+                
                 let pid = Int(pidString) ?? 0
                 let usage = Double(usageString.replacingOccurrences(of: ",", with: ".")) ?? 0
                 
