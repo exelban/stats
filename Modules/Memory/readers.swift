@@ -10,6 +10,7 @@
 //
 
 import Cocoa
+import StatsKit
 import ModuleKit
 
 internal class UsageReader: Reader<RAM_Usage> {
@@ -74,5 +75,62 @@ internal class UsageReader: Reader<RAM_Usage> {
         }
         
         print("Error with host_statistics64(): " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
+    }
+}
+
+public class ProcessReader: Reader<[TopProcess]> {
+    public override func setup() {
+        self.popup = true
+    }
+    
+    public override func read() {
+        let task = Process()
+        task.launchPath = "/usr/bin/top"
+        task.arguments = ["-l", "1", "-o", "mem", "-n", "5", "-stats", "pid,command,mem"]
+        
+        let outputPipe = Pipe()
+        let errorPipe = Pipe()
+        
+        task.standardOutput = outputPipe
+        task.standardError = errorPipe
+        
+        do {
+            try task.run()
+        } catch let error {
+            print(error)
+            return
+        }
+        
+        let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
+        let errorData = errorPipe.fileHandleForReading.readDataToEndOfFile()
+        let output = String(decoding: outputData, as: UTF8.self)
+        _ = String(decoding: errorData, as: UTF8.self)
+        
+        if output.isEmpty {
+            return
+        }
+        
+        var processes: [TopProcess] = []
+        output.enumerateLines { (line, stop) -> () in
+            if line.matches("^\\d+ + .+ +\\d+.\\d[M\\+\\-]+ *$") {
+                var str = line.trimmingCharacters(in: .whitespaces)
+                let pidString = str.findAndCrop(pattern: "^\\d+")
+                let usageString = str.findAndCrop(pattern: " [0-9]+M(\\+|\\-)*$")
+                var command = str.trimmingCharacters(in: .whitespaces)
+
+                if let regex = try? NSRegularExpression(pattern: " (\\+|\\-)*$", options: .caseInsensitive) {
+                    command = regex.stringByReplacingMatches(in: command, options: [], range: NSRange(location: 0, length:  command.count), withTemplate: "")
+                }
+
+                let pid = Int(pidString) ?? 0
+                guard let usage = Double(usageString.filter("01234567890.".contains)) else {
+                    return
+                }
+                let process = TopProcess(pid: pid, command: command, usage: usage * Double(1024 * 1024))
+                processes.append(process)
+            }
+        }
+        
+        self.callback(processes)
     }
 }

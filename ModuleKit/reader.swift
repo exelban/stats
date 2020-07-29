@@ -122,7 +122,12 @@ open class Reader<T>: ReaderInternal_p {
     open func terminate() {}
     
     open func start() {
-        if !self.enabled || (self.popup && self.locked) {
+        if !self.enabled {
+            return
+        } else if self.popup && self.locked {
+            if !self.ready {
+                self.read()
+            }
             return
         }
         

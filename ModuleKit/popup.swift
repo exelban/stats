@@ -233,3 +233,49 @@ internal class HeaderView: NSView {
         NotificationCenter.default.post(name: .toggleSettings, object: nil, userInfo: ["module": self.titleView?.stringValue ?? ""])
     }
 }
+
+public class ProcessView: NSView {
+    public var width: CGFloat {
+        get { return 0 }
+        set {
+            self.setFrameSize(NSSize(width: newValue, height: self.frame.height))
+        }
+    }
+    
+    public var label: String {
+        get { return "" }
+        set {
+            self.labelView?.stringValue = newValue
+        }
+    }
+    public var value: String {
+        get { return "" }
+        set {
+            self.valueView?.stringValue = newValue
+        }
+    }
+    
+    private var labelView: LabelField? = nil
+    private var valueView: ValueField? = nil
+    
+    public init(_ n: CGFloat) {
+        super.init(frame: NSRect(x: 0, y: n*22, width: Constants.Popup.width, height: 16))
+        
+        let rowView: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 16))
+        
+        let labelView: LabelField = LabelField(frame: NSRect(x: 0, y: 0.5, width: rowView.frame.width - 70, height: 15), "")
+        let valueView: ValueField = ValueField(frame: NSRect(x: rowView.frame.width - 70, y: 0, width: 70, height: 16), "")
+        
+        rowView.addSubview(labelView)
+        rowView.addSubview(valueView)
+        
+        self.labelView = labelView
+        self.valueView = valueView
+        
+        self.addSubview(rowView)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}

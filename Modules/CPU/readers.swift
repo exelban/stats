@@ -150,10 +150,6 @@ internal class LoadReader: Reader<CPU_Load> {
 }
 
 public class ProcessReader: Reader<[TopProcess]> {
-    public var store: UnsafePointer<Store>? = nil
-    
-    private var loadPrevious = host_cpu_load_info()
-    
     public override func setup() {
         self.popup = true
     }

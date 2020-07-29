@@ -32,28 +32,16 @@ internal class Popup: NSView {
     private var ready: Bool = false
     
     private var processes: [ProcessView] = []
-    private var processesView: NSView? = nil
-    
-    private var topProcessState: Bool {
-        get {
-            return self.store.pointee.bool(key: "\(self.title)_topProcesses", defaultValue: false)
-        }
-    }
     
     public init(_ title: String, store: UnsafePointer<Store>) {
         self.store = store
         self.title = title
         
-        let topProcessState = store.pointee.bool(key: "\(title)_topProcesses", defaultValue: false)
-        let height = topProcessState ? dashboardHeight + (Constants.Popup.separatorHeight*2) + detailsHeight + processesHeight : dashboardHeight + Constants.Popup.separatorHeight + detailsHeight
-        
-        super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: height))
+        super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: dashboardHeight + (Constants.Popup.separatorHeight*2) + detailsHeight + processesHeight))
         
         initDashboard()
         initDetails()
-        if topProcessState {
-            self.initProcesses()
-        }
+        initProcesses()
     }
     
     required init?(coder: NSCoder) {
@@ -102,16 +90,15 @@ internal class Popup: NSView {
         
         let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.processesHeight))
         
-        processes.append(ProcessView(0))
-        processes.append(ProcessView(1))
-        processes.append(ProcessView(2))
-        processes.append(ProcessView(3))
-        processes.append(ProcessView(4))
+        self.processes.append(ProcessView(0))
+        self.processes.append(ProcessView(1))
+        self.processes.append(ProcessView(2))
+        self.processes.append(ProcessView(3))
+        self.processes.append(ProcessView(4))
         
-        processes.forEach{ view.addSubview($0) }
+        self.processes.forEach{ view.addSubview($0) }
         
         self.addSubview(view)
-        self.processesView = view
     }
     
     private func addFirstRow(mView: NSView, y: CGFloat, title: String, value: String) -> NSTextField {
@@ -172,51 +159,5 @@ internal class Popup: NSView {
                 }
             }
         })
-    }
-}
-
-private class ProcessView: NSView {
-    public var width: CGFloat {
-        get { return 0 }
-        set {
-            self.setFrameSize(NSSize(width: newValue, height: self.frame.height))
-        }
-    }
-    
-    public var label: String {
-        get { return "" }
-        set {
-            self.labelView?.stringValue = newValue
-        }
-    }
-    public var value: String {
-        get { return "" }
-        set {
-            self.valueView?.stringValue = newValue
-        }
-    }
-    
-    private var labelView: LabelField? = nil
-    private var valueView: ValueField? = nil
-    
-    init(_ n: CGFloat) {
-        super.init(frame: NSRect(x: 0, y: n*22, width: Constants.Popup.width, height: 16))
-        
-        let rowView: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 16))
-        
-        let labelView: LabelField = LabelField(frame: NSRect(x: 0, y: 0.5, width: rowView.frame.width - 50, height: 15), "")
-        let valueView: ValueField = ValueField(frame: NSRect(x: rowView.frame.width - 50, y: 0, width: 50, height: 16), "")
-        
-        rowView.addSubview(labelView)
-        rowView.addSubview(valueView)
-        
-        self.labelView = labelView
-        self.valueView = valueView
-        
-        self.addSubview(rowView)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }

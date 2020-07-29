@@ -277,13 +277,15 @@ open class Module: Module_p {
     
     // call when popup appear/disappear
     private func visibilityCallback(_ state: Bool) {
-        self.readers.filter{ $0.popup }.forEach { (reader: Reader_p) in
-            if state {
-                reader.unlock()
-                reader.start()
-            } else {
-                reader.stop()
-                reader.lock()
+        DispatchQueue.global(qos: .background).async {
+            self.readers.filter{ $0.popup }.forEach { (reader: Reader_p) in
+                if state {
+                    reader.unlock()
+                    reader.start()
+                } else {
+                    reader.stop()
+                    reader.lock()
+                }
             }
         }
     }

@@ -57,7 +57,6 @@ public class CPU: Module {
         self.loadReader?.store = store
         
         self.processReader = ProcessReader()
-        self.processReader?.store = store
         
         self.settingsView.callback = { [unowned self] in
             self.loadReader?.read()

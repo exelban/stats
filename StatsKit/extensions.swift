@@ -152,6 +152,10 @@ extension String: LocalizedError {
         buf.append(0)
         return String(cString: buf)
     }
+    
+    public func matches(_ regex: String) -> Bool {
+        return self.range(of: regex, options: .regularExpression, range: nil, locale: nil) != nil
+    }
 }
 
 public extension Int {
