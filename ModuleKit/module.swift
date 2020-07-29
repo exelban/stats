@@ -107,6 +107,7 @@ open class Module: Module_p {
         NotificationCenter.default.addObserver(self, selector: #selector(listenForMouseDownInSettings), name: .clickInSettings, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(listenForModuleToggle), name: .toggleModule, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(listenChangingPopupSize), name: .updatePopupSize, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(listenResignActive), name: NSApplication.willResignActiveNotification, object: nil)
         
         if self.config.widgetsConfig.count != 0 {
             self.setWidget()
@@ -357,5 +358,9 @@ open class Module: Module_p {
                 self.popup.setIsVisible(false)
             }
         }
+    }
+    
+    @objc private func listenResignActive(_ notification: Notification) {
+        self.visibilityCallback(false)
     }
 }

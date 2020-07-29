@@ -12,7 +12,7 @@
 import Cocoa
 import StatsKit
 
-internal class PopupWindow: NSPanel, NSWindowDelegate {
+internal class PopupWindow: NSPanel {
     private let viewController: PopupViewController = PopupViewController()
     
     init(title: String, view: NSView?, visibilityCallback: @escaping (_ state: Bool) -> Void) {
@@ -62,11 +62,15 @@ internal class PopupViewController: NSViewController {
     }
     
     override func viewWillAppear() {
+        super.viewWillAppear()
+        
         self.popup.appear()
         self.visibilityCallback(true)
     }
     
     override func viewWillDisappear() {
+        super.viewWillDisappear()
+        
         self.popup.disappear()
         self.visibilityCallback(false)
     }

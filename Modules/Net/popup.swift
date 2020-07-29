@@ -14,8 +14,9 @@ import ModuleKit
 import StatsKit
 
 internal class Popup: NSView {
-    let dashboardHeight: CGFloat = 90
-    let detailsHeight: CGFloat = 110
+    private let dashboardHeight: CGFloat = 90
+    private let detailsHeight: CGFloat = 110
+    private let processesHeight: CGFloat = 22*5
     
     private var dashboardView: NSView? = nil
     
@@ -37,11 +38,14 @@ internal class Popup: NSView {
     
     private var initialized: Bool = false
     
+    private var processes: [NetworkProcessView] = []
+    
     public init() {
-        super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: dashboardHeight + Constants.Popup.separatorHeight + detailsHeight))
+        super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: dashboardHeight + (Constants.Popup.separatorHeight*2) + detailsHeight + processesHeight))
         
         initDashboard()
         initDetails()
+        initProcesses()
     }
     
     required init?(coder: NSCoder) {
@@ -157,6 +161,23 @@ internal class Popup: NSView {
         self.addSubview(view)
     }
     
+    private func initProcesses() {
+        let separator = SeparatorView("Top processes", origin: NSPoint(x: 0, y: self.processesHeight), width: self.frame.width)
+        self.addSubview(separator)
+        
+        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.processesHeight))
+        
+        self.processes.append(NetworkProcessView(0))
+        self.processes.append(NetworkProcessView(1))
+        self.processes.append(NetworkProcessView(2))
+        self.processes.append(NetworkProcessView(3))
+        self.processes.append(NetworkProcessView(4))
+        
+        self.processes.forEach{ view.addSubview($0) }
+        
+        self.addSubview(view)
+    }
+    
     public func usageCallback(_ value: Network_Usage) {
         DispatchQueue.main.async(execute: {
             if !(self.window?.isVisible ?? false) && self.initialized {
@@ -199,6 +220,20 @@ internal class Popup: NSView {
             self.initialized = true
         })
     }
+    
+    public func processCallback(_ list: [Network_Process]) {
+        DispatchQueue.main.async(execute: {
+            for i in 0..<list.count {
+                let process = list[i]
+                let index = list.count-i-1
+                if self.processes.indices.contains(index) {
+                    self.processes[index].label = process.name
+                    self.processes[index].upload = Units(bytes: Int64(process.upload)).getReadableSpeed()
+                    self.processes[index].download = Units(bytes: Int64(process.download)).getReadableSpeed()
+                }
+            }
+        })
+    }
 }
 
 extension ValueField {
@@ -231,5 +266,63 @@ extension ValueField {
         let pasteboard = NSPasteboard.general
         pasteboard.declareTypes([.string], owner: nil)
         pasteboard.setString(value, forType: .string)
+    }
+}
+
+public class NetworkProcessView: NSView {
+    public var width: CGFloat {
+        get { return 0 }
+        set {
+            self.setFrameSize(NSSize(width: newValue, height: self.frame.height))
+        }
+    }
+    
+    public var label: String {
+        get { return "" }
+        set {
+            self.labelView?.stringValue = newValue
+        }
+    }
+    public var upload: String {
+        get { return "" }
+        set {
+            self.uploadView?.stringValue = newValue
+        }
+    }
+    public var download: String {
+        get { return "" }
+        set {
+            self.downloadView?.stringValue = newValue
+        }
+    }
+    
+    private var labelView: LabelField? = nil
+    private var uploadView: ValueField? = nil
+    private var downloadView: ValueField? = nil
+    
+    public init(_ n: CGFloat) {
+        super.init(frame: NSRect(x: 0, y: n*22, width: Constants.Popup.width, height: 16))
+        
+        let rowView: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 16))
+        
+        let labelView: LabelField = LabelField(frame: NSRect(x: 0, y: 0.5, width: rowView.frame.width - 120, height: 15), "")
+        let uploadView: ValueField = ValueField(frame: NSRect(x: rowView.frame.width - 120, y: 1.75, width: 60, height: 12), "")
+        let downloadView: ValueField = ValueField(frame: NSRect(x: rowView.frame.width - 60, y: 1.75, width: 60, height: 12), "")
+        uploadView.font = NSFont.systemFont(ofSize: 10, weight: .regular)
+        downloadView.font = NSFont.systemFont(ofSize: 10, weight: .regular)
+        
+        rowView.addSubview(labelView)
+        rowView.addSubview(uploadView)
+        rowView.addSubview(downloadView)
+        
+        self.labelView = labelView
+        self.uploadView = uploadView
+        self.downloadView = downloadView
+        
+        self.addSubview(rowView)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }

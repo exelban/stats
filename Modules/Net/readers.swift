@@ -188,3 +188,107 @@ internal class UsageReader: Reader<Network_Usage> {
         return (upload: Int64(data?.pointee.ifi_obytes ?? 0), download: Int64(data?.pointee.ifi_ibytes ?? 0))
     }
 }
+
+public class ProcessReader: Reader<[Network_Process]> {
+    private var previous: [Network_Process] = []
+    
+    public override func setup() {
+        self.popup = true
+    }
+    
+    public override func read() {
+        let task = Process()
+        task.launchPath = "/usr/bin/nettop"
+        task.arguments = ["-P", "-L", "1", "-k", "time,interface,state,rx_dupe,rx_ooo,re-tx,rtt_avg,rcvsize,tx_win,tc_class,tc_mgt,cc_algo,P,C,R,W,arch"]
+        
+        let outputPipe = Pipe()
+        let errorPipe = Pipe()
+        
+        task.standardOutput = outputPipe
+        task.standardError = errorPipe
+        
+        do {
+            try task.run()
+        } catch let error {
+            print(error)
+            return
+        }
+        
+        let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
+        let errorData = errorPipe.fileHandleForReading.readDataToEndOfFile()
+        let output = String(decoding: outputData, as: UTF8.self)
+        _ = String(decoding: errorData, as: UTF8.self)
+        
+        if output.isEmpty {
+            return
+        }
+
+        var list: [Network_Process] = []
+        var firstLine = false
+        output.enumerateLines { (line, _) -> () in
+            if !firstLine {
+                firstLine = true
+                return
+            }
+            
+            let parsedLine = line.split(separator: ",")
+            guard parsedLine.count >= 3 else {
+                return
+            }
+            
+            var process = Network_Process()
+            process.time = Date()
+            
+            let nameArray = parsedLine[0].split(separator: ".")
+            if let pid = nameArray.last {
+                process.pid = String(pid)
+            }
+            if let app = NSRunningApplication(processIdentifier: pid_t(process.pid) ?? 0) {
+                process.name = app.localizedName ?? nameArray.dropLast().joined(separator: ".")
+            } else {
+                process.name = nameArray.dropLast().joined(separator: ".")
+            }
+            
+            if let download = Int(parsedLine[1]) {
+                process.download = download
+            }
+            if let upload = Int(parsedLine[2]) {
+                process.upload = upload
+            }
+            
+            list.append(process)
+        }
+        
+        var processes: [Network_Process] = []
+        if self.previous.count == 0 {
+            self.previous = list
+            processes = list
+        } else {
+            self.previous.forEach { (pp: Network_Process) in
+                if let i = list.firstIndex(where: { $0.pid == pp.pid }) {
+                    let p = list[i]
+                    
+                    let download = p.download - pp.download
+                    let upload = p.upload - pp.upload
+                    let time = download == 0 && upload == 0 ? pp.time : Date()
+                    list[i].time = time
+                    
+                    processes.append(Network_Process(time: time, name: p.name, pid: p.pid, download: download, upload:  upload))
+                }
+            }
+            self.previous = list
+        }
+        
+        processes.sort {
+            if $0.download != $1.download {
+                return $0.download < $1.download
+            } else if $0.upload < $1.upload {
+                return $0.upload < $1.upload
+            } else {
+                return $0.time < $1.time
+            }
+        }
+        
+        self.callback(processes.suffix(5).reversed())
+    }
+}

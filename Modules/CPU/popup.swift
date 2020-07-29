@@ -154,7 +154,7 @@ internal class Popup: NSView {
                 let process = list[i]
                 let index = list.count-i-1
                 if self.processes.indices.contains(index) {
-                    self.processes[index].label = process.command
+                    self.processes[index].label = process.name != nil ? process.name! : process.command
                     self.processes[index].value = "\(process.usage)%"
                 }
             }

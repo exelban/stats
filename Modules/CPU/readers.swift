@@ -193,7 +193,12 @@ public class ProcessReader: Reader<[TopProcess]> {
                 let pid = Int(pidString) ?? 0
                 let usage = Double(usageString.replacingOccurrences(of: ",", with: ".")) ?? 0
                 
-                processes.append(TopProcess(pid: pid, command: command, usage: usage))
+                var name: String? = nil
+                if let app = NSRunningApplication(processIdentifier: pid_t(pid) ) {
+                    name = app.localizedName ?? nil
+                }
+                
+                processes.append(TopProcess(pid: pid, command: command, name: name, usage: usage))
             }
             
             if index == 5 { stop = true }
