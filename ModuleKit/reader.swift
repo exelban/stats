@@ -126,7 +126,9 @@ open class Reader<T>: ReaderInternal_p {
             return
         } else if self.popup && self.locked {
             if !self.ready {
-                self.read()
+                DispatchQueue.global().async {
+                    self.read()
+                }
             }
             return
         }
@@ -138,8 +140,10 @@ open class Reader<T>: ReaderInternal_p {
                 self.read()
             })
         }
-        
-        self.read()
+
+        DispatchQueue.global().async {
+            self.read()
+        }
         self.repeatTask?.start()
     }
     

@@ -12,6 +12,7 @@
 import Cocoa
 import StatsKit
 import ModuleKit
+import os.log
 
 internal class UsageReader: Reader<RAM_Usage> {
     public var totalSize: Double = 0
@@ -32,7 +33,7 @@ internal class UsageReader: Reader<RAM_Usage> {
         }
         
         self.totalSize = 0
-        print("Error with host_info(): " + (String(cString: mach_error_string(kerr), encoding: String.Encoding.ascii) ?? "unknown error"))
+        os_log(.error, log: log, "host_info(): %s", "\((String(cString: mach_error_string(kerr), encoding: String.Encoding.ascii) ?? "unknown error"))")
     }
     
     public override func read() {
@@ -74,7 +75,7 @@ internal class UsageReader: Reader<RAM_Usage> {
             return
         }
         
-        print("Error with host_statistics64(): " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
+        os_log(.error, log: log, "host_statistics64(): %s", "\((String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))")
     }
 }
 
@@ -97,7 +98,7 @@ public class ProcessReader: Reader<[TopProcess]> {
         do {
             try task.run()
         } catch let error {
-            print(error)
+            os_log(.error, log: log, "top(): %s", "\(error.localizedDescription)")
             return
         }
         

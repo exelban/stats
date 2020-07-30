@@ -41,6 +41,7 @@ struct Battery_Usage: value_t {
 
 public class Battery: Module {
     private var usageReader: UsageReader? = nil
+    private var processReader: ProcessReader? = nil
     private let popupView: Popup = Popup()
     private var settingsView: Settings
     
@@ -60,6 +61,7 @@ public class Battery: Module {
         guard self.available else { return }
         
         self.usageReader = UsageReader()
+        self.processReader = ProcessReader()
         
         self.usageReader?.readyCallback = { [unowned self] in
             self.readyHandler()
@@ -68,7 +70,16 @@ public class Battery: Module {
             self.usageCallback(value)
         }
         
+        self.processReader?.callbackHandler = { [unowned self] value in
+            if let list = value {
+                self.popupView.processCallback(list)
+            }
+        }
+        
         if let reader = self.usageReader {
+            self.addReader(reader)
+        }
+        if let reader = self.processReader {
             self.addReader(reader)
         }
     }

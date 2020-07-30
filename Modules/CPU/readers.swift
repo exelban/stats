@@ -12,6 +12,7 @@
 import Cocoa
 import StatsKit
 import ModuleKit
+import os.log
 
 internal class LoadReader: Reader<CPU_Load> {
     public var store: UnsafePointer<Store>? = nil
@@ -96,7 +97,7 @@ internal class LoadReader: Reader<CPU_Load> {
             self.cpuInfo = nil
             self.numCpuInfo = 0
         } else {
-            print("ERROR host_processor_info(): " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
+            os_log(.error, log: log, "host_processor_info(): %s", "\((String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))")
         }
         
         let cpuInfo = hostCPULoadInfo()
@@ -141,7 +142,7 @@ internal class LoadReader: Reader<CPU_Load> {
             }
         }
         if result != KERN_SUCCESS {
-            print("Error  - \(#file): \(#function) - kern_result_t = \(result)")
+            os_log(.error, log: log, "kern_result_t: %s", "\(result)")
             return nil
         }
         
@@ -168,7 +169,7 @@ public class ProcessReader: Reader<[TopProcess]> {
         do {
             try task.run()
         } catch let error {
-            print(error)
+            os_log(.error, log: log, "error read ps: %s", "\(error.localizedDescription)")
             return
         }
         
