@@ -16,6 +16,7 @@ import StatsKit
 internal class Popup: NSView {
     private let dashboardHeight: CGFloat = 90
     private let detailsHeight: CGFloat = 66
+    private let processesHeight: CGFloat = 22*5
     
     private var totalField: NSTextField? = nil
     private var usedField: NSTextField? = nil
@@ -29,11 +30,14 @@ internal class Popup: NSView {
     private var chart: LineChartView? = nil
     private var initialized: Bool = false
     
+    private var processes: [ProcessView] = []
+    
     public init() {
-        super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: dashboardHeight + Constants.Popup.separatorHeight + detailsHeight))
+        super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: dashboardHeight + (Constants.Popup.separatorHeight*2) + detailsHeight + processesHeight))
         
         initFirstView()
         initDetails()
+        initProcesses()
     }
     
     required init?(coder: NSCoder) {
@@ -78,6 +82,23 @@ internal class Popup: NSView {
         self.addSubview(view)
     }
     
+    private func initProcesses() {
+        let separator = SeparatorView("Top processes", origin: NSPoint(x: 0, y: self.processesHeight), width: self.frame.width)
+        self.addSubview(separator)
+        
+        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.processesHeight))
+        
+        self.processes.append(ProcessView(0))
+        self.processes.append(ProcessView(1))
+        self.processes.append(ProcessView(2))
+        self.processes.append(ProcessView(3))
+        self.processes.append(ProcessView(4))
+        
+        self.processes.forEach{ view.addSubview($0) }
+        
+        self.addSubview(view)
+    }
+    
     private func addFirstRow(mView: NSView, y: CGFloat, title: String, value: String) -> NSTextField {
         let rowView: NSView = NSView(frame: NSRect(x: 0, y: y, width: mView.frame.width, height: 16))
         
@@ -114,6 +135,19 @@ internal class Popup: NSView {
             }
             
             self.chart?.addValue(value.usage!)
+        })
+    }
+    
+    public func processCallback(_ list: [TopProcess]) {
+        DispatchQueue.main.async(execute: {
+            for i in 0..<list.count {
+                let process = list[i]
+                let index = list.count-i-1
+                if self.processes.indices.contains(index) {
+                    self.processes[index].label = process.name != nil ? process.name! : process.command
+                    self.processes[index].value = Units(bytes: Int64(process.usage)).getReadableMemory()
+                }
+            }
         })
     }
 }

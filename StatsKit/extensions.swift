@@ -152,6 +152,10 @@ extension String: LocalizedError {
         buf.append(0)
         return String(cString: buf)
     }
+    
+    public func matches(_ regex: String) -> Bool {
+        return self.range(of: regex, options: .regularExpression, range: nil, locale: nil) != nil
+    }
 }
 
 public extension Int {
@@ -813,4 +817,18 @@ public func showNotification(title: String, subtitle: String, id: String = UUID(
     NSUserNotificationCenter.default.deliver(notification)
     
     return notification
+}
+
+public struct TopProcess {
+    public var pid: Int
+    public var command: String
+    public var name: String?
+    public var usage: Double
+    
+    public init(pid: Int, command: String, name: String?, usage: Double) {
+        self.pid = pid
+        self.command = command
+        self.name = name
+        self.usage = usage
+    }
 }

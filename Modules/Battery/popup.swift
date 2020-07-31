@@ -14,10 +14,11 @@ import ModuleKit
 import StatsKit
 
 internal class Popup: NSView {
-    let dashboardHeight: CGFloat = 90
-    let detailsHeight: CGFloat = 88
-    let batteryHeight: CGFloat = 66
-    let adapterHeight: CGFloat = 44
+    private let dashboardHeight: CGFloat = 90
+    private let detailsHeight: CGFloat = 88
+    private let batteryHeight: CGFloat = 66
+    private let adapterHeight: CGFloat = 44
+    private let processesHeight: CGFloat = 22*5
     
     private var dashboardView: NSView? = nil
     private var dashboardBatteryView: BatteryView? = nil
@@ -38,18 +39,21 @@ internal class Popup: NSView {
     private var powerField: NSTextField? = nil
     private var chargingStateField: NSTextField? = nil
     
+    private var processes: [ProcessView] = []
+    
     public init() {
         super.init(frame: NSRect(
             x: 0,
             y: 0,
             width: Constants.Popup.width,
-            height: dashboardHeight + detailsHeight + batteryHeight + adapterHeight + (Constants.Popup.separatorHeight * 3)
+            height: dashboardHeight + detailsHeight + batteryHeight + adapterHeight + (Constants.Popup.separatorHeight * 4) + processesHeight
         ))
         
         self.initDashboard()
         self.initDetails()
         self.initBattery()
         self.initAdapter()
+        self.initProcesses()
     }
     
     required init?(coder: NSCoder) {
@@ -127,6 +131,23 @@ internal class Popup: NSView {
         self.adapterView = view
     }
     
+    private func initProcesses() {
+        let separator = SeparatorView("Top processes", origin: NSPoint(x: 0, y: self.processesHeight), width: self.frame.width)
+        self.addSubview(separator)
+        
+        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.processesHeight))
+        
+        self.processes.append(ProcessView(0))
+        self.processes.append(ProcessView(1))
+        self.processes.append(ProcessView(2))
+        self.processes.append(ProcessView(3))
+        self.processes.append(ProcessView(4))
+        
+        self.processes.forEach{ view.addSubview($0) }
+        
+        self.addSubview(view)
+    }
+    
     public func usageCallback(_ value: Battery_Usage) {
         DispatchQueue.main.async(execute: {
             self.dashboardBatteryView?.setValue(abs(value.level))
@@ -163,6 +184,19 @@ internal class Popup: NSView {
             
             self.powerField?.stringValue = value.powerSource == "Battery Power" ? "Not connected" : "\(value.ACwatts) W"
             self.chargingStateField?.stringValue = value.isCharging ? "Yes" : "No"
+        })
+    }
+    
+    public func processCallback(_ list: [TopProcess]) {
+        DispatchQueue.main.async(execute: {
+            for i in 0..<list.count {
+                let process = list[i]
+                let index = list.count-i-1
+                if self.processes.indices.contains(index) {
+                    self.processes[index].label = process.name != nil ? process.name! : process.command
+                    self.processes[index].value = "\(process.usage)%"
+                }
+            }
         })
     }
 }

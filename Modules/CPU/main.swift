@@ -25,17 +25,12 @@ public struct CPU_Load: value_t {
     }
 }
 
-public struct TopProcess {
-    var pid: Int = 0
-    var command: String = ""
-    var usage: Double = 0
-}
-
 public class CPU: Module {
-    private let popupView: Popup = Popup()
+    private var popupView: Popup
     private var settingsView: Settings
     
     private var loadReader: LoadReader? = nil
+    private var processReader: ProcessReader? = nil
     private let smc: UnsafePointer<SMCService>?
     private let store: UnsafePointer<Store>
     
@@ -49,6 +44,7 @@ public class CPU: Module {
         self.store = store
         self.smc = smc
         self.settingsView = Settings("CPU", store: store)
+        self.popupView = Popup("CPU", store: store)
         
         super.init(
             store: store,
@@ -59,6 +55,8 @@ public class CPU: Module {
         
         self.loadReader = LoadReader()
         self.loadReader?.store = store
+        
+        self.processReader = ProcessReader()
         
         self.settingsView.callback = { [unowned self] in
             self.loadReader?.read()
@@ -74,13 +72,22 @@ public class CPU: Module {
             self.loadCallback(value)
         }
         
+        self.processReader?.callbackHandler = { [unowned self] value in
+            if let list = value {
+                self.popupView.processCallback(list)
+            }
+        }
+        
         if let reader = self.loadReader {
+            self.addReader(reader)
+        }
+        if let reader = self.processReader {
             self.addReader(reader)
         }
     }
     
     private func loadCallback(_ value: CPU_Load?) {
-        if value == nil {
+        guard value != nil else {
             return
         }
         

@@ -57,8 +57,17 @@ public struct Network_Usage: value_t {
     public var widget_value: Double = 0
 }
 
+public struct Network_Process {
+    var time: Date = Date()
+    var name: String = ""
+    var pid: String = ""
+    var download: Int = 0
+    var upload: Int = 0
+}
+
 public class Network: Module {
-    private var usageReader: UsageReader?
+    private var usageReader: UsageReader? = nil
+    private var processReader: ProcessReader? = nil
     private let popupView: Popup = Popup()
     private var settingsView: Settings
     
@@ -75,11 +84,19 @@ public class Network: Module {
         self.usageReader = UsageReader()
         self.usageReader?.store = store
         
+        self.processReader = ProcessReader()
+        
         self.usageReader?.readyCallback = { [unowned self] in
             self.readyHandler()
         }
         self.usageReader?.callbackHandler = { [unowned self] value in
             self.usageCallback(value)
+        }
+        
+        self.processReader?.callbackHandler = { [unowned self] value in
+            if let list = value {
+                self.popupView.processCallback(list)
+            }
         }
         
         self.settingsView.callback = { [unowned self] in
@@ -88,6 +105,9 @@ public class Network: Module {
         }
         
         if let reader = self.usageReader {
+            self.addReader(reader)
+        }
+        if let reader = self.processReader {
             self.addReader(reader)
         }
     }

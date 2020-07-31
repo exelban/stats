@@ -10,7 +10,9 @@
 //
 
 import Cocoa
+import StatsKit
 import ModuleKit
+import os.log
 
 internal class UsageReader: Reader<RAM_Usage> {
     public var totalSize: Double = 0
@@ -31,7 +33,7 @@ internal class UsageReader: Reader<RAM_Usage> {
         }
         
         self.totalSize = 0
-        print("Error with host_info(): " + (String(cString: mach_error_string(kerr), encoding: String.Encoding.ascii) ?? "unknown error"))
+        os_log(.error, log: log, "host_info(): %s", "\((String(cString: mach_error_string(kerr), encoding: String.Encoding.ascii) ?? "unknown error"))")
     }
     
     public override func read() {
@@ -73,6 +75,69 @@ internal class UsageReader: Reader<RAM_Usage> {
             return
         }
         
-        print("Error with host_statistics64(): " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
+        os_log(.error, log: log, "host_statistics64(): %s", "\((String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))")
+    }
+}
+
+public class ProcessReader: Reader<[TopProcess]> {
+    public override func setup() {
+        self.popup = true
+    }
+    
+    public override func read() {
+        let task = Process()
+        task.launchPath = "/usr/bin/top"
+        task.arguments = ["-l", "1", "-o", "mem", "-n", "5", "-stats", "pid,command,mem"]
+        
+        let outputPipe = Pipe()
+        let errorPipe = Pipe()
+        
+        task.standardOutput = outputPipe
+        task.standardError = errorPipe
+        
+        do {
+            try task.run()
+        } catch let error {
+            os_log(.error, log: log, "top(): %s", "\(error.localizedDescription)")
+            return
+        }
+        
+        let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
+        let errorData = errorPipe.fileHandleForReading.readDataToEndOfFile()
+        let output = String(decoding: outputData, as: UTF8.self)
+        _ = String(decoding: errorData, as: UTF8.self)
+        
+        if output.isEmpty {
+            return
+        }
+        
+        var processes: [TopProcess] = []
+        output.enumerateLines { (line, _) -> () in
+            if line.matches("^\\d+ + .+ +\\d+.\\d[M\\+\\-]+ *$") {
+                var str = line.trimmingCharacters(in: .whitespaces)
+                let pidString = str.findAndCrop(pattern: "^\\d+")
+                let usageString = str.findAndCrop(pattern: " [0-9]+M(\\+|\\-)*$")
+                var command = str.trimmingCharacters(in: .whitespaces)
+                
+                if let regex = try? NSRegularExpression(pattern: " (\\+|\\-)*$", options: .caseInsensitive) {
+                    command = regex.stringByReplacingMatches(in: command, options: [], range: NSRange(location: 0, length:  command.count), withTemplate: "")
+                }
+                
+                let pid = Int(pidString) ?? 0
+                guard let usage = Double(usageString.filter("01234567890.".contains)) else {
+                    return
+                }
+                
+                var name: String? = nil
+                if let app = NSRunningApplication(processIdentifier: pid_t(pid) ) {
+                    name = app.localizedName ?? nil
+                }
+                
+                let process = TopProcess(pid: pid, command: command, name: name, usage: usage * Double(1024 * 1024))
+                processes.append(process)
+            }
+        }
+        
+        self.callback(processes)
     }
 }

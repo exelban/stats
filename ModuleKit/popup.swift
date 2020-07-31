@@ -12,11 +12,12 @@
 import Cocoa
 import StatsKit
 
-internal class PopupWindow: NSPanel, NSWindowDelegate {
+internal class PopupWindow: NSPanel {
     private let viewController: PopupViewController = PopupViewController()
     
-    init(title: String, view: NSView?) {
+    init(title: String, view: NSView?, visibilityCallback: @escaping (_ state: Bool) -> Void) {
         self.viewController.setup(title: title, view: view)
+        self.viewController.visibilityCallback = visibilityCallback
         
         super.init(
             contentRect: NSMakeRect(0, 0, self.viewController.view.frame.width, self.viewController.view.frame.height),
@@ -40,6 +41,7 @@ internal class PopupWindow: NSPanel, NSWindowDelegate {
 }
 
 internal class PopupViewController: NSViewController {
+    public var visibilityCallback: (_ state: Bool) -> Void = {_ in }
     private var popup: PopupView
     
     public init() {
@@ -60,11 +62,17 @@ internal class PopupViewController: NSViewController {
     }
     
     override func viewWillAppear() {
+        super.viewWillAppear()
+        
         self.popup.appear()
+        self.visibilityCallback(true)
     }
     
     override func viewWillDisappear() {
+        super.viewWillDisappear()
+        
         self.popup.disappear()
+        self.visibilityCallback(false)
     }
     
     public func setup(title: String, view: NSView?) {
@@ -227,5 +235,51 @@ internal class HeaderView: NSView {
     @objc func openMenu(_ sender: Any) {
         self.window?.setIsVisible(false)
         NotificationCenter.default.post(name: .toggleSettings, object: nil, userInfo: ["module": self.titleView?.stringValue ?? ""])
+    }
+}
+
+public class ProcessView: NSView {
+    public var width: CGFloat {
+        get { return 0 }
+        set {
+            self.setFrameSize(NSSize(width: newValue, height: self.frame.height))
+        }
+    }
+    
+    public var label: String {
+        get { return "" }
+        set {
+            self.labelView?.stringValue = newValue
+        }
+    }
+    public var value: String {
+        get { return "" }
+        set {
+            self.valueView?.stringValue = newValue
+        }
+    }
+    
+    private var labelView: LabelField? = nil
+    private var valueView: ValueField? = nil
+    
+    public init(_ n: CGFloat) {
+        super.init(frame: NSRect(x: 0, y: n*22, width: Constants.Popup.width, height: 16))
+        
+        let rowView: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 16))
+        
+        let labelView: LabelField = LabelField(frame: NSRect(x: 0, y: 0.5, width: rowView.frame.width - 70, height: 15), "")
+        let valueView: ValueField = ValueField(frame: NSRect(x: rowView.frame.width - 70, y: 0, width: 70, height: 16), "")
+        
+        rowView.addSubview(labelView)
+        rowView.addSubview(valueView)
+        
+        self.labelView = labelView
+        self.valueView = valueView
+        
+        self.addSubview(rowView)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }

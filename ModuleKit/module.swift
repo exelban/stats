@@ -70,6 +70,7 @@ open class Module: Module_p {
     
     private var settingsView: Settings_v? = nil
     private var popup: NSWindow = NSWindow()
+    private var popupView: NSView? = nil
     
     private let log: OSLog
     private var store: UnsafePointer<Store>
@@ -91,6 +92,7 @@ open class Module: Module_p {
         self.log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: self.config.name)
         self.store = store
         self.settingsView = settings
+        self.popupView = popup
         self.available = self.isAvailable()
         self.enabled = self.store.pointee.bool(key: "\(self.config.name)_state", defaultValue: self.config.defaultState)
         self.menuBarItem.isVisible = self.enabled
@@ -105,6 +107,7 @@ open class Module: Module_p {
         NotificationCenter.default.addObserver(self, selector: #selector(listenForMouseDownInSettings), name: .clickInSettings, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(listenForModuleToggle), name: .toggleModule, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(listenChangingPopupSize), name: .updatePopupSize, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(listenResignActive), name: NSApplication.willResignActiveNotification, object: nil)
         
         if self.config.widgetsConfig.count != 0 {
             self.setWidget()
@@ -117,7 +120,11 @@ open class Module: Module_p {
             self?.toggleEnabled()
         }
         
-        self.popup = PopupWindow(title: self.config.name, view: popup)
+        self.popup = PopupWindow(title: self.config.name, view: self.popupView, visibilityCallback: self.visibilityCallback)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     // load function which call when app start
@@ -212,6 +219,13 @@ open class Module: Module_p {
         self.menuBarItem.length = width
     }
     
+    // replace a popup view
+    public func replacePopup(_ view: NSView) {
+        self.popup.setIsVisible(false)
+        self.popupView = view
+        self.popup = PopupWindow(title: self.config.name, view: self.popupView, visibilityCallback: self.visibilityCallback)
+    }
+    
     // determine if module is available (can be overrided in module)
     open func isAvailable() -> Bool { return true }
     
@@ -260,6 +274,21 @@ open class Module: Module_p {
         }
         
         self.settings?.setActiveWidget(self.widget)
+    }
+    
+    // call when popup appear/disappear
+    private func visibilityCallback(_ state: Bool) {
+        DispatchQueue.global(qos: .background).async {
+            self.readers.filter{ $0.popup }.forEach { (reader: Reader_p) in
+                if state {
+                    reader.unlock()
+                    reader.start()
+                } else {
+                    reader.stop()
+                    reader.lock()
+                }
+            }
+        }
     }
     
     @objc private func togglePopup(_ sender: Any) {
@@ -329,5 +358,9 @@ open class Module: Module_p {
                 self.popup.setIsVisible(false)
             }
         }
+    }
+    
+    @objc private func listenResignActive(_ notification: Notification) {
+        self.visibilityCallback(false)
     }
 }

@@ -14,8 +14,12 @@ import ModuleKit
 import StatsKit
 
 internal class Popup: NSView {
+    private var store: UnsafePointer<Store>
+    private var title: String
+    
     private let dashboardHeight: CGFloat = 90
     private let detailsHeight: CGFloat = 66 // -26
+    private let processesHeight: CGFloat = 22*5
     
     private var loadField: NSTextField? = nil
     private var temperatureField: NSTextField? = nil
@@ -24,14 +28,20 @@ internal class Popup: NSView {
     private var userField: NSTextField? = nil
     private var idleField: NSTextField? = nil
     
-    public var chart: LineChartView? = nil
+    private var chart: LineChartView? = nil
     private var ready: Bool = false
     
-    public init() {
-        super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: dashboardHeight + Constants.Popup.separatorHeight + detailsHeight))
+    private var processes: [ProcessView] = []
+    
+    public init(_ title: String, store: UnsafePointer<Store>) {
+        self.store = store
+        self.title = title
+        
+        super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: dashboardHeight + (Constants.Popup.separatorHeight*2) + detailsHeight + processesHeight))
         
         initDashboard()
         initDetails()
+        initProcesses()
     }
     
     required init?(coder: NSCoder) {
@@ -70,6 +80,23 @@ internal class Popup: NSView {
         self.systemField = PopupRow(view, n: 2, title: "System:", value: "")
         self.userField = PopupRow(view, n: 1, title: "User:", value: "")
         self.idleField = PopupRow(view, n: 0, title: "Idle:", value: "")
+        
+        self.addSubview(view)
+    }
+    
+    private func initProcesses() {
+        let separator = SeparatorView("Top processes", origin: NSPoint(x: 0, y: self.processesHeight), width: self.frame.width)
+        self.addSubview(separator)
+        
+        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.processesHeight))
+        
+        self.processes.append(ProcessView(0))
+        self.processes.append(ProcessView(1))
+        self.processes.append(ProcessView(2))
+        self.processes.append(ProcessView(3))
+        self.processes.append(ProcessView(4))
+        
+        self.processes.forEach{ view.addSubview($0) }
         
         self.addSubview(view)
     }
@@ -120,50 +147,17 @@ internal class Popup: NSView {
             self.chart?.addValue(value.totalUsage)
         })
     }
-}
-
-private class ProcessView: NSView {
-    public var width: CGFloat {
-        get { return 0 }
-        set {
-            self.setFrameSize(NSSize(width: newValue, height: self.frame.height))
-        }
-    }
     
-    public var label: String {
-        get { return "" }
-        set {
-            self.labelView?.stringValue = newValue
-        }
-    }
-    public var value: String {
-        get { return "" }
-        set {
-            self.valueView?.stringValue = newValue
-        }
-    }
-    
-    private var labelView: LabelField? = nil
-    private var valueView: ValueField? = nil
-    
-    init(_ n: CGFloat) {
-        super.init(frame: NSRect(x: 0, y: n*22, width: Constants.Popup.width, height: 16))
-        
-        let rowView: NSView = NSView(frame: NSRect(x: Constants.Popup.margins, y: 0, width: self.frame.width - (Constants.Popup.margins*2), height: 16))
-        
-        let labelView: LabelField = LabelField(frame: NSRect(x: 0, y: 0.5, width: 50, height: 15), "")
-        let valueView: ValueField = ValueField(frame: NSRect(x: 50, y: 0, width: rowView.frame.width - 50, height: 16), "")
-        
-        rowView.addSubview(labelView)
-        rowView.addSubview(valueView)
-        
-        self.labelView = labelView
-        self.valueView = valueView
-        
-        self.addSubview(rowView)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    public func processCallback(_ list: [TopProcess]) {
+        DispatchQueue.main.async(execute: {
+            for i in 0..<list.count {
+                let process = list[i]
+                let index = list.count-i-1
+                if self.processes.indices.contains(index) {
+                    self.processes[index].label = process.name != nil ? process.name! : process.command
+                    self.processes[index].value = "\(process.usage)%"
+                }
+            }
+        })
     }
 }
