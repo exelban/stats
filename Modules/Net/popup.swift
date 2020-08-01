@@ -230,6 +230,7 @@ internal class Popup: NSView {
                     self.processes[index].label = process.name
                     self.processes[index].upload = Units(bytes: Int64(process.upload)).getReadableSpeed()
                     self.processes[index].download = Units(bytes: Int64(process.download)).getReadableSpeed()
+                    self.processes[index].icon = process.icon
                 }
             }
         })
@@ -277,6 +278,12 @@ public class NetworkProcessView: NSView {
         }
     }
     
+    public var icon: NSImage? {
+        get { return NSImage() }
+        set {
+            self.imageView?.image = newValue
+        }
+    }
     public var label: String {
         get { return "" }
         set {
@@ -296,6 +303,7 @@ public class NetworkProcessView: NSView {
         }
     }
     
+    private var imageView: NSImageView? = nil
     private var labelView: LabelField? = nil
     private var uploadView: ValueField? = nil
     private var downloadView: ValueField? = nil
@@ -305,16 +313,19 @@ public class NetworkProcessView: NSView {
         
         let rowView: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 16))
         
-        let labelView: LabelField = LabelField(frame: NSRect(x: 0, y: 0.5, width: rowView.frame.width - 120, height: 15), "")
+        let imageView: NSImageView = NSImageView(frame: NSRect(x: 2, y: 2, width: 12, height: 12))
+        let labelView: LabelField = LabelField(frame: NSRect(x: 18, y: 0.5, width: rowView.frame.width - 138, height: 15), "")
         let uploadView: ValueField = ValueField(frame: NSRect(x: rowView.frame.width - 120, y: 1.75, width: 60, height: 12), "")
         let downloadView: ValueField = ValueField(frame: NSRect(x: rowView.frame.width - 60, y: 1.75, width: 60, height: 12), "")
         uploadView.font = NSFont.systemFont(ofSize: 10, weight: .regular)
         downloadView.font = NSFont.systemFont(ofSize: 10, weight: .regular)
         
+        rowView.addSubview(imageView)
         rowView.addSubview(labelView)
         rowView.addSubview(uploadView)
         rowView.addSubview(downloadView)
         
+        self.imageView = imageView
         self.labelView = labelView
         self.uploadView = uploadView
         self.downloadView = downloadView

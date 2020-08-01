@@ -129,11 +129,13 @@ public class ProcessReader: Reader<[TopProcess]> {
                 }
                 
                 var name: String? = nil
+                var icon: NSImage? = nil
                 if let app = NSRunningApplication(processIdentifier: pid_t(pid) ) {
                     name = app.localizedName ?? nil
+                    icon = app.icon
                 }
                 
-                let process = TopProcess(pid: pid, command: command, name: name, usage: usage * Double(1024 * 1024))
+                let process = TopProcess(pid: pid, command: command, name: name, usage: usage * Double(1024 * 1024), icon: icon)
                 processes.append(process)
             }
         }

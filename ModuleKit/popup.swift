@@ -246,6 +246,12 @@ public class ProcessView: NSView {
         }
     }
     
+    public var icon: NSImage? {
+        get { return NSImage() }
+        set {
+            self.imageView?.image = newValue
+        }
+    }
     public var label: String {
         get { return "" }
         set {
@@ -259,6 +265,7 @@ public class ProcessView: NSView {
         }
     }
     
+    private var imageView: NSImageView? = nil
     private var labelView: LabelField? = nil
     private var valueView: ValueField? = nil
     
@@ -267,12 +274,15 @@ public class ProcessView: NSView {
         
         let rowView: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 16))
         
-        let labelView: LabelField = LabelField(frame: NSRect(x: 0, y: 0.5, width: rowView.frame.width - 70, height: 15), "")
-        let valueView: ValueField = ValueField(frame: NSRect(x: rowView.frame.width - 70, y: 0, width: 70, height: 16), "")
+        let imageView: NSImageView = NSImageView(frame: NSRect(x: 2, y: 2, width: 12, height: 12))
+        let labelView: LabelField = LabelField(frame: NSRect(x: 18, y: 0.5, width: rowView.frame.width - 70 - 18, height: 15), "")
+        let valueView: ValueField = ValueField(frame: NSRect(x: 18 + labelView.frame.width, y: 0, width: 70, height: 16), "")
         
+        rowView.addSubview(imageView)
         rowView.addSubview(labelView)
         rowView.addSubview(valueView)
         
+        self.imageView = imageView
         self.labelView = labelView
         self.valueView = valueView
         

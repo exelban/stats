@@ -134,7 +134,9 @@ open class Reader<T>: ReaderInternal_p {
         }
         
         if let interval = self.interval, self.repeatTask == nil {
-            os_log(.debug, log: self.log, "Set up update interval: %.0f sec", interval)
+            if !self.popup && !self.optional {
+                os_log(.debug, log: self.log, "Set up update interval: %.0f sec", interval)
+            }
             
             self.repeatTask = Repeater.init(interval: .seconds(interval), observer: { _ in
                 self.read()

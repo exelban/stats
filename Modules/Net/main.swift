@@ -63,6 +63,7 @@ public struct Network_Process {
     var pid: String = ""
     var download: Int = 0
     var upload: Int = 0
+    var icon: NSImage? = nil
 }
 
 public class Network: Module {

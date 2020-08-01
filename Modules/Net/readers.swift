@@ -245,6 +245,7 @@ public class ProcessReader: Reader<[Network_Process]> {
             }
             if let app = NSRunningApplication(processIdentifier: pid_t(process.pid) ?? 0) {
                 process.name = app.localizedName ?? nameArray.dropLast().joined(separator: ".")
+                process.icon = app.icon
             } else {
                 process.name = nameArray.dropLast().joined(separator: ".")
             }
@@ -273,7 +274,7 @@ public class ProcessReader: Reader<[Network_Process]> {
                     let time = download == 0 && upload == 0 ? pp.time : Date()
                     list[i].time = time
                     
-                    processes.append(Network_Process(time: time, name: p.name, pid: p.pid, download: download, upload:  upload))
+                    processes.append(Network_Process(time: time, name: p.name, pid: p.pid, download: download, upload:  upload, icon: p.icon))
                 }
             }
             self.previous = list
