@@ -28,6 +28,8 @@ open class Settings: NSView, Settings_p {
     private let headerHeight: CGFloat = 42
     private var widgetSelectorHeight: CGFloat = Constants.Widget.height + (Constants.Settings.margin*2)
     
+    private var settingsView: NSView = NSView()
+    
     private var widgetSelectorView: NSView? = nil
     private var widgetSettingsView: NSView? = nil
     private var moduleSettingsView: NSView? = nil
@@ -50,8 +52,11 @@ open class Settings: NSView, Settings_p {
         NotificationCenter.default.addObserver(self, selector: #selector(externalModuleToggle), name: .toggleModule, object: nil)
         
         self.addHeader(state: enabled)
+        self.addSettings()
+        
         self.addWidgetSelector()
         self.addWidgetSettings()
+        
         if self.moduleSettings != nil {
             self.moduleSettings?.load(widget: self.activeWidget?.type ?? .unknown)
             self.addModuleSettings()
@@ -62,66 +67,35 @@ open class Settings: NSView, Settings_p {
         NotificationCenter.default.removeObserver(self)
     }
     
-    @objc func externalModuleToggle(_ notification: Notification) {
-        if let name = notification.userInfo?["module"] as? String {
-            if name == self.config.pointee.name {
-                if let state = notification.userInfo?["state"] as? Bool {
-                    ToggleNSControlState(self.enableControl, state: state ? .on : .off)
-                }
-            }
-        }
+    required public init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
-    private func addModuleSettings() {
-        guard self.moduleSettings?.frame.height != 0 else {
-            return
-        }
-        
-        let maxHeight: CGFloat = Constants.Settings.height - self.headerHeight - self.widgetSelectorHeight - (self.widgetSettingsView?.frame.height ?? 0) - (Constants.Settings.margin*3)
-        let h: CGFloat = self.moduleSettings!.frame.height > maxHeight ? maxHeight : self.moduleSettings!.frame.height
-        var y: CGFloat = Constants.Settings.height - self.headerHeight - self.widgetSelectorHeight - (self.widgetSettingsView?.frame.height ?? 0) - (Constants.Settings.margin*3) - h
-        if y == 0 {
-            y = Constants.Settings.margin
-        }
-        
+    private func addSettings() {
         let view: NSScrollView = NSScrollView(frame: NSRect(
-            x: Constants.Settings.margin,
-            y: y,
-            width: self.frame.width - (Constants.Settings.margin*2),
-            height: h
+            x: 0,
+            y: 0,
+            width: self.frame.width,
+            height: Constants.Settings.height - self.headerHeight
         ))
         view.wantsLayer = true
-        view.layer?.backgroundColor = .white
-        view.layer!.cornerRadius = 3
+        view.backgroundColor = NSColor(hexString: "#ececec")
+        
         view.translatesAutoresizingMaskIntoConstraints = true
         view.borderType = .noBorder
         view.hasVerticalScroller = true
+        view.hasHorizontalScroller = false
         view.autohidesScrollers = true
+        view.horizontalScrollElasticity = .none
         
-        view.documentView = self.moduleSettings
-        view.documentView?.scroll(NSPoint(x: 0, y: view.documentView!.bounds.size.height))
+        let settings: NSView = FlippedView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: 0))
+        settings.wantsLayer = true
+        settings.layer?.backgroundColor = NSColor(hexString: "#ececec").cgColor
+        
+        view.documentView = settings
         
         self.addSubview(view)
-        self.moduleSettingsView = view
-    }
-    
-    private func addWidgetSettings() {
-        if self.activeWidget == nil {
-            return
-        }
-        
-        let view: NSView = NSView(frame: NSRect(x: Constants.Settings.margin, y: self.frame.height - headerHeight - widgetSelectorHeight - (Constants.Settings.margin*2), width: self.frame.width - (Constants.Settings.margin*2), height: 0))
-        view.wantsLayer = true
-        view.layer?.backgroundColor = .white
-        view.layer!.cornerRadius = 3
-        
-        self.activeWidget?.settings(superview: view)
-        
-        if view.frame.height != 0 {
-            view.setFrameOrigin(NSPoint(x: view.frame.origin.x, y: view.frame.origin.y - view.frame.height))
-            self.addSubview(view)
-            self.widgetSettingsView = view
-        }
+        self.settingsView = settings
     }
     
     private func addWidgetSelector() {
@@ -130,7 +104,12 @@ open class Settings: NSView, Settings_p {
             return
         }
         
-        let view: NSView = NSView(frame: NSRect(x: Constants.Settings.margin, y: self.frame.height - self.headerHeight - self.widgetSelectorHeight - Constants.Settings.margin, width: self.frame.width - (Constants.Settings.margin*2), height: self.widgetSelectorHeight))
+        let view: NSView = NSView(frame: NSRect(
+            x : Constants.Settings.margin,
+            y: Constants.Settings.margin,
+            width: self.settingsView.frame.width - (Constants.Settings.margin*2),
+            height: self.widgetSelectorHeight
+        ))
         view.wantsLayer = true
         view.layer?.backgroundColor = .white
         view.layer!.cornerRadius = 3
@@ -153,8 +132,92 @@ open class Settings: NSView, Settings_p {
             }
         }
         
-        self.addSubview(view)
+        self.settingsView.addSubview(view)
         self.widgetSelectorView = view
+        self.resize()
+    }
+    
+    private func addWidgetSettings() {
+        if self.activeWidget == nil {
+            return
+        }
+        
+        var y: CGFloat = Constants.Settings.margin
+        if self.widgetSelectorView != nil {
+            y += self.widgetSelectorView!.frame.height + Constants.Settings.margin
+        }
+        
+        let view: NSView = NSView(frame: NSRect(
+            x: Constants.Settings.margin,
+            y: y,
+            width: self.settingsView.frame.width - (Constants.Settings.margin*2),
+            height: 0
+        ))
+        view.wantsLayer = true
+        view.layer?.backgroundColor = .white
+        view.layer!.cornerRadius = 3
+        
+        self.activeWidget?.settings(superview: view)
+        
+        if view.frame.height != 0 {
+            self.settingsView.addSubview(view)
+            self.widgetSettingsView = view
+            self.resize()
+        }
+    }
+    
+    private func addModuleSettings() {
+        if self.moduleSettings == nil || self.moduleSettings?.frame.height == 0 {
+            return
+        }
+        
+        var y: CGFloat = Constants.Settings.margin
+        if self.widgetSelectorView != nil {
+            y += self.widgetSelectorView!.frame.height + Constants.Settings.margin
+        }
+        if self.widgetSettingsView != nil {
+            y += self.widgetSettingsView!.frame.height + Constants.Settings.margin
+        }
+        
+        let view: NSView = NSView(frame: NSRect(
+            x: Constants.Settings.margin,
+            y: y,
+            width: self.settingsView.frame.width - (Constants.Settings.margin*2),
+            height: self.moduleSettings?.frame.height ?? 0
+        ))
+        view.wantsLayer = true
+        view.layer?.backgroundColor = .white
+        view.layer!.cornerRadius = 3
+        
+        view.addSubview(self.moduleSettings!)
+        
+        self.settingsView.addSubview(view)
+        self.moduleSettingsView = view
+        self.resize()
+    }
+    
+    private func resize() {
+        var height: CGFloat = Constants.Settings.margin
+        
+        self.settingsView.subviews.forEach({ (v: NSView) in
+            height += v.frame.height + Constants.Settings.margin
+        })
+        
+        if height > Constants.Settings.height - self.headerHeight {
+            if let view = self.widgetSelectorView {
+                view.setFrameSize(NSSize(width: view.frame.width-Constants.Settings.margin, height: view.frame.height))
+            }
+            if let view = self.widgetSettingsView {
+                view.setFrameSize(NSSize(width: view.frame.width-Constants.Settings.margin, height: view.frame.height))
+            }
+            if let view = self.moduleSettingsView {
+                view.setFrameSize(NSSize(width: view.frame.width-Constants.Settings.margin, height: view.frame.height))
+            }
+        }
+        
+        if self.settingsView.frame.height != height {
+            self.settingsView.setFrameSize(NSSize(width: self.settingsView.frame.width, height: height))
+        }
     }
     
     private func recalculateWidgetSelectorOptionsWidth() {
@@ -187,7 +250,7 @@ open class Settings: NSView, Settings_p {
             switchButton.state = state ? .on : .off
             switchButton.action = #selector(self.toggleEnable)
             switchButton.target = self
-
+            
             toggle = switchButton
         } else {
             let button: NSButton = NSButton(frame: NSRect(x: self.frame.width-30, y: 0, width: 15, height: view.frame.height))
@@ -218,20 +281,33 @@ open class Settings: NSView, Settings_p {
         self.toggleCallback()
     }
     
-    public func setActiveWidget(_ widget: Widget_p?) {
-        self.activeWidget = widget
-        
-        self.subviews.filter{ $0 == self.widgetSettingsView || $0 == self.moduleSettingsView }.forEach{ $0.removeFromSuperview() }
-        self.addWidgetSettings()
-        if self.moduleSettings != nil {
-            self.moduleSettings?.load(widget: self.activeWidget?.type ?? .unknown)
-            addModuleSettings()
+    @objc func externalModuleToggle(_ notification: Notification) {
+        if let name = notification.userInfo?["module"] as? String {
+            if name == self.config.pointee.name {
+                if let state = notification.userInfo?["state"] as? Bool {
+                    ToggleNSControlState(self.enableControl, state: state ? .on : .off)
+                }
+            }
         }
     }
     
-    required public init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    public func setActiveWidget(_ widget: Widget_p?) {
+        self.activeWidget = widget
+        
+        self.widgetSettingsView?.removeFromSuperview()
+        self.moduleSettingsView?.removeFromSuperview()
+        
+        self.addWidgetSettings()
+        
+        if self.moduleSettings != nil {
+            self.moduleSettings?.load(widget: self.activeWidget?.type ?? .unknown)
+            self.addModuleSettings()
+        }
     }
+}
+
+open class FlippedView: NSView {
+    open override var isFlipped: Bool { true }
 }
 
 class WidgetPreview: NSView {

@@ -35,8 +35,8 @@ internal class Settings: NSView, Settings_v {
         self.updateIntervalValue = store.pointee.string(key: "\(self.title)_updateInterval", defaultValue: self.updateIntervalValue)
         
         super.init(frame: CGRect(
-            x: Constants.Settings.margin,
-            y: Constants.Settings.margin,
+            x: 0,
+            y: 0,
             width: Constants.Settings.width - (Constants.Settings.margin*2),
             height: 0
         ))

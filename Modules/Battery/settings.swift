@@ -32,7 +32,12 @@ internal class Settings: NSView, Settings_v {
         self.title = title
         self.store = store
         
-        super.init(frame: CGRect(x: Constants.Settings.margin, y: Constants.Settings.margin, width: Constants.Settings.width - (Constants.Settings.margin*2), height: 0))
+        super.init(frame: CGRect(
+            x: 0,
+            y: 0,
+            width: Constants.Settings.width - (Constants.Settings.margin*2),
+            height: 0
+        ))
         
         self.wantsLayer = true
         self.canDrawConcurrently = true
