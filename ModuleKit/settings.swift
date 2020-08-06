@@ -203,18 +203,6 @@ open class Settings: NSView, Settings_p {
             height += v.frame.height + Constants.Settings.margin
         })
         
-        if height > Constants.Settings.height - self.headerHeight {
-            if let view = self.widgetSelectorView {
-                view.setFrameSize(NSSize(width: view.frame.width-Constants.Settings.margin, height: view.frame.height))
-            }
-            if let view = self.widgetSettingsView {
-                view.setFrameSize(NSSize(width: view.frame.width-Constants.Settings.margin, height: view.frame.height))
-            }
-            if let view = self.moduleSettingsView {
-                view.setFrameSize(NSSize(width: view.frame.width-Constants.Settings.margin, height: view.frame.height))
-            }
-        }
-        
         if self.settingsView.frame.height != height {
             self.settingsView.setFrameSize(NSSize(width: self.settingsView.frame.width, height: height))
         }
