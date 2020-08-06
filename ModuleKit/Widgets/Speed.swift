@@ -1,5 +1,5 @@
 //
-//  Network.swift
+//  Speed.swift
 //  ModuleKit
 //
 //  Created by Serhiy Mytrovtsiy on 24/05/2020.
@@ -12,17 +12,17 @@
 import Cocoa
 import StatsKit
 
-public enum network_icon_t: String {
+public enum speed_icon_t: String {
     case none = "None"
     case separator = "separator"
     case dot = "Dots"
     case arrow = "Arrows"
     case char = "Character"
 }
-extension network_icon_t: CaseIterable {}
+extension speed_icon_t: CaseIterable {}
 
-public class NetworkWidget: Widget {
-    private var icon: network_icon_t = .dot
+public class SpeedWidget: Widget {
+    private var icon: speed_icon_t = .dot
     private var state: Bool = false
     private var valueState: Bool = true
     
@@ -40,13 +40,13 @@ public class NetworkWidget: Widget {
         self.store = store
         super.init(frame: CGRect(x: 0, y: Constants.Widget.margin, width: width, height: Constants.Widget.height - (2*Constants.Widget.margin)))
         self.title = widgetTitle
-        self.type = .network
+        self.type = .speed
         self.preview = preview
         self.canDrawConcurrently = true
         
         if self.store != nil {
             self.valueState = store!.pointee.bool(key: "\(self.title)_\(self.type.rawValue)_value", defaultValue: self.valueState)
-            self.icon = network_icon_t(rawValue: store!.pointee.string(key: "\(self.title)_\(self.type.rawValue)_icon", defaultValue: self.icon.rawValue)) ?? self.icon
+            self.icon = speed_icon_t(rawValue: store!.pointee.string(key: "\(self.title)_\(self.type.rawValue)_icon", defaultValue: self.icon.rawValue)) ?? self.icon
         }
         
         if self.valueState && self.icon != .none {
@@ -202,7 +202,7 @@ public class NetworkWidget: Widget {
             frame: NSRect(x: 0, y: rowHeight + Constants.Settings.margin, width: view.frame.width, height: rowHeight),
             title: "Pictogram",
             action: #selector(toggleIcon),
-            items: network_icon_t.allCases.map{ return $0.rawValue },
+            items: speed_icon_t.allCases.map{ return $0.rawValue },
             selected: self.icon.rawValue
         ))
         
@@ -237,7 +237,7 @@ public class NetworkWidget: Widget {
     }
     
     @objc private func toggleIcon(_ sender: NSMenuItem) {
-        let newIcon: network_icon_t = network_icon_t(rawValue: sender.title) ?? .none
+        let newIcon: speed_icon_t = speed_icon_t(rawValue: sender.title) ?? .none
         self.icon = newIcon
         self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_icon", value: self.icon.rawValue)
         self.display()

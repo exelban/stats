@@ -8,7 +8,7 @@
 	<true/>
 	<key>Widgets</key>
 	<dict>
-		<key>network</key>
+		<key>speed</key>
 		<dict>
 			<key>Default</key>
 			<true/>

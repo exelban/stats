@@ -34,7 +34,7 @@
 		9A3E17DF247A94DC00449CD1 /* ModuleKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9AABEADD243FB13500668CB0 /* ModuleKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9A3E17E2247A94DC00449CD1 /* StatsKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A0C82DA24460F7200FAE3D4 /* StatsKit.framework */; };
 		9A3E17E3247A94DC00449CD1 /* StatsKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A0C82DA24460F7200FAE3D4 /* StatsKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9A3E17E8247AA8E100449CD1 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3E17E7247AA8E100449CD1 /* Network.swift */; };
+		9A3E17E8247AA8E100449CD1 /* Speed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3E17E7247AA8E100449CD1 /* Speed.swift */; };
 		9A3E17EA247B07BF00449CD1 /* popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3E17E9247B07BF00449CD1 /* popup.swift */; };
 		9A41530C24ABC3AF00A2BDA7 /* Disk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A41530B24ABC3AF00A2BDA7 /* Disk.swift */; };
 		9A58DE9E24B363D800716A9F /* popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A58DE9D24B363D800716A9F /* popup.swift */; };
@@ -414,7 +414,7 @@
 		9A3E17D8247A94B500449CD1 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		9A3E17DA247A94BC00449CD1 /* readers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = readers.swift; sourceTree = "<group>"; };
 		9A3E17DC247A94C300449CD1 /* config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = config.plist; sourceTree = "<group>"; };
-		9A3E17E7247AA8E100449CD1 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
+		9A3E17E7247AA8E100449CD1 /* Speed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Speed.swift; sourceTree = "<group>"; };
 		9A3E17E9247B07BF00449CD1 /* popup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = popup.swift; sourceTree = "<group>"; };
 		9A41530B24ABC3AF00A2BDA7 /* Disk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Disk.swift; sourceTree = "<group>"; };
 		9A5349CD23D8832E00C23824 /* Reachability.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Reachability.framework; path = Carthage/Build/Mac/Reachability.framework; sourceTree = "<group>"; };
@@ -680,7 +680,7 @@
 				9A7C61B32440DF810032695D /* Mini.swift */,
 				9AA64263244B94F300416A33 /* LineChart.swift */,
 				9A1A7AB924561F0B00A84F7A /* BarChart.swift */,
-				9A3E17E7247AA8E100449CD1 /* Network.swift */,
+				9A3E17E7247AA8E100449CD1 /* Speed.swift */,
 				9ABFF911248BF39500C9041A /* Battery.swift */,
 				9AE29AFD249A82B70071B02D /* Sensors.swift */,
 				9A41530B24ABC3AF00A2BDA7 /* Disk.swift */,
@@ -1316,7 +1316,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9A3E17E8247AA8E100449CD1 /* Network.swift in Sources */,
+				9A3E17E8247AA8E100449CD1 /* Speed.swift in Sources */,
 				9AA64264244B94F300416A33 /* LineChart.swift in Sources */,
 				9A1A7ABA24561F0B00A84F7A /* BarChart.swift in Sources */,
 				9A944D55244920690058F32A /* reader.swift in Sources */,

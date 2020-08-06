@@ -34,8 +34,8 @@ class SettingsWindow: NSWindow, NSWindowDelegate {
         self.collectionBehavior = .moveToActiveSpace
         self.titlebarAppearsTransparent = true
         self.appearance = NSAppearance(named: .darkAqua)
-        self.center()
-        self.setIsVisible(false)
+//        self.center()
+        self.setIsVisible(true)
         
         let windowController = NSWindowController()
         windowController.window = self
@@ -189,7 +189,7 @@ private class SettingsView: NSView {
             self.navigationView?.addSubview(menu)
         }
         self.modules = list
-//        self.openMenu("CPU")
+        self.openMenu("Disk")
     }
     
     @objc private func menuCallback(_ notification: Notification) {

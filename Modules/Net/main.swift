@@ -129,7 +129,7 @@ public class Network: Module {
         }
         
         self.popupView.usageCallback(value!)
-        if let widget = self.widget as? NetworkWidget {
+        if let widget = self.widget as? SpeedWidget {
             widget.setValue(upload: value!.upload, download: value!.download)
         }
     }
