@@ -17,6 +17,8 @@
 				<key>Values</key>
 				<string>38°,41°</string>
 			</dict>
+			<key>Order</key>
+			<integer>0</integer>
 		</dict>
 	</dict>
 </dict>

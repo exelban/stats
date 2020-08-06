@@ -44,17 +44,25 @@ public struct module_c {
         }
         
         if let widgetsDict = dict["Widgets"] as? NSDictionary {
+            var list: [String : Int] = [:]
             self.widgetsConfig = widgetsDict
+            
             for widgetName in widgetsDict.allKeys {
                 if let widget = widget_t(rawValue: widgetName as! String) {
-                    self.availableWidgets.append(widget)
-                    
                     let widgetDict = widgetsDict[widgetName as! String] as! NSDictionary
                     if widgetDict["Default"] as! Bool {
                         self.defaultWidget = widget
                     }
+                    var order = 0
+                    if let o = widgetDict["Order"] as? Int {
+                        order = o
+                    }
+                    
+                    list[widgetName as! String] = order
                 }
             }
+            
+            self.availableWidgets = list.sorted(by: { $0.1 < $1.1 }).map{ (widget_t(rawValue: $0.key) ?? .unknown) }
         }
     }
 }

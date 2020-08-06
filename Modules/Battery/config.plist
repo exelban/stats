@@ -31,11 +31,15 @@
 			<array>
 				<string>pressure</string>
 			</array>
+			<key>Order</key>
+			<integer>0</integer>
 		</dict>
 		<key>battery</key>
 		<dict>
 			<key>Default</key>
 			<true/>
+			<key>Order</key>
+			<integer>1</integer>
 		</dict>
 	</dict>
 </dict>

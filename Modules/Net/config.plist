@@ -12,6 +12,8 @@
 		<dict>
 			<key>Default</key>
 			<true/>
+			<key>Order</key>
+			<integer>0</integer>
 		</dict>
 	</dict>
 </dict>
