@@ -180,6 +180,8 @@ public class SystemKit {
                         }
                     }
                 }
+                
+                IOObjectRelease(device)
             }
         }
         

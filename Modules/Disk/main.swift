@@ -63,9 +63,15 @@ struct DiskList: value_t {
     }
 }
 
+public struct IO {
+    var read: Int = 0
+    var write: Int = 0
+}
+
 public class Disk: Module {
     private let popupView: Popup = Popup()
     private var capacityReader: CapacityReader? = nil
+    private var ioReader: IOReader? = nil
     private var settingsView: Settings
     private var selectedDisk: String = ""
     
@@ -83,11 +89,16 @@ public class Disk: Module {
         self.capacityReader?.store = store
         self.selectedDisk = store.pointee.string(key: "\(self.config.name)_disk", defaultValue: self.selectedDisk)
         
+        self.ioReader = IOReader()
+        
         self.capacityReader?.readyCallback = { [unowned self] in
             self.readyHandler()
         }
         self.capacityReader?.callbackHandler = { [unowned self] value in
             self.capacityCallback(value: value)
+        }
+        self.ioReader?.callbackHandler = { [unowned self] value in
+            self.ioCallback(value: value)
         }
         
         self.settingsView.selectedDiskHandler = { [unowned self] value in
@@ -102,6 +113,9 @@ public class Disk: Module {
         }
         
         if let reader = self.capacityReader {
+            self.addReader(reader)
+        }
+        if let reader = self.ioReader {
             self.addReader(reader)
         }
     }
@@ -135,6 +149,16 @@ public class Disk: Module {
         }
         if let widget = self.widget as? DiskWidget {
             widget.setValue((free, usedSpace))
+        }
+    }
+    
+    private func ioCallback(value: IO?) {
+        if value == nil {
+            return
+        }
+        
+        if let widget = self.widget as? SpeedWidget {
+            widget.setValue(upload: Int64(value!.write), download: Int64(value!.read))
         }
     }
 }

@@ -26,6 +26,8 @@ public class SpeedWidget: Widget {
     private var state: Bool = false
     private var valueState: Bool = true
     
+    private var symbols: [String] = ["U", "D"]
+    
     private var uploadField: NSTextField? = nil
     private var downloadField: NSTextField? = nil
     
@@ -38,6 +40,14 @@ public class SpeedWidget: Widget {
     public init(preview: Bool, title: String, config: NSDictionary?, store: UnsafePointer<Store>?) {
         let widgetTitle: String = title
         self.store = store
+        if config != nil {
+            if let symbols = config!["Symbols"] as? [String] {
+                self.symbols = symbols
+            }
+            if let iconName = config!["Icon"] as? String, let icon = speed_icon_t(rawValue: iconName) {
+                self.icon = icon
+            }
+        }
         super.init(frame: CGRect(x: 0, y: Constants.Widget.margin, width: width, height: Constants.Widget.height - (2*Constants.Widget.margin)))
         self.title = widgetTitle
         self.type = .speed
@@ -172,23 +182,27 @@ public class SpeedWidget: Widget {
     private func drawChars(_ dirtyRect: NSRect) {
         let rowHeight: CGFloat = self.frame.height / 2
         
-        let downloadAttributes = [
-            NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .regular),
-            NSAttributedString.Key.foregroundColor: downloadValue >= 1_024 ? NSColor(red: (26/255.0), green: (126/255.0), blue: (252/255.0), alpha: 0.8) : NSColor.textColor,
-            NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
-        ]
-        var rect = CGRect(x: Constants.Widget.margin, y: 1, width: 8, height: rowHeight)
-        var str = NSAttributedString.init(string: "D", attributes: downloadAttributes)
-        str.draw(with: rect)
+        if self.symbols.count > 1 {
+            let downloadAttributes = [
+                NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .regular),
+                NSAttributedString.Key.foregroundColor: downloadValue >= 1_024 ? NSColor(red: (26/255.0), green: (126/255.0), blue: (252/255.0), alpha: 0.8) : NSColor.textColor,
+                NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
+            ]
+            let rect = CGRect(x: Constants.Widget.margin, y: 1, width: 8, height: rowHeight)
+            let str = NSAttributedString.init(string: self.symbols[1], attributes: downloadAttributes)
+            str.draw(with: rect)
+        }
         
-        let uploadAttributes = [
-            NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .regular),
-            NSAttributedString.Key.foregroundColor: uploadValue >= 1_024 ? NSColor.red : NSColor.textColor,
-            NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
-        ]
-        rect = CGRect(x: Constants.Widget.margin, y: rect.height+1, width: 8, height: rowHeight)
-        str = NSAttributedString.init(string: "U", attributes: uploadAttributes)
-        str.draw(with: rect)
+        if self.symbols.count > 0 {
+            let uploadAttributes = [
+                NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .regular),
+                NSAttributedString.Key.foregroundColor: uploadValue >= 1_024 ? NSColor.red : NSColor.textColor,
+                NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
+            ]
+            let rect = CGRect(x: Constants.Widget.margin, y: rowHeight+1, width: 8, height: rowHeight)
+            let str = NSAttributedString.init(string: self.symbols[0], attributes: uploadAttributes)
+            str.draw(with: rect)
+        }
     }
     
     public override func settings(superview: NSView) {
@@ -255,11 +269,11 @@ public class SpeedWidget: Widget {
         var updated: Bool = false
         
         if self.downloadValue != download {
-            self.downloadValue = download
+            self.downloadValue = abs(download)
             updated = true
         }
         if self.uploadValue != upload {
-            self.uploadValue = upload
+            self.uploadValue = abs(upload)
             updated = true
         }
         

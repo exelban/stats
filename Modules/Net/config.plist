@@ -14,6 +14,11 @@
 			<true/>
 			<key>Order</key>
 			<integer>0</integer>
+			<key>Symbols</key>
+			<array>
+				<string>U</string>
+				<string>D</string>
+			</array>
 		</dict>
 	</dict>
 </dict>

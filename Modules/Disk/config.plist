@@ -68,6 +68,20 @@
 			<key>Order</key>
 			<integer>2</integer>
 		</dict>
+		<key>speed</key>
+		<dict>
+			<key>Default</key>
+			<false/>
+			<key>Order</key>
+			<integer>3</integer>
+			<key>Icon</key>
+			<string>Character</string>
+			<key>Symbols</key>
+			<array>
+				<string>W</string>
+				<string>R</string>
+			</array>
+		</dict>
 	</dict>
 </dict>
 </plist>

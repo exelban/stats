@@ -103,21 +103,21 @@ public class SMCService {
         var result: kern_return_t
         var iterator: io_iterator_t = 0
         let device: io_object_t
-
+        
         let matchingDictionary: CFMutableDictionary = IOServiceMatching("AppleSMC")
         result = IOServiceGetMatchingServices(kIOMasterPortDefault, matchingDictionary, &iterator)
         if (result != kIOReturnSuccess) {
             print("Error IOServiceGetMatchingServices(): " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
             return
         }
-
+        
         device = IOIteratorNext(iterator)
         IOObjectRelease(iterator)
         if (device == 0) {
             print("Error IOIteratorNext(): " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
             return
         }
-
+        
         result = IOServiceOpen(device, mach_task_self_, 0, &conn)
         IOObjectRelease(device)
         if (result != kIOReturnSuccess) {

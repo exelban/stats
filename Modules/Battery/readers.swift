@@ -234,11 +234,11 @@ public class ProcessReader: Reader<[TopProcess]> {
         output.enumerateLines { (line, _) -> () in
             if line.matches("^\\d* +.+ \\d*.?\\d*$") {
                 var str = line.trimmingCharacters(in: .whitespaces)
-
+                
                 let pidString = str.findAndCrop(pattern: "^\\d+")
                 let usageString = str.findAndCrop(pattern: " +[0-9]+.*[0-9]*$")
                 let command = str.trimmingCharacters(in: .whitespaces)
-
+                
                 let pid = Int(pidString) ?? 0
                 guard let usage = Double(usageString.filter("01234567890.".contains)) else {
                     return

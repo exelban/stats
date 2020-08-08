@@ -12,6 +12,8 @@
 import Cocoa
 import ModuleKit
 import StatsKit
+import IOKit
+import Darwin
 
 internal class CapacityReader: Reader<DiskList> {
     private var disks: DiskList = DiskList()
@@ -122,5 +124,48 @@ internal class CapacityReader: Reader<DiskList> {
         } catch {
             return 0
         }
+    }
+}
+
+// https://gist.github.com/kainjow/0e7650cc797a52261e0f4ba851477c2f
+internal class IOReader: Reader<IO> {
+    public var stats: IO = IO()
+    
+    public override func read() {
+        let initialNumPids = proc_listallpids(nil, 0)
+        let buffer = UnsafeMutablePointer<pid_t>.allocate(capacity: Int(initialNumPids))
+        defer {
+            buffer.deallocate()
+        }
+        
+        let bufferLength = initialNumPids * Int32(MemoryLayout<pid_t>.size)
+        let numPids = proc_listallpids(buffer, bufferLength)
+        
+        var read: Int = 0
+        var write: Int = 0
+        for i in 0..<numPids {
+            let pid = buffer[Int(i)]
+            var usage = rusage_info_current()
+            let result = withUnsafeMutablePointer(to: &usage) {
+                $0.withMemoryRebound(to: rusage_info_t?.self, capacity: 1) {
+                    proc_pid_rusage(pid, RUSAGE_INFO_CURRENT, $0)
+                }
+            }
+            
+            if result == kIOReturnSuccess {
+                read += Int(usage.ri_diskio_bytesread)
+                write += Int(usage.ri_diskio_byteswritten)
+            }
+        }
+        
+        if self.stats.read != 0 && self.stats.write != 0 {
+            self.stats.read = read - self.stats.read
+            self.stats.write = write - self.stats.write
+        }
+        
+        self.callback(self.stats)
+        
+        self.stats.read = read
+        self.stats.write = write
     }
 }

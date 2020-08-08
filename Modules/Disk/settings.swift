@@ -53,16 +53,19 @@ internal class Settings: NSView, Settings_v {
         self.subviews.forEach{ $0.removeFromSuperview() }
         
         let rowHeight: CGFloat = 30
+        let num: CGFloat = widget != .speed ? 3 : 1
         
-        self.addSubview(SelectTitleRow(
-            frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * 2, width: self.frame.width - (Constants.Settings.margin*2), height: rowHeight),
-            title: "Update interval",
-            action: #selector(changeUpdateInterval),
-            items: self.listOfUpdateIntervals.map{ "\($0) sec" },
-            selected: "\(self.updateIntervalValue) sec"
-        ))
-        
-        self.addDiskSelector()
+        if widget != .speed {
+            self.addSubview(SelectTitleRow(
+                frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * 2, width: self.frame.width - (Constants.Settings.margin*2), height: rowHeight),
+                title: "Update interval",
+                action: #selector(changeUpdateInterval),
+                items: self.listOfUpdateIntervals.map{ "\($0) sec" },
+                selected: "\(self.updateIntervalValue) sec"
+            ))
+            
+            self.addDiskSelector()
+        }
         
         self.addSubview(ToggleTitleRow(
             frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * 0, width: self.frame.width - (Constants.Settings.margin*2), height: rowHeight),
@@ -71,7 +74,7 @@ internal class Settings: NSView, Settings_v {
             state: self.removableState
         ))
         
-        self.setFrameSize(NSSize(width: self.frame.width, height: rowHeight*3 + (Constants.Settings.margin*4)))
+        self.setFrameSize(NSSize(width: self.frame.width, height: rowHeight*num + (Constants.Settings.margin*(num+1))))
     }
     
     private func addDiskSelector() {
