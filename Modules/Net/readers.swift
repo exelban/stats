@@ -269,10 +269,17 @@ public class ProcessReader: Reader<[Network_Process]> {
                 if let i = list.firstIndex(where: { $0.pid == pp.pid }) {
                     let p = list[i]
                     
-                    let download = p.download - pp.download
-                    let upload = p.upload - pp.upload
+                    var download = p.download - pp.download
+                    var upload = p.upload - pp.upload
                     let time = download == 0 && upload == 0 ? pp.time : Date()
                     list[i].time = time
+                    
+                    if download < 0 {
+                        download = 0
+                    }
+                    if upload < 0 {
+                        upload = 0
+                    }
                     
                     processes.append(Network_Process(time: time, name: p.name, pid: p.pid, download: download, upload:  upload, icon: p.icon))
                 }

@@ -123,7 +123,7 @@ internal class Popup: NSView {
     }
     
     public func loadCallback(_ value: CPU_Load, tempValue: Double?) {
-        var temperature: String = "Unknown"
+        var temperature: String = ""
         
         DispatchQueue.main.async(execute: {
             if (self.window?.isVisible ?? false) || !self.ready {

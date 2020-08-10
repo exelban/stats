@@ -291,17 +291,6 @@ public extension Double {
             return "n/a"
         }
     }
-    
-    func localizeTemperature() -> Measurement<UnitTemperature> {
-        let locale = NSLocale.current as NSLocale
-        var unit = UnitTemperature.celsius
-        if let unitLocale = locale.object(forKey: NSLocale.Key(rawValue: "kCFLocaleTemperatureUnitKey")) {
-            unit = "\(unitLocale)" == "Celsius" ? UnitTemperature.celsius : UnitTemperature.fahrenheit
-        }
-        let measurement = Measurement(value: self, unit: unit)
-        
-        return measurement
-    }
 }
 
 public extension NSView {
