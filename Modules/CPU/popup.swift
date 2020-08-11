@@ -18,7 +18,8 @@ internal class Popup: NSView {
     private var title: String
     
     private let dashboardHeight: CGFloat = 90
-    private let detailsHeight: CGFloat = 66 // -26
+    private let chartHeight: CGFloat = 90
+    private let detailsHeight: CGFloat = 88
     private let processesHeight: CGFloat = 22*5
     
     private var loadField: NSTextField? = nil
@@ -28,6 +29,7 @@ internal class Popup: NSView {
     private var userField: NSTextField? = nil
     private var idleField: NSTextField? = nil
     
+    private var circle: CircleGraphView? = nil
     private var chart: LineChartView? = nil
     private var ready: Bool = false
     
@@ -37,9 +39,15 @@ internal class Popup: NSView {
         self.store = store
         self.title = title
         
-        super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: dashboardHeight + (Constants.Popup.separatorHeight*2) + detailsHeight + processesHeight))
+        super.init(frame: NSRect(
+            x: 0,
+            y: 0,
+            width: Constants.Popup.width,
+            height: dashboardHeight + chartHeight + detailsHeight + processesHeight + (Constants.Popup.separatorHeight*3)
+        ))
         
         initDashboard()
+        initChart()
         initDetails()
         initProcesses()
     }
@@ -53,33 +61,43 @@ internal class Popup: NSView {
     }
     
     private func initDashboard() {
-        let rightWidth: CGFloat = 110
         let view: NSView = NSView(frame: NSRect(x: 0, y: self.frame.height - self.dashboardHeight, width: self.frame.width, height: self.dashboardHeight))
         
-        let leftPanel = NSView(frame: NSRect(x: 0, y: 0, width: view.frame.width - rightWidth - Constants.Popup.margins, height: view.frame.height))
+        let container: NSView = NSView(frame: NSRect(x: 0, y: 20/2, width: view.frame.width, height: self.dashboardHeight-20))
+        let circle: CircleGraphView = CircleGraphView(frame: NSRect(x: 0, y: 0, width: container.frame.width, height: container.frame.height), segments: [])
+        self.circle = circle
+        container.addSubview(circle)
+        view.addSubview(container)
         
-        self.chart = LineChartView(frame: NSRect(x: 4, y: 3, width: leftPanel.frame.width, height: leftPanel.frame.height), num: 120)
-        leftPanel.addSubview(self.chart!)
+        self.addSubview(view)
+    }
+    
+    private func initChart() {
+        let y: CGFloat = self.frame.height - self.dashboardHeight - Constants.Popup.separatorHeight
+        let separator = SeparatorView("History", origin: NSPoint(x: 0, y: y), width: self.frame.width)
+        self.addSubview(separator)
         
-        let rightPanel: NSView = NSView(frame: NSRect(x: view.frame.width - rightWidth, y: 0, width: rightWidth, height: view.frame.height))
-        self.loadField = addFirstRow(mView: rightPanel, y: ((rightPanel.frame.height - 16)/2)+9, title: "Load:", value: "")
-        self.temperatureField = addFirstRow(mView: rightPanel, y: ((rightPanel.frame.height - 16)/2)-9, title: "Temperature:", value: "")
+        let view: NSView = NSView(frame: NSRect(x: 0, y: y -  self.chartHeight, width: self.frame.width, height: self.chartHeight))
+        view.wantsLayer = true
+        view.layer?.backgroundColor = NSColor.lightGray.withAlphaComponent(0.1).cgColor
+        view.layer?.cornerRadius = 3
+        self.chart = LineChartView(frame: NSRect(x: 1, y: 0, width: view.frame.width, height: view.frame.height), num: 120)
+        view.addSubview(self.chart!)
         
-        view.addSubview(leftPanel)
-        view.addSubview(rightPanel)
         self.addSubview(view)
     }
     
     private func initDetails() {
-        let y: CGFloat = self.frame.height - self.dashboardHeight - Constants.Popup.separatorHeight
+        let y: CGFloat = self.frame.height - self.dashboardHeight - self.chartHeight - (Constants.Popup.separatorHeight*2)
         let separator = SeparatorView("Details", origin: NSPoint(x: 0, y: y), width: self.frame.width)
         self.addSubview(separator)
         
         let view: NSView = NSView(frame: NSRect(x: 0, y: separator.frame.origin.y - self.detailsHeight, width: self.frame.width, height: self.detailsHeight))
         
-        self.systemField = PopupRow(view, n: 2, title: "System:", value: "")
-        self.userField = PopupRow(view, n: 1, title: "User:", value: "")
-        self.idleField = PopupRow(view, n: 0, title: "Idle:", value: "")
+        self.systemField = PopupWithColorRow(view, color: NSColor.systemRed, n: 3, title: "System:", value: "")
+        self.userField = PopupWithColorRow(view, color: NSColor.systemBlue, n: 2, title: "User:", value: "")
+        self.idleField = PopupWithColorRow(view, color: NSColor.lightGray.withAlphaComponent(0.5), n: 1, title: "Idle:", value: "")
+        self.temperatureField = PopupRow(view, n: 0, title: "Temperature:", value: "")
         
         self.addSubview(view)
     }
@@ -144,6 +162,11 @@ internal class Popup: NSView {
                 self.ready = true
             }
             
+            self.circle?.setValue(value.totalUsage)
+            self.circle?.setSegments([
+                circle_segment(value: value.systemLoad, color: NSColor.systemRed),
+                circle_segment(value: value.userLoad, color: NSColor.systemBlue),
+            ])
             self.chart?.addValue(value.totalUsage)
         })
     }
