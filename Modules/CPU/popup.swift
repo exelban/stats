@@ -19,18 +19,18 @@ internal class Popup: NSView {
     
     private let dashboardHeight: CGFloat = 90
     private let chartHeight: CGFloat = 90
-    private let detailsHeight: CGFloat = 88
+    private let detailsHeight: CGFloat = 22*3
     private let processesHeight: CGFloat = 22*5
     
     private var loadField: NSTextField? = nil
-    private var temperatureField: NSTextField? = nil
     
     private var systemField: NSTextField? = nil
     private var userField: NSTextField? = nil
     private var idleField: NSTextField? = nil
     
-    private var circle: CircleGraphView? = nil
     private var chart: LineChartView? = nil
+    private var circle: CircleGraphView? = nil
+    private var temperatureCircle: HalfCircleGraphView? = nil
     private var ready: Bool = false
     
     private var processes: [ProcessView] = []
@@ -62,11 +62,19 @@ internal class Popup: NSView {
     
     private func initDashboard() {
         let view: NSView = NSView(frame: NSRect(x: 0, y: self.frame.height - self.dashboardHeight, width: self.frame.width, height: self.dashboardHeight))
+        view.wantsLayer = true
         
-        let container: NSView = NSView(frame: NSRect(x: 0, y: 20/2, width: view.frame.width, height: self.dashboardHeight-20))
-        let circle: CircleGraphView = CircleGraphView(frame: NSRect(x: 0, y: 0, width: container.frame.width, height: container.frame.height), segments: [])
-        self.circle = circle
-        container.addSubview(circle)
+        let container: NSView = NSView(frame: NSRect(x: 0, y: 10, width: view.frame.width, height: self.dashboardHeight-20))
+        self.circle = CircleGraphView(frame: NSRect(x: (container.frame.width - container.frame.height)/2, y: 0, width: container.frame.height, height: container.frame.height), segments: [])
+        self.circle!.toolTip = "CPU usage"
+        container.addSubview(self.circle!)
+        
+        let centralWidth: CGFloat = self.dashboardHeight-20
+        let sideWidth: CGFloat = (view.frame.width - centralWidth - (Constants.Popup.margins*2))/2
+        self.temperatureCircle = HalfCircleGraphView(frame: NSRect(x: (sideWidth - 50)/2, y: 10, width: 50, height: 50))
+        self.temperatureCircle!.toolTip = "CPU temperature"
+        
+        view.addSubview(self.temperatureCircle!)
         view.addSubview(container)
         
         self.addSubview(view)
@@ -81,7 +89,9 @@ internal class Popup: NSView {
         view.wantsLayer = true
         view.layer?.backgroundColor = NSColor.lightGray.withAlphaComponent(0.1).cgColor
         view.layer?.cornerRadius = 3
+        
         self.chart = LineChartView(frame: NSRect(x: 1, y: 0, width: view.frame.width, height: view.frame.height), num: 120)
+        
         view.addSubview(self.chart!)
         
         self.addSubview(view)
@@ -94,10 +104,9 @@ internal class Popup: NSView {
         
         let view: NSView = NSView(frame: NSRect(x: 0, y: separator.frame.origin.y - self.detailsHeight, width: self.frame.width, height: self.detailsHeight))
         
-        self.systemField = PopupWithColorRow(view, color: NSColor.systemRed, n: 3, title: "System:", value: "")
-        self.userField = PopupWithColorRow(view, color: NSColor.systemBlue, n: 2, title: "User:", value: "")
-        self.idleField = PopupWithColorRow(view, color: NSColor.lightGray.withAlphaComponent(0.5), n: 1, title: "Idle:", value: "")
-        self.temperatureField = PopupRow(view, n: 0, title: "Temperature:", value: "")
+        self.systemField = PopupWithColorRow(view, color: NSColor.systemRed, n: 2, title: "System:", value: "")
+        self.userField = PopupWithColorRow(view, color: NSColor.systemBlue, n: 1, title: "User:", value: "")
+        self.idleField = PopupWithColorRow(view, color: NSColor.lightGray.withAlphaComponent(0.5), n: 0, title: "Idle:", value: "")
         
         self.addSubview(view)
     }
@@ -141,18 +150,8 @@ internal class Popup: NSView {
     }
     
     public func loadCallback(_ value: CPU_Load, tempValue: Double?) {
-        var temperature: String = ""
-        
         DispatchQueue.main.async(execute: {
             if (self.window?.isVisible ?? false) || !self.ready {
-                if tempValue != nil {
-                    let formatter = MeasurementFormatter()
-                    let measurement = Measurement(value: tempValue!.rounded(toPlaces: 0), unit: UnitTemperature.celsius)
-                    temperature = formatter.string(from: measurement)
-                }
-                
-                self.temperatureField?.stringValue = temperature
-                
                 self.systemField?.stringValue = "\(Int(value.systemLoad.rounded(toPlaces: 2) * 100)) %"
                 self.userField?.stringValue = "\(Int(value.userLoad.rounded(toPlaces: 2) * 100)) %"
                 self.idleField?.stringValue = "\(Int(value.idleLoad.rounded(toPlaces: 2) * 100)) %"
@@ -167,6 +166,14 @@ internal class Popup: NSView {
                 circle_segment(value: value.systemLoad, color: NSColor.systemRed),
                 circle_segment(value: value.userLoad, color: NSColor.systemBlue),
             ])
+            if tempValue != nil {
+                self.temperatureCircle?.setValue(tempValue!)
+                
+                let formatter = MeasurementFormatter()
+                formatter.numberFormatter.maximumFractionDigits = 0
+                let measurement = Measurement(value: tempValue!, unit: UnitTemperature.celsius)
+                self.temperatureCircle?.setText(formatter.string(from: measurement))
+            }
             self.chart?.addValue(value.totalUsage)
         })
     }
