@@ -33,20 +33,20 @@ internal class Popup: NSView {
             self.list = [:]
         }
         
-        value.list.reversed().forEach { (d: diskInfo) in
-            if self.list[d.name] == nil {
+        value.list.reversed().forEach { (d: drive) in
+            if self.list[d.mediaName] == nil {
                 DispatchQueue.main.async(execute: {
-                    self.list[d.name] = DiskView(
+                    self.list[d.mediaName] = DiskView(
                         NSRect(x: 0, y: (self.diskFullHeight + Constants.Popup.margins) * CGFloat(self.list.count), width: self.frame.width, height: self.diskFullHeight),
-                        name: d.name,
-                        size: d.totalSize,
-                        free: d.freeSize,
+                        name: d.mediaName,
+                        size: d.size,
+                        free: d.free,
                         path: d.path
                     )
-                    self.addSubview(self.list[d.name]!)
+                    self.addSubview(self.list[d.mediaName]!)
                 })
             } else {
-                self.list[d.name]?.update(free: d.freeSize)
+                self.list[d.mediaName]?.update(free: d.free, read: d.stats?.read, write: d.stats?.write)
             }
         }
 
@@ -72,6 +72,9 @@ internal class DiskView: NSView {
     private var legendField: NSTextField? = nil
     private var percentageField: NSTextField? = nil
     private var usedBarSpace: NSView? = nil
+    
+    private var readState: NSView? = nil
+    private var writeState: NSView? = nil
     
     private var mainView: NSView
     
@@ -106,13 +109,46 @@ internal class DiskView: NSView {
     
     private func addName() {
         let nameWidth = self.name.widthOfString(usingFont: .systemFont(ofSize: 13, weight: .light)) + 4
-        let view: NSView = NSView(frame: NSRect(x: 0, y: self.mainView.frame.height - nameHeight, width: nameWidth, height: nameHeight))
+        let view: NSView = NSView(frame: NSRect(x: 0, y: self.mainView.frame.height - nameHeight, width: self.mainView.frame.width, height: nameHeight))
         
         let nameField: NSTextField = TextView(frame: NSRect(x: 0, y: 0, width: nameWidth, height: view.frame.height))
         nameField.stringValue = self.name
         
+        let activityView: NSView = NSView(frame: NSRect(x: view.frame.width-66, y: 0, width: 66, height: view.frame.height-2))
+        
+        let readView: NSView = NSView(frame: NSRect(x: 0, y: 0, width: activityView.frame.width/2, height: activityView.frame.height))
+        
+        let readField: NSTextField = TextView(frame: NSRect(x: 0, y: 0, width: nameWidth, height: readView.frame.height))
+        readField.stringValue = "R"
+        readView.addSubview(readField)
+        
+        let readState: NSView = NSView(frame: NSRect(x: 15, y: 6, width: 9, height: 9))
+        readState.wantsLayer = true
+        readState.layer?.backgroundColor = NSColor.lightGray.withAlphaComponent(0.75).cgColor
+        readState.layer?.cornerRadius = 2
+        readView.addSubview(readState)
+        
+        let writeView: NSView = NSView(frame: NSRect(x: activityView.frame.width/2, y: 0, width: activityView.frame.width/2, height: activityView.frame.height))
+        
+        let writeField: NSTextField = TextView(frame: NSRect(x: 0, y: 0, width: nameWidth, height: readView.frame.height))
+        writeField.stringValue = "W"
+        writeView.addSubview(writeField)
+        
+        let writeState: NSView = NSView(frame: NSRect(x: 17, y: 6, width: 9, height: 9))
+        writeState.wantsLayer = true
+        writeState.layer?.backgroundColor = NSColor.lightGray.withAlphaComponent(0.75).cgColor
+        writeState.layer?.cornerRadius = 2
+        writeView.addSubview(writeState)
+        
+        activityView.addSubview(readView)
+        activityView.addSubview(writeView)
+        
         view.addSubview(nameField)
+        view.addSubview(activityView)
         self.mainView.addSubview(view)
+        
+        self.readState = readState
+        self.writeState = writeState
     }
     
     private func addLegend(free: Int64) {
@@ -150,7 +186,15 @@ internal class DiskView: NSView {
         self.mainView.addSubview(view)
     }
     
-    public func update(free: Int64) {
+    private func setReadState(_ state: Bool) {
+        self.readState?.layer?.backgroundColor = state ? NSColor.systemBlue.cgColor : NSColor.lightGray.withAlphaComponent(0.75).cgColor
+    }
+    
+    private func setWriteState(_ state: Bool) {
+        self.writeState?.layer?.backgroundColor = state ? NSColor.systemRed.cgColor : NSColor.lightGray.withAlphaComponent(0.75).cgColor
+    }
+    
+    public func update(free: Int64, read: Int64?, write: Int64?) {
         DispatchQueue.main.async(execute: {
             if self.legendField != nil {
                 self.legendField?.stringValue = "Used \(Units(bytes: (self.size - free)).getReadableMemory()) from \(Units(bytes: self.size).getReadableMemory())"
@@ -161,6 +205,13 @@ internal class DiskView: NSView {
                 let percentage = CGFloat(self.size - free) / CGFloat(self.size)
                 let width: CGFloat = ((self.mainView.frame.width - 2) * percentage) / 1
                 self.usedBarSpace?.setFrameSize(NSSize(width: width, height: self.usedBarSpace!.frame.height))
+            }
+            
+            if read != nil {
+                self.setReadState(read != 0)
+            }
+            if write != nil {
+                self.setWriteState(write != 0)
             }
         })
     }

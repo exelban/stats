@@ -648,6 +648,14 @@ public extension Array where Element : Equatable {
     }
 }
 
+public extension Array where Element : Hashable {
+    func difference(from other: [Element]) -> [Element] {
+        let thisSet = Set(self)
+        let otherSet = Set(other)
+        return Array(thisSet.symmetricDifference(otherSet))
+    }
+}
+
 public func FindAndToggleNSControlState(_ view: NSView?, state: NSControl.StateValue) {
     if let control = view?.subviews.first(where: { $0 is NSControl }) {
         ToggleNSControlState(control as? NSControl, state: state)
@@ -851,4 +859,33 @@ public struct TopProcess {
         self.usage = usage
         self.icon = icon
     }
+}
+
+public func getIOParent(_ obj: io_registry_entry_t) -> io_registry_entry_t? {
+    var parent: io_registry_entry_t = 0
+    
+    if IORegistryEntryGetParentEntry(obj, kIOServicePlane, &parent) != KERN_SUCCESS {
+        return nil
+    }
+    
+    if (IOObjectConformsTo(parent, "IOBlockStorageDriver") == 0) {
+        IOObjectRelease(parent)
+        return nil
+    }
+    
+    return parent
+}
+
+public func getIOProperties(_ entry: io_registry_entry_t) -> NSDictionary? {
+    var properties: Unmanaged<CFMutableDictionary>? = nil
+    
+    if IORegistryEntryCreateCFProperties(entry, &properties, kCFAllocatorDefault, 0) != kIOReturnSuccess {
+        return nil
+    }
+    
+    defer {
+        properties?.release()
+    }
+    
+    return properties?.takeUnretainedValue()
 }
