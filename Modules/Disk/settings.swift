@@ -95,7 +95,7 @@ internal class Settings: NSView, Settings_v {
     }
     
     internal func setList(_ list: DiskList) {
-        let disks = list.list.map{ $0.name }
+        let disks = list.list.map{ $0.mediaName }
         DispatchQueue.main.async(execute: {
             if self.button?.itemTitles.count != disks.count {
                 self.button?.removeAllItems()

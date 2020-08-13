@@ -13,24 +13,40 @@ import Cocoa
 import StatsKit
 import ModuleKit
 
-struct diskInfo {
-    var name: String = ""
+public struct stats {
+    var read: Int64 = 0
+    var write: Int64 = 0
+    
+    var readBytes: Int64 = 0
+    var writeBytes: Int64 = 0
+    var readOperations: Int64 = 0
+    var writeOperations: Int64 = 0
+    var readTime: Int64 = 0
+    var writeTime: Int64 = 0
+}
+
+struct drive {
+    var parent: io_registry_entry_t = 0
+    
+    var mediaName: String = ""
+    var BSDName: String = ""
+    
+    var root: Bool = false
+    var removable: Bool = false
+    
     var model: String = ""
     var path: URL?
-    var connection: String = ""
+    var connectionType: String = ""
     var fileSystem: String = ""
     
-    var totalSize: Int64 = 0
-    var freeSize: Int64 = 0
+    var size: Int64 = 0
+    var free: Int64 = 0
     
-    var mediaBSDName: String = ""
-    var root: Bool = false
-    
-    var removable: Bool = false
+    var stats: stats? = nil
 }
 
 struct DiskList: value_t {
-    var list: [diskInfo] = []
+    var list: [drive] = []
     
     public var widget_value: Double {
         get {
@@ -38,40 +54,40 @@ struct DiskList: value_t {
         }
     }
     
-    func getDiskByBSDName(_ name: String) -> diskInfo? {
-        if let idx = self.list.firstIndex(where: { $0.mediaBSDName == name }) {
+    func getDiskByBSDName(_ name: String) -> drive? {
+        if let idx = self.list.firstIndex(where: { $0.BSDName == name }) {
             return self.list[idx]
         }
         
         return nil
     }
     
-    func getDiskByName(_ name: String) -> diskInfo? {
-        if let idx = self.list.firstIndex(where: { $0.name == name }) {
+    func getDiskByName(_ name: String) -> drive? {
+        if let idx = self.list.firstIndex(where: { $0.mediaName == name }) {
             return self.list[idx]
         }
         
         return nil
     }
     
-    func getRootDisk() -> diskInfo? {
+    func getRootDisk() -> drive? {
         if let idx = self.list.firstIndex(where: { $0.root }) {
             return self.list[idx]
         }
         
         return nil
     }
-}
-
-public struct IO {
-    var read: Int = 0
-    var write: Int = 0
+    
+    mutating func removeDiskByBSDName(_ name: String) {
+        if let idx = self.list.firstIndex(where: { $0.BSDName == name }) {
+            self.list.remove(at: idx)
+        }
+    }
 }
 
 public class Disk: Module {
     private let popupView: Popup = Popup()
     private var capacityReader: CapacityReader? = nil
-    private var ioReader: IOReader? = nil
     private var settingsView: Settings
     private var selectedDisk: String = ""
     
@@ -89,16 +105,11 @@ public class Disk: Module {
         self.capacityReader?.store = store
         self.selectedDisk = store.pointee.string(key: "\(self.config.name)_disk", defaultValue: self.selectedDisk)
         
-        self.ioReader = IOReader()
-        
         self.capacityReader?.readyCallback = { [unowned self] in
             self.readyHandler()
         }
         self.capacityReader?.callbackHandler = { [unowned self] value in
             self.capacityCallback(value: value)
-        }
-        self.ioReader?.callbackHandler = { [unowned self] value in
-            self.ioCallback(value: value)
         }
         
         self.settingsView.selectedDiskHandler = { [unowned self] value in
@@ -115,9 +126,6 @@ public class Disk: Module {
         if let reader = self.capacityReader {
             self.addReader(reader)
         }
-        if let reader = self.ioReader {
-            self.addReader(reader)
-        }
     }
     
     private func capacityCallback(value: DiskList?) {
@@ -127,7 +135,7 @@ public class Disk: Module {
         self.popupView.usageCallback(value!)
         self.settingsView.setList(value!)
         
-        var d: diskInfo? = value!.getDiskByName(self.selectedDisk)
+        var d = value!.getDiskByName(self.selectedDisk)
         if d == nil {
             d = value!.getRootDisk()
         }
@@ -136,8 +144,8 @@ public class Disk: Module {
             return
         }
         
-        let total = d!.totalSize
-        let free = d!.freeSize
+        let total = d!.size
+        let free = d!.free
         let usedSpace = total - free
         let percentage = Double(usedSpace) / Double(total)
         
@@ -147,18 +155,11 @@ public class Disk: Module {
         if let widget = self.widget as? BarChart {
             widget.setValue([percentage])
         }
-        if let widget = self.widget as? DiskWidget {
+        if let widget = self.widget as? MemoryWidget {
             widget.setValue((free, usedSpace))
         }
-    }
-    
-    private func ioCallback(value: IO?) {
-        if value == nil {
-            return
-        }
-        
         if let widget = self.widget as? SpeedWidget {
-            widget.setValue(upload: Int64(value!.write), download: Int64(value!.read))
+            widget.setValue(upload: d?.stats?.write ?? 0, download: d?.stats?.read ?? 0)
         }
     }
 }

@@ -60,7 +60,7 @@ public enum widget_t: String {
     case speed = "speed"
     case battery = "battery"
     case sensors = "sensors"
-    case disk = "disk"
+    case memory = "memory"
 }
 extension widget_t: CaseIterable {}
 
@@ -86,7 +86,7 @@ open class Widget: NSView, Widget_p {
             case .speed: return "Speed"
             case .battery: return "Battery"
             case .sensors: return "Text"
-            case .disk: return "Text"
+            case .memory: return "Memory"
             default: return ""
             }
         }
@@ -150,8 +150,8 @@ func LoadWidget(_ type: widget_t, preview: Bool, name: String, config: NSDiction
     case .sensors:
         widget = SensorsWidget(preview: preview, title: name, config: widgetConfig, store: store)
         break
-    case .disk:
-        widget = DiskWidget(preview: preview, title: name, config: widgetConfig, store: store)
+    case .memory:
+        widget = MemoryWidget(preview: preview, title: name, config: widgetConfig, store: store)
         break
     default: break
     }

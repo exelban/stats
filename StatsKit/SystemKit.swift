@@ -114,7 +114,7 @@ public class SystemKit {
             return String(cString: UnsafeRawPointer(pointer).assumingMemoryBound(to: CChar.self))
         }
         
-        os_log(.error, log: self.log, "error call sysctl(): %v", (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
+        os_log(.error, log: self.log, "error call sysctl(): %s", (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
         return nil
     }
     
@@ -146,7 +146,7 @@ public class SystemKit {
             return cpu_s(physicalCores: Int8(data.physical_cpu), logicalCores: Int8(data.logical_cpu), name: name)
         }
         
-        os_log(.error, log: self.log, "hostInfo.withMemoryRebound(): %v", (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
+        os_log(.error, log: self.log, "hostInfo.withMemoryRebound(): %s", (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
         return nil
     }
     
@@ -157,7 +157,6 @@ public class SystemKit {
         
         let result = IOServiceGetMatchingServices(kIOMasterPortDefault, IOServiceMatching("IOPCIDevice"), &iterator)
         if result == kIOReturnSuccess {
-            
             while device != 0 {
                 device = IOIteratorNext(iterator)
                 var serviceDictionary: Unmanaged<CFMutableDictionary>?
@@ -249,7 +248,7 @@ public class SystemKit {
         if result == KERN_SUCCESS {
             totalSize = Double(vmStats.max_mem)
         } else {
-            os_log(.error, log: self.log, "host_basic_info(): %v", (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
+            os_log(.error, log: self.log, "host_basic_info(): %s", (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
             return nil
         }
         
@@ -283,7 +282,7 @@ public class SystemKit {
             )
         }
         
-        os_log(.error, log: self.log, "host_statistics64(): %v", (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
+        os_log(.error, log: self.log, "host_statistics64(): %s", (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
         return nil
     }
     

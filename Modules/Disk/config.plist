@@ -56,7 +56,7 @@
 			<key>Order</key>
 			<integer>1</integer>
 		</dict>
-		<key>disk</key>
+		<key>memory</key>
 		<dict>
 			<key>Default</key>
 			<false/>
