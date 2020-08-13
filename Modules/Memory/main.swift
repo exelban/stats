@@ -14,21 +14,21 @@ import StatsKit
 import ModuleKit
 
 public struct RAM_Usage: value_t {
-    var active: Double?
-    var inactive: Double?
-    var wired: Double?
-    var compressed: Double?
+    var active: Double
+    var inactive: Double
+    var wired: Double
+    var compressed: Double
     
-    var usage: Double?
-    var total: Double?
-    var used: Double?
-    var free: Double?
+    var usage: Double
+    var total: Double
+    var used: Double
+    var free: Double
     
     var pressureLevel: Int
     
     public var widget_value: Double {
         get {
-            return self.usage ?? 0
+            return self.usage
         }
     }
 }
@@ -84,15 +84,15 @@ public class Memory: Module {
         
         self.popupView.loadCallback(value!)
         if let widget = self.widget as? Mini {
-            widget.setValue(value!.usage ?? 0, sufix: "%")
+            widget.setValue(value!.usage , sufix: "%")
             widget.setPressure(value?.pressureLevel ?? 0)
         }
         if let widget = self.widget as? LineChart {
-            widget.setValue(value!.usage ?? 0)
+            widget.setValue(value!.usage )
             widget.setPressure(value?.pressureLevel ?? 0)
         }
         if let widget = self.widget as? BarChart {
-            widget.setValue([value!.usage ?? 0])
+            widget.setValue([value!.usage ])
             widget.setPressure(value?.pressureLevel ?? 0)
         }
     }
