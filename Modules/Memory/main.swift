@@ -84,16 +84,19 @@ public class Memory: Module {
         
         self.popupView.loadCallback(value!)
         if let widget = self.widget as? Mini {
-            widget.setValue(value!.usage , sufix: "%")
+            widget.setValue(value!.usage, sufix: "%")
             widget.setPressure(value?.pressureLevel ?? 0)
         }
         if let widget = self.widget as? LineChart {
-            widget.setValue(value!.usage )
+            widget.setValue(value!.usage)
             widget.setPressure(value?.pressureLevel ?? 0)
         }
         if let widget = self.widget as? BarChart {
-            widget.setValue([value!.usage ])
+            widget.setValue([value!.usage])
             widget.setPressure(value?.pressureLevel ?? 0)
+        }
+        if let widget = self.widget as? MemoryWidget {
+            widget.setValue((Int64(value!.free), Int64(value!.used)))
         }
     }
 }

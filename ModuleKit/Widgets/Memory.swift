@@ -1,5 +1,5 @@
 //
-//  Disk.swift
+//  Memory.swift
 //  ModuleKit
 //
 //  Created by Serhiy Mytrovtsiy on 30/06/2020.
@@ -12,7 +12,7 @@
 import Cocoa
 import StatsKit
 
-public class DiskWidget: Widget {
+public class MemoryWidget: Widget {
     private var orderReversedState: Bool = false
     private var value: (Int64, Int64) = (0, 0)
     
@@ -38,7 +38,7 @@ public class DiskWidget: Widget {
         }
         super.init(frame: CGRect(x: 0, y: Constants.Widget.margin, width: 62, height: Constants.Widget.height - (2*Constants.Widget.margin)))
         self.title = title
-        self.type = .disk
+        self.type = .memory
         self.preview = preview
         self.canDrawConcurrently = true
         

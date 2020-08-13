@@ -147,7 +147,7 @@ public class Disk: Module {
         if let widget = self.widget as? BarChart {
             widget.setValue([percentage])
         }
-        if let widget = self.widget as? DiskWidget {
+        if let widget = self.widget as? MemoryWidget {
             widget.setValue((free, usedSpace))
         }
     }
