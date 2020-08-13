@@ -82,7 +82,7 @@ internal class Popup: NSView {
     
     private func initChart() {
         let y: CGFloat = self.frame.height - self.dashboardHeight - Constants.Popup.separatorHeight
-        let separator = SeparatorView("History", origin: NSPoint(x: 0, y: y), width: self.frame.width)
+        let separator = SeparatorView("Usage history", origin: NSPoint(x: 0, y: y), width: self.frame.width)
         self.addSubview(separator)
         
         let view: NSView = NSView(frame: NSRect(x: 0, y: y -  self.chartHeight, width: self.frame.width, height: self.chartHeight))
