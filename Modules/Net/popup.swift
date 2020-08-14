@@ -15,6 +15,7 @@ import StatsKit
 
 internal class Popup: NSView {
     private let dashboardHeight: CGFloat = 90
+    private let chartHeight: CGFloat = 90
     private let detailsHeight: CGFloat = 110
     private let processesHeight: CGFloat = 22*5
     
@@ -38,12 +39,19 @@ internal class Popup: NSView {
     
     private var initialized: Bool = false
     
+    private var chart: MultiLinesChartView? = nil
     private var processes: [NetworkProcessView] = []
     
     public init() {
-        super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: dashboardHeight + (Constants.Popup.separatorHeight*2) + detailsHeight + processesHeight))
+        super.init(frame: NSRect(
+            x: 0,
+            y: 0,
+            width: Constants.Popup.width,
+            height: dashboardHeight + chartHeight + (Constants.Popup.separatorHeight*3) + detailsHeight + processesHeight
+        ))
         
         initDashboard()
+        initChart()
         initDetails()
         initProcesses()
     }
@@ -71,6 +79,66 @@ internal class Popup: NSView {
         view.addSubview(rightPart)
         self.addSubview(view)
         self.dashboardView = view
+    }
+    
+    private func initChart() {
+        let y: CGFloat = self.frame.height - self.dashboardHeight - Constants.Popup.separatorHeight
+        let separator = SeparatorView("Usage history", origin: NSPoint(x: 0, y: y), width: self.frame.width)
+        self.addSubview(separator)
+        
+        let view: NSView = NSView(frame: NSRect(x: 0, y: y -  self.chartHeight, width: self.frame.width, height: self.chartHeight))
+        view.wantsLayer = true
+        view.layer?.backgroundColor = NSColor.lightGray.withAlphaComponent(0.1).cgColor
+        view.layer?.cornerRadius = 3
+        
+        self.chart = MultiLinesChartView(frame: NSRect(x: 1, y: 0, width: view.frame.width, height: view.frame.height), num: 120)
+        
+        view.addSubview(self.chart!)
+        
+        self.addSubview(view)
+    }
+    
+    private func initDetails() {
+        let y: CGFloat = self.frame.height - self.dashboardHeight - self.chartHeight - (Constants.Popup.separatorHeight*2)
+        let separator = SeparatorView("Details", origin: NSPoint(x: 0, y: y), width: self.frame.width)
+        self.addSubview(separator)
+        
+        let view: NSView = NSView(frame: NSRect(x: 0, y: separator.frame.origin.y - self.detailsHeight, width: self.frame.width, height: self.detailsHeight))
+        
+        self.publicIPField = PopupRow(view, n: 4, title: "Public IP:", value: "")
+        self.localIPField = PopupRow(view, n: 3, title: "Local IP:", value: "")
+        self.interfaceField = PopupRow(view, n: 2, title: "Interface:", value: "")
+        self.ssidField = PopupRow(view, n: 1, title: "Network:", value: "")
+        self.macAdressField = PopupRow(view, n: 0, title: "Physical address:", value: "")
+        
+        self.publicIPField?.addTracking()
+        self.localIPField?.addTracking()
+        self.ssidField?.addTracking()
+        self.macAdressField?.addTracking()
+        
+        self.publicIPField?.isSelectable = true
+        self.localIPField?.isSelectable = true
+        self.ssidField?.isSelectable = true
+        self.macAdressField?.isSelectable = true
+        
+        self.addSubview(view)
+    }
+    
+    private func initProcesses() {
+        let separator = SeparatorView("Top processes", origin: NSPoint(x: 0, y: self.processesHeight), width: self.frame.width)
+        self.addSubview(separator)
+        
+        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.processesHeight))
+        
+        self.processes.append(NetworkProcessView(0))
+        self.processes.append(NetworkProcessView(1))
+        self.processes.append(NetworkProcessView(2))
+        self.processes.append(NetworkProcessView(3))
+        self.processes.append(NetworkProcessView(4))
+        
+        self.processes.forEach{ view.addSubview($0) }
+        
+        self.addSubview(view)
     }
     
     private func topValueView(_ view: NSView, title: String) -> (NSView, NSTextField, NSTextField) {
@@ -135,49 +203,6 @@ internal class Popup: NSView {
         self.downloadUnitField?.stringValue = download.1
     }
     
-    private func initDetails() {
-        let y: CGFloat = self.dashboardView!.frame.origin.y - Constants.Popup.separatorHeight
-        let separator = SeparatorView("Details", origin: NSPoint(x: 0, y: y), width: self.frame.width)
-        self.addSubview(separator)
-        
-        let view: NSView = NSView(frame: NSRect(x: 0, y: separator.frame.origin.y - self.detailsHeight, width: self.frame.width, height: self.detailsHeight))
-        
-        self.publicIPField = PopupRow(view, n: 4, title: "Public IP:", value: "")
-        self.localIPField = PopupRow(view, n: 3, title: "Local IP:", value: "")
-        self.interfaceField = PopupRow(view, n: 2, title: "Interface:", value: "")
-        self.ssidField = PopupRow(view, n: 1, title: "Network:", value: "")
-        self.macAdressField = PopupRow(view, n: 0, title: "Physical address:", value: "")
-        
-        self.publicIPField?.addTracking()
-        self.localIPField?.addTracking()
-        self.ssidField?.addTracking()
-        self.macAdressField?.addTracking()
-        
-        self.publicIPField?.isSelectable = true
-        self.localIPField?.isSelectable = true
-        self.ssidField?.isSelectable = true
-        self.macAdressField?.isSelectable = true
-        
-        self.addSubview(view)
-    }
-    
-    private func initProcesses() {
-        let separator = SeparatorView("Top processes", origin: NSPoint(x: 0, y: self.processesHeight), width: self.frame.width)
-        self.addSubview(separator)
-        
-        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.processesHeight))
-        
-        self.processes.append(NetworkProcessView(0))
-        self.processes.append(NetworkProcessView(1))
-        self.processes.append(NetworkProcessView(2))
-        self.processes.append(NetworkProcessView(3))
-        self.processes.append(NetworkProcessView(4))
-        
-        self.processes.forEach{ view.addSubview($0) }
-        
-        self.addSubview(view)
-    }
-    
     public func usageCallback(_ value: Network_Usage) {
         DispatchQueue.main.async(execute: {
             if !(self.window?.isVisible ?? false) && self.initialized {
@@ -218,6 +243,8 @@ internal class Popup: NSView {
             }
             
             self.initialized = true
+            
+            self.chart?.addValues([Double(value.upload), Double(value.download)])
         })
     }
     

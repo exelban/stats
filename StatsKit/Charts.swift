@@ -109,6 +109,108 @@ public class LineChartView: NSView {
     }
 }
 
+public class MultiLinesChartView: NSView {
+    public var points: [[Double]]? = nil
+    public var transparent: Bool = true
+    
+    public var colors: [NSColor] = [NSColor.systemRed, NSColor.systemBlue]
+    
+    public init(frame: NSRect, num: Int, size: Int = 2) {
+        self.points = Array(repeating: Array(repeating: 0, count: num), count: size)
+        super.init(frame: frame)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    public override func draw(_ dirtyRect: NSRect) {
+        super.draw(dirtyRect)
+        
+        if self.points == nil {
+            return
+        }
+        
+        guard let context = NSGraphicsContext.current?.cgContext else { return }
+        context.setShouldAntialias(true)
+        
+        var maxY: Double = self.points!.map{ $0.max() ?? 0 }.max() ?? 0
+        if maxY == 0 {
+            maxY = 1
+        }
+        
+        for i in 0..<self.points!.count {
+            let points = self.points![i]
+            let color = self.colors[i]
+            
+            let lineColor: NSColor = color
+            var gradientColor: NSColor = color.withAlphaComponent(0.5)
+            if !self.transparent {
+                gradientColor = color.withAlphaComponent(0.8)
+            }
+            
+            let height: CGFloat = self.frame.size.height - self.frame.origin.y - 0.5
+            let xRatio: CGFloat = self.frame.size.width / CGFloat(points.count)
+            
+            let columnXPoint = { (point: Int) -> CGFloat in
+                return (CGFloat(point) * xRatio) + dirtyRect.origin.x
+            }
+            let columnYPoint = { (point: Int) -> CGFloat in
+                return CGFloat((points[point] * Double(height)) / maxY) + dirtyRect.origin.y + 0.5
+            }
+            
+            let linePath = NSBezierPath()
+            let x: CGFloat = columnXPoint(0)
+            let y: CGFloat = columnYPoint(0)
+            linePath.move(to: CGPoint(x: x, y: y))
+            
+            for i in 1..<points.count {
+                linePath.line(to: CGPoint(x: columnXPoint(i), y: columnYPoint(i)))
+            }
+            
+            lineColor.setStroke()
+            context.saveGState()
+            
+            let underLinePath = linePath.copy() as! NSBezierPath
+            
+            underLinePath.line(to: CGPoint(x: columnXPoint(points.count - 1), y: 0))
+            underLinePath.line(to: CGPoint(x: columnXPoint(0), y: 0))
+            underLinePath.close()
+            underLinePath.addClip()
+            
+            gradientColor.setFill()
+            let rectPath = NSBezierPath(rect: dirtyRect)
+            rectPath.fill()
+            
+            context.restoreGState()
+            
+            linePath.stroke()
+            linePath.lineWidth = 0.5
+        }
+    }
+    
+    public func addValues(_ values: [Double]) {
+        if self.points == nil {
+            return
+        }
+        
+        if values.count != self.points!.count {
+            print("values count is not the same as points count!")
+            return
+        }
+        
+        for i in 0..<self.points!.count {
+            let value = values[i]
+            self.points![i].remove(at: 0)
+            self.points![i].append(value)
+        }
+        
+        if self.window?.isVisible ?? true {
+            self.display()
+        }
+    }
+}
+
 public class CircleGraphView: NSView {
     private var value: Double? = nil
     private var segments: [circle_segment] = []
