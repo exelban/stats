@@ -889,3 +889,32 @@ public func getIOProperties(_ entry: io_registry_entry_t) -> NSDictionary? {
     
     return properties?.takeUnretainedValue()
 }
+
+public class ColorView: NSView {
+    public var inactiveColor: NSColor = NSColor.lightGray.withAlphaComponent(0.75)
+    
+    private let color: NSColor
+    private var state: Bool
+    
+    public init(frame: NSRect, color: NSColor, state: Bool = false, radius: CGFloat = 2) {
+        self.color = color
+        self.state = state
+        
+        super.init(frame: frame)
+        
+        self.wantsLayer = true
+        self.layer?.backgroundColor = (state ? self.color : inactiveColor).cgColor
+        self.layer?.cornerRadius = radius
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    public func setState(_ newState: Bool) {
+        if newState != state {
+            self.layer?.backgroundColor = (newState ? self.color : inactiveColor).cgColor
+            self.state = newState
+        }
+    }
+}

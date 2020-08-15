@@ -25,11 +25,13 @@ internal class Popup: NSView {
     private var uploadValue: Int64 = 0
     private var uploadValueField: NSTextField? = nil
     private var uploadUnitField: NSTextField? = nil
+    private var uploadStateView: ColorView? = nil
     
     private var downloadView: NSView? = nil
     private var downloadValue: Int64 = 0
     private var downloadValueField: NSTextField? = nil
     private var downloadUnitField: NSTextField? = nil
+    private var downloadStateView: ColorView? = nil
     
     private var publicIPField: ValueField? = nil
     private var localIPField: ValueField? = nil
@@ -64,16 +66,18 @@ internal class Popup: NSView {
         let view: NSView = NSView(frame: NSRect(x: 0, y: self.frame.height - self.dashboardHeight, width: self.frame.width, height: self.dashboardHeight))
         
         let leftPart: NSView = NSView(frame: NSRect(x: 0, y: 0, width: view.frame.width / 2, height: view.frame.height))
-        let uploadFields = self.topValueView(leftPart, title: "Upload")
+        let uploadFields = self.topValueView(leftPart, title: "Upload", color: NSColor.systemRed)
         self.uploadView = uploadFields.0
         self.uploadValueField = uploadFields.1
         self.uploadUnitField = uploadFields.2
+        self.uploadStateView = uploadFields.3
         
         let rightPart: NSView = NSView(frame: NSRect(x: view.frame.width / 2, y: 0, width: view.frame.width / 2, height: view.frame.height))
-        let downloadFields = self.topValueView(rightPart, title: "Download")
+        let downloadFields = self.topValueView(rightPart, title: "Download", color: NSColor.systemBlue)
         self.downloadView = downloadFields.0
         self.downloadValueField = downloadFields.1
         self.downloadUnitField = downloadFields.2
+        self.downloadStateView = downloadFields.3
         
         view.addSubview(leftPart)
         view.addSubview(rightPart)
@@ -141,7 +145,7 @@ internal class Popup: NSView {
         self.addSubview(view)
     }
     
-    private func topValueView(_ view: NSView, title: String) -> (NSView, NSTextField, NSTextField) {
+    private func topValueView(_ view: NSView, title: String, color: NSColor) -> (NSView, NSTextField, NSTextField, ColorView) {
         let topHeight: CGFloat = 30
         let titleHeight: CGFloat = 15
         
@@ -149,7 +153,7 @@ internal class Popup: NSView {
         let unitWidth = "KB/s".widthOfString(usingFont: .systemFont(ofSize: 13, weight: .light)) + 5
         let topPartWidth = valueWidth + unitWidth
         
-        let topPart: NSView = NSView(frame: NSRect(x: (view.frame.width-topPartWidth)/2, y: (view.frame.height - topHeight - titleHeight)/2 + titleHeight, width: topPartWidth, height: topHeight))
+        let topView: NSView = NSView(frame: NSRect(x: (view.frame.width-topPartWidth)/2, y: (view.frame.height - topHeight - titleHeight)/2 + titleHeight, width: topPartWidth, height: topHeight))
         
         let valueField = LabelField(frame: NSRect(x: 0, y: 0, width: valueWidth, height: 30), "0")
         valueField.font = NSFont.systemFont(ofSize: 26, weight: .light)
@@ -161,15 +165,25 @@ internal class Popup: NSView {
         unitField.textColor = .labelColor
         unitField.alignment = .left
         
-        let titleField = LabelField(frame: NSRect(x: 0, y: topPart.frame.origin.y - titleHeight, width: view.frame.width, height: titleHeight), title)
+        let titleWidth: CGFloat = title.widthOfString(usingFont: NSFont.systemFont(ofSize: 12, weight: .regular))+8
+        let iconSize: CGFloat = 12
+        let bottomWidth: CGFloat = titleWidth+iconSize
+        let bottomView: NSView = NSView(frame: NSRect(x: (view.frame.width-bottomWidth)/2, y: topView.frame.origin.y - titleHeight, width: bottomWidth, height: titleHeight))
+        
+        let colorBlock: ColorView = ColorView(frame: NSRect(x: 0, y: 1, width: iconSize, height: iconSize), color: color, radius: 4)
+        let titleField = LabelField(frame: NSRect(x: iconSize, y: 0, width: titleWidth, height: titleHeight), title)
         titleField.alignment = .center
         
-        topPart.addSubview(valueField)
-        topPart.addSubview(unitField)
-        view.addSubview(topPart)
-        view.addSubview(titleField)
+        topView.addSubview(valueField)
+        topView.addSubview(unitField)
         
-        return (topPart, valueField, unitField)
+        bottomView.addSubview(colorBlock)
+        bottomView.addSubview(titleField)
+        
+        view.addSubview(topView)
+        view.addSubview(bottomView)
+        
+        return (topView, valueField, unitField, colorBlock)
     }
     
     private func setUploadDownloadFields() {
@@ -201,6 +215,9 @@ internal class Popup: NSView {
         self.downloadUnitField?.setFrameSize(NSSize(width: unitWidth, height: self.downloadUnitField!.frame.height))
         self.downloadUnitField?.setFrameOrigin(NSPoint(x: self.downloadValueField!.frame.width, y: self.downloadUnitField!.frame.origin.y))
         self.downloadUnitField?.stringValue = download.1
+        
+        self.uploadStateView?.setState(self.uploadValue != 0)
+        self.downloadStateView?.setState(self.downloadValue != 0)
     }
     
     public func usageCallback(_ value: Network_Usage) {
