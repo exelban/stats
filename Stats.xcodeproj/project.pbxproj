@@ -37,6 +37,8 @@
 		9A3E17E8247AA8E100449CD1 /* Speed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3E17E7247AA8E100449CD1 /* Speed.swift */; };
 		9A3E17EA247B07BF00449CD1 /* popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3E17E9247B07BF00449CD1 /* popup.swift */; };
 		9A41530C24ABC3AF00A2BDA7 /* Memory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A41530B24ABC3AF00A2BDA7 /* Memory.swift */; };
+		9A53EBF924EAFA5200648841 /* settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A53EBF824EAFA5200648841 /* settings.swift */; };
+		9A53EBFB24EB041E00648841 /* popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A53EBFA24EB041E00648841 /* popup.swift */; };
 		9A58DE9E24B363D800716A9F /* popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A58DE9D24B363D800716A9F /* popup.swift */; };
 		9A58DEA024B363F300716A9F /* settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A58DE9F24B363F300716A9F /* settings.swift */; };
 		9A58DEA424B3647600716A9F /* settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A58DEA324B3647600716A9F /* settings.swift */; };
@@ -462,6 +464,8 @@
 		9A3E17E9247B07BF00449CD1 /* popup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = popup.swift; sourceTree = "<group>"; };
 		9A41530B24ABC3AF00A2BDA7 /* Memory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memory.swift; sourceTree = "<group>"; };
 		9A5349CD23D8832E00C23824 /* Reachability.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Reachability.framework; path = Carthage/Build/Mac/Reachability.framework; sourceTree = "<group>"; };
+		9A53EBF824EAFA5200648841 /* settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = settings.swift; sourceTree = "<group>"; };
+		9A53EBFA24EB041E00648841 /* popup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = popup.swift; sourceTree = "<group>"; };
 		9A58DE9D24B363D800716A9F /* popup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = popup.swift; sourceTree = "<group>"; };
 		9A58DE9F24B363F300716A9F /* settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = settings.swift; sourceTree = "<group>"; };
 		9A58DEA324B3647600716A9F /* settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = settings.swift; sourceTree = "<group>"; };
@@ -777,6 +781,8 @@
 			children = (
 				9A90E19524EAD35F00471E9A /* main.swift */,
 				9A90E1A224EAD66600471E9A /* reader.swift */,
+				9A53EBF824EAFA5200648841 /* settings.swift */,
+				9A53EBFA24EB041E00648841 /* popup.swift */,
 				9A90E18C24EAD2BB00471E9A /* Info.plist */,
 				9A90E19724EAD3B000471E9A /* config.plist */,
 			);
@@ -1435,6 +1441,8 @@
 			files = (
 				9A90E1A324EAD66600471E9A /* reader.swift in Sources */,
 				9A90E19624EAD35F00471E9A /* main.swift in Sources */,
+				9A53EBFB24EB041E00648841 /* popup.swift in Sources */,
+				9A53EBF924EAFA5200648841 /* settings.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
