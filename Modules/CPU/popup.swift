@@ -71,7 +71,7 @@ internal class Popup: NSView {
         
         let centralWidth: CGFloat = self.dashboardHeight-20
         let sideWidth: CGFloat = (view.frame.width - centralWidth - (Constants.Popup.margins*2))/2
-        self.temperatureCircle = HalfCircleGraphView(frame: NSRect(x: (sideWidth - 50)/2, y: 10, width: 50, height: 50))
+        self.temperatureCircle = HalfCircleGraphView(frame: NSRect(x: (sideWidth - 60)/2, y: 10, width: 60, height: 50))
         self.temperatureCircle!.toolTip = "CPU temperature"
         
         view.addSubview(self.temperatureCircle!)

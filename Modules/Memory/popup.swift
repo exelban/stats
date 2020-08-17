@@ -30,6 +30,7 @@ internal class Popup: NSView {
     
     private var chart: LineChartView? = nil
     private var circle: CircleGraphView? = nil
+    private var level: PressureView? = nil
     private var initialized: Bool = false
     
     private var processes: [ProcessView] = []
@@ -65,7 +66,14 @@ internal class Popup: NSView {
         self.circle!.toolTip = "RAM usage"
         container.addSubview(self.circle!)
         
+        let centralWidth: CGFloat = self.dashboardHeight-20
+        let sideWidth: CGFloat = (view.frame.width - centralWidth - (Constants.Popup.margins*2))/2
+        self.level = PressureView(frame: NSRect(x: (sideWidth - 60)/2, y: 10, width: 60, height: 50))
+        self.level!.toolTip = "Memory pressure"
+        
+        view.addSubview(self.level!)
         view.addSubview(container)
+        
         self.addSubview(view)
     }
     
@@ -163,6 +171,7 @@ internal class Popup: NSView {
                 circle_segment(value: value.compressed/value.total, color: NSColor.systemPink)
             ])
             self.chart?.addValue(value.usage)
+            self.level?.setLevel(value.pressureLevel)
         })
     }
     
@@ -178,5 +187,96 @@ internal class Popup: NSView {
                 }
             }
         })
+    }
+}
+
+public class PressureView: NSView {
+    private let segments: [circle_segment] = [
+        circle_segment(value: 1/3, color: NSColor.systemGreen),
+        circle_segment(value: 1/3, color: NSColor.systemYellow),
+        circle_segment(value: 1/3, color: NSColor.systemRed),
+    ]
+    
+    private var level: Int = 1
+    
+    public override func draw(_ rect: CGRect) {
+        let arcWidth: CGFloat = 7.0
+        let centerPoint = CGPoint(x: rect.midX, y: rect.midY)
+        let radius = (min(rect.width, rect.height) - arcWidth) / 2
+        
+        guard let context = NSGraphicsContext.current?.cgContext else { return }
+        context.setShouldAntialias(true)
+        
+        context.setLineWidth(arcWidth)
+        context.setLineCap(.butt)
+        
+        let startAngle: CGFloat = -(1/4)*CGFloat.pi
+        let endCircle: CGFloat = (7/4)*CGFloat.pi - (1/4)*CGFloat.pi
+        var previousAngle = startAngle
+        
+        context.saveGState()
+        context.translateBy(x: rect.width, y: 0)
+        context.scaleBy(x: -1, y: 1)
+        
+        for segment in self.segments {
+            let currentAngle: CGFloat = previousAngle + (CGFloat(segment.value) * endCircle)
+            
+            context.setStrokeColor(segment.color.cgColor)
+            context.addArc(center: centerPoint, radius: radius, startAngle: previousAngle, endAngle: currentAngle, clockwise: false)
+            context.strokePath()
+            
+            previousAngle = currentAngle
+        }
+        
+        context.restoreGState()
+        
+        let needleEndSize: CGFloat = 2
+        let needlePath =  NSBezierPath()
+        
+        switch self.level {
+        case 1:
+            needlePath.move(to: CGPoint(x: self.bounds.width * 0.15, y: self.bounds.width * 0.40))
+            needlePath.line(to: CGPoint(x: self.bounds.width/2 , y: self.bounds.height/2 - needleEndSize))
+            needlePath.line(to: CGPoint(x: self.bounds.width/2, y: self.bounds.height/2 + needleEndSize))
+        case 2:
+            needlePath.move(to: CGPoint(x: self.bounds.width/2, y: self.bounds.width * 0.85))
+            needlePath.line(to: CGPoint(x: self.bounds.width/2 - needleEndSize, y: self.bounds.height/2))
+            needlePath.line(to: CGPoint(x: self.bounds.width/2 + needleEndSize, y: self.bounds.height/2))
+        case 3:
+            needlePath.move(to: CGPoint(x: self.bounds.width * 0.85, y: self.bounds.width * 0.40))
+            needlePath.line(to: CGPoint(x: self.bounds.width/2 , y: self.bounds.height/2 - needleEndSize))
+            needlePath.line(to: CGPoint(x: self.bounds.width/2, y: self.bounds.height/2 + needleEndSize))
+        default: break
+        }
+        
+        needlePath.close()
+        
+        let needleCirclePath = NSBezierPath(
+            roundedRect: NSRect(x: self.bounds.width/2-needleEndSize, y: self.bounds.height/2-needleEndSize, width: needleEndSize*2, height: needleEndSize*2),
+            xRadius: needleEndSize*2,
+            yRadius: needleEndSize*2
+        )
+        needleCirclePath.close()
+        
+        NSColor.systemBlue.setFill()
+        needlePath.fill()
+        needleCirclePath.fill()
+        
+        let stringAttributes = [
+            NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .regular),
+            NSAttributedString.Key.foregroundColor: isDarkMode ? NSColor.white : NSColor.textColor,
+            NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
+        ]
+        
+        let rect = CGRect(x: (self.frame.width-6)/2, y: (self.frame.height-26)/2, width: 6, height: 12)
+        let str = NSAttributedString.init(string: "\(self.level)", attributes: stringAttributes)
+        str.draw(with: rect)
+    }
+    
+    public func setLevel(_ level: Int) {
+        self.level = level
+        if self.window?.isVisible ?? true {
+            self.display()
+        }
     }
 }

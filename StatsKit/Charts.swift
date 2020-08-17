@@ -21,8 +21,8 @@ public enum chart_t: Int {
 }
 
 public struct circle_segment {
-    let value: Double
-    let color: NSColor
+    public let value: Double
+    public let color: NSColor
     
     public init(value: Double, color: NSColor) {
         self.value = value
@@ -286,7 +286,7 @@ public class CircleGraphView: NSView {
 }
 
 public class HalfCircleGraphView: NSView {
-    private var value: Double = 0.1
+    private var value: Double = 0.0
     private var text: String? = nil
     
     public var color: NSColor = NSColor.systemBlue
