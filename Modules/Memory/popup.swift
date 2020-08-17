@@ -32,6 +32,7 @@ internal class Popup: NSView {
     private var circle: CircleGraphView? = nil
     private var level: PressureView? = nil
     private var initialized: Bool = false
+    private var processesInitialized: Bool = false
     
     private var processes: [ProcessView] = []
     
@@ -157,11 +158,11 @@ internal class Popup: NSView {
                 self.inactiveField?.stringValue = Units(bytes: Int64(value.inactive)).getReadableMemory()
                 self.wiredField?.stringValue = Units(bytes: Int64(value.wired)).getReadableMemory()
                 self.compressedField?.stringValue = Units(bytes: Int64(value.compressed)).getReadableMemory()
-
+                
                 self.totalField?.stringValue = Units(bytes: Int64(value.total)).getReadableMemory()
                 self.usedField?.stringValue = Units(bytes: Int64(value.used)).getReadableMemory()
                 self.freeField?.stringValue = Units(bytes: Int64(value.free)).getReadableMemory()
-
+                
                 self.circle?.setValue(value.usage)
                 self.circle?.setSegments([
                     circle_segment(value: value.active/value.total, color: NSColor.systemBlue),
@@ -178,7 +179,7 @@ internal class Popup: NSView {
     
     public func processCallback(_ list: [TopProcess]) {
         DispatchQueue.main.async(execute: {
-            if (self.window?.isVisible ?? false) {
+            if (self.window?.isVisible ?? false) || !self.processesInitialized {
                 for i in 0..<list.count {
                     let process = list[i]
                     let index = list.count-i-1
@@ -188,6 +189,8 @@ internal class Popup: NSView {
                         self.processes[index].icon = process.icon
                     }
                 }
+                
+                self.processesInitialized = true
             }
         })
     }

@@ -16,20 +16,25 @@ import os.log
 
 internal class InfoReader: Reader<GPUs> {
     internal var smc: UnsafePointer<SMCService>? = nil
-    private var gpus: GPUs = GPUs()
     
-    public override func read() {
+    private var gpus: GPUs = GPUs()
+    private var devices: [NSDictionary]? = nil
+    
+    public override func setup() {
         guard let devices = fetchIOService("IOPCIDevice") else {
             return
         }
-        let gpus = devices.filter{ $0.object(forKey: "IOName") as? String == "display" }
         
+        self.devices = devices.filter{ $0.object(forKey: "IOName") as? String == "display" }
+    }
+    
+    public override func read() {
         guard let acceletators = fetchIOService(kIOAcceleratorClassName) else {
             return
         }
         
         acceletators.forEach { (accelerator: NSDictionary) in
-            guard let matchedGPU = gpus.first(where: { (gpu: NSDictionary) -> Bool in
+            guard let matchedGPU = self.devices?.first(where: { (gpu: NSDictionary) -> Bool in
                 guard let deviceID = gpu["device-id"] as? Data, let vendorID = gpu["vendor-id"] as? Data else {
                     return false
                 }
@@ -86,7 +91,8 @@ internal class InfoReader: Reader<GPUs> {
             self.gpus.list[idx].utilization = utilization == 0 ? 0 : Double(utilization)/100
             self.gpus.list[idx].temperature = temperature
         }
-            
+        
+        self.gpus.list.sort{ !$0.state && $1.state }
         self.callback(self.gpus)
     }
 }

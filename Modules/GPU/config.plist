@@ -5,7 +5,7 @@
 	<key>Name</key>
 	<string>GPU</string>
 	<key>State</key>
-	<true/>
+	<false/>
 	<key>Widgets</key>
 	<dict>
 		<key>mini</key>

@@ -40,6 +40,7 @@ internal class Popup: NSView {
     private var macAdressField: ValueField? = nil
     
     private var initialized: Bool = false
+    private var processesInitialized: Bool = false
     
     private var chart: MultiLinesChartView? = nil
     private var processes: [NetworkProcessView] = []

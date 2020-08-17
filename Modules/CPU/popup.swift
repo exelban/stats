@@ -31,7 +31,8 @@ internal class Popup: NSView {
     private var chart: LineChartView? = nil
     private var circle: CircleGraphView? = nil
     private var temperatureCircle: HalfCircleGraphView? = nil
-    private var ready: Bool = false
+    private var initialized: Bool = false
+    private var processesInitialized: Bool = false
     
     private var processes: [ProcessView] = []
     
@@ -151,14 +152,14 @@ internal class Popup: NSView {
     
     public func loadCallback(_ value: CPU_Load, tempValue: Double?) {
         DispatchQueue.main.async(execute: {
-            if (self.window?.isVisible ?? false) || !self.ready {
+            if (self.window?.isVisible ?? false) || !self.initialized {
                 self.systemField?.stringValue = "\(Int(value.systemLoad.rounded(toPlaces: 2) * 100)) %"
                 self.userField?.stringValue = "\(Int(value.userLoad.rounded(toPlaces: 2) * 100)) %"
                 self.idleField?.stringValue = "\(Int(value.idleLoad.rounded(toPlaces: 2) * 100)) %"
                 
                 let v = Int(value.totalUsage.rounded(toPlaces: 2) * 100)
                 self.loadField?.stringValue = "\(v) %"
-                self.ready = true
+                self.initialized = true
                 
                 self.circle?.setValue(value.totalUsage)
                 self.circle?.setSegments([
@@ -180,7 +181,7 @@ internal class Popup: NSView {
     
     public func processCallback(_ list: [TopProcess]) {
         DispatchQueue.main.async(execute: {
-            if (self.window?.isVisible ?? false) {
+            if (self.window?.isVisible ?? false) || !self.processesInitialized {
                 for i in 0..<list.count {
                     let process = list[i]
                     let index = list.count-i-1
@@ -190,6 +191,8 @@ internal class Popup: NSView {
                         self.processes[index].icon = process.icon
                     }
                 }
+                
+                self.processesInitialized = true
             }
         })
     }

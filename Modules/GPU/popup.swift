@@ -61,18 +61,17 @@ private class GPUView: NSView {
     private let height: CGFloat = 60
     private let margin: CGFloat = 4
     
-    private var name: String
-    private var state: Bool
+    private var value: GPU_Info
     
-    private var chart: LineChartView? = nil
-    private var utilization: HalfCircleGraphView? = nil
-    private var temperature: HalfCircleGraphView? = nil
+    private var temperatureChart: LineChartView? = nil
+    private var utilizationChart: LineChartView? = nil
+    private var temperatureCirle: HalfCircleGraphView? = nil
+    private var utilizationCircle: HalfCircleGraphView? = nil
     
     private var stateView: NSView? = nil
     
     public init(_ frame: NSRect, gpu: GPU_Info) {
-        self.name = gpu.name
-        self.state = gpu.state
+        self.value = gpu
         
         super.init(frame: frame)
         
@@ -80,8 +79,8 @@ private class GPUView: NSView {
         self.layer?.cornerRadius = 2
         
         self.initName()
-        self.initCircles()
-        self.initChart()
+        self.initTemperature()
+        self.initUtilization()
     }
     
     required init?(coder: NSCoder) {
@@ -89,21 +88,21 @@ private class GPUView: NSView {
     }
     
     private func initName() {
-        let y: CGFloat = self.frame.height - Constants.Popup.separatorHeight
-        let width: CGFloat = self.name.widthOfString(usingFont: NSFont.systemFont(ofSize: 12, weight: .medium)) + 16
+        let y: CGFloat = self.frame.height - 23
+        let width: CGFloat = self.value.name.widthOfString(usingFont: NSFont.systemFont(ofSize: 12, weight: .medium)) + 16
         
-        let view: NSView = NSView(frame: NSRect(x: (self.frame.width - width)/2, y: y, width: width, height: 30))
+        let view: NSView = NSView(frame: NSRect(x: (self.frame.width - width)/2, y: y, width: width, height: 20))
         
         let labelView: NSTextField = TextView(frame: NSRect(x: 0, y: (view.frame.height-15)/2, width: width - 8, height: 15))
         labelView.alignment = .center
         labelView.textColor = .secondaryLabelColor
         labelView.font = NSFont.systemFont(ofSize: 12, weight: .medium)
-        labelView.stringValue = self.name
+        labelView.stringValue = self.value.name
         
         let stateView: NSView = NSView(frame: NSRect(x: width - 8, y: (view.frame.height-7)/2, width: 6, height: 6))
         stateView.wantsLayer = true
-        stateView.layer?.backgroundColor = (self.state ? NSColor.systemGreen : NSColor.systemRed).cgColor
-        stateView.toolTip = "GPU \(self.state ? "enabled" : "disabled")"
+        stateView.layer?.backgroundColor = (self.value.state ? NSColor.systemGreen : NSColor.systemRed).cgColor
+        stateView.toolTip = "GPU \(self.value.state ? "enabled" : "disabled")"
         stateView.layer?.cornerRadius = 4
         
         view.addSubview(labelView)
@@ -113,7 +112,7 @@ private class GPUView: NSView {
         self.stateView = stateView
     }
     
-    private func initCircles() {
+    private func initTemperature() {
         let view: NSView = NSView(frame: NSRect(
             x: self.margin,
             y: self.height + (self.margin*2),
@@ -121,37 +120,80 @@ private class GPUView: NSView {
             height: self.height
         ))
         
-        let circleSize: CGFloat = 50
-        self.temperature = HalfCircleGraphView(frame: NSRect(
-            x: ((view.frame.width/2) - circleSize)/2 + 10,
-            y: 5,
-            width: circleSize,
-            height: circleSize
-        ))
-        self.temperature!.toolTip = "GPU temperature"
-        self.utilization = HalfCircleGraphView(frame: NSRect(
-            x: (view.frame.width/2) + (((view.frame.width/2) - circleSize)/2) - 10,
-            y: 5,
-            width: circleSize,
-            height: circleSize
-        ))
-        self.utilization!.toolTip = "GPU utilization"
+        let circleWidth: CGFloat = 70
+        let circleSize: CGFloat = 44
         
-        view.addSubview(self.temperature!)
-        view.addSubview(self.utilization!)
+        let chartView: NSView = NSView(frame: NSRect(
+            x: 0,
+            y: 0,
+            width: view.frame.width - circleWidth,
+            height: view.frame.height
+        ))
+        chartView.wantsLayer = true
+        chartView.layer?.backgroundColor = NSColor.lightGray.withAlphaComponent(0.1).cgColor
+        chartView.layer?.cornerRadius = 3
+        self.temperatureChart = LineChartView(frame: NSRect(x: 0, y: 0, width: chartView.frame.width, height: chartView.frame.height), num: 120)
+        chartView.addSubview(self.temperatureChart!)
+        
+        self.temperatureCirle = HalfCircleGraphView(frame: NSRect(
+            x: (view.frame.width - circleWidth) + (circleWidth - circleSize)/2,
+            y: (view.frame.height - circleSize)/2 - 3,
+            width: circleSize,
+            height: circleSize
+        ))
+        self.temperatureCirle!.toolTip = "GPU temperature"
+        
+        view.addSubview(chartView)
+        view.addSubview(self.temperatureCirle!)
+        
+        self.temperatureCirle?.setValue(Double(self.value.temperature))
+        let formatter = MeasurementFormatter()
+        formatter.numberFormatter.maximumFractionDigits = 0
+        let measurement = Measurement(value: Double(self.value.temperature), unit: UnitTemperature.celsius)
+        self.temperatureCirle?.setText(formatter.string(from: measurement))
+        self.temperatureChart?.addValue(Double(self.value.temperature) / 100)
         
         self.addSubview(view)
     }
     
-    private func initChart() {
-        let view: NSView = NSView(frame: NSRect(x: self.margin, y: self.margin, width: self.frame.width - (self.margin*2), height: self.height))
-        view.wantsLayer = true
-        view.layer?.backgroundColor = NSColor.lightGray.withAlphaComponent(0.1).cgColor
-        view.layer?.cornerRadius = 3
+    private func initUtilization() {
+        let view: NSView = NSView(frame: NSRect(
+            x: self.margin,
+            y: self.margin,
+            width: self.frame.width - (self.margin*2),
+            height: self.height
+        ))
         
-        self.chart = LineChartView(frame: NSRect(x: 1, y: 0, width: view.frame.width, height: view.frame.height), num: 120)
+        let circleWidth: CGFloat = 70
+        let circleSize: CGFloat = 44
         
-        view.addSubview(self.chart!)
+        let chartView: NSView = NSView(frame: NSRect(
+            x: 0,
+            y: 0,
+            width: view.frame.width - circleWidth,
+            height: view.frame.height
+        ))
+        chartView.wantsLayer = true
+        chartView.layer?.backgroundColor = NSColor.lightGray.withAlphaComponent(0.1).cgColor
+        chartView.layer?.cornerRadius = 3
+        self.utilizationChart = LineChartView(frame: NSRect(x: 0, y: 0, width: chartView.frame.width, height: chartView.frame.height), num: 120)
+        chartView.addSubview(self.utilizationChart!)
+        
+        self.utilizationCircle = HalfCircleGraphView(frame: NSRect(
+            x: (view.frame.width - circleWidth) + (circleWidth - circleSize)/2,
+            y: (view.frame.height - circleSize)/2 - 3,
+            width: circleSize,
+            height: circleSize
+        ))
+        self.utilizationCircle!.toolTip = "GPU utilization"
+        
+        view.addSubview(chartView)
+        view.addSubview(self.utilizationCircle!)
+        
+        self.utilizationCircle?.setValue(self.value.utilization)
+        self.utilizationCircle?.setText("\(Int(self.value.utilization*100))%")
+        self.utilizationChart?.addValue(self.value.utilization)
+        
         self.addSubview(view)
     }
     
@@ -161,17 +203,18 @@ private class GPUView: NSView {
                 self.stateView?.layer?.backgroundColor = (gpu.state ? NSColor.systemGreen : NSColor.systemRed).cgColor
                 self.stateView?.toolTip = "GPU \(gpu.state ? "enabled" : "disabled")"
                 
-                self.utilization?.setValue(gpu.utilization)
-                self.utilization?.setText("\(Int(gpu.utilization*100))%")
-                self.temperature?.setValue(Double(gpu.temperature))
-                
+                self.temperatureCirle?.setValue(Double(gpu.temperature))
                 let formatter = MeasurementFormatter()
                 formatter.numberFormatter.maximumFractionDigits = 0
                 let measurement = Measurement(value: Double(gpu.temperature), unit: UnitTemperature.celsius)
-                self.temperature?.setText(formatter.string(from: measurement))
+                self.temperatureCirle?.setText(formatter.string(from: measurement))
                 
-                self.chart?.addValue(gpu.utilization)
+                self.utilizationCircle?.setValue(gpu.utilization)
+                self.utilizationCircle?.setText("\(Int(gpu.utilization*100))%")
             }
+            
+            self.temperatureChart?.addValue(Double(gpu.temperature) / 100)
+            self.utilizationChart?.addValue(gpu.utilization)
         })
     }
 }
