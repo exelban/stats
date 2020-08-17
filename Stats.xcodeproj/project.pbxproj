@@ -781,8 +781,8 @@
 			children = (
 				9A90E19524EAD35F00471E9A /* main.swift */,
 				9A90E1A224EAD66600471E9A /* reader.swift */,
-				9A53EBF824EAFA5200648841 /* settings.swift */,
 				9A53EBFA24EB041E00648841 /* popup.swift */,
+				9A53EBF824EAFA5200648841 /* settings.swift */,
 				9A90E18C24EAD2BB00471E9A /* Info.plist */,
 				9A90E19724EAD3B000471E9A /* config.plist */,
 			);

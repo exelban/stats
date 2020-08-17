@@ -159,20 +159,20 @@ internal class Popup: NSView {
                 let v = Int(value.totalUsage.rounded(toPlaces: 2) * 100)
                 self.loadField?.stringValue = "\(v) %"
                 self.ready = true
-            }
-            
-            self.circle?.setValue(value.totalUsage)
-            self.circle?.setSegments([
-                circle_segment(value: value.systemLoad, color: NSColor.systemRed),
-                circle_segment(value: value.userLoad, color: NSColor.systemBlue),
-            ])
-            if tempValue != nil {
-                self.temperatureCircle?.setValue(tempValue!)
                 
-                let formatter = MeasurementFormatter()
-                formatter.numberFormatter.maximumFractionDigits = 0
-                let measurement = Measurement(value: tempValue!, unit: UnitTemperature.celsius)
-                self.temperatureCircle?.setText(formatter.string(from: measurement))
+                self.circle?.setValue(value.totalUsage)
+                self.circle?.setSegments([
+                    circle_segment(value: value.systemLoad, color: NSColor.systemRed),
+                    circle_segment(value: value.userLoad, color: NSColor.systemBlue),
+                ])
+                if tempValue != nil {
+                    self.temperatureCircle?.setValue(tempValue!)
+                    
+                    let formatter = MeasurementFormatter()
+                    formatter.numberFormatter.maximumFractionDigits = 0
+                    let measurement = Measurement(value: tempValue!, unit: UnitTemperature.celsius)
+                    self.temperatureCircle?.setText(formatter.string(from: measurement))
+                }
             }
             self.chart?.addValue(value.totalUsage)
         })
@@ -180,13 +180,15 @@ internal class Popup: NSView {
     
     public func processCallback(_ list: [TopProcess]) {
         DispatchQueue.main.async(execute: {
-            for i in 0..<list.count {
-                let process = list[i]
-                let index = list.count-i-1
-                if self.processes.indices.contains(index) {
-                    self.processes[index].label = process.name != nil ? process.name! : process.command
-                    self.processes[index].value = "\(process.usage)%"
-                    self.processes[index].icon = process.icon
+            if (self.window?.isVisible ?? false) {
+                for i in 0..<list.count {
+                    let process = list[i]
+                    let index = list.count-i-1
+                    if self.processes.indices.contains(index) {
+                        self.processes[index].label = process.name != nil ? process.name! : process.command
+                        self.processes[index].value = "\(process.usage)%"
+                        self.processes[index].icon = process.icon
+                    }
                 }
             }
         })

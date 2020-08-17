@@ -66,10 +66,9 @@ internal class InfoReader: Reader<GPUs> {
             }
             
             let utilization = stats["Device Utilization %"] as? Int ?? 0
-            let totalVram = accelerator["VRAM,totalMB"] as? Int ?? matchedGPU["VRAM,totalMB"] as? Int ?? 0
-            let freeVram = stats["vramFreeBytes"] as? Int ?? 0
-            let coreClock = stats["Core Clock(MHz)"] as? Int ?? 0
-            var power = stats["Total Power(W)"] as? Int ?? 0
+//            let totalVram = (accelerator["VRAM,totalMB"] as? Int ?? matchedGPU["VRAM,totalMB"] as? Int ?? 0) * 1000000
+//            let freeVram = stats["vramFreeBytes"] as? Int ?? 0
+//            let coreClock = stats["Core Clock(MHz)"] as? Int ?? 0
             var temperature = stats["Temperature(C)"] as? Int ?? 0
             
             if IOClass == "IntelAccelerator" {
@@ -80,25 +79,11 @@ internal class InfoReader: Reader<GPUs> {
                         temperature = Int(tmp)
                     }
                 }
-                
-                if power == 0 {
-                    if let pwr = self.smc?.pointee.getValue("PCPG") {
-                        power = Int(pwr)
-                    } else if let pwr = self.smc?.pointee.getValue("PCGC") {
-                        power = Int(pwr)
-                    } else if let pwr = self.smc?.pointee.getValue("PCGM") {
-                        power = Int(pwr)
-                    }
-                }
             }
             
             self.gpus.list[idx].state = agcInfo["poweredOffByAGC"] == 0
             
             self.gpus.list[idx].utilization = utilization == 0 ? 0 : Double(utilization)/100
-            self.gpus.list[idx].totalVram = totalVram
-            self.gpus.list[idx].freeVram = freeVram
-            self.gpus.list[idx].coreClock = coreClock
-            self.gpus.list[idx].power = power
             self.gpus.list[idx].temperature = temperature
         }
             

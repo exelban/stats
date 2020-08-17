@@ -19,11 +19,6 @@ public struct GPU_Info {
     public var state: Bool = false
     
     public var utilization: Double = 0
-    
-    public var totalVram: Int = 0
-    public var freeVram: Int = 0
-    public var coreClock: Int = 0
-    public var power: Int = 0
     public var temperature: Int = 0
 }
 

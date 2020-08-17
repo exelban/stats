@@ -161,29 +161,32 @@ internal class Popup: NSView {
                 self.totalField?.stringValue = Units(bytes: Int64(value.total)).getReadableMemory()
                 self.usedField?.stringValue = Units(bytes: Int64(value.used)).getReadableMemory()
                 self.freeField?.stringValue = Units(bytes: Int64(value.free)).getReadableMemory()
+
+                self.circle?.setValue(value.usage)
+                self.circle?.setSegments([
+                    circle_segment(value: value.active/value.total, color: NSColor.systemBlue),
+                    circle_segment(value: value.wired/value.total, color: NSColor.systemOrange),
+                    circle_segment(value: value.compressed/value.total, color: NSColor.systemPink)
+                ])
+                self.level?.setLevel(value.pressureLevel)
+                
                 self.initialized = true
             }
-            
-            self.circle?.setValue(value.usage)
-            self.circle?.setSegments([
-                circle_segment(value: value.active/value.total, color: NSColor.systemBlue),
-                circle_segment(value: value.wired/value.total, color: NSColor.systemOrange),
-                circle_segment(value: value.compressed/value.total, color: NSColor.systemPink)
-            ])
             self.chart?.addValue(value.usage)
-            self.level?.setLevel(value.pressureLevel)
         })
     }
     
     public func processCallback(_ list: [TopProcess]) {
         DispatchQueue.main.async(execute: {
-            for i in 0..<list.count {
-                let process = list[i]
-                let index = list.count-i-1
-                if self.processes.indices.contains(index) {
-                    self.processes[index].label = process.name != nil ? process.name! : process.command
-                    self.processes[index].value = Units(bytes: Int64(process.usage)).getReadableMemory()
-                    self.processes[index].icon = process.icon
+            if (self.window?.isVisible ?? false) {
+                for i in 0..<list.count {
+                    let process = list[i]
+                    let index = list.count-i-1
+                    if self.processes.indices.contains(index) {
+                        self.processes[index].label = process.name != nil ? process.name! : process.command
+                        self.processes[index].value = Units(bytes: Int64(process.usage)).getReadableMemory()
+                        self.processes[index].icon = process.icon
+                    }
                 }
             }
         })
