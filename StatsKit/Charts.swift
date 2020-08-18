@@ -80,7 +80,6 @@ public class LineChartView: NSView {
         }
         
         lineColor.setStroke()
-        
         context.saveGState()
         
         let underLinePath = linePath.copy() as! NSBezierPath
@@ -109,14 +108,12 @@ public class LineChartView: NSView {
     }
 }
 
-public class MultiLinesChartView: NSView {
-    public var points: [[Double]]? = nil
-    public var transparent: Bool = true
+public class NetworkChartView: NSView {
+    private var points: [(Double, Double)]? = nil
+    private var colors: [NSColor] = [NSColor.systemRed, NSColor.systemBlue]
     
-    public var colors: [NSColor] = [NSColor.systemRed, NSColor.systemBlue]
-    
-    public init(frame: NSRect, num: Int, size: Int = 2) {
-        self.points = Array(repeating: Array(repeating: 0, count: num), count: size)
+    public init(frame: NSRect, num: Int) {
+        self.points = Array(repeating: (0, 0), count: num)
         super.init(frame: frame)
     }
     
@@ -134,76 +131,95 @@ public class MultiLinesChartView: NSView {
         guard let context = NSGraphicsContext.current?.cgContext else { return }
         context.setShouldAntialias(true)
         
-        var maxY: Double = self.points!.map{ $0.max() ?? 0 }.max() ?? 0
-        if maxY == 0 {
-            maxY = 1
+        var uploadMax: Double = self.points!.map{ $0.0 }.max() ?? 0
+        var downloadMax: Double = self.points!.map{ $0.1 }.max() ?? 0
+        if uploadMax == 0 {
+            uploadMax = 1
+        }
+        if downloadMax == 0 {
+            downloadMax = 1
         }
         
-        for i in 0..<self.points!.count {
-            let points = self.points![i]
-            let color = self.colors[i]
-            
-            let lineColor: NSColor = color
-            var gradientColor: NSColor = color.withAlphaComponent(0.5)
-            if !self.transparent {
-                gradientColor = color.withAlphaComponent(0.8)
-            }
-            
-            let height: CGFloat = self.frame.size.height - self.frame.origin.y - 0.5
-            let xRatio: CGFloat = self.frame.size.width / CGFloat(points.count)
-            
-            let columnXPoint = { (point: Int) -> CGFloat in
-                return (CGFloat(point) * xRatio) + dirtyRect.origin.x
-            }
-            let columnYPoint = { (point: Int) -> CGFloat in
-                return CGFloat((points[point] * Double(height)) / maxY) + dirtyRect.origin.y + 0.5
-            }
-            
-            let linePath = NSBezierPath()
-            let x: CGFloat = columnXPoint(0)
-            let y: CGFloat = columnYPoint(0)
-            linePath.move(to: CGPoint(x: x, y: y))
-            
-            for i in 1..<points.count {
-                linePath.line(to: CGPoint(x: columnXPoint(i), y: columnYPoint(i)))
-            }
-            
-            lineColor.setStroke()
-            context.saveGState()
-            
-            let underLinePath = linePath.copy() as! NSBezierPath
-            
-            underLinePath.line(to: CGPoint(x: columnXPoint(points.count - 1), y: 0))
-            underLinePath.line(to: CGPoint(x: columnXPoint(0), y: 0))
-            underLinePath.close()
-            underLinePath.addClip()
-            
-            gradientColor.setFill()
-            let rectPath = NSBezierPath(rect: dirtyRect)
-            rectPath.fill()
-            
-            context.restoreGState()
-            
-            linePath.stroke()
-            linePath.lineWidth = 0.5
+        let height: CGFloat = self.frame.size.height - self.frame.origin.y - 0.5
+        let zero = height/2
+        let xRatio: CGFloat = (self.frame.size.width) / CGFloat(self.points!.count)
+        
+        let columnXPoint = { (point: Int) -> CGFloat in
+            return (CGFloat(point) * xRatio) + dirtyRect.origin.x
         }
+        let uploadYPoint = { (point: Int) -> CGFloat in
+            return CGFloat((self.points![point].0 * Double(height/2)) / uploadMax) + dirtyRect.origin.y + zero
+        }
+        let downloadYPoint = { (point: Int) -> CGFloat in
+            return height/2 - (CGFloat((self.points![point].1 * Double(height/2)) / downloadMax) + dirtyRect.origin.y)
+        }
+        
+        let uploadlinePath = NSBezierPath()
+        uploadlinePath.move(to: CGPoint(x: columnXPoint(0), y: uploadYPoint(0)))
+        
+        let downloadlinePath = NSBezierPath()
+        downloadlinePath.move(to: CGPoint(x: columnXPoint(0), y: downloadYPoint(0)))
+        
+        for i in 1..<self.points!.count {
+            uploadlinePath.line(to: CGPoint(x: columnXPoint(i), y: uploadYPoint(i)))
+            downloadlinePath.line(to: CGPoint(x: columnXPoint(i), y: downloadYPoint(i)))
+        }
+        
+        self.colors[0].setStroke()
+        uploadlinePath.stroke()
+        uploadlinePath.lineWidth = 0.5
+        
+        self.colors[1].setStroke()
+        downloadlinePath.stroke()
+        downloadlinePath.lineWidth = 0.5
+        
+        context.saveGState()
+        
+        var underLinePath = uploadlinePath.copy() as! NSBezierPath
+        underLinePath.line(to: CGPoint(x: columnXPoint(self.points!.count - 1), y: zero))
+        underLinePath.line(to: CGPoint(x: columnXPoint(0), y: zero))
+        underLinePath.close()
+        underLinePath.addClip()
+        self.colors[0].withAlphaComponent(0.5).setFill()
+        NSBezierPath(rect: dirtyRect).fill()
+        
+        context.restoreGState()
+        context.saveGState()
+        
+        underLinePath = downloadlinePath.copy() as! NSBezierPath
+        underLinePath.line(to: CGPoint(x: columnXPoint(self.points!.count - 1), y: zero))
+        underLinePath.line(to: CGPoint(x: columnXPoint(0), y: zero))
+        underLinePath.close()
+        underLinePath.addClip()
+        self.colors[1].withAlphaComponent(0.5).setFill()
+        NSBezierPath(rect: dirtyRect).fill()
+        
+        context.restoreGState()
+        
+        let stringAttributes = [
+            NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .light),
+            NSAttributedString.Key.foregroundColor: isDarkMode ? NSColor.white : NSColor.textColor,
+            NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
+        ]
+        let uploadText = Units(bytes: Int64(uploadMax)).getReadableSpeed()
+        let downloadText = Units(bytes: Int64(downloadMax)).getReadableSpeed()
+        let uploadTextWidth = uploadText.widthOfString(usingFont: stringAttributes[NSAttributedString.Key.font] as! NSFont)
+        let downloadTextWidth = downloadText.widthOfString(usingFont: stringAttributes[NSAttributedString.Key.font] as! NSFont)
+        
+        var rect = CGRect(x: 1, y: height - 9, width: uploadTextWidth, height: 8)
+        NSAttributedString.init(string: uploadText, attributes: stringAttributes).draw(with: rect)
+        
+        rect = CGRect(x: 1, y: 2, width: downloadTextWidth, height: 8)
+        NSAttributedString.init(string: downloadText, attributes: stringAttributes).draw(with: rect)
     }
     
-    public func addValues(_ values: [Double]) {
+    public func addValue(upload: Double, download: Double) {
         if self.points == nil {
             return
         }
-        
-        if values.count != self.points!.count {
-            print("values count is not the same as points count!")
-            return
-        }
-        
-        for i in 0..<self.points!.count {
-            let value = values[i]
-            self.points![i].remove(at: 0)
-            self.points![i].append(value)
-        }
+
+        self.points?.remove(at: 0)
+        self.points?.append((upload, download))
         
         if self.window?.isVisible ?? true {
             self.display()

@@ -42,7 +42,7 @@ internal class Popup: NSView {
     private var initialized: Bool = false
     private var processesInitialized: Bool = false
     
-    private var chart: MultiLinesChartView? = nil
+    private var chart: NetworkChartView? = nil
     private var processes: [NetworkProcessView] = []
     
     public init() {
@@ -96,7 +96,7 @@ internal class Popup: NSView {
         view.layer?.backgroundColor = NSColor.lightGray.withAlphaComponent(0.1).cgColor
         view.layer?.cornerRadius = 3
         
-        self.chart = MultiLinesChartView(frame: NSRect(x: 1, y: 0, width: view.frame.width, height: view.frame.height), num: 120)
+        self.chart = NetworkChartView(frame: NSRect(x: 1, y: 0, width: view.frame.width, height: view.frame.height), num: 120)
         
         view.addSubview(self.chart!)
         
@@ -260,7 +260,7 @@ internal class Popup: NSView {
                 self.initialized = true
             }
             
-            self.chart?.addValues([Double(value.upload), Double(value.download)])
+            self.chart?.addValue(upload: Double(value.upload), download: Double(value.download))
         })
     }
     
