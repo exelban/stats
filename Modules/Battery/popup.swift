@@ -40,6 +40,7 @@ internal class Popup: NSView {
     private var chargingStateField: NSTextField? = nil
     
     private var processes: [ProcessView] = []
+    private var processesInitialized: Bool = false
     
     public init() {
         super.init(frame: NSRect(
@@ -189,14 +190,18 @@ internal class Popup: NSView {
     
     public func processCallback(_ list: [TopProcess]) {
         DispatchQueue.main.async(execute: {
-            for i in 0..<list.count {
-                let process = list[i]
-                let index = list.count-i-1
-                if self.processes.indices.contains(index) {
-                    self.processes[index].label = process.name != nil ? process.name! : process.command
-                    self.processes[index].value = "\(process.usage)%"
-                    self.processes[index].icon = process.icon
+            if (self.window?.isVisible ?? false) || !self.processesInitialized {
+                for i in 0..<list.count {
+                    let process = list[i]
+                    let index = list.count-i-1
+                    if self.processes.indices.contains(index) {
+                        self.processes[index].label = process.name != nil ? process.name! : process.command
+                        self.processes[index].value = "\(process.usage)%"
+                        self.processes[index].icon = process.icon
+                    }
                 }
+                
+                self.processesInitialized = true
             }
         })
     }

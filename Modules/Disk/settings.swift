@@ -78,13 +78,18 @@ internal class Settings: NSView, Settings_v {
     }
     
     private func addDiskSelector() {
-        let view: NSView = NSView(frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin*2 + 30, width: self.frame.width, height: 29))
+        let view: NSView = NSView(frame: NSRect(
+            x: Constants.Settings.margin,
+            y: Constants.Settings.margin*2 + 30,
+            width: self.frame.width - Constants.Settings.margin*2,
+            height: 30
+        ))
         
         let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: (view.frame.height - 16)/2, width: view.frame.width - 52, height: 17), "Disk to show")
         rowTitle.font = NSFont.systemFont(ofSize: 13, weight: .light)
         rowTitle.textColor = .textColor
         
-        self.button = NSPopUpButton(frame: NSRect(x: view.frame.width - 140 - Constants.Settings.margin*2, y: -1, width: 140, height: 30))
+        self.button = NSPopUpButton(frame: NSRect(x: view.frame.width - 140, y: -1, width: 140, height: 30))
         self.button!.target = self
         self.button?.action = #selector(self.handleSelection)
         

@@ -31,7 +31,8 @@ internal class Popup: NSView {
     private var chart: LineChartView? = nil
     private var circle: CircleGraphView? = nil
     private var temperatureCircle: HalfCircleGraphView? = nil
-    private var ready: Bool = false
+    private var initialized: Bool = false
+    private var processesInitialized: Bool = false
     
     private var processes: [ProcessView] = []
     
@@ -151,28 +152,28 @@ internal class Popup: NSView {
     
     public func loadCallback(_ value: CPU_Load, tempValue: Double?) {
         DispatchQueue.main.async(execute: {
-            if (self.window?.isVisible ?? false) || !self.ready {
+            if (self.window?.isVisible ?? false) || !self.initialized {
                 self.systemField?.stringValue = "\(Int(value.systemLoad.rounded(toPlaces: 2) * 100)) %"
                 self.userField?.stringValue = "\(Int(value.userLoad.rounded(toPlaces: 2) * 100)) %"
                 self.idleField?.stringValue = "\(Int(value.idleLoad.rounded(toPlaces: 2) * 100)) %"
                 
                 let v = Int(value.totalUsage.rounded(toPlaces: 2) * 100)
                 self.loadField?.stringValue = "\(v) %"
-                self.ready = true
-            }
-            
-            self.circle?.setValue(value.totalUsage)
-            self.circle?.setSegments([
-                circle_segment(value: value.systemLoad, color: NSColor.systemRed),
-                circle_segment(value: value.userLoad, color: NSColor.systemBlue),
-            ])
-            if tempValue != nil {
-                self.temperatureCircle?.setValue(tempValue!)
+                self.initialized = true
                 
-                let formatter = MeasurementFormatter()
-                formatter.numberFormatter.maximumFractionDigits = 0
-                let measurement = Measurement(value: tempValue!, unit: UnitTemperature.celsius)
-                self.temperatureCircle?.setText(formatter.string(from: measurement))
+                self.circle?.setValue(value.totalUsage)
+                self.circle?.setSegments([
+                    circle_segment(value: value.systemLoad, color: NSColor.systemRed),
+                    circle_segment(value: value.userLoad, color: NSColor.systemBlue),
+                ])
+                if tempValue != nil {
+                    self.temperatureCircle?.setValue(tempValue!)
+                    
+                    let formatter = MeasurementFormatter()
+                    formatter.numberFormatter.maximumFractionDigits = 0
+                    let measurement = Measurement(value: tempValue!, unit: UnitTemperature.celsius)
+                    self.temperatureCircle?.setText(formatter.string(from: measurement))
+                }
             }
             self.chart?.addValue(value.totalUsage)
         })
@@ -180,14 +181,18 @@ internal class Popup: NSView {
     
     public func processCallback(_ list: [TopProcess]) {
         DispatchQueue.main.async(execute: {
-            for i in 0..<list.count {
-                let process = list[i]
-                let index = list.count-i-1
-                if self.processes.indices.contains(index) {
-                    self.processes[index].label = process.name != nil ? process.name! : process.command
-                    self.processes[index].value = "\(process.usage)%"
-                    self.processes[index].icon = process.icon
+            if (self.window?.isVisible ?? false) || !self.processesInitialized {
+                for i in 0..<list.count {
+                    let process = list[i]
+                    let index = list.count-i-1
+                    if self.processes.indices.contains(index) {
+                        self.processes[index].label = process.name != nil ? process.name! : process.command
+                        self.processes[index].value = "\(process.usage)%"
+                        self.processes[index].icon = process.icon
+                    }
                 }
+                
+                self.processesInitialized = true
             }
         })
     }

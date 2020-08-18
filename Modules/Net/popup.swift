@@ -40,6 +40,7 @@ internal class Popup: NSView {
     private var macAdressField: ValueField? = nil
     
     private var initialized: Bool = false
+    private var processesInitialized: Bool = false
     
     private var chart: MultiLinesChartView? = nil
     private var processes: [NetworkProcessView] = []
@@ -222,44 +223,42 @@ internal class Popup: NSView {
     
     public func usageCallback(_ value: Network_Usage) {
         DispatchQueue.main.async(execute: {
-            if !(self.window?.isVisible ?? false) && self.initialized {
-                return
-            }
-            
-            self.uploadValue = value.upload
-            self.downloadValue = value.download
-            self.setUploadDownloadFields()
-            
-            if let interface = value.interface {
-                self.interfaceField?.stringValue = "\(interface.displayName) (\(interface.BSDName))"
-                self.macAdressField?.stringValue = interface.address
-            } else {
-                self.interfaceField?.stringValue = "Unknown"
-                self.macAdressField?.stringValue = "Unknown"
-            }
-            
-            if value.connectionType == .wifi {
-                self.ssidField?.stringValue = value.ssid ?? "Unknown"
-            } else {
-                self.ssidField?.stringValue = "Unavailable"
-            }
-            
-            if self.publicIPField?.stringValue != value.raddr {
-                if value.raddr == nil {
-                    self.publicIPField?.stringValue = "Unknown"
+            if (self.window?.isVisible ?? false) || !self.initialized {
+                self.uploadValue = value.upload
+                self.downloadValue = value.download
+                self.setUploadDownloadFields()
+                
+                if let interface = value.interface {
+                    self.interfaceField?.stringValue = "\(interface.displayName) (\(interface.BSDName))"
+                    self.macAdressField?.stringValue = interface.address
                 } else {
-                    if value.countryCode == nil {
-                        self.publicIPField?.stringValue = value.raddr!
+                    self.interfaceField?.stringValue = "Unknown"
+                    self.macAdressField?.stringValue = "Unknown"
+                }
+                
+                if value.connectionType == .wifi {
+                    self.ssidField?.stringValue = value.ssid ?? "Unknown"
+                } else {
+                    self.ssidField?.stringValue = "Unavailable"
+                }
+                
+                if self.publicIPField?.stringValue != value.raddr {
+                    if value.raddr == nil {
+                        self.publicIPField?.stringValue = "Unknown"
                     } else {
-                        self.publicIPField?.stringValue = "\(value.raddr!) (\(value.countryCode!))"
+                        if value.countryCode == nil {
+                            self.publicIPField?.stringValue = value.raddr!
+                        } else {
+                            self.publicIPField?.stringValue = "\(value.raddr!) (\(value.countryCode!))"
+                        }
                     }
                 }
+                if self.localIPField?.stringValue != value.laddr {
+                    self.localIPField?.stringValue = value.laddr ?? "Unknown"
+                }
+                
+                self.initialized = true
             }
-            if self.localIPField?.stringValue != value.laddr {
-                self.localIPField?.stringValue = value.laddr ?? "Unknown"
-            }
-            
-            self.initialized = true
             
             self.chart?.addValues([Double(value.upload), Double(value.download)])
         })
@@ -267,14 +266,16 @@ internal class Popup: NSView {
     
     public func processCallback(_ list: [Network_Process]) {
         DispatchQueue.main.async(execute: {
-            for i in 0..<list.count {
-                let process = list[i]
-                let index = list.count-i-1
-                if self.processes.indices.contains(index) {
-                    self.processes[index].label = process.name
-                    self.processes[index].upload = Units(bytes: Int64(process.upload)).getReadableSpeed()
-                    self.processes[index].download = Units(bytes: Int64(process.download)).getReadableSpeed()
-                    self.processes[index].icon = process.icon
+            if (self.window?.isVisible ?? false) {
+                for i in 0..<list.count {
+                    let process = list[i]
+                    let index = list.count-i-1
+                    if self.processes.indices.contains(index) {
+                        self.processes[index].label = process.name
+                        self.processes[index].upload = Units(bytes: Int64(process.upload)).getReadableSpeed()
+                        self.processes[index].download = Units(bytes: Int64(process.download)).getReadableSpeed()
+                        self.processes[index].icon = process.icon
+                    }
                 }
             }
         })

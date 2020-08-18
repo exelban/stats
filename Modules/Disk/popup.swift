@@ -64,6 +64,7 @@ internal class DiskView: NSView {
     public let name: String
     public let size: Int64
     private let uri: URL?
+    private var ready: Bool = false
     
     private let nameHeight: CGFloat = 20
     private let legendHeight: CGFloat = 12
@@ -196,22 +197,26 @@ internal class DiskView: NSView {
     
     public func update(free: Int64, read: Int64?, write: Int64?) {
         DispatchQueue.main.async(execute: {
-            if self.legendField != nil {
-                self.legendField?.stringValue = "Used \(Units(bytes: (self.size - free)).getReadableMemory()) from \(Units(bytes: self.size).getReadableMemory())"
-                self.percentageField?.stringValue = "\(Int8((Double(self.size - free) / Double(self.size)) * 100))%"
-            }
-            
-            if self.usedBarSpace != nil {
-                let percentage = CGFloat(self.size - free) / CGFloat(self.size)
-                let width: CGFloat = ((self.mainView.frame.width - 2) * percentage) / 1
-                self.usedBarSpace?.setFrameSize(NSSize(width: width, height: self.usedBarSpace!.frame.height))
-            }
-            
-            if read != nil {
-                self.setReadState(read != 0)
-            }
-            if write != nil {
-                self.setWriteState(write != 0)
+            if (self.window?.isVisible ?? false) || !self.ready {
+                if self.legendField != nil {
+                    self.legendField?.stringValue = "Used \(Units(bytes: (self.size - free)).getReadableMemory()) from \(Units(bytes: self.size).getReadableMemory())"
+                    self.percentageField?.stringValue = "\(Int8((Double(self.size - free) / Double(self.size)) * 100))%"
+                }
+                
+                if self.usedBarSpace != nil {
+                    let percentage = CGFloat(self.size - free) / CGFloat(self.size)
+                    let width: CGFloat = ((self.mainView.frame.width - 2) * percentage) / 1
+                    self.usedBarSpace?.setFrameSize(NSSize(width: width, height: self.usedBarSpace!.frame.height))
+                }
+                
+                if read != nil {
+                    self.setReadState(read != 0)
+                }
+                if write != nil {
+                    self.setWriteState(write != 0)
+                }
+                
+                self.ready = true
             }
         })
     }
