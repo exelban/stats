@@ -166,6 +166,7 @@ internal class PopupView: NSView {
 internal class HeaderView: NSView {
     public var titleView: NSTextField? = nil
     
+    private var activityButton: NSButton?
     private var settingsButton: NSButton?
     
     required init?(coder: NSCoder) {
@@ -175,40 +176,64 @@ internal class HeaderView: NSView {
     override init(frame: NSRect) {
         super.init(frame: CGRect(x: frame.origin.x, y: frame.origin.y, width: frame.width, height: frame.height))
         
-        let titleView = NSTextField(frame: NSMakeRect(frame.width/4, (frame.height - 18)/2, frame.width/2, 18))
-        titleView.isEditable = false
-        titleView.isSelectable = false
-        titleView.isBezeled = false
-        titleView.wantsLayer = true
-        titleView.textColor = .textColor
-        titleView.backgroundColor = .clear
-        titleView.canDrawSubviewsIntoLayer = true
-        titleView.alignment = .center
-        titleView.font = NSFont.systemFont(ofSize: 16, weight: .regular)
-        titleView.stringValue = ""
+        let activity = NSButtonWithPadding()
+        activity.frame = CGRect(x: 2, y: 2, width: 30, height: 30)
+        activity.verticalPadding = 14
+        activity.horizontalPadding = 14
+        activity.bezelStyle = .regularSquare
+        activity.translatesAutoresizingMaskIntoConstraints = false
+        activity.imageScaling = .scaleNone
+        activity.image = Bundle(for: type(of: self)).image(forResource: "chart")!
+        activity.contentTintColor = .lightGray
+        activity.isBordered = false
+        activity.action = #selector(openActivityMonitor)
+        activity.target = self
         
-        self.titleView = titleView
-        self.addSubview(titleView)
+        let title = NSTextField(frame: NSMakeRect(frame.width/4, (frame.height - 18)/2, frame.width/2, 18))
+        title.isEditable = false
+        title.isSelectable = false
+        title.isBezeled = false
+        title.wantsLayer = true
+        title.textColor = .textColor
+        title.backgroundColor = .clear
+        title.canDrawSubviewsIntoLayer = true
+        title.alignment = .center
+        title.font = NSFont.systemFont(ofSize: 16, weight: .regular)
+        title.stringValue = ""
         
-        let button = NSButtonWithPadding()
-        button.frame = CGRect(x: frame.width - 38, y: 2, width: 30, height: 30)
-        button.verticalPadding = 14
-        button.horizontalPadding = 14
-        button.bezelStyle = .regularSquare
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.imageScaling = .scaleNone
-        button.image = Bundle(for: type(of: self)).image(forResource: "settings")!
-        button.contentTintColor = .lightGray
-        button.isBordered = false
-        button.action = #selector(openMenu)
-        button.target = self
+        let settings = NSButtonWithPadding()
+        settings.frame = CGRect(x: frame.width - 38, y: 2, width: 30, height: 30)
+        settings.verticalPadding = 14
+        settings.horizontalPadding = 14
+        settings.bezelStyle = .regularSquare
+        settings.translatesAutoresizingMaskIntoConstraints = false
+        settings.imageScaling = .scaleNone
+        settings.image = Bundle(for: type(of: self)).image(forResource: "settings")!
+        settings.contentTintColor = .lightGray
+        settings.isBordered = false
+        settings.action = #selector(openMenu)
+        settings.target = self
         
-        let trackingArea = NSTrackingArea(rect: button.frame, options: [NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited, NSTrackingArea.Options.activeInActiveApp], owner: self, userInfo: nil)
-        self.addTrackingArea(trackingArea)
+        self.addSubview(activity)
+        self.addSubview(title)
+        self.addSubview(settings)
         
-        self.addSubview(button)
+        self.activityButton = activity
+        self.titleView = title
+        self.settingsButton = settings
         
-        self.settingsButton = button
+        self.addTrackingArea(NSTrackingArea(
+            rect: activity.frame,
+            options: [NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited, NSTrackingArea.Options.activeInActiveApp],
+            owner: self,
+            userInfo: ["button": "activity"]
+        ))
+        self.addTrackingArea(NSTrackingArea(
+            rect: settings.frame,
+            options: [NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited, NSTrackingArea.Options.activeInActiveApp],
+            owner: self,
+            userInfo: ["button": "settings"]
+        ))
     }
     
     override func draw(_ dirtyRect: NSRect) {
@@ -223,18 +248,45 @@ internal class HeaderView: NSView {
     }
     
     override func mouseEntered(with: NSEvent) {
-        self.settingsButton!.contentTintColor = .gray
+        if let userData = with.trackingArea?.userInfo as? [String : AnyObject] {
+            if let button = userData["button"] as? String {
+                if button == "activity" {
+                    self.activityButton!.contentTintColor = .gray
+                } else if button == "settings" {
+                    self.settingsButton!.contentTintColor = .gray
+                }
+            }
+        }
         NSCursor.pointingHand.set()
     }
     
     override func mouseExited(with: NSEvent) {
-        self.settingsButton!.contentTintColor = .lightGray
+        if let userData = with.trackingArea?.userInfo as? [String : AnyObject] {
+            if let button = userData["button"] as? String {
+                if button == "activity" {
+                    self.activityButton!.contentTintColor = .lightGray
+                } else if button == "settings" {
+                    self.settingsButton!.contentTintColor = .lightGray
+                }
+            }
+        }
         NSCursor.arrow.set()
     }
     
     @objc func openMenu(_ sender: Any) {
         self.window?.setIsVisible(false)
         NotificationCenter.default.post(name: .toggleSettings, object: nil, userInfo: ["module": self.titleView?.stringValue ?? ""])
+    }
+    
+    @objc func openActivityMonitor(_ sender: Any) {
+        self.window?.setIsVisible(false)
+        
+        NSWorkspace.shared.launchApplication(
+            withBundleIdentifier: "com.apple.ActivityMonitor",
+            options: [.default],
+            additionalEventParamDescriptor: nil,
+            launchIdentifier: nil
+        )
     }
 }
 
