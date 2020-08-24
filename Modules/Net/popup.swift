@@ -121,6 +121,11 @@ internal class Popup: NSView {
         self.ssidField?.addTracking()
         self.macAdressField?.addTracking()
         
+        self.publicIPField?.toolTip = "Click to copy public IP address"
+        self.localIPField?.toolTip = "Click to copy local IP address"
+        self.ssidField?.toolTip = "Click to copy wifi name"
+        self.macAdressField?.toolTip = "Click to copy mac address"
+        
         self.publicIPField?.isSelectable = true
         self.localIPField?.isSelectable = true
         self.ssidField?.isSelectable = true
