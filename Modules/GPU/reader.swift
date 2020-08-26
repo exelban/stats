@@ -39,8 +39,8 @@ internal class InfoReader: Reader<GPUs> {
                     return false
                 }
                 
-                let pciMatch = "0x" + Data([deviceID[1], deviceID[0], vendorID[1], vendorID[0]]).map { String(format: "%02hhX", $0) }.joined()
-                let accMatch = accelerator["IOPCIMatch"] as? String ?? accelerator["IOPCIPrimaryMatch"] as? String ?? ""
+                let pciMatch = "0x" + Data([deviceID[1], deviceID[0], vendorID[1], vendorID[0]]).map { String(format: "%02hhX", $0) }.joined().lowercased()
+                let accMatch = (accelerator["IOPCIMatch"] as? String ?? accelerator["IOPCIPrimaryMatch"] as? String ?? "").lowercased()
                 
                 return accMatch.range(of: pciMatch) != nil
             }) else { return }
@@ -53,10 +53,10 @@ internal class InfoReader: Reader<GPUs> {
                 return
             }
             
-            guard let model = matchedGPU.object(forKey: "model") as? Data else {
+            guard let model = matchedGPU.object(forKey: "model") as? Data, var modelName = String(data: model, encoding: .ascii) else {
                 return
             }
-            let modelName = String(data: model, encoding: .ascii)!.replacingOccurrences(of: "\0", with: "")
+            modelName = modelName.replacingOccurrences(of: "\0", with: "")
             
             guard let IOClass = accelerator.object(forKey: "IOClass") as? String else {
                 return

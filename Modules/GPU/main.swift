@@ -35,7 +35,7 @@ public struct GPUs: value_t {
     
     public var widget_value: Double {
         get {
-            return list[0].utilization
+            return list.isEmpty ? 0 : list[0].utilization
         }
     }
 }
@@ -87,7 +87,7 @@ public class GPU: Module {
     }
     
     private func infoCallback(_ value: GPUs?) {
-        guard value != nil else {
+        guard value != nil && !value!.list.isEmpty else {
             return
         }
         
