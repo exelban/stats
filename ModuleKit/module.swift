@@ -103,7 +103,6 @@ open class Module: Module_p {
         self.popupView = popup
         self.available = self.isAvailable()
         self.enabled = self.store.pointee.bool(key: "\(self.config.name)_state", defaultValue: self.config.defaultState)
-        self.menuBarItem.isVisible = true
         self.menuBarItem.autosaveName = self.config.name
         
         if !self.available {
@@ -129,6 +128,8 @@ open class Module: Module_p {
         }
         
         self.popup = PopupWindow(title: self.config.name, view: self.popupView, visibilityCallback: self.visibilityCallback)
+        
+        self.menuBarItem.isVisible = true
     }
     
     deinit {
