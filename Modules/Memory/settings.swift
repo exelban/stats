@@ -51,7 +51,7 @@ internal class Settings: NSView, Settings_v {
         
         self.addSubview(SelectTitleRow(
             frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * num, width: self.frame.width - (Constants.Settings.margin*2), height: rowHeight),
-            title: "Update interval",
+            title: LocalizedString("Update interval"),
             action: #selector(changeUpdateInterval),
             items: self.listOfUpdateIntervals.map{ "\($0) sec" },
             selected: "\(self.updateIntervalValue) sec"

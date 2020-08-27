@@ -64,13 +64,13 @@ internal class Popup: NSView {
         
         let container: NSView = NSView(frame: NSRect(x: 0, y: 10, width: view.frame.width, height: self.dashboardHeight-20))
         self.circle = CircleGraphView(frame: NSRect(x: (container.frame.width - container.frame.height)/2, y: 0, width: container.frame.height, height: container.frame.height), segments: [])
-        self.circle!.toolTip = "RAM usage"
+        self.circle!.toolTip = LocalizedString("Memory usage")
         container.addSubview(self.circle!)
         
         let centralWidth: CGFloat = self.dashboardHeight-20
         let sideWidth: CGFloat = (view.frame.width - centralWidth - (Constants.Popup.margins*2))/2
         self.level = PressureView(frame: NSRect(x: (sideWidth - 60)/2, y: 10, width: 60, height: 50))
-        self.level!.toolTip = "Memory pressure"
+        self.level!.toolTip = LocalizedString("Memory pressure")
         
         view.addSubview(self.level!)
         view.addSubview(container)
@@ -80,7 +80,7 @@ internal class Popup: NSView {
     
     private func initChart() {
         let y: CGFloat = self.frame.height - self.dashboardHeight - Constants.Popup.separatorHeight
-        let separator = SeparatorView("Usage history", origin: NSPoint(x: 0, y: y), width: self.frame.width)
+        let separator = SeparatorView(LocalizedString("Usage history"), origin: NSPoint(x: 0, y: y), width: self.frame.width)
         self.addSubview(separator)
         
         let view: NSView = NSView(frame: NSRect(x: 0, y: y -  self.chartHeight, width: self.frame.width, height: self.chartHeight))
@@ -97,24 +97,24 @@ internal class Popup: NSView {
     
     private func initDetails() {
         let y: CGFloat = self.frame.height - self.dashboardHeight - self.chartHeight - (Constants.Popup.separatorHeight*2)
-        let separator = SeparatorView("Details", origin: NSPoint(x: 0, y: y), width: self.frame.width)
+        let separator = SeparatorView(LocalizedString("Details"), origin: NSPoint(x: 0, y: y), width: self.frame.width)
         self.addSubview(separator)
         
         let view: NSView = NSView(frame: NSRect(x: 0, y: separator.frame.origin.y - self.detailsHeight, width: self.frame.width, height: self.detailsHeight))
         
-        self.totalField = PopupRow(view, n: 5, title: "Total:", value: "")
-        self.usedField = PopupRow(view, n: 4, title: "Used:", value: "")
+        self.totalField = PopupRow(view, n: 5, title: "\(LocalizedString("Total")):", value: "")
+        self.usedField = PopupRow(view, n: 4, title: "\(LocalizedString("Used")):", value: "")
         
-        self.activeField = PopupWithColorRow(view, color: NSColor.systemBlue, n: 3, title: "App:", value: "")
-        self.wiredField = PopupWithColorRow(view, color: NSColor.systemOrange, n: 2, title: "Wired:", value: "")
-        self.compressedField = PopupWithColorRow(view, color: NSColor.systemPink, n: 1, title: "Compressed:", value: "")
-        self.freeField = PopupWithColorRow(view, color: NSColor.lightGray.withAlphaComponent(0.5), n: 0, title: "Free:", value: "")
+        self.activeField = PopupWithColorRow(view, color: NSColor.systemBlue, n: 3, title: "\(LocalizedString("App")):", value: "")
+        self.wiredField = PopupWithColorRow(view, color: NSColor.systemOrange, n: 2, title: "\(LocalizedString("Wired")):", value: "")
+        self.compressedField = PopupWithColorRow(view, color: NSColor.systemPink, n: 1, title: "\(LocalizedString("Compressed")):", value: "")
+        self.freeField = PopupWithColorRow(view, color: NSColor.lightGray.withAlphaComponent(0.5), n: 0, title: "\(LocalizedString("Free")):", value: "")
         
         self.addSubview(view)
     }
     
     private func initProcesses() {
-        let separator = SeparatorView("Top processes", origin: NSPoint(x: 0, y: self.processesHeight), width: self.frame.width)
+        let separator = SeparatorView(LocalizedString("Top processes"), origin: NSPoint(x: 0, y: self.processesHeight), width: self.frame.width)
         self.addSubview(separator)
         
         let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.processesHeight))

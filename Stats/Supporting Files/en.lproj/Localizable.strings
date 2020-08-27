@@ -74,3 +74,14 @@
 "GPU to show" = "GPU to show";
 "GPU temperature" = "GPU temperature";
 "GPU utilization" = "GPU utilization";
+
+// Memory
+"Memory usage" = "Memory usage";
+"Memory pressure" = "Memory pressure";
+"Total" = "Total";
+"Used" = "Used";
+"App" = "App";
+"Wired" = "Wired";
+"Compressed" = "Compressed";
+"Free" = "Free";
+
