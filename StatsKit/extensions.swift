@@ -952,3 +952,13 @@ public struct Log: TextOutputStream {
         }
     }
 }
+
+public func LocalizedString(_ key: String, _ params: String..., comment: String = "") -> String {
+    var string = NSLocalizedString(key, comment: comment)
+    if !params.isEmpty {
+        for param in params {
+            string = string.replacingOccurrences(of: "%@", with: param)
+        }
+    }
+    return string
+}

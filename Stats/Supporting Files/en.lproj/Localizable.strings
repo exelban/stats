@@ -1,0 +1,42 @@
+//
+//  Localizable.strings
+//  Stats
+//
+//  Created by Serhiy Mytrovtsiy on 27/08/2020.
+//  Using Swift 5.0.
+//  Running on macOS 10.15.
+//
+//  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
+//
+
+// Words
+"Unknown" = "Unknown";
+"Version" = "Version";
+"Processor" = "Processor";
+"Memory" = "Memory";
+"Graphics" = "Graphics";
+"Disk" = "Disk";
+"Close" = "Close";
+"Download" = "Download";
+"Install" = "Install";
+"Cancel" = "Cancel";
+
+// Settings
+"Open Activity Monitor" = "Open Activity Monitor";
+"Report a bug" = "Report a bug";
+"Close application" = "Close application";
+"Open application settings" = "Open application settings";
+"Open module settings" = "Open %@ settings";
+
+// Application settings
+"Update application" = "Update application";
+"Check for updates" = "Check for updates";
+"Show icon in dock" = "Show icon in dock";
+"Start at login" = "Start at login";
+
+// Update
+"New version available" = "New version available";
+"The latest version of Stats installed" = "The latest version of Stats installed";
+"Downloading..." = "Downloading...";
+"Current version: " = "Current version:  ";
+"Latest version: " = "Latest version:    ";

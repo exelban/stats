@@ -130,9 +130,9 @@ private class SettingsView: NSView {
         let buttonsView: NSView = NSView(frame: NSRect(x: 0, y: 0, width: navigationWidth, height: buttonHeight))
         buttonsView.wantsLayer = true
         
-        buttonsView.addSubview(self.makeButton(4, title: "Open Activity Monitor", image: "chart", action: #selector(openActivityMonitor)))
-        buttonsView.addSubview(self.makeButton(3, title: "Report a bug", image: "bug", action: #selector(reportBug)))
-        buttonsView.addSubview(self.makeButton(1, title: "Close application", image: "power", action: #selector(closeApp)))
+        buttonsView.addSubview(self.makeButton(4, title: LocalizedString("Open Activity Monitor"), image: "chart", action: #selector(openActivityMonitor)))
+        buttonsView.addSubview(self.makeButton(3, title: LocalizedString("Report a bug"), image: "bug", action: #selector(reportBug)))
+        buttonsView.addSubview(self.makeButton(1, title: LocalizedString("Close application"), image: "power", action: #selector(closeApp)))
         
         let mainView: NSView = NSView(frame: NSRect(x: navigationWidth, y: 1, width: frame.width - navigationWidth-1, height: frame.height-1))
         mainView.wantsLayer = true
@@ -300,7 +300,7 @@ private class MenuView: NSView {
         super.init(frame: NSRect(x: 0, y: self.height*CGFloat(n), width: width, height: self.height))
         self.wantsLayer = true
         self.layer?.backgroundColor = .clear
-        self.toolTip = "Open \(title == "Stats" ? "application" : "\(title) module") settings"
+        self.toolTip = title == "Stats" ? LocalizedString("Open application settings") : LocalizedString("Open module settings", title)
         
         let rect = NSRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
         let trackingArea = NSTrackingArea(rect: rect, options: [NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited, NSTrackingArea.Options.activeInActiveApp], owner: self, userInfo: ["menu": title])
