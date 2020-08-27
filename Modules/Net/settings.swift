@@ -60,7 +60,7 @@ internal class Settings: NSView, Settings_v {
     private func addNetworkSelector() {
         let view: NSView = NSView(frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin, width: self.frame.width, height: 30))
         
-        let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: (view.frame.height - 16)/2, width: view.frame.width - 52, height: 17), "Network interface")
+        let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: (view.frame.height - 16)/2, width: view.frame.width - 52, height: 17), LocalizedString("Network interface"))
         rowTitle.font = NSFont.systemFont(ofSize: 13, weight: .light)
         rowTitle.textColor = .textColor
         

@@ -20,6 +20,7 @@
 "Download" = "Download";
 "Install" = "Install";
 "Cancel" = "Cancel";
+"Unavailable" = "Unavailable";
 
 // Settings
 "Open Activity Monitor" = "Open Activity Monitor";
@@ -88,3 +89,18 @@
 // Disk
 "Show removable disks" = "Show removable disks";
 "Used disk memory" = "Used %@ from %@";
+
+// Network
+"Upload" = "Upload";
+"Download" = "Download";
+"Public IP" = "Public IP";
+"Local IP" = "Local IP";
+"Interface" = "Interface";
+"Network" = "Network";
+"Physical address" = "Physical address";
+"Click to copy public IP address" = "Click to copy public IP address";
+"Click to copy local IP address" = "Click to copy local IP address";
+"Click to copy wifi name" = "Click to copy wifi name";
+"Click to copy mac address" = "Click to copy mac address";
+"No connection" = "No connection";
+"Network interface" = "Network interface";
