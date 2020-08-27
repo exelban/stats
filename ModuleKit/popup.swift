@@ -188,6 +188,7 @@ internal class HeaderView: NSView {
         activity.isBordered = false
         activity.action = #selector(openActivityMonitor)
         activity.target = self
+        activity.toolTip = LocalizedString("Open Activity Monitor")
         
         let title = NSTextField(frame: NSMakeRect(frame.width/4, (frame.height - 18)/2, frame.width/2, 18))
         title.isEditable = false
@@ -213,6 +214,7 @@ internal class HeaderView: NSView {
         settings.isBordered = false
         settings.action = #selector(openMenu)
         settings.target = self
+        settings.toolTip = LocalizedString("Open module settings")
         
         self.addSubview(activity)
         self.addSubview(title)

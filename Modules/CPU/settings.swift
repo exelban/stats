@@ -60,7 +60,7 @@ internal class Settings: NSView, Settings_v {
         
         self.addSubview(SelectTitleRow(
             frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * num, width: self.frame.width - (Constants.Settings.margin*2), height: rowHeight),
-            title: "Update interval",
+            title: LocalizedString("Update interval"),
             action: #selector(changeUpdateInterval),
             items: self.listOfUpdateIntervals.map{ "\($0) sec" },
             selected: "\(self.updateIntervalValue) sec"
@@ -69,14 +69,14 @@ internal class Settings: NSView, Settings_v {
         if widget == .barChart {
             self.addSubview(ToggleTitleRow(
                 frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * 1, width: self.frame.width - (Constants.Settings.margin*2), height: rowHeight),
-                title: "Show usage per core",
+                title: LocalizedString("Show usage per core"),
                 action: #selector(toggleUsagePerCore),
                 state: self.usagePerCoreState
             ))
             
             self.hyperthreadView = ToggleTitleRow(
                 frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * 0, width: self.frame.width - (Constants.Settings.margin*2), height: rowHeight),
-                title: "Show hyper-threading cores",
+                title: LocalizedString("Show hyper-threading cores"),
                 action: #selector(toggleMultithreading),
                 state: self.hyperthreadState
             )

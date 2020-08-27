@@ -21,17 +21,6 @@
 "Install" = "Install";
 "Cancel" = "Cancel";
 
-//Widgets
-"Color" = "Color";
-"Label" = "Label";
-"Box" = "Box";
-"Frame" = "Frame";
-"Value" = "Value";
-"Colorize" = "Colorize";
-"Colorize value" = "Colorize value";
-"Additional information" = "Additional information";
-"Reverse values order" = "Reverse values order";
-
 // Settings
 "Open Activity Monitor" = "Open Activity Monitor";
 "Report a bug" = "Report a bug";
@@ -51,3 +40,33 @@
 "Downloading..." = "Downloading...";
 "Current version: " = "Current version:  ";
 "Latest version: " = "Latest version:    ";
+
+// Widgets
+"Color" = "Color";
+"Label" = "Label";
+"Box" = "Box";
+"Frame" = "Frame";
+"Value" = "Value";
+"Colorize" = "Colorize";
+"Colorize value" = "Colorize value";
+"Additional information" = "Additional information";
+"Reverse values order" = "Reverse values order";
+
+// Module Kit
+"Open Activity Monitor" = "Open Activity Monitor";
+"Open module settings" = "Open module settings";
+"Select widget" = "Select %@ widget";
+"Update interval" = "Update interval";
+"Usage history" = "Usage history";
+"Details" = "Details";
+"Top processes" = "Top processes";
+
+// CPU
+"Show usage per core" = "Show usage per core";
+"Show hyper-threading cores" = "Show hyper-threading cores";
+
+"CPU usage" = "CPU usage";
+"CPU temperature" = "CPU temperature";
+"System": "System";
+"User" = "User";
+"Idle" = "Idle";
