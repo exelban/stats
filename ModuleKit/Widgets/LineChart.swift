@@ -202,21 +202,21 @@ public class LineChart: Widget {
         
         view.addSubview(ToggleTitleRow(
             frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 5, width: view.frame.width, height: rowHeight),
-            title: "Label",
+            title: LocalizedString("Label"),
             action: #selector(toggleLabel),
             state: self.labelState
         ))
         
         view.addSubview(ToggleTitleRow(
             frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 4, width: view.frame.width, height: rowHeight),
-            title: "Value",
+            title: LocalizedString("Value"),
             action: #selector(toggleValue),
             state: self.valueState
         ))
         
         self.boxSettingsView = ToggleTitleRow(
             frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 3, width: view.frame.width, height: rowHeight),
-            title: "Box",
+            title: LocalizedString("Box"),
             action: #selector(toggleBox),
             state: self.boxState
         )
@@ -224,7 +224,7 @@ public class LineChart: Widget {
         
         self.frameSettingsView = ToggleTitleRow(
             frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 2, width: view.frame.width, height: rowHeight),
-            title: "Frame",
+            title: LocalizedString("Frame"),
             action: #selector(toggleFrame),
             state: self.frameState
         )
@@ -232,7 +232,7 @@ public class LineChart: Widget {
         
         view.addSubview(SelectColorRow(
             frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 1, width: view.frame.width, height: rowHeight),
-            title: "Color",
+            title: LocalizedString("Color"),
             action: #selector(toggleColor),
             items: self.colors.map{ $0.rawValue },
             selected: self.colorState.rawValue
@@ -240,7 +240,7 @@ public class LineChart: Widget {
         
         view.addSubview(ToggleTitleRow(
             frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 0, width: view.frame.width, height: rowHeight),
-            title: "Colorize value",
+            title: LocalizedString("Colorize value"),
             action: #selector(toggleValueColor),
             state: self.valueColorState
         ))

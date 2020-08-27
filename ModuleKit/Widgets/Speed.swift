@@ -214,7 +214,7 @@ public class SpeedWidget: Widget {
         
         view.addSubview(SelectTitleRow(
             frame: NSRect(x: 0, y: rowHeight + Constants.Settings.margin, width: view.frame.width, height: rowHeight),
-            title: "Pictogram",
+            title: LocalizedString("Pictogram"),
             action: #selector(toggleIcon),
             items: speed_icon_t.allCases.map{ return $0.rawValue },
             selected: self.icon.rawValue
@@ -222,7 +222,7 @@ public class SpeedWidget: Widget {
         
         view.addSubview(ToggleTitleRow(
             frame: NSRect(x: 0, y: 0, width: view.frame.width, height: rowHeight),
-            title: "Value",
+            title: LocalizedString("Value"),
             action: #selector(toggleValue),
             state: self.valueState
         ))

@@ -224,14 +224,14 @@ public class BarChart: Widget {
         
         view.addSubview(ToggleTitleRow(
             frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 3, width: view.frame.width, height: rowHeight),
-            title: "Label",
+            title: LocalizedString("Label"),
             action: #selector(toggleLabel),
             state: self.labelState
         ))
         
         self.boxSettingsView = ToggleTitleRow(
             frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 2, width: view.frame.width, height: rowHeight),
-            title: "Box",
+            title: LocalizedString("Box"),
             action: #selector(toggleBox),
             state: self.boxState
         )
@@ -239,7 +239,7 @@ public class BarChart: Widget {
         
         self.frameSettingsView = ToggleTitleRow(
             frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 1, width: view.frame.width, height: rowHeight),
-            title: "Frame",
+            title: LocalizedString("Frame"),
             action: #selector(toggleFrame),
             state: self.frameState
         )
@@ -247,7 +247,7 @@ public class BarChart: Widget {
         
         view.addSubview(SelectColorRow(
             frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 0, width: view.frame.width, height: rowHeight),
-            title: "Color",
+            title: LocalizedString("Color"),
             action: #selector(toggleColor),
             items: self.colors.map{ $0.rawValue },
             selected: self.colorState.rawValue

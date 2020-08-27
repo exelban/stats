@@ -21,6 +21,17 @@
 "Install" = "Install";
 "Cancel" = "Cancel";
 
+//Widgets
+"Color" = "Color";
+"Label" = "Label";
+"Box" = "Box";
+"Frame" = "Frame";
+"Value" = "Value";
+"Colorize" = "Colorize";
+"Colorize value" = "Colorize value";
+"Additional information" = "Additional information";
+"Reverse values order" = "Reverse values order";
+
 // Settings
 "Open Activity Monitor" = "Open Activity Monitor";
 "Report a bug" = "Report a bug";

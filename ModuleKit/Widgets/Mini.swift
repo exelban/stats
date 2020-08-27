@@ -130,14 +130,14 @@ public class Mini: Widget {
         
         view.addSubview(ToggleTitleRow(
             frame: NSRect(x: 0, y: rowHeight + Constants.Settings.margin, width: view.frame.width, height: rowHeight),
-            title: "Label",
+            title: LocalizedString("Label"),
             action: #selector(toggleLabel),
             state: self.labelState
         ))
         
         view.addSubview(SelectColorRow(
             frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 0, width: view.frame.width, height: rowHeight),
-            title: "Color",
+            title: LocalizedString("Color"),
             action: #selector(toggleColor),
             items: self.colors.map{ $0.rawValue },
             selected: self.colorState.rawValue
