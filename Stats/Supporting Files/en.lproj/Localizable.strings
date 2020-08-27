@@ -62,11 +62,15 @@
 "Top processes" = "Top processes";
 
 // CPU
-"Show usage per core" = "Show usage per core";
-"Show hyper-threading cores" = "Show hyper-threading cores";
-
 "CPU usage" = "CPU usage";
 "CPU temperature" = "CPU temperature";
 "System": "System";
 "User" = "User";
 "Idle" = "Idle";
+"Show usage per core" = "Show usage per core";
+"Show hyper-threading cores" = "Show hyper-threading cores";
+
+// GPU
+"GPU to show" = "GPU to show";
+"GPU temperature" = "GPU temperature";
+"GPU utilization" = "GPU utilization";

@@ -141,7 +141,7 @@ private class GPUView: NSView {
             width: circleSize,
             height: circleSize
         ))
-        self.temperatureCirle!.toolTip = "GPU temperature"
+        self.temperatureCirle!.toolTip = LocalizedString("GPU temperature")
         
         view.addSubview(chartView)
         view.addSubview(self.temperatureCirle!)
@@ -185,7 +185,7 @@ private class GPUView: NSView {
             width: circleSize,
             height: circleSize
         ))
-        self.utilizationCircle!.toolTip = "GPU utilization"
+        self.utilizationCircle!.toolTip = LocalizedString("GPU utilization")
         
         view.addSubview(chartView)
         view.addSubview(self.utilizationCircle!)
