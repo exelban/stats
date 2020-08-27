@@ -64,7 +64,7 @@
 // CPU
 "CPU usage" = "CPU usage";
 "CPU temperature" = "CPU temperature";
-"System": "System";
+"System" = "System";
 "User" = "User";
 "Idle" = "Idle";
 "Show usage per core" = "Show usage per core";
@@ -85,3 +85,6 @@
 "Compressed" = "Compressed";
 "Free" = "Free";
 
+// Disk
+"Show removable disks" = "Show removable disks";
+"Used disk memory" = "Used %@ from %@";

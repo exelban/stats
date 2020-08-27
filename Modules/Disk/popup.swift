@@ -157,7 +157,7 @@ internal class DiskView: NSView {
         
         self.legendField = TextView(frame: NSRect(x: 0, y: 0, width: view.frame.width - 40, height: view.frame.height))
         self.legendField?.font = NSFont.systemFont(ofSize: 11, weight: .light)
-        self.legendField?.stringValue = "Used \(Units(bytes: (self.size - free)).getReadableMemory()) from \(Units(bytes: self.size).getReadableMemory())"
+        self.legendField?.stringValue = LocalizedString("Used disk memory", Units(bytes: (self.size - free)).getReadableMemory(), Units(bytes: self.size).getReadableMemory())
         
         self.percentageField = TextView(frame: NSRect(x: view.frame.width - 40, y: 0, width: 40, height: view.frame.height))
         self.percentageField?.font = NSFont.systemFont(ofSize: 11, weight: .regular)
@@ -199,7 +199,7 @@ internal class DiskView: NSView {
         DispatchQueue.main.async(execute: {
             if (self.window?.isVisible ?? false) || !self.ready {
                 if self.legendField != nil {
-                    self.legendField?.stringValue = "Used \(Units(bytes: (self.size - free)).getReadableMemory()) from \(Units(bytes: self.size).getReadableMemory())"
+                    self.legendField?.stringValue = LocalizedString("Used disk memory", Units(bytes: (self.size - free)).getReadableMemory(), Units(bytes: self.size).getReadableMemory())
                     self.percentageField?.stringValue = "\(Int8((Double(self.size - free) / Double(self.size)) * 100))%"
                 }
                 

@@ -58,7 +58,7 @@ internal class Settings: NSView, Settings_v {
         if widget != .speed {
             self.addSubview(SelectTitleRow(
                 frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * 2, width: self.frame.width - (Constants.Settings.margin*2), height: rowHeight),
-                title: "Update interval",
+                title: LocalizedString("Update interval"),
                 action: #selector(changeUpdateInterval),
                 items: self.listOfUpdateIntervals.map{ "\($0) sec" },
                 selected: "\(self.updateIntervalValue) sec"
@@ -69,7 +69,7 @@ internal class Settings: NSView, Settings_v {
         
         self.addSubview(ToggleTitleRow(
             frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * 0, width: self.frame.width - (Constants.Settings.margin*2), height: rowHeight),
-            title: "Show removable disks",
+            title: LocalizedString("Show removable disks"),
             action: #selector(toggleRemovable),
             state: self.removableState
         ))
