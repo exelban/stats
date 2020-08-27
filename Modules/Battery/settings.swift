@@ -66,7 +66,7 @@ internal class Settings: NSView, Settings_v {
                 width: self.frame.width - (Constants.Settings.margin*2),
                 height: rowHeight
             ),
-            title: "Low level notification",
+            title: LocalizedString("Low level notification"),
             action: #selector(changeUpdateInterval),
             items: levels,
             selected: self.lowLevelNotification == "Disabled" ? self.lowLevelNotification : "\(Int((Double(self.lowLevelNotification) ?? 0)*100))%"
