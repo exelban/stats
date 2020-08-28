@@ -184,7 +184,7 @@ internal class Popup: NSView {
             self.temperatureField?.stringValue = "\(value.temperature) °C"
             
             self.powerField?.stringValue = value.powerSource == "Battery Power" ? LocalizedString("Not connected") : "\(value.ACwatts) W"
-            self.chargingStateField?.stringValue = value.isCharging ? "Yes" : "No"
+            self.chargingStateField?.stringValue = value.isCharging ? LocalizedString("Yes") : LocalizedString("No")
         })
     }
     

@@ -67,14 +67,14 @@ internal class Popup: NSView {
         let view: NSView = NSView(frame: NSRect(x: 0, y: self.frame.height - self.dashboardHeight, width: self.frame.width, height: self.dashboardHeight))
         
         let leftPart: NSView = NSView(frame: NSRect(x: 0, y: 0, width: view.frame.width / 2, height: view.frame.height))
-        let uploadFields = self.topValueView(leftPart, title: LocalizedString("Upload"), color: NSColor.systemRed)
+        let uploadFields = self.topValueView(leftPart, title: LocalizedString("Uploading"), color: NSColor.systemRed)
         self.uploadView = uploadFields.0
         self.uploadValueField = uploadFields.1
         self.uploadUnitField = uploadFields.2
         self.uploadStateView = uploadFields.3
         
         let rightPart: NSView = NSView(frame: NSRect(x: view.frame.width / 2, y: 0, width: view.frame.width / 2, height: view.frame.height))
-        let downloadFields = self.topValueView(rightPart, title: LocalizedString("Download"), color: NSColor.systemBlue)
+        let downloadFields = self.topValueView(rightPart, title: LocalizedString("Downloading"), color: NSColor.systemBlue)
         self.downloadView = downloadFields.0
         self.downloadValueField = downloadFields.1
         self.downloadUnitField = downloadFields.2
