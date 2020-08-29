@@ -85,7 +85,7 @@ internal class Settings: NSView, Settings_v {
             height: 30
         ))
         
-        let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: (view.frame.height - 16)/2, width: view.frame.width - 52, height: 17), "Disk to show")
+        let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: (view.frame.height - 16)/2, width: view.frame.width - 52, height: 17), LocalizedString("Disk to show"))
         rowTitle.font = NSFont.systemFont(ofSize: 13, weight: .light)
         rowTitle.textColor = .textColor
         

@@ -44,7 +44,6 @@
 "Start at login" = "Start at login";
 
 // Update
-"New version available" = "New version available";
 "The latest version of Stats installed" = "The latest version of Stats installed";
 "Downloading..." = "Downloading...";
 "Current version: " = "Current version:  ";
@@ -62,7 +61,6 @@
 "Reverse values order" = "Reverse values order";
 
 // Module Kit
-"Open Activity Monitor" = "Open Activity Monitor";
 "Open module settings" = "Open module settings";
 "Select widget" = "Select %@ widget";
 "Update interval" = "Update interval";
@@ -98,10 +96,11 @@
 // Disk
 "Show removable disks" = "Show removable disks";
 "Used disk memory" = "Used %@ from %@";
+"Disk to show" = "Disk to show";
 
 // Network
-"Upload" = "Upload";
-"Download" = "Download";
+"Uploading" = "Upload";
+"Downloading" = "Download";
 "Public IP" = "Public IP";
 "Local IP" = "Local IP";
 "Interface" = "Interface";

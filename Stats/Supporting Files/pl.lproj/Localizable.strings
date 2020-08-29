@@ -44,7 +44,6 @@
 "Start at login" = "Uruchom przy logowaniu";
 
 // Update
-"New version available" = "Dostępna nowa wersja";
 "The latest version of Stats installed" = "Najnowsza wersja Stats zainstalowana";
 "Downloading..." = "Pobieranie...";
 "Current version: " = "Aktualna wersja:     ";
@@ -97,6 +96,7 @@
 // Disk
 "Show removable disks" = "Pokaż dyski wymienne";
 "Used disk memory" = "Wykorzystano %@ z %@";
+"Disk to show" = "Aktywny dysk";
 
 // Network
 "Uploading" = "Wysyłka";
