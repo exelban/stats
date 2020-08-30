@@ -464,6 +464,7 @@
 		9A3E17E7247AA8E100449CD1 /* Speed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Speed.swift; sourceTree = "<group>"; };
 		9A3E17E9247B07BF00449CD1 /* popup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = popup.swift; sourceTree = "<group>"; };
 		9A41530B24ABC3AF00A2BDA7 /* Memory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memory.swift; sourceTree = "<group>"; };
+		9A520DF624FBF01F00133EC6 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9A5349CD23D8832E00C23824 /* Reachability.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Reachability.framework; path = Carthage/Build/Mac/Reachability.framework; sourceTree = "<group>"; };
 		9A53EBF824EAFA5200648841 /* settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = settings.swift; sourceTree = "<group>"; };
 		9A53EBFA24EB041E00648841 /* popup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = popup.swift; sourceTree = "<group>"; };
@@ -1272,6 +1273,7 @@
 				en,
 				pl,
 				uk,
+				ru,
 			);
 			mainGroup = 9A1410EC229E721100D29793;
 			productRefGroup = 9A1410F6229E721100D29793 /* Products */;
@@ -1650,6 +1652,7 @@
 				9A9B25BC24F7DE2B00C3CCE6 /* en */,
 				9AAAE83524F953FC00CD92D7 /* pl */,
 				9AAAE83624FAA4B700CD92D7 /* uk */,
+				9A520DF624FBF01F00133EC6 /* ru */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -1874,7 +1877,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 2.3.0;
+				MARKETING_VERSION = 2.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = eu.exelban.Stats;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1906,7 +1909,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 2.3.0;
+				MARKETING_VERSION = 2.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = eu.exelban.Stats;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

@@ -4,10 +4,12 @@
 
 [![Stats](https://serhiy.s3.eu-central-1.amazonaws.com/Github_repo/stats/cover%3Fv1.6.0.png)](https://github.com/exelban/stats/releases)
 
-Simple macOS system monitor in your menu bar
+macOS system monitor in your menu bar
 
 ## Installation
-You can download latest version [here](https://github.com/exelban/stats/releases).
+### Manually
+You can download the latest version [here](https://github.com/exelban/stats/releases).  
+Download the file called `Stats.dmg`. Open it and move the app to the application folder.
 
 ### Homebrew
 
@@ -16,39 +18,26 @@ brew cask install stats
 ```
 
 ## Requirements
-
-Stats is currently supported on macOS 10.14 (Mojave) and higher.
+Stats currently supported on macOS 10.14 (Mojave) and higher.
 
 ## Features
-Stats is a application which allows you to monitor your macOS system.  
+Stats is an application that allows you to monitor your macOS system. 
 
- - CPU Usage
- - Memory Usage
+ - CPU utilization
+ - GPU utilization
+ - Memory usage
  - Disk utilization
  - Sensors information (Temperature/Voltage/Power)
  - Battery level
  - Network usage
 
-## Troubleshoots
-The application supports a few arguments which can help to work with Stats. Also, it's very helpful to debug what module is not working properly (crash).
+## Supporting languages
+- English
+- Polski
+- Український
+- Русский
 
-There are 2 arguments available:
-
-- `--reset`: allows to reset application settings
-- `--disable`: allow to disable some of the modules. A list of modules can be passed. (Example: `--disable disk`)
-
-## Developing
-
-Pull requests and improvement proposals are welcome.
-
-If you want to run the project locally you need to have [carthage](https://github.com/Carthage/Carthage#installing-carthage) and [XCode](https://apps.apple.com/app/xcode/id497799835) installed.
-
-```bash
-git clone https://github.com/exelban/stats
-cd stats
-make dep
-open ./Stats.xcodeproj
-```
+You can help by adding a new language.
 
 ## License
 [MIT License](https://github.com/exelban/stats/blob/master/LICENSE)

@@ -1,0 +1,134 @@
+//
+//  Localizable.strings
+//  Stats
+//
+//  Created by Serhiy Mytrovtsiy on 27/08/2020.
+//  Using Swift 5.0.
+//  Running on macOS 10.15.
+//
+//  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
+//
+
+// Words
+"Unknown" = "Неизвестно";
+"Version" = "Версия";
+"Processor" = "Процессор";
+"Memory" = "Память";
+"Graphics" = "Графика";
+"Disk" = "Диск";
+"Close" = "Закрыть";
+"Download" = "Скачать";
+"Install" = "Установить";
+"Cancel" = "Отменить";
+"Unavailable" = "Недоступно";
+"Yes" = "Да";
+"No" = "Нет";
+
+// Alerts
+"New version available" = "Доступна новая версия";
+"Click to install the new version of Stats" = "Нажмите, чтобы установить новую версию Stats";
+"Successfully updated" = "Успешно обновлено";
+"Stats was updated to v" = "Stats обновлено до v%@";
+
+// Settings
+"Open Activity Monitor" = "Открыть Мониторинг системы";
+"Report a bug" = "Сообщить об ошибке";
+"Close application" = "Закрыть приложение";
+"Open application settings" = "Открыть настройки приложения";
+"Open moduleName settings" = "Откройте настройки %@";
+
+// Application settings
+"Update application" = "Обновить приложение";
+"Check for updates" = "Проверять обновления";
+"Show icon in dock" = "Показать значок в dock";
+"Start at login" = "Запуск при логуванні";
+
+// Update
+"The latest version of Stats installed" = "Установлена последняя версия";
+"Downloading..." = "Скачивание...";
+"Current version: " = "Текущая версия:      ";
+"Latest version: " = "Последняя версия:  ";
+
+// Widgets
+"Color" = "Цвет";
+"Label" = "Метка";
+"Box" = "Box";
+"Frame" = "Рамка";
+"Value" = "Значение";
+"Colorize" = "Раскрасить";
+"Colorize value" = "Раскрасить значение";
+"Additional information" = "Дополнительная информация";
+"Reverse values order" = "Изменить порядок сортировки";
+
+// Module Kit
+"Open module settings" = "Открыть настройки модуля";
+"Select widget" = "Активировать %@ виджет";
+"Update interval" = "Интервал обновления";
+"Usage history" = "История использования";
+"Details" = "Подробности";
+"Top processes" = "Топ процессы";
+"Pictogram" = "Пиктограмма";
+
+// CPU
+"CPU usage" = "Использование процессора";
+"CPU temperature" = "Температура процессора";
+"System" = "Система";
+"User" = "Пользователь";
+"Idle" = "Свободно";
+"Show usage per core" = "Показать использование на ядро";
+"Show hyper-threading cores" = "Показать Hyper-Threading ядра";
+
+// GPU
+"GPU to show" = "Активный графический процессор";
+"GPU temperature" = "Температура графического процессора";
+"GPU utilization" = "Использование графического процессора";
+
+// Memory
+"Memory usage" = "Нагрузка на память";
+"Memory pressure" = "Уровень нагрузки";
+"Total" = "Всего";
+"Used" = "Используется";
+"App" = "Программы";
+"Wired" = "Зарезервированная";
+"Compressed" = "Сжатая";
+"Free" = "Свободная";
+
+// DiskF
+"Show removable disks" = "Показать съемные диски";
+"Used disk memory" = "Использовано %@ с %@";
+"Disk to show" = "Активный диск";
+
+// Network
+"Uploading" = "Висилання";
+"Downloading" = "Загрузка";
+"Public IP" = "Публичный IP";
+"Local IP" = "Локальный IP";
+"Interface" = "Интерфейс";
+"Network" = "Сеть";
+"Physical address" = "Физический адрес";
+"Click to copy public IP address" = "Нажмите, чтобы скопировать публичный IP";
+"Click to copy local IP address" = "Нажмите, чтобы скопировать локальный IP";
+"Click to copy wifi name" = "Нажмите, чтобы скопировать имя Wi-Fi";
+"Click to copy mac address" = "Нажмите, чтобы скопировать физический адрес";
+"No connection" = "Нет соединения";
+"Network interface" = "Сетевой интерфейс";
+
+// Battery
+"Source" = "Источник";
+"Time" = "Время";
+"Health" = "Состояние аккумулятора";
+"Battery" = "Аккумулятор";
+"Amperage" = "Сила тока";
+"Voltage" = "Напряжение";
+"Temperature" = "Температура";
+"Power adapter" = "Блок питания";
+"Power" = "Статус";
+"Is charging" = "Заряжается";
+"Time to discharge" = "Время до разрядки";
+"Time to charge" = "Время до зарядки";
+"Calculating" = "Вычисления";
+"Fully charged" = "Полностью заряжена";
+"Not connected" = "Не подключено";
+"Low level notification" = "Сообщение о низком уровне заряда";
+"Low battery" = "Низкий заряд аккумулятора";
+"Battery remaining" = "%@% осталось";

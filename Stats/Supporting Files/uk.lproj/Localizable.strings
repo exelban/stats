@@ -39,7 +39,7 @@
 
 // Application settings
 "Update application" = "Оновити програму";
-"Check for updates" = "Перевірити оновленя";
+"Check for updates" = "Перевіряти оновленя";
 "Show icon in dock" = "Показувати іконку в dock";
 "Start at login" = "Запуск при логуванні";
 
@@ -94,12 +94,12 @@
 "Free" = "Вільна";
 
 // DiskF
-"Show removable disks" = "Показати знімні диски";
+"Show removable disks" = "Показати зйомні диски";
 "Used disk memory" = "Використано %@ з %@";
 "Disk to show" = "Активний диск";
 
 // Network
-"Uploading" = "Висилання";
+"Uploading" = "Вислання";
 "Downloading" = "Завантаження";
 "Public IP" = "Публічний IP";
 "Local IP" = "Локальний IP";
@@ -116,7 +116,7 @@
 // Battery
 "Source" = "Джерело";
 "Time" = "Час";
-"Health" = "Стан батареї";
+"Health" = "Стан акумулятора";
 "Battery" = "Акумулятор";
 "Amperage" = "Сила струму";
 "Voltage" = "Напруга";
@@ -127,8 +127,8 @@
 "Time to discharge" = "Час до розрядки";
 "Time to charge" = "Час до зарядки";
 "Calculating" = "Обчислення";
-"Fully charged" = "Повністю заряджений";
+"Fully charged" = "Повністю заряджена";
 "Not connected" = "Непід'єднана";
 "Low level notification" = "Повідомлення про низький рівень заряду";
-"Low battery" = "Низький заряд батареї";
+"Low battery" = "Низький заряд акумулятора";
 "Battery remaining" = "%@% залишилось";
