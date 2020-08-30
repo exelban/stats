@@ -67,7 +67,10 @@ extension AppDelegate {
             }
             
             if IsNewestVersion(currentVersion: prevVersion, latestVersion: currentVersion) {
-                _ = showNotification(title: "Successfully updated", subtitle: "Stats was updated to v\(currentVersion)", id: "updated-from-\(prevVersion)-to-\(currentVersion)"
+                _ = showNotification(
+                    title: LocalizedString("Successfully updated"),
+                    subtitle: LocalizedString("Stats was updated to v", currentVersion),
+                    id: "updated-from-\(prevVersion)-to-\(currentVersion)"
                 )
             }
             
@@ -110,12 +113,12 @@ extension AppDelegate {
                     os_log(.debug, log: log, "show update window because new version of app found: %s", "\(version.latest)")
                     
                     self.updateNotification.identifier = "new-version-\(version.latest)"
-                    self.updateNotification.title = "New version available"
-                    self.updateNotification.subtitle = "Click to install the new version of Stats"
+                    self.updateNotification.title = LocalizedString("New version available")
+                    self.updateNotification.subtitle = LocalizedString("Click to install the new version of Stats")
                     self.updateNotification.soundName = NSUserNotificationDefaultSoundName
                     
                     self.updateNotification.hasActionButton = true
-                    self.updateNotification.actionButtonTitle = "Install"
+                    self.updateNotification.actionButtonTitle = LocalizedString("Install")
                     self.updateNotification.userInfo = ["url": version.url]
                     
                     NSUserNotificationCenter.default.delegate = self

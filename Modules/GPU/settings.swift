@@ -58,7 +58,7 @@ internal class Settings: NSView, Settings_v {
         
         self.addSubview(SelectTitleRow(
             frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * num, width: self.frame.width - (Constants.Settings.margin*2), height: rowHeight),
-            title: "Update interval",
+            title: LocalizedString("Update interval"),
             action: #selector(changeUpdateInterval),
             items: self.listOfUpdateIntervals.map{ "\($0) sec" },
             selected: "\(self.updateIntervalValue) sec"
@@ -77,7 +77,7 @@ internal class Settings: NSView, Settings_v {
             height: 30
         ))
         
-        let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: (view.frame.height - 16)/2, width: view.frame.width - 52, height: 17), "GPU to show")
+        let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: (view.frame.height - 16)/2, width: view.frame.width - 52, height: 17), LocalizedString("GPU to show"))
         rowTitle.font = NSFont.systemFont(ofSize: 13, weight: .light)
         rowTitle.textColor = .textColor
         

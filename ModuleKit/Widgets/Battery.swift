@@ -205,7 +205,7 @@ public class BatterykWidget: Widget {
         
         view.addSubview(SelectTitleRow(
             frame: NSRect(x: 0, y: rowHeight + Constants.Settings.margin, width: view.frame.width, height: rowHeight),
-            title: "Additional information",
+            title: LocalizedString("Additional information"),
             action: #selector(toggleAdditional),
             items: battery_additional_t.allCases.map{ return $0.rawValue },
             selected: self.additional.rawValue
@@ -213,7 +213,7 @@ public class BatterykWidget: Widget {
         
         view.addSubview(ToggleTitleRow(
             frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 0, width: view.frame.width, height: rowHeight),
-            title: "Colorize",
+            title: LocalizedString("Colorize"),
             action: #selector(toggleColor),
             state: self.colorState
         ))

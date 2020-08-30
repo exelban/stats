@@ -43,9 +43,9 @@ class ApplicationSettings: NSView {
     public override func viewDidMoveToWindow() {
         if let button = self.updateButton, let version = updater.latest {
             if version.newest {
-                button.title = "Update application"
+                button.title = LocalizedString("Update application")
             } else {
-                button.title = "Check for updates"
+                button.title = LocalizedString("Check for updates")
             }
         }
     }
@@ -60,12 +60,12 @@ class ApplicationSettings: NSView {
         
         var processorInfo = ""
         if systemKit.device.info?.cpu?.name != "" {
-            processorInfo += "\(systemKit.device.info?.cpu?.name ?? "Unknown")\n"
+            processorInfo += "\(systemKit.device.info?.cpu?.name ?? LocalizedString("Unknown"))\n"
         }
         processorInfo += "\(systemKit.device.info?.cpu?.physicalCores ?? 0) cores (\(systemKit.device.info?.cpu?.logicalCores ?? 0) threads)"
         leftPanel.addSubview(makeInfoRow(
             frame: NSRect(x: rowHorizontalPadding, y: rowHeight*3, width: leftPanel.frame.width - (rowHorizontalPadding*1.5), height: rowHeight+8),
-            title: "Processor",
+            title: LocalizedString("Processor"),
             value: processorInfo
         ))
         
@@ -74,12 +74,12 @@ class ApplicationSettings: NSView {
         sizeFormatter.countStyle = .memory
         leftPanel.addSubview(makeInfoRow(
             frame: NSRect(x: rowHorizontalPadding, y: rowHeight*2, width: leftPanel.frame.width - (rowHorizontalPadding*1.5), height: rowHeight),
-            title: "Memory",
+            title: LocalizedString("Memory"),
             value: "\(sizeFormatter.string(fromByteCount: Int64(systemKit.device.info?.ram?.total ?? 0)))"
         ))
         
         let gpus = systemKit.device.info?.gpu
-        var gpu: String = "Unknown"
+        var gpu: String = LocalizedString("Unknown")
         if gpus != nil {
             if gpus?.count == 1 {
                 gpu = gpus![0].name
@@ -90,21 +90,21 @@ class ApplicationSettings: NSView {
         }
         leftPanel.addSubview(makeInfoRow(
             frame: NSRect(x: rowHorizontalPadding, y: rowHeight*1, width: leftPanel.frame.width - (rowHorizontalPadding*1.5), height: rowHeight),
-            title: "GPU",
+            title: LocalizedString("Graphics"),
             value: gpu
         ))
         
         leftPanel.addSubview(makeInfoRow(
             frame: NSRect(x: rowHorizontalPadding, y: 0, width: leftPanel.frame.width - (rowHorizontalPadding*1.5), height: rowHeight),
-            title: "Disk",
-            value: "\(systemKit.device.info?.disk?.model ?? systemKit.device.info?.disk?.name ?? "Unknown")"
+            title: LocalizedString("Disk"),
+            value: "\(systemKit.device.info?.disk?.model ?? systemKit.device.info?.disk?.name ?? LocalizedString("Unknown"))"
         ))
         
         let rightPanel: NSView = NSView(frame: NSRect(x: self.width/2, y: 0, width: view.frame.width/2, height: view.frame.height))
         
         rightPanel.addSubview(makeSelectRow(
             frame: NSRect(x: rowHorizontalPadding*0.5, y: rowHeight*2, width: rightPanel.frame.width - (rowHorizontalPadding*1.5), height: rowHeight),
-            title: "Check for updates",
+            title: LocalizedString("Check for updates"),
             action: #selector(self.toggleUpdateInterval),
             items: updateIntervals.allCases.map{ $0.rawValue },
             selected: self.updateIntervalValue
@@ -112,14 +112,14 @@ class ApplicationSettings: NSView {
         
         rightPanel.addSubview(makeSettingRow(
             frame: NSRect(x: rowHorizontalPadding*0.5, y: rowHeight*1, width: rightPanel.frame.width - (rowHorizontalPadding*1.5), height: rowHeight),
-            title: "Show icon in dock",
+            title: LocalizedString("Show icon in dock"),
             action: #selector(self.toggleDock),
             state: store.bool(key: "dockIcon", defaultValue: false)
         ))
         
         rightPanel.addSubview(makeSettingRow(
             frame: NSRect(x: rowHorizontalPadding*0.5, y: 0, width: rightPanel.frame.width - (rowHorizontalPadding*1.5), height: rowHeight),
-            title: "Start at login",
+            title: LocalizedString("Start at login"),
             action: #selector(self.toggleLaunchAtLogin),
             state: LaunchAtLogin.isEnabled
         ))
@@ -242,7 +242,7 @@ class ApplicationSettings: NSView {
         let osField: NSTextField = TextView(frame: NSRect(x: 0, y: 52, width: leftPanel.frame.width, height: 18))
         osField.alignment = .center
         osField.font = NSFont.systemFont(ofSize: 12, weight: .regular)
-        osField.stringValue = "macOS \(systemKit.device.os?.name ?? "Unknown") (\(systemKit.device.os?.version.getFullVersion() ?? ""))"
+        osField.stringValue = "macOS \(systemKit.device.os?.name ?? LocalizedString("Unknown")) (\(systemKit.device.os?.version.getFullVersion() ?? ""))"
         osField.isSelectable = true
         
         leftPanel.addSubview(deviceImageView)
@@ -266,14 +266,14 @@ class ApplicationSettings: NSView {
         statsVersion.alignment = .center
         statsVersion.font = NSFont.systemFont(ofSize: 12, weight: .regular)
         let versionNumber = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
-        statsVersion.stringValue = "Version \(versionNumber)"
+        statsVersion.stringValue = "\(LocalizedString("Version")) \(versionNumber)"
         statsVersion.isSelectable = true
         
         infoView.addSubview(statsName)
         infoView.addSubview(statsVersion)
         
         let button: NSButton = NSButton(frame: NSRect(x: (rightPanel.frame.width - 160)/2, y: 20, width: 160, height: 28))
-        button.title = "Check for updates"
+        button.title = LocalizedString("Check for updates")
         button.bezelStyle = .rounded
         button.target = self
         button.action = #selector(updateAction)

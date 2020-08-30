@@ -133,13 +133,13 @@ public class Battery: Module {
         }
         
         if value.level <= notificationLevel && self.notification == nil {
-            var subtitle = "\((Int(value.level*100)))% remaining"
+            var subtitle = LocalizedString("Battery remaining", "\(Int(value.level*100))")
             if value.timeToEmpty > 0 {
                 subtitle += " (\(Double(value.timeToEmpty*60).printSecondsToHoursMinutesSeconds()))"
             }
             
             self.notification = showNotification(
-                title: "Low battery",
+                title: LocalizedString("Low battery"),
                 subtitle: subtitle,
                 id: "battery-level",
                 icon: NSImage(named: NSImage.Name("low-battery"))!

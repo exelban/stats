@@ -97,9 +97,9 @@ private class UpdateView: NSView {
         let title: NSTextField = TextView(frame: NSRect(x: 0, y: view.frame.height - 20, width: view.frame.width, height: 18))
         title.font = NSFont.systemFont(ofSize: 14, weight: .semibold)
         title.alignment = .center
-        title.stringValue = "New version available"
+        title.stringValue = LocalizedString("New version available")
         
-        let currentVersionString = "Current version:  \(version.current)"
+        let currentVersionString = "\(LocalizedString("Current version: "))\(version.current)"
         let currentVersionWidth = currentVersionString.widthOfString(usingFont: .systemFont(ofSize: 13, weight: .light))
         let currentVersion: NSTextField = TextView(frame: NSRect(
             x: (view.frame.width-currentVersionWidth)/2,
@@ -109,7 +109,7 @@ private class UpdateView: NSView {
         ))
         currentVersion.stringValue = currentVersionString
         
-        let latestVersionString = "Latest version:    \(version.latest)"
+        let latestVersionString = "\(LocalizedString("Latest version: "))\(version.latest)"
         let latestVersionWidth = latestVersionString.widthOfString(usingFont: .systemFont(ofSize: 13, weight: .light))
         let latestVersion: NSTextField = TextView(frame: NSRect(
         x: (view.frame.width-currentVersionWidth)/2,
@@ -120,13 +120,13 @@ private class UpdateView: NSView {
         latestVersion.stringValue = latestVersionString
         
         let closeButton: NSButton = NSButton(frame: NSRect(x: 0, y: 0, width: view.frame.width/2, height: 26))
-        closeButton.title = "Close"
+        closeButton.title = LocalizedString("Close")
         closeButton.bezelStyle = .rounded
         closeButton.action = #selector(self.close)
         closeButton.target = self
         
         let downloadButton: NSButton = NSButton(frame: NSRect(x: view.frame.width/2, y: 0, width: view.frame.width/2, height: 26))
-        downloadButton.title = "Download"
+        downloadButton.title = LocalizedString("Download")
         downloadButton.bezelStyle = .rounded
         downloadButton.action = #selector(self.download)
         downloadButton.target = self
@@ -145,10 +145,10 @@ private class UpdateView: NSView {
         let title: NSTextField = TextView(frame: NSRect(x: 0, y: ((view.frame.height - 18)/2)+20, width: view.frame.width, height: 18))
         title.font = NSFont.systemFont(ofSize: 14, weight: .regular)
         title.alignment = .center
-        title.stringValue = "The latest version of Stats installed"
+        title.stringValue = LocalizedString("The latest version of Stats installed")
         
         let button: NSButton = NSButton(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: 26))
-        button.title = "Close"
+        button.title = LocalizedString("Close")
         button.bezelStyle = .rounded
         button.action = #selector(self.close)
         button.target = self
@@ -174,7 +174,7 @@ private class UpdateView: NSView {
         let title: NSTextField = TextView(frame: NSRect(x: 0, y: view.frame.height - 28, width: view.frame.width, height: 18))
         title.font = NSFont.systemFont(ofSize: 14, weight: .semibold)
         title.alignment = .center
-        title.stringValue = "Downloading..."
+        title.stringValue = LocalizedString("Downloading...")
         
         let progressBar: NSProgressIndicator = NSProgressIndicator()
         progressBar.frame = NSRect(x: 20, y: 64, width: view.frame.width - 40, height: 22)
@@ -189,13 +189,13 @@ private class UpdateView: NSView {
         state.stringValue = "0%"
         
         let closeButton: NSButton = NSButton(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: 26))
-        closeButton.title = "Close"
+        closeButton.title = LocalizedString("Cancel")
         closeButton.bezelStyle = .rounded
         closeButton.action = #selector(self.close)
         closeButton.target = self
         
         let installButton: NSButton = NSButton(frame: NSRect(x: view.frame.width/2, y: 0, width: view.frame.width/2, height: 26))
-        installButton.title = "Install"
+        installButton.title = LocalizedString("Install")
         installButton.bezelStyle = .rounded
         installButton.action = #selector(self.install)
         installButton.target = self

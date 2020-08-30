@@ -107,7 +107,7 @@ public class MemoryWidget: Widget {
         
         view.addSubview(ToggleTitleRow(
             frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 0, width: view.frame.width, height: rowHeight),
-            title: "Reverse values order",
+            title: LocalizedString("Reverse values order"),
             action: #selector(toggleOrder),
             state: self.orderReversedState
         ))

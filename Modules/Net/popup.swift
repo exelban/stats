@@ -67,14 +67,14 @@ internal class Popup: NSView {
         let view: NSView = NSView(frame: NSRect(x: 0, y: self.frame.height - self.dashboardHeight, width: self.frame.width, height: self.dashboardHeight))
         
         let leftPart: NSView = NSView(frame: NSRect(x: 0, y: 0, width: view.frame.width / 2, height: view.frame.height))
-        let uploadFields = self.topValueView(leftPart, title: "Upload", color: NSColor.systemRed)
+        let uploadFields = self.topValueView(leftPart, title: LocalizedString("Uploading"), color: NSColor.systemRed)
         self.uploadView = uploadFields.0
         self.uploadValueField = uploadFields.1
         self.uploadUnitField = uploadFields.2
         self.uploadStateView = uploadFields.3
         
         let rightPart: NSView = NSView(frame: NSRect(x: view.frame.width / 2, y: 0, width: view.frame.width / 2, height: view.frame.height))
-        let downloadFields = self.topValueView(rightPart, title: "Download", color: NSColor.systemBlue)
+        let downloadFields = self.topValueView(rightPart, title: LocalizedString("Downloading"), color: NSColor.systemBlue)
         self.downloadView = downloadFields.0
         self.downloadValueField = downloadFields.1
         self.downloadUnitField = downloadFields.2
@@ -88,7 +88,7 @@ internal class Popup: NSView {
     
     private func initChart() {
         let y: CGFloat = self.frame.height - self.dashboardHeight - Constants.Popup.separatorHeight
-        let separator = SeparatorView("Usage history", origin: NSPoint(x: 0, y: y), width: self.frame.width)
+        let separator = SeparatorView(LocalizedString("Usage history"), origin: NSPoint(x: 0, y: y), width: self.frame.width)
         self.addSubview(separator)
         
         let view: NSView = NSView(frame: NSRect(x: 0, y: y -  self.chartHeight, width: self.frame.width, height: self.chartHeight))
@@ -105,26 +105,26 @@ internal class Popup: NSView {
     
     private func initDetails() {
         let y: CGFloat = self.frame.height - self.dashboardHeight - self.chartHeight - (Constants.Popup.separatorHeight*2)
-        let separator = SeparatorView("Details", origin: NSPoint(x: 0, y: y), width: self.frame.width)
+        let separator = SeparatorView(LocalizedString("Details"), origin: NSPoint(x: 0, y: y), width: self.frame.width)
         self.addSubview(separator)
         
         let view: NSView = NSView(frame: NSRect(x: 0, y: separator.frame.origin.y - self.detailsHeight, width: self.frame.width, height: self.detailsHeight))
         
-        self.publicIPField = PopupRow(view, n: 4, title: "Public IP:", value: "")
-        self.localIPField = PopupRow(view, n: 3, title: "Local IP:", value: "")
-        self.interfaceField = PopupRow(view, n: 2, title: "Interface:", value: "")
-        self.ssidField = PopupRow(view, n: 1, title: "Network:", value: "")
-        self.macAdressField = PopupRow(view, n: 0, title: "Physical address:", value: "")
+        self.publicIPField = PopupRow(view, n: 4, title: "\(LocalizedString("Public IP")):", value: "")
+        self.localIPField = PopupRow(view, n: 3, title: "\(LocalizedString("Local IP")):", value: "")
+        self.interfaceField = PopupRow(view, n: 2, title: "\(LocalizedString("Interface")):", value: "")
+        self.ssidField = PopupRow(view, n: 1, title: "\(LocalizedString("Network")):", value: "")
+        self.macAdressField = PopupRow(view, n: 0, title: "\(LocalizedString("Physical address")):", value: "")
         
         self.publicIPField?.addTracking()
         self.localIPField?.addTracking()
         self.ssidField?.addTracking()
         self.macAdressField?.addTracking()
         
-        self.publicIPField?.toolTip = "Click to copy public IP address"
-        self.localIPField?.toolTip = "Click to copy local IP address"
-        self.ssidField?.toolTip = "Click to copy wifi name"
-        self.macAdressField?.toolTip = "Click to copy mac address"
+        self.publicIPField?.toolTip = LocalizedString("Click to copy public IP address")
+        self.localIPField?.toolTip = LocalizedString("Click to copy local IP address")
+        self.ssidField?.toolTip = LocalizedString("Click to copy wifi name")
+        self.macAdressField?.toolTip = LocalizedString("Click to copy mac address")
         
         self.publicIPField?.isSelectable = true
         self.localIPField?.isSelectable = true
@@ -135,7 +135,7 @@ internal class Popup: NSView {
     }
     
     private func initProcesses() {
-        let separator = SeparatorView("Top processes", origin: NSPoint(x: 0, y: self.processesHeight), width: self.frame.width)
+        let separator = SeparatorView(LocalizedString("Top processes"), origin: NSPoint(x: 0, y: self.processesHeight), width: self.frame.width)
         self.addSubview(separator)
         
         let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.processesHeight))
@@ -237,19 +237,19 @@ internal class Popup: NSView {
                     self.interfaceField?.stringValue = "\(interface.displayName) (\(interface.BSDName))"
                     self.macAdressField?.stringValue = interface.address
                 } else {
-                    self.interfaceField?.stringValue = "Unknown"
-                    self.macAdressField?.stringValue = "Unknown"
+                    self.interfaceField?.stringValue = LocalizedString("Unknown")
+                    self.macAdressField?.stringValue = LocalizedString("Unknown")
                 }
                 
                 if value.connectionType == .wifi {
                     self.ssidField?.stringValue = value.ssid ?? "Unknown"
                 } else {
-                    self.ssidField?.stringValue = "Unavailable"
+                    self.ssidField?.stringValue = LocalizedString("Unavailable")
                 }
                 
                 if self.publicIPField?.stringValue != value.raddr {
                     if value.raddr == nil {
-                        self.publicIPField?.stringValue = "Unknown"
+                        self.publicIPField?.stringValue = LocalizedString("Unknown")
                     } else {
                         if value.countryCode == nil {
                             self.publicIPField?.stringValue = value.raddr!
@@ -259,7 +259,7 @@ internal class Popup: NSView {
                     }
                 }
                 if self.localIPField?.stringValue != value.laddr {
-                    self.localIPField?.stringValue = value.laddr ?? "Unknown"
+                    self.localIPField?.stringValue = value.laddr ?? LocalizedString("Unknown")
                 }
                 
                 self.initialized = true
@@ -295,7 +295,7 @@ extension ValueField {
     }
     
     public override func mouseEntered(with: NSEvent) {
-        guard self.stringValue != "No connection" && self.stringValue != "Unknown" && self.stringValue != "Unavailable" else {
+        guard self.stringValue != LocalizedString("No connection") && self.stringValue != LocalizedString("Unknown") && self.stringValue != LocalizedString("Unavailable") else {
             return
         }
         
@@ -307,7 +307,7 @@ extension ValueField {
     }
     
     public override func mouseDown(with: NSEvent) {
-        guard self.stringValue != "No connection" && self.stringValue != "Unknown" && self.stringValue != "Unavailable" else {
+        guard self.stringValue != LocalizedString("No connection") && self.stringValue != LocalizedString("Unknown") && self.stringValue != LocalizedString("Unavailable") else {
             return
         }
         
