@@ -2,7 +2,8 @@
 
 <a href="https://github.com/exelban/stats/releases"><p align="center"><img src="https://serhiy.s3.eu-central-1.amazonaws.com/Github_repo/stats/logo.png?raw=true" width="120"></p></a>
 
-[![Stats](https://serhiy.s3.eu-central-1.amazonaws.com/Github_repo/stats/cover%3Fv1.6.0.png)](https://github.com/exelban/stats/releases)
+[![Stats](https://serhiy.s3.eu-central-1.amazonaws.com/Github_repo/stats/menus%3Fv2.3.2.png)](https://github.com/exelban/stats/releases)
+[![Stats](https://serhiy.s3.eu-central-1.amazonaws.com/Github_repo/stats/popups%3Fv2.3.2.png)](https://github.com/exelban/stats/releases)
 
 macOS system monitor in your menu bar
 
