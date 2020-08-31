@@ -1655,6 +1655,7 @@
 				9AAAE83524F953FC00CD92D7 /* pl */,
 				9AAAE83624FAA4B700CD92D7 /* uk */,
 				9A520DF624FBF01F00133EC6 /* ru */,
+				2658929724FC0F3B00FB3B6A /* zh-Hans */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

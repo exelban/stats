@@ -28,14 +28,14 @@
 "New version available" = "新版本可用";
 "Click to install the new version of Stats" = "点击安装Stats的新版本";
 "Successfully updated" = "更新成功";
-"Stats was updated to v" = "Stats已更新到v%@";
+"Stats was updated to v" = "Stats已更新到v%0";
 
 // Settings
 "Open Activity Monitor" = "打开活动监视器";
 "Report a bug" = "报告bug";
 "Close application" = "关闭应用";
 "Open application settings" = "打开应用设置";
-"Open moduleName settings" = "打开 %@ 设置";
+"Open moduleName settings" = "打开 %0 设置";
 
 // Application settings
 "Update application" = "更新应用";
@@ -62,7 +62,7 @@
 
 // Module Kit
 "Open module settings" = "Open module settings";
-"Select widget" = "Select %@ widget";
+"Select widget" = "Select %0 widget";
 "Update interval" = "Update interval";
 "Usage history" = "Usage history";
 "Details" = "Details";
@@ -95,7 +95,7 @@
 
 // Disk
 "Show removable disks" = "显示可移动磁盘";
-"Used disk memory" = "Used %@ from %@";
+"Used disk memory" = "Used %0 from %1";
 "Disk to show" = "显示的磁盘";
 
 // Network
@@ -114,6 +114,7 @@
 "Network interface" = "网络interface";
 
 // Battery
+"Level" = "Level";
 "Source" = "电源";
 "Time" = "时间";
 "Health" = "健康度";
@@ -131,4 +132,4 @@
 "Not connected" = "未连接";
 "Low level notification" = "底层通知";
 "Low battery" = "低电量";
-"Battery remaining" = "剩余 %@%";
+"Battery remaining" = "剩余 %0%";
