@@ -28,14 +28,14 @@
 "New version available" = "New version available";
 "Click to install the new version of Stats" = "Click to install the new version of Stats";
 "Successfully updated" = "Successfully updated";
-"Stats was updated to v" = "Stats was updated to v%@";
+"Stats was updated to v" = "Stats was updated to v%0";
 
 // Settings
 "Open Activity Monitor" = "Open Activity Monitor";
 "Report a bug" = "Report a bug";
 "Close application" = "Close application";
 "Open application settings" = "Open application settings";
-"Open moduleName settings" = "Open %@ settings";
+"Open moduleName settings" = "Open %0 settings";
 
 // Application settings
 "Update application" = "Update application";
@@ -62,7 +62,7 @@
 
 // Module Kit
 "Open module settings" = "Open module settings";
-"Select widget" = "Select %@ widget";
+"Select widget" = "Select %0 widget";
 "Update interval" = "Update interval";
 "Usage history" = "Usage history";
 "Details" = "Details";
@@ -95,7 +95,7 @@
 
 // Disk
 "Show removable disks" = "Show removable disks";
-"Used disk memory" = "Used %@ from %@";
+"Used disk memory" = "Used %0 from %1";
 "Disk to show" = "Disk to show";
 
 // Network
@@ -114,6 +114,7 @@
 "Network interface" = "Network interface";
 
 // Battery
+"Level" = "Level";
 "Source" = "Source";
 "Time" = "Time";
 "Health" = "Health";
@@ -131,4 +132,4 @@
 "Not connected" = "Not connected";
 "Low level notification" = "Low level notification";
 "Low battery" = "Low battery";
-"Battery remaining" = "%@% remaining";
+"Battery remaining" = "%0% remaining";

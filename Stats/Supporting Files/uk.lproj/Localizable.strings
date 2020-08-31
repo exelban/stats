@@ -28,14 +28,14 @@
 "New version available" = "Доступна нова версія";
 "Click to install the new version of Stats" = "Натисніть щоб встановити нову версію Stats";
 "Successfully updated" = "Успішно оновленно";
-"Stats was updated to v" = "Stats оновлено до v%@";
+"Stats was updated to v" = "Stats оновлено до v%0";
 
 // Settings
 "Open Activity Monitor" = "Відкрити Монітор активності";
 "Report a bug" = "Повідомити про помилку";
 "Close application" = "Закрити програму";
 "Open application settings" = "Відкрити налаштування";
-"Open moduleName settings" = "Відкрити налаштування %@";
+"Open moduleName settings" = "Відкрити налаштування %0";
 
 // Application settings
 "Update application" = "Оновити програму";
@@ -62,7 +62,7 @@
 
 // Module Kit
 "Open module settings" = "Відкрити налаштування модуля";
-"Select widget" = "Активувати %@ віджет";
+"Select widget" = "Активувати %0 віджет";
 "Update interval" = "Інтервал обновлень";
 "Usage history" = "Історія використання";
 "Details" = "Деталі";
@@ -95,7 +95,7 @@
 
 // DiskF
 "Show removable disks" = "Показати зйомні диски";
-"Used disk memory" = "Використано %@ з %@";
+"Used disk memory" = "Використано %0 з %1";
 "Disk to show" = "Активний диск";
 
 // Network
@@ -114,6 +114,7 @@
 "Network interface" = "Мережевий інтерфейс";
 
 // Battery
+"Level" = "Рівень заряду";
 "Source" = "Джерело";
 "Time" = "Час";
 "Health" = "Стан акумулятора";
@@ -131,4 +132,4 @@
 "Not connected" = "Непід'єднана";
 "Low level notification" = "Повідомлення про низький рівень заряду";
 "Low battery" = "Низький заряд акумулятора";
-"Battery remaining" = "%@% залишилось";
+"Battery remaining" = "%0% залишилось";

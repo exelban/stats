@@ -79,7 +79,7 @@ internal class Popup: NSView {
         
         let view: NSView = NSView(frame: NSRect(x: 0, y: separator.frame.origin.y - self.detailsHeight, width: self.frame.width, height: self.detailsHeight))
         
-        self.levelField = PopupRow(view, n: 3, title: "\(LocalizedString("Details"))Level:", value: "")
+        self.levelField = PopupRow(view, n: 3, title: "\(LocalizedString("Level")):", value: "")
         self.sourceField = PopupRow(view, n: 2, title: "\(LocalizedString("Source")):", value: "")
         let t = self.labelValue(view, n: 1, title: "\(LocalizedString("Time")):", value: "")
         self.timeLabelField = t.0

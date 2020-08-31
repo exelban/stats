@@ -28,14 +28,14 @@
 "New version available" = "Nowa wersja dostępna";
 "Click to install the new version of Stats" = "Kliknij aby zainstalować nową wersję";
 "Successfully updated" = "Zaktualizowano pomyślnie";
-"Stats was updated to v" = "Stats został zaktualizowany do v%@";
+"Stats was updated to v" = "Stats został zaktualizowany do v%0";
 
 // Settings
 "Open Activity Monitor" = "Otwórz Activity Monitor";
 "Report a bug" = "Zgłoś problem";
 "Close application" = "Zamknij program";
 "Open application settings" = "Otwórz ustawienie";
-"Open moduleName settings" = "Otwórz ustawienie %@";
+"Open moduleName settings" = "Otwórz ustawienie %0";
 
 // Application settings
 "Update application" = "Aktualizuj aplikacje";
@@ -62,7 +62,7 @@
 
 // Module Kit
 "Open module settings" = "Otwórz ustawienie modulu";
-"Select widget" = "Wybierz %@ widget";
+"Select widget" = "Wybierz %0 widget";
 "Update interval" = "Interwał odświeżania";
 "Usage history" = "Historia zużycia";
 "Details" = "Szczegóły";
@@ -95,7 +95,7 @@
 
 // Disk
 "Show removable disks" = "Pokaż dyski wymienne";
-"Used disk memory" = "Wykorzystano %@ z %@";
+"Used disk memory" = "Wykorzystano %0 z %1";
 "Disk to show" = "Aktywny dysk";
 
 // Network
@@ -114,6 +114,7 @@
 "Network interface" = "Interfejs sieciowy";
 
 // Battery
+"Level" = "Poziom naładowania";
 "Source" = "Źródło";
 "Time" = "Czas";
 "Health" = "Zdrowie";
@@ -131,4 +132,4 @@
 "Not connected" = "Nie podłączona";
 "Low level notification" = "Powiadomienie o niskim poziomie";
 "Low battery" = "Niski poziom baterii";
-"Battery remaining" = "Pozostało %@%";
+"Battery remaining" = "Pozostało %0%";
