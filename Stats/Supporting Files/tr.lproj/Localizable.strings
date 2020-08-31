@@ -10,126 +10,126 @@
 //
 
 // Words
-"Unknown" = "Unknown";
-"Version" = "Version";
-"Processor" = "Processor";
-"Memory" = "Memory";
-"Graphics" = "Graphics";
+"Unknown" = "Bilinmeyen";
+"Version" = "Sürüm";
+"Processor" = "İşlemci";
+"Memory" = "Ram";
+"Graphics" = "Grafik";
 "Disk" = "Disk";
-"Close" = "Close";
-"Download" = "Download";
-"Install" = "Install";
-"Cancel" = "Cancel";
-"Unavailable" = "Unavailable";
-"Yes" = "Yes";
-"No" = "No";
+"Close" = "Kapat";
+"Download" = "İndir";
+"Install" = "Yükle";
+"Cancel" = "İptal";
+"Unavailable" = "Devre Dışı";
+"Yes" = "Evet";
+"No" = "Hayır";
 
 // Alerts
-"New version available" = "New version available";
-"Click to install the new version of Stats" = "Click to install the new version of Stats";
-"Successfully updated" = "Successfully updated";
-"Stats was updated to v" = "Stats was updated to v%0";
+"New version available" = "Yeni versiyon indirilebilir";
+"Click to install the new version of Stats" = "Stats'ın yeni sürümünü indirmek için tıklayın";
+"Successfully updated" = "Başarıyla indirildi";
+"Stats was updated to v" = "Stats v%0 sürümüne güncellendi";
 
 // Settings
-"Open Activity Monitor" = "Open Activity Monitor";
-"Report a bug" = "Report a bug";
-"Close application" = "Close application";
-"Open application settings" = "Open application settings";
-"Open moduleName settings" = "Open %0 settings";
+"Open Activity Monitor" = "Etkinlik Monitörünü aç";
+"Report a bug" = "Hata bildir";
+"Close application" = "Uygulamayı kapat";
+"Open application settings" = "Uygulama ayarlarını aç";
+"Open moduleName settings" = "%0 ayarlarını aç";
 
 // Application settings
-"Update application" = "Update application";
-"Check for updates" = "Check for updates";
-"Show icon in dock" = "Show icon in dock";
-"Start at login" = "Start at login";
+"Update application" = "Uygulamayı güncelle";
+"Check for updates" = "Güncellemeleri denetle";
+"Show icon in dock" = "Dock'ta göster";
+"Start at login" = "Başlangıçta çalıştır";
 
 // Update
-"The latest version of Stats installed" = "The latest version of Stats installed";
-"Downloading..." = "Downloading...";
-"Current version: " = "Current version:  ";
-"Latest version: " = "Latest version:    ";
+"The latest version of Stats installed" = "Stats'ın son sürümü yüklendi";
+"Downloading..." = "İndiriliyır...";
+"Current version: " = "Şu anki sürüm:  ";
+"Latest version: " = "Son sürüm:    ";
 
 // Widgets
-"Color" = "Color";
-"Label" = "Label";
-"Box" = "Box";
-"Frame" = "Frame";
-"Value" = "Value";
-"Colorize" = "Colorize";
-"Colorize value" = "Colorize value";
-"Additional information" = "Additional information";
-"Reverse values order" = "Reverse values order";
+"Color" = "Renk";
+"Label" = "Etiker";
+"Box" = "Kutu";
+"Frame" = "Çerçeve";
+"Value" = "Değer";
+"Colorize" = "Renklendir";
+"Colorize value" = "Değeri renklendir";
+"Additional information" = "Ek bilgi";
+"Reverse values order" = "Değerler sırasını tersine çevir";
 
 // Module Kit
-"Open module settings" = "Open module settings";
-"Select widget" = "Select %0 widget";
-"Update interval" = "Update interval";
-"Usage history" = "Usage history";
-"Details" = "Details";
-"Top processes" = "Top processes";
-"Pictogram" = "Pictogram";
+"Open module settings" = "Modül ayarlarını aç";
+"Select widget" = "%0 widgetini seç";
+"Update interval" = "Güncelleme aralığı";
+"Usage history" = "Kullanım geçmişi";
+"Details" = "Detaylar";
+"Top processes" = "İşlemler";
+"Pictogram" = "Piktogram";
 
 // CPU
-"CPU usage" = "CPU usage";
-"CPU temperature" = "CPU temperature";
-"System" = "System";
-"User" = "User";
-"Idle" = "Idle";
-"Show usage per core" = "Show usage per core";
-"Show hyper-threading cores" = "Show hyper-threading cores";
+"CPU usage" = "CPU kullanımı";
+"CPU temperature" = "CPU sıcaklığı";
+"System" = "Sistem";
+"User" = "Kullanıcı";
+"Idle" = "Boşta";
+"Show usage per core" = "Çekirdek başına kullanımı göster";
+"Show hyper-threading cores" = "Hyper-thread çekirdekleri göster";
 
 // GPU
-"GPU to show" = "GPU to show";
-"GPU temperature" = "GPU temperature";
-"GPU utilization" = "GPU utilization";
+"GPU to show" = "Gösterilecek GPU";
+"GPU temperature" = "GPU sıcaklığı";
+"GPU utilization" = "GPU kullanımı";
 
 // Memory
-"Memory usage" = "Memory usage";
-"Memory pressure" = "Memory pressure";
-"Total" = "Total";
-"Used" = "Used";
-"App" = "App";
-"Wired" = "Wired";
-"Compressed" = "Compressed";
-"Free" = "Free";
+"Memory usage" = "Ram kullanımı";
+"Memory pressure" = "Ram yoğunluğu";
+"Total" = "Toplam";
+"Used" = "Kullanılan";
+"App" = "Uygulama";
+"Wired" = "Bağlı";
+"Compressed" = "Sıkıştırılmış";
+"Free" = "Boş";
 
 // Disk
-"Show removable disks" = "Show removable disks";
-"Used disk memory" = "Used %0 from %1";
-"Disk to show" = "Disk to show";
+"Show removable disks" = "Çıkarılabilir diskleri göster";
+"Used disk memory" = "kullanılan %0 , toplam %1";
+"Disk to show" = "Gösterilecek disk";
 
 // Network
-"Uploading" = "Upload";
-"Downloading" = "Download";
-"Public IP" = "Public IP";
-"Local IP" = "Local IP";
-"Interface" = "Interface";
-"Network" = "Network";
-"Physical address" = "Physical address";
-"Click to copy public IP address" = "Click to copy public IP address";
-"Click to copy local IP address" = "Click to copy local IP address";
-"Click to copy wifi name" = "Click to copy wifi name";
-"Click to copy mac address" = "Click to copy mac address";
-"No connection" = "No connection";
-"Network interface" = "Network interface";
+"Uploading" = "Yükleme";
+"Downloading" = "İndirme";
+"Public IP" = "Genel IP";
+"Local IP" = "Yerel IP";
+"Interface" = "Arayüz";
+"Network" = "Ağ";
+"Physical address" = "Fiziksel adres";
+"Click to copy public IP address" = "Genel IP adresini kopyalamak için tıklayın";
+"Click to copy local IP address" = "Yerel IP adresini kopyalamak için tıklayın";
+"Click to copy wifi name" = "Wifi adını kopyalamak için tıklayın";
+"Click to copy mac address" = "Mac adresini kopyalamak için tıklayın";
+"No connection" = "Bağlantı yok";
+"Network interface" = "Ağ arayüzü";
 
 // Battery
-"Level" = "Level";
-"Source" = "Source";
-"Time" = "Time";
-"Health" = "Health";
-"Battery" = "Battery";
-"Amperage" = "Amperage";
-"Voltage" = "Voltage";
-"Temperature" = "Temperature";
-"Power adapter" = "Power adapter";
-"Power" = "Power";
-"Is charging" = "Is charging";
-"Time to discharge" = "Time to discharge";
-"Time to charge" = "Time to charge";
-"Calculating" = "Calculating";
-"Fully charged" = "Fully charged";
-"Not connected" = "Not connected";
-"Low level notification" = "Low level notification";
-"Low battery" = "Low battery";
-"Battery remaining" = "%0% remaining";
+"Level" = "Doluluk";
+"Source" = "Kaynak";
+"Time" = "Süre";
+"Health" = "Sağlık";
+"Battery" = "Batarya";
+"Amperage" = "Amper";
+"Voltage" = "Voltaj";
+"Temperature" = "Sıcaklık";
+"Power adapter" = "Güç adaptörü";
+"Power" = "Güç";
+"Is charging" = "Şarj oluyor";
+"Time to discharge" = "Pilin boşalma süresi";
+"Time to charge" = "Pilin şarj olma süresi";
+"Calculating" = "Hesaplanıyor";
+"Fully charged" = "Tam şarjlı";
+"Not connected" = "Bağlı değil";
+"Low level notification" = "Düşük güç bildirimi";
+"Low battery" = "Düşük batarya";
+"Battery remaining" = "%0% kaldı";
