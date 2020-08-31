@@ -444,6 +444,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		97B5592A24FD84E000D3C4FF /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9A0C82D124460DFF00FAE3D4 /* updater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = updater.swift; sourceTree = "<group>"; };
 		9A0C82D324460E4400FAE3D4 /* launchAtLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = launchAtLogin.swift; sourceTree = "<group>"; };
 		9A0C82DA24460F7200FAE3D4 /* StatsKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = StatsKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1274,6 +1275,7 @@
 				pl,
 				uk,
 				ru,
+				tr,
 			);
 			mainGroup = 9A1410EC229E721100D29793;
 			productRefGroup = 9A1410F6229E721100D29793 /* Products */;
@@ -1653,6 +1655,7 @@
 				9AAAE83524F953FC00CD92D7 /* pl */,
 				9AAAE83624FAA4B700CD92D7 /* uk */,
 				9A520DF624FBF01F00133EC6 /* ru */,
+				97B5592A24FD84E000D3C4FF /* tr */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

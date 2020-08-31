@@ -1,0 +1,135 @@
+//
+//  Localizable.strings
+//  Stats
+//
+//  Created by Serhiy Mytrovtsiy on 27/08/2020.
+//  Using Swift 5.0.
+//  Running on macOS 10.15.
+//
+//  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
+//
+
+// Words
+"Unknown" = "Unknown";
+"Version" = "Version";
+"Processor" = "Processor";
+"Memory" = "Memory";
+"Graphics" = "Graphics";
+"Disk" = "Disk";
+"Close" = "Close";
+"Download" = "Download";
+"Install" = "Install";
+"Cancel" = "Cancel";
+"Unavailable" = "Unavailable";
+"Yes" = "Yes";
+"No" = "No";
+
+// Alerts
+"New version available" = "New version available";
+"Click to install the new version of Stats" = "Click to install the new version of Stats";
+"Successfully updated" = "Successfully updated";
+"Stats was updated to v" = "Stats was updated to v%0";
+
+// Settings
+"Open Activity Monitor" = "Open Activity Monitor";
+"Report a bug" = "Report a bug";
+"Close application" = "Close application";
+"Open application settings" = "Open application settings";
+"Open moduleName settings" = "Open %0 settings";
+
+// Application settings
+"Update application" = "Update application";
+"Check for updates" = "Check for updates";
+"Show icon in dock" = "Show icon in dock";
+"Start at login" = "Start at login";
+
+// Update
+"The latest version of Stats installed" = "The latest version of Stats installed";
+"Downloading..." = "Downloading...";
+"Current version: " = "Current version:  ";
+"Latest version: " = "Latest version:    ";
+
+// Widgets
+"Color" = "Color";
+"Label" = "Label";
+"Box" = "Box";
+"Frame" = "Frame";
+"Value" = "Value";
+"Colorize" = "Colorize";
+"Colorize value" = "Colorize value";
+"Additional information" = "Additional information";
+"Reverse values order" = "Reverse values order";
+
+// Module Kit
+"Open module settings" = "Open module settings";
+"Select widget" = "Select %0 widget";
+"Update interval" = "Update interval";
+"Usage history" = "Usage history";
+"Details" = "Details";
+"Top processes" = "Top processes";
+"Pictogram" = "Pictogram";
+
+// CPU
+"CPU usage" = "CPU usage";
+"CPU temperature" = "CPU temperature";
+"System" = "System";
+"User" = "User";
+"Idle" = "Idle";
+"Show usage per core" = "Show usage per core";
+"Show hyper-threading cores" = "Show hyper-threading cores";
+
+// GPU
+"GPU to show" = "GPU to show";
+"GPU temperature" = "GPU temperature";
+"GPU utilization" = "GPU utilization";
+
+// Memory
+"Memory usage" = "Memory usage";
+"Memory pressure" = "Memory pressure";
+"Total" = "Total";
+"Used" = "Used";
+"App" = "App";
+"Wired" = "Wired";
+"Compressed" = "Compressed";
+"Free" = "Free";
+
+// Disk
+"Show removable disks" = "Show removable disks";
+"Used disk memory" = "Used %0 from %1";
+"Disk to show" = "Disk to show";
+
+// Network
+"Uploading" = "Upload";
+"Downloading" = "Download";
+"Public IP" = "Public IP";
+"Local IP" = "Local IP";
+"Interface" = "Interface";
+"Network" = "Network";
+"Physical address" = "Physical address";
+"Click to copy public IP address" = "Click to copy public IP address";
+"Click to copy local IP address" = "Click to copy local IP address";
+"Click to copy wifi name" = "Click to copy wifi name";
+"Click to copy mac address" = "Click to copy mac address";
+"No connection" = "No connection";
+"Network interface" = "Network interface";
+
+// Battery
+"Level" = "Level";
+"Source" = "Source";
+"Time" = "Time";
+"Health" = "Health";
+"Battery" = "Battery";
+"Amperage" = "Amperage";
+"Voltage" = "Voltage";
+"Temperature" = "Temperature";
+"Power adapter" = "Power adapter";
+"Power" = "Power";
+"Is charging" = "Is charging";
+"Time to discharge" = "Time to discharge";
+"Time to charge" = "Time to charge";
+"Calculating" = "Calculating";
+"Fully charged" = "Fully charged";
+"Not connected" = "Not connected";
+"Low level notification" = "Low level notification";
+"Low battery" = "Low battery";
+"Battery remaining" = "%0% remaining";
