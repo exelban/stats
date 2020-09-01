@@ -444,6 +444,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2658929724FC0F3B00FB3B6A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		97B5592A24FD84E000D3C4FF /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9A0C82D124460DFF00FAE3D4 /* updater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = updater.swift; sourceTree = "<group>"; };
 		9A0C82D324460E4400FAE3D4 /* launchAtLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = launchAtLogin.swift; sourceTree = "<group>"; };
@@ -1275,6 +1276,7 @@
 				pl,
 				uk,
 				ru,
+				"zh-Hans",
 				tr,
 			);
 			mainGroup = 9A1410EC229E721100D29793;
@@ -1655,6 +1657,7 @@
 				9AAAE83524F953FC00CD92D7 /* pl */,
 				9AAAE83624FAA4B700CD92D7 /* uk */,
 				9A520DF624FBF01F00133EC6 /* ru */,
+				2658929724FC0F3B00FB3B6A /* zh-Hans */,
 				97B5592A24FD84E000D3C4FF /* tr */,
 			);
 			name = Localizable.strings;
