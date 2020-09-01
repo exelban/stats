@@ -69,7 +69,7 @@ public struct info_s {
 }
 
 public struct device_s {
-    public var model: model_s = model_s(name: "Unknown", year: 2020, type: .unknown)
+    public var model: model_s = model_s(name: LocalizedString("Unknown"), year: 2020, type: .unknown)
     public var os: os_s? = nil
     public var info: info_s? = info_s()
 }
@@ -87,13 +87,18 @@ public class SystemKit {
                 os_log(.error, log: self.log, "unknown device %s", modelName)
             }
         }
-
+        
         let procInfo = ProcessInfo()
         let systemVersion = procInfo.operatingSystemVersion
-        let build = procInfo.operatingSystemVersionString.split(separator: "(")[1].replacingOccurrences(of: "Build ", with: "").replacingOccurrences(of: ")", with: "")
-
-        self.device.os = os_s(name: osDict[systemVersion.minorVersion] ?? "Unknown", version: systemVersion, build: build)
-
+        
+        var build = LocalizedString("Unknown")
+        let buildArr = procInfo.operatingSystemVersionString.split(separator: "(")
+        if buildArr.indices.contains(1) {
+            build = buildArr[1].replacingOccurrences(of: "Build ", with: "").replacingOccurrences(of: ")", with: "")
+        }
+        
+        self.device.os = os_s(name: osDict[systemVersion.minorVersion] ?? LocalizedString("Unknown"), version: systemVersion, build: build)
+        
         self.device.info?.cpu = self.getCPUInfo()
         self.device.info?.ram = self.getRamInfo()
         self.device.info?.gpu = self.getGPUInfo()
