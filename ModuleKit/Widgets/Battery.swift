@@ -17,6 +17,8 @@ public enum battery_additional_t: String {
     case separator_1 = "separator_1"
     case percentage = "Percentage"
     case time = "Time"
+    case percentageAndTime = "Percentage and time"
+    case timeAndPercentage = "Time and percentage"
 }
 extension battery_additional_t: CaseIterable {}
 
@@ -65,30 +67,38 @@ public class BatterykWidget: Widget {
         var width: CGFloat = 30
         var x: CGFloat = Constants.Widget.margin+1
         
-        let stringAttributes = [
-            NSAttributedString.Key.font: NSFont.systemFont(ofSize: 12, weight: .regular),
-            NSAttributedString.Key.foregroundColor: isDarkMode ? NSColor.white : NSColor.textColor,
-            NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
-        ]
-        
-        if self.additional == .percentage {
-            let string = "\(Int((self.percentage.rounded(toPlaces: 2)) * 100))%"
-            let stringWidth = string.widthOfString(usingFont: .systemFont(ofSize: 12, weight: .regular))
-            let rect = CGRect(x: x, y: (Constants.Widget.height-12)/2, width: stringWidth, height: 12)
-            let str = NSAttributedString.init(string: string, attributes: stringAttributes)
-            str.draw(with: rect)
-            
-            width += stringWidth + Constants.Widget.margin
-            x += stringWidth + Constants.Widget.margin
-        } else if self.additional == .time {
-            let string = Double(self.time*60).printSecondsToHoursMinutesSeconds()
-            let stringWidth = string.widthOfString(usingFont: .systemFont(ofSize: 12, weight: .regular))
-            let rect = CGRect(x: x, y: (Constants.Widget.height-12)/2, width: stringWidth, height: 12)
-            let str = NSAttributedString.init(string: string, attributes: stringAttributes)
-            str.draw(with: rect)
-            
-            width += stringWidth + Constants.Widget.margin
-            x += stringWidth + Constants.Widget.margin
+        switch self.additional {
+        case .percentage:
+            let rowWidth = self.drawOneRow(
+                value: "\(Int((self.percentage.rounded(toPlaces: 2)) * 100))%",
+                x: x
+            )
+            width += rowWidth + Constants.Widget.margin
+            x += rowWidth + Constants.Widget.margin
+        case .time:
+            let rowWidth = self.drawOneRow(
+                value: Double(self.time*60).printSecondsToHoursMinutesSeconds(),
+                x: x
+            )
+            width += rowWidth + Constants.Widget.margin
+            x += rowWidth + Constants.Widget.margin
+        case .percentageAndTime:
+            let rowWidth = self.drawTwoRows(
+                first: "\(Int((self.percentage.rounded(toPlaces: 2)) * 100))%",
+                second: Double(self.time*60).printSecondsToHoursMinutesSeconds(),
+                x: x
+            )
+            width += rowWidth + Constants.Widget.margin
+            x += rowWidth + Constants.Widget.margin
+        case .timeAndPercentage:
+            let rowWidth = self.drawTwoRows(
+                first: Double(self.time*60).printSecondsToHoursMinutesSeconds(),
+                second: "\(Int((self.percentage.rounded(toPlaces: 2)) * 100))%",
+                x: x
+            )
+            width += rowWidth + Constants.Widget.margin
+            x += rowWidth + Constants.Widget.margin
+        default: break
         }
         
         let w: CGFloat = 28 - (Constants.Widget.margin*2) - 4
@@ -167,6 +177,45 @@ public class BatterykWidget: Widget {
         }
         
         self.setWidth(width)
+    }
+    
+    private func drawOneRow(value: String, x: CGFloat) -> CGFloat {
+        let attributes = [
+            NSAttributedString.Key.font: NSFont.systemFont(ofSize: 12, weight: .regular),
+            NSAttributedString.Key.foregroundColor: isDarkMode ? NSColor.white : NSColor.textColor,
+            NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
+        ]
+        
+        let rowWidth = value.widthOfString(usingFont: .systemFont(ofSize: 12, weight: .regular))
+        let rect = CGRect(x: x, y: (Constants.Widget.height-12)/2, width: rowWidth, height: 12)
+        let str = NSAttributedString.init(string: value, attributes: attributes)
+        str.draw(with: rect)
+        
+        return rowWidth
+    }
+    
+    private func drawTwoRows(first: String, second: String, x: CGFloat) -> CGFloat {
+        let style = NSMutableParagraphStyle()
+        style.alignment = .center
+        let attributes = [
+            NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .light),
+            NSAttributedString.Key.foregroundColor: NSColor.textColor,
+            NSAttributedString.Key.paragraphStyle: style
+        ]
+        let rowHeight: CGFloat = self.frame.height / 2
+        
+        let rowWidth = max(
+            first.widthOfString(usingFont: .systemFont(ofSize: 9, weight: .light)),
+            second.widthOfString(usingFont: .systemFont(ofSize: 9, weight: .light))
+        )
+        
+        var str = NSAttributedString.init(string: first, attributes: attributes)
+        str.draw(with: CGRect(x: x, y: rowHeight+1, width: rowWidth, height: rowHeight))
+        
+        str = NSAttributedString.init(string: second, attributes: attributes)
+        str.draw(with: CGRect(x: x, y: 1, width: rowWidth, height: rowHeight))
+        
+        return rowWidth
     }
     
     public func setValue(percentage: Double, ACStatus: Bool, isCharging: Bool, time: Int) {
