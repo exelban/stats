@@ -91,7 +91,7 @@ public class CPU: Module {
             return
         }
         
-        let temperature = self.smc?.pointee.getValue("TC0C") ?? self.smc?.pointee.getValue("TC0D") ?? self.smc?.pointee.getValue("TC0E")
+        let temperature = self.smc?.pointee.getValue("TC0C") ?? self.smc?.pointee.getValue("TC0D") ?? self.smc?.pointee.getValue("TC0P") ?? self.smc?.pointee.getValue("TC0E")
         self.popupView.loadCallback(value!, tempValue: temperature)
         
         if let widget = self.widget as? Mini {

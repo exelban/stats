@@ -56,11 +56,15 @@ internal class UsageReader: Reader<Network_Usage> {
         }
         
         self.reachability!.whenReachable = { _ in
-            self.getDetails()
+            if self.active {
+                self.getDetails()
+            }
         }
         self.reachability!.whenUnreachable = { _ in
-            self.usage.reset()
-            self.callback(self.usage)
+            if self.active {
+                self.usage.reset()
+                self.callback(self.usage)
+            }
         }
     }
     

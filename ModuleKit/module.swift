@@ -117,7 +117,7 @@ open class Module: Module_p {
         NotificationCenter.default.addObserver(self, selector: #selector(listenResignActive), name: NSApplication.willResignActiveNotification, object: nil)
         
         if self.config.widgetsConfig.count != 0 {
-            self.setWidget()
+            self.initWidget()
         } else {
             os_log(.debug, log: log, "Module started without widget")
         }
@@ -129,6 +129,9 @@ open class Module: Module_p {
         
         self.popup = PopupWindow(title: self.config.name, view: self.popupView, visibilityCallback: self.visibilityCallback)
         
+        self.menuBarItem.button?.target = self
+        self.menuBarItem.button?.action = #selector(self.togglePopup)
+        self.menuBarItem.button?.sendAction(on: [.leftMouseDown, .rightMouseDown])
         self.menuBarItem.isVisible = true
     }
     
@@ -178,9 +181,10 @@ open class Module: Module_p {
             reader.initStoreValues(title: self.config.name, store: self.store)
             reader.start()
         }
-        self.menuBarItem.length = self.widget?.frame.width ?? 0
-        if self.menuBarItem.length < 0 {
+        if self.widget != nil {
             self.loadWidget()
+        } else {
+            self.initWidget()
         }
         os_log(.debug, log: log, "Module enabled")
     }
@@ -240,23 +244,18 @@ open class Module: Module_p {
     
     // setup menu ber item
     private func loadWidget() {
-        guard self.available else { return }
+        guard self.available && self.enabled && self.ready && self.widget != nil else { return }
         
-        if self.widget != nil && self.ready {
-            DispatchQueue.main.async {
-                self.menuBarItem.button?.target = self
-                self.menuBarItem.button?.action = #selector(self.togglePopup)
-                self.menuBarItem.button?.sendAction(on: [.leftMouseDown, .rightMouseDown])
-                
-                self.menuBarItem.length = self.widget!.frame.width
-                self.menuBarItem.button?.addSubview(self.widget!)
-                self.widgetLoaded = true
-            }
+        DispatchQueue.main.async {
+            self.menuBarItem.length = self.widget!.frame.width
+            self.menuBarItem.button?.subviews.forEach{ $0.removeFromSuperview() }
+            self.menuBarItem.button?.addSubview(self.widget!)
+            self.widgetLoaded = true
         }
     }
     
-    // load and setup widget
-    private func setWidget() {
+    // load the widget and set up. Calls when module init, on widget change
+    private func initWidget() {
         guard self.available else { return }
         
         self.widget = LoadWidget(self.activeWidget, preview: false, name: self.config.name, config: self.config.widgetsConfig, store: self.store)
@@ -276,10 +275,11 @@ open class Module: Module_p {
             self.widget?.setValues(mainReader.getHistory())
         }
         
-        if self.ready {
+        if self.ready && self.enabled {
             self.menuBarItem.length = self.widget!.frame.width
             self.menuBarItem.button?.subviews.forEach{ $0.removeFromSuperview() }
             self.menuBarItem.button?.addSubview(self.widget!)
+            self.widgetLoaded = true
         }
         
         self.settings?.setActiveWidget(self.widget)
@@ -347,7 +347,7 @@ open class Module: Module_p {
                     if let widgetType = widget_t.allCases.first(where: { $0.rawValue == widgetName }) {
                         self.activeWidget = widgetType
                         self.store.pointee.set(key: "\(self.config.name)_widget", value: widgetType.rawValue)
-                        self.setWidget()
+                        self.initWidget()
                         os_log(.debug, log: log, "Widget is changed to: %s", "\(widgetName)")
                     }
                 }
