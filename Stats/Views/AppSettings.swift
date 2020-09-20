@@ -322,7 +322,7 @@ class ApplicationSettings: NSView {
         } else {
             state = sender is NSButton ? (sender as! NSButton).state: nil
         }
-  
+        
         if state != nil {
             store.set(key: "dockIcon", value: state! == NSControl.StateValue.on)
         }

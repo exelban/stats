@@ -262,14 +262,14 @@ public extension Double {
         }
     }
     
-    func secondsToHoursMinutesSeconds () -> (Int?, Int?, Int?) {
+    func secondsToHoursMinutesSeconds() -> (Int?, Int?, Int?) {
         let hrs = self / 3600
         let mins = (self.truncatingRemainder(dividingBy: 3600)) / 60
         let seconds = (self.truncatingRemainder(dividingBy:3600)).truncatingRemainder(dividingBy:60)
         return (Int(hrs) > 0 ? Int(hrs) : nil , Int(mins) > 0 ? Int(mins) : nil, Int(seconds) > 0 ? Int(seconds) : nil)
     }
     
-    func printSecondsToHoursMinutesSeconds () -> String {
+    func printSecondsToHoursMinutesSeconds() -> String {
         let time = self.secondsToHoursMinutesSeconds()
         
         switch time {

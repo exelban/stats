@@ -59,13 +59,17 @@ internal class UsageReader: Reader<Battery_Usage> {
         for ps in psList {
             if let list = IOPSGetPowerSourceDescription(psInfo, ps).takeUnretainedValue() as? Dictionary<String, Any> {
                 self.usage.powerSource = list[kIOPSPowerSourceStateKey] as? String ?? "AC Power"
-                self.usage.state = list[kIOPSBatteryHealthKey] as! String
+                self.usage.state = list[kIOPSBatteryHealthKey] as? String ?? "0"
                 self.usage.isCharged = list[kIOPSIsChargedKey] as? Bool ?? false
                 self.usage.isCharging = self.getBoolValue("IsCharging" as CFString) ?? false
-                self.usage.level = Double(list[kIOPSCurrentCapacityKey] as! Int) / 100
+                self.usage.level = Double(list[kIOPSCurrentCapacityKey] as? Int ?? 0) / 100
                 
-                self.usage.timeToEmpty = Int(list[kIOPSTimeToEmptyKey] as! Int)
-                self.usage.timeToCharge = Int(list[kIOPSTimeToFullChargeKey] as! Int)
+                if let time = list[kIOPSTimeToEmptyKey] as? Int {
+                    self.usage.timeToEmpty = Int(time)
+                }
+                if let time = list[kIOPSTimeToFullChargeKey] as? Int {
+                    self.usage.timeToCharge = Int(time)
+                }
                 
                 self.usage.cycles = self.getIntValue("CycleCount" as CFString) ?? 0
                 
