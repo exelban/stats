@@ -58,6 +58,7 @@ public class SensorsWidget: Widget {
     
     public override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
+        
         guard self.values.count != 0 else {
             self.setWidth(1)
             return
@@ -79,15 +80,27 @@ public class SensorsWidget: Widget {
         
         var x: CGFloat = Constants.Widget.margin
         for i in 0..<num {
-            if self.values.indices.contains(i*2) {
-                let rect = CGRect(x: x, y: rowHeight+1, width: rowWidth, height: rowHeight)
-                let str = NSAttributedString.init(string: self.values[i*2], attributes: attributes)
-                str.draw(with: rect)
+            if !self.values.indices.contains(i*2) {
+                continue
             }
             
             if self.values.indices.contains((i*2)+1) {
-                let rect = CGRect(x: x, y: 1, width: rowWidth, height: rowHeight)
-                let str = NSAttributedString.init(string: self.values[(i*2)+1], attributes: attributes)
+                var rect = CGRect(x: x, y: rowHeight+1, width: rowWidth, height: rowHeight)
+                var str = NSAttributedString.init(string: self.values[i*2], attributes: attributes)
+                str.draw(with: rect)
+                
+                rect = CGRect(x: x, y: 1, width: rowWidth, height: rowHeight)
+                str = NSAttributedString.init(string: self.values[(i*2)+1], attributes: attributes)
+                str.draw(with: rect)
+            } else {
+                let style = NSMutableParagraphStyle()
+                style.alignment = .center
+                let rect = CGRect(x: x, y: (Constants.Widget.height-13)/2, width: rowWidth, height: 13)
+                let str = NSAttributedString.init(string: self.values[i*2], attributes: [
+                    NSAttributedString.Key.font: NSFont.systemFont(ofSize: 13, weight: .light),
+                    NSAttributedString.Key.foregroundColor: NSColor.textColor,
+                    NSAttributedString.Key.paragraphStyle: style
+                ])
                 str.draw(with: rect)
             }
             
