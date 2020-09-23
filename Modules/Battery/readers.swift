@@ -23,6 +23,7 @@ internal class UsageReader: Reader<Battery_Usage> {
     private var usage: Battery_Usage = Battery_Usage()
     
     public override func start() {
+        self.active = true
         let context = UnsafeMutableRawPointer(Unmanaged.passUnretained(self).toOpaque())
         
         self.source = IOPSNotificationCreateRunLoopSource({ (context) in
@@ -31,7 +32,9 @@ internal class UsageReader: Reader<Battery_Usage> {
             }
             
             let watcher = Unmanaged<UsageReader>.fromOpaque(ctx).takeUnretainedValue()
-            watcher.read()
+            if watcher.active {
+                watcher.read()
+            }
         }, context).takeRetainedValue()
         
         self.loop = RunLoop.current.getCFRunLoop()
@@ -45,6 +48,7 @@ internal class UsageReader: Reader<Battery_Usage> {
             return
         }
         
+        self.active = false
         CFRunLoopRemoveSource(runLoop, source, .defaultMode)
     }
     
