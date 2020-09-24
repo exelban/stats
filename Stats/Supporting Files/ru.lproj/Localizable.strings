@@ -93,10 +93,13 @@
 "Compressed" = "Сжатая";
 "Free" = "Свободная";
 
-// DiskF
+// Disk
 "Show removable disks" = "Показать съемные диски";
 "Used disk memory" = "Использовано %0 с %1";
 "Disk to show" = "Активный диск";
+
+// Sensors
+"Temperature unit" = "Единица измерения температуры";
 
 // Network
 "Uploading" = "Висилання";

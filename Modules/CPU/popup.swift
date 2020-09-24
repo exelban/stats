@@ -168,11 +168,7 @@ internal class Popup: NSView {
                 ])
                 if tempValue != nil {
                     self.temperatureCircle?.setValue(tempValue!)
-                    
-                    let formatter = MeasurementFormatter()
-                    formatter.numberFormatter.maximumFractionDigits = 0
-                    let measurement = Measurement(value: tempValue!, unit: UnitTemperature.celsius)
-                    self.temperatureCircle?.setText(formatter.string(from: measurement))
+                    self.temperatureCircle?.setText(Temperature(tempValue!))
                 }
             }
             self.chart?.addValue(value.totalUsage)

@@ -418,6 +418,43 @@ public extension NSView {
         
         return row
     }
+    
+    func SelectRow(frame: NSRect, title: String, action: Selector, items: [KeyValue_t], selected: String) -> NSView {
+        let row: NSView = NSView(frame: frame)
+        
+        let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: (row.frame.height - 16)/2, width: row.frame.width - 52, height: 17), title)
+        rowTitle.font = NSFont.systemFont(ofSize: 13, weight: .light)
+        rowTitle.textColor = .textColor
+        
+        let select: NSPopUpButton = NSPopUpButton(frame: NSRect(x: row.frame.width - 50, y: (row.frame.height-26)/2, width: 50, height: 26))
+        select.target = self
+        select.action = action
+        
+        let menu = NSMenu()
+        items.forEach { (item) in
+            if item.key.contains("separator") {
+                menu.addItem(NSMenuItem.separator())
+            } else {
+                let interfaceMenu = NSMenuItem(title: item.value, action: nil, keyEquivalent: "")
+                interfaceMenu.representedObject = item.key
+                menu.addItem(interfaceMenu)
+                if selected == item.key {
+                    interfaceMenu.state = .on
+                }
+            }
+        }
+        
+        select.menu = menu
+        select.sizeToFit()
+        
+        rowTitle.setFrameSize(NSSize(width: row.frame.width - select.frame.width, height: rowTitle.frame.height))
+        select.setFrameOrigin(NSPoint(x: row.frame.width - select.frame.width, y: select.frame.origin.y))
+        
+        row.addSubview(select)
+        row.addSubview(rowTitle)
+        
+        return row
+    }
 }
 
 public extension Notification.Name {
@@ -827,6 +864,25 @@ public enum updateIntervals: updateInterval {
 }
 extension updateIntervals: CaseIterable {}
 
+public struct KeyValue_t {
+    let key: String
+    let value: String
+    let additional: Any?
+    
+    init(key: String, value: String, additional: Any? = nil) {
+        self.key = key
+        self.value = value
+        self.additional = additional
+    }
+}
+
+public let TemperatureUnits: [KeyValue_t] = [
+    KeyValue_t(key: "system", value: "System"),
+    KeyValue_t(key: "separator", value: "separator"),
+    KeyValue_t(key: "celsius", value: "Celsius", additional: UnitTemperature.celsius),
+    KeyValue_t(key: "fahrenheit", value: "Fahrenheit", additional: UnitTemperature.fahrenheit)
+]
+
 public func showNotification(title: String, subtitle: String, id: String = UUID().uuidString, icon: NSImage? = nil) -> NSUserNotification {
     let notification = NSUserNotification()
     
@@ -961,4 +1017,20 @@ public func LocalizedString(_ key: String, _ params: String..., comment: String 
         }
     }
     return string
+}
+
+public func Temperature(_ value: Double) -> String {
+    let stringUnit: String = Store.shared.string(key: "temperature_units", defaultValue: "system")
+    let formatter = MeasurementFormatter()
+    formatter.numberFormatter.maximumFractionDigits = 0
+    formatter.unitOptions = .providedUnit
+    
+    var measurement = Measurement(value: value, unit: UnitTemperature.celsius)
+    if stringUnit != "system" {
+        if let temperatureUnit = TemperatureUnits.first(where: { $0.key == stringUnit }), let unit = temperatureUnit.additional as? UnitTemperature {
+            measurement.convert(to: unit)
+        }
+    }
+    
+    return formatter.string(from: measurement)
 }

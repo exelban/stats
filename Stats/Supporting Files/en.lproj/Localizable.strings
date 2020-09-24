@@ -98,6 +98,9 @@
 "Used disk memory" = "Used %0 from %1";
 "Disk to show" = "Disk to show";
 
+// Sensors
+"Temperature unit" = "Temperature unit";
+
 // Network
 "Uploading" = "Upload";
 "Downloading" = "Download";

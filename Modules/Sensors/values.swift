@@ -55,11 +55,7 @@ struct Sensor_t {
         get {
             switch self.type {
             case SensorType.Temperature.rawValue:
-                let formatter = MeasurementFormatter()
-                formatter.numberFormatter.maximumFractionDigits = 0
-                let measurement = Measurement(value: (value ?? 0), unit: UnitTemperature.celsius)
-                
-                return formatter.string(from: measurement)
+                return Temperature(value ?? 0)
             case SensorType.Voltage.rawValue:
                 return String(format: "%.3f \(unit)", value ?? 0)
             case SensorType.Power.rawValue:
@@ -72,11 +68,7 @@ struct Sensor_t {
         get {
             switch self.type {
             case SensorType.Temperature.rawValue:
-                let formatter = MeasurementFormatter()
-                formatter.numberFormatter.maximumFractionDigits = 0
-                let measurement = Measurement(value: (value ?? 0), unit: UnitTemperature.celsius)
-                
-                return formatter.string(from: measurement).replacingOccurrences(of: "C", with: "").replacingOccurrences(of: "F", with: "")
+                return Temperature(value ?? 0).replacingOccurrences(of: "C", with: "").replacingOccurrences(of: "F", with: "")
             case SensorType.Voltage.rawValue:
                 return String(format: "%.1f\(unit)", value ?? 0)
             case SensorType.Power.rawValue:

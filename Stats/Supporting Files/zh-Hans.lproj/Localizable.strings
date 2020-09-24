@@ -98,6 +98,9 @@
 "Used disk memory" = "%1 中已用 %0";
 "Disk to show" = "显示的磁盘";
 
+// Sensors
+"Temperature unit" = "Temperature unit";
+
 // Network
 "Uploading" = "上传";
 "Downloading" = "下载";

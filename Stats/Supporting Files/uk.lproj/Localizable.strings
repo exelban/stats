@@ -93,10 +93,13 @@
 "Compressed" = "Стисненна";
 "Free" = "Вільна";
 
-// DiskF
+// Disk
 "Show removable disks" = "Показати зйомні диски";
 "Used disk memory" = "Використано %0 з %1";
 "Disk to show" = "Активний диск";
+
+// Sensors
+"Temperature unit" = "Одиниця виміру температури";
 
 // Network
 "Uploading" = "Вислання";

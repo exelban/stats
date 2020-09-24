@@ -14,6 +14,7 @@ import StatsKit
 import ModuleKit
 
 internal class Settings: NSView, Settings_v {
+    private var unitsValue: String = "system"
     private var updateIntervalValue: String = "3"
     private let listOfUpdateIntervals: [String] = ["1", "2", "3", "5", "10", "15", "30"]
     
@@ -40,6 +41,7 @@ internal class Settings: NSView, Settings_v {
         self.canDrawConcurrently = true
         
         self.updateIntervalValue = store.pointee.string(key: "\(self.title)_updateInterval", defaultValue: self.updateIntervalValue)
+        self.unitsValue = store.pointee.string(key: "temperature_units", defaultValue: self.unitsValue)
     }
     
     required init?(coder: NSCoder) {
@@ -60,9 +62,16 @@ internal class Settings: NSView, Settings_v {
         }
         
         let rowHeight: CGFloat = 30
-        let height: CGFloat = ((rowHeight+Constants.Settings.margin) * CGFloat(self.list.pointee.count) + rowHeight) + ((rowHeight+Constants.Settings.margin) * CGFloat(types.count) + 1)
+        let settingsHeight: CGFloat = (rowHeight*2) + Constants.Settings.margin
+        let sensorsListHeight: CGFloat = (rowHeight+Constants.Settings.margin) * CGFloat(self.list.pointee.count) + ((rowHeight+Constants.Settings.margin) * CGFloat(types.count) + 1)
+        let height: CGFloat = settingsHeight + sensorsListHeight
         let x: CGFloat = height < 360 ? 0 : Constants.Settings.margin
-        let view: NSView = NSView(frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin, width: self.frame.width - (Constants.Settings.margin*2) - x, height: height))
+        let view: NSView = NSView(frame: NSRect(
+            x: Constants.Settings.margin,
+            y: Constants.Settings.margin,
+            width: self.frame.width - (Constants.Settings.margin*2) - x,
+            height: height
+        ))
         
         self.addSubview(SelectTitleRow(
             frame: NSRect(x: Constants.Settings.margin, y: height - rowHeight, width: view.frame.width, height: rowHeight),
@@ -70,6 +79,14 @@ internal class Settings: NSView, Settings_v {
             action: #selector(changeUpdateInterval),
             items: self.listOfUpdateIntervals.map{ "\($0) sec" },
             selected: "\(self.updateIntervalValue) sec"
+        ))
+        
+        self.addSubview(SelectRow(
+            frame: NSRect(x: Constants.Settings.margin, y: height - (rowHeight*2) - Constants.Settings.margin, width: view.frame.width, height: rowHeight),
+            title: LocalizedString("Temperature unit"),
+            action: #selector(changeUnits),
+            items: TemperatureUnits,
+            selected: self.unitsValue
         ))
         
         var y: CGFloat = 0
@@ -135,5 +152,14 @@ internal class Settings: NSView, Settings_v {
         if let value = Double(self.updateIntervalValue) {
             self.setInterval(value)
         }
+    }
+    
+    @objc private func changeUnits(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String else {
+            return
+        }
+        self.unitsValue = key
+        store.pointee.set(key: "temperature_units", value: key)
+        self.callback()
     }
 }

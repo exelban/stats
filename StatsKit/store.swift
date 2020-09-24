@@ -12,6 +12,7 @@
 import Cocoa
 
 public class Store {
+    public static let shared = Store()
     private let defaults = UserDefaults.standard
     
     public init() {}

@@ -147,10 +147,7 @@ private class GPUView: NSView {
         view.addSubview(self.temperatureCirle!)
         
         self.temperatureCirle?.setValue(Double(self.value.temperature))
-        let formatter = MeasurementFormatter()
-        formatter.numberFormatter.maximumFractionDigits = 0
-        let measurement = Measurement(value: Double(self.value.temperature), unit: UnitTemperature.celsius)
-        self.temperatureCirle?.setText(formatter.string(from: measurement))
+        self.temperatureCirle?.setText(Temperature(Double(self.value.temperature)))
         self.temperatureChart?.addValue(Double(self.value.temperature) / 100)
         
         self.addSubview(view)
@@ -204,10 +201,7 @@ private class GPUView: NSView {
                 self.stateView?.toolTip = "GPU \(gpu.state ? "enabled" : "disabled")"
                 
                 self.temperatureCirle?.setValue(Double(gpu.temperature))
-                let formatter = MeasurementFormatter()
-                formatter.numberFormatter.maximumFractionDigits = 0
-                let measurement = Measurement(value: Double(gpu.temperature), unit: UnitTemperature.celsius)
-                self.temperatureCirle?.setText(formatter.string(from: measurement))
+                self.temperatureCirle?.setText(Temperature(Double(gpu.temperature)))
                 
                 self.utilizationCircle?.setValue(gpu.utilization)
                 self.utilizationCircle?.setText("\(Int(gpu.utilization*100))%")

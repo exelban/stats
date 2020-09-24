@@ -98,6 +98,9 @@
 "Used disk memory" = "kullanılan %0 , toplam %1";
 "Disk to show" = "Gösterilecek disk";
 
+// Sensors
+"Temperature unit" = "Sıcaklık birimi";
+
 // Network
 "Uploading" = "Yükleme";
 "Downloading" = "İndirme";

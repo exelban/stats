@@ -98,6 +98,9 @@
 "Used disk memory" = "Wykorzystano %0 z %1";
 "Disk to show" = "Aktywny dysk";
 
+// Sensors
+"Temperature unit" = "Jednostka temperatury";
+
 // Network
 "Uploading" = "Wysyłka";
 "Downloading" = "Pobieranie";
