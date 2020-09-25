@@ -834,19 +834,76 @@ public func IsNewestVersion(currentVersion: String, latestVersion: String) -> Bo
     let currentArray = currentNumber.condenseWhitespace().split(separator: ".")
     let latestArray = latestNumber.condenseWhitespace().split(separator: ".")
     
-    let current = Version(major: Int(currentArray[0]) ?? 0, minor: Int(currentArray[1]) ?? 0, patch: Int(currentArray[2]) ?? 0)
-    let latest = Version(major: Int(latestArray[0]) ?? 0, minor: Int(latestArray[1]) ?? 0, patch: Int(latestArray[2]) ?? 0)
+    var current = Version(major: Int(currentArray[0]) ?? 0, minor: Int(currentArray[1]) ?? 0, patch: Int(currentArray[2]) ?? 0)
+    var latest = Version(major: Int(latestArray[0]) ?? 0, minor: Int(latestArray[1]) ?? 0, patch: Int(latestArray[2]) ?? 0)
     
-    if latest.major > current.major {
-        return true
+    if let patch = currentArray.last, patch.contains("-") {
+        let arr = patch.split(separator: "-")
+        if let patchNumber = arr.first {
+            current.patch = Int(patchNumber) ?? 0
+        }
+        if let beta = arr.last {
+            current.beta = Int(beta.replacingOccurrences(of: "beta", with: "")) ?? 0
+        }
     }
     
-    if latest.minor > current.minor && latest.major >= current.major {
-        return true
+    if let patch = latestArray.last, patch.contains("-") {
+        let arr = patch.split(separator: "-")
+        if let patchNumber = arr.first {
+            latest.patch = Int(patchNumber) ?? 0
+        }
+        if let beta = arr.last {
+            latest.beta = Int(beta.replacingOccurrences(of: "beta", with: "")) ?? 0
+        }
     }
     
-    if latest.patch > current.patch && latest.minor >= current.minor && latest.major >= current.major {
-        return true
+    // current is not beta + latest is not beta
+    if current.beta == nil && latest.beta == nil {
+        if latest.major > current.major {
+            return true
+        }
+        
+        if latest.minor > current.minor && latest.major >= current.major {
+            return true
+        }
+        
+        if latest.patch > current.patch && latest.minor >= current.minor && latest.major >= current.major {
+            return true
+        }
+    }
+    
+    // current version is beta + last version is not beta
+    if current.beta != nil && latest.beta == nil {
+        if latest.major > current.major {
+            return true
+        }
+        
+        if latest.minor > current.minor && latest.major >= current.major {
+            return true
+        }
+        
+        if latest.patch >= current.patch && latest.minor >= current.minor && latest.major >= current.major {
+            return true
+        }
+    }
+    
+    // current version is beta + last version is beta
+    if current.beta != nil && latest.beta != nil {
+        if latest.major > current.major {
+            return true
+        }
+        
+        if latest.minor > current.minor && latest.major >= current.major {
+            return true
+        }
+        
+        if latest.patch >= current.patch && latest.minor >= current.minor && latest.major >= current.major {
+            return true
+        }
+        
+        if latest.beta! > current.beta! && latest.patch >= current.patch && latest.minor >= current.minor && latest.major >= current.major {
+            return true
+        }
     }
     
     return false
