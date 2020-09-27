@@ -123,7 +123,7 @@
 		9AE29AFC249A53DC0071B02D /* values.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE29AF7249A53420071B02D /* values.swift */; };
 		9AE29AFE249A82B70071B02D /* Sensors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE29AFD249A82B70071B02D /* Sensors.swift */; };
 		9AECEF3B24ACF7BA00DB95D4 /* updater.sh in Resources */ = {isa = PBXBuildFile; fileRef = 9AECEF3A24ACF7BA00DB95D4 /* updater.sh */; };
-		9AECEF3E24ACF9A500DB95D4 /* updater.sh in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9AECEF3A24ACF7BA00DB95D4 /* updater.sh */; };
+		9AECEF3E24ACF9A500DB95D4 /* updater.sh in Copy Files */ = {isa = PBXBuildFile; fileRef = 9AECEF3A24ACF7BA00DB95D4 /* updater.sh */; };
 		9AF9EE0924648751005D2270 /* Disk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AF9EE0224648751005D2270 /* Disk.framework */; };
 		9AF9EE0A24648751005D2270 /* Disk.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9AF9EE0224648751005D2270 /* Disk.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9AF9EE0F2464875F005D2270 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF9EE0E2464875F005D2270 /* main.swift */; };
@@ -419,14 +419,15 @@
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9AECEF3D24ACF98800DB95D4 /* CopyFiles */ = {
+		9AECEF3D24ACF98800DB95D4 /* Copy Files */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = Scripts;
 			dstSubfolderSpec = 7;
 			files = (
-				9AECEF3E24ACF9A500DB95D4 /* updater.sh in CopyFiles */,
+				9AECEF3E24ACF9A500DB95D4 /* updater.sh in Copy Files */,
 			);
+			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		9AF9EE1824649BAD005D2270 /* Embed Frameworks */ = {
@@ -998,7 +999,7 @@
 				9A1410F3229E721100D29793 /* Resources */,
 				9AB54DAE22A19F96006192E0 /* Copy Files */,
 				9A6698E72326AB16001D00E1 /* Embed Frameworks */,
-				9AECEF3D24ACF98800DB95D4 /* CopyFiles */,
+				9AECEF3D24ACF98800DB95D4 /* Copy Files */,
 			);
 			buildRules = (
 			);
@@ -1886,7 +1887,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 2.3.4;
+				MARKETING_VERSION = 2.3.5;
 				PRODUCT_BUNDLE_IDENTIFIER = eu.exelban.Stats;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1918,7 +1919,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 2.3.4;
+				MARKETING_VERSION = 2.3.5;
 				PRODUCT_BUNDLE_IDENTIFIER = eu.exelban.Stats;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
