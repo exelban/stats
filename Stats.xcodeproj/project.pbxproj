@@ -18,6 +18,7 @@
 		9A0C82EB24460FB100FAE3D4 /* StatsKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A0C82DA24460F7200FAE3D4 /* StatsKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9A0C82EE2446124800FAE3D4 /* SystemKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7D0CB62444C2C800B09070 /* SystemKit.swift */; };
 		9A1A7ABA24561F0B00A84F7A /* BarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1A7AB924561F0B00A84F7A /* BarChart.swift */; };
+		9A1D5E4B25235C8100B82BFC /* helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1D5E4A25235C8100B82BFC /* helpers.swift */; };
 		9A313BF7247EF01800DB5101 /* Reachability.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A5349CD23D8832E00C23824 /* Reachability.framework */; };
 		9A313BF8247EF01800DB5101 /* Reachability.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A5349CD23D8832E00C23824 /* Reachability.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9A34353B243E278D006B19F9 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A34353A243E278D006B19F9 /* main.swift */; };
@@ -455,6 +456,7 @@
 		9A1410F5229E721100D29793 /* Stats.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Stats.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A141101229E721200D29793 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9A1A7AB924561F0B00A84F7A /* BarChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChart.swift; sourceTree = "<group>"; };
+		9A1D5E4A25235C8100B82BFC /* helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = helpers.swift; sourceTree = "<group>"; };
 		9A343527243E26A0006B19F9 /* LaunchAtLogin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LaunchAtLogin.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A343535243E26A0006B19F9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9A343536243E26A0006B19F9 /* LaunchAtLogin.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LaunchAtLogin.entitlements; sourceTree = "<group>"; };
@@ -663,6 +665,7 @@
 				9A65492224407EA600E30B74 /* store.swift */,
 				9A0C82D324460E4400FAE3D4 /* launchAtLogin.swift */,
 				9A654920244074B500E30B74 /* extensions.swift */,
+				9A1D5E4A25235C8100B82BFC /* helpers.swift */,
 				9A0C82DC24460F7200FAE3D4 /* StatsKit.h */,
 				9A0C82DD24460F7200FAE3D4 /* Info.plist */,
 				9A9D728924471FAE005CF997 /* SMC.swift */,
@@ -1400,6 +1403,7 @@
 				9A81C7702449B8D500825D92 /* Charts.swift in Sources */,
 				9A0C82E624460F9A00FAE3D4 /* extensions.swift in Sources */,
 				9A0C82E724460F9C00FAE3D4 /* updater.swift in Sources */,
+				9A1D5E4B25235C8100B82BFC /* helpers.swift in Sources */,
 				9A0C82EE2446124800FAE3D4 /* SystemKit.swift in Sources */,
 				9A9D728A24471FAE005CF997 /* SMC.swift in Sources */,
 				9A0C82E824460F9E00FAE3D4 /* launchAtLogin.swift in Sources */,

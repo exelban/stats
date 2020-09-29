@@ -59,6 +59,7 @@
 "Colorize value" = "数值颜色";
 "Additional information" = "附加信息";
 "Reverse values order" = "数值反序";
+"Base" = "基础";
 
 // Module Kit
 "Open module settings" = "打开模块设置";

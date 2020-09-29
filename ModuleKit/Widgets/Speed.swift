@@ -25,6 +25,7 @@ public class SpeedWidget: Widget {
     private var icon: speed_icon_t = .dot
     private var state: Bool = false
     private var valueState: Bool = true
+    private var baseValue: String = "byte"
     
     private var symbols: [String] = ["U", "D"]
     
@@ -57,6 +58,7 @@ public class SpeedWidget: Widget {
         if self.store != nil {
             self.valueState = store!.pointee.bool(key: "\(self.title)_\(self.type.rawValue)_value", defaultValue: self.valueState)
             self.icon = speed_icon_t(rawValue: store!.pointee.string(key: "\(self.title)_\(self.type.rawValue)_icon", defaultValue: self.icon.rawValue)) ?? self.icon
+            self.baseValue = store!.pointee.string(key: "\(self.title)_base", defaultValue: self.baseValue)
         }
         
         if self.valueState && self.icon != .none {
@@ -103,12 +105,13 @@ public class SpeedWidget: Widget {
                 NSAttributedString.Key.paragraphStyle: style
             ]
             
+            let base: DataSizeBase = DataSizeBase(rawValue: self.baseValue) ?? .byte
             var rect = CGRect(x: Constants.Widget.margin + x, y: 1, width: rowWidth - (Constants.Widget.margin*2), height: rowHeight)
-            let download = NSAttributedString.init(string: Units(bytes: self.downloadValue).getReadableSpeed(), attributes: stringAttributes)
+            let download = NSAttributedString.init(string: Units(bytes: self.downloadValue).getReadableSpeed(base: base), attributes: stringAttributes)
             download.draw(with: rect)
             
             rect = CGRect(x: Constants.Widget.margin + x, y: rect.height+1, width: rowWidth - (Constants.Widget.margin*2), height: rowHeight)
-            let upload = NSAttributedString.init(string: Units(bytes: self.uploadValue).getReadableSpeed(), attributes: stringAttributes)
+            let upload = NSAttributedString.init(string: Units(bytes: self.uploadValue).getReadableSpeed(base: base), attributes: stringAttributes)
             upload.draw(with: rect)
             
             width += rowWidth
@@ -206,18 +209,31 @@ public class SpeedWidget: Widget {
     }
     
     public override func settings(superview: NSView) {
-        let height: CGFloat = 60 + (Constants.Settings.margin*3)
+        let height: CGFloat = 90 + (Constants.Settings.margin*4)
         let rowHeight: CGFloat = 30
         superview.setFrameSize(NSSize(width: superview.frame.width, height: height))
         
-        let view: NSView = NSView(frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin, width: superview.frame.width - (Constants.Settings.margin*2), height: superview.frame.height - (Constants.Settings.margin*2)))
+        let view: NSView = NSView(frame: NSRect(
+            x: Constants.Settings.margin,
+            y: Constants.Settings.margin,
+            width: superview.frame.width - (Constants.Settings.margin*2),
+            height: superview.frame.height - (Constants.Settings.margin*2)
+        ))
         
         view.addSubview(SelectTitleRow(
-            frame: NSRect(x: 0, y: rowHeight + Constants.Settings.margin, width: view.frame.width, height: rowHeight),
+            frame: NSRect(x: 0, y: (rowHeight+Constants.Settings.margin) * 2, width: view.frame.width, height: rowHeight),
             title: LocalizedString("Pictogram"),
             action: #selector(toggleIcon),
             items: speed_icon_t.allCases.map{ return $0.rawValue },
             selected: self.icon.rawValue
+        ))
+        
+        view.addSubview(SelectRow(
+            frame: NSRect(x: 0, y: rowHeight + Constants.Settings.margin, width: view.frame.width, height: rowHeight),
+            title: LocalizedString("Base"),
+            action: #selector(toggleBase),
+            items: SpeedBase,
+            selected: self.baseValue
         ))
         
         view.addSubview(ToggleTitleRow(
@@ -263,6 +279,14 @@ public class SpeedWidget: Widget {
             NotificationCenter.default.post(name: .toggleModule, object: nil, userInfo: ["module": self.title, "state": true])
             self.state = true
         }
+    }
+    
+    @objc private func toggleBase(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String else {
+            return
+        }
+        self.baseValue = key
+        self.store?.pointee.set(key: "\(self.title)_base", value: self.baseValue)
     }
     
     public func setValue(upload: Int64, download: Int64) {

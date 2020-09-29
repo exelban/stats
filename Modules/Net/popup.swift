@@ -14,6 +14,9 @@ import ModuleKit
 import StatsKit
 
 internal class Popup: NSView {
+    private var store: UnsafePointer<Store>? = nil
+    private var title: String
+    
     private let dashboardHeight: CGFloat = 90
     private let chartHeight: CGFloat = 90
     private let detailsHeight: CGFloat = 110
@@ -45,7 +48,16 @@ internal class Popup: NSView {
     private var chart: NetworkChartView? = nil
     private var processes: [NetworkProcessView] = []
     
-    public init() {
+    private var base: String {
+        get {
+            return store?.pointee.string(key: "\(self.title)_base", defaultValue: "byte") ?? "byte"
+        }
+    }
+    
+    public init(store: UnsafePointer<Store>?, title: String) {
+        self.store = store
+        self.title = title
+        
         super.init(frame: NSRect(
             x: 0,
             y: 0,
@@ -277,8 +289,8 @@ internal class Popup: NSView {
                     let index = list.count-i-1
                     if self.processes.indices.contains(index) {
                         self.processes[index].label = process.name
-                        self.processes[index].upload = Units(bytes: Int64(process.upload)).getReadableSpeed()
-                        self.processes[index].download = Units(bytes: Int64(process.download)).getReadableSpeed()
+                        self.processes[index].upload = Units(bytes: Int64(process.upload)).getReadableSpeed(base: DataSizeBase(rawValue: self.base) ?? .byte)
+                        self.processes[index].download = Units(bytes: Int64(process.download)).getReadableSpeed(base: DataSizeBase(rawValue: self.base) ?? .byte)
                         self.processes[index].icon = process.icon
                     }
                 }

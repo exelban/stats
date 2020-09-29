@@ -59,6 +59,7 @@
 "Colorize value" = "Раскрасить значение";
 "Additional information" = "Дополнительная информация";
 "Reverse values order" = "Изменить порядок сортировки";
+"Base" = "Основа";
 
 // Module Kit
 "Open module settings" = "Открыть настройки модуля";
