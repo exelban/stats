@@ -83,7 +83,7 @@ open class Module: Module_p {
     private let log: OSLog
     private var store: UnsafePointer<Store>
     private var readers: [Reader_p] = []
-    private var menuBarItem: NSStatusItem = NSStatusBar.system.statusItem(withLength: 0)
+    private var menuBarItem: NSStatusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
     private var activeWidget: widget_t {
         get {
             let widgetStr = self.store.pointee.string(key: "\(self.config.name)_widget", defaultValue: self.config.defaultWidget.rawValue)
@@ -104,6 +104,7 @@ open class Module: Module_p {
         self.available = self.isAvailable()
         self.enabled = self.store.pointee.bool(key: "\(self.config.name)_state", defaultValue: self.config.defaultState)
         self.menuBarItem.autosaveName = self.config.name
+        self.menuBarItem.isVisible = self.enabled
         
         if !self.available {
             os_log(.debug, log: log, "Module is not available")
@@ -132,7 +133,6 @@ open class Module: Module_p {
         self.menuBarItem.button?.target = self
         self.menuBarItem.button?.action = #selector(self.togglePopup)
         self.menuBarItem.button?.sendAction(on: [.leftMouseDown, .rightMouseDown])
-        self.menuBarItem.isVisible = true
     }
     
     deinit {
@@ -181,6 +181,7 @@ open class Module: Module_p {
             reader.initStoreValues(title: self.config.name, store: self.store)
             reader.start()
         }
+        self.menuBarItem.isVisible = true
         if self.widget != nil {
             self.loadWidget()
         } else {
@@ -196,7 +197,7 @@ open class Module: Module_p {
         self.enabled = false
         self.store.pointee.set(key: "\(self.config.name)_state", value: false)
         self.readers.forEach{ $0.pause() }
-        self.menuBarItem.length = 0
+        self.menuBarItem.isVisible = false
         self.popup.setIsVisible(false)
         os_log(.debug, log: log, "Module disabled")
     }
