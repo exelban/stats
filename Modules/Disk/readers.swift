@@ -114,6 +114,10 @@ internal class CapacityReader: Reader<DiskList> {
                 
                 if let mediaName = dict[kDADiskDescriptionMediaNameKey as String] {
                     d.mediaName = mediaName as! String
+                    
+                    if d.mediaName == "Recovery" {
+                        return nil
+                    }
                 }
                 if let mediaSize = dict[kDADiskDescriptionMediaSizeKey as String] {
                     d.size = Int64(truncating: mediaSize as! NSNumber)
