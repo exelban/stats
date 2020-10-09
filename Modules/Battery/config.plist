@@ -47,6 +47,7 @@
 			</dict>
 			<key>Unsupported colors</key>
 			<array>
+				<string>utilization</string>
 				<string>pressure</string>
 			</array>
 			<key>Order</key>

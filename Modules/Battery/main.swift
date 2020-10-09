@@ -100,6 +100,9 @@ public class Battery: Module {
         if let widget = self.widget as? Mini {
             widget.setValue(abs(value!.level), sufix: "%")
         }
+        if let widget = self.widget as? BarChart {
+            widget.setValue([value!.level])
+        }
         if let widget = self.widget as? BatterykWidget {
             widget.setValue(
                 percentage: value?.level ?? 0,
