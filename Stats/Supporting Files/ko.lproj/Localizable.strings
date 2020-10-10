@@ -28,7 +28,7 @@
 "New version available" = "새로운 버전을 이용할 수 있습니다";
 "Click to install the new version of Stats" = "새로운 버전의 Stats를 설치하기 위해 클릭하세요";
 "Successfully updated" = "성공적으로 업데이트되었습니다";
-"Stats was updated to v" = "Stats가 v%0 버전으로 업데이트되었습니다.";
+"Stats was updated to v" = "Stats가 v%0 버전으로 업데이트되었습니다";
 
 // Settings
 "Open Activity Monitor" = "상태 모니터 열기";
@@ -51,7 +51,7 @@
 
 // Widgets
 "Color" = "색";
-"Label" = "글씨";
+"Label" = "라벨";
 "Box" = "박스";
 "Frame" = "프레임";
 "Value" = "값";
@@ -64,7 +64,7 @@
 // Module Kit
 "Open module settings" = "모듈 설정 열기";
 "Select widget" = "%0 위젯 선택";
-"Update interval" = "업데이트 간격";
+"Update interval" = "업데이트 주기";
 "Usage history" = "사용 기록";
 "Details" = "세부 사항";
 "Top processes" = "상위 프로세스";
@@ -75,7 +75,7 @@
 "CPU temperature" = "CPU 온도";
 "System" = "시스템";
 "User" = "사용자";
-"Idle" = "유휴 상태";
+"Idle" = "대기 상태";
 "Show usage per core" = "코어별 사용량 보기";
 "Show hyper-threading cores" = "하이퍼스레딩 코어 표시";
 
@@ -96,7 +96,7 @@
 
 // Disk
 "Show removable disks" = "이동식 디스크 표시";
-"Used disk memory" = "%1 에서 %0 사용되었습니다";
+"Used disk memory" = "%1 중 %0 사용되었습니다";
 "Disk to show" = "표시할 디스크";
 
 // Sensors
@@ -129,11 +129,11 @@
 "Power adapter" = "파워 어뎁터";
 "Power" = "파워";
 "Is charging" = "충전 중";
-"Time to discharge" = "충전을 해제할 시간입니다";
-"Time to charge" = "충전할 시간입니다";
+"Time to discharge" = "충전 해제 시간";
+"Time to charge" = "충전 시간";
 "Calculating" = "계산중";
-"Fully charged" = "가득 찼습니다";
-"Not connected" = "연결되지 않았습니다";
-"Low level notification" = "부족 상태 알림";
+"Fully charged" = "가득참";
+"Not connected" = "연결되지 않음";
+"Low level notification" = "베터리 부족 상태 알림";
 "Low battery" = "배터리 부족";
 "Battery remaining" = "%0% 남았습니다";
