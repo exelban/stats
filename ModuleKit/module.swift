@@ -108,6 +108,14 @@ open class Module: Module_p {
         
         if !self.available {
             os_log(.debug, log: log, "Module is not available")
+            
+            self.menuBarItem.length = 0
+            self.menuBarItem.isVisible = false
+            if self.enabled {
+                self.enabled = false
+                self.store.pointee.set(key: "\(self.config.name)_state", value: false)
+            }
+            
             return
         }
         
