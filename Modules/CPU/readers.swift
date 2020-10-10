@@ -24,12 +24,14 @@ internal class LoadReader: Reader<CPU_Load> {
     private var numCPUs: uint = 0
     private let CPUUsageLock: NSLock = NSLock()
     private var previousInfo = host_cpu_load_info()
+    private var hasHyperthreadingCores = false
     
     private var response: CPU_Load = CPU_Load()
     private var numCPUsU: natural_t = 0
     private var usagePerCore: [Double] = []
     
     public override func setup() {
+        self.hasHyperthreadingCores = SysctlByName("hw.physicalcpu") != SysctlByName("hw.logicalcpu")
         [CTL_HW, HW_NCPU].withUnsafeBufferPointer() { mib in
             var sizeOfNumCPUs: size_t = MemoryLayout<uint>.size
             let status = sysctl(processor_info_array_t(mutating: mib.baseAddress), 2, &numCPUs, &sizeOfNumCPUs, nil, 0)
@@ -70,7 +72,8 @@ internal class LoadReader: Reader<CPU_Load> {
             }
             self.CPUUsageLock.unlock()
             
-            if self.store?.pointee.bool(key: "CPU_hyperhreading", defaultValue: false) ?? false {
+            let showHyperthratedCores = self.store?.pointee.bool(key: "CPU_hyperhreading", defaultValue: false) ?? false
+            if showHyperthratedCores || !self.hasHyperthreadingCores {
                 self.response.usagePerCore = self.usagePerCore
             } else {
                 var i = 0

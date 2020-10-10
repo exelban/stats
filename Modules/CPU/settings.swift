@@ -21,6 +21,7 @@ internal class Settings: NSView, Settings_v {
     
     private let title: String
     private let store: UnsafePointer<Store>
+    private var hasHyperthreadingCores = false
     
     public var callback: (() -> Void) = {}
     public var setInterval: ((_ value: Double) -> Void) = {_ in }
@@ -36,6 +37,7 @@ internal class Settings: NSView, Settings_v {
         if !self.usagePerCoreState {
             self.hyperthreadState = false
         }
+        self.hasHyperthreadingCores = SysctlByName("hw.physicalcpu") != SysctlByName("hw.logicalcpu")
         
         super.init(frame: CGRect(
             x: 0,
@@ -56,7 +58,7 @@ internal class Settings: NSView, Settings_v {
         self.subviews.forEach{ $0.removeFromSuperview() }
         
         let rowHeight: CGFloat = 30
-        let num: CGFloat = widget == .barChart ? 2 : 0
+        let num: CGFloat = widget == .barChart ? self.hasHyperthreadingCores ? 2 : 1 : 0
         
         self.addSubview(SelectTitleRow(
             frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * num, width: self.frame.width - (Constants.Settings.margin*2), height: rowHeight),
@@ -68,23 +70,25 @@ internal class Settings: NSView, Settings_v {
         
         if widget == .barChart {
             self.addSubview(ToggleTitleRow(
-                frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * 1, width: self.frame.width - (Constants.Settings.margin*2), height: rowHeight),
+                frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * (num-1), width: self.frame.width - (Constants.Settings.margin*2), height: rowHeight),
                 title: LocalizedString("Show usage per core"),
                 action: #selector(toggleUsagePerCore),
                 state: self.usagePerCoreState
             ))
             
-            self.hyperthreadView = ToggleTitleRow(
-                frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * 0, width: self.frame.width - (Constants.Settings.margin*2), height: rowHeight),
-                title: LocalizedString("Show hyper-threading cores"),
-                action: #selector(toggleMultithreading),
-                state: self.hyperthreadState
-            )
-            if !self.usagePerCoreState {
-                FindAndToggleEnableNSControlState(self.hyperthreadView, state: false)
-                FindAndToggleNSControlState(self.hyperthreadView, state: .off)
+            if self.hasHyperthreadingCores {
+                self.hyperthreadView = ToggleTitleRow(
+                    frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * (num-2), width: self.frame.width - (Constants.Settings.margin*2), height: rowHeight),
+                    title: LocalizedString("Show hyper-threading cores"),
+                    action: #selector(toggleMultithreading),
+                    state: self.hyperthreadState
+                )
+                if !self.usagePerCoreState {
+                    FindAndToggleEnableNSControlState(self.hyperthreadView, state: false)
+                    FindAndToggleNSControlState(self.hyperthreadView, state: .off)
+                }
+                self.addSubview(self.hyperthreadView!)
             }
-            self.addSubview(self.hyperthreadView!)
         }
         
         self.setFrameSize(NSSize(width: self.frame.width, height: (rowHeight*(num+1)) + (Constants.Settings.margin*(2+num))))
