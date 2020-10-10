@@ -75,7 +75,7 @@
 "CPU temperature" = "CPU 온도";
 "System" = "시스템";
 "User" = "사용자";
-"Idle" = "대기 상태";
+"Idle" = "대기";
 "Show usage per core" = "코어별 사용량 보기";
 "Show hyper-threading cores" = "하이퍼스레딩 코어 표시";
 
@@ -103,8 +103,8 @@
 "Temperature unit" = "온도 단위";
 
 // Network
-"Uploading" = "업로드";
-"Downloading" = "다운로드";
+"Uploading" = "업로딩";
+"Downloading" = "다운로딩";
 "Public IP" = "공용 IP";
 "Local IP" = "로컬 IP";
 "Interface" = "인터페이스";
@@ -118,8 +118,8 @@
 "Network interface" = "네트워크 인터페이스";
 
 // Battery
-"Level" = "레벨";
-"Source" = "소스";
+"Level" = "잔량";
+"Source" = "공급원";
 "Time" = "시간";
 "Health" = "상태";
 "Battery" = "베터리";
@@ -129,10 +129,10 @@
 "Power adapter" = "파워 어뎁터";
 "Power" = "파워";
 "Is charging" = "충전 중";
-"Time to discharge" = "충전 해제 시간";
-"Time to charge" = "충전 시간";
+"Time to discharge" = "방전까지 남은 시간";
+"Time to charge" = "충전 완료까지 남은 시간";
 "Calculating" = "계산중";
-"Fully charged" = "가득참";
+"Fully charged" = "완전히 충전됨";
 "Not connected" = "연결되지 않음";
 "Low level notification" = "베터리 부족 상태 알림";
 "Low battery" = "배터리 부족";
