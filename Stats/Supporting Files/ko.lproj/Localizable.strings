@@ -1,0 +1,139 @@
+//
+//  Localizable.strings
+//  Stats
+//
+//  Created by Serhiy Mytrovtsiy on 27/08/2020.
+//  Using Swift 5.0.
+//  Running on macOS 10.15.
+//
+//  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
+//
+
+// Words
+"Unknown" = "알 수 없는";
+"Version" = "버전";
+"Processor" = "프로세서";
+"Memory" = "메모리";
+"Graphics" = "그래픽";
+"Disk" = "디스크";
+"Close" = "닫기";
+"Download" = "다운로드";
+"Install" = "설치";
+"Cancel" = "취소";
+"Unavailable" = "사용할 수 없음";
+"Yes" = "예";
+"No" = "아니요";
+
+// Alerts
+"New version available" = "새로운 버전을 이용할 수 있습니다";
+"Click to install the new version of Stats" = "새로운 버전의 Stats를 설치하기 위해 클릭하세요";
+"Successfully updated" = "성공적으로 업데이트되었습니다";
+"Stats was updated to v" = "Stats가 v%0 버전으로 업데이트되었습니다";
+
+// Settings
+"Open Activity Monitor" = "활성 상태 열기";
+"Report a bug" = "버그 리포트";
+"Close application" = "앱 종료";
+"Open application settings" = "앱 설정 열기";
+"Open moduleName settings" = "%0 설정 열기";
+
+// Application settings
+"Update application" = "앱 업데이트";
+"Check for updates" = "신규 업데이트 확인";
+"Show icon in dock" = "Dock에서 아이콘 보이기";
+"Start at login" = "로그인시 시작";
+
+// Update
+"The latest version of Stats installed" = "최신 버전의 Stats가 설치되어 있습니다";
+"Downloading..." = "다운로드중...";
+"Current version: " = "현재 버전:  ";
+"Latest version: " = "최신 버전:    ";
+
+// Widgets
+"Color" = "색";
+"Label" = "라벨";
+"Box" = "박스";
+"Frame" = "프레임";
+"Value" = "값";
+"Colorize" = "색상화";
+"Colorize value" = "색상화 값";
+"Additional information" = "추가 정보";
+"Reverse values order" = "값 순서 변경";
+"Base" = "Base";
+
+// Module Kit
+"Open module settings" = "모듈 설정 열기";
+"Select widget" = "%0 위젯 선택";
+"Update interval" = "업데이트 주기";
+"Usage history" = "사용 기록";
+"Details" = "세부 사항";
+"Top processes" = "상위 프로세스";
+"Pictogram" = "픽토그램";
+
+// CPU
+"CPU usage" = "CPU 사용량";
+"CPU temperature" = "CPU 온도";
+"System" = "시스템";
+"User" = "사용자";
+"Idle" = "대기";
+"Show usage per core" = "코어별 사용량 보기";
+"Show hyper-threading cores" = "하이퍼스레딩 코어 표시";
+
+// GPU
+"GPU to show" = "표시할 GPU";
+"GPU temperature" = "GPU 온도";
+"GPU utilization" = "GPU 활용";
+
+// Memory
+"Memory usage" = "메모리 사용량";
+"Memory pressure" = "메모리 부족";
+"Total" = "전체";
+"Used" = "사용됨";
+"App" = "앱";
+"Wired" = "와이어드";
+"Compressed" = "압축됨";
+"Free" = "여유";
+
+// Disk
+"Show removable disks" = "이동식 디스크 표시";
+"Used disk memory" = "%1 중 %0 사용되었습니다";
+"Disk to show" = "표시할 디스크";
+
+// Sensors
+"Temperature unit" = "온도 단위";
+
+// Network
+"Uploading" = "업로딩";
+"Downloading" = "다운로딩";
+"Public IP" = "공용 IP";
+"Local IP" = "로컬 IP";
+"Interface" = "인터페이스";
+"Network" = "네트워크";
+"Physical address" = "물리 주소";
+"Click to copy public IP address" = "공개 IP 주소를 복사하려면 클릭하세요";
+"Click to copy local IP address" = "로컬 IP 주소를 복사하려면 클릭하세요";
+"Click to copy wifi name" = "와이파이 이름을 복사하려면 클릭하세요";
+"Click to copy mac address" = "Mac 주소를 복사하려면 클릭하세요";
+"No connection" = "연결되지 않음";
+"Network interface" = "네트워크 인터페이스";
+
+// Battery
+"Level" = "잔량";
+"Source" = "공급원";
+"Time" = "시간";
+"Health" = "상태";
+"Battery" = "베터리";
+"Amperage" = "암페어";
+"Voltage" = "전압";
+"Temperature" = "온도";
+"Power adapter" = "파워 어뎁터";
+"Power" = "파워";
+"Is charging" = "충전 중";
+"Time to discharge" = "방전까지 남은 시간";
+"Time to charge" = "충전 완료까지 남은 시간";
+"Calculating" = "계산중";
+"Fully charged" = "완전히 충전됨";
+"Not connected" = "연결되지 않음";
+"Low level notification" = "베터리 부족 상태 알림";
+"Low battery" = "배터리 부족";
+"Battery remaining" = "%0% 남았습니다";
