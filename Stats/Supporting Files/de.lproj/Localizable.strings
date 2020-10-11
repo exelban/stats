@@ -1,0 +1,139 @@
+//
+//  Localizable.strings
+//  Stats
+//
+//  Created by Serhiy Mytrovtsiy on 27/08/2020.
+//  Using Swift 5.0.
+//  Running on macOS 10.15.
+//
+//  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
+//
+
+// Words
+"Unknown" = "Unbekannt";
+"Version" = "Version";
+"Processor" = "Prozessor";
+"Memory" = "Speicher";
+"Graphics" = "Grafikkarten";
+"Disk" = "Festplatte";
+"Close" = "Schließen";
+"Download" = "Herunterladen";
+"Install" = "Installieren";
+"Cancel" = "Abbrechen";
+"Unavailable" = "Nicht verfügbar";
+"Yes" = "Ja";
+"No" = "Nein";
+
+// Alerts
+"New version available" = "Neue Version verfügbar";
+"Click to install the new version of Stats" = "Klicken Sie hier, um die neue Version von Stats zu installieren";
+"Successfully updated" = "Erfolgreich aktualisiert";
+"Stats was updated to v" = "Stats wurde aktualisiert auf v%0";
+
+// Settings
+"Open Activity Monitor" = "Aktivitätsanzeige öffnen";
+"Report a bug" = "Einen Fehler melden";
+"Close application" = "Applikation schließen";
+"Open application settings" = "Einstellungen öffnen";
+"Open moduleName settings" = "%0 Einstellungen öffnen";
+
+// Application settings
+"Update application" = "Applikation aktualisieren";
+"Check for updates" = "Nach Updates suchen";
+"Show icon in dock" = "Symbol im Dock anzeigen";
+"Start at login" = "Beim Login starten";
+
+// Update
+"The latest version of Stats installed" = "Die neueste Version von Stats ist installiert";
+"Downloading..." = "Am herunterladen...";
+"Current version: " = "Aktuelle Version:  ";
+"Latest version: " = "Neueste Version:    ";
+
+// Widgets
+"Color" = "Farbe";
+"Label" = "Beschriftung";
+"Box" = "Box";
+"Frame" = "Rahmen";
+"Value" = "Wert";
+"Colorize" = "Einfärben";
+"Colorize value" = "Einfärben-Wert";
+"Additional information" = "Zusätzliche Informationen";
+"Reverse values order" = "Umgekehrte Reihenfolge der Werte";
+"Base" = "Basis";
+
+// Module Kit
+"Open module settings" = "Module Einstellungen öffnen";
+"Select widget" = "%0 Widget auswählen";
+"Update interval" = "Update-Intervall";
+"Usage history" = "Verlauf";
+"Details" = "Details";
+"Top processes" = "Top Prozesse";
+"Pictogram" = "Piktogramm";
+
+// CPU
+"CPU usage" = "CPU Verwendung";
+"CPU temperature" = "CPU Temperatur";
+"System" = "System";
+"User" = "Nutzer";
+"Idle" = "Leerlauf";
+"Show usage per core" = "Nutzung pro Kern anzeigen";
+"Show hyper-threading cores" = "Hyper-Threading-Kerne anzeigen";
+
+// GPU
+"GPU to show" = "GPU auswählen";
+"GPU temperature" = "GPU Temperatur";
+"GPU utilization" = "GPU Nutzung";
+
+// Memory
+"Memory usage" = "Speicherauslastung";
+"Memory pressure" = "Speicherdruck";
+"Total" = "Gesamt";
+"Used" = "Verwendet";
+"App" = "App";
+"Wired" = "Reserviert";
+"Compressed" = "Komprimiert";
+"Free" = "Frei";
+
+// Disk
+"Show removable disks" = "Wechseldatenträger anzeigen";
+"Used disk memory" = "%0 von %1 verwendet";
+"Disk to show" = "Festplatte auswählen";
+
+// Sensors
+"Temperature unit" = "Temperatureinheit";
+
+// Network
+"Uploading" = "Upload";
+"Downloading" = "Download";
+"Public IP" = "Öffentliche IP";
+"Local IP" = "Lokale IP";
+"Interface" = "Interface";
+"Network" = "Netzwerk";
+"Physical address" = "Physische Adresse";
+"Click to copy public IP address" = "Klicken Sie zum Kopieren der öffentlichen IP-Adresse";
+"Click to copy local IP address" = "Klicken Sie zum Kopieren der lokalen IP-Adresse";
+"Click to copy wifi name" = "Klicken Sie zum Kopieren des Wifi-Namens";
+"Click to copy mac address" = "Klicken Sie zum Kopieren der Mac-Adresse";
+"No connection" = "Keine Verbindung";
+"Network interface" = "Netzwerkschnittstelle";
+
+// Battery
+"Level" = "Ladezustand";
+"Source" = "Quelle";
+"Time" = "Zeit";
+"Health" = "Gesundheit";
+"Battery" = "Akku";
+"Amperage" = "Stromstärke";
+"Voltage" = "Spannung";
+"Temperature" = "Temperatur";
+"Power adapter" = "Netzteil";
+"Power" = "Strom";
+"Is charging" = "wird aufgeladen";
+"Time to discharge" = "Entladedauer";
+"Time to charge" = "Ladedauer";
+"Calculating" = "am berechnen";
+"Fully charged" = "vollständig aufgeladen";
+"Not connected" = "nicht angeschlossen";
+"Low level notification" = "Batterie Ladezustand Benachrichtigung";
+"Low battery" = "Akku schwach";
+"Battery remaining" = "%0% verbleiben";
