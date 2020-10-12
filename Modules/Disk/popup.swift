@@ -112,8 +112,9 @@ internal class DiskView: NSView {
         let nameWidth = self.name.widthOfString(usingFont: .systemFont(ofSize: 13, weight: .light)) + 4
         let view: NSView = NSView(frame: NSRect(x: 0, y: self.mainView.frame.height - nameHeight, width: self.mainView.frame.width, height: nameHeight))
         
-        let nameField: NSTextField = TextView(frame: NSRect(x: 0, y: 0, width: nameWidth, height: view.frame.height))
+        let nameField: NSTextField = TextView(frame: NSRect(x: 0, y: 0, width: view.frame.width - 66, height: view.frame.height))
         nameField.stringValue = self.name
+        nameField.cell?.truncatesLastVisibleLine = true
         
         let activityView: NSView = NSView(frame: NSRect(x: view.frame.width-66, y: 0, width: 66, height: view.frame.height-2))
         
