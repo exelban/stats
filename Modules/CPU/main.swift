@@ -53,6 +53,7 @@ public class CPU: Module {
         )
         guard self.available else { return }
         
+        PG_start()
         self.loadReader = LoadReader()
         self.loadReader?.store = store
         
@@ -86,10 +87,20 @@ public class CPU: Module {
         }
     }
     
+    public override func willTerminate() {
+        PG_stop()
+    }
+    
     private func loadCallback(_ value: CPU_Load?) {
         guard value != nil else {
             return
         }
+        
+        var frequency: Double? = nil
+        if let readFrequency = PG_getCPUFrequency() {
+            frequency = readFrequency.pointee
+        }
+        print(frequency ?? 0)
         
         let temperature = self.smc?.pointee.getValue("TC0C") ?? self.smc?.pointee.getValue("TC0D") ?? self.smc?.pointee.getValue("TC0P") ?? self.smc?.pointee.getValue("TC0E")
         self.popupView.loadCallback(value!, tempValue: temperature)
