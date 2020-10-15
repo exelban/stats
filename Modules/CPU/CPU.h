@@ -9,13 +9,6 @@
 //  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
 //
 
-#ifndef CPU_h
-#define CPU_h
-
-#include <stdio.h>
-
-#endif /* CPU_h */
-
 void PG_start(void);
 void PG_stop(void);
 

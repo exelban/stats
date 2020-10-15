@@ -100,10 +100,9 @@ public class CPU: Module {
         if let readFrequency = PG_getCPUFrequency() {
             frequency = readFrequency.pointee
         }
-        print(frequency ?? 0)
         
         let temperature = self.smc?.pointee.getValue("TC0C") ?? self.smc?.pointee.getValue("TC0D") ?? self.smc?.pointee.getValue("TC0P") ?? self.smc?.pointee.getValue("TC0E")
-        self.popupView.loadCallback(value!, tempValue: temperature)
+        self.popupView.loadCallback(value!, tempValue: temperature, frequency: frequency)
         
         if let widget = self.widget as? Mini {
             widget.setValue(value!.totalUsage, sufix: "%")

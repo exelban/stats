@@ -17,7 +17,6 @@
 #include <stdlib.h>
 #include <sched.h>
 
-#if __has_include(<IntelPowerGadget/PowerGadgetLib.h>)
 #include <IntelPowerGadget/PowerGadgetLib.h>
 
 pthread_t thread_id;
@@ -27,6 +26,12 @@ double min;
 double max;
 PGSampleID sampleID_1;
 PGSampleID sampleID_2;
+
+extern bool PG_Initialize(void) __attribute__((weak_import));
+
+static inline bool intelPowerGadgetIsAvailable() {
+    return (PG_Initialize != NULL);
+}
 
 void *listener () {
     while(stop == false) {
@@ -44,17 +49,29 @@ void *listener () {
 }
 
 void PG_start() {
+    if (intelPowerGadgetIsAvailable() == false) {
+        return;
+    }
+
     stop = false;
     PG_Initialize();
     pthread_create(&thread_id, NULL, listener, NULL);
 }
 
 void PG_stop() {
+    if (intelPowerGadgetIsAvailable() == false) {
+        return;
+    }
+
     stop = true;
     PG_Shutdown();
 }
 
 double* PG_getCPUFrequency() {
+    if (intelPowerGadgetIsAvailable() == false) {
+        return NULL;
+    }
+
     if (stop == true || CPUFrequency == 0) {
         return NULL;
     } else {
@@ -62,11 +79,3 @@ double* PG_getCPUFrequency() {
     }
     return NULL;
 }
-#else
-void PG_start() {}
-void PG_stop() {}
-
-double* PG_getCPUFrequency() {
-    return NULL;
-}
-#endif
