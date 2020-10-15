@@ -159,6 +159,10 @@ internal class Popup: NSView {
     
     public func loadCallback(_ value: CPU_Load, tempValue: Double?, frequency: Double?) {
         DispatchQueue.main.async(execute: {
+            if frequency != nil && (self.frequencyCircle! as NSView).isHidden {
+                (self.frequencyCircle! as NSView).isHidden = false
+            }
+            
             if (self.window?.isVisible ?? false) || !self.initialized {
                 self.systemField?.stringValue = "\(Int(value.systemLoad.rounded(toPlaces: 2) * 100)) %"
                 self.userField?.stringValue = "\(Int(value.userLoad.rounded(toPlaces: 2) * 100)) %"
@@ -185,7 +189,6 @@ internal class Popup: NSView {
                     if let freqCircle = self.frequencyCircle {
                         freqCircle.setValue((100*freq)/self.maxFreq)
                         freqCircle.setText("\((freq/1000).rounded(toPlaces: 2))\nGHz")
-                        (freqCircle as NSView).isHidden = false
                     }
                 }
             }
