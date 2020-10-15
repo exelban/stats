@@ -346,10 +346,12 @@ public class HalfCircleGraphView: NSView {
         context.restoreGState()
         
         if self.text != nil {
+            let style = NSMutableParagraphStyle()
+            style.alignment = .center
             let stringAttributes = [
                 NSAttributedString.Key.font: NSFont.systemFont(ofSize: 10, weight: .regular),
                 NSAttributedString.Key.foregroundColor: isDarkMode ? NSColor.white : NSColor.textColor,
-                NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
+                NSAttributedString.Key.paragraphStyle: style
             ]
             
             let width: CGFloat = self.text!.widthOfString(usingFont: NSFont.systemFont(ofSize: 10))
