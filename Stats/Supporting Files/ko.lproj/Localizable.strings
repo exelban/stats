@@ -73,6 +73,7 @@
 // CPU
 "CPU usage" = "CPU 사용량";
 "CPU temperature" = "CPU 온도";
+"CPU frequency" = "CPU 주파수";
 "System" = "시스템";
 "User" = "사용자";
 "Idle" = "대기";

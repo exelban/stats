@@ -73,6 +73,7 @@
 // CPU
 "CPU usage" = "CPU usage";
 "CPU temperature" = "CPU temperature";
+"CPU frequency" = "CPU frequency";
 "System" = "System";
 "User" = "User";
 "Idle" = "Idle";

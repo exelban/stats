@@ -121,6 +121,3 @@ history:
 open:
 	echo "Opening working folder..."
 	open $(PWD)
-
-dep:
-	carthage update --platform macOS
