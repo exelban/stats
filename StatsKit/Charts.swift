@@ -346,14 +346,17 @@ public class HalfCircleGraphView: NSView {
         context.restoreGState()
         
         if self.text != nil {
+            let style = NSMutableParagraphStyle()
+            style.alignment = .center
             let stringAttributes = [
                 NSAttributedString.Key.font: NSFont.systemFont(ofSize: 10, weight: .regular),
                 NSAttributedString.Key.foregroundColor: isDarkMode ? NSColor.white : NSColor.textColor,
-                NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
+                NSAttributedString.Key.paragraphStyle: style
             ]
             
             let width: CGFloat = self.text!.widthOfString(usingFont: NSFont.systemFont(ofSize: 10))
-            let rect = CGRect(x: (self.frame.width-width)/2, y: (self.frame.height-6)/2, width: width, height: 6)
+            let height: CGFloat = self.text!.heightOfString(usingFont: NSFont.systemFont(ofSize: 10))
+            let rect = CGRect(x: ((self.frame.width-width)/2)-0.5, y: (self.frame.height-6)/2, width: width, height: height)
             let str = NSAttributedString.init(string: self.text!, attributes: stringAttributes)
             str.draw(with: rect)
         }

@@ -71,8 +71,9 @@
 "Pictogram" = "Ikonka";
 
 // CPU
-"CPU usage" = "Obciążenie CPU";
-"CPU temperature" = "Temperatura CPU";
+"CPU usage" = "Obciążenie procesora";
+"CPU temperature" = "Temperatura procesora";
+"CPU frequency" = "Częstotliwość procesora";
 "System" = "System";
 "User" = "Użytkownik";
 "Idle" = "Bezczynna";

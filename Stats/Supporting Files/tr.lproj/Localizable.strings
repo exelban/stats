@@ -73,6 +73,7 @@
 // CPU
 "CPU usage" = "CPU kullanımı";
 "CPU temperature" = "CPU sıcaklığı";
+"CPU frequency" = "CPU frekansı";
 "System" = "Sistem";
 "User" = "Kullanıcı";
 "Idle" = "Boşta";

@@ -73,6 +73,7 @@
 // CPU
 "CPU usage" = "CPU占用";
 "CPU temperature" = "CPU温度";
+"CPU frequency" = "CPU频率";
 "System" = "系统";
 "User" = "用户";
 "Idle" = "闲置";
