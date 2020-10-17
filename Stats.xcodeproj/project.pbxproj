@@ -438,6 +438,8 @@
 		9AF9EE1024648ADC005D2270 /* readers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = readers.swift; sourceTree = "<group>"; };
 		9AF9EE12246492E8005D2270 /* config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = config.plist; sourceTree = "<group>"; };
 		9AF9EE192464A7B3005D2270 /* config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = config.plist; sourceTree = "<group>"; };
+		9AF9EE1B2464A7BA005D2270 /* config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = config.plist; sourceTree = "<group>"; };
+		F8A38F83253303A8006D4D81 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1176,6 +1178,7 @@
 				tr,
 				Base,
 				ko,
+				de,
 			);
 			mainGroup = 9A1410EC229E721100D29793;
 			packageReferences = (
@@ -1564,6 +1567,7 @@
 				2658929724FC0F3B00FB3B6A /* zh-Hans */,
 				97B5592A24FD84E000D3C4FF /* tr */,
 				4921436D25319699000A1C47 /* ko */,
+				F8A38F83253303A8006D4D81 /* de */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
