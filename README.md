@@ -1,6 +1,6 @@
 # Stats
 
-<a href="https://github.com/exelban/stats/releases"><p align="center"><img src="https://serhiy.s3.eu-central-1.amazonaws.com/Github_repo/stats/logo.png?raw=true" width="120"></p></a>
+<a href="https://github.com/exelban/stats/releases"><p align="center"><img src="https://serhiy.s3.eu-central-1.amazonaws.com/Github_repo/stats/logo.png?raw=true&v=1" width="120"></p></a>
 
 [![Stats](https://serhiy.s3.eu-central-1.amazonaws.com/Github_repo/stats/menus%3Fv2.3.2.png?v1)](https://github.com/exelban/stats/releases)
 [![Stats](https://serhiy.s3.eu-central-1.amazonaws.com/Github_repo/stats/popups%3Fv2.3.2.png?v3)](https://github.com/exelban/stats/releases)
@@ -40,6 +40,7 @@ Stats is an application that allows you to monitor your macOS system.
 - 中文 (简体) (thanks to [chenguokai](https://github.com/chenguokai) and [Tai-Zhou](https://github.com/Tai-Zhou))
 - Türkçe (thanks to [yusufozgul](https://github.com/yusufozgul))
 - Korean (thanks to [escapeanaemia](https://github.com/escapeanaemia))
+- German (thanks to [natterstefan](https://github.com/natterstefan))
 
 You can help by adding a new language.
 

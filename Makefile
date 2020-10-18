@@ -18,7 +18,7 @@ archive: next-version clean
 	xcodebuild \
   		-scheme $(APP) \
   		-destination 'platform=OS X,arch=x86_64' \
-  		-configuration AppStoreDistribution archive \
+  		-configuration Release archive \
   		-archivePath $(BUILD_PATH)/$(APP).xcarchive
 
 	echo "Application built, starting the export archive..."
