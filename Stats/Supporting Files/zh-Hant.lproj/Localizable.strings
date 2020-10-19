@@ -106,15 +106,15 @@
 // Network
 "Uploading" = "上傳";
 "Downloading" = "下載";
-"Public IP" = "公共IP";
-"Local IP" = "本地IP";
+"Public IP" = "公共 IP";
+"Local IP" = "本地 IP";
 "Interface" = "介面";
 "Network" = "網路";
 "Physical address" = "實體位址";
-"Click to copy public IP address" = "點擊複製公共IP位址";
-"Click to copy local IP address" = "點擊複製本地IP位址";
-"Click to copy wifi name" = "點擊複製WiFi名稱";
-"Click to copy mac address" = "點擊複製MAC位址";
+"Click to copy public IP address" = "點擊複製公共 IP 位址";
+"Click to copy local IP address" = "點擊複製本地 IP 位址";
+"Click to copy wifi name" = "點擊複製 WiFi 名稱";
+"Click to copy mac address" = "點擊複製 MAC 位址";
 "No connection" = "無連線";
 "Network interface" = "網路介面";
 
