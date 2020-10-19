@@ -1,0 +1,140 @@
+//
+//  Localizable.strings
+//  Stats
+//
+//  Created by Serhiy Mytrovtsiy on 27/08/2020.
+//  Using Swift 5.0.
+//  Running on macOS 10.15.
+//
+//  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
+//
+
+// Words
+"Unknown" = "未知";
+"Version" = "版本";
+"Processor" = "處理器";
+"Memory" = "記憶體";
+"Graphics" = "顯示卡";
+"Disk" = "硬碟";
+"Close" = "關閉";
+"Download" = "下載";
+"Install" = "安裝";
+"Cancel" = "取消";
+"Unavailable" = "不可用";
+"Yes" = "是";
+"No" = "否";
+
+// Alerts
+"New version available" = "新版本可用";
+"Click to install the new version of Stats" = "安裝 Stats 的新版本";
+"Successfully updated" = "更新成功";
+"Stats was updated to v" = "Stats 更新 v%0";
+
+// Settings
+"Open Activity Monitor" = "打開活動監視器";
+"Report a bug" = "回傳 Bug";
+"Close application" = "關閉程式";
+"Open application settings" = "打開程式設定";
+"Open moduleName settings" = "打開 %0 設定";
+
+// Application settings
+"Update application" = "更新應用程式";
+"Check for updates" = "檢查更新";
+"Show icon in dock" = "在 Dock 顯示圖標";
+"Start at login" = "登錄時開啟";
+
+// Update
+"The latest version of Stats installed" = "已安裝最新版本";
+"Downloading..." = "下載中...";
+"Current version: " = "當前版本: ";
+"Latest version: " = "最新版本: ";
+
+// Widgets
+"Color" = "顏色";
+"Label" = "標籤";
+"Box" = "背景";
+"Frame" = "外框";
+"Value" = "數值";
+"Colorize" = "彩色";
+"Colorize value" = "彩色數值";
+"Additional information" = "附加資訊";
+"Reverse values order" = "上下顛倒數值";
+"Base" = "基本";
+
+// Module Kit
+"Open module settings" = "打開 module 設定";
+"Select widget" = "選擇 %0 widget";
+"Update interval" = "更新間隔時間";
+"Usage history" = "負載歷史";
+"Details" = "詳細資訊";
+"Top processes" = "高能耗程序";
+"Pictogram" = "標示";
+
+// CPU
+"CPU usage" = "CPU 使用";
+"CPU temperature" = "CPU 溫度";
+"CPU frequency" = "CPU 頻率";
+"System" = "系統";
+"User" = "用戶";
+"Idle" = "閒置";
+"Show usage per core" = "顯示每核心使用";
+"Show hyper-threading cores" = "顯示超執行緒";
+
+// GPU
+"GPU to show" = "顯示 GPU";
+"GPU temperature" = "GPU 溫度";
+"GPU utilization" = "GPU 利用率";
+
+// Memory
+"Memory usage" = "記憶體使用";
+"Memory pressure" = "記憶體壓力";
+"Total" = "總共";
+"Used" = "已使用";
+"App" = "應用程式";
+"Wired" = "固定的";
+"Compressed" = "已壓縮";
+"Free" = "可使用";
+
+// Disk
+"Show removable disks" = "顯示可移動硬碟";
+"Used disk memory" = "%1 中已使用 %0";
+"Disk to show" = "顯示硬碟";
+
+// Sensors
+"Temperature unit" = "溫度單位";
+
+// Network
+"Uploading" = "上傳";
+"Downloading" = "下載";
+"Public IP" = "公共IP";
+"Local IP" = "本地IP";
+"Interface" = "介面";
+"Network" = "網路";
+"Physical address" = "實體位址";
+"Click to copy public IP address" = "點擊複製公共IP位址";
+"Click to copy local IP address" = "點擊複製本地IP位址";
+"Click to copy wifi name" = "點擊複製WiFi名稱";
+"Click to copy mac address" = "點擊複製MAC位址";
+"No connection" = "無連線";
+"Network interface" = "網路介面";
+
+// Battery
+"Level" = "電量";
+"Source" = "電源";
+"Time" = "時間";
+"Health" = "健康度";
+"Battery" = "電池";
+"Amperage" = "電流";
+"Voltage" = "電壓";
+"Temperature" = "溫度";
+"Power adapter" = "電源供應器";
+"Power" = "功率";
+"Is charging" = "充電中";
+"Time to discharge" = "放電時間";
+"Time to charge" = "充電時間";
+"Calculating" = "計算中";
+"Fully charged" = "已充飽";
+"Not connected" = "未連接";
+"Low level notification" = "低電量通知";
+"Low battery" = "低電量";
+"Battery remaining" = "剩餘 %0%";
