@@ -52,7 +52,7 @@ struct SMCKeyData_t {
         var reserved: CUnsignedChar = 0
         var release: CUnsignedShort = 0
     }
-
+    
     struct LimitData_t {
         var version: UInt16 = 0
         var length: UInt16 = 0
@@ -60,7 +60,7 @@ struct SMCKeyData_t {
         var gpuPLimit: UInt32 = 0
         var memPLimit: UInt32 = 0
     }
-
+    
     struct keyInfo_t {
         var dataSize: IOByteCount = 0
         var dataType: UInt32 = 0
