@@ -5,6 +5,21 @@
 	<key>Name</key>
 	<string>Fans</string>
 	<key>State</key>
-	<true/>
+	<false/>
+	<key>Widgets</key>
+	<dict>
+		<key>sensors</key>
+		<dict>
+			<key>Default</key>
+			<true/>
+			<key>Preview</key>
+			<dict>
+				<key>Values</key>
+				<string>2160 RPM,1990 RPM</string>
+			</dict>
+			<key>Order</key>
+			<integer>0</integer>
+		</dict>
+	</dict>
 </dict>
 </plist>

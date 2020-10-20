@@ -24,8 +24,6 @@ enum SensorType: SensorType_t {
     case Temperature = "Temperature"
     case Voltage = "Voltage"
     case Power = "Power"
-    case Frequency = "Frequency"
-    case Battery = "Battery"
 }
 
 struct Sensor_t {
@@ -195,30 +193,4 @@ let SensorsList: [Sensor_t] = [
     Sensor_t(key: "PPBR", name: "Battery", group: SensorGroup.Sensor.rawValue, type: SensorType.Power.rawValue),
     Sensor_t(key: "PDTR", name: "DC In", group: SensorGroup.Sensor.rawValue, type: SensorType.Power.rawValue),
     Sensor_t(key: "PSTR", name: "System total", group: SensorGroup.Sensor.rawValue, type: SensorType.Power.rawValue),
-    
-     /// Frequency
-    Sensor_t(key: "FRC0", name: "CPU 1", group: SensorGroup.CPU.rawValue, type: SensorType.Frequency.rawValue),
-    Sensor_t(key: "FRC1", name: "CPU 2", group: SensorGroup.CPU.rawValue, type: SensorType.Frequency.rawValue),
-    Sensor_t(key: "FRC2", name: "CPU 3", group: SensorGroup.CPU.rawValue, type: SensorType.Frequency.rawValue),
-    Sensor_t(key: "FRC3", name: "CPU 4", group: SensorGroup.CPU.rawValue, type: SensorType.Frequency.rawValue),
-    Sensor_t(key: "FRC4", name: "CPU 5", group: SensorGroup.CPU.rawValue, type: SensorType.Frequency.rawValue),
-    Sensor_t(key: "FRC5", name: "CPU 6", group: SensorGroup.CPU.rawValue, type: SensorType.Frequency.rawValue),
-    Sensor_t(key: "FRC6", name: "CPU 7", group: SensorGroup.CPU.rawValue, type: SensorType.Frequency.rawValue),
-    Sensor_t(key: "FRC7", name: "CPU 8", group: SensorGroup.CPU.rawValue, type: SensorType.Frequency.rawValue),
-    Sensor_t(key: "FRC8", name: "CPU 9", group: SensorGroup.CPU.rawValue, type: SensorType.Frequency.rawValue),
-    Sensor_t(key: "FRC9", name: "CPU 10", group: SensorGroup.CPU.rawValue, type: SensorType.Frequency.rawValue),
-    Sensor_t(key: "FRC10", name: "CPU 11", group: SensorGroup.CPU.rawValue, type: SensorType.Frequency.rawValue),
-    Sensor_t(key: "FRC11", name: "CPU 12", group: SensorGroup.CPU.rawValue, type: SensorType.Frequency.rawValue),
-    Sensor_t(key: "FRC12", name: "CPU 13", group: SensorGroup.CPU.rawValue, type: SensorType.Frequency.rawValue),
-    Sensor_t(key: "FRC13", name: "CPU 14", group: SensorGroup.CPU.rawValue, type: SensorType.Frequency.rawValue),
-    Sensor_t(key: "FRC14", name: "CPU 15", group: SensorGroup.CPU.rawValue, type: SensorType.Frequency.rawValue),
-    Sensor_t(key: "FRC15", name: "CPU 16", group: SensorGroup.CPU.rawValue, type: SensorType.Frequency.rawValue),
-    
-    Sensor_t(key: "CG0C", name: "GPU", group: SensorGroup.GPU.rawValue, type: SensorType.Frequency.rawValue),
-    Sensor_t(key: "CG0S", name: "GPU shader", group: SensorGroup.GPU.rawValue, type: SensorType.Frequency.rawValue),
-    Sensor_t(key: "CG0M", name: "GPU memory", group: SensorGroup.GPU.rawValue, type: SensorType.Frequency.rawValue),
-    
-    /// Battery
-    Sensor_t(key: "B0AV", name: "Voltage", group: SensorGroup.Sensor.rawValue, type: SensorType.Battery.rawValue),
-    Sensor_t(key: "B0AC", name: "Amperage", group: SensorGroup.Sensor.rawValue, type: SensorType.Battery.rawValue),
 ]
