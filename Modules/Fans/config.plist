@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Name</key>
+	<string>Fans</string>
+	<key>State</key>
+	<false/>
+	<key>Widgets</key>
+	<dict>
+		<key>sensors</key>
+		<dict>
+			<key>Default</key>
+			<true/>
+			<key>Preview</key>
+			<dict>
+				<key>Values</key>
+				<string>2160 RPM,1990 RPM</string>
+			</dict>
+			<key>Order</key>
+			<integer>0</integer>
+		</dict>
+	</dict>
+</dict>
+</plist>

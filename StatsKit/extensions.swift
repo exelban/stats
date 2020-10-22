@@ -102,6 +102,10 @@ public extension Int {
             return NSColor.controlAccentColor
         }
     }
+    
+    init(fromFPE2 bytes: (UInt8, UInt8)) {
+        self = (Int(bytes.0) << 6) + (Int(bytes.1) >> 2)
+    }
 }
 
 extension Float {

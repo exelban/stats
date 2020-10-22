@@ -48,7 +48,7 @@ public protocol ReaderInternal_p {
 }
 
 open class Reader<T>: ReaderInternal_p {
-    public let log: OSLog
+    public var log: OSLog
     public var value: T?
     public var interval: Double? = nil
     public var defaultInterval: Double = 1

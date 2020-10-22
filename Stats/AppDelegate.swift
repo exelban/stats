@@ -17,6 +17,7 @@ import Net
 import Battery
 import Sensors
 import GPU
+import Fans
 
 var store: Store = Store()
 let updater = macAppUpdater(user: "exelban", repo: "stats")
@@ -25,11 +26,12 @@ var smc: SMCService = SMCService()
 var modules: [Module] = [
     Battery(&store),
     Network(&store),
+    Fans(&store, &smc),
     Sensors(&store, &smc),
     Disk(&store),
     Memory(&store),
     GPU(&store, &smc),
-    CPU(&store, &smc)
+    CPU(&store, &smc),
 ].reversed()
 var log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: "Stats")
 

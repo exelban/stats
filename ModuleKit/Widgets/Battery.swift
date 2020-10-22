@@ -72,14 +72,14 @@ public class BatterykWidget: Widget {
             let rowWidth = self.drawOneRow(
                 value: "\(Int((self.percentage.rounded(toPlaces: 2)) * 100))%",
                 x: x
-            )
+            ).rounded(.up)
             width += rowWidth + Constants.Widget.margin
             x += rowWidth + Constants.Widget.margin
         case .time:
             let rowWidth = self.drawOneRow(
                 value: Double(self.time*60).printSecondsToHoursMinutesSeconds(),
                 x: x
-            )
+            ).rounded(.up)
             width += rowWidth + Constants.Widget.margin
             x += rowWidth + Constants.Widget.margin
         case .percentageAndTime:
@@ -87,7 +87,7 @@ public class BatterykWidget: Widget {
                 first: "\(Int((self.percentage.rounded(toPlaces: 2)) * 100))%",
                 second: Double(self.time*60).printSecondsToHoursMinutesSeconds(),
                 x: x
-            )
+            ).rounded(.up)
             width += rowWidth + Constants.Widget.margin
             x += rowWidth + Constants.Widget.margin
         case .timeAndPercentage:
@@ -95,7 +95,7 @@ public class BatterykWidget: Widget {
                 first: Double(self.time*60).printSecondsToHoursMinutesSeconds(),
                 second: "\(Int((self.percentage.rounded(toPlaces: 2)) * 100))%",
                 x: x
-            )
+            ).rounded(.up)
             width += rowWidth + Constants.Widget.margin
             x += rowWidth + Constants.Widget.margin
         default: break
