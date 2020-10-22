@@ -25,6 +25,12 @@ public struct Fan {
             return Store.shared.bool(key: "fan_\(self.id)", defaultValue: true)
         }
     }
+    
+    var formattedValue: String? {
+        get {
+            return (value != nil) ? "\(Int(value!)) RPM": nil
+        }
+    }
 }
 
 public class Fans: Module {
@@ -33,6 +39,7 @@ public class Fans: Module {
     
     private var fansReader: FansReader
     private var settingsView: Settings
+    private let popupView: Popup = Popup()
     
     public init(_ store: UnsafePointer<Store>, _ smc: UnsafePointer<SMCService>) {
         self.store = store
@@ -42,10 +49,13 @@ public class Fans: Module {
         
         super.init(
             store: store,
-            popup: nil,
+            popup: self.popupView,
             settings: self.settingsView
         )
         guard self.available else { return }
+        
+        self.checkIfNoSensorsEnabled()
+        self.popupView.setup(self.fansReader.list)
         
         self.settingsView.callback = { [unowned self] in
             self.checkIfNoSensorsEnabled()
@@ -80,10 +90,14 @@ public class Fans: Module {
             return
         }
         
+        self.popupView.usageCallback(value!)
+        
+        let label: Bool = store.pointee.bool(key: "Fans_label", defaultValue: false)
         var list: [SensorValue_t] = []
         value!.forEach { (f: Fan) in
-            if let value = f.value, f.state {
-                list.append(SensorValue_t("\(f.name.prefix(1).uppercased()): \(Int(value)) RPM", icon: Bundle(identifier: "eu.exelban.Stats.ModuleKit")?.image(forResource: "fan")))
+            if let value = f.formattedValue, f.state {
+                let str = label ? "\(f.name.prefix(1).uppercased()): \(value)" : value
+                list.append(SensorValue_t(str, icon: Bundle(identifier: "eu.exelban.Stats.ModuleKit")?.image(forResource: "fan")))
             }
         }
         

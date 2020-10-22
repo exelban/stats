@@ -39,6 +39,7 @@
 		9A58DEA424B3647600716A9F /* settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A58DEA324B3647600716A9F /* settings.swift */; };
 		9A5AF11B2469CE9B00684737 /* popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5AF11A2469CE9B00684737 /* popup.swift */; };
 		9A65654A253F20EF0096B607 /* settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A656549253F20EF0096B607 /* settings.swift */; };
+		9A656562253F788A0096B607 /* popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A656561253F788A0096B607 /* popup.swift */; };
 		9A6CFC0122A1C9F5001E782D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9A6CFC0022A1C9F5001E782D /* Assets.xcassets */; };
 		9A7C61B42440DF810032695D /* Mini.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7C61B32440DF810032695D /* Mini.swift */; };
 		9A81C74D24499C7000825D92 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A81C74B24499C7000825D92 /* AppSettings.swift */; };
@@ -95,6 +96,8 @@
 		9AB14B78248CEF3B00DC6731 /* config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9AF9EE12246492E8005D2270 /* config.plist */; };
 		9AB14B79248CEF4100DC6731 /* config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9A3E17DC247A94C300449CD1 /* config.plist */; };
 		9AB14B7A248CEF4900DC6731 /* config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9ABFF904248BEC0B00C9041A /* config.plist */; };
+		9AB1572E25407F7B00671260 /* ModuleKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AABEADD243FB13500668CB0 /* ModuleKit.framework */; };
+		9AB1573D25407F7E00671260 /* StatsKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A0C82DA24460F7200FAE3D4 /* StatsKit.framework */; };
 		9AB7FD7C246B48DB00387FDA /* settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB7FD7B246B48DB00387FDA /* settings.swift */; };
 		9ABFF8FD248BEBCB00C9041A /* Battery.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ABFF8F6248BEBCB00C9041A /* Battery.framework */; };
 		9ABFF8FE248BEBCB00C9041A /* Battery.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9ABFF8F6248BEBCB00C9041A /* Battery.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -244,6 +247,20 @@
 			remoteGlobalIDString = 9AABEADC243FB13500668CB0;
 			remoteInfo = ModuleKit;
 		};
+		9AB1573025407F7B00671260 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9A1410ED229E721100D29793 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9AABEADC243FB13500668CB0;
+			remoteInfo = ModuleKit;
+		};
+		9AB1573F25407F7E00671260 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9A1410ED229E721100D29793 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9A0C82D924460F7200FAE3D4;
+			remoteInfo = StatsKit;
+		};
 		9ABFF8FB248BEBCB00C9041A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9A1410ED229E721100D29793 /* Project object */;
@@ -382,6 +399,7 @@
 		9A654920244074B500E30B74 /* extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = extensions.swift; sourceTree = "<group>"; };
 		9A65492224407EA600E30B74 /* store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = store.swift; sourceTree = "<group>"; };
 		9A656549253F20EF0096B607 /* settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = settings.swift; sourceTree = "<group>"; };
+		9A656561253F788A0096B607 /* popup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = popup.swift; sourceTree = "<group>"; };
 		9A6CFC0022A1C9F5001E782D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9A7C61B32440DF810032695D /* Mini.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mini.swift; sourceTree = "<group>"; };
 		9A7D0CB62444C2C800B09070 /* SystemKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemKit.swift; sourceTree = "<group>"; };
@@ -516,6 +534,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9AB1572E25407F7B00671260 /* ModuleKit.framework in Frameworks */,
+				9AB1573D25407F7E00671260 /* StatsKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -715,6 +735,7 @@
 				9A8DE5E3253DF4E2006A748F /* main.swift */,
 				9A8DE608253DF740006A748F /* readers.swift */,
 				9A656549253F20EF0096B607 /* settings.swift */,
+				9A656561253F788A0096B607 /* popup.swift */,
 				9A8DE58A253DEFA9006A748F /* Info.plist */,
 				9A8DE5FB253DF658006A748F /* config.plist */,
 			);
@@ -1039,6 +1060,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				9AB1573125407F7B00671260 /* PBXTargetDependency */,
+				9AB1574025407F7E00671260 /* PBXTargetDependency */,
 			);
 			name = Fans;
 			productName = Fans;
@@ -1440,6 +1463,7 @@
 			files = (
 				9A8DE609253DF740006A748F /* readers.swift in Sources */,
 				9A8DE5E4253DF4E2006A748F /* main.swift in Sources */,
+				9A656562253F788A0096B607 /* popup.swift in Sources */,
 				9A65654A253F20EF0096B607 /* settings.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1608,6 +1632,16 @@
 			isa = PBXTargetDependency;
 			target = 9AABEADC243FB13500668CB0 /* ModuleKit */;
 			targetProxy = 9AABEAE2243FB13500668CB0 /* PBXContainerItemProxy */;
+		};
+		9AB1573125407F7B00671260 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9AABEADC243FB13500668CB0 /* ModuleKit */;
+			targetProxy = 9AB1573025407F7B00671260 /* PBXContainerItemProxy */;
+		};
+		9AB1574025407F7E00671260 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9A0C82D924460F7200FAE3D4 /* StatsKit */;
+			targetProxy = 9AB1573F25407F7E00671260 /* PBXContainerItemProxy */;
 		};
 		9ABFF8FC248BEBCB00C9041A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -2310,6 +2344,7 @@
 		9AABEAE6243FB13500668CB0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -2341,6 +2376,7 @@
 		9AABEAE7243FB13500668CB0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;

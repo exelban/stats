@@ -67,15 +67,15 @@ public class SensorsWidget: Widget {
         
         let num: Int = Int(round(Double(self.values.count) / 2))
         let rowHeight: CGFloat = self.frame.height / 2
-        var totalWidth: CGFloat = Constants.Widget.margin
+        var totalWidth: CGFloat = Constants.Widget.margin  // opening space
         var x: CGFloat = Constants.Widget.margin
-        var paddingLeft: CGFloat = 0
         
         for i in 0..<num {
             if !self.values.indices.contains(i*2) {
                 continue
             }
             var width: CGFloat = 0
+            var paddingLeft: CGFloat = 0
             
             if self.values.indices.contains((i*2)+1) {
                 var font: NSFont = NSFont.systemFont(ofSize: 9, weight: .light)
@@ -140,8 +140,14 @@ public class SensorsWidget: Widget {
             
             x += width
             totalWidth += width
+            
+            // add margins between columns
+            if num != 1 && (i/2) != num {
+                x += Constants.Widget.margin
+                totalWidth += Constants.Widget.margin
+            }
         }
-        totalWidth += Constants.Widget.margin
+        totalWidth += Constants.Widget.margin // closing space
         
         if abs(self.frame.width - totalWidth) < 2 {
             return

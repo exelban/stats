@@ -21,6 +21,8 @@ internal class Settings: NSView, Settings_v {
     private let store: UnsafePointer<Store>
     private var button: NSPopUpButton?
     private let list: UnsafeMutablePointer<[Fan]>
+    private var labelState: Bool = false
+    
     public var callback: (() -> Void) = {}
     public var setInterval: ((_ value: Double) -> Void) = {_ in }
     
@@ -40,6 +42,7 @@ internal class Settings: NSView, Settings_v {
         self.canDrawConcurrently = true
         
         self.updateIntervalValue = store.pointee.string(key: "\(self.title)_updateInterval", defaultValue: self.updateIntervalValue)
+        self.labelState = store.pointee.bool(key: "\(self.title)_label", defaultValue: self.labelState)
     }
     
     required init?(coder: NSCoder) {
@@ -53,7 +56,7 @@ internal class Settings: NSView, Settings_v {
         self.subviews.forEach{ $0.removeFromSuperview() }
         
         let rowHeight: CGFloat = 30
-        let settingsHeight: CGFloat = rowHeight + Constants.Settings.margin
+        let settingsHeight: CGFloat = rowHeight*2 + Constants.Settings.margin
         let sensorsListHeight: CGFloat = (rowHeight+Constants.Settings.margin) * CGFloat(self.list.pointee.count) + ((rowHeight+Constants.Settings.margin))
         let height: CGFloat = settingsHeight + sensorsListHeight
         let x: CGFloat = height < 360 ? 0 : Constants.Settings.margin
@@ -72,7 +75,14 @@ internal class Settings: NSView, Settings_v {
             selected: "\(self.updateIntervalValue) sec"
         ))
         
-        let rowTitleView: NSView = NSView(frame: NSRect(x: 0, y: height - (rowHeight*2) - Constants.Settings.margin, width: view.frame.width, height: rowHeight))
+        self.addSubview(ToggleTitleRow(
+            frame: NSRect(x: Constants.Settings.margin, y: height - rowHeight*2 - Constants.Settings.margin, width: view.frame.width, height: rowHeight),
+            title: LocalizedString("Label"),
+            action: #selector(toggleLabelState),
+            state: self.labelState
+        ))
+        
+        let rowTitleView: NSView = NSView(frame: NSRect(x: 0, y: height - (rowHeight*3) - Constants.Settings.margin*2, width: view.frame.width, height: rowHeight))
         let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: (rowHeight-19)/2, width: view.frame.width, height: 19), "Fans")
         rowTitle.font = NSFont.systemFont(ofSize: 14, weight: .regular)
         rowTitle.textColor = .secondaryLabelColor
@@ -121,5 +131,18 @@ internal class Settings: NSView, Settings_v {
         if let value = Double(self.updateIntervalValue) {
             self.setInterval(value)
         }
+    }
+    
+    @objc func toggleLabelState(_ sender: NSControl) {
+        var state: NSControl.StateValue? = nil
+        if #available(OSX 10.15, *) {
+            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
+        } else {
+            state = sender is NSButton ? (sender as! NSButton).state: nil
+        }
+        
+        self.labelState = state! == .on ? true : false
+        self.store.pointee.set(key: "\(self.title)_label", value: self.labelState)
+        self.callback()
     }
 }

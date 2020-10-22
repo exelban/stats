@@ -97,7 +97,7 @@ let SensorsList: [Sensor_t] = [
     
     Sensor_t(key: "TC0E", name: "CPU 1", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
     Sensor_t(key: "TC0F", name: "CPU 2", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
-    Sensor_t(key: "TC0D", name: "CPU die", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
+    Sensor_t(key: "TC0D", name: "CPU diode", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
     Sensor_t(key: "TC0C", name: "CPU core", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
     Sensor_t(key: "TC0H", name: "CPU heatsink", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
     Sensor_t(key: "TC0P", name: "CPU proximity", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
@@ -121,7 +121,7 @@ let SensorsList: [Sensor_t] = [
     Sensor_t(key: "TC15c", name: "CPU core 16", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
     
     Sensor_t(key: "TCGC", name: "GPU Intel Graphics", group: SensorGroup.GPU.rawValue, type: SensorType.Temperature.rawValue),
-    Sensor_t(key: "TG0D", name: "GPU die", group: SensorGroup.GPU.rawValue, type: SensorType.Temperature.rawValue),
+    Sensor_t(key: "TG0D", name: "GPU diode", group: SensorGroup.GPU.rawValue, type: SensorType.Temperature.rawValue),
     Sensor_t(key: "TG0H", name: "GPU heatsink", group: SensorGroup.GPU.rawValue, type: SensorType.Temperature.rawValue),
     Sensor_t(key: "TG0P", name: "GPU proximity", group: SensorGroup.GPU.rawValue, type: SensorType.Temperature.rawValue),
     
@@ -135,7 +135,7 @@ let SensorsList: [Sensor_t] = [
     Sensor_t(key: "TI2P", name: "Thunderbold 3", group: SensorGroup.System.rawValue, type: SensorType.Temperature.rawValue),
     Sensor_t(key: "TI3P", name: "Thunderbold 4", group: SensorGroup.System.rawValue, type: SensorType.Temperature.rawValue),
     
-    Sensor_t(key: "TN0D", name: "Northbridge die", group: SensorGroup.System.rawValue, type: SensorType.Temperature.rawValue),
+    Sensor_t(key: "TN0D", name: "Northbridge diode", group: SensorGroup.System.rawValue, type: SensorType.Temperature.rawValue),
     Sensor_t(key: "TN0H", name: "Northbridge heatsink", group: SensorGroup.System.rawValue, type: SensorType.Temperature.rawValue),
     Sensor_t(key: "TN0P", name: "Northbridge proximity", group: SensorGroup.System.rawValue, type: SensorType.Temperature.rawValue),
     
