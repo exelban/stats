@@ -33,6 +33,7 @@ internal class Popup: NSView {
     private var temperatureCircle: HalfCircleGraphView? = nil
     private var frequencyCircle: HalfCircleGraphView? = nil
     private var initialized: Bool = false
+    private var initializedAdditional: Bool = false
     private var processesInitialized: Bool = false
     
     private var processes: [ProcessView] = []
@@ -157,12 +158,8 @@ internal class Popup: NSView {
         return valueView
     }
     
-    public func loadCallback(_ value: CPU_Load, tempValue: Double?, frequency: Double?) {
+    public func loadCallback(_ value: CPU_Load) {
         DispatchQueue.main.async(execute: {
-            if frequency != nil && (self.frequencyCircle! as NSView).isHidden {
-                (self.frequencyCircle! as NSView).isHidden = false
-            }
-            
             if (self.window?.isVisible ?? false) || !self.initialized {
                 self.systemField?.stringValue = "\(Int(value.systemLoad.rounded(toPlaces: 2) * 100)) %"
                 self.userField?.stringValue = "\(Int(value.userLoad.rounded(toPlaces: 2) * 100)) %"
@@ -177,11 +174,23 @@ internal class Popup: NSView {
                     circle_segment(value: value.systemLoad, color: NSColor.systemRed),
                     circle_segment(value: value.userLoad, color: NSColor.systemBlue),
                 ])
-                if tempValue != nil {
-                    self.temperatureCircle?.setValue(tempValue!)
-                    self.temperatureCircle?.setText(Temperature(tempValue!))
+            }
+            self.chart?.addValue(value.totalUsage)
+        })
+    }
+    
+    public func additionalCallback(_ value: CPU_additional) {
+        DispatchQueue.main.async(execute: {
+            if value.frequency != nil && (self.frequencyCircle! as NSView).isHidden {
+                (self.frequencyCircle! as NSView).isHidden = false
+            }
+            
+            if (self.window?.isVisible ?? false) || !self.initializedAdditional {
+                if let temperature = value.temperature {
+                    self.temperatureCircle?.setValue(temperature)
+                    self.temperatureCircle?.setText(Temperature(temperature))
                 }
-                if let freq = frequency {
+                if let freq = value.frequency {
                     if freq > self.maxFreq {
                         self.maxFreq = freq
                     }
@@ -191,8 +200,9 @@ internal class Popup: NSView {
                         freqCircle.setText("\((freq/1000).rounded(toPlaces: 2))\nGHz")
                     }
                 }
+                
+                self.initializedAdditional = true
             }
-            self.chart?.addValue(value.totalUsage)
         })
     }
     

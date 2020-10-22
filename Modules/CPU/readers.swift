@@ -214,3 +214,29 @@ public class ProcessReader: Reader<[TopProcess]> {
         self.callback(processes)
     }
 }
+
+public class AdditionalReader: Reader<CPU_additional> {
+    private let smc: UnsafePointer<SMCService>?
+    private var data: CPU_additional = CPU_additional()
+    
+    init(_ smc: UnsafePointer<SMCService>) {
+        self.smc = smc
+        super.init()
+        self.popup = true
+    }
+    
+    public override func setup() {
+        PG_getCPUFrequency()
+        PG_getCPUFrequency()
+    }
+    
+    public override func read() {
+        if let readFrequency = PG_getCPUFrequency() {
+            self.data.frequency = readFrequency.pointee
+        }
+        
+        self.data.temperature = self.smc?.pointee.getValue("TC0C") ?? self.smc?.pointee.getValue("TC0D") ?? self.smc?.pointee.getValue("TC0P") ?? self.smc?.pointee.getValue("TC0E")
+        
+        self.callback(self.data)
+    }
+}

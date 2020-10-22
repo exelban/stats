@@ -25,12 +25,18 @@ public struct CPU_Load: value_t {
     }
 }
 
+public struct CPU_additional {
+    var temperature: Double?
+    var frequency: Double?
+}
+
 public class CPU: Module {
     private var popupView: Popup
     private var settingsView: Settings
     
     private var loadReader: LoadReader? = nil
     private var processReader: ProcessReader? = nil
+    private var additionalReader: AdditionalReader? = nil
     private let smc: UnsafePointer<SMCService>?
     private let store: UnsafePointer<Store>
     
@@ -58,6 +64,7 @@ public class CPU: Module {
         self.loadReader?.store = store
         
         self.processReader = ProcessReader()
+        self.additionalReader = AdditionalReader(smc)
         
         self.settingsView.callback = { [unowned self] in
             self.loadReader?.read()
@@ -79,10 +86,19 @@ public class CPU: Module {
             }
         }
         
+        self.additionalReader?.callbackHandler = { [unowned self] value in
+            if value != nil {
+                self.popupView.additionalCallback(value!)
+            }
+        }
+        
         if let reader = self.loadReader {
             self.addReader(reader)
         }
         if let reader = self.processReader {
+            self.addReader(reader)
+        }
+        if let reader = self.additionalReader {
             self.addReader(reader)
         }
     }
@@ -96,13 +112,7 @@ public class CPU: Module {
             return
         }
         
-        var frequency: Double? = nil
-        if let readFrequency = PG_getCPUFrequency() {
-            frequency = readFrequency.pointee
-        }
-        
-        let temperature = self.smc?.pointee.getValue("TC0C") ?? self.smc?.pointee.getValue("TC0D") ?? self.smc?.pointee.getValue("TC0P") ?? self.smc?.pointee.getValue("TC0E")
-        self.popupView.loadCallback(value!, tempValue: temperature, frequency: frequency)
+        self.popupView.loadCallback(value!)
         
         if let widget = self.widget as? Mini {
             widget.setValue(value!.totalUsage, sufix: "%")

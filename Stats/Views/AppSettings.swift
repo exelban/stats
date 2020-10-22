@@ -238,6 +238,7 @@ class ApplicationSettings: NSView {
         deviceNameField.font = NSFont.systemFont(ofSize: 14, weight: .regular)
         deviceNameField.stringValue = systemKit.device.model.name
         deviceNameField.isSelectable = true
+        deviceNameField.toolTip = systemKit.device.modelIdentifier
         
         let osField: NSTextField = TextView(frame: NSRect(x: 0, y: 52, width: leftPanel.frame.width, height: 18))
         osField.alignment = .center

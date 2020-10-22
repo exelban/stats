@@ -70,6 +70,7 @@ public struct info_s {
 
 public struct device_s {
     public var model: model_s = model_s(name: LocalizedString("Unknown"), year: 2020, type: .unknown)
+    public var modelIdentifier: String? = nil
     public var os: os_s? = nil
     public var info: info_s? = info_s()
 }
@@ -86,6 +87,9 @@ public class SystemKit {
             } else {
                 os_log(.error, log: self.log, "unknown device %s", modelName)
             }
+        }
+        if let id = self.modelID() {
+            self.device.modelIdentifier = id
         }
         
         let procInfo = ProcessInfo()
@@ -121,6 +125,17 @@ public class SystemKit {
         
         os_log(.error, log: self.log, "error call sysctl(): %s", (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
         return nil
+    }
+    
+    func modelID() -> String? {
+        let service = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("IOPlatformExpertDevice"))
+        var modelIdentifier: String?
+        if let modelData = IORegistryEntryCreateCFProperty(service, "model" as CFString, kCFAllocatorDefault, 0).takeRetainedValue() as? Data {
+            modelIdentifier = String(data: modelData, encoding: .utf8)?.trimmingCharacters(in: .controlCharacters)
+        }
+
+        IOObjectRelease(service)
+        return modelIdentifier
     }
     
     private func getCPUInfo() -> cpu_s? {

@@ -1200,7 +1200,7 @@
 					New,
 				);
 				LastSwiftUpdateCheck = 1150;
-				LastUpgradeCheck = 1200;
+				LastUpgradeCheck = 1210;
 				ORGANIZATIONNAME = "Serhiy Mytrovtsiy";
 				TargetAttributes = {
 					9A0C82D924460F7200FAE3D4 = {
