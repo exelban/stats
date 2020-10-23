@@ -34,8 +34,8 @@ class SettingsWindow: NSWindow, NSWindowDelegate {
         self.collectionBehavior = .moveToActiveSpace
         self.titlebarAppearsTransparent = true
         self.appearance = NSAppearance(named: .darkAqua)
-        self.center()
-        self.setIsVisible(false)
+//        self.center()
+        self.setIsVisible(true)
         
         let windowController = NSWindowController()
         windowController.window = self
@@ -132,6 +132,7 @@ private class SettingsView: NSView {
         
         buttonsView.addSubview(self.makeButton(4, title: LocalizedString("Open Activity Monitor"), image: "chart", action: #selector(openActivityMonitor)))
         buttonsView.addSubview(self.makeButton(3, title: LocalizedString("Report a bug"), image: "bug", action: #selector(reportBug)))
+        buttonsView.addSubview(self.makeButton(2, title: LocalizedString("Support app"), image: "donate", action: #selector(donate)))
         buttonsView.addSubview(self.makeButton(1, title: LocalizedString("Close application"), image: "power", action: #selector(closeApp)))
         
         let mainView: NSView = NSView(frame: NSRect(x: navigationWidth, y: 1, width: frame.width - navigationWidth-1, height: frame.height-1))
@@ -278,6 +279,10 @@ private class SettingsView: NSView {
     
     @objc private func reportBug(_ sender: Any) {
         NSWorkspace.shared.open(URL(string: "https://github.com/exelban/stats/issues/new")!)
+    }
+    
+    @objc private func donate(_ sender: Any) {
+        NSWorkspace.shared.open(URL(string: "https://github.com/exelban/stats")!)
     }
     
     @objc private func closeApp(_ sender: Any) {
