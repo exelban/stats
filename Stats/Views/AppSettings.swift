@@ -18,9 +18,9 @@ class ApplicationSettings: NSView {
     private let height: CGFloat = 480
     private let deviceInfoHeight: CGFloat = 300
     
-    private var updateIntervalValue: updateInterval {
+    private var updateIntervalValue: AppUpdateInterval {
         get {
-            return store.string(key: "update-interval", defaultValue: updateIntervals.atStart.rawValue)
+            return store.string(key: "update-interval", defaultValue: AppUpdateIntervals.atStart.rawValue)
         }
     }
     
@@ -106,7 +106,7 @@ class ApplicationSettings: NSView {
             frame: NSRect(x: rowHorizontalPadding*0.5, y: rowHeight*2, width: rightPanel.frame.width - (rowHorizontalPadding*1.5), height: rowHeight),
             title: LocalizedString("Check for updates"),
             action: #selector(self.toggleUpdateInterval),
-            items: updateIntervals.allCases.map{ $0.rawValue },
+            items: AppUpdateIntervals.allCases.map{ $0.rawValue },
             selected: self.updateIntervalValue
         ))
         
@@ -310,7 +310,7 @@ class ApplicationSettings: NSView {
     }
     
     @objc private func toggleUpdateInterval(_ sender: NSMenuItem) {
-        if let newUpdateInterval = updateIntervals(rawValue: sender.title) {
+        if let newUpdateInterval = AppUpdateIntervals(rawValue: sender.title) {
             store.set(key: "update-interval", value: newUpdateInterval.rawValue)
             NotificationCenter.default.post(name: .changeCronInterval, object: nil, userInfo: nil)
         }

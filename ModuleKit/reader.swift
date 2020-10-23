@@ -37,7 +37,7 @@ public protocol Reader_p {
     func unlock() -> Void
     
     func initStoreValues(title: String, store: UnsafePointer<Store>) -> Void
-    func setInterval(_ value: Double) -> Void
+    func setInterval(_ value: Int) -> Void
 }
 
 public protocol ReaderInternal_p {
@@ -159,9 +159,9 @@ open class Reader<T>: ReaderInternal_p {
         self.active = false
     }
     
-    public func setInterval(_ value: Double) {
-        os_log(.debug, log: self.log, "Set update interval: %.0f sec", value)
-        self.repeatTask?.reset(.seconds(value), restart: true)
+    public func setInterval(_ value: Int) {
+        os_log(.debug, log: self.log, "Set update interval: %d sec", value)
+        self.repeatTask?.reset(.seconds(Double(value)), restart: true)
     }
 }
 

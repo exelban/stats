@@ -91,7 +91,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         self.updateActivity.invalidate()
         self.updateActivity.repeats = true
         
-        guard let updateInterval = updateIntervals(rawValue: store.string(key: "update-interval", defaultValue: updateIntervals.atStart.rawValue)) else {
+        guard let updateInterval = AppUpdateIntervals(rawValue: store.string(key: "update-interval", defaultValue: AppUpdateIntervals.atStart.rawValue)) else {
             return
         }
         os_log(.debug, log: log, "Application update interval is '%s'", "\(updateInterval.rawValue)")

@@ -11,8 +11,8 @@
 
 import Cocoa
 
-public typealias updateInterval = String
-public enum updateIntervals: updateInterval {
+public typealias AppUpdateInterval = String
+public enum AppUpdateIntervals: AppUpdateInterval {
     case atStart = "At start"
     case separator_1 = "separator_1"
     case oncePerDay = "Once per day"
@@ -21,7 +21,7 @@ public enum updateIntervals: updateInterval {
     case separator_2 = "separator_2"
     case never = "Never"
 }
-extension updateIntervals: CaseIterable {}
+extension AppUpdateIntervals: CaseIterable {}
 
 public struct KeyValue_t {
     let key: String
@@ -50,6 +50,8 @@ public let SpeedBase: [KeyValue_t] = [
     KeyValue_t(key: "bit", value: "Bit", additional: DataSizeBase.bit),
     KeyValue_t(key: "byte", value: "Byte", additional: DataSizeBase.byte)
 ]
+
+public let ReaderUpdateIntervals: [Int] = [1, 2, 3, 5, 10, 15, 30]
 
 public struct Units {
     public let bytes: Int64

@@ -34,8 +34,8 @@ class SettingsWindow: NSWindow, NSWindowDelegate {
         self.collectionBehavior = .moveToActiveSpace
         self.titlebarAppearsTransparent = true
         self.appearance = NSAppearance(named: .darkAqua)
-//        self.center()
-        self.setIsVisible(true)
+        self.center()
+        self.setIsVisible(false)
         
         let windowController = NSWindowController()
         windowController.window = self

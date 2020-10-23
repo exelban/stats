@@ -15,15 +15,14 @@ import ModuleKit
 
 internal class Settings: NSView, Settings_v {
     private var unitsValue: String = "system"
-    private var updateIntervalValue: String = "3"
-    private let listOfUpdateIntervals: [String] = ["1", "2", "3", "5", "10", "15", "30"]
+    private var updateIntervalValue: Int = 3
     
     private let title: String
     private let store: UnsafePointer<Store>
     private var button: NSPopUpButton?
     private let list: UnsafeMutablePointer<[Sensor_t]>
     public var callback: (() -> Void) = {}
-    public var setInterval: ((_ value: Double) -> Void) = {_ in }
+    public var setInterval: ((_ value: Int) -> Void) = {_ in }
     
     public init(_ title: String, store: UnsafePointer<Store>, list: UnsafeMutablePointer<[Sensor_t]>) {
         self.title = title
@@ -40,7 +39,7 @@ internal class Settings: NSView, Settings_v {
         self.wantsLayer = true
         self.canDrawConcurrently = true
         
-        self.updateIntervalValue = store.pointee.string(key: "\(self.title)_updateInterval", defaultValue: self.updateIntervalValue)
+        self.updateIntervalValue = store.pointee.int(key: "\(self.title)_updateInterval", defaultValue: self.updateIntervalValue)
         self.unitsValue = store.pointee.string(key: "temperature_units", defaultValue: self.unitsValue)
     }
     
@@ -77,7 +76,7 @@ internal class Settings: NSView, Settings_v {
             frame: NSRect(x: Constants.Settings.margin, y: height - rowHeight, width: view.frame.width, height: rowHeight),
             title: LocalizedString("Update interval"),
             action: #selector(changeUpdateInterval),
-            items: self.listOfUpdateIntervals.map{ "\($0) sec" },
+            items: ReaderUpdateIntervals.map{ "\($0) sec" },
             selected: "\(self.updateIntervalValue) sec"
         ))
         
@@ -145,11 +144,9 @@ internal class Settings: NSView, Settings_v {
     }
     
     @objc private func changeUpdateInterval(_ sender: NSMenuItem) {
-        let newUpdateInterval = sender.title.replacingOccurrences(of: " sec", with: "")
-        self.updateIntervalValue = newUpdateInterval
-        store.pointee.set(key: "\(self.title)_updateInterval", value: self.updateIntervalValue)
-        
-        if let value = Double(self.updateIntervalValue) {
+        if let value = Int(sender.title.replacingOccurrences(of: " sec", with: "")) {
+            self.updateIntervalValue = value
+            self.store.pointee.set(key: "\(self.title)_updateInterval", value: value)
             self.setInterval(value)
         }
     }
