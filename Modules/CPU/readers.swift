@@ -154,6 +154,21 @@ internal class LoadReader: Reader<CPU_Load> {
 }
 
 public class ProcessReader: Reader<[TopProcess]> {
+    private let store: UnsafePointer<Store>
+    private let title: String
+    
+    private var numberOfProcesses: Int {
+        get {
+            return self.store.pointee.int(key: "\(self.title)_processes", defaultValue: 8)
+        }
+    }
+    
+    init(_ title: String, store: UnsafePointer<Store>) {
+        self.title = title
+        self.store = store
+        super.init()
+    }
+    
     public override func setup() {
         self.popup = true
     }
@@ -207,7 +222,7 @@ public class ProcessReader: Reader<[TopProcess]> {
                 processes.append(TopProcess(pid: pid, command: command, name: name, usage: usage, icon: icon))
             }
             
-            if index == 5 { stop = true }
+            if index == self.numberOfProcesses { stop = true }
             index += 1
         }
         

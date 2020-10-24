@@ -49,7 +49,7 @@ internal class Popup: NSView {
                 self.list[d.mediaName]?.update(free: d.free, read: d.stats?.read, write: d.stats?.write)
             }
         }
-
+        
         DispatchQueue.main.async(execute: {
             let h: CGFloat = ((self.diskFullHeight + Constants.Popup.margins) * CGFloat(self.list.count)) - Constants.Popup.margins
             if self.frame.size.height != h {

@@ -63,11 +63,14 @@ public class CPU: Module {
         self.loadReader = LoadReader()
         self.loadReader?.store = store
         
-        self.processReader = ProcessReader()
+        self.processReader = ProcessReader(self.config.name, store: store)
         self.additionalReader = AdditionalReader(smc)
         
         self.settingsView.callback = { [unowned self] in
             self.loadReader?.read()
+        }
+        self.settingsView.callbackWhenUpdateNumberOfProcesses = {
+            self.popupView.numberOfProcessesUpdated()
         }
         self.settingsView.setInterval = { [unowned self] value in
             self.loadReader?.setInterval(value)

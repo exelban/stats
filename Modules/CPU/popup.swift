@@ -20,7 +20,7 @@ internal class Popup: NSView {
     private let dashboardHeight: CGFloat = 90
     private let chartHeight: CGFloat = 90
     private let detailsHeight: CGFloat = 22*3
-    private let processesHeight: CGFloat = 22*5
+    private let processHeight: CGFloat = 22
     
     private var loadField: NSTextField? = nil
     
@@ -39,6 +39,12 @@ internal class Popup: NSView {
     private var processes: [ProcessView] = []
     private var maxFreq: Double = 0
     
+    private var numberOfProcesses: Int {
+        get {
+            return self.store.pointee.int(key: "\(self.title)_processes", defaultValue: 8)
+        }
+    }
+    
     public init(_ title: String, store: UnsafePointer<Store>) {
         self.store = store
         self.title = title
@@ -47,13 +53,22 @@ internal class Popup: NSView {
             x: 0,
             y: 0,
             width: Constants.Popup.width,
-            height: dashboardHeight + chartHeight + detailsHeight + processesHeight + (Constants.Popup.separatorHeight*3)
+            height: dashboardHeight + chartHeight + detailsHeight + (Constants.Popup.separatorHeight*3)
         ))
+        
+        let h: CGFloat = self.dashboardHeight + self.chartHeight + self.detailsHeight + (self.processHeight*CGFloat(self.numberOfProcesses)) + (Constants.Popup.separatorHeight*3)
+        self.setFrameSize(NSSize(width: self.frame.width, height: h))
         
         initDashboard()
         initChart()
         initDetails()
         initProcesses()
+        
+        DispatchQueue.main.async(execute: {
+            if self.frame.size.height != h {
+                NotificationCenter.default.post(name: .updatePopupSize, object: nil, userInfo: ["module": self.title])
+            }
+        })
     }
     
     required init?(coder: NSCoder) {
@@ -62,6 +77,29 @@ internal class Popup: NSView {
     
     public override func updateLayer() {
         self.chart?.display()
+    }
+    
+    public func numberOfProcessesUpdated() {
+        if self.processes.count == self.numberOfProcesses {
+            return
+        }
+        
+        DispatchQueue.main.async(execute: {
+            self.subviews.forEach{ $0.removeFromSuperview() }
+            self.processes.forEach { (p: ProcessView) in
+                p.removeFromSuperview()
+            }
+            
+            let h: CGFloat = self.dashboardHeight + self.chartHeight + self.detailsHeight + (self.processHeight*CGFloat(self.numberOfProcesses)) + (Constants.Popup.separatorHeight*3)
+            self.setFrameSize(NSSize(width: self.frame.width, height: h))
+            
+            self.initDashboard()
+            self.initChart()
+            self.initDetails()
+            self.initProcesses()
+            
+            NotificationCenter.default.post(name: .updatePopupSize, object: nil, userInfo: ["module": self.title])
+        })
     }
     
     private func initDashboard() {
@@ -121,16 +159,15 @@ internal class Popup: NSView {
     }
     
     private func initProcesses() {
-        let separator = SeparatorView(LocalizedString("Top processes"), origin: NSPoint(x: 0, y: self.processesHeight), width: self.frame.width)
+        let height: CGFloat = self.processHeight*CGFloat(self.numberOfProcesses)
+        let separator = SeparatorView(LocalizedString("Top processes"), origin: NSPoint(x: 0, y: height), width: self.frame.width)
         self.addSubview(separator)
         
-        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.processesHeight))
+        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: height))
         
-        self.processes.append(ProcessView(0))
-        self.processes.append(ProcessView(1))
-        self.processes.append(ProcessView(2))
-        self.processes.append(ProcessView(3))
-        self.processes.append(ProcessView(4))
+        for i in 0...self.numberOfProcesses {
+            self.processes.append(ProcessView(CGFloat(i)))
+        }
         
         self.processes.forEach{ view.addSubview($0) }
         

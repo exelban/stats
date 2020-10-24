@@ -17,12 +17,14 @@ internal class Settings: NSView, Settings_v {
     private var usagePerCoreState: Bool = false
     private var hyperthreadState: Bool = false
     private var updateIntervalValue: Int = 1
+    private var numberOfProcesses: Int = 8
     
     private let title: String
     private let store: UnsafePointer<Store>
     private var hasHyperthreadingCores = false
     
     public var callback: (() -> Void) = {}
+    public var callbackWhenUpdateNumberOfProcesses: (() -> Void) = {}
     public var setInterval: ((_ value: Int) -> Void) = {_ in }
     
     private var hyperthreadView: NSView? = nil
@@ -33,6 +35,7 @@ internal class Settings: NSView, Settings_v {
         self.hyperthreadState = store.pointee.bool(key: "\(self.title)_hyperhreading", defaultValue: self.hyperthreadState)
         self.usagePerCoreState = store.pointee.bool(key: "\(self.title)_usagePerCore", defaultValue: self.usagePerCoreState)
         self.updateIntervalValue = store.pointee.int(key: "\(self.title)_updateInterval", defaultValue: self.updateIntervalValue)
+        self.numberOfProcesses = store.pointee.int(key: "\(self.title)_processes", defaultValue: self.numberOfProcesses)
         if !self.usagePerCoreState {
             self.hyperthreadState = false
         }
@@ -57,7 +60,7 @@ internal class Settings: NSView, Settings_v {
         self.subviews.forEach{ $0.removeFromSuperview() }
         
         let rowHeight: CGFloat = 30
-        let num: CGFloat = widget == .barChart ? self.hasHyperthreadingCores ? 2 : 1 : 0
+        let num: CGFloat = widget == .barChart ? self.hasHyperthreadingCores ? 3 : 2 : 1
         
         self.addSubview(SelectTitleRow(
             frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * num, width: self.frame.width - (Constants.Settings.margin*2), height: rowHeight),
@@ -90,6 +93,14 @@ internal class Settings: NSView, Settings_v {
             }
         }
         
+        self.addSubview(SelectTitleRow(
+            frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin, width: self.frame.width - (Constants.Settings.margin*2), height: rowHeight),
+            title: LocalizedString("Number of top processes"),
+            action: #selector(changeNumberOfProcesses),
+            items: NumbersOfProcesses.map{ "\($0)" },
+            selected: "\(self.numberOfProcesses)"
+        ))
+        
         self.setFrameSize(NSSize(width: self.frame.width, height: (rowHeight*(num+1)) + (Constants.Settings.margin*(2+num))))
     }
     
@@ -98,6 +109,14 @@ internal class Settings: NSView, Settings_v {
             self.updateIntervalValue = value
             self.store.pointee.set(key: "\(self.title)_updateInterval", value: value)
             self.setInterval(value)
+        }
+    }
+    
+    @objc private func changeNumberOfProcesses(_ sender: NSMenuItem) {
+        if let value = Int(sender.title) {
+            self.numberOfProcesses = value
+            self.store.pointee.set(key: "\(self.title)_processes", value: value)
+            self.callbackWhenUpdateNumberOfProcesses()
         }
     }
     
