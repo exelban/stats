@@ -15,17 +15,20 @@ import ModuleKit
 
 internal class Settings: NSView, Settings_v {
     private var updateIntervalValue: Int = 1
+    private var numberOfProcesses: Int = 8
     
     private let title: String
     private let store: UnsafePointer<Store>
     
     public var callback: (() -> Void) = {}
+    public var callbackWhenUpdateNumberOfProcesses: (() -> Void) = {}
     public var setInterval: ((_ value: Int) -> Void) = {_ in }
     
     public init(_ title: String, store: UnsafePointer<Store>) {
         self.title = title
         self.store = store
         self.updateIntervalValue = store.pointee.int(key: "\(self.title)_updateInterval", defaultValue: self.updateIntervalValue)
+        self.numberOfProcesses = store.pointee.int(key: "\(self.title)_processes", defaultValue: self.numberOfProcesses)
         
         super.init(frame: CGRect(
             x: 0,
@@ -46,7 +49,7 @@ internal class Settings: NSView, Settings_v {
         self.subviews.forEach{ $0.removeFromSuperview() }
         
         let rowHeight: CGFloat = 30
-        let num: CGFloat = 0
+        let num: CGFloat = 1
         
         self.addSubview(SelectTitleRow(
             frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * num, width: self.frame.width - (Constants.Settings.margin*2), height: rowHeight),
@@ -54,6 +57,14 @@ internal class Settings: NSView, Settings_v {
             action: #selector(changeUpdateInterval),
             items: ReaderUpdateIntervals.map{ "\($0) sec" },
             selected: "\(self.updateIntervalValue) sec"
+        ))
+        
+        self.addSubview(SelectTitleRow(
+            frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin, width: self.frame.width - (Constants.Settings.margin*2), height: rowHeight),
+            title: LocalizedString("Number of top processes"),
+            action: #selector(changeNumberOfProcesses),
+            items: NumbersOfProcesses.map{ "\($0)" },
+            selected: "\(self.numberOfProcesses)"
         ))
         
         self.setFrameSize(NSSize(width: self.frame.width, height: (rowHeight*(num+1)) + (Constants.Settings.margin*(2+num))))
@@ -64,6 +75,14 @@ internal class Settings: NSView, Settings_v {
             self.updateIntervalValue = value
             self.store.pointee.set(key: "\(self.title)_updateInterval", value: value)
             self.setInterval(value)
+        }
+    }
+    
+    @objc private func changeNumberOfProcesses(_ sender: NSMenuItem) {
+        if let value = Int(sender.title) {
+            self.numberOfProcesses = value
+            self.store.pointee.set(key: "\(self.title)_processes", value: value)
+            self.callbackWhenUpdateNumberOfProcesses()
         }
     }
 }

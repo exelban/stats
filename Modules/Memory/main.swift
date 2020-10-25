@@ -34,13 +34,14 @@ public struct RAM_Usage: value_t {
 }
 
 public class Memory: Module {
-    private let popupView: Popup = Popup()
+    private var settingsView: Settings
+    private let popupView: Popup
     private var usageReader: UsageReader? = nil
     private var processReader: ProcessReader? = nil
-    private var settingsView: Settings
     
     public init(_ store: UnsafePointer<Store>) {
         self.settingsView = Settings("RAM", store: store)
+        self.popupView = Popup("RAM", store: store)
         
         super.init(
             store: store,
@@ -50,11 +51,16 @@ public class Memory: Module {
         guard self.available else { return }
         
         self.settingsView.setInterval = { [unowned self] value in
+            self.processReader?.read()
             self.usageReader?.setInterval(value)
         }
         
         self.usageReader = UsageReader()
-        self.processReader = ProcessReader()
+        self.processReader = ProcessReader(self.config.name, store: store)
+        
+        self.settingsView.callbackWhenUpdateNumberOfProcesses = {
+            self.popupView.numberOfProcessesUpdated()
+        }
         
         self.usageReader?.readyCallback = { [unowned self] in
             self.readyHandler()

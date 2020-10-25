@@ -86,9 +86,7 @@ internal class Popup: NSView {
         
         DispatchQueue.main.async(execute: {
             self.subviews.forEach{ $0.removeFromSuperview() }
-            self.processes.forEach { (p: ProcessView) in
-                p.removeFromSuperview()
-            }
+            self.processes = []
             
             let h: CGFloat = self.dashboardHeight + self.chartHeight + self.detailsHeight + (self.processHeight*CGFloat(self.numberOfProcesses)) + (Constants.Popup.separatorHeight*3)
             self.setFrameSize(NSSize(width: self.frame.width, height: h))

@@ -80,6 +80,21 @@ internal class UsageReader: Reader<RAM_Usage> {
 }
 
 public class ProcessReader: Reader<[TopProcess]> {
+    private let store: UnsafePointer<Store>
+    private let title: String
+    
+    private var numberOfProcesses: Int {
+        get {
+            return self.store.pointee.int(key: "\(self.title)_processes", defaultValue: 8)
+        }
+    }
+    
+    init(_ title: String, store: UnsafePointer<Store>) {
+        self.title = title
+        self.store = store
+        super.init()
+    }
+    
     public override func setup() {
         self.popup = true
     }
@@ -87,7 +102,7 @@ public class ProcessReader: Reader<[TopProcess]> {
     public override func read() {
         let task = Process()
         task.launchPath = "/usr/bin/top"
-        task.arguments = ["-l", "1", "-o", "mem", "-n", "5", "-stats", "pid,command,mem"]
+        task.arguments = ["-l", "1", "-o", "mem", "-n", "\(self.numberOfProcesses)", "-stats", "pid,command,mem"]
         
         let outputPipe = Pipe()
         let errorPipe = Pipe()
