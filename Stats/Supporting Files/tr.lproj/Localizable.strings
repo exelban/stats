@@ -40,6 +40,7 @@
 // Application settings
 "Update application" = "Uygulamayı güncelle";
 "Check for updates" = "Güncellemeleri denetle";
+"Check for update" = "Güncellemeleri denetle";
 "Show icon in dock" = "Dock'ta göster";
 "Start at login" = "Başlangıçta çalıştır";
 

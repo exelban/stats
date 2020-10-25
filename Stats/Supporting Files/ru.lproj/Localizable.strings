@@ -40,6 +40,7 @@
 // Application settings
 "Update application" = "Обновить приложение";
 "Check for updates" = "Проверять обновления";
+"Check for update" = "Проверить обновление";
 "Show icon in dock" = "Показать значок в dock";
 "Start at login" = "Запуск при логуванні";
 

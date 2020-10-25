@@ -40,6 +40,7 @@
 // Application settings
 "Update application" = "更新应用";
 "Check for updates" = "检查更新";
+"Check for update" = "检查更新";
 "Show icon in dock" = "在dock显示图标";
 "Start at login" = "登录时打开";
 

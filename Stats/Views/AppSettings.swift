@@ -45,7 +45,7 @@ class ApplicationSettings: NSView {
             if version.newest {
                 button.title = LocalizedString("Update application")
             } else {
-                button.title = LocalizedString("Check for updates")
+                button.title = LocalizedString("Check for update")
             }
         }
     }
@@ -274,7 +274,7 @@ class ApplicationSettings: NSView {
         infoView.addSubview(statsVersion)
         
         let button: NSButton = NSButton(frame: NSRect(x: (rightPanel.frame.width - 160)/2, y: 20, width: 160, height: 28))
-        button.title = LocalizedString("Check for updates")
+        button.title = LocalizedString("Check for update")
         button.bezelStyle = .rounded
         button.target = self
         button.action = #selector(updateAction)

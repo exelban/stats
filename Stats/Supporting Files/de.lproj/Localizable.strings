@@ -40,6 +40,7 @@
 // Application settings
 "Update application" = "Applikation aktualisieren";
 "Check for updates" = "Nach Updates suchen";
+"Check for update" = "Nach Updates suchen";
 "Show icon in dock" = "Symbol im Dock anzeigen";
 "Start at login" = "Beim Login starten";
 

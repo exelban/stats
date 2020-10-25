@@ -40,6 +40,7 @@
 // Application settings
 "Update application" = "앱 업데이트";
 "Check for updates" = "신규 업데이트 확인";
+"Check for update" = "신규 업데이트 확인";
 "Show icon in dock" = "Dock에서 아이콘 보이기";
 "Start at login" = "로그인시 시작";
 
