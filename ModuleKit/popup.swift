@@ -155,7 +155,6 @@ internal class PopupView: NSView {
     }
     internal func disappear() {}
     
-    
     @objc private func listenChangingPopupSize(_ notification: Notification) {
         if let moduleName = notification.userInfo?["module"] as? String, moduleName == self.title {
             self.updateLayer()
