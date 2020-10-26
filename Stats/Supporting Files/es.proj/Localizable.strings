@@ -1,0 +1,141 @@
+//
+//  Localizable.strings
+//  Stats
+//
+//  Created by Serhiy Mytrovtsiy on 27/08/2020.
+//  Using Swift 5.0.
+//  Running on macOS 10.15.
+//
+//  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
+//
+
+// Words
+"Unknown" = "Desconocido";
+"Version" = "Versión";
+"Processor" = "Procesador";
+"Memory" = "Memoria";
+"Graphics" = "Graficos";
+"Disk" = "Disco";
+"Close" = "Cerrar";
+"Download" = "Descargar";
+"Install" = "Intalar";
+"Cancel" = "Cancelar";
+"Unavailable" = "No disponible";
+"Yes" = "Si";
+"No" = "No";
+
+// Alerts
+"New version available" = "Nueva versión disponible";
+"Click to install the new version of Stats" = "Haga click para instalar la nueva versión de Stats";
+"Successfully updated" = "Actualiuzación completada con éxito";
+"Stats was updated to v" = "Stats se ha actualizado a v%0";
+
+// Settings
+"Open Activity Monitor" = "Abre Activity Monitor";
+"Report a bug" = "Reportar un error";
+"Close application" = "Cierra la aplicación";
+"Open application settings" = "Abre la aplicación configuración";
+"Open moduleName settings" = "Abre la configuración de %0";
+
+// Application settings
+"Update application" = "Actualiza la aplicación";
+"Check for updates" = "Busca actualizaciones";
+"Check for update" = "Buscar actualización";
+"Show icon in dock" = "Muestra el icono en el dock";
+"Start at login" = "Arrancar al inicio";
+
+// Update
+"The latest version of Stats installed" = "La última versión de Stats instalada";
+"Downloading..." = "Descargando...";
+"Current version: " = "Versión actual:  ";
+"Latest version: " = "Última versión:    ";
+
+// Widgets
+"Color" = "Color";
+"Label" = "Etiqueta";
+"Box" = "Caja";
+"Frame" = "Cuadro";
+"Value" = "Valor";
+"Colorize" = "Coloreado";
+"Colorize value" = "Valor coloreado";
+"Additional information" = "Información adicional";
+"Reverse values order" = "Invertir el order de los valores";
+"Base" = "Base";
+
+// Module Kit
+"Open module settings" = "Abre la configruación del módulo";
+"Select widget" = "Selecciona el widget %0";
+"Update interval" = "Intérvalo de actualización";
+"Usage history" = "Historial de uso";
+"Details" = "Detalles";
+"Top processes" = "Procesos principales";
+"Pictogram" = "Icono";
+
+// CPU
+"CPU usage" = "Uso de CPU";
+"CPU temperature" = "Temperatura del CPU";
+"CPU frequency" = "Frecuencia del CPU";
+"System" = "Sistema";
+"User" = "Usuario";
+"Idle" = "Libre";
+"Show usage per core" = "Muestra uso por núcleo";
+"Show hyper-threading cores" = "Muestra los núcleos hyper-threading";
+
+// GPU
+"GPU to show" = "GPU a mostrar";
+"GPU temperature" = "Temperatura de la GPU";
+"GPU utilization" = "Utilización de la GPU";
+
+// Memory
+"Memory usage" = "Uso de memoria";
+"Memory pressure" = "Presión de la memoria";
+"Total" = "Total";
+"Used" = "Usado";
+"App" = "App";
+"Wired" = "Física";
+"Compressed" = "Comprimida";
+"Free" = "Libre";
+
+// Disk
+"Show removable disks" = "Mostrar los discos extraíbles";
+"Used disk memory" = "Usado %0 de %1";
+"Disk to show" = "Disco a mostrar";
+
+// Sensors
+"Temperature unit" = "Unidad de temperatura";
+
+// Network
+"Uploading" = "Cargar";
+"Downloading" = "Descargar";
+"Public IP" = "IP Pública";
+"Local IP" = "IP Local";
+"Interface" = "Interfaz";
+"Network" = "Red";
+"Physical address" = "Dirección física";
+"Click to copy public IP address" = "Haga clic para copiar la dirección IP pública";
+"Click to copy local IP address" = "Haga clic para copiar la dirección IP local";
+"Click to copy wifi name" = "Haga clic para copiar el nombre del wifi";
+"Click to copy mac address" = "Haga clic para copiar la dirección mac";
+"No connection" = "Sin conexión";
+"Network interface" = "Interfaz de red";
+
+// Battery
+"Level" = "Nivel";
+"Source" = "Fuente";
+"Time" = "Tiempo";
+"Health" = "Salud";
+"Battery" = "Batería";
+"Amperage" = "Amperaje";
+"Voltage" = "Voltaje";
+"Temperature" = "Temperatura";
+"Power adapter" = "Adaptador de corriente";
+"Power" = "Corriente";
+"Is charging" = "Está cargando";
+"Time to discharge" = "Tiempo de descarga";
+"Time to charge" = "Tiempo de carga";
+"Calculating" = "Calculando";
+"Fully charged" = "Completamente cargada";
+"Not connected" = "No conectado";
+"Low level notification" = "Notificación de nivel bajo";
+"Low battery" = "Batería baja";
+"Battery remaining" = "%0% restante";
