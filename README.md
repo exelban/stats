@@ -34,6 +34,7 @@ Stats is an application that allows you to monitor your macOS system.
 
 ## Supporting languages
 - English
+- Spanish (thanks to [jcconca](https://github.com/jcconca))
 - Polski
 - Український
 - Русский
