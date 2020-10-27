@@ -14,7 +14,7 @@
 "Version" = "Versión";
 "Processor" = "Procesador";
 "Memory" = "Memoria";
-"Graphics" = "Graficos";
+"Graphics" = "Gráficos";
 "Disk" = "Disco";
 "Close" = "Cerrar";
 "Download" = "Descargar";
@@ -27,19 +27,19 @@
 // Alerts
 "New version available" = "Nueva versión disponible";
 "Click to install the new version of Stats" = "Haga click para instalar la nueva versión de Stats";
-"Successfully updated" = "Actualiuzación completada con éxito";
+"Successfully updated" = "Actualización completada con éxito";
 "Stats was updated to v" = "Stats se ha actualizado a v%0";
 
 // Settings
-"Open Activity Monitor" = "Abre Activity Monitor";
+"Open Activity Monitor" = "Abrir Activity Monitor";
 "Report a bug" = "Reportar un error";
-"Close application" = "Cierra la aplicación";
-"Open application settings" = "Abre la aplicación configuración";
-"Open moduleName settings" = "Abre la configuración de %0";
+"Close application" = "Cerrar la aplicación";
+"Open application settings" = "Abrir la aplicación de configuración";
+"Open moduleName settings" = "Abrir la configuración del módulo %0";
 
 // Application settings
 "Update application" = "Actualiza la aplicación";
-"Check for updates" = "Busca actualizaciones";
+"Check for updates" = "Buscar actualizaciones";
 "Check for update" = "Buscar actualización";
 "Show icon in dock" = "Muestra el icono en el dock";
 "Start at login" = "Arrancar al inicio";
@@ -63,8 +63,8 @@
 "Base" = "Base";
 
 // Module Kit
-"Open module settings" = "Abre la configruación del módulo";
-"Select widget" = "Selecciona el widget %0";
+"Open module settings" = "Abrir la configruación del módulo";
+"Select widget" = "Seleccionar el widget %0";
 "Update interval" = "Intérvalo de actualización";
 "Usage history" = "Historial de uso";
 "Details" = "Detalles";
@@ -78,8 +78,8 @@
 "System" = "Sistema";
 "User" = "Usuario";
 "Idle" = "Libre";
-"Show usage per core" = "Muestra uso por núcleo";
-"Show hyper-threading cores" = "Muestra los núcleos hyper-threading";
+"Show usage per core" = "Mostrar uso por núcleo";
+"Show hyper-threading cores" = "Mostrar los núcleos hyper-threading";
 
 // GPU
 "GPU to show" = "GPU a mostrar";
