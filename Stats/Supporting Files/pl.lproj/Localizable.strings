@@ -71,6 +71,9 @@
 "Top processes" = "Top procesy";
 "Pictogram" = "Ikonka";
 
+// Modules
+"Number of top processes" = "Liczba procesów";
+
 // CPU
 "CPU usage" = "Obciążenie procesora";
 "CPU temperature" = "Temperatura procesora";

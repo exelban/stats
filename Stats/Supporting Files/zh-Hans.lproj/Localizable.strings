@@ -71,6 +71,9 @@
 "Top processes" = "高占用进程";
 "Pictogram" = "标识";
 
+// Modules
+"Number of top processes" = "工序数";
+
 // CPU
 "CPU usage" = "CPU占用";
 "CPU temperature" = "CPU温度";
