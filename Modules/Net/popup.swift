@@ -14,13 +14,15 @@ import ModuleKit
 import StatsKit
 
 internal class Popup: NSView {
-    private var store: UnsafePointer<Store>? = nil
+    private var store: UnsafePointer<Store>
     private var title: String
     
+    private var grid: NSGridView? = nil
+    
     private let dashboardHeight: CGFloat = 90
-    private let chartHeight: CGFloat = 90
-    private let detailsHeight: CGFloat = 110
-    private let processesHeight: CGFloat = 22*5
+    private let chartHeight: CGFloat = 90 + Constants.Popup.separatorHeight
+    private let detailsHeight: CGFloat = 110 + Constants.Popup.separatorHeight
+    private let processHeight: CGFloat = 22
     
     private var dashboardView: NSView? = nil
     
@@ -50,11 +52,21 @@ internal class Popup: NSView {
     
     private var base: String {
         get {
-            return store?.pointee.string(key: "\(self.title)_base", defaultValue: "byte") ?? "byte"
+            return store.pointee.string(key: "\(self.title)_base", defaultValue: "byte")
+        }
+    }
+    private var numberOfProcesses: Int {
+        get {
+            return self.store.pointee.int(key: "\(self.title)_processes", defaultValue: 8)
+        }
+    }
+    private var processesHeight: CGFloat {
+        get {
+            return (self.processHeight*CGFloat(self.numberOfProcesses))+Constants.Popup.separatorHeight
         }
     }
     
-    public init(store: UnsafePointer<Store>?, title: String) {
+    public init(_ title: String, store: UnsafePointer<Store>) {
         self.store = store
         self.title = title
         
@@ -62,71 +74,107 @@ internal class Popup: NSView {
             x: 0,
             y: 0,
             width: Constants.Popup.width,
-            height: dashboardHeight + chartHeight + (Constants.Popup.separatorHeight*3) + detailsHeight + processesHeight
+            height: self.dashboardHeight + self.chartHeight + self.detailsHeight
         ))
+        self.setFrameSize(NSSize(width: self.frame.width, height: self.frame.height+self.processesHeight))
         
-        initDashboard()
-        initChart()
-        initDetails()
-        initProcesses()
+        let gridView: NSGridView = NSGridView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height))
+        gridView.rowSpacing = 0
+        gridView.yPlacement = .fill
+        
+        gridView.addRow(with: [self.initDashboard()])
+        gridView.addRow(with: [self.initChart()])
+        gridView.addRow(with: [self.initDetails()])
+        gridView.addRow(with: [self.initProcesses()])
+        
+        gridView.row(at: 0).height = self.dashboardHeight
+        gridView.row(at: 1).height = self.chartHeight
+        gridView.row(at: 2).height = self.detailsHeight
+        
+        self.addSubview(gridView)
+        self.grid = gridView
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func initDashboard() {
-        let view: NSView = NSView(frame: NSRect(x: 0, y: self.frame.height - self.dashboardHeight, width: self.frame.width, height: self.dashboardHeight))
+    public func numberOfProcessesUpdated() {
+        if self.processes.count == self.numberOfProcesses {
+            return
+        }
         
-        let leftPart: NSView = NSView(frame: NSRect(x: 0, y: 0, width: view.frame.width / 2, height: view.frame.height))
+        DispatchQueue.main.async(execute: {
+            self.processes = []
+            
+            let h: CGFloat = self.dashboardHeight + self.chartHeight + self.detailsHeight + self.processesHeight
+            self.setFrameSize(NSSize(width: self.frame.width, height: h))
+            
+            NotificationCenter.default.post(name: .updatePopupSize, object: nil, userInfo: ["module": self.title])
+            
+            self.grid?.setFrameSize(NSSize(width: self.frame.width, height: h))
+            
+            self.grid?.row(at: 3).cell(at: 0).contentView?.removeFromSuperview()
+            self.grid?.removeRow(at: 3)
+            self.grid?.addRow(with: [self.initProcesses()])
+            self.processesInitialized = false
+        })
+    }
+    
+    private func initDashboard() -> NSView {
+        let view: NSView = NSView(frame: NSRect(x: 0, y: self.frame.height - self.dashboardHeight, width: self.frame.width, height: self.dashboardHeight))
+        let container: NSView = NSView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: self.dashboardHeight))
+        
+        let leftPart: NSView = NSView(frame: NSRect(x: 0, y: 0, width: container.frame.width / 2, height: container.frame.height))
         let uploadFields = self.topValueView(leftPart, title: LocalizedString("Uploading"), color: NSColor.systemRed)
         self.uploadView = uploadFields.0
         self.uploadValueField = uploadFields.1
         self.uploadUnitField = uploadFields.2
         self.uploadStateView = uploadFields.3
         
-        let rightPart: NSView = NSView(frame: NSRect(x: view.frame.width / 2, y: 0, width: view.frame.width / 2, height: view.frame.height))
+        let rightPart: NSView = NSView(frame: NSRect(x: container.frame.width / 2, y: 0, width: container.frame.width / 2, height: container.frame.height))
         let downloadFields = self.topValueView(rightPart, title: LocalizedString("Downloading"), color: NSColor.systemBlue)
         self.downloadView = downloadFields.0
         self.downloadValueField = downloadFields.1
         self.downloadUnitField = downloadFields.2
         self.downloadStateView = downloadFields.3
         
-        view.addSubview(leftPart)
-        view.addSubview(rightPart)
-        self.addSubview(view)
-        self.dashboardView = view
+        container.addSubview(leftPart)
+        container.addSubview(rightPart)
+        
+        view.addSubview(container)
+        self.dashboardView = container
+        
+        return view
     }
     
-    private func initChart() {
-        let y: CGFloat = self.frame.height - self.dashboardHeight - Constants.Popup.separatorHeight
-        let separator = SeparatorView(LocalizedString("Usage history"), origin: NSPoint(x: 0, y: y), width: self.frame.width)
-        self.addSubview(separator)
+    private func initChart() -> NSView {
+        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.chartHeight))
+        let separator = SeparatorView(LocalizedString("Usage history"), origin: NSPoint(x: 0, y: self.chartHeight-Constants.Popup.separatorHeight), width: self.frame.width)
+        let container: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: separator.frame.origin.y))
+        container.wantsLayer = true
+        container.layer?.backgroundColor = NSColor.lightGray.withAlphaComponent(0.1).cgColor
+        container.layer?.cornerRadius = 3
         
-        let view: NSView = NSView(frame: NSRect(x: 0, y: y -  self.chartHeight, width: self.frame.width, height: self.chartHeight))
-        view.wantsLayer = true
-        view.layer?.backgroundColor = NSColor.lightGray.withAlphaComponent(0.1).cgColor
-        view.layer?.cornerRadius = 3
+        self.chart = NetworkChartView(frame: NSRect(x: 1, y: 0, width: container.frame.width, height: container.frame.height), num: 120)
+        container.addSubview(self.chart!)
         
-        self.chart = NetworkChartView(frame: NSRect(x: 1, y: 0, width: view.frame.width, height: view.frame.height), num: 120)
+        view.addSubview(separator)
+        view.addSubview(container)
         
-        view.addSubview(self.chart!)
-        
-        self.addSubview(view)
+        return view
     }
     
-    private func initDetails() {
-        let y: CGFloat = self.frame.height - self.dashboardHeight - self.chartHeight - (Constants.Popup.separatorHeight*2)
-        let separator = SeparatorView(LocalizedString("Details"), origin: NSPoint(x: 0, y: y), width: self.frame.width)
-        self.addSubview(separator)
+    private func initDetails() -> NSView {
+        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.detailsHeight))
+        let separator = SeparatorView(LocalizedString("Details"), origin: NSPoint(x: 0, y: self.detailsHeight-Constants.Popup.separatorHeight), width: self.frame.width)
+        let container: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: separator.frame.origin.y))
         
-        let view: NSView = NSView(frame: NSRect(x: 0, y: separator.frame.origin.y - self.detailsHeight, width: self.frame.width, height: self.detailsHeight))
-        
-        self.publicIPField = PopupRow(view, n: 4, title: "\(LocalizedString("Public IP")):", value: "")
-        self.localIPField = PopupRow(view, n: 3, title: "\(LocalizedString("Local IP")):", value: "")
-        self.interfaceField = PopupRow(view, n: 2, title: "\(LocalizedString("Interface")):", value: "")
-        self.ssidField = PopupRow(view, n: 1, title: "\(LocalizedString("Network")):", value: "")
-        self.macAdressField = PopupRow(view, n: 0, title: "\(LocalizedString("Physical address")):", value: "")
+        self.publicIPField = PopupRow(container, n: 4, title: "\(LocalizedString("Public IP")):", value: "")
+        self.localIPField = PopupRow(container, n: 3, title: "\(LocalizedString("Local IP")):", value: "")
+        self.interfaceField = PopupRow(container, n: 2, title: "\(LocalizedString("Interface")):", value: "")
+        self.ssidField = PopupRow(container, n: 1, title: "\(LocalizedString("Network")):", value: "")
+        self.macAdressField = PopupRow(container, n: 0, title: "\(LocalizedString("Physical address")):", value: "")
         
         self.publicIPField?.addTracking()
         self.localIPField?.addTracking()
@@ -143,24 +191,27 @@ internal class Popup: NSView {
         self.ssidField?.isSelectable = true
         self.macAdressField?.isSelectable = true
         
-        self.addSubview(view)
+        view.addSubview(separator)
+        view.addSubview(container)
+        
+        return view
     }
     
-    private func initProcesses() {
-        let separator = SeparatorView(LocalizedString("Top processes"), origin: NSPoint(x: 0, y: self.processesHeight), width: self.frame.width)
-        self.addSubview(separator)
-        
+    private func initProcesses() -> NSView {
         let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.processesHeight))
+        let separator = SeparatorView(LocalizedString("Top processes"), origin: NSPoint(x: 0, y: self.processesHeight-Constants.Popup.separatorHeight), width: self.frame.width)
+        let container: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: separator.frame.origin.y))
         
-        self.processes.append(NetworkProcessView(0))
-        self.processes.append(NetworkProcessView(1))
-        self.processes.append(NetworkProcessView(2))
-        self.processes.append(NetworkProcessView(3))
-        self.processes.append(NetworkProcessView(4))
+        for i in 0...self.numberOfProcesses {
+            let processView = NetworkProcessView(CGFloat(i))
+            self.processes.append(processView)
+            container.addSubview(processView)
+        }
         
-        self.processes.forEach{ view.addSubview($0) }
+        view.addSubview(separator)
+        view.addSubview(container)
         
-        self.addSubview(view)
+        return view
     }
     
     private func topValueView(_ view: NSView, title: String, color: NSColor) -> (NSView, NSTextField, NSTextField, ColorView) {

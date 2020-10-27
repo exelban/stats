@@ -194,7 +194,21 @@ internal class UsageReader: Reader<Network_Usage> {
 }
 
 public class ProcessReader: Reader<[Network_Process]> {
+    private let store: UnsafePointer<Store>
+    private let title: String
     private var previous: [Network_Process] = []
+    
+    private var numberOfProcesses: Int {
+        get {
+            return self.store.pointee.int(key: "\(self.title)_processes", defaultValue: 8)
+        }
+    }
+    
+    init(_ title: String, store: UnsafePointer<Store>) {
+        self.title = title
+        self.store = store
+        super.init()
+    }
     
     public override func setup() {
         self.popup = true
@@ -301,6 +315,6 @@ public class ProcessReader: Reader<[Network_Process]> {
             }
         }
         
-        self.callback(processes.suffix(5).reversed())
+        self.callback(processes.suffix(self.numberOfProcesses).reversed())
     }
 }
