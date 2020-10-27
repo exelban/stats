@@ -105,8 +105,8 @@
 "Temperature unit" = "Unidad de temperatura";
 
 // Network
-"Uploading" = "Cargar";
-"Downloading" = "Descargar";
+"Uploading" = "Subiendo";
+"Downloading" = "Descargando";
 "Public IP" = "IP Pública";
 "Local IP" = "IP Local";
 "Interface" = "Interfaz";
@@ -131,8 +131,8 @@
 "Power adapter" = "Adaptador de corriente";
 "Power" = "Corriente";
 "Is charging" = "Está cargando";
-"Time to discharge" = "Tiempo de descarga";
-"Time to charge" = "Tiempo de carga";
+"Time to discharge" = "Tiempo restante";
+"Time to charge" = "Tiempo para carga completa";
 "Calculating" = "Calculando";
 "Fully charged" = "Completamente cargada";
 "Not connected" = "No conectado";
