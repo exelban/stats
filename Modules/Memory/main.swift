@@ -60,7 +60,9 @@ public class Memory: Module {
         
         self.settingsView.callbackWhenUpdateNumberOfProcesses = {
             self.popupView.numberOfProcessesUpdated()
-            self.processReader?.read()
+            DispatchQueue.global(qos: .background).async {
+                self.processReader?.read()
+            }
         }
         
         self.usageReader?.readyCallback = { [unowned self] in

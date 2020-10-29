@@ -71,7 +71,9 @@ public class CPU: Module {
         }
         self.settingsView.callbackWhenUpdateNumberOfProcesses = {
             self.popupView.numberOfProcessesUpdated()
-            self.processReader?.read()
+            DispatchQueue.global(qos: .background).async {
+                self.processReader?.read()
+            }
         }
         self.settingsView.setInterval = { [unowned self] value in
             self.loadReader?.setInterval(value)
