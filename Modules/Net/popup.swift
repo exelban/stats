@@ -334,7 +334,7 @@ internal class Popup: NSView {
     
     public func processCallback(_ list: [Network_Process]) {
         DispatchQueue.main.async(execute: {
-            if (self.window?.isVisible ?? false) {
+            if (self.window?.isVisible ?? false) || !self.processesInitialized {
                 for i in 0..<list.count {
                     let process = list[i]
                     let index = list.count-i-1
@@ -345,6 +345,8 @@ internal class Popup: NSView {
                         self.processes[index].icon = process.icon
                     }
                 }
+                
+                self.processesInitialized = true
             }
         })
     }
