@@ -23,6 +23,7 @@
 "Unavailable" = "不可用";
 "Yes" = "是";
 "No" = "否";
+"Automatic" = "自动";
 
 // Alerts
 "New version available" = "新版本可用";
@@ -61,6 +62,9 @@
 "Additional information" = "附加信息";
 "Reverse values order" = "数值反序";
 "Base" = "基础";
+"Display mode" = "显示模式";
+"One row" = "一排";
+"Two rows" = "两排";
 
 // Module Kit
 "Open module settings" = "打开模块设置";
@@ -105,7 +109,9 @@
 "Disk to show" = "显示的磁盘";
 
 // Sensors
-"Temperature unit" = "Temperature unit";
+"Temperature unit" = "温度单位";
+"Celsius" = "摄氏温度";
+"Fahrenheit" = "华氏温度";
 
 // Network
 "Uploading" = "上传";

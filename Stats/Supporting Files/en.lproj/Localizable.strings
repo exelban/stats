@@ -23,6 +23,7 @@
 "Unavailable" = "Unavailable";
 "Yes" = "Yes";
 "No" = "No";
+"Automatic" = "Automatic";
 
 // Alerts
 "New version available" = "New version available";
@@ -61,6 +62,9 @@
 "Additional information" = "Additional information";
 "Reverse values order" = "Reverse values order";
 "Base" = "Base";
+"Display mode" = "View mode";
+"One row" = "One row";
+"Two rows" = "Two rows";
 
 // Module Kit
 "Open module settings" = "Open module settings";
@@ -106,6 +110,8 @@
 
 // Sensors
 "Temperature unit" = "Temperature unit";
+"Celsius" = "Celsius";
+"Fahrenheit" = "Fahrenheit";
 
 // Network
 "Uploading" = "Upload";

@@ -23,6 +23,7 @@
 "Unavailable" = "사용할 수 없음";
 "Yes" = "예";
 "No" = "아니요";
+"Automatic" = "자동적 인";
 
 // Alerts
 "New version available" = "새로운 버전을 이용할 수 있습니다";
@@ -61,6 +62,9 @@
 "Additional information" = "추가 정보";
 "Reverse values order" = "값 순서 변경";
 "Base" = "Base";
+"Display mode" = "디스플레이 모드";
+"One row" = "한 줄";
+"Two rows" = "두 줄";
 
 // Module Kit
 "Open module settings" = "모듈 설정 열기";
@@ -106,6 +110,8 @@
 
 // Sensors
 "Temperature unit" = "온도 단위";
+"Celsius" = "섭씨";
+"Fahrenheit" = "화씨";
 
 // Network
 "Uploading" = "업로딩";

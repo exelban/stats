@@ -51,6 +51,13 @@ public let SpeedBase: [KeyValue_t] = [
     KeyValue_t(key: "byte", value: "Byte", additional: DataSizeBase.byte)
 ]
 
+public let SensorsWidgetMode: [KeyValue_t] = [
+    KeyValue_t(key: "automatic", value: "Automatic"),
+    KeyValue_t(key: "separator", value: "separator"),
+    KeyValue_t(key: "oneRow", value: "One row"),
+    KeyValue_t(key: "twoRows", value: "Two rows"),
+]
+
 public let ReaderUpdateIntervals: [Int] = [1, 2, 3, 5, 10, 15, 30]
 public let NumbersOfProcesses: [Int] = [3, 5, 8, 10, 15]
 

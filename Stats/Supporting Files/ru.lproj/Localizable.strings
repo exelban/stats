@@ -23,6 +23,7 @@
 "Unavailable" = "Недоступно";
 "Yes" = "Да";
 "No" = "Нет";
+"Automatic" = "Автоматический";
 
 // Alerts
 "New version available" = "Доступна новая версия";
@@ -61,6 +62,9 @@
 "Additional information" = "Дополнительная информация";
 "Reverse values order" = "Изменить порядок сортировки";
 "Base" = "Основа";
+"Display mode" = "Режим отображения";
+"One row" = "Один ряд";
+"Two rows" = "Два ряда";
 
 // Module Kit
 "Open module settings" = "Открыть настройки модуля";
@@ -106,6 +110,8 @@
 
 // Sensors
 "Temperature unit" = "Единица измерения температуры";
+"Celsius" = "Цельсия";
+"Fahrenheit" = "Фаренгейта";
 
 // Network
 "Uploading" = "Висилання";

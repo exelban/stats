@@ -23,6 +23,7 @@
 "Unavailable" = "不可用";
 "Yes" = "是";
 "No" = "否";
+"Automatic" = "自動";
 
 // Alerts
 "New version available" = "新版本可用";
@@ -60,6 +61,9 @@
 "Additional information" = "附加資訊";
 "Reverse values order" = "上下顛倒數值";
 "Base" = "基本";
+"Display mode" = "顯示模式";
+"One row" = "一排";
+"Two rows" = "兩排";
 
 // Module Kit
 "Open module settings" = "打開 module 設定";
@@ -102,6 +106,8 @@
 
 // Sensors
 "Temperature unit" = "溫度單位";
+"Celsius" = "攝氏溫度";
+"Fahrenheit" = "華氏溫度";
 
 // Network
 "Uploading" = "上傳";

@@ -23,6 +23,7 @@
 "Unavailable" = "No disponible";
 "Yes" = "Si";
 "No" = "No";
+"Automatic" = "Automático";
 
 // Alerts
 "New version available" = "Nueva versión disponible";
@@ -61,6 +62,9 @@
 "Additional information" = "Información adicional";
 "Reverse values order" = "Invertir el order de los valores";
 "Base" = "Base";
+"Display mode" = "Modo de visualización";
+"One row" = "Una fila";
+"Two rows" = "Dos filas";
 
 // Module Kit
 "Open module settings" = "Abrir la configruación del módulo";
@@ -103,6 +107,8 @@
 
 // Sensors
 "Temperature unit" = "Unidad de temperatura";
+"Celsius" = "Celsius";
+"Fahrenheit" = "Fahrenheit";
 
 // Network
 "Uploading" = "Subiendo";

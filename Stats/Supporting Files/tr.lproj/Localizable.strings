@@ -23,6 +23,7 @@
 "Unavailable" = "Devre Dışı";
 "Yes" = "Evet";
 "No" = "Hayır";
+"Automatic" = "Otomatik";
 
 // Alerts
 "New version available" = "Yeni versiyon indirilebilir";
@@ -61,6 +62,9 @@
 "Additional information" = "Ek bilgi";
 "Reverse values order" = "Değerler sırasını tersine çevir";
 "Base" = "Temel";
+"Display mode" = "Ekran modu";
+"One row" = "Bir sıra";
+"Two rows" = "İki sıra";
 
 // Module Kit
 "Open module settings" = "Modül ayarlarını aç";
@@ -106,6 +110,8 @@
 
 // Sensors
 "Temperature unit" = "Sıcaklık birimi";
+"Celsius" = "Santigrat";
+"Fahrenheit" = "Fahrenheit";
 
 // Network
 "Uploading" = "Yükleme";

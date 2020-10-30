@@ -23,6 +23,7 @@
 "Unavailable" = "Nicht verfügbar";
 "Yes" = "Ja";
 "No" = "Nein";
+"Automatic" = "Automatisch";
 
 // Alerts
 "New version available" = "Neue Version verfügbar";
@@ -61,6 +62,9 @@
 "Additional information" = "Zusätzliche Informationen";
 "Reverse values order" = "Umgekehrte Reihenfolge der Werte";
 "Base" = "Basis";
+"Display mode" = "Anzeigemodus";
+"One row" = "Eine reihe";
+"Two rows" = "Zwei reihen";
 
 // Module Kit
 "Open module settings" = "Module Einstellungen öffnen";
@@ -106,6 +110,8 @@
 
 // Sensors
 "Temperature unit" = "Temperatureinheit";
+"Celsius" = "Celsius";
+"Fahrenheit" = "Fahrenheit";
 
 // Network
 "Uploading" = "Upload";

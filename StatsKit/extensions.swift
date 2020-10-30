@@ -360,7 +360,7 @@ public extension NSView {
             if item.key.contains("separator") {
                 menu.addItem(NSMenuItem.separator())
             } else {
-                let interfaceMenu = NSMenuItem(title: item.value, action: nil, keyEquivalent: "")
+                let interfaceMenu = NSMenuItem(title: LocalizedString(item.value), action: nil, keyEquivalent: "")
                 interfaceMenu.representedObject = item.key
                 menu.addItem(interfaceMenu)
                 if selected == item.key {
