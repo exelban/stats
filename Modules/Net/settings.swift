@@ -15,7 +15,10 @@ import ModuleKit
 import SystemConfiguration
 
 internal class Settings: NSView, Settings_v {
+    private var numberOfProcesses: Int = 8
+    
     public var callback: (() -> Void) = {}
+    public var callbackWhenUpdateNumberOfProcesses: (() -> Void) = {}
     
     private let title: String
     private let store: UnsafePointer<Store>
@@ -26,6 +29,7 @@ internal class Settings: NSView, Settings_v {
     public init(_ title: String, store: UnsafePointer<Store>) {
         self.title = title
         self.store = store
+        self.numberOfProcesses = store.pointee.int(key: "\(self.title)_processes", defaultValue: self.numberOfProcesses)
         
         super.init(frame: CGRect(
             x: 0,
@@ -41,7 +45,6 @@ internal class Settings: NSView, Settings_v {
             }
         }
         
-        self.wantsLayer = true
         self.canDrawConcurrently = true
     }
     
@@ -52,9 +55,20 @@ internal class Settings: NSView, Settings_v {
     public func load(widget: widget_t) {
         self.subviews.forEach{ $0.removeFromSuperview() }
         
+        let rowHeight: CGFloat = 30
+        let num: CGFloat = 1
+        
         self.addNetworkSelector()
         
-        self.setFrameSize(NSSize(width: self.frame.width, height: 30 + (Constants.Settings.margin*2)))
+        self.addSubview(SelectTitleRow(
+            frame: NSRect(x: Constants.Settings.margin, y: rowHeight + (Constants.Settings.margin*2), width: self.frame.width - (Constants.Settings.margin*2), height: 30),
+            title: LocalizedString("Number of top processes"),
+            action: #selector(changeNumberOfProcesses),
+            items: NumbersOfProcesses.map{ "\($0)" },
+            selected: "\(self.numberOfProcesses)"
+        ))
+        
+        self.setFrameSize(NSSize(width: self.frame.width, height: (rowHeight*(num+1)) + (Constants.Settings.margin*(2+num))))
     }
     
     private func addNetworkSelector() {
@@ -107,5 +121,13 @@ internal class Settings: NSView, Settings_v {
         }
         
         self.callback()
+    }
+    
+    @objc private func changeNumberOfProcesses(_ sender: NSMenuItem) {
+        if let value = Int(sender.title) {
+            self.numberOfProcesses = value
+            self.store.pointee.set(key: "\(self.title)_processes", value: value)
+            self.callbackWhenUpdateNumberOfProcesses()
+        }
     }
 }

@@ -279,7 +279,10 @@ open class Module: Module_p {
             self?.widgetWidthHandler(value)
         }
         
-        self.readers.forEach{ $0.read() }
+        DispatchQueue.global(qos: .background).async {
+            self.readers.forEach{ $0.read() }
+        }
+        
         if let mainReader = self.readers.first(where: { !$0.optional }) {
             self.widget?.setValues(mainReader.getHistory())
         }

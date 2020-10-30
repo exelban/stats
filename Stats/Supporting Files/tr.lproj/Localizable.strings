@@ -71,6 +71,9 @@
 "Top processes" = "İşlemler";
 "Pictogram" = "Piktogram";
 
+// Modules
+"Number of top processes" = "İşlem sayısı";
+
 // CPU
 "CPU usage" = "CPU kullanımı";
 "CPU temperature" = "CPU sıcaklığı";

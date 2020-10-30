@@ -42,7 +42,7 @@ struct Battery_Usage: value_t {
 public class Battery: Module {
     private var usageReader: UsageReader? = nil
     private var processReader: ProcessReader? = nil
-    private let popupView: Popup = Popup()
+    private let popupView: Popup
     private var settingsView: Settings
     
     private let store: UnsafePointer<Store>
@@ -52,6 +52,7 @@ public class Battery: Module {
     public init(_ store: UnsafePointer<Store>) {
         self.store = store
         self.settingsView = Settings("Battery", store: store)
+        self.popupView = Popup("Battery", store: store)
         
         super.init(
             store: store,
@@ -61,7 +62,14 @@ public class Battery: Module {
         guard self.available else { return }
         
         self.usageReader = UsageReader()
-        self.processReader = ProcessReader()
+        self.processReader = ProcessReader(self.config.name, store: store)
+        
+        self.settingsView.callbackWhenUpdateNumberOfProcesses = {
+            self.popupView.numberOfProcessesUpdated()
+            DispatchQueue.global(qos: .background).async {
+                self.processReader?.read()
+            }
+        }
         
         self.usageReader?.readyCallback = { [unowned self] in
             self.readyHandler()

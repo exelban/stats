@@ -16,11 +16,13 @@ import SystemConfiguration
 
 internal class Settings: NSView, Settings_v {
     public var callback: (() -> Void) = {}
+    public var callbackWhenUpdateNumberOfProcesses: (() -> Void) = {}
     
     private let title: String
     private let store: UnsafePointer<Store>
     private var button: NSPopUpButton?
     
+    private var numberOfProcesses: Int = 8
     private let levelsList: [String] = ["Disabled", "0.03", "0.05", "0.1", "0.15", "0.2", "0.25", "0.3", "0.4", "0.5"]
     private var lowLevelNotification: String {
         get {
@@ -31,6 +33,7 @@ internal class Settings: NSView, Settings_v {
     public init(_ title: String, store: UnsafePointer<Store>) {
         self.title = title
         self.store = store
+        self.numberOfProcesses = store.pointee.int(key: "\(self.title)_processes", defaultValue: self.numberOfProcesses)
         
         super.init(frame: CGRect(
             x: 0,
@@ -39,7 +42,6 @@ internal class Settings: NSView, Settings_v {
             height: 0
         ))
         
-        self.wantsLayer = true
         self.canDrawConcurrently = true
     }
     
@@ -62,7 +64,7 @@ internal class Settings: NSView, Settings_v {
         self.addSubview(SelectTitleRow(
             frame: NSRect(
                 x:Constants.Settings.margin,
-                y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * 0,
+                y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * 1,
                 width: self.frame.width - (Constants.Settings.margin*2),
                 height: rowHeight
             ),
@@ -70,6 +72,19 @@ internal class Settings: NSView, Settings_v {
             action: #selector(changeUpdateInterval),
             items: levels,
             selected: self.lowLevelNotification == "Disabled" ? self.lowLevelNotification : "\(Int((Double(self.lowLevelNotification) ?? 0)*100))%"
+        ))
+        
+        self.addSubview(SelectTitleRow(
+            frame: NSRect(
+                x:Constants.Settings.margin,
+                y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * 0,
+                width: self.frame.width - (Constants.Settings.margin*2),
+                height: rowHeight
+            ),
+            title: LocalizedString("Number of top processes"),
+            action: #selector(changeNumberOfProcesses),
+            items: NumbersOfProcesses.map{ "\($0)" },
+            selected: "\(self.numberOfProcesses)"
         ))
         
         self.setFrameSize(NSSize(width: self.frame.width, height: 30 + (Constants.Settings.margin*2)))
@@ -80,6 +95,14 @@ internal class Settings: NSView, Settings_v {
             store.pointee.set(key: "\(self.title)_lowLevelNotification", value: sender.title)
         } else if let value = Double(sender.title.replacingOccurrences(of: "%", with: "")) {
             store.pointee.set(key: "\(self.title)_lowLevelNotification", value: "\(value/100)")
+        }
+    }
+    
+    @objc private func changeNumberOfProcesses(_ sender: NSMenuItem) {
+        if let value = Int(sender.title) {
+            self.numberOfProcesses = value
+            self.store.pointee.set(key: "\(self.title)_processes", value: value)
+            self.callbackWhenUpdateNumberOfProcesses()
         }
     }
 }

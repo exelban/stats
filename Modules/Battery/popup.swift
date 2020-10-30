@@ -14,11 +14,16 @@ import ModuleKit
 import StatsKit
 
 internal class Popup: NSView {
+    private var store: UnsafePointer<Store>
+    private var title: String
+    
+    private var grid: NSGridView? = nil
+    
     private let dashboardHeight: CGFloat = 90
-    private let detailsHeight: CGFloat = 88
-    private let batteryHeight: CGFloat = 66
-    private let adapterHeight: CGFloat = 44
-    private let processesHeight: CGFloat = 22*5
+    private let detailsHeight: CGFloat = 88 + Constants.Popup.separatorHeight
+    private let batteryHeight: CGFloat = 66 + Constants.Popup.separatorHeight
+    private let adapterHeight: CGFloat = 44 + Constants.Popup.separatorHeight
+    private let processHeight: CGFloat = 22
     
     private var dashboardView: NSView? = nil
     private var dashboardBatteryView: BatteryView? = nil
@@ -42,54 +47,152 @@ internal class Popup: NSView {
     private var processes: [ProcessView] = []
     private var processesInitialized: Bool = false
     
-    public init() {
+    private var numberOfProcesses: Int {
+        get {
+            return self.store.pointee.int(key: "\(self.title)_processes", defaultValue: 8)
+        }
+    }
+    private var processesHeight: CGFloat {
+        get {
+            return (self.processHeight*CGFloat(self.numberOfProcesses))+Constants.Popup.separatorHeight
+        }
+    }
+    
+    public init(_ title: String, store: UnsafePointer<Store>) {
+        self.store = store
+        self.title = title
+        
         super.init(frame: NSRect(
             x: 0,
             y: 0,
             width: Constants.Popup.width,
-            height: dashboardHeight + detailsHeight + batteryHeight + adapterHeight + (Constants.Popup.separatorHeight * 4) + processesHeight
+            height: self.dashboardHeight + self.detailsHeight + self.batteryHeight + self.adapterHeight
         ))
+        self.setFrameSize(NSSize(width: self.frame.width, height: self.frame.height+self.processesHeight))
         
-        self.initDashboard()
-        self.initDetails()
-        self.initBattery()
-        self.initAdapter()
-        self.initProcesses()
+        let gridView: NSGridView = NSGridView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height))
+        gridView.rowSpacing = 0
+        gridView.yPlacement = .fill
+        
+        gridView.addRow(with: [self.initDashboard()])
+        gridView.addRow(with: [self.initDetails()])
+        gridView.addRow(with: [self.initBattery()])
+        gridView.addRow(with: [self.initAdapter()])
+        gridView.addRow(with: [self.initProcesses()])
+        
+        gridView.row(at: 0).height = self.dashboardHeight
+        gridView.row(at: 1).height = self.detailsHeight
+        gridView.row(at: 2).height = self.batteryHeight
+        gridView.row(at: 3).height = self.adapterHeight
+        
+        self.addSubview(gridView)
+        self.grid = gridView
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func initDashboard() {
-        let view: NSView = NSView(frame: NSRect(x: 0, y: self.frame.height - self.dashboardHeight, width: self.frame.width, height: self.dashboardHeight))
+    public func numberOfProcessesUpdated() {
+        if self.processes.count == self.numberOfProcesses {
+            return
+        }
         
-        let batteryView: BatteryView = BatteryView(frame: NSRect(x: Constants.Popup.margins, y: Constants.Popup.margins, width: view.frame.width - (Constants.Popup.margins*2), height: view.frame.height - (Constants.Popup.margins*2)))
-        view.addSubview(batteryView)
-        
-        self.addSubview(view)
-        self.dashboardView = view
-        self.dashboardBatteryView = batteryView
+        DispatchQueue.main.async(execute: {
+            self.processes = []
+            
+            let h: CGFloat = self.dashboardHeight + self.detailsHeight + self.batteryHeight + self.adapterHeight + self.processesHeight
+            self.setFrameSize(NSSize(width: self.frame.width, height: h))
+            
+            NotificationCenter.default.post(name: .updatePopupSize, object: nil, userInfo: ["module": self.title])
+            
+            self.grid?.setFrameSize(NSSize(width: self.frame.width, height: h))
+            
+            self.grid?.row(at: 4).cell(at: 0).contentView?.removeFromSuperview()
+            self.grid?.removeRow(at: 4)
+            self.grid?.addRow(with: [self.initProcesses()])
+            self.processesInitialized = false
+        })
     }
     
-    private func initDetails() {
-        let y: CGFloat = self.dashboardView!.frame.origin.y - Constants.Popup.separatorHeight
-        let separator = SeparatorView(LocalizedString("Details"), origin: NSPoint(x: 0, y: y), width: self.frame.width)
-        self.addSubview(separator)
+    private func initDashboard() -> NSView {
+        let view: NSView = NSView(frame: NSRect(x: 0, y: self.frame.height - self.dashboardHeight, width: self.frame.width, height: self.dashboardHeight))
+        let container: NSView = NSView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: self.dashboardHeight))
         
-        let view: NSView = NSView(frame: NSRect(x: 0, y: separator.frame.origin.y - self.detailsHeight, width: self.frame.width, height: self.detailsHeight))
+        self.dashboardBatteryView = BatteryView(frame: NSRect(x: Constants.Popup.margins, y: Constants.Popup.margins, width: view.frame.width - (Constants.Popup.margins*2), height: view.frame.height - (Constants.Popup.margins*2)))
+        container.addSubview(self.dashboardBatteryView!)
         
-        self.levelField = PopupRow(view, n: 3, title: "\(LocalizedString("Level")):", value: "")
-        self.sourceField = PopupRow(view, n: 2, title: "\(LocalizedString("Source")):", value: "")
-        let t = self.labelValue(view, n: 1, title: "\(LocalizedString("Time")):", value: "")
+        view.addSubview(container)
+        
+        return view
+    }
+    
+    private func initDetails() -> NSView {
+        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.detailsHeight))
+        let separator = SeparatorView(LocalizedString("Details"), origin: NSPoint(x: 0, y: self.detailsHeight-Constants.Popup.separatorHeight), width: self.frame.width)
+        let container: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: separator.frame.origin.y))
+        
+        self.levelField = PopupRow(container, n: 3, title: "\(LocalizedString("Level")):", value: "")
+        self.sourceField = PopupRow(container, n: 2, title: "\(LocalizedString("Source")):", value: "")
+        let t = self.labelValue(container, n: 1, title: "\(LocalizedString("Time")):", value: "")
         self.timeLabelField = t.0
         self.timeField = t.1
-        self.healthField = PopupRow(view, n: 0, title: "\(LocalizedString("Health")):", value: "")
+        self.healthField = PopupRow(container, n: 0, title: "\(LocalizedString("Health")):", value: "")
         
-        self.addSubview(view)
-        self.detailsView = view
+        view.addSubview(separator)
+        view.addSubview(container)
+        
+        return view
     }
-
+    
+    private func initBattery() -> NSView {
+        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.batteryHeight))
+        let separator = SeparatorView(LocalizedString("Battery"), origin: NSPoint(x: 0, y: self.batteryHeight-Constants.Popup.separatorHeight), width: self.frame.width)
+        let container: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: separator.frame.origin.y))
+        
+        self.amperageField = PopupRow(container, n: 2, title: "\(LocalizedString("Amperage")):", value: "")
+        self.voltageField = PopupRow(container, n: 1, title: "\(LocalizedString("Voltage")):", value: "")
+        self.temperatureField = PopupRow(container, n: 0, title: "\(LocalizedString("Temperature")):", value: "")
+        
+        view.addSubview(separator)
+        view.addSubview(container)
+        
+        return view
+    }
+    
+    private func initAdapter() -> NSView {
+        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.adapterHeight))
+        let separator = SeparatorView(LocalizedString("Power adapter"), origin: NSPoint(x: 0, y: self.adapterHeight-Constants.Popup.separatorHeight), width: self.frame.width)
+        let container: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: separator.frame.origin.y))
+        
+        self.powerField = PopupRow(container, n: 1, title: "\(LocalizedString("Power")):", value: "")
+        self.chargingStateField = PopupRow(container, n: 0, title: "\(LocalizedString("Is charging")):", value: "")
+        
+        self.adapterView = view
+        
+        view.addSubview(separator)
+        view.addSubview(container)
+        
+        return view
+    }
+    
+    private func initProcesses() -> NSView {
+        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.processesHeight))
+        let separator = SeparatorView(LocalizedString("Top processes"), origin: NSPoint(x: 0, y: self.processesHeight-Constants.Popup.separatorHeight), width: self.frame.width)
+        let container: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: separator.frame.origin.y))
+        
+        for i in 0...self.numberOfProcesses {
+            let processView = ProcessView(CGFloat(i))
+            self.processes.append(processView)
+            container.addSubview(processView)
+        }
+        
+        view.addSubview(separator)
+        view.addSubview(container)
+        
+        return view
+    }
+    
     private func labelValue(_ view: NSView, n: CGFloat, title: String, value: String) -> (NSTextField, NSTextField) {
         let rowView: NSView = NSView(frame: NSRect(x: 0, y: 22*n, width: view.frame.width, height: 22))
         
@@ -101,52 +204,6 @@ internal class Popup: NSView {
         view.addSubview(rowView)
         
         return (labelView, valueView)
-    }
-    
-    private func initBattery() {
-        let y: CGFloat = self.detailsView!.frame.origin.y - Constants.Popup.separatorHeight
-        let separator = SeparatorView(LocalizedString("Battery"), origin: NSPoint(x: 0, y: y), width: self.frame.width)
-        self.addSubview(separator)
-        
-        let view: NSView = NSView(frame: NSRect(x: 0, y: separator.frame.origin.y - self.batteryHeight, width: self.frame.width, height: self.batteryHeight))
-        
-        self.amperageField = PopupRow(view, n: 2, title: "\(LocalizedString("Amperage")):", value: "")
-        self.voltageField = PopupRow(view, n: 1, title: "\(LocalizedString("Voltage")):", value: "")
-        self.temperatureField = PopupRow(view, n: 0, title: "\(LocalizedString("Temperature")):", value: "")
-        
-        self.addSubview(view)
-        self.batteryView = view
-    }
-    
-    private func initAdapter() {
-        let y: CGFloat = self.batteryView!.frame.origin.y - Constants.Popup.separatorHeight
-        let separator = SeparatorView(LocalizedString("Power adapter"), origin: NSPoint(x: 0, y: y), width: self.frame.width)
-        self.addSubview(separator)
-        
-        let view: NSView = NSView(frame: NSRect(x: 0, y: separator.frame.origin.y - self.adapterHeight, width: self.frame.width, height: self.adapterHeight))
-        
-        self.powerField = PopupRow(view, n: 1, title: "\(LocalizedString("Power")):", value: "")
-        self.chargingStateField = PopupRow(view, n: 0, title: "\(LocalizedString("Is charging")):", value: "")
-        
-        self.addSubview(view)
-        self.adapterView = view
-    }
-    
-    private func initProcesses() {
-        let separator = SeparatorView(LocalizedString("Top processes"), origin: NSPoint(x: 0, y: self.processesHeight), width: self.frame.width)
-        self.addSubview(separator)
-        
-        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.processesHeight))
-        
-        self.processes.append(ProcessView(0))
-        self.processes.append(ProcessView(1))
-        self.processes.append(ProcessView(2))
-        self.processes.append(ProcessView(3))
-        self.processes.append(ProcessView(4))
-        
-        self.processes.forEach{ view.addSubview($0) }
-        
-        self.addSubview(view)
     }
     
     public func usageCallback(_ value: Battery_Usage) {

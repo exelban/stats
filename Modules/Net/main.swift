@@ -67,14 +67,15 @@ public struct Network_Process {
 }
 
 public class Network: Module {
+    private var popupView: Popup
+    private var settingsView: Settings
+    
     private var usageReader: UsageReader? = nil
     private var processReader: ProcessReader? = nil
-    private var popupView: Popup? = nil
-    private var settingsView: Settings
     
     public init(_ store: UnsafePointer<Store>) {
         self.settingsView = Settings("Network", store: store)
-        self.popupView = Popup(store: store, title: "Network")
+        self.popupView = Popup("Network", store: store)
         
         super.init(
             store: store,
@@ -86,7 +87,14 @@ public class Network: Module {
         self.usageReader = UsageReader()
         self.usageReader?.store = store
         
-        self.processReader = ProcessReader()
+        self.processReader = ProcessReader(self.config.name, store: store)
+        
+        self.settingsView.callbackWhenUpdateNumberOfProcesses = {
+            self.popupView.numberOfProcessesUpdated()
+            DispatchQueue.global(qos: .background).async {
+                self.processReader?.read()
+            }
+        }
         
         self.usageReader?.readyCallback = { [unowned self] in
             self.readyHandler()
@@ -97,7 +105,7 @@ public class Network: Module {
         
         self.processReader?.callbackHandler = { [unowned self] value in
             if let list = value {
-                self.popupView?.processCallback(list)
+                self.popupView.processCallback(list)
             }
         }
         
@@ -129,7 +137,7 @@ public class Network: Module {
             return
         }
         
-        self.popupView?.usageCallback(value!)
+        self.popupView.usageCallback(value!)
         if let widget = self.widget as? SpeedWidget {
             widget.setValue(upload: value!.upload, download: value!.download)
         }

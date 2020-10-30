@@ -143,6 +143,21 @@ public class ProcessReader: Reader<[TopProcess]> {
     private var task: Process? = nil
     private var initialized: Bool = false
     
+    private let store: UnsafePointer<Store>
+    private let title: String
+    
+    private var numberOfProcesses: Int {
+        get {
+            return self.store.pointee.int(key: "\(self.title)_processes", defaultValue: 8)
+        }
+    }
+    
+    init(_ title: String, store: UnsafePointer<Store>) {
+        self.title = title
+        self.store = store
+        super.init()
+    }
+    
     public override func setup() {
         self.popup = true
     }
@@ -162,7 +177,7 @@ public class ProcessReader: Reader<[TopProcess]> {
             
             self.task?.standardOutput = pipe
             self.task?.launchPath = "/usr/bin/top"
-            self.task?.arguments = ["-o", "power", "-n", "5", "-stats", "pid,command,power"]
+            self.task?.arguments = ["-o", "power", "-n", "\(self.numberOfProcesses)", "-stats", "pid,command,power"]
             
             pipe.fileHandleForReading.readabilityHandler = { (fileHandle) -> Void in
                 let output = String(decoding: fileHandle.availableData, as: UTF8.self)
@@ -214,7 +229,7 @@ public class ProcessReader: Reader<[TopProcess]> {
     public override func read() {
         let task = Process()
         task.launchPath = "/usr/bin/top"
-        task.arguments = ["-l", "1", "-o", "power", "-n", "5", "-stats", "pid,command,power"]
+        task.arguments = ["-l", "1", "-o", "power", "-n", "\(self.numberOfProcesses)", "-stats", "pid,command,power"]
         
         let outputPipe = Pipe()
         let errorPipe = Pipe()

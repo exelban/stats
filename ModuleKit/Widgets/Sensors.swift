@@ -83,7 +83,7 @@ public class SensorsWidget: Widget {
                     font = NSFont.monospacedSystemFont(ofSize: 9, weight: .light)
                 }
                 let style = NSMutableParagraphStyle()
-                style.alignment = .center
+                style.alignment = .right
                 
                 let firstRowWidth = self.values[i*2].value.widthOfString(usingFont: font)
                 let secondRowWidth = self.values[(i*2)+1].value.widthOfString(usingFont: font)
@@ -100,7 +100,6 @@ public class SensorsWidget: Widget {
                     
                     paddingLeft = iconSize + (Constants.Widget.margin*3)
                     width += paddingLeft
-                    style.alignment = .right
                 }
                 
                 let attributes = [

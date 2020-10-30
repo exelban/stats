@@ -71,6 +71,9 @@
 "Top processes" = "Топ процесів";
 "Pictogram" = "Піктограма";
 
+// Modules
+"Number of top processes" = "Кількість процесів";
+
 // CPU
 "CPU usage" = "Використання процесора";
 "CPU temperature" = "Температура процесора";

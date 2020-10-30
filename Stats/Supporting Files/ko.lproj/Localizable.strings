@@ -71,6 +71,9 @@
 "Top processes" = "상위 프로세스";
 "Pictogram" = "픽토그램";
 
+// Modules
+"Number of top processes" = "프로세스 수";
+
 // CPU
 "CPU usage" = "CPU 사용량";
 "CPU temperature" = "CPU 온도";
