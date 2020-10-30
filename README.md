@@ -31,6 +31,7 @@ Stats is an application that allows you to monitor your macOS system.
  - Sensors information (Temperature/Voltage/Power)
  - Battery level
  - Network usage
+ - Fans speed
 
 ## Supporting languages
 - English
@@ -41,7 +42,8 @@ Stats is an application that allows you to monitor your macOS system.
 - Türkçe (thanks to [yusufozgul](https://github.com/yusufozgul))
 - Korean (thanks to [escapeanaemia](https://github.com/escapeanaemia))
 - German (thanks to [natterstefan](https://github.com/natterstefan))
-- 中文(繁體)
+- 中文 (繁體) (thanks to [iamch15542](https://github.com/iamch15542))
+- Spanish (thanks to [jcconca](https://github.com/jcconca))
 
 You can help by adding a new language.
 
