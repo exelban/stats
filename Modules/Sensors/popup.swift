@@ -52,7 +52,7 @@ internal class Popup: NSView {
             
             let height: CGFloat = CGFloat((22*filtered.count)) + Constants.Popup.separatorHeight
             let view: NSView = NSView(frame: NSRect(x: 0, y: y, width: self.frame.width, height: height))
-            let separator = SeparatorView(typ, origin: NSPoint(x: 0, y: view.frame.height - Constants.Popup.separatorHeight), width: self.frame.width)
+            let separator = SeparatorView(LocalizedString(typ), origin: NSPoint(x: 0, y: view.frame.height - Constants.Popup.separatorHeight), width: self.frame.width)
             view.addSubview(separator)
             
             var i: CGFloat = 0

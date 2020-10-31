@@ -250,7 +250,7 @@ public class AdditionalReader: Reader<CPU_additional> {
             self.data.frequency = readFrequency.pointee
         }
         
-        self.data.temperature = self.smc?.pointee.getValue("TC0C") ?? self.smc?.pointee.getValue("TC0D") ?? self.smc?.pointee.getValue("TC0P") ?? self.smc?.pointee.getValue("TC0E")
+        self.data.temperature = self.smc?.pointee.getValue("TC0C") ?? self.smc?.pointee.getValue("TC0D") ?? self.smc?.pointee.getValue("TC0P") ?? self.smc?.pointee.getValue("TC0E") ?? self.smc?.pointee.getValue("TC0F")
         
         self.callback(self.data)
     }

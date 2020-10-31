@@ -10,7 +10,7 @@
 //
 
 // Words
-"Unknown" = "Unknown";
+"Unknown" = "Nieznany";
 "Version" = "Wersja";
 "Processor" = "Procesor";
 "Memory" = "Pamięć";
@@ -142,7 +142,7 @@
 "Voltage" = "Napięcie";
 "Temperature" = "Termaratura";
 "Power adapter" = "Zasilacz";
-"Power" = "Status";
+"Power" = "Moc";
 "Is charging" = "Ładuje";
 "Time to discharge" = "Czas do rozładowania";
 "Time to charge" = "Czas do naładowania";

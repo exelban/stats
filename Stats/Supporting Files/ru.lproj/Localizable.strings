@@ -142,7 +142,7 @@
 "Voltage" = "Напряжение";
 "Temperature" = "Температура";
 "Power adapter" = "Блок питания";
-"Power" = "Статус";
+"Power" = "Мощность";
 "Is charging" = "Заряжается";
 "Time to discharge" = "Время до разрядки";
 "Time to charge" = "Время до зарядки";
