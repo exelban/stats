@@ -1,0 +1,154 @@
+//
+//  Localizable.strings
+//  Stats
+//
+//  Created by Serhiy Mytrovtsiy on 27/08/2020.
+//  Using Swift 5.0.
+//  Running on macOS 10.15.
+//
+//  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
+//
+
+// Words
+"Unknown" = "Không xác định";
+"Version" = "Phiên bản";
+"Processor" = "Bộ xử lý";
+"Memory" = "Bộ nhớ";
+"Graphics" = "Đồ họa";
+"Disk" = "Ổ Đĩa";
+"Close" = "Đóng";
+"Download" = "Tải Xuống";
+"Install" = "Cài đặt";
+"Cancel" = "Huỷ";
+"Unavailable" = "Không sẵn có";
+"Yes" = "Có";
+"No" = "Không";
+"Automatic" = "Tự động";
+"None" = "Không có";
+"Dots" = "Dấu chấm";
+"Arrows" = "Mũi tên";
+"Characters" = "Ký tự";
+
+// Alerts
+"New version available" = "Phiên bản mới có sẵn";
+"Click to install the new version of Stats" = "Nhấn vào đây để cài đặt phiên bản mới của Stats";
+"Successfully updated" = "Đã cập nhật thành công";
+"Stats was updated to v" = "Stats đã được cập nhật lên v%0";
+
+// Settings
+"Open Activity Monitor" = "Mở trình Giám sát hoạt động";
+"Report a bug" = "Báo cáo một lỗi";
+"Close application" = "Đóng ứng dụng";
+"Open application settings" = "Mở cài đặt ứng dụng";
+"Open moduleName settings" = "Mở cài đặt %0";
+
+// Application settings
+"Update application" = "Cập nhật ứng dụng";
+"Check for updates" = "Kiểm tra các cập nhật";
+"Check for update" = "Kiểm tra cập nhật";
+"Show icon in dock" = "Hiện icon trong Dock";
+"Start at login" = "Khởi động lúc đăng nhập";
+
+// Update
+"The latest version of Stats installed" = "Phiên bản Stats mới nhất đã được cài đặt";
+"Downloading..." = "Đang tải xuống...";
+"Current version: " = "Phiên bản hiện tại:  ";
+"Latest version: " = "Bản mới nhất:    ";
+
+// Widgets
+"Color" = "Màu";
+"Label" = "Nhãn";
+"Box" = "Hộp";
+"Frame" = "Khung";
+"Value" = "Giá trị";
+"Colorize" = "Tô màu";
+"Colorize value" = "Tô màu cho giá trị";
+"Additional information" = "Thông tin thêm";
+"Reverse values order" = "Đảo ngược thứ tự giá trị";
+"Base" = "Cơ bản";
+"Display mode" = "Chế độ xem";
+"One row" = "Một hàng";
+"Two rows" = "Hai hàng";
+
+// Module Kit
+"Open module settings" = "Mở cài đặt module";
+"Select widget" = "Chọn tiện ích %0";
+"Update interval" = "Thời gian làm mới";
+"Usage history" = "Lịch sử sử dụng";
+"Details" = "Chi tiết";
+"Top processes" = "Top tiến trình";
+"Pictogram" = "Tượng hình";
+
+// Modules
+"Number of top processes" = "Số lượn top tiến trình";
+
+// CPU
+"CPU usage" = "Sử dụng CPU";
+"CPU temperature" = "Nhiệt độ CPU";
+"CPU frequency" = "Tần số CPU";
+"System" = "Hệ thống";
+"User" = "Người Dùng";
+"Idle" = "Đang rỗi";
+"Show usage per core" = "Hiển thị mức sử dụng trên mỗi lõi";
+"Show hyper-threading cores" = "Hiển thị các lõi siêu phân luồng";
+
+// GPU
+"GPU to show" = "GPU để hiển thị";
+"GPU temperature" = "Nhiệt độ GPU";
+"GPU utilization" = "Sử dụng GPU";
+
+// Memory
+"Memory usage" = "Sử dụng Bộ nhớ";
+"Memory pressure" = "Áp lực bộ nhớ";
+"Total" = "Tổng";
+"Used" = "Đã dùng";
+"App" = "Ứng dụng";
+"Wired" = "Tính toán (hệ thống)";
+"Compressed" = "Đã nén";
+"Free" = "Còn Trống";
+
+// Disk
+"Show removable disks" = "Hiển thị các đĩa rời";
+"Used disk memory" = "Đã dùng %0 trong tổng %1";
+"Disk to show" = "Đĩa hiển thị";
+
+// Sensors
+"Temperature unit" = "Đơn vị nhiệt độ";
+"Celsius" = "Độ C";
+"Fahrenheit" = "Độ F";
+
+// Network
+"Uploading" = "Tải lên";
+"Downloading" = "Tải xuống";
+"Public IP" = "IP công cộng";
+"Local IP" = "IP cục bộ";
+"Interface" = "Giao diện mạng";
+"Network" = "Tên mạng";
+"Physical address" = "Địa chỉ vật lý (MAC)";
+"Click to copy public IP address" = "Nhấp để copy IP công cộng";
+"Click to copy local IP address" = "Nhấp để copy IP cục bộ";
+"Click to copy wifi name" = "Nhấp để copy tên WIFI";
+"Click to copy mac address" = "Nhấp để copy MAC";
+"No connection" = "Không có kết nối";
+"Network interface" = "Giao diện mạng";
+
+// Battery
+"Level" = "Dung lượng Pin";
+"Source" = "Nguồn";
+"Time" = "Thời gian";
+"Health" = "Sức khoẻ";
+"Battery" = "PIN";
+"Amperage" = "Cường độ dòng điện";
+"Voltage" = "Điện áp";
+"Temperature" = "Nhiệt độ";
+"Power adapter" = "Bộ sạc";
+"Power" = "Công suất";
+"Is charging" = "Đâng sạc";
+"Time to discharge" = "Thời gian xả";
+"Time to charge" = "Thời gian sạc";
+"Calculating" = "Đang tính";
+"Fully charged" = "Đã sạc đầy";
+"Not connected" = "Không kết nối";
+"Low level notification" = "Thông báo PIN yếu";
+"Low battery" = "Pin yếu";
+"Battery remaining" = "%0% còn lại";
