@@ -24,6 +24,10 @@
 "Yes" = "Ja";
 "No" = "Nein";
 "Automatic" = "Automatisch";
+"None" = "Keiner";
+"Dots" = "Punkte";
+"Arrows" = "Pfeile";
+"Characters" = "Briefe";
 
 // Alerts
 "New version available" = "Neue Version verfügbar";

@@ -24,6 +24,10 @@
 "Yes" = "Так";
 "No" = "Ні";
 "Automatic" = "Автоматичний";
+"None" = "Ніяка";
+"Dots" = "Пункти";
+"Arrows" = "Стрілки";
+"Characters" = "Літери";
 
 // Alerts
 "New version available" = "Доступна нова версія";

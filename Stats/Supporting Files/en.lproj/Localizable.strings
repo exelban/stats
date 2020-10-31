@@ -24,6 +24,10 @@
 "Yes" = "Yes";
 "No" = "No";
 "Automatic" = "Automatic";
+"None" = "None";
+"Dots" = "Dots";
+"Arrows" = "Arrows";
+"Characters" = "Character";
 
 // Alerts
 "New version available" = "New version available";

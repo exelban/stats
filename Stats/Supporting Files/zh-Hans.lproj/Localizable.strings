@@ -24,6 +24,10 @@
 "Yes" = "是";
 "No" = "否";
 "Automatic" = "自动";
+"None" = "没有";
+"Dots" = "点";
+"Arrows" = "箭";
+"Characters" = "字母";
 
 // Alerts
 "New version available" = "新版本可用";

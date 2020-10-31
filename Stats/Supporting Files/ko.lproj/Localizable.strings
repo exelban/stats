@@ -24,6 +24,10 @@
 "Yes" = "예";
 "No" = "아니요";
 "Automatic" = "자동적 인";
+"None" = "없음";
+"Dots" = "도트";
+"Arrows" = "화살";
+"Characters" = "편지";
 
 // Alerts
 "New version available" = "새로운 버전을 이용할 수 있습니다";

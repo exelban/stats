@@ -24,6 +24,10 @@
 "Yes" = "Evet";
 "No" = "Hayır";
 "Automatic" = "Otomatik";
+"None" = "Yok";
+"Dots" = "Noktalar";
+"Arrows" = "Oklar";
+"Characters" = "Mektuplar";
 
 // Alerts
 "New version available" = "Yeni versiyon indirilebilir";

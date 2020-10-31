@@ -58,6 +58,14 @@ public let SensorsWidgetMode: [KeyValue_t] = [
     KeyValue_t(key: "twoRows", value: "Two rows"),
 ]
 
+public let SpeedPictogram: [KeyValue_t] = [
+    KeyValue_t(key: "none", value: "None"),
+    KeyValue_t(key: "separator", value: "separator"),
+    KeyValue_t(key: "dots", value: "Dots"),
+    KeyValue_t(key: "arrows", value: "Arrows"),
+    KeyValue_t(key: "chars", value: "Characters"),
+]
+
 public let ReaderUpdateIntervals: [Int] = [1, 2, 3, 5, 10, 15, 30]
 public let NumbersOfProcesses: [Int] = [3, 5, 8, 10, 15]
 

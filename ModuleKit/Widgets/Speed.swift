@@ -12,17 +12,8 @@
 import Cocoa
 import StatsKit
 
-public enum speed_icon_t: String {
-    case none = "None"
-    case separator = "separator"
-    case dot = "Dots"
-    case arrow = "Arrows"
-    case char = "Character"
-}
-extension speed_icon_t: CaseIterable {}
-
 public class SpeedWidget: Widget {
-    private var icon: speed_icon_t = .dot
+    private var icon: String = "dots"
     private var state: Bool = false
     private var valueState: Bool = true
     private var baseValue: String = "byte"
@@ -45,7 +36,7 @@ public class SpeedWidget: Widget {
             if let symbols = config!["Symbols"] as? [String] {
                 self.symbols = symbols
             }
-            if let iconName = config!["Icon"] as? String, let icon = speed_icon_t(rawValue: iconName) {
+            if let icon = config!["Icon"] as? String {
                 self.icon = icon
             }
         }
@@ -57,11 +48,11 @@ public class SpeedWidget: Widget {
         
         if self.store != nil {
             self.valueState = store!.pointee.bool(key: "\(self.title)_\(self.type.rawValue)_value", defaultValue: self.valueState)
-            self.icon = speed_icon_t(rawValue: store!.pointee.string(key: "\(self.title)_\(self.type.rawValue)_icon", defaultValue: self.icon.rawValue)) ?? self.icon
-            self.baseValue = store!.pointee.string(key: "\(self.title)_base", defaultValue: self.baseValue)
+            self.icon = store!.pointee.string(key: "\(self.title)_\(self.type.rawValue)_icon", defaultValue: self.baseValue)
+            self.baseValue = store!.pointee.string(key: "\(self.title)_\(self.type.rawValue)_base", defaultValue: self.baseValue)
         }
         
-        if self.valueState && self.icon != .none {
+        if self.valueState && self.icon != "none" {
             self.state = true
         }
         
@@ -82,11 +73,11 @@ public class SpeedWidget: Widget {
         var x: CGFloat = 10
         
         switch self.icon {
-        case .dot:
+        case "dots":
             self.drawDots(dirtyRect)
-        case .arrow:
+        case "arrows":
             self.drawArrows(dirtyRect)
-        case .char:
+        case "chars":
             self.drawChars(dirtyRect)
         default:
             x = 0
@@ -220,12 +211,12 @@ public class SpeedWidget: Widget {
             height: superview.frame.height - (Constants.Settings.margin*2)
         ))
         
-        view.addSubview(SelectTitleRow(
+        view.addSubview(SelectRow(
             frame: NSRect(x: 0, y: (rowHeight+Constants.Settings.margin) * 2, width: view.frame.width, height: rowHeight),
             title: LocalizedString("Pictogram"),
             action: #selector(toggleIcon),
-            items: speed_icon_t.allCases.map{ return $0.rawValue },
-            selected: self.icon.rawValue
+            items: SpeedPictogram,
+            selected: self.icon
         ))
         
         view.addSubview(SelectRow(
@@ -254,7 +245,7 @@ public class SpeedWidget: Widget {
             state = sender is NSButton ? (sender as! NSButton).state: nil
         }
         self.valueState = state! == .on ? true : false
-        self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_value", value: self.valueState)
+        self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_\(self.type.rawValue)_value", value: self.valueState)
         self.display()
         
         if !self.valueState && self.icon == .none {
@@ -267,12 +258,14 @@ public class SpeedWidget: Widget {
     }
     
     @objc private func toggleIcon(_ sender: NSMenuItem) {
-        let newIcon: speed_icon_t = speed_icon_t(rawValue: sender.title) ?? .none
-        self.icon = newIcon
-        self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_icon", value: self.icon.rawValue)
+        guard let key = sender.representedObject as? String else {
+            return
+        }
+        self.icon = key
+        self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_icon", value: key)
         self.display()
         
-        if !self.valueState && self.icon == .none {
+        if !self.valueState && self.icon == "none" {
             NotificationCenter.default.post(name: .toggleModule, object: nil, userInfo: ["module": self.title, "state": false])
             self.state = false
         } else if !self.state {
@@ -286,7 +279,7 @@ public class SpeedWidget: Widget {
             return
         }
         self.baseValue = key
-        self.store?.pointee.set(key: "\(self.title)_base", value: self.baseValue)
+        self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_base", value: self.baseValue)
     }
     
     public func setValue(upload: Int64, download: Int64) {
