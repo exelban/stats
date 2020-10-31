@@ -28,6 +28,8 @@
 "Dots" = "Noktalar";
 "Arrows" = "Oklar";
 "Characters" = "Mektuplar";
+"Short" = "Kısa";
+"Long" = "Uzun";
 
 // Alerts
 "New version available" = "Yeni versiyon indirilebilir";
@@ -152,3 +154,7 @@
 "Low level notification" = "Düşük güç bildirimi";
 "Low battery" = "Düşük batarya";
 "Battery remaining" = "%0% kaldı";
+"Percentage" = "Yüzde";
+"Percentage and time" = "Yüzde ve zaman";
+"Time and percentage" = "Zaman ve yüzde";
+"Time format" = "Zaman formatı";
