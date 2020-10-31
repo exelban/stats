@@ -174,6 +174,10 @@ internal class PopupView: NSView {
                     x: self?.header.frame.origin.x ?? 0,
                     y: (self?.body.frame.height ?? 0) + (Constants.Popup.margins*2)
                 ))
+                
+                if let documentView = self?.body.documentView {
+                    documentView.scroll(NSPoint(x: 0, y: documentView.bounds.size.height))
+                }
             }
         }
     }
