@@ -13,9 +13,11 @@ import Cocoa
 import StatsKit
 import ModuleKit
 
-internal class Popup: NSView {
+internal class Popup: NSView, Popup_p {
     private var list: [String: GPUView] = [:]
     private let gpuViewHeight: CGFloat = 162
+    
+    public var sizeCallback: ((NSSize) -> Void)? = nil
     
     public init() {
         super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: 0))
@@ -51,7 +53,7 @@ internal class Popup: NSView {
             let h: CGFloat = ((self.gpuViewHeight + Constants.Popup.margins) * CGFloat(self.list.count)) - Constants.Popup.margins
             if self.frame.size.height != h {
                 self.setFrameSize(NSSize(width: self.frame.width, height: h))
-                NotificationCenter.default.post(name: .updatePopupSize, object: nil, userInfo: ["module": "GPU"])
+                self.sizeCallback?(self.frame.size)
             }
         })
     }

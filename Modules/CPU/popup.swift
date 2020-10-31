@@ -13,7 +13,7 @@ import Cocoa
 import ModuleKit
 import StatsKit
 
-internal class Popup: NSView {
+internal class Popup: NSView, Popup_p {
     private var store: UnsafePointer<Store>
     private var title: String
     
@@ -40,6 +40,8 @@ internal class Popup: NSView {
     
     private var processes: [ProcessView] = []
     private var maxFreq: Double = 0
+    
+    public var sizeCallback: ((NSSize) -> Void)? = nil
     
     private var numberOfProcesses: Int {
         get {
@@ -100,14 +102,14 @@ internal class Popup: NSView {
             let h: CGFloat = self.dashboardHeight + self.chartHeight + self.detailsHeight + self.processesHeight
             self.setFrameSize(NSSize(width: self.frame.width, height: h))
             
-            NotificationCenter.default.post(name: .updatePopupSize, object: nil, userInfo: ["module": self.title])
-            
             self.grid?.setFrameSize(NSSize(width: self.frame.width, height: h))
             
             self.grid?.row(at: 3).cell(at: 0).contentView?.removeFromSuperview()
             self.grid?.removeRow(at: 3)
             self.grid?.addRow(with: [self.initProcesses()])
             self.processesInitialized = false
+            
+            self.sizeCallback?(self.frame.size)
         })
     }
     

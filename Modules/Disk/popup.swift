@@ -13,9 +13,11 @@ import Cocoa
 import ModuleKit
 import StatsKit
 
-internal class Popup: NSView {
+internal class Popup: NSView, Popup_p {
     let diskFullHeight: CGFloat = 60
     var list: [String: DiskView] = [:]
+    
+    public var sizeCallback: ((NSSize) -> Void)? = nil
     
     public init() {
         super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: 0))
@@ -54,7 +56,7 @@ internal class Popup: NSView {
             let h: CGFloat = ((self.diskFullHeight + Constants.Popup.margins) * CGFloat(self.list.count)) - Constants.Popup.margins
             if self.frame.size.height != h {
                 self.setFrameSize(NSSize(width: self.frame.width, height: h))
-                NotificationCenter.default.post(name: .updatePopupSize, object: nil, userInfo: ["module": "Disk"])
+                self.sizeCallback?(self.frame.size)
             }
         })
     }

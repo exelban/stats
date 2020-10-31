@@ -78,7 +78,7 @@ open class Module: Module_p {
     
     private var settingsView: Settings_v? = nil
     private var popup: NSWindow = NSWindow()
-    private var popupView: NSView? = nil
+    private var popupView: Popup_p? = nil
     
     private let log: OSLog
     private var store: UnsafePointer<Store>
@@ -94,7 +94,7 @@ open class Module: Module_p {
     private var ready: Bool = false
     private var widgetLoaded: Bool = false
     
-    public init(store: UnsafePointer<Store>, popup: NSView?, settings: Settings_v?) {
+    public init(store: UnsafePointer<Store>, popup: Popup_p?, settings: Settings_v?) {
         self.config = module_c(in: Bundle(for: type(of: self)).path(forResource: "config", ofType: "plist")!)
         
         self.log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: self.config.name)
@@ -122,7 +122,6 @@ open class Module: Module_p {
         NotificationCenter.default.addObserver(self, selector: #selector(listenForWidgetSwitch), name: .switchWidget, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(listenForMouseDownInSettings), name: .clickInSettings, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(listenForModuleToggle), name: .toggleModule, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(listenChangingPopupSize), name: .updatePopupSize, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(listenResignActive), name: NSApplication.willResignActiveNotification, object: nil)
         
         if self.config.widgetsConfig.count != 0 {
@@ -242,7 +241,7 @@ open class Module: Module_p {
     }
     
     // replace a popup view
-    public func replacePopup(_ view: NSView) {
+    public func replacePopup(_ view: Popup_p) {
         self.popup.setIsVisible(false)
         self.popupView = view
         self.popup = PopupWindow(title: self.config.name, view: self.popupView, visibilityCallback: self.visibilityCallback)
@@ -370,14 +369,6 @@ open class Module: Module_p {
     @objc private func listenForMouseDownInSettings(_ notification: Notification) {
         if self.popup.isVisible {
             self.popup.setIsVisible(false)
-        }
-    }
-    
-    @objc private func listenChangingPopupSize(_ notification: Notification) {
-        if let moduleName = notification.userInfo?["module"] as? String, moduleName == self.config.name {
-            if self.popup.isVisible {
-                self.popup.setIsVisible(false)
-            }
         }
     }
     

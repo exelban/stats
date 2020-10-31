@@ -645,3 +645,59 @@ public func SysctlByName(_ name: String) -> Int64 {
     
     return num
 }
+
+public class ProcessView: NSView {
+    public var width: CGFloat {
+        get { return 0 }
+        set {
+            self.setFrameSize(NSSize(width: newValue, height: self.frame.height))
+        }
+    }
+    
+    public var icon: NSImage? {
+        get { return NSImage() }
+        set {
+            self.imageView?.image = newValue
+        }
+    }
+    public var label: String {
+        get { return "" }
+        set {
+            self.labelView?.stringValue = newValue
+        }
+    }
+    public var value: String {
+        get { return "" }
+        set {
+            self.valueView?.stringValue = newValue
+        }
+    }
+    
+    private var imageView: NSImageView? = nil
+    private var labelView: LabelField? = nil
+    private var valueView: ValueField? = nil
+    
+    public init(_ n: CGFloat) {
+        super.init(frame: NSRect(x: 0, y: n*22, width: 264, height: 16))
+        
+        let rowView: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 16))
+        
+        let imageView: NSImageView = NSImageView(frame: NSRect(x: 2, y: 2, width: 12, height: 12))
+        let labelView: LabelField = LabelField(frame: NSRect(x: 18, y: 0.5, width: rowView.frame.width - 70 - 18, height: 15), "")
+        let valueView: ValueField = ValueField(frame: NSRect(x: 18 + labelView.frame.width, y: 0, width: 70, height: 16), "")
+        
+        rowView.addSubview(imageView)
+        rowView.addSubview(labelView)
+        rowView.addSubview(valueView)
+        
+        self.imageView = imageView
+        self.labelView = labelView
+        self.valueView = valueView
+        
+        self.addSubview(rowView)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}

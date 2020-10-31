@@ -13,8 +13,10 @@ import Cocoa
 import ModuleKit
 import StatsKit
 
-internal class Popup: NSView {
+internal class Popup: NSView, Popup_p {
     private var list: [Int: FanView] = [:]
+    
+    public var sizeCallback: ((NSSize) -> Void)? = nil
     
     public init() {
         super.init(frame: NSRect( x: 0, y: 0, width: Constants.Popup.width, height: 0))

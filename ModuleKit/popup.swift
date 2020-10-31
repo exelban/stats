@@ -12,10 +12,14 @@
 import Cocoa
 import StatsKit
 
+public protocol Popup_p: NSView {
+    var sizeCallback: ((NSSize) -> Void)? { get set }
+}
+
 internal class PopupWindow: NSPanel {
     private let viewController: PopupViewController = PopupViewController()
     
-    init(title: String, view: NSView?, visibilityCallback: @escaping (_ state: Bool) -> Void) {
+    init(title: String, view: Popup_p?, visibilityCallback: @escaping (_ state: Bool) -> Void) {
         self.viewController.setup(title: title, view: view)
         self.viewController.visibilityCallback = visibilityCallback
         
@@ -45,7 +49,12 @@ internal class PopupViewController: NSViewController {
     private var popup: PopupView
     
     public init() {
-        self.popup = PopupView(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width + (Constants.Popup.margins * 2), height: Constants.Popup.height+Constants.Popup.headerHeight))
+        self.popup = PopupView(frame: NSRect(
+            x: 0,
+            y: 0,
+            width: Constants.Popup.width + (Constants.Popup.margins * 2),
+            height: Constants.Popup.height+Constants.Popup.headerHeight
+        ))
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -75,42 +84,51 @@ internal class PopupViewController: NSViewController {
         self.visibilityCallback(false)
     }
     
-    public func setup(title: String, view: NSView?) {
+    public func setup(title: String, view: Popup_p?) {
         self.title = title
-        self.popup.title = title
-        self.popup.headerView?.titleView?.stringValue = title
+        self.popup.setTitle(title)
         self.popup.setView(view)
     }
 }
 
 internal class PopupView: NSView {
-    public var headerView: HeaderView? = nil
-    public var title: String? = nil
-    private var mainView: NSView? = nil
+    private var title: String? = nil
+    
+    private let header: HeaderView
+    private let body: NSScrollView
     
     override var intrinsicContentSize: CGSize {
-        var h: CGFloat = self.mainView?.subviews.first?.frame.height ?? 0
-        if h != 0 {
-            h += Constants.Popup.margins*2
-        }
-        return CGSize(width: self.frame.size.width, height: h + Constants.Popup.headerHeight)
+        return CGSize(width: self.frame.width, height: self.frame.height)
     }
     
     override init(frame: NSRect) {
+        self.header = HeaderView(frame: NSRect(
+            x: 0,
+            y: frame.height - Constants.Popup.headerHeight,
+            width: frame.width,
+            height: Constants.Popup.headerHeight
+        ))
+        self.body = NSScrollView(frame: NSRect(
+            x: Constants.Popup.margins,
+            y: Constants.Popup.margins,
+            width: frame.width,
+            height: frame.height - self.header.frame.height - Constants.Popup.margins*2
+        ))
+        
         super.init(frame: CGRect(x: frame.origin.x, y: frame.origin.y, width: frame.width, height: frame.height))
+        
         self.wantsLayer = true
-        self.canDrawConcurrently = true
-        self.layer!.cornerRadius = 3
+        self.layer?.cornerRadius = 3
         
-        NotificationCenter.default.addObserver(self, selector: #selector(listenChangingPopupSize), name: .updatePopupSize, object: nil)
-        self.headerView = HeaderView(frame: NSRect(x: 0, y: frame.height - Constants.Popup.headerHeight, width: frame.width, height: Constants.Popup.headerHeight))
+        self.body.translatesAutoresizingMaskIntoConstraints = true
+        self.body.borderType = .noBorder
+        self.body.hasVerticalScroller = true
+        self.body.hasHorizontalScroller = false
+        self.body.autohidesScrollers = true
+        self.body.horizontalScrollElasticity = .none
         
-        let mainView: NSView = NSView(frame: NSRect(x: Constants.Popup.margins, y: Constants.Popup.margins, width: frame.width - (Constants.Popup.margins*2), height: 0))
-        
-        self.addSubview(self.headerView!)
-        self.addSubview(mainView)
-        
-        self.mainView = mainView
+        self.addSubview(self.header)
+        self.addSubview(self.body)
     }
     
     required init?(coder: NSCoder) {
@@ -118,53 +136,62 @@ internal class PopupView: NSView {
     }
     
     override func updateLayer() {
-        if self.mainView!.subviews.count != 0 {
-            if self.mainView?.frame.height != self.mainView!.subviews.first!.frame.size.height {
-                self.setHeight(self.mainView!.subviews.first!.frame.size)
-            }
-        }
         self.layer!.backgroundColor = self.isDarkMode ? NSColor.windowBackgroundColor.cgColor : NSColor.white.cgColor
     }
     
-    public func setView(_ view: NSView?) {
-        if view == nil {
-            self.setFrameSize(NSSize(width: Constants.Popup.width+(Constants.Popup.margins*2), height: Constants.Popup.headerHeight))
-            self.headerView?.setFrameOrigin(NSPoint(x: 0, y: 0))
-            return
-        }
+    public func setView(_ view: Popup_p?) {
+        let width: CGFloat = (view?.frame.width ?? Constants.Popup.width) + (Constants.Popup.margins*2)
+        let height: CGFloat = (view?.frame.height ?? 0) + Constants.Popup.headerHeight + (Constants.Popup.margins*2)
         
-        self.mainView?.addSubview(view!)
-        self.setHeight(view!.frame.size)
+        self.setFrameSize(NSSize(width: width, height: height))
+        self.header.setFrameOrigin(NSPoint(x: 0, y: height - Constants.Popup.headerHeight))
+        self.body.setFrameSize(NSSize(width: (view?.frame.width ?? Constants.Popup.width), height: (view?.frame.height ?? 0)))
+        
+        if let view = view {
+            self.body.documentView = view
+            
+            view.sizeCallback = { [weak self] size in
+                var isScrollVisible: Bool = false
+                var windowSize: NSSize = NSSize(
+                    width: size.width + (Constants.Popup.margins*2),
+                    height: size.height + Constants.Popup.headerHeight + (Constants.Popup.margins*2)
+                )
+                
+                if let screenHeight = NSScreen.main?.frame.height, windowSize.height > screenHeight {
+                    windowSize.height = screenHeight - Constants.Widget.height - 6
+                    isScrollVisible = true
+                }
+                if let screenWidth = NSScreen.main?.frame.width, windowSize.width > screenWidth {
+                    windowSize.width = screenWidth
+                }
+                
+                self?.window?.setContentSize(windowSize)
+                self?.body.setFrameSize(NSSize(
+                    width: windowSize.width - (Constants.Popup.margins*2) + (isScrollVisible ? 20 : 0),
+                    height: windowSize.height - Constants.Popup.headerHeight - (Constants.Popup.margins*2)
+                ))
+                self?.header.setFrameOrigin(NSPoint(
+                    x: self?.header.frame.origin.x ?? 0,
+                    y: (self?.body.frame.height ?? 0) + (Constants.Popup.margins*2)
+                ))
+            }
+        }
     }
     
-    private func setHeight(_ size: CGSize) {
-        DispatchQueue.main.async(execute: {
-            self.mainView?.setFrameSize(NSSize(width: self.mainView!.frame.width, height: size.height))
-            self.setFrameSize(NSSize(width: size.width + (Constants.Popup.margins*2), height: size.height + Constants.Popup.headerHeight + Constants.Popup.margins*2))
-            self.headerView?.setFrameOrigin(NSPoint(x: 0, y: self.frame.height - Constants.Popup.headerHeight))
-            
-            var frame = self.window?.frame
-            frame?.size = self.frame.size
-            self.window?.setFrame(frame!, display: true)
-        })
+    public func setTitle(_ newTitle: String) {
+        self.title = newTitle
+        self.header.setTitle(newTitle)
     }
     
     internal func appear() {
         self.display()
-        self.mainView?.subviews.first{ !($0 is HeaderView) }?.display()
+        self.body.subviews.first?.display()
     }
     internal func disappear() {}
-    
-    @objc private func listenChangingPopupSize(_ notification: Notification) {
-        if let moduleName = notification.userInfo?["module"] as? String, moduleName == self.title {
-            self.updateLayer()
-        }
-    }
 }
 
 internal class HeaderView: NSView {
-    public var titleView: NSTextField? = nil
-    
+    private var titleView: NSTextField? = nil
     private var activityButton: NSButton?
     private var settingsButton: NSButton?
     
@@ -237,6 +264,10 @@ internal class HeaderView: NSView {
         ))
     }
     
+    public func setTitle(_ newTitle: String) {
+        self.titleView?.stringValue = newTitle
+    }
+    
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         
@@ -288,61 +319,5 @@ internal class HeaderView: NSView {
             additionalEventParamDescriptor: nil,
             launchIdentifier: nil
         )
-    }
-}
-
-public class ProcessView: NSView {
-    public var width: CGFloat {
-        get { return 0 }
-        set {
-            self.setFrameSize(NSSize(width: newValue, height: self.frame.height))
-        }
-    }
-    
-    public var icon: NSImage? {
-        get { return NSImage() }
-        set {
-            self.imageView?.image = newValue
-        }
-    }
-    public var label: String {
-        get { return "" }
-        set {
-            self.labelView?.stringValue = newValue
-        }
-    }
-    public var value: String {
-        get { return "" }
-        set {
-            self.valueView?.stringValue = newValue
-        }
-    }
-    
-    private var imageView: NSImageView? = nil
-    private var labelView: LabelField? = nil
-    private var valueView: ValueField? = nil
-    
-    public init(_ n: CGFloat) {
-        super.init(frame: NSRect(x: 0, y: n*22, width: Constants.Popup.width, height: 16))
-        
-        let rowView: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 16))
-        
-        let imageView: NSImageView = NSImageView(frame: NSRect(x: 2, y: 2, width: 12, height: 12))
-        let labelView: LabelField = LabelField(frame: NSRect(x: 18, y: 0.5, width: rowView.frame.width - 70 - 18, height: 15), "")
-        let valueView: ValueField = ValueField(frame: NSRect(x: 18 + labelView.frame.width, y: 0, width: 70, height: 16), "")
-        
-        rowView.addSubview(imageView)
-        rowView.addSubview(labelView)
-        rowView.addSubview(valueView)
-        
-        self.imageView = imageView
-        self.labelView = labelView
-        self.valueView = valueView
-        
-        self.addSubview(rowView)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }

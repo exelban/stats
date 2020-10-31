@@ -13,8 +13,10 @@ import Cocoa
 import ModuleKit
 import StatsKit
 
-internal class Popup: NSView {
+internal class Popup: NSView, Popup_p {
     private var list: [String: NSTextField] = [:]
+    
+    public var sizeCallback: ((NSSize) -> Void)? = nil
     
     public init() {
         super.init(frame: NSRect( x: 0, y: 0, width: Constants.Popup.width, height: 0))
@@ -68,6 +70,7 @@ internal class Popup: NSView {
         }
         
         self.setFrameSize(NSSize(width: self.frame.width, height: y - Constants.Popup.margins))
+        self.sizeCallback?(self.frame.size)
     }
     
     internal func usageCallback(_ values: [Sensor_t]) {
