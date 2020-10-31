@@ -194,6 +194,11 @@ public extension Double {
     
     func printSecondsToHoursMinutesSeconds(short: Bool = false) -> String {
         let (h, m) = self.secondsToHoursMinutesSeconds()
+        
+        if self == 0 || h < 0 || m < 0 {
+            return "n/a"
+        }
+        
         let minutes = m > 9 ? "\(m)" : "0\(m)"
         
         if short {
