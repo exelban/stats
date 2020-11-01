@@ -66,6 +66,20 @@ public let SpeedPictogram: [KeyValue_t] = [
     KeyValue_t(key: "chars", value: "Characters"),
 ]
 
+public let BatteryAdditionals: [KeyValue_t] = [
+    KeyValue_t(key: "none", value: "None"),
+    KeyValue_t(key: "separator", value: "separator"),
+    KeyValue_t(key: "percentage", value: "Percentage"),
+    KeyValue_t(key: "time", value: "Time"),
+    KeyValue_t(key: "percentageAndTime", value: "Percentage and time"),
+    KeyValue_t(key: "timeAndPercentage", value: "Time and percentage"),
+]
+
+public let ShortLong: [KeyValue_t] = [
+    KeyValue_t(key: "short", value: "Short"),
+    KeyValue_t(key: "long", value: "Long"),
+]
+
 public let ReaderUpdateIntervals: [Int] = [1, 2, 3, 5, 10, 15, 30]
 public let NumbersOfProcesses: [Int] = [3, 5, 8, 10, 15]
 

@@ -57,6 +57,11 @@ internal class Popup: NSView, Popup_p {
             return (self.processHeight*CGFloat(self.numberOfProcesses))+Constants.Popup.separatorHeight
         }
     }
+    private var timeFormat: String {
+        get {
+            return self.store.pointee.string(key: "\(self.title)_timeFormat", defaultValue: "short")
+        }
+    }
     
     public var sizeCallback: ((NSSize) -> Void)? = nil
     
@@ -219,12 +224,12 @@ internal class Popup: NSView, Popup_p {
             if value.powerSource == "Battery Power" {
                 self.timeLabelField?.stringValue = "\(LocalizedString("Time to discharge")):"
                 if value.timeToEmpty != -1 && value.timeToEmpty != 0 {
-                    self.timeField?.stringValue = Double(value.timeToEmpty*60).printSecondsToHoursMinutesSeconds()
+                    self.timeField?.stringValue = Double(value.timeToEmpty*60).printSecondsToHoursMinutesSeconds(short: self.timeFormat == "short")
                 }
             } else {
                 self.timeLabelField?.stringValue = "\(LocalizedString("Time to charge")):"
                 if value.timeToCharge != -1 && value.timeToCharge != 0 {
-                    self.timeField?.stringValue = Double(value.timeToCharge*60).printSecondsToHoursMinutesSeconds()
+                    self.timeField?.stringValue = Double(value.timeToCharge*60).printSecondsToHoursMinutesSeconds(short: self.timeFormat == "short")
                 }
             }
             

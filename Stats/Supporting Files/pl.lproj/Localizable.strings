@@ -28,6 +28,8 @@
 "Dots" = "Punkty";
 "Arrows" = "Strzałki";
 "Characters" = "Litery";
+"Short" = "Krótki";
+"Long" = "Długi";
 
 // Alerts
 "New version available" = "Nowa wersja dostępna";
@@ -152,3 +154,7 @@
 "Low level notification" = "Powiadomienie o niskim poziomie";
 "Low battery" = "Niski poziom baterii";
 "Battery remaining" = "Pozostało %0%";
+"Percentage" = "Procenty";
+"Percentage and time" = "Procenty i czas";
+"Time and percentage" = "Czas i procenty";
+"Time format" = "Format czasu";

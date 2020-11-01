@@ -61,6 +61,7 @@ internal class Popup: NSView, Popup_p {
         self.addSubview(view)
         
         self.setFrameSize(NSSize(width: self.frame.width, height: view.frame.height))
+        self.sizeCallback?(self.frame.size)
     }
     
     internal func usageCallback(_ values: [Fan]) {

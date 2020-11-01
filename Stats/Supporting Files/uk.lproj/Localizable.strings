@@ -28,6 +28,8 @@
 "Dots" = "Пункти";
 "Arrows" = "Стрілки";
 "Characters" = "Літери";
+"Short" = "Короткий";
+"Long" = "Довгий";
 
 // Alerts
 "New version available" = "Доступна нова версія";
@@ -152,3 +154,7 @@
 "Low level notification" = "Повідомлення про низький рівень заряду";
 "Low battery" = "Низький заряд акумулятора";
 "Battery remaining" = "%0% залишилось";
+"Percentage" = "Проценти";
+"Percentage and time" = "Проценти і час";
+"Time and percentage" = "Час і проценти";
+"Time format" = "Формат часу";

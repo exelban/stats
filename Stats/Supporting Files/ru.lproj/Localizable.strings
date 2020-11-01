@@ -28,6 +28,8 @@
 "Dots" = "Точки";
 "Arrows" = "Стрелки";
 "Characters" = "Символы";
+"Short" = "Короткий";
+"Long" = "Длинный";
 
 // Alerts
 "New version available" = "Доступна новая версия";
@@ -152,3 +154,7 @@
 "Low level notification" = "Сообщение о низком уровне заряда";
 "Low battery" = "Низкий заряд аккумулятора";
 "Battery remaining" = "%0% осталось";
+"Percentage" = "Проценты";
+"Percentage and time" = "Проценты и время";
+"Time and percentage" = "Время и Проценты";
+"Time format" = "Формат времени";

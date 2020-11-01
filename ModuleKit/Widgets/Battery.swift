@@ -12,18 +12,9 @@
 import Cocoa
 import StatsKit
 
-public enum battery_additional_t: String {
-    case none = "None"
-    case separator_1 = "separator_1"
-    case percentage = "Percentage"
-    case time = "Time"
-    case percentageAndTime = "Percentage and time"
-    case timeAndPercentage = "Time and percentage"
-}
-extension battery_additional_t: CaseIterable {}
-
 public class BatterykWidget: Widget {
-    private var additional: battery_additional_t = .none
+    private var additional: String = "none"
+    private var timeFormat: String = "short"
     private var iconState: Bool = true
     private var colorState: Bool = false
     
@@ -44,14 +35,15 @@ public class BatterykWidget: Widget {
         self.canDrawConcurrently = true
         
         if self.store != nil {
-            self.additional = battery_additional_t(rawValue: store!.pointee.string(key: "\(self.title)_\(self.type.rawValue)_additional", defaultValue: self.additional.rawValue)) ?? self.additional
+            self.additional = store!.pointee.string(key: "\(self.title)_\(self.type.rawValue)_additional", defaultValue: self.additional)
+            self.timeFormat = store!.pointee.string(key: "\(self.title)_timeFormat", defaultValue: self.timeFormat)
             self.iconState = store!.pointee.bool(key: "\(self.title)_\(self.type.rawValue)_icon", defaultValue: self.iconState)
             self.colorState = store!.pointee.bool(key: "\(self.title)_\(self.type.rawValue)_color", defaultValue: self.colorState)
         }
         
         if self.preview {
             self.percentage = 0.72
-            self.additional = .none
+            self.additional = "none"
             self.iconState = true
             self.colorState = false
         }
@@ -66,33 +58,34 @@ public class BatterykWidget: Widget {
         
         var width: CGFloat = 30
         var x: CGFloat = Constants.Widget.margin+1
+        let isShortTimeFormat: Bool = self.timeFormat == "short"
         
         switch self.additional {
-        case .percentage:
+        case "percentage":
             let rowWidth = self.drawOneRow(
                 value: "\(Int((self.percentage.rounded(toPlaces: 2)) * 100))%",
                 x: x
             ).rounded(.up)
             width += rowWidth + Constants.Widget.margin
             x += rowWidth + Constants.Widget.margin
-        case .time:
+        case "time":
             let rowWidth = self.drawOneRow(
-                value: Double(self.time*60).printSecondsToHoursMinutesSeconds(),
+                value: Double(self.time*60).printSecondsToHoursMinutesSeconds(short: isShortTimeFormat),
                 x: x
             ).rounded(.up)
             width += rowWidth + Constants.Widget.margin
             x += rowWidth + Constants.Widget.margin
-        case .percentageAndTime:
+        case "percentageAndTime":
             let rowWidth = self.drawTwoRows(
                 first: "\(Int((self.percentage.rounded(toPlaces: 2)) * 100))%",
-                second: Double(self.time*60).printSecondsToHoursMinutesSeconds(),
+                second: Double(self.time*60).printSecondsToHoursMinutesSeconds(short: isShortTimeFormat),
                 x: x
             ).rounded(.up)
             width += rowWidth + Constants.Widget.margin
             x += rowWidth + Constants.Widget.margin
-        case .timeAndPercentage:
+        case "timeAndPercentage":
             let rowWidth = self.drawTwoRows(
-                first: Double(self.time*60).printSecondsToHoursMinutesSeconds(),
+                first: Double(self.time*60).printSecondsToHoursMinutesSeconds(short: isShortTimeFormat),
                 second: "\(Int((self.percentage.rounded(toPlaces: 2)) * 100))%",
                 x: x
             ).rounded(.up)
@@ -220,6 +213,7 @@ public class BatterykWidget: Widget {
     
     public func setValue(percentage: Double, ACStatus: Bool, isCharging: Bool, time: Int) {
         var updated: Bool = false
+        let timeFormat: String = store!.pointee.string(key: "\(self.title)_timeFormat", defaultValue: self.timeFormat)
         
         if self.percentage != percentage {
             self.percentage = percentage
@@ -237,6 +231,10 @@ public class BatterykWidget: Widget {
             self.time = time
             updated = true
         }
+        if self.timeFormat != timeFormat {
+            self.timeFormat = timeFormat
+            updated = true
+        }
         
         if updated {
             DispatchQueue.main.async(execute: {
@@ -252,12 +250,12 @@ public class BatterykWidget: Widget {
         
         let view: NSView = NSView(frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin, width: superview.frame.width - (Constants.Settings.margin*2), height: superview.frame.height - (Constants.Settings.margin*2)))
         
-        view.addSubview(SelectTitleRow(
-            frame: NSRect(x: 0, y: rowHeight + Constants.Settings.margin, width: view.frame.width, height: rowHeight),
+        view.addSubview(SelectRow(
+            frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 1, width: view.frame.width, height: rowHeight),
             title: LocalizedString("Additional information"),
             action: #selector(toggleAdditional),
-            items: battery_additional_t.allCases.map{ return $0.rawValue },
-            selected: self.additional.rawValue
+            items: BatteryAdditionals,
+            selected: self.additional
         ))
         
         view.addSubview(ToggleTitleRow(
@@ -271,9 +269,11 @@ public class BatterykWidget: Widget {
     }
     
     @objc private func toggleAdditional(_ sender: NSMenuItem) {
-        let newValue: battery_additional_t = battery_additional_t(rawValue: sender.title) ?? .none
-        self.additional = newValue
-        self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_additional", value: self.additional.rawValue)
+        guard let key = sender.representedObject as? String else {
+            return
+        }
+        self.additional = key
+        self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_additional", value: key)
         self.display()
     }
     

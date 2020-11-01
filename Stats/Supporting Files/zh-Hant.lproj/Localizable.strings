@@ -28,6 +28,8 @@
 "Dots" = "點";
 "Arrows" = "箭";
 "Characters" = "字母";
+"Short" = "短";
+"Long" = "長";
 
 // Alerts
 "New version available" = "新版本可用";
@@ -148,3 +150,7 @@
 "Low level notification" = "低電量通知";
 "Low battery" = "低電量";
 "Battery remaining" = "剩餘 %0%";
+"Percentage" = "百分比";
+"Percentage and time" = "百分比和時間";
+"Time and percentage" = "時間和百分比";
+"Time format" = "時間格式";

@@ -29,11 +29,13 @@ internal class Settings: NSView, Settings_v {
             return self.store.pointee.string(key: "\(self.title)_lowLevelNotification", defaultValue: "0.15")
         }
     }
+    private var timeFormat: String = "short"
     
     public init(_ title: String, store: UnsafePointer<Store>) {
         self.title = title
         self.store = store
         self.numberOfProcesses = store.pointee.int(key: "\(self.title)_processes", defaultValue: self.numberOfProcesses)
+        self.timeFormat = store.pointee.string(key: "\(self.title)_timeFormat", defaultValue: self.timeFormat)
         
         super.init(frame: CGRect(
             x: 0,
@@ -53,6 +55,8 @@ internal class Settings: NSView, Settings_v {
         self.subviews.forEach{ $0.removeFromSuperview() }
         
         let rowHeight: CGFloat = 30
+        let num: CGFloat = widget == .battery ? 3 : 2
+        let height: CGFloat = ((rowHeight + Constants.Settings.margin) * num) + Constants.Settings.margin
         
         let levels: [String] = self.levelsList.map { (v: String) -> String in
             if let level = Double(v) {
@@ -63,8 +67,8 @@ internal class Settings: NSView, Settings_v {
         
         self.addSubview(SelectTitleRow(
             frame: NSRect(
-                x:Constants.Settings.margin,
-                y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * 1,
+                x: Constants.Settings.margin,
+                y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * (num-1),
                 width: self.frame.width - (Constants.Settings.margin*2),
                 height: rowHeight
             ),
@@ -76,8 +80,8 @@ internal class Settings: NSView, Settings_v {
         
         self.addSubview(SelectTitleRow(
             frame: NSRect(
-                x:Constants.Settings.margin,
-                y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * 0,
+                x: Constants.Settings.margin,
+                y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * (num-2),
                 width: self.frame.width - (Constants.Settings.margin*2),
                 height: rowHeight
             ),
@@ -87,7 +91,22 @@ internal class Settings: NSView, Settings_v {
             selected: "\(self.numberOfProcesses)"
         ))
         
-        self.setFrameSize(NSSize(width: self.frame.width, height: 30 + (Constants.Settings.margin*2)))
+        if widget == .battery {
+            self.addSubview(SelectRow(
+                frame: NSRect(
+                    x: Constants.Settings.margin,
+                    y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * 0,
+                    width: self.frame.width - (Constants.Settings.margin*2),
+                    height: rowHeight
+                ),
+                title: LocalizedString("Time format"),
+                action: #selector(toggleTimeFormat),
+                items: ShortLong,
+                selected: self.timeFormat
+            ))
+        }
+        
+        self.setFrameSize(NSSize(width: self.frame.width, height: height))
     }
     
     @objc private func changeUpdateInterval(_ sender: NSMenuItem) {
@@ -104,5 +123,14 @@ internal class Settings: NSView, Settings_v {
             self.store.pointee.set(key: "\(self.title)_processes", value: value)
             self.callbackWhenUpdateNumberOfProcesses()
         }
+    }
+    
+    @objc private func toggleTimeFormat(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String else {
+            return
+        }
+        self.timeFormat = key
+        self.store.pointee.set(key: "\(self.title)_timeFormat", value: key)
+        self.callback()
     }
 }

@@ -28,6 +28,8 @@
 "Dots" = "도트";
 "Arrows" = "화살";
 "Characters" = "편지";
+"Short" = "짧은";
+"Long" = "긴";
 
 // Alerts
 "New version available" = "새로운 버전을 이용할 수 있습니다";
@@ -152,3 +154,7 @@
 "Low level notification" = "베터리 부족 상태 알림";
 "Low battery" = "배터리 부족";
 "Battery remaining" = "%0% 남았습니다";
+"Percentage" = "백분율";
+"Percentage and time" = "비율과 시간";
+"Time and percentage" = "시간과 비율";
+"Time format" = "시간 형식";

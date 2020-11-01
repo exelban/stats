@@ -64,6 +64,11 @@ public class Battery: Module {
         self.usageReader = UsageReader()
         self.processReader = ProcessReader(self.config.name, store: store)
         
+        self.settingsView.callback = {
+            DispatchQueue.global(qos: .background).async {
+                self.usageReader?.read()
+            }
+        }
         self.settingsView.callbackWhenUpdateNumberOfProcesses = {
             self.popupView.numberOfProcessesUpdated()
             DispatchQueue.global(qos: .background).async {
