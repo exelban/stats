@@ -28,6 +28,11 @@
 "Dots" = "Dấu chấm";
 "Arrows" = "Mũi tên";
 "Characters" = "Ký tự";
+"Short" = "Ngắn";
+"Long" = "Dài";
+//"sec" = "giây"
+//"enabled" = "đã kích hoạt"
+//"disabled" = "đã vô hiệu hoá"
 
 // Alerts
 "New version available" = "Phiên bản mới có sẵn";
@@ -152,3 +157,7 @@
 "Low level notification" = "Thông báo PIN yếu";
 "Low battery" = "Pin yếu";
 "Battery remaining" = "%0% còn lại";
+"Percentage" = "Phần trăm";
+"Percentage and time" = "Phần trăm và thời gian";
+"Time and percentage" = "Thời gian và tỷ lệ phần trăm";
+"Time format" = "Định dạng thời gian";
