@@ -30,9 +30,6 @@
 "Characters" = "Ký tự";
 "Short" = "Ngắn";
 "Long" = "Dài";
-//"sec" = "giây"
-//"enabled" = "đã kích hoạt"
-//"disabled" = "đã vô hiệu hoá"
 
 // Alerts
 "New version available" = "Phiên bản mới có sẵn";

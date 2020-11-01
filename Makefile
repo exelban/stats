@@ -107,7 +107,7 @@ next-version:
 
 check:
 	xcrun altool \
-	  --notarization-info 9b7c4d1f-ae81-4571-9ab1-592289f9d57a \
+	  --notarization-info 36ba52a7-97bb-43e7-8faf-72bd6e9e1df3 \
 	  -itc_provider $(AC_PROVIDER) \
 	  -u $(AC_USERNAME) \
 	  -p @keychain:AC_PASSWORD
