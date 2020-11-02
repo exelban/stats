@@ -28,23 +28,13 @@ internal class FansReader: Reader<[Fan]> {
         os_log(.debug, log: self.log, "Found %.0f fans", count)
         
         for i in 0..<Int(count) {
-            guard let name = smc.pointee.getStringValue("F\(i)ID") else {
-                continue
-            }
-            
-            guard let minSpeed = smc.pointee.getValue("F\(i)Mn") else {
-                continue
-            }
-            
-            guard let maxSpeed = smc.pointee.getValue("F\(i)Mx") else {
-                continue
-            }
-            
-            guard let value = smc.pointee.getValue("F\(i)Ac") else {
-                continue
-            }
-            
-            self.list.append(Fan(id: i, name: name, minSpeed: Int(minSpeed), maxSpeed: Int(maxSpeed), value: value))
+            self.list.append(Fan(
+                id: i,
+                name: smc.pointee.getStringValue("F\(i)ID") ?? "Fan #\(i)",
+                minSpeed: smc.pointee.getValue("F\(i)Mn") ?? 0,
+                maxSpeed: smc.pointee.getValue("F\(i)Mx") ?? 0,
+                value: smc.pointee.getValue("F\(i)Ac")
+            ))
         }
     }
     

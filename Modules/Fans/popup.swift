@@ -144,7 +144,7 @@ internal class FanView: NSView {
         let row: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.mainView.frame.width, height: 14))
         
         let value = (self.fan.value ?? 0)
-        let percentage = "\((100*Int(value)) / self.fan.maxSpeed)%"
+        let percentage = "\((100*Int(value)) / Int(self.fan.maxSpeed))%"
         let percentageWidth: CGFloat = 40
         
         let percentageField: NSTextField = TextView(frame: NSRect(
@@ -172,7 +172,7 @@ internal class FanView: NSView {
                 }
                 
                 if let view = self.percentageField, let value = value.value {
-                    view.stringValue = "\((100*Int(value)) / self.fan.maxSpeed)%"
+                    view.stringValue = "\((100*Int(value)) / Int(self.fan.maxSpeed))%"
                 }
                 
                 self.ready = true

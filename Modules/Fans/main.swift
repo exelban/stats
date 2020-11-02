@@ -16,8 +16,8 @@ import ModuleKit
 public struct Fan {
     public let id: Int
     public let name: String
-    public let minSpeed: Int
-    public let maxSpeed: Int
+    public let minSpeed: Double
+    public let maxSpeed: Double
     public var value: Double?
     
     var state: Bool {
