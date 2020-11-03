@@ -64,11 +64,7 @@ public class Sensors: Module {
         var list: [SensorValue_t] = []
         value!.forEach { (s: Sensor_t) in
             if s.state {
-                var icon: NSImage? = nil
-                if s.type == SensorType.Temperature.rawValue {
-                    icon = Bundle(identifier: "eu.exelban.Stats.ModuleKit")?.image(forResource: "temperature")
-                }
-                list.append(SensorValue_t(s.formattedMiniValue, icon: icon))
+                list.append(SensorValue_t(s.formattedMiniValue))
             }
         }
         

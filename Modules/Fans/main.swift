@@ -76,7 +76,7 @@ public class Fans: Module {
     }
     
     public override func isAvailable() -> Bool {
-        return smc.pointee.getValue("FNum") != nil && smc.pointee.getValue("FNum") != 0
+        return smc.pointee.getValue("FNum") != nil && smc.pointee.getValue("FNum") != 0 && !self.fansReader.list.isEmpty
     }
     
     private func checkIfNoSensorsEnabled() {
@@ -97,7 +97,7 @@ public class Fans: Module {
         value!.forEach { (f: Fan) in
             if let value = f.formattedValue, f.state {
                 let str = label ? "\(f.name.prefix(1).uppercased()): \(value)" : value
-                list.append(SensorValue_t(str, icon: Bundle(identifier: "eu.exelban.Stats.ModuleKit")?.image(forResource: "fan")))
+                list.append(SensorValue_t(str))
             }
         }
         

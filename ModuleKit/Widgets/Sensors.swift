@@ -75,12 +75,12 @@ public class SensorsWidget: Widget {
         while i < self.values.count {
             switch self.modeState {
             case "automatic", "twoRows":
-                let firstSensor: SensorValue_t? = self.values[i]
+                let firstSensor: SensorValue_t = self.values[i]
                 let secondSensor: SensorValue_t? = self.values.indices.contains(i+1) ? self.values[i+1] : nil
                 
                 var width: CGFloat = 0
                 if self.modeState == "automatic" && secondSensor == nil {
-                    width += self.drawOneRow(firstSensor!, x: x)
+                    width += self.drawOneRow(firstSensor, x: x)
                 } else {
                     width += self.drawTwoRows(topSensor: firstSensor, bottomSensor: secondSensor, x: x)
                 }
@@ -145,25 +145,22 @@ public class SensorsWidget: Widget {
         return width
     }
     
-    private func drawTwoRows(topSensor: SensorValue_t?, bottomSensor: SensorValue_t?, x: CGFloat) -> CGFloat {
+    private func drawTwoRows(topSensor: SensorValue_t, bottomSensor: SensorValue_t?, x: CGFloat) -> CGFloat {
         var width: CGFloat = 0
         var paddingLeft: CGFloat = 0
         let rowHeight: CGFloat = self.frame.height / 2
         
-        var font: NSFont = NSFont.systemFont(ofSize: 9, weight: .light)
-        if #available(OSX 10.15, *) {
-            font = NSFont.monospacedSystemFont(ofSize: 9, weight: .light)
-        }
+        let font: NSFont = NSFont.systemFont(ofSize: 9, weight: .light)
         let style = NSMutableParagraphStyle()
         style.alignment = .right
         
-        let firstRowWidth = topSensor?.value.widthOfString(usingFont: font)
+        let firstRowWidth = topSensor.value.widthOfString(usingFont: font)
         let secondRowWidth = bottomSensor?.value.widthOfString(usingFont: font)
-        width = max(20, max(firstRowWidth ?? 0, secondRowWidth ?? 0)).rounded(.up)
+        width = max(20, max(firstRowWidth, secondRowWidth ?? 0)).rounded(.up)
         
-        if self.iconState && (topSensor?.icon != nil || bottomSensor?.icon != nil) {
+        if self.iconState && (topSensor.icon != nil || bottomSensor?.icon != nil) {
             let iconSize: CGFloat = 8
-            if let icon = topSensor?.icon {
+            if let icon = topSensor.icon {
                 icon.draw(in: NSRect(x: x, y: rowHeight+((rowHeight-iconSize)/2), width: iconSize, height: iconSize))
             }
             if let icon = bottomSensor?.icon {
@@ -180,15 +177,13 @@ public class SensorsWidget: Widget {
             NSAttributedString.Key.paragraphStyle: style
         ]
         
-        if topSensor != nil {
-            let rect = CGRect(x: x+paddingLeft, y: rowHeight+1, width: width-paddingLeft, height: rowHeight)
-            let str = NSAttributedString.init(string: topSensor!.value, attributes: attributes)
-            str.draw(with: rect)
-        }
+        var rect = CGRect(x: x+paddingLeft, y: rowHeight+1, width: width-paddingLeft, height: rowHeight)
+        var str = NSAttributedString.init(string: topSensor.value, attributes: attributes)
+        str.draw(with: rect)
         
         if bottomSensor != nil {
-            let rect = CGRect(x: x+paddingLeft, y: 1, width: width-paddingLeft, height: rowHeight)
-            let str = NSAttributedString.init(string: bottomSensor!.value, attributes: attributes)
+            rect = CGRect(x: x+paddingLeft, y: 1, width: width-paddingLeft, height: rowHeight)
+            str = NSAttributedString.init(string: bottomSensor!.value, attributes: attributes)
             str.draw(with: rect)
         }
         
@@ -246,5 +241,6 @@ public class SensorsWidget: Widget {
         }
         self.modeState = key
         store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_mode", value: key)
+        self.display()
     }
 }

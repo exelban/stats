@@ -31,8 +31,8 @@ internal class FansReader: Reader<[Fan]> {
             self.list.append(Fan(
                 id: i,
                 name: smc.pointee.getStringValue("F\(i)ID") ?? "Fan #\(i)",
-                minSpeed: smc.pointee.getValue("F\(i)Mn") ?? 0,
-                maxSpeed: smc.pointee.getValue("F\(i)Mx") ?? 0,
+                minSpeed: smc.pointee.getValue("F\(i)Mn") ?? 1,
+                maxSpeed: smc.pointee.getValue("F\(i)Mx") ?? 1,
                 value: smc.pointee.getValue("F\(i)Ac")
             ))
         }
