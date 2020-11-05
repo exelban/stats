@@ -98,7 +98,7 @@ public class GPU: Module {
         let selectedGPU = activeGPU.first{ $0.name == self.selectedGPU } ?? value!.igpu() ?? value!.list[0]
         
         if let widget = self.widget as? Mini {
-            widget.setValue(selectedGPU.utilization, sufix: "%")
+            widget.setValue(selectedGPU.utilization)
         }
         if let widget = self.widget as? LineChart {
             widget.setValue(selectedGPU.utilization)

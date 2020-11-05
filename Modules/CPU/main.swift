@@ -121,7 +121,7 @@ public class CPU: Module {
         self.popupView.loadCallback(value!)
         
         if let widget = self.widget as? Mini {
-            widget.setValue(value!.totalUsage, sufix: "%")
+            widget.setValue(value!.totalUsage)
         }
         if let widget = self.widget as? LineChart {
             widget.setValue(value!.totalUsage)

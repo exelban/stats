@@ -150,7 +150,7 @@ public class Disk: Module {
         let percentage = Double(usedSpace) / Double(total)
         
         if let widget = self.widget as? Mini {
-            widget.setValue(percentage, sufix: "%")
+            widget.setValue(percentage)
         }
         if let widget = self.widget as? BarChart {
             widget.setValue([percentage])

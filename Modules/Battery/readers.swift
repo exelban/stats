@@ -96,9 +96,7 @@ internal class UsageReader: Reader<Battery_Usage> {
                 }
                 self.usage.ACwatts = ACwatts
                 
-                DispatchQueue.main.async(execute: {
-                    self.callback(self.usage)
-                })
+                self.callback(self.usage)
             }
         }
     }

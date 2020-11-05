@@ -111,7 +111,7 @@ public class Battery: Module {
         self.checkNotification(value: value!)
         self.popupView.usageCallback(value!)
         if let widget = self.widget as? Mini {
-            widget.setValue(abs(value!.level), sufix: "%")
+            widget.setValue(abs(value!.level))
         }
         if let widget = self.widget as? BarChart {
             widget.setValue([value!.level])

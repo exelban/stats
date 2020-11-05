@@ -715,3 +715,26 @@ public class ProcessView: NSView {
         fatalError("init(coder:) has not been implemented")
     }
 }
+
+public class CAText: CATextLayer {
+    public init(fontSize: CGFloat = 12) {
+        super.init()
+        
+        self.font = NSFont.systemFont(ofSize: fontSize, weight: .regular)
+        self.fontSize = fontSize
+        
+        self.allowsFontSubpixelQuantization = true
+        self.contentsScale = NSScreen.main?.backingScaleFactor ?? 1
+        self.rasterizationScale = NSScreen.main?.backingScaleFactor ?? 1
+        
+        self.foregroundColor = NSColor.textColor.cgColor
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override init(layer: Any) {
+        super.init(layer: layer)
+    }
+}
