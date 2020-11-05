@@ -68,7 +68,7 @@ internal class Popup: NSView, Popup_p {
         values.forEach { (f: Fan) in
             if self.list[f.id] != nil {
                 DispatchQueue.main.async(execute: {
-                    if f.value != nil && (self.window?.isVisible ?? false) {
+                    if self.window?.isVisible ?? false {
                         self.list[f.id]?.update(f)
                     }
                 })
@@ -111,7 +111,7 @@ internal class FanView: NSView {
     private func addFirstRow() {
         let row: NSView = NSView(frame: NSRect(x: 0, y: 14, width: self.mainView.frame.width, height: 16))
         
-        let value = self.fan.formattedValue ?? "0 RPM"
+        let value = self.fan.formattedValue
         let valueWidth: CGFloat = 80
         
         let nameField: NSTextField = TextView(frame: NSRect(
@@ -143,7 +143,7 @@ internal class FanView: NSView {
     private func addSecondRow() {
         let row: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.mainView.frame.width, height: 14))
         
-        let value = (self.fan.value ?? 0)
+        let value = self.fan.value
         let percentage = "\((100*Int(value)) / Int(self.fan.maxSpeed))%"
         let percentageWidth: CGFloat = 40
         
@@ -167,12 +167,12 @@ internal class FanView: NSView {
         DispatchQueue.main.async(execute: {
             if (self.window?.isVisible ?? false) || !self.ready {
                 
-                if let view = self.valueField, let value = value.formattedValue {
-                    view.stringValue = value
+                if let view = self.valueField {
+                    view.stringValue = value.formattedValue
                 }
                 
-                if let view = self.percentageField, let value = value.value {
-                    view.stringValue = "\((100*Int(value)) / Int(self.fan.maxSpeed))%"
+                if let view = self.percentageField {
+                    view.stringValue = "\((100*Int(value.value)) / Int(self.fan.maxSpeed))%"
                 }
                 
                 self.ready = true

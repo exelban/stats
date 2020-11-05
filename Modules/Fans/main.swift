@@ -18,7 +18,7 @@ public struct Fan {
     public let name: String
     public let minSpeed: Double
     public let maxSpeed: Double
-    public var value: Double?
+    public var value: Double
     
     var state: Bool {
         get {
@@ -26,9 +26,9 @@ public struct Fan {
         }
     }
     
-    var formattedValue: String? {
+    var formattedValue: String {
         get {
-            return (value != nil) ? "\(Int(value!)) RPM": nil
+            return "\(Int(value)) RPM"
         }
     }
 }
@@ -95,8 +95,8 @@ public class Fans: Module {
         let label: Bool = store.pointee.bool(key: "Fans_label", defaultValue: false)
         var list: [SensorValue_t] = []
         value!.forEach { (f: Fan) in
-            if let value = f.formattedValue, f.state {
-                let str = label ? "\(f.name.prefix(1).uppercased()): \(value)" : value
+            if f.state {
+                let str = label ? "\(f.name.prefix(1).uppercased()): \(f.formattedValue)" : f.formattedValue
                 list.append(SensorValue_t(str))
             }
         }
