@@ -269,6 +269,7 @@ class ApplicationSettings: NSView {
         let versionNumber = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
         statsVersion.stringValue = "\(LocalizedString("Version")) \(versionNumber)"
         statsVersion.isSelectable = true
+        statsVersion.toolTip = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String
         
         infoView.addSubview(statsName)
         infoView.addSubview(statsVersion)
