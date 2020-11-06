@@ -68,6 +68,10 @@
             argument = "--disable"
             isEnabled = "NO">
          </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--debug"
+            isEnabled = "NO">
+         </CommandLineArgument>
       </CommandLineArguments>
       <EnvironmentVariables>
          <EnvironmentVariable

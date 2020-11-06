@@ -36,16 +36,16 @@ internal class Popup: NSView, Popup_p {
         }
         
         value.list.forEach { (gpu: GPU_Info) in
-            if self.list[gpu.name] == nil {
+            if self.list[gpu.model] == nil {
                 DispatchQueue.main.async(execute: {
-                    self.list[gpu.name] = GPUView(
+                    self.list[gpu.model] = GPUView(
                         NSRect(x: 0, y: (self.gpuViewHeight + Constants.Popup.margins) * CGFloat(self.list.count), width: self.frame.width, height: self.gpuViewHeight),
                         gpu: gpu
                     )
-                    self.addSubview(self.list[gpu.name]!)
+                    self.addSubview(self.list[gpu.model]!)
                 })
             } else {
-                self.list[gpu.name]?.update(gpu)
+                self.list[gpu.model]?.update(gpu)
             }
         }
         
@@ -91,7 +91,7 @@ private class GPUView: NSView {
     
     private func initName() {
         let y: CGFloat = self.frame.height - 23
-        let width: CGFloat = self.value.name.widthOfString(usingFont: NSFont.systemFont(ofSize: 12, weight: .medium)) + 16
+        let width: CGFloat = self.value.model.widthOfString(usingFont: NSFont.systemFont(ofSize: 12, weight: .medium)) + 16
         
         let view: NSView = NSView(frame: NSRect(x: (self.frame.width - width)/2, y: y, width: width, height: 20))
         
@@ -99,7 +99,7 @@ private class GPUView: NSView {
         labelView.alignment = .center
         labelView.textColor = .secondaryLabelColor
         labelView.font = NSFont.systemFont(ofSize: 12, weight: .medium)
-        labelView.stringValue = self.value.name
+        labelView.stringValue = self.value.model
         
         let stateView: NSView = NSView(frame: NSRect(x: width - 8, y: (view.frame.height-7)/2, width: 6, height: 6))
         stateView.wantsLayer = true

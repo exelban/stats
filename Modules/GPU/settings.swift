@@ -91,7 +91,7 @@ internal class Settings: NSView, Settings_v {
     }
     
     internal func setList(_ list: GPUs) {
-        let disks = list.active().map{ $0.name }
+        let disks = list.active().map{ $0.model }
         DispatchQueue.main.async(execute: {
             if self.button?.itemTitles.count != disks.count {
                 self.button?.removeAllItems()

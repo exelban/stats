@@ -14,8 +14,8 @@ import ModuleKit
 import StatsKit
 
 public struct GPU_Info {
-    public let name: String
-    public let IOclass: String
+    public let model: String
+    public let IOClass: String
     public var state: Bool = false
     
     public var utilization: Double = 0
@@ -30,7 +30,7 @@ public struct GPUs: value_t {
     }
     
     internal func igpu() -> GPU_Info? {
-        return self.active().first{ $0.IOclass == "IntelAccelerator" }
+        return self.active().first{ $0.IOClass == "IntelAccelerator" }
     }
     
     public var widget_value: Double {
@@ -95,7 +95,7 @@ public class GPU: Module {
         self.settingsView.setList(value!)
         
         let activeGPU = value!.active()
-        let selectedGPU = activeGPU.first{ $0.name == self.selectedGPU } ?? value!.igpu() ?? value!.list[0]
+        let selectedGPU = activeGPU.first{ $0.model == self.selectedGPU } ?? value!.igpu() ?? value!.list[0]
         
         if let widget = self.widget as? Mini {
             widget.setValue(selectedGPU.utilization)
