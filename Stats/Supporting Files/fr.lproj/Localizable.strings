@@ -1,0 +1,160 @@
+//
+//  Localizable.strings
+//  Stats
+//
+//  Created by Serhiy Mytrovtsiy on 27/08/2020.
+//  Using Swift 5.0.
+//  Running on macOS 10.15.
+//
+//  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
+//
+
+// Words
+"Unknown" = "Inconnu";
+"Version" = "Version";
+"Processor" = "Processeur";
+"Memory" = "Mémoire";
+"Graphics" = "Graphisme";
+"Disk" = "Disque";
+"Close" = "Fermer";
+"Download" = "Télécharger";
+"Install" = "Installer";
+"Cancel" = "Annuler";
+"Unavailable" = "Indisponible";
+"Yes" = "Oui";
+"No" = "Non";
+"Automatic" = "Automatique";
+"None" = "Aucun";
+"Dots" = "Points";
+"Arrows" = "Flèches";
+"Characters" = "Lettres";
+"Short" = "Court";
+"Long" = "Long";
+
+// Alerts
+"New version available" = "Nouvelle version disponible";
+"Click to install the new version of Stats" = "Cliquez pour installer la nouvelle version de Stats";
+"Successfully updated" = "Mise à jour terminée avec succès";
+"Stats was updated to v" = "Stats a été mis à jour en v%0";
+
+// Settings
+"Open Activity Monitor" = "Ouvrir le moniteur d'activité";
+"Report a bug" = "Signaler un bug";
+"Close application" = "Fermer l'application";
+"Open application settings" = "Ouvrir les paramètres de l'application";
+"Open moduleName settings" = "Ouvrir les paramètres du module %0";
+
+// Application settings
+"Update application" = "Mettre à jour l'application";
+"Check for updates" = "Rechercher des mises à jour";
+"Check for update" = "Vérifier la mise à jour";
+"Show icon in dock" = "Afficher l'icône dans le dock";
+"Start at login" = "Démarrer au lancement";
+
+// Update
+"The latest version of Stats installed" = "La dernière version de Stats installée";
+"Downloading..." = "Téléchargement...";
+"Current version: " = "Version actuelle: ";
+"Latest version: " = "Dernière version: ";
+
+// Widgets
+"Color" = "Couleur";
+"Label" = "Étiquette";
+"Box" = "Boîte";
+"Frame" = "Cadre";
+"Value" = "Valeur";
+"Colorize" = "Coloriser";
+"Colorize value" = "Coloriser la valeur";
+"Additional information" = "Informations complémentaires";
+"Reverse values order" = "Inverser l'ordre des valeurs";
+"Base" = "Base";
+"Display mode" = "Mode d'affichage";
+"One row" = "Une ligne";
+"Two rows" = "Deux lignes";
+
+// Module Kit
+"Open module settings" = "Ouvrir les paramètres du module";
+"Select widget" = "Sélectionner le widget %0";
+"Update interval" = "Intervalle de mise à jour";
+"Usage history" = "Historique d'utilisation";
+"Details" = "Détails";
+"Top processes" = "Processus principaux";
+"Pictogram" = "Pictogramme";
+
+// Modules
+"Number of top processes" = "Nombre de processus principaux";
+
+// CPU
+"CPU usage" = "Usage CPU";
+"CPU temperature" = "Température du CPU";
+"CPU frequency" = "Fréquence du CPU";
+"System" = "Système";
+"User" = "Utilisateur";
+"Idle" = "Libre";
+"Show usage per core" = "Afficher l'utilisation par coeur";
+"Show hyper-threading cores" = "Afficher les coeurs hyper-threading";
+
+// GPU
+"GPU to show" = "GPU à afficher";
+"GPU temperature" = "Température du GPU";
+"GPU utilization" = "Utilisation du GPU";
+
+// Memory
+"Memory usage" = "Utilisation de la mémoire";
+"Memory pressure" = "Pression mémoire";
+"Total" = "Total";
+"Used" = "Utilisée";
+"App" = "Application";
+"Wired" = "Réservée";
+"Compressed" = "Compressée";
+"Free" = "Libre";
+
+// Disk
+"Show removable disks" = "Afficher les disques amovibles";
+"Used disk memory" = "%0 utilisé sur %1";
+"Disk to show" = "Disque à afficher";
+
+// Sensors
+"Temperature unit" = "Unité de température";
+"Celsius" = "Celsius";
+"Fahrenheit" = "Fahrenheit";
+
+// Network
+"Uploading" = "Upload";
+"Downloading" = "Download";
+"Public IP" = "IP publique";
+"Local IP" = "IP Locale";
+"Interface" = "Interface";
+"Network" = "Réseau";
+"Physical address" = "Adresse physique";
+"Click to copy public IP address" = "Cliquez pour copier l'adresse IP publique";
+"Click to copy local IP address" = "Cliquez pour copier l'adresse IP locale";
+"Click to copy wifi name" = "Cliquez pour copier le nom du wifi";
+"Click to copy mac address" = "Cliquez pour copier l'adresse mac";
+"No connection" = "Aucune connexion";
+"Network interface" = "Interface réseau";
+
+// Battery
+"Level" = "Niveau";
+"Source" = "Source";
+"Time" = "Temps";
+"Health" = "Santé";
+"Battery" = "Batterie";
+"Amperage" = "Intensité";
+"Voltage" = "Tension";
+"Temperature" = "Température";
+"Power adapter" = "Adaptateur secteur";
+"Power" = "Courant";
+"Is charging" = "En charge";
+"Time to discharge" = "Temps restant";
+"Time to charge" = "Temps pour charger";
+"Calculating" = "Calcul";
+"Fully charged" = "Complètement chargée";
+"Not connected" = "Non connecté";
+"Low level notification" = "Notification de niveau faible";
+"Low battery" = "Batterie faible";
+"Battery remaining" = "%0% restant";
+"Percentage" = "Pourcentage";
+"Percentage and time" = "Pourcentage et temps";
+"Time and percentage" = "Temps et pourcentage";
+"Time format" = "Format de l'heure";
