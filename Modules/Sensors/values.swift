@@ -31,6 +31,8 @@ struct Sensor_t {
     var key: String
     var name: String
     
+    var value: Double = 0
+    
     var group: SensorGroup_t
     var type: SensorType_t
     var unit: String {
@@ -47,18 +49,18 @@ struct Sensor_t {
         }
     }
     
-    var value: Double? = nil
-    
     var formattedValue: String {
         get {
             switch self.type {
             case SensorType.Temperature.rawValue:
-                return Temperature(value ?? 0)
+                return Temperature(value)
             case SensorType.Voltage.rawValue:
-                return String(format: "%.3f \(unit)", value ?? 0)
+                let val = value >= 100 ? "\(Int(value))" : String(format: "%.3f", value)
+                return "\(val)\(unit)"
             case SensorType.Power.rawValue:
-                return String(format: "%.2f \(unit)", value ?? 0)
-            default: return String(format: "%.2f", value ?? 0)
+                let val = value >= 100 ? "\(Int(value))" : String(format: "%.2f", value)
+                return "\(val)\(unit)"
+            default: return String(format: "%.2f", value)
             }
         }
     }
@@ -66,12 +68,14 @@ struct Sensor_t {
         get {
             switch self.type {
             case SensorType.Temperature.rawValue:
-                return Temperature(value ?? 0).replacingOccurrences(of: "C", with: "").replacingOccurrences(of: "F", with: "")
+                return Temperature(value).replacingOccurrences(of: "C", with: "").replacingOccurrences(of: "F", with: "")
             case SensorType.Voltage.rawValue:
-                return String(format: "%.1f\(unit)", value ?? 0)
+                let val = value >= 100 ? "\(Int(value))" : String(format: "%.1f", value)
+                return "\(val)\(unit)"
             case SensorType.Power.rawValue:
-                return String(format: "%.1f\(unit)", value ?? 0)
-            default: return String(format: "%.1f", value ?? 0)
+                let val = value >= 100 ? "\(Int(value))" : String(format: "%.1f", value)
+                return "\(val)\(unit)"
+            default: return String(format: "%.1f", value)
             }
         }
     }
