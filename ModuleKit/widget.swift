@@ -120,7 +120,7 @@ open class Widget: NSView, Widget_p {
             self.display()
         }
         
-        self.widthHandler!(width)
+        self.widthHandler?(width)
     }
     
     open func settings(superview: NSView) {}
