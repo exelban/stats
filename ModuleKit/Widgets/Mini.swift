@@ -102,7 +102,7 @@ public class Mini: Widget, CALayerDelegate {
         case .systemAccent: valueColor = NSColor.controlAccentColor
         case .utilization: valueColor = self.value.usageColor()
         case .pressure: valueColor = self.pressureLevel.pressureColor()
-        case .monochrome: valueColor = NSColor.labelColor
+        case .monochrome: valueColor = NSColor.textColor
         default: valueColor = colorFromString("\(self.colorState.self)")
         }
         
@@ -134,8 +134,8 @@ public class Mini: Widget, CALayerDelegate {
             
             self.labelLayer?.isHidden = !self.labelState
             if var frame = self.valueLayer?.frame {
-                frame.origin = CGPoint(x: origin.x, y: origin.y)
-                frame.size = CGSize(width: width - (Constants.Widget.margin*2), height: valueSize)
+                frame.origin = CGPoint(x: origin.x, y: origin.y-1)
+                frame.size = CGSize(width: width - (Constants.Widget.margin*2), height: valueSize+1)
                 self.valueLayer?.frame = frame
             }
             self.valueLayer?.fontSize = valueSize
@@ -160,13 +160,12 @@ public class Mini: Widget, CALayerDelegate {
         label.frame = CGRect(x: origin.x, y: 11, width: self.width - (Constants.Widget.margin*2), height: 8)
         label.string = self.title
         label.alignmentMode = .left
-        label.isHidden = true
         label.foregroundColor = NSColor.labelColor.cgColor
         label.isHidden = !self.labelState
         
         let value = CAText(fontSize: valueSize)
-        value.frame = CGRect(x: origin.x, y: origin.y, width: self.width - (Constants.Widget.margin*2), height: valueSize)
-        value.font = NSFont.systemFont(ofSize: valueSize, weight: .semibold)
+        value.frame = CGRect(x: origin.x, y: origin.y-1, width: self.width - (Constants.Widget.margin*2), height: valueSize+1)
+        value.font = NSFont.systemFont(ofSize: valueSize, weight: .medium)
         value.string = "\(Int(self.value.rounded(toPlaces: 2) * 100))%"
         value.fontSize = valueSize
         value.alignmentMode = alignment
@@ -188,14 +187,9 @@ public class Mini: Widget, CALayerDelegate {
         
         DispatchQueue.main.async(execute: {
             self.value = value
-            
-            CATransaction.begin()
-            CATransaction.setDisableActions(true)
-            CATransaction.setValue(kCFBooleanTrue, forKey: kCATransactionDisableActions)
-            CATransaction.setAnimationDuration(0)
-            self.valueLayer?.string = "\(Int(self.value.rounded(toPlaces: 2) * 100))%"
-            CATransaction.commit()
-            
+            CATransaction.disableAnimations {
+                self.valueLayer?.string = "\(Int(self.value.rounded(toPlaces: 2) * 100))%"
+            }
             self.needsDisplay = true
         })
     }

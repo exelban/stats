@@ -490,3 +490,14 @@ public extension NSColor {
         return String(format:"#%06x", rgb)
     }
 }
+
+public extension CATransaction {
+    static func disableAnimations(_ closure: () -> Void) {
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
+        CATransaction.setValue(kCFBooleanTrue, forKey: kCATransactionDisableActions)
+        CATransaction.setAnimationDuration(0)
+        closure()
+        CATransaction.commit()
+    }
+}
