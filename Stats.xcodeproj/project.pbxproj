@@ -479,6 +479,7 @@
 		9AF9EE12246492E8005D2270 /* config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = config.plist; sourceTree = "<group>"; };
 		9AF9EE192464A7B3005D2270 /* config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = config.plist; sourceTree = "<group>"; };
 		F8A38F83253303A8006D4D81 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		FCBD9253255C7D9900E1621A /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1277,6 +1278,7 @@
 				es,
 				vi,
 				fr,
+				"pt-BR",
 			);
 			mainGroup = 9A1410EC229E721100D29793;
 			packageReferences = (
@@ -1705,6 +1707,7 @@
 				62BA5F74254810C8009D0AC2 /* es */,
 				98BF5451254DF04C004E9DF5 /* vi */,
 				7A19DAE52552C326001B192F /* fr */,
+				FCBD9253255C7D9900E1621A /* pt-BR */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
