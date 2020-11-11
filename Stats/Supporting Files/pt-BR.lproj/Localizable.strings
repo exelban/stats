@@ -35,7 +35,7 @@
 "New version available" = "Nova versão disponível";
 "Click to install the new version of Stats" = "Clique para instalar a nova versão do Stats";
 "Successfully updated" = "Atualizado com sucesso";
-"Stats was updated to v" = "Stats was updated to v%0";
+"Stats was updated to v" = "Stats foi atualizado para v%0";
 
 // Settings
 "Open Activity Monitor" = "Abrir Monitor de Atividades";
@@ -47,9 +47,9 @@
 // Application settings
 "Update application" = "Atualizar aplicativo";
 "Check for updates" = "Verificar se há atualizações";
-"Check for update" = "Verificar atualizações";
+"Check for update" = "Verificar atualização";
 "Show icon in dock" = "Mostrar ícone no dock";
-"Start at login" = "Comece no login";
+"Start at login" = "Inicie no login";
 
 // Update
 "The latest version of Stats installed" = "A versão mais recente do Stats instalada";
@@ -85,14 +85,14 @@
 "Number of top processes" = "Número de processos principais";
 
 // CPU
-"CPU usage" = "utilização do CPU";
+"CPU usage" = "Utilização da CPU";
 "CPU temperature" = "Temperatura da CPU";
 "CPU frequency" = "Frequência da CPU";
 "System" = "Sistema";
 "User" = "Usuário";
 "Idle" = "Parado";
 "Show usage per core" = "Mostrar uso por núcleo";
-"Show hyper-threading cores" = "Mostrar núcleos de hyper-threading";
+"Show hyper-threading cores" = "Mostrar núcleos hyper-threading";
 
 // GPU
 "GPU to show" = "GPU para mostrar";
@@ -127,8 +127,8 @@
 "Interface" = "Interface";
 "Network" = "Rede";
 "Physical address" = "Endereço físico";
-"Click to copy public IP address" = "Clique para copiar o endereço IP público";
-"Click to copy local IP address" = "Clique para copiar o endereço IP local";
+"Click to copy public IP address" = "Clique para copiar o endereço de IP público";
+"Click to copy local IP address" = "Clique para copiar o endereço de IP local";
 "Click to copy wifi name" = "Clique para copiar o nome do wi-fi";
 "Click to copy mac address" = "Clique para copiar o endereço mac";
 "No connection" = "Sem conexão";
