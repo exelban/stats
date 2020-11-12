@@ -24,11 +24,11 @@ public enum AppUpdateIntervals: AppUpdateInterval {
 extension AppUpdateIntervals: CaseIterable {}
 
 public struct KeyValue_t {
-    let key: String
-    let value: String
-    let additional: Any?
+    public let key: String
+    public let value: String
+    public let additional: Any?
     
-    init(key: String, value: String, additional: Any? = nil) {
+    public init(key: String, value: String, additional: Any? = nil) {
         self.key = key
         self.value = value
         self.additional = additional
@@ -748,7 +748,8 @@ public class CAText: CATextLayer {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override init(layer: Any) {
-        super.init(layer: layer)
+    public func getWidth(add: CGFloat = 0) -> CGFloat {
+        let value = self.string as? String ?? ""
+        return value.widthOfString(usingFont: self.font as! NSFont).rounded(.up) + add
     }
 }

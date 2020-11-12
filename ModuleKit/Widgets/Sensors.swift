@@ -12,22 +12,12 @@
 import Cocoa
 import StatsKit
 
-public struct SensorValue_t {
-    public let icon: NSImage?
-    public var value: String
-    
-    public init(_ value: String, icon: NSImage? = nil){
-        self.value = value
-        self.icon = icon
-    }
-}
-
 public class SensorsWidget: Widget {
     private var modeState: String = "automatic"
-    private var iconState: Bool = false
     private let store: UnsafePointer<Store>?
     
-    private var values: [SensorValue_t] = []
+    private var body: CALayer = CALayer()
+    private var values: [KeyValue_t] = []
     
     public init(preview: Bool, title: String, config: NSDictionary?, store: UnsafePointer<Store>?) {
         self.store = store
@@ -38,45 +28,52 @@ public class SensorsWidget: Widget {
                 if let previewConfig = config!["Preview"] as? NSDictionary {
                     configuration = previewConfig
                     if let value = configuration["Values"] as? String {
-                        self.values = value.split(separator: ",").map{ (SensorValue_t(String($0)) ) }
+                        for (i, value) in value.split(separator: ",").enumerated() {
+                            self.values.append(KeyValue_t(key: "\(i)", value: String(value)))
+                        }
                     }
                 }
             }
         }
-        super.init(frame: CGRect(x: 0, y: Constants.Widget.margin, width: Constants.Widget.width, height: Constants.Widget.height - (2*Constants.Widget.margin)))
+        super.init(frame: CGRect(
+            x: 0,
+            y: Constants.Widget.margin,
+            width: Constants.Widget.width,
+            height: Constants.Widget.height - (2*Constants.Widget.margin)
+        ))
         self.title = title
         self.type = .sensors
         self.preview = preview
-        self.canDrawConcurrently = true
         
-        if self.store != nil {
-            self.modeState = store!.pointee.string(key: "\(self.title)_\(self.type.rawValue)_mode", defaultValue: self.modeState)
-            self.iconState = store!.pointee.bool(key: "\(self.title)_\(self.type.rawValue)_icon", defaultValue: self.iconState)
-        }
+        self.modeState = store?.pointee.string(key: "\(self.title)_\(self.type.rawValue)_mode", defaultValue: self.modeState) ?? self.modeState
+        
+        self.wantsLayer = true
+        self.layerContentsRedrawPolicy = .onSetNeedsDisplay
+        
+        self.body.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
+        self.layer?.addSublayer(self.body)
+        
+        self.draw(self.values)
+        self.setFrameSize(NSSize(width: self.body.frame.width, height: self.frame.size.height))
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public override func draw(_ dirtyRect: NSRect) {
-        super.draw(dirtyRect)
+    private func draw(_ list: [KeyValue_t]) {
+        self.body.sublayers?.forEach{ $0.removeFromSuperlayer() }
         
-        guard self.values.count != 0 else {
-            self.setWidth(1)
-            return
-        }
-        
-        let num: Int = Int(round(Double(self.values.count) / 2))
+        let num: Int = Int(round(Double(list.count) / 2))
         var totalWidth: CGFloat = Constants.Widget.margin  // opening space
         var x: CGFloat = Constants.Widget.margin
         
         var i = 0
-        while i < self.values.count {
+        while i < list.count {
             switch self.modeState {
             case "automatic", "twoRows":
-                let firstSensor: SensorValue_t = self.values[i]
-                let secondSensor: SensorValue_t? = self.values.indices.contains(i+1) ? self.values[i+1] : nil
+                let firstSensor: KeyValue_t = list[i]
+                let secondSensor: KeyValue_t? = list.indices.contains(i+1) ? list[i+1] : nil
                 
                 var width: CGFloat = 0
                 if self.modeState == "automatic" && secondSensor == nil {
@@ -101,7 +98,7 @@ public class SensorsWidget: Widget {
                 totalWidth += width
                 
                 // add margins between columns
-                if self.values.count != 1 && i != self.values.count {
+                if list.count != 1 && i != list.count {
                     x += Constants.Widget.margin
                     totalWidth += Constants.Widget.margin
                 }
@@ -115,93 +112,106 @@ public class SensorsWidget: Widget {
         if abs(self.frame.width - totalWidth) < 2 {
             return
         }
-        self.setWidth(totalWidth)
+        var frame = self.body.frame
+        frame.size = CGSize(width: totalWidth, height: frame.height)
+        self.body.frame = frame
     }
     
-    private func drawOneRow(_ sensor: SensorValue_t, x: CGFloat) -> CGFloat {
-        var width: CGFloat = 0
-        var paddingLeft: CGFloat = 0
-        
-        let font: NSFont = NSFont.systemFont(ofSize: 13, weight: .light)
-        width = sensor.value.widthOfString(usingFont: font).rounded(.up) + 2
-        
-        if let icon = sensor.icon, self.iconState {
-            let iconSize: CGFloat = 11
-            icon.draw(in: NSRect(x: x, y: ((Constants.Widget.height-iconSize)/2)-2, width: iconSize, height: iconSize))
-            paddingLeft = iconSize + (Constants.Widget.margin*3)
-            width += paddingLeft
+    private func drawOneRow(_ sensor: KeyValue_t, x: CGFloat) -> CGFloat {
+        var font: NSFont = NSFont.systemFont(ofSize: 14, weight: .regular)
+        if #available(OSX 10.15, *) {
+            font = NSFont.monospacedSystemFont(ofSize: 14, weight: .regular)
         }
+        let width = sensor.value.widthOfString(usingFont: font).rounded(.up) + 2
         
-        let style = NSMutableParagraphStyle()
-        style.alignment = .center
-        let rect = CGRect(x: x+paddingLeft, y: (Constants.Widget.height-13)/2, width: width-paddingLeft, height: 13)
-        let str = NSAttributedString.init(string: sensor.value, attributes: [
-            NSAttributedString.Key.font: font,
-            NSAttributedString.Key.foregroundColor: NSColor.textColor,
-            NSAttributedString.Key.paragraphStyle: style
-        ])
-        str.draw(with: rect)
+        let value = CAText(fontSize: 14)
+        value.name = sensor.key
+        value.frame = CGRect(x: x, y: (Constants.Widget.height-14)/2, width: width, height: 14)
+        value.font = font
+        value.string = sensor.value
+        value.alignmentMode = .right
+        
+        self.body.addSublayer(value)
         
         return width
     }
     
-    private func drawTwoRows(topSensor: SensorValue_t, bottomSensor: SensorValue_t?, x: CGFloat) -> CGFloat {
-        var width: CGFloat = 0
-        var paddingLeft: CGFloat = 0
-        let rowHeight: CGFloat = self.frame.height / 2
-        
-        let font: NSFont = NSFont.systemFont(ofSize: 9, weight: .light)
-        let style = NSMutableParagraphStyle()
-        style.alignment = .right
+    private func drawTwoRows(topSensor: KeyValue_t, bottomSensor: KeyValue_t?, x: CGFloat) -> CGFloat {
+        var font: NSFont = NSFont.systemFont(ofSize: 10, weight: .regular)
+        if #available(OSX 10.15, *) {
+            font = NSFont.monospacedSystemFont(ofSize: 10, weight: .regular)
+        }
         
         let firstRowWidth = topSensor.value.widthOfString(usingFont: font)
         let secondRowWidth = bottomSensor?.value.widthOfString(usingFont: font)
-        width = max(20, max(firstRowWidth, secondRowWidth ?? 0)).rounded(.up)
         
-        if self.iconState && (topSensor.icon != nil || bottomSensor?.icon != nil) {
-            let iconSize: CGFloat = 8
-            if let icon = topSensor.icon {
-                icon.draw(in: NSRect(x: x, y: rowHeight+((rowHeight-iconSize)/2), width: iconSize, height: iconSize))
-            }
-            if let icon = bottomSensor?.icon {
-                icon.draw(in: NSRect(x: x, y: (rowHeight-iconSize)/2, width: iconSize, height: iconSize))
-            }
-            
-            paddingLeft = iconSize + (Constants.Widget.margin*3)
-            width += paddingLeft
-        }
+        let width = max(20, max(firstRowWidth, secondRowWidth ?? 0)).rounded(.up) + 2
+        let height: CGFloat = self.frame.height / 2
         
-        let attributes = [
-            NSAttributedString.Key.font: font,
-            NSAttributedString.Key.foregroundColor: NSColor.textColor,
-            NSAttributedString.Key.paragraphStyle: style
-        ]
+        let topValue = CAText(fontSize: 10)
+        topValue.name = topSensor.key
+        topValue.frame = CGRect(x: x, y: height+1, width: width, height: height+1)
+        topValue.font = font
+        topValue.string = topSensor.value
+        topValue.alignmentMode = .right
         
-        var rect = CGRect(x: x+paddingLeft, y: rowHeight+1, width: width-paddingLeft, height: rowHeight)
-        var str = NSAttributedString.init(string: topSensor.value, attributes: attributes)
-        str.draw(with: rect)
+        let bottomValue = CAText(fontSize: 10)
+        bottomValue.name = bottomSensor?.key
+        bottomValue.frame = CGRect(x: x, y: 1, width: width, height: height+1)
+        bottomValue.font = font
+        bottomValue.string = bottomSensor?.value ?? ""
+        bottomValue.alignmentMode = .right
         
-        if bottomSensor != nil {
-            rect = CGRect(x: x+paddingLeft, y: 1, width: width-paddingLeft, height: rowHeight)
-            str = NSAttributedString.init(string: bottomSensor!.value, attributes: attributes)
-            str.draw(with: rect)
-        }
+        self.body.addSublayer(topValue)
+        self.body.addSublayer(bottomValue)
         
         return width
     }
+    
+    public func setValues(_ values: [KeyValue_t]) {
+        self.values = values
+        
+        DispatchQueue.main.async(execute: {
+            if self.body.sublayers?.count != values.count {
+                self.redraw(values)
+            } else {
+                values.forEach { (new: KeyValue_t) in
+                    guard let caLayer = self.body.sublayers!.first(where: { $0.name == new.key }) else {
+                        self.redraw(values)
+                        return
+                    }
+                    
+                    if let layer = caLayer as? CAText, layer.string as! String != new.value {
+                        CATransaction.disableAnimations {
+                            layer.string = new.value
+                            if abs(layer.frame.width - layer.getWidth(add: 2)) > 2 {
+                                self.redraw(values)
+                                return
+                            }
+                        }
+                    }
+                }
+            }
+        })
+    }
+    
+    private func redraw(_ values: [KeyValue_t]) {
+        self.draw(values)
+        self.setWidth(self.body.frame.width)
+    }
+    
+    // MARK: - Settings
     
     public override func settings(superview: NSView) {
         let rowHeight: CGFloat = 30
         let height: CGFloat = ((rowHeight + Constants.Settings.margin) * 1) + Constants.Settings.margin
         superview.setFrameSize(NSSize(width: superview.frame.width, height: height))
         
-        let view: NSView = NSView(frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin, width: superview.frame.width - (Constants.Settings.margin*2), height: superview.frame.height - (Constants.Settings.margin*2)))
-        
-        view.addSubview(ToggleTitleRow(
-            frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 1, width: view.frame.width, height: rowHeight),
-            title: LocalizedString("Pictogram"),
-            action: #selector(toggleIcom),
-            state: self.iconState
+        let view: NSView = NSView(frame: NSRect(
+            x: Constants.Settings.margin,
+            y: Constants.Settings.margin,
+            width: superview.frame.width - (Constants.Settings.margin*2),
+            height: superview.frame.height - (Constants.Settings.margin*2)
         ))
         
         view.addSubview(SelectRow(
@@ -215,32 +225,12 @@ public class SensorsWidget: Widget {
         superview.addSubview(view)
     }
     
-    public func setValues(_ values: [SensorValue_t]) {
-        self.values = values
-        
-        DispatchQueue.main.async(execute: {
-            self.display()
-        })
-    }
-    
-    @objc private func toggleIcom(_ sender: NSControl) {
-        var state: NSControl.StateValue? = nil
-        if #available(OSX 10.15, *) {
-            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
-        } else {
-            state = sender is NSButton ? (sender as! NSButton).state: nil
-        }
-        self.iconState = state! == .on ? true : false
-        self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_icon", value: self.iconState)
-        self.display()
-    }
-    
     @objc private func changeMode(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String else {
             return
         }
         self.modeState = key
         store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_mode", value: key)
-        self.display()
+        self.redraw(self.values)
     }
 }
