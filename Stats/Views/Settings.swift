@@ -24,18 +24,18 @@ class SettingsWindow: NSWindow, NSWindowDelegate {
                 self.viewController.view.frame.width,
                 self.viewController.view.frame.height
             ),
-            styleMask: [.closable, .titled, .miniaturizable],
+            styleMask: [.closable, .titled, .miniaturizable, .fullSizeContentView],
             backing: .buffered,
-            defer: true
+            defer: false
         )
         
         self.contentViewController = self.viewController
         self.animationBehavior = .default
         self.collectionBehavior = .moveToActiveSpace
         self.titlebarAppearsTransparent = true
-        self.appearance = NSAppearance(named: .darkAqua)
-        self.center()
-        self.setIsVisible(false)
+        self.appearance = NSAppearance(named: .vibrantDark)
+//        self.center()
+        self.setIsVisible(true)
         
         let windowController = NSWindowController()
         windowController.window = self
@@ -106,12 +106,13 @@ private class SettingsViewController: NSViewController {
 
 private class SettingsView: NSView {
     private var modules: UnsafeMutablePointer<[Module]>?
-    private let navigationWidth: CGFloat = 180
-    private let buttonHeight: CGFloat = 45
     
-    private var navigationView: NSScrollView? = nil
-    private var buttonsView: NSView? = nil
-    private var mainView: NSView? = nil
+    private let sidebarWidth: CGFloat = 180
+    private let navigationHeight: CGFloat = 45
+    
+    private var menuView: NSScrollView = NSScrollView()
+    private var navigationView: NSView = NSView()
+    private var mainView: NSView = NSView()
     
     private var applicationSettings: NSView = ApplicationSettings()
     
@@ -121,32 +122,44 @@ private class SettingsView: NSView {
         
         NotificationCenter.default.addObserver(self, selector: #selector(menuCallback), name: .openSettingsView, object: nil)
         
-        let navigationView: NSScrollView = NSScrollView(frame: NSRect(x: 0, y: buttonHeight, width: navigationWidth, height: frame.height - buttonHeight))
-        navigationView.wantsLayer = true
-        navigationView.drawsBackground = false
+        let sidebar = NSVisualEffectView(frame: NSMakeRect(0, 0, self.sidebarWidth, self.frame.height))
+        sidebar.material = .sidebar
+        sidebar.blendingMode = .behindWindow
+        sidebar.state = .active
         
-        navigationView.addSubview(MenuView(n: 0, icon: NSImage(named: NSImage.Name("apps"))!, title: "Stats"))
+        self.menuView.frame = NSRect(
+            x: 0,
+            y: self.navigationHeight,
+            width: self.sidebarWidth,
+            height: frame.height - self.navigationHeight - 26
+        )
+        self.menuView.wantsLayer = true
+        self.menuView.drawsBackground = false
+        self.menuView.addSubview(MenuView(n: 0, icon: NSImage(named: NSImage.Name("apps"))!, title: "Stats"))
         
-        let buttonsView: NSView = NSView(frame: NSRect(x: 0, y: 0, width: navigationWidth, height: buttonHeight))
-        buttonsView.wantsLayer = true
+        self.navigationView.frame = NSRect(x: 0, y: 0, width: self.sidebarWidth, height: navigationHeight)
+        self.navigationView.wantsLayer = true
         
-        buttonsView.addSubview(self.makeButton(4, title: LocalizedString("Open Activity Monitor"), image: "chart", action: #selector(openActivityMonitor)))
-        buttonsView.addSubview(self.makeButton(3, title: LocalizedString("Report a bug"), image: "bug", action: #selector(reportBug)))
-        buttonsView.addSubview(self.makeButton(2, title: LocalizedString("Support app"), image: "donate", action: #selector(donate)))
-        buttonsView.addSubview(self.makeButton(1, title: LocalizedString("Close application"), image: "power", action: #selector(closeApp)))
+        self.navigationView.addSubview(self.makeButton(4, title: LocalizedString("Open Activity Monitor"), image: "chart", action: #selector(openActivityMonitor)))
+        self.navigationView.addSubview(self.makeButton(3, title: LocalizedString("Report a bug"), image: "bug", action: #selector(reportBug)))
+        self.navigationView.addSubview(self.makeButton(2, title: LocalizedString("Support app"), image: "donate", action: #selector(donate)))
+        self.navigationView.addSubview(self.makeButton(1, title: LocalizedString("Close application"), image: "power", action: #selector(closeApp)))
         
-        let mainView: NSView = NSView(frame: NSRect(x: navigationWidth, y: 1, width: frame.width - navigationWidth-1, height: frame.height-1))
-        mainView.wantsLayer = true
-        mainView.layer?.cornerRadius = 3
-        mainView.layer?.maskedCorners = [.layerMaxXMinYCorner]
+        self.mainView.frame = NSRect(
+            x: self.sidebarWidth + 1, // separation line
+            y: 1,
+            width: frame.width - self.sidebarWidth - 1, // separation line
+            height: frame.height - 2
+        )
+        self.mainView.wantsLayer = true
+        self.mainView.layer?.cornerRadius = 3
+        self.mainView.layer?.maskedCorners = [.layerMaxXMinYCorner]
         
-        self.addSubview(navigationView)
-        self.addSubview(buttonsView)
-        self.addSubview(mainView)
+        sidebar.addSubview(self.menuView)
+        sidebar.addSubview(self.navigationView)
         
-        self.navigationView = navigationView
-        self.mainView = mainView
-        self.buttonsView = buttonsView
+        self.addSubview(sidebar)
+        self.addSubview(self.mainView)
         
         self.openMenu("Stats")
     }
@@ -158,22 +171,17 @@ private class SettingsView: NSView {
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         
-        NSColor.gridColor.set()
-        var line = NSBezierPath()
-        line.move(to: NSMakePoint(0, self.buttonHeight))
-        line.line(to: NSMakePoint(self.navigationWidth, self.buttonHeight))
+        let line = NSBezierPath()
+        line.move(to: NSMakePoint(self.sidebarWidth, 0))
+        line.line(to: NSMakePoint(self.sidebarWidth, self.frame.height))
         line.lineWidth = 1
-        line.stroke()
         
-        line = NSBezierPath()
-        line.move(to: NSMakePoint(self.navigationWidth, 0))
-        line.line(to: NSMakePoint(self.navigationWidth, self.frame.height))
-        line.lineWidth = 1
+        NSColor.black.set()
         line.stroke()
     }
     
     public func openMenu(_ title: String) {
-        self.navigationView?.subviews.forEach({ (m: NSView) in
+        self.menuView.subviews.forEach({ (m: NSView) in
             if let menu = m as? MenuView {
                 if menu.title == title {
                     menu.activate()
@@ -185,9 +193,9 @@ private class SettingsView: NSView {
     public func setModules(_ list: UnsafeMutablePointer<[Module]>) {
         list.pointee.forEach { (m: Module) in
             if !m.available { return }
-            let n: Int = (self.navigationView?.subviews.count ?? 2)!-1
+            let n: Int = self.menuView.subviews.count - 1
             let menu: NSView = MenuView(n: n, icon: m.config.icon, title: m.config.name)
-            self.navigationView?.addSubview(menu)
+            self.menuView.addSubview(menu)
         }
         self.modules = list
 //        self.openMenu("CPU")
@@ -204,10 +212,10 @@ private class SettingsView: NSView {
                 }
             }
             
-            self.mainView?.subviews.forEach{ $0.removeFromSuperview() }
-            self.mainView?.addSubview(view)
+            self.mainView.subviews.forEach{ $0.removeFromSuperview() }
+            self.mainView.addSubview(view)
             
-            self.navigationView?.subviews.forEach({ (m: NSView) in
+            self.menuView.subviews.forEach({ (m: NSView) in
                 if let menu = m as? MenuView {
                     if menu.active {
                         menu.reset()
@@ -219,7 +227,7 @@ private class SettingsView: NSView {
     
     private func makeButton(_ n: Int, title: String, image: String, action: Selector) -> NSButton {
         let button = NSButtonWithPadding()
-        button.frame = CGRect(x: Int(self.navigationWidth) - (45*n), y: 0, width: 44, height: 44)
+        button.frame = CGRect(x: Int(self.sidebarWidth) - (45*n), y: 0, width: 44, height: 44)
         button.verticalPadding = 20
         button.horizontalPadding = 20
         button.title = title
@@ -234,37 +242,11 @@ private class SettingsView: NSView {
         button.target = self
         button.focusRingType = .none
         
-        let rect = NSRect(x: Int(self.navigationWidth) - (45*n), y: 0, width: 44, height: 44)
+        let rect = NSRect(x: Int(self.sidebarWidth) - (45*n), y: 0, width: 44, height: 44)
         let trackingArea = NSTrackingArea(rect: rect, options: [NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited, NSTrackingArea.Options.activeInActiveApp], owner: self, userInfo: ["button": title])
         self.addTrackingArea(trackingArea)
         
         return button
-    }
-    
-    override func mouseEntered(with: NSEvent) {
-        if let userData = with.trackingArea?.userInfo as? [String : AnyObject] {
-            if let title = userData["button"] as? String {
-                let b = self.buttonsView?.subviews.first{ $0 is NSButton && ($0 as! NSButton).title == title }
-                if b != nil && b is NSButton {
-                    (b as! NSButton).contentTintColor = .labelColor
-                    (b as! NSButton).layer?.backgroundColor = .init(gray: 0.1, alpha: 0.5)
-                    NSCursor.pointingHand.set()
-                }
-            }
-        }
-    }
-    
-    override func mouseExited(with: NSEvent) {
-        if let userData = with.trackingArea?.userInfo as? [String : AnyObject] {
-            if let title = userData["button"] as? String {
-                let b = self.buttonsView?.subviews.first{ $0 is NSButton && ($0 as! NSButton).title == title }
-                if b != nil && b is NSButton {
-                    (b as! NSButton).contentTintColor = .lightGray
-                    (b as! NSButton).layer?.backgroundColor = .clear
-                    NSCursor.arrow.set()
-                }
-            }
-        }
     }
     
     @objc private func openActivityMonitor(_ sender: Any) {
@@ -321,7 +303,7 @@ private class MenuView: NSView {
         
         let titleView = TextView(frame: NSMakeRect(34, (self.height - 16)/2, 100, 17))
         titleView.alignment = .natural
-        titleView.textColor = .secondaryLabelColor
+        titleView.textColor = .labelColor
         titleView.font = NSFont.systemFont(ofSize: 14, weight: .regular)
         titleView.stringValue = title
         
@@ -336,26 +318,11 @@ private class MenuView: NSView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func mouseEntered(with: NSEvent) {
-        self.titleView?.textColor = .labelColor
-        self.imageView?.contentTintColor = .labelColor
-        self.layer?.backgroundColor = .init(gray: 0.1, alpha: 0.5)
-        NSCursor.pointingHand.set()
-    }
-    
-    override func mouseExited(with: NSEvent) {
-        if !self.active {
-            self.reset()
-        }
-        NSCursor.arrow.set()
-    }
-    
     override func mouseDown(with: NSEvent) {
         self.activate()
     }
     
     public func reset() {
-        self.titleView?.textColor = .secondaryLabelColor
         self.imageView?.contentTintColor = .secondaryLabelColor
         self.layer?.backgroundColor = .clear
         self.active = false
@@ -364,7 +331,6 @@ private class MenuView: NSView {
     public func activate() {
         NotificationCenter.default.post(name: .openSettingsView, object: nil, userInfo: ["module": self.title])
         
-        self.titleView?.textColor = .labelColor
         self.imageView?.contentTintColor = .labelColor
         self.layer?.backgroundColor = .init(gray: 0.1, alpha: 0.5)
         self.active = true

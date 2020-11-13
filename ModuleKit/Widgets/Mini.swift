@@ -111,7 +111,7 @@ public class Mini: Widget, CALayerDelegate {
             }
         }
         if let layer = self.labelLayer {
-            let labelColor = NSColor.labelColor
+            let labelColor = NSColor.textColor
             if layer.foregroundColor != labelColor.cgColor {
                 layer.foregroundColor = labelColor.cgColor
             }
@@ -156,11 +156,11 @@ public class Mini: Widget, CALayerDelegate {
         let layer = CALayer()
         layer.frame = CGRect(x: 0, y: 0, width: self.width, height: self.frame.height)
         
-        let label = CAText(fontSize: 7, weight: .regular)
+        let label = CAText(fontSize: 7, weight: .medium)
         label.frame = CGRect(x: origin.x, y: 12, width: self.width - (Constants.Widget.margin*2), height: 7)
         label.string = self.title
         label.alignmentMode = .left
-        label.foregroundColor = NSColor.labelColor.cgColor
+        label.foregroundColor = NSColor.textColor.cgColor
         label.isHidden = !self.labelState
         
         let value = CAText(fontSize: valueSize)
