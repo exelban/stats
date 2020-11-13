@@ -29,6 +29,11 @@ internal class UsageReader: Reader<Network_Usage> {
     private var reachability: Reachability? = nil
     private var usage: Network_Usage = Network_Usage()
     
+    private var nonZeroUpdatesCount = 0
+    private var verifiedUsageDataApproach = false
+    private var shouldUseProcessesUsageData = false
+    private var didNativeApproachReportNonZeroDownload = false
+    
     private var primaryInterface: String {
         get {
             if let global = SCDynamicStoreCopyValue(nil, "State:/Network/Global/IPv4" as CFString), let name = global["PrimaryInterface"] as? String {
@@ -93,27 +98,103 @@ internal class UsageReader: Reader<Network_Usage> {
         }
         freeifaddrs(interfaceAddresses)
         
-        if self.usage.upload != 0 {
-            self.usage.upload = upload - self.usage.upload
-        }
-        if self.usage.download != 0 {
-            self.usage.download = download - self.usage.download
-        }
-        
-        if self.usage.upload < 0 {
-            self.usage.upload = 0
-        }
-        if self.usage.download < 0 {
-            self.usage.download = 0
+        if !verifiedUsageDataApproach {
+            if nonZeroUpdatesCount >= 3 {
+                if !didNativeApproachReportNonZeroDownload {
+                    shouldUseProcessesUsageData = true
+                }
+                verifiedUsageDataApproach = true
+            } else {
+                let processesUsage = allProcessesTotalUsage()
+                let accumulatedDownload = processesUsage?.download ?? 0
+                if download > 0 || accumulatedDownload > 0 {
+                    nonZeroUpdatesCount += 1
+                }
+                if download > 0 {
+                    didNativeApproachReportNonZeroDownload = true
+                }
+            }
         }
         
         self.usage.totalUpload += self.usage.upload
         self.usage.totalDownload += self.usage.download
         
+        let accumulatedDownload: Int64
+        if shouldUseProcessesUsageData {
+            let processesUsage = allProcessesTotalUsage()
+            accumulatedDownload = processesUsage?.download ?? 0
+        } else {
+            accumulatedDownload = download
+        }
+        
+        self.usage.upload = max(upload - self.usage.upload, 0)
+        self.usage.download = max(accumulatedDownload - self.usage.download, 0)
+        
         self.callback(self.usage)
         
         self.usage.upload = upload
-        self.usage.download = download
+        self.usage.download = accumulatedDownload
+    }
+    
+    private func allProcessesTotalUsage() -> Network_Usage? {
+        let task = Process()
+        task.launchPath = "/usr/bin/nettop"
+        task.arguments = ["-P", "-L", "1", "-k", "time,interface,state,rx_dupe,rx_ooo,re-tx,rtt_avg,rcvsize,tx_win,tc_class,tc_mgt,cc_algo,P,C,R,W,arch"]
+        
+        let outputPipe = Pipe()
+        let errorPipe = Pipe()
+        
+        task.standardOutput = outputPipe
+        task.standardError = errorPipe
+        
+        do {
+            try task.run()
+        } catch let error {
+            print(error)
+            return nil
+        }
+        
+        let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
+        let errorData = errorPipe.fileHandleForReading.readDataToEndOfFile()
+        let output = String(decoding: outputData, as: UTF8.self)
+        _ = String(decoding: errorData, as: UTF8.self)
+        
+        if output.isEmpty {
+            return nil
+        }
+
+        var list: [Network_Process] = []
+        var firstLine = false
+        output.enumerateLines { (line, _) -> () in
+            if !firstLine {
+                firstLine = true
+                return
+            }
+            
+            let parsedLine = line.split(separator: ",")
+            guard parsedLine.count >= 3 else {
+                return
+            }
+            
+            var process = Network_Process()
+            
+            if let download = Int(parsedLine[1]) {
+                process.download = download
+            }
+            if let upload = Int(parsedLine[2]) {
+                process.upload = upload
+            }
+            
+            list.append(process)
+        }
+        
+        var usage = Network_Usage()
+        for process in list {
+            usage.upload += Int64(process.upload)
+            usage.download += Int64(process.download)
+        }
+        
+        return usage
     }
     
     public func getDetails() {
