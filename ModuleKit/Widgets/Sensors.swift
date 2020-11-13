@@ -61,6 +61,17 @@ public class SensorsWidget: Widget {
         fatalError("init(coder:) has not been implemented")
     }
     
+    open override func updateLayer() {
+        self.body.sublayers?.forEach({ (l: CALayer) in
+            if let layer = l as? CATextLayer {
+                let color = NSColor.textColor.cgColor
+                if layer.foregroundColor != color {
+                    layer.foregroundColor = color
+                }
+            }
+        })
+    }
+    
     private func draw(_ list: [KeyValue_t]) {
         self.body.sublayers?.forEach{ $0.removeFromSuperlayer() }
         
@@ -137,9 +148,9 @@ public class SensorsWidget: Widget {
     }
     
     private func drawTwoRows(topSensor: KeyValue_t, bottomSensor: KeyValue_t?, x: CGFloat) -> CGFloat {
-        var font: NSFont = NSFont.systemFont(ofSize: 10, weight: .regular)
+        var font: NSFont = NSFont.systemFont(ofSize: 10, weight: .medium)
         if #available(OSX 10.15, *) {
-            font = NSFont.monospacedSystemFont(ofSize: 10, weight: .regular)
+            font = NSFont.monospacedSystemFont(ofSize: 10, weight: .medium)
         }
         
         let firstRowWidth = topSensor.value.widthOfString(usingFont: font)

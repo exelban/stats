@@ -652,6 +652,7 @@ public func Temperature(_ value: Double) -> String {
     let formatter = MeasurementFormatter()
     formatter.numberFormatter.maximumFractionDigits = 0
     formatter.unitOptions = .providedUnit
+    formatter.unitStyle = .short
     
     var measurement = Measurement(value: value, unit: UnitTemperature.celsius)
     if stringUnit != "system" {
@@ -731,10 +732,10 @@ public class ProcessView: NSView {
 }
 
 public class CAText: CATextLayer {
-    public init(fontSize: CGFloat = 12) {
+    public init(fontSize: CGFloat = 12, weight: NSFont.Weight = .regular) {
         super.init()
         
-        self.font = NSFont.systemFont(ofSize: fontSize, weight: .regular)
+        self.font = NSFont.systemFont(ofSize: fontSize, weight: weight)
         self.fontSize = fontSize
         
         self.allowsFontSubpixelQuantization = true
@@ -746,6 +747,10 @@ public class CAText: CATextLayer {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    public override init(layer: Any) {
+        super.init(layer: layer)
     }
     
     public func getWidth(add: CGFloat = 0) -> CGFloat {
