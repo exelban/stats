@@ -30,6 +30,7 @@
 "Characters" = "Litery";
 "Short" = "Krótki";
 "Long" = "Długi";
+"Statistics" = "Statystyki";
 
 // Alerts
 "New version available" = "Nowa wersja dostępna";
@@ -133,6 +134,8 @@
 "Click to copy mac address" = "Kliknij aby skopiować adres fizyczny";
 "No connection" = "Brak połączenia";
 "Network interface" = "Interfejs sieciowy";
+"Total download" = "Całkowicie pobrano";
+"Total upload" = "Całkowicie przesłano";
 
 // Battery
 "Level" = "Poziom naładowania";

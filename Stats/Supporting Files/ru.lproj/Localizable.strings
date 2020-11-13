@@ -30,6 +30,7 @@
 "Characters" = "Символы";
 "Short" = "Короткий";
 "Long" = "Длинный";
+"Statistics" = "Статистика";
 
 // Alerts
 "New version available" = "Доступна новая версия";
@@ -120,7 +121,7 @@
 "Fahrenheit" = "Фаренгейта";
 
 // Network
-"Uploading" = "Висилання";
+"Uploading" = "Выгрузка";
 "Downloading" = "Загрузка";
 "Public IP" = "Публичный IP";
 "Local IP" = "Локальный IP";
@@ -133,6 +134,8 @@
 "Click to copy mac address" = "Нажмите, чтобы скопировать физический адрес";
 "No connection" = "Нет соединения";
 "Network interface" = "Сетевой интерфейс";
+"Total download" = "Всего скачано";
+"Total upload" = "Всего выгружено";
 
 // Battery
 "Level" = "Уровень заряда";

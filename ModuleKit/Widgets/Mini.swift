@@ -156,15 +156,15 @@ public class Mini: Widget, CALayerDelegate {
         let layer = CALayer()
         layer.frame = CGRect(x: 0, y: 0, width: self.width, height: self.frame.height)
         
-        let label = CAText(fontSize: 8, weight: .regular)
-        label.frame = CGRect(x: origin.x, y: 12, width: self.width - (Constants.Widget.margin*2), height: 8)
+        let label = CAText(fontSize: 7, weight: .regular)
+        label.frame = CGRect(x: origin.x, y: 12, width: self.width - (Constants.Widget.margin*2), height: 7)
         label.string = self.title
         label.alignmentMode = .left
         label.foregroundColor = NSColor.labelColor.cgColor
         label.isHidden = !self.labelState
         
         let value = CAText(fontSize: valueSize)
-        value.frame = CGRect(x: origin.x, y: origin.y-2, width: self.width - (Constants.Widget.margin*2), height: valueSize+1)
+        value.frame = CGRect(x: origin.x, y: origin.y-1, width: self.width - (Constants.Widget.margin*2), height: valueSize+1)
         value.font = NSFont.systemFont(ofSize: valueSize, weight: .medium)
         value.string = "\(Int(self.value.rounded(toPlaces: 2) * 100))%"
         value.fontSize = valueSize

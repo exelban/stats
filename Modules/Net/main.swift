@@ -31,6 +31,9 @@ public struct Network_Usage: value_t {
     var download: Int64 = 0
     var upload: Int64 = 0
     
+    var totalDownload: Int64 = 0
+    var totalUpload: Int64 = 0
+    
     var laddr: String? = nil // local ip
     var raddr: String? = nil // remote ip
     
