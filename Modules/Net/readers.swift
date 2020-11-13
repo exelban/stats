@@ -136,69 +136,8 @@ internal class UsageReader: Reader<Network_Usage> {
         self.usage.download = accumulatedDownload
     }
     
-    private func allProcessesTotalUsage() -> Network_Usage? {
-        let task = Process()
-        task.launchPath = "/usr/bin/nettop"
-        task.arguments = ["-P", "-L", "1", "-k", "time,interface,state,rx_dupe,rx_ooo,re-tx,rtt_avg,rcvsize,tx_win,tc_class,tc_mgt,cc_algo,P,C,R,W,arch"]
-        
-        let outputPipe = Pipe()
-        let errorPipe = Pipe()
-        
-        task.standardOutput = outputPipe
-        task.standardError = errorPipe
-        
-        do {
-            try task.run()
-        } catch let error {
-            print(error)
-            return nil
-        }
-        
-        let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
-        let errorData = errorPipe.fileHandleForReading.readDataToEndOfFile()
-        let output = String(decoding: outputData, as: UTF8.self)
-        _ = String(decoding: errorData, as: UTF8.self)
-        
-        if output.isEmpty {
-            return nil
-        }
-
-        var list: [Network_Process] = []
-        var firstLine = false
-        output.enumerateLines { (line, _) -> () in
-            if !firstLine {
-                firstLine = true
-                return
-            }
-            
-            let parsedLine = line.split(separator: ",")
-            guard parsedLine.count >= 3 else {
-                return
-            }
-            
-            var process = Network_Process()
-            
-            if let download = Int(parsedLine[1]) {
-                process.download = download
-            }
-            if let upload = Int(parsedLine[2]) {
-                process.upload = upload
-            }
-            
-            list.append(process)
-        }
-        
-        var usage = Network_Usage()
-        for process in list {
-            usage.upload += Int64(process.upload)
-            usage.download += Int64(process.download)
-        }
-        
-        return usage
-    }
-    
     public func getDetails() {
-        self.usage.reset()
+        resetData()
         
         DispatchQueue.global(qos: .background).async {
             self.getPublicIP()
@@ -277,6 +216,76 @@ internal class UsageReader: Reader<Network_Usage> {
         let data: UnsafeMutablePointer<if_data>? = unsafeBitCast(pointer.pointee.ifa_data, to: UnsafeMutablePointer<if_data>.self)
         return (upload: Int64(data?.pointee.ifi_obytes ?? 0), download: Int64(data?.pointee.ifi_ibytes ?? 0))
     }
+    
+    private func resetData() {
+        usage.reset()
+        nonZeroUpdatesCount = 0
+        verifiedUsageDataApproach = false
+        shouldUseProcessesUsageData = false
+        didNativeApproachReportNonZeroDownload = false
+    }
+    
+    private func allProcessesTotalUsage() -> Network_Usage? {
+        let task = Process()
+        task.launchPath = "/usr/bin/nettop"
+        task.arguments = ["-P", "-L", "1", "-k", "time,interface,state,rx_dupe,rx_ooo,re-tx,rtt_avg,rcvsize,tx_win,tc_class,tc_mgt,cc_algo,P,C,R,W,arch"]
+        
+        let outputPipe = Pipe()
+        let errorPipe = Pipe()
+        
+        task.standardOutput = outputPipe
+        task.standardError = errorPipe
+        
+        do {
+            try task.run()
+        } catch let error {
+            print(error)
+            return nil
+        }
+        
+        let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
+        let errorData = errorPipe.fileHandleForReading.readDataToEndOfFile()
+        let output = String(decoding: outputData, as: UTF8.self)
+        _ = String(decoding: errorData, as: UTF8.self)
+        
+        if output.isEmpty {
+            return nil
+        }
+
+        var list: [Network_Process] = []
+        var firstLine = false
+        output.enumerateLines { (line, _) -> () in
+            if !firstLine {
+                firstLine = true
+                return
+            }
+            
+            let parsedLine = line.split(separator: ",")
+            guard parsedLine.count >= 3 else {
+                return
+            }
+            
+            var process = Network_Process()
+            
+            if let download = Int(parsedLine[1]) {
+                process.download = download
+            }
+            if let upload = Int(parsedLine[2]) {
+                process.upload = upload
+            }
+            
+            list.append(process)
+        }
+        
+        var usage = Network_Usage()
+        for process in list {
+            usage.upload += Int64(process.upload)
+            usage.download += Int64(process.download)
+        }
+        
+        return usage
+    }
+    
 }
 
 public class ProcessReader: Reader<[Network_Process]> {
