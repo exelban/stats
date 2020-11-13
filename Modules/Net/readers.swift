@@ -99,7 +99,7 @@ internal class UsageReader: Reader<Network_Usage> {
         freeifaddrs(interfaceAddresses)
         
         if !verifiedUsageDataApproach {
-            if nonZeroUpdatesCount >= 3 {
+            if didNativeApproachReportNonZeroDownload || nonZeroUpdatesCount >= 3 {
                 if !didNativeApproachReportNonZeroDownload {
                     shouldUseProcessesUsageData = true
                 }
