@@ -33,9 +33,9 @@ class SettingsWindow: NSWindow, NSWindowDelegate {
         self.animationBehavior = .default
         self.collectionBehavior = .moveToActiveSpace
         self.titlebarAppearsTransparent = true
-        self.appearance = NSAppearance(named: .vibrantDark)
-//        self.center()
-        self.setIsVisible(true)
+        self.appearance = NSAppearance(named: .darkAqua)
+        self.center()
+        self.setIsVisible(false)
         
         let windowController = NSWindowController()
         windowController.window = self
@@ -155,10 +155,9 @@ private class SettingsView: NSView {
         self.mainView.layer?.cornerRadius = 3
         self.mainView.layer?.maskedCorners = [.layerMaxXMinYCorner]
         
-        sidebar.addSubview(self.menuView)
-        sidebar.addSubview(self.navigationView)
-        
         self.addSubview(sidebar)
+        self.addSubview(self.menuView)
+        self.addSubview(self.navigationView)
         self.addSubview(self.mainView)
         
         self.openMenu("Stats")
@@ -299,12 +298,12 @@ private class MenuView: NSView {
         }
         imageView.frame = NSRect(x: 8, y: (self.height - 18)/2, width: 18, height: 18)
         imageView.wantsLayer = true
-        imageView.contentTintColor = .secondaryLabelColor
+        imageView.contentTintColor = .labelColor
         
-        let titleView = TextView(frame: NSMakeRect(34, (self.height - 16)/2, 100, 17))
+        let titleView = TextView(frame: NSMakeRect(34, (self.height - 16)/2, 100, 16))
         titleView.alignment = .natural
         titleView.textColor = .labelColor
-        titleView.font = NSFont.systemFont(ofSize: 14, weight: .regular)
+        titleView.font = NSFont.systemFont(ofSize: 13, weight: .regular)
         titleView.stringValue = title
         
         self.addSubview(imageView)
@@ -322,17 +321,14 @@ private class MenuView: NSView {
         self.activate()
     }
     
-    public func reset() {
-        self.imageView?.contentTintColor = .secondaryLabelColor
-        self.layer?.backgroundColor = .clear
-        self.active = false
-    }
-    
     public func activate() {
         NotificationCenter.default.post(name: .openSettingsView, object: nil, userInfo: ["module": self.title])
-        
-        self.imageView?.contentTintColor = .labelColor
-        self.layer?.backgroundColor = .init(gray: 0.1, alpha: 0.5)
+        self.layer?.backgroundColor = .init(gray: 0.1, alpha: 0.4)
         self.active = true
+    }
+    
+    public func reset() {
+        self.layer?.backgroundColor = .clear
+        self.active = false
     }
 }

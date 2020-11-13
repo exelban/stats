@@ -263,13 +263,15 @@ class ApplicationSettings: NSView {
         statsName.stringValue = "Stats"
         statsName.isSelectable = true
         
+        let versionNumber = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
+        let buildNumber = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as! String
+        
         let statsVersion: NSTextField = TextView(frame: NSRect(x: 0, y: 0, width: leftPanel.frame.width, height: 16))
         statsVersion.alignment = .center
         statsVersion.font = NSFont.systemFont(ofSize: 12, weight: .regular)
-        let versionNumber = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
         statsVersion.stringValue = "\(LocalizedString("Version")) \(versionNumber)"
         statsVersion.isSelectable = true
-        statsVersion.toolTip = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String
+        statsVersion.toolTip = "Build number: \(buildNumber)"
         
         infoView.addSubview(statsName)
         infoView.addSubview(statsVersion)
