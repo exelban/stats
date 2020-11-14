@@ -121,8 +121,8 @@
 "Fahrenheit" = "Fahrenheit";
 
 // Network
-"Uploading" = "Envio";
-"Downloading" = "Baixar";
+"Uploading" = "Enviando";
+"Downloading" = "Baixando";
 "Public IP" = "IP Público";
 "Local IP" = "IP Local";
 "Interface" = "Interface";
