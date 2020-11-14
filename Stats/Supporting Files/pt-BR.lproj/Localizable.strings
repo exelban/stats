@@ -30,6 +30,7 @@
 "Characters" = "Letras";
 "Short" = "Curto";
 "Long" = "Longo";
+"Statistics" = "Estatísticas";
 
 // Alerts
 "New version available" = "Nova versão disponível";
