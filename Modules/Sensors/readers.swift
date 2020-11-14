@@ -42,9 +42,9 @@ internal class SensorsReader: Reader<[Sensor_t]> {
             }
         }
         
-        // Remove the temperature sensor, if SMC report more that 110 C degree.
         for (index, sensor) in list.enumerated() {
             if let newValue = self.smc.pointee.getValue(sensor.key) {
+                // Remove the temperature sensor, if SMC report more that 110 C degree.
                 if sensor.type == SensorType.Temperature.rawValue && newValue > 110 {
                     list.remove(at: index)
                     continue

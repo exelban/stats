@@ -130,6 +130,8 @@
 "Click to copy mac address" = "Haga clic para copiar la dirección mac";
 "No connection" = "Sin conexión";
 "Network interface" = "Interfaz de red";
+"Total download" = "Descarga total";
+"Total upload" = "Carga total";
 
 // Battery
 "Level" = "Nivel";

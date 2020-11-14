@@ -133,6 +133,8 @@
 "Click to copy mac address" = "Mac adresini kopyalamak için tıklayın";
 "No connection" = "Bağlantı yok";
 "Network interface" = "Ağ arayüzü";
+"Total download" = "Tamamen indirildi";
+"Total upload" = "Tamamen yüklendi";
 
 // Battery
 "Level" = "Doluluk";

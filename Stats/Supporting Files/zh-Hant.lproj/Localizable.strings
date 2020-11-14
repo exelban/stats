@@ -129,6 +129,8 @@
 "Click to copy mac address" = "點擊複製 MAC 位址";
 "No connection" = "無連線";
 "Network interface" = "網路介面";
+"Total download" = "共下載";
+"Total upload" = "共上傳";
 
 // Battery
 "Level" = "電量";

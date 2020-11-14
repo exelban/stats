@@ -133,6 +133,8 @@
 "Click to copy mac address" = "Nhấp để copy MAC";
 "No connection" = "Không có kết nối";
 "Network interface" = "Giao diện mạng";
+"Total download" = "Tổng tải";
+"Total upload" = "Tổng upload";
 
 // Battery
 "Level" = "Dung lượng Pin";
