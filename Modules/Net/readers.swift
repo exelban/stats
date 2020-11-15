@@ -93,8 +93,10 @@ internal class UsageReader: Reader<Network_Usage> {
         }
         freeifaddrs(interfaceAddresses)
         
-        if self.usage.upload != 0 && self.usage.download != 0 {
+        if self.usage.upload != 0 {
             self.usage.upload = upload - self.usage.upload
+        }
+        if self.usage.download != 0 {
             self.usage.download = download - self.usage.download
         }
         
