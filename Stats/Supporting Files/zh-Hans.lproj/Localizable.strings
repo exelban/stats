@@ -133,6 +133,8 @@
 "Click to copy mac address" = "点击拷贝MAC地址";
 "No connection" = "无连接";
 "Network interface" = "网络接口";
+"Total download" = "共下载";
+"Total upload" = "总上传";
 
 // Battery
 "Level" = "电量";
@@ -158,3 +160,4 @@
 "Percentage and time" = "百分比和时间";
 "Time and percentage" = "时间和百分比";
 "Time format" = "时间格式";
+"Hide additional information when full" = "电池充满后隐藏其他信息";

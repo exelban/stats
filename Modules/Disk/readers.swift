@@ -112,11 +112,18 @@ internal class CapacityReader: Reader<DiskList> {
                     }
                 }
                 
-                if let mediaName = dict[kDADiskDescriptionMediaNameKey as String] {
+                if let mediaName = dict[kDADiskDescriptionVolumeNameKey as String] {
                     d.mediaName = mediaName as! String
-                    
                     if d.mediaName == "Recovery" {
                         return nil
+                    }
+                }
+                if d.mediaName == "" {
+                    if let mediaName = dict[kDADiskDescriptionMediaNameKey as String] {
+                        d.mediaName = mediaName as! String
+                        if d.mediaName == "Recovery" {
+                            return nil
+                        }
                     }
                 }
                 if let mediaSize = dict[kDADiskDescriptionMediaSizeKey as String] {

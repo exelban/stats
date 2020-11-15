@@ -61,10 +61,10 @@ public class Sensors: Module {
             return
         }
         
-        var list: [SensorValue_t] = []
+        var list: [KeyValue_t] = []
         value!.forEach { (s: Sensor_t) in
             if s.state {
-                list.append(SensorValue_t(s.formattedMiniValue))
+                list.append(KeyValue_t(key: s.key, value: s.formattedMiniValue))
             }
         }
         

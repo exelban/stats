@@ -105,6 +105,9 @@ internal class UsageReader: Reader<Network_Usage> {
             self.usage.download = 0
         }
         
+        self.usage.totalUpload += self.usage.upload
+        self.usage.totalDownload += self.usage.download
+        
         self.callback(self.usage)
         
         self.usage.upload = upload

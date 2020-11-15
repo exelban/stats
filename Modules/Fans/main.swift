@@ -93,11 +93,11 @@ public class Fans: Module {
         self.popupView.usageCallback(value!)
         
         let label: Bool = store.pointee.bool(key: "Fans_label", defaultValue: false)
-        var list: [SensorValue_t] = []
+        var list: [KeyValue_t] = []
         value!.forEach { (f: Fan) in
             if f.state {
                 let str = label ? "\(f.name.prefix(1).uppercased()): \(f.formattedValue)" : f.formattedValue
-                list.append(SensorValue_t(str))
+                list.append(KeyValue_t(key: "Fan#\(f.id)", value: str))
             }
         }
         

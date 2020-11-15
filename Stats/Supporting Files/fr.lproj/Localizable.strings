@@ -133,6 +133,8 @@
 "Click to copy mac address" = "Cliquez pour copier l'adresse mac";
 "No connection" = "Aucune connexion";
 "Network interface" = "Interface réseau";
+"Total download" = "Total download";
+"Total upload" = "Total upload";
 
 // Battery
 "Level" = "Niveau";
@@ -158,3 +160,4 @@
 "Percentage and time" = "Pourcentage et temps";
 "Time and percentage" = "Temps et pourcentage";
 "Time format" = "Format de l'heure";
+"Hide additional information when full" = "Masquer les informations supplémentaires lorsque la batterie est pleine";

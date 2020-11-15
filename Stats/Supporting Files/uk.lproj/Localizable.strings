@@ -30,6 +30,7 @@
 "Characters" = "Літери";
 "Short" = "Короткий";
 "Long" = "Довгий";
+"Statistics" = "Статистика";
 
 // Alerts
 "New version available" = "Доступна нова версія";
@@ -120,7 +121,7 @@
 "Fahrenheit" = "Фаренгейта";
 
 // Network
-"Uploading" = "Вислання";
+"Uploading" = "Висилання";
 "Downloading" = "Завантаження";
 "Public IP" = "Публічний IP";
 "Local IP" = "Локальний IP";
@@ -133,6 +134,8 @@
 "Click to copy mac address" = "Натисніть, щоб скопіювати фізичний адрес";
 "No connection" = "Немає з'єднання";
 "Network interface" = "Мережевий інтерфейс";
+"Total download" = "Загально завантажено";
+"Total upload" = "Загально вислано";
 
 // Battery
 "Level" = "Рівень заряду";
@@ -158,3 +161,4 @@
 "Percentage and time" = "Проценти і час";
 "Time and percentage" = "Час і проценти";
 "Time format" = "Формат часу";
+"Hide additional information when full" = "Приховати додаткову інформацію, якщо акумулятор заряджений";

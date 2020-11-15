@@ -17,6 +17,7 @@ public class BatterykWidget: Widget {
     private var timeFormat: String = "short"
     private var iconState: Bool = true
     private var colorState: Bool = false
+    private var hideAdditionalWhenFull: Bool = true
     
     private let store: UnsafePointer<Store>?
     
@@ -32,13 +33,14 @@ public class BatterykWidget: Widget {
         self.title = widgetTitle
         self.type = .battery
         self.preview = preview
-        self.canDrawConcurrently = true
+        self.wantsLayer = true
         
         if self.store != nil {
             self.additional = store!.pointee.string(key: "\(self.title)_\(self.type.rawValue)_additional", defaultValue: self.additional)
             self.timeFormat = store!.pointee.string(key: "\(self.title)_timeFormat", defaultValue: self.timeFormat)
             self.iconState = store!.pointee.bool(key: "\(self.title)_\(self.type.rawValue)_icon", defaultValue: self.iconState)
             self.colorState = store!.pointee.bool(key: "\(self.title)_\(self.type.rawValue)_color", defaultValue: self.colorState)
+            self.hideAdditionalWhenFull = store!.pointee.bool(key: "\(self.title)_\(self.type.rawValue)_hideAdditionalWhenFull", defaultValue: self.hideAdditionalWhenFull)
         }
         
         if self.preview {
@@ -60,38 +62,40 @@ public class BatterykWidget: Widget {
         var x: CGFloat = Constants.Widget.margin+1
         let isShortTimeFormat: Bool = self.timeFormat == "short"
         
-        switch self.additional {
-        case "percentage":
-            let rowWidth = self.drawOneRow(
-                value: "\(Int((self.percentage.rounded(toPlaces: 2)) * 100))%",
-                x: x
-            ).rounded(.up)
-            width += rowWidth + Constants.Widget.margin
-            x += rowWidth + Constants.Widget.margin
-        case "time":
-            let rowWidth = self.drawOneRow(
-                value: Double(self.time*60).printSecondsToHoursMinutesSeconds(short: isShortTimeFormat),
-                x: x
-            ).rounded(.up)
-            width += rowWidth + Constants.Widget.margin
-            x += rowWidth + Constants.Widget.margin
-        case "percentageAndTime":
-            let rowWidth = self.drawTwoRows(
-                first: "\(Int((self.percentage.rounded(toPlaces: 2)) * 100))%",
-                second: Double(self.time*60).printSecondsToHoursMinutesSeconds(short: isShortTimeFormat),
-                x: x
-            ).rounded(.up)
-            width += rowWidth + Constants.Widget.margin
-            x += rowWidth + Constants.Widget.margin
-        case "timeAndPercentage":
-            let rowWidth = self.drawTwoRows(
-                first: Double(self.time*60).printSecondsToHoursMinutesSeconds(short: isShortTimeFormat),
-                second: "\(Int((self.percentage.rounded(toPlaces: 2)) * 100))%",
-                x: x
-            ).rounded(.up)
-            width += rowWidth + Constants.Widget.margin
-            x += rowWidth + Constants.Widget.margin
-        default: break
+        if !self.hideAdditionalWhenFull || (self.hideAdditionalWhenFull && self.percentage != 1) {
+            switch self.additional {
+            case "percentage":
+                let rowWidth = self.drawOneRow(
+                    value: "\(Int((self.percentage.rounded(toPlaces: 2)) * 100))%",
+                    x: x
+                ).rounded(.up)
+                width += rowWidth + Constants.Widget.margin
+                x += rowWidth + Constants.Widget.margin
+            case "time":
+                let rowWidth = self.drawOneRow(
+                    value: Double(self.time*60).printSecondsToHoursMinutesSeconds(short: isShortTimeFormat),
+                    x: x
+                ).rounded(.up)
+                width += rowWidth + Constants.Widget.margin
+                x += rowWidth + Constants.Widget.margin
+            case "percentageAndTime":
+                let rowWidth = self.drawTwoRows(
+                    first: "\(Int((self.percentage.rounded(toPlaces: 2)) * 100))%",
+                    second: Double(self.time*60).printSecondsToHoursMinutesSeconds(short: isShortTimeFormat),
+                    x: x
+                ).rounded(.up)
+                width += rowWidth + Constants.Widget.margin
+                x += rowWidth + Constants.Widget.margin
+            case "timeAndPercentage":
+                let rowWidth = self.drawTwoRows(
+                    first: Double(self.time*60).printSecondsToHoursMinutesSeconds(short: isShortTimeFormat),
+                    second: "\(Int((self.percentage.rounded(toPlaces: 2)) * 100))%",
+                    x: x
+                ).rounded(.up)
+                width += rowWidth + Constants.Widget.margin
+                x += rowWidth + Constants.Widget.margin
+            default: break
+            }
         }
         
         let w: CGFloat = 28 - (Constants.Widget.margin*2) - 4
@@ -245,17 +249,29 @@ public class BatterykWidget: Widget {
     
     public override func settings(superview: NSView) {
         let rowHeight: CGFloat = 30
-        let height: CGFloat = ((rowHeight + Constants.Settings.margin) * 2) + Constants.Settings.margin
+        let height: CGFloat = ((rowHeight + Constants.Settings.margin) * 3) + Constants.Settings.margin
         superview.setFrameSize(NSSize(width: superview.frame.width, height: height))
         
-        let view: NSView = NSView(frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin, width: superview.frame.width - (Constants.Settings.margin*2), height: superview.frame.height - (Constants.Settings.margin*2)))
+        let view: NSView = NSView(frame: NSRect(
+            x: Constants.Settings.margin,
+            y: Constants.Settings.margin,
+            width: superview.frame.width - (Constants.Settings.margin*2),
+            height: superview.frame.height - (Constants.Settings.margin*2)
+        ))
         
         view.addSubview(SelectRow(
-            frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 1, width: view.frame.width, height: rowHeight),
+            frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 2, width: view.frame.width, height: rowHeight),
             title: LocalizedString("Additional information"),
             action: #selector(toggleAdditional),
             items: BatteryAdditionals,
             selected: self.additional
+        ))
+        
+        view.addSubview(ToggleTitleRow(
+            frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 1, width: view.frame.width, height: rowHeight),
+            title: LocalizedString("Hide additional information when full"),
+            action: #selector(toggleHideAdditionalWhenFull),
+            state: self.hideAdditionalWhenFull
         ))
         
         view.addSubview(ToggleTitleRow(
@@ -274,6 +290,18 @@ public class BatterykWidget: Widget {
         }
         self.additional = key
         self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_additional", value: key)
+        self.display()
+    }
+    
+    @objc private func toggleHideAdditionalWhenFull(_ sender: NSControl) {
+        var state: NSControl.StateValue? = nil
+        if #available(OSX 10.15, *) {
+            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
+        } else {
+            state = sender is NSButton ? (sender as! NSButton).state: nil
+        }
+        self.hideAdditionalWhenFull = state! == .on ? true : false
+        self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_hideAdditionalWhenFull", value: self.hideAdditionalWhenFull)
         self.display()
     }
     

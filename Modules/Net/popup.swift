@@ -21,7 +21,7 @@ internal class Popup: NSView, Popup_p {
     
     private let dashboardHeight: CGFloat = 90
     private let chartHeight: CGFloat = 90 + Constants.Popup.separatorHeight
-    private let detailsHeight: CGFloat = 110 + Constants.Popup.separatorHeight
+    private let detailsHeight: CGFloat = (22*7) + Constants.Popup.separatorHeight
     private let processHeight: CGFloat = 22
     
     private var dashboardView: NSView? = nil
@@ -43,6 +43,8 @@ internal class Popup: NSView, Popup_p {
     private var interfaceField: ValueField? = nil
     private var ssidField: ValueField? = nil
     private var macAdressField: ValueField? = nil
+    private var totalUploadField: ValueField? = nil
+    private var totalDownloadField: ValueField? = nil
     
     private var initialized: Bool = false
     private var processesInitialized: Bool = false
@@ -172,6 +174,9 @@ internal class Popup: NSView, Popup_p {
         let separator = SeparatorView(LocalizedString("Details"), origin: NSPoint(x: 0, y: self.detailsHeight-Constants.Popup.separatorHeight), width: self.frame.width)
         let container: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: separator.frame.origin.y))
         
+        self.totalUploadField = PopupWithColorRow(container, color: NSColor.systemRed, n: 6, title: "\(LocalizedString("Total upload")):", value: "")
+        self.totalDownloadField = PopupWithColorRow(container, color: NSColor.systemBlue, n: 5, title: "\(LocalizedString("Total download")):", value: "")
+        
         self.publicIPField = PopupRow(container, n: 4, title: "\(LocalizedString("Public IP")):", value: "")
         self.localIPField = PopupRow(container, n: 3, title: "\(LocalizedString("Local IP")):", value: "")
         self.interfaceField = PopupRow(container, n: 2, title: "\(LocalizedString("Interface")):", value: "")
@@ -180,17 +185,14 @@ internal class Popup: NSView, Popup_p {
         
         self.publicIPField?.addTracking()
         self.localIPField?.addTracking()
-        self.ssidField?.addTracking()
         self.macAdressField?.addTracking()
         
         self.publicIPField?.toolTip = LocalizedString("Click to copy public IP address")
         self.localIPField?.toolTip = LocalizedString("Click to copy local IP address")
-        self.ssidField?.toolTip = LocalizedString("Click to copy wifi name")
         self.macAdressField?.toolTip = LocalizedString("Click to copy mac address")
         
         self.publicIPField?.isSelectable = true
         self.localIPField?.isSelectable = true
-        self.ssidField?.isSelectable = true
         self.macAdressField?.isSelectable = true
         
         view.addSubview(separator)
@@ -224,7 +226,12 @@ internal class Popup: NSView, Popup_p {
         let unitWidth = "KB/s".widthOfString(usingFont: .systemFont(ofSize: 13, weight: .light)) + 5
         let topPartWidth = valueWidth + unitWidth
         
-        let topView: NSView = NSView(frame: NSRect(x: (view.frame.width-topPartWidth)/2, y: (view.frame.height - topHeight - titleHeight)/2 + titleHeight, width: topPartWidth, height: topHeight))
+        let topView: NSView = NSView(frame: NSRect(
+            x: (view.frame.width-topPartWidth)/2,
+            y: (view.frame.height - topHeight - titleHeight)/2 + titleHeight,
+            width: topPartWidth,
+            height: topHeight
+        ))
         
         let valueField = LabelField(frame: NSRect(x: 0, y: 0, width: valueWidth, height: 30), "0")
         valueField.font = NSFont.systemFont(ofSize: 26, weight: .light)
@@ -239,7 +246,12 @@ internal class Popup: NSView, Popup_p {
         let titleWidth: CGFloat = title.widthOfString(usingFont: NSFont.systemFont(ofSize: 12, weight: .regular))+8
         let iconSize: CGFloat = 12
         let bottomWidth: CGFloat = titleWidth+iconSize
-        let bottomView: NSView = NSView(frame: NSRect(x: (view.frame.width-bottomWidth)/2, y: topView.frame.origin.y - titleHeight, width: bottomWidth, height: titleHeight))
+        let bottomView: NSView = NSView(frame: NSRect(
+            x: (view.frame.width-bottomWidth)/2,
+            y: topView.frame.origin.y - titleHeight,
+            width: bottomWidth,
+            height: titleHeight
+        ))
         
         let colorBlock: ColorView = ColorView(frame: NSRect(x: 0, y: 1, width: iconSize, height: iconSize), color: color, radius: 4)
         let titleField = LabelField(frame: NSRect(x: iconSize, y: 0, width: titleWidth, height: titleHeight), title)
@@ -297,6 +309,9 @@ internal class Popup: NSView, Popup_p {
                 self.uploadValue = value.upload
                 self.downloadValue = value.download
                 self.setUploadDownloadFields()
+                
+                self.totalUploadField?.stringValue = Units(bytes: value.totalUpload).getReadableMemory()
+                self.totalDownloadField?.stringValue = Units(bytes: value.totalDownload).getReadableMemory()
                 
                 if let interface = value.interface {
                     self.interfaceField?.stringValue = "\(interface.displayName) (\(interface.BSDName))"

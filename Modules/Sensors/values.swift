@@ -27,7 +27,6 @@ enum SensorType: SensorType_t {
 }
 
 struct Sensor_t {
-    let store: Store = Store()
     var key: String
     var name: String
     
@@ -82,7 +81,7 @@ struct Sensor_t {
     
     var state: Bool {
         get {
-            return store.bool(key: "sensor_\(self.key)", defaultValue: false)
+            return Store.shared.bool(key: "sensor_\(self.key)", defaultValue: false)
         }
     }
 }
@@ -102,7 +101,6 @@ let SensorsList: [Sensor_t] = [
     Sensor_t(key: "TC0D", name: "CPU diode", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
     Sensor_t(key: "TC0E", name: "CPU diode virtual", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
     Sensor_t(key: "TC0F", name: "CPU diode filtered", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
-    Sensor_t(key: "TC0C", name: "CPU core", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
     Sensor_t(key: "TC0H", name: "CPU heatsink", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
     Sensor_t(key: "TC0P", name: "CPU proximity", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
     Sensor_t(key: "TCAD", name: "CPU package", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
@@ -118,15 +116,16 @@ let SensorsList: [Sensor_t] = [
     Sensor_t(key: "TC8c", name: "CPU core 9", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
     Sensor_t(key: "TC9c", name: "CPU core 10", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
     
-    Sensor_t(key: "TC1C", name: "CPU core 1", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
-    Sensor_t(key: "TC2C", name: "CPU core 2", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
-    Sensor_t(key: "TC3C", name: "CPU core 3", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
-    Sensor_t(key: "TC4C", name: "CPU core 4", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
-    Sensor_t(key: "TC5C", name: "CPU core 5", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
-    Sensor_t(key: "TC6C", name: "CPU core 6", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
-    Sensor_t(key: "TC7C", name: "CPU core 7", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
-    Sensor_t(key: "TC8C", name: "CPU core 8", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
-    Sensor_t(key: "TC9C", name: "CPU core 9", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
+    Sensor_t(key: "TC0C", name: "CPU core 1", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
+    Sensor_t(key: "TC1C", name: "CPU core 2", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
+    Sensor_t(key: "TC2C", name: "CPU core 3", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
+    Sensor_t(key: "TC3C", name: "CPU core 4", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
+    Sensor_t(key: "TC4C", name: "CPU core 5", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
+    Sensor_t(key: "TC5C", name: "CPU core 6", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
+    Sensor_t(key: "TC6C", name: "CPU core 7", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
+    Sensor_t(key: "TC7C", name: "CPU core 8", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
+    Sensor_t(key: "TC8C", name: "CPU core 9", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
+    Sensor_t(key: "TC9C", name: "CPU core 10", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
     
     Sensor_t(key: "TCGC", name: "GPU Intel Graphics", group: SensorGroup.GPU.rawValue, type: SensorType.Temperature.rawValue),
     Sensor_t(key: "TG0D", name: "GPU diode", group: SensorGroup.GPU.rawValue, type: SensorType.Temperature.rawValue),
