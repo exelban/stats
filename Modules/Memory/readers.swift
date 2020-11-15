@@ -47,10 +47,10 @@ internal class UsageReader: Reader<RAM_Usage> {
         }
         
         if result == KERN_SUCCESS {
-            let active = Double(stats.active_count) * Double(PAGE_SIZE)
-            let inactive = Double(stats.inactive_count) * Double(PAGE_SIZE)
-            let wired = Double(stats.wire_count) * Double(PAGE_SIZE)
-            let compressed = Double(stats.compressor_page_count) * Double(PAGE_SIZE)
+            let active = Double(stats.active_count) * Double(vm_page_size)
+            let inactive = Double(stats.inactive_count) * Double(vm_page_size)
+            let wired = Double(stats.wire_count) * Double(vm_page_size)
+            let compressed = Double(stats.compressor_page_count) * Double(vm_page_size)
             
             let used = active + wired + compressed
             let free = self.totalSize - used

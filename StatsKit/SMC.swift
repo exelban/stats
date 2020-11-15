@@ -253,7 +253,7 @@ public class SMCService {
             return result
         }
         
-        value.pointee.dataSize = output.keyInfo.dataSize
+        value.pointee.dataSize = UInt32(output.keyInfo.dataSize)
         value.pointee.dataType = output.keyInfo.dataType.toString()
         input.keyInfo.dataSize = output.keyInfo.dataSize
         input.data8 = SMCKeys.READ_BYTES.rawValue
