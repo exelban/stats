@@ -12,7 +12,7 @@
 import Cocoa
 import StatsKit
 
-public class Mini: Widget, CALayerDelegate {
+public class Mini: Widget {
     private let store: UnsafePointer<Store>?
     
     private var labelState: Bool = true
