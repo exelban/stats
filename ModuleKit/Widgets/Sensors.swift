@@ -202,6 +202,7 @@ public class SensorsWidget: Widget {
                         }
                     }
                 }
+                self.needsDisplay = true
             }
         })
     }
