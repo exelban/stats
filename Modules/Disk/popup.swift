@@ -14,8 +14,8 @@ import ModuleKit
 import StatsKit
 
 internal class Popup: NSView, Popup_p {
-    let diskFullHeight: CGFloat = 60
-    var list: [String: DiskView] = [:]
+    private let diskFullHeight: CGFloat = 60
+    private var list: [String: DiskView] = [:]
     
     public var sizeCallback: ((NSSize) -> Void)? = nil
     
@@ -28,29 +28,35 @@ internal class Popup: NSView, Popup_p {
     }
     
     internal func usageCallback(_ value: DiskList) {
-        if self.list.count != value.list.count {
+        if self.list.count != value.list.count && self.list.count != 0 {
             DispatchQueue.main.async(execute: {
                 self.subviews.forEach{ $0.removeFromSuperview() }
             })
             self.list = [:]
         }
         
-        value.list.reversed().forEach { (d: drive) in
-            if self.list[d.mediaName] == nil {
-                DispatchQueue.main.async(execute: {
-                    self.list[d.mediaName] = DiskView(
-                        NSRect(x: 0, y: (self.diskFullHeight + Constants.Popup.margins) * CGFloat(self.list.count), width: self.frame.width, height: self.diskFullHeight),
-                        name: d.mediaName,
-                        size: d.size,
-                        free: d.free,
-                        path: d.path
+        DispatchQueue.main.async(execute: {
+            value.list.reversed().forEach { (drive: drive) in
+                if let disk = self.list[drive.mediaName] {
+                    disk.update(free: drive.free, read: drive.stats?.read, write: drive.stats?.write)
+                } else {
+                    let disk = DiskView(
+                        NSRect(
+                            x: 0,
+                            y: (self.diskFullHeight + Constants.Popup.margins) * CGFloat(self.list.count),
+                            width: self.frame.width,
+                            height: self.diskFullHeight
+                        ),
+                        name: drive.mediaName,
+                        size: drive.size,
+                        free: drive.free,
+                        path: drive.path
                     )
-                    self.addSubview(self.list[d.mediaName]!)
-                })
-            } else {
-                self.list[d.mediaName]?.update(free: d.free, read: d.stats?.read, write: d.stats?.write)
+                    self.list[drive.mediaName] = disk
+                    self.addSubview(disk)
+                }
             }
-        }
+        })
         
         DispatchQueue.main.async(execute: {
             let h: CGFloat = ((self.diskFullHeight + Constants.Popup.margins) * CGFloat(self.list.count)) - Constants.Popup.margins
@@ -199,29 +205,27 @@ internal class DiskView: NSView {
     }
     
     public func update(free: Int64, read: Int64?, write: Int64?) {
-        DispatchQueue.main.async(execute: {
-            if (self.window?.isVisible ?? false) || !self.ready {
-                if self.legendField != nil {
-                    self.legendField?.stringValue = LocalizedString("Used disk memory", Units(bytes: (self.size - free)).getReadableMemory(), Units(bytes: self.size).getReadableMemory())
-                    self.percentageField?.stringValue = "\(Int8((Double(self.size - free) / Double(self.size)) * 100))%"
-                }
-                
-                if self.usedBarSpace != nil {
-                    let percentage = CGFloat(self.size - free) / CGFloat(self.size)
-                    let width: CGFloat = ((self.mainView.frame.width - 2) * percentage) / 1
-                    self.usedBarSpace?.setFrameSize(NSSize(width: width, height: self.usedBarSpace!.frame.height))
-                }
-                
-                if read != nil {
-                    self.setReadState(read != 0)
-                }
-                if write != nil {
-                    self.setWriteState(write != 0)
-                }
-                
-                self.ready = true
+        if (self.window?.isVisible ?? false) || !self.ready {
+            if self.legendField != nil {
+                self.legendField?.stringValue = LocalizedString("Used disk memory", Units(bytes: (self.size - free)).getReadableMemory(), Units(bytes: self.size).getReadableMemory())
+                self.percentageField?.stringValue = "\(Int8((Double(self.size - free) / Double(self.size)) * 100))%"
             }
-        })
+            
+            if self.usedBarSpace != nil {
+                let percentage = CGFloat(self.size - free) / CGFloat(self.size)
+                let width: CGFloat = ((self.mainView.frame.width - 2) * percentage) / 1
+                self.usedBarSpace?.setFrameSize(NSSize(width: width, height: self.usedBarSpace!.frame.height))
+            }
+            
+            if read != nil {
+                self.setReadState(read != 0)
+            }
+            if write != nil {
+                self.setWriteState(write != 0)
+            }
+            
+            self.ready = true
+        }
     }
     
     override func mouseEntered(with: NSEvent) {
