@@ -24,15 +24,14 @@ struct ipResponse: Decodable {
 }
 
 internal class UsageReader: Reader<Network_Usage> {
+    typealias BandwidthUsage = (upload: Int64, download: Int64)
+    
     public var store: UnsafePointer<Store>? = nil
     
     private var reachability: Reachability? = nil
     private var usage: Network_Usage = Network_Usage()
     
-    private var nonZeroUpdatesCount = 0
-    private var verifiedUsageDataApproach = false
-    private var shouldUseProcessesUsageData = false
-    private var didNativeApproachReportNonZeroDownload = false
+    private var shouldReportSelectedInterfaceBandwidthOnly = true
     
     private var primaryInterface: String {
         get {
@@ -74,70 +73,27 @@ internal class UsageReader: Reader<Network_Usage> {
     }
     
     public override func read() {
-        var interfaceAddresses: UnsafeMutablePointer<ifaddrs>? = nil
-        var upload: Int64 = 0
-        var download: Int64 = 0
-        guard getifaddrs(&interfaceAddresses) == 0 else { return }
-        
-        var pointer = interfaceAddresses
-        while pointer != nil {
-            defer { pointer = pointer?.pointee.ifa_next }
-            
-            if String(cString: pointer!.pointee.ifa_name) != self.interfaceID {
-                continue
-            }
-            
-            if let ip = getLocalIP(pointer!), self.usage.laddr != ip {
-                self.usage.laddr = ip
-            }
-            
-            if let info = getBytesInfo(pointer!) {
-                upload += info.upload
-                download += info.download
-            }
-        }
-        freeifaddrs(interfaceAddresses)
-        
-        if !verifiedUsageDataApproach {
-            if didNativeApproachReportNonZeroDownload || nonZeroUpdatesCount >= 3 {
-                if !didNativeApproachReportNonZeroDownload {
-                    shouldUseProcessesUsageData = true
-                }
-                verifiedUsageDataApproach = true
-            } else {
-                let processesUsage = allProcessesTotalUsage()
-                let accumulatedDownload = processesUsage?.download ?? 0
-                if download > 0 || accumulatedDownload > 0 {
-                    nonZeroUpdatesCount += 1
-                }
-                if download > 0 {
-                    didNativeApproachReportNonZeroDownload = true
-                }
-            }
-        }
-        
+        let currentUsage: BandwidthUsage
+        if shouldReportSelectedInterfaceBandwidthOnly {
+            currentUsage = interfaceBandwidthUsage()
         self.usage.totalUpload += self.usage.upload
         self.usage.totalDownload += self.usage.download
         
-        let accumulatedDownload: Int64
-        if shouldUseProcessesUsageData {
-            let processesUsage = allProcessesTotalUsage()
-            accumulatedDownload = processesUsage?.download ?? 0
         } else {
-            accumulatedDownload = download
+            currentUsage = allProcessesBandwidthUsage()
         }
         
-        self.usage.upload = max(upload - self.usage.upload, 0)
-        self.usage.download = max(accumulatedDownload - self.usage.download, 0)
+        self.usage.upload = max(currentUsage.upload - self.usage.upload, 0)
+        self.usage.download = max(currentUsage.download - self.usage.download, 0)
         
         self.callback(self.usage)
         
-        self.usage.upload = upload
-        self.usage.download = accumulatedDownload
+        self.usage.upload = currentUsage.upload
+        self.usage.download = currentUsage.download
     }
     
     public func getDetails() {
-        resetData()
+        self.usage.reset()
         
         DispatchQueue.global(qos: .background).async {
             self.getPublicIP()
@@ -217,15 +173,37 @@ internal class UsageReader: Reader<Network_Usage> {
         return (upload: Int64(data?.pointee.ifi_obytes ?? 0), download: Int64(data?.pointee.ifi_ibytes ?? 0))
     }
     
-    private func resetData() {
-        usage.reset()
-        nonZeroUpdatesCount = 0
-        verifiedUsageDataApproach = false
-        shouldUseProcessesUsageData = false
-        didNativeApproachReportNonZeroDownload = false
+    private func interfaceBandwidthUsage() -> BandwidthUsage {
+        var interfaceAddresses: UnsafeMutablePointer<ifaddrs>? = nil
+        var totalUpload: Int64 = 0
+        var totalDownload: Int64 = 0
+        guard getifaddrs(&interfaceAddresses) == 0 else {
+            return (0, 0)
+        }
+        
+        var pointer = interfaceAddresses
+        while pointer != nil {
+            defer { pointer = pointer?.pointee.ifa_next }
+            
+            if String(cString: pointer!.pointee.ifa_name) != self.interfaceID {
+                continue
+            }
+            
+            if let ip = getLocalIP(pointer!), self.usage.laddr != ip {
+                self.usage.laddr = ip
+            }
+            
+            if let info = getBytesInfo(pointer!) {
+                totalUpload += info.upload
+                totalDownload += info.download
+            }
+        }
+        freeifaddrs(interfaceAddresses)
+        
+        return (totalUpload, totalDownload)
     }
     
-    private func allProcessesTotalUsage() -> Network_Usage? {
+    private func allProcessesBandwidthUsage() -> BandwidthUsage {
         let task = Process()
         task.launchPath = "/usr/bin/nettop"
         task.arguments = ["-P", "-L", "1", "-k", "time,interface,state,rx_dupe,rx_ooo,re-tx,rtt_avg,rcvsize,tx_win,tc_class,tc_mgt,cc_algo,P,C,R,W,arch"]
@@ -240,7 +218,7 @@ internal class UsageReader: Reader<Network_Usage> {
             try task.run()
         } catch let error {
             print(error)
-            return nil
+            return (0, 0)
         }
         
         let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
@@ -249,10 +227,11 @@ internal class UsageReader: Reader<Network_Usage> {
         _ = String(decoding: errorData, as: UTF8.self)
         
         if output.isEmpty {
-            return nil
+            return (0, 0)
         }
 
-        var list: [Network_Process] = []
+        var totalUpload: Int64 = 0
+        var totalDownload: Int64 = 0
         var firstLine = false
         output.enumerateLines { (line, _) -> () in
             if !firstLine {
@@ -265,25 +244,15 @@ internal class UsageReader: Reader<Network_Usage> {
                 return
             }
             
-            var process = Network_Process()
-            
             if let download = Int(parsedLine[1]) {
-                process.download = download
+                totalDownload += Int64(download)
             }
             if let upload = Int(parsedLine[2]) {
-                process.upload = upload
+                totalUpload += Int64(upload)
             }
-            
-            list.append(process)
         }
         
-        var usage = Network_Usage()
-        for process in list {
-            usage.upload += Int64(process.upload)
-            usage.download += Int64(process.download)
-        }
-        
-        return usage
+        return (totalUpload, totalDownload)
     }
     
 }
