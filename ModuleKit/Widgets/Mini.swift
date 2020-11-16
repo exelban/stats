@@ -33,10 +33,6 @@ public class Mini: Widget {
         }
     }
     
-    open override var wantsUpdateLayer: Bool {
-        return true
-    }
-    
     public init(preview: Bool, title: String, config: NSDictionary?, store: UnsafePointer<Store>?) {
         self.store = store
         var widgetTitle: String = title
@@ -79,105 +75,58 @@ public class Mini: Widget {
         
         self.title = widgetTitle
         self.type = .mini
+        self.wantsLayer = true
         
         if let store = self.store {
             self.colorState = widget_c(rawValue: store.pointee.string(key: "\(self.title)_\(self.type.rawValue)_color", defaultValue: self.colorState.rawValue)) ?? self.colorState
             self.labelState = store.pointee.bool(key: "\(self.title)_\(self.type.rawValue)_label", defaultValue: self.labelState)
         }
-        
-        self.wantsLayer = true
-        self.layerContentsRedrawPolicy = .onSetNeedsDisplay
-        
-        self.draw()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    open override func updateLayer() {
-        var valueColor: NSColor = NSColor(cgColor: self.valueLayer?.foregroundColor ?? NSColor.textColor.cgColor) ?? NSColor.textColor
-        switch self.colorState {
-        case .systemAccent: valueColor = NSColor.controlAccentColor
-        case .utilization: valueColor = self.value.usageColor()
-        case .pressure: valueColor = self.pressureLevel.pressureColor()
-        case .monochrome: valueColor = NSColor.textColor
-        default: valueColor = colorFromString("\(self.colorState.self)")
-        }
+    public override func draw(_ dirtyRect: NSRect) {
+        super.draw(dirtyRect)
         
-        if let layer = self.valueLayer {
-            if layer.foregroundColor != valueColor.cgColor {
-                layer.foregroundColor = valueColor.cgColor
-            }
-        }
-        if let layer = self.labelLayer {
-            let labelColor = NSColor.textColor
-            if layer.foregroundColor != labelColor.cgColor {
-                layer.foregroundColor = labelColor.cgColor
-            }
-        }
-    }
-    
-    public override func layout() {
-        if self.labelLayer!.isHidden != !self.labelState {
-            let alignment: CATextLayerAlignmentMode = self.labelState ? .left : .center
-            let valueSize: CGFloat = self.labelState ? 12 : 14
-            var origin: CGPoint = CGPoint(x: Constants.Widget.margin, y: (Constants.Widget.height-valueSize)/2)
-            if self.labelState {
-                origin.y = 1
-            }
-            
-            if var frame = self.layer?.frame {
-                frame.size = CGSize(width: width, height: frame.height)
-                self.layer?.frame = frame
-            }
-            
-            self.labelLayer?.isHidden = !self.labelState
-            if var frame = self.valueLayer?.frame {
-                frame.origin = CGPoint(x: origin.x, y: origin.y-1)
-                frame.size = CGSize(width: width - (Constants.Widget.margin*2), height: valueSize+1)
-                self.valueLayer?.frame = frame
-            }
-            self.valueLayer?.fontSize = valueSize
-            self.valueLayer?.alignmentMode = alignment
-        }
-        
-        super.layout()
-    }
-    
-    private func draw() {
-        let alignment: CATextLayerAlignmentMode = self.labelState ? .left : .center
         let valueSize: CGFloat = self.labelState ? 12 : 14
         var origin: CGPoint = CGPoint(x: Constants.Widget.margin, y: (Constants.Widget.height-valueSize)/2)
+        let style = NSMutableParagraphStyle()
+        style.alignment = self.labelState ? .left : .center
+        
         if self.labelState {
+            let stringAttributes = [
+                NSAttributedString.Key.font: NSFont.systemFont(ofSize: 7, weight: .light),
+                NSAttributedString.Key.foregroundColor: isDarkMode ? NSColor.white : NSColor.textColor,
+                NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
+            ]
+            let rect = CGRect(x: origin.x, y: 12, width: 20, height: 7)
+            let str = NSAttributedString.init(string: self.title, attributes: stringAttributes)
+            str.draw(with: rect)
+            
             origin.y = 1
         }
         
-        let layer = CALayer()
-        layer.frame = CGRect(x: 0, y: 0, width: self.width, height: self.frame.height)
+        var color: NSColor = NSColor.controlAccentColor
+        switch self.colorState {
+        case .systemAccent: color = NSColor.controlAccentColor
+        case .utilization: color = value.usageColor()
+        case .pressure: color = self.pressureLevel.pressureColor()
+        case .monochrome: color = (isDarkMode ? NSColor.white : NSColor.black)
+        default: color = colorFromString("\(self.colorState.self)")
+        }
         
-        let label = CAText(fontSize: 7, weight: .medium)
-        label.frame = CGRect(x: origin.x, y: 12, width: self.width - (Constants.Widget.margin*2), height: 7)
-        label.string = self.title
-        label.alignmentMode = .left
-        label.foregroundColor = NSColor.textColor.cgColor
-        label.isHidden = !self.labelState
+        let stringAttributes = [
+            NSAttributedString.Key.font: NSFont.systemFont(ofSize: valueSize, weight: .regular),
+            NSAttributedString.Key.foregroundColor: color,
+            NSAttributedString.Key.paragraphStyle: style
+        ]
+        let rect = CGRect(x: origin.x, y: origin.y, width: width - (Constants.Widget.margin*2), height: valueSize+1)
+        let str = NSAttributedString.init(string: "\(Int(self.value.rounded(toPlaces: 2) * 100))%", attributes: stringAttributes)
+        str.draw(with: rect)
         
-        let value = CAText(fontSize: valueSize)
-        value.frame = CGRect(x: origin.x, y: origin.y-1, width: self.width - (Constants.Widget.margin*2), height: valueSize+1)
-        value.font = NSFont.systemFont(ofSize: valueSize, weight: .medium)
-        value.string = "\(Int(self.value.rounded(toPlaces: 2) * 100))%"
-        value.fontSize = valueSize
-        value.alignmentMode = alignment
-        
-        layer.addSublayer(label)
-        layer.addSublayer(value)
-        
-        self.labelLayer = label
-        self.valueLayer = value
-        
-        self.layer?.addSublayer(layer)
-        self.setFrameSize(NSSize(width: self.width, height: self.frame.size.height))
+        self.setWidth(width)
     }
     
     public func setValue(_ value: Double) {
@@ -185,12 +134,9 @@ public class Mini: Widget {
             return
         }
         
+        self.value = value
         DispatchQueue.main.async(execute: {
-            self.value = value
-            CATransaction.disableAnimations {
-                self.valueLayer?.string = "\(Int(self.value.rounded(toPlaces: 2) * 100))%"
-            }
-            self.needsDisplay = true
+            self.display()
         })
     }
     
@@ -236,8 +182,7 @@ public class Mini: Widget {
         if let newColor = widget_c.allCases.first(where: { $0.rawValue == sender.title }) {
             self.colorState = newColor
             self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_color", value: self.colorState.rawValue)
-            
-            self.wantsLayer = true
+            self.display()
         }
     }
     
@@ -250,8 +195,6 @@ public class Mini: Widget {
         }
         self.labelState = state! == .on ? true : false
         self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_label", value: self.labelState)
-        
-        self.setWidth(self.width)
-        self.needsLayout = true
+        self.display()
     }
 }
