@@ -111,7 +111,7 @@ internal class PopupView: NSView {
         self.body = NSScrollView(frame: NSRect(
             x: Constants.Popup.margins,
             y: Constants.Popup.margins,
-            width: frame.width,
+            width: frame.width - Constants.Popup.margins*2,
             height: frame.height - self.header.frame.height - Constants.Popup.margins*2
         ))
         
@@ -120,6 +120,7 @@ internal class PopupView: NSView {
         self.wantsLayer = true
         self.layer?.cornerRadius = 3
         
+        self.body.drawsBackground = false
         self.body.translatesAutoresizingMaskIntoConstraints = true
         self.body.borderType = .noBorder
         self.body.hasVerticalScroller = true
