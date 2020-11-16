@@ -76,15 +76,15 @@ internal class UsageReader: Reader<Network_Usage> {
         let currentUsage: BandwidthUsage
         if shouldReportSelectedInterfaceBandwidthOnly {
             currentUsage = interfaceBandwidthUsage()
-        self.usage.totalUpload += self.usage.upload
-        self.usage.totalDownload += self.usage.download
-        
         } else {
             currentUsage = allProcessesBandwidthUsage()
         }
         
         self.usage.upload = max(currentUsage.upload - self.usage.upload, 0)
         self.usage.download = max(currentUsage.download - self.usage.download, 0)
+        
+        self.usage.totalUpload += self.usage.upload
+        self.usage.totalDownload += self.usage.download
         
         self.callback(self.usage)
         
