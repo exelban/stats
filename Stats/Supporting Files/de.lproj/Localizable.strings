@@ -27,7 +27,7 @@
 "None" = "Keiner";
 "Dots" = "Punkte";
 "Arrows" = "Pfeile";
-"Characters" = "Briefe";
+"Characters" = "Buchstaben";
 "Short" = "Kurz";
 "Long" = "Lange";
 
@@ -53,7 +53,7 @@
 
 // Update
 "The latest version of Stats installed" = "Die neueste Version von Stats ist installiert";
-"Downloading..." = "Am herunterladen...";
+"Downloading..." = "Herunterladen...";
 "Current version: " = "Aktuelle Version:  ";
 "Latest version: " = "Neueste Version:    ";
 
@@ -69,8 +69,8 @@
 "Reverse values order" = "Umgekehrte Reihenfolge der Werte";
 "Base" = "Basis";
 "Display mode" = "Anzeigemodus";
-"One row" = "Eine reihe";
-"Two rows" = "Zwei reihen";
+"One row" = "Eine Reihe";
+"Two rows" = "Zwei Reihen";
 
 // Module Kit
 "Open module settings" = "Module Einstellungen öffnen";
@@ -124,13 +124,13 @@
 "Downloading" = "Download";
 "Public IP" = "Öffentliche IP";
 "Local IP" = "Lokale IP";
-"Interface" = "Interface";
+"Interface" = "Schnittstelle";
 "Network" = "Netzwerk";
 "Physical address" = "Physische Adresse";
 "Click to copy public IP address" = "Klicken Sie zum Kopieren der öffentlichen IP-Adresse";
 "Click to copy local IP address" = "Klicken Sie zum Kopieren der lokalen IP-Adresse";
-"Click to copy wifi name" = "Klicken Sie zum Kopieren des Wifi-Namens";
-"Click to copy mac address" = "Klicken Sie zum Kopieren der Mac-Adresse";
+"Click to copy wifi name" = "Klicken Sie zum Kopieren des WiFi-Namens";
+"Click to copy mac address" = "Klicken Sie zum Kopieren der MAC-Adresse";
 "No connection" = "Keine Verbindung";
 "Network interface" = "Netzwerkschnittstelle";
 "Total download" = "Empfangen";
@@ -150,14 +150,14 @@
 "Is charging" = "wird aufgeladen";
 "Time to discharge" = "Entladedauer";
 "Time to charge" = "Ladedauer";
-"Calculating" = "am berechnen";
+"Calculating" = "Berechnen...";
 "Fully charged" = "vollständig aufgeladen";
 "Not connected" = "nicht angeschlossen";
-"Low level notification" = "Batterie Ladezustand Benachrichtigung";
+"Low level notification" = "Benachrichtigen bei";
 "Low battery" = "Akku schwach";
 "Battery remaining" = "%0% verbleiben";
 "Percentage" = "Prozentsatz";
 "Percentage and time" = "Prozentsatz und Zeit";
 "Time and percentage" = "Zeit und Prozentsatz";
 "Time format" = "Zeitformat";
-"Hide additional information when full" = "Verstecken Zusätzliche Informationen, wenn der Akku voll ist";
+"Hide additional information when full" = "Zusätzliche Informationen bei vollständiger Ladung verbergen";
