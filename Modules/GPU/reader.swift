@@ -32,7 +32,6 @@ internal class InfoReader: Reader<GPUs> {
         }
         let devices = PCIdevices.filter{ $0.object(forKey: "IOName") as? String == "display" }
         
-        print("------------", Date(), "------------", to: &Log.log)
         print("Found \(devices.count) devices", to: &Log.log)
         
         devices.forEach { (dict: NSDictionary) in

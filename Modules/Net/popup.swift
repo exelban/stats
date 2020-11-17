@@ -360,6 +360,7 @@ internal class Popup: NSView, Popup_p {
                         self.processes[index].upload = Units(bytes: Int64(process.upload)).getReadableSpeed(base: DataSizeBase(rawValue: self.base) ?? .byte)
                         self.processes[index].download = Units(bytes: Int64(process.download)).getReadableSpeed(base: DataSizeBase(rawValue: self.base) ?? .byte)
                         self.processes[index].icon = process.icon
+                        self.processes[index].toolTip = "pid: \(process.pid)"
                     }
                 }
                 

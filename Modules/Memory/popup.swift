@@ -239,6 +239,7 @@ internal class Popup: NSView, Popup_p {
                         self.processes[index].label = process.name != nil ? process.name! : process.command
                         self.processes[index].value = Units(bytes: Int64(process.usage)).getReadableMemory()
                         self.processes[index].icon = process.icon
+                        self.processes[index].toolTip = "pid: \(process.pid)"
                     }
                 }
                 
