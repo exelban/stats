@@ -311,13 +311,17 @@ public class ProcessReader: Reader<[Network_Process]> {
         }
         
         processes.sort {
-            if $0.download != $1.download {
-                return $0.download < $1.download
-            } else if $0.upload < $1.upload {
-                return $0.upload < $1.upload
-            } else {
+            let firstMax = max($0.download, $0.upload)
+            let secondMax = max($1.download, $1.upload)
+            let firstMin = min($0.download, $0.upload)
+            let secondMin = min($1.download, $1.upload)
+            
+            if firstMax == secondMax && firstMin == secondMin { // download and upload values are the same, sort by time
                 return $0.time < $1.time
+            } else if firstMax == secondMax && firstMin != secondMin { // max values are the same, min not. Sort by min values
+                return firstMin < secondMin
             }
+            return firstMax < secondMax // max values are not the same, sort by max value
         }
         
         self.callback(processes.suffix(self.numberOfProcesses).reversed())
