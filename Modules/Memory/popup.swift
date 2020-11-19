@@ -232,14 +232,20 @@ internal class Popup: NSView, Popup_p {
     public func processCallback(_ list: [TopProcess]) {
         DispatchQueue.main.async(execute: {
             if (self.window?.isVisible ?? false) || !self.processesInitialized {
-                for i in 0..<list.count {
-                    let process = list[i]
-                    let index = list.count-i-1
-                    if self.processes.indices.contains(index) {
-                        self.processes[index].label = process.name != nil ? process.name! : process.command
-                        self.processes[index].value = Units(bytes: Int64(process.usage)).getReadableMemory()
-                        self.processes[index].icon = process.icon
-                        self.processes[index].toolTip = "pid: \(process.pid)"
+                for i in 0..<self.processes.count {
+                    let listIndex = list.count-i-1
+                    
+                    if list.indices.contains(listIndex) {
+                        let process = list[listIndex]
+                        self.processes[i].label = process.name != nil ? process.name! : process.command
+                        self.processes[i].value = Units(bytes: Int64(process.usage)).getReadableMemory()
+                        self.processes[i].icon = process.icon
+                        self.processes[i].toolTip = "pid: \(process.pid)"
+                    } else {
+                        self.processes[i].label = ""
+                        self.processes[i].value = ""
+                        self.processes[i].icon = nil
+                        self.processes[i].toolTip = ""
                     }
                 }
                 
