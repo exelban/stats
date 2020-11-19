@@ -242,10 +242,7 @@ internal class Popup: NSView, Popup_p {
                         self.processes[i].icon = process.icon
                         self.processes[i].toolTip = "pid: \(process.pid)"
                     } else {
-                        self.processes[i].label = ""
-                        self.processes[i].value = ""
-                        self.processes[i].icon = nil
-                        self.processes[i].toolTip = ""
+                        self.processes[i].clear();
                     }
                 }
                 
