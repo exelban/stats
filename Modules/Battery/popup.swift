@@ -260,14 +260,14 @@ internal class Popup: NSView, Popup_p {
             
             if list.count != self.processes.count {
                 self.processes.forEach { processView in
-                    processView.clear();
+                    processView.clear()
                 }
             }
             
             for i in 0..<list.count {
                 let process = list[i]
                 let index = list.count-i-1
-                self.processes[index].attachProcess(process);
+                self.processes[index].attachProcess(process)
                 self.processes[index].value = "\(process.usage)%"
             }
             
