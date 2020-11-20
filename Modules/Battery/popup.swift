@@ -255,7 +255,7 @@ internal class Popup: NSView, Popup_p {
     public func processCallback(_ list: [TopProcess]) {
         DispatchQueue.main.async(execute: {
             if !(self.window?.isVisible ?? false) && self.processesInitialized {
-                return;
+                return
             }
             
             if list.count != self.processes.count {
