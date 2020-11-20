@@ -1,0 +1,164 @@
+//
+//  Localizable.strings
+//  Stats
+//
+//  Created by Serhiy Mytrovtsiy on 27/08/2020.
+//  Using Swift 5.0.
+//  Running on macOS 10.15.
+//
+//  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
+//
+
+// Words
+"Unknown" = "Ukjent";
+"Version" = "Versjon";
+"Processor" = "Prosessor";
+"Memory" = "Minne";
+"Graphics" = "Grafikk";
+"Disk" = "Disk";
+"Close" = "Lukk";
+"Download" = "Nedlasting";
+"Install" = "Installer";
+"Cancel" = "Avbryt";
+"Unavailable" = "Utilgjengelig";
+"Yes" = "Ja";
+"No" = "Nei";
+"Automatic" = "Automatisk";
+"None" = "Ingen";
+"Dots" = "Prikker";
+"Arrows" = "Piler";
+"Characters" = "Tegn";
+"Short" = "Kort";
+"Long" = "Lang";
+"Statistics" = "Statistikk";
+
+// Alerts
+"New version available" = "Ny versjon tilgjengelig";
+"Click to install the new version of Stats" = "Klikk for å installere ny versjon av Stats";
+"Successfully updated" = "Oppdateringen var vellykket";
+"Stats was updated to v" = "Stats ble oppdatert til v%0";
+
+// Settings
+"Open Activity Monitor" = "Åpne Aktivitetsmonitor";
+"Report a bug" = "Meld en feil";
+"Close application" = "Lukk programmet";
+"Open application settings" = "Åpne programinnstillinger";
+"Open moduleName settings" = "Åpne innstillinger for %0";
+
+// Application settings
+"Update application" = "Oppdater programmet";
+"Check for updates" = "Se etter oppdateringer";
+"Check for update" = "Se etter oppdatering";
+"Show icon in dock" = "Vis ikon i dock";
+"Start at login" = "Start ved innlogging";
+
+// Update
+"The latest version of Stats installed" = "Den nyeste versjonen av Stats er installert";
+"Downloading..." = "Laster ned...";
+"Current version: " = "Nåværende versjon:  ";
+"Latest version: " = "Nyeste version:    ";
+
+// Widgets
+"Color" = "Farge";
+"Label" = "Merkelapp";
+"Box" = "Boks";
+"Frame" = "Ramme";
+"Value" = "Verdi";
+"Colorize" = "Fargelegg";
+"Colorize value" = "Vargelegg verdi";
+"Additional information" = "Tilleggsinformasjon";
+"Reverse values order" = "Reverser rekkefølge på verdier";
+"Base" = "Base";
+"Display mode" = "Visningsmodus";
+"One row" = "En rad";
+"Two rows" = "To rader";
+
+// Module Kit
+"Open module settings" = "Åpne modulinnstillinger";
+"Select widget" = "Velg %0-visning";
+"Update interval" = "Oppdateringsintervall";
+"Usage history" = "Brukshistorikk";
+"Details" = "Detaljer";
+"Top processes" = "Topp-prosesser";
+"Pictogram" = "Piktogram";
+
+// Modules
+"Number of top processes" = "Antall topp-prosesser";
+
+// CPU
+"CPU usage" = "CPU-bruk";
+"CPU temperature" = "CPU-temperatur";
+"CPU frequency" = "CPU-frekvens";
+"System" = "System";
+"User" = "Bruker";
+"Idle" = "Ledig";
+"Show usage per core" = "Vis bruk per kjerne";
+"Show hyper-threading cores" = "Vis hyper-threading-kjerner";
+
+// GPU
+"GPU to show" = "GPU å vise";
+"GPU temperature" = "GPU-temperatur";
+"GPU utilization" = "GPU-bruk";
+
+// Memory
+"Memory usage" = "Minnebruk";
+"Memory pressure" = "Minnebelastning";
+"Total" = "Totalt";
+"Used" = "Brukt";
+"App" = "Programmer";
+"Wired" = "Opptatt";
+"Compressed" = "Komprimert";
+"Free" = "Ledig";
+
+// Disk
+"Show removable disks" = "Vis utløsbare disker";
+"Used disk memory" = "Brukte %0 fra %1";
+"Disk to show" = "Disker å vise";
+
+// Sensors
+"Temperature unit" = "Temperaturenhet";
+"Celsius" = "Celsius";
+"Fahrenheit" = "Fahrenheit";
+
+// Network
+"Uploading" = "Last opp";
+"Downloading" = "Last ned";
+"Public IP" = "Offentlig IP";
+"Local IP" = "Lokal IP";
+"Interface" = "Grensesnitt";
+"Network" = "Nettverk";
+"Physical address" = "Fysisk addresse";
+"Click to copy public IP address" = "Klikk for å kopiere offentlig IP-adresse";
+"Click to copy local IP address" = "Klikk for å kopiere lokal IP-adresse";
+"Click to copy wifi name" = "Klikk for å kopiere nettverksnavn";
+"Click to copy mac address" = "Klikk for å kopiere MAC-adresse";
+"No connection" = "Ingen forbindelse";
+"Network interface" = "Nettverksgrensesnitt";
+"Total download" = "Totalt lastet ned";
+"Total upload" = "Totalt lastet opp";
+
+// Battery
+"Level" = "Nivå";
+"Source" = "Kilde";
+"Time" = "Tid";
+"Health" = "Helse";
+"Battery" = "Batteri";
+"Amperage" = "Strømstyrke";
+"Voltage" = "Spenning";
+"Temperature" = "Temperatur";
+"Power adapter" = "Strømadapter";
+"Power" = "Strøm";
+"Is charging" = "Lader";
+"Time to discharge" = "Tid på å bruke opp";
+"Time to charge" = "Tid på å lade";
+"Calculating" = "Kalkulerer";
+"Fully charged" = "Fullstendig ladet";
+"Not connected" = "Ikke koblet til";
+"Low level notification" = "Varsling ved lavt nivå";
+"Low battery" = "Lavt batterinivå";
+"Battery remaining" = "%0% igjen";
+"Percentage" = "Prosent";
+"Percentage and time" = "Prosent og tid";
+"Time and percentage" = "Tid og prosent";
+"Time format" = "Tidsformat";
+"Hide additional information when full" = "Skjul ekstra information når fulladet";
