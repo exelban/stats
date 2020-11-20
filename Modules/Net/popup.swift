@@ -351,21 +351,25 @@ internal class Popup: NSView, Popup_p {
     
     public func processCallback(_ list: [Network_Process]) {
         DispatchQueue.main.async(execute: {
-            if (self.window?.isVisible ?? false) || !self.processesInitialized {
-                for i in 0..<list.count {
-                    let process = list[i]
-                    let index = list.count-i-1
-                    if self.processes.indices.contains(index) {
-                        self.processes[index].label = process.name
-                        self.processes[index].upload = Units(bytes: Int64(process.upload)).getReadableSpeed(base: DataSizeBase(rawValue: self.base) ?? .byte)
-                        self.processes[index].download = Units(bytes: Int64(process.download)).getReadableSpeed(base: DataSizeBase(rawValue: self.base) ?? .byte)
-                        self.processes[index].icon = process.icon
-                        self.processes[index].toolTip = "pid: \(process.pid)"
-                    }
-                }
-                
-                self.processesInitialized = true
+            if !(self.window?.isVisible ?? false) && self.processesInitialized {
+                return;
             }
+            
+            if list.count != self.processes.count {
+                self.processes.forEach { processView in
+                    processView.clear();
+                }
+            }
+            
+            for i in 0..<list.count {
+                let process = list[i]
+                let index = list.count-i-1
+                self.processes[index].attachProcess(process);
+                self.processes[index].upload = Units(bytes: Int64(process.upload)).getReadableSpeed(base: DataSizeBase(rawValue: self.base) ?? .byte)
+                self.processes[index].download = Units(bytes: Int64(process.download)).getReadableSpeed(base: DataSizeBase(rawValue: self.base) ?? .byte)
+            }
+            
+            self.processesInitialized = true
         })
     }
 }
@@ -468,5 +472,19 @@ public class NetworkProcessView: NSView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    public func attachProcess(_ process: Network_Process) {
+        self.label = process.name
+        self.icon = process.icon
+        self.toolTip = "pid: \(process.pid)"
+    }
+    
+    public func clear() {
+        self.label = ""
+        self.download = ""
+        self.upload = ""
+        self.icon = nil
+        self.toolTip = ""
     }
 }
