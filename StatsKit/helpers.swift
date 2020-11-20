@@ -732,6 +732,19 @@ public class ProcessView: NSView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    public func attachProcess(_ process: TopProcess) {
+        self.label = process.name != nil ? process.name! : process.command
+        self.icon = process.icon
+        self.toolTip = "pid: \(process.pid)"
+    }
+    
+    public func clear() {
+        self.label = ""
+        self.value = ""
+        self.icon = nil
+        self.toolTip = ""
+    }
 }
 
 public class CAText: CATextLayer {

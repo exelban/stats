@@ -174,7 +174,7 @@ internal class Popup: NSView, Popup_p {
         let separator = SeparatorView(LocalizedString("Top processes"), origin: NSPoint(x: 0, y: self.processesHeight-Constants.Popup.separatorHeight), width: self.frame.width)
         let container: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: separator.frame.origin.y))
         
-        for i in 0...self.numberOfProcesses {
+        for i in 0..<self.numberOfProcesses {
             let processView = ProcessView(CGFloat(i))
             self.processes.append(processView)
             container.addSubview(processView)
@@ -236,20 +236,24 @@ internal class Popup: NSView, Popup_p {
     
     public func processCallback(_ list: [TopProcess]) {
         DispatchQueue.main.async(execute: {
-            if (self.window?.isVisible ?? false) || !self.processesInitialized {
-                for i in 0..<list.count {
-                    let process = list[i]
-                    let index = list.count-i-1
-                    if self.processes.indices.contains(index) {
-                        self.processes[index].label = process.name != nil ? process.name! : process.command
-                        self.processes[index].value = "\(process.usage)%"
-                        self.processes[index].icon = process.icon
-                        self.processes[index].toolTip = "pid: \(process.pid)"
-                    }
-                }
-                
-                self.processesInitialized = true
+            if !(self.window?.isVisible ?? false) && self.processesInitialized {
+                return
             }
+            
+            if list.count != self.processes.count {
+                self.processes.forEach { processView in
+                    processView.clear()
+                }
+            }
+            
+            for i in 0..<list.count {
+                let process = list[i]
+                let index = list.count-i-1
+                self.processes[index].attachProcess(process)
+                self.processes[index].value = "\(process.usage)%"
+            }
+            
+            self.processesInitialized = true
         })
     }
 }
