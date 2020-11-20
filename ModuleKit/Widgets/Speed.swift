@@ -49,7 +49,7 @@ public class SpeedWidget: Widget {
         if self.store != nil {
             self.valueState = store!.pointee.bool(key: "\(self.title)_\(self.type.rawValue)_value", defaultValue: self.valueState)
             self.icon = store!.pointee.string(key: "\(self.title)_\(self.type.rawValue)_icon", defaultValue: self.baseValue)
-            self.baseValue = store!.pointee.string(key: "\(self.title)_\(self.type.rawValue)_base", defaultValue: self.baseValue)
+            self.baseValue = store!.pointee.string(key: "\(self.title)_base", defaultValue: self.baseValue)
         }
         
         if self.valueState && self.icon != "none" {
@@ -279,7 +279,7 @@ public class SpeedWidget: Widget {
             return
         }
         self.baseValue = key
-        self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_base", value: self.baseValue)
+        self.store?.pointee.set(key: "\(self.title)_base", value: self.baseValue)
     }
     
     public func setValue(upload: Int64, download: Int64) {

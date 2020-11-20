@@ -52,9 +52,9 @@ internal class Popup: NSView, Popup_p {
     private var chart: NetworkChartView? = nil
     private var processes: [NetworkProcessView] = []
     
-    private var base: String {
+    private var base: DataSizeBase {
         get {
-            return store.pointee.string(key: "\(self.title)_base", defaultValue: "byte")
+            return DataSizeBase(rawValue: store.pointee.string(key: "\(self.title)_base", defaultValue: "byte")) ?? .byte
         }
     }
     private var numberOfProcesses: Int {
@@ -270,8 +270,8 @@ internal class Popup: NSView, Popup_p {
     }
     
     private func setUploadDownloadFields() {
-        let upload = Units(bytes: self.uploadValue).getReadableTuple()
-        let download = Units(bytes: self.downloadValue).getReadableTuple()
+        let upload = Units(bytes: self.uploadValue).getReadableTuple(base: self.base)
+        let download = Units(bytes: self.downloadValue).getReadableTuple(base: self.base)
         
         var valueWidth = "\(upload.0)".widthOfString(usingFont: .systemFont(ofSize: 26, weight: .light)) + 5
         var unitWidth = upload.1.widthOfString(usingFont: .systemFont(ofSize: 13, weight: .light)) + 5
@@ -357,8 +357,8 @@ internal class Popup: NSView, Popup_p {
                     let index = list.count-i-1
                     if self.processes.indices.contains(index) {
                         self.processes[index].label = process.name
-                        self.processes[index].upload = Units(bytes: Int64(process.upload)).getReadableSpeed(base: DataSizeBase(rawValue: self.base) ?? .byte)
-                        self.processes[index].download = Units(bytes: Int64(process.download)).getReadableSpeed(base: DataSizeBase(rawValue: self.base) ?? .byte)
+                        self.processes[index].upload = Units(bytes: Int64(process.upload)).getReadableSpeed(base: self.base)
+                        self.processes[index].download = Units(bytes: Int64(process.download)).getReadableSpeed(base: self.base)
                         self.processes[index].icon = process.icon
                         self.processes[index].toolTip = "pid: \(process.pid)"
                     }

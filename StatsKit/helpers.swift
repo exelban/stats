@@ -103,20 +103,23 @@ public struct Units {
         return gigabytes / 1_024
     }
     
-    public func getReadableTuple() -> (String, String) {
+    public func getReadableTuple(base: DataSizeBase = .byte) -> (String, String) {
+        let stringBase = base == .byte ? "B" : "b"
+        let multiplier: Double = base == .byte ? 1 : 8
+        
         switch bytes {
         case 0..<1_024:
-            return ("0", "KB/s")
+            return ("0", "K\(stringBase)/s")
         case 1_024..<(1_024 * 1_024):
-            return (String(format: "%.0f", kilobytes), "KB/s")
+            return (String(format: "%.0f", kilobytes*multiplier), "K\(stringBase)/s")
         case 1_024..<(1_024 * 1_024 * 100):
-            return (String(format: "%.1f", megabytes), "MB/s")
+            return (String(format: "%.1f", megabytes*multiplier), "M\(stringBase)/s")
         case (1_024 * 1_024 * 100)..<(1_024 * 1_024 * 1_024):
-            return (String(format: "%.0f", megabytes), "MB/s")
+            return (String(format: "%.0f", megabytes*multiplier), "M\(stringBase)/s")
         case (1_024 * 1_024 * 1_024)...Int64.max:
-            return (String(format: "%.1f", gigabytes), "GB/s")
+            return (String(format: "%.1f", gigabytes*multiplier), "G\(stringBase)/s")
         default:
-            return (String(format: "%.0f", kilobytes), "KB/s")
+            return (String(format: "%.0f", kilobytes*multiplier), "K\(stringBase)B/s")
         }
     }
     
