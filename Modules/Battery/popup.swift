@@ -188,7 +188,7 @@ internal class Popup: NSView, Popup_p {
         let separator = SeparatorView(LocalizedString("Top processes"), origin: NSPoint(x: 0, y: self.processesHeight-Constants.Popup.separatorHeight), width: self.frame.width)
         let container: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: separator.frame.origin.y))
         
-        for i in 0...self.numberOfProcesses {
+        for i in 0..<self.numberOfProcesses {
             let processView = ProcessView(CGFloat(i))
             self.processes.append(processView)
             container.addSubview(processView)
