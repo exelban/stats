@@ -32,8 +32,6 @@ internal class InfoReader: Reader<GPUs> {
         }
         let devices = PCIdevices.filter{ $0.object(forKey: "IOName") as? String == "display" }
         
-        print("Found \(devices.count) devices", to: &Log.log)
-        
         devices.forEach { (dict: NSDictionary) in
             guard let deviceID = dict["device-id"] as? Data, let vendorID = dict["vendor-id"] as? Data else {
                 print("device-id or vendor-id not found", to: &Log.log)
@@ -60,15 +58,11 @@ internal class InfoReader: Reader<GPUs> {
             self.devices[i].used = false
         }
         
-        print("------------", "read()", "------------", to: &Log.log)
-        print("Found \(accelerators.count) accelerators", to: &Log.log)
-        
         accelerators.forEach { (accelerator: NSDictionary) in
             guard let IOClass = accelerator.object(forKey: "IOClass") as? String else {
                 print("IOClass not found", to: &Log.log)
                 return
             }
-            print("Processing \(IOClass) accelerator", to: &Log.log)
             
             guard let stats = accelerator["PerformanceStatistics"] as? [String:Any] else {
                 print("PerformanceStatistics not found", to: &Log.log)
@@ -127,11 +121,7 @@ internal class InfoReader: Reader<GPUs> {
             
             self.gpus.list[idx].utilization = utilization == 0 ? 0 : Double(utilization)/100
             self.gpus.list[idx].temperature = temperature
-            
-            print("\(model): utilization=\(utilization), temperature=\(temperature)", to: &Log.log)
         }
-        
-        print("Callback \(self.gpus.list.count) GPUs", to: &Log.log)
         
         self.gpus.list.sort{ !$0.state && $1.state }
         self.callback(self.gpus)

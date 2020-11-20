@@ -73,27 +73,6 @@ internal class CapacityReader: Reader<DiskList> {
         self.callback(self.disks)
     }
     
-    // https://opensource.apple.com/source/bless/bless-152/libbless/APFS/BLAPFSUtilities.c.auto.html
-    public func getDeviceIOParent(_ obj: io_registry_entry_t, fileSystem: String = "") -> io_registry_entry_t? {
-        var parent: io_registry_entry_t = 0
-        
-        if IORegistryEntryGetParentEntry(obj, kIOServicePlane, &parent) != KERN_SUCCESS {
-            return nil
-        }
-        
-        if IORegistryEntryGetParentEntry(parent, kIOServicePlane, &parent) != KERN_SUCCESS {
-            IOObjectRelease(parent)
-            return nil
-        }
-        
-        if IORegistryEntryGetParentEntry(parent, kIOServicePlane, &parent) != KERN_SUCCESS {
-            IOObjectRelease(parent)
-            return nil
-        }
-        
-        return parent
-    }
-    
     private func driveDetails(_ disk: DADisk, removableState: Bool) -> drive? {
         var d: drive = drive()
         
@@ -160,12 +139,31 @@ internal class CapacityReader: Reader<DiskList> {
             d.free = freeDiskSpaceInBytes(d.path!.absoluteString)
         }
         
-        if let parent = self.getDeviceIOParent(DADiskCopyIOMedia(disk), fileSystem: d.fileSystem) {
+        let partitionLevel = d.BSDName.filter { "0"..."9" ~= $0 }.count
+        if let parent = self.getDeviceIOParent(DADiskCopyIOMedia(disk), level: Int(partitionLevel)) {
             d.parent = parent
             self.driveStats(parent, &d.stats)
         }
         
         return d
+    }
+    
+    // https://opensource.apple.com/source/bless/bless-152/libbless/APFS/BLAPFSUtilities.c.auto.html
+    public func getDeviceIOParent(_ obj: io_registry_entry_t, level: Int) -> io_registry_entry_t? {
+        var parent: io_registry_entry_t = 0
+        
+        if IORegistryEntryGetParentEntry(obj, kIOServicePlane, &parent) != KERN_SUCCESS {
+            return nil
+        }
+        
+        for _ in 1...level {
+            if IORegistryEntryGetParentEntry(parent, kIOServicePlane, &parent) != KERN_SUCCESS {
+                IOObjectRelease(parent)
+                return nil
+            }
+        }
+        
+        return parent
     }
     
     private func driveStats(_ entry: io_registry_entry_t, _ diskStats: UnsafeMutablePointer<stats?>) {
