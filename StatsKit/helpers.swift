@@ -730,6 +730,12 @@ public class ProcessView: NSView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    public func attachProcess(_ process: TopProcess) {
+        self.label = process.name != nil ? process.name! : process.command
+        self.icon = process.icon
+        self.toolTip = "pid: \(process.pid)"
+    }
+    
     public func clear() {
         self.label = ""
         self.value = ""
