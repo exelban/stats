@@ -74,7 +74,7 @@ internal class CapacityReader: Reader<DiskList> {
     }
     
     // https://opensource.apple.com/source/bless/bless-152/libbless/APFS/BLAPFSUtilities.c.auto.html
-    public func getDeviceIOParent(_ obj: io_registry_entry_t, fileSystem: String = "") -> io_registry_entry_t? {
+    public func getDeviceIOParent(_ obj: io_registry_entry_t) -> io_registry_entry_t? {
         var parent: io_registry_entry_t = 0
         
         if IORegistryEntryGetParentEntry(obj, kIOServicePlane, &parent) != KERN_SUCCESS {
@@ -160,7 +160,7 @@ internal class CapacityReader: Reader<DiskList> {
             d.free = freeDiskSpaceInBytes(d.path!.absoluteString)
         }
         
-        if let parent = self.getDeviceIOParent(DADiskCopyIOMedia(disk), fileSystem: d.fileSystem) {
+        if let parent = self.getDeviceIOParent(DADiskCopyIOMedia(disk)) {
             d.parent = parent
             self.driveStats(parent, &d.stats)
         }

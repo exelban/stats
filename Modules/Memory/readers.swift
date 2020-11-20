@@ -128,20 +128,20 @@ public class ProcessReader: Reader<[TopProcess]> {
         
         var processes: [TopProcess] = []
         output.enumerateLines { (line, _) -> () in
-            if line.matches("^\\d+ + .+ +\\d+.\\d[M\\+\\-]+ *$") {
-                var str = line.trimmingCharacters(in: .whitespaces)
-                let pidString = str.findAndCrop(pattern: "^\\d+")
-                let usageString = str.findAndCrop(pattern: " [0-9]+M(\\+|\\-)*$")
-                var command = str.trimmingCharacters(in: .whitespaces)
+            if line.matches("^\\d+ +.* +\\d+[A-Z]* *$") {
+                let str = line.trimmingCharacters(in: .whitespaces)
+                let pidString = str.prefix(6)
+                let startIndex = str.index(str.startIndex, offsetBy: 6)
+                let endIndex = str.index(str.startIndex, offsetBy: 22)
+                var command = String(str[startIndex...endIndex])
+                let usageString = str.suffix(5)
                 
                 if let regex = try? NSRegularExpression(pattern: " (\\+|\\-)*$", options: .caseInsensitive) {
                     command = regex.stringByReplacingMatches(in: command, options: [], range: NSRange(location: 0, length:  command.count), withTemplate: "")
                 }
                 
-                let pid = Int(pidString) ?? 0
-                guard let usage = Double(usageString.filter("01234567890.".contains)) else {
-                    return
-                }
+                let pid = Int(pidString.filter("01234567890.".contains)) ?? 0
+                let usage = Double(usageString.filter("01234567890.".contains)) ?? 0
                 
                 var name: String? = nil
                 var icon: NSImage? = nil
