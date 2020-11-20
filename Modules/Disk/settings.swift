@@ -52,7 +52,7 @@ internal class Settings: NSView, Settings_v {
         self.subviews.forEach{ $0.removeFromSuperview() }
         
         let rowHeight: CGFloat = 30
-        let num: CGFloat = widget != .speed ? 3 : 1
+        let num: CGFloat = widget != .speed ? 3 : 2
         
         if widget != .speed {
             self.addSubview(SelectTitleRow(
@@ -62,9 +62,9 @@ internal class Settings: NSView, Settings_v {
                 items: ReaderUpdateIntervals.map{ "\($0) sec" },
                 selected: "\(self.updateIntervalValue) sec"
             ))
-            
-            self.addDiskSelector()
         }
+        
+        self.addDiskSelector()
         
         self.addSubview(ToggleTitleRow(
             frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * 0, width: self.frame.width - (Constants.Settings.margin*2), height: rowHeight),
