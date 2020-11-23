@@ -35,8 +35,9 @@ internal class Popup: NSView, Popup_p {
     private var temperatureCircle: HalfCircleGraphView? = nil
     private var frequencyCircle: HalfCircleGraphView? = nil
     private var initialized: Bool = false
-    private var initializedAdditional: Bool = false
-    private var processesInitialized: Bool = false
+    private var initializedTemperature: Bool = false
+    private var initializedFrequency: Bool = false
+    private var initializedProcesses: Bool = false
     
     private var processes: [ProcessView] = []
     private var maxFreq: Double = 0
@@ -107,7 +108,7 @@ internal class Popup: NSView, Popup_p {
             self.grid?.row(at: 3).cell(at: 0).contentView?.removeFromSuperview()
             self.grid?.removeRow(at: 3)
             self.grid?.addRow(with: [self.initProcesses()])
-            self.processesInitialized = false
+            self.initializedProcesses = false
             
             self.sizeCallback?(self.frame.size)
         })
@@ -207,36 +208,40 @@ internal class Popup: NSView, Popup_p {
         })
     }
     
-    public func additionalCallback(_ value: CPU_additional) {
+    public func temperatureCallback(_ value: Double) {
         DispatchQueue.main.async(execute: {
-            if value.frequency != nil && self.frequencyCircle != nil && (self.frequencyCircle! as NSView).isHidden {
+            if (self.window?.isVisible ?? false) || !self.initializedTemperature {
+                self.temperatureCircle?.setValue(value)
+                self.temperatureCircle?.setText(Temperature(value))
+                self.initializedTemperature = true
+            }
+        })
+    }
+    
+    public func frequencyCallback(_ value: Double) {
+        DispatchQueue.main.async(execute: {
+            if self.frequencyCircle != nil && (self.frequencyCircle! as NSView).isHidden {
                 (self.frequencyCircle! as NSView).isHidden = false
             }
             
-            if (self.window?.isVisible ?? false) || !self.initializedAdditional {
-                if let temperature = value.temperature {
-                    self.temperatureCircle?.setValue(temperature)
-                    self.temperatureCircle?.setText(Temperature(temperature))
-                }
-                if let freq = value.frequency {
-                    if freq > self.maxFreq {
-                        self.maxFreq = freq
-                    }
-                    
-                    if let freqCircle = self.frequencyCircle {
-                        freqCircle.setValue((100*freq)/self.maxFreq)
-                        freqCircle.setText("\((freq/1000).rounded(toPlaces: 2))\nGHz")
-                    }
+            if (self.window?.isVisible ?? false) || !self.initializedFrequency {
+                if value > self.maxFreq {
+                    self.maxFreq = value
                 }
                 
-                self.initializedAdditional = true
+                if let freqCircle = self.frequencyCircle {
+                    freqCircle.setValue((100*value)/self.maxFreq)
+                    freqCircle.setText("\((value/1000).rounded(toPlaces: 2))\nGHz")
+                }
+                
+                self.initializedFrequency = true
             }
         })
     }
     
     public func processCallback(_ list: [TopProcess]) {
         DispatchQueue.main.async(execute: {
-            if !(self.window?.isVisible ?? false) && self.processesInitialized {
+            if !(self.window?.isVisible ?? false) && self.initializedProcesses {
                 return
             }
             
@@ -253,7 +258,7 @@ internal class Popup: NSView, Popup_p {
                 self.processes[index].value = "\(process.usage)%"
             }
             
-            self.processesInitialized = true
+            self.initializedProcesses = true
         })
     }
 }

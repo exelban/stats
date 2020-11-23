@@ -25,18 +25,14 @@ public struct CPU_Load: value_t {
     }
 }
 
-public struct CPU_additional {
-    var temperature: Double?
-    var frequency: Double?
-}
-
 public class CPU: Module {
     private var popupView: Popup
     private var settingsView: Settings
     
     private var loadReader: LoadReader? = nil
     private var processReader: ProcessReader? = nil
-    private var additionalReader: AdditionalReader? = nil
+    private var temperatureReader: TemperatureReader? = nil
+    private var frequencyReader: FrequencyReader? = nil
     private let smc: UnsafePointer<SMCService>?
     private let store: UnsafePointer<Store>
     
@@ -59,12 +55,15 @@ public class CPU: Module {
         )
         guard self.available else { return }
         
-        PG_start()
         self.loadReader = LoadReader()
         self.loadReader?.store = store
         
         self.processReader = ProcessReader(self.config.name, store: store)
-        self.additionalReader = AdditionalReader(smc)
+        self.temperatureReader = TemperatureReader(smc)
+        
+        #if arch(x86_64)
+        self.frequencyReader = FrequencyReader()
+        #endif
         
         self.settingsView.callback = { [unowned self] in
             self.loadReader?.read()
@@ -92,9 +91,14 @@ public class CPU: Module {
             }
         }
         
-        self.additionalReader?.callbackHandler = { [unowned self] value in
+        self.temperatureReader?.callbackHandler = { [unowned self] value in
             if value != nil {
-                self.popupView.additionalCallback(value!)
+                self.popupView.temperatureCallback(value!)
+            }
+        }
+        self.frequencyReader?.callbackHandler = { [unowned self] value in
+            if value != nil {
+                self.popupView.frequencyCallback(value!)
             }
         }
         
@@ -104,13 +108,12 @@ public class CPU: Module {
         if let reader = self.processReader {
             self.addReader(reader)
         }
-        if let reader = self.additionalReader {
+        if let reader = self.temperatureReader {
             self.addReader(reader)
         }
-    }
-    
-    public override func willTerminate() {
-        PG_stop()
+        if let reader = self.frequencyReader {
+            self.addReader(reader)
+        }
     }
     
     private func loadCallback(_ value: CPU_Load?) {

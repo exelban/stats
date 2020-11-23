@@ -17,7 +17,6 @@
 		9A0C82EE2446124800FAE3D4 /* SystemKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7D0CB62444C2C800B09070 /* SystemKit.swift */; };
 		9A1A7ABA24561F0B00A84F7A /* BarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1A7AB924561F0B00A84F7A /* BarChart.swift */; };
 		9A1D5E4B25235C8100B82BFC /* helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1D5E4A25235C8100B82BFC /* helpers.swift */; };
-		9A27D49D25389E08001BB651 /* IntelPowerGadget.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A97CE2A25371B2300742D8F /* IntelPowerGadget.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		9A27D4FD2538A3E5001BB651 /* Repeat in Frameworks */ = {isa = PBXBuildFile; productRef = 9A27D4FC2538A3E5001BB651 /* Repeat */; };
 		9A27D5352538A456001BB651 /* Reachability in Frameworks */ = {isa = PBXBuildFile; productRef = 9A27D5342538A456001BB651 /* Reachability */; };
 		9A34353B243E278D006B19F9 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A34353A243E278D006B19F9 /* main.swift */; };
@@ -69,7 +68,6 @@
 		9A944D5D24492A8B0058F32A /* popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A944D5C24492A8B0058F32A /* popup.swift */; };
 		9A944D5F24492AA60058F32A /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A944D5E24492AA60058F32A /* Constants.swift */; };
 		9A953A1424B9D22D0038EF4B /* settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A953A1324B9D22D0038EF4B /* settings.swift */; };
-		9A97CECE2537331B00742D8F /* CPU.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A97CECC2537331B00742D8F /* CPU.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9A97CED12537331B00742D8F /* CPU.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A97CECA2537331B00742D8F /* CPU.framework */; };
 		9A97CED22537331B00742D8F /* CPU.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A97CECA2537331B00742D8F /* CPU.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9A97CEE92537338600742D8F /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A97CEE82537338600742D8F /* main.swift */; };
@@ -79,7 +77,6 @@
 		9A97CF002537340400742D8F /* config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9A97CEFF2537340400742D8F /* config.plist */; };
 		9A97CF072537351600742D8F /* ModuleKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AABEADD243FB13500668CB0 /* ModuleKit.framework */; };
 		9A97CF0C2537351800742D8F /* StatsKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A0C82DA24460F7200FAE3D4 /* StatsKit.framework */; };
-		9A97CF2A25373C8400742D8F /* CPU.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A97CF2925373C8400742D8F /* CPU.c */; };
 		9A9B25BB24F7DE2B00C3CCE6 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9A9B25BD24F7DE2B00C3CCE6 /* Localizable.strings */; };
 		9A9D728A24471FAE005CF997 /* SMC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9D728924471FAE005CF997 /* SMC.swift */; };
 		9A9EA9452476D34500E3B883 /* Update.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9EA9442476D34500E3B883 /* Update.swift */; };
@@ -432,14 +429,12 @@
 		9A953A1324B9D22D0038EF4B /* settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = settings.swift; sourceTree = "<group>"; };
 		9A97CE2A25371B2300742D8F /* IntelPowerGadget.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IntelPowerGadget.framework; path = ../../../Library/Frameworks/IntelPowerGadget.framework; sourceTree = "<group>"; };
 		9A97CECA2537331B00742D8F /* CPU.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CPU.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		9A97CECC2537331B00742D8F /* CPU.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CPU.h; sourceTree = "<group>"; };
 		9A97CECD2537331B00742D8F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9A97CEE82537338600742D8F /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		9A97CEF0253733D200742D8F /* readers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = readers.swift; sourceTree = "<group>"; };
 		9A97CEF5253733E400742D8F /* popup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = popup.swift; sourceTree = "<group>"; };
 		9A97CEFA253733F300742D8F /* settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = settings.swift; sourceTree = "<group>"; };
 		9A97CEFF2537340400742D8F /* config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = config.plist; sourceTree = "<group>"; };
-		9A97CF2925373C8400742D8F /* CPU.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = CPU.c; sourceTree = "<group>"; };
 		9A998CD722A199920087ADE7 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		9A998CD922A199970087ADE7 /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = System/Library/Frameworks/ServiceManagement.framework; sourceTree = SDKROOT; };
 		9A9B25BC24F7DE2B00C3CCE6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -558,7 +553,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				9A97CF072537351600742D8F /* ModuleKit.framework in Frameworks */,
-				9A27D49D25389E08001BB651 /* IntelPowerGadget.framework in Frameworks */,
 				9A97CF0C2537351800742D8F /* StatsKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -769,8 +763,6 @@
 				9A97CEFA253733F300742D8F /* settings.swift */,
 				9A97CECD2537331B00742D8F /* Info.plist */,
 				9A97CEFF2537340400742D8F /* config.plist */,
-				9A97CECC2537331B00742D8F /* CPU.h */,
-				9A97CF2925373C8400742D8F /* CPU.c */,
 			);
 			path = CPU;
 			sourceTree = "<group>";
@@ -906,7 +898,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9A97CECE2537331B00742D8F /* CPU.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1497,7 +1488,6 @@
 				9A97CEF6253733E400742D8F /* popup.swift in Sources */,
 				9A97CEFB253733F300742D8F /* settings.swift in Sources */,
 				9A97CEE92537338600742D8F /* main.swift in Sources */,
-				9A97CF2A25373C8400742D8F /* CPU.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1836,7 +1826,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				EXCLUDED_ARCHS = arm64;
+				EXCLUDED_ARCHS = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -1903,7 +1893,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				EXCLUDED_ARCHS = arm64;
+				EXCLUDED_ARCHS = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;

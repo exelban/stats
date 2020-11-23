@@ -230,9 +230,8 @@ public class ProcessReader: Reader<[TopProcess]> {
     }
 }
 
-public class AdditionalReader: Reader<CPU_additional> {
+public class TemperatureReader: Reader<Double> {
     private let smc: UnsafePointer<SMCService>?
-    private var data: CPU_additional = CPU_additional()
     
     init(_ smc: UnsafePointer<SMCService>) {
         self.smc = smc
@@ -240,18 +239,123 @@ public class AdditionalReader: Reader<CPU_additional> {
         self.popup = true
     }
     
+    public override func read() {
+        let temperature = self.smc?.pointee.getValue("TC0C") ?? self.smc?.pointee.getValue("TC0D") ?? self.smc?.pointee.getValue("TC0P") ?? self.smc?.pointee.getValue("TC0E") ?? self.smc?.pointee.getValue("TC0F")
+        
+        self.callback(temperature)
+    }
+}
+
+public class FrequencyReader: Reader<Double> {
+    private typealias PGSample = UInt64
+    private typealias UDouble = UnsafeMutablePointer<Double>
+    
+    private typealias PG_InitializePointerFunction = @convention(c) () -> Bool
+    private typealias PG_ShutdownPointerFunction = @convention(c) () -> Bool
+    private typealias PG_ReadSamplePointerFunction = @convention(c) (Int, UnsafeMutablePointer<PGSample>) -> Bool
+    private typealias PGSample_GetIAFrequencyPointerFunction = @convention(c) (PGSample, PGSample, UDouble, UDouble, UDouble) -> Bool
+    private typealias PGSample_ReleasePointerFunction = @convention(c) (PGSample) -> Bool
+    
+    private var bundle: CFBundle? = nil
+    
+    private var PG_Shutdown: PG_ShutdownPointerFunction? = nil
+    private var PG_ReadSample: PG_ReadSamplePointerFunction? = nil
+    private var PGSample_GetIAFrequency: PGSample_GetIAFrequencyPointerFunction? = nil
+    private var PGSample_Release: PGSample_ReleasePointerFunction? = nil
+    
+    private var sample: PGSample = 0
+    
     public override func setup() {
-        PG_getCPUFrequency()
-        PG_getCPUFrequency()
+        let path: CFString = "/Library/Frameworks/IntelPowerGadget.framework" as CFString
+        let bundleURL = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, path, CFURLPathStyle.cfurlposixPathStyle, true)
+        
+        self.bundle = CFBundleCreate(kCFAllocatorDefault, bundleURL)
+        if self.bundle == nil {
+            os_log(.error, log: log, "IntelPowerGadget framework not found")
+            return
+        }
+        
+        if !CFBundleLoadExecutable(self.bundle) {
+            os_log(.error, log: log, "failed to load IPG framework")
+            return
+        }
+        
+        let PG_InitializePointer = CFBundleGetFunctionPointerForName(self.bundle, "PG_Initialize" as CFString)
+        let PG_ShutdownPointer = CFBundleGetFunctionPointerForName(self.bundle, "PG_Shutdown" as CFString)
+        let PG_ReadSamplePointer = CFBundleGetFunctionPointerForName(self.bundle, "PG_ReadSample" as CFString)
+        let PGSample_GetIAFrequencyPointer = CFBundleGetFunctionPointerForName(self.bundle, "PGSample_GetIAFrequency" as CFString)
+        let PGSample_ReleasePointer = CFBundleGetFunctionPointerForName(self.bundle, "PGSample_Release" as CFString)
+        
+        let PG_Initialize = unsafeBitCast(PG_InitializePointer, to: PG_InitializePointerFunction.self)
+        self.PG_Shutdown = unsafeBitCast(PG_ShutdownPointer, to: PG_ShutdownPointerFunction.self)
+        self.PG_ReadSample = unsafeBitCast(PG_ReadSamplePointer, to: PG_ReadSamplePointerFunction.self)
+        self.PGSample_GetIAFrequency = unsafeBitCast(PGSample_GetIAFrequencyPointer, to: PGSample_GetIAFrequencyPointerFunction.self)
+        self.PGSample_Release = unsafeBitCast(PGSample_ReleasePointer, to: PGSample_ReleasePointerFunction.self)
+        
+        if !PG_Initialize() {
+            os_log(.error, log: log, "IPG initialization failed")
+            return
+        }
+    }
+    
+    deinit {
+        if let bundle = self.bundle {
+            CFBundleUnloadExecutable(bundle)
+        }
+    }
+    
+    public override func terminate() {
+        if let shutdown = self.PG_Shutdown {
+            if !shutdown() {
+                os_log(.error, log: log, "IPG shutdown failed")
+                return
+            }
+        }
+        
+        if let release = self.PGSample_Release {
+            if self.sample != 0 {
+                _ = release(self.sample)
+                return
+            }
+        }
     }
     
     public override func read() {
-        if let readFrequency = PG_getCPUFrequency() {
-            self.data.frequency = readFrequency.pointee
+        if self.PG_ReadSample == nil || self.PGSample_GetIAFrequency == nil || self.PGSample_Release == nil {
+            return
         }
         
-        self.data.temperature = self.smc?.pointee.getValue("TC0C") ?? self.smc?.pointee.getValue("TC0D") ?? self.smc?.pointee.getValue("TC0P") ?? self.smc?.pointee.getValue("TC0E") ?? self.smc?.pointee.getValue("TC0F")
+        // first sample initlialization
+        if self.sample == 0 {
+            if !self.PG_ReadSample!(0, &self.sample) {
+                os_log(.error, log: log, "read self.sample failed")
+            }
+            return
+        }
         
-        self.callback(self.data)
+        var local: PGSample = 0
+        
+        if !self.PG_ReadSample!(0, &local) {
+            os_log(.error, log: log, "read local sample failed")
+            return
+        }
+        
+        var value: Double = 0
+        var min: Double = 0
+        var max: Double = 0
+        
+        if !self.PGSample_GetIAFrequency!(self.sample, local, &value, &min, &max) {
+            os_log(.error, log: log, "read frequency failed")
+            return
+        }
+        
+        self.callback(value)
+        
+        if !self.PGSample_Release!(self.sample) {
+            os_log(.error, log: log, "release self.sample failed")
+            return
+        }
+        
+        self.sample = local
     }
 }
