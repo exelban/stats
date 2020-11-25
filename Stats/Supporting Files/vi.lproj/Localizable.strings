@@ -30,6 +30,7 @@
 "Characters" = "Ký tự";
 "Short" = "Ngắn";
 "Long" = "Dài";
+"Statistics" = "Số liệu thống kê";
 
 // Alerts
 "New version available" = "Phiên bản mới có sẵn";
@@ -39,7 +40,7 @@
 
 // Settings
 "Open Activity Monitor" = "Mở trình Giám sát hoạt động";
-"Report a bug" = "Báo cáo một lỗi";
+"Report a bug" = "Báo cáo lỗi";
 "Close application" = "Đóng ứng dụng";
 "Open application settings" = "Mở cài đặt ứng dụng";
 "Open moduleName settings" = "Mở cài đặt %0";
@@ -48,7 +49,7 @@
 "Update application" = "Cập nhật ứng dụng";
 "Check for updates" = "Kiểm tra các cập nhật";
 "Check for update" = "Kiểm tra cập nhật";
-"Show icon in dock" = "Hiện icon trong Dock";
+"Show icon in dock" = "Hiện icon trên Dock";
 "Start at login" = "Khởi động lúc đăng nhập";
 
 // Update
@@ -82,7 +83,7 @@
 "Pictogram" = "Tượng hình";
 
 // Modules
-"Number of top processes" = "Số lượn top tiến trình";
+"Number of top processes" = "Số lượng top tiến trình";
 
 // CPU
 "CPU usage" = "Sử dụng CPU";
