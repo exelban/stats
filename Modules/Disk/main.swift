@@ -132,7 +132,10 @@ public class Disk: Module {
         if value == nil {
             return
         }
-        self.popupView.usageCallback(value!)
+        
+        DispatchQueue.main.async(execute: {
+            self.popupView.usageCallback(value!)
+        })
         self.settingsView.setList(value!)
         
         var d = value!.getDiskByName(self.selectedDisk)

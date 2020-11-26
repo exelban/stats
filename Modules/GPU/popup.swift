@@ -29,33 +29,34 @@ internal class Popup: NSView, Popup_p {
     
     internal func infoCallback(_ value: GPUs) {
         if self.list.count != value.list.count {
-            DispatchQueue.main.async(execute: {
-                self.subviews.forEach{ $0.removeFromSuperview() }
-            })
+            self.subviews.forEach{ $0.removeFromSuperview() }
             self.list = [:]
         }
         
-        value.list.forEach { (gpu: GPU_Info) in
-            if self.list[gpu.model] == nil {
-                DispatchQueue.main.async(execute: {
-                    self.list[gpu.model] = GPUView(
-                        NSRect(x: 0, y: (self.gpuViewHeight + Constants.Popup.margins) * CGFloat(self.list.count), width: self.frame.width, height: self.gpuViewHeight),
-                        gpu: gpu
-                    )
-                    self.addSubview(self.list[gpu.model]!)
-                })
+        value.list.forEach { (graphics: GPU_Info) in
+            if let gpu = self.list[graphics.model] {
+                gpu.update(graphics)
             } else {
-                self.list[gpu.model]?.update(gpu)
+                let gpu = GPUView(
+                    NSRect(
+                        x: 0,
+                        y: (self.gpuViewHeight + Constants.Popup.margins) * CGFloat(self.list.count),
+                        width: self.frame.width,
+                        height: self.gpuViewHeight
+                    ),
+                    gpu: graphics
+                )
+                
+                self.list[graphics.model] = gpu
+                self.addSubview(gpu)
             }
         }
         
-        DispatchQueue.main.async(execute: {
-            let h: CGFloat = ((self.gpuViewHeight + Constants.Popup.margins) * CGFloat(self.list.count)) - Constants.Popup.margins
-            if self.frame.size.height != h {
-                self.setFrameSize(NSSize(width: self.frame.width, height: h))
-                self.sizeCallback?(self.frame.size)
-            }
-        })
+        let h: CGFloat = ((self.gpuViewHeight + Constants.Popup.margins) * CGFloat(self.list.count)) - Constants.Popup.margins
+        if self.frame.size.height != h {
+            self.setFrameSize(NSSize(width: self.frame.width, height: h))
+            self.sizeCallback?(self.frame.size)
+        }
     }
 }
 
