@@ -65,15 +65,15 @@ internal class Popup: NSView, Popup_p {
     }
     
     internal func usageCallback(_ values: [Fan]) {
-        values.forEach { (f: Fan) in
-            if self.list[f.id] != nil {
-                DispatchQueue.main.async(execute: {
-                    if self.window?.isVisible ?? false {
+        DispatchQueue.main.async(execute: {
+            if self.window?.isVisible ?? false {
+                values.forEach { (f: Fan) in
+                    if self.list[f.id] != nil {
                         self.list[f.id]?.update(f)
                     }
-                })
+                }
             }
-        }
+        })
     }
 }
 
