@@ -136,6 +136,9 @@
 "Network interface" = "Сетевой интерфейс";
 "Total download" = "Всего скачано";
 "Total upload" = "Всего выгружено";
+"Reader type" = "Метод чтения";
+"Interface" = "Интерфейс";
+"Process" = "Процессы";
 
 // Battery
 "Level" = "Уровень заряда";

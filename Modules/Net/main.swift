@@ -28,11 +28,8 @@ public struct Network_interface {
 }
 
 public struct Network_Usage: value_t {
-    var download: Int64 = 0
-    var upload: Int64 = 0
-    
-    var totalDownload: Int64 = 0
-    var totalUpload: Int64 = 0
+    var bandwidth: Bandwidth = (0, 0)
+    var total: Bandwidth = (0, 0)
     
     var laddr: String? = nil // local ip
     var raddr: String? = nil // remote ip
@@ -44,8 +41,7 @@ public struct Network_Usage: value_t {
     var ssid: String? = nil
     
     mutating func reset() {
-        self.download = 0
-        self.upload = 0
+        self.bandwidth = (0, 0)
         
         self.laddr = nil
         self.raddr = nil
@@ -142,7 +138,7 @@ public class Network: Module {
         
         self.popupView.usageCallback(value!)
         if let widget = self.widget as? SpeedWidget {
-            widget.setValue(upload: value!.upload, download: value!.download)
+            widget.setValue(upload: value!.bandwidth.upload, download: value!.bandwidth.download)
         }
     }
 }

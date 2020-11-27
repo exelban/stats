@@ -135,6 +135,9 @@
 "Network interface" = "Ağ arayüzü";
 "Total download" = "Tamamen indirildi";
 "Total upload" = "Tamamen yüklendi";
+"Reader type" = "Okuma yöntemi";
+"Interface" = "Arayüz";
+"Process" = "Süreçler";
 
 // Battery
 "Level" = "Doluluk";

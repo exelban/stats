@@ -136,6 +136,9 @@
 "Network interface" = "Nettverksgrensesnitt";
 "Total download" = "Totalt lastet ned";
 "Total upload" = "Totalt lastet opp";
+"Reader type" = "Lesertype";
+"Interface" = "Grensesnitt";
+"Process" = "Prosess";
 
 // Battery
 "Level" = "Nivå";

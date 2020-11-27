@@ -136,6 +136,9 @@
 "Network interface" = "Мережевий інтерфейс";
 "Total download" = "Загально завантажено";
 "Total upload" = "Загально вислано";
+"Reader type" = "Метод читання";
+"Interface" = "Інтерфейс";
+"Process" = "Процеси";
 
 // Battery
 "Level" = "Рівень заряду";

@@ -83,6 +83,12 @@ public let ShortLong: [KeyValue_t] = [
 public let ReaderUpdateIntervals: [Int] = [1, 2, 3, 5, 10, 15, 30]
 public let NumbersOfProcesses: [Int] = [3, 5, 8, 10, 15]
 
+public typealias Bandwidth = (upload: Int64, download: Int64)
+public let NetworkReaders: [KeyValue_t] = [
+    KeyValue_t(key: "interface", value: "Interface based"),
+    KeyValue_t(key: "process", value: "Processes based"),
+]
+
 public struct Units {
     public let bytes: Int64
     

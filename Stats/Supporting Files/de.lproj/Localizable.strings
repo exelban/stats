@@ -135,6 +135,9 @@
 "Network interface" = "Netzwerkschnittstelle";
 "Total download" = "Empfangen";
 "Total upload" = "Gesendet";
+"Reader type" = "Lesertyp";
+"Interface" = "Schnittstelle";
+"Process" = "Prozess";
 
 // Battery
 "Level" = "Ladezustand";

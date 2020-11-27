@@ -306,12 +306,12 @@ internal class Popup: NSView, Popup_p {
     public func usageCallback(_ value: Network_Usage) {
         DispatchQueue.main.async(execute: {
             if (self.window?.isVisible ?? false) || !self.initialized {
-                self.uploadValue = value.upload
-                self.downloadValue = value.download
+                self.uploadValue = value.bandwidth.upload
+                self.downloadValue = value.bandwidth.download
                 self.setUploadDownloadFields()
                 
-                self.totalUploadField?.stringValue = Units(bytes: value.totalUpload).getReadableMemory()
-                self.totalDownloadField?.stringValue = Units(bytes: value.totalDownload).getReadableMemory()
+                self.totalUploadField?.stringValue = Units(bytes: value.total.upload).getReadableMemory()
+                self.totalDownloadField?.stringValue = Units(bytes: value.total.download).getReadableMemory()
                 
                 if let interface = value.interface {
                     self.interfaceField?.stringValue = "\(interface.displayName) (\(interface.BSDName))"
@@ -345,7 +345,7 @@ internal class Popup: NSView, Popup_p {
                 self.initialized = true
             }
             
-            self.chart?.addValue(upload: Double(value.upload), download: Double(value.download))
+            self.chart?.addValue(upload: Double(value.bandwidth.upload), download: Double(value.bandwidth.download))
         })
     }
     

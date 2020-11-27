@@ -136,6 +136,9 @@
 "Network interface" = "Giao diện mạng";
 "Total download" = "Tổng tải";
 "Total upload" = "Tổng upload";
+"Reader type" = "Loại trình đọc";
+"Interface" = "Giao diện";
+"Process" = "Quá trình";
 
 // Battery
 "Level" = "Dung lượng Pin";

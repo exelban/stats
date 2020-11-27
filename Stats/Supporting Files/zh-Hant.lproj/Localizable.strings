@@ -131,6 +131,9 @@
 "Network interface" = "網路介面";
 "Total download" = "共下載";
 "Total upload" = "共上傳";
+"Reader type" = "讀卡器類型";
+"Interface" = "接口";
+"Process" = "處理";
 
 // Battery
 "Level" = "電量";
