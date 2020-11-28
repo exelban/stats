@@ -24,6 +24,7 @@ enum SensorType: SensorType_t {
     case Temperature = "Temperature"
     case Voltage = "Voltage"
     case Power = "Power"
+    case Fan = "Fan"
 }
 
 struct Sensor_t {
@@ -43,6 +44,8 @@ struct Sensor_t {
                 return "V"
             case SensorType.Power.rawValue:
                 return "W"
+            case SensorType.Fan.rawValue:
+                return "RPM"
             default: return ""
             }
         }
@@ -59,6 +62,8 @@ struct Sensor_t {
             case SensorType.Power.rawValue:
                 let val = value >= 100 ? "\(Int(value))" : String(format: "%.2f", value)
                 return "\(val)\(unit)"
+            case SensorType.Fan.rawValue:
+                return "\(Int(value)) \(unit)"
             default: return String(format: "%.2f", value)
             }
         }
@@ -74,6 +79,8 @@ struct Sensor_t {
             case SensorType.Power.rawValue:
                 let val = value >= 100 ? "\(Int(value))" : String(format: "%.1f", value)
                 return "\(val)\(unit)"
+            case SensorType.Fan.rawValue:
+                return "\(Int(value)) \(unit)"
             default: return String(format: "%.1f", value)
             }
         }
@@ -195,4 +202,16 @@ let SensorsList: [Sensor_t] = [
     Sensor_t(key: "PPBR", name: "Battery", group: SensorGroup.Sensor.rawValue, type: SensorType.Power.rawValue),
     Sensor_t(key: "PDTR", name: "DC In", group: SensorGroup.Sensor.rawValue, type: SensorType.Power.rawValue),
     Sensor_t(key: "PSTR", name: "System total", group: SensorGroup.Sensor.rawValue, type: SensorType.Power.rawValue),
+    
+     /// Fans
+    Sensor_t(key: "F0Ac", name: "Fan #0", group: SensorGroup.Sensor.rawValue, type: SensorType.Fan.rawValue),
+    Sensor_t(key: "F1Ac", name: "Fan #1", group: SensorGroup.Sensor.rawValue, type: SensorType.Fan.rawValue),
+    Sensor_t(key: "F2Ac", name: "Fan #2", group: SensorGroup.Sensor.rawValue, type: SensorType.Fan.rawValue),
+    Sensor_t(key: "F3Ac", name: "Fan #3", group: SensorGroup.Sensor.rawValue, type: SensorType.Fan.rawValue),
+    Sensor_t(key: "F4Ac", name: "Fan #4", group: SensorGroup.Sensor.rawValue, type: SensorType.Fan.rawValue),
+    Sensor_t(key: "F5Ac", name: "Fan #5", group: SensorGroup.Sensor.rawValue, type: SensorType.Fan.rawValue),
+    Sensor_t(key: "F6Ac", name: "Fan #6", group: SensorGroup.Sensor.rawValue, type: SensorType.Fan.rawValue),
+    Sensor_t(key: "F7Ac", name: "Fan #7", group: SensorGroup.Sensor.rawValue, type: SensorType.Fan.rawValue),
+    Sensor_t(key: "F8Ac", name: "Fan #8", group: SensorGroup.Sensor.rawValue, type: SensorType.Fan.rawValue),
+    Sensor_t(key: "F9Ac", name: "Fan #9", group: SensorGroup.Sensor.rawValue, type: SensorType.Fan.rawValue),
 ]
