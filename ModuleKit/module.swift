@@ -259,10 +259,11 @@ open class Module: Module_p {
             self.menuBarItem.button?.subviews.forEach{ $0.removeFromSuperview() }
             self.menuBarItem.button?.addSubview(self.widget!)
             self.widgetLoaded = true
+            self.widgetDidSet(self.widget?.type ?? .unknown)
         }
     }
     
-    // load the widget and set up. Calls when module init, on widget change
+    // load the widget and set up. Calls when module init or widget change
     private func initWidget() {
         guard self.available else { return }
         
@@ -295,6 +296,9 @@ open class Module: Module_p {
         
         self.settings?.setActiveWidget(self.widget)
     }
+    
+    // call after widget set up
+    open func widgetDidSet(_ type: widget_t) {}
     
     // call when popup appear/disappear
     private func visibilityCallback(_ state: Bool) {
@@ -359,6 +363,7 @@ open class Module: Module_p {
                         self.activeWidget = widgetType
                         self.store.pointee.set(key: "\(self.config.name)_widget", value: widgetType.rawValue)
                         self.initWidget()
+                        self.widgetDidSet(widgetType)
                         os_log(.debug, log: log, "Widget is changed to: %s", "\(widgetName)")
                     }
                 }

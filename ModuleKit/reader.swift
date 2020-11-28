@@ -161,6 +161,7 @@ open class Reader<T>: ReaderInternal_p {
     
     public func setInterval(_ value: Int) {
         os_log(.debug, log: self.log, "Set update interval: %d sec", value)
+        self.interval = Double(value)
         self.repeatTask?.reset(.seconds(Double(value)), restart: true)
     }
 }

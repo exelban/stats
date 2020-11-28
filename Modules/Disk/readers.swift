@@ -179,8 +179,12 @@ internal class CapacityReader: Reader<DiskList> {
             let readBytes = statistics.object(forKey: "Bytes (Read)") as? Int64 ?? 0
             let writeBytes = statistics.object(forKey: "Bytes (Write)") as? Int64 ?? 0
             
-            diskStats.pointee?.read = readBytes - (diskStats.pointee?.readBytes ?? 0)
-            diskStats.pointee?.write = writeBytes - (diskStats.pointee?.writeBytes ?? 0)
+            if diskStats.pointee?.readBytes != 0 {
+                diskStats.pointee?.read = readBytes - (diskStats.pointee?.readBytes ?? 0)
+            }
+            if diskStats.pointee?.writeBytes != 0 {
+                diskStats.pointee?.write = writeBytes - (diskStats.pointee?.writeBytes ?? 0)
+            }
             
             diskStats.pointee?.readBytes = readBytes
             diskStats.pointee?.writeBytes = writeBytes

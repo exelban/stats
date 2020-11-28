@@ -128,6 +128,12 @@ public class Disk: Module {
         }
     }
     
+    public override func widgetDidSet(_ type: widget_t) {
+        if type == .speed && self.capacityReader?.interval != 1 {
+            self.settingsView.setUpdateInterval(value: 1)
+        }
+    }
+    
     private func capacityCallback(value: DiskList?) {
         if value == nil {
             return
