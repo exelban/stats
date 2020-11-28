@@ -61,7 +61,12 @@ public class BarChart: Widget {
                 }
             }
         }
-        super.init(frame: CGRect(x: 0, y: Constants.Widget.margin, width: Constants.Widget.width, height: Constants.Widget.height - (2*Constants.Widget.margin)))
+        super.init(frame: CGRect(
+            x: 0,
+            y: Constants.Widget.margin.y,
+            width: Constants.Widget.width,
+            height: Constants.Widget.height - (2*Constants.Widget.margin.y)
+        ))
         self.preview = preview
         self.title = widgetTitle
         self.type = .barChart
@@ -94,7 +99,7 @@ public class BarChart: Widget {
         ctx.saveGState()
         
         var width: CGFloat = 0
-        var x: CGFloat = Constants.Widget.margin
+        var x: CGFloat = Constants.Widget.margin.x
         var chartPadding: CGFloat = 0
         
         if self.labelState {
@@ -116,8 +121,8 @@ public class BarChart: Widget {
                 str.draw(with: rect)
                 yMargin += letterHeight
             }
-            width = width + letterWidth + (Constants.Widget.margin*2)
-            x = letterWidth + (Constants.Widget.margin*3)
+            width = width + letterWidth + (Constants.Widget.margin.x*2)
+            x = letterWidth + (Constants.Widget.margin.x*3)
         }
         
         switch self.value.count {
@@ -147,7 +152,12 @@ public class BarChart: Widget {
             break
         }
         
-        let box = NSBezierPath(roundedRect: NSRect(x: x, y: 0, width: width - x - Constants.Widget.margin, height: self.frame.size.height), xRadius: 2, yRadius: 2)
+        let box = NSBezierPath(roundedRect: NSRect(
+            x: x,
+            y: 0,
+            width: width - x - Constants.Widget.margin.x,
+            height: self.frame.size.height
+        ), xRadius: 2, yRadius: 2)
         if self.boxState {
             (isDarkMode ? NSColor.white : NSColor.black).set()
             box.stroke()

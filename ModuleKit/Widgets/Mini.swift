@@ -29,7 +29,7 @@ public class Mini: Widget {
     
     private var width: CGFloat {
         get {
-            return self.labelState ? Constants.Widget.width + (2*Constants.Widget.margin) : 40
+            return self.labelState ? Constants.Widget.width + (2*Constants.Widget.margin.x) : 40
         }
     }
     
@@ -68,9 +68,9 @@ public class Mini: Widget {
         
         super.init(frame: CGRect(
             x: 0,
-            y: Constants.Widget.margin,
-            width: Constants.Widget.width + (2*Constants.Widget.margin),
-            height: Constants.Widget.height - (2*Constants.Widget.margin)
+            y: Constants.Widget.margin.y,
+            width: Constants.Widget.width + (2*Constants.Widget.margin.x),
+            height: Constants.Widget.height - (2*Constants.Widget.margin.y)
         ))
         
         self.title = widgetTitle
@@ -91,7 +91,7 @@ public class Mini: Widget {
         super.draw(dirtyRect)
         
         let valueSize: CGFloat = self.labelState ? 12 : 14
-        var origin: CGPoint = CGPoint(x: Constants.Widget.margin, y: (Constants.Widget.height-valueSize)/2)
+        var origin: CGPoint = CGPoint(x: Constants.Widget.margin.x, y: (Constants.Widget.height-valueSize)/2)
         let style = NSMutableParagraphStyle()
         style.alignment = self.labelState ? .left : .center
         
@@ -122,7 +122,7 @@ public class Mini: Widget {
             NSAttributedString.Key.foregroundColor: color,
             NSAttributedString.Key.paragraphStyle: style
         ]
-        let rect = CGRect(x: origin.x, y: origin.y, width: width - (Constants.Widget.margin*2), height: valueSize+1)
+        let rect = CGRect(x: origin.x, y: origin.y, width: width - (Constants.Widget.margin.x*2), height: valueSize+1)
         let str = NSAttributedString.init(string: "\(Int(self.value.rounded(toPlaces: 2) * 100))%", attributes: stringAttributes)
         str.draw(with: rect)
         
