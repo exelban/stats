@@ -5,15 +5,16 @@ BUILD_PATH = $(PWD)/build
 APP_PATH = "$(BUILD_PATH)/$(APP).app"
 ZIP_PATH = "$(BUILD_PATH)/$(APP).zip"
 
-.SILENT: archive notarize sign prepare-dmg prepare-dSYM clean next-version check history
-.PHONY: build archive notarize sign prepare-dmg prepare-dSYM clean next-version check history dep
+.SILENT: archive notarize sign prepare-dmg prepare-dSYM clean next-version check history disk
+.PHONY: build archive notarize sign prepare-dmg prepare-dSYM clean next-version check history open
 
 build: clean next-version archive notarize sign prepare-dmg prepare-dSYM open
 
 # --- MAIN WORLFLOW FUNCTIONS --- #
 
-archive: next-version clean
-	echo "Starting archiving the project..."
+archive: clean
+	osascript -e 'display notification "Exporting application archive..." with title "Build the Stats"'
+	echo "Exporting application archive..."
 
 	xcodebuild \
   		-scheme $(APP) \
@@ -33,7 +34,8 @@ archive: next-version clean
 	echo "Project archived successfully"
 
 notarize:
-	echo "Starting notarizing the project..."
+	osascript -e 'display notification "Submitting app for notarization..." with title "Build the Stats"'
+	echo "Submitting app for notarization..."
 
 	xcrun altool --notarize-app \
 	  --primary-bundle-id $(BUNDLE_ID)\
@@ -49,6 +51,7 @@ notarize:
 LAST_REQUEST="test"
 
 sign:
+	osascript -e 'display notification "Checking if package is approved by Apple..." with title "Build the Stats"'
 	echo "Checking if package is approved by Apple..."
 
 	while true; do \
@@ -65,7 +68,8 @@ sign:
 	xcrun stapler staple $(APP_PATH)
 	spctl -a -t exec -vvv $(APP_PATH)
 
-	echo "Application successfully stapled"
+	osascript -e 'display notification "Stats successfully stapled" with title "Build the Stats"'
+	echo "Stats successfully stapled"
 
 prepare-dmg:
 	if [ ! -d $(PWD)/create-dmg ]; then \
@@ -119,5 +123,6 @@ history:
 		-p @keychain:AC_PASSWORD
 
 open:
+	osascript -e 'display notification "Stats signed and ready for distribution" with title "Build the Stats"'
 	echo "Opening working folder..."
 	open $(PWD)
