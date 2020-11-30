@@ -337,11 +337,11 @@ public class SystemKit {
 
 let deviceDict: [String: model_s] = [
     // Mac Mini
-    "MacMini6,1": model_s(name: "Mac mini (Late 2012)", year: 2012, type: .macMini),
-    "MacMini6,2": model_s(name: "Mac mini (Late 2012)", year: 2012, type: .macMini),
-    "MacMini7,1": model_s(name: "Mac mini (Late 2014)", year: 2014, type: .macMini),
-    "MacMini8,1": model_s(name: "Mac mini (Late 2018)", year: 2018, type: .macMini),
-    "MacMini9,1": model_s(name: "Mac mini (M1, 2020)", year: 2020, type: .macMini),
+    "Macmini6,1": model_s(name: "Mac mini (Late 2012)", year: 2012, type: .macMini),
+    "Macmini6,2": model_s(name: "Mac mini (Late 2012)", year: 2012, type: .macMini),
+    "Macmini7,1": model_s(name: "Mac mini (Late 2014)", year: 2014, type: .macMini),
+    "Macmini8,1": model_s(name: "Mac mini (Late 2018)", year: 2018, type: .macMini),
+    "Macmini9,1": model_s(name: "Mac mini (M1, 2020)", year: 2020, type: .macMini),
     
     // Mac Pro
     "MacPro5,1": model_s(name: "Mac Pro (2012)", year: 2010, type: .macPro),
