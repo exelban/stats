@@ -65,7 +65,7 @@
 "Frame" = "프레임";
 "Value" = "값";
 "Colorize" = "색상화";
-"Colorize value" = "색상화 값";
+"Colorize value" = "값 색상화";
 "Additional information" = "추가 정보";
 "Reverse values order" = "값 순서 변경";
 "Base" = "단위";
