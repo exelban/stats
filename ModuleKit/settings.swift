@@ -285,6 +285,7 @@ open class Settings: NSView, Settings_p {
         self.widgetSettingsView?.removeFromSuperview()
         self.moduleSettingsView?.removeFromSuperview()
         
+        self.widgetSettingsView = nil
         self.addWidgetSettings()
         
         if self.moduleSettings != nil {

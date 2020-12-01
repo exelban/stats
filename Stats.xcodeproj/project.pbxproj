@@ -17,6 +17,7 @@
 		9A0C82EE2446124800FAE3D4 /* SystemKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7D0CB62444C2C800B09070 /* SystemKit.swift */; };
 		9A1A7ABA24561F0B00A84F7A /* BarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1A7AB924561F0B00A84F7A /* BarChart.swift */; };
 		9A1D5E4B25235C8100B82BFC /* helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1D5E4A25235C8100B82BFC /* helpers.swift */; };
+		9A20E6DA2575555100AC2302 /* PieChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A20E6D92575555100AC2302 /* PieChart.swift */; };
 		9A27D4FD2538A3E5001BB651 /* Repeat in Frameworks */ = {isa = PBXBuildFile; productRef = 9A27D4FC2538A3E5001BB651 /* Repeat */; };
 		9A27D5352538A456001BB651 /* Reachability in Frameworks */ = {isa = PBXBuildFile; productRef = 9A27D5342538A456001BB651 /* Reachability */; };
 		9A34353B243E278D006B19F9 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A34353A243E278D006B19F9 /* main.swift */; };
@@ -376,6 +377,7 @@
 		9A141101229E721200D29793 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9A1A7AB924561F0B00A84F7A /* BarChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChart.swift; sourceTree = "<group>"; };
 		9A1D5E4A25235C8100B82BFC /* helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = helpers.swift; sourceTree = "<group>"; };
+		9A20E6D92575555100AC2302 /* PieChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieChart.swift; sourceTree = "<group>"; };
 		9A27D4A925389EFD001BB651 /* Stats.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Stats.entitlements; sourceTree = "<group>"; };
 		9A343527243E26A0006B19F9 /* LaunchAtLogin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LaunchAtLogin.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A343535243E26A0006B19F9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -697,6 +699,7 @@
 				9A7C61B32440DF810032695D /* Mini.swift */,
 				9AA64263244B94F300416A33 /* LineChart.swift */,
 				9A1A7AB924561F0B00A84F7A /* BarChart.swift */,
+				9A20E6D92575555100AC2302 /* PieChart.swift */,
 				9A3E17E7247AA8E100449CD1 /* Speed.swift */,
 				9ABFF911248BF39500C9041A /* Battery.swift */,
 				9AE29AFD249A82B70071B02D /* Sensors.swift */,
@@ -1498,6 +1501,7 @@
 				9A3E17E8247AA8E100449CD1 /* Speed.swift in Sources */,
 				9AA64264244B94F300416A33 /* LineChart.swift in Sources */,
 				9A1A7ABA24561F0B00A84F7A /* BarChart.swift in Sources */,
+				9A20E6DA2575555100AC2302 /* PieChart.swift in Sources */,
 				9A944D55244920690058F32A /* reader.swift in Sources */,
 				9A7C61B42440DF810032695D /* Mini.swift in Sources */,
 				9AE29AFE249A82B70071B02D /* Sensors.swift in Sources */,

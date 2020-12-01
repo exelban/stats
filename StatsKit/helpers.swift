@@ -780,3 +780,46 @@ public class CAText: CATextLayer {
         return value.widthOfString(usingFont: self.font as! NSFont).rounded(.up) + add
     }
 }
+
+public class WidgetLabelView: NSView {
+    private var title: String
+    
+    public init(_ title: String, height: CGFloat) {
+        self.title = title
+        
+        super.init(frame: NSRect(
+            x: 0,
+            y: 0,
+            width: 6,
+            height: height
+        ))
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    public override func draw(_ dirtyRect: NSRect) {
+        super.draw(dirtyRect)
+        
+        let style = NSMutableParagraphStyle()
+        style.alignment = .center
+        let stringAttributes = [
+            NSAttributedString.Key.font: NSFont.systemFont(ofSize: 7, weight: .regular),
+            NSAttributedString.Key.foregroundColor: NSColor.textColor,
+            NSAttributedString.Key.paragraphStyle: style
+        ]
+        
+        let title = self.title.prefix(3)
+        let letterHeight = self.frame.height / 3
+        let letterWidth: CGFloat = self.frame.height / CGFloat(title.count)
+        
+        var yMargin: CGFloat = 0
+        for char in title.uppercased().reversed() {
+            let rect = CGRect(x: 0, y: yMargin, width: letterWidth, height: letterHeight-1)
+            let str = NSAttributedString.init(string: "\(char)", attributes: stringAttributes)
+            str.draw(with: rect)
+            yMargin += letterHeight
+        }
+    }
+}

@@ -104,6 +104,14 @@ public class Memory: Module {
             widget.setValue([value!.usage])
             widget.setPressure(value?.pressureLevel ?? 0)
         }
+        if let widget = self.widget as? PieChart {
+            let total: Double = value?.total ?? 1
+            widget.setValue([
+                circle_segment(value: value!.active/total, color: NSColor.systemBlue),
+                circle_segment(value: value!.wired/total, color: NSColor.systemOrange),
+                circle_segment(value: value!.compressed/total, color: NSColor.systemPink)
+            ])
+        }
         if let widget = self.widget as? MemoryWidget {
             widget.setValue((Int64(value!.free), Int64(value!.used)))
         }

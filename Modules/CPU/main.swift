@@ -132,5 +132,11 @@ public class CPU: Module {
         if let widget = self.widget as? BarChart {
             widget.setValue(self.usagePerCoreState ? value!.usagePerCore : [value!.totalUsage])
         }
+        if let widget = self.widget as? PieChart {
+            widget.setValue([
+                circle_segment(value: value!.systemLoad, color: NSColor.systemRed),
+                circle_segment(value: value!.userLoad, color: NSColor.systemBlue)
+            ])
+        }
     }
 }
