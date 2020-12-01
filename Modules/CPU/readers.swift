@@ -265,6 +265,11 @@ public class FrequencyReader: Reader<Double> {
     
     private var sample: PGSample = 0
     
+    override init() {
+        super.init()
+        self.popup = true
+    }
+    
     public override func setup() {
         let path: CFString = "/Library/Frameworks/IntelPowerGadget.framework" as CFString
         let bundleURL = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, path, CFURLPathStyle.cfurlposixPathStyle, true)
