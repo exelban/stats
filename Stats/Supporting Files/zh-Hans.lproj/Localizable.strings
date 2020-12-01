@@ -164,3 +164,6 @@
 "Time and percentage" = "时间和百分比";
 "Time format" = "时间格式";
 "Hide additional information when full" = "电池充满后隐藏其他信息";
+
+// Fans
+"Fans" = "Fans";
