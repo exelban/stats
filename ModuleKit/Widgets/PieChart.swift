@@ -78,7 +78,7 @@ public class PieChart: Widget {
     }
     
     private func draw() {
-        let x: CGFloat = self.labelState ? 6 + Constants.Widget.spacing : 0
+        let x: CGFloat = self.labelState ? 8 + Constants.Widget.spacing : 0
         
         self.labelView = WidgetLabelView(self.title, height: self.frame.height)
         self.labelView!.isHidden = !self.labelState
