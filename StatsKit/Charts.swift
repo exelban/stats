@@ -227,12 +227,18 @@ public class NetworkChartView: NSView {
     }
 }
 
-public class CircleGraphView: NSView {
+public class PieChartView: NSView {
+    private var filled: Bool = false
+    private var drawValue: Bool = false
+    
     private var value: Double? = nil
     private var segments: [circle_segment] = []
     
-    public init(frame: NSRect, segments: [circle_segment]) {
+    public init(frame: NSRect, segments: [circle_segment], filled: Bool = false, drawValue: Bool = false) {
+        self.filled = filled
+        self.drawValue = drawValue
         self.segments = segments
+        
         super.init(frame: frame)
     }
     
@@ -241,7 +247,7 @@ public class CircleGraphView: NSView {
     }
     
     public override func draw(_ rect: CGRect) {
-        let arcWidth: CGFloat = 7.0
+        let arcWidth: CGFloat = self.filled ? min(rect.width, rect.height) / 2 : 7
         let fullCircle = 2 * CGFloat.pi
         var segments = self.segments
         let totalAmount = segments.reduce(0) { $0 + $1.value }
@@ -271,7 +277,7 @@ public class CircleGraphView: NSView {
             previousAngle = currentAngle
         }
         
-        if let value = self.value {
+        if let value = self.value, self.drawValue {
             let stringAttributes = [
                 NSAttributedString.Key.font: NSFont.systemFont(ofSize: 15, weight: .regular),
                 NSAttributedString.Key.foregroundColor: isDarkMode ? NSColor.white : NSColor.textColor,
@@ -280,7 +286,7 @@ public class CircleGraphView: NSView {
             
             let percentage = "\(Int(value*100))%"
             let width: CGFloat = percentage.widthOfString(usingFont: NSFont.systemFont(ofSize: 15))
-            let rect = CGRect(x: (self.frame.width-width)/2, y: (self.frame.height-12)/2, width: width, height: 12)
+            let rect = CGRect(x: (self.frame.width-width)/2, y: (self.frame.height-11)/2, width: width, height: 12)
             let str = NSAttributedString.init(string: percentage, attributes: stringAttributes)
             str.draw(with: rect)
         }

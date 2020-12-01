@@ -34,6 +34,7 @@ public struct Widget_c_s {
         }
     }
     public let margin: CGPoint = CGPoint(x: 2, y: 2)
+    public let spacing: CGFloat = 2
 }
 
 public struct Constants {
