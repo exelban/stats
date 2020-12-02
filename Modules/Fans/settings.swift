@@ -82,7 +82,7 @@ internal class Settings: NSView, Settings_v {
         ))
         
         let rowTitleView: NSView = NSView(frame: NSRect(x: 0, y: height - (rowHeight*3) - Constants.Settings.margin*2, width: view.frame.width, height: rowHeight))
-        let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: (rowHeight-19)/2, width: view.frame.width, height: 19), "Fans")
+        let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: (rowHeight-19)/2, width: view.frame.width, height: 19), LocalizedString("Fans"))
         rowTitle.font = NSFont.systemFont(ofSize: 14, weight: .regular)
         rowTitle.textColor = .secondaryLabelColor
         rowTitle.alignment = .center
