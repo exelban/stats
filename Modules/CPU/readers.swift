@@ -258,6 +258,7 @@ public class FrequencyReader: Reader<Double> {
     
     private var bundle: CFBundle? = nil
     
+    private var PG_Initialize: PG_InitializePointerFunction? = nil
     private var PG_Shutdown: PG_ShutdownPointerFunction? = nil
     private var PG_ReadSample: PG_ReadSamplePointerFunction? = nil
     private var PGSample_GetIAFrequency: PGSample_GetIAFrequencyPointerFunction? = nil
@@ -306,15 +307,17 @@ public class FrequencyReader: Reader<Double> {
             return
         }
         
-        let PG_Initialize = unsafeBitCast(PG_InitializePointer, to: PG_InitializePointerFunction.self)
+        self.PG_Initialize = unsafeBitCast(PG_InitializePointer, to: PG_InitializePointerFunction.self)
         self.PG_Shutdown = unsafeBitCast(PG_ShutdownPointer, to: PG_ShutdownPointerFunction.self)
         self.PG_ReadSample = unsafeBitCast(PG_ReadSamplePointer, to: PG_ReadSamplePointerFunction.self)
         self.PGSample_GetIAFrequency = unsafeBitCast(PGSample_GetIAFrequencyPointer, to: PGSample_GetIAFrequencyPointerFunction.self)
         self.PGSample_Release = unsafeBitCast(PGSample_ReleasePointer, to: PGSample_ReleasePointerFunction.self)
         
-        if !PG_Initialize() {
-            os_log(.error, log: log, "IPG initialization failed")
-            return
+        if let initialize = self.PG_Initialize {
+            if !initialize() {
+                os_log(.error, log: log, "IPG initialization failed")
+                return
+            }
         }
     }
     
@@ -364,18 +367,18 @@ public class FrequencyReader: Reader<Double> {
         var min: Double = 0
         var max: Double = 0
         
+        defer {
+            if !self.PGSample_Release!(self.sample) {
+                os_log(.error, log: log, "release self.sample failed")
+            }
+            self.sample = local
+        }
+        
         if !self.PGSample_GetIAFrequency!(self.sample, local, &value, &min, &max) {
             os_log(.error, log: log, "read frequency failed")
             return
         }
         
         self.callback(value)
-        
-        if !self.PGSample_Release!(self.sample) {
-            os_log(.error, log: log, "release self.sample failed")
-            return
-        }
-        
-        self.sample = local
     }
 }
