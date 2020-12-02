@@ -265,6 +265,7 @@ public class FrequencyReader: Reader<Double> {
     private var PGSample_Release: PGSample_ReleasePointerFunction? = nil
     
     private var sample: PGSample = 0
+    private var reconnectAttempt: Int = 0
     
     override init() {
         super.init()
@@ -343,6 +344,23 @@ public class FrequencyReader: Reader<Double> {
         }
     }
     
+    private func reconnect() {
+        if self.reconnectAttempt >= 5 {
+            return
+        }
+        
+        self.sample = 0
+        self.terminate()
+        if let initialize = self.PG_Initialize {
+            if !initialize() {
+                os_log(.error, log: log, "IPG initialization failed")
+                return
+            }
+        }
+        
+        self.reconnectAttempt += 1
+    }
+    
     public override func read() {
         if self.PG_ReadSample == nil || self.PGSample_GetIAFrequency == nil || self.PGSample_Release == nil {
             return
@@ -359,6 +377,7 @@ public class FrequencyReader: Reader<Double> {
         var local: PGSample = 0
         
         if !self.PG_ReadSample!(0, &local) {
+            self.reconnect()
             os_log(.error, log: log, "read local sample failed")
             return
         }
