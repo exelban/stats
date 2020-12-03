@@ -29,7 +29,7 @@ public class Mini: Widget {
     
     private var width: CGFloat {
         get {
-            return self.labelState ? Constants.Widget.width + (2*Constants.Widget.margin.x) : 40
+            return self.labelState ? 31 + (2*Constants.Widget.margin.x) : 36
         }
     }
     

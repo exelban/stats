@@ -31,7 +31,7 @@ public struct circle_segment {
 }
 
 public class LineChartView: NSView {
-    public var points: [Double]? = nil
+    public var points: [Double]
     public var transparent: Bool = true
     
     public var color: NSColor = NSColor.controlAccentColor
@@ -48,7 +48,7 @@ public class LineChartView: NSView {
     public override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         
-        if self.points?.count == 0 {
+        if self.points.isEmpty {
             return
         }
         
@@ -60,48 +60,44 @@ public class LineChartView: NSView {
         
         guard let context = NSGraphicsContext.current?.cgContext else { return }
         context.setShouldAntialias(true)
-        let height: CGFloat = self.frame.size.height - self.frame.origin.y - 0.5
-        let xRatio: CGFloat = self.frame.size.width / CGFloat(self.points!.count)
+        
+        let offset: CGFloat = 1 / (NSScreen.main?.backingScaleFactor ?? 1)
+        let height: CGFloat = self.frame.size.height - self.frame.origin.y - offset
+        let xRatio: CGFloat = self.frame.size.width / CGFloat(self.points.count)
         
         let columnXPoint = { (point: Int) -> CGFloat in
             return (CGFloat(point) * xRatio) + dirtyRect.origin.x
         }
         let columnYPoint = { (point: Int) -> CGFloat in
-            return CGFloat((CGFloat(truncating: self.points![point] as NSNumber) * height)) + dirtyRect.origin.y + 0.5
+            return CGFloat((CGFloat(truncating: self.points[point] as NSNumber) * height)) + dirtyRect.origin.y + 0.5
         }
         
-        let linePath = NSBezierPath()
-        let x: CGFloat = columnXPoint(0)
-        let y: CGFloat = columnYPoint(0)
-        linePath.move(to: CGPoint(x: x, y: y))
+        let line = NSBezierPath()
+        line.move(to: CGPoint(x: columnXPoint(0), y: columnYPoint(0)))
         
-        for i in 1..<self.points!.count {
-            linePath.line(to: CGPoint(x: columnXPoint(i), y: columnYPoint(i)))
+        for i in 1..<self.points.count {
+            line.line(to: CGPoint(x: columnXPoint(i), y: columnYPoint(i)))
         }
         
         lineColor.setStroke()
-        context.saveGState()
+        line.lineWidth = offset
+        line.stroke()
         
-        let underLinePath = linePath.copy() as! NSBezierPath
+        let underLinePath = line.copy() as! NSBezierPath
         
-        underLinePath.line(to: CGPoint(x: columnXPoint(self.points!.count - 1), y: 0))
+        underLinePath.line(to: CGPoint(x: columnXPoint(self.points.count - 1), y: 0))
         underLinePath.line(to: CGPoint(x: columnXPoint(0), y: 0))
         underLinePath.close()
         underLinePath.addClip()
         
         gradientColor.setFill()
-        let rectPath = NSBezierPath(rect: dirtyRect)
-        rectPath.fill()
-        
-        context.restoreGState()
-        
-        linePath.stroke()
-        linePath.lineWidth = 0.5
+        underLinePath.fill()
     }
     
     public func addValue(_ value: Double) {
-        self.points!.remove(at: 0)
-        self.points!.append(value)
+        self.points.remove(at: 0)
+        self.points.append(value)
+        
         if self.window?.isVisible ?? true {
             self.display()
         }

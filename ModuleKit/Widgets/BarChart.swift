@@ -29,6 +29,7 @@ public class BarChart: Widget {
     public init(preview: Bool, title: String, config: NSDictionary?, store: UnsafePointer<Store>?) {
         var widgetTitle: String = title
         self.store = store
+        
         if config != nil {
             var configuration = config!
             if let titleFromConfig = config!["Title"] as? String {
@@ -61,12 +62,14 @@ public class BarChart: Widget {
                 }
             }
         }
+        
         super.init(frame: CGRect(
-            x: 0,
+            x: Constants.Widget.margin.x,
             y: Constants.Widget.margin.y,
-            width: Constants.Widget.width,
+            width: Constants.Widget.width + (2*Constants.Widget.margin.x),
             height: Constants.Widget.height - (2*Constants.Widget.margin.y)
         ))
+        
         self.preview = preview
         self.title = widgetTitle
         self.type = .barChart
@@ -95,12 +98,37 @@ public class BarChart: Widget {
     public override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         
-        let ctx = NSGraphicsContext.current!.cgContext
-        ctx.saveGState()
+        var width: CGFloat = (Constants.Widget.margin.x*2)
+        var x: CGFloat = 0
+        let lineWidth = 1 / (NSScreen.main?.backingScaleFactor ?? 1)
+        let offset = lineWidth / 2
         
-        var width: CGFloat = 0
-        var x: CGFloat = Constants.Widget.margin.x
-        var chartPadding: CGFloat = 0
+        switch self.value.count {
+        case 0, 1:
+            width += 11
+            break
+        case 2:
+            width += 24
+            break
+        case 3...4: // 3,4
+            width += 30
+            break
+        case 5...8: // 5,6,7,8
+            width += 40
+            break
+        case 9...12: // 9..12
+            width += 50
+            break
+        case 13...16: // 13..16
+            width += 76
+            break
+        case 17...32: // 17..32
+            width += 84
+            break
+        default: // > 32
+            width += 118
+            break
+        }
         
         if self.labelState {
             let style = NSMutableParagraphStyle()
@@ -112,7 +140,7 @@ public class BarChart: Widget {
             ]
             
             let letterHeight = self.frame.height / 3
-            let letterWidth: CGFloat = 6.0
+            let letterWidth: CGFloat = 5.0
             
             var yMargin: CGFloat = 0
             for char in String(self.title.prefix(3)).uppercased().reversed() {
@@ -121,61 +149,35 @@ public class BarChart: Widget {
                 str.draw(with: rect)
                 yMargin += letterHeight
             }
-            width = width + letterWidth + (Constants.Widget.margin.x*2)
-            x = letterWidth + (Constants.Widget.margin.x*3)
-        }
-        
-        switch self.value.count {
-        case 0, 1:
-            width += 14
-            break
-        case 2:
-            width += 26
-            break
-        case 3...4: // 3,4
-            width += 32
-            break
-        case 5...8: // 5,6,7,8
-            width += 42
-            break
-        case 9...12: // 9..12
-            width += 52
-            break
-        case 13...16: // 13..16
-            width += 78
-            break
-        case 17...32: // 17..32
-            width += 86
-            break
-        default: // > 32
-            width += 120
-            break
+            
+            width = width + letterWidth + Constants.Widget.spacing
+            x = letterWidth + Constants.Widget.spacing
         }
         
         let box = NSBezierPath(roundedRect: NSRect(
-            x: x,
-            y: 0,
-            width: width - x - Constants.Widget.margin.x,
-            height: self.frame.size.height
+            x: x + offset,
+            y: offset,
+            width: width - x - (offset*2) - (Constants.Widget.margin.x*2),
+            height: self.frame.size.height - (offset*2)
         ), xRadius: 2, yRadius: 2)
+        
         if self.boxState {
             (isDarkMode ? NSColor.white : NSColor.black).set()
             box.stroke()
             box.fill()
-            chartPadding = 1
-            x += 0.5
         }
         
-        let widthForBarChart = box.bounds.width - chartPadding
+        let widthForBarChart = box.bounds.width
         let partitionMargin: CGFloat = 0.5
         let partitionsMargin: CGFloat = (CGFloat(self.value.count - 1)) * partitionMargin / CGFloat(self.value.count - 1)
         let partitionWidth: CGFloat = (widthForBarChart / CGFloat(self.value.count)) - CGFloat(partitionsMargin.isNaN ? 0 : partitionsMargin)
-        let maxPartitionHeight: CGFloat = box.bounds.height - (chartPadding*2)
+        let maxPartitionHeight: CGFloat = box.bounds.height
         
+        x += offset
         for i in 0..<self.value.count {
             let partitionValue = self.value[i]
             let partitonHeight = maxPartitionHeight * CGFloat(partitionValue)
-            let partition = NSBezierPath(rect: NSRect(x: x, y: chartPadding, width: partitionWidth, height: partitonHeight))
+            let partition = NSBezierPath(rect: NSRect(x: x, y: offset, width: partitionWidth, height: partitonHeight))
             
             switch self.colorState {
             case .systemAccent: NSColor.controlAccentColor.set()
@@ -198,15 +200,18 @@ public class BarChart: Widget {
         
         if self.boxState || self.frameState {
             (isDarkMode ? NSColor.white : NSColor.black).set()
-            box.lineWidth = 1
+            box.lineWidth = lineWidth
             box.stroke()
         }
         
-        ctx.restoreGState()
         self.setWidth(width)
     }
     
     public func setValue(_ value: [Double]) {
+        guard self.value != value else {
+            return
+        }
+        
         self.value = value
         DispatchQueue.main.async(execute: {
             self.display()
@@ -223,6 +228,8 @@ public class BarChart: Widget {
             self.display()
         })
     }
+    
+    // MARK: - Settings
     
     public override func settings(superview: NSView) {
         let rowHeight: CGFloat = 30
