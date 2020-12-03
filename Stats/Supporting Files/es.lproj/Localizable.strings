@@ -3,6 +3,7 @@
 //  Stats
 //
 //  Created by Serhiy Mytrovtsiy on 27/08/2020.
+//  Updated by lucasaf04 on 03/12/2020.
 //  Using Swift 5.0.
 //  Running on macOS 10.15.
 //
@@ -21,7 +22,7 @@
 "Install" = "Intalar";
 "Cancel" = "Cancelar";
 "Unavailable" = "No disponible";
-"Yes" = "Si";
+"Yes" = "Sí";
 "No" = "No";
 "Automatic" = "Automático";
 "None" = "Ninguna";
@@ -30,6 +31,7 @@
 "Characters" = "Letras";
 "Short" = "Corto";
 "Long" = "Largo";
+"Statistics" = "Estadísticas";
 
 // Alerts
 "New version available" = "Nueva versión disponible";
@@ -38,14 +40,14 @@
 "Stats was updated to v" = "Stats se ha actualizado a v%0";
 
 // Settings
-"Open Activity Monitor" = "Abrir Activity Monitor";
+"Open Activity Monitor" = "Abrir Monitor de Actividad";
 "Report a bug" = "Reportar un error";
 "Close application" = "Cerrar la aplicación";
-"Open application settings" = "Abrir la aplicación de configuración";
+"Open application settings" = "Abrir la configuración de la aplicación";
 "Open moduleName settings" = "Abrir la configuración del módulo %0";
 
 // Application settings
-"Update application" = "Actualiza la aplicación";
+"Update application" = "Actualizar la aplicación";
 "Check for updates" = "Buscar actualizaciones";
 "Check for update" = "Buscar actualización";
 "Show icon in dock" = "Muestra el icono en el dock";
@@ -54,8 +56,8 @@
 // Update
 "The latest version of Stats installed" = "La última versión de Stats instalada";
 "Downloading..." = "Descargando...";
-"Current version: " = "Versión actual:  ";
-"Latest version: " = "Última versión:    ";
+"Current version: " = "Versión actual: ";
+"Latest version: " = "Última versión: ";
 
 // Widgets
 "Color" = "Color";
@@ -63,8 +65,8 @@
 "Box" = "Caja";
 "Frame" = "Cuadro";
 "Value" = "Valor";
-"Colorize" = "Coloreado";
-"Colorize value" = "Valor coloreado";
+"Colorize" = "Colorear";
+"Colorize value" = "Colorear valor";
 "Additional information" = "Información adicional";
 "Reverse values order" = "Invertir el order de los valores";
 "Base" = "Base";
@@ -75,16 +77,19 @@
 // Module Kit
 "Open module settings" = "Abrir la configruación del módulo";
 "Select widget" = "Seleccionar el widget %0";
-"Update interval" = "Intérvalo de actualización";
+"Update interval" = "Intervalo de actualización";
 "Usage history" = "Historial de uso";
 "Details" = "Detalles";
 "Top processes" = "Procesos principales";
 "Pictogram" = "Icono";
 
+// Modules
+"Number of top processes" = "Número de procesos principales";
+
 // CPU
-"CPU usage" = "Uso de CPU";
-"CPU temperature" = "Temperatura del CPU";
-"CPU frequency" = "Frecuencia del CPU";
+"CPU usage" = "Uso de la CPU";
+"CPU temperature" = "Temperatura de la CPU";
+"CPU frequency" = "Frecuencia de la CPU";
 "System" = "Sistema";
 "User" = "Usuario";
 "Idle" = "Libre";
@@ -117,7 +122,7 @@
 "Fahrenheit" = "Fahrenheit";
 
 // Network
-"Uploading" = "Subiendo";
+"Uploading" = "Cargando";
 "Downloading" = "Descargando";
 "Public IP" = "IP Pública";
 "Local IP" = "IP Local";
@@ -163,4 +168,4 @@
 "Hide additional information when full" = "Ocultar información adicional cuando la batería está llena";
 
 // Fans
-"Fans" = "Fans";
+"Fans" = "Ventiladores";
