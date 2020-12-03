@@ -172,7 +172,7 @@ public class LineChart: Widget {
             let str = NSAttributedString.init(string: "\(Int((value.rounded(toPlaces: 2)) * 100))%", attributes: stringAttributes)
             str.draw(with: rect)
             
-            boxSize.height = 10
+            boxSize.height = offset == 0.5 ? 10 : 9
         }
         
         let box = NSBezierPath(roundedRect: NSRect(

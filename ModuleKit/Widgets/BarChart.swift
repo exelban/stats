@@ -105,10 +105,10 @@ public class BarChart: Widget {
         
         switch self.value.count {
         case 0, 1:
-            width += 11
+            width += 10 + (offset*2)
             break
         case 2:
-            width += 24
+            width += 22
             break
         case 3...4: // 3,4
             width += 30
