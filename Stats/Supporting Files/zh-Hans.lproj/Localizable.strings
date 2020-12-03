@@ -135,6 +135,9 @@
 "Network interface" = "网络接口";
 "Total download" = "共下载";
 "Total upload" = "总上传";
+"Reader type" = "读卡器类型";
+"Interface" = "接口";
+"Process" = "处理";
 
 // Battery
 "Level" = "电量";
@@ -161,3 +164,6 @@
 "Time and percentage" = "时间和百分比";
 "Time format" = "时间格式";
 "Hide additional information when full" = "电池充满后隐藏其他信息";
+
+// Fans
+"Fans" = "Fans";

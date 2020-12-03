@@ -37,9 +37,9 @@ public class SensorsWidget: Widget {
         }
         super.init(frame: CGRect(
             x: 0,
-            y: Constants.Widget.margin,
+            y: Constants.Widget.margin.y,
             width: Constants.Widget.width,
-            height: Constants.Widget.height - (2*Constants.Widget.margin)
+            height: Constants.Widget.height - (2*Constants.Widget.margin.y)
         ))
         self.title = title
         self.type = .sensors
@@ -76,8 +76,8 @@ public class SensorsWidget: Widget {
         self.body.sublayers?.forEach{ $0.removeFromSuperlayer() }
         
         let num: Int = Int(round(Double(list.count) / 2))
-        var totalWidth: CGFloat = Constants.Widget.margin  // opening space
-        var x: CGFloat = Constants.Widget.margin
+        var totalWidth: CGFloat = Constants.Widget.margin.x  // opening space
+        var x: CGFloat = Constants.Widget.margin.x
         
         var i = 0
         while i < list.count {
@@ -97,8 +97,8 @@ public class SensorsWidget: Widget {
                 totalWidth += width
                 
                 if num != 1 && (i/2) != num {
-                    x += Constants.Widget.margin
-                    totalWidth += Constants.Widget.margin
+                    x += Constants.Widget.margin.x
+                    totalWidth += Constants.Widget.margin.x
                 }
                 
                 i += 1
@@ -110,15 +110,15 @@ public class SensorsWidget: Widget {
                 
                 // add margins between columns
                 if list.count != 1 && i != list.count {
-                    x += Constants.Widget.margin
-                    totalWidth += Constants.Widget.margin
+                    x += Constants.Widget.margin.x
+                    totalWidth += Constants.Widget.margin.x
                 }
             default: break
             }
             
             i += 1
         }
-        totalWidth += Constants.Widget.margin // closing space
+        totalWidth += Constants.Widget.margin.x // closing space
         
         if abs(self.frame.width - totalWidth) < 2 {
             return

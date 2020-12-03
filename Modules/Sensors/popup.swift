@@ -74,14 +74,14 @@ internal class Popup: NSView, Popup_p {
     }
     
     internal func usageCallback(_ values: [Sensor_t]) {
-        values.forEach { (s: Sensor_t) in
-            if self.list[s.key] != nil {
-                DispatchQueue.main.async(execute: {
-                    if (self.window?.isVisible ?? false) {
+        DispatchQueue.main.async(execute: {
+            if (self.window?.isVisible ?? false) {
+                values.forEach { (s: Sensor_t) in
+                    if self.list[s.key] != nil {
                         self.list[s.key]?.stringValue = s.formattedValue
                     }
-                })
+                }
             }
-        }
+        })
     }
 }

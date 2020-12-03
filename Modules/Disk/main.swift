@@ -128,11 +128,20 @@ public class Disk: Module {
         }
     }
     
+    public override func widgetDidSet(_ type: widget_t) {
+        if type == .speed && self.capacityReader?.interval != 1 {
+            self.settingsView.setUpdateInterval(value: 1)
+        }
+    }
+    
     private func capacityCallback(value: DiskList?) {
         if value == nil {
             return
         }
-        self.popupView.usageCallback(value!)
+        
+        DispatchQueue.main.async(execute: {
+            self.popupView.usageCallback(value!)
+        })
         self.settingsView.setList(value!)
         
         var d = value!.getDiskByName(self.selectedDisk)

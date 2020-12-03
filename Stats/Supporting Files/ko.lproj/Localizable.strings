@@ -10,7 +10,7 @@
 //
 
 // Words
-"Unknown" = "알 수 없는";
+"Unknown" = "알 수 없음";
 "Version" = "버전";
 "Processor" = "프로세서";
 "Memory" = "메모리";
@@ -23,13 +23,14 @@
 "Unavailable" = "사용할 수 없음";
 "Yes" = "예";
 "No" = "아니요";
-"Automatic" = "자동적 인";
+"Automatic" = "자동";
 "None" = "없음";
 "Dots" = "도트";
-"Arrows" = "화살";
-"Characters" = "편지";
+"Arrows" = "화살표";
+"Characters" = "문자열";
 "Short" = "짧은";
 "Long" = "긴";
+"Statistics" = "통계";
 
 // Alerts
 "New version available" = "새로운 버전을 이용할 수 있습니다";
@@ -58,17 +59,17 @@
 "Latest version: " = "최신 버전:    ";
 
 // Widgets
-"Color" = "색";
+"Color" = "색상";
 "Label" = "라벨";
 "Box" = "박스";
 "Frame" = "프레임";
 "Value" = "값";
 "Colorize" = "색상화";
-"Colorize value" = "색상화 값";
+"Colorize value" = "값 색상화";
 "Additional information" = "추가 정보";
 "Reverse values order" = "값 순서 변경";
-"Base" = "Base";
-"Display mode" = "디스플레이 모드";
+"Base" = "단위";
+"Display mode" = "표기 방식";
 "One row" = "한 줄";
 "Two rows" = "두 줄";
 
@@ -105,7 +106,7 @@
 "Total" = "전체";
 "Used" = "사용됨";
 "App" = "앱";
-"Wired" = "와이어드";
+"Wired" = "예약됨";
 "Compressed" = "압축됨";
 "Free" = "여유";
 
@@ -122,38 +123,41 @@
 // Network
 "Uploading" = "업로딩";
 "Downloading" = "다운로딩";
-"Public IP" = "공용 IP";
+"Public IP" = "공인 IP";
 "Local IP" = "로컬 IP";
 "Interface" = "인터페이스";
 "Network" = "네트워크";
 "Physical address" = "물리 주소";
-"Click to copy public IP address" = "공개 IP 주소를 복사하려면 클릭하세요";
+"Click to copy public IP address" = "공인 IP 주소를 복사하려면 클릭하세요";
 "Click to copy local IP address" = "로컬 IP 주소를 복사하려면 클릭하세요";
 "Click to copy wifi name" = "와이파이 이름을 복사하려면 클릭하세요";
-"Click to copy mac address" = "Mac 주소를 복사하려면 클릭하세요";
+"Click to copy mac address" = "MAC 주소를 복사하려면 클릭하세요";
 "No connection" = "연결되지 않음";
 "Network interface" = "네트워크 인터페이스";
 "Total download" = "총 다운로드";
 "Total upload" = "총 업로드";
+"Reader type" = "리더 유형";
+"Interface" = "상호 작용";
+"Process" = "프로세스";
 
 // Battery
 "Level" = "잔량";
 "Source" = "공급원";
 "Time" = "시간";
 "Health" = "상태";
-"Battery" = "베터리";
+"Battery" = "배터리";
 "Amperage" = "암페어";
 "Voltage" = "전압";
 "Temperature" = "온도";
-"Power adapter" = "파워 어뎁터";
-"Power" = "파워";
+"Power adapter" = "전원 어댑터";
+"Power" = "출력";
 "Is charging" = "충전 중";
 "Time to discharge" = "방전까지 남은 시간";
 "Time to charge" = "충전 완료까지 남은 시간";
-"Calculating" = "계산중";
+"Calculating" = "계산 중";
 "Fully charged" = "완전히 충전됨";
 "Not connected" = "연결되지 않음";
-"Low level notification" = "베터리 부족 상태 알림";
+"Low level notification" = "배터리 부족 상태 알림";
 "Low battery" = "배터리 부족";
 "Battery remaining" = "%0% 남았습니다";
 "Percentage" = "백분율";
@@ -161,3 +165,6 @@
 "Time and percentage" = "시간과 비율";
 "Time format" = "시간 형식";
 "Hide additional information when full" = "배터리가 가득 차면 추가 정보 숨기기";
+
+// Fans
+"Fans" = "팬";

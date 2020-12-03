@@ -31,7 +31,7 @@ internal class Popup: NSView, Popup_p {
     private var idleField: NSTextField? = nil
     
     private var chart: LineChartView? = nil
-    private var circle: CircleGraphView? = nil
+    private var circle: PieChartView? = nil
     private var temperatureCircle: HalfCircleGraphView? = nil
     private var frequencyCircle: HalfCircleGraphView? = nil
     private var initialized: Bool = false
@@ -118,7 +118,12 @@ internal class Popup: NSView, Popup_p {
         let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.dashboardHeight))
         
         let container: NSView = NSView(frame: NSRect(x: 0, y: 10, width: view.frame.width, height: self.dashboardHeight-20))
-        self.circle = CircleGraphView(frame: NSRect(x: (container.frame.width - container.frame.height)/2, y: 0, width: container.frame.height, height: container.frame.height), segments: [])
+        self.circle = PieChartView(frame: NSRect(
+            x: (container.frame.width - container.frame.height)/2,
+            y: 0,
+            width: container.frame.height,
+            height: container.frame.height
+        ), segments: [], drawValue: true)
         self.circle!.toolTip = LocalizedString("CPU usage")
         container.addSubview(self.circle!)
         

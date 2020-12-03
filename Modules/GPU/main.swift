@@ -91,7 +91,9 @@ public class GPU: Module {
             return
         }
         
-        self.popupView.infoCallback(value!)
+        DispatchQueue.main.async(execute: {
+            self.popupView.infoCallback(value!)
+        })
         self.settingsView.setList(value!)
         
         let activeGPU = value!.active()

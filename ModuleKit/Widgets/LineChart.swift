@@ -56,8 +56,18 @@ public class LineChart: Widget {
                 }
             }
         }
-        self.chart = LineChartView(frame: NSRect(x: 0, y: 0, width: Constants.Widget.width, height: Constants.Widget.height - (2*Constants.Widget.margin)), num: 60)
-        super.init(frame: CGRect(x: 0, y: Constants.Widget.margin, width: Constants.Widget.width, height: Constants.Widget.height - (2*Constants.Widget.margin)))
+        self.chart = LineChartView(frame: NSRect(
+            x: 0,
+            y: 0,
+            width: Constants.Widget.width,
+            height: Constants.Widget.height - (2*Constants.Widget.margin.y)
+        ), num: 60)
+        super.init(frame: CGRect(
+            x: 0,
+            y: Constants.Widget.margin.y,
+            width: Constants.Widget.width,
+            height: Constants.Widget.height - (2*Constants.Widget.margin.y)
+        ))
         self.preview = preview
         self.title = widgetTitle
         self.type = .lineChart
@@ -73,7 +83,7 @@ public class LineChart: Widget {
         }
         
         if self.labelState {
-            self.setFrameSize(NSSize(width: Constants.Widget.width + 6 + (Constants.Widget.margin*2), height: self.frame.size.height))
+            self.setFrameSize(NSSize(width: Constants.Widget.width + 6 + (Constants.Widget.margin.x*2), height: self.frame.size.height))
         }
         
         if preview {
@@ -93,7 +103,7 @@ public class LineChart: Widget {
         ctx.saveGState()
         
         var width = Constants.Widget.width
-        var x: CGFloat = Constants.Widget.margin
+        var x: CGFloat = Constants.Widget.margin.x
         var chartPadding: CGFloat = 0
         
         if self.labelState {
@@ -115,13 +125,13 @@ public class LineChart: Widget {
                 str.draw(with: rect)
                 yMargin += letterHeight
             }
-            width = width + letterWidth + (Constants.Widget.margin*2)
-            x = letterWidth + (Constants.Widget.margin*3)
+            width = width + letterWidth + (Constants.Widget.margin.x*2)
+            x = letterWidth + (Constants.Widget.margin.x*3)
         }
         
         var boxHeight: CGFloat = self.frame.size.height
         var boxRadius: CGFloat = 2
-        let boxWidth: CGFloat = Constants.Widget.width - (Constants.Widget.margin*2)
+        let boxWidth: CGFloat = Constants.Widget.width - (Constants.Widget.margin.x*2)
         
         var color: NSColor = NSColor.controlAccentColor
         switch self.colorState {

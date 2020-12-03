@@ -135,9 +135,11 @@ internal class CapacityReader: Reader<DiskList> {
             }
         }
         
-        if d.path != nil {
-            d.free = freeDiskSpaceInBytes(d.path!.absoluteString)
+        if d.path == nil {
+            return nil
         }
+        
+        d.free = freeDiskSpaceInBytes(d.path!.absoluteString)
         
         let partitionLevel = d.BSDName.filter { "0"..."9" ~= $0 }.count
         if let parent = self.getDeviceIOParent(DADiskCopyIOMedia(disk), level: Int(partitionLevel)) {
@@ -179,8 +181,12 @@ internal class CapacityReader: Reader<DiskList> {
             let readBytes = statistics.object(forKey: "Bytes (Read)") as? Int64 ?? 0
             let writeBytes = statistics.object(forKey: "Bytes (Write)") as? Int64 ?? 0
             
-            diskStats.pointee?.read = readBytes - (diskStats.pointee?.readBytes ?? 0)
-            diskStats.pointee?.write = writeBytes - (diskStats.pointee?.writeBytes ?? 0)
+            if diskStats.pointee?.readBytes != 0 {
+                diskStats.pointee?.read = readBytes - (diskStats.pointee?.readBytes ?? 0)
+            }
+            if diskStats.pointee?.writeBytes != 0 {
+                diskStats.pointee?.write = writeBytes - (diskStats.pointee?.writeBytes ?? 0)
+            }
             
             diskStats.pointee?.readBytes = readBytes
             diskStats.pointee?.writeBytes = writeBytes

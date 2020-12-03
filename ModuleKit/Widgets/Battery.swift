@@ -29,7 +29,12 @@ public class BatterykWidget: Widget {
     public init(preview: Bool, title: String, config: NSDictionary?, store: UnsafePointer<Store>?) {
         let widgetTitle: String = title
         self.store = store
-        super.init(frame: CGRect(x: 0, y: Constants.Widget.margin, width: 30, height: Constants.Widget.height - (2*Constants.Widget.margin)))
+        super.init(frame: CGRect(
+            x: 0,
+            y: Constants.Widget.margin.y,
+            width: 30,
+            height: Constants.Widget.height - (2*Constants.Widget.margin.y)
+        ))
         self.title = widgetTitle
         self.type = .battery
         self.preview = preview
@@ -59,7 +64,7 @@ public class BatterykWidget: Widget {
         super.draw(dirtyRect)
         
         var width: CGFloat = 30
-        var x: CGFloat = Constants.Widget.margin+1
+        var x: CGFloat = Constants.Widget.margin.x+1
         let isShortTimeFormat: Bool = self.timeFormat == "short"
         
         if !self.hideAdditionalWhenFull || (self.hideAdditionalWhenFull && self.percentage != 1) {
@@ -69,36 +74,36 @@ public class BatterykWidget: Widget {
                     value: "\(Int((self.percentage.rounded(toPlaces: 2)) * 100))%",
                     x: x
                 ).rounded(.up)
-                width += rowWidth + Constants.Widget.margin
-                x += rowWidth + Constants.Widget.margin
+                width += rowWidth + Constants.Widget.margin.x
+                x += rowWidth + Constants.Widget.margin.x
             case "time":
                 let rowWidth = self.drawOneRow(
                     value: Double(self.time*60).printSecondsToHoursMinutesSeconds(short: isShortTimeFormat),
                     x: x
                 ).rounded(.up)
-                width += rowWidth + Constants.Widget.margin
-                x += rowWidth + Constants.Widget.margin
+                width += rowWidth + Constants.Widget.margin.x
+                x += rowWidth + Constants.Widget.margin.x
             case "percentageAndTime":
                 let rowWidth = self.drawTwoRows(
                     first: "\(Int((self.percentage.rounded(toPlaces: 2)) * 100))%",
                     second: Double(self.time*60).printSecondsToHoursMinutesSeconds(short: isShortTimeFormat),
                     x: x
                 ).rounded(.up)
-                width += rowWidth + Constants.Widget.margin
-                x += rowWidth + Constants.Widget.margin
+                width += rowWidth + Constants.Widget.margin.x
+                x += rowWidth + Constants.Widget.margin.x
             case "timeAndPercentage":
                 let rowWidth = self.drawTwoRows(
                     first: Double(self.time*60).printSecondsToHoursMinutesSeconds(short: isShortTimeFormat),
                     second: "\(Int((self.percentage.rounded(toPlaces: 2)) * 100))%",
                     x: x
                 ).rounded(.up)
-                width += rowWidth + Constants.Widget.margin
-                x += rowWidth + Constants.Widget.margin
+                width += rowWidth + Constants.Widget.margin.x
+                x += rowWidth + Constants.Widget.margin.x
             default: break
             }
         }
         
-        let w: CGFloat = 28 - (Constants.Widget.margin*2) - 4
+        let w: CGFloat = 28 - (Constants.Widget.margin.x*2) - 4
         let h: CGFloat = 11
         let y: CGFloat = (dirtyRect.size.height - h) / 2
         let batteryFrame = NSBezierPath(roundedRect: NSRect(x: x+1, y: y, width: w, height: h), xRadius: 1.5, yRadius: 1.5)

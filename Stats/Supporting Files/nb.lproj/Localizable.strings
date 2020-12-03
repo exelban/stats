@@ -136,6 +136,9 @@
 "Network interface" = "Nettverksgrensesnitt";
 "Total download" = "Totalt lastet ned";
 "Total upload" = "Totalt lastet opp";
+"Reader type" = "Lesertype";
+"Interface" = "Grensesnitt";
+"Process" = "Prosess";
 
 // Battery
 "Level" = "Nivå";
@@ -162,3 +165,6 @@
 "Time and percentage" = "Tid og prosent";
 "Time format" = "Tidsformat";
 "Hide additional information when full" = "Skjul ekstra information når fulladet";
+
+// Fans
+"Fans" = "Fans";

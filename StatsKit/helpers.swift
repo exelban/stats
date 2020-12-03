@@ -83,6 +83,12 @@ public let ShortLong: [KeyValue_t] = [
 public let ReaderUpdateIntervals: [Int] = [1, 2, 3, 5, 10, 15, 30]
 public let NumbersOfProcesses: [Int] = [3, 5, 8, 10, 15]
 
+public typealias Bandwidth = (upload: Int64, download: Int64)
+public let NetworkReaders: [KeyValue_t] = [
+    KeyValue_t(key: "interface", value: "Interface based"),
+    KeyValue_t(key: "process", value: "Processes based"),
+]
+
 public struct Units {
     public let bytes: Int64
     
@@ -772,5 +778,48 @@ public class CAText: CATextLayer {
     public func getWidth(add: CGFloat = 0) -> CGFloat {
         let value = self.string as? String ?? ""
         return value.widthOfString(usingFont: self.font as! NSFont).rounded(.up) + add
+    }
+}
+
+public class WidgetLabelView: NSView {
+    private var title: String
+    
+    public init(_ title: String, height: CGFloat) {
+        self.title = title
+        
+        super.init(frame: NSRect(
+            x: 0,
+            y: 0,
+            width: 6,
+            height: height
+        ))
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    public override func draw(_ dirtyRect: NSRect) {
+        super.draw(dirtyRect)
+        
+        let style = NSMutableParagraphStyle()
+        style.alignment = .center
+        let stringAttributes = [
+            NSAttributedString.Key.font: NSFont.systemFont(ofSize: 7, weight: .regular),
+            NSAttributedString.Key.foregroundColor: NSColor.textColor,
+            NSAttributedString.Key.paragraphStyle: style
+        ]
+        
+        let title = self.title.prefix(3)
+        let letterHeight = self.frame.height / 3
+        let letterWidth: CGFloat = self.frame.height / CGFloat(title.count)
+        
+        var yMargin: CGFloat = 0
+        for char in title.uppercased().reversed() {
+            let rect = CGRect(x: 0, y: yMargin, width: letterWidth, height: letterHeight-1)
+            let str = NSAttributedString.init(string: "\(char)", attributes: stringAttributes)
+            str.draw(with: rect)
+            yMargin += letterHeight
+        }
     }
 }

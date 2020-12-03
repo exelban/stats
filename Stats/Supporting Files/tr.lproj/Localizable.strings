@@ -135,6 +135,9 @@
 "Network interface" = "Ağ arayüzü";
 "Total download" = "Tamamen indirildi";
 "Total upload" = "Tamamen yüklendi";
+"Reader type" = "Okuma yöntemi";
+"Interface" = "Arayüz";
+"Process" = "Süreçler";
 
 // Battery
 "Level" = "Doluluk";
@@ -161,3 +164,6 @@
 "Time and percentage" = "Zaman ve yüzde";
 "Time format" = "Zaman formatı";
 "Hide additional information when full" = "Pil dolduğunda ek bilgileri gizle";
+
+// Fans
+"Fans" = "Fans";

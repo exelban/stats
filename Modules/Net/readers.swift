@@ -47,6 +47,12 @@ internal class UsageReader: Reader<Network_Usage> {
         }
     }
     
+    private var reader: String {
+        get {
+            return self.store?.pointee.string(key: "Network_reader", defaultValue: "interface") ?? "interface"
+        }
+    }
+    
     public override func setup() {
         do {
             self.reachability = try Reachability()
@@ -69,10 +75,35 @@ internal class UsageReader: Reader<Network_Usage> {
     }
     
     public override func read() {
+        let current: Bandwidth = self.reader == "interface" ? self.readInterfaceBandwidth() : self.readProcessBandwidth()
+        
+        // allows to reset the value to 0 when first read
+        if self.usage.bandwidth.upload != 0 {
+            self.usage.bandwidth.upload = current.upload - self.usage.bandwidth.upload
+        }
+        if self.usage.bandwidth.download != 0 {
+            self.usage.bandwidth.download = current.download - self.usage.bandwidth.download
+        }
+        
+        self.usage.bandwidth.upload = max(self.usage.bandwidth.upload, 0) // prevent negative upload value
+        self.usage.bandwidth.download = max(self.usage.bandwidth.download, 0) // prevent negative download value
+        
+        self.usage.total.upload += self.usage.bandwidth.upload
+        self.usage.total.download += self.usage.bandwidth.download
+        
+        self.callback(self.usage)
+        
+        self.usage.bandwidth.upload = current.upload
+        self.usage.bandwidth.download = current.download
+    }
+    
+    private func readInterfaceBandwidth() -> Bandwidth {
         var interfaceAddresses: UnsafeMutablePointer<ifaddrs>? = nil
-        var upload: Int64 = 0
-        var download: Int64 = 0
-        guard getifaddrs(&interfaceAddresses) == 0 else { return }
+        var totalUpload: Int64 = 0
+        var totalDownload: Int64 = 0
+        guard getifaddrs(&interfaceAddresses) == 0 else {
+            return (0, 0)
+        }
         
         var pointer = interfaceAddresses
         while pointer != nil {
@@ -87,33 +118,65 @@ internal class UsageReader: Reader<Network_Usage> {
             }
             
             if let info = getBytesInfo(pointer!) {
-                upload += info.upload
-                download += info.download
+                totalUpload += info.upload
+                totalDownload += info.download
             }
         }
         freeifaddrs(interfaceAddresses)
         
-        if self.usage.upload != 0 {
-            self.usage.upload = upload - self.usage.upload
-        }
-        if self.usage.download != 0 {
-            self.usage.download = download - self.usage.download
+        return (totalUpload, totalDownload)
+    }
+    
+    private func readProcessBandwidth() -> Bandwidth {
+        let task = Process()
+        task.launchPath = "/usr/bin/nettop"
+        task.arguments = ["-P", "-L", "1", "-k", "time,interface,state,rx_dupe,rx_ooo,re-tx,rtt_avg,rcvsize,tx_win,tc_class,tc_mgt,cc_algo,P,C,R,W,arch"]
+        
+        let outputPipe = Pipe()
+        let errorPipe = Pipe()
+        
+        task.standardOutput = outputPipe
+        task.standardError = errorPipe
+        
+        do {
+            try task.run()
+        } catch let error {
+            os_log(.error, log: log, "read bandwidth from processes %s", "\(error)")
+            return (0, 0)
         }
         
-        if self.usage.upload < 0 {
-            self.usage.upload = 0
+        let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
+        let errorData = errorPipe.fileHandleForReading.readDataToEndOfFile()
+        let output = String(decoding: outputData, as: UTF8.self)
+        _ = String(decoding: errorData, as: UTF8.self)
+        
+        if output.isEmpty {
+            return (0, 0)
         }
-        if self.usage.download < 0 {
-            self.usage.download = 0
+
+        var totalUpload: Int64 = 0
+        var totalDownload: Int64 = 0
+        var firstLine = false
+        output.enumerateLines { (line, _) -> () in
+            if !firstLine {
+                firstLine = true
+                return
+            }
+            
+            let parsedLine = line.split(separator: ",")
+            guard parsedLine.count >= 3 else {
+                return
+            }
+            
+            if let download = Int64(parsedLine[1]) {
+                totalDownload += download
+            }
+            if let upload = Int64(parsedLine[2]) {
+                totalUpload += upload
+            }
         }
         
-        self.usage.totalUpload += self.usage.upload
-        self.usage.totalDownload += self.usage.download
-        
-        self.callback(self.usage)
-        
-        self.usage.upload = upload
-        self.usage.download = download
+        return (totalUpload, totalDownload)
     }
     
     public func getDetails() {

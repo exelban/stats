@@ -135,6 +135,9 @@
 "Network interface" = "Interface réseau";
 "Total download" = "Total download";
 "Total upload" = "Total upload";
+"Reader type" = "Type de lecteur";
+"Interface" = "Interface";
+"Process" = "Processus";
 
 // Battery
 "Level" = "Niveau";
@@ -161,3 +164,6 @@
 "Time and percentage" = "Temps et pourcentage";
 "Time format" = "Format de l'heure";
 "Hide additional information when full" = "Masquer les informations supplémentaires lorsque la batterie est pleine";
+
+// Fans
+"Fans" = "Fans";

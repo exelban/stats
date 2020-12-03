@@ -40,7 +40,12 @@ public class SpeedWidget: Widget {
                 self.icon = icon
             }
         }
-        super.init(frame: CGRect(x: 0, y: Constants.Widget.margin, width: width, height: Constants.Widget.height - (2*Constants.Widget.margin)))
+        super.init(frame: CGRect(
+            x: 0,
+            y: Constants.Widget.margin.y,
+            width: width,
+            height: Constants.Widget.height - (2*Constants.Widget.margin.y)
+        ))
         self.title = widgetTitle
         self.type = .speed
         self.preview = preview
@@ -97,11 +102,11 @@ public class SpeedWidget: Widget {
             ]
             
             let base: DataSizeBase = DataSizeBase(rawValue: self.baseValue) ?? .byte
-            var rect = CGRect(x: Constants.Widget.margin + x, y: 1, width: rowWidth - (Constants.Widget.margin*2), height: rowHeight)
+            var rect = CGRect(x: Constants.Widget.margin.x + x, y: 1, width: rowWidth - (Constants.Widget.margin.x*2), height: rowHeight)
             let download = NSAttributedString.init(string: Units(bytes: self.downloadValue).getReadableSpeed(base: base), attributes: stringAttributes)
             download.draw(with: rect)
             
-            rect = CGRect(x: Constants.Widget.margin + x, y: rect.height+1, width: rowWidth - (Constants.Widget.margin*2), height: rowHeight)
+            rect = CGRect(x: Constants.Widget.margin.x + x, y: rect.height+1, width: rowWidth - (Constants.Widget.margin.x*2), height: rowHeight)
             let upload = NSAttributedString.init(string: Units(bytes: self.uploadValue).getReadableSpeed(base: base), attributes: stringAttributes)
             upload.draw(with: rect)
             
@@ -120,7 +125,7 @@ public class SpeedWidget: Widget {
         let y: CGFloat = (rowHeight-size)/2
         
         var downloadCircle = NSBezierPath()
-        downloadCircle = NSBezierPath(ovalIn: CGRect(x: Constants.Widget.margin, y: y-0.2, width: size, height: size))
+        downloadCircle = NSBezierPath(ovalIn: CGRect(x: Constants.Widget.margin.x, y: y-0.2, width: size, height: size))
         if self.downloadValue >= 1_024 {
             NSColor.systemBlue.set()
         } else {
@@ -129,7 +134,7 @@ public class SpeedWidget: Widget {
         downloadCircle.fill()
         
         var uploadCircle = NSBezierPath()
-        uploadCircle = NSBezierPath(ovalIn: CGRect(x: Constants.Widget.margin, y: 10.5, width: size, height: size))
+        uploadCircle = NSBezierPath(ovalIn: CGRect(x: Constants.Widget.margin.x, y: 10.5, width: size, height: size))
         if self.uploadValue >= 1_024 {
             NSColor.red.setFill()
         } else {
@@ -141,12 +146,12 @@ public class SpeedWidget: Widget {
     private func drawArrows(_ dirtyRect: NSRect) {
         let arrowAngle = CGFloat(Double.pi / 5)
         let pointerLineLength: CGFloat = 3.5
-        let workingHeight: CGFloat = (self.frame.size.height - (Constants.Widget.margin * 2))
-        let height: CGFloat = ((workingHeight - Constants.Widget.margin) / 2)
+        let workingHeight: CGFloat = (self.frame.size.height - (Constants.Widget.margin.x * 2))
+        let height: CGFloat = ((workingHeight - Constants.Widget.margin.y) / 2)
         
         let downloadArrow = NSBezierPath()
-        let downloadStart = CGPoint(x: Constants.Widget.margin + (pointerLineLength/2), y: height + Constants.Widget.margin)
-        let downloadEnd = CGPoint(x: Constants.Widget.margin + (pointerLineLength/2), y: Constants.Widget.margin)
+        let downloadStart = CGPoint(x: Constants.Widget.margin.x + (pointerLineLength/2), y: height + Constants.Widget.margin.y)
+        let downloadEnd = CGPoint(x: Constants.Widget.margin.x + (pointerLineLength/2), y: Constants.Widget.margin.y)
         downloadArrow.addArrow(start: downloadStart, end: downloadEnd, pointerLineLength: pointerLineLength, arrowAngle: arrowAngle)
         
         if self.downloadValue >= 1_024 {
@@ -159,8 +164,8 @@ public class SpeedWidget: Widget {
         downloadArrow.close()
         
         let uploadArrow = NSBezierPath()
-        let uploadStart = CGPoint(x: Constants.Widget.margin + (pointerLineLength/2), y: height + (Constants.Widget.margin * 2))
-        let uploadEnd = CGPoint(x: Constants.Widget.margin + (pointerLineLength/2), y: (Constants.Widget.margin * 2) + (height * 2))
+        let uploadStart = CGPoint(x: Constants.Widget.margin.x + (pointerLineLength/2), y: height + (Constants.Widget.margin.y * 2))
+        let uploadEnd = CGPoint(x: Constants.Widget.margin.x + (pointerLineLength/2), y: (Constants.Widget.margin.y * 2) + (height * 2))
         uploadArrow.addArrow(start: uploadStart, end: uploadEnd, pointerLineLength: pointerLineLength, arrowAngle: arrowAngle)
         
         if self.uploadValue >= 1_024 {
@@ -182,7 +187,7 @@ public class SpeedWidget: Widget {
                 NSAttributedString.Key.foregroundColor: downloadValue >= 1_024 ? NSColor(red: (26/255.0), green: (126/255.0), blue: (252/255.0), alpha: 0.8) : NSColor.textColor,
                 NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
             ]
-            let rect = CGRect(x: Constants.Widget.margin, y: 1, width: 8, height: rowHeight)
+            let rect = CGRect(x: Constants.Widget.margin.x, y: 1, width: 8, height: rowHeight)
             let str = NSAttributedString.init(string: self.symbols[1], attributes: downloadAttributes)
             str.draw(with: rect)
         }
@@ -193,7 +198,7 @@ public class SpeedWidget: Widget {
                 NSAttributedString.Key.foregroundColor: uploadValue >= 1_024 ? NSColor.red : NSColor.textColor,
                 NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
             ]
-            let rect = CGRect(x: Constants.Widget.margin, y: rowHeight+1, width: 8, height: rowHeight)
+            let rect = CGRect(x: Constants.Widget.margin.x, y: rowHeight+1, width: 8, height: rowHeight)
             let str = NSAttributedString.init(string: self.symbols[0], attributes: uploadAttributes)
             str.draw(with: rect)
         }

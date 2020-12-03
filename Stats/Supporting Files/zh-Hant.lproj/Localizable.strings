@@ -26,20 +26,20 @@
 "Automatic" = "自動";
 "None" = "沒有";
 "Dots" = "點";
-"Arrows" = "箭";
+"Arrows" = "箭頭";
 "Characters" = "字母";
 "Short" = "短";
 "Long" = "長";
 
 // Alerts
-"New version available" = "新版本可用";
+"New version available" = "有新版本可用";
 "Click to install the new version of Stats" = "安裝 Stats 的新版本";
 "Successfully updated" = "更新成功";
 "Stats was updated to v" = "Stats 更新 v%0";
 
 // Settings
 "Open Activity Monitor" = "打開活動監視器";
-"Report a bug" = "回傳 Bug";
+"Report a bug" = "回報 Bug";
 "Close application" = "關閉程式";
 "Open application settings" = "打開程式設定";
 "Open moduleName settings" = "打開 %0 設定";
@@ -47,13 +47,13 @@
 // Application settings
 "Update application" = "更新應用程式";
 "Check for updates" = "檢查更新";
-"Show icon in dock" = "在 Dock 顯示圖標";
-"Start at login" = "登錄時開啟";
+"Show icon in dock" = "在 Dock 顯示圖示";
+"Start at login" = "登入時打開";
 
 // Update
 "The latest version of Stats installed" = "已安裝最新版本";
 "Downloading..." = "下載中...";
-"Current version: " = "當前版本: ";
+"Current version: " = "目前版本: ";
 "Latest version: " = "最新版本: ";
 
 // Widgets
@@ -85,15 +85,15 @@
 "CPU temperature" = "CPU 溫度";
 "CPU frequency" = "CPU 頻率";
 "System" = "系統";
-"User" = "用戶";
+"User" = "使用者";
 "Idle" = "閒置";
-"Show usage per core" = "顯示每核心使用";
-"Show hyper-threading cores" = "顯示超執行緒";
+"Show usage per core" = "顯示每核心使用狀態";
+"Show hyper-threading cores" = "顯示超執行緒核心";
 
 // GPU
 "GPU to show" = "顯示 GPU";
 "GPU temperature" = "GPU 溫度";
-"GPU utilization" = "GPU 利用率";
+"GPU utilization" = "GPU 使用率";
 
 // Memory
 "Memory usage" = "記憶體使用";
@@ -101,36 +101,39 @@
 "Total" = "總共";
 "Used" = "已使用";
 "App" = "應用程式";
-"Wired" = "固定的";
+"Wired" = "固定";
 "Compressed" = "已壓縮";
 "Free" = "可使用";
 
 // Disk
-"Show removable disks" = "顯示可移動硬碟";
+"Show removable disks" = "顯示卸除式磁碟";
 "Used disk memory" = "%1 中已使用 %0";
 "Disk to show" = "顯示硬碟";
 
 // Sensors
 "Temperature unit" = "溫度單位";
-"Celsius" = "攝氏溫度";
-"Fahrenheit" = "華氏溫度";
+"Celsius" = "攝氏度";
+"Fahrenheit" = "華氏度";
 
 // Network
 "Uploading" = "上傳";
 "Downloading" = "下載";
-"Public IP" = "公共 IP";
-"Local IP" = "本地 IP";
+"Public IP" = "公開 IP";
+"Local IP" = "區域 IP";
 "Interface" = "介面";
 "Network" = "網路";
 "Physical address" = "實體位址";
-"Click to copy public IP address" = "點擊複製公共 IP 位址";
-"Click to copy local IP address" = "點擊複製本地 IP 位址";
-"Click to copy wifi name" = "點擊複製 WiFi 名稱";
-"Click to copy mac address" = "點擊複製 MAC 位址";
-"No connection" = "無連線";
+"Click to copy public IP address" = "點按來複製公開 IP 位址";
+"Click to copy local IP address" = "點按來複製區域 IP 位址";
+"Click to copy wifi name" = "點按來複製 WiFi 名稱";
+"Click to copy mac address" = "點按來複製 MAC 位址";
+"No connection" = "沒有連線";
 "Network interface" = "網路介面";
 "Total download" = "共下載";
 "Total upload" = "共上傳";
+"Reader type" = "讀卡器類型";
+"Interface" = "接口";
+"Process" = "處理";
 
 // Battery
 "Level" = "電量";
@@ -157,3 +160,6 @@
 "Time and percentage" = "時間和百分比";
 "Time format" = "時間格式";
 "Hide additional information when full" = "電池充滿後隱藏其他信息";
+
+// Fans
+"Fans" = "Fans";

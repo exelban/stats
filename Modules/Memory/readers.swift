@@ -131,10 +131,9 @@ public class ProcessReader: Reader<[TopProcess]> {
             if line.matches("^\\d+ +.* +\\d+[A-Z]* *$") {
                 let str = line.trimmingCharacters(in: .whitespaces)
                 let pidString = str.prefix(6)
-                let startIndex = str.index(str.startIndex, offsetBy: 6)
-                let endIndex = str.index(str.startIndex, offsetBy: 22)
-                var command = String(str[startIndex...endIndex])
                 let usageString = str.suffix(5)
+                var command = str.replacingOccurrences(of: pidString, with: "")
+                command = command.replacingOccurrences(of: usageString, with: "")
                 
                 if let regex = try? NSRegularExpression(pattern: " (\\+|\\-)*$", options: .caseInsensitive) {
                     command = regex.stringByReplacingMatches(in: command, options: [], range: NSRange(location: 0, length:  command.count), withTemplate: "")

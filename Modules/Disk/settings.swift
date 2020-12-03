@@ -25,6 +25,7 @@ internal class Settings: NSView, Settings_v {
     private let store: UnsafePointer<Store>
     private var selectedDisk: String
     private var button: NSPopUpButton?
+    private var intervalSelectView: NSView? = nil
     
     public init(_ title: String, store: UnsafePointer<Store>) {
         self.title = title
@@ -55,13 +56,14 @@ internal class Settings: NSView, Settings_v {
         let num: CGFloat = widget != .speed ? 3 : 2
         
         if widget != .speed {
-            self.addSubview(SelectTitleRow(
+            self.intervalSelectView = SelectTitleRow(
                 frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * 2, width: self.frame.width - (Constants.Settings.margin*2), height: rowHeight),
                 title: LocalizedString("Update interval"),
                 action: #selector(changeUpdateInterval),
                 items: ReaderUpdateIntervals.map{ "\($0) sec" },
                 selected: "\(self.updateIntervalValue) sec"
-            ))
+            )
+            self.addSubview(self.intervalSelectView!)
         }
         
         self.addDiskSelector()
@@ -136,9 +138,13 @@ internal class Settings: NSView, Settings_v {
     
     @objc private func changeUpdateInterval(_ sender: NSMenuItem) {
         if let value = Int(sender.title.replacingOccurrences(of: " sec", with: "")) {
-            self.updateIntervalValue = value
-            self.store.pointee.set(key: "\(self.title)_updateInterval", value: value)
-            self.setInterval(value)
+            self.setUpdateInterval(value: value)
         }
+    }
+    
+    public func setUpdateInterval(value: Int) {
+        self.updateIntervalValue = value
+        self.store.pointee.set(key: "\(self.title)_updateInterval", value: value)
+        self.setInterval(value)
     }
 }
