@@ -140,7 +140,12 @@ public class ProcessReader: Reader<[TopProcess]> {
                 }
                 
                 let pid = Int(pidString.filter("01234567890.".contains)) ?? 0
-                let usage = Double(usageString.filter("01234567890.".contains)) ?? 0
+                var usage = Double(usageString.filter("01234567890.".contains)) ?? 0
+                if usageString.contains("G") {
+                    usage *= 1024 // apply gigabyte multiplier
+                } else if usageString.contains("K") {
+                    usage /= 1024 // apply kilobyte divider
+                }
                 
                 var name: String? = nil
                 var icon: NSImage? = nil
