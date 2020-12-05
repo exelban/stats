@@ -97,8 +97,6 @@ public class LineChart: Widget {
             self.chart.points = list
             self.value = 0.38
         }
-        
-//        self.addSubview(self.chart)
     }
     
     required init?(coder: NSCoder) {
@@ -234,7 +232,7 @@ public class LineChart: Widget {
         
         self.value = value
         DispatchQueue.main.async(execute: {
-//            self.chart.addValue(value)
+            self.chart.addValue(value)
             self.display()
         })
     }
