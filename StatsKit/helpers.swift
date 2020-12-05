@@ -659,9 +659,9 @@ public func LocalizedString(_ key: String, _ params: String..., comment: String 
 public func Temperature(_ value: Double) -> String {
     let stringUnit: String = Store.shared.string(key: "temperature_units", defaultValue: "system")
     let formatter = MeasurementFormatter()
+    formatter.locale = Locale.init(identifier: "en_US")
     formatter.numberFormatter.maximumFractionDigits = 0
     formatter.unitOptions = .providedUnit
-    formatter.unitStyle = .short
     
     var measurement = Measurement(value: value, unit: UnitTemperature.celsius)
     if stringUnit != "system" {
