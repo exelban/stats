@@ -53,10 +53,10 @@
 "Start at login" = "Khởi động lúc đăng nhập";
 
 // Update
-"The latest version of Stats installed" = "Phiên bản Stats mới nhất đã được cài đặt";
+"The latest version of Stats installed" = "Stats đã được cập nhật";
 "Downloading..." = "Đang tải xuống...";
 "Current version: " = "Phiên bản hiện tại:  ";
-"Latest version: " = "Bản mới nhất:    ";
+"Latest version: " = "Bản mới nhất: ";
 
 // Widgets
 "Color" = "Màu";
@@ -167,4 +167,4 @@
 "Hide additional information when full" = "Ẩn thông tin bổ sung khi pin đầy";
 
 // Fans
-"Fans" = "Fans";
+"Fans" = "Quạt";
