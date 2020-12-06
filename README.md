@@ -50,7 +50,7 @@ Stats is an application that allows you to monitor your macOS system.
 - Portuguese (Brazil) (thanks to [marcelochaves95](https://github.com/marcelochaves95))
 - Norwegian Bokmål (thanks to [rubjo](https://github.com/rubjo))
 
-You can help by adding a new language.
+You can help by adding a new language or improve existing translation.
 
 ## License
 [MIT License](https://github.com/exelban/stats/blob/master/LICENSE)
