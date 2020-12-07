@@ -20,10 +20,10 @@ internal class Popup: NSView, Popup_p {
     private var grid: NSGridView? = nil
     
     private let dashboardHeight: CGFloat = 90
-    private let detailsHeight: CGFloat = 88 + Constants.Popup.separatorHeight
-    private let batteryHeight: CGFloat = 66 + Constants.Popup.separatorHeight
-    private let adapterHeight: CGFloat = 44 + Constants.Popup.separatorHeight
-    private let processHeight: CGFloat = 22
+    private let detailsHeight: CGFloat = (22 * 5) + Constants.Popup.separatorHeight
+    private let batteryHeight: CGFloat = (22 * 3) + Constants.Popup.separatorHeight
+    private let adapterHeight: CGFloat = (22 * 2) + Constants.Popup.separatorHeight
+    private let processHeight: CGFloat = (22 * 1)
     
     private var dashboardView: NSView? = nil
     private var dashboardBatteryView: BatteryView? = nil
@@ -36,6 +36,7 @@ internal class Popup: NSView, Popup_p {
     private var timeLabelField: NSTextField? = nil
     private var timeField: NSTextField? = nil
     private var healthField: NSTextField? = nil
+    private var cyclesField: NSTextField? = nil
     
     private var amperageField: NSTextField? = nil
     private var voltageField: NSTextField? = nil
@@ -139,12 +140,14 @@ internal class Popup: NSView, Popup_p {
         let separator = SeparatorView(LocalizedString("Details"), origin: NSPoint(x: 0, y: self.detailsHeight-Constants.Popup.separatorHeight), width: self.frame.width)
         let container: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: separator.frame.origin.y))
         
-        self.levelField = PopupRow(container, n: 3, title: "\(LocalizedString("Level")):", value: "")
-        self.sourceField = PopupRow(container, n: 2, title: "\(LocalizedString("Source")):", value: "")
-        let t = self.labelValue(container, n: 1, title: "\(LocalizedString("Time")):", value: "")
+        
+        self.levelField = PopupRow(container, n: 4, title: "\(LocalizedString("Level")):", value: "")
+        self.sourceField = PopupRow(container, n: 3, title: "\(LocalizedString("Source")):", value: "")
+        let t = self.labelValue(container, n: 2, title: "\(LocalizedString("Time")):", value: "")
         self.timeLabelField = t.0
         self.timeField = t.1
-        self.healthField = PopupRow(container, n: 0, title: "\(LocalizedString("Health")):", value: "")
+        self.healthField = PopupRow(container, n: 1, title: "\(LocalizedString("Health")):", value: "")
+        self.cyclesField = PopupRow(container, n: 0, title: "\(LocalizedString("Cycles")):", value: "")
         
         view.addSubview(separator)
         view.addSubview(container)
@@ -242,6 +245,7 @@ internal class Popup: NSView, Popup_p {
             }
             
             self.healthField?.stringValue = "\(value.health) % (\(value.state))"
+            self.cyclesField?.stringValue = "\(value.cycles)"
             
             self.amperageField?.stringValue = "\(abs(value.amperage)) mA"
             self.voltageField?.stringValue = "\(value.voltage.roundTo(decimalPlaces: 2)) V"
