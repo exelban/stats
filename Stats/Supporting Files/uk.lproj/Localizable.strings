@@ -113,7 +113,10 @@
 // Disk
 "Show removable disks" = "Показати зйомні диски";
 "Used disk memory" = "Використано %0 з %1";
+"Free disk memory" = "Вільно %0 з %1";
 "Disk to show" = "Активний диск";
+"Open disk" = "Відкрити диск";
+"Switch view" = "Переключити вигляд";
 
 // Sensors
 "Temperature unit" = "Одиниця виміру температури";

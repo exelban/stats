@@ -30,6 +30,7 @@
 "Characters" = "Mektuplar";
 "Short" = "Kısa";
 "Long" = "Uzun";
+"Statistics" = "İstatistik";
 
 // Alerts
 "New version available" = "Yeni versiyon indirilebilir";
@@ -111,8 +112,11 @@
 
 // Disk
 "Show removable disks" = "Çıkarılabilir diskleri göster";
-"Used disk memory" = "kullanılan %0 , toplam %1";
+"Used disk memory" = "Kullanılan %0, toplam %1";
+"Free disk memory" = "Ücretsiz %0, toplam %1";
 "Disk to show" = "Gösterilecek disk";
+"Open disk" = "Açık disk";
+"Switch view" = "Görünümü değiştir";
 
 // Sensors
 "Temperature unit" = "Sıcaklık birimi";

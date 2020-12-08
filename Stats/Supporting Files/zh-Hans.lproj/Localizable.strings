@@ -30,6 +30,7 @@
 "Characters" = "字母";
 "Short" = "短";
 "Long" = "长";
+"Statistics" = "统计";
 
 // Alerts
 "New version available" = "新版本可用";
@@ -112,7 +113,10 @@
 // Disk
 "Show removable disks" = "显示可移动磁盘";
 "Used disk memory" = "%1 中已用 %0";
+"Free disk memory" = "%1 自由 %0";
 "Disk to show" = "显示的磁盘";
+"Open disk" = "开启磁碟";
+"Switch view" = "切换检视";
 
 // Sensors
 "Temperature unit" = "温度单位";

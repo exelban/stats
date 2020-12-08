@@ -113,7 +113,10 @@
 // Disk
 "Show removable disks" = "Mostra dischi rimovibili";
 "Used disk memory" = "Usato %0 su %1";
+"Free disk memory" = "Libera %0 su %1";
 "Disk to show" = "Disco da mostrare";
+"Open disk" = "Apri disco";
+"Switch view" = "Cambia visualizzazione";
 
 // Sensors
 "Temperature unit" = "Unità di temperatura";

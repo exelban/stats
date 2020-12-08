@@ -30,6 +30,7 @@
 "Characters" = "Lettres";
 "Short" = "Court";
 "Long" = "Long";
+"Statistics" = "Statistiques";
 
 // Alerts
 "New version available" = "Nouvelle version disponible";
@@ -112,7 +113,10 @@
 // Disk
 "Show removable disks" = "Afficher les disques amovibles";
 "Used disk memory" = "%0 utilisé sur %1";
+"Free disk memory" = "%0 libre sur %1";
 "Disk to show" = "Disque à afficher";
+"Open disk" = "Ouvrir le disque";
+"Switch view" = "Changer de vue";
 
 // Sensors
 "Temperature unit" = "Unité de température";

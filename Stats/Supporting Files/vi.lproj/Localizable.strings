@@ -113,7 +113,10 @@
 // Disk
 "Show removable disks" = "Hiển thị các đĩa rời";
 "Used disk memory" = "Đã dùng %0 trong tổng %1";
+"Free disk memory" = "Miễn phí %0 từ %1";
 "Disk to show" = "Đĩa hiển thị";
+"Open disk" = "Mở đĩa";
+"Switch view" = "Chuyển đổi chế độ xem";
 
 // Sensors
 "Temperature unit" = "Đơn vị nhiệt độ";

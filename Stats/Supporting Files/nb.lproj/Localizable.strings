@@ -113,7 +113,10 @@
 // Disk
 "Show removable disks" = "Vis utløsbare disker";
 "Used disk memory" = "Brukte %0 fra %1";
+"Free disk memory" = "Gratis %0 fra %1";
 "Disk to show" = "Disker å vise";
+"Open disk" = "Åpne disken";
+"Switch view" = "Bytt visning";
 
 // Sensors
 "Temperature unit" = "Temperaturenhet";

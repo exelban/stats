@@ -30,6 +30,7 @@
 "Characters" = "字母";
 "Short" = "短";
 "Long" = "長";
+"Statistics" = "統計";
 
 // Alerts
 "New version available" = "有新版本可用";
@@ -47,6 +48,7 @@
 // Application settings
 "Update application" = "更新應用程式";
 "Check for updates" = "檢查更新";
+"Check for update" = "檢查更新";
 "Show icon in dock" = "在 Dock 顯示圖示";
 "Start at login" = "登入時打開";
 
@@ -80,6 +82,9 @@
 "Top processes" = "高能耗程序";
 "Pictogram" = "標示";
 
+// Modules
+"Number of top processes" = "頂級進程數";
+
 // CPU
 "CPU usage" = "CPU 使用";
 "CPU temperature" = "CPU 溫度";
@@ -108,7 +113,10 @@
 // Disk
 "Show removable disks" = "顯示卸除式磁碟";
 "Used disk memory" = "%1 中已使用 %0";
+"Free disk memory" = "%1 自由 %0";
 "Disk to show" = "顯示硬碟";
+"Open disk" = "開啟磁碟";
+"Switch view" = "切換檢視";
 
 // Sensors
 "Temperature unit" = "溫度單位";

@@ -30,6 +30,7 @@
 "Characters" = "Buchstaben";
 "Short" = "Kurz";
 "Long" = "Lange";
+"Statistics" = "Statistiken";
 
 // Alerts
 "New version available" = "Neue Version verfügbar";
@@ -112,7 +113,10 @@
 // Disk
 "Show removable disks" = "Wechseldatenträger anzeigen";
 "Used disk memory" = "%0 von %1 verwendet";
+"Free disk memory" = "%0 von %1 frei";
 "Disk to show" = "Festplatte auswählen";
+"Open disk" = "Öffnen Sie die Festplatte";
+"Switch view" = "Ansicht wechseln";
 
 // Sensors
 "Temperature unit" = "Temperatureinheit";

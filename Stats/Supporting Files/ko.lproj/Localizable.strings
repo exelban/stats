@@ -113,7 +113,10 @@
 // Disk
 "Show removable disks" = "이동식 디스크 표시";
 "Used disk memory" = "%1 중 %0 사용되었습니다";
+"Free disk memory" = "%1 중 %0 비어 있는";
 "Disk to show" = "표시할 디스크";
+"Open disk" = "디스크 열기";
+"Switch view" = "보기 전환";
 
 // Sensors
 "Temperature unit" = "온도 단위";
