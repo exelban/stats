@@ -42,6 +42,21 @@ internal class SensorsReader: Reader<[Sensor_t]> {
             }
         }
         
+        SensorsList.filter{ $0.key.contains("%") }.forEach { (s: Sensor_t) in
+            var index = 1
+            for i in 0..<10 {
+                let key = s.key.replacingOccurrences(of: "%", with: "\(i)")
+                if available.firstIndex(where: { $0 == key }) != nil {
+                    var sensor = s.copy()
+                    sensor.key = key
+                    sensor.name = s.name.replacingOccurrences(of: "%", with: "\(index)")
+                    
+                    list.append(sensor)
+                    index += 1
+                }
+            }
+        }
+        
         for (index, sensor) in list.enumerated().reversed() {
             if let newValue = self.smc.pointee.getValue(sensor.key) {
                 // Remove the temperature sensor, if SMC report more that 110 C degree.

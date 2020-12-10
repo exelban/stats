@@ -240,7 +240,7 @@ public func SeparatorView(_ title: String, origin: NSPoint, width: CGFloat) -> N
     return view
 }
 
-public func PopupRow(_ view: NSView, n: CGFloat, title: String, value: String) -> ValueField {
+public func PopupRow(_ view: NSView, n: CGFloat, title: String, value: String) -> (LabelField, ValueField) {
     let rowView: NSView = NSView(frame: NSRect(x: 0, y: 22*n, width: view.frame.width, height: 22))
     
     let labelWidth = title.widthOfString(usingFont: .systemFont(ofSize: 13, weight: .regular)) + 5
@@ -251,7 +251,7 @@ public func PopupRow(_ view: NSView, n: CGFloat, title: String, value: String) -
     rowView.addSubview(valueView)
     view.addSubview(rowView)
     
-    return valueView
+    return (labelView, valueView)
 }
 
 public func PopupWithColorRow(_ view: NSView, color: NSColor, n: CGFloat, title: String, value: String) -> ValueField {

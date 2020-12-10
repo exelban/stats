@@ -177,11 +177,11 @@ internal class Popup: NSView, Popup_p {
         self.totalUploadField = PopupWithColorRow(container, color: NSColor.systemRed, n: 6, title: "\(LocalizedString("Total upload")):", value: "")
         self.totalDownloadField = PopupWithColorRow(container, color: NSColor.systemBlue, n: 5, title: "\(LocalizedString("Total download")):", value: "")
         
-        self.publicIPField = PopupRow(container, n: 4, title: "\(LocalizedString("Public IP")):", value: "")
-        self.localIPField = PopupRow(container, n: 3, title: "\(LocalizedString("Local IP")):", value: "")
-        self.interfaceField = PopupRow(container, n: 2, title: "\(LocalizedString("Interface")):", value: "")
-        self.ssidField = PopupRow(container, n: 1, title: "\(LocalizedString("Network")):", value: "")
-        self.macAdressField = PopupRow(container, n: 0, title: "\(LocalizedString("Physical address")):", value: "")
+        self.publicIPField = PopupRow(container, n: 4, title: "\(LocalizedString("Public IP")):", value: "").1
+        self.localIPField = PopupRow(container, n: 3, title: "\(LocalizedString("Local IP")):", value: "").1
+        self.interfaceField = PopupRow(container, n: 2, title: "\(LocalizedString("Interface")):", value: "").1
+        self.ssidField = PopupRow(container, n: 1, title: "\(LocalizedString("Network")):", value: "").1
+        self.macAdressField = PopupRow(container, n: 0, title: "\(LocalizedString("Physical address")):", value: "").1
         
         self.publicIPField?.addTracking()
         self.localIPField?.addTracking()
