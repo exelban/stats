@@ -140,7 +140,7 @@ public class BarChart: Widget {
             ]
             
             let letterHeight = self.frame.height / 3
-            let letterWidth: CGFloat = 5.0
+            let letterWidth: CGFloat = 6.0
             
             var yMargin: CGFloat = 0
             for char in String(self.title.prefix(3)).uppercased().reversed() {
