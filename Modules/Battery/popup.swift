@@ -21,7 +21,7 @@ internal class Popup: NSView, Popup_p {
     
     private let dashboardHeight: CGFloat = 90
     private let detailsHeight: CGFloat = 88 + Constants.Popup.separatorHeight
-    private let batteryHeight: CGFloat = 66 + Constants.Popup.separatorHeight
+    private let batteryHeight: CGFloat = (22 * 4) + Constants.Popup.separatorHeight
     private let adapterHeight: CGFloat = 44 + Constants.Popup.separatorHeight
     private let processHeight: CGFloat = 22
     
@@ -39,6 +39,7 @@ internal class Popup: NSView, Popup_p {
     
     private var amperageField: NSTextField? = nil
     private var voltageField: NSTextField? = nil
+    private var batteryPowerField: NSTextField? = nil
     private var temperatureField: NSTextField? = nil
     
     private var powerField: NSTextField? = nil
@@ -157,8 +158,9 @@ internal class Popup: NSView, Popup_p {
         let separator = SeparatorView(LocalizedString("Battery"), origin: NSPoint(x: 0, y: self.batteryHeight-Constants.Popup.separatorHeight), width: self.frame.width)
         let container: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: separator.frame.origin.y))
         
-        self.amperageField = PopupRow(container, n: 2, title: "\(LocalizedString("Amperage")):", value: "").1
-        self.voltageField = PopupRow(container, n: 1, title: "\(LocalizedString("Voltage")):", value: "").1
+        self.amperageField = PopupRow(container, n: 3, title: "\(LocalizedString("Amperage")):", value: "").1
+        self.voltageField = PopupRow(container, n: 2, title: "\(LocalizedString("Voltage")):", value: "").1
+        self.batteryPowerField = PopupRow(container, n: 1, title: "\(LocalizedString("Power")):", value: "").1
         self.temperatureField = PopupRow(container, n: 0, title: "\(LocalizedString("Temperature")):", value: "").1
         
         view.addSubview(separator)
@@ -245,6 +247,8 @@ internal class Popup: NSView, Popup_p {
             
             self.amperageField?.stringValue = "\(abs(value.amperage)) mA"
             self.voltageField?.stringValue = "\(value.voltage.roundTo(decimalPlaces: 2)) V"
+            let batteryPower = value.voltage * (Double(abs(value.amperage))/1000)
+            self.batteryPowerField?.stringValue = "\(batteryPower.roundTo(decimalPlaces: 2)) W"
             self.temperatureField?.stringValue = "\(value.temperature) °C"
             
             self.powerField?.stringValue = value.powerSource == "Battery Power" ? LocalizedString("Not connected") : "\(value.ACwatts) W"
