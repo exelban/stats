@@ -24,6 +24,15 @@ class ApplicationSettings: NSView {
         }
     }
     
+    private var temperatureUnitsValue: String {
+        get {
+            return store.string(key: "temperature_units", defaultValue: "system")
+        }
+        set {
+            store.set(key: "temperature_units", value: newValue)
+        }
+    }
+    
     private var updateButton: NSButton? = nil
     private let updateWindow: UpdateWindow = UpdateWindow()
     
@@ -103,12 +112,31 @@ class ApplicationSettings: NSView {
         let rightPanel: NSView = NSView(frame: NSRect(x: self.width/2, y: 0, width: view.frame.width/2, height: view.frame.height))
         
         rightPanel.addSubview(makeSelectRow(
-            frame: NSRect(x: rowHorizontalPadding*0.5, y: rowHeight*2, width: rightPanel.frame.width - (rowHorizontalPadding*1.5), height: rowHeight),
+            frame: NSRect(x: rowHorizontalPadding*0.5, y: rowHeight*3, width: rightPanel.frame.width - (rowHorizontalPadding*1.5), height: rowHeight),
             title: LocalizedString("Check for updates"),
             action: #selector(self.toggleUpdateInterval),
             items: AppUpdateIntervals.allCases.map{ $0.rawValue },
             selected: self.updateIntervalValue
         ))
+        
+        let temperature = SelectRow(
+            frame: NSRect(
+                x: rowHorizontalPadding*0.5,
+                y: rowHeight*2,
+                width: rightPanel.frame.width - (rowHorizontalPadding*1.5),
+                height: rowHeight
+            ),
+            title: LocalizedString("Temperature"),
+            action: #selector(toggleTemperatureUnits),
+            items: TemperatureUnits,
+            selected: self.temperatureUnitsValue
+        )
+        temperature.subviews.forEach { (v: NSView) in
+            if let view = v as? LabelField {
+                view.textColor = .secondaryLabelColor
+            }
+        }
+        rightPanel.addSubview(temperature)
         
         rightPanel.addSubview(makeSettingRow(
             frame: NSRect(x: rowHorizontalPadding*0.5, y: rowHeight*1, width: rightPanel.frame.width - (rowHorizontalPadding*1.5), height: rowHeight),
@@ -205,7 +233,7 @@ class ApplicationSettings: NSView {
             switchButton.state = state
             switchButton.action = action
             switchButton.target = self
-
+            
             toggle = switchButton
         } else {
             let button: NSButton = NSButton(frame: NSRect(x: row.frame.width - 30, y: 0, width: 30, height: row.frame.height))
@@ -219,7 +247,7 @@ class ApplicationSettings: NSView {
             
             toggle = button
         }
-
+        
         row.addSubview(toggle)
         row.addSubview(rowTitle)
         
@@ -317,6 +345,13 @@ class ApplicationSettings: NSView {
             store.set(key: "update-interval", value: newUpdateInterval.rawValue)
             NotificationCenter.default.post(name: .changeCronInterval, object: nil, userInfo: nil)
         }
+    }
+    
+    @objc private func toggleTemperatureUnits(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String else {
+            return
+        }
+        self.temperatureUnitsValue = key
     }
     
     @objc func toggleDock(_ sender: NSControl) {
