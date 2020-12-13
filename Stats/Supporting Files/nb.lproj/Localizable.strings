@@ -55,8 +55,8 @@
 // Update
 "The latest version of Stats installed" = "Den nyeste versjonen av Stats er installert";
 "Downloading..." = "Laster ned...";
-"Current version: " = "Nåværende versjon:  ";
-"Latest version: " = "Nyeste version:    ";
+"Current version: " = "Nåværende versjon: ";
+"Latest version: " = "Nyeste version: ";
 
 // Widgets
 "Color" = "Farge";
@@ -65,7 +65,7 @@
 "Frame" = "Ramme";
 "Value" = "Verdi";
 "Colorize" = "Fargelegg";
-"Colorize value" = "Vargelegg verdi";
+"Colorize value" = "Fargelegg verdi";
 "Additional information" = "Tilleggsinformasjon";
 "Reverse values order" = "Reverser rekkefølge på verdier";
 "Base" = "Base";
@@ -124,8 +124,8 @@
 "Fahrenheit" = "Fahrenheit";
 
 // Network
-"Uploading" = "Last opp";
-"Downloading" = "Last ned";
+"Uploading" = "Opplasting";
+"Downloading" = "Nedlasting";
 "Public IP" = "Offentlig IP";
 "Local IP" = "Lokal IP";
 "Interface" = "Grensesnitt";
@@ -170,4 +170,4 @@
 "Hide additional information when full" = "Skjul ekstra information når fulladet";
 
 // Fans
-"Fans" = "Fans";
+"Fans" = "Vifter";
