@@ -26,11 +26,7 @@ internal class SensorsReader: Reader<[Sensor_t]> {
         
         available = available.filter({ (key: String) -> Bool in
             switch key.prefix(1) {
-            case "T", "V", "P", "F":
-                if SensorsList.firstIndex(where: { $0.key == key }) == nil {
-                    os_log(.debug, "Missing sensor key %s on the list", key)
-                }
-                return true
+            case "T", "V", "P", "F": return true
             default: return false
             }
         })
