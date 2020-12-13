@@ -28,8 +28,8 @@ public struct Network_interface {
 }
 
 public struct Network_Usage: value_t {
-    var download: Int64 = 0
-    var upload: Int64 = 0
+    var bandwidth: Bandwidth = (0, 0)
+    var total: Bandwidth = (0, 0)
     
     var laddr: String? = nil // local ip
     var raddr: String? = nil // remote ip
@@ -41,8 +41,7 @@ public struct Network_Usage: value_t {
     var ssid: String? = nil
     
     mutating func reset() {
-        self.download = 0
-        self.upload = 0
+        self.bandwidth = (0, 0)
         
         self.laddr = nil
         self.raddr = nil
@@ -67,13 +66,15 @@ public struct Network_Process {
 }
 
 public class Network: Module {
+    private var popupView: Popup
+    private var settingsView: Settings
+    
     private var usageReader: UsageReader? = nil
     private var processReader: ProcessReader? = nil
-    private let popupView: Popup = Popup()
-    private var settingsView: Settings
     
     public init(_ store: UnsafePointer<Store>) {
         self.settingsView = Settings("Network", store: store)
+        self.popupView = Popup("Network", store: store)
         
         super.init(
             store: store,
@@ -85,7 +86,14 @@ public class Network: Module {
         self.usageReader = UsageReader()
         self.usageReader?.store = store
         
-        self.processReader = ProcessReader()
+        self.processReader = ProcessReader(self.config.name, store: store)
+        
+        self.settingsView.callbackWhenUpdateNumberOfProcesses = {
+            self.popupView.numberOfProcessesUpdated()
+            DispatchQueue.global(qos: .background).async {
+                self.processReader?.read()
+            }
+        }
         
         self.usageReader?.readyCallback = { [unowned self] in
             self.readyHandler()
@@ -130,7 +138,7 @@ public class Network: Module {
         
         self.popupView.usageCallback(value!)
         if let widget = self.widget as? SpeedWidget {
-            widget.setValue(upload: value!.upload, download: value!.download)
+            widget.setValue(upload: value!.bandwidth.upload, download: value!.bandwidth.download)
         }
     }
 }

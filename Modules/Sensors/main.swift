@@ -50,6 +50,10 @@ public class Sensors: Module {
         self.addReader(self.sensorsReader)
     }
     
+    public override func isAvailable() -> Bool {
+        return !self.sensorsReader.list.isEmpty
+    }
+    
     private func checkIfNoSensorsEnabled() {
         if self.sensorsReader.list.filter({ $0.state }).count == 0 {
             NotificationCenter.default.post(name: .toggleModule, object: nil, userInfo: ["module": self.config.name, "state": false])
@@ -61,10 +65,10 @@ public class Sensors: Module {
             return
         }
         
-        var list: [String] = []
+        var list: [KeyValue_t] = []
         value!.forEach { (s: Sensor_t) in
             if s.state {
-                list.append(s.formattedMiniValue)
+                list.append(KeyValue_t(key: s.key, value: s.formattedMiniValue))
             }
         }
         

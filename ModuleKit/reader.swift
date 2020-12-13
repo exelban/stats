@@ -37,7 +37,7 @@ public protocol Reader_p {
     func unlock() -> Void
     
     func initStoreValues(title: String, store: UnsafePointer<Store>) -> Void
-    func setInterval(_ value: Double) -> Void
+    func setInterval(_ value: Int) -> Void
 }
 
 public protocol ReaderInternal_p {
@@ -48,13 +48,12 @@ public protocol ReaderInternal_p {
 }
 
 open class Reader<T>: ReaderInternal_p {
-    public let log: OSLog
+    public var log: OSLog
     public var value: T?
     public var interval: Double? = nil
     public var defaultInterval: Double = 1
     public var optional: Bool = false
     public var popup: Bool = false
-    open var enabled: Bool = true
     
     public var readyCallback: () -> Void = {}
     public var callbackHandler: (T?) -> Void = {_ in }
@@ -63,6 +62,7 @@ open class Reader<T>: ReaderInternal_p {
     private var nilCallbackCounter: Int = 0
     private var ready: Bool = false
     private var locked: Bool = true
+    public var active: Bool = false
     
     private var history: [T]? = []
     
@@ -122,9 +122,7 @@ open class Reader<T>: ReaderInternal_p {
     open func terminate() {}
     
     open func start() {
-        if !self.enabled {
-            return
-        } else if self.popup && self.locked {
+        if self.popup && self.locked {
             if !self.ready {
                 DispatchQueue.global().async {
                     self.read()
@@ -147,20 +145,24 @@ open class Reader<T>: ReaderInternal_p {
             self.read()
         }
         self.repeatTask?.start()
+        self.active = true
     }
     
     open func pause() {
         self.repeatTask?.pause()
+        self.active = false
     }
     
     open func stop() {
         self.repeatTask?.removeAllObservers(thenStop: true)
         self.repeatTask = nil
+        self.active = false
     }
     
-    public func setInterval(_ value: Double) {
-        os_log(.debug, log: self.log, "Set update interval: %.0f sec", value)
-        self.repeatTask?.reset(.seconds(value), restart: true)
+    public func setInterval(_ value: Int) {
+        os_log(.debug, log: self.log, "Set update interval: %d sec", value)
+        self.interval = Double(value)
+        self.repeatTask?.reset(.seconds(Double(value)), restart: true)
     }
 }
 

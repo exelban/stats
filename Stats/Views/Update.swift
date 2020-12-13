@@ -26,7 +26,7 @@ class UpdateWindow: NSWindow, NSWindowDelegate {
                 self.viewController.view.frame.width,
                 self.viewController.view.frame.height
             ),
-            styleMask: [.closable, .titled],
+            styleMask: [.closable, .titled, .fullSizeContentView],
             backing: .buffered,
             defer: true
         )
@@ -57,7 +57,7 @@ private class UpdateViewController: NSViewController {
     private var update: UpdateView
     
     public init() {
-        self.update = UpdateView(frame: NSRect(x: 0, y: 0, width: 280, height: 150))
+        self.update = UpdateView(frame: NSRect(x: 0, y: 0, width: 280, height: 176))
         super.init(nibName: nil, bundle: nil)
         self.view = self.update
     }
@@ -84,6 +84,13 @@ private class UpdateView: NSView {
     override init(frame: NSRect) {
         super.init(frame: CGRect(x: frame.origin.x, y: frame.origin.y, width: frame.width, height: frame.height))
         self.wantsLayer = true
+        
+        let sidebar = NSVisualEffectView(frame: NSMakeRect(0, 0, self.frame.width, self.frame.height))
+        sidebar.material = .sidebar
+        sidebar.blendingMode = .behindWindow
+        sidebar.state = .active
+        
+        self.addSubview(sidebar)
     }
     
     required init?(coder: NSCoder) {
@@ -92,10 +99,10 @@ private class UpdateView: NSView {
     
     public func newVersion(_ version: version_s) {
         self.version = version
-        let view: NSView = NSView(frame: NSRect(x: 10, y: 10, width: self.frame.width - 20, height: self.frame.height - 20))
+        let view: NSView = NSView(frame: NSRect(x: 10, y: 10, width: self.frame.width - 20, height: self.frame.height - 20 - 26))
         
         let title: NSTextField = TextView(frame: NSRect(x: 0, y: view.frame.height - 20, width: view.frame.width, height: 18))
-        title.font = NSFont.systemFont(ofSize: 14, weight: .semibold)
+        title.font = NSFont.systemFont(ofSize: 14, weight: .medium)
         title.alignment = .center
         title.stringValue = LocalizedString("New version available")
         
@@ -140,10 +147,10 @@ private class UpdateView: NSView {
     }
     
     public func noUpdates() {
-        let view: NSView = NSView(frame: NSRect(x: 10, y: 10, width: self.frame.width - 20, height: self.frame.height - 20))
+        let view: NSView = NSView(frame: NSRect(x: 10, y: 10, width: self.frame.width - 20, height: self.frame.height - 20 - 26))
         
         let title: NSTextField = TextView(frame: NSRect(x: 0, y: ((view.frame.height - 18)/2)+20, width: view.frame.width, height: 18))
-        title.font = NSFont.systemFont(ofSize: 14, weight: .regular)
+        title.font = NSFont.systemFont(ofSize: 14, weight: .light)
         title.alignment = .center
         title.stringValue = LocalizedString("The latest version of Stats installed")
         
@@ -159,7 +166,7 @@ private class UpdateView: NSView {
     }
     
     public func clear() {
-        self.subviews.forEach{ $0.removeFromSuperview() }
+        self.subviews.filter{ !($0 is NSVisualEffectView) }.forEach{ $0.removeFromSuperview() }
     }
     
     @objc private func download(_ sender: Any) {
@@ -169,7 +176,7 @@ private class UpdateView: NSView {
         
         self.clear()
         
-        let view: NSView = NSView(frame: NSRect(x: 10, y: 10, width: self.frame.width - 20, height: self.frame.height - 20))
+        let view: NSView = NSView(frame: NSRect(x: 10, y: 10, width: self.frame.width - 20, height: self.frame.height - 20 - 26))
         
         let title: NSTextField = TextView(frame: NSRect(x: 0, y: view.frame.height - 28, width: view.frame.width, height: 18))
         title.font = NSFont.systemFont(ofSize: 14, weight: .semibold)

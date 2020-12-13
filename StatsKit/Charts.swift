@@ -31,7 +31,7 @@ public struct circle_segment {
 }
 
 public class LineChartView: NSView {
-    public var points: [Double]? = nil
+    public var points: [Double]
     public var transparent: Bool = true
     
     public var color: NSColor = NSColor.controlAccentColor
@@ -48,7 +48,7 @@ public class LineChartView: NSView {
     public override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         
-        if self.points?.count == 0 {
+        if self.points.isEmpty {
             return
         }
         
@@ -60,48 +60,44 @@ public class LineChartView: NSView {
         
         guard let context = NSGraphicsContext.current?.cgContext else { return }
         context.setShouldAntialias(true)
-        let height: CGFloat = self.frame.size.height - self.frame.origin.y - 0.5
-        let xRatio: CGFloat = self.frame.size.width / CGFloat(self.points!.count)
+        
+        let offset: CGFloat = 1 / (NSScreen.main?.backingScaleFactor ?? 1)
+        let height: CGFloat = self.frame.size.height - self.frame.origin.y - offset
+        let xRatio: CGFloat = self.frame.size.width / CGFloat(self.points.count)
         
         let columnXPoint = { (point: Int) -> CGFloat in
             return (CGFloat(point) * xRatio) + dirtyRect.origin.x
         }
         let columnYPoint = { (point: Int) -> CGFloat in
-            return CGFloat((CGFloat(truncating: self.points![point] as NSNumber) * height)) + dirtyRect.origin.y + 0.5
+            return CGFloat((CGFloat(truncating: self.points[point] as NSNumber) * height)) + dirtyRect.origin.y + 0.5
         }
         
-        let linePath = NSBezierPath()
-        let x: CGFloat = columnXPoint(0)
-        let y: CGFloat = columnYPoint(0)
-        linePath.move(to: CGPoint(x: x, y: y))
+        let line = NSBezierPath()
+        line.move(to: CGPoint(x: columnXPoint(0), y: columnYPoint(0)))
         
-        for i in 1..<self.points!.count {
-            linePath.line(to: CGPoint(x: columnXPoint(i), y: columnYPoint(i)))
+        for i in 1..<self.points.count {
+            line.line(to: CGPoint(x: columnXPoint(i), y: columnYPoint(i)))
         }
         
         lineColor.setStroke()
-        context.saveGState()
+        line.lineWidth = offset
+        line.stroke()
         
-        let underLinePath = linePath.copy() as! NSBezierPath
+        let underLinePath = line.copy() as! NSBezierPath
         
-        underLinePath.line(to: CGPoint(x: columnXPoint(self.points!.count - 1), y: 0))
+        underLinePath.line(to: CGPoint(x: columnXPoint(self.points.count - 1), y: 0))
         underLinePath.line(to: CGPoint(x: columnXPoint(0), y: 0))
         underLinePath.close()
         underLinePath.addClip()
         
         gradientColor.setFill()
-        let rectPath = NSBezierPath(rect: dirtyRect)
-        rectPath.fill()
-        
-        context.restoreGState()
-        
-        linePath.stroke()
-        linePath.lineWidth = 0.5
+        underLinePath.fill()
     }
     
     public func addValue(_ value: Double) {
-        self.points!.remove(at: 0)
-        self.points!.append(value)
+        self.points.remove(at: 0)
+        self.points.append(value)
+        
         if self.window?.isVisible ?? true {
             self.display()
         }
@@ -227,12 +223,18 @@ public class NetworkChartView: NSView {
     }
 }
 
-public class CircleGraphView: NSView {
+public class PieChartView: NSView {
+    private var filled: Bool = false
+    private var drawValue: Bool = false
+    
     private var value: Double? = nil
     private var segments: [circle_segment] = []
     
-    public init(frame: NSRect, segments: [circle_segment]) {
+    public init(frame: NSRect, segments: [circle_segment], filled: Bool = false, drawValue: Bool = false) {
+        self.filled = filled
+        self.drawValue = drawValue
         self.segments = segments
+        
         super.init(frame: frame)
     }
     
@@ -241,7 +243,7 @@ public class CircleGraphView: NSView {
     }
     
     public override func draw(_ rect: CGRect) {
-        let arcWidth: CGFloat = 7.0
+        let arcWidth: CGFloat = self.filled ? min(rect.width, rect.height) / 2 : 7
         let fullCircle = 2 * CGFloat.pi
         var segments = self.segments
         let totalAmount = segments.reduce(0) { $0 + $1.value }
@@ -271,7 +273,7 @@ public class CircleGraphView: NSView {
             previousAngle = currentAngle
         }
         
-        if let value = self.value {
+        if let value = self.value, self.drawValue {
             let stringAttributes = [
                 NSAttributedString.Key.font: NSFont.systemFont(ofSize: 15, weight: .regular),
                 NSAttributedString.Key.foregroundColor: isDarkMode ? NSColor.white : NSColor.textColor,
@@ -280,7 +282,7 @@ public class CircleGraphView: NSView {
             
             let percentage = "\(Int(value*100))%"
             let width: CGFloat = percentage.widthOfString(usingFont: NSFont.systemFont(ofSize: 15))
-            let rect = CGRect(x: (self.frame.width-width)/2, y: (self.frame.height-12)/2, width: width, height: 12)
+            let rect = CGRect(x: (self.frame.width-width)/2, y: (self.frame.height-11)/2, width: width, height: 12)
             let str = NSAttributedString.init(string: percentage, attributes: stringAttributes)
             str.draw(with: rect)
         }
@@ -346,14 +348,17 @@ public class HalfCircleGraphView: NSView {
         context.restoreGState()
         
         if self.text != nil {
+            let style = NSMutableParagraphStyle()
+            style.alignment = .center
             let stringAttributes = [
                 NSAttributedString.Key.font: NSFont.systemFont(ofSize: 10, weight: .regular),
                 NSAttributedString.Key.foregroundColor: isDarkMode ? NSColor.white : NSColor.textColor,
-                NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
+                NSAttributedString.Key.paragraphStyle: style
             ]
             
             let width: CGFloat = self.text!.widthOfString(usingFont: NSFont.systemFont(ofSize: 10))
-            let rect = CGRect(x: (self.frame.width-width)/2, y: (self.frame.height-6)/2, width: width, height: 6)
+            let height: CGFloat = self.text!.heightOfString(usingFont: NSFont.systemFont(ofSize: 10))
+            let rect = CGRect(x: ((self.frame.width-width)/2)-0.5, y: (self.frame.height-6)/2, width: width, height: height)
             let str = NSAttributedString.init(string: self.text!, attributes: stringAttributes)
             str.draw(with: rect)
         }

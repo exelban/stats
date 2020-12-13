@@ -15,7 +15,11 @@ import ModuleKit
 import SystemConfiguration
 
 internal class Settings: NSView, Settings_v {
+    private var numberOfProcesses: Int = 8
+    private var readerType: String = "interface"
+    
     public var callback: (() -> Void) = {}
+    public var callbackWhenUpdateNumberOfProcesses: (() -> Void) = {}
     
     private let title: String
     private let store: UnsafePointer<Store>
@@ -26,6 +30,8 @@ internal class Settings: NSView, Settings_v {
     public init(_ title: String, store: UnsafePointer<Store>) {
         self.title = title
         self.store = store
+        self.numberOfProcesses = store.pointee.int(key: "\(self.title)_processes", defaultValue: self.numberOfProcesses)
+        self.readerType = store.pointee.string(key: "\(self.title)_reader", defaultValue: self.readerType)
         
         super.init(frame: CGRect(
             x: 0,
@@ -41,7 +47,6 @@ internal class Settings: NSView, Settings_v {
             }
         }
         
-        self.wantsLayer = true
         self.canDrawConcurrently = true
     }
     
@@ -52,12 +57,31 @@ internal class Settings: NSView, Settings_v {
     public func load(widget: widget_t) {
         self.subviews.forEach{ $0.removeFromSuperview() }
         
-        self.addNetworkSelector()
+        let rowHeight: CGFloat = 30
+        let num: CGFloat = 2
         
-        self.setFrameSize(NSSize(width: self.frame.width, height: 30 + (Constants.Settings.margin*2)))
+        self.addSubview(SelectTitleRow(
+            frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * 2, width: self.frame.width - (Constants.Settings.margin*2), height: 30),
+            title: LocalizedString("Number of top processes"),
+            action: #selector(changeNumberOfProcesses),
+            items: NumbersOfProcesses.map{ "\($0)" },
+            selected: "\(self.numberOfProcesses)"
+        ))
+        
+        self.addSubview(SelectRow(
+            frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * 1, width: self.frame.width - (Constants.Settings.margin*2), height: 30),
+            title: LocalizedString("Reader type"),
+            action: #selector(changeReaderType),
+            items: NetworkReaders,
+            selected: self.readerType
+        ))
+        
+        self.addInterfaceSelector()
+        
+        self.setFrameSize(NSSize(width: self.frame.width, height: (rowHeight*(num+1)) + (Constants.Settings.margin*(2+num))))
     }
     
-    private func addNetworkSelector() {
+    private func addInterfaceSelector() {
         let view: NSView = NSView(frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin, width: self.frame.width, height: 30))
         
         let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: (view.frame.height - 16)/2, width: view.frame.width - 52, height: 17), LocalizedString("Network interface"))
@@ -65,8 +89,9 @@ internal class Settings: NSView, Settings_v {
         rowTitle.textColor = .textColor
         
         self.button = NSPopUpButton(frame: NSRect(x: view.frame.width - 200 - Constants.Settings.margin*2, y: 0, width: 200, height: 30))
-        self.button!.target = self
+        self.button?.target = self
         self.button?.action = #selector(self.handleSelection)
+        self.button?.isEnabled = self.readerType == "interface"
         
         let selectedInterface = self.store.pointee.string(key: "\(self.title)_interface", defaultValue: "")
         let menu = NSMenu()
@@ -107,5 +132,22 @@ internal class Settings: NSView, Settings_v {
         }
         
         self.callback()
+    }
+    
+    @objc private func changeNumberOfProcesses(_ sender: NSMenuItem) {
+        if let value = Int(sender.title) {
+            self.numberOfProcesses = value
+            self.store.pointee.set(key: "\(self.title)_processes", value: value)
+            self.callbackWhenUpdateNumberOfProcesses()
+        }
+    }
+    
+    @objc private func changeReaderType(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String else {
+            return
+        }
+        self.readerType = key
+        self.store.pointee.set(key: "\(self.title)_reader", value: key)
+        self.button?.isEnabled = self.readerType == "interface"
     }
 }

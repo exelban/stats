@@ -12,6 +12,7 @@
 import Cocoa
 
 public class Store {
+    public static let shared = Store()
     private let defaults = UserDefaults.standard
     
     public init() {}
@@ -41,6 +42,10 @@ public class Store {
     }
     
     public func set(key: String, value: String) {
+        self.defaults.set(value, forKey: key)
+    }
+    
+    public func set(key: String, value: Int) {
         self.defaults.set(value, forKey: key)
     }
     

@@ -23,6 +23,7 @@ internal class UsageReader: Reader<Battery_Usage> {
     private var usage: Battery_Usage = Battery_Usage()
     
     public override func start() {
+        self.active = true
         let context = UnsafeMutableRawPointer(Unmanaged.passUnretained(self).toOpaque())
         
         self.source = IOPSNotificationCreateRunLoopSource({ (context) in
@@ -31,7 +32,9 @@ internal class UsageReader: Reader<Battery_Usage> {
             }
             
             let watcher = Unmanaged<UsageReader>.fromOpaque(ctx).takeUnretainedValue()
-            watcher.read()
+            if watcher.active {
+                watcher.read()
+            }
         }, context).takeRetainedValue()
         
         self.loop = RunLoop.current.getCFRunLoop()
@@ -45,6 +48,7 @@ internal class UsageReader: Reader<Battery_Usage> {
             return
         }
         
+        self.active = false
         CFRunLoopRemoveSource(runLoop, source, .defaultMode)
     }
     
@@ -59,13 +63,17 @@ internal class UsageReader: Reader<Battery_Usage> {
         for ps in psList {
             if let list = IOPSGetPowerSourceDescription(psInfo, ps).takeUnretainedValue() as? Dictionary<String, Any> {
                 self.usage.powerSource = list[kIOPSPowerSourceStateKey] as? String ?? "AC Power"
-                self.usage.state = list[kIOPSBatteryHealthKey] as! String
+                self.usage.state = list[kIOPSBatteryHealthKey] as? String ?? "0"
                 self.usage.isCharged = list[kIOPSIsChargedKey] as? Bool ?? false
                 self.usage.isCharging = self.getBoolValue("IsCharging" as CFString) ?? false
-                self.usage.level = Double(list[kIOPSCurrentCapacityKey] as! Int) / 100
+                self.usage.level = Double(list[kIOPSCurrentCapacityKey] as? Int ?? 0) / 100
                 
-                self.usage.timeToEmpty = Int(list[kIOPSTimeToEmptyKey] as! Int)
-                self.usage.timeToCharge = Int(list[kIOPSTimeToFullChargeKey] as! Int)
+                if let time = list[kIOPSTimeToEmptyKey] as? Int {
+                    self.usage.timeToEmpty = Int(time)
+                }
+                if let time = list[kIOPSTimeToFullChargeKey] as? Int {
+                    self.usage.timeToCharge = Int(time)
+                }
                 
                 self.usage.cycles = self.getIntValue("CycleCount" as CFString) ?? 0
                 
@@ -88,9 +96,7 @@ internal class UsageReader: Reader<Battery_Usage> {
                 }
                 self.usage.ACwatts = ACwatts
                 
-                DispatchQueue.main.async(execute: {
-                    self.callback(self.usage)
-                })
+                self.callback(self.usage)
             }
         }
     }
@@ -135,6 +141,21 @@ public class ProcessReader: Reader<[TopProcess]> {
     private var task: Process? = nil
     private var initialized: Bool = false
     
+    private let store: UnsafePointer<Store>
+    private let title: String
+    
+    private var numberOfProcesses: Int {
+        get {
+            return self.store.pointee.int(key: "\(self.title)_processes", defaultValue: 8)
+        }
+    }
+    
+    init(_ title: String, store: UnsafePointer<Store>) {
+        self.title = title
+        self.store = store
+        super.init()
+    }
+    
     public override func setup() {
         self.popup = true
     }
@@ -154,7 +175,7 @@ public class ProcessReader: Reader<[TopProcess]> {
             
             self.task?.standardOutput = pipe
             self.task?.launchPath = "/usr/bin/top"
-            self.task?.arguments = ["-o", "power", "-n", "5", "-stats", "pid,command,power"]
+            self.task?.arguments = ["-o", "power", "-n", "\(self.numberOfProcesses)", "-stats", "pid,command,power"]
             
             pipe.fileHandleForReading.readabilityHandler = { (fileHandle) -> Void in
                 let output = String(decoding: fileHandle.availableData, as: UTF8.self)
@@ -206,7 +227,7 @@ public class ProcessReader: Reader<[TopProcess]> {
     public override func read() {
         let task = Process()
         task.launchPath = "/usr/bin/top"
-        task.arguments = ["-l", "1", "-o", "power", "-n", "5", "-stats", "pid,command,power"]
+        task.arguments = ["-l", "1", "-o", "power", "-n", "\(self.numberOfProcesses)", "-stats", "pid,command,power"]
         
         let outputPipe = Pipe()
         let errorPipe = Pipe()

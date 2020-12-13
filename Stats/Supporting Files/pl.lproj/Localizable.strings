@@ -10,7 +10,7 @@
 //
 
 // Words
-"Unknown" = "Unknown";
+"Unknown" = "Nieznany";
 "Version" = "Wersja";
 "Processor" = "Procesor";
 "Memory" = "Pamięć";
@@ -23,6 +23,14 @@
 "Unavailable" = "Niedostępny";
 "Yes" = "Tak";
 "No" = "Nie";
+"Automatic" = "Automatyczny";
+"None" = "Brak";
+"Dots" = "Punkty";
+"Arrows" = "Strzałki";
+"Characters" = "Litery";
+"Short" = "Krótki";
+"Long" = "Długi";
+"Statistics" = "Statystyki";
 
 // Alerts
 "New version available" = "Nowa wersja dostępna";
@@ -40,6 +48,7 @@
 // Application settings
 "Update application" = "Aktualizuj aplikacje";
 "Check for updates" = "Sprawdzaj aktualizacje";
+"Check for update" = "Sprawdź aktualizacje";
 "Show icon in dock" = "Pokaż ikonę w docku";
 "Start at login" = "Uruchom przy logowaniu";
 
@@ -59,6 +68,10 @@
 "Colorize value" = "Kolorowanie wartości";
 "Additional information" = "Informacja dodatkowa";
 "Reverse values order" = "Zmień kolejność wyświetlania";
+"Base" = "Podstawa";
+"Display mode" = "Tryb wyświetlania";
+"One row" = "Jeden wiersz";
+"Two rows" = "Dwa wiersze";
 
 // Module Kit
 "Open module settings" = "Otwórz ustawienie modulu";
@@ -69,9 +82,13 @@
 "Top processes" = "Top procesy";
 "Pictogram" = "Ikonka";
 
+// Modules
+"Number of top processes" = "Liczba procesów";
+
 // CPU
-"CPU usage" = "Obciążenie CPU";
-"CPU temperature" = "Temperatura CPU";
+"CPU usage" = "Obciążenie procesora";
+"CPU temperature" = "Temperatura procesora";
+"CPU frequency" = "Częstotliwość procesora";
 "System" = "System";
 "User" = "Użytkownik";
 "Idle" = "Bezczynna";
@@ -96,7 +113,15 @@
 // Disk
 "Show removable disks" = "Pokaż dyski wymienne";
 "Used disk memory" = "Wykorzystano %0 z %1";
+"Free disk memory" = "Dostępne %0 z %1";
 "Disk to show" = "Aktywny dysk";
+"Open disk" = "Otwórz dysk";
+"Switch view" = "Przełącz widok";
+
+// Sensors
+"Temperature unit" = "Jednostka temperatury";
+"Celsius" = "Celsjusz";
+"Fahrenheit" = "Fahrenheit";
 
 // Network
 "Uploading" = "Wysyłka";
@@ -112,6 +137,11 @@
 "Click to copy mac address" = "Kliknij aby skopiować adres fizyczny";
 "No connection" = "Brak połączenia";
 "Network interface" = "Interfejs sieciowy";
+"Total download" = "Całkowicie pobrano";
+"Total upload" = "Całkowicie przesłano";
+"Reader type" = "Sposób odczytu";
+"Interface" = "Interfejs";
+"Process" = "Procesy";
 
 // Battery
 "Level" = "Poziom naładowania";
@@ -121,9 +151,9 @@
 "Battery" = "Bateria";
 "Amperage" = "Natężenie";
 "Voltage" = "Napięcie";
-"Temperature" = "Termaratura";
+"Temperature" = "Temperatura";
 "Power adapter" = "Zasilacz";
-"Power" = "Status";
+"Power" = "Moc";
 "Is charging" = "Ładuje";
 "Time to discharge" = "Czas do rozładowania";
 "Time to charge" = "Czas do naładowania";
@@ -133,3 +163,11 @@
 "Low level notification" = "Powiadomienie o niskim poziomie";
 "Low battery" = "Niski poziom baterii";
 "Battery remaining" = "Pozostało %0%";
+"Percentage" = "Procenty";
+"Percentage and time" = "Procenty i czas";
+"Time and percentage" = "Czas i procenty";
+"Time format" = "Format czasu";
+"Hide additional information when full" = "Ukryj dodatkowe informacje, gdy bateria jest naładowana";
+
+// Fans
+"Fans" = "Fans";

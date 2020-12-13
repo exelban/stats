@@ -23,6 +23,14 @@
 "Unavailable" = "Devre Dışı";
 "Yes" = "Evet";
 "No" = "Hayır";
+"Automatic" = "Otomatik";
+"None" = "Yok";
+"Dots" = "Noktalar";
+"Arrows" = "Oklar";
+"Characters" = "Mektuplar";
+"Short" = "Kısa";
+"Long" = "Uzun";
+"Statistics" = "İstatistik";
 
 // Alerts
 "New version available" = "Yeni versiyon indirilebilir";
@@ -40,6 +48,7 @@
 // Application settings
 "Update application" = "Uygulamayı güncelle";
 "Check for updates" = "Güncellemeleri denetle";
+"Check for update" = "Güncellemeleri denetle";
 "Show icon in dock" = "Dock'ta göster";
 "Start at login" = "Başlangıçta çalıştır";
 
@@ -59,6 +68,10 @@
 "Colorize value" = "Değeri renklendir";
 "Additional information" = "Ek bilgi";
 "Reverse values order" = "Değerler sırasını tersine çevir";
+"Base" = "Temel";
+"Display mode" = "Ekran modu";
+"One row" = "Bir sıra";
+"Two rows" = "İki sıra";
 
 // Module Kit
 "Open module settings" = "Modül ayarlarını aç";
@@ -69,9 +82,13 @@
 "Top processes" = "İşlemler";
 "Pictogram" = "Piktogram";
 
+// Modules
+"Number of top processes" = "İşlem sayısı";
+
 // CPU
 "CPU usage" = "CPU kullanımı";
 "CPU temperature" = "CPU sıcaklığı";
+"CPU frequency" = "CPU frekansı";
 "System" = "Sistem";
 "User" = "Kullanıcı";
 "Idle" = "Boşta";
@@ -95,8 +112,16 @@
 
 // Disk
 "Show removable disks" = "Çıkarılabilir diskleri göster";
-"Used disk memory" = "kullanılan %0 , toplam %1";
+"Used disk memory" = "Kullanılan %0, toplam %1";
+"Free disk memory" = "Ücretsiz %0, toplam %1";
 "Disk to show" = "Gösterilecek disk";
+"Open disk" = "Açık disk";
+"Switch view" = "Görünümü değiştir";
+
+// Sensors
+"Temperature unit" = "Sıcaklık birimi";
+"Celsius" = "Santigrat";
+"Fahrenheit" = "Fahrenheit";
 
 // Network
 "Uploading" = "Yükleme";
@@ -112,6 +137,11 @@
 "Click to copy mac address" = "Mac adresini kopyalamak için tıklayın";
 "No connection" = "Bağlantı yok";
 "Network interface" = "Ağ arayüzü";
+"Total download" = "Tamamen indirildi";
+"Total upload" = "Tamamen yüklendi";
+"Reader type" = "Okuma yöntemi";
+"Interface" = "Arayüz";
+"Process" = "Süreçler";
 
 // Battery
 "Level" = "Doluluk";
@@ -133,3 +163,11 @@
 "Low level notification" = "Düşük güç bildirimi";
 "Low battery" = "Düşük batarya";
 "Battery remaining" = "%0% kaldı";
+"Percentage" = "Yüzde";
+"Percentage and time" = "Yüzde ve zaman";
+"Time and percentage" = "Zaman ve yüzde";
+"Time format" = "Zaman formatı";
+"Hide additional information when full" = "Pil dolduğunda ek bilgileri gizle";
+
+// Fans
+"Fans" = "Fans";

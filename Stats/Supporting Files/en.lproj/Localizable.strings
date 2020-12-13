@@ -23,6 +23,14 @@
 "Unavailable" = "Unavailable";
 "Yes" = "Yes";
 "No" = "No";
+"Automatic" = "Automatic";
+"None" = "None";
+"Dots" = "Dots";
+"Arrows" = "Arrows";
+"Characters" = "Character";
+"Short" = "Short";
+"Long" = "Long";
+"Statistics" = "Statistics";
 
 // Alerts
 "New version available" = "New version available";
@@ -40,6 +48,7 @@
 // Application settings
 "Update application" = "Update application";
 "Check for updates" = "Check for updates";
+"Check for update" = "Check for update";
 "Show icon in dock" = "Show icon in dock";
 "Start at login" = "Start at login";
 
@@ -59,6 +68,10 @@
 "Colorize value" = "Colorize value";
 "Additional information" = "Additional information";
 "Reverse values order" = "Reverse values order";
+"Base" = "Base";
+"Display mode" = "View mode";
+"One row" = "One row";
+"Two rows" = "Two rows";
 
 // Module Kit
 "Open module settings" = "Open module settings";
@@ -69,9 +82,13 @@
 "Top processes" = "Top processes";
 "Pictogram" = "Pictogram";
 
+// Modules
+"Number of top processes" = "Number of top processes";
+
 // CPU
 "CPU usage" = "CPU usage";
 "CPU temperature" = "CPU temperature";
+"CPU frequency" = "CPU frequency";
 "System" = "System";
 "User" = "User";
 "Idle" = "Idle";
@@ -96,7 +113,15 @@
 // Disk
 "Show removable disks" = "Show removable disks";
 "Used disk memory" = "Used %0 from %1";
+"Free disk memory" = "Free %0 from %1";
 "Disk to show" = "Disk to show";
+"Open disk" = "Open disk";
+"Switch view" = "Switch view";
+
+// Sensors
+"Temperature unit" = "Temperature unit";
+"Celsius" = "Celsius";
+"Fahrenheit" = "Fahrenheit";
 
 // Network
 "Uploading" = "Upload";
@@ -112,6 +137,11 @@
 "Click to copy mac address" = "Click to copy mac address";
 "No connection" = "No connection";
 "Network interface" = "Network interface";
+"Total download" = "Total download";
+"Total upload" = "Total upload";
+"Reader type" = "Reader type";
+"Interface" = "Interface";
+"Process" = "Process";
 
 // Battery
 "Level" = "Level";
@@ -133,3 +163,11 @@
 "Low level notification" = "Low level notification";
 "Low battery" = "Low battery";
 "Battery remaining" = "%0% remaining";
+"Percentage" = "Percentage";
+"Percentage and time" = "Percentage and time";
+"Time and percentage" = "Time and percentage";
+"Time format" = "Time format";
+"Hide additional information when full" = "Hide additional information when full";
+
+// Fans
+"Fans" = "Fans";

@@ -69,7 +69,8 @@ public struct info_s {
 }
 
 public struct device_s {
-    public var model: model_s = model_s(name: "Unknown", year: 2020, type: .unknown)
+    public var model: model_s = model_s(name: LocalizedString("Unknown"), year: 2020, type: .unknown)
+    public var modelIdentifier: String? = nil
     public var os: os_s? = nil
     public var info: info_s? = info_s()
 }
@@ -87,13 +88,22 @@ public class SystemKit {
                 os_log(.error, log: self.log, "unknown device %s", modelName)
             }
         }
-
+        if let id = self.modelID() {
+            self.device.modelIdentifier = id
+        }
+        
         let procInfo = ProcessInfo()
         let systemVersion = procInfo.operatingSystemVersion
-        let build = procInfo.operatingSystemVersionString.split(separator: "(")[1].replacingOccurrences(of: "Build ", with: "").replacingOccurrences(of: ")", with: "")
-
-        self.device.os = os_s(name: osDict[systemVersion.minorVersion] ?? "Unknown", version: systemVersion, build: build)
-
+        
+        var build = LocalizedString("Unknown")
+        let buildArr = procInfo.operatingSystemVersionString.split(separator: "(")
+        if buildArr.indices.contains(1) {
+            build = buildArr[1].replacingOccurrences(of: "Build ", with: "").replacingOccurrences(of: ")", with: "")
+        }
+        
+        let version = "\(systemVersion.majorVersion).\(systemVersion.minorVersion)"
+        self.device.os = os_s(name: osDict[version] ?? LocalizedString("Unknown"), version: systemVersion, build: build)
+        
         self.device.info?.cpu = self.getCPUInfo()
         self.device.info?.ram = self.getRamInfo()
         self.device.info?.gpu = self.getGPUInfo()
@@ -116,6 +126,17 @@ public class SystemKit {
         
         os_log(.error, log: self.log, "error call sysctl(): %s", (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
         return nil
+    }
+    
+    func modelID() -> String? {
+        let service = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("IOPlatformExpertDevice"))
+        var modelIdentifier: String?
+        if let modelData = IORegistryEntryCreateCFProperty(service, "model" as CFString, kCFAllocatorDefault, 0).takeRetainedValue() as? Data {
+            modelIdentifier = String(data: modelData, encoding: .utf8)?.trimmingCharacters(in: .controlCharacters)
+        }
+
+        IOObjectRelease(service)
+        return modelIdentifier
     }
     
     private func getCPUInfo() -> cpu_s? {
@@ -267,10 +288,10 @@ public class SystemKit {
         }
         
         if result == KERN_SUCCESS {
-            let active = Double(stats.active_count) * Double(PAGE_SIZE)
-            let inactive = Double(stats.inactive_count) * Double(PAGE_SIZE)
-            let wired = Double(stats.wire_count) * Double(PAGE_SIZE)
-            let compressed = Double(stats.compressor_page_count) * Double(PAGE_SIZE)
+            let active = Double(stats.active_count) * Double(vm_page_size)
+            let inactive = Double(stats.inactive_count) * Double(vm_page_size)
+            let wired = Double(stats.wire_count) * Double(vm_page_size)
+            let compressed = Double(stats.compressor_page_count) * Double(vm_page_size)
             
             return ram_s(
                 active: active,
@@ -316,22 +337,24 @@ public class SystemKit {
 
 let deviceDict: [String: model_s] = [
     // Mac Mini
-    "MacMini6,1": model_s(name: "Mac mini (Late 2012)", year: 2012, type: .macMini),
+    "Macmini6,1": model_s(name: "Mac mini (Late 2012)", year: 2012, type: .macMini),
     "Macmini6,2": model_s(name: "Mac mini (Late 2012)", year: 2012, type: .macMini),
-    "Macmini7,1": model_s(name: "Mac mini (Late 2014)", year: 2012, type: .macMini),
-    "Macmini8,1": model_s(name: "Mac mini (Late 2018)", year: 2012, type: .macMini),
+    "Macmini7,1": model_s(name: "Mac mini (Late 2014)", year: 2014, type: .macMini),
+    "Macmini8,1": model_s(name: "Mac mini (Late 2018)", year: 2018, type: .macMini),
+    "Macmini9,1": model_s(name: "Mac mini (M1, 2020)", year: 2020, type: .macMini),
     
     // Mac Pro
-    "MacPro6,1": model_s(name: "Mac Pro (Late 2013)", year: 2012, type: .macPro),
-    "MacPro7,1": model_s(name: "Mac Pro (2019)", year: 2012, type: .macPro),
+    "MacPro5,1": model_s(name: "Mac Pro (2012)", year: 2010, type: .macPro),
+    "MacPro6,1": model_s(name: "Mac Pro (Late 2013)", year: 2016, type: .macPro),
+    "MacPro7,1": model_s(name: "Mac Pro (2019)", year: 2019, type: .macPro),
     
     // iMac
     "iMac13,2": model_s(name: "iMac 27-Inch (Late 2012)", year: 2012, type: .imac),
-    "iMac14,2": model_s(name: "iMac 27-Inch (Late 2013)", year: 2012, type: .imac),
-    "iMac15,1": model_s(name: "iMac 27-Inch (5K, Late 2014)", year: 2012, type: .imac),
-    "iMac17,1": model_s(name: "iMac 27-Inch (5K, Late 2015)", year: 2012, type: .imac),
-    "iMac18,3": model_s(name: "iMac 27-Inch (5K, Mid 2017)", year: 2012, type: .imac),
-    "iMac19,1": model_s(name: "iMac 27-Inch (5K, 2019)", year: 2012, type: .imac),
+    "iMac14,2": model_s(name: "iMac 27-Inch (Late 2013)", year: 2013, type: .imac),
+    "iMac15,1": model_s(name: "iMac 27-Inch (5K, Late 2014)", year: 2014, type: .imac),
+    "iMac17,1": model_s(name: "iMac 27-Inch (5K, Late 2015)", year: 2015, type: .imac),
+    "iMac18,3": model_s(name: "iMac 27-Inch (5K, Mid 2017)", year: 2017, type: .imac),
+    "iMac19,1": model_s(name: "iMac 27-Inch (5K, 2019)", year: 2019, type: .imac),
     
     // iMac Pro
     "iMacPro1,1": model_s(name: "iMac Pro (5K, Late 2017)", year: 2017, type: .imacpro),
@@ -351,6 +374,7 @@ let deviceDict: [String: model_s] = [
     "MacBookAir8,1": model_s(name: "MacBook Air 13\" (2018)", year: 2018, type: .macbookAir),
     "MacBookAir8,2": model_s(name: "MacBook Air 13\" (2019)", year: 2019, type: .macbookAir),
     "MacBookAir9,1": model_s(name: "MacBook Air 13\" (2020)", year: 2020, type: .macbookAir),
+    "MacBookAir10,1": model_s(name: "MacBook Air 13\" (M1, 2020)", year: 2020, type: .macbookAir),
     
     // MacBook Pro
     "MacBookPro9,1": model_s(name: "MacBook Pro 15\" (Mid 2012)", year: 2012, type: .macbookPro),
@@ -376,11 +400,11 @@ let deviceDict: [String: model_s] = [
     "MacBookPro16,1": model_s(name: "MacBook Pro 16\" (Late 2019)", year: 2019, type: .macbookPro),
     "MacBookPro16,2": model_s(name: "MacBook Pro 13\" (Mid 2020)", year: 2019, type: .macbookPro),
     "MacBookPro16,3": model_s(name: "MacBook Pro 13\" (Mid 2020)", year: 2020, type: .macbookPro),
+    "MacBookPro17,1": model_s(name: "MacBook Pro 13\" (M1, 2020)", year: 2020, type: .macbookPro),
 ]
 
-let osDict: [Int: String] = [
-    13: "High Sierra",
-    14: "Mojave",
-    15: "Catalina",
-    16: "Big Sur",
+let osDict: [String: String] = [
+    "10.14": "Mojave",
+    "10.15": "Catalina",
+    "11.0": "Big Sur",
 ]

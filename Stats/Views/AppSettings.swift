@@ -18,9 +18,18 @@ class ApplicationSettings: NSView {
     private let height: CGFloat = 480
     private let deviceInfoHeight: CGFloat = 300
     
-    private var updateIntervalValue: updateInterval {
+    private var updateIntervalValue: AppUpdateInterval {
         get {
-            return store.string(key: "update-interval", defaultValue: updateIntervals.atStart.rawValue)
+            return store.string(key: "update-interval", defaultValue: AppUpdateIntervals.atStart.rawValue)
+        }
+    }
+    
+    private var temperatureUnitsValue: String {
+        get {
+            return store.string(key: "temperature_units", defaultValue: "system")
+        }
+        set {
+            store.set(key: "temperature_units", value: newValue)
         }
     }
     
@@ -45,7 +54,7 @@ class ApplicationSettings: NSView {
             if version.newest {
                 button.title = LocalizedString("Update application")
             } else {
-                button.title = LocalizedString("Check for updates")
+                button.title = LocalizedString("Check for update")
             }
         }
     }
@@ -103,12 +112,31 @@ class ApplicationSettings: NSView {
         let rightPanel: NSView = NSView(frame: NSRect(x: self.width/2, y: 0, width: view.frame.width/2, height: view.frame.height))
         
         rightPanel.addSubview(makeSelectRow(
-            frame: NSRect(x: rowHorizontalPadding*0.5, y: rowHeight*2, width: rightPanel.frame.width - (rowHorizontalPadding*1.5), height: rowHeight),
+            frame: NSRect(x: rowHorizontalPadding*0.5, y: rowHeight*3, width: rightPanel.frame.width - (rowHorizontalPadding*1.5), height: rowHeight),
             title: LocalizedString("Check for updates"),
             action: #selector(self.toggleUpdateInterval),
-            items: updateIntervals.allCases.map{ $0.rawValue },
+            items: AppUpdateIntervals.allCases.map{ $0.rawValue },
             selected: self.updateIntervalValue
         ))
+        
+        let temperature = SelectRow(
+            frame: NSRect(
+                x: rowHorizontalPadding*0.5,
+                y: rowHeight*2,
+                width: rightPanel.frame.width - (rowHorizontalPadding*1.5),
+                height: rowHeight
+            ),
+            title: LocalizedString("Temperature"),
+            action: #selector(toggleTemperatureUnits),
+            items: TemperatureUnits,
+            selected: self.temperatureUnitsValue
+        )
+        temperature.subviews.forEach { (v: NSView) in
+            if let view = v as? LabelField {
+                view.textColor = .secondaryLabelColor
+            }
+        }
+        rightPanel.addSubview(temperature)
         
         rightPanel.addSubview(makeSettingRow(
             frame: NSRect(x: rowHorizontalPadding*0.5, y: rowHeight*1, width: rightPanel.frame.width - (rowHorizontalPadding*1.5), height: rowHeight),
@@ -205,7 +233,7 @@ class ApplicationSettings: NSView {
             switchButton.state = state
             switchButton.action = action
             switchButton.target = self
-
+            
             toggle = switchButton
         } else {
             let button: NSButton = NSButton(frame: NSRect(x: row.frame.width - 30, y: 0, width: 30, height: row.frame.height))
@@ -219,7 +247,7 @@ class ApplicationSettings: NSView {
             
             toggle = button
         }
-
+        
         row.addSubview(toggle)
         row.addSubview(rowTitle)
         
@@ -238,6 +266,7 @@ class ApplicationSettings: NSView {
         deviceNameField.font = NSFont.systemFont(ofSize: 14, weight: .regular)
         deviceNameField.stringValue = systemKit.device.model.name
         deviceNameField.isSelectable = true
+        deviceNameField.toolTip = systemKit.device.modelIdentifier
         
         let osField: NSTextField = TextView(frame: NSRect(x: 0, y: 52, width: leftPanel.frame.width, height: 18))
         osField.alignment = .center
@@ -262,18 +291,21 @@ class ApplicationSettings: NSView {
         statsName.stringValue = "Stats"
         statsName.isSelectable = true
         
+        let versionNumber = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
+        let buildNumber = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as! String
+        
         let statsVersion: NSTextField = TextView(frame: NSRect(x: 0, y: 0, width: leftPanel.frame.width, height: 16))
         statsVersion.alignment = .center
         statsVersion.font = NSFont.systemFont(ofSize: 12, weight: .regular)
-        let versionNumber = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
         statsVersion.stringValue = "\(LocalizedString("Version")) \(versionNumber)"
         statsVersion.isSelectable = true
+        statsVersion.toolTip = "Build number: \(buildNumber)"
         
         infoView.addSubview(statsName)
         infoView.addSubview(statsVersion)
         
         let button: NSButton = NSButton(frame: NSRect(x: (rightPanel.frame.width - 160)/2, y: 20, width: 160, height: 28))
-        button.title = LocalizedString("Check for updates")
+        button.title = LocalizedString("Check for update")
         button.bezelStyle = .rounded
         button.target = self
         button.action = #selector(updateAction)
@@ -309,10 +341,17 @@ class ApplicationSettings: NSView {
     }
     
     @objc private func toggleUpdateInterval(_ sender: NSMenuItem) {
-        if let newUpdateInterval = updateIntervals(rawValue: sender.title) {
+        if let newUpdateInterval = AppUpdateIntervals(rawValue: sender.title) {
             store.set(key: "update-interval", value: newUpdateInterval.rawValue)
             NotificationCenter.default.post(name: .changeCronInterval, object: nil, userInfo: nil)
         }
+    }
+    
+    @objc private func toggleTemperatureUnits(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String else {
+            return
+        }
+        self.temperatureUnitsValue = key
     }
     
     @objc func toggleDock(_ sender: NSControl) {
@@ -322,7 +361,7 @@ class ApplicationSettings: NSView {
         } else {
             state = sender is NSButton ? (sender as! NSButton).state: nil
         }
-  
+        
         if state != nil {
             store.set(key: "dockIcon", value: state! == NSControl.StateValue.on)
         }

@@ -36,7 +36,12 @@ public class MemoryWidget: Widget {
                 }
             }
         }
-        super.init(frame: CGRect(x: 0, y: Constants.Widget.margin, width: 62, height: Constants.Widget.height - (2*Constants.Widget.margin)))
+        super.init(frame: CGRect(
+            x: 0,
+            y: Constants.Widget.margin.y,
+            width: 62,
+            height: Constants.Widget.height - (2*Constants.Widget.margin.y)
+        ))
         self.title = title
         self.type = .memory
         self.preview = preview
@@ -59,7 +64,7 @@ public class MemoryWidget: Widget {
         super.draw(dirtyRect)
         
         let letterWidth: CGFloat = 8
-        let rowWidth: CGFloat = self.frame.width - Constants.Widget.margin - letterWidth
+        let rowWidth: CGFloat = self.frame.width - Constants.Widget.margin.x - letterWidth
         let rowHeight: CGFloat = self.frame.height / 2
         
         let style = NSMutableParagraphStyle()
@@ -73,7 +78,7 @@ public class MemoryWidget: Widget {
         let freeY: CGFloat = !self.orderReversedState ? rowHeight+1 : 1
         let usedY: CGFloat = !self.orderReversedState ? 1 : rowHeight+1
         
-        var rect = CGRect(x: Constants.Widget.margin, y: freeY, width: letterWidth, height: rowHeight)
+        var rect = CGRect(x: Constants.Widget.margin.x, y: freeY, width: letterWidth, height: rowHeight)
         var str = NSAttributedString.init(string: "F:", attributes: attributes)
         str.draw(with: rect)
         
@@ -81,7 +86,7 @@ public class MemoryWidget: Widget {
         str = NSAttributedString.init(string: Units(bytes: self.value.0).getReadableMemory(), attributes: attributes)
         str.draw(with: rect)
         
-        rect = CGRect(x: Constants.Widget.margin, y: usedY, width: letterWidth, height: rowHeight)
+        rect = CGRect(x: Constants.Widget.margin.x, y: usedY, width: letterWidth, height: rowHeight)
         str = NSAttributedString.init(string: "U:", attributes: attributes)
         str.draw(with: rect)
         

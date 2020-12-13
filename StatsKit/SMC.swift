@@ -12,6 +12,7 @@
 import IOKit
 
 enum SMCDataType: String {
+    case UI8 = "ui8 "
     case UI32 = "ui32"
     case SP1E = "sp1e"
     case SP3C = "sp3c"
@@ -26,6 +27,7 @@ enum SMCDataType: String {
     case FLT = "flt "
     case FPE2 = "fpe2"
     case FP2E = "fp2e"
+    case FDS = "{fds"
 }
 
 enum SMCKeys: UInt8 {
@@ -52,7 +54,7 @@ struct SMCKeyData_t {
         var reserved: CUnsignedChar = 0
         var release: CUnsignedShort = 0
     }
-
+    
     struct LimitData_t {
         var version: UInt16 = 0
         var length: UInt16 = 0
@@ -60,7 +62,7 @@ struct SMCKeyData_t {
         var gpuPLimit: UInt32 = 0
         var memPLimit: UInt32 = 0
     }
-
+    
     struct keyInfo_t {
         var dataSize: IOByteCount = 0
         var dataType: UInt32 = 0
@@ -146,6 +148,8 @@ public class SMCService {
             }
             
             switch val.dataType {
+            case SMCDataType.UI8.rawValue:
+                return Double(val.bytes[0])
             case SMCDataType.UI32.rawValue:
                 return Double(UInt32(bytes: (val.bytes[0], val.bytes[1], val.bytes[2], val.bytes[3])))
             case SMCDataType.SP1E.rawValue:
@@ -165,7 +169,7 @@ public class SMCService {
                 return Double(result / 512)
             case SMCDataType.SP78.rawValue:
                 let intValue: Double = Double(Int(val.bytes[0]) * 256 + Int(val.bytes[1]))
-                return Double(intValue / 256.0)
+                return Double(intValue / 256)
             case SMCDataType.SP87.rawValue:
                 let intValue: Double = Double(Int(val.bytes[0]) * 256 + Int(val.bytes[1]))
                 return Double(intValue / 128)
@@ -184,6 +188,48 @@ public class SMCService {
                     return Double(value!)
                 }
                 return nil
+            case SMCDataType.FPE2.rawValue:
+                return Double(Int(fromFPE2: (val.bytes[0], val.bytes[1])))
+            default:
+                print("unsupported data type \(val.dataType) for key: \(key)")
+                return nil
+            }
+        }
+        
+        return nil
+    }
+    
+    public func getStringValue(_ key: String) -> String? {
+        var result: kern_return_t = 0
+        var val: SMCVal_t = SMCVal_t(key)
+        
+        result = read(&val)
+        if result != kIOReturnSuccess {
+            print("Error read(): " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
+            return nil
+        }
+        
+        if (val.dataSize > 0) {
+            if val.bytes.first(where: { $0 != 0}) == nil {
+                return nil
+            }
+            
+            switch val.dataType {
+            case SMCDataType.FDS.rawValue:
+                let c1  = String(UnicodeScalar(val.bytes[4]))
+                let c2  = String(UnicodeScalar(val.bytes[5]))
+                let c3  = String(UnicodeScalar(val.bytes[6]))
+                let c4  = String(UnicodeScalar(val.bytes[7]))
+                let c5  = String(UnicodeScalar(val.bytes[8]))
+                let c6  = String(UnicodeScalar(val.bytes[9]))
+                let c7  = String(UnicodeScalar(val.bytes[10]))
+                let c8  = String(UnicodeScalar(val.bytes[11]))
+                let c9  = String(UnicodeScalar(val.bytes[12]))
+                let c10 = String(UnicodeScalar(val.bytes[13]))
+                let c11 = String(UnicodeScalar(val.bytes[14]))
+                let c12 = String(UnicodeScalar(val.bytes[15]))
+                
+                return (c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12).trimmingCharacters(in: .whitespaces)
             default:
                 print("unsupported data type \(val.dataType) for key: \(key)")
                 return nil
@@ -207,7 +253,7 @@ public class SMCService {
             return result
         }
         
-        value.pointee.dataSize = output.keyInfo.dataSize
+        value.pointee.dataSize = UInt32(output.keyInfo.dataSize)
         value.pointee.dataType = output.keyInfo.dataType.toString()
         input.keyInfo.dataSize = output.keyInfo.dataSize
         input.data8 = SMCKeys.READ_BYTES.rawValue

@@ -16,14 +16,16 @@ import ModuleKit
 internal class Settings: NSView, Settings_v {
     private var usagePerCoreState: Bool = false
     private var hyperthreadState: Bool = false
-    private var updateIntervalValue: String = "1"
-    private let listOfUpdateIntervals: [String] = ["1", "2", "3", "5", "10", "15", "30"]
+    private var updateIntervalValue: Int = 1
+    private var numberOfProcesses: Int = 8
     
     private let title: String
     private let store: UnsafePointer<Store>
+    private var hasHyperthreadingCores = false
     
     public var callback: (() -> Void) = {}
-    public var setInterval: ((_ value: Double) -> Void) = {_ in }
+    public var callbackWhenUpdateNumberOfProcesses: (() -> Void) = {}
+    public var setInterval: ((_ value: Int) -> Void) = {_ in }
     
     private var hyperthreadView: NSView? = nil
     
@@ -32,10 +34,12 @@ internal class Settings: NSView, Settings_v {
         self.store = store
         self.hyperthreadState = store.pointee.bool(key: "\(self.title)_hyperhreading", defaultValue: self.hyperthreadState)
         self.usagePerCoreState = store.pointee.bool(key: "\(self.title)_usagePerCore", defaultValue: self.usagePerCoreState)
-        self.updateIntervalValue = store.pointee.string(key: "\(self.title)_updateInterval", defaultValue: self.updateIntervalValue)
+        self.updateIntervalValue = store.pointee.int(key: "\(self.title)_updateInterval", defaultValue: self.updateIntervalValue)
+        self.numberOfProcesses = store.pointee.int(key: "\(self.title)_processes", defaultValue: self.numberOfProcesses)
         if !self.usagePerCoreState {
             self.hyperthreadState = false
         }
+        self.hasHyperthreadingCores = SysctlByName("hw.physicalcpu") != SysctlByName("hw.logicalcpu")
         
         super.init(frame: CGRect(
             x: 0,
@@ -56,47 +60,63 @@ internal class Settings: NSView, Settings_v {
         self.subviews.forEach{ $0.removeFromSuperview() }
         
         let rowHeight: CGFloat = 30
-        let num: CGFloat = widget == .barChart ? 2 : 0
+        let num: CGFloat = widget == .barChart ? self.hasHyperthreadingCores ? 3 : 2 : 1
         
         self.addSubview(SelectTitleRow(
             frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * num, width: self.frame.width - (Constants.Settings.margin*2), height: rowHeight),
             title: LocalizedString("Update interval"),
             action: #selector(changeUpdateInterval),
-            items: self.listOfUpdateIntervals.map{ "\($0) sec" },
+            items: ReaderUpdateIntervals.map{ "\($0) sec" },
             selected: "\(self.updateIntervalValue) sec"
         ))
         
         if widget == .barChart {
             self.addSubview(ToggleTitleRow(
-                frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * 1, width: self.frame.width - (Constants.Settings.margin*2), height: rowHeight),
+                frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * (num-1), width: self.frame.width - (Constants.Settings.margin*2), height: rowHeight),
                 title: LocalizedString("Show usage per core"),
                 action: #selector(toggleUsagePerCore),
                 state: self.usagePerCoreState
             ))
             
-            self.hyperthreadView = ToggleTitleRow(
-                frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * 0, width: self.frame.width - (Constants.Settings.margin*2), height: rowHeight),
-                title: LocalizedString("Show hyper-threading cores"),
-                action: #selector(toggleMultithreading),
-                state: self.hyperthreadState
-            )
-            if !self.usagePerCoreState {
-                FindAndToggleEnableNSControlState(self.hyperthreadView, state: false)
-                FindAndToggleNSControlState(self.hyperthreadView, state: .off)
+            if self.hasHyperthreadingCores {
+                self.hyperthreadView = ToggleTitleRow(
+                    frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * (num-2), width: self.frame.width - (Constants.Settings.margin*2), height: rowHeight),
+                    title: LocalizedString("Show hyper-threading cores"),
+                    action: #selector(toggleMultithreading),
+                    state: self.hyperthreadState
+                )
+                if !self.usagePerCoreState {
+                    FindAndToggleEnableNSControlState(self.hyperthreadView, state: false)
+                    FindAndToggleNSControlState(self.hyperthreadView, state: .off)
+                }
+                self.addSubview(self.hyperthreadView!)
             }
-            self.addSubview(self.hyperthreadView!)
         }
+        
+        self.addSubview(SelectTitleRow(
+            frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin, width: self.frame.width - (Constants.Settings.margin*2), height: rowHeight),
+            title: LocalizedString("Number of top processes"),
+            action: #selector(changeNumberOfProcesses),
+            items: NumbersOfProcesses.map{ "\($0)" },
+            selected: "\(self.numberOfProcesses)"
+        ))
         
         self.setFrameSize(NSSize(width: self.frame.width, height: (rowHeight*(num+1)) + (Constants.Settings.margin*(2+num))))
     }
     
     @objc private func changeUpdateInterval(_ sender: NSMenuItem) {
-        let newUpdateInterval = sender.title.replacingOccurrences(of: " sec", with: "")
-        self.updateIntervalValue = newUpdateInterval
-        store.pointee.set(key: "\(self.title)_updateInterval", value: self.updateIntervalValue)
-        
-        if let value = Double(self.updateIntervalValue) {
+        if let value = Int(sender.title.replacingOccurrences(of: " sec", with: "")) {
+            self.updateIntervalValue = value
+            self.store.pointee.set(key: "\(self.title)_updateInterval", value: value)
             self.setInterval(value)
+        }
+    }
+    
+    @objc private func changeNumberOfProcesses(_ sender: NSMenuItem) {
+        if let value = Int(sender.title) {
+            self.numberOfProcesses = value
+            self.store.pointee.set(key: "\(self.title)_processes", value: value)
+            self.callbackWhenUpdateNumberOfProcesses()
         }
     }
     

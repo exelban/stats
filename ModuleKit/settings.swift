@@ -119,7 +119,12 @@ open class Settings: NSView, Settings_p {
             let widgetType = self.config.pointee.availableWidgets[i]
             if let widget = LoadWidget(widgetType, preview: true, name: self.config.pointee.name, config: self.config.pointee.widgetsConfig, store: nil) {
                 let preview = WidgetPreview(
-                    frame: NSRect(x: x, y: Constants.Settings.margin, width: widget.frame.width + 1, height: self.widgetSelectorHeight - (Constants.Settings.margin*2)),
+                    frame: NSRect(
+                        x: x,
+                        y: Constants.Settings.margin,
+                        width: widget.frame.width + (Constants.Widget.spacing*2),
+                        height: self.widgetSelectorHeight - (Constants.Settings.margin*2)
+                    ),
                     title: self.config.pointee.name,
                     widget: widget,
                     state: self.activeWidget?.type == widgetType
@@ -128,7 +133,7 @@ open class Settings: NSView, Settings_p {
                     self?.recalculateWidgetSelectorOptionsWidth()
                 }
                 view.addSubview(preview)
-                x += widget.frame.width + Constants.Settings.margin
+                x += preview.frame.width + Constants.Settings.margin
             }
         }
         
@@ -285,6 +290,7 @@ open class Settings: NSView, Settings_p {
         self.widgetSettingsView?.removeFromSuperview()
         self.moduleSettingsView?.removeFromSuperview()
         
+        self.widgetSettingsView = nil
         self.addWidgetSettings()
         
         if self.moduleSettings != nil {
@@ -309,6 +315,7 @@ class WidgetPreview: NSView {
         self.type = widget.type
         self.state = state
         self.title = title
+        
         super.init(frame: frame)
         
         NotificationCenter.default.addObserver(self, selector: #selector(maybeActivate), name: .switchWidget, object: nil)
@@ -320,20 +327,31 @@ class WidgetPreview: NSView {
         
         self.toolTip = LocalizedString("Select widget", widget.name)
         
+        let container: NSView = NSView(frame: NSRect(
+            x: Constants.Widget.spacing,
+            y: 0,
+            width: frame.width - (Constants.Widget.spacing*2),
+            height: frame.height
+        ))
+        container.wantsLayer = true
+        container.addSubview(widget)
+        
+        self.addSubview(container)
+        
         widget.widthHandler = { [weak self] value in
             self?.removeTrackingArea((self?.trackingAreas.first)!)
-            let newWidth = value + 1
+            let newWidth = value + (Constants.Widget.spacing*2)
             
             let rect = NSRect(x: 0, y: 0, width: newWidth, height: self!.frame.height)
             let trackingArea = NSTrackingArea(rect: rect, options: [NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited, NSTrackingArea.Options.activeInActiveApp], owner: self, userInfo: ["menu": self!.type])
             self?.addTrackingArea(trackingArea)
             
             DispatchQueue.main.async(execute: {
+                container.setFrameSize(NSSize(width: value, height: container.frame.height))
                 self?.setFrameSize(NSSize(width: newWidth, height: self?.frame.height ?? Constants.Widget.height))
                 self?.widthCallback()
             })
         }
-        self.addSubview(widget)
         
         let rect = NSRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
         let trackingArea = NSTrackingArea(rect: rect, options: [NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited, NSTrackingArea.Options.activeInActiveApp], owner: self, userInfo: ["menu": self.type])

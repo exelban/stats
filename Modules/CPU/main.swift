@@ -31,6 +31,8 @@ public class CPU: Module {
     
     private var loadReader: LoadReader? = nil
     private var processReader: ProcessReader? = nil
+    private var temperatureReader: TemperatureReader? = nil
+    private var frequencyReader: FrequencyReader? = nil
     private let smc: UnsafePointer<SMCService>?
     private let store: UnsafePointer<Store>
     
@@ -56,10 +58,21 @@ public class CPU: Module {
         self.loadReader = LoadReader()
         self.loadReader?.store = store
         
-        self.processReader = ProcessReader()
+        self.processReader = ProcessReader(self.config.name, store: store)
+        self.temperatureReader = TemperatureReader(smc)
+        
+        #if arch(x86_64)
+        self.frequencyReader = FrequencyReader()
+        #endif
         
         self.settingsView.callback = { [unowned self] in
             self.loadReader?.read()
+        }
+        self.settingsView.callbackWhenUpdateNumberOfProcesses = {
+            self.popupView.numberOfProcessesUpdated()
+            DispatchQueue.global(qos: .background).async {
+                self.processReader?.read()
+            }
         }
         self.settingsView.setInterval = { [unowned self] value in
             self.loadReader?.setInterval(value)
@@ -78,10 +91,27 @@ public class CPU: Module {
             }
         }
         
+        self.temperatureReader?.callbackHandler = { [unowned self] value in
+            if value != nil {
+                self.popupView.temperatureCallback(value!)
+            }
+        }
+        self.frequencyReader?.callbackHandler = { [unowned self] value in
+            if value != nil {
+                self.popupView.frequencyCallback(value!)
+            }
+        }
+        
         if let reader = self.loadReader {
             self.addReader(reader)
         }
         if let reader = self.processReader {
+            self.addReader(reader)
+        }
+        if let reader = self.temperatureReader {
+            self.addReader(reader)
+        }
+        if let reader = self.frequencyReader {
             self.addReader(reader)
         }
     }
@@ -91,17 +121,22 @@ public class CPU: Module {
             return
         }
         
-        let temperature = self.smc?.pointee.getValue("TC0C") ?? self.smc?.pointee.getValue("TC0D") ?? self.smc?.pointee.getValue("TC0E")
-        self.popupView.loadCallback(value!, tempValue: temperature)
+        self.popupView.loadCallback(value!)
         
         if let widget = self.widget as? Mini {
-            widget.setValue(value!.totalUsage, sufix: "%")
+            widget.setValue(value!.totalUsage)
         }
         if let widget = self.widget as? LineChart {
             widget.setValue(value!.totalUsage)
         }
         if let widget = self.widget as? BarChart {
             widget.setValue(self.usagePerCoreState ? value!.usagePerCore : [value!.totalUsage])
+        }
+        if let widget = self.widget as? PieChart {
+            widget.setValue([
+                circle_segment(value: value!.systemLoad, color: NSColor.systemRed),
+                circle_segment(value: value!.userLoad, color: NSColor.systemBlue)
+            ])
         }
     }
 }

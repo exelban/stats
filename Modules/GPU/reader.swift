@@ -14,79 +14,110 @@ import StatsKit
 import ModuleKit
 import os.log
 
+public struct device {
+    public let model: String
+    public let pci: String
+    public var used: Bool
+}
+
 internal class InfoReader: Reader<GPUs> {
     internal var smc: UnsafePointer<SMCService>? = nil
     
     private var gpus: GPUs = GPUs()
-    private var devices: [NSDictionary]? = nil
+    private var devices: [device] = []
     
     public override func setup() {
-        guard let devices = fetchIOService("IOPCIDevice") else {
+        guard let PCIdevices = fetchIOService("IOPCIDevice") else {
             return
         }
+        let devices = PCIdevices.filter{ $0.object(forKey: "IOName") as? String == "display" }
         
-        self.devices = devices.filter{ $0.object(forKey: "IOName") as? String == "display" }
+        devices.forEach { (dict: NSDictionary) in
+            guard let deviceID = dict["device-id"] as? Data, let vendorID = dict["vendor-id"] as? Data else {
+                print("device-id or vendor-id not found", to: &Log.log)
+                return
+            }
+            let pci = "0x" + Data([deviceID[1], deviceID[0], vendorID[1], vendorID[0]]).map { String(format: "%02hhX", $0) }.joined().lowercased()
+            
+            guard let modelData = dict["model"] as? Data, let modelName = String(data: modelData, encoding: .ascii) else {
+                print("GPU model not found", to: &Log.log)
+                return
+            }
+            let model = modelName.replacingOccurrences(of: "\0", with: "")
+            
+            self.devices.append(device(model: model, pci: pci, used: false))
+        }
     }
     
     public override func read() {
-        guard let acceletators = fetchIOService(kIOAcceleratorClassName) else {
+        guard let accelerators = fetchIOService(kIOAcceleratorClassName) else {
             return
         }
         
-        acceletators.forEach { (accelerator: NSDictionary) in
-            guard let matchedGPU = self.devices?.first(where: { (gpu: NSDictionary) -> Bool in
-                guard let deviceID = gpu["device-id"] as? Data, let vendorID = gpu["vendor-id"] as? Data else {
-                    return false
-                }
-                
-                let pciMatch = "0x" + Data([deviceID[1], deviceID[0], vendorID[1], vendorID[0]]).map { String(format: "%02hhX", $0) }.joined().lowercased()
-                let accMatch = (accelerator["IOPCIMatch"] as? String ?? accelerator["IOPCIPrimaryMatch"] as? String ?? "").lowercased()
-                
-                return accMatch.range(of: pciMatch) != nil
-            }) else { return }
-            
-            guard let agcInfo = accelerator["AGCInfo"] as? [String:Int] else {
+        for (i, _) in self.devices.enumerated() {
+            self.devices[i].used = false
+        }
+        
+        accelerators.forEach { (accelerator: NSDictionary) in
+            guard let IOClass = accelerator.object(forKey: "IOClass") as? String else {
+                print("IOClass not found", to: &Log.log)
                 return
             }
             
             guard let stats = accelerator["PerformanceStatistics"] as? [String:Any] else {
+                print("PerformanceStatistics not found", to: &Log.log)
                 return
             }
             
-            guard let model = matchedGPU.object(forKey: "model") as? Data, var modelName = String(data: model, encoding: .ascii) else {
-                return
-            }
-            modelName = modelName.replacingOccurrences(of: "\0", with: "")
+            var model: String = ""
+            let accMatch = (accelerator["IOPCIMatch"] as? String ?? accelerator["IOPCIPrimaryMatch"] as? String ?? "").lowercased()
             
-            guard let IOClass = accelerator.object(forKey: "IOClass") as? String else {
-                return
-            }
-            
-            if self.gpus.list.first(where: { $0.name == modelName }) == nil {
-                self.gpus.list.append(GPU_Info(name: modelName, IOclass: IOClass))
-            }
-            
-            guard let idx = self.gpus.list.firstIndex(where: { $0.name == modelName }) else {
-                return
-            }
-            
-            let utilization = stats["Device Utilization %"] as? Int ?? 0
-//            let totalVram = (accelerator["VRAM,totalMB"] as? Int ?? matchedGPU["VRAM,totalMB"] as? Int ?? 0) * 1000000
-//            let freeVram = stats["vramFreeBytes"] as? Int ?? 0
-//            let coreClock = stats["Core Clock(MHz)"] as? Int ?? 0
-            var temperature = stats["Temperature(C)"] as? Int ?? 0
-            
-            if IOClass == "IntelAccelerator" {
-                if temperature == 0 {
-                    if let tmp = self.smc?.pointee.getValue("TCGC") {
-                        temperature = Int(tmp)
-                    } else if let tmp = self.smc?.pointee.getValue("TG0D") {
-                        temperature = Int(tmp)
-                    }
+            for (i, device) in self.devices.enumerated() {
+                let matched = accMatch.range(of: device.pci)
+                if matched != nil && !device.used {
+                    model = device.model
+                    self.devices[i].used = true
+                } else if device.used {
+                    print("Device `\(device.model)` with pci `\(device.pci)` is already used", to: &Log.log)
+                } else {
+                    print("`\(device.pci)` and `\(accMatch)` not match", to: &Log.log)
                 }
             }
             
-            self.gpus.list[idx].state = agcInfo["poweredOffByAGC"] == 0
+            if model == "" {
+                let ioClass = IOClass.lowercased()
+                if ioClass == "nvAccelerator" || ioClass.contains("nvidia") {
+                    model = "Nvidia Graphics"
+                } else if ioClass.contains("amd") {
+                    model = "AMD Graphics"
+                } else if ioClass.contains("intel") {
+                    model = "Intel Graphics"
+                } else {
+                    model = "Unknown"
+                }
+            }
+            
+            if self.gpus.list.first(where: { $0.model == model }) == nil {
+                self.gpus.list.append(GPU_Info(model: model, IOClass: IOClass))
+            }
+            guard let idx = self.gpus.list.firstIndex(where: { $0.model == model }) else {
+                return
+            }
+            
+            let utilization = stats["Device Utilization %"] as? Int ?? stats["GPU Activity(%)"] as? Int ?? 0
+            var temperature = stats["Temperature(C)"] as? Int ?? 0
+            
+            if IOClass == "IntelAccelerator" && temperature == 0 {
+                if let tmp = self.smc?.pointee.getValue("TCGC") {
+                    temperature = Int(tmp)
+                } else if let tmp = self.smc?.pointee.getValue("TG0D") {
+                    temperature = Int(tmp)
+                }
+            }
+            
+            if let agcInfo = accelerator["AGCInfo"] as? [String:Int] {
+                self.gpus.list[idx].state = agcInfo["poweredOffByAGC"] == 0
+            }
             
             self.gpus.list[idx].utilization = utilization == 0 ? 0 : Double(utilization)/100
             self.gpus.list[idx].temperature = temperature

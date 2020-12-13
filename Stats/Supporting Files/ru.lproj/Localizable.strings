@@ -23,6 +23,14 @@
 "Unavailable" = "Недоступно";
 "Yes" = "Да";
 "No" = "Нет";
+"Automatic" = "Автоматический";
+"None" = "Никакой";
+"Dots" = "Точки";
+"Arrows" = "Стрелки";
+"Characters" = "Символы";
+"Short" = "Короткий";
+"Long" = "Длинный";
+"Statistics" = "Статистика";
 
 // Alerts
 "New version available" = "Доступна новая версия";
@@ -40,6 +48,7 @@
 // Application settings
 "Update application" = "Обновить приложение";
 "Check for updates" = "Проверять обновления";
+"Check for update" = "Проверить обновление";
 "Show icon in dock" = "Показать значок в dock";
 "Start at login" = "Запуск при логуванні";
 
@@ -59,6 +68,10 @@
 "Colorize value" = "Раскрасить значение";
 "Additional information" = "Дополнительная информация";
 "Reverse values order" = "Изменить порядок сортировки";
+"Base" = "Основа";
+"Display mode" = "Режим отображения";
+"One row" = "Один ряд";
+"Two rows" = "Два ряда";
 
 // Module Kit
 "Open module settings" = "Открыть настройки модуля";
@@ -69,9 +82,13 @@
 "Top processes" = "Топ процессы";
 "Pictogram" = "Пиктограмма";
 
+// Modules
+"Number of top processes" = "Количество процессов";
+
 // CPU
 "CPU usage" = "Использование процессора";
 "CPU temperature" = "Температура процессора";
+"CPU frequency" = "Частота процессора";
 "System" = "Система";
 "User" = "Пользователь";
 "Idle" = "Свободно";
@@ -93,13 +110,21 @@
 "Compressed" = "Сжатая";
 "Free" = "Свободная";
 
-// DiskF
+// Disk
 "Show removable disks" = "Показать съемные диски";
-"Used disk memory" = "Использовано %0 с %1";
+"Used disk memory" = "Использовано %0 из %1";
+"Free disk memory" = "Свободно %0 из %1";
 "Disk to show" = "Активный диск";
+"Open disk" = "Открытый диск";
+"Switch view" = "Переключить вид";
+
+// Sensors
+"Temperature unit" = "Единица измерения температуры";
+"Celsius" = "Цельсия";
+"Fahrenheit" = "Фаренгейта";
 
 // Network
-"Uploading" = "Висилання";
+"Uploading" = "Выгрузка";
 "Downloading" = "Загрузка";
 "Public IP" = "Публичный IP";
 "Local IP" = "Локальный IP";
@@ -112,6 +137,11 @@
 "Click to copy mac address" = "Нажмите, чтобы скопировать физический адрес";
 "No connection" = "Нет соединения";
 "Network interface" = "Сетевой интерфейс";
+"Total download" = "Всего скачано";
+"Total upload" = "Всего выгружено";
+"Reader type" = "Метод чтения";
+"Interface" = "Интерфейс";
+"Process" = "Процессы";
 
 // Battery
 "Level" = "Уровень заряда";
@@ -123,7 +153,7 @@
 "Voltage" = "Напряжение";
 "Temperature" = "Температура";
 "Power adapter" = "Блок питания";
-"Power" = "Статус";
+"Power" = "Мощность";
 "Is charging" = "Заряжается";
 "Time to discharge" = "Время до разрядки";
 "Time to charge" = "Время до зарядки";
@@ -133,3 +163,11 @@
 "Low level notification" = "Сообщение о низком уровне заряда";
 "Low battery" = "Низкий заряд аккумулятора";
 "Battery remaining" = "%0% осталось";
+"Percentage" = "Проценты";
+"Percentage and time" = "Проценты и время";
+"Time and percentage" = "Время и Проценты";
+"Time format" = "Формат времени";
+"Hide additional information when full" = "Скрыть дополнительную информацию при полном заряде";
+
+// Fans
+"Fans" = "Fans";

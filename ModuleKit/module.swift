@@ -78,12 +78,12 @@ open class Module: Module_p {
     
     private var settingsView: Settings_v? = nil
     private var popup: NSWindow = NSWindow()
-    private var popupView: NSView? = nil
+    private var popupView: Popup_p? = nil
     
     private let log: OSLog
     private var store: UnsafePointer<Store>
     private var readers: [Reader_p] = []
-    private var menuBarItem: NSStatusItem = NSStatusBar.system.statusItem(withLength: 0)
+    private var menuBarItem: NSStatusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
     private var activeWidget: widget_t {
         get {
             let widgetStr = self.store.pointee.string(key: "\(self.config.name)_widget", defaultValue: self.config.defaultWidget.rawValue)
@@ -94,7 +94,7 @@ open class Module: Module_p {
     private var ready: Bool = false
     private var widgetLoaded: Bool = false
     
-    public init(store: UnsafePointer<Store>, popup: NSView?, settings: Settings_v?) {
+    public init(store: UnsafePointer<Store>, popup: Popup_p?, settings: Settings_v?) {
         self.config = module_c(in: Bundle(for: type(of: self)).path(forResource: "config", ofType: "plist")!)
         
         self.log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: self.config.name)
@@ -104,20 +104,28 @@ open class Module: Module_p {
         self.available = self.isAvailable()
         self.enabled = self.store.pointee.bool(key: "\(self.config.name)_state", defaultValue: self.config.defaultState)
         self.menuBarItem.autosaveName = self.config.name
+        self.menuBarItem.isVisible = self.enabled
         
         if !self.available {
             os_log(.debug, log: log, "Module is not available")
+            
+            self.menuBarItem.length = 0
+            self.menuBarItem.isVisible = false
+            if self.enabled {
+                self.enabled = false
+                self.store.pointee.set(key: "\(self.config.name)_state", value: false)
+            }
+            
             return
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(listenForWidgetSwitch), name: .switchWidget, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(listenForMouseDownInSettings), name: .clickInSettings, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(listenForModuleToggle), name: .toggleModule, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(listenChangingPopupSize), name: .updatePopupSize, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(listenResignActive), name: NSApplication.willResignActiveNotification, object: nil)
         
         if self.config.widgetsConfig.count != 0 {
-            self.setWidget()
+            self.initWidget()
         } else {
             os_log(.debug, log: log, "Module started without widget")
         }
@@ -129,7 +137,9 @@ open class Module: Module_p {
         
         self.popup = PopupWindow(title: self.config.name, view: self.popupView, visibilityCallback: self.visibilityCallback)
         
-        self.menuBarItem.isVisible = true
+        self.menuBarItem.button?.target = self
+        self.menuBarItem.button?.action = #selector(self.togglePopup)
+        self.menuBarItem.button?.sendAction(on: [.leftMouseDown, .rightMouseDown])
     }
     
     deinit {
@@ -178,9 +188,11 @@ open class Module: Module_p {
             reader.initStoreValues(title: self.config.name, store: self.store)
             reader.start()
         }
-        self.menuBarItem.length = self.widget?.frame.width ?? 0
-        if self.menuBarItem.length < 0 {
+        self.menuBarItem.isVisible = true
+        if self.widget != nil {
             self.loadWidget()
+        } else {
+            self.initWidget()
         }
         os_log(.debug, log: log, "Module enabled")
     }
@@ -192,7 +204,7 @@ open class Module: Module_p {
         self.enabled = false
         self.store.pointee.set(key: "\(self.config.name)_state", value: false)
         self.readers.forEach{ $0.pause() }
-        self.menuBarItem.length = 0
+        self.menuBarItem.isVisible = false
         self.popup.setIsVisible(false)
         os_log(.debug, log: log, "Module disabled")
     }
@@ -229,7 +241,7 @@ open class Module: Module_p {
     }
     
     // replace a popup view
-    public func replacePopup(_ view: NSView) {
+    public func replacePopup(_ view: Popup_p) {
         self.popup.setIsVisible(false)
         self.popupView = view
         self.popup = PopupWindow(title: self.config.name, view: self.popupView, visibilityCallback: self.visibilityCallback)
@@ -240,23 +252,19 @@ open class Module: Module_p {
     
     // setup menu ber item
     private func loadWidget() {
-        guard self.available else { return }
+        guard self.available && self.enabled && self.ready && self.widget != nil else { return }
         
-        if self.widget != nil && self.ready {
-            DispatchQueue.main.async {
-                self.menuBarItem.button?.target = self
-                self.menuBarItem.button?.action = #selector(self.togglePopup)
-                self.menuBarItem.button?.sendAction(on: [.leftMouseDown, .rightMouseDown])
-                
-                self.menuBarItem.length = self.widget!.frame.width
-                self.menuBarItem.button?.addSubview(self.widget!)
-                self.widgetLoaded = true
-            }
+        DispatchQueue.main.async {
+            self.menuBarItem.length = self.widget!.frame.width
+            self.menuBarItem.button?.subviews.forEach{ $0.removeFromSuperview() }
+            self.menuBarItem.button?.addSubview(self.widget!)
+            self.widgetLoaded = true
+            self.widgetDidSet(self.widget?.type ?? .unknown)
         }
     }
     
-    // load and setup widget
-    private func setWidget() {
+    // load the widget and set up. Calls when module init or widget change
+    private func initWidget() {
         guard self.available else { return }
         
         self.widget = LoadWidget(self.activeWidget, preview: false, name: self.config.name, config: self.config.widgetsConfig, store: self.store)
@@ -271,19 +279,26 @@ open class Module: Module_p {
             self?.widgetWidthHandler(value)
         }
         
-        self.readers.forEach{ $0.read() }
+        DispatchQueue.global(qos: .background).async {
+            self.readers.forEach{ $0.read() }
+        }
+        
         if let mainReader = self.readers.first(where: { !$0.optional }) {
             self.widget?.setValues(mainReader.getHistory())
         }
         
-        if self.ready {
+        if self.ready && self.enabled {
             self.menuBarItem.length = self.widget!.frame.width
             self.menuBarItem.button?.subviews.forEach{ $0.removeFromSuperview() }
             self.menuBarItem.button?.addSubview(self.widget!)
+            self.widgetLoaded = true
         }
         
         self.settings?.setActiveWidget(self.widget)
     }
+    
+    // call after widget set up
+    open func widgetDidSet(_ type: widget_t) {}
     
     // call when popup appear/disappear
     private func visibilityCallback(_ state: Bool) {
@@ -347,7 +362,8 @@ open class Module: Module_p {
                     if let widgetType = widget_t.allCases.first(where: { $0.rawValue == widgetName }) {
                         self.activeWidget = widgetType
                         self.store.pointee.set(key: "\(self.config.name)_widget", value: widgetType.rawValue)
-                        self.setWidget()
+                        self.initWidget()
+                        self.widgetDidSet(widgetType)
                         os_log(.debug, log: log, "Widget is changed to: %s", "\(widgetName)")
                     }
                 }
@@ -358,14 +374,6 @@ open class Module: Module_p {
     @objc private func listenForMouseDownInSettings(_ notification: Notification) {
         if self.popup.isVisible {
             self.popup.setIsVisible(false)
-        }
-    }
-    
-    @objc private func listenChangingPopupSize(_ notification: Notification) {
-        if let moduleName = notification.userInfo?["module"] as? String, moduleName == self.config.name {
-            if self.popup.isVisible {
-                self.popup.setIsVisible(false)
-            }
         }
     }
     

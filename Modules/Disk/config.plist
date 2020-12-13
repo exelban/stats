@@ -75,7 +75,7 @@
 			<key>Order</key>
 			<integer>3</integer>
 			<key>Icon</key>
-			<string>Character</string>
+			<string>characters</string>
 			<key>Symbols</key>
 			<array>
 				<string>W</string>

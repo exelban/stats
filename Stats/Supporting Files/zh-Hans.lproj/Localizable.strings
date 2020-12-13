@@ -1,0 +1,173 @@
+//
+//  Localizable.strings
+//  Stats
+//
+//  Created by Serhiy Mytrovtsiy on 27/08/2020.
+//  Using Swift 5.0.
+//  Running on macOS 10.15.
+//
+//  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
+//
+
+// Words
+"Unknown" = "未知";
+"Version" = "版本";
+"Processor" = "处理器";
+"Memory" = "内存";
+"Graphics" = "图形卡"; // Use the same translation as the "about this mac"
+"Disk" = "磁盘";
+"Close" = "关闭";
+"Download" = "下载";
+"Install" = "安装";
+"Cancel" = "取消";
+"Unavailable" = "不可用";
+"Yes" = "是";
+"No" = "否";
+"Automatic" = "自动";
+"None" = "没有";
+"Dots" = "点";
+"Arrows" = "箭";
+"Characters" = "字母";
+"Short" = "短";
+"Long" = "长";
+"Statistics" = "统计";
+
+// Alerts
+"New version available" = "新版本可用";
+"Click to install the new version of Stats" = "点击安装Stats的新版本";
+"Successfully updated" = "更新成功";
+"Stats was updated to v" = "Stats已更新到v%0";
+
+// Settings
+"Open Activity Monitor" = "打开活动监视器";
+"Report a bug" = "报告bug";
+"Close application" = "关闭应用";
+"Open application settings" = "打开应用设置";
+"Open moduleName settings" = "打开 %0 设置";
+
+// Application settings
+"Update application" = "更新应用";
+"Check for updates" = "检查更新";
+"Check for update" = "检查更新";
+"Show icon in dock" = "在dock显示图标";
+"Start at login" = "登录时打开";
+
+// Update
+"The latest version of Stats installed" = "已安装最新版Stats";
+"Downloading..." = "下载中...";
+"Current version: " = "当前版本:  ";
+"Latest version: " = "最新版本:    ";
+
+// Widgets
+"Color" = "颜色";
+"Label" = "标签";
+"Box" = "底盒";
+"Frame" = "外框";
+"Value" = "数值";
+"Colorize" = "彩色";
+"Colorize value" = "数值颜色";
+"Additional information" = "附加信息";
+"Reverse values order" = "数值反序";
+"Base" = "基础";
+"Display mode" = "显示模式";
+"One row" = "一排";
+"Two rows" = "两排";
+
+// Module Kit
+"Open module settings" = "打开模块设置";
+"Select widget" = "选择 %0 小组件";
+"Update interval" = "更新间隔";
+"Usage history" = "负载历史";
+"Details" = "详细信息";
+"Top processes" = "高占用进程";
+"Pictogram" = "标识";
+
+// Modules
+"Number of top processes" = "工序数";
+
+// CPU
+"CPU usage" = "CPU占用";
+"CPU temperature" = "CPU温度";
+"CPU frequency" = "CPU频率";
+"System" = "系统";
+"User" = "用户";
+"Idle" = "闲置";
+"Show usage per core" = "显示每个物理核心占用";
+"Show hyper-threading cores" = "显示超线程核心";
+
+// GPU
+"GPU to show" = "显示的GPU";
+"GPU temperature" = "GPU温度";
+"GPU utilization" = "GPU利用率";
+
+// Memory
+"Memory usage" = "内存占用";
+"Memory pressure" = "内存压力";
+"Total" = "共计";
+"Used" = "已用";
+"App" = "App内存"; // Use the same translation as the "Activity Monitor.app"
+"Wired" = "联动内存";
+"Compressed" = "被压缩";
+"Free" = "可用";
+
+// Disk
+"Show removable disks" = "显示可移动磁盘";
+"Used disk memory" = "%1 中已用 %0";
+"Free disk memory" = "%1 自由 %0";
+"Disk to show" = "显示的磁盘";
+"Open disk" = "开启磁碟";
+"Switch view" = "切换检视";
+
+// Sensors
+"Temperature unit" = "温度单位";
+"Celsius" = "摄氏温度";
+"Fahrenheit" = "华氏温度";
+
+// Network
+"Uploading" = "上传";
+"Downloading" = "下载";
+"Public IP" = "公网IP";
+"Local IP" = "本地IP";
+"Interface" = "接口";
+"Network" = "网络";
+"Physical address" = "物理地址";
+"Click to copy public IP address" = "点击拷贝公网IP";
+"Click to copy local IP address" = "点击拷贝本地IP";
+"Click to copy wifi name" = "点击拷贝WiFi名称";
+"Click to copy mac address" = "点击拷贝MAC地址";
+"No connection" = "无连接";
+"Network interface" = "网络接口";
+"Total download" = "共下载";
+"Total upload" = "总上传";
+"Reader type" = "读卡器类型";
+"Interface" = "接口";
+"Process" = "处理";
+
+// Battery
+"Level" = "电量";
+"Source" = "电源";
+"Time" = "时间";
+"Health" = "健康度";
+"Battery" = "电池";
+"Amperage" = "电流";
+"Voltage" = "电压";
+"Temperature" = "温度";
+"Power adapter" = "电源适配器";
+"Power" = "功率";
+"Is charging" = "充电中";
+"Time to discharge" = "放电时间";
+"Time to charge" = "充电时间";
+"Calculating" = "计算中";
+"Fully charged" = "已充满";
+"Not connected" = "未连接";
+"Low level notification" = "低电量通知";
+"Low battery" = "低电量";
+"Battery remaining" = "剩余 %0%";
+"Percentage" = "百分比";
+"Percentage and time" = "百分比和时间";
+"Time and percentage" = "时间和百分比";
+"Time format" = "时间格式";
+"Hide additional information when full" = "电池充满后隐藏其他信息";
+
+// Fans
+"Fans" = "Fans";

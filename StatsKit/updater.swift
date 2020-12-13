@@ -30,6 +30,8 @@ public struct Version {
     var major: Int = 0
     var minor: Int = 0
     var patch: Int = 0
+    
+    var beta: Int? = nil
 }
 
 public class macAppUpdater {
@@ -155,7 +157,7 @@ public class macAppUpdater {
         print("Script is copied to $TMPDIR/updater.sh")
         
         let pwd = Bundle.main.bundleURL.absoluteString.replacingOccurrences(of: "file://", with: "").replacingOccurrences(of: "Stats.app/", with: "")
-        _ = asyncShell("sh $TMPDIR/updater.sh --app \(pwd) --dmg \(path) >/dev/null &") // run updater script in in background
+        asyncShell("sh $TMPDIR/updater.sh --app \(pwd) --dmg \(path) >/dev/null &") // run updater script in in background
         
         print("Run updater.sh with app: \(pwd) and dmg: \(path)")
         

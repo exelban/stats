@@ -1,0 +1,173 @@
+//
+//  Localizable.strings
+//  Stats
+//
+//  Created by Serhiy Mytrovtsiy on 27/08/2020.
+//  Using Swift 5.0.
+//  Running on macOS 10.15.
+//
+//  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
+//
+
+// Words
+"Unknown" = "Sconosciuto";
+"Version" = "Versione";
+"Processor" = "Processore";
+"Memory" = "Memoria";
+"Graphics" = "Grafica";
+"Disk" = "Disco";
+"Close" = "Chiudi";
+"Download" = "Scarica";
+"Install" = "Installa";
+"Cancel" = "Cancella";
+"Unavailable" = "Non disponibile";
+"Yes" = "Si";
+"No" = "No";
+"Automatic" = "Automatico";
+"None" = "Nessuna";
+"Dots" = "Punti";
+"Arrows" = "Frecce";
+"Characters" = "Caratteri";
+"Short" = "Corto";
+"Long" = "Lungo";
+"Statistics" = "Statistiche";
+
+// Alerts
+"New version available" = "Nuova versione disponibile";
+"Click to install the new version of Stats" = "Clicca per installare la nuova versione di Stats";
+"Successfully updated" = "Aggiornato con successo";
+"Stats was updated to v" = "Stats è stato aggiornato a v%0";
+
+// Settings
+"Open Activity Monitor" = "Apri Monitoraggio Attività";
+"Report a bug" = "Segnala un bug";
+"Close application" = "Chiudi applicazione";
+"Open application settings" = "Apri le impostazioni dell'applicazione";
+"Open moduleName settings" = "Apri le impostazioni del modulo %0";
+
+// Application settings
+"Update application" = "Aggiorna applicazione";
+"Check for updates" = "Controlla aggiornamenti";
+"Check for update" = "Controlla aggiornamento";
+"Show icon in dock" = "Mostra icona nel dock";
+"Start at login" = "Avvia al login";
+
+// Update
+"The latest version of Stats installed" = "L'ultima versione di Stats è installata";
+"Downloading..." = "Download in corso...";
+"Current version: " = "Versione corrente: ";
+"Latest version: " = "Ultima versione: ";
+
+// Widgets
+"Color" = "Colore";
+"Label" = "Etichetta";
+"Box" = "Scatola";
+"Frame" = "Riquadro";
+"Value" = "Valore";
+"Colorize" = "Colora";
+"Colorize value" = "Valore colorato";
+"Additional information" = "Informazioni aggiuntive";
+"Reverse values order" = "Inverti ordine valori";
+"Base" = "Base";
+"Display mode" = "Modalità di visualizzazione";
+"One row" = "Una riga";
+"Two rows" = "Due righe";
+
+// Module Kit
+"Open module settings" = "Apri impostazioni modulo";
+"Select widget" = "Seleziona il widget %0";
+"Update interval" = "Intervallo di aggiornamento";
+"Usage history" = "Cronologia d'uso";
+"Details" = "Dettagli";
+"Top processes" = "Processi principali";
+"Pictogram" = "Pittogramma";
+
+// Modules
+"Number of top processes" = "Numero di processi principali";
+
+// CPU
+"CPU usage" = "Utilizzo CPU";
+"CPU temperature" = "Temperatura CPU";
+"CPU frequency" = "Frequenza CPU";
+"System" = "Sistema";
+"User" = "Utente";
+"Idle" = "Inattiva";
+"Show usage per core" = "Mostra uso per core";
+"Show hyper-threading cores" = "Mostra cores hyper-threading";
+
+// GPU
+"GPU to show" = "GPU da mostrare";
+"GPU temperature" = "Temperatura GPU";
+"GPU utilization" = "Utilizzo GPU";
+
+// Memory
+"Memory usage" = "Memoria utilizzata";
+"Memory pressure" = "Compressione memoria";
+"Total" = "Totale";
+"Used" = "Usata";
+"App" = "App";
+"Wired" = "Wired";
+"Compressed" = "Compressa";
+"Free" = "Libera";
+
+// Disk
+"Show removable disks" = "Mostra dischi rimovibili";
+"Used disk memory" = "Usato %0 su %1";
+"Free disk memory" = "Libera %0 su %1";
+"Disk to show" = "Disco da mostrare";
+"Open disk" = "Apri disco";
+"Switch view" = "Cambia visualizzazione";
+
+// Sensors
+"Temperature unit" = "Unità di temperatura";
+"Celsius" = "Celsius";
+"Fahrenheit" = "Fahrenheit";
+
+// Network
+"Uploading" = "Upload";
+"Downloading" = "Download";
+"Public IP" = "IP Pubblico";
+"Local IP" = "IP Locale";
+"Interface" = "Interfaccia";
+"Network" = "Rete";
+"Physical address" = "Indirizzo fisico";
+"Click to copy public IP address" = "Clicca per copiare l'IP pubblico";
+"Click to copy local IP address" = "Clicca per copiare l'IP locale";
+"Click to copy wifi name" = "Clicca per copiare il nome del wifi";
+"Click to copy mac address" = "Clicca per copiare l'indirizzo mac";
+"No connection" = "Nessuna connessione";
+"Network interface" = "Interfaccia di rete";
+"Total download" = "Download totale";
+"Total upload" = "Upload totale";
+"Reader type" = "Tipo di lettore";
+"Interface" = "Interfaccia";
+"Process" = "Processi";
+
+// Battery
+"Level" = "Livello";
+"Source" = "Sorgente";
+"Time" = "Tempo";
+"Health" = "Vita";
+"Battery" = "Batteria";
+"Amperage" = "Amperaggio";
+"Voltage" = "Voltaggio";
+"Temperature" = "Temperatura";
+"Power adapter" = "Alimentatore di corrente";
+"Power" = "Corrente";
+"Is charging" = "In carica";
+"Time to discharge" = "Tempo di scarica";
+"Time to charge" = "Tempo di carica";
+"Calculating" = "Calcolo in corso";
+"Fully charged" = "Completamente carica";
+"Not connected" = "Non connesso";
+"Low level notification" = "Notifica di livello basso";
+"Low battery" = "Batteria scarica";
+"Battery remaining" = "%0% rimanente";
+"Percentage" = "Percentuale";
+"Percentage and time" = "Percentuale e tempo";
+"Time and percentage" = "Tempo e percentuale";
+"Time format" = "Formato del tempo";
+"Hide additional information when full" = "Nascondi informazioni addizionali quando piena";
+
+// Fans
+"Fans" = "Fans";

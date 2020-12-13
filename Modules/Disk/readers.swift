@@ -73,27 +73,6 @@ internal class CapacityReader: Reader<DiskList> {
         self.callback(self.disks)
     }
     
-    // https://opensource.apple.com/source/bless/bless-152/libbless/APFS/BLAPFSUtilities.c.auto.html
-    public func getDeviceIOParent(_ obj: io_registry_entry_t, fileSystem: String = "") -> io_registry_entry_t? {
-        var parent: io_registry_entry_t = 0
-        
-        if IORegistryEntryGetParentEntry(obj, kIOServicePlane, &parent) != KERN_SUCCESS {
-            return nil
-        }
-        
-        if IORegistryEntryGetParentEntry(parent, kIOServicePlane, &parent) != KERN_SUCCESS {
-            IOObjectRelease(parent)
-            return nil
-        }
-        
-        if IORegistryEntryGetParentEntry(parent, kIOServicePlane, &parent) != KERN_SUCCESS {
-            IOObjectRelease(parent)
-            return nil
-        }
-        
-        return parent
-    }
-    
     private func driveDetails(_ disk: DADisk, removableState: Bool) -> drive? {
         var d: drive = drive()
         
@@ -112,8 +91,19 @@ internal class CapacityReader: Reader<DiskList> {
                     }
                 }
                 
-                if let mediaName = dict[kDADiskDescriptionMediaNameKey as String] {
+                if let mediaName = dict[kDADiskDescriptionVolumeNameKey as String] {
                     d.mediaName = mediaName as! String
+                    if d.mediaName == "Recovery" {
+                        return nil
+                    }
+                }
+                if d.mediaName == "" {
+                    if let mediaName = dict[kDADiskDescriptionMediaNameKey as String] {
+                        d.mediaName = mediaName as! String
+                        if d.mediaName == "Recovery" {
+                            return nil
+                        }
+                    }
                 }
                 if let mediaSize = dict[kDADiskDescriptionMediaSizeKey as String] {
                     d.size = Int64(truncating: mediaSize as! NSNumber)
@@ -145,16 +135,37 @@ internal class CapacityReader: Reader<DiskList> {
             }
         }
         
-        if d.path != nil {
-            d.free = freeDiskSpaceInBytes(d.path!.absoluteString)
+        if d.path == nil {
+            return nil
         }
         
-        if let parent = self.getDeviceIOParent(DADiskCopyIOMedia(disk), fileSystem: d.fileSystem) {
+        d.free = freeDiskSpaceInBytes(d.path!.absoluteString)
+        
+        let partitionLevel = d.BSDName.filter { "0"..."9" ~= $0 }.count
+        if let parent = self.getDeviceIOParent(DADiskCopyIOMedia(disk), level: Int(partitionLevel)) {
             d.parent = parent
             self.driveStats(parent, &d.stats)
         }
         
         return d
+    }
+    
+    // https://opensource.apple.com/source/bless/bless-152/libbless/APFS/BLAPFSUtilities.c.auto.html
+    public func getDeviceIOParent(_ obj: io_registry_entry_t, level: Int) -> io_registry_entry_t? {
+        var parent: io_registry_entry_t = 0
+        
+        if IORegistryEntryGetParentEntry(obj, kIOServicePlane, &parent) != KERN_SUCCESS {
+            return nil
+        }
+        
+        for _ in 1...level {
+            if IORegistryEntryGetParentEntry(parent, kIOServicePlane, &parent) != KERN_SUCCESS {
+                IOObjectRelease(parent)
+                return nil
+            }
+        }
+        
+        return parent
     }
     
     private func driveStats(_ entry: io_registry_entry_t, _ diskStats: UnsafeMutablePointer<stats?>) {
@@ -170,8 +181,12 @@ internal class CapacityReader: Reader<DiskList> {
             let readBytes = statistics.object(forKey: "Bytes (Read)") as? Int64 ?? 0
             let writeBytes = statistics.object(forKey: "Bytes (Write)") as? Int64 ?? 0
             
-            diskStats.pointee?.read = readBytes - (diskStats.pointee?.readBytes ?? 0)
-            diskStats.pointee?.write = writeBytes - (diskStats.pointee?.writeBytes ?? 0)
+            if diskStats.pointee?.readBytes != 0 {
+                diskStats.pointee?.read = readBytes - (diskStats.pointee?.readBytes ?? 0)
+            }
+            if diskStats.pointee?.writeBytes != 0 {
+                diskStats.pointee?.write = writeBytes - (diskStats.pointee?.writeBytes ?? 0)
+            }
             
             diskStats.pointee?.readBytes = readBytes
             diskStats.pointee?.writeBytes = writeBytes

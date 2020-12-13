@@ -17,6 +17,7 @@ import Net
 import Battery
 import Sensors
 import GPU
+import Fans
 
 var store: Store = Store()
 let updater = macAppUpdater(user: "exelban", repo: "stats")
@@ -25,11 +26,12 @@ var smc: SMCService = SMCService()
 var modules: [Module] = [
     Battery(&store),
     Network(&store),
+    Fans(&store, &smc),
     Sensors(&store, &smc),
     Disk(&store),
     Memory(&store),
     GPU(&store, &smc),
-    CPU(&store, &smc)
+    CPU(&store, &smc),
 ].reversed()
 var log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: "Stats")
 
@@ -41,6 +43,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         let startingPoint = Date()
+        print("------------", startingPoint, "------------", to: &Log.log)
         
         self.parseArguments()
         
@@ -89,7 +92,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         self.updateActivity.invalidate()
         self.updateActivity.repeats = true
         
-        guard let updateInterval = updateIntervals(rawValue: store.string(key: "update-interval", defaultValue: updateIntervals.atStart.rawValue)) else {
+        guard let updateInterval = AppUpdateIntervals(rawValue: store.string(key: "update-interval", defaultValue: AppUpdateIntervals.atStart.rawValue)) else {
             return
         }
         os_log(.debug, log: log, "Application update interval is '%s'", "\(updateInterval.rawValue)")

@@ -13,9 +13,11 @@ import Cocoa
 import StatsKit
 import ModuleKit
 
-internal class Popup: NSView {
+internal class Popup: NSView, Popup_p {
     private var list: [String: GPUView] = [:]
     private let gpuViewHeight: CGFloat = 162
+    
+    public var sizeCallback: ((NSSize) -> Void)? = nil
     
     public init() {
         super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: 0))
@@ -27,33 +29,34 @@ internal class Popup: NSView {
     
     internal func infoCallback(_ value: GPUs) {
         if self.list.count != value.list.count {
-            DispatchQueue.main.async(execute: {
-                self.subviews.forEach{ $0.removeFromSuperview() }
-            })
+            self.subviews.forEach{ $0.removeFromSuperview() }
             self.list = [:]
         }
         
-        value.list.forEach { (gpu: GPU_Info) in
-            if self.list[gpu.name] == nil {
-                DispatchQueue.main.async(execute: {
-                    self.list[gpu.name] = GPUView(
-                        NSRect(x: 0, y: (self.gpuViewHeight + Constants.Popup.margins) * CGFloat(self.list.count), width: self.frame.width, height: self.gpuViewHeight),
-                        gpu: gpu
-                    )
-                    self.addSubview(self.list[gpu.name]!)
-                })
+        value.list.forEach { (graphics: GPU_Info) in
+            if let gpu = self.list[graphics.model] {
+                gpu.update(graphics)
             } else {
-                self.list[gpu.name]?.update(gpu)
+                let gpu = GPUView(
+                    NSRect(
+                        x: 0,
+                        y: (self.gpuViewHeight + Constants.Popup.margins) * CGFloat(self.list.count),
+                        width: self.frame.width,
+                        height: self.gpuViewHeight
+                    ),
+                    gpu: graphics
+                )
+                
+                self.list[graphics.model] = gpu
+                self.addSubview(gpu)
             }
         }
         
-        DispatchQueue.main.async(execute: {
-            let h: CGFloat = ((self.gpuViewHeight + Constants.Popup.margins) * CGFloat(self.list.count)) - Constants.Popup.margins
-            if self.frame.size.height != h {
-                self.setFrameSize(NSSize(width: self.frame.width, height: h))
-                NotificationCenter.default.post(name: .updatePopupSize, object: nil, userInfo: ["module": "GPU"])
-            }
-        })
+        let h: CGFloat = ((self.gpuViewHeight + Constants.Popup.margins) * CGFloat(self.list.count)) - Constants.Popup.margins
+        if self.frame.size.height != h {
+            self.setFrameSize(NSSize(width: self.frame.width, height: h))
+            self.sizeCallback?(self.frame.size)
+        }
     }
 }
 
@@ -89,7 +92,7 @@ private class GPUView: NSView {
     
     private func initName() {
         let y: CGFloat = self.frame.height - 23
-        let width: CGFloat = self.value.name.widthOfString(usingFont: NSFont.systemFont(ofSize: 12, weight: .medium)) + 16
+        let width: CGFloat = self.value.model.widthOfString(usingFont: NSFont.systemFont(ofSize: 12, weight: .medium)) + 16
         
         let view: NSView = NSView(frame: NSRect(x: (self.frame.width - width)/2, y: y, width: width, height: 20))
         
@@ -97,7 +100,7 @@ private class GPUView: NSView {
         labelView.alignment = .center
         labelView.textColor = .secondaryLabelColor
         labelView.font = NSFont.systemFont(ofSize: 12, weight: .medium)
-        labelView.stringValue = self.value.name
+        labelView.stringValue = self.value.model
         
         let stateView: NSView = NSView(frame: NSRect(x: width - 8, y: (view.frame.height-7)/2, width: 6, height: 6))
         stateView.wantsLayer = true
@@ -147,10 +150,7 @@ private class GPUView: NSView {
         view.addSubview(self.temperatureCirle!)
         
         self.temperatureCirle?.setValue(Double(self.value.temperature))
-        let formatter = MeasurementFormatter()
-        formatter.numberFormatter.maximumFractionDigits = 0
-        let measurement = Measurement(value: Double(self.value.temperature), unit: UnitTemperature.celsius)
-        self.temperatureCirle?.setText(formatter.string(from: measurement))
+        self.temperatureCirle?.setText(Temperature(Double(self.value.temperature)))
         self.temperatureChart?.addValue(Double(self.value.temperature) / 100)
         
         self.addSubview(view)
@@ -204,10 +204,7 @@ private class GPUView: NSView {
                 self.stateView?.toolTip = "GPU \(gpu.state ? "enabled" : "disabled")"
                 
                 self.temperatureCirle?.setValue(Double(gpu.temperature))
-                let formatter = MeasurementFormatter()
-                formatter.numberFormatter.maximumFractionDigits = 0
-                let measurement = Measurement(value: Double(gpu.temperature), unit: UnitTemperature.celsius)
-                self.temperatureCirle?.setText(formatter.string(from: measurement))
+                self.temperatureCirle?.setText(Temperature(Double(gpu.temperature)))
                 
                 self.utilizationCircle?.setValue(gpu.utilization)
                 self.utilizationCircle?.setText("\(Int(gpu.utilization*100))%")

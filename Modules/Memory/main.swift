@@ -34,13 +34,14 @@ public struct RAM_Usage: value_t {
 }
 
 public class Memory: Module {
-    private let popupView: Popup = Popup()
+    private var settingsView: Settings
+    private let popupView: Popup
     private var usageReader: UsageReader? = nil
     private var processReader: ProcessReader? = nil
-    private var settingsView: Settings
     
     public init(_ store: UnsafePointer<Store>) {
         self.settingsView = Settings("RAM", store: store)
+        self.popupView = Popup("RAM", store: store)
         
         super.init(
             store: store,
@@ -50,11 +51,19 @@ public class Memory: Module {
         guard self.available else { return }
         
         self.settingsView.setInterval = { [unowned self] value in
+            self.processReader?.read()
             self.usageReader?.setInterval(value)
         }
         
         self.usageReader = UsageReader()
-        self.processReader = ProcessReader()
+        self.processReader = ProcessReader(self.config.name, store: store)
+        
+        self.settingsView.callbackWhenUpdateNumberOfProcesses = {
+            self.popupView.numberOfProcessesUpdated()
+            DispatchQueue.global(qos: .background).async {
+                self.processReader?.read()
+            }
+        }
         
         self.usageReader?.readyCallback = { [unowned self] in
             self.readyHandler()
@@ -84,7 +93,7 @@ public class Memory: Module {
         
         self.popupView.loadCallback(value!)
         if let widget = self.widget as? Mini {
-            widget.setValue(value!.usage, sufix: "%")
+            widget.setValue(value!.usage)
             widget.setPressure(value?.pressureLevel ?? 0)
         }
         if let widget = self.widget as? LineChart {
@@ -94,6 +103,14 @@ public class Memory: Module {
         if let widget = self.widget as? BarChart {
             widget.setValue([value!.usage])
             widget.setPressure(value?.pressureLevel ?? 0)
+        }
+        if let widget = self.widget as? PieChart {
+            let total: Double = value?.total ?? 1
+            widget.setValue([
+                circle_segment(value: value!.active/total, color: NSColor.systemBlue),
+                circle_segment(value: value!.wired/total, color: NSColor.systemOrange),
+                circle_segment(value: value!.compressed/total, color: NSColor.systemPink)
+            ])
         }
         if let widget = self.widget as? MemoryWidget {
             widget.setValue((Int64(value!.free), Int64(value!.used)))

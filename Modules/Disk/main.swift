@@ -128,11 +128,20 @@ public class Disk: Module {
         }
     }
     
+    public override func widgetDidSet(_ type: widget_t) {
+        if type == .speed && self.capacityReader?.interval != 1 {
+            self.settingsView.setUpdateInterval(value: 1)
+        }
+    }
+    
     private func capacityCallback(value: DiskList?) {
         if value == nil {
             return
         }
-        self.popupView.usageCallback(value!)
+        
+        DispatchQueue.main.async(execute: {
+            self.popupView.usageCallback(value!)
+        })
         self.settingsView.setList(value!)
         
         var d = value!.getDiskByName(self.selectedDisk)
@@ -150,7 +159,7 @@ public class Disk: Module {
         let percentage = Double(usedSpace) / Double(total)
         
         if let widget = self.widget as? Mini {
-            widget.setValue(percentage, sufix: "%")
+            widget.setValue(percentage)
         }
         if let widget = self.widget as? BarChart {
             widget.setValue([percentage])

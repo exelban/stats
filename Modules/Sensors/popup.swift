@@ -13,8 +13,10 @@ import Cocoa
 import ModuleKit
 import StatsKit
 
-internal class Popup: NSView {
+internal class Popup: NSView, Popup_p {
     private var list: [String: NSTextField] = [:]
+    
+    public var sizeCallback: ((NSSize) -> Void)? = nil
     
     public init() {
         super.init(frame: NSRect( x: 0, y: 0, width: Constants.Popup.width, height: 0))
@@ -52,13 +54,15 @@ internal class Popup: NSView {
             
             let height: CGFloat = CGFloat((22*filtered.count)) + Constants.Popup.separatorHeight
             let view: NSView = NSView(frame: NSRect(x: 0, y: y, width: self.frame.width, height: height))
-            let separator = SeparatorView(typ, origin: NSPoint(x: 0, y: view.frame.height - Constants.Popup.separatorHeight), width: self.frame.width)
+            let separator = SeparatorView(LocalizedString(typ), origin: NSPoint(x: 0, y: view.frame.height - Constants.Popup.separatorHeight), width: self.frame.width)
             view.addSubview(separator)
             
             var i: CGFloat = 0
             groups.reversed().forEach { (group: SensorGroup_t) in
                 filtered.reversed().filter{ $0.group == group }.forEach { (s: Sensor_t) in
-                    self.list[s.key] = PopupRow(view, n: i, title: "\(s.name):", value: s.formattedValue)
+                    let (key, value) = PopupRow(view, n: i, title: "\(s.name):", value: s.formattedValue)
+                    key.toolTip = s.key
+                    self.list[s.key] = value
                     i += 1
                 }
             }
@@ -68,17 +72,18 @@ internal class Popup: NSView {
         }
         
         self.setFrameSize(NSSize(width: self.frame.width, height: y - Constants.Popup.margins))
+        self.sizeCallback?(self.frame.size)
     }
     
     internal func usageCallback(_ values: [Sensor_t]) {
-        values.forEach { (s: Sensor_t) in
-            if self.list[s.key] != nil {
-                DispatchQueue.main.async(execute: {
-                    if (self.window?.isVisible ?? false) {
+        DispatchQueue.main.async(execute: {
+            if (self.window?.isVisible ?? false) {
+                values.forEach { (s: Sensor_t) in
+                    if self.list[s.key] != nil {
                         self.list[s.key]?.stringValue = s.formattedValue
                     }
-                })
+                }
             }
-        }
+        })
     }
 }
