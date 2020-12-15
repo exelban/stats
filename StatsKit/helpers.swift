@@ -656,6 +656,14 @@ public func LocalizedString(_ key: String, _ params: String..., comment: String 
     return string
 }
 
+extension UnitTemperature {
+    static var current: UnitTemperature {
+        let measureFormatter = MeasurementFormatter()
+        let measurement = Measurement(value: 0, unit: UnitTemperature.celsius)
+        return measureFormatter.string(from: measurement) == "0°C" ? .celsius : .fahrenheit
+    }
+}
+
 public func Temperature(_ value: Double) -> String {
     let stringUnit: String = Store.shared.string(key: "temperature_units", defaultValue: "system")
     let formatter = MeasurementFormatter()
@@ -664,9 +672,13 @@ public func Temperature(_ value: Double) -> String {
     formatter.unitOptions = .providedUnit
     
     var measurement = Measurement(value: value, unit: UnitTemperature.celsius)
-    if stringUnit != "system" {
-        if let temperatureUnit = TemperatureUnits.first(where: { $0.key == stringUnit }), let unit = temperatureUnit.additional as? UnitTemperature {
-            measurement.convert(to: unit)
+    if stringUnit == "system" {
+        measurement.convert(to: UnitTemperature.current)
+    } else {
+        if let temperatureUnit = TemperatureUnits.first(where: { $0.key == stringUnit }) {
+            if let unit = temperatureUnit.additional as? UnitTemperature {
+                measurement.convert(to: unit)
+            }
         }
     }
     
