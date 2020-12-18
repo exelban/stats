@@ -109,6 +109,7 @@
 "Wired" = "Зарезервированная";
 "Compressed" = "Сжатая";
 "Free" = "Свободная";
+"Swap" = "Swap";
 
 // Disk
 "Show removable disks" = "Показать съемные диски";

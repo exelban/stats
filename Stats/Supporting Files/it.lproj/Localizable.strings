@@ -109,6 +109,7 @@
 "Wired" = "Wired";
 "Compressed" = "Compressa";
 "Free" = "Libera";
+"Swap" = "Swap";
 
 // Disk
 "Show removable disks" = "Mostra dischi rimovibili";

@@ -109,6 +109,7 @@
 "Wired" = "Układowa";
 "Compressed" = "Skompresowana";
 "Free" = "Wolna";
+"Swap" = "Pamięć wymiany";
 
 // Disk
 "Show removable disks" = "Pokaż dyski wymienne";

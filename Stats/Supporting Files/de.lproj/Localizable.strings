@@ -109,6 +109,7 @@
 "Wired" = "Reserviert";
 "Compressed" = "Komprimiert";
 "Free" = "Frei";
+"Swap" = "Swap";
 
 // Disk
 "Show removable disks" = "Wechseldatenträger anzeigen";

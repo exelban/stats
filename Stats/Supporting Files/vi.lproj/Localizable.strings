@@ -109,6 +109,7 @@
 "Wired" = "Tính toán (hệ thống)";
 "Compressed" = "Đã nén";
 "Free" = "Còn Trống";
+"Swap" = "Swap";
 
 // Disk
 "Show removable disks" = "Hiển thị các đĩa rời";

@@ -109,6 +109,7 @@
 "Wired" = "Bağlı";
 "Compressed" = "Sıkıştırılmış";
 "Free" = "Boş";
+"Swap" = "Swap";
 
 // Disk
 "Show removable disks" = "Çıkarılabilir diskleri göster";

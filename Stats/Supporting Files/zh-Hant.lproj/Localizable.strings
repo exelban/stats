@@ -109,6 +109,7 @@
 "Wired" = "固定";
 "Compressed" = "已壓縮";
 "Free" = "可使用";
+"Swap" = "Swap";
 
 // Disk
 "Show removable disks" = "顯示卸除式磁碟";

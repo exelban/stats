@@ -109,6 +109,7 @@
 "Wired" = "联动内存";
 "Compressed" = "被压缩";
 "Free" = "可用";
+"Swap" = "Swap";
 
 // Disk
 "Show removable disks" = "显示可移动磁盘";

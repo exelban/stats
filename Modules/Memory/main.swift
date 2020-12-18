@@ -25,12 +25,19 @@ public struct RAM_Usage: value_t {
     var free: Double
     
     var pressureLevel: Int
+    var swap: Swap
     
     public var widget_value: Double {
         get {
             return self.usage
         }
     }
+}
+
+public struct Swap {
+    var total: Double
+    var used: Double
+    var free: Double
 }
 
 public class Memory: Module {

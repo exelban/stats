@@ -109,6 +109,7 @@
 "Wired" = "Opptatt";
 "Compressed" = "Komprimert";
 "Free" = "Ledig";
+"Swap" = "Swap";
 
 // Disk
 "Show removable disks" = "Vis utløsbare disker";

@@ -110,6 +110,7 @@
 "Wired" = "Física";
 "Compressed" = "Comprimida";
 "Free" = "Libre";
+"Swap" = "Swap";
 
 // Disk
 "Show removable disks" = "Mostrar los discos extraíbles";

@@ -109,6 +109,7 @@
 "Wired" = "예약됨";
 "Compressed" = "압축됨";
 "Free" = "여유";
+"Swap" = "Swap";
 
 // Disk
 "Show removable disks" = "이동식 디스크 표시";
