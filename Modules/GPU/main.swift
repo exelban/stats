@@ -13,9 +13,19 @@ import Cocoa
 import ModuleKit
 import StatsKit
 
+public typealias GPU_type = String
+public enum GPU_types: GPU_type {
+    case unknown = ""
+    
+    case integrated = "i"
+    case external = "e"
+    case discrete = "d"
+}
+
 public struct GPU_Info {
     public let model: String
     public let IOClass: String
+    public let type: GPU_type
     public var state: Bool = false
     
     public var utilization: Double = 0
@@ -27,10 +37,6 @@ public struct GPUs: value_t {
     
     internal func active() -> [GPU_Info] {
         return self.list.filter{ $0.state }
-    }
-    
-    internal func igpu() -> GPU_Info? {
-        return self.active().first{ $0.IOClass == "IntelAccelerator" }
     }
     
     public var widget_value: Double {
@@ -49,6 +55,12 @@ public class GPU: Module {
     private var popupView: Popup = Popup()
     
     private var selectedGPU: String = ""
+    
+    private var showType: Bool {
+        get {
+            return self.store.pointee.bool(key: "\(self.config.name)_showType", defaultValue: false)
+        }
+    }
     
     public init(_ store: UnsafePointer<Store>, _ smc: UnsafePointer<SMCService>) {
         self.store = store
@@ -80,6 +92,9 @@ public class GPU: Module {
         self.settingsView.setInterval = { [unowned self] value in
             self.infoReader?.setInterval(value)
         }
+        self.settingsView.callback = {
+            self.infoReader?.read()
+        }
         
         if let reader = self.infoReader {
             self.addReader(reader)
@@ -97,11 +112,14 @@ public class GPU: Module {
         self.settingsView.setList(value)
         
         let activeGPUs = value.active()
-        let activeGPU = activeGPUs.first{ $0.state } ?? activeGPUs[0]
-        let selectedGPU: GPU_Info = activeGPUs.first{ $0.model == self.selectedGPU } ?? value.igpu() ?? activeGPU
+        guard let activeGPU = activeGPUs.first(where: { $0.state }) ?? activeGPUs.first else {
+            return
+        }
+        let selectedGPU: GPU_Info = activeGPUs.first{ $0.model == self.selectedGPU } ?? activeGPU
         
         if let widget = self.widget as? Mini {
             widget.setValue(selectedGPU.utilization)
+            widget.setTitle(self.showType ? "\(selectedGPU.type)GPU" : nil)
         }
         if let widget = self.widget as? LineChart {
             widget.setValue(selectedGPU.utilization)

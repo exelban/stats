@@ -53,10 +53,7 @@ internal class InfoReader: Reader<GPUs> {
         guard let accelerators = fetchIOService(kIOAcceleratorClassName) else {
             return
         }
-        
-        for (i, _) in self.devices.enumerated() {
-            self.devices[i].used = false
-        }
+        var devices = self.devices
         
         accelerators.forEach { (accelerator: NSDictionary) in
             guard let IOClass = accelerator.object(forKey: "IOClass") as? String else {
@@ -72,33 +69,38 @@ internal class InfoReader: Reader<GPUs> {
             var model: String = ""
             let accMatch = (accelerator["IOPCIMatch"] as? String ?? accelerator["IOPCIPrimaryMatch"] as? String ?? "").lowercased()
             
-            for (i, device) in self.devices.enumerated() {
-                let matched = accMatch.range(of: device.pci)
-                if matched != nil && !device.used {
+            for (i, device) in devices.enumerated() {
+                if accMatch.range(of: device.pci) != nil && !device.used {
                     model = device.model
-                    self.devices[i].used = true
-                } else if device.used {
-                    print("Device `\(device.model)` with pci `\(device.pci)` is already used", to: &Log.log)
-                } else {
-                    print("`\(device.pci)` and `\(accMatch)` not match", to: &Log.log)
+                    devices[i].used = true
+                    break
                 }
+            }
+            
+            let ioClass = IOClass.lowercased()
+            var predictModel = ""
+            var type: GPU_types = .unknown
+            
+            if ioClass == "nvAccelerator" || ioClass.contains("nvidia") {
+                predictModel = "Nvidia Graphics"
+                type = .discrete
+            } else if ioClass.contains("amd") {
+                predictModel = "AMD Graphics"
+                type = .discrete
+            } else if ioClass.contains("intel") {
+                predictModel = "Intel Graphics"
+                type = .integrated
+            } else {
+                predictModel = "Unknown"
+                type = .unknown
             }
             
             if model == "" {
-                let ioClass = IOClass.lowercased()
-                if ioClass == "nvAccelerator" || ioClass.contains("nvidia") {
-                    model = "Nvidia Graphics"
-                } else if ioClass.contains("amd") {
-                    model = "AMD Graphics"
-                } else if ioClass.contains("intel") {
-                    model = "Intel Graphics"
-                } else {
-                    model = "Unknown"
-                }
+                model = predictModel
             }
             
             if self.gpus.list.first(where: { $0.model == model }) == nil {
-                self.gpus.list.append(GPU_Info(model: model, IOClass: IOClass))
+                self.gpus.list.append(GPU_Info(model: model, IOClass: IOClass, type: type.rawValue))
             }
             guard let idx = self.gpus.list.firstIndex(where: { $0.model == model }) else {
                 return

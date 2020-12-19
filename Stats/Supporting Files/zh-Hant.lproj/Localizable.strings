@@ -97,6 +97,7 @@
 
 // GPU
 "GPU to show" = "顯示 GPU";
+"Show GPU type" = "顯示GPU類型";
 "GPU temperature" = "GPU 溫度";
 "GPU utilization" = "GPU 使用率";
 

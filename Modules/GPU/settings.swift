@@ -16,6 +16,7 @@ import ModuleKit
 internal class Settings: NSView, Settings_v {
     private var updateIntervalValue: Int = 1
     private var selectedGPU: String
+    private var showTypeValue: Bool = false
     
     private let title: String
     private let store: UnsafePointer<Store>
@@ -32,6 +33,7 @@ internal class Settings: NSView, Settings_v {
         self.store = store
         self.selectedGPU = store.pointee.string(key: "\(self.title)_gpu", defaultValue: "")
         self.updateIntervalValue = store.pointee.int(key: "\(self.title)_updateInterval", defaultValue: self.updateIntervalValue)
+        self.showTypeValue = store.pointee.bool(key: "\(self.title)_showType", defaultValue: self.showTypeValue)
         
         super.init(frame: CGRect(
             x: 0,
@@ -52,28 +54,47 @@ internal class Settings: NSView, Settings_v {
         self.subviews.forEach{ $0.removeFromSuperview() }
         
         let rowHeight: CGFloat = 30
-        let num: CGFloat = 1
+        let num: CGFloat = widget == .mini ? 3 : 2
         
         self.addSubview(SelectTitleRow(
-            frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * num, width: self.frame.width - (Constants.Settings.margin*2), height: rowHeight),
+            frame: NSRect(
+                x: Constants.Settings.margin,
+                y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * (num-1),
+                width: self.frame.width - (Constants.Settings.margin*2),
+                height: rowHeight
+            ),
             title: LocalizedString("Update interval"),
             action: #selector(changeUpdateInterval),
             items: ReaderUpdateIntervals.map{ "\($0) sec" },
             selected: "\(self.updateIntervalValue) sec"
         ))
         
-        self.addGPUSelector()
+        if widget == .mini {
+            self.addSubview(ToggleTitleRow(
+                frame: NSRect(
+                    x: Constants.Settings.margin,
+                    y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * 1,
+                    width: self.frame.width - (Constants.Settings.margin*2),
+                    height: rowHeight
+                ),
+                title: LocalizedString("Show GPU type"),
+                action: #selector(toggleShowType),
+                state: self.showTypeValue
+            ))
+        }
         
-        self.setFrameSize(NSSize(width: self.frame.width, height: (rowHeight*(num+1)) + (Constants.Settings.margin*(2+num))))
+        self.addGPUSelector(frame: NSRect(
+            x: Constants.Settings.margin,
+            y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * 0,
+            width: self.frame.width - (Constants.Settings.margin*2),
+            height: rowHeight
+        ))
+        
+        self.setFrameSize(NSSize(width: self.frame.width, height: (rowHeight*num) + (Constants.Settings.margin*(num+1))))
     }
     
-    private func addGPUSelector() {
-        let view: NSView = NSView(frame: NSRect(
-            x: Constants.Settings.margin,
-            y: Constants.Settings.margin,
-            width: self.frame.width - Constants.Settings.margin*2,
-            height: 30
-        ))
+    private func addGPUSelector(frame: NSRect) {
+        let view: NSView = NSView(frame: frame)
         
         let rowTitle: NSTextField = LabelField(frame: NSRect(
             x: 0,
@@ -144,5 +165,18 @@ internal class Settings: NSView, Settings_v {
         self.selectedGPU = key
         self.store.pointee.set(key: "\(self.title)_gpu", value: key)
         self.selectedGPUHandler(key)
+    }
+    
+    @objc func toggleShowType(_ sender: NSControl) {
+        var state: NSControl.StateValue? = nil
+        if #available(OSX 10.15, *) {
+            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
+        } else {
+            state = sender is NSButton ? (sender as! NSButton).state: nil
+        }
+        
+        self.showTypeValue = state! == .on ? true : false
+        self.store.pointee.set(key: "\(self.title)_showType", value: self.showTypeValue)
+        self.callback()
     }
 }
