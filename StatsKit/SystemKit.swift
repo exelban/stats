@@ -101,9 +101,8 @@ public class SystemKit {
             build = buildArr[1].replacingOccurrences(of: "Build ", with: "").replacingOccurrences(of: ")", with: "")
         }
         
-        let majorVersion = "\(systemVersion.majorVersion)"
-        let minorVersion = systemVersion.majorVersion >= 11 ? "0" : "\(systemVersion.minorVersion)"
-        self.device.os = os_s(name: osDict[majorVersion]![minorVersion] ?? LocalizedString("Unknown"), version: systemVersion, build: build)
+        let version = "\(systemVersion.majorVersion).\(systemVersion.minorVersion)"
+        self.device.os = os_s(name: osDict[version] ?? LocalizedString("Unknown"), version: systemVersion, build: build)
         
         self.device.info?.cpu = self.getCPUInfo()
         self.device.info?.ram = self.getRamInfo()
@@ -404,12 +403,8 @@ let deviceDict: [String: model_s] = [
     "MacBookPro17,1": model_s(name: "MacBook Pro 13\" (M1, 2020)", year: 2020, type: .macbookPro),
 ]
 
-let osDict: [String: [String: String]] = [
-    "10": [
-        "14": "Mojave",
-        "15": "Catalina"
-    ],
-    "11": [
-        "0": "Big Sur"
-    ]
+let osDict: [String: String] = [
+    "10.14": "Mojave",
+    "10.15": "Catalina",
+    "11.0": "Big Sur",
 ]
