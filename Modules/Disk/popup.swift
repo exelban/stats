@@ -99,7 +99,6 @@ internal class DiskView: NSView {
     }
     
     override func updateLayer() {
-//        self.layer?.backgroundColor = NSColor.red.cgColor
         self.layer?.backgroundColor = isDarkMode ? NSColor(hexString: "#111111", alpha: 0.25).cgColor : NSColor(hexString: "#f5f5f5", alpha: 1).cgColor
     }
     
@@ -317,9 +316,9 @@ internal class DiskLegendView: NSView {
         var value: String
         
         if self.showUsedSpace {
-            value = LocalizedString("Used disk memory", Units(bytes: (self.size - free)).getReadableMemory(), Units(bytes: self.size).getReadableMemory())
+            value = LocalizedString("Used disk memory", DiskSize(self.size - free).getReadableMemory(), DiskSize(self.size).getReadableMemory())
         } else {
-            value = LocalizedString("Free disk memory", Units(bytes: free).getReadableMemory(), Units(bytes: self.size).getReadableMemory())
+            value = LocalizedString("Free disk memory", DiskSize(free).getReadableMemory(), DiskSize(self.size).getReadableMemory())
         }
         
         return value

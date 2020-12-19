@@ -109,7 +109,7 @@ public class Disk: Module {
             self.readyHandler()
         }
         self.capacityReader?.callbackHandler = { [unowned self] value in
-            self.capacityCallback(value: value)
+            self.capacityCallback(value)
         }
         
         self.settingsView.selectedDiskHandler = { [unowned self] value in
@@ -134,27 +134,22 @@ public class Disk: Module {
         }
     }
     
-    private func capacityCallback(value: DiskList?) {
-        if value == nil {
+    private func capacityCallback(_ raw: DiskList?) {
+        guard raw != nil, let value = raw else {
             return
         }
         
         DispatchQueue.main.async(execute: {
-            self.popupView.usageCallback(value!)
+            self.popupView.usageCallback(value)
         })
-        self.settingsView.setList(value!)
+        self.settingsView.setList(value)
         
-        var d = value!.getDiskByName(self.selectedDisk)
-        if d == nil {
-            d = value!.getRootDisk()
-        }
-        
-        if d == nil {
+        guard let d = value.getDiskByName(self.selectedDisk) ?? value.getRootDisk() else {
             return
         }
         
-        let total = d!.size
-        let free = d!.free
+        let total = d.size
+        let free = d.free
         let usedSpace = total - free
         let percentage = Double(usedSpace) / Double(total)
         
@@ -165,10 +160,10 @@ public class Disk: Module {
             widget.setValue([percentage])
         }
         if let widget = self.widget as? MemoryWidget {
-            widget.setValue((free, usedSpace))
+            widget.setValue((DiskSize(free).getReadableMemory(), DiskSize(usedSpace).getReadableMemory()))
         }
         if let widget = self.widget as? SpeedWidget {
-            widget.setValue(upload: d?.stats?.write ?? 0, download: d?.stats?.read ?? 0)
+            widget.setValue(upload: d.stats?.write ?? 0, download: d.stats?.read ?? 0)
         }
     }
 }
