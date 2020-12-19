@@ -98,6 +98,7 @@
 
 // GPU
 "GPU to show" = "表示する GPU";
+"Show GPU type" = "Show GPU type";
 "GPU temperature" = "GPU 温度";
 "GPU utilization" = "GPU 使用率";
 
@@ -110,6 +111,7 @@
 "Wired" = "確保されているメモリ";
 "Compressed" = "圧縮";
 "Free" = "空き";
+"Swap" = "スワップ使用領域";
 
 // Disk
 "Show removable disks" = "リムーバブルディスクを表示";
