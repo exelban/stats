@@ -103,7 +103,7 @@ public class SystemKit {
         
         let majorVersion = "\(systemVersion.majorVersion)"
         let minorVersion = systemVersion.majorVersion >= 11 ? "0" : "\(systemVersion.minorVersion)"
-        self.device.os = os_s(name: osDict[majorVersion]![minorVersion] ?? LocalizedString("Unknown"), version: systemVersion, build: build)
+        self.device.os = os_s(name: osDict[majorVersion]?[minorVersion] ?? LocalizedString("Unknown"), version: systemVersion, build: build)
         
         self.device.info?.cpu = self.getCPUInfo()
         self.device.info?.ram = self.getRamInfo()
