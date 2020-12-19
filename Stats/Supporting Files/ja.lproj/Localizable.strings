@@ -1,0 +1,174 @@
+//
+//  Localizable.strings
+//  Stats
+//
+//  Created by treastrain / Tanaka Ryoga on 27/08/2020.
+//  Using Swift 5.0.
+//  Running on macOS 10.15.
+//
+//  Copyright © 2020 treastrain / Tanaka Ryoga. All rights reserved.
+//
+
+// Words
+"Unknown" = "不明";
+"Version" = "バージョン";
+"Processor" = "プロセッサ";
+"Memory" = "メモリ";
+"Graphics" = "グラフィックス";
+"Disk" = "ディスク";
+"Close" = "閉じる";
+"Download" = "ダウンロード";
+"Install" = "インストール";
+"Cancel" = "キャンセル";
+"Unavailable" = "使用できません";
+"Yes" = "はい";
+"No" = "いいえ";
+"Automatic" = "自動";
+"None" = "なし";
+"Dots" = "ドット";
+"Arrows" = "矢印";
+"Characters" = "文字";
+"Short" = "ショート";
+"Long" = "ロング";
+"Statistics" = "統計";
+
+// Alerts
+"New version available" = "新しいバージョンが利用可能です";
+"Click to install the new version of Stats" = "クリックして新しいバージョンの Stats をインストール";
+"Successfully updated" = "正常にアップデートされました";
+"Stats was updated to v" = "Stats v%0 にアップデートしました";
+
+// Settings
+"Open Activity Monitor" = "アクティビティモニタを開く";
+"Report a bug" = "バグを報告する";
+"Support app" = "Stats をサポートする";
+"Close application" = "Stats を終了";
+"Open application settings" = "Stats の設定を開く";
+"Open moduleName settings" = "%0 の設定を開く";
+
+// Application settings
+"Update application" = "アプリをアップデートする";
+"Check for updates" = "アップデートの確認頻度";
+"Check for update" = "アップデートを確認する";
+"Show icon in dock" = "Dock にアイコンを表示";
+"Start at login" = "ログイン時に開く";
+
+// Update
+"The latest version of Stats installed" = "最新の Stats がインストールされています";
+"Downloading..." = "ダウンロード中...";
+"Current version: " = "現在のバージョン: ";
+"Latest version: " = "最新のバージョン: ";
+
+// Widgets
+"Color" = "カラー";
+"Label" = "ラベル";
+"Box" = "塗りつぶし";
+"Frame" = "枠線";
+"Value" = "数値";
+"Colorize" = "カラーで表示";
+"Colorize value" = "数値をカラーで表示";
+"Additional information" = "表示する情報";
+"Reverse values order" = "使用済みを上段に表示";
+"Base" = "単位";
+"Display mode" = "表示形式";
+"One row" = "1行";
+"Two rows" = "2行";
+
+// Module Kit
+"Open module settings" = "このモジュールの設定を開く";
+"Select widget" = "%0 ウィジェットを選択";
+"Update interval" = "更新間隔";
+"Usage history" = "履歴";
+"Details" = "詳細";
+"Top processes" = "上位のプロセス";
+"Pictogram" = "ピクトグラム";
+
+// Modules
+"Number of top processes" = "表示する上位プロセスの数";
+
+// CPU
+"CPU usage" = "CPU 使用率";
+"CPU temperature" = "CPU 温度";
+"CPU frequency" = "CPU 周波数";
+"System" = "システム";
+"User" = "ユーザー";
+"Idle" = "アイドル";
+"Show usage per core" = "コアごとの使用率を表示";
+"Show hyper-threading cores" = "ハイパースレッディングコアを表示";
+
+// GPU
+"GPU to show" = "表示する GPU";
+"GPU temperature" = "GPU 温度";
+"GPU utilization" = "GPU 使用率";
+
+// Memory
+"Memory usage" = "メモリ使用率";
+"Memory pressure" = "メモリプレッシャー";
+"Total" = "合計";
+"Used" = "使用済みメモリ";
+"App" = "アプリケーションメモリ";
+"Wired" = "確保されているメモリ";
+"Compressed" = "圧縮";
+"Free" = "空き";
+
+// Disk
+"Show removable disks" = "リムーバブルディスクを表示";
+"Used disk memory" = "%0 使用済み / %1";
+"Free disk memory" = "%0 空き / %1";
+"Disk to show" = "表示するディスク";
+"Open disk" = "このディスクを表示";
+"Switch view" = "表示を切り替える";
+
+// Sensors
+"Temperature unit" = "温度単位";
+"Celsius" = "摂氏（℃）";
+"Fahrenheit" = "華氏（℉）";
+
+// Network
+"Uploading" = "送信";
+"Downloading" = "受信";
+"Public IP" = "パブリック IP";
+"Local IP" = "ローカル IP";
+"Interface" = "インターフェイス";
+"Network" = "Wi-Fi ネットワーク名";
+"Physical address" = "MAC アドレス";
+"Click to copy public IP address" = "クリックしてパブリック IP アドレスをコピー";
+"Click to copy local IP address" = "クリックしてローカル IP アドレスをコピー";
+"Click to copy wifi name" = "クリックして Wi-Fi ネットワーク名をコピー";
+"Click to copy mac address" = "クリックして MAC アドレスをコピー";
+"No connection" = "未接続";
+"Network interface" = "インターフェイス";
+"Total download" = "受信の合計";
+"Total upload" = "送信の合計";
+"Reader type" = "リーダータイプ";
+"Interface" = "インターフェイス";
+"Process" = "プロセス";
+
+// Battery
+"Level" = "充電残量";
+"Source" = "電源";
+"Time" = "バッテリー残り時間";
+"Health" = "状態";
+"Battery" = "バッテリー";
+"Amperage" = "電流";
+"Voltage" = "電圧";
+"Temperature" = "温度";
+"Power adapter" = "電源アダプタ";
+"Power" = "電力";
+"Is charging" = "充電中";
+"Time to discharge" = "バッテリー残り時間";
+"Time to charge" = "充電完了までの時間";
+"Calculating" = "計算中";
+"Fully charged" = "フル充電済み";
+"Not connected" = "接続されていません";
+"Low level notification" = "バッテリー残量低下の通知";
+"Low battery" = "バッテリー残量低下";
+"Battery remaining" = "バッテリー残量 残り %0%";
+"Percentage" = "残量（%）";
+"Percentage and time" = "残量（%）と残り時間";
+"Time and percentage" = "残り時間と残量（%）";
+"Time format" = "時間の表示形式";
+"Hide additional information when full" = "フル充電済みのときはアイコンのみ表示";
+
+// Fans
+"Fans" = "ファン";
