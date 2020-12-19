@@ -660,7 +660,7 @@ extension UnitTemperature {
     static var current: UnitTemperature {
         let measureFormatter = MeasurementFormatter()
         let measurement = Measurement(value: 0, unit: UnitTemperature.celsius)
-        return measureFormatter.string(from: measurement) == "0°C" ? .celsius : .fahrenheit
+        return measureFormatter.string(from: measurement).hasSuffix("C") ? .celsius : .fahrenheit
     }
 }
 
