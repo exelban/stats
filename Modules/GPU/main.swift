@@ -86,18 +86,19 @@ public class GPU: Module {
         }
     }
     
-    private func infoCallback(_ value: GPUs?) {
-        guard value != nil && !value!.list.isEmpty else {
+    private func infoCallback(_ raw: GPUs?) {
+        guard raw != nil && !raw!.list.isEmpty, let value = raw else {
             return
         }
         
         DispatchQueue.main.async(execute: {
-            self.popupView.infoCallback(value!)
+            self.popupView.infoCallback(value)
         })
-        self.settingsView.setList(value!)
+        self.settingsView.setList(value)
         
-        let activeGPU = value!.active()
-        let selectedGPU = activeGPU.first{ $0.model == self.selectedGPU } ?? value!.igpu() ?? value!.list[0]
+        let activeGPUs = value.active()
+        let activeGPU = activeGPUs.first{ $0.state } ?? activeGPUs[0]
+        let selectedGPU: GPU_Info = activeGPUs.first{ $0.model == self.selectedGPU } ?? value.igpu() ?? activeGPU
         
         if let widget = self.widget as? Mini {
             widget.setValue(selectedGPU.utilization)

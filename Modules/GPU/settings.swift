@@ -25,7 +25,6 @@ internal class Settings: NSView, Settings_v {
     public var setInterval: ((_ value: Int) -> Void) = {_ in }
     
     private var hyperthreadView: NSView? = nil
-    
     private var button: NSPopUpButton?
     
     public init(_ title: String, store: UnsafePointer<Store>) {
@@ -76,7 +75,12 @@ internal class Settings: NSView, Settings_v {
             height: 30
         ))
         
-        let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: (view.frame.height - 16)/2, width: view.frame.width - 52, height: 17), LocalizedString("GPU to show"))
+        let rowTitle: NSTextField = LabelField(frame: NSRect(
+            x: 0,
+            y: (view.frame.height - 16)/2,
+            width: view.frame.width - 52,
+            height: 17
+        ), LocalizedString("GPU to show"))
         rowTitle.font = NSFont.systemFont(ofSize: 13, weight: .light)
         rowTitle.textColor = .textColor
         
@@ -90,18 +94,36 @@ internal class Settings: NSView, Settings_v {
         self.addSubview(view)
     }
     
-    internal func setList(_ list: GPUs) {
-        let disks = list.active().map{ $0.model }
+    internal func setList(_ gpus: GPUs) {
+        var list: [KeyValue_t] = [
+            KeyValue_t(key: "automatic", value: "Automatic"),
+            KeyValue_t(key: "separator", value: "separator"),
+        ]
+        gpus.active().forEach{ list.append(KeyValue_t(key: $0.model, value: $0.model)) }
+        
         DispatchQueue.main.async(execute: {
-            if self.button?.itemTitles.count != disks.count {
-                self.button?.removeAllItems()
+            guard let button = self.button else {
+                return
             }
             
-            if disks != self.button?.itemTitles {
-                self.button?.addItems(withTitles: disks)
-                if self.selectedGPU != "" {
-                    self.button?.selectItem(withTitle: self.selectedGPU)
+            if button.menu?.items.count != list.count {
+                let menu = NSMenu()
+                
+                list.forEach { (item) in
+                    if item.key.contains("separator") {
+                        menu.addItem(NSMenuItem.separator())
+                    } else {
+                        let interfaceMenu = NSMenuItem(title: LocalizedString(item.value), action: nil, keyEquivalent: "")
+                        interfaceMenu.representedObject = item.key
+                        menu.addItem(interfaceMenu)
+                        if self.selectedGPU == item.key {
+                            interfaceMenu.state = .on
+                        }
+                    }
                 }
+                
+                button.menu = menu
+                button.sizeToFit()
             }
         })
     }
@@ -114,10 +136,13 @@ internal class Settings: NSView, Settings_v {
         }
     }
     
-    @objc private func handleSelection(_ sender: NSPopUpButton) {
-        guard let item = sender.selectedItem else { return }
-        self.selectedGPU = item.title
-        self.store.pointee.set(key: "\(self.title)_gpu", value: item.title)
-        self.selectedGPUHandler(item.title)
+    @objc private func handleSelection(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String else {
+            return
+        }
+        
+        self.selectedGPU = key
+        self.store.pointee.set(key: "\(self.title)_gpu", value: key)
+        self.selectedGPUHandler(key)
     }
 }
