@@ -49,7 +49,7 @@ Stats is an application that allows you to monitor your macOS system.
 - Italian (thanks to [gmcinalli](https://github.com/gmcinalli))
 - Portuguese (Brazil) (thanks to [marcelochaves95](https://github.com/marcelochaves95))
 - Norwegian Bokmål (thanks to [rubjo](https://github.com/rubjo))
-- 日本語
+- 日本語 (thanks to [treastrain](https://github.com/treastrain))
 
 You can help by adding a new language or improve existing translation.
 
