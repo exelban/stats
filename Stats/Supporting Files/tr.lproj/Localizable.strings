@@ -54,14 +54,14 @@
 
 // Update
 "The latest version of Stats installed" = "Stats'ın son sürümü yüklendi";
-"Downloading..." = "İndiriliyır...";
+"Downloading..." = "İndiriliyor...";
 "Current version: " = "Şu anki sürüm:  ";
 "Latest version: " = "Son sürüm:    ";
 
 // Widgets
 "Color" = "Renk";
-"Label" = "Etiker";
-"Box" = "Kutu";
+"Label" = "Etiket";
+"Box" = "Kutu Görünüm";
 "Frame" = "Çerçeve";
 "Value" = "Değer";
 "Colorize" = "Renklendir";
@@ -97,6 +97,7 @@
 
 // GPU
 "GPU to show" = "Gösterilecek GPU";
+"Show GPU type" = "GPU türünü göster";
 "GPU temperature" = "GPU sıcaklığı";
 "GPU utilization" = "GPU kullanımı";
 
@@ -138,8 +139,8 @@
 "Click to copy mac address" = "Mac adresini kopyalamak için tıklayın";
 "No connection" = "Bağlantı yok";
 "Network interface" = "Ağ arayüzü";
-"Total download" = "Tamamen indirildi";
-"Total upload" = "Tamamen yüklendi";
+"Total download" = "Toplam indirme";
+"Total upload" = "Toplam yükleme";
 "Reader type" = "Okuma yöntemi";
 "Interface" = "Arayüz";
 "Process" = "Süreçler";
@@ -171,4 +172,4 @@
 "Hide additional information when full" = "Pil dolduğunda ek bilgileri gizle";
 
 // Fans
-"Fans" = "Fans";
+"Fans" = "Fanlar";

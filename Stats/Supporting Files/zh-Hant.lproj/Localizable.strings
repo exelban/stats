@@ -96,7 +96,8 @@
 "Show hyper-threading cores" = "顯示超執行緒核心";
 
 // GPU
-"GPU to show" = "顯示顯示卡 (GPU)";
+"GPU to show" = "顯示顯示卡 GPU";
+"Show GPU type" = "顯示GPU類型";
 "GPU temperature" = "顯示卡 (GPU) 溫度";
 "GPU utilization" = "顯示卡 (GPU) 使用率";
 

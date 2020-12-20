@@ -14,6 +14,7 @@ import StatsKit
 
 public class Mini: Widget {
     private let store: UnsafePointer<Store>?
+    private let defaultTitle: String
     
     private var labelState: Bool = true
     private var colorState: widget_c = .monochrome
@@ -66,6 +67,7 @@ public class Mini: Widget {
             }
         }
         
+        self.defaultTitle = widgetTitle
         super.init(frame: CGRect(
             x: 0,
             y: Constants.Widget.margin.y,
@@ -145,8 +147,24 @@ public class Mini: Widget {
             return
         }
         
+        self.pressureLevel = level
         DispatchQueue.main.async(execute: {
-            self.pressureLevel = level
+            self.needsDisplay = true
+        })
+    }
+    
+    public func setTitle(_ newTitle: String?) {
+        var title = self.defaultTitle
+        if newTitle != nil {
+            title = newTitle!
+        }
+        
+        if self.title == title {
+            return
+        }
+        
+        self.title = title
+        DispatchQueue.main.async(execute: {
             self.needsDisplay = true
         })
     }
