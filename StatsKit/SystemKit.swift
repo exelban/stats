@@ -101,7 +101,8 @@ public class SystemKit {
             build = buildArr[1].replacingOccurrences(of: "Build ", with: "").replacingOccurrences(of: ")", with: "")
         }
         
-        let version = "\(systemVersion.majorVersion).\(systemVersion.minorVersion)"
+        let version = "\(systemVersion.majorVersion)" +
+            (systemVersion.majorVersion >= 11 ? "" : ".\(systemVersion.minorVersion)")
         self.device.os = os_s(name: osDict[version] ?? LocalizedString("Unknown"), version: systemVersion, build: build)
         
         self.device.info?.cpu = self.getCPUInfo()
@@ -406,5 +407,5 @@ let deviceDict: [String: model_s] = [
 let osDict: [String: String] = [
     "10.14": "Mojave",
     "10.15": "Catalina",
-    "11.0": "Big Sur",
+    "11": "Big Sur",
 ]
