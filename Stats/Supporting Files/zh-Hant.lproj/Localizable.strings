@@ -24,13 +24,13 @@
 "Yes" = "是";
 "No" = "否";
 "Automatic" = "自動";
-"None" = "沒有";
+"None" = "無";
 "Dots" = "點";
 "Arrows" = "箭頭";
 "Characters" = "字母";
 "Short" = "短";
 "Long" = "長";
-"Statistics" = "統計";
+"Statistics" = "統計資料";
 
 // Alerts
 "New version available" = "有新版本可用";
@@ -40,9 +40,9 @@
 
 // Settings
 "Open Activity Monitor" = "打開活動監視器";
-"Report a bug" = "回報 Bug";
-"Close application" = "關閉程式";
-"Open application settings" = "打開程式設定";
+"Report a bug" = "回報錯誤";
+"Close application" = "關閉應用程式";
+"Open application settings" = "打開應用程式設定";
 "Open moduleName settings" = "打開 %0 設定";
 
 // Application settings
@@ -67,14 +67,14 @@
 "Colorize" = "彩色";
 "Colorize value" = "彩色數值";
 "Additional information" = "附加資訊";
-"Reverse values order" = "上下顛倒數值";
-"Base" = "基本";
+"Reverse values order" = "上下翻轉數值";
+"Base" = "一般";
 "Display mode" = "顯示模式";
 "One row" = "一排";
 "Two rows" = "兩排";
 
 // Module Kit
-"Open module settings" = "打開 module 設定";
+"Open module settings" = "打開 Module 設定";
 "Select widget" = "選擇 %0 widget";
 "Update interval" = "更新間隔時間";
 "Usage history" = "負載歷史";
@@ -83,7 +83,7 @@
 "Pictogram" = "標示";
 
 // Modules
-"Number of top processes" = "頂級進程數";
+"Number of top processes" = "頂級程序數量";
 
 // CPU
 "CPU usage" = "CPU 使用";
@@ -92,14 +92,14 @@
 "System" = "系統";
 "User" = "使用者";
 "Idle" = "閒置";
-"Show usage per core" = "顯示每核心使用狀態";
+"Show usage per core" = "顯示每個核心的使用狀態";
 "Show hyper-threading cores" = "顯示超執行緒核心";
 
 // GPU
-"GPU to show" = "顯示 GPU";
+"GPU to show" = "顯示顯示卡 GPU";
 "Show GPU type" = "顯示GPU類型";
-"GPU temperature" = "GPU 溫度";
-"GPU utilization" = "GPU 使用率";
+"GPU temperature" = "顯示卡 (GPU) 溫度";
+"GPU utilization" = "顯示卡 (GPU) 使用率";
 
 // Memory
 "Memory usage" = "記憶體使用";
@@ -110,7 +110,7 @@
 "Wired" = "固定";
 "Compressed" = "已壓縮";
 "Free" = "可使用";
-"Swap" = "Swap";
+"Swap" = "記憶體調換";
 
 // Disk
 "Show removable disks" = "顯示卸除式磁碟";
@@ -133,17 +133,17 @@
 "Interface" = "介面";
 "Network" = "網路";
 "Physical address" = "實體位址";
-"Click to copy public IP address" = "點按來複製公開 IP 位址";
-"Click to copy local IP address" = "點按來複製區域 IP 位址";
-"Click to copy wifi name" = "點按來複製 WiFi 名稱";
-"Click to copy mac address" = "點按來複製 MAC 位址";
+"Click to copy public IP address" = "點按來拷貝公開 IP 位址";
+"Click to copy local IP address" = "點按來拷貝區域 IP 位址";
+"Click to copy wifi name" = "點按來拷貝 WiFi 名稱";
+"Click to copy mac address" = "點按來拷貝 MAC 位址";
 "No connection" = "沒有連線";
 "Network interface" = "網路介面";
 "Total download" = "共下載";
 "Total upload" = "共上傳";
-"Reader type" = "讀卡器類型";
-"Interface" = "接口";
-"Process" = "處理";
+"Reader type" = "讀卡機類型";
+"Interface" = "介面";
+"Process" = "程序";
 
 // Battery
 "Level" = "電量";
@@ -169,7 +169,7 @@
 "Percentage and time" = "百分比和時間";
 "Time and percentage" = "時間和百分比";
 "Time format" = "時間格式";
-"Hide additional information when full" = "電池充滿後隱藏其他信息";
+"Hide additional information when full" = "電池充飽後隱藏其他資訊";
 
 // Fans
-"Fans" = "Fans";
+"Fans" = "風扇";
