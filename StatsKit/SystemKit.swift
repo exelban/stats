@@ -407,5 +407,4 @@ let osDict: [String: String] = [
     "10.14": "Mojave",
     "10.15": "Catalina",
     "11.0": "Big Sur",
-    "11.1": "Big Sur"
 ]
