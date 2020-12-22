@@ -142,8 +142,8 @@
 "Total download" = "Toplam indirme";
 "Total upload" = "Toplam yükleme";
 "Reader type" = "Okuma yöntemi";
-"Interface" = "Arayüz";
-"Process" = "Süreçler";
+"Interface based" = "Arayüz";
+"Processes based" = "Süreçler";
 
 // Battery
 "Level" = "Doluluk";

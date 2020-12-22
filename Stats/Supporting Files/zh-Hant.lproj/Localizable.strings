@@ -142,8 +142,8 @@
 "Total download" = "共下載";
 "Total upload" = "共上傳";
 "Reader type" = "讀卡機類型";
-"Interface" = "介面";
-"Process" = "程序";
+"Interface based" = "介面";
+"Processes based" = "程序";
 
 // Battery
 "Level" = "電量";

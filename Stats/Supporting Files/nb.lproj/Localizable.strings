@@ -142,8 +142,8 @@
 "Total download" = "Totalt lastet ned";
 "Total upload" = "Totalt lastet opp";
 "Reader type" = "Lesertype";
-"Interface" = "Grensesnitt";
-"Process" = "Prosess";
+"Interface based" = "Grensesnitt";
+"Processes based" = "Prosess";
 
 // Battery
 "Level" = "Nivå";

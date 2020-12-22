@@ -142,8 +142,8 @@
 "Total download" = "共下载";
 "Total upload" = "总上传";
 "Reader type" = "读卡器类型";
-"Interface" = "接口";
-"Process" = "处理";
+"Interface based" = "接口";
+"Processes based" = "处理";
 
 // Battery
 "Level" = "电量";

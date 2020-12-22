@@ -142,8 +142,8 @@
 "Total download" = "Всего скачано";
 "Total upload" = "Всего выгружено";
 "Reader type" = "Метод чтения";
-"Interface" = "Интерфейс";
-"Process" = "Процессы";
+"Interface based" = "Интерфейс";
+"Processes based" = "Процессы";
 
 // Battery
 "Level" = "Уровень заряда";

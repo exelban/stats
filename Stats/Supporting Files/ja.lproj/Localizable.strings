@@ -142,8 +142,8 @@
 "Total download" = "受信の合計";
 "Total upload" = "送信の合計";
 "Reader type" = "リーダータイプ";
-"Interface" = "インターフェイス";
-"Process" = "プロセス";
+"Interface based" = "インターフェイス";
+"Processes based" = "プロセス";
 
 // Battery
 "Level" = "充電残量";
