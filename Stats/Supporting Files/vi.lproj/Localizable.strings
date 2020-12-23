@@ -97,6 +97,7 @@
 
 // GPU
 "GPU to show" = "GPU để hiển thị";
+"Show GPU type" = "Hiển thị loại GPU";
 "GPU temperature" = "Nhiệt độ GPU";
 "GPU utilization" = "Sử dụng GPU";
 
@@ -109,11 +110,15 @@
 "Wired" = "Tính toán (hệ thống)";
 "Compressed" = "Đã nén";
 "Free" = "Còn Trống";
+"Swap" = "Swap";
 
 // Disk
 "Show removable disks" = "Hiển thị các đĩa rời";
 "Used disk memory" = "Đã dùng %0 trong tổng %1";
+"Free disk memory" = "Miễn phí %0 từ %1";
 "Disk to show" = "Đĩa hiển thị";
+"Open disk" = "Mở đĩa";
+"Switch view" = "Chuyển đổi chế độ xem";
 
 // Sensors
 "Temperature unit" = "Đơn vị nhiệt độ";
@@ -137,8 +142,8 @@
 "Total download" = "Tổng tải";
 "Total upload" = "Tổng upload";
 "Reader type" = "Loại trình đọc";
-"Interface" = "Giao diện";
-"Process" = "Quá trình";
+"Interface based" = "Giao diện";
+"Processes based" = "Quá trình";
 
 // Battery
 "Level" = "Dung lượng Pin";

@@ -97,6 +97,7 @@
 
 // GPU
 "GPU to show" = "GPU do wyświetlania";
+"Show GPU type" = "Pokaż typ GPU";
 "GPU temperature" = "Temperatura GPU";
 "GPU utilization" = "Obciążenie GPU";
 
@@ -109,11 +110,15 @@
 "Wired" = "Układowa";
 "Compressed" = "Skompresowana";
 "Free" = "Wolna";
+"Swap" = "Pamięć wymiany";
 
 // Disk
 "Show removable disks" = "Pokaż dyski wymienne";
 "Used disk memory" = "Wykorzystano %0 z %1";
+"Free disk memory" = "Dostępne %0 z %1";
 "Disk to show" = "Aktywny dysk";
+"Open disk" = "Otwórz dysk";
+"Switch view" = "Przełącz widok";
 
 // Sensors
 "Temperature unit" = "Jednostka temperatury";
@@ -137,8 +142,8 @@
 "Total download" = "Całkowicie pobrano";
 "Total upload" = "Całkowicie przesłano";
 "Reader type" = "Sposób odczytu";
-"Interface" = "Interfejs";
-"Process" = "Procesy";
+"Interface based" = "Interfejs";
+"Processes based" = "Procesy";
 
 // Battery
 "Level" = "Poziom naładowania";

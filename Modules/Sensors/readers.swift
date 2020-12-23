@@ -26,11 +26,7 @@ internal class SensorsReader: Reader<[Sensor_t]> {
         
         available = available.filter({ (key: String) -> Bool in
             switch key.prefix(1) {
-            case "T", "V", "P", "F":
-                if SensorsList.firstIndex(where: { $0.key == key }) == nil {
-                    os_log(.debug, "Missing sensor key %s on the list", key)
-                }
-                return true
+            case "T", "V", "P", "F": return true
             default: return false
             }
         })
@@ -39,6 +35,21 @@ internal class SensorsReader: Reader<[Sensor_t]> {
             if let idx = available.firstIndex(where: { $0 == s.key }) {
                 list.append(s)
                 available.remove(at: idx)
+            }
+        }
+        
+        SensorsList.filter{ $0.key.contains("%") }.forEach { (s: Sensor_t) in
+            var index = 1
+            for i in 0..<10 {
+                let key = s.key.replacingOccurrences(of: "%", with: "\(i)")
+                if available.firstIndex(where: { $0 == key }) != nil {
+                    var sensor = s.copy()
+                    sensor.key = key
+                    sensor.name = s.name.replacingOccurrences(of: "%", with: "\(index)")
+                    
+                    list.append(sensor)
+                    index += 1
+                }
             }
         }
         

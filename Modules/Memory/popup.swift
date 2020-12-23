@@ -21,10 +21,9 @@ internal class Popup: NSView, Popup_p {
     
     private let dashboardHeight: CGFloat = 90
     private let chartHeight: CGFloat = 90 + Constants.Popup.separatorHeight
-    private let detailsHeight: CGFloat = (22*4) + Constants.Popup.separatorHeight
+    private let detailsHeight: CGFloat = (22*6) + Constants.Popup.separatorHeight
     private let processHeight: CGFloat = 22
     
-    private var totalField: NSTextField? = nil
     private var usedField: NSTextField? = nil
     private var freeField: NSTextField? = nil
     
@@ -32,6 +31,7 @@ internal class Popup: NSView, Popup_p {
     private var inactiveField: NSTextField? = nil
     private var wiredField: NSTextField? = nil
     private var compressedField: NSTextField? = nil
+    private var swapField: NSTextField? = nil
     
     private var chart: LineChartView? = nil
     private var circle: PieChartView? = nil
@@ -159,10 +159,12 @@ internal class Popup: NSView, Popup_p {
         let separator = SeparatorView(LocalizedString("Details"), origin: NSPoint(x: 0, y: self.detailsHeight-Constants.Popup.separatorHeight), width: self.frame.width)
         let container: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: separator.frame.origin.y))
         
-        self.activeField = PopupWithColorRow(container, color: NSColor.systemBlue, n: 3, title: "\(LocalizedString("App")):", value: "")
-        self.wiredField = PopupWithColorRow(container, color: NSColor.systemOrange, n: 2, title: "\(LocalizedString("Wired")):", value: "")
-        self.compressedField = PopupWithColorRow(container, color: NSColor.systemPink, n: 1, title: "\(LocalizedString("Compressed")):", value: "")
-        self.freeField = PopupWithColorRow(container, color: NSColor.lightGray.withAlphaComponent(0.5), n: 0, title: "\(LocalizedString("Free")):", value: "")
+        self.usedField = PopupRow(container, n: 5, title: "\(LocalizedString("Used")):", value: "").1
+        self.activeField = PopupWithColorRow(container, color: NSColor.systemBlue, n: 4, title: "\(LocalizedString("App")):", value: "")
+        self.wiredField = PopupWithColorRow(container, color: NSColor.systemOrange, n: 3, title: "\(LocalizedString("Wired")):", value: "")
+        self.compressedField = PopupWithColorRow(container, color: NSColor.systemPink, n: 2, title: "\(LocalizedString("Compressed")):", value: "")
+        self.freeField = PopupWithColorRow(container, color: NSColor.lightGray.withAlphaComponent(0.5), n: 1, title: "\(LocalizedString("Free")):", value: "")
+        self.swapField = PopupRow(container, n: 0, title: "\(LocalizedString("Swap")):", value: "").1
         
         view.addSubview(separator)
         view.addSubview(container)
@@ -215,8 +217,8 @@ internal class Popup: NSView, Popup_p {
                 self.inactiveField?.stringValue = Units(bytes: Int64(value.inactive)).getReadableMemory()
                 self.wiredField?.stringValue = Units(bytes: Int64(value.wired)).getReadableMemory()
                 self.compressedField?.stringValue = Units(bytes: Int64(value.compressed)).getReadableMemory()
+                self.swapField?.stringValue = Units(bytes: Int64(value.swap.free)).getReadableMemory()
                 
-                self.totalField?.stringValue = Units(bytes: Int64(value.total)).getReadableMemory()
                 self.usedField?.stringValue = Units(bytes: Int64(value.used)).getReadableMemory()
                 self.freeField?.stringValue = Units(bytes: Int64(value.free)).getReadableMemory()
                 

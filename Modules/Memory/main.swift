@@ -25,12 +25,19 @@ public struct RAM_Usage: value_t {
     var free: Double
     
     var pressureLevel: Int
+    var swap: Swap
     
     public var widget_value: Double {
         get {
             return self.usage
         }
     }
+}
+
+public struct Swap {
+    var total: Double
+    var used: Double
+    var free: Double
 }
 
 public class Memory: Module {
@@ -69,7 +76,7 @@ public class Memory: Module {
             self.readyHandler()
         }
         self.usageReader?.callbackHandler = { [unowned self] value in
-            self.loadCallback(value: value)
+            self.loadCallback(value)
         }
         
         self.processReader?.callbackHandler = { [unowned self] value in
@@ -86,34 +93,36 @@ public class Memory: Module {
         }
     }
     
-    private func loadCallback(value: RAM_Usage?) {
-        if value == nil {
+    private func loadCallback(_ raw: RAM_Usage?) {
+        guard raw != nil, let value = raw else {
             return
         }
         
-        self.popupView.loadCallback(value!)
+        self.popupView.loadCallback(value)
         if let widget = self.widget as? Mini {
-            widget.setValue(value!.usage)
-            widget.setPressure(value?.pressureLevel ?? 0)
+            widget.setValue(value.usage)
+            widget.setPressure(value.pressureLevel)
         }
         if let widget = self.widget as? LineChart {
-            widget.setValue(value!.usage)
-            widget.setPressure(value?.pressureLevel ?? 0)
+            widget.setValue(value.usage)
+            widget.setPressure(value.pressureLevel)
         }
         if let widget = self.widget as? BarChart {
-            widget.setValue([value!.usage])
-            widget.setPressure(value?.pressureLevel ?? 0)
+            widget.setValue([value.usage])
+            widget.setPressure(value.pressureLevel)
         }
         if let widget = self.widget as? PieChart {
-            let total: Double = value?.total ?? 1
+            let total: Double = value.total
             widget.setValue([
-                circle_segment(value: value!.active/total, color: NSColor.systemBlue),
-                circle_segment(value: value!.wired/total, color: NSColor.systemOrange),
-                circle_segment(value: value!.compressed/total, color: NSColor.systemPink)
+                circle_segment(value: value.active/total, color: NSColor.systemBlue),
+                circle_segment(value: value.wired/total, color: NSColor.systemOrange),
+                circle_segment(value: value.compressed/total, color: NSColor.systemPink)
             ])
         }
         if let widget = self.widget as? MemoryWidget {
-            widget.setValue((Int64(value!.free), Int64(value!.used)))
+            let free = Units(bytes: Int64(value.free)).getReadableSpeed()
+            let used = Units(bytes: Int64(value.used)).getReadableSpeed()
+            widget.setValue((free, used))
         }
     }
 }

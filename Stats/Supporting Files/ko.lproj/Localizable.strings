@@ -97,6 +97,7 @@
 
 // GPU
 "GPU to show" = "표시할 GPU";
+"Show GPU type" = "GPU 유형 표시";
 "GPU temperature" = "GPU 온도";
 "GPU utilization" = "GPU 활용";
 
@@ -109,11 +110,15 @@
 "Wired" = "예약됨";
 "Compressed" = "압축됨";
 "Free" = "여유";
+"Swap" = "Swap";
 
 // Disk
 "Show removable disks" = "이동식 디스크 표시";
 "Used disk memory" = "%1 중 %0 사용되었습니다";
+"Free disk memory" = "%1 중 %0 비어 있는";
 "Disk to show" = "표시할 디스크";
+"Open disk" = "디스크 열기";
+"Switch view" = "보기 전환";
 
 // Sensors
 "Temperature unit" = "온도 단위";
@@ -137,8 +142,8 @@
 "Total download" = "총 다운로드";
 "Total upload" = "총 업로드";
 "Reader type" = "리더 유형";
-"Interface" = "상호 작용";
-"Process" = "프로세스";
+"Interface based" = "상호 작용";
+"Processes based" = "프로세스";
 
 // Battery
 "Level" = "잔량";

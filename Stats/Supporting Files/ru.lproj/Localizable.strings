@@ -97,6 +97,7 @@
 
 // GPU
 "GPU to show" = "Активный графический процессор";
+"Show GPU type" = "Отображать тип графического процессора";
 "GPU temperature" = "Температура графического процессора";
 "GPU utilization" = "Использование графического процессора";
 
@@ -109,11 +110,15 @@
 "Wired" = "Зарезервированная";
 "Compressed" = "Сжатая";
 "Free" = "Свободная";
+"Swap" = "Swap";
 
 // Disk
 "Show removable disks" = "Показать съемные диски";
-"Used disk memory" = "Использовано %0 с %1";
+"Used disk memory" = "Использовано %0 из %1";
+"Free disk memory" = "Свободно %0 из %1";
 "Disk to show" = "Активный диск";
+"Open disk" = "Открытый диск";
+"Switch view" = "Переключить вид";
 
 // Sensors
 "Temperature unit" = "Единица измерения температуры";
@@ -137,8 +142,8 @@
 "Total download" = "Всего скачано";
 "Total upload" = "Всего выгружено";
 "Reader type" = "Метод чтения";
-"Interface" = "Интерфейс";
-"Process" = "Процессы";
+"Interface based" = "Интерфейс";
+"Processes based" = "Процессы";
 
 // Battery
 "Level" = "Уровень заряда";

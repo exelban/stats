@@ -55,9 +55,13 @@ internal class UsageReader: Reader<RAM_Usage> {
             let used = active + wired + compressed
             let free = self.totalSize - used
             
-            var size: size_t = MemoryLayout<uint>.size
+            var int_size: size_t = MemoryLayout<uint>.size
             var pressureLevel: Int = 0
-            sysctlbyname("kern.memorystatus_vm_pressure_level", &pressureLevel, &size, nil, 0)
+            sysctlbyname("kern.memorystatus_vm_pressure_level", &pressureLevel, &int_size, nil, 0)
+            
+            var string_size: size_t = MemoryLayout<xsw_usage>.size
+            var swap: xsw_usage = xsw_usage()
+            sysctlbyname("vm.swapusage", &swap, &string_size, nil, 0)
             
             self.callback(RAM_Usage(
                 active: active,
@@ -70,7 +74,13 @@ internal class UsageReader: Reader<RAM_Usage> {
                 used: Double(used),
                 free: Double(free),
                 
-                pressureLevel: pressureLevel
+                pressureLevel: pressureLevel,
+                
+                swap: Swap(
+                    total: Double(swap.xsu_total),
+                    used: Double(swap.xsu_used),
+                    free: Double(swap.xsu_avail)
+                )
             ))
             return
         }

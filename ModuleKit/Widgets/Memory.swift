@@ -14,7 +14,7 @@ import StatsKit
 
 public class MemoryWidget: Widget {
     private var orderReversedState: Bool = false
-    private var value: (Int64, Int64) = (0, 0)
+    private var value: (String, String) = ("0", "0")
     
     private let store: UnsafePointer<Store>?
     
@@ -27,10 +27,10 @@ public class MemoryWidget: Widget {
                 if let previewConfig = config!["Preview"] as? NSDictionary {
                     configuration = previewConfig
                     if let value = configuration["Value"] as? String {
-                        let values = value.split(separator: ",").map{ (Int64($0) ) }
+                        let values = value.split(separator: ",").map{ (String($0) ) }
                         if values.count == 2 {
-                            self.value.0 = values[0]!
-                            self.value.1 = values[1]!
+                            self.value.0 = values[0]
+                            self.value.1 = values[1]
                         }
                     }
                 }
@@ -83,7 +83,7 @@ public class MemoryWidget: Widget {
         str.draw(with: rect)
         
         rect = CGRect(x: letterWidth, y: freeY, width: rowWidth, height: rowHeight)
-        str = NSAttributedString.init(string: Units(bytes: self.value.0).getReadableMemory(), attributes: attributes)
+        str = NSAttributedString.init(string: self.value.0, attributes: attributes)
         str.draw(with: rect)
         
         rect = CGRect(x: Constants.Widget.margin.x, y: usedY, width: letterWidth, height: rowHeight)
@@ -91,11 +91,11 @@ public class MemoryWidget: Widget {
         str.draw(with: rect)
         
         rect = CGRect(x: letterWidth, y: usedY, width: rowWidth, height: rowHeight)
-        str = NSAttributedString.init(string: Units(bytes: self.value.1).getReadableMemory(), attributes: attributes)
+        str = NSAttributedString.init(string: self.value.1, attributes: attributes)
         str.draw(with: rect)
     }
     
-    public func setValue(_ value: (Int64, Int64)) {
+    public func setValue(_ value: (String, String)) {
         self.value = value
         
         DispatchQueue.main.async(execute: {

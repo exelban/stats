@@ -167,6 +167,44 @@ public struct Units {
     }
 }
 
+public struct DiskSize {
+    public let value: Int64
+    
+    public init(_ size: Int64) {
+        self.value = size
+    }
+    
+    public var kilobytes: Double {
+        return Double(value) / 1_000
+    }
+    public var megabytes: Double {
+        return kilobytes / 1_000
+    }
+    public var gigabytes: Double {
+        return megabytes / 1_000
+    }
+    public var terabytes: Double {
+        return gigabytes / 1_000
+    }
+    
+    public func getReadableMemory() -> String {
+        switch value {
+        case 0..<1_000:
+            return "0 KB"
+        case 1_000..<(1_000 * 1_000):
+            return String(format: "%.0f KB", kilobytes)
+        case 1_000..<(1_000 * 1_000 * 1_000):
+            return String(format: "%.0f MB", megabytes)
+        case 1_000..<(1_000 * 1_000 * 1_000 * 1_000):
+            return String(format: "%.2f GB", gigabytes)
+        case (1_000 * 1_000 * 1_000 * 1_000)...Int64.max:
+            return String(format: "%.2f TB", terabytes)
+        default:
+            return String(format: "%.0f KB", kilobytes)
+        }
+    }
+}
+
 public class LabelField: NSTextField {
     public init(frame: NSRect, _ label: String = "") {
         super.init(frame: frame)
@@ -240,7 +278,7 @@ public func SeparatorView(_ title: String, origin: NSPoint, width: CGFloat) -> N
     return view
 }
 
-public func PopupRow(_ view: NSView, n: CGFloat, title: String, value: String) -> ValueField {
+public func PopupRow(_ view: NSView, n: CGFloat, title: String, value: String) -> (LabelField, ValueField) {
     let rowView: NSView = NSView(frame: NSRect(x: 0, y: 22*n, width: view.frame.width, height: 22))
     
     let labelWidth = title.widthOfString(usingFont: .systemFont(ofSize: 13, weight: .regular)) + 5
@@ -251,7 +289,7 @@ public func PopupRow(_ view: NSView, n: CGFloat, title: String, value: String) -
     rowView.addSubview(valueView)
     view.addSubview(rowView)
     
-    return valueView
+    return (labelView, valueView)
 }
 
 public func PopupWithColorRow(_ view: NSView, color: NSColor, n: CGFloat, title: String, value: String) -> ValueField {
@@ -656,6 +694,14 @@ public func LocalizedString(_ key: String, _ params: String..., comment: String 
     return string
 }
 
+extension UnitTemperature {
+    static var current: UnitTemperature {
+        let measureFormatter = MeasurementFormatter()
+        let measurement = Measurement(value: 0, unit: UnitTemperature.celsius)
+        return measureFormatter.string(from: measurement).hasSuffix("C") ? .celsius : .fahrenheit
+    }
+}
+
 public func Temperature(_ value: Double) -> String {
     let stringUnit: String = Store.shared.string(key: "temperature_units", defaultValue: "system")
     let formatter = MeasurementFormatter()
@@ -664,9 +710,13 @@ public func Temperature(_ value: Double) -> String {
     formatter.unitOptions = .providedUnit
     
     var measurement = Measurement(value: value, unit: UnitTemperature.celsius)
-    if stringUnit != "system" {
-        if let temperatureUnit = TemperatureUnits.first(where: { $0.key == stringUnit }), let unit = temperatureUnit.additional as? UnitTemperature {
-            measurement.convert(to: unit)
+    if stringUnit == "system" {
+        measurement.convert(to: UnitTemperature.current)
+    } else {
+        if let temperatureUnit = TemperatureUnits.first(where: { $0.key == stringUnit }) {
+            if let unit = temperatureUnit.additional as? UnitTemperature {
+                measurement.convert(to: unit)
+            }
         }
     }
     

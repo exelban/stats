@@ -20,7 +20,7 @@ public class LineChart: Widget {
     private var valueColorState: Bool = false
     private var colorState: widget_c = .systemAccent
     
-    private let width: CGFloat = 32
+    private let width: CGFloat = 34
     
     private let store: UnsafePointer<Store>?
     private var chart: LineChartView = LineChartView(frame: NSRect(
@@ -138,7 +138,7 @@ public class LineChart: Widget {
             ]
             
             let letterHeight = self.frame.height / 3
-            let letterWidth: CGFloat = 5.0
+            let letterWidth: CGFloat = 6.0
             
             var yMargin: CGFloat = 0
             for char in String(self.title.prefix(3)).uppercased().reversed() {

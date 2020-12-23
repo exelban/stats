@@ -60,7 +60,9 @@ internal class Popup: NSView, Popup_p {
             var i: CGFloat = 0
             groups.reversed().forEach { (group: SensorGroup_t) in
                 filtered.reversed().filter{ $0.group == group }.forEach { (s: Sensor_t) in
-                    self.list[s.key] = PopupRow(view, n: i, title: "\(s.name):", value: s.formattedValue)
+                    let (key, value) = PopupRow(view, n: i, title: "\(s.name):", value: s.formattedValue)
+                    key.toolTip = s.key
+                    self.list[s.key] = value
                     i += 1
                 }
             }

@@ -30,6 +30,7 @@
 "Characters" = "Lettres";
 "Short" = "Court";
 "Long" = "Long";
+"Statistics" = "Statistiques";
 
 // Alerts
 "New version available" = "Nouvelle version disponible";
@@ -96,6 +97,7 @@
 
 // GPU
 "GPU to show" = "GPU à afficher";
+"Show GPU type" = "Afficher le type de GPU";
 "GPU temperature" = "Température du GPU";
 "GPU utilization" = "Utilisation du GPU";
 
@@ -108,11 +110,15 @@
 "Wired" = "Réservée";
 "Compressed" = "Compressée";
 "Free" = "Libre";
+"Swap" = "Swap";
 
 // Disk
 "Show removable disks" = "Afficher les disques amovibles";
 "Used disk memory" = "%0 utilisé sur %1";
+"Free disk memory" = "%0 libre sur %1";
 "Disk to show" = "Disque à afficher";
+"Open disk" = "Ouvrir le disque";
+"Switch view" = "Changer de vue";
 
 // Sensors
 "Temperature unit" = "Unité de température";
@@ -136,8 +142,8 @@
 "Total download" = "Total download";
 "Total upload" = "Total upload";
 "Reader type" = "Type de lecteur";
-"Interface" = "Interface";
-"Process" = "Processus";
+"Interface based" = "Interface";
+"Processes based" = "Processus";
 
 // Battery
 "Level" = "Niveau";

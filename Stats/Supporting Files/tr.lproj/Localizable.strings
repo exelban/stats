@@ -30,6 +30,7 @@
 "Characters" = "Mektuplar";
 "Short" = "Kısa";
 "Long" = "Uzun";
+"Statistics" = "İstatistik";
 
 // Alerts
 "New version available" = "Yeni versiyon indirilebilir";
@@ -53,14 +54,14 @@
 
 // Update
 "The latest version of Stats installed" = "Stats'ın son sürümü yüklendi";
-"Downloading..." = "İndiriliyır...";
+"Downloading..." = "İndiriliyor...";
 "Current version: " = "Şu anki sürüm:  ";
 "Latest version: " = "Son sürüm:    ";
 
 // Widgets
 "Color" = "Renk";
-"Label" = "Etiker";
-"Box" = "Kutu";
+"Label" = "Etiket";
+"Box" = "Kutu Görünüm";
 "Frame" = "Çerçeve";
 "Value" = "Değer";
 "Colorize" = "Renklendir";
@@ -96,6 +97,7 @@
 
 // GPU
 "GPU to show" = "Gösterilecek GPU";
+"Show GPU type" = "GPU türünü göster";
 "GPU temperature" = "GPU sıcaklığı";
 "GPU utilization" = "GPU kullanımı";
 
@@ -108,11 +110,15 @@
 "Wired" = "Bağlı";
 "Compressed" = "Sıkıştırılmış";
 "Free" = "Boş";
+"Swap" = "Swap";
 
 // Disk
 "Show removable disks" = "Çıkarılabilir diskleri göster";
-"Used disk memory" = "kullanılan %0 , toplam %1";
+"Used disk memory" = "Kullanılan %0, toplam %1";
+"Free disk memory" = "Ücretsiz %0, toplam %1";
 "Disk to show" = "Gösterilecek disk";
+"Open disk" = "Açık disk";
+"Switch view" = "Görünümü değiştir";
 
 // Sensors
 "Temperature unit" = "Sıcaklık birimi";
@@ -133,11 +139,11 @@
 "Click to copy mac address" = "Mac adresini kopyalamak için tıklayın";
 "No connection" = "Bağlantı yok";
 "Network interface" = "Ağ arayüzü";
-"Total download" = "Tamamen indirildi";
-"Total upload" = "Tamamen yüklendi";
+"Total download" = "Toplam indirme";
+"Total upload" = "Toplam yükleme";
 "Reader type" = "Okuma yöntemi";
-"Interface" = "Arayüz";
-"Process" = "Süreçler";
+"Interface based" = "Arayüz";
+"Processes based" = "Süreçler";
 
 // Battery
 "Level" = "Doluluk";
@@ -166,4 +172,4 @@
 "Hide additional information when full" = "Pil dolduğunda ek bilgileri gizle";
 
 // Fans
-"Fans" = "Fans";
+"Fans" = "Fanlar";

@@ -30,6 +30,7 @@
 "Characters" = "字母";
 "Short" = "短";
 "Long" = "长";
+"Statistics" = "统计";
 
 // Alerts
 "New version available" = "新版本可用";
@@ -96,6 +97,7 @@
 
 // GPU
 "GPU to show" = "显示的GPU";
+"Show GPU type" = "显示GPU类型";
 "GPU temperature" = "GPU温度";
 "GPU utilization" = "GPU利用率";
 
@@ -108,11 +110,15 @@
 "Wired" = "联动内存";
 "Compressed" = "被压缩";
 "Free" = "可用";
+"Swap" = "Swap";
 
 // Disk
 "Show removable disks" = "显示可移动磁盘";
 "Used disk memory" = "%1 中已用 %0";
+"Free disk memory" = "%1 自由 %0";
 "Disk to show" = "显示的磁盘";
+"Open disk" = "开启磁碟";
+"Switch view" = "切换检视";
 
 // Sensors
 "Temperature unit" = "温度单位";
@@ -136,8 +142,8 @@
 "Total download" = "共下载";
 "Total upload" = "总上传";
 "Reader type" = "读卡器类型";
-"Interface" = "接口";
-"Process" = "处理";
+"Interface based" = "接口";
+"Processes based" = "处理";
 
 // Battery
 "Level" = "电量";
