@@ -21,10 +21,10 @@ internal class Popup: NSView, Popup_p {
     
     private let dashboardHeight: CGFloat = 90
 
-    private let detailsHeight: CGFloat = 88 + Constants.Popup.separatorHeight
+    private let detailsHeight: CGFloat = (22 * 5) + Constants.Popup.separatorHeight
     private let batteryHeight: CGFloat = (22 * 4) + Constants.Popup.separatorHeight
-    private let adapterHeight: CGFloat = 44 + Constants.Popup.separatorHeight
-    private let processHeight: CGFloat = 22
+    private let adapterHeight: CGFloat = (22 * 2) + Constants.Popup.separatorHeight
+    private let processHeight: CGFloat = (22 * 1)
     
     private var dashboardView: NSView? = nil
     private var dashboardBatteryView: BatteryView? = nil
@@ -142,12 +142,12 @@ internal class Popup: NSView, Popup_p {
         let separator = SeparatorView(LocalizedString("Details"), origin: NSPoint(x: 0, y: self.detailsHeight-Constants.Popup.separatorHeight), width: self.frame.width)
         let container: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: separator.frame.origin.y))
 
-        self.levelField = PopupRow(container, n: 3, title: "\(LocalizedString("Level")):", value: "").1
-        self.sourceField = PopupRow(container, n: 2, title: "\(LocalizedString("Source")):", value: "").1
-        let t = self.labelValue(container, n: 1, title: "\(LocalizedString("Time")):", value: "")
+        self.levelField = PopupRow(container, n: 4, title: "\(LocalizedString("Level")):", value: "").1
+        self.sourceField = PopupRow(container, n: 3, title: "\(LocalizedString("Source")):", value: "").1
+        let t = self.labelValue(container, n: 2, title: "\(LocalizedString("Time")):", value: "")
         self.timeLabelField = t.0
         self.timeField = t.1
-        self.healthField = PopupRow(container, n: 0, title: "\(LocalizedString("Health")):", value: "").1
+        self.healthField = PopupRow(container, n: 1, title: "\(LocalizedString("Health")):", value: "").1
         self.cyclesField = PopupRow(container, n: 0, title: "\(LocalizedString("Cycles")):", value: "").1
         
         view.addSubview(separator)
