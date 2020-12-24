@@ -40,7 +40,7 @@ public struct Swap {
     var free: Double
 }
 
-public class Memory: Module {
+public class RAM: Module {
     private var settingsView: Settings
     private let popupView: Popup
     private var usageReader: UsageReader? = nil

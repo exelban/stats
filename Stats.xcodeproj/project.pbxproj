@@ -45,8 +45,8 @@
 		9A81C74D24499C7000825D92 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A81C74B24499C7000825D92 /* AppSettings.swift */; };
 		9A81C74E24499C7000825D92 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A81C74C24499C7000825D92 /* Settings.swift */; };
 		9A81C75024499D6600825D92 /* settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A81C74F24499D6600825D92 /* settings.swift */; };
-		9A81C75D2449A41400825D92 /* Memory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A81C7562449A41400825D92 /* Memory.framework */; };
-		9A81C75E2449A41400825D92 /* Memory.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A81C7562449A41400825D92 /* Memory.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9A81C75D2449A41400825D92 /* RAM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A81C7562449A41400825D92 /* RAM.framework */; };
+		9A81C75E2449A41400825D92 /* RAM.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A81C7562449A41400825D92 /* RAM.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9A81C7622449A41E00825D92 /* ModuleKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AABEADD243FB13500668CB0 /* ModuleKit.framework */; };
 		9A81C7692449A43600825D92 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A81C7672449A43600825D92 /* main.swift */; };
 		9A81C76A2449A43600825D92 /* readers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A81C7682449A43600825D92 /* readers.swift */; };
@@ -324,7 +324,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				9AF9EE0A24648751005D2270 /* Disk.framework in Embed Frameworks */,
-				9A81C75E2449A41400825D92 /* Memory.framework in Embed Frameworks */,
+				9A81C75E2449A41400825D92 /* RAM.framework in Embed Frameworks */,
 				9AE29ADD249A50350071B02D /* Sensors.framework in Embed Frameworks */,
 				9ABFF8FE248BEBCB00C9041A /* Battery.framework in Embed Frameworks */,
 				9AABEAE5243FB13500668CB0 /* ModuleKit.framework in Embed Frameworks */,
@@ -409,7 +409,7 @@
 		9A81C74B24499C7000825D92 /* AppSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		9A81C74C24499C7000825D92 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		9A81C74F24499D6600825D92 /* settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = settings.swift; sourceTree = "<group>"; };
-		9A81C7562449A41400825D92 /* Memory.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Memory.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9A81C7562449A41400825D92 /* RAM.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RAM.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A81C7592449A41400825D92 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9A81C7672449A43600825D92 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		9A81C7682449A43600825D92 /* readers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = readers.swift; sourceTree = "<group>"; };
@@ -498,7 +498,7 @@
 				9AABEAE4243FB13500668CB0 /* ModuleKit.framework in Frameworks */,
 				9AE29ADC249A50350071B02D /* Sensors.framework in Frameworks */,
 				9ABFF8FD248BEBCB00C9041A /* Battery.framework in Frameworks */,
-				9A81C75D2449A41400825D92 /* Memory.framework in Frameworks */,
+				9A81C75D2449A41400825D92 /* RAM.framework in Frameworks */,
 				9A0C82E124460F7200FAE3D4 /* StatsKit.framework in Frameworks */,
 				9A8DE58E253DEFA9006A748F /* Fans.framework in Frameworks */,
 				9A3E17D3247A94AF00449CD1 /* Net.framework in Frameworks */,
@@ -636,7 +636,7 @@
 				9A343527243E26A0006B19F9 /* LaunchAtLogin.app */,
 				9AABEADD243FB13500668CB0 /* ModuleKit.framework */,
 				9A0C82DA24460F7200FAE3D4 /* StatsKit.framework */,
-				9A81C7562449A41400825D92 /* Memory.framework */,
+				9A81C7562449A41400825D92 /* RAM.framework */,
 				9AF9EE0224648751005D2270 /* Disk.framework */,
 				9A3E17CC247A94AF00449CD1 /* Net.framework */,
 				9ABFF8F6248BEBCB00C9041A /* Battery.framework */,
@@ -712,14 +712,14 @@
 		9A81C74A24499C4B00825D92 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				9A81C74B24499C7000825D92 /* AppSettings.swift */,
 				9A81C74C24499C7000825D92 /* Settings.swift */,
+				9A81C74B24499C7000825D92 /* AppSettings.swift */,
 				9A9EA9442476D34500E3B883 /* Update.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
 		};
-		9A81C7572449A41400825D92 /* Memory */ = {
+		9A81C7572449A41400825D92 /* RAM */ = {
 			isa = PBXGroup;
 			children = (
 				9A81C7672449A43600825D92 /* main.swift */,
@@ -729,7 +729,7 @@
 				9A81C7592449A41400825D92 /* Info.plist */,
 				9AF9EE192464A7B3005D2270 /* config.plist */,
 			);
-			path = Memory;
+			path = RAM;
 			sourceTree = "<group>";
 		};
 		9A8DE588253DEFA9006A748F /* Fans */ = {
@@ -810,7 +810,7 @@
 			children = (
 				9A97CECB2537331B00742D8F /* CPU */,
 				9A90E18A24EAD2BB00471E9A /* GPU */,
-				9A81C7572449A41400825D92 /* Memory */,
+				9A81C7572449A41400825D92 /* RAM */,
 				9AF9EE0324648751005D2270 /* Disk */,
 				9AE29AD6249A50350071B02D /* Sensors */,
 				9A3E17CD247A94AF00449CD1 /* Net */,
@@ -1026,9 +1026,9 @@
 			productReference = 9A3E17CC247A94AF00449CD1 /* Net.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		9A81C7552449A41400825D92 /* Memory */ = {
+		9A81C7552449A41400825D92 /* RAM */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9A81C75F2449A41400825D92 /* Build configuration list for PBXNativeTarget "Memory" */;
+			buildConfigurationList = 9A81C75F2449A41400825D92 /* Build configuration list for PBXNativeTarget "RAM" */;
 			buildPhases = (
 				9A81C7512449A41400825D92 /* Headers */,
 				9A81C7522449A41400825D92 /* Sources */,
@@ -1041,9 +1041,9 @@
 				9A81C7652449A41E00825D92 /* PBXTargetDependency */,
 				9A81C76E2449AE9400825D92 /* PBXTargetDependency */,
 			);
-			name = Memory;
+			name = RAM;
 			productName = Memory;
-			productReference = 9A81C7562449A41400825D92 /* Memory.framework */;
+			productReference = 9A81C7562449A41400825D92 /* RAM.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		9A8DE586253DEFA9006A748F /* Fans */ = {
@@ -1295,7 +1295,7 @@
 				9A0C82D924460F7200FAE3D4 /* StatsKit */,
 				9A97CEC92537331B00742D8F /* CPU */,
 				9A90E18824EAD2BB00471E9A /* GPU */,
-				9A81C7552449A41400825D92 /* Memory */,
+				9A81C7552449A41400825D92 /* RAM */,
 				9AF9EE0124648751005D2270 /* Disk */,
 				9A3E17CB247A94AF00449CD1 /* Net */,
 				9ABFF8F5248BEBCB00C9041A /* Battery */,
@@ -1586,7 +1586,7 @@
 		};
 		9A81C75C2449A41400825D92 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 9A81C7552449A41400825D92 /* Memory */;
+			target = 9A81C7552449A41400825D92 /* RAM */;
 			targetProxy = 9A81C75B2449A41400825D92 /* PBXContainerItemProxy */;
 		};
 		9A81C7652449A41E00825D92 /* PBXTargetDependency */ = {
@@ -2110,7 +2110,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = Modules/Memory/Info.plist;
+				INFOPLIST_FILE = Modules/RAM/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2118,7 +2118,7 @@
 					"@loader_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				PRODUCT_BUNDLE_IDENTIFIER = eu.exelban.Stats.Memory;
+				PRODUCT_BUNDLE_IDENTIFIER = eu.exelban.Stats.RAM;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -2141,7 +2141,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = Modules/Memory/Info.plist;
+				INFOPLIST_FILE = Modules/RAM/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2149,7 +2149,7 @@
 					"@loader_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				PRODUCT_BUNDLE_IDENTIFIER = eu.exelban.Stats.Memory;
+				PRODUCT_BUNDLE_IDENTIFIER = eu.exelban.Stats.RAM;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
@@ -2648,7 +2648,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9A81C75F2449A41400825D92 /* Build configuration list for PBXNativeTarget "Memory" */ = {
+		9A81C75F2449A41400825D92 /* Build configuration list for PBXNativeTarget "RAM" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9A81C7602449A41400825D92 /* Debug */,
