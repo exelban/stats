@@ -142,8 +142,8 @@
 "Total download" = "Całkowicie pobrano";
 "Total upload" = "Całkowicie przesłano";
 "Reader type" = "Sposób odczytu";
-"Interface" = "Interfejs";
-"Process" = "Procesy";
+"Interface based" = "Interfejs";
+"Processes based" = "Procesy";
 
 // Battery
 "Level" = "Poziom naładowania";

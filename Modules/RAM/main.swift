@@ -40,7 +40,7 @@ public struct Swap {
     var free: Double
 }
 
-public class Memory: Module {
+public class RAM: Module {
     private var settingsView: Settings
     private let popupView: Popup
     private var usageReader: UsageReader? = nil
@@ -120,8 +120,8 @@ public class Memory: Module {
             ])
         }
         if let widget = self.widget as? MemoryWidget {
-            let free = Units(bytes: Int64(value.free)).getReadableSpeed()
-            let used = Units(bytes: Int64(value.used)).getReadableSpeed()
+            let free = Units(bytes: Int64(value.free)).getReadableMemory()
+            let used = Units(bytes: Int64(value.used)).getReadableMemory()
             widget.setValue((free, used))
         }
     }

@@ -250,7 +250,7 @@ public class SpeedWidget: Widget {
             state = sender is NSButton ? (sender as! NSButton).state: nil
         }
         self.valueState = state! == .on ? true : false
-        self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_\(self.type.rawValue)_value", value: self.valueState)
+        self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_value", value: self.valueState)
         self.display()
         
         if !self.valueState && self.icon == .none {

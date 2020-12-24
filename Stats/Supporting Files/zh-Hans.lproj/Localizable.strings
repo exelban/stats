@@ -141,9 +141,11 @@
 "Network interface" = "网络接口";
 "Total download" = "总下载";
 "Total upload" = "总上传";
-"Reader type" = "读卡器类型";
+"Reader type" = "读取器类型";
 "Interface" = "接口";
 "Process" = "进程";
+"Interface based" = "基于接口";
+"Processes based" = "基于进程";
 
 // Battery
 "Level" = "电量";

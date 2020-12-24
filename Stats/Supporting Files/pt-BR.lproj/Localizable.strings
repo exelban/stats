@@ -142,8 +142,8 @@
 "Total download" = "Download total";
 "Total upload" = "Upload total";
 "Reader type" = "Tipo de leitor";
-"Interface" = "Interface";
-"Process" = "Processo";
+"Interface based" = "Interface";
+"Processes based" = "Processo";
 
 // Battery
 "Level" = "Nível";
