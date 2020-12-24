@@ -11,7 +11,7 @@ import os.log
 import StatsKit
 import ModuleKit
 import CPU
-import Memory
+import RAM
 import Disk
 import Net
 import Battery
@@ -29,7 +29,7 @@ var modules: [Module] = [
     Fans(&store, &smc),
     Sensors(&store, &smc),
     Disk(&store),
-    Memory(&store),
+    RAM(&store),
     GPU(&store, &smc),
     CPU(&store, &smc),
 ].reversed()
