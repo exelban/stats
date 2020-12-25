@@ -109,21 +109,15 @@ internal class InfoReader: Reader<GPUs> {
             let utilization = stats["Device Utilization %"] as? Int ?? stats["GPU Activity(%)"] as? Int ?? 0
             var temperature = stats["Temperature(C)"] as? Int ?? 0
             
-            if IOClass == "IntelAccelerator" && temperature == 0 {
-                if let tmp = self.smc?.pointee.getValue("TCGC") {
-                    temperature = Int(tmp)
-                } else if let tmp = self.smc?.pointee.getValue("TG0D") {
-                    temperature = Int(tmp)
-                }
-            }
-            
-            if IOClass.starts(with: "AMDRadeon") && temperature == 0{
-                if let tmp = self.smc?.pointee.getValue("TGDD") { // AMD Radeon 5300M works
-                    temperature = Int(tmp)
-                } else if let tmp = self.smc?.pointee.getValue("TG0P") { // GPU 0 Proximity
-                    temperature = Int(tmp)
-                } else if let tmp = self.smc?.pointee.getValue("TG0D") {
-                    temperature = Int(tmp)
+            if temperature == 0 {
+                if IOClass == "IntelAccelerator" {
+                    if let tmp = self.smc?.pointee.getValue("TCGC") {
+                        temperature = Int(tmp)
+                    }
+                } else if IOClass.starts(with: "AMDRadeon") {
+                    if let tmp = self.smc?.pointee.getValue("TGDD") {
+                        temperature = Int(tmp)
+                    }
                 }
             }
             
