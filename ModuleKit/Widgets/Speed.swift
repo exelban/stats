@@ -145,35 +145,43 @@ public class SpeedWidget: Widget {
     
     private func drawArrows(_ dirtyRect: NSRect) {
         let arrowAngle = CGFloat(Double.pi / 5)
-        let pointerLineLength: CGFloat = 3.5
-        let workingHeight: CGFloat = (self.frame.size.height - (Constants.Widget.margin.x * 2))
-        let height: CGFloat = ((workingHeight - Constants.Widget.margin.y) / 2)
+        let half = self.frame.size.height / 2
+        let scaleFactor = NSScreen.main?.backingScaleFactor ?? 1
+        let lineWidth: CGFloat = 1
+        let arrowSize: CGFloat = 3 + (scaleFactor/2)
+        let x = Constants.Widget.margin.x + arrowSize + (lineWidth / 2)
         
         let downloadArrow = NSBezierPath()
-        let downloadStart = CGPoint(x: Constants.Widget.margin.x + (pointerLineLength/2), y: height + Constants.Widget.margin.y)
-        let downloadEnd = CGPoint(x: Constants.Widget.margin.x + (pointerLineLength/2), y: Constants.Widget.margin.y)
-        downloadArrow.addArrow(start: downloadStart, end: downloadEnd, pointerLineLength: pointerLineLength, arrowAngle: arrowAngle)
+        downloadArrow.addArrow(
+            start: CGPoint(x: x, y: half - Constants.Widget.spacing/2),
+            end: CGPoint(x: x, y: 0),
+            pointerLineLength: arrowSize,
+            arrowAngle: arrowAngle
+        )
         
         if self.downloadValue >= 1_024 {
             NSColor.systemBlue.set()
         } else {
             NSColor.textColor.set()
         }
-        downloadArrow.lineWidth = 1
+        downloadArrow.lineWidth = lineWidth
         downloadArrow.stroke()
         downloadArrow.close()
         
         let uploadArrow = NSBezierPath()
-        let uploadStart = CGPoint(x: Constants.Widget.margin.x + (pointerLineLength/2), y: height + (Constants.Widget.margin.y * 2))
-        let uploadEnd = CGPoint(x: Constants.Widget.margin.x + (pointerLineLength/2), y: (Constants.Widget.margin.y * 2) + (height * 2))
-        uploadArrow.addArrow(start: uploadStart, end: uploadEnd, pointerLineLength: pointerLineLength, arrowAngle: arrowAngle)
-        
+        uploadArrow.addArrow(
+            start: CGPoint(x: x, y: half + Constants.Widget.spacing/2),
+            end: CGPoint(x: x, y: self.frame.size.height),
+            pointerLineLength: arrowSize,
+            arrowAngle: arrowAngle
+        )
+
         if self.uploadValue >= 1_024 {
             NSColor.red.set()
         } else {
             NSColor.textColor.set()
         }
-        uploadArrow.lineWidth = 1
+        uploadArrow.lineWidth = lineWidth
         uploadArrow.stroke()
         uploadArrow.close()
     }
