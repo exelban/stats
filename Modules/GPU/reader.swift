@@ -117,6 +117,16 @@ internal class InfoReader: Reader<GPUs> {
                 }
             }
             
+            if IOClass.starts(with: "AMDRadeon") && temperature == 0{
+                if let tmp = self.smc?.pointee.getValue("TGDD") { // AMD Radeon 5300M works
+                    temperature = Int(tmp)
+                } else if let tmp = self.smc?.pointee.getValue("TG0P") { // GPU 0 Proximity
+                    temperature = Int(tmp)
+                } else if let tmp = self.smc?.pointee.getValue("TG0D") {
+                    temperature = Int(tmp)
+                }
+            }
+            
             if let agcInfo = accelerator["AGCInfo"] as? [String:Int] {
                 self.gpus.list[idx].state = agcInfo["poweredOffByAGC"] == 0
             }

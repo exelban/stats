@@ -116,6 +116,7 @@ let SensorsList: [Sensor_t] = [
     
     Sensor_t(key: "TCGC", name: "GPU Intel Graphics", group: SensorGroup.GPU.rawValue, type: SensorType.Temperature.rawValue),
     Sensor_t(key: "TG0D", name: "GPU diode", group: SensorGroup.GPU.rawValue, type: SensorType.Temperature.rawValue),
+    Sensor_t(key: "TGDD", name: "GPU AMD Radeon", group: SensorGroup.GPU.rawValue, type: SensorType.Temperature.rawValue),
     Sensor_t(key: "TG0H", name: "GPU heatsink", group: SensorGroup.GPU.rawValue, type: SensorType.Temperature.rawValue),
     Sensor_t(key: "TG0P", name: "GPU proximity", group: SensorGroup.GPU.rawValue, type: SensorType.Temperature.rawValue),
     
