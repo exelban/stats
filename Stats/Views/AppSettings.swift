@@ -224,16 +224,30 @@ class ApplicationSettings: NSScrollView {
     }
     
     private func toggleView(action: Selector, state: Bool) -> NSView {
-        let button: NSButton = NSButton(frame: NSRect(x: 0, y: 0, width: 30, height: 10))
-        button.setButtonType(.switch)
-        button.state = state ? .on : .off
-        button.title = ""
-        button.action = action
-        button.isBordered = false
-        button.isTransparent = true
-        button.target = self
+        let state: NSControl.StateValue = state ? .on : .off
+        var toggle: NSControl = NSControl()
         
-        return button
+        if #available(OSX 10.15, *) {
+            let switchButton = NSSwitch(frame: NSRect(x: 0, y: 0, width: 50, height: 20))
+            switchButton.state = state
+            switchButton.action = action
+            switchButton.target = self
+            
+            toggle = switchButton
+        } else {
+            let button: NSButton = NSButton(frame: NSRect(x: 0, y: 0, width: 30, height: 20))
+            button.setButtonType(.switch)
+            button.state = state
+            button.title = ""
+            button.action = action
+            button.isBordered = false
+            button.isTransparent = true
+            button.target = self
+            
+            toggle = button
+        }
+        
+        return toggle
     }
     
     @objc func updateAction(_ sender: NSObject) {
@@ -269,18 +283,33 @@ class ApplicationSettings: NSScrollView {
         self.temperatureUnitsValue = key
     }
     
-    @objc func toggleDock(_ sender: NSButton) {
-        store.set(key: "dockIcon", value: sender.state == NSControl.StateValue.on)
-        NSApp.setActivationPolicy(sender.state == .on ? NSApplication.ActivationPolicy.regular : NSApplication.ActivationPolicy.accessory)
+    @objc func toggleDock(_ sender: NSControl) {
+        var state: NSControl.StateValue? = nil
+        if #available(OSX 10.15, *) {
+            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
+        } else {
+            state = sender is NSButton ? (sender as! NSButton).state: nil
+        }
         
-        if sender.state == .off {
+        if state != nil {
+            store.set(key: "dockIcon", value: state! == NSControl.StateValue.on)
+        }
+        let dockIconStatus = state == NSControl.StateValue.on ? NSApplication.ActivationPolicy.regular : NSApplication.ActivationPolicy.accessory
+        NSApp.setActivationPolicy(dockIconStatus)
+        if state == .off {
             NSApplication.shared.activate(ignoringOtherApps: true)
         }
     }
     
-    @objc func toggleLaunchAtLogin(_ sender: NSButton) {
-        LaunchAtLogin.isEnabled = sender.state == .on
+    @objc func toggleLaunchAtLogin(_ sender: NSControl) {
+        var state: NSControl.StateValue? = nil
+        if #available(OSX 10.15, *) {
+            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
+        } else {
+            state = sender is NSButton ? (sender as! NSButton).state: nil
+        }
         
+        LaunchAtLogin.isEnabled = state! == NSControl.StateValue.on
         if !store.exist(key: "runAtLoginInitialized") {
             store.set(key: "runAtLoginInitialized", value: true)
         }
