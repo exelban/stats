@@ -52,6 +52,10 @@
 "Show icon in dock" = "Show icon in dock";
 "Start at login" = "Start at login";
 
+// Dashboard
+"Serial number" = "Serial number";
+"Uptime" = "Uptime";
+
 // Update
 "The latest version of Stats installed" = "The latest version of Stats installed";
 "Downloading..." = "Downloading...";

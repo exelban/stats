@@ -21,7 +21,6 @@ import Fans
 
 var store: Store = Store()
 let updater = macAppUpdater(user: "exelban", repo: "stats")
-let systemKit: SystemKit = SystemKit()
 var smc: SMCService = SMCService()
 var modules: [Module] = [
     Battery(&store),

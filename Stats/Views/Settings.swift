@@ -114,13 +114,14 @@ private class SettingsView: NSView {
     private var navigationView: NSView = NSView()
     private var mainView: NSView = NSView()
     
-    private var applicationSettings: NSView = ApplicationSettings()
+    private var dashboard: NSView = Dashboard()
+    private var settings: NSView = ApplicationSettings()
     
     override init(frame: NSRect) {
         super.init(frame: CGRect(x: frame.origin.x, y: frame.origin.y, width: frame.width, height: frame.height))
         self.wantsLayer = true
         
-        NotificationCenter.default.addObserver(self, selector: #selector(menuCallback), name: .openSettingsView, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(menuCallback), name: .openModuleSettings, object: nil)
         
         let sidebar = NSVisualEffectView(frame: NSMakeRect(0, 0, self.sidebarWidth, self.frame.height))
         sidebar.material = .sidebar
@@ -135,12 +136,12 @@ private class SettingsView: NSView {
         )
         self.menuView.wantsLayer = true
         self.menuView.drawsBackground = false
-        self.menuView.addSubview(MenuView(n: 0, icon: NSImage(named: NSImage.Name("apps"))!, title: "Stats"))
+        self.menuView.addSubview(MenuView(n: 0, icon: NSImage(named: NSImage.Name("apps"))!, title: "Dashboard"))
         
         self.navigationView.frame = NSRect(x: 0, y: 0, width: self.sidebarWidth, height: navigationHeight)
         self.navigationView.wantsLayer = true
         
-        self.navigationView.addSubview(self.makeButton(4, title: LocalizedString("Open Activity Monitor"), image: "chart", action: #selector(openActivityMonitor)))
+        self.navigationView.addSubview(self.makeButton(4, title: LocalizedString("Open application settings"), image: "settings", action: #selector(openSettings)))
         self.navigationView.addSubview(self.makeButton(3, title: LocalizedString("Report a bug"), image: "bug", action: #selector(reportBug)))
         self.navigationView.addSubview(self.makeButton(2, title: LocalizedString("Support app"), image: "donate", action: #selector(donate)))
         self.navigationView.addSubview(self.makeButton(1, title: LocalizedString("Close application"), image: "power", action: #selector(closeApp)))
@@ -160,7 +161,7 @@ private class SettingsView: NSView {
         self.addSubview(self.navigationView)
         self.addSubview(self.mainView)
         
-        self.openMenu("Stats")
+        self.openMenu("Dashboard")
     }
     
     required init?(coder: NSCoder) {
@@ -197,18 +198,20 @@ private class SettingsView: NSView {
             self.menuView.addSubview(menu)
         }
         self.modules = list
-//        self.openMenu("CPU")
     }
     
     @objc private func menuCallback(_ notification: Notification) {
         if let title = notification.userInfo?["module"] as? String {
-            var view: NSView = self.applicationSettings
+            var view: NSView = NSView()
             
-            let detectedModule = self.modules?.pointee.first{ $0.config.name == title }
-            if detectedModule != nil {
-                if let v = detectedModule?.settings {
+            if let detectedModule = self.modules?.pointee.first(where: { $0.config.name == title }) {
+                if let v = detectedModule.settings {
                     view = v
                 }
+            } else if title == "Dashboard" {
+                view = self.dashboard
+            } else if title == "settings" {
+                view = self.settings
             }
             
             self.mainView.subviews.forEach{ $0.removeFromSuperview() }
@@ -248,14 +251,8 @@ private class SettingsView: NSView {
         return button
     }
     
-    @objc private func openActivityMonitor(_ sender: Any) {
-        NSWorkspace.shared.launchApplication(
-            withBundleIdentifier: "com.apple.ActivityMonitor",
-            options: [.default],
-            additionalEventParamDescriptor: nil,
-            launchIdentifier: nil
-        )
-        self.window?.setIsVisible(false)
+    @objc private func openSettings(_ sender: Any) {
+        NotificationCenter.default.post(name: .openModuleSettings, object: nil, userInfo: ["module": "settings"])
     }
     
     @objc private func reportBug(_ sender: Any) {
@@ -322,7 +319,7 @@ private class MenuView: NSView {
     }
     
     public func activate() {
-        NotificationCenter.default.post(name: .openSettingsView, object: nil, userInfo: ["module": self.title])
+        NotificationCenter.default.post(name: .openModuleSettings, object: nil, userInfo: ["module": self.title])
         self.layer?.backgroundColor = .init(gray: 0.1, alpha: 0.4)
         self.active = true
     }

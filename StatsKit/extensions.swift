@@ -348,7 +348,20 @@ public extension NSView {
         rowTitle.font = NSFont.systemFont(ofSize: 13, weight: .light)
         rowTitle.textColor = .textColor
         
-        let select: NSPopUpButton = NSPopUpButton(frame: NSRect(x: row.frame.width - 50, y: (row.frame.height-26)/2, width: 50, height: 26))
+        let select: NSPopUpButton = SelectView(action: action, items: items, selected: selected)
+        select.sizeToFit()
+        
+        rowTitle.setFrameSize(NSSize(width: row.frame.width - select.frame.width, height: rowTitle.frame.height))
+        select.setFrameOrigin(NSPoint(x: row.frame.width - select.frame.width, y: select.frame.origin.y))
+        
+        row.addSubview(select)
+        row.addSubview(rowTitle)
+        
+        return row
+    }
+    
+    func SelectView(action: Selector, items: [KeyValue_t], selected: String) -> NSPopUpButton {
+        let select: NSPopUpButton = NSPopUpButton(frame: NSRect(x: 0, y: 0, width: 50, height: 26))
         select.target = self
         select.action = action
         
@@ -365,24 +378,17 @@ public extension NSView {
                 }
             }
         }
-        
         select.menu = menu
-        select.sizeToFit()
         
-        rowTitle.setFrameSize(NSSize(width: row.frame.width - select.frame.width, height: rowTitle.frame.height))
-        select.setFrameOrigin(NSPoint(x: row.frame.width - select.frame.width, y: select.frame.origin.y))
-        
-        row.addSubview(select)
-        row.addSubview(rowTitle)
-        
-        return row
+        return select
     }
 }
 
 public extension Notification.Name {
     static let toggleSettings = Notification.Name("toggleSettings")
     static let toggleModule = Notification.Name("toggleModule")
-    static let openSettingsView = Notification.Name("openSettingsView")
+    static let openModuleSettings = Notification.Name("openModuleSettings")
+    static let settingsAppear = Notification.Name("settingsAppear")
     static let switchWidget = Notification.Name("switchWidget")
     static let checkForUpdates = Notification.Name("checkForUpdates")
     static let changeCronInterval = Notification.Name("changeCronInterval")

@@ -49,8 +49,8 @@
 "Update application" = "Aktualizuj aplikacje";
 "Check for updates" = "Sprawdzaj aktualizacje";
 "Check for update" = "Sprawdź aktualizacje";
-"Show icon in dock" = "Pokaż ikonę w docku";
-"Start at login" = "Uruchom przy logowaniu";
+"Show icon in dock" = "Pokazuj ikonę w docku";
+"Start at login" = "Uruchamiać przy logowaniu";
 
 // Update
 "The latest version of Stats installed" = "Najnowsza wersja Stats zainstalowana";
