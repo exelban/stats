@@ -41,12 +41,12 @@ class ApplicationSettings: NSScrollView {
         ))
         
         self.drawsBackground = false
-        self.translatesAutoresizingMaskIntoConstraints = true
         self.borderType = .noBorder
         self.hasVerticalScroller = true
         self.hasHorizontalScroller = false
         self.autohidesScrollers = true
         self.horizontalScrollElasticity = .none
+        self.automaticallyAdjustsContentInsets = false
         
         let versionsView = self.versions()
         let settingsView = self.settings()

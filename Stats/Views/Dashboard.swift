@@ -26,12 +26,14 @@ class Dashboard: NSScrollView {
         ))
         
         self.drawsBackground = false
-        self.translatesAutoresizingMaskIntoConstraints = true
         self.borderType = .noBorder
         self.hasVerticalScroller = true
         self.hasHorizontalScroller = false
         self.autohidesScrollers = true
         self.horizontalScrollElasticity = .none
+        self.automaticallyAdjustsContentInsets = false
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(windowOpens), name: .openModuleSettings, object: nil)
         
         let versionsView = self.versions()
         let specsView = self.specs()
@@ -59,8 +61,6 @@ class Dashboard: NSScrollView {
         if let documentView = self.documentView {
             documentView.scroll(NSPoint(x: 0, y: documentView.bounds.size.height))
         }
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(windowOpens), name: .openModuleSettings, object: nil)
     }
     
     required public init?(coder: NSCoder) {
