@@ -71,7 +71,9 @@ class ApplicationSettings: NSScrollView {
         grid.row(at: 2).height = settingsView.frame.height
         
         self.documentView = grid
-        self.scroll(NSPoint(x: 0, y: grid.frame.size.height))
+        if let documentView = self.documentView {
+            documentView.scroll(NSPoint(x: 0, y: documentView.bounds.size.height))
+        }
     }
     
     required public init?(coder: NSCoder) {
@@ -147,11 +149,13 @@ class ApplicationSettings: NSScrollView {
         
         view.addSubview(grid)
         
-        var height: CGFloat = grid.rowSpacing*2
+        var height: CGFloat = (CGFloat(grid.numberOfRows)-2) * grid.rowSpacing
         for i in 0..<grid.numberOfRows {
             let row = grid.row(at: i)
             for a in 0..<row.numberOfCells {
-                height += row.cell(at: a).contentView?.frame.height ?? 0
+                if let contentView = row.cell(at: a).contentView {
+                    height += contentView.frame.height
+                }
             }
         }
         view.setFrameSize(NSSize(width: view.frame.width, height: max(200, height)))

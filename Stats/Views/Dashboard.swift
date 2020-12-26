@@ -56,7 +56,9 @@ class Dashboard: NSScrollView {
         grid.row(at: 2).height = specsView.frame.height
         
         self.documentView = grid
-        self.scroll(NSPoint(x: 0, y: grid.frame.size.height))
+        if let documentView = self.documentView {
+            documentView.scroll(NSPoint(x: 0, y: documentView.bounds.size.height))
+        }
         
         NotificationCenter.default.addObserver(self, selector: #selector(windowOpens), name: .openModuleSettings, object: nil)
     }
@@ -129,11 +131,13 @@ class Dashboard: NSScrollView {
         
         view.addSubview(grid)
         
-        var height: CGFloat = grid.rowSpacing*2
+        var height: CGFloat = (CGFloat(grid.numberOfRows)-2) * grid.rowSpacing
         for i in 0..<grid.numberOfRows {
             let row = grid.row(at: i)
             for a in 0..<row.numberOfCells {
-                height += row.cell(at: a).contentView?.frame.height ?? 0
+                if let contentView = row.cell(at: a).contentView {
+                    height += contentView.frame.height
+                }
             }
         }
         view.setFrameSize(NSSize(width: view.frame.width, height: height))
@@ -256,20 +260,18 @@ class Dashboard: NSScrollView {
     }
     
     private func gpu() -> [NSView] {
-        let gpus = SystemKit.shared.device.info.gpu
-        var gpu: String = LocalizedString("Unknown")
-        if gpus != nil {
-            if gpus?.count == 1 {
-                gpu = gpus![0].name
-            } else {
-                gpu = ""
-                gpus!.forEach{ gpu += "\($0.name)\n" }
+        var value = ""
+        if let gpus = SystemKit.shared.device.info.gpu {
+            for i in 0..<gpus.count {
+                value += "\(gpus[i].name)\(i == gpus.count-1 ? "" : "\n")"
             }
+        } else {
+            value = LocalizedString("Unknown")
         }
         
         return [
             self.titleView("\(LocalizedString("Graphics")):"),
-            self.valueView(gpu),
+            self.valueView(value),
         ]
     }
     
