@@ -345,7 +345,7 @@ public class SystemKit {
                                 if arr.indices.contains(0) {
                                     dimm.bank = Int(arr[0].filter("0123456789.".contains))
                                 }
-                                if arr.indices.contains(1) {
+                                if arr.indices.contains(1) && arr[1].contains("Channel") {
                                     dimm.channel = arr[1].split(separator: "-")[0].replacingOccurrences(of: "Channel", with: "")
                                 }
                             }
