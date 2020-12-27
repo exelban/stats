@@ -24,9 +24,9 @@
 "Yes" = "是";
 "No" = "否";
 "Automatic" = "自动";
-"None" = "没有";
+"None" = "无";
 "Dots" = "点";
-"Arrows" = "箭";
+"Arrows" = "箭头";
 "Characters" = "字母";
 "Short" = "短";
 "Long" = "长";
@@ -68,10 +68,10 @@
 "Colorize value" = "数值颜色";
 "Additional information" = "附加信息";
 "Reverse values order" = "数值反序";
-"Base" = "基础";
+"Base" = "单位";
 "Display mode" = "显示模式";
-"One row" = "一排";
-"Two rows" = "两排";
+"One row" = "单行";
+"Two rows" = "双行";
 
 // Module Kit
 "Open module settings" = "打开模块设置";
@@ -83,7 +83,7 @@
 "Pictogram" = "标识";
 
 // Modules
-"Number of top processes" = "工序数";
+"Number of top processes" = "高占用进程数";
 
 // CPU
 "CPU usage" = "CPU占用";
@@ -110,20 +110,20 @@
 "Wired" = "联动内存";
 "Compressed" = "被压缩";
 "Free" = "可用";
-"Swap" = "Swap";
+"Swap" = "交换区";
 
 // Disk
 "Show removable disks" = "显示可移动磁盘";
 "Used disk memory" = "%1 中已用 %0";
-"Free disk memory" = "%1 自由 %0";
+"Free disk memory" = "%1 中剩余 %0";
 "Disk to show" = "显示的磁盘";
-"Open disk" = "开启磁碟";
-"Switch view" = "切换检视";
+"Open disk" = "打开磁盘";
+"Switch view" = "切换视图";
 
 // Sensors
 "Temperature unit" = "温度单位";
-"Celsius" = "摄氏温度";
-"Fahrenheit" = "华氏温度";
+"Celsius" = "摄氏度";
+"Fahrenheit" = "华氏度";
 
 // Network
 "Uploading" = "上传";
@@ -139,11 +139,13 @@
 "Click to copy mac address" = "点击拷贝MAC地址";
 "No connection" = "无连接";
 "Network interface" = "网络接口";
-"Total download" = "共下载";
+"Total download" = "总下载";
 "Total upload" = "总上传";
-"Reader type" = "读卡器类型";
-"Interface based" = "接口";
-"Processes based" = "处理";
+"Reader type" = "读取器类型";
+"Interface" = "接口";
+"Process" = "进程";
+"Interface based" = "基于接口";
+"Processes based" = "基于进程";
 
 // Battery
 "Level" = "电量";
@@ -172,4 +174,4 @@
 "Hide additional information when full" = "电池充满后隐藏其他信息";
 
 // Fans
-"Fans" = "Fans";
+"Fans" = "风扇";
