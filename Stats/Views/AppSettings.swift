@@ -227,7 +227,7 @@ class ApplicationSettings: NSScrollView {
         let state: NSControl.StateValue = state ? .on : .off
         var toggle: NSControl = NSControl()
         
-        if #available(OSX 10.15, *) {
+        if #available(OSX 11.0, *) {
             let switchButton = NSSwitch(frame: NSRect(x: 0, y: 0, width: 50, height: 20))
             switchButton.state = state
             switchButton.action = action
@@ -285,7 +285,7 @@ class ApplicationSettings: NSScrollView {
     
     @objc func toggleDock(_ sender: NSControl) {
         var state: NSControl.StateValue? = nil
-        if #available(OSX 10.15, *) {
+        if #available(OSX 11.0, *) {
             state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
         } else {
             state = sender is NSButton ? (sender as! NSButton).state: nil
@@ -303,7 +303,7 @@ class ApplicationSettings: NSScrollView {
     
     @objc func toggleLaunchAtLogin(_ sender: NSControl) {
         var state: NSControl.StateValue? = nil
-        if #available(OSX 10.15, *) {
+        if #available(OSX 11.0, *) {
             state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
         } else {
             state = sender is NSButton ? (sender as! NSButton).state: nil
