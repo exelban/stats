@@ -659,19 +659,7 @@ public class ColorView: NSView {
 public struct Log: TextOutputStream {
     public static var log: Log = Log()
     
-    private var debug: Bool = false
-    
-    private init() {
-        if CommandLine.arguments.contains("--debug") {
-            self.debug = true
-        }
-    }
-    
     public func write(_ string: String) {
-        if !debug {
-            return
-        }
-        
         let fm = FileManager.default
         let log = fm.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("log.txt")
         if let handle = try? FileHandle(forWritingTo: log) {

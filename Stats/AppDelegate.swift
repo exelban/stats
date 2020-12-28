@@ -42,7 +42,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         let startingPoint = Date()
-        print("------------", startingPoint, "------------", to: &Log.log)
+//        print("------------", startingPoint, "------------", to: &Log.log)
         
         self.parseArguments()
         
