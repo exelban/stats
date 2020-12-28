@@ -137,7 +137,7 @@ public class SensorsWidget: Widget {
         
         let value = CAText(fontSize: 14)
         value.name = sensor.key
-        value.frame = CGRect(x: x, y: (Constants.Widget.height-14)/2, width: width, height: 14)
+        value.frame = CGRect(x: x, y: ((Constants.Widget.height-14)/2) - 2, width: width, height: 16)
         value.font = font
         value.string = sensor.value
         value.alignmentMode = .right
