@@ -14,15 +14,18 @@ import StatsKit
 import ModuleKit
 
 public struct RAM_Usage: value_t {
+    var total: Double
+    var used: Double
+    var free: Double
+    
     var active: Double
     var inactive: Double
     var wired: Double
     var compressed: Double
     
-    var usage: Double
-    var total: Double
-    var used: Double
-    var free: Double
+    var app: Double
+    var cache: Double
+    var pressure: Double
     
     var pressureLevel: Int
     var swap: Swap
@@ -30,6 +33,12 @@ public struct RAM_Usage: value_t {
     public var widget_value: Double {
         get {
             return self.usage
+        }
+    }
+    
+    public var usage: Double {
+        get {
+            return Double((self.total - self.free) / self.total)
         }
     }
 }
@@ -114,7 +123,7 @@ public class RAM: Module {
         if let widget = self.widget as? PieChart {
             let total: Double = value.total
             widget.setValue([
-                circle_segment(value: value.active/total, color: NSColor.systemBlue),
+                circle_segment(value: value.app/total, color: NSColor.systemBlue),
                 circle_segment(value: value.wired/total, color: NSColor.systemOrange),
                 circle_segment(value: value.compressed/total, color: NSColor.systemPink)
             ])

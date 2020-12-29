@@ -48,11 +48,14 @@ internal class UsageReader: Reader<RAM_Usage> {
         
         if result == KERN_SUCCESS {
             let active = Double(stats.active_count) * Double(vm_page_size)
+            let speculative = Double(stats.speculative_count) * Double(vm_page_size)
             let inactive = Double(stats.inactive_count) * Double(vm_page_size)
             let wired = Double(stats.wire_count) * Double(vm_page_size)
             let compressed = Double(stats.compressor_page_count) * Double(vm_page_size)
+            let purgeable = Double(stats.purgeable_count) * Double(vm_page_size)
+            let external = Double(stats.external_page_count) * Double(vm_page_size)
             
-            let used = active + wired + compressed
+            let used = active + inactive + speculative + wired + compressed - purgeable - external
             let free = self.totalSize - used
             
             var int_size: size_t = MemoryLayout<uint>.size
@@ -64,15 +67,18 @@ internal class UsageReader: Reader<RAM_Usage> {
             sysctlbyname("vm.swapusage", &swap, &string_size, nil, 0)
             
             self.callback(RAM_Usage(
+                total: self.totalSize,
+                used: used,
+                free: free,
+                
                 active: active,
                 inactive: inactive,
                 wired: wired,
                 compressed: compressed,
                 
-                usage: Double((self.totalSize - free) / self.totalSize),
-                total: Double(self.totalSize),
-                used: Double(used),
-                free: Double(free),
+                app: used - wired - compressed,
+                cache: purgeable + external,
+                pressure: 100.0 * (wired + compressed) / self.totalSize,
                 
                 pressureLevel: pressureLevel,
                 
