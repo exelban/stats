@@ -31,6 +31,7 @@
 "Short" = "Short";
 "Long" = "Long";
 "Statistics" = "Statistics";
+"Disabled" = "Disabled";
 
 // Alerts
 "New version available" = "New version available";
@@ -49,6 +50,11 @@
 "Update application" = "Update application";
 "Check for updates" = "Check for updates";
 "Check for update" = "Check for update";
+"At start" = "At start";
+"Once per day" = "Once per day";
+"Once per week" = "Once per week";
+"Once per month" = "Once per month";
+"Never" = "Never";
 "Show icon in dock" = "Show icon in dock";
 "Start at login" = "Start at login";
 
@@ -69,6 +75,36 @@
 "Frame" = "Frame";
 "Value" = "Value";
 "Colorize" = "Colorize";
+"Based on utilization" = "Based on utilization";
+"Based on pressure" = "Based on pressure";
+"System accent" = "System accent";
+"Monochrome accent" = "Monochrome accent";
+"Clear" = "Clear";
+"White" = "White";
+"Black" = "Black";
+"Gray" = "Gray";
+"Second gray" = "Second gray";
+"Dark gray" = "Dark gray";
+"Light gray" = "Light gray";
+"Red" = "Red";
+"Second red" = "Second red";
+"Green" = "Green";
+"Second green" = "Second green";
+"Blue" = "Blue";
+"Second blue" = "Second blue";
+"Yellow" = "Yellow";
+"Second yellow" = "Second yellow";
+"Orange" = "Orange";
+"Second orange" = "Second orange";
+"Purple" = "Purple";
+"Second purple" = "Second purple";
+"Brown" = "Brown";
+"Second brown" = "Second brown";
+"Cyan" = "Cyan";
+"Magenta" = "Magenta";
+"Pink" = "Pink";
+"Teal" = "Teal";
+"Indigo" = "Indigo";
 "Colorize value" = "Colorize value";
 "Additional information" = "Additional information";
 "Reverse values order" = "Reverse values order";
@@ -148,6 +184,7 @@
 "Reader type" = "Reader type";
 "Interface based" = "Interface based";
 "Processes based" = "Process based";
+"Autodetection" = "Autodetection";
 
 // Battery
 "Level" = "Level";
@@ -176,4 +213,5 @@
 "Hide additional information when full" = "Hide additional information when full";
 
 // Fans
+"Fan" = "Fan";
 "Fans" = "Fans";
