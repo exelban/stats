@@ -128,7 +128,7 @@ public class Battery: Module {
     
     private func checkNotification(value: Battery_Usage) {
         let level = self.store.pointee.string(key: "\(self.config.name)_lowLevelNotification", defaultValue: "0.15")
-        if level == LocalizedString("Disabled") {
+        if level == "Disabled" {
             return
         }
         

@@ -75,7 +75,7 @@ internal class Settings: NSView, Settings_v {
             title: LocalizedString("Low level notification"),
             action: #selector(changeUpdateInterval),
             items: levels,
-            selected: self.lowLevelNotification == LocalizedString("Disabled") ? self.lowLevelNotification : "\(Int((Double(self.lowLevelNotification) ?? 0)*100))%"
+            selected: self.lowLevelNotification == "Disabled" ? LocalizedString("Disabled") : "\(Int((Double(self.lowLevelNotification) ?? 0)*100))%"
         ))
         
         self.addSubview(SelectTitleRow(
@@ -111,7 +111,7 @@ internal class Settings: NSView, Settings_v {
     
     @objc private func changeUpdateInterval(_ sender: NSMenuItem) {
         if sender.title == LocalizedString("Disabled") {
-            store.pointee.set(key: "\(self.title)_lowLevelNotification", value: sender.title)
+            store.pointee.set(key: "\(self.title)_lowLevelNotification", value: "Disabled")
         } else if let value = Double(sender.title.replacingOccurrences(of: "%", with: "")) {
             store.pointee.set(key: "\(self.title)_lowLevelNotification", value: "\(value/100)")
         }
