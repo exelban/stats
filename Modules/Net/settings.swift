@@ -109,7 +109,7 @@ internal class Settings: NSView, Settings_v {
         }
         
         if selectedInterface == "" {
-            self.button?.selectItem(withTitle: "Autodetection")
+            self.button?.selectItem(withTitle: LocalizedString("Autodetection"))
         }
         
         self.button?.menu = menu
@@ -123,7 +123,7 @@ internal class Settings: NSView, Settings_v {
     @objc func handleSelection(_ sender: NSPopUpButton) {
         guard let item = sender.selectedItem else { return }
         
-        if item.title == "Autodetection" {
+        if item.title == LocalizedString("Autodetection") {
             self.store.pointee.remove("\(self.title)_interface")
         } else {
             if let bsdName = item.identifier?.rawValue {

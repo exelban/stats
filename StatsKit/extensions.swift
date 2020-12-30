@@ -321,7 +321,7 @@ public extension NSView {
             if color.contains("separator") {
                 menu.addItem(NSMenuItem.separator())
             } else {
-                let interfaceMenu = NSMenuItem(title: LocalizedString(color), action: nil, keyEquivalent: "")
+                let interfaceMenu = NSMenuItem(title: color, action: nil, keyEquivalent: "")
                 menu.addItem(interfaceMenu)
                 if selected == color {
                     interfaceMenu.state = .on

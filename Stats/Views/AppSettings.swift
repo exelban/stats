@@ -16,7 +16,7 @@ import os.log
 class ApplicationSettings: NSScrollView {
     private var updateIntervalValue: AppUpdateInterval {
         get {
-            return LocalizedString(store.string(key: "update-interval", defaultValue: AppUpdateIntervals.atStart.rawValue))
+            return store.string(key: "update-interval", defaultValue: AppUpdateIntervals.atStart.rawValue)
         }
     }
     
