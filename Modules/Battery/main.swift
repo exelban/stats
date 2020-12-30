@@ -16,7 +16,7 @@ import IOKit.ps
 
 struct Battery_Usage: value_t {
     var powerSource: String = ""
-    var state: String = ""
+    var state: String? = nil
     var isCharged: Bool = false
     var isCharging: Bool = false
     var level: Double = 0

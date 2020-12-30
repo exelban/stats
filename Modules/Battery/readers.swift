@@ -63,7 +63,7 @@ internal class UsageReader: Reader<Battery_Usage> {
         for ps in psList {
             if let list = IOPSGetPowerSourceDescription(psInfo, ps).takeUnretainedValue() as? Dictionary<String, Any> {
                 self.usage.powerSource = list[kIOPSPowerSourceStateKey] as? String ?? "AC Power"
-                self.usage.state = list[kIOPSBatteryHealthKey] as? String ?? "0"
+                self.usage.state = list[kIOPSBatteryHealthKey] as? String
                 self.usage.isCharged = list[kIOPSIsChargedKey] as? Bool ?? false
                 self.usage.isCharging = self.getBoolValue("IsCharging" as CFString) ?? false
                 self.usage.level = Double(list[kIOPSCurrentCapacityKey] as? Int ?? 0) / 100
@@ -79,7 +79,11 @@ internal class UsageReader: Reader<Battery_Usage> {
                 
                 let maxCapacity = self.getIntValue("MaxCapacity" as CFString) ?? 1
                 let designCapacity = self.getIntValue("DesignCapacity" as CFString) ?? 1
+                #if arch(x86_64)
                 self.usage.health = (100 * maxCapacity) / designCapacity
+                #else
+                self.usage.health = maxCapacity
+                #endif
                 
                 self.usage.amperage = self.getIntValue("Amperage" as CFString) ?? 0
                 self.usage.voltage = self.getVoltage() ?? 0

@@ -246,7 +246,10 @@ internal class Popup: NSView, Popup_p {
                 self.timeField?.stringValue = LocalizedString("Fully charged")
             }
             
-            self.healthField?.stringValue = "\(value.health) % (\(value.state))"
+            self.healthField?.stringValue = "\(value.health)%"
+            if let state = value.state {
+                self.healthField?.stringValue += " (\(state))"
+            }
             self.cyclesField?.stringValue = "\(value.cycles)"
             
             self.amperageField?.stringValue = "\(abs(value.amperage)) mA"
