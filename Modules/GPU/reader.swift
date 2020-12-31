@@ -81,14 +81,32 @@ internal class InfoReader: Reader<GPUs> {
             var predictModel = ""
             var type: GPU_types = .unknown
             
-            if ioClass == "nvAccelerator" || ioClass.contains("nvidia") {
+            let utilization = stats["Device Utilization %"] as? Int ?? stats["GPU Activity(%)"] as? Int ?? 0
+            var temperature = stats["Temperature(C)"] as? Int ?? 0
+            
+            if ioClass == "nvAccelerator" || ioClass.contains("nvidia") { // nvidia
                 predictModel = "Nvidia Graphics"
                 type = .discrete
-            } else if ioClass.contains("amd") {
+            } else if ioClass.contains("amd") { // amd
                 predictModel = "AMD Graphics"
                 type = .discrete
-            } else if ioClass.contains("intel") {
+                
+                if temperature == 0 {
+                    if let tmp = self.smc?.pointee.getValue("TGDD") {
+                        temperature = Int(tmp)
+                    }
+                }
+            } else if ioClass.contains("intel") { // intel
                 predictModel = "Intel Graphics"
+                type = .integrated
+                
+                if temperature == 0 {
+                    if let tmp = self.smc?.pointee.getValue("TCGC") {
+                        temperature = Int(tmp)
+                    }
+                }
+            } else if ioClass.contains("AGX") { // apple
+                predictModel = stats["model"] as? String ?? "Apple Graphics"
                 type = .integrated
             } else {
                 predictModel = "Unknown"
@@ -104,21 +122,6 @@ internal class InfoReader: Reader<GPUs> {
             }
             guard let idx = self.gpus.list.firstIndex(where: { $0.model == model }) else {
                 return
-            }
-            
-            let utilization = stats["Device Utilization %"] as? Int ?? stats["GPU Activity(%)"] as? Int ?? 0
-            var temperature = stats["Temperature(C)"] as? Int ?? 0
-            
-            if temperature == 0 {
-                if IOClass == "IntelAccelerator" {
-                    if let tmp = self.smc?.pointee.getValue("TCGC") {
-                        temperature = Int(tmp)
-                    }
-                } else if IOClass.starts(with: "AMDRadeon") {
-                    if let tmp = self.smc?.pointee.getValue("TGDD") {
-                        temperature = Int(tmp)
-                    }
-                }
             }
             
             if let agcInfo = accelerator["AGCInfo"] as? [String:Int] {

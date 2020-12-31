@@ -26,7 +26,7 @@ public struct GPU_Info {
     public let model: String
     public let IOClass: String
     public let type: GPU_type
-    public var state: Bool = false
+    public var state: Bool = true
     
     public var utilization: Double = 0
     public var temperature: Int = 0
