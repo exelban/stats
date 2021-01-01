@@ -144,7 +144,7 @@ public class ProcessReader: Reader<[TopProcess]> {
         
         var processes: [TopProcess] = []
         output.enumerateLines { (line, _) -> () in
-            if line.matches("^\\d+ +.* +\\d+[A-Z]* *$") {
+            if line.matches("^\\d+ +.* +\\d+[A-Z]*\\+?\\-? *$") {
                 var str = line.trimmingCharacters(in: .whitespaces)
                 let pidString = str.findAndCrop(pattern: "^\\d+")
                 let usageString = str.suffix(5)
