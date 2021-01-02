@@ -240,7 +240,12 @@ public class TemperatureReader: Reader<Double> {
     }
     
     public override func read() {
-        let temperature = self.smc?.pointee.getValue("TC0C") ?? self.smc?.pointee.getValue("TC0D") ?? self.smc?.pointee.getValue("TC0P") ?? self.smc?.pointee.getValue("TC0E") ?? self.smc?.pointee.getValue("TC0F")
+        let temperature =
+            self.smc?.pointee.getValue("TC0D") ??
+            self.smc?.pointee.getValue("TC0E") ??
+            self.smc?.pointee.getValue("TC0F") ??
+            self.smc?.pointee.getValue("TC0P") ??
+            self.smc?.pointee.getValue("TC0H")
         
         self.callback(temperature)
     }
