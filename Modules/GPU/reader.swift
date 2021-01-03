@@ -84,7 +84,7 @@ internal class InfoReader: Reader<GPUs> {
             let utilization = stats["Device Utilization %"] as? Int ?? stats["GPU Activity(%)"] as? Int ?? 0
             var temperature = stats["Temperature(C)"] as? Int ?? 0
             
-            if ioClass == "nvAccelerator" || ioClass.contains("nvidia") { // nvidia
+            if ioClass == "nvaccelerator" || ioClass.contains("nvidia") { // nvidia
                 predictModel = "Nvidia Graphics"
                 type = .discrete
             } else if ioClass.contains("amd") { // amd
@@ -105,7 +105,7 @@ internal class InfoReader: Reader<GPUs> {
                         temperature = Int(tmp)
                     }
                 }
-            } else if ioClass.contains("AGX") { // apple
+            } else if ioClass.contains("agx") { // apple
                 predictModel = stats["model"] as? String ?? "Apple Graphics"
                 type = .integrated
             } else {
@@ -124,8 +124,8 @@ internal class InfoReader: Reader<GPUs> {
                 return
             }
             
-            if let agcInfo = accelerator["AGCInfo"] as? [String:Int] {
-                self.gpus.list[idx].state = agcInfo["poweredOffByAGC"] == 0
+            if let agcInfo = accelerator["AGCInfo"] as? [String:Int], let state = agcInfo["poweredOffByAGC"] {
+                self.gpus.list[idx].state = state == 0
             }
             
             self.gpus.list[idx].utilization = utilization == 0 ? 0 : Double(utilization)/100

@@ -308,7 +308,7 @@ public class ProcessReader: Reader<[Network_Process]> {
         if output.isEmpty {
             return
         }
-
+        
         var list: [Network_Process] = []
         var firstLine = false
         output.enumerateLines { (line, _) -> () in
