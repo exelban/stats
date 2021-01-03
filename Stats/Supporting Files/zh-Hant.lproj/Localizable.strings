@@ -59,7 +59,7 @@
 "Latest version: " = "最新版本: ";
 
 // Widgets
-"Color" = "顏色";
+"Color" = "色彩";
 "Label" = "標籤";
 "Box" = "背景";
 "Frame" = "外框";
@@ -68,15 +68,15 @@
 "Colorize value" = "彩色數值";
 "Additional information" = "附加資訊";
 "Reverse values order" = "上下翻轉數值";
-"Base" = "一般";
+"Base" = "單位";
 "Display mode" = "顯示模式";
-"One row" = "一排";
-"Two rows" = "兩排";
+"One row" = "單行";
+"Two rows" = "雙行";
 
 // Module Kit
 "Open module settings" = "打開 Module 設定";
-"Select widget" = "選擇 %0 widget";
-"Update interval" = "更新間隔時間";
+"Select widget" = "選擇「%0」小工具";
+"Update interval" = "更新頻率";
 "Usage history" = "負載歷程記錄";
 "Details" = "詳細資訊";
 "Top processes" = "高能耗程序";
@@ -106,24 +106,24 @@
 "Memory pressure" = "記憶體壓力";
 "Total" = "總共";
 "Used" = "已使用";
-"App" = "應用程式";
+"App" = "App 記憶體";
 "Wired" = "固定";
 "Compressed" = "已壓縮";
 "Free" = "可使用";
-"Swap" = "記憶體調換";
+"Swap" = "調換區";
 
 // Disk
-"Show removable disks" = "顯示卸除式磁碟";
-"Used disk memory" = "%1 中已使用 %0";
-"Free disk memory" = "%1 自由 %0";
+"Show removable disks" = "顯示抽取式磁碟";
+"Used disk memory" = "總共: %1，已用: %0";
+"Free disk memory" = "總共: %1，可用: %0";
 "Disk to show" = "顯示硬碟";
 "Open disk" = "開啟磁碟";
-"Switch view" = "切換檢視";
+"Switch view" = "切換視窗";
 
 // Sensors
 "Temperature unit" = "溫度單位";
-"Celsius" = "攝氏度";
-"Fahrenheit" = "華氏度";
+"Celsius" = "攝氏 (˚C)";
+"Fahrenheit" = "華氏 (˚F)";
 
 // Network
 "Uploading" = "上傳";
@@ -138,12 +138,12 @@
 "Click to copy wifi name" = "點按來拷貝 WiFi 名稱";
 "Click to copy mac address" = "點按來拷貝 MAC 位址";
 "No connection" = "沒有連線";
-"Network interface" = "網路介面";
+"Network interface" = "網路連接埠";
 "Total download" = "共下載";
 "Total upload" = "共上傳";
-"Reader type" = "讀卡機類型";
-"Interface based" = "介面";
-"Processes based" = "程序";
+"Reader type" = "讀取機類型";
+"Interface based" = "依連接埠";
+"Processes based" = "依程序";
 
 // Battery
 "Level" = "電量";
