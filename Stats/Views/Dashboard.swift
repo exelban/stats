@@ -151,7 +151,7 @@ class Dashboard: NSScrollView {
     }
     
     @objc private func windowOpens(_ notification: Notification) {
-        guard notification.userInfo?["module"] as? String == "Stats" else {
+        guard notification.userInfo?["module"] as? String == "Dashboard" else {
             return
         }
         
