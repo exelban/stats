@@ -154,7 +154,9 @@ open class Reader<T>: ReaderInternal_p {
     }
     
     open func stop() {
-        self.repeatTask?.removeAllObservers(thenStop: true)
+        if let repeater = self.repeatTask {
+            repeater.removeAllObservers(thenStop: true)
+        }
         self.repeatTask = nil
         self.active = false
     }
