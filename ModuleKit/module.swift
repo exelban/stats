@@ -77,7 +77,7 @@ open class Module: Module_p {
     public var settings: Settings_p? = nil
     
     private var settingsView: Settings_v? = nil
-    private var popup: NSWindow = NSWindow()
+    private var popup: PopupWindow? = nil
     private var popupView: Popup_p? = nil
     
     private let log: OSLog
@@ -205,7 +205,7 @@ open class Module: Module_p {
         self.store.pointee.set(key: "\(self.config.name)_state", value: false)
         self.readers.forEach{ $0.pause() }
         self.menuBarItem.isVisible = false
-        self.popup.setIsVisible(false)
+        self.popup?.setIsVisible(false)
         os_log(.debug, log: log, "Module disabled")
     }
     
@@ -242,7 +242,7 @@ open class Module: Module_p {
     
     // replace a popup view
     public func replacePopup(_ view: Popup_p) {
-        self.popup.setIsVisible(false)
+        self.popup?.setIsVisible(false)
         self.popupView = view
         self.popup = PopupWindow(title: self.config.name, view: self.popupView, visibilityCallback: self.visibilityCallback)
     }
@@ -319,25 +319,32 @@ open class Module: Module_p {
         let openedWindows = NSApplication.shared.windows.filter{ $0 is NSPanel }
         openedWindows.forEach{ $0.setIsVisible(false) }
         
-        if self.popup.occlusionState.rawValue == 8192 {
+        guard let popup = self.popup else {
+            return
+        }
+        
+        if popup.occlusionState.rawValue == 8192 {
             NSApplication.shared.activate(ignoringOtherApps: true)
             
-            self.popup.contentView?.invalidateIntrinsicContentSize()
+            popup.contentView?.invalidateIntrinsicContentSize()
             
             let buttonOrigin = self.menuBarItem.button?.window?.frame.origin
             let buttonCenter = (self.menuBarItem.button?.window?.frame.width)! / 2
             
-            let windowCenter = self.popup.contentView!.intrinsicContentSize.width / 2
+            let windowCenter = popup.contentView!.intrinsicContentSize.width / 2
             var x = buttonOrigin!.x - windowCenter + buttonCenter
-            let y = buttonOrigin!.y - self.popup.contentView!.intrinsicContentSize.height - 3
+            let y = buttonOrigin!.y - popup.contentView!.intrinsicContentSize.height - 3
             
             let maxWidth = NSScreen.screens.map{ $0.frame.width }.reduce(0, +)
-            if x + self.popup.contentView!.intrinsicContentSize.width > maxWidth {
-                x = maxWidth - self.popup.contentView!.intrinsicContentSize.width - 3
+            if x + popup.contentView!.intrinsicContentSize.width > maxWidth {
+                x = maxWidth - popup.contentView!.intrinsicContentSize.width - 3
             }
             
-            self.popup.setFrameOrigin(NSPoint(x: x, y: y))
-            self.popup.setIsVisible(true)
+            popup.setFrameOrigin(NSPoint(x: x, y: y))
+            popup.setIsVisible(true)
+        } else {
+            popup.locked = false
+            popup.setIsVisible(false)
         }
     }
     
@@ -372,8 +379,8 @@ open class Module: Module_p {
     }
     
     @objc private func listenForMouseDownInSettings(_ notification: Notification) {
-        if self.popup.isVisible {
-            self.popup.setIsVisible(false)
+        if let popup = self.popup, popup.isVisible {
+            self.popup?.setIsVisible(false)
         }
     }
     

@@ -16,8 +16,9 @@ public protocol Popup_p: NSView {
     var sizeCallback: ((NSSize) -> Void)? { get set }
 }
 
-internal class PopupWindow: NSPanel {
+internal class PopupWindow: NSWindow, NSWindowDelegate {
     private let viewController: PopupViewController = PopupViewController()
+    internal var locked: Bool = false
     
     init(title: String, view: Popup_p?, visibilityCallback: @escaping (_ state: Bool) -> Void) {
         self.viewController.setup(title: title, view: view)
@@ -25,21 +26,30 @@ internal class PopupWindow: NSPanel {
         
         super.init(
             contentRect: NSMakeRect(0, 0, self.viewController.view.frame.width, self.viewController.view.frame.height),
-            styleMask: [],
+            styleMask: [.titled, .fullSizeContentView],
             backing: .buffered,
             defer: true
         )
         
         self.contentViewController = self.viewController
-        self.backingType = .buffered
-        self.isFloatingPanel = true
-        self.worksWhenModal = true
-        self.becomesKeyOnlyIfNeeded = true
-        self.styleMask = .borderless
+        self.titlebarAppearsTransparent = true
         self.animationBehavior = .default
         self.collectionBehavior = .moveToActiveSpace
         self.backgroundColor = .clear
         self.hasShadow = true
+        self.setIsVisible(false)
+        self.delegate = self
+    }
+    
+    func windowWillMove(_ notification: Notification) {
+        self.locked = true
+    }
+    
+    func windowDidResignKey(_ notification: Notification) {
+        if self.locked {
+            return
+        }
+        
         self.setIsVisible(false)
     }
 }
