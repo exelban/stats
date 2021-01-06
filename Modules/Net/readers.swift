@@ -229,20 +229,11 @@ internal class UsageReader: Reader<Network_Usage> {
     }
     
     private func getPublicIP() {
-        let url = URL(string: "https://api.myip.com")
-        var address: String? = nil
+        let url = URL(string: "https://api.ipify.org")
         
         do {
             if let url = url {
-                address = try String(contentsOf: url)
-                
-                if address != nil {
-                    let jsonData = address!.data(using: .utf8)
-                    let response: ipResponse = try JSONDecoder().decode(ipResponse.self, from: jsonData!)
-                    
-                    self.usage.countryCode = response.cc
-                    self.usage.raddr = response.ip
-                }
+                self.usage.raddr = try String(contentsOf: url)
             }
         } catch let error {
             os_log(.error, log: log, "get public ip %s", "\(error)")
