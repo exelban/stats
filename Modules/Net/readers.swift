@@ -274,6 +274,10 @@ public class ProcessReader: Reader<[Network_Process]> {
     }
     
     public override func read() {
+        if self.numberOfProcesses == 0 {
+            return
+        }
+        
         let task = Process()
         task.launchPath = "/usr/bin/nettop"
         task.arguments = ["-P", "-L", "1", "-k", "time,interface,state,rx_dupe,rx_ooo,re-tx,rtt_avg,rcvsize,tx_win,tc_class,tc_mgt,cc_algo,P,C,R,W,arch"]

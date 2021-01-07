@@ -174,6 +174,10 @@ public class ProcessReader: Reader<[TopProcess]> {
     }
     
     public override func read() {
+        if self.numberOfProcesses == 0 {
+            return
+        }
+        
         let task = Process()
         task.launchPath = "/bin/ps"
         task.arguments = ["-Aceo pid,pcpu,comm", "-r"]

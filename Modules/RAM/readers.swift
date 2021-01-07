@@ -116,6 +116,10 @@ public class ProcessReader: Reader<[TopProcess]> {
     }
     
     public override func read() {
+        if self.numberOfProcesses == 0 {
+            return
+        }
+        
         let task = Process()
         task.launchPath = "/usr/bin/top"
         task.arguments = ["-l", "1", "-o", "mem", "-n", "\(self.numberOfProcesses)", "-stats", "pid,command,mem"]

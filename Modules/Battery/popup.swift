@@ -57,7 +57,8 @@ internal class Popup: NSView, Popup_p {
     }
     private var processesHeight: CGFloat {
         get {
-            return (self.processHeight*CGFloat(self.numberOfProcesses))+Constants.Popup.separatorHeight
+            let num = self.numberOfProcesses
+            return (self.processHeight*CGFloat(num)) + (num == 0 ? 0 : Constants.Popup.separatorHeight)
         }
     }
     private var timeFormat: String {
