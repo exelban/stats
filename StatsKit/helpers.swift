@@ -81,7 +81,7 @@ public let ShortLong: [KeyValue_t] = [
 ]
 
 public let ReaderUpdateIntervals: [Int] = [1, 2, 3, 5, 10, 15, 30]
-public let NumbersOfProcesses: [Int] = [3, 5, 8, 10, 15]
+public let NumbersOfProcesses: [Int] = [0, 3, 5, 8, 10, 15]
 
 public typealias Bandwidth = (upload: Int64, download: Int64)
 public let NetworkReaders: [KeyValue_t] = [
@@ -283,7 +283,7 @@ public func PopupRow(_ view: NSView, n: CGFloat, title: String, value: String) -
     
     let labelWidth = title.widthOfString(usingFont: .systemFont(ofSize: 13, weight: .regular)) + 5
     let labelView: LabelField = LabelField(frame: NSRect(x: 0, y: (22-15)/2, width: labelWidth, height: 15), title)
-    let valueView: ValueField = ValueField(frame: NSRect(x: labelWidth, y: (22-16)/2, width: rowView.frame.width - labelWidth, height: 16), value)
+    let valueView: ValueField = ValueField(frame: NSRect(x: labelWidth, y: (22-15)/2, width: rowView.frame.width - labelWidth, height: 16), value)
     
     rowView.addSubview(labelView)
     rowView.addSubview(valueView)
