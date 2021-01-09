@@ -15,10 +15,16 @@ import ModuleKit
 import os.log
 
 public struct device {
+    public let vendor: String?
     public let model: String
     public let pci: String
     public var used: Bool
 }
+
+let vendors: [Data: String] = [
+    Data.init([0x86, 0x80, 0x00, 0x00]): "Intel",
+    Data.init([0x02, 0x10, 0x00, 0x00]): "AMD"
+]
 
 internal class InfoReader: Reader<GPUs> {
     internal var smc: UnsafePointer<SMCService>? = nil
@@ -45,7 +51,17 @@ internal class InfoReader: Reader<GPUs> {
             }
             let model = modelName.replacingOccurrences(of: "\0", with: "")
             
-            self.devices.append(device(model: model, pci: pci, used: false))
+            var vendor: String? = nil
+            if let v = vendors.first(where: { $0.key == vendorID }) {
+                vendor = v.value
+            }
+            
+            self.devices.append(device(
+                vendor: vendor,
+                model: model,
+                pci: pci,
+                used: false
+            ))
         }
     }
     
@@ -66,12 +82,14 @@ internal class InfoReader: Reader<GPUs> {
                 return
             }
             
+            var vendor: String? = nil
             var model: String = ""
             let accMatch = (accelerator["IOPCIMatch"] as? String ?? accelerator["IOPCIPrimaryMatch"] as? String ?? "").lowercased()
             
             for (i, device) in devices.enumerated() {
                 if accMatch.range(of: device.pci) != nil && !device.used {
                     model = device.model
+                    vendor = device.vendor
                     devices[i].used = true
                     break
                 }
@@ -81,8 +99,11 @@ internal class InfoReader: Reader<GPUs> {
             var predictModel = ""
             var type: GPU_types = .unknown
             
-            let utilization = stats["Device Utilization %"] as? Int ?? stats["GPU Activity(%)"] as? Int ?? 0
-            var temperature = stats["Temperature(C)"] as? Int ?? 0
+            let utilization: Int? = stats["Device Utilization %"] as? Int ?? stats["GPU Activity(%)"] as? Int ?? nil
+            var temperature: Int? = stats["Temperature(C)"] as? Int ?? nil
+            let fanSpeed: Int? = stats["Fan Speed(%)"] as? Int ?? nil
+            let coreClock: Int? = stats["Core Clock(MHz)"] as? Int ?? nil
+            let memoryClock: Int? = stats["Memory Clock(MHz)"] as? Int ?? nil
             
             if ioClass == "nvaccelerator" || ioClass.contains("nvidia") { // nvidia
                 predictModel = "Nvidia Graphics"
@@ -91,8 +112,8 @@ internal class InfoReader: Reader<GPUs> {
                 predictModel = "AMD Graphics"
                 type = .discrete
                 
-                if temperature == 0 {
-                    if let tmp = self.smc?.pointee.getValue("TGDD") {
+                if temperature == nil || temperature == 0 {
+                    if let tmp = self.smc?.pointee.getValue("TGDD"), tmp != 128 {
                         temperature = Int(tmp)
                     }
                 }
@@ -100,8 +121,8 @@ internal class InfoReader: Reader<GPUs> {
                 predictModel = "Intel Graphics"
                 type = .integrated
                 
-                if temperature == 0 {
-                    if let tmp = self.smc?.pointee.getValue("TCGC") {
+                if temperature == nil || temperature == 0 {
+                    if let tmp = self.smc?.pointee.getValue("TCGC"), tmp != 128 {
                         temperature = Int(tmp)
                     }
                 }
@@ -116,9 +137,17 @@ internal class InfoReader: Reader<GPUs> {
             if model == "" {
                 model = predictModel
             }
+            if let v = vendor {
+                model = model.removedRegexMatches(pattern: v, replaceWith: "").trimmingCharacters(in: .whitespacesAndNewlines)
+            }
             
             if self.gpus.list.first(where: { $0.model == model }) == nil {
-                self.gpus.list.append(GPU_Info(model: model, IOClass: IOClass, type: type.rawValue))
+                self.gpus.list.append(GPU_Info(
+                    type: type.rawValue,
+                    IOClass: IOClass,
+                    vendor: vendor,
+                    model: model
+                ))
             }
             guard let idx = self.gpus.list.firstIndex(where: { $0.model == model }) else {
                 return
@@ -128,8 +157,21 @@ internal class InfoReader: Reader<GPUs> {
                 self.gpus.list[idx].state = state == 0
             }
             
-            self.gpus.list[idx].utilization = utilization == 0 ? 0 : Double(utilization)/100
-            self.gpus.list[idx].temperature = temperature
+            if let value = utilization {
+                self.gpus.list[idx].utilization = Double(value)/100
+            }
+            if let value = temperature {
+                self.gpus.list[idx].temperature = Double(value)
+            }
+            if let value = fanSpeed {
+                self.gpus.list[idx].fanSpeed = value
+            }
+            if let value = coreClock {
+                self.gpus.list[idx].coreClock = value
+            }
+            if let value = memoryClock {
+                self.gpus.list[idx].memoryClock = value
+            }
         }
         
         self.gpus.list.sort{ !$0.state && $1.state }

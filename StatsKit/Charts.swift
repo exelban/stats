@@ -31,6 +31,8 @@ public struct circle_segment {
 }
 
 public class LineChartView: NSView {
+    public var id: String = UUID().uuidString
+    
     public var points: [Double]
     public var transparent: Bool = true
     
@@ -105,6 +107,8 @@ public class LineChartView: NSView {
 }
 
 public class NetworkChartView: NSView {
+    public var id: String = UUID().uuidString
+    
     private var points: [(Double, Double)]? = nil
     private var colors: [NSColor] = [NSColor.systemRed, NSColor.systemBlue]
     
@@ -224,6 +228,8 @@ public class NetworkChartView: NSView {
 }
 
 public class PieChartView: NSView {
+    public var id: String = UUID().uuidString
+    
     private var filled: Bool = false
     private var drawValue: Bool = false
     
@@ -304,6 +310,8 @@ public class PieChartView: NSView {
 }
 
 public class HalfCircleGraphView: NSView {
+    public var id: String = UUID().uuidString
+    
     private var value: Double = 0.0
     private var text: String? = nil
     

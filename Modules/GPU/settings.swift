@@ -94,23 +94,21 @@ internal class Settings: NSView, Settings_v {
     }
     
     private func addGPUSelector(frame: NSRect) {
-        let view: NSView = NSView(frame: frame)
+        let view: NSGridView = NSGridView(frame: frame)
+        view.yPlacement = .center
+        view.wantsLayer = true
+        view.layer?.backgroundColor = NSColor.red.cgColor
         
-        let rowTitle: NSTextField = LabelField(frame: NSRect(
-            x: 0,
-            y: (view.frame.height - 16)/2,
-            width: view.frame.width - 52,
-            height: 17
-        ), LocalizedString("GPU to show"))
-        rowTitle.font = NSFont.systemFont(ofSize: 13, weight: .light)
-        rowTitle.textColor = .textColor
+        let title: NSTextField = LabelField(frame: NSRect(x: 0, y: 0, width: 100, height: 17), LocalizedString("GPU to show"))
+        title.font = NSFont.systemFont(ofSize: 13, weight: .light)
+        title.textColor = .textColor
         
-        self.button = NSPopUpButton(frame: NSRect(x: view.frame.width - 200, y: -1, width: 200, height: 30))
-        self.button!.target = self
-        self.button?.action = #selector(self.handleSelection)
+        let button = NSPopUpButton(frame: NSRect(x: view.frame.width - 200, y: -1, width: 200, height: 30))
+        button.target = self
+        button.action = #selector(self.handleSelection)
+        self.button = button
         
-        view.addSubview(rowTitle)
-        view.addSubview(self.button!)
+        view.addRow(with: [title, button])
         
         self.addSubview(view)
     }
