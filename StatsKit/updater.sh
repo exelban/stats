@@ -32,6 +32,7 @@ else
     cp -rf $MOUNT_PATH/Stats.app $APPLICATION_PATH/Stats.app
 
     $APPLICATION_PATH/Stats.app/Contents/MacOS/Stats --dmg-path "$DMG_PATH" --mount-path "$MOUNT_PATH"
+    /bin/rm -rf "$DMG_PATH"
 
     echo "New version started"
 fi
