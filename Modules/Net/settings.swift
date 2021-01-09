@@ -95,8 +95,7 @@ internal class Settings: NSView, Settings_v {
         
         let selectedInterface = self.store.pointee.string(key: "\(self.title)_interface", defaultValue: "")
         let menu = NSMenu()
-        let autodetection = NSMenuItem(title: LocalizedString("Autodetection"), action: nil, keyEquivalent: "")
-        autodetection.representedObject = "autodetection"
+        let autodetection = NSMenuItem(title: "Autodetection", action: nil, keyEquivalent: "")
         menu.addItem(autodetection)
         menu.addItem(NSMenuItem.separator())
         
@@ -112,7 +111,7 @@ internal class Settings: NSView, Settings_v {
         self.button?.menu = menu
         
         if selectedInterface == "" {
-            self.button?.select(autodetection)
+            self.button?.selectItem(withTitle: "Autodetection")
         }
         
         view.addSubview(rowTitle)
@@ -124,7 +123,7 @@ internal class Settings: NSView, Settings_v {
     @objc func handleSelection(_ sender: NSPopUpButton) {
         guard let item = sender.selectedItem else { return }
         
-        if item.representedObject as? String == "autodetection" {
+        if item.title == "Autodetection" {
             self.store.pointee.remove("\(self.title)_interface")
         } else {
             if let bsdName = item.identifier?.rawValue {

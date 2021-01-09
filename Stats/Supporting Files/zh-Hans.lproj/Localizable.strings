@@ -52,6 +52,10 @@
 "Show icon in dock" = "在dock显示图标";
 "Start at login" = "登录时打开";
 
+// Dashboard
+"Serial number" = "序列号";
+"Uptime" = "启动时间";
+
 // Update
 "The latest version of Stats installed" = "已安装最新版Stats";
 "Downloading..." = "下载中...";
@@ -142,8 +146,6 @@
 "Total download" = "总下载";
 "Total upload" = "总上传";
 "Reader type" = "读取器类型";
-"Interface" = "接口";
-"Process" = "进程";
 "Interface based" = "基于接口";
 "Processes based" = "基于进程";
 

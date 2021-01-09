@@ -23,7 +23,7 @@ internal class Settings: NSView, Settings_v {
     private var button: NSPopUpButton?
     
     private var numberOfProcesses: Int = 8
-    private let levelsList: [String] = [LocalizedString("Disabled"), "0.03", "0.05", "0.1", "0.15", "0.2", "0.25", "0.3", "0.4", "0.5"]
+    private let levelsList: [String] = ["Disabled", "0.03", "0.05", "0.1", "0.15", "0.2", "0.25", "0.3", "0.4", "0.5"]
     private var lowLevelNotification: String {
         get {
             return self.store.pointee.string(key: "\(self.title)_lowLevelNotification", defaultValue: "0.15")
@@ -75,7 +75,7 @@ internal class Settings: NSView, Settings_v {
             title: LocalizedString("Low level notification"),
             action: #selector(changeUpdateInterval),
             items: levels,
-            selected: self.lowLevelNotification == "Disabled" ? LocalizedString("Disabled") : "\(Int((Double(self.lowLevelNotification) ?? 0)*100))%"
+            selected: self.lowLevelNotification == "Disabled" ? self.lowLevelNotification : "\(Int((Double(self.lowLevelNotification) ?? 0)*100))%"
         ))
         
         self.addSubview(SelectTitleRow(
@@ -110,8 +110,8 @@ internal class Settings: NSView, Settings_v {
     }
     
     @objc private func changeUpdateInterval(_ sender: NSMenuItem) {
-        if sender.title == LocalizedString("Disabled") {
-            store.pointee.set(key: "\(self.title)_lowLevelNotification", value: "Disabled")
+        if sender.title == "Disabled" {
+            store.pointee.set(key: "\(self.title)_lowLevelNotification", value: sender.title)
         } else if let value = Double(sender.title.replacingOccurrences(of: "%", with: "")) {
             store.pointee.set(key: "\(self.title)_lowLevelNotification", value: "\(value/100)")
         }
