@@ -108,11 +108,11 @@ internal class Settings: NSView, Settings_v {
             }
         }
         
+        self.button?.menu = menu
+        
         if selectedInterface == "" {
             self.button?.selectItem(withTitle: "Autodetection")
         }
-        
-        self.button?.menu = menu
         
         view.addSubview(rowTitle)
         view.addSubview(self.button!)
