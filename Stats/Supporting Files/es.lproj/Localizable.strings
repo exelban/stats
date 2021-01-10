@@ -19,7 +19,7 @@
 "Disk" = "Disco";
 "Close" = "Cerrar";
 "Download" = "Descargar";
-"Install" = "Intalar";
+"Install" = "Instalar";
 "Cancel" = "Cancelar";
 "Unavailable" = "No disponible";
 "Yes" = "Sí";
@@ -51,19 +51,19 @@
 "Check for updates" = "Buscar actualizaciones";
 "Check for update" = "Buscar actualización";
 "Show icon in dock" = "Muestra el icono en el dock";
-"Start at login" = "Arrancar al inicio";
+"Start at login" = "Arrancar al iniciar sesión";
 
 // Update
-"The latest version of Stats installed" = "La última versión de Stats instalada";
+"The latest version of Stats installed" = "La última versión de Stats está instalada";
 "Downloading..." = "Descargando...";
-"Current version: " = "Versión actual: ";
+"Current version: " = "Versión instalada: ";
 "Latest version: " = "Última versión: ";
 
 // Widgets
 "Color" = "Color";
 "Label" = "Etiqueta";
 "Box" = "Caja";
-"Frame" = "Cuadro";
+"Frame" = "Borde";
 "Value" = "Valor";
 "Colorize" = "Colorear";
 "Colorize value" = "Colorear valor";
@@ -103,7 +103,7 @@
 "GPU utilization" = "Utilización de la GPU";
 
 // Memory
-"Memory usage" = "Uso de memoria";
+"Memory usage" = "Uso de la memoria";
 "Memory pressure" = "Presión de la memoria";
 "Total" = "Total";
 "Used" = "Usado";
@@ -136,7 +136,7 @@
 "Physical address" = "Dirección física";
 "Click to copy public IP address" = "Haga clic para copiar la dirección IP pública";
 "Click to copy local IP address" = "Haga clic para copiar la dirección IP local";
-"Click to copy wifi name" = "Haga clic para copiar el nombre del wifi";
+"Click to copy wifi name" = "Haga clic para copiar el nombre de la red wifi";
 "Click to copy mac address" = "Haga clic para copiar la dirección mac";
 "No connection" = "Sin conexión";
 "Network interface" = "Interfaz de red";
@@ -158,7 +158,7 @@
 "Power adapter" = "Adaptador de corriente";
 "Power" = "Corriente";
 "Is charging" = "Está cargando";
-"Time to discharge" = "Tiempo restante";
+"Time to discharge" = "Tiempo para descarga completa";
 "Time to charge" = "Tiempo para carga completa";
 "Calculating" = "Calculando";
 "Fully charged" = "Completamente cargada";
@@ -170,7 +170,7 @@
 "Percentage and time" = "Porcentaje y tiempo";
 "Time and percentage" = "Tiempo y porcentaje";
 "Time format" = "Formato de tiempo";
-"Hide additional information when full" = "Ocultar información adicional cuando la batería está llena";
+"Hide additional information when full" = "Ocultar información adicional cuando la batería está cargada";
 
 // Fans
 "Fans" = "Ventiladores";
