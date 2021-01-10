@@ -118,8 +118,8 @@
 
 // Disk
 "Show removable disks" = "Show removable disks";
-"Used disk memory" = "Used %0 from %1";
-"Free disk memory" = "Free %0 from %1";
+"Used disk memory" = "%0 of %1 used";
+"Free disk memory" = "%0 of %1 free";
 "Disk to show" = "Disk to show";
 "Open disk" = "Open disk";
 "Switch view" = "Switch view";
