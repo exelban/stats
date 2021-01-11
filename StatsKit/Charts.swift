@@ -108,6 +108,7 @@ public class LineChartView: NSView {
 
 public class NetworkChartView: NSView {
     public var id: String = UUID().uuidString
+    public var base: DataSizeBase = .byte
     
     private var points: [(Double, Double)]? = nil
     private var colors: [NSColor] = [NSColor.systemRed, NSColor.systemBlue]
@@ -201,8 +202,8 @@ public class NetworkChartView: NSView {
             NSAttributedString.Key.foregroundColor: isDarkMode ? NSColor.white : NSColor.textColor,
             NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
         ]
-        let uploadText = Units(bytes: Int64(uploadMax)).getReadableSpeed()
-        let downloadText = Units(bytes: Int64(downloadMax)).getReadableSpeed()
+        let uploadText = Units(bytes: Int64(uploadMax)).getReadableSpeed(base: self.base)
+        let downloadText = Units(bytes: Int64(downloadMax)).getReadableSpeed(base: self.base)
         let uploadTextWidth = uploadText.widthOfString(usingFont: stringAttributes[NSAttributedString.Key.font] as! NSFont)
         let downloadTextWidth = downloadText.widthOfString(usingFont: stringAttributes[NSAttributedString.Key.font] as! NSFont)
         

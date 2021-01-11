@@ -162,6 +162,7 @@ internal class Popup: NSView, Popup_p {
         container.layer?.cornerRadius = 3
         
         self.chart = NetworkChartView(frame: NSRect(x: 1, y: 0, width: container.frame.width, height: container.frame.height), num: 120)
+        self.chart?.base = self.base
         container.addSubview(self.chart!)
         
         view.addSubview(separator)
@@ -346,7 +347,12 @@ internal class Popup: NSView, Popup_p {
                 self.initialized = true
             }
             
-            self.chart?.addValue(upload: Double(value.bandwidth.upload), download: Double(value.bandwidth.download))
+            if let chart = self.chart {
+                if chart.base != self.base {
+                    chart.base = self.base
+                }
+                chart.addValue(upload: Double(value.bandwidth.upload), download: Double(value.bandwidth.download))
+            }
         })
     }
     
