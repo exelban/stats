@@ -242,7 +242,7 @@ internal class DiskNameAndBarView: NSView {
     
     override func mouseDown(with: NSEvent) {
         if let uri = self.uri {
-            NSWorkspace.shared.openFile(uri.absoluteString, withApplication: "Finder")
+            NSWorkspace.shared.openFile(uri.path, withApplication: "Finder")
         }
     }
 }
