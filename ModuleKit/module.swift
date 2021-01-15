@@ -385,6 +385,10 @@ open class Module: Module_p {
     }
     
     @objc private func listenResignActive(_ notification: Notification) {
+        if let popup = self.popup, popup.locked {
+            return
+        }
+        
         self.visibilityCallback(false)
     }
 }
