@@ -52,6 +52,10 @@
 "Show icon in dock" = "Vis ikon i dock";
 "Start at login" = "Start ved innlogging";
 
+// Dashboard
+"Serial number" = "Serienummer";
+"Uptime" = "Oppetid";
+
 // Update
 "The latest version of Stats installed" = "Den nyeste versjonen av Stats er installert";
 "Downloading..." = "Laster ned...";
@@ -153,6 +157,7 @@
 "Battery" = "Batteri";
 "Amperage" = "Strømstyrke";
 "Voltage" = "Spenning";
+"Cycles" = "Syklusnummer";
 "Temperature" = "Temperatur";
 "Power adapter" = "Strømadapter";
 "Power" = "Strøm";

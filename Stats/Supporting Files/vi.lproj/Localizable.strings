@@ -52,6 +52,10 @@
 "Show icon in dock" = "Hiện icon trên Dock";
 "Start at login" = "Khởi động lúc đăng nhập";
 
+// Dashboard
+"Serial number" = "Số sê-ri";
+"Uptime" = "Thời gian hoạt động";
+
 // Update
 "The latest version of Stats installed" = "Stats đã được cập nhật";
 "Downloading..." = "Đang tải xuống...";
@@ -153,6 +157,7 @@
 "Battery" = "PIN";
 "Amperage" = "Cường độ dòng điện";
 "Voltage" = "Điện áp";
+"Cycles" = "Số chu kỳ";
 "Temperature" = "Nhiệt độ";
 "Power adapter" = "Bộ sạc";
 "Power" = "Công suất";

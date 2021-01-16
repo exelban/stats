@@ -52,6 +52,10 @@
 "Show icon in dock" = "Dock'ta göster";
 "Start at login" = "Başlangıçta çalıştır";
 
+// Dashboard
+"Serial number" = "Seri numarası";
+"Uptime" = "Uptime";
+
 // Update
 "The latest version of Stats installed" = "Stats'ın son sürümü yüklendi";
 "Downloading..." = "İndiriliyor...";
@@ -153,6 +157,7 @@
 "Battery" = "Batarya";
 "Amperage" = "Amper";
 "Voltage" = "Voltaj";
+"Cycles" = "Döngü sayısı";
 "Temperature" = "Sıcaklık";
 "Power adapter" = "Güç adaptörü";
 "Power" = "Güç";

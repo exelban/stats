@@ -157,6 +157,7 @@
 "Battery" = "Battery";
 "Amperage" = "Amperage";
 "Voltage" = "Voltage";
+"Cycles" = "Cycles";
 "Temperature" = "Temperature";
 "Power adapter" = "Power adapter";
 "Power" = "Power";

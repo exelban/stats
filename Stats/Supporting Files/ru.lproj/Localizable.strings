@@ -52,6 +52,10 @@
 "Show icon in dock" = "Показать значок в dock";
 "Start at login" = "Запуск при логуванні";
 
+// Dashboard
+"Serial number" = "Серийный номер";
+"Uptime" = "Время работы";
+
 // Update
 "The latest version of Stats installed" = "Установлена последняя версия";
 "Downloading..." = "Скачивание...";
@@ -153,6 +157,7 @@
 "Battery" = "Аккумулятор";
 "Amperage" = "Сила тока";
 "Voltage" = "Напряжение";
+"Cycles" = "Количество циклов";
 "Temperature" = "Температура";
 "Power adapter" = "Блок питания";
 "Power" = "Мощность";

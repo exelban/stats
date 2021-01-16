@@ -52,6 +52,10 @@
 "Show icon in dock" = "在 Dock 顯示圖示";
 "Start at login" = "登入時打開";
 
+// Dashboard
+"Serial number" = "序列號";
+"Uptime" = "正常運行時間";
+
 // Update
 "The latest version of Stats installed" = "已安裝最新版本";
 "Downloading..." = "下載中...";
@@ -153,6 +157,7 @@
 "Battery" = "電池";
 "Amperage" = "電流";
 "Voltage" = "電壓";
+"Cycles" = "循環數";
 "Temperature" = "溫度";
 "Power adapter" = "電源供應器";
 "Power" = "功率";

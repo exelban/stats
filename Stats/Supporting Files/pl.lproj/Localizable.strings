@@ -52,6 +52,10 @@
 "Show icon in dock" = "Pokazuj ikonę w docku";
 "Start at login" = "Uruchamiać przy logowaniu";
 
+// Dashboard
+"Serial number" = "Numer seryjny";
+"Uptime" = "Czas pracy";
+
 // Update
 "The latest version of Stats installed" = "Najnowsza wersja Stats zainstalowana";
 "Downloading..." = "Pobieranie...";
@@ -153,6 +157,7 @@
 "Battery" = "Bateria";
 "Amperage" = "Natężenie";
 "Voltage" = "Napięcie";
+"Cycles" = "Liczba cykli";
 "Temperature" = "Temperatura";
 "Power adapter" = "Zasilacz";
 "Power" = "Moc";

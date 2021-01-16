@@ -52,6 +52,10 @@
 "Show icon in dock" = "Dock にアイコンを表示";
 "Start at login" = "ログイン時に開く";
 
+// Dashboard
+"Serial number" = "シリアルナンバー";
+"Uptime" = "稼働時間";
+
 // Update
 "The latest version of Stats installed" = "最新の Stats がインストールされています";
 "Downloading..." = "ダウンロード中...";
@@ -152,6 +156,7 @@
 "Health" = "状態";
 "Battery" = "バッテリー";
 "Amperage" = "電流";
+"Cycles" = "サイクル数";
 "Voltage" = "電圧";
 "Temperature" = "温度";
 "Power adapter" = "電源アダプタ";

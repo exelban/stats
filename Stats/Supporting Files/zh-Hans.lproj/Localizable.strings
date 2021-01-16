@@ -157,6 +157,7 @@
 "Battery" = "电池";
 "Amperage" = "电流";
 "Voltage" = "电压";
+"Cycles" = "循环数";
 "Temperature" = "温度";
 "Power adapter" = "电源适配器";
 "Power" = "功率";

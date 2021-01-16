@@ -52,6 +52,10 @@
 "Show icon in dock" = "Dock에서 아이콘 보이기";
 "Start at login" = "로그인시 시작";
 
+// Dashboard
+"Serial number" = "일련 번호";
+"Uptime" = "가동 시간";
+
 // Update
 "The latest version of Stats installed" = "최신 버전의 Stats가 설치되어 있습니다";
 "Downloading..." = "다운로드중...";
@@ -153,6 +157,7 @@
 "Battery" = "배터리";
 "Amperage" = "암페어";
 "Voltage" = "전압";
+"Cycles" = "사이클 수";
 "Temperature" = "온도";
 "Power adapter" = "전원 어댑터";
 "Power" = "출력";
