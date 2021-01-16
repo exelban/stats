@@ -544,12 +544,13 @@ public func IsNewestVersion(currentVersion: String, latestVersion: String) -> Bo
     return false
 }
 
-public func showNotification(title: String, subtitle: String, id: String = UUID().uuidString, icon: NSImage? = nil) -> NSUserNotification {
+public func showNotification(title: String, subtitle: String? = nil, text: String? = nil, id: String = UUID().uuidString, icon: NSImage? = nil) -> NSUserNotification {
     let notification = NSUserNotification()
     
     notification.identifier = id
     notification.title = title
     notification.subtitle = subtitle
+    notification.informativeText = text
     notification.soundName = NSUserNotificationDefaultSoundName
     notification.hasActionButton = false
     

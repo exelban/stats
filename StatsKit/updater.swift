@@ -157,9 +157,10 @@ public class macAppUpdater {
         print("Script is copied to $TMPDIR/updater.sh")
         
         let pwd = Bundle.main.bundleURL.absoluteString.replacingOccurrences(of: "file://", with: "").replacingOccurrences(of: "Stats.app/", with: "")
-        asyncShell("sh $TMPDIR/updater.sh --app \(pwd) --dmg \(path) >/dev/null &") // run updater script in in background
+        let dmg = path.replacingOccurrences(of: "file://", with: "")
+        asyncShell("sh $TMPDIR/updater.sh --app \(pwd) --dmg \(dmg) >/dev/null &") // run updater script in in background
         
-        print("Run updater.sh with app: \(pwd) and dmg: \(path)")
+        print("Run updater.sh with app: \(pwd) and dmg: \(dmg)")
         
         exit(0)
     }

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DMG_PATH="$HOME/Download/Stats.dmg"
+DMG_PATH="$HOME/Downloads/Stats.dmg"
 MOUNT_PATH="/tmp/Stats"
 APPLICATION_PATH="/Applications/"
 
@@ -32,7 +32,6 @@ else
     cp -rf $MOUNT_PATH/Stats.app $APPLICATION_PATH/Stats.app
 
     $APPLICATION_PATH/Stats.app/Contents/MacOS/Stats --dmg-path "$DMG_PATH" --mount-path "$MOUNT_PATH"
-    /bin/rm -rf "$DMG_PATH"
 
     echo "New version started"
 fi
