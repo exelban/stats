@@ -154,6 +154,7 @@
 "Battery" = "Baterie";
 "Amperage" = "Proud";
 "Voltage" = "Napětí";
+"Cycles" = "Počet cyklů";
 "Temperature" = "Teplota";
 "Power adapter" = "Síťový adaptér";
 "Power" = "Výkon";

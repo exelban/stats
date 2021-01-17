@@ -51,6 +51,7 @@ Stats is an application that allows you to monitor your macOS system.
 - Norwegian Bokmål (thanks to [rubjo](https://github.com/rubjo))
 - 日本語 (thanks to [treastrain](https://github.com/treastrain))
 - Portuguese (Portugal) (thanks to [AdamModus](https://github.com/AdamModus))
+- Czech (thanks to [mpl75](https://github.com/mpl75))
 
 You can help by adding a new language or improve existing translation.
 
