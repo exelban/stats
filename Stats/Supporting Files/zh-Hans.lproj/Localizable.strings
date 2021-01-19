@@ -104,6 +104,15 @@
 "Show GPU type" = "显示GPU类型";
 "GPU temperature" = "GPU温度";
 "GPU utilization" = "GPU利用率";
+"Vendor" = "厂商";
+"Model" = "型号";
+"Status" = "状态";
+"Active" = "活跃";
+"Non active" = "非活跃";
+"Fan speed" = "风扇速度";
+"Core clock" = "核心时钟";
+"Memory clock" = "内存时钟";
+"Utilization" = "利用率";
 
 // Memory
 "Memory usage" = "内存占用";
