@@ -48,6 +48,11 @@
 // Application settings
 "Update application" = "Update application";
 "Check for updates" = "Check for updates";
+"At start" = "At start";
+"Once per day" = "Once per day";
+"Once per week" = "Once per week";
+"Once per month" = "Once per month";
+"Never" = "Never";
 "Check for update" = "Check for update";
 "Show icon in dock" = "Show icon in dock";
 "Start at login" = "Start at login";

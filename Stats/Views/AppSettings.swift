@@ -14,9 +14,9 @@ import StatsKit
 import os.log
 
 class ApplicationSettings: NSScrollView {
-    private var updateIntervalValue: AppUpdateInterval {
+    private var updateIntervalValue: String {
         get {
-            return store.string(key: "update-interval", defaultValue: AppUpdateIntervals.atStart.rawValue)
+            return store.string(key: "update-interval", defaultValue: AppUpdateInterval.atStart.rawValue)
         }
     }
     
@@ -175,7 +175,7 @@ class ApplicationSettings: NSScrollView {
             self.titleView(LocalizedString("Check for updates")),
             SelectView(
                 action: #selector(self.toggleUpdateInterval),
-                items: AppUpdateIntervals.allCases.map{ KeyValue_t(key: $0.rawValue, value: $0.rawValue) },
+                items: AppUpdateIntervals,
                 selected: self.updateIntervalValue
             )
         ]
@@ -270,10 +270,12 @@ class ApplicationSettings: NSScrollView {
     }
     
     @objc private func toggleUpdateInterval(_ sender: NSMenuItem) {
-        if let newUpdateInterval = AppUpdateIntervals(rawValue: sender.title) {
-            store.set(key: "update-interval", value: newUpdateInterval.rawValue)
-            NotificationCenter.default.post(name: .changeCronInterval, object: nil, userInfo: nil)
+        guard let key = sender.representedObject as? String else {
+            return
         }
+        
+        store.set(key: "update-interval", value: key)
+        NotificationCenter.default.post(name: .changeCronInterval, object: nil, userInfo: nil)
     }
     
     @objc private func toggleTemperatureUnits(_ sender: NSMenuItem) {

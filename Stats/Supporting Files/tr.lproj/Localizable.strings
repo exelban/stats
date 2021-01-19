@@ -48,6 +48,11 @@
 // Application settings
 "Update application" = "Uygulamayı güncelle";
 "Check for updates" = "Güncellemeleri denetle";
+"At start" = "At start";
+"Once per day" = "Once per day";
+"Once per week" = "Once per week";
+"Once per month" = "Once per month";
+"Never" = "Never";
 "Check for update" = "Güncellemeleri denetle";
 "Show icon in dock" = "Dock'ta göster";
 "Start at login" = "Başlangıçta çalıştır";

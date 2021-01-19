@@ -2,7 +2,10 @@
 //  Localizable.strings
 //  Stats
 //
+//
+//
 //  Created by @mpl75 on 11/01/2021.
+//
 //
 //
 
@@ -45,6 +48,11 @@
 // Application settings
 "Update application" = "Aktualizovat aplikaci";
 "Check for updates" = "Zkontrolovat aktualizace";
+"At start" = "At start";
+"Once per day" = "Once per day";
+"Once per week" = "Once per week";
+"Once per month" = "Once per month";
+"Never" = "Never";
 "Check for update" = "Zkontrolovat aktualizace";
 "Show icon in dock" = "Zobrazovat ikonu v Docku";
 "Start at login" = "Spustit po přihlášení";

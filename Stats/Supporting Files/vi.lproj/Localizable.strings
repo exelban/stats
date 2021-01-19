@@ -48,6 +48,11 @@
 // Application settings
 "Update application" = "Cập nhật ứng dụng";
 "Check for updates" = "Kiểm tra các cập nhật";
+"At start" = "At start";
+"Once per day" = "Once per day";
+"Once per week" = "Once per week";
+"Once per month" = "Once per month";
+"Never" = "Never";
 "Check for update" = "Kiểm tra cập nhật";
 "Show icon in dock" = "Hiện icon trên Dock";
 "Start at login" = "Khởi động lúc đăng nhập";
