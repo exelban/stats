@@ -91,7 +91,7 @@ extension AppDelegate {
             NSApp.setActivationPolicy(dockIconStatus)
         }
         
-        if AppUpdateIntervals(rawValue: store.string(key: "update-interval", defaultValue: AppUpdateIntervals.atStart.rawValue)) != .never {
+        if store.string(key: "update-interval", defaultValue: AppUpdateInterval.atStart.rawValue) != AppUpdateInterval.never.rawValue {
             self.checkForNewVersion()
         }
     }

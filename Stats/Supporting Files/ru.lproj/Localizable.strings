@@ -48,6 +48,11 @@
 // Application settings
 "Update application" = "Обновить приложение";
 "Check for updates" = "Проверять обновления";
+"At start" = "При включении";
+"Once per day" = "Раз в день";
+"Once per week" = "Раз в неделю";
+"Once per month" = "Раз в месяц";
+"Never" = "Никогда";
 "Check for update" = "Проверить обновление";
 "Show icon in dock" = "Показать значок в dock";
 "Start at login" = "Запуск при логуванні";

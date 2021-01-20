@@ -48,6 +48,11 @@
 // Application settings
 "Update application" = "앱 업데이트";
 "Check for updates" = "신규 업데이트 확인";
+"At start" = "At start";
+"Once per day" = "Once per day";
+"Once per week" = "Once per week";
+"Once per month" = "Once per month";
+"Never" = "Never";
 "Check for update" = "신규 업데이트 확인";
 "Show icon in dock" = "Dock에서 아이콘 보이기";
 "Start at login" = "로그인시 시작";

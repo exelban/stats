@@ -11,8 +11,8 @@
 
 import Cocoa
 
-public typealias AppUpdateInterval = String
-public enum AppUpdateIntervals: AppUpdateInterval {
+public typealias AppUpdateIntervalType = String
+public enum AppUpdateInterval: AppUpdateIntervalType {
     case atStart = "At start"
     case separator_1 = "separator_1"
     case oncePerDay = "Once per day"
@@ -21,7 +21,15 @@ public enum AppUpdateIntervals: AppUpdateInterval {
     case separator_2 = "separator_2"
     case never = "Never"
 }
-extension AppUpdateIntervals: CaseIterable {}
+public let AppUpdateIntervals: [KeyValue_t] = [
+    KeyValue_t(key: "At start", value: AppUpdateInterval.atStart.rawValue),
+    KeyValue_t(key: "separator_1", value: "separator_1"),
+    KeyValue_t(key: "Once per day", value: AppUpdateInterval.oncePerDay.rawValue),
+    KeyValue_t(key: "Once per week", value: AppUpdateInterval.oncePerWeek.rawValue),
+    KeyValue_t(key: "Once per month", value: AppUpdateInterval.oncePerMonth.rawValue),
+    KeyValue_t(key: "separator_2", value: "separator_2"),
+    KeyValue_t(key: "Never", value: AppUpdateInterval.never.rawValue)
+]
 
 public struct KeyValue_t {
     public let key: String
