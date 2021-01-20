@@ -48,6 +48,11 @@
 // Application settings
 "Update application" = "更新应用";
 "Check for updates" = "检查更新";
+"At start" = "启动时";
+"Once per day" = "每日一次";
+"Once per week" = "每周一次";
+"Once per month" = "每月一次";
+"Never" = "从不";
 "Check for update" = "检查更新";
 "Show icon in dock" = "在dock显示图标";
 "Start at login" = "登录时打开";
