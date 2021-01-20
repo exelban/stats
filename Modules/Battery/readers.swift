@@ -142,11 +142,12 @@ internal class UsageReader: Reader<Battery_Usage> {
 }
 
 public class ProcessReader: Reader<[TopProcess]> {
-    private var task: Process? = nil
-    private var initialized: Bool = false
-    
     private let store: UnsafePointer<Store>
     private let title: String
+    
+    private var task: Process = Process()
+    private var initialized: Bool = false
+    private var paused: Bool = false
     
     private var numberOfProcesses: Int {
         get {
@@ -162,64 +163,64 @@ public class ProcessReader: Reader<[TopProcess]> {
     
     public override func setup() {
         self.popup = true
-    }
-    
-    public override func read() {
-        if self.numberOfProcesses == 0 {
-            return
-        }
         
-        let task = Process()
-        task.launchPath = "/usr/bin/top"
-        task.arguments = ["-l", "1", "-o", "power", "-n", "\(self.numberOfProcesses)", "-stats", "pid,command,power"]
+        let pipe = Pipe()
+        self.task.standardOutput = pipe
+        self.task.launchPath = "/usr/bin/top"
+        self.task.arguments = ["-o", "power", "-n", "\(self.numberOfProcesses)", "-stats", "pid,command,power"]
         
-        let outputPipe = Pipe()
-        let errorPipe = Pipe()
-        
-        task.standardOutput = outputPipe
-        task.standardError = errorPipe
-        
-        do {
-            try task.run()
-        } catch let error {
-            os_log(.error, log: log, "top(): %s", "\(error.localizedDescription)")
-            return
-        }
-        
-        let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
-        let errorData = errorPipe.fileHandleForReading.readDataToEndOfFile()
-        let output = String(decoding: outputData, as: UTF8.self)
-        _ = String(decoding: errorData, as: UTF8.self)
-        
-        if output.isEmpty {
-            return
-        }
-        
-        var processes: [TopProcess] = []
-        output.enumerateLines { (line, _) -> () in
-            if line.matches("^\\d* +.+ \\d*.?\\d*$") {
-                var str = line.trimmingCharacters(in: .whitespaces)
-                
-                let pidString = str.findAndCrop(pattern: "^\\d+")
-                let usageString = str.findAndCrop(pattern: " +[0-9]+.*[0-9]*$")
-                let command = str.trimmingCharacters(in: .whitespaces)
-                
-                let pid = Int(pidString) ?? 0
-                guard let usage = Double(usageString.filter("01234567890.".contains)) else {
-                    return
+        pipe.fileHandleForReading.readabilityHandler = { (fileHandle) -> Void in
+            let output = String(decoding: fileHandle.availableData, as: UTF8.self)
+            var processes: [TopProcess] = []
+            
+            output.enumerateLines { (line, _) -> () in
+                if line.matches("^\\d* +.+ \\d*.?\\d*$") {
+                    var str = line.trimmingCharacters(in: .whitespaces)
+                    
+                    let pidString = str.findAndCrop(pattern: "^\\d+")
+                    let usageString = str.findAndCrop(pattern: " +[0-9]+.*[0-9]*$")
+                    let command = str.trimmingCharacters(in: .whitespaces)
+                    
+                    let pid = Int(pidString) ?? 0
+                    guard let usage = Double(usageString.filter("01234567890.".contains)) else {
+                        return
+                    }
+                    
+                    var name: String? = nil
+                    var icon: NSImage? = nil
+                    if let app = NSRunningApplication(processIdentifier: pid_t(pid) ) {
+                        name = app.localizedName ?? nil
+                        icon = app.icon
+                    }
+                    
+                    processes.append(TopProcess(pid: pid, command: command, name: name, usage: usage, icon: icon))
                 }
-                
-                var name: String? = nil
-                var icon: NSImage? = nil
-                if let app = NSRunningApplication(processIdentifier: pid_t(pid) ) {
-                    name = app.localizedName ?? nil
-                    icon = app.icon
-                }
-                
-                processes.append(TopProcess(pid: pid, command: command, name: name, usage: usage, icon: icon))
+            }
+            
+            if processes.count != 0 {
+                self.callback(processes.prefix(self.numberOfProcesses).reversed().reversed())
             }
         }
+    }
+    
+    public override func start() {
+        if !self.initialized {
+            self.initialized = true
+            return
+        }
         
-        self.callback(processes)
+        if self.task.isRunning && self.paused {
+            self.paused = !self.task.resume()
+        } else {
+            self.task.launch()
+        }
+    }
+    
+    public override func pause() {
+        self.paused = self.task.suspend()
+    }
+    
+    public override func stop() {
+        self.task.interrupt()
     }
 }
