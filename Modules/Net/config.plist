@@ -20,6 +20,13 @@
 				<string>D</string>
 			</array>
 		</dict>
+		<key>network_chart</key>
+		<dict>
+			<key>Default</key>
+			<false/>
+			<key>Order</key>
+			<integer>1</integer>
+		</dict>
 	</dict>
 </dict>
 </plist>

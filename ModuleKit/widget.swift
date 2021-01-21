@@ -58,6 +58,7 @@ public enum widget_t: String {
     case lineChart = "line_chart"
     case barChart = "bar_chart"
     case pieChart = "pie_chart"
+    case networkChart = "network_chart"
     case speed = "speed"
     case battery = "battery"
     case sensors = "sensors"
@@ -85,6 +86,7 @@ open class Widget: NSView, Widget_p {
             case .lineChart: return "Line chart"
             case .barChart: return "Bar chart"
             case .pieChart: return "Pie chart"
+            case .networkChart: return "Network chart"
             case .speed: return "Speed"
             case .battery: return "Battery"
             case .sensors: return "Text"
@@ -145,6 +147,9 @@ func LoadWidget(_ type: widget_t, preview: Bool, name: String, config: NSDiction
         break
     case .pieChart:
         widget = PieChart(preview: preview, title: name, config: widgetConfig, store: store)
+        break
+    case .networkChart:
+        widget = NetworkChart(preview: preview, title: name, config: widgetConfig, store: store)
         break
     case .speed:
         widget = SpeedWidget(preview: preview, title: name, config: widgetConfig, store: store)

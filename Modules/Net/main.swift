@@ -132,13 +132,15 @@ public class Network: Module {
     }
     
     private func usageCallback(_ value: Network_Usage?) {
-        if value == nil {
+        guard let value = value else {
             return
         }
         
-        self.popupView.usageCallback(value!)
+        self.popupView.usageCallback(value)
         if let widget = self.widget as? SpeedWidget {
-            widget.setValue(upload: value!.bandwidth.upload, download: value!.bandwidth.download)
+            widget.setValue(upload: value.bandwidth.upload, download: value.bandwidth.download)
+        } else if let widget = self.widget as? NetworkChart {
+            widget.setValue(upload: Double(value.bandwidth.upload), download: Double(value.bandwidth.download))
         }
     }
 }

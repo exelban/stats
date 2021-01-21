@@ -62,6 +62,7 @@ open class Reader<T>: ReaderInternal_p {
     private var nilCallbackCounter: Int = 0
     private var ready: Bool = false
     private var locked: Bool = true
+    private var initlizalized: Bool = false
     public var active: Bool = false
     
     private var history: [T]? = []
@@ -124,7 +125,7 @@ open class Reader<T>: ReaderInternal_p {
     open func start() {
         if self.popup && self.locked {
             if !self.ready {
-                DispatchQueue.global().async {
+                DispatchQueue.global(qos: .background).async {
                     self.read()
                 }
             }
@@ -140,9 +141,12 @@ open class Reader<T>: ReaderInternal_p {
                 self.read()
             })
         }
-
-        DispatchQueue.global().async {
-            self.read()
+        
+        if !self.initlizalized {
+            DispatchQueue.global(qos: .background).async {
+                self.read()
+            }
+            self.initlizalized = true
         }
         self.repeatTask?.start()
         self.active = true
@@ -154,11 +158,10 @@ open class Reader<T>: ReaderInternal_p {
     }
     
     open func stop() {
-        if let repeater = self.repeatTask {
-            repeater.removeAllObservers(thenStop: true)
-        }
+        self.repeatTask?.removeAllObservers(thenStop: true)
         self.repeatTask = nil
         self.active = false
+        self.initlizalized = false
     }
     
     public func setInterval(_ value: Int) {

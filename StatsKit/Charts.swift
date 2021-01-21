@@ -110,10 +110,12 @@ public class NetworkChartView: NSView {
     public var id: String = UUID().uuidString
     public var base: DataSizeBase = .byte
     
-    private var points: [(Double, Double)]? = nil
+    public var points: [(Double, Double)]? = nil
     private var colors: [NSColor] = [NSColor.systemRed, NSColor.systemBlue]
+    private var minMax: Bool = false
     
-    public init(frame: NSRect, num: Int) {
+    public init(frame: NSRect, num: Int, minMax: Bool = true) {
+        self.minMax = minMax
         self.points = Array(repeating: (0, 0), count: num)
         super.init(frame: frame)
     }
@@ -197,21 +199,23 @@ public class NetworkChartView: NSView {
         
         context.restoreGState()
         
-        let stringAttributes = [
-            NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .light),
-            NSAttributedString.Key.foregroundColor: isDarkMode ? NSColor.white : NSColor.textColor,
-            NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
-        ]
-        let uploadText = Units(bytes: Int64(uploadMax)).getReadableSpeed(base: self.base)
-        let downloadText = Units(bytes: Int64(downloadMax)).getReadableSpeed(base: self.base)
-        let uploadTextWidth = uploadText.widthOfString(usingFont: stringAttributes[NSAttributedString.Key.font] as! NSFont)
-        let downloadTextWidth = downloadText.widthOfString(usingFont: stringAttributes[NSAttributedString.Key.font] as! NSFont)
-        
-        var rect = CGRect(x: 1, y: height - 9, width: uploadTextWidth, height: 8)
-        NSAttributedString.init(string: uploadText, attributes: stringAttributes).draw(with: rect)
-        
-        rect = CGRect(x: 1, y: 2, width: downloadTextWidth, height: 8)
-        NSAttributedString.init(string: downloadText, attributes: stringAttributes).draw(with: rect)
+        if self.minMax {
+            let stringAttributes = [
+                NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .light),
+                NSAttributedString.Key.foregroundColor: isDarkMode ? NSColor.white : NSColor.textColor,
+                NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
+            ]
+            let uploadText = Units(bytes: Int64(uploadMax)).getReadableSpeed(base: self.base)
+            let downloadText = Units(bytes: Int64(downloadMax)).getReadableSpeed(base: self.base)
+            let uploadTextWidth = uploadText.widthOfString(usingFont: stringAttributes[NSAttributedString.Key.font] as! NSFont)
+            let downloadTextWidth = downloadText.widthOfString(usingFont: stringAttributes[NSAttributedString.Key.font] as! NSFont)
+            
+            var rect = CGRect(x: 1, y: height - 9, width: uploadTextWidth, height: 8)
+            NSAttributedString.init(string: uploadText, attributes: stringAttributes).draw(with: rect)
+            
+            rect = CGRect(x: 1, y: 2, width: downloadTextWidth, height: 8)
+            NSAttributedString.init(string: downloadText, attributes: stringAttributes).draw(with: rect)
+        }
     }
     
     public func addValue(upload: Double, download: Double) {
