@@ -38,8 +38,16 @@ public class LineChartView: NSView {
     
     public var color: NSColor = NSColor.controlAccentColor
     
+    private var timeShift = 0
+  
+    public var SMOOTH = SmoothChartVal()
+    // down-sampling every 3 data by default
+    // original    Y: 1 5 3 4 5 6 7 6 5 10 11 12 13
+    // downsampled Y: 5     6     7     12       13
+    // set SMOOTH to 0 to disable smoothing
+    
     public init(frame: NSRect, num: Int) {
-        self.points = Array(repeating: 0, count: num)
+        self.points = Array(repeating: 0, count: num + SMOOTH) // boundary condition
         super.init(frame: frame)
     }
     
@@ -65,20 +73,51 @@ public class LineChartView: NSView {
         
         let offset: CGFloat = 1 / (NSScreen.main?.backingScaleFactor ?? 1)
         let height: CGFloat = self.frame.size.height - self.frame.origin.y - offset
-        let xRatio: CGFloat = self.frame.size.width / CGFloat(self.points.count)
+        let xRatio: CGFloat = self.frame.size.width / CGFloat(self.points.count - SMOOTH)
         
         let columnXPoint = { (point: Int) -> CGFloat in
             return (CGFloat(point) * xRatio) + dirtyRect.origin.x
         }
         let columnYPoint = { (point: Int) -> CGFloat in
-            return CGFloat((CGFloat(truncating: self.points[point] as NSNumber) * height)) + dirtyRect.origin.y + 0.5
+            return CGFloat((CGFloat(truncating: self.points[self.SMOOTH + point] as NSNumber) * height)) + dirtyRect.origin.y + 0.5
         }
         
         let line = NSBezierPath()
         line.move(to: CGPoint(x: columnXPoint(0), y: columnYPoint(0)))
         
-        for i in 1..<self.points.count {
-            line.line(to: CGPoint(x: columnXPoint(i), y: columnYPoint(i)))
+        if SMOOTH > 0 {
+            var cgpoints : [CGPoint] = []
+            
+            for i in stride(from: 0, to: self.points.count - SMOOTH, by: SMOOTH) {
+                var maxY = CGFloat(0)
+                for j in 0..<SMOOTH {
+                    if i-timeShift+j + self.SMOOTH-1 < self.points.count{
+                        maxY = max(maxY, columnYPoint(i-timeShift+j-1))
+                    }
+                }
+                cgpoints.append(CGPoint(x: columnXPoint(i-timeShift), y: maxY))
+            }
+            
+            // fix the undrawing curve at right-most due to down-sampling
+            for i in stride(from: timeShift, to: -1, by: -1) {
+                let x = self.points.count - SMOOTH - i - 1
+                cgpoints.append(CGPoint(x: columnXPoint(x), y: columnYPoint(x-1)))
+            }
+            
+            let config = BezierConfiguration()
+            let cp = config.configureControlPoints(data: cgpoints)
+            
+            for i in 0..<cgpoints.count {
+                if i == 0 {
+                    line.move(to: cgpoints[i])
+                } else {
+                    line.curve(to: cgpoints[i], controlPoint1: cp[i-1].firstControlPoint, controlPoint2: cp[i-1].secondControlPoint)
+                }
+            }
+        } else {
+            for i in 0..<self.points.count {
+                line.line(to: CGPoint(x: columnXPoint(i), y: columnYPoint(i)))
+            }
         }
         
         lineColor.setStroke()
@@ -97,6 +136,13 @@ public class LineChartView: NSView {
     }
     
     public func addValue(_ value: Double) {
+        if SMOOTH > 0 { // if enabled smooth
+            timeShift += 1
+            if timeShift % SMOOTH == 0 {
+                timeShift = 0
+            }
+        }
+        
         self.points.remove(at: 0)
         self.points.append(value)
         

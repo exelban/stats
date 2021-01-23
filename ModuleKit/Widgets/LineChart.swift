@@ -90,11 +90,9 @@ public class LineChart: Widget {
         }
         
         if preview {
-            var list: [Double] = []
             for _ in 0..<16 {
-                list.append(Double(CGFloat(Float(arc4random()) / Float(UINT32_MAX))))
+                self.chart.addValue(Double(CGFloat(Float(arc4random()) / Float(UINT32_MAX))))
             }
-            self.chart.points = list
             self.value = 0.38
         }
     }
@@ -216,7 +214,7 @@ public class LineChart: Widget {
     
     public override func setValues(_ values: [value_t]) {
         let historyValues = values.map{ $0.widget_value }.suffix(60)
-        let end = self.chart.points.count
+        let end = self.chart.points.count - self.chart.SMOOTH
         
         if historyValues.count != 0 {
             self.chart.points.replaceSubrange(end-historyValues.count...end-1, with: historyValues)

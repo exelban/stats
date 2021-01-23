@@ -720,6 +720,15 @@ public func Temperature(_ value: Double) -> String {
     return formatter.string(from: measurement)
 }
 
+public func SmoothChartVal() -> Int {
+    let smoothChart: Bool = Store.shared.bool(key: "smooth_chart", defaultValue: false)
+    if smoothChart {
+        return 3
+    } else {
+        return 0
+    }
+}
+
 public func SysctlByName(_ name: String) -> Int64 {
     var num: Int64 = 0
     var size = MemoryLayout<Int64>.size

@@ -29,6 +29,15 @@ class ApplicationSettings: NSScrollView {
         }
     }
     
+    private var enableSmoothChart: Bool {
+        get {
+            return store.bool(key: "smooth_chart", defaultValue: false)
+        }
+        set {
+            store.set(key: "smooth_chart", value: newValue)
+        }
+    }
+    
     private var updateButton: NSButton? = nil
     private let updateWindow: UpdateWindow = UpdateWindow()
     
@@ -146,7 +155,7 @@ class ApplicationSettings: NSScrollView {
         grid.addRow(with: self.temperature())
         grid.addRow(with: self.dockIcon())
         grid.addRow(with: self.startAtLogin())
-        
+        grid.addRow(with: self.smoothChart())
         view.addSubview(grid)
         
         var height: CGFloat = (CGFloat(grid.numberOfRows)-2) * grid.rowSpacing
@@ -212,6 +221,14 @@ class ApplicationSettings: NSScrollView {
         ]
     }
     
+    private func smoothChart() -> [NSView] {
+        return [
+            self.titleView(LocalizedString("Smooth charts")),
+            self.toggleView(
+                action: #selector(self.toogleSmoothChart),
+                state: store.bool(key: "smooth_chart", defaultValue: false))
+        ]
+    }
     // MARK: - helpers
     
     private func titleView(_ value: String) -> NSTextField {
@@ -314,6 +331,19 @@ class ApplicationSettings: NSScrollView {
         LaunchAtLogin.isEnabled = state! == NSControl.StateValue.on
         if !store.exist(key: "runAtLoginInitialized") {
             store.set(key: "runAtLoginInitialized", value: true)
+        }
+    }
+    
+    @objc func toogleSmoothChart(_ sender: NSControl) {
+        var state: NSControl.StateValue? = nil
+        if #available(OSX 11.0, *) {
+            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
+        } else {
+            state = sender is NSButton ? (sender as! NSButton).state: nil
+        }
+        
+        if state != nil {
+            self.enableSmoothChart = state! == NSControl.StateValue.on
         }
     }
 }
