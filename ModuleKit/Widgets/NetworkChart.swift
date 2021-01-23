@@ -95,14 +95,12 @@ public class NetworkChart: Widget {
         
         context.saveGState()
         
-        let chartFrame = NSRect(
-            x: offset,
+        self.chart.draw(NSRect(
+            x: 1,
             y: 1,
-            width: box.bounds.width,
-            height: box.bounds.height-1
-        )
-        self.chart.setFrameSize(NSSize(width: chartFrame.width, height: chartFrame.height))
-        self.chart.draw(chartFrame)
+            width: box.bounds.width - ((box.bounds.origin.x + lineWidth)*2),
+            height: box.bounds.height - ((box.bounds.origin.y + lineWidth)*2)
+        ))
         
         context.restoreGState()
         
