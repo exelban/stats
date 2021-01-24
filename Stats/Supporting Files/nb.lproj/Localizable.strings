@@ -108,8 +108,19 @@
 // GPU
 "GPU to show" = "GPU å vise";
 "Show GPU type" = "Vis GPU-typen";
+"GPU enabled" = "GPU enabled";
+"GPU disabled" = "GPU disabled";
 "GPU temperature" = "GPU-temperatur";
 "GPU utilization" = "GPU-bruk";
+"Vendor" = "Vendor";
+"Model" = "Model";
+"Status" = "Status";
+"Active" = "Active";
+"Non active" = "Non active";
+"Fan speed" = "Fan speed";
+"Core clock" = "Core clock";
+"Memory clock" = "Memory clock";
+"Utilization" = "Utilization";
 
 // Memory
 "Memory usage" = "Minnebruk";

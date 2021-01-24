@@ -34,14 +34,14 @@
 
 // Alerts
 "New version available" = "新版本可用";
-"Click to install the new version of Stats" = "点击安装Stats的新版本";
+"Click to install the new version of Stats" = "点击安装 Stats 的新版本";
 "Successfully updated" = "更新成功";
-"Stats was updated to v" = "Stats已更新到v%0";
+"Stats was updated to v" = "Stats 已更新到v%0";
 
 // Settings
 "Open Activity Monitor" = "打开活动监视器";
-"Report a bug" = "报告bug";
-"Support the application" = "Support the application";
+"Report a bug" = "报告漏洞";
+"Support the application" = "支持本应用";
 "Close application" = "关闭应用";
 "Open application settings" = "打开应用设置";
 "Open moduleName settings" = "打开 %0 设置";
@@ -49,13 +49,13 @@
 // Application settings
 "Update application" = "更新应用";
 "Check for updates" = "检查更新";
-"At start" = "At start";
-"Once per day" = "Once per day";
-"Once per week" = "Once per week";
-"Once per month" = "Once per month";
-"Never" = "Never";
+"At start" = "启动时";
+"Once per day" = "每日一次";
+"Once per week" = "每周一次";
+"Once per month" = "每月一次";
+"Never" = "从不";
 "Check for update" = "检查更新";
-"Show icon in dock" = "在dock显示图标";
+"Show icon in dock" = "在程序坞显示图标";
 "Start at login" = "登录时打开";
 
 // Dashboard
@@ -63,10 +63,10 @@
 "Uptime" = "启动时间";
 
 // Update
-"The latest version of Stats installed" = "已安装最新版Stats";
+"The latest version of Stats installed" = "已安装最新版 Stats";
 "Downloading..." = "下载中...";
-"Current version: " = "当前版本:  ";
-"Latest version: " = "最新版本:    ";
+"Current version: " = "当前版本：";
+"Latest version: " = "最新版本：";
 
 // Widgets
 "Color" = "颜色";
@@ -96,9 +96,9 @@
 "Number of top processes" = "高占用进程数";
 
 // CPU
-"CPU usage" = "CPU占用";
-"CPU temperature" = "CPU温度";
-"CPU frequency" = "CPU频率";
+"CPU usage" = "CPU 占用";
+"CPU temperature" = "CPU 温度";
+"CPU frequency" = "CPU 频率";
 "System" = "系统";
 "User" = "用户";
 "Idle" = "闲置";
@@ -106,17 +106,28 @@
 "Show hyper-threading cores" = "显示超线程核心";
 
 // GPU
-"GPU to show" = "显示的GPU";
-"Show GPU type" = "显示GPU类型";
-"GPU temperature" = "GPU温度";
-"GPU utilization" = "GPU利用率";
+"GPU to show" = "显示的 GPU";
+"Show GPU type" = "显示 GPU 类型";
+"GPU enabled" = "GPU 启用";
+"GPU disabled" = "GPU 禁用";
+"GPU temperature" = "GPU 温度";
+"GPU utilization" = "GPU 利用率";
+"Vendor" = "厂商";
+"Model" = "型号";
+"Status" = "状态";
+"Active" = "活跃";
+"Non active" = "非活跃";
+"Fan speed" = "风扇速度";
+"Core clock" = "核心时钟";
+"Memory clock" = "内存时钟";
+"Utilization" = "利用率";
 
 // Memory
 "Memory usage" = "内存占用";
 "Memory pressure" = "内存压力";
 "Total" = "共计";
 "Used" = "已用";
-"App" = "App内存"; // Use the same translation as the "Activity Monitor.app"
+"App" = "App 内存"; // Use the same translation as the "Activity Monitor.app"
 "Wired" = "联动内存";
 "Compressed" = "被压缩";
 "Free" = "可用";
@@ -138,15 +149,15 @@
 // Network
 "Uploading" = "上传";
 "Downloading" = "下载";
-"Public IP" = "公网IP";
-"Local IP" = "本地IP";
+"Public IP" = "公网 IP";
+"Local IP" = "本地 IP";
 "Interface" = "接口";
 "Network" = "网络";
 "Physical address" = "物理地址";
-"Click to copy public IP address" = "点击拷贝公网IP";
-"Click to copy local IP address" = "点击拷贝本地IP";
-"Click to copy wifi name" = "点击拷贝WiFi名称";
-"Click to copy mac address" = "点击拷贝MAC地址";
+"Click to copy public IP address" = "点击拷贝公网 IP";
+"Click to copy local IP address" = "点击拷贝本地 IP";
+"Click to copy wifi name" = "点击拷贝 WiFi 名称";
+"Click to copy mac address" = "点击拷贝 MAC 地址";
 "No connection" = "无连接";
 "Network interface" = "网络接口";
 "Total download" = "总下载";
