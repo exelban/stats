@@ -122,7 +122,6 @@ open class Module: Module_p {
         NotificationCenter.default.addObserver(self, selector: #selector(listenForWidgetSwitch), name: .switchWidget, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(listenForMouseDownInSettings), name: .clickInSettings, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(listenForModuleToggle), name: .toggleModule, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(listenResignActive), name: NSApplication.willResignActiveNotification, object: nil)
         
         if self.config.widgetsConfig.count != 0 {
             self.initWidget()
@@ -302,15 +301,13 @@ open class Module: Module_p {
     
     // call when popup appear/disappear
     private func visibilityCallback(_ state: Bool) {
-        DispatchQueue.global(qos: .background).async {
-            self.readers.filter{ $0.popup }.forEach { (reader: Reader_p) in
-                if state {
-                    reader.unlock()
-                    reader.start()
-                } else {
-                    reader.stop()
-                    reader.lock()
-                }
+        self.readers.filter{ $0.popup }.forEach { (reader: Reader_p) in
+            if state {
+                reader.unlock()
+                reader.start()
+            } else {
+                reader.pause()
+                reader.lock()
             }
         }
     }
@@ -382,13 +379,5 @@ open class Module: Module_p {
         if let popup = self.popup, popup.isVisible {
             self.popup?.setIsVisible(false)
         }
-    }
-    
-    @objc private func listenResignActive(_ notification: Notification) {
-        if let popup = self.popup, popup.locked {
-            return
-        }
-        
-        self.visibilityCallback(false)
     }
 }

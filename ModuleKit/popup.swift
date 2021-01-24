@@ -205,22 +205,21 @@ internal class PopupView: NSView {
     internal func disappear() {}
 }
 
-internal class HeaderView: NSView {
+internal class HeaderView: NSStackView {
     private var titleView: NSTextField? = nil
     private var activityButton: NSButton?
     private var settingsButton: NSButton?
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     override init(frame: NSRect) {
         super.init(frame: CGRect(x: frame.origin.x, y: frame.origin.y, width: frame.width, height: frame.height))
         
+        self.orientation = .horizontal
+        self.distribution = .gravityAreas
+        self.spacing = 0
+        
         let activity = NSButtonWithPadding()
-        activity.frame = CGRect(x: 2, y: 2, width: 30, height: 30)
-        activity.verticalPadding = 14
-        activity.horizontalPadding = 14
+        activity.frame = CGRect(x: 0, y: 0, width: 24, height: self.frame.height)
+        activity.horizontalPadding = activity.frame.height - 24
         activity.bezelStyle = .regularSquare
         activity.translatesAutoresizingMaskIntoConstraints = false
         activity.imageScaling = .scaleNone
@@ -231,8 +230,9 @@ internal class HeaderView: NSView {
         activity.target = self
         activity.toolTip = LocalizedString("Open Activity Monitor")
         activity.focusRingType = .none
+        self.activityButton = activity
         
-        let title = NSTextField(frame: NSMakeRect(frame.width/4, (frame.height - 18)/2, frame.width/2, 18))
+        let title = NSTextField(frame: NSRect(x: 0, y: 0, width: frame.width/2, height: 18))
         title.isEditable = false
         title.isSelectable = false
         title.isBezeled = false
@@ -243,11 +243,11 @@ internal class HeaderView: NSView {
         title.alignment = .center
         title.font = NSFont.systemFont(ofSize: 16, weight: .regular)
         title.stringValue = ""
+        self.titleView = title
         
         let settings = NSButtonWithPadding()
-        settings.frame = CGRect(x: frame.width - 38, y: 2, width: 30, height: 30)
-        settings.verticalPadding = 14
-        settings.horizontalPadding = 14
+        settings.frame = CGRect(x: 0, y: 0, width: 24, height: self.frame.height)
+        settings.horizontalPadding = activity.frame.height - 24
         settings.bezelStyle = .regularSquare
         settings.translatesAutoresizingMaskIntoConstraints = false
         settings.imageScaling = .scaleNone
@@ -258,27 +258,21 @@ internal class HeaderView: NSView {
         settings.target = self
         settings.toolTip = LocalizedString("Open module settings")
         settings.focusRingType = .none
-        
-        self.addSubview(activity)
-        self.addSubview(title)
-        self.addSubview(settings)
-        
-        self.activityButton = activity
-        self.titleView = title
         self.settingsButton = settings
         
-        self.addTrackingArea(NSTrackingArea(
-            rect: activity.frame,
-            options: [NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited, NSTrackingArea.Options.activeInActiveApp],
-            owner: self,
-            userInfo: ["button": "activity"]
-        ))
-        self.addTrackingArea(NSTrackingArea(
-            rect: settings.frame,
-            options: [NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited, NSTrackingArea.Options.activeInActiveApp],
-            owner: self,
-            userInfo: ["button": "settings"]
-        ))
+        self.addArrangedSubview(activity)
+        self.addArrangedSubview(title)
+        self.addArrangedSubview(settings)
+        
+        NSLayoutConstraint.activate([
+            title.widthAnchor.constraint(
+                equalToConstant: self.frame.width - activity.intrinsicContentSize.width - settings.intrinsicContentSize.width
+            ),
+        ])
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     public func setTitle(_ newTitle: String) {
@@ -294,32 +288,6 @@ internal class HeaderView: NSView {
         line.line(to: NSMakePoint(self.frame.width, 0))
         line.lineWidth = 1
         line.stroke()
-    }
-    
-    override func mouseEntered(with: NSEvent) {
-        if let userData = with.trackingArea?.userInfo as? [String : AnyObject] {
-            if let button = userData["button"] as? String {
-                if button == "activity" {
-                    self.activityButton!.contentTintColor = .gray
-                } else if button == "settings" {
-                    self.settingsButton!.contentTintColor = .gray
-                }
-            }
-        }
-        NSCursor.pointingHand.set()
-    }
-    
-    override func mouseExited(with: NSEvent) {
-        if let userData = with.trackingArea?.userInfo as? [String : AnyObject] {
-            if let button = userData["button"] as? String {
-                if button == "activity" {
-                    self.activityButton!.contentTintColor = .lightGray
-                } else if button == "settings" {
-                    self.settingsButton!.contentTintColor = .lightGray
-                }
-            }
-        }
-        NSCursor.arrow.set()
     }
     
     @objc func openMenu(_ sender: Any) {

@@ -161,7 +161,12 @@ internal class Popup: NSView, Popup_p {
         container.layer?.backgroundColor = NSColor.lightGray.withAlphaComponent(0.1).cgColor
         container.layer?.cornerRadius = 3
         
-        self.chart = NetworkChartView(frame: NSRect(x: 1, y: 0, width: container.frame.width, height: container.frame.height), num: 120)
+        self.chart = NetworkChartView(frame: NSRect(
+            x: 0,
+            y: 1,
+            width: container.frame.width,
+            height: container.frame.height - 2
+        ), num: 120)
         self.chart?.base = self.base
         container.addSubview(self.chart!)
         

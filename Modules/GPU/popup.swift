@@ -194,7 +194,7 @@ private class GPUView: NSStackView {
         } else {
             circle = HalfCircleGraphView(frame: NSRect(x: 0, y: 0, width: circleSize, height: circleSize))
             circle.id = id
-            circle.toolTip = "GPU \(id)"
+            circle.toolTip = LocalizedString("GPU \(id)")
             if let row = self.circleRow {
                 row.setFrameSize(NSSize(width: row.frame.width, height: self.circleSize + 20))
                 row.edgeInsets = NSEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
@@ -211,7 +211,7 @@ private class GPUView: NSStackView {
             chart.layer?.backgroundColor = NSColor.lightGray.withAlphaComponent(0.1).cgColor
             chart.layer?.cornerRadius = 3
             chart.id = id
-            chart.toolTip = "GPU \(id)"
+            chart.toolTip = LocalizedString("GPU \(id)")
             if let row = self.chartRow {
                 row.setFrameSize(NSSize(width: row.frame.width, height: self.chartSize + 20))
                 row.spacing = Constants.Popup.margins
