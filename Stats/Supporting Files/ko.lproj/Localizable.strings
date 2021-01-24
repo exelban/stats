@@ -108,8 +108,19 @@
 // GPU
 "GPU to show" = "표시할 GPU";
 "Show GPU type" = "GPU 유형 표시";
+"GPU enabled" = "GPU enabled";
+"GPU disabled" = "GPU disabled";
 "GPU temperature" = "GPU 온도";
 "GPU utilization" = "GPU 활용";
+"Vendor" = "Vendor";
+"Model" = "Model";
+"Status" = "Status";
+"Active" = "Active";
+"Non active" = "Non active";
+"Fan speed" = "Fan speed";
+"Core clock" = "Core clock";
+"Memory clock" = "Memory clock";
+"Utilization" = "Utilization";
 
 // Memory
 "Memory usage" = "메모리 사용량";

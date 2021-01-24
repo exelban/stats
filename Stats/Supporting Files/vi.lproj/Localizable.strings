@@ -108,8 +108,19 @@
 // GPU
 "GPU to show" = "GPU để hiển thị";
 "Show GPU type" = "Hiển thị loại GPU";
+"GPU enabled" = "GPU enabled";
+"GPU disabled" = "GPU disabled";
 "GPU temperature" = "Nhiệt độ GPU";
 "GPU utilization" = "Sử dụng GPU";
+"Vendor" = "Vendor";
+"Model" = "Model";
+"Status" = "Status";
+"Active" = "Active";
+"Non active" = "Non active";
+"Fan speed" = "Fan speed";
+"Core clock" = "Core clock";
+"Memory clock" = "Memory clock";
+"Utilization" = "Utilization";
 
 // Memory
 "Memory usage" = "Sử dụng Bộ nhớ";

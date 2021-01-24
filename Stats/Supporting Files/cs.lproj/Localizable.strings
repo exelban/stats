@@ -108,8 +108,19 @@
 // GPU
 "GPU to show" = "Ukázat GPU";
 "Show GPU type" = "Zobrazit typ GPU";
+"GPU enabled" = "GPU enabled";
+"GPU disabled" = "GPU disabled";
 "GPU temperature" = "Teplota GPU";
 "GPU utilization" = "Využití GPU";
+"Vendor" = "Vendor";
+"Model" = "Model";
+"Status" = "Status";
+"Active" = "Active";
+"Non active" = "Non active";
+"Fan speed" = "Fan speed";
+"Core clock" = "Core clock";
+"Memory clock" = "Memory clock";
+"Utilization" = "Utilization";
 
 // Memory
 "Memory usage" = "Využití paměti";

@@ -108,8 +108,19 @@
 // GPU
 "GPU to show" = "Активный графический процессор";
 "Show GPU type" = "Отображать тип графического процессора";
+"GPU enabled" = "GPU enabled";
+"GPU disabled" = "GPU disabled";
 "GPU temperature" = "Температура графического процессора";
 "GPU utilization" = "Использование графического процессора";
+"Vendor" = "Vendor";
+"Model" = "Model";
+"Status" = "Status";
+"Active" = "Active";
+"Non active" = "Non active";
+"Fan speed" = "Fan speed";
+"Core clock" = "Core clock";
+"Memory clock" = "Memory clock";
+"Utilization" = "Utilization";
 
 // Memory
 "Memory usage" = "Нагрузка на память";

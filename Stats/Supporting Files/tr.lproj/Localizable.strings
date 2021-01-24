@@ -108,8 +108,19 @@
 // GPU
 "GPU to show" = "Gösterilecek GPU";
 "Show GPU type" = "GPU türünü göster";
+"GPU enabled" = "GPU enabled";
+"GPU disabled" = "GPU disabled";
 "GPU temperature" = "GPU sıcaklığı";
 "GPU utilization" = "GPU kullanımı";
+"Vendor" = "Vendor";
+"Model" = "Model";
+"Status" = "Status";
+"Active" = "Active";
+"Non active" = "Non active";
+"Fan speed" = "Fan speed";
+"Core clock" = "Core clock";
+"Memory clock" = "Memory clock";
+"Utilization" = "Utilization";
 
 // Memory
 "Memory usage" = "Ram kullanımı";

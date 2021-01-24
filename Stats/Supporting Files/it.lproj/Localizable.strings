@@ -108,8 +108,19 @@
 // GPU
 "GPU to show" = "GPU da mostrare";
 "Show GPU type" = "Mostra il tipo di GPU";
+"GPU enabled" = "GPU enabled";
+"GPU disabled" = "GPU disabled";
 "GPU temperature" = "Temperatura GPU";
 "GPU utilization" = "Utilizzo GPU";
+"Vendor" = "Vendor";
+"Model" = "Model";
+"Status" = "Status";
+"Active" = "Active";
+"Non active" = "Non active";
+"Fan speed" = "Fan speed";
+"Core clock" = "Core clock";
+"Memory clock" = "Memory clock";
+"Utilization" = "Utilization";
 
 // Memory
 "Memory usage" = "Memoria utilizzata";
