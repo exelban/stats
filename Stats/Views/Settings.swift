@@ -143,7 +143,7 @@ private class SettingsView: NSView {
         
         self.navigationView.addSubview(self.makeButton(4, title: LocalizedString("Open application settings"), image: "settings", action: #selector(openSettings)))
         self.navigationView.addSubview(self.makeButton(3, title: LocalizedString("Report a bug"), image: "bug", action: #selector(reportBug)))
-        self.navigationView.addSubview(self.makeButton(2, title: LocalizedString("Support app"), image: "donate", action: #selector(donate)))
+        self.navigationView.addSubview(self.makeButton(2, title: LocalizedString("Support the application"), image: "donate", action: #selector(donate)))
         self.navigationView.addSubview(self.makeButton(1, title: LocalizedString("Close application"), image: "power", action: #selector(closeApp)))
         
         self.mainView.frame = NSRect(
