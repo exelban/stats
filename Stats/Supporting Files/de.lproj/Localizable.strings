@@ -36,7 +36,7 @@
 "New version available" = "Neue Version verfügbar";
 "Click to install the new version of Stats" = "Klicken Sie hier, um die neue Version von Stats zu installieren";
 "Successfully updated" = "Erfolgreich aktualisiert";
-"Stats was updated to v" = "Stats wurde aktualisiert auf v%0";
+"Stats was updated to v" = "Stats wurde auf v%0 aktualisiert";
 
 // Settings
 "Open Activity Monitor" = "Aktivitätsanzeige öffnen";
@@ -49,24 +49,24 @@
 // Application settings
 "Update application" = "Applikation aktualisieren";
 "Check for updates" = "Nach Updates suchen";
-"At start" = "At start";
-"Once per day" = "Once per day";
-"Once per week" = "Once per week";
-"Once per month" = "Once per month";
-"Never" = "Never";
+"At start" = "Beim Start";
+"Once per day" = "Täglich";
+"Once per week" = "Wöchentlich";
+"Once per month" = "Monatlich";
+"Never" = "Nie";
 "Check for update" = "Nach Updates suchen";
 "Show icon in dock" = "Symbol im Dock anzeigen";
 "Start at login" = "Beim Login starten";
 
 // Dashboard
-"Serial number" = "Ordnungsnummer";
+"Serial number" = "Seriennummer";
 "Uptime" = "Betriebszeit";
 
 // Update
 "The latest version of Stats installed" = "Die neueste Version von Stats ist installiert";
 "Downloading..." = "Herunterladen...";
-"Current version: " = "Aktuelle Version:  ";
-"Latest version: " = "Neueste Version:    ";
+"Current version: " = "Aktuelle Version: ";
+"Latest version: " = "Neueste Version: ";
 
 // Widgets
 "Color" = "Farbe";
@@ -75,7 +75,7 @@
 "Frame" = "Rahmen";
 "Value" = "Wert";
 "Colorize" = "Einfärben";
-"Colorize value" = "Einfärben-Wert";
+"Colorize value" = "Einfärbe-Wert";
 "Additional information" = "Zusätzliche Informationen";
 "Reverse values order" = "Umgekehrte Reihenfolge der Werte";
 "Base" = "Basis";
@@ -84,12 +84,12 @@
 "Two rows" = "Zwei Reihen";
 
 // Module Kit
-"Open module settings" = "Module Einstellungen öffnen";
+"Open module settings" = "Modul-Einstellungen öffnen";
 "Select widget" = "%0 Widget auswählen";
 "Update interval" = "Update-Intervall";
 "Usage history" = "Verlauf";
 "Details" = "Details";
-"Top processes" = "Top Prozesse";
+"Top processes" = "Top-Prozesse";
 "Pictogram" = "Piktogramm";
 
 // Modules
@@ -138,7 +138,7 @@
 "Used disk memory" = "%0 von %1 verwendet";
 "Free disk memory" = "%0 von %1 frei";
 "Disk to show" = "Festplatte auswählen";
-"Open disk" = "Öffnen Sie die Festplatte";
+"Open disk" = "Festplatte öffnen";
 "Switch view" = "Ansicht wechseln";
 
 // Sensors
@@ -156,7 +156,7 @@
 "Physical address" = "Physische Adresse";
 "Click to copy public IP address" = "Klicken Sie zum Kopieren der öffentlichen IP-Adresse";
 "Click to copy local IP address" = "Klicken Sie zum Kopieren der lokalen IP-Adresse";
-"Click to copy wifi name" = "Klicken Sie zum Kopieren des WiFi-Namens";
+"Click to copy wifi name" = "Klicken Sie zum Kopieren des WLAN-Namens";
 "Click to copy mac address" = "Klicken Sie zum Kopieren der MAC-Adresse";
 "No connection" = "Keine Verbindung";
 "Network interface" = "Netzwerkschnittstelle";
