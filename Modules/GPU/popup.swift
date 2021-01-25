@@ -122,7 +122,7 @@ private class GPUView: NSStackView {
         let stateView: NSView = NSView(frame: NSRect(x: width - 8, y: (view.frame.height-7)/2, width: 6, height: 6))
         stateView.wantsLayer = true
         stateView.layer?.backgroundColor = (self.value.state ? NSColor.systemGreen : NSColor.systemRed).cgColor
-        stateView.toolTip = "GPU \(self.value.state ? "enabled" : "disabled")"
+        stateView.toolTip = LocalizedString("GPU \(self.value.state ? "enabled" : "disabled")")
         stateView.layer?.cornerRadius = 4
         
         let details = LocalizedString("Details").uppercased()
@@ -248,7 +248,7 @@ private class GPUView: NSStackView {
         
         if (self.window?.isVisible ?? false) {
             self.stateView?.layer?.backgroundColor = (gpu.state ? NSColor.systemGreen : NSColor.systemRed).cgColor
-            self.stateView?.toolTip = "GPU \(gpu.state ? "enabled" : "disabled")"
+            self.stateView?.toolTip = LocalizedString("GPU \(gpu.state ? "enabled" : "disabled")")
             
             self.addStats(id: "temperature", gpu.temperature)
             self.addStats(id: "utilization", gpu.utilization)
