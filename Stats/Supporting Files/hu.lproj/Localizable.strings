@@ -3,6 +3,10 @@
 //  Stats
 //
 //  Created by @moriczr on 22/01/2021.
+//  Using Swift 5.0.
+//  Running on macOS 10.15.
+//
+//
 //
 
 // Words
@@ -37,6 +41,7 @@
 // Settings
 "Open Activity Monitor" = "Tevékenységfigyelő megnyitása";
 "Report a bug" = "Probléma jelentése";
+"Support the application" = "Support the application";
 "Close application" = "Alkalmazás bezárása";
 "Open application settings" = "Beállítások megnyitása";
 "Open moduleName settings" = "%0 megnyitása";
@@ -103,8 +108,19 @@
 // GPU
 "GPU to show" = "Megjelenítendő GPU";
 "Show GPU type" = "GPU típus mutatása";
+"GPU enabled" = "GPU enabled";
+"GPU disabled" = "GPU disabled";
 "GPU temperature" = "GPU hőmérséklet";
 "GPU utilization" = "GPU terhelés";
+"Vendor" = "Vendor";
+"Model" = "Model";
+"Status" = "Status";
+"Active" = "Active";
+"Non active" = "Non active";
+"Fan speed" = "Fan speed";
+"Core clock" = "Core clock";
+"Memory clock" = "Memory clock";
+"Utilization" = "Utilization";
 
 // Memory
 "Memory usage" = "Memóriahasználat";
