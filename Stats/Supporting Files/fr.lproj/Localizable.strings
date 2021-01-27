@@ -49,11 +49,11 @@
 // Application settings
 "Update application" = "Mettre à jour l'application";
 "Check for updates" = "Rechercher des mises à jour";
-"At start" = "At start";
-"Once per day" = "Once per day";
-"Once per week" = "Once per week";
-"Once per month" = "Once per month";
-"Never" = "Never";
+"At start" = "Au démarrage";
+"Once per day" = "Une fois par jour;
+"Once per week" = "Une fois par semaine";
+"Once per month" = "Une fois par mois";
+"Never" = "Jamais";
 "Check for update" = "Vérifier la mise à jour";
 "Show icon in dock" = "Afficher l'icône dans le dock";
 "Start at login" = "Démarrer au lancement";
