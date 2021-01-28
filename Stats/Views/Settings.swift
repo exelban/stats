@@ -153,8 +153,6 @@ private class SettingsView: NSView {
             height: frame.height - 2
         )
         self.mainView.wantsLayer = true
-        self.mainView.layer?.cornerRadius = 3
-        self.mainView.layer?.maskedCorners = [.layerMaxXMinYCorner]
         
         self.addSubview(sidebar)
         self.addSubview(self.menuView)
