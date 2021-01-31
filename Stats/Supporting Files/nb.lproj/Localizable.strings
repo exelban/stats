@@ -41,7 +41,7 @@
 // Settings
 "Open Activity Monitor" = "Åpne Aktivitetsmonitor";
 "Report a bug" = "Meld en feil";
-"Support the application" = "Støtt søknaden";
+"Support the application" = "Støtt programmet";
 "Close application" = "Lukk programmet";
 "Open application settings" = "Åpne programinnstillinger";
 "Open moduleName settings" = "Åpne innstillinger for %0";
@@ -107,20 +107,20 @@
 
 // GPU
 "GPU to show" = "GPU å vise";
-"Show GPU type" = "Vis GPU-typen";
-"GPU enabled" = "GPU enabled";
-"GPU disabled" = "GPU disabled";
+"Show GPU type" = "Vis GPU-type";
+"GPU enabled" = "GPU i bruk";
+"GPU disabled" = "GPU ikke i bruk";
 "GPU temperature" = "GPU-temperatur";
 "GPU utilization" = "GPU-bruk";
-"Vendor" = "Vendor";
-"Model" = "Model";
+"Vendor" = "Produsent";
+"Model" = "Modell";
 "Status" = "Status";
-"Active" = "Active";
-"Non active" = "Non active";
-"Fan speed" = "Fan speed";
-"Core clock" = "Core clock";
-"Memory clock" = "Memory clock";
-"Utilization" = "Utilization";
+"Active" = "Aktiv";
+"Non active" = "Inaktiv";
+"Fan speed" = "Viftehastighet";
+"Core clock" = "Kjerneklokke";
+"Memory clock" = "Minneklokke";
+"Utilization" = "Bruk";
 
 // Memory
 "Memory usage" = "Minnebruk";
