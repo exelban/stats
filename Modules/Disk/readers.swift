@@ -203,9 +203,11 @@ internal class CapacityReader: Reader<DiskList> {
     
     private func freeDiskSpaceInBytes(_ path: URL) -> Int64 {
         do {
-            let values = try path.resourceValues(forKeys: [.volumeAvailableCapacityForImportantUsageKey])
-            if let capacity = values.volumeAvailableCapacityForImportantUsage {
-                return capacity
+            if let url = URL(string: path.absoluteString) {
+                let values = try url.resourceValues(forKeys: [.volumeAvailableCapacityForImportantUsageKey])
+                if let capacity = values.volumeAvailableCapacityForImportantUsage {
+                    return capacity
+                }
             }
         } catch {
             os_log(.error, log: log, "error retrieving free space #1: %s", "\(error.localizedDescription)")
