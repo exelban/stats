@@ -35,15 +35,13 @@ public class SensorsWidget: Widget {
                 }
             }
         }
-        super.init(frame: CGRect(
+        
+        super.init(.sensors, title: title, frame: CGRect(
             x: 0,
             y: Constants.Widget.margin.y,
             width: Constants.Widget.width,
             height: Constants.Widget.height - (2*Constants.Widget.margin.y)
-        ))
-        self.title = title
-        self.type = .sensors
-        self.preview = preview
+        ), preview: preview)
         
         self.modeState = store?.pointee.string(key: "\(self.title)_\(self.type.rawValue)_mode", defaultValue: self.modeState) ?? self.modeState
         

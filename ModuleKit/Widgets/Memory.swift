@@ -36,22 +36,21 @@ public class MemoryWidget: Widget {
                 }
             }
         }
-        super.init(frame: CGRect(
+        
+        super.init(.memory, title: title, frame: CGRect(
             x: 0,
             y: Constants.Widget.margin.y,
             width: 62,
             height: Constants.Widget.height - (2*Constants.Widget.margin.y)
-        ))
-        self.title = title
-        self.type = .memory
-        self.preview = preview
+        ), preview: preview)
+        
         self.canDrawConcurrently = true
         
         if self.store != nil {
             self.orderReversedState = store!.pointee.bool(key: "\(self.title)_\(self.type.rawValue)_orderReversed", defaultValue: self.orderReversedState)
         }
         
-        if self.preview {
+        if preview {
             self.orderReversedState = false
         }
     }

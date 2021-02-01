@@ -117,7 +117,7 @@ open class Settings: NSView, Settings_p {
         var x: CGFloat = Constants.Settings.margin
         for i in 0...self.config.pointee.availableWidgets.count - 1 {
             let widgetType = self.config.pointee.availableWidgets[i]
-            if let widget = LoadWidget(widgetType, preview: true, name: self.config.pointee.name, config: self.config.pointee.widgetsConfig, store: nil) {
+            if let widget = widgetType.new(module: self.config.pointee.name, config: self.config.pointee.widgetsConfig, store: nil, preview: true) {
                 let preview = WidgetPreview(
                     frame: NSRect(
                         x: x,
@@ -325,7 +325,7 @@ class WidgetPreview: NSView {
         self.layer?.borderColor = self.state ? NSColor.systemBlue.cgColor : NSColor(hexString: "#dddddd").cgColor
         self.layer?.borderWidth = 1
         
-        self.toolTip = LocalizedString("Select widget", widget.name)
+        self.toolTip = LocalizedString("Select widget", widget.type.name())
         
         let container: NSView = NSView(frame: NSRect(
             x: Constants.Widget.spacing,

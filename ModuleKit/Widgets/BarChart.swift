@@ -63,16 +63,13 @@ public class BarChart: Widget {
             }
         }
         
-        super.init(frame: CGRect(
+        super.init(.barChart, title: widgetTitle, frame: CGRect(
             x: Constants.Widget.margin.x,
             y: Constants.Widget.margin.y,
             width: Constants.Widget.width + (2*Constants.Widget.margin.x),
             height: Constants.Widget.height - (2*Constants.Widget.margin.y)
-        ))
+        ), preview: preview)
         
-        self.preview = preview
-        self.title = widgetTitle
-        self.type = .barChart
         self.canDrawConcurrently = true
         
         if self.store != nil && !preview {

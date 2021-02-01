@@ -30,16 +30,13 @@ public class BatterykWidget: Widget {
         let widgetTitle: String = title
         self.store = store
         
-        super.init(frame: CGRect(
+        super.init(.battery, title: widgetTitle, frame: CGRect(
             x: Constants.Widget.margin.x,
             y: Constants.Widget.margin.y,
             width: 30 + (2*Constants.Widget.margin.x),
             height: Constants.Widget.height - (2*Constants.Widget.margin.y)
-        ))
+        ), preview: preview)
         
-        self.title = widgetTitle
-        self.type = .battery
-        self.preview = preview
         self.canDrawConcurrently = true
         
         if self.store != nil {
@@ -50,7 +47,7 @@ public class BatterykWidget: Widget {
             self.hideAdditionalWhenFull = store!.pointee.bool(key: "\(self.title)_\(self.type.rawValue)_hideAdditionalWhenFull", defaultValue: self.hideAdditionalWhenFull)
         }
         
-        if self.preview {
+        if preview {
             self.percentage = 0.72
             self.additional = "none"
             self.iconState = true

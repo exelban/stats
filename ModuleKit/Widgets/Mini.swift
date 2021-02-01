@@ -68,15 +68,13 @@ public class Mini: Widget {
         }
         
         self.defaultTitle = widgetTitle
-        super.init(frame: CGRect(
+        super.init(.mini, title: widgetTitle, frame: CGRect(
             x: 0,
             y: Constants.Widget.margin.y,
             width: Constants.Widget.width + (2*Constants.Widget.margin.x),
             height: Constants.Widget.height - (2*Constants.Widget.margin.y)
-        ))
+        ), preview: preview)
         
-        self.title = widgetTitle
-        self.type = .mini
         self.wantsLayer = true
         
         if let store = self.store {

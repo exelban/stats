@@ -38,16 +38,13 @@ public class PieChart: Widget {
             }
         }
         
-        super.init(frame: CGRect(
+        super.init(.pieChart, title: widgetTitle, frame: CGRect(
             x: Constants.Widget.margin.x,
             y: Constants.Widget.margin.y,
             width: self.size,
             height: Constants.Widget.height - (Constants.Widget.margin.y*2)
-        ))
+        ), preview: preview)
         
-        self.preview = preview
-        self.title = widgetTitle
-        self.type = .pieChart
         self.wantsLayer = true
         self.canDrawConcurrently = true
         
@@ -55,7 +52,7 @@ public class PieChart: Widget {
             self.labelState = store.pointee.bool(key: "\(self.title)_\(self.type.rawValue)_label", defaultValue: self.labelState)
         }
         
-        if self.preview {
+        if preview {
             if self.title == "CPU" {
                 self.chart.setSegments([
                     circle_segment(value: 0.16, color: NSColor.systemRed),

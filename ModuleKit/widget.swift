@@ -12,46 +12,6 @@
 import Cocoa
 import StatsKit
 
-public enum widget_c: String {
-    case utilization = "Based on utilization"
-    case pressure = "Based on pressure"
-    
-    case separator_1 = "separator_1"
-    
-    case systemAccent = "System accent"
-    case monochrome = "Monochrome accent"
-    
-    case separator_2 = "separator_2"
-    
-    case clear = "Clear"
-    case white = "White"
-    case black = "Black"
-    case gray = "Gray"
-    case secondGray = "Second gray"
-    case darkGray = "Dark gray"
-    case lightGray = "Light gray"
-    case red = "Red"
-    case secondRed = "Second red"
-    case green = "Green"
-    case secondGreen = "Second green"
-    case blue = "Blue"
-    case secondBlue = "Second blue"
-    case yellow = "Yellow"
-    case secondYellow = "Second yellow"
-    case orange = "Orange"
-    case secondOrange = "Second orange"
-    case purple = "Purple"
-    case secondPurple = "Second purple"
-    case brown = "Brown"
-    case secondBrown = "Second brown"
-    case cyan = "Cyan"
-    case magenta = "Magenta"
-    case pink = "Pink"
-    case teal = "Teal"
-    case indigo = "Indigo"
-}
-extension widget_c: CaseIterable {}
-
 public enum widget_t: String {
     case unknown = ""
     case mini = "mini"
@@ -63,14 +23,66 @@ public enum widget_t: String {
     case battery = "battery"
     case sensors = "sensors"
     case memory = "memory"
+    
+    public func new(module: String, config: NSDictionary?, store: UnsafePointer<Store>?, preview: Bool = false) -> Widget_p? {
+        var widget: Widget_p? = nil
+        let widgetConfig: NSDictionary? = config?[self.rawValue] as? NSDictionary
+        
+        switch self {
+        case .mini:
+            widget = Mini(preview: preview, title: module, config: widgetConfig, store: store)
+            break
+        case .lineChart:
+            widget = LineChart(preview: preview, title: module, config: widgetConfig, store: store)
+            break
+        case .barChart:
+            widget = BarChart(preview: preview, title: module, config: widgetConfig, store: store)
+            break
+        case .pieChart:
+            widget = PieChart(preview: preview, title: module, config: widgetConfig, store: store)
+            break
+        case .networkChart:
+            widget = NetworkChart(preview: preview, title: module, config: widgetConfig, store: store)
+            break
+        case .speed:
+            widget = SpeedWidget(preview: preview, title: module, config: widgetConfig, store: store)
+            break
+        case .battery:
+            widget = BatterykWidget(preview: preview, title: module, config: widgetConfig, store: store)
+            break
+        case .sensors:
+            widget = SensorsWidget(preview: preview, title: module, config: widgetConfig, store: store)
+            break
+        case .memory:
+            widget = MemoryWidget(preview: preview, title: module, config: widgetConfig, store: store)
+            break
+        default: break
+        }
+        
+        return widget
+    }
+    
+    public func name() -> String {
+        switch self {
+            case .mini: return LocalizedString("Mini widget")
+            case .lineChart: return LocalizedString("Line chart widget")
+            case .barChart: return LocalizedString("Bar chart widget")
+            case .pieChart: return LocalizedString("Pie chart widget")
+            case .networkChart: return LocalizedString("Network chart widget")
+            case .speed: return LocalizedString("Speed widget")
+            case .battery: return LocalizedString("Battery widget")
+            case .sensors: return LocalizedString("Text widget")
+            case .memory: return LocalizedString("Memory widget")
+            default: return ""
+        }
+    }
 }
 extension widget_t: CaseIterable {}
 
 public protocol Widget_p: NSView {
-    var name: String { get }
-    var title: String { get }
-    var preview: Bool { get }
     var type: widget_t { get }
+    var title: String { get }
+    
     var widthHandler: ((CGFloat) -> Void)? { get set }
     
     func setValues(_ values: [value_t])
@@ -78,31 +90,24 @@ public protocol Widget_p: NSView {
 }
 
 open class Widget: NSView, Widget_p {
+    public var type: widget_t
+    public var title: String
+    
     public var widthHandler: ((CGFloat) -> Void)? = nil
-    public var name: String {
-        get {
-            switch self.type {
-            case .mini: return "Mini"
-            case .lineChart: return "Line chart"
-            case .barChart: return "Bar chart"
-            case .pieChart: return "Pie chart"
-            case .networkChart: return "Network chart"
-            case .speed: return "Speed"
-            case .battery: return "Battery"
-            case .sensors: return "Text"
-            case .memory: return "Memory"
-            default: return ""
-            }
-        }
-    }
-    public var title: String = ""
-    public var preview: Bool = false
-    public var type: widget_t = .unknown
-    
     private var widthHandlerRetry: Int8 = 0
-    
     open override var intrinsicContentSize: CGSize {
         return CGSize(width: self.frame.size.width, height: self.frame.size.height)
+    }
+    
+    public init(_ type: widget_t, title: String, frame: NSRect, preview: Bool) {
+        self.type = type
+        self.title = title
+        
+        super.init(frame: frame)
+    }
+    
+    required public init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     public func setWidth(_ width: CGFloat) {
@@ -127,44 +132,8 @@ open class Widget: NSView, Widget_p {
         self.widthHandler?(width)
     }
     
+    // MARK: - stubs
+    
     open func settings(superview: NSView) {}
     open func setValues(_ values: [value_t]) {}
-}
-
-func LoadWidget(_ type: widget_t, preview: Bool, name: String, config: NSDictionary?, store: UnsafePointer<Store>?) -> Widget_p? {
-    var widget: Widget_p? = nil
-    let widgetConfig: NSDictionary? = config?[type.rawValue] as? NSDictionary
-    
-    switch type {
-    case .mini:
-        widget = Mini(preview: preview, title: name, config: widgetConfig, store: store)
-        break
-    case .lineChart:
-        widget = LineChart(preview: preview, title: name, config: widgetConfig, store: store)
-        break
-    case .barChart:
-        widget = BarChart(preview: preview, title: name, config: widgetConfig, store: store)
-        break
-    case .pieChart:
-        widget = PieChart(preview: preview, title: name, config: widgetConfig, store: store)
-        break
-    case .networkChart:
-        widget = NetworkChart(preview: preview, title: name, config: widgetConfig, store: store)
-        break
-    case .speed:
-        widget = SpeedWidget(preview: preview, title: name, config: widgetConfig, store: store)
-        break
-    case .battery:
-        widget = BatterykWidget(preview: preview, title: name, config: widgetConfig, store: store)
-        break
-    case .sensors:
-        widget = SensorsWidget(preview: preview, title: name, config: widgetConfig, store: store)
-        break
-    case .memory:
-        widget = MemoryWidget(preview: preview, title: name, config: widgetConfig, store: store)
-        break
-    default: break
-    }
-    
-    return widget
 }

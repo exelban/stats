@@ -40,15 +40,14 @@ public class SpeedWidget: Widget {
                 self.icon = icon
             }
         }
-        super.init(frame: CGRect(
+        
+        super.init(.speed, title: widgetTitle, frame: CGRect(
             x: 0,
             y: Constants.Widget.margin.y,
             width: width,
             height: Constants.Widget.height - (2*Constants.Widget.margin.y)
-        ))
-        self.title = widgetTitle
-        self.type = .speed
-        self.preview = preview
+        ), preview: preview)
+        
         self.canDrawConcurrently = true
         
         if self.store != nil {
