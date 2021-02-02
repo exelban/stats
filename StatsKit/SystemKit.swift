@@ -185,9 +185,9 @@ public class SystemKit {
             name = name.replacingOccurrences(of: "(TM)", with: "")
             name = name.replacingOccurrences(of: "(R)", with: "")
             name = name.replacingOccurrences(of: "CPU", with: "")
-            name = name.replacingOccurrences(of: " @ ", with: "")
+            name = name.replacingOccurrences(of: "@", with: "")
             
-            cpu.name = name
+            cpu.name = name.condenseWhitespace()
         }
         
         var size = UInt32(MemoryLayout<host_basic_info_data_t>.size / MemoryLayout<integer_t>.size)
@@ -374,6 +374,9 @@ public class SystemKit {
             break
         case .imacpro:
             icon = NSImage(named: NSImage.Name("imacPro"))!
+            break
+        case .macPro:
+            icon = NSImage(named: NSImage.Name("macPro"))!
             break
         case .imac:
             icon = NSImage(named: NSImage.Name("imac"))!
