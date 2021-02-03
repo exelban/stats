@@ -39,7 +39,7 @@ struct drive {
     var connectionType: String = ""
     var fileSystem: String = ""
     
-    var size: Int64 = 0
+    var size: Int64 = 1
     var free: Int64 = 0
     
     var stats: stats? = nil
@@ -150,7 +150,10 @@ public class Disk: Module {
         
         let total = d.size
         let free = d.free
-        let usedSpace = total - free
+        var usedSpace = total - free
+        if usedSpace < 0 {
+            usedSpace = 0
+        }
         let percentage = Double(usedSpace) / Double(total)
         
         if let widget = self.widget as? Mini {

@@ -204,7 +204,7 @@ internal class DiskNameAndBarView: NSView {
         view.layer?.cornerRadius = 3
         
         let percentage = CGFloat(size - free) / CGFloat(size)
-        let width: CGFloat = (view.frame.width * percentage) / 1
+        let width: CGFloat = (view.frame.width * (percentage < 0 ? 0 : percentage)) / 1
         self.usedBarSpace = NSView(frame: NSRect(x: 0, y: 0, width: width, height: view.frame.height))
         self.usedBarSpace?.wantsLayer = true
         self.usedBarSpace?.layer?.backgroundColor = NSColor.controlAccentColor.cgColor
@@ -217,7 +217,7 @@ internal class DiskNameAndBarView: NSView {
         if (self.window?.isVisible ?? false) || !self.ready {
             if self.usedBarSpace != nil {
                 let percentage = CGFloat(self.size - free) / CGFloat(self.size)
-                let width: CGFloat = ((self.frame.width - 2) * percentage) / 1
+                let width: CGFloat = ((self.frame.width - 2) * (percentage < 0 ? 0 : percentage)) / 1
                 self.usedBarSpace?.setFrameSize(NSSize(width: width, height: self.usedBarSpace!.frame.height))
             }
             
@@ -275,7 +275,11 @@ internal class DiskLegendView: NSView {
         let percentageField = TextView(frame: NSRect(x: view.frame.width - 40, y: (view.frame.height-height)/2, width: 40, height: height))
         percentageField.font = NSFont.systemFont(ofSize: 11, weight: .regular)
         percentageField.alignment = .right
-        percentageField.stringValue = "\(Int8((Double(size - free) / Double(size)) * 100))%"
+        var percentage = Int(Double(size - free) / Double(size == 0 ? 1 : size)) * 100
+        if percentage < 0 {
+            percentage = 0
+        }
+        percentageField.stringValue = "\(percentage)%"
         
         view.addSubview(legendField)
         view.addSubview(percentageField)
@@ -316,7 +320,11 @@ internal class DiskLegendView: NSView {
         var value: String
         
         if self.showUsedSpace {
-            value = LocalizedString("Used disk memory", DiskSize(self.size - free).getReadableMemory(), DiskSize(self.size).getReadableMemory())
+            var usedSpace = self.size - free
+            if usedSpace < 0 {
+                usedSpace = 0
+            }
+            value = LocalizedString("Used disk memory", DiskSize(usedSpace).getReadableMemory(), DiskSize(self.size).getReadableMemory())
         } else {
             value = LocalizedString("Free disk memory", DiskSize(free).getReadableMemory(), DiskSize(self.size).getReadableMemory())
         }
@@ -325,15 +333,18 @@ internal class DiskLegendView: NSView {
     }
     
     private func percentage(free: Int64) -> String {
-        var value: String
+        guard self.size != 0 else {
+            return "0%"
+        }
+        var percentage: Int
         
         if self.showUsedSpace {
-            value = "\(Int8((Double(self.size - free) / Double(self.size)) * 100))%"
+            percentage = Int(Double(self.size - free) / Double(self.size)) * 100
         } else {
-            value = "\(Int8((Double(free) / Double(self.size)) * 100))%"
+            percentage = Int(Double(free) / Double(self.size)) * 100
         }
         
-        return value
+        return "\(percentage < 0 ? 0 : percentage)%"
     }
     
     override func mouseEntered(with: NSEvent) {
