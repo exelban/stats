@@ -202,7 +202,7 @@ open class Module: Module_p {
         
         self.enabled = false
         self.store.pointee.set(key: "\(self.config.name)_state", value: false)
-        self.readers.forEach{ $0.pause() }
+        self.readers.forEach{ $0.stop() }
         self.menuBarItem.isVisible = false
         self.popup?.setIsVisible(false)
         os_log(.debug, log: log, "Module disabled")
