@@ -6,7 +6,7 @@
 //  Using Swift 5.0.
 //  Running on macOS 10.15.
 //
-//
+//  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
 //
 
 // Words
@@ -82,6 +82,15 @@
 "Display mode" = "Megjelenítés mód";
 "One row" = "Egy sor";
 "Two rows" = "Két sor";
+"Mini widget" = "Mini";
+"Line chart widget" = "Line chart";
+"Bar chart widget" = "Bar chart";
+"Pie chart widget" = "Pie chart";
+"Network chart widget" = "Network chart";
+"Speed widget" = "Speed";
+"Battery widget" = "Battery";
+"Text widget" = "Text";
+"Memory widget" = "Memory";
 
 // Module Kit
 "Open module settings" = "Modul beállításainak megnyitása";

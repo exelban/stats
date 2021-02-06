@@ -2,11 +2,11 @@
 //  Localizable.strings
 //  Stats
 //
-//
-//
 //  Created by @mpl75 on 11/01/2021.
 //
 //
+//
+//  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
 //
 
 // Words
@@ -82,6 +82,15 @@
 "Display mode" = "Režim zobrazení";
 "One row" = "Jeden řádek";
 "Two rows" = "Dva řádky";
+"Mini widget" = "Mini";
+"Line chart widget" = "Line chart";
+"Bar chart widget" = "Bar chart";
+"Pie chart widget" = "Pie chart";
+"Network chart widget" = "Network chart";
+"Speed widget" = "Speed";
+"Battery widget" = "Battery";
+"Text widget" = "Text";
+"Memory widget" = "Memory";
 
 // Module Kit
 "Open module settings" = "Otevřít nastavení modulu";

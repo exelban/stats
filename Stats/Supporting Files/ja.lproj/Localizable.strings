@@ -82,6 +82,15 @@
 "Display mode" = "表示形式";
 "One row" = "1行";
 "Two rows" = "2行";
+"Mini widget" = "Mini";
+"Line chart widget" = "Line chart";
+"Bar chart widget" = "Bar chart";
+"Pie chart widget" = "Pie chart";
+"Network chart widget" = "Network chart";
+"Speed widget" = "Speed";
+"Battery widget" = "Battery";
+"Text widget" = "Text";
+"Memory widget" = "Memory";
 
 // Module Kit
 "Open module settings" = "このモジュールの設定を開く";

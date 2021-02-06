@@ -2,8 +2,7 @@
 //  Localizable.strings
 //  Stats
 //
-//  Created by Serhiy Mytrovtsiy on 27/08/2020.
-//  Updated by lucasaf04 on 03/12/2020.
+//  Created by lucasaf04 on 03/12/2020.
 //  Using Swift 5.0.
 //  Running on macOS 10.15.
 //
@@ -83,6 +82,15 @@
 "Display mode" = "Modo de visualización";
 "One row" = "Una fila";
 "Two rows" = "Dos filas";
+"Mini widget" = "Mini";
+"Line chart widget" = "Line chart";
+"Bar chart widget" = "Bar chart";
+"Pie chart widget" = "Pie chart";
+"Network chart widget" = "Network chart";
+"Speed widget" = "Speed";
+"Battery widget" = "Battery";
+"Text widget" = "Text";
+"Memory widget" = "Memory";
 
 // Module Kit
 "Open module settings" = "Abrir la configruación del módulo";

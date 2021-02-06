@@ -82,6 +82,15 @@
 "Display mode" = "표기 방식";
 "One row" = "한 줄";
 "Two rows" = "두 줄";
+"Mini widget" = "Mini";
+"Line chart widget" = "Line chart";
+"Bar chart widget" = "Bar chart";
+"Pie chart widget" = "Pie chart";
+"Network chart widget" = "Network chart";
+"Speed widget" = "Speed";
+"Battery widget" = "Battery";
+"Text widget" = "Text";
+"Memory widget" = "Memory";
 
 // Module Kit
 "Open module settings" = "모듈 설정 열기";
