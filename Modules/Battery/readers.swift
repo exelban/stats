@@ -209,18 +209,26 @@ public class ProcessReader: Reader<[TopProcess]> {
             return
         }
         
-        if self.task.isRunning && self.paused {
+        if !self.task.isRunning {
+            do {
+                try self.task.run()
+            } catch let error {
+                os_log(.error, log: log, "run Battery process reader %s", "\(error)")
+            }
+        } else if self.paused {
             self.paused = !self.task.resume()
-        } else {
-            self.task.launch()
         }
     }
     
     public override func pause() {
-        self.paused = self.task.suspend()
+        if self.task.isRunning && !self.paused {
+            self.paused = self.task.suspend()
+        }
     }
     
     public override func stop() {
-        self.task.interrupt()
+        if self.task.isRunning && !self.paused {
+            self.paused = self.task.suspend()
+        }
     }
 }
