@@ -21,6 +21,8 @@ internal class SensorsReader: Reader<[Sensor_t]> {
     init(_ smc: UnsafePointer<SMCService>) {
         self.smc = smc
         
+        super.init()
+        
         var available: [String] = self.smc.pointee.getAllKeys()
         var list: [Sensor_t] = []
         

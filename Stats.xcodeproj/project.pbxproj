@@ -373,6 +373,7 @@
 		9733417025C7340700BD4D9C /* ro */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ro; path = ro.lproj/Localizable.strings; sourceTree = "<group>"; };
 		97B5592A24FD84E000D3C4FF /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		98BF5451254DF04C004E9DF5 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/Localizable.strings; sourceTree = "<group>"; };
+		9A00010025CFF9D6001D02B9 /* bg */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = bg; path = bg.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9A045EB62594F8D100ED58F2 /* Dashboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dashboard.swift; sourceTree = "<group>"; };
 		9A0C82D124460DFF00FAE3D4 /* updater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = updater.swift; sourceTree = "<group>"; };
 		9A0C82D324460E4400FAE3D4 /* launchAtLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = launchAtLogin.swift; sourceTree = "<group>"; };
@@ -1293,6 +1294,7 @@
 				cs,
 				hu,
 				ro,
+				bg,
 			);
 			mainGroup = 9A1410EC229E721100D29793;
 			packageReferences = (
@@ -1731,6 +1733,7 @@
 				9068FE5F25AC4516006FCAA6 /* cs */,
 				BB9E59E725BB5F5E004AED95 /* hu */,
 				9733417025C7340700BD4D9C /* ro */,
+				9A00010025CFF9D6001D02B9 /* bg */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -1963,7 +1966,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 2.4.15;
+				MARKETING_VERSION = 2.4.16;
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = eu.exelban.Stats;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1996,7 +1999,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 2.4.15;
+				MARKETING_VERSION = 2.4.16;
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = eu.exelban.Stats;
 				PRODUCT_NAME = "$(TARGET_NAME)";
