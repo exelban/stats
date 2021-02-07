@@ -1,0 +1,197 @@
+//
+//  Localizable.strings
+//  Stats
+//
+//  Created by Razvan Luta on 31/01/2021.
+//  Using Swift 5.0.
+//  Running on macOS 10.15.
+//
+//  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
+//
+
+// Words
+"Unknown" = "Necunoscut";
+"Version" = "Versiune";
+"Processor" = "Procesor";
+"Memory" = "Memorie";
+"Graphics" = "Grafică";
+"Disk" = "Disc";
+"Close" = "Închide";
+"Download" = "Descarcă";
+"Install" = "Instalează";
+"Cancel" = "Anulează";
+"Unavailable" = "Indisponibil";
+"Yes" = "Da";
+"No" = "Nu";
+"Automatic" = "Automat";
+"None" = "Niciunul";
+"Dots" = "Puncte";
+"Arrows" = "Săgeți";
+"Characters" = "Litere";
+"Short" = "Scurt";
+"Long" = "Lung";
+"Statistics" = "Statistici";
+
+// Alerts
+"New version available" = "Versiune nouă disponibilă";
+"Click to install the new version of Stats" = "Click aici pentru a instala noua versiune Stats";
+"Successfully updated" = "Actualizat cu succes";
+"Stats was updated to v" = "Stats a fost actualizat la v%0";
+
+// Settings
+"Open Activity Monitor" = "Deschide Monitorul de Activitate";
+"Report a bug" = "Raportează o eroare";
+"Support the application" = "Susține aplicația";
+"Close application" = "Închide aplicația";
+"Open application settings" = "Deschide setăriile aplicației";
+"Open moduleName settings" = "Deschide setăriile modulului %0";
+
+// Application settings
+"Update application" = "Actualizează aplicația";
+"Check for updates" = "Verifică pentru actualizări";
+"At start" = "La pornire";
+"Once per day" = "Odată pe zi";
+"Once per week" = "Odată pe săptămână";
+"Once per month" = "Odată pe lună";
+"Never" = "Niciodată";
+"Check for update" = "Verifică pentru actualizare";
+"Show icon in dock" = "Arată icoana in doc";
+"Start at login" = "Pornește la autentificare";
+
+// Dashboard
+"Serial number" = "Număr de serie";
+"Uptime" = "Timp în opererare";
+
+// Update
+"The latest version of Stats installed" = "Cea mai recentă versiune de Stats instalată";
+"Downloading..." = "Se descarcă...";
+"Current version: " = "Versiunea curentă: ";
+"Latest version: " = "Versiunea cea mai recentă: ";
+
+// Widgets
+"Color" = "Culoare";
+"Label" = "Etichetă";
+"Box" = "Cutie";
+"Frame" = "Cadru";
+"Value" = "Valoare";
+"Colorize" = "Colorează";
+"Colorize value" = "Colorează valoarea";
+"Additional information" = "Informații suplimentare";
+"Reverse values order" = "Inversează ordinea valoriilor";
+"Base" = "Baza";
+"Display mode" = "Modul de vizualizare";
+"One row" = "Un rând";
+"Two rows" = "Două rânduri";
+
+// Module Kit
+"Open module settings" = "Deschide setăriile modulului";
+"Select widget" = "Alege opțiunea %0";
+"Update interval" = "Intervalul de actualizare";
+"Usage history" = "Istoricul de folosință";
+"Details" = "Detalii";
+"Top processes" = "Procesele de vârf";
+"Pictogram" = "Pictogramă";
+
+// Modules
+"Number of top processes" = "Numărul proceselor de vârf";
+
+// CPU
+"CPU usage" = "Utilizarea procesorului";
+"CPU temperature" = "Temperatura procesorului";
+"CPU frequency" = "Frecvența procesorului";
+"System" = "Sistem";
+"User" = "Utilizator";
+"Idle" = "Inactiv";
+"Show usage per core" = "Arată utilizarea pe fiecare nucleu";
+"Show hyper-threading cores" = "Arată nucleurile ce lucrează suplimentar";
+
+// GPU
+"GPU to show" = "Placa video să fie arătată";
+"Show GPU type" = "Arată tipul de placă video";
+"GPU enabled" = "Placa video activată";
+"GPU disabled" = "Placa video dezactivată";
+"GPU temperature" = "Temperatura plăcii video";
+"GPU utilization" = "Utilizarea plăcii video";
+"Vendor" = "Producătorul";
+"Model" = "Modelul";
+"Status" = "Statutul";
+"Active" = "Activ";
+"Non active" = "Inactiv";
+"Fan speed" = "Viteza ventilatorului";
+"Core clock" = "Frecvența nucleului";
+"Memory clock" = "Frecvența memoriei";
+"Utilization" = "Gradul de utilizare";
+
+// Memory
+"Memory usage" = "Memoria folosită";
+"Memory pressure" = "Presiunea memoriei";
+"Total" = "Total";
+"Used" = "Folosit";
+"App" = "Aplicația";
+"Wired" = "Conectat prin cablu";
+"Compressed" = "Comprimat";
+"Free" = "Gratuit";
+"Swap" = "Schimbă";
+
+// Disk
+"Show removable disks" = "Arată discurile detașabile";
+"Used disk memory" = "%0 din %1 folosită";
+"Free disk memory" = "%0 din %1 disponibilă";
+"Disk to show" = "Discul să fie arătat";
+"Open disk" = "Deschide discul";
+"Switch view" = "Schimbă vederea";
+
+// Sensors
+"Temperature unit" = "Temperatura unității";
+"Celsius" = "Celsius";
+"Fahrenheit" = "Fahrenheit";
+
+// Network
+"Uploading" = "Incarcă";
+"Downloading" = "Descarcă";
+"Public IP" = "Adresa de IP publică";
+"Local IP" = "Adresa de IP locală";
+"Interface" = "Interfață";
+"Network" = "Rețea";
+"Physical address" = "Adresa fizică";
+"Click to copy public IP address" = "Click pentru a copia adresa de IP publică";
+"Click to copy local IP address" = "Click pentru a copia adresa de IP locală";
+"Click to copy wifi name" = "Click pentru a copia numele rețelei WiFi";
+"Click to copy mac address" = "Click pentru a copia adresa Mac-ului";
+"No connection" = "Fără conexiune";
+"Network interface" = "Interfața rețelei";
+"Total download" = "Totalul descărcat";
+"Total upload" = "Totalul încărcat";
+"Reader type" = "Tipul de cititor";
+"Interface based" = "Bazat pe interfață";
+"Processes based" = "Bazat pe procese";
+
+// Battery
+"Level" = "Nivel";
+"Source" = "Sursă";
+"Time" = "Timp";
+"Health" = "Sănătate";
+"Battery" = "Baterie";
+"Amperage" = "Amperaj";
+"Voltage" = "Voltaj";
+"Cycles" = "Cicluri";
+"Temperature" = "Temperatură";
+"Power adapter" = "Adaptor de putere prin cablu";
+"Power" = "Putere";
+"Is charging" = "Se încarcă";
+"Time to discharge" = "Timp până la descărcare";
+"Time to charge" = "Timp până la încărcare";
+"Calculating" = "Se calculează";
+"Fully charged" = "Încărcat complet";
+"Not connected" = "Nu este conectat";
+"Low level notification" = "Notificație de nivel scăzut";
+"Low battery" = "Baterie puțină";
+"Battery remaining" = "%0% rămas";
+"Percentage" = "Procentaj";
+"Percentage and time" = "Procentaj și timp";
+"Time and percentage" = "Timp si procentaj";
+"Time format" = "Formatul timpului";
+"Hide additional information when full" = "Ascunde restul informației cand e plină";
+
+// Fans
+"Fans" = "Ventilatoare";
