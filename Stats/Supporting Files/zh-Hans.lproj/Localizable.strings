@@ -36,7 +36,7 @@
 "New version available" = "新版本可用";
 "Click to install the new version of Stats" = "点击安装 Stats 的新版本";
 "Successfully updated" = "更新成功";
-"Stats was updated to v" = "Stats 已更新到v%0";
+"Stats was updated to v" = "Stats 已更新到 v%0";
 
 // Settings
 "Open Activity Monitor" = "打开活动监视器";
@@ -82,19 +82,19 @@
 "Display mode" = "显示模式";
 "One row" = "单行";
 "Two rows" = "双行";
-"Mini widget" = "Mini";
-"Line chart widget" = "Line chart";
-"Bar chart widget" = "Bar chart";
-"Pie chart widget" = "Pie chart";
-"Network chart widget" = "Network chart";
-"Speed widget" = "Speed";
-"Battery widget" = "Battery";
-"Text widget" = "Text";
-"Memory widget" = "Memory";
+"Mini widget" = "迷你";
+"Line chart widget" = "折线图";
+"Bar chart widget" = "柱状图";
+"Pie chart widget" = "饼图";
+"Network chart widget" = "流量图";
+"Speed widget" = "速度";
+"Battery widget" = "电池";
+"Text widget" = "文本";
+"Memory widget" = "容量";
 
 // Module Kit
 "Open module settings" = "打开模块设置";
-"Select widget" = "选择 %0 小组件";
+"Select widget" = "选择%0小组件";
 "Update interval" = "更新间隔";
 "Usage history" = "负载历史";
 "Details" = "详细信息";
@@ -188,8 +188,8 @@
 "Power adapter" = "电源适配器";
 "Power" = "功率";
 "Is charging" = "充电中";
-"Time to discharge" = "放电时间";
-"Time to charge" = "充电时间";
+"Time to discharge" = "电池剩余时间";
+"Time to charge" = "充电所需时间";
 "Calculating" = "计算中";
 "Fully charged" = "已充满";
 "Not connected" = "未连接";
