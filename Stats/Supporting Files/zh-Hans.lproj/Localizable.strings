@@ -82,19 +82,19 @@
 "Display mode" = "显示模式";
 "One row" = "单行";
 "Two rows" = "双行";
-"Mini widget" = "Mini";
-"Line chart widget" = "Line chart";
-"Bar chart widget" = "Bar chart";
-"Pie chart widget" = "Pie chart";
-"Network chart widget" = "Network chart";
-"Speed widget" = "Speed";
-"Battery widget" = "Battery";
-"Text widget" = "Text";
-"Memory widget" = "Memory";
+"Mini widget" = "迷你";
+"Line chart widget" = "折线图";
+"Bar chart widget" = "柱状图";
+"Pie chart widget" = "饼图";
+"Network chart widget" = "流量图";
+"Speed widget" = "速度";
+"Battery widget" = "电池";
+"Text widget" = "文本";
+"Memory widget" = "容量";
 
 // Module Kit
 "Open module settings" = "打开模块设置";
-"Select widget" = "选择 %0 小组件";
+"Select widget" = "选择%0小组件";
 "Update interval" = "更新间隔";
 "Usage history" = "负载历史";
 "Details" = "详细信息";
