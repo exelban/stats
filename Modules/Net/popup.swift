@@ -190,17 +190,9 @@ internal class Popup: NSView, Popup_p {
         self.ssidField = PopupRow(container, n: 1, title: "\(LocalizedString("Network")):", value: "").1
         self.macAdressField = PopupRow(container, n: 0, title: "\(LocalizedString("Physical address")):", value: "").1
         
-        self.publicIPField?.addTracking()
-        self.localIPField?.addTracking()
-        self.macAdressField?.addTracking()
-        
         self.publicIPField?.toolTip = LocalizedString("Click to copy public IP address")
         self.localIPField?.toolTip = LocalizedString("Click to copy local IP address")
         self.macAdressField?.toolTip = LocalizedString("Click to copy mac address")
-        
-        self.publicIPField?.isSelectable = true
-        self.localIPField?.isSelectable = true
-        self.macAdressField?.isSelectable = true
         
         view.addSubview(separator)
         view.addSubview(container)
@@ -387,26 +379,8 @@ internal class Popup: NSView, Popup_p {
 }
 
 extension ValueField {
-    func addTracking() {
-        let rect = NSRect(x: 0, y: 0, width: self.frame.size.width, height: self.frame.size.height)
-        let trackingArea = NSTrackingArea(rect: rect, options: [NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited, NSTrackingArea.Options.activeInActiveApp], owner: self, userInfo: nil)
-        self.addTrackingArea(trackingArea)
-    }
-    
-    public override func mouseEntered(with: NSEvent) {
-        guard self.stringValue != LocalizedString("No connection") && self.stringValue != LocalizedString("Unknown") && self.stringValue != LocalizedString("Unavailable") else {
-            return
-        }
-        
-        NSCursor.pointingHand.set()
-    }
-    
-    public override func mouseExited(with: NSEvent) {
-        NSCursor.arrow.set()
-    }
-    
     public override func mouseDown(with: NSEvent) {
-        guard self.stringValue != LocalizedString("No connection") && self.stringValue != LocalizedString("Unknown") && self.stringValue != LocalizedString("Unavailable") else {
+        guard self.stringValue != LocalizedString("No connection") && self.stringValue != LocalizedString("Unknown") && self.stringValue != LocalizedString("Unavailable") && self.toolTip != nil else {
             return
         }
         
