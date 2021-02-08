@@ -178,6 +178,8 @@
 // Battery
 "Level" = "Doluluk";
 "Source" = "Kaynak";
+"AC Power" = "AC Power";
+"Battery Power" = "Battery Power";
 "Time" = "Süre";
 "Health" = "Sağlık";
 "Battery" = "Batarya";

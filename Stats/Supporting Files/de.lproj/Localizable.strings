@@ -178,6 +178,8 @@
 // Battery
 "Level" = "Ladezustand";
 "Source" = "Quelle";
+"AC Power" = "AC Power";
+"Battery Power" = "Battery Power";
 "Time" = "Zeit";
 "Health" = "Gesundheit";
 "Battery" = "Akku";

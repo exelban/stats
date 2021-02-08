@@ -178,6 +178,8 @@
 // Battery
 "Level" = "Dung lượng Pin";
 "Source" = "Nguồn";
+"AC Power" = "AC Power";
+"Battery Power" = "Battery Power";
 "Time" = "Thời gian";
 "Health" = "Sức khoẻ";
 "Battery" = "PIN";

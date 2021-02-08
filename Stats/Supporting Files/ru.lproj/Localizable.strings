@@ -178,6 +178,8 @@
 // Battery
 "Level" = "Уровень заряда";
 "Source" = "Источник";
+"AC Power" = "AC Power";
+"Battery Power" = "Battery Power";
 "Time" = "Время";
 "Health" = "Состояние аккумулятора";
 "Battery" = "Аккумулятор";

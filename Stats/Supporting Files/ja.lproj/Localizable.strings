@@ -178,6 +178,8 @@
 // Battery
 "Level" = "充電残量";
 "Source" = "電源";
+"AC Power" = "AC Power";
+"Battery Power" = "Battery Power";
 "Time" = "バッテリー残り時間";
 "Health" = "状態";
 "Battery" = "バッテリー";
