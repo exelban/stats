@@ -178,6 +178,8 @@
 // Battery
 "Level" = "Poziom naładowania";
 "Source" = "Źródło";
+"AC Power" = "AC Power";
+"Battery Power" = "Battery Power";
 "Time" = "Czas";
 "Health" = "Zdrowie";
 "Battery" = "Bateria";

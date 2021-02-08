@@ -178,6 +178,8 @@
 // Battery
 "Level" = "电量";
 "Source" = "电源";
+"AC Power" = "交流电";
+"Battery Power" = "电池";
 "Time" = "时间";
 "Health" = "健康度";
 "Battery" = "电池";

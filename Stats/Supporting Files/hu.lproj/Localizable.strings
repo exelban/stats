@@ -178,6 +178,8 @@
 // Battery
 "Level" = "Töltöttségi szint";
 "Source" = "Forrás";
+"AC Power" = "AC Power";
+"Battery Power" = "Battery Power";
 "Time" = "Időtartam";
 "Health" = "Állapot";
 "Battery" = "Akkumulátor";

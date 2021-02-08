@@ -178,6 +178,8 @@
 // Battery
 "Level" = "Nivå";
 "Source" = "Kilde";
+"AC Power" = "AC Power";
+"Battery Power" = "Battery Power";
 "Time" = "Tid";
 "Health" = "Helse";
 "Battery" = "Batteri";

@@ -178,6 +178,8 @@
 // Battery
 "Level" = "Niveau";
 "Source" = "Source";
+"AC Power" = "AC Power";
+"Battery Power" = "Battery Power";
 "Time" = "Temps";
 "Health" = "Santé";
 "Battery" = "Batterie";

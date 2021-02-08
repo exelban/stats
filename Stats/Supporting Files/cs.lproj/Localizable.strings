@@ -178,6 +178,8 @@
 // Battery
 "Level" = "Úroveň";
 "Source" = "Zdroj";
+"AC Power" = "AC Power";
+"Battery Power" = "Battery Power";
 "Time" = "Čas";
 "Health" = "Zdraví";
 "Battery" = "Baterie";

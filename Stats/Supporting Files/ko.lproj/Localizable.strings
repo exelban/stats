@@ -178,6 +178,8 @@
 // Battery
 "Level" = "잔량";
 "Source" = "공급원";
+"AC Power" = "AC Power";
+"Battery Power" = "Battery Power";
 "Time" = "시간";
 "Health" = "상태";
 "Battery" = "배터리";
