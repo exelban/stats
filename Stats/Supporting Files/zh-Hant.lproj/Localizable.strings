@@ -82,15 +82,15 @@
 "Display mode" = "顯示模式";
 "One row" = "單行";
 "Two rows" = "雙行";
-"Mini widget" = "Mini";
-"Line chart widget" = "Line chart";
-"Bar chart widget" = "Bar chart";
-"Pie chart widget" = "Pie chart";
-"Network chart widget" = "Network chart";
-"Speed widget" = "Speed";
-"Battery widget" = "Battery";
-"Text widget" = "Text";
-"Memory widget" = "Memory";
+"Mini widget" = "小型";
+"Line chart widget" = "現狀圖";
+"Bar chart widget" = "條狀圖";
+"Pie chart widget" = "圓形圖";
+"Network chart widget" = "網狀圖";
+"Speed widget" = "速度";
+"Battery widget" = "電池";
+"Text widget" = "文字";
+"Memory widget" = "記憶體";
 
 // Module Kit
 "Open module settings" = "打開模組設定";
