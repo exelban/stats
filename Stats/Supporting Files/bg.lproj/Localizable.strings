@@ -23,7 +23,7 @@
 "Unavailable" = "Недостъпно";
 "Yes" = "Да";
 "No" = "Не";
-"Automatic" = "Автоматичен";
+"Automatic" = "Автоматично";
 "None" = "Без";
 "Dots" = "Точки";
 "Arrows" = "Стрелки";
@@ -63,7 +63,7 @@
 "Uptime" = "Време от последно рестартиране";
 
 // Update
-"The latest version of Stats installed" = "Най-новата версия на Stats е вече инсталирана";
+"The latest version of Stats installed" = "Имате най-новата версия на Stats";
 "Downloading..." = "Изтегляне...";
 "Current version: " = "Текуща версия:  ";
 "Latest version: " = "Последна версия:    ";
@@ -71,7 +71,7 @@
 // Widgets
 "Color" = "Цвят";
 "Label" = "Етикет";
-"Box" = "Box";
+"Box" = "Непрозрачен фон";
 "Frame" = "Рамка";
 "Value" = "Стойност";
 "Colorize" = "Оцветяване";
@@ -136,7 +136,7 @@
 "Memory pressure" = "Memory pressure";
 "Total" = "Общо";
 "Used" = "Заета";
-"App" = "Приложение";
+"App" = "Приложения";
 "Wired" = "Wired";
 "Compressed" = "Компересирана";
 "Free" = "Свободна";
