@@ -109,7 +109,7 @@
 "CPU temperature" = "Температура на процесора";
 "CPU frequency" = "Честота на процесора";
 "System" = "Система";
-"User" = "Подребител";
+"User" = "Потребител";
 "Idle" = "В покой";
 "Show usage per core" = "Показване на употреба по ядро";
 "Show hyper-threading cores" = "Показване на hyper-threading ядра";
