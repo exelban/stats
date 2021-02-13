@@ -224,7 +224,7 @@ internal class Popup: NSView, Popup_p {
             self.dashboardBatteryView?.setValue(abs(value.level))
             
             self.levelField?.stringValue = "\(Int(abs(value.level) * 100)) %"
-            self.sourceField?.stringValue = "\(LocalizedString(value.powerSource))"
+            self.sourceField?.stringValue = LocalizedString(value.powerSource)
             self.timeField?.stringValue = ""
             
             if value.powerSource == "Battery Power" {

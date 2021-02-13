@@ -54,7 +54,7 @@ internal class Settings: NSView, Settings_v {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func load(widget: widget_t) {
+    public func load(widgets: [widget_t]) {
         self.subviews.forEach{ $0.removeFromSuperview() }
         
         let rowHeight: CGFloat = 30

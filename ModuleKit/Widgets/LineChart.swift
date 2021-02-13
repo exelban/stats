@@ -12,7 +12,7 @@
 import Cocoa
 import StatsKit
 
-public class LineChart: Widget {
+public class LineChart: WidgetWrapper {
     private var labelState: Bool = true
     private var boxState: Bool = true
     private var frameState: Bool = false
@@ -36,7 +36,7 @@ public class LineChart: Widget {
     private var boxSettingsView: NSView? = nil
     private var frameSettingsView: NSView? = nil
     
-    public init(preview: Bool, title: String, config: NSDictionary?, store: UnsafePointer<Store>?) {
+    public init(title: String, config: NSDictionary?, store: UnsafePointer<Store>?, preview: Bool = false) {
         var widgetTitle: String = title
         self.store = store
         if config != nil {
@@ -69,7 +69,7 @@ public class LineChart: Widget {
             y: Constants.Widget.margin.y,
             width: self.width + (2*Constants.Widget.margin.x),
             height: Constants.Widget.height - (2*Constants.Widget.margin.y)
-        ), preview: preview)
+        ))
         
         self.canDrawConcurrently = true
         
@@ -247,13 +247,17 @@ public class LineChart: Widget {
     
     // MARK: - Settings
     
-    public override func settings(superview: NSView) {
+    public override func settings(width: CGFloat) -> NSView {
         let rowHeight: CGFloat = 30
         let settingsNumber: CGFloat = 6
         let height: CGFloat = ((rowHeight + Constants.Settings.margin) * settingsNumber) + Constants.Settings.margin
-        superview.setFrameSize(NSSize(width: superview.frame.width, height: height))
         
-        let view: NSView = NSView(frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin, width: superview.frame.width - (Constants.Settings.margin*2), height: superview.frame.height - (Constants.Settings.margin*2)))
+        let view: NSView = NSView(frame: NSRect(
+            x: Constants.Settings.margin,
+            y: Constants.Settings.margin,
+            width: width - (Constants.Settings.margin*2),
+            height: height
+        ))
         
         view.addSubview(ToggleTitleRow(
             frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 5, width: view.frame.width, height: rowHeight),
@@ -300,7 +304,7 @@ public class LineChart: Widget {
             state: self.valueColorState
         ))
         
-        superview.addSubview(view)
+        return view
     }
     
     @objc private func toggleLabel(_ sender: NSControl) {

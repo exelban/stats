@@ -76,9 +76,6 @@ public class Battery: Module {
             }
         }
         
-        self.usageReader?.readyCallback = { [unowned self] in
-            self.readyHandler()
-        }
         self.usageReader?.callbackHandler = { [unowned self] value in
             self.usageCallback(value)
         }
@@ -103,26 +100,27 @@ public class Battery: Module {
         return sources.count > 0
     }
     
-    private func usageCallback(_ value: Battery_Usage?) {
-        if value == nil {
+    private func usageCallback(_ raw: Battery_Usage?) {
+        guard let value = raw else {
             return
         }
         
-        self.checkNotification(value: value!)
-        self.popupView.usageCallback(value!)
-        if let widget = self.widget as? Mini {
-            widget.setValue(abs(value!.level))
-        }
-        if let widget = self.widget as? BarChart {
-            widget.setValue([value!.level])
-        }
-        if let widget = self.widget as? BatterykWidget {
-            widget.setValue(
-                percentage: value?.level ?? 0,
-                ACStatus: value?.powerSource != "Battery Power",
-                isCharging: value?.isCharging ?? false,
-                time: (value?.timeToEmpty == 0 && value?.timeToCharge != 0 ? value?.timeToCharge : value?.timeToEmpty) ?? 0
-            )
+        self.checkNotification(value: value)
+        self.popupView.usageCallback(value)
+        
+        self.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
+            switch w.item {
+            case let widget as Mini: widget.setValue(abs(value.level))
+            case let widget as BarChart: widget.setValue([value.level])
+            case let widget as BatterykWidget:
+                widget.setValue(
+                    percentage: value.level ,
+                    ACStatus: value.powerSource != "Battery Power",
+                    isCharging: value.isCharging ,
+                    time: value.timeToEmpty == 0 && value.timeToCharge != 0 ? value.timeToCharge : value.timeToEmpty
+                )
+            default: break
+            }
         }
     }
     

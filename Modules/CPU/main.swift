@@ -78,9 +78,6 @@ public class CPU: Module {
             self.loadReader?.setInterval(value)
         }
         
-        self.loadReader?.readyCallback = { [unowned self] in
-            self.readyHandler()
-        }
         self.loadReader?.callbackHandler = { [unowned self] value in
             self.loadCallback(value)
         }
@@ -116,27 +113,25 @@ public class CPU: Module {
         }
     }
     
-    private func loadCallback(_ value: CPU_Load?) {
-        guard value != nil else {
+    private func loadCallback(_ raw: CPU_Load?) {
+        guard let value = raw else {
             return
         }
         
-        self.popupView.loadCallback(value!)
+        self.popupView.loadCallback(value)
         
-        if let widget = self.widget as? Mini {
-            widget.setValue(value!.totalUsage)
-        }
-        if let widget = self.widget as? LineChart {
-            widget.setValue(value!.totalUsage)
-        }
-        if let widget = self.widget as? BarChart {
-            widget.setValue(self.usagePerCoreState ? value!.usagePerCore : [value!.totalUsage])
-        }
-        if let widget = self.widget as? PieChart {
-            widget.setValue([
-                circle_segment(value: value!.systemLoad, color: NSColor.systemRed),
-                circle_segment(value: value!.userLoad, color: NSColor.systemBlue)
-            ])
+        self.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
+            switch w.item {
+            case let widget as Mini: widget.setValue(value.totalUsage)
+            case let widget as LineChart: widget.setValue(value.totalUsage)
+            case let widget as BarChart: widget.setValue(self.usagePerCoreState ? value.usagePerCore : [value.totalUsage])
+            case let widget as PieChart:
+                widget.setValue([
+                    circle_segment(value: value.systemLoad, color: NSColor.systemRed),
+                    circle_segment(value: value.userLoad, color: NSColor.systemBlue)
+                ])
+            default: break
+            }
         }
     }
 }

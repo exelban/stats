@@ -81,9 +81,6 @@ public class RAM: Module {
             }
         }
         
-        self.usageReader?.readyCallback = { [unowned self] in
-            self.readyHandler()
-        }
         self.usageReader?.callbackHandler = { [unowned self] value in
             self.loadCallback(value)
         }
@@ -108,30 +105,31 @@ public class RAM: Module {
         }
         
         self.popupView.loadCallback(value)
-        if let widget = self.widget as? Mini {
-            widget.setValue(value.usage)
-            widget.setPressure(value.pressureLevel)
-        }
-        if let widget = self.widget as? LineChart {
-            widget.setValue(value.usage)
-            widget.setPressure(value.pressureLevel)
-        }
-        if let widget = self.widget as? BarChart {
-            widget.setValue([value.usage])
-            widget.setPressure(value.pressureLevel)
-        }
-        if let widget = self.widget as? PieChart {
-            let total: Double = value.total
-            widget.setValue([
-                circle_segment(value: value.app/total, color: NSColor.systemBlue),
-                circle_segment(value: value.wired/total, color: NSColor.systemOrange),
-                circle_segment(value: value.compressed/total, color: NSColor.systemPink)
-            ])
-        }
-        if let widget = self.widget as? MemoryWidget {
-            let free = Units(bytes: Int64(value.free)).getReadableMemory()
-            let used = Units(bytes: Int64(value.used)).getReadableMemory()
-            widget.setValue((free, used))
+        
+        self.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
+            switch w.item {
+            case let widget as Mini:
+                widget.setValue(value.usage)
+                widget.setPressure(value.pressureLevel)
+            case let widget as LineChart:
+                widget.setValue(value.usage)
+                widget.setPressure(value.pressureLevel)
+            case let widget as BarChart:
+                widget.setValue([value.usage])
+                widget.setPressure(value.pressureLevel)
+            case let widget as PieChart:
+                let total: Double = value.total == 0 ? 1 : value.total
+                widget.setValue([
+                    circle_segment(value: value.app/total, color: NSColor.systemBlue),
+                    circle_segment(value: value.wired/total, color: NSColor.systemOrange),
+                    circle_segment(value: value.compressed/total, color: NSColor.systemPink)
+                ])
+            case let widget as MemoryWidget:
+                let free = Units(bytes: Int64(value.free)).getReadableMemory()
+                let used = Units(bytes: Int64(value.used)).getReadableMemory()
+                widget.setValue((free, used))
+            default: break
+            }
         }
     }
 }

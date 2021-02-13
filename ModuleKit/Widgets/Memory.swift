@@ -12,13 +12,13 @@
 import Cocoa
 import StatsKit
 
-public class MemoryWidget: Widget {
+public class MemoryWidget: WidgetWrapper {
     private var orderReversedState: Bool = false
     private var value: (String, String) = ("0", "0")
     
     private let store: UnsafePointer<Store>?
     
-    public init(preview: Bool, title: String, config: NSDictionary?, store: UnsafePointer<Store>?) {
+    public init(title: String, config: NSDictionary?, store: UnsafePointer<Store>?, preview: Bool = false) {
         self.store = store
         if config != nil {
             var configuration = config!
@@ -42,11 +42,11 @@ public class MemoryWidget: Widget {
             y: Constants.Widget.margin.y,
             width: 62,
             height: Constants.Widget.height - (2*Constants.Widget.margin.y)
-        ), preview: preview)
+        ))
         
         self.canDrawConcurrently = true
         
-        if self.store != nil {
+        if self.store != nil && !preview {
             self.orderReversedState = store!.pointee.bool(key: "\(self.title)_\(self.type.rawValue)_orderReversed", defaultValue: self.orderReversedState)
         }
         
@@ -102,12 +102,16 @@ public class MemoryWidget: Widget {
         })
     }
     
-    public override func settings(superview: NSView) {
+    public override func settings(width: CGFloat) -> NSView {
         let rowHeight: CGFloat = 30
         let height: CGFloat = ((rowHeight + Constants.Settings.margin) * 1) + Constants.Settings.margin
-        superview.setFrameSize(NSSize(width: superview.frame.width, height: height))
         
-        let view: NSView = NSView(frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin, width: superview.frame.width - (Constants.Settings.margin*2), height: superview.frame.height - (Constants.Settings.margin*2)))
+        let view: NSView = NSView(frame: NSRect(
+            x: Constants.Settings.margin,
+            y: Constants.Settings.margin,
+            width: width - (Constants.Settings.margin*2),
+            height: height
+        ))
         
         view.addSubview(ToggleTitleRow(
             frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 0, width: view.frame.width, height: rowHeight),
@@ -116,7 +120,7 @@ public class MemoryWidget: Widget {
             state: self.orderReversedState
         ))
         
-        superview.addSubview(view)
+        return view
     }
     
     @objc private func toggleOrder(_ sender: NSControl) {
