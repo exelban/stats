@@ -84,6 +84,9 @@ public class RAM: Module {
         self.usageReader?.callbackHandler = { [unowned self] value in
             self.loadCallback(value)
         }
+        self.usageReader?.readyCallback = { [unowned self] in
+            self.readyHandler()
+        }
         
         self.processReader?.callbackHandler = { [unowned self] value in
             if let list = value {

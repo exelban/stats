@@ -98,6 +98,9 @@ public class Network: Module {
         self.usageReader?.callbackHandler = { [unowned self] value in
             self.usageCallback(value)
         }
+        self.usageReader?.readyCallback = { [unowned self] in
+            self.readyHandler()
+        }
         
         self.processReader?.callbackHandler = { [unowned self] value in
             if let list = value {

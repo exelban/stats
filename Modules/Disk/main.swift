@@ -108,6 +108,9 @@ public class Disk: Module {
         self.capacityReader?.callbackHandler = { [unowned self] value in
             self.capacityCallback(value)
         }
+        self.capacityReader?.readyCallback = { [unowned self] in
+            self.readyHandler()
+        }
         
         self.settingsView.selectedDiskHandler = { [unowned self] value in
             self.selectedDisk = value

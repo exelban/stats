@@ -96,6 +96,9 @@ public class GPU: Module {
         self.infoReader?.callbackHandler = { [unowned self] value in
             self.infoCallback(value)
         }
+        self.infoReader?.readyCallback = { [unowned self] in
+            self.readyHandler()
+        }
         
         self.settingsView.selectedGPUHandler = { [unowned self] value in
             self.selectedGPU = value

@@ -292,6 +292,12 @@ internal class WidgetPreview: NSStackView {
         self.orientation = .horizontal
         self.distribution = .fillProportionally
         self.spacing = 0
+        self.edgeInsets = NSEdgeInsets(
+            top: 0,
+            left: Constants.Widget.spacing,
+            bottom: 0,
+            right: Constants.Widget.spacing
+        )
         
         let container: NSView = NSView(frame: NSRect(
             x: Constants.Widget.spacing,
@@ -324,8 +330,9 @@ internal class WidgetPreview: NSStackView {
             userInfo: nil
         ))
         
+        let additionalConstant: CGFloat = self.size + (Constants.Widget.spacing*3) + 1
         NSLayoutConstraint.activate([
-            self.widthAnchor.constraint(equalTo: self.widget.pointee.preview.widthAnchor, constant: self.size),
+            self.widthAnchor.constraint(equalTo: self.widget.pointee.preview.widthAnchor, constant: additionalConstant),
             self.heightAnchor.constraint(equalToConstant: self.size)
         ])
     }

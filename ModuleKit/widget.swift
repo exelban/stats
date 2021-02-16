@@ -123,8 +123,6 @@ open class WidgetWrapper: NSView, widget_p {
     
     public var widthHandler: ((CGFloat) -> Void)? = nil
     
-    private var widthHandlerRetry: Int8 = 0
-    
     public init(_ type: widget_t, title: String, frame: NSRect) {
         self.type = type
         self.title = title
@@ -137,22 +135,12 @@ open class WidgetWrapper: NSView, widget_p {
     }
     
     public func setWidth(_ width: CGFloat) {
-        if self.frame.width == width || self.widthHandlerRetry >= 3 {
-            return
-        }
-        
-        if self.widthHandler == nil {
-            DispatchQueue.main.asyncAfter(deadline: .now() + .microseconds(10)) {
-                self.setWidth(width)
-                self.widthHandlerRetry += 1
-            }
+        if self.frame.width == width {
             return
         }
         
         DispatchQueue.main.async {
             self.setFrameSize(NSSize(width: width, height: self.frame.size.height))
-            self.invalidateIntrinsicContentSize()
-            self.display()
         }
         
         self.widthHandler?(width)
@@ -188,7 +176,7 @@ public class Widget {
         }
     }
     
-    private var menuBarItem: NSStatusItem? = nil
+    private var menuBarItem: NSStatusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
     private let log: OSLog
     
     public init(_ type: widget_t, module: String, preview: widget_p, item: widget_p) {
@@ -198,12 +186,20 @@ public class Widget {
         self.item = item
         self.log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: self.module)
         
+        self.menuBarItem.length = self.isActive ? self.item.frame.width : 0
+        self.menuBarItem.isVisible = self.isActive
+        self.menuBarItem.autosaveName = "\(self.module)_\(self.type.name())"
+        
         self.item.widthHandler = { [weak self] value in
-            if let s = self {
-                s.menuBarItem?.length = value
-                os_log(.debug, log: s.log, "Widget %s change width to %.2f", "\(s.type)", value)
+            if let s = self, s.menuBarItem.length != value {
+                s.menuBarItem.length = value
+                os_log(.debug, log: s.log, "widget %s change width to %.2f", "\(s.type)", value)
             }
         }
+        
+        self.menuBarItem.button?.target = self
+        self.menuBarItem.button?.action = #selector(self.togglePopup)
+        self.menuBarItem.button?.sendAction(on: [.leftMouseDown, .rightMouseDown])
     }
     
     // show item in the menu bar
@@ -212,27 +208,19 @@ public class Widget {
             return
         }
         
-        let item = NSStatusBar.system.statusItem(withLength: self.item.frame.width)
-        item.autosaveName = "\(self.module)_\(self.type.name())"
-        item.isVisible = true
-        item.button?.target = self
-        item.button?.action = #selector(self.togglePopup)
-        item.button?.sendAction(on: [.leftMouseDown, .rightMouseDown])
-        item.button?.addSubview(self.item)
+        self.menuBarItem.length = self.item.frame.width
+        self.menuBarItem.isVisible = true
+        self.menuBarItem.button?.addSubview(self.item)
         
-        self.menuBarItem = item
-        
-        os_log(.debug, log: log, "Widget %s enabled", self.type.rawValue)
+        os_log(.debug, log: log, "widget %s enabled", self.type.rawValue)
     }
     
     // remove item from the menu bar
     public func disable() {
-        if let item = self.menuBarItem {
-            item.length = 0
-            item.isVisible = false
-            
-            os_log(.debug, log: log, "Widget %s disabled", self.type.rawValue)
-        }
+        self.menuBarItem.length = 0
+        self.menuBarItem.isVisible = false
+        
+        os_log(.debug, log: log, "widget %s disabled", self.type.rawValue)
     }
     
     // toggle the widget
@@ -249,7 +237,7 @@ public class Widget {
     }
     
     @objc private func togglePopup(_ sender: Any) {
-        if let window = self.menuBarItem?.button?.window {
+        if let window = self.menuBarItem.button?.window {
             NotificationCenter.default.post(name: .togglePopup, object: nil, userInfo: [
                 "module": self.module,
                 "origin": window.frame.origin,

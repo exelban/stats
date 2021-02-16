@@ -43,6 +43,9 @@ public class Sensors: Module {
         self.sensorsReader.callbackHandler = { [unowned self] value in
             self.usageCallback(value)
         }
+        self.sensorsReader.readyCallback = { [unowned self] in
+            self.readyHandler()
+        }
         
         self.addReader(self.sensorsReader)
     }

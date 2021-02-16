@@ -68,6 +68,9 @@ public class Fans: Module {
         self.fansReader.callbackHandler = { [unowned self] value in
             self.usageCallback(value)
         }
+        self.fansReader.readyCallback = { [unowned self] in
+            self.readyHandler()
+        }
         
         self.addReader(self.fansReader)
     }

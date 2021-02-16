@@ -137,7 +137,6 @@ open class Module: Module_p {
             reader.initStoreValues(title: self.config.name, store: self.store)
             reader.start()
         }
-        self.widgets.forEach{ $0.enable() }
     }
     
     // disable module
@@ -199,6 +198,14 @@ open class Module: Module_p {
     public func addReader(_ reader: Reader_p) {
         self.readers.append(reader)
         os_log(.debug, log: log, "Reader %s was added", "\(reader.self)")
+    }
+    
+    // handler for reader, calls when main reader is ready, and return first value
+    public func readyHandler() {
+        DispatchQueue.main.async(execute: {
+            self.widgets.forEach{ $0.enable() }
+        })
+        os_log(.debug, log: log, "Reader report readiness")
     }
     
     // replace a popup view
