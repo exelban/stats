@@ -177,7 +177,7 @@ public class NetworkChartView: NSView {
         context.saveGState()
         
         var underLinePath = uploadlinePath.copy() as! NSBezierPath
-        underLinePath.line(to: CGPoint(x: columnXPoint(points.count - 1), y: zero))
+        underLinePath.line(to: CGPoint(x: columnXPoint(points.count), y: zero))
         underLinePath.line(to: CGPoint(x: columnXPoint(0), y: zero))
         underLinePath.close()
         underLinePath.addClip()
@@ -188,7 +188,7 @@ public class NetworkChartView: NSView {
         context.saveGState()
         
         underLinePath = downloadlinePath.copy() as! NSBezierPath
-        underLinePath.line(to: CGPoint(x: columnXPoint(points.count - 1), y: zero))
+        underLinePath.line(to: CGPoint(x: columnXPoint(points.count), y: zero))
         underLinePath.line(to: CGPoint(x: columnXPoint(0), y: zero))
         underLinePath.close()
         underLinePath.addClip()

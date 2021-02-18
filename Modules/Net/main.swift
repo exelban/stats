@@ -95,11 +95,11 @@ public class Network: Module {
             }
         }
         
-        self.usageReader?.readyCallback = { [unowned self] in
-            self.readyHandler()
-        }
         self.usageReader?.callbackHandler = { [unowned self] value in
             self.usageCallback(value)
+        }
+        self.usageReader?.readyCallback = { [unowned self] in
+            self.readyHandler()
         }
         
         self.processReader?.callbackHandler = { [unowned self] value in
@@ -131,16 +131,19 @@ public class Network: Module {
         return list.count > 0
     }
     
-    private func usageCallback(_ value: Network_Usage?) {
-        guard let value = value else {
+    private func usageCallback(_ raw: Network_Usage?) {
+        guard let value = raw else {
             return
         }
         
         self.popupView.usageCallback(value)
-        if let widget = self.widget as? SpeedWidget {
-            widget.setValue(upload: value.bandwidth.upload, download: value.bandwidth.download)
-        } else if let widget = self.widget as? NetworkChart {
-            widget.setValue(upload: Double(value.bandwidth.upload), download: Double(value.bandwidth.download))
+        
+        self.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
+            switch w.item {
+            case let widget as SpeedWidget: widget.setValue(upload: value.bandwidth.upload, download: value.bandwidth.download)
+            case let widget as NetworkChart: widget.setValue(upload: Double(value.bandwidth.upload), download: Double(value.bandwidth.download))
+            default: break
+            }
         }
     }
 }

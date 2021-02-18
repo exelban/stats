@@ -50,11 +50,11 @@ internal class Settings: NSView, Settings_v {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func load(widget: widget_t) {
+    public func load(widgets: [widget_t]) {
         self.subviews.forEach{ $0.removeFromSuperview() }
         
         let rowHeight: CGFloat = 30
-        let num: CGFloat = widget == .mini ? 3 : 2
+        let num: CGFloat = widgets.filter{ $0 == .mini }.isEmpty ? 2 : 3
         
         self.addSubview(SelectTitleRow(
             frame: NSRect(
@@ -69,7 +69,7 @@ internal class Settings: NSView, Settings_v {
             selected: "\(self.updateIntervalValue) sec"
         ))
         
-        if widget == .mini {
+        if !widgets.filter({ $0 == .mini }).isEmpty {
             self.addSubview(ToggleTitleRow(
                 frame: NSRect(
                     x: Constants.Settings.margin,

@@ -12,7 +12,7 @@
 import Cocoa
 import StatsKit
 
-public class BatterykWidget: Widget {
+public class BatterykWidget: WidgetWrapper {
     private var additional: String = "none"
     private var timeFormat: String = "short"
     private var iconState: Bool = true
@@ -26,7 +26,7 @@ public class BatterykWidget: Widget {
     private var charging: Bool = false
     private var ACStatus: Bool = false
     
-    public init(preview: Bool, title: String, config: NSDictionary?, store: UnsafePointer<Store>?) {
+    public init(title: String, config: NSDictionary?, store: UnsafePointer<Store>?, preview: Bool = false) {
         let widgetTitle: String = title
         self.store = store
         
@@ -35,11 +35,11 @@ public class BatterykWidget: Widget {
             y: Constants.Widget.margin.y,
             width: 30 + (2*Constants.Widget.margin.x),
             height: Constants.Widget.height - (2*Constants.Widget.margin.y)
-        ), preview: preview)
+        ))
         
         self.canDrawConcurrently = true
         
-        if self.store != nil {
+        if self.store != nil && !preview {
             self.additional = store!.pointee.string(key: "\(self.title)_\(self.type.rawValue)_additional", defaultValue: self.additional)
             self.timeFormat = store!.pointee.string(key: "\(self.title)_timeFormat", defaultValue: self.timeFormat)
             self.iconState = store!.pointee.bool(key: "\(self.title)_\(self.type.rawValue)_icon", defaultValue: self.iconState)
@@ -265,16 +265,15 @@ public class BatterykWidget: Widget {
     
     // MARK: - Settings
     
-    public override func settings(superview: NSView) {
+    public override func settings(width: CGFloat) -> NSView {
         let rowHeight: CGFloat = 30
         let height: CGFloat = ((rowHeight + Constants.Settings.margin) * 3) + Constants.Settings.margin
-        superview.setFrameSize(NSSize(width: superview.frame.width, height: height))
         
         let view: NSView = NSView(frame: NSRect(
             x: Constants.Settings.margin,
             y: Constants.Settings.margin,
-            width: superview.frame.width - (Constants.Settings.margin*2),
-            height: superview.frame.height - (Constants.Settings.margin*2)
+            width: width - (Constants.Settings.margin*2),
+            height: height
         ))
         
         view.addSubview(SelectRow(
@@ -299,7 +298,7 @@ public class BatterykWidget: Widget {
             state: self.colorState
         ))
         
-        superview.addSubview(view)
+        return view
     }
     
     @objc private func toggleAdditional(_ sender: NSMenuItem) {

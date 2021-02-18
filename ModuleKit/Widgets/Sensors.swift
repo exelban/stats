@@ -12,14 +12,14 @@
 import Cocoa
 import StatsKit
 
-public class SensorsWidget: Widget {
+public class SensorsWidget: WidgetWrapper {
     private var modeState: String = "automatic"
     private let store: UnsafePointer<Store>?
     
     private var body: CALayer = CALayer()
     private var values: [KeyValue_t] = []
     
-    public init(preview: Bool, title: String, config: NSDictionary?, store: UnsafePointer<Store>?) {
+    public init(title: String, config: NSDictionary?, store: UnsafePointer<Store>?, preview: Bool = false) {
         self.store = store
         if config != nil {
             var configuration = config!
@@ -41,7 +41,7 @@ public class SensorsWidget: Widget {
             y: Constants.Widget.margin.y,
             width: Constants.Widget.width,
             height: Constants.Widget.height - (2*Constants.Widget.margin.y)
-        ), preview: preview)
+        ))
         
         self.modeState = store?.pointee.string(key: "\(self.title)_\(self.type.rawValue)_mode", defaultValue: self.modeState) ?? self.modeState
         
@@ -212,16 +212,15 @@ public class SensorsWidget: Widget {
     
     // MARK: - Settings
     
-    public override func settings(superview: NSView) {
+    public override func settings(width: CGFloat) -> NSView {
         let rowHeight: CGFloat = 30
         let height: CGFloat = ((rowHeight + Constants.Settings.margin) * 1) + Constants.Settings.margin
-        superview.setFrameSize(NSSize(width: superview.frame.width, height: height))
         
         let view: NSView = NSView(frame: NSRect(
             x: Constants.Settings.margin,
             y: Constants.Settings.margin,
-            width: superview.frame.width - (Constants.Settings.margin*2),
-            height: superview.frame.height - (Constants.Settings.margin*2)
+            width: width - (Constants.Settings.margin*2),
+            height: height
         ))
         
         view.addSubview(SelectRow(
@@ -232,7 +231,7 @@ public class SensorsWidget: Widget {
             selected: self.modeState
         ))
         
-        superview.addSubview(view)
+        return view
     }
     
     @objc private func changeMode(_ sender: NSMenuItem) {

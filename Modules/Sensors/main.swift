@@ -40,11 +40,11 @@ public class Sensors: Module {
             self.sensorsReader.setInterval(value)
         }
         
-        self.sensorsReader.readyCallback = { [unowned self] in
-            self.readyHandler()
-        }
         self.sensorsReader.callbackHandler = { [unowned self] value in
             self.usageCallback(value)
+        }
+        self.sensorsReader.readyCallback = { [unowned self] in
+            self.readyHandler()
         }
         
         self.addReader(self.sensorsReader)
@@ -60,21 +60,25 @@ public class Sensors: Module {
         }
     }
     
-    private func usageCallback(_ value: [Sensor_t]?) {
-        if value == nil {
+    private func usageCallback(_ raw: [Sensor_t]?) {
+        guard let value = raw else {
             return
         }
         
         var list: [KeyValue_t] = []
-        value!.forEach { (s: Sensor_t) in
+        value.forEach { (s: Sensor_t) in
             if s.state {
                 list.append(KeyValue_t(key: s.key, value: s.formattedMiniValue))
             }
         }
         
-        self.popupView.usageCallback(value!)
-        if let widget = self.widget as? SensorsWidget {
-            widget.setValues(list)
+        self.popupView.usageCallback(value)
+        
+        self.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
+            switch w.item {
+            case let widget as SensorsWidget: widget.setValues(list)
+            default: break
+            }
         }
     }
 }

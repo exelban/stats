@@ -93,11 +93,11 @@ public class GPU: Module {
         self.infoReader?.smc = smc
         self.selectedGPU = store.pointee.string(key: "\(self.config.name)_gpu", defaultValue: self.selectedGPU)
         
-        self.infoReader?.readyCallback = { [unowned self] in
-            self.readyHandler()
-        }
         self.infoReader?.callbackHandler = { [unowned self] value in
             self.infoCallback(value)
+        }
+        self.infoReader?.readyCallback = { [unowned self] in
+            self.readyHandler()
         }
         
         self.settingsView.selectedGPUHandler = { [unowned self] value in
@@ -135,15 +135,15 @@ public class GPU: Module {
             return
         }
         
-        if let widget = self.widget as? Mini {
-            widget.setValue(utilization)
-            widget.setTitle(self.showType ? "\(selectedGPU.type)GPU" : nil)
-        }
-        if let widget = self.widget as? LineChart {
-            widget.setValue(utilization)
-        }
-        if let widget = self.widget as? BarChart {
-            widget.setValue([utilization])
+        self.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
+            switch w.item {
+            case let widget as Mini:
+                widget.setValue(utilization)
+                widget.setTitle(self.showType ? "\(selectedGPU.type)GPU" : nil)
+            case let widget as LineChart: widget.setValue(utilization)
+            case let widget as BarChart: widget.setValue([utilization])
+            default: break
+            }
         }
     }
 }

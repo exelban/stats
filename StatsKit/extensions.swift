@@ -387,6 +387,8 @@ public extension NSView {
 public extension Notification.Name {
     static let toggleSettings = Notification.Name("toggleSettings")
     static let toggleModule = Notification.Name("toggleModule")
+    static let togglePopup = Notification.Name("togglePopup")
+    static let toggleWidget = Notification.Name("toggleWidget")
     static let openModuleSettings = Notification.Name("openModuleSettings")
     static let settingsAppear = Notification.Name("settingsAppear")
     static let switchWidget = Notification.Name("switchWidget")
@@ -398,12 +400,12 @@ public extension Notification.Name {
 public class NSButtonWithPadding: NSButton {
     public var horizontalPadding: CGFloat = 0
     public var verticalPadding: CGFloat = 0
-
+    
     public override var intrinsicContentSize: NSSize {
         var size = super.intrinsicContentSize
         size.width += self.horizontalPadding
         size.height += self.verticalPadding
-        return size;
+        return size
     }
 }
 
@@ -505,5 +507,54 @@ public extension CATransaction {
         CATransaction.setAnimationDuration(0)
         closure()
         CATransaction.commit()
+    }
+}
+
+public final class FlippedClipView: NSClipView {
+    public override var isFlipped: Bool {
+        return true
+    }
+}
+
+public final class ScrollableStackView: NSView {
+    public let stackView: NSStackView = NSStackView()
+    public let clipView: FlippedClipView = FlippedClipView()
+    private let scrollView: NSScrollView = NSScrollView()
+    
+    public override init(frame: NSRect) {
+        super.init(frame: frame)
+        
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.borderType = .noBorder
+        scrollView.hasVerticalScroller = true
+        scrollView.hasHorizontalScroller = false
+        scrollView.autohidesScrollers = true
+        scrollView.horizontalScrollElasticity = .none
+        scrollView.drawsBackground = false
+        self.addSubview(self.scrollView)
+        
+        NSLayoutConstraint.activate([
+            scrollView.leftAnchor.constraint(equalTo: self.leftAnchor),
+            scrollView.rightAnchor.constraint(equalTo: self.rightAnchor),
+            scrollView.topAnchor.constraint(equalTo: self.topAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+        ])
+        
+        clipView.drawsBackground = false
+        scrollView.contentView = clipView
+        
+        stackView.orientation = .vertical
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.documentView = stackView
+        
+        NSLayoutConstraint.activate([
+            stackView.leftAnchor.constraint(equalTo: clipView.leftAnchor),
+            stackView.rightAnchor.constraint(equalTo: clipView.rightAnchor),
+            stackView.topAnchor.constraint(equalTo: clipView.topAnchor),
+        ])
+    }
+    
+    required public init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }

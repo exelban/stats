@@ -12,7 +12,7 @@
 import Cocoa
 import StatsKit
 
-public class PieChart: Widget {
+public class PieChart: WidgetWrapper {
     private var labelState: Bool = true
     
     private let store: UnsafePointer<Store>?
@@ -29,7 +29,7 @@ public class PieChart: Widget {
     
     private let size: CGFloat = Constants.Widget.height - (Constants.Widget.margin.y*2) + (Constants.Widget.margin.x*2)
     
-    public init(preview: Bool, title: String, config: NSDictionary?, store: UnsafePointer<Store>?) {
+    public init(title: String, config: NSDictionary?, store: UnsafePointer<Store>?, preview: Bool = false) {
         var widgetTitle: String = title
         self.store = store
         if config != nil {
@@ -43,12 +43,12 @@ public class PieChart: Widget {
             y: Constants.Widget.margin.y,
             width: self.size,
             height: Constants.Widget.height - (Constants.Widget.margin.y*2)
-        ), preview: preview)
+        ))
         
         self.wantsLayer = true
         self.canDrawConcurrently = true
         
-        if let store = self.store {
+        if let store = self.store, !preview {
             self.labelState = store.pointee.bool(key: "\(self.title)_\(self.type.rawValue)_label", defaultValue: self.labelState)
         }
         
@@ -87,7 +87,7 @@ public class PieChart: Widget {
         frame = NSRect(x: x, y: 0, width: self.frame.size.height, height: self.frame.size.height)
         self.chart.frame = frame
         
-        self.setFrameSize(NSSize(width: self.size + x, height: self.frame.size.height))
+        self.setWidth(self.size + x)
     }
     
     public func setValue(_ segments: [circle_segment]) {
@@ -98,16 +98,15 @@ public class PieChart: Widget {
     
     // MARK: - Settings
     
-    public override func settings(superview: NSView) {
+    public override func settings(width: CGFloat) -> NSView {
         let rowHeight: CGFloat = 30
         let height: CGFloat = ((rowHeight + Constants.Settings.margin) * 1) + Constants.Settings.margin
-        superview.setFrameSize(NSSize(width: superview.frame.width, height: height))
         
         let view: NSView = NSView(frame: NSRect(
             x: Constants.Settings.margin,
             y: Constants.Settings.margin,
-            width: superview.frame.width - (Constants.Settings.margin*2),
-            height: superview.frame.height - (Constants.Settings.margin*2)
+            width: width - (Constants.Settings.margin*2),
+            height: height
         ))
         
         view.addSubview(ToggleTitleRow(
@@ -117,7 +116,7 @@ public class PieChart: Widget {
             state: self.labelState
         ))
         
-        superview.addSubview(view)
+        return view
     }
     
     @objc private func toggleLabel(_ sender: NSControl) {

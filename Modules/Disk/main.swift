@@ -105,11 +105,11 @@ public class Disk: Module {
         self.capacityReader?.store = store
         self.selectedDisk = store.pointee.string(key: "\(self.config.name)_disk", defaultValue: self.selectedDisk)
         
-        self.capacityReader?.readyCallback = { [unowned self] in
-            self.readyHandler()
-        }
         self.capacityReader?.callbackHandler = { [unowned self] value in
             self.capacityCallback(value)
+        }
+        self.capacityReader?.readyCallback = { [unowned self] in
+            self.readyHandler()
         }
         
         self.settingsView.selectedDiskHandler = { [unowned self] value in
@@ -156,17 +156,14 @@ public class Disk: Module {
         }
         let percentage = Double(usedSpace) / Double(total)
         
-        if let widget = self.widget as? Mini {
-            widget.setValue(percentage)
-        }
-        if let widget = self.widget as? BarChart {
-            widget.setValue([percentage])
-        }
-        if let widget = self.widget as? MemoryWidget {
-            widget.setValue((DiskSize(free).getReadableMemory(), DiskSize(usedSpace).getReadableMemory()))
-        }
-        if let widget = self.widget as? SpeedWidget {
-            widget.setValue(upload: d.stats?.write ?? 0, download: d.stats?.read ?? 0)
+        self.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
+            switch w.item {
+            case let widget as Mini: widget.setValue(percentage)
+            case let widget as BarChart: widget.setValue([percentage])
+            case let widget as MemoryWidget: widget.setValue((DiskSize(free).getReadableMemory(), DiskSize(usedSpace).getReadableMemory()))
+            case let widget as SpeedWidget: widget.setValue(upload: d.stats?.write ?? 0, download: d.stats?.read ?? 0)
+            default: break
+            }
         }
     }
 }

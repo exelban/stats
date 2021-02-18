@@ -65,11 +65,11 @@ public class Fans: Module {
             self.fansReader.setInterval(value)
         }
         
-        self.fansReader.readyCallback = { [unowned self] in
-            self.readyHandler()
-        }
         self.fansReader.callbackHandler = { [unowned self] value in
             self.usageCallback(value)
+        }
+        self.fansReader.readyCallback = { [unowned self] in
+            self.readyHandler()
         }
         
         self.addReader(self.fansReader)
@@ -85,24 +85,27 @@ public class Fans: Module {
         }
     }
     
-    private func usageCallback(_ value: [Fan]?) {
-        if value == nil {
+    private func usageCallback(_ raw: [Fan]?) {
+        guard let value = raw else {
             return
         }
         
-        self.popupView.usageCallback(value!)
+        self.popupView.usageCallback(value)
         
         let label: Bool = store.pointee.bool(key: "Fans_label", defaultValue: false)
         var list: [KeyValue_t] = []
-        value!.forEach { (f: Fan) in
+        value.forEach { (f: Fan) in
             if f.state {
                 let str = label ? "\(f.name.prefix(1).uppercased()): \(f.formattedValue)" : f.formattedValue
                 list.append(KeyValue_t(key: "Fan#\(f.id)", value: str))
             }
         }
         
-        if let widget = self.widget as? SensorsWidget {
-            widget.setValues(list)
+        self.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
+            switch w.item {
+            case let widget as SensorsWidget: widget.setValues(list)
+            default: break
+            }
         }
     }
 }

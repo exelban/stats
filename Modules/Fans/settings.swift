@@ -48,7 +48,7 @@ internal class Settings: NSView, Settings_v {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func load(widget: widget_t) {
+    func load(widgets: [widget_t]) {
         guard !self.list.pointee.isEmpty else {
             return
         }

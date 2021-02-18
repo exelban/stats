@@ -49,22 +49,20 @@ internal class Settings: NSView, Settings_v {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func load(widget: widget_t) {
+    public func load(widgets: [widget_t]) {
         self.subviews.forEach{ $0.removeFromSuperview() }
         
         let rowHeight: CGFloat = 30
-        let num: CGFloat = widget != .speed ? 3 : 2
+        let num: CGFloat = 3
         
-        if widget != .speed {
-            self.intervalSelectView = SelectTitleRow(
-                frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * 2, width: self.frame.width - (Constants.Settings.margin*2), height: rowHeight),
-                title: LocalizedString("Update interval"),
-                action: #selector(changeUpdateInterval),
-                items: ReaderUpdateIntervals.map{ "\($0) sec" },
-                selected: "\(self.updateIntervalValue) sec"
-            )
+        self.intervalSelectView = SelectTitleRow(
+            frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * 2, width: self.frame.width - (Constants.Settings.margin*2), height: rowHeight),
+            title: LocalizedString("Update interval"),
+            action: #selector(changeUpdateInterval),
+            items: ReaderUpdateIntervals.map{ "\($0) sec" },
+            selected: "\(self.updateIntervalValue) sec"
+        )
             self.addSubview(self.intervalSelectView!)
-        }
         
         self.addDiskSelector()
         

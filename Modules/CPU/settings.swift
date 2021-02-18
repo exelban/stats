@@ -56,11 +56,11 @@ internal class Settings: NSView, Settings_v {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func load(widget: widget_t) {
+    public func load(widgets: [widget_t]) {
         self.subviews.forEach{ $0.removeFromSuperview() }
         
         let rowHeight: CGFloat = 30
-        let num: CGFloat = widget == .barChart ? self.hasHyperthreadingCores ? 3 : 2 : 1
+        let num: CGFloat = !widgets.filter{ $0 == .barChart }.isEmpty ? self.hasHyperthreadingCores ? 3 : 2 : 1
         
         self.addSubview(SelectTitleRow(
             frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * num, width: self.frame.width - (Constants.Settings.margin*2), height: rowHeight),
@@ -70,7 +70,7 @@ internal class Settings: NSView, Settings_v {
             selected: "\(self.updateIntervalValue) sec"
         ))
         
-        if widget == .barChart {
+        if !widgets.filter({ $0 == .barChart }).isEmpty {
             self.addSubview(ToggleTitleRow(
                 frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * (num-1), width: self.frame.width - (Constants.Settings.margin*2), height: rowHeight),
                 title: LocalizedString("Show usage per core"),

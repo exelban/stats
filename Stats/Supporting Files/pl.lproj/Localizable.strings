@@ -19,7 +19,7 @@
 "Close" = "Zamknij";
 "Download" = "Pobierz";
 "Install" = "Zainstaluj";
-"Cancel" = "Cancel";
+"Cancel" = "Anuluj";
 "Unavailable" = "Niedostępny";
 "Yes" = "Tak";
 "No" = "Nie";
@@ -34,12 +34,12 @@
 
 // Alerts
 "New version available" = "Nowa wersja dostępna";
-"Click to install the new version of Stats" = "Kliknij aby zainstalować nową wersję";
+"Click to install the new version of Stats" = "Kliknij, aby zainstalować nową wersję";
 "Successfully updated" = "Zaktualizowano pomyślnie";
 "Stats was updated to v" = "Stats został zaktualizowany do v%0";
 
 // Settings
-"Open Activity Monitor" = "Otwórz Activity Monitor";
+"Open Activity Monitor" = "Otwórz Monitor Aktywności";
 "Report a bug" = "Zgłoś problem";
 "Support the application" = "Wesprzyj rozwój programu";
 "Close application" = "Zamknij program";
@@ -56,7 +56,7 @@
 "Never" = "Nigdy";
 "Check for update" = "Sprawdź aktualizacje";
 "Show icon in dock" = "Pokazuj ikonę w docku";
-"Start at login" = "Uruchamiać przy logowaniu";
+"Start at login" = "Uruchom przy logowaniu";
 
 // Dashboard
 "Serial number" = "Numer seryjny";
@@ -65,8 +65,8 @@
 // Update
 "The latest version of Stats installed" = "Najnowsza wersja Stats zainstalowana";
 "Downloading..." = "Pobieranie...";
-"Current version: " = "Aktualna wersja:     ";
-"Latest version: " = "Najnowsza wersja:  ";
+"Current version: " = "Aktualna wersja: ";
+"Latest version: " = "Najnowsza wersja: ";
 
 // Widgets
 "Color" = "Kolor";
@@ -83,17 +83,17 @@
 "One row" = "Jeden wiersz";
 "Two rows" = "Dwa wiersze";
 "Mini widget" = "Mini";
-"Line chart widget" = "Line chart";
-"Bar chart widget" = "Bar chart";
-"Pie chart widget" = "Pie chart";
-"Network chart widget" = "Network chart";
-"Speed widget" = "Speed";
-"Battery widget" = "Battery";
-"Text widget" = "Text";
-"Memory widget" = "Memory";
+"Line chart widget" = "Wykres liniowy";
+"Bar chart widget" = "Wykres słupkowy";
+"Pie chart widget" = "Wykres kołowy";
+"Network chart widget" = "Wykres sieciowy";
+"Speed widget" = "Prędkość";
+"Battery widget" = "Bateria";
+"Text widget" = "Tekst";
+"Memory widget" = "Pamięć";
 
 // Module Kit
-"Open module settings" = "Otwórz ustawienie modulu";
+"Open module settings" = "Otwórz ustawienie modułu";
 "Select widget" = "Wybierz %0 widget";
 "Update interval" = "Interwał odświeżania";
 "Usage history" = "Historia zużycia";
@@ -117,23 +117,23 @@
 // GPU
 "GPU to show" = "GPU do wyświetlania";
 "Show GPU type" = "Pokaż typ GPU";
-"GPU enabled" = "GPU enabled";
-"GPU disabled" = "GPU disabled";
+"GPU enabled" = "GPU włączone";
+"GPU disabled" = "GPU wyłączone";
 "GPU temperature" = "Temperatura GPU";
 "GPU utilization" = "Obciążenie GPU";
 "Vendor" = "Vendor";
 "Model" = "Model";
 "Status" = "Status";
-"Active" = "Active";
-"Non active" = "Non active";
-"Fan speed" = "Fan speed";
-"Core clock" = "Core clock";
-"Memory clock" = "Memory clock";
-"Utilization" = "Utilization";
+"Active" = "Aktywny";
+"Non active" = "Nieaktywny";
+"Fan speed" = "Prędkość wentylatora";
+"Core clock" = "Taktowanie rdzenia";
+"Memory clock" = "Taktowanie pamięci";
+"Utilization" = "Wykorzystanie";
 
 // Memory
 "Memory usage" = "Wykorzystanie pamięci";
-"Memory pressure" = "Poziom obciążenia";
+"Memory pressure" = "Obciążenie pamięci";
 "Total" = "Całość";
 "Used" = "Użyta";
 "App" = "Aplikacje";
@@ -163,10 +163,10 @@
 "Interface" = "Interfejs";
 "Network" = "Sieć";
 "Physical address" = "Adres fizyczny";
-"Click to copy public IP address" = "Kliknij aby skopiować publiczny adres IP";
-"Click to copy local IP address" = "Kliknij aby skopiować lokalny adres IP";
-"Click to copy wifi name" = "Kliknij aby skopiować nazwę Wi-Fi";
-"Click to copy mac address" = "Kliknij aby skopiować adres fizyczny";
+"Click to copy public IP address" = "Kliknij, aby skopiować publiczny adres IP";
+"Click to copy local IP address" = "Kliknij, aby skopiować lokalny adres IP";
+"Click to copy wifi name" = "Kliknij, aby skopiować nazwę Wi-Fi";
+"Click to copy mac address" = "Kliknij, aby skopiować adres fizyczny";
 "No connection" = "Brak połączenia";
 "Network interface" = "Interfejs sieciowy";
 "Total download" = "Całkowicie pobrano";
@@ -178,8 +178,8 @@
 // Battery
 "Level" = "Poziom naładowania";
 "Source" = "Źródło";
-"AC Power" = "AC Power";
-"Battery Power" = "Battery Power";
+"AC Power" = "Zasilacz";
+"Battery Power" = "Bateria";
 "Time" = "Czas";
 "Health" = "Zdrowie";
 "Battery" = "Bateria";
@@ -192,7 +192,7 @@
 "Is charging" = "Ładuje";
 "Time to discharge" = "Czas do rozładowania";
 "Time to charge" = "Czas do naładowania";
-"Calculating" = "Obliczenie";
+"Calculating" = "Obliczanie";
 "Fully charged" = "W pełni naładowana";
 "Not connected" = "Nie podłączona";
 "Low level notification" = "Powiadomienie o niskim poziomie";
@@ -205,4 +205,4 @@
 "Hide additional information when full" = "Ukryj dodatkowe informacje, gdy bateria jest naładowana";
 
 // Fans
-"Fans" = "Fans";
+"Fans" = "Wentylatory";

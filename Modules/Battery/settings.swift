@@ -51,11 +51,11 @@ internal class Settings: NSView, Settings_v {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func load(widget: widget_t) {
+    public func load(widgets: [widget_t]) {
         self.subviews.forEach{ $0.removeFromSuperview() }
         
         let rowHeight: CGFloat = 30
-        let num: CGFloat = widget == .battery ? 3 : 2
+        let num: CGFloat = widgets.filter{ $0 == .battery }.isEmpty ? 2 : 3
         let height: CGFloat = ((rowHeight + Constants.Settings.margin) * num) + Constants.Settings.margin
         
         let levels: [String] = self.levelsList.map { (v: String) -> String in
@@ -91,7 +91,7 @@ internal class Settings: NSView, Settings_v {
             selected: "\(self.numberOfProcesses)"
         ))
         
-        if widget == .battery {
+        if !widgets.filter({ $0 == .battery }).isEmpty {
             self.addSubview(SelectRow(
                 frame: NSRect(
                     x: Constants.Settings.margin,
