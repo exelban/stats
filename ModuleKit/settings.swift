@@ -271,7 +271,15 @@ internal class WidgetPreview: NSStackView {
     public var stateCallback: () -> Void = {}
     
     private var widget: UnsafeMutablePointer<Widget>
-    private var size: CGFloat = Constants.Widget.height
+    private var size: CGFloat {
+        get {
+            return self.widget.pointee.isActive ? Constants.Widget.height + (Constants.Widget.spacing*3) + 1 : Constants.Widget.spacing*2
+        }
+    }
+    private var widthConstant: NSLayoutConstraint?
+    
+    private let separator: NSView = initSeparator()
+    private var button: NSView? = nil
     
     public init(_ widget: UnsafeMutablePointer<Widget>) {
         self.widget = widget
@@ -279,9 +287,11 @@ internal class WidgetPreview: NSStackView {
         super.init(frame: NSRect(
             x: 0,
             y: 0,
-            width: widget.pointee.preview.frame.width + self.size + (Constants.Widget.spacing*2),
-            height: self.size
+            width: 0,
+            height: Constants.Widget.height
         ))
+        
+        self.button = self.initButton()
         
         self.wantsLayer = true
         self.layer?.cornerRadius = 2
@@ -309,8 +319,12 @@ internal class WidgetPreview: NSStackView {
         container.addSubview(widget.pointee.preview)
         
         self.addArrangedSubview(container)
-        self.addArrangedSubview(self.separator())
-        self.addArrangedSubview(self.button())
+        if self.widget.pointee.isActive {
+            self.addArrangedSubview(self.separator)
+            if let button = self.button {
+                self.addArrangedSubview(button)
+            }
+        }
         
         widget.pointee.preview.widthHandler = { [weak self] value in
             self?.trackingAreas.forEach({ (area: NSTrackingArea) in
@@ -330,15 +344,17 @@ internal class WidgetPreview: NSStackView {
             userInfo: nil
         ))
         
-        let additionalConstant: CGFloat = self.size + (Constants.Widget.spacing*3) + 1
         NSLayoutConstraint.activate([
-            self.widthAnchor.constraint(equalTo: self.widget.pointee.preview.widthAnchor, constant: additionalConstant),
-            self.heightAnchor.constraint(equalToConstant: self.size)
+            self.heightAnchor.constraint(equalToConstant: self.frame.height),
         ])
+        
+        self.widthConstant = self.widthAnchor.constraint(equalTo: self.widget.pointee.preview.widthAnchor, constant: self.size)
+        self.widthConstant?.isActive = true
     }
     
-    private func button() -> NSView {
-        let button = NSButton(frame: NSRect(x: 0, y: 0, width: self.size, height: self.size))
+    private func initButton() -> NSView {
+        let size: CGFloat = Constants.Widget.height
+        let button = NSButton(frame: NSRect(x: 0, y: 0, width: size, height: size))
         button.title = LocalizedString("Open widget settings")
         button.toolTip = LocalizedString("Open widget settings")
         button.bezelStyle = .regularSquare
@@ -359,14 +375,14 @@ internal class WidgetPreview: NSStackView {
         return button
     }
     
-    private func separator() -> NSView {
+    private static func initSeparator() -> NSView {
         let separator = NSView()
         separator.widthAnchor.constraint(equalToConstant: 1).isActive = true
         separator.wantsLayer = true
         separator.layer?.backgroundColor = NSColor(hexString: "#dddddd").cgColor
         
         NSLayoutConstraint.activate([
-            separator.heightAnchor.constraint(equalToConstant: self.size),
+            separator.heightAnchor.constraint(equalToConstant: Constants.Widget.height),
         ])
         
         return separator
@@ -393,5 +409,19 @@ internal class WidgetPreview: NSStackView {
     override func mouseDown(with: NSEvent) {
         self.widget.pointee.toggle()
         self.stateCallback()
+        
+        if self.widget.pointee.isActive {
+            self.addArrangedSubview(self.separator)
+            if let button = self.button {
+                self.addArrangedSubview(button)
+            }
+        } else {
+            self.removeView(self.separator)
+            if let button = self.button {
+                self.removeView(button)
+            }
+        }
+        
+        self.widthConstant?.constant = self.size
     }
 }
