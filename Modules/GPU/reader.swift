@@ -71,7 +71,7 @@ internal class InfoReader: Reader<GPUs> {
         }
         var devices = self.devices
         
-        accelerators.forEach { (accelerator: NSDictionary) in
+        for (index, accelerator) in accelerators.enumerated() {
             guard let IOClass = accelerator.object(forKey: "IOClass") as? String else {
                 os_log(.error, log: log, "IOClass not found")
                 return
@@ -82,6 +82,7 @@ internal class InfoReader: Reader<GPUs> {
                 return
             }
             
+            var id: String = ""
             var vendor: String? = nil
             var model: String = ""
             let accMatch = (accelerator["IOPCIMatch"] as? String ?? accelerator["IOPCIPrimaryMatch"] as? String ?? "").lowercased()
@@ -90,6 +91,7 @@ internal class InfoReader: Reader<GPUs> {
                 if accMatch.range(of: device.pci) != nil && !device.used {
                     model = device.model
                     vendor = device.vendor
+                    id = "\(model) #\(index)"
                     devices[i].used = true
                     break
                 }
@@ -141,15 +143,16 @@ internal class InfoReader: Reader<GPUs> {
                 model = model.removedRegexMatches(pattern: v, replaceWith: "").trimmingCharacters(in: .whitespacesAndNewlines)
             }
             
-            if self.gpus.list.first(where: { $0.model == model }) == nil {
+            if self.gpus.list.first(where: { $0.id == id }) == nil {
                 self.gpus.list.append(GPU_Info(
+                    id: id,
                     type: type.rawValue,
                     IOClass: IOClass,
                     vendor: vendor,
                     model: model
                 ))
             }
-            guard let idx = self.gpus.list.firstIndex(where: { $0.model == model }) else {
+            guard let idx = self.gpus.list.firstIndex(where: { $0.id == id }) else {
                 return
             }
             

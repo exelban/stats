@@ -38,8 +38,8 @@ public struct GPU_Info {
     public var temperature: Double? = nil
     public var utilization: Double? = nil
     
-    init(type: GPU_type, IOClass: String, vendor: String? = nil, model: String) {
-        self.id = UUID().uuidString
+    init(id: String, type: GPU_type, IOClass: String, vendor: String? = nil, model: String) {
+        self.id = id
         self.type = type
         self.IOClass = IOClass
         self.vendor = vendor
