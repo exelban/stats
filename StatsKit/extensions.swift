@@ -126,25 +126,25 @@ public extension Double {
         return (self * divisor).rounded() / divisor
     }
     
-    func usageColor(reversed: Bool = false) -> NSColor {
+    func usageColor(zones: colorZones = (0.6, 0.8), reversed: Bool = false) -> NSColor {
         let firstColor: NSColor = NSColor.systemBlue
         let secondColor: NSColor = NSColor.orange
         let thirdColor: NSColor = NSColor.red
         
         if reversed {
             switch self {
-            case 0.6...0.8:
+            case zones.orange...zones.red:
                 return secondColor
-            case 0.8...1:
+            case zones.red...1:
                 return firstColor
             default:
                 return thirdColor
             }
         } else {
             switch self {
-            case 0.6...0.8:
+            case zones.orange...zones.red:
                 return secondColor
-            case 0.8...1:
+            case zones.red...1:
                 return thirdColor
             default:
                 return firstColor

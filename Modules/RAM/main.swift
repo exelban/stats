@@ -119,6 +119,7 @@ public class RAM: Module {
                 widget.setPressure(value.pressureLevel)
             case let widget as BarChart:
                 widget.setValue([value.usage])
+                widget.setColorZones((0.8, 0.95))
                 widget.setPressure(value.pressureLevel)
             case let widget as PieChart:
                 let total: Double = value.total == 0 ? 1 : value.total

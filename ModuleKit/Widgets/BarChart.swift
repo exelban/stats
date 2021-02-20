@@ -22,6 +22,7 @@ public class BarChart: WidgetWrapper {
     private var colors: [widget_c] = widget_c.allCases
     private var value: [Double] = []
     private var pressureLevel: Int = 0
+    private var colorZones: colorZones = (0.6, 0.8)
     
     private var boxSettingsView: NSView? = nil
     private var frameSettingsView: NSView? = nil
@@ -178,7 +179,7 @@ public class BarChart: WidgetWrapper {
             
             switch self.colorState {
             case .systemAccent: NSColor.controlAccentColor.set()
-            case .utilization: partitionValue.usageColor().setFill()
+            case .utilization: partitionValue.usageColor(zones: self.colorZones).setFill()
             case .pressure: self.pressureLevel.pressureColor().setFill()
             case .monochrome:
                 if self.boxState {
@@ -221,6 +222,17 @@ public class BarChart: WidgetWrapper {
         }
         
         self.pressureLevel = level
+        DispatchQueue.main.async(execute: {
+            self.display()
+        })
+    }
+    
+    public func setColorZones(_ zones: colorZones) {
+        guard self.colorZones != zones else {
+            return
+        }
+        
+        self.colorZones = zones
         DispatchQueue.main.async(execute: {
             self.display()
         })

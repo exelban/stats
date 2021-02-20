@@ -137,6 +137,8 @@ public enum widget_c: String {
 }
 extension widget_c: CaseIterable {}
 
+public typealias colorZones = (orange: Double, red: Double)
+
 public struct Units {
     public let bytes: Int64
     
