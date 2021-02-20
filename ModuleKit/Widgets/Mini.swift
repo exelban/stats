@@ -75,7 +75,7 @@ public class Mini: WidgetWrapper {
             height: Constants.Widget.height - (2*Constants.Widget.margin.y)
         ))
         
-        self.wantsLayer = true
+        self.canDrawConcurrently = true
         
         if let store = self.store, !preview {
             self.colorState = widget_c(rawValue: store.pointee.string(key: "\(self.title)_\(self.type.rawValue)_color", defaultValue: self.colorState.rawValue)) ?? self.colorState

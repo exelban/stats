@@ -47,7 +47,6 @@ public class NetworkChart: WidgetWrapper {
             height: Constants.Widget.height - (2*Constants.Widget.margin.y)
         ))
         
-        self.wantsLayer = true
         self.canDrawConcurrently = true
         
         if self.store != nil && !preview {

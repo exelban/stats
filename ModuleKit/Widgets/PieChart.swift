@@ -45,7 +45,6 @@ public class PieChart: WidgetWrapper {
             height: Constants.Widget.height - (Constants.Widget.margin.y*2)
         ))
         
-        self.wantsLayer = true
         self.canDrawConcurrently = true
         
         if let store = self.store, !preview {
