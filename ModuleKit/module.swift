@@ -225,7 +225,8 @@ open class Module: Module_p {
                 store: self.store,
                 module: self.config.name,
                 config: self.config.widgetsConfig,
-                defaultWidget: self.config.defaultWidget
+                defaultWidget: self.config.defaultWidget,
+                moduleState: self.enabled
             ) {
                 self.widgets.append(widget)
             }

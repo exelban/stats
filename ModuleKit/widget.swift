@@ -25,7 +25,7 @@ public enum widget_t: String {
     case sensors = "sensors"
     case memory = "memory"
     
-    public func new(store: UnsafePointer<Store>, module: String, config: NSDictionary, defaultWidget: widget_t) -> Widget? {
+    public func new(store: UnsafePointer<Store>, module: String, config: NSDictionary, defaultWidget: widget_t, moduleState: Bool) -> Widget? {
         var widget: Widget? = nil
         guard let widgetConfig: NSDictionary = config[self.rawValue] as? NSDictionary else {
             return nil
@@ -33,55 +33,55 @@ public enum widget_t: String {
         
         switch self {
         case .mini:
-            widget = Widget(self, defaultWidget: defaultWidget, module: module, store: store,
+            widget = Widget(self, defaultWidget: defaultWidget, module: module, moduleState: moduleState, store: store,
                 preview: Mini(title: module, config: widgetConfig, store: store, preview: true),
                 item: Mini(title: module, config: widgetConfig, store: store)
             )
             break
         case .lineChart:
-            widget = Widget(self, defaultWidget: defaultWidget, module: module, store: store,
+            widget = Widget(self, defaultWidget: defaultWidget, module: module, moduleState: moduleState, store: store,
                 preview: LineChart(title: module, config: widgetConfig, store: store, preview: true),
                 item: LineChart(title: module, config: widgetConfig, store: store)
             )
             break
         case .barChart:
-            widget = Widget(self, defaultWidget: defaultWidget, module: module, store: store,
+            widget = Widget(self, defaultWidget: defaultWidget, module: module, moduleState: moduleState, store: store,
                 preview: BarChart(title: module, config: widgetConfig, store: store, preview: true),
                 item: BarChart(title: module, config: widgetConfig, store: store)
             )
             break
         case .pieChart:
-            widget = Widget(self, defaultWidget: defaultWidget, module: module, store: store,
+            widget = Widget(self, defaultWidget: defaultWidget, module: module, moduleState: moduleState, store: store,
                 preview: PieChart(title: module, config: widgetConfig, store: store, preview: true),
                 item: PieChart(title: module, config: widgetConfig, store: store)
             )
             break
         case .networkChart:
-            widget = Widget(self, defaultWidget: defaultWidget, module: module, store: store,
+            widget = Widget(self, defaultWidget: defaultWidget, module: module, moduleState: moduleState, store: store,
                 preview: NetworkChart(title: module, config: widgetConfig, store: store, preview: true),
                 item: NetworkChart(title: module, config: widgetConfig, store: store)
             )
             break
         case .speed:
-            widget = Widget(self, defaultWidget: defaultWidget, module: module, store: store,
+            widget = Widget(self, defaultWidget: defaultWidget, module: module, moduleState: moduleState, store: store,
                 preview: SpeedWidget(title: module, config: widgetConfig, store: store, preview: true),
                 item: SpeedWidget(title: module, config: widgetConfig, store: store)
             )
             break
         case .battery:
-            widget = Widget(self, defaultWidget: defaultWidget, module: module, store: store,
+            widget = Widget(self, defaultWidget: defaultWidget, module: module, moduleState: moduleState, store: store,
                 preview: BatterykWidget(title: module, config: widgetConfig, store: store, preview: true),
                 item: BatterykWidget(title: module, config: widgetConfig, store: store)
             )
             break
         case .sensors:
-            widget = Widget(self, defaultWidget: defaultWidget, module: module, store: store,
+            widget = Widget(self, defaultWidget: defaultWidget, module: module, moduleState: moduleState, store: store,
                 preview: SensorsWidget(title: module, config: widgetConfig, store: store, preview: true),
                 item: SensorsWidget(title: module, config: widgetConfig, store: store)
             )
             break
         case .memory:
-            widget = Widget(self, defaultWidget: defaultWidget, module: module, store: store,
+            widget = Widget(self, defaultWidget: defaultWidget, module: module, moduleState: moduleState, store: store,
                 preview: MemoryWidget(title: module, config: widgetConfig, store: store, preview: true),
                 item: MemoryWidget(title: module, config: widgetConfig, store: store)
             )
@@ -189,7 +189,7 @@ public class Widget {
         }
     }
     
-    public init(_ type: widget_t, defaultWidget: widget_t, module: String, store: UnsafePointer<Store>, preview: widget_p, item: widget_p) {
+    public init(_ type: widget_t, defaultWidget: widget_t, module: String, moduleState: Bool, store: UnsafePointer<Store>, preview: widget_p, item: widget_p) {
         self.type = type
         self.module = module
         self.preview = preview
@@ -197,9 +197,10 @@ public class Widget {
         self.store = store
         self.defaultWidget = defaultWidget
         self.log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: self.module)
+        self.menuBarItem.autosaveName = "\(self.module)_\(self.type.name())"
         
         self.menuBarItem.length = 0
-        self.menuBarItem.autosaveName = "\(self.module)_\(self.type.name())"
+        self.menuBarItem.isVisible = moduleState && self.isActive
         
         self.item.widthHandler = { [weak self] value in
             if let s = self, s.menuBarItem.length != value {
@@ -219,11 +220,9 @@ public class Widget {
             return
         }
         
+        self.menuBarItem.isVisible = true
         DispatchQueue.main.async(execute: {
             self.menuBarItem.length = self.item.frame.width
-            if !self.menuBarItem.isVisible {
-                self.menuBarItem.isVisible = true
-            }
             self.menuBarItem.button?.addSubview(self.item)
         })
         
@@ -233,6 +232,7 @@ public class Widget {
     // remove item from the menu bar
     public func disable() {
         self.menuBarItem.length = 0
+        self.menuBarItem.isVisible = false
         
         os_log(.debug, log: log, "widget %s disabled", self.type.rawValue)
     }
