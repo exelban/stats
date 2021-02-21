@@ -140,6 +140,10 @@ open class Settings: NSView, Settings_p {
     }
     
     private func initWidgetSelector() {
+        guard !self.widgets.pointee.isEmpty else {
+            return
+        }
+        
         let container: NSView = NSView(frame: NSRect(x: 0, y: 0, width: 0, height: Constants.Widget.height + (Constants.Settings.margin*2)))
         container.wantsLayer = true
         container.layer?.backgroundColor = .white
