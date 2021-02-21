@@ -40,9 +40,7 @@ internal class FansReader: Reader<[Fan]> {
     
     public override func read() {
         for i in 0..<self.list.count {
-            if let value = smc.pointee.getValue("F\(self.list[i].id)Ac") {
-                self.list[i].value = value
-            }
+            self.list[i].value = smc.pointee.getValue("F\(self.list[i].id)Ac") ?? 0
         }
         self.callback(self.list)
     }
