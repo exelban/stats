@@ -156,12 +156,12 @@
 "Fahrenheit" = "Фаренхайт";
 
 // Network
-"Uploading" = "Изтегляне";
-"Downloading" = "Качване";
+"Uploading" = "Качване";
+"Downloading" = "Изтегляне";
 "Public IP" = "Публично IP";
 "Local IP" = "Локално IP";
 "Interface" = "Интерфейс";
-"Network" = "Мрежда";
+"Network" = "Мрежа";
 "Physical address" = "Физически адрес";
 "Click to copy public IP address" = "Натиснете, за да копирате публичния IP адрес";
 "Click to copy local IP address" = "Натиснете, за да копирате локалния IP адрес";
