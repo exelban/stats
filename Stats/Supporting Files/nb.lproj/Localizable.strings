@@ -49,11 +49,11 @@
 // Application settings
 "Update application" = "Oppdater programmet";
 "Check for updates" = "Se etter oppdateringer";
-"At start" = "At start";
-"Once per day" = "Once per day";
-"Once per week" = "Once per week";
-"Once per month" = "Once per month";
-"Never" = "Never";
+"At start" = "Ved oppstart";
+"Once per day" = "Daglig";
+"Once per week" = "Ukentlig";
+"Once per month" = "Månedlig";
+"Never" = "Aldri";
 "Check for update" = "Se etter oppdatering";
 "Show icon in dock" = "Vis ikon i dock";
 "Start at login" = "Start ved innlogging";
@@ -63,7 +63,7 @@
 "Uptime" = "Oppetid";
 
 // Update
-"The latest version of Stats installed" = "Den nyeste versjonen av Stats er installert";
+"The latest version of Stats installed" = "Du har den nyeste versjonen av Stats";
 "Downloading..." = "Laster ned...";
 "Current version: " = "Nåværende versjon: ";
 "Latest version: " = "Nyeste version: ";
@@ -83,14 +83,14 @@
 "One row" = "En rad";
 "Two rows" = "To rader";
 "Mini widget" = "Mini";
-"Line chart widget" = "Line chart";
-"Bar chart widget" = "Bar chart";
-"Pie chart widget" = "Pie chart";
-"Network chart widget" = "Network chart";
-"Speed widget" = "Speed";
-"Battery widget" = "Battery";
-"Text widget" = "Text";
-"Memory widget" = "Memory";
+"Line chart widget" = "Linjediagram";
+"Bar chart widget" = "Søylediagram";
+"Pie chart widget" = "Kakediagram";
+"Network chart widget" = "Linjediagram";
+"Speed widget" = "Tall";
+"Battery widget" = "Batteri";
+"Text widget" = "Tekst";
+"Memory widget" = "Tall";
 
 // Module Kit
 "Open module settings" = "Åpne modulinnstillinger";
@@ -145,7 +145,7 @@
 // Disk
 "Show removable disks" = "Vis utløsbare disker";
 "Used disk memory" = "Brukte %0 fra %1";
-"Free disk memory" = "Gratis %0 fra %1";
+"Free disk memory" = "Ledig %0 fra %1";
 "Disk to show" = "Disker å vise";
 "Open disk" = "Åpne disken";
 "Switch view" = "Bytt visning";
@@ -178,14 +178,14 @@
 // Battery
 "Level" = "Nivå";
 "Source" = "Kilde";
-"AC Power" = "AC Power";
-"Battery Power" = "Battery Power";
+"AC Power" = "Strømforsyning";
+"Battery Power" = "Batteri";
 "Time" = "Tid";
 "Health" = "Helse";
 "Battery" = "Batteri";
 "Amperage" = "Strømstyrke";
 "Voltage" = "Spenning";
-"Cycles" = "Syklusnummer";
+"Cycles" = "Sykluser";
 "Temperature" = "Temperatur";
 "Power adapter" = "Strømadapter";
 "Power" = "Strøm";
