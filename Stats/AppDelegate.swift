@@ -45,6 +45,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
 //        print("------------", startingPoint, "------------", to: &Log.log)
         
         self.parseArguments()
+        self.parseVersion()
         
         NSUserNotificationCenter.default.removeAllDeliveredNotifications()
         NotificationCenter.default.addObserver(self, selector: #selector(updateCron), name: .changeCronInterval, object: nil)
@@ -53,7 +54,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         
         self.settingsWindow.setModules()
         
-        self.parseVersion()
         self.defaultValues()
         self.updateCron()
         os_log(.info, log: log, "Stats started in %.4f seconds", startingPoint.timeIntervalSinceNow * -1)

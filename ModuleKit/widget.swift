@@ -25,71 +25,58 @@ public enum widget_t: String {
     case sensors = "sensors"
     case memory = "memory"
     
-    public func new(store: UnsafePointer<Store>, module: String, config: NSDictionary, defaultWidget: widget_t, moduleState: Bool) -> Widget? {
-        var widget: Widget? = nil
+    public func new(store: UnsafePointer<Store>, module: String, config: NSDictionary, defaultWidget: widget_t) -> Widget? {
+        var preview: widget_p? = nil
+        var item: widget_p? = nil
         guard let widgetConfig: NSDictionary = config[self.rawValue] as? NSDictionary else {
             return nil
         }
         
         switch self {
         case .mini:
-            widget = Widget(self, defaultWidget: defaultWidget, module: module, moduleState: moduleState, store: store,
-                preview: Mini(title: module, config: widgetConfig, store: store, preview: true),
-                item: Mini(title: module, config: widgetConfig, store: store)
-            )
+            preview = Mini(title: module, config: widgetConfig, store: store, preview: true)
+            item = Mini(title: module, config: widgetConfig, store: store, preview: false)
             break
         case .lineChart:
-            widget = Widget(self, defaultWidget: defaultWidget, module: module, moduleState: moduleState, store: store,
-                preview: LineChart(title: module, config: widgetConfig, store: store, preview: true),
-                item: LineChart(title: module, config: widgetConfig, store: store)
-            )
+            preview = LineChart(title: module, config: widgetConfig, store: store, preview: true)
+            item = LineChart(title: module, config: widgetConfig, store: store, preview: false)
             break
         case .barChart:
-            widget = Widget(self, defaultWidget: defaultWidget, module: module, moduleState: moduleState, store: store,
-                preview: BarChart(title: module, config: widgetConfig, store: store, preview: true),
-                item: BarChart(title: module, config: widgetConfig, store: store)
-            )
+            preview = BarChart(title: module, config: widgetConfig, store: store, preview: true)
+            item = BarChart(title: module, config: widgetConfig, store: store, preview: false)
             break
         case .pieChart:
-            widget = Widget(self, defaultWidget: defaultWidget, module: module, moduleState: moduleState, store: store,
-                preview: PieChart(title: module, config: widgetConfig, store: store, preview: true),
-                item: PieChart(title: module, config: widgetConfig, store: store)
-            )
+            preview = PieChart(title: module, config: widgetConfig, store: store, preview: true)
+            item = PieChart(title: module, config: widgetConfig, store: store, preview: false)
             break
         case .networkChart:
-            widget = Widget(self, defaultWidget: defaultWidget, module: module, moduleState: moduleState, store: store,
-                preview: NetworkChart(title: module, config: widgetConfig, store: store, preview: true),
-                item: NetworkChart(title: module, config: widgetConfig, store: store)
-            )
+            preview = NetworkChart(title: module, config: widgetConfig, store: store, preview: true)
+            item = NetworkChart(title: module, config: widgetConfig, store: store, preview: false)
             break
         case .speed:
-            widget = Widget(self, defaultWidget: defaultWidget, module: module, moduleState: moduleState, store: store,
-                preview: SpeedWidget(title: module, config: widgetConfig, store: store, preview: true),
-                item: SpeedWidget(title: module, config: widgetConfig, store: store)
-            )
+            preview = SpeedWidget(title: module, config: widgetConfig, store: store, preview: true)
+            item = SpeedWidget(title: module, config: widgetConfig, store: store, preview: false)
             break
         case .battery:
-            widget = Widget(self, defaultWidget: defaultWidget, module: module, moduleState: moduleState, store: store,
-                preview: BatterykWidget(title: module, config: widgetConfig, store: store, preview: true),
-                item: BatterykWidget(title: module, config: widgetConfig, store: store)
-            )
+            preview = BatterykWidget(title: module, config: widgetConfig, store: store, preview: true)
+            item = BatterykWidget(title: module, config: widgetConfig, store: store, preview: false)
             break
         case .sensors:
-            widget = Widget(self, defaultWidget: defaultWidget, module: module, moduleState: moduleState, store: store,
-                preview: SensorsWidget(title: module, config: widgetConfig, store: store, preview: true),
-                item: SensorsWidget(title: module, config: widgetConfig, store: store)
-            )
+            preview = SensorsWidget(title: module, config: widgetConfig, store: store, preview: true)
+            item = SensorsWidget(title: module, config: widgetConfig, store: store, preview: false)
             break
         case .memory:
-            widget = Widget(self, defaultWidget: defaultWidget, module: module, moduleState: moduleState, store: store,
-                preview: MemoryWidget(title: module, config: widgetConfig, store: store, preview: true),
-                item: MemoryWidget(title: module, config: widgetConfig, store: store)
-            )
+            preview = MemoryWidget(title: module, config: widgetConfig, store: store, preview: true)
+            item = MemoryWidget(title: module, config: widgetConfig, store: store, preview: false)
             break
         default: break
         }
         
-        return widget
+        if let preview = preview, let item = item {
+            return Widget(self, defaultWidget: defaultWidget, module: module, preview: preview, item: item)
+        }
+        
+        return nil
     }
     
     public func name() -> String {
@@ -174,33 +161,27 @@ public class Widget {
         }
     }
     
-    private let store: UnsafePointer<Store>
     private var config: NSDictionary = NSDictionary()
     private var menuBarItem: NSStatusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
     private let log: OSLog
     
     private var list: [widget_t] {
         get {
-            let string = self.store.pointee.string(key: "\(self.module)_widget", defaultValue: self.defaultWidget.rawValue)
+            let string = Store.shared.string(key: "\(self.module)_widget", defaultValue: self.defaultWidget.rawValue)
             return string.split(separator: ",").map{ (widget_t(rawValue: String($0)) ?? .unknown)}
         }
         set {
-            self.store.pointee.set(key: "\(self.module)_widget", value: newValue.map{ $0.rawValue }.joined(separator: ","))
+            Store.shared.set(key: "\(self.module)_widget", value: newValue.map{ $0.rawValue }.joined(separator: ","))
         }
     }
     
-    public init(_ type: widget_t, defaultWidget: widget_t, module: String, moduleState: Bool, store: UnsafePointer<Store>, preview: widget_p, item: widget_p) {
+    public init(_ type: widget_t, defaultWidget: widget_t, module: String, preview: widget_p, item: widget_p) {
         self.type = type
         self.module = module
         self.preview = preview
         self.item = item
-        self.store = store
         self.defaultWidget = defaultWidget
         self.log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: self.module)
-        self.menuBarItem.autosaveName = "\(self.module)_\(self.type.name())"
-        
-        self.menuBarItem.length = 0
-        self.menuBarItem.isVisible = moduleState && self.isActive
         
         self.item.widthHandler = { [weak self] value in
             if let s = self, s.menuBarItem.length != value {
@@ -208,10 +189,6 @@ public class Widget {
                 os_log(.debug, log: s.log, "widget %s change width to %.2f", "\(s.type)", value)
             }
         }
-        
-        self.menuBarItem.button?.target = self
-        self.menuBarItem.button?.action = #selector(self.togglePopup)
-        self.menuBarItem.button?.sendAction(on: [.leftMouseDown, .rightMouseDown])
     }
     
     // show item in the menu bar
@@ -220,10 +197,18 @@ public class Widget {
             return
         }
         
-        self.menuBarItem.isVisible = true
         DispatchQueue.main.async(execute: {
-            self.menuBarItem.length = self.item.frame.width
+            self.menuBarItem = NSStatusBar.system.statusItem(withLength: self.item.frame.width)
+            self.menuBarItem.autosaveName = "\(self.module)_\(self.type.name())"
             self.menuBarItem.button?.addSubview(self.item)
+            
+            if !self.menuBarItem.isVisible {
+                self.menuBarItem.isVisible = true
+            }
+            
+            self.menuBarItem.button?.target = self
+            self.menuBarItem.button?.action = #selector(self.togglePopup)
+            self.menuBarItem.button?.sendAction(on: [.leftMouseDown, .rightMouseDown])
         })
         
         os_log(.debug, log: log, "widget %s enabled", self.type.rawValue)
@@ -231,9 +216,7 @@ public class Widget {
     
     // remove item from the menu bar
     public func disable() {
-        self.menuBarItem.length = 0
-        self.menuBarItem.isVisible = false
-        
+        NSStatusBar.system.removeStatusItem(self.menuBarItem)
         os_log(.debug, log: log, "widget %s disabled", self.type.rawValue)
     }
     
