@@ -36,7 +36,7 @@
 "New version available" = "有新版本可用";
 "Click to install the new version of Stats" = "安裝 Stats 的新版本";
 "Successfully updated" = "更新成功";
-"Stats was updated to v" = "Stats 更新 v%0";
+"Stats was updated to v" = "Stats 已更新到 v%0";
 
 // Settings
 "Open Activity Monitor" = "打開活動監視器";
@@ -60,7 +60,7 @@
 
 // Dashboard
 "Serial number" = "序號";
-"Uptime" = "正常運作時間";
+"Uptime" = "開機時間";
 
 // Update
 "The latest version of Stats installed" = "已安裝最新版本";
@@ -132,7 +132,7 @@
 "Utilization" = "使用率";
 
 // Memory
-"Memory usage" = "記憶體使用";
+"Memory usage" = "記憶體使用率";
 "Memory pressure" = "記憶體壓力";
 "Total" = "總共";
 "Used" = "已使用";
