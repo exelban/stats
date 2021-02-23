@@ -339,9 +339,9 @@ internal class DiskLegendView: NSView {
         var percentage: Int
         
         if self.showUsedSpace {
-            percentage = Int(Double(self.size - free) / Double(self.size)) * 100
+            percentage = Int((Double(self.size - free) / Double(self.size)) * 100)
         } else {
-            percentage = Int(Double(free) / Double(self.size)) * 100
+            percentage = Int((Double(free) / Double(self.size)) * 100)
         }
         
         return "\(percentage < 0 ? 0 : percentage)%"
