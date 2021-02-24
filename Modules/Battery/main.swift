@@ -108,7 +108,8 @@ public class Battery: Module {
             return
         }
         
-        self.checkNotification(value: value)
+        self.checkLowNotification(value: value)
+        self.checkHighNotification(value: value)
         self.popupView.usageCallback(value)
         
         self.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
@@ -127,7 +128,7 @@ public class Battery: Module {
         }
     }
     
-    private func checkNotification(value: Battery_Usage) {
+    private func checkLowNotification(value: Battery_Usage) {
         let level = self.store.pointee.string(key: "\(self.config.name)_lowLevelNotification", defaultValue: "0.15")
         if level == "Disabled" {
             return
@@ -160,6 +161,43 @@ public class Battery: Module {
                 subtitle: subtitle,
                 id: "battery-level",
                 icon: NSImage(named: NSImage.Name("low-battery"))!
+            )
+        }
+    }
+    
+    private func checkHighNotification(value: Battery_Usage) {
+        let level = self.store.pointee.string(key: "\(self.config.name)_highLevelNotification", defaultValue: "0.85")
+        if level == "Disabled" {
+            return
+        }
+        
+        guard let notificationLevel = Double(level) else {
+            return
+        }
+        
+        if (value.level < notificationLevel || value.powerSource == "Battery Power") && self.notification != nil {
+            NSUserNotificationCenter.default.removeDeliveredNotification(self.notification!)
+            if value.level < notificationLevel {
+                self.notification = nil
+            }
+            return
+        }
+        
+        if !value.isCharging {
+            return
+        }
+        
+        if value.level >= notificationLevel && self.notification == nil {
+            var subtitle = LocalizedString("Charge remaining", "\(Int((1-value.level)*100))")
+            if value.timeToCharge > 0 {
+                subtitle += " (\(Double(value.timeToCharge*60).printSecondsToHoursMinutesSeconds()))"
+            }
+            
+            self.notification = showNotification(
+                title: LocalizedString("High battery"),
+                subtitle: subtitle,
+                id: "battery-level2",
+                icon: NSImage(named: NSImage.Name("high-battery"))!
             )
         }
     }

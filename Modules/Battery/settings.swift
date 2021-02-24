@@ -23,10 +23,16 @@ internal class Settings: NSView, Settings_v {
     private var button: NSPopUpButton?
     
     private var numberOfProcesses: Int = 8
-    private let levelsList: [String] = ["Disabled", "0.03", "0.05", "0.1", "0.15", "0.2", "0.25", "0.3", "0.4", "0.5"]
+    private let lowLevelsList: [String] = ["Disabled", "0.03", "0.05", "0.1", "0.15", "0.2", "0.25", "0.3", "0.4", "0.5"]
+    private let highLevelsList: [String] = ["Disabled", "0.5", "0.6", "0.7", "0.75", "0.8", "0.85", "0.9", "0.95", "0.97", "1.0"]
     private var lowLevelNotification: String {
         get {
             return self.store.pointee.string(key: "\(self.title)_lowLevelNotification", defaultValue: "0.15")
+        }
+    }
+    private var highLevelNotification: String {
+        get {
+            return self.store.pointee.string(key: "\(self.title)_highLevelNotification", defaultValue: "0.85")
         }
     }
     private var timeFormat: String = "short"
@@ -55,10 +61,17 @@ internal class Settings: NSView, Settings_v {
         self.subviews.forEach{ $0.removeFromSuperview() }
         
         let rowHeight: CGFloat = 30
-        let num: CGFloat = widgets.filter{ $0 == .battery }.isEmpty ? 2 : 3
+        let num: CGFloat = widgets.filter{ $0 == .battery }.isEmpty ? 3 : 4
         let height: CGFloat = ((rowHeight + Constants.Settings.margin) * num) + Constants.Settings.margin
         
-        let levels: [String] = self.levelsList.map { (v: String) -> String in
+        let lowLevels: [String] = self.lowLevelsList.map { (v: String) -> String in
+            if let level = Double(v) {
+                return "\(Int(level*100))%"
+            }
+            return v
+        }
+        
+        let highLevels: [String] = self.highLevelsList.map { (v: String) -> String in
             if let level = Double(v) {
                 return "\(Int(level*100))%"
             }
@@ -73,8 +86,8 @@ internal class Settings: NSView, Settings_v {
                 height: rowHeight
             ),
             title: LocalizedString("Low level notification"),
-            action: #selector(changeUpdateInterval),
-            items: levels,
+            action: #selector(changeUpdateIntervalLow),
+            items: lowLevels,
             selected: self.lowLevelNotification == "Disabled" ? self.lowLevelNotification : "\(Int((Double(self.lowLevelNotification) ?? 0)*100))%"
         ))
         
@@ -82,6 +95,19 @@ internal class Settings: NSView, Settings_v {
             frame: NSRect(
                 x: Constants.Settings.margin,
                 y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * (num-2),
+                width: self.frame.width - (Constants.Settings.margin*2),
+                height: rowHeight
+            ),
+            title: LocalizedString("High level notification"),
+            action: #selector(changeUpdateIntervalHigh),
+            items: highLevels,
+            selected: self.highLevelNotification == "Disabled" ? self.highLevelNotification : "\(Int((Double(self.highLevelNotification) ?? 0)*100))%"
+        ))
+        
+        self.addSubview(SelectTitleRow(
+            frame: NSRect(
+                x: Constants.Settings.margin,
+                y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * (num-3),
                 width: self.frame.width - (Constants.Settings.margin*2),
                 height: rowHeight
             ),
@@ -109,11 +135,19 @@ internal class Settings: NSView, Settings_v {
         self.setFrameSize(NSSize(width: self.frame.width, height: height))
     }
     
-    @objc private func changeUpdateInterval(_ sender: NSMenuItem) {
+    @objc private func changeUpdateIntervalLow(_ sender: NSMenuItem) {
         if sender.title == "Disabled" {
             store.pointee.set(key: "\(self.title)_lowLevelNotification", value: sender.title)
         } else if let value = Double(sender.title.replacingOccurrences(of: "%", with: "")) {
             store.pointee.set(key: "\(self.title)_lowLevelNotification", value: "\(value/100)")
+        }
+    }
+    
+    @objc private func changeUpdateIntervalHigh(_ sender: NSMenuItem) {
+        if sender.title == "Disabled" {
+            store.pointee.set(key: "\(self.title)_highLevelNotification", value: sender.title)
+        } else if let value = Double(sender.title.replacingOccurrences(of: "%", with: "")) {
+            store.pointee.set(key: "\(self.title)_highLevelNotification", value: "\(value/100)")
         }
     }
     
