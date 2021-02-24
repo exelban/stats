@@ -47,7 +47,8 @@ public class Battery: Module {
     
     private let store: UnsafePointer<Store>
     
-    private var notification: NSUserNotification? = nil
+    private var lowNotification: NSUserNotification? = nil
+    private var highNotification: NSUserNotification? = nil
     
     public init(_ store: UnsafePointer<Store>) {
         self.store = store
@@ -138,10 +139,10 @@ public class Battery: Module {
             return
         }
         
-        if (value.level > notificationLevel || value.powerSource != "Battery Power") && self.notification != nil {
-            NSUserNotificationCenter.default.removeDeliveredNotification(self.notification!)
+        if (value.level > notificationLevel || value.powerSource != "Battery Power") && self.lowNotification != nil {
+            NSUserNotificationCenter.default.removeDeliveredNotification(self.lowNotification!)
             if value.level > notificationLevel {
-                self.notification = nil
+                self.lowNotification = nil
             }
             return
         }
@@ -150,13 +151,13 @@ public class Battery: Module {
             return
         }
         
-        if value.level <= notificationLevel && self.notification == nil {
+        if value.level <= notificationLevel && self.lowNotification == nil {
             var subtitle = LocalizedString("Battery remaining", "\(Int(value.level*100))")
             if value.timeToEmpty > 0 {
                 subtitle += " (\(Double(value.timeToEmpty*60).printSecondsToHoursMinutesSeconds()))"
             }
             
-            self.notification = showNotification(
+            self.lowNotification = showNotification(
                 title: LocalizedString("Low battery"),
                 subtitle: subtitle,
                 id: "battery-level",
@@ -175,10 +176,10 @@ public class Battery: Module {
             return
         }
         
-        if (value.level < notificationLevel || value.powerSource == "Battery Power") && self.notification != nil {
-            NSUserNotificationCenter.default.removeDeliveredNotification(self.notification!)
+        if (value.level < notificationLevel || value.powerSource == "Battery Power") && self.highNotification != nil {
+            NSUserNotificationCenter.default.removeDeliveredNotification(self.highNotification!)
             if value.level < notificationLevel {
-                self.notification = nil
+                self.highNotification = nil
             }
             return
         }
@@ -187,13 +188,13 @@ public class Battery: Module {
             return
         }
         
-        if value.level >= notificationLevel && self.notification == nil {
+        if value.level >= notificationLevel && self.highNotification == nil {
             var subtitle = LocalizedString("Charge remaining", "\(Int((1-value.level)*100))")
             if value.timeToCharge > 0 {
                 subtitle += " (\(Double(value.timeToCharge*60).printSecondsToHoursMinutesSeconds()))"
             }
             
-            self.notification = showNotification(
+            self.highNotification = showNotification(
                 title: LocalizedString("High battery"),
                 subtitle: subtitle,
                 id: "battery-level2",
