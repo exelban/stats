@@ -162,7 +162,8 @@ public class Widget {
     }
     
     private var config: NSDictionary = NSDictionary()
-    private var menuBarItem: NSStatusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
+    private var menuBarItem: NSStatusItem = NSStatusBar.system.statusItem(withLength: 0)
+    private var removed: Bool = false
     private let log: OSLog
     
     private var list: [widget_t] {
@@ -198,7 +199,12 @@ public class Widget {
         }
         
         DispatchQueue.main.async(execute: {
-            self.menuBarItem = NSStatusBar.system.statusItem(withLength: self.item.frame.width)
+            if self.removed {
+                self.menuBarItem = NSStatusBar.system.statusItem(withLength: self.item.frame.width)
+                self.removed = false
+            } else {
+                self.menuBarItem.length = self.item.frame.width
+            }
             self.menuBarItem.autosaveName = "\(self.module)_\(self.type.name())"
             self.menuBarItem.button?.addSubview(self.item)
             
@@ -217,6 +223,7 @@ public class Widget {
     // remove item from the menu bar
     public func disable() {
         NSStatusBar.system.removeStatusItem(self.menuBarItem)
+        self.removed = true
         os_log(.debug, log: log, "widget %s disabled", self.type.rawValue)
     }
     
