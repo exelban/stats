@@ -326,8 +326,10 @@ internal class Popup: NSView, Popup_p {
                     self.ssidField?.stringValue = LocalizedString("Unavailable")
                 }
                 
+                let valid_ips = "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
+                
                 if self.publicIPField?.stringValue != value.raddr {
-                    if value.raddr == nil {
+                    if value.raddr == nil || !(value.raddr?.matches(valid_ips))! {
                         self.publicIPField?.stringValue = LocalizedString("Unknown")
                     } else {
                         if value.countryCode == nil {
