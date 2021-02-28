@@ -167,7 +167,7 @@ public class Battery: Module {
     }
     
     private func checkHighNotification(value: Battery_Usage) {
-        let level = self.store.pointee.string(key: "\(self.config.name)_highLevelNotification", defaultValue: "0.85")
+        let level = self.store.pointee.string(key: "\(self.config.name)_highLevelNotification", defaultValue: "Disabled")
         if level == "Disabled" {
             return
         }

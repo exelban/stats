@@ -32,7 +32,7 @@ internal class Settings: NSView, Settings_v {
     }
     private var highLevelNotification: String {
         get {
-            return self.store.pointee.string(key: "\(self.title)_highLevelNotification", defaultValue: "0.85")
+            return self.store.pointee.string(key: "\(self.title)_highLevelNotification", defaultValue: "Disabled")
         }
     }
     private var timeFormat: String = "short"
