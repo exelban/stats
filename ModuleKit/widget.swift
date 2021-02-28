@@ -162,8 +162,7 @@ public class Widget {
     }
     
     private var config: NSDictionary = NSDictionary()
-    private var menuBarItem: NSStatusItem = NSStatusBar.system.statusItem(withLength: 0)
-    private var removed: Bool = false
+    private var menuBarItem: NSStatusItem? = nil
     private let log: OSLog
     
     private var list: [widget_t] {
@@ -185,8 +184,8 @@ public class Widget {
         self.log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: self.module)
         
         self.item.widthHandler = { [weak self] value in
-            if let s = self, s.menuBarItem.length != value {
-                s.menuBarItem.length = value
+            if let s = self, let item = s.menuBarItem, item.length != value {
+                item.length = value
                 os_log(.debug, log: s.log, "widget %s change width to %.2f", "\(s.type)", value)
             }
         }
@@ -199,22 +198,17 @@ public class Widget {
         }
         
         DispatchQueue.main.async(execute: {
-            if self.removed {
-                self.menuBarItem = NSStatusBar.system.statusItem(withLength: self.item.frame.width)
-                self.removed = false
-            } else {
-                self.menuBarItem.length = self.item.frame.width
-            }
-            self.menuBarItem.autosaveName = "\(self.module)_\(self.type.name())"
-            self.menuBarItem.button?.addSubview(self.item)
+            self.menuBarItem = NSStatusBar.system.statusItem(withLength: self.item.frame.width)
+            self.menuBarItem?.autosaveName = "\(self.module)_\(self.type.name())"
+            self.menuBarItem?.button?.addSubview(self.item)
             
-            if !self.menuBarItem.isVisible {
-                self.menuBarItem.isVisible = true
+            if let item = self.menuBarItem, !item.isVisible {
+                self.menuBarItem?.isVisible = true
             }
             
-            self.menuBarItem.button?.target = self
-            self.menuBarItem.button?.action = #selector(self.togglePopup)
-            self.menuBarItem.button?.sendAction(on: [.leftMouseDown, .rightMouseDown])
+            self.menuBarItem?.button?.target = self
+            self.menuBarItem?.button?.action = #selector(self.togglePopup)
+            self.menuBarItem?.button?.sendAction(on: [.leftMouseDown, .rightMouseDown])
         })
         
         os_log(.debug, log: log, "widget %s enabled", self.type.rawValue)
@@ -222,8 +216,10 @@ public class Widget {
     
     // remove item from the menu bar
     public func disable() {
-        NSStatusBar.system.removeStatusItem(self.menuBarItem)
-        self.removed = true
+        if let item = self.menuBarItem {
+            NSStatusBar.system.removeStatusItem(item)
+        }
+        self.menuBarItem = nil
         os_log(.debug, log: log, "widget %s disabled", self.type.rawValue)
     }
     
@@ -241,7 +237,7 @@ public class Widget {
     }
     
     @objc private func togglePopup(_ sender: Any) {
-        if let window = self.menuBarItem.button?.window {
+        if let item = self.menuBarItem, let window = item.button?.window {
             NotificationCenter.default.post(name: .togglePopup, object: nil, userInfo: [
                 "module": self.module,
                 "origin": window.frame.origin,
