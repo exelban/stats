@@ -27,12 +27,17 @@ public struct Network_interface {
     var address: String = ""
 }
 
+public struct Network_addr {
+    var v4: String? = nil
+    var v6: String? = nil
+}
+
 public struct Network_Usage: value_t {
     var bandwidth: Bandwidth = (0, 0)
     var total: Bandwidth = (0, 0)
     
     var laddr: String? = nil // local ip
-    var raddr: String? = nil // remote ip
+    var raddr: Network_addr = Network_addr() // remote ip
     
     var interface: Network_interface? = nil
     var connectionType: Network_t? = nil
@@ -44,7 +49,7 @@ public struct Network_Usage: value_t {
         self.bandwidth = (0, 0)
         
         self.laddr = nil
-        self.raddr = nil
+        self.raddr = Network_addr()
         
         self.interface = nil
         self.connectionType = nil

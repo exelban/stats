@@ -316,6 +316,7 @@ public extension NSBezierPath {
 
 public func SeparatorView(_ title: String, origin: NSPoint, width: CGFloat) -> NSView {
     let view: NSView = NSView(frame: NSRect(x: origin.x, y: origin.y, width: width, height: 30))
+    view.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
     
     let labelView: NSTextField = TextView(frame: NSRect(x: 0, y: (view.frame.height-15)/2, width: view.frame.width, height: 15))
     labelView.stringValue = title
@@ -328,16 +329,22 @@ public func SeparatorView(_ title: String, origin: NSPoint, width: CGFloat) -> N
     return view
 }
 
-public func PopupRow(_ view: NSView, n: CGFloat, title: String, value: String) -> (LabelField, ValueField) {
+public func PopupRow(_ view: NSView, n: CGFloat = 0, title: String, value: String) -> (LabelField, ValueField) {
     let rowView: NSView = NSView(frame: NSRect(x: 0, y: 22*n, width: view.frame.width, height: 22))
     
-    let labelWidth = title.widthOfString(usingFont: .systemFont(ofSize: 13, weight: .regular)) + 5
+    let labelWidth = title.widthOfString(usingFont: .systemFont(ofSize: 13, weight: .regular)) + 4
     let labelView: LabelField = LabelField(frame: NSRect(x: 0, y: (22-15)/2, width: labelWidth, height: 15), title)
     let valueView: ValueField = ValueField(frame: NSRect(x: labelWidth, y: (22-15)/2, width: rowView.frame.width - labelWidth, height: 16), value)
     
     rowView.addSubview(labelView)
     rowView.addSubview(valueView)
-    view.addSubview(rowView)
+    
+    if let view = view as? NSStackView {
+        rowView.heightAnchor.constraint(equalToConstant: rowView.bounds.height).isActive = true
+        view.addArrangedSubview(rowView)
+    } else {
+        view.addSubview(rowView)
+    }
     
     return (labelView, valueView)
 }

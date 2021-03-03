@@ -229,14 +229,23 @@ internal class UsageReader: Reader<Network_Usage> {
     }
     
     private func getPublicIP() {
-        let url = URL(string: "https://api.ipify.org")
-        
         do {
-            if let url = url {
-                self.usage.raddr = try String(contentsOf: url)
+            if let url = URL(string: "https://api.ipify.org") {
+                self.usage.raddr.v4 = try String(contentsOf: url)
             }
         } catch let error {
-            os_log(.error, log: log, "get public ip %s", "\(error)")
+            os_log(.error, log: log, "get public ipv4 %s", "\(error)")
+        }
+        
+        do {
+            if let url = URL(string: "https://api64.ipify.org") {
+                let v6 = try String(contentsOf: url)
+                if self.usage.raddr.v4 != v6 {
+                    self.usage.raddr.v6 = v6
+                }
+            }
+        } catch let error {
+            os_log(.error, log: log, "get public ipv6 %s", "\(error)")
         }
     }
     
