@@ -185,7 +185,22 @@ internal class Popup: NSStackView, Popup_p {
         container.orientation = .vertical
         container.spacing = 0
         
-        container.addArrangedSubview(SeparatorView(LocalizedString("Public IP"), origin: NSPoint(x: 0, y: 0), width: self.frame.width))
+        let row: NSView = NSView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Popup.separatorHeight))
+        
+        let button = NSButtonWithPadding()
+        button.frame = CGRect(x: view.frame.width - 44, y: 5, width: 44, height: 20)
+        button.bezelStyle = .regularSquare
+        button.isBordered = false
+        button.action = #selector(self.refreshPublicIP)
+        button.target = self
+        button.toolTip = LocalizedString("Refresh")
+        button.title = LocalizedString("Refresh")
+        button.font = NSFont.systemFont(ofSize: 11, weight: .light)
+        
+        row.addSubview(SeparatorView(LocalizedString("Public IP"), origin: NSPoint(x: 0, y: 0), width: self.frame.width))
+        row.addSubview(button)
+        
+        container.addArrangedSubview(row)
         self.publicIPv4Field = PopupRow(container, title: "\(LocalizedString("v4")):", value: LocalizedString("Unknown")).1
         self.publicIPv6Field = PopupRow(container, title: "\(LocalizedString("v6")):", value: LocalizedString("Unknown")).1
         
@@ -411,6 +426,10 @@ internal class Popup: NSStackView, Popup_p {
         
         self.uploadStateView?.setState(self.uploadValue != 0)
         self.downloadStateView?.setState(self.downloadValue != 0)
+    }
+    
+    @objc private func refreshPublicIP() {
+        NotificationCenter.default.post(name: .refreshPublicIP, object: nil, userInfo: nil)
     }
 }
 

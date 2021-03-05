@@ -72,6 +72,8 @@ internal class UsageReader: Reader<Network_Usage> {
                 self.callback(self.usage)
             }
         }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshPublicIP), name: .refreshPublicIP, object: nil)
     }
     
     public override func read() {
@@ -231,7 +233,10 @@ internal class UsageReader: Reader<Network_Usage> {
     private func getPublicIP() {
         do {
             if let url = URL(string: "https://api.ipify.org") {
-                self.usage.raddr.v4 = try String(contentsOf: url)
+                let value = try String(contentsOf: url)
+                if !value.contains("<!DOCTYPE html>") {
+                    self.usage.raddr.v4 = value
+                }
             }
         } catch let error {
             os_log(.error, log: log, "get public ipv4 %s", "\(error)")
@@ -239,9 +244,9 @@ internal class UsageReader: Reader<Network_Usage> {
         
         do {
             if let url = URL(string: "https://api64.ipify.org") {
-                let v6 = try String(contentsOf: url)
-                if self.usage.raddr.v4 != v6 {
-                    self.usage.raddr.v6 = v6
+                let value = try String(contentsOf: url)
+                if self.usage.raddr.v4 != value {
+                    self.usage.raddr.v6 = value
                 }
             }
         } catch let error {
@@ -258,6 +263,15 @@ internal class UsageReader: Reader<Network_Usage> {
         
         let data: UnsafeMutablePointer<if_data>? = unsafeBitCast(pointer.pointee.ifa_data, to: UnsafeMutablePointer<if_data>.self)
         return (upload: Int64(data?.pointee.ifi_obytes ?? 0), download: Int64(data?.pointee.ifi_ibytes ?? 0))
+    }
+    
+    @objc func refreshPublicIP() {
+        self.usage.raddr.v4 = nil
+        self.usage.raddr.v6 = nil
+        
+        DispatchQueue.global(qos: .background).async {
+            self.getPublicIP()
+        }
     }
 }
 

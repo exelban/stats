@@ -395,6 +395,7 @@ public extension Notification.Name {
     static let checkForUpdates = Notification.Name("checkForUpdates")
     static let changeCronInterval = Notification.Name("changeCronInterval")
     static let clickInSettings = Notification.Name("clickInSettings")
+    static let refreshPublicIP = Notification.Name("refreshPublicIP")
 }
 
 public class NSButtonWithPadding: NSButton {
