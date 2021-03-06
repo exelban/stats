@@ -42,6 +42,7 @@ internal class PopupWindow: NSWindow, NSWindowDelegate {
     }
     
     func windowWillMove(_ notification: Notification) {
+        self.viewController.setCloseButton(true)
         self.locked = true
     }
     
@@ -50,6 +51,7 @@ internal class PopupWindow: NSWindow, NSWindowDelegate {
             return
         }
         
+        self.viewController.setCloseButton(false)
         self.setIsVisible(false)
     }
 }
@@ -98,6 +100,10 @@ internal class PopupViewController: NSViewController {
         self.title = title
         self.popup.setTitle(title)
         self.popup.setView(view)
+    }
+    
+    public func setCloseButton(_ state: Bool) {
+        self.popup.setCloseButton(state)
     }
 }
 
@@ -198,6 +204,10 @@ internal class PopupView: NSView {
         self.header.setTitle(newTitle)
     }
     
+    public func setCloseButton(_ state: Bool) {
+        self.header.setCloseButton(state)
+    }
+    
     internal func appear() {
         self.display()
         self.body.subviews.first?.display()
@@ -209,6 +219,8 @@ internal class HeaderView: NSStackView {
     private var titleView: NSTextField? = nil
     private var activityButton: NSButton?
     private var settingsButton: NSButton?
+    
+    private var isCloseAction: Bool = false
     
     override init(frame: NSRect) {
         super.init(frame: CGRect(x: frame.origin.x, y: frame.origin.y, width: frame.width, height: frame.height))
@@ -254,7 +266,7 @@ internal class HeaderView: NSStackView {
         settings.image = Bundle(for: type(of: self)).image(forResource: "settings")!
         settings.contentTintColor = .lightGray
         settings.isBordered = false
-        settings.action = #selector(openMenu)
+        settings.action = #selector(openSettings)
         settings.target = self
         settings.toolTip = LocalizedString("Open module settings")
         settings.focusRingType = .none
@@ -290,13 +302,12 @@ internal class HeaderView: NSStackView {
         line.stroke()
     }
     
-    @objc func openMenu(_ sender: Any) {
-        self.window?.setIsVisible(false)
-        NotificationCenter.default.post(name: .toggleSettings, object: nil, userInfo: ["module": self.titleView?.stringValue ?? ""])
-    }
-    
     @objc func openActivityMonitor(_ sender: Any) {
         self.window?.setIsVisible(false)
+        
+        if self.isCloseAction {
+            return
+        }
         
         NSWorkspace.shared.launchApplication(
             withBundleIdentifier: "com.apple.ActivityMonitor",
@@ -304,5 +315,22 @@ internal class HeaderView: NSStackView {
             additionalEventParamDescriptor: nil,
             launchIdentifier: nil
         )
+    }
+    
+    @objc func openSettings(_ sender: Any) {
+        self.window?.setIsVisible(false)
+        NotificationCenter.default.post(name: .toggleSettings, object: nil, userInfo: ["module": self.titleView?.stringValue ?? ""])
+    }
+    
+    public func setCloseButton(_ state: Bool) {
+        if state && !self.isCloseAction {
+            self.activityButton?.image = Bundle(for: type(of: self)).image(forResource: "close")!
+            self.activityButton?.toolTip = LocalizedString("Close popup")
+            self.isCloseAction = true
+        } else if !state && self.isCloseAction {
+            self.activityButton?.image = Bundle(for: type(of: self)).image(forResource: "chart")!
+            self.activityButton?.toolTip = LocalizedString("Open Activity Monitor")
+            self.isCloseAction = false
+        }
     }
 }
