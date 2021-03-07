@@ -306,6 +306,7 @@ internal class HeaderView: NSStackView {
         self.window?.setIsVisible(false)
         
         if self.isCloseAction {
+            self.setCloseButton(false)
             return
         }
         
