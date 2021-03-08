@@ -40,8 +40,8 @@
 
 // Settings
 "Open Activity Monitor" = "アクティビティモニタを開く";
-"Report a bug" = "バグを報告する";
-"Support the application" = "アプリケーションをサポートする";
+"Report a bug" = "バグを報告";
+"Support the application" = "Stats をサポート";
 "Close application" = "Stats を終了";
 "Open application settings" = "Stats の設定を開く";
 "Open moduleName settings" = "%0 の設定を開く";
@@ -49,18 +49,18 @@
 // Application settings
 "Update application" = "アプリをアップデートする";
 "Check for updates" = "アップデートの確認頻度";
-"At start" = "At start";
-"Once per day" = "Once per day";
-"Once per week" = "Once per week";
-"Once per month" = "Once per month";
-"Never" = "Never";
+"At start" = "起動時";
+"Once per day" = "1日ごと";
+"Once per week" = "1週間ごと";
+"Once per month" = "1ヶ月ごと";
+"Never" = "確認しない";
 "Check for update" = "アップデートを確認する";
 "Show icon in dock" = "Dock にアイコンを表示";
 "Start at login" = "ログイン時に開く";
 
 // Dashboard
-"Serial number" = "シリアルナンバー";
-"Uptime" = "稼働時間";
+"Serial number" = "シリアル番号";
+"Uptime" = "起動してからの時間";
 
 // Update
 "The latest version of Stats installed" = "最新の Stats がインストールされています";
@@ -82,19 +82,20 @@
 "Display mode" = "表示形式";
 "One row" = "1行";
 "Two rows" = "2行";
-"Mini widget" = "Mini";
-"Line chart widget" = "Line chart";
-"Bar chart widget" = "Bar chart";
-"Pie chart widget" = "Pie chart";
-"Network chart widget" = "Network chart";
-"Speed widget" = "Speed";
-"Battery widget" = "Battery";
-"Text widget" = "Text";
-"Memory widget" = "Memory";
+"Mini widget" = "ミニ";
+"Line chart widget" = "線グラフ";
+"Bar chart widget" = "棒グラフ";
+"Pie chart widget" = "円グラフ";
+"Network chart widget" = "ネットワーク使用状況チャート";
+"Speed widget" = "速度";
+"Battery widget" = "バッテリー";
+"Text widget" = "テキスト";
+"Memory widget" = "未使用/使用済み";
 
 // Module Kit
 "Open module settings" = "このモジュールの設定を開く";
-"Select widget" = "%0 ウィジェットを選択";
+"Select widget" = "%0ウィジェットを選択";
+"Open widget settings" = "このウィジェットの設定を開く";
 "Update interval" = "更新間隔";
 "Usage history" = "履歴";
 "Details" = "詳細";
@@ -116,20 +117,20 @@
 
 // GPU
 "GPU to show" = "表示する GPU";
-"Show GPU type" = "Show GPU type";
-"GPU enabled" = "GPU enabled";
-"GPU disabled" = "GPU disabled";
+"Show GPU type" = "GPU の種類を表示";
+"GPU enabled" = "GPU 有効";
+"GPU disabled" = "GPU 無効";
 "GPU temperature" = "GPU 温度";
 "GPU utilization" = "GPU 使用率";
-"Vendor" = "Vendor";
-"Model" = "Model";
-"Status" = "Status";
-"Active" = "Active";
-"Non active" = "Non active";
-"Fan speed" = "Fan speed";
-"Core clock" = "Core clock";
-"Memory clock" = "Memory clock";
-"Utilization" = "Utilization";
+"Vendor" = "製造元";
+"Model" = "モデル";
+"Status" = "状態";
+"Active" = "アクティブ";
+"Non active" = "非アクティブ";
+"Fan speed" = "ファン速度";
+"Core clock" = "コアクロック";
+"Memory clock" = "メモリクロック";
+"Utilization" = "使用率";
 
 // Memory
 "Memory usage" = "メモリ使用率";
@@ -159,6 +160,8 @@
 "Uploading" = "送信";
 "Downloading" = "受信";
 "Public IP" = "パブリック IP";
+"v4" = "IPv4";
+"v6" = "IPv6";
 "Local IP" = "ローカル IP";
 "Interface" = "インターフェイス";
 "Network" = "Wi-Fi ネットワーク名";
@@ -178,8 +181,8 @@
 // Battery
 "Level" = "充電残量";
 "Source" = "電源";
-"AC Power" = "AC Power";
-"Battery Power" = "Battery Power";
+"AC Power" = "電源アダプタ";
+"Battery Power" = "バッテリー";
 "Time" = "バッテリー残り時間";
 "Health" = "状態";
 "Battery" = "バッテリー";
@@ -196,7 +199,9 @@
 "Fully charged" = "フル充電済み";
 "Not connected" = "接続されていません";
 "Low level notification" = "バッテリー残量低下の通知";
+"High level notification" = "バッテリー充電状況の通知";
 "Low battery" = "バッテリー残量低下";
+"High battery" = "バッテリー充電状況";
 "Battery remaining" = "バッテリー残量 残り %0%";
 "Percentage" = "残量（%）";
 "Percentage and time" = "残量（%）と残り時間";
