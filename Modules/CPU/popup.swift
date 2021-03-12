@@ -272,4 +272,13 @@ internal class Popup: NSView, Popup_p {
             self.initializedProcesses = true
         })
     }
+    
+    public func toggleFrequency(state: Bool) {
+        DispatchQueue.main.async(execute: {
+            if let view = self.frequencyCircle {
+                view.isHidden = !state
+            }
+            self.initializedFrequency = false
+        })
+    }
 }

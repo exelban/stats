@@ -77,6 +77,9 @@ public class CPU: Module {
         self.settingsView.setInterval = { [unowned self] value in
             self.loadReader?.setInterval(value)
         }
+        self.settingsView.IPGCallback = { [unowned self] value in
+            self.popupView.toggleFrequency(state: value)
+        }
         
         self.loadReader?.callbackHandler = { [unowned self] value in
             self.loadCallback(value)

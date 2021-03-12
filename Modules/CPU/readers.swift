@@ -283,12 +283,20 @@ public class FrequencyReader: Reader<Double> {
     private var sample: PGSample = 0
     private var reconnectAttempt: Int = 0
     
+    private var isEnabled: Bool {
+        get {
+            return Store.shared.bool(key: "CPU_IPG", defaultValue: false)
+        }
+    }
+    
     override init() {
         super.init()
         self.popup = true
     }
     
     public override func setup() {
+        guard self.isEnabled else { return }
+        
         let path: CFString = "/Library/Frameworks/IntelPowerGadget.framework" as CFString
         let bundleURL = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, path, CFURLPathStyle.cfurlposixPathStyle, true)
         
@@ -378,7 +386,7 @@ public class FrequencyReader: Reader<Double> {
     }
     
     public override func read() {
-        if self.PG_ReadSample == nil || self.PGSample_GetIAFrequency == nil || self.PGSample_Release == nil {
+        if !self.isEnabled || self.PG_ReadSample == nil || self.PGSample_GetIAFrequency == nil || self.PGSample_Release == nil {
             return
         }
         
