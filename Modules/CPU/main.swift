@@ -78,6 +78,9 @@ public class CPU: Module {
             self.loadReader?.setInterval(value)
         }
         self.settingsView.IPGCallback = { [unowned self] value in
+            if value {
+                self.frequencyReader?.setup()
+            }
             self.popupView.toggleFrequency(state: value)
         }
         
