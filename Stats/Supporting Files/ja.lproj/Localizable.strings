@@ -196,7 +196,9 @@
 "Fully charged" = "フル充電済み";
 "Not connected" = "接続されていません";
 "Low level notification" = "バッテリー残量低下の通知";
+"High level notification" = "High level notification";
 "Low battery" = "バッテリー残量低下";
+"High battery" = "High battery";
 "Battery remaining" = "バッテリー残量 残り %0%";
 "Percentage" = "残量（%）";
 "Percentage and time" = "残量（%）と残り時間";

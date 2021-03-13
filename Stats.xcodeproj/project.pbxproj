@@ -1261,6 +1261,7 @@
 					};
 					9AE29AD4249A50350071B02D = {
 						CreatedOnToolsVersion = 11.5;
+						LastSwiftMigration = 1240;
 					};
 					9AF9EE0124648751005D2270 = {
 						CreatedOnToolsVersion = 11.4.1;
@@ -2505,6 +2506,7 @@
 		9AE29ADF249A50350071B02D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -2525,6 +2527,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = eu.exelban.Stats.Sensors;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -2534,6 +2537,7 @@
 		9AE29AE0249A50350071B02D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;

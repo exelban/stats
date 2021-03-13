@@ -196,7 +196,9 @@
 "Fully charged" = "Tam şarjlı";
 "Not connected" = "Bağlı değil";
 "Low level notification" = "Düşük güç bildirimi";
+"High level notification" = "High level notification";
 "Low battery" = "Düşük batarya";
+"High battery" = "High battery";
 "Battery remaining" = "%0% kaldı";
 "Percentage" = "Yüzde";
 "Percentage and time" = "Yüzde ve zaman";

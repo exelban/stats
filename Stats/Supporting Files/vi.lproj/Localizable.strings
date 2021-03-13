@@ -196,7 +196,9 @@
 "Fully charged" = "Đã sạc đầy";
 "Not connected" = "Không kết nối";
 "Low level notification" = "Thông báo PIN yếu";
+"High level notification" = "High level notification";
 "Low battery" = "Pin yếu";
+"High battery" = "High battery";
 "Battery remaining" = "%0% còn lại";
 "Percentage" = "Phần trăm";
 "Percentage and time" = "Phần trăm và thời gian";
