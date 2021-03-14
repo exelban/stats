@@ -196,7 +196,9 @@
 "Fully charged" = "Teljesen feltöltve";
 "Not connected" = "Nincs csatlakoztatva";
 "Low level notification" = "Alacsony töltöttség értesítő";
+"High level notification" = "High level notification";
 "Low battery" = "Alacsony akkumulátor töltöttség";
+"High battery" = "High battery";
 "Battery remaining" = "%0% töltöttség";
 "Percentage" = "Százalék";
 "Percentage and time" = "Százalék és időtartam";

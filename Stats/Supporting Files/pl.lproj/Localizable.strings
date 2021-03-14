@@ -196,7 +196,9 @@
 "Fully charged" = "W pełni naładowana";
 "Not connected" = "Nie podłączona";
 "Low level notification" = "Powiadomienie o niskim poziomie";
+"High level notification" = "Powiadomienie o wysokim poziomie";
 "Low battery" = "Niski poziom baterii";
+"High battery" = "Wysoki poziom baterii";
 "Battery remaining" = "Pozostało %0%";
 "Percentage" = "Procenty";
 "Percentage and time" = "Procenty i czas";

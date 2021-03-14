@@ -196,7 +196,9 @@
 "Fully charged" = "已充满";
 "Not connected" = "未连接";
 "Low level notification" = "低电量通知";
+"High level notification" = "High level notification";
 "Low battery" = "低电量";
+"High battery" = "High battery";
 "Battery remaining" = "剩余 %0%";
 "Percentage" = "百分比";
 "Percentage and time" = "百分比和时间";

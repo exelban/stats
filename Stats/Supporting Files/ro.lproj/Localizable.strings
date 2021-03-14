@@ -196,7 +196,9 @@
 "Fully charged" = "Încărcat complet";
 "Not connected" = "Nu este conectat";
 "Low level notification" = "Notificație de nivel scăzut";
+"High level notification" = "High level notification";
 "Low battery" = "Baterie puțină";
+"High battery" = "High battery";
 "Battery remaining" = "%0% rămas";
 "Percentage" = "Procentaj";
 "Percentage and time" = "Procentaj și timp";

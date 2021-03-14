@@ -160,8 +160,6 @@
 "Uploading" = "送信";
 "Downloading" = "受信";
 "Public IP" = "パブリック IP";
-"v4" = "IPv4";
-"v6" = "IPv6";
 "Local IP" = "ローカル IP";
 "Interface" = "インターフェイス";
 "Network" = "Wi-Fi ネットワーク名";
