@@ -196,7 +196,9 @@
 "Fully charged" = "Fullstendig ladet";
 "Not connected" = "Ikke koblet til";
 "Low level notification" = "Varsling ved lavt nivå";
+"High level notification" = "High level notification";
 "Low battery" = "Lavt batterinivå";
+"High battery" = "High battery";
 "Battery remaining" = "%0% igjen";
 "Percentage" = "Prosent";
 "Percentage and time" = "Prosent og tid";

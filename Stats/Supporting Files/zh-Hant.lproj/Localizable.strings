@@ -198,6 +198,7 @@
 "Low level notification" = "低電量通知";
 "High level notification" = "高電量通知";
 "Low battery" = "低電量";
+"High battery" = "High battery";
 "Battery remaining" = "剩餘 %0%";
 "Percentage" = "百分比";
 "Percentage and time" = "百分比和時間";

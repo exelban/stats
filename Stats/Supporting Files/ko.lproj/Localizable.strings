@@ -196,7 +196,9 @@
 "Fully charged" = "완전히 충전됨";
 "Not connected" = "연결되지 않음";
 "Low level notification" = "배터리 부족 상태 알림";
+"High level notification" = "High level notification";
 "Low battery" = "배터리 부족";
+"High battery" = "High battery";
 "Battery remaining" = "%0% 남았습니다";
 "Percentage" = "백분율";
 "Percentage and time" = "비율과 시간";

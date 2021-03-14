@@ -16,6 +16,7 @@ import ModuleKit
 internal class Settings: NSView, Settings_v {
     private var usagePerCoreState: Bool = false
     private var hyperthreadState: Bool = false
+    private var IPGState: Bool = false
     private var updateIntervalValue: Int = 1
     private var numberOfProcesses: Int = 8
     
@@ -25,6 +26,7 @@ internal class Settings: NSView, Settings_v {
     
     public var callback: (() -> Void) = {}
     public var callbackWhenUpdateNumberOfProcesses: (() -> Void) = {}
+    public var IPGCallback: ((_ state: Bool) -> Void) = {_ in }
     public var setInterval: ((_ value: Int) -> Void) = {_ in }
     
     private var hyperthreadView: NSView? = nil
@@ -34,6 +36,7 @@ internal class Settings: NSView, Settings_v {
         self.store = store
         self.hyperthreadState = store.pointee.bool(key: "\(self.title)_hyperhreading", defaultValue: self.hyperthreadState)
         self.usagePerCoreState = store.pointee.bool(key: "\(self.title)_usagePerCore", defaultValue: self.usagePerCoreState)
+        self.IPGState = store.pointee.bool(key: "\(self.title)_IPG", defaultValue: self.IPGState)
         self.updateIntervalValue = store.pointee.int(key: "\(self.title)_updateInterval", defaultValue: self.updateIntervalValue)
         self.numberOfProcesses = store.pointee.int(key: "\(self.title)_processes", defaultValue: self.numberOfProcesses)
         if !self.usagePerCoreState {
@@ -59,8 +62,19 @@ internal class Settings: NSView, Settings_v {
     public func load(widgets: [widget_t]) {
         self.subviews.forEach{ $0.removeFromSuperview() }
         
+        var hasIPG = false
+        
+        #if arch(x86_64)
+        let path: CFString = "/Library/Frameworks/IntelPowerGadget.framework" as CFString
+        let bundleURL = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, path, CFURLPathStyle.cfurlposixPathStyle, true)
+        hasIPG = CFBundleCreate(kCFAllocatorDefault, bundleURL) != nil
+        #endif
+        
         let rowHeight: CGFloat = 30
-        let num: CGFloat = !widgets.filter{ $0 == .barChart }.isEmpty ? self.hasHyperthreadingCores ? 3 : 2 : 1
+        var num: CGFloat = !widgets.filter{ $0 == .barChart }.isEmpty ? self.hasHyperthreadingCores ? 3 : 2 : 1
+        if hasIPG {
+            num += 1
+        }
         
         self.addSubview(SelectTitleRow(
             frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * num, width: self.frame.width - (Constants.Settings.margin*2), height: rowHeight),
@@ -91,6 +105,15 @@ internal class Settings: NSView, Settings_v {
                 }
                 self.addSubview(self.hyperthreadView!)
             }
+        }
+        
+        if hasIPG {
+            self.addSubview(ToggleTitleRow(
+                frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * 1, width: self.frame.width - (Constants.Settings.margin*2), height: rowHeight),
+                title: "\(LocalizedString("CPU frequency")) (IPG)",
+                action: #selector(toggleIPG),
+                state: self.IPGState
+            ))
         }
         
         self.addSubview(SelectTitleRow(
@@ -151,5 +174,18 @@ internal class Settings: NSView, Settings_v {
         self.hyperthreadState = state! == .on ? true : false
         self.store.pointee.set(key: "\(self.title)_hyperhreading", value: self.hyperthreadState)
         self.callback()
+    }
+    
+    @objc func toggleIPG(_ sender: NSControl) {
+        var state: NSControl.StateValue? = nil
+        if #available(OSX 10.15, *) {
+            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
+        } else {
+            state = sender is NSButton ? (sender as! NSButton).state: nil
+        }
+        
+        self.IPGState = state! == .on ? true : false
+        self.store.pointee.set(key: "\(self.title)_IPG", value: self.IPGState)
+        self.IPGCallback(self.IPGState)
     }
 }

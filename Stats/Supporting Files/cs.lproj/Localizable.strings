@@ -196,7 +196,9 @@
 "Fully charged" = "Plně nabito";
 "Not connected" = "Nepřipojeno";
 "Low level notification" = "Upozornění při nízké úrovni";
+"High level notification" = "High level notification";
 "Low battery" = "Nízká úroveň baterie";
+"High battery" = "High battery";
 "Battery remaining" = "Zbývá %0 %";
 "Percentage" = "Procenta";
 "Percentage and time" = "Procenta a čas";

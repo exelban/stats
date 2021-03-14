@@ -196,7 +196,9 @@
 "Fully charged" = "Полностью заряжена";
 "Not connected" = "Не подключено";
 "Low level notification" = "Сообщение о низком уровне заряда";
+"High level notification" = "High level notification";
 "Low battery" = "Низкий заряд аккумулятора";
+"High battery" = "High battery";
 "Battery remaining" = "%0% осталось";
 "Percentage" = "Проценты";
 "Percentage and time" = "Проценты и время";
