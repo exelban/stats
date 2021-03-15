@@ -11,8 +11,9 @@
 
 import IOKit
 
-enum SMCDataType: String {
+internal enum SMCDataType: String {
     case UI8 = "ui8 "
+    case UI16 = "ui16"
     case UI32 = "ui32"
     case SP1E = "sp1e"
     case SP3C = "sp3c"
@@ -30,7 +31,7 @@ enum SMCDataType: String {
     case FDS = "{fds"
 }
 
-enum SMCKeys: UInt8 {
+internal enum SMCKeys: UInt8 {
     case KERNEL_INDEX = 2
     case READ_BYTES = 5
     case WRITE_BYTES = 6
@@ -40,7 +41,12 @@ enum SMCKeys: UInt8 {
     case READ_VERS = 12
 }
 
-struct SMCKeyData_t {
+public enum FanMode: Int {
+    case automatic = 0
+    case forced = 1
+}
+
+internal struct SMCKeyData_t {
     typealias SMCBytes_t = (UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8,
                             UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8,
                             UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8,
@@ -87,7 +93,7 @@ struct SMCKeyData_t {
                              UInt8(0), UInt8(0))
 }
 
-struct SMCVal_t {
+internal struct SMCVal_t {
     var key: String
     var dataSize: UInt32 = 0
     var dataType: String = ""
@@ -99,7 +105,7 @@ struct SMCVal_t {
 }
 
 public class SMCService {
-    private var conn: io_connect_t = 0;
+    private var conn: io_connect_t = 0
     
     public init() {
         var result: kern_return_t
@@ -143,13 +149,15 @@ public class SMCService {
         }
         
         if (val.dataSize > 0) {
-            if val.bytes.first(where: { $0 != 0}) == nil {
+            if val.bytes.first(where: { $0 != 0}) == nil && val.key != "FS! " {
                 return nil
             }
             
             switch val.dataType {
             case SMCDataType.UI8.rawValue:
                 return Double(val.bytes[0])
+            case SMCDataType.UI16.rawValue:
+                return Double(UInt16(bytes: (val.bytes[0], val.bytes[1])))
             case SMCDataType.UI32.rawValue:
                 return Double(UInt32(bytes: (val.bytes[0], val.bytes[1], val.bytes[2], val.bytes[3])))
             case SMCDataType.SP1E.rawValue:
@@ -266,13 +274,36 @@ public class SMCService {
         
         memcpy(&value.pointee.bytes, &output.bytes, Int(value.pointee.dataSize))
         
-        return kIOReturnSuccess;
+        return kIOReturnSuccess
+    }
+    
+    private func write(_ value: SMCVal_t) -> kern_return_t {
+        var input = SMCKeyData_t()
+        var output = SMCKeyData_t()
+        
+        input.key = FourCharCode(fromString: value.key)
+        input.data8 = SMCKeys.WRITE_BYTES.rawValue
+        input.keyInfo.dataSize = value.dataSize
+        input.bytes = (value.bytes[0], value.bytes[1], value.bytes[2], value.bytes[3], value.bytes[4], value.bytes[5],
+                       value.bytes[6], value.bytes[7], value.bytes[8], value.bytes[9], value.bytes[10], value.bytes[11],
+                       value.bytes[12], value.bytes[13], value.bytes[14], value.bytes[15], value.bytes[16], value.bytes[17],
+                       value.bytes[18], value.bytes[19], value.bytes[20], value.bytes[21], value.bytes[22], value.bytes[23],
+                       value.bytes[24], value.bytes[25], value.bytes[26], value.bytes[27], value.bytes[28], value.bytes[29],
+                       value.bytes[30], value.bytes[31])
+        
+        let result = self.call(SMCKeys.KERNEL_INDEX.rawValue, input: &input, output: &output)
+        if result != kIOReturnSuccess {
+            print("Error call(WRITE_BYTES): " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
+            return result
+        }
+        
+        return kIOReturnSuccess
     }
     
     private func call(_ index: UInt8, input: inout SMCKeyData_t, output: inout SMCKeyData_t) -> kern_return_t {
         let inputSize = MemoryLayout<SMCKeyData_t>.stride
         var outputSize = MemoryLayout<SMCKeyData_t>.stride
-
+        
         return IOConnectCallStructMethod(
             conn,
             UInt32(index),
@@ -312,5 +343,94 @@ public class SMCService {
         }
         
         return list
+    }
+    
+    public func setFanMode(_ id: Int, mode: FanMode) {
+        let currentMode = Int(self.getValue("FS! ") ?? 0)
+        var newMode: UInt8 = 0
+        
+        if (currentMode == 0 || currentMode == 1) && id == 0 && mode == .automatic {
+            newMode = 1
+        } else if (currentMode == 0 || currentMode == 2) && id == 1 && mode == .automatic {
+            newMode = 2
+        } else if currentMode == 1 && id == 0 && mode == .forced {
+            newMode = 0
+        } else if currentMode == 2 && id == 1 && mode == .forced {
+            newMode = 0
+        } else if currentMode == 1 && id == 1 && mode == .automatic {
+            newMode = 3
+        } else if currentMode == 2 && id == 0 && mode == .automatic {
+            newMode = 3
+        } else if currentMode == 3 && id == 0 && mode == .forced {
+            newMode = 1
+        } else if currentMode == 3 && id == 1 && mode == .forced {
+            newMode = 2
+        }
+        
+        if currentMode == newMode {
+            return
+        }
+        
+        var result: kern_return_t = 0
+        var value = SMCVal_t("FS! ")
+        
+        result = read(&value)
+        if result != kIOReturnSuccess {
+            print("Error read fan mode: " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
+            return
+        }
+        
+        value.bytes = [0, newMode, UInt8(0), UInt8(0), UInt8(0), UInt8(0),
+                       UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0),
+                       UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0),
+                       UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0),
+                       UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0),
+                       UInt8(0), UInt8(0)]
+        
+        result = write(value)
+        if result != kIOReturnSuccess {
+            print("Error write: " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
+            return
+        }
+    }
+    
+    public func resetFans() {
+        var value = SMCVal_t("FS! ")
+        value.dataSize = 2
+        
+        let result = write(value)
+        if result != kIOReturnSuccess {
+            print("Error write: " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
+        }
+    }
+    
+    public func setFanSpeed(_ id: Int, speed: Int) {
+        let minSpeed = Int(self.getValue("F\(id)Mn") ?? 2500)
+        let maxSpeed = Int(self.getValue("F\(id)Mx") ?? 4000)
+        
+        if speed < minSpeed {
+            print("new fan speed (\(speed)) is less than minimum speed (\(minSpeed))")
+            return
+        } else if speed > maxSpeed {
+            print("new fan speed (\(speed)) is more than maximum speed (\(maxSpeed))")
+            return
+        }
+        
+        self.setFanMode(id, mode: .automatic)
+        
+        var value = SMCVal_t("F\(id)Tg")
+        value.dataSize = 2
+        value.bytes = [UInt8(speed >> 6), UInt8((speed << 2) ^ ((speed >> 6) << 8)), UInt8(0), UInt8(0), UInt8(0), UInt8(0),
+                       UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0),
+                       UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0),
+                       UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0),
+                       UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0),
+                       UInt8(0), UInt8(0)]
+        
+        let result = write(value)
+        if result != kIOReturnSuccess {
+            print("Error write: " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
+            return
+        }
     }
 }
