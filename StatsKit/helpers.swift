@@ -919,3 +919,29 @@ public class WidgetLabelView: NSView {
         }
     }
 }
+
+public func isRoot() -> Bool {
+    return getuid() == 0
+}
+
+public func ensureRoot() -> Bool {
+    if isRoot() {
+        return true
+    }
+    
+    let pwd = Bundle.main.bundleURL.absoluteString.replacingOccurrences(of: "file://", with: "")
+    guard let script = NSAppleScript(source: "do shell script \"\(pwd)/Contents/MacOS/Stats > /dev/null 2>&1 &\" with administrator privileges") else {
+        return false
+    }
+    
+    var err: NSDictionary? = nil
+    script.executeAndReturnError(&err)
+    
+    if err != nil {
+        print("cannot run script as root: \(String(describing: err))")
+        return false
+    }
+    
+    NSApp.terminate(nil)
+    return true
+}
