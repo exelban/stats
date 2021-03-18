@@ -33,7 +33,8 @@ internal class FansReader: Reader<[Fan]> {
                 name: smc.pointee.getStringValue("F\(i)ID") ?? "Fan #\(i)",
                 minSpeed: smc.pointee.getValue("F\(i)Mn") ?? 1,
                 maxSpeed: smc.pointee.getValue("F\(i)Mx") ?? 1,
-                value: smc.pointee.getValue("F\(i)Ac") ?? 0
+                value: smc.pointee.getValue("F\(i)Ac") ?? 0,
+                mode: self.getFanMode(i)
             ))
         }
     }
@@ -43,5 +44,22 @@ internal class FansReader: Reader<[Fan]> {
             self.list[i].value = smc.pointee.getValue("F\(self.list[i].id)Ac") ?? 0
         }
         self.callback(self.list)
+    }
+    
+    private func getFanMode(_ id: Int) -> FanMode {
+        let fansMode: Int = Int(self.smc.pointee.getValue("FS! ") ?? 0)
+        var mode: FanMode = .automatic
+        
+        if fansMode == 0 {
+            mode = .automatic
+        } else if fansMode == 3 {
+            mode = .forced
+        } else if fansMode == 1 && id == 0 {
+            mode = .forced
+        } else if fansMode == 2 && id == 1 {
+            mode = .forced
+        }
+        
+        return mode
     }
 }

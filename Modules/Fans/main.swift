@@ -19,6 +19,7 @@ public struct Fan {
     public let minSpeed: Double
     public let maxSpeed: Double
     public var value: Double
+    public var mode: FanMode
     
     var state: Bool {
         get {
