@@ -24,8 +24,6 @@ struct ipResponse: Decodable {
 }
 
 internal class UsageReader: Reader<Network_Usage> {
-    public var store: UnsafePointer<Store>? = nil
-    
     private var reachability: Reachability? = nil
     private var usage: Network_Usage = Network_Usage()
     
@@ -40,16 +38,16 @@ internal class UsageReader: Reader<Network_Usage> {
     
     private var interfaceID: String {
         get {
-            return self.store?.pointee.string(key: "Network_interface", defaultValue: self.primaryInterface) ?? self.primaryInterface
+            return Store.shared.string(key: "Network_interface", defaultValue: self.primaryInterface) 
         }
         set {
-            self.store?.pointee.set(key: "Network_interface", value: newValue)
+            Store.shared.set(key: "Network_interface", value: newValue)
         }
     }
     
     private var reader: String {
         get {
-            return self.store?.pointee.string(key: "Network_reader", defaultValue: "interface") ?? "interface"
+            return Store.shared.string(key: "Network_reader", defaultValue: "interface") 
         }
     }
     
@@ -276,20 +274,13 @@ internal class UsageReader: Reader<Network_Usage> {
 }
 
 public class ProcessReader: Reader<[Network_Process]> {
-    private let store: UnsafePointer<Store>
-    private let title: String
+    private let title: String = "Network"
     private var previous: [Network_Process] = []
     
     private var numberOfProcesses: Int {
         get {
-            return self.store.pointee.int(key: "\(self.title)_processes", defaultValue: 8)
+            return Store.shared.int(key: "\(self.title)_processes", defaultValue: 8)
         }
-    }
-    
-    init(_ title: String, store: UnsafePointer<Store>) {
-        self.title = title
-        self.store = store
-        super.init()
     }
     
     public override func setup() {

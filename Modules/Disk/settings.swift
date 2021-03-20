@@ -22,17 +22,15 @@ internal class Settings: NSView, Settings_v {
     public var setInterval: ((_ value: Int) -> Void) = {_ in }
     
     private let title: String
-    private let store: UnsafePointer<Store>
     private var selectedDisk: String
     private var button: NSPopUpButton?
     private var intervalSelectView: NSView? = nil
     
-    public init(_ title: String, store: UnsafePointer<Store>) {
+    public init(_ title: String) {
         self.title = title
-        self.store = store
-        self.selectedDisk = store.pointee.string(key: "\(self.title)_disk", defaultValue: "")
-        self.removableState = store.pointee.bool(key: "\(self.title)_removable", defaultValue: self.removableState)
-        self.updateIntervalValue = store.pointee.int(key: "\(self.title)_updateInterval", defaultValue: self.updateIntervalValue)
+        self.selectedDisk = Store.shared.string(key: "\(self.title)_disk", defaultValue: "")
+        self.removableState = Store.shared.bool(key: "\(self.title)_removable", defaultValue: self.removableState)
+        self.updateIntervalValue = Store.shared.int(key: "\(self.title)_updateInterval", defaultValue: self.updateIntervalValue)
         
         super.init(frame: CGRect(
             x: 0,
@@ -117,7 +115,7 @@ internal class Settings: NSView, Settings_v {
     @objc private func handleSelection(_ sender: NSPopUpButton) {
         guard let item = sender.selectedItem else { return }
         self.selectedDisk = item.title
-        self.store.pointee.set(key: "\(self.title)_disk", value: item.title)
+        Store.shared.set(key: "\(self.title)_disk", value: item.title)
         self.selectedDiskHandler(item.title)
     }
     
@@ -130,7 +128,7 @@ internal class Settings: NSView, Settings_v {
         }
         
         self.removableState = state! == .on ? true : false
-        self.store.pointee.set(key: "\(self.title)_removable", value: self.removableState)
+        Store.shared.set(key: "\(self.title)_removable", value: self.removableState)
         self.callback()
     }
     
@@ -142,7 +140,7 @@ internal class Settings: NSView, Settings_v {
     
     public func setUpdateInterval(value: Int) {
         self.updateIntervalValue = value
-        self.store.pointee.set(key: "\(self.title)_updateInterval", value: value)
+        Store.shared.set(key: "\(self.title)_updateInterval", value: value)
         self.setInterval(value)
     }
 }

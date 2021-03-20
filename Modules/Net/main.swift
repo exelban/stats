@@ -77,21 +77,18 @@ public class Network: Module {
     private var usageReader: UsageReader? = nil
     private var processReader: ProcessReader? = nil
     
-    public init(_ store: UnsafePointer<Store>) {
-        self.settingsView = Settings("Network", store: store)
-        self.popupView = Popup("Network", store: store)
+    public init() {
+        self.settingsView = Settings("Network")
+        self.popupView = Popup("Network")
         
         super.init(
-            store: store,
             popup: self.popupView,
             settings: self.settingsView
         )
         guard self.available else { return }
         
         self.usageReader = UsageReader()
-        self.usageReader?.store = store
-        
-        self.processReader = ProcessReader(self.config.name, store: store)
+        self.processReader = ProcessReader()
         
         self.settingsView.callbackWhenUpdateNumberOfProcesses = {
             self.popupView.numberOfProcessesUpdated()

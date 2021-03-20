@@ -22,16 +22,14 @@ internal class Settings: NSView, Settings_v {
     public var callbackWhenUpdateNumberOfProcesses: (() -> Void) = {}
     
     private let title: String
-    private let store: UnsafePointer<Store>
     private var button: NSPopUpButton?
     
     private var list: [Network_interface] = []
     
-    public init(_ title: String, store: UnsafePointer<Store>) {
+    public init(_ title: String) {
         self.title = title
-        self.store = store
-        self.numberOfProcesses = store.pointee.int(key: "\(self.title)_processes", defaultValue: self.numberOfProcesses)
-        self.readerType = store.pointee.string(key: "\(self.title)_reader", defaultValue: self.readerType)
+        self.numberOfProcesses = Store.shared.int(key: "\(self.title)_processes", defaultValue: self.numberOfProcesses)
+        self.readerType = Store.shared.string(key: "\(self.title)_reader", defaultValue: self.readerType)
         
         super.init(frame: CGRect(
             x: 0,
@@ -93,7 +91,7 @@ internal class Settings: NSView, Settings_v {
         self.button?.action = #selector(self.handleSelection)
         self.button?.isEnabled = self.readerType == "interface"
         
-        let selectedInterface = self.store.pointee.string(key: "\(self.title)_interface", defaultValue: "")
+        let selectedInterface = Store.shared.string(key: "\(self.title)_interface", defaultValue: "")
         let menu = NSMenu()
         let autodetection = NSMenuItem(title: "Autodetection", action: nil, keyEquivalent: "")
         menu.addItem(autodetection)
@@ -124,10 +122,10 @@ internal class Settings: NSView, Settings_v {
         guard let item = sender.selectedItem else { return }
         
         if item.title == "Autodetection" {
-            self.store.pointee.remove("\(self.title)_interface")
+            Store.shared.remove("\(self.title)_interface")
         } else {
             if let bsdName = item.identifier?.rawValue {
-                self.store.pointee.set(key: "\(self.title)_interface", value: bsdName)
+                Store.shared.set(key: "\(self.title)_interface", value: bsdName)
             }
         }
         
@@ -137,7 +135,7 @@ internal class Settings: NSView, Settings_v {
     @objc private func changeNumberOfProcesses(_ sender: NSMenuItem) {
         if let value = Int(sender.title) {
             self.numberOfProcesses = value
-            self.store.pointee.set(key: "\(self.title)_processes", value: value)
+            Store.shared.set(key: "\(self.title)_processes", value: value)
             self.callbackWhenUpdateNumberOfProcesses()
         }
     }
@@ -147,7 +145,7 @@ internal class Settings: NSView, Settings_v {
             return
         }
         self.readerType = key
-        self.store.pointee.set(key: "\(self.title)_reader", value: key)
+        Store.shared.set(key: "\(self.title)_reader", value: key)
         self.button?.isEnabled = self.readerType == "interface"
     }
 }

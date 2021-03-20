@@ -27,7 +27,6 @@ open class Settings: NSView, Settings_p {
     private let headerHeight: CGFloat = 42
     
     private var config: UnsafePointer<module_c>
-    private var store: UnsafePointer<Store>
     private var widgets: UnsafeMutablePointer<[Widget]>
     
     private var activeWidget: Widget? {
@@ -42,8 +41,7 @@ open class Settings: NSView, Settings_p {
     private var widgetSettings: widget_t?
     private var moduleSettingsContainer: NSView?
     
-    init(store: UnsafePointer<Store>, config: UnsafePointer<module_c>, widgets: UnsafeMutablePointer<[Widget]>, enabled: Bool, moduleSettings: Settings_v?) {
-        self.store = store
+    init(config: UnsafePointer<module_c>, widgets: UnsafeMutablePointer<[Widget]>, enabled: Bool, moduleSettings: Settings_v?) {
         self.config = config
         self.widgets = widgets
         self.moduleSettings = moduleSettings

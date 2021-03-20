@@ -18,11 +18,10 @@ import os.log
 
 internal class CapacityReader: Reader<DiskList> {
     private var disks: DiskList = DiskList()
-    public var store: UnsafePointer<Store>? = nil
     
     public override func read() {
         let keys: [URLResourceKey] = [.volumeNameKey]
-        let removableState = store?.pointee.bool(key: "Disk_removable", defaultValue: false) ?? false
+        let removableState = Store.shared.bool(key: "Disk_removable", defaultValue: false) 
         let paths = FileManager.default.mountedVolumeURLs(includingResourceValuesForKeys: keys)!
         
         guard let session = DASessionCreate(kCFAllocatorDefault) else {

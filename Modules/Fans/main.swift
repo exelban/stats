@@ -35,21 +35,18 @@ public struct Fan {
 }
 
 public class Fans: Module {
-    private let store: UnsafePointer<Store>
     private var smc: UnsafePointer<SMCService>
     
     private var fansReader: FansReader
     private var settingsView: Settings
     private let popupView: Popup = Popup()
     
-    public init(_ store: UnsafePointer<Store>, _ smc: UnsafePointer<SMCService>) {
-        self.store = store
+    public init(_ smc: UnsafePointer<SMCService>) {
         self.smc = smc
         self.fansReader = FansReader(smc)
-        self.settingsView = Settings("Fans", store: store, list: &self.fansReader.list)
+        self.settingsView = Settings("Fans", list: &self.fansReader.list)
         
         super.init(
-            store: store,
             popup: self.popupView,
             settings: self.settingsView
         )
@@ -93,7 +90,7 @@ public class Fans: Module {
         
         self.popupView.usageCallback(value)
         
-        let label: Bool = store.pointee.bool(key: "Fans_label", defaultValue: false)
+        let label: Bool = Store.shared.bool(key: "Fans_label", defaultValue: false)
         var list: [KeyValue_t] = []
         value.forEach { (f: Fan) in
             if f.state {

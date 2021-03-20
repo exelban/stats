@@ -16,7 +16,6 @@ public class NetworkChart: WidgetWrapper {
     private var boxState: Bool = false
     private var frameState: Bool = false
     
-    private let store: UnsafePointer<Store>?
     private var chart: NetworkChartView = NetworkChartView(
         frame: NSRect(
             x: 0,
@@ -31,9 +30,8 @@ public class NetworkChart: WidgetWrapper {
     private var boxSettingsView: NSView? = nil
     private var frameSettingsView: NSView? = nil
     
-    public init(title: String, config: NSDictionary?, store: UnsafePointer<Store>?, preview: Bool = false) {
+    public init(title: String, config: NSDictionary?, preview: Bool = false) {
         var widgetTitle: String = title
-        self.store = store
         if config != nil {
             if let titleFromConfig = config!["Title"] as? String {
                 widgetTitle = titleFromConfig
@@ -49,9 +47,9 @@ public class NetworkChart: WidgetWrapper {
         
         self.canDrawConcurrently = true
         
-        if self.store != nil && !preview {
-            self.boxState = store!.pointee.bool(key: "\(self.title)_\(self.type.rawValue)_box", defaultValue: self.boxState)
-            self.frameState = store!.pointee.bool(key: "\(self.title)_\(self.type.rawValue)_frame", defaultValue: self.frameState)
+        if !preview {
+            self.boxState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_box", defaultValue: self.boxState)
+            self.frameState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_frame", defaultValue: self.frameState)
         }
         
         if preview {
@@ -157,12 +155,12 @@ public class NetworkChart: WidgetWrapper {
             state = sender is NSButton ? (sender as! NSButton).state: nil
         }
         self.boxState = state! == .on ? true : false
-        self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_box", value: self.boxState)
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_box", value: self.boxState)
         
         if self.frameState {
             FindAndToggleNSControlState(self.frameSettingsView, state: .off)
             self.frameState = false
-            self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_frame", value: self.frameState)
+            Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_frame", value: self.frameState)
         }
         
         self.display()
@@ -176,12 +174,12 @@ public class NetworkChart: WidgetWrapper {
             state = sender is NSButton ? (sender as! NSButton).state: nil
         }
         self.frameState = state! == .on ? true : false
-        self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_frame", value: self.frameState)
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_frame", value: self.frameState)
         
         if self.boxState {
             FindAndToggleNSControlState(self.boxSettingsView, state: .off)
             self.boxState = false
-            self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_box", value: self.boxState)
+            Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_box", value: self.boxState)
         }
         
         self.display()

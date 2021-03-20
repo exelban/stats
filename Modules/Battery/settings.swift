@@ -19,7 +19,6 @@ internal class Settings: NSView, Settings_v {
     public var callbackWhenUpdateNumberOfProcesses: (() -> Void) = {}
     
     private let title: String
-    private let store: UnsafePointer<Store>
     private var button: NSPopUpButton?
     
     private var numberOfProcesses: Int = 8
@@ -27,21 +26,20 @@ internal class Settings: NSView, Settings_v {
     private let highLevelsList: [String] = ["Disabled", "0.5", "0.6", "0.7", "0.75", "0.8", "0.85", "0.9", "0.95", "0.97", "1.0"]
     private var lowLevelNotification: String {
         get {
-            return self.store.pointee.string(key: "\(self.title)_lowLevelNotification", defaultValue: "0.15")
+            return Store.shared.string(key: "\(self.title)_lowLevelNotification", defaultValue: "0.15")
         }
     }
     private var highLevelNotification: String {
         get {
-            return self.store.pointee.string(key: "\(self.title)_highLevelNotification", defaultValue: "Disabled")
+            return Store.shared.string(key: "\(self.title)_highLevelNotification", defaultValue: "Disabled")
         }
     }
     private var timeFormat: String = "short"
     
-    public init(_ title: String, store: UnsafePointer<Store>) {
+    public init(_ title: String) {
         self.title = title
-        self.store = store
-        self.numberOfProcesses = store.pointee.int(key: "\(self.title)_processes", defaultValue: self.numberOfProcesses)
-        self.timeFormat = store.pointee.string(key: "\(self.title)_timeFormat", defaultValue: self.timeFormat)
+        self.numberOfProcesses = Store.shared.int(key: "\(self.title)_processes", defaultValue: self.numberOfProcesses)
+        self.timeFormat = Store.shared.string(key: "\(self.title)_timeFormat", defaultValue: self.timeFormat)
         
         super.init(frame: CGRect(
             x: 0,
@@ -137,24 +135,24 @@ internal class Settings: NSView, Settings_v {
     
     @objc private func changeUpdateIntervalLow(_ sender: NSMenuItem) {
         if sender.title == "Disabled" {
-            store.pointee.set(key: "\(self.title)_lowLevelNotification", value: sender.title)
+            Store.shared.set(key: "\(self.title)_lowLevelNotification", value: sender.title)
         } else if let value = Double(sender.title.replacingOccurrences(of: "%", with: "")) {
-            store.pointee.set(key: "\(self.title)_lowLevelNotification", value: "\(value/100)")
+            Store.shared.set(key: "\(self.title)_lowLevelNotification", value: "\(value/100)")
         }
     }
     
     @objc private func changeUpdateIntervalHigh(_ sender: NSMenuItem) {
         if sender.title == "Disabled" {
-            store.pointee.set(key: "\(self.title)_highLevelNotification", value: sender.title)
+            Store.shared.set(key: "\(self.title)_highLevelNotification", value: sender.title)
         } else if let value = Double(sender.title.replacingOccurrences(of: "%", with: "")) {
-            store.pointee.set(key: "\(self.title)_highLevelNotification", value: "\(value/100)")
+            Store.shared.set(key: "\(self.title)_highLevelNotification", value: "\(value/100)")
         }
     }
     
     @objc private func changeNumberOfProcesses(_ sender: NSMenuItem) {
         if let value = Int(sender.title) {
             self.numberOfProcesses = value
-            self.store.pointee.set(key: "\(self.title)_processes", value: value)
+            Store.shared.set(key: "\(self.title)_processes", value: value)
             self.callbackWhenUpdateNumberOfProcesses()
         }
     }
@@ -164,7 +162,7 @@ internal class Settings: NSView, Settings_v {
             return
         }
         self.timeFormat = key
-        self.store.pointee.set(key: "\(self.title)_timeFormat", value: key)
+        Store.shared.set(key: "\(self.title)_timeFormat", value: key)
         self.callback()
     }
 }

@@ -33,33 +33,26 @@ public class CPU: Module {
     private var processReader: ProcessReader? = nil
     private var temperatureReader: TemperatureReader? = nil
     private var frequencyReader: FrequencyReader? = nil
-    private let smc: UnsafePointer<SMCService>?
-    private let store: UnsafePointer<Store>
     
     private var usagePerCoreState: Bool {
         get {
-            return self.store.pointee.bool(key: "\(self.config.name)_usagePerCore", defaultValue: false)
+            return Store.shared.bool(key: "\(self.config.name)_usagePerCore", defaultValue: false)
         }
     }
     
-    public init(_ store: UnsafePointer<Store>, _ smc: UnsafePointer<SMCService>) {
-        self.store = store
-        self.smc = smc
-        self.settingsView = Settings("CPU", store: store)
-        self.popupView = Popup("CPU", store: store)
+    public init(_ smc: UnsafePointer<SMCService>) {
+        self.settingsView = Settings("CPU")
+        self.popupView = Popup("CPU")
         
         super.init(
-            store: store,
             popup: self.popupView,
             settings: self.settingsView
         )
         guard self.available else { return }
         
         self.loadReader = LoadReader()
-        self.loadReader?.store = store
-        
-        self.processReader = ProcessReader(self.config.name, store: store)
-        self.temperatureReader = TemperatureReader(smc)
+        self.processReader = ProcessReader()
+        self.temperatureReader = TemperatureReader(smc: smc)
         
         #if arch(x86_64)
         self.frequencyReader = FrequencyReader()

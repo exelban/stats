@@ -16,10 +16,7 @@ public class MemoryWidget: WidgetWrapper {
     private var orderReversedState: Bool = false
     private var value: (String, String) = ("0", "0")
     
-    private let store: UnsafePointer<Store>?
-    
-    public init(title: String, config: NSDictionary?, store: UnsafePointer<Store>?, preview: Bool = false) {
-        self.store = store
+    public init(title: String, config: NSDictionary?, preview: Bool = false) {
         if config != nil {
             var configuration = config!
             
@@ -46,8 +43,8 @@ public class MemoryWidget: WidgetWrapper {
         
         self.canDrawConcurrently = true
         
-        if self.store != nil && !preview {
-            self.orderReversedState = store!.pointee.bool(key: "\(self.title)_\(self.type.rawValue)_orderReversed", defaultValue: self.orderReversedState)
+        if !preview {
+            self.orderReversedState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_orderReversed", defaultValue: self.orderReversedState)
         }
         
         if preview {
@@ -131,7 +128,7 @@ public class MemoryWidget: WidgetWrapper {
             state = sender is NSButton ? (sender as! NSButton).state: nil
         }
         self.orderReversedState = state! == .on ? true : false
-        self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_orderReversed", value: self.orderReversedState)
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_orderReversed", value: self.orderReversedState)
         self.display()
     }
 }

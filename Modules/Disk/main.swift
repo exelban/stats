@@ -91,19 +91,17 @@ public class Disk: Module {
     private var settingsView: Settings
     private var selectedDisk: String = ""
     
-    public init(_ store: UnsafePointer<Store>) {
-        self.settingsView = Settings("Disk", store: store)
+    public init() {
+        self.settingsView = Settings("Disk")
         
         super.init(
-            store: store,
             popup: self.popupView,
             settings: self.settingsView
         )
         guard self.available else { return }
         
         self.capacityReader = CapacityReader()
-        self.capacityReader?.store = store
-        self.selectedDisk = store.pointee.string(key: "\(self.config.name)_disk", defaultValue: self.selectedDisk)
+        self.selectedDisk = Store.shared.string(key: "\(self.config.name)_disk", defaultValue: self.selectedDisk)
         
         self.capacityReader?.callbackHandler = { [unowned self] value in
             self.capacityCallback(value)

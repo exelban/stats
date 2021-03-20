@@ -96,19 +96,12 @@ internal class UsageReader: Reader<RAM_Usage> {
 }
 
 public class ProcessReader: Reader<[TopProcess]> {
-    private let store: UnsafePointer<Store>
-    private let title: String
+    private let title: String = "RAM"
     
     private var numberOfProcesses: Int {
         get {
-            return self.store.pointee.int(key: "\(self.title)_processes", defaultValue: 8)
+            return Store.shared.int(key: "\(self.title)_processes", defaultValue: 8)
         }
-    }
-    
-    init(_ title: String, store: UnsafePointer<Store>) {
-        self.title = title
-        self.store = store
-        super.init()
     }
     
     public override func setup() {

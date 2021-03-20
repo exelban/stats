@@ -36,7 +36,7 @@ public protocol Reader_p {
     func lock() -> Void
     func unlock() -> Void
     
-    func initStoreValues(title: String, store: UnsafePointer<Store>) -> Void
+    func initStoreValues(title: String) -> Void
     func setInterval(_ value: Int) -> Void
 }
 
@@ -75,12 +75,12 @@ open class Reader<T>: ReaderInternal_p {
         os_log(.debug, log: self.log, "Successfully initialize reader")
     }
     
-    public func initStoreValues(title: String, store: UnsafePointer<Store>) {
+    public func initStoreValues(title: String) {
         guard self.interval == nil else {
             return
         }
         
-        let updateIntervalString = store.pointee.string(key: "\(title)_updateInterval", defaultValue: "\(self.defaultInterval)")
+        let updateIntervalString = Store.shared.string(key: "\(title)_updateInterval", defaultValue: "\(self.defaultInterval)")
         if let updateInterval = Double(updateIntervalString) {
             self.interval = updateInterval
         }

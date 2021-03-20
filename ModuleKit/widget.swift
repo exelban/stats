@@ -25,7 +25,7 @@ public enum widget_t: String {
     case sensors = "sensors"
     case memory = "memory"
     
-    public func new(store: UnsafePointer<Store>, module: String, config: NSDictionary, defaultWidget: widget_t) -> Widget? {
+    public func new(module: String, config: NSDictionary, defaultWidget: widget_t) -> Widget? {
         var preview: widget_p? = nil
         var item: widget_p? = nil
         guard let widgetConfig: NSDictionary = config[self.rawValue] as? NSDictionary else {
@@ -34,40 +34,40 @@ public enum widget_t: String {
         
         switch self {
         case .mini:
-            preview = Mini(title: module, config: widgetConfig, store: store, preview: true)
-            item = Mini(title: module, config: widgetConfig, store: store, preview: false)
+            preview = Mini(title: module, config: widgetConfig, preview: true)
+            item = Mini(title: module, config: widgetConfig, preview: false)
             break
         case .lineChart:
-            preview = LineChart(title: module, config: widgetConfig, store: store, preview: true)
-            item = LineChart(title: module, config: widgetConfig, store: store, preview: false)
+            preview = LineChart(title: module, config: widgetConfig, preview: true)
+            item = LineChart(title: module, config: widgetConfig, preview: false)
             break
         case .barChart:
-            preview = BarChart(title: module, config: widgetConfig, store: store, preview: true)
-            item = BarChart(title: module, config: widgetConfig, store: store, preview: false)
+            preview = BarChart(title: module, config: widgetConfig, preview: true)
+            item = BarChart(title: module, config: widgetConfig, preview: false)
             break
         case .pieChart:
-            preview = PieChart(title: module, config: widgetConfig, store: store, preview: true)
-            item = PieChart(title: module, config: widgetConfig, store: store, preview: false)
+            preview = PieChart(title: module, config: widgetConfig, preview: true)
+            item = PieChart(title: module, config: widgetConfig, preview: false)
             break
         case .networkChart:
-            preview = NetworkChart(title: module, config: widgetConfig, store: store, preview: true)
-            item = NetworkChart(title: module, config: widgetConfig, store: store, preview: false)
+            preview = NetworkChart(title: module, config: widgetConfig, preview: true)
+            item = NetworkChart(title: module, config: widgetConfig, preview: false)
             break
         case .speed:
-            preview = SpeedWidget(title: module, config: widgetConfig, store: store, preview: true)
-            item = SpeedWidget(title: module, config: widgetConfig, store: store, preview: false)
+            preview = SpeedWidget(title: module, config: widgetConfig, preview: true)
+            item = SpeedWidget(title: module, config: widgetConfig, preview: false)
             break
         case .battery:
-            preview = BatterykWidget(title: module, config: widgetConfig, store: store, preview: true)
-            item = BatterykWidget(title: module, config: widgetConfig, store: store, preview: false)
+            preview = BatterykWidget(title: module, config: widgetConfig, preview: true)
+            item = BatterykWidget(title: module, config: widgetConfig, preview: false)
             break
         case .sensors:
-            preview = SensorsWidget(title: module, config: widgetConfig, store: store, preview: true)
-            item = SensorsWidget(title: module, config: widgetConfig, store: store, preview: false)
+            preview = SensorsWidget(title: module, config: widgetConfig, preview: true)
+            item = SensorsWidget(title: module, config: widgetConfig, preview: false)
             break
         case .memory:
-            preview = MemoryWidget(title: module, config: widgetConfig, store: store, preview: true)
-            item = MemoryWidget(title: module, config: widgetConfig, store: store, preview: false)
+            preview = MemoryWidget(title: module, config: widgetConfig, preview: true)
+            item = MemoryWidget(title: module, config: widgetConfig, preview: false)
             break
         default: break
         }

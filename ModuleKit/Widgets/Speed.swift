@@ -26,12 +26,10 @@ public class SpeedWidget: WidgetWrapper {
     private var uploadValue: Int64 = 0
     private var downloadValue: Int64 = 0
     
-    private let store: UnsafePointer<Store>?
     private var width: CGFloat = 58
     
-    public init(title: String, config: NSDictionary?, store: UnsafePointer<Store>?, preview: Bool = false) {
+    public init(title: String, config: NSDictionary?, preview: Bool = false) {
         let widgetTitle: String = title
-        self.store = store
         if config != nil {
             if let symbols = config!["Symbols"] as? [String] {
                 self.symbols = symbols
@@ -50,10 +48,10 @@ public class SpeedWidget: WidgetWrapper {
         
         self.canDrawConcurrently = true
         
-        if self.store != nil && !preview {
-            self.valueState = store!.pointee.bool(key: "\(self.title)_\(self.type.rawValue)_value", defaultValue: self.valueState)
-            self.icon = store!.pointee.string(key: "\(self.title)_\(self.type.rawValue)_icon", defaultValue: self.baseValue)
-            self.baseValue = store!.pointee.string(key: "\(self.title)_base", defaultValue: self.baseValue)
+        if !preview {
+            self.valueState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_value", defaultValue: self.valueState)
+            self.icon = Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_icon", defaultValue: self.baseValue)
+            self.baseValue = Store.shared.string(key: "\(self.title)_base", defaultValue: self.baseValue)
         }
         
         if self.valueState && self.icon != "none" {
@@ -256,7 +254,7 @@ public class SpeedWidget: WidgetWrapper {
             state = sender is NSButton ? (sender as! NSButton).state: nil
         }
         self.valueState = state! == .on ? true : false
-        self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_value", value: self.valueState)
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_value", value: self.valueState)
         self.display()
         
         if !self.valueState && self.icon == .none {
@@ -273,7 +271,7 @@ public class SpeedWidget: WidgetWrapper {
             return
         }
         self.icon = key
-        self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_icon", value: key)
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_icon", value: key)
         self.display()
         
         if !self.valueState && self.icon == "none" {
@@ -290,7 +288,7 @@ public class SpeedWidget: WidgetWrapper {
             return
         }
         self.baseValue = key
-        self.store?.pointee.set(key: "\(self.title)_base", value: self.baseValue)
+        Store.shared.set(key: "\(self.title)_base", value: self.baseValue)
     }
     
     public func setValue(upload: Int64, download: Int64) {

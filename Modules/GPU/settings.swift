@@ -19,7 +19,6 @@ internal class Settings: NSView, Settings_v {
     private var showTypeValue: Bool = false
     
     private let title: String
-    private let store: UnsafePointer<Store>
     
     public var selectedGPUHandler: (String) -> Void = {_ in }
     public var callback: (() -> Void) = {}
@@ -28,12 +27,11 @@ internal class Settings: NSView, Settings_v {
     private var hyperthreadView: NSView? = nil
     private var button: NSPopUpButton?
     
-    public init(_ title: String, store: UnsafePointer<Store>) {
+    public init(_ title: String) {
         self.title = title
-        self.store = store
-        self.selectedGPU = store.pointee.string(key: "\(self.title)_gpu", defaultValue: "")
-        self.updateIntervalValue = store.pointee.int(key: "\(self.title)_updateInterval", defaultValue: self.updateIntervalValue)
-        self.showTypeValue = store.pointee.bool(key: "\(self.title)_showType", defaultValue: self.showTypeValue)
+        self.selectedGPU = Store.shared.string(key: "\(self.title)_gpu", defaultValue: "")
+        self.updateIntervalValue = Store.shared.int(key: "\(self.title)_updateInterval", defaultValue: self.updateIntervalValue)
+        self.showTypeValue = Store.shared.bool(key: "\(self.title)_showType", defaultValue: self.showTypeValue)
         
         super.init(frame: CGRect(
             x: 0,
@@ -152,7 +150,7 @@ internal class Settings: NSView, Settings_v {
     @objc private func changeUpdateInterval(_ sender: NSMenuItem) {
         if let value = Int(sender.title.replacingOccurrences(of: " sec", with: "")) {
             self.updateIntervalValue = value
-            self.store.pointee.set(key: "\(self.title)_updateInterval", value: value)
+            Store.shared.set(key: "\(self.title)_updateInterval", value: value)
             self.setInterval(value)
         }
     }
@@ -163,7 +161,7 @@ internal class Settings: NSView, Settings_v {
         }
         
         self.selectedGPU = key
-        self.store.pointee.set(key: "\(self.title)_gpu", value: key)
+        Store.shared.set(key: "\(self.title)_gpu", value: key)
         self.selectedGPUHandler(key)
     }
     
@@ -176,7 +174,7 @@ internal class Settings: NSView, Settings_v {
         }
         
         self.showTypeValue = state! == .on ? true : false
-        self.store.pointee.set(key: "\(self.title)_showType", value: self.showTypeValue)
+        Store.shared.set(key: "\(self.title)_showType", value: self.showTypeValue)
         self.callback()
     }
 }

@@ -80,25 +80,23 @@ open class Module: Module_p {
     private var popupView: Popup_p? = nil
     
     private let log: OSLog
-    private var store: UnsafePointer<Store>
     private var readers: [Reader_p] = []
     
-    public init(store: UnsafePointer<Store>, popup: Popup_p?, settings: Settings_v?) {
+    public init(popup: Popup_p?, settings: Settings_v?) {
         self.config = module_c(in: Bundle(for: type(of: self)).path(forResource: "config", ofType: "plist")!)
         
         self.log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: self.config.name)
-        self.store = store
         self.settingsView = settings
         self.popupView = popup
         self.available = self.isAvailable()
-        self.enabled = self.store.pointee.bool(key: "\(self.config.name)_state", defaultValue: self.config.defaultState)
+        self.enabled = Store.shared.bool(key: "\(self.config.name)_state", defaultValue: self.config.defaultState)
         
         if !self.available {
             os_log(.debug, log: log, "Module is not available")
             
             if self.enabled {
                 self.enabled = false
-                self.store.pointee.set(key: "\(self.config.name)_state", value: false)
+                Store.shared.set(key: "\(self.config.name)_state", value: false)
             }
             
             return
@@ -115,7 +113,7 @@ open class Module: Module_p {
             os_log(.debug, log: log, "Module started without widget")
         }
         
-        self.settings = Settings(store: store, config: &self.config, widgets: &self.widgets, enabled: self.enabled, moduleSettings: self.settingsView)
+        self.settings = Settings(config: &self.config, widgets: &self.widgets, enabled: self.enabled, moduleSettings: self.settingsView)
         self.settings?.toggleCallback = { [weak self] in
             self?.toggleEnabled()
         }
@@ -134,7 +132,7 @@ open class Module: Module_p {
         }
         
         self.readers.forEach { (reader: Reader_p) in
-            reader.initStoreValues(title: self.config.name, store: self.store)
+            reader.initStoreValues(title: self.config.name)
             reader.start()
         }
     }
@@ -164,9 +162,9 @@ open class Module: Module_p {
         guard self.available else { return }
         
         self.enabled = true
-        self.store.pointee.set(key: "\(self.config.name)_state", value: true)
+        Store.shared.set(key: "\(self.config.name)_state", value: true)
         self.readers.forEach { (reader: Reader_p) in
-            reader.initStoreValues(title: self.config.name, store: self.store)
+            reader.initStoreValues(title: self.config.name)
             reader.start()
         }
         self.widgets.forEach{ $0.enable() }
@@ -178,7 +176,7 @@ open class Module: Module_p {
         guard self.available else { return }
         
         self.enabled = false
-        self.store.pointee.set(key: "\(self.config.name)_state", value: false)
+        Store.shared.set(key: "\(self.config.name)_state", value: false)
         self.readers.forEach{ $0.stop() }
         self.widgets.forEach{ $0.disable() }
         self.popup?.setIsVisible(false)
@@ -222,7 +220,6 @@ open class Module: Module_p {
         
         self.config.availableWidgets.forEach { (widgetType: widget_t) in
             if let widget = widgetType.new(
-                store: self.store,
                 module: self.config.name,
                 config: self.config.widgetsConfig,
                 defaultWidget: self.config.defaultWidget

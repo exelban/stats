@@ -19,16 +19,13 @@ public class BatterykWidget: WidgetWrapper {
     private var colorState: Bool = false
     private var hideAdditionalWhenFull: Bool = true
     
-    private let store: UnsafePointer<Store>?
-    
     private var percentage: Double = 1
     private var time: Int = 0
     private var charging: Bool = false
     private var ACStatus: Bool = false
     
-    public init(title: String, config: NSDictionary?, store: UnsafePointer<Store>?, preview: Bool = false) {
+    public init(title: String, config: NSDictionary?, preview: Bool = false) {
         let widgetTitle: String = title
-        self.store = store
         
         super.init(.battery, title: widgetTitle, frame: CGRect(
             x: Constants.Widget.margin.x,
@@ -39,12 +36,12 @@ public class BatterykWidget: WidgetWrapper {
         
         self.canDrawConcurrently = true
         
-        if self.store != nil && !preview {
-            self.additional = store!.pointee.string(key: "\(self.title)_\(self.type.rawValue)_additional", defaultValue: self.additional)
-            self.timeFormat = store!.pointee.string(key: "\(self.title)_timeFormat", defaultValue: self.timeFormat)
-            self.iconState = store!.pointee.bool(key: "\(self.title)_\(self.type.rawValue)_icon", defaultValue: self.iconState)
-            self.colorState = store!.pointee.bool(key: "\(self.title)_\(self.type.rawValue)_color", defaultValue: self.colorState)
-            self.hideAdditionalWhenFull = store!.pointee.bool(key: "\(self.title)_\(self.type.rawValue)_hideAdditionalWhenFull", defaultValue: self.hideAdditionalWhenFull)
+        if !preview {
+            self.additional = Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_additional", defaultValue: self.additional)
+            self.timeFormat = Store.shared.string(key: "\(self.title)_timeFormat", defaultValue: self.timeFormat)
+            self.iconState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_icon", defaultValue: self.iconState)
+            self.colorState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_color", defaultValue: self.colorState)
+            self.hideAdditionalWhenFull = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_hideAdditionalWhenFull", defaultValue: self.hideAdditionalWhenFull)
         }
         
         if preview {
@@ -233,7 +230,7 @@ public class BatterykWidget: WidgetWrapper {
     
     public func setValue(percentage: Double, ACStatus: Bool, isCharging: Bool, time: Int) {
         var updated: Bool = false
-        let timeFormat: String = store!.pointee.string(key: "\(self.title)_timeFormat", defaultValue: self.timeFormat)
+        let timeFormat: String = Store.shared.string(key: "\(self.title)_timeFormat", defaultValue: self.timeFormat)
         
         if self.percentage != percentage {
             self.percentage = percentage
@@ -306,7 +303,7 @@ public class BatterykWidget: WidgetWrapper {
             return
         }
         self.additional = key
-        self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_additional", value: key)
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_additional", value: key)
         self.display()
     }
     
@@ -318,7 +315,7 @@ public class BatterykWidget: WidgetWrapper {
             state = sender is NSButton ? (sender as! NSButton).state: nil
         }
         self.hideAdditionalWhenFull = state! == .on ? true : false
-        self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_hideAdditionalWhenFull", value: self.hideAdditionalWhenFull)
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_hideAdditionalWhenFull", value: self.hideAdditionalWhenFull)
         self.display()
     }
     
@@ -330,7 +327,7 @@ public class BatterykWidget: WidgetWrapper {
             state = sender is NSButton ? (sender as! NSButton).state: nil
         }
         self.colorState = state! == .on ? true : false
-        self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_color", value: self.colorState)
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_color", value: self.colorState)
         self.display()
     }
 }

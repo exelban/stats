@@ -63,7 +63,6 @@ public struct GPUs: value_t {
 
 public class GPU: Module {
     private let smc: UnsafePointer<SMCService>?
-    private let store: UnsafePointer<Store>
     
     private var infoReader: InfoReader? = nil
     private var settingsView: Settings
@@ -73,17 +72,15 @@ public class GPU: Module {
     
     private var showType: Bool {
         get {
-            return self.store.pointee.bool(key: "\(self.config.name)_showType", defaultValue: false)
+            return Store.shared.bool(key: "\(self.config.name)_showType", defaultValue: false)
         }
     }
     
-    public init(_ store: UnsafePointer<Store>, _ smc: UnsafePointer<SMCService>) {
-        self.store = store
+    public init(_ smc: UnsafePointer<SMCService>) {
         self.smc = smc
-        self.settingsView = Settings("GPU", store: store)
+        self.settingsView = Settings("GPU")
         
         super.init(
-            store: store,
             popup: self.popupView,
             settings: self.settingsView
         )
@@ -91,7 +88,7 @@ public class GPU: Module {
         
         self.infoReader = InfoReader()
         self.infoReader?.smc = smc
-        self.selectedGPU = store.pointee.string(key: "\(self.config.name)_gpu", defaultValue: self.selectedGPU)
+        self.selectedGPU = Store.shared.string(key: "\(self.config.name)_gpu", defaultValue: self.selectedGPU)
         
         self.infoReader?.callbackHandler = { [unowned self] value in
             self.infoCallback(value)

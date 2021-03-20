@@ -18,12 +18,11 @@ public class Sensors: Module {
     private let popupView: Popup = Popup()
     private var settingsView: Settings
     
-    public init(_ store: UnsafePointer<Store>, _ smc: UnsafePointer<SMCService>) {
+    public init(_ smc: UnsafePointer<SMCService>) {
         self.sensorsReader = SensorsReader(smc)
-        self.settingsView = Settings("Sensors", store: store, list: &self.sensorsReader.list)
+        self.settingsView = Settings("Sensors", list: &self.sensorsReader.list)
         
         super.init(
-            store: store,
             popup: self.popupView,
             settings: self.settingsView
         )

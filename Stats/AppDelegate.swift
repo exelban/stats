@@ -23,14 +23,14 @@ var store: Store = Store()
 let updater = macAppUpdater(user: "exelban", repo: "stats")
 var smc: SMCService = SMCService()
 var modules: [Module] = [
-    Battery(&store),
-    Network(&store),
-    Fans(&store, &smc),
-    Sensors(&store, &smc),
-    Disk(&store),
-    RAM(&store),
-    GPU(&store, &smc),
-    CPU(&store, &smc),
+    Battery(),
+    Network(),
+    Fans(&smc),
+    Sensors(&smc),
+    Disk(),
+    RAM(),
+    GPU(&smc),
+    CPU(&smc),
 ].reversed()
 var log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: "Stats")
 

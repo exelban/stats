@@ -21,7 +21,6 @@ internal class Settings: NSView, Settings_v {
     private var numberOfProcesses: Int = 8
     
     private let title: String
-    private let store: UnsafePointer<Store>
     private var hasHyperthreadingCores = false
     
     public var callback: (() -> Void) = {}
@@ -31,14 +30,13 @@ internal class Settings: NSView, Settings_v {
     
     private var hyperthreadView: NSView? = nil
     
-    public init(_ title: String, store: UnsafePointer<Store>) {
+    public init(_ title: String) {
         self.title = title
-        self.store = store
-        self.hyperthreadState = store.pointee.bool(key: "\(self.title)_hyperhreading", defaultValue: self.hyperthreadState)
-        self.usagePerCoreState = store.pointee.bool(key: "\(self.title)_usagePerCore", defaultValue: self.usagePerCoreState)
-        self.IPGState = store.pointee.bool(key: "\(self.title)_IPG", defaultValue: self.IPGState)
-        self.updateIntervalValue = store.pointee.int(key: "\(self.title)_updateInterval", defaultValue: self.updateIntervalValue)
-        self.numberOfProcesses = store.pointee.int(key: "\(self.title)_processes", defaultValue: self.numberOfProcesses)
+        self.hyperthreadState = Store.shared.bool(key: "\(self.title)_hyperhreading", defaultValue: self.hyperthreadState)
+        self.usagePerCoreState = Store.shared.bool(key: "\(self.title)_usagePerCore", defaultValue: self.usagePerCoreState)
+        self.IPGState = Store.shared.bool(key: "\(self.title)_IPG", defaultValue: self.IPGState)
+        self.updateIntervalValue = Store.shared.int(key: "\(self.title)_updateInterval", defaultValue: self.updateIntervalValue)
+        self.numberOfProcesses = Store.shared.int(key: "\(self.title)_processes", defaultValue: self.numberOfProcesses)
         if !self.usagePerCoreState {
             self.hyperthreadState = false
         }
@@ -130,7 +128,7 @@ internal class Settings: NSView, Settings_v {
     @objc private func changeUpdateInterval(_ sender: NSMenuItem) {
         if let value = Int(sender.title.replacingOccurrences(of: " sec", with: "")) {
             self.updateIntervalValue = value
-            self.store.pointee.set(key: "\(self.title)_updateInterval", value: value)
+            Store.shared.set(key: "\(self.title)_updateInterval", value: value)
             self.setInterval(value)
         }
     }
@@ -138,7 +136,7 @@ internal class Settings: NSView, Settings_v {
     @objc private func changeNumberOfProcesses(_ sender: NSMenuItem) {
         if let value = Int(sender.title) {
             self.numberOfProcesses = value
-            self.store.pointee.set(key: "\(self.title)_processes", value: value)
+            Store.shared.set(key: "\(self.title)_processes", value: value)
             self.callbackWhenUpdateNumberOfProcesses()
         }
     }
@@ -152,13 +150,13 @@ internal class Settings: NSView, Settings_v {
         }
         
         self.usagePerCoreState = state! == .on ? true : false
-        self.store.pointee.set(key: "\(self.title)_usagePerCore", value: self.usagePerCoreState)
+        Store.shared.set(key: "\(self.title)_usagePerCore", value: self.usagePerCoreState)
         self.callback()
         
         FindAndToggleEnableNSControlState(self.hyperthreadView, state: self.usagePerCoreState)
         if !self.usagePerCoreState {
             self.hyperthreadState = false
-            self.store.pointee.set(key: "\(self.title)_hyperhreading", value: self.hyperthreadState)
+            Store.shared.set(key: "\(self.title)_hyperhreading", value: self.hyperthreadState)
             FindAndToggleNSControlState(self.hyperthreadView, state: .off)
         }
     }
@@ -172,7 +170,7 @@ internal class Settings: NSView, Settings_v {
         }
         
         self.hyperthreadState = state! == .on ? true : false
-        self.store.pointee.set(key: "\(self.title)_hyperhreading", value: self.hyperthreadState)
+        Store.shared.set(key: "\(self.title)_hyperhreading", value: self.hyperthreadState)
         self.callback()
     }
     
@@ -185,7 +183,7 @@ internal class Settings: NSView, Settings_v {
         }
         
         self.IPGState = state! == .on ? true : false
-        self.store.pointee.set(key: "\(self.title)_IPG", value: self.IPGState)
+        Store.shared.set(key: "\(self.title)_IPG", value: self.IPGState)
         self.IPGCallback(self.IPGState)
     }
 }

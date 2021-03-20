@@ -17,15 +17,13 @@ internal class Settings: NSView, Settings_v {
     private var updateIntervalValue: Int = 3
     
     private let title: String
-    private let store: UnsafePointer<Store>
     private var button: NSPopUpButton?
     private let list: UnsafeMutablePointer<[Sensor_t]>
     public var callback: (() -> Void) = {}
     public var setInterval: ((_ value: Int) -> Void) = {_ in }
     
-    public init(_ title: String, store: UnsafePointer<Store>, list: UnsafeMutablePointer<[Sensor_t]>) {
+    public init(_ title: String, list: UnsafeMutablePointer<[Sensor_t]>) {
         self.title = title
-        self.store = store
         self.list = list
         
         super.init(frame: CGRect(
@@ -38,7 +36,7 @@ internal class Settings: NSView, Settings_v {
         self.wantsLayer = true
         self.canDrawConcurrently = true
         
-        self.updateIntervalValue = store.pointee.int(key: "\(self.title)_updateInterval", defaultValue: self.updateIntervalValue)
+        self.updateIntervalValue = Store.shared.int(key: "\(self.title)_updateInterval", defaultValue: self.updateIntervalValue)
     }
     
     required init?(coder: NSCoder) {
@@ -129,14 +127,14 @@ internal class Settings: NSView, Settings_v {
             state = sender is NSButton ? (sender as! NSButton).state: nil
         }
         
-        self.store.pointee.set(key: "sensor_\(id.rawValue)", value:  state! == NSControl.StateValue.on)
+        Store.shared.set(key: "sensor_\(id.rawValue)", value:  state! == NSControl.StateValue.on)
         self.callback()
     }
     
     @objc private func changeUpdateInterval(_ sender: NSMenuItem) {
         if let value = Int(sender.title.replacingOccurrences(of: " sec", with: "")) {
             self.updateIntervalValue = value
-            self.store.pointee.set(key: "\(self.title)_updateInterval", value: value)
+            Store.shared.set(key: "\(self.title)_updateInterval", value: value)
             self.setInterval(value)
         }
     }

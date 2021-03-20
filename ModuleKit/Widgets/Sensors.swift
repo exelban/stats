@@ -14,13 +14,11 @@ import StatsKit
 
 public class SensorsWidget: WidgetWrapper {
     private var modeState: String = "automatic"
-    private let store: UnsafePointer<Store>?
     
     private var body: CALayer = CALayer()
     private var values: [KeyValue_t] = []
     
-    public init(title: String, config: NSDictionary?, store: UnsafePointer<Store>?, preview: Bool = false) {
-        self.store = store
+    public init(title: String, config: NSDictionary?, preview: Bool = false) {
         if config != nil {
             var configuration = config!
             
@@ -43,7 +41,7 @@ public class SensorsWidget: WidgetWrapper {
             height: Constants.Widget.height - (2*Constants.Widget.margin.y)
         ))
         
-        self.modeState = store?.pointee.string(key: "\(self.title)_\(self.type.rawValue)_mode", defaultValue: self.modeState) ?? self.modeState
+        self.modeState = Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_mode", defaultValue: self.modeState)
         
         self.wantsLayer = true
         self.layerContentsRedrawPolicy = .onSetNeedsDisplay
@@ -239,7 +237,7 @@ public class SensorsWidget: WidgetWrapper {
             return
         }
         self.modeState = key
-        store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_mode", value: key)
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_mode", value: key)
         self.redraw(self.values)
     }
 }

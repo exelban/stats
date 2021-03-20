@@ -16,7 +16,6 @@ import StatsKit
 internal class Popup: NSStackView, Popup_p {
     public var sizeCallback: ((NSSize) -> Void)? = nil
     
-    private var store: UnsafePointer<Store>
     private var title: String
     
     private var uploadView: NSView? = nil
@@ -52,12 +51,12 @@ internal class Popup: NSStackView, Popup_p {
     
     private var base: DataSizeBase {
         get {
-            return DataSizeBase(rawValue: store.pointee.string(key: "\(self.title)_base", defaultValue: "byte")) ?? .byte
+            return DataSizeBase(rawValue: Store.shared.string(key: "\(self.title)_base", defaultValue: "byte")) ?? .byte
         }
     }
     private var numberOfProcesses: Int {
         get {
-            return self.store.pointee.int(key: "\(self.title)_processes", defaultValue: 8)
+            return Store.shared.int(key: "\(self.title)_processes", defaultValue: 8)
         }
     }
     private var processesHeight: CGFloat {
@@ -67,9 +66,8 @@ internal class Popup: NSStackView, Popup_p {
         }
     }
     
-    public init(_ title: String, store: UnsafePointer<Store>) {
+    public init(_ title: String) {
         self.title = title
-        self.store = store
         
         super.init(frame: NSRect(
             x: 0,

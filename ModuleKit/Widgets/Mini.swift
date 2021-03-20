@@ -13,7 +13,6 @@ import Cocoa
 import StatsKit
 
 public class Mini: WidgetWrapper {
-    private let store: UnsafePointer<Store>?
     private let defaultTitle: String
     
     private var labelState: Bool = true
@@ -34,8 +33,7 @@ public class Mini: WidgetWrapper {
         }
     }
     
-    public init(title: String, config: NSDictionary?, store: UnsafePointer<Store>?, preview: Bool = false) {
-        self.store = store
+    public init(title: String, config: NSDictionary?, preview: Bool = false) {
         var widgetTitle: String = title
         if config != nil {
             var configuration = config!
@@ -77,9 +75,9 @@ public class Mini: WidgetWrapper {
         
         self.canDrawConcurrently = true
         
-        if let store = self.store, !preview {
-            self.colorState = widget_c(rawValue: store.pointee.string(key: "\(self.title)_\(self.type.rawValue)_color", defaultValue: self.colorState.rawValue)) ?? self.colorState
-            self.labelState = store.pointee.bool(key: "\(self.title)_\(self.type.rawValue)_label", defaultValue: self.labelState)
+        if !preview {
+            self.colorState = widget_c(rawValue: Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_color", defaultValue: self.colorState.rawValue)) ?? self.colorState
+            self.labelState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_label", defaultValue: self.labelState)
         }
     }
     
@@ -201,7 +199,7 @@ public class Mini: WidgetWrapper {
     @objc private func toggleColor(_ sender: NSMenuItem) {
         if let newColor = widget_c.allCases.first(where: { $0.rawValue == sender.title }) {
             self.colorState = newColor
-            self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_color", value: self.colorState.rawValue)
+            Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_color", value: self.colorState.rawValue)
             self.display()
         }
     }
@@ -214,7 +212,7 @@ public class Mini: WidgetWrapper {
             state = sender is NSButton ? (sender as! NSButton).state: nil
         }
         self.labelState = state! == .on ? true : false
-        self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_label", value: self.labelState)
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_label", value: self.labelState)
         self.display()
     }
 }

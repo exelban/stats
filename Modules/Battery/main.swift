@@ -45,25 +45,21 @@ public class Battery: Module {
     private let popupView: Popup
     private var settingsView: Settings
     
-    private let store: UnsafePointer<Store>
-    
     private var lowNotification: NSUserNotification? = nil
     private var highNotification: NSUserNotification? = nil
     
-    public init(_ store: UnsafePointer<Store>) {
-        self.store = store
-        self.settingsView = Settings("Battery", store: store)
-        self.popupView = Popup("Battery", store: store)
+    public init() {
+        self.settingsView = Settings("Battery")
+        self.popupView = Popup("Battery")
         
         super.init(
-            store: store,
             popup: self.popupView,
             settings: self.settingsView
         )
         guard self.available else { return }
         
         self.usageReader = UsageReader()
-        self.processReader = ProcessReader(self.config.name, store: store)
+        self.processReader = ProcessReader()
         
         self.settingsView.callback = {
             DispatchQueue.global(qos: .background).async {
@@ -130,7 +126,7 @@ public class Battery: Module {
     }
     
     private func checkLowNotification(value: Battery_Usage) {
-        let level = self.store.pointee.string(key: "\(self.config.name)_lowLevelNotification", defaultValue: "0.15")
+        let level = Store.shared.string(key: "\(self.config.name)_lowLevelNotification", defaultValue: "0.15")
         if level == "Disabled" {
             return
         }
@@ -167,7 +163,7 @@ public class Battery: Module {
     }
     
     private func checkHighNotification(value: Battery_Usage) {
-        let level = self.store.pointee.string(key: "\(self.config.name)_highLevelNotification", defaultValue: "Disabled")
+        let level = Store.shared.string(key: "\(self.config.name)_highLevelNotification", defaultValue: "Disabled")
         if level == "Disabled" {
             return
         }
