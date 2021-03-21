@@ -283,7 +283,7 @@ public class SMCService {
         
         input.key = FourCharCode(fromString: value.key)
         input.data8 = SMCKeys.WRITE_BYTES.rawValue
-        input.keyInfo.dataSize = value.dataSize
+        input.keyInfo.dataSize = IOByteCount(value.dataSize)
         input.bytes = (value.bytes[0], value.bytes[1], value.bytes[2], value.bytes[3], value.bytes[4], value.bytes[5],
                        value.bytes[6], value.bytes[7], value.bytes[8], value.bytes[9], value.bytes[10], value.bytes[11],
                        value.bytes[12], value.bytes[13], value.bytes[14], value.bytes[15], value.bytes[16], value.bytes[17],
