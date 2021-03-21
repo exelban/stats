@@ -43,8 +43,8 @@
 "Report a bug" = "Zgłoś problem";
 "Support the application" = "Wesprzyj rozwój programu";
 "Close application" = "Zamknij program";
-"Open application settings" = "Otwórz ustawienie";
-"Open moduleName settings" = "Otwórz ustawienie %0";
+"Open application settings" = "Otwórz ustawienia";
+"Open moduleName settings" = "Otwórz ustawienia %0";
 
 // Application settings
 "Update application" = "Aktualizuj aplikacje";
@@ -93,10 +93,10 @@
 "Memory widget" = "Pamięć";
 
 // Module Kit
-"Open module settings" = "Otwórz ustawienie modułu";
+"Open module settings" = "Otwórz ustawienia modułu";
 "Select widget" = "Wybierz %0 widget";
 "Update interval" = "Interwał odświeżania";
-"Usage history" = "Historia zużycia";
+"Usage history" = "Historia użycia";
 "Details" = "Szczegóły";
 "Top processes" = "Top procesy";
 "Pictogram" = "Ikonka";
@@ -110,12 +110,12 @@
 "CPU frequency" = "Częstotliwość procesora";
 "System" = "System";
 "User" = "Użytkownik";
-"Idle" = "Bezczynna";
+"Idle" = "Nieaktywny";
 "Show usage per core" = "Pokaż obciążenie na rdzeń";
 "Show hyper-threading cores" = "Pokaż rdzenie Hyper-Threading";
 
 // GPU
-"GPU to show" = "GPU do wyświetlania";
+"GPU to show" = "GPU do wyświetlenia";
 "Show GPU type" = "Pokaż typ GPU";
 "GPU enabled" = "GPU włączone";
 "GPU disabled" = "GPU wyłączone";
@@ -156,7 +156,7 @@
 "Fahrenheit" = "Fahrenheit";
 
 // Network
-"Uploading" = "Wysyłka";
+"Uploading" = "Wysyłanie";
 "Downloading" = "Pobieranie";
 "Public IP" = "Publiczny IP";
 "Local IP" = "Lokalny IP";
@@ -170,7 +170,7 @@
 "No connection" = "Brak połączenia";
 "Network interface" = "Interfejs sieciowy";
 "Total download" = "Całkowicie pobrano";
-"Total upload" = "Całkowicie przesłano";
+"Total upload" = "Całkowicie wysłano";
 "Reader type" = "Sposób odczytu";
 "Interface based" = "Interfejs";
 "Processes based" = "Procesy";
