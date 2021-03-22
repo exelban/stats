@@ -16,16 +16,16 @@ import os.log
 class ApplicationSettings: NSScrollView {
     private var updateIntervalValue: String {
         get {
-            return store.string(key: "update-interval", defaultValue: AppUpdateInterval.atStart.rawValue)
+            return Store.shared.string(key: "update-interval", defaultValue: AppUpdateInterval.atStart.rawValue)
         }
     }
     
     private var temperatureUnitsValue: String {
         get {
-            return store.string(key: "temperature_units", defaultValue: "system")
+            return Store.shared.string(key: "temperature_units", defaultValue: "system")
         }
         set {
-            store.set(key: "temperature_units", value: newValue)
+            Store.shared.set(key: "temperature_units", value: newValue)
         }
     }
     
@@ -197,7 +197,7 @@ class ApplicationSettings: NSScrollView {
             self.titleView(LocalizedString("Show icon in dock")),
             self.toggleView(
                 action: #selector(self.toggleDock),
-                state: store.bool(key: "dockIcon", defaultValue: false)
+                state: Store.shared.bool(key: "dockIcon", defaultValue: false)
             )
         ]
     }
@@ -274,7 +274,7 @@ class ApplicationSettings: NSScrollView {
             return
         }
         
-        store.set(key: "update-interval", value: key)
+        Store.shared.set(key: "update-interval", value: key)
         NotificationCenter.default.post(name: .changeCronInterval, object: nil, userInfo: nil)
     }
     
@@ -294,7 +294,7 @@ class ApplicationSettings: NSScrollView {
         }
         
         if state != nil {
-            store.set(key: "dockIcon", value: state! == NSControl.StateValue.on)
+            Store.shared.set(key: "dockIcon", value: state! == NSControl.StateValue.on)
         }
         let dockIconStatus = state == NSControl.StateValue.on ? NSApplication.ActivationPolicy.regular : NSApplication.ActivationPolicy.accessory
         NSApp.setActivationPolicy(dockIconStatus)
@@ -312,8 +312,8 @@ class ApplicationSettings: NSScrollView {
         }
         
         LaunchAtLogin.isEnabled = state! == NSControl.StateValue.on
-        if !store.exist(key: "runAtLoginInitialized") {
-            store.set(key: "runAtLoginInitialized", value: true)
+        if !Store.shared.exist(key: "runAtLoginInitialized") {
+            Store.shared.set(key: "runAtLoginInitialized", value: true)
         }
     }
 }

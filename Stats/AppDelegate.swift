@@ -19,7 +19,6 @@ import Sensors
 import GPU
 import Fans
 
-var store: Store = Store()
 let updater = macAppUpdater(user: "exelban", repo: "stats")
 var smc: SMCService = SMCService()
 var modules: [Module] = [
@@ -91,7 +90,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         self.updateActivity.invalidate()
         self.updateActivity.repeats = true
         
-        guard let updateInterval = AppUpdateInterval(rawValue: store.string(key: "update-interval", defaultValue: AppUpdateInterval.atStart.rawValue)) else {
+        guard let updateInterval = AppUpdateInterval(rawValue: Store.shared.string(key: "update-interval", defaultValue: AppUpdateInterval.atStart.rawValue)) else {
             return
         }
         os_log(.debug, log: log, "Application update interval is '%s'", "\(updateInterval.rawValue)")
