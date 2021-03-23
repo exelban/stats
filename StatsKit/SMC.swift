@@ -105,8 +105,6 @@ internal struct SMCVal_t {
 }
 
 public class SMCService {
-    public static let shared = SMCService()
-    
     private var conn: io_connect_t = 0
     
     public init() {
@@ -133,13 +131,6 @@ public class SMCService {
         if (result != kIOReturnSuccess) {
             print("Error IOServiceOpen(): " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
             return
-        }
-    }
-    
-    deinit {
-        let result = self.close()
-        if (result != kIOReturnSuccess) {
-            print("error close smc connection: " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
         }
     }
     
@@ -355,28 +346,28 @@ public class SMCService {
     }
     
     public func setFanMode(_ id: Int, mode: FanMode) {
-        let currentMode = Int(self.getValue("FS! ") ?? 0)
+        let fansMode = Int(self.getValue("FS! ") ?? 0)
         var newMode: UInt8 = 0
         
-        if (currentMode == 0 || currentMode == 1) && id == 0 && mode == .automatic {
+        if fansMode == 0 && id == 0 && mode == .forced {
             newMode = 1
-        } else if (currentMode == 0 || currentMode == 2) && id == 1 && mode == .automatic {
+        } else if fansMode == 0 && id == 1 && mode == .forced {
             newMode = 2
-        } else if currentMode == 1 && id == 0 && mode == .forced {
+        } else if fansMode == 1 && id == 0 && mode == .automatic {
             newMode = 0
-        } else if currentMode == 2 && id == 1 && mode == .forced {
+        } else if fansMode == 1 && id == 1 && mode == .forced {
+            newMode = 3
+        } else if fansMode == 2 && id == 1 && mode == .automatic {
             newMode = 0
-        } else if currentMode == 1 && id == 1 && mode == .automatic {
+        } else if fansMode == 2 && id == 0 && mode == .forced {
             newMode = 3
-        } else if currentMode == 2 && id == 0 && mode == .automatic {
-            newMode = 3
-        } else if currentMode == 3 && id == 0 && mode == .forced {
+        } else if fansMode == 3 && id == 0 && mode == .automatic {
+            newMode = 2
+        } else if fansMode == 3 && id == 1 && mode == .automatic {
             newMode = 1
-        } else if currentMode == 3 && id == 1 && mode == .forced {
-            newMode = 2
         }
         
-        if currentMode == newMode {
+        if fansMode == newMode {
             return
         }
         
@@ -424,8 +415,6 @@ public class SMCService {
             print("new fan speed (\(speed)) is more than maximum speed (\(maxSpeed))")
             return
         }
-        
-        self.setFanMode(id, mode: .automatic)
         
         var value = SMCVal_t("F\(id)Tg")
         value.dataSize = 2

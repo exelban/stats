@@ -39,12 +39,13 @@ public class Fans: Module {
     
     private var fansReader: FansReader
     private var settingsView: Settings
-    private let popupView: Popup = Popup()
+    private let popupView: Popup
     
     public init(_ smc: UnsafePointer<SMCService>) {
         self.smc = smc
         self.fansReader = FansReader(smc)
         self.settingsView = Settings("Fans", list: &self.fansReader.list)
+        self.popupView = Popup(smc)
         
         super.init(
             popup: self.popupView,

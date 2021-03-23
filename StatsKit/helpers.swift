@@ -924,14 +924,14 @@ public func isRoot() -> Bool {
     return getuid() == 0
 }
 
-public func ensureRoot() -> Bool {
+public func ensureRoot() {
     if isRoot() {
-        return true
+        return
     }
     
     let pwd = Bundle.main.bundleURL.absoluteString.replacingOccurrences(of: "file://", with: "")
     guard let script = NSAppleScript(source: "do shell script \"\(pwd)/Contents/MacOS/Stats > /dev/null 2>&1 &\" with administrator privileges") else {
-        return false
+        return
     }
     
     var err: NSDictionary? = nil
@@ -939,9 +939,9 @@ public func ensureRoot() -> Bool {
     
     if err != nil {
         print("cannot run script as root: \(String(describing: err))")
-        return false
+        return
     }
     
     NSApp.terminate(nil)
-    return true
+    return
 }

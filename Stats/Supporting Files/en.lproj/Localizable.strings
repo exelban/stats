@@ -24,6 +24,7 @@
 "Yes" = "Yes";
 "No" = "No";
 "Automatic" = "Automatic";
+"Manual" = "Manual";
 "None" = "None";
 "Dots" = "Dots";
 "Arrows" = "Arrows";
@@ -31,6 +32,8 @@
 "Short" = "Short";
 "Long" = "Long";
 "Statistics" = "Statistics";
+"Max" = "Max";
+"Min" = "Min";
 
 // Alerts
 "New version available" = "New version available";
