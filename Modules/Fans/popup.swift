@@ -16,12 +16,9 @@ import StatsKit
 internal class Popup: NSStackView, Popup_p {
     public var sizeCallback: ((NSSize) -> Void)? = nil
     
-    private var smc: UnsafePointer<SMCService>
     private var list: [Int: FanView] = [:]
     
-    public init(_ smc: UnsafePointer<SMCService>) {
-        self.smc = smc
-        
+    public init() {
         super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: 0))
         
         self.orientation = .vertical
@@ -34,7 +31,7 @@ internal class Popup: NSStackView, Popup_p {
     
     internal func setup(_ values: [Fan]) {
         values.forEach { (f: Fan) in
-            let view = FanView(f, smc: self.smc, width: self.frame.width, callback: self.recalculateHeight)
+            let view = FanView(f, width: self.frame.width, callback: self.recalculateHeight)
             self.list[f.id] = view
             self.addArrangedSubview(view)
         }
@@ -66,7 +63,6 @@ internal class Popup: NSStackView, Popup_p {
 internal class FanView: NSStackView {
     public var sizeCallback: (() -> Void)
     
-    private var smc: UnsafePointer<SMCService>
     private var fan: Fan
     private var ready: Bool = false
     
@@ -78,9 +74,8 @@ internal class FanView: NSStackView {
     private var controlView: NSView? = nil
     private var debouncer: DispatchWorkItem? = nil
     
-    public init(_ fan: Fan, smc: UnsafePointer<SMCService>, width: CGFloat, callback: @escaping (() -> Void)) {
+    public init(_ fan: Fan, width: CGFloat, callback: @escaping (() -> Void)) {
         self.fan = fan
-        self.smc = smc
         self.sizeCallback = callback
         
         let inset: CGFloat = 5
@@ -204,7 +199,7 @@ internal class FanView: NSStackView {
         buttons.callback = { [weak self] (mode: FanMode) in
             self?.fan.mode = mode
             if let fan = self?.fan {
-                self?.smc.pointee.setFanMode(fan.id, mode: mode)
+                SMC.shared.setFanMode(fan.id, mode: mode)
             }
             self?.toggleMode()
         }
@@ -295,7 +290,7 @@ internal class FanView: NSStackView {
         let task = DispatchWorkItem { [weak self] in
             DispatchQueue.global(qos: .userInteractive).async { [weak self] in
                 if let id = self?.fan.id {
-                    self?.smc.pointee.setFanSpeed(id, speed: Int(value))
+                    SMC.shared.setFanSpeed(id, speed: Int(value))
                 }
                 DispatchQueue.main.async {
                     field.textColor = .systemBlue

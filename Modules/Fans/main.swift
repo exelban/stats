@@ -35,17 +35,14 @@ public struct Fan {
 }
 
 public class Fans: Module {
-    private var smc: UnsafePointer<SMCService>
-    
     private var fansReader: FansReader
     private var settingsView: Settings
     private let popupView: Popup
     
-    public init(_ smc: UnsafePointer<SMCService>) {
-        self.smc = smc
-        self.fansReader = FansReader(smc)
+    public init() {
+        self.fansReader = FansReader()
         self.settingsView = Settings("Fans", list: &self.fansReader.list)
-        self.popupView = Popup(smc)
+        self.popupView = Popup()
         
         super.init(
             popup: self.popupView,
@@ -75,7 +72,7 @@ public class Fans: Module {
     }
     
     public override func isAvailable() -> Bool {
-        return smc.pointee.getValue("FNum") != nil && smc.pointee.getValue("FNum") != 0 && !self.fansReader.list.isEmpty
+        return SMC.shared.getValue("FNum") != nil && SMC.shared.getValue("FNum") != 0 && !self.fansReader.list.isEmpty
     }
     
     private func checkIfNoSensorsEnabled() {

@@ -104,7 +104,9 @@ internal struct SMCVal_t {
     }
 }
 
-public class SMCService {
+public class SMC {
+    public static let shared = SMC()
+    
     private var conn: io_connect_t = 0
     
     public init() {
@@ -131,6 +133,13 @@ public class SMCService {
         if (result != kIOReturnSuccess) {
             print("Error IOServiceOpen(): " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
             return
+        }
+    }
+    
+    deinit {
+        let result = self.close()
+        if (result != kIOReturnSuccess) {
+            print("error close smc connection: " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
         }
     }
     

@@ -226,26 +226,18 @@ public class ProcessReader: Reader<[TopProcess]> {
 }
 
 public class TemperatureReader: Reader<Double> {
-    private let smc: UnsafePointer<SMCService>
-    
-    init(smc: UnsafePointer<SMCService>) {
-        self.smc = smc
-        super.init()
-        self.popup = true
-    }
-    
     public override func read() {
         var temperature: Double? = nil
         
-        if let value = self.smc.pointee.getValue("TC0D"), value < 110 {
+        if let value = SMC.shared.getValue("TC0D"), value < 110 {
             temperature = value
-        } else if let value = self.smc.pointee.getValue("TC0E"), value < 110 {
+        } else if let value = SMC.shared.getValue("TC0E"), value < 110 {
             temperature = value
-        } else if let value = self.smc.pointee.getValue("TC0F"), value < 110 {
+        } else if let value = SMC.shared.getValue("TC0F"), value < 110 {
             temperature = value
-        } else if let value = self.smc.pointee.getValue("TC0P"), value < 110 {
+        } else if let value = SMC.shared.getValue("TC0P"), value < 110 {
             temperature = value
-        } else if let value = self.smc.pointee.getValue("TC0H"), value < 110 {
+        } else if let value = SMC.shared.getValue("TC0H"), value < 110 {
             temperature = value
         }
         
@@ -278,11 +270,6 @@ public class FrequencyReader: Reader<Double> {
         get {
             return Store.shared.bool(key: "CPU_IPG", defaultValue: false)
         }
-    }
-    
-    override init() {
-        super.init()
-        self.popup = true
     }
     
     public override func setup() {

@@ -67,8 +67,9 @@ open class Reader<T>: ReaderInternal_p {
     
     private var history: [T]? = []
     
-    public init() {
+    public init(popup: Bool = false) {
         self.log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: "\(T.self)")
+        self.popup = popup
         
         self.setup()
         

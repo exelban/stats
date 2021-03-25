@@ -16,14 +16,11 @@ import os.log
 
 internal class SensorsReader: Reader<[Sensor_t]> {
     internal var list: [Sensor_t] = []
-    private var smc: UnsafePointer<SMCService>
     
-    init(_ smc: UnsafePointer<SMCService>) {
-        self.smc = smc
-        
+    init() {
         super.init()
         
-        var available: [String] = self.smc.pointee.getAllKeys()
+        var available: [String] = SMC.shared.getAllKeys()
         var list: [Sensor_t] = []
         
         available = available.filter({ (key: String) -> Bool in
@@ -56,7 +53,7 @@ internal class SensorsReader: Reader<[Sensor_t]> {
         }
         
         for (index, sensor) in list.enumerated().reversed() {
-            if let newValue = self.smc.pointee.getValue(sensor.key) {
+            if let newValue = SMC.shared.getValue(sensor.key) {
                 // Remove the temperature sensor, if SMC report more that 110 C degree.
                 if sensor.type == SensorType.Temperature.rawValue && newValue > 110 {
                     list.remove(at: index)
@@ -74,7 +71,7 @@ internal class SensorsReader: Reader<[Sensor_t]> {
     
     public override func read() {
         for i in 0..<self.list.count {
-            if let newValue = self.smc.pointee.getValue(self.list[i].key) {
+            if let newValue = SMC.shared.getValue(self.list[i].key) {
                 self.list[i].value = newValue
             }
         }

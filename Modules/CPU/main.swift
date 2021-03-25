@@ -40,7 +40,7 @@ public class CPU: Module {
         }
     }
     
-    public init(_ smc: UnsafePointer<SMCService>) {
+    public init() {
         self.settingsView = Settings("CPU")
         self.popupView = Popup("CPU")
         
@@ -52,10 +52,10 @@ public class CPU: Module {
         
         self.loadReader = LoadReader()
         self.processReader = ProcessReader()
-        self.temperatureReader = TemperatureReader(smc: smc)
+        self.temperatureReader = TemperatureReader(popup: true)
         
         #if arch(x86_64)
-        self.frequencyReader = FrequencyReader()
+        self.frequencyReader = FrequencyReader(popup: true)
         #endif
         
         self.settingsView.callback = { [unowned self] in

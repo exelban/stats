@@ -8,8 +8,10 @@
 
 import Cocoa
 import os.log
+
 import StatsKit
 import ModuleKit
+
 import CPU
 import RAM
 import Disk
@@ -20,17 +22,16 @@ import GPU
 import Fans
 
 let updater = macAppUpdater(user: "exelban", repo: "stats")
-var smc: SMCService = SMCService()
 var modules: [Module] = [
-    Battery(),
-    Network(),
-    Fans(&smc),
-    Sensors(&smc),
-    Disk(),
+    CPU(),
+    GPU(),
     RAM(),
-    GPU(&smc),
-    CPU(&smc),
-].reversed()
+    Disk(),
+    Sensors(),
+    Fans(),
+    Network(),
+    Battery(),
+]
 var log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: "Stats")
 
 class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDelegate {
@@ -41,7 +42,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         let startingPoint = Date()
-//        print("------------", startingPoint, "------------", to: &Log.log)
         
         self.parseArguments()
         self.parseVersion()
@@ -60,7 +60,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     
     func applicationWillTerminate(_ aNotification: Notification) {
         modules.forEach{ $0.terminate() }
-        _ = smc.close()
         NotificationCenter.default.removeObserver(self)
     }
     

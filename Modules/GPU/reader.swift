@@ -27,8 +27,6 @@ let vendors: [Data: String] = [
 ]
 
 internal class InfoReader: Reader<GPUs> {
-    internal var smc: UnsafePointer<SMCService>? = nil
-    
     private var gpus: GPUs = GPUs()
     private var devices: [device] = []
     
@@ -115,7 +113,7 @@ internal class InfoReader: Reader<GPUs> {
                 type = .discrete
                 
                 if temperature == nil || temperature == 0 {
-                    if let tmp = self.smc?.pointee.getValue("TGDD"), tmp != 128 {
+                    if let tmp = SMC.shared.getValue("TGDD"), tmp != 128 {
                         temperature = Int(tmp)
                     }
                 }
@@ -124,7 +122,7 @@ internal class InfoReader: Reader<GPUs> {
                 type = .integrated
                 
                 if temperature == nil || temperature == 0 {
-                    if let tmp = self.smc?.pointee.getValue("TCGC"), tmp != 128 {
+                    if let tmp = SMC.shared.getValue("TCGC"), tmp != 128 {
                         temperature = Int(tmp)
                     }
                 }

@@ -62,8 +62,6 @@ public struct GPUs: value_t {
 }
 
 public class GPU: Module {
-    private let smc: UnsafePointer<SMCService>?
-    
     private var infoReader: InfoReader? = nil
     private var settingsView: Settings
     private var popupView: Popup = Popup()
@@ -76,8 +74,7 @@ public class GPU: Module {
         }
     }
     
-    public init(_ smc: UnsafePointer<SMCService>) {
-        self.smc = smc
+    public init() {
         self.settingsView = Settings("GPU")
         
         super.init(
@@ -87,7 +84,6 @@ public class GPU: Module {
         guard self.available else { return }
         
         self.infoReader = InfoReader()
-        self.infoReader?.smc = smc
         self.selectedGPU = Store.shared.string(key: "\(self.config.name)_gpu", defaultValue: self.selectedGPU)
         
         self.infoReader?.callbackHandler = { [unowned self] value in
