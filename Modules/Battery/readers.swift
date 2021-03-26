@@ -158,6 +158,11 @@ public class ProcessReader: Reader<[TopProcess]> {
         self.popup = true
         
         let pipe = Pipe()
+        
+        defer {
+            pipe.fileHandleForReading.closeFile()
+        }
+        
         self.task.standardOutput = pipe
         self.task.launchPath = "/usr/bin/top"
         self.task.arguments = ["-o", "power", "-n", "\(self.numberOfProcesses)", "-stats", "pid,command,power"]

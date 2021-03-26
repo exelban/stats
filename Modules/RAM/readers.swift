@@ -120,6 +120,11 @@ public class ProcessReader: Reader<[TopProcess]> {
         let outputPipe = Pipe()
         let errorPipe = Pipe()
         
+        defer {
+            outputPipe.fileHandleForReading.closeFile()
+            errorPipe.fileHandleForReading.closeFile()
+        }
+        
         task.standardOutput = outputPipe
         task.standardError = errorPipe
         

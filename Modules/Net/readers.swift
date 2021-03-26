@@ -135,6 +135,11 @@ internal class UsageReader: Reader<Network_Usage> {
         let outputPipe = Pipe()
         let errorPipe = Pipe()
         
+        defer {
+            outputPipe.fileHandleForReading.closeFile()
+            errorPipe.fileHandleForReading.closeFile()
+        }
+        
         task.standardOutput = outputPipe
         task.standardError = errorPipe
         
@@ -298,6 +303,11 @@ public class ProcessReader: Reader<[Network_Process]> {
         
         let outputPipe = Pipe()
         let errorPipe = Pipe()
+        
+        defer {
+            outputPipe.fileHandleForReading.closeFile()
+            errorPipe.fileHandleForReading.closeFile()
+        }
         
         task.standardOutput = outputPipe
         task.standardError = errorPipe
