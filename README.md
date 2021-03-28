@@ -32,6 +32,7 @@ Stats is an application that allows you to monitor your macOS system.
  - Battery level
  - Network usage
  - Fans speed
+ - Fan control
 
 ## Supporting languages
 - English
