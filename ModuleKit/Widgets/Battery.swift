@@ -134,7 +134,7 @@ public class BatterykWidget: WidgetWrapper {
         width += 2 // add battery point width
         
         let maxWidth = batterySize.width - offset*2 - borderWidth*2 - 1
-        let innerWidth: CGFloat = self.ACStatus && !self.charging ? maxWidth : max(1, maxWidth * CGFloat(self.percentage))
+        let innerWidth: CGFloat = max(1, maxWidth * CGFloat(self.percentage))
         let innerOffset: CGFloat = -offset + borderWidth + 1
         let inner = NSBezierPath(roundedRect: NSRect(
             x: batteryFrame.bounds.origin.x + innerOffset,
@@ -150,21 +150,60 @@ public class BatterykWidget: WidgetWrapper {
                 x: batteryFrame.bounds.origin.x + (batteryFrame.bounds.width/2),
                 y: batteryFrame.bounds.origin.y + (batteryFrame.bounds.height/2)
             )
-            let boltSize: CGSize = CGSize(width: 9, height: batterySize.height + 6)
+            var points: [CGPoint] = []
             
-            let minX = batteryCenter.x - (boltSize.width/2)
-            let maxX = batteryCenter.x + (boltSize.width/2)
-            let minY = batteryCenter.y - (boltSize.height/2)
-            let maxY = batteryCenter.y + (boltSize.height/2)
-            
-            let points: [CGPoint] = [
-                CGPoint(x: batteryCenter.x-3, y: minY), // bottom
-                CGPoint(x: maxX, y: batteryCenter.y+1.5),
-                CGPoint(x: batteryCenter.x+1, y: batteryCenter.y+1.5),
-                CGPoint(x: batteryCenter.x+3, y: maxY), // top
-                CGPoint(x: minX, y: batteryCenter.y-1.5),
-                CGPoint(x: batteryCenter.x-1, y: batteryCenter.y-1.5),
-            ]
+            if self.charging {
+                let iconSize: CGSize = CGSize(width: 9, height: batterySize.height + 6)
+                let min = CGPoint(
+                    x: batteryCenter.x - (iconSize.width/2),
+                    y: batteryCenter.y - (iconSize.height/2)
+                )
+                let max = CGPoint(
+                    x: batteryCenter.x + (iconSize.width/2),
+                    y: batteryCenter.y + (iconSize.height/2)
+                )
+                
+                points = [
+                    CGPoint(x: batteryCenter.x-3, y: min.y), // bottom
+                    CGPoint(x: max.x, y: batteryCenter.y+1.5),
+                    CGPoint(x: batteryCenter.x+1, y: batteryCenter.y+1.5),
+                    CGPoint(x: batteryCenter.x+3, y: max.y), // top
+                    CGPoint(x: min.x, y: batteryCenter.y-1.5),
+                    CGPoint(x: batteryCenter.x-1, y: batteryCenter.y-1.5),
+                ]
+            } else {
+                let iconSize: CGSize = CGSize(width: 9, height: batterySize.height + 2)
+                let minY = batteryCenter.y - (iconSize.height/2)
+                let maxY = batteryCenter.y + (iconSize.height/2)
+                
+                points = [
+                    CGPoint(x: batteryCenter.x-1.5, y: minY+0.5),
+                    
+                    CGPoint(x: batteryCenter.x+1.5, y: minY+0.5),
+                    CGPoint(x: batteryCenter.x+1.5, y: batteryCenter.y - 2.5),
+                    
+                    CGPoint(x: batteryCenter.x+4, y: batteryCenter.y + 0.5),
+                    CGPoint(x: batteryCenter.x+4, y: batteryCenter.y + 4.25),
+                    
+                    // right
+                    CGPoint(x: batteryCenter.x+2.75, y: batteryCenter.y + 4.25),
+                    CGPoint(x: batteryCenter.x+2.75, y: maxY-0.25),
+                    CGPoint(x: batteryCenter.x+0.25, y: maxY-0.25),
+                    CGPoint(x: batteryCenter.x+0.25, y: batteryCenter.y + 4.25),
+                    
+                    // left
+                    CGPoint(x: batteryCenter.x-0.25, y: batteryCenter.y + 4.25),
+                    CGPoint(x: batteryCenter.x-0.25, y: maxY-0.25),
+                    CGPoint(x: batteryCenter.x-2.75, y: maxY-0.25),
+                    CGPoint(x: batteryCenter.x-2.75, y: batteryCenter.y + 4.25),
+                    
+                    CGPoint(x: batteryCenter.x-4, y: batteryCenter.y + 4.25),
+                    CGPoint(x: batteryCenter.x-4, y: batteryCenter.y + 0.5),
+                    
+                    CGPoint(x: batteryCenter.x-1.5, y: batteryCenter.y - 2.5),
+                    CGPoint(x: batteryCenter.x-1.5, y: minY+0.5),
+                ]
+            }
             
             let linePath = NSBezierPath()
             linePath.move(to: CGPoint(x: points[0].x, y: points[0].y))
