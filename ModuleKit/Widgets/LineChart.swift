@@ -13,7 +13,7 @@ import Cocoa
 import StatsKit
 
 public class LineChart: WidgetWrapper {
-    private var labelState: Bool = true
+    private var labelState: Bool = false
     private var boxState: Bool = true
     private var frameState: Bool = false
     private var valueState: Bool = false

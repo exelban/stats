@@ -8,6 +8,13 @@
 	<false/>
 	<key>Widgets</key>
 	<dict>
+		<key>label</key>
+		<dict>
+			<key>Default</key>
+			<false/>
+			<key>Order</key>
+			<integer>0</integer>
+		</dict>
 		<key>sensors</key>
 		<dict>
 			<key>Default</key>
@@ -18,7 +25,7 @@
 				<string>2160 RPM,1990 RPM</string>
 			</dict>
 			<key>Order</key>
-			<integer>0</integer>
+			<integer>1</integer>
 		</dict>
 	</dict>
 </dict>
