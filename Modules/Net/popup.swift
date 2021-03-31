@@ -185,8 +185,10 @@ internal class Popup: NSStackView, Popup_p {
         
         let row: NSView = NSView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Popup.separatorHeight))
         
+        let updatebutton_width = (LocalizedString("Refresh") as NSString).size(withAttributes: [NSAttributedString.Key.font: NSFont.systemFont(ofSize: 11, weight: .light)]).width
+        
         let button = NSButtonWithPadding()
-        button.frame = CGRect(x: view.frame.width - 44, y: 5, width: 44, height: 20)
+        button.frame = CGRect(x: view.frame.width - updatebutton_width, y: 5, width: updatebutton_width, height: 20)
         button.bezelStyle = .regularSquare
         button.isBordered = false
         button.action = #selector(self.refreshPublicIP)
