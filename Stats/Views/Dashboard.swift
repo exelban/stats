@@ -266,7 +266,7 @@ class Dashboard: NSScrollView {
                 var row = gpus[i].name != nil ? gpus[i].name! : LocalizedString("Unknown")
                 
                 if let size = gpus[i].vram {
-                    row += " \(size)"
+                    row += " (\(size))"
                 }
                 
                 value += "\(row)\(i == gpus.count-1 ? "" : "\n")"

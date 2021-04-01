@@ -223,13 +223,20 @@ public class SystemKit {
         do {
             if let json = try JSONSerialization.jsonObject(with: Data(res.utf8), options: []) as? [String: Any] {
                 if let arr = json["SPDisplaysDataType"] as? [[String:Any]] {
-                    var gpu: gpu_s = gpu_s()
                     for obj in arr {
+                        var gpu: gpu_s = gpu_s()
+                        
                         gpu.name = obj["sppci_model"] as? String
                         gpu.vendor = obj["spdisplays_vendor"] as? String
-                        gpu.vram = obj["spdisplays_vram_shared"] as? String
+                        
+                        if let vram = obj["spdisplays_vram_shared"] as? String {
+                            gpu.vram = vram
+                        } else if let vram = obj["spdisplays_vram"] as? String {
+                            gpu.vram = vram
+                        }
+                        
+                        list.append(gpu)
                     }
-                    list.append(gpu)
                 }
             }
         } catch let error as NSError {
