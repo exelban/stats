@@ -55,7 +55,9 @@ public struct ram_s {
 }
 
 public struct gpu_s {
-    public let name: String
+    public var name: String? = nil
+    public var vendor: String? = nil
+    public var vram: String? = nil
 }
 
 public struct disk_s {
@@ -213,40 +215,29 @@ public class SystemKit {
     }
     
     private func getGPUInfo() -> [gpu_s]? {
-        var gpu: [gpu_s] = []
-        var iterator: io_iterator_t = 0
-        var device: io_object_t = 1
-        
-        let result = IOServiceGetMatchingServices(kIOMasterPortDefault, IOServiceMatching("IOPCIDevice"), &iterator)
-        if result == kIOReturnSuccess {
-            while device != 0 {
-                device = IOIteratorNext(iterator)
-                var serviceDictionary: Unmanaged<CFMutableDictionary>?
-                
-                if (IORegistryEntryCreateCFProperties(device, &serviceDictionary, kCFAllocatorDefault, 0) != kIOReturnSuccess) {
-                    IOObjectRelease(device)
-                    continue
-                }
-                
-                if let props = serviceDictionary {
-                    let dict = props.takeRetainedValue() as NSDictionary
-                    
-                    if let d = dict.object(forKey: "IOName") as? String {
-                        if d == "display" {
-                            guard let model = dict.object(forKey: "model") as? Data else {
-                                continue
-                            }
-                            let modelName = String(data: model, encoding: .ascii)!.replacingOccurrences(of: "\0", with: "")
-                            gpu.append(gpu_s(name: modelName))
-                        }
-                    }
-                }
-                
-                IOObjectRelease(device)
-            }
+        guard let res = process(path: "/usr/sbin/system_profiler", arguments: ["SPDisplaysDataType", "-json"]) else {
+            return nil
         }
         
-        return gpu
+        var list: [gpu_s] = []
+        do {
+            if let json = try JSONSerialization.jsonObject(with: Data(res.utf8), options: []) as? [String: Any] {
+                if let arr = json["SPDisplaysDataType"] as? [[String:Any]] {
+                    var gpu: gpu_s = gpu_s()
+                    for obj in arr {
+                        gpu.name = obj["sppci_model"] as? String
+                        gpu.vendor = obj["spdisplays_vendor"] as? String
+                        gpu.vram = obj["spdisplays_vram_shared"] as? String
+                    }
+                    list.append(gpu)
+                }
+            }
+        } catch let error as NSError {
+            os_log(.error, log: self.log, "error to parse system_profiler SPDisplaysDataType: %s", error.localizedDescription)
+            return nil
+        }
+        
+        return list
     }
     
     private func getDiskInfo() -> disk_s? {
@@ -297,42 +288,16 @@ public class SystemKit {
     }
     
     public func getRamInfo() -> ram_s? {
-        let task = Process()
-        task.launchPath = "/usr/sbin/system_profiler"
-        task.arguments = ["SPMemoryDataType", "-json"]
-        
-        let outputPipe = Pipe()
-        let errorPipe = Pipe()
-        
-        defer {
-            outputPipe.fileHandleForReading.closeFile()
-            errorPipe.fileHandleForReading.closeFile()
-        }
-        
-        task.standardOutput = outputPipe
-        task.standardError = errorPipe
-        
-        do {
-            try task.run()
-        } catch let error {
-            os_log(.error, log: log, "system_profiler SPMemoryDataType: %s", "\(error.localizedDescription)")
+        guard let res = process(path: "/usr/sbin/system_profiler", arguments: ["SPMemoryDataType", "-json"]) else {
             return nil
         }
         
-        let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
-        let output = String(decoding: outputData, as: UTF8.self)
-        
-        if output.isEmpty {
-            return nil
-        }
-        
-        let data = Data(output.utf8)
         do {
-            if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+            if let json = try JSONSerialization.jsonObject(with: Data(res.utf8), options: []) as? [String: Any] {
                 var ram: ram_s = ram_s()
                 
                 if let obj = json["SPMemoryDataType"] as? [[String:Any]], obj.count > 0 {
-                    if let items = obj[0]["_items"] as? [[String: Any]], items.count > 0 {
+                    if let items = obj[0]["_items"] as? [[String: Any]] {
                         for i in 0..<items.count {
                             let item = items[i]
                             
@@ -357,6 +322,8 @@ public class SystemKit {
                             
                             ram.dimms.append(dimm)
                         }
+                    } else if let value = obj[0]["SPMemoryDataType"] as? String {
+                        ram.dimms.append(dimm_s(bank: nil, channel: nil, type: nil, size: value, speed: nil))
                     }
                 }
                 
