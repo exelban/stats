@@ -24,6 +24,7 @@
 "Yes" = "Tak";
 "No" = "Nie";
 "Automatic" = "Automatyczny";
+"Manual" = "Ręczny";
 "None" = "Brak";
 "Dots" = "Punkty";
 "Arrows" = "Strzałki";
@@ -31,6 +32,8 @@
 "Short" = "Krótki";
 "Long" = "Długi";
 "Statistics" = "Statystyki";
+"Max" = "Max";
+"Min" = "Min";
 
 // Alerts
 "New version available" = "Nowa wersja dostępna";
