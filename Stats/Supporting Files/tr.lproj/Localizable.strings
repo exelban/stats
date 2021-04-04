@@ -49,18 +49,18 @@
 // Application settings
 "Update application" = "Uygulamayı güncelle";
 "Check for updates" = "Güncellemeleri denetle";
-"At start" = "At start";
-"Once per day" = "Once per day";
-"Once per week" = "Once per week";
-"Once per month" = "Once per month";
-"Never" = "Never";
+"At start" = "Başlangıçta";
+"Once per day" = "Günlük";
+"Once per week" = "Haftalık";
+"Once per month" = "Aylık";
+"Never" = "Asla";
 "Check for update" = "Güncellemeleri denetle";
 "Show icon in dock" = "Dock'ta göster";
 "Start at login" = "Başlangıçta çalıştır";
 
 // Dashboard
 "Serial number" = "Seri numarası";
-"Uptime" = "Uptime";
+"Uptime" = "Çalışma süresi";
 
 // Update
 "The latest version of Stats installed" = "Stats'ın son sürümü yüklendi";
@@ -83,14 +83,14 @@
 "One row" = "Bir sıra";
 "Two rows" = "İki sıra";
 "Mini widget" = "Mini";
-"Line chart widget" = "Line chart";
-"Bar chart widget" = "Bar chart";
-"Pie chart widget" = "Pie chart";
-"Network chart widget" = "Network chart";
-"Speed widget" = "Speed";
-"Battery widget" = "Battery";
-"Text widget" = "Text";
-"Memory widget" = "Memory";
+"Line chart widget" = "Çizgi grafik";
+"Bar chart widget" = "Çubuk grafik";
+"Pie chart widget" = "Pasta grafik";
+"Network chart widget" = "Ağ grafiği";
+"Speed widget" = "Hız";
+"Battery widget" = "Batarya";
+"Text widget" = "Metin";
+"Memory widget" = "Bellek";
 
 // Module Kit
 "Open module settings" = "Modül ayarlarını aç";
@@ -117,19 +117,19 @@
 // GPU
 "GPU to show" = "Gösterilecek GPU";
 "Show GPU type" = "GPU türünü göster";
-"GPU enabled" = "GPU enabled";
-"GPU disabled" = "GPU disabled";
+"GPU enabled" = "GPU aktif";
+"GPU disabled" = "GPU kapalı";
 "GPU temperature" = "GPU sıcaklığı";
 "GPU utilization" = "GPU kullanımı";
-"Vendor" = "Vendor";
+"Vendor" = "Üretici";
 "Model" = "Model";
-"Status" = "Status";
-"Active" = "Active";
-"Non active" = "Non active";
-"Fan speed" = "Fan speed";
-"Core clock" = "Core clock";
-"Memory clock" = "Memory clock";
-"Utilization" = "Utilization";
+"Status" = "Durum";
+"Active" = "Atkif";
+"Non active" = "Aktif değil";
+"Fan speed" = "Fan hızı";
+"Core clock" = "Çekirdek frekansı";
+"Memory clock" = "Bellek frekansı";
+"Utilization" = "Kullanım";
 
 // Memory
 "Memory usage" = "Ram kullanımı";
@@ -178,8 +178,8 @@
 // Battery
 "Level" = "Doluluk";
 "Source" = "Kaynak";
-"AC Power" = "AC Power";
-"Battery Power" = "Battery Power";
+"AC Power" = "Fişe takılı";
+"Battery Power" = "Batarya gücü";
 "Time" = "Süre";
 "Health" = "Sağlık";
 "Battery" = "Batarya";
@@ -196,9 +196,9 @@
 "Fully charged" = "Tam şarjlı";
 "Not connected" = "Bağlı değil";
 "Low level notification" = "Düşük güç bildirimi";
-"High level notification" = "High level notification";
+"High level notification" = "Güç bildirimi";
 "Low battery" = "Düşük batarya";
-"High battery" = "High battery";
+"High battery" = "Dolu batarya";
 "Battery remaining" = "%0% kaldı";
 "Percentage" = "Yüzde";
 "Percentage and time" = "Yüzde ve zaman";
