@@ -56,6 +56,7 @@ Stats is an application that allows you to monitor your macOS system.
 - Magyar (thanks to [moriczr](https://github.com/moriczr))
 - Bulgarian (thanks to [zbrox](https://github.com/zbrox))
 - Romanian (thanks to [razluta](https://github.com/razluta))
+- Dutch
 
 You can help by adding a new language or improve existing translation.
 
