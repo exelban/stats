@@ -60,7 +60,7 @@ class SettingsWindow: NSWindow, NSWindowDelegate {
     }
     
     public func setModules() {
-        self.viewController.setModules(&modules)
+        self.viewController.setModules(modules)
         if modules.filter({ $0.enabled != false && $0.available != false }).count == 0 {
             self.setIsVisible(true)
         }
@@ -95,7 +95,7 @@ private class SettingsViewController: NSViewController {
         super.viewDidLoad()
     }
     
-    public func setModules(_ list: UnsafeMutablePointer<[Module]>) {
+    public func setModules(_ list: [Module]) {
         self.settings.setModules(list)
     }
     
@@ -105,7 +105,7 @@ private class SettingsViewController: NSViewController {
 }
 
 private class SettingsView: NSView {
-    private var modules: UnsafeMutablePointer<[Module]>?
+    private var modules: [Module] = []
     
     private let sidebarWidth: CGFloat = 180
     private let navigationHeight: CGFloat = 45
@@ -188,8 +188,8 @@ private class SettingsView: NSView {
         })
     }
     
-    public func setModules(_ list: UnsafeMutablePointer<[Module]>) {
-        list.pointee.forEach { (m: Module) in
+    public func setModules(_ list: [Module]) {
+        list.forEach { (m: Module) in
             if !m.available { return }
             let n: Int = self.menuView.subviews.count - 1
             let menu: NSView = MenuView(n: n, icon: m.config.icon, title: m.config.name)
@@ -202,7 +202,7 @@ private class SettingsView: NSView {
         if let title = notification.userInfo?["module"] as? String {
             var view: NSView = NSView()
             
-            if let detectedModule = self.modules?.pointee.first(where: { $0.config.name == title }) {
+            if let detectedModule = self.modules.first(where: { $0.config.name == title }) {
                 if let v = detectedModule.settings {
                     view = v
                 }

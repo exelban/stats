@@ -44,16 +44,16 @@
 "Support the application" = "Apoie o aplicativo";
 "Close application" = "Fechar aplicativo";
 "Open application settings" = "Abrir configurações do aplicativo";
-"Open moduleName settings" = "Abrir configurações do %0";
+"Open moduleName settings" = "Abrir configurações de %0";
 
 // Application settings
 "Update application" = "Atualizar aplicativo";
 "Check for updates" = "Verificar se há atualizações";
-"At start" = "At start";
-"Once per day" = "Once per day";
-"Once per week" = "Once per week";
-"Once per month" = "Once per month";
-"Never" = "Never";
+"At start" = "Ao iniciar";
+"Once per day" = "Uma vez ao dia";
+"Once per week" = "Uma vez na semana";
+"Once per month" = "Uma vez no mês";
+"Never" = "Nunca";
 "Check for update" = "Verificar atualização";
 "Show icon in dock" = "Mostrar ícone no dock";
 "Start at login" = "Inicie no login";
@@ -84,13 +84,13 @@
 "Two rows" = "Duas linhas";
 "Mini widget" = "Mini";
 "Line chart widget" = "Line chart";
-"Bar chart widget" = "Bar chart";
-"Pie chart widget" = "Pie chart";
-"Network chart widget" = "Network chart";
-"Speed widget" = "Speed";
-"Battery widget" = "Battery";
-"Text widget" = "Text";
-"Memory widget" = "Memory";
+"Bar chart widget" = "Gráfico de barras";
+"Pie chart widget" = "Gráfico de pizza";
+"Network chart widget" = "Gráfico de rede";
+"Speed widget" = "Velocidade";
+"Battery widget" = "Bateria";
+"Text widget" = "Texto";
+"Memory widget" = "Memoria";
 
 // Module Kit
 "Open module settings" = "Abrir configurações do módulo";
@@ -117,19 +117,19 @@
 // GPU
 "GPU to show" = "GPU para mostrar";
 "Show GPU type" = "Mostrar tipo de GPU";
-"GPU enabled" = "GPU enabled";
-"GPU disabled" = "GPU disabled";
+"GPU enabled" = "GPU ativada";
+"GPU disabled" = "GPU desativada";
 "GPU temperature" = "Temperatura da GPU";
 "GPU utilization" = "Utilização da GPU";
-"Vendor" = "Vendor";
-"Model" = "Model";
+"Vendor" = "Fabricante";
+"Model" = "Modelo";
 "Status" = "Status";
-"Active" = "Active";
-"Non active" = "Non active";
-"Fan speed" = "Fan speed";
-"Core clock" = "Core clock";
-"Memory clock" = "Memory clock";
-"Utilization" = "Utilization";
+"Active" = "Ativo";
+"Non active" = "Inativo";
+"Fan speed" = "Velocidade da ventoinha";
+"Core clock" = "Clock do núcleo";
+"Memory clock" = "Clock da memória";
+"Utilization" = "Utilização";
 
 // Memory
 "Memory usage" = "Memória usada";
@@ -145,7 +145,7 @@
 // Disk
 "Show removable disks" = "Mostrar discos removíveis";
 "Used disk memory" = "Usado %0 de %1";
-"Free disk memory" = "Libre %0 de %1";
+"Free disk memory" = "Livre %0 de %1";
 "Disk to show" = "Disco para mostrar";
 "Open disk" = "Disco aberto";
 "Switch view" = "Mudar de vista";
@@ -196,15 +196,15 @@
 "Fully charged" = "Completamente carregado";
 "Not connected" = "Não conectado";
 "Low level notification" = "Notificação de baixo nível";
-"High level notification" = "High level notification";
+"High level notification" = "Notificação de alto nível";
 "Low battery" = "Bateria fraca";
-"High battery" = "High battery";
+"High battery" = "Bateria cheia";
 "Battery remaining" = "%0% restante";
-"Percentage" = "Percentagem";
+"Percentage" = "Porcentagem";
 "Percentage and time" = "Porcentagem e tempo";
 "Time and percentage" = "Tempo e porcentagem";
 "Time format" = "Formato de hora";
 "Hide additional information when full" = "Ocultar informações adicionais quando estiver cheia";
 
 // Fans
-"Fans" = "Fans";
+"Fans" = "Ventoinhas";

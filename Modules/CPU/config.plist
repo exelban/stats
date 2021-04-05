@@ -8,6 +8,13 @@
 	<true/>
 	<key>Widgets</key>
 	<dict>
+		<key>label</key>
+		<dict>
+			<key>Default</key>
+			<false/>
+			<key>Order</key>
+			<integer>0</integer>
+		</dict>
 		<key>mini</key>
 		<dict>
 			<key>Default</key>
@@ -22,7 +29,7 @@
 				<string>pressure</string>
 			</array>
 			<key>Order</key>
-			<integer>0</integer>
+			<integer>1</integer>
 		</dict>
 		<key>line_chart</key>
 		<dict>
@@ -35,7 +42,7 @@
 				<string>pressure</string>
 			</array>
 			<key>Order</key>
-			<integer>1</integer>
+			<integer>2</integer>
 		</dict>
 		<key>bar_chart</key>
 		<dict>
@@ -53,14 +60,14 @@
 				<string>pressure</string>
 			</array>
 			<key>Order</key>
-			<integer>2</integer>
+			<integer>3</integer>
 		</dict>
 		<key>pie_chart</key>
 		<dict>
 			<key>Default</key>
 			<false/>
 			<key>Order</key>
-			<integer>3</integer>
+			<integer>4</integer>
 		</dict>
 	</dict>
 </dict>

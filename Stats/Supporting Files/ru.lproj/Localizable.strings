@@ -24,6 +24,7 @@
 "Yes" = "Да";
 "No" = "Нет";
 "Automatic" = "Автоматический";
+"Manual" = "Ручной";
 "None" = "Никакой";
 "Dots" = "Точки";
 "Arrows" = "Стрелки";
@@ -31,6 +32,8 @@
 "Short" = "Короткий";
 "Long" = "Длинный";
 "Statistics" = "Статистика";
+"Max" = "Max";
+"Min" = "Min";
 
 // Alerts
 "New version available" = "Доступна новая версия";

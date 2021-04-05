@@ -13,7 +13,7 @@ import Cocoa
 import StatsKit
 
 public class PieChart: WidgetWrapper {
-    private var labelState: Bool = true
+    private var labelState: Bool = false
     
     private var chart: PieChartView = PieChartView(
         frame: NSRect(

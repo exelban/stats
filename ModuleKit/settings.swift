@@ -275,6 +275,9 @@ internal class WidgetPreview: NSStackView {
     private var widget: UnsafeMutablePointer<Widget>
     private var size: CGFloat {
         get {
+            if self.widget.pointee.type == .label {
+                return Constants.Widget.spacing*2
+            }
             return self.widget.pointee.isActive ? Constants.Widget.height + (Constants.Widget.spacing*3) + 1 : Constants.Widget.spacing*2
         }
     }
@@ -321,7 +324,7 @@ internal class WidgetPreview: NSStackView {
         container.addSubview(widget.pointee.preview)
         
         self.addArrangedSubview(container)
-        if self.widget.pointee.isActive {
+        if self.widget.pointee.isActive && self.widget.pointee.type != .label {
             self.addArrangedSubview(self.separator)
             if let button = self.button {
                 self.addArrangedSubview(button)
@@ -404,7 +407,7 @@ internal class WidgetPreview: NSStackView {
     }
     
     override func mouseExited(with: NSEvent) {
-        self.layer?.borderColor = self.widget.pointee.isActive ? NSColor.systemBlue.cgColor : NSColor.tertiaryLabelColor.cgColor
+        self.layer?.borderColor = self.widget.pointee.isActive ? NSColor.systemBlue.cgColor : NSColor(hexString: "#dddddd").cgColor
         NSCursor.arrow.set()
     }
     
@@ -412,15 +415,17 @@ internal class WidgetPreview: NSStackView {
         self.widget.pointee.toggle()
         self.stateCallback()
         
-        if self.widget.pointee.isActive {
-            self.addArrangedSubview(self.separator)
-            if let button = self.button {
-                self.addArrangedSubview(button)
-            }
-        } else {
-            self.removeView(self.separator)
-            if let button = self.button {
-                self.removeView(button)
+        if self.widget.pointee.type != .label {
+            if self.widget.pointee.isActive {
+                self.addArrangedSubview(self.separator)
+                if let button = self.button {
+                    self.addArrangedSubview(button)
+                }
+            } else {
+                self.removeView(self.separator)
+                if let button = self.button {
+                    self.removeView(button)
+                }
             }
         }
         

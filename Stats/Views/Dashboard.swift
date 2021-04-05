@@ -263,7 +263,13 @@ class Dashboard: NSScrollView {
         var value = ""
         if let gpus = SystemKit.shared.device.info.gpu {
             for i in 0..<gpus.count {
-                value += "\(gpus[i].name)\(i == gpus.count-1 ? "" : "\n")"
+                var row = gpus[i].name != nil ? gpus[i].name! : LocalizedString("Unknown")
+                
+                if let size = gpus[i].vram {
+                    row += " (\(size))"
+                }
+                
+                value += "\(row)\(i == gpus.count-1 ? "" : "\n")"
             }
         } else {
             value = LocalizedString("Unknown")
