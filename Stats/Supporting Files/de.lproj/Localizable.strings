@@ -126,7 +126,7 @@
 "Status" = "Status";
 "Active" = "Aktiv";
 "Non active" = "Nicht aktiv";
-"Fan speed" = "Lüfterdrehzal";
+"Fan speed" = "Lüfterdrehzahl";
 "Core clock" = "Core Frequenz";
 "Memory clock" = "Memory Frequenz";
 "Utilization" = "Auslastung";
