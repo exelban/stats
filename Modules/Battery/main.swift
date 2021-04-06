@@ -185,7 +185,7 @@ public class Battery: Module {
         }
         
         if value.level >= notificationLevel && self.highNotification == nil {
-            var subtitle = LocalizedString("Charge remaining", "\(Int((1-value.level)*100))")
+            var subtitle = LocalizedString("Battery remaining to full charge", "\(Int((1-value.level)*100))")
             if value.timeToCharge > 0 {
                 subtitle += " (\(Double(value.timeToCharge*60).printSecondsToHoursMinutesSeconds()))"
             }
