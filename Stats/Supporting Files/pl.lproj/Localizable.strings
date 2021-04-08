@@ -203,6 +203,7 @@
 "Low battery" = "Niski poziom baterii";
 "High battery" = "Wysoki poziom baterii";
 "Battery remaining" = "Pozostało %0%";
+"Battery remaining to full charge" = "%0% do pełnego naładowania";
 "Percentage" = "Procenty";
 "Percentage and time" = "Procenty i czas";
 "Time and percentage" = "Czas i procenty";

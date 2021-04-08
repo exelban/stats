@@ -203,6 +203,7 @@
 "Low battery" = "Low battery";
 "High battery" = "High battery";
 "Battery remaining" = "%0% remaining";
+"Battery remaining to full charge" = "%0% to full charge";
 "Percentage" = "Percentage";
 "Percentage and time" = "Percentage and time";
 "Time and percentage" = "Time and percentage";

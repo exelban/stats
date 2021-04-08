@@ -200,6 +200,7 @@
 "Low battery" = "Nízká úroveň baterie";
 "High battery" = "High battery";
 "Battery remaining" = "Zbývá %0 %";
+"Battery remaining to full charge" = "%0% to full charge";
 "Percentage" = "Procenta";
 "Percentage and time" = "Procenta a čas";
 "Time and percentage" = "Čas a procenta";

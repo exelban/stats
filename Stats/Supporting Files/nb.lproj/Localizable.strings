@@ -200,6 +200,7 @@
 "Low battery" = "Lavt batterinivå";
 "High battery" = "High battery";
 "Battery remaining" = "%0% igjen";
+"Battery remaining to full charge" = "%0% to full charge";
 "Percentage" = "Prosent";
 "Percentage and time" = "Prosent og tid";
 "Time and percentage" = "Tid og prosent";

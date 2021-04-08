@@ -200,6 +200,7 @@
 "Low battery" = "Ниско ниво на батерията";
 "High battery" = "Високо ниво на батерията";
 "Battery remaining" = "Оставащи %0%";
+"Battery remaining to full charge" = "%0% to full charge";
 "Percentage" = "Процент";
 "Percentage and time" = "Процент и време";
 "Time and percentage" = "Време и процент";

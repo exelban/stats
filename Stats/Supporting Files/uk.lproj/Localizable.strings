@@ -203,6 +203,7 @@
 "Low battery" = "Низький заряд акумулятора";
 "High battery" = "High battery";
 "Battery remaining" = "%0% залишилось";
+"Battery remaining to full charge" = "%0% до повного заряду";
 "Percentage" = "Проценти";
 "Percentage and time" = "Проценти і час";
 "Time and percentage" = "Час і проценти";

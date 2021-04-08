@@ -200,6 +200,7 @@
 "Low battery" = "Pin yếu";
 "High battery" = "High battery";
 "Battery remaining" = "%0% còn lại";
+"Battery remaining to full charge" = "%0% to full charge";
 "Percentage" = "Phần trăm";
 "Percentage and time" = "Phần trăm và thời gian";
 "Time and percentage" = "Thời gian và tỷ lệ phần trăm";

@@ -200,6 +200,7 @@
 "Low battery" = "Baterie puțină";
 "High battery" = "High battery";
 "Battery remaining" = "%0% rămas";
+"Battery remaining to full charge" = "%0% to full charge";
 "Percentage" = "Procentaj";
 "Percentage and time" = "Procentaj și timp";
 "Time and percentage" = "Timp si procentaj";

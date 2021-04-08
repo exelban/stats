@@ -200,6 +200,7 @@
 "Low battery" = "배터리 부족";
 "High battery" = "High battery";
 "Battery remaining" = "%0% 남았습니다";
+"Battery remaining to full charge" = "%0% to full charge";
 "Percentage" = "백분율";
 "Percentage and time" = "비율과 시간";
 "Time and percentage" = "시간과 비율";

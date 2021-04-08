@@ -200,6 +200,7 @@
 "Low battery" = "Bateria fraca";
 "High battery" = "Bateria cheia";
 "Battery remaining" = "%0% restante";
+"Battery remaining to full charge" = "%0% to full charge";
 "Percentage" = "Porcentagem";
 "Percentage and time" = "Porcentagem e tempo";
 "Time and percentage" = "Tempo e porcentagem";

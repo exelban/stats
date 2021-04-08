@@ -200,6 +200,7 @@
 "Low battery" = "低电量";
 "High battery" = "High battery";
 "Battery remaining" = "剩余 %0%";
+"Battery remaining to full charge" = "%0% to full charge";
 "Percentage" = "百分比";
 "Percentage and time" = "百分比和时间";
 "Time and percentage" = "时间和百分比";

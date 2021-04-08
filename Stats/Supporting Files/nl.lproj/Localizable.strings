@@ -3,9 +3,10 @@
 //  Stats
 //
 //  Created by Phúc Ngô on 02/04/2021.
+//
 //  Running on macOS Big Sur M1.
 //
-//  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
+//  Copyright © 2021 Serhiy Mytrovtsiy. All rights reserved.
 //
 
 // Words
@@ -202,6 +203,7 @@
 "Low battery" = "Lage batterij";
 "High battery" = "Hoge batterij";
 "Battery remaining" = "%0% overgebleven";
+"Battery remaining to full charge" = "%0% to full charge";
 "Percentage" = "Percentage";
 "Percentage and time" = "Percentage en tijd";
 "Time and percentage" = "Tijd and Percentage";

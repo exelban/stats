@@ -201,6 +201,7 @@
 "Low battery" = "バッテリー残量低下";
 "High battery" = "バッテリー充電状況";
 "Battery remaining" = "バッテリー残量 残り %0%";
+"Battery remaining to full charge" = "%0% to full charge";
 "Percentage" = "残量（%）";
 "Percentage and time" = "残量（%）と残り時間";
 "Time and percentage" = "残り時間と残量（%）";

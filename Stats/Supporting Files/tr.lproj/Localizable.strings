@@ -200,6 +200,7 @@
 "Low battery" = "Düşük batarya";
 "High battery" = "Dolu batarya";
 "Battery remaining" = "%0% kaldı";
+"Battery remaining to full charge" = "%0% to full charge";
 "Percentage" = "Yüzde";
 "Percentage and time" = "Yüzde ve zaman";
 "Time and percentage" = "Zaman ve yüzde";

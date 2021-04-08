@@ -200,6 +200,7 @@
 "Low battery" = "Alacsony akkumulátor töltöttség";
 "High battery" = "High battery";
 "Battery remaining" = "%0% töltöttség";
+"Battery remaining to full charge" = "%0% to full charge";
 "Percentage" = "Százalék";
 "Percentage and time" = "Százalék és időtartam";
 "Time and percentage" = "Időtartam és százalék";
