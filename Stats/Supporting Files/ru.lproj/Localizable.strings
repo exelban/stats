@@ -98,6 +98,7 @@
 // Module Kit
 "Open module settings" = "Открыть настройки модуля";
 "Select widget" = "Активировать %0 виджет";
+"Open widget settings" = "Open widget settings";
 "Update interval" = "Интервал обновления";
 "Usage history" = "История использования";
 "Details" = "Подробности";
@@ -166,6 +167,7 @@
 "Interface" = "Интерфейс";
 "Network" = "Сеть";
 "Physical address" = "Физический адрес";
+"Refresh" = "Refresh";
 "Click to copy public IP address" = "Нажмите, чтобы скопировать публичный IP";
 "Click to copy local IP address" = "Нажмите, чтобы скопировать локальный IP";
 "Click to copy wifi name" = "Нажмите, чтобы скопировать имя Wi-Fi";

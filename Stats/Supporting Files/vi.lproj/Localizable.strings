@@ -24,6 +24,7 @@
 "Yes" = "Có";
 "No" = "Không";
 "Automatic" = "Tự động";
+"Manual" = "Manual";
 "None" = "Không có";
 "Dots" = "Dấu chấm";
 "Arrows" = "Mũi tên";
@@ -31,6 +32,8 @@
 "Short" = "Ngắn";
 "Long" = "Dài";
 "Statistics" = "Số liệu thống kê";
+"Max" = "Max";
+"Min" = "Min";
 
 // Alerts
 "New version available" = "Phiên bản mới có sẵn";
@@ -95,6 +98,7 @@
 // Module Kit
 "Open module settings" = "Mở cài đặt module";
 "Select widget" = "Chọn tiện ích %0";
+"Open widget settings" = "Open widget settings";
 "Update interval" = "Thời gian làm mới";
 "Usage history" = "Lịch sử sử dụng";
 "Details" = "Chi tiết";
@@ -163,6 +167,7 @@
 "Interface" = "Giao diện mạng";
 "Network" = "Tên mạng";
 "Physical address" = "Địa chỉ vật lý (MAC)";
+"Refresh" = "Refresh";
 "Click to copy public IP address" = "Nhấp để copy IP công cộng";
 "Click to copy local IP address" = "Nhấp để copy IP cục bộ";
 "Click to copy wifi name" = "Nhấp để copy tên WIFI";

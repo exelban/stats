@@ -24,6 +24,7 @@
 "Yes" = "是";
 "No" = "否";
 "Automatic" = "自动";
+"Manual" = "Manual";
 "None" = "无";
 "Dots" = "点";
 "Arrows" = "箭头";
@@ -31,6 +32,8 @@
 "Short" = "短";
 "Long" = "长";
 "Statistics" = "统计";
+"Max" = "Max";
+"Min" = "Min";
 
 // Alerts
 "New version available" = "新版本可用";
@@ -95,6 +98,7 @@
 // Module Kit
 "Open module settings" = "打开模块设置";
 "Select widget" = "选择%0小组件";
+"Open widget settings" = "Open widget settings";
 "Update interval" = "更新间隔";
 "Usage history" = "负载历史";
 "Details" = "详细信息";
@@ -163,6 +167,7 @@
 "Interface" = "接口";
 "Network" = "网络";
 "Physical address" = "物理地址";
+"Refresh" = "Refresh";
 "Click to copy public IP address" = "点击拷贝公网 IP";
 "Click to copy local IP address" = "点击拷贝本地 IP";
 "Click to copy wifi name" = "点击拷贝 WiFi 名称";

@@ -24,6 +24,7 @@
 "Yes" = "Sim";
 "No" = "Não";
 "Automatic" = "Automático";
+"Manual" = "Manual";
 "None" = "Nenhum";
 "Dots" = "Pontos";
 "Arrows" = "Setas";
@@ -31,6 +32,8 @@
 "Short" = "Curto";
 "Long" = "Longo";
 "Statistics" = "Estatísticas";
+"Max" = "Max";
+"Min" = "Min";
 
 // Alerts
 "New version available" = "Nova versão disponível";
@@ -95,6 +98,7 @@
 // Module Kit
 "Open module settings" = "Abrir configurações do módulo";
 "Select widget" = "Selecionar widget %0";
+"Open widget settings" = "Open widget settings";
 "Update interval" = "Intervalo de atualização";
 "Usage history" = "Histórico de uso";
 "Details" = "Detalhes";
@@ -163,6 +167,7 @@
 "Interface" = "Interface";
 "Network" = "Rede";
 "Physical address" = "Endereço físico";
+"Refresh" = "Refresh";
 "Click to copy public IP address" = "Clique para copiar o endereço de IP público";
 "Click to copy local IP address" = "Clique para copiar o endereço de IP local";
 "Click to copy wifi name" = "Clique para copiar o nome do wi-fi";

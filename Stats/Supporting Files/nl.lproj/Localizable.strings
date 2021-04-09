@@ -98,6 +98,7 @@
 // Module Kit
 "Open module settings" = "Open module-instellingen";
 "Select widget" = "Selecteer %0 widget";
+"Open widget settings" = "Open widget settings";
 "Update interval" = "Bijwerkingsonderbreking";
 "Usage history" = "Gebruiksgeschiedenis";
 "Details" = "Details";
@@ -166,6 +167,7 @@
 "Interface" = "Interface";
 "Network" = "Netwerk";
 "Physical address" = "Fysiek adres";
+"Refresh" = "Refresh";
 "Click to copy public IP address" = "Klik om te openbare IP-adres te kopiëren";
 "Click to copy local IP address" = "Klik om te lokale IP-adres te kopiëren";
 "Click to copy wifi name" = "Klik om te wifi-naam te kopiëren";

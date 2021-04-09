@@ -24,6 +24,7 @@
 "Yes" = "Evet";
 "No" = "Hayır";
 "Automatic" = "Otomatik";
+"Manual" = "Manual";
 "None" = "Yok";
 "Dots" = "Noktalar";
 "Arrows" = "Oklar";
@@ -31,6 +32,8 @@
 "Short" = "Kısa";
 "Long" = "Uzun";
 "Statistics" = "İstatistik";
+"Max" = "Max";
+"Min" = "Min";
 
 // Alerts
 "New version available" = "Yeni versiyon indirilebilir";
@@ -95,6 +98,7 @@
 // Module Kit
 "Open module settings" = "Modül ayarlarını aç";
 "Select widget" = "%0 widgetini seç";
+"Open widget settings" = "Open widget settings";
 "Update interval" = "Güncelleme aralığı";
 "Usage history" = "Kullanım geçmişi";
 "Details" = "Detaylar";
@@ -163,6 +167,7 @@
 "Interface" = "Arayüz";
 "Network" = "Ağ";
 "Physical address" = "Fiziksel adres";
+"Refresh" = "Refresh";
 "Click to copy public IP address" = "Genel IP adresini kopyalamak için tıklayın";
 "Click to copy local IP address" = "Yerel IP adresini kopyalamak için tıklayın";
 "Click to copy wifi name" = "Wifi adını kopyalamak için tıklayın";

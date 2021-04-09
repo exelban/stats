@@ -98,6 +98,7 @@
 // Module Kit
 "Open module settings" = "Open module settings";
 "Select widget" = "Select %0 widget";
+"Open widget settings" = "Open widget settings";
 "Update interval" = "Update interval";
 "Usage history" = "Usage history";
 "Details" = "Details";
@@ -166,6 +167,7 @@
 "Interface" = "Interface";
 "Network" = "Network";
 "Physical address" = "Physical address";
+"Refresh" = "Refresh";
 "Click to copy public IP address" = "Click to copy public IP address";
 "Click to copy local IP address" = "Click to copy local IP address";
 "Click to copy wifi name" = "Click to copy wifi name";
