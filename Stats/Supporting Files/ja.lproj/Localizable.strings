@@ -189,8 +189,8 @@
 "Health" = "状態";
 "Battery" = "バッテリー";
 "Amperage" = "電流";
-"Cycles" = "サイクル数";
 "Voltage" = "電圧";
+"Cycles" = "サイクル数";
 "Temperature" = "温度";
 "Power adapter" = "電源アダプタ";
 "Power" = "電力";
