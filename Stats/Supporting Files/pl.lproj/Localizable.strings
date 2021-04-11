@@ -98,6 +98,7 @@
 // Module Kit
 "Open module settings" = "Otwórz ustawienia modułu";
 "Select widget" = "Wybierz %0 widget";
+"Open widget settings" = "Open widget settings";
 "Update interval" = "Interwał odświeżania";
 "Usage history" = "Historia użycia";
 "Details" = "Szczegóły";
@@ -166,6 +167,7 @@
 "Interface" = "Interfejs";
 "Network" = "Sieć";
 "Physical address" = "Adres fizyczny";
+"Refresh" = "Refresh";
 "Click to copy public IP address" = "Kliknij, aby skopiować publiczny adres IP";
 "Click to copy local IP address" = "Kliknij, aby skopiować lokalny adres IP";
 "Click to copy wifi name" = "Kliknij, aby skopiować nazwę Wi-Fi";

@@ -24,6 +24,7 @@
 "Yes" = "예";
 "No" = "아니요";
 "Automatic" = "자동";
+"Manual" = "Manual";
 "None" = "없음";
 "Dots" = "도트";
 "Arrows" = "화살표";
@@ -31,6 +32,8 @@
 "Short" = "짧은";
 "Long" = "긴";
 "Statistics" = "통계";
+"Max" = "Max";
+"Min" = "Min";
 
 // Alerts
 "New version available" = "새로운 버전을 이용할 수 있습니다";
@@ -95,6 +98,7 @@
 // Module Kit
 "Open module settings" = "모듈 설정 열기";
 "Select widget" = "%0 위젯 선택";
+"Open widget settings" = "Open widget settings";
 "Update interval" = "업데이트 주기";
 "Usage history" = "사용 기록";
 "Details" = "세부 사항";
@@ -163,6 +167,7 @@
 "Interface" = "인터페이스";
 "Network" = "네트워크";
 "Physical address" = "물리 주소";
+"Refresh" = "Refresh";
 "Click to copy public IP address" = "공인 IP 주소를 복사하려면 클릭하세요";
 "Click to copy local IP address" = "로컬 IP 주소를 복사하려면 클릭하세요";
 "Click to copy wifi name" = "와이파이 이름을 복사하려면 클릭하세요";
