@@ -99,6 +99,7 @@
 // Module Kit
 "Open module settings" = "Abrir la configruación del módulo";
 "Select widget" = "Seleccionar el widget %0";
+"Open widget settings" = "Open widget settings";
 "Update interval" = "Intervalo de actualización";
 "Usage history" = "Historial de uso";
 "Details" = "Detalles";
@@ -167,6 +168,7 @@
 "Interface" = "Interfaz";
 "Network" = "Red";
 "Physical address" = "Dirección física";
+"Refresh" = "Refresh";
 "Click to copy public IP address" = "Haga clic para copiar la dirección IP pública";
 "Click to copy local IP address" = "Haga clic para copiar la dirección IP local";
 "Click to copy wifi name" = "Haga clic para copiar el nombre de la red wifi";
@@ -204,6 +206,7 @@
 "Low battery" = "Batería baja";
 "High battery" = "Batería alta";
 "Battery remaining" = "%0% restante";
+"Battery remaining to full charge" = "%0% to full charge";
 "Percentage" = "Porcentaje";
 "Percentage and time" = "Porcentaje y tiempo";
 "Time and percentage" = "Tiempo y porcentaje";

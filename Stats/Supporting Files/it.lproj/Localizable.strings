@@ -24,6 +24,7 @@
 "Yes" = "Si";
 "No" = "No";
 "Automatic" = "Automatico";
+"Manual" = "Manual";
 "None" = "Nessuna";
 "Dots" = "Punti";
 "Arrows" = "Frecce";
@@ -31,6 +32,8 @@
 "Short" = "Corto";
 "Long" = "Lungo";
 "Statistics" = "Statistiche";
+"Max" = "Max";
+"Min" = "Min";
 
 // Alerts
 "New version available" = "Nuova versione disponibile";
@@ -95,6 +98,7 @@
 // Module Kit
 "Open module settings" = "Apri impostazioni modulo";
 "Select widget" = "Seleziona il widget %0";
+"Open widget settings" = "Open widget settings";
 "Update interval" = "Intervallo di aggiornamento";
 "Usage history" = "Cronologia d'uso";
 "Details" = "Dettagli";
@@ -163,6 +167,7 @@
 "Interface" = "Interfaccia";
 "Network" = "Rete";
 "Physical address" = "Indirizzo fisico";
+"Refresh" = "Refresh";
 "Click to copy public IP address" = "Clicca per copiare l'IP pubblico";
 "Click to copy local IP address" = "Clicca per copiare l'IP locale";
 "Click to copy wifi name" = "Clicca per copiare il nome del wifi";
@@ -200,6 +205,7 @@
 "Low battery" = "Batteria scarica";
 "High battery" = "High battery";
 "Battery remaining" = "%0% rimanente";
+"Battery remaining to full charge" = "%0% to full charge";
 "Percentage" = "Percentuale";
 "Percentage and time" = "Percentuale e tempo";
 "Time and percentage" = "Tempo e percentuale";

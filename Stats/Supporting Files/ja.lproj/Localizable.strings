@@ -24,6 +24,7 @@
 "Yes" = "はい";
 "No" = "いいえ";
 "Automatic" = "自動";
+"Manual" = "Manual";
 "None" = "なし";
 "Dots" = "ドット";
 "Arrows" = "矢印";
@@ -31,6 +32,8 @@
 "Short" = "ショート";
 "Long" = "ロング";
 "Statistics" = "統計";
+"Max" = "Max";
+"Min" = "Min";
 
 // Alerts
 "New version available" = "新しいバージョンが利用可能です";
@@ -164,6 +167,7 @@
 "Interface" = "インターフェイス";
 "Network" = "Wi-Fi ネットワーク名";
 "Physical address" = "MAC アドレス";
+"Refresh" = "Refresh";
 "Click to copy public IP address" = "クリックしてパブリック IP アドレスをコピー";
 "Click to copy local IP address" = "クリックしてローカル IP アドレスをコピー";
 "Click to copy wifi name" = "クリックして Wi-Fi ネットワーク名をコピー";
@@ -185,8 +189,8 @@
 "Health" = "状態";
 "Battery" = "バッテリー";
 "Amperage" = "電流";
-"Cycles" = "サイクル数";
 "Voltage" = "電圧";
+"Cycles" = "サイクル数";
 "Temperature" = "温度";
 "Power adapter" = "電源アダプタ";
 "Power" = "電力";
@@ -201,6 +205,7 @@
 "Low battery" = "バッテリー残量低下";
 "High battery" = "バッテリー充電状況";
 "Battery remaining" = "バッテリー残量 残り %0%";
+"Battery remaining to full charge" = "%0% to full charge";
 "Percentage" = "残量（%）";
 "Percentage and time" = "残量（%）と残り時間";
 "Time and percentage" = "残り時間と残量（%）";

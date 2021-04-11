@@ -24,6 +24,7 @@
 "Yes" = "Ja";
 "No" = "Nei";
 "Automatic" = "Automatisk";
+"Manual" = "Manual";
 "None" = "Ingen";
 "Dots" = "Prikker";
 "Arrows" = "Piler";
@@ -31,6 +32,8 @@
 "Short" = "Kort";
 "Long" = "Lang";
 "Statistics" = "Statistikk";
+"Max" = "Max";
+"Min" = "Min";
 
 // Alerts
 "New version available" = "Ny versjon tilgjengelig";
@@ -95,6 +98,7 @@
 // Module Kit
 "Open module settings" = "Åpne modulinnstillinger";
 "Select widget" = "Velg %0-visning";
+"Open widget settings" = "Open widget settings";
 "Update interval" = "Oppdateringsintervall";
 "Usage history" = "Brukshistorikk";
 "Details" = "Detaljer";
@@ -163,6 +167,7 @@
 "Interface" = "Grensesnitt";
 "Network" = "Nettverk";
 "Physical address" = "Fysisk addresse";
+"Refresh" = "Refresh";
 "Click to copy public IP address" = "Klikk for å kopiere offentlig IP-adresse";
 "Click to copy local IP address" = "Klikk for å kopiere lokal IP-adresse";
 "Click to copy wifi name" = "Klikk for å kopiere nettverksnavn";
@@ -200,6 +205,7 @@
 "Low battery" = "Lavt batterinivå";
 "High battery" = "High battery";
 "Battery remaining" = "%0% igjen";
+"Battery remaining to full charge" = "%0% to full charge";
 "Percentage" = "Prosent";
 "Percentage and time" = "Prosent og tid";
 "Time and percentage" = "Tid og prosent";

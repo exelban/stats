@@ -340,8 +340,8 @@ internal class FanView: NSStackView {
 private class ModeButtons: NSStackView {
     public var callback: (FanMode) -> Void = {_ in }
     
-    private var autoBtn: NSButton = NSButton(title: "Automatic", target: nil, action: #selector(autoMode))
-    private var manualBtn: NSButton = NSButton(title: "Manual", target: nil, action: #selector(manualMode))
+    private var autoBtn: NSButton = NSButton(title: LocalizedString("Automatic"), target: nil, action: #selector(autoMode))
+    private var manualBtn: NSButton = NSButton(title: LocalizedString("Manual"), target: nil, action: #selector(manualMode))
     
     public init(frame: NSRect, mode: FanMode) {
         super.init(frame: frame)

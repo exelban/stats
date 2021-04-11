@@ -24,6 +24,7 @@
 "Yes" = "Ano";
 "No" = "Ne";
 "Automatic" = "Automaticky";
+"Manual" = "Manual";
 "None" = "Žádný";
 "Dots" = "Tečky";
 "Arrows" = "Šipky";
@@ -31,6 +32,8 @@
 "Short" = "Krátký";
 "Long" = "Dlouhý";
 "Statistics" = "Statistiky";
+"Max" = "Max";
+"Min" = "Min";
 
 // Alerts
 "New version available" = "Nová verze k dispozici";
@@ -95,6 +98,7 @@
 // Module Kit
 "Open module settings" = "Otevřít nastavení modulu";
 "Select widget" = "Vyber widget %0";
+"Open widget settings" = "Open widget settings";
 "Update interval" = "Interval aktualizace";
 "Usage history" = "Historie použití";
 "Details" = "Detaily";
@@ -163,6 +167,7 @@
 "Interface" = "Rozhraní";
 "Network" = "Síť";
 "Physical address" = "Fyzická adresa";
+"Refresh" = "Refresh";
 "Click to copy public IP address" = "Klikněte pro zkopírování veřejné IP adresy";
 "Click to copy local IP address" = "Klikněte pro zkopírování místní IP adresy";
 "Click to copy wifi name" = "Klikněte pro zkopírování názvu wifi";
@@ -200,6 +205,7 @@
 "Low battery" = "Nízká úroveň baterie";
 "High battery" = "High battery";
 "Battery remaining" = "Zbývá %0 %";
+"Battery remaining to full charge" = "%0% to full charge";
 "Percentage" = "Procenta";
 "Percentage and time" = "Procenta a čas";
 "Time and percentage" = "Čas a procenta";

@@ -24,6 +24,7 @@
 "Yes" = "Так";
 "No" = "Ні";
 "Automatic" = "Автоматичний";
+"Manual" = "Ручний";
 "None" = "Ніяка";
 "Dots" = "Пункти";
 "Arrows" = "Стрілки";
@@ -31,6 +32,8 @@
 "Short" = "Короткий";
 "Long" = "Довгий";
 "Statistics" = "Статистика";
+"Max" = "Max";
+"Min" = "Min";
 
 // Alerts
 "New version available" = "Доступна нова версія";
@@ -95,6 +98,7 @@
 // Module Kit
 "Open module settings" = "Відкрити налаштування модуля";
 "Select widget" = "Активувати %0 віджет";
+"Open widget settings" = "Open widget settings";
 "Update interval" = "Інтервал обновлень";
 "Usage history" = "Історія використання";
 "Details" = "Деталі";
@@ -163,6 +167,7 @@
 "Interface" = "Інтерфейс";
 "Network" = "Мережа";
 "Physical address" = "Фізичний адрес";
+"Refresh" = "Refresh";
 "Click to copy public IP address" = "Натисніть, щоб скопіювати публічний IP";
 "Click to copy local IP address" = "Натисніть, щоб скопіювати локальний IP";
 "Click to copy wifi name" = "Натисніть, щоб скопіювати назву wifi";
@@ -200,6 +205,7 @@
 "Low battery" = "Низький заряд акумулятора";
 "High battery" = "High battery";
 "Battery remaining" = "%0% залишилось";
+"Battery remaining to full charge" = "%0% до повного заряду";
 "Percentage" = "Проценти";
 "Percentage and time" = "Проценти і час";
 "Time and percentage" = "Час і проценти";

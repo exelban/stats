@@ -18,11 +18,11 @@ internal class Settings: NSView, Settings_v {
     
     private let title: String
     private var button: NSPopUpButton?
-    private let list: UnsafeMutablePointer<[Sensor_t]>
+    private let list: [Sensor_t]
     public var callback: (() -> Void) = {}
     public var setInterval: ((_ value: Int) -> Void) = {_ in }
     
-    public init(_ title: String, list: UnsafeMutablePointer<[Sensor_t]>) {
+    public init(_ title: String, list: [Sensor_t]) {
         self.title = title
         self.list = list
         
@@ -44,13 +44,13 @@ internal class Settings: NSView, Settings_v {
     }
     
     public func load(widgets: [widget_t]) {
-        guard !self.list.pointee.isEmpty else {
+        guard !self.list.isEmpty else {
             return
         }
         self.subviews.forEach{ $0.removeFromSuperview() }
         
-        var types: [SensorType_t] = []
-        self.list.pointee.forEach { (s: Sensor_t) in
+        var types: [SensorType] = []
+        self.list.forEach { (s: Sensor_t) in
             if !types.contains(s.type) {
                 types.append(s.type)
             }
@@ -58,7 +58,7 @@ internal class Settings: NSView, Settings_v {
         
         let rowHeight: CGFloat = 30
         let settingsHeight: CGFloat = (rowHeight*1) + Constants.Settings.margin
-        let sensorsListHeight: CGFloat = (rowHeight+Constants.Settings.margin) * CGFloat(self.list.pointee.count) + ((rowHeight+Constants.Settings.margin) * CGFloat(types.count) + 1)
+        let sensorsListHeight: CGFloat = (rowHeight+Constants.Settings.margin) * CGFloat(self.list.count) + ((rowHeight+Constants.Settings.margin) * CGFloat(types.count) + 1)
         let height: CGFloat = settingsHeight + sensorsListHeight
         let x: CGFloat = height < 360 ? 0 : Constants.Settings.margin
         let view: NSView = NSView(frame: NSRect(
@@ -77,16 +77,16 @@ internal class Settings: NSView, Settings_v {
         ))
         
         var y: CGFloat = 0
-        types.reversed().forEach { (typ: SensorType_t) in
-            let filtered = self.list.pointee.filter{ $0.type == typ }
-            var groups: [SensorGroup_t] = []
+        types.reversed().forEach { (typ: SensorType) in
+            let filtered = self.list.filter{ $0.type == typ }
+            var groups: [SensorGroup] = []
             filtered.forEach { (s: Sensor_t) in
                 if !groups.contains(s.group) {
                     groups.append(s.group)
                 }
             }
             
-            groups.reversed().forEach { (group: SensorGroup_t) in
+            groups.reversed().forEach { (group: SensorGroup) in
                 filtered.reversed().filter{ $0.group == group }.forEach { (s: Sensor_t) in
                     let row: NSView = ToggleTitleRow(
                         frame: NSRect(x: 0, y: y, width: view.frame.width, height: rowHeight),
@@ -103,7 +103,7 @@ internal class Settings: NSView, Settings_v {
             }
             
             let rowTitleView: NSView = NSView(frame: NSRect(x: 0, y: y, width: view.frame.width, height: rowHeight))
-            let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: (rowHeight-19)/2, width: view.frame.width, height: 19), LocalizedString(typ))
+            let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: (rowHeight-19)/2, width: view.frame.width, height: 19), LocalizedString(typ.rawValue))
             rowTitle.font = NSFont.systemFont(ofSize: 14, weight: .regular)
             rowTitle.textColor = .secondaryLabelColor
             rowTitle.alignment = .center

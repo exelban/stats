@@ -24,6 +24,7 @@
 "Yes" = "Да";
 "No" = "Не";
 "Automatic" = "Автоматично";
+"Manual" = "Ръчно";
 "None" = "Без";
 "Dots" = "Точки";
 "Arrows" = "Стрелки";
@@ -31,6 +32,8 @@
 "Short" = "Кратко";
 "Long" = "Дълго";
 "Statistics" = "Статистика";
+"Max" = "Макс.";
+"Min" = "Мин.";
 
 // Alerts
 "New version available" = "Налична е нова версия";
@@ -95,6 +98,7 @@
 // Module Kit
 "Open module settings" = "Отваряне на настройките на модула";
 "Select widget" = "Избор на уиджет %0";
+"Open widget settings" = "Open widget settings";
 "Update interval" = "Интервал на опресняване";
 "Usage history" = "История на използването";
 "Details" = "Подробности";
@@ -163,6 +167,7 @@
 "Interface" = "Интерфейс";
 "Network" = "Мрежа";
 "Physical address" = "Физически адрес";
+"Refresh" = "Refresh";
 "Click to copy public IP address" = "Натиснете, за да копирате публичния IP адрес";
 "Click to copy local IP address" = "Натиснете, за да копирате локалния IP адрес";
 "Click to copy wifi name" = "Натиснете, за да копирате името на WiFi мреждата";
@@ -196,10 +201,11 @@
 "Fully charged" = "Пълен заряд";
 "Not connected" = "Не е свързано";
 "Low level notification" = "Известие за ниско ниво на батерията";
-"High level notification" = "High level notification";
+"High level notification" = "Известие за високо ниво на батерията";
 "Low battery" = "Ниско ниво на батерията";
-"High battery" = "High battery";
+"High battery" = "Високо ниво на батерията";
 "Battery remaining" = "Оставащи %0%";
+"Battery remaining to full charge" = "%0% to full charge";
 "Percentage" = "Процент";
 "Percentage and time" = "Процент и време";
 "Time and percentage" = "Време и процент";

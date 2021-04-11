@@ -31,7 +31,7 @@ internal class Popup: NSView, Popup_p {
             return
         }
         
-        var types: [SensorType_t] = []
+        var types: [SensorType] = []
         values!.forEach { (s: Sensor_t) in
             if !types.contains(s.type) {
                 types.append(s.type)
@@ -43,9 +43,9 @@ internal class Popup: NSView, Popup_p {
         }
         
         var y: CGFloat = 0
-        types.reversed().forEach { (typ: SensorType_t) in
+        types.reversed().forEach { (typ: SensorType) in
             let filtered = values!.filter{ $0.type == typ }
-            var groups: [SensorGroup_t] = []
+            var groups: [SensorGroup] = []
             filtered.forEach { (s: Sensor_t) in
                 if !groups.contains(s.group) {
                     groups.append(s.group)
@@ -54,11 +54,11 @@ internal class Popup: NSView, Popup_p {
             
             let height: CGFloat = CGFloat((22*filtered.count)) + Constants.Popup.separatorHeight
             let view: NSView = NSView(frame: NSRect(x: 0, y: y, width: self.frame.width, height: height))
-            let separator = SeparatorView(LocalizedString(typ), origin: NSPoint(x: 0, y: view.frame.height - Constants.Popup.separatorHeight), width: self.frame.width)
+            let separator = SeparatorView(LocalizedString(typ.rawValue), origin: NSPoint(x: 0, y: view.frame.height - Constants.Popup.separatorHeight), width: self.frame.width)
             view.addSubview(separator)
             
             var i: CGFloat = 0
-            groups.reversed().forEach { (group: SensorGroup_t) in
+            groups.reversed().forEach { (group: SensorGroup) in
                 filtered.reversed().filter{ $0.group == group }.forEach { (s: Sensor_t) in
                     let (key, value) = PopupRow(view, n: i, title: "\(s.name):", value: s.formattedValue)
                     key.toolTip = s.key

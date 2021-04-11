@@ -10,6 +10,7 @@
 //
 
 import Cocoa
+import os.log
 
 public typealias AppUpdateIntervalType = String
 public enum AppUpdateInterval: AppUpdateIntervalType {
@@ -944,4 +945,32 @@ public func ensureRoot() {
     
     NSApp.terminate(nil)
     return
+}
+
+public func process(path: String, arguments: [String]) -> String? {
+    let task = Process()
+    task.launchPath = path
+    task.arguments = arguments
+    
+    let outputPipe = Pipe()
+    defer {
+        outputPipe.fileHandleForReading.closeFile()
+    }
+    task.standardOutput = outputPipe
+    
+    do {
+        try task.run()
+    } catch let error {
+        os_log(.error, log: .default, "system_profiler SPMemoryDataType: %s", "\(error.localizedDescription)")
+        return nil
+    }
+    
+    let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
+    let output = String(decoding: outputData, as: UTF8.self)
+    
+    if output.isEmpty {
+        return nil
+    }
+    
+    return output
 }
