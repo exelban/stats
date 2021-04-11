@@ -147,9 +147,9 @@ private class UpdateView: NSView {
     }
     
     public func noUpdates() {
-        let view: NSView = NSView(frame: NSRect(x: 10, y: 10, width: self.frame.width - 20, height: self.frame.height - 20 - 26))
+        let view: NSView = NSView(frame: NSRect(x: 10, y: 10, width: self.frame.width - 20, height: self.frame.height - 20))
         
-        let title: NSTextField = TextView(frame: NSRect(x: 0, y: ((view.frame.height - 18)/2)+20, width: view.frame.width, height: 18))
+        let title: NSTextField = TextView(frame: NSRect(x: 0, y: ((view.frame.height - 18)/2), width: view.frame.width, height: 40))
         title.font = NSFont.systemFont(ofSize: 14, weight: .light)
         title.alignment = .center
         title.stringValue = LocalizedString("The latest version of Stats installed")

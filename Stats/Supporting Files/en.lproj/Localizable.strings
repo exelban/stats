@@ -34,6 +34,7 @@
 "Statistics" = "Statistics";
 "Max" = "Max";
 "Min" = "Min";
+"Refresh" = "Refresh";
 
 // Alerts
 "New version available" = "New version available";
@@ -66,7 +67,7 @@
 "Uptime" = "Uptime";
 
 // Update
-"The latest version of Stats installed" = "The latest version of Stats installed";
+"The latest version of Stats installed" = "The latest version of Stats is installed";
 "Downloading..." = "Downloading...";
 "Current version: " = "Current version:  ";
 "Latest version: " = "Latest version:    ";
