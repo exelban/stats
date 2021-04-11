@@ -24,6 +24,7 @@
 "Yes" = "是";
 "No" = "否";
 "Automatic" = "自動";
+"Manual" = "手動";
 "None" = "無";
 "Dots" = "點";
 "Arrows" = "箭頭";
@@ -31,6 +32,8 @@
 "Short" = "短";
 "Long" = "長";
 "Statistics" = "統計資料";
+"Max" = "最大值";
+"Min" = "最小值";
 
 // Alerts
 "New version available" = "有新版本可用";
@@ -95,6 +98,7 @@
 // Module Kit
 "Open module settings" = "打開模組設定";
 "Select widget" = "選擇「%0」小工具";
+"Open widget settings" = "打開小工具設定";
 "Update interval" = "更新頻率";
 "Usage history" = "負載歷程記錄";
 "Details" = "詳細資訊";
@@ -163,6 +167,7 @@
 "Interface" = "介面";
 "Network" = "網路";
 "Physical address" = "實體位址";
+"Refresh" = "重新整理";
 "Click to copy public IP address" = "點按來拷貝公開 IP 位址";
 "Click to copy local IP address" = "點按來拷貝區域 IP 位址";
 "Click to copy wifi name" = "點按來拷貝 WiFi 名稱";
@@ -198,9 +203,9 @@
 "Low level notification" = "低電量通知";
 "High level notification" = "高電量通知";
 "Low battery" = "低電量";
-"High battery" = "High battery";
+"High battery" = "高電量";
 "Battery remaining" = "剩餘 %0%";
-"Battery remaining to full charge" = "%0% to full charge";
+"Battery remaining to full charge" = "還剩 %0% 充飽";
 "Percentage" = "百分比";
 "Percentage and time" = "百分比和時間";
 "Time and percentage" = "時間和百分比";
