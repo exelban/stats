@@ -91,7 +91,7 @@ internal class UsageReader: Reader<Battery_Usage> {
                 
                 var ACwatts: Int = 0
                 if let ACDetails = IOPSCopyExternalPowerAdapterDetails() {
-                    if let ACList = ACDetails.takeUnretainedValue() as? Dictionary<String, Any> {
+                    if let ACList = ACDetails.takeRetainedValue() as? Dictionary<String, Any> {
                         guard let watts = ACList[kIOPSPowerAdapterWattsKey] else {
                             return
                         }

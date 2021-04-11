@@ -24,6 +24,7 @@
 "Yes" = "Da";
 "No" = "Nu";
 "Automatic" = "Automat";
+"Manual" = "Manual";
 "None" = "Niciunul";
 "Dots" = "Puncte";
 "Arrows" = "Săgeți";
@@ -31,6 +32,8 @@
 "Short" = "Scurt";
 "Long" = "Lung";
 "Statistics" = "Statistici";
+"Max" = "Max";
+"Min" = "Min";
 
 // Alerts
 "New version available" = "Versiune nouă disponibilă";
@@ -95,6 +98,7 @@
 // Module Kit
 "Open module settings" = "Deschide setăriile modulului";
 "Select widget" = "Alege opțiunea %0";
+"Open widget settings" = "Open widget settings";
 "Update interval" = "Intervalul de actualizare";
 "Usage history" = "Istoricul de folosință";
 "Details" = "Detalii";
@@ -163,6 +167,7 @@
 "Interface" = "Interfață";
 "Network" = "Rețea";
 "Physical address" = "Adresa fizică";
+"Refresh" = "Refresh";
 "Click to copy public IP address" = "Click pentru a copia adresa de IP publică";
 "Click to copy local IP address" = "Click pentru a copia adresa de IP locală";
 "Click to copy wifi name" = "Click pentru a copia numele rețelei WiFi";
@@ -200,6 +205,7 @@
 "Low battery" = "Baterie puțină";
 "High battery" = "High battery";
 "Battery remaining" = "%0% rămas";
+"Battery remaining to full charge" = "%0% to full charge";
 "Percentage" = "Procentaj";
 "Percentage and time" = "Procentaj și timp";
 "Time and percentage" = "Timp si procentaj";

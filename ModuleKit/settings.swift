@@ -407,7 +407,7 @@ internal class WidgetPreview: NSStackView {
     }
     
     override func mouseExited(with: NSEvent) {
-        self.layer?.borderColor = self.widget.pointee.isActive ? NSColor.systemBlue.cgColor : NSColor.tertiaryLabelColor.cgColor
+        self.layer?.borderColor = self.widget.pointee.isActive ? NSColor.systemBlue.cgColor : NSColor(hexString: "#dddddd").cgColor
         NSCursor.arrow.set()
     }
     

@@ -1,0 +1,216 @@
+//
+//  Localizable.strings
+//  Stats
+//
+//  Created by Phúc Ngô on 02/04/2021.
+//
+//  Running on macOS Big Sur M1.
+//
+//  Copyright © 2021 Serhiy Mytrovtsiy. All rights reserved.
+//
+
+// Words
+"Unknown" = "Onbekend";
+"Version" = "Versie";
+"Processor" = "Processor";
+"Memory" = "Geheugen";
+"Graphics" = "Grafisch";
+"Disk" = "Disc";
+"Close" = "Sluiten";
+"Download" = "Download";
+"Install" = "Installeren";
+"Cancel" = "Annuleren";
+"Unavailable" = "Onbereikbaar";
+"Yes" = "Ja";
+"No" = "Nee";
+"Automatic" = "Automatisch";
+"Manual" = "Handleiding";
+"None" = "Geen";
+"Dots" = "Dots";
+"Arrows" = "Pijlen";
+"Characters" = "Tekens";
+"Short" = "Kort";
+"Long" = "Lang";
+"Statistics" = "Statistieken";
+"Max" = "Maximaal";
+"Min" = "Min";
+
+// Alerts
+"New version available" = "Nieuwe versie beschikbaar";
+"Click to install the new version of Stats" = "Klik om de nieuwe versie van Stats te installeren";
+"Successfully updated" = "Succesvol geüpdatet";
+"Stats was updated to v" = "Statistiken zijn bijgewerkt naar v%0";
+
+// Settings
+"Open Activity Monitor" = "Open Activiteitenmonitor";
+"Report a bug" = "Meld een bug";
+"Support the application" = "Ondersteuning van de applicatie";
+"Close application" = "Applicatie sluiten";
+"Open application settings" = "Open de applicatie Instellingen";
+"Open moduleName settings" = "Open %0 Instellingen";
+
+// Application settings
+"Update application" = "Bijwerking applicatie";
+"Check for updates" = "Controleer op updates";
+"At start" = "Aan het begin";
+"Once per day" = "Eenmaal per dag";
+"Once per week" = "Eenmaal per week";
+"Once per month" = "Eenmaal per maand";
+"Never" = "Nooit";
+"Check for update" = "Controleer op updates";
+"Show icon in dock" = "Pictorgram in dock weergeven";
+"Start at login" = "Straten op aanmelden";
+
+// Dashboard
+"Serial number" = "Serienummer";
+"Uptime" = "Beschikbaarheid";
+
+// Update
+"The latest version of Stats installed" = "The latest version of Stats installed";
+"Downloading..." = "Downloading...";
+"Current version: " = "Huidige versie:  ";
+"Latest version: " = "Nieuwste versie:    ";
+
+// Widgets
+"Color" = "Kleur";
+"Label" = "Label";
+"Box" = "Box";
+"Frame" = "Frame";
+"Value" = "Waarde";
+"Colorize" = "Inkleuren";
+"Colorize value" = "Inkleuren waarde";
+"Additional information" = "Extra informatie";
+"Reverse values order" = "Omgekeerde volgorde van waarden";
+"Base" = "Basis";
+"Display mode" = "Weergavemodus";
+"One row" = "Een rij";
+"Two rows" = "Twee rijen";
+"Mini widget" = "Mini";
+"Line chart widget" = "Lijngrafiek";
+"Bar chart widget" = "Staafgrafiek";
+"Pie chart widget" = "Taartgrafiek";
+"Network chart widget" = "Netwerkgrafiek";
+"Speed widget" = "Snelheidswidget";
+"Battery widget" = "batterijwidget";
+"Text widget" = "Textwidget";
+"Memory widget" = "Geheugenwidget";
+
+// Module Kit
+"Open module settings" = "Open module-instellingen";
+"Select widget" = "Selecteer %0 widget";
+"Open widget settings" = "Open widget settings";
+"Update interval" = "Bijwerkingsonderbreking";
+"Usage history" = "Gebruiksgeschiedenis";
+"Details" = "Details";
+"Top processes" = "Topprocessen";
+"Pictogram" = "Pictogram";
+
+// Modules
+"Number of top processes" = "Aantal topprocessen";
+
+// CPU
+"CPU usage" = "CPU gebruiken";
+"CPU temperature" = "CPU temperatuur";
+"CPU frequency" = "CPU frequentie";
+"System" = "Systeem";
+"User" = "Gebruiker";
+"Idle" = "Ijdel";
+"Show usage per core" = "Gebruik per kern weergeven";
+"Show hyper-threading cores" = "hyperthreading-kernen weergeven";
+
+// GPU
+"GPU to show" = "GPU om te laten zien";
+"Show GPU type" = "GPU-type weergeven";
+"GPU enabled" = "GPU inschakelen";
+"GPU disabled" = "GPU uitschakelen";
+"GPU temperature" = "GPU temperatuur";
+"GPU utilization" = "GPU gebruiken";
+"Vendor" = "Vendor";
+"Model" = "Model";
+"Status" = "Status";
+"Active" = "Actief";
+"Non active" = "Niet actief";
+"Fan speed" = "Fan sneelheid";
+"Core clock" = "Core klok";
+"Memory clock" = "Geheugen klok";
+"Utilization" = "Benutting";
+
+// Memory
+"Memory usage" = "Geheugen gebruiken";
+"Memory pressure" = "Geheugen druk";
+"Total" = "Totaal";
+"Used" = "Gebruikt";
+"App" = "App";
+"Wired" = "Verbonden";
+"Compressed" = "Gecomprimeerd";
+"Free" = "Gratis";
+"Swap" = "Ruilen";
+
+// Disk
+"Show removable disks" = "Toon verwijderbare schijven";
+"Used disk memory" = "%0 van %1 gebruiken";
+"Free disk memory" = "%0 van %1 vrij";
+"Disk to show" = "Schijf om te laten zien";
+"Open disk" = "Open schijf";
+"Switch view" = "Schakelen tussen weergave";
+
+// Sensors
+"Temperature unit" = "Temperatuureenheid";
+"Celsius" = "Celsius";
+"Fahrenheit" = "Fahrenheit";
+
+// Network
+"Uploading" = "Uploaden";
+"Downloading" = "Downloaden";
+"Public IP" = "Openbare IP-adres";
+"Local IP" = "Lokaal IP-adres";
+"Interface" = "Interface";
+"Network" = "Netwerk";
+"Physical address" = "Fysiek adres";
+"Refresh" = "Refresh";
+"Click to copy public IP address" = "Klik om te openbare IP-adres te kopiëren";
+"Click to copy local IP address" = "Klik om te lokale IP-adres te kopiëren";
+"Click to copy wifi name" = "Klik om te wifi-naam te kopiëren";
+"Click to copy mac address" = "Klik om te mac-adres te kopiëren";
+"No connection" = "Geen verbinding";
+"Network interface" = "Netwerk interface";
+"Total download" = "Aantal downloaden";
+"Total upload" = "Aantal uploaden";
+"Reader type" = "Lezer type";
+"Interface based" = "Interface gebaseerd";
+"Processes based" = "Proces gebaseerd";
+
+// Battery
+"Level" = "Niveau";
+"Source" = "Oorsprong";
+"AC Power" = "Wisselstroom";
+"Battery Power" = "batterij vermogen";
+"Time" = "Tijd";
+"Health" = "Gezondheid";
+"Battery" = "batterij";
+"Amperage" = "Amperage";
+"Voltage" = "Voltage";
+"Cycles" = "Cycli";
+"Temperature" = "Temperatuur";
+"Power adapter" = "Oplader";
+"Power" = "Kracht";
+"Is charging" = "Is aan het opladen";
+"Time to discharge" = "Tijd om te ontladen";
+"Time to charge" = "Tijd om op te laden";
+"Calculating" = "Berekenen";
+"Fully charged" = "Volledig opgeladen";
+"Not connected" = "Niet verbonden";
+"Low level notification" = "Melding op laag niveau";
+"High level notification" = "Melding op hoog niveau";
+"Low battery" = "Lage batterij";
+"High battery" = "Hoge batterij";
+"Battery remaining" = "%0% overgebleven";
+"Battery remaining to full charge" = "%0% to full charge";
+"Percentage" = "Percentage";
+"Percentage and time" = "Percentage en tijd";
+"Time and percentage" = "Tijd and Percentage";
+"Time format" = "Tijdnotatie";
+"Hide additional information when full" = "Verberg aanvullende informatie wanneer deze vol is";
+
+// Fans
+"Fans" = "Fans";

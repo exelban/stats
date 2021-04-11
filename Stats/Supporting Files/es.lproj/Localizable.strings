@@ -24,6 +24,7 @@
 "Yes" = "Sí";
 "No" = "No";
 "Automatic" = "Automático";
+"Manual" = "Manual";
 "None" = "Ninguna";
 "Dots" = "Puntos";
 "Arrows" = "Flechas";
@@ -31,6 +32,9 @@
 "Short" = "Corto";
 "Long" = "Largo";
 "Statistics" = "Estadísticas";
+"Max" = "Max";
+"Min" = "Min";
+"Refresh" = "Actualizar";
 
 // Alerts
 "New version available" = "Nueva versión disponible";
@@ -49,12 +53,12 @@
 // Application settings
 "Update application" = "Actualizar la aplicación";
 "Check for updates" = "Buscar actualizaciones";
-"At start" = "At start";
-"Once per day" = "Once per day";
-"Once per week" = "Once per week";
-"Once per month" = "Once per month";
-"Never" = "Never";
-"Check for update" = "Buscar actualización";
+"At start" = "Al iniciar el sistema";
+"Once per day" = "Una vez al día";
+"Once per week" = "Una vez por semana";
+"Once per month" = "Una vez al mes";
+"Never" = "Nunca";
+"Check for update" = "Buscar actualizaciones";
 "Show icon in dock" = "Muestra el icono en el dock";
 "Start at login" = "Arrancar al iniciar sesión";
 
@@ -83,23 +87,24 @@
 "One row" = "Una fila";
 "Two rows" = "Dos filas";
 "Mini widget" = "Mini";
-"Line chart widget" = "Line chart";
-"Bar chart widget" = "Bar chart";
-"Pie chart widget" = "Pie chart";
-"Network chart widget" = "Network chart";
-"Speed widget" = "Speed";
-"Battery widget" = "Battery";
-"Text widget" = "Text";
-"Memory widget" = "Memory";
+"Line chart widget" = "Gráfico de líneas";
+"Bar chart widget" = "Gráfico de barras";
+"Pie chart widget" = "Gráfico de torta";
+"Network chart widget" = "Gráfico de redes";
+"Speed widget" = "Velocidad";
+"Battery widget" = "Batería";
+"Text widget" = "Texto";
+"Memory widget" = "Memoria";
 
 // Module Kit
 "Open module settings" = "Abrir la configruación del módulo";
 "Select widget" = "Seleccionar el widget %0";
+"Open widget settings" = "Open widget settings";
 "Update interval" = "Intervalo de actualización";
 "Usage history" = "Historial de uso";
 "Details" = "Detalles";
 "Top processes" = "Procesos principales";
-"Pictogram" = "Icono";
+"Pictogram" = "Ícono";
 
 // Modules
 "Number of top processes" = "Número de procesos principales";
@@ -117,19 +122,19 @@
 // GPU
 "GPU to show" = "GPU a mostrar";
 "Show GPU type" = "Mostrar tipo de GPU";
-"GPU enabled" = "GPU enabled";
-"GPU disabled" = "GPU disabled";
+"GPU enabled" = "GPU activada";
+"GPU disabled" = "GPU desactivada";
 "GPU temperature" = "Temperatura de la GPU";
 "GPU utilization" = "Utilización de la GPU";
-"Vendor" = "Vendor";
-"Model" = "Model";
-"Status" = "Status";
-"Active" = "Active";
-"Non active" = "Non active";
-"Fan speed" = "Fan speed";
-"Core clock" = "Core clock";
-"Memory clock" = "Memory clock";
-"Utilization" = "Utilization";
+"Vendor" = "Fabricante";
+"Model" = "Modelo";
+"Status" = "Estado";
+"Active" = "Activo";
+"Non active" = "Inactivo";
+"Fan speed" = "Velocidad del ventilador";
+"Core clock" = "Reloj del núcleo";
+"Memory clock" = "Reloj de la memoria";
+"Utilization" = "Utilización";
 
 // Memory
 "Memory usage" = "Uso de la memoria";
@@ -156,13 +161,14 @@
 "Fahrenheit" = "Fahrenheit";
 
 // Network
-"Uploading" = "Cargando";
-"Downloading" = "Descargando";
+"Uploading" = "Carga";
+"Downloading" = "Descarga";
 "Public IP" = "IP Pública";
 "Local IP" = "IP Local";
 "Interface" = "Interfaz";
 "Network" = "Red";
 "Physical address" = "Dirección física";
+"Refresh" = "Refresh";
 "Click to copy public IP address" = "Haga clic para copiar la dirección IP pública";
 "Click to copy local IP address" = "Haga clic para copiar la dirección IP local";
 "Click to copy wifi name" = "Haga clic para copiar el nombre de la red wifi";
@@ -178,8 +184,8 @@
 // Battery
 "Level" = "Nivel";
 "Source" = "Fuente";
-"AC Power" = "AC Power";
-"Battery Power" = "Battery Power";
+"AC Power" = "Alimentación de CA";
+"Battery Power" = "Alimentado por batería";
 "Time" = "Tiempo";
 "Health" = "Salud";
 "Battery" = "Batería";
@@ -196,10 +202,11 @@
 "Fully charged" = "Completamente cargada";
 "Not connected" = "No conectado";
 "Low level notification" = "Notificación de nivel bajo";
-"High level notification" = "High level notification";
+"High level notification" = "Notificación de nivel alto";
 "Low battery" = "Batería baja";
-"High battery" = "High battery";
+"High battery" = "Batería alta";
 "Battery remaining" = "%0% restante";
+"Battery remaining to full charge" = "%0% to full charge";
 "Percentage" = "Porcentaje";
 "Percentage and time" = "Porcentaje y tiempo";
 "Time and percentage" = "Tiempo y porcentaje";

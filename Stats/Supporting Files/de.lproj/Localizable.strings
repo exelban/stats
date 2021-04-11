@@ -24,6 +24,7 @@
 "Yes" = "Ja";
 "No" = "Nein";
 "Automatic" = "Automatisch";
+"Manual" = "Manual";
 "None" = "Keiner";
 "Dots" = "Punkte";
 "Arrows" = "Pfeile";
@@ -31,6 +32,8 @@
 "Short" = "Kurz";
 "Long" = "Lange";
 "Statistics" = "Statistiken";
+"Max" = "Max";
+"Min" = "Min";
 
 // Alerts
 "New version available" = "Neue Version verfügbar";
@@ -42,19 +45,19 @@
 "Open Activity Monitor" = "Aktivitätsanzeige öffnen";
 "Report a bug" = "Einen Fehler melden";
 "Support the application" = "Unterstützen Sie die Anwendung";
-"Close application" = "Applikation schließen";
+"Close application" = "Anwendung schließen";
 "Open application settings" = "Einstellungen öffnen";
 "Open moduleName settings" = "%0 Einstellungen öffnen";
 
 // Application settings
-"Update application" = "Applikation aktualisieren";
+"Update application" = "Anwendung aktualisieren";
 "Check for updates" = "Nach Updates suchen";
 "At start" = "Beim Start";
 "Once per day" = "Täglich";
 "Once per week" = "Wöchentlich";
 "Once per month" = "Monatlich";
 "Never" = "Nie";
-"Check for update" = "Nach Updates suchen";
+"Check for update" = "Nach Aktualisierungen suchen";
 "Show icon in dock" = "Symbol im Dock anzeigen";
 "Start at login" = "Beim Login starten";
 
@@ -95,6 +98,7 @@
 // Module Kit
 "Open module settings" = "Modul-Einstellungen öffnen";
 "Select widget" = "%0 Widget auswählen";
+"Open widget settings" = "Open widget settings";
 "Update interval" = "Update-Intervall";
 "Usage history" = "Verlauf";
 "Details" = "Details";
@@ -105,7 +109,7 @@
 "Number of top processes" = "Anzahl der Prozesse";
 
 // CPU
-"CPU usage" = "CPU Verwendung";
+"CPU usage" = "CPU Nutzung";
 "CPU temperature" = "CPU Temperatur";
 "CPU frequency" = "CPU Frequenz";
 "System" = "System";
@@ -117,19 +121,19 @@
 // GPU
 "GPU to show" = "GPU auswählen";
 "Show GPU type" = "GPU Typ anzeigen";
-"GPU enabled" = "GPU enabled";
-"GPU disabled" = "GPU disabled";
+"GPU enabled" = "GPU aktiviert";
+"GPU disabled" = "GPU deaktiviert";
 "GPU temperature" = "GPU Temperatur";
 "GPU utilization" = "GPU Nutzung";
-"Vendor" = "Vendor";
-"Model" = "Model";
+"Vendor" = "Hersteller";
+"Model" = "Modell";
 "Status" = "Status";
-"Active" = "Active";
-"Non active" = "Non active";
-"Fan speed" = "Fan speed";
-"Core clock" = "Core clock";
-"Memory clock" = "Memory clock";
-"Utilization" = "Utilization";
+"Active" = "Aktiv";
+"Non active" = "Nicht aktiv";
+"Fan speed" = "Lüfterdrehzahl";
+"Core clock" = "Core Frequenz";
+"Memory clock" = "Memory Frequenz";
+"Utilization" = "Auslastung";
 
 // Memory
 "Memory usage" = "Speicherauslastung";
@@ -163,6 +167,7 @@
 "Interface" = "Schnittstelle";
 "Network" = "Netzwerk";
 "Physical address" = "Physische Adresse";
+"Refresh" = "Refresh";
 "Click to copy public IP address" = "Klicken Sie zum Kopieren der öffentlichen IP-Adresse";
 "Click to copy local IP address" = "Klicken Sie zum Kopieren der lokalen IP-Adresse";
 "Click to copy wifi name" = "Klicken Sie zum Kopieren des WLAN-Namens";
@@ -185,7 +190,7 @@
 "Battery" = "Akku";
 "Amperage" = "Stromstärke";
 "Voltage" = "Spannung";
-"Cycles" = "Zyklusnummer";
+"Cycles" = "Ladezyklen";
 "Temperature" = "Temperatur";
 "Power adapter" = "Netzteil";
 "Power" = "Strom";
@@ -200,6 +205,7 @@
 "Low battery" = "Akku schwach";
 "High battery" = "High battery";
 "Battery remaining" = "%0% verbleiben";
+"Battery remaining to full charge" = "%0% to full charge";
 "Percentage" = "Prozentsatz";
 "Percentage and time" = "Prozentsatz und Zeit";
 "Time and percentage" = "Zeit und Prozentsatz";
@@ -207,4 +213,4 @@
 "Hide additional information when full" = "Zusätzliche Informationen bei vollständiger Ladung verbergen";
 
 // Fans
-"Fans" = "Fans";
+"Fans" = "Lüfter";

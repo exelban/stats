@@ -24,6 +24,7 @@
 "Yes" = "Igen";
 "No" = "Nem";
 "Automatic" = "Automatikus";
+"Manual" = "Manual";
 "None" = "Egyik sem";
 "Dots" = "Pontok";
 "Arrows" = "Nyilak";
@@ -31,6 +32,8 @@
 "Short" = "Rövid";
 "Long" = "Hosszú";
 "Statistics" = "Statisztikák";
+"Max" = "Max";
+"Min" = "Min";
 
 // Alerts
 "New version available" = "Új verzió érhető el";
@@ -95,6 +98,7 @@
 // Module Kit
 "Open module settings" = "Modul beállításainak megnyitása";
 "Select widget" = "%0 widget kiválasztása";
+"Open widget settings" = "Open widget settings";
 "Update interval" = "Frissítési ráta";
 "Usage history" = "Használati előzmények";
 "Details" = "Részletek";
@@ -163,6 +167,7 @@
 "Interface" = "Interfész";
 "Network" = "Hálózat";
 "Physical address" = "Fizikai cím";
+"Refresh" = "Refresh";
 "Click to copy public IP address" = "Kattints a publikus IP cím másolásához";
 "Click to copy local IP address" = "Kattints a helyi IP cím másolásához";
 "Click to copy wifi name" = "Kattints a WiFi nevének másolásához";
@@ -200,6 +205,7 @@
 "Low battery" = "Alacsony akkumulátor töltöttség";
 "High battery" = "High battery";
 "Battery remaining" = "%0% töltöttség";
+"Battery remaining to full charge" = "%0% to full charge";
 "Percentage" = "Százalék";
 "Percentage and time" = "Százalék és időtartam";
 "Time and percentage" = "Időtartam és százalék";
