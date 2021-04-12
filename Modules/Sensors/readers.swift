@@ -180,7 +180,7 @@ internal class AppleSilicon_SensorsReader: SensorsReader {
                 let namePtr: Unmanaged<CFString>? = IOHIDServiceClientCopyProperty(service.pointee, "Product" as CFString)
                 let eventPtr: IOHIDEventRef? = IOHIDServiceClientCopyEvent(service.pointee, Int64(eventType), 0, 0)
                 
-                guard let name = namePtr?.takeUnretainedValue() else {
+                guard let name = namePtr?.takeRetainedValue() else {
                     return
                 }
                 var value: Double? = nil
