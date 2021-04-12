@@ -59,7 +59,7 @@
 "Never" = "Никогда";
 "Check for update" = "Проверить обновление";
 "Show icon in dock" = "Показать значок в dock";
-"Start at login" = "Запуск при логуванні";
+"Start at login" = "Запуск при входе";
 
 // Dashboard
 "Serial number" = "Серийный номер";
