@@ -2,7 +2,7 @@
 //  Localizable.strings
 //  Stats
 //
-//  Created by lucasaf04 on 03/12/2020.
+//  Created by lucasaf04 / @ppizarror on 03/12/2020.
 //  Using Swift 5.0.
 //  Running on macOS 10.15.
 //
@@ -34,7 +34,6 @@
 "Statistics" = "Estadísticas";
 "Max" = "Max";
 "Min" = "Min";
-"Refresh" = "Actualizar";
 
 // Alerts
 "New version available" = "Nueva versión disponible";
@@ -168,7 +167,7 @@
 "Interface" = "Interfaz";
 "Network" = "Red";
 "Physical address" = "Dirección física";
-"Refresh" = "Refresh";
+"Refresh" = "Actualizar";
 "Click to copy public IP address" = "Haga clic para copiar la dirección IP pública";
 "Click to copy local IP address" = "Haga clic para copiar la dirección IP local";
 "Click to copy wifi name" = "Haga clic para copiar el nombre de la red wifi";
