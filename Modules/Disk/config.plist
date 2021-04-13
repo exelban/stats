@@ -44,7 +44,7 @@
 			<key>Title</key>
 			<string>SSD</string>
 			<key>Label</key>
-			<true/>
+			<false/>
 			<key>Box</key>
 			<true/>
 			<key>Color</key>
@@ -52,7 +52,7 @@
 			<key>Preview</key>
 			<dict>
 				<key>Label</key>
-				<true/>
+				<false/>
 				<key>Box</key>
 				<true/>
 				<key>Value</key>

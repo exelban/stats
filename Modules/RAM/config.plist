@@ -41,7 +41,7 @@
 			<key>Default</key>
 			<false/>
 			<key>Label</key>
-			<true/>
+			<false/>
 			<key>Box</key>
 			<true/>
 			<key>Color</key>
@@ -49,7 +49,7 @@
 			<key>Preview</key>
 			<dict>
 				<key>Label</key>
-				<true/>
+				<false/>
 				<key>Box</key>
 				<true/>
 				<key>Color</key>

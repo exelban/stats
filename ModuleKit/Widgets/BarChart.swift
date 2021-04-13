@@ -13,6 +13,7 @@ import Cocoa
 import StatsKit
 
 public class BarChart: WidgetWrapper {
+    private var labelState: Bool = false
     private var boxState: Bool = true
     private var frameState: Bool = false
     private var colorState: widget_c = .systemAccent
@@ -43,6 +44,9 @@ public class BarChart: WidgetWrapper {
                 }
             }
             
+            if let label = configuration["Label"] as? Bool {
+                self.labelState = label
+            }
             if let box = configuration["Box"] as? Bool {
                 self.boxState = box
             }
@@ -70,6 +74,7 @@ public class BarChart: WidgetWrapper {
         if !preview {
             self.boxState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_box", defaultValue: self.boxState)
             self.frameState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_frame", defaultValue: self.frameState)
+            self.labelState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_label", defaultValue: self.labelState)
             self.colorState = widget_c(rawValue: Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_color", defaultValue: self.colorState.rawValue)) ?? self.colorState
         }
         
@@ -119,6 +124,30 @@ public class BarChart: WidgetWrapper {
         default: // > 32
             width += 118
             break
+        }
+        
+        if self.labelState {
+            let style = NSMutableParagraphStyle()
+            style.alignment = .center
+            let stringAttributes = [
+                NSAttributedString.Key.font: NSFont.systemFont(ofSize: 7, weight: .regular),
+                NSAttributedString.Key.foregroundColor: NSColor.textColor,
+                NSAttributedString.Key.paragraphStyle: style
+            ]
+
+            let letterHeight = self.frame.height / 3
+            let letterWidth: CGFloat = 6.0
+
+            var yMargin: CGFloat = 0
+            for char in String(self.title.prefix(3)).uppercased().reversed() {
+                let rect = CGRect(x: x, y: yMargin, width: letterWidth, height: letterHeight)
+                let str = NSAttributedString.init(string: "\(char)", attributes: stringAttributes)
+                str.draw(with: rect)
+                yMargin += letterHeight
+            }
+
+            width = width + letterWidth + Constants.Widget.spacing
+            x = letterWidth + Constants.Widget.spacing
         }
         
         let box = NSBezierPath(roundedRect: NSRect(
@@ -211,7 +240,7 @@ public class BarChart: WidgetWrapper {
     
     public override func settings(width: CGFloat) -> NSView {
         let rowHeight: CGFloat = 30
-        let settingsNumber: CGFloat = 3
+        let settingsNumber: CGFloat = 4
         let height: CGFloat = ((rowHeight + Constants.Settings.margin) * settingsNumber) + Constants.Settings.margin
         
         let view: NSView = NSView(frame: NSRect(
@@ -219,6 +248,13 @@ public class BarChart: WidgetWrapper {
             y: Constants.Settings.margin,
             width: width - (Constants.Settings.margin*2),
             height: height
+        ))
+        
+        view.addSubview(ToggleTitleRow(
+            frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 3, width: view.frame.width, height: rowHeight),
+            title: LocalizedString("Label"),
+            action: #selector(toggleLabel),
+            state: self.labelState
         ))
         
         self.boxSettingsView = ToggleTitleRow(
@@ -246,6 +282,18 @@ public class BarChart: WidgetWrapper {
         ))
         
         return view
+    }
+    
+    @objc private func toggleLabel(_ sender: NSControl) {
+        var state: NSControl.StateValue? = nil
+        if #available(OSX 10.15, *) {
+            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
+        } else {
+            state = sender is NSButton ? (sender as! NSButton).state: nil
+        }
+        self.labelState = state! == .on ? true : false
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_label", value: self.labelState)
+        self.display()
     }
     
     @objc private func toggleBox(_ sender: NSControl) {
