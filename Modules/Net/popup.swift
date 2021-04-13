@@ -184,21 +184,17 @@ internal class Popup: NSStackView, Popup_p {
         container.spacing = 0
         
         let row: NSView = NSView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Popup.separatorHeight))
-        
-        let refreshString = LocalizedString("Refresh")
-        
-        let updateButtonWidth = (refreshString).size(withAttributes: [NSAttributedString.Key.font: NSFont.systemFont(ofSize: 11, weight: .light)]).width
-        
+                
         let button = NSButtonWithPadding()
-        button.frame = CGRect(x: view.frame.width - updateButtonWidth, y: 5, width: updateButtonWidth, height: 20)
+        button.frame = CGRect(x: view.frame.width - 18, y: 6, width: 18, height: 18)
         button.bezelStyle = .regularSquare
         button.isBordered = false
+        button.imageScaling = NSImageScaling.scaleAxesIndependently
+        button.contentTintColor = .lightGray
         button.action = #selector(self.refreshPublicIP)
         button.target = self
-        button.toolTip = refreshString
-        button.title = refreshString
-        button.font = NSFont.systemFont(ofSize: 11, weight: .light)
-        
+        button.toolTip = LocalizedString("Refresh")
+        button.image = Bundle(for: type(of: self)).image(forResource: "reload")!
         row.addSubview(SeparatorView(LocalizedString("Public IP"), origin: NSPoint(x: 0, y: 0), width: self.frame.width))
         row.addSubview(button)
         
