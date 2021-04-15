@@ -83,23 +83,16 @@ internal class x86_SensorsReader: SensorsReader {
 
 internal class AppleSilicon_SensorsReader: SensorsReader {
     private let types: [SensorType] = [.temperature, .current, .voltage]
+    private var cache: [String: Sensor_t] = ["1": Sensor_t(key: "test", name: "test", group: .sensor, type: .temperature)]
     
     init() {
         super.init()
         
         for type in types {
-            for (name, value) in self.fetch(type: type) {
-                self.list.append(Sensor_t(
-                    key: name,
-                    name: name,
-                    value: value,
-                    group: .system,
-                    type: type
-                ))
-            }
+            self.fetch(type: type)
         }
         
-        self.list = self.list.filter({ (s: Sensor_t) -> Bool in
+        self.list = self.cache.map{ $0.value }.filter({ (s: Sensor_t) -> Bool in
             switch s.type {
             case .temperature:
                 return s.value < 110
@@ -114,18 +107,12 @@ internal class AppleSilicon_SensorsReader: SensorsReader {
     
     public override func read() {
         for type in types {
-            for (name, value) in self.fetch(type: type) {
-                if let idx = self.list.firstIndex(where: { $0.name == name && $0.type == type }) {
-                    self.list[idx].value = value
-                }
-            }
+            self.fetch(type: type)
         }
-        self.callback(self.list)
+        self.callback(self.cache.map{ $0.value })
     }
     
-    private func fetch(type: SensorType) -> [String: Double] {
-        var list: [String: Double] = [:]
-        
+    private func fetch(type: SensorType) {
         var page: Int = 0
         var usage: Int = 0
         var eventType: Int32 = kIOHIDEventTypeTemperature
@@ -161,7 +148,7 @@ internal class AppleSilicon_SensorsReader: SensorsReader {
         }
         
         guard let client = IOHIDEventSystemClientCreate(kCFAllocatorDefault) else {
-            return list
+            return
         }
         let system: IOHIDEventSystemClient = client.takeRetainedValue()
         
@@ -169,7 +156,7 @@ internal class AppleSilicon_SensorsReader: SensorsReader {
         IOHIDEventSystemClientSetMatching(system, dict)
         
         guard let services: CFArray = IOHIDEventSystemClientCopyServices(system) else {
-            return list
+            return
         }
         
         for i in 0..<CFArrayGetCount(services) {
@@ -178,24 +165,31 @@ internal class AppleSilicon_SensorsReader: SensorsReader {
             withUnsafePointer(to: &value) { rawPtr in
                 let service = UnsafeRawPointer(rawPtr).assumingMemoryBound(to: IOHIDServiceClientRef.self)
                 let namePtr: Unmanaged<CFString>? = IOHIDServiceClientCopyProperty(service.pointee, "Product" as CFString)
-                let eventPtr: IOHIDEventRef? = IOHIDServiceClientCopyEvent(service.pointee, Int64(eventType), 0, 0)
                 
-                guard let name = namePtr?.takeRetainedValue() else {
+                guard let nameCF = namePtr?.takeRetainedValue() else {
                     return
                 }
-                var value: Double? = nil
+                let name = nameCF as String
                 
-                if eventPtr != nil {
-                    value = IOHIDEventGetFloatValue(eventPtr, eventType << 16)
-                }
-                
-                if let value = value {
-                    list[name as String] = value
+                if let eventPtr: IOHIDEventRef = IOHIDServiceClientCopyEvent(service.pointee, Int64(eventType), 0, 0) {
+                    let value = IOHIDEventGetFloatValue(eventPtr, eventType << 16)
+                    
+                    if self.cache.keys.contains(name) {
+                        self.cache[name]?.value = value
+                    } else {
+                        self.cache[name] = Sensor_t(
+                            key: name,
+                            name: name,
+                            value: value,
+                            group: .system,
+                            type: type
+                        )
+                    }
                 }
             }
         }
         
-        return list
+        return
     }
     
     private func createDeviceMatchingDictionary(usagePage: Int, usage: Int) -> CFMutableDictionary {
