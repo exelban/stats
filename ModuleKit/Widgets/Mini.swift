@@ -16,13 +16,13 @@ public class Mini: WidgetWrapper {
     private let defaultTitle: String
     
     private var labelState: Bool = true
-    private var colorState: widget_c = .monochrome
+    private var colorState: Color = .monochrome
     
     private var labelLayer: CATextLayer? = nil
     private var valueLayer: CATextLayer? = nil
     
     private let onlyValueWidth: CGFloat = 40
-    private var colors: [widget_c] = widget_c.allCases
+    private var colors: [Color] = Color.allCases
     
     private var value: Double = 0
     private var pressureLevel: Int = 0
@@ -53,10 +53,8 @@ public class Mini: WidgetWrapper {
             if let label = configuration["Label"] as? Bool {
                 self.labelState = label
             }
-            if let colorsToDisable = configuration["Unsupported colors"] as? [String] {
-                self.colors = self.colors.filter { (color: widget_c) -> Bool in
-                    return !colorsToDisable.contains("\(color.self)")
-                }
+            if let unsupportedColors = configuration["Unsupported colors"] as? [String] {
+                self.colors = self.colors.filter{ !unsupportedColors.contains($0.key) }
             }
             if let color = configuration["Color"] as? String {
                 if let defaultColor = colors.first(where: { "\($0.self)" == color }) {
@@ -76,7 +74,7 @@ public class Mini: WidgetWrapper {
         self.canDrawConcurrently = true
         
         if !preview {
-            self.colorState = widget_c(rawValue: Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_color", defaultValue: self.colorState.rawValue)) ?? self.colorState
+            self.colorState = Color.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_color", defaultValue: self.colorState.key))
             self.labelState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_label", defaultValue: self.labelState)
         }
     }
@@ -112,7 +110,7 @@ public class Mini: WidgetWrapper {
         case .utilization: color = value.usageColor()
         case .pressure: color = self.pressureLevel.pressureColor()
         case .monochrome: color = (isDarkMode ? NSColor.white : NSColor.black)
-        default: color = colorFromString("\(self.colorState.self)")
+        default: color = self.colorState.additional as? NSColor ?? NSColor.controlAccentColor
         }
         
         let stringAttributes = [
@@ -185,23 +183,27 @@ public class Mini: WidgetWrapper {
             state: self.labelState
         ))
         
-        view.addSubview(SelectColorRow(
+        view.addSubview(SelectRow(
             frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 0, width: view.frame.width, height: rowHeight),
             title: LocalizedString("Color"),
             action: #selector(toggleColor),
-            items: self.colors.map{ $0.rawValue },
-            selected: self.colorState.rawValue
+            items: self.colors,
+            selected: self.colorState.key
         ))
         
         return view
     }
     
     @objc private func toggleColor(_ sender: NSMenuItem) {
-        if let newColor = widget_c.allCases.first(where: { $0.rawValue == sender.title }) {
-            self.colorState = newColor
-            Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_color", value: self.colorState.rawValue)
-            self.display()
+        guard let key = sender.representedObject as? String else {
+            return
         }
+        if let newColor = Color.allCases.first(where: { $0.key == key }) {
+            self.colorState = newColor
+        }
+        
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_color", value: key)
+        self.display()
     }
     
     @objc private func toggleLabel(_ sender: NSControl) {

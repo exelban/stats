@@ -18,7 +18,7 @@ public class LineChart: WidgetWrapper {
     private var frameState: Bool = false
     private var valueState: Bool = false
     private var valueColorState: Bool = false
-    private var colorState: widget_c = .systemAccent
+    private var colorState: Color = .systemAccent
     
     private let width: CGFloat = 34
     
@@ -28,7 +28,7 @@ public class LineChart: WidgetWrapper {
         width: 34,
         height: Constants.Widget.height - (2*Constants.Widget.margin.y)
     ), num: 60)
-    private var colors: [widget_c] = widget_c.allCases
+    private var colors: [Color] = Color.allCases
     private var value: Double = 0
     private var pressureLevel: Int = 0
     
@@ -50,10 +50,8 @@ public class LineChart: WidgetWrapper {
             if let value = config!["Value"] as? Bool {
                 self.valueState = value
             }
-            if let colorsToDisable = config!["Unsupported colors"] as? [String] {
-                self.colors = self.colors.filter { (color: widget_c) -> Bool in
-                    return !colorsToDisable.contains("\(color.self)")
-                }
+            if let unsupportedColors = config!["Unsupported colors"] as? [String] {
+                self.colors = self.colors.filter{ !unsupportedColors.contains($0.key) }
             }
             if let color = config!["Color"] as? String {
                 if let defaultColor = colors.first(where: { "\($0.self)" == color }) {
@@ -77,7 +75,7 @@ public class LineChart: WidgetWrapper {
             self.valueState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_value", defaultValue: self.valueState)
             self.labelState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_label", defaultValue: self.labelState)
             self.valueColorState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_valueColor", defaultValue: self.valueColorState)
-            self.colorState = widget_c(rawValue: Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_color", defaultValue: self.colorState.rawValue)) ?? self.colorState
+            self.colorState = Color.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_color", defaultValue: self.colorState.key))
         }
         
         if self.labelState {
@@ -120,7 +118,7 @@ public class LineChart: WidgetWrapper {
             } else {
                 color = (isDarkMode ? NSColor.white : NSColor.black)
             }
-        default: color = colorFromString("\(self.colorState.self)")
+        default: color = self.colorState.additional as? NSColor ?? NSColor.controlAccentColor
         }
         
         if self.labelState {
@@ -287,12 +285,12 @@ public class LineChart: WidgetWrapper {
         )
         view.addSubview(self.frameSettingsView!)
         
-        view.addSubview(SelectColorRow(
+        view.addSubview(SelectRow(
             frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 1, width: view.frame.width, height: rowHeight),
             title: LocalizedString("Color"),
             action: #selector(toggleColor),
-            items: self.colors.map{ $0.rawValue },
-            selected: self.colorState.rawValue
+            items: self.colors,
+            selected: self.colorState.key
         ))
         
         view.addSubview(ToggleTitleRow(
@@ -368,11 +366,15 @@ public class LineChart: WidgetWrapper {
     }
     
     @objc private func toggleColor(_ sender: NSMenuItem) {
-        if let newColor = widget_c.allCases.first(where: { $0.rawValue == sender.title }) {
-            self.colorState = newColor
-            Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_color", value: self.colorState.rawValue)
-            self.display()
+        guard let key = sender.representedObject as? String else {
+            return
         }
+        if let newColor = Color.allCases.first(where: { $0.key == key }) {
+            self.colorState = newColor
+        }
+        
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_color", value: key)
+        self.display()
     }
     
     @objc private func toggleValueColor(_ sender: NSControl) {

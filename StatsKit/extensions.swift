@@ -341,7 +341,7 @@ public extension NSView {
         return row
     }
     
-    func SelectRow(frame: NSRect, title: String, action: Selector, items: [KeyValue_t], selected: String) -> NSView {
+    func SelectRow(frame: NSRect, title: String, action: Selector, items: [KeyValue_p], selected: String) -> NSView {
         let row: NSView = NSView(frame: frame)
         
         let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: (row.frame.height - 16)/2, width: row.frame.width - 52, height: 17), title)
@@ -360,7 +360,7 @@ public extension NSView {
         return row
     }
     
-    func SelectView(action: Selector, items: [KeyValue_t], selected: String) -> NSPopUpButton {
+    func SelectView(action: Selector, items: [KeyValue_p], selected: String) -> NSPopUpButton {
         let select: NSPopUpButton = NSPopUpButton(frame: NSRect(x: 0, y: 0, width: 50, height: 26))
         select.target = self
         select.action = action
@@ -382,20 +382,6 @@ public extension NSView {
         
         return select
     }
-}
-
-public extension Notification.Name {
-    static let toggleSettings = Notification.Name("toggleSettings")
-    static let toggleModule = Notification.Name("toggleModule")
-    static let togglePopup = Notification.Name("togglePopup")
-    static let toggleWidget = Notification.Name("toggleWidget")
-    static let openModuleSettings = Notification.Name("openModuleSettings")
-    static let settingsAppear = Notification.Name("settingsAppear")
-    static let switchWidget = Notification.Name("switchWidget")
-    static let checkForUpdates = Notification.Name("checkForUpdates")
-    static let changeCronInterval = Notification.Name("changeCronInterval")
-    static let clickInSettings = Notification.Name("clickInSettings")
-    static let refreshPublicIP = Notification.Name("refreshPublicIP")
 }
 
 public class NSButtonWithPadding: NSButton {

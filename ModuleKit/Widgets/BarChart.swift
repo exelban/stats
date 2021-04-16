@@ -16,9 +16,9 @@ public class BarChart: WidgetWrapper {
     private var labelState: Bool = false
     private var boxState: Bool = true
     private var frameState: Bool = false
-    private var colorState: widget_c = .systemAccent
+    private var colorState: Color = .systemAccent
     
-    private var colors: [widget_c] = widget_c.allCases
+    private var colors: [Color] = Color.allCases
     private var value: [Double] = []
     private var pressureLevel: Int = 0
     private var colorZones: colorZones = (0.6, 0.8)
@@ -50,10 +50,8 @@ public class BarChart: WidgetWrapper {
             if let box = configuration["Box"] as? Bool {
                 self.boxState = box
             }
-            if let colorsToDisable = configuration["Unsupported colors"] as? [String] {
-                self.colors = self.colors.filter { (color: widget_c) -> Bool in
-                    return !colorsToDisable.contains("\(color.self)")
-                }
+            if let unsupportedColors = configuration["Unsupported colors"] as? [String] {
+                self.colors = self.colors.filter{ !unsupportedColors.contains($0.key) }
             }
             if let color = configuration["Color"] as? String {
                 if let defaultColor = colors.first(where: { "\($0.self)" == color }) {
@@ -75,7 +73,7 @@ public class BarChart: WidgetWrapper {
             self.boxState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_box", defaultValue: self.boxState)
             self.frameState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_frame", defaultValue: self.frameState)
             self.labelState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_label", defaultValue: self.labelState)
-            self.colorState = widget_c(rawValue: Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_color", defaultValue: self.colorState.rawValue)) ?? self.colorState
+            self.colorState = Color.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_color", defaultValue: self.colorState.key))
         }
         
         if preview {
@@ -185,7 +183,7 @@ public class BarChart: WidgetWrapper {
                 } else {
                     (isDarkMode ? NSColor.white : NSColor.black).set()
                 }
-            default: colorFromString("\(self.colorState.self)").set()
+            default: (self.colorState.additional as? NSColor ?? NSColor.controlAccentColor).set()
             }
             
             partition.fill()
@@ -273,12 +271,12 @@ public class BarChart: WidgetWrapper {
         )
         view.addSubview(self.frameSettingsView!)
         
-        view.addSubview(SelectColorRow(
+        view.addSubview(SelectRow(
             frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 0, width: view.frame.width, height: rowHeight),
             title: LocalizedString("Color"),
             action: #selector(toggleColor),
-            items: self.colors.map{ $0.rawValue },
-            selected: self.colorState.rawValue
+            items: self.colors,
+            selected: self.colorState.key
         ))
         
         return view
@@ -335,10 +333,14 @@ public class BarChart: WidgetWrapper {
     }
     
     @objc private func toggleColor(_ sender: NSMenuItem) {
-        if let newColor = widget_c.allCases.first(where: { $0.rawValue == sender.title }) {
-            self.colorState = newColor
-            Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_color", value: self.colorState.rawValue)
-            self.display()
+        guard let key = sender.representedObject as? String else {
+            return
         }
+        if let newColor = Color.allCases.first(where: { $0.key == key }) {
+            self.colorState = newColor
+        }
+        
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_color", value: key)
+        self.display()
     }
 }
