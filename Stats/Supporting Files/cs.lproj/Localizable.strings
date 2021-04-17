@@ -24,7 +24,7 @@
 "Yes" = "Ano";
 "No" = "Ne";
 "Automatic" = "Automaticky";
-"Manual" = "Manual";
+"Manual" = "Manuálně";
 "None" = "Žádný";
 "Dots" = "Tečky";
 "Arrows" = "Šipky";
@@ -52,11 +52,11 @@
 // Application settings
 "Update application" = "Aktualizovat aplikaci";
 "Check for updates" = "Zkontrolovat aktualizace";
-"At start" = "At start";
-"Once per day" = "Once per day";
-"Once per week" = "Once per week";
-"Once per month" = "Once per month";
-"Never" = "Never";
+"At start" = "Při startu";
+"Once per day" = "Jednou denně";
+"Once per week" = "Jednou týdně";
+"Once per month" = "Jednou měsíčně";
+"Never" = "Nikdy";
 "Check for update" = "Zkontrolovat aktualizace";
 "Show icon in dock" = "Zobrazovat ikonu v Docku";
 "Start at login" = "Spustit po přihlášení";
@@ -86,14 +86,14 @@
 "One row" = "Jeden řádek";
 "Two rows" = "Dva řádky";
 "Mini widget" = "Mini";
-"Line chart widget" = "Line chart";
-"Bar chart widget" = "Bar chart";
-"Pie chart widget" = "Pie chart";
-"Network chart widget" = "Network chart";
-"Speed widget" = "Speed";
-"Battery widget" = "Battery";
+"Line chart widget" = "Čárový graf";
+"Bar chart widget" = "Sloupcový graf";
+"Pie chart widget" = "Koláčový graf";
+"Network chart widget" = "Síťový graf";
+"Speed widget" = "Rychlost";
+"Battery widget" = "Baterie";
 "Text widget" = "Text";
-"Memory widget" = "Memory";
+"Memory widget" = "Paměť";
 
 // Module Kit
 "Open module settings" = "Otevřít nastavení modulu";
@@ -121,19 +121,19 @@
 // GPU
 "GPU to show" = "Ukázat GPU";
 "Show GPU type" = "Zobrazit typ GPU";
-"GPU enabled" = "GPU enabled";
-"GPU disabled" = "GPU disabled";
+"GPU enabled" = "GPU aktivováno";
+"GPU disabled" = "GPU deaktivováno";
 "GPU temperature" = "Teplota GPU";
 "GPU utilization" = "Využití GPU";
-"Vendor" = "Vendor";
+"Vendor" = "Prodejce";
 "Model" = "Model";
 "Status" = "Status";
-"Active" = "Active";
-"Non active" = "Non active";
-"Fan speed" = "Fan speed";
-"Core clock" = "Core clock";
-"Memory clock" = "Memory clock";
-"Utilization" = "Utilization";
+"Active" = "Aktivní";
+"Non active" = "Neaktivní";
+"Fan speed" = "Rychlost ventilátoru";
+"Core clock" = "Takt jádra";
+"Memory clock" = "Takt pamětí";
+"Utilization" = "Využití";
 
 // Memory
 "Memory usage" = "Využití paměti";
@@ -167,7 +167,7 @@
 "Interface" = "Rozhraní";
 "Network" = "Síť";
 "Physical address" = "Fyzická adresa";
-"Refresh" = "Refresh";
+"Refresh" = "Obnovit";
 "Click to copy public IP address" = "Klikněte pro zkopírování veřejné IP adresy";
 "Click to copy local IP address" = "Klikněte pro zkopírování místní IP adresy";
 "Click to copy wifi name" = "Klikněte pro zkopírování názvu wifi";
@@ -183,8 +183,8 @@
 // Battery
 "Level" = "Úroveň";
 "Source" = "Zdroj";
-"AC Power" = "AC Power";
-"Battery Power" = "Battery Power";
+"AC Power" = "Napájení ze sítě";
+"Battery Power" = "Napájení z baterie;
 "Time" = "Čas";
 "Health" = "Zdraví";
 "Battery" = "Baterie";
@@ -201,11 +201,11 @@
 "Fully charged" = "Plně nabito";
 "Not connected" = "Nepřipojeno";
 "Low level notification" = "Upozornění při nízké úrovni";
-"High level notification" = "High level notification";
+"High level notification" = "Upozornění při vysoké úrovni";
 "Low battery" = "Nízká úroveň baterie";
-"High battery" = "High battery";
+"High battery" = "Vysoká úroveň baterie";
 "Battery remaining" = "Zbývá %0 %";
-"Battery remaining to full charge" = "%0% to full charge";
+"Battery remaining to full charge" = "%0% do úplného nabití";
 "Percentage" = "Procenta";
 "Percentage and time" = "Procenta a čas";
 "Time and percentage" = "Čas a procenta";
