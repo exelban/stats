@@ -194,7 +194,7 @@ internal class Popup: NSStackView, Popup_p {
         button.action = #selector(self.refreshPublicIP)
         button.target = self
         button.toolTip = LocalizedString("Refresh")
-        button.image = Bundle(for: type(of: self)).image(forResource: "reload")!
+        button.image = Bundle(for: Module.self).image(forResource: "reload")!
         row.addSubview(SeparatorView(LocalizedString("Public IP"), origin: NSPoint(x: 0, y: 0), width: self.frame.width))
         row.addSubview(button)
         
