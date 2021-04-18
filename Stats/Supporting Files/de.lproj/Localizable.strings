@@ -78,7 +78,7 @@
 "Frame" = "Rahmen";
 "Value" = "Wert";
 "Colorize" = "Einfärben";
-"Colorize value" = "Einfärbe-Wert";
+"Colorize value" = "Wert einfärben";
 "Additional information" = "Zusätzliche Informationen";
 "Reverse values order" = "Umgekehrte Reihenfolge der Werte";
 "Base" = "Basis";
@@ -86,19 +86,19 @@
 "One row" = "Eine Reihe";
 "Two rows" = "Zwei Reihen";
 "Mini widget" = "Mini";
-"Line chart widget" = "Line chart";
-"Bar chart widget" = "Bar chart";
-"Pie chart widget" = "Pie chart";
-"Network chart widget" = "Network chart";
-"Speed widget" = "Speed";
-"Battery widget" = "Battery";
+"Line chart widget" = "Liniendiagramm";
+"Bar chart widget" = "Balkendiagramm";
+"Pie chart widget" = "Kuchendiagramm";
+"Network chart widget" = "Netzwerk";
+"Speed widget" = "Geschwindigkeit";
+"Battery widget" = "Akku";
 "Text widget" = "Text";
-"Memory widget" = "Memory";
+"Memory widget" = "Speicher";
 
 // Module Kit
-"Open module settings" = "Modul-Einstellungen öffnen";
+"Open module settings" = "Modul Einstellungen öffnen";
 "Select widget" = "%0 Widget auswählen";
-"Open widget settings" = "Open widget settings";
+"Open widget settings" = "Widget Einstellungen öffnen";
 "Update interval" = "Update-Intervall";
 "Usage history" = "Verlauf";
 "Details" = "Details";
@@ -131,8 +131,8 @@
 "Active" = "Aktiv";
 "Non active" = "Nicht aktiv";
 "Fan speed" = "Lüfterdrehzahl";
-"Core clock" = "Core Frequenz";
-"Memory clock" = "Memory Frequenz";
+"Core clock" = "GPU Frequenz";
+"Memory clock" = "Speicher Frequenz";
 "Utilization" = "Auslastung";
 
 // Memory
@@ -183,7 +183,7 @@
 // Battery
 "Level" = "Ladezustand";
 "Source" = "Quelle";
-"AC Power" = "AC Power";
+"AC Power" = "Netzteil";
 "Battery Power" = "Battery Power";
 "Time" = "Zeit";
 "Health" = "Gesundheit";
@@ -200,12 +200,12 @@
 "Calculating" = "Berechnen...";
 "Fully charged" = "vollständig aufgeladen";
 "Not connected" = "nicht angeschlossen";
-"Low level notification" = "Benachrichtigen bei";
-"High level notification" = "High level notification";
+"Low level notification" = "Benachrichtigung bei niedrigem Ladezustand";
+"High level notification" = "Benachrichtigung bei hohem Ladezustand";
 "Low battery" = "Akku schwach";
-"High battery" = "High battery";
+"High battery" = "Ladezustand hoch";
 "Battery remaining" = "%0% verbleiben";
-"Battery remaining to full charge" = "%0% to full charge";
+"Battery remaining to full charge" = "%0% bis vollständig geladen";
 "Percentage" = "Prozentsatz";
 "Percentage and time" = "Prozentsatz und Zeit";
 "Time and percentage" = "Zeit und Prozentsatz";
