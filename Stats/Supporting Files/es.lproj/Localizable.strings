@@ -167,7 +167,7 @@
 "Interface" = "Interfaz";
 "Network" = "Red";
 "Physical address" = "Dirección física";
-"Refresh" = "Refresh";
+"Refresh" = "Refrescar";
 "Click to copy public IP address" = "Haga clic para copiar la dirección IP pública";
 "Click to copy local IP address" = "Haga clic para copiar la dirección IP local";
 "Click to copy wifi name" = "Haga clic para copiar el nombre de la red wifi";
