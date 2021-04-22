@@ -13,8 +13,6 @@ import Cocoa
 import StatsKit
 
 public class Mini: WidgetWrapper {
-    private let defaultTitle: String
-    
     private var labelState: Bool = true
     private var colorState: Color = .monochrome
     
@@ -26,6 +24,8 @@ public class Mini: WidgetWrapper {
     
     private var value: Double = 0
     private var pressureLevel: Int = 0
+    private var defaultLabel: String
+    private var label: String
     
     private var width: CGFloat {
         get {
@@ -63,7 +63,8 @@ public class Mini: WidgetWrapper {
             }
         }
         
-        self.defaultTitle = widgetTitle
+        self.defaultLabel = widgetTitle
+        self.label = widgetTitle
         super.init(.mini, title: widgetTitle, frame: CGRect(
             x: 0,
             y: Constants.Widget.margin.y,
@@ -98,7 +99,7 @@ public class Mini: WidgetWrapper {
                 NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
             ]
             let rect = CGRect(x: origin.x, y: 12, width: 20, height: 7)
-            let str = NSAttributedString.init(string: self.title, attributes: stringAttributes)
+            let str = NSAttributedString.init(string: self.label, attributes: stringAttributes)
             str.draw(with: rect)
             
             origin.y = 1
@@ -148,16 +149,16 @@ public class Mini: WidgetWrapper {
     }
     
     public func setTitle(_ newTitle: String?) {
-        var title = self.defaultTitle
-        if newTitle != nil {
-            title = newTitle!
-        }
-        
-        if self.title == title {
+        guard var title = newTitle else {
             return
         }
         
-        self.title = title
+        title = self.defaultLabel
+        if self.label == newTitle {
+            return
+        }
+        
+        self.label = title
         DispatchQueue.main.async(execute: {
             self.needsDisplay = true
         })
