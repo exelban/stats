@@ -119,13 +119,13 @@ extension Color: CaseIterable {
     public static var blue: Color { return Color(key: "blue", value: "Blue", additional: NSColor.blue) }
     public static var secondBlue: Color { return Color(key: "secondBlue", value: "Second blue", additional: NSColor.systemBlue) }
     public static var yellow: Color { return Color(key: "yellow", value: "Yellow", additional: NSColor.yellow) }
-    public static var secondYellow: Color { return Color(key: "secondYellow", value: "Second yellow", additional: NSColor.black) }
+    public static var secondYellow: Color { return Color(key: "secondYellow", value: "Second yellow", additional: NSColor.systemYellow) }
     public static var orange: Color { return Color(key: "orange", value: "Orange", additional: NSColor.orange) }
-    public static var secondOrange: Color { return Color(key: "secondOrange", value: "Second orange", additional: NSColor.black) }
+    public static var secondOrange: Color { return Color(key: "secondOrange", value: "Second orange", additional: NSColor.systemOrange) }
     public static var purple: Color { return Color(key: "purple", value: "Purple", additional: NSColor.purple) }
-    public static var secondPurple: Color { return Color(key: "secondPurple", value: "Second purple", additional: NSColor.black) }
+    public static var secondPurple: Color { return Color(key: "secondPurple", value: "Second purple", additional: NSColor.systemPurple) }
     public static var brown: Color { return Color(key: "brown", value: "Brown", additional: NSColor.brown) }
-    public static var secondBrown: Color { return Color(key: "secondBrown", value: "Second brown", additional: NSColor.black) }
+    public static var secondBrown: Color { return Color(key: "secondBrown", value: "Second brown", additional: NSColor.systemBrown) }
     public static var cyan: Color { return Color(key: "cyan", value: "Cyan", additional: NSColor.cyan) }
     public static var magenta: Color { return Color(key: "magenta", value: "Magenta", additional: NSColor.magenta) }
     public static var pink: Color { return Color(key: "pink", value: "Pink", additional: NSColor.systemPink) }
