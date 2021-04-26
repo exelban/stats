@@ -83,7 +83,7 @@ internal class x86_SensorsReader: SensorsReader {
 
 internal class AppleSilicon_SensorsReader: SensorsReader {
     private let types: [SensorType] = [.temperature, .current, .voltage]
-    private var cache: [String: Sensor_t] = ["1": Sensor_t(key: "test", name: "test", group: .sensor, type: .temperature)]
+    private var cache: [String: Sensor_t] = [:]
     
     init() {
         super.init()
