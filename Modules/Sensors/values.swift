@@ -85,7 +85,7 @@ struct Sensor_t {
                 let val = value >= 100 ? "\(Int(value))" : String(format: "%.1f", value)
                 return "\(val)\(unit)"
             case .fan:
-                return "\(Int(value)) \(unit)"
+                return "\(Int(value))"
             }
         }
     }
