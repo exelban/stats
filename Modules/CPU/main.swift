@@ -52,9 +52,9 @@ public class CPU: Module {
         
         self.loadReader = LoadReader()
         self.processReader = ProcessReader()
-        self.temperatureReader = TemperatureReader(popup: true)
         
         #if arch(x86_64)
+        self.temperatureReader = TemperatureReader(popup: true)
         self.frequencyReader = FrequencyReader(popup: true)
         #endif
         
