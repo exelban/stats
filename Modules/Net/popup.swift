@@ -260,6 +260,15 @@ internal class Popup: NSStackView, Popup_p {
         })
     }
     
+    private func flag(country:String) -> String {
+        let base : UInt32 = 127397
+        var s = ""
+        for v in country.unicodeScalars {
+            s.unicodeScalars.append(UnicodeScalar(base + v.value)!)
+        }
+        return String(s)
+    }
+    
     public func usageCallback(_ value: Network_Usage) {
         DispatchQueue.main.async(execute: {
             if (self.window?.isVisible ?? false) || !self.initialized {
@@ -286,7 +295,7 @@ internal class Popup: NSStackView, Popup_p {
                 
                 if let view = self.publicIPv4Field, view.stringValue != value.raddr.v4 {
                     if let addr = value.raddr.v4 {
-                        view.stringValue = (value.countryCode != nil) ? "\(addr) (\(value.countryCode!))" : addr
+                        view.stringValue = (value.countryCode != nil) ? "\(addr) \(self.flag(country: value.countryCode!))" : addr
                     } else {
                         view.stringValue = LocalizedString("Unknown")
                     }
