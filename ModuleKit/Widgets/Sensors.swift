@@ -118,13 +118,10 @@ public class SensorsWidget: WidgetWrapper {
     }
     
     private func drawOneRow(_ sensor: KeyValue_t, x: CGFloat) -> CGFloat {
-        var font: NSFont = NSFont.systemFont(ofSize: 13, weight: .regular)
-        if #available(OSX 10.15, *) {
-            font = NSFont.monospacedSystemFont(ofSize: 13, weight: .regular)
-        }
-        
+        let font: NSFont = NSFont.systemFont(ofSize: 13, weight: .regular)
         let style = NSMutableParagraphStyle()
         style.alignment = .center
+        
         let rect = CGRect(x: x, y: (Constants.Widget.height-13)/2, width: self.oneRowWidth, height: 13)
         let str = NSAttributedString.init(string: sensor.value, attributes: [
             NSAttributedString.Key.font: font,
@@ -139,10 +136,7 @@ public class SensorsWidget: WidgetWrapper {
     private func drawTwoRows(topSensor: KeyValue_t, bottomSensor: KeyValue_t?, x: CGFloat) -> CGFloat {
         let rowHeight: CGFloat = self.frame.height / 2
         
-        var font: NSFont = NSFont.systemFont(ofSize: 10, weight: .light)
-        if #available(OSX 10.15, *) {
-            font = NSFont.monospacedSystemFont(ofSize: 10, weight: .light)
-        }
+        let font: NSFont = NSFont.systemFont(ofSize: 10, weight: .light)
         let style = NSMutableParagraphStyle()
         style.alignment = .right
         
