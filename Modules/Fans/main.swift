@@ -92,7 +92,7 @@ public class Fans: Module {
         var list: [KeyValue_t] = []
         value.forEach { (f: Fan) in
             if f.state {
-                let str = label ? "\(f.name.prefix(1).uppercased()): \(f.formattedValue)" : f.formattedValue
+                let str = label ? "\(f.name.prefix(1).uppercased()): \(Int(f.value))" : f.formattedValue
                 list.append(KeyValue_t(key: "Fan#\(f.id)", value: str))
             }
         }

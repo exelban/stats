@@ -36,7 +36,7 @@ public class SensorsWidget: WidgetWrapper {
         }
         
         if title == "Fans" { // hack for fans. Because fan value contain RPM.
-            self.oneRowWidth = 66
+            self.oneRowWidth = 64
             self.twoRowWidth = 50
         }
         
