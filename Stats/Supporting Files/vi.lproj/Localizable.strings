@@ -211,6 +211,7 @@
 "Time and percentage" = "Thời gian và tỷ lệ phần trăm";
 "Time format" = "Định dạng thời gian";
 "Hide additional information when full" = "Ẩn thông tin bổ sung khi pin đầy";
+"Last charge" = "Lần sạc cuối cùng";
 
 // Fans
 "Fans" = "Quạt";

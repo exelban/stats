@@ -211,6 +211,7 @@
 "Time and percentage" = "Zeit und Prozentsatz";
 "Time format" = "Zeitformat";
 "Hide additional information when full" = "Zusätzliche Informationen bei vollständiger Ladung verbergen";
+"Last charge" = "Letzte Ladung";
 
 // Fans
 "Fans" = "Lüfter";

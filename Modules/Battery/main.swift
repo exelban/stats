@@ -31,6 +31,7 @@ struct Battery_Usage: value_t {
     
     var timeToEmpty: Int = 0
     var timeToCharge: Int = 0
+    var timeOnACPower: Date? = nil
     
     public var widget_value: Double {
         get {

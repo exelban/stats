@@ -211,6 +211,7 @@
 "Time and percentage" = "Време и процент";
 "Time format" = "Формат на времето";
 "Hide additional information when full" = "Скриване на допълнителна информация при пълен заряд";
+"Last charge" = "Последно зареждане";
 
 // Fans
 "Fans" = "Вентилатори";

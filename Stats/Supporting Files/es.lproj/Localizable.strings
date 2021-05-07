@@ -211,6 +211,7 @@
 "Time and percentage" = "Tiempo y porcentaje";
 "Time format" = "Formato de tiempo";
 "Hide additional information when full" = "Ocultar información adicional cuando la batería está cargada";
+"Last charge" = "Última carga";
 
 // Fans
 "Fans" = "Ventiladores";

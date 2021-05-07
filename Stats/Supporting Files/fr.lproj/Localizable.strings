@@ -211,6 +211,7 @@
 "Time and percentage" = "Temps et pourcentage";
 "Time format" = "Format de l'heure";
 "Hide additional information when full" = "Masquer les informations supplémentaires lorsque la batterie est pleine";
+"Last charge" = "Dernière charge";
 
 // Fans
 "Fans" = "Fans";

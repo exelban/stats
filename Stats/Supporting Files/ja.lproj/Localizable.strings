@@ -211,6 +211,7 @@
 "Time and percentage" = "残り時間と残量（%）";
 "Time format" = "時間の表示形式";
 "Hide additional information when full" = "フル充電済みのときはアイコンのみ表示";
+"Last charge" = "ラストチャージ";
 
 // Fans
 "Fans" = "ファン";

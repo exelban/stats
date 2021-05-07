@@ -74,6 +74,10 @@ internal class UsageReader: Reader<Battery_Usage> {
                     self.usage.timeToCharge = Int(time)
                 }
                 
+                if self.usage.powerSource == "AC Power" {
+                    self.usage.timeOnACPower = Date()
+                }
+                
                 self.usage.cycles = self.getIntValue("CycleCount" as CFString) ?? 0
                 
                 let maxCapacity = self.getIntValue("MaxCapacity" as CFString) ?? 1

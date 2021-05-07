@@ -211,6 +211,7 @@
 "Time and percentage" = "Időtartam és százalék";
 "Time format" = "Időformátum";
 "Hide additional information when full" = "További információk elrejtése, ha teljesen fel van töltve";
+"Last charge" = "Utolsó töltés";
 
 // Fans
 "Fans" = "Ventillátorok";

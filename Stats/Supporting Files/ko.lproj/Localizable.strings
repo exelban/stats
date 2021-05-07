@@ -211,6 +211,7 @@
 "Time and percentage" = "시간과 비율";
 "Time format" = "시간 형식";
 "Hide additional information when full" = "배터리가 가득 차면 추가 정보 숨기기";
+"Last charge" = "마지막 청구";
 
 // Fans
 "Fans" = "팬";
