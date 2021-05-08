@@ -113,8 +113,8 @@ internal class AppleSilicon_SensorsReader: SensorsReader {
     }
     
     private func fetch(type: SensorType) {
-        var page: Int = 0
-        var usage: Int = 0
+        var page: Int32 = 0
+        var usage: Int32 = 0
         var eventType: Int32 = kIOHIDEventTypeTemperature
         
         //  usagePage:
@@ -147,33 +147,9 @@ internal class AppleSilicon_SensorsReader: SensorsReader {
         case .fan: break
         }
         
-        guard let client = IOHIDEventSystemClientCreate(kCFAllocatorDefault) else {
-            return
-        }
-        let system: IOHIDEventSystemClient = client.takeRetainedValue()
-        
-        let dict = createDeviceMatchingDictionary(usagePage: page, usage: usage)
-        IOHIDEventSystemClientSetMatching(system, dict)
-        
-        guard let services: CFArray = IOHIDEventSystemClientCopyServices(system) else {
-            return
-        }
-        
-        for i in 0..<CFArrayGetCount(services) {
-            var value = CFArrayGetValueAtIndex(services, i)
-            
-            withUnsafePointer(to: &value) { rawPtr in
-                let service = UnsafeRawPointer(rawPtr).assumingMemoryBound(to: IOHIDServiceClientRef.self)
-                let namePtr: Unmanaged<CFString>? = IOHIDServiceClientCopyProperty(service.pointee, "Product" as CFString)
-                
-                guard let nameCF = namePtr?.takeRetainedValue() else {
-                    return
-                }
-                let name = nameCF as String
-                
-                if let eventPtr: IOHIDEventRef = IOHIDServiceClientCopyEvent(service.pointee, Int64(eventType), 0, 0) {
-                    let value = IOHIDEventGetFloatValue(eventPtr, eventType << 16)
-                    
+        if let list = AppleSiliconSensors(page, usage, eventType) {
+            list.forEach { (key, value) in
+                if let name = key as? String, let value = value as? Double {
                     if self.cache.keys.contains(name) {
                         self.cache[name]?.value = value
                     } else {

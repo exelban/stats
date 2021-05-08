@@ -21,11 +21,20 @@ typedef double IOHIDFloat;
 typedef float IOHIDFloat;
 #endif
 
+#define IOHIDEventFieldBase(type)   (type << 16)
 #define kIOHIDEventTypeTemperature  15
 #define kIOHIDEventTypePower        25
+
+typedef enum AppleSiliconSensorType: NSUInteger {
+    temperature=1,
+    current=2,
+    voltage=3,
+} AppleSiliconSensorType;
 
 IOHIDEventSystemClientRef IOHIDEventSystemClientCreate(CFAllocatorRef allocator);
 int IOHIDEventSystemClientSetMatching(IOHIDEventSystemClientRef client, CFDictionaryRef match);
 IOHIDEventRef IOHIDServiceClientCopyEvent(IOHIDServiceClientRef, int64_t , int32_t, int64_t);
 CFStringRef IOHIDServiceClientCopyProperty(IOHIDServiceClientRef service, CFStringRef property);
 IOHIDFloat IOHIDEventGetFloatValue(IOHIDEventRef event, int32_t field);
+
+NSDictionary*AppleSiliconSensors(int page, int usage, int32_t type);
