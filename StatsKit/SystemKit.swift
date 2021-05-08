@@ -21,6 +21,7 @@ public enum deviceType: Int {
     case macbook = 5
     case macbookAir = 6
     case macbookPro = 7
+    case macPro2019 = 8
 }
 
 public struct model_s {
@@ -357,6 +358,9 @@ public class SystemKit {
         case .macPro:
             icon = NSImage(named: NSImage.Name("macPro"))!
             break
+        case .macPro2019:
+            icon = NSImage(named: NSImage.Name("macPro2019"))!
+            break
         case .imac:
             icon = NSImage(named: NSImage.Name("imac"))!
             break
@@ -386,7 +390,7 @@ let deviceDict: [String: model_s] = [
     // Mac Pro
     "MacPro5,1": model_s(name: "Mac Pro (2012)", year: 2010, type: .macPro),
     "MacPro6,1": model_s(name: "Mac Pro (Late 2013)", year: 2016, type: .macPro),
-    "MacPro7,1": model_s(name: "Mac Pro (2019)", year: 2019, type: .macPro),
+    "MacPro7,1": model_s(name: "Mac Pro (2019)", year: 2019, type: .macPro2019),
     
     // iMac
     "iMac12,1": model_s(name: "iMac 27-Inch (Mid 2011)", year: 2011, type: .imac),
