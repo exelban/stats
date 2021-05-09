@@ -21,7 +21,6 @@ public enum deviceType: Int {
     case macbook = 5
     case macbookAir = 6
     case macbookPro = 7
-    case macPro2019 = 8
 }
 
 public struct model_s {
@@ -94,7 +93,7 @@ public class SystemKit {
         if let modelName = self.modelName() {
             if let modelInfo = deviceDict[modelName] {
                 self.device.model = modelInfo
-                self.device.model.icon = self.getIcon(type: self.device.model.type)
+                self.device.model.icon = self.getIcon(type: self.device.model.type, year: self.device.model.year)
             } else {
                 os_log(.error, log: self.log, "unknown device %s", modelName)
             }
@@ -198,7 +197,7 @@ public class SystemKit {
         defer {
             hostInfo.deallocate()
         }
-              
+        
         let result = hostInfo.withMemoryRebound(to: integer_t.self, capacity: Int(size)) {
             host_info(mach_host_self(), HOST_BASIC_INFO, $0, &size)
         }
@@ -345,37 +344,28 @@ public class SystemKit {
         return nil
     }
     
-    private func getIcon(type: deviceType) -> NSImage {
-        var icon: NSImage = NSImage()
-        
+    private func getIcon(type: deviceType, year: Int) -> NSImage {
         switch type {
         case .macMini:
-            icon = NSImage(named: NSImage.Name("macMini"))!
-            break
+            return NSImage(named: NSImage.Name("macMini"))!
         case .imacpro:
-            icon = NSImage(named: NSImage.Name("imacPro"))!
-            break
+            return NSImage(named: NSImage.Name("imacPro"))!
         case .macPro:
-            icon = NSImage(named: NSImage.Name("macPro"))!
-            break
-        case .macPro2019:
-            icon = NSImage(named: NSImage.Name("macPro2019"))!
-            break
+            switch year {
+            case 2019:
+                return NSImage(named: NSImage.Name("macPro2019"))!
+            default:
+                return NSImage(named: NSImage.Name("macPro"))!
+            }
         case .imac:
-            icon = NSImage(named: NSImage.Name("imac"))!
-            break
+            return NSImage(named: NSImage.Name("imac"))!
         case .macbook, .macbookAir:
-            icon = NSImage(named: NSImage.Name("macbookAir"))!
-            break
+            return NSImage(named: NSImage.Name("macbookAir"))!
         case .macbookPro:
-            icon = NSImage(named: NSImage.Name("macbookPro"))!
-            break
+            return NSImage(named: NSImage.Name("macbookPro"))!
         default:
-            icon = NSImage(named: NSImage.Name("imacPro"))!
-            break
+            return NSImage(named: NSImage.Name("imacPro"))!
         }
-        
-        return icon
     }
 }
 
@@ -390,7 +380,7 @@ let deviceDict: [String: model_s] = [
     // Mac Pro
     "MacPro5,1": model_s(name: "Mac Pro (2012)", year: 2010, type: .macPro),
     "MacPro6,1": model_s(name: "Mac Pro (Late 2013)", year: 2016, type: .macPro),
-    "MacPro7,1": model_s(name: "Mac Pro (2019)", year: 2019, type: .macPro2019),
+    "MacPro7,1": model_s(name: "Mac Pro (2019)", year: 2019, type: .macPro),
     
     // iMac
     "iMac12,1": model_s(name: "iMac 27-Inch (Mid 2011)", year: 2011, type: .imac),
