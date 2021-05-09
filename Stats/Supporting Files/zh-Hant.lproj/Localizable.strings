@@ -211,7 +211,7 @@
 "Time and percentage" = "時間和百分比";
 "Time format" = "時間格式";
 "Hide additional information when full" = "電池充飽後隱藏其他資訊";
-"Last charge" = "最後一次收費";
+"Last charge" = "最近一次充電";
 
 // Fans
 "Fans" = "風扇";
