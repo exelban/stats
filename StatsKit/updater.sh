@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DMG_PATH="$HOME/Download/Stats.dmg"
+DMG_PATH="$HOME/Downloads/Stats.dmg"
 MOUNT_PATH="/tmp/Stats"
 APPLICATION_PATH="/Applications/"
 

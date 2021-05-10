@@ -39,7 +39,7 @@ struct drive {
     var connectionType: String = ""
     var fileSystem: String = ""
     
-    var size: Int64 = 0
+    var size: Int64 = 1
     var free: Int64 = 0
     
     var stats: stats? = nil
@@ -91,25 +91,23 @@ public class Disk: Module {
     private var settingsView: Settings
     private var selectedDisk: String = ""
     
-    public init(_ store: UnsafePointer<Store>) {
-        self.settingsView = Settings("Disk", store: store)
+    public init() {
+        self.settingsView = Settings("Disk")
         
         super.init(
-            store: store,
             popup: self.popupView,
             settings: self.settingsView
         )
         guard self.available else { return }
         
         self.capacityReader = CapacityReader()
-        self.capacityReader?.store = store
-        self.selectedDisk = store.pointee.string(key: "\(self.config.name)_disk", defaultValue: self.selectedDisk)
+        self.selectedDisk = Store.shared.string(key: "\(self.config.name)_disk", defaultValue: self.selectedDisk)
         
+        self.capacityReader?.callbackHandler = { [unowned self] value in
+            self.capacityCallback(value)
+        }
         self.capacityReader?.readyCallback = { [unowned self] in
             self.readyHandler()
-        }
-        self.capacityReader?.callbackHandler = { [unowned self] value in
-            self.capacityCallback(value: value)
         }
         
         self.settingsView.selectedDiskHandler = { [unowned self] value in
@@ -134,41 +132,36 @@ public class Disk: Module {
         }
     }
     
-    private func capacityCallback(value: DiskList?) {
-        if value == nil {
+    private func capacityCallback(_ raw: DiskList?) {
+        guard raw != nil, let value = raw else {
             return
         }
         
         DispatchQueue.main.async(execute: {
-            self.popupView.usageCallback(value!)
+            self.popupView.usageCallback(value)
         })
-        self.settingsView.setList(value!)
+        self.settingsView.setList(value)
         
-        var d = value!.getDiskByName(self.selectedDisk)
-        if d == nil {
-            d = value!.getRootDisk()
-        }
-        
-        if d == nil {
+        guard let d = value.getDiskByName(self.selectedDisk) ?? value.getRootDisk() else {
             return
         }
         
-        let total = d!.size
-        let free = d!.free
-        let usedSpace = total - free
+        let total = d.size
+        let free = d.free
+        var usedSpace = total - free
+        if usedSpace < 0 {
+            usedSpace = 0
+        }
         let percentage = Double(usedSpace) / Double(total)
         
-        if let widget = self.widget as? Mini {
-            widget.setValue(percentage)
-        }
-        if let widget = self.widget as? BarChart {
-            widget.setValue([percentage])
-        }
-        if let widget = self.widget as? MemoryWidget {
-            widget.setValue((free, usedSpace))
-        }
-        if let widget = self.widget as? SpeedWidget {
-            widget.setValue(upload: d?.stats?.write ?? 0, download: d?.stats?.read ?? 0)
+        self.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
+            switch w.item {
+            case let widget as Mini: widget.setValue(percentage)
+            case let widget as BarChart: widget.setValue([percentage])
+            case let widget as MemoryWidget: widget.setValue((DiskSize(free).getReadableMemory(), DiskSize(usedSpace).getReadableMemory()))
+            case let widget as SpeedWidget: widget.setValue(upload: d.stats?.write ?? 0, download: d.stats?.read ?? 0)
+            default: break
+            }
         }
     }
 }

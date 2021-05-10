@@ -8,10 +8,12 @@
 
 import Cocoa
 import os.log
+
 import StatsKit
 import ModuleKit
+
 import CPU
-import Memory
+import RAM
 import Disk
 import Net
 import Battery
@@ -19,20 +21,17 @@ import Sensors
 import GPU
 import Fans
 
-var store: Store = Store()
 let updater = macAppUpdater(user: "exelban", repo: "stats")
-let systemKit: SystemKit = SystemKit()
-var smc: SMCService = SMCService()
 var modules: [Module] = [
-    Battery(&store),
-    Network(&store),
-    Fans(&store, &smc),
-    Sensors(&store, &smc),
-    Disk(&store),
-    Memory(&store),
-    GPU(&store, &smc),
-    CPU(&store, &smc),
-].reversed()
+    CPU(),
+    GPU(),
+    RAM(),
+    Disk(),
+    Sensors(),
+    Fans(),
+    Network(),
+    Battery(),
+]
 var log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: "Stats")
 
 class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDelegate {
@@ -43,9 +42,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         let startingPoint = Date()
-        print("------------", startingPoint, "------------", to: &Log.log)
         
         self.parseArguments()
+        self.parseVersion()
         
         NSUserNotificationCenter.default.removeAllDeliveredNotifications()
         NotificationCenter.default.addObserver(self, selector: #selector(updateCron), name: .changeCronInterval, object: nil)
@@ -54,7 +53,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         
         self.settingsWindow.setModules()
         
-        self.parseVersion()
         self.defaultValues()
         self.updateCron()
         os_log(.info, log: log, "Stats started in %.4f seconds", startingPoint.timeIntervalSinceNow * -1)
@@ -62,7 +60,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     
     func applicationWillTerminate(_ aNotification: Notification) {
         modules.forEach{ $0.terminate() }
-        _ = smc.close()
         NotificationCenter.default.removeObserver(self)
     }
     
@@ -92,7 +89,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         self.updateActivity.invalidate()
         self.updateActivity.repeats = true
         
-        guard let updateInterval = AppUpdateIntervals(rawValue: store.string(key: "update-interval", defaultValue: AppUpdateIntervals.atStart.rawValue)) else {
+        guard let updateInterval = AppUpdateInterval(rawValue: Store.shared.string(key: "update-interval", defaultValue: AppUpdateInterval.atStart.rawValue)) else {
             return
         }
         os_log(.debug, log: log, "Application update interval is '%s'", "\(updateInterval.rawValue)")

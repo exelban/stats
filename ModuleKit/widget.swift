@@ -10,47 +10,8 @@
 //
 
 import Cocoa
+import os.log
 import StatsKit
-
-public enum widget_c: String {
-    case utilization = "Based on utilization"
-    case pressure = "Based on pressure"
-    
-    case separator_1 = "separator_1"
-    
-    case systemAccent = "System accent"
-    case monochrome = "Monochrome accent"
-    
-    case separator_2 = "separator_2"
-    
-    case clear = "Clear"
-    case white = "White"
-    case black = "Black"
-    case gray = "Gray"
-    case secondGray = "Second gray"
-    case darkGray = "Dark gray"
-    case lightGray = "Light gray"
-    case red = "Red"
-    case secondRed = "Second red"
-    case green = "Green"
-    case secondGreen = "Second green"
-    case blue = "Blue"
-    case secondBlue = "Second blue"
-    case yellow = "Yellow"
-    case secondYellow = "Second yellow"
-    case orange = "Orange"
-    case secondOrange = "Second orange"
-    case purple = "Purple"
-    case secondPurple = "Second purple"
-    case brown = "Brown"
-    case secondBrown = "Second brown"
-    case cyan = "Cyan"
-    case magenta = "Magenta"
-    case pink = "Pink"
-    case teal = "Teal"
-    case indigo = "Indigo"
-}
-extension widget_c: CaseIterable {}
 
 public enum widget_t: String {
     case unknown = ""
@@ -58,108 +19,236 @@ public enum widget_t: String {
     case lineChart = "line_chart"
     case barChart = "bar_chart"
     case pieChart = "pie_chart"
+    case networkChart = "network_chart"
     case speed = "speed"
     case battery = "battery"
     case sensors = "sensors"
     case memory = "memory"
+    case label = "label"
+    
+    public func new(module: String, config: NSDictionary, defaultWidget: widget_t) -> Widget? {
+        var preview: widget_p? = nil
+        var item: widget_p? = nil
+        guard let widgetConfig: NSDictionary = config[self.rawValue] as? NSDictionary else {
+            return nil
+        }
+        
+        switch self {
+        case .mini:
+            preview = Mini(title: module, config: widgetConfig, preview: true)
+            item = Mini(title: module, config: widgetConfig, preview: false)
+            break
+        case .lineChart:
+            preview = LineChart(title: module, config: widgetConfig, preview: true)
+            item = LineChart(title: module, config: widgetConfig, preview: false)
+            break
+        case .barChart:
+            preview = BarChart(title: module, config: widgetConfig, preview: true)
+            item = BarChart(title: module, config: widgetConfig, preview: false)
+            break
+        case .pieChart:
+            preview = PieChart(title: module, config: widgetConfig, preview: true)
+            item = PieChart(title: module, config: widgetConfig, preview: false)
+            break
+        case .networkChart:
+            preview = NetworkChart(title: module, config: widgetConfig, preview: true)
+            item = NetworkChart(title: module, config: widgetConfig, preview: false)
+            break
+        case .speed:
+            preview = SpeedWidget(title: module, config: widgetConfig, preview: true)
+            item = SpeedWidget(title: module, config: widgetConfig, preview: false)
+            break
+        case .battery:
+            preview = BatterykWidget(title: module, config: widgetConfig, preview: true)
+            item = BatterykWidget(title: module, config: widgetConfig, preview: false)
+            break
+        case .sensors:
+            preview = SensorsWidget(title: module, config: widgetConfig, preview: true)
+            item = SensorsWidget(title: module, config: widgetConfig, preview: false)
+            break
+        case .memory:
+            preview = MemoryWidget(title: module, config: widgetConfig, preview: true)
+            item = MemoryWidget(title: module, config: widgetConfig, preview: false)
+            break
+        case .label:
+            preview = Label(title: module, config: widgetConfig, preview: true)
+            item = Label(title: module, config: widgetConfig, preview: false)
+            break
+        default: break
+        }
+        
+        if let preview = preview, let item = item {
+            return Widget(self, defaultWidget: defaultWidget, module: module, preview: preview, item: item)
+        }
+        
+        return nil
+    }
+    
+    public func name() -> String {
+        switch self {
+            case .mini: return LocalizedString("Mini widget")
+            case .lineChart: return LocalizedString("Line chart widget")
+            case .barChart: return LocalizedString("Bar chart widget")
+            case .pieChart: return LocalizedString("Pie chart widget")
+            case .networkChart: return LocalizedString("Network chart widget")
+            case .speed: return LocalizedString("Speed widget")
+            case .battery: return LocalizedString("Battery widget")
+            case .sensors: return LocalizedString("Text widget")
+            case .memory: return LocalizedString("Memory widget")
+            case .label: return LocalizedString("Label widget")
+            default: return ""
+        }
+    }
 }
 extension widget_t: CaseIterable {}
 
-public protocol Widget_p: NSView {
-    var name: String { get }
-    var title: String { get }
-    var preview: Bool { get }
+public protocol widget_p: NSView {
     var type: widget_t { get }
+    var title: String { get }
+    
     var widthHandler: ((CGFloat) -> Void)? { get set }
     
     func setValues(_ values: [value_t])
-    func settings(superview: NSView)
+    func settings(width: CGFloat) -> NSView
 }
 
-open class Widget: NSView, Widget_p {
+open class WidgetWrapper: NSView, widget_p {
+    public var type: widget_t
+    public var title: String
+    
     public var widthHandler: ((CGFloat) -> Void)? = nil
-    public var name: String {
-        get {
-            switch self.type {
-            case .mini: return "Mini"
-            case .lineChart: return "Line chart"
-            case .barChart: return "Bar chart"
-            case .pieChart: return "Pie chart"
-            case .speed: return "Speed"
-            case .battery: return "Battery"
-            case .sensors: return "Text"
-            case .memory: return "Memory"
-            default: return ""
-            }
-        }
+    
+    public init(_ type: widget_t, title: String, frame: NSRect) {
+        self.type = type
+        self.title = title
+        
+        super.init(frame: frame)
     }
-    public var title: String = ""
-    public var preview: Bool = false
-    public var type: widget_t = .unknown
     
-    private var widthHandlerRetry: Int8 = 0
-    
-    open override var intrinsicContentSize: CGSize {
-        return CGSize(width: self.frame.size.width, height: self.frame.size.height)
+    required public init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     public func setWidth(_ width: CGFloat) {
-        if self.frame.width == width || self.widthHandlerRetry >= 3 {
-            return
-        }
-        
-        if self.widthHandler == nil {
-            DispatchQueue.main.asyncAfter(deadline: .now() + .microseconds(10)) {
-                self.setWidth(width)
-                self.widthHandlerRetry += 1
-            }
+        if self.frame.width == width {
             return
         }
         
         DispatchQueue.main.async {
             self.setFrameSize(NSSize(width: width, height: self.frame.size.height))
-            self.invalidateIntrinsicContentSize()
-            self.display()
         }
         
         self.widthHandler?(width)
     }
     
-    open func settings(superview: NSView) {}
+    // MARK: - stubs
+    
+    open func settings(width: CGFloat) -> NSView { return NSView() }
     open func setValues(_ values: [value_t]) {}
 }
 
-func LoadWidget(_ type: widget_t, preview: Bool, name: String, config: NSDictionary?, store: UnsafePointer<Store>?) -> Widget_p? {
-    var widget: Widget_p? = nil
-    let widgetConfig: NSDictionary? = config?[type.rawValue] as? NSDictionary
+public class Widget {
+    public let type: widget_t
+    public let defaultWidget: widget_t
+    public let module: String
+    public let preview: widget_p
+    public let item: widget_p
     
-    switch type {
-    case .mini:
-        widget = Mini(preview: preview, title: name, config: widgetConfig, store: store)
-        break
-    case .lineChart:
-        widget = LineChart(preview: preview, title: name, config: widgetConfig, store: store)
-        break
-    case .barChart:
-        widget = BarChart(preview: preview, title: name, config: widgetConfig, store: store)
-        break
-    case .pieChart:
-        widget = PieChart(preview: preview, title: name, config: widgetConfig, store: store)
-        break
-    case .speed:
-        widget = SpeedWidget(preview: preview, title: name, config: widgetConfig, store: store)
-        break
-    case .battery:
-        widget = BatterykWidget(preview: preview, title: name, config: widgetConfig, store: store)
-        break
-    case .sensors:
-        widget = SensorsWidget(preview: preview, title: name, config: widgetConfig, store: store)
-        break
-    case .memory:
-        widget = MemoryWidget(preview: preview, title: name, config: widgetConfig, store: store)
-        break
-    default: break
+    public var isActive: Bool {
+        get {
+            return self.list.contains{ $0 == self.type }
+        }
+        set {
+            if newValue {
+                self.list.append(self.type)
+            } else {
+                self.list.removeAll{ $0 == self.type }
+            }
+        }
     }
     
-    return widget
+    private var config: NSDictionary = NSDictionary()
+    private var menuBarItem: NSStatusItem? = nil
+    private let log: OSLog
+    
+    private var list: [widget_t] {
+        get {
+            let string = Store.shared.string(key: "\(self.module)_widget", defaultValue: self.defaultWidget.rawValue)
+            return string.split(separator: ",").map{ (widget_t(rawValue: String($0)) ?? .unknown)}
+        }
+        set {
+            Store.shared.set(key: "\(self.module)_widget", value: newValue.map{ $0.rawValue }.joined(separator: ","))
+        }
+    }
+    
+    public init(_ type: widget_t, defaultWidget: widget_t, module: String, preview: widget_p, item: widget_p) {
+        self.type = type
+        self.module = module
+        self.preview = preview
+        self.item = item
+        self.defaultWidget = defaultWidget
+        self.log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: self.module)
+        
+        self.item.widthHandler = { [weak self] value in
+            if let s = self, let item = s.menuBarItem, item.length != value {
+                item.length = value
+                os_log(.debug, log: s.log, "widget %s change width to %.2f", "\(s.type)", value)
+            }
+        }
+    }
+    
+    // show item in the menu bar
+    public func enable() {
+        guard self.isActive else {
+            return
+        }
+        
+        DispatchQueue.main.async(execute: {
+            self.menuBarItem = NSStatusBar.system.statusItem(withLength: self.item.frame.width)
+            self.menuBarItem?.autosaveName = "\(self.module)_\(self.type.name())"
+            self.menuBarItem?.button?.addSubview(self.item)
+            
+            if let item = self.menuBarItem, !item.isVisible {
+                self.menuBarItem?.isVisible = true
+            }
+            
+            self.menuBarItem?.button?.target = self
+            self.menuBarItem?.button?.action = #selector(self.togglePopup)
+            self.menuBarItem?.button?.sendAction(on: [.leftMouseDown, .rightMouseDown])
+        })
+        
+        os_log(.debug, log: log, "widget %s enabled", self.type.rawValue)
+    }
+    
+    // remove item from the menu bar
+    public func disable() {
+        if let item = self.menuBarItem {
+            NSStatusBar.system.removeStatusItem(item)
+        }
+        self.menuBarItem = nil
+        os_log(.debug, log: log, "widget %s disabled", self.type.rawValue)
+    }
+    
+    // toggle the widget
+    public func toggle() {
+        self.isActive = !self.isActive
+        
+        if !self.isActive {
+            self.disable()
+        } else {
+            self.enable()
+        }
+        
+        NotificationCenter.default.post(name: .toggleWidget, object: nil, userInfo: ["module": self.module])
+    }
+    
+    @objc private func togglePopup(_ sender: Any) {
+        if let item = self.menuBarItem, let window = item.button?.window {
+            NotificationCenter.default.post(name: .togglePopup, object: nil, userInfo: [
+                "module": self.module,
+                "origin": window.frame.origin,
+                "center": window.frame.width/2,
+            ])
+        }
+    }
 }

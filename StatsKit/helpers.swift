@@ -10,20 +10,15 @@
 //
 
 import Cocoa
+import os.log
 
-public typealias AppUpdateInterval = String
-public enum AppUpdateIntervals: AppUpdateInterval {
-    case atStart = "At start"
-    case separator_1 = "separator_1"
-    case oncePerDay = "Once per day"
-    case oncePerWeek = "Once per week"
-    case oncePerMonth = "Once per month"
-    case separator_2 = "separator_2"
-    case never = "Never"
+public protocol KeyValue_p {
+    var key: String { get }
+    var value: String { get }
+    var additional: Any? { get }
 }
-extension AppUpdateIntervals: CaseIterable {}
 
-public struct KeyValue_t {
+public struct KeyValue_t: KeyValue_p {
     public let key: String
     public let value: String
     public let additional: Any?
@@ -34,60 +29,6 @@ public struct KeyValue_t {
         self.additional = additional
     }
 }
-
-public let TemperatureUnits: [KeyValue_t] = [
-    KeyValue_t(key: "system", value: "System"),
-    KeyValue_t(key: "separator", value: "separator"),
-    KeyValue_t(key: "celsius", value: "Celsius", additional: UnitTemperature.celsius),
-    KeyValue_t(key: "fahrenheit", value: "Fahrenheit", additional: UnitTemperature.fahrenheit)
-]
-
-public enum DataSizeBase: String {
-    case bit = "bit"
-    case byte = "byte"
-}
-public let SpeedBase: [KeyValue_t] = [
-    KeyValue_t(key: "bit", value: "Bit", additional: DataSizeBase.bit),
-    KeyValue_t(key: "byte", value: "Byte", additional: DataSizeBase.byte)
-]
-
-public let SensorsWidgetMode: [KeyValue_t] = [
-    KeyValue_t(key: "automatic", value: "Automatic"),
-    KeyValue_t(key: "separator", value: "separator"),
-    KeyValue_t(key: "oneRow", value: "One row"),
-    KeyValue_t(key: "twoRows", value: "Two rows"),
-]
-
-public let SpeedPictogram: [KeyValue_t] = [
-    KeyValue_t(key: "none", value: "None"),
-    KeyValue_t(key: "separator", value: "separator"),
-    KeyValue_t(key: "dots", value: "Dots"),
-    KeyValue_t(key: "arrows", value: "Arrows"),
-    KeyValue_t(key: "chars", value: "Characters"),
-]
-
-public let BatteryAdditionals: [KeyValue_t] = [
-    KeyValue_t(key: "none", value: "None"),
-    KeyValue_t(key: "separator", value: "separator"),
-    KeyValue_t(key: "percentage", value: "Percentage"),
-    KeyValue_t(key: "time", value: "Time"),
-    KeyValue_t(key: "percentageAndTime", value: "Percentage and time"),
-    KeyValue_t(key: "timeAndPercentage", value: "Time and percentage"),
-]
-
-public let ShortLong: [KeyValue_t] = [
-    KeyValue_t(key: "short", value: "Short"),
-    KeyValue_t(key: "long", value: "Long"),
-]
-
-public let ReaderUpdateIntervals: [Int] = [1, 2, 3, 5, 10, 15, 30]
-public let NumbersOfProcesses: [Int] = [3, 5, 8, 10, 15]
-
-public typealias Bandwidth = (upload: Int64, download: Int64)
-public let NetworkReaders: [KeyValue_t] = [
-    KeyValue_t(key: "interface", value: "Interface based"),
-    KeyValue_t(key: "process", value: "Processes based"),
-]
 
 public struct Units {
     public let bytes: Int64
@@ -167,6 +108,44 @@ public struct Units {
     }
 }
 
+public struct DiskSize {
+    public let value: Int64
+    
+    public init(_ size: Int64) {
+        self.value = size
+    }
+    
+    public var kilobytes: Double {
+        return Double(value) / 1_000
+    }
+    public var megabytes: Double {
+        return kilobytes / 1_000
+    }
+    public var gigabytes: Double {
+        return megabytes / 1_000
+    }
+    public var terabytes: Double {
+        return gigabytes / 1_000
+    }
+    
+    public func getReadableMemory() -> String {
+        switch value {
+        case 0..<1_000:
+            return "0 KB"
+        case 1_000..<(1_000 * 1_000):
+            return String(format: "%.0f KB", kilobytes)
+        case 1_000..<(1_000 * 1_000 * 1_000):
+            return String(format: "%.0f MB", megabytes)
+        case 1_000..<(1_000 * 1_000 * 1_000 * 1_000):
+            return String(format: "%.2f GB", gigabytes)
+        case (1_000 * 1_000 * 1_000 * 1_000)...Int64.max:
+            return String(format: "%.2f TB", terabytes)
+        default:
+            return String(format: "%.0f KB", kilobytes)
+        }
+    }
+}
+
 public class LabelField: NSTextField {
     public init(frame: NSRect, _ label: String = "") {
         super.init(frame: frame)
@@ -228,6 +207,7 @@ public extension NSBezierPath {
 
 public func SeparatorView(_ title: String, origin: NSPoint, width: CGFloat) -> NSView {
     let view: NSView = NSView(frame: NSRect(x: origin.x, y: origin.y, width: width, height: 30))
+    view.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
     
     let labelView: NSTextField = TextView(frame: NSRect(x: 0, y: (view.frame.height-15)/2, width: view.frame.width, height: 15))
     labelView.stringValue = title
@@ -240,18 +220,24 @@ public func SeparatorView(_ title: String, origin: NSPoint, width: CGFloat) -> N
     return view
 }
 
-public func PopupRow(_ view: NSView, n: CGFloat, title: String, value: String) -> ValueField {
+public func PopupRow(_ view: NSView, n: CGFloat = 0, title: String, value: String) -> (LabelField, ValueField) {
     let rowView: NSView = NSView(frame: NSRect(x: 0, y: 22*n, width: view.frame.width, height: 22))
     
-    let labelWidth = title.widthOfString(usingFont: .systemFont(ofSize: 13, weight: .regular)) + 5
+    let labelWidth = title.widthOfString(usingFont: .systemFont(ofSize: 13, weight: .regular)) + 4
     let labelView: LabelField = LabelField(frame: NSRect(x: 0, y: (22-15)/2, width: labelWidth, height: 15), title)
-    let valueView: ValueField = ValueField(frame: NSRect(x: labelWidth, y: (22-16)/2, width: rowView.frame.width - labelWidth, height: 16), value)
+    let valueView: ValueField = ValueField(frame: NSRect(x: labelWidth, y: (22-15)/2, width: rowView.frame.width - labelWidth, height: 16), value)
     
     rowView.addSubview(labelView)
     rowView.addSubview(valueView)
-    view.addSubview(rowView)
     
-    return valueView
+    if let view = view as? NSStackView {
+        rowView.heightAnchor.constraint(equalToConstant: rowView.bounds.height).isActive = true
+        view.addArrangedSubview(rowView)
+    } else {
+        view.addSubview(rowView)
+    }
+    
+    return (labelView, valueView)
 }
 
 public func PopupWithColorRow(_ view: NSView, color: NSColor, n: CGFloat, title: String, value: String) -> ValueField {
@@ -361,69 +347,6 @@ public func syncShell(_ args: String) -> String {
     return output
 }
 
-public func colorFromString(_ colorString: String) -> NSColor {
-    switch colorString {
-    case "black":
-        return NSColor.black
-    case "darkGray":
-        return NSColor.darkGray
-    case "lightGray":
-        return NSColor.lightGray
-    case "gray":
-        return NSColor.gray
-    case "secondGray":
-        return NSColor.systemGray
-    case "white":
-        return NSColor.white
-    case "red":
-        return NSColor.red
-    case "secondRed":
-        return NSColor.systemRed
-    case "green":
-        return NSColor.green
-    case "secondGreen":
-        return NSColor.systemGreen
-    case "blue":
-        return NSColor.blue
-    case "secondBlue":
-        return NSColor.systemBlue
-    case "yellow":
-        return NSColor.yellow
-    case "secondYellow":
-        return NSColor.systemYellow
-    case "orange":
-        return NSColor.orange
-    case "secondOrange":
-        return NSColor.systemOrange
-    case "purple":
-        return NSColor.purple
-    case "secondPurple":
-        return NSColor.systemPurple
-    case "brown":
-        return NSColor.brown
-    case "secondBrown":
-        return NSColor.systemBrown
-    case "cyan":
-        return NSColor.cyan
-    case "magenta":
-        return NSColor.magenta
-    case "clear":
-        return NSColor.clear
-    case "pink":
-        return NSColor.systemPink
-    case "teal":
-        return NSColor.systemTeal
-    case "indigo":
-        if #available(OSX 10.15, *) {
-            return NSColor.systemIndigo
-        } else {
-            return NSColor(hexString: "#4B0082")
-        }
-    default:
-        return NSColor.controlAccentColor
-    }
-}
-
 public func IsNewestVersion(currentVersion: String, latestVersion: String) -> Bool {
     let currentNumber = currentVersion.replacingOccurrences(of: "v", with: "")
     let latestNumber = latestVersion.replacingOccurrences(of: "v", with: "")
@@ -506,12 +429,13 @@ public func IsNewestVersion(currentVersion: String, latestVersion: String) -> Bo
     return false
 }
 
-public func showNotification(title: String, subtitle: String, id: String = UUID().uuidString, icon: NSImage? = nil) -> NSUserNotification {
+public func showNotification(title: String, subtitle: String? = nil, text: String? = nil, id: String = UUID().uuidString, icon: NSImage? = nil) -> NSUserNotification {
     let notification = NSUserNotification()
     
     notification.identifier = id
     notification.title = title
     notification.subtitle = subtitle
+    notification.informativeText = text
     notification.soundName = NSUserNotificationDefaultSoundName
     notification.hasActionButton = false
     
@@ -621,19 +545,7 @@ public class ColorView: NSView {
 public struct Log: TextOutputStream {
     public static var log: Log = Log()
     
-    private var debug: Bool = false
-    
-    private init() {
-        if CommandLine.arguments.contains("--debug") {
-            self.debug = true
-        }
-    }
-    
     public func write(_ string: String) {
-        if !debug {
-            return
-        }
-        
         let fm = FileManager.default
         let log = fm.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("log.txt")
         if let handle = try? FileHandle(forWritingTo: log) {
@@ -656,17 +568,29 @@ public func LocalizedString(_ key: String, _ params: String..., comment: String 
     return string
 }
 
+extension UnitTemperature {
+    static var current: UnitTemperature {
+        let measureFormatter = MeasurementFormatter()
+        let measurement = Measurement(value: 0, unit: UnitTemperature.celsius)
+        return measureFormatter.string(from: measurement).hasSuffix("C") ? .celsius : .fahrenheit
+    }
+}
+
 public func Temperature(_ value: Double) -> String {
     let stringUnit: String = Store.shared.string(key: "temperature_units", defaultValue: "system")
     let formatter = MeasurementFormatter()
+    formatter.locale = Locale.init(identifier: "en_US")
     formatter.numberFormatter.maximumFractionDigits = 0
     formatter.unitOptions = .providedUnit
-    formatter.unitStyle = .short
     
     var measurement = Measurement(value: value, unit: UnitTemperature.celsius)
-    if stringUnit != "system" {
-        if let temperatureUnit = TemperatureUnits.first(where: { $0.key == stringUnit }), let unit = temperatureUnit.additional as? UnitTemperature {
-            measurement.convert(to: unit)
+    if stringUnit == "system" {
+        measurement.convert(to: UnitTemperature.current)
+    } else {
+        if let temperatureUnit = TemperatureUnits.first(where: { $0.key == stringUnit }) {
+            if let unit = temperatureUnit.additional as? UnitTemperature {
+                measurement.convert(to: unit)
+            }
         }
     }
     
@@ -822,4 +746,58 @@ public class WidgetLabelView: NSView {
             yMargin += letterHeight
         }
     }
+}
+
+public func isRoot() -> Bool {
+    return getuid() == 0
+}
+
+public func ensureRoot() {
+    if isRoot() {
+        return
+    }
+    
+    let pwd = Bundle.main.bundleURL.absoluteString.replacingOccurrences(of: "file://", with: "")
+    guard let script = NSAppleScript(source: "do shell script \"\(pwd)/Contents/MacOS/Stats > /dev/null 2>&1 &\" with administrator privileges") else {
+        return
+    }
+    
+    var err: NSDictionary? = nil
+    script.executeAndReturnError(&err)
+    
+    if err != nil {
+        print("cannot run script as root: \(String(describing: err))")
+        return
+    }
+    
+    NSApp.terminate(nil)
+    return
+}
+
+public func process(path: String, arguments: [String]) -> String? {
+    let task = Process()
+    task.launchPath = path
+    task.arguments = arguments
+    
+    let outputPipe = Pipe()
+    defer {
+        outputPipe.fileHandleForReading.closeFile()
+    }
+    task.standardOutput = outputPipe
+    
+    do {
+        try task.run()
+    } catch let error {
+        os_log(.error, log: .default, "system_profiler SPMemoryDataType: %s", "\(error.localizedDescription)")
+        return nil
+    }
+    
+    let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
+    let output = String(decoding: outputData, as: UTF8.self)
+    
+    if output.isEmpty {
+        return nil
+    }
+    
+    return output
 }

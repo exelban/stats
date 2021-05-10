@@ -63,7 +63,6 @@ internal class UsageReader: Reader<Battery_Usage> {
         for ps in psList {
             if let list = IOPSGetPowerSourceDescription(psInfo, ps).takeUnretainedValue() as? Dictionary<String, Any> {
                 self.usage.powerSource = list[kIOPSPowerSourceStateKey] as? String ?? "AC Power"
-                self.usage.state = list[kIOPSBatteryHealthKey] as? String ?? "0"
                 self.usage.isCharged = list[kIOPSIsChargedKey] as? Bool ?? false
                 self.usage.isCharging = self.getBoolValue("IsCharging" as CFString) ?? false
                 self.usage.level = Double(list[kIOPSCurrentCapacityKey] as? Int ?? 0) / 100
@@ -75,11 +74,20 @@ internal class UsageReader: Reader<Battery_Usage> {
                     self.usage.timeToCharge = Int(time)
                 }
                 
+                if self.usage.powerSource == "AC Power" {
+                    self.usage.timeOnACPower = Date()
+                }
+                
                 self.usage.cycles = self.getIntValue("CycleCount" as CFString) ?? 0
                 
                 let maxCapacity = self.getIntValue("MaxCapacity" as CFString) ?? 1
                 let designCapacity = self.getIntValue("DesignCapacity" as CFString) ?? 1
+                #if arch(x86_64)
                 self.usage.health = (100 * maxCapacity) / designCapacity
+                self.usage.state = list[kIOPSBatteryHealthKey] as? String
+                #else
+                self.usage.health = maxCapacity
+                #endif
                 
                 self.usage.amperage = self.getIntValue("Amperage" as CFString) ?? 0
                 self.usage.voltage = self.getVoltage() ?? 0
@@ -87,7 +95,7 @@ internal class UsageReader: Reader<Battery_Usage> {
                 
                 var ACwatts: Int = 0
                 if let ACDetails = IOPSCopyExternalPowerAdapterDetails() {
-                    if let ACList = ACDetails.takeUnretainedValue() as? Dictionary<String, Any> {
+                    if let ACList = ACDetails.takeRetainedValue() as? Dictionary<String, Any> {
                         guard let watts = ACList[kIOPSPowerAdapterWattsKey] else {
                             return
                         }
@@ -138,144 +146,87 @@ internal class UsageReader: Reader<Battery_Usage> {
 }
 
 public class ProcessReader: Reader<[TopProcess]> {
-    private var task: Process? = nil
-    private var initialized: Bool = false
+    private let title: String = "Battery"
     
-    private let store: UnsafePointer<Store>
-    private let title: String
+    private var task: Process = Process()
+    private var initialized: Bool = false
+    private var paused: Bool = false
     
     private var numberOfProcesses: Int {
         get {
-            return self.store.pointee.int(key: "\(self.title)_processes", defaultValue: 8)
+            return Store.shared.int(key: "\(self.title)_processes", defaultValue: 8)
         }
-    }
-    
-    init(_ title: String, store: UnsafePointer<Store>) {
-        self.title = title
-        self.store = store
-        super.init()
     }
     
     public override func setup() {
         self.popup = true
+        
+        let pipe = Pipe()
+        
+        self.task.standardOutput = pipe
+        self.task.launchPath = "/usr/bin/top"
+        self.task.arguments = ["-o", "power", "-n", "\(self.numberOfProcesses)", "-stats", "pid,command,power"]
+        
+        pipe.fileHandleForReading.readabilityHandler = { (fileHandle) -> Void in
+            let output = String(decoding: fileHandle.availableData, as: UTF8.self)
+            var processes: [TopProcess] = []
+            
+            output.enumerateLines { (line, _) -> () in
+                if line.matches("^\\d* +.+ \\d*.?\\d*$") {
+                    var str = line.trimmingCharacters(in: .whitespaces)
+                    
+                    let pidString = str.findAndCrop(pattern: "^\\d+")
+                    let usageString = str.findAndCrop(pattern: " +[0-9]+.*[0-9]*$")
+                    let command = str.trimmingCharacters(in: .whitespaces)
+                    
+                    let pid = Int(pidString) ?? 0
+                    guard let usage = Double(usageString.filter("01234567890.".contains)) else {
+                        return
+                    }
+                    
+                    var name: String? = nil
+                    var icon: NSImage? = nil
+                    if let app = NSRunningApplication(processIdentifier: pid_t(pid) ) {
+                        name = app.localizedName ?? nil
+                        icon = app.icon
+                    }
+                    
+                    processes.append(TopProcess(pid: pid, command: command, name: name, usage: usage, icon: icon))
+                }
+            }
+            
+            if processes.count != 0 {
+                self.callback(processes.prefix(self.numberOfProcesses).reversed().reversed())
+            }
+        }
     }
     
     public override func start() {
         if !self.initialized {
-            DispatchQueue.global().async {
-                self.read()
-            }
             self.initialized = true
             return
         }
         
-        DispatchQueue.global().async {
-            self.task = Process()
-            let pipe = Pipe()
-            
-            self.task?.standardOutput = pipe
-            self.task?.launchPath = "/usr/bin/top"
-            self.task?.arguments = ["-o", "power", "-n", "\(self.numberOfProcesses)", "-stats", "pid,command,power"]
-            
-            pipe.fileHandleForReading.readabilityHandler = { (fileHandle) -> Void in
-                let output = String(decoding: fileHandle.availableData, as: UTF8.self)
-                var processes: [TopProcess] = []
-                
-                output.enumerateLines { (line, _) -> () in
-                    if line.matches("^\\d* +.+ \\d*.?\\d*$") {
-                        var str = line.trimmingCharacters(in: .whitespaces)
-                        
-                        let pidString = str.findAndCrop(pattern: "^\\d+")
-                        let usageString = str.findAndCrop(pattern: " +[0-9]+.*[0-9]*$")
-                        let command = str.trimmingCharacters(in: .whitespaces)
-                        
-                        let pid = Int(pidString) ?? 0
-                        guard let usage = Double(usageString.filter("01234567890.".contains)) else {
-                            return
-                        }
-                        
-                        var name: String? = nil
-                        var icon: NSImage? = nil
-                        if let app = NSRunningApplication(processIdentifier: pid_t(pid) ) {
-                            name = app.localizedName ?? nil
-                            icon = app.icon
-                        }
-                        
-                        processes.append(TopProcess(pid: pid, command: command, name: name, usage: usage, icon: icon))
-                    }
-                }
-                
-                if processes.count != 0 {
-                    self.callback(processes)
-                }
+        if !self.task.isRunning {
+            do {
+                try self.task.run()
+            } catch let error {
+                os_log(.error, log: log, "run Battery process reader %s", "\(error)")
             }
-
-            self.task?.launch()
-            self.task?.waitUntilExit()
+        } else if self.paused {
+            self.paused = !self.task.resume()
+        }
+    }
+    
+    public override func pause() {
+        if self.task.isRunning && !self.paused {
+            self.paused = self.task.suspend()
         }
     }
     
     public override func stop() {
-        if self.task == nil || !self.task!.isRunning {
-            return
+        if self.task.isRunning && !self.paused {
+            self.paused = self.task.suspend()
         }
-        
-        self.task?.interrupt()
-        self.task = nil
-    }
-    
-    public override func read() {
-        let task = Process()
-        task.launchPath = "/usr/bin/top"
-        task.arguments = ["-l", "1", "-o", "power", "-n", "\(self.numberOfProcesses)", "-stats", "pid,command,power"]
-        
-        let outputPipe = Pipe()
-        let errorPipe = Pipe()
-        
-        task.standardOutput = outputPipe
-        task.standardError = errorPipe
-        
-        do {
-            try task.run()
-        } catch let error {
-            os_log(.error, log: log, "top(): %s", "\(error.localizedDescription)")
-            return
-        }
-        
-        let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
-        let errorData = errorPipe.fileHandleForReading.readDataToEndOfFile()
-        let output = String(decoding: outputData, as: UTF8.self)
-        _ = String(decoding: errorData, as: UTF8.self)
-        
-        if output.isEmpty {
-            return
-        }
-        
-        var processes: [TopProcess] = []
-        output.enumerateLines { (line, _) -> () in
-            if line.matches("^\\d* +.+ \\d*.?\\d*$") {
-                var str = line.trimmingCharacters(in: .whitespaces)
-                
-                let pidString = str.findAndCrop(pattern: "^\\d+")
-                let usageString = str.findAndCrop(pattern: " +[0-9]+.*[0-9]*$")
-                let command = str.trimmingCharacters(in: .whitespaces)
-                
-                let pid = Int(pidString) ?? 0
-                guard let usage = Double(usageString.filter("01234567890.".contains)) else {
-                    return
-                }
-                
-                var name: String? = nil
-                var icon: NSImage? = nil
-                if let app = NSRunningApplication(processIdentifier: pid_t(pid) ) {
-                    name = app.localizedName ?? nil
-                    icon = app.icon
-                }
-                
-                processes.append(TopProcess(pid: pid, command: command, name: name, usage: usage, icon: icon))
-            }
-        }
-        
-        self.callback(processes)
     }
 }

@@ -31,7 +31,9 @@ public struct circle_segment {
 }
 
 public class LineChartView: NSView {
-    public var points: [Double]? = nil
+    public var id: String = UUID().uuidString
+    
+    public var points: [Double]
     public var transparent: Bool = true
     
     public var color: NSColor = NSColor.controlAccentColor
@@ -48,7 +50,7 @@ public class LineChartView: NSView {
     public override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         
-        if self.points?.count == 0 {
+        if self.points.isEmpty {
             return
         }
         
@@ -60,48 +62,44 @@ public class LineChartView: NSView {
         
         guard let context = NSGraphicsContext.current?.cgContext else { return }
         context.setShouldAntialias(true)
-        let height: CGFloat = self.frame.size.height - self.frame.origin.y - 0.5
-        let xRatio: CGFloat = self.frame.size.width / CGFloat(self.points!.count)
+        
+        let offset: CGFloat = 1 / (NSScreen.main?.backingScaleFactor ?? 1)
+        let height: CGFloat = self.frame.size.height - self.frame.origin.y - offset
+        let xRatio: CGFloat = self.frame.size.width / CGFloat(self.points.count)
         
         let columnXPoint = { (point: Int) -> CGFloat in
             return (CGFloat(point) * xRatio) + dirtyRect.origin.x
         }
         let columnYPoint = { (point: Int) -> CGFloat in
-            return CGFloat((CGFloat(truncating: self.points![point] as NSNumber) * height)) + dirtyRect.origin.y + 0.5
+            return CGFloat((CGFloat(truncating: self.points[point] as NSNumber) * height)) + dirtyRect.origin.y + 0.5
         }
         
-        let linePath = NSBezierPath()
-        let x: CGFloat = columnXPoint(0)
-        let y: CGFloat = columnYPoint(0)
-        linePath.move(to: CGPoint(x: x, y: y))
+        let line = NSBezierPath()
+        line.move(to: CGPoint(x: columnXPoint(0), y: columnYPoint(0)))
         
-        for i in 1..<self.points!.count {
-            linePath.line(to: CGPoint(x: columnXPoint(i), y: columnYPoint(i)))
+        for i in 1..<self.points.count {
+            line.line(to: CGPoint(x: columnXPoint(i), y: columnYPoint(i)))
         }
         
         lineColor.setStroke()
-        context.saveGState()
+        line.lineWidth = offset
+        line.stroke()
         
-        let underLinePath = linePath.copy() as! NSBezierPath
+        let underLinePath = line.copy() as! NSBezierPath
         
-        underLinePath.line(to: CGPoint(x: columnXPoint(self.points!.count - 1), y: 0))
+        underLinePath.line(to: CGPoint(x: columnXPoint(self.points.count - 1), y: 0))
         underLinePath.line(to: CGPoint(x: columnXPoint(0), y: 0))
         underLinePath.close()
         underLinePath.addClip()
         
         gradientColor.setFill()
-        let rectPath = NSBezierPath(rect: dirtyRect)
-        rectPath.fill()
-        
-        context.restoreGState()
-        
-        linePath.stroke()
-        linePath.lineWidth = 0.5
+        underLinePath.fill()
     }
     
     public func addValue(_ value: Double) {
-        self.points!.remove(at: 0)
-        self.points!.append(value)
+        self.points.remove(at: 0)
+        self.points.append(value)
+        
         if self.window?.isVisible ?? true {
             self.display()
         }
@@ -109,10 +107,15 @@ public class LineChartView: NSView {
 }
 
 public class NetworkChartView: NSView {
-    private var points: [(Double, Double)]? = nil
-    private var colors: [NSColor] = [NSColor.systemRed, NSColor.systemBlue]
+    public var id: String = UUID().uuidString
+    public var base: DataSizeBase = .byte
     
-    public init(frame: NSRect, num: Int) {
+    public var points: [(Double, Double)]? = nil
+    private var colors: [NSColor] = [NSColor.systemRed, NSColor.systemBlue]
+    private var minMax: Bool = false
+    
+    public init(frame: NSRect, num: Int, minMax: Bool = true) {
+        self.minMax = minMax
         self.points = Array(repeating: (0, 0), count: num)
         super.init(frame: frame)
     }
@@ -124,15 +127,12 @@ public class NetworkChartView: NSView {
     public override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         
-        if self.points == nil {
-            return
-        }
-        
+        guard let points = self.points else { return }
         guard let context = NSGraphicsContext.current?.cgContext else { return }
         context.setShouldAntialias(true)
         
-        var uploadMax: Double = self.points!.map{ $0.0 }.max() ?? 0
-        var downloadMax: Double = self.points!.map{ $0.1 }.max() ?? 0
+        var uploadMax: Double = points.map{ $0.0 }.max() ?? 0
+        var downloadMax: Double = points.map{ $0.1 }.max() ?? 0
         if uploadMax == 0 {
             uploadMax = 1
         }
@@ -140,18 +140,19 @@ public class NetworkChartView: NSView {
             downloadMax = 1
         }
         
-        let height: CGFloat = self.frame.size.height - self.frame.origin.y - 0.5
-        let zero = height/2
-        let xRatio: CGFloat = (self.frame.size.width) / CGFloat(self.points!.count)
+        let lineWidth = 1 / (NSScreen.main?.backingScaleFactor ?? 1)
+        let offset = lineWidth / 2
+        let zero: CGFloat = (dirtyRect.height/2) + dirtyRect.origin.y
+        let xRatio: CGFloat = (dirtyRect.width + (lineWidth*3)) / CGFloat(points.count)
         
         let columnXPoint = { (point: Int) -> CGFloat in
-            return (CGFloat(point) * xRatio) + dirtyRect.origin.x
+            return (CGFloat(point) * xRatio) + (dirtyRect.origin.x - lineWidth)
         }
         let uploadYPoint = { (point: Int) -> CGFloat in
-            return CGFloat((self.points![point].0 * Double(height/2)) / uploadMax) + dirtyRect.origin.y + zero
+            return CGFloat((points[point].0 * Double(dirtyRect.height/2)) / uploadMax) + dirtyRect.origin.y + dirtyRect.height/2 + lineWidth - offset
         }
         let downloadYPoint = { (point: Int) -> CGFloat in
-            return height/2 - (CGFloat((self.points![point].1 * Double(height/2)) / downloadMax) + dirtyRect.origin.y)
+            return (dirtyRect.height/2 + dirtyRect.origin.y + offset - lineWidth) - CGFloat((points[point].1 * Double(dirtyRect.height/2)) / downloadMax)
         }
         
         let uploadlinePath = NSBezierPath()
@@ -160,23 +161,23 @@ public class NetworkChartView: NSView {
         let downloadlinePath = NSBezierPath()
         downloadlinePath.move(to: CGPoint(x: columnXPoint(0), y: downloadYPoint(0)))
         
-        for i in 1..<self.points!.count {
+        for i in 1..<points.count {
             uploadlinePath.line(to: CGPoint(x: columnXPoint(i), y: uploadYPoint(i)))
             downloadlinePath.line(to: CGPoint(x: columnXPoint(i), y: downloadYPoint(i)))
         }
         
         self.colors[0].setStroke()
+        uploadlinePath.lineWidth = lineWidth
         uploadlinePath.stroke()
-        uploadlinePath.lineWidth = 0.5
         
         self.colors[1].setStroke()
+        downloadlinePath.lineWidth = lineWidth
         downloadlinePath.stroke()
-        downloadlinePath.lineWidth = 0.5
         
         context.saveGState()
         
         var underLinePath = uploadlinePath.copy() as! NSBezierPath
-        underLinePath.line(to: CGPoint(x: columnXPoint(self.points!.count - 1), y: zero))
+        underLinePath.line(to: CGPoint(x: columnXPoint(points.count), y: zero))
         underLinePath.line(to: CGPoint(x: columnXPoint(0), y: zero))
         underLinePath.close()
         underLinePath.addClip()
@@ -187,7 +188,7 @@ public class NetworkChartView: NSView {
         context.saveGState()
         
         underLinePath = downloadlinePath.copy() as! NSBezierPath
-        underLinePath.line(to: CGPoint(x: columnXPoint(self.points!.count - 1), y: zero))
+        underLinePath.line(to: CGPoint(x: columnXPoint(points.count), y: zero))
         underLinePath.line(to: CGPoint(x: columnXPoint(0), y: zero))
         underLinePath.close()
         underLinePath.addClip()
@@ -196,28 +197,30 @@ public class NetworkChartView: NSView {
         
         context.restoreGState()
         
-        let stringAttributes = [
-            NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .light),
-            NSAttributedString.Key.foregroundColor: isDarkMode ? NSColor.white : NSColor.textColor,
-            NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
-        ]
-        let uploadText = Units(bytes: Int64(uploadMax)).getReadableSpeed()
-        let downloadText = Units(bytes: Int64(downloadMax)).getReadableSpeed()
-        let uploadTextWidth = uploadText.widthOfString(usingFont: stringAttributes[NSAttributedString.Key.font] as! NSFont)
-        let downloadTextWidth = downloadText.widthOfString(usingFont: stringAttributes[NSAttributedString.Key.font] as! NSFont)
-        
-        var rect = CGRect(x: 1, y: height - 9, width: uploadTextWidth, height: 8)
-        NSAttributedString.init(string: uploadText, attributes: stringAttributes).draw(with: rect)
-        
-        rect = CGRect(x: 1, y: 2, width: downloadTextWidth, height: 8)
-        NSAttributedString.init(string: downloadText, attributes: stringAttributes).draw(with: rect)
+        if self.minMax {
+            let stringAttributes = [
+                NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .light),
+                NSAttributedString.Key.foregroundColor: isDarkMode ? NSColor.white : NSColor.textColor,
+                NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
+            ]
+            let uploadText = Units(bytes: Int64(uploadMax)).getReadableSpeed(base: self.base)
+            let downloadText = Units(bytes: Int64(downloadMax)).getReadableSpeed(base: self.base)
+            let uploadTextWidth = uploadText.widthOfString(usingFont: stringAttributes[NSAttributedString.Key.font] as! NSFont)
+            let downloadTextWidth = downloadText.widthOfString(usingFont: stringAttributes[NSAttributedString.Key.font] as! NSFont)
+            
+            var rect = CGRect(x: 1, y: dirtyRect.height - 9, width: uploadTextWidth, height: 8)
+            NSAttributedString.init(string: uploadText, attributes: stringAttributes).draw(with: rect)
+            
+            rect = CGRect(x: 1, y: 2, width: downloadTextWidth, height: 8)
+            NSAttributedString.init(string: downloadText, attributes: stringAttributes).draw(with: rect)
+        }
     }
     
     public func addValue(upload: Double, download: Double) {
         if self.points == nil {
             return
         }
-
+        
         self.points?.remove(at: 0)
         self.points?.append((upload, download))
         
@@ -228,6 +231,8 @@ public class NetworkChartView: NSView {
 }
 
 public class PieChartView: NSView {
+    public var id: String = UUID().uuidString
+    
     private var filled: Bool = false
     private var drawValue: Bool = false
     
@@ -308,6 +313,8 @@ public class PieChartView: NSView {
 }
 
 public class HalfCircleGraphView: NSView {
+    public var id: String = UUID().uuidString
+    
     private var value: Double = 0.0
     private var text: String? = nil
     

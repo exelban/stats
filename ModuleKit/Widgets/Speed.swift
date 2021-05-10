@@ -12,7 +12,7 @@
 import Cocoa
 import StatsKit
 
-public class SpeedWidget: Widget {
+public class SpeedWidget: WidgetWrapper {
     private var icon: String = "dots"
     private var state: Bool = false
     private var valueState: Bool = true
@@ -26,12 +26,10 @@ public class SpeedWidget: Widget {
     private var uploadValue: Int64 = 0
     private var downloadValue: Int64 = 0
     
-    private let store: UnsafePointer<Store>?
     private var width: CGFloat = 58
     
-    public init(preview: Bool, title: String, config: NSDictionary?, store: UnsafePointer<Store>?) {
+    public init(title: String, config: NSDictionary?, preview: Bool = false) {
         let widgetTitle: String = title
-        self.store = store
         if config != nil {
             if let symbols = config!["Symbols"] as? [String] {
                 self.symbols = symbols
@@ -40,21 +38,20 @@ public class SpeedWidget: Widget {
                 self.icon = icon
             }
         }
-        super.init(frame: CGRect(
+        
+        super.init(.speed, title: widgetTitle, frame: CGRect(
             x: 0,
             y: Constants.Widget.margin.y,
             width: width,
             height: Constants.Widget.height - (2*Constants.Widget.margin.y)
         ))
-        self.title = widgetTitle
-        self.type = .speed
-        self.preview = preview
+        
         self.canDrawConcurrently = true
         
-        if self.store != nil {
-            self.valueState = store!.pointee.bool(key: "\(self.title)_\(self.type.rawValue)_value", defaultValue: self.valueState)
-            self.icon = store!.pointee.string(key: "\(self.title)_\(self.type.rawValue)_icon", defaultValue: self.baseValue)
-            self.baseValue = store!.pointee.string(key: "\(self.title)_base", defaultValue: self.baseValue)
+        if !preview {
+            self.valueState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_value", defaultValue: self.valueState)
+            self.icon = Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_icon", defaultValue: self.baseValue)
+            self.baseValue = Store.shared.string(key: "\(self.title)_base", defaultValue: self.baseValue)
         }
         
         if self.valueState && self.icon != "none" {
@@ -145,35 +142,43 @@ public class SpeedWidget: Widget {
     
     private func drawArrows(_ dirtyRect: NSRect) {
         let arrowAngle = CGFloat(Double.pi / 5)
-        let pointerLineLength: CGFloat = 3.5
-        let workingHeight: CGFloat = (self.frame.size.height - (Constants.Widget.margin.x * 2))
-        let height: CGFloat = ((workingHeight - Constants.Widget.margin.y) / 2)
+        let half = self.frame.size.height / 2
+        let scaleFactor = NSScreen.main?.backingScaleFactor ?? 1
+        let lineWidth: CGFloat = 1
+        let arrowSize: CGFloat = 3 + (scaleFactor/2)
+        let x = Constants.Widget.margin.x + arrowSize + (lineWidth / 2)
         
         let downloadArrow = NSBezierPath()
-        let downloadStart = CGPoint(x: Constants.Widget.margin.x + (pointerLineLength/2), y: height + Constants.Widget.margin.y)
-        let downloadEnd = CGPoint(x: Constants.Widget.margin.x + (pointerLineLength/2), y: Constants.Widget.margin.y)
-        downloadArrow.addArrow(start: downloadStart, end: downloadEnd, pointerLineLength: pointerLineLength, arrowAngle: arrowAngle)
+        downloadArrow.addArrow(
+            start: CGPoint(x: x, y: half - Constants.Widget.spacing/2),
+            end: CGPoint(x: x, y: 0),
+            pointerLineLength: arrowSize,
+            arrowAngle: arrowAngle
+        )
         
         if self.downloadValue >= 1_024 {
             NSColor.systemBlue.set()
         } else {
             NSColor.textColor.set()
         }
-        downloadArrow.lineWidth = 1
+        downloadArrow.lineWidth = lineWidth
         downloadArrow.stroke()
         downloadArrow.close()
         
         let uploadArrow = NSBezierPath()
-        let uploadStart = CGPoint(x: Constants.Widget.margin.x + (pointerLineLength/2), y: height + (Constants.Widget.margin.y * 2))
-        let uploadEnd = CGPoint(x: Constants.Widget.margin.x + (pointerLineLength/2), y: (Constants.Widget.margin.y * 2) + (height * 2))
-        uploadArrow.addArrow(start: uploadStart, end: uploadEnd, pointerLineLength: pointerLineLength, arrowAngle: arrowAngle)
-        
+        uploadArrow.addArrow(
+            start: CGPoint(x: x, y: half + Constants.Widget.spacing/2),
+            end: CGPoint(x: x, y: self.frame.size.height),
+            pointerLineLength: arrowSize,
+            arrowAngle: arrowAngle
+        )
+
         if self.uploadValue >= 1_024 {
             NSColor.red.set()
         } else {
             NSColor.textColor.set()
         }
-        uploadArrow.lineWidth = 1
+        uploadArrow.lineWidth = lineWidth
         uploadArrow.stroke()
         uploadArrow.close()
     }
@@ -204,16 +209,15 @@ public class SpeedWidget: Widget {
         }
     }
     
-    public override func settings(superview: NSView) {
+    public override func settings(width: CGFloat) -> NSView {
         let height: CGFloat = 90 + (Constants.Settings.margin*4)
         let rowHeight: CGFloat = 30
-        superview.setFrameSize(NSSize(width: superview.frame.width, height: height))
         
         let view: NSView = NSView(frame: NSRect(
             x: Constants.Settings.margin,
             y: Constants.Settings.margin,
-            width: superview.frame.width - (Constants.Settings.margin*2),
-            height: superview.frame.height - (Constants.Settings.margin*2)
+            width: width - (Constants.Settings.margin*2),
+            height: height
         ))
         
         view.addSubview(SelectRow(
@@ -239,7 +243,7 @@ public class SpeedWidget: Widget {
             state: self.valueState
         ))
         
-        superview.addSubview(view)
+        return view
     }
     
     @objc private func toggleValue(_ sender: NSControl) {
@@ -250,7 +254,7 @@ public class SpeedWidget: Widget {
             state = sender is NSButton ? (sender as! NSButton).state: nil
         }
         self.valueState = state! == .on ? true : false
-        self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_\(self.type.rawValue)_value", value: self.valueState)
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_value", value: self.valueState)
         self.display()
         
         if !self.valueState && self.icon == .none {
@@ -267,7 +271,7 @@ public class SpeedWidget: Widget {
             return
         }
         self.icon = key
-        self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_icon", value: key)
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_icon", value: key)
         self.display()
         
         if !self.valueState && self.icon == "none" {
@@ -284,7 +288,7 @@ public class SpeedWidget: Widget {
             return
         }
         self.baseValue = key
-        self.store?.pointee.set(key: "\(self.title)_base", value: self.baseValue)
+        Store.shared.set(key: "\(self.title)_base", value: self.baseValue)
     }
     
     public func setValue(upload: Int64, download: Int64) {

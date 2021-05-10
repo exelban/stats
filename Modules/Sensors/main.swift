@@ -18,12 +18,15 @@ public class Sensors: Module {
     private let popupView: Popup = Popup()
     private var settingsView: Settings
     
-    public init(_ store: UnsafePointer<Store>, _ smc: UnsafePointer<SMCService>) {
-        self.sensorsReader = SensorsReader(smc)
-        self.settingsView = Settings("Sensors", store: store, list: &self.sensorsReader.list)
+    public init() {
+        #if arch(x86_64)
+        self.sensorsReader = x86_SensorsReader()
+        #else
+        self.sensorsReader = AppleSilicon_SensorsReader()
+        #endif
+        self.settingsView = Settings("Sensors", list: self.sensorsReader.list)
         
         super.init(
-            store: store,
             popup: self.popupView,
             settings: self.settingsView
         )
@@ -40,14 +43,18 @@ public class Sensors: Module {
             self.sensorsReader.setInterval(value)
         }
         
-        self.sensorsReader.readyCallback = { [unowned self] in
-            self.readyHandler()
-        }
         self.sensorsReader.callbackHandler = { [unowned self] value in
             self.usageCallback(value)
         }
+        self.sensorsReader.readyCallback = { [unowned self] in
+            self.readyHandler()
+        }
         
         self.addReader(self.sensorsReader)
+    }
+    
+    public override func isAvailable() -> Bool {
+        return !self.sensorsReader.list.isEmpty
     }
     
     private func checkIfNoSensorsEnabled() {
@@ -56,21 +63,25 @@ public class Sensors: Module {
         }
     }
     
-    private func usageCallback(_ value: [Sensor_t]?) {
-        if value == nil {
+    private func usageCallback(_ raw: [Sensor_t]?) {
+        guard let value = raw else {
             return
         }
         
         var list: [KeyValue_t] = []
-        value!.forEach { (s: Sensor_t) in
+        value.forEach { (s: Sensor_t) in
             if s.state {
                 list.append(KeyValue_t(key: s.key, value: s.formattedMiniValue))
             }
         }
         
-        self.popupView.usageCallback(value!)
-        if let widget = self.widget as? SensorsWidget {
-            widget.setValues(list)
+        self.popupView.usageCallback(value)
+        
+        self.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
+            switch w.item {
+            case let widget as SensorsWidget: widget.setValues(list)
+            default: break
+            }
         }
     }
 }

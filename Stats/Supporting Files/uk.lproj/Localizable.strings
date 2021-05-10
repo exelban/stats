@@ -24,6 +24,7 @@
 "Yes" = "Так";
 "No" = "Ні";
 "Automatic" = "Автоматичний";
+"Manual" = "Ручний";
 "None" = "Ніяка";
 "Dots" = "Пункти";
 "Arrows" = "Стрілки";
@@ -31,6 +32,8 @@
 "Short" = "Короткий";
 "Long" = "Довгий";
 "Statistics" = "Статистика";
+"Max" = "Max";
+"Min" = "Min";
 
 // Alerts
 "New version available" = "Доступна нова версія";
@@ -41,6 +44,7 @@
 // Settings
 "Open Activity Monitor" = "Відкрити Монітор активності";
 "Report a bug" = "Повідомити про помилку";
+"Support the application" = "Підтримати програму";
 "Close application" = "Закрити програму";
 "Open application settings" = "Відкрити налаштування";
 "Open moduleName settings" = "Відкрити налаштування %0";
@@ -48,9 +52,18 @@
 // Application settings
 "Update application" = "Оновити програму";
 "Check for updates" = "Перевіряти оновленя";
+"At start" = "При включенні";
+"Once per day" = "Раз на день";
+"Once per week" = "Раз на тиждень";
+"Once per month" = "Раз на місяць";
+"Never" = "Ніколи";
 "Check for update" = "Перевірити оновленя";
 "Show icon in dock" = "Показувати іконку в dock";
-"Start at login" = "Запуск при логуванні";
+"Start at login" = "Запускати при логуванні";
+
+// Dashboard
+"Serial number" = "Серійний номер";
+"Uptime" = "Час роботи";
 
 // Update
 "The latest version of Stats installed" = "Встановлено останню версію";
@@ -72,10 +85,20 @@
 "Display mode" = "Режим відображення";
 "One row" = "Один ряд";
 "Two rows" = "Два ряди";
+"Mini widget" = "Mini";
+"Line chart widget" = "Line chart";
+"Bar chart widget" = "Bar chart";
+"Pie chart widget" = "Pie chart";
+"Network chart widget" = "Network chart";
+"Speed widget" = "Speed";
+"Battery widget" = "Battery";
+"Text widget" = "Text";
+"Memory widget" = "Memory";
 
 // Module Kit
 "Open module settings" = "Відкрити налаштування модуля";
 "Select widget" = "Активувати %0 віджет";
+"Open widget settings" = "Open widget settings";
 "Update interval" = "Інтервал обновлень";
 "Usage history" = "Історія використання";
 "Details" = "Деталі";
@@ -97,8 +120,20 @@
 
 // GPU
 "GPU to show" = "Активний графічний процесор";
+"Show GPU type" = "Показувати тип графічного процесора";
+"GPU enabled" = "GPU enabled";
+"GPU disabled" = "GPU disabled";
 "GPU temperature" = "Температура графічного процесора";
 "GPU utilization" = "Навантаженість графічного процесора";
+"Vendor" = "Vendor";
+"Model" = "Model";
+"Status" = "Status";
+"Active" = "Active";
+"Non active" = "Non active";
+"Fan speed" = "Fan speed";
+"Core clock" = "Core clock";
+"Memory clock" = "Memory clock";
+"Utilization" = "Utilization";
 
 // Memory
 "Memory usage" = "Навантаженість пам’яті";
@@ -109,11 +144,15 @@
 "Wired" = "Постійна";
 "Compressed" = "Стисненна";
 "Free" = "Вільна";
+"Swap" = "Swap";
 
 // Disk
 "Show removable disks" = "Показати зйомні диски";
 "Used disk memory" = "Використано %0 з %1";
+"Free disk memory" = "Вільно %0 з %1";
 "Disk to show" = "Активний диск";
+"Open disk" = "Відкрити диск";
+"Switch view" = "Переключити вигляд";
 
 // Sensors
 "Temperature unit" = "Одиниця виміру температури";
@@ -128,6 +167,7 @@
 "Interface" = "Інтерфейс";
 "Network" = "Мережа";
 "Physical address" = "Фізичний адрес";
+"Refresh" = "Refresh";
 "Click to copy public IP address" = "Натисніть, щоб скопіювати публічний IP";
 "Click to copy local IP address" = "Натисніть, щоб скопіювати локальний IP";
 "Click to copy wifi name" = "Натисніть, щоб скопіювати назву wifi";
@@ -137,17 +177,20 @@
 "Total download" = "Загально завантажено";
 "Total upload" = "Загально вислано";
 "Reader type" = "Метод читання";
-"Interface" = "Інтерфейс";
-"Process" = "Процеси";
+"Interface based" = "Інтерфейс";
+"Processes based" = "Процеси";
 
 // Battery
 "Level" = "Рівень заряду";
 "Source" = "Джерело";
+"AC Power" = "AC Power";
+"Battery Power" = "Battery Power";
 "Time" = "Час";
 "Health" = "Стан акумулятора";
 "Battery" = "Акумулятор";
 "Amperage" = "Сила струму";
 "Voltage" = "Напруга";
+"Cycles" = "Кількість циклів";
 "Temperature" = "Температура";
 "Power adapter" = "Блок живлення";
 "Power" = "Потужність";
@@ -158,13 +201,49 @@
 "Fully charged" = "Повністю заряджена";
 "Not connected" = "Непід'єднана";
 "Low level notification" = "Повідомлення про низький рівень заряду";
+"High level notification" = "High level notification";
 "Low battery" = "Низький заряд акумулятора";
+"High battery" = "High battery";
 "Battery remaining" = "%0% залишилось";
+"Battery remaining to full charge" = "%0% до повного заряду";
 "Percentage" = "Проценти";
 "Percentage and time" = "Проценти і час";
 "Time and percentage" = "Час і проценти";
 "Time format" = "Формат часу";
 "Hide additional information when full" = "Приховати додаткову інформацію, якщо акумулятор заряджений";
+"Last charge" = "Остання зарядка";
 
 // Fans
 "Fans" = "Fans";
+
+// Colors
+"Based on utilization" = "Based on utilization";
+"Based on pressure" = "Based on pressure";
+"System accent" = "System accent";
+"Monochrome accent" = "Monochrome accent";
+"Clear" = "Clear";
+"White" = "White";
+"Black" = "Black";
+"Gray" = "Gray";
+"Second gray" = "Second gray";
+"Dark gray" = "Dark gray";
+"Light gray" = "Light gray";
+"Red" = "Red";
+"Second red" = "Second red";
+"Green" = "Green";
+"Second green" = "Second green";
+"Blue" = "Blue";
+"Second blue" = "Second blue";
+"Yellow" = "Yellow";
+"Second yellow" = "Second yellow";
+"Orange" = "Orange";
+"Second orange" = "Second orange";
+"Purple" = "Purple";
+"Second purple" = "Second purple";
+"Brown" = "Brown";
+"Second brown" = "Second brown";
+"Cyan" = "Cyan";
+"Magenta" = "Magenta";
+"Pink" = "Pink";
+"Teal" = "Teal";
+"Indigo" = "Indigo";

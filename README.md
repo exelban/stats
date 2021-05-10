@@ -9,8 +9,8 @@ macOS system monitor in your menu bar
 
 ## Installation
 ### Manually
-You can download the latest version [here](https://github.com/exelban/stats/releases).  
-Download the file called `Stats.dmg`. Open it and move the app to the application folder.
+You can download the latest version [here](https://github.com/exelban/stats/releases/latest/download/Stats.dmg).  
+This will download a file called `Stats.dmg`. Open it and move the app to the application folder.
 
 ### Homebrew
 
@@ -32,6 +32,7 @@ Stats is an application that allows you to monitor your macOS system.
  - Battery level
  - Network usage
  - Fans speed
+ - Fan control
 
 ## Supporting languages
 - English
@@ -42,15 +43,22 @@ Stats is an application that allows you to monitor your macOS system.
 - Türkçe (thanks to [yusufozgul](https://github.com/yusufozgul))
 - Korean (thanks to [escapeanaemia](https://github.com/escapeanaemia))
 - German (thanks to [natterstefan](https://github.com/natterstefan))
-- 中文 (繁體) (thanks to [iamch15542](https://github.com/iamch15542))
+- 中文 (繁體) (thanks to [iamch15542](https://github.com/iamch15542) and [jrthsr700tmax](https://github.com/jrthsr700tmax))
 - Spanish (thanks to [jcconca](https://github.com/jcconca))
 - Vietnamese (thanks to [xuandung38](https://github.com/xuandung38))
 - French (thanks to [RomainLt](https://github.com/RomainLt))
 - Italian (thanks to [gmcinalli](https://github.com/gmcinalli))
 - Portuguese (Brazil) (thanks to [marcelochaves95](https://github.com/marcelochaves95))
 - Norwegian Bokmål (thanks to [rubjo](https://github.com/rubjo))
+- 日本語 (thanks to [treastrain](https://github.com/treastrain))
+- Portuguese (Portugal) (thanks to [AdamModus](https://github.com/AdamModus))
+- Czech (thanks to [mpl75](https://github.com/mpl75))
+- Magyar (thanks to [moriczr](https://github.com/moriczr))
+- Bulgarian (thanks to [zbrox](https://github.com/zbrox))
+- Romanian (thanks to [razluta](https://github.com/razluta))
+- Dutch (thanks to [ngohungphuc](https://github.com/ngohungphuc))
 
-You can help by adding a new language.
+You can help by adding a new language or improve existing translation.
 
 ## License
 [MIT License](https://github.com/exelban/stats/blob/master/LICENSE)

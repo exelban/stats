@@ -13,14 +13,14 @@ import Cocoa
 import StatsKit
 import ModuleKit
 
-internal class Popup: NSView, Popup_p {
-    private var list: [String: GPUView] = [:]
-    private let gpuViewHeight: CGFloat = 162
-    
+internal class Popup: NSStackView, Popup_p {
     public var sizeCallback: ((NSSize) -> Void)? = nil
     
     public init() {
         super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: 0))
+        
+        self.orientation = .vertical
+        self.spacing = Constants.Popup.margins
     }
     
     required init?(coder: NSCoder) {
@@ -28,31 +28,29 @@ internal class Popup: NSView, Popup_p {
     }
     
     internal func infoCallback(_ value: GPUs) {
-        if self.list.count != value.list.count {
-            self.subviews.forEach{ $0.removeFromSuperview() }
-            self.list = [:]
+        let views = self.arrangedSubviews.filter{ $0 is GPUView }.map{ $0 as! GPUView }
+        
+        if views.count != value.list.count {
+            self.arrangedSubviews.forEach{ $0.removeFromSuperview() }
         }
         
-        value.list.forEach { (graphics: GPU_Info) in
-            if let gpu = self.list[graphics.model] {
-                gpu.update(graphics)
+        value.list.reversed().forEach { (gpu: GPU_Info) in
+            if let view = views.first(where: { $0.value.id == gpu.id }) {
+                view.update(gpu)
             } else {
-                let gpu = GPUView(
-                    NSRect(
-                        x: 0,
-                        y: (self.gpuViewHeight + Constants.Popup.margins) * CGFloat(self.list.count),
-                        width: self.frame.width,
-                        height: self.gpuViewHeight
-                    ),
-                    gpu: graphics
-                )
-                
-                self.list[graphics.model] = gpu
-                self.addSubview(gpu)
+                self.addArrangedSubview(GPUView(
+                    width: self.frame.width,
+                    gpu: gpu,
+                    callback: self.recalculateHeight
+                ))
             }
         }
         
-        let h: CGFloat = ((self.gpuViewHeight + Constants.Popup.margins) * CGFloat(self.list.count)) - Constants.Popup.margins
+        self.recalculateHeight()
+    }
+    
+    private func recalculateHeight() {
+        let h = self.arrangedSubviews.map({ $0.bounds.height + self.spacing }).reduce(0, +) - self.spacing
         if self.frame.size.height != h {
             self.setFrameSize(NSSize(width: self.frame.width, height: h))
             self.sizeCallback?(self.frame.size)
@@ -60,158 +58,331 @@ internal class Popup: NSView, Popup_p {
     }
 }
 
-private class GPUView: NSView {
-    private let height: CGFloat = 60
-    private let margin: CGFloat = 4
+private class GPUView: NSStackView {
+    public var value: GPU_Info
+    private var detailsView: GPUDetails
+    private let circleSize: CGFloat = 50
+    private let chartSize: CGFloat = 60
     
-    private var value: GPU_Info
+    private var stateView: NSView? = nil
+    private var circleRow: NSStackView? = nil
+    private var chartRow: NSStackView? = nil
     
     private var temperatureChart: LineChartView? = nil
     private var utilizationChart: LineChartView? = nil
-    private var temperatureCirle: HalfCircleGraphView? = nil
-    private var utilizationCircle: HalfCircleGraphView? = nil
     
-    private var stateView: NSView? = nil
+    public var sizeCallback: (() -> Void)
     
-    public init(_ frame: NSRect, gpu: GPU_Info) {
+    open override var intrinsicContentSize: CGSize {
+        return CGSize(width: self.bounds.width, height: self.bounds.height)
+    }
+    
+    public init(width: CGFloat, gpu: GPU_Info, callback: @escaping (() -> Void)) {
         self.value = gpu
+        self.detailsView = GPUDetails(width: width, value: gpu)
+        self.sizeCallback = callback
         
-        super.init(frame: frame)
+        super.init(frame: NSRect(x: 0, y: 0, width: width, height: 0))
         
+        self.orientation = .vertical
+        self.alignment = .centerX
+        self.distribution = .fillProportionally
+        self.spacing = 0
         self.wantsLayer = true
         self.layer?.cornerRadius = 2
         
-        self.initName()
-        self.initTemperature()
-        self.initUtilization()
+        self.addArrangedSubview(self.title())
+        self.addArrangedSubview(self.stats())
+        self.addArrangedSubview(NSView())
+        
+        let h = self.arrangedSubviews.map({ $0.bounds.height }).reduce(0, +)
+        self.setFrameSize(NSSize(width: self.frame.width, height: h))
+        self.sizeCallback()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func initName() {
-        let y: CGFloat = self.frame.height - 23
-        let width: CGFloat = self.value.model.widthOfString(usingFont: NSFont.systemFont(ofSize: 12, weight: .medium)) + 16
+    override func updateLayer() {
+        self.layer?.backgroundColor = isDarkMode ? NSColor(hexString: "#111111", alpha: 0.25).cgColor : NSColor(hexString: "#f5f5f5", alpha: 1).cgColor
+    }
+    
+    private func title() -> NSView {
+        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 24))
+        view.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
         
-        let view: NSView = NSView(frame: NSRect(x: (self.frame.width - width)/2, y: y, width: width, height: 20))
-        
-        let labelView: NSTextField = TextView(frame: NSRect(x: 0, y: (view.frame.height-15)/2, width: width - 8, height: 15))
+        let width: CGFloat = self.value.model.widthOfString(usingFont: NSFont.systemFont(ofSize: 13, weight: .regular)) + 16
+        let labelView: NSTextField = TextView(frame: NSRect(x: 0, y: (view.frame.height-16)/2, width: width - 8, height: 16))
         labelView.alignment = .center
         labelView.textColor = .secondaryLabelColor
-        labelView.font = NSFont.systemFont(ofSize: 12, weight: .medium)
+        labelView.font = NSFont.systemFont(ofSize: 13, weight: .regular)
         labelView.stringValue = self.value.model
         
         let stateView: NSView = NSView(frame: NSRect(x: width - 8, y: (view.frame.height-7)/2, width: 6, height: 6))
         stateView.wantsLayer = true
         stateView.layer?.backgroundColor = (self.value.state ? NSColor.systemGreen : NSColor.systemRed).cgColor
-        stateView.toolTip = "GPU \(self.value.state ? "enabled" : "disabled")"
+        stateView.toolTip = LocalizedString("GPU \(self.value.state ? "enabled" : "disabled")")
         stateView.layer?.cornerRadius = 4
+        
+        let details = LocalizedString("Details").uppercased()
+        let w = details.widthOfString(usingFont: NSFont.systemFont(ofSize: 9, weight: .regular)) + 8
+        let button = NSButtonWithPadding()
+        button.frame = CGRect(x: view.frame.width - w, y: 2, width: w, height: view.frame.height-2)
+        button.verticalPadding = 9
+        button.bezelStyle = .regularSquare
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.isBordered = false
+        button.action = #selector(self.showDetails)
+        button.target = self
+        button.toolTip = LocalizedString("Details")
+        button.title = details
+        button.font = NSFont.systemFont(ofSize: 9, weight: .regular)
         
         view.addSubview(labelView)
         view.addSubview(stateView)
-        
-        self.addSubview(view)
+        view.addSubview(button)
         self.stateView = stateView
+        
+        return view
     }
     
-    private func initTemperature() {
-        let view: NSView = NSView(frame: NSRect(
-            x: self.margin,
-            y: self.height + (self.margin*2),
-            width: self.frame.width - (self.margin*2),
-            height: self.height
-        ))
+    private func stats() -> NSView {
+        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 0))
+        let container: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 0))
+        container.orientation = .vertical
+        container.spacing = 0
         
-        let circleWidth: CGFloat = 70
-        let circleSize: CGFloat = 44
+        let circles: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 0))
+        circles.orientation = .horizontal
+        circles.distribution = .fillEqually
+        circles.alignment = .bottom
+        self.circleRow = circles
         
-        let chartView: NSView = NSView(frame: NSRect(
-            x: 0,
-            y: 0,
-            width: view.frame.width - circleWidth,
-            height: view.frame.height
-        ))
-        chartView.wantsLayer = true
-        chartView.layer?.backgroundColor = NSColor.lightGray.withAlphaComponent(0.1).cgColor
-        chartView.layer?.cornerRadius = 3
-        self.temperatureChart = LineChartView(frame: NSRect(x: 0, y: 0, width: chartView.frame.width, height: chartView.frame.height), num: 120)
-        chartView.addSubview(self.temperatureChart!)
+        let charts: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 0))
+        charts.orientation = .horizontal
+        charts.distribution = .fillEqually
+        self.chartRow = charts
         
-        self.temperatureCirle = HalfCircleGraphView(frame: NSRect(
-            x: (view.frame.width - circleWidth) + (circleWidth - circleSize)/2,
-            y: (view.frame.height - circleSize)/2 - 3,
-            width: circleSize,
-            height: circleSize
-        ))
-        self.temperatureCirle!.toolTip = LocalizedString("GPU temperature")
+        self.addStats(id: "temperature", self.value.temperature)
+        self.addStats(id: "utilization", self.value.utilization)
         
-        view.addSubview(chartView)
-        view.addSubview(self.temperatureCirle!)
+        container.addArrangedSubview(circles)
+        container.addArrangedSubview(charts)
         
-        self.temperatureCirle?.setValue(Double(self.value.temperature))
-        self.temperatureCirle?.setText(Temperature(Double(self.value.temperature)))
-        self.temperatureChart?.addValue(Double(self.value.temperature) / 100)
+        view.addSubview(container)
         
-        self.addSubview(view)
+        let h = container.arrangedSubviews.map({ $0.bounds.height }).reduce(0, +)
+        view.setFrameSize(NSSize(width: self.frame.width, height: h))
+        container.setFrameSize(NSSize(width: self.frame.width, height: view.bounds.height))
+        view.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
+        container.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
+        
+        return view
     }
     
-    private func initUtilization() {
-        let view: NSView = NSView(frame: NSRect(
-            x: self.margin,
-            y: self.margin,
-            width: self.frame.width - (self.margin*2),
-            height: self.height
-        ))
+    private func addStats(id: String, _ val: Double? = nil) {
+        guard let value = val else {
+            return
+        }
         
-        let circleWidth: CGFloat = 70
-        let circleSize: CGFloat = 44
+        var circle: HalfCircleGraphView
+        var chart: LineChartView
         
-        let chartView: NSView = NSView(frame: NSRect(
-            x: 0,
-            y: 0,
-            width: view.frame.width - circleWidth,
-            height: view.frame.height
-        ))
-        chartView.wantsLayer = true
-        chartView.layer?.backgroundColor = NSColor.lightGray.withAlphaComponent(0.1).cgColor
-        chartView.layer?.cornerRadius = 3
-        self.utilizationChart = LineChartView(frame: NSRect(x: 0, y: 0, width: chartView.frame.width, height: chartView.frame.height), num: 120)
-        chartView.addSubview(self.utilizationChart!)
+        if let view = self.circleRow?.arrangedSubviews.filter({ $0 is HalfCircleGraphView }).first(where: { ($0 as! HalfCircleGraphView).id == id }) {
+            circle = view as! HalfCircleGraphView
+        } else {
+            circle = HalfCircleGraphView(frame: NSRect(x: 0, y: 0, width: circleSize, height: circleSize))
+            circle.id = id
+            circle.toolTip = LocalizedString("GPU \(id)")
+            if let row = self.circleRow {
+                row.setFrameSize(NSSize(width: row.frame.width, height: self.circleSize + 20))
+                row.edgeInsets = NSEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
+                row.heightAnchor.constraint(equalToConstant: row.bounds.height).isActive = true
+                row.addArrangedSubview(circle)
+            }
+        }
         
-        self.utilizationCircle = HalfCircleGraphView(frame: NSRect(
-            x: (view.frame.width - circleWidth) + (circleWidth - circleSize)/2,
-            y: (view.frame.height - circleSize)/2 - 3,
-            width: circleSize,
-            height: circleSize
-        ))
-        self.utilizationCircle!.toolTip = LocalizedString("GPU utilization")
+        if let view = self.chartRow?.arrangedSubviews.filter({ $0 is LineChartView }).first(where: { ($0 as! LineChartView).id == id }) {
+            chart = view as! LineChartView
+        } else {
+            chart = LineChartView(frame: NSRect(x: 0, y: 0, width: 100, height: self.chartSize), num: 120)
+            chart.wantsLayer = true
+            chart.layer?.backgroundColor = NSColor.lightGray.withAlphaComponent(0.1).cgColor
+            chart.layer?.cornerRadius = 3
+            chart.id = id
+            chart.toolTip = LocalizedString("GPU \(id)")
+            if let row = self.chartRow {
+                row.setFrameSize(NSSize(width: row.frame.width, height: self.chartSize + 20))
+                row.spacing = Constants.Popup.margins
+                row.edgeInsets = NSEdgeInsets(
+                    top: Constants.Popup.margins,
+                    left: Constants.Popup.margins,
+                    bottom: Constants.Popup.margins,
+                    right: Constants.Popup.margins
+                )
+                row.heightAnchor.constraint(equalToConstant: row.bounds.height).isActive = true
+                row.addArrangedSubview(chart)
+            }
+        }
         
-        view.addSubview(chartView)
-        view.addSubview(self.utilizationCircle!)
-        
-        self.utilizationCircle?.setValue(self.value.utilization)
-        self.utilizationCircle?.setText("\(Int(self.value.utilization*100))%")
-        self.utilizationChart?.addValue(self.value.utilization)
-        
-        self.addSubview(view)
+        if id == "temperature" {
+            circle.setValue(value)
+            circle.setText(Temperature(value))
+            
+            if self.temperatureChart == nil {
+                self.temperatureChart = chart
+            }
+        } else if id == "utilization" {
+            circle.setValue(value)
+            circle.setText("\(Int(value*100))%")
+            
+            if self.utilizationChart == nil {
+                self.utilizationChart = chart
+            }
+        }
     }
     
     public func update(_ gpu: GPU_Info) {
-        DispatchQueue.main.async(execute: {
-            if (self.window?.isVisible ?? false) {
-                self.stateView?.layer?.backgroundColor = (gpu.state ? NSColor.systemGreen : NSColor.systemRed).cgColor
-                self.stateView?.toolTip = "GPU \(gpu.state ? "enabled" : "disabled")"
-                
-                self.temperatureCirle?.setValue(Double(gpu.temperature))
-                self.temperatureCirle?.setText(Temperature(Double(gpu.temperature)))
-                
-                self.utilizationCircle?.setValue(gpu.utilization)
-                self.utilizationCircle?.setText("\(Int(gpu.utilization*100))%")
-            }
+        self.detailsView.update(gpu)
+        
+        if (self.window?.isVisible ?? false) {
+            self.stateView?.layer?.backgroundColor = (gpu.state ? NSColor.systemGreen : NSColor.systemRed).cgColor
+            self.stateView?.toolTip = LocalizedString("GPU \(gpu.state ? "enabled" : "disabled")")
             
-            self.temperatureChart?.addValue(Double(gpu.temperature) / 100)
-            self.utilizationChart?.addValue(gpu.utilization)
-        })
+            self.addStats(id: "temperature", gpu.temperature)
+            self.addStats(id: "utilization", gpu.utilization)
+        }
+        
+        if let value = gpu.temperature {
+            self.temperatureChart?.addValue(value/100)
+        }
+        if let value = gpu.utilization {
+            self.utilizationChart?.addValue(value)
+        }
+    }
+    
+    @objc private func showDetails() {
+        if let view = self.arrangedSubviews.first(where: { $0 is GPUDetails }) {
+            view.removeFromSuperview()
+        } else {
+            self.insertArrangedSubview(self.detailsView, at: 1)
+        }
+        
+        self.setFrameSize(NSSize(
+            width: self.frame.width,
+            height: self.arrangedSubviews.map({ $0.bounds.height + self.spacing }).reduce(0, +)
+        ))
+        self.sizeCallback()
+    }
+}
+
+private class GPUDetails: NSView {
+    private var status: NSTextField? = nil
+    private var fanSpeed: NSTextField? = nil
+    private var coreClock: NSTextField? = nil
+    private var memoryClock: NSTextField? = nil
+    private var temperature: NSTextField? = nil
+    private var utilization: NSTextField? = nil
+    
+    open override var intrinsicContentSize: CGSize {
+        return CGSize(width: self.bounds.width, height: self.bounds.height)
+    }
+    
+    init(width: CGFloat, value: GPU_Info) {
+        super.init(frame: NSRect(x: 0, y: 0, width: width, height: 0))
+        
+        let grid: NSGridView = NSGridView(frame: NSRect(
+            x: Constants.Popup.margins,
+            y: Constants.Popup.margins,
+            width: self.frame.width - (Constants.Popup.margins*2),
+            height: 0
+        ))
+        grid.yPlacement = .center
+        grid.xPlacement = .leading
+        grid.rowSpacing = 0
+        grid.columnSpacing = 0
+        
+        var num: CGFloat = 2
+        
+        if let value = value.vendor {
+            grid.addRow(with: keyValueRow("\(LocalizedString("Vendor")):", value))
+            num += 1
+        }
+        
+        grid.addRow(with: keyValueRow("\(LocalizedString("Model")):", value.model))
+        
+        let state: String = value.state ? LocalizedString("Active") : LocalizedString("Non active")
+        let arr = keyValueRow("\(LocalizedString("Status")):", state)
+        self.status = arr.last
+        grid.addRow(with: arr)
+        
+        if let value = value.fanSpeed {
+            let arr = keyValueRow("\(LocalizedString("Fan speed")):", "\(value)%")
+            self.fanSpeed = arr.last
+            grid.addRow(with: arr)
+            num += 1
+        }
+        if let value = value.coreClock {
+            let arr = keyValueRow("\(LocalizedString("Core clock")):", "\(value)MHz")
+            self.coreClock = arr.last
+            grid.addRow(with: arr)
+            num += 1
+        }
+        if let value = value.memoryClock {
+            let arr = keyValueRow("\(LocalizedString("Memory clock")):", "\(value)MHz")
+            self.memoryClock = arr.last
+            grid.addRow(with: arr)
+            num += 1
+        }
+        
+        if let value = value.temperature {
+            let arr = keyValueRow("\(LocalizedString("Temperature")):", Temperature(Double(value)))
+            self.temperature = arr.last
+            grid.addRow(with: arr)
+            num += 1
+        }
+        if let value = value.utilization {
+            let arr = keyValueRow("\(LocalizedString("Utilization")):", "\(Int(value*100))%")
+            self.utilization = arr.last
+            grid.addRow(with: arr)
+            num += 1
+        }
+        
+        self.setFrameSize(NSSize(width: self.frame.width, height: (16 * num) + Constants.Popup.margins))
+        grid.setFrameSize(NSSize(width: grid.frame.width, height: self.frame.height - Constants.Popup.margins))
+        self.addSubview(grid)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func keyValueRow(_ key: String, _ value: String) -> [NSTextField] {
+        return [
+            LabelField(frame: NSRect(x: 0, y: 0, width: 0, height: 16), key),
+            ValueField(frame: NSRect(x: 0, y: 0, width: 0, height: 16), value)
+        ]
+    }
+    
+    public func update(_ gpu: GPU_Info) {
+        self.status?.stringValue = gpu.state ? LocalizedString("Active") : LocalizedString("Non active")
+        
+        if let value = gpu.fanSpeed {
+            self.fanSpeed?.stringValue = "\(value)%"
+        }
+        if let value = gpu.coreClock {
+            self.coreClock?.stringValue = "\(value)MHz"
+        }
+        if let value = gpu.memoryClock {
+            self.memoryClock?.stringValue = "\(value)MHz"
+        }
+        
+        if let value = gpu.temperature {
+            self.temperature?.stringValue = Temperature(Double(value))
+        }
+        if let value = gpu.utilization {
+            self.utilization?.stringValue = "\(Int(value*100))%"
+        }
     }
 }

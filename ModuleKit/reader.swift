@@ -36,7 +36,7 @@ public protocol Reader_p {
     func lock() -> Void
     func unlock() -> Void
     
-    func initStoreValues(title: String, store: UnsafePointer<Store>) -> Void
+    func initStoreValues(title: String) -> Void
     func setInterval(_ value: Int) -> Void
 }
 
@@ -62,24 +62,26 @@ open class Reader<T>: ReaderInternal_p {
     private var nilCallbackCounter: Int = 0
     private var ready: Bool = false
     private var locked: Bool = true
+    private var initlizalized: Bool = false
     public var active: Bool = false
     
     private var history: [T]? = []
     
-    public init() {
+    public init(popup: Bool = false) {
         self.log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: "\(T.self)")
+        self.popup = popup
         
         self.setup()
         
         os_log(.debug, log: self.log, "Successfully initialize reader")
     }
     
-    public func initStoreValues(title: String, store: UnsafePointer<Store>) {
+    public func initStoreValues(title: String) {
         guard self.interval == nil else {
             return
         }
         
-        let updateIntervalString = store.pointee.string(key: "\(title)_updateInterval", defaultValue: "\(self.defaultInterval)")
+        let updateIntervalString = Store.shared.string(key: "\(title)_updateInterval", defaultValue: "\(self.defaultInterval)")
         if let updateInterval = Double(updateIntervalString) {
             self.interval = updateInterval
         }
@@ -124,7 +126,7 @@ open class Reader<T>: ReaderInternal_p {
     open func start() {
         if self.popup && self.locked {
             if !self.ready {
-                DispatchQueue.global().async {
+                DispatchQueue.global(qos: .background).async {
                     self.read()
                 }
             }
@@ -140,9 +142,12 @@ open class Reader<T>: ReaderInternal_p {
                 self.read()
             })
         }
-
-        DispatchQueue.global().async {
-            self.read()
+        
+        if !self.initlizalized {
+            DispatchQueue.global(qos: .background).async {
+                self.read()
+            }
+            self.initlizalized = true
         }
         self.repeatTask?.start()
         self.active = true
@@ -157,6 +162,7 @@ open class Reader<T>: ReaderInternal_p {
         self.repeatTask?.removeAllObservers(thenStop: true)
         self.repeatTask = nil
         self.active = false
+        self.initlizalized = false
     }
     
     public func setInterval(_ value: Int) {

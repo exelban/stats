@@ -11,20 +11,19 @@
 
 import StatsKit
 
-typealias SensorGroup_t = String
-enum SensorGroup: SensorGroup_t {
+enum SensorGroup: String {
     case CPU = "CPU"
     case GPU = "GPU"
-    case System = "Systems"
-    case Sensor = "Sensors"
+    case system = "Systems"
+    case sensor = "Sensors"
 }
 
-typealias SensorType_t = String
-enum SensorType: SensorType_t {
-    case Temperature = "Temperature"
-    case Voltage = "Voltage"
-    case Power = "Power"
-    case Fan = "Fan"
+enum SensorType: String {
+    case temperature = "Temperature"
+    case voltage = "Voltage"
+    case current = "Current"
+    case power = "Power"
+    case fan = "Fan"
 }
 
 struct Sensor_t {
@@ -33,20 +32,21 @@ struct Sensor_t {
     
     var value: Double = 0
     
-    var group: SensorGroup_t
-    var type: SensorType_t
+    var group: SensorGroup
+    var type: SensorType
     var unit: String {
         get {
             switch self.type {
-            case SensorType.Temperature.rawValue:
+            case .temperature:
                 return "°C"
-            case SensorType.Voltage.rawValue:
+            case .voltage:
                 return "V"
-            case SensorType.Power.rawValue:
+            case .power:
                 return "W"
-            case SensorType.Fan.rawValue:
+            case .current:
+                return "A"
+            case .fan:
                 return "RPM"
-            default: return ""
             }
         }
     }
@@ -54,34 +54,38 @@ struct Sensor_t {
     var formattedValue: String {
         get {
             switch self.type {
-            case SensorType.Temperature.rawValue:
+            case .temperature:
                 return Temperature(value)
-            case SensorType.Voltage.rawValue:
+            case .voltage:
                 let val = value >= 100 ? "\(Int(value))" : String(format: "%.3f", value)
                 return "\(val)\(unit)"
-            case SensorType.Power.rawValue:
+            case .power:
                 let val = value >= 100 ? "\(Int(value))" : String(format: "%.2f", value)
                 return "\(val)\(unit)"
-            case SensorType.Fan.rawValue:
+            case .current:
+                let val = value >= 100 ? "\(Int(value))" : String(format: "%.2f", value)
+                return "\(val)\(unit)"
+            case .fan:
                 return "\(Int(value)) \(unit)"
-            default: return String(format: "%.2f", value)
             }
         }
     }
     var formattedMiniValue: String {
         get {
             switch self.type {
-            case SensorType.Temperature.rawValue:
+            case .temperature:
                 return Temperature(value).replacingOccurrences(of: "C", with: "").replacingOccurrences(of: "F", with: "")
-            case SensorType.Voltage.rawValue:
-                let val = value >= 100 ? "\(Int(value))" : String(format: "%.1f", value)
+            case .voltage:
+                let val = value >= 10 ? "\(Int(value))" : String(format: "%.1f", value)
                 return "\(val)\(unit)"
-            case SensorType.Power.rawValue:
-                let val = value >= 100 ? "\(Int(value))" : String(format: "%.1f", value)
+            case .power:
+                let val = value >= 10 ? "\(Int(value))" : String(format: "%.1f", value)
                 return "\(val)\(unit)"
-            case SensorType.Fan.rawValue:
-                return "\(Int(value)) \(unit)"
-            default: return String(format: "%.1f", value)
+            case .current:
+                let val = value >= 10 ? "\(Int(value))" : String(format: "%.1f", value)
+                return "\(val)\(unit)"
+            case .fan:
+                return "\(Int(value))"
             }
         }
     }
@@ -91,127 +95,87 @@ struct Sensor_t {
             return Store.shared.bool(key: "sensor_\(self.key)", defaultValue: false)
         }
     }
+    
+    func copy() -> Sensor_t {
+        return Sensor_t(key: self.key, name: self.name, group: self.group, type: self.type)
+    }
 }
 
 // List of keys: https://github.com/acidanthera/VirtualSMC/blob/master/Docs/SMCSensorKeys.txt
 let SensorsList: [Sensor_t] = [
     /// Temperature
-    Sensor_t(key: "TA0P", name: "Ambient 1", group: SensorGroup.Sensor.rawValue, type: SensorType.Temperature.rawValue),
-    Sensor_t(key: "TA1P", name: "Ambient 2", group: SensorGroup.Sensor.rawValue, type: SensorType.Temperature.rawValue),
-    Sensor_t(key: "Th0H", name: "Heatpipe 1", group: SensorGroup.Sensor.rawValue, type: SensorType.Temperature.rawValue),
-    Sensor_t(key: "Th1H", name: "Heatpipe 2", group: SensorGroup.Sensor.rawValue, type: SensorType.Temperature.rawValue),
-    Sensor_t(key: "Th2H", name: "Heatpipe 3", group: SensorGroup.Sensor.rawValue, type: SensorType.Temperature.rawValue),
-    Sensor_t(key: "Th3H", name: "Heatpipe 4", group: SensorGroup.Sensor.rawValue, type: SensorType.Temperature.rawValue),
-    Sensor_t(key: "TZ0C", name: "Termal zone 1", group: SensorGroup.Sensor.rawValue, type: SensorType.Temperature.rawValue),
-    Sensor_t(key: "TZ1C", name: "Termal zone 2", group: SensorGroup.Sensor.rawValue, type: SensorType.Temperature.rawValue),
+    Sensor_t(key: "TA%P", name: "Ambient %", group: .sensor, type: .temperature),
+    Sensor_t(key: "Th%H", name: "Heatpipe %", group: .sensor, type: .temperature),
+    Sensor_t(key: "TZ%C", name: "Termal zone %", group: .sensor, type: .temperature),
     
-    Sensor_t(key: "TC0D", name: "CPU diode", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
-    Sensor_t(key: "TC0E", name: "CPU diode virtual", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
-    Sensor_t(key: "TC0F", name: "CPU diode filtered", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
-    Sensor_t(key: "TC0H", name: "CPU heatsink", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
-    Sensor_t(key: "TC0P", name: "CPU proximity", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
-    Sensor_t(key: "TCAD", name: "CPU package", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
+    Sensor_t(key: "TC0D", name: "CPU diode", group: .CPU, type: .temperature),
+    Sensor_t(key: "TC0E", name: "CPU diode virtual", group: .CPU, type: .temperature),
+    Sensor_t(key: "TC0F", name: "CPU diode filtered", group: .CPU, type: .temperature),
+    Sensor_t(key: "TC0H", name: "CPU heatsink", group: .CPU, type: .temperature),
+    Sensor_t(key: "TC0P", name: "CPU proximity", group: .CPU, type: .temperature),
+    Sensor_t(key: "TCAD", name: "CPU package", group: .CPU, type: .temperature),
     
-    Sensor_t(key: "TC0c", name: "CPU core 1", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
-    Sensor_t(key: "TC1c", name: "CPU core 2", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
-    Sensor_t(key: "TC2c", name: "CPU core 3", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
-    Sensor_t(key: "TC3c", name: "CPU core 4", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
-    Sensor_t(key: "TC4c", name: "CPU core 5", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
-    Sensor_t(key: "TC5c", name: "CPU core 6", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
-    Sensor_t(key: "TC6c", name: "CPU core 7", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
-    Sensor_t(key: "TC7c", name: "CPU core 8", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
-    Sensor_t(key: "TC8c", name: "CPU core 9", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
-    Sensor_t(key: "TC9c", name: "CPU core 10", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
+    Sensor_t(key: "TC%c", name: "CPU core %", group: .CPU, type: .temperature),
+    Sensor_t(key: "TC%C", name: "CPU core %", group: .CPU, type: .temperature),
     
-    Sensor_t(key: "TC0C", name: "CPU core 1", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
-    Sensor_t(key: "TC1C", name: "CPU core 2", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
-    Sensor_t(key: "TC2C", name: "CPU core 3", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
-    Sensor_t(key: "TC3C", name: "CPU core 4", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
-    Sensor_t(key: "TC4C", name: "CPU core 5", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
-    Sensor_t(key: "TC5C", name: "CPU core 6", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
-    Sensor_t(key: "TC6C", name: "CPU core 7", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
-    Sensor_t(key: "TC7C", name: "CPU core 8", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
-    Sensor_t(key: "TC8C", name: "CPU core 9", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
-    Sensor_t(key: "TC9C", name: "CPU core 10", group: SensorGroup.CPU.rawValue, type: SensorType.Temperature.rawValue),
+    Sensor_t(key: "TCGC", name: "GPU Intel Graphics", group: .GPU, type: .temperature),
+    Sensor_t(key: "TG0D", name: "GPU diode", group: .GPU, type: .temperature),
+    Sensor_t(key: "TGDD", name: "GPU AMD Radeon", group: .GPU, type: .temperature),
+    Sensor_t(key: "TG0H", name: "GPU heatsink", group: .GPU, type: .temperature),
+    Sensor_t(key: "TG0P", name: "GPU proximity", group: .GPU, type: .temperature),
     
-    Sensor_t(key: "TCGC", name: "GPU Intel Graphics", group: SensorGroup.GPU.rawValue, type: SensorType.Temperature.rawValue),
-    Sensor_t(key: "TG0D", name: "GPU diode", group: SensorGroup.GPU.rawValue, type: SensorType.Temperature.rawValue),
-    Sensor_t(key: "TG0H", name: "GPU heatsink", group: SensorGroup.GPU.rawValue, type: SensorType.Temperature.rawValue),
-    Sensor_t(key: "TG0P", name: "GPU proximity", group: SensorGroup.GPU.rawValue, type: SensorType.Temperature.rawValue),
+    Sensor_t(key: "Tm0P", name: "Mainboard", group: .system, type: .temperature),
+    Sensor_t(key: "Tp0P", name: "Powerboard", group: .system, type: .temperature),
+    Sensor_t(key: "TB1T", name: "Battery", group: .system, type: .temperature),
+    Sensor_t(key: "TW0P", name: "Airport", group: .system, type: .temperature),
+    Sensor_t(key: "TL0P", name: "Display", group: .system, type: .temperature),
+    Sensor_t(key: "TI%P", name: "Thunderbold %", group: .system, type: .temperature),
     
-    Sensor_t(key: "Tm0P", name: "Mainboard", group: SensorGroup.System.rawValue, type: SensorType.Temperature.rawValue),
-    Sensor_t(key: "Tp0P", name: "Powerboard", group: SensorGroup.System.rawValue, type: SensorType.Temperature.rawValue),
-    Sensor_t(key: "TB1T", name: "Battery", group: SensorGroup.System.rawValue, type: SensorType.Temperature.rawValue),
-    Sensor_t(key: "TW0P", name: "Airport", group: SensorGroup.System.rawValue, type: SensorType.Temperature.rawValue),
-    Sensor_t(key: "TL0P", name: "Display", group: SensorGroup.System.rawValue, type: SensorType.Temperature.rawValue),
-    Sensor_t(key: "TI0P", name: "Thunderbold 1", group: SensorGroup.System.rawValue, type: SensorType.Temperature.rawValue),
-    Sensor_t(key: "TI1P", name: "Thunderbold 2", group: SensorGroup.System.rawValue, type: SensorType.Temperature.rawValue),
-    Sensor_t(key: "TI2P", name: "Thunderbold 3", group: SensorGroup.System.rawValue, type: SensorType.Temperature.rawValue),
-    Sensor_t(key: "TI3P", name: "Thunderbold 4", group: SensorGroup.System.rawValue, type: SensorType.Temperature.rawValue),
-    
-    Sensor_t(key: "TN0D", name: "Northbridge diode", group: SensorGroup.System.rawValue, type: SensorType.Temperature.rawValue),
-    Sensor_t(key: "TN0H", name: "Northbridge heatsink", group: SensorGroup.System.rawValue, type: SensorType.Temperature.rawValue),
-    Sensor_t(key: "TN0P", name: "Northbridge proximity", group: SensorGroup.System.rawValue, type: SensorType.Temperature.rawValue),
+    Sensor_t(key: "TN0D", name: "Northbridge diode", group: .system, type: .temperature),
+    Sensor_t(key: "TN0H", name: "Northbridge heatsink", group: .system, type: .temperature),
+    Sensor_t(key: "TN0P", name: "Northbridge proximity", group: .system, type: .temperature),
     
      /// Voltage
-    Sensor_t(key: "VCAC", name: "CPU IA", group: SensorGroup.CPU.rawValue, type: SensorType.Voltage.rawValue),
-    Sensor_t(key: "VCSC", name: "CPU System Agent", group: SensorGroup.CPU.rawValue, type: SensorType.Voltage.rawValue),
-    Sensor_t(key: "VC0C", name: "CPU Core 1", group: SensorGroup.CPU.rawValue, type: SensorType.Voltage.rawValue),
-    Sensor_t(key: "VC1C", name: "CPU Core 2", group: SensorGroup.CPU.rawValue, type: SensorType.Voltage.rawValue),
-    Sensor_t(key: "VC2C", name: "CPU Core 3", group: SensorGroup.CPU.rawValue, type: SensorType.Voltage.rawValue),
-    Sensor_t(key: "VC3C", name: "CPU Core 4", group: SensorGroup.CPU.rawValue, type: SensorType.Voltage.rawValue),
-    Sensor_t(key: "VC4C", name: "CPU Core 5", group: SensorGroup.CPU.rawValue, type: SensorType.Voltage.rawValue),
-    Sensor_t(key: "VC5C", name: "CPU Core 6", group: SensorGroup.CPU.rawValue, type: SensorType.Voltage.rawValue),
-    Sensor_t(key: "VC6C", name: "CPU Core 7", group: SensorGroup.CPU.rawValue, type: SensorType.Voltage.rawValue),
-    Sensor_t(key: "VC7C", name: "CPU Core 8", group: SensorGroup.CPU.rawValue, type: SensorType.Voltage.rawValue),
-    Sensor_t(key: "VC8C", name: "CPU Core 9", group: SensorGroup.CPU.rawValue, type: SensorType.Voltage.rawValue),
-    Sensor_t(key: "VC9C", name: "CPU Core 10", group: SensorGroup.CPU.rawValue, type: SensorType.Voltage.rawValue),
+    Sensor_t(key: "VCAC", name: "CPU IA", group: .CPU, type: .voltage),
+    Sensor_t(key: "VCSC", name: "CPU System Agent", group: .CPU, type: .voltage),
+    Sensor_t(key: "VC%C", name: "CPU Core %", group: .CPU, type: .voltage),
     
-    Sensor_t(key: "VCTC", name: "GPU Intel Graphics", group: SensorGroup.GPU.rawValue, type: SensorType.Voltage.rawValue),
-    Sensor_t(key: "VG0C", name: "GPU", group: SensorGroup.GPU.rawValue, type: SensorType.Voltage.rawValue),
+    Sensor_t(key: "VCTC", name: "GPU Intel Graphics", group: .GPU, type: .voltage),
+    Sensor_t(key: "VG0C", name: "GPU", group: .GPU, type: .voltage),
     
-    Sensor_t(key: "VM0R", name: "Memory", group: SensorGroup.System.rawValue, type: SensorType.Voltage.rawValue),
-    Sensor_t(key: "Vb0R", name: "CMOS", group: SensorGroup.System.rawValue, type: SensorType.Voltage.rawValue),
+    Sensor_t(key: "VM0R", name: "Memory", group: .system, type: .voltage),
+    Sensor_t(key: "Vb0R", name: "CMOS", group: .system, type: .voltage),
     
-    Sensor_t(key: "VD0R", name: "DC In", group: SensorGroup.Sensor.rawValue, type: SensorType.Voltage.rawValue),
-    Sensor_t(key: "VP0R", name: "12V rail", group: SensorGroup.Sensor.rawValue, type: SensorType.Voltage.rawValue),
-    Sensor_t(key: "Vp0C", name: "12V vcc", group: SensorGroup.Sensor.rawValue, type: SensorType.Voltage.rawValue),
-    Sensor_t(key: "VV2S", name: "3V", group: SensorGroup.Sensor.rawValue, type: SensorType.Voltage.rawValue),
-    Sensor_t(key: "VR3R", name: "3.3V", group: SensorGroup.Sensor.rawValue, type: SensorType.Voltage.rawValue),
-    Sensor_t(key: "VV1S", name: "5V", group: SensorGroup.Sensor.rawValue, type: SensorType.Voltage.rawValue),
-    Sensor_t(key: "VV9S", name: "12V", group: SensorGroup.Sensor.rawValue, type: SensorType.Voltage.rawValue),
-    Sensor_t(key: "VeES", name: "PCI 12V", group: SensorGroup.Sensor.rawValue, type: SensorType.Voltage.rawValue),
+    Sensor_t(key: "VD0R", name: "DC In", group: .sensor, type: .voltage),
+    Sensor_t(key: "VP0R", name: "12V rail", group: .sensor, type: .voltage),
+    Sensor_t(key: "Vp0C", name: "12V vcc", group: .sensor, type: .voltage),
+    Sensor_t(key: "VV2S", name: "3V", group: .sensor, type: .voltage),
+    Sensor_t(key: "VR3R", name: "3.3V", group: .sensor, type: .voltage),
+    Sensor_t(key: "VV1S", name: "5V", group: .sensor, type: .voltage),
+    Sensor_t(key: "VV9S", name: "12V", group: .sensor, type: .voltage),
+    Sensor_t(key: "VeES", name: "PCI 12V", group: .sensor, type: .voltage),
     
      /// Power
-    Sensor_t(key: "PC0C", name: "CPU Core", group: SensorGroup.CPU.rawValue, type: SensorType.Power.rawValue),
-    Sensor_t(key: "PCAM", name: "CPU Core (IMON)", group: SensorGroup.CPU.rawValue, type: SensorType.Power.rawValue),
-    Sensor_t(key: "PCPC", name: "CPU Package", group: SensorGroup.CPU.rawValue, type: SensorType.Power.rawValue),
-    Sensor_t(key: "PCTR", name: "CPU Total", group: SensorGroup.CPU.rawValue, type: SensorType.Power.rawValue),
-    Sensor_t(key: "PCPT", name: "CPU Package total", group: SensorGroup.CPU.rawValue, type: SensorType.Power.rawValue),
-    Sensor_t(key: "PCPR", name: "CPU Package total (SMC)", group: SensorGroup.CPU.rawValue, type: SensorType.Power.rawValue),
-    Sensor_t(key: "PC0R", name: "CPU Computing high side", group: SensorGroup.CPU.rawValue, type: SensorType.Power.rawValue),
-    Sensor_t(key: "PC0G", name: "CPU GFX", group: SensorGroup.CPU.rawValue, type: SensorType.Power.rawValue),
-    Sensor_t(key: "PCEC", name: "CPU VccEDRAM", group: SensorGroup.CPU.rawValue, type: SensorType.Power.rawValue),
+    Sensor_t(key: "PC0C", name: "CPU Core", group: .CPU, type: .power),
+    Sensor_t(key: "PCAM", name: "CPU Core (IMON)", group: .CPU, type: .power),
+    Sensor_t(key: "PCPC", name: "CPU Package", group: .CPU, type: .power),
+    Sensor_t(key: "PCTR", name: "CPU Total", group: .CPU, type: .power),
+    Sensor_t(key: "PCPT", name: "CPU Package total", group: .CPU, type: .power),
+    Sensor_t(key: "PCPR", name: "CPU Package total (SMC)", group: .CPU, type: .power),
+    Sensor_t(key: "PC0R", name: "CPU Computing high side", group: .CPU, type: .power),
+    Sensor_t(key: "PC0G", name: "CPU GFX", group: .CPU, type: .power),
+    Sensor_t(key: "PCEC", name: "CPU VccEDRAM", group: .CPU, type: .power),
     
-    Sensor_t(key: "PCPG", name: "GPU Intel Graphics", group: SensorGroup.GPU.rawValue, type: SensorType.Power.rawValue),
-    Sensor_t(key: "PG0R", name: "GPU", group: SensorGroup.GPU.rawValue, type: SensorType.Power.rawValue),
-    Sensor_t(key: "PCGC", name: "Intel GPU", group: SensorGroup.GPU.rawValue, type: SensorType.Power.rawValue),
-    Sensor_t(key: "PCGM", name: "Intel GPU (IMON)", group: SensorGroup.GPU.rawValue, type: SensorType.Power.rawValue),
+    Sensor_t(key: "PCPG", name: "GPU Intel Graphics", group: .GPU, type: .power),
+    Sensor_t(key: "PG0R", name: "GPU", group: .GPU, type: .power),
+    Sensor_t(key: "PCGC", name: "Intel GPU", group: .GPU, type: .power),
+    Sensor_t(key: "PCGM", name: "Intel GPU (IMON)", group: .GPU, type: .power),
     
-    Sensor_t(key: "PC3C", name: "RAM", group: SensorGroup.Sensor.rawValue, type: SensorType.Power.rawValue),
-    Sensor_t(key: "PPBR", name: "Battery", group: SensorGroup.Sensor.rawValue, type: SensorType.Power.rawValue),
-    Sensor_t(key: "PDTR", name: "DC In", group: SensorGroup.Sensor.rawValue, type: SensorType.Power.rawValue),
-    Sensor_t(key: "PSTR", name: "System total", group: SensorGroup.Sensor.rawValue, type: SensorType.Power.rawValue),
+    Sensor_t(key: "PC3C", name: "RAM", group: .sensor, type: .power),
+    Sensor_t(key: "PPBR", name: "Battery", group: .sensor, type: .power),
+    Sensor_t(key: "PDTR", name: "DC In", group: .sensor, type: .power),
+    Sensor_t(key: "PSTR", name: "System total", group: .sensor, type: .power),
     
      /// Fans
-    Sensor_t(key: "F0Ac", name: "Fan #0", group: SensorGroup.Sensor.rawValue, type: SensorType.Fan.rawValue),
-    Sensor_t(key: "F1Ac", name: "Fan #1", group: SensorGroup.Sensor.rawValue, type: SensorType.Fan.rawValue),
-    Sensor_t(key: "F2Ac", name: "Fan #2", group: SensorGroup.Sensor.rawValue, type: SensorType.Fan.rawValue),
-    Sensor_t(key: "F3Ac", name: "Fan #3", group: SensorGroup.Sensor.rawValue, type: SensorType.Fan.rawValue),
-    Sensor_t(key: "F4Ac", name: "Fan #4", group: SensorGroup.Sensor.rawValue, type: SensorType.Fan.rawValue),
-    Sensor_t(key: "F5Ac", name: "Fan #5", group: SensorGroup.Sensor.rawValue, type: SensorType.Fan.rawValue),
-    Sensor_t(key: "F6Ac", name: "Fan #6", group: SensorGroup.Sensor.rawValue, type: SensorType.Fan.rawValue),
-    Sensor_t(key: "F7Ac", name: "Fan #7", group: SensorGroup.Sensor.rawValue, type: SensorType.Fan.rawValue),
-    Sensor_t(key: "F8Ac", name: "Fan #8", group: SensorGroup.Sensor.rawValue, type: SensorType.Fan.rawValue),
-    Sensor_t(key: "F9Ac", name: "Fan #9", group: SensorGroup.Sensor.rawValue, type: SensorType.Fan.rawValue),
+    Sensor_t(key: "F%Ac", name: "Fan #%", group: .sensor, type: .fan),
 ]

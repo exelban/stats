@@ -126,25 +126,25 @@ public extension Double {
         return (self * divisor).rounded() / divisor
     }
     
-    func usageColor(reversed: Bool = false) -> NSColor {
+    func usageColor(zones: colorZones = (0.6, 0.8), reversed: Bool = false) -> NSColor {
         let firstColor: NSColor = NSColor.systemBlue
         let secondColor: NSColor = NSColor.orange
         let thirdColor: NSColor = NSColor.red
         
         if reversed {
             switch self {
-            case 0.6...0.8:
+            case zones.orange...zones.red:
                 return secondColor
-            case 0.8...1:
+            case zones.red...1:
                 return firstColor
             default:
                 return thirdColor
             }
         } else {
             switch self {
-            case 0.6...0.8:
+            case zones.orange...zones.red:
                 return secondColor
-            case 0.8...1:
+            case zones.red...1:
                 return thirdColor
             default:
                 return firstColor
@@ -341,14 +341,27 @@ public extension NSView {
         return row
     }
     
-    func SelectRow(frame: NSRect, title: String, action: Selector, items: [KeyValue_t], selected: String) -> NSView {
+    func SelectRow(frame: NSRect, title: String, action: Selector, items: [KeyValue_p], selected: String) -> NSView {
         let row: NSView = NSView(frame: frame)
         
         let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: (row.frame.height - 16)/2, width: row.frame.width - 52, height: 17), title)
         rowTitle.font = NSFont.systemFont(ofSize: 13, weight: .light)
         rowTitle.textColor = .textColor
         
-        let select: NSPopUpButton = NSPopUpButton(frame: NSRect(x: row.frame.width - 50, y: (row.frame.height-26)/2, width: 50, height: 26))
+        let select: NSPopUpButton = SelectView(action: action, items: items, selected: selected)
+        select.sizeToFit()
+        
+        rowTitle.setFrameSize(NSSize(width: row.frame.width - select.frame.width, height: rowTitle.frame.height))
+        select.setFrameOrigin(NSPoint(x: row.frame.width - select.frame.width, y: select.frame.origin.y))
+        
+        row.addSubview(select)
+        row.addSubview(rowTitle)
+        
+        return row
+    }
+    
+    func SelectView(action: Selector, items: [KeyValue_p], selected: String) -> NSPopUpButton {
+        let select: NSPopUpButton = NSPopUpButton(frame: NSRect(x: 0, y: 0, width: 50, height: 26))
         select.target = self
         select.action = action
         
@@ -365,39 +378,21 @@ public extension NSView {
                 }
             }
         }
-        
         select.menu = menu
-        select.sizeToFit()
         
-        rowTitle.setFrameSize(NSSize(width: row.frame.width - select.frame.width, height: rowTitle.frame.height))
-        select.setFrameOrigin(NSPoint(x: row.frame.width - select.frame.width, y: select.frame.origin.y))
-        
-        row.addSubview(select)
-        row.addSubview(rowTitle)
-        
-        return row
+        return select
     }
-}
-
-public extension Notification.Name {
-    static let toggleSettings = Notification.Name("toggleSettings")
-    static let toggleModule = Notification.Name("toggleModule")
-    static let openSettingsView = Notification.Name("openSettingsView")
-    static let switchWidget = Notification.Name("switchWidget")
-    static let checkForUpdates = Notification.Name("checkForUpdates")
-    static let changeCronInterval = Notification.Name("changeCronInterval")
-    static let clickInSettings = Notification.Name("clickInSettings")
 }
 
 public class NSButtonWithPadding: NSButton {
     public var horizontalPadding: CGFloat = 0
     public var verticalPadding: CGFloat = 0
-
+    
     public override var intrinsicContentSize: NSSize {
         var size = super.intrinsicContentSize
         size.width += self.horizontalPadding
         size.height += self.verticalPadding
-        return size;
+        return size
     }
 }
 
@@ -499,5 +494,85 @@ public extension CATransaction {
         CATransaction.setAnimationDuration(0)
         closure()
         CATransaction.commit()
+    }
+}
+
+public final class FlippedClipView: NSClipView {
+    public override var isFlipped: Bool {
+        return true
+    }
+}
+
+public final class ScrollableStackView: NSView {
+    public let stackView: NSStackView = NSStackView()
+    public let clipView: FlippedClipView = FlippedClipView()
+    private let scrollView: NSScrollView = NSScrollView()
+    
+    public override init(frame: NSRect) {
+        super.init(frame: frame)
+        
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.borderType = .noBorder
+        scrollView.hasVerticalScroller = true
+        scrollView.hasHorizontalScroller = false
+        scrollView.autohidesScrollers = true
+        scrollView.horizontalScrollElasticity = .none
+        scrollView.drawsBackground = false
+        self.addSubview(self.scrollView)
+        
+        NSLayoutConstraint.activate([
+            scrollView.leftAnchor.constraint(equalTo: self.leftAnchor),
+            scrollView.rightAnchor.constraint(equalTo: self.rightAnchor),
+            scrollView.topAnchor.constraint(equalTo: self.topAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+        ])
+        
+        clipView.drawsBackground = false
+        scrollView.contentView = clipView
+        
+        stackView.orientation = .vertical
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.documentView = stackView
+        
+        NSLayoutConstraint.activate([
+            stackView.leftAnchor.constraint(equalTo: clipView.leftAnchor),
+            stackView.rightAnchor.constraint(equalTo: clipView.rightAnchor),
+            stackView.topAnchor.constraint(equalTo: clipView.topAnchor),
+        ])
+    }
+    
+    required public init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+// https://stackoverflow.com/a/54492165
+extension NSTextView {
+    override open func performKeyEquivalent(with event: NSEvent) -> Bool {
+        let commandKey = NSEvent.ModifierFlags.command.rawValue
+        let commandShiftKey = NSEvent.ModifierFlags.command.rawValue | NSEvent.ModifierFlags.shift.rawValue
+        if event.type == NSEvent.EventType.keyDown {
+            if (event.modifierFlags.rawValue & NSEvent.ModifierFlags.deviceIndependentFlagsMask.rawValue) == commandKey {
+                switch event.charactersIgnoringModifiers! {
+                case "x":
+                    if NSApp.sendAction(#selector(NSText.cut(_:)), to:nil, from:self) { return true }
+                case "c":
+                    if NSApp.sendAction(#selector(NSText.copy(_:)), to:nil, from:self) { return true }
+                case "v":
+                    if NSApp.sendAction(#selector(NSText.paste(_:)), to:nil, from:self) { return true }
+                case "z":
+                    if NSApp.sendAction(Selector(("undo:")), to:nil, from:self) { return true }
+                case "a":
+                    if NSApp.sendAction(#selector(NSResponder.selectAll(_:)), to:nil, from:self) { return true }
+                default:
+                    break
+                }
+            } else if (event.modifierFlags.rawValue & NSEvent.ModifierFlags.deviceIndependentFlagsMask.rawValue) == commandShiftKey {
+                if event.charactersIgnoringModifiers == "Z" {
+                    if NSApp.sendAction(Selector(("redo:")), to:nil, from:self) { return true }
+                }
+            }
+        }
+        return super.performKeyEquivalent(with: event)
     }
 }

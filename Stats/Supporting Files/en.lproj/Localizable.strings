@@ -24,6 +24,7 @@
 "Yes" = "Yes";
 "No" = "No";
 "Automatic" = "Automatic";
+"Manual" = "Manual";
 "None" = "None";
 "Dots" = "Dots";
 "Arrows" = "Arrows";
@@ -31,6 +32,8 @@
 "Short" = "Short";
 "Long" = "Long";
 "Statistics" = "Statistics";
+"Max" = "Max";
+"Min" = "Min";
 
 // Alerts
 "New version available" = "New version available";
@@ -41,6 +44,7 @@
 // Settings
 "Open Activity Monitor" = "Open Activity Monitor";
 "Report a bug" = "Report a bug";
+"Support the application" = "Support the application";
 "Close application" = "Close application";
 "Open application settings" = "Open application settings";
 "Open moduleName settings" = "Open %0 settings";
@@ -48,12 +52,21 @@
 // Application settings
 "Update application" = "Update application";
 "Check for updates" = "Check for updates";
+"At start" = "At start";
+"Once per day" = "Once per day";
+"Once per week" = "Once per week";
+"Once per month" = "Once per month";
+"Never" = "Never";
 "Check for update" = "Check for update";
 "Show icon in dock" = "Show icon in dock";
 "Start at login" = "Start at login";
 
+// Dashboard
+"Serial number" = "Serial number";
+"Uptime" = "Uptime";
+
 // Update
-"The latest version of Stats installed" = "The latest version of Stats installed";
+"The latest version of Stats installed" = "The latest version of Stats is installed";
 "Downloading..." = "Downloading...";
 "Current version: " = "Current version:  ";
 "Latest version: " = "Latest version:    ";
@@ -72,10 +85,20 @@
 "Display mode" = "View mode";
 "One row" = "One row";
 "Two rows" = "Two rows";
+"Mini widget" = "Mini";
+"Line chart widget" = "Line chart";
+"Bar chart widget" = "Bar chart";
+"Pie chart widget" = "Pie chart";
+"Network chart widget" = "Network chart";
+"Speed widget" = "Speed";
+"Battery widget" = "Battery";
+"Text widget" = "Text";
+"Memory widget" = "Memory";
 
 // Module Kit
 "Open module settings" = "Open module settings";
 "Select widget" = "Select %0 widget";
+"Open widget settings" = "Open widget settings";
 "Update interval" = "Update interval";
 "Usage history" = "Usage history";
 "Details" = "Details";
@@ -97,8 +120,20 @@
 
 // GPU
 "GPU to show" = "GPU to show";
+"Show GPU type" = "Show GPU type";
+"GPU enabled" = "GPU enabled";
+"GPU disabled" = "GPU disabled";
 "GPU temperature" = "GPU temperature";
 "GPU utilization" = "GPU utilization";
+"Vendor" = "Vendor";
+"Model" = "Model";
+"Status" = "Status";
+"Active" = "Active";
+"Non active" = "Non active";
+"Fan speed" = "Fan speed";
+"Core clock" = "Core clock";
+"Memory clock" = "Memory clock";
+"Utilization" = "Utilization";
 
 // Memory
 "Memory usage" = "Memory usage";
@@ -109,11 +144,15 @@
 "Wired" = "Wired";
 "Compressed" = "Compressed";
 "Free" = "Free";
+"Swap" = "Swap";
 
 // Disk
 "Show removable disks" = "Show removable disks";
-"Used disk memory" = "Used %0 from %1";
+"Used disk memory" = "%0 of %1 used";
+"Free disk memory" = "%0 of %1 free";
 "Disk to show" = "Disk to show";
+"Open disk" = "Open disk";
+"Switch view" = "Switch view";
 
 // Sensors
 "Temperature unit" = "Temperature unit";
@@ -128,6 +167,7 @@
 "Interface" = "Interface";
 "Network" = "Network";
 "Physical address" = "Physical address";
+"Refresh" = "Refresh";
 "Click to copy public IP address" = "Click to copy public IP address";
 "Click to copy local IP address" = "Click to copy local IP address";
 "Click to copy wifi name" = "Click to copy wifi name";
@@ -137,17 +177,20 @@
 "Total download" = "Total download";
 "Total upload" = "Total upload";
 "Reader type" = "Reader type";
-"Interface" = "Interface";
-"Process" = "Process";
+"Interface based" = "Interface based";
+"Processes based" = "Process based";
 
 // Battery
 "Level" = "Level";
 "Source" = "Source";
+"AC Power" = "AC Power";
+"Battery Power" = "Battery Power";
 "Time" = "Time";
 "Health" = "Health";
 "Battery" = "Battery";
 "Amperage" = "Amperage";
 "Voltage" = "Voltage";
+"Cycles" = "Cycles";
 "Temperature" = "Temperature";
 "Power adapter" = "Power adapter";
 "Power" = "Power";
@@ -158,13 +201,49 @@
 "Fully charged" = "Fully charged";
 "Not connected" = "Not connected";
 "Low level notification" = "Low level notification";
+"High level notification" = "High level notification";
 "Low battery" = "Low battery";
+"High battery" = "High battery";
 "Battery remaining" = "%0% remaining";
+"Battery remaining to full charge" = "%0% to full charge";
 "Percentage" = "Percentage";
 "Percentage and time" = "Percentage and time";
 "Time and percentage" = "Time and percentage";
 "Time format" = "Time format";
 "Hide additional information when full" = "Hide additional information when full";
+"Last charge" = "Last charge";
 
 // Fans
 "Fans" = "Fans";
+
+// Colors
+"Based on utilization" = "Based on utilization";
+"Based on pressure" = "Based on pressure";
+"System accent" = "System accent";
+"Monochrome accent" = "Monochrome accent";
+"Clear" = "Clear";
+"White" = "White";
+"Black" = "Black";
+"Gray" = "Gray";
+"Second gray" = "Second gray";
+"Dark gray" = "Dark gray";
+"Light gray" = "Light gray";
+"Red" = "Red";
+"Second red" = "Second red";
+"Green" = "Green";
+"Second green" = "Second green";
+"Blue" = "Blue";
+"Second blue" = "Second blue";
+"Yellow" = "Yellow";
+"Second yellow" = "Second yellow";
+"Orange" = "Orange";
+"Second orange" = "Second orange";
+"Purple" = "Purple";
+"Second purple" = "Second purple";
+"Brown" = "Brown";
+"Second brown" = "Second brown";
+"Cyan" = "Cyan";
+"Magenta" = "Magenta";
+"Pink" = "Pink";
+"Teal" = "Teal";
+"Indigo" = "Indigo";

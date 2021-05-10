@@ -15,8 +15,6 @@ import ModuleKit
 import os.log
 
 internal class LoadReader: Reader<CPU_Load> {
-    public var store: UnsafePointer<Store>? = nil
-    
     private var cpuInfo: processor_info_array_t!
     private var prevCpuInfo: processor_info_array_t?
     private var numCpuInfo: mach_msg_type_number_t = 0
@@ -72,7 +70,7 @@ internal class LoadReader: Reader<CPU_Load> {
             }
             self.CPUUsageLock.unlock()
             
-            let showHyperthratedCores = self.store?.pointee.bool(key: "CPU_hyperhreading", defaultValue: false) ?? false
+            let showHyperthratedCores = Store.shared.bool(key: "CPU_hyperhreading", defaultValue: false) 
             if showHyperthratedCores || !self.hasHyperthreadingCores {
                 self.response.usagePerCore = self.usagePerCore
             } else {
@@ -154,19 +152,12 @@ internal class LoadReader: Reader<CPU_Load> {
 }
 
 public class ProcessReader: Reader<[TopProcess]> {
-    private let store: UnsafePointer<Store>
-    private let title: String
+    private let title: String = "CPU"
     
     private var numberOfProcesses: Int {
         get {
-            return self.store.pointee.int(key: "\(self.title)_processes", defaultValue: 8)
+            return Store.shared.int(key: "\(self.title)_processes", defaultValue: 8)
         }
-    }
-    
-    init(_ title: String, store: UnsafePointer<Store>) {
-        self.title = title
-        self.store = store
-        super.init()
     }
     
     public override func setup() {
@@ -174,12 +165,21 @@ public class ProcessReader: Reader<[TopProcess]> {
     }
     
     public override func read() {
+        if self.numberOfProcesses == 0 {
+            return
+        }
+        
         let task = Process()
         task.launchPath = "/bin/ps"
         task.arguments = ["-Aceo pid,pcpu,comm", "-r"]
         
         let outputPipe = Pipe()
         let errorPipe = Pipe()
+        
+        defer {
+            outputPipe.fileHandleForReading.closeFile()
+            errorPipe.fileHandleForReading.closeFile()
+        }
         
         task.standardOutput = outputPipe
         task.standardError = errorPipe
@@ -231,16 +231,20 @@ public class ProcessReader: Reader<[TopProcess]> {
 }
 
 public class TemperatureReader: Reader<Double> {
-    private let smc: UnsafePointer<SMCService>?
-    
-    init(_ smc: UnsafePointer<SMCService>) {
-        self.smc = smc
-        super.init()
-        self.popup = true
-    }
-    
     public override func read() {
-        let temperature = self.smc?.pointee.getValue("TC0C") ?? self.smc?.pointee.getValue("TC0D") ?? self.smc?.pointee.getValue("TC0P") ?? self.smc?.pointee.getValue("TC0E") ?? self.smc?.pointee.getValue("TC0F")
+        var temperature: Double? = nil
+        
+        if let value = SMC.shared.getValue("TC0D"), value < 110 {
+            temperature = value
+        } else if let value = SMC.shared.getValue("TC0E"), value < 110 {
+            temperature = value
+        } else if let value = SMC.shared.getValue("TC0F"), value < 110 {
+            temperature = value
+        } else if let value = SMC.shared.getValue("TC0P"), value < 110 {
+            temperature = value
+        } else if let value = SMC.shared.getValue("TC0H"), value < 110 {
+            temperature = value
+        }
         
         self.callback(temperature)
     }
@@ -267,12 +271,15 @@ public class FrequencyReader: Reader<Double> {
     private var sample: PGSample = 0
     private var reconnectAttempt: Int = 0
     
-    override init() {
-        super.init()
-        self.popup = true
+    private var isEnabled: Bool {
+        get {
+            return Store.shared.bool(key: "CPU_IPG", defaultValue: false)
+        }
     }
     
     public override func setup() {
+        guard self.isEnabled else { return }
+        
         let path: CFString = "/Library/Frameworks/IntelPowerGadget.framework" as CFString
         let bundleURL = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, path, CFURLPathStyle.cfurlposixPathStyle, true)
         
@@ -362,7 +369,7 @@ public class FrequencyReader: Reader<Double> {
     }
     
     public override func read() {
-        if self.PG_ReadSample == nil || self.PGSample_GetIAFrequency == nil || self.PGSample_Release == nil {
+        if !self.isEnabled || self.PG_ReadSample == nil || self.PGSample_GetIAFrequency == nil || self.PGSample_Release == nil {
             return
         }
         

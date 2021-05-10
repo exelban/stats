@@ -24,6 +24,7 @@
 "Yes" = "예";
 "No" = "아니요";
 "Automatic" = "자동";
+"Manual" = "Manual";
 "None" = "없음";
 "Dots" = "도트";
 "Arrows" = "화살표";
@@ -31,6 +32,8 @@
 "Short" = "짧은";
 "Long" = "긴";
 "Statistics" = "통계";
+"Max" = "Max";
+"Min" = "Min";
 
 // Alerts
 "New version available" = "새로운 버전을 이용할 수 있습니다";
@@ -41,6 +44,7 @@
 // Settings
 "Open Activity Monitor" = "활성 상태 열기";
 "Report a bug" = "버그 리포트";
+"Support the application" = "응용 프로그램 지원";
 "Close application" = "앱 종료";
 "Open application settings" = "앱 설정 열기";
 "Open moduleName settings" = "%0 설정 열기";
@@ -48,9 +52,18 @@
 // Application settings
 "Update application" = "앱 업데이트";
 "Check for updates" = "신규 업데이트 확인";
+"At start" = "At start";
+"Once per day" = "Once per day";
+"Once per week" = "Once per week";
+"Once per month" = "Once per month";
+"Never" = "Never";
 "Check for update" = "신규 업데이트 확인";
 "Show icon in dock" = "Dock에서 아이콘 보이기";
 "Start at login" = "로그인시 시작";
+
+// Dashboard
+"Serial number" = "일련 번호";
+"Uptime" = "가동 시간";
 
 // Update
 "The latest version of Stats installed" = "최신 버전의 Stats가 설치되어 있습니다";
@@ -72,10 +85,20 @@
 "Display mode" = "표기 방식";
 "One row" = "한 줄";
 "Two rows" = "두 줄";
+"Mini widget" = "Mini";
+"Line chart widget" = "Line chart";
+"Bar chart widget" = "Bar chart";
+"Pie chart widget" = "Pie chart";
+"Network chart widget" = "Network chart";
+"Speed widget" = "Speed";
+"Battery widget" = "Battery";
+"Text widget" = "Text";
+"Memory widget" = "Memory";
 
 // Module Kit
 "Open module settings" = "모듈 설정 열기";
 "Select widget" = "%0 위젯 선택";
+"Open widget settings" = "Open widget settings";
 "Update interval" = "업데이트 주기";
 "Usage history" = "사용 기록";
 "Details" = "세부 사항";
@@ -97,8 +120,20 @@
 
 // GPU
 "GPU to show" = "표시할 GPU";
+"Show GPU type" = "GPU 유형 표시";
+"GPU enabled" = "GPU enabled";
+"GPU disabled" = "GPU disabled";
 "GPU temperature" = "GPU 온도";
 "GPU utilization" = "GPU 활용";
+"Vendor" = "Vendor";
+"Model" = "Model";
+"Status" = "Status";
+"Active" = "Active";
+"Non active" = "Non active";
+"Fan speed" = "Fan speed";
+"Core clock" = "Core clock";
+"Memory clock" = "Memory clock";
+"Utilization" = "Utilization";
 
 // Memory
 "Memory usage" = "메모리 사용량";
@@ -109,11 +144,15 @@
 "Wired" = "예약됨";
 "Compressed" = "압축됨";
 "Free" = "여유";
+"Swap" = "Swap";
 
 // Disk
 "Show removable disks" = "이동식 디스크 표시";
 "Used disk memory" = "%1 중 %0 사용되었습니다";
+"Free disk memory" = "%1 중 %0 비어 있는";
 "Disk to show" = "표시할 디스크";
+"Open disk" = "디스크 열기";
+"Switch view" = "보기 전환";
 
 // Sensors
 "Temperature unit" = "온도 단위";
@@ -128,6 +167,7 @@
 "Interface" = "인터페이스";
 "Network" = "네트워크";
 "Physical address" = "물리 주소";
+"Refresh" = "Refresh";
 "Click to copy public IP address" = "공인 IP 주소를 복사하려면 클릭하세요";
 "Click to copy local IP address" = "로컬 IP 주소를 복사하려면 클릭하세요";
 "Click to copy wifi name" = "와이파이 이름을 복사하려면 클릭하세요";
@@ -137,17 +177,20 @@
 "Total download" = "총 다운로드";
 "Total upload" = "총 업로드";
 "Reader type" = "리더 유형";
-"Interface" = "상호 작용";
-"Process" = "프로세스";
+"Interface based" = "상호 작용";
+"Processes based" = "프로세스";
 
 // Battery
 "Level" = "잔량";
 "Source" = "공급원";
+"AC Power" = "AC Power";
+"Battery Power" = "Battery Power";
 "Time" = "시간";
 "Health" = "상태";
 "Battery" = "배터리";
 "Amperage" = "암페어";
 "Voltage" = "전압";
+"Cycles" = "사이클 수";
 "Temperature" = "온도";
 "Power adapter" = "전원 어댑터";
 "Power" = "출력";
@@ -158,13 +201,49 @@
 "Fully charged" = "완전히 충전됨";
 "Not connected" = "연결되지 않음";
 "Low level notification" = "배터리 부족 상태 알림";
+"High level notification" = "High level notification";
 "Low battery" = "배터리 부족";
+"High battery" = "High battery";
 "Battery remaining" = "%0% 남았습니다";
+"Battery remaining to full charge" = "%0% to full charge";
 "Percentage" = "백분율";
 "Percentage and time" = "비율과 시간";
 "Time and percentage" = "시간과 비율";
 "Time format" = "시간 형식";
 "Hide additional information when full" = "배터리가 가득 차면 추가 정보 숨기기";
+"Last charge" = "마지막 청구";
 
 // Fans
 "Fans" = "팬";
+
+// Colors
+"Based on utilization" = "Based on utilization";
+"Based on pressure" = "Based on pressure";
+"System accent" = "System accent";
+"Monochrome accent" = "Monochrome accent";
+"Clear" = "Clear";
+"White" = "White";
+"Black" = "Black";
+"Gray" = "Gray";
+"Second gray" = "Second gray";
+"Dark gray" = "Dark gray";
+"Light gray" = "Light gray";
+"Red" = "Red";
+"Second red" = "Second red";
+"Green" = "Green";
+"Second green" = "Second green";
+"Blue" = "Blue";
+"Second blue" = "Second blue";
+"Yellow" = "Yellow";
+"Second yellow" = "Second yellow";
+"Orange" = "Orange";
+"Second orange" = "Second orange";
+"Purple" = "Purple";
+"Second purple" = "Second purple";
+"Brown" = "Brown";
+"Second brown" = "Second brown";
+"Cyan" = "Cyan";
+"Magenta" = "Magenta";
+"Pink" = "Pink";
+"Teal" = "Teal";
+"Indigo" = "Indigo";

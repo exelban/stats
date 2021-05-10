@@ -16,8 +16,9 @@ public protocol Popup_p: NSView {
     var sizeCallback: ((NSSize) -> Void)? { get set }
 }
 
-internal class PopupWindow: NSPanel {
+internal class PopupWindow: NSWindow, NSWindowDelegate {
     private let viewController: PopupViewController = PopupViewController()
+    internal var locked: Bool = false
     
     init(title: String, view: Popup_p?, visibilityCallback: @escaping (_ state: Bool) -> Void) {
         self.viewController.setup(title: title, view: view)
@@ -25,21 +26,32 @@ internal class PopupWindow: NSPanel {
         
         super.init(
             contentRect: NSMakeRect(0, 0, self.viewController.view.frame.width, self.viewController.view.frame.height),
-            styleMask: [],
+            styleMask: [.titled, .fullSizeContentView],
             backing: .buffered,
             defer: true
         )
         
         self.contentViewController = self.viewController
-        self.backingType = .buffered
-        self.isFloatingPanel = true
-        self.worksWhenModal = true
-        self.becomesKeyOnlyIfNeeded = true
-        self.styleMask = .borderless
+        self.titlebarAppearsTransparent = true
         self.animationBehavior = .default
         self.collectionBehavior = .moveToActiveSpace
         self.backgroundColor = .clear
         self.hasShadow = true
+        self.setIsVisible(false)
+        self.delegate = self
+    }
+    
+    func windowWillMove(_ notification: Notification) {
+        self.viewController.setCloseButton(true)
+        self.locked = true
+    }
+    
+    func windowDidResignKey(_ notification: Notification) {
+        if self.locked {
+            return
+        }
+        
+        self.viewController.setCloseButton(false)
         self.setIsVisible(false)
     }
 }
@@ -88,6 +100,10 @@ internal class PopupViewController: NSViewController {
         self.title = title
         self.popup.setTitle(title)
         self.popup.setView(view)
+    }
+    
+    public func setCloseButton(_ state: Bool) {
+        self.popup.setCloseButton(state)
     }
 }
 
@@ -188,6 +204,10 @@ internal class PopupView: NSView {
         self.header.setTitle(newTitle)
     }
     
+    public func setCloseButton(_ state: Bool) {
+        self.header.setCloseButton(state)
+    }
+    
     internal func appear() {
         self.display()
         self.body.subviews.first?.display()
@@ -195,22 +215,23 @@ internal class PopupView: NSView {
     internal func disappear() {}
 }
 
-internal class HeaderView: NSView {
+internal class HeaderView: NSStackView {
     private var titleView: NSTextField? = nil
     private var activityButton: NSButton?
     private var settingsButton: NSButton?
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    private var isCloseAction: Bool = false
     
     override init(frame: NSRect) {
         super.init(frame: CGRect(x: frame.origin.x, y: frame.origin.y, width: frame.width, height: frame.height))
         
+        self.orientation = .horizontal
+        self.distribution = .gravityAreas
+        self.spacing = 0
+        
         let activity = NSButtonWithPadding()
-        activity.frame = CGRect(x: 2, y: 2, width: 30, height: 30)
-        activity.verticalPadding = 14
-        activity.horizontalPadding = 14
+        activity.frame = CGRect(x: 0, y: 0, width: 24, height: self.frame.height)
+        activity.horizontalPadding = activity.frame.height - 24
         activity.bezelStyle = .regularSquare
         activity.translatesAutoresizingMaskIntoConstraints = false
         activity.imageScaling = .scaleNone
@@ -220,8 +241,10 @@ internal class HeaderView: NSView {
         activity.action = #selector(openActivityMonitor)
         activity.target = self
         activity.toolTip = LocalizedString("Open Activity Monitor")
+        activity.focusRingType = .none
+        self.activityButton = activity
         
-        let title = NSTextField(frame: NSMakeRect(frame.width/4, (frame.height - 18)/2, frame.width/2, 18))
+        let title = NSTextField(frame: NSRect(x: 0, y: 0, width: frame.width/2, height: 18))
         title.isEditable = false
         title.isSelectable = false
         title.isBezeled = false
@@ -232,41 +255,36 @@ internal class HeaderView: NSView {
         title.alignment = .center
         title.font = NSFont.systemFont(ofSize: 16, weight: .regular)
         title.stringValue = ""
+        self.titleView = title
         
         let settings = NSButtonWithPadding()
-        settings.frame = CGRect(x: frame.width - 38, y: 2, width: 30, height: 30)
-        settings.verticalPadding = 14
-        settings.horizontalPadding = 14
+        settings.frame = CGRect(x: 0, y: 0, width: 24, height: self.frame.height)
+        settings.horizontalPadding = activity.frame.height - 24
         settings.bezelStyle = .regularSquare
         settings.translatesAutoresizingMaskIntoConstraints = false
         settings.imageScaling = .scaleNone
         settings.image = Bundle(for: type(of: self)).image(forResource: "settings")!
         settings.contentTintColor = .lightGray
         settings.isBordered = false
-        settings.action = #selector(openMenu)
+        settings.action = #selector(openSettings)
         settings.target = self
         settings.toolTip = LocalizedString("Open module settings")
-        
-        self.addSubview(activity)
-        self.addSubview(title)
-        self.addSubview(settings)
-        
-        self.activityButton = activity
-        self.titleView = title
+        settings.focusRingType = .none
         self.settingsButton = settings
         
-        self.addTrackingArea(NSTrackingArea(
-            rect: activity.frame,
-            options: [NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited, NSTrackingArea.Options.activeInActiveApp],
-            owner: self,
-            userInfo: ["button": "activity"]
-        ))
-        self.addTrackingArea(NSTrackingArea(
-            rect: settings.frame,
-            options: [NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited, NSTrackingArea.Options.activeInActiveApp],
-            owner: self,
-            userInfo: ["button": "settings"]
-        ))
+        self.addArrangedSubview(activity)
+        self.addArrangedSubview(title)
+        self.addArrangedSubview(settings)
+        
+        NSLayoutConstraint.activate([
+            title.widthAnchor.constraint(
+                equalToConstant: self.frame.width - activity.intrinsicContentSize.width - settings.intrinsicContentSize.width
+            ),
+        ])
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     public func setTitle(_ newTitle: String) {
@@ -284,39 +302,13 @@ internal class HeaderView: NSView {
         line.stroke()
     }
     
-    override func mouseEntered(with: NSEvent) {
-        if let userData = with.trackingArea?.userInfo as? [String : AnyObject] {
-            if let button = userData["button"] as? String {
-                if button == "activity" {
-                    self.activityButton!.contentTintColor = .gray
-                } else if button == "settings" {
-                    self.settingsButton!.contentTintColor = .gray
-                }
-            }
-        }
-        NSCursor.pointingHand.set()
-    }
-    
-    override func mouseExited(with: NSEvent) {
-        if let userData = with.trackingArea?.userInfo as? [String : AnyObject] {
-            if let button = userData["button"] as? String {
-                if button == "activity" {
-                    self.activityButton!.contentTintColor = .lightGray
-                } else if button == "settings" {
-                    self.settingsButton!.contentTintColor = .lightGray
-                }
-            }
-        }
-        NSCursor.arrow.set()
-    }
-    
-    @objc func openMenu(_ sender: Any) {
-        self.window?.setIsVisible(false)
-        NotificationCenter.default.post(name: .toggleSettings, object: nil, userInfo: ["module": self.titleView?.stringValue ?? ""])
-    }
-    
     @objc func openActivityMonitor(_ sender: Any) {
         self.window?.setIsVisible(false)
+        
+        if self.isCloseAction {
+            self.setCloseButton(false)
+            return
+        }
         
         NSWorkspace.shared.launchApplication(
             withBundleIdentifier: "com.apple.ActivityMonitor",
@@ -324,5 +316,22 @@ internal class HeaderView: NSView {
             additionalEventParamDescriptor: nil,
             launchIdentifier: nil
         )
+    }
+    
+    @objc func openSettings(_ sender: Any) {
+        self.window?.setIsVisible(false)
+        NotificationCenter.default.post(name: .toggleSettings, object: nil, userInfo: ["module": self.titleView?.stringValue ?? ""])
+    }
+    
+    public func setCloseButton(_ state: Bool) {
+        if state && !self.isCloseAction {
+            self.activityButton?.image = Bundle(for: type(of: self)).image(forResource: "close")!
+            self.activityButton?.toolTip = LocalizedString("Close popup")
+            self.isCloseAction = true
+        } else if !state && self.isCloseAction {
+            self.activityButton?.image = Bundle(for: type(of: self)).image(forResource: "chart")!
+            self.activityButton?.toolTip = LocalizedString("Open Activity Monitor")
+            self.isCloseAction = false
+        }
     }
 }

@@ -8,6 +8,15 @@
 	<true/>
 	<key>Widgets</key>
 	<dict>
+		<key>label</key>
+		<dict>
+			<key>Default</key>
+			<false/>
+			<key>Title</key>
+			<string>SSD</string>
+			<key>Order</key>
+			<integer>0</integer>
+		</dict>
 		<key>mini</key>
 		<dict>
 			<key>Default</key>
@@ -26,7 +35,7 @@
 				<string>pressure</string>
 			</array>
 			<key>Order</key>
-			<integer>0</integer>
+			<integer>1</integer>
 		</dict>
 		<key>bar_chart</key>
 		<dict>
@@ -35,7 +44,7 @@
 			<key>Title</key>
 			<string>SSD</string>
 			<key>Label</key>
-			<true/>
+			<false/>
 			<key>Box</key>
 			<true/>
 			<key>Color</key>
@@ -43,7 +52,7 @@
 			<key>Preview</key>
 			<dict>
 				<key>Label</key>
-				<true/>
+				<false/>
 				<key>Box</key>
 				<true/>
 				<key>Value</key>
@@ -54,7 +63,7 @@
 				<string>pressure</string>
 			</array>
 			<key>Order</key>
-			<integer>1</integer>
+			<integer>2</integer>
 		</dict>
 		<key>memory</key>
 		<dict>
@@ -63,17 +72,15 @@
 			<key>Preview</key>
 			<dict>
 				<key>Value</key>
-				<string>51383185408,198466408448</string>
+				<string>47.85 GB, 184.84 GB</string>
 			</dict>
 			<key>Order</key>
-			<integer>2</integer>
+			<integer>3</integer>
 		</dict>
 		<key>speed</key>
 		<dict>
 			<key>Default</key>
 			<false/>
-			<key>Order</key>
-			<integer>3</integer>
 			<key>Icon</key>
 			<string>characters</string>
 			<key>Symbols</key>
@@ -81,6 +88,8 @@
 				<string>W</string>
 				<string>R</string>
 			</array>
+			<key>Order</key>
+			<integer>4</integer>
 		</dict>
 	</dict>
 </dict>

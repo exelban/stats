@@ -2,7 +2,7 @@
 //  Localizable.strings
 //  Stats
 //
-//  Created by Serhiy Mytrovtsiy on 27/08/2020.
+//  Created by lucasaf04 on 03/12/2020.
 //  Using Swift 5.0.
 //  Running on macOS 10.15.
 //
@@ -18,18 +18,22 @@
 "Disk" = "Disco";
 "Close" = "Cerrar";
 "Download" = "Descargar";
-"Install" = "Intalar";
+"Install" = "Instalar";
 "Cancel" = "Cancelar";
 "Unavailable" = "No disponible";
-"Yes" = "Si";
+"Yes" = "Sí";
 "No" = "No";
 "Automatic" = "Automático";
+"Manual" = "Manual";
 "None" = "Ninguna";
 "Dots" = "Puntos";
 "Arrows" = "Flechas";
 "Characters" = "Letras";
 "Short" = "Corto";
 "Long" = "Largo";
+"Statistics" = "Estadísticas";
+"Max" = "Max";
+"Min" = "Min";
 
 // Alerts
 "New version available" = "Nueva versión disponible";
@@ -38,53 +42,76 @@
 "Stats was updated to v" = "Stats se ha actualizado a v%0";
 
 // Settings
-"Open Activity Monitor" = "Abrir Activity Monitor";
+"Open Activity Monitor" = "Abrir Monitor de Actividad";
 "Report a bug" = "Reportar un error";
+"Support the application" = "Apoya la aplicación";
 "Close application" = "Cerrar la aplicación";
-"Open application settings" = "Abrir la aplicación de configuración";
+"Open application settings" = "Abrir la configuración de la aplicación";
 "Open moduleName settings" = "Abrir la configuración del módulo %0";
 
 // Application settings
-"Update application" = "Actualiza la aplicación";
+"Update application" = "Actualizar la aplicación";
 "Check for updates" = "Buscar actualizaciones";
-"Check for update" = "Buscar actualización";
+"At start" = "Al iniciar el sistema";
+"Once per day" = "Una vez al día";
+"Once per week" = "Una vez por semana";
+"Once per month" = "Una vez al mes";
+"Never" = "Nunca";
+"Check for update" = "Buscar actualizaciones";
 "Show icon in dock" = "Muestra el icono en el dock";
-"Start at login" = "Arrancar al inicio";
+"Start at login" = "Arrancar al iniciar sesión";
+
+// Dashboard
+"Serial number" = "Número de serie";
+"Uptime" = "Tiempo de actividad";
 
 // Update
-"The latest version of Stats installed" = "La última versión de Stats instalada";
+"The latest version of Stats installed" = "La última versión de Stats está instalada";
 "Downloading..." = "Descargando...";
-"Current version: " = "Versión actual:  ";
-"Latest version: " = "Última versión:    ";
+"Current version: " = "Versión instalada: ";
+"Latest version: " = "Última versión: ";
 
 // Widgets
 "Color" = "Color";
 "Label" = "Etiqueta";
 "Box" = "Caja";
-"Frame" = "Cuadro";
+"Frame" = "Borde";
 "Value" = "Valor";
-"Colorize" = "Coloreado";
-"Colorize value" = "Valor coloreado";
+"Colorize" = "Colorear";
+"Colorize value" = "Colorear valor";
 "Additional information" = "Información adicional";
 "Reverse values order" = "Invertir el order de los valores";
 "Base" = "Base";
 "Display mode" = "Modo de visualización";
 "One row" = "Una fila";
 "Two rows" = "Dos filas";
+"Mini widget" = "Mini";
+"Line chart widget" = "Gráfico de líneas";
+"Bar chart widget" = "Gráfico de barras";
+"Pie chart widget" = "Gráfico de torta";
+"Network chart widget" = "Gráfico de redes";
+"Speed widget" = "Velocidad";
+"Battery widget" = "Batería";
+"Text widget" = "Texto";
+"Memory widget" = "Memoria";
 
 // Module Kit
 "Open module settings" = "Abrir la configruación del módulo";
 "Select widget" = "Seleccionar el widget %0";
-"Update interval" = "Intérvalo de actualización";
+"Open widget settings" = "Open widget settings";
+"Update interval" = "Intervalo de actualización";
 "Usage history" = "Historial de uso";
 "Details" = "Detalles";
 "Top processes" = "Procesos principales";
-"Pictogram" = "Icono";
+"Pictogram" = "Ícono";
+
+// Modules
+"Number of top processes" = "Número de procesos principales";
 
 // CPU
-"CPU usage" = "Uso de CPU";
-"CPU temperature" = "Temperatura del CPU";
-"CPU frequency" = "Frecuencia del CPU";
+"CPU usage" = "Uso de la CPU";
+"CPU temperature" = "Temperatura de la CPU";
+"CPU frequency" = "Frecuencia de la CPU";
 "System" = "Sistema";
 "User" = "Usuario";
 "Idle" = "Libre";
@@ -93,11 +120,23 @@
 
 // GPU
 "GPU to show" = "GPU a mostrar";
+"Show GPU type" = "Mostrar tipo de GPU";
+"GPU enabled" = "GPU activada";
+"GPU disabled" = "GPU desactivada";
 "GPU temperature" = "Temperatura de la GPU";
 "GPU utilization" = "Utilización de la GPU";
+"Vendor" = "Fabricante";
+"Model" = "Modelo";
+"Status" = "Estado";
+"Active" = "Activo";
+"Non active" = "Inactivo";
+"Fan speed" = "Velocidad del ventilador";
+"Core clock" = "Reloj del núcleo";
+"Memory clock" = "Reloj de la memoria";
+"Utilization" = "Utilización";
 
 // Memory
-"Memory usage" = "Uso de memoria";
+"Memory usage" = "Uso de la memoria";
 "Memory pressure" = "Presión de la memoria";
 "Total" = "Total";
 "Used" = "Usado";
@@ -105,11 +144,15 @@
 "Wired" = "Física";
 "Compressed" = "Comprimida";
 "Free" = "Libre";
+"Swap" = "Swap";
 
 // Disk
 "Show removable disks" = "Mostrar los discos extraíbles";
 "Used disk memory" = "Usado %0 de %1";
+"Free disk memory" = "Libre %0 de %1";
 "Disk to show" = "Disco a mostrar";
+"Open disk" = "Disco abierto";
+"Switch view" = "Cambiar vista";
 
 // Sensors
 "Temperature unit" = "Unidad de temperatura";
@@ -117,50 +160,90 @@
 "Fahrenheit" = "Fahrenheit";
 
 // Network
-"Uploading" = "Subiendo";
-"Downloading" = "Descargando";
+"Uploading" = "Carga";
+"Downloading" = "Descarga";
 "Public IP" = "IP Pública";
 "Local IP" = "IP Local";
 "Interface" = "Interfaz";
 "Network" = "Red";
 "Physical address" = "Dirección física";
+"Refresh" = "Refrescar";
 "Click to copy public IP address" = "Haga clic para copiar la dirección IP pública";
 "Click to copy local IP address" = "Haga clic para copiar la dirección IP local";
-"Click to copy wifi name" = "Haga clic para copiar el nombre del wifi";
+"Click to copy wifi name" = "Haga clic para copiar el nombre de la red wifi";
 "Click to copy mac address" = "Haga clic para copiar la dirección mac";
 "No connection" = "Sin conexión";
 "Network interface" = "Interfaz de red";
 "Total download" = "Descarga total";
 "Total upload" = "Carga total";
 "Reader type" = "Tipo de lector";
-"Interface" = "Interfaz";
-"Process" = "Proceso";
+"Interface based" = "Interfaz";
+"Processes based" = "Proceso";
 
 // Battery
 "Level" = "Nivel";
 "Source" = "Fuente";
+"AC Power" = "Alimentación de CA";
+"Battery Power" = "Alimentado por batería";
 "Time" = "Tiempo";
 "Health" = "Salud";
 "Battery" = "Batería";
 "Amperage" = "Amperaje";
 "Voltage" = "Voltaje";
+"Cycles" = "Número de ciclos";
 "Temperature" = "Temperatura";
 "Power adapter" = "Adaptador de corriente";
 "Power" = "Corriente";
 "Is charging" = "Está cargando";
-"Time to discharge" = "Tiempo restante";
+"Time to discharge" = "Tiempo para descarga completa";
 "Time to charge" = "Tiempo para carga completa";
 "Calculating" = "Calculando";
 "Fully charged" = "Completamente cargada";
 "Not connected" = "No conectado";
 "Low level notification" = "Notificación de nivel bajo";
+"High level notification" = "Notificación de nivel alto";
 "Low battery" = "Batería baja";
+"High battery" = "Batería alta";
 "Battery remaining" = "%0% restante";
+"Battery remaining to full charge" = "%0% to full charge";
 "Percentage" = "Porcentaje";
 "Percentage and time" = "Porcentaje y tiempo";
 "Time and percentage" = "Tiempo y porcentaje";
 "Time format" = "Formato de tiempo";
-"Hide additional information when full" = "Ocultar información adicional cuando la batería está llena";
+"Hide additional information when full" = "Ocultar información adicional cuando la batería está cargada";
+"Last charge" = "Última carga";
 
 // Fans
-"Fans" = "Fans";
+"Fans" = "Ventiladores";
+
+// Colors
+"Based on utilization" = "Basado en utilización";
+"Based on pressure" = "Basado en presión";
+"System accent" = "Acento del sistema";
+"Monochrome accent" = "Acento monocromo";
+"Clear" = "Claro";
+"White" = "Blanco";
+"Black" = "Negro";
+"Gray" = "Gris";
+"Second gray" = "Segundo gris";
+"Dark gray" = "Gris oscuro";
+"Light gray" = "Gris claro";
+"Red" = "Rojo";
+"Second red" = "Segundo rojo";
+"Green" = "Verde";
+"Second green" = "Segundo verde";
+"Blue" = "Azul";
+"Second blue" = "Segundo azul";
+"Yellow" = "Amarillo";
+"Second yellow" = "Segundo amarillo";
+"Orange" = "Naranja";
+"Second orange" = "Segundo naranja";
+"Purple" = "Morado";
+"Second purple" = "Segundo morado";
+"Brown" = "Marrón";
+"Second brown" = "Segundo marrón";
+"Cyan" = "Cian";
+"Magenta" = "Magenta";
+"Pink" = "Rosado";
+"Teal" = "Verde azulado";
+"Indigo" = "Indigo";

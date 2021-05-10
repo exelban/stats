@@ -84,7 +84,12 @@ public class macAppUpdater {
     }
     
     private func fetchLastVersion(completionHandler: @escaping (_ result: [String]?, _ error: Error?) -> Void) {
-        let task = URLSession.shared.dataTask(with: URL(string: self.url)!) { data, response, error in
+        guard let url = URL(string: self.url) else {
+            completionHandler(nil, "wrong url")
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url) { data, response, error in
             guard let data = data, error == nil else { return }
             
             do {
@@ -106,8 +111,7 @@ public class macAppUpdater {
             } catch let parsingError {
                 completionHandler(nil, parsingError)
             }
-        }
-        task.resume()
+        }.resume()
     }
     
     public func download(_ url: URL, progressHandler: @escaping (_ progress: Progress) -> Void = {_ in }, doneHandler: @escaping (_ path: String) -> Void = {_ in }) {
@@ -156,10 +160,14 @@ public class macAppUpdater {
         
         print("Script is copied to $TMPDIR/updater.sh")
         
-        let pwd = Bundle.main.bundleURL.absoluteString.replacingOccurrences(of: "file://", with: "").replacingOccurrences(of: "Stats.app/", with: "")
-        asyncShell("sh $TMPDIR/updater.sh --app \(pwd) --dmg \(path) >/dev/null &") // run updater script in in background
+        let pwd = Bundle.main.bundleURL.absoluteString
+            .replacingOccurrences(of: "file://", with: "")
+            .replacingOccurrences(of: "Stats.app", with: "")
+            .replacingOccurrences(of: "//", with: "/")
+        let dmg = path.replacingOccurrences(of: "file://", with: "")
+        asyncShell("sh $TMPDIR/updater.sh --app \(pwd) --dmg \(dmg) >/dev/null &") // run updater script in in background
         
-        print("Run updater.sh with app: \(pwd) and dmg: \(path)")
+        print("Run updater.sh with app: \(pwd) and dmg: \(dmg)")
         
         exit(0)
     }

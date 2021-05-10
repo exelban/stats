@@ -1,0 +1,249 @@
+//
+//  Localizable.strings
+//  Stats
+//
+//  Created by Rostislav Raykov on 31/01/2021.
+//  Using Swift 5.0.
+//  Running on macOS 10.15.
+//
+//  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
+//
+
+// Words
+"Unknown" = "Непознато";
+"Version" = "Версия";
+"Processor" = "Процесор";
+"Memory" = "Памет";
+"Graphics" = "Графика";
+"Disk" = "Диск";
+"Close" = "Затваряне";
+"Download" = "Изтегляне";
+"Install" = "Инсталиране";
+"Cancel" = "Отказ";
+"Unavailable" = "Недостъпно";
+"Yes" = "Да";
+"No" = "Не";
+"Automatic" = "Автоматично";
+"Manual" = "Ръчно";
+"None" = "Без";
+"Dots" = "Точки";
+"Arrows" = "Стрелки";
+"Characters" = "Символ";
+"Short" = "Кратко";
+"Long" = "Дълго";
+"Statistics" = "Статистика";
+"Max" = "Макс.";
+"Min" = "Мин.";
+
+// Alerts
+"New version available" = "Налична е нова версия";
+"Click to install the new version of Stats" = "Натиснете, за да инсталирате новата версия на Stats";
+"Successfully updated" = "Успешно обновяване";
+"Stats was updated to v" = "Stats е обновена до версия v%0";
+
+// Settings
+"Open Activity Monitor" = "Отваряне на монитора на активностите";
+"Report a bug" = "Докладване на проблем";
+"Support the application" = "Подкрепа";
+"Close application" = "Затваряне на приложението";
+"Open application settings" = "Отваряне на настройките на приложението";
+"Open moduleName settings" = "Отваряне на настройките на %0";
+
+// Application settings
+"Update application" = "Обновяване на приложението";
+"Check for updates" = "Проверка за обновления";
+"At start" = "При стартиране";
+"Once per day" = "Веднъж на ден";
+"Once per week" = "Веднъж на седмица";
+"Once per month" = "Веднъж на месец";
+"Never" = "Никога";
+"Check for update" = "Проверка за обновления";
+"Show icon in dock" = "Показване на икона в Dock";
+"Start at login" = "Автоматично стартиране";
+
+// Dashboard
+"Serial number" = "Сериен номер";
+"Uptime" = "Време от последно рестартиране";
+
+// Update
+"The latest version of Stats installed" = "Имате най-новата версия на Stats";
+"Downloading..." = "Изтегляне...";
+"Current version: " = "Текуща версия:  ";
+"Latest version: " = "Последна версия:    ";
+
+// Widgets
+"Color" = "Цвят";
+"Label" = "Етикет";
+"Box" = "Непрозрачен фон";
+"Frame" = "Рамка";
+"Value" = "Стойност";
+"Colorize" = "Оцветяване";
+"Colorize value" = "Стойност на оцветяване";
+"Additional information" = "Допълнителна информация";
+"Reverse values order" = "Обръщане на подредбата на стойностите";
+"Base" = "Основа";
+"Display mode" = "Режим на преглед";
+"One row" = "Един ред";
+"Two rows" = "Два реда";
+"Mini widget" = "Мини";
+"Line chart widget" = "Линейна диаграма";
+"Bar chart widget" = "Стълбовидна диаграма";
+"Pie chart widget" = "Кръгова диаграма";
+"Network chart widget" = "Мрежова диаграма";
+"Speed widget" = "Скорост";
+"Battery widget" = "Батерия";
+"Text widget" = "Текст";
+"Memory widget" = "Памет";
+
+// Module Kit
+"Open module settings" = "Отваряне на настройките на модула";
+"Select widget" = "Избор на уиджет %0";
+"Open widget settings" = "Open widget settings";
+"Update interval" = "Интервал на опресняване";
+"Usage history" = "История на използването";
+"Details" = "Подробности";
+"Top processes" = "Топ процеси";
+"Pictogram" = "Пиктограма";
+
+// Modules
+"Number of top processes" = "Брой топ процеси";
+
+// CPU
+"CPU usage" = "Употреба на процесора";
+"CPU temperature" = "Температура на процесора";
+"CPU frequency" = "Честота на процесора";
+"System" = "Система";
+"User" = "Потребител";
+"Idle" = "В покой";
+"Show usage per core" = "Показване на употреба по ядро";
+"Show hyper-threading cores" = "Показване на hyper-threading ядра";
+
+// GPU
+"GPU to show" = "Показване на графична карта";
+"Show GPU type" = "Показване на вид на графична карта";
+"GPU enabled" = "Включена графична карта";
+"GPU disabled" = "Изключена графична карта";
+"GPU temperature" = "Температура на графичната карта";
+"GPU utilization" = "Утилизация на графичната карта";
+"Vendor" = "Производител";
+"Model" = "Модел";
+"Status" = "Статус";
+"Active" = "Активна";
+"Non active" = "Неактивна";
+"Fan speed" = "Скорост на вентилатора";
+"Core clock" = "Тактова честота на ядрото";
+"Memory clock" = "Тактова честота на паметта";
+"Utilization" = "Утилизация";
+
+// Memory
+"Memory usage" = "Заета памет";
+"Memory pressure" = "Memory pressure";
+"Total" = "Общо";
+"Used" = "Заета";
+"App" = "Приложения";
+"Wired" = "Wired";
+"Compressed" = "Компересирана";
+"Free" = "Свободна";
+"Swap" = "Swap";
+
+// Disk
+"Show removable disks" = "Показване на преносими дискове";
+"Used disk memory" = "Заето %0 от %1";
+"Free disk memory" = "Свободно %0 от %1";
+"Disk to show" = "Показване на диск";
+"Open disk" = "Отваряне на диск";
+"Switch view" = "Преключване на изглед";
+
+// Sensors
+"Temperature unit" = "Температурна единица";
+"Celsius" = "Целзиус";
+"Fahrenheit" = "Фаренхайт";
+
+// Network
+"Uploading" = "Качване";
+"Downloading" = "Изтегляне";
+"Public IP" = "Публично IP";
+"Local IP" = "Локално IP";
+"Interface" = "Интерфейс";
+"Network" = "Мрежа";
+"Physical address" = "Физически адрес";
+"Refresh" = "Refresh";
+"Click to copy public IP address" = "Натиснете, за да копирате публичния IP адрес";
+"Click to copy local IP address" = "Натиснете, за да копирате локалния IP адрес";
+"Click to copy wifi name" = "Натиснете, за да копирате името на WiFi мреждата";
+"Click to copy mac address" = "Натиснете, за да копирате mac адреса";
+"No connection" = "Няма връзка";
+"Network interface" = "Мрежов интерфейс";
+"Total download" = "Общо изтеглено";
+"Total upload" = "Общо качено";
+"Reader type" = "Тип четец";
+"Interface based" = "На база интерфейс";
+"Processes based" = "На база процес";
+
+// Battery
+"Level" = "Ниво";
+"Source" = "Източник";
+"AC Power" = "Зарядно";
+"Battery Power" = "Батерия";
+"Time" = "Време";
+"Health" = "Здраве";
+"Battery" = "Батерия";
+"Amperage" = "Сила на тока";
+"Voltage" = "Волтаж";
+"Cycles" = "Цикли";
+"Temperature" = "Температура";
+"Power adapter" = "Зарядно";
+"Power" = "Мощност";
+"Is charging" = "Зарежда се";
+"Time to discharge" = "Време до пълно разреждане";
+"Time to charge" = "Време до пълен заряд";
+"Calculating" = "Пресмята се";
+"Fully charged" = "Пълен заряд";
+"Not connected" = "Не е свързано";
+"Low level notification" = "Известие за ниско ниво на батерията";
+"High level notification" = "Известие за високо ниво на батерията";
+"Low battery" = "Ниско ниво на батерията";
+"High battery" = "Високо ниво на батерията";
+"Battery remaining" = "Оставащи %0%";
+"Battery remaining to full charge" = "%0% to full charge";
+"Percentage" = "Процент";
+"Percentage and time" = "Процент и време";
+"Time and percentage" = "Време и процент";
+"Time format" = "Формат на времето";
+"Hide additional information when full" = "Скриване на допълнителна информация при пълен заряд";
+"Last charge" = "Последно зареждане";
+
+// Fans
+"Fans" = "Вентилатори";
+
+// Colors
+"Based on utilization" = "Based on utilization";
+"Based on pressure" = "Based on pressure";
+"System accent" = "System accent";
+"Monochrome accent" = "Monochrome accent";
+"Clear" = "Clear";
+"White" = "White";
+"Black" = "Black";
+"Gray" = "Gray";
+"Second gray" = "Second gray";
+"Dark gray" = "Dark gray";
+"Light gray" = "Light gray";
+"Red" = "Red";
+"Second red" = "Second red";
+"Green" = "Green";
+"Second green" = "Second green";
+"Blue" = "Blue";
+"Second blue" = "Second blue";
+"Yellow" = "Yellow";
+"Second yellow" = "Second yellow";
+"Orange" = "Orange";
+"Second orange" = "Second orange";
+"Purple" = "Purple";
+"Second purple" = "Second purple";
+"Brown" = "Brown";
+"Second brown" = "Second brown";
+"Cyan" = "Cyan";
+"Magenta" = "Magenta";
+"Pink" = "Pink";
+"Teal" = "Teal";
+"Indigo" = "Indigo";

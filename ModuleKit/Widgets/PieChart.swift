@@ -12,10 +12,9 @@
 import Cocoa
 import StatsKit
 
-public class PieChart: Widget {
-    private var labelState: Bool = true
+public class PieChart: WidgetWrapper {
+    private var labelState: Bool = false
     
-    private let store: UnsafePointer<Store>?
     private var chart: PieChartView = PieChartView(
         frame: NSRect(
             x: Constants.Widget.margin.x,
@@ -29,33 +28,24 @@ public class PieChart: Widget {
     
     private let size: CGFloat = Constants.Widget.height - (Constants.Widget.margin.y*2) + (Constants.Widget.margin.x*2)
     
-    public init(preview: Bool, title: String, config: NSDictionary?, store: UnsafePointer<Store>?) {
+    public init(title: String, config: NSDictionary?, preview: Bool = false) {
         var widgetTitle: String = title
-        self.store = store
         if config != nil {
             if let titleFromConfig = config!["Title"] as? String {
                 widgetTitle = titleFromConfig
             }
         }
         
-        super.init(frame: CGRect(
+        super.init(.pieChart, title: widgetTitle, frame: CGRect(
             x: Constants.Widget.margin.x,
             y: Constants.Widget.margin.y,
             width: self.size,
             height: Constants.Widget.height - (Constants.Widget.margin.y*2)
         ))
         
-        self.preview = preview
-        self.title = widgetTitle
-        self.type = .pieChart
-        self.wantsLayer = true
         self.canDrawConcurrently = true
         
-        if let store = self.store {
-            self.labelState = store.pointee.bool(key: "\(self.title)_\(self.type.rawValue)_label", defaultValue: self.labelState)
-        }
-        
-        if self.preview {
+        if preview {
             if self.title == "CPU" {
                 self.chart.setSegments([
                     circle_segment(value: 0.16, color: NSColor.systemRed),
@@ -68,6 +58,8 @@ public class PieChart: Widget {
                     circle_segment(value: 0.08, color: NSColor.systemPink)
                 ])
             }
+        } else {
+            self.labelState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_label", defaultValue: self.labelState)
         }
         
         self.draw()
@@ -91,6 +83,7 @@ public class PieChart: Widget {
         self.chart.frame = frame
         
         self.setFrameSize(NSSize(width: self.size + x, height: self.frame.size.height))
+        self.setWidth(self.size + x)
     }
     
     public func setValue(_ segments: [circle_segment]) {
@@ -101,16 +94,15 @@ public class PieChart: Widget {
     
     // MARK: - Settings
     
-    public override func settings(superview: NSView) {
+    public override func settings(width: CGFloat) -> NSView {
         let rowHeight: CGFloat = 30
         let height: CGFloat = ((rowHeight + Constants.Settings.margin) * 1) + Constants.Settings.margin
-        superview.setFrameSize(NSSize(width: superview.frame.width, height: height))
         
         let view: NSView = NSView(frame: NSRect(
             x: Constants.Settings.margin,
             y: Constants.Settings.margin,
-            width: superview.frame.width - (Constants.Settings.margin*2),
-            height: superview.frame.height - (Constants.Settings.margin*2)
+            width: width - (Constants.Settings.margin*2),
+            height: height
         ))
         
         view.addSubview(ToggleTitleRow(
@@ -120,7 +112,7 @@ public class PieChart: Widget {
             state: self.labelState
         ))
         
-        superview.addSubview(view)
+        return view
     }
     
     @objc private func toggleLabel(_ sender: NSControl) {
@@ -132,7 +124,7 @@ public class PieChart: Widget {
         }
         
         self.labelState = state! == .on ? true : false
-        self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_label", value: self.labelState)
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_label", value: self.labelState)
         
         let x = self.labelState ? 6 + Constants.Widget.spacing : 0
         self.labelView!.isHidden = !self.labelState

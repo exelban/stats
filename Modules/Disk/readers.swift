@@ -18,11 +18,10 @@ import os.log
 
 internal class CapacityReader: Reader<DiskList> {
     private var disks: DiskList = DiskList()
-    public var store: UnsafePointer<Store>? = nil
     
     public override func read() {
         let keys: [URLResourceKey] = [.volumeNameKey]
-        let removableState = store?.pointee.bool(key: "Disk_removable", defaultValue: false) ?? false
+        let removableState = Store.shared.bool(key: "Disk_removable", defaultValue: false) 
         let paths = FileManager.default.mountedVolumeURLs(includingResourceValuesForKeys: keys)!
         
         guard let session = DASessionCreate(kCFAllocatorDefault) else {
@@ -46,7 +45,7 @@ internal class CapacityReader: Reader<DiskList> {
                                 }
                                 
                                 if let path = self.disks.list[idx].path {
-                                    self.disks.list[idx].free = self.freeDiskSpaceInBytes(path.absoluteString)
+                                    self.disks.list[idx].free = self.freeDiskSpaceInBytes(path)
                                     self.driveStats(self.disks.list[idx].parent, &self.disks.list[idx].stats)
                                 }
                             }
@@ -115,17 +114,17 @@ internal class CapacityReader: Reader<DiskList> {
                     d.connectionType = deviceProtocol as! String
                 }
                 if let volumePath = dict[kDADiskDescriptionVolumePathKey as String] {
-                    let url = volumePath as? NSURL
-                    if url != nil {
-                        if url!.pathComponents!.count > 1 && url!.pathComponents![1] == "Volumes" {
-                            let lastPath: String = (url?.lastPathComponent)!
-                            if lastPath != "" {
-                                d.mediaName = lastPath
-                                d.path = URL(string: "/Volumes/\(lastPath)")
+                    if let url = volumePath as? NSURL {
+                        d.path = url as URL
+                        
+                        if let components = url.pathComponents {
+                            d.root = components.count == 1
+                            
+                            if components.count > 1 && components[1] == "Volumes" {
+                                if let name: String = url.lastPathComponent, name != "" {
+                                    d.mediaName = name
+                                }
                             }
-                        } else if url!.pathComponents!.count == 1 {
-                            d.path = URL(string: "/")
-                            d.root = true
                         }
                     }
                 }
@@ -139,7 +138,9 @@ internal class CapacityReader: Reader<DiskList> {
             return nil
         }
         
-        d.free = freeDiskSpaceInBytes(d.path!.absoluteString)
+        if let path = d.path {
+            d.free = freeDiskSpaceInBytes(path)
+        }
         
         let partitionLevel = d.BSDName.filter { "0"..."9" ~= $0 }.count
         if let parent = self.getDeviceIOParent(DADiskCopyIOMedia(disk), level: Int(partitionLevel)) {
@@ -199,13 +200,27 @@ internal class CapacityReader: Reader<DiskList> {
         return
     }
     
-    private func freeDiskSpaceInBytes(_ path: String) -> Int64 {
+    private func freeDiskSpaceInBytes(_ path: URL) -> Int64 {
         do {
-            let systemAttributes = try FileManager.default.attributesOfFileSystem(forPath: path)
-            let freeSpace = (systemAttributes[FileAttributeKey.systemFreeSize] as? NSNumber)?.int64Value
-            return freeSpace!
+            if let url = URL(string: path.absoluteString) {
+                let values = try url.resourceValues(forKeys: [.volumeAvailableCapacityForImportantUsageKey])
+                if let capacity = values.volumeAvailableCapacityForImportantUsage {
+                    return capacity
+                }
+            }
         } catch {
-            return 0
+            os_log(.error, log: log, "error retrieving free space #1: %s", "\(error.localizedDescription)")
         }
+        
+        do {
+            let systemAttributes = try FileManager.default.attributesOfFileSystem(forPath: path.path)
+            if let freeSpace = (systemAttributes[FileAttributeKey.systemFreeSize] as? NSNumber)?.int64Value {
+                return freeSpace
+            }
+        } catch {
+            os_log(.error, log: log, "error retrieving free space #2: %s", "\(error.localizedDescription)")
+        }
+        
+        return 0
     }
 }

@@ -14,19 +14,16 @@ import StatsKit
 import ModuleKit
 
 internal class Settings: NSView, Settings_v {
-    private var unitsValue: String = "system"
     private var updateIntervalValue: Int = 3
     
     private let title: String
-    private let store: UnsafePointer<Store>
     private var button: NSPopUpButton?
-    private let list: UnsafeMutablePointer<[Sensor_t]>
+    private let list: [Sensor_t]
     public var callback: (() -> Void) = {}
     public var setInterval: ((_ value: Int) -> Void) = {_ in }
     
-    public init(_ title: String, store: UnsafePointer<Store>, list: UnsafeMutablePointer<[Sensor_t]>) {
+    public init(_ title: String, list: [Sensor_t]) {
         self.title = title
-        self.store = store
         self.list = list
         
         super.init(frame: CGRect(
@@ -39,30 +36,29 @@ internal class Settings: NSView, Settings_v {
         self.wantsLayer = true
         self.canDrawConcurrently = true
         
-        self.updateIntervalValue = store.pointee.int(key: "\(self.title)_updateInterval", defaultValue: self.updateIntervalValue)
-        self.unitsValue = store.pointee.string(key: "temperature_units", defaultValue: self.unitsValue)
+        self.updateIntervalValue = Store.shared.int(key: "\(self.title)_updateInterval", defaultValue: self.updateIntervalValue)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func load(widget: widget_t) {
-        guard !self.list.pointee.isEmpty else {
+    public func load(widgets: [widget_t]) {
+        guard !self.list.isEmpty else {
             return
         }
         self.subviews.forEach{ $0.removeFromSuperview() }
         
-        var types: [SensorType_t] = []
-        self.list.pointee.forEach { (s: Sensor_t) in
+        var types: [SensorType] = []
+        self.list.forEach { (s: Sensor_t) in
             if !types.contains(s.type) {
                 types.append(s.type)
             }
         }
         
         let rowHeight: CGFloat = 30
-        let settingsHeight: CGFloat = (rowHeight*2) + Constants.Settings.margin
-        let sensorsListHeight: CGFloat = (rowHeight+Constants.Settings.margin) * CGFloat(self.list.pointee.count) + ((rowHeight+Constants.Settings.margin) * CGFloat(types.count) + 1)
+        let settingsHeight: CGFloat = (rowHeight*1) + Constants.Settings.margin
+        let sensorsListHeight: CGFloat = (rowHeight+Constants.Settings.margin) * CGFloat(self.list.count) + ((rowHeight+Constants.Settings.margin) * CGFloat(types.count) + 1)
         let height: CGFloat = settingsHeight + sensorsListHeight
         let x: CGFloat = height < 360 ? 0 : Constants.Settings.margin
         let view: NSView = NSView(frame: NSRect(
@@ -80,25 +76,17 @@ internal class Settings: NSView, Settings_v {
             selected: "\(self.updateIntervalValue) sec"
         ))
         
-        self.addSubview(SelectRow(
-            frame: NSRect(x: Constants.Settings.margin, y: height - (rowHeight*2) - Constants.Settings.margin, width: view.frame.width, height: rowHeight),
-            title: LocalizedString("Temperature unit"),
-            action: #selector(changeUnits),
-            items: TemperatureUnits,
-            selected: self.unitsValue
-        ))
-        
         var y: CGFloat = 0
-        types.reversed().forEach { (typ: SensorType_t) in
-            let filtered = self.list.pointee.filter{ $0.type == typ }
-            var groups: [SensorGroup_t] = []
+        types.reversed().forEach { (typ: SensorType) in
+            let filtered = self.list.filter{ $0.type == typ }
+            var groups: [SensorGroup] = []
             filtered.forEach { (s: Sensor_t) in
                 if !groups.contains(s.group) {
                     groups.append(s.group)
                 }
             }
             
-            groups.reversed().forEach { (group: SensorGroup_t) in
+            groups.reversed().forEach { (group: SensorGroup) in
                 filtered.reversed().filter{ $0.group == group }.forEach { (s: Sensor_t) in
                     let row: NSView = ToggleTitleRow(
                         frame: NSRect(x: 0, y: y, width: view.frame.width, height: rowHeight),
@@ -115,7 +103,7 @@ internal class Settings: NSView, Settings_v {
             }
             
             let rowTitleView: NSView = NSView(frame: NSRect(x: 0, y: y, width: view.frame.width, height: rowHeight))
-            let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: (rowHeight-19)/2, width: view.frame.width, height: 19), LocalizedString(typ))
+            let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: (rowHeight-19)/2, width: view.frame.width, height: 19), LocalizedString(typ.rawValue))
             rowTitle.font = NSFont.systemFont(ofSize: 14, weight: .regular)
             rowTitle.textColor = .secondaryLabelColor
             rowTitle.alignment = .center
@@ -129,7 +117,7 @@ internal class Settings: NSView, Settings_v {
         self.setFrameSize(NSSize(width: self.frame.width, height: height + (Constants.Settings.margin*1)))
     }
     
-    @objc func handleSelection(_ sender: NSControl) {
+    @objc private func handleSelection(_ sender: NSControl) {
         guard let id = sender.identifier else { return }
         
         var state: NSControl.StateValue? = nil
@@ -139,24 +127,15 @@ internal class Settings: NSView, Settings_v {
             state = sender is NSButton ? (sender as! NSButton).state: nil
         }
         
-        self.store.pointee.set(key: "sensor_\(id.rawValue)", value:  state! == NSControl.StateValue.on)
+        Store.shared.set(key: "sensor_\(id.rawValue)", value:  state! == NSControl.StateValue.on)
         self.callback()
     }
     
     @objc private func changeUpdateInterval(_ sender: NSMenuItem) {
         if let value = Int(sender.title.replacingOccurrences(of: " sec", with: "")) {
             self.updateIntervalValue = value
-            self.store.pointee.set(key: "\(self.title)_updateInterval", value: value)
+            Store.shared.set(key: "\(self.title)_updateInterval", value: value)
             self.setInterval(value)
         }
-    }
-    
-    @objc private func changeUnits(_ sender: NSMenuItem) {
-        guard let key = sender.representedObject as? String else {
-            return
-        }
-        self.unitsValue = key
-        store.pointee.set(key: "temperature_units", value: key)
-        self.callback()
     }
 }

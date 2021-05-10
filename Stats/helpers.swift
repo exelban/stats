@@ -19,7 +19,7 @@ extension AppDelegate {
         
         if args.contains("--reset") {
             os_log(.debug, log: log, "Receive --reset argument. Reseting store (UserDefaults)...")
-            store.reset()
+            Store.shared.reset()
         }
         
         if let disableIndex = args.firstIndex(of: "--disable") {
@@ -57,11 +57,11 @@ extension AppDelegate {
         let key = "version"
         let currentVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
         
-        if !store.exist(key: key) {
-            store.reset()
+        if !Store.shared.exist(key: key) {
+            Store.shared.reset()
             os_log(.debug, log: log, "Previous version not detected. Current version (%s) set", currentVersion)
         } else {
-            let prevVersion = store.string(key: key, defaultValue: "")
+            let prevVersion = Store.shared.string(key: key, defaultValue: "")
             if prevVersion == currentVersion {
                 return
             }
@@ -77,21 +77,21 @@ extension AppDelegate {
             os_log(.debug, log: log, "Detected previous version %s. Current version (%s) set", prevVersion, currentVersion)
         }
         
-        store.set(key: key, value: currentVersion)
+        Store.shared.set(key: key, value: currentVersion)
     }
     
     internal func defaultValues() {
-        if !store.exist(key: "runAtLoginInitialized") {
-            store.set(key: "runAtLoginInitialized", value: true)
+        if !Store.shared.exist(key: "runAtLoginInitialized") {
+            Store.shared.set(key: "runAtLoginInitialized", value: true)
             LaunchAtLogin.isEnabled = true
         }
         
-        if store.exist(key: "dockIcon") {
-            let dockIconStatus = store.bool(key: "dockIcon", defaultValue: false) ? NSApplication.ActivationPolicy.regular : NSApplication.ActivationPolicy.accessory
+        if Store.shared.exist(key: "dockIcon") {
+            let dockIconStatus = Store.shared.bool(key: "dockIcon", defaultValue: false) ? NSApplication.ActivationPolicy.regular : NSApplication.ActivationPolicy.accessory
             NSApp.setActivationPolicy(dockIconStatus)
         }
         
-        if AppUpdateIntervals(rawValue: store.string(key: "update-interval", defaultValue: AppUpdateIntervals.atStart.rawValue)) != .never {
+        if Store.shared.string(key: "update-interval", defaultValue: AppUpdateInterval.atStart.rawValue) != AppUpdateInterval.never.rawValue {
             self.checkForNewVersion()
         }
     }

@@ -33,36 +33,29 @@ public class CPU: Module {
     private var processReader: ProcessReader? = nil
     private var temperatureReader: TemperatureReader? = nil
     private var frequencyReader: FrequencyReader? = nil
-    private let smc: UnsafePointer<SMCService>?
-    private let store: UnsafePointer<Store>
     
     private var usagePerCoreState: Bool {
         get {
-            return self.store.pointee.bool(key: "\(self.config.name)_usagePerCore", defaultValue: false)
+            return Store.shared.bool(key: "\(self.config.name)_usagePerCore", defaultValue: false)
         }
     }
     
-    public init(_ store: UnsafePointer<Store>, _ smc: UnsafePointer<SMCService>) {
-        self.store = store
-        self.smc = smc
-        self.settingsView = Settings("CPU", store: store)
-        self.popupView = Popup("CPU", store: store)
+    public init() {
+        self.settingsView = Settings("CPU")
+        self.popupView = Popup("CPU")
         
         super.init(
-            store: store,
             popup: self.popupView,
             settings: self.settingsView
         )
         guard self.available else { return }
         
         self.loadReader = LoadReader()
-        self.loadReader?.store = store
-        
-        self.processReader = ProcessReader(self.config.name, store: store)
-        self.temperatureReader = TemperatureReader(smc)
+        self.processReader = ProcessReader()
         
         #if arch(x86_64)
-        self.frequencyReader = FrequencyReader()
+        self.temperatureReader = TemperatureReader(popup: true)
+        self.frequencyReader = FrequencyReader(popup: true)
         #endif
         
         self.settingsView.callback = { [unowned self] in
@@ -77,12 +70,18 @@ public class CPU: Module {
         self.settingsView.setInterval = { [unowned self] value in
             self.loadReader?.setInterval(value)
         }
-        
-        self.loadReader?.readyCallback = { [unowned self] in
-            self.readyHandler()
+        self.settingsView.IPGCallback = { [unowned self] value in
+            if value {
+                self.frequencyReader?.setup()
+            }
+            self.popupView.toggleFrequency(state: value)
         }
+        
         self.loadReader?.callbackHandler = { [unowned self] value in
             self.loadCallback(value)
+        }
+        self.loadReader?.readyCallback = { [unowned self] in
+            self.readyHandler()
         }
         
         self.processReader?.callbackHandler = { [unowned self] value in
@@ -116,27 +115,25 @@ public class CPU: Module {
         }
     }
     
-    private func loadCallback(_ value: CPU_Load?) {
-        guard value != nil else {
+    private func loadCallback(_ raw: CPU_Load?) {
+        guard let value = raw else {
             return
         }
         
-        self.popupView.loadCallback(value!)
+        self.popupView.loadCallback(value)
         
-        if let widget = self.widget as? Mini {
-            widget.setValue(value!.totalUsage)
-        }
-        if let widget = self.widget as? LineChart {
-            widget.setValue(value!.totalUsage)
-        }
-        if let widget = self.widget as? BarChart {
-            widget.setValue(self.usagePerCoreState ? value!.usagePerCore : [value!.totalUsage])
-        }
-        if let widget = self.widget as? PieChart {
-            widget.setValue([
-                circle_segment(value: value!.systemLoad, color: NSColor.systemRed),
-                circle_segment(value: value!.userLoad, color: NSColor.systemBlue)
-            ])
+        self.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
+            switch w.item {
+            case let widget as Mini: widget.setValue(value.totalUsage)
+            case let widget as LineChart: widget.setValue(value.totalUsage)
+            case let widget as BarChart: widget.setValue(self.usagePerCoreState ? value.usagePerCore : [value.totalUsage])
+            case let widget as PieChart:
+                widget.setValue([
+                    circle_segment(value: value.systemLoad, color: NSColor.systemRed),
+                    circle_segment(value: value.userLoad, color: NSColor.systemBlue)
+                ])
+            default: break
+            }
         }
     }
 }

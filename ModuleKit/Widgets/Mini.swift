@@ -12,29 +12,28 @@
 import Cocoa
 import StatsKit
 
-public class Mini: Widget {
-    private let store: UnsafePointer<Store>?
-    
+public class Mini: WidgetWrapper {
     private var labelState: Bool = true
-    private var colorState: widget_c = .monochrome
+    private var colorState: Color = .monochrome
     
     private var labelLayer: CATextLayer? = nil
     private var valueLayer: CATextLayer? = nil
     
     private let onlyValueWidth: CGFloat = 40
-    private var colors: [widget_c] = widget_c.allCases
+    private var colors: [Color] = Color.allCases
     
     private var value: Double = 0
     private var pressureLevel: Int = 0
+    private var defaultLabel: String
+    private var label: String
     
     private var width: CGFloat {
         get {
-            return self.labelState ? Constants.Widget.width + (2*Constants.Widget.margin.x) : 40
+            return (self.labelState ? 31 : 36) + (2*Constants.Widget.margin.x)
         }
     }
     
-    public init(preview: Bool, title: String, config: NSDictionary?, store: UnsafePointer<Store>?) {
-        self.store = store
+    public init(title: String, config: NSDictionary?, preview: Bool = false) {
         var widgetTitle: String = title
         if config != nil {
             var configuration = config!
@@ -54,10 +53,8 @@ public class Mini: Widget {
             if let label = configuration["Label"] as? Bool {
                 self.labelState = label
             }
-            if let colorsToDisable = configuration["Unsupported colors"] as? [String] {
-                self.colors = self.colors.filter { (color: widget_c) -> Bool in
-                    return !colorsToDisable.contains("\(color.self)")
-                }
+            if let unsupportedColors = configuration["Unsupported colors"] as? [String] {
+                self.colors = self.colors.filter{ !unsupportedColors.contains($0.key) }
             }
             if let color = configuration["Color"] as? String {
                 if let defaultColor = colors.first(where: { "\($0.self)" == color }) {
@@ -66,20 +63,20 @@ public class Mini: Widget {
             }
         }
         
-        super.init(frame: CGRect(
+        self.defaultLabel = widgetTitle
+        self.label = widgetTitle
+        super.init(.mini, title: widgetTitle, frame: CGRect(
             x: 0,
             y: Constants.Widget.margin.y,
             width: Constants.Widget.width + (2*Constants.Widget.margin.x),
             height: Constants.Widget.height - (2*Constants.Widget.margin.y)
         ))
         
-        self.title = widgetTitle
-        self.type = .mini
-        self.wantsLayer = true
+        self.canDrawConcurrently = true
         
-        if let store = self.store {
-            self.colorState = widget_c(rawValue: store.pointee.string(key: "\(self.title)_\(self.type.rawValue)_color", defaultValue: self.colorState.rawValue)) ?? self.colorState
-            self.labelState = store.pointee.bool(key: "\(self.title)_\(self.type.rawValue)_label", defaultValue: self.labelState)
+        if !preview {
+            self.colorState = Color.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_color", defaultValue: self.colorState.key))
+            self.labelState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_label", defaultValue: self.labelState)
         }
     }
     
@@ -102,7 +99,7 @@ public class Mini: Widget {
                 NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
             ]
             let rect = CGRect(x: origin.x, y: 12, width: 20, height: 7)
-            let str = NSAttributedString.init(string: self.title, attributes: stringAttributes)
+            let str = NSAttributedString.init(string: self.label, attributes: stringAttributes)
             str.draw(with: rect)
             
             origin.y = 1
@@ -114,7 +111,7 @@ public class Mini: Widget {
         case .utilization: color = value.usageColor()
         case .pressure: color = self.pressureLevel.pressureColor()
         case .monochrome: color = (isDarkMode ? NSColor.white : NSColor.black)
-        default: color = colorFromString("\(self.colorState.self)")
+        default: color = self.colorState.additional as? NSColor ?? NSColor.controlAccentColor
         }
         
         let stringAttributes = [
@@ -145,20 +142,40 @@ public class Mini: Widget {
             return
         }
         
+        self.pressureLevel = level
         DispatchQueue.main.async(execute: {
-            self.pressureLevel = level
+            self.needsDisplay = true
+        })
+    }
+    
+    public func setTitle(_ newTitle: String?) {
+        guard var title = newTitle else {
+            return
+        }
+        
+        title = self.defaultLabel
+        if self.label == newTitle {
+            return
+        }
+        
+        self.label = title
+        DispatchQueue.main.async(execute: {
             self.needsDisplay = true
         })
     }
     
     // MARK: - Settings
     
-    public override func settings(superview: NSView) {
+    public override func settings(width: CGFloat) -> NSView {
         let height: CGFloat = 60 + (Constants.Settings.margin*3)
         let rowHeight: CGFloat = 30
-        superview.setFrameSize(NSSize(width: superview.frame.width, height: height))
         
-        let view: NSView = NSView(frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin, width: superview.frame.width - (Constants.Settings.margin*2), height: superview.frame.height - (Constants.Settings.margin*2)))
+        let view: NSView = NSView(frame: NSRect(
+            x: Constants.Settings.margin,
+            y: Constants.Settings.margin,
+            width: width - (Constants.Settings.margin*2),
+            height: height
+        ))
         
         view.addSubview(ToggleTitleRow(
             frame: NSRect(x: 0, y: rowHeight + Constants.Settings.margin, width: view.frame.width, height: rowHeight),
@@ -167,23 +184,27 @@ public class Mini: Widget {
             state: self.labelState
         ))
         
-        view.addSubview(SelectColorRow(
+        view.addSubview(SelectRow(
             frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 0, width: view.frame.width, height: rowHeight),
             title: LocalizedString("Color"),
             action: #selector(toggleColor),
-            items: self.colors.map{ $0.rawValue },
-            selected: self.colorState.rawValue
+            items: self.colors,
+            selected: self.colorState.key
         ))
         
-        superview.addSubview(view)
+        return view
     }
     
     @objc private func toggleColor(_ sender: NSMenuItem) {
-        if let newColor = widget_c.allCases.first(where: { $0.rawValue == sender.title }) {
-            self.colorState = newColor
-            self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_color", value: self.colorState.rawValue)
-            self.display()
+        guard let key = sender.representedObject as? String else {
+            return
         }
+        if let newColor = Color.allCases.first(where: { $0.key == key }) {
+            self.colorState = newColor
+        }
+        
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_color", value: key)
+        self.display()
     }
     
     @objc private func toggleLabel(_ sender: NSControl) {
@@ -194,7 +215,7 @@ public class Mini: Widget {
             state = sender is NSButton ? (sender as! NSButton).state: nil
         }
         self.labelState = state! == .on ? true : false
-        self.store?.pointee.set(key: "\(self.title)_\(self.type.rawValue)_label", value: self.labelState)
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_label", value: self.labelState)
         self.display()
     }
 }

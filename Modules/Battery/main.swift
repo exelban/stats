@@ -16,7 +16,7 @@ import IOKit.ps
 
 struct Battery_Usage: value_t {
     var powerSource: String = ""
-    var state: String = ""
+    var state: String? = nil
     var isCharged: Bool = false
     var isCharging: Bool = false
     var level: Double = 0
@@ -31,6 +31,7 @@ struct Battery_Usage: value_t {
     
     var timeToEmpty: Int = 0
     var timeToCharge: Int = 0
+    var timeOnACPower: Date? = nil
     
     public var widget_value: Double {
         get {
@@ -45,24 +46,21 @@ public class Battery: Module {
     private let popupView: Popup
     private var settingsView: Settings
     
-    private let store: UnsafePointer<Store>
+    private var lowNotification: NSUserNotification? = nil
+    private var highNotification: NSUserNotification? = nil
     
-    private var notification: NSUserNotification? = nil
-    
-    public init(_ store: UnsafePointer<Store>) {
-        self.store = store
-        self.settingsView = Settings("Battery", store: store)
-        self.popupView = Popup("Battery", store: store)
+    public init() {
+        self.settingsView = Settings("Battery")
+        self.popupView = Popup("Battery")
         
         super.init(
-            store: store,
             popup: self.popupView,
             settings: self.settingsView
         )
         guard self.available else { return }
         
         self.usageReader = UsageReader()
-        self.processReader = ProcessReader(self.config.name, store: store)
+        self.processReader = ProcessReader()
         
         self.settingsView.callback = {
             DispatchQueue.global(qos: .background).async {
@@ -76,11 +74,11 @@ public class Battery: Module {
             }
         }
         
-        self.usageReader?.readyCallback = { [unowned self] in
-            self.readyHandler()
-        }
         self.usageReader?.callbackHandler = { [unowned self] value in
             self.usageCallback(value)
+        }
+        self.usageReader?.readyCallback = { [unowned self] in
+            self.readyHandler()
         }
         
         self.processReader?.callbackHandler = { [unowned self] value in
@@ -103,31 +101,33 @@ public class Battery: Module {
         return sources.count > 0
     }
     
-    private func usageCallback(_ value: Battery_Usage?) {
-        if value == nil {
+    private func usageCallback(_ raw: Battery_Usage?) {
+        guard let value = raw else {
             return
         }
         
-        self.checkNotification(value: value!)
-        self.popupView.usageCallback(value!)
-        if let widget = self.widget as? Mini {
-            widget.setValue(abs(value!.level))
-        }
-        if let widget = self.widget as? BarChart {
-            widget.setValue([value!.level])
-        }
-        if let widget = self.widget as? BatterykWidget {
-            widget.setValue(
-                percentage: value?.level ?? 0,
-                ACStatus: value?.powerSource != "Battery Power",
-                isCharging: value?.isCharging ?? false,
-                time: (value?.timeToEmpty == 0 && value?.timeToCharge != 0 ? value?.timeToCharge : value?.timeToEmpty) ?? 0
-            )
+        self.checkLowNotification(value: value)
+        self.checkHighNotification(value: value)
+        self.popupView.usageCallback(value)
+        
+        self.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
+            switch w.item {
+            case let widget as Mini: widget.setValue(abs(value.level))
+            case let widget as BarChart: widget.setValue([value.level])
+            case let widget as BatterykWidget:
+                widget.setValue(
+                    percentage: value.level ,
+                    ACStatus: value.powerSource != "Battery Power",
+                    isCharging: value.isCharging ,
+                    time: value.timeToEmpty == 0 && value.timeToCharge != 0 ? value.timeToCharge : value.timeToEmpty
+                )
+            default: break
+            }
         }
     }
     
-    private func checkNotification(value: Battery_Usage) {
-        let level = self.store.pointee.string(key: "\(self.config.name)_lowLevelNotification", defaultValue: "0.15")
+    private func checkLowNotification(value: Battery_Usage) {
+        let level = Store.shared.string(key: "\(self.config.name)_lowLevelNotification", defaultValue: "0.15")
         if level == "Disabled" {
             return
         }
@@ -136,10 +136,10 @@ public class Battery: Module {
             return
         }
         
-        if (value.level > notificationLevel || value.powerSource != "Battery Power") && self.notification != nil {
-            NSUserNotificationCenter.default.removeDeliveredNotification(self.notification!)
+        if (value.level > notificationLevel || value.powerSource != "Battery Power") && self.lowNotification != nil {
+            NSUserNotificationCenter.default.removeDeliveredNotification(self.lowNotification!)
             if value.level > notificationLevel {
-                self.notification = nil
+                self.lowNotification = nil
             }
             return
         }
@@ -148,17 +148,54 @@ public class Battery: Module {
             return
         }
         
-        if value.level <= notificationLevel && self.notification == nil {
+        if value.level <= notificationLevel && self.lowNotification == nil {
             var subtitle = LocalizedString("Battery remaining", "\(Int(value.level*100))")
             if value.timeToEmpty > 0 {
                 subtitle += " (\(Double(value.timeToEmpty*60).printSecondsToHoursMinutesSeconds()))"
             }
             
-            self.notification = showNotification(
+            self.lowNotification = showNotification(
                 title: LocalizedString("Low battery"),
                 subtitle: subtitle,
                 id: "battery-level",
                 icon: NSImage(named: NSImage.Name("low-battery"))!
+            )
+        }
+    }
+    
+    private func checkHighNotification(value: Battery_Usage) {
+        let level = Store.shared.string(key: "\(self.config.name)_highLevelNotification", defaultValue: "Disabled")
+        if level == "Disabled" {
+            return
+        }
+        
+        guard let notificationLevel = Double(level) else {
+            return
+        }
+        
+        if (value.level < notificationLevel || value.powerSource == "Battery Power") && self.highNotification != nil {
+            NSUserNotificationCenter.default.removeDeliveredNotification(self.highNotification!)
+            if value.level < notificationLevel {
+                self.highNotification = nil
+            }
+            return
+        }
+        
+        if !value.isCharging {
+            return
+        }
+        
+        if value.level >= notificationLevel && self.highNotification == nil {
+            var subtitle = LocalizedString("Battery remaining to full charge", "\(Int((1-value.level)*100))")
+            if value.timeToCharge > 0 {
+                subtitle += " (\(Double(value.timeToCharge*60).printSecondsToHoursMinutesSeconds()))"
+            }
+            
+            self.highNotification = showNotification(
+                title: LocalizedString("High battery"),
+                subtitle: subtitle,
+                id: "battery-level2",
+                icon: NSImage(named: NSImage.Name("high-battery"))!
             )
         }
     }

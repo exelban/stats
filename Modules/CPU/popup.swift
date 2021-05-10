@@ -14,7 +14,6 @@ import ModuleKit
 import StatsKit
 
 internal class Popup: NSView, Popup_p {
-    private var store: UnsafePointer<Store>
     private var title: String
     
     private var grid: NSGridView? = nil
@@ -46,17 +45,17 @@ internal class Popup: NSView, Popup_p {
     
     private var numberOfProcesses: Int {
         get {
-            return self.store.pointee.int(key: "\(self.title)_processes", defaultValue: 8)
+            return Store.shared.int(key: "\(self.title)_processes", defaultValue: 8)
         }
     }
     private var processesHeight: CGFloat {
         get {
-            return (self.processHeight*CGFloat(self.numberOfProcesses))+Constants.Popup.separatorHeight
+            let num = self.numberOfProcesses
+            return (self.processHeight*CGFloat(num)) + (num == 0 ? 0 : Constants.Popup.separatorHeight)
         }
     }
     
-    public init(_ title: String, store: UnsafePointer<Store>) {
-        self.store = store
+    public init(_ title: String) {
         self.title = title
         
         super.init(frame: NSRect(
@@ -131,6 +130,7 @@ internal class Popup: NSView, Popup_p {
         let sideWidth: CGFloat = (view.frame.width - centralWidth - (Constants.Popup.margins*2))/2
         self.temperatureCircle = HalfCircleGraphView(frame: NSRect(x: (sideWidth - 60)/2, y: 10, width: 60, height: 50))
         self.temperatureCircle!.toolTip = LocalizedString("CPU temperature")
+        (self.temperatureCircle! as NSView).isHidden = true
         
         self.frequencyCircle = HalfCircleGraphView(frame: NSRect(x: view.frame.width - 60 - Constants.Popup.margins*2, y: 10, width: 60, height: 50))
         self.frequencyCircle!.toolTip = LocalizedString("CPU frequency")
@@ -216,6 +216,10 @@ internal class Popup: NSView, Popup_p {
     public func temperatureCallback(_ value: Double) {
         DispatchQueue.main.async(execute: {
             if (self.window?.isVisible ?? false) || !self.initializedTemperature {
+                if let view = self.temperatureCircle, (view as NSView).isHidden {
+                    view.isHidden = false
+                }
+                
                 self.temperatureCircle?.setValue(value)
                 self.temperatureCircle?.setText(Temperature(value))
                 self.initializedTemperature = true
@@ -225,8 +229,8 @@ internal class Popup: NSView, Popup_p {
     
     public func frequencyCallback(_ value: Double) {
         DispatchQueue.main.async(execute: {
-            if self.frequencyCircle != nil && (self.frequencyCircle! as NSView).isHidden {
-                (self.frequencyCircle! as NSView).isHidden = false
+            if let view = self.frequencyCircle, (view as NSView).isHidden {
+                view.isHidden = false
             }
             
             if (self.window?.isVisible ?? false) || !self.initializedFrequency {
@@ -264,6 +268,15 @@ internal class Popup: NSView, Popup_p {
             }
             
             self.initializedProcesses = true
+        })
+    }
+    
+    public func toggleFrequency(state: Bool) {
+        DispatchQueue.main.async(execute: {
+            if let view = self.frequencyCircle {
+                view.isHidden = !state
+            }
+            self.initializedFrequency = false
         })
     }
 }

@@ -14,16 +14,16 @@ import ModuleKit
 import StatsKit
 
 internal class Popup: NSView, Popup_p {
-    private var store: UnsafePointer<Store>
     private var title: String
     
     private var grid: NSGridView? = nil
     
     private let dashboardHeight: CGFloat = 90
-    private let detailsHeight: CGFloat = 88 + Constants.Popup.separatorHeight
-    private let batteryHeight: CGFloat = 66 + Constants.Popup.separatorHeight
-    private let adapterHeight: CGFloat = 44 + Constants.Popup.separatorHeight
-    private let processHeight: CGFloat = 22
+
+    private let detailsHeight: CGFloat = (22 * 5) + Constants.Popup.separatorHeight
+    private let batteryHeight: CGFloat = (22 * 5) + Constants.Popup.separatorHeight
+    private let adapterHeight: CGFloat = (22 * 2) + Constants.Popup.separatorHeight
+    private let processHeight: CGFloat = (22 * 1)
     
     private var dashboardView: NSView? = nil
     private var dashboardBatteryView: BatteryView? = nil
@@ -36,9 +36,12 @@ internal class Popup: NSView, Popup_p {
     private var timeLabelField: NSTextField? = nil
     private var timeField: NSTextField? = nil
     private var healthField: NSTextField? = nil
+    private var cyclesField: NSTextField? = nil
+    private var lastChargeField: NSTextField? = nil
     
     private var amperageField: NSTextField? = nil
     private var voltageField: NSTextField? = nil
+    private var batteryPowerField: NSTextField? = nil
     private var temperatureField: NSTextField? = nil
     
     private var powerField: NSTextField? = nil
@@ -49,24 +52,24 @@ internal class Popup: NSView, Popup_p {
     
     private var numberOfProcesses: Int {
         get {
-            return self.store.pointee.int(key: "\(self.title)_processes", defaultValue: 8)
+            return Store.shared.int(key: "\(self.title)_processes", defaultValue: 8)
         }
     }
     private var processesHeight: CGFloat {
         get {
-            return (self.processHeight*CGFloat(self.numberOfProcesses))+Constants.Popup.separatorHeight
+            let num = self.numberOfProcesses
+            return (self.processHeight*CGFloat(num)) + (num == 0 ? 0 : Constants.Popup.separatorHeight)
         }
     }
     private var timeFormat: String {
         get {
-            return self.store.pointee.string(key: "\(self.title)_timeFormat", defaultValue: "short")
+            return Store.shared.string(key: "\(self.title)_timeFormat", defaultValue: "short")
         }
     }
     
     public var sizeCallback: ((NSSize) -> Void)? = nil
     
-    public init(_ title: String, store: UnsafePointer<Store>) {
-        self.store = store
+    public init(_ title: String) {
         self.title = title
         
         super.init(frame: NSRect(
@@ -138,13 +141,15 @@ internal class Popup: NSView, Popup_p {
         let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.detailsHeight))
         let separator = SeparatorView(LocalizedString("Details"), origin: NSPoint(x: 0, y: self.detailsHeight-Constants.Popup.separatorHeight), width: self.frame.width)
         let container: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: separator.frame.origin.y))
-        
-        self.levelField = PopupRow(container, n: 3, title: "\(LocalizedString("Level")):", value: "")
-        self.sourceField = PopupRow(container, n: 2, title: "\(LocalizedString("Source")):", value: "")
-        let t = self.labelValue(container, n: 1, title: "\(LocalizedString("Time")):", value: "")
+
+        self.levelField = PopupRow(container, n: 5, title: "\(LocalizedString("Level")):", value: "").1
+        self.sourceField = PopupRow(container, n: 4, title: "\(LocalizedString("Source")):", value: "").1
+        let t = self.labelValue(container, n: 3, title: "\(LocalizedString("Time")):", value: "")
         self.timeLabelField = t.0
         self.timeField = t.1
-        self.healthField = PopupRow(container, n: 0, title: "\(LocalizedString("Health")):", value: "")
+        self.healthField = PopupRow(container, n: 2, title: "\(LocalizedString("Health")):", value: "").1
+        self.cyclesField = PopupRow(container, n: 1, title: "\(LocalizedString("Cycles")):", value: "").1
+        self.lastChargeField = PopupRow(container, n: 0, title: "\(LocalizedString("Last charge")):", value: "").1
         
         view.addSubview(separator)
         view.addSubview(container)
@@ -157,9 +162,10 @@ internal class Popup: NSView, Popup_p {
         let separator = SeparatorView(LocalizedString("Battery"), origin: NSPoint(x: 0, y: self.batteryHeight-Constants.Popup.separatorHeight), width: self.frame.width)
         let container: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: separator.frame.origin.y))
         
-        self.amperageField = PopupRow(container, n: 2, title: "\(LocalizedString("Amperage")):", value: "")
-        self.voltageField = PopupRow(container, n: 1, title: "\(LocalizedString("Voltage")):", value: "")
-        self.temperatureField = PopupRow(container, n: 0, title: "\(LocalizedString("Temperature")):", value: "")
+        self.amperageField = PopupRow(container, n: 3, title: "\(LocalizedString("Amperage")):", value: "").1
+        self.voltageField = PopupRow(container, n: 2, title: "\(LocalizedString("Voltage")):", value: "").1
+        self.batteryPowerField = PopupRow(container, n: 1, title: "\(LocalizedString("Power")):", value: "").1
+        self.temperatureField = PopupRow(container, n: 0, title: "\(LocalizedString("Temperature")):", value: "").1
         
         view.addSubview(separator)
         view.addSubview(container)
@@ -172,8 +178,8 @@ internal class Popup: NSView, Popup_p {
         let separator = SeparatorView(LocalizedString("Power adapter"), origin: NSPoint(x: 0, y: self.adapterHeight-Constants.Popup.separatorHeight), width: self.frame.width)
         let container: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: separator.frame.origin.y))
         
-        self.powerField = PopupRow(container, n: 1, title: "\(LocalizedString("Power")):", value: "")
-        self.chargingStateField = PopupRow(container, n: 0, title: "\(LocalizedString("Is charging")):", value: "")
+        self.powerField = PopupRow(container, n: 1, title: "\(LocalizedString("Power")):", value: "").1
+        self.chargingStateField = PopupRow(container, n: 0, title: "\(LocalizedString("Is charging")):", value: "").1
         
         self.adapterView = view
         
@@ -218,7 +224,7 @@ internal class Popup: NSView, Popup_p {
             self.dashboardBatteryView?.setValue(abs(value.level))
             
             self.levelField?.stringValue = "\(Int(abs(value.level) * 100)) %"
-            self.sourceField?.stringValue = value.powerSource
+            self.sourceField?.stringValue = LocalizedString(value.powerSource)
             self.timeField?.stringValue = ""
             
             if value.powerSource == "Battery Power" {
@@ -241,10 +247,37 @@ internal class Popup: NSView, Popup_p {
                 self.timeField?.stringValue = LocalizedString("Fully charged")
             }
             
-            self.healthField?.stringValue = "\(value.health) % (\(value.state))"
+            self.healthField?.stringValue = "\(value.health)%"
+            if let state = value.state {
+                self.healthField?.stringValue += " (\(state))"
+            }
+            self.cyclesField?.stringValue = "\(value.cycles)"
+            
+            let form = DateComponentsFormatter()
+            form.maximumUnitCount = 2
+            form.unitsStyle = .full
+            form.allowedUnits = [.day, .hour, .minute]
+            if let timestamp = value.timeOnACPower {
+                if let duration = form.string(from: timestamp, to: Date()) {
+                    let formatter = DateFormatter()
+                    formatter.timeStyle = .short
+                    formatter.dateStyle = .medium
+                    
+                    self.lastChargeField?.stringValue = duration
+                    self.lastChargeField?.toolTip = formatter.string(from: timestamp)
+                } else {
+                    self.lastChargeField?.stringValue = LocalizedString("Unknown")
+                    self.lastChargeField?.toolTip = LocalizedString("Unknown")
+                }
+            } else {
+                self.lastChargeField?.stringValue = LocalizedString("Unknown")
+                self.lastChargeField?.toolTip = LocalizedString("Unknown")
+            }
             
             self.amperageField?.stringValue = "\(abs(value.amperage)) mA"
             self.voltageField?.stringValue = "\(value.voltage.roundTo(decimalPlaces: 2)) V"
+            let batteryPower = value.voltage * (Double(abs(value.amperage))/1000)
+            self.batteryPowerField?.stringValue = "\(batteryPower.roundTo(decimalPlaces: 2)) W"
             self.temperatureField?.stringValue = "\(value.temperature) °C"
             
             self.powerField?.stringValue = value.powerSource == "Battery Power" ? LocalizedString("Not connected") : "\(value.ACwatts) W"
