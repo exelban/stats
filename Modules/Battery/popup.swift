@@ -231,11 +231,15 @@ internal class Popup: NSView, Popup_p {
                 self.timeLabelField?.stringValue = "\(LocalizedString("Time to discharge")):"
                 if value.timeToEmpty != -1 && value.timeToEmpty != 0 {
                     self.timeField?.stringValue = Double(value.timeToEmpty*60).printSecondsToHoursMinutesSeconds(short: self.timeFormat == "short")
+                } else {
+                    self.timeField?.stringValue = LocalizedString("Unknown")
                 }
             } else {
                 self.timeLabelField?.stringValue = "\(LocalizedString("Time to charge")):"
                 if value.timeToCharge != -1 && value.timeToCharge != 0 {
                     self.timeField?.stringValue = Double(value.timeToCharge*60).printSecondsToHoursMinutesSeconds(short: self.timeFormat == "short")
+                } else {
+                    self.timeField?.stringValue = LocalizedString("Unknown")
                 }
             }
             
