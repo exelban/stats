@@ -266,6 +266,8 @@ public extension NSView {
         row.addSubview(toggle)
         row.addSubview(rowTitle)
         
+        row.heightAnchor.constraint(equalToConstant: row.bounds.height).isActive = true
+        
         return row
     }
     
@@ -301,6 +303,8 @@ public extension NSView {
         
         row.addSubview(select)
         row.addSubview(rowTitle)
+        
+        row.heightAnchor.constraint(equalToConstant: row.bounds.height).isActive = true
         
         return row
     }

@@ -90,16 +90,19 @@ public class Fans: Module {
         
         let label: Bool = Store.shared.bool(key: "Fans_label", defaultValue: false)
         var list: [KeyValue_t] = []
+        var flatList: [Double] = []
         value.forEach { (f: Fan) in
             if f.state {
                 let str = label ? "\(f.name.prefix(1).uppercased()): \(Int(f.value))" : f.formattedValue
                 list.append(KeyValue_t(key: "Fan#\(f.id)", value: str))
+                flatList.append(((f.value*100)/f.maxSpeed)/100)
             }
         }
         
         self.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
             switch w.item {
             case let widget as SensorsWidget: widget.setValues(list)
+            case let widget as BarChart: widget.setValue(flatList)
             default: break
             }
         }

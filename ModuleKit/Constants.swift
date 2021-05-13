@@ -23,6 +23,7 @@ public struct Settings_c_s {
     public let width: CGFloat = 539
     public let height: CGFloat = 479
     public let margin: CGFloat = 10
+    public let row: CGFloat = 30
 }
 
 public struct Widget_c_s {
