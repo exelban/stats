@@ -20,7 +20,7 @@ internal class Popup: NSView, Popup_p {
     
     private let dashboardHeight: CGFloat = 90
 
-    private let detailsHeight: CGFloat = (22 * 5) + Constants.Popup.separatorHeight
+    private let detailsHeight: CGFloat = (22 * 6) + Constants.Popup.separatorHeight
     private let batteryHeight: CGFloat = (22 * 5) + Constants.Popup.separatorHeight
     private let adapterHeight: CGFloat = (22 * 2) + Constants.Popup.separatorHeight
     private let processHeight: CGFloat = (22 * 1)
