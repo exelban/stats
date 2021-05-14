@@ -190,7 +190,7 @@
 "Battery" = "電池";
 "Amperage" = "電流";
 "Voltage" = "電壓";
-"Cycles" = "循環數";
+"Cycles" = "循環使用次數";
 "Temperature" = "溫度";
 "Power adapter" = "電源供應器";
 "Power" = "功率";
