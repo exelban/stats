@@ -106,25 +106,23 @@ private class UpdateView: NSView {
         title.alignment = .center
         title.stringValue = LocalizedString("New version available")
         
-        let currentVersionString = "\(LocalizedString("Current version: "))\(version.current)"
-        let currentVersionWidth = currentVersionString.widthOfString(usingFont: .systemFont(ofSize: 13, weight: .light))
-        let currentVersion: NSTextField = TextView(frame: NSRect(
-            x: (view.frame.width-currentVersionWidth)/2,
-            y: title.frame.origin.y - 40,
-            width: currentVersionWidth,
-            height: 16
-        ))
-        currentVersion.stringValue = currentVersionString
+        let versions: NSGridView = NSGridView(frame: NSRect(x: (view.frame.width-180)/2, y: 54, width: 180, height: 32))
+        versions.rowSpacing = 0
+        versions.yPlacement = .fill
+        versions.xPlacement = .fill
         
-        let latestVersionString = "\(LocalizedString("Latest version: "))\(version.latest)"
-        let latestVersionWidth = latestVersionString.widthOfString(usingFont: .systemFont(ofSize: 13, weight: .light))
-        let latestVersion: NSTextField = TextView(frame: NSRect(
-        x: (view.frame.width-currentVersionWidth)/2,
-            y: currentVersion.frame.origin.y - 22,
-            width: latestVersionWidth,
-            height: 16
-        ))
-        latestVersion.stringValue = latestVersionString
+        let currentVersionTitle: NSTextField = TextView(frame: NSRect(x: 0, y: 0, width: 0, height: 16))
+        currentVersionTitle.stringValue = LocalizedString("Current version: ")
+        let currentVersion: NSTextField = TextView(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
+        currentVersion.stringValue = version.current
+        
+        let latestVersionTitle: NSTextField = TextView(frame: NSRect(x: 0, y: 0, width: 0, height: 16))
+        latestVersionTitle.stringValue = LocalizedString("Latest version: ")
+        let latestVersion: NSTextField = TextView(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
+        latestVersion.stringValue = version.latest
+        
+        versions.addRow(with: [currentVersionTitle, currentVersion])
+        versions.addRow(with: [latestVersionTitle, latestVersion])
         
         let closeButton: NSButton = NSButton(frame: NSRect(x: 0, y: 0, width: view.frame.width/2, height: 26))
         closeButton.title = LocalizedString("Close")
@@ -132,17 +130,30 @@ private class UpdateView: NSView {
         closeButton.action = #selector(self.close)
         closeButton.target = self
         
+        let changelogButton: NSButton = NSButton(frame: NSRect(x: 0, y: 0, width: 0, height: 26))
+        changelogButton.title = LocalizedString("Changelog")
+        changelogButton.bezelStyle = .rounded
+        changelogButton.action = #selector(self.changelog)
+        changelogButton.target = self
+        
         let downloadButton: NSButton = NSButton(frame: NSRect(x: view.frame.width/2, y: 0, width: view.frame.width/2, height: 26))
         downloadButton.title = LocalizedString("Download")
         downloadButton.bezelStyle = .rounded
         downloadButton.action = #selector(self.download)
         downloadButton.target = self
         
+        let buttons: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: 26))
+        buttons.orientation = .horizontal
+        buttons.spacing = 10
+        
+        buttons.addArrangedSubview(closeButton)
+        buttons.addArrangedSubview(changelogButton)
+        buttons.addArrangedSubview(downloadButton)
+        
         view.addSubview(title)
-        view.addSubview(currentVersion)
-        view.addSubview(latestVersion)
-        view.addSubview(closeButton)
-        view.addSubview(downloadButton)
+        view.addSubview(versions)
+        view.addSubview(buttons)
+        
         self.addSubview(view)
     }
     
@@ -231,6 +242,12 @@ private class UpdateView: NSView {
     
     @objc private func close(_ sender: Any) {
         self.window?.close()
+    }
+    
+    @objc private func changelog(_ sender: Any) {
+        if let version = self.version {
+            NSWorkspace.shared.open(URL(string: "https://github.com/exelban/stats/releases/tag/\(version.latest)")!)
+        }
     }
     
     @objc private func install(_ sender: Any) {
