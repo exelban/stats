@@ -17,7 +17,7 @@ import Darwin
 import os.log
 
 internal class CapacityReader: Reader<DiskList> {
-    private var disks: DiskList = DiskList()
+    internal var disks: DiskList = DiskList()
     
     public override func read() {
         let keys: [URLResourceKey] = [.volumeNameKey]
@@ -46,7 +46,6 @@ internal class CapacityReader: Reader<DiskList> {
                                 
                                 if let path = self.disks.list[idx].path {
                                     self.disks.list[idx].free = self.freeDiskSpaceInBytes(path)
-                                    self.driveStats(self.disks.list[idx].parent, &self.disks.list[idx].stats)
                                 }
                             }
                             continue
@@ -145,7 +144,6 @@ internal class CapacityReader: Reader<DiskList> {
         let partitionLevel = d.BSDName.filter { "0"..."9" ~= $0 }.count
         if let parent = self.getDeviceIOParent(DADiskCopyIOMedia(disk), level: Int(partitionLevel)) {
             d.parent = parent
-            self.driveStats(parent, &d.stats)
         }
         
         return d
@@ -167,37 +165,6 @@ internal class CapacityReader: Reader<DiskList> {
         }
         
         return parent
-    }
-    
-    private func driveStats(_ entry: io_registry_entry_t, _ diskStats: UnsafeMutablePointer<stats?>) {
-        guard let props = getIOProperties(entry) else {
-            return
-        }
-        
-        if let statistics = props.object(forKey: "Statistics") as? NSDictionary {
-            if diskStats.pointee == nil {
-                diskStats.initialize(to: stats())
-            }
-            
-            let readBytes = statistics.object(forKey: "Bytes (Read)") as? Int64 ?? 0
-            let writeBytes = statistics.object(forKey: "Bytes (Write)") as? Int64 ?? 0
-            
-            if diskStats.pointee?.readBytes != 0 {
-                diskStats.pointee?.read = readBytes - (diskStats.pointee?.readBytes ?? 0)
-            }
-            if diskStats.pointee?.writeBytes != 0 {
-                diskStats.pointee?.write = writeBytes - (diskStats.pointee?.writeBytes ?? 0)
-            }
-            
-            diskStats.pointee?.readBytes = readBytes
-            diskStats.pointee?.writeBytes = writeBytes
-            diskStats.pointee?.readOperations = statistics.object(forKey: "Operations (Read)") as? Int64 ?? 0
-            diskStats.pointee?.writeOperations = statistics.object(forKey: "Operations (Read)") as? Int64 ?? 0
-            diskStats.pointee?.readTime = statistics.object(forKey: "Total Time (Read)") as? Int64 ?? 0
-            diskStats.pointee?.writeTime = statistics.object(forKey: "Total Time (Read)") as? Int64 ?? 0
-        }
-        
-        return
     }
     
     private func freeDiskSpaceInBytes(_ path: URL) -> Int64 {
@@ -222,5 +189,51 @@ internal class CapacityReader: Reader<DiskList> {
         }
         
         return 0
+    }
+}
+
+internal class ActivityReader: Reader<DiskList> {
+    internal var disks: UnsafeMutablePointer<DiskList>? = nil
+    
+    init(list: UnsafeMutablePointer<DiskList>?) {
+        self.disks = list
+        super.init()
+    }
+    
+    override func setup() {
+        setInterval(1)
+    }
+    
+    public override func read() {
+        guard let disks = self.disks else {
+            return
+        }
+        
+        for (i, d) in disks.pointee.list.enumerated() {
+            guard let props = getIOProperties(d.parent) else {
+                return
+            }
+            
+            if let statistics = props.object(forKey: "Statistics") as? NSDictionary {
+                let readBytes = statistics.object(forKey: "Bytes (Read)") as? Int64 ?? 0
+                let writeBytes = statistics.object(forKey: "Bytes (Write)") as? Int64 ?? 0
+                
+                if disks.pointee.list[i].activity.readBytes != 0 {
+                    disks.pointee.list[i].activity.read = readBytes - disks.pointee.list[i].activity.readBytes
+                }
+                if disks.pointee.list[i].activity.writeBytes != 0 {
+                    disks.pointee.list[i].activity.write = writeBytes - disks.pointee.list[i].activity.writeBytes
+                }
+                
+                disks.pointee.list[i].activity.readBytes = readBytes
+                disks.pointee.list[i].activity.writeBytes = writeBytes
+                disks.pointee.list[i].activity.readOperations = statistics.object(forKey: "Operations (Read)") as? Int64 ?? 0
+                disks.pointee.list[i].activity.writeOperations = statistics.object(forKey: "Operations (Read)") as? Int64 ?? 0
+                disks.pointee.list[i].activity.readTime = statistics.object(forKey: "Total Time (Read)") as? Int64 ?? 0
+                disks.pointee.list[i].activity.writeTime = statistics.object(forKey: "Total Time (Read)") as? Int64 ?? 0
+            }
+        }
+        
+        self.callback(disks.pointee)
     }
 }

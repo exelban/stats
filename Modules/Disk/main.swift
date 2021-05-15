@@ -42,7 +42,7 @@ struct drive {
     var size: Int64 = 1
     var free: Int64 = 0
     
-    var stats: stats? = nil
+    var activity: stats = stats()
 }
 
 struct DiskList: value_t {
@@ -87,6 +87,7 @@ struct DiskList: value_t {
 
 public class Disk: Module {
     private let popupView: Popup = Popup()
+    private var activityReader: ActivityReader? = nil
     private var capacityReader: CapacityReader? = nil
     private var settingsView: Settings
     private var selectedDisk: String = ""
@@ -101,6 +102,7 @@ public class Disk: Module {
         guard self.available else { return }
         
         self.capacityReader = CapacityReader()
+        self.activityReader = ActivityReader(list: &self.capacityReader!.disks)
         self.selectedDisk = Store.shared.string(key: "\(self.config.name)_disk", defaultValue: self.selectedDisk)
         
         self.capacityReader?.callbackHandler = { [unowned self] value in
@@ -110,6 +112,10 @@ public class Disk: Module {
             self.readyHandler()
         }
         
+        self.activityReader?.callbackHandler = { [unowned self] value in
+            self.capacityCallback(value)
+        }
+        
         self.settingsView.selectedDiskHandler = { [unowned self] value in
             self.selectedDisk = value
             self.capacityReader?.read()
@@ -117,11 +123,11 @@ public class Disk: Module {
         self.settingsView.callback = { [unowned self] in
             self.capacityReader?.read()
         }
-        self.settingsView.setInterval = { [unowned self] value in
-            self.capacityReader?.setInterval(value)
-        }
         
         if let reader = self.capacityReader {
+            self.addReader(reader)
+        }
+        if let reader = self.activityReader {
             self.addReader(reader)
         }
     }
@@ -159,7 +165,7 @@ public class Disk: Module {
             case let widget as Mini: widget.setValue(percentage)
             case let widget as BarChart: widget.setValue([percentage])
             case let widget as MemoryWidget: widget.setValue((DiskSize(free).getReadableMemory(), DiskSize(usedSpace).getReadableMemory()))
-            case let widget as SpeedWidget: widget.setValue(upload: d.stats?.write ?? 0, download: d.stats?.read ?? 0)
+            case let widget as SpeedWidget: widget.setValue(upload: d.activity.write, download: d.activity.read)
             default: break
             }
         }

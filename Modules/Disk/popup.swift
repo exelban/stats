@@ -35,7 +35,7 @@ internal class Popup: NSView, Popup_p {
         
         value.list.reversed().forEach { (drive: drive) in
             if let disk = self.list[drive.mediaName] {
-                disk.update(free: drive.free, read: drive.stats?.read, write: drive.stats?.write)
+                disk.update(free: drive.free, read: drive.activity.read, write: drive.activity.write)
             } else {
                 let disk = DiskView(
                     NSRect(
@@ -102,7 +102,7 @@ internal class DiskView: NSView {
         self.layer?.backgroundColor = isDarkMode ? NSColor(hexString: "#111111", alpha: 0.25).cgColor : NSColor(hexString: "#f5f5f5", alpha: 1).cgColor
     }
     
-    public func update(free: Int64, read: Int64?, write: Int64?) {
+    public func update(free: Int64, read: Int64, write: Int64) {
         self.nameAndBarView.update(free: free, read: read, write: write)
         self.legendView.update(free: free)
     }
@@ -213,7 +213,7 @@ internal class DiskNameAndBarView: NSView {
         self.addSubview(view)
     }
     
-    public func update(free: Int64, read: Int64?, write: Int64?) {
+    public func update(free: Int64, read: Int64, write: Int64) {
         if (self.window?.isVisible ?? false) || !self.ready {
             if self.usedBarSpace != nil {
                 let percentage = CGFloat(self.size - free) / CGFloat(self.size)
@@ -221,12 +221,8 @@ internal class DiskNameAndBarView: NSView {
                 self.usedBarSpace?.setFrameSize(NSSize(width: width, height: self.usedBarSpace!.frame.height))
             }
             
-            if read != nil {
-                self.readState?.layer?.backgroundColor = read != 0 ? NSColor.systemBlue.cgColor : NSColor.lightGray.withAlphaComponent(0.75).cgColor
-            }
-            if write != nil {
-                self.writeState?.layer?.backgroundColor = write != 0 ? NSColor.systemRed.cgColor : NSColor.lightGray.withAlphaComponent(0.75).cgColor
-            }
+            self.readState?.layer?.backgroundColor = read != 0 ? NSColor.systemBlue.cgColor : NSColor.lightGray.withAlphaComponent(0.75).cgColor
+            self.writeState?.layer?.backgroundColor = write != 0 ? NSColor.systemRed.cgColor : NSColor.lightGray.withAlphaComponent(0.75).cgColor
             
             self.ready = true
         }
