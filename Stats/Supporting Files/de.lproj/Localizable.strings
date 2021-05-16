@@ -24,8 +24,8 @@
 "Yes" = "Ja";
 "No" = "Nein";
 "Automatic" = "Automatisch";
-"Manual" = "Manual";
-"None" = "Keiner";
+"Manual" = "Manuell";
+"None" = "Keine";
 "Dots" = "Punkte";
 "Arrows" = "Pfeile";
 "Characters" = "Buchstaben";
@@ -106,12 +106,12 @@
 "Pictogram" = "Piktogramm";
 
 // Modules
-"Number of top processes" = "Anzahl der Prozesse";
+"Number of top processes" = "Anzahl der Top-Prozesse";
 
 // CPU
 "CPU usage" = "CPU Nutzung";
 "CPU temperature" = "CPU Temperatur";
-"CPU frequency" = "CPU Frequenz";
+"CPU frequency" = "CPU Taktfrequenz";
 "System" = "System";
 "User" = "Nutzer";
 "Idle" = "Leerlauf";
@@ -131,8 +131,8 @@
 "Active" = "Aktiv";
 "Non active" = "Nicht aktiv";
 "Fan speed" = "Lüfterdrehzahl";
-"Core clock" = "GPU Frequenz";
-"Memory clock" = "Speicher Frequenz";
+"Core clock" = "Kern Taktfrequenz";
+"Memory clock" = "Speicher Taktfrequenz";
 "Utilization" = "Auslastung";
 
 // Memory
@@ -167,7 +167,7 @@
 "Interface" = "Schnittstelle";
 "Network" = "Netzwerk";
 "Physical address" = "Physische Adresse";
-"Refresh" = "Refresh";
+"Refresh" = "Aktualisieren";
 "Click to copy public IP address" = "Klicken Sie zum Kopieren der öffentlichen IP-Adresse";
 "Click to copy local IP address" = "Klicken Sie zum Kopieren der lokalen IP-Adresse";
 "Click to copy wifi name" = "Klicken Sie zum Kopieren des WLAN-Namens";
@@ -184,7 +184,7 @@
 "Level" = "Ladezustand";
 "Source" = "Quelle";
 "AC Power" = "Netzteil";
-"Battery Power" = "Battery Power";
+"Battery Power" = "Akkubetrieb";
 "Time" = "Zeit";
 "Health" = "Gesundheit";
 "Battery" = "Akku";
@@ -203,7 +203,7 @@
 "Low level notification" = "Benachrichtigung bei niedrigem Ladezustand";
 "High level notification" = "Benachrichtigung bei hohem Ladezustand";
 "Low battery" = "Akku schwach";
-"High battery" = "Ladezustand hoch";
+"High battery" = "Hoher Ladezustand";
 "Battery remaining" = "%0% verbleiben";
 "Battery remaining to full charge" = "%0% bis vollständig geladen";
 "Percentage" = "Prozentsatz";
@@ -217,33 +217,33 @@
 "Fans" = "Lüfter";
 
 // Colors
-"Based on utilization" = "Based on utilization";
-"Based on pressure" = "Based on pressure";
-"System accent" = "System accent";
-"Monochrome accent" = "Monochrome accent";
-"Clear" = "Clear";
-"White" = "White";
-"Black" = "Black";
-"Gray" = "Gray";
-"Second gray" = "Second gray";
-"Dark gray" = "Dark gray";
-"Light gray" = "Light gray";
-"Red" = "Red";
-"Second red" = "Second red";
-"Green" = "Green";
-"Second green" = "Second green";
-"Blue" = "Blue";
-"Second blue" = "Second blue";
-"Yellow" = "Yellow";
-"Second yellow" = "Second yellow";
+"Based on utilization" = "Basierend auf Auslastung";
+"Based on pressure" = "Basierend auf Druck";
+"System accent" = "System Akzentfarbe";
+"Monochrome accent" = "Monochromer Akzent";
+"Clear" = "Durchsichtig";
+"White" = "Weiß";
+"Black" = "Schwarz";
+"Gray" = "Grau";
+"Second gray" = "Zweites Grau";
+"Dark gray" = "Dunkelgrau";
+"Light gray" = "Hellgrau";
+"Red" = "Rot";
+"Second red" = "Zweites Rot";
+"Green" = "Grün";
+"Second green" = "Zweites Grün";
+"Blue" = "Blau";
+"Second blue" = "Zweites Blau";
+"Yellow" = "Gelb";
+"Second yellow" = "Zweites Gelb";
 "Orange" = "Orange";
-"Second orange" = "Second orange";
-"Purple" = "Purple";
-"Second purple" = "Second purple";
-"Brown" = "Brown";
-"Second brown" = "Second brown";
+"Second orange" = "Zweites Orange";
+"Purple" = "Lila";
+"Second purple" = "Zweites Lila";
+"Brown" = "Braun";
+"Second brown" = "Zweites Braun";
 "Cyan" = "Cyan";
 "Magenta" = "Magenta";
 "Pink" = "Pink";
-"Teal" = "Teal";
+"Teal" = "Türkis";
 "Indigo" = "Indigo";
