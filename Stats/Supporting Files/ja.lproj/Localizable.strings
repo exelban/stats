@@ -94,6 +94,7 @@
 "Battery widget" = "バッテリー";
 "Text widget" = "テキスト";
 "Memory widget" = "未使用/使用済み";
+"Static width" = "Static width";
 
 // Module Kit
 "Open module settings" = "このモジュールの設定を開く";

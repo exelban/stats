@@ -94,6 +94,7 @@
 "Battery widget" = "電池";
 "Text widget" = "文字";
 "Memory widget" = "記憶體";
+"Static width" = "Static width";
 
 // Module Kit
 "Open module settings" = "打開模組設定";

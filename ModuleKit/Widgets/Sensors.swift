@@ -14,6 +14,7 @@ import StatsKit
 
 public class SensorsWidget: WidgetWrapper {
     private var modeState: String = "automatic"
+    private var fixedSizeState: Bool = false
     private var values: [KeyValue_t] = []
     
     private var oneRowWidth: CGFloat = 36
@@ -51,6 +52,7 @@ public class SensorsWidget: WidgetWrapper {
         
         if !preview {
             self.modeState = Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_mode", defaultValue: self.modeState)
+            self.fixedSizeState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_size", defaultValue: self.fixedSizeState)
         }
     }
     
@@ -122,7 +124,12 @@ public class SensorsWidget: WidgetWrapper {
         let style = NSMutableParagraphStyle()
         style.alignment = .center
         
-        let rect = CGRect(x: x, y: (Constants.Widget.height-13)/2, width: self.oneRowWidth, height: 13)
+        var width: CGFloat = self.oneRowWidth
+        if !self.fixedSizeState {
+            width = sensor.value.widthOfString(usingFont: font).rounded(.up) + 2
+        }
+        
+        let rect = CGRect(x: x, y: (Constants.Widget.height-13)/2, width: width, height: 13)
         let str = NSAttributedString.init(string: sensor.value, attributes: [
             NSAttributedString.Key.font: font,
             NSAttributedString.Key.foregroundColor: NSColor.textColor,
@@ -130,7 +137,7 @@ public class SensorsWidget: WidgetWrapper {
         ])
         str.draw(with: rect)
         
-        return self.oneRowWidth
+        return width
     }
     
     private func drawTwoRows(topSensor: KeyValue_t, bottomSensor: KeyValue_t?, x: CGFloat) -> CGFloat {
@@ -146,17 +153,24 @@ public class SensorsWidget: WidgetWrapper {
             NSAttributedString.Key.paragraphStyle: style
         ]
         
-        var rect = CGRect(x: x, y: rowHeight+1, width: self.twoRowWidth, height: rowHeight)
+        var width: CGFloat = self.twoRowWidth
+        if !self.fixedSizeState {
+            let firstRowWidth = topSensor.value.widthOfString(usingFont: font)
+            let secondRowWidth = bottomSensor?.value.widthOfString(usingFont: font) ?? 0
+            width = max(20, max(firstRowWidth, secondRowWidth)).rounded(.up) + 2
+        }
+        
+        var rect = CGRect(x: x, y: rowHeight+1, width: width, height: rowHeight)
         var str = NSAttributedString.init(string: topSensor.value, attributes: attributes)
         str.draw(with: rect)
         
         if bottomSensor != nil {
-            rect = CGRect(x: x, y: 1, width: self.twoRowWidth, height: rowHeight)
+            rect = CGRect(x: x, y: 1, width: width, height: rowHeight)
             str = NSAttributedString.init(string: bottomSensor!.value, attributes: attributes)
             str.draw(with: rect)
         }
         
-        return self.twoRowWidth
+        return width
     }
     
     public func setValues(_ values: [KeyValue_t]) {
@@ -170,22 +184,21 @@ public class SensorsWidget: WidgetWrapper {
     // MARK: - Settings
     
     public override func settings(width: CGFloat) -> NSView {
-        let rowHeight: CGFloat = 30
-        let height: CGFloat = ((rowHeight + Constants.Settings.margin) * 1) + Constants.Settings.margin
+        let view = SettingsContainerView(width: width)
         
-        let view: NSView = NSView(frame: NSRect(
-            x: Constants.Settings.margin,
-            y: Constants.Settings.margin,
-            width: width - (Constants.Settings.margin*2),
-            height: height
-        ))
-        
-        view.addSubview(SelectRow(
-            frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 0, width: view.frame.width, height: rowHeight),
+        view.addArrangedSubview(SelectRow(
+            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
             title: LocalizedString("Display mode"),
             action: #selector(changeMode),
             items: SensorsWidgetMode,
             selected: self.modeState
+        ))
+        
+        view.addArrangedSubview(ToggleTitleRow(
+            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
+            title: LocalizedString("Static width"),
+            action: #selector(toggleSize),
+            state: self.fixedSizeState
         ))
         
         return view
@@ -197,5 +210,17 @@ public class SensorsWidget: WidgetWrapper {
         }
         self.modeState = key
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_mode", value: key)
+    }
+    
+    @objc private func toggleSize(_ sender: NSControl) {
+        var state: NSControl.StateValue? = nil
+        if #available(OSX 10.15, *) {
+            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
+        } else {
+            state = sender is NSButton ? (sender as! NSButton).state: nil
+        }
+        self.fixedSizeState = state! == .on ? true : false
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_size", value: self.fixedSizeState)
+        self.display()
     }
 }

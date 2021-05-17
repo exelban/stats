@@ -94,6 +94,7 @@
 "Battery widget" = "Baterie";
 "Text widget" = "Text";
 "Memory widget" = "Paměť";
+"Static width" = "Static width";
 
 // Module Kit
 "Open module settings" = "Otevřít nastavení modulu";

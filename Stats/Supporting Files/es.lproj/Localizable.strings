@@ -94,6 +94,7 @@
 "Battery widget" = "Batería";
 "Text widget" = "Texto";
 "Memory widget" = "Memoria";
+"Static width" = "Static width";
 
 // Module Kit
 "Open module settings" = "Abrir la configruación del módulo";

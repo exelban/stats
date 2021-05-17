@@ -94,6 +94,7 @@
 "Battery widget" = "Batarya";
 "Text widget" = "Metin";
 "Memory widget" = "Bellek";
+"Static width" = "Static width";
 
 // Module Kit
 "Open module settings" = "Modül ayarlarını aç";
