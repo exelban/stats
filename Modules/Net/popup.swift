@@ -184,7 +184,7 @@ internal class Popup: NSStackView, Popup_p {
         container.spacing = 0
         
         let row: NSView = NSView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Popup.separatorHeight))
-                
+        
         let button = NSButtonWithPadding()
         button.frame = CGRect(x: view.frame.width - 18, y: 6, width: 18, height: 18)
         button.bezelStyle = .regularSquare
@@ -194,11 +194,13 @@ internal class Popup: NSStackView, Popup_p {
         button.action = #selector(self.refreshPublicIP)
         button.target = self
         button.toolTip = LocalizedString("Refresh")
-        button.image = Bundle(for: Module.self).image(forResource: "reload")!
+        button.image = Bundle(for: Module.self).image(forResource: "refresh")!
+        
         row.addSubview(SeparatorView(LocalizedString("Public IP"), origin: NSPoint(x: 0, y: 0), width: self.frame.width))
         row.addSubview(button)
         
         container.addArrangedSubview(row)
+        
         self.publicIPv4Field = PopupRow(container, title: "\(LocalizedString("v4")):", value: LocalizedString("Unknown")).1
         self.publicIPv6Field = PopupRow(container, title: "\(LocalizedString("v6")):", value: LocalizedString("Unknown")).1
         
