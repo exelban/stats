@@ -36,7 +36,7 @@
 "Min" = "Min";
 
 // Alerts
-"New version available" = "Nowa wersja dostępna";
+"New version available" = "Dostępna nowa wersja";
 "Click to install the new version of Stats" = "Kliknij, aby zainstalować nową wersję";
 "Successfully updated" = "Zaktualizowano pomyślnie";
 "Stats was updated to v" = "Stats został zaktualizowany do v%0";
@@ -94,12 +94,12 @@
 "Battery widget" = "Bateria";
 "Text widget" = "Tekst";
 "Memory widget" = "Pamięć";
-"Static width" = "Static width";
+"Static width" = "Statyczna szerokość";
 
 // Module Kit
 "Open module settings" = "Otwórz ustawienia modułu";
 "Select widget" = "Wybierz %0 widget";
-"Open widget settings" = "Open widget settings";
+"Open widget settings" = "Otwórz ustawienia widgetu";
 "Update interval" = "Interwał odświeżania";
 "Usage history" = "Historia użycia";
 "Details" = "Szczegóły";
@@ -125,7 +125,7 @@
 "GPU enabled" = "GPU włączone";
 "GPU disabled" = "GPU wyłączone";
 "GPU temperature" = "Temperatura GPU";
-"GPU utilization" = "Obciążenie GPU";
+"GPU utilization" = "Wykorzystanie GPU";
 "Vendor" = "Vendor";
 "Model" = "Model";
 "Status" = "Status";
@@ -137,7 +137,7 @@
 "Utilization" = "Wykorzystanie";
 
 // Memory
-"Memory usage" = "Wykorzystanie pamięci";
+"Memory usage" = "Użycie pamięci";
 "Memory pressure" = "Obciążenie pamięci";
 "Total" = "Całość";
 "Used" = "Użyta";
@@ -168,7 +168,7 @@
 "Interface" = "Interfejs";
 "Network" = "Sieć";
 "Physical address" = "Adres fizyczny";
-"Refresh" = "Refresh";
+"Refresh" = "Odśwież";
 "Click to copy public IP address" = "Kliknij, aby skopiować publiczny adres IP";
 "Click to copy local IP address" = "Kliknij, aby skopiować lokalny adres IP";
 "Click to copy wifi name" = "Kliknij, aby skopiować nazwę Wi-Fi";
@@ -218,33 +218,33 @@
 "Fans" = "Wentylatory";
 
 // Colors
-"Based on utilization" = "Based on utilization";
-"Based on pressure" = "Based on pressure";
-"System accent" = "System accent";
-"Monochrome accent" = "Monochrome accent";
-"Clear" = "Clear";
-"White" = "White";
-"Black" = "Black";
-"Gray" = "Gray";
-"Second gray" = "Second gray";
-"Dark gray" = "Dark gray";
-"Light gray" = "Light gray";
-"Red" = "Red";
-"Second red" = "Second red";
-"Green" = "Green";
-"Second green" = "Second green";
-"Blue" = "Blue";
-"Second blue" = "Second blue";
-"Yellow" = "Yellow";
-"Second yellow" = "Second yellow";
-"Orange" = "Orange";
-"Second orange" = "Second orange";
-"Purple" = "Purple";
-"Second purple" = "Second purple";
-"Brown" = "Brown";
-"Second brown" = "Second brown";
-"Cyan" = "Cyan";
+"Based on utilization" = "Na podstawie wykorzystania";
+"Based on pressure" = "Na podstawie obciążenia";
+"System accent" = "Akcent systemowy";
+"Monochrome accent" = "Akcent monochromatyczny";
+"Clear" = "Wyczyść";
+"White" = "Biały";
+"Black" = "Czarny";
+"Gray" = "Szary";
+"Second gray" = "Drugi szary";
+"Dark gray" = "Ciemny szary";
+"Light gray" = "Jasny szary";
+"Red" = "Czerwony";
+"Second red" = "Drugi czerwony";
+"Green" = "Zielony";
+"Second green" = "Drugi zielony";
+"Blue" = "Niebieski";
+"Second blue" = "Drugi niebieski";
+"Yellow" = "Żółty";
+"Second yellow" = "Drugi żółty";
+"Orange" = "Pomarańczowy";
+"Second orange" = "Drugi pomarańczowy";
+"Purple" = "Fioletowy";
+"Second purple" = "Drugi fioletowy";
+"Brown" = "Brązowy";
+"Second brown" = "Drugi brązowy";
+"Cyan" = "Cyjan";
 "Magenta" = "Magenta";
-"Pink" = "Pink";
-"Teal" = "Teal";
-"Indigo" = "Indigo";
+"Pink" = "Różowy";
+"Teal" = "Morski";
+"Indigo" = "Indygo";
