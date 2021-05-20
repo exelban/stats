@@ -19,13 +19,9 @@ public struct stats {
     
     var readBytes: Int64 = 0
     var writeBytes: Int64 = 0
-    var readOperations: Int64 = 0
-    var writeOperations: Int64 = 0
-    var readTime: Int64 = 0
-    var writeTime: Int64 = 0
 }
 
-struct drive {
+public struct drive {
     var parent: io_registry_entry_t = 0
     
     var mediaName: String = ""
@@ -45,50 +41,92 @@ struct drive {
     var activity: stats = stats()
 }
 
-struct DiskList: value_t {
-    var list: [drive] = []
+public class Disks {
+    fileprivate let queue = DispatchQueue(label: "eu.exelban.Stats.Disk.SynchronizedArray", attributes: .concurrent)
+    fileprivate var array = [drive]()
     
-    public var widget_value: Double {
-        get {
-            return 0
+    public var count: Int {
+        var result = 0
+        self.queue.sync { result = self.array.count }
+        return result
+    }
+    
+    public func first(where predicate: (drive) -> Bool) -> drive? {
+        var result: drive?
+        self.queue.sync { result = self.array.first(where: predicate) }
+        return result
+    }
+    
+    public func index(where predicate: (drive) -> Bool) -> Int? {
+        var result: Int?
+        self.queue.sync { result = self.array.firstIndex(where: predicate) }
+        return result
+    }
+    
+    public func map<ElementOfResult>(_ transform: (drive) -> ElementOfResult?) -> [ElementOfResult] {
+        var result = [ElementOfResult]()
+        self.queue.sync { result = self.array.compactMap(transform) }
+        return result
+    }
+    
+    public func reversed() -> [drive] {
+        var result: [drive] = []
+        self.queue.sync(flags: .barrier) { result = self.array.reversed() }
+        return result
+    }
+    
+    func forEach(_ body: (drive) -> Void) {
+        self.queue.sync { self.array.forEach(body) }
+    }
+    
+    public func append( _ element: drive) {
+        self.queue.async(flags: .barrier) {
+            self.array.append(element)
         }
     }
     
-    func getDiskByBSDName(_ name: String) -> drive? {
-        if let idx = self.list.firstIndex(where: { $0.BSDName == name }) {
-            return self.list[idx]
+    public func remove(at index: Int) {
+        self.queue.async(flags: .barrier) {
+            self.array.remove(at: index)
         }
-        
-        return nil
     }
     
-    func getDiskByName(_ name: String) -> drive? {
-        if let idx = self.list.firstIndex(where: { $0.mediaName == name }) {
-            return self.list[idx]
+    public func sort() {
+        self.queue.async(flags: .barrier) {
+            self.array.sort{ $1.removable }
         }
-        
-        return nil
     }
     
-    func getRootDisk() -> drive? {
-        if let idx = self.list.firstIndex(where: { $0.root }) {
-            return self.list[idx]
+    func updateFreeSize(_ idx: Int, newValue: Int64) {
+        self.queue.async(flags: .barrier) {
+            self.array[idx].free = newValue
         }
-        
-        return nil
     }
     
-    mutating func removeDiskByBSDName(_ name: String) {
-        if let idx = self.list.firstIndex(where: { $0.BSDName == name }) {
-            self.list.remove(at: idx)
+    func updateReadWrite(_ idx: Int, read: Int64, write: Int64) {
+        self.queue.async(flags: .barrier) {
+            self.array[idx].activity.readBytes = read
+            self.array[idx].activity.writeBytes = write
+        }
+    }
+    
+    func updateRead(_ idx: Int, newValue: Int64) {
+        self.queue.async(flags: .barrier) {
+            self.array[idx].activity.read = newValue
+        }
+    }
+    
+    func updateWrite(_ idx: Int, newValue: Int64) {
+        self.queue.async(flags: .barrier) {
+            self.array[idx].activity.write = newValue
         }
     }
 }
 
 public class Disk: Module {
     private let popupView: Popup = Popup()
-    private var activityReader: ActivityReader? = nil
     private var capacityReader: CapacityReader? = nil
+    private var activityReader: ActivityReader? = nil
     private var settingsView: Settings
     private var selectedDisk: String = ""
     
@@ -102,18 +140,22 @@ public class Disk: Module {
         guard self.available else { return }
         
         self.capacityReader = CapacityReader()
-        self.activityReader = ActivityReader(list: &self.capacityReader!.disks)
+        self.activityReader = ActivityReader()
         self.selectedDisk = Store.shared.string(key: "\(self.config.name)_disk", defaultValue: self.selectedDisk)
         
         self.capacityReader?.callbackHandler = { [unowned self] value in
-            self.capacityCallback(value)
+            if let value = value {
+                self.capacityCallback(value)
+            }
         }
         self.capacityReader?.readyCallback = { [unowned self] in
             self.readyHandler()
         }
         
         self.activityReader?.callbackHandler = { [unowned self] value in
-            self.capacityCallback(value)
+            if let value = value {
+                self.activityCallback(value)
+            }
         }
         
         self.settingsView.selectedDiskHandler = { [unowned self] value in
@@ -138,17 +180,13 @@ public class Disk: Module {
         }
     }
     
-    private func capacityCallback(_ raw: DiskList?) {
-        guard raw != nil, let value = raw else {
-            return
-        }
-        
+    private func capacityCallback(_ value: Disks) {
         DispatchQueue.main.async(execute: {
-            self.popupView.usageCallback(value)
+            self.popupView.capacityCallback(value)
         })
         self.settingsView.setList(value)
         
-        guard let d = value.getDiskByName(self.selectedDisk) ?? value.getRootDisk() else {
+        guard let d = value.first(where: { $0.mediaName == self.selectedDisk }) ?? value.first(where: { $0.root }) else {
             return
         }
         
@@ -165,6 +203,22 @@ public class Disk: Module {
             case let widget as Mini: widget.setValue(percentage)
             case let widget as BarChart: widget.setValue([percentage])
             case let widget as MemoryWidget: widget.setValue((DiskSize(free).getReadableMemory(), DiskSize(usedSpace).getReadableMemory()))
+            default: break
+            }
+        }
+    }
+    
+    private func activityCallback(_ value: Disks) {
+        DispatchQueue.main.async(execute: {
+            self.popupView.activityCallback(value)
+        })
+        
+        guard let d = value.first(where: { $0.mediaName == self.selectedDisk }) ?? value.first(where: { $0.root }) else {
+            return
+        }
+        
+        self.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
+            switch w.item {
             case let widget as SpeedWidget: widget.setValue(upload: d.activity.write, download: d.activity.read)
             default: break
             }
