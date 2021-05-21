@@ -72,6 +72,7 @@ internal class UsageReader: Reader<Network_Usage> {
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(refreshPublicIP), name: .refreshPublicIP, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(resetTotalNetworkUsage), name: .resetTotalNetworkUsage, object: nil)
     }
     
     public override func read() {
@@ -275,6 +276,10 @@ internal class UsageReader: Reader<Network_Usage> {
         DispatchQueue.global(qos: .background).async {
             self.getPublicIP()
         }
+    }
+    
+    @objc func resetTotalNetworkUsage() {
+        self.usage.total = (0, 0)
     }
 }
 

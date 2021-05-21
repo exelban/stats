@@ -34,6 +34,7 @@
 "Statistics" = "Статистика";
 "Max" = "Max";
 "Min" = "Min";
+"Reset" = "Скинути";
 
 // Alerts
 "New version available" = "Доступна нова версія";

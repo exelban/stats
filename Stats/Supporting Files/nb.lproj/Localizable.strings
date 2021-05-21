@@ -34,6 +34,7 @@
 "Statistics" = "Statistikk";
 "Max" = "Max";
 "Min" = "Min";
+"Reset" = "Reset";
 
 // Alerts
 "New version available" = "Ny versjon tilgjengelig";

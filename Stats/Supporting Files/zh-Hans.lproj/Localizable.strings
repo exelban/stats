@@ -34,6 +34,7 @@
 "Statistics" = "统计";
 "Max" = "最大";
 "Min" = "最小";
+"Reset" = "Reset";
 
 // Alerts
 "New version available" = "新版本可用";

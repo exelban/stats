@@ -34,6 +34,7 @@
 "Statistics" = "Statistiky";
 "Max" = "Max";
 "Min" = "Min";
+"Reset" = "Reset";
 
 // Alerts
 "New version available" = "Nová verze k dispozici";

@@ -34,6 +34,7 @@
 "Statistics" = "Statistiques";
 "Max" = "Max";
 "Min" = "Min";
+"Reset" = "Reset";
 
 // Alerts
 "New version available" = "Nouvelle version disponible";

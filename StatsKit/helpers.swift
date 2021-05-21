@@ -254,7 +254,13 @@ public func PopupWithColorRow(_ view: NSView, color: NSColor, n: CGFloat, title:
     rowView.addSubview(colorView)
     rowView.addSubview(labelView)
     rowView.addSubview(valueView)
-    view.addSubview(rowView)
+    
+    if let view = view as? NSStackView {
+        rowView.heightAnchor.constraint(equalToConstant: rowView.bounds.height).isActive = true
+        view.addArrangedSubview(rowView)
+    } else {
+        view.addSubview(rowView)
+    }
     
     return valueView
 }

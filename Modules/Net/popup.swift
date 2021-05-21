@@ -153,26 +153,47 @@ internal class Popup: NSStackView, Popup_p {
     }
     
     private func initDetails() -> NSView {
-        let height: CGFloat = 22*6
-        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: height + Constants.Popup.separatorHeight))
-        view.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
+        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 0))
+        let container: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: 0))
+        container.orientation = .vertical
+        container.spacing = 0
         
-        let separator = SeparatorView(LocalizedString("Details"), origin: NSPoint(x: 0, y: height), width: self.frame.width)
-        let container: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: separator.frame.origin.y))
+        let row: NSView = NSView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Popup.separatorHeight))
+        
+        let button = NSButtonWithPadding()
+        button.frame = CGRect(x: view.frame.width - 18, y: 6, width: 18, height: 18)
+        button.bezelStyle = .regularSquare
+        button.isBordered = false
+        button.imageScaling = NSImageScaling.scaleAxesIndependently
+        button.contentTintColor = .lightGray
+        button.action = #selector(self.resetTotalNetworkUsage)
+        button.target = self
+        button.toolTip = LocalizedString("Reset")
+        button.image = Bundle(for: Module.self).image(forResource: "refresh")!
+        
+        row.addSubview(SeparatorView(LocalizedString("Details"), origin: NSPoint(x: 0, y: 0), width: self.frame.width))
+        row.addSubview(button)
+        
+        container.addArrangedSubview(row)
         
         self.totalUploadField = PopupWithColorRow(container, color: NSColor.systemRed, n: 5, title: "\(LocalizedString("Total upload")):", value: "0")
         self.totalDownloadField = PopupWithColorRow(container, color: NSColor.systemBlue, n: 4, title: "\(LocalizedString("Total download")):", value: "0")
-        
+
         self.interfaceField = PopupRow(container, n: 3, title: "\(LocalizedString("Interface")):", value: LocalizedString("Unknown")).1
         self.ssidField = PopupRow(container, n: 2, title: "\(LocalizedString("Network")):", value: LocalizedString("Unknown")).1
         self.macAdressField = PopupRow(container, n: 1, title: "\(LocalizedString("Physical address")):", value: LocalizedString("Unknown")).1
         self.localIPField = PopupRow(container, n: 0, title: "\(LocalizedString("Local IP")):", value: LocalizedString("Unknown")).1
-        
+
         self.localIPField?.isSelectable = true
         self.macAdressField?.isSelectable = true
         
-        view.addSubview(separator)
         view.addSubview(container)
+        
+        let h = container.arrangedSubviews.map({ $0.bounds.height }).reduce(0, +)
+        view.setFrameSize(NSSize(width: self.frame.width, height: h))
+        container.setFrameSize(NSSize(width: self.frame.width, height: view.bounds.height))
+        view.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
+        container.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
         
         return view
     }
@@ -430,6 +451,10 @@ internal class Popup: NSStackView, Popup_p {
     
     @objc private func refreshPublicIP() {
         NotificationCenter.default.post(name: .refreshPublicIP, object: nil, userInfo: nil)
+    }
+    
+    @objc private func resetTotalNetworkUsage() {
+        NotificationCenter.default.post(name: .resetTotalNetworkUsage, object: nil, userInfo: nil)
     }
 }
 

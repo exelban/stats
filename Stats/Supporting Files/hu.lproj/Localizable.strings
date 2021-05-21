@@ -34,6 +34,7 @@
 "Statistics" = "Statisztikák";
 "Max" = "Max";
 "Min" = "Min";
+"Reset" = "Reset";
 
 // Alerts
 "New version available" = "Új verzió érhető el";

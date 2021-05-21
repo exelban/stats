@@ -34,6 +34,7 @@
 "Statistics" = "Số liệu thống kê";
 "Max" = "Tối đa";
 "Min" = "Tối thiểu";
+"Reset" = "Reset";
 
 // Alerts
 "New version available" = "Phiên bản mới có sẵn";

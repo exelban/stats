@@ -165,4 +165,5 @@ public extension Notification.Name {
     static let changeCronInterval = Notification.Name("changeCronInterval")
     static let clickInSettings = Notification.Name("clickInSettings")
     static let refreshPublicIP = Notification.Name("refreshPublicIP")
+    static let resetTotalNetworkUsage = Notification.Name("resetTotalNetworkUsage")
 }
