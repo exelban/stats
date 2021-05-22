@@ -74,7 +74,7 @@ public struct info_s {
 }
 
 public struct device_s {
-    public var model: model_s = model_s(name: LocalizedString("Unknown"), year: Calendar.current.component(.year, from: Date()), type: .unknown)
+    public var model: model_s = model_s(name: localizedString("Unknown"), year: Calendar.current.component(.year, from: Date()), type: .unknown)
     public var modelIdentifier: String? = nil
     public var serialNumber: String? = nil
     public var bootDate: Date? = nil
@@ -111,14 +111,14 @@ public class SystemKit {
         let procInfo = ProcessInfo()
         let systemVersion = procInfo.operatingSystemVersion
         
-        var build = LocalizedString("Unknown")
+        var build = localizedString("Unknown")
         let buildArr = procInfo.operatingSystemVersionString.split(separator: "(")
         if buildArr.indices.contains(1) {
             build = buildArr[1].replacingOccurrences(of: "Build ", with: "").replacingOccurrences(of: ")", with: "")
         }
         
         let version = systemVersion.majorVersion > 10 ? "\(systemVersion.majorVersion)" : "\(systemVersion.majorVersion).\(systemVersion.minorVersion)"
-        self.device.os = os_s(name: osDict[version] ?? LocalizedString("Unknown"), version: systemVersion, build: build)
+        self.device.os = os_s(name: osDict[version] ?? localizedString("Unknown"), version: systemVersion, build: build)
         
         self.device.info.cpu = self.getCPUInfo()
         self.device.info.ram = self.getRamInfo()
@@ -180,7 +180,7 @@ public class SystemKit {
         
         var sizeOfName = 0
         sysctlbyname("machdep.cpu.brand_string", nil, &sizeOfName, nil, 0)
-        var nameCharts = [CChar](repeating: 0,  count: sizeOfName)
+        var nameCharts = [CChar](repeating: 0, count: sizeOfName)
         sysctlbyname("machdep.cpu.brand_string", &nameCharts, &sizeOfName, nil, 0)
         var name = String(cString: nameCharts)
         if name != "" {
@@ -222,7 +222,7 @@ public class SystemKit {
         var list: [gpu_s] = []
         do {
             if let json = try JSONSerialization.jsonObject(with: Data(res.utf8), options: []) as? [String: Any] {
-                if let arr = json["SPDisplaysDataType"] as? [[String:Any]] {
+                if let arr = json["SPDisplaysDataType"] as? [[String: Any]] {
                     for obj in arr {
                         var gpu: gpu_s = gpu_s()
                         
@@ -253,10 +253,8 @@ public class SystemKit {
         let keys: [URLResourceKey] = [.volumeNameKey]
         let paths = FileManager.default.mountedVolumeURLs(includingResourceValuesForKeys: keys)!
         if let session = DASessionCreate(kCFAllocatorDefault) {
-            for url in paths {
-                if url.pathComponents.count == 1 {
-                    disk = DADiskCreateFromVolumePath(kCFAllocatorDefault, session, url as CFURL)
-                }
+            for url in paths where url.pathComponents.count == 1 {
+                disk = DADiskCreateFromVolumePath(kCFAllocatorDefault, session, url as CFURL)
             }
         }
         
@@ -303,7 +301,7 @@ public class SystemKit {
             if let json = try JSONSerialization.jsonObject(with: Data(res.utf8), options: []) as? [String: Any] {
                 var ram: ram_s = ram_s()
                 
-                if let obj = json["SPMemoryDataType"] as? [[String:Any]], obj.count > 0 {
+                if let obj = json["SPMemoryDataType"] as? [[String: Any]], !obj.isEmpty {
                     if let items = obj[0]["_items"] as? [[String: Any]] {
                         for i in 0..<items.count {
                             let item = items[i]
@@ -436,11 +434,11 @@ let deviceDict: [String: model_s] = [
     "MacBookPro16,1": model_s(name: "MacBook Pro 16\" (Late 2019)", year: 2019, type: .macbookPro),
     "MacBookPro16,2": model_s(name: "MacBook Pro 13\" (Mid 2020)", year: 2019, type: .macbookPro),
     "MacBookPro16,3": model_s(name: "MacBook Pro 13\" (Mid 2020)", year: 2020, type: .macbookPro),
-    "MacBookPro17,1": model_s(name: "MacBook Pro 13\" (M1, 2020)", year: 2020, type: .macbookPro),
+    "MacBookPro17,1": model_s(name: "MacBook Pro 13\" (M1, 2020)", year: 2020, type: .macbookPro)
 ]
 
 let osDict: [String: String] = [
     "10.14": "Mojave",
     "10.15": "Catalina",
-    "11": "Big Sur",
+    "11": "Big Sur"
 ]

@@ -60,27 +60,27 @@ internal class Settings: NSStackView, Settings_v {
         }
         self.subviews.forEach{ $0.removeFromSuperview() }
         
-        self.addArrangedSubview(SelectTitleRow(
+        self.addArrangedSubview(selectTitleRow(
             frame: NSRect(
                 x: Constants.Settings.margin,
                 y: 0,
                 width: self.frame.width - (Constants.Settings.margin*2),
                 height: Constants.Settings.row
             ),
-            title: LocalizedString("Update interval"),
+            title: localizedString("Update interval"),
             action: #selector(changeUpdateInterval),
             items: ReaderUpdateIntervals.map{ "\($0) sec" },
             selected: "\(self.updateIntervalValue) sec"
         ))
         
-        self.addArrangedSubview(ToggleTitleRow(
+        self.addArrangedSubview(toggleTitleRow(
             frame: NSRect(
                 x: Constants.Settings.margin,
                 y: 0,
                 width: self.frame.width - (Constants.Settings.margin*2),
                 height: Constants.Settings.row
             ),
-            title: LocalizedString("Label"),
+            title: localizedString("Label"),
             action: #selector(toggleLabelState),
             state: self.labelState
         ))
@@ -95,7 +95,7 @@ internal class Settings: NSStackView, Settings_v {
         view.distribution = .gravityAreas
         view.spacing = Constants.Settings.margin
         
-        let title: NSTextField = LabelField(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: 19), LocalizedString("Fans"))
+        let title: NSTextField = LabelField(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: 19), localizedString("Fans"))
         title.font = NSFont.systemFont(ofSize: 14, weight: .regular)
         title.textColor = .secondaryLabelColor
         title.alignment = .center
@@ -103,7 +103,7 @@ internal class Settings: NSStackView, Settings_v {
         view.addArrangedSubview(title)
         
         self.list.pointee.reversed().forEach { (f: Fan) in
-            let row: NSView = ToggleTitleRow(
+            let row: NSView = toggleTitleRow(
                 frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
                 title: f.name,
                 action: #selector(self.handleSelection),
@@ -119,7 +119,7 @@ internal class Settings: NSStackView, Settings_v {
         view.setFrameSize(NSSize(width: view.frame.width, height: listHeight))
         NSLayoutConstraint.activate([
             view.heightAnchor.constraint(equalToConstant: listHeight),
-            view.widthAnchor.constraint(equalToConstant: view.bounds.width),
+            view.widthAnchor.constraint(equalToConstant: view.bounds.width)
         ])
         
         self.addArrangedSubview(view)
@@ -140,7 +140,7 @@ internal class Settings: NSStackView, Settings_v {
             state = sender is NSButton ? (sender as! NSButton).state: nil
         }
         
-        Store.shared.set(key: "fan_\(id.rawValue)", value:  state! == NSControl.StateValue.on)
+        Store.shared.set(key: "fan_\(id.rawValue)", value: state! == NSControl.StateValue.on)
         self.callback()
     }
     

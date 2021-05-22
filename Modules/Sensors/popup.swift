@@ -54,13 +54,13 @@ internal class Popup: NSView, Popup_p {
             
             let height: CGFloat = CGFloat((22*filtered.count)) + Constants.Popup.separatorHeight
             let view: NSView = NSView(frame: NSRect(x: 0, y: y, width: self.frame.width, height: height))
-            let separator = SeparatorView(LocalizedString(typ.rawValue), origin: NSPoint(x: 0, y: view.frame.height - Constants.Popup.separatorHeight), width: self.frame.width)
+            let separator = separatorView(localizedString(typ.rawValue), origin: NSPoint(x: 0, y: view.frame.height - Constants.Popup.separatorHeight), width: self.frame.width)
             view.addSubview(separator)
             
             var i: CGFloat = 0
             groups.reversed().forEach { (group: SensorGroup) in
                 filtered.reversed().filter{ $0.group == group }.forEach { (s: Sensor_t) in
-                    let (key, value) = PopupRow(view, n: i, title: "\(s.name):", value: s.formattedValue)
+                    let (key, value) = popupRow(view, n: i, title: "\(s.name):", value: s.formattedValue)
                     key.toolTip = s.key
                     self.list[s.key] = value
                     i += 1
@@ -77,7 +77,7 @@ internal class Popup: NSView, Popup_p {
     
     internal func usageCallback(_ values: [Sensor_t]) {
         DispatchQueue.main.async(execute: {
-            if (self.window?.isVisible ?? false) {
+            if self.window?.isVisible ?? false {
                 values.forEach { (s: Sensor_t) in
                     if self.list[s.key] != nil {
                         self.list[s.key]?.stringValue = s.formattedValue

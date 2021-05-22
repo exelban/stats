@@ -63,7 +63,7 @@ public class SensorsWidget: WidgetWrapper {
     public override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         
-        guard self.values.count != 0 else {
+        guard !self.values.isEmpty else {
             self.setWidth(1)
             return
         }
@@ -186,17 +186,17 @@ public class SensorsWidget: WidgetWrapper {
     public override func settings(width: CGFloat) -> NSView {
         let view = SettingsContainerView(width: width)
         
-        view.addArrangedSubview(SelectRow(
+        view.addArrangedSubview(selectRow(
             frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
-            title: LocalizedString("Display mode"),
+            title: localizedString("Display mode"),
             action: #selector(changeMode),
             items: SensorsWidgetMode,
             selected: self.modeState
         ))
         
-        view.addArrangedSubview(ToggleTitleRow(
+        view.addArrangedSubview(toggleTitleRow(
             frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
-            title: LocalizedString("Static width"),
+            title: localizedString("Static width"),
             action: #selector(toggleSize),
             state: self.fixedSizeState
         ))

@@ -58,13 +58,13 @@ internal class UsageReader: Reader<RAM_Usage> {
             let used = active + inactive + speculative + wired + compressed - purgeable - external
             let free = self.totalSize - used
             
-            var int_size: size_t = MemoryLayout<uint>.size
+            var intSize: size_t = MemoryLayout<uint>.size
             var pressureLevel: Int = 0
-            sysctlbyname("kern.memorystatus_vm_pressure_level", &pressureLevel, &int_size, nil, 0)
+            sysctlbyname("kern.memorystatus_vm_pressure_level", &pressureLevel, &intSize, nil, 0)
             
-            var string_size: size_t = MemoryLayout<xsw_usage>.size
+            var stringSize: size_t = MemoryLayout<xsw_usage>.size
             var swap: xsw_usage = xsw_usage()
-            sysctlbyname("vm.swapusage", &swap, &string_size, nil, 0)
+            sysctlbyname("vm.swapusage", &swap, &stringSize, nil, 0)
             
             self.callback(RAM_Usage(
                 total: self.totalSize,
@@ -145,7 +145,7 @@ public class ProcessReader: Reader<[TopProcess]> {
         }
         
         var processes: [TopProcess] = []
-        output.enumerateLines { (line, _) -> () in
+        output.enumerateLines { (line, _) -> Void in
             if line.matches("^\\d+ +.* +\\d+[A-Z]*\\+?\\-? *$") {
                 var str = line.trimmingCharacters(in: .whitespaces)
                 let pidString = str.findAndCrop(pattern: "^\\d+")
@@ -154,7 +154,7 @@ public class ProcessReader: Reader<[TopProcess]> {
                 command = command.replacingOccurrences(of: usageString, with: "")
                 
                 if let regex = try? NSRegularExpression(pattern: " (\\+|\\-)*$", options: .caseInsensitive) {
-                    command = regex.stringByReplacingMatches(in: command, options: [], range: NSRange(location: 0, length:  command.count), withTemplate: "")
+                    command = regex.stringByReplacingMatches(in: command, options: [], range: NSRange(location: 0, length: command.count), withTemplate: "")
                 }
                 
                 let pid = Int(pidString.filter("01234567890.".contains)) ?? 0

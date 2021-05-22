@@ -77,7 +77,7 @@ public class BarChart: WidgetWrapper {
         }
         
         if preview {
-            if self.value.count == 0 {
+            if self.value.isEmpty {
                 self.value = [0.72, 0.38]
             }
             self.setFrameSize(NSSize(width: 36, height: self.frame.size.height))
@@ -89,6 +89,7 @@ public class BarChart: WidgetWrapper {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // swiftlint:disable function_body_length
     public override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         
@@ -100,28 +101,20 @@ public class BarChart: WidgetWrapper {
         switch self.value.count {
         case 0, 1:
             width += 10 + (offset*2)
-            break
         case 2:
             width += 22
-            break
         case 3...4: // 3,4
             width += 30
-            break
         case 5...8: // 5,6,7,8
             width += 40
-            break
         case 9...12: // 9..12
             width += 50
-            break
         case 13...16: // 13..16
             width += 76
-            break
         case 17...32: // 17..32
             width += 84
-            break
         default: // > 32
             width += 118
-            break
         }
         
         if self.labelState {
@@ -144,7 +137,7 @@ public class BarChart: WidgetWrapper {
                 yMargin += letterHeight
             }
 
-            width = width + letterWidth + Constants.Widget.spacing
+            width += letterWidth + Constants.Widget.spacing
             x = letterWidth + Constants.Widget.spacing
         }
         
@@ -248,32 +241,32 @@ public class BarChart: WidgetWrapper {
             height: height
         ))
         
-        view.addSubview(ToggleTitleRow(
+        view.addSubview(toggleTitleRow(
             frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 3, width: view.frame.width, height: rowHeight),
-            title: LocalizedString("Label"),
+            title: localizedString("Label"),
             action: #selector(toggleLabel),
             state: self.labelState
         ))
         
-        self.boxSettingsView = ToggleTitleRow(
+        self.boxSettingsView = toggleTitleRow(
             frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 2, width: view.frame.width, height: rowHeight),
-            title: LocalizedString("Box"),
+            title: localizedString("Box"),
             action: #selector(toggleBox),
             state: self.boxState
         )
         view.addSubview(self.boxSettingsView!)
         
-        self.frameSettingsView = ToggleTitleRow(
+        self.frameSettingsView = toggleTitleRow(
             frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 1, width: view.frame.width, height: rowHeight),
-            title: LocalizedString("Frame"),
+            title: localizedString("Frame"),
             action: #selector(toggleFrame),
             state: self.frameState
         )
         view.addSubview(self.frameSettingsView!)
         
-        view.addSubview(SelectRow(
+        view.addSubview(selectRow(
             frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 0, width: view.frame.width, height: rowHeight),
-            title: LocalizedString("Color"),
+            title: localizedString("Color"),
             action: #selector(toggleColor),
             items: self.colors,
             selected: self.colorState.key
@@ -305,7 +298,7 @@ public class BarChart: WidgetWrapper {
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_box", value: self.boxState)
         
         if self.frameState {
-            FindAndToggleNSControlState(self.frameSettingsView, state: .off)
+            findAndToggleNSControlState(self.frameSettingsView, state: .off)
             self.frameState = false
             Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_frame", value: self.frameState)
         }
@@ -324,7 +317,7 @@ public class BarChart: WidgetWrapper {
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_frame", value: self.frameState)
         
         if self.boxState {
-            FindAndToggleNSControlState(self.boxSettingsView, state: .off)
+            findAndToggleNSControlState(self.boxSettingsView, state: .off)
             self.boxState = false
             Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_box", value: self.boxState)
         }

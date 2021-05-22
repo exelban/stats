@@ -18,7 +18,7 @@ public struct CPU_Load: value_t {
     var userLoad: Double = 0
     var idleLoad: Double = 0
     
-    public var widget_value: Double {
+    public var widgetValue: Double {
         get {
             return self.totalUsage
         }

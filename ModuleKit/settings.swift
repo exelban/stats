@@ -13,7 +13,7 @@ import Cocoa
 import StatsKit
 
 public protocol Settings_p: NSView {
-    var toggleCallback: () -> () { get set }
+    var toggleCallback: () -> Void { get set }
 }
 
 public protocol Settings_v: NSView {
@@ -22,7 +22,7 @@ public protocol Settings_v: NSView {
 }
 
 open class Settings: NSView, Settings_p {
-    public var toggleCallback: () -> () = {}
+    public var toggleCallback: () -> Void = {}
     
     private let headerHeight: CGFloat = 42
     
@@ -177,7 +177,7 @@ open class Settings: NSView, Settings_p {
         
         NSLayoutConstraint.activate([
             container.heightAnchor.constraint(equalToConstant: container.frame.height),
-            view.heightAnchor.constraint(equalTo: container.heightAnchor),
+            view.heightAnchor.constraint(equalTo: container.heightAnchor)
         ])
     }
     
@@ -200,7 +200,7 @@ open class Settings: NSView, Settings_p {
         }
         
         NSLayoutConstraint.activate([
-            container.heightAnchor.constraint(equalTo: settingsView.heightAnchor),
+            container.heightAnchor.constraint(equalTo: settingsView.heightAnchor)
         ])
     }
     
@@ -235,7 +235,7 @@ open class Settings: NSView, Settings_p {
         }
         
         NSLayoutConstraint.activate([
-            container.heightAnchor.constraint(equalTo: settingsView.heightAnchor),
+            container.heightAnchor.constraint(equalTo: settingsView.heightAnchor)
         ])
     }
     
@@ -247,7 +247,7 @@ open class Settings: NSView, Settings_p {
         if let name = notification.userInfo?["module"] as? String {
             if name == self.config.pointee.name {
                 if let state = notification.userInfo?["state"] as? Bool {
-                    ToggleNSControlState(self.enableControl, state: state ? .on : .off)
+                    toggleNSControlState(self.enableControl, state: state ? .on : .off)
                 }
             }
         }
@@ -263,7 +263,7 @@ open class Settings: NSView, Settings_p {
         self.moduleSettingsContainer?.addSubview(settingsView)
         
         NSLayoutConstraint.activate([
-            container.heightAnchor.constraint(equalTo: settingsView.heightAnchor),
+            container.heightAnchor.constraint(equalTo: settingsView.heightAnchor)
         ])
     }
 }
@@ -302,7 +302,7 @@ internal class WidgetPreview: NSStackView {
         self.layer?.cornerRadius = 2
         self.layer?.borderColor = self.widget.pointee.isActive ? NSColor.systemBlue.cgColor : NSColor(hexString: "#dddddd").cgColor
         self.layer?.borderWidth = 1
-        self.toolTip = LocalizedString("Select widget", widget.pointee.type.name())
+        self.toolTip = localizedString("Select widget", widget.pointee.type.name())
         
         self.orientation = .horizontal
         self.distribution = .fillProportionally
@@ -337,7 +337,12 @@ internal class WidgetPreview: NSStackView {
             })
             
             let rect = NSRect(x: Constants.Widget.spacing, y: 0, width: value, height: self!.frame.height)
-            let trackingArea = NSTrackingArea(rect: rect, options: [NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited, NSTrackingArea.Options.activeInActiveApp], owner: self, userInfo: nil)
+            let trackingArea = NSTrackingArea(
+                rect: rect,
+                options: [NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited, NSTrackingArea.Options.activeInActiveApp],
+                owner: self,
+                userInfo: nil
+            )
             self?.addTrackingArea(trackingArea)
         }
         
@@ -350,7 +355,7 @@ internal class WidgetPreview: NSStackView {
         ))
         
         NSLayoutConstraint.activate([
-            self.heightAnchor.constraint(equalToConstant: self.frame.height),
+            self.heightAnchor.constraint(equalToConstant: self.frame.height)
         ])
         
         self.widthConstant = self.widthAnchor.constraint(equalTo: self.widget.pointee.preview.widthAnchor, constant: self.size)
@@ -360,8 +365,8 @@ internal class WidgetPreview: NSStackView {
     private func initButton() -> NSView {
         let size: CGFloat = Constants.Widget.height
         let button = NSButton(frame: NSRect(x: 0, y: 0, width: size, height: size))
-        button.title = LocalizedString("Open widget settings")
-        button.toolTip = LocalizedString("Open widget settings")
+        button.title = localizedString("Open widget settings")
+        button.toolTip = localizedString("Open widget settings")
         button.bezelStyle = .regularSquare
         if let image = Bundle(for: type(of: self)).image(forResource: "widget_settings") {
             button.image = image
@@ -374,7 +379,7 @@ internal class WidgetPreview: NSStackView {
         button.focusRingType = .none
         
         NSLayoutConstraint.activate([
-            button.widthAnchor.constraint(equalToConstant: button.frame.width),
+            button.widthAnchor.constraint(equalToConstant: button.frame.width)
         ])
         
         return button
@@ -387,7 +392,7 @@ internal class WidgetPreview: NSStackView {
         separator.layer?.backgroundColor = NSColor(hexString: "#dddddd").cgColor
         
         NSLayoutConstraint.activate([
-            separator.heightAnchor.constraint(equalToConstant: Constants.Widget.height),
+            separator.heightAnchor.constraint(equalToConstant: Constants.Widget.height)
         ])
         
         return separator

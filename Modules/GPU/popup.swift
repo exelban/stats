@@ -122,10 +122,10 @@ private class GPUView: NSStackView {
         let stateView: NSView = NSView(frame: NSRect(x: width - 8, y: (view.frame.height-7)/2, width: 6, height: 6))
         stateView.wantsLayer = true
         stateView.layer?.backgroundColor = (self.value.state ? NSColor.systemGreen : NSColor.systemRed).cgColor
-        stateView.toolTip = LocalizedString("GPU \(self.value.state ? "enabled" : "disabled")")
+        stateView.toolTip = localizedString("GPU \(self.value.state ? "enabled" : "disabled")")
         stateView.layer?.cornerRadius = 4
         
-        let details = LocalizedString("Details").uppercased()
+        let details = localizedString("Details").uppercased()
         let w = details.widthOfString(usingFont: NSFont.systemFont(ofSize: 9, weight: .regular)) + 8
         let button = NSButtonWithPadding()
         button.frame = CGRect(x: view.frame.width - w, y: 2, width: w, height: view.frame.height-2)
@@ -135,7 +135,7 @@ private class GPUView: NSStackView {
         button.isBordered = false
         button.action = #selector(self.showDetails)
         button.target = self
-        button.toolTip = LocalizedString("Details")
+        button.toolTip = localizedString("Details")
         button.title = details
         button.font = NSFont.systemFont(ofSize: 9, weight: .regular)
         
@@ -194,7 +194,7 @@ private class GPUView: NSStackView {
         } else {
             circle = HalfCircleGraphView(frame: NSRect(x: 0, y: 0, width: circleSize, height: circleSize))
             circle.id = id
-            circle.toolTip = LocalizedString("GPU \(id)")
+            circle.toolTip = localizedString("GPU \(id)")
             if let row = self.circleRow {
                 row.setFrameSize(NSSize(width: row.frame.width, height: self.circleSize + 20))
                 row.edgeInsets = NSEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
@@ -211,7 +211,7 @@ private class GPUView: NSStackView {
             chart.layer?.backgroundColor = NSColor.lightGray.withAlphaComponent(0.1).cgColor
             chart.layer?.cornerRadius = 3
             chart.id = id
-            chart.toolTip = LocalizedString("GPU \(id)")
+            chart.toolTip = localizedString("GPU \(id)")
             if let row = self.chartRow {
                 row.setFrameSize(NSSize(width: row.frame.width, height: self.chartSize + 20))
                 row.spacing = Constants.Popup.margins
@@ -246,9 +246,9 @@ private class GPUView: NSStackView {
     public func update(_ gpu: GPU_Info) {
         self.detailsView.update(gpu)
         
-        if (self.window?.isVisible ?? false) {
+        if self.window?.isVisible ?? false {
             self.stateView?.layer?.backgroundColor = (gpu.state ? NSColor.systemGreen : NSColor.systemRed).cgColor
-            self.stateView?.toolTip = LocalizedString("GPU \(gpu.state ? "enabled" : "disabled")")
+            self.stateView?.toolTip = localizedString("GPU \(gpu.state ? "enabled" : "disabled")")
             
             self.addStats(id: "temperature", gpu.temperature)
             self.addStats(id: "utilization", gpu.utilization)
@@ -306,44 +306,44 @@ private class GPUDetails: NSView {
         var num: CGFloat = 2
         
         if let value = value.vendor {
-            grid.addRow(with: keyValueRow("\(LocalizedString("Vendor")):", value))
+            grid.addRow(with: keyValueRow("\(localizedString("Vendor")):", value))
             num += 1
         }
         
-        grid.addRow(with: keyValueRow("\(LocalizedString("Model")):", value.model))
+        grid.addRow(with: keyValueRow("\(localizedString("Model")):", value.model))
         
-        let state: String = value.state ? LocalizedString("Active") : LocalizedString("Non active")
-        let arr = keyValueRow("\(LocalizedString("Status")):", state)
+        let state: String = value.state ? localizedString("Active") : localizedString("Non active")
+        let arr = keyValueRow("\(localizedString("Status")):", state)
         self.status = arr.last
         grid.addRow(with: arr)
         
         if let value = value.fanSpeed {
-            let arr = keyValueRow("\(LocalizedString("Fan speed")):", "\(value)%")
+            let arr = keyValueRow("\(localizedString("Fan speed")):", "\(value)%")
             self.fanSpeed = arr.last
             grid.addRow(with: arr)
             num += 1
         }
         if let value = value.coreClock {
-            let arr = keyValueRow("\(LocalizedString("Core clock")):", "\(value)MHz")
+            let arr = keyValueRow("\(localizedString("Core clock")):", "\(value)MHz")
             self.coreClock = arr.last
             grid.addRow(with: arr)
             num += 1
         }
         if let value = value.memoryClock {
-            let arr = keyValueRow("\(LocalizedString("Memory clock")):", "\(value)MHz")
+            let arr = keyValueRow("\(localizedString("Memory clock")):", "\(value)MHz")
             self.memoryClock = arr.last
             grid.addRow(with: arr)
             num += 1
         }
         
         if let value = value.temperature {
-            let arr = keyValueRow("\(LocalizedString("Temperature")):", Temperature(Double(value)))
+            let arr = keyValueRow("\(localizedString("Temperature")):", Temperature(Double(value)))
             self.temperature = arr.last
             grid.addRow(with: arr)
             num += 1
         }
         if let value = value.utilization {
-            let arr = keyValueRow("\(LocalizedString("Utilization")):", "\(Int(value*100))%")
+            let arr = keyValueRow("\(localizedString("Utilization")):", "\(Int(value*100))%")
             self.utilization = arr.last
             grid.addRow(with: arr)
             num += 1
@@ -366,7 +366,7 @@ private class GPUDetails: NSView {
     }
     
     public func update(_ gpu: GPU_Info) {
-        self.status?.stringValue = gpu.state ? LocalizedString("Active") : LocalizedString("Non active")
+        self.status?.stringValue = gpu.state ? localizedString("Active") : localizedString("Non active")
         
         if let value = gpu.fanSpeed {
             self.fanSpeed?.stringValue = "\(value)%"

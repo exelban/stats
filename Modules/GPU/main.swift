@@ -54,7 +54,7 @@ public struct GPUs: value_t {
         return self.list.filter{ $0.state && $0.utilization != nil }.sorted{ $0.utilization ?? 0 > $1.utilization ?? 0 }
     }
     
-    public var widget_value: Double {
+    public var widgetValue: Double {
         get {
             return list.isEmpty ? 0 : (list[0].utilization ?? 0)
         }

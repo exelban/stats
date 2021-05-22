@@ -29,8 +29,8 @@ internal class LoadReader: Reader<CPU_Load> {
     private var usagePerCore: [Double] = []
     
     public override func setup() {
-        self.hasHyperthreadingCores = SysctlByName("hw.physicalcpu") != SysctlByName("hw.logicalcpu")
-        [CTL_HW, HW_NCPU].withUnsafeBufferPointer() { mib in
+        self.hasHyperthreadingCores = sysctlByName("hw.physicalcpu") != sysctlByName("hw.logicalcpu")
+        [CTL_HW, HW_NCPU].withUnsafeBufferPointer { mib in
             var sizeOfNumCPUs: size_t = MemoryLayout<uint>.size
             let status = sysctl(processor_info_array_t(mutating: mib.baseAddress), 2, &numCPUs, &sizeOfNumCPUs, nil, 0)
             if status != 0 {
@@ -39,6 +39,7 @@ internal class LoadReader: Reader<CPU_Load> {
         }
     }
     
+    // swiftlint:disable function_body_length
     public override func read() {
         let result: kern_return_t = host_processor_info(mach_host_self(), PROCESSOR_CPU_LOAD_INFO, &self.numCPUsU, &self.cpuInfo, &self.numCpuInfo)
         if result == KERN_SUCCESS {
@@ -133,12 +134,12 @@ internal class LoadReader: Reader<CPU_Load> {
     }
     
     private func hostCPULoadInfo() -> host_cpu_load_info? {
-        let HOST_CPU_LOAD_INFO_COUNT = MemoryLayout<host_cpu_load_info>.stride/MemoryLayout<integer_t>.stride
-        var size = mach_msg_type_number_t(HOST_CPU_LOAD_INFO_COUNT)
+        let count = MemoryLayout<host_cpu_load_info>.stride/MemoryLayout<integer_t>.stride
+        var size = mach_msg_type_number_t(count)
         var cpuLoadInfo = host_cpu_load_info()
         
         let result: kern_return_t = withUnsafeMutablePointer(to: &cpuLoadInfo) {
-            $0.withMemoryRebound(to: integer_t.self, capacity: HOST_CPU_LOAD_INFO_COUNT) {
+            $0.withMemoryRebound(to: integer_t.self, capacity: count) {
                 host_statistics(mach_host_self(), HOST_CPU_LOAD_INFO, $0, &size)
             }
         }
@@ -202,7 +203,7 @@ public class ProcessReader: Reader<[TopProcess]> {
         
         var index = 0
         var processes: [TopProcess] = []
-        output.enumerateLines { (line, stop) -> () in
+        output.enumerateLines { (line, stop) -> Void in
             if index != 0 {
                 var str = line.trimmingCharacters(in: .whitespaces)
                 let pidString = str.findAndCrop(pattern: "^\\d+")
@@ -250,6 +251,7 @@ public class TemperatureReader: Reader<Double> {
     }
 }
 
+// swiftlint:disable identifier_name
 public class FrequencyReader: Reader<Double> {
     private typealias PGSample = UInt64
     private typealias UDouble = UnsafeMutablePointer<Double>

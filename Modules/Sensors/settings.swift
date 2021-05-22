@@ -68,9 +68,9 @@ internal class Settings: NSView, Settings_v {
             height: height
         ))
         
-        self.addSubview(SelectTitleRow(
+        self.addSubview(selectTitleRow(
             frame: NSRect(x: Constants.Settings.margin, y: height - rowHeight, width: view.frame.width, height: rowHeight),
-            title: LocalizedString("Update interval"),
+            title: localizedString("Update interval"),
             action: #selector(changeUpdateInterval),
             items: ReaderUpdateIntervals.map{ "\($0) sec" },
             selected: "\(self.updateIntervalValue) sec"
@@ -88,7 +88,7 @@ internal class Settings: NSView, Settings_v {
             
             groups.reversed().forEach { (group: SensorGroup) in
                 filtered.reversed().filter{ $0.group == group }.forEach { (s: Sensor_t) in
-                    let row: NSView = ToggleTitleRow(
+                    let row: NSView = toggleTitleRow(
                         frame: NSRect(x: 0, y: y, width: view.frame.width, height: rowHeight),
                         title: s.name,
                         action: #selector(self.handleSelection),
@@ -103,7 +103,7 @@ internal class Settings: NSView, Settings_v {
             }
             
             let rowTitleView: NSView = NSView(frame: NSRect(x: 0, y: y, width: view.frame.width, height: rowHeight))
-            let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: (rowHeight-19)/2, width: view.frame.width, height: 19), LocalizedString(typ.rawValue))
+            let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: (rowHeight-19)/2, width: view.frame.width, height: 19), localizedString(typ.rawValue))
             rowTitle.font = NSFont.systemFont(ofSize: 14, weight: .regular)
             rowTitle.textColor = .secondaryLabelColor
             rowTitle.alignment = .center
@@ -127,7 +127,7 @@ internal class Settings: NSView, Settings_v {
             state = sender is NSButton ? (sender as! NSButton).state: nil
         }
         
-        Store.shared.set(key: "sensor_\(id.rawValue)", value:  state! == NSControl.StateValue.on)
+        Store.shared.set(key: "sensor_\(id.rawValue)", value: state! == NSControl.StateValue.on)
         self.callback()
     }
     

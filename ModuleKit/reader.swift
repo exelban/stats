@@ -15,36 +15,36 @@ import os.log
 import StatsKit
 
 public protocol value_t {
-    var widget_value: Double { get }
+    var widgetValue: Double { get }
 }
 
 public protocol Reader_p {
     var optional: Bool { get }
     var popup: Bool { get }
     
-    func setup() -> Void
-    func read() -> Void
-    func terminate() -> Void
+    func setup()
+    func read()
+    func terminate()
     
     func getValue<T>() -> T
     func getHistory() -> [value_t]
     
-    func start() -> Void
-    func pause() -> Void
-    func stop() -> Void
+    func start()
+    func pause()
+    func stop()
     
-    func lock() -> Void
-    func unlock() -> Void
+    func lock()
+    func unlock()
     
-    func initStoreValues(title: String) -> Void
-    func setInterval(_ value: Int) -> Void
+    func initStoreValues(title: String)
+    func setInterval(_ value: Int)
 }
 
 public protocol ReaderInternal_p {
     associatedtype T
     
     var value: T? { get }
-    func read() -> Void
+    func read()
 }
 
 open class Reader<T>: ReaderInternal_p {

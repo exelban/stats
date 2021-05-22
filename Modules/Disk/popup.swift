@@ -28,7 +28,7 @@ internal class Popup: NSView, Popup_p {
     }
     
     internal func capacityCallback(_ value: Disks) {
-        if self.list.count != value.count && self.list.count != 0 {
+        if self.list.count != value.count && !self.list.isEmpty {
             self.subviews.forEach{ $0.removeFromSuperview() }
             self.list = [:]
         }
@@ -138,7 +138,7 @@ internal class DiskNameAndBarView: NSView {
         self.uri = path
         
         super.init(frame: frame)
-        self.toolTip = LocalizedString("Open disk")
+        self.toolTip = localizedString("Open disk")
         
         self.addName(name: name)
         self.addHorizontalBar(size: size, free: free)
@@ -274,7 +274,7 @@ internal class DiskLegendView: NSView {
         self.free = free
         
         super.init(frame: frame)
-        self.toolTip = LocalizedString("Switch view")
+        self.toolTip = localizedString("Switch view")
         
         let height: CGFloat = 14
         let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height))
@@ -336,9 +336,9 @@ internal class DiskLegendView: NSView {
             if usedSpace < 0 {
                 usedSpace = 0
             }
-            value = LocalizedString("Used disk memory", DiskSize(usedSpace).getReadableMemory(), DiskSize(self.size).getReadableMemory())
+            value = localizedString("Used disk memory", DiskSize(usedSpace).getReadableMemory(), DiskSize(self.size).getReadableMemory())
         } else {
-            value = LocalizedString("Free disk memory", DiskSize(free).getReadableMemory(), DiskSize(self.size).getReadableMemory())
+            value = localizedString("Free disk memory", DiskSize(free).getReadableMemory(), DiskSize(self.size).getReadableMemory())
         }
         
         return value

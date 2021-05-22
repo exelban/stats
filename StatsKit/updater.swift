@@ -63,7 +63,7 @@ public class macAppUpdater {
             return
         }
         
-        fetchLastVersion() { result, error in
+        fetchLastVersion { result, error in
             guard error == nil else {
                 completionHandler(nil, error)
                 return
@@ -76,7 +76,7 @@ public class macAppUpdater {
             
             let downloadURL: String = result![1]
             let lastVersion: String = result![0]
-            let newVersion: Bool = IsNewestVersion(currentVersion: self.currentVersion, latestVersion: lastVersion)
+            let newVersion: Bool = isNewestVersion(currentVersion: self.currentVersion, latestVersion: lastVersion)
             
             self.latest = version_s(current: self.currentVersion, latest: lastVersion, newest: newVersion, url: downloadURL)
             completionHandler(self.latest, nil)
@@ -89,7 +89,7 @@ public class macAppUpdater {
             return
         }
         
-        URLSession.shared.dataTask(with: url) { data, response, error in
+        URLSession.shared.dataTask(with: url) { data, _, error in
             guard let data = data, error == nil else { return }
             
             do {
@@ -115,7 +115,7 @@ public class macAppUpdater {
     }
     
     public func download(_ url: URL, progressHandler: @escaping (_ progress: Progress) -> Void = {_ in }, doneHandler: @escaping (_ path: String) -> Void = {_ in }) {
-        let downloadTask = URLSession.shared.downloadTask(with: url) { urlOrNil, responseOrNil, errorOrNil in
+        let downloadTask = URLSession.shared.downloadTask(with: url) { urlOrNil, _, _ in
             guard let fileURL = urlOrNil else { return }
             do {
                 let downloadsURL = try FileManager.default.url(for: .downloadsDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
@@ -123,14 +123,14 @@ public class macAppUpdater {
                 
                 self.copyFile(from: fileURL, to: destinationURL) { (path, error) in
                     if error != nil {
-                        print ("copy file error: \(error ?? "copy error")")
+                        print("copy file error: \(error ?? "copy error")")
                         return
                     }
                     
                     doneHandler(path)
                 }
             } catch {
-                print ("file error: \(error)")
+                print("file error: \(error)")
             }
         }
         
@@ -176,8 +176,8 @@ public class macAppUpdater {
         var toPath = to
         let fileName = (URL(fileURLWithPath: to.absoluteString)).lastPathComponent
         let fileExt  = (URL(fileURLWithPath: to.absoluteString)).pathExtension
-        var fileNameWithotSuffix : String!
-        var newFileName : String!
+        var fileNameWithotSuffix: String!
+        var newFileName: String!
         var counter = 0
         
         if fileName.hasSuffix(fileExt) {

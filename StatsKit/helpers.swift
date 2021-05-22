@@ -8,6 +8,7 @@
 //
 //  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
 //
+// swiftlint:disable file_length
 
 import Cocoa
 import os.log
@@ -196,8 +197,14 @@ public extension NSBezierPath {
         self.line(to: end)
         
         let startEndAngle = atan((end.y - start.y) / (end.x - start.x)) + ((end.x - start.x) < 0 ? CGFloat(Double.pi) : 0)
-        let arrowLine1 = CGPoint(x: end.x + pointerLineLength * cos(CGFloat(Double.pi) - startEndAngle + arrowAngle), y: end.y - pointerLineLength * sin(CGFloat(Double.pi) - startEndAngle + arrowAngle))
-        let arrowLine2 = CGPoint(x: end.x + pointerLineLength * cos(CGFloat(Double.pi) - startEndAngle - arrowAngle), y: end.y - pointerLineLength * sin(CGFloat(Double.pi) - startEndAngle - arrowAngle))
+        let arrowLine1 = CGPoint(
+            x: end.x + pointerLineLength * cos(CGFloat(Double.pi) - startEndAngle + arrowAngle),
+            y: end.y - pointerLineLength * sin(CGFloat(Double.pi) - startEndAngle + arrowAngle)
+        )
+        let arrowLine2 = CGPoint(
+            x: end.x + pointerLineLength * cos(CGFloat(Double.pi) - startEndAngle - arrowAngle),
+            y: end.y - pointerLineLength * sin(CGFloat(Double.pi) - startEndAngle - arrowAngle)
+        )
         
         self.line(to: arrowLine1)
         self.move(to: end)
@@ -205,7 +212,7 @@ public extension NSBezierPath {
     }
 }
 
-public func SeparatorView(_ title: String, origin: NSPoint, width: CGFloat) -> NSView {
+public func separatorView(_ title: String, origin: NSPoint, width: CGFloat) -> NSView {
     let view: NSView = NSView(frame: NSRect(x: origin.x, y: origin.y, width: width, height: 30))
     view.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
     
@@ -220,7 +227,7 @@ public func SeparatorView(_ title: String, origin: NSPoint, width: CGFloat) -> N
     return view
 }
 
-public func PopupRow(_ view: NSView, n: CGFloat = 0, title: String, value: String) -> (LabelField, ValueField) {
+public func popupRow(_ view: NSView, n: CGFloat = 0, title: String, value: String) -> (LabelField, ValueField) {
     let rowView: NSView = NSView(frame: NSRect(x: 0, y: 22*n, width: view.frame.width, height: 22))
     
     let labelWidth = title.widthOfString(usingFont: .systemFont(ofSize: 13, weight: .regular)) + 4
@@ -240,7 +247,7 @@ public func PopupRow(_ view: NSView, n: CGFloat = 0, title: String, value: Strin
     return (labelView, valueView)
 }
 
-public func PopupWithColorRow(_ view: NSView, color: NSColor, n: CGFloat, title: String, value: String) -> ValueField {
+public func popupWithColorRow(_ view: NSView, color: NSColor, n: CGFloat, title: String, value: String) -> ValueField {
     let rowView: NSView = NSView(frame: NSRect(x: 0, y: 22*n, width: view.frame.width, height: 22))
     
     let colorView: NSView = NSView(frame: NSRect(x: 2, y: 5, width: 12, height: 12))
@@ -265,7 +272,7 @@ public func PopupWithColorRow(_ view: NSView, color: NSColor, n: CGFloat, title:
     return valueView
 }
 
-public extension Array where Element : Equatable {
+public extension Array where Element: Equatable {
     func allEqual() -> Bool {
         if let firstElem = first {
             return !dropFirst().contains { $0 != firstElem }
@@ -274,7 +281,7 @@ public extension Array where Element : Equatable {
     }
 }
 
-public extension Array where Element : Hashable {
+public extension Array where Element: Hashable {
     func difference(from other: [Element]) -> [Element] {
         let thisSet = Set(self)
         let otherSet = Set(other)
@@ -282,19 +289,19 @@ public extension Array where Element : Hashable {
     }
 }
 
-public func FindAndToggleNSControlState(_ view: NSView?, state: NSControl.StateValue) {
+public func findAndToggleNSControlState(_ view: NSView?, state: NSControl.StateValue) {
     if let control = view?.subviews.first(where: { $0 is NSControl }) {
-        ToggleNSControlState(control as? NSControl, state: state)
+        toggleNSControlState(control as? NSControl, state: state)
     }
 }
 
-public func FindAndToggleEnableNSControlState(_ view: NSView?, state: Bool) {
+public func findAndToggleEnableNSControlState(_ view: NSView?, state: Bool) {
     if let control = view?.subviews.first(where: { $0 is NSControl }) {
-        ToggleEnableNSControlState(control as? NSControl, state: state)
+        toggleEnableNSControlState(control as? NSControl, state: state)
     }
 }
 
-public func ToggleNSControlState(_ control: NSControl?, state: NSControl.StateValue) {
+public func toggleNSControlState(_ control: NSControl?, state: NSControl.StateValue) {
     if #available(OSX 10.15, *) {
         if let checkbox = control as? NSSwitch {
             checkbox.state = state
@@ -306,7 +313,7 @@ public func ToggleNSControlState(_ control: NSControl?, state: NSControl.StateVa
     }
 }
 
-public func ToggleEnableNSControlState(_ control: NSControl?, state: Bool) {
+public func toggleEnableNSControlState(_ control: NSControl?, state: Bool) {
     if #available(OSX 10.15, *) {
         if let checkbox = control as? NSSwitch {
             checkbox.isEnabled = state
@@ -353,7 +360,7 @@ public func syncShell(_ args: String) -> String {
     return output
 }
 
-public func IsNewestVersion(currentVersion: String, latestVersion: String) -> Bool {
+public func isNewestVersion(currentVersion: String, latestVersion: String) -> Bool {
     let currentNumber = currentVersion.replacingOccurrences(of: "v", with: "")
     let latestNumber = latestVersion.replacingOccurrences(of: "v", with: "")
     
@@ -477,7 +484,7 @@ public func getIOParent(_ obj: io_registry_entry_t) -> io_registry_entry_t? {
         return nil
     }
     
-    if (IOObjectConformsTo(parent, "IOBlockStorageDriver") == 0) {
+    if IOObjectConformsTo(parent, "IOBlockStorageDriver") == 0 {
         IOObjectRelease(parent)
         return nil
     }
@@ -564,7 +571,7 @@ public struct Log: TextOutputStream {
     }
 }
 
-public func LocalizedString(_ key: String, _ params: String..., comment: String = "") -> String {
+public func localizedString(_ key: String, _ params: String..., comment: String = "") -> String {
     var string = NSLocalizedString(key, comment: comment)
     if !params.isEmpty {
         for (index, param) in params.enumerated() {
@@ -582,6 +589,7 @@ extension UnitTemperature {
     }
 }
 
+// swiftlint:disable identifier_name
 public func Temperature(_ value: Double) -> String {
     let stringUnit: String = Store.shared.string(key: "temperature_units", defaultValue: "system")
     let formatter = MeasurementFormatter()
@@ -603,7 +611,7 @@ public func Temperature(_ value: Double) -> String {
     return formatter.string(from: measurement)
 }
 
-public func SysctlByName(_ name: String) -> Int64 {
+public func sysctlByName(_ name: String) -> Int64 {
     var num: Int64 = 0
     var size = MemoryLayout<Int64>.size
     

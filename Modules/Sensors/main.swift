@@ -58,7 +58,7 @@ public class Sensors: Module {
     }
     
     private func checkIfNoSensorsEnabled() {
-        if self.sensorsReader.list.filter({ $0.state }).count == 0 {
+        if self.sensorsReader.list.filter({ $0.state }).isEmpty {
             NotificationCenter.default.post(name: .toggleModule, object: nil, userInfo: ["module": self.config.name, "state": false])
         }
     }

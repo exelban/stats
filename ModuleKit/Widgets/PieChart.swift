@@ -105,9 +105,9 @@ public class PieChart: WidgetWrapper {
             height: height
         ))
         
-        view.addSubview(ToggleTitleRow(
+        view.addSubview(toggleTitleRow(
             frame: NSRect(x: 0, y: 0, width: view.frame.width, height: rowHeight),
-            title: LocalizedString("Label"),
+            title: localizedString("Label"),
             action: #selector(toggleLabel),
             state: self.labelState
         ))

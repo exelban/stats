@@ -8,6 +8,7 @@
 //
 //  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
 //
+// swiftlint:disable file_length
 
 import Cocoa
 
@@ -37,22 +38,24 @@ extension String: LocalizedError {
     }
     
     public mutating func findAndCrop(pattern: String) -> String {
-        let regex = try! NSRegularExpression(pattern: pattern)
-        let stringRange = NSRange(location: 0, length: self.utf16.count)
-        var line = self
-        
-        if let searchRange = regex.firstMatch(in: self, options: [], range: stringRange) {
-            let start = self.index(self.startIndex, offsetBy: searchRange.range.lowerBound)
-            let end = self.index(self.startIndex, offsetBy: searchRange.range.upperBound)
-            let value  = String(self[start..<end]).trimmingCharacters(in: .whitespaces)
-            line = self.replacingOccurrences(
-                of: value,
-                with: "",
-                options: .regularExpression
-            )
-            self = line.trimmingCharacters(in: .whitespaces)
-            return value.trimmingCharacters(in: .whitespaces)
-        }
+        do {
+            let regex = try NSRegularExpression(pattern: pattern)
+            let stringRange = NSRange(location: 0, length: self.utf16.count)
+            var line = self
+            
+            if let searchRange = regex.firstMatch(in: self, options: [], range: stringRange) {
+                let start = self.index(self.startIndex, offsetBy: searchRange.range.lowerBound)
+                let end = self.index(self.startIndex, offsetBy: searchRange.range.upperBound)
+                let value  = String(self[start..<end]).trimmingCharacters(in: .whitespaces)
+                line = self.replacingOccurrences(
+                    of: value,
+                    with: "",
+                    options: .regularExpression
+                )
+                self = line.trimmingCharacters(in: .whitespaces)
+                return value.trimmingCharacters(in: .whitespaces)
+            }
+        } catch {}
         
         return ""
     }
@@ -81,7 +84,7 @@ extension String: LocalizedError {
     public func removedRegexMatches(pattern: String, replaceWith: String = "") -> String {
         do {
             let regex = try NSRegularExpression(pattern: pattern, options: NSRegularExpression.Options.caseInsensitive)
-            let range = NSMakeRange(0, self.count)
+            let range = NSRange(location: 0, length: self.count)
             return regex.stringByReplacingMatches(in: self, options: [], range: range, withTemplate: replaceWith)
         } catch {
             return self
@@ -121,7 +124,7 @@ public extension Double {
         return NSString(format: "%.\(decimalPlaces)f" as NSString, self) as String
     }
     
-    func rounded(toPlaces places:Int) -> Double {
+    func rounded(toPlaces places: Int) -> Double {
         let divisor = pow(10.0, Double(places))
         return (self * divisor).rounded() / divisor
     }
@@ -189,7 +192,7 @@ public extension Double {
     
     func secondsToHoursMinutesSeconds() -> (Int, Int) {
         let mins = (self.truncatingRemainder(dividingBy: 3600)) / 60
-        return (Int(self / 3600) , Int(mins))
+        return (Int(self / 3600), Int(mins))
     }
     
     func printSecondsToHoursMinutesSeconds(short: Bool = false) -> String {
@@ -234,7 +237,7 @@ public extension NSView {
         }
     }
     
-    func ToggleTitleRow(frame: NSRect, title: String, action: Selector, state: Bool) -> NSView {
+    func toggleTitleRow(frame: NSRect, title: String, action: Selector, state: Bool) -> NSView {
         let row: NSView = NSView(frame: frame)
         let state: NSControl.StateValue = state ? .on : .off
         
@@ -272,7 +275,7 @@ public extension NSView {
         return row
     }
     
-    func SelectTitleRow(frame: NSRect, title: String, action: Selector, items: [String], selected: String) -> NSView {
+    func selectTitleRow(frame: NSRect, title: String, action: Selector, items: [String], selected: String) -> NSView {
         let row: NSView = NSView(frame: frame)
         
         let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: (row.frame.height - 16)/2, width: row.frame.width - 52, height: 17), title)
@@ -311,31 +314,14 @@ public extension NSView {
         return row
     }
     
-    func SelectColorRow(frame: NSRect, title: String, action: Selector, items: [String], selected: String) -> NSView {
+    func selectRow(frame: NSRect, title: String, action: Selector, items: [KeyValue_p], selected: String) -> NSView {
         let row: NSView = NSView(frame: frame)
         
         let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: (row.frame.height - 16)/2, width: row.frame.width - 52, height: 17), title)
         rowTitle.font = NSFont.systemFont(ofSize: 13, weight: .light)
         rowTitle.textColor = .textColor
         
-        let select: NSPopUpButton = NSPopUpButton(frame: NSRect(x: row.frame.width - 50, y: (row.frame.height-26)/2, width: 50, height: 26))
-        select.target = self
-        select.action = action
-        
-        let menu = NSMenu()
-        items.forEach { (color: String) in
-            if color.contains("separator") {
-                menu.addItem(NSMenuItem.separator())
-            } else {
-                let interfaceMenu = NSMenuItem(title: color, action: nil, keyEquivalent: "")
-                menu.addItem(interfaceMenu)
-                if selected == color {
-                    interfaceMenu.state = .on
-                }
-            }
-        }
-        
-        select.menu = menu
+        let select: NSPopUpButton = selectView(action: action, items: items, selected: selected)
         select.sizeToFit()
         
         rowTitle.setFrameSize(NSSize(width: row.frame.width - select.frame.width, height: rowTitle.frame.height))
@@ -350,29 +336,7 @@ public extension NSView {
         return row
     }
     
-    func SelectRow(frame: NSRect, title: String, action: Selector, items: [KeyValue_p], selected: String) -> NSView {
-        let row: NSView = NSView(frame: frame)
-        
-        let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: (row.frame.height - 16)/2, width: row.frame.width - 52, height: 17), title)
-        rowTitle.font = NSFont.systemFont(ofSize: 13, weight: .light)
-        rowTitle.textColor = .textColor
-        
-        let select: NSPopUpButton = SelectView(action: action, items: items, selected: selected)
-        select.sizeToFit()
-        
-        rowTitle.setFrameSize(NSSize(width: row.frame.width - select.frame.width, height: rowTitle.frame.height))
-        select.setFrameOrigin(NSPoint(x: row.frame.width - select.frame.width, y: select.frame.origin.y))
-        
-        row.addSubview(select)
-        row.addSubview(rowTitle)
-        
-        row.widthAnchor.constraint(equalToConstant: row.bounds.width).isActive = true
-        row.heightAnchor.constraint(equalToConstant: row.bounds.height).isActive = true
-        
-        return row
-    }
-    
-    func SelectView(action: Selector, items: [KeyValue_p], selected: String) -> NSPopUpButton {
+    func selectView(action: Selector, items: [KeyValue_p], selected: String) -> NSPopUpButton {
         let select: NSPopUpButton = NSPopUpButton(frame: NSRect(x: 0, y: 0, width: 50, height: 26))
         select.target = self
         select.action = action
@@ -382,7 +346,7 @@ public extension NSView {
             if item.key.contains("separator") {
                 menu.addItem(NSMenuItem.separator())
             } else {
-                let interfaceMenu = NSMenuItem(title: LocalizedString(item.value), action: nil, keyEquivalent: "")
+                let interfaceMenu = NSMenuItem(title: localizedString(item.value), action: nil, keyEquivalent: "")
                 interfaceMenu.representedObject = item.key
                 menu.addItem(interfaceMenu)
                 if selected == item.key {
@@ -439,6 +403,7 @@ extension URL {
     }
 }
 
+// swiftlint:disable large_tuple
 extension UInt32 {
     init(bytes: (UInt8, UInt8, UInt8, UInt8)) {
         self = UInt32(bytes.0) << 24 | UInt32(bytes.1) << 16 | UInt32(bytes.2) << 8 | UInt32(bytes.3)
@@ -472,7 +437,7 @@ public extension NSColor {
     convenience init(hexString: String, alpha: CGFloat = 1.0) {
         let hexString: String = hexString.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         let scanner = Scanner(string: hexString)
-        if (hexString.hasPrefix("#")) {
+        if hexString.hasPrefix("#") {
             scanner.scanLocation = 1
         }
         var color: UInt32 = 0
@@ -484,17 +449,7 @@ public extension NSColor {
         let red   = CGFloat(r) / 255.0
         let green = CGFloat(g) / 255.0
         let blue  = CGFloat(b) / 255.0
-        self.init(red:red, green:green, blue:blue, alpha:alpha)
-    }
-    
-    func toHexString() -> String {
-        var r:CGFloat = 0
-        var g:CGFloat = 0
-        var b:CGFloat = 0
-        var a:CGFloat = 0
-        getRed(&r, green: &g, blue: &b, alpha: &a)
-        let rgb:Int = (Int)(r*255)<<16 | (Int)(g*255)<<8 | (Int)(b*255)<<0
-        return String(format:"#%06x", rgb)
+        self.init(red: red, green: green, blue: blue, alpha: alpha)
     }
 }
 
@@ -536,7 +491,7 @@ public final class ScrollableStackView: NSView {
             scrollView.leftAnchor.constraint(equalTo: self.leftAnchor),
             scrollView.rightAnchor.constraint(equalTo: self.rightAnchor),
             scrollView.topAnchor.constraint(equalTo: self.topAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
         
         clipView.drawsBackground = false
@@ -549,7 +504,7 @@ public final class ScrollableStackView: NSView {
         NSLayoutConstraint.activate([
             stackView.leftAnchor.constraint(equalTo: clipView.leftAnchor),
             stackView.rightAnchor.constraint(equalTo: clipView.rightAnchor),
-            stackView.topAnchor.constraint(equalTo: clipView.topAnchor),
+            stackView.topAnchor.constraint(equalTo: clipView.topAnchor)
         ])
     }
     
@@ -567,21 +522,21 @@ extension NSTextView {
             if (event.modifierFlags.rawValue & NSEvent.ModifierFlags.deviceIndependentFlagsMask.rawValue) == commandKey {
                 switch event.charactersIgnoringModifiers! {
                 case "x":
-                    if NSApp.sendAction(#selector(NSText.cut(_:)), to:nil, from:self) { return true }
+                    if NSApp.sendAction(#selector(NSText.cut(_:)), to: nil, from: self) { return true }
                 case "c":
-                    if NSApp.sendAction(#selector(NSText.copy(_:)), to:nil, from:self) { return true }
+                    if NSApp.sendAction(#selector(NSText.copy(_:)), to: nil, from: self) { return true }
                 case "v":
-                    if NSApp.sendAction(#selector(NSText.paste(_:)), to:nil, from:self) { return true }
+                    if NSApp.sendAction(#selector(NSText.paste(_:)), to: nil, from: self) { return true }
                 case "z":
-                    if NSApp.sendAction(Selector(("undo:")), to:nil, from:self) { return true }
+                    if NSApp.sendAction(Selector(("undo:")), to: nil, from: self) { return true }
                 case "a":
-                    if NSApp.sendAction(#selector(NSResponder.selectAll(_:)), to:nil, from:self) { return true }
+                    if NSApp.sendAction(#selector(NSResponder.selectAll(_:)), to: nil, from: self) { return true }
                 default:
                     break
                 }
             } else if (event.modifierFlags.rawValue & NSEvent.ModifierFlags.deviceIndependentFlagsMask.rawValue) == commandShiftKey {
                 if event.charactersIgnoringModifiers == "Z" {
-                    if NSApp.sendAction(Selector(("redo:")), to:nil, from:self) { return true }
+                    if NSApp.sendAction(Selector(("redo:")), to: nil, from: self) { return true }
                 }
             }
         }

@@ -58,17 +58,27 @@ internal class Settings: NSView, Settings_v {
         let rowHeight: CGFloat = 30
         let num: CGFloat = 2
         
-        self.addSubview(SelectTitleRow(
-            frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * 2, width: self.frame.width - (Constants.Settings.margin*2), height: 30),
-            title: LocalizedString("Number of top processes"),
+        self.addSubview(selectTitleRow(
+            frame: NSRect(
+                x: Constants.Settings.margin,
+                y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * 2,
+                width: self.frame.width - (Constants.Settings.margin*2),
+                height: 30
+            ),
+            title: localizedString("Number of top processes"),
             action: #selector(changeNumberOfProcesses),
             items: NumbersOfProcesses.map{ "\($0)" },
             selected: "\(self.numberOfProcesses)"
         ))
         
-        self.addSubview(SelectRow(
-            frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * 1, width: self.frame.width - (Constants.Settings.margin*2), height: 30),
-            title: LocalizedString("Reader type"),
+        self.addSubview(selectRow(
+            frame: NSRect(
+                x: Constants.Settings.margin,
+                y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * 1,
+                width: self.frame.width - (Constants.Settings.margin*2),
+                height: 30
+            ),
+            title: localizedString("Reader type"),
             action: #selector(changeReaderType),
             items: NetworkReaders,
             selected: self.readerType
@@ -82,7 +92,7 @@ internal class Settings: NSView, Settings_v {
     private func addInterfaceSelector() {
         let view: NSView = NSView(frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin, width: self.frame.width, height: 30))
         
-        let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: (view.frame.height - 16)/2, width: view.frame.width - 52, height: 17), LocalizedString("Network interface"))
+        let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: (view.frame.height - 16)/2, width: view.frame.width - 52, height: 17), localizedString("Network interface"))
         rowTitle.font = NSFont.systemFont(ofSize: 13, weight: .light)
         rowTitle.textColor = .textColor
         

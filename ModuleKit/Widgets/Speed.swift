@@ -84,7 +84,6 @@ public class SpeedWidget: WidgetWrapper {
         default:
             x = 0
             width = 0
-            break
         }
         
         if self.valueState {
@@ -197,7 +196,7 @@ public class SpeedWidget: WidgetWrapper {
             str.draw(with: rect)
         }
         
-        if self.symbols.count > 0 {
+        if !self.symbols.isEmpty {
             let uploadAttributes = [
                 NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .regular),
                 NSAttributedString.Key.foregroundColor: uploadValue >= 1_024 ? NSColor.red : NSColor.textColor,
@@ -220,25 +219,25 @@ public class SpeedWidget: WidgetWrapper {
             height: height
         ))
         
-        view.addSubview(SelectRow(
+        view.addSubview(selectRow(
             frame: NSRect(x: 0, y: (rowHeight+Constants.Settings.margin) * 2, width: view.frame.width, height: rowHeight),
-            title: LocalizedString("Pictogram"),
+            title: localizedString("Pictogram"),
             action: #selector(toggleIcon),
             items: SpeedPictogram,
             selected: self.icon
         ))
         
-        view.addSubview(SelectRow(
+        view.addSubview(selectRow(
             frame: NSRect(x: 0, y: rowHeight + Constants.Settings.margin, width: view.frame.width, height: rowHeight),
-            title: LocalizedString("Base"),
+            title: localizedString("Base"),
             action: #selector(toggleBase),
             items: SpeedBase,
             selected: self.baseValue
         ))
         
-        view.addSubview(ToggleTitleRow(
+        view.addSubview(toggleTitleRow(
             frame: NSRect(x: 0, y: 0, width: view.frame.width, height: rowHeight),
-            title: LocalizedString("Value"),
+            title: localizedString("Value"),
             action: #selector(toggleValue),
             state: self.valueState
         ))

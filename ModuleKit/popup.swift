@@ -25,7 +25,12 @@ internal class PopupWindow: NSWindow, NSWindowDelegate {
         self.viewController.visibilityCallback = visibilityCallback
         
         super.init(
-            contentRect: NSMakeRect(0, 0, self.viewController.view.frame.width, self.viewController.view.frame.height),
+            contentRect: NSRect(
+                x: 0,
+                y: 0,
+                width: self.viewController.view.frame.width,
+                height: self.viewController.view.frame.height
+            ),
             styleMask: [.titled, .fullSizeContentView],
             backing: .buffered,
             defer: true
@@ -240,7 +245,7 @@ internal class HeaderView: NSStackView {
         activity.isBordered = false
         activity.action = #selector(openActivityMonitor)
         activity.target = self
-        activity.toolTip = LocalizedString("Open Activity Monitor")
+        activity.toolTip = localizedString("Open Activity Monitor")
         activity.focusRingType = .none
         self.activityButton = activity
         
@@ -268,7 +273,7 @@ internal class HeaderView: NSStackView {
         settings.isBordered = false
         settings.action = #selector(openSettings)
         settings.target = self
-        settings.toolTip = LocalizedString("Open module settings")
+        settings.toolTip = localizedString("Open module settings")
         settings.focusRingType = .none
         self.settingsButton = settings
         
@@ -279,7 +284,7 @@ internal class HeaderView: NSStackView {
         NSLayoutConstraint.activate([
             title.widthAnchor.constraint(
                 equalToConstant: self.frame.width - activity.intrinsicContentSize.width - settings.intrinsicContentSize.width
-            ),
+            )
         ])
     }
     
@@ -296,8 +301,8 @@ internal class HeaderView: NSStackView {
         
         NSColor.gridColor.set()
         let line = NSBezierPath()
-        line.move(to: NSMakePoint(0, 0))
-        line.line(to: NSMakePoint(self.frame.width, 0))
+        line.move(to: NSPoint(x: 0, y: 0))
+        line.line(to: NSPoint(x: self.frame.width, y: 0))
         line.lineWidth = 1
         line.stroke()
     }
@@ -326,11 +331,11 @@ internal class HeaderView: NSStackView {
     public func setCloseButton(_ state: Bool) {
         if state && !self.isCloseAction {
             self.activityButton?.image = Bundle(for: type(of: self)).image(forResource: "close")!
-            self.activityButton?.toolTip = LocalizedString("Close popup")
+            self.activityButton?.toolTip = localizedString("Close popup")
             self.isCloseAction = true
         } else if !state && self.isCloseAction {
             self.activityButton?.image = Bundle(for: type(of: self)).image(forResource: "chart")!
-            self.activityButton?.toolTip = LocalizedString("Open Activity Monitor")
+            self.activityButton?.toolTip = localizedString("Open Activity Monitor")
             self.isCloseAction = false
         }
     }

@@ -40,7 +40,7 @@ internal class Settings: NSView, Settings_v {
         if !self.usagePerCoreState {
             self.hyperthreadState = false
         }
-        self.hasHyperthreadingCores = SysctlByName("hw.physicalcpu") != SysctlByName("hw.logicalcpu")
+        self.hasHyperthreadingCores = sysctlByName("hw.physicalcpu") != sysctlByName("hw.logicalcpu")
         
         super.init(frame: CGRect(
             x: 0,
@@ -57,9 +57,10 @@ internal class Settings: NSView, Settings_v {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // swiftlint:disable function_body_length
     public func load(widgets: [widget_t]) {
         self.subviews.forEach{ $0.removeFromSuperview() }
-        
+
         var hasIPG = false
         
         #if arch(x86_64)
@@ -74,49 +75,69 @@ internal class Settings: NSView, Settings_v {
             num += 1
         }
         
-        self.addSubview(SelectTitleRow(
-            frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * num, width: self.frame.width - (Constants.Settings.margin*2), height: rowHeight),
-            title: LocalizedString("Update interval"),
+        self.addSubview(selectTitleRow(
+            frame: NSRect(
+                x: Constants.Settings.margin,
+                y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * num,
+                width: self.frame.width - (Constants.Settings.margin*2),
+                height: rowHeight
+            ),
+            title: localizedString("Update interval"),
             action: #selector(changeUpdateInterval),
             items: ReaderUpdateIntervals.map{ "\($0) sec" },
             selected: "\(self.updateIntervalValue) sec"
         ))
         
         if !widgets.filter({ $0 == .barChart }).isEmpty {
-            self.addSubview(ToggleTitleRow(
-                frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * (num-1), width: self.frame.width - (Constants.Settings.margin*2), height: rowHeight),
-                title: LocalizedString("Show usage per core"),
+            self.addSubview(toggleTitleRow(
+                frame: NSRect(
+                    x: Constants.Settings.margin,
+                    y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * (num-1),
+                    width: self.frame.width - (Constants.Settings.margin*2),
+                    height: rowHeight
+                ),
+                title: localizedString("Show usage per core"),
                 action: #selector(toggleUsagePerCore),
                 state: self.usagePerCoreState
             ))
             
             if self.hasHyperthreadingCores {
-                self.hyperthreadView = ToggleTitleRow(
-                    frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * (num-2), width: self.frame.width - (Constants.Settings.margin*2), height: rowHeight),
-                    title: LocalizedString("Show hyper-threading cores"),
+                self.hyperthreadView = toggleTitleRow(
+                    frame: NSRect(
+                        x: Constants.Settings.margin,
+                        y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * (num-2),
+                        width: self.frame.width - (Constants.Settings.margin*2),
+                        height: rowHeight
+                    ),
+                    title: localizedString("Show hyper-threading cores"),
                     action: #selector(toggleMultithreading),
                     state: self.hyperthreadState
                 )
                 if !self.usagePerCoreState {
-                    FindAndToggleEnableNSControlState(self.hyperthreadView, state: false)
-                    FindAndToggleNSControlState(self.hyperthreadView, state: .off)
+                    findAndToggleEnableNSControlState(self.hyperthreadView, state: false)
+                    findAndToggleNSControlState(self.hyperthreadView, state: .off)
                 }
                 self.addSubview(self.hyperthreadView!)
             }
         }
         
         if hasIPG {
-            self.addSubview(ToggleTitleRow(
-                frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * 1, width: self.frame.width - (Constants.Settings.margin*2), height: rowHeight),
-                title: "\(LocalizedString("CPU frequency")) (IPG)",
+            self.addSubview(toggleTitleRow(
+                frame: NSRect(
+                    x: Constants.Settings.margin,
+                    y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * 1,
+                    width: self.frame.width - (Constants.Settings.margin*2),
+                    height: rowHeight
+                ),
+                title: "\(localizedString("CPU frequency")) (IPG)",
                 action: #selector(toggleIPG),
                 state: self.IPGState
             ))
         }
         
-        self.addSubview(SelectTitleRow(
+        self.addSubview(selectTitleRow(
             frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin, width: self.frame.width - (Constants.Settings.margin*2), height: rowHeight),
-            title: LocalizedString("Number of top processes"),
+            title: localizedString("Number of top processes"),
             action: #selector(changeNumberOfProcesses),
             items: NumbersOfProcesses.map{ "\($0)" },
             selected: "\(self.numberOfProcesses)"
@@ -153,11 +174,11 @@ internal class Settings: NSView, Settings_v {
         Store.shared.set(key: "\(self.title)_usagePerCore", value: self.usagePerCoreState)
         self.callback()
         
-        FindAndToggleEnableNSControlState(self.hyperthreadView, state: self.usagePerCoreState)
+        findAndToggleEnableNSControlState(self.hyperthreadView, state: self.usagePerCoreState)
         if !self.usagePerCoreState {
             self.hyperthreadState = false
             Store.shared.set(key: "\(self.title)_hyperhreading", value: self.hyperthreadState)
-            FindAndToggleNSControlState(self.hyperthreadView, state: .off)
+            findAndToggleNSControlState(self.hyperthreadView, state: .off)
         }
     }
     

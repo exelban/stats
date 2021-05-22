@@ -30,7 +30,7 @@ var modules: [Module] = [
     Sensors(),
     Fans(),
     Network(),
-    Battery(),
+    Battery()
 ]
 var log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: "Stats")
 
@@ -60,6 +60,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     
     func applicationWillTerminate(_ aNotification: Notification) {
         modules.forEach{ $0.terminate() }
+    }
+    
+    deinit {
         NotificationCenter.default.removeObserver(self)
     }
     

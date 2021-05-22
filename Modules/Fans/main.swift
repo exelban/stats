@@ -76,7 +76,7 @@ public class Fans: Module {
     }
     
     private func checkIfNoSensorsEnabled() {
-        if self.fansReader.list.filter({ $0.state }).count == 0 {
+        if self.fansReader.list.filter({ $0.state }).isEmpty {
             NotificationCenter.default.post(name: .toggleModule, object: nil, userInfo: ["module": self.config.name, "state": false])
         }
     }

@@ -76,54 +76,54 @@ internal class Settings: NSView, Settings_v {
             return v
         }
         
-        self.addSubview(SelectTitleRow(
+        self.addSubview(selectTitleRow(
             frame: NSRect(
                 x: Constants.Settings.margin,
                 y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * (num-1),
                 width: self.frame.width - (Constants.Settings.margin*2),
                 height: rowHeight
             ),
-            title: LocalizedString("Low level notification"),
+            title: localizedString("Low level notification"),
             action: #selector(changeUpdateIntervalLow),
             items: lowLevels,
             selected: self.lowLevelNotification == "Disabled" ? self.lowLevelNotification : "\(Int((Double(self.lowLevelNotification) ?? 0)*100))%"
         ))
         
-        self.addSubview(SelectTitleRow(
+        self.addSubview(selectTitleRow(
             frame: NSRect(
                 x: Constants.Settings.margin,
                 y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * (num-2),
                 width: self.frame.width - (Constants.Settings.margin*2),
                 height: rowHeight
             ),
-            title: LocalizedString("High level notification"),
+            title: localizedString("High level notification"),
             action: #selector(changeUpdateIntervalHigh),
             items: highLevels,
             selected: self.highLevelNotification == "Disabled" ? self.highLevelNotification : "\(Int((Double(self.highLevelNotification) ?? 0)*100))%"
         ))
         
-        self.addSubview(SelectTitleRow(
+        self.addSubview(selectTitleRow(
             frame: NSRect(
                 x: Constants.Settings.margin,
                 y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * (num-3),
                 width: self.frame.width - (Constants.Settings.margin*2),
                 height: rowHeight
             ),
-            title: LocalizedString("Number of top processes"),
+            title: localizedString("Number of top processes"),
             action: #selector(changeNumberOfProcesses),
             items: NumbersOfProcesses.map{ "\($0)" },
             selected: "\(self.numberOfProcesses)"
         ))
         
         if !widgets.filter({ $0 == .battery }).isEmpty {
-            self.addSubview(SelectRow(
+            self.addSubview(selectRow(
                 frame: NSRect(
                     x: Constants.Settings.margin,
                     y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * 0,
                     width: self.frame.width - (Constants.Settings.margin*2),
                     height: rowHeight
                 ),
-                title: LocalizedString("Time format"),
+                title: localizedString("Time format"),
                 action: #selector(toggleTimeFormat),
                 items: ShortLong,
                 selected: self.timeFormat

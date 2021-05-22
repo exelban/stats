@@ -37,43 +37,33 @@ public enum widget_t: String {
         case .mini:
             preview = Mini(title: module, config: widgetConfig, preview: true)
             item = Mini(title: module, config: widgetConfig, preview: false)
-            break
         case .lineChart:
             preview = LineChart(title: module, config: widgetConfig, preview: true)
             item = LineChart(title: module, config: widgetConfig, preview: false)
-            break
         case .barChart:
             preview = BarChart(title: module, config: widgetConfig, preview: true)
             item = BarChart(title: module, config: widgetConfig, preview: false)
-            break
         case .pieChart:
             preview = PieChart(title: module, config: widgetConfig, preview: true)
             item = PieChart(title: module, config: widgetConfig, preview: false)
-            break
         case .networkChart:
             preview = NetworkChart(title: module, config: widgetConfig, preview: true)
             item = NetworkChart(title: module, config: widgetConfig, preview: false)
-            break
         case .speed:
             preview = SpeedWidget(title: module, config: widgetConfig, preview: true)
             item = SpeedWidget(title: module, config: widgetConfig, preview: false)
-            break
         case .battery:
             preview = BatterykWidget(title: module, config: widgetConfig, preview: true)
             item = BatterykWidget(title: module, config: widgetConfig, preview: false)
-            break
         case .sensors:
             preview = SensorsWidget(title: module, config: widgetConfig, preview: true)
             item = SensorsWidget(title: module, config: widgetConfig, preview: false)
-            break
         case .memory:
             preview = MemoryWidget(title: module, config: widgetConfig, preview: true)
             item = MemoryWidget(title: module, config: widgetConfig, preview: false)
-            break
         case .label:
             preview = Label(title: module, config: widgetConfig, preview: true)
             item = Label(title: module, config: widgetConfig, preview: false)
-            break
         default: break
         }
         
@@ -86,17 +76,17 @@ public enum widget_t: String {
     
     public func name() -> String {
         switch self {
-            case .mini: return LocalizedString("Mini widget")
-            case .lineChart: return LocalizedString("Line chart widget")
-            case .barChart: return LocalizedString("Bar chart widget")
-            case .pieChart: return LocalizedString("Pie chart widget")
-            case .networkChart: return LocalizedString("Network chart widget")
-            case .speed: return LocalizedString("Speed widget")
-            case .battery: return LocalizedString("Battery widget")
-            case .sensors: return LocalizedString("Text widget")
-            case .memory: return LocalizedString("Memory widget")
-            case .label: return LocalizedString("Label widget")
-            default: return ""
+        case .mini: return localizedString("Mini widget")
+        case .lineChart: return localizedString("Line chart widget")
+        case .barChart: return localizedString("Bar chart widget")
+        case .pieChart: return localizedString("Pie chart widget")
+        case .networkChart: return localizedString("Network chart widget")
+        case .speed: return localizedString("Speed widget")
+        case .battery: return localizedString("Battery widget")
+        case .sensors: return localizedString("Text widget")
+        case .memory: return localizedString("Memory widget")
+        case .label: return localizedString("Label widget")
+        default: return ""
         }
     }
 }
@@ -247,7 +237,7 @@ public class Widget {
             NotificationCenter.default.post(name: .togglePopup, object: nil, userInfo: [
                 "module": self.module,
                 "origin": window.frame.origin,
-                "center": window.frame.width/2,
+                "center": window.frame.width/2
             ])
         }
     }

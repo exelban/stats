@@ -13,11 +13,11 @@ import Cocoa
 
 public enum AppUpdateInterval: String {
     case atStart = "At start"
-    case separator_1 = "separator_1"
+    case separator1 = "separator_1"
     case oncePerDay = "Once per day"
     case oncePerWeek = "Once per week"
     case oncePerMonth = "Once per month"
-    case separator_2 = "separator_2"
+    case separator2 = "separator_2"
     case never = "Never"
 }
 public let AppUpdateIntervals: [KeyValue_t] = [
@@ -38,8 +38,8 @@ public let TemperatureUnits: [KeyValue_t] = [
 ]
 
 public enum DataSizeBase: String {
-    case bit = "bit"
-    case byte = "byte"
+    case bit
+    case byte
 }
 public let SpeedBase: [KeyValue_t] = [
     KeyValue_t(key: "bit", value: "Bit", additional: DataSizeBase.bit),
@@ -50,7 +50,7 @@ public let SensorsWidgetMode: [KeyValue_t] = [
     KeyValue_t(key: "automatic", value: "Automatic"),
     KeyValue_t(key: "separator", value: "separator"),
     KeyValue_t(key: "oneRow", value: "One row"),
-    KeyValue_t(key: "twoRows", value: "Two rows"),
+    KeyValue_t(key: "twoRows", value: "Two rows")
 ]
 
 public let SpeedPictogram: [KeyValue_t] = [
@@ -58,7 +58,7 @@ public let SpeedPictogram: [KeyValue_t] = [
     KeyValue_t(key: "separator", value: "separator"),
     KeyValue_t(key: "dots", value: "Dots"),
     KeyValue_t(key: "arrows", value: "Arrows"),
-    KeyValue_t(key: "chars", value: "Characters"),
+    KeyValue_t(key: "chars", value: "Characters")
 ]
 
 public let BatteryAdditionals: [KeyValue_t] = [
@@ -67,12 +67,12 @@ public let BatteryAdditionals: [KeyValue_t] = [
     KeyValue_t(key: "percentage", value: "Percentage"),
     KeyValue_t(key: "time", value: "Time"),
     KeyValue_t(key: "percentageAndTime", value: "Percentage and time"),
-    KeyValue_t(key: "timeAndPercentage", value: "Time and percentage"),
+    KeyValue_t(key: "timeAndPercentage", value: "Time and percentage")
 ]
 
 public let ShortLong: [KeyValue_t] = [
     KeyValue_t(key: "short", value: "Short"),
-    KeyValue_t(key: "long", value: "Long"),
+    KeyValue_t(key: "long", value: "Long")
 ]
 
 public let ReaderUpdateIntervals: [Int] = [1, 2, 3, 5, 10, 15, 30]
@@ -81,7 +81,7 @@ public let NumbersOfProcesses: [Int] = [0, 3, 5, 8, 10, 15]
 public typealias Bandwidth = (upload: Int64, download: Int64)
 public let NetworkReaders: [KeyValue_t] = [
     KeyValue_t(key: "interface", value: "Interface based"),
-    KeyValue_t(key: "process", value: "Processes based"),
+    KeyValue_t(key: "process", value: "Processes based")
 ]
 
 public struct Color: KeyValue_p, Equatable {
@@ -98,12 +98,12 @@ extension Color: CaseIterable {
     public static var utilization: Color { return Color(key: "utilization", value: "Based on utilization", additional: NSColor.black) }
     public static var pressure: Color { return Color(key: "pressure", value: "Based on pressure", additional: NSColor.black) }
     
-    public static var separator_1: Color { return Color(key: "separator_1", value: "separator_1", additional: NSColor.black) }
+    public static var separator1: Color { return Color(key: "separator_1", value: "separator_1", additional: NSColor.black) }
     
     public static var systemAccent: Color { return Color(key: "system", value: "System accent", additional: NSColor.black) }
     public static var monochrome: Color { return Color(key: "monochrome", value: "Monochrome accent", additional: NSColor.black) }
     
-    public static var separator_2: Color { return Color(key: "separator_2", value: "separator_2", additional: NSColor.black) }
+    public static var separator2: Color { return Color(key: "separator_2", value: "separator_2", additional: NSColor.black) }
     
     public static var clear: Color { return Color(key: "clear", value: "Clear", additional: NSColor.clear) }
     public static var white: Color { return Color(key: "white", value: "White", additional: NSColor.white) }
@@ -137,8 +137,8 @@ extension Color: CaseIterable {
     } }
     
     public static var allCases: [Color] {
-        return [.utilization, .pressure, separator_1,
-                .systemAccent, .monochrome, separator_2,
+        return [.utilization, .pressure, separator1,
+                .systemAccent, .monochrome, separator2,
                 .clear, .white, .black, .gray, .secondGray, .darkGray, .lightGray,
                 .red, .secondRed, .green, .secondGreen, .blue, .secondBlue, .yellow, .secondYellow,
                 .orange, .secondOrange, .purple, .secondPurple, .brown, .secondBrown,

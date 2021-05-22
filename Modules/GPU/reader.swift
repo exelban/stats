@@ -63,6 +63,7 @@ internal class InfoReader: Reader<GPUs> {
         }
     }
     
+    // swiftlint:disable function_body_length
     public override func read() {
         guard let accelerators = fetchIOService(kIOAcceleratorClassName) else {
             return
@@ -75,7 +76,7 @@ internal class InfoReader: Reader<GPUs> {
                 return
             }
             
-            guard let stats = accelerator["PerformanceStatistics"] as? [String:Any] else {
+            guard let stats = accelerator["PerformanceStatistics"] as? [String: Any] else {
                 os_log(.error, log: log, "PerformanceStatistics not found")
                 return
             }
@@ -154,7 +155,7 @@ internal class InfoReader: Reader<GPUs> {
                 return
             }
             
-            if let agcInfo = accelerator["AGCInfo"] as? [String:Int], let state = agcInfo["poweredOffByAGC"] {
+            if let agcInfo = accelerator["AGCInfo"] as? [String: Int], let state = agcInfo["poweredOffByAGC"] {
                 self.gpus.list[idx].state = state == 0
             }
             

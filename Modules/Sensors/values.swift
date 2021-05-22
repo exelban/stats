@@ -103,7 +103,7 @@ struct Sensor_t {
 
 // List of keys: https://github.com/acidanthera/VirtualSMC/blob/master/Docs/SMCSensorKeys.txt
 let SensorsList: [Sensor_t] = [
-    /// Temperature
+    // Temperature
     Sensor_t(key: "TA%P", name: "Ambient %", group: .sensor, type: .temperature),
     Sensor_t(key: "Th%H", name: "Heatpipe %", group: .sensor, type: .temperature),
     Sensor_t(key: "TZ%C", name: "Termal zone %", group: .sensor, type: .temperature),
@@ -135,7 +135,7 @@ let SensorsList: [Sensor_t] = [
     Sensor_t(key: "TN0H", name: "Northbridge heatsink", group: .system, type: .temperature),
     Sensor_t(key: "TN0P", name: "Northbridge proximity", group: .system, type: .temperature),
     
-     /// Voltage
+    // Voltage
     Sensor_t(key: "VCAC", name: "CPU IA", group: .CPU, type: .voltage),
     Sensor_t(key: "VCSC", name: "CPU System Agent", group: .CPU, type: .voltage),
     Sensor_t(key: "VC%C", name: "CPU Core %", group: .CPU, type: .voltage),
@@ -155,7 +155,7 @@ let SensorsList: [Sensor_t] = [
     Sensor_t(key: "VV9S", name: "12V", group: .sensor, type: .voltage),
     Sensor_t(key: "VeES", name: "PCI 12V", group: .sensor, type: .voltage),
     
-     /// Power
+    // Power
     Sensor_t(key: "PC0C", name: "CPU Core", group: .CPU, type: .power),
     Sensor_t(key: "PCAM", name: "CPU Core (IMON)", group: .CPU, type: .power),
     Sensor_t(key: "PCPC", name: "CPU Package", group: .CPU, type: .power),
@@ -176,6 +176,6 @@ let SensorsList: [Sensor_t] = [
     Sensor_t(key: "PDTR", name: "DC In", group: .sensor, type: .power),
     Sensor_t(key: "PSTR", name: "System total", group: .sensor, type: .power),
     
-     /// Fans
-    Sensor_t(key: "F%Ac", name: "Fan #%", group: .sensor, type: .fan),
+    // Fans
+    Sensor_t(key: "F%Ac", name: "Fan #%", group: .sensor, type: .fan)
 ]

@@ -31,6 +31,7 @@ internal enum SMCDataType: String {
     case FDS = "{fds"
 }
 
+// swiftlint:disable identifier_name
 internal enum SMCKeys: UInt8 {
     case KERNEL_INDEX = 2
     case READ_BYTES = 5
@@ -116,21 +117,21 @@ public class SMC {
         
         let matchingDictionary: CFMutableDictionary = IOServiceMatching("AppleSMC")
         result = IOServiceGetMatchingServices(kIOMasterPortDefault, matchingDictionary, &iterator)
-        if (result != kIOReturnSuccess) {
+        if result != kIOReturnSuccess {
             print("Error IOServiceGetMatchingServices(): " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
             return
         }
         
         device = IOIteratorNext(iterator)
         IOObjectRelease(iterator)
-        if (device == 0) {
+        if device == 0 {
             print("Error IOIteratorNext(): " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
             return
         }
         
         result = IOServiceOpen(device, mach_task_self_, 0, &conn)
         IOObjectRelease(device)
-        if (result != kIOReturnSuccess) {
+        if result != kIOReturnSuccess {
             print("Error IOServiceOpen(): " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
             return
         }
@@ -138,7 +139,7 @@ public class SMC {
     
     deinit {
         let result = self.close()
-        if (result != kIOReturnSuccess) {
+        if result != kIOReturnSuccess {
             print("error close smc connection: " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
         }
     }
@@ -157,7 +158,7 @@ public class SMC {
             return nil
         }
         
-        if (val.dataSize > 0) {
+        if val.dataSize > 0 {
             if val.bytes.first(where: { $0 != 0}) == nil && val.key != "FS! " {
                 return nil
             }
@@ -226,7 +227,7 @@ public class SMC {
             return nil
         }
         
-        if (val.dataSize > 0) {
+        if val.dataSize > 0 {
             if val.bytes.first(where: { $0 != 0}) == nil {
                 return nil
             }

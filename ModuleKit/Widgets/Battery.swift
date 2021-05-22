@@ -56,6 +56,7 @@ public class BatterykWidget: WidgetWrapper {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // swiftlint:disable function_body_length
     public override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         
@@ -169,7 +170,7 @@ public class BatterykWidget: WidgetWrapper {
                     CGPoint(x: batteryCenter.x+1, y: batteryCenter.y+1.5),
                     CGPoint(x: batteryCenter.x+3, y: max.y), // top
                     CGPoint(x: min.x, y: batteryCenter.y-1.5),
-                    CGPoint(x: batteryCenter.x-1, y: batteryCenter.y-1.5),
+                    CGPoint(x: batteryCenter.x-1, y: batteryCenter.y-1.5)
                 ]
             } else {
                 let iconSize: CGSize = CGSize(width: 9, height: batterySize.height + 2)
@@ -201,7 +202,7 @@ public class BatterykWidget: WidgetWrapper {
                     CGPoint(x: batteryCenter.x-4, y: batteryCenter.y + 0.5),
                     
                     CGPoint(x: batteryCenter.x-1.5, y: batteryCenter.y - 2.5),
-                    CGPoint(x: batteryCenter.x-1.5, y: minY+0.5),
+                    CGPoint(x: batteryCenter.x-1.5, y: minY+0.5)
                 ]
             }
             
@@ -312,24 +313,24 @@ public class BatterykWidget: WidgetWrapper {
             height: height
         ))
         
-        view.addSubview(SelectRow(
+        view.addSubview(selectRow(
             frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 2, width: view.frame.width, height: rowHeight),
-            title: LocalizedString("Additional information"),
+            title: localizedString("Additional information"),
             action: #selector(toggleAdditional),
             items: BatteryAdditionals,
             selected: self.additional
         ))
         
-        view.addSubview(ToggleTitleRow(
+        view.addSubview(toggleTitleRow(
             frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 1, width: view.frame.width, height: rowHeight),
-            title: LocalizedString("Hide additional information when full"),
+            title: localizedString("Hide additional information when full"),
             action: #selector(toggleHideAdditionalWhenFull),
             state: self.hideAdditionalWhenFull
         ))
         
-        view.addSubview(ToggleTitleRow(
+        view.addSubview(toggleTitleRow(
             frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 0, width: view.frame.width, height: rowHeight),
-            title: LocalizedString("Colorize"),
+            title: localizedString("Colorize"),
             action: #selector(toggleColor),
             state: self.colorState
         ))

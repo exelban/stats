@@ -24,7 +24,7 @@ public protocol Module_p {
 
 public struct module_c {
     public var name: String = ""
-    public var icon: NSImage? = nil
+    public var icon: NSImage?
     
     var defaultState: Bool = false
     var defaultWidget: widget_t = .unknown
@@ -43,7 +43,7 @@ public struct module_c {
         }
         
         if let widgetsDict = dict["Widgets"] as? NSDictionary {
-            var list: [String : Int] = [:]
+            var list: [String: Int] = [:]
             self.widgetsConfig = widgetsDict
             
             for widgetName in widgetsDict.allKeys {
@@ -107,6 +107,7 @@ open class Module: Module_p {
         NotificationCenter.default.addObserver(self, selector: #selector(listenForPopupToggle), name: .togglePopup, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(listenForToggleWidget), name: .toggleWidget, object: nil)
         
+        // swiftlint:disable empty_count
         if self.config.widgetsConfig.count != 0 {
             self.initWidgets()
         } else {
@@ -303,12 +304,12 @@ open class Module: Module_p {
         guard let name = notification.userInfo?["module"] as? String, name == self.config.name else {
             return
         }
-        let count = self.widgets.filter({ $0.isActive }).count
+        let isEmpty = self.widgets.filter({ $0.isActive }).isEmpty
         var state = self.enabled
         
-        if count == 0 && self.enabled {
+        if isEmpty && self.enabled {
             state = false
-        } else if count != 0 && !self.enabled {
+        } else if !isEmpty && !self.enabled {
             state = true
         }
         

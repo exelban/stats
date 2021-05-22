@@ -163,7 +163,7 @@ internal class UsageReader: Reader<Network_Usage> {
         var totalUpload: Int64 = 0
         var totalDownload: Int64 = 0
         var firstLine = false
-        output.enumerateLines { (line, _) -> () in
+        output.enumerateLines { (line, _) -> Void in
             if !firstLine {
                 firstLine = true
                 return
@@ -297,6 +297,7 @@ public class ProcessReader: Reader<[Network_Process]> {
         self.popup = true
     }
     
+    // swiftlint:disable function_body_length
     public override func read() {
         if self.numberOfProcesses == 0 {
             return
@@ -335,7 +336,7 @@ public class ProcessReader: Reader<[Network_Process]> {
         
         var list: [Network_Process] = []
         var firstLine = false
-        output.enumerateLines { (line, _) -> () in
+        output.enumerateLines { (line, _) -> Void in
             if !firstLine {
                 firstLine = true
                 return
@@ -371,7 +372,7 @@ public class ProcessReader: Reader<[Network_Process]> {
         }
         
         var processes: [Network_Process] = []
-        if self.previous.count == 0 {
+        if self.previous.isEmpty {
             self.previous = list
             processes = list
         } else {
@@ -391,7 +392,7 @@ public class ProcessReader: Reader<[Network_Process]> {
                         upload = 0
                     }
                     
-                    processes.append(Network_Process(time: time, name: p.name, pid: p.pid, download: download, upload:  upload, icon: p.icon))
+                    processes.append(Network_Process(time: time, name: p.name, pid: p.pid, download: download, upload: upload, icon: p.icon))
                 }
             }
             self.previous = list

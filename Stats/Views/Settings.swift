@@ -18,11 +18,11 @@ class SettingsWindow: NSWindow, NSWindowDelegate {
     
     init() {
         super.init(
-            contentRect: NSMakeRect(
-                NSScreen.main!.frame.width - self.viewController.view.frame.width,
-                NSScreen.main!.frame.height - self.viewController.view.frame.height,
-                self.viewController.view.frame.width,
-                self.viewController.view.frame.height
+            contentRect: NSRect(
+                x: NSScreen.main!.frame.width - self.viewController.view.frame.width,
+                y: NSScreen.main!.frame.height - self.viewController.view.frame.height,
+                width: self.viewController.view.frame.width,
+                height: self.viewController.view.frame.height
             ),
             styleMask: [.closable, .titled, .miniaturizable, .fullSizeContentView],
             backing: .buffered,
@@ -61,7 +61,7 @@ class SettingsWindow: NSWindow, NSWindowDelegate {
     
     public func setModules() {
         self.viewController.setModules(modules)
-        if modules.filter({ $0.enabled != false && $0.available != false }).count == 0 {
+        if modules.filter({ $0.enabled != false && $0.available != false }).isEmpty {
             self.setIsVisible(true)
         }
     }
@@ -123,7 +123,7 @@ private class SettingsView: NSView {
         
         NotificationCenter.default.addObserver(self, selector: #selector(menuCallback), name: .openModuleSettings, object: nil)
         
-        let sidebar = NSVisualEffectView(frame: NSMakeRect(0, 0, self.sidebarWidth, self.frame.height))
+        let sidebar = NSVisualEffectView(frame: NSRect(x: 0, y: 0, width: self.sidebarWidth, height: self.frame.height))
         sidebar.material = .sidebar
         sidebar.blendingMode = .behindWindow
         sidebar.state = .active
@@ -141,10 +141,10 @@ private class SettingsView: NSView {
         self.navigationView.frame = NSRect(x: 0, y: 0, width: self.sidebarWidth, height: navigationHeight)
         self.navigationView.wantsLayer = true
         
-        self.navigationView.addSubview(self.makeButton(4, title: LocalizedString("Open application settings"), image: "settings", action: #selector(openSettings)))
-        self.navigationView.addSubview(self.makeButton(3, title: LocalizedString("Report a bug"), image: "bug", action: #selector(reportBug)))
-        self.navigationView.addSubview(self.makeButton(2, title: LocalizedString("Support the application"), image: "donate", action: #selector(donate)))
-        self.navigationView.addSubview(self.makeButton(1, title: LocalizedString("Close application"), image: "power", action: #selector(closeApp)))
+        self.navigationView.addSubview(self.makeButton(4, title: localizedString("Open application settings"), image: "settings", action: #selector(openSettings)))
+        self.navigationView.addSubview(self.makeButton(3, title: localizedString("Report a bug"), image: "bug", action: #selector(reportBug)))
+        self.navigationView.addSubview(self.makeButton(2, title: localizedString("Support the application"), image: "donate", action: #selector(donate)))
+        self.navigationView.addSubview(self.makeButton(1, title: localizedString("Close application"), image: "power", action: #selector(closeApp)))
         
         self.mainView.frame = NSRect(
             x: self.sidebarWidth + 1, // separation line
@@ -170,8 +170,8 @@ private class SettingsView: NSView {
         super.draw(dirtyRect)
         
         let line = NSBezierPath()
-        line.move(to: NSMakePoint(self.sidebarWidth, 0))
-        line.line(to: NSMakePoint(self.sidebarWidth, self.frame.height))
+        line.move(to: NSPoint(x: self.sidebarWidth, y: 0))
+        line.line(to: NSPoint(x: self.sidebarWidth, y: self.frame.height))
         line.lineWidth = 1
         
         NSColor.black.set()
@@ -243,7 +243,12 @@ private class SettingsView: NSView {
         button.focusRingType = .none
         
         let rect = NSRect(x: Int(self.sidebarWidth) - (45*n), y: 0, width: 44, height: 44)
-        let trackingArea = NSTrackingArea(rect: rect, options: [NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited, NSTrackingArea.Options.activeInActiveApp], owner: self, userInfo: ["button": title])
+        let trackingArea = NSTrackingArea(
+            rect: rect,
+            options: [NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited, NSTrackingArea.Options.activeInActiveApp],
+            owner: self,
+            userInfo: ["button": title]
+        )
         self.addTrackingArea(trackingArea)
         
         return button
@@ -281,10 +286,15 @@ private class MenuView: NSView {
         super.init(frame: NSRect(x: 0, y: self.height*CGFloat(n), width: width, height: self.height))
         self.wantsLayer = true
         self.layer?.backgroundColor = .clear
-        self.toolTip = title == "Stats" ? LocalizedString("Open application settings") : LocalizedString("Open moduleName settings", title)
+        self.toolTip = title == "Stats" ? localizedString("Open application settings") : localizedString("Open moduleName settings", title)
         
         let rect = NSRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
-        let trackingArea = NSTrackingArea(rect: rect, options: [NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited, NSTrackingArea.Options.activeInActiveApp], owner: self, userInfo: ["menu": title])
+        let trackingArea = NSTrackingArea(
+            rect: rect,
+            options: [NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited, NSTrackingArea.Options.activeInActiveApp],
+            owner: self,
+            userInfo: ["menu": title]
+        )
         self.addTrackingArea(trackingArea)
         
         let imageView = NSImageView()
@@ -295,7 +305,7 @@ private class MenuView: NSView {
         imageView.wantsLayer = true
         imageView.contentTintColor = .labelColor
         
-        let titleView = TextView(frame: NSMakeRect(34, (self.height - 16)/2, 100, 16))
+        let titleView = TextView(frame: NSRect(x: 34, y: (self.height - 16)/2, width: 100, height: 16))
         titleView.alignment = .natural
         titleView.textColor = .labelColor
         titleView.font = NSFont.systemFont(ofSize: 13, weight: .regular)

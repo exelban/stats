@@ -66,10 +66,10 @@ extension AppDelegate {
                 return
             }
             
-            if IsNewestVersion(currentVersion: prevVersion, latestVersion: currentVersion) {
+            if isNewestVersion(currentVersion: prevVersion, latestVersion: currentVersion) {
                 _ = showNotification(
-                    title: LocalizedString("Successfully updated"),
-                    subtitle: LocalizedString("Stats was updated to v", currentVersion),
+                    title: localizedString("Successfully updated"),
+                    subtitle: localizedString("Stats was updated to v", currentVersion),
                     id: "updated-from-\(prevVersion)-to-\(currentVersion)"
                 )
             }
@@ -97,7 +97,7 @@ extension AppDelegate {
     }
     
     internal func checkForNewVersion() {
-        updater.check() { result, error in
+        updater.check { result, error in
             if error != nil {
                 os_log(.error, log: log, "error updater.check(): %s", "\(error!.localizedDescription)")
                 return
@@ -113,12 +113,12 @@ extension AppDelegate {
                     os_log(.debug, log: log, "show update window because new version of app found: %s", "\(version.latest)")
                     
                     self.updateNotification.identifier = "new-version-\(version.latest)"
-                    self.updateNotification.title = LocalizedString("New version available")
-                    self.updateNotification.subtitle = LocalizedString("Click to install the new version of Stats")
+                    self.updateNotification.title = localizedString("New version available")
+                    self.updateNotification.subtitle = localizedString("Click to install the new version of Stats")
                     self.updateNotification.soundName = NSUserNotificationDefaultSoundName
                     
                     self.updateNotification.hasActionButton = true
-                    self.updateNotification.actionButtonTitle = LocalizedString("Install")
+                    self.updateNotification.actionButtonTitle = localizedString("Install")
                     self.updateNotification.userInfo = ["url": version.url]
                     
                     NSUserNotificationCenter.default.delegate = self

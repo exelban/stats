@@ -242,7 +242,7 @@ internal class FanView: NSStackView {
         let minField: NSTextField = TextView(frame: NSRect(x: 0, y: 0, width: 80, height: levels.frame.height))
         minField.font = NSFont.systemFont(ofSize: 11, weight: .light)
         minField.textColor = .secondaryLabelColor
-        minField.stringValue = "\(LocalizedString("Min")): \(Int(self.fan.minSpeed))"
+        minField.stringValue = "\(localizedString("Min")): \(Int(self.fan.minSpeed))"
         minField.alignment = .left
         
         let valueField: NSTextField = TextView(frame: NSRect(x: 80, y: 0, width: levels.frame.width - 160, height: levels.frame.height))
@@ -253,7 +253,7 @@ internal class FanView: NSStackView {
         let maxField: NSTextField = TextView(frame: NSRect(x: levels.frame.width - 80, y: 0, width: 80, height: levels.frame.height))
         maxField.font = NSFont.systemFont(ofSize: 11, weight: .light)
         maxField.textColor = .secondaryLabelColor
-        maxField.stringValue = "\(LocalizedString("Max")): \(Int(self.fan.maxSpeed))"
+        maxField.stringValue = "\(localizedString("Max")): \(Int(self.fan.maxSpeed))"
         maxField.alignment = .right
         
         controls.addArrangedSubview(slider)
@@ -340,8 +340,8 @@ internal class FanView: NSStackView {
 private class ModeButtons: NSStackView {
     public var callback: (FanMode) -> Void = {_ in }
     
-    private var autoBtn: NSButton = NSButton(title: LocalizedString("Automatic"), target: nil, action: #selector(autoMode))
-    private var manualBtn: NSButton = NSButton(title: LocalizedString("Manual"), target: nil, action: #selector(manualMode))
+    private var autoBtn: NSButton = NSButton(title: localizedString("Automatic"), target: nil, action: #selector(autoMode))
+    private var manualBtn: NSButton = NSButton(title: localizedString("Manual"), target: nil, action: #selector(manualMode))
     
     public init(frame: NSRect, mode: FanMode) {
         super.init(frame: frame)

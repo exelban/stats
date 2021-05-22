@@ -96,6 +96,7 @@ public class LineChart: WidgetWrapper {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // swiftlint:disable function_body_length
     public override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         
@@ -140,7 +141,7 @@ public class LineChart: WidgetWrapper {
                 str.draw(with: rect)
                 yMargin += letterHeight
             }
-            width = width + letterWidth + Constants.Widget.spacing
+            width += letterWidth + Constants.Widget.spacing
             x = letterWidth + Constants.Widget.spacing
         }
         
@@ -208,10 +209,10 @@ public class LineChart: WidgetWrapper {
     }
     
     public override func setValues(_ values: [value_t]) {
-        let historyValues = values.map{ $0.widget_value }.suffix(60)
+        let historyValues = values.map{ $0.widgetValue }.suffix(60)
         let end = self.chart.points.count
         
-        if historyValues.count != 0 {
+        if !historyValues.isEmpty {
             self.chart.points.replaceSubrange(end-historyValues.count...end-1, with: historyValues)
         }
         
@@ -255,47 +256,47 @@ public class LineChart: WidgetWrapper {
             height: height
         ))
         
-        view.addSubview(ToggleTitleRow(
+        view.addSubview(toggleTitleRow(
             frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 5, width: view.frame.width, height: rowHeight),
-            title: LocalizedString("Label"),
+            title: localizedString("Label"),
             action: #selector(toggleLabel),
             state: self.labelState
         ))
         
-        view.addSubview(ToggleTitleRow(
+        view.addSubview(toggleTitleRow(
             frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 4, width: view.frame.width, height: rowHeight),
-            title: LocalizedString("Value"),
+            title: localizedString("Value"),
             action: #selector(toggleValue),
             state: self.valueState
         ))
         
-        self.boxSettingsView = ToggleTitleRow(
+        self.boxSettingsView = toggleTitleRow(
             frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 3, width: view.frame.width, height: rowHeight),
-            title: LocalizedString("Box"),
+            title: localizedString("Box"),
             action: #selector(toggleBox),
             state: self.boxState
         )
         view.addSubview(self.boxSettingsView!)
         
-        self.frameSettingsView = ToggleTitleRow(
+        self.frameSettingsView = toggleTitleRow(
             frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 2, width: view.frame.width, height: rowHeight),
-            title: LocalizedString("Frame"),
+            title: localizedString("Frame"),
             action: #selector(toggleFrame),
             state: self.frameState
         )
         view.addSubview(self.frameSettingsView!)
         
-        view.addSubview(SelectRow(
+        view.addSubview(selectRow(
             frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 1, width: view.frame.width, height: rowHeight),
-            title: LocalizedString("Color"),
+            title: localizedString("Color"),
             action: #selector(toggleColor),
             items: self.colors,
             selected: self.colorState.key
         ))
         
-        view.addSubview(ToggleTitleRow(
+        view.addSubview(toggleTitleRow(
             frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 0, width: view.frame.width, height: rowHeight),
-            title: LocalizedString("Colorize value"),
+            title: localizedString("Colorize value"),
             action: #selector(toggleValueColor),
             state: self.valueColorState
         ))
@@ -326,7 +327,7 @@ public class LineChart: WidgetWrapper {
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_box", value: self.boxState)
         
         if self.frameState {
-            FindAndToggleNSControlState(self.frameSettingsView, state: .off)
+            findAndToggleNSControlState(self.frameSettingsView, state: .off)
             self.frameState = false
             Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_frame", value: self.frameState)
         }
@@ -345,7 +346,7 @@ public class LineChart: WidgetWrapper {
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_frame", value: self.frameState)
         
         if self.boxState {
-            FindAndToggleNSControlState(self.boxSettingsView, state: .off)
+            findAndToggleNSControlState(self.boxSettingsView, state: .off)
             self.boxState = false
             Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_box", value: self.boxState)
         }
