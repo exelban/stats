@@ -17,6 +17,7 @@ public class SpeedWidget: WidgetWrapper {
     private var state: Bool = false
     private var valueState: Bool = true
     private var baseValue: String = "byte"
+    private var unitsState: Bool = true
     
     private var symbols: [String] = ["U", "D"]
     
@@ -52,6 +53,7 @@ public class SpeedWidget: WidgetWrapper {
             self.valueState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_value", defaultValue: self.valueState)
             self.icon = Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_icon", defaultValue: self.baseValue)
             self.baseValue = Store.shared.string(key: "\(self.title)_base", defaultValue: self.baseValue)
+            self.unitsState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_units", defaultValue: self.unitsState)
         }
         
         if self.valueState && self.icon != "none" {
@@ -87,7 +89,7 @@ public class SpeedWidget: WidgetWrapper {
         }
         
         if self.valueState {
-            let rowWidth: CGFloat = 48
+            let rowWidth: CGFloat = self.unitsState ? 48 : 30
             let rowHeight: CGFloat = self.frame.height / 2
             let style = NSMutableParagraphStyle()
             style.alignment = .right
@@ -99,11 +101,17 @@ public class SpeedWidget: WidgetWrapper {
             
             let base: DataSizeBase = DataSizeBase(rawValue: self.baseValue) ?? .byte
             var rect = CGRect(x: Constants.Widget.margin.x + x, y: 1, width: rowWidth - (Constants.Widget.margin.x*2), height: rowHeight)
-            let download = NSAttributedString.init(string: Units(bytes: self.downloadValue).getReadableSpeed(base: base), attributes: stringAttributes)
+            let download = NSAttributedString.init(
+                string: Units(bytes: self.downloadValue).getReadableSpeed(base: base, omitUnits: !self.unitsState),
+                attributes: stringAttributes
+            )
             download.draw(with: rect)
             
             rect = CGRect(x: Constants.Widget.margin.x + x, y: rect.height+1, width: rowWidth - (Constants.Widget.margin.x*2), height: rowHeight)
-            let upload = NSAttributedString.init(string: Units(bytes: self.uploadValue).getReadableSpeed(base: base), attributes: stringAttributes)
+            let upload = NSAttributedString.init(
+                string: Units(bytes: self.uploadValue).getReadableSpeed(base: base, omitUnits: !self.unitsState),
+                attributes: stringAttributes
+            )
             upload.draw(with: rect)
             
             width += rowWidth
@@ -209,37 +217,36 @@ public class SpeedWidget: WidgetWrapper {
     }
     
     public override func settings(width: CGFloat) -> NSView {
-        let height: CGFloat = 90 + (Constants.Settings.margin*4)
-        let rowHeight: CGFloat = 30
+        let view = SettingsContainerView(width: width)
         
-        let view: NSView = NSView(frame: NSRect(
-            x: Constants.Settings.margin,
-            y: Constants.Settings.margin,
-            width: width - (Constants.Settings.margin*2),
-            height: height
-        ))
-        
-        view.addSubview(selectRow(
-            frame: NSRect(x: 0, y: (rowHeight+Constants.Settings.margin) * 2, width: view.frame.width, height: rowHeight),
+        view.addArrangedSubview(selectRow(
+            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
             title: localizedString("Pictogram"),
             action: #selector(toggleIcon),
             items: SpeedPictogram,
             selected: self.icon
         ))
         
-        view.addSubview(selectRow(
-            frame: NSRect(x: 0, y: rowHeight + Constants.Settings.margin, width: view.frame.width, height: rowHeight),
+        view.addArrangedSubview(selectRow(
+            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
             title: localizedString("Base"),
             action: #selector(toggleBase),
             items: SpeedBase,
             selected: self.baseValue
         ))
         
-        view.addSubview(toggleTitleRow(
-            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: rowHeight),
+        view.addArrangedSubview(toggleTitleRow(
+            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
             title: localizedString("Value"),
             action: #selector(toggleValue),
             state: self.valueState
+        ))
+        
+        view.addArrangedSubview(toggleTitleRow(
+            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
+            title: localizedString("Units"),
+            action: #selector(toggleUnits),
+            state: self.unitsState
         ))
         
         return view
@@ -263,6 +270,19 @@ public class SpeedWidget: WidgetWrapper {
             NotificationCenter.default.post(name: .toggleModule, object: nil, userInfo: ["module": self.title, "state": true])
             self.state = true
         }
+    }
+    
+    @objc private func toggleUnits(_ sender: NSControl) {
+        var state: NSControl.StateValue? = nil
+        if #available(OSX 10.15, *) {
+            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
+        } else {
+            state = sender is NSButton ? (sender as! NSButton).state: nil
+        }
+        
+        self.unitsState = state! == .on ? true : false
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_units", value: self.unitsState)
+        self.display()
     }
     
     @objc private func toggleIcon(_ sender: NSMenuItem) {

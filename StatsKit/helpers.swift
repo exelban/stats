@@ -71,23 +71,29 @@ public struct Units {
         }
     }
     
-    public func getReadableSpeed(base: DataSizeBase = .byte) -> String {
+    public func getReadableSpeed(base: DataSizeBase = .byte, omitUnits: Bool = false) -> String {
         let stringBase = base == .byte ? "B" : "b"
         let multiplier: Double = base == .byte ? 1 : 8
         
         switch bytes*Int64(multiplier) {
         case 0..<1_024:
-            return "0 K\(stringBase)/s"
+            let unit = omitUnits ? "" : " K\(stringBase)/s"
+            return "0\(unit)"
         case 1_024..<(1_024 * 1_024):
-            return String(format: "%.0f K\(stringBase)/s", kilobytes*multiplier)
+            let unit = omitUnits ? "" : " K\(stringBase)/s"
+            return String(format: "%.0f\(unit)", kilobytes*multiplier)
         case 1_024..<(1_024 * 1_024 * 100):
-            return String(format: "%.1f M\(stringBase)/s", megabytes*multiplier)
+            let unit = omitUnits ? "" : " M\(stringBase)/s"
+            return String(format: "%.1f\(unit)", megabytes*multiplier)
         case (1_024 * 1_024 * 100)..<(1_024 * 1_024 * 1_024):
-            return String(format: "%.0f M\(stringBase)/s", megabytes*multiplier)
+            let unit = omitUnits ? "" : " M\(stringBase)/s"
+            return String(format: "%.0f\(unit)", megabytes*multiplier)
         case (1_024 * 1_024 * 1_024)...Int64.max:
-            return String(format: "%.1f G\(stringBase)/s", gigabytes*multiplier)
+            let unit = omitUnits ? "" : " G\(stringBase)/s"
+            return String(format: "%.1f\(unit)", gigabytes*multiplier)
         default:
-            return String(format: "%.0f K\(stringBase)/s", kilobytes*multiplier)
+            let unit = omitUnits ? "" : " K\(stringBase)/s"
+            return String(format: "%.0f\(unit)", kilobytes*multiplier)
         }
     }
     
