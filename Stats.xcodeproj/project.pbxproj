@@ -111,6 +111,11 @@
 		9ABFF914248C30A800C9041A /* popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABFF913248C30A800C9041A /* popup.swift */; };
 		9AD33AC624BCD3EE007E8820 /* helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD33AC524BCD3EE007E8820 /* helpers.swift */; };
 		9AD64FA224BF86C100419D59 /* settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD64FA124BF86C100419D59 /* settings.swift */; };
+		9ADE6FDB265D032100D2FBA8 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADE6FDA265D032100D2FBA8 /* main.swift */; };
+		9ADE702B265D03D100D2FBA8 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ADE7005265D039300D2FBA8 /* IOKit.framework */; };
+		9ADE7039265D059000D2FBA8 /* smc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADE7038265D059000D2FBA8 /* smc.swift */; };
+		9ADE7053265D542C00D2FBA8 /* types.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADE7052265D542C00D2FBA8 /* types.swift */; };
+		9ADE7061265D8E5300D2FBA8 /* smc in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9ADE6FD8265D032100D2FBA8 /* smc */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		9AE29ADC249A50350071B02D /* Sensors.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AE29AD5249A50350071B02D /* Sensors.framework */; };
 		9AE29ADD249A50350071B02D /* Sensors.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9AE29AD5249A50350071B02D /* Sensors.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9AE29AE1249A50640071B02D /* ModuleKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AABEADD243FB13500668CB0 /* ModuleKit.framework */; };
@@ -353,6 +358,25 @@
 			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9ADE6FD6265D032100D2FBA8 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		9ADE7060265D8E4E00D2FBA8 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 7;
+			files = (
+				9ADE7061265D8E5300D2FBA8 /* smc in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9AECEF3D24ACF98800DB95D4 /* Copy Files */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -477,6 +501,11 @@
 		9ABFF913248C30A800C9041A /* popup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = popup.swift; sourceTree = "<group>"; };
 		9AD33AC524BCD3EE007E8820 /* helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = helpers.swift; sourceTree = "<group>"; };
 		9AD64FA124BF86C100419D59 /* settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = settings.swift; sourceTree = "<group>"; };
+		9ADE6FD8265D032100D2FBA8 /* smc */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = smc; sourceTree = BUILT_PRODUCTS_DIR; };
+		9ADE6FDA265D032100D2FBA8 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		9ADE7005265D039300D2FBA8 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		9ADE7038265D059000D2FBA8 /* smc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = smc.swift; sourceTree = "<group>"; };
+		9ADE7052265D542C00D2FBA8 /* types.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = types.swift; sourceTree = "<group>"; };
 		9AE29AD5249A50350071B02D /* Sensors.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Sensors.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AE29AEC249A50960071B02D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = Info.plist; path = Modules/Sensors/Info.plist; sourceTree = SOURCE_ROOT; };
 		9AE29AF1249A50CD0071B02D /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = main.swift; path = Modules/Sensors/main.swift; sourceTree = SOURCE_ROOT; };
@@ -595,6 +624,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9ADE6FD5265D032100D2FBA8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9ADE702B265D03D100D2FBA8 /* IOKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9AE29AD2249A50350071B02D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -639,8 +676,9 @@
 			isa = PBXGroup;
 			children = (
 				9A1410F7229E721100D29793 /* Stats */,
-				9A0C82DB24460F7200FAE3D4 /* StatsKit */,
 				9A343528243E26A0006B19F9 /* LaunchAtLogin */,
+				9ADE6FD9265D032100D2FBA8 /* SMC */,
+				9A0C82DB24460F7200FAE3D4 /* StatsKit */,
 				9AABEADE243FB13500668CB0 /* ModuleKit */,
 				9AB14B75248CEEC600DC6731 /* Modules */,
 				9A1410F6229E721100D29793 /* Products */,
@@ -663,6 +701,7 @@
 				9A90E18924EAD2BB00471E9A /* GPU.framework */,
 				9A97CECA2537331B00742D8F /* CPU.framework */,
 				9A8DE587253DEFA9006A748F /* Fans.framework */,
+				9ADE6FD8265D032100D2FBA8 /* smc */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -796,6 +835,7 @@
 		9A998CD622A199920087ADE7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9ADE7005265D039300D2FBA8 /* IOKit.framework */,
 				9A97CE2A25371B2300742D8F /* IntelPowerGadget.framework */,
 				9A998CD922A199970087ADE7 /* ServiceManagement.framework */,
 				9A998CD722A199920087ADE7 /* Cocoa.framework */,
@@ -852,6 +892,16 @@
 				9ABFF904248BEC0B00C9041A /* config.plist */,
 			);
 			path = Battery;
+			sourceTree = "<group>";
+		};
+		9ADE6FD9265D032100D2FBA8 /* SMC */ = {
+			isa = PBXGroup;
+			children = (
+				9ADE6FDA265D032100D2FBA8 /* main.swift */,
+				9ADE7038265D059000D2FBA8 /* smc.swift */,
+				9ADE7052265D542C00D2FBA8 /* types.swift */,
+			);
+			path = SMC;
 			sourceTree = "<group>";
 		};
 		9AE29AD6249A50350071B02D /* Sensors */ = {
@@ -988,6 +1038,7 @@
 				9A6698E72326AB16001D00E1 /* Embed Frameworks */,
 				9AECEF3D24ACF98800DB95D4 /* Copy Files */,
 				9A88E2672659002E00E2B7B0 /* ShellScript */,
+				9ADE7060265D8E4E00D2FBA8 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -1172,6 +1223,23 @@
 			productReference = 9ABFF8F6248BEBCB00C9041A /* Battery.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		9ADE6FD7265D032100D2FBA8 /* SMC */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9ADE6FDC265D032100D2FBA8 /* Build configuration list for PBXNativeTarget "SMC" */;
+			buildPhases = (
+				9ADE6FD4265D032100D2FBA8 /* Sources */,
+				9ADE6FD5265D032100D2FBA8 /* Frameworks */,
+				9ADE6FD6265D032100D2FBA8 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SMC;
+			productName = SMC;
+			productReference = 9ADE6FD8265D032100D2FBA8 /* smc */;
+			productType = "com.apple.product-type.tool";
+		};
 		9AE29AD4249A50350071B02D /* Sensors */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9AE29ADE249A50350071B02D /* Build configuration list for PBXNativeTarget "Sensors" */;
@@ -1221,8 +1289,8 @@
 				KnownAssetTags = (
 					New,
 				);
-				LastSwiftUpdateCheck = 1150;
-				LastUpgradeCheck = 1220;
+				LastSwiftUpdateCheck = 1240;
+				LastUpgradeCheck = 1240;
 				ORGANIZATIONNAME = "Serhiy Mytrovtsiy";
 				TargetAttributes = {
 					9A0C82D924460F7200FAE3D4 = {
@@ -1271,6 +1339,9 @@
 					9ABFF8F5248BEBCB00C9041A = {
 						CreatedOnToolsVersion = 11.5;
 						LastSwiftMigration = 1150;
+					};
+					9ADE6FD7265D032100D2FBA8 = {
+						CreatedOnToolsVersion = 12.4;
 					};
 					9AE29AD4249A50350071B02D = {
 						CreatedOnToolsVersion = 11.5;
@@ -1332,6 +1403,7 @@
 				9ABFF8F5248BEBCB00C9041A /* Battery */,
 				9AE29AD4249A50350071B02D /* Sensors */,
 				9A8DE586253DEFA9006A748F /* Fans */,
+				9ADE6FD7265D032100D2FBA8 /* SMC */,
 			);
 		};
 /* End PBXProject section */
@@ -1580,6 +1652,16 @@
 				9ABFF914248C30A800C9041A /* popup.swift in Sources */,
 				9AD64FA224BF86C100419D59 /* settings.swift in Sources */,
 				9ABFF903248BEBD700C9041A /* main.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9ADE6FD4265D032100D2FBA8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9ADE7053265D542C00D2FBA8 /* types.swift in Sources */,
+				9ADE6FDB265D032100D2FBA8 /* main.swift in Sources */,
+				9ADE7039265D059000D2FBA8 /* smc.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2541,6 +2623,34 @@
 			};
 			name = Release;
 		};
+		9ADE6FDD265D032100D2FBA8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = RP2S87B72W;
+				ENABLE_HARDENED_RUNTIME = NO;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				PRODUCT_BUNDLE_IDENTIFIER = eu.exelban.Stats.SMC;
+				PRODUCT_NAME = smc;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		9ADE6FDE265D032100D2FBA8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = RP2S87B72W;
+				ENABLE_HARDENED_RUNTIME = NO;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				PRODUCT_BUNDLE_IDENTIFIER = eu.exelban.Stats.SMC;
+				PRODUCT_NAME = smc;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 		9AE29ADF249A50350071B02D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2765,6 +2875,15 @@
 			buildConfigurations = (
 				9ABFF8FF248BEBCB00C9041A /* Debug */,
 				9ABFF900248BEBCB00C9041A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9ADE6FDC265D032100D2FBA8 /* Build configuration list for PBXNativeTarget "SMC" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9ADE6FDD265D032100D2FBA8 /* Debug */,
+				9ADE6FDE265D032100D2FBA8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

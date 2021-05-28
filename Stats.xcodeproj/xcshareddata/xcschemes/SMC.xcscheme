@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "9A97CEC92537331B00742D8F"
-               BuildableName = "CPU.framework"
-               BlueprintName = "CPU"
+               BlueprintIdentifier = "9ADE6FD7265D032100D2FBA8"
+               BuildableName = "smc"
+               BlueprintName = "SMC"
                ReferencedContainer = "container:Stats.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -40,6 +40,26 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "9ADE6FD7265D032100D2FBA8"
+            BuildableName = "smc"
+            BlueprintName = "SMC"
+            ReferencedContainer = "container:Stats.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
+      <CommandLineArguments>
+         <CommandLineArgument
+            argument = "list"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-t"
+            isEnabled = "NO">
+         </CommandLineArgument>
+      </CommandLineArguments>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -47,15 +67,16 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "9A97CEC92537331B00742D8F"
-            BuildableName = "CPU.framework"
-            BlueprintName = "CPU"
+            BlueprintIdentifier = "9ADE6FD7265D032100D2FBA8"
+            BuildableName = "smc"
+            BlueprintName = "SMC"
             ReferencedContainer = "container:Stats.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
