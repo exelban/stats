@@ -163,71 +163,6 @@ public class SMC {
         return nil
     }
     
-    private func read(_ value: UnsafeMutablePointer<SMCVal_t>) -> kern_return_t {
-        var result: kern_return_t = 0
-        var input = SMCKeyData_t()
-        var output = SMCKeyData_t()
-        
-        input.key = FourCharCode(fromString: value.pointee.key)
-        input.data8 = SMCKeys.READ_KEYINFO.rawValue
-        
-        result = call(SMCKeys.KERNEL_INDEX.rawValue, input: &input, output: &output)
-        if result != kIOReturnSuccess {
-            return result
-        }
-        
-        value.pointee.dataSize = UInt32(output.keyInfo.dataSize)
-        value.pointee.dataType = output.keyInfo.dataType.toString()
-        input.keyInfo.dataSize = output.keyInfo.dataSize
-        input.data8 = SMCKeys.READ_BYTES.rawValue
-        
-        result = call(SMCKeys.KERNEL_INDEX.rawValue, input: &input, output: &output)
-        if result != kIOReturnSuccess {
-            return result
-        }
-        
-        memcpy(&value.pointee.bytes, &output.bytes, Int(value.pointee.dataSize))
-        
-        return kIOReturnSuccess
-    }
-    
-    private func write(_ value: SMCVal_t) -> kern_return_t {
-        var input = SMCKeyData_t()
-        var output = SMCKeyData_t()
-        
-        input.key = FourCharCode(fromString: value.key)
-        input.data8 = SMCKeys.WRITE_BYTES.rawValue
-        input.keyInfo.dataSize = IOByteCount(value.dataSize)
-        input.bytes = (value.bytes[0], value.bytes[1], value.bytes[2], value.bytes[3], value.bytes[4], value.bytes[5],
-                       value.bytes[6], value.bytes[7], value.bytes[8], value.bytes[9], value.bytes[10], value.bytes[11],
-                       value.bytes[12], value.bytes[13], value.bytes[14], value.bytes[15], value.bytes[16], value.bytes[17],
-                       value.bytes[18], value.bytes[19], value.bytes[20], value.bytes[21], value.bytes[22], value.bytes[23],
-                       value.bytes[24], value.bytes[25], value.bytes[26], value.bytes[27], value.bytes[28], value.bytes[29],
-                       value.bytes[30], value.bytes[31])
-        
-        let result = self.call(SMCKeys.KERNEL_INDEX.rawValue, input: &input, output: &output)
-        if result != kIOReturnSuccess {
-            print("Error call(WRITE_BYTES): " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
-            return result
-        }
-        
-        return kIOReturnSuccess
-    }
-    
-    private func call(_ index: UInt8, input: inout SMCKeyData_t, output: inout SMCKeyData_t) -> kern_return_t {
-        let inputSize = MemoryLayout<SMCKeyData_t>.stride
-        var outputSize = MemoryLayout<SMCKeyData_t>.stride
-        
-        return IOConnectCallStructMethod(
-            conn,
-            UInt32(index),
-            &input,
-            inputSize,
-            &output,
-            &outputSize
-        )
-    }
-    
     public func getAllKeys() -> [String] {
         var list: [String] = []
         
@@ -258,6 +193,21 @@ public class SMC {
         
         return list
     }
+    
+    public func write(_ key: String, _ newValue: Int) -> kern_return_t {
+        var value = SMCVal_t(key)
+        value.dataSize = 2
+        value.bytes = [UInt8(newValue >> 6), UInt8((newValue << 2) ^ ((newValue >> 6) << 8)), UInt8(0), UInt8(0), UInt8(0), UInt8(0),
+                       UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0),
+                       UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0),
+                       UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0),
+                       UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0),
+                       UInt8(0), UInt8(0)]
+        
+        return write(value)
+    }
+    
+    // MARK: - fans
     
     public func setFanMode(_ id: Int, mode: FanMode) {
         let fansMode = Int(self.getValue("FS! ") ?? 0)
@@ -308,16 +258,6 @@ public class SMC {
         }
     }
     
-    public func resetFans() {
-        var value = SMCVal_t("FS! ")
-        value.dataSize = 2
-        
-        let result = write(value)
-        if result != kIOReturnSuccess {
-            print("Error write: " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
-        }
-    }
-    
     public func setFanSpeed(_ id: Int, speed: Int) {
         let minSpeed = Int(self.getValue("F\(id)Mn") ?? 2500)
         let maxSpeed = Int(self.getValue("F\(id)Mx") ?? 4000)
@@ -344,5 +284,81 @@ public class SMC {
             print("Error write: " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
             return
         }
+    }
+    
+    public func resetFans() {
+        var value = SMCVal_t("FS! ")
+        value.dataSize = 2
+        
+        let result = write(value)
+        if result != kIOReturnSuccess {
+            print("Error write: " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
+        }
+    }
+    
+    // MARK: - internal functions
+    
+    private func read(_ value: UnsafeMutablePointer<SMCVal_t>) -> kern_return_t {
+        var result: kern_return_t = 0
+        var input = SMCKeyData_t()
+        var output = SMCKeyData_t()
+        
+        input.key = FourCharCode(fromString: value.pointee.key)
+        input.data8 = SMCKeys.READ_KEYINFO.rawValue
+        
+        result = call(SMCKeys.KERNEL_INDEX.rawValue, input: &input, output: &output)
+        if result != kIOReturnSuccess {
+            return result
+        }
+        
+        value.pointee.dataSize = UInt32(output.keyInfo.dataSize)
+        value.pointee.dataType = output.keyInfo.dataType.toString()
+        input.keyInfo.dataSize = output.keyInfo.dataSize
+        input.data8 = SMCKeys.READ_BYTES.rawValue
+        
+        result = call(SMCKeys.KERNEL_INDEX.rawValue, input: &input, output: &output)
+        if result != kIOReturnSuccess {
+            return result
+        }
+        
+        memcpy(&value.pointee.bytes, &output.bytes, Int(value.pointee.dataSize))
+        
+        return kIOReturnSuccess
+    }
+    
+    private func write(_ value: SMCVal_t) -> kern_return_t {
+        var input = SMCKeyData_t()
+        var output = SMCKeyData_t()
+        
+        input.key = FourCharCode(fromString: value.key)
+        input.data8 = SMCKeys.WRITE_BYTES.rawValue
+        input.keyInfo.dataSize = IOByteCount(value.dataSize)
+        input.bytes = (value.bytes[0], value.bytes[1], value.bytes[2], value.bytes[3], value.bytes[4], value.bytes[5],
+                       value.bytes[6], value.bytes[7], value.bytes[8], value.bytes[9], value.bytes[10], value.bytes[11],
+                       value.bytes[12], value.bytes[13], value.bytes[14], value.bytes[15], value.bytes[16], value.bytes[17],
+                       value.bytes[18], value.bytes[19], value.bytes[20], value.bytes[21], value.bytes[22], value.bytes[23],
+                       value.bytes[24], value.bytes[25], value.bytes[26], value.bytes[27], value.bytes[28], value.bytes[29],
+                       value.bytes[30], value.bytes[31])
+        
+        let result = self.call(SMCKeys.KERNEL_INDEX.rawValue, input: &input, output: &output)
+        if result != kIOReturnSuccess {
+            return result
+        }
+        
+        return kIOReturnSuccess
+    }
+    
+    private func call(_ index: UInt8, input: inout SMCKeyData_t, output: inout SMCKeyData_t) -> kern_return_t {
+        let inputSize = MemoryLayout<SMCKeyData_t>.stride
+        var outputSize = MemoryLayout<SMCKeyData_t>.stride
+        
+        return IOConnectCallStructMethod(
+            conn,
+            UInt32(index),
+            &input,
+            inputSize,
+            &output,
+            &outputSize
+        )
     }
 }

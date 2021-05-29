@@ -11,16 +11,16 @@
 
 import Foundation
 
-// MARK: - main
-
 enum CMDType: String {
     case list
+    case set
     case help
     case unknown
     
     init(value: String) {
         switch value {
         case "list": self = .list
+        case "set": self = .set
         case "help": self = .help
         default: self = .unknown
         }

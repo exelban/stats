@@ -56,7 +56,7 @@
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "-t"
+            argument = "set -k &quot;FS! &quot; -v 0000"
             isEnabled = "NO">
          </CommandLineArgument>
       </CommandLineArguments>
