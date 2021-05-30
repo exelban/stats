@@ -115,7 +115,6 @@
 		9ADE702B265D03D100D2FBA8 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ADE7005265D039300D2FBA8 /* IOKit.framework */; };
 		9ADE7039265D059000D2FBA8 /* smc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADE7038265D059000D2FBA8 /* smc.swift */; };
 		9ADE7053265D542C00D2FBA8 /* types.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADE7052265D542C00D2FBA8 /* types.swift */; };
-		9ADE7061265D8E5300D2FBA8 /* smc in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9ADE6FD8265D032100D2FBA8 /* smc */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		9AE29ADC249A50350071B02D /* Sensors.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AE29AD5249A50350071B02D /* Sensors.framework */; };
 		9AE29ADD249A50350071B02D /* Sensors.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9AE29AD5249A50350071B02D /* Sensors.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9AE29AE1249A50640071B02D /* ModuleKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AABEADD243FB13500668CB0 /* ModuleKit.framework */; };
@@ -366,16 +365,6 @@
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 1;
-		};
-		9ADE7060265D8E4E00D2FBA8 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 7;
-			files = (
-				9ADE7061265D8E5300D2FBA8 /* smc in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 		9AECEF3D24ACF98800DB95D4 /* Copy Files */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -1038,7 +1027,6 @@
 				9A6698E72326AB16001D00E1 /* Embed Frameworks */,
 				9AECEF3D24ACF98800DB95D4 /* Copy Files */,
 				9A88E2672659002E00E2B7B0 /* ShellScript */,
-				9ADE7060265D8E4E00D2FBA8 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -2087,7 +2075,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 2.5.16;
+				MARKETING_VERSION = 2.5.17;
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = eu.exelban.Stats;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2120,7 +2108,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 2.5.16;
+				MARKETING_VERSION = 2.5.17;
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = eu.exelban.Stats;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2627,12 +2615,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = RP2S87B72W;
 				ENABLE_HARDENED_RUNTIME = NO;
+				INFOPLIST_FILE = "$(SRCROOT)/SMC/Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				PRODUCT_BUNDLE_IDENTIFIER = eu.exelban.Stats.SMC;
 				PRODUCT_NAME = smc;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -2641,12 +2632,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = RP2S87B72W;
 				ENABLE_HARDENED_RUNTIME = NO;
+				INFOPLIST_FILE = "$(SRCROOT)/SMC/Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				PRODUCT_BUNDLE_IDENTIFIER = eu.exelban.Stats.SMC;
 				PRODUCT_NAME = smc;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
