@@ -21,6 +21,7 @@
 		9A20E6DA2575555100AC2302 /* PieChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A20E6D92575555100AC2302 /* PieChart.swift */; };
 		9A27D4FD2538A3E5001BB651 /* Repeat in Frameworks */ = {isa = PBXBuildFile; productRef = 9A27D4FC2538A3E5001BB651 /* Repeat */; };
 		9A27D5352538A456001BB651 /* Reachability in Frameworks */ = {isa = PBXBuildFile; productRef = 9A27D5342538A456001BB651 /* Reachability */; };
+		9A2843E52666959B00EC1F6D /* smc in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9ADE6FD8265D032100D2FBA8 /* smc */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		9A34353B243E278D006B19F9 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A34353A243E278D006B19F9 /* main.swift */; };
 		9A34353C243E27E8006B19F9 /* LaunchAtLogin.app in Copy Files */ = {isa = PBXBuildFile; fileRef = 9A343527243E26A0006B19F9 /* LaunchAtLogin.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		9A3E17C1247A8F5E00449CD1 /* StatsKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A0C82DA24460F7200FAE3D4 /* StatsKit.framework */; };
@@ -326,6 +327,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		9A2843E42666959600EC1F6D /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 7;
+			files = (
+				9A2843E52666959B00EC1F6D /* smc in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9A6698E72326AB16001D00E1 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -356,15 +367,6 @@
 			);
 			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 0;
-		};
-		9ADE6FD6265D032100D2FBA8 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 1;
 		};
 		9AECEF3D24ACF98800DB95D4 /* Copy Files */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -1027,6 +1029,7 @@
 				9A6698E72326AB16001D00E1 /* Embed Frameworks */,
 				9AECEF3D24ACF98800DB95D4 /* Copy Files */,
 				9A88E2672659002E00E2B7B0 /* ShellScript */,
+				9A2843E42666959600EC1F6D /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -1217,7 +1220,6 @@
 			buildPhases = (
 				9ADE6FD4265D032100D2FBA8 /* Sources */,
 				9ADE6FD5265D032100D2FBA8 /* Frameworks */,
-				9ADE6FD6265D032100D2FBA8 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -2624,6 +2626,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = eu.exelban.Stats.SMC;
 				PRODUCT_NAME = smc;
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -2641,6 +2644,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = eu.exelban.Stats.SMC;
 				PRODUCT_NAME = smc;
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
