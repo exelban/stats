@@ -10,8 +10,7 @@
 //
 
 import Cocoa
-import ModuleKit
-import StatsKit
+import Kit
 
 public class Sensors: Module {
     private var sensorsReader: SensorsReader

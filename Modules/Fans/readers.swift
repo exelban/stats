@@ -10,8 +10,7 @@
 //
 
 import Cocoa
-import ModuleKit
-import StatsKit
+import Kit
 import os.log
 
 internal class FansReader: Reader<[Fan]> {

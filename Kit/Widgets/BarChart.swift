@@ -1,8 +1,8 @@
 //
-//  Chart.swift
-//  ModuleKit
+//  BarChart.swift
+//  Kit
 //
-//  Created by Serhiy Mytrovtsiy on 18/04/2020.
+//  Created by Serhiy Mytrovtsiy on 26/04/2020.
 //  Using Swift 5.0.
 //  Running on macOS 10.15.
 //
@@ -10,60 +10,59 @@
 //
 
 import Cocoa
-import StatsKit
 
-public class LineChart: WidgetWrapper {
+public class BarChart: WidgetWrapper {
     private var labelState: Bool = false
     private var boxState: Bool = true
     private var frameState: Bool = false
-    private var valueState: Bool = false
-    private var valueColorState: Bool = false
     private var colorState: Color = .systemAccent
     
-    private let width: CGFloat = 34
-    
-    private var chart: LineChartView = LineChartView(frame: NSRect(
-        x: 0,
-        y: 0,
-        width: 34,
-        height: Constants.Widget.height - (2*Constants.Widget.margin.y)
-    ), num: 60)
     private var colors: [Color] = Color.allCases
-    private var value: Double = 0
+    private var value: [Double] = []
     private var pressureLevel: Int = 0
+    private var colorZones: colorZones = (0.6, 0.8)
     
     private var boxSettingsView: NSView? = nil
     private var frameSettingsView: NSView? = nil
     
     public init(title: String, config: NSDictionary?, preview: Bool = false) {
         var widgetTitle: String = title
+        
         if config != nil {
+            var configuration = config!
             if let titleFromConfig = config!["Title"] as? String {
                 widgetTitle = titleFromConfig
             }
-            if let label = config!["Label"] as? Bool {
+            
+            if preview {
+                if let previewConfig = config!["Preview"] as? NSDictionary {
+                    configuration = previewConfig
+                    if let value = configuration["Value"] as? String {
+                        self.value = value.split(separator: ",").map{ (Double($0) ?? 0) }
+                    }
+                }
+            }
+            
+            if let label = configuration["Label"] as? Bool {
                 self.labelState = label
             }
-            if let box = config!["Box"] as? Bool {
+            if let box = configuration["Box"] as? Bool {
                 self.boxState = box
             }
-            if let value = config!["Value"] as? Bool {
-                self.valueState = value
-            }
-            if let unsupportedColors = config!["Unsupported colors"] as? [String] {
+            if let unsupportedColors = configuration["Unsupported colors"] as? [String] {
                 self.colors = self.colors.filter{ !unsupportedColors.contains($0.key) }
             }
-            if let color = config!["Color"] as? String {
+            if let color = configuration["Color"] as? String {
                 if let defaultColor = colors.first(where: { "\($0.self)" == color }) {
                     self.colorState = defaultColor
                 }
             }
         }
         
-        super.init(.lineChart, title: widgetTitle, frame: CGRect(
+        super.init(.barChart, title: widgetTitle, frame: CGRect(
             x: Constants.Widget.margin.x,
             y: Constants.Widget.margin.y,
-            width: self.width + (2*Constants.Widget.margin.x),
+            width: Constants.Widget.width + (2*Constants.Widget.margin.x),
             height: Constants.Widget.height - (2*Constants.Widget.margin.y)
         ))
         
@@ -72,23 +71,16 @@ public class LineChart: WidgetWrapper {
         if !preview {
             self.boxState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_box", defaultValue: self.boxState)
             self.frameState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_frame", defaultValue: self.frameState)
-            self.valueState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_value", defaultValue: self.valueState)
             self.labelState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_label", defaultValue: self.labelState)
-            self.valueColorState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_valueColor", defaultValue: self.valueColorState)
             self.colorState = Color.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_color", defaultValue: self.colorState.key))
         }
         
-        if self.labelState {
-            self.setFrameSize(NSSize(width: Constants.Widget.width + 6 + (Constants.Widget.margin.x*2), height: self.frame.size.height))
-        }
-        
         if preview {
-            var list: [Double] = []
-            for _ in 0..<16 {
-                list.append(Double(CGFloat(Float(arc4random()) / Float(UINT32_MAX))))
+            if self.value.isEmpty {
+                self.value = [0.72, 0.38]
             }
-            self.chart.points = list
-            self.value = 0.38
+            self.setFrameSize(NSSize(width: 36, height: self.frame.size.height))
+            self.invalidateIntrinsicContentSize()
         }
     }
     
@@ -100,26 +92,28 @@ public class LineChart: WidgetWrapper {
     public override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         
-        guard let context = NSGraphicsContext.current?.cgContext else { return }
-        
-        var width = self.width
+        var width: CGFloat = (Constants.Widget.margin.x*2)
         var x: CGFloat = 0
         let lineWidth = 1 / (NSScreen.main?.backingScaleFactor ?? 1)
         let offset = lineWidth / 2
-        var boxSize: CGSize = CGSize(width: self.width - (Constants.Widget.margin.x*2), height: self.frame.size.height)
         
-        var color: NSColor = NSColor.controlAccentColor
-        switch self.colorState {
-        case .systemAccent: color = NSColor.controlAccentColor
-        case .utilization: color = value.usageColor()
-        case .pressure: color = self.pressureLevel.pressureColor()
-        case .monochrome:
-            if self.boxState {
-                color = (isDarkMode ? NSColor.black : NSColor.white)
-            } else {
-                color = (isDarkMode ? NSColor.white : NSColor.black)
-            }
-        default: color = self.colorState.additional as? NSColor ?? NSColor.controlAccentColor
+        switch self.value.count {
+        case 0, 1:
+            width += 10 + (offset*2)
+        case 2:
+            width += 22
+        case 3...4: // 3,4
+            width += 30
+        case 5...8: // 5,6,7,8
+            width += 40
+        case 9...12: // 9..12
+            width += 50
+        case 13...16: // 13..16
+            width += 76
+        case 17...32: // 17..32
+            width += 84
+        default: // > 32
+            width += 118
         }
         
         if self.labelState {
@@ -130,10 +124,10 @@ public class LineChart: WidgetWrapper {
                 NSAttributedString.Key.foregroundColor: NSColor.textColor,
                 NSAttributedString.Key.paragraphStyle: style
             ]
-            
+
             let letterHeight = self.frame.height / 3
             let letterWidth: CGFloat = 6.0
-            
+
             var yMargin: CGFloat = 0
             for char in String(self.title.prefix(3)).uppercased().reversed() {
                 let rect = CGRect(x: x, y: yMargin, width: letterWidth, height: letterHeight)
@@ -141,63 +135,54 @@ public class LineChart: WidgetWrapper {
                 str.draw(with: rect)
                 yMargin += letterHeight
             }
+
             width += letterWidth + Constants.Widget.spacing
             x = letterWidth + Constants.Widget.spacing
-        }
-        
-        if self.valueState {
-            let style = NSMutableParagraphStyle()
-            style.alignment = .right
-            
-            var valueColor = isDarkMode ? NSColor.white : NSColor.black
-            if self.valueColorState {
-                valueColor = color
-            }
-            
-            let stringAttributes = [
-                NSAttributedString.Key.font: NSFont.systemFont(ofSize: 8, weight: .regular),
-                NSAttributedString.Key.foregroundColor: valueColor,
-                NSAttributedString.Key.paragraphStyle: style
-            ]
-            
-            let rect = CGRect(x: x, y: boxSize.height-7, width: boxSize.width-1, height: 7)
-            let str = NSAttributedString.init(string: "\(Int((value.rounded(toPlaces: 2)) * 100))%", attributes: stringAttributes)
-            str.draw(with: rect)
-            
-            boxSize.height = offset == 0.5 ? 10 : 9
         }
         
         let box = NSBezierPath(roundedRect: NSRect(
             x: x + offset,
             y: offset,
-            width: boxSize.width - (offset*2),
-            height: boxSize.height - (offset*2)
+            width: width - x - (offset*2) - (Constants.Widget.margin.x*2),
+            height: self.frame.size.height - (offset*2)
         ), xRadius: 2, yRadius: 2)
         
         if self.boxState {
             (isDarkMode ? NSColor.white : NSColor.black).set()
             box.stroke()
             box.fill()
-            self.chart.transparent = false
-        } else if self.frameState {
-            self.chart.transparent = true
-        } else {
-            self.chart.transparent = true
         }
         
-        context.saveGState()
+        let widthForBarChart = box.bounds.width
+        let partitionMargin: CGFloat = 0.5
+        let partitionsMargin: CGFloat = (CGFloat(self.value.count - 1)) * partitionMargin / CGFloat(self.value.count - 1)
+        let partitionWidth: CGFloat = (widthForBarChart / CGFloat(self.value.count)) - CGFloat(partitionsMargin.isNaN ? 0 : partitionsMargin)
+        let maxPartitionHeight: CGFloat = box.bounds.height
         
-        let chartFrame = NSRect(
-            x: x+offset,
-            y: 1,
-            width: box.bounds.width,
-            height: box.bounds.height-1
-        )
-        self.chart.color = color
-        self.chart.setFrameSize(NSSize(width: chartFrame.width, height: chartFrame.height))
-        self.chart.draw(chartFrame)
-        
-        context.restoreGState()
+        x += offset
+        for i in 0..<self.value.count {
+            let partitionValue = self.value[i]
+            let partitonHeight = maxPartitionHeight * CGFloat(partitionValue)
+            let partition = NSBezierPath(rect: NSRect(x: x, y: offset, width: partitionWidth, height: partitonHeight))
+            
+            switch self.colorState {
+            case .systemAccent: NSColor.controlAccentColor.set()
+            case .utilization: partitionValue.usageColor(zones: self.colorZones).setFill()
+            case .pressure: self.pressureLevel.pressureColor().setFill()
+            case .monochrome:
+                if self.boxState {
+                    (isDarkMode ? NSColor.black : NSColor.white).set()
+                } else {
+                    (isDarkMode ? NSColor.white : NSColor.black).set()
+                }
+            default: (self.colorState.additional as? NSColor ?? NSColor.controlAccentColor).set()
+            }
+            
+            partition.fill()
+            partition.close()
+            
+            x += partitionWidth + partitionMargin
+        }
         
         if self.boxState || self.frameState {
             (isDarkMode ? NSColor.white : NSColor.black).set()
@@ -208,25 +193,13 @@ public class LineChart: WidgetWrapper {
         self.setWidth(width)
     }
     
-    public override func setValues(_ values: [value_t]) {
-        let historyValues = values.map{ $0.widgetValue }.suffix(60)
-        let end = self.chart.points.count
-        
-        if !historyValues.isEmpty {
-            self.chart.points.replaceSubrange(end-historyValues.count...end-1, with: historyValues)
-        }
-        
-        self.display()
-    }
-    
-    public func setValue(_ value: Double) {
+    public func setValue(_ value: [Double]) {
         guard self.value != value else {
             return
         }
         
         self.value = value
         DispatchQueue.main.async(execute: {
-            self.chart.addValue(value)
             self.display()
         })
     }
@@ -242,11 +215,22 @@ public class LineChart: WidgetWrapper {
         })
     }
     
+    public func setColorZones(_ zones: colorZones) {
+        guard self.colorZones != zones else {
+            return
+        }
+        
+        self.colorZones = zones
+        DispatchQueue.main.async(execute: {
+            self.display()
+        })
+    }
+    
     // MARK: - Settings
     
     public override func settings(width: CGFloat) -> NSView {
         let rowHeight: CGFloat = 30
-        let settingsNumber: CGFloat = 6
+        let settingsNumber: CGFloat = 4
         let height: CGFloat = ((rowHeight + Constants.Settings.margin) * settingsNumber) + Constants.Settings.margin
         
         let view: NSView = NSView(frame: NSRect(
@@ -257,21 +241,14 @@ public class LineChart: WidgetWrapper {
         ))
         
         view.addSubview(toggleTitleRow(
-            frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 5, width: view.frame.width, height: rowHeight),
+            frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 3, width: view.frame.width, height: rowHeight),
             title: localizedString("Label"),
             action: #selector(toggleLabel),
             state: self.labelState
         ))
         
-        view.addSubview(toggleTitleRow(
-            frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 4, width: view.frame.width, height: rowHeight),
-            title: localizedString("Value"),
-            action: #selector(toggleValue),
-            state: self.valueState
-        ))
-        
         self.boxSettingsView = toggleTitleRow(
-            frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 3, width: view.frame.width, height: rowHeight),
+            frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 2, width: view.frame.width, height: rowHeight),
             title: localizedString("Box"),
             action: #selector(toggleBox),
             state: self.boxState
@@ -279,7 +256,7 @@ public class LineChart: WidgetWrapper {
         view.addSubview(self.boxSettingsView!)
         
         self.frameSettingsView = toggleTitleRow(
-            frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 2, width: view.frame.width, height: rowHeight),
+            frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 1, width: view.frame.width, height: rowHeight),
             title: localizedString("Frame"),
             action: #selector(toggleFrame),
             state: self.frameState
@@ -287,18 +264,11 @@ public class LineChart: WidgetWrapper {
         view.addSubview(self.frameSettingsView!)
         
         view.addSubview(selectRow(
-            frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 1, width: view.frame.width, height: rowHeight),
+            frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 0, width: view.frame.width, height: rowHeight),
             title: localizedString("Color"),
             action: #selector(toggleColor),
             items: self.colors,
             selected: self.colorState.key
-        ))
-        
-        view.addSubview(toggleTitleRow(
-            frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 0, width: view.frame.width, height: rowHeight),
-            title: localizedString("Colorize value"),
-            action: #selector(toggleValueColor),
-            state: self.valueColorState
         ))
         
         return view
@@ -354,18 +324,6 @@ public class LineChart: WidgetWrapper {
         self.display()
     }
     
-    @objc private func toggleValue(_ sender: NSControl) {
-        var state: NSControl.StateValue? = nil
-        if #available(OSX 10.15, *) {
-            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
-        } else {
-            state = sender is NSButton ? (sender as! NSButton).state: nil
-        }
-        self.valueState = state! == .on ? true : false
-        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_value", value: self.valueState)
-        self.display()
-    }
-    
     @objc private func toggleColor(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String else {
             return
@@ -375,18 +333,6 @@ public class LineChart: WidgetWrapper {
         }
         
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_color", value: key)
-        self.display()
-    }
-    
-    @objc private func toggleValueColor(_ sender: NSControl) {
-        var state: NSControl.StateValue? = nil
-        if #available(OSX 10.15, *) {
-            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
-        } else {
-            state = sender is NSButton ? (sender as! NSButton).state: nil
-        }
-        self.valueColorState = state! == .on ? true : false
-        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_valueColor", value: self.valueColorState)
         self.display()
     }
 }

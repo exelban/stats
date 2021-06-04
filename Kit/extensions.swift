@@ -1,6 +1,6 @@
 //
 //  extensions.swift
-//  StatsKit
+//  Kit
 //
 //  Created by Serhiy Mytrovtsiy on 10/04/2020.
 //  Using Swift 5.0.

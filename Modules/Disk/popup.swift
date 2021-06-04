@@ -10,8 +10,7 @@
 //
 
 import Cocoa
-import ModuleKit
-import StatsKit
+import Kit
 
 internal class Popup: NSView, Popup_p {
     private let diskFullHeight: CGFloat = 62

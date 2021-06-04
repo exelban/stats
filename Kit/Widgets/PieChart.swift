@@ -1,6 +1,6 @@
 //
 //  PieChart.swift
-//  ModuleKit
+//  Kit
 //
 //  Created by Serhiy Mytrovtsiy on 30/11/2020.
 //  Using Swift 5.0.
@@ -10,7 +10,6 @@
 //
 
 import Cocoa
-import StatsKit
 
 public class PieChart: WidgetWrapper {
     private var labelState: Bool = false

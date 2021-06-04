@@ -10,8 +10,7 @@
 //
 
 import Cocoa
-import StatsKit
-import ModuleKit
+import Kit
 import IOKit.ps
 
 struct Battery_Usage: value_t {

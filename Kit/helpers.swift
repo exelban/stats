@@ -1,6 +1,6 @@
 //
 //  helpers.swift
-//  StatsKit
+//  Kit
 //
 //  Created by Serhiy Mytrovtsiy on 29/09/2020.
 //  Using Swift 5.0.
@@ -12,6 +12,26 @@
 
 import Cocoa
 import os.log
+import ServiceManagement
+
+public struct LaunchAtLogin {
+    private static let id = "\(Bundle.main.bundleIdentifier!).LaunchAtLogin"
+    
+    public static var isEnabled: Bool {
+        get {
+            guard let jobs = (SMCopyAllJobDictionaries(kSMDomainUserLaunchd).takeRetainedValue() as? [[String: AnyObject]]) else {
+                return false
+            }
+            
+            let job = jobs.first { $0["Label"] as! String == id }
+            
+            return job?["OnDemand"] as? Bool ?? false
+        }
+        set {
+            SMLoginItemSetEnabled(id as CFString, newValue)
+        }
+    }
+}
 
 public protocol KeyValue_p {
     var key: String { get }

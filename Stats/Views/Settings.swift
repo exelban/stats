@@ -10,8 +10,7 @@
 //
 
 import Cocoa
-import ModuleKit
-import StatsKit
+import Kit
 
 class SettingsWindow: NSWindow, NSWindowDelegate {
     private let viewController: SettingsViewController = SettingsViewController()

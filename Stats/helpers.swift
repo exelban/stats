@@ -10,8 +10,8 @@
 //
 
 import Cocoa
+import Kit
 import os.log
-import StatsKit
 
 extension AppDelegate {
     internal func parseArguments() {

@@ -11,8 +11,7 @@
 // swiftlint:disable file_length
 
 import Cocoa
-import ModuleKit
-import StatsKit
+import Kit
 
 // swiftlint:disable type_body_length
 internal class Popup: NSStackView, Popup_p {

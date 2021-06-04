@@ -9,8 +9,7 @@
 import Cocoa
 import os.log
 
-import StatsKit
-import ModuleKit
+import Kit
 
 import CPU
 import RAM

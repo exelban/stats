@@ -1,6 +1,6 @@
 //
 //  SystemKit.swift
-//  Stats
+//  Kit
 //
 //  Created by Serhiy Mytrovtsiy on 13/04/2020.
 //  Using Swift 5.0.

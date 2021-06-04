@@ -10,8 +10,7 @@
 //
 
 import Cocoa
-import StatsKit
-import ModuleKit
+import Kit
 
 public struct RAM_Usage: value_t {
     var total: Double

@@ -10,7 +10,7 @@
 //
 
 import Cocoa
-import StatsKit
+import Kit
 import os.log
 
 class ApplicationSettings: NSScrollView {

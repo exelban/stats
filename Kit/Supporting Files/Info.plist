@@ -19,6 +19,6 @@
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.</string>
+	<string>Copyright © 2021 Serhiy Mytrovtsiy. All rights reserved.</string>
 </dict>
 </plist>

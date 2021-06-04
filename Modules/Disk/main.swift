@@ -10,8 +10,7 @@
 //
 
 import Cocoa
-import StatsKit
-import ModuleKit
+import Kit
 
 public struct stats {
     var read: Int64 = 0

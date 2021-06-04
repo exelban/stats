@@ -1,6 +1,6 @@
 //
 //  widget.swift
-//  ModuleKit
+//  Kit
 //
 //  Created by Serhiy Mytrovtsiy on 10/04/2020.
 //  Using Swift 5.0.
@@ -11,7 +11,6 @@
 
 import Cocoa
 import os.log
-import StatsKit
 
 public enum widget_t: String {
     case unknown = ""

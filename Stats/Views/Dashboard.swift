@@ -10,8 +10,7 @@
 //
 
 import Cocoa
-import StatsKit
-import ModuleKit
+import Kit
 import os.log
 
 class Dashboard: NSScrollView {

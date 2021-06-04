@@ -10,8 +10,7 @@
 //
 
 import Cocoa
-import ModuleKit
-import StatsKit
+import Kit
 
 public typealias GPU_type = String
 public enum GPU_types: GPU_type {

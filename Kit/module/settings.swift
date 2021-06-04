@@ -1,6 +1,6 @@
 //
 //  settings.swift
-//  ModuleKit
+//  Kit
 //
 //  Created by Serhiy Mytrovtsiy on 13/04/2020.
 //  Using Swift 5.0.
@@ -10,7 +10,6 @@
 //
 
 import Cocoa
-import StatsKit
 
 public protocol Settings_p: NSView {
     var toggleCallback: () -> Void { get set }

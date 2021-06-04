@@ -1,6 +1,6 @@
 //
 //  popup.swift
-//  ModuleKit
+//  Kit
 //
 //  Created by Serhiy Mytrovtsiy on 11/04/2020.
 //  Using Swift 5.0.
@@ -10,7 +10,6 @@
 //
 
 import Cocoa
-import StatsKit
 
 public protocol Popup_p: NSView {
     var sizeCallback: ((NSSize) -> Void)? { get set }

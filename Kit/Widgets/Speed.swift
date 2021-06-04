@@ -1,6 +1,6 @@
 //
 //  Speed.swift
-//  ModuleKit
+//  Kit
 //
 //  Created by Serhiy Mytrovtsiy on 24/05/2020.
 //  Using Swift 5.0.
@@ -10,7 +10,6 @@
 //
 
 import Cocoa
-import StatsKit
 
 public class SpeedWidget: WidgetWrapper {
     private var icon: String = "dots"

@@ -9,7 +9,7 @@
 //  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
 //
 
-import StatsKit
+import Kit
 
 enum SensorGroup: String {
     case CPU = "CPU"

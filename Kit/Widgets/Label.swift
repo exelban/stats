@@ -1,6 +1,6 @@
 //
 //  Label.swift
-//  ModuleKit
+//  Kit
 //
 //  Created by Serhiy Mytrovtsiy on 30/03/2021.
 //  Using Swift 5.0.
@@ -10,7 +10,6 @@
 //
 
 import Cocoa
-import StatsKit
 
 public class Label: WidgetWrapper {
     private var label: String

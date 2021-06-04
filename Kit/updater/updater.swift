@@ -1,6 +1,6 @@
 //
 //  updater.swift
-//  StatsKit
+//  Kit
 //
 //  Created by Serhiy Mytrovtsiy on 14/04/2020.
 //  Using Swift 5.0.

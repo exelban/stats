@@ -10,8 +10,7 @@
 //
 
 import Cocoa
-import StatsKit
-import ModuleKit
+import Kit
 import os.log
 
 internal class LoadReader: Reader<CPU_Load> {

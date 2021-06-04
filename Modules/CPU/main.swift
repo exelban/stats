@@ -7,8 +7,7 @@
 //
 
 import Cocoa
-import ModuleKit
-import StatsKit
+import Kit
 
 public struct CPU_Load: value_t {
     var totalUsage: Double = 0

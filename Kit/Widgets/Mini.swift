@@ -1,6 +1,6 @@
 //
 //  Mini.swift
-//  ModuleKit
+//  Kit
 //
 //  Created by Serhiy Mytrovtsiy on 10/04/2020.
 //  Using Swift 5.0.
@@ -10,7 +10,6 @@
 //
 
 import Cocoa
-import StatsKit
 
 public class Mini: WidgetWrapper {
     private var labelState: Bool = true

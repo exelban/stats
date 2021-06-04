@@ -1,6 +1,6 @@
 //
 //  reader.swift
-//  ModuleKit
+//  Kit
 //
 //  Created by Serhiy Mytrovtsiy on 10/04/2020.
 //  Using Swift 5.0.
@@ -12,7 +12,6 @@
 import Cocoa
 import Repeat
 import os.log
-import StatsKit
 
 public protocol value_t {
     var widgetValue: Double { get }

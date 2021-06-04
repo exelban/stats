@@ -1,6 +1,6 @@
 //
 //  Battery.swift
-//  ModuleKit
+//  Kit
 //
 //  Created by Serhiy Mytrovtsiy on 06/06/2020.
 //  Using Swift 5.0.
@@ -10,7 +10,6 @@
 //
 
 import Cocoa
-import StatsKit
 
 public class BatterykWidget: WidgetWrapper {
     private var additional: String = "none"

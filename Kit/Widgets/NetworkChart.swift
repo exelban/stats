@@ -1,6 +1,6 @@
 //
 //  NetworkChart.swift
-//  ModuleKit
+//  Kit
 //
 //  Created by Serhiy Mytrovtsiy on 19/01/2021.
 //  Using Swift 5.0.
@@ -10,7 +10,6 @@
 //
 
 import Cocoa
-import StatsKit
 
 public class NetworkChart: WidgetWrapper {
     private var boxState: Bool = false

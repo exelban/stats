@@ -10,8 +10,7 @@
 //
 
 import Cocoa
-import StatsKit
-import ModuleKit
+import Kit
 
 internal class Settings: NSStackView, Settings_v {
     private var updateIntervalValue: Int = 1

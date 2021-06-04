@@ -10,8 +10,7 @@
 //
 
 import Cocoa
-import StatsKit
-import ModuleKit
+import Kit
 
 internal class Settings: NSView, Settings_v {
     private var removableState: Bool = false

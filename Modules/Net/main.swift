@@ -10,8 +10,7 @@
 //
 
 import Cocoa
-import StatsKit
-import ModuleKit
+import Kit
 import SystemConfiguration
 
 public enum Network_t: String {

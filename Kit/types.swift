@@ -1,6 +1,6 @@
 //
 //  types.swift
-//  StatsKit
+//  Kit
 //
 //  Created by Serhiy Mytrovtsiy on 10/04/2021.
 //  Using Swift 5.0.

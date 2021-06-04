@@ -1,6 +1,6 @@
 //
 //  module.swift
-//  ModuleKit
+//  Kit
 //
 //  Created by Serhiy Mytrovtsiy on 09/04/2020.
 //  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
@@ -8,7 +8,6 @@
 
 import Cocoa
 import os.log
-import StatsKit
 
 public protocol Module_p {
     var available: Bool { get }

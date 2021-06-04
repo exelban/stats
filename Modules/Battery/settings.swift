@@ -10,8 +10,7 @@
 //
 
 import Cocoa
-import StatsKit
-import ModuleKit
+import Kit
 import SystemConfiguration
 
 internal class Settings: NSView, Settings_v {

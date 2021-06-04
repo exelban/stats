@@ -10,8 +10,7 @@
 //
 
 import Cocoa
-import ModuleKit
-import StatsKit
+import Kit
 
 internal class Popup: NSStackView, Popup_p {
     public var sizeCallback: ((NSSize) -> Void)? = nil

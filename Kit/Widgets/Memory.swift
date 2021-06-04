@@ -1,6 +1,6 @@
 //
 //  Memory.swift
-//  ModuleKit
+//  Kit
 //
 //  Created by Serhiy Mytrovtsiy on 30/06/2020.
 //  Using Swift 5.0.
@@ -10,7 +10,6 @@
 //
 
 import Cocoa
-import StatsKit
 
 public class MemoryWidget: WidgetWrapper {
     private var orderReversedState: Bool = false
