@@ -96,6 +96,7 @@
 		9AB14B78248CEF3B00DC6731 /* config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9AF9EE12246492E8005D2270 /* config.plist */; };
 		9AB14B79248CEF4100DC6731 /* config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9A3E17DC247A94C300449CD1 /* config.plist */; };
 		9AB14B7A248CEF4900DC6731 /* config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9ABFF904248BEC0B00C9041A /* config.plist */; };
+		9AB3AFA8266D2E2D00DD079C /* updater.sh in Copy Files */ = {isa = PBXBuildFile; fileRef = 9A2848012666AB2F00EC1F6D /* updater.sh */; };
 		9AB6D03926447CAA003215A5 /* reader.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB6D03826447CAA003215A5 /* reader.m */; };
 		9AB7FD7C246B48DB00387FDA /* settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB7FD7B246B48DB00387FDA /* settings.swift */; };
 		9ABFF8FD248BEBCB00C9041A /* Battery.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ABFF8F6248BEBCB00C9041A /* Battery.framework */; };
@@ -290,6 +291,7 @@
 			dstPath = Scripts;
 			dstSubfolderSpec = 7;
 			files = (
+				9AB3AFA8266D2E2D00DD079C /* updater.sh in Copy Files */,
 			);
 			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 0;

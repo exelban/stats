@@ -73,7 +73,7 @@ sign:
 
 prepare-dmg:
 	if [ ! -d $(PWD)/create-dmg ]; then \
-	    git clone https://github.com/andreyvit/create-dmg; \
+	    git clone https://github.com/create-dmg/create-dmg; \
 	fi
 
 	./create-dmg/create-dmg \
@@ -85,6 +85,7 @@ prepare-dmg:
 	    --icon "Stats.app" 125 175 \
 	    --hide-extension "Stats.app" \
 	    --app-drop-link 375 175 \
+	    --no-internet-enable \
 	    $(PWD)/$(APP).dmg \
 	    $(APP_PATH)
 
