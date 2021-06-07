@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		9A045EB72594F8D100ED58F2 /* Dashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A045EB62594F8D100ED58F2 /* Dashboard.swift */; };
 		9A27D5352538A456001BB651 /* Reachability in Frameworks */ = {isa = PBXBuildFile; productRef = 9A27D5342538A456001BB651 /* Reachability */; };
-		9A2843E52666959B00EC1F6D /* smc in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9ADE6FD8265D032100D2FBA8 /* smc */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		9A2846FE2666A9CC00EC1F6D /* Kit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A2846F72666A9CC00EC1F6D /* Kit.framework */; };
 		9A2846FF2666A9CC00EC1F6D /* Kit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A2846F72666A9CC00EC1F6D /* Kit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9A28475F2666AA2700EC1F6D /* LineChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2847552666AA2700EC1F6D /* LineChart.swift */; };
@@ -40,8 +39,7 @@
 		9A2848092666AB3000EC1F6D /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2848022666AB2F00EC1F6D /* Store.swift */; };
 		9A28480A2666AB3000EC1F6D /* SystemKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2848032666AB2F00EC1F6D /* SystemKit.swift */; };
 		9A28480B2666AB3000EC1F6D /* Charts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2848042666AB2F00EC1F6D /* Charts.swift */; };
-		9A28480C2666AB3000EC1F6D /* SMC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2848052666AB3000EC1F6D /* SMC.swift */; };
-		9A28480E2666AB3000EC1F6D /* updater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2848072666AB3000EC1F6D /* updater.swift */; };
+		9A28480E2666AB3000EC1F6D /* Updater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2848072666AB3000EC1F6D /* Updater.swift */; };
 		9A28481E2666AB3600EC1F6D /* extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A28481A2666AB3500EC1F6D /* extensions.swift */; };
 		9A28481F2666AB3600EC1F6D /* constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A28481B2666AB3500EC1F6D /* constants.swift */; };
 		9A2848202666AB3600EC1F6D /* types.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A28481C2666AB3500EC1F6D /* types.swift */; };
@@ -54,6 +52,12 @@
 		9A3E17D9247A94B500449CD1 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3E17D8247A94B500449CD1 /* main.swift */; };
 		9A3E17DB247A94BC00449CD1 /* readers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3E17DA247A94BC00449CD1 /* readers.swift */; };
 		9A3E17EA247B07BF00449CD1 /* popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3E17E9247B07BF00449CD1 /* popup.swift */; };
+		9A46BF36266D6E17001A1117 /* i18n.py in Resources */ = {isa = PBXBuildFile; fileRef = 9A46BF35266D6E17001A1117 /* i18n.py */; };
+		9A46BF8A266D7D00001A1117 /* smc in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9ADE6FD8265D032100D2FBA8 /* smc */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		9A46C047266D85DE001A1117 /* smc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADE7038265D059000D2FBA8 /* smc.swift */; };
+		9A46C05F266D85F8001A1117 /* smc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADE7038265D059000D2FBA8 /* smc.swift */; };
+		9A46C06B266D8602001A1117 /* smc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADE7038265D059000D2FBA8 /* smc.swift */; };
+		9A46C077266D8606001A1117 /* smc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADE7038265D059000D2FBA8 /* smc.swift */; };
 		9A53EBF924EAFA5200648841 /* settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A53EBF824EAFA5200648841 /* settings.swift */; };
 		9A53EBFB24EB041E00648841 /* popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A53EBFA24EB041E00648841 /* popup.swift */; };
 		9A58DE9E24B363D800716A9F /* popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A58DE9D24B363D800716A9F /* popup.swift */; };
@@ -109,7 +113,6 @@
 		9ADE6FDB265D032100D2FBA8 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADE6FDA265D032100D2FBA8 /* main.swift */; };
 		9ADE702B265D03D100D2FBA8 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ADE7005265D039300D2FBA8 /* IOKit.framework */; };
 		9ADE7039265D059000D2FBA8 /* smc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADE7038265D059000D2FBA8 /* smc.swift */; };
-		9ADE7053265D542C00D2FBA8 /* types.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADE7052265D542C00D2FBA8 /* types.swift */; };
 		9AE29ADC249A50350071B02D /* Sensors.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AE29AD5249A50350071B02D /* Sensors.framework */; };
 		9AE29ADD249A50350071B02D /* Sensors.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9AE29AD5249A50350071B02D /* Sensors.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9AE29AF3249A51D70071B02D /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE29AF1249A50CD0071B02D /* main.swift */; };
@@ -245,13 +248,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		9A2843E42666959600EC1F6D /* CopyFiles */ = {
+		9A46BF89266D7CFA001A1117 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 7;
 			files = (
-				9A2843E52666959B00EC1F6D /* smc in CopyFiles */,
+				9A46BF8A266D7D00001A1117 /* smc in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -333,8 +336,7 @@
 		9A2848022666AB2F00EC1F6D /* Store.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		9A2848032666AB2F00EC1F6D /* SystemKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemKit.swift; sourceTree = "<group>"; };
 		9A2848042666AB2F00EC1F6D /* Charts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Charts.swift; sourceTree = "<group>"; };
-		9A2848052666AB3000EC1F6D /* SMC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMC.swift; sourceTree = "<group>"; };
-		9A2848072666AB3000EC1F6D /* updater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = updater.swift; sourceTree = "<group>"; };
+		9A2848072666AB3000EC1F6D /* Updater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Updater.swift; sourceTree = "<group>"; };
 		9A28481A2666AB3500EC1F6D /* extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extensions.swift; sourceTree = "<group>"; };
 		9A28481B2666AB3500EC1F6D /* constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = constants.swift; sourceTree = "<group>"; };
 		9A28481C2666AB3500EC1F6D /* types.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = types.swift; sourceTree = "<group>"; };
@@ -352,6 +354,7 @@
 		9A3E17DA247A94BC00449CD1 /* readers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = readers.swift; sourceTree = "<group>"; };
 		9A3E17DC247A94C300449CD1 /* config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = config.plist; sourceTree = "<group>"; };
 		9A3E17E9247B07BF00449CD1 /* popup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = popup.swift; sourceTree = "<group>"; };
+		9A46BF35266D6E17001A1117 /* i18n.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = i18n.py; sourceTree = "<group>"; };
 		9A49EC7B261CDF3E0055267E /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9A520DF624FBF01F00133EC6 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9A53EBF824EAFA5200648841 /* settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = settings.swift; sourceTree = "<group>"; };
@@ -412,7 +415,6 @@
 		9ADE6FDA265D032100D2FBA8 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		9ADE7005265D039300D2FBA8 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		9ADE7038265D059000D2FBA8 /* smc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = smc.swift; sourceTree = "<group>"; };
-		9ADE7052265D542C00D2FBA8 /* types.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = types.swift; sourceTree = "<group>"; };
 		9AE29AD5249A50350071B02D /* Sensors.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Sensors.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AE29AEC249A50960071B02D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = Info.plist; path = Modules/Sensors/Info.plist; sourceTree = SOURCE_ROOT; };
 		9AE29AF1249A50CD0071B02D /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = main.swift; path = Modules/Sensors/main.swift; sourceTree = SOURCE_ROOT; };
@@ -591,7 +593,7 @@
 				9A2848642666ABA500EC1F6D /* Supporting Files */,
 				9A28498D2666AE3400EC1F6D /* module */,
 				9AA81547266A9ACA008C01D0 /* plugins */,
-				9AA81548266A9AFE008C01D0 /* updater */,
+				9A46BF1E266D6DD0001A1117 /* scripts */,
 				9A28481B2666AB3500EC1F6D /* constants.swift */,
 				9A28481A2666AB3500EC1F6D /* extensions.swift */,
 				9A28481D2666AB3600EC1F6D /* helpers.swift */,
@@ -659,6 +661,15 @@
 				9A3E17DC247A94C300449CD1 /* config.plist */,
 			);
 			path = Net;
+			sourceTree = "<group>";
+		};
+		9A46BF1E266D6DD0001A1117 /* scripts */ = {
+			isa = PBXGroup;
+			children = (
+				9A2848012666AB2F00EC1F6D /* updater.sh */,
+				9A46BF35266D6E17001A1117 /* i18n.py */,
+			);
+			path = scripts;
 			sourceTree = "<group>";
 		};
 		9A5B1CB3229E72A7008B9D3C /* Supporting Files */ = {
@@ -750,21 +761,12 @@
 		9AA81547266A9ACA008C01D0 /* plugins */ = {
 			isa = PBXGroup;
 			children = (
-				9A2848052666AB3000EC1F6D /* SMC.swift */,
 				9A2848022666AB2F00EC1F6D /* Store.swift */,
 				9A2848042666AB2F00EC1F6D /* Charts.swift */,
 				9A2848032666AB2F00EC1F6D /* SystemKit.swift */,
+				9A2848072666AB3000EC1F6D /* Updater.swift */,
 			);
 			path = plugins;
-			sourceTree = "<group>";
-		};
-		9AA81548266A9AFE008C01D0 /* updater */ = {
-			isa = PBXGroup;
-			children = (
-				9A2848012666AB2F00EC1F6D /* updater.sh */,
-				9A2848072666AB3000EC1F6D /* updater.swift */,
-			);
-			path = updater;
 			sourceTree = "<group>";
 		};
 		9AB14B75248CEEC600DC6731 /* Modules */ = {
@@ -800,7 +802,6 @@
 			children = (
 				9ADE6FDA265D032100D2FBA8 /* main.swift */,
 				9ADE7038265D059000D2FBA8 /* smc.swift */,
-				9ADE7052265D542C00D2FBA8 /* types.swift */,
 			);
 			path = SMC;
 			sourceTree = "<group>";
@@ -914,7 +915,7 @@
 				9A6698E72326AB16001D00E1 /* Embed Frameworks */,
 				9AECEF3D24ACF98800DB95D4 /* Copy Files */,
 				9A88E2672659002E00E2B7B0 /* ShellScript */,
-				9A2843E42666959600EC1F6D /* CopyFiles */,
+				9A46BF89266D7CFA001A1117 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -1282,6 +1283,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A46BF36266D6E17001A1117 /* i18n.py in Resources */,
 				9A2848892666AC0100EC1F6D /* Assets.xcassets in Resources */,
 				9A2848082666AB3000EC1F6D /* updater.sh in Resources */,
 			);
@@ -1411,12 +1413,11 @@
 				9A2848212666AB3600EC1F6D /* helpers.swift in Sources */,
 				9A28477A2666AA5000EC1F6D /* settings.swift in Sources */,
 				9A28475F2666AA2700EC1F6D /* LineChart.swift in Sources */,
-				9A28480E2666AB3000EC1F6D /* updater.swift in Sources */,
+				9A28480E2666AB3000EC1F6D /* Updater.swift in Sources */,
 				9A2847622666AA2700EC1F6D /* Label.swift in Sources */,
 				9A28477C2666AA5000EC1F6D /* reader.swift in Sources */,
 				9A2847652666AA2700EC1F6D /* Memory.swift in Sources */,
 				9A2847642666AA2700EC1F6D /* Battery.swift in Sources */,
-				9A28480C2666AB3000EC1F6D /* SMC.swift in Sources */,
 				9A28480B2666AB3000EC1F6D /* Charts.swift in Sources */,
 				9A2847632666AA2700EC1F6D /* Mini.swift in Sources */,
 				9A2847602666AA2700EC1F6D /* NetworkChart.swift in Sources */,
@@ -1460,6 +1461,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A46C047266D85DE001A1117 /* smc.swift in Sources */,
 				9A8DE609253DF740006A748F /* readers.swift in Sources */,
 				9A8DE5E4253DF4E2006A748F /* main.swift in Sources */,
 				9A656562253F788A0096B607 /* popup.swift in Sources */,
@@ -1471,6 +1473,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A46C06B266D8602001A1117 /* smc.swift in Sources */,
 				9A90E1A324EAD66600471E9A /* reader.swift in Sources */,
 				9A90E19624EAD35F00471E9A /* main.swift in Sources */,
 				9A53EBFB24EB041E00648841 /* popup.swift in Sources */,
@@ -1482,6 +1485,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A46C077266D8606001A1117 /* smc.swift in Sources */,
 				9A97CEF1253733D200742D8F /* readers.swift in Sources */,
 				9A97CEF6253733E400742D8F /* popup.swift in Sources */,
 				9A97CEFB253733F300742D8F /* settings.swift in Sources */,
@@ -1504,7 +1508,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9ADE7053265D542C00D2FBA8 /* types.swift in Sources */,
 				9ADE6FDB265D032100D2FBA8 /* main.swift in Sources */,
 				9ADE7039265D059000D2FBA8 /* smc.swift in Sources */,
 			);
@@ -1514,6 +1517,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A46C05F266D85F8001A1117 /* smc.swift in Sources */,
 				9AB6D03926447CAA003215A5 /* reader.m in Sources */,
 				9AE29AFB249A53DC0071B02D /* readers.swift in Sources */,
 				9AE29AFC249A53DC0071B02D /* values.swift in Sources */,
@@ -1790,7 +1794,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Stats/Supporting Files/Stats.entitlements";
-				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 180;
@@ -1823,7 +1827,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Stats/Supporting Files/Stats.entitlements";
-				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 180;
@@ -1918,7 +1922,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = LaunchAtLogin/LaunchAtLogin.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_ASSET_PATHS = "";
@@ -1943,7 +1947,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = LaunchAtLogin/LaunchAtLogin.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_ASSET_PATHS = "";
@@ -2347,12 +2351,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "";
-				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = RP2S87B72W;
 				ENABLE_HARDENED_RUNTIME = NO;
 				INFOPLIST_FILE = "$(SRCROOT)/SMC/Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MARKETING_VERSION = 1.0.0;
+				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = eu.exelban.Stats.SMC;
 				PRODUCT_NAME = smc;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2365,12 +2372,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "";
-				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = RP2S87B72W;
 				ENABLE_HARDENED_RUNTIME = NO;
 				INFOPLIST_FILE = "$(SRCROOT)/SMC/Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MARKETING_VERSION = 1.0.0;
+				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = eu.exelban.Stats.SMC;
 				PRODUCT_NAME = smc;
 				PROVISIONING_PROFILE_SPECIFIER = "";

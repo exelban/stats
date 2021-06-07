@@ -1,5 +1,5 @@
 //
-//  updater.swift
+//  Updater.swift
 //  Kit
 //
 //  Created by Serhiy Mytrovtsiy on 14/04/2020.

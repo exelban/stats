@@ -11,6 +11,40 @@
 
 import Foundation
 
+enum CMDType: String {
+    case list
+    case set
+    case help
+    case unknown
+    
+    init(value: String) {
+        switch value {
+        case "list": self = .list
+        case "set": self = .set
+        case "help": self = .help
+        default: self = .unknown
+        }
+    }
+}
+
+enum FlagsType: String {
+    case temperature = "T"
+    case voltage = "V"
+    case power = "P"
+    case fans = "F"
+    case all
+    
+    init(value: String) {
+        switch value {
+        case "-t": self = .temperature
+        case "-v": self = .voltage
+        case "-p": self = .power
+        case "-f": self = .fans
+        default: self = .all
+        }
+    }
+}
+
 func main() {
     var args = CommandLine.arguments.dropFirst()
     let cmd = CMDType(value: args.first ?? "")
