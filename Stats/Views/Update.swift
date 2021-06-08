@@ -145,6 +145,7 @@ private class UpdateView: NSView {
         let buttons: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: 26))
         buttons.orientation = .horizontal
         buttons.spacing = 10
+        buttons.distribution = .fillEqually
         
         buttons.addArrangedSubview(closeButton)
         buttons.addArrangedSubview(changelogButton)

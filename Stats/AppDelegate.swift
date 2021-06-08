@@ -49,7 +49,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         NotificationCenter.default.addObserver(self, selector: #selector(updateCron), name: .changeCronInterval, object: nil)
         
         modules.forEach{ $0.mount() }
-        
         self.settingsWindow.setModules()
         
         self.defaultValues()
