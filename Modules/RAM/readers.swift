@@ -148,7 +148,7 @@ public class ProcessReader: Reader<[TopProcess]> {
             if line.matches("^\\d+ +.* +\\d+[A-Z]*\\+?\\-? *$") {
                 var str = line.trimmingCharacters(in: .whitespaces)
                 let pidString = str.findAndCrop(pattern: "^\\d+")
-                let usageString = str.suffix(5)
+                let usageString = str.suffix(6)
                 var command = str.replacingOccurrences(of: pidString, with: "")
                 command = command.replacingOccurrences(of: usageString, with: "")
                 
