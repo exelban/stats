@@ -14,6 +14,7 @@ import Foundation
 enum CMDType: String {
     case list
     case set
+    case fan
     case help
     case unknown
     
@@ -21,6 +22,7 @@ enum CMDType: String {
         switch value {
         case "list": self = .list
         case "set": self = .set
+        case "fan": self = .fan
         case "help": self = .help
         default: self = .unknown
         }
@@ -70,7 +72,7 @@ func main() {
         guard let keyIndex = args.firstIndex(where: { $0 == "-k" }),
               let valueIndex = args.firstIndex(where: { $0 == "-v" }),
               args.indices.contains(keyIndex+1),
-              args.indices.contains(valueIndex+1) else{
+              args.indices.contains(valueIndex+1) else {
             return
         }
         
@@ -92,6 +94,25 @@ func main() {
         }
         
         print("[INFO]: set \(value) on \(key)")
+    case .fan:
+        guard let idIndex = args.firstIndex(where: { $0 == "-id" }),
+              args.indices.contains(idIndex+1),
+              let id = Int(args[idIndex+1]) else {
+            return
+        }
+        
+        if let index = args.firstIndex(where: { $0 == "-v" }), args.indices.contains(index+1), let value = Int(args[index+1]) {
+            SMC.shared.setFanSpeed(id, speed: value)
+            return
+        }
+        
+        if let index = args.firstIndex(where: { $0 == "-m" }), args.indices.contains(index+1),
+           let raw = Int(args[index+1]), let mode = FanMode.init(rawValue: raw) {
+            SMC.shared.setFanMode(id, mode: mode)
+            return
+        }
+        
+        print("[ERROR]: missing value or mode")
     case .help, .unknown:
         print("SMC tool\n")
         print("Usage:")
