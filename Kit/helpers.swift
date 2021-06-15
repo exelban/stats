@@ -878,3 +878,68 @@ public class SettingsContainerView: NSStackView {
         self.resize()
     }
 }
+
+public class SMCHelper {
+    public static let shared = SMCHelper()
+    private let smc: String
+    
+    public init() {
+        self.smc = Bundle.main.path(forResource: "smc", ofType: nil)!
+    }
+    
+    public func setFanSpeed(_ id: Int, speed: Int) {
+        if !self.checkRights() {
+            if !self.ensureRights() {
+                return
+            }
+        }
+        
+        _ = syncShell("\(self.smc) fan -id \(id) -v \(speed)")
+    }
+    
+    public func setFanMode(_ id: Int, mode: Int) {
+        if !self.checkRights() {
+            if !self.ensureRights() {
+                return
+            }
+        }
+        
+        _ = syncShell("\(self.smc) fan -id \(id) -m \(mode)")
+    }
+    
+    private func checkRights() -> Bool {
+        do {
+            let attributes = try FileManager.default.attributesOfItem(atPath: self.smc)
+            guard let owner = attributes[FileAttributeKey(rawValue: "NSFileOwnerAccountName")] as? String,
+                  let ownerGroup = attributes[FileAttributeKey(rawValue: "NSFileGroupOwnerAccountName")] as? String,
+                  let permissions = attributes[FileAttributeKey(rawValue: "NSFilePosixPermissions")]  as? Int else {
+                print("some of the smc attributes is missing")
+                return false
+            }
+            
+            if owner == "root" && ownerGroup == "admin" && permissions == 3437 {
+                return true
+            }
+        } catch let error {
+            print("get smc attributes, \(error)")
+            return false
+        }
+        
+        return false
+    }
+    
+    private func ensureRights() -> Bool {
+        guard let script = NSAppleScript(source: "do shell script \"/usr/sbin/chown root:admin \(self.smc) && /bin/chmod 6555 \(self.smc)\" with administrator privileges") else {
+            return false
+        }
+        
+        var err: NSDictionary? = nil
+        script.executeAndReturnError(&err)
+        if err != nil {
+            print("cannot upgrade owner to root: \(String(describing: err))")
+            return false
+        }
+        
+        return true
+    }
+}
