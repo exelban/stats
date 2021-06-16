@@ -24,6 +24,7 @@
 "Yes" = "Có";
 "No" = "Không";
 "Automatic" = "Tự động";
+"Manual" = "Thủ công";
 "None" = "Không có";
 "Dots" = "Dấu chấm";
 "Arrows" = "Mũi tên";
@@ -31,6 +32,9 @@
 "Short" = "Ngắn";
 "Long" = "Dài";
 "Statistics" = "Số liệu thống kê";
+"Max" = "Tối đa";
+"Min" = "Tối thiểu";
+"Reset" = "Reset";
 
 // Alerts
 "New version available" = "Phiên bản mới có sẵn";
@@ -49,10 +53,10 @@
 // Application settings
 "Update application" = "Cập nhật ứng dụng";
 "Check for updates" = "Kiểm tra các cập nhật";
-"At start" = "At start";
-"Once per day" = "Once per day";
-"Once per week" = "Once per week";
-"Once per month" = "Once per month";
+"At start" = "Khi bắt đầu";
+"Once per day" = "Một lần một ngày";
+"Once per week" = "Một tuần một lần";
+"Once per month" = "Mỗi tháng một lần";
 "Never" = "Never";
 "Check for update" = "Kiểm tra cập nhật";
 "Show icon in dock" = "Hiện icon trên Dock";
@@ -83,18 +87,20 @@
 "One row" = "Một hàng";
 "Two rows" = "Hai hàng";
 "Mini widget" = "Mini";
-"Line chart widget" = "Line chart";
-"Bar chart widget" = "Bar chart";
-"Pie chart widget" = "Pie chart";
-"Network chart widget" = "Network chart";
-"Speed widget" = "Speed";
-"Battery widget" = "Battery";
-"Text widget" = "Text";
-"Memory widget" = "Memory";
+"Line chart widget" = "Biểu đồ tuyến tính";
+"Bar chart widget" = "Biểu đồ cột";
+"Pie chart widget" = "Biểu đồ tròn";
+"Network chart widget" = "Biểu đồ mạng";
+"Speed widget" = "Tốc độ";
+"Battery widget" = "Pin";
+"Text widget" = "Văn bản";
+"Memory widget" = "Bộ nhớ";
+"Static width" = "Static width";
 
 // Module Kit
 "Open module settings" = "Mở cài đặt module";
 "Select widget" = "Chọn tiện ích %0";
+"Open widget settings" = "Mở Cài đặt widget";
 "Update interval" = "Thời gian làm mới";
 "Usage history" = "Lịch sử sử dụng";
 "Details" = "Chi tiết";
@@ -117,19 +123,19 @@
 // GPU
 "GPU to show" = "GPU để hiển thị";
 "Show GPU type" = "Hiển thị loại GPU";
-"GPU enabled" = "GPU enabled";
-"GPU disabled" = "GPU disabled";
+"GPU enabled" = "GPU đã bật";
+"GPU disabled" = "GPU bị vô hiệu hóa";
 "GPU temperature" = "Nhiệt độ GPU";
 "GPU utilization" = "Sử dụng GPU";
-"Vendor" = "Vendor";
+"Vendor" = "Nhà cung cấp";
 "Model" = "Model";
-"Status" = "Status";
-"Active" = "Active";
-"Non active" = "Non active";
-"Fan speed" = "Fan speed";
-"Core clock" = "Core clock";
-"Memory clock" = "Memory clock";
-"Utilization" = "Utilization";
+"Status" = "Trạng thái";
+"Active" = "Kích hoạt";
+"Non active" = "Không kích hoạt";
+"Fan speed" = "Tốc độ quạt";
+"Core clock" = "Xung của nhân";
+"Memory clock" = "Xung của bộ nhớ (RAM)";
+"Utilization" = "Công suất sử dụng";
 
 // Memory
 "Memory usage" = "Sử dụng Bộ nhớ";
@@ -140,7 +146,7 @@
 "Wired" = "Tính toán (hệ thống)";
 "Compressed" = "Đã nén";
 "Free" = "Còn Trống";
-"Swap" = "Swap";
+"Swap" = "RAM ảo";
 
 // Disk
 "Show removable disks" = "Hiển thị các đĩa rời";
@@ -163,6 +169,7 @@
 "Interface" = "Giao diện mạng";
 "Network" = "Tên mạng";
 "Physical address" = "Địa chỉ vật lý (MAC)";
+"Refresh" = "Làm mới";
 "Click to copy public IP address" = "Nhấp để copy IP công cộng";
 "Click to copy local IP address" = "Nhấp để copy IP cục bộ";
 "Click to copy wifi name" = "Nhấp để copy tên WIFI";
@@ -178,8 +185,8 @@
 // Battery
 "Level" = "Dung lượng Pin";
 "Source" = "Nguồn";
-"AC Power" = "AC Power";
-"Battery Power" = "Battery Power";
+"AC Power" = "Nguồn AC";
+"Battery Power" = "Nguồn pin";
 "Time" = "Thời gian";
 "Health" = "Sức khoẻ";
 "Battery" = "PIN";
@@ -196,13 +203,49 @@
 "Fully charged" = "Đã sạc đầy";
 "Not connected" = "Không kết nối";
 "Low level notification" = "Thông báo PIN yếu";
+"High level notification" = "Thông báo cấp cao";
 "Low battery" = "Pin yếu";
+"High battery" = "Pin khoẻ";
 "Battery remaining" = "%0% còn lại";
+"Battery remaining to full charge" = "Còn %0% để sạch đầy";
 "Percentage" = "Phần trăm";
 "Percentage and time" = "Phần trăm và thời gian";
 "Time and percentage" = "Thời gian và tỷ lệ phần trăm";
 "Time format" = "Định dạng thời gian";
 "Hide additional information when full" = "Ẩn thông tin bổ sung khi pin đầy";
+"Last charge" = "Lần sạc cuối cùng";
 
 // Fans
 "Fans" = "Quạt";
+
+// Colors
+"Based on utilization" = "Dựa trên việc sử dụng";
+"Based on pressure" = "Dựa trên áp lực";
+"System accent" = "Màu nhấn mạnh hệ thống";
+"Monochrome accent" = "Màu nhấn mạnh đơn sắc";
+"Clear" = "Màu sắc rõ ràng";
+"White" = "Màu Trắng";
+"Black" = "Màu Đen";
+"Gray" = "Màu xám";
+"Second gray" = "Màu xám thứ 2";
+"Dark gray" = "Màu xám đen";
+"Light gray" = "Xám nhạt";
+"Red" = "Màu Đỏ";
+"Second red" = "Màu đỏ thứ 2";
+"Green" = "Màu xanh lá";
+"Second green" = "Màu xanh lá thứ 2";
+"Blue" = "Màu xanh da trời";
+"Second blue" = "Màu xanh da trời thứ 2";
+"Yellow" = "Màu vàng";
+"Second yellow" = "Màu vàng thứ 2";
+"Orange" = "Màu cam";
+"Second orange" = "Màu cam thứ 2";
+"Purple" = "Màu tím";
+"Second purple" = "Màu tím thứ 2";
+"Brown" = "Màu nâu";
+"Second brown" = "Màu nâu thứ 2";
+"Cyan" = "Lục lam";
+"Magenta" = "Đỏ tươi";
+"Pink" = "Màu Hồng";
+"Teal" = "Màu mòng két";
+"Indigo" = "Màu xanh đậm";

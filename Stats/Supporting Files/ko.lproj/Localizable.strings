@@ -24,6 +24,7 @@
 "Yes" = "예";
 "No" = "아니요";
 "Automatic" = "자동";
+"Manual" = "Manual";
 "None" = "없음";
 "Dots" = "도트";
 "Arrows" = "화살표";
@@ -31,6 +32,9 @@
 "Short" = "짧은";
 "Long" = "긴";
 "Statistics" = "통계";
+"Max" = "Max";
+"Min" = "Min";
+"Reset" = "Reset";
 
 // Alerts
 "New version available" = "새로운 버전을 이용할 수 있습니다";
@@ -91,10 +95,12 @@
 "Battery widget" = "Battery";
 "Text widget" = "Text";
 "Memory widget" = "Memory";
+"Static width" = "Static width";
 
 // Module Kit
 "Open module settings" = "모듈 설정 열기";
 "Select widget" = "%0 위젯 선택";
+"Open widget settings" = "Open widget settings";
 "Update interval" = "업데이트 주기";
 "Usage history" = "사용 기록";
 "Details" = "세부 사항";
@@ -163,6 +169,7 @@
 "Interface" = "인터페이스";
 "Network" = "네트워크";
 "Physical address" = "물리 주소";
+"Refresh" = "Refresh";
 "Click to copy public IP address" = "공인 IP 주소를 복사하려면 클릭하세요";
 "Click to copy local IP address" = "로컬 IP 주소를 복사하려면 클릭하세요";
 "Click to copy wifi name" = "와이파이 이름을 복사하려면 클릭하세요";
@@ -196,13 +203,49 @@
 "Fully charged" = "완전히 충전됨";
 "Not connected" = "연결되지 않음";
 "Low level notification" = "배터리 부족 상태 알림";
+"High level notification" = "High level notification";
 "Low battery" = "배터리 부족";
+"High battery" = "High battery";
 "Battery remaining" = "%0% 남았습니다";
+"Battery remaining to full charge" = "%0% to full charge";
 "Percentage" = "백분율";
 "Percentage and time" = "비율과 시간";
 "Time and percentage" = "시간과 비율";
 "Time format" = "시간 형식";
 "Hide additional information when full" = "배터리가 가득 차면 추가 정보 숨기기";
+"Last charge" = "마지막 청구";
 
 // Fans
 "Fans" = "팬";
+
+// Colors
+"Based on utilization" = "Based on utilization";
+"Based on pressure" = "Based on pressure";
+"System accent" = "System accent";
+"Monochrome accent" = "Monochrome accent";
+"Clear" = "Clear";
+"White" = "White";
+"Black" = "Black";
+"Gray" = "Gray";
+"Second gray" = "Second gray";
+"Dark gray" = "Dark gray";
+"Light gray" = "Light gray";
+"Red" = "Red";
+"Second red" = "Second red";
+"Green" = "Green";
+"Second green" = "Second green";
+"Blue" = "Blue";
+"Second blue" = "Second blue";
+"Yellow" = "Yellow";
+"Second yellow" = "Second yellow";
+"Orange" = "Orange";
+"Second orange" = "Second orange";
+"Purple" = "Purple";
+"Second purple" = "Second purple";
+"Brown" = "Brown";
+"Second brown" = "Second brown";
+"Cyan" = "Cyan";
+"Magenta" = "Magenta";
+"Pink" = "Pink";
+"Teal" = "Teal";
+"Indigo" = "Indigo";

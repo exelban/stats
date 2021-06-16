@@ -24,6 +24,7 @@
 "Yes" = "Так";
 "No" = "Ні";
 "Automatic" = "Автоматичний";
+"Manual" = "Ручний";
 "None" = "Ніяка";
 "Dots" = "Пункти";
 "Arrows" = "Стрілки";
@@ -31,6 +32,9 @@
 "Short" = "Короткий";
 "Long" = "Довгий";
 "Statistics" = "Статистика";
+"Max" = "Max";
+"Min" = "Min";
+"Reset" = "Скинути";
 
 // Alerts
 "New version available" = "Доступна нова версія";
@@ -91,10 +95,12 @@
 "Battery widget" = "Battery";
 "Text widget" = "Text";
 "Memory widget" = "Memory";
+"Static width" = "Static width";
 
 // Module Kit
 "Open module settings" = "Відкрити налаштування модуля";
 "Select widget" = "Активувати %0 віджет";
+"Open widget settings" = "Open widget settings";
 "Update interval" = "Інтервал обновлень";
 "Usage history" = "Історія використання";
 "Details" = "Деталі";
@@ -163,6 +169,7 @@
 "Interface" = "Інтерфейс";
 "Network" = "Мережа";
 "Physical address" = "Фізичний адрес";
+"Refresh" = "Refresh";
 "Click to copy public IP address" = "Натисніть, щоб скопіювати публічний IP";
 "Click to copy local IP address" = "Натисніть, щоб скопіювати локальний IP";
 "Click to copy wifi name" = "Натисніть, щоб скопіювати назву wifi";
@@ -196,13 +203,49 @@
 "Fully charged" = "Повністю заряджена";
 "Not connected" = "Непід'єднана";
 "Low level notification" = "Повідомлення про низький рівень заряду";
+"High level notification" = "High level notification";
 "Low battery" = "Низький заряд акумулятора";
+"High battery" = "High battery";
 "Battery remaining" = "%0% залишилось";
+"Battery remaining to full charge" = "%0% до повного заряду";
 "Percentage" = "Проценти";
 "Percentage and time" = "Проценти і час";
 "Time and percentage" = "Час і проценти";
 "Time format" = "Формат часу";
 "Hide additional information when full" = "Приховати додаткову інформацію, якщо акумулятор заряджений";
+"Last charge" = "Остання зарядка";
 
 // Fans
 "Fans" = "Fans";
+
+// Colors
+"Based on utilization" = "Based on utilization";
+"Based on pressure" = "Based on pressure";
+"System accent" = "System accent";
+"Monochrome accent" = "Monochrome accent";
+"Clear" = "Clear";
+"White" = "White";
+"Black" = "Black";
+"Gray" = "Gray";
+"Second gray" = "Second gray";
+"Dark gray" = "Dark gray";
+"Light gray" = "Light gray";
+"Red" = "Red";
+"Second red" = "Second red";
+"Green" = "Green";
+"Second green" = "Second green";
+"Blue" = "Blue";
+"Second blue" = "Second blue";
+"Yellow" = "Yellow";
+"Second yellow" = "Second yellow";
+"Orange" = "Orange";
+"Second orange" = "Second orange";
+"Purple" = "Purple";
+"Second purple" = "Second purple";
+"Brown" = "Brown";
+"Second brown" = "Second brown";
+"Cyan" = "Cyan";
+"Magenta" = "Magenta";
+"Pink" = "Pink";
+"Teal" = "Teal";
+"Indigo" = "Indigo";

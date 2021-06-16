@@ -10,11 +10,9 @@
 //
 
 import Cocoa
-import ModuleKit
-import StatsKit
+import Kit
 
 internal class Popup: NSView, Popup_p {
-    private var store: UnsafePointer<Store>
     private var title: String
     
     private var grid: NSGridView? = nil
@@ -46,7 +44,7 @@ internal class Popup: NSView, Popup_p {
     
     private var numberOfProcesses: Int {
         get {
-            return self.store.pointee.int(key: "\(self.title)_processes", defaultValue: 8)
+            return Store.shared.int(key: "\(self.title)_processes", defaultValue: 8)
         }
     }
     private var processesHeight: CGFloat {
@@ -56,8 +54,7 @@ internal class Popup: NSView, Popup_p {
         }
     }
     
-    public init(_ title: String, store: UnsafePointer<Store>) {
-        self.store = store
+    public init(_ title: String) {
         self.title = title
         
         super.init(frame: NSRect(
@@ -125,17 +122,17 @@ internal class Popup: NSView, Popup_p {
             width: container.frame.height,
             height: container.frame.height
         ), segments: [], drawValue: true)
-        self.circle!.toolTip = LocalizedString("CPU usage")
+        self.circle!.toolTip = localizedString("CPU usage")
         container.addSubview(self.circle!)
         
         let centralWidth: CGFloat = self.dashboardHeight-20
         let sideWidth: CGFloat = (view.frame.width - centralWidth - (Constants.Popup.margins*2))/2
         self.temperatureCircle = HalfCircleGraphView(frame: NSRect(x: (sideWidth - 60)/2, y: 10, width: 60, height: 50))
-        self.temperatureCircle!.toolTip = LocalizedString("CPU temperature")
+        self.temperatureCircle!.toolTip = localizedString("CPU temperature")
         (self.temperatureCircle! as NSView).isHidden = true
         
         self.frequencyCircle = HalfCircleGraphView(frame: NSRect(x: view.frame.width - 60 - Constants.Popup.margins*2, y: 10, width: 60, height: 50))
-        self.frequencyCircle!.toolTip = LocalizedString("CPU frequency")
+        self.frequencyCircle!.toolTip = localizedString("CPU frequency")
         (self.frequencyCircle! as NSView).isHidden = true
         
         view.addSubview(self.temperatureCircle!)
@@ -147,7 +144,7 @@ internal class Popup: NSView, Popup_p {
     
     private func initChart() -> NSView {
         let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.chartHeight))
-        let separator = SeparatorView(LocalizedString("Usage history"), origin: NSPoint(x: 0, y: self.chartHeight-Constants.Popup.separatorHeight), width: self.frame.width)
+        let separator = separatorView(localizedString("Usage history"), origin: NSPoint(x: 0, y: self.chartHeight-Constants.Popup.separatorHeight), width: self.frame.width)
         let container: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: separator.frame.origin.y))
         container.wantsLayer = true
         container.layer?.backgroundColor = NSColor.lightGray.withAlphaComponent(0.1).cgColor
@@ -164,12 +161,12 @@ internal class Popup: NSView, Popup_p {
     
     private func initDetails() -> NSView {
         let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.detailsHeight))
-        let separator = SeparatorView(LocalizedString("Details"), origin: NSPoint(x: 0, y: self.detailsHeight-Constants.Popup.separatorHeight), width: self.frame.width)
+        let separator = separatorView(localizedString("Details"), origin: NSPoint(x: 0, y: self.detailsHeight-Constants.Popup.separatorHeight), width: self.frame.width)
         let container: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: separator.frame.origin.y))
         
-        self.systemField = PopupWithColorRow(container, color: NSColor.systemRed, n: 2, title: "\(LocalizedString("System")):", value: "")
-        self.userField = PopupWithColorRow(container, color: NSColor.systemBlue, n: 1, title: "\(LocalizedString("User")):", value: "")
-        self.idleField = PopupWithColorRow(container, color: NSColor.lightGray.withAlphaComponent(0.5), n: 0, title: "\(LocalizedString("Idle")):", value: "")
+        self.systemField = popupWithColorRow(container, color: NSColor.systemRed, n: 2, title: "\(localizedString("System")):", value: "")
+        self.userField = popupWithColorRow(container, color: NSColor.systemBlue, n: 1, title: "\(localizedString("User")):", value: "")
+        self.idleField = popupWithColorRow(container, color: NSColor.lightGray.withAlphaComponent(0.5), n: 0, title: "\(localizedString("Idle")):", value: "")
         
         view.addSubview(separator)
         view.addSubview(container)
@@ -179,7 +176,7 @@ internal class Popup: NSView, Popup_p {
     
     private func initProcesses() -> NSView {
         let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.processesHeight))
-        let separator = SeparatorView(LocalizedString("Top processes"), origin: NSPoint(x: 0, y: self.processesHeight-Constants.Popup.separatorHeight), width: self.frame.width)
+        let separator = separatorView(localizedString("Top processes"), origin: NSPoint(x: 0, y: self.processesHeight-Constants.Popup.separatorHeight), width: self.frame.width)
         let container: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: separator.frame.origin.y))
         
         for i in 0..<self.numberOfProcesses {
@@ -208,7 +205,7 @@ internal class Popup: NSView, Popup_p {
                 self.circle?.setValue(value.totalUsage)
                 self.circle?.setSegments([
                     circle_segment(value: value.systemLoad, color: NSColor.systemRed),
-                    circle_segment(value: value.userLoad, color: NSColor.systemBlue),
+                    circle_segment(value: value.userLoad, color: NSColor.systemBlue)
                 ])
             }
             self.chart?.addValue(value.totalUsage)
@@ -270,6 +267,15 @@ internal class Popup: NSView, Popup_p {
             }
             
             self.initializedProcesses = true
+        })
+    }
+    
+    public func toggleFrequency(state: Bool) {
+        DispatchQueue.main.async(execute: {
+            if let view = self.frequencyCircle {
+                view.isHidden = !state
+            }
+            self.initializedFrequency = false
         })
     }
 }

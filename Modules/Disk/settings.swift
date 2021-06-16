@@ -10,8 +10,7 @@
 //
 
 import Cocoa
-import StatsKit
-import ModuleKit
+import Kit
 
 internal class Settings: NSView, Settings_v {
     private var removableState: Bool = false
@@ -22,17 +21,15 @@ internal class Settings: NSView, Settings_v {
     public var setInterval: ((_ value: Int) -> Void) = {_ in }
     
     private let title: String
-    private let store: UnsafePointer<Store>
     private var selectedDisk: String
     private var button: NSPopUpButton?
     private var intervalSelectView: NSView? = nil
     
-    public init(_ title: String, store: UnsafePointer<Store>) {
+    public init(_ title: String) {
         self.title = title
-        self.store = store
-        self.selectedDisk = store.pointee.string(key: "\(self.title)_disk", defaultValue: "")
-        self.removableState = store.pointee.bool(key: "\(self.title)_removable", defaultValue: self.removableState)
-        self.updateIntervalValue = store.pointee.int(key: "\(self.title)_updateInterval", defaultValue: self.updateIntervalValue)
+        self.selectedDisk = Store.shared.string(key: "\(self.title)_disk", defaultValue: "")
+        self.removableState = Store.shared.bool(key: "\(self.title)_removable", defaultValue: self.removableState)
+        self.updateIntervalValue = Store.shared.int(key: "\(self.title)_updateInterval", defaultValue: self.updateIntervalValue)
         
         super.init(frame: CGRect(
             x: 0,
@@ -55,9 +52,14 @@ internal class Settings: NSView, Settings_v {
         let rowHeight: CGFloat = 30
         let num: CGFloat = 3
         
-        self.intervalSelectView = SelectTitleRow(
-            frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * 2, width: self.frame.width - (Constants.Settings.margin*2), height: rowHeight),
-            title: LocalizedString("Update interval"),
+        self.intervalSelectView = selectTitleRow(
+            frame: NSRect(
+                x: Constants.Settings.margin,
+                y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * 2,
+                width: self.frame.width - (Constants.Settings.margin*2),
+                height: rowHeight
+            ),
+            title: localizedString("Update interval"),
             action: #selector(changeUpdateInterval),
             items: ReaderUpdateIntervals.map{ "\($0) sec" },
             selected: "\(self.updateIntervalValue) sec"
@@ -66,9 +68,14 @@ internal class Settings: NSView, Settings_v {
         
         self.addDiskSelector()
         
-        self.addSubview(ToggleTitleRow(
-            frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * 0, width: self.frame.width - (Constants.Settings.margin*2), height: rowHeight),
-            title: LocalizedString("Show removable disks"),
+        self.addSubview(toggleTitleRow(
+            frame: NSRect(
+                x: Constants.Settings.margin,
+                y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * 0,
+                width: self.frame.width - (Constants.Settings.margin*2),
+                height: rowHeight
+            ),
+            title: localizedString("Show removable disks"),
             action: #selector(toggleRemovable),
             state: self.removableState
         ))
@@ -84,7 +91,7 @@ internal class Settings: NSView, Settings_v {
             height: 30
         ))
         
-        let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: (view.frame.height - 16)/2, width: view.frame.width - 52, height: 17), LocalizedString("Disk to show"))
+        let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: (view.frame.height - 16)/2, width: view.frame.width - 52, height: 17), localizedString("Disk to show"))
         rowTitle.font = NSFont.systemFont(ofSize: 13, weight: .light)
         rowTitle.textColor = .textColor
         
@@ -98,8 +105,8 @@ internal class Settings: NSView, Settings_v {
         self.addSubview(view)
     }
     
-    internal func setList(_ list: DiskList) {
-        let disks = list.list.map{ $0.mediaName }
+    internal func setList(_ list: Disks) {
+        let disks = list.map{ $0.mediaName }
         DispatchQueue.main.async(execute: {
             if self.button?.itemTitles.count != disks.count {
                 self.button?.removeAllItems()
@@ -117,7 +124,7 @@ internal class Settings: NSView, Settings_v {
     @objc private func handleSelection(_ sender: NSPopUpButton) {
         guard let item = sender.selectedItem else { return }
         self.selectedDisk = item.title
-        self.store.pointee.set(key: "\(self.title)_disk", value: item.title)
+        Store.shared.set(key: "\(self.title)_disk", value: item.title)
         self.selectedDiskHandler(item.title)
     }
     
@@ -130,7 +137,7 @@ internal class Settings: NSView, Settings_v {
         }
         
         self.removableState = state! == .on ? true : false
-        self.store.pointee.set(key: "\(self.title)_removable", value: self.removableState)
+        Store.shared.set(key: "\(self.title)_removable", value: self.removableState)
         self.callback()
     }
     
@@ -142,7 +149,7 @@ internal class Settings: NSView, Settings_v {
     
     public func setUpdateInterval(value: Int) {
         self.updateIntervalValue = value
-        self.store.pointee.set(key: "\(self.title)_updateInterval", value: value)
+        Store.shared.set(key: "\(self.title)_updateInterval", value: value)
         self.setInterval(value)
     }
 }

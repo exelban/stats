@@ -24,6 +24,7 @@
 "Yes" = "Yes";
 "No" = "No";
 "Automatic" = "Automatic";
+"Manual" = "Manual";
 "None" = "None";
 "Dots" = "Dots";
 "Arrows" = "Arrows";
@@ -31,6 +32,9 @@
 "Short" = "Short";
 "Long" = "Long";
 "Statistics" = "Statistics";
+"Max" = "Max";
+"Min" = "Min";
+"Reset" = "Reset";
 
 // Alerts
 "New version available" = "New version available";
@@ -63,7 +67,7 @@
 "Uptime" = "Uptime";
 
 // Update
-"The latest version of Stats installed" = "The latest version of Stats installed";
+"The latest version of Stats installed" = "The latest version of Stats is installed";
 "Downloading..." = "Downloading...";
 "Current version: " = "Current version:  ";
 "Latest version: " = "Latest version:    ";
@@ -91,10 +95,12 @@
 "Battery widget" = "Battery";
 "Text widget" = "Text";
 "Memory widget" = "Memory";
+"Static width" = "Static width";
 
 // Module Kit
 "Open module settings" = "Open module settings";
 "Select widget" = "Select %0 widget";
+"Open widget settings" = "Open widget settings";
 "Update interval" = "Update interval";
 "Usage history" = "Usage history";
 "Details" = "Details";
@@ -163,6 +169,7 @@
 "Interface" = "Interface";
 "Network" = "Network";
 "Physical address" = "Physical address";
+"Refresh" = "Refresh";
 "Click to copy public IP address" = "Click to copy public IP address";
 "Click to copy local IP address" = "Click to copy local IP address";
 "Click to copy wifi name" = "Click to copy wifi name";
@@ -196,13 +203,49 @@
 "Fully charged" = "Fully charged";
 "Not connected" = "Not connected";
 "Low level notification" = "Low level notification";
+"High level notification" = "High level notification";
 "Low battery" = "Low battery";
+"High battery" = "High battery";
 "Battery remaining" = "%0% remaining";
+"Battery remaining to full charge" = "%0% to full charge";
 "Percentage" = "Percentage";
 "Percentage and time" = "Percentage and time";
 "Time and percentage" = "Time and percentage";
 "Time format" = "Time format";
 "Hide additional information when full" = "Hide additional information when full";
+"Last charge" = "Last charge";
 
 // Fans
 "Fans" = "Fans";
+
+// Colors
+"Based on utilization" = "Based on utilization";
+"Based on pressure" = "Based on pressure";
+"System accent" = "System accent";
+"Monochrome accent" = "Monochrome accent";
+"Clear" = "Clear";
+"White" = "White";
+"Black" = "Black";
+"Gray" = "Gray";
+"Second gray" = "Second gray";
+"Dark gray" = "Dark gray";
+"Light gray" = "Light gray";
+"Red" = "Red";
+"Second red" = "Second red";
+"Green" = "Green";
+"Second green" = "Second green";
+"Blue" = "Blue";
+"Second blue" = "Second blue";
+"Yellow" = "Yellow";
+"Second yellow" = "Second yellow";
+"Orange" = "Orange";
+"Second orange" = "Second orange";
+"Purple" = "Purple";
+"Second purple" = "Second purple";
+"Brown" = "Brown";
+"Second brown" = "Second brown";
+"Cyan" = "Cyan";
+"Magenta" = "Magenta";
+"Pink" = "Pink";
+"Teal" = "Teal";
+"Indigo" = "Indigo";

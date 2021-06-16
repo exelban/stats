@@ -7,8 +7,7 @@
 //
 
 import Cocoa
-import ModuleKit
-import StatsKit
+import Kit
 
 public struct CPU_Load: value_t {
     var totalUsage: Double = 0
@@ -18,7 +17,7 @@ public struct CPU_Load: value_t {
     var userLoad: Double = 0
     var idleLoad: Double = 0
     
-    public var widget_value: Double {
+    public var widgetValue: Double {
         get {
             return self.totalUsage
         }
@@ -33,36 +32,29 @@ public class CPU: Module {
     private var processReader: ProcessReader? = nil
     private var temperatureReader: TemperatureReader? = nil
     private var frequencyReader: FrequencyReader? = nil
-    private let smc: UnsafePointer<SMCService>?
-    private let store: UnsafePointer<Store>
     
     private var usagePerCoreState: Bool {
         get {
-            return self.store.pointee.bool(key: "\(self.config.name)_usagePerCore", defaultValue: false)
+            return Store.shared.bool(key: "\(self.config.name)_usagePerCore", defaultValue: false)
         }
     }
     
-    public init(_ store: UnsafePointer<Store>, _ smc: UnsafePointer<SMCService>) {
-        self.store = store
-        self.smc = smc
-        self.settingsView = Settings("CPU", store: store)
-        self.popupView = Popup("CPU", store: store)
+    public init() {
+        self.settingsView = Settings("CPU")
+        self.popupView = Popup("CPU")
         
         super.init(
-            store: store,
             popup: self.popupView,
             settings: self.settingsView
         )
         guard self.available else { return }
         
         self.loadReader = LoadReader()
-        self.loadReader?.store = store
-        
-        self.processReader = ProcessReader(self.config.name, store: store)
-        self.temperatureReader = TemperatureReader(smc)
+        self.processReader = ProcessReader()
         
         #if arch(x86_64)
-        self.frequencyReader = FrequencyReader()
+        self.temperatureReader = TemperatureReader(popup: true)
+        self.frequencyReader = FrequencyReader(popup: true)
         #endif
         
         self.settingsView.callback = { [unowned self] in
@@ -76,6 +68,12 @@ public class CPU: Module {
         }
         self.settingsView.setInterval = { [unowned self] value in
             self.loadReader?.setInterval(value)
+        }
+        self.settingsView.IPGCallback = { [unowned self] value in
+            if value {
+                self.frequencyReader?.setup()
+            }
+            self.popupView.toggleFrequency(state: value)
         }
         
         self.loadReader?.callbackHandler = { [unowned self] value in

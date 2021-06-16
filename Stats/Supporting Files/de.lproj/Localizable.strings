@@ -24,13 +24,17 @@
 "Yes" = "Ja";
 "No" = "Nein";
 "Automatic" = "Automatisch";
-"None" = "Keiner";
+"Manual" = "Manuell";
+"None" = "Keine";
 "Dots" = "Punkte";
 "Arrows" = "Pfeile";
 "Characters" = "Buchstaben";
 "Short" = "Kurz";
 "Long" = "Lange";
 "Statistics" = "Statistiken";
+"Max" = "Max";
+"Min" = "Min";
+"Reset" = "Zurücksetzen";
 
 // Alerts
 "New version available" = "Neue Version verfügbar";
@@ -42,19 +46,19 @@
 "Open Activity Monitor" = "Aktivitätsanzeige öffnen";
 "Report a bug" = "Einen Fehler melden";
 "Support the application" = "Unterstützen Sie die Anwendung";
-"Close application" = "Applikation schließen";
+"Close application" = "Anwendung schließen";
 "Open application settings" = "Einstellungen öffnen";
 "Open moduleName settings" = "%0 Einstellungen öffnen";
 
 // Application settings
-"Update application" = "Applikation aktualisieren";
+"Update application" = "Anwendung aktualisieren";
 "Check for updates" = "Nach Updates suchen";
 "At start" = "Beim Start";
 "Once per day" = "Täglich";
 "Once per week" = "Wöchentlich";
 "Once per month" = "Monatlich";
 "Never" = "Nie";
-"Check for update" = "Nach Updates suchen";
+"Check for update" = "Nach Aktualisierungen suchen";
 "Show icon in dock" = "Symbol im Dock anzeigen";
 "Start at login" = "Beim Login starten";
 
@@ -75,7 +79,7 @@
 "Frame" = "Rahmen";
 "Value" = "Wert";
 "Colorize" = "Einfärben";
-"Colorize value" = "Einfärbe-Wert";
+"Colorize value" = "Wert einfärben";
 "Additional information" = "Zusätzliche Informationen";
 "Reverse values order" = "Umgekehrte Reihenfolge der Werte";
 "Base" = "Basis";
@@ -83,18 +87,20 @@
 "One row" = "Eine Reihe";
 "Two rows" = "Zwei Reihen";
 "Mini widget" = "Mini";
-"Line chart widget" = "Line chart";
-"Bar chart widget" = "Bar chart";
-"Pie chart widget" = "Pie chart";
-"Network chart widget" = "Network chart";
-"Speed widget" = "Speed";
-"Battery widget" = "Battery";
+"Line chart widget" = "Liniendiagramm";
+"Bar chart widget" = "Balkendiagramm";
+"Pie chart widget" = "Kuchendiagramm";
+"Network chart widget" = "Netzwerk";
+"Speed widget" = "Geschwindigkeit";
+"Battery widget" = "Akku";
 "Text widget" = "Text";
-"Memory widget" = "Memory";
+"Memory widget" = "Speicher";
+"Static width" = "Static width";
 
 // Module Kit
-"Open module settings" = "Modul-Einstellungen öffnen";
+"Open module settings" = "Modul Einstellungen öffnen";
 "Select widget" = "%0 Widget auswählen";
+"Open widget settings" = "Widget Einstellungen öffnen";
 "Update interval" = "Update-Intervall";
 "Usage history" = "Verlauf";
 "Details" = "Details";
@@ -102,12 +108,12 @@
 "Pictogram" = "Piktogramm";
 
 // Modules
-"Number of top processes" = "Anzahl der Prozesse";
+"Number of top processes" = "Anzahl der Top-Prozesse";
 
 // CPU
-"CPU usage" = "CPU Verwendung";
+"CPU usage" = "CPU Nutzung";
 "CPU temperature" = "CPU Temperatur";
-"CPU frequency" = "CPU Frequenz";
+"CPU frequency" = "CPU Taktfrequenz";
 "System" = "System";
 "User" = "Nutzer";
 "Idle" = "Leerlauf";
@@ -117,19 +123,19 @@
 // GPU
 "GPU to show" = "GPU auswählen";
 "Show GPU type" = "GPU Typ anzeigen";
-"GPU enabled" = "GPU enabled";
-"GPU disabled" = "GPU disabled";
+"GPU enabled" = "GPU aktiviert";
+"GPU disabled" = "GPU deaktiviert";
 "GPU temperature" = "GPU Temperatur";
 "GPU utilization" = "GPU Nutzung";
-"Vendor" = "Vendor";
-"Model" = "Model";
+"Vendor" = "Hersteller";
+"Model" = "Modell";
 "Status" = "Status";
-"Active" = "Active";
-"Non active" = "Non active";
-"Fan speed" = "Fan speed";
-"Core clock" = "Core clock";
-"Memory clock" = "Memory clock";
-"Utilization" = "Utilization";
+"Active" = "Aktiv";
+"Non active" = "Nicht aktiv";
+"Fan speed" = "Lüfterdrehzahl";
+"Core clock" = "Kern Taktfrequenz";
+"Memory clock" = "Speicher Taktfrequenz";
+"Utilization" = "Auslastung";
 
 // Memory
 "Memory usage" = "Speicherauslastung";
@@ -163,6 +169,7 @@
 "Interface" = "Schnittstelle";
 "Network" = "Netzwerk";
 "Physical address" = "Physische Adresse";
+"Refresh" = "Aktualisieren";
 "Click to copy public IP address" = "Klicken Sie zum Kopieren der öffentlichen IP-Adresse";
 "Click to copy local IP address" = "Klicken Sie zum Kopieren der lokalen IP-Adresse";
 "Click to copy wifi name" = "Klicken Sie zum Kopieren des WLAN-Namens";
@@ -178,14 +185,14 @@
 // Battery
 "Level" = "Ladezustand";
 "Source" = "Quelle";
-"AC Power" = "AC Power";
-"Battery Power" = "Battery Power";
+"AC Power" = "Netzteil";
+"Battery Power" = "Akkubetrieb";
 "Time" = "Zeit";
 "Health" = "Gesundheit";
 "Battery" = "Akku";
 "Amperage" = "Stromstärke";
 "Voltage" = "Spannung";
-"Cycles" = "Zyklusnummer";
+"Cycles" = "Ladezyklen";
 "Temperature" = "Temperatur";
 "Power adapter" = "Netzteil";
 "Power" = "Strom";
@@ -195,14 +202,50 @@
 "Calculating" = "Berechnen...";
 "Fully charged" = "vollständig aufgeladen";
 "Not connected" = "nicht angeschlossen";
-"Low level notification" = "Benachrichtigen bei";
+"Low level notification" = "Benachrichtigung bei niedrigem Ladezustand";
+"High level notification" = "Benachrichtigung bei hohem Ladezustand";
 "Low battery" = "Akku schwach";
+"High battery" = "Hoher Ladezustand";
 "Battery remaining" = "%0% verbleiben";
+"Battery remaining to full charge" = "%0% bis vollständig geladen";
 "Percentage" = "Prozentsatz";
 "Percentage and time" = "Prozentsatz und Zeit";
 "Time and percentage" = "Zeit und Prozentsatz";
 "Time format" = "Zeitformat";
 "Hide additional information when full" = "Zusätzliche Informationen bei vollständiger Ladung verbergen";
+"Last charge" = "Letzte Ladung";
 
 // Fans
-"Fans" = "Fans";
+"Fans" = "Lüfter";
+
+// Colors
+"Based on utilization" = "Basierend auf Auslastung";
+"Based on pressure" = "Basierend auf Druck";
+"System accent" = "System Akzentfarbe";
+"Monochrome accent" = "Monochromer Akzent";
+"Clear" = "Durchsichtig";
+"White" = "Weiß";
+"Black" = "Schwarz";
+"Gray" = "Grau";
+"Second gray" = "Zweites Grau";
+"Dark gray" = "Dunkelgrau";
+"Light gray" = "Hellgrau";
+"Red" = "Rot";
+"Second red" = "Zweites Rot";
+"Green" = "Grün";
+"Second green" = "Zweites Grün";
+"Blue" = "Blau";
+"Second blue" = "Zweites Blau";
+"Yellow" = "Gelb";
+"Second yellow" = "Zweites Gelb";
+"Orange" = "Orange";
+"Second orange" = "Zweites Orange";
+"Purple" = "Lila";
+"Second purple" = "Zweites Lila";
+"Brown" = "Braun";
+"Second brown" = "Zweites Braun";
+"Cyan" = "Cyan";
+"Magenta" = "Magenta";
+"Pink" = "Pink";
+"Teal" = "Türkis";
+"Indigo" = "Indigo";

@@ -10,22 +10,22 @@
 //
 
 import Cocoa
-import StatsKit
+import Kit
 import os.log
 
 class ApplicationSettings: NSScrollView {
     private var updateIntervalValue: String {
         get {
-            return store.string(key: "update-interval", defaultValue: AppUpdateInterval.atStart.rawValue)
+            return Store.shared.string(key: "update-interval", defaultValue: AppUpdateInterval.atStart.rawValue)
         }
     }
     
     private var temperatureUnitsValue: String {
         get {
-            return store.string(key: "temperature_units", defaultValue: "system")
+            return Store.shared.string(key: "temperature_units", defaultValue: "system")
         }
         set {
-            store.set(key: "temperature_units", value: newValue)
+            Store.shared.set(key: "temperature_units", value: newValue)
         }
     }
     
@@ -104,12 +104,12 @@ class ApplicationSettings: NSScrollView {
         let statsVersion: NSTextField = TextView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: 16))
         statsVersion.alignment = .center
         statsVersion.font = NSFont.systemFont(ofSize: 12, weight: .regular)
-        statsVersion.stringValue = "\(LocalizedString("Version")) \(versionNumber)"
+        statsVersion.stringValue = "\(localizedString("Version")) \(versionNumber)"
         statsVersion.isSelectable = true
         statsVersion.toolTip = "Build number: \(buildNumber)"
         
         let button: NSButton = NSButton(frame: NSRect(x: (view.frame.width - 160)/2, y: 0, width: 160, height: 30))
-        button.title = LocalizedString("Check for update")
+        button.title = localizedString("Check for update")
         button.bezelStyle = .rounded
         button.target = self
         button.action = #selector(updateAction)
@@ -162,7 +162,7 @@ class ApplicationSettings: NSScrollView {
         
         NSLayoutConstraint.activate([
             grid.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            grid.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            grid.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
         
         return view
@@ -172,8 +172,8 @@ class ApplicationSettings: NSScrollView {
     
     private func updates() -> [NSView] {
         return [
-            self.titleView(LocalizedString("Check for updates")),
-            SelectView(
+            self.titleView(localizedString("Check for updates")),
+            selectView(
                 action: #selector(self.toggleUpdateInterval),
                 items: AppUpdateIntervals,
                 selected: self.updateIntervalValue
@@ -183,8 +183,8 @@ class ApplicationSettings: NSScrollView {
     
     private func temperature() -> [NSView] {
         return [
-            self.titleView(LocalizedString("Temperature")),
-            SelectView(
+            self.titleView(localizedString("Temperature")),
+            selectView(
                 action: #selector(self.toggleTemperatureUnits),
                 items: TemperatureUnits,
                 selected: self.temperatureUnitsValue
@@ -194,17 +194,17 @@ class ApplicationSettings: NSScrollView {
     
     private func dockIcon() -> [NSView] {
         return [
-            self.titleView(LocalizedString("Show icon in dock")),
+            self.titleView(localizedString("Show icon in dock")),
             self.toggleView(
                 action: #selector(self.toggleDock),
-                state: store.bool(key: "dockIcon", defaultValue: false)
+                state: Store.shared.bool(key: "dockIcon", defaultValue: false)
             )
         ]
     }
     
     private func startAtLogin() -> [NSView] {
         return [
-            self.titleView(LocalizedString("Start at login")),
+            self.titleView(localizedString("Start at login")),
             self.toggleView(
                 action: #selector(self.toggleLaunchAtLogin),
                 state: LaunchAtLogin.isEnabled
@@ -251,7 +251,7 @@ class ApplicationSettings: NSScrollView {
     }
     
     @objc func updateAction(_ sender: NSObject) {
-        updater.check() { result, error in
+        updater.check { result, error in
             if error != nil {
                 os_log(.error, log: log, "error updater.check(): %s", "\(error!.localizedDescription)")
                 return
@@ -274,7 +274,7 @@ class ApplicationSettings: NSScrollView {
             return
         }
         
-        store.set(key: "update-interval", value: key)
+        Store.shared.set(key: "update-interval", value: key)
         NotificationCenter.default.post(name: .changeCronInterval, object: nil, userInfo: nil)
     }
     
@@ -294,7 +294,7 @@ class ApplicationSettings: NSScrollView {
         }
         
         if state != nil {
-            store.set(key: "dockIcon", value: state! == NSControl.StateValue.on)
+            Store.shared.set(key: "dockIcon", value: state! == NSControl.StateValue.on)
         }
         let dockIconStatus = state == NSControl.StateValue.on ? NSApplication.ActivationPolicy.regular : NSApplication.ActivationPolicy.accessory
         NSApp.setActivationPolicy(dockIconStatus)
@@ -312,8 +312,8 @@ class ApplicationSettings: NSScrollView {
         }
         
         LaunchAtLogin.isEnabled = state! == NSControl.StateValue.on
-        if !store.exist(key: "runAtLoginInitialized") {
-            store.set(key: "runAtLoginInitialized", value: true)
+        if !Store.shared.exist(key: "runAtLoginInitialized") {
+            Store.shared.set(key: "runAtLoginInitialized", value: true)
         }
     }
 }

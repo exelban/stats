@@ -10,8 +10,7 @@
 //
 
 import Cocoa
-import StatsKit
-import ModuleKit
+import Kit
 import SystemConfiguration
 
 internal class Settings: NSView, Settings_v {
@@ -22,16 +21,14 @@ internal class Settings: NSView, Settings_v {
     public var callbackWhenUpdateNumberOfProcesses: (() -> Void) = {}
     
     private let title: String
-    private let store: UnsafePointer<Store>
     private var button: NSPopUpButton?
     
     private var list: [Network_interface] = []
     
-    public init(_ title: String, store: UnsafePointer<Store>) {
+    public init(_ title: String) {
         self.title = title
-        self.store = store
-        self.numberOfProcesses = store.pointee.int(key: "\(self.title)_processes", defaultValue: self.numberOfProcesses)
-        self.readerType = store.pointee.string(key: "\(self.title)_reader", defaultValue: self.readerType)
+        self.numberOfProcesses = Store.shared.int(key: "\(self.title)_processes", defaultValue: self.numberOfProcesses)
+        self.readerType = Store.shared.string(key: "\(self.title)_reader", defaultValue: self.readerType)
         
         super.init(frame: CGRect(
             x: 0,
@@ -60,17 +57,27 @@ internal class Settings: NSView, Settings_v {
         let rowHeight: CGFloat = 30
         let num: CGFloat = 2
         
-        self.addSubview(SelectTitleRow(
-            frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * 2, width: self.frame.width - (Constants.Settings.margin*2), height: 30),
-            title: LocalizedString("Number of top processes"),
+        self.addSubview(selectTitleRow(
+            frame: NSRect(
+                x: Constants.Settings.margin,
+                y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * 2,
+                width: self.frame.width - (Constants.Settings.margin*2),
+                height: 30
+            ),
+            title: localizedString("Number of top processes"),
             action: #selector(changeNumberOfProcesses),
             items: NumbersOfProcesses.map{ "\($0)" },
             selected: "\(self.numberOfProcesses)"
         ))
         
-        self.addSubview(SelectRow(
-            frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * 1, width: self.frame.width - (Constants.Settings.margin*2), height: 30),
-            title: LocalizedString("Reader type"),
+        self.addSubview(selectRow(
+            frame: NSRect(
+                x: Constants.Settings.margin,
+                y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * 1,
+                width: self.frame.width - (Constants.Settings.margin*2),
+                height: 30
+            ),
+            title: localizedString("Reader type"),
             action: #selector(changeReaderType),
             items: NetworkReaders,
             selected: self.readerType
@@ -84,7 +91,7 @@ internal class Settings: NSView, Settings_v {
     private func addInterfaceSelector() {
         let view: NSView = NSView(frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin, width: self.frame.width, height: 30))
         
-        let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: (view.frame.height - 16)/2, width: view.frame.width - 52, height: 17), LocalizedString("Network interface"))
+        let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: (view.frame.height - 16)/2, width: view.frame.width - 52, height: 17), localizedString("Network interface"))
         rowTitle.font = NSFont.systemFont(ofSize: 13, weight: .light)
         rowTitle.textColor = .textColor
         
@@ -93,7 +100,7 @@ internal class Settings: NSView, Settings_v {
         self.button?.action = #selector(self.handleSelection)
         self.button?.isEnabled = self.readerType == "interface"
         
-        let selectedInterface = self.store.pointee.string(key: "\(self.title)_interface", defaultValue: "")
+        let selectedInterface = Store.shared.string(key: "\(self.title)_interface", defaultValue: "")
         let menu = NSMenu()
         let autodetection = NSMenuItem(title: "Autodetection", action: nil, keyEquivalent: "")
         menu.addItem(autodetection)
@@ -124,10 +131,10 @@ internal class Settings: NSView, Settings_v {
         guard let item = sender.selectedItem else { return }
         
         if item.title == "Autodetection" {
-            self.store.pointee.remove("\(self.title)_interface")
+            Store.shared.remove("\(self.title)_interface")
         } else {
             if let bsdName = item.identifier?.rawValue {
-                self.store.pointee.set(key: "\(self.title)_interface", value: bsdName)
+                Store.shared.set(key: "\(self.title)_interface", value: bsdName)
             }
         }
         
@@ -137,7 +144,7 @@ internal class Settings: NSView, Settings_v {
     @objc private func changeNumberOfProcesses(_ sender: NSMenuItem) {
         if let value = Int(sender.title) {
             self.numberOfProcesses = value
-            self.store.pointee.set(key: "\(self.title)_processes", value: value)
+            Store.shared.set(key: "\(self.title)_processes", value: value)
             self.callbackWhenUpdateNumberOfProcesses()
         }
     }
@@ -147,7 +154,7 @@ internal class Settings: NSView, Settings_v {
             return
         }
         self.readerType = key
-        self.store.pointee.set(key: "\(self.title)_reader", value: key)
+        Store.shared.set(key: "\(self.title)_reader", value: key)
         self.button?.isEnabled = self.readerType == "interface"
     }
 }

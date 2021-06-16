@@ -10,8 +10,7 @@
 //
 
 import Cocoa
-import StatsKit
-import ModuleKit
+import Kit
 
 public struct RAM_Usage: value_t {
     var total: Double
@@ -30,7 +29,7 @@ public struct RAM_Usage: value_t {
     var pressureLevel: Int
     var swap: Swap
     
-    public var widget_value: Double {
+    public var widgetValue: Double {
         get {
             return self.usage
         }
@@ -55,12 +54,11 @@ public class RAM: Module {
     private var usageReader: UsageReader? = nil
     private var processReader: ProcessReader? = nil
     
-    public init(_ store: UnsafePointer<Store>) {
-        self.settingsView = Settings("RAM", store: store)
-        self.popupView = Popup("RAM", store: store)
+    public init() {
+        self.settingsView = Settings("RAM")
+        self.popupView = Popup("RAM")
         
         super.init(
-            store: store,
             popup: self.popupView,
             settings: self.settingsView
         )
@@ -72,7 +70,7 @@ public class RAM: Module {
         }
         
         self.usageReader = UsageReader()
-        self.processReader = ProcessReader(self.config.name, store: store)
+        self.processReader = ProcessReader()
         
         self.settingsView.callbackWhenUpdateNumberOfProcesses = {
             self.popupView.numberOfProcessesUpdated()
@@ -119,6 +117,7 @@ public class RAM: Module {
                 widget.setPressure(value.pressureLevel)
             case let widget as BarChart:
                 widget.setValue([value.usage])
+                widget.setColorZones((0.8, 0.95))
                 widget.setPressure(value.pressureLevel)
             case let widget as PieChart:
                 let total: Double = value.total == 0 ? 1 : value.total

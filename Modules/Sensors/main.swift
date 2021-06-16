@@ -10,20 +10,22 @@
 //
 
 import Cocoa
-import ModuleKit
-import StatsKit
+import Kit
 
 public class Sensors: Module {
     private var sensorsReader: SensorsReader
     private let popupView: Popup = Popup()
     private var settingsView: Settings
     
-    public init(_ store: UnsafePointer<Store>, _ smc: UnsafePointer<SMCService>) {
-        self.sensorsReader = SensorsReader(smc)
-        self.settingsView = Settings("Sensors", store: store, list: &self.sensorsReader.list)
+    public init() {
+        #if arch(x86_64)
+        self.sensorsReader = x86_SensorsReader()
+        #else
+        self.sensorsReader = AppleSilicon_SensorsReader()
+        #endif
+        self.settingsView = Settings("Sensors", list: self.sensorsReader.list)
         
         super.init(
-            store: store,
             popup: self.popupView,
             settings: self.settingsView
         )
@@ -55,7 +57,7 @@ public class Sensors: Module {
     }
     
     private func checkIfNoSensorsEnabled() {
-        if self.sensorsReader.list.filter({ $0.state }).count == 0 {
+        if self.sensorsReader.list.filter({ $0.state }).isEmpty {
             NotificationCenter.default.post(name: .toggleModule, object: nil, userInfo: ["module": self.config.name, "state": false])
         }
     }

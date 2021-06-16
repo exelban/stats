@@ -10,8 +10,8 @@
 //
 
 import Cocoa
+import Kit
 import os.log
-import StatsKit
 
 extension AppDelegate {
     internal func parseArguments() {
@@ -19,7 +19,7 @@ extension AppDelegate {
         
         if args.contains("--reset") {
             os_log(.debug, log: log, "Receive --reset argument. Reseting store (UserDefaults)...")
-            store.reset()
+            Store.shared.reset()
         }
         
         if let disableIndex = args.firstIndex(of: "--disable") {
@@ -57,19 +57,19 @@ extension AppDelegate {
         let key = "version"
         let currentVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
         
-        if !store.exist(key: key) {
-            store.reset()
+        if !Store.shared.exist(key: key) {
+            Store.shared.reset()
             os_log(.debug, log: log, "Previous version not detected. Current version (%s) set", currentVersion)
         } else {
-            let prevVersion = store.string(key: key, defaultValue: "")
+            let prevVersion = Store.shared.string(key: key, defaultValue: "")
             if prevVersion == currentVersion {
                 return
             }
             
-            if IsNewestVersion(currentVersion: prevVersion, latestVersion: currentVersion) {
+            if isNewestVersion(currentVersion: prevVersion, latestVersion: currentVersion) {
                 _ = showNotification(
-                    title: LocalizedString("Successfully updated"),
-                    subtitle: LocalizedString("Stats was updated to v", currentVersion),
+                    title: localizedString("Successfully updated"),
+                    subtitle: localizedString("Stats was updated to v", currentVersion),
                     id: "updated-from-\(prevVersion)-to-\(currentVersion)"
                 )
             }
@@ -77,27 +77,27 @@ extension AppDelegate {
             os_log(.debug, log: log, "Detected previous version %s. Current version (%s) set", prevVersion, currentVersion)
         }
         
-        store.set(key: key, value: currentVersion)
+        Store.shared.set(key: key, value: currentVersion)
     }
     
     internal func defaultValues() {
-        if !store.exist(key: "runAtLoginInitialized") {
-            store.set(key: "runAtLoginInitialized", value: true)
+        if !Store.shared.exist(key: "runAtLoginInitialized") {
+            Store.shared.set(key: "runAtLoginInitialized", value: true)
             LaunchAtLogin.isEnabled = true
         }
         
-        if store.exist(key: "dockIcon") {
-            let dockIconStatus = store.bool(key: "dockIcon", defaultValue: false) ? NSApplication.ActivationPolicy.regular : NSApplication.ActivationPolicy.accessory
+        if Store.shared.exist(key: "dockIcon") {
+            let dockIconStatus = Store.shared.bool(key: "dockIcon", defaultValue: false) ? NSApplication.ActivationPolicy.regular : NSApplication.ActivationPolicy.accessory
             NSApp.setActivationPolicy(dockIconStatus)
         }
         
-        if store.string(key: "update-interval", defaultValue: AppUpdateInterval.atStart.rawValue) != AppUpdateInterval.never.rawValue {
+        if Store.shared.string(key: "update-interval", defaultValue: AppUpdateInterval.atStart.rawValue) != AppUpdateInterval.never.rawValue {
             self.checkForNewVersion()
         }
     }
     
     internal func checkForNewVersion() {
-        updater.check() { result, error in
+        updater.check { result, error in
             if error != nil {
                 os_log(.error, log: log, "error updater.check(): %s", "\(error!.localizedDescription)")
                 return
@@ -113,12 +113,12 @@ extension AppDelegate {
                     os_log(.debug, log: log, "show update window because new version of app found: %s", "\(version.latest)")
                     
                     self.updateNotification.identifier = "new-version-\(version.latest)"
-                    self.updateNotification.title = LocalizedString("New version available")
-                    self.updateNotification.subtitle = LocalizedString("Click to install the new version of Stats")
+                    self.updateNotification.title = localizedString("New version available")
+                    self.updateNotification.subtitle = localizedString("Click to install the new version of Stats")
                     self.updateNotification.soundName = NSUserNotificationDefaultSoundName
                     
                     self.updateNotification.hasActionButton = true
-                    self.updateNotification.actionButtonTitle = LocalizedString("Install")
+                    self.updateNotification.actionButtonTitle = localizedString("Install")
                     self.updateNotification.userInfo = ["url": version.url]
                     
                     NSUserNotificationCenter.default.delegate = self

@@ -1,0 +1,20 @@
+name: i18n check
+
+on:
+  push:
+    paths:
+      - '.github/workflows/i18n.yaml'
+      - '**/*.strings'
+  pull_request:
+    paths:
+      - '.github/workflows/i18n.yaml'
+      - '**/*.strings'
+
+jobs:
+  i18n:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+      - run: python3 Kit/scripts/i18n.py
