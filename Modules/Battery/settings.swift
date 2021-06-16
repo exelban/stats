@@ -10,8 +10,7 @@
 //
 
 import Cocoa
-import StatsKit
-import ModuleKit
+import Kit
 import SystemConfiguration
 
 internal class Settings: NSView, Settings_v {
@@ -19,23 +18,27 @@ internal class Settings: NSView, Settings_v {
     public var callbackWhenUpdateNumberOfProcesses: (() -> Void) = {}
     
     private let title: String
-    private let store: UnsafePointer<Store>
     private var button: NSPopUpButton?
     
     private var numberOfProcesses: Int = 8
-    private let levelsList: [String] = ["Disabled", "0.03", "0.05", "0.1", "0.15", "0.2", "0.25", "0.3", "0.4", "0.5"]
+    private let lowLevelsList: [String] = ["Disabled", "0.03", "0.05", "0.1", "0.15", "0.2", "0.25", "0.3", "0.4", "0.5"]
+    private let highLevelsList: [String] = ["Disabled", "0.5", "0.6", "0.7", "0.75", "0.8", "0.85", "0.9", "0.95", "0.97", "1.0"]
     private var lowLevelNotification: String {
         get {
-            return self.store.pointee.string(key: "\(self.title)_lowLevelNotification", defaultValue: "0.15")
+            return Store.shared.string(key: "\(self.title)_lowLevelNotification", defaultValue: "0.15")
+        }
+    }
+    private var highLevelNotification: String {
+        get {
+            return Store.shared.string(key: "\(self.title)_highLevelNotification", defaultValue: "Disabled")
         }
     }
     private var timeFormat: String = "short"
     
-    public init(_ title: String, store: UnsafePointer<Store>) {
+    public init(_ title: String) {
         self.title = title
-        self.store = store
-        self.numberOfProcesses = store.pointee.int(key: "\(self.title)_processes", defaultValue: self.numberOfProcesses)
-        self.timeFormat = store.pointee.string(key: "\(self.title)_timeFormat", defaultValue: self.timeFormat)
+        self.numberOfProcesses = Store.shared.int(key: "\(self.title)_processes", defaultValue: self.numberOfProcesses)
+        self.timeFormat = Store.shared.string(key: "\(self.title)_timeFormat", defaultValue: self.timeFormat)
         
         super.init(frame: CGRect(
             x: 0,
@@ -55,51 +58,71 @@ internal class Settings: NSView, Settings_v {
         self.subviews.forEach{ $0.removeFromSuperview() }
         
         let rowHeight: CGFloat = 30
-        let num: CGFloat = widgets.filter{ $0 == .battery }.isEmpty ? 2 : 3
+        let num: CGFloat = widgets.filter{ $0 == .battery }.isEmpty ? 3 : 4
         let height: CGFloat = ((rowHeight + Constants.Settings.margin) * num) + Constants.Settings.margin
         
-        let levels: [String] = self.levelsList.map { (v: String) -> String in
+        let lowLevels: [String] = self.lowLevelsList.map { (v: String) -> String in
             if let level = Double(v) {
                 return "\(Int(level*100))%"
             }
             return v
         }
         
-        self.addSubview(SelectTitleRow(
+        let highLevels: [String] = self.highLevelsList.map { (v: String) -> String in
+            if let level = Double(v) {
+                return "\(Int(level*100))%"
+            }
+            return v
+        }
+        
+        self.addSubview(selectTitleRow(
             frame: NSRect(
                 x: Constants.Settings.margin,
                 y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * (num-1),
                 width: self.frame.width - (Constants.Settings.margin*2),
                 height: rowHeight
             ),
-            title: LocalizedString("Low level notification"),
-            action: #selector(changeUpdateInterval),
-            items: levels,
+            title: localizedString("Low level notification"),
+            action: #selector(changeUpdateIntervalLow),
+            items: lowLevels,
             selected: self.lowLevelNotification == "Disabled" ? self.lowLevelNotification : "\(Int((Double(self.lowLevelNotification) ?? 0)*100))%"
         ))
         
-        self.addSubview(SelectTitleRow(
+        self.addSubview(selectTitleRow(
             frame: NSRect(
                 x: Constants.Settings.margin,
                 y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * (num-2),
                 width: self.frame.width - (Constants.Settings.margin*2),
                 height: rowHeight
             ),
-            title: LocalizedString("Number of top processes"),
+            title: localizedString("High level notification"),
+            action: #selector(changeUpdateIntervalHigh),
+            items: highLevels,
+            selected: self.highLevelNotification == "Disabled" ? self.highLevelNotification : "\(Int((Double(self.highLevelNotification) ?? 0)*100))%"
+        ))
+        
+        self.addSubview(selectTitleRow(
+            frame: NSRect(
+                x: Constants.Settings.margin,
+                y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * (num-3),
+                width: self.frame.width - (Constants.Settings.margin*2),
+                height: rowHeight
+            ),
+            title: localizedString("Number of top processes"),
             action: #selector(changeNumberOfProcesses),
             items: NumbersOfProcesses.map{ "\($0)" },
             selected: "\(self.numberOfProcesses)"
         ))
         
         if !widgets.filter({ $0 == .battery }).isEmpty {
-            self.addSubview(SelectRow(
+            self.addSubview(selectRow(
                 frame: NSRect(
                     x: Constants.Settings.margin,
                     y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * 0,
                     width: self.frame.width - (Constants.Settings.margin*2),
                     height: rowHeight
                 ),
-                title: LocalizedString("Time format"),
+                title: localizedString("Time format"),
                 action: #selector(toggleTimeFormat),
                 items: ShortLong,
                 selected: self.timeFormat
@@ -109,18 +132,26 @@ internal class Settings: NSView, Settings_v {
         self.setFrameSize(NSSize(width: self.frame.width, height: height))
     }
     
-    @objc private func changeUpdateInterval(_ sender: NSMenuItem) {
+    @objc private func changeUpdateIntervalLow(_ sender: NSMenuItem) {
         if sender.title == "Disabled" {
-            store.pointee.set(key: "\(self.title)_lowLevelNotification", value: sender.title)
+            Store.shared.set(key: "\(self.title)_lowLevelNotification", value: sender.title)
         } else if let value = Double(sender.title.replacingOccurrences(of: "%", with: "")) {
-            store.pointee.set(key: "\(self.title)_lowLevelNotification", value: "\(value/100)")
+            Store.shared.set(key: "\(self.title)_lowLevelNotification", value: "\(value/100)")
+        }
+    }
+    
+    @objc private func changeUpdateIntervalHigh(_ sender: NSMenuItem) {
+        if sender.title == "Disabled" {
+            Store.shared.set(key: "\(self.title)_highLevelNotification", value: sender.title)
+        } else if let value = Double(sender.title.replacingOccurrences(of: "%", with: "")) {
+            Store.shared.set(key: "\(self.title)_highLevelNotification", value: "\(value/100)")
         }
     }
     
     @objc private func changeNumberOfProcesses(_ sender: NSMenuItem) {
         if let value = Int(sender.title) {
             self.numberOfProcesses = value
-            self.store.pointee.set(key: "\(self.title)_processes", value: value)
+            Store.shared.set(key: "\(self.title)_processes", value: value)
             self.callbackWhenUpdateNumberOfProcesses()
         }
     }
@@ -130,7 +161,7 @@ internal class Settings: NSView, Settings_v {
             return
         }
         self.timeFormat = key
-        self.store.pointee.set(key: "\(self.title)_timeFormat", value: key)
+        Store.shared.set(key: "\(self.title)_timeFormat", value: key)
         self.callback()
     }
 }

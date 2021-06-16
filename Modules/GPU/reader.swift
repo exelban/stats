@@ -10,8 +10,7 @@
 //
 
 import Cocoa
-import StatsKit
-import ModuleKit
+import Kit
 import os.log
 
 public struct device {
@@ -27,8 +26,6 @@ let vendors: [Data: String] = [
 ]
 
 internal class InfoReader: Reader<GPUs> {
-    internal var smc: UnsafePointer<SMCService>? = nil
-    
     private var gpus: GPUs = GPUs()
     private var devices: [device] = []
     
@@ -65,23 +62,25 @@ internal class InfoReader: Reader<GPUs> {
         }
     }
     
+    // swiftlint:disable function_body_length
     public override func read() {
         guard let accelerators = fetchIOService(kIOAcceleratorClassName) else {
             return
         }
         var devices = self.devices
         
-        accelerators.forEach { (accelerator: NSDictionary) in
+        for (index, accelerator) in accelerators.enumerated() {
             guard let IOClass = accelerator.object(forKey: "IOClass") as? String else {
                 os_log(.error, log: log, "IOClass not found")
                 return
             }
             
-            guard let stats = accelerator["PerformanceStatistics"] as? [String:Any] else {
+            guard let stats = accelerator["PerformanceStatistics"] as? [String: Any] else {
                 os_log(.error, log: log, "PerformanceStatistics not found")
                 return
             }
             
+            var id: String = ""
             var vendor: String? = nil
             var model: String = ""
             let accMatch = (accelerator["IOPCIMatch"] as? String ?? accelerator["IOPCIPrimaryMatch"] as? String ?? "").lowercased()
@@ -90,6 +89,7 @@ internal class InfoReader: Reader<GPUs> {
                 if accMatch.range(of: device.pci) != nil && !device.used {
                     model = device.model
                     vendor = device.vendor
+                    id = "\(model) #\(index)"
                     devices[i].used = true
                     break
                 }
@@ -113,7 +113,7 @@ internal class InfoReader: Reader<GPUs> {
                 type = .discrete
                 
                 if temperature == nil || temperature == 0 {
-                    if let tmp = self.smc?.pointee.getValue("TGDD"), tmp != 128 {
+                    if let tmp = SMC.shared.getValue("TGDD"), tmp != 128 {
                         temperature = Int(tmp)
                     }
                 }
@@ -122,7 +122,7 @@ internal class InfoReader: Reader<GPUs> {
                 type = .integrated
                 
                 if temperature == nil || temperature == 0 {
-                    if let tmp = self.smc?.pointee.getValue("TCGC"), tmp != 128 {
+                    if let tmp = SMC.shared.getValue("TCGC"), tmp != 128 {
                         temperature = Int(tmp)
                     }
                 }
@@ -141,19 +141,20 @@ internal class InfoReader: Reader<GPUs> {
                 model = model.removedRegexMatches(pattern: v, replaceWith: "").trimmingCharacters(in: .whitespacesAndNewlines)
             }
             
-            if self.gpus.list.first(where: { $0.model == model }) == nil {
+            if self.gpus.list.first(where: { $0.id == id }) == nil {
                 self.gpus.list.append(GPU_Info(
+                    id: id,
                     type: type.rawValue,
                     IOClass: IOClass,
                     vendor: vendor,
                     model: model
                 ))
             }
-            guard let idx = self.gpus.list.firstIndex(where: { $0.model == model }) else {
+            guard let idx = self.gpus.list.firstIndex(where: { $0.id == id }) else {
                 return
             }
             
-            if let agcInfo = accelerator["AGCInfo"] as? [String:Int], let state = agcInfo["poweredOffByAGC"] {
+            if let agcInfo = accelerator["AGCInfo"] as? [String: Int], let state = agcInfo["poweredOffByAGC"] {
                 self.gpus.list[idx].state = state == 0
             }
             

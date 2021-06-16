@@ -24,6 +24,7 @@
 "Yes" = "是";
 "No" = "否";
 "Automatic" = "自動";
+"Manual" = "手動";
 "None" = "無";
 "Dots" = "點";
 "Arrows" = "箭頭";
@@ -31,17 +32,20 @@
 "Short" = "短";
 "Long" = "長";
 "Statistics" = "統計資料";
+"Max" = "最大值";
+"Min" = "最小值";
+"Reset" = "Reset";
 
 // Alerts
 "New version available" = "有新版本可用";
 "Click to install the new version of Stats" = "安裝 Stats 的新版本";
 "Successfully updated" = "更新成功";
-"Stats was updated to v" = "Stats 更新 v%0";
+"Stats was updated to v" = "Stats 已更新到 v%0";
 
 // Settings
 "Open Activity Monitor" = "打開活動監視器";
 "Report a bug" = "回報錯誤";
-"Support the application" = "支持此應用程式";
+"Support the application" = "贊助此應用程式";
 "Close application" = "關閉應用程式";
 "Open application settings" = "打開應用程式設定";
 "Open moduleName settings" = "打開 %0 設定";
@@ -55,12 +59,12 @@
 "Once per month" = "每月 1 次";
 "Never" = "從不";
 "Check for update" = "檢查更新";
-"Show icon in dock" = "在 Dock 顯示圖示";
+"Show icon in dock" = "在 Dock 上顯示圖示";
 "Start at login" = "登入時打開";
 
 // Dashboard
 "Serial number" = "序號";
-"Uptime" = "正常運作時間";
+"Uptime" = "開機時間";
 
 // Update
 "The latest version of Stats installed" = "已安裝最新版本";
@@ -91,10 +95,12 @@
 "Battery widget" = "電池";
 "Text widget" = "文字";
 "Memory widget" = "記憶體";
+"Static width" = "Static width";
 
 // Module Kit
 "Open module settings" = "打開模組設定";
 "Select widget" = "選擇「%0」小工具";
+"Open widget settings" = "打開小工具設定";
 "Update interval" = "更新頻率";
 "Usage history" = "負載歷程記錄";
 "Details" = "詳細資訊";
@@ -132,7 +138,7 @@
 "Utilization" = "使用率";
 
 // Memory
-"Memory usage" = "記憶體使用";
+"Memory usage" = "記憶體使用率";
 "Memory pressure" = "記憶體壓力";
 "Total" = "總共";
 "Used" = "已使用";
@@ -163,6 +169,7 @@
 "Interface" = "介面";
 "Network" = "網路";
 "Physical address" = "實體位址";
+"Refresh" = "重新整理";
 "Click to copy public IP address" = "點按來拷貝公開 IP 位址";
 "Click to copy local IP address" = "點按來拷貝區域 IP 位址";
 "Click to copy wifi name" = "點按來拷貝 WiFi 名稱";
@@ -178,14 +185,14 @@
 // Battery
 "Level" = "電量";
 "Source" = "電源";
-"AC Power" = "AC Power";
-"Battery Power" = "Battery Power";
+"AC Power" = "交流電";
+"Battery Power" = "電池";
 "Time" = "時間";
 "Health" = "健康度";
 "Battery" = "電池";
 "Amperage" = "電流";
 "Voltage" = "電壓";
-"Cycles" = "循環數";
+"Cycles" = "循環使用次數";
 "Temperature" = "溫度";
 "Power adapter" = "電源供應器";
 "Power" = "功率";
@@ -196,13 +203,49 @@
 "Fully charged" = "已充飽";
 "Not connected" = "未連接";
 "Low level notification" = "低電量通知";
+"High level notification" = "高電量通知";
 "Low battery" = "低電量";
+"High battery" = "高電量";
 "Battery remaining" = "剩餘 %0%";
+"Battery remaining to full charge" = "還剩 %0% 充飽";
 "Percentage" = "百分比";
 "Percentage and time" = "百分比和時間";
 "Time and percentage" = "時間和百分比";
 "Time format" = "時間格式";
 "Hide additional information when full" = "電池充飽後隱藏其他資訊";
+"Last charge" = "最近一次充電";
 
 // Fans
 "Fans" = "風扇";
+
+// Colors
+"Based on utilization" = "根據使用率";
+"Based on pressure" = "根據壓力";
+"System accent" = "系統強調色";
+"Monochrome accent" = "黑白";
+"Clear" = "透明";
+"White" = "白色";
+"Black" = "黑色";
+"Gray" = "灰色 1";
+"Second gray" = "灰色 2";
+"Dark gray" = "深灰色";
+"Light gray" = "淺灰色";
+"Red" = "紅色 1";
+"Second red" = "紅色 2";
+"Green" = "綠色 1";
+"Second green" = "綠色 2";
+"Blue" = "藍色 1";
+"Second blue" = "藍色 2";
+"Yellow" = "黃色 1";
+"Second yellow" = "黃色 2";
+"Orange" = "橙色 1";
+"Second orange" = "橙色 2";
+"Purple" = "紫色 1";
+"Second purple" = "紫色 2";
+"Brown" = "棕色 1";
+"Second brown" = "棕色 2";
+"Cyan" = "青色";
+"Magenta" = "洋紅色";
+"Pink" = "粉色";
+"Teal" = "藍綠色";
+"Indigo" = "靛色";

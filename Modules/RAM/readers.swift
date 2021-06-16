@@ -10,8 +10,7 @@
 //
 
 import Cocoa
-import StatsKit
-import ModuleKit
+import Kit
 import os.log
 
 internal class UsageReader: Reader<RAM_Usage> {
@@ -58,13 +57,13 @@ internal class UsageReader: Reader<RAM_Usage> {
             let used = active + inactive + speculative + wired + compressed - purgeable - external
             let free = self.totalSize - used
             
-            var int_size: size_t = MemoryLayout<uint>.size
+            var intSize: size_t = MemoryLayout<uint>.size
             var pressureLevel: Int = 0
-            sysctlbyname("kern.memorystatus_vm_pressure_level", &pressureLevel, &int_size, nil, 0)
+            sysctlbyname("kern.memorystatus_vm_pressure_level", &pressureLevel, &intSize, nil, 0)
             
-            var string_size: size_t = MemoryLayout<xsw_usage>.size
+            var stringSize: size_t = MemoryLayout<xsw_usage>.size
             var swap: xsw_usage = xsw_usage()
-            sysctlbyname("vm.swapusage", &swap, &string_size, nil, 0)
+            sysctlbyname("vm.swapusage", &swap, &stringSize, nil, 0)
             
             self.callback(RAM_Usage(
                 total: self.totalSize,
@@ -96,19 +95,12 @@ internal class UsageReader: Reader<RAM_Usage> {
 }
 
 public class ProcessReader: Reader<[TopProcess]> {
-    private let store: UnsafePointer<Store>
-    private let title: String
+    private let title: String = "RAM"
     
     private var numberOfProcesses: Int {
         get {
-            return self.store.pointee.int(key: "\(self.title)_processes", defaultValue: 8)
+            return Store.shared.int(key: "\(self.title)_processes", defaultValue: 8)
         }
-    }
-    
-    init(_ title: String, store: UnsafePointer<Store>) {
-        self.title = title
-        self.store = store
-        super.init()
     }
     
     public override func setup() {
@@ -126,6 +118,11 @@ public class ProcessReader: Reader<[TopProcess]> {
         
         let outputPipe = Pipe()
         let errorPipe = Pipe()
+        
+        defer {
+            outputPipe.fileHandleForReading.closeFile()
+            errorPipe.fileHandleForReading.closeFile()
+        }
         
         task.standardOutput = outputPipe
         task.standardError = errorPipe
@@ -147,16 +144,16 @@ public class ProcessReader: Reader<[TopProcess]> {
         }
         
         var processes: [TopProcess] = []
-        output.enumerateLines { (line, _) -> () in
+        output.enumerateLines { (line, _) -> Void in
             if line.matches("^\\d+ +.* +\\d+[A-Z]*\\+?\\-? *$") {
                 var str = line.trimmingCharacters(in: .whitespaces)
                 let pidString = str.findAndCrop(pattern: "^\\d+")
-                let usageString = str.suffix(5)
+                let usageString = str.suffix(6)
                 var command = str.replacingOccurrences(of: pidString, with: "")
                 command = command.replacingOccurrences(of: usageString, with: "")
                 
                 if let regex = try? NSRegularExpression(pattern: " (\\+|\\-)*$", options: .caseInsensitive) {
-                    command = regex.stringByReplacingMatches(in: command, options: [], range: NSRange(location: 0, length:  command.count), withTemplate: "")
+                    command = regex.stringByReplacingMatches(in: command, options: [], range: NSRange(location: 0, length: command.count), withTemplate: "")
                 }
                 
                 let pid = Int(pidString.filter("01234567890.".contains)) ?? 0

@@ -10,8 +10,7 @@
 //
 
 import Cocoa
-import StatsKit
-import ModuleKit
+import Kit
 import SystemConfiguration
 import Reachability
 import os.log
@@ -24,8 +23,6 @@ struct ipResponse: Decodable {
 }
 
 internal class UsageReader: Reader<Network_Usage> {
-    public var store: UnsafePointer<Store>? = nil
-    
     private var reachability: Reachability? = nil
     private var usage: Network_Usage = Network_Usage()
     
@@ -40,16 +37,16 @@ internal class UsageReader: Reader<Network_Usage> {
     
     private var interfaceID: String {
         get {
-            return self.store?.pointee.string(key: "Network_interface", defaultValue: self.primaryInterface) ?? self.primaryInterface
+            return Store.shared.string(key: "Network_interface", defaultValue: self.primaryInterface) 
         }
         set {
-            self.store?.pointee.set(key: "Network_interface", value: newValue)
+            Store.shared.set(key: "Network_interface", value: newValue)
         }
     }
     
     private var reader: String {
         get {
-            return self.store?.pointee.string(key: "Network_reader", defaultValue: "interface") ?? "interface"
+            return Store.shared.string(key: "Network_reader", defaultValue: "interface") 
         }
     }
     
@@ -72,6 +69,9 @@ internal class UsageReader: Reader<Network_Usage> {
                 self.callback(self.usage)
             }
         }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshPublicIP), name: .refreshPublicIP, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(resetTotalNetworkUsage), name: .resetTotalNetworkUsage, object: nil)
     }
     
     public override func read() {
@@ -135,6 +135,11 @@ internal class UsageReader: Reader<Network_Usage> {
         let outputPipe = Pipe()
         let errorPipe = Pipe()
         
+        defer {
+            outputPipe.fileHandleForReading.closeFile()
+            errorPipe.fileHandleForReading.closeFile()
+        }
+        
         task.standardOutput = outputPipe
         task.standardError = errorPipe
         
@@ -157,7 +162,7 @@ internal class UsageReader: Reader<Network_Usage> {
         var totalUpload: Int64 = 0
         var totalDownload: Int64 = 0
         var firstLine = false
-        output.enumerateLines { (line, _) -> () in
+        output.enumerateLines { (line, _) -> Void in
             if !firstLine {
                 firstLine = true
                 return
@@ -229,14 +234,26 @@ internal class UsageReader: Reader<Network_Usage> {
     }
     
     private func getPublicIP() {
-        let url = URL(string: "https://api.ipify.org")
-        
         do {
-            if let url = url {
-                self.usage.raddr = try String(contentsOf: url)
+            if let url = URL(string: "https://api.ipify.org") {
+                let value = try String(contentsOf: url)
+                if !value.contains("<!DOCTYPE html>") {
+                    self.usage.raddr.v4 = value
+                }
             }
         } catch let error {
-            os_log(.error, log: log, "get public ip %s", "\(error)")
+            os_log(.error, log: log, "get public ipv4 %s", "\(error)")
+        }
+        
+        do {
+            if let url = URL(string: "https://api64.ipify.org") {
+                let value = try String(contentsOf: url)
+                if self.usage.raddr.v4 != value {
+                    self.usage.raddr.v6 = value
+                }
+            }
+        } catch let error {
+            os_log(.error, log: log, "get public ipv6 %s", "\(error)")
         }
     }
     
@@ -250,29 +267,36 @@ internal class UsageReader: Reader<Network_Usage> {
         let data: UnsafeMutablePointer<if_data>? = unsafeBitCast(pointer.pointee.ifa_data, to: UnsafeMutablePointer<if_data>.self)
         return (upload: Int64(data?.pointee.ifi_obytes ?? 0), download: Int64(data?.pointee.ifi_ibytes ?? 0))
     }
+    
+    @objc func refreshPublicIP() {
+        self.usage.raddr.v4 = nil
+        self.usage.raddr.v6 = nil
+        
+        DispatchQueue.global(qos: .background).async {
+            self.getPublicIP()
+        }
+    }
+    
+    @objc func resetTotalNetworkUsage() {
+        self.usage.total = (0, 0)
+    }
 }
 
 public class ProcessReader: Reader<[Network_Process]> {
-    private let store: UnsafePointer<Store>
-    private let title: String
+    private let title: String = "Network"
     private var previous: [Network_Process] = []
     
     private var numberOfProcesses: Int {
         get {
-            return self.store.pointee.int(key: "\(self.title)_processes", defaultValue: 8)
+            return Store.shared.int(key: "\(self.title)_processes", defaultValue: 8)
         }
-    }
-    
-    init(_ title: String, store: UnsafePointer<Store>) {
-        self.title = title
-        self.store = store
-        super.init()
     }
     
     public override func setup() {
         self.popup = true
     }
     
+    // swiftlint:disable function_body_length
     public override func read() {
         if self.numberOfProcesses == 0 {
             return
@@ -284,6 +308,11 @@ public class ProcessReader: Reader<[Network_Process]> {
         
         let outputPipe = Pipe()
         let errorPipe = Pipe()
+        
+        defer {
+            outputPipe.fileHandleForReading.closeFile()
+            errorPipe.fileHandleForReading.closeFile()
+        }
         
         task.standardOutput = outputPipe
         task.standardError = errorPipe
@@ -306,7 +335,7 @@ public class ProcessReader: Reader<[Network_Process]> {
         
         var list: [Network_Process] = []
         var firstLine = false
-        output.enumerateLines { (line, _) -> () in
+        output.enumerateLines { (line, _) -> Void in
             if !firstLine {
                 firstLine = true
                 return
@@ -342,7 +371,7 @@ public class ProcessReader: Reader<[Network_Process]> {
         }
         
         var processes: [Network_Process] = []
-        if self.previous.count == 0 {
+        if self.previous.isEmpty {
             self.previous = list
             processes = list
         } else {
@@ -362,7 +391,7 @@ public class ProcessReader: Reader<[Network_Process]> {
                         upload = 0
                     }
                     
-                    processes.append(Network_Process(time: time, name: p.name, pid: p.pid, download: download, upload:  upload, icon: p.icon))
+                    processes.append(Network_Process(time: time, name: p.name, pid: p.pid, download: download, upload: upload, icon: p.icon))
                 }
             }
             self.previous = list

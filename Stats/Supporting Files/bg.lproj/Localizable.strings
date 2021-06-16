@@ -24,6 +24,7 @@
 "Yes" = "Да";
 "No" = "Не";
 "Automatic" = "Автоматично";
+"Manual" = "Ръчно";
 "None" = "Без";
 "Dots" = "Точки";
 "Arrows" = "Стрелки";
@@ -31,6 +32,9 @@
 "Short" = "Кратко";
 "Long" = "Дълго";
 "Statistics" = "Статистика";
+"Max" = "Макс.";
+"Min" = "Мин.";
+"Reset" = "Reset";
 
 // Alerts
 "New version available" = "Налична е нова версия";
@@ -91,10 +95,12 @@
 "Battery widget" = "Батерия";
 "Text widget" = "Текст";
 "Memory widget" = "Памет";
+"Static width" = "Static width";
 
 // Module Kit
 "Open module settings" = "Отваряне на настройките на модула";
 "Select widget" = "Избор на уиджет %0";
+"Open widget settings" = "Open widget settings";
 "Update interval" = "Интервал на опресняване";
 "Usage history" = "История на използването";
 "Details" = "Подробности";
@@ -156,13 +162,14 @@
 "Fahrenheit" = "Фаренхайт";
 
 // Network
-"Uploading" = "Изтегляне";
-"Downloading" = "Качване";
+"Uploading" = "Качване";
+"Downloading" = "Изтегляне";
 "Public IP" = "Публично IP";
 "Local IP" = "Локално IP";
 "Interface" = "Интерфейс";
-"Network" = "Мрежда";
+"Network" = "Мрежа";
 "Physical address" = "Физически адрес";
+"Refresh" = "Refresh";
 "Click to copy public IP address" = "Натиснете, за да копирате публичния IP адрес";
 "Click to copy local IP address" = "Натиснете, за да копирате локалния IP адрес";
 "Click to copy wifi name" = "Натиснете, за да копирате името на WiFi мреждата";
@@ -196,13 +203,49 @@
 "Fully charged" = "Пълен заряд";
 "Not connected" = "Не е свързано";
 "Low level notification" = "Известие за ниско ниво на батерията";
+"High level notification" = "Известие за високо ниво на батерията";
 "Low battery" = "Ниско ниво на батерията";
+"High battery" = "Високо ниво на батерията";
 "Battery remaining" = "Оставащи %0%";
+"Battery remaining to full charge" = "%0% to full charge";
 "Percentage" = "Процент";
 "Percentage and time" = "Процент и време";
 "Time and percentage" = "Време и процент";
 "Time format" = "Формат на времето";
 "Hide additional information when full" = "Скриване на допълнителна информация при пълен заряд";
+"Last charge" = "Последно зареждане";
 
 // Fans
 "Fans" = "Вентилатори";
+
+// Colors
+"Based on utilization" = "Based on utilization";
+"Based on pressure" = "Based on pressure";
+"System accent" = "System accent";
+"Monochrome accent" = "Monochrome accent";
+"Clear" = "Clear";
+"White" = "White";
+"Black" = "Black";
+"Gray" = "Gray";
+"Second gray" = "Second gray";
+"Dark gray" = "Dark gray";
+"Light gray" = "Light gray";
+"Red" = "Red";
+"Second red" = "Second red";
+"Green" = "Green";
+"Second green" = "Second green";
+"Blue" = "Blue";
+"Second blue" = "Second blue";
+"Yellow" = "Yellow";
+"Second yellow" = "Second yellow";
+"Orange" = "Orange";
+"Second orange" = "Second orange";
+"Purple" = "Purple";
+"Second purple" = "Second purple";
+"Brown" = "Brown";
+"Second brown" = "Second brown";
+"Cyan" = "Cyan";
+"Magenta" = "Magenta";
+"Pink" = "Pink";
+"Teal" = "Teal";
+"Indigo" = "Indigo";

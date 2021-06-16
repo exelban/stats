@@ -24,6 +24,7 @@
 "Yes" = "是";
 "No" = "否";
 "Automatic" = "自动";
+"Manual" = "手动";
 "None" = "无";
 "Dots" = "点";
 "Arrows" = "箭头";
@@ -31,6 +32,9 @@
 "Short" = "短";
 "Long" = "长";
 "Statistics" = "统计";
+"Max" = "最大";
+"Min" = "最小";
+"Reset" = "Reset";
 
 // Alerts
 "New version available" = "新版本可用";
@@ -91,10 +95,12 @@
 "Battery widget" = "电池";
 "Text widget" = "文本";
 "Memory widget" = "容量";
+"Static width" = "Static width";
 
 // Module Kit
 "Open module settings" = "打开模块设置";
 "Select widget" = "选择%0小组件";
+"Open widget settings" = "打开小组件设置";
 "Update interval" = "更新间隔";
 "Usage history" = "负载历史";
 "Details" = "详细信息";
@@ -163,6 +169,7 @@
 "Interface" = "接口";
 "Network" = "网络";
 "Physical address" = "物理地址";
+"Refresh" = "刷新";
 "Click to copy public IP address" = "点击拷贝公网 IP";
 "Click to copy local IP address" = "点击拷贝本地 IP";
 "Click to copy wifi name" = "点击拷贝 WiFi 名称";
@@ -196,13 +203,49 @@
 "Fully charged" = "已充满";
 "Not connected" = "未连接";
 "Low level notification" = "低电量通知";
+"High level notification" = "高电量通知";
 "Low battery" = "低电量";
+"High battery" = "高电量";
 "Battery remaining" = "剩余 %0%";
+"Battery remaining to full charge" = "%0% 待充";
 "Percentage" = "百分比";
 "Percentage and time" = "百分比和时间";
 "Time and percentage" = "时间和百分比";
 "Time format" = "时间格式";
 "Hide additional information when full" = "电池充满后隐藏其他信息";
+"Last charge" = "最后一次充电";
 
 // Fans
 "Fans" = "风扇";
+
+// Colors
+"Based on utilization" = "基于利用率";
+"Based on pressure" = "基于压力";
+"System accent" = "系统强调色";
+"Monochrome accent" = "黑白";
+"Clear" = "透明";
+"White" = "白色";
+"Black" = "黑色";
+"Gray" = "灰色 1";
+"Second gray" = "灰色 2";
+"Dark gray" = "深灰色";
+"Light gray" = "浅灰色";
+"Red" = "红色 1";
+"Second red" = "红色 2";
+"Green" = "绿色 1";
+"Second green" = "绿色 2";
+"Blue" = "蓝色 1";
+"Second blue" = "蓝色 2";
+"Yellow" = "黄色 1";
+"Second yellow" = "黄色 2";
+"Orange" = "橙色 1";
+"Second orange" = "橙色 2";
+"Purple" = "紫色 1";
+"Second purple" = "紫色 2";
+"Brown" = "棕色 1";
+"Second brown" = "棕色 2";
+"Cyan" = "青色";
+"Magenta" = "洋红色";
+"Pink" = "粉色";
+"Teal" = "蓝绿色";
+"Indigo" = "靛蓝色";

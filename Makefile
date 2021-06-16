@@ -5,8 +5,8 @@ BUILD_PATH = $(PWD)/build
 APP_PATH = "$(BUILD_PATH)/$(APP).app"
 ZIP_PATH = "$(BUILD_PATH)/$(APP).zip"
 
-.SILENT: archive notarize sign prepare-dmg prepare-dSYM clean next-version check history disk
-.PHONY: build archive notarize sign prepare-dmg prepare-dSYM clean next-version check history open
+.SILENT: archive notarize sign prepare-dmg prepare-dSYM clean next-version check history disk smc
+.PHONY: build archive notarize sign prepare-dmg prepare-dSYM clean next-version check history open smc
 
 build: clean next-version archive notarize sign prepare-dmg prepare-dSYM open
 
@@ -73,7 +73,7 @@ sign:
 
 prepare-dmg:
 	if [ ! -d $(PWD)/create-dmg ]; then \
-	    git clone https://github.com/andreyvit/create-dmg; \
+	    git clone https://github.com/create-dmg/create-dmg; \
 	fi
 
 	./create-dmg/create-dmg \
@@ -85,6 +85,7 @@ prepare-dmg:
 	    --icon "Stats.app" 125 175 \
 	    --hide-extension "Stats.app" \
 	    --app-drop-link 375 175 \
+	    --no-internet-enable \
 	    $(PWD)/$(APP).dmg \
 	    $(APP_PATH)
 
@@ -126,3 +127,7 @@ open:
 	osascript -e 'display notification "Stats signed and ready for distribution" with title "Build the Stats"'
 	echo "Opening working folder..."
 	open $(PWD)
+
+smc:
+	$(MAKE) --directory=./smc
+	open $(PWD)/smc

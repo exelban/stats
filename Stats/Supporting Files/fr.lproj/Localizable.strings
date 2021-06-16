@@ -24,6 +24,7 @@
 "Yes" = "Oui";
 "No" = "Non";
 "Automatic" = "Automatique";
+"Manual" = "Manual";
 "None" = "Aucun";
 "Dots" = "Points";
 "Arrows" = "Flèches";
@@ -31,6 +32,9 @@
 "Short" = "Court";
 "Long" = "Long";
 "Statistics" = "Statistiques";
+"Max" = "Max";
+"Min" = "Min";
+"Reset" = "Reset";
 
 // Alerts
 "New version available" = "Nouvelle version disponible";
@@ -91,10 +95,12 @@
 "Battery widget" = "Battery";
 "Text widget" = "Text";
 "Memory widget" = "Memory";
+"Static width" = "Static width";
 
 // Module Kit
 "Open module settings" = "Ouvrir les paramètres du module";
 "Select widget" = "Sélectionner le widget %0";
+"Open widget settings" = "Open widget settings";
 "Update interval" = "Intervalle de mise à jour";
 "Usage history" = "Historique d'utilisation";
 "Details" = "Détails";
@@ -163,6 +169,7 @@
 "Interface" = "Interface";
 "Network" = "Réseau";
 "Physical address" = "Adresse physique";
+"Refresh" = "Refresh";
 "Click to copy public IP address" = "Cliquez pour copier l'adresse IP publique";
 "Click to copy local IP address" = "Cliquez pour copier l'adresse IP locale";
 "Click to copy wifi name" = "Cliquez pour copier le nom du wifi";
@@ -196,13 +203,49 @@
 "Fully charged" = "Complètement chargée";
 "Not connected" = "Non connecté";
 "Low level notification" = "Notification de niveau faible";
+"High level notification" = "High level notification";
 "Low battery" = "Batterie faible";
+"High battery" = "High battery";
 "Battery remaining" = "%0% restant";
+"Battery remaining to full charge" = "%0% to full charge";
 "Percentage" = "Pourcentage";
 "Percentage and time" = "Pourcentage et temps";
 "Time and percentage" = "Temps et pourcentage";
 "Time format" = "Format de l'heure";
 "Hide additional information when full" = "Masquer les informations supplémentaires lorsque la batterie est pleine";
+"Last charge" = "Dernière charge";
 
 // Fans
 "Fans" = "Fans";
+
+// Colors
+"Based on utilization" = "Based on utilization";
+"Based on pressure" = "Based on pressure";
+"System accent" = "System accent";
+"Monochrome accent" = "Monochrome accent";
+"Clear" = "Clear";
+"White" = "White";
+"Black" = "Black";
+"Gray" = "Gray";
+"Second gray" = "Second gray";
+"Dark gray" = "Dark gray";
+"Light gray" = "Light gray";
+"Red" = "Red";
+"Second red" = "Second red";
+"Green" = "Green";
+"Second green" = "Second green";
+"Blue" = "Blue";
+"Second blue" = "Second blue";
+"Yellow" = "Yellow";
+"Second yellow" = "Second yellow";
+"Orange" = "Orange";
+"Second orange" = "Second orange";
+"Purple" = "Purple";
+"Second purple" = "Second purple";
+"Brown" = "Brown";
+"Second brown" = "Second brown";
+"Cyan" = "Cyan";
+"Magenta" = "Magenta";
+"Pink" = "Pink";
+"Teal" = "Teal";
+"Indigo" = "Indigo";

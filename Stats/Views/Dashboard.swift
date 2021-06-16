@@ -10,8 +10,7 @@
 //
 
 import Cocoa
-import StatsKit
-import ModuleKit
+import Kit
 import os.log
 
 class Dashboard: NSScrollView {
@@ -89,7 +88,7 @@ class Dashboard: NSScrollView {
         let osField: NSTextField = TextView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: 18))
         osField.alignment = .center
         osField.font = NSFont.systemFont(ofSize: 12, weight: .regular)
-        osField.stringValue = "macOS \(SystemKit.shared.device.os?.name ?? LocalizedString("Unknown")) (\(SystemKit.shared.device.os?.version.getFullVersion() ?? ""))"
+        osField.stringValue = "macOS \(SystemKit.shared.device.os?.name ?? localizedString("Unknown")) (\(SystemKit.shared.device.os?.version.getFullVersion() ?? ""))"
         osField.isSelectable = true
         
         container.addRow(with: [deviceImageView])
@@ -144,7 +143,7 @@ class Dashboard: NSScrollView {
         
         NSLayoutConstraint.activate([
             grid.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            grid.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            grid.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
         
         return view
@@ -177,7 +176,7 @@ class Dashboard: NSScrollView {
             }
             
             if cpu.physicalCores != nil || cpu.logicalCores != nil {
-                if value.count != 0 {
+                if !value.isEmpty {
                     value += "\n"
                 }
                 
@@ -194,12 +193,12 @@ class Dashboard: NSScrollView {
                 value += "\(mini)"
             }
         } else {
-            value = LocalizedString("Unknown")
+            value = localizedString("Unknown")
         }
         
         return [
-            self.titleView("\(LocalizedString("Processor")):"),
-            self.valueView(value),
+            self.titleView("\(localizedString("Processor")):"),
+            self.valueView(value)
         ]
     }
     
@@ -219,21 +218,21 @@ class Dashboard: NSScrollView {
                 }
                 
                 if let speed = dimm.speed {
-                    if row.count != 0 && row.last != " " {
+                    if !row.isEmpty && row.last != " " {
                         row += " "
                     }
                     row += speed
                 }
                 
                 if let type = dimm.type {
-                    if row.count != 0 && row.last != " " {
+                    if !row.isEmpty && row.last != " " {
                         row += " "
                     }
                     row += type
                 }
                 
                 if dimm.bank != nil || dimm.channel != nil {
-                    if row.count != 0 && row.last != " " {
+                    if !row.isEmpty && row.last != " " {
                         row += " "
                     }
                     
@@ -250,12 +249,12 @@ class Dashboard: NSScrollView {
                 value += "\(row)\(i == dimms.count-1 ? "" : "\n")"
             }
         } else {
-            value = LocalizedString("Unknown")
+            value = localizedString("Unknown")
         }
         
         return [
-            self.titleView("\(LocalizedString("Memory")):"),
-            self.valueView("\(value)"),
+            self.titleView("\(localizedString("Memory")):"),
+            self.valueView("\(value)")
         ]
     }
     
@@ -263,29 +262,35 @@ class Dashboard: NSScrollView {
         var value = ""
         if let gpus = SystemKit.shared.device.info.gpu {
             for i in 0..<gpus.count {
-                value += "\(gpus[i].name)\(i == gpus.count-1 ? "" : "\n")"
+                var row = gpus[i].name != nil ? gpus[i].name! : localizedString("Unknown")
+                
+                if let size = gpus[i].vram {
+                    row += " (\(size))"
+                }
+                
+                value += "\(row)\(i == gpus.count-1 ? "" : "\n")"
             }
         } else {
-            value = LocalizedString("Unknown")
+            value = localizedString("Unknown")
         }
         
         return [
-            self.titleView("\(LocalizedString("Graphics")):"),
-            self.valueView(value),
+            self.titleView("\(localizedString("Graphics")):"),
+            self.valueView(value)
         ]
     }
     
     private func disk() -> [NSView] {
         return [
-            self.titleView("\(LocalizedString("Disk")):"),
-            self.valueView("\(SystemKit.shared.device.info.disk?.model ?? SystemKit.shared.device.info.disk?.name ?? LocalizedString("Unknown"))"),
+            self.titleView("\(localizedString("Disk")):"),
+            self.valueView("\(SystemKit.shared.device.info.disk?.model ?? SystemKit.shared.device.info.disk?.name ?? localizedString("Unknown"))")
         ]
     }
     
     private func serialNumber() -> [NSView] {
         return [
-            self.titleView("\(LocalizedString("Serial number")):"),
-            self.valueView("\(SystemKit.shared.device.serialNumber ?? LocalizedString("Unknown"))"),
+            self.titleView("\(localizedString("Serial number")):"),
+            self.valueView("\(SystemKit.shared.device.serialNumber ?? localizedString("Unknown"))")
         ]
     }
     
@@ -295,7 +300,7 @@ class Dashboard: NSScrollView {
         form.unitsStyle = .full
         form.allowedUnits = [.day, .hour, .minute]
         
-        var value = LocalizedString("Unknown")
+        var value = localizedString("Unknown")
         if let bootDate = SystemKit.shared.device.bootDate {
             if let duration = form.string(from: bootDate, to: Date()) {
                 value = duration
@@ -306,8 +311,8 @@ class Dashboard: NSScrollView {
         self.uptimeField = valueView
         
         return [
-            self.titleView("\(LocalizedString("Uptime")):"),
-            valueView,
+            self.titleView("\(localizedString("Uptime")):"),
+            valueView
         ]
     }
     

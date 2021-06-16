@@ -10,8 +10,7 @@
 //
 
 import Cocoa
-import StatsKit
-import ModuleKit
+import Kit
 
 public struct Fan {
     public let id: Int
@@ -19,6 +18,7 @@ public struct Fan {
     public let minSpeed: Double
     public let maxSpeed: Double
     public var value: Double
+    public var mode: FanMode
     
     var state: Bool {
         get {
@@ -34,21 +34,16 @@ public struct Fan {
 }
 
 public class Fans: Module {
-    private let store: UnsafePointer<Store>
-    private var smc: UnsafePointer<SMCService>
-    
     private var fansReader: FansReader
     private var settingsView: Settings
-    private let popupView: Popup = Popup()
+    private let popupView: Popup
     
-    public init(_ store: UnsafePointer<Store>, _ smc: UnsafePointer<SMCService>) {
-        self.store = store
-        self.smc = smc
-        self.fansReader = FansReader(smc)
-        self.settingsView = Settings("Fans", store: store, list: &self.fansReader.list)
+    public init() {
+        self.fansReader = FansReader()
+        self.settingsView = Settings("Fans", list: &self.fansReader.list)
+        self.popupView = Popup()
         
         super.init(
-            store: store,
             popup: self.popupView,
             settings: self.settingsView
         )
@@ -76,11 +71,11 @@ public class Fans: Module {
     }
     
     public override func isAvailable() -> Bool {
-        return smc.pointee.getValue("FNum") != nil && smc.pointee.getValue("FNum") != 0 && !self.fansReader.list.isEmpty
+        return SMC.shared.getValue("FNum") != nil && SMC.shared.getValue("FNum") != 0 && !self.fansReader.list.isEmpty
     }
     
     private func checkIfNoSensorsEnabled() {
-        if self.fansReader.list.filter({ $0.state }).count == 0 {
+        if self.fansReader.list.filter({ $0.state }).isEmpty {
             NotificationCenter.default.post(name: .toggleModule, object: nil, userInfo: ["module": self.config.name, "state": false])
         }
     }
@@ -92,18 +87,21 @@ public class Fans: Module {
         
         self.popupView.usageCallback(value)
         
-        let label: Bool = store.pointee.bool(key: "Fans_label", defaultValue: false)
+        let label: Bool = Store.shared.bool(key: "Fans_label", defaultValue: false)
         var list: [KeyValue_t] = []
+        var flatList: [Double] = []
         value.forEach { (f: Fan) in
             if f.state {
-                let str = label ? "\(f.name.prefix(1).uppercased()): \(f.formattedValue)" : f.formattedValue
+                let str = label ? "\(f.name.prefix(1).uppercased()): \(Int(f.value))" : f.formattedValue
                 list.append(KeyValue_t(key: "Fan#\(f.id)", value: str))
+                flatList.append(((f.value*100)/f.maxSpeed)/100)
             }
         }
         
         self.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
             switch w.item {
             case let widget as SensorsWidget: widget.setValues(list)
+            case let widget as BarChart: widget.setValue(flatList)
             default: break
             }
         }

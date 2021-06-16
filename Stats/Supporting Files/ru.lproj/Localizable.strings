@@ -24,6 +24,7 @@
 "Yes" = "Да";
 "No" = "Нет";
 "Automatic" = "Автоматический";
+"Manual" = "Ручной";
 "None" = "Никакой";
 "Dots" = "Точки";
 "Arrows" = "Стрелки";
@@ -31,6 +32,9 @@
 "Short" = "Короткий";
 "Long" = "Длинный";
 "Statistics" = "Статистика";
+"Max" = "Max";
+"Min" = "Min";
+"Reset" = "Сбросить";
 
 // Alerts
 "New version available" = "Доступна новая версия";
@@ -56,7 +60,7 @@
 "Never" = "Никогда";
 "Check for update" = "Проверить обновление";
 "Show icon in dock" = "Показать значок в dock";
-"Start at login" = "Запуск при логуванні";
+"Start at login" = "Запуск при входе";
 
 // Dashboard
 "Serial number" = "Серийный номер";
@@ -91,10 +95,12 @@
 "Battery widget" = "Battery";
 "Text widget" = "Text";
 "Memory widget" = "Memory";
+"Static width" = "Static width";
 
 // Module Kit
 "Open module settings" = "Открыть настройки модуля";
 "Select widget" = "Активировать %0 виджет";
+"Open widget settings" = "Open widget settings";
 "Update interval" = "Интервал обновления";
 "Usage history" = "История использования";
 "Details" = "Подробности";
@@ -163,6 +169,7 @@
 "Interface" = "Интерфейс";
 "Network" = "Сеть";
 "Physical address" = "Физический адрес";
+"Refresh" = "Refresh";
 "Click to copy public IP address" = "Нажмите, чтобы скопировать публичный IP";
 "Click to copy local IP address" = "Нажмите, чтобы скопировать локальный IP";
 "Click to copy wifi name" = "Нажмите, чтобы скопировать имя Wi-Fi";
@@ -196,13 +203,49 @@
 "Fully charged" = "Полностью заряжена";
 "Not connected" = "Не подключено";
 "Low level notification" = "Сообщение о низком уровне заряда";
+"High level notification" = "High level notification";
 "Low battery" = "Низкий заряд аккумулятора";
+"High battery" = "High battery";
 "Battery remaining" = "%0% осталось";
+"Battery remaining to full charge" = "%0% до полной зарядки";
 "Percentage" = "Проценты";
 "Percentage and time" = "Проценты и время";
 "Time and percentage" = "Время и Проценты";
 "Time format" = "Формат времени";
 "Hide additional information when full" = "Скрыть дополнительную информацию при полном заряде";
+"Last charge" = "Последняя зарядка";
 
 // Fans
 "Fans" = "Fans";
+
+// Colors
+"Based on utilization" = "Based on utilization";
+"Based on pressure" = "Based on pressure";
+"System accent" = "System accent";
+"Monochrome accent" = "Monochrome accent";
+"Clear" = "Clear";
+"White" = "White";
+"Black" = "Black";
+"Gray" = "Gray";
+"Second gray" = "Second gray";
+"Dark gray" = "Dark gray";
+"Light gray" = "Light gray";
+"Red" = "Red";
+"Second red" = "Second red";
+"Green" = "Green";
+"Second green" = "Second green";
+"Blue" = "Blue";
+"Second blue" = "Second blue";
+"Yellow" = "Yellow";
+"Second yellow" = "Second yellow";
+"Orange" = "Orange";
+"Second orange" = "Second orange";
+"Purple" = "Purple";
+"Second purple" = "Second purple";
+"Brown" = "Brown";
+"Second brown" = "Second brown";
+"Cyan" = "Cyan";
+"Magenta" = "Magenta";
+"Pink" = "Pink";
+"Teal" = "Teal";
+"Indigo" = "Indigo";

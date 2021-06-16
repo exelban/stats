@@ -24,6 +24,7 @@
 "Yes" = "Igen";
 "No" = "Nem";
 "Automatic" = "Automatikus";
+"Manual" = "Manual";
 "None" = "Egyik sem";
 "Dots" = "Pontok";
 "Arrows" = "Nyilak";
@@ -31,6 +32,9 @@
 "Short" = "Rövid";
 "Long" = "Hosszú";
 "Statistics" = "Statisztikák";
+"Max" = "Max";
+"Min" = "Min";
+"Reset" = "Reset";
 
 // Alerts
 "New version available" = "Új verzió érhető el";
@@ -91,10 +95,12 @@
 "Battery widget" = "Battery";
 "Text widget" = "Text";
 "Memory widget" = "Memory";
+"Static width" = "Static width";
 
 // Module Kit
 "Open module settings" = "Modul beállításainak megnyitása";
 "Select widget" = "%0 widget kiválasztása";
+"Open widget settings" = "Open widget settings";
 "Update interval" = "Frissítési ráta";
 "Usage history" = "Használati előzmények";
 "Details" = "Részletek";
@@ -163,6 +169,7 @@
 "Interface" = "Interfész";
 "Network" = "Hálózat";
 "Physical address" = "Fizikai cím";
+"Refresh" = "Refresh";
 "Click to copy public IP address" = "Kattints a publikus IP cím másolásához";
 "Click to copy local IP address" = "Kattints a helyi IP cím másolásához";
 "Click to copy wifi name" = "Kattints a WiFi nevének másolásához";
@@ -196,13 +203,49 @@
 "Fully charged" = "Teljesen feltöltve";
 "Not connected" = "Nincs csatlakoztatva";
 "Low level notification" = "Alacsony töltöttség értesítő";
+"High level notification" = "High level notification";
 "Low battery" = "Alacsony akkumulátor töltöttség";
+"High battery" = "High battery";
 "Battery remaining" = "%0% töltöttség";
+"Battery remaining to full charge" = "%0% to full charge";
 "Percentage" = "Százalék";
 "Percentage and time" = "Százalék és időtartam";
 "Time and percentage" = "Időtartam és százalék";
 "Time format" = "Időformátum";
 "Hide additional information when full" = "További információk elrejtése, ha teljesen fel van töltve";
+"Last charge" = "Utolsó töltés";
 
 // Fans
 "Fans" = "Ventillátorok";
+
+// Colors
+"Based on utilization" = "Based on utilization";
+"Based on pressure" = "Based on pressure";
+"System accent" = "System accent";
+"Monochrome accent" = "Monochrome accent";
+"Clear" = "Clear";
+"White" = "White";
+"Black" = "Black";
+"Gray" = "Gray";
+"Second gray" = "Second gray";
+"Dark gray" = "Dark gray";
+"Light gray" = "Light gray";
+"Red" = "Red";
+"Second red" = "Second red";
+"Green" = "Green";
+"Second green" = "Second green";
+"Blue" = "Blue";
+"Second blue" = "Second blue";
+"Yellow" = "Yellow";
+"Second yellow" = "Second yellow";
+"Orange" = "Orange";
+"Second orange" = "Second orange";
+"Purple" = "Purple";
+"Second purple" = "Second purple";
+"Brown" = "Brown";
+"Second brown" = "Second brown";
+"Cyan" = "Cyan";
+"Magenta" = "Magenta";
+"Pink" = "Pink";
+"Teal" = "Teal";
+"Indigo" = "Indigo";
