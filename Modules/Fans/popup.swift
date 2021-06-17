@@ -198,23 +198,12 @@ internal class FanView: NSStackView {
         buttons.callback = { [weak self] (mode: FanMode) in
             self?.fan.mode = mode
             if let fan = self?.fan {
-                SMC.shared.setFanMode(fan.id, mode: mode)
+                SMCHelper.shared.setFanMode(fan.id, mode: mode.rawValue)
             }
             self?.toggleMode()
         }
         
-        let rootBtn: NSButton = NSButton(frame: NSRect(x: 0, y: 4, width: view.frame.width, height: view.frame.height - 8))
-        rootBtn.title = "Control fan (root required)"
-        rootBtn.setButtonType(.momentaryLight)
-        rootBtn.isBordered = false
-        rootBtn.target = self
-        rootBtn.action = #selector(self.askForRoot)
-        rootBtn.wantsLayer = true
-        rootBtn.layer?.cornerRadius = 3
-        rootBtn.layer?.borderWidth = 1
-        rootBtn.layer?.borderColor = NSColor.lightGray.cgColor
-        
-        view.addSubview(isRoot() ? buttons : rootBtn)
+        view.addSubview(buttons)
         
         return view
     }
@@ -230,8 +219,8 @@ internal class FanView: NSStackView {
         
         let slider: NSSlider = NSSlider(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: 26))
         slider.minValue = self.fan.minSpeed
-        slider.doubleValue = self.fan.value
         slider.maxValue = self.fan.maxSpeed
+        slider.doubleValue = self.fan.value
         slider.isContinuous = true
         slider.action = #selector(self.speedChange)
         slider.target = self
@@ -269,12 +258,6 @@ internal class FanView: NSStackView {
         return view
     }
     
-    @objc private func askForRoot(_ sender: NSButton) {
-        DispatchQueue.main.async {
-            ensureRoot()
-        }
-    }
-    
     @objc private func speedChange(_ sender: NSSlider) {
         guard let field = self.sliderValueField else {
             return
@@ -289,7 +272,7 @@ internal class FanView: NSStackView {
         let task = DispatchWorkItem { [weak self] in
             DispatchQueue.global(qos: .userInteractive).async { [weak self] in
                 if let id = self?.fan.id {
-                    SMC.shared.setFanSpeed(id, speed: Int(value))
+                    SMCHelper.shared.setFanSpeed(id, speed: Int(value))
                 }
                 DispatchQueue.main.async {
                     field.textColor = .systemBlue

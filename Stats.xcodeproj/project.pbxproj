@@ -110,6 +110,7 @@
 		9ABFF914248C30A800C9041A /* popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABFF913248C30A800C9041A /* popup.swift */; };
 		9AD33AC624BCD3EE007E8820 /* helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD33AC524BCD3EE007E8820 /* helpers.swift */; };
 		9AD64FA224BF86C100419D59 /* settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD64FA124BF86C100419D59 /* settings.swift */; };
+		9AD7F866266F759200E5F863 /* smc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADE7038265D059000D2FBA8 /* smc.swift */; };
 		9ADE6FDB265D032100D2FBA8 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADE6FDA265D032100D2FBA8 /* main.swift */; };
 		9ADE702B265D03D100D2FBA8 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ADE7005265D039300D2FBA8 /* IOKit.framework */; };
 		9ADE7039265D059000D2FBA8 /* smc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADE7038265D059000D2FBA8 /* smc.swift */; };
@@ -1156,7 +1157,7 @@
 					New,
 				);
 				LastSwiftUpdateCheck = 1240;
-				LastUpgradeCheck = 1240;
+				LastUpgradeCheck = 1250;
 				ORGANIZATIONNAME = "Serhiy Mytrovtsiy";
 				TargetAttributes = {
 					9A1410F4229E721100D29793 = {
@@ -1401,6 +1402,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9AD7F866266F759200E5F863 /* smc.swift in Sources */,
 				9A2847612666AA2700EC1F6D /* PieChart.swift in Sources */,
 				9A2847672666AA2700EC1F6D /* BarChart.swift in Sources */,
 				9A28477B2666AA5000EC1F6D /* popup.swift in Sources */,
@@ -1858,7 +1860,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1890,7 +1892,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
