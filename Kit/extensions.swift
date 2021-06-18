@@ -124,21 +124,21 @@ public extension Double {
         
         if reversed {
             switch self {
+            case 0...zones.orange:
+                return thirdColor
             case zones.orange...zones.red:
                 return secondColor
-            case zones.red...1:
-                return firstColor
             default:
-                return thirdColor
+                return firstColor
             }
         } else {
             switch self {
+            case 0...zones.orange:
+                return firstColor
             case zones.orange...zones.red:
                 return secondColor
-            case zones.red...1:
-                return thirdColor
             default:
-                return firstColor
+                return thirdColor
             }
         }
     }
