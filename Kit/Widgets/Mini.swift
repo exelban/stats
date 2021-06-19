@@ -148,12 +148,12 @@ public class Mini: WidgetWrapper {
     }
     
     public func setTitle(_ newTitle: String?) {
-        guard var title = newTitle else {
-            return
+        var title = self.defaultLabel
+        if let new = newTitle {
+            title = new
         }
         
-        title = self.defaultLabel
-        if self.label == newTitle {
+        if self.label == title {
             return
         }
         
