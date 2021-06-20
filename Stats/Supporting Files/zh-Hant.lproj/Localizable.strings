@@ -34,7 +34,7 @@
 "Statistics" = "統計資料";
 "Max" = "最大值";
 "Min" = "最小值";
-"Reset" = "Reset";
+"Reset" = "重置";
 
 // Alerts
 "New version available" = "有新版本可用";
@@ -95,7 +95,7 @@
 "Battery widget" = "電池";
 "Text widget" = "文字";
 "Memory widget" = "記憶體";
-"Static width" = "Static width";
+"Static width" = "靜態寬度";
 
 // Module Kit
 "Open module settings" = "打開模組設定";
