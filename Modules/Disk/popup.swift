@@ -233,9 +233,11 @@ internal class DiskNameAndBarView: NSView {
             }
             
             if let read = read {
+                self.readState?.toolTip = DiskSize(read).getReadableMemory()
                 self.readState?.layer?.backgroundColor = read != 0 ? NSColor.systemBlue.cgColor : NSColor.lightGray.withAlphaComponent(0.75).cgColor
             }
             if let write = write {
+                self.writeState?.toolTip = DiskSize(write).getReadableMemory()
                 self.writeState?.layer?.backgroundColor = write != 0 ? NSColor.systemRed.cgColor : NSColor.lightGray.withAlphaComponent(0.75).cgColor
             }
             
