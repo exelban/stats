@@ -15,6 +15,7 @@ enum CMDType: String {
     case list
     case set
     case fan
+    case fans
     case help
     case unknown
     
@@ -23,6 +24,7 @@ enum CMDType: String {
         case "list": self = .list
         case "set": self = .set
         case "fan": self = .fan
+        case "fans": self = .fans
         case "help": self = .help
         default: self = .unknown
         }
@@ -47,6 +49,7 @@ enum FlagsType: String {
     }
 }
 
+// swiftlint:disable function_body_length
 func main() {
     var args = CommandLine.arguments.dropFirst()
     let cmd = CMDType(value: args.first ?? "")
@@ -98,6 +101,7 @@ func main() {
         guard let idIndex = args.firstIndex(where: { $0 == "-id" }),
               args.indices.contains(idIndex+1),
               let id = Int(args[idIndex+1]) else {
+            print("[ERROR]: missing id")
             return
         }
         
@@ -113,14 +117,33 @@ func main() {
         }
         
         print("[ERROR]: missing value or mode")
+    case .fans:
+        guard let count = SMC.shared.getValue("FNum") else {
+            print("FNum not found")
+            return
+        }
+        print("Number of fans: \(count)\n")
+        
+        for i in 0..<Int(count) {
+            print("\(i): \(SMC.shared.getStringValue("F\(i)ID") ?? "Fan #\(i)")")
+            print("Actual speed:", SMC.shared.getValue("F\(i)Ac") ?? -1)
+            print("Minimal speed:", SMC.shared.getValue("F\(i)Mn") ?? -1)
+            print("Maximum speed:", SMC.shared.getValue("F\(i)Mx") ?? -1)
+            print("Target speed:", SMC.shared.getValue("F\(i)Tg") ?? -1)
+            print("Mode:", FanMode(rawValue: Int(SMC.shared.getValue("F\(i)Md") ?? -1)) ?? .forced)
+            
+            print()
+        }
     case .help, .unknown:
         print("SMC tool\n")
         print("Usage:")
         print("  ./smc [command]\n")
         print("Available Commands:")
-        print("  list    list keys and values")
-        print("  set     set value to a key")
-        print("  help    help menu\n")
+        print("  list     list keys and values")
+        print("  set      set value to a key")
+        print("  fan      set fan speed")
+        print("  fans     list of fans")
+        print("  help     help menu\n")
         print("Available Flags:")
         print("  -t    list temperature sensors")
         print("  -v    list voltage sensors (list cmd) / value (set cmd)")

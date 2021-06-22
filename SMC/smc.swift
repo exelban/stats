@@ -147,6 +147,10 @@ extension Float {
             return $0.load(fromByteOffset: 0, as: Self.self)
         }
     }
+    
+    var bytes: [UInt8] {
+        withUnsafeBytes(of: self, Array.init)
+    }
 }
 
 public class SMC {
@@ -187,7 +191,7 @@ public class SMC {
         }
     }
     
-    public func close() -> kern_return_t{
+    public func close() -> kern_return_t {
         return IOServiceClose(conn)
     }
     
@@ -202,7 +206,7 @@ public class SMC {
         }
         
         if val.dataSize > 0 {
-            if val.bytes.first(where: { $0 != 0}) == nil && val.key != "FS! " {
+            if val.bytes.first(where: { $0 != 0 }) == nil && val.key != "FS! " && val.key != "F0Md" && val.key != "F1Md" {
                 return nil
             }
             
@@ -346,6 +350,30 @@ public class SMC {
     // MARK: - fans
     
     public func setFanMode(_ id: Int, mode: FanMode) {
+        if self.getValue("F\(id)Md") != nil {
+            var result: kern_return_t = 0
+            var value = SMCVal_t("F\(id)Md")
+            
+            result = read(&value)
+            if result != kIOReturnSuccess {
+                print("Error read fan mode: " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
+                return
+            }
+            
+            value.bytes = [UInt8(mode.rawValue), UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0),
+                                   UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0),
+                                   UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0),
+                                   UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0),
+                                   UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0),
+                                   UInt8(0), UInt8(0)]
+            
+            result = write(value)
+            if result != kIOReturnSuccess {
+                print("Error write: " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
+                return
+            }
+        }
+        
         let fansMode = Int(self.getValue("FS! ") ?? 0)
         var newMode: UInt8 = 0
         
@@ -406,16 +434,29 @@ public class SMC {
             return
         }
         
+        var result: kern_return_t = 0
         var value = SMCVal_t("F\(id)Tg")
-        value.dataSize = 2
-        value.bytes = [UInt8(speed >> 6), UInt8((speed << 2) ^ ((speed >> 6) << 8)), UInt8(0), UInt8(0), UInt8(0), UInt8(0),
-                       UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0),
-                       UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0),
-                       UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0),
-                       UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0),
-                       UInt8(0), UInt8(0)]
         
-        let result = write(value)
+        result = read(&value)
+        if result != kIOReturnSuccess {
+            print("Error read fan value: " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
+            return
+        }
+        
+        if value.dataType == "flt " {
+            let bytes = Float(speed).bytes
+            value.bytes[0] = bytes[0]
+            value.bytes[1] = bytes[1]
+            value.bytes[2] = bytes[2]
+            value.bytes[3] = bytes[3]
+        } else if value.dataType == "fpe2" {
+            value.bytes[0] = UInt8(speed >> 6)
+            value.bytes[1] = UInt8((speed << 2) ^ ((speed >> 6) << 8))
+            value.bytes[2] = UInt8(0)
+            value.bytes[3] = UInt8(0)
+        }
+        
+        result = write(value)
         if result != kIOReturnSuccess {
             print("Error write: " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
             return
