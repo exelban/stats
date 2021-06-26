@@ -11,7 +11,6 @@
 
 import Cocoa
 import Repeat
-import os.log
 
 public protocol value_t {
     var widgetValue: Double { get }
@@ -47,7 +46,9 @@ public protocol ReaderInternal_p {
 }
 
 open class Reader<T>: ReaderInternal_p {
-    public var log: OSLog
+    public var log: NextLog {
+        return NextLog.shared.copy(category: "\(String(describing: self))")
+    }
     public var value: T?
     public var interval: Double? = nil
     public var defaultInterval: Double = 1
@@ -67,12 +68,11 @@ open class Reader<T>: ReaderInternal_p {
     private var history: [T]? = []
     
     public init(popup: Bool = false) {
-        self.log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: "\(T.self)")
         self.popup = popup
         
         self.setup()
         
-        os_log(.debug, log: self.log, "Successfully initialize reader")
+        debug("Successfully initialize reader", log: self.log)
     }
     
     public func initStoreValues(title: String) {
@@ -91,14 +91,14 @@ open class Reader<T>: ReaderInternal_p {
             if self.value == nil && value != nil {
                 self.ready = true
                 self.readyCallback()
-                os_log(.debug, log: self.log, "Reader is ready")
+                debug("Reader is ready", log: self.log)
             } else if self.value == nil && value != nil {
                 if self.nilCallbackCounter > 5 {
-                    os_log(.error, log: self.log, "Callback receive nil value more than 5 times. Please check this reader!")
+                    error("Callback receive nil value more than 5 times. Please check this reader!", log: self.log)
                     self.stop()
                     return
                 } else {
-                    os_log(.debug, log: self.log, "Restarting initial read")
+                    debug("Restarting initial read", log: self.log)
                     self.nilCallbackCounter += 1
                     self.read()
                     return
@@ -134,7 +134,7 @@ open class Reader<T>: ReaderInternal_p {
         
         if let interval = self.interval, self.repeatTask == nil {
             if !self.popup && !self.optional {
-                os_log(.debug, log: self.log, "Set up update interval: %.0f sec", interval)
+                debug("Set up update interval: \(Int(interval)) sec", log: self.log)
             }
             
             self.repeatTask = Repeater.init(interval: .seconds(interval), observer: { _ in
@@ -165,7 +165,7 @@ open class Reader<T>: ReaderInternal_p {
     }
     
     public func setInterval(_ value: Int) {
-        os_log(.debug, log: self.log, "Set update interval: %d sec", value)
+        debug("Set update interval: \(Int(value)) sec", log: self.log)
         self.interval = Double(value)
         self.repeatTask?.reset(.seconds(Double(value)), restart: true)
     }

@@ -11,7 +11,6 @@
 
 import Cocoa
 import Kit
-import os.log
 
 internal class UsageReader: Reader<Battery_Usage> {
     private var service: io_connect_t = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("AppleSmartBattery"))
@@ -210,7 +209,7 @@ public class ProcessReader: Reader<[TopProcess]> {
             do {
                 try self.task.run()
             } catch let error {
-                os_log(.error, log: log, "run Battery process reader %s", "\(error)")
+                debug("run Battery process reader \(error)", log: self.log)
             }
         } else if self.paused {
             self.paused = !self.task.resume()

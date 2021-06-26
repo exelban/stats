@@ -7,7 +7,6 @@
 //
 
 import Cocoa
-import os.log
 
 import Kit
 
@@ -31,7 +30,6 @@ var modules: [Module] = [
     Network(),
     Battery()
 ]
-var log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: "Stats")
 
 class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDelegate {
     internal let settingsWindow: SettingsWindow = SettingsWindow()
@@ -53,7 +51,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         
         self.defaultValues()
         self.updateCron()
-        os_log(.info, log: log, "Stats started in %.4f seconds", startingPoint.timeIntervalSinceNow * -1)
+        info("Stats started in \((startingPoint.timeIntervalSinceNow * -1).rounded(toPlaces: 4)) seconds")
     }
     
     func applicationWillTerminate(_ aNotification: Notification) {
@@ -75,7 +73,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     
     func userNotificationCenter(_ center: NSUserNotificationCenter, didActivate notification: NSUserNotification) {
         if let uri = notification.userInfo?["url"] as? String {
-            os_log(.debug, log: log, "Downloading new version of app...")
+            debug("Downloading new version of app...")
             if let url = URL(string: uri) {
                 updater.download(url, doneHandler: { path in
                     updater.install(path: path)
@@ -93,7 +91,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         guard let updateInterval = AppUpdateInterval(rawValue: Store.shared.string(key: "update-interval", defaultValue: AppUpdateInterval.atStart.rawValue)) else {
             return
         }
-        os_log(.debug, log: log, "Application update interval is '%s'", "\(updateInterval.rawValue)")
+        debug("Application update interval is '\(updateInterval.rawValue)'")
         
         switch updateInterval {
         case .oncePerDay: self.updateActivity.interval = 60 * 60 * 24

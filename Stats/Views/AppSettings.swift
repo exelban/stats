@@ -11,7 +11,6 @@
 
 import Cocoa
 import Kit
-import os.log
 
 class ApplicationSettings: NSScrollView {
     private var updateIntervalValue: String {
@@ -253,12 +252,12 @@ class ApplicationSettings: NSScrollView {
     @objc func updateAction(_ sender: NSObject) {
         updater.check { result, error in
             if error != nil {
-                os_log(.error, log: log, "error updater.check(): %s", "\(error!.localizedDescription)")
+                debug("error updater.check(): \(error!.localizedDescription)")
                 return
             }
             
             guard error == nil, let version: version_s = result else {
-                os_log(.error, log: log, "download error(): %s", "\(error!.localizedDescription)")
+                debug("download error(): \(error!.localizedDescription)")
                 return
             }
             

@@ -11,7 +11,6 @@
 
 import Cocoa
 import Kit
-import os.log
 import IOKit.hid
 
 internal class SensorsReader: Reader<[Sensor_t]> {

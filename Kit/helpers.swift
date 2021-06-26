@@ -11,7 +11,6 @@
 // swiftlint:disable file_length
 
 import Cocoa
-import os.log
 import ServiceManagement
 
 public struct LaunchAtLogin {
@@ -581,22 +580,6 @@ public class ColorView: NSView {
     }
 }
 
-public struct Log: TextOutputStream {
-    public static var log: Log = Log()
-    
-    public func write(_ string: String) {
-        let fm = FileManager.default
-        let log = fm.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("log.txt")
-        if let handle = try? FileHandle(forWritingTo: log) {
-            handle.seekToEndOfFile()
-            handle.write(string.data(using: .utf8)!)
-            handle.closeFile()
-        } else {
-            try? string.data(using: .utf8)?.write(to: log)
-        }
-    }
-}
-
 public func localizedString(_ key: String, _ params: String..., comment: String = "") -> String {
     var string = NSLocalizedString(key, comment: comment)
     if !params.isEmpty {
@@ -828,7 +811,7 @@ public func process(path: String, arguments: [String]) -> String? {
     do {
         try task.run()
     } catch let error {
-        os_log(.error, log: .default, "system_profiler SPMemoryDataType: %s", "\(error.localizedDescription)")
+        debug("system_profiler SPMemoryDataType: \(error.localizedDescription)")
         return nil
     }
     

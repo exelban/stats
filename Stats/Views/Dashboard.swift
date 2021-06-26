@@ -11,7 +11,6 @@
 
 import Cocoa
 import Kit
-import os.log
 
 class Dashboard: NSScrollView {
     private var uptimeField: NSTextField? = nil

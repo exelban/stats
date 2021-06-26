@@ -11,7 +11,6 @@
 
 import Cocoa
 import Kit
-import os.log
 
 internal class FansReader: Reader<[Fan]> {
     internal var list: [Fan] = []
@@ -22,7 +21,7 @@ internal class FansReader: Reader<[Fan]> {
         guard let count = SMC.shared.getValue("FNum") else {
             return
         }
-        os_log(.debug, log: self.log, "Found %.0f fans", count)
+        debug("Found \(Int(count)) fans", log: self.log)
         
         for i in 0..<Int(count) {
             self.list.append(Fan(

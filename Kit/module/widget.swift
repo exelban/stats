@@ -10,7 +10,6 @@
 //
 
 import Cocoa
-import os.log
 
 public enum widget_t: String {
     case unknown = ""
@@ -158,7 +157,9 @@ public class Widget {
     
     private var config: NSDictionary = NSDictionary()
     private var menuBarItem: NSStatusItem? = nil
-    private let log: OSLog
+    public var log: NextLog {
+        return NextLog.shared.copy(category: self.module)
+    }
     
     private var list: [widget_t] {
         get {
@@ -176,12 +177,13 @@ public class Widget {
         self.preview = preview
         self.item = item
         self.defaultWidget = defaultWidget
-        self.log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: self.module)
         
         self.item.widthHandler = { [weak self] value in
             if let s = self, let item = s.menuBarItem, item.length != value {
                 item.length = value
-                os_log(.debug, log: s.log, "widget %s change width to %.2f", "\(s.type)", value)
+                if let this = self {
+                    debug("widget \(s.type) change width to \(Double(value).rounded(toPlaces: 2))", log: this.log)
+                }
             }
         }
     }
@@ -206,7 +208,7 @@ public class Widget {
             self.menuBarItem?.button?.sendAction(on: [.leftMouseDown, .rightMouseDown])
         })
         
-        os_log(.debug, log: log, "widget %s enabled", self.type.rawValue)
+        debug("widget \(self.type.rawValue) enabled", log: self.log)
     }
     
     // remove item from the menu bar
@@ -215,7 +217,7 @@ public class Widget {
             NSStatusBar.system.removeStatusItem(item)
         }
         self.menuBarItem = nil
-        os_log(.debug, log: log, "widget %s disabled", self.type.rawValue)
+        debug("widget \(self.type.rawValue) disabled", log: self.log)
     }
     
     // toggle the widget

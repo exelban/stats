@@ -11,7 +11,6 @@
 
 import Cocoa
 import Kit
-import os.log
 
 public struct device {
     public let vendor: String?
@@ -37,13 +36,13 @@ internal class InfoReader: Reader<GPUs> {
         
         devices.forEach { (dict: NSDictionary) in
             guard let deviceID = dict["device-id"] as? Data, let vendorID = dict["vendor-id"] as? Data else {
-                os_log(.error, log: log, "device-id or vendor-id not found")
+                error("device-id or vendor-id not found", log: self.log)
                 return
             }
             let pci = "0x" + Data([deviceID[1], deviceID[0], vendorID[1], vendorID[0]]).map { String(format: "%02hhX", $0) }.joined().lowercased()
             
             guard let modelData = dict["model"] as? Data, let modelName = String(data: modelData, encoding: .ascii) else {
-                os_log(.error, log: log, "GPU model not found")
+                error("GPU model not found", log: self.log)
                 return
             }
             let model = modelName.replacingOccurrences(of: "\0", with: "")
@@ -71,12 +70,12 @@ internal class InfoReader: Reader<GPUs> {
         
         for (index, accelerator) in accelerators.enumerated() {
             guard let IOClass = accelerator.object(forKey: "IOClass") as? String else {
-                os_log(.error, log: log, "IOClass not found")
+                error("IOClass not found", log: self.log)
                 return
             }
             
             guard let stats = accelerator["PerformanceStatistics"] as? [String: Any] else {
-                os_log(.error, log: log, "PerformanceStatistics not found")
+                error("PerformanceStatistics not found", log: self.log)
                 return
             }
             

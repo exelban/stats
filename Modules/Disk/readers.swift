@@ -13,7 +13,6 @@ import Cocoa
 import Kit
 import IOKit
 import Darwin
-import os.log
 
 internal class CapacityReader: Reader<Disks> {
     internal var list: Disks = Disks()
@@ -24,7 +23,7 @@ internal class CapacityReader: Reader<Disks> {
         let paths = FileManager.default.mountedVolumeURLs(includingResourceValuesForKeys: keys)!
         
         guard let session = DASessionCreate(kCFAllocatorDefault) else {
-            os_log(.error, log: log, "cannot create a DASessionCreate()")
+            error("cannot create main DASessionCreate()", log: self.log)
             return
         }
         
@@ -82,8 +81,8 @@ internal class CapacityReader: Reader<Disks> {
                     return capacity
                 }
             }
-        } catch {
-            os_log(.error, log: log, "error retrieving free space #1: %s", "\(error.localizedDescription)")
+        } catch let err {
+            error("error retrieving free space #1: \(err.localizedDescription)", log: self.log)
         }
         
         do {
@@ -91,8 +90,8 @@ internal class CapacityReader: Reader<Disks> {
             if let freeSpace = (systemAttributes[FileAttributeKey.systemFreeSize] as? NSNumber)?.int64Value {
                 return freeSpace
             }
-        } catch {
-            os_log(.error, log: log, "error retrieving free space #2: %s", "\(error.localizedDescription)")
+        } catch let err {
+            error("error retrieving free space #2: \(err.localizedDescription)", log: self.log)
         }
         
         return 0
@@ -116,7 +115,7 @@ internal class ActivityReader: Reader<Disks> {
         let paths = FileManager.default.mountedVolumeURLs(includingResourceValuesForKeys: keys)!
         
         guard let session = DASessionCreate(kCFAllocatorDefault) else {
-            os_log(.error, log: log, "cannot create a DASessionCreate()")
+            error("cannot create a DASessionCreate()", log: self.log)
             return
         }
         

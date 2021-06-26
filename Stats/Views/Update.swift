@@ -11,7 +11,6 @@
 
 import Cocoa
 import Kit
-import os.log
 
 class UpdateWindow: NSWindow, NSWindowDelegate {
     private let viewController: UpdateViewController = UpdateViewController()

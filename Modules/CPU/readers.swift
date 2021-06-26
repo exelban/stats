@@ -11,7 +11,6 @@
 
 import Cocoa
 import Kit
-import os.log
 
 internal class LoadReader: Reader<CPU_Load> {
     private var cpuInfo: processor_info_array_t!
@@ -98,7 +97,7 @@ internal class LoadReader: Reader<CPU_Load> {
             self.cpuInfo = nil
             self.numCpuInfo = 0
         } else {
-            os_log(.error, log: log, "host_processor_info(): %s", "\((String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))")
+            error("host_processor_info(): \(String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error")", log: self.log)
         }
         
         let cpuInfo = hostCPULoadInfo()
@@ -143,7 +142,7 @@ internal class LoadReader: Reader<CPU_Load> {
             }
         }
         if result != KERN_SUCCESS {
-            os_log(.error, log: log, "kern_result_t: %s", "\(result)")
+            error("kern_result_t: \(result)", log: self.log)
             return nil
         }
         
@@ -186,8 +185,8 @@ public class ProcessReader: Reader<[TopProcess]> {
         
         do {
             try task.run()
-        } catch let error {
-            os_log(.error, log: log, "error read ps: %s", "\(error.localizedDescription)")
+        } catch let err {
+            error("error read ps: \(err.localizedDescription)", log: self.log)
             return
         }
         
@@ -286,33 +285,33 @@ public class FrequencyReader: Reader<Double> {
         
         self.bundle = CFBundleCreate(kCFAllocatorDefault, bundleURL)
         if self.bundle == nil {
-            os_log(.error, log: log, "IntelPowerGadget framework not found")
+            error("IntelPowerGadget framework not found", log: self.log)
             return
         }
         
         if !CFBundleLoadExecutable(self.bundle) {
-            os_log(.error, log: log, "failed to load IPG framework")
+            error("failed to load IPG framework", log: self.log)
             return
         }
         
         guard let PG_InitializePointer = CFBundleGetFunctionPointerForName(self.bundle, "PG_Initialize" as CFString) else {
-            os_log(.error, log: log, "failed to find PG_Initialize")
+            error("failed to find PG_Initialize", log: self.log)
             return
         }
         guard let PG_ShutdownPointer = CFBundleGetFunctionPointerForName(self.bundle, "PG_Shutdown" as CFString) else {
-            os_log(.error, log: log, "failed to find PG_Shutdown")
+            error("failed to find PG_Shutdown", log: self.log)
             return
         }
         guard let PG_ReadSamplePointer = CFBundleGetFunctionPointerForName(self.bundle, "PG_ReadSample" as CFString) else {
-            os_log(.error, log: log, "failed to find PG_ReadSample")
+            error("failed to find PG_ReadSample", log: self.log)
             return
         }
         guard let PGSample_GetIAFrequencyPointer = CFBundleGetFunctionPointerForName(self.bundle, "PGSample_GetIAFrequency" as CFString) else {
-            os_log(.error, log: log, "failed to find PGSample_GetIAFrequency")
+            error("failed to find PGSample_GetIAFrequency", log: self.log)
             return
         }
         guard let PGSample_ReleasePointer = CFBundleGetFunctionPointerForName(self.bundle, "PGSample_Release" as CFString) else {
-            os_log(.error, log: log, "failed to find PGSample_Release")
+            error("failed to find PGSample_Release", log: self.log)
             return
         }
         
@@ -324,7 +323,7 @@ public class FrequencyReader: Reader<Double> {
         
         if let initialize = self.PG_Initialize {
             if !initialize() {
-                os_log(.error, log: log, "IPG initialization failed")
+                error("IPG initialization failed", log: self.log)
                 return
             }
         }
@@ -339,7 +338,7 @@ public class FrequencyReader: Reader<Double> {
     public override func terminate() {
         if let shutdown = self.PG_Shutdown {
             if !shutdown() {
-                os_log(.error, log: log, "IPG shutdown failed")
+                error("IPG shutdown failed", log: self.log)
                 return
             }
         }
@@ -361,7 +360,7 @@ public class FrequencyReader: Reader<Double> {
         self.terminate()
         if let initialize = self.PG_Initialize {
             if !initialize() {
-                os_log(.error, log: log, "IPG initialization failed")
+                error("IPG initialization failed", log: self.log)
                 return
             }
         }
@@ -377,7 +376,7 @@ public class FrequencyReader: Reader<Double> {
         // first sample initlialization
         if self.sample == 0 {
             if !self.PG_ReadSample!(0, &self.sample) {
-                os_log(.error, log: log, "read self.sample failed")
+                error("read self.sample failed", log: self.log)
             }
             return
         }
@@ -386,7 +385,7 @@ public class FrequencyReader: Reader<Double> {
         
         if !self.PG_ReadSample!(0, &local) {
             self.reconnect()
-            os_log(.error, log: log, "read local sample failed")
+            error("read local sample failed", log: self.log)
             return
         }
         
@@ -396,13 +395,13 @@ public class FrequencyReader: Reader<Double> {
         
         defer {
             if !self.PGSample_Release!(self.sample) {
-                os_log(.error, log: log, "release self.sample failed")
+                error("release self.sample failed", log: self.log)
             }
             self.sample = local
         }
         
         if !self.PGSample_GetIAFrequency!(self.sample, local, &value, &min, &max) {
-            os_log(.error, log: log, "read frequency failed")
+            error("read frequency failed", log: self.log)
             return
         }
         

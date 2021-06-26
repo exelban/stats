@@ -13,7 +13,6 @@ import Cocoa
 import Kit
 import SystemConfiguration
 import Reachability
-import os.log
 import CoreWLAN
 
 struct ipResponse: Decodable {
@@ -54,8 +53,8 @@ internal class UsageReader: Reader<Network_Usage> {
         do {
             self.reachability = try Reachability()
             try self.reachability!.startNotifier()
-        } catch let error {
-            os_log(.error, log: log, "initialize Reachability error %s", "\(error)")
+        } catch let err {
+            error("initialize Reachability error \(err)", log: self.log)
         }
         
         self.reachability!.whenReachable = { _ in
@@ -145,8 +144,8 @@ internal class UsageReader: Reader<Network_Usage> {
         
         do {
             try task.run()
-        } catch let error {
-            os_log(.error, log: log, "read bandwidth from processes %s", "\(error)")
+        } catch let err {
+            error("read bandwidth from processes: \(err)", log: self.log)
             return (0, 0)
         }
         
@@ -241,8 +240,8 @@ internal class UsageReader: Reader<Network_Usage> {
                     self.usage.raddr.v4 = value
                 }
             }
-        } catch let error {
-            os_log(.error, log: log, "get public ipv4 %s", "\(error)")
+        } catch let err {
+            error("get public ipv4: \(err)", log: self.log)
         }
         
         do {
@@ -252,8 +251,8 @@ internal class UsageReader: Reader<Network_Usage> {
                     self.usage.raddr.v6 = value
                 }
             }
-        } catch let error {
-            os_log(.error, log: log, "get public ipv6 %s", "\(error)")
+        } catch let err {
+            error("get public ipv6: \(err)", log: self.log)
         }
     }
     

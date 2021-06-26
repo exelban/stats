@@ -8,6 +8,7 @@
 //
 //  Copyright © 2021 Serhiy Mytrovtsiy. All rights reserved.
 //
+// swiftlint:disable file_length
 
 import Foundation
 import IOKit

@@ -11,7 +11,6 @@
 
 import Cocoa
 import Kit
-import os.log
 
 internal class UsageReader: Reader<RAM_Usage> {
     public var totalSize: Double = 0
@@ -32,7 +31,7 @@ internal class UsageReader: Reader<RAM_Usage> {
         }
         
         self.totalSize = 0
-        os_log(.error, log: log, "host_info(): %s", "\((String(cString: mach_error_string(kerr), encoding: String.Encoding.ascii) ?? "unknown error"))")
+        error("host_info(): \(String(cString: mach_error_string(kerr), encoding: String.Encoding.ascii) ?? "unknown error")", log: self.log)
     }
     
     public override func read() {
@@ -90,7 +89,7 @@ internal class UsageReader: Reader<RAM_Usage> {
             return
         }
         
-        os_log(.error, log: log, "host_statistics64(): %s", "\((String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))")
+        error("host_statistics64(): \(String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error")", log: self.log)
     }
 }
 
@@ -129,8 +128,8 @@ public class ProcessReader: Reader<[TopProcess]> {
         
         do {
             try task.run()
-        } catch let error {
-            os_log(.error, log: log, "top(): %s", "\(error.localizedDescription)")
+        } catch let err {
+            error("top(): \(err.localizedDescription)", log: self.log)
             return
         }
         

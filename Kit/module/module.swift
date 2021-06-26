@@ -7,7 +7,6 @@
 //
 
 import Cocoa
-import os.log
 
 public protocol Module_p {
     var available: Bool { get }
@@ -78,20 +77,20 @@ open class Module: Module_p {
     private var popup: PopupWindow? = nil
     private var popupView: Popup_p? = nil
     
-    private let log: OSLog
+    private let log: NextLog
     private var readers: [Reader_p] = []
     
     public init(popup: Popup_p?, settings: Settings_v?) {
         self.config = module_c(in: Bundle(for: type(of: self)).path(forResource: "config", ofType: "plist")!)
         
-        self.log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: self.config.name)
+        self.log = NextLog.shared.copy(category: self.config.name)
         self.settingsView = settings
         self.popupView = popup
         self.available = self.isAvailable()
         self.enabled = Store.shared.bool(key: "\(self.config.name)_state", defaultValue: self.config.defaultState)
         
         if !self.available {
-            os_log(.debug, log: log, "Module is not available")
+            debug("Module is not available", log: self.log)
             
             if self.enabled {
                 self.enabled = false
@@ -110,7 +109,7 @@ open class Module: Module_p {
         if self.config.widgetsConfig.count != 0 {
             self.initWidgets()
         } else {
-            os_log(.debug, log: log, "Module started without widget")
+            debug("Module started without widget", log: self.log)
         }
         
         self.settings = Settings(config: &self.config, widgets: &self.widgets, enabled: self.enabled, moduleSettings: self.settingsView)
@@ -151,7 +150,7 @@ open class Module: Module_p {
             $0.terminate()
         }
         self.widgets.forEach{ $0.disable() }
-        os_log(.debug, log: log, "Module terminated")
+        debug("Module terminated", log: self.log)
     }
     
     // function to call before module terminate
@@ -168,7 +167,7 @@ open class Module: Module_p {
             reader.start()
         }
         self.widgets.forEach{ $0.enable() }
-        os_log(.debug, log: log, "Module enabled")
+        debug("Module enabled", log: self.log)
     }
     
     // set module state to disabled
@@ -180,7 +179,7 @@ open class Module: Module_p {
         self.readers.forEach{ $0.stop() }
         self.widgets.forEach{ $0.disable() }
         self.popup?.setIsVisible(false)
-        os_log(.debug, log: log, "Module disabled")
+        debug("Module disabled", log: self.log)
     }
     
     // toggle module state
@@ -195,13 +194,13 @@ open class Module: Module_p {
     // add reader to module. If module is enabled will fire a read function and start a reader
     public func addReader(_ reader: Reader_p) {
         self.readers.append(reader)
-        os_log(.debug, log: log, "Reader %s was added", "\(reader.self)")
+        debug("\(reader.self) was added", log: self.log)
     }
     
     // handler for reader, calls when main reader is ready, and return first value
     public func readyHandler() {
         self.widgets.forEach{ $0.enable() }
-        os_log(.debug, log: log, "Reader report readiness")
+        debug("Reader report readiness", log: self.log)
     }
     
     // replace a popup view
