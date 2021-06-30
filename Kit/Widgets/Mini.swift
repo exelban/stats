@@ -14,6 +14,7 @@ import Cocoa
 public class Mini: WidgetWrapper {
     private var labelState: Bool = true
     private var colorState: Color = .monochrome
+    private var alignmentState: String = "left"
     
     private var labelLayer: CATextLayer? = nil
     private var valueLayer: CATextLayer? = nil
@@ -29,6 +30,15 @@ public class Mini: WidgetWrapper {
     private var width: CGFloat {
         get {
             return (self.labelState ? 31 : 36) + (2*Constants.Widget.margin.x)
+        }
+    }
+    
+    private var alignment: NSTextAlignment {
+        get {
+            if let alignmentPair = Alignments.first(where: { $0.key == self.alignmentState }) {
+                return alignmentPair.additional as? NSTextAlignment ?? .left
+            }
+            return .left
         }
     }
     
@@ -76,6 +86,7 @@ public class Mini: WidgetWrapper {
         if !preview {
             self.colorState = Color.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_color", defaultValue: self.colorState.key))
             self.labelState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_label", defaultValue: self.labelState)
+            self.alignmentState = Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_alignment", defaultValue: self.alignmentState)
         }
     }
     
@@ -89,15 +100,18 @@ public class Mini: WidgetWrapper {
         let valueSize: CGFloat = self.labelState ? 12 : 14
         var origin: CGPoint = CGPoint(x: Constants.Widget.margin.x, y: (Constants.Widget.height-valueSize)/2)
         let style = NSMutableParagraphStyle()
-        style.alignment = self.labelState ? .left : .center
+        style.alignment = self.labelState ? self.alignment : .center
         
         if self.labelState {
+            let style = NSMutableParagraphStyle()
+            style.alignment = self.alignment
+            
             let stringAttributes = [
                 NSAttributedString.Key.font: NSFont.systemFont(ofSize: 7, weight: .light),
                 NSAttributedString.Key.foregroundColor: isDarkMode ? NSColor.white : NSColor.textColor,
-                NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
+                NSAttributedString.Key.paragraphStyle: style
             ]
-            let rect = CGRect(x: origin.x, y: 12, width: 20, height: 7)
+            let rect = CGRect(x: origin.x, y: 12, width: self.width - (Constants.Widget.margin.x*2), height: 7)
             let str = NSAttributedString.init(string: self.label, attributes: stringAttributes)
             str.draw(with: rect)
             
@@ -118,8 +132,8 @@ public class Mini: WidgetWrapper {
             NSAttributedString.Key.foregroundColor: color,
             NSAttributedString.Key.paragraphStyle: style
         ]
-        let rect = CGRect(x: origin.x, y: origin.y, width: width - (Constants.Widget.margin.x*2), height: valueSize+1)
-        let str = NSAttributedString.init(string: "\(Int(self.value.rounded(toPlaces: 2) * 100))%", attributes: stringAttributes)
+        let rect = CGRect(x: origin.x, y: origin.y, width: self.width - (Constants.Widget.margin.x*2), height: valueSize+1)
+        let str = NSAttributedString.init(string: "1%", attributes: stringAttributes)
         str.draw(with: rect)
         
         self.setWidth(width)
@@ -166,29 +180,29 @@ public class Mini: WidgetWrapper {
     // MARK: - Settings
     
     public override func settings(width: CGFloat) -> NSView {
-        let height: CGFloat = 60 + (Constants.Settings.margin*3)
-        let rowHeight: CGFloat = 30
+        let view = SettingsContainerView(width: width)
         
-        let view: NSView = NSView(frame: NSRect(
-            x: Constants.Settings.margin,
-            y: Constants.Settings.margin,
-            width: width - (Constants.Settings.margin*2),
-            height: height
-        ))
-        
-        view.addSubview(toggleTitleRow(
-            frame: NSRect(x: 0, y: rowHeight + Constants.Settings.margin, width: view.frame.width, height: rowHeight),
+        view.addArrangedSubview(toggleTitleRow(
+            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
             title: localizedString("Label"),
             action: #selector(toggleLabel),
             state: self.labelState
         ))
         
-        view.addSubview(selectRow(
-            frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 0, width: view.frame.width, height: rowHeight),
+        view.addArrangedSubview(selectRow(
+            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
             title: localizedString("Color"),
             action: #selector(toggleColor),
             items: self.colors,
             selected: self.colorState.key
+        ))
+        
+        view.addArrangedSubview(selectRow(
+            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
+            title: localizedString("Alignment"),
+            action: #selector(toggleAlignment),
+            items: Alignments,
+            selected: self.alignmentState
         ))
         
         return view
@@ -215,6 +229,19 @@ public class Mini: WidgetWrapper {
         }
         self.labelState = state! == .on ? true : false
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_label", value: self.labelState)
+        self.display()
+    }
+    
+    @objc private func toggleAlignment(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String else {
+            return
+        }
+        
+        if let newAlignment = Alignments.first(where: { $0.key == key }) {
+            self.alignmentState = newAlignment.key
+        }
+        
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_alignment", value: key)
         self.display()
     }
 }
