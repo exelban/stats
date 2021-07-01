@@ -81,7 +81,7 @@ open class Settings: NSView, Settings_p {
         titleView.canDrawSubviewsIntoLayer = true
         titleView.alignment = .natural
         titleView.font = NSFont.systemFont(ofSize: 18, weight: .light)
-        titleView.stringValue = self.config.pointee.name
+        titleView.stringValue = localizedString(self.config.pointee.name)
         
         var toggle: NSControl = NSControl()
         if #available(OSX 10.15, *) {

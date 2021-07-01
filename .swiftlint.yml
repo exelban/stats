@@ -28,6 +28,7 @@ identifier_name:
     - NumbersOfProcesses
     - NetworkReaders
     - SensorsList
+    - Alignments
 
 line_length: 200
 
