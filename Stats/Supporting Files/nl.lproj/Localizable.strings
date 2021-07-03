@@ -9,13 +9,30 @@
 //  Copyright © 2021 Serhiy Mytrovtsiy. All rights reserved.
 //
 
+// Modules
+"CPU" = "CPU";
+"Open CPU settings" = "Open CPU settings";
+"GPU" = "GPU";
+"Open GPU settings" = "Open GPU settings";
+"RAM" = "RAM";
+"Open RAM settings" = "Open RAM settings";
+"Disk" = "Disk";
+"Open Disk settings" = "Open disk settings";
+"Sensors" = "Sensors";
+"Open Sensors settings" = "Open sensors settings";
+"Fans" = "Fans";
+"Open Fans settings" = "Open fans settings";
+"Network" = "Network";
+"Open Network settings" = "Open network settings";
+"Battery" = "Battery";
+"Open Battery settings" = "Open battery settings";
+
 // Words
 "Unknown" = "Onbekend";
 "Version" = "Versie";
 "Processor" = "Processor";
 "Memory" = "Geheugen";
 "Graphics" = "Grafisch";
-"Disk" = "Disc";
 "Close" = "Sluiten";
 "Download" = "Download";
 "Install" = "Installeren";
@@ -35,6 +52,11 @@
 "Max" = "Maximaal";
 "Min" = "Min";
 "Reset" = "Reset";
+"Alignment" = "Alignment";
+"Left alignment" = "Left";
+"Center alignment" = "Center";
+"Right alignment" = "Right";
+"Dashboard" = "Dashboard";
 
 // Alerts
 "New version available" = "Nieuwe versie beschikbaar";
@@ -48,7 +70,7 @@
 "Support the application" = "Ondersteun de applicatie";
 "Close application" = "Applicatie sluiten";
 "Open application settings" = "Open de applicatie-instellingen";
-"Open moduleName settings" = "Open %0-instellingen";
+"Open dashboard" = "Open dashboard";
 
 // Application settings
 "Update application" = "Applicatie bijwerken";
@@ -167,7 +189,6 @@
 "Public IP" = "Openbaar IP-adres";
 "Local IP" = "Lokaal IP-adres";
 "Interface" = "Interface";
-"Network" = "Netwerk";
 "Physical address" = "Fysiek adres";
 "Refresh" = "Ververs";
 "Click to copy public IP address" = "Klik om openbaar IP-adres te kopiëren";
@@ -189,7 +210,6 @@
 "Battery Power" = "Batterijvermogen";
 "Time" = "Tijd";
 "Health" = "Gezondheid";
-"Battery" = "Batterij";
 "Amperage" = "Amperage";
 "Voltage" = "Voltage";
 "Cycles" = "Cycli";
@@ -214,9 +234,6 @@
 "Time format" = "Tijdnotatie";
 "Hide additional information when full" = "Verberg aanvullende informatie wanneer deze vol is";
 "Last charge" = "Sidste opladning";
-
-// Fans
-"Fans" = "Ventilators";
 
 // Colors
 "Based on utilization" = "Gebaseerd op gebruikt";

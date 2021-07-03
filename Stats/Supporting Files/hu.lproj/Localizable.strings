@@ -9,13 +9,30 @@
 //  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
 //
 
+// Modules
+"CPU" = "CPU";
+"Open CPU settings" = "Open CPU settings";
+"GPU" = "GPU";
+"Open GPU settings" = "Open GPU settings";
+"RAM" = "RAM";
+"Open RAM settings" = "Open RAM settings";
+"Disk" = "Disk";
+"Open Disk settings" = "Open disk settings";
+"Sensors" = "Sensors";
+"Open Sensors settings" = "Open sensors settings";
+"Fans" = "Fans";
+"Open Fans settings" = "Open fans settings";
+"Network" = "Network";
+"Open Network settings" = "Open network settings";
+"Battery" = "Battery";
+"Open Battery settings" = "Open battery settings";
+
 // Words
 "Unknown" = "Ismeretlen";
 "Version" = "Verzió";
 "Processor" = "Processzor";
 "Memory" = "Memória";
 "Graphics" = "Grafika";
-"Disk" = "Merevlemez";
 "Close" = "Bezár";
 "Download" = "Letöltés";
 "Install" = "Telepítés";
@@ -35,6 +52,11 @@
 "Max" = "Max";
 "Min" = "Min";
 "Reset" = "Reset";
+"Alignment" = "Alignment";
+"Left alignment" = "Left";
+"Center alignment" = "Center";
+"Right alignment" = "Right";
+"Dashboard" = "Dashboard";
 
 // Alerts
 "New version available" = "Új verzió érhető el";
@@ -48,7 +70,7 @@
 "Support the application" = "Support the application";
 "Close application" = "Alkalmazás bezárása";
 "Open application settings" = "Beállítások megnyitása";
-"Open moduleName settings" = "%0 megnyitása";
+"Open dashboard" = "Open dashboard";
 
 // Application settings
 "Update application" = "Alkalmazás frissítése";
@@ -167,7 +189,6 @@
 "Public IP" = "Publikus IP";
 "Local IP" = "Helyi IP";
 "Interface" = "Interfész";
-"Network" = "Hálózat";
 "Physical address" = "Fizikai cím";
 "Refresh" = "Refresh";
 "Click to copy public IP address" = "Kattints a publikus IP cím másolásához";
@@ -189,7 +210,6 @@
 "Battery Power" = "Battery Power";
 "Time" = "Időtartam";
 "Health" = "Állapot";
-"Battery" = "Akkumulátor";
 "Amperage" = "Áramerősség";
 "Voltage" = "Feszültség";
 "Cycles" = "Ciklusok";
@@ -214,9 +234,6 @@
 "Time format" = "Időformátum";
 "Hide additional information when full" = "További információk elrejtése, ha teljesen fel van töltve";
 "Last charge" = "Utolsó töltés";
-
-// Fans
-"Fans" = "Ventillátorok";
 
 // Colors
 "Based on utilization" = "Based on utilization";

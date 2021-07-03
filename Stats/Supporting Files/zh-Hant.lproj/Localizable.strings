@@ -9,13 +9,30 @@
 //  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
 //
 
+// Modules
+"CPU" = "CPU";
+"Open CPU settings" = "Open CPU settings";
+"GPU" = "GPU";
+"Open GPU settings" = "Open GPU settings";
+"RAM" = "RAM";
+"Open RAM settings" = "Open RAM settings";
+"Disk" = "Disk";
+"Open Disk settings" = "Open disk settings";
+"Sensors" = "Sensors";
+"Open Sensors settings" = "Open sensors settings";
+"Fans" = "Fans";
+"Open Fans settings" = "Open fans settings";
+"Network" = "Network";
+"Open Network settings" = "Open network settings";
+"Battery" = "Battery";
+"Open Battery settings" = "Open battery settings";
+
 // Words
 "Unknown" = "未知";
 "Version" = "版本";
 "Processor" = "處理器";
 "Memory" = "記憶體";
 "Graphics" = "顯示卡";
-"Disk" = "硬碟";
 "Close" = "關閉";
 "Download" = "下載";
 "Install" = "安裝";
@@ -35,6 +52,11 @@
 "Max" = "最大值";
 "Min" = "最小值";
 "Reset" = "重置";
+"Alignment" = "Alignment";
+"Left alignment" = "Left";
+"Center alignment" = "Center";
+"Right alignment" = "Right";
+"Dashboard" = "Dashboard";
 
 // Alerts
 "New version available" = "有新版本可用";
@@ -48,7 +70,7 @@
 "Support the application" = "贊助此應用程式";
 "Close application" = "關閉應用程式";
 "Open application settings" = "打開應用程式設定";
-"Open moduleName settings" = "打開 %0 設定";
+"Open dashboard" = "Open dashboard";
 
 // Application settings
 "Update application" = "更新應用程式";
@@ -167,7 +189,6 @@
 "Public IP" = "公開 IP";
 "Local IP" = "區域 IP";
 "Interface" = "介面";
-"Network" = "網路";
 "Physical address" = "實體位址";
 "Refresh" = "重新整理";
 "Click to copy public IP address" = "點按來拷貝公開 IP 位址";
@@ -189,7 +210,6 @@
 "Battery Power" = "電池";
 "Time" = "時間";
 "Health" = "健康度";
-"Battery" = "電池";
 "Amperage" = "電流";
 "Voltage" = "電壓";
 "Cycles" = "循環使用次數";
@@ -214,9 +234,6 @@
 "Time format" = "時間格式";
 "Hide additional information when full" = "電池充飽後隱藏其他資訊";
 "Last charge" = "最近一次充電";
-
-// Fans
-"Fans" = "風扇";
 
 // Colors
 "Based on utilization" = "根據使用率";

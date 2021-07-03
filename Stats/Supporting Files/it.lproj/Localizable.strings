@@ -9,13 +9,30 @@
 //  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
 //
 
+// Modules
+"CPU" = "CPU";
+"Open CPU settings" = "Open CPU settings";
+"GPU" = "GPU";
+"Open GPU settings" = "Open GPU settings";
+"RAM" = "RAM";
+"Open RAM settings" = "Open RAM settings";
+"Disk" = "Disk";
+"Open Disk settings" = "Open disk settings";
+"Sensors" = "Sensors";
+"Open Sensors settings" = "Open sensors settings";
+"Fans" = "Fans";
+"Open Fans settings" = "Open fans settings";
+"Network" = "Network";
+"Open Network settings" = "Open network settings";
+"Battery" = "Battery";
+"Open Battery settings" = "Open battery settings";
+
 // Words
 "Unknown" = "Sconosciuto";
 "Version" = "Versione";
 "Processor" = "Processore";
 "Memory" = "Memoria";
 "Graphics" = "Grafica";
-"Disk" = "Disco";
 "Close" = "Chiudi";
 "Download" = "Scarica";
 "Install" = "Installa";
@@ -35,6 +52,11 @@
 "Max" = "Max";
 "Min" = "Min";
 "Reset" = "Reset";
+"Alignment" = "Alignment";
+"Left alignment" = "Left";
+"Center alignment" = "Center";
+"Right alignment" = "Right";
+"Dashboard" = "Dashboard";
 
 // Alerts
 "New version available" = "Nuova versione disponibile";
@@ -48,7 +70,7 @@
 "Support the application" = "Supporta l'applicazione";
 "Close application" = "Chiudi applicazione";
 "Open application settings" = "Apri le impostazioni dell'applicazione";
-"Open moduleName settings" = "Apri le impostazioni del modulo %0";
+"Open dashboard" = "Open dashboard";
 
 // Application settings
 "Update application" = "Aggiorna applicazione";
@@ -167,7 +189,6 @@
 "Public IP" = "IP Pubblico";
 "Local IP" = "IP Locale";
 "Interface" = "Interfaccia";
-"Network" = "Rete";
 "Physical address" = "Indirizzo fisico";
 "Refresh" = "Refresh";
 "Click to copy public IP address" = "Clicca per copiare l'IP pubblico";
@@ -189,7 +210,6 @@
 "Battery Power" = "Battery Power";
 "Time" = "Tempo";
 "Health" = "Vita";
-"Battery" = "Batteria";
 "Amperage" = "Amperaggio";
 "Voltage" = "Voltaggio";
 "Cycles" = "Numero di cicli";
@@ -214,9 +234,6 @@
 "Time format" = "Formato del tempo";
 "Hide additional information when full" = "Nascondi informazioni addizionali quando piena";
 "Last charge" = "Ultima carica";
-
-// Fans
-"Fans" = "Fans";
 
 // Colors
 "Based on utilization" = "Based on utilization";

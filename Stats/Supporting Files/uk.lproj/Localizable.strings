@@ -9,13 +9,30 @@
 //  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
 //
 
+// Modules
+"CPU" = "CPU";
+"Open CPU settings" = "Open CPU settings";
+"GPU" = "GPU";
+"Open GPU settings" = "Open GPU settings";
+"RAM" = "RAM";
+"Open RAM settings" = "Open RAM settings";
+"Disk" = "Disk";
+"Open Disk settings" = "Open disk settings";
+"Sensors" = "Sensors";
+"Open Sensors settings" = "Open sensors settings";
+"Fans" = "Fans";
+"Open Fans settings" = "Open fans settings";
+"Network" = "Network";
+"Open Network settings" = "Open network settings";
+"Battery" = "Battery";
+"Open Battery settings" = "Open battery settings";
+
 // Words
 "Unknown" = "Невідомо";
 "Version" = "Версія";
 "Processor" = "Процесор";
 "Memory" = "Память";
 "Graphics" = "Графіка";
-"Disk" = "Диск";
 "Close" = "Закрити";
 "Download" = "Завантажити";
 "Install" = "Встановити";
@@ -35,6 +52,11 @@
 "Max" = "Max";
 "Min" = "Min";
 "Reset" = "Скинути";
+"Alignment" = "Alignment";
+"Left alignment" = "Left";
+"Center alignment" = "Center";
+"Right alignment" = "Right";
+"Dashboard" = "Dashboard";
 
 // Alerts
 "New version available" = "Доступна нова версія";
@@ -48,7 +70,7 @@
 "Support the application" = "Підтримати програму";
 "Close application" = "Закрити програму";
 "Open application settings" = "Відкрити налаштування";
-"Open moduleName settings" = "Відкрити налаштування %0";
+"Open dashboard" = "Open dashboard";
 
 // Application settings
 "Update application" = "Оновити програму";
@@ -167,7 +189,6 @@
 "Public IP" = "Публічний IP";
 "Local IP" = "Локальний IP";
 "Interface" = "Інтерфейс";
-"Network" = "Мережа";
 "Physical address" = "Фізичний адрес";
 "Refresh" = "Refresh";
 "Click to copy public IP address" = "Натисніть, щоб скопіювати публічний IP";
@@ -189,7 +210,6 @@
 "Battery Power" = "Battery Power";
 "Time" = "Час";
 "Health" = "Стан акумулятора";
-"Battery" = "Акумулятор";
 "Amperage" = "Сила струму";
 "Voltage" = "Напруга";
 "Cycles" = "Кількість циклів";
@@ -214,9 +234,6 @@
 "Time format" = "Формат часу";
 "Hide additional information when full" = "Приховати додаткову інформацію, якщо акумулятор заряджений";
 "Last charge" = "Остання зарядка";
-
-// Fans
-"Fans" = "Fans";
 
 // Colors
 "Based on utilization" = "Based on utilization";

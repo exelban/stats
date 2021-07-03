@@ -9,13 +9,30 @@
 //  Copyright © 2020 treastrain / Tanaka Ryoga. All rights reserved.
 //
 
+// Modules
+"CPU" = "CPU";
+"Open CPU settings" = "Open CPU settings";
+"GPU" = "GPU";
+"Open GPU settings" = "Open GPU settings";
+"RAM" = "RAM";
+"Open RAM settings" = "Open RAM settings";
+"Disk" = "Disk";
+"Open Disk settings" = "Open disk settings";
+"Sensors" = "Sensors";
+"Open Sensors settings" = "Open sensors settings";
+"Fans" = "Fans";
+"Open Fans settings" = "Open fans settings";
+"Network" = "Network";
+"Open Network settings" = "Open network settings";
+"Battery" = "Battery";
+"Open Battery settings" = "Open battery settings";
+
 // Words
 "Unknown" = "不明";
 "Version" = "バージョン";
 "Processor" = "プロセッサ";
 "Memory" = "メモリ";
 "Graphics" = "グラフィックス";
-"Disk" = "ディスク";
 "Close" = "閉じる";
 "Download" = "ダウンロード";
 "Install" = "インストール";
@@ -35,6 +52,11 @@
 "Max" = "Max";
 "Min" = "Min";
 "Reset" = "Reset";
+"Alignment" = "Alignment";
+"Left alignment" = "Left";
+"Center alignment" = "Center";
+"Right alignment" = "Right";
+"Dashboard" = "Dashboard";
 
 // Alerts
 "New version available" = "新しいバージョンが利用可能です";
@@ -48,7 +70,7 @@
 "Support the application" = "Stats をサポート";
 "Close application" = "Stats を終了";
 "Open application settings" = "Stats の設定を開く";
-"Open moduleName settings" = "%0 の設定を開く";
+"Open dashboard" = "Open dashboard";
 
 // Application settings
 "Update application" = "アプリをアップデートする";
@@ -167,7 +189,6 @@
 "Public IP" = "パブリック IP";
 "Local IP" = "ローカル IP";
 "Interface" = "インターフェイス";
-"Network" = "Wi-Fi ネットワーク名";
 "Physical address" = "MAC アドレス";
 "Refresh" = "Refresh";
 "Click to copy public IP address" = "クリックしてパブリック IP アドレスをコピー";
@@ -189,7 +210,6 @@
 "Battery Power" = "バッテリー";
 "Time" = "バッテリー残り時間";
 "Health" = "状態";
-"Battery" = "バッテリー";
 "Amperage" = "電流";
 "Voltage" = "電圧";
 "Cycles" = "サイクル数";
@@ -214,9 +234,6 @@
 "Time format" = "時間の表示形式";
 "Hide additional information when full" = "フル充電済みのときはアイコンのみ表示";
 "Last charge" = "ラストチャージ";
-
-// Fans
-"Fans" = "ファン";
 
 // Colors
 "Based on utilization" = "Based on utilization";

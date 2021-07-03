@@ -9,13 +9,30 @@
 //  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
 //
 
+// Modules
+"CPU" = "CPU";
+"Open CPU settings" = "Open CPU settings";
+"GPU" = "GPU";
+"Open GPU settings" = "Open GPU settings";
+"RAM" = "RAM";
+"Open RAM settings" = "Open RAM settings";
+"Disk" = "Disk";
+"Open Disk settings" = "Open disk settings";
+"Sensors" = "Sensors";
+"Open Sensors settings" = "Open sensors settings";
+"Fans" = "Fans";
+"Open Fans settings" = "Open fans settings";
+"Network" = "Network";
+"Open Network settings" = "Open network settings";
+"Battery" = "Battery";
+"Open Battery settings" = "Open battery settings";
+
 // Words
 "Unknown" = "Bilinmeyen";
 "Version" = "Sürüm";
 "Processor" = "İşlemci";
 "Memory" = "Ram";
 "Graphics" = "Grafik";
-"Disk" = "Disk";
 "Close" = "Kapat";
 "Download" = "İndir";
 "Install" = "Yükle";
@@ -35,6 +52,11 @@
 "Max" = "Max";
 "Min" = "Min";
 "Reset" = "Reset";
+"Alignment" = "Alignment";
+"Left alignment" = "Left";
+"Center alignment" = "Center";
+"Right alignment" = "Right";
+"Dashboard" = "Dashboard";
 
 // Alerts
 "New version available" = "Yeni versiyon indirilebilir";
@@ -48,7 +70,7 @@
 "Support the application" = "Uygulamayı destekleyin";
 "Close application" = "Uygulamayı kapat";
 "Open application settings" = "Uygulama ayarlarını aç";
-"Open moduleName settings" = "%0 ayarlarını aç";
+"Open dashboard" = "Open dashboard";
 
 // Application settings
 "Update application" = "Uygulamayı güncelle";
@@ -167,7 +189,6 @@
 "Public IP" = "Genel IP";
 "Local IP" = "Yerel IP";
 "Interface" = "Arayüz";
-"Network" = "Ağ";
 "Physical address" = "Fiziksel adres";
 "Refresh" = "Refresh";
 "Click to copy public IP address" = "Genel IP adresini kopyalamak için tıklayın";
@@ -189,7 +210,6 @@
 "Battery Power" = "Batarya gücü";
 "Time" = "Süre";
 "Health" = "Sağlık";
-"Battery" = "Batarya";
 "Amperage" = "Amper";
 "Voltage" = "Voltaj";
 "Cycles" = "Döngü sayısı";
@@ -214,9 +234,6 @@
 "Time format" = "Zaman formatı";
 "Hide additional information when full" = "Pil dolduğunda ek bilgileri gizle";
 "Last charge" = "Son ödeme";
-
-// Fans
-"Fans" = "Fanlar";
 
 // Colors
 "Based on utilization" = "Based on utilization";

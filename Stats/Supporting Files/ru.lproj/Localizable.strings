@@ -9,13 +9,30 @@
 //  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
 //
 
+// Modules
+"CPU" = "CPU";
+"Open CPU settings" = "Open CPU settings";
+"GPU" = "GPU";
+"Open GPU settings" = "Open GPU settings";
+"RAM" = "RAM";
+"Open RAM settings" = "Open RAM settings";
+"Disk" = "Disk";
+"Open Disk settings" = "Open disk settings";
+"Sensors" = "Sensors";
+"Open Sensors settings" = "Open sensors settings";
+"Fans" = "Fans";
+"Open Fans settings" = "Open fans settings";
+"Network" = "Network";
+"Open Network settings" = "Open network settings";
+"Battery" = "Battery";
+"Open Battery settings" = "Open battery settings";
+
 // Words
 "Unknown" = "Неизвестно";
 "Version" = "Версия";
 "Processor" = "Процессор";
 "Memory" = "Память";
 "Graphics" = "Графика";
-"Disk" = "Диск";
 "Close" = "Закрыть";
 "Download" = "Скачать";
 "Install" = "Установить";
@@ -35,6 +52,11 @@
 "Max" = "Max";
 "Min" = "Min";
 "Reset" = "Сбросить";
+"Alignment" = "Alignment";
+"Left alignment" = "Left";
+"Center alignment" = "Center";
+"Right alignment" = "Right";
+"Dashboard" = "Dashboard";
 
 // Alerts
 "New version available" = "Доступна новая версия";
@@ -48,7 +70,7 @@
 "Support the application" = "Поддержите приложение";
 "Close application" = "Закрыть приложение";
 "Open application settings" = "Открыть настройки приложения";
-"Open moduleName settings" = "Откройте настройки %0";
+"Open dashboard" = "Open dashboard";
 
 // Application settings
 "Update application" = "Обновить приложение";
@@ -167,7 +189,6 @@
 "Public IP" = "Публичный IP";
 "Local IP" = "Локальный IP";
 "Interface" = "Интерфейс";
-"Network" = "Сеть";
 "Physical address" = "Физический адрес";
 "Refresh" = "Refresh";
 "Click to copy public IP address" = "Нажмите, чтобы скопировать публичный IP";
@@ -189,7 +210,6 @@
 "Battery Power" = "Battery Power";
 "Time" = "Время";
 "Health" = "Состояние аккумулятора";
-"Battery" = "Аккумулятор";
 "Amperage" = "Сила тока";
 "Voltage" = "Напряжение";
 "Cycles" = "Количество циклов";
@@ -214,9 +234,6 @@
 "Time format" = "Формат времени";
 "Hide additional information when full" = "Скрыть дополнительную информацию при полном заряде";
 "Last charge" = "Последняя зарядка";
-
-// Fans
-"Fans" = "Fans";
 
 // Colors
 "Based on utilization" = "Based on utilization";
