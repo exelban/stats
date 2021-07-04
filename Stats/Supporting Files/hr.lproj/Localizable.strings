@@ -9,13 +9,30 @@
 //  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
 //
 
+// Modules
+"CPU" = "CPU";
+"Open CPU settings" = "Otvori postavke procesora";
+"GPU" = "GPU";
+"Open GPU settings" = "Otvori postavke grafičkog procesora";
+"RAM" = "RAM";
+"Open RAM settings" = "Otvori postavke radne memorije";
+"Disk" = "Disk";
+"Open Disk settings" = "Otvori postavke diska";
+"Sensors" = "Senzori";
+"Open Sensors settings" = "Otvori postavke senzora";
+"Fans" = "Ventilatori";
+"Open Fans settings" = "Otvori postavke ventilatora";
+"Network" = "Mreža";
+"Open Network settings" = "Otvori postavke mreže";
+"Battery" = "Baterija";
+"Open Battery settings" = "Otvori postavke baterije";
+
 // Words
 "Unknown" = "Nepoznato";
 "Version" = "Verzija";
 "Processor" = "Procesor";
 "Memory" = "Memorija";
 "Graphics" = "Slike";
-"Disk" = "Disk";
 "Close" = "Zatvori";
 "Download" = "Preuzmi";
 "Install" = "Instaliraj";
@@ -35,6 +52,11 @@
 "Max" = "Maks.";
 "Min" = "Min.";
 "Reset" = "Obnovi";
+"Alignment" = "Poravnanje";
+"Left alignment" = "Lijevo";
+"Center alignment" = "Centrirano";
+"Right alignment" = "Desno";
+"Dashboard" = "Dashboard";
 
 // Alerts
 "New version available" = "Postoji nova verzija";
@@ -48,7 +70,7 @@
 "Support the application" = "Podrži program";
 "Close application" = "Zatvori program";
 "Open application settings" = "Otvori postavke programa";
-"Open moduleName settings" = "Otvori postavke od %0";
+"Open dashboard" = "Otvori Dashboard";
 
 // Application settings
 "Update application" = "Aktualiziraj program";
@@ -118,7 +140,7 @@
 "User" = "Korisnik";
 "Idle" = "Bez aktivnosti";
 "Show usage per core" = "Prikaži korištenje procesora pojedinačno";
-"Show hyper-threading cores" = "Prikaži korištenje hyper-threading procesora";
+"Show hyper-threading cores" = "Prikaži hyper-threading procesore";
 
 // GPU
 "GPU to show" = "Grafički procesor za prikaz";
@@ -126,7 +148,7 @@
 "GPU enabled" = "Grafički procesor je aktiviran";
 "GPU disabled" = "Grafički procesor je deaktiviran";
 "GPU temperature" = "Temperatura grafičkog procesora";
-"GPU utilization" = "Iskorištavanje grafičkog procesora";
+"GPU utilization" = "Korištenje grafičkog procesora";
 "Vendor" = "Proizvođač";
 "Model" = "Model";
 "Status" = "Stanje";
@@ -135,7 +157,7 @@
 "Fan speed" = "Brzina ventilatora";
 "Core clock" = "Frekvencija procesora";
 "Memory clock" = "Frekvencija memorije";
-"Utilization" = "Iskorištavanje";
+"Utilization" = "Korištenje";
 
 // Memory
 "Memory usage" = "Korištenje memorije";
@@ -167,7 +189,6 @@
 "Public IP" = "Javni IP";
 "Local IP" = "Lokalni IP";
 "Interface" = "Sučelje";
-"Network" = "Mreža";
 "Physical address" = "Fizička adresa";
 "Refresh" = "Osvježi";
 "Click to copy public IP address" = "Pritisni za kopiranje javne IP adrese";
@@ -189,7 +210,6 @@
 "Battery Power" = "Baterija";
 "Time" = "Vrijeme";
 "Health" = "Stanje";
-"Battery" = "Baterija";
 "Amperage" = "Jakost";
 "Voltage" = "Napon";
 "Cycles" = "Broj ciklusa";
@@ -200,8 +220,8 @@
 "Time to discharge" = "Vrijeme do pražnjenja";
 "Time to charge" = "Vrijeme do napunjenosti";
 "Calculating" = "Izračunava se";
-"Fully charged" = "Napunjeno";
-"Not connected" = "Nije priključeno";
+"Fully charged" = "Napunjena";
+"Not connected" = "Nije priključena";
 "Low level notification" = "Obavijest za slabu bateriju";
 "High level notification" = "Obavijest za napunjenu bateriju";
 "Low battery" = "Slaba baterija";
@@ -212,14 +232,11 @@
 "Percentage and time" = "Postotak i vrijeme";
 "Time and percentage" = "Vrijeme i postotak";
 "Time format" = "Format vremena";
-"Hide additional information when full" = "Sakrij dodatne podatke kad je napunjeno";
+"Hide additional information when full" = "Sakrij dodatne podatke kad je napunjena";
 "Last charge" = "Zadnje punjenje";
 
-// Fans
-"Fans" = "Ventilatori";
-
 // Colors
-"Based on utilization" = "Na osnovi iskorištavanja";
+"Based on utilization" = "Na osnovi korištenja";
 "Based on pressure" = "Na osnovi opterećenja";
 "System accent" = "Boje sustava";
 "Monochrome accent" = "Jednobojno";
