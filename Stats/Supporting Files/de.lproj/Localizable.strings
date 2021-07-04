@@ -9,13 +9,30 @@
 //  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
 //
 
+// Modules
+"CPU" = "CPU";
+"Open CPU settings" = "CPU Einstellungen öffnen";
+"GPU" = "GPU";
+"Open GPU settings" = "GPU Einstellungen öffnen";
+"RAM" = "RAM";
+"Open RAM settings" = "RAM Einstellungen öffnen";
+"Disk" = "Festplatte";
+"Open Disk settings" = "Festplatten Einstellungen öffnen";
+"Sensors" = "Sensors";
+"Open Sensors settings" = "Sensoren Einstellungen öffnen";
+"Fans" = "Fans";
+"Open Fans settings" = "Lüfter Einstellungen öffnen";
+"Network" = "Network";
+"Open Network settings" = "Netzwerk Einstellungen öffnen";
+"Battery" = "Battery";
+"Open Battery settings" = "Akku Einstellungen öffnen";
+
 // Words
 "Unknown" = "Unbekannt";
 "Version" = "Version";
 "Processor" = "Prozessor";
 "Memory" = "Speicher";
 "Graphics" = "Grafikkarten";
-"Disk" = "Festplatte";
 "Close" = "Schließen";
 "Download" = "Herunterladen";
 "Install" = "Installieren";
@@ -35,6 +52,11 @@
 "Max" = "Max";
 "Min" = "Min";
 "Reset" = "Zurücksetzen";
+"Alignment" = "Aurichtung";
+"Left alignment" = "Links";
+"Center alignment" = "Mitte";
+"Right alignment" = "Rechts";
+"Dashboard" = "Dashboard";
 
 // Alerts
 "New version available" = "Neue Version verfügbar";
@@ -48,7 +70,7 @@
 "Support the application" = "Unterstützen Sie die Anwendung";
 "Close application" = "Anwendung schließen";
 "Open application settings" = "Einstellungen öffnen";
-"Open moduleName settings" = "%0 Einstellungen öffnen";
+"Open dashboard" = "Dashboard öffnen";
 
 // Application settings
 "Update application" = "Anwendung aktualisieren";
@@ -95,7 +117,7 @@
 "Battery widget" = "Akku";
 "Text widget" = "Text";
 "Memory widget" = "Speicher";
-"Static width" = "Static width";
+"Static width" = "Statische Breite";
 
 // Module Kit
 "Open module settings" = "Modul Einstellungen öffnen";
@@ -167,7 +189,6 @@
 "Public IP" = "Öffentliche IP";
 "Local IP" = "Lokale IP";
 "Interface" = "Schnittstelle";
-"Network" = "Netzwerk";
 "Physical address" = "Physische Adresse";
 "Refresh" = "Aktualisieren";
 "Click to copy public IP address" = "Klicken Sie zum Kopieren der öffentlichen IP-Adresse";
@@ -189,7 +210,6 @@
 "Battery Power" = "Akkubetrieb";
 "Time" = "Zeit";
 "Health" = "Gesundheit";
-"Battery" = "Akku";
 "Amperage" = "Stromstärke";
 "Voltage" = "Spannung";
 "Cycles" = "Ladezyklen";
@@ -214,9 +234,6 @@
 "Time format" = "Zeitformat";
 "Hide additional information when full" = "Zusätzliche Informationen bei vollständiger Ladung verbergen";
 "Last charge" = "Letzte Ladung";
-
-// Fans
-"Fans" = "Lüfter";
 
 // Colors
 "Based on utilization" = "Basierend auf Auslastung";
