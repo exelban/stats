@@ -157,9 +157,9 @@ public class ProcessReader: Reader<[TopProcess]> {
                 
                 let pid = Int(pidString.filter("01234567890.".contains)) ?? 0
                 var usage = Double(usageString.filter("01234567890.".contains)) ?? 0
-                if usageString.contains("G") {
+                if usageString.contains("G") && usageString.first != "G" {
                     usage *= 1024 // apply gigabyte multiplier
-                } else if usageString.contains("K") {
+                } else if usageString.contains("K") && usageString.first != "K" {
                     usage /= 1024 // apply kilobyte divider
                 }
                 
