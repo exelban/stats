@@ -17,7 +17,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleVersion</key>
-	<string>286</string>
+	<string>287</string>
 	<key>Description</key>
 	<string>Simple macOS system monitor in your menu bar</string>
 	<key>LSApplicationCategoryType</key>
@@ -26,6 +26,11 @@
 	<string>$(MACOSX_DEPLOYMENT_TARGET)</string>
 	<key>LSUIElement</key>
 	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
