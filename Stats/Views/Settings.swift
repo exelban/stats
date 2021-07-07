@@ -32,7 +32,9 @@ class SettingsWindow: NSWindow, NSWindowDelegate {
         self.animationBehavior = .default
         self.collectionBehavior = .moveToActiveSpace
         self.titlebarAppearsTransparent = true
-        self.appearance = NSAppearance(named: .darkAqua)
+        if #available(OSX 10.14, *) {
+            self.appearance = NSAppearance(named: .darkAqua)
+        }
         self.center()
         self.setIsVisible(false)
         
@@ -235,7 +237,9 @@ private class SettingsView: NSView {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.imageScaling = .scaleNone
         button.image = Bundle(for: type(of: self)).image(forResource: image)!
-        button.contentTintColor = .lightGray
+        if #available(OSX 10.14, *) {
+            button.contentTintColor = .lightGray
+        }
         button.isBordered = false
         button.action = action
         button.target = self

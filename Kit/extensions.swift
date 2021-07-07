@@ -102,7 +102,7 @@ public extension Int {
         case 3:
             return NSColor.systemRed
         default:
-            return NSColor.controlAccentColor
+            return controlAccentColor
         }
     }
 }

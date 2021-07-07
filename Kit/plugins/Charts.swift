@@ -36,7 +36,7 @@ public class LineChartView: NSView {
     public var points: [Double]
     public var transparent: Bool = true
     
-    public var color: NSColor = NSColor.controlAccentColor
+    public var color: NSColor = controlAccentColor
     
     public init(frame: NSRect, num: Int) {
         self.points = Array(repeating: 0, count: num)

@@ -157,6 +157,16 @@ extension Color: CaseIterable {
     }
 }
 
+public var controlAccentColor: NSColor {
+    get {
+        if #available(OSX 10.14, *) {
+            return NSColor.controlAccentColor
+        } else {
+            return NSColor.systemBlue
+        }
+    }
+}
+
 public typealias colorZones = (orange: Double, red: Double)
 
 public extension Notification.Name {

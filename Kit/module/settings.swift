@@ -371,7 +371,9 @@ internal class WidgetPreview: NSStackView {
             button.image = image
         }
         button.imageScaling = .scaleProportionallyDown
-        button.contentTintColor = .lightGray
+        if #available(OSX 10.14, *) {
+            button.contentTintColor = .lightGray
+        }
         button.isBordered = false
         button.action = #selector(self.toggleSettings)
         button.target = self
