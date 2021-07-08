@@ -18,6 +18,7 @@ import Battery
 import Sensors
 import GPU
 import Fans
+import Bluetooth
 
 let updater = macAppUpdater(user: "exelban", repo: "stats")
 var modules: [Module] = [
@@ -28,7 +29,8 @@ var modules: [Module] = [
     Sensors(),
     Fans(),
     Network(),
-    Battery()
+    Battery(),
+    Bluetooth()
 ]
 
 class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDelegate {
