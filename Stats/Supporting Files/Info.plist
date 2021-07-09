@@ -37,5 +37,7 @@
 	<string>NSApplication</string>
 	<key>NSUserNotificationAlertStyle</key>
 	<string>alert</string>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>This permission allows obtaining battery level of Bluetooth devices</string>
 </dict>
 </plist>

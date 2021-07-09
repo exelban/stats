@@ -342,14 +342,12 @@ public class BatterykWidget: WidgetWrapper {
             selected: self.additional
         ))
         
-        if self.title != "Bluetooth" {
-            view.addArrangedSubview(toggleTitleRow(
-                frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
-                title: localizedString("Hide additional information when full"),
-                action: #selector(toggleHideAdditionalWhenFull),
-                state: self.hideAdditionalWhenFull
-            ))
-        }
+        view.addArrangedSubview(toggleTitleRow(
+            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
+            title: localizedString("Hide additional information when full"),
+            action: #selector(toggleHideAdditionalWhenFull),
+            state: self.hideAdditionalWhenFull
+        ))
         
         view.addArrangedSubview(toggleTitleRow(
             frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
