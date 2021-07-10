@@ -444,6 +444,7 @@
 		9ABFF904248BEC0B00C9041A /* config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = config.plist; sourceTree = "<group>"; };
 		9ABFF90F248BEE7200C9041A /* readers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = readers.swift; sourceTree = "<group>"; };
 		9ABFF913248C30A800C9041A /* popup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = popup.swift; sourceTree = "<group>"; };
+		9AC2FE652699E69F00EBE30A /* hr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hr; path = hr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9AD33AC524BCD3EE007E8820 /* helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = helpers.swift; sourceTree = "<group>"; };
 		9AD64FA124BF86C100419D59 /* settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = settings.swift; sourceTree = "<group>"; };
 		9ADE6FD8265D032100D2FBA8 /* smc */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = smc; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1335,6 +1336,7 @@
 				ro,
 				bg,
 				nl,
+				hr,
 			);
 			mainGroup = 9A1410EC229E721100D29793;
 			packageReferences = (
@@ -1779,6 +1781,7 @@
 				9733417025C7340700BD4D9C /* ro */,
 				9A00010025CFF9D6001D02B9 /* bg */,
 				9A49EC7B261CDF3E0055267E /* nl */,
+				9AC2FE652699E69F00EBE30A /* hr */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

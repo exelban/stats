@@ -26,6 +26,8 @@
 "Open Network settings" = "Otvori postavke mreže";
 "Battery" = "Baterija";
 "Open Battery settings" = "Otvori postavke baterije";
+"Bluetooth" = "Bluetooth";
+"Open Bluetooth settings" = "Open bluetooth settings";
 
 // Words
 "Unknown" = "Nepoznato";
@@ -234,6 +236,9 @@
 "Time format" = "Format vremena";
 "Hide additional information when full" = "Sakrij dodatne podatke kad je napunjena";
 "Last charge" = "Zadnje punjenje";
+
+// Bluetooth
+"Battery to show" = "Battery to show";
 
 // Colors
 "Based on utilization" = "Na osnovi korištenja";
