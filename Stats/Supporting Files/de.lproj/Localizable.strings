@@ -11,21 +11,21 @@
 
 // Modules
 "CPU" = "CPU";
-"Open CPU settings" = "Open CPU settings";
+"Open CPU settings" = "CPU Einstellungen öffnen";
 "GPU" = "GPU";
-"Open GPU settings" = "Open GPU settings";
+"Open GPU settings" = "GPU Einstellungen öffnen";
 "RAM" = "RAM";
-"Open RAM settings" = "Open RAM settings";
-"Disk" = "Disk";
-"Open Disk settings" = "Open disk settings";
+"Open RAM settings" = "RAM Einstellungen öffnen";
+"Disk" = "Festplatte";
+"Open Disk settings" = "Festplatten Einstellungen öffnen";
 "Sensors" = "Sensors";
-"Open Sensors settings" = "Open sensors settings";
+"Open Sensors settings" = "Sensoren Einstellungen öffnen";
 "Fans" = "Fans";
-"Open Fans settings" = "Open fans settings";
+"Open Fans settings" = "Lüfter Einstellungen öffnen";
 "Network" = "Network";
-"Open Network settings" = "Open network settings";
+"Open Network settings" = "Netzwerk Einstellungen öffnen";
 "Battery" = "Battery";
-"Open Battery settings" = "Open battery settings";
+"Open Battery settings" = "Akku Einstellungen öffnen";
 "Bluetooth" = "Bluetooth";
 "Open Bluetooth settings" = "Open bluetooth settings";
 
@@ -54,10 +54,10 @@
 "Max" = "Max";
 "Min" = "Min";
 "Reset" = "Zurücksetzen";
-"Alignment" = "Alignment";
-"Left alignment" = "Left";
-"Center alignment" = "Center";
-"Right alignment" = "Right";
+"Alignment" = "Aurichtung";
+"Left alignment" = "Links";
+"Center alignment" = "Mitte";
+"Right alignment" = "Rechts";
 "Dashboard" = "Dashboard";
 
 // Alerts
@@ -72,7 +72,7 @@
 "Support the application" = "Unterstützen Sie die Anwendung";
 "Close application" = "Anwendung schließen";
 "Open application settings" = "Einstellungen öffnen";
-"Open dashboard" = "Open dashboard";
+"Open dashboard" = "Dashboard öffnen";
 
 // Application settings
 "Update application" = "Anwendung aktualisieren";
@@ -119,7 +119,7 @@
 "Battery widget" = "Akku";
 "Text widget" = "Text";
 "Memory widget" = "Speicher";
-"Static width" = "Static width";
+"Static width" = "Statische Breite";
 
 // Module Kit
 "Open module settings" = "Modul Einstellungen öffnen";
