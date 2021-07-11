@@ -9,13 +9,32 @@
 //  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
 //
 
+// Modules
+"CPU" = "Процесор";
+"Open CPU settings" = "Відкрити налаштування процесору";
+"GPU" = "Графічний процесор";
+"Open GPU settings" = "Відкрити налаштування графічного процесора";
+"RAM" = "Оперативна пам'ять";
+"Open RAM settings" = "Відкрити налаштування оперативної пам'яті";
+"Disk" = "Диск";
+"Open Disk settings" = "Відкрити налаштування диска";
+"Sensors" = "Датчики";
+"Open Sensors settings" = "Відкрити налаштування датчиків";
+"Fans" = "Вентилятори";
+"Open Fans settings" = "Відкрити налаштування вентиляторів";
+"Network" = "Мережа";
+"Open Network settings" = "Відкрити налаштування мережі";
+"Battery" = "Акумулятор";
+"Open Battery settings" = "Відкрити налаштування акумулятора";
+"Bluetooth" = "Bluetooth";
+"Open Bluetooth settings" = "Відкрити налаштування bluetooth";
+
 // Words
 "Unknown" = "Невідомо";
 "Version" = "Версія";
 "Processor" = "Процесор";
 "Memory" = "Память";
 "Graphics" = "Графіка";
-"Disk" = "Диск";
 "Close" = "Закрити";
 "Download" = "Завантажити";
 "Install" = "Встановити";
@@ -32,9 +51,14 @@
 "Short" = "Короткий";
 "Long" = "Довгий";
 "Statistics" = "Статистика";
-"Max" = "Max";
-"Min" = "Min";
+"Max" = "Мін.";
+"Min" = "Макс.";
 "Reset" = "Скинути";
+"Alignment" = "Вирівнювання";
+"Left alignment" = "Ліворуч";
+"Center alignment" = "По центру";
+"Right alignment" = "Праворуч";
+"Dashboard" = "Dashboard";
 
 // Alerts
 "New version available" = "Доступна нова версія";
@@ -48,7 +72,7 @@
 "Support the application" = "Підтримати програму";
 "Close application" = "Закрити програму";
 "Open application settings" = "Відкрити налаштування";
-"Open moduleName settings" = "Відкрити налаштування %0";
+"Open dashboard" = "Відкрити dashboard";
 
 // Application settings
 "Update application" = "Оновити програму";
@@ -95,12 +119,12 @@
 "Battery widget" = "Battery";
 "Text widget" = "Text";
 "Memory widget" = "Memory";
-"Static width" = "Static width";
+"Static width" = "Статична ширина";
 
 // Module Kit
 "Open module settings" = "Відкрити налаштування модуля";
 "Select widget" = "Активувати %0 віджет";
-"Open widget settings" = "Open widget settings";
+"Open widget settings" = "Відкрити налаштування віджета";
 "Update interval" = "Інтервал обновлень";
 "Usage history" = "Історія використання";
 "Details" = "Деталі";
@@ -123,19 +147,19 @@
 // GPU
 "GPU to show" = "Активний графічний процесор";
 "Show GPU type" = "Показувати тип графічного процесора";
-"GPU enabled" = "GPU enabled";
-"GPU disabled" = "GPU disabled";
+"GPU enabled" = "Увімкнено";
+"GPU disabled" = "Вимкнено";
 "GPU temperature" = "Температура графічного процесора";
 "GPU utilization" = "Навантаженість графічного процесора";
-"Vendor" = "Vendor";
-"Model" = "Model";
-"Status" = "Status";
-"Active" = "Active";
-"Non active" = "Non active";
-"Fan speed" = "Fan speed";
-"Core clock" = "Core clock";
-"Memory clock" = "Memory clock";
-"Utilization" = "Utilization";
+"Vendor" = "Постачальник";
+"Model" = "Модель";
+"Status" = "Статус";
+"Active" = "Активна";
+"Non active" = "Неактивна";
+"Fan speed" = "Швидкість вентилятора";
+"Core clock" = "Частота процесора";
+"Memory clock" = "Частота пам'яті";
+"Utilization" = "Використання";
 
 // Memory
 "Memory usage" = "Навантаженість пам’яті";
@@ -167,9 +191,8 @@
 "Public IP" = "Публічний IP";
 "Local IP" = "Локальний IP";
 "Interface" = "Інтерфейс";
-"Network" = "Мережа";
 "Physical address" = "Фізичний адрес";
-"Refresh" = "Refresh";
+"Refresh" = "Оновити";
 "Click to copy public IP address" = "Натисніть, щоб скопіювати публічний IP";
 "Click to copy local IP address" = "Натисніть, щоб скопіювати локальний IP";
 "Click to copy wifi name" = "Натисніть, щоб скопіювати назву wifi";
@@ -185,11 +208,10 @@
 // Battery
 "Level" = "Рівень заряду";
 "Source" = "Джерело";
-"AC Power" = "AC Power";
-"Battery Power" = "Battery Power";
+"AC Power" = "Мережа";
+"Battery Power" = "Акумулятор";
 "Time" = "Час";
 "Health" = "Стан акумулятора";
-"Battery" = "Акумулятор";
 "Amperage" = "Сила струму";
 "Voltage" = "Напруга";
 "Cycles" = "Кількість циклів";
@@ -201,11 +223,11 @@
 "Time to charge" = "Час до зарядки";
 "Calculating" = "Обчислення";
 "Fully charged" = "Повністю заряджена";
-"Not connected" = "Непід'єднана";
+"Not connected" = "Не під'єднаний";
 "Low level notification" = "Повідомлення про низький рівень заряду";
-"High level notification" = "High level notification";
+"High level notification" = "Повідомлення про високий рівень заряду";
 "Low battery" = "Низький заряд акумулятора";
-"High battery" = "High battery";
+"High battery" = "Високий заряд акумулятора";
 "Battery remaining" = "%0% залишилось";
 "Battery remaining to full charge" = "%0% до повного заряду";
 "Percentage" = "Проценти";
@@ -215,37 +237,37 @@
 "Hide additional information when full" = "Приховати додаткову інформацію, якщо акумулятор заряджений";
 "Last charge" = "Остання зарядка";
 
-// Fans
-"Fans" = "Fans";
+// Bluetooth
+"Battery to show" = "Активна батарея";
 
 // Colors
-"Based on utilization" = "Based on utilization";
-"Based on pressure" = "Based on pressure";
-"System accent" = "System accent";
-"Monochrome accent" = "Monochrome accent";
-"Clear" = "Clear";
-"White" = "White";
-"Black" = "Black";
-"Gray" = "Gray";
-"Second gray" = "Second gray";
-"Dark gray" = "Dark gray";
-"Light gray" = "Light gray";
-"Red" = "Red";
-"Second red" = "Second red";
-"Green" = "Green";
-"Second green" = "Second green";
-"Blue" = "Blue";
-"Second blue" = "Second blue";
-"Yellow" = "Yellow";
-"Second yellow" = "Second yellow";
-"Orange" = "Orange";
-"Second orange" = "Second orange";
-"Purple" = "Purple";
-"Second purple" = "Second purple";
-"Brown" = "Brown";
-"Second brown" = "Second brown";
-"Cyan" = "Cyan";
-"Magenta" = "Magenta";
-"Pink" = "Pink";
-"Teal" = "Teal";
-"Indigo" = "Indigo";
+"Based on utilization" = "На основі використання";
+"Based on pressure" = "На основі тиску";
+"System accent" = "Колір системи";
+"Monochrome accent" = "Монохромний акцент";
+"Clear" = "Прозорий";
+"White" = "Білий";
+"Black" = "Чорний";
+"Gray" = "Сірий";
+"Second gray" = "Інший сірий";
+"Dark gray" = "Темно-сірий";
+"Light gray" = "Світло-сірий";
+"Red" = "Червоний";
+"Second red" = "Інший червоний";
+"Green" = "Зелений";
+"Second green" = "Червоний зелений";
+"Blue" = "Блакитний";
+"Second blue" = "Інший блакитний";
+"Yellow" = "Жовтий";
+"Second yellow" = "Інший жовтий";
+"Orange" = "Помаранчевий";
+"Second orange" = "Інший помаранчевий";
+"Purple" = "Фіолетовий";
+"Second purple" = "Інший фіолетовий";
+"Brown" = "Коричневий";
+"Second brown" = "Інший коричневий";
+"Cyan" = "Циан";
+"Magenta" = "Пурпуровий";
+"Pink" = "Рожевий";
+"Teal" = "Чиряковий";
+"Indigo" = "Індіго";

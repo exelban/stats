@@ -32,7 +32,9 @@ class SettingsWindow: NSWindow, NSWindowDelegate {
         self.animationBehavior = .default
         self.collectionBehavior = .moveToActiveSpace
         self.titlebarAppearsTransparent = true
-        self.appearance = NSAppearance(named: .darkAqua)
+        if #available(OSX 10.14, *) {
+            self.appearance = NSAppearance(named: .darkAqua)
+        }
         self.center()
         self.setIsVisible(false)
         
@@ -235,7 +237,9 @@ private class SettingsView: NSView {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.imageScaling = .scaleNone
         button.image = Bundle(for: type(of: self)).image(forResource: image)!
-        button.contentTintColor = .lightGray
+        if #available(OSX 10.14, *) {
+            button.contentTintColor = .lightGray
+        }
         button.isBordered = false
         button.action = action
         button.target = self
@@ -285,7 +289,16 @@ private class MenuView: NSView {
         super.init(frame: NSRect(x: 0, y: self.height*CGFloat(n), width: width, height: self.height))
         self.wantsLayer = true
         self.layer?.backgroundColor = .clear
-        self.toolTip = title == "Stats" ? localizedString("Open application settings") : localizedString("Open moduleName settings", title)
+        
+        var toolTip = ""
+        if title == "State" {
+            toolTip = localizedString("Open application settings")
+        } else if title == "Dashboard" {
+            toolTip = localizedString("Open dashboard")
+        } else {
+            toolTip = localizedString("Open \(title) settings")
+        }
+        self.toolTip = toolTip
         
         let rect = NSRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
         let trackingArea = NSTrackingArea(
@@ -302,13 +315,15 @@ private class MenuView: NSView {
         }
         imageView.frame = NSRect(x: 8, y: (self.height - 18)/2, width: 18, height: 18)
         imageView.wantsLayer = true
-        imageView.contentTintColor = .labelColor
+        if #available(OSX 10.14, *) {
+            imageView.contentTintColor = .labelColor
+        }
         
         let titleView = TextView(frame: NSRect(x: 34, y: (self.height - 16)/2, width: 100, height: 16))
         titleView.alignment = .natural
         titleView.textColor = .labelColor
         titleView.font = NSFont.systemFont(ofSize: 13, weight: .regular)
-        titleView.stringValue = title
+        titleView.stringValue = localizedString(title)
         
         self.addSubview(imageView)
         self.addSubview(titleView)

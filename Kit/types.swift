@@ -84,6 +84,12 @@ public let NetworkReaders: [KeyValue_t] = [
     KeyValue_t(key: "process", value: "Processes based")
 ]
 
+public let Alignments: [KeyValue_t] = [
+    KeyValue_t(key: "left", value: "Left alignment", additional: NSTextAlignment.left),
+    KeyValue_t(key: "center", value: "Center alignment", additional: NSTextAlignment.center),
+    KeyValue_t(key: "right", value: "Right alignment", additional: NSTextAlignment.right)
+]
+
 public struct Color: KeyValue_p, Equatable {
     public let key: String
     public let value: String
@@ -148,6 +154,16 @@ extension Color: CaseIterable {
     
     public static func fromString(_ key: String, defaultValue: Color = .systemAccent) -> Color {
         return Color.allCases.first{ $0.key == key } ?? defaultValue
+    }
+}
+
+public var controlAccentColor: NSColor {
+    get {
+        if #available(OSX 10.14, *) {
+            return NSColor.controlAccentColor
+        } else {
+            return NSColor.systemBlue
+        }
     }
 }
 

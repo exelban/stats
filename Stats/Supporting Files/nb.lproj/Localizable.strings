@@ -9,13 +9,32 @@
 //  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
 //
 
+// Modules
+"CPU" = "CPU";
+"Open CPU settings" = "Open CPU settings";
+"GPU" = "GPU";
+"Open GPU settings" = "Open GPU settings";
+"RAM" = "RAM";
+"Open RAM settings" = "Open RAM settings";
+"Disk" = "Disk";
+"Open Disk settings" = "Open disk settings";
+"Sensors" = "Sensors";
+"Open Sensors settings" = "Open sensors settings";
+"Fans" = "Fans";
+"Open Fans settings" = "Open fans settings";
+"Network" = "Network";
+"Open Network settings" = "Open network settings";
+"Battery" = "Battery";
+"Open Battery settings" = "Open battery settings";
+"Bluetooth" = "Bluetooth";
+"Open Bluetooth settings" = "Open bluetooth settings";
+
 // Words
 "Unknown" = "Ukjent";
 "Version" = "Versjon";
 "Processor" = "Prosessor";
 "Memory" = "Minne";
 "Graphics" = "Grafikk";
-"Disk" = "Disk";
 "Close" = "Lukk";
 "Download" = "Nedlasting";
 "Install" = "Installer";
@@ -35,6 +54,11 @@
 "Max" = "Maks";
 "Min" = "Min";
 "Reset" = "Nullstill";
+"Alignment" = "Alignment";
+"Left alignment" = "Left";
+"Center alignment" = "Center";
+"Right alignment" = "Right";
+"Dashboard" = "Dashboard";
 
 // Alerts
 "New version available" = "Ny versjon tilgjengelig";
@@ -48,7 +72,7 @@
 "Support the application" = "Støtt programmet";
 "Close application" = "Lukk programmet";
 "Open application settings" = "Åpne programinnstillinger";
-"Open moduleName settings" = "Åpne innstillinger for %0";
+"Open dashboard" = "Open dashboard";
 
 // Application settings
 "Update application" = "Oppdater programmet";
@@ -167,7 +191,6 @@
 "Public IP" = "Offentlig IP";
 "Local IP" = "Lokal IP";
 "Interface" = "Grensesnitt";
-"Network" = "Nettverk";
 "Physical address" = "Fysisk addresse";
 "Refresh" = "Refresh";
 "Click to copy public IP address" = "Klikk for å kopiere offentlig IP-adresse";
@@ -189,7 +212,6 @@
 "Battery Power" = "Batteri";
 "Time" = "Tid";
 "Health" = "Helse";
-"Battery" = "Batteri";
 "Amperage" = "Strømstyrke";
 "Voltage" = "Spenning";
 "Cycles" = "Sykluser";
@@ -215,8 +237,8 @@
 "Hide additional information when full" = "Skjul ekstra information når fulladet";
 "Last charge" = "Siste lading";
 
-// Fans
-"Fans" = "Vifter";
+// Bluetooth
+"Battery to show" = "Battery to show";
 
 // Colors
 "Based on utilization" = "Basert på bruk";

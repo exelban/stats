@@ -9,13 +9,32 @@
 //  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
 //
 
+// Modules
+"CPU" = "CPU";
+"Open CPU settings" = "Open CPU settings";
+"GPU" = "GPU";
+"Open GPU settings" = "Open GPU settings";
+"RAM" = "RAM";
+"Open RAM settings" = "Open RAM settings";
+"Disk" = "Disk";
+"Open Disk settings" = "Open disk settings";
+"Sensors" = "Sensors";
+"Open Sensors settings" = "Open sensors settings";
+"Fans" = "Fans";
+"Open Fans settings" = "Open fans settings";
+"Network" = "Network";
+"Open Network settings" = "Open network settings";
+"Battery" = "Battery";
+"Open Battery settings" = "Open battery settings";
+"Bluetooth" = "Bluetooth";
+"Open Bluetooth settings" = "Open bluetooth settings";
+
 // Words
 "Unknown" = "未知";
 "Version" = "版本";
 "Processor" = "处理器";
 "Memory" = "内存";
 "Graphics" = "图形卡"; // Use the same translation as the "about this mac"
-"Disk" = "磁盘";
 "Close" = "关闭";
 "Download" = "下载";
 "Install" = "安装";
@@ -35,6 +54,11 @@
 "Max" = "最大";
 "Min" = "最小";
 "Reset" = "Reset";
+"Alignment" = "Alignment";
+"Left alignment" = "Left";
+"Center alignment" = "Center";
+"Right alignment" = "Right";
+"Dashboard" = "Dashboard";
 
 // Alerts
 "New version available" = "新版本可用";
@@ -48,7 +72,7 @@
 "Support the application" = "支持本应用";
 "Close application" = "关闭应用";
 "Open application settings" = "打开应用设置";
-"Open moduleName settings" = "打开 %0 设置";
+"Open dashboard" = "Open dashboard";
 
 // Application settings
 "Update application" = "更新应用";
@@ -167,7 +191,6 @@
 "Public IP" = "公网 IP";
 "Local IP" = "本地 IP";
 "Interface" = "接口";
-"Network" = "网络";
 "Physical address" = "物理地址";
 "Refresh" = "刷新";
 "Click to copy public IP address" = "点击拷贝公网 IP";
@@ -189,7 +212,6 @@
 "Battery Power" = "电池";
 "Time" = "时间";
 "Health" = "健康度";
-"Battery" = "电池";
 "Amperage" = "电流";
 "Voltage" = "电压";
 "Cycles" = "循环数";
@@ -215,8 +237,8 @@
 "Hide additional information when full" = "电池充满后隐藏其他信息";
 "Last charge" = "最后一次充电";
 
-// Fans
-"Fans" = "风扇";
+// Bluetooth
+"Battery to show" = "Battery to show";
 
 // Colors
 "Based on utilization" = "基于利用率";

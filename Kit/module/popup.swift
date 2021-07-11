@@ -224,6 +224,7 @@ internal class HeaderView: NSStackView {
     private var activityButton: NSButton?
     private var settingsButton: NSButton?
     
+    private var title: String = ""
     private var isCloseAction: Bool = false
     
     override init(frame: NSRect) {
@@ -240,7 +241,9 @@ internal class HeaderView: NSStackView {
         activity.translatesAutoresizingMaskIntoConstraints = false
         activity.imageScaling = .scaleNone
         activity.image = Bundle(for: type(of: self)).image(forResource: "chart")!
-        activity.contentTintColor = .lightGray
+        if #available(OSX 10.14, *) {
+            activity.contentTintColor = .lightGray
+        }
         activity.isBordered = false
         activity.action = #selector(openActivityMonitor)
         activity.target = self
@@ -268,7 +271,9 @@ internal class HeaderView: NSStackView {
         settings.translatesAutoresizingMaskIntoConstraints = false
         settings.imageScaling = .scaleNone
         settings.image = Bundle(for: type(of: self)).image(forResource: "settings")!
-        settings.contentTintColor = .lightGray
+        if #available(OSX 10.14, *) {
+            settings.contentTintColor = .lightGray
+        }
         settings.isBordered = false
         settings.action = #selector(openSettings)
         settings.target = self
@@ -292,7 +297,8 @@ internal class HeaderView: NSStackView {
     }
     
     public func setTitle(_ newTitle: String) {
-        self.titleView?.stringValue = newTitle
+        self.title = newTitle
+        self.titleView?.stringValue = localizedString(newTitle)
     }
     
     override func draw(_ dirtyRect: NSRect) {
@@ -324,7 +330,7 @@ internal class HeaderView: NSStackView {
     
     @objc func openSettings(_ sender: Any) {
         self.window?.setIsVisible(false)
-        NotificationCenter.default.post(name: .toggleSettings, object: nil, userInfo: ["module": self.titleView?.stringValue ?? ""])
+        NotificationCenter.default.post(name: .toggleSettings, object: nil, userInfo: ["module": self.title])
     }
     
     public func setCloseButton(_ state: Bool) {

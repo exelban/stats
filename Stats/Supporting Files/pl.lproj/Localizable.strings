@@ -9,13 +9,32 @@
 //  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
 //
 
+// Modules
+"CPU" = "Procesor";
+"Open CPU settings" = "Otwórz ustawienia procesora";
+"GPU" = "Grafika";
+"Open GPU settings" = "Otwórz ustawienia grafiki";
+"RAM" = "Pamięć";
+"Open RAM settings" = "Otwórz ustawienia pamięci";
+"Disk" = "Dysk";
+"Open Disk settings" = "Otwórz ustawienia dysku";
+"Sensors" = "Czujniki";
+"Open Sensors settings" = "Otwórz ustawienia czujników";
+"Fans" = "Wentylatory";
+"Open Fans settings" = "Otwórz ustawienia wentylatorów";
+"Network" = "Sieć";
+"Open Network settings" = "Otwórz ustawienia sieci";
+"Battery" = "Bateria";
+"Open Battery settings" = "Otwórz ustawienia baterii";
+"Bluetooth" = "Bluetooth";
+"Open Bluetooth settings" = "Otwórz ustawienia bluetooth";
+
 // Words
 "Unknown" = "Nieznany";
 "Version" = "Wersja";
 "Processor" = "Procesor";
 "Memory" = "Pamięć";
 "Graphics" = "Grafika";
-"Disk" = "Dysk";
 "Close" = "Zamknij";
 "Download" = "Pobierz";
 "Install" = "Zainstaluj";
@@ -35,6 +54,11 @@
 "Max" = "Max";
 "Min" = "Min";
 "Reset" = "Zresetować";
+"Alignment" = "Wyrównanie";
+"Left alignment" = "Do lewej";
+"Center alignment" = "Centrum";
+"Right alignment" = "Do prawej";
+"Dashboard" = "Dashboard";
 
 // Alerts
 "New version available" = "Dostępna nowa wersja";
@@ -48,7 +72,7 @@
 "Support the application" = "Wesprzyj rozwój programu";
 "Close application" = "Zamknij program";
 "Open application settings" = "Otwórz ustawienia";
-"Open moduleName settings" = "Otwórz ustawienia %0";
+"Open dashboard" = "Otwórz dashboard";
 
 // Application settings
 "Update application" = "Aktualizuj aplikacje";
@@ -167,7 +191,6 @@
 "Public IP" = "Publiczny IP";
 "Local IP" = "Lokalny IP";
 "Interface" = "Interfejs";
-"Network" = "Sieć";
 "Physical address" = "Adres fizyczny";
 "Refresh" = "Odśwież";
 "Click to copy public IP address" = "Kliknij, aby skopiować publiczny adres IP";
@@ -189,7 +212,6 @@
 "Battery Power" = "Bateria";
 "Time" = "Czas";
 "Health" = "Zdrowie";
-"Battery" = "Bateria";
 "Amperage" = "Natężenie";
 "Voltage" = "Napięcie";
 "Cycles" = "Liczba cykli";
@@ -215,8 +237,8 @@
 "Hide additional information when full" = "Ukryj dodatkowe informacje, gdy bateria jest naładowana";
 "Last charge" = "Ostatnie ładowanie";
 
-// Fans
-"Fans" = "Wentylatory";
+// Bluetooth
+"Battery to show" = "Bateria do wyświetlenia";
 
 // Colors
 "Based on utilization" = "Na podstawie wykorzystania";
@@ -228,8 +250,8 @@
 "Black" = "Czarny";
 "Gray" = "Szary";
 "Second gray" = "Drugi szary";
-"Dark gray" = "Ciemny szary";
-"Light gray" = "Jasny szary";
+"Dark gray" = "Ciemno szary";
+"Light gray" = "Jasno szary";
 "Red" = "Czerwony";
 "Second red" = "Drugi czerwony";
 "Green" = "Zielony";

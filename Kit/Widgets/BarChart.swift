@@ -166,7 +166,7 @@ public class BarChart: WidgetWrapper {
             let partition = NSBezierPath(rect: NSRect(x: x, y: offset, width: partitionWidth, height: partitonHeight))
             
             switch self.colorState {
-            case .systemAccent: NSColor.controlAccentColor.set()
+            case .systemAccent: controlAccentColor.set()
             case .utilization: partitionValue.usageColor(zones: self.colorZones).setFill()
             case .pressure: self.pressureLevel.pressureColor().setFill()
             case .monochrome:
@@ -175,7 +175,7 @@ public class BarChart: WidgetWrapper {
                 } else {
                     (isDarkMode ? NSColor.white : NSColor.black).set()
                 }
-            default: (self.colorState.additional as? NSColor ?? NSColor.controlAccentColor).set()
+            default: (self.colorState.additional as? NSColor ?? controlAccentColor).set()
             }
             
             partition.fill()

@@ -9,13 +9,32 @@
 //  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
 //
 
+// Modules
+"CPU" = "CPU";
+"Open CPU settings" = "Open CPU settings";
+"GPU" = "GPU";
+"Open GPU settings" = "Open GPU settings";
+"RAM" = "RAM";
+"Open RAM settings" = "Open RAM settings";
+"Disk" = "Disk";
+"Open Disk settings" = "Open disk settings";
+"Sensors" = "Sensors";
+"Open Sensors settings" = "Open sensors settings";
+"Fans" = "Fans";
+"Open Fans settings" = "Open fans settings";
+"Network" = "Network";
+"Open Network settings" = "Open network settings";
+"Battery" = "Battery";
+"Open Battery settings" = "Open battery settings";
+"Bluetooth" = "Bluetooth";
+"Open Bluetooth settings" = "Open bluetooth settings";
+
 // Words
 "Unknown" = "Không xác định";
 "Version" = "Phiên bản";
 "Processor" = "Bộ xử lý";
 "Memory" = "Bộ nhớ";
 "Graphics" = "Đồ họa";
-"Disk" = "Ổ Đĩa";
 "Close" = "Đóng";
 "Download" = "Tải Xuống";
 "Install" = "Cài đặt";
@@ -35,6 +54,11 @@
 "Max" = "Tối đa";
 "Min" = "Tối thiểu";
 "Reset" = "Reset";
+"Alignment" = "Alignment";
+"Left alignment" = "Left";
+"Center alignment" = "Center";
+"Right alignment" = "Right";
+"Dashboard" = "Dashboard";
 
 // Alerts
 "New version available" = "Phiên bản mới có sẵn";
@@ -48,7 +72,7 @@
 "Support the application" = "Hỗ trợ ứng dụng";
 "Close application" = "Đóng ứng dụng";
 "Open application settings" = "Mở cài đặt ứng dụng";
-"Open moduleName settings" = "Mở cài đặt %0";
+"Open dashboard" = "Open dashboard";
 
 // Application settings
 "Update application" = "Cập nhật ứng dụng";
@@ -167,7 +191,6 @@
 "Public IP" = "IP công cộng";
 "Local IP" = "IP cục bộ";
 "Interface" = "Giao diện mạng";
-"Network" = "Tên mạng";
 "Physical address" = "Địa chỉ vật lý (MAC)";
 "Refresh" = "Làm mới";
 "Click to copy public IP address" = "Nhấp để copy IP công cộng";
@@ -189,7 +212,6 @@
 "Battery Power" = "Nguồn pin";
 "Time" = "Thời gian";
 "Health" = "Sức khoẻ";
-"Battery" = "PIN";
 "Amperage" = "Cường độ dòng điện";
 "Voltage" = "Điện áp";
 "Cycles" = "Số chu kỳ";
@@ -215,8 +237,8 @@
 "Hide additional information when full" = "Ẩn thông tin bổ sung khi pin đầy";
 "Last charge" = "Lần sạc cuối cùng";
 
-// Fans
-"Fans" = "Quạt";
+// Bluetooth
+"Battery to show" = "Battery to show";
 
 // Colors
 "Based on utilization" = "Dựa trên việc sử dụng";

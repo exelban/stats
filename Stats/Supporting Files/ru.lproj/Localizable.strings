@@ -9,13 +9,32 @@
 //  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
 //
 
+// Modules
+"CPU" = "Процессор";
+"Open CPU settings" = "Открыть настройки ЦП";
+"GPU" = "Графический процессор";
+"Open GPU settings" = "Открыть настройки графического процессора";
+"RAM" = "Оперативная память";
+"Open RAM settings" = "Открыть настройки оперативной памяти";
+"Disk" = "Диск";
+"Open Disk settings" = "Открыть настройки диска";
+"Sensors" = "Датчики";
+"Open Sensors settings" = "Открыть настройки датчиков";
+"Fans" = "Вентиляторы";
+"Open Fans settings" = "Открыть настройки вентиляторов";
+"Network" = "Сеть";
+"Open Network settings" = "Открыть настройки сети";
+"Battery" = "Аккумулятор";
+"Open Battery settings" = "Открыть настройки аккумулятора";
+"Bluetooth" = "Bluetooth";
+"Open Bluetooth settings" = "Открыть настройки bluetooth";
+
 // Words
 "Unknown" = "Неизвестно";
 "Version" = "Версия";
 "Processor" = "Процессор";
 "Memory" = "Память";
 "Graphics" = "Графика";
-"Disk" = "Диск";
 "Close" = "Закрыть";
 "Download" = "Скачать";
 "Install" = "Установить";
@@ -32,9 +51,14 @@
 "Short" = "Короткий";
 "Long" = "Длинный";
 "Statistics" = "Статистика";
-"Max" = "Max";
-"Min" = "Min";
+"Max" = "Мин.";
+"Min" = "Макс.";
 "Reset" = "Сбросить";
+"Alignment" = "Выравнивание";
+"Left alignment" = "по левому";
+"Center alignment" = "по центру";
+"Right alignment" = "по правому";
+"Dashboard" = "Dashboard";
 
 // Alerts
 "New version available" = "Доступна новая версия";
@@ -48,7 +72,7 @@
 "Support the application" = "Поддержите приложение";
 "Close application" = "Закрыть приложение";
 "Open application settings" = "Открыть настройки приложения";
-"Open moduleName settings" = "Откройте настройки %0";
+"Open dashboard" = "Открыть dashboard";
 
 // Application settings
 "Update application" = "Обновить приложение";
@@ -95,12 +119,12 @@
 "Battery widget" = "Battery";
 "Text widget" = "Text";
 "Memory widget" = "Memory";
-"Static width" = "Static width";
+"Static width" = "Статическая ширина";
 
 // Module Kit
 "Open module settings" = "Открыть настройки модуля";
 "Select widget" = "Активировать %0 виджет";
-"Open widget settings" = "Open widget settings";
+"Open widget settings" = "Открыть настройки виджета";
 "Update interval" = "Интервал обновления";
 "Usage history" = "История использования";
 "Details" = "Подробности";
@@ -123,19 +147,19 @@
 // GPU
 "GPU to show" = "Активный графический процессор";
 "Show GPU type" = "Отображать тип графического процессора";
-"GPU enabled" = "GPU enabled";
-"GPU disabled" = "GPU disabled";
+"GPU enabled" = "Включен";
+"GPU disabled" = "Отключен";
 "GPU temperature" = "Температура графического процессора";
 "GPU utilization" = "Использование графического процессора";
-"Vendor" = "Vendor";
-"Model" = "Model";
-"Status" = "Status";
-"Active" = "Active";
-"Non active" = "Non active";
-"Fan speed" = "Fan speed";
-"Core clock" = "Core clock";
-"Memory clock" = "Memory clock";
-"Utilization" = "Utilization";
+"Vendor" = "Производитель";
+"Model" = "Модель";
+"Status" = "Статус";
+"Active" = "Активная";
+"Non active" = "Не активная";
+"Fan speed" = "Скорость вентилятора";
+"Core clock" = "Частота ядра";
+"Memory clock" = "Частота памяти";
+"Utilization" = "Использование";
 
 // Memory
 "Memory usage" = "Нагрузка на память";
@@ -167,9 +191,8 @@
 "Public IP" = "Публичный IP";
 "Local IP" = "Локальный IP";
 "Interface" = "Интерфейс";
-"Network" = "Сеть";
 "Physical address" = "Физический адрес";
-"Refresh" = "Refresh";
+"Refresh" = "Обновить";
 "Click to copy public IP address" = "Нажмите, чтобы скопировать публичный IP";
 "Click to copy local IP address" = "Нажмите, чтобы скопировать локальный IP";
 "Click to copy wifi name" = "Нажмите, чтобы скопировать имя Wi-Fi";
@@ -185,11 +208,10 @@
 // Battery
 "Level" = "Уровень заряда";
 "Source" = "Источник";
-"AC Power" = "AC Power";
-"Battery Power" = "Battery Power";
+"AC Power" = "Сеть";
+"Battery Power" = "Аккумулятор";
 "Time" = "Время";
 "Health" = "Состояние аккумулятора";
-"Battery" = "Аккумулятор";
 "Amperage" = "Сила тока";
 "Voltage" = "Напряжение";
 "Cycles" = "Количество циклов";
@@ -203,49 +225,49 @@
 "Fully charged" = "Полностью заряжена";
 "Not connected" = "Не подключено";
 "Low level notification" = "Сообщение о низком уровне заряда";
-"High level notification" = "High level notification";
+"High level notification" = "Сообщение о высоком уровне заряда";
 "Low battery" = "Низкий заряд аккумулятора";
-"High battery" = "High battery";
+"High battery" = "Высокий заряд аккумулятора";
 "Battery remaining" = "%0% осталось";
 "Battery remaining to full charge" = "%0% до полной зарядки";
 "Percentage" = "Проценты";
 "Percentage and time" = "Проценты и время";
-"Time and percentage" = "Время и Проценты";
+"Time and percentage" = "Время и проценты";
 "Time format" = "Формат времени";
 "Hide additional information when full" = "Скрыть дополнительную информацию при полном заряде";
 "Last charge" = "Последняя зарядка";
 
-// Fans
-"Fans" = "Fans";
+// Bluetooth
+"Battery to show" = "Активная батарея";
 
 // Colors
-"Based on utilization" = "Based on utilization";
-"Based on pressure" = "Based on pressure";
-"System accent" = "System accent";
-"Monochrome accent" = "Monochrome accent";
-"Clear" = "Clear";
-"White" = "White";
-"Black" = "Black";
-"Gray" = "Gray";
-"Second gray" = "Second gray";
-"Dark gray" = "Dark gray";
-"Light gray" = "Light gray";
-"Red" = "Red";
-"Second red" = "Second red";
-"Green" = "Green";
-"Second green" = "Second green";
-"Blue" = "Blue";
-"Second blue" = "Second blue";
-"Yellow" = "Yellow";
-"Second yellow" = "Second yellow";
-"Orange" = "Orange";
-"Second orange" = "Second orange";
-"Purple" = "Purple";
-"Second purple" = "Second purple";
-"Brown" = "Brown";
-"Second brown" = "Second brown";
-"Cyan" = "Cyan";
-"Magenta" = "Magenta";
-"Pink" = "Pink";
-"Teal" = "Teal";
-"Indigo" = "Indigo";
+"Based on utilization" = "На основе использования";
+"Based on pressure" = "На основании давления";
+"System accent" = "Цвет системы";
+"Monochrome accent" = "Монохромный акцент";
+"Clear" = "Прозрачный";
+"White" = "Белый";
+"Black" = "Черный";
+"Gray" = "серый";
+"Second gray" = "Другой серый";
+"Dark gray" = "Темно-серый";
+"Light gray" = "Светло-серый";
+"Red" = "Красный";
+"Second red" = "Другой красный";
+"Green" = "Зеленый";
+"Second green" = "Другой зеленый";
+"Blue" = "Голубой";
+"Second blue" = "Другой голубой";
+"Yellow" = "Желтый";
+"Second yellow" = "Другой желтый";
+"Orange" = "Оранжевый";
+"Second orange" = "Другой оранжевый";
+"Purple" = "Фиолетовый";
+"Second purple" = "Другой фиолетовый";
+"Brown" = "Коричневый";
+"Second brown" = "Другой коричневый";
+"Cyan" = "Циан";
+"Magenta" = "Пурпурный";
+"Pink" = "Розовый";
+"Teal" = "Бирюзовый";
+"Indigo" = "Индиго";

@@ -9,13 +9,32 @@
 //  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
 //
 
+// Modules
+"CPU" = "CPU";
+"Open CPU settings" = "Open CPU settings";
+"GPU" = "GPU";
+"Open GPU settings" = "Open GPU settings";
+"RAM" = "RAM";
+"Open RAM settings" = "Open RAM settings";
+"Disk" = "Disk";
+"Open Disk settings" = "Open disk settings";
+"Sensors" = "Sensors";
+"Open Sensors settings" = "Open sensors settings";
+"Fans" = "Fans";
+"Open Fans settings" = "Open fans settings";
+"Network" = "Network";
+"Open Network settings" = "Open network settings";
+"Battery" = "Battery";
+"Open Battery settings" = "Open battery settings";
+"Bluetooth" = "Bluetooth";
+"Open Bluetooth settings" = "Open bluetooth settings";
+
 // Words
 "Unknown" = "Necunoscut";
 "Version" = "Versiune";
 "Processor" = "Procesor";
 "Memory" = "Memorie";
 "Graphics" = "Grafică";
-"Disk" = "Disc";
 "Close" = "Închide";
 "Download" = "Descarcă";
 "Install" = "Instalează";
@@ -35,6 +54,11 @@
 "Max" = "Max";
 "Min" = "Min";
 "Reset" = "Reset";
+"Alignment" = "Alignment";
+"Left alignment" = "Left";
+"Center alignment" = "Center";
+"Right alignment" = "Right";
+"Dashboard" = "Dashboard";
 
 // Alerts
 "New version available" = "Versiune nouă disponibilă";
@@ -48,7 +72,7 @@
 "Support the application" = "Susține aplicația";
 "Close application" = "Închide aplicația";
 "Open application settings" = "Deschide setăriile aplicației";
-"Open moduleName settings" = "Deschide setăriile modulului %0";
+"Open dashboard" = "Open dashboard";
 
 // Application settings
 "Update application" = "Actualizează aplicația";
@@ -167,7 +191,6 @@
 "Public IP" = "Adresa de IP publică";
 "Local IP" = "Adresa de IP locală";
 "Interface" = "Interfață";
-"Network" = "Rețea";
 "Physical address" = "Adresa fizică";
 "Refresh" = "Refresh";
 "Click to copy public IP address" = "Click pentru a copia adresa de IP publică";
@@ -189,7 +212,6 @@
 "Battery Power" = "Battery Power";
 "Time" = "Timp";
 "Health" = "Sănătate";
-"Battery" = "Baterie";
 "Amperage" = "Amperaj";
 "Voltage" = "Voltaj";
 "Cycles" = "Cicluri";
@@ -215,8 +237,8 @@
 "Hide additional information when full" = "Ascunde restul informației cand e plină";
 "Last charge" = "Ultima încărcare";
 
-// Fans
-"Fans" = "Ventilatoare";
+// Bluetooth
+"Battery to show" = "Battery to show";
 
 // Colors
 "Based on utilization" = "Based on utilization";

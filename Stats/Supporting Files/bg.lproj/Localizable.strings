@@ -9,13 +9,32 @@
 //  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
 //
 
+// Modules
+"CPU" = "CPU";
+"Open CPU settings" = "Open CPU settings";
+"GPU" = "GPU";
+"Open GPU settings" = "Open GPU settings";
+"RAM" = "RAM";
+"Open RAM settings" = "Open RAM settings";
+"Disk" = "Disk";
+"Open Disk settings" = "Open disk settings";
+"Sensors" = "Sensors";
+"Open Sensors settings" = "Open sensors settings";
+"Fans" = "Fans";
+"Open Fans settings" = "Open fans settings";
+"Network" = "Network";
+"Open Network settings" = "Open network settings";
+"Battery" = "Battery";
+"Open Battery settings" = "Open battery settings";
+"Bluetooth" = "Bluetooth";
+"Open Bluetooth settings" = "Open bluetooth settings";
+
 // Words
 "Unknown" = "Непознато";
 "Version" = "Версия";
 "Processor" = "Процесор";
 "Memory" = "Памет";
 "Graphics" = "Графика";
-"Disk" = "Диск";
 "Close" = "Затваряне";
 "Download" = "Изтегляне";
 "Install" = "Инсталиране";
@@ -35,6 +54,11 @@
 "Max" = "Макс.";
 "Min" = "Мин.";
 "Reset" = "Reset";
+"Alignment" = "Alignment";
+"Left alignment" = "Left";
+"Center alignment" = "Center";
+"Right alignment" = "Right";
+"Dashboard" = "Dashboard";
 
 // Alerts
 "New version available" = "Налична е нова версия";
@@ -48,7 +72,7 @@
 "Support the application" = "Подкрепа";
 "Close application" = "Затваряне на приложението";
 "Open application settings" = "Отваряне на настройките на приложението";
-"Open moduleName settings" = "Отваряне на настройките на %0";
+"Open dashboard" = "Open dashboard";
 
 // Application settings
 "Update application" = "Обновяване на приложението";
@@ -167,7 +191,6 @@
 "Public IP" = "Публично IP";
 "Local IP" = "Локално IP";
 "Interface" = "Интерфейс";
-"Network" = "Мрежа";
 "Physical address" = "Физически адрес";
 "Refresh" = "Refresh";
 "Click to copy public IP address" = "Натиснете, за да копирате публичния IP адрес";
@@ -189,7 +212,6 @@
 "Battery Power" = "Батерия";
 "Time" = "Време";
 "Health" = "Здраве";
-"Battery" = "Батерия";
 "Amperage" = "Сила на тока";
 "Voltage" = "Волтаж";
 "Cycles" = "Цикли";
@@ -215,8 +237,8 @@
 "Hide additional information when full" = "Скриване на допълнителна информация при пълен заряд";
 "Last charge" = "Последно зареждане";
 
-// Fans
-"Fans" = "Вентилатори";
+// Bluetooth
+"Battery to show" = "Battery to show";
 
 // Colors
 "Based on utilization" = "Based on utilization";

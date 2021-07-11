@@ -9,13 +9,32 @@
 //  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
 //
 
+// Modules
+"CPU" = "處理器";
+"Open CPU settings" = "打開處理器設定";
+"GPU" = "顯示卡";
+"Open GPU settings" = "打開顯示卡設定";
+"RAM" = "記憶體";
+"Open RAM settings" = "打開記憶體設定";
+"Disk" = "磁碟";
+"Open Disk settings" = "打開磁碟設定";
+"Sensors" = "感知器";
+"Open Sensors settings" = "打開感知器設定";
+"Fans" = "風扇";
+"Open Fans settings" = "打開風扇設定";
+"Network" = "網路";
+"Open Network settings" = "打開網路設定";
+"Battery" = "電池";
+"Open Battery settings" = "打開電池設定";
+"Bluetooth" = "藍芽";
+"Open Bluetooth settings" = "打開藍牙設定";
+
 // Words
 "Unknown" = "未知";
 "Version" = "版本";
 "Processor" = "處理器";
 "Memory" = "記憶體";
 "Graphics" = "顯示卡";
-"Disk" = "硬碟";
 "Close" = "關閉";
 "Download" = "下載";
 "Install" = "安裝";
@@ -28,13 +47,18 @@
 "None" = "無";
 "Dots" = "點";
 "Arrows" = "箭頭";
-"Characters" = "字母";
+"Characters" = "文字";
 "Short" = "短";
 "Long" = "長";
 "Statistics" = "統計資料";
 "Max" = "最大值";
 "Min" = "最小值";
 "Reset" = "重置";
+"Alignment" = "對齊";
+"Left alignment" = "靠左對齊";
+"Center alignment" = "置中對齊";
+"Right alignment" = "靠右對齊";
+"Dashboard" = "儀表板";
 
 // Alerts
 "New version available" = "有新版本可用";
@@ -48,7 +72,7 @@
 "Support the application" = "贊助此應用程式";
 "Close application" = "關閉應用程式";
 "Open application settings" = "打開應用程式設定";
-"Open moduleName settings" = "打開 %0 設定";
+"Open dashboard" = "打開儀表板";
 
 // Application settings
 "Update application" = "更新應用程式";
@@ -112,8 +136,8 @@
 
 // CPU
 "CPU usage" = "處理器使用率";
-"CPU temperature" = "處理器 (CPU) 溫度";
-"CPU frequency" = "處理器 (CPU) 頻率";
+"CPU temperature" = "處理器溫度";
+"CPU frequency" = "處理器頻率";
 "System" = "系統";
 "User" = "使用者";
 "Idle" = "閒置";
@@ -121,12 +145,12 @@
 "Show hyper-threading cores" = "顯示超執行緒核心";
 
 // GPU
-"GPU to show" = "顯示顯示卡 (GPU)";
-"Show GPU type" = "顯示顯示卡 (GPU) 類型";
-"GPU enabled" = "啟用顯示卡 (GPU)";
-"GPU disabled" = "停用顯示卡 (GPU)";
-"GPU temperature" = "顯示卡 (GPU) 溫度";
-"GPU utilization" = "顯示卡 (GPU) 使用率";
+"GPU to show" = "顯示顯示卡";
+"Show GPU type" = "顯示顯示卡類型";
+"GPU enabled" = "啟用顯示卡";
+"GPU disabled" = "停用顯示卡";
+"GPU temperature" = "顯示卡溫度";
+"GPU utilization" = "顯示卡使用率";
 "Vendor" = "製造商";
 "Model" = "型號";
 "Status" = "狀態";
@@ -152,7 +176,7 @@
 "Show removable disks" = "顯示抽取式磁碟";
 "Used disk memory" = "總共: %1，已用: %0";
 "Free disk memory" = "總共: %1，可用: %0";
-"Disk to show" = "顯示硬碟";
+"Disk to show" = "顯示磁碟";
 "Open disk" = "開啟磁碟";
 "Switch view" = "切換視窗";
 
@@ -167,7 +191,6 @@
 "Public IP" = "公開 IP";
 "Local IP" = "區域 IP";
 "Interface" = "介面";
-"Network" = "網路";
 "Physical address" = "實體位址";
 "Refresh" = "重新整理";
 "Click to copy public IP address" = "點按來拷貝公開 IP 位址";
@@ -189,7 +212,6 @@
 "Battery Power" = "電池";
 "Time" = "時間";
 "Health" = "健康度";
-"Battery" = "電池";
 "Amperage" = "電流";
 "Voltage" = "電壓";
 "Cycles" = "循環使用次數";
@@ -215,8 +237,8 @@
 "Hide additional information when full" = "電池充飽後隱藏其他資訊";
 "Last charge" = "最近一次充電";
 
-// Fans
-"Fans" = "風扇";
+// Bluetooth
+"Battery to show" = "Battery to show";
 
 // Colors
 "Based on utilization" = "根據使用率";

@@ -10,7 +10,6 @@
 //
 
 import Cocoa
-import os.log
 
 public enum deviceType: Int {
     case unknown = -1
@@ -87,7 +86,7 @@ public class SystemKit {
     public static let shared = SystemKit()
     
     public var device: device_s = device_s()
-    private let log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: "SystemKit")
+    private let log: NextLog = NextLog.shared.copy(category: "SystemKit")
     
     public init() {
         if let modelName = self.modelName() {
@@ -95,7 +94,7 @@ public class SystemKit {
                 self.device.model = modelInfo
                 self.device.model.icon = self.getIcon(type: self.device.model.type, year: self.device.model.year)
             } else {
-                os_log(.error, log: self.log, "unknown device %s", modelName)
+                error("unknown device \(modelName)")
             }
         }
         
@@ -140,7 +139,7 @@ public class SystemKit {
             return String(cString: UnsafeRawPointer(pointer).assumingMemoryBound(to: CChar.self))
         }
         
-        os_log(.error, log: self.log, "error call sysctl(): %s", (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
+        error("error call sysctl(): \(String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error")")
         return nil
     }
     
@@ -171,7 +170,7 @@ public class SystemKit {
             return Date(timeIntervalSince1970: Double(bootTime.tv_sec) + Double(bootTime.tv_usec) / 1_000_000.0)
         }
         
-        os_log(.error, log: self.log, "error get boot time: %s", (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
+        error("error get boot time: \(String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error")")
         return nil
     }
     
@@ -203,7 +202,7 @@ public class SystemKit {
         }
         
         if result != KERN_SUCCESS {
-            os_log(.error, log: self.log, "read cores number: %s", (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
+            error("read cores number: \(String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error")")
             return nil
         }
         
@@ -239,8 +238,8 @@ public class SystemKit {
                     }
                 }
             }
-        } catch let error as NSError {
-            os_log(.error, log: self.log, "error to parse system_profiler SPDisplaysDataType: %s", error.localizedDescription)
+        } catch let err as NSError {
+            error("error to parse system_profiler SPDisplaysDataType: \(err.localizedDescription)")
             return nil
         }
         
@@ -259,7 +258,7 @@ public class SystemKit {
         }
         
         if disk == nil {
-            os_log(.error, log: self.log, "empty disk after fetching list")
+            error("empty disk after fetching list")
             return nil
         }
         
@@ -334,8 +333,8 @@ public class SystemKit {
                 
                 return ram
             }
-        } catch let error as NSError {
-            os_log(.error, log: self.log, "error to parse system_profiler SPMemoryDataType: %s", error.localizedDescription)
+        } catch let err as NSError {
+            error("error to parse system_profiler SPMemoryDataType: \(err.localizedDescription)")
             return nil
         }
         

@@ -18,7 +18,7 @@ public class BatterykWidget: WidgetWrapper {
     private var colorState: Bool = false
     private var hideAdditionalWhenFull: Bool = true
     
-    private var percentage: Double = 1
+    private var percentage: Double? = nil
     private var time: Int = 0
     private var charging: Bool = false
     private var ACStatus: Bool = false
@@ -68,10 +68,11 @@ public class BatterykWidget: WidgetWrapper {
         if !self.hideAdditionalWhenFull || (self.hideAdditionalWhenFull && self.percentage != 1) {
             switch self.additional {
             case "percentage":
-                let rowWidth = self.drawOneRow(
-                    value: "\(Int((self.percentage.rounded(toPlaces: 2)) * 100))%",
-                    x: x
-                ).rounded(.up)
+                var value = "n/a"
+                if let percentage = self.percentage {
+                    value = "\(Int((percentage.rounded(toPlaces: 2)) * 100))%"
+                }
+                let rowWidth = self.drawOneRow(value: value, x: x).rounded(.up)
                 width += rowWidth + Constants.Widget.spacing
                 x += rowWidth + Constants.Widget.spacing
             case "time":
@@ -82,17 +83,25 @@ public class BatterykWidget: WidgetWrapper {
                 width += rowWidth + Constants.Widget.spacing
                 x += rowWidth + Constants.Widget.spacing
             case "percentageAndTime":
+                var value = "n/a"
+                if let percentage = self.percentage {
+                    value = "\(Int((percentage.rounded(toPlaces: 2)) * 100))%"
+                }
                 let rowWidth = self.drawTwoRows(
-                    first: "\(Int((self.percentage.rounded(toPlaces: 2)) * 100))%",
+                    first: value,
                     second: Double(self.time*60).printSecondsToHoursMinutesSeconds(short: isShortTimeFormat),
                     x: x
                 ).rounded(.up)
                 width += rowWidth + Constants.Widget.spacing
                 x += rowWidth + Constants.Widget.spacing
             case "timeAndPercentage":
+                var value = "n/a"
+                if let percentage = self.percentage {
+                    value = "\(Int((percentage.rounded(toPlaces: 2)) * 100))%"
+                }
                 let rowWidth = self.drawTwoRows(
                     first: Double(self.time*60).printSecondsToHoursMinutesSeconds(short: isShortTimeFormat),
-                    second: "\(Int((self.percentage.rounded(toPlaces: 2)) * 100))%",
+                    second: value,
                     x: x
                 ).rounded(.up)
                 width += rowWidth + Constants.Widget.spacing
@@ -133,17 +142,33 @@ public class BatterykWidget: WidgetWrapper {
         ctx.restoreGState()
         width += 2 // add battery point width
         
-        let maxWidth = batterySize.width - offset*2 - borderWidth*2 - 1
-        let innerWidth: CGFloat = max(1, maxWidth * CGFloat(self.percentage))
-        let innerOffset: CGFloat = -offset + borderWidth + 1
-        let inner = NSBezierPath(roundedRect: NSRect(
-            x: batteryFrame.bounds.origin.x + innerOffset,
-            y: batteryFrame.bounds.origin.y + innerOffset,
-            width: innerWidth,
-            height: batterySize.height - offset*2 - borderWidth*2 - 1
-        ), xRadius: 1, yRadius: 1)
-        self.percentage.batteryColor(color: self.colorState).set()
-        inner.fill()
+        if let percentage = self.percentage {
+            let maxWidth = batterySize.width - offset*2 - borderWidth*2 - 1
+            let innerWidth: CGFloat = max(1, maxWidth * CGFloat(percentage))
+            let innerOffset: CGFloat = -offset + borderWidth + 1
+            let inner = NSBezierPath(roundedRect: NSRect(
+                x: batteryFrame.bounds.origin.x + innerOffset,
+                y: batteryFrame.bounds.origin.y + innerOffset,
+                width: innerWidth,
+                height: batterySize.height - offset*2 - borderWidth*2 - 1
+            ), xRadius: 1, yRadius: 1)
+            percentage.batteryColor(color: self.colorState).set()
+            inner.fill()
+        } else {
+            let attributes = [
+                NSAttributedString.Key.font: NSFont.systemFont(ofSize: 11, weight: .regular),
+                NSAttributedString.Key.foregroundColor: isDarkMode ? NSColor.white : NSColor.textColor,
+                NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
+            ]
+            
+            let batteryCenter: CGPoint = CGPoint(
+                x: batteryFrame.bounds.origin.x + (batteryFrame.bounds.width/2),
+                y: batteryFrame.bounds.origin.y + (batteryFrame.bounds.height/2)
+            )
+            
+            let rect = CGRect(x: batteryCenter.x-2, y: batteryCenter.y-4, width: 8, height: 12)
+            NSAttributedString.init(string: "?", attributes: attributes).draw(with: rect)
+        }
         
         if self.ACStatus {
             let batteryCenter: CGPoint = CGPoint(
@@ -267,7 +292,7 @@ public class BatterykWidget: WidgetWrapper {
         return rowWidth
     }
     
-    public func setValue(percentage: Double, ACStatus: Bool, isCharging: Bool, time: Int) {
+    public func setValue(percentage: Double? = nil, ACStatus: Bool? = nil, isCharging: Bool? = nil, time: Int? = nil) {
         var updated: Bool = false
         let timeFormat: String = Store.shared.string(key: "\(self.title)_timeFormat", defaultValue: self.timeFormat)
         
@@ -275,15 +300,15 @@ public class BatterykWidget: WidgetWrapper {
             self.percentage = percentage
             updated = true
         }
-        if self.ACStatus != ACStatus {
-            self.ACStatus = ACStatus
+        if let status = ACStatus, self.ACStatus != status {
+            self.ACStatus = status
             updated = true
         }
-        if self.charging != isCharging {
-            self.charging = isCharging
+        if let charging = isCharging, self.charging != charging {
+            self.charging = charging
             updated = true
         }
-        if self.time != time {
+        if let time = time, self.time != time {
             self.time = time
             updated = true
         }
@@ -302,33 +327,30 @@ public class BatterykWidget: WidgetWrapper {
     // MARK: - Settings
     
     public override func settings(width: CGFloat) -> NSView {
-        let rowHeight: CGFloat = 30
-        let height: CGFloat = ((rowHeight + Constants.Settings.margin) * 3) + Constants.Settings.margin
+        let view = SettingsContainerView(width: width)
         
-        let view: NSView = NSView(frame: NSRect(
-            x: Constants.Settings.margin,
-            y: Constants.Settings.margin,
-            width: width - (Constants.Settings.margin*2),
-            height: height
-        ))
+        var additionalOptions = BatteryAdditionals
+        if self.title == "Bluetooth" {
+            additionalOptions = additionalOptions.filter({ $0.key == "none" || $0.key == "percentage" })
+        }
         
-        view.addSubview(selectRow(
-            frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 2, width: view.frame.width, height: rowHeight),
+        view.addArrangedSubview(selectRow(
+            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
             title: localizedString("Additional information"),
             action: #selector(toggleAdditional),
-            items: BatteryAdditionals,
+            items: additionalOptions,
             selected: self.additional
         ))
         
-        view.addSubview(toggleTitleRow(
-            frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 1, width: view.frame.width, height: rowHeight),
+        view.addArrangedSubview(toggleTitleRow(
+            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
             title: localizedString("Hide additional information when full"),
             action: #selector(toggleHideAdditionalWhenFull),
             state: self.hideAdditionalWhenFull
         ))
         
-        view.addSubview(toggleTitleRow(
-            frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 0, width: view.frame.width, height: rowHeight),
+        view.addArrangedSubview(toggleTitleRow(
+            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
             title: localizedString("Colorize"),
             action: #selector(toggleColor),
             state: self.colorState
