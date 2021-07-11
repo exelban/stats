@@ -18,16 +18,16 @@
 "Open RAM settings" = "RAM Einstellungen öffnen";
 "Disk" = "Festplatte";
 "Open Disk settings" = "Festplatten Einstellungen öffnen";
-"Sensors" = "Sensors";
+"Sensors" = "Sensoren";
 "Open Sensors settings" = "Sensoren Einstellungen öffnen";
-"Fans" = "Fans";
+"Fans" = "Lüfter";
 "Open Fans settings" = "Lüfter Einstellungen öffnen";
-"Network" = "Network";
+"Network" = "Netzwerk";
 "Open Network settings" = "Netzwerk Einstellungen öffnen";
-"Battery" = "Battery";
+"Battery" = "Akku";
 "Open Battery settings" = "Akku Einstellungen öffnen";
 "Bluetooth" = "Bluetooth";
-"Open Bluetooth settings" = "Open bluetooth settings";
+"Open Bluetooth settings" = "Bluetooth Einstellungen öffnen";
 
 // Words
 "Unknown" = "Unbekannt";
@@ -54,7 +54,7 @@
 "Max" = "Max";
 "Min" = "Min";
 "Reset" = "Zurücksetzen";
-"Alignment" = "Aurichtung";
+"Alignment" = "Ausrichtung";
 "Left alignment" = "Links";
 "Center alignment" = "Mitte";
 "Right alignment" = "Rechts";
@@ -238,7 +238,7 @@
 "Last charge" = "Letzte Ladung";
 
 // Bluetooth
-"Battery to show" = "Battery to show";
+"Battery to show" = "Angezeigter Akku";
 
 // Colors
 "Based on utilization" = "Basierend auf Auslastung";
