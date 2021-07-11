@@ -26,6 +26,8 @@
 "Open Network settings" = "Open network settings";
 "Battery" = "Battery";
 "Open Battery settings" = "Open battery settings";
+"Bluetooth" = "Bluetooth";
+"Open Bluetooth settings" = "Open bluetooth settings";
 
 // Words
 "Unknown" = "不明";
@@ -234,6 +236,9 @@
 "Time format" = "時間の表示形式";
 "Hide additional information when full" = "フル充電済みのときはアイコンのみ表示";
 "Last charge" = "ラストチャージ";
+
+// Bluetooth
+"Battery to show" = "Battery to show";
 
 // Colors
 "Based on utilization" = "Based on utilization";

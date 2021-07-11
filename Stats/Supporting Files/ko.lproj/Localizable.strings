@@ -26,6 +26,8 @@
 "Open Network settings" = "Open network settings";
 "Battery" = "Battery";
 "Open Battery settings" = "Open battery settings";
+"Bluetooth" = "Bluetooth";
+"Open Bluetooth settings" = "Open bluetooth settings";
 
 // Words
 "Unknown" = "알 수 없음";
@@ -234,6 +236,9 @@
 "Time format" = "시간 형식";
 "Hide additional information when full" = "배터리가 가득 차면 추가 정보 숨기기";
 "Last charge" = "마지막 청구";
+
+// Bluetooth
+"Battery to show" = "Battery to show";
 
 // Colors
 "Based on utilization" = "Based on utilization";

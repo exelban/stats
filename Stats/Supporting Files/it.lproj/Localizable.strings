@@ -26,6 +26,8 @@
 "Open Network settings" = "Open network settings";
 "Battery" = "Battery";
 "Open Battery settings" = "Open battery settings";
+"Bluetooth" = "Bluetooth";
+"Open Bluetooth settings" = "Open bluetooth settings";
 
 // Words
 "Unknown" = "Sconosciuto";
@@ -234,6 +236,9 @@
 "Time format" = "Formato del tempo";
 "Hide additional information when full" = "Nascondi informazioni addizionali quando piena";
 "Last charge" = "Ultima carica";
+
+// Bluetooth
+"Battery to show" = "Battery to show";
 
 // Colors
 "Based on utilization" = "Based on utilization";

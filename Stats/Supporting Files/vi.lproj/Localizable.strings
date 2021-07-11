@@ -26,6 +26,8 @@
 "Open Network settings" = "Open network settings";
 "Battery" = "Battery";
 "Open Battery settings" = "Open battery settings";
+"Bluetooth" = "Bluetooth";
+"Open Bluetooth settings" = "Open bluetooth settings";
 
 // Words
 "Unknown" = "Không xác định";
@@ -234,6 +236,9 @@
 "Time format" = "Định dạng thời gian";
 "Hide additional information when full" = "Ẩn thông tin bổ sung khi pin đầy";
 "Last charge" = "Lần sạc cuối cùng";
+
+// Bluetooth
+"Battery to show" = "Battery to show";
 
 // Colors
 "Based on utilization" = "Dựa trên việc sử dụng";

@@ -18,6 +18,7 @@ import Battery
 import Sensors
 import GPU
 import Fans
+import Bluetooth
 
 let updater = macAppUpdater(user: "exelban", repo: "stats")
 var modules: [Module] = [
@@ -28,7 +29,8 @@ var modules: [Module] = [
     Sensors(),
     Fans(),
     Network(),
-    Battery()
+    Battery(),
+    Bluetooth()
 ]
 
 class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDelegate {
@@ -52,6 +54,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         self.defaultValues()
         self.updateCron()
         info("Stats started in \((startingPoint.timeIntervalSinceNow * -1).rounded(toPlaces: 4)) seconds")
+        Server.shared.sendEvent(modules: modules.filter({ $0.enabled != false && $0.available != false }).map({ $0.config.name }))
     }
     
     func applicationWillTerminate(_ aNotification: Notification) {

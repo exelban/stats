@@ -26,6 +26,8 @@
 "Open Network settings" = "Открыть настройки сети";
 "Battery" = "Аккумулятор";
 "Open Battery settings" = "Открыть настройки аккумулятора";
+"Bluetooth" = "Bluetooth";
+"Open Bluetooth settings" = "Открыть настройки bluetooth";
 
 // Words
 "Unknown" = "Неизвестно";
@@ -234,6 +236,9 @@
 "Time format" = "Формат времени";
 "Hide additional information when full" = "Скрыть дополнительную информацию при полном заряде";
 "Last charge" = "Последняя зарядка";
+
+// Bluetooth
+"Battery to show" = "Активная батарея";
 
 // Colors
 "Based on utilization" = "На основе использования";

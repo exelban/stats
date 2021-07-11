@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Name</key>
+	<string>Bluetooth</string>
+	<key>State</key>
+	<false/>
+	<key>Widgets</key>
+	<dict>
+		<key>label</key>
+		<dict>
+			<key>Default</key>
+			<false/>
+			<key>Title</key>
+			<string>BLE</string>
+			<key>Order</key>
+			<integer>0</integer>
+		</dict>
+		<key>mini</key>
+		<dict>
+			<key>Title</key>
+			<string>BLE</string>
+			<key>Default</key>
+			<false/>
+			<key>Preview</key>
+			<dict>
+				<key>Title</key>
+				<string>BLE</string>
+				<key>Value</key>
+				<string>0.98</string>
+			</dict>
+			<key>Unsupported colors</key>
+			<array>
+				<string>pressure</string>
+			</array>
+			<key>Order</key>
+			<integer>1</integer>
+		</dict>
+		<key>battery</key>
+		<dict>
+			<key>Default</key>
+			<true/>
+			<key>Order</key>
+			<integer>2</integer>
+		</dict>
+	</dict>
+</dict>
+</plist>

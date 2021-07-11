@@ -26,6 +26,8 @@
 "Open Network settings" = "Open network settings";
 "Battery" = "Battery";
 "Open Battery settings" = "Open battery settings";
+"Bluetooth" = "Bluetooth";
+"Open Bluetooth settings" = "Open bluetooth settings";
 
 // Words
 "Unknown" = "Onbekend";
@@ -234,6 +236,9 @@
 "Time format" = "Tijdnotatie";
 "Hide additional information when full" = "Verberg aanvullende informatie wanneer deze vol is";
 "Last charge" = "Sidste opladning";
+
+// Bluetooth
+"Battery to show" = "Battery to show";
 
 // Colors
 "Based on utilization" = "Gebaseerd op gebruikt";

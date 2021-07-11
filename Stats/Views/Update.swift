@@ -34,7 +34,9 @@ class UpdateWindow: NSWindow, NSWindowDelegate {
         self.animationBehavior = .default
         self.collectionBehavior = .transient
         self.titlebarAppearsTransparent = true
-        self.appearance = NSAppearance(named: .darkAqua)
+        if #available(OSX 10.14, *) {
+            self.appearance = NSAppearance(named: .darkAqua)
+        }
         self.center()
         self.setIsVisible(false)
         

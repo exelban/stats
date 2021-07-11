@@ -80,7 +80,7 @@ open class Module: Module_p {
     private let log: NextLog
     private var readers: [Reader_p] = []
     
-    public init(popup: Popup_p?, settings: Settings_v?) {
+    public init(popup: Popup_p? = nil, settings: Settings_v? = nil) {
         self.config = module_c(in: Bundle(for: type(of: self)).path(forResource: "config", ofType: "plist")!)
         
         self.log = NextLog.shared.copy(category: self.config.name)
