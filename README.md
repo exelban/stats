@@ -19,7 +19,7 @@ brew install --cask stats
 ```
 
 ## Requirements
-Stats currently supported on macOS 10.14 (Mojave) and higher.
+Stats currently supported on macOS 10.13 (High Sierra) and higher.
 
 ## Features
 Stats is an application that allows you to monitor your macOS system. 
@@ -33,6 +33,7 @@ Stats is an application that allows you to monitor your macOS system.
  - Network usage
  - Fans speed
  - Fan control
+ - Bluetooth devices
 
 ## Supporting languages
 - English
