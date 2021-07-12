@@ -130,6 +130,9 @@ let SensorsList: [Sensor_t] = [
     Sensor_t(key: "TW0P", name: "Airport", group: .system, type: .temperature),
     Sensor_t(key: "TL0P", name: "Display", group: .system, type: .temperature),
     Sensor_t(key: "TI%P", name: "Thunderbold %", group: .system, type: .temperature),
+    Sensor_t(key: "TH%A", name: "Disk % (A)", group: .system, type: .temperature),
+    Sensor_t(key: "TH%B", name: "Disk % (B)", group: .system, type: .temperature),
+    Sensor_t(key: "TH%C", name: "Disk % (C)", group: .system, type: .temperature),
     
     Sensor_t(key: "TN0D", name: "Northbridge diode", group: .system, type: .temperature),
     Sensor_t(key: "TN0H", name: "Northbridge heatsink", group: .system, type: .temperature),
