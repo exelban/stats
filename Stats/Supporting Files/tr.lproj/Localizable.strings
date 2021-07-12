@@ -11,23 +11,23 @@
 
 // Modules
 "CPU" = "CPU";
-"Open CPU settings" = "Open CPU settings";
+"Open CPU settings" = "CPU ayalarını aç";
 "GPU" = "GPU";
-"Open GPU settings" = "Open GPU settings";
+"Open GPU settings" = "GPU ayarlarını aç";
 "RAM" = "RAM";
-"Open RAM settings" = "Open RAM settings";
+"Open RAM settings" = "RAM ayalarını aç";
 "Disk" = "Disk";
-"Open Disk settings" = "Open disk settings";
+"Open Disk settings" = "Disk ayarlarını aç";
 "Sensors" = "Sensors";
-"Open Sensors settings" = "Open sensors settings";
+"Open Sensors settings" = "Sensör ayarlarını aç";
 "Fans" = "Fans";
-"Open Fans settings" = "Open fans settings";
+"Open Fans settings" = "Fan ayarlarını aç";
 "Network" = "Network";
-"Open Network settings" = "Open network settings";
+"Open Network settings" = "Ağ ayarlarını aç";
 "Battery" = "Battery";
-"Open Battery settings" = "Open battery settings";
+"Open Battery settings" = "Pil ayarlarını aç";
 "Bluetooth" = "Bluetooth";
-"Open Bluetooth settings" = "Open bluetooth settings";
+"Open Bluetooth settings" = "Bluetooth ayarlarını aç";
 
 // Words
 "Unknown" = "Bilinmeyen";
@@ -238,36 +238,36 @@
 "Last charge" = "Son ödeme";
 
 // Bluetooth
-"Battery to show" = "Battery to show";
+"Battery to show" = "Gösterilecek pil";
 
 // Colors
-"Based on utilization" = "Based on utilization";
-"Based on pressure" = "Based on pressure";
-"System accent" = "System accent";
-"Monochrome accent" = "Monochrome accent";
-"Clear" = "Clear";
-"White" = "White";
-"Black" = "Black";
-"Gray" = "Gray";
-"Second gray" = "Second gray";
-"Dark gray" = "Dark gray";
-"Light gray" = "Light gray";
-"Red" = "Red";
-"Second red" = "Second red";
-"Green" = "Green";
-"Second green" = "Second green";
-"Blue" = "Blue";
-"Second blue" = "Second blue";
-"Yellow" = "Yellow";
-"Second yellow" = "Second yellow";
-"Orange" = "Orange";
-"Second orange" = "Second orange";
-"Purple" = "Purple";
-"Second purple" = "Second purple";
-"Brown" = "Brown";
-"Second brown" = "Second brown";
-"Cyan" = "Cyan";
-"Magenta" = "Magenta";
-"Pink" = "Pink";
-"Teal" = "Teal";
-"Indigo" = "Indigo";
+"Based on utilization" = "Kullanıma dayalı";
+"Based on pressure" = "Basınca dayalı";
+"System accent" = "Sistem vurgusu";
+"Monochrome accent" = "Tek renkli vurgu";
+"Clear" = "Temizle";
+"White" = "Beyaz";
+"Black" = "Siyah";
+"Gray" = "Gri";
+"Second gray" = "İkinci gri";
+"Dark gray" = "Koyu gri";
+"Light gray" = "Açık gri";
+"Red" = "Kırmızı";
+"Second red" = "İkinci kırmızı";
+"Green" = "Yeşil";
+"Second green" = "İkinci yeşil";
+"Blue" = "Mavi";
+"Second blue" = "İkinci mavi";
+"Yellow" = "Sarı";
+"Second yellow" = "İkinci sarı";
+"Orange" = "Turuncu";
+"Second orange" = "İkinci turuncu";
+"Purple" = "Mor";
+"Second purple" = "İkinci mor";
+"Brown" = "Kahverengi";
+"Second brown" = "İkinci kahverengi";
+"Cyan" = "Açık mavi";
+"Magenta" = "Macenta";
+"Pink" = "Pembe";
+"Teal" = "Camgöbeği";
+"Indigo" = "Çivit";
