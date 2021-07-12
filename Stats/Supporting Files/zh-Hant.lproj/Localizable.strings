@@ -238,7 +238,7 @@
 "Last charge" = "最近一次充電";
 
 // Bluetooth
-"Battery to show" = "Battery to show";
+"Battery to show" = "顯示藍牙裝置的電池電量";
 
 // Colors
 "Based on utilization" = "根據使用率";
