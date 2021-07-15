@@ -26,7 +26,7 @@
 "Open Network settings" = "打開網路設定";
 "Battery" = "電池";
 "Open Battery settings" = "打開電池設定";
-"Bluetooth" = "藍芽";
+"Bluetooth" = "藍牙";
 "Open Bluetooth settings" = "打開藍牙設定";
 
 // Words
@@ -238,7 +238,7 @@
 "Last charge" = "最近一次充電";
 
 // Bluetooth
-"Battery to show" = "Battery to show";
+"Battery to show" = "顯示藍牙裝置的電池電量";
 
 // Colors
 "Based on utilization" = "根據使用率";
