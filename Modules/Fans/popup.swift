@@ -73,6 +73,9 @@ internal class FanView: NSStackView {
     private var controlView: NSView? = nil
     private var debouncer: DispatchWorkItem? = nil
     
+    private var minBtn: NSButton? = nil
+    private var maxBtn: NSButton? = nil
+    
     public init(_ fan: Fan, width: CGFloat, callback: @escaping (() -> Void)) {
         self.fan = fan
         self.sizeCallback = callback
@@ -209,7 +212,7 @@ internal class FanView: NSStackView {
     }
     
     private func control() -> NSView {
-        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 44))
+        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 46))
         view.identifier = NSUserInterfaceItemIdentifier(rawValue: "control")
         view.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
         
@@ -225,63 +228,54 @@ internal class FanView: NSStackView {
         slider.action = #selector(self.speedChange)
         slider.target = self
         
-        let levels: NSView = NSView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: 14))
+        let levels: NSView = NSView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: 16))
         
-        let minField: NSTextField = TextView(frame: NSRect(x: 0, y: 0, width: 80, height: levels.frame.height))
-        minField.font = NSFont.systemFont(ofSize: 11, weight: .light)
-        minField.textColor = .secondaryLabelColor
-        minField.stringValue = "\(localizedString("Min")): \(Int(self.fan.minSpeed))"
-        minField.alignment = .left
+        let minBtn: NSButton = NSButton(frame: NSRect(x: 0, y: 0, width: 50, height: levels.frame.height))
+        minBtn.title = "\(Int(self.fan.minSpeed))"
+        minBtn.toolTip = localizedString("Min")
+        minBtn.setButtonType(.toggle)
+        minBtn.isBordered = false
+        minBtn.target = self
+        minBtn.state = .off
+        minBtn.action = #selector(self.setMin)
+        minBtn.wantsLayer = true
+        minBtn.layer?.cornerRadius = 3
+        minBtn.layer?.borderWidth = 1
+        minBtn.layer?.borderColor = NSColor.lightGray.cgColor
         
         let valueField: NSTextField = TextView(frame: NSRect(x: 80, y: 0, width: levels.frame.width - 160, height: levels.frame.height))
         valueField.font = NSFont.systemFont(ofSize: 11, weight: .light)
         valueField.textColor = .secondaryLabelColor
         valueField.alignment = .center
         
-        let maxField: NSTextField = TextView(frame: NSRect(x: levels.frame.width - 80, y: 0, width: 80, height: levels.frame.height))
-        maxField.font = NSFont.systemFont(ofSize: 11, weight: .light)
-        maxField.textColor = .secondaryLabelColor
-        maxField.stringValue = "\(localizedString("Max")): \(Int(self.fan.maxSpeed))"
-        maxField.alignment = .right
+        let maxBtn: NSButton = NSButton(frame: NSRect(x: levels.frame.width - 50, y: 0, width: 50, height: levels.frame.height))
+        maxBtn.title = "\(Int(self.fan.maxSpeed))"
+        maxBtn.toolTip = localizedString("Max")
+        maxBtn.setButtonType(.toggle)
+        maxBtn.isBordered = false
+        maxBtn.target = self
+        maxBtn.state = .off
+        maxBtn.wantsLayer = true
+        maxBtn.action = #selector(self.setMax)
+        maxBtn.layer?.cornerRadius = 3
+        maxBtn.layer?.borderWidth = 1
+        maxBtn.layer?.borderColor = NSColor.lightGray.cgColor
         
         controls.addArrangedSubview(slider)
         
-        levels.addSubview(minField)
+        levels.addSubview(minBtn)
         levels.addSubview(valueField)
-        levels.addSubview(maxField)
+        levels.addSubview(maxBtn)
         
         view.addSubview(controls)
         view.addSubview(levels)
         
         self.slider = slider
         self.sliderValueField = valueField
+        self.minBtn = minBtn
+        self.maxBtn = maxBtn
+        
         return view
-    }
-    
-    @objc private func speedChange(_ sender: NSSlider) {
-        guard let field = self.sliderValueField else {
-            return
-        }
-        
-        let value = sender.doubleValue
-        field.stringValue = "\(Int(value)) RPM"
-        field.textColor = .secondaryLabelColor
-        
-        self.debouncer?.cancel()
-        
-        let task = DispatchWorkItem { [weak self] in
-            DispatchQueue.global(qos: .userInteractive).async { [weak self] in
-                if let id = self?.fan.id {
-                    SMCHelper.shared.setFanSpeed(id, speed: Int(value))
-                }
-                DispatchQueue.main.async {
-                    field.textColor = .systemBlue
-                }
-            }
-        }
-        
-        self.debouncer = task
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.3, execute: task)
     }
     
     private func toggleMode() {
@@ -290,9 +284,13 @@ internal class FanView: NSStackView {
         }
         
         if self.fan.mode == .automatic {
-            view.removeFromSuperview()
             self.sliderValueField?.stringValue = ""
-            self.slider?.doubleValue = self.fan.minSpeed
+            self.sliderValueField?.textColor = .secondaryLabelColor
+            self.slider?.doubleValue = self.fan.value
+            self.minBtn?.state = .off
+            self.maxBtn?.state = .off
+            
+            view.removeFromSuperview()
         } else if self.fan.mode == .forced {
             self.addArrangedSubview(view)
         }
@@ -302,15 +300,62 @@ internal class FanView: NSStackView {
         self.sizeCallback()
     }
     
+    private func setSpeed(value: Int, then: @escaping () -> Void = {}) {
+        self.sliderValueField?.stringValue = "\(value) RPM"
+        self.sliderValueField?.textColor = .secondaryLabelColor
+        
+        self.debouncer?.cancel()
+        
+        let task = DispatchWorkItem { [weak self] in
+            DispatchQueue.global(qos: .userInteractive).async { [weak self] in
+                if let id = self?.fan.id {
+                    SMCHelper.shared.setFanSpeed(id, speed: value)
+                }
+                then()
+            }
+        }
+        
+        self.debouncer = task
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.3, execute: task)
+    }
+    
+    @objc private func speedChange(_ sender: NSSlider) {
+        let value = sender.doubleValue
+        
+        self.minBtn?.state = .off
+        self.maxBtn?.state = .off
+        
+        self.setSpeed(value: Int(value), then: {
+            DispatchQueue.main.async {
+                self.sliderValueField?.textColor = .systemBlue
+            }
+        })
+    }
+    
+    @objc func setMin(_ sender: NSButton) {
+        self.slider?.doubleValue = self.fan.minSpeed
+        self.maxBtn?.state = .off
+        self.setSpeed(value: Int(self.fan.minSpeed))
+    }
+    
+    @objc func setMax(_ sender: NSButton) {
+        self.slider?.doubleValue = self.fan.maxSpeed
+        self.minBtn?.state = .off
+        self.setSpeed(value: Int(self.fan.maxSpeed))
+    }
+    
     public func update(_ value: Fan) {
         DispatchQueue.main.async(execute: {
             if (self.window?.isVisible ?? false) || !self.ready {
-                if let view = self.valueField {
-                    view.stringValue = value.formattedValue
-                }
+                self.valueField?.stringValue = value.formattedValue
+                self.percentageField?.stringValue = "\((100*Int(value.value)) / Int(self.fan.maxSpeed))%"
+                self.sliderValueField?.stringValue = value.formattedValue
                 
-                if let view = self.percentageField {
-                    view.stringValue = "\((100*Int(value.value)) / Int(self.fan.maxSpeed))%"
+                if value.value <= value.minSpeed+10 {
+                    self.minBtn?.state = .on
+                }
+                if value.value >= value.maxSpeed-10 {
+                    self.maxBtn?.state = .on
                 }
                 
                 self.ready = true
