@@ -185,20 +185,20 @@ public class SensorsWidget: WidgetWrapper {
     public override func settings(width: CGFloat) -> NSView {
         let view = SettingsContainerView(width: width)
         
-//        view.addArrangedSubview(selectRow(
-//            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
-//            title: localizedString("Display mode"),
-//            action: #selector(changeMode),
-//            items: SensorsWidgetMode,
-//            selected: self.modeState
-//        ))
-//        
-//        view.addArrangedSubview(toggleTitleRow(
-//            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
-//            title: localizedString("Static width"),
-//            action: #selector(toggleSize),
-//            state: self.fixedSizeState
-//        ))
+        view.addArrangedSubview(selectRow(
+            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
+            title: localizedString("Display mode"),
+            action: #selector(changeMode),
+            items: SensorsWidgetMode,
+            selected: self.modeState
+        ))
+        
+        view.addArrangedSubview(toggleTitleRow(
+            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
+            title: localizedString("Static width"),
+            action: #selector(toggleSize),
+            state: self.fixedSizeState
+        ))
         
         return view
     }
