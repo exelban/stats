@@ -205,6 +205,13 @@ internal class FanView: NSStackView {
             }
             self?.toggleMode()
         }
+        buttons.turbo = { [weak self] in
+            self?.fan.mode = .forced
+            if let fan = self?.fan {
+                SMCHelper.shared.setFanMode(fan.id, mode: FanMode.forced.rawValue)
+                SMCHelper.shared.setFanSpeed(fan.id, speed: Int(fan.maxSpeed))
+            }
+        }
         
         view.addSubview(buttons)
         
@@ -366,21 +373,29 @@ internal class FanView: NSStackView {
 
 private class ModeButtons: NSStackView {
     public var callback: (FanMode) -> Void = {_ in }
+    public var turbo: () -> Void = {}
     
     private var autoBtn: NSButton = NSButton(title: localizedString("Automatic"), target: nil, action: #selector(autoMode))
     private var manualBtn: NSButton = NSButton(title: localizedString("Manual"), target: nil, action: #selector(manualMode))
+    private var turboBtn: NSButton = NSButton(image: NSImage(named: NSImage.Name("ac_unit"))!, target: nil, action: #selector(turboMode))
     
     public init(frame: NSRect, mode: FanMode) {
         super.init(frame: frame)
         
         self.orientation = .horizontal
         self.alignment = .centerY
-        self.distribution = .fillEqually
+        self.distribution = .fillProportionally
+        self.spacing = 0
         
         self.wantsLayer = true
         self.layer?.cornerRadius = 3
         self.layer?.borderWidth = 1
         self.layer?.borderColor = NSColor.lightGray.cgColor
+        
+        let modes: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height))
+        modes.orientation = .horizontal
+        modes.alignment = .centerY
+        modes.distribution = .fillEqually
         
         self.autoBtn.setButtonType(.toggle)
         self.autoBtn.isBordered = false
@@ -392,8 +407,21 @@ private class ModeButtons: NSStackView {
         self.manualBtn.target = self
         self.manualBtn.state = mode == .forced ? .on : .off
         
-        self.addArrangedSubview(self.autoBtn)
-        self.addArrangedSubview(self.manualBtn)
+        modes.addArrangedSubview(self.autoBtn)
+        modes.addArrangedSubview(self.manualBtn)
+        
+        self.turboBtn.setButtonType(.toggle)
+        self.turboBtn.isBordered = false
+        self.turboBtn.target = self
+        
+        NSLayoutConstraint.activate([
+            self.turboBtn.widthAnchor.constraint(equalToConstant: 26),
+            self.turboBtn.heightAnchor.constraint(equalToConstant: self.frame.height),
+            modes.heightAnchor.constraint(equalToConstant: self.frame.height)
+        ])
+        
+        self.addArrangedSubview(modes)
+        self.addArrangedSubview(self.turboBtn)
     }
     
     required init?(coder: NSCoder) {
@@ -407,6 +435,7 @@ private class ModeButtons: NSStackView {
         }
         
         self.manualBtn.state = .off
+        self.turboBtn.state = .off
         self.callback(.automatic)
     }
     
@@ -417,6 +446,18 @@ private class ModeButtons: NSStackView {
         }
         
         self.autoBtn.state = .off
+        self.turboBtn.state = .off
         self.callback(.forced)
+    }
+    
+    @objc func turboMode(_ sender: NSButton) {
+        if sender.state.rawValue == 0 {
+            self.turboBtn.state = .on
+            return
+        }
+        
+        self.manualBtn.state = .off
+        self.autoBtn.state = .off
+        self.turbo()
     }
 }
