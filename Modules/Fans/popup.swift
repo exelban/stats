@@ -156,7 +156,10 @@ internal class FanView: NSStackView {
         row.heightAnchor.constraint(equalToConstant: row.bounds.height).isActive = true
         
         let value = self.fan.value
-        let percentage = "\((100*Int(value)) / Int(self.fan.maxSpeed))%"
+        var percentage = ""
+        if value != 1 && self.fan.maxSpeed != 1 {
+            percentage = "\((100*Int(value)) / Int(self.fan.maxSpeed))%"
+        }
         let percentageWidth: CGFloat = 40
         
         let keyField: NSTextField = TextView(frame: NSRect(
@@ -354,14 +357,19 @@ internal class FanView: NSStackView {
     public func update(_ value: Fan) {
         DispatchQueue.main.async(execute: {
             if (self.window?.isVisible ?? false) || !self.ready {
+                var percentage = ""
+                if value.value != 1 && self.fan.maxSpeed != 1 {
+                    percentage = "\((100*Int(value.value)) / Int(self.fan.maxSpeed))%"
+                }
+                
+                self.percentageField?.stringValue = percentage
                 self.valueField?.stringValue = value.formattedValue
-                self.percentageField?.stringValue = "\((100*Int(value.value)) / Int(self.fan.maxSpeed))%"
                 self.sliderValueField?.stringValue = value.formattedValue
                 
-                if value.value <= value.minSpeed+10 {
+                if value.minSpeed != 1 && value.value <= value.minSpeed+10 {
                     self.minBtn?.state = .on
                 }
-                if value.value >= value.maxSpeed-10 {
+                if value.minSpeed != 1 && value.value >= value.maxSpeed-10 {
                     self.maxBtn?.state = .on
                 }
                 

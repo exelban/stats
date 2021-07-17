@@ -101,7 +101,7 @@ internal class Settings: NSStackView, Settings_v {
         title.heightAnchor.constraint(equalToConstant: title.bounds.height).isActive = true
         view.addArrangedSubview(title)
         
-        self.list.pointee.reversed().forEach { (f: Fan) in
+        self.list.pointee.forEach { (f: Fan) in
             let row: NSView = toggleTitleRow(
                 frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
                 title: f.name,
