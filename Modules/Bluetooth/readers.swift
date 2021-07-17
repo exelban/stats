@@ -38,6 +38,13 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
     private let batteryServiceUUID = CBUUID(string: "0x180F")
     private let batteryCharacteristicsUUID = CBUUID(string: "0x2A19")
     
+    private let batteryKeys: [String] = [
+        "BatteryPercent",
+        "BatteryPercentCase",
+        "BatteryPercentLeft",
+        "BatteryPercentRight"
+    ]
+    
     override init() {
         super.init()
         self.manager = CBCentralManager.init(delegate: self, queue: nil)
@@ -92,11 +99,20 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
         var batteryLevel: [KeyValue_t] = []
         if let d = deviceCache.first(where: { $0.key == address }) {
             d.value.forEach { (key, value) in
-                guard let value = value as? Int, key == "BatteryPercentCase" || key == "BatteryPercentLeft" || key == "BatteryPercentRight" else {
+                guard self.batteryKeys.contains(key) else {
                     return
                 }
                 
-                batteryLevel.append(KeyValue_t(key: key, value: "\(value)"))
+                var percentage: Int = 0
+                switch value {
+                case let value as Int:
+                    percentage = value
+                case let value as Double:
+                    percentage = Int(value*100)
+                default: return
+                }
+                
+                batteryLevel.append(KeyValue_t(key: key, value: "\(percentage)"))
             }
         }
         
