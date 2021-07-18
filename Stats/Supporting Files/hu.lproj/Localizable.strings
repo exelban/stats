@@ -2,7 +2,7 @@
 //  Localizable.strings
 //  Stats
 //
-//  Created by @moriczr on 22/01/2021.
+//  Created by @moriczr on 22/01/2021, updated by András Oravecz (info@oandras.hu) on 15/07/2021
 //  Using Swift 5.0.
 //  Running on macOS 10.15.
 //
@@ -11,23 +11,23 @@
 
 // Modules
 "CPU" = "CPU";
-"Open CPU settings" = "Open CPU settings";
+"Open CPU settings" = "CPU beállítások megnyitása";
 "GPU" = "GPU";
-"Open GPU settings" = "Open GPU settings";
-"RAM" = "RAM";
-"Open RAM settings" = "Open RAM settings";
-"Disk" = "Disk";
-"Open Disk settings" = "Open disk settings";
-"Sensors" = "Sensors";
-"Open Sensors settings" = "Open sensors settings";
-"Fans" = "Fans";
-"Open Fans settings" = "Open fans settings";
-"Network" = "Network";
-"Open Network settings" = "Open network settings";
-"Battery" = "Battery";
-"Open Battery settings" = "Open battery settings";
+"Open GPU settings" = "GPU beállítások megnyitása";
+"RAM" = "Memória";
+"Open RAM settings" = "Memória beállítások megnyitása";
+"Disk" = "Lemezek";
+"Open Disk settings" = "Lemez beállítások megnyitása";
+"Sensors" = "Érzékelők";
+"Open Sensors settings" = "Érzékelő beállítások megnyitása";
+"Fans" = "Ventilátorok";
+"Open Fans settings" = "Ventilátor beállítások megnyitása";
+"Network" = "Hálózat";
+"Open Network settings" = "Hálózati beállítások megnyitása";
+"Battery" = "Akkumulátor";
+"Open Battery settings" = "Akkumulátor beállítások megnyitása";
 "Bluetooth" = "Bluetooth";
-"Open Bluetooth settings" = "Open bluetooth settings";
+"Open Bluetooth settings" = "Bluetooth beállítások megnyitása";
 
 // Words
 "Unknown" = "Ismeretlen";
@@ -43,7 +43,7 @@
 "Yes" = "Igen";
 "No" = "Nem";
 "Automatic" = "Automatikus";
-"Manual" = "Manual";
+"Manual" = "Kézi";
 "None" = "Egyik sem";
 "Dots" = "Pontok";
 "Arrows" = "Nyilak";
@@ -53,12 +53,12 @@
 "Statistics" = "Statisztikák";
 "Max" = "Max";
 "Min" = "Min";
-"Reset" = "Reset";
-"Alignment" = "Alignment";
-"Left alignment" = "Left";
-"Center alignment" = "Center";
-"Right alignment" = "Right";
-"Dashboard" = "Dashboard";
+"Reset" = "Visszaállít";
+"Alignment" = "Igazítás";
+"Left alignment" = "Balra igazítás";
+"Center alignment" = "Középre igazítás";
+"Right alignment" = "Jobbra igazítás";
+"Dashboard" = "Irányítópult";
 
 // Alerts
 "New version available" = "Új verzió érhető el";
@@ -69,10 +69,10 @@
 // Settings
 "Open Activity Monitor" = "Tevékenységfigyelő megnyitása";
 "Report a bug" = "Probléma jelentése";
-"Support the application" = "Support the application";
+"Support the application" = "Támogasd az alkalmazás fejlesztését";
 "Close application" = "Alkalmazás bezárása";
 "Open application settings" = "Beállítások megnyitása";
-"Open dashboard" = "Open dashboard";
+"Open dashboard" = "Irányítópult megnyitása";
 
 // Application settings
 "Update application" = "Alkalmazás frissítése";
@@ -99,7 +99,7 @@
 // Widgets
 "Color" = "Szín";
 "Label" = "Címke megjelenítése";
-"Box" = "Box";
+"Box" = "Háttér";
 "Frame" = "Keret";
 "Value" = "Érték megjelenítése";
 "Colorize" = "Színezés";
@@ -111,21 +111,21 @@
 "One row" = "Egy sor";
 "Two rows" = "Két sor";
 "Mini widget" = "Mini";
-"Line chart widget" = "Line chart";
-"Bar chart widget" = "Bar chart";
-"Pie chart widget" = "Pie chart";
-"Network chart widget" = "Network chart";
-"Speed widget" = "Speed";
-"Battery widget" = "Battery";
-"Text widget" = "Text";
-"Memory widget" = "Memory";
-"Static width" = "Static width";
+"Line chart widget" = "Vonaldiagram";
+"Bar chart widget" = "Oszlopdiagram";
+"Pie chart widget" = "Kördiagram";
+"Network chart widget" = "Hálózati diagram";
+"Speed widget" = "Sebesség";
+"Battery widget" = "Akkumulátor";
+"Text widget" = "Szöveg";
+"Memory widget" = "Memória";
+"Static width" = "Fix szélesség";
 
 // Module Kit
 "Open module settings" = "Modul beállításainak megnyitása";
-"Select widget" = "%0 widget kiválasztása";
-"Open widget settings" = "Open widget settings";
-"Update interval" = "Frissítési ráta";
+"Select widget" = "%0 modul kiválasztása";
+"Open widget settings" = "Modul beállításainak megnyitása";
+"Update interval" = "Frissítési időköz";
 "Usage history" = "Használati előzmények";
 "Details" = "Részletek";
 "Top processes" = "Top folyamatok";
@@ -147,19 +147,19 @@
 // GPU
 "GPU to show" = "Megjelenítendő GPU";
 "Show GPU type" = "GPU típus mutatása";
-"GPU enabled" = "GPU enabled";
-"GPU disabled" = "GPU disabled";
+"GPU enabled" = "GPU bekapcsolva";
+"GPU disabled" = "GPU kikapcsolva";
 "GPU temperature" = "GPU hőmérséklet";
 "GPU utilization" = "GPU terhelés";
-"Vendor" = "Vendor";
-"Model" = "Model";
-"Status" = "Status";
-"Active" = "Active";
-"Non active" = "Non active";
-"Fan speed" = "Fan speed";
-"Core clock" = "Core clock";
-"Memory clock" = "Memory clock";
-"Utilization" = "Utilization";
+"Vendor" = "Gyártó";
+"Model" = "Modell";
+"Status" = "Állapot";
+"Active" = "Aktív";
+"Non active" = "Inaktív";
+"Fan speed" = "Ventilátor sebesség";
+"Core clock" = "Mag órajel";
+"Memory clock" = "Memória órajel";
+"Utilization" = "Felhasználás";
 
 // Memory
 "Memory usage" = "Memóriahasználat";
@@ -170,12 +170,12 @@
 "Wired" = "Nem lapozható";
 "Compressed" = "Tömörített";
 "Free" = "Szabad";
-"Swap" = "Swap";
+"Swap" = "Csereterület";
 
 // Disk
-"Show removable disks" = "Adattárolók megjelenítése";
-"Used disk memory" = "%0 felhasznált %1 -ból";
-"Free disk memory" = "%0 szabad %1 -ból";
+"Show removable disks" = "Eltávolítható adattárolók megjelenítése";
+"Used disk memory" = "%0 felhasznált %1-ból";
+"Free disk memory" = "%0 szabad %1-ból";
 "Disk to show" = "Megjelenítendő lemez";
 "Open disk" = "Merevlemez megnyitása";
 "Switch view" = "Nézet felcserélése";
@@ -192,10 +192,10 @@
 "Local IP" = "Helyi IP";
 "Interface" = "Interfész";
 "Physical address" = "Fizikai cím";
-"Refresh" = "Refresh";
+"Refresh" = "Frissítés";
 "Click to copy public IP address" = "Kattints a publikus IP cím másolásához";
 "Click to copy local IP address" = "Kattints a helyi IP cím másolásához";
-"Click to copy wifi name" = "Kattints a WiFi nevének másolásához";
+"Click to copy wifi name" = "Kattints a Wi-Fi nevének másolásához";
 "Click to copy mac address" = "Kattints a fizikai cím másolásához";
 "No connection" = "Nincs kapcsolat";
 "Network interface" = "Hálózati interfész kiválasztása";
@@ -208,8 +208,8 @@
 // Battery
 "Level" = "Töltöttségi szint";
 "Source" = "Forrás";
-"AC Power" = "AC Power";
-"Battery Power" = "Battery Power";
+"AC Power" = "Hálózati tápellátás";
+"Battery Power" = "Akkumulátor tápellátás";
 "Time" = "Időtartam";
 "Health" = "Állapot";
 "Amperage" = "Áramerősség";
@@ -224,12 +224,12 @@
 "Calculating" = "Kiszámítás";
 "Fully charged" = "Teljesen feltöltve";
 "Not connected" = "Nincs csatlakoztatva";
-"Low level notification" = "Alacsony töltöttség értesítő";
-"High level notification" = "High level notification";
+"Low level notification" = "Alacsony töltöttség értesítés";
+"High level notification" = "Magas töltöttség értesítés";
 "Low battery" = "Alacsony akkumulátor töltöttség";
-"High battery" = "High battery";
+"High battery" = "Magas akkumulátor töltöttség";
 "Battery remaining" = "%0% töltöttség";
-"Battery remaining to full charge" = "%0% to full charge";
+"Battery remaining to full charge" = "%0% hátra a teljes töltöttséghez";
 "Percentage" = "Százalék";
 "Percentage and time" = "Százalék és időtartam";
 "Time and percentage" = "Időtartam és százalék";
@@ -238,36 +238,36 @@
 "Last charge" = "Utolsó töltés";
 
 // Bluetooth
-"Battery to show" = "Battery to show";
+"Battery to show" = "Akkumulátor megjelenítése";
 
 // Colors
-"Based on utilization" = "Based on utilization";
-"Based on pressure" = "Based on pressure";
-"System accent" = "System accent";
-"Monochrome accent" = "Monochrome accent";
-"Clear" = "Clear";
-"White" = "White";
-"Black" = "Black";
-"Gray" = "Gray";
-"Second gray" = "Second gray";
-"Dark gray" = "Dark gray";
-"Light gray" = "Light gray";
-"Red" = "Red";
-"Second red" = "Second red";
-"Green" = "Green";
-"Second green" = "Second green";
-"Blue" = "Blue";
-"Second blue" = "Second blue";
-"Yellow" = "Yellow";
-"Second yellow" = "Second yellow";
-"Orange" = "Orange";
-"Second orange" = "Second orange";
-"Purple" = "Purple";
-"Second purple" = "Second purple";
-"Brown" = "Brown";
-"Second brown" = "Second brown";
-"Cyan" = "Cyan";
+"Based on utilization" = "Használat függő";
+"Based on pressure" = "Terhelés függő";
+"System accent" = "Rendszer kiemelő színe";
+"Monochrome accent" = "Monokróm kiemelő szín";
+"Clear" = "Átlátszó";
+"White" = "Fehér";
+"Black" = "Fekete";
+"Gray" = "Szürke";
+"Second gray" = "Második szürke";
+"Dark gray" = "Sötét szürke";
+"Light gray" = "Világos szürke";
+"Red" = "Piros";
+"Second red" = "Második piros";
+"Green" = "Zöld";
+"Second green" = "Második zöld";
+"Blue" = "Kék";
+"Second blue" = "Második kék";
+"Yellow" = "Citromárga";
+"Second yellow" = "Második citromsárga";
+"Orange" = "Narancssárga";
+"Second orange" = "Második narancssárga";
+"Purple" = "Lila";
+"Second purple" = "Második lila";
+"Brown" = "Barna";
+"Second brown" = "Második barna";
+"Cyan" = "Cián";
 "Magenta" = "Magenta";
-"Pink" = "Pink";
-"Teal" = "Teal";
-"Indigo" = "Indigo";
+"Pink" = "Rózsaszín";
+"Teal" = "Zöldeskék";
+"Indigo" = "Indigó";
