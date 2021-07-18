@@ -21,6 +21,8 @@ struct event: Codable {
     var device: String
     var os: String
     var language: String
+    
+    var omit: Bool
 }
 
 public class Server {
@@ -41,7 +43,7 @@ public class Server {
         }
     }
     
-    public func sendEvent(modules: [String]) {
+    public func sendEvent(modules: [String], omit: Bool = false) {
         let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
         let build = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String
         let systemVersion = ProcessInfo().operatingSystemVersion
@@ -52,7 +54,8 @@ public class Server {
             build: build ?? "unknown",
             modules: modules, device: SystemKit.shared.modelName() ?? "unknown",
             os: systemVersion.getFullVersion(),
-            language: Locale.current.languageCode ?? "unknown"
+            language: Locale.current.languageCode ?? "unknown",
+            omit: omit
         )
         
         var request = URLRequest(url: self.url)
