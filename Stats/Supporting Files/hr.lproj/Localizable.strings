@@ -27,7 +27,7 @@
 "Battery" = "Baterija";
 "Open Battery settings" = "Otvori postavke baterije";
 "Bluetooth" = "Bluetooth";
-"Open Bluetooth settings" = "Open bluetooth settings";
+"Open Bluetooth settings" = "Otvori postavke bluetootha";
 
 // Words
 "Unknown" = "Nepoznato";
@@ -238,7 +238,7 @@
 "Last charge" = "Zadnje punjenje";
 
 // Bluetooth
-"Battery to show" = "Battery to show";
+"Battery to show" = "Prikazana baterija";
 
 // Colors
 "Based on utilization" = "Na osnovi korištenja";
