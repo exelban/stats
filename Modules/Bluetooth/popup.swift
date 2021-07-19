@@ -73,6 +73,7 @@ internal class BLEView: NSStackView {
         let nameView: NSTextField = TextView(frame: NSRect(x: 0, y: 0, width: 0, height: 16))
         nameView.font = NSFont.systemFont(ofSize: 13, weight: .light)
         nameView.stringValue = name
+        nameView.toolTip = uuid.uuidString
         
         self.addArrangedSubview(nameView)
         self.addArrangedSubview(NSView())
