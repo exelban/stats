@@ -13,16 +13,9 @@ import Foundation
 import Kit
 import CoreBluetooth
 
-public enum BLEType: String {
-    case iPhone
-    case airPods
-    case unknown
-}
-
 public struct BLEDevice {
     let uuid: UUID
     let name: String
-    let type: BLEType
     
     var RSSI: Int?
     var batteryLevel: [KeyValue_t]

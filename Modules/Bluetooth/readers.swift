@@ -29,7 +29,6 @@ internal class DevicesReader: Reader<[BLEDevice]> {
 
 class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
     private var manager: CBCentralManager!
-    private let cache = UserDefaults(suiteName: "/Library/Preferences/com.apple.Bluetooth")
     
     private var peripherals: [CBPeripheral] = []
     public var devices: [BLEDevice] = []
@@ -51,23 +50,29 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
     }
     
     public func read() {
+        guard let dict = UserDefaults(suiteName: "/Library/Preferences/com.apple.Bluetooth") else {
+            return
+        }
+        
         IOBluetoothDevice.pairedDevices().forEach { (d) in
-            guard let device = d as? IOBluetoothDevice,
-                  let cache = self.findInCache(address: device.addressString) else {
+            guard let device = d as? IOBluetoothDevice, device.isPaired() || device.isConnected(),
+                  let cache = self.findInCache(dict, address: device.addressString) else {
                 return
             }
             
             let rssi = device.rawRSSI() == 127 ? nil : Int(device.rawRSSI())
             
             if let idx = self.devices.firstIndex(where: { $0.uuid == cache.uuid }) {
+                self.devices[idx].RSSI = rssi
+                if cache.batteryLevel.isEmpty {
+                    self.devices[idx].batteryLevel = cache.batteryLevel
+                }
                 self.devices[idx].isConnected = device.isConnected()
                 self.devices[idx].isPaired = device.isPaired()
-                self.devices[idx].RSSI = rssi
             } else {
                 self.devices.append(BLEDevice(
                     uuid: cache.uuid,
                     name: device.nameOrAddress,
-                    type: .unknown,
                     RSSI: rssi,
                     batteryLevel: cache.batteryLevel,
                     isConnected: device.isConnected(),
@@ -78,10 +83,9 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
         }
     }
     
-    private func findInCache(address: String) -> (uuid: UUID, batteryLevel: [KeyValue_t])? {
-        guard let plist = self.cache,
-              let deviceCache = plist.object(forKey: "DeviceCache") as? [String: [String: Any]],
-              let coreCache = plist.object(forKey: "CoreBluetoothCache") as? [String: [String: Any]] else {
+    private func findInCache(_ cache: UserDefaults, address: String) -> (uuid: UUID, batteryLevel: [KeyValue_t])? {
+        guard let deviceCache = cache.object(forKey: "DeviceCache") as? [String: [String: Any]],
+              let coreCache = cache.object(forKey: "CoreBluetoothCache") as? [String: [String: Any]] else {
             return nil
         }
         
