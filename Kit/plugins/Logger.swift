@@ -179,3 +179,7 @@ public func info(_ message: String, log: NextLog = NextLog.shared, file: String 
 public func error(_ message: String, log: NextLog = NextLog.shared, file: String = #file, line: UInt = #line) {
     log.log(level: .error, message: message, file: file, line: line)
 }
+
+public func error_msg(_ message: String, log: NextLog = NextLog.shared, file: String = #file, line: UInt = #line) {
+    log.log(level: .error, message: message, file: file, line: line)
+}

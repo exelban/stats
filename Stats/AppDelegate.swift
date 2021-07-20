@@ -45,9 +45,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         self.parseArguments()
         self.parseVersion()
         
-        NSUserNotificationCenter.default.removeAllDeliveredNotifications()
-        NotificationCenter.default.addObserver(self, selector: #selector(updateCron), name: .changeCronInterval, object: nil)
-        
         modules.forEach{ $0.mount() }
         self.settingsWindow.setModules()
         
