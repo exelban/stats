@@ -102,21 +102,19 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
         
         var batteryLevel: [KeyValue_t] = []
         if let d = deviceCache.first(where: { $0.key == address }) {
-            d.value.forEach { (key, value) in
-                guard self.batteryKeys.contains(key) else {
-                    return
+            for key in self.batteryKeys {
+                if let pair = d.value.first(where: { $0.key == key }) {
+                    var percentage: Int = 0
+                    switch pair.value {
+                    case let value as Int:
+                        percentage = value
+                    case let value as Double:
+                        percentage = Int(value*100)
+                    default: continue
+                    }
+                    
+                    batteryLevel.append(KeyValue_t(key: key, value: "\(percentage)"))
                 }
-                
-                var percentage: Int = 0
-                switch value {
-                case let value as Int:
-                    percentage = value
-                case let value as Double:
-                    percentage = Int(value*100)
-                default: return
-                }
-                
-                batteryLevel.append(KeyValue_t(key: key, value: "\(percentage)"))
             }
         }
         
@@ -159,7 +157,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
     
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
         guard error == nil else {
-            print("didDiscoverServices: ", error!)
+            error_msg("didDiscoverServices: \(error!)")
             return
         }
         
@@ -169,11 +167,13 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
         }
         
         peripheral.discoverCharacteristics([self.batteryCharacteristicsUUID], for: service)
+        
+        debug("\(peripheral.identifier): discover bluetooth services")
     }
     
     func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
         guard error == nil else {
-            print("didDiscoverCharacteristicsFor: ", error!)
+            error_msg("didDiscoverCharacteristicsFor: \(error!)")
             return
         }
         
@@ -184,16 +184,20 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
         
         self.characteristicsDict[peripheral.identifier] = batteryCharacteristics
         peripheral.readValue(for: batteryCharacteristics)
+        
+        debug("\(peripheral.identifier): discover battery service")
     }
     
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
         guard error == nil else {
-            print("didUpdateValueFor: ", error!)
+            error_msg("didUpdateValueFor: \(error!)")
             return
         }
         
         if let batteryLevel = characteristic.value?[0], let idx = self.devices.firstIndex(where: { $0.uuid == peripheral.identifier }) {
             self.devices[idx].batteryLevel = [KeyValue_t(key: "battery", value: "\(batteryLevel)")]
         }
+        
+        debug("\(peripheral.identifier): receive battery update")
     }
 }
