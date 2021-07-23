@@ -236,7 +236,7 @@ internal class UsageReader: Reader<Network_Usage> {
         do {
             if let url = URL(string: "https://api.ipify.org") {
                 let value = try String(contentsOf: url)
-                if !value.contains("<!DOCTYPE html>") {
+                if !value.contains("<!DOCTYPE html>") && self.isIPv4(value) {
                     self.usage.raddr.v4 = value
                 }
             }
@@ -247,7 +247,7 @@ internal class UsageReader: Reader<Network_Usage> {
         do {
             if let url = URL(string: "https://api64.ipify.org") {
                 let value = try String(contentsOf: url)
-                if self.usage.raddr.v4 != value {
+                if self.usage.raddr.v4 != value && !self.isIPv4(value) {
                     self.usage.raddr.v6 = value
                 }
             }
@@ -265,6 +265,11 @@ internal class UsageReader: Reader<Network_Usage> {
         
         let data: UnsafeMutablePointer<if_data>? = unsafeBitCast(pointer.pointee.ifa_data, to: UnsafeMutablePointer<if_data>.self)
         return (upload: Int64(data?.pointee.ifi_obytes ?? 0), download: Int64(data?.pointee.ifi_ibytes ?? 0))
+    }
+    
+    private func isIPv4(_ ip: String) -> Bool {
+        let arr = ip.split(separator: ".").compactMap{ Int($0) }
+        return arr.count == 4 && arr.filter{ $0 >= 0 && $0 < 256}.count == 4
     }
     
     @objc func refreshPublicIP() {
