@@ -241,7 +241,7 @@ public func separatorView(_ title: String, origin: NSPoint, width: CGFloat) -> N
     let view: NSView = NSView(frame: NSRect(x: origin.x, y: origin.y, width: width, height: 30))
     view.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
     
-    let labelView: NSTextField = TextView(frame: NSRect(x: 0, y: (view.frame.height-15)/2, width: view.frame.width, height: 15))
+    let labelView: NSTextField = TextView(frame: NSRect(x: 0, y: (view.frame.height-18)/2, width: view.frame.width, height: 18))
     labelView.stringValue = title
     labelView.alignment = .center
     labelView.textColor = .secondaryLabelColor
@@ -249,6 +249,7 @@ public func separatorView(_ title: String, origin: NSPoint, width: CGFloat) -> N
     labelView.stringValue = title
     
     view.addSubview(labelView)
+    
     return view
 }
 
@@ -256,8 +257,8 @@ public func popupRow(_ view: NSView, n: CGFloat = 0, title: String, value: Strin
     let rowView: NSView = NSView(frame: NSRect(x: 0, y: 22*n, width: view.frame.width, height: 22))
     
     let labelWidth = title.widthOfString(usingFont: .systemFont(ofSize: 13, weight: .regular)) + 4
-    let labelView: LabelField = LabelField(frame: NSRect(x: 0, y: (22-15)/2, width: labelWidth, height: 15), title)
-    let valueView: ValueField = ValueField(frame: NSRect(x: labelWidth, y: (22-15)/2, width: rowView.frame.width - labelWidth, height: 16), value)
+    let labelView: LabelField = LabelField(frame: NSRect(x: 0, y: (22-16)/2, width: labelWidth, height: 16), title)
+    let valueView: ValueField = ValueField(frame: NSRect(x: labelWidth, y: (22-16)/2, width: rowView.frame.width - labelWidth, height: 16), value)
     
     rowView.addSubview(labelView)
     rowView.addSubview(valueView)
@@ -280,7 +281,7 @@ public func popupWithColorRow(_ view: NSView, color: NSColor, n: CGFloat, title:
     colorView.layer?.backgroundColor = color.cgColor
     colorView.layer?.cornerRadius = 2
     let labelWidth = title.widthOfString(usingFont: .systemFont(ofSize: 13, weight: .regular)) + 5
-    let labelView: LabelField = LabelField(frame: NSRect(x: 18, y: (22-15)/2, width: labelWidth, height: 15), title)
+    let labelView: LabelField = LabelField(frame: NSRect(x: 18, y: (22-16)/2, width: labelWidth, height: 16), title)
     let valueView: ValueField = ValueField(frame: NSRect(x: 18 + labelWidth, y: (22-16)/2, width: rowView.frame.width - labelWidth - 18, height: 16), value)
     
     rowView.addSubview(colorView)
@@ -631,7 +632,7 @@ public func sysctlByName(_ name: String) -> Int64 {
     return num
 }
 
-public class ProcessView: NSView {
+public class ProcessView: NSStackView {
     public var width: CGFloat {
         get { return 0 }
         set {
@@ -668,7 +669,7 @@ public class ProcessView: NSView {
         let rowView: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 16))
         
         let imageView: NSImageView = NSImageView(frame: NSRect(x: 2, y: 2, width: 12, height: 12))
-        let labelView: LabelField = LabelField(frame: NSRect(x: 18, y: 0.5, width: rowView.frame.width - 70 - 18, height: 15), "")
+        let labelView: LabelField = LabelField(frame: NSRect(x: 18, y: 0, width: rowView.frame.width - 70 - 18, height: 16), "")
         let valueView: ValueField = ValueField(frame: NSRect(x: 18 + labelView.frame.width, y: 0, width: 70, height: 16), "")
         
         rowView.addSubview(imageView)

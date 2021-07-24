@@ -508,7 +508,7 @@ public class NetworkProcessView: NSView {
         let rowView: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 16))
         
         let imageView: NSImageView = NSImageView(frame: NSRect(x: 2, y: 2, width: 12, height: 12))
-        let labelView: LabelField = LabelField(frame: NSRect(x: 18, y: 0.5, width: rowView.frame.width - 138, height: 15), "")
+        let labelView: LabelField = LabelField(frame: NSRect(x: 18, y: 0, width: rowView.frame.width - 138, height: 16), "")
         let uploadView: ValueField = ValueField(frame: NSRect(x: rowView.frame.width - 120, y: 1.75, width: 60, height: 12), "")
         let downloadView: ValueField = ValueField(frame: NSRect(x: rowView.frame.width - 60, y: 1.75, width: 60, height: 12), "")
         uploadView.font = NSFont.systemFont(ofSize: 10, weight: .regular)
