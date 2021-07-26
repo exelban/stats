@@ -69,6 +69,9 @@ public class CPU: Module {
         self.settingsView.setInterval = { [unowned self] value in
             self.loadReader?.setInterval(value)
         }
+        self.settingsView.setTopInterval = { [unowned self] value in
+            self.processReader?.setInterval(value)
+        }
         self.settingsView.IPGCallback = { [unowned self] value in
             if value {
                 self.frequencyReader?.setup()
