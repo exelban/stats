@@ -83,7 +83,7 @@
 "Once per month" = "Eenmaal per maand";
 "Never" = "Nooit";
 "Check for update" = "Controleer op updates";
-"Show icon in dock" = "Pictorgram in dock weergeven";
+"Show icon in dock" = "Pictogram in dock weergeven";
 "Start at login" = "Starten bij inloggen";
 
 // Dashboard
@@ -110,7 +110,7 @@
 "Display mode" = "Weergavemodus";
 "One row" = "Een rij";
 "Two rows" = "Twee rijen";
-"Mini widget" = "Mini";
+"Mini widget" = "Miniwidget";
 "Line chart widget" = "Lijngrafiek";
 "Bar chart widget" = "Staafgrafiek";
 "Pie chart widget" = "Taartgrafiek";
@@ -218,7 +218,7 @@
 "Temperature" = "Temperatuur";
 "Power adapter" = "Oplader";
 "Power" = "Vermogen";
-"Is charging" = "Is aan het opladen";
+"Is charging" = "Aan het opladen";
 "Time to discharge" = "Tijd tot ontladen";
 "Time to charge" = "Tijd tot opgeladen";
 "Calculating" = "Berekenen";
@@ -233,15 +233,15 @@
 "Percentage" = "Percentage";
 "Percentage and time" = "Percentage en tijd";
 "Time and percentage" = "Tijd and Percentage";
-"Time format" = "Tijdnotatie";
-"Hide additional information when full" = "Verberg aanvullende informatie wanneer deze vol is";
-"Last charge" = "Sidste opladning";
+"Time format" = "Tijdsnotatie";
+"Hide additional information when full" = "Verberg aanvullende informatie wanneer batterij vol is";
+"Last charge" = "Laatste oplading";
 
 // Bluetooth
 "Battery to show" = "Battery to show";
 
 // Colors
-"Based on utilization" = "Gebaseerd op gebruikt";
+"Based on utilization" = "Gebaseerd op gebruik";
 "Based on pressure" = "Gebaseerd op druk";
 "System accent" = "System accent";
 "Monochrome accent" = "Monochrome accent";
