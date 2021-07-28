@@ -64,7 +64,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
             
             if let idx = self.devices.firstIndex(where: { $0.uuid == cache.uuid }) {
                 self.devices[idx].RSSI = rssi
-                if cache.batteryLevel.isEmpty {
+                if !cache.batteryLevel.isEmpty {
                     self.devices[idx].batteryLevel = cache.batteryLevel
                 }
                 self.devices[idx].isConnected = device.isConnected()
