@@ -68,6 +68,9 @@ public class RAM: Module {
             self.processReader?.read()
             self.usageReader?.setInterval(value)
         }
+        self.settingsView.setTopInterval = { [unowned self] value in
+            self.processReader?.setInterval(value)
+        }
         
         self.usageReader = UsageReader()
         self.processReader = ProcessReader()
