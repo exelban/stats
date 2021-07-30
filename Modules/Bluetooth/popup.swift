@@ -38,6 +38,7 @@ internal class Popup: NSStackView, Popup_p {
                 self.addArrangedSubview(BLEView(
                     width: self.frame.width,
                     uuid: ble.uuid,
+                    address: ble.address,
                     name: ble.name,
                     batteryLevel: ble.batteryLevel
                 ))
@@ -59,7 +60,7 @@ internal class BLEView: NSStackView {
         return CGSize(width: self.bounds.width, height: self.bounds.height)
     }
     
-    public init(width: CGFloat, uuid: UUID, name: String, batteryLevel: [KeyValue_t]) {
+    public init(width: CGFloat, uuid: UUID, address: String, name: String, batteryLevel: [KeyValue_t]) {
         self.uuid = uuid
         
         super.init(frame: NSRect(x: 0, y: 0, width: width, height: 30))
@@ -73,7 +74,7 @@ internal class BLEView: NSStackView {
         let nameView: NSTextField = TextView(frame: NSRect(x: 0, y: 0, width: 0, height: 16))
         nameView.font = NSFont.systemFont(ofSize: 13, weight: .light)
         nameView.stringValue = name
-        nameView.toolTip = uuid.uuidString
+        nameView.toolTip = address
         
         self.addArrangedSubview(nameView)
         self.addArrangedSubview(NSView())

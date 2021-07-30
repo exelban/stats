@@ -15,6 +15,7 @@ import CoreBluetooth
 
 public struct BLEDevice {
     let uuid: UUID
+    let address: String
     let name: String
     
     var RSSI: Int?

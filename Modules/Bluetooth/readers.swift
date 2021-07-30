@@ -72,6 +72,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
             } else {
                 self.devices.append(BLEDevice(
                     uuid: cache.uuid,
+                    address: device.addressString,
                     name: device.nameOrAddress,
                     RSSI: rssi,
                     batteryLevel: cache.batteryLevel,
@@ -108,6 +109,9 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
                     switch pair.value {
                     case let value as Int:
                         percentage = value
+                        if "\(pair.value)" == "1.00" {
+                            percentage *= 100
+                        }
                     case let value as Double:
                         percentage = Int(value*100)
                     default: continue
