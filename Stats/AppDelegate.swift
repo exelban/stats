@@ -33,11 +33,18 @@ var modules: [Module] = [
     Bluetooth()
 ]
 
+@main
 class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDelegate {
     internal let settingsWindow: SettingsWindow = SettingsWindow()
     internal let updateNotification = NSUserNotification()
     
     private let updateActivity = NSBackgroundActivityScheduler(identifier: "eu.exelban.Stats.updateCheck")
+    
+    static func main() {
+        let delegate = AppDelegate()
+        NSApplication.shared.delegate = delegate
+        NSApplication.shared.run()
+    }
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         let startingPoint = Date()
