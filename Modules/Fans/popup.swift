@@ -366,13 +366,6 @@ internal class FanView: NSStackView {
                 self.valueField?.stringValue = value.formattedValue
                 self.sliderValueField?.stringValue = value.formattedValue
                 
-                if value.minSpeed != 1 && value.value <= value.minSpeed+10 {
-                    self.minBtn?.state = .on
-                }
-                if value.minSpeed != 1 && value.value >= value.maxSpeed-10 {
-                    self.maxBtn?.state = .on
-                }
-                
                 self.ready = true
             }
         })
