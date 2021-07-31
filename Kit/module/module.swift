@@ -293,7 +293,7 @@ open class Module: Module_p {
     }
     
     @objc private func listenForMouseDownInSettings(_ notification: Notification) {
-        if let popup = self.popup, popup.isVisible {
+        if let popup = self.popup, popup.isVisible && !popup.locked {
             self.popup?.setIsVisible(false)
         }
     }

@@ -21,7 +21,6 @@ internal class PopupWindow: NSWindow, NSWindowDelegate {
     
     init(title: String, view: Popup_p?, visibilityCallback: @escaping (_ state: Bool) -> Void) {
         self.viewController.setup(title: title, view: view)
-        self.viewController.visibilityCallback = visibilityCallback
         
         super.init(
             contentRect: NSRect(
@@ -34,6 +33,11 @@ internal class PopupWindow: NSWindow, NSWindowDelegate {
             backing: .buffered,
             defer: true
         )
+        
+        self.viewController.visibilityCallback = { [weak self] state in
+            self?.locked = false
+            visibilityCallback(state)
+        }
         
         self.contentViewController = self.viewController
         self.titlebarAppearsTransparent = true
@@ -315,11 +319,6 @@ internal class HeaderView: NSStackView {
     @objc func openActivityMonitor(_ sender: Any) {
         self.window?.setIsVisible(false)
         
-        if self.isCloseAction {
-            self.setCloseButton(false)
-            return
-        }
-        
         NSWorkspace.shared.launchApplication(
             withBundleIdentifier: "com.apple.ActivityMonitor",
             options: [.default],
@@ -333,14 +332,22 @@ internal class HeaderView: NSStackView {
         NotificationCenter.default.post(name: .toggleSettings, object: nil, userInfo: ["module": self.title])
     }
     
+    @objc private func closePopup() {
+        self.window?.setIsVisible(false)
+        self.setCloseButton(false)
+        return
+    }
+    
     public func setCloseButton(_ state: Bool) {
         if state && !self.isCloseAction {
             self.activityButton?.image = Bundle(for: type(of: self)).image(forResource: "close")!
             self.activityButton?.toolTip = localizedString("Close popup")
+            self.activityButton?.action = #selector(self.closePopup)
             self.isCloseAction = true
         } else if !state && self.isCloseAction {
             self.activityButton?.image = Bundle(for: type(of: self)).image(forResource: "chart")!
             self.activityButton?.toolTip = localizedString("Open Activity Monitor")
+            self.activityButton?.action = #selector(self.openActivityMonitor)
             self.isCloseAction = false
         }
     }
