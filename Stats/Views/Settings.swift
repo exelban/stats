@@ -266,7 +266,7 @@ private class SettingsView: NSView {
     }
     
     @objc private func donate(_ sender: Any) {
-        NSWorkspace.shared.open(URL(string: "https://github.com/exelban/stats")!)
+        NSWorkspace.shared.open(URL(string: "https://github.com/sponsors/exelban")!)
     }
     
     @objc private func closeApp(_ sender: Any) {
