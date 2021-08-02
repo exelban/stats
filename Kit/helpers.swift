@@ -316,13 +316,13 @@ public extension Array where Element: Hashable {
 }
 
 public func findAndToggleNSControlState(_ view: NSView?, state: NSControl.StateValue) {
-    if let control = view?.subviews.first(where: { $0 is NSControl }) {
+    if let control = view?.subviews.first(where: { $0 is NSControl && !($0 is NSTextField) }) {
         toggleNSControlState(control as? NSControl, state: state)
     }
 }
 
 public func findAndToggleEnableNSControlState(_ view: NSView?, state: Bool) {
-    if let control = view?.subviews.first(where: { $0 is NSControl }) {
+    if let control = view?.subviews.first(where: { $0 is NSControl && !($0 is NSTextField) }) {
         toggleEnableNSControlState(control as? NSControl, state: state)
     }
 }
