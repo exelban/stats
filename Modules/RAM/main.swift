@@ -110,6 +110,7 @@ public class RAM: Module {
         
         self.popupView.loadCallback(value)
         
+        let total: Double = value.total == 0 ? 1 : value.total
         self.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
             switch w.item {
             case let widget as Mini:
@@ -119,11 +120,10 @@ public class RAM: Module {
                 widget.setValue(value.usage)
                 widget.setPressure(value.pressureLevel)
             case let widget as BarChart:
-                widget.setValue([value.usage])
+                widget.setValue([[ColorValue(value.usage)]])
                 widget.setColorZones((0.8, 0.95))
                 widget.setPressure(value.pressureLevel)
             case let widget as PieChart:
-                let total: Double = value.total == 0 ? 1 : value.total
                 widget.setValue([
                     circle_segment(value: value.app/total, color: NSColor.systemBlue),
                     circle_segment(value: value.wired/total, color: NSColor.systemOrange),

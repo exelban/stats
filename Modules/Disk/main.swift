@@ -200,7 +200,7 @@ public class Disk: Module {
         self.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
             switch w.item {
             case let widget as Mini: widget.setValue(percentage)
-            case let widget as BarChart: widget.setValue([percentage])
+            case let widget as BarChart: widget.setValue([[ColorValue(percentage)]])
             case let widget as MemoryWidget: widget.setValue((DiskSize(free).getReadableMemory(), DiskSize(usedSpace).getReadableMemory()))
             default: break
             }

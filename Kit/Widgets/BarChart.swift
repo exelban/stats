@@ -18,7 +18,7 @@ public class BarChart: WidgetWrapper {
     private var colorState: Color = .systemAccent
     
     private var colors: [Color] = Color.allCases
-    private var value: [Double] = []
+    private var value: [[ColorValue]] = [[]]
     private var pressureLevel: Int = 0
     private var colorZones: colorZones = (0.6, 0.8)
     
@@ -38,7 +38,7 @@ public class BarChart: WidgetWrapper {
                 if let previewConfig = config!["Preview"] as? NSDictionary {
                     configuration = previewConfig
                     if let value = configuration["Value"] as? String {
-                        self.value = value.split(separator: ",").map{ (Double($0) ?? 0) }
+                        self.value = value.split(separator: ",").map{ ([ColorValue(Double($0) ?? 0)]) }
                     }
                 }
             }
@@ -77,7 +77,7 @@ public class BarChart: WidgetWrapper {
         
         if preview {
             if self.value.isEmpty {
-                self.value = [0.72, 0.38]
+                self.value = [[ColorValue(0.72)], [ColorValue(0.38)]]
             }
             self.setFrameSize(NSSize(width: 36, height: self.frame.size.height))
             self.invalidateIntrinsicContentSize()
@@ -124,10 +124,10 @@ public class BarChart: WidgetWrapper {
                 NSAttributedString.Key.foregroundColor: NSColor.textColor,
                 NSAttributedString.Key.paragraphStyle: style
             ]
-
+            
             let letterHeight = self.frame.height / 3
             let letterWidth: CGFloat = 6.0
-
+            
             var yMargin: CGFloat = 0
             for char in String(self.title.prefix(3)).uppercased().reversed() {
                 let rect = CGRect(x: x, y: yMargin, width: letterWidth, height: letterHeight)
@@ -135,7 +135,7 @@ public class BarChart: WidgetWrapper {
                 str.draw(with: rect)
                 yMargin += letterHeight
             }
-
+            
             width += letterWidth + Constants.Widget.spacing
             x = letterWidth + Constants.Widget.spacing
         }
@@ -161,25 +161,34 @@ public class BarChart: WidgetWrapper {
         
         x += offset
         for i in 0..<self.value.count {
-            let partitionValue = self.value[i]
-            let partitonHeight = maxPartitionHeight * CGFloat(partitionValue)
-            let partition = NSBezierPath(rect: NSRect(x: x, y: offset, width: partitionWidth, height: partitonHeight))
-            
-            switch self.colorState {
-            case .systemAccent: controlAccentColor.set()
-            case .utilization: partitionValue.usageColor(zones: self.colorZones).setFill()
-            case .pressure: self.pressureLevel.pressureColor().setFill()
-            case .monochrome:
-                if self.boxState {
-                    (isDarkMode ? NSColor.black : NSColor.white).set()
+            var y = offset
+            for a in 0..<self.value[i].count {
+                let partitionValue = self.value[i][a]
+                let partitonHeight = maxPartitionHeight * CGFloat(partitionValue.value)
+                let partition = NSBezierPath(rect: NSRect(x: x, y: y, width: partitionWidth, height: partitonHeight))
+                
+                if partitionValue.color == nil {
+                    switch self.colorState {
+                    case .systemAccent: controlAccentColor.set()
+                    case .utilization: partitionValue.value.usageColor(zones: self.colorZones).setFill()
+                    case .pressure: self.pressureLevel.pressureColor().setFill()
+                    case .monochrome:
+                        if self.boxState {
+                            (isDarkMode ? NSColor.black : NSColor.white).set()
+                        } else {
+                            (isDarkMode ? NSColor.white : NSColor.black).set()
+                        }
+                    default: (self.colorState.additional as? NSColor ?? controlAccentColor).set()
+                    }
                 } else {
-                    (isDarkMode ? NSColor.white : NSColor.black).set()
+                    partitionValue.color?.set()
                 }
-            default: (self.colorState.additional as? NSColor ?? controlAccentColor).set()
+                
+                partition.fill()
+                partition.close()
+                
+                y += partitonHeight
             }
-            
-            partition.fill()
-            partition.close()
             
             x += partitionWidth + partitionMargin
         }
@@ -193,7 +202,7 @@ public class BarChart: WidgetWrapper {
         self.setWidth(width)
     }
     
-    public func setValue(_ value: [Double]) {
+    public func setValue(_ value: [[ColorValue]]) {
         guard self.value != value else {
             return
         }
@@ -229,42 +238,33 @@ public class BarChart: WidgetWrapper {
     // MARK: - Settings
     
     public override func settings(width: CGFloat) -> NSView {
-        let rowHeight: CGFloat = 30
-        let settingsNumber: CGFloat = 4
-        let height: CGFloat = ((rowHeight + Constants.Settings.margin) * settingsNumber) + Constants.Settings.margin
+        let view = SettingsContainerView(width: width)
         
-        let view: NSView = NSView(frame: NSRect(
-            x: Constants.Settings.margin,
-            y: Constants.Settings.margin,
-            width: width - (Constants.Settings.margin*2),
-            height: height
-        ))
-        
-        view.addSubview(toggleTitleRow(
-            frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 3, width: view.frame.width, height: rowHeight),
+        view.addArrangedSubview(toggleTitleRow(
+            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
             title: localizedString("Label"),
             action: #selector(toggleLabel),
             state: self.labelState
         ))
         
         self.boxSettingsView = toggleTitleRow(
-            frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 2, width: view.frame.width, height: rowHeight),
+            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
             title: localizedString("Box"),
             action: #selector(toggleBox),
             state: self.boxState
         )
-        view.addSubview(self.boxSettingsView!)
+        view.addArrangedSubview(self.boxSettingsView!)
         
         self.frameSettingsView = toggleTitleRow(
-            frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 1, width: view.frame.width, height: rowHeight),
+            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
             title: localizedString("Frame"),
             action: #selector(toggleFrame),
             state: self.frameState
         )
-        view.addSubview(self.frameSettingsView!)
+        view.addArrangedSubview(self.frameSettingsView!)
         
-        view.addSubview(selectRow(
-            frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 0, width: view.frame.width, height: rowHeight),
+        view.addArrangedSubview(selectRow(
+            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
             title: localizedString("Color"),
             action: #selector(toggleColor),
             items: self.colors,

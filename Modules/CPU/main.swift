@@ -128,7 +128,12 @@ public class CPU: Module {
             switch w.item {
             case let widget as Mini: widget.setValue(value.totalUsage)
             case let widget as LineChart: widget.setValue(value.totalUsage)
-            case let widget as BarChart: widget.setValue(self.usagePerCoreState ? value.usagePerCore : [value.totalUsage])
+            case let widget as BarChart:
+                var val: [[ColorValue]] = [[ColorValue(value.totalUsage)]]
+                if self.usagePerCoreState {
+                    val = value.usagePerCore.map({ [ColorValue($0)] })
+                }
+                widget.setValue(val)
             case let widget as PieChart:
                 widget.setValue([
                     circle_segment(value: value.systemLoad, color: NSColor.systemRed),

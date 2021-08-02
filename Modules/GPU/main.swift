@@ -133,7 +133,7 @@ public class GPU: Module {
                 widget.setValue(utilization)
                 widget.setTitle(self.showType ? "\(selectedGPU.type)GPU" : nil)
             case let widget as LineChart: widget.setValue(utilization)
-            case let widget as BarChart: widget.setValue([utilization])
+            case let widget as BarChart: widget.setValue([[ColorValue(utilization)]])
             default: break
             }
         }

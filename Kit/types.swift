@@ -11,6 +11,21 @@
 
 import Cocoa
 
+public struct ColorValue: Equatable {
+    public let value: Double
+    public let color: NSColor?
+    
+    public init(_ value: Double, color: NSColor? = nil) {
+        self.value = value
+        self.color = color
+    }
+    
+    // swiftlint:disable operator_whitespace
+    public static func ==(lhs: ColorValue, rhs: ColorValue) -> Bool {
+        return lhs.value == rhs.value
+    }
+}
+
 public enum AppUpdateInterval: String {
     case atStart = "At start"
     case separator1 = "separator_1"
