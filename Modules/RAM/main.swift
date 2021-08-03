@@ -54,6 +54,12 @@ public class RAM: Module {
     private var usageReader: UsageReader? = nil
     private var processReader: ProcessReader? = nil
     
+    private var splitValueState: Bool {
+        get {
+            return Store.shared.bool(key: "\(self.config.name)_splitValue", defaultValue: false)
+        }
+    }
+    
     public init() {
         self.settingsView = Settings("RAM")
         self.popupView = Popup("RAM")
@@ -64,6 +70,9 @@ public class RAM: Module {
         )
         guard self.available else { return }
         
+        self.settingsView.callback = { [unowned self] in
+            self.usageReader?.read()
+        }
         self.settingsView.setInterval = { [unowned self] value in
             self.processReader?.read()
             self.usageReader?.setInterval(value)
@@ -120,9 +129,17 @@ public class RAM: Module {
                 widget.setValue(value.usage)
                 widget.setPressure(value.pressureLevel)
             case let widget as BarChart:
-                widget.setValue([[ColorValue(value.usage)]])
-                widget.setColorZones((0.8, 0.95))
-                widget.setPressure(value.pressureLevel)
+                if self.splitValueState {
+                    widget.setValue([[
+                        ColorValue(value.app/total, color: NSColor.systemBlue),
+                        ColorValue(value.wired/total, color: NSColor.systemOrange),
+                        ColorValue(value.compressed/total, color: NSColor.systemPink)
+                    ]])
+                } else {
+                    widget.setValue([[ColorValue(value.usage)]])
+                    widget.setColorZones((0.8, 0.95))
+                    widget.setPressure(value.pressureLevel)
+                }
             case let widget as PieChart:
                 widget.setValue([
                     circle_segment(value: value.app/total, color: NSColor.systemBlue),

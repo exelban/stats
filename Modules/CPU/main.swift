@@ -38,6 +38,11 @@ public class CPU: Module {
             return Store.shared.bool(key: "\(self.config.name)_usagePerCore", defaultValue: false)
         }
     }
+    private var splitValueState: Bool {
+        get {
+            return Store.shared.bool(key: "\(self.config.name)_splitValue", defaultValue: false)
+        }
+    }
     
     public init() {
         self.settingsView = Settings("CPU")
@@ -132,6 +137,11 @@ public class CPU: Module {
                 var val: [[ColorValue]] = [[ColorValue(value.totalUsage)]]
                 if self.usagePerCoreState {
                     val = value.usagePerCore.map({ [ColorValue($0)] })
+                } else if self.splitValueState {
+                    val = [[
+                        ColorValue(value.systemLoad, color: NSColor.systemRed),
+                        ColorValue(value.userLoad, color: NSColor.systemBlue)
+                    ]]
                 }
                 widget.setValue(val)
             case let widget as PieChart:

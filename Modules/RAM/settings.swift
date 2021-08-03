@@ -16,6 +16,7 @@ internal class Settings: NSStackView, Settings_v {
     private var updateIntervalValue: Int = 1
     private var updateTopIntervalValue: Int = 1
     private var numberOfProcesses: Int = 8
+    private var splitValueState: Bool = false
     
     private let title: String
     
@@ -29,6 +30,7 @@ internal class Settings: NSStackView, Settings_v {
         self.updateIntervalValue = Store.shared.int(key: "\(self.title)_updateInterval", defaultValue: self.updateIntervalValue)
         self.updateTopIntervalValue = Store.shared.int(key: "\(self.title)_updateTopInterval", defaultValue: self.updateTopIntervalValue)
         self.numberOfProcesses = Store.shared.int(key: "\(self.title)_processes", defaultValue: self.numberOfProcesses)
+        self.splitValueState = Store.shared.bool(key: "\(self.title)_splitValue", defaultValue: self.splitValueState)
         
         super.init(frame: NSRect(
             x: 0,
@@ -54,9 +56,10 @@ internal class Settings: NSStackView, Settings_v {
     
     public func load(widgets: [widget_t]) {
         self.subviews.forEach{ $0.removeFromSuperview() }
+        let width: CGFloat = self.frame.width - (Constants.Settings.margin*2)
         
         self.addArrangedSubview(selectTitleRow(
-            frame: NSRect(x: 0, y: 0, width: self.frame.width - (Constants.Settings.margin*2), height: Constants.Settings.row),
+            frame: NSRect(x: 0, y: 0, width: width, height: Constants.Settings.row),
             title: localizedString("Update interval"),
             action: #selector(changeUpdateInterval),
             items: ReaderUpdateIntervals.map{ "\($0) sec" },
@@ -64,7 +67,7 @@ internal class Settings: NSStackView, Settings_v {
         ))
         
         self.addArrangedSubview(selectTitleRow(
-            frame: NSRect(x: 0, y: 0, width: self.frame.width - (Constants.Settings.margin*2), height: Constants.Settings.row),
+            frame: NSRect(x: 0, y: 0, width: width, height: Constants.Settings.row),
             title: localizedString("Update interval for top processes"),
             action: #selector(changeUpdateTopInterval),
             items: ReaderUpdateIntervals.map{ "\($0) sec" },
@@ -72,11 +75,18 @@ internal class Settings: NSStackView, Settings_v {
         ))
         
         self.addArrangedSubview(selectTitleRow(
-            frame: NSRect(x: 0, y: 0, width: self.frame.width - (Constants.Settings.margin*2), height: Constants.Settings.row),
+            frame: NSRect(x: 0, y: 0, width: width, height: Constants.Settings.row),
             title: localizedString("Number of top processes"),
             action: #selector(changeNumberOfProcesses),
             items: NumbersOfProcesses.map{ "\($0)" },
             selected: "\(self.numberOfProcesses)"
+        ))
+        
+        self.addArrangedSubview(toggleTitleRow(
+            frame: NSRect(x: 0, y: 0, width: width, height: Constants.Settings.row),
+            title: localizedString("Split the value (App/Wired/Compressed)"),
+            action: #selector(toggleSplitValue),
+            state: self.splitValueState
         ))
         
         let h = self.arrangedSubviews.map({ $0.bounds.height + self.spacing }).reduce(0, +) - self.spacing + self.edgeInsets.top + self.edgeInsets.bottom
@@ -107,5 +117,18 @@ internal class Settings: NSStackView, Settings_v {
             Store.shared.set(key: "\(self.title)_processes", value: value)
             self.callbackWhenUpdateNumberOfProcesses()
         }
+    }
+    
+    @objc func toggleSplitValue(_ sender: NSControl) {
+        var state: NSControl.StateValue? = nil
+        if #available(OSX 10.15, *) {
+            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
+        } else {
+            state = sender is NSButton ? (sender as! NSButton).state: nil
+        }
+        
+        self.splitValueState = state! == .on ? true : false
+        Store.shared.set(key: "\(self.title)_splitValue", value: self.splitValueState)
+        self.callback()
     }
 }

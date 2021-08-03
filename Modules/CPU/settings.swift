@@ -15,6 +15,7 @@ import Kit
 internal class Settings: NSStackView, Settings_v {
     private var usagePerCoreState: Bool = false
     private var hyperthreadState: Bool = false
+    private var splitValueState: Bool = false
     private var IPGState: Bool = false
     private var updateIntervalValue: Int = 1
     private var updateTopIntervalValue: Int = 1
@@ -30,11 +31,13 @@ internal class Settings: NSStackView, Settings_v {
     public var setTopInterval: ((_ value: Int) -> Void) = {_ in }
     
     private var hyperthreadView: NSView? = nil
+    private var splitValueView: NSView? = nil
     
     public init(_ title: String) {
         self.title = title
         self.hyperthreadState = Store.shared.bool(key: "\(self.title)_hyperhreading", defaultValue: self.hyperthreadState)
         self.usagePerCoreState = Store.shared.bool(key: "\(self.title)_usagePerCore", defaultValue: self.usagePerCoreState)
+        self.splitValueState = Store.shared.bool(key: "\(self.title)_splitValue", defaultValue: self.splitValueState)
         self.IPGState = Store.shared.bool(key: "\(self.title)_IPG", defaultValue: self.IPGState)
         self.updateIntervalValue = Store.shared.int(key: "\(self.title)_updateInterval", defaultValue: self.updateIntervalValue)
         self.updateTopIntervalValue = Store.shared.int(key: "\(self.title)_updateTopInterval", defaultValue: self.updateTopIntervalValue)
@@ -70,6 +73,8 @@ internal class Settings: NSStackView, Settings_v {
         self.subviews.forEach{ $0.removeFromSuperview() }
         
         var hasIPG = false
+        let width: CGFloat = self.frame.width - (Constants.Settings.margin*2)
+        
         #if arch(x86_64)
         let path: CFString = "/Library/Frameworks/IntelPowerGadget.framework" as CFString
         let bundleURL = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, path, CFURLPathStyle.cfurlposixPathStyle, true)
@@ -77,7 +82,7 @@ internal class Settings: NSStackView, Settings_v {
         #endif
         
         self.addArrangedSubview(selectTitleRow(
-            frame: NSRect(x: 0, y: 0, width: self.frame.width - (Constants.Settings.margin*2), height: Constants.Settings.row),
+            frame: NSRect(x: 0, y: 0, width: width, height: Constants.Settings.row),
             title: localizedString("Update interval"),
             action: #selector(changeUpdateInterval),
             items: ReaderUpdateIntervals.map{ "\($0) sec" },
@@ -85,7 +90,7 @@ internal class Settings: NSStackView, Settings_v {
         ))
         
         self.addArrangedSubview(selectTitleRow(
-            frame: NSRect(x: 0, y: 0, width: self.frame.width - (Constants.Settings.margin*2), height: Constants.Settings.row),
+            frame: NSRect(x: 0, y: 0, width: width, height: Constants.Settings.row),
             title: localizedString("Update interval for top processes"),
             action: #selector(changeUpdateTopInterval),
             items: ReaderUpdateIntervals.map{ "\($0) sec" },
@@ -94,7 +99,7 @@ internal class Settings: NSStackView, Settings_v {
         
         if !widgets.filter({ $0 == .barChart }).isEmpty {
             self.addArrangedSubview(toggleTitleRow(
-                frame: NSRect(x: 0, y: 0, width: self.frame.width - (Constants.Settings.margin*2), height: Constants.Settings.row),
+                frame: NSRect(x: 0, y: 0, width: width, height: Constants.Settings.row),
                 title: localizedString("Show usage per core"),
                 action: #selector(toggleUsagePerCore),
                 state: self.usagePerCoreState
@@ -113,11 +118,23 @@ internal class Settings: NSStackView, Settings_v {
                 }
                 self.addArrangedSubview(self.hyperthreadView!)
             }
+            
+            self.splitValueView = toggleTitleRow(
+                frame: NSRect(x: 0, y: 0, width: width, height: Constants.Settings.row),
+                title: localizedString("Split the value (System/User)"),
+                action: #selector(toggleSplitValue),
+                state: self.splitValueState
+            )
+            if self.usagePerCoreState {
+                findAndToggleEnableNSControlState(self.splitValueView, state: false)
+                findAndToggleNSControlState(self.splitValueView, state: .off)
+            }
+            self.addArrangedSubview(self.splitValueView!)
         }
         
         if hasIPG {
             self.addArrangedSubview(toggleTitleRow(
-                frame: NSRect(x: 0, y: 0, width: self.frame.width - (Constants.Settings.margin*2), height: Constants.Settings.row),
+                frame: NSRect(x: 0, y: 0, width: width, height: Constants.Settings.row),
                 title: "\(localizedString("CPU frequency")) (IPG)",
                 action: #selector(toggleIPG),
                 state: self.IPGState
@@ -125,7 +142,7 @@ internal class Settings: NSStackView, Settings_v {
         }
         
         self.addArrangedSubview(selectTitleRow(
-            frame: NSRect(x: 0, y: 0, width: self.frame.width - (Constants.Settings.margin*2), height: Constants.Settings.row),
+            frame: NSRect(x: 0, y: 0, width: width, height: Constants.Settings.row),
             title: localizedString("Number of top processes"),
             action: #selector(changeNumberOfProcesses),
             items: NumbersOfProcesses.map{ "\($0)" },
@@ -175,10 +192,16 @@ internal class Settings: NSStackView, Settings_v {
         self.callback()
         
         findAndToggleEnableNSControlState(self.hyperthreadView, state: self.usagePerCoreState)
+        findAndToggleEnableNSControlState(self.splitValueView, state: !self.usagePerCoreState)
+        
         if !self.usagePerCoreState {
             self.hyperthreadState = false
             Store.shared.set(key: "\(self.title)_hyperhreading", value: self.hyperthreadState)
             findAndToggleNSControlState(self.hyperthreadView, state: .off)
+        } else {
+            self.splitValueState = false
+            Store.shared.set(key: "\(self.title)_splitValue", value: self.splitValueState)
+            findAndToggleNSControlState(self.splitValueView, state: .off)
         }
     }
     
@@ -206,5 +229,18 @@ internal class Settings: NSStackView, Settings_v {
         self.IPGState = state! == .on ? true : false
         Store.shared.set(key: "\(self.title)_IPG", value: self.IPGState)
         self.IPGCallback(self.IPGState)
+    }
+    
+    @objc func toggleSplitValue(_ sender: NSControl) {
+        var state: NSControl.StateValue? = nil
+        if #available(OSX 10.15, *) {
+            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
+        } else {
+            state = sender is NSButton ? (sender as! NSButton).state: nil
+        }
+        
+        self.splitValueState = state! == .on ? true : false
+        Store.shared.set(key: "\(self.title)_splitValue", value: self.splitValueState)
+        self.callback()
     }
 }
