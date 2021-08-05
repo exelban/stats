@@ -143,6 +143,7 @@
 "Idle" = "アイドル";
 "Show usage per core" = "コアごとの使用率を表示";
 "Show hyper-threading cores" = "ハイパースレッディングコアを表示";
+"Split the value (System/User)" = "値を分割する (システム/ユーザー)";
 
 // GPU
 "GPU to show" = "表示する GPU";
@@ -161,7 +162,7 @@
 "Memory clock" = "メモリクロック";
 "Utilization" = "使用率";
 
-// Memory
+// RAM
 "Memory usage" = "メモリ使用率";
 "Memory pressure" = "メモリ負荷";
 "Total" = "合計";
@@ -171,6 +172,7 @@
 "Compressed" = "圧縮";
 "Free" = "空き";
 "Swap" = "スワップ使用領域";
+"Split the value (App/Wired/Compressed)" = "値を分割する (アプリケーションメモリ/確保されているメモリ/圧縮)";
 
 // Disk
 "Show removable disks" = "リムーバブルディスクを表示";

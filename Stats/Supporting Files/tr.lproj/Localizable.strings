@@ -143,6 +143,7 @@
 "Idle" = "Boşta";
 "Show usage per core" = "Çekirdek başına kullanımı göster";
 "Show hyper-threading cores" = "Hyper-thread çekirdekleri göster";
+"Split the value (System/User)" = "Değeri böl (Sistem/Kullanıcı)";
 
 // GPU
 "GPU to show" = "Gösterilecek GPU";
@@ -161,7 +162,7 @@
 "Memory clock" = "Bellek frekansı";
 "Utilization" = "Kullanım";
 
-// Memory
+// RAM
 "Memory usage" = "Ram kullanımı";
 "Memory pressure" = "Ram yoğunluğu";
 "Total" = "Toplam";
@@ -171,6 +172,7 @@
 "Compressed" = "Sıkıştırılmış";
 "Free" = "Boş";
 "Swap" = "Swap";
+"Split the value (App/Wired/Compressed)" = "Değeri böl (Uygulama/Bağlı/Sıkıştırılmış)";
 
 // Disk
 "Show removable disks" = "Çıkarılabilir diskleri göster";

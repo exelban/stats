@@ -143,6 +143,7 @@
 "Idle" = "Nečinný";
 "Show usage per core" = "Zobrazit použití po jádrech";
 "Show hyper-threading cores" = "Zobrazit jádra hyper-threading";
+"Split the value (System/User)" = "Rozdělte hodnotu (Systém/Uživatel)";
 
 // GPU
 "GPU to show" = "Ukázat GPU";
@@ -161,7 +162,7 @@
 "Memory clock" = "Takt pamětí";
 "Utilization" = "Využití";
 
-// Memory
+// RAM
 "Memory usage" = "Využití paměti";
 "Memory pressure" = "Zatížení paměti";
 "Total" = "Celkem";
@@ -171,6 +172,7 @@
 "Compressed" = "Komprese";
 "Free" = "Volná";
 "Swap" = "Odkládací";
+"Split the value (App/Wired/Compressed)" = "Rozdělte hodnotu (Aplikační/Pevná/Komprese)";
 
 // Disk
 "Show removable disks" = "Zobrazovat vyměnitelné disky";

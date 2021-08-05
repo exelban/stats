@@ -143,6 +143,7 @@
 "Idle" = "대기";
 "Show usage per core" = "코어별 사용량 보기";
 "Show hyper-threading cores" = "하이퍼스레딩 코어 표시";
+"Split the value (System/User)" = "값 분할 (시스템/사용자)";
 
 // GPU
 "GPU to show" = "표시할 GPU";
@@ -161,7 +162,7 @@
 "Memory clock" = "Memory clock";
 "Utilization" = "Utilization";
 
-// Memory
+// RAM
 "Memory usage" = "메모리 사용량";
 "Memory pressure" = "메모리 부족";
 "Total" = "전체";
@@ -171,6 +172,7 @@
 "Compressed" = "압축됨";
 "Free" = "여유";
 "Swap" = "Swap";
+"Split the value (App/Wired/Compressed)" = "값 분할 (앱/예약됨/압축됨)";
 
 // Disk
 "Show removable disks" = "이동식 디스크 표시";

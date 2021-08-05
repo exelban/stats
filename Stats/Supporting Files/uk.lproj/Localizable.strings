@@ -143,6 +143,7 @@
 "Idle" = "Вільно";
 "Show usage per core" = "Показати використання на одне ядро";
 "Show hyper-threading cores" = "Показати Hyper-Threading ядра";
+"Split the value (System/User)" = "Розділити значення (Система/Користувач)";
 
 // GPU
 "GPU to show" = "Активний графічний процесор";
@@ -161,7 +162,7 @@
 "Memory clock" = "Частота пам'яті";
 "Utilization" = "Використання";
 
-// Memory
+// RAM
 "Memory usage" = "Навантаженість пам’яті";
 "Memory pressure" = "Рівень навантаження";
 "Total" = "Загально";
@@ -171,6 +172,7 @@
 "Compressed" = "Стисненна";
 "Free" = "Вільна";
 "Swap" = "Swap";
+"Split the value (App/Wired/Compressed)" = "Розділити значення (Програми/Постійна/Стисненна)";
 
 // Disk
 "Show removable disks" = "Показати зйомні диски";

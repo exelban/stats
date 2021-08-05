@@ -143,6 +143,7 @@
 "Idle" = "閒置";
 "Show usage per core" = "顯示每個核心的使用狀態";
 "Show hyper-threading cores" = "顯示超執行緒核心";
+"Split the value (System/User)" = "分割值 (系統/使用者)";
 
 // GPU
 "GPU to show" = "顯示顯示卡";
@@ -161,7 +162,7 @@
 "Memory clock" = "記憶體時脈";
 "Utilization" = "使用率";
 
-// Memory
+// RAM
 "Memory usage" = "記憶體使用率";
 "Memory pressure" = "記憶體壓力";
 "Total" = "總共";
@@ -171,6 +172,7 @@
 "Compressed" = "已壓縮";
 "Free" = "可使用";
 "Swap" = "調換區";
+"Split the value (App/Wired/Compressed)" = "分割值 (App/固定/壓縮)";
 
 // Disk
 "Show removable disks" = "顯示抽取式磁碟";

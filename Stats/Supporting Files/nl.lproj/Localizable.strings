@@ -143,6 +143,7 @@
 "Idle" = "Inactief";
 "Show usage per core" = "Gebruik per core weergeven";
 "Show hyper-threading cores" = "Hyperthreading cores weergeven";
+"Split the value (System/User)" = "Opdel værdien (Systeem/Gebruiker)";
 
 // GPU
 "GPU to show" = "GPU om te laten zien";
@@ -161,7 +162,7 @@
 "Memory clock" = "Geheugen klok";
 "Utilization" = "Benutting";
 
-// Memory
+// RAM
 "Memory usage" = "Geheugengebruik";
 "Memory pressure" = "Geheugendruk";
 "Total" = "Totaal";
@@ -171,6 +172,7 @@
 "Compressed" = "Gecomprimeerd";
 "Free" = "Vrij";
 "Swap" = "Swap";
+"Split the value (App/Wired/Compressed)" = "Opdel værdien (App/Wired/Gecomprimeerd)";
 
 // Disk
 "Show removable disks" = "Toon verwijderbare schijven";

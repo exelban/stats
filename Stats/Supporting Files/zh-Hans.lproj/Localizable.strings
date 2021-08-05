@@ -143,6 +143,7 @@
 "Idle" = "闲置";
 "Show usage per core" = "显示每个物理核心占用";
 "Show hyper-threading cores" = "显示超线程核心";
+"Split the value (System/User)" = "分割值 (系统/用户)";
 
 // GPU
 "GPU to show" = "显示的 GPU";
@@ -161,7 +162,7 @@
 "Memory clock" = "内存时钟";
 "Utilization" = "利用率";
 
-// Memory
+// RAM
 "Memory usage" = "内存占用";
 "Memory pressure" = "内存压力";
 "Total" = "共计";
@@ -171,6 +172,7 @@
 "Compressed" = "被压缩";
 "Free" = "可用";
 "Swap" = "交换区";
+"Split the value (App/Wired/Compressed)" = "分割值 (App/联动内存/被压缩)";
 
 // Disk
 "Show removable disks" = "显示可移动磁盘";

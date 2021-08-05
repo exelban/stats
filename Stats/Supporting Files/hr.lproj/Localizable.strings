@@ -143,6 +143,7 @@
 "Idle" = "Bez aktivnosti";
 "Show usage per core" = "Prikaži korištenje procesora pojedinačno";
 "Show hyper-threading cores" = "Prikaži hyper-threading procesore";
+"Split the value (System/User)" = "Podijelite vrijednost (Sustav/Korisnik)";
 
 // GPU
 "GPU to show" = "Grafički procesor za prikaz";
@@ -161,7 +162,7 @@
 "Memory clock" = "Frekvencija memorije";
 "Utilization" = "Korištenje";
 
-// Memory
+// RAM
 "Memory usage" = "Korištenje memorije";
 "Memory pressure" = "Opterećenje memorije";
 "Total" = "Ukupno";
@@ -171,6 +172,7 @@
 "Compressed" = "Komprimirano";
 "Free" = "Slobodno";
 "Swap" = "Virtualno";
+"Split the value (App/Wired/Compressed)" = "Podijelite vrijednost (Program/Rezidentno/Komprimirano)";
 
 // Disk
 "Show removable disks" = "Prikaži prijenosne diskove";

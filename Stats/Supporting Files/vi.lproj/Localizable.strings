@@ -143,6 +143,7 @@
 "Idle" = "Đang rỗi";
 "Show usage per core" = "Hiển thị mức sử dụng trên mỗi lõi";
 "Show hyper-threading cores" = "Hiển thị các lõi siêu phân luồng";
+"Split the value (System/User)" = "Chia nhỏ giá trị (Hệ thống/Người Dùng)";
 
 // GPU
 "GPU to show" = "GPU để hiển thị";
@@ -161,7 +162,7 @@
 "Memory clock" = "Xung của bộ nhớ (RAM)";
 "Utilization" = "Công suất sử dụng";
 
-// Memory
+// RAM
 "Memory usage" = "Sử dụng Bộ nhớ";
 "Memory pressure" = "Áp lực bộ nhớ";
 "Total" = "Tổng";
@@ -171,6 +172,7 @@
 "Compressed" = "Đã nén";
 "Free" = "Còn Trống";
 "Swap" = "RAM ảo";
+"Split the value (App/Wired/Compressed)" = "Chia nhỏ giá trị (Ứng dụng/Tính toán/Đã nén)";
 
 // Disk
 "Show removable disks" = "Hiển thị các đĩa rời";

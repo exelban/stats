@@ -143,6 +143,7 @@
 "Idle" = "В покой";
 "Show usage per core" = "Показване на употреба по ядро";
 "Show hyper-threading cores" = "Показване на hyper-threading ядра";
+"Split the value (System/User)" = "Разделете стойността (Система/Потребител)";
 
 // GPU
 "GPU to show" = "Показване на графична карта";
@@ -161,7 +162,7 @@
 "Memory clock" = "Тактова честота на паметта";
 "Utilization" = "Утилизация";
 
-// Memory
+// RAM
 "Memory usage" = "Заета памет";
 "Memory pressure" = "Memory pressure";
 "Total" = "Общо";
@@ -171,6 +172,7 @@
 "Compressed" = "Компересирана";
 "Free" = "Свободна";
 "Swap" = "Swap";
+"Split the value (App/Wired/Compressed)" = "Разделете стойността (Приложения/Wired/Компересирана)";
 
 // Disk
 "Show removable disks" = "Показване на преносими дискове";

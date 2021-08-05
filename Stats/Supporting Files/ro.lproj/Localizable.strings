@@ -143,6 +143,7 @@
 "Idle" = "Inactiv";
 "Show usage per core" = "Arată utilizarea pe fiecare nucleu";
 "Show hyper-threading cores" = "Arată nucleurile ce lucrează suplimentar";
+"Split the value (System/User)" = "Împarte valoarea (Sistem/Utilizator)";
 
 // GPU
 "GPU to show" = "Placa video să fie arătată";
@@ -161,7 +162,7 @@
 "Memory clock" = "Frecvența memoriei";
 "Utilization" = "Gradul de utilizare";
 
-// Memory
+// RAM
 "Memory usage" = "Memoria folosită";
 "Memory pressure" = "Presiunea memoriei";
 "Total" = "Total";
@@ -171,6 +172,7 @@
 "Compressed" = "Comprimat";
 "Free" = "Gratuit";
 "Swap" = "Schimbă";
+"Split the value (App/Wired/Compressed)" = "Împarte valoarea (Aplicația/Conectat prin cablu/Comprimat)";
 
 // Disk
 "Show removable disks" = "Arată discurile detașabile";

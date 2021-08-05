@@ -143,6 +143,7 @@
 "Idle" = "Nieaktywny";
 "Show usage per core" = "Pokaż obciążenie na rdzeń";
 "Show hyper-threading cores" = "Pokaż rdzenie Hyper-Threading";
+"Split the value (System/User)" = "Podzielić wartość (System/Użytkownik)";
 
 // GPU
 "GPU to show" = "GPU do wyświetlenia";
@@ -161,7 +162,7 @@
 "Memory clock" = "Taktowanie pamięci";
 "Utilization" = "Wykorzystanie";
 
-// Memory
+// RAM
 "Memory usage" = "Użycie pamięci";
 "Memory pressure" = "Obciążenie pamięci";
 "Total" = "Całość";
@@ -171,6 +172,7 @@
 "Compressed" = "Skompresowana";
 "Free" = "Wolna";
 "Swap" = "Pamięć wymiany";
+"Split the value (App/Wired/Compressed)" = "Podzielić wartość (Aplikacje/Układowa/Skompresowana)";
 
 // Disk
 "Show removable disks" = "Pokaż dyski wymienne";

@@ -143,6 +143,7 @@
 "Idle" = "Ledig";
 "Show usage per core" = "Vis bruk per kjerne";
 "Show hyper-threading cores" = "Vis hyper-threading-kjerner";
+"Split the value (System/User)" = "Del verdien (System/Bruker)";
 
 // GPU
 "GPU to show" = "GPU å vise";
@@ -161,7 +162,7 @@
 "Memory clock" = "Minneklokke";
 "Utilization" = "Bruk";
 
-// Memory
+// RAM
 "Memory usage" = "Minnebruk";
 "Memory pressure" = "Minnebelastning";
 "Total" = "Totalt";
@@ -171,6 +172,7 @@
 "Compressed" = "Komprimert";
 "Free" = "Ledig";
 "Swap" = "Swap";
+"Split the value (App/Wired/Compressed)" = "Del verdien (Programmer/Opptatt/Komprimert)";
 
 // Disk
 "Show removable disks" = "Vis utløsbare disker";

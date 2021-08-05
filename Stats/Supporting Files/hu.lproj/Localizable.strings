@@ -143,6 +143,7 @@
 "Idle" = "Tétlenség";
 "Show usage per core" = "Terhelés megjelenítése magonként";
 "Show hyper-threading cores" = "Hyper-threading magok mutatása";
+"Split the value (System/User)" = "Ossza fel az értéket (Rendszer/Felhasználó)";
 
 // GPU
 "GPU to show" = "Megjelenítendő GPU";
@@ -161,7 +162,7 @@
 "Memory clock" = "Memória órajel";
 "Utilization" = "Felhasználás";
 
-// Memory
+// RAM
 "Memory usage" = "Memóriahasználat";
 "Memory pressure" = "Memóriaterhelés";
 "Total" = "Teljes";
@@ -171,6 +172,7 @@
 "Compressed" = "Tömörített";
 "Free" = "Szabad";
 "Swap" = "Csereterület";
+"Split the value (App/Wired/Compressed)" = "Ossza fel az értéket (Alkalmazás/Nem lapozható/Tömörített)";
 
 // Disk
 "Show removable disks" = "Eltávolítható adattárolók megjelenítése";
