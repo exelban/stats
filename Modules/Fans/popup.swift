@@ -202,18 +202,21 @@ internal class FanView: NSStackView {
             height: view.frame.height - 8
         ), mode: self.fan.mode)
         buttons.callback = { [weak self] (mode: FanMode) in
-            self?.fan.mode = mode
-            if let fan = self?.fan {
+            if let fan = self?.fan, fan.mode != mode {
+                self?.fan.mode = mode
                 SMCHelper.shared.setFanMode(fan.id, mode: mode.rawValue)
             }
-            self?.toggleMode()
+            self?.toggleControlView(mode == .forced)
         }
         buttons.turbo = { [weak self] in
-            self?.fan.mode = .forced
             if let fan = self?.fan {
-                SMCHelper.shared.setFanMode(fan.id, mode: FanMode.forced.rawValue)
+                if self?.fan.mode != .forced {
+                    self?.fan.mode = .forced
+                    SMCHelper.shared.setFanMode(fan.id, mode: FanMode.forced.rawValue)
+                }
                 SMCHelper.shared.setFanSpeed(fan.id, speed: Int(fan.maxSpeed))
             }
+            self?.toggleControlView(false)
         }
         
         view.addSubview(buttons)
@@ -288,12 +291,15 @@ internal class FanView: NSStackView {
         return view
     }
     
-    private func toggleMode() {
+    private func toggleControlView(_ state: Bool) {
         guard let view = self.controlView else {
             return
         }
         
-        if self.fan.mode == .automatic {
+        if state {
+            self.slider?.doubleValue = self.fan.value
+            self.addArrangedSubview(view)
+        } else {
             self.sliderValueField?.stringValue = ""
             self.sliderValueField?.textColor = .secondaryLabelColor
             self.slider?.doubleValue = self.fan.value
@@ -301,8 +307,6 @@ internal class FanView: NSStackView {
             self.maxBtn?.state = .off
             
             view.removeFromSuperview()
-        } else if self.fan.mode == .forced {
-            self.addArrangedSubview(view)
         }
         
         let h = self.arrangedSubviews.map({ $0.bounds.height }).reduce(0, +) + 10
@@ -357,6 +361,8 @@ internal class FanView: NSStackView {
     public func update(_ value: Fan) {
         DispatchQueue.main.async(execute: {
             if (self.window?.isVisible ?? false) || !self.ready {
+                self.fan.value = value.value
+                
                 var percentage = ""
                 if value.value != 1 && self.fan.maxSpeed != 1 {
                     percentage = "\((100*Int(value.value)) / Int(self.fan.maxSpeed))%"
@@ -364,7 +370,6 @@ internal class FanView: NSStackView {
                 
                 self.percentageField?.stringValue = percentage
                 self.valueField?.stringValue = value.formattedValue
-                self.sliderValueField?.stringValue = value.formattedValue
                 
                 self.ready = true
             }
