@@ -13,8 +13,8 @@ import Cocoa
 import Kit
 import IOKit.hid
 
-internal class SensorsReader: Reader<[Sensor_t]> {
-    internal var list: [Sensor_t] = []
+internal class SensorsReader: Reader<[Sensor_p]> {
+    internal var list: [Sensor_p] = []
 }
 
 internal class x86_SensorsReader: SensorsReader {
@@ -22,23 +22,40 @@ internal class x86_SensorsReader: SensorsReader {
         super.init()
         
         var available: [String] = SMC.shared.getAllKeys()
-        var list: [Sensor_t] = []
+        var list: [Sensor] = []
+        
+        guard let count = SMC.shared.getValue("FNum") else {
+            return
+        }
+        debug("Found \(Int(count)) fans", log: self.log)
+        
+        for i in 0..<Int(count) {
+            self.list.append(Fan(
+                id: i,
+                key: "F\(i)Ac",
+                name: SMC.shared.getStringValue("F\(i)ID") ?? "Fan #\(i)",
+                minSpeed: SMC.shared.getValue("F\(i)Mn") ?? 1,
+                maxSpeed: SMC.shared.getValue("F\(i)Mx") ?? 1,
+                value: SMC.shared.getValue("F\(i)Ac") ?? 0,
+                mode: self.getFanMode(i)
+            ))
+        }
         
         available = available.filter({ (key: String) -> Bool in
             switch key.prefix(1) {
-            case "T", "V", "P", "F": return true
+            case "T", "V", "P": return true
             default: return false
             }
         })
         
-        SensorsList.forEach { (s: Sensor_t) in
+        SensorsList.forEach { (s: Sensor) in
             if let idx = available.firstIndex(where: { $0 == s.key }) {
                 list.append(s)
                 available.remove(at: idx)
             }
         }
         
-        SensorsList.filter{ $0.key.contains("%") }.forEach { (s: Sensor_t) in
+        SensorsList.filter{ $0.key.contains("%") }.forEach { (s: Sensor) in
             var index = 1
             for i in 0..<10 {
                 let key = s.key.replacingOccurrences(of: "%", with: "\(i)")
@@ -61,7 +78,7 @@ internal class x86_SensorsReader: SensorsReader {
             }
         }
         
-        self.list = list.filter({ (s: Sensor_t) -> Bool in
+        self.list += list.filter({ (s: Sensor) -> Bool in
             if s.type == .temperature && s.value > 110 {
                 return false
             }
@@ -77,6 +94,23 @@ internal class x86_SensorsReader: SensorsReader {
         }
         self.callback(self.list)
     }
+    
+    private func getFanMode(_ id: Int) -> FanMode {
+        let fansMode: Int = Int(SMC.shared.getValue("FS! ") ?? 0)
+        var mode: FanMode = .automatic
+        
+        if fansMode == 0 {
+            mode = .automatic
+        } else if fansMode == 3 {
+            mode = .forced
+        } else if fansMode == 1 && id == 0 {
+            mode = .forced
+        } else if fansMode == 2 && id == 1 {
+            mode = .forced
+        }
+        
+        return mode
+    }
 }
 
 internal class AppleSilicon_SensorsReader: SensorsReader {
@@ -89,7 +123,7 @@ internal class AppleSilicon_SensorsReader: SensorsReader {
             self.fetch(type: type)
         }
         
-        self.list = self.list.filter({ (s: Sensor_t) -> Bool in
+        self.list = self.list.filter({ (s: Sensor_p) -> Bool in
             switch s.type {
             case .temperature:
                 return s.value < 110 && s.value >= 0
@@ -152,7 +186,7 @@ internal class AppleSilicon_SensorsReader: SensorsReader {
                     if let idx = self.list.firstIndex(where: { $0.name == name }) {
                         self.list[idx].value = value
                     } else {
-                        self.list.append(Sensor_t(
+                        self.list.append(Sensor(
                             key: name,
                             name: name,
                             value: value,

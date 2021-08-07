@@ -17,11 +17,11 @@ internal class Settings: NSView, Settings_v {
     
     private let title: String
     private var button: NSPopUpButton?
-    private let list: [Sensor_t]
+    private let list: [Sensor_p]
     public var callback: (() -> Void) = {}
     public var setInterval: ((_ value: Int) -> Void) = {_ in }
     
-    public init(_ title: String, list: [Sensor_t]) {
+    public init(_ title: String, list: [Sensor_p]) {
         self.title = title
         self.list = list
         
@@ -49,7 +49,7 @@ internal class Settings: NSView, Settings_v {
         self.subviews.forEach{ $0.removeFromSuperview() }
         
         var types: [SensorType] = []
-        self.list.forEach { (s: Sensor_t) in
+        self.list.forEach { (s: Sensor_p) in
             if !types.contains(s.type) {
                 types.append(s.type)
             }
@@ -79,14 +79,14 @@ internal class Settings: NSView, Settings_v {
         types.reversed().forEach { (typ: SensorType) in
             let filtered = self.list.filter{ $0.type == typ }
             var groups: [SensorGroup] = []
-            filtered.forEach { (s: Sensor_t) in
+            filtered.forEach { (s: Sensor_p) in
                 if !groups.contains(s.group) {
                     groups.append(s.group)
                 }
             }
             
             groups.reversed().forEach { (group: SensorGroup) in
-                filtered.reversed().filter{ $0.group == group }.forEach { (s: Sensor_t) in
+                filtered.reversed().filter{ $0.group == group }.forEach { (s: Sensor_p) in
                     let row: NSView = toggleTitleRow(
                         frame: NSRect(x: 0, y: y, width: view.frame.width, height: rowHeight),
                         title: s.name,

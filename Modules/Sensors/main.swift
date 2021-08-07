@@ -62,13 +62,13 @@ public class Sensors: Module {
         }
     }
     
-    private func usageCallback(_ raw: [Sensor_t]?) {
+    private func usageCallback(_ raw: [Sensor_p]?) {
         guard let value = raw else {
             return
         }
         
         var list: [KeyValue_t] = []
-        value.forEach { (s: Sensor_t) in
+        value.forEach { (s: Sensor_p) in
             if s.state {
                 list.append(KeyValue_t(key: s.key, value: s.formattedMiniValue))
             }
