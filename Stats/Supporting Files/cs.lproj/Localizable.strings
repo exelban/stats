@@ -11,23 +11,23 @@
 
 // Modules
 "CPU" = "CPU";
-"Open CPU settings" = "Open CPU settings";
+"Open CPU settings" = "Otevřít nastevení CPU";
 "GPU" = "GPU";
-"Open GPU settings" = "Open GPU settings";
+"Open GPU settings" = "Otevřít nastevení GPU";
 "RAM" = "RAM";
-"Open RAM settings" = "Open RAM settings";
+"Open RAM settings" = "Otevřít nastevení RAM";
 "Disk" = "Disk";
-"Open Disk settings" = "Open disk settings";
-"Sensors" = "Sensors";
-"Open Sensors settings" = "Open sensors settings";
-"Fans" = "Fans";
-"Open Fans settings" = "Open fans settings";
-"Network" = "Network";
-"Open Network settings" = "Open network settings";
-"Battery" = "Battery";
-"Open Battery settings" = "Open battery settings";
+"Open Disk settings" = "Otevřít nastevení disku";
+"Sensors" = "Senzory";
+"Open Sensors settings" = "Otevřít nastevení senzorů";
+"Fans" = "Ventilátory";
+"Open Fans settings" = "Otevřít nastevení ventilátoræ";
+"Network" = "Síť";
+"Open Network settings" = "Otevřít nastevení sítě";
+"Battery" = "Baterie";
+"Open Battery settings" = "Otevřít nastevení baterie";
 "Bluetooth" = "Bluetooth";
-"Open Bluetooth settings" = "Open bluetooth settings";
+"Open Bluetooth settings" = "Otevřít nastevení bluetooth";
 
 // Words
 "Unknown" = "Neznámý";
@@ -54,10 +54,10 @@
 "Max" = "Max";
 "Min" = "Min";
 "Reset" = "Reset";
-"Alignment" = "Alignment";
-"Left alignment" = "Left";
-"Center alignment" = "Center";
-"Right alignment" = "Right";
+"Alignment" = "Zarovnání";
+"Left alignment" = "Zarovnat doleva";
+"Center alignment" = "Zarovnat na střed";
+"Right alignment" = "Zarovnat doprava";
 "Dashboard" = "Dashboard";
 
 // Alerts
@@ -72,7 +72,7 @@
 "Support the application" = "Podpořte aplikaci";
 "Close application" = "Zavřít aplikaci";
 "Open application settings" = "Otevřít nastavení aplikace";
-"Open dashboard" = "Open dashboard";
+"Open dashboard" = "Otevřít dashboard";
 
 // Application settings
 "Update application" = "Aktualizovat aplikaci";
@@ -119,7 +119,7 @@
 "Battery widget" = "Baterie";
 "Text widget" = "Text";
 "Memory widget" = "Paměť";
-"Static width" = "Static width";
+"Static width" = "Statická šířka";
 
 // Module Kit
 "Open module settings" = "Otevřít nastavení modulu";
@@ -143,10 +143,10 @@
 "Idle" = "Nečinný";
 "Show usage per core" = "Zobrazit použití po jádrech";
 "Show hyper-threading cores" = "Zobrazit jádra hyper-threading";
-"Split the value (System/User)" = "Rozdělte hodnotu (Systém/Uživatel)";
+"Split the value (System/User)" = "Rozdělit hodnotu (Systém/Uživatel)";
 
 // GPU
-"GPU to show" = "Ukázat GPU";
+"GPU to show" = "GPU k zobrazení";
 "Show GPU type" = "Zobrazit typ GPU";
 "GPU enabled" = "GPU aktivováno";
 "GPU disabled" = "GPU deaktivováno";
@@ -172,7 +172,7 @@
 "Compressed" = "Komprese";
 "Free" = "Volná";
 "Swap" = "Odkládací";
-"Split the value (App/Wired/Compressed)" = "Rozdělte hodnotu (Aplikační/Pevná/Komprese)";
+"Split the value (App/Wired/Compressed)" = "Rozdělit hodnotu (Aplikační/Pevná/Komprese)";
 
 // Disk
 "Show removable disks" = "Zobrazovat vyměnitelné disky";
@@ -237,10 +237,10 @@
 "Time and percentage" = "Čas a procenta";
 "Time format" = "Formát času";
 "Hide additional information when full" = "Skrýt další informace při plném nabití";
-"Last charge" = "Poslední poplatek";
+"Last charge" = "Poslední nabití";
 
 // Bluetooth
-"Battery to show" = "Battery to show";
+"Battery to show" = "Baterie k zobrazení;
 
 // Colors
 "Based on utilization" = "Na základě využití";
