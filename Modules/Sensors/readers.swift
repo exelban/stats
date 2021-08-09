@@ -24,21 +24,20 @@ internal class x86_SensorsReader: SensorsReader {
         var available: [String] = SMC.shared.getAllKeys()
         var list: [Sensor] = []
         
-        guard let count = SMC.shared.getValue("FNum") else {
-            return
-        }
-        debug("Found \(Int(count)) fans", log: self.log)
-        
-        for i in 0..<Int(count) {
-            self.list.append(Fan(
-                id: i,
-                key: "F\(i)Ac",
-                name: SMC.shared.getStringValue("F\(i)ID") ?? "Fan #\(i)",
-                minSpeed: SMC.shared.getValue("F\(i)Mn") ?? 1,
-                maxSpeed: SMC.shared.getValue("F\(i)Mx") ?? 1,
-                value: SMC.shared.getValue("F\(i)Ac") ?? 0,
-                mode: self.getFanMode(i)
-            ))
+        if let count = SMC.shared.getValue("FNum") {
+            debug("Found \(Int(count)) fans", log: self.log)
+            
+            for i in 0..<Int(count) {
+                self.list.append(Fan(
+                    id: i,
+                    key: "F\(i)Ac",
+                    name: SMC.shared.getStringValue("F\(i)ID") ?? "Fan #\(i)",
+                    minSpeed: SMC.shared.getValue("F\(i)Mn") ?? 1,
+                    maxSpeed: SMC.shared.getValue("F\(i)Mx") ?? 1,
+                    value: SMC.shared.getValue("F\(i)Ac") ?? 0,
+                    mode: self.getFanMode(i)
+                ))
+            }
         }
         
         available = available.filter({ (key: String) -> Bool in
