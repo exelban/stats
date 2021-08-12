@@ -14,6 +14,7 @@ import Cocoa
 public class NetworkChart: WidgetWrapper {
     private var boxState: Bool = false
     private var frameState: Bool = false
+    private var labelState: Bool = false
     
     private var chart: NetworkChartView = NetworkChartView(
         frame: NSRect(
@@ -49,6 +50,7 @@ public class NetworkChart: WidgetWrapper {
         if !preview {
             self.boxState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_box", defaultValue: self.boxState)
             self.frameState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_frame", defaultValue: self.frameState)
+            self.labelState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_label", defaultValue: self.labelState)
         }
         
         if preview {
@@ -72,9 +74,35 @@ public class NetworkChart: WidgetWrapper {
         let lineWidth = 1 / (NSScreen.main?.backingScaleFactor ?? 1)
         let offset = lineWidth / 2
         let boxSize: CGSize = CGSize(width: self.width - (Constants.Widget.margin.x*2), height: self.frame.size.height)
+        var x: CGFloat = 0
+        var width: CGFloat = self.width
+        
+        if self.labelState {
+            let style = NSMutableParagraphStyle()
+            style.alignment = .center
+            let stringAttributes = [
+                NSAttributedString.Key.font: NSFont.systemFont(ofSize: 7, weight: .regular),
+                NSAttributedString.Key.foregroundColor: NSColor.textColor,
+                NSAttributedString.Key.paragraphStyle: style
+            ]
+            
+            let letterHeight = self.frame.height / 3
+            let letterWidth: CGFloat = 6.0
+            
+            var yMargin: CGFloat = 0
+            for char in String(self.title.prefix(3)).uppercased().reversed() {
+                let rect = CGRect(x: x, y: yMargin, width: letterWidth, height: letterHeight)
+                let str = NSAttributedString.init(string: "\(char)", attributes: stringAttributes)
+                str.draw(with: rect)
+                yMargin += letterHeight
+            }
+            
+            width += letterWidth + Constants.Widget.spacing
+            x = letterWidth + Constants.Widget.spacing
+        }
         
         let box = NSBezierPath(roundedRect: NSRect(
-            x: offset,
+            x: x + offset,
             y: offset,
             width: boxSize.width - (offset*2),
             height: boxSize.height - (offset*2)
@@ -89,9 +117,9 @@ public class NetworkChart: WidgetWrapper {
         context.saveGState()
         
         self.chart.draw(NSRect(
-            x: 1,
+            x: x+1,
             y: 1,
-            width: box.bounds.width - ((box.bounds.origin.x + lineWidth)*2),
+            width: box.bounds.width - offset,
             height: box.bounds.height - ((box.bounds.origin.y + lineWidth)*2)
         ))
         
@@ -116,34 +144,44 @@ public class NetworkChart: WidgetWrapper {
     // MARK: - Settings
     
     public override func settings(width: CGFloat) -> NSView {
-        let rowHeight: CGFloat = 30
-        let settingsNumber: CGFloat = 2
-        let height: CGFloat = ((rowHeight + Constants.Settings.margin) * settingsNumber) + Constants.Settings.margin
+        let view = SettingsContainerView(width: width)
         
-        let view: NSView = NSView(frame: NSRect(
-            x: Constants.Settings.margin,
-            y: Constants.Settings.margin,
-            width: width - (Constants.Settings.margin*2),
-            height: height
+        view.addArrangedSubview(toggleTitleRow(
+            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
+            title: localizedString("Label"),
+            action: #selector(toggleLabel),
+            state: self.labelState
         ))
         
         self.boxSettingsView = toggleTitleRow(
-            frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 1, width: view.frame.width, height: rowHeight),
+            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
             title: localizedString("Box"),
             action: #selector(toggleBox),
             state: self.boxState
         )
-        view.addSubview(self.boxSettingsView!)
+        view.addArrangedSubview(self.boxSettingsView!)
         
         self.frameSettingsView = toggleTitleRow(
-            frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 0, width: view.frame.width, height: rowHeight),
+            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
             title: localizedString("Frame"),
             action: #selector(toggleFrame),
             state: self.frameState
         )
-        view.addSubview(self.frameSettingsView!)
+        view.addArrangedSubview(self.frameSettingsView!)
         
         return view
+    }
+    
+    @objc private func toggleLabel(_ sender: NSControl) {
+        var state: NSControl.StateValue? = nil
+        if #available(OSX 10.15, *) {
+            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
+        } else {
+            state = sender is NSButton ? (sender as! NSButton).state: nil
+        }
+        self.labelState = state! == .on ? true : false
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_label", value: self.labelState)
+        self.display()
     }
     
     @objc private func toggleBox(_ sender: NSControl) {
