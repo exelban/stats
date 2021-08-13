@@ -14,102 +14,100 @@ import Kit
 import CoreBluetooth
 import IOBluetooth
 
-internal class DevicesReader: Reader<[BLEDevice]> {
-    private let ble: BluetoothDelegate = BluetoothDelegate()
+internal class DevicesReader: Reader<[BLEDevice]>, CBCentralManagerDelegate, CBPeripheralDelegate {
+    private var devices: [BLEDevice] = []
     
-    init() {
-        super.init()
-    }
-    
-    public override func read() {
-        self.ble.read()
-        self.callback(self.ble.devices)
-    }
-}
-
-class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
     private var manager: CBCentralManager!
-    
+    private var uuidAddress: [UUID: String] = [:]
     private var peripherals: [CBPeripheral] = []
-    public var devices: [BLEDevice] = []
     private var characteristicsDict: [UUID: CBCharacteristic] = [:]
     
     private let batteryServiceUUID = CBUUID(string: "0x180F")
     private let batteryCharacteristicsUUID = CBUUID(string: "0x2A19")
     
-    private let batteryKeys: [String] = [
-        "BatteryPercent",
-        "BatteryPercentCase",
-        "BatteryPercentLeft",
-        "BatteryPercentRight"
-    ]
-    
-    override init() {
+    init() {
         super.init()
         self.manager = CBCentralManager.init(delegate: self, queue: nil)
     }
     
-    public func read() {
-        guard let dict = UserDefaults(suiteName: "/Library/Preferences/com.apple.Bluetooth") else {
+    public override func read() {
+        self.IODevices()
+        self.cacheDevices()
+        self.callback(self.devices)
+    }
+    
+    // MARK: - IODevices
+    
+    private func IODevices() {
+        guard var ioDevices = fetchIOService("AppleDeviceManagementHIDEventService") else {
             return
         }
+        ioDevices = ioDevices.filter{ $0.object(forKey: "BluetoothDevice") as? Bool == true }
         
-        IOBluetoothDevice.pairedDevices().forEach { (d) in
-            guard let device = d as? IOBluetoothDevice, device.isPaired() || device.isConnected(),
-                  let cache = self.findInCache(dict, address: device.addressString) else {
+        ioDevices.forEach { (d: NSDictionary) in
+            guard let name = d.object(forKey: "Product") as? String, let batteryPercent = d.object(forKey: "BatteryPercent") as? Int else {
                 return
             }
             
-            let rssi = device.rawRSSI() == 127 ? nil : Int(device.rawRSSI())
+            var address: String = ""
+            if let addr = d.object(forKey: "DeviceAddress") as? String, addr != "" {
+                address = addr
+            } else if let addr = d.object(forKey: "SerialNumber") as? String, addr != "" {
+                address = addr
+            } else if let bleAddr = d.object(forKey: "BD_ADDR") as? Data, let addr = String(data: bleAddr, encoding: .utf8), addr != "" {
+                address = addr
+            }
             
-            if let idx = self.devices.firstIndex(where: { $0.uuid == cache.uuid }) {
-                self.devices[idx].RSSI = rssi
-                if !cache.batteryLevel.isEmpty {
-                    self.devices[idx].batteryLevel = cache.batteryLevel
-                }
-                self.devices[idx].isConnected = device.isConnected()
-                self.devices[idx].isPaired = device.isPaired()
+            if let idx = self.devices.firstIndex(where: { $0.address == address && $0.conn == .ioDevice }) {
+                self.devices[idx].batteryLevel = [KeyValue_t(key: "battery", value: "\(batteryPercent)")]
             } else {
                 self.devices.append(BLEDevice(
-                    uuid: cache.uuid,
-                    address: device.addressString,
-                    name: device.nameOrAddress,
-                    RSSI: rssi,
-                    batteryLevel: cache.batteryLevel,
-                    isConnected: device.isConnected(),
-                    isPaired: device.isPaired(),
-                    isInitialized: false
+                    conn: .ioDevice,
+                    address: address,
+                    name: name,
+                    batteryLevel: [KeyValue_t(key: "battery", value: "\(batteryPercent)")],
+                    isConnected: true,
+                    isPaired: true
                 ))
             }
         }
     }
     
-    private func findInCache(_ cache: UserDefaults, address: String) -> (uuid: UUID, batteryLevel: [KeyValue_t])? {
-        guard let deviceCache = cache.object(forKey: "DeviceCache") as? [String: [String: Any]],
+    // MARK: - Cache
+    
+    private func cacheDevices() {
+        guard let cache = UserDefaults(suiteName: "/Library/Preferences/com.apple.Bluetooth"),
+              let deviceCache = cache.object(forKey: "DeviceCache") as? [String: [String: Any]],
+              let pairedDevices = cache.object(forKey: "PairedDevices") as? [String],
               let coreCache = cache.object(forKey: "CoreBluetoothCache") as? [String: [String: Any]] else {
-            return nil
+            return
         }
         
-        guard let uuid = coreCache.compactMap({ (key, dict) -> UUID? in
+        coreCache.forEach { (key: String, dict: [String: Any]) in
             guard let field = dict.first(where: { $0.key == "DeviceAddress" }),
-                  let value = field.value as? String,
-                  value == address else {
-                return nil
+                  let value = field.value as? String else {
+                return
             }
-            return UUID(uuidString: key)
-        }).first else {
-            return nil
+            
+            if let uuid = UUID(uuidString: key) {
+                self.uuidAddress[uuid] = value
+            }
         }
         
-        var batteryLevel: [KeyValue_t] = []
-        if let d = deviceCache.first(where: { $0.key == address }) {
-            for key in self.batteryKeys {
-                if let pair = d.value.first(where: { $0.key == key }) {
+        deviceCache.filter({ pairedDevices.contains($0.key) }).forEach { (address: String, dict: [String: Any]) in
+            if self.devices.filter({ $0.conn == .ioDevice || $0.conn == .ble }).contains(where: { $0.address == address }) {
+                return
+            }
+            
+            var batteryLevel: [KeyValue_t] = []
+            
+            for key in ["BatteryPercent", "BatteryPercentCase", "BatteryPercentLeft", "BatteryPercentRight"] {
+                if let pair = dict.first(where: { $0.key == key }) {
                     var percentage: Int = 0
                     switch pair.value {
                     case let value as Int:
                         percentage = value
-                        if "\(pair.value)" == "1.00" {
+                        if percentage == 1 {
                             percentage *= 100
                         }
                     case let value as Double:
@@ -120,9 +118,34 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
                     batteryLevel.append(KeyValue_t(key: key, value: "\(percentage)"))
                 }
             }
+            
+            if !batteryLevel.isEmpty {
+                let name = dict.first{ $0.key == "Name" }?.value as? String
+                
+                if let idx = self.devices.firstIndex(where: { $0.address == address && $0.conn == .cache }) {
+                    self.devices[idx].batteryLevel = batteryLevel
+                    
+                    if let device: IOBluetoothDevice = IOBluetoothDevice.pairedDevices().first(where: { d in
+                        guard let device = d as? IOBluetoothDevice, device.isPaired() || device.isConnected() else {
+                            return false
+                        }
+                        return device.addressString == address
+                    }) as? IOBluetoothDevice {
+                        self.devices[idx].RSSI = device.rawRSSI() == 127 ? nil : Int(device.rawRSSI())
+                        self.devices[idx].isConnected = device.isConnected()
+                        self.devices[idx].isPaired = device.isPaired()
+                    }
+                } else {
+                    self.devices.append(BLEDevice(
+                        conn: .cache,
+                        address: address,
+                        name: name ?? "",
+                        batteryLevel: batteryLevel,
+                        isPaired: true
+                    ))
+                }
+            }
         }
-        
-        return (uuid, batteryLevel)
     }
     
     // MARK: - CBCentralManagerDelegate
@@ -136,24 +159,41 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
     }
     
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String: Any], rssi RSSI: NSNumber) {
-        guard let idx = self.devices.firstIndex(where: { $0.uuid == peripheral.identifier }) else {
+        guard let address = self.uuidAddress[peripheral.identifier] else {
             return
         }
         
-        if self.devices[idx].RSSI == nil {
-            self.devices[idx].RSSI = Int(truncating: RSSI)
+        guard let device: IOBluetoothDevice = IOBluetoothDevice.pairedDevices().first(where: { d in
+            guard let device = d as? IOBluetoothDevice, device.isPaired() || device.isConnected() else {
+                return false
+            }
+            return device.addressString == address
+        }) as? IOBluetoothDevice else {
+            return
         }
         
-        if self.devices[idx].peripheral == nil {
-            self.devices[idx].peripheral = peripheral
+        guard let idx = self.devices.firstIndex(where: { $0.address == address && $0.conn == .ble }) else {
+            self.devices.append(BLEDevice(
+                conn: .ble,
+                address: address,
+                name: peripheral.name ?? "Unknown",
+                uuid: peripheral.identifier,
+                RSSI: Int(truncating: RSSI),
+                peripheral: peripheral
+            ))
+            return
         }
+        
+        self.devices[idx].RSSI = Int(truncating: RSSI)
+        self.devices[idx].isConnected = device.isConnected()
+        self.devices[idx].isPaired = device.isPaired()
         
         if peripheral.state == .disconnected {
             central.connect(peripheral, options: nil)
-        } else if peripheral.state == .connected && !self.devices[idx].isInitialized {
+        } else if peripheral.state == .connected && !self.devices[idx].isPeripheralConnected {
             peripheral.delegate = self
             peripheral.discoverServices([batteryServiceUUID])
-            self.devices[idx].isInitialized = true
+            self.devices[idx].isPeripheralConnected = true
         }
     }
     

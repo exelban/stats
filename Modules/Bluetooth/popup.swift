@@ -32,12 +32,11 @@ internal class Popup: NSStackView, Popup_p {
         let views = self.subviews.filter{ $0 is BLEView }.map{ $0 as! BLEView }
         
         list.reversed().forEach { (ble: BLEDevice) in
-            if let view = views.first(where: { $0.uuid == ble.uuid }) {
+            if let view = views.first(where: { $0.address == ble.address }) {
                 view.update(ble.batteryLevel)
             } else {
                 self.addArrangedSubview(BLEView(
                     width: self.frame.width,
-                    uuid: ble.uuid,
                     address: ble.address,
                     name: ble.name,
                     batteryLevel: ble.batteryLevel
@@ -54,14 +53,14 @@ internal class Popup: NSStackView, Popup_p {
 }
 
 internal class BLEView: NSStackView {
-    public var uuid: UUID
+    public var address: String
     
     open override var intrinsicContentSize: CGSize {
         return CGSize(width: self.bounds.width, height: self.bounds.height)
     }
     
-    public init(width: CGFloat, uuid: UUID, address: String, name: String, batteryLevel: [KeyValue_t]) {
-        self.uuid = uuid
+    public init(width: CGFloat, address: String, name: String, batteryLevel: [KeyValue_t]) {
+        self.address = address
         
         super.init(frame: NSRect(x: 0, y: 0, width: width, height: 30))
         

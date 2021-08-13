@@ -13,19 +13,27 @@ import Foundation
 import Kit
 import CoreBluetooth
 
+public enum BLEConnType: Int {
+    case ioDevice
+    case cache
+    case ble
+}
+
 public struct BLEDevice {
-    let uuid: UUID
+    let conn: BLEConnType
+    
     let address: String
     let name: String
+    var uuid: UUID?
     
-    var RSSI: Int?
-    var batteryLevel: [KeyValue_t]
+    var RSSI: Int? = nil
+    var batteryLevel: [KeyValue_t] = []
     
-    var isConnected: Bool
-    var isPaired: Bool
-    var isInitialized: Bool
+    var isConnected: Bool = false
+    var isPaired: Bool = false
     
     var peripheral: CBPeripheral?
+    var isPeripheralConnected: Bool = false
 }
 
 public class Bluetooth: Module {
@@ -79,7 +87,7 @@ public class Bluetooth: Module {
             let pair = self.selectedBattery.split(separator: "@")
             
             guard let device = value.first(where: { $0.name == pair.first! }) else {
-                error("cannot find selected battery: \(self.selectedBattery)")
+//                error("cannot find selected battery: \(self.selectedBattery)")
                 return
             }
             

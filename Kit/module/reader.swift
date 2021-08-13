@@ -45,7 +45,7 @@ public protocol ReaderInternal_p {
     func read()
 }
 
-open class Reader<T>: ReaderInternal_p {
+open class Reader<T>: NSObject, ReaderInternal_p {
     public var log: NextLog {
         return NextLog.shared.copy(category: "\(String(describing: self))")
     }
@@ -70,6 +70,7 @@ open class Reader<T>: ReaderInternal_p {
     public init(popup: Bool = false) {
         self.popup = popup
         
+        super.init()
         self.setup()
         
         debug("Successfully initialize reader", log: self.log)
