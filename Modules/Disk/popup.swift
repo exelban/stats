@@ -129,7 +129,7 @@ internal class DiskNameAndBarView: NSView {
     
     private var usedBarSpace: NSView? = nil
     
-    private let topHeight: CGFloat = 15
+    private let topHeight: CGFloat = 16
     private let barHeight: CGFloat = 10
     
     public init(_ frame: NSRect, name: String, size: Int64, free: Int64, path: URL?) {
@@ -156,46 +156,51 @@ internal class DiskNameAndBarView: NSView {
     }
     
     private func addName(name: String) {
-        let topView: NSView = NSView(frame: NSRect(
+        let view: NSStackView = NSStackView(frame: NSRect(
             x: 0,
-            y: self.frame.height - topHeight,
+            y: self.frame.height - self.topHeight,
             width: self.frame.width,
-            height: topHeight
+            height: self.topHeight
         ))
         
-        let nameField: NSTextField = TextView(frame: NSRect(x: 0, y: 0, width: topView.frame.width - 66, height: topView.frame.height))
+        let nameField: NSTextField = TextView(frame: NSRect(x: 0, y: 0, width: view.frame.width - 64, height: view.frame.height))
+        nameField.widthAnchor.constraint(equalToConstant: nameField.bounds.width).isActive = true
         nameField.stringValue = name
         nameField.cell?.truncatesLastVisibleLine = true
         
-        let activityView: NSView = NSView(frame: NSRect(x: topView.frame.width-66, y: 0, width: 66, height: topView.frame.height))
+        let activity: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: 64, height: view.frame.height))
+        activity.distribution = .fillEqually
+        activity.spacing = 0
         
-        let readView: NSView = NSView(frame: NSRect(x: 0, y: 0, width: activityView.frame.width/2, height: activityView.frame.height))
+        let readView: NSView = NSView(frame: NSRect(x: 0, y: 0, width: 32, height: activity.frame.height))
         let readField: NSTextField = TextView(frame: NSRect(x: 0, y: 0, width: nameField.frame.width, height: readView.frame.height))
         readField.stringValue = "R"
-        readView.addSubview(readField)
-        let readState: NSView = NSView(frame: NSRect(x: 15, y: (readView.frame.height-9)/2, width: 9, height: 9))
+        let readState: NSView = NSView(frame: NSRect(x: 13, y: (readView.frame.height-10)/2, width: 9, height: 9))
         readState.wantsLayer = true
         readState.layer?.backgroundColor = NSColor.lightGray.withAlphaComponent(0.75).cgColor
         readState.layer?.cornerRadius = 2
-        readView.addSubview(readState)
         
-        let writeView: NSView = NSView(frame: NSRect(x: activityView.frame.width/2, y: 0, width: activityView.frame.width/2, height: activityView.frame.height))
+        let writeView: NSView = NSView(frame: NSRect(x: 0, y: 0, width: 32, height: activity.frame.height))
         let writeField: NSTextField = TextView(frame: NSRect(x: 0, y: 0, width: nameField.frame.width, height: readView.frame.height))
         writeField.stringValue = "W"
-        writeView.addSubview(writeField)
-        let writeState: NSView = NSView(frame: NSRect(x: 17, y: (writeView.frame.height-9)/2, width: 9, height: 9))
+        let writeState: NSView = NSView(frame: NSRect(x: 17, y: (writeView.frame.height-10)/2, width: 9, height: 9))
         writeState.wantsLayer = true
         writeState.layer?.backgroundColor = NSColor.lightGray.withAlphaComponent(0.75).cgColor
         writeState.layer?.cornerRadius = 2
+        
+        readView.addSubview(readField)
+        readView.addSubview(readState)
+        
+        writeView.addSubview(writeField)
         writeView.addSubview(writeState)
         
-        activityView.addSubview(readView)
-        activityView.addSubview(writeView)
+        activity.addArrangedSubview(readView)
+        activity.addArrangedSubview(writeView)
         
-        topView.addSubview(nameField)
-        topView.addSubview(activityView)
+        view.addArrangedSubview(nameField)
+        view.addArrangedSubview(activity)
         
-        self.addSubview(topView)
+        self.addSubview(view)
         
         self.readState = readState
         self.writeState = writeState
