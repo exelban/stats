@@ -11,23 +11,23 @@
 
 // Modules
 "CPU" = "CPU";
-"Open CPU settings" = "Open CPU settings";
+"Open CPU settings" = "打开 CPU 设置";
 "GPU" = "GPU";
-"Open GPU settings" = "Open GPU settings";
-"RAM" = "RAM";
-"Open RAM settings" = "Open RAM settings";
-"Disk" = "Disk";
-"Open Disk settings" = "Open disk settings";
-"Sensors" = "Sensors";
-"Open Sensors settings" = "Open sensors settings";
-"Fans" = "Fans";
-"Open Fans settings" = "Open fans settings";
-"Network" = "Network";
-"Open Network settings" = "Open network settings";
-"Battery" = "Battery";
-"Open Battery settings" = "Open battery settings";
-"Bluetooth" = "Bluetooth";
-"Open Bluetooth settings" = "Open bluetooth settings";
+"Open GPU settings" = "打开 GPU 设置";
+"RAM" = "内存";
+"Open RAM settings" = "打开内存设置";
+"Disk" = "磁盘";
+"Open Disk settings" = "打开磁盘设置";
+"Sensors" = "传感器";
+"Open Sensors settings" = "打开传感器设置";
+"Fans" = "风扇";
+"Open Fans settings" = "打开风扇设置";
+"Network" = "网络";
+"Open Network settings" = "打开网络设置";
+"Battery" = "电池";
+"Open Battery settings" = "打开电池设置";
+"Bluetooth" = "蓝牙";
+"Open Bluetooth settings" = "打开蓝牙设置";
 
 // Words
 "Unknown" = "未知";
@@ -53,12 +53,12 @@
 "Statistics" = "统计";
 "Max" = "最大";
 "Min" = "最小";
-"Reset" = "Reset";
-"Alignment" = "Alignment";
-"Left alignment" = "Left";
-"Center alignment" = "Center";
-"Right alignment" = "Right";
-"Dashboard" = "Dashboard";
+"Reset" = "重置";
+"Alignment" = "对齐";
+"Left alignment" = "左对齐";
+"Center alignment" = "居中";
+"Right alignment" = "右对齐";
+"Dashboard" = "仪表盘";
 
 // Alerts
 "New version available" = "新版本可用";
@@ -72,7 +72,7 @@
 "Support the application" = "支持本应用";
 "Close application" = "关闭应用";
 "Open application settings" = "打开应用设置";
-"Open dashboard" = "Open dashboard";
+"Open dashboard" = "打开仪表盘";
 
 // Application settings
 "Update application" = "更新应用";
@@ -119,7 +119,7 @@
 "Battery widget" = "电池";
 "Text widget" = "文本";
 "Memory widget" = "容量";
-"Static width" = "Static width";
+"Static width" = "固定宽度";
 
 // Module Kit
 "Open module settings" = "打开模块设置";
@@ -143,7 +143,7 @@
 "Idle" = "闲置";
 "Show usage per core" = "显示每个物理核心占用";
 "Show hyper-threading cores" = "显示超线程核心";
-"Split the value (System/User)" = "分割值 (系统/用户)";
+"Split the value (System/User)" = "柱状图区分显示（系统/用户）";
 
 // GPU
 "GPU to show" = "显示的 GPU";
@@ -172,7 +172,7 @@
 "Compressed" = "被压缩";
 "Free" = "可用";
 "Swap" = "交换区";
-"Split the value (App/Wired/Compressed)" = "分割值 (App/联动内存/被压缩)";
+"Split the value (App/Wired/Compressed)" = "柱状图区分显示（App 内存/联动内存/被压缩）";
 
 // Disk
 "Show removable disks" = "显示可移动磁盘";
@@ -240,7 +240,7 @@
 "Last charge" = "最后一次充电";
 
 // Bluetooth
-"Battery to show" = "Battery to show";
+"Battery to show" = "显示的设备";
 
 // Colors
 "Based on utilization" = "基于利用率";
