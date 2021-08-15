@@ -33,37 +33,37 @@
 "Unknown" = "Bilinmeyen";
 "Version" = "Sürüm";
 "Processor" = "İşlemci";
-"Memory" = "Ram";
+"Memory" = "Bellek";
 "Graphics" = "Grafik";
 "Close" = "Kapat";
 "Download" = "İndir";
-"Install" = "Yükle";
+"Install" = "Kur";
 "Cancel" = "İptal";
 "Unavailable" = "Devre Dışı";
 "Yes" = "Evet";
 "No" = "Hayır";
 "Automatic" = "Otomatik";
-"Manual" = "Manual";
+"Manual" = "Elle";
 "None" = "Yok";
 "Dots" = "Noktalar";
 "Arrows" = "Oklar";
-"Characters" = "Mektuplar";
+"Characters" = "Karakterler";
 "Short" = "Kısa";
 "Long" = "Uzun";
 "Statistics" = "İstatistik";
-"Max" = "Max";
+"Max" = "Maks";
 "Min" = "Min";
 "Reset" = "Reset";
-"Alignment" = "Alignment";
-"Left alignment" = "Left";
-"Center alignment" = "Center";
-"Right alignment" = "Right";
-"Dashboard" = "Dashboard";
+"Alignment" = "Hizalama";
+"Left alignment" = "Sola hizalama";
+"Center alignment" = "Ortaya hizalama";
+"Right alignment" = "Sağa hizalama";
+"Dashboard" = "Panel";
 
 // Alerts
-"New version available" = "Yeni versiyon indirilebilir";
+"New version available" = "Yeni sürüm indirilebilir";
 "Click to install the new version of Stats" = "Stats'ın yeni sürümünü indirmek için tıklayın";
-"Successfully updated" = "Başarıyla indirildi";
+"Successfully updated" = "Başarıyla güncellendi";
 "Stats was updated to v" = "Stats v%0 sürümüne güncellendi";
 
 // Settings
@@ -110,21 +110,21 @@
 "Display mode" = "Ekran modu";
 "One row" = "Bir sıra";
 "Two rows" = "İki sıra";
-"Mini widget" = "Mini";
-"Line chart widget" = "Çizgi grafik";
-"Bar chart widget" = "Çubuk grafik";
-"Pie chart widget" = "Pasta grafik";
-"Network chart widget" = "Ağ grafiği";
-"Speed widget" = "Hız";
-"Battery widget" = "Batarya";
-"Text widget" = "Metin";
-"Memory widget" = "Bellek";
-"Static width" = "Static width";
+"Mini widget" = "Mini widget";
+"Line chart widget" = "Çizgi widget";
+"Bar chart widget" = "Çubuk widget";
+"Pie chart widget" = "Pasta widget";
+"Network chart widget" = "Ağ pasta widget";
+"Speed widget" = "Hız widget";
+"Battery widget" = "Batarya widget";
+"Text widget" = "Metin widget";
+"Memory widget" = "Bellek widget";
+"Static width" = "Statik genişlik";
 
 // Module Kit
 "Open module settings" = "Modül ayarlarını aç";
 "Select widget" = "%0 widgetini seç";
-"Open widget settings" = "Open widget settings";
+"Open widget settings" = "Widget ayarlarını aç";
 "Update interval" = "Güncelleme aralığı";
 "Usage history" = "Kullanım geçmişi";
 "Details" = "Detaylar";
@@ -170,14 +170,14 @@
 "App" = "Uygulama";
 "Wired" = "Bağlı";
 "Compressed" = "Sıkıştırılmış";
-"Free" = "Boş";
+"Free" = "Serbest";
 "Swap" = "Swap";
 "Split the value (App/Wired/Compressed)" = "Değeri böl (Uygulama/Bağlı/Sıkıştırılmış)";
 
 // Disk
 "Show removable disks" = "Çıkarılabilir diskleri göster";
 "Used disk memory" = "Kullanılan %0, toplam %1";
-"Free disk memory" = "Ücretsiz %0, toplam %1";
+"Free disk memory" = "Boş %0, toplam %1";
 "Disk to show" = "Gösterilecek disk";
 "Open disk" = "Açık disk";
 "Switch view" = "Görünümü değiştir";
@@ -185,7 +185,7 @@
 // Sensors
 "Temperature unit" = "Sıcaklık birimi";
 "Celsius" = "Santigrat";
-"Fahrenheit" = "Fahrenheit";
+"Fahrenheit" = "Fahrenhayt";
 
 // Network
 "Uploading" = "Yükleme";
@@ -194,7 +194,7 @@
 "Local IP" = "Yerel IP";
 "Interface" = "Arayüz";
 "Physical address" = "Fiziksel adres";
-"Refresh" = "Refresh";
+"Refresh" = "Tazele";
 "Click to copy public IP address" = "Genel IP adresini kopyalamak için tıklayın";
 "Click to copy local IP address" = "Yerel IP adresini kopyalamak için tıklayın";
 "Click to copy wifi name" = "Wifi adını kopyalamak için tıklayın";
@@ -226,18 +226,18 @@
 "Calculating" = "Hesaplanıyor";
 "Fully charged" = "Tam şarjlı";
 "Not connected" = "Bağlı değil";
-"Low level notification" = "Düşük güç bildirimi";
-"High level notification" = "Güç bildirimi";
+"Low level notification" = "Düşük seviye bildirimi";
+"High level notification" = "Yüksek seviye bildirimi";
 "Low battery" = "Düşük batarya";
-"High battery" = "Dolu batarya";
+"High battery" = "Yüksek batarya";
 "Battery remaining" = "%0% kaldı";
-"Battery remaining to full charge" = "%0% to full charge";
+"Battery remaining to full charge" = "Tan şarja %0% kaldı";
 "Percentage" = "Yüzde";
 "Percentage and time" = "Yüzde ve zaman";
 "Time and percentage" = "Zaman ve yüzde";
 "Time format" = "Zaman formatı";
 "Hide additional information when full" = "Pil dolduğunda ek bilgileri gizle";
-"Last charge" = "Son ödeme";
+"Last charge" = "Son şarj";
 
 // Bluetooth
 "Battery to show" = "Gösterilecek pil";
