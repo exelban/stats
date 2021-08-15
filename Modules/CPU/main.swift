@@ -123,7 +123,7 @@ public class CPU: Module {
     }
     
     private func loadCallback(_ raw: CPU_Load?) {
-        guard let value = raw else {
+        guard let value = raw, self.enabled else {
             return
         }
         

@@ -109,7 +109,7 @@ public class GPU: Module {
     }
     
     private func infoCallback(_ raw: GPUs?) {
-        guard raw != nil && !raw!.list.isEmpty, let value = raw else {
+        guard raw != nil && !raw!.list.isEmpty, let value = raw, self.enabled else {
             return
         }
         

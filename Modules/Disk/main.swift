@@ -180,6 +180,10 @@ public class Disk: Module {
     }
     
     private func capacityCallback(_ value: Disks) {
+        guard self.enabled else {
+            return
+        }
+        
         DispatchQueue.main.async(execute: {
             self.popupView.capacityCallback(value)
         })
@@ -208,6 +212,10 @@ public class Disk: Module {
     }
     
     private func activityCallback(_ value: Disks) {
+        guard self.enabled else {
+            return
+        }
+        
         DispatchQueue.main.async(execute: {
             self.popupView.activityCallback(value)
         })

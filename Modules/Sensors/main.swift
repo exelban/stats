@@ -63,7 +63,7 @@ public class Sensors: Module {
     }
     
     private func usageCallback(_ raw: [Sensor_p]?) {
-        guard let value = raw else {
+        guard let value = raw, self.enabled else {
             return
         }
         

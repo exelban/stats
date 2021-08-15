@@ -101,7 +101,7 @@ public class Battery: Module {
     }
     
     private func usageCallback(_ raw: Battery_Usage?) {
-        guard let value = raw else {
+        guard let value = raw, self.enabled else {
             return
         }
         

@@ -81,7 +81,7 @@ public class Fans: Module {
     }
     
     private func usageCallback(_ raw: [Fan]?) {
-        guard let value = raw else {
+        guard let value = raw, self.enabled else {
             return
         }
         

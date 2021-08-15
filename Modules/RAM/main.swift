@@ -113,7 +113,7 @@ public class RAM: Module {
     }
     
     private func loadCallback(_ raw: RAM_Usage?) {
-        guard raw != nil, let value = raw else {
+        guard raw != nil, let value = raw, self.enabled else {
             return
         }
         

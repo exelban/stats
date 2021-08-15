@@ -72,7 +72,7 @@ public class Bluetooth: Module {
     }
     
     private func batteryCallback(_ raw: [BLEDevice]?) {
-        guard let value = raw else {
+        guard let value = raw, self.enabled else {
             return
         }
         
