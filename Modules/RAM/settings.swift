@@ -82,12 +82,14 @@ internal class Settings: NSStackView, Settings_v {
             selected: "\(self.numberOfProcesses)"
         ))
         
-        self.addArrangedSubview(toggleTitleRow(
-            frame: NSRect(x: 0, y: 0, width: width, height: Constants.Settings.row),
-            title: localizedString("Split the value (App/Wired/Compressed)"),
-            action: #selector(toggleSplitValue),
-            state: self.splitValueState
-        ))
+        if !widgets.filter({ $0 == .barChart }).isEmpty {
+            self.addArrangedSubview(toggleTitleRow(
+                frame: NSRect(x: 0, y: 0, width: width, height: Constants.Settings.row),
+                title: localizedString("Split the value (App/Wired/Compressed)"),
+                action: #selector(toggleSplitValue),
+                state: self.splitValueState
+            ))
+        }
         
         let h = self.arrangedSubviews.map({ $0.bounds.height + self.spacing }).reduce(0, +) - self.spacing + self.edgeInsets.top + self.edgeInsets.bottom
         if self.frame.size.height != h {
