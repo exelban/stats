@@ -78,14 +78,15 @@ internal class UsageReader: Reader<Battery_Usage> {
                 
                 self.usage.cycles = self.getIntValue("CycleCount" as CFString) ?? 0
                 
-                let maxCapacity = self.getIntValue("MaxCapacity" as CFString) ?? 1
-                let designCapacity = self.getIntValue("DesignCapacity" as CFString) ?? 1
+                var maxCapacity: Int = 1
+                let designCapacity: Int = self.getIntValue("DesignCapacity" as CFString) ?? 1
                 #if arch(x86_64)
-                self.usage.health = (100 * maxCapacity) / designCapacity
+                maxCapacity = self.getIntValue("MaxCapacity" as CFString) ?? 1
                 self.usage.state = list[kIOPSBatteryHealthKey] as? String
                 #else
-                self.usage.health = maxCapacity
+                maxCapacity = self.getIntValue("AppleRawMaxCapacity" as CFString) ?? 1
                 #endif
+                self.usage.health = (100 * maxCapacity) / designCapacity
                 
                 self.usage.amperage = self.getIntValue("Amperage" as CFString) ?? 0
                 self.usage.voltage = self.getVoltage() ?? 0
