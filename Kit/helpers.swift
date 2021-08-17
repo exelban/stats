@@ -633,70 +633,57 @@ public func sysctlByName(_ name: String) -> Int64 {
 }
 
 public class ProcessView: NSStackView {
-    public var width: CGFloat {
-        get { return 0 }
-        set {
-            self.setFrameSize(NSSize(width: newValue, height: self.frame.height))
-        }
-    }
-    
-    public var icon: NSImage? {
-        get { return NSImage() }
-        set {
-            self.imageView?.image = newValue
-        }
-    }
-    public var label: String {
-        get { return "" }
-        set {
-            self.labelView?.stringValue = newValue
-        }
-    }
     public var value: String {
-        get { return "" }
-        set {
-            self.valueView?.stringValue = newValue
-        }
+        get { return self.valueView.stringValue }
+        set { self.valueView.stringValue = newValue }
     }
     
-    private var imageView: NSImageView? = nil
-    private var labelView: LabelField? = nil
-    private var valueView: ValueField? = nil
+    private var pid: Int? = nil
     
-    public init(_ n: CGFloat) {
-        super.init(frame: NSRect(x: 0, y: n*22, width: 264, height: 16))
+    private var imageView: NSImageView = NSImageView(frame: NSRect(x: 5, y: 5, width: 12, height: 12))
+    private var labelView: LabelField = LabelField(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
+    private var valueView: ValueField = ValueField(frame: NSRect(x: 0, y: 0, width: 70, height: 0))
+    
+    public init() {
+        super.init(frame: NSRect(x: 0, y: 0, width: 264, height: 22))
         
-        let rowView: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 16))
+        self.orientation = .horizontal
+        self.distribution = .fillProportionally
+        self.spacing = 0
         
-        let imageView: NSImageView = NSImageView(frame: NSRect(x: 2, y: 2, width: 12, height: 12))
-        let labelView: LabelField = LabelField(frame: NSRect(x: 18, y: 0, width: rowView.frame.width - 70 - 18, height: 16), "")
-        let valueView: ValueField = ValueField(frame: NSRect(x: 18 + labelView.frame.width, y: 0, width: 70, height: 16), "")
+        let imageBox = NSView(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
+        imageBox.addSubview(self.imageView)
         
-        rowView.addSubview(imageView)
-        rowView.addSubview(labelView)
-        rowView.addSubview(valueView)
+        self.addArrangedSubview(imageBox)
+        self.addArrangedSubview(self.labelView)
+        self.addArrangedSubview(self.valueView)
         
-        self.imageView = imageView
-        self.labelView = labelView
-        self.valueView = valueView
-        
-        self.addSubview(rowView)
+        NSLayoutConstraint.activate([
+            imageBox.widthAnchor.constraint(equalToConstant: self.bounds.height),
+            imageBox.heightAnchor.constraint(equalToConstant: self.bounds.height),
+            self.labelView.heightAnchor.constraint(equalToConstant: 16),
+            self.valueView.widthAnchor.constraint(equalToConstant: self.valueView.bounds.width),
+            self.widthAnchor.constraint(equalToConstant: self.bounds.width),
+            self.heightAnchor.constraint(equalToConstant: self.bounds.height)
+        ])
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func attachProcess(_ process: TopProcess) {
-        self.label = process.name != nil ? process.name! : process.command
-        self.icon = process.icon
+    public func set(_ process: TopProcess) {
+        self.labelView.stringValue = process.name != nil ? process.name! : process.command
+        self.imageView.image = process.icon
+        self.pid = process.pid
         self.toolTip = "pid: \(process.pid)"
     }
     
     public func clear() {
-        self.label = ""
-        self.value = ""
-        self.icon = nil
+        self.labelView.stringValue = ""
+        self.valueView.stringValue = ""
+        self.imageView.image = nil
+        self.pid = nil
         self.toolTip = ""
     }
 }

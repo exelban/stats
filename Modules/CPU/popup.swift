@@ -177,12 +177,14 @@ internal class Popup: NSView, Popup_p {
     private func initProcesses() -> NSView {
         let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.processesHeight))
         let separator = separatorView(localizedString("Top processes"), origin: NSPoint(x: 0, y: self.processesHeight-Constants.Popup.separatorHeight), width: self.frame.width)
-        let container: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: separator.frame.origin.y))
+        let container: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: separator.frame.origin.y))
+        container.orientation = .vertical
+        container.spacing = 0
         
-        for i in 0..<self.numberOfProcesses {
-            let processView = ProcessView(CGFloat(i))
+        for _ in 0..<self.numberOfProcesses {
+            let processView = ProcessView()
             self.processes.append(processView)
-            container.addSubview(processView)
+            container.addArrangedSubview(processView)
         }
         
         view.addSubview(separator)
@@ -262,7 +264,7 @@ internal class Popup: NSView, Popup_p {
             for i in 0..<list.count {
                 let process = list[i]
                 let index = list.count-i-1
-                self.processes[index].attachProcess(process)
+                self.processes[index].set(process)
                 self.processes[index].value = "\(process.usage)%"
             }
             
