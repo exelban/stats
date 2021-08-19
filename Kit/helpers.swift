@@ -654,15 +654,34 @@ public class ProcessView: NSStackView {
         let imageBox = NSView(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
         imageBox.addSubview(self.imageView)
         
+        let closeBox = NSView(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
+        let closeBtn = NSButton(frame: NSRect(x: 5, y: 5, width: 12, height: 12))
+        closeBtn.bezelStyle = .regularSquare
+        closeBtn.translatesAutoresizingMaskIntoConstraints = false
+        closeBtn.imageScaling = .scaleNone
+        closeBtn.image = Bundle(for: type(of: self)).image(forResource: "close_12pt")!
+        if #available(OSX 10.14, *) {
+            closeBtn.contentTintColor = .lightGray
+        }
+        closeBtn.isBordered = false
+        closeBtn.action = #selector(closeApp)
+        closeBtn.target = self
+        closeBtn.toolTip = localizedString("Close application")
+        closeBtn.focusRingType = .none
+        closeBox.addSubview(closeBtn)
+        
         self.addArrangedSubview(imageBox)
         self.addArrangedSubview(self.labelView)
         self.addArrangedSubview(self.valueView)
+        self.addArrangedSubview(closeBox)
         
         NSLayoutConstraint.activate([
             imageBox.widthAnchor.constraint(equalToConstant: self.bounds.height),
             imageBox.heightAnchor.constraint(equalToConstant: self.bounds.height),
             self.labelView.heightAnchor.constraint(equalToConstant: 16),
             self.valueView.widthAnchor.constraint(equalToConstant: self.valueView.bounds.width),
+            closeBox.widthAnchor.constraint(equalToConstant: self.bounds.height),
+            closeBox.heightAnchor.constraint(equalToConstant: self.bounds.height),
             self.widthAnchor.constraint(equalToConstant: self.bounds.width),
             self.heightAnchor.constraint(equalToConstant: self.bounds.height)
         ])
@@ -685,6 +704,12 @@ public class ProcessView: NSStackView {
         self.imageView.image = nil
         self.pid = nil
         self.toolTip = ""
+    }
+    
+    @objc private func closeApp() {
+        if let pid = self.pid {
+            _ = syncShell("kill \(pid)")
+        }
     }
 }
 
