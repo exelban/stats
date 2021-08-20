@@ -34,7 +34,6 @@ internal class Popup: NSStackView, Popup_p {
             self.list[f.id] = view
             self.addArrangedSubview(view)
         }
-        
         self.recalculateHeight()
     }
     
@@ -76,6 +75,35 @@ internal class FanView: NSStackView {
     private var minBtn: NSButton? = nil
     private var maxBtn: NSButton? = nil
     
+    private var speedState: Bool {
+        get {
+            return Store.shared.bool(key: "Fans_speed", defaultValue: false)
+        }
+    }
+    private var speedValue: Int? {
+        get {
+            if !Store.shared.exist(key: "fan_\(self.fan.id)_speed") {
+                return nil
+            }
+            return Store.shared.int(key: "fan_\(self.fan.id)_speed", defaultValue: Int(self.fan.minSpeed))
+        }
+        set {
+            if let value = newValue {
+                Store.shared.set(key: "fan_\(self.fan.id)_speed", value: value)
+            } else {
+                Store.shared.remove("fan_\(self.fan.id)_speed")
+            }
+        }
+    }
+    private var speed: Double {
+        get {
+            if let v = self.speedValue, self.speedState {
+                return Double(v)
+            }
+            return self.fan.value
+        }
+    }
+    
     public init(_ fan: Fan, width: CGFloat, callback: @escaping (() -> Void)) {
         self.fan = fan
         self.sizeCallback = callback
@@ -89,12 +117,7 @@ internal class FanView: NSStackView {
         self.alignment = .centerX
         self.distribution = .fillProportionally
         self.spacing = 0
-        self.edgeInsets = NSEdgeInsets(
-            top: inset,
-            left: inset,
-            bottom: inset,
-            right: inset
-        )
+        self.edgeInsets = NSEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
         self.wantsLayer = true
         self.layer?.cornerRadius = 2
         self.layer?.backgroundColor = NSColor.red.cgColor
@@ -236,9 +259,9 @@ internal class FanView: NSStackView {
         let slider: NSSlider = NSSlider(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: 26))
         slider.minValue = self.fan.minSpeed
         slider.maxValue = self.fan.maxSpeed
-        slider.doubleValue = self.fan.value
+        slider.doubleValue = self.speed
         slider.isContinuous = true
-        slider.action = #selector(self.speedChange)
+        slider.action = #selector(self.sliderCallback)
         slider.target = self
         
         let levels: NSView = NSView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: 16))
@@ -297,15 +320,20 @@ internal class FanView: NSStackView {
         }
         
         if state {
-            self.slider?.doubleValue = self.fan.value
+            self.slider?.doubleValue = self.speed
+            if self.speedState {
+                self.setSpeed(value: Int(self.speed), then: {
+                    DispatchQueue.main.async {
+                        self.sliderValueField?.textColor = .systemBlue
+                    }
+                })
+            }
             self.addArrangedSubview(view)
         } else {
             self.sliderValueField?.stringValue = ""
             self.sliderValueField?.textColor = .secondaryLabelColor
-            self.slider?.doubleValue = self.fan.value
             self.minBtn?.state = .off
             self.maxBtn?.state = .off
-            
             view.removeFromSuperview()
         }
         
@@ -317,6 +345,7 @@ internal class FanView: NSStackView {
     private func setSpeed(value: Int, then: @escaping () -> Void = {}) {
         self.sliderValueField?.stringValue = "\(value) RPM"
         self.sliderValueField?.textColor = .secondaryLabelColor
+        self.speedValue = value
         
         self.debouncer?.cancel()
         
@@ -333,7 +362,7 @@ internal class FanView: NSStackView {
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.3, execute: task)
     }
     
-    @objc private func speedChange(_ sender: NSSlider) {
+    @objc private func sliderCallback(_ sender: NSSlider) {
         let value = sender.doubleValue
         
         self.minBtn?.state = .off
@@ -392,7 +421,6 @@ private class ModeButtons: NSStackView {
         self.alignment = .centerY
         self.distribution = .fillProportionally
         self.spacing = 0
-        
         self.wantsLayer = true
         self.layer?.cornerRadius = 3
         self.layer?.borderWidth = 1

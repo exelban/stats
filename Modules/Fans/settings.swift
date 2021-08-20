@@ -14,11 +14,12 @@ import Kit
 
 internal class Settings: NSStackView, Settings_v {
     private var updateIntervalValue: Int = 1
+    private var labelState: Bool = false
+    private var speedState: Bool = false
     
     private let title: String
     private var button: NSPopUpButton?
     private let list: UnsafeMutablePointer<[Fan]>
-    private var labelState: Bool = false
     
     public var callback: (() -> Void) = {}
     public var setInterval: ((_ value: Int) -> Void) = {_ in }
@@ -47,25 +48,20 @@ internal class Settings: NSStackView, Settings_v {
         
         self.updateIntervalValue = Store.shared.int(key: "\(self.title)_updateInterval", defaultValue: self.updateIntervalValue)
         self.labelState = Store.shared.bool(key: "\(self.title)_label", defaultValue: self.labelState)
+        self.speedState = Store.shared.bool(key: "\(self.title)_speed", defaultValue: self.labelState)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func load(widgets: [widget_t]) {
-        guard !self.list.pointee.isEmpty else {
-            return
-        }
+    public func load(widgets: [widget_t]) {
         self.subviews.forEach{ $0.removeFromSuperview() }
         
+        let width: CGFloat = self.frame.width - (Constants.Settings.margin*2)
+        
         self.addArrangedSubview(selectTitleRow(
-            frame: NSRect(
-                x: Constants.Settings.margin,
-                y: 0,
-                width: self.frame.width - (Constants.Settings.margin*2),
-                height: Constants.Settings.row
-            ),
+            frame: NSRect(x: Constants.Settings.margin, y: 0, width: width, height: Constants.Settings.row),
             title: localizedString("Update interval"),
             action: #selector(changeUpdateInterval),
             items: ReaderUpdateIntervals.map{ "\($0) sec" },
@@ -73,15 +69,17 @@ internal class Settings: NSStackView, Settings_v {
         ))
         
         self.addArrangedSubview(toggleTitleRow(
-            frame: NSRect(
-                x: Constants.Settings.margin,
-                y: 0,
-                width: self.frame.width - (Constants.Settings.margin*2),
-                height: Constants.Settings.row
-            ),
+            frame: NSRect(x: Constants.Settings.margin, y: 0, width: width, height: Constants.Settings.row),
             title: localizedString("Label"),
             action: #selector(toggleLabelState),
             state: self.labelState
+        ))
+        
+        self.addArrangedSubview(toggleTitleRow(
+            frame: NSRect(x: Constants.Settings.margin, y: 0, width: width, height: Constants.Settings.row),
+            title: localizedString("Save the fan speed"),
+            action: #selector(toggleSpeedState),
+            state: self.speedState
         ))
         
         let view: NSStackView = NSStackView(frame: NSRect(
@@ -129,7 +127,7 @@ internal class Settings: NSStackView, Settings_v {
         }
     }
     
-    @objc func handleSelection(_ sender: NSControl) {
+    @objc private func handleSelection(_ sender: NSControl) {
         guard let id = sender.identifier else { return }
         
         var state: NSControl.StateValue? = nil
@@ -151,7 +149,7 @@ internal class Settings: NSStackView, Settings_v {
         }
     }
     
-    @objc func toggleLabelState(_ sender: NSControl) {
+    @objc private func toggleLabelState(_ sender: NSControl) {
         var state: NSControl.StateValue? = nil
         if #available(OSX 10.15, *) {
             state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
@@ -161,6 +159,19 @@ internal class Settings: NSStackView, Settings_v {
         
         self.labelState = state! == .on ? true : false
         Store.shared.set(key: "\(self.title)_label", value: self.labelState)
+        self.callback()
+    }
+    
+    @objc private func toggleSpeedState(_ sender: NSControl) {
+        var state: NSControl.StateValue? = nil
+        if #available(OSX 10.15, *) {
+            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
+        } else {
+            state = sender is NSButton ? (sender as! NSButton).state: nil
+        }
+        
+        self.speedState = state! == .on ? true : false
+        Store.shared.set(key: "\(self.title)_speed", value: self.speedState)
         self.callback()
     }
 }
