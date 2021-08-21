@@ -186,6 +186,7 @@
 "Temperature unit" = "Sıcaklık birimi";
 "Celsius" = "Santigrat";
 "Fahrenheit" = "Fahrenhayt";
+"Save the fan speed" = "Save the fan speed";
 
 // Network
 "Uploading" = "Yükleme";

@@ -186,6 +186,7 @@
 "Temperature unit" = "온도 단위";
 "Celsius" = "섭씨";
 "Fahrenheit" = "화씨";
+"Save the fan speed" = "Save the fan speed";
 
 // Network
 "Uploading" = "업로딩";

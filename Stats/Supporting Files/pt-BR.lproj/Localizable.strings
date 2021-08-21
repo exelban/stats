@@ -186,6 +186,7 @@
 "Temperature unit" = "Unidade de temperatura";
 "Celsius" = "Celsius";
 "Fahrenheit" = "Fahrenheit";
+"Save the fan speed" = "Save the fan speed";
 
 // Network
 "Uploading" = "Enviando";

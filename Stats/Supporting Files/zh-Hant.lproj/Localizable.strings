@@ -186,6 +186,7 @@
 "Temperature unit" = "溫度單位";
 "Celsius" = "攝氏 (˚C)";
 "Fahrenheit" = "華氏 (˚F)";
+"Save the fan speed" = "Save the fan speed";
 
 // Network
 "Uploading" = "上傳";

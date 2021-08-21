@@ -186,6 +186,7 @@
 "Temperature unit" = "温度単位";
 "Celsius" = "摂氏（℃）";
 "Fahrenheit" = "華氏（℉）";
+"Save the fan speed" = "Save the fan speed";
 
 // Network
 "Uploading" = "送信";

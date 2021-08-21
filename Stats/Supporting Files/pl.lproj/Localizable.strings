@@ -186,6 +186,7 @@
 "Temperature unit" = "Jednostka temperatury";
 "Celsius" = "Celsjusz";
 "Fahrenheit" = "Fahrenheit";
+"Save the fan speed" = "Zapisz prędkość wentylatora";
 
 // Network
 "Uploading" = "Wysyłanie";

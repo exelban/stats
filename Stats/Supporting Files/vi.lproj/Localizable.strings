@@ -186,6 +186,7 @@
 "Temperature unit" = "Đơn vị nhiệt độ";
 "Celsius" = "Độ C";
 "Fahrenheit" = "Độ F";
+"Save the fan speed" = "Save the fan speed";
 
 // Network
 "Uploading" = "Tải lên";

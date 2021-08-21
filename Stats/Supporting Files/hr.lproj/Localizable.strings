@@ -186,6 +186,7 @@
 "Temperature unit" = "Jedinica temperature";
 "Celsius" = "Celzij";
 "Fahrenheit" = "Fahrenheit";
+"Save the fan speed" = "Save the fan speed";
 
 // Network
 "Uploading" = "Primanje";

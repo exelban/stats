@@ -186,6 +186,7 @@
 "Temperature unit" = "温度单位";
 "Celsius" = "摄氏度";
 "Fahrenheit" = "华氏度";
+"Save the fan speed" = "Save the fan speed";
 
 // Network
 "Uploading" = "上传";

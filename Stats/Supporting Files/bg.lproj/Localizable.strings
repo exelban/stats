@@ -186,6 +186,7 @@
 "Temperature unit" = "Температурна единица";
 "Celsius" = "Целзиус";
 "Fahrenheit" = "Фаренхайт";
+"Save the fan speed" = "Save the fan speed";
 
 // Network
 "Uploading" = "Качване";

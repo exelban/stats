@@ -186,6 +186,7 @@
 "Temperature unit" = "Единица измерения температуры";
 "Celsius" = "Цельсия";
 "Fahrenheit" = "Фаренгейта";
+"Save the fan speed" = "Сохранить скорость вентилятора";
 
 // Network
 "Uploading" = "Выгрузка";
