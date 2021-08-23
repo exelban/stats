@@ -24,6 +24,12 @@ public struct CPU_Load: value_t {
     }
 }
 
+public struct CPU_Limit {
+    var scheduler: Int = 0
+    var cpus: Int = 0
+    var speed: Int = 0
+}
+
 public class CPU: Module {
     private var popupView: Popup
     private var settingsView: Settings
@@ -32,6 +38,7 @@ public class CPU: Module {
     private var processReader: ProcessReader? = nil
     private var temperatureReader: TemperatureReader? = nil
     private var frequencyReader: FrequencyReader? = nil
+    private var limitReader: LimitReader? = nil
     
     private var usagePerCoreState: Bool {
         get {
@@ -56,6 +63,7 @@ public class CPU: Module {
         
         self.loadReader = LoadReader()
         self.processReader = ProcessReader()
+        self.limitReader = LimitReader(popup: true)
         
         #if arch(x86_64)
         self.temperatureReader = TemperatureReader(popup: true)
@@ -118,6 +126,9 @@ public class CPU: Module {
             self.addReader(reader)
         }
         if let reader = self.frequencyReader {
+            self.addReader(reader)
+        }
+        if let reader = self.limitReader {
             self.addReader(reader)
         }
     }
