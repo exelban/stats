@@ -144,6 +144,8 @@
 "Show usage per core" = "코어별 사용량 보기";
 "Show hyper-threading cores" = "하이퍼스레딩 코어 표시";
 "Split the value (System/User)" = "값 분할 (시스템/사용자)";
+"Scheduler limit" = "Scheduler limit";
+"Speed limit" = "Speed limit";
 
 // GPU
 "GPU to show" = "표시할 GPU";

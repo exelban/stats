@@ -144,6 +144,8 @@
 "Show usage per core" = "顯示每個核心的使用狀態";
 "Show hyper-threading cores" = "顯示超執行緒核心";
 "Split the value (System/User)" = "分割值 (系統/使用者)";
+"Scheduler limit" = "Scheduler limit";
+"Speed limit" = "Speed limit";
 
 // GPU
 "GPU to show" = "顯示顯示卡";

@@ -144,6 +144,8 @@
 "Show usage per core" = "Pokaż obciążenie na rdzeń";
 "Show hyper-threading cores" = "Pokaż rdzenie Hyper-Threading";
 "Split the value (System/User)" = "Podzielić wartość (System/Użytkownik)";
+"Scheduler limit" = "Ograniczenie planisty";
+"Speed limit" = "Ograniczenie prędkości";
 
 // GPU
 "GPU to show" = "GPU do wyświetlenia";

@@ -144,6 +144,8 @@
 "Show usage per core" = "Terhelés megjelenítése magonként";
 "Show hyper-threading cores" = "Hyper-threading magok mutatása";
 "Split the value (System/User)" = "Ossza fel az értéket (Rendszer/Felhasználó)";
+"Scheduler limit" = "Scheduler limit";
+"Speed limit" = "Speed limit";
 
 // GPU
 "GPU to show" = "Megjelenítendő GPU";

@@ -143,7 +143,9 @@
 "Idle" = "闲置";
 "Show usage per core" = "显示每个物理核心占用";
 "Show hyper-threading cores" = "显示超线程核心";
-"Split the value (System/User)" = "柱状图区分显示（系统/用户）";
+"Split the value (System/User)" = "柱状图区分显示（系统/用户";
+"Scheduler limit" = "Scheduler limit";
+"Speed limit" = "Speed limit";
 
 // GPU
 "GPU to show" = "显示的 GPU";

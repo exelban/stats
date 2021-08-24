@@ -144,6 +144,8 @@
 "Show usage per core" = "Показване на употреба по ядро";
 "Show hyper-threading cores" = "Показване на hyper-threading ядра";
 "Split the value (System/User)" = "Разделете стойността (Система/Потребител)";
+"Scheduler limit" = "Scheduler limit";
+"Speed limit" = "Speed limit";
 
 // GPU
 "GPU to show" = "Показване на графична карта";

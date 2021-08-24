@@ -144,6 +144,8 @@
 "Show usage per core" = "Prikaži korištenje procesora pojedinačno";
 "Show hyper-threading cores" = "Prikaži hyper-threading procesore";
 "Split the value (System/User)" = "Podijelite vrijednost (Sustav/Korisnik)";
+"Scheduler limit" = "Scheduler limit";
+"Speed limit" = "Speed limit";
 
 // GPU
 "GPU to show" = "Grafički procesor za prikaz";

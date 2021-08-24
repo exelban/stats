@@ -144,6 +144,8 @@
 "Show usage per core" = "Показати використання на одне ядро";
 "Show hyper-threading cores" = "Показати Hyper-Threading ядра";
 "Split the value (System/User)" = "Розділити значення (Система/Користувач)";
+"Scheduler limit" = "Обмеження планувальника";
+"Speed limit" = "Обмеження швидкості";
 
 // GPU
 "GPU to show" = "Активний графічний процесор";

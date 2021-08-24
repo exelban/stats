@@ -144,6 +144,8 @@
 "Show usage per core" = "Arată utilizarea pe fiecare nucleu";
 "Show hyper-threading cores" = "Arată nucleurile ce lucrează suplimentar";
 "Split the value (System/User)" = "Împarte valoarea (Sistem/Utilizator)";
+"Scheduler limit" = "Scheduler limit";
+"Speed limit" = "Speed limit";
 
 // GPU
 "GPU to show" = "Placa video să fie arătată";

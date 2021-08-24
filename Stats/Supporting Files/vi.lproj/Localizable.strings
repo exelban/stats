@@ -144,6 +144,8 @@
 "Show usage per core" = "Hiển thị mức sử dụng trên mỗi lõi";
 "Show hyper-threading cores" = "Hiển thị các lõi siêu phân luồng";
 "Split the value (System/User)" = "Chia nhỏ giá trị (Hệ thống/Người Dùng)";
+"Scheduler limit" = "Scheduler limit";
+"Speed limit" = "Speed limit";
 
 // GPU
 "GPU to show" = "GPU để hiển thị";

@@ -144,6 +144,8 @@
 "Show usage per core" = "コアごとの使用率を表示";
 "Show hyper-threading cores" = "ハイパースレッディングコアを表示";
 "Split the value (System/User)" = "値を分割する (システム/ユーザー)";
+"Scheduler limit" = "Scheduler limit";
+"Speed limit" = "Speed limit";
 
 // GPU
 "GPU to show" = "表示する GPU";

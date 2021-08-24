@@ -144,6 +144,8 @@
 "Show usage per core" = "Nutzung pro Kern anzeigen";
 "Show hyper-threading cores" = "Hyper-Threading-Kerne anzeigen";
 "Split the value (System/User)" = "Teilen Sie den Wert auf (System/Nutzer)";
+"Scheduler limit" = "Scheduler limit";
+"Speed limit" = "Speed limit";
 
 // GPU
 "GPU to show" = "GPU auswählen";

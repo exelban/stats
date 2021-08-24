@@ -144,6 +144,8 @@
 "Show usage per core" = "Vis bruk per kjerne";
 "Show hyper-threading cores" = "Vis hyper-threading-kjerner";
 "Split the value (System/User)" = "Del verdien (System/Bruker)";
+"Scheduler limit" = "Scheduler limit";
+"Speed limit" = "Speed limit";
 
 // GPU
 "GPU to show" = "GPU å vise";
