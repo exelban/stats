@@ -106,13 +106,18 @@ public class CPU: Module {
         }
         
         self.temperatureReader?.callbackHandler = { [unowned self] value in
-            if value != nil {
-                self.popupView.temperatureCallback(value!)
+            if let v = value  {
+                self.popupView.temperatureCallback(v)
             }
         }
         self.frequencyReader?.callbackHandler = { [unowned self] value in
-            if value != nil {
-                self.popupView.frequencyCallback(value!)
+            if let v = value  {
+                self.popupView.frequencyCallback(v)
+            }
+        }
+        self.limitReader?.callbackHandler = { [unowned self] value in
+            if let v = value  {
+                self.popupView.limitCallback(v)
             }
         }
         
