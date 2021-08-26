@@ -133,6 +133,7 @@
 
 // Modules
 "Number of top processes" = "Número de procesos principales";
+"Update interval for top processes" = "Update interval for top processes";
 
 // CPU
 "CPU usage" = "Uso de la CPU";

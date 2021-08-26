@@ -133,6 +133,7 @@
 
 // Modules
 "Number of top processes" = "Кількість процесів";
+"Update interval for top processes" = "Інтервал оновлення для процесів";
 
 // CPU
 "CPU usage" = "Використання процесора";
