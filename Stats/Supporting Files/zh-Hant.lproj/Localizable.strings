@@ -133,7 +133,7 @@
 
 // Modules
 "Number of top processes" = "高能耗程序數量";
-"Update interval for top processes" = "Update interval for top processes";
+"Update interval for top processes" = "高能耗程序更新頻率";
 
 // CPU
 "CPU usage" = "處理器使用率";
