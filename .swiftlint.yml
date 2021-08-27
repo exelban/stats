@@ -29,6 +29,8 @@ identifier_name:
     - NetworkReaders
     - SensorsList
     - Alignments
+    - _devices
+    - _uuidAddress
 
 line_length: 200
 

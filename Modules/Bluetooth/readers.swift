@@ -15,12 +15,34 @@ import CoreBluetooth
 import IOBluetooth
 
 internal class DevicesReader: Reader<[BLEDevice]>, CBCentralManagerDelegate, CBPeripheralDelegate {
-    private var devices: [BLEDevice] = []
-    
+    private let queue = DispatchQueue(label: "eu.exelban.Stats.Bluetooth.reader", attributes: .concurrent)
     private var manager: CBCentralManager!
-    private var uuidAddress: [UUID: String] = [:]
+    
+    private var _devices: [BLEDevice] = []
+    private var _uuidAddress: [UUID: String] = [:]
     private var peripherals: [CBPeripheral] = []
     private var characteristicsDict: [UUID: CBCharacteristic] = [:]
+    
+    private var devices: [BLEDevice] {
+        get {
+            self.queue.sync { self._devices }
+        }
+        set {
+            self.queue.async(flags: .barrier) {
+                self._devices = newValue
+            }
+        }
+    }
+    private var uuidAddress: [UUID: String] {
+        get {
+            self.queue.sync { self._uuidAddress }
+        }
+        set {
+            self.queue.async(flags: .barrier) {
+                self._uuidAddress = newValue
+            }
+        }
+    }
     
     private let batteryServiceUUID = CBUUID(string: "0x180F")
     private let batteryCharacteristicsUUID = CBUUID(string: "0x2A19")
@@ -89,7 +111,7 @@ internal class DevicesReader: Reader<[BLEDevice]>, CBCentralManagerDelegate, CBP
                 return
             }
             
-            if let uuid = UUID(uuidString: key) {
+            if let uuid = UUID(uuidString: key), self.uuidAddress[uuid] == nil {
                 self.uuidAddress[uuid] = value
             }
         }
