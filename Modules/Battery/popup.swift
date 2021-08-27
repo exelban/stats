@@ -308,10 +308,8 @@ internal class Popup: NSView, Popup_p {
             }
             
             for i in 0..<list.count {
-                let process = list[i]
-                let index = list.count-i-1
-                self.processes[index].set(process)
-                self.processes[index].value = "\(process.usage)%"
+                self.processes[i].set(list[i])
+                self.processes[i].value = "\(list[i].usage)%"
             }
             
             self.processesInitialized = true

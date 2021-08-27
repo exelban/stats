@@ -249,10 +249,8 @@ internal class Popup: NSView, Popup_p {
             }
             
             for i in 0..<list.count {
-                let process = list[i]
-                let index = list.count-i-1
-                self.processes[index].set(process)
-                self.processes[index].value = Units(bytes: Int64(process.usage)).getReadableMemory()
+                self.processes[i].set(list[i])
+                self.processes[i].value = Units(bytes: Int64(list[i].usage)).getReadableMemory()
             }
             
             self.processesInitialized = true
