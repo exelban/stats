@@ -150,6 +150,7 @@ public class ProcessReader: Reader<[TopProcess]> {
     private var task: Process = Process()
     private var initialized: Bool = false
     private var paused: Bool = false
+    private var initRead: Bool = false
     
     private var numberOfProcesses: Int {
         get {
@@ -197,15 +198,22 @@ public class ProcessReader: Reader<[TopProcess]> {
             if !processes.isEmpty {
                 self.callback(processes.prefix(self.numberOfProcesses).reversed().reversed())
             }
+            
+            if !self.initRead {
+                self.pause()
+                self.initRead = true
+            }
         }
     }
     
     public override func start() {
         if !self.initialized {
+            self.task.launch()
             self.initialized = true
             return
         }
         
+        self.initRead = true
         if !self.task.isRunning {
             do {
                 try self.task.run()
