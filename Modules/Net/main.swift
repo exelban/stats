@@ -76,6 +76,8 @@ public class Network: Module {
     private var usageReader: UsageReader? = nil
     private var processReader: ProcessReader? = nil
     
+    private let ipUpdater = NSBackgroundActivityScheduler(identifier: "eu.exelban.Stats.Network.IP")
+    
     public init() {
         self.settingsView = Settings("Network")
         self.popupView = Popup("Network")
@@ -119,6 +121,14 @@ public class Network: Module {
         }
         if let reader = self.processReader {
             self.addReader(reader)
+        }
+        
+        self.ipUpdater.interval = 60 * 60
+        self.ipUpdater.repeats = true
+        self.ipUpdater.schedule { (completion: @escaping NSBackgroundActivityScheduler.CompletionHandler) in
+            debug("going to automatically refresh IP address...")
+            NotificationCenter.default.post(name: .refreshPublicIP, object: nil, userInfo: nil)
+            completion(NSBackgroundActivityScheduler.Result.finished)
         }
     }
     
