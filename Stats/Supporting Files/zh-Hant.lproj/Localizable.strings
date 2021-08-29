@@ -133,7 +133,7 @@
 
 // Modules
 "Number of top processes" = "高能耗程序數量";
-"Update interval for top processes" = "Update interval for top processes";
+"Update interval for top processes" = "高能耗程序更新頻率";
 
 // CPU
 "CPU usage" = "處理器使用率";
@@ -145,8 +145,8 @@
 "Show usage per core" = "顯示每個核心的使用狀態";
 "Show hyper-threading cores" = "顯示超執行緒核心";
 "Split the value (System/User)" = "分割值 (系統/使用者)";
-"Scheduler limit" = "Scheduler limit";
-"Speed limit" = "Speed limit";
+"Scheduler limit" = "排程限制";
+"Speed limit" = "速度限制";
 
 // GPU
 "GPU to show" = "顯示顯示卡";
@@ -189,7 +189,7 @@
 "Temperature unit" = "溫度單位";
 "Celsius" = "攝氏 (˚C)";
 "Fahrenheit" = "華氏 (˚F)";
-"Save the fan speed" = "Save the fan speed";
+"Save the fan speed" = "儲存風扇速度";
 
 // Network
 "Uploading" = "上傳";
@@ -201,7 +201,7 @@
 "Refresh" = "重新整理";
 "Click to copy public IP address" = "點按來拷貝公開 IP 位址";
 "Click to copy local IP address" = "點按來拷貝區域 IP 位址";
-"Click to copy wifi name" = "點按來拷貝 WiFi 名稱";
+"Click to copy wifi name" = "點按來拷貝 Wi-Fi 名稱";
 "Click to copy mac address" = "點按來拷貝 MAC 位址";
 "No connection" = "沒有連線";
 "Network interface" = "網路連接埠";
