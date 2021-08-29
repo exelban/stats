@@ -133,7 +133,7 @@
 
 // Modules
 "Number of top processes" = "Počet prvních procesů";
-"Update interval for top processes" = "Update interval for top processes";
+"Update interval for top processes" = "Interval aktualizace pro první procesy";
 
 // CPU
 "CPU usage" = "Použití CPU";
