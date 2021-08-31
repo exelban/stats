@@ -23,7 +23,7 @@ internal class DevicesReader: Reader<[BLEDevice]>, CBCentralManagerDelegate, CBP
     private var peripherals: [CBPeripheral] = []
     private var characteristicsDict: [UUID: CBCharacteristic] = [:]
     
-    private var devices: [BLEDevice] {
+    internal var devices: [BLEDevice] {
         get {
             self.queue.sync { self._devices }
         }
@@ -198,7 +198,7 @@ internal class DevicesReader: Reader<[BLEDevice]>, CBCentralManagerDelegate, CBP
             self.devices.append(BLEDevice(
                 conn: .ble,
                 address: address,
-                name: peripheral.name ?? "Unknown",
+                name: peripheral.name ?? device.nameOrAddress ?? "Unknown",
                 uuid: peripheral.identifier,
                 RSSI: Int(truncating: RSSI),
                 peripheral: peripheral
