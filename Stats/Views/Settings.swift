@@ -118,6 +118,8 @@ private class SettingsView: NSView {
     private var dashboard: NSView = Dashboard()
     private var settings: NSView = ApplicationSettings()
     
+    private let supportPopover = NSPopover()
+    
     override init(frame: NSRect) {
         super.init(frame: CGRect(x: frame.origin.x, y: frame.origin.y, width: frame.width, height: frame.height))
         self.wantsLayer = true
@@ -128,6 +130,9 @@ private class SettingsView: NSView {
         sidebar.material = .sidebar
         sidebar.blendingMode = .behindWindow
         sidebar.state = .active
+        
+        self.supportPopover.behavior = .transient
+        self.supportPopover.contentViewController = self.supportView()
         
         self.menuView.frame = NSRect(
             x: 0,
@@ -257,6 +262,40 @@ private class SettingsView: NSView {
         return button
     }
     
+    private func supportView() -> NSViewController {
+        let vc: NSViewController = NSViewController(nibName: nil, bundle: nil)
+        let view: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: 160, height: 40))
+        view.spacing = 0
+        view.orientation = .horizontal
+        
+        view.addArrangedSubview(supportButton(name: "GitHub Sponsors", image: "github", action: #selector(self.openGithub)))
+        view.addArrangedSubview(supportButton(name: "PayPal", image: "paypal", action: #selector(self.openPaypal)))
+        view.addArrangedSubview(supportButton(name: "Ko-fi", image: "ko-fi", action: #selector(self.openKofi)))
+        view.addArrangedSubview(supportButton(name: "Patreon", image: "patreon", action: #selector(self.openPatreon)))
+        
+        vc.view = view
+        return vc
+    }
+    
+    private func supportButton(name: String, image: String, action: Selector) -> NSButton {
+        let button = NSButtonWithPadding()
+        button.frame = CGRect(x: 0, y: 0, width: 24, height: 24)
+        button.verticalPadding = 16
+        button.horizontalPadding = 16
+        button.title = name
+        button.toolTip = name
+        button.bezelStyle = .regularSquare
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.imageScaling = .scaleNone
+        button.image = Bundle(for: type(of: self)).image(forResource: image)!
+        button.isBordered = false
+        button.target = self
+        button.focusRingType = .none
+        button.action = action
+        
+        return button
+    }
+    
     @objc private func openSettings(_ sender: Any) {
         NotificationCenter.default.post(name: .openModuleSettings, object: nil, userInfo: ["module": "settings"])
     }
@@ -265,8 +304,24 @@ private class SettingsView: NSView {
         NSWorkspace.shared.open(URL(string: "https://github.com/exelban/stats/issues/new")!)
     }
     
-    @objc private func donate(_ sender: Any) {
+    @objc private func donate(_ sender: NSButton) {
+        self.supportPopover.show(relativeTo: sender.bounds, of: sender, preferredEdge: NSRectEdge.minY)
+    }
+    
+    @objc private func openGithub(_ sender: NSButton) {
         NSWorkspace.shared.open(URL(string: "https://github.com/sponsors/exelban")!)
+    }
+    
+    @objc private func openPaypal(_ sender: NSButton) {
+        NSWorkspace.shared.open(URL(string: "https://www.paypal.com/donate?hosted_button_id=3DS5JHDBATMTC")!)
+    }
+    
+    @objc private func openKofi(_ sender: NSButton) {
+        NSWorkspace.shared.open(URL(string: "https://ko-fi.com/exelban")!)
+    }
+    
+    @objc private func openPatreon(_ sender: NSButton) {
+        NSWorkspace.shared.open(URL(string: "https://patreon.com/exelban")!)
     }
     
     @objc private func closeApp(_ sender: Any) {
