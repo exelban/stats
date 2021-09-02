@@ -34,41 +34,44 @@ public struct BLEDevice {
     
     var peripheral: CBPeripheral?
     var isPeripheralConnected: Bool = false
+    
+    var id: String {
+        get {
+            return self.uuid?.uuidString ?? self.address
+        }
+    }
+    
+    var state: Bool {
+        get {
+            return Store.shared.bool(key: "ble_\(self.id)", defaultValue: false)
+        }
+    }
 }
 
 public class Bluetooth: Module {
-    private var devicesReader: DevicesReader? = nil
+    private var devicesReader: DevicesReader = DevicesReader()
     private let popupView: Popup = Popup()
-    private let settingsView: Settings
-    
-    private var selectedBattery: String = ""
+    private let settingsView: Settings = Settings()
     
     public init() {
-        self.settingsView = Settings("Bluetooth")
-        
         super.init(
             popup: self.popupView,
             settings: self.settingsView
         )
         guard self.available else { return }
         
-        self.devicesReader = DevicesReader()
-        self.selectedBattery = Store.shared.string(key: "\(self.config.name)_battery", defaultValue: self.selectedBattery)
-        
-        self.settingsView.selectedBatteryHandler = { [unowned self] value in
-            self.selectedBattery = value
+        self.settingsView.callback = { [unowned self] in
+            self.devicesReader.read()
         }
         
-        self.devicesReader?.callbackHandler = { [unowned self] value in
+        self.devicesReader.callbackHandler = { [unowned self] value in
             self.batteryCallback(value)
         }
-        self.devicesReader?.readyCallback = { [unowned self] in
+        self.devicesReader.readyCallback = { [unowned self] in
             self.readyHandler()
         }
         
-        if let reader = self.devicesReader {
-            self.addReader(reader)
-        }
+        self.addReader(self.devicesReader)
     }
     
     private func batteryCallback(_ raw: [BLEDevice]?) {
@@ -79,38 +82,21 @@ public class Bluetooth: Module {
         let active = value.filter{ $0.isPaired && ($0.isConnected || !$0.batteryLevel.isEmpty) }
         DispatchQueue.main.async(execute: {
             self.popupView.batteryCallback(active)
+            self.settingsView.setList(active)
         })
-        self.settingsView.setList(active)
         
-        var battery = active.first?.batteryLevel.first
-        if self.selectedBattery != "" {
-            let pair = self.selectedBattery.split(separator: "@")
-            
-            guard let device = value.first(where: { $0.name == pair.first! }) else {
-//                error("cannot find selected battery: \(self.selectedBattery)")
-                return
-            }
-            
-            if pair.count == 1 {
-                battery = device.batteryLevel.first
-            } else if pair.count == 2 {
-                battery = device.batteryLevel.first{ $0.key == pair.last! }
+        var list: [KeyValue_t] = []
+        active.forEach { (d: BLEDevice) in
+            if d.state {
+                d.batteryLevel.forEach { (p: KeyValue_t) in
+                    list.append(KeyValue_t(key: p.key, value: "\(p.value)%"))
+                }
             }
         }
         
         self.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
             switch w.item {
-            case let widget as Mini:
-                guard let percentage = Double(battery?.value ?? "0") else {
-                    return
-                }
-                widget.setValue(percentage/100)
-            case let widget as BatterykWidget:
-                var percentage: Double? = nil
-                if let value = battery?.value {
-                    percentage = (Double(value) ?? 0) / 100
-                }
-                widget.setValue(percentage: percentage)
+            case let widget as SensorsWidget: widget.setValues(list)
             default: break
             }
         }

@@ -14,21 +14,15 @@ import Kit
 
 internal class Settings: NSStackView, Settings_v {
     public var callback: (() -> Void) = {}
-    public var selectedBatteryHandler: (String) -> Void = {_ in }
     
-    private let title: String
-    private var selectedBattery: String
-    private var button: NSPopUpButton?
+    private var list: [String: Bool] = [:]
     
-    public init(_ title: String) {
-        self.title = title
-        self.selectedBattery = Store.shared.string(key: "\(self.title)_battery", defaultValue: "")
-        
+    public init() {
         super.init(frame: NSRect(
             x: 0,
             y: 0,
             width: Constants.Settings.width - (Constants.Settings.margin*2),
-            height: 0
+            height: 20
         ))
         
         self.orientation = .vertical
@@ -46,10 +40,29 @@ internal class Settings: NSStackView, Settings_v {
         fatalError("init(coder:) has not been implemented")
     }
     
-    internal func load(widgets: [widget_t]) {
-        self.subviews.forEach{ $0.removeFromSuperview() }
+    internal func load(widgets: [widget_t]) {}
+    
+    internal func setList(_ list: [BLEDevice]) {
+        if self.list.count != list.count && !self.list.isEmpty {
+            self.subviews.forEach{ $0.removeFromSuperview() }
+            self.list = [:]
+        }
         
-        self.addArrangedSubview(self.deviceSelector())
+        list.forEach { (d: BLEDevice) in
+            if self.list[d.id] == nil {
+                let row: NSView = toggleTitleRow(
+                    frame: NSRect(x: 0, y: 0, width: self.frame.width - (Constants.Settings.margin*2), height: Constants.Settings.row),
+                    title: d.name,
+                    action: #selector(self.handleSelection),
+                    state: d.state
+                )
+                row.subviews.filter{ $0 is NSControl }.forEach { (control: NSView) in
+                    control.identifier = NSUserInterfaceItemIdentifier(rawValue: "\(d.uuid?.uuidString ?? d.address)")
+                }
+                self.list[d.id] = true
+                self.addArrangedSubview(row)
+            }
+        }
         
         let h = self.arrangedSubviews.map({ $0.bounds.height + self.spacing }).reduce(0, +) - self.spacing + self.edgeInsets.top + self.edgeInsets.bottom
         if self.frame.size.height != h {
@@ -57,56 +70,17 @@ internal class Settings: NSStackView, Settings_v {
         }
     }
     
-    private func deviceSelector() -> NSView {
-        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width - Constants.Settings.margin*2, height: Constants.Settings.row))
+    @objc private func handleSelection(_ sender: NSControl) {
+        guard let id = sender.identifier else { return }
         
-        let rowTitle: NSTextField = LabelField(
-            frame: NSRect(x: 0, y: (view.frame.height - 16)/2, width: view.frame.width - 52, height: 17),
-            localizedString("Battery to show")
-        )
-        rowTitle.font = NSFont.systemFont(ofSize: 13, weight: .light)
-        rowTitle.textColor = .textColor
-        
-        self.button = NSPopUpButton(frame: NSRect(x: view.frame.width - 140, y: -1, width: 140, height: 30))
-        self.button!.target = self
-        self.button?.action = #selector(self.handleSelection)
-        
-        view.addSubview(rowTitle)
-        view.addSubview(self.button!)
-        
-        return view
-    }
-    
-    internal func setList(_ list: [BLEDevice]) {
-        var batteries: [String] = []
-        list.forEach { (d: BLEDevice) in
-            if d.batteryLevel.count == 1 {
-                batteries.append(d.name)
-            } else {
-                d.batteryLevel.forEach { (pair: KeyValue_t) in
-                    batteries.append("\(d.name)@\(pair.key)")
-                }
-            }
+        var state: NSControl.StateValue? = nil
+        if #available(OSX 10.15, *) {
+            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
+        } else {
+            state = sender is NSButton ? (sender as! NSButton).state: nil
         }
         
-        DispatchQueue.main.async(execute: {
-            if self.button?.itemTitles.count != batteries.count {
-                self.button?.removeAllItems()
-            }
-            
-            if batteries != self.button?.itemTitles {
-                self.button?.addItems(withTitles: batteries.map{ $0.replacingOccurrences(of: "@", with: " - ")})
-                if self.selectedBattery != "" {
-                    self.button?.selectItem(withTitle: self.selectedBattery.replacingOccurrences(of: "@", with: " - "))
-                }
-            }
-        })
-    }
-    
-    @objc private func handleSelection(_ sender: NSPopUpButton) {
-        guard let item = sender.selectedItem else { return }
-        self.selectedBattery = item.title.replacingOccurrences(of: " - ", with: "@")
-        Store.shared.set(key: "\(self.title)_battery", value: self.selectedBattery)
-        self.selectedBatteryHandler(self.selectedBattery)
+        Store.shared.set(key: "ble_\(id.rawValue)", value: state! == NSControl.StateValue.on)
+        self.callback()
     }
 }
