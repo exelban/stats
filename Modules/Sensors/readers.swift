@@ -132,15 +132,17 @@ internal class AppleSilicon_SensorsReader: SensorsReader {
                 return s.value < 100 && s.value >= 0
             default: return true
             }
-        })
+        }).sorted { $0.key.lowercased() < $1.key.lowercased() }
         
-        self.list = self.list.sorted { $0.name.lowercased() < $1.name.lowercased() }
+        self.calculateAverage()
     }
     
     public override func read() {
         for type in types {
             self.fetch(type: type)
         }
+        
+        self.calculateAverage()
         self.callback(self.list)
     }
     
@@ -182,17 +184,7 @@ internal class AppleSilicon_SensorsReader: SensorsReader {
         if let list = AppleSiliconSensors(page, usage, eventType) {
             list.forEach { (key, value) in
                 if let name = key as? String, let value = value as? Double {
-                    if let idx = self.list.firstIndex(where: { $0.name == name }) {
-                        self.list[idx].value = value
-                    } else {
-                        self.list.append(Sensor(
-                            key: name,
-                            name: name,
-                            value: value,
-                            group: .system,
-                            type: type
-                        ))
-                    }
+                    self.upsert(key: name, value: value, type: type)
                 }
             }
         }
@@ -207,5 +199,59 @@ internal class AppleSilicon_SensorsReader: SensorsReader {
         ] as NSDictionary
         
         return dict.mutableCopy() as! NSMutableDictionary
+    }
+    
+    private func upsert(key: String, value: Double, type: SensorType, group: SensorGroup = .system, prepend: Bool = false) {
+        if let idx = self.list.firstIndex(where: { $0.name == key }) {
+            self.list[idx].value = value
+        } else {
+            let s = Sensor(
+                key: key,
+                name: key,
+                value: value,
+                group: group,
+                type: type
+            )
+            
+            if prepend {
+                self.list.insert(s, at: 0)
+            } else {
+                self.list.append(s)
+            }
+        }
+    }
+    
+    private func calculateAverage() {
+        let cpuSensors = self.list.filter({ $0.key.hasPrefix("pACC MTR Temp") || $0.key.hasPrefix("eACC MTR Temp") }).map{ $0.value }
+        let gpuSensors = self.list.filter({ $0.key.hasPrefix("GPU MTR Temp") }).map{ $0.value }
+        let socSensors = self.list.filter({ $0.key.hasPrefix("SOC MTR Temp") }).map{ $0.value }
+        
+        if !socSensors.isEmpty {
+            self.upsert(
+                key: "Average SOC",
+                value: socSensors.reduce(0, +) / Double(socSensors.count),
+                type: .temperature,
+                group: .system,
+                prepend: true
+            )
+        }
+        if !gpuSensors.isEmpty {
+            self.upsert(
+                key: "Average GPU",
+                value: gpuSensors.reduce(0, +) / Double(gpuSensors.count),
+                type: .temperature,
+                group: .GPU,
+                prepend: true
+            )
+        }
+        if !cpuSensors.isEmpty {
+            self.upsert(
+                key: "Average CPU",
+                value: cpuSensors.reduce(0, +) / Double(cpuSensors.count),
+                type: .temperature,
+                group: .CPU,
+                prepend: true
+            )
+        }
     }
 }
