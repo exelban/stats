@@ -225,3 +225,20 @@ let SensorsList: [Sensor] = [
     Sensor(key: "PDTR", name: "DC In", group: .sensor, type: .power),
     Sensor(key: "PSTR", name: "System total", group: .sensor, type: .power)
 ]
+
+let AppleSiliconSensorsList: [Sensor] = [
+    Sensor(key: "pACC MTR Temp Sensor%", name: "CPU performance core %", group: .CPU, type: .temperature),
+    Sensor(key: "eACC MTR Temp Sensor%", name: "CPU efficiency core %", group: .CPU, type: .temperature),
+    
+    Sensor(key: "GPU MTR Temp Sensor%", name: "GPU core %", group: .GPU, type: .temperature),
+    Sensor(key: "SOC MTR Temp Sensor%", name: "SOC core %", group: .sensor, type: .temperature),
+    Sensor(key: "ANE MTR Temp Sensor%", name: "Neural engine %", group: .sensor, type: .temperature),
+    Sensor(key: "ISP MTR Temp Sensor%", name: "Airport %", group: .sensor, type: .temperature),
+    
+    Sensor(key: "PMGR SOC Die Temp Sensor%", name: "Power manager die %", group: .sensor, type: .temperature),
+    Sensor(key: "PMU tdev%", name: "Power management unit dev %", group: .sensor, type: .temperature),
+    Sensor(key: "PMU tdie%", name: "Power management unit die %", group: .sensor, type: .temperature),
+    
+    Sensor(key: "gas gauge battery", name: "Battery", group: .sensor, type: .temperature),
+    Sensor(key: "NAND CH% temp", name: "Disk %s", group: .GPU, type: .temperature)
+]

@@ -31,6 +31,7 @@ identifier_name:
     - Alignments
     - _devices
     - _uuidAddress
+    - AppleSiliconSensorsList
 
 line_length: 200
 

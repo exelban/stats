@@ -205,11 +205,25 @@ internal class AppleSilicon_SensorsReader: SensorsReader {
         if let idx = self.list.firstIndex(where: { $0.name == key }) {
             self.list[idx].value = value
         } else {
+            var name: String = key
+            var g: SensorGroup = group
+            
+            AppleSiliconSensorsList.filter{ $0.key.contains("%") }.forEach { (s: Sensor) in
+                var index = 1
+                for i in 0..<64 {
+                    if s.key.replacingOccurrences(of: "%", with: "\(i)") == key {
+                        name = s.name.replacingOccurrences(of: "%", with: "\(index)")
+                    }
+                    index += 1
+                }
+                g = s.group
+            }
+            
             let s = Sensor(
                 key: key,
-                name: key,
+                name: name,
                 value: value,
-                group: group,
+                group: g,
                 type: type
             )
             
