@@ -202,7 +202,7 @@ internal class AppleSilicon_SensorsReader: SensorsReader {
     }
     
     private func upsert(key: String, value: Double, type: SensorType, group: SensorGroup = .system, prepend: Bool = false) {
-        if let idx = self.list.firstIndex(where: { $0.name == key }) {
+        if let idx = self.list.firstIndex(where: { $0.key == key }) {
             self.list[idx].value = value
         } else {
             var name: String = key
