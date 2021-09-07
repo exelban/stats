@@ -20,6 +20,7 @@ internal class Popup: NSView, Popup_p {
     private let dashboardHeight: CGFloat = 90
     private let chartHeight: CGFloat = 90 + Constants.Popup.separatorHeight
     private let detailsHeight: CGFloat = (22*5) + Constants.Popup.separatorHeight
+    private let averageHeight: CGFloat = (22*3) + Constants.Popup.separatorHeight
     private let processHeight: CGFloat = 22
     
     private var systemField: NSTextField? = nil
@@ -27,6 +28,9 @@ internal class Popup: NSView, Popup_p {
     private var idleField: NSTextField? = nil
     private var shedulerLimitField: NSTextField? = nil
     private var speedLimitField: NSTextField? = nil
+    private var average1Field: NSTextField? = nil
+    private var average5Field: NSTextField? = nil
+    private var average15Field: NSTextField? = nil
     
     private var chart: LineChartView? = nil
     private var circle: PieChartView? = nil
@@ -37,6 +41,7 @@ internal class Popup: NSView, Popup_p {
     private var initializedFrequency: Bool = false
     private var initializedProcesses: Bool = false
     private var initializedLimits: Bool = false
+    private var initializedAverage: Bool = false
     
     private var processes: [ProcessView] = []
     private var maxFreq: Double = 0
@@ -62,7 +67,7 @@ internal class Popup: NSView, Popup_p {
             x: 0,
             y: 0,
             width: Constants.Popup.width,
-            height: self.dashboardHeight + self.chartHeight + self.detailsHeight
+            height: self.dashboardHeight + self.chartHeight + self.detailsHeight + self.averageHeight
         ))
         self.setFrameSize(NSSize(width: self.frame.width, height: self.frame.height+self.processesHeight))
         
@@ -73,11 +78,13 @@ internal class Popup: NSView, Popup_p {
         gridView.addRow(with: [self.initDashboard()])
         gridView.addRow(with: [self.initChart()])
         gridView.addRow(with: [self.initDetails()])
+        gridView.addRow(with: [self.initAverage()])
         gridView.addRow(with: [self.initProcesses()])
         
         gridView.row(at: 0).height = self.dashboardHeight
         gridView.row(at: 1).height = self.chartHeight
         gridView.row(at: 2).height = self.detailsHeight
+        gridView.row(at: 3).height = self.averageHeight
         
         self.addSubview(gridView)
         self.grid = gridView
@@ -170,6 +177,21 @@ internal class Popup: NSView, Popup_p {
         self.idleField = popupWithColorRow(container, color: NSColor.lightGray.withAlphaComponent(0.5), n: 2, title: "\(localizedString("Idle")):", value: "")
         self.shedulerLimitField = popupRow(container, n: 1, title: "\(localizedString("Scheduler limit")):", value: "").1
         self.speedLimitField = popupRow(container, n: 0, title: "\(localizedString("Speed limit")):", value: "").1
+        
+        view.addSubview(separator)
+        view.addSubview(container)
+        
+        return view
+    }
+    
+    private func initAverage() -> NSView {
+        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.averageHeight))
+        let separator = separatorView(localizedString("Average load"), origin: NSPoint(x: 0, y: self.averageHeight-Constants.Popup.separatorHeight), width: self.frame.width)
+        let container: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: separator.frame.origin.y))
+        
+        self.average1Field = popupRow(container, n: 2, title: "\(localizedString("1 minute")):", value: "").1
+        self.average5Field = popupRow(container, n: 1, title: "\(localizedString("5 minutes")):", value: "").1
+        self.average15Field = popupRow(container, n: 0, title: "\(localizedString("15 minutes")):", value: "").1
         
         view.addSubview(separator)
         view.addSubview(container)
@@ -281,6 +303,24 @@ internal class Popup: NSView, Popup_p {
             self.speedLimitField?.stringValue = "\(value.speed)%"
             
             self.initializedLimits = true
+        })
+    }
+    
+    public func averageCallback(_ value: [Double]) {
+        guard value.count == 3 else {
+            return
+        }
+        
+        DispatchQueue.main.async(execute: {
+            if !(self.window?.isVisible ?? false) && self.initializedAverage {
+                return
+            }
+            
+            self.average1Field?.stringValue = "\(value[0])"
+            self.average5Field?.stringValue = "\(value[1])"
+            self.average15Field?.stringValue = "\(value[2])"
+            
+            self.initializedAverage = true
         })
     }
     

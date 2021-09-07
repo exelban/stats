@@ -383,16 +383,15 @@ public class FrequencyReader: Reader<Double> {
         }
         
         var local: PGSample = 0
+        var value: Double = 0
+        var min: Double = 0
+        var max: Double = 0
         
         if !self.PG_ReadSample!(0, &local) {
             self.reconnect()
             error("read local sample failed", log: self.log)
             return
         }
-        
-        var value: Double = 0
-        var min: Double = 0
-        var max: Double = 0
         
         defer {
             if !self.PGSample_Release!(self.sample) {
@@ -442,7 +441,6 @@ public class LimitReader: Reader<CPU_Limit> {
             guard let value = Int(line.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()) else {
                 return
             }
-            
             if line.contains("Scheduler") {
                 self.limits.scheduler = value
             } else if line.contains("CPUs") {
@@ -487,7 +485,6 @@ public class AverageReader: Reader<[Double]> {
         
         var str = line.trimmingCharacters(in: .whitespaces)
         let strArr = str.findAndCrop(pattern: "(\\d+(.|,)\\d+ *){3}$").split(separator: " ")
-        
         guard strArr.count == 3 else {
             return
         }
