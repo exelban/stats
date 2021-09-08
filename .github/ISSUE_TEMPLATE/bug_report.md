@@ -12,5 +12,5 @@ A clear and concise description of what the bug is.
 
 **Details:**
  - Device: [e.g. Macbook Pro 2016]
- - MacOS [e.g. 10.15.5]
- - Application version [e.g. 2.1.11]
+ - macOS: [e.g. 10.15.5]
+ - Application version: [e.g. 2.1.11]
