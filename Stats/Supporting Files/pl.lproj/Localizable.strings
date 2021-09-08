@@ -147,6 +147,10 @@
 "Split the value (System/User)" = "Podzielić wartość (System/Użytkownik)";
 "Scheduler limit" = "Ograniczenie planisty";
 "Speed limit" = "Ograniczenie prędkości";
+"Average load" = "Średnie obciążenie";
+"1 minute" = "1 minuta";
+"5 minutes" = "5 minut";
+"15 minutes" = "15 minut";
 
 // GPU
 "GPU to show" = "GPU do wyświetlenia";

@@ -147,6 +147,10 @@
 "Split the value (System/User)" = "Chia nhỏ giá trị (Hệ thống/Người Dùng)";
 "Scheduler limit" = "Scheduler limit";
 "Speed limit" = "Speed limit";
+"Average load" = "Average load";
+"1 minute" = "1 minute";
+"5 minutes" = "5 minutes";
+"15 minutes" = "15 minutes";
 
 // GPU
 "GPU to show" = "GPU để hiển thị";

@@ -147,6 +147,10 @@
 "Split the value (System/User)" = "Dividir el valor (Sistema/Usuario)";
 "Scheduler limit" = "Scheduler limit";
 "Speed limit" = "Speed limit";
+"Average load" = "Average load";
+"1 minute" = "1 minute";
+"5 minutes" = "5 minutes";
+"15 minutes" = "15 minutes";
 
 // GPU
 "GPU to show" = "GPU a mostrar";

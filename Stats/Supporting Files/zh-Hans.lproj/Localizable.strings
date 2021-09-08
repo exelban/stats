@@ -147,6 +147,10 @@
 "Split the value (System/User)" = "柱状图区分显示（系统/用户";
 "Scheduler limit" = "Scheduler limit";
 "Speed limit" = "Speed limit";
+"Average load" = "Average load";
+"1 minute" = "1 minute";
+"5 minutes" = "5 minutes";
+"15 minutes" = "15 minutes";
 
 // GPU
 "GPU to show" = "显示的 GPU";
