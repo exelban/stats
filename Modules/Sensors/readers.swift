@@ -134,7 +134,7 @@ internal class AppleSilicon_SensorsReader: SensorsReader {
             }
         }).sorted { $0.key.lowercased() < $1.key.lowercased() }
         
-        self.calculateAverage()
+        self.calculateAverageAndHottest()
     }
     
     public override func read() {
@@ -142,7 +142,7 @@ internal class AppleSilicon_SensorsReader: SensorsReader {
             self.fetch(type: type)
         }
         
-        self.calculateAverage()
+        self.calculateAverageAndHottest()
         self.callback(self.list)
     }
     
@@ -235,7 +235,7 @@ internal class AppleSilicon_SensorsReader: SensorsReader {
         }
     }
     
-    private func calculateAverage() {
+    private func calculateAverageAndHottest() {
         let cpuSensors = self.list.filter({ $0.key.hasPrefix("pACC MTR Temp") || $0.key.hasPrefix("eACC MTR Temp") }).map{ $0.value }
         let gpuSensors = self.list.filter({ $0.key.hasPrefix("GPU MTR Temp") }).map{ $0.value }
         let socSensors = self.list.filter({ $0.key.hasPrefix("SOC MTR Temp") }).map{ $0.value }
@@ -248,6 +248,15 @@ internal class AppleSilicon_SensorsReader: SensorsReader {
                 group: .system,
                 prepend: true
             )
+            if let max = socSensors.max() {
+                self.upsert(
+                    key: "Hottest SOC",
+                    value: max,
+                    type: .temperature,
+                    group: .system,
+                    prepend: true
+                )
+            }
         }
         if !gpuSensors.isEmpty {
             self.upsert(
@@ -257,6 +266,15 @@ internal class AppleSilicon_SensorsReader: SensorsReader {
                 group: .GPU,
                 prepend: true
             )
+            if let max = gpuSensors.max() {
+                self.upsert(
+                    key: "Hottest GPU",
+                    value: max,
+                    type: .temperature,
+                    group: .system,
+                    prepend: true
+                )
+            }
         }
         if !cpuSensors.isEmpty {
             self.upsert(
@@ -266,6 +284,15 @@ internal class AppleSilicon_SensorsReader: SensorsReader {
                 group: .CPU,
                 prepend: true
             )
+            if let max = cpuSensors.max() {
+                self.upsert(
+                    key: "Hottest CPU",
+                    value: max,
+                    type: .temperature,
+                    group: .system,
+                    prepend: true
+                )
+            }
         }
     }
 }
