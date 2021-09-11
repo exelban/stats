@@ -49,6 +49,20 @@ class SettingsWindow: NSWindow, NSWindowDelegate {
         NotificationCenter.default.removeObserver(self)
     }
     
+    override func performKeyEquivalent(with event: NSEvent) -> Bool {
+        if event.type == NSEvent.EventType.keyDown && event.modifierFlags.contains(.command) {
+            if event.keyCode == 12 || event.keyCode == 13 {
+                self.setIsVisible(false)
+                return true
+            } else if event.keyCode == 46 {
+                self.miniaturize(event)
+                return true
+            }
+        }
+        
+        return super.performKeyEquivalent(with: event)
+    }
+    
     @objc private func toggleSettingsHandler(_ notification: Notification) {
         if !self.isVisible {
             self.setIsVisible(true)
