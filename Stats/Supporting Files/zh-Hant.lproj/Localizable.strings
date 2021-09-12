@@ -147,10 +147,10 @@
 "Split the value (System/User)" = "分割值 (系統/使用者)";
 "Scheduler limit" = "排程限制";
 "Speed limit" = "速度限制";
-"Average load" = "Average load";
-"1 minute" = "1 minute";
-"5 minutes" = "5 minutes";
-"15 minutes" = "15 minutes";
+"Average load" = "平均負載";
+"1 minute" = "1 分鐘";
+"5 minutes" = "5 分鐘";
+"15 minutes" = "15 分鐘";
 
 // GPU
 "GPU to show" = "顯示顯示卡";
