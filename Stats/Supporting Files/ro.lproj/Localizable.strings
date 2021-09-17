@@ -214,6 +214,7 @@
 "Reader type" = "Tipul de cititor";
 "Interface based" = "Bazat pe interfață";
 "Processes based" = "Bazat pe procese";
+"Reset data usage" = "Reset data usage";
 
 // Battery
 "Level" = "Nivel";

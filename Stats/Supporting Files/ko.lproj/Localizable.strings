@@ -214,6 +214,7 @@
 "Reader type" = "리더 유형";
 "Interface based" = "상호 작용";
 "Processes based" = "프로세스";
+"Reset data usage" = "Reset data usage";
 
 // Battery
 "Level" = "잔량";

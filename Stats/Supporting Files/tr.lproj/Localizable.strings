@@ -214,6 +214,7 @@
 "Reader type" = "Okuma yöntemi";
 "Interface based" = "Arayüz";
 "Processes based" = "Süreçler";
+"Reset data usage" = "Reset data usage";
 
 // Battery
 "Level" = "Doluluk";

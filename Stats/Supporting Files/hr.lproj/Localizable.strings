@@ -214,6 +214,7 @@
 "Reader type" = "Vrsta čitača";
 "Interface based" = "Sučelje";
 "Processes based" = "Proces";
+"Reset data usage" = "Reset data usage";
 
 // Battery
 "Level" = "Stanje";

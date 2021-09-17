@@ -214,6 +214,7 @@
 "Reader type" = "Tipo de lector";
 "Interface based" = "Interfaz";
 "Processes based" = "Proceso";
+"Reset data usage" = "Reset data usage";
 
 // Battery
 "Level" = "Nivel";

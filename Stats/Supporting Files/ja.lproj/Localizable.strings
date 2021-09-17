@@ -214,6 +214,7 @@
 "Reader type" = "リーダータイプ";
 "Interface based" = "インターフェイス";
 "Processes based" = "プロセス";
+"Reset data usage" = "Reset data usage";
 
 // Battery
 "Level" = "充電残量";

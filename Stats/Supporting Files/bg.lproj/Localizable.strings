@@ -214,6 +214,7 @@
 "Reader type" = "Тип четец";
 "Interface based" = "На база интерфейс";
 "Processes based" = "На база процес";
+"Reset data usage" = "Reset data usage";
 
 // Battery
 "Level" = "Ниво";

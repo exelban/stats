@@ -214,6 +214,7 @@
 "Reader type" = "Метод чтения";
 "Interface based" = "Интерфейс";
 "Processes based" = "Процессы";
+"Reset data usage" = "Сбросить использование данных";
 
 // Battery
 "Level" = "Уровень заряда";

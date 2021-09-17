@@ -214,6 +214,7 @@
 "Reader type" = "Loại trình đọc";
 "Interface based" = "Giao diện";
 "Processes based" = "Quá trình";
+"Reset data usage" = "Reset data usage";
 
 // Battery
 "Level" = "Dung lượng Pin";

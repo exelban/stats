@@ -214,6 +214,7 @@
 "Reader type" = "讀取機類型";
 "Interface based" = "依連接埠";
 "Processes based" = "依程序";
+"Reset data usage" = "Reset data usage";
 
 // Battery
 "Level" = "電量";
