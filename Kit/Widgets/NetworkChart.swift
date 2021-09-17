@@ -117,9 +117,9 @@ public class NetworkChart: WidgetWrapper {
         context.saveGState()
         
         self.chart.draw(NSRect(
-            x: x+1,
+            x: x+offset,
             y: 1,
-            width: box.bounds.width - offset,
+            width: box.bounds.width - 1 - x - offset,
             height: box.bounds.height - ((box.bounds.origin.y + lineWidth)*2)
         ))
         
