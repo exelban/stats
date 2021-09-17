@@ -145,12 +145,12 @@
 "Show usage per core" = "Nutzung pro Kern anzeigen";
 "Show hyper-threading cores" = "Hyper-Threading-Kerne anzeigen";
 "Split the value (System/User)" = "Teilen Sie den Wert auf (System/Nutzer)";
-"Scheduler limit" = "Scheduler limit";
-"Speed limit" = "Speed limit";
-"Average load" = "Average load";
-"1 minute" = "1 minute";
-"5 minutes" = "5 minutes";
-"15 minutes" = "15 minutes";
+"Scheduler limit" = "Maximale Planer-Geschwindigkeit";
+"Speed limit" = "Maximale CPU-Geschwindigkeit";
+"Average load" = "Durchschnittliche Last";
+"1 minute" = "1 Minute";
+"5 minutes" = "5 Minuten";
+"15 minutes" = "15 Minuten";
 
 // GPU
 "GPU to show" = "GPU auswählen";
@@ -214,7 +214,7 @@
 "Reader type" = "Lesertyp";
 "Interface based" = "Schnittstelle";
 "Processes based" = "Prozess";
-"Reset data usage" = "Reset data usage";
+"Reset data usage" = "Nutzungsdaten zurücksetzen";
 
 // Battery
 "Level" = "Ladezustand";
