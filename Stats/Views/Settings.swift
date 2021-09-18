@@ -76,7 +76,7 @@ class SettingsWindow: NSWindow, NSWindowDelegate {
     
     public func setModules() {
         self.viewController.setModules(modules)
-        if modules.filter({ $0.enabled != false && $0.available != false }).isEmpty {
+        if modules.filter({ $0.enabled != false && $0.available != false && !$0.widgets.filter({ $0.isActive }).isEmpty }).isEmpty {
             self.setIsVisible(true)
         }
     }
