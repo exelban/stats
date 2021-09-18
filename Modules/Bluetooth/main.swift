@@ -23,7 +23,7 @@ public struct BLEDevice {
     let conn: BLEConnType
     
     let address: String
-    let name: String
+    var name: String
     var uuid: UUID?
     
     var RSSI: Int? = nil
@@ -79,7 +79,7 @@ public class Bluetooth: Module {
             return
         }
         
-        let active = value.filter{ $0.isPaired && ($0.isConnected || !$0.batteryLevel.isEmpty) }
+        let active = value.filter{ $0.isPaired || ($0.isConnected && !$0.batteryLevel.isEmpty) }
         DispatchQueue.main.async(execute: {
             self.popupView.batteryCallback(active)
             self.settingsView.setList(active)

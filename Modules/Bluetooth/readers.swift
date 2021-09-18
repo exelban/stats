@@ -55,6 +55,18 @@ internal class DevicesReader: Reader<[BLEDevice]>, CBCentralManagerDelegate, CBP
     public override func read() {
         self.IODevices()
         self.cacheDevices()
+        
+        IOBluetoothDevice.pairedDevices()?.forEach({ d in
+            guard let device = d as? IOBluetoothDevice, device.isPaired() || device.isConnected(),
+                  let idx = self.devices.firstIndex(where: { $0.address == device.addressString }) else {
+                return
+            }
+            
+            self.devices[idx].name = device.nameOrAddress
+            self.devices[idx].isPaired = device.isPaired()
+            self.devices[idx].isConnected = device.isConnected()
+        })
+        
         self.callback(self.devices)
     }
     
@@ -185,20 +197,11 @@ internal class DevicesReader: Reader<[BLEDevice]>, CBCentralManagerDelegate, CBP
             return
         }
         
-        guard let device: IOBluetoothDevice = IOBluetoothDevice.pairedDevices().first(where: { d in
-            guard let device = d as? IOBluetoothDevice, device.isPaired() || device.isConnected() else {
-                return false
-            }
-            return device.addressString == address
-        }) as? IOBluetoothDevice else {
-            return
-        }
-        
         guard let idx = self.devices.firstIndex(where: { $0.address == address && $0.conn == .ble }) else {
             self.devices.append(BLEDevice(
                 conn: .ble,
                 address: address,
-                name: peripheral.name ?? device.nameOrAddress ?? "Unknown",
+                name: peripheral.name ?? "Unknown",
                 uuid: peripheral.identifier,
                 RSSI: Int(truncating: RSSI),
                 peripheral: peripheral
@@ -207,8 +210,6 @@ internal class DevicesReader: Reader<[BLEDevice]>, CBCentralManagerDelegate, CBP
         }
         
         self.devices[idx].RSSI = Int(truncating: RSSI)
-        self.devices[idx].isConnected = device.isConnected()
-        self.devices[idx].isPaired = device.isPaired()
         
         if peripheral.state == .disconnected {
             central.connect(peripheral, options: nil)
