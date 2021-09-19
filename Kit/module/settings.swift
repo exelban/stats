@@ -117,38 +117,36 @@ open class Settings: NSView, Settings_p {
     }
     
     private func body() -> NSView {
-        let view = ScrollableStackView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: Constants.Settings.height - self.headerHeight))
-        view.stackView.edgeInsets = NSEdgeInsets(
+        let view = NSStackView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: Constants.Settings.height - self.headerHeight))
+        view.edgeInsets = NSEdgeInsets(
             top: Constants.Settings.margin,
             left: Constants.Settings.margin,
             bottom: Constants.Settings.margin,
             right: Constants.Settings.margin
         )
-        view.stackView.spacing = Constants.Settings.margin
-        
+        view.spacing = Constants.Settings.margin
+        view.orientation = .vertical
         view.wantsLayer = true
         view.layer?.backgroundColor = NSColor(hexString: "#ececec").cgColor
-        self.container = view
         
-        self.initWidgetSelector()
-        self.initModuleSettings()
+        view.addArrangedSubview(self.initWidgetSelector())
+        view.addArrangedSubview(self.initModuleSettings())
         
         return view
     }
     
-    private func initWidgetSelector() {
-        guard !self.widgets.pointee.isEmpty else {
-            return
-        }
-        
-        let container: NSView = NSView(frame: NSRect(x: 0, y: 0, width: 0, height: Constants.Widget.height + (Constants.Settings.margin*2)))
-        container.wantsLayer = true
-        container.layer?.backgroundColor = .white
-        container.layer?.cornerRadius = 3
-        
-        let view: NSStackView = NSStackView()
-        view.orientation = .horizontal
-        view.translatesAutoresizingMaskIntoConstraints = false
+    private func initWidgetSelector() -> NSView {
+        let view = NSStackView(frame: NSRect(
+            x: 0,
+            y: 0,
+            width: self.frame.width - (Constants.Settings.margin*2),
+            height: Constants.Widget.height + (Constants.Settings.margin*2)
+        ))
+        view.widthAnchor.constraint(equalToConstant: view.bounds.width).isActive = true
+        view.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
+        view.wantsLayer = true
+        view.layer?.backgroundColor = .white
+        view.layer?.cornerRadius = 3
         view.edgeInsets = NSEdgeInsets(
             top: Constants.Settings.margin,
             left: Constants.Settings.margin,
@@ -168,21 +166,23 @@ open class Settings: NSView, Settings_p {
             view.addArrangedSubview(preview)
         }
         
-        container.addSubview(view)
-        
-        if let view = self.container {
-            view.stackView.addArrangedSubview(container)
-        }
-        
-        NSLayoutConstraint.activate([
-            container.heightAnchor.constraint(equalToConstant: container.frame.height),
-            view.heightAnchor.constraint(equalTo: container.heightAnchor)
-        ])
+        return view
     }
     
-    private func initModuleSettings() {
+    private func initModuleSettings() -> NSView {
+        let view: ScrollableStackView = ScrollableStackView(frame: NSRect(
+            x: 0,
+            y: 0,
+            width: self.frame.width - (Constants.Settings.margin*2),
+            height: Constants.Settings.height - self.headerHeight - Constants.Widget.height - (Constants.Settings.margin*5)
+        ))
+        view.widthAnchor.constraint(equalToConstant: view.bounds.width).isActive = true
+        view.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
+        view.stackView.spacing = Constants.Settings.margin
+        self.container = view
+        
         guard let settingsView = self.moduleSettings else {
-            return
+            return view
         }
         
         let container: NSView = NSView(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
@@ -194,13 +194,13 @@ open class Settings: NSView, Settings_p {
         self.moduleSettings?.load(widgets: self.widgets.pointee.filter{ $0.isActive }.map{ $0.type })
         
         container.addSubview(settingsView)
-        if let view = self.container {
-            view.stackView.addArrangedSubview(container)
-        }
+        view.stackView.addArrangedSubview(container)
         
         NSLayoutConstraint.activate([
             container.heightAnchor.constraint(equalTo: settingsView.heightAnchor)
         ])
+        
+        return view
     }
     
     // MARK: - helpers
@@ -215,21 +215,21 @@ open class Settings: NSView, Settings_p {
         container.layer?.backgroundColor = .white
         container.layer?.cornerRadius = 3
         
-        let width: CGFloat = (self.container?.clipView.bounds.width ?? self.frame.width) - (Constants.Settings.margin*2)
+        let width: CGFloat = self.container?.clipView.bounds.width ?? self.frame.width
         let settingsView = widget.item.settings(width: width)
         container.addSubview(settingsView)
         
         if let view = self.container {
             if self.widgetSettings == nil {
-                view.stackView.insertArrangedSubview(container, at: 1)
+                view.stackView.insertArrangedSubview(container, at: 0)
                 self.widgetSettings = type
             } else if self.widgetSettings != nil && self.widgetSettings == type {
-                view.stackView.arrangedSubviews[1].removeFromSuperview()
+                view.stackView.arrangedSubviews[0].removeFromSuperview()
                 self.widgetSettings = nil
             } else {
-                view.stackView.arrangedSubviews[1].removeFromSuperview()
+                view.stackView.arrangedSubviews[0].removeFromSuperview()
                 self.widgetSettings = type
-                view.stackView.insertArrangedSubview(container, at: 1)
+                view.stackView.insertArrangedSubview(container, at: 0)
             }
         }
         
