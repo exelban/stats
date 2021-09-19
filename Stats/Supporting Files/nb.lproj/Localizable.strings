@@ -11,23 +11,23 @@
 
 // Modules
 "CPU" = "CPU";
-"Open CPU settings" = "Open CPU settings";
+"Open CPU settings" = "Åpne CPU-innstillinger";
 "GPU" = "GPU";
-"Open GPU settings" = "Open GPU settings";
-"RAM" = "RAM";
-"Open RAM settings" = "Open RAM settings";
+"Open GPU settings" = "Åpne GPU-innstillinger";
+"RAM" = "Minne";
+"Open RAM settings" = "Åpne minneinnstillinger";
 "Disk" = "Disk";
-"Open Disk settings" = "Open disk settings";
+"Open Disk settings" = "Åpne diskinnstillinger";
 "Sensors" = "Sensors";
-"Open Sensors settings" = "Open sensors settings";
+"Open Sensors settings" = "Åpne sensorinnstillinger";
 "Fans" = "Fans";
-"Open Fans settings" = "Open fans settings";
+"Open Fans settings" = "Åpne vifteinnstillinger";
 "Network" = "Network";
-"Open Network settings" = "Open network settings";
+"Open Network settings" = "Åpne nettverksinnstillinger";
 "Battery" = "Battery";
-"Open Battery settings" = "Open battery settings";
+"Open Battery settings" = "Åpne batteriinnstillinger";
 "Bluetooth" = "Bluetooth";
-"Open Bluetooth settings" = "Open bluetooth settings";
+"Open Bluetooth settings" = "Åpne bluetooth-innstillinger";
 
 // Words
 "Unknown" = "Ukjent";
@@ -54,10 +54,10 @@
 "Max" = "Maks";
 "Min" = "Min";
 "Reset" = "Nullstill";
-"Alignment" = "Alignment";
-"Left alignment" = "Left";
-"Center alignment" = "Center";
-"Right alignment" = "Right";
+"Alignment" = "Justering";
+"Left alignment" = "Venstre";
+"Center alignment" = "Sentrum";
+"Right alignment" = "Høyre";
 "Dashboard" = "Dashboard";
 
 // Alerts
@@ -119,7 +119,7 @@
 "Battery widget" = "Batteri";
 "Text widget" = "Tekst";
 "Memory widget" = "Tall";
-"Static width" = "Static width";
+"Static width" = "Statisk bredde";
 
 // Module Kit
 "Open module settings" = "Åpne modulinnstillinger";
@@ -133,7 +133,7 @@
 
 // Modules
 "Number of top processes" = "Antall topp-prosesser";
-"Update interval for top processes" = "Update interval for top processes";
+"Update interval for top processes" = "Oppdateringsintervall for topp-prosesser";
 
 // CPU
 "CPU usage" = "CPU-bruk";
@@ -145,12 +145,12 @@
 "Show usage per core" = "Vis bruk per kjerne";
 "Show hyper-threading cores" = "Vis hyper-threading-kjerner";
 "Split the value (System/User)" = "Del verdien (System/Bruker)";
-"Scheduler limit" = "Scheduler limit";
-"Speed limit" = "Speed limit";
-"Average load" = "Average load";
-"1 minute" = "1 minute";
-"5 minutes" = "5 minutes";
-"15 minutes" = "15 minutes";
+"Scheduler limit" = "Grense for tidsplanlegger";
+"Speed limit" = "Fartsgrense";
+"Average load" = "Gjennomsnittsbelastning";
+"1 minute" = "1 minutt";
+"5 minutes" = "5 minutter";
+"15 minutes" = "15 minutter";
 
 // GPU
 "GPU to show" = "GPU å vise";
@@ -193,7 +193,7 @@
 "Temperature unit" = "Temperaturenhet";
 "Celsius" = "Celsius";
 "Fahrenheit" = "Fahrenheit";
-"Save the fan speed" = "Save the fan speed";
+"Save the fan speed" = "Lagre viftehastighet";
 
 // Network
 "Uploading" = "Opplasting";
@@ -249,7 +249,7 @@
 "Last charge" = "Siste lading";
 
 // Bluetooth
-"Battery to show" = "Battery to show";
+"Battery to show" = "Battery å vise";
 
 // Colors
 "Based on utilization" = "Basert på bruk";
