@@ -145,12 +145,12 @@
 "Show usage per core" = "Zobrazit použití po jádrech";
 "Show hyper-threading cores" = "Zobrazit jádra hyper-threading";
 "Split the value (System/User)" = "Rozdělit hodnotu (Systém/Uživatel)";
-"Scheduler limit" = "Scheduler limit";
-"Speed limit" = "Speed limit";
-"Average load" = "Average load";
-"1 minute" = "1 minute";
-"5 minutes" = "5 minutes";
-"15 minutes" = "15 minutes";
+"Scheduler limit" = "Omezení plánovače";
+"Speed limit" = "Omezení rychlosti";
+"Average load" = "Průměrné zatížení";
+"1 minute" = "1 minuta";
+"5 minutes" = "5 minut";
+"15 minutes" = "15 minut";
 
 // GPU
 "GPU to show" = "GPU k zobrazení";
