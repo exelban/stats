@@ -111,15 +111,15 @@
 "One row" = "Una riga";
 "Two rows" = "Due righe";
 "Mini widget" = "Mini";
-"Line chart widget" = "Line chart";
-"Bar chart widget" = "Bar chart";
-"Pie chart widget" = "Pie chart";
-"Network chart widget" = "Network chart";
-"Speed widget" = "Speed";
-"Battery widget" = "Battery";
-"Text widget" = "Text";
-"Memory widget" = "Memory";
-"Static width" = "Static width";
+"Line chart widget" = "Grafico a linee";
+"Bar chart widget" = "Grafico a barre";
+"Pie chart widget" = "Grafico a torta";
+"Network chart widget" = "Grafico rete";
+"Speed widget" = "Velocità";
+"Battery widget" = "Batteria";
+"Text widget" = "Testo";
+"Memory widget" = "Memoria";
+"Static width" = "Larghezza fissa";
 
 // Module Kit
 "Open module settings" = "Apri impostazioni modulo";
