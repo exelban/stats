@@ -133,7 +133,7 @@
 
 // Modules
 "Number of top processes" = "高占用进程数";
-"Update interval for top processes" = "Update interval for top processes";
+"Update interval for top processes" = "高占用进程的更新间隔";
 
 // CPU
 "CPU usage" = "CPU 占用";
@@ -145,12 +145,12 @@
 "Show usage per core" = "显示每个物理核心占用";
 "Show hyper-threading cores" = "显示超线程核心";
 "Split the value (System/User)" = "柱状图区分显示（系统/用户";
-"Scheduler limit" = "Scheduler limit";
-"Speed limit" = "Speed limit";
-"Average load" = "Average load";
-"1 minute" = "1 minute";
-"5 minutes" = "5 minutes";
-"15 minutes" = "15 minutes";
+"Scheduler limit" = "调度限制";
+"Speed limit" = "速度限制";
+"Average load" = "平均负载";
+"1 minute" = "1 分钟";
+"5 minutes" = "5 分钟";
+"15 minutes" = "15 分钟";
 
 // GPU
 "GPU to show" = "显示的 GPU";
@@ -193,7 +193,7 @@
 "Temperature unit" = "温度单位";
 "Celsius" = "摄氏度";
 "Fahrenheit" = "华氏度";
-"Save the fan speed" = "Save the fan speed";
+"Save the fan speed" = "保存风扇转速";
 
 // Network
 "Uploading" = "上传";
@@ -214,7 +214,7 @@
 "Reader type" = "读取器类型";
 "Interface based" = "基于接口";
 "Processes based" = "基于进程";
-"Reset data usage" = "Reset data usage";
+"Reset data usage" = "重置用量";
 
 // Battery
 "Level" = "电量";
