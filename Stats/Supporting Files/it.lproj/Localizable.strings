@@ -194,6 +194,7 @@
 "Celsius" = "Celsius";
 "Fahrenheit" = "Fahrenheit";
 "Save the fan speed" = "Salva la velocità delle ventole";
+"Fan" = "Fan";
 
 // Network
 "Uploading" = "Upload";

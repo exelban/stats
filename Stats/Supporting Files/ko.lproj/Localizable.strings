@@ -194,6 +194,7 @@
 "Celsius" = "섭씨";
 "Fahrenheit" = "화씨";
 "Save the fan speed" = "Save the fan speed";
+"Fan" = "Fan";
 
 // Network
 "Uploading" = "업로딩";

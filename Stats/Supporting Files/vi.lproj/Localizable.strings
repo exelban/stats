@@ -194,6 +194,7 @@
 "Celsius" = "Độ C";
 "Fahrenheit" = "Độ F";
 "Save the fan speed" = "Save the fan speed";
+"Fan" = "Fan";
 
 // Network
 "Uploading" = "Tải lên";

@@ -194,6 +194,7 @@
 "Celsius" = "Celsjusz";
 "Fahrenheit" = "Fahrenheit";
 "Save the fan speed" = "Zapisz prędkość wentylatora";
+"Fan" = "Wentylator";
 
 // Network
 "Uploading" = "Wysyłanie";

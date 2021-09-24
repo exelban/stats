@@ -31,7 +31,7 @@ internal class x86_SensorsReader: SensorsReader {
                 self.list.append(Fan(
                     id: i,
                     key: "F\(i)Ac",
-                    name: SMC.shared.getStringValue("F\(i)ID") ?? "Fan #\(i)",
+                    name: SMC.shared.getStringValue("F\(i)ID") ?? "\(localizedString("Fan")) #\(i)",
                     minSpeed: SMC.shared.getValue("F\(i)Mn") ?? 1,
                     maxSpeed: SMC.shared.getValue("F\(i)Mx") ?? 1,
                     value: SMC.shared.getValue("F\(i)Ac") ?? 0,
