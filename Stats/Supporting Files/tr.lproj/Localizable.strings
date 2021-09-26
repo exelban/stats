@@ -194,6 +194,7 @@
 "Celsius" = "Santigrat";
 "Fahrenheit" = "Fahrenhayt";
 "Save the fan speed" = "Save the fan speed";
+"Fan" = "Fan";
 
 // Network
 "Uploading" = "Yükleme";

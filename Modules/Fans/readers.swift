@@ -26,7 +26,7 @@ internal class FansReader: Reader<[Fan]> {
         for i in 0..<Int(count) {
             self.list.append(Fan(
                 id: i,
-                name: SMC.shared.getStringValue("F\(i)ID") ?? "Fan #\(i)",
+                name: SMC.shared.getStringValue("F\(i)ID") ?? "\(localizedString("Fan")) #\(i)",
                 minSpeed: SMC.shared.getValue("F\(i)Mn") ?? 1,
                 maxSpeed: SMC.shared.getValue("F\(i)Mx") ?? 1,
                 value: SMC.shared.getValue("F\(i)Ac") ?? 0,

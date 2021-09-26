@@ -194,6 +194,7 @@
 "Celsius" = "Цельсія";
 "Fahrenheit" = "Фаренгейта";
 "Save the fan speed" = "Зберегти швидкість вентилятора";
+"Fan" = "Вентилятор";
 
 // Network
 "Uploading" = "Висилання";

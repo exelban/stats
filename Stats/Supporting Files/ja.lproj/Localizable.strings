@@ -194,6 +194,7 @@
 "Celsius" = "摂氏（℃）";
 "Fahrenheit" = "華氏（℉）";
 "Save the fan speed" = "Save the fan speed";
+"Fan" = "Fan";
 
 // Network
 "Uploading" = "送信";

@@ -14,9 +14,8 @@ import Kit
 import CoreBluetooth
 import IOBluetooth
 
-internal class DevicesReader: Reader<[BLEDevice]>, CBCentralManagerDelegate, CBPeripheralDelegate {
+internal class DevicesReader: Reader<[BLEDevice]> {
     private let queue = DispatchQueue(label: "eu.exelban.Stats.Bluetooth.reader", attributes: .concurrent)
-    private var manager: CBCentralManager!
     
     private var _devices: [BLEDevice] = []
     private var _uuidAddress: [UUID: String] = [:]
@@ -49,7 +48,6 @@ internal class DevicesReader: Reader<[BLEDevice]>, CBCentralManagerDelegate, CBP
     
     init() {
         super.init()
-        self.manager = CBCentralManager.init(delegate: self, queue: nil)
     }
     
     public override func read() {
@@ -180,91 +178,5 @@ internal class DevicesReader: Reader<[BLEDevice]>, CBCentralManagerDelegate, CBP
                 }
             }
         }
-    }
-    
-    // MARK: - CBCentralManagerDelegate
-    
-    func centralManagerDidUpdateState(_ central: CBCentralManager) {
-        if central.state == .poweredOff {
-            self.manager.stopScan()
-        } else if central.state == .poweredOn {
-            self.manager.scanForPeripherals(withServices: nil, options: nil)
-        }
-    }
-    
-    func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String: Any], rssi RSSI: NSNumber) {
-        guard let address = self.uuidAddress[peripheral.identifier] else {
-            return
-        }
-        
-        guard let idx = self.devices.firstIndex(where: { $0.address == address && $0.conn == .ble }) else {
-            self.devices.append(BLEDevice(
-                conn: .ble,
-                address: address,
-                name: peripheral.name ?? "Unknown",
-                uuid: peripheral.identifier,
-                RSSI: Int(truncating: RSSI),
-                peripheral: peripheral
-            ))
-            return
-        }
-        
-        self.devices[idx].RSSI = Int(truncating: RSSI)
-        
-        if peripheral.state == .disconnected {
-            central.connect(peripheral, options: nil)
-        } else if peripheral.state == .connected && !self.devices[idx].isPeripheralConnected {
-            peripheral.delegate = self
-            peripheral.discoverServices([batteryServiceUUID])
-            self.devices[idx].isPeripheralConnected = true
-        }
-    }
-    
-    // MARK: - CBPeripheralDelegate
-    
-    func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
-        guard error == nil else {
-            error_msg("didDiscoverServices: \(error!)")
-            return
-        }
-        
-        guard let service = peripheral.services?.first(where: { $0.uuid == self.batteryServiceUUID }) else {
-            print("battery service not found, skipping")
-            return
-        }
-        
-        peripheral.discoverCharacteristics([self.batteryCharacteristicsUUID], for: service)
-        
-        debug("\(peripheral.identifier): discover bluetooth services")
-    }
-    
-    func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
-        guard error == nil else {
-            error_msg("didDiscoverCharacteristicsFor: \(error!)")
-            return
-        }
-        
-        guard let batteryCharacteristics = service.characteristics?.first(where: { $0.uuid == self.batteryCharacteristicsUUID }) else {
-            print("characteristics not found")
-            return
-        }
-        
-        self.characteristicsDict[peripheral.identifier] = batteryCharacteristics
-        peripheral.readValue(for: batteryCharacteristics)
-        
-        debug("\(peripheral.identifier): discover battery service")
-    }
-    
-    func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
-        guard error == nil else {
-            error_msg("didUpdateValueFor: \(error!)")
-            return
-        }
-        
-        if let batteryLevel = characteristic.value?[0], let idx = self.devices.firstIndex(where: { $0.uuid == peripheral.identifier }) {
-            self.devices[idx].batteryLevel = [KeyValue_t(key: "battery", value: "\(batteryLevel)")]
-        }
-        
-        debug("\(peripheral.identifier): receive battery update")
     }
 }

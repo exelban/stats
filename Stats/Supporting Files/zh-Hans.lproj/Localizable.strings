@@ -194,6 +194,7 @@
 "Celsius" = "摄氏度";
 "Fahrenheit" = "华氏度";
 "Save the fan speed" = "保存风扇转速";
+"Fan" = "Fan";
 
 // Network
 "Uploading" = "上传";
