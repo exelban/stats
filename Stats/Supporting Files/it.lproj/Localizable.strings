@@ -43,7 +43,7 @@
 "Yes" = "Si";
 "No" = "No";
 "Automatic" = "Automatico";
-"Manual" = "Manual";
+"Manual" = "Manuale";
 "None" = "Nessuna";
 "Dots" = "Punti";
 "Arrows" = "Frecce";
@@ -58,7 +58,7 @@
 "Left alignment" = "Sinistra";
 "Center alignment" = "Centro";
 "Right alignment" = "Destra";
-"Dashboard" = "Pannello di Controllo";
+"Dashboard" = "Dashboard";
 
 // Alerts
 "New version available" = "Nuova versione disponibile";
@@ -72,7 +72,7 @@
 "Support the application" = "Supporta l'applicazione";
 "Close application" = "Chiudi applicazione";
 "Open application settings" = "Apri le impostazioni dell'applicazione";
-"Open dashboard" = "Open dashboard";
+"Open dashboard" = "Apri dashboard";
 
 // Application settings
 "Update application" = "Aggiorna applicazione";
@@ -88,7 +88,7 @@
 
 // Dashboard
 "Serial number" = "Numero di serie";
-"Uptime" = "Uptime";
+"Uptime" = "Tempo di attività";
 
 // Update
 "The latest version of Stats installed" = "L'ultima versione di Stats è installata";
@@ -111,15 +111,15 @@
 "One row" = "Una riga";
 "Two rows" = "Due righe";
 "Mini widget" = "Mini";
-"Line chart widget" = "Line chart";
-"Bar chart widget" = "Bar chart";
-"Pie chart widget" = "Pie chart";
-"Network chart widget" = "Network chart";
-"Speed widget" = "Speed";
-"Battery widget" = "Battery";
-"Text widget" = "Text";
-"Memory widget" = "Memory";
-"Static width" = "Static width";
+"Line chart widget" = "Grafico a linee";
+"Bar chart widget" = "Grafico a barre";
+"Pie chart widget" = "Grafico a torta";
+"Network chart widget" = "Grafico rete";
+"Speed widget" = "Velocità";
+"Battery widget" = "Batteria";
+"Text widget" = "Testo";
+"Memory widget" = "Memoria";
+"Static width" = "Larghezza fissa";
 
 // Module Kit
 "Open module settings" = "Apri impostazioni modulo";
@@ -145,7 +145,7 @@
 "Show usage per core" = "Mostra uso per core";
 "Show hyper-threading cores" = "Mostra cores hyper-threading";
 "Split the value (System/User)" = "Dividi il valore (Sistema/Utente)";
-"Scheduler limit" = "Scheduler limit";
+"Scheduler limit" = "Limite di pianificazione";
 "Speed limit" = "Limite velocità";
 "Average load" = "Carico medio";
 "1 minute" = "1 minuto";
@@ -155,11 +155,11 @@
 // GPU
 "GPU to show" = "GPU da mostrare";
 "Show GPU type" = "Mostra il tipo di GPU";
-"GPU enabled" = "GPU enabled";
-"GPU disabled" = "GPU disabled";
+"GPU enabled" = "GPU abilitato";
+"GPU disabled" = "GPU disabilitato";
 "GPU temperature" = "Temperatura GPU";
 "GPU utilization" = "Utilizzo GPU";
-"Vendor" = "Vendor";
+"Vendor" = "Venditore";
 "Model" = "Modello";
 "Status" = "Stato";
 "Active" = "Attivo";
@@ -179,7 +179,7 @@
 "Compressed" = "Compressa";
 "Free" = "Libera";
 "Swap" = "Scambiata";
-"Split the value (App/Wired/Compressed)" = "Dividi il valore (App/Wired/Compressa)";
+"Split the value (App/Wired/Compressed)" = "Dividi il valore (App/Cablata/Compressa)";
 
 // Disk
 "Show removable disks" = "Mostra dischi rimovibili";
@@ -215,7 +215,7 @@
 "Reader type" = "Tipo di lettore";
 "Interface based" = "Interfaccia";
 "Processes based" = "Processi";
-"Reset data usage" = "Reset data usage";
+"Reset data usage" = "Ripristina l'utilizzo dei dati";
 
 // Battery
 "Level" = "Livello";
@@ -234,7 +234,7 @@
 "Time to discharge" = "Tempo di scarica";
 "Time to charge" = "Tempo di carica";
 "Calculating" = "Calcolo in corso";
-"Fully charged" = "Completamente carica";
+"Fully charged" = "Carica";
 "Not connected" = "Non connesso";
 "Low level notification" = "Notifica livello basso";
 "High level notification" = "Notifica livello alto";
@@ -282,4 +282,4 @@
 "Magenta" = "Magenta";
 "Pink" = "Rosa";
 "Teal" = "Verde acqua";
-"
+"Indigo" = "Indaco";
