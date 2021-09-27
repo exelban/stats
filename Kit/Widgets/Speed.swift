@@ -17,6 +17,7 @@ public class SpeedWidget: WidgetWrapper {
     private var valueState: Bool = true
     private var baseValue: String = "byte"
     private var unitsState: Bool = true
+    private var monochromeState: Bool = false
     
     private var symbols: [String] = ["U", "D"]
     
@@ -27,6 +28,17 @@ public class SpeedWidget: WidgetWrapper {
     private var downloadValue: Int64 = 0
     
     private var width: CGFloat = 58
+    
+    private var downloadColor: NSColor {
+        get {
+            return self.monochromeState ? MonochromeColor.blue : NSColor.systemBlue
+        }
+    }
+    private var uploadColor: NSColor {
+        get {
+            return self.monochromeState ? MonochromeColor.red : NSColor.red
+        }
+    }
     
     public init(title: String, config: NSDictionary?, preview: Bool = false) {
         let widgetTitle: String = title
@@ -53,6 +65,7 @@ public class SpeedWidget: WidgetWrapper {
             self.icon = Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_icon", defaultValue: self.baseValue)
             self.baseValue = Store.shared.string(key: "\(self.title)_base", defaultValue: self.baseValue)
             self.unitsState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_units", defaultValue: self.unitsState)
+            self.monochromeState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_monochrome", defaultValue: self.monochromeState)
         }
         
         if self.valueState && self.icon != "none" {
@@ -129,20 +142,12 @@ public class SpeedWidget: WidgetWrapper {
         
         var downloadCircle = NSBezierPath()
         downloadCircle = NSBezierPath(ovalIn: CGRect(x: Constants.Widget.margin.x, y: y-0.2, width: size, height: size))
-        if self.downloadValue >= 1_024 {
-            NSColor.systemBlue.set()
-        } else {
-            NSColor.textColor.setFill()
-        }
+        (self.downloadValue >= 1_024 ? self.downloadColor : NSColor.textColor).set()
         downloadCircle.fill()
         
         var uploadCircle = NSBezierPath()
         uploadCircle = NSBezierPath(ovalIn: CGRect(x: Constants.Widget.margin.x, y: 10.5, width: size, height: size))
-        if self.uploadValue >= 1_024 {
-            NSColor.red.setFill()
-        } else {
-            NSColor.textColor.setFill()
-        }
+        (self.uploadValue >= 1_024 ? self.uploadColor : NSColor.textColor).set()
         uploadCircle.fill()
     }
     
@@ -162,11 +167,7 @@ public class SpeedWidget: WidgetWrapper {
             arrowAngle: arrowAngle
         )
         
-        if self.downloadValue >= 1_024 {
-            NSColor.systemBlue.set()
-        } else {
-            NSColor.textColor.set()
-        }
+        (self.downloadValue >= 1_024 ? self.downloadColor : NSColor.textColor).set()
         downloadArrow.lineWidth = lineWidth
         downloadArrow.stroke()
         downloadArrow.close()
@@ -178,12 +179,8 @@ public class SpeedWidget: WidgetWrapper {
             pointerLineLength: arrowSize,
             arrowAngle: arrowAngle
         )
-
-        if self.uploadValue >= 1_024 {
-            NSColor.red.set()
-        } else {
-            NSColor.textColor.set()
-        }
+        
+        (self.uploadValue >= 1_024 ? self.uploadColor : NSColor.textColor).set()
         uploadArrow.lineWidth = lineWidth
         uploadArrow.stroke()
         uploadArrow.close()
@@ -195,7 +192,7 @@ public class SpeedWidget: WidgetWrapper {
         if self.symbols.count > 1 {
             let downloadAttributes = [
                 NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .regular),
-                NSAttributedString.Key.foregroundColor: downloadValue >= 1_024 ? NSColor(red: (26/255.0), green: (126/255.0), blue: (252/255.0), alpha: 0.8) : NSColor.textColor,
+                NSAttributedString.Key.foregroundColor: self.downloadValue >= 1_024 ? self.downloadColor : NSColor.textColor,
                 NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
             ]
             let rect = CGRect(x: Constants.Widget.margin.x, y: 1, width: 8, height: rowHeight)
@@ -206,7 +203,7 @@ public class SpeedWidget: WidgetWrapper {
         if !self.symbols.isEmpty {
             let uploadAttributes = [
                 NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .regular),
-                NSAttributedString.Key.foregroundColor: uploadValue >= 1_024 ? NSColor.red : NSColor.textColor,
+                NSAttributedString.Key.foregroundColor: self.uploadValue >= 1_024 ? self.uploadColor : NSColor.textColor,
                 NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
             ]
             let rect = CGRect(x: Constants.Widget.margin.x, y: rowHeight+1, width: 8, height: rowHeight)
@@ -246,6 +243,13 @@ public class SpeedWidget: WidgetWrapper {
             title: localizedString("Units"),
             action: #selector(toggleUnits),
             state: self.unitsState
+        ))
+        
+        view.addArrangedSubview(toggleTitleRow(
+            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
+            title: localizedString("Monochrome accent"),
+            action: #selector(toggleMonochrome),
+            state: self.monochromeState
         ))
         
         return view
@@ -307,6 +311,19 @@ public class SpeedWidget: WidgetWrapper {
         }
         self.baseValue = key
         Store.shared.set(key: "\(self.title)_base", value: self.baseValue)
+    }
+    
+    @objc private func toggleMonochrome(_ sender: NSControl) {
+        var state: NSControl.StateValue? = nil
+        if #available(OSX 10.15, *) {
+            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
+        } else {
+            state = sender is NSButton ? (sender as! NSButton).state: nil
+        }
+        
+        self.monochromeState = state! == .on ? true : false
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_monochrome", value: self.monochromeState)
+        self.display()
     }
     
     public func setValue(upload: Int64, download: Int64) {

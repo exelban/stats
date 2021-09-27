@@ -182,6 +182,12 @@ public var controlAccentColor: NSColor {
     }
 }
 
+public class MonochromeColor {
+    static public let base: NSColor = NSColor.textColor
+    static public let red: NSColor = NSColor(red: (145), green: (145), blue: (145), alpha: 1)
+    static public let blue: NSColor = NSColor(red: (113), green: (113), blue: (113), alpha: 1)
+}
+
 public typealias colorZones = (orange: Double, red: Double)
 
 public extension Notification.Name {
