@@ -133,7 +133,7 @@
 
 // Modules
 "Number of top processes" = "Nombre de processus principaux";
-"Update interval for top processes" = "Update interval for top processes";
+"Update interval for top processes" = "Intervalle de mise à jour des processus principaux";
 
 // CPU
 "CPU usage" = "Usage CPU";
@@ -145,9 +145,9 @@
 "Show usage per core" = "Afficher l'utilisation par coeur";
 "Show hyper-threading cores" = "Afficher les coeurs hyper-threading";
 "Split the value (System/User)" = "Diviser la valeur (Système/Utilisateur)";
-"Scheduler limit" = "Scheduler limit";
-"Speed limit" = "Speed limit";
-"Average load" = "Average load";
+"Scheduler limit" = "Limite du planificateur";
+"Speed limit" = "Limite de vitesse";
+"Average load" = "Charge moyenne";
 "1 minute" = "1 minute";
 "5 minutes" = "5 minutes";
 "15 minutes" = "15 minutes";
@@ -193,8 +193,8 @@
 "Temperature unit" = "Unité de température";
 "Celsius" = "Celsius";
 "Fahrenheit" = "Fahrenheit";
-"Save the fan speed" = "Save the fan speed";
-"Fan" = "Fan";
+"Save the fan speed" = "Sauvegarder la vitesse des ventilateurs";
+"Fan" = "Ventilateur";
 
 // Network
 "Uploading" = "Upload";
@@ -215,7 +215,7 @@
 "Reader type" = "Type de lecteur";
 "Interface based" = "Interface";
 "Processes based" = "Processus";
-"Reset data usage" = "Reset data usage";
+"Reset data usage" = "Réinitialiser l'utilisation des données";
 
 // Battery
 "Level" = "Niveau";
