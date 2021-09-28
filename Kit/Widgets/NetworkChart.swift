@@ -15,6 +15,7 @@ public class NetworkChart: WidgetWrapper {
     private var boxState: Bool = false
     private var frameState: Bool = false
     private var labelState: Bool = false
+    private var monochromeState: Bool = false
     
     private var chart: NetworkChartView = NetworkChartView(
         frame: NSRect(
@@ -51,6 +52,9 @@ public class NetworkChart: WidgetWrapper {
             self.boxState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_box", defaultValue: self.boxState)
             self.frameState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_frame", defaultValue: self.frameState)
             self.labelState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_label", defaultValue: self.labelState)
+            self.monochromeState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_monochrome", defaultValue: self.monochromeState)
+            
+            self.chart.monohorome = self.monochromeState
         }
         
         if preview {
@@ -169,6 +173,13 @@ public class NetworkChart: WidgetWrapper {
         )
         view.addArrangedSubview(self.frameSettingsView!)
         
+        view.addArrangedSubview(toggleTitleRow(
+            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
+            title: localizedString("Monochrome accent"),
+            action: #selector(toggleMonochrome),
+            state: self.monochromeState
+        ))
+        
         return view
     }
     
@@ -219,6 +230,21 @@ public class NetworkChart: WidgetWrapper {
             Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_box", value: self.boxState)
         }
         
+        self.display()
+    }
+    
+    @objc private func toggleMonochrome(_ sender: NSControl) {
+        var state: NSControl.StateValue? = nil
+        if #available(OSX 10.15, *) {
+            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
+        } else {
+            state = sender is NSButton ? (sender as! NSButton).state: nil
+        }
+        
+        self.monochromeState = state! == .on ? true : false
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_monochrome", value: self.monochromeState)
+        
+        self.chart.monohorome = self.monochromeState
         self.display()
     }
 }
