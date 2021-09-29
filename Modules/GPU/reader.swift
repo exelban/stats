@@ -157,7 +157,10 @@ internal class InfoReader: Reader<GPUs> {
                 self.gpus.list[idx].state = state == 0
             }
             
-            if let value = utilization {
+            if var value = utilization {
+                if value > 100 {
+                    value = 100
+                }
                 self.gpus.list[idx].utilization = Double(value)/100
             }
             if let value = temperature {
