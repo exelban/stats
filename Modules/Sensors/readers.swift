@@ -121,28 +121,17 @@ internal class AppleSilicon_SensorsReader: SensorsReader {
         for type in types {
             self.fetch(type: type)
         }
-        
-        self.list = self.list.filter({ (s: Sensor_p) -> Bool in
-            switch s.type {
-            case .temperature:
-                return s.value < 110 && s.value >= 0
-            case .voltage:
-                return s.value < 300 && s.value >= 0
-            case .current:
-                return s.value < 100 && s.value >= 0
-            default: return true
-            }
-        }).sorted { $0.key.lowercased() < $1.key.lowercased() }
-        
         self.calculateAverageAndHottest()
+        self.sort()
     }
     
     public override func read() {
         for type in types {
             self.fetch(type: type)
         }
-        
         self.calculateAverageAndHottest()
+        self.sort()
+        
         self.callback(self.list)
     }
     
@@ -294,5 +283,19 @@ internal class AppleSilicon_SensorsReader: SensorsReader {
                 )
             }
         }
+    }
+    
+    private func sort() {
+        self.list = self.list.filter({ (s: Sensor_p) -> Bool in
+            switch s.type {
+            case .temperature:
+                return s.value < 110 && s.value >= 0
+            case .voltage:
+                return s.value < 300 && s.value >= 0
+            case .current:
+                return s.value < 100 && s.value >= 0
+            default: return true
+            }
+        }).sorted { $0.key.lowercased() < $1.key.lowercased() }
     }
 }
