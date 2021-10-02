@@ -59,6 +59,7 @@
 "Center alignment" = "Centrum";
 "Right alignment" = "Do prawej";
 "Dashboard" = "Dashboard";
+"Disabled" = "Wyłączone";
 
 // Alerts
 "New version available" = "Dostępna nowa wersja";

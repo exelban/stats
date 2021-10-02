@@ -59,6 +59,7 @@
 "Center alignment" = "по центру";
 "Right alignment" = "по правому";
 "Dashboard" = "Dashboard";
+"Disabled" = "Отключено";
 
 // Alerts
 "New version available" = "Доступна новая версия";

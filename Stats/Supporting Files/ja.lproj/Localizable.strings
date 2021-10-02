@@ -59,6 +59,7 @@
 "Center alignment" = "中央揃え";
 "Right alignment" = "右揃え";
 "Dashboard" = "ダッシュボード";
+"Disabled" = "Disabled";
 
 // Alerts
 "New version available" = "新しいバージョンが利用可能です";

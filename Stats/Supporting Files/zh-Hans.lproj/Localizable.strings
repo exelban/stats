@@ -59,6 +59,7 @@
 "Center alignment" = "居中";
 "Right alignment" = "右对齐";
 "Dashboard" = "仪表盘";
+"Disabled" = "Disabled";
 
 // Alerts
 "New version available" = "新版本可用";

@@ -59,6 +59,7 @@
 "Center alignment" = "Centrirano";
 "Right alignment" = "Desno";
 "Dashboard" = "Dashboard";
+"Disabled" = "Disabled";
 
 // Alerts
 "New version available" = "Postoji nova verzija";

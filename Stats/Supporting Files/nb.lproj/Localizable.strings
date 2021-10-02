@@ -59,6 +59,7 @@
 "Center alignment" = "Sentrum";
 "Right alignment" = "Høyre";
 "Dashboard" = "Dashboard";
+"Disabled" = "Disabled";
 
 // Alerts
 "New version available" = "Ny versjon tilgjengelig";

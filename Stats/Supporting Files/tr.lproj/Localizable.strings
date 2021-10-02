@@ -59,6 +59,7 @@
 "Center alignment" = "Ortaya hizalama";
 "Right alignment" = "Sağa hizalama";
 "Dashboard" = "Panel";
+"Disabled" = "Disabled";
 
 // Alerts
 "New version available" = "Yeni sürüm indirilebilir";
