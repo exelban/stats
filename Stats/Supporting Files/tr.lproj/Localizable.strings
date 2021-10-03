@@ -18,14 +18,14 @@
 "Open RAM settings" = "RAM ayalarını aç";
 "Disk" = "Disk";
 "Open Disk settings" = "Disk ayarlarını aç";
-"Sensors" = "Sensors";
+"Sensors" = "Sensörler";
 "Open Sensors settings" = "Sensör ayarlarını aç";
-"Fans" = "Fans";
+"Fans" = "Fanlar";
 "Open Fans settings" = "Fan ayarlarını aç";
-"Network" = "Network";
+"Network" = "Ağ";
 "Open Network settings" = "Ağ ayarlarını aç";
-"Battery" = "Battery";
-"Open Battery settings" = "Pil ayarlarını aç";
+"Battery" = "Batarya";
+"Open Battery settings" = "Batarya ayarlarını aç";
 "Bluetooth" = "Bluetooth";
 "Open Bluetooth settings" = "Bluetooth ayarlarını aç";
 
@@ -37,9 +37,9 @@
 "Graphics" = "Grafik";
 "Close" = "Kapat";
 "Download" = "İndir";
-"Install" = "Kur";
+"Install" = "Yükle";
 "Cancel" = "İptal";
-"Unavailable" = "Devre Dışı";
+"Unavailable" = "Kullanım Dışı";
 "Yes" = "Evet";
 "No" = "Hayır";
 "Automatic" = "Otomatik";
@@ -73,7 +73,7 @@
 "Support the application" = "Uygulamayı destekleyin";
 "Close application" = "Uygulamayı kapat";
 "Open application settings" = "Uygulama ayarlarını aç";
-"Open dashboard" = "Open dashboard";
+"Open dashboard" = "Dashboardu aç";
 
 // Application settings
 "Update application" = "Uygulamayı güncelle";
@@ -109,18 +109,18 @@
 "Reverse values order" = "Değerler sırasını tersine çevir";
 "Base" = "Temel";
 "Display mode" = "Ekran modu";
-"One row" = "Bir sıra";
+"One row" = "Tek sıra";
 "Two rows" = "İki sıra";
 "Mini widget" = "Mini widget";
-"Line chart widget" = "Çizgi widget";
-"Bar chart widget" = "Çubuk widget";
-"Pie chart widget" = "Pasta widget";
-"Network chart widget" = "Ağ pasta widget";
+"Line chart widget" = "Çizgi grafik widget";
+"Bar chart widget" = "Çubuk grafik widget";
+"Pie chart widget" = "Pasta grafik widget";
+"Network chart widget" = "Ağ pasta grafik widget";
 "Speed widget" = "Hız widget";
 "Battery widget" = "Batarya widget";
 "Text widget" = "Metin widget";
 "Memory widget" = "Bellek widget";
-"Static width" = "Statik genişlik";
+"Static width" = "Sabit genişlik";
 
 // Module Kit
 "Open module settings" = "Modül ayarlarını aç";
@@ -134,7 +134,7 @@
 
 // Modules
 "Number of top processes" = "İşlem sayısı";
-"Update interval for top processes" = "Update interval for top processes";
+"Update interval for top processes" = "En yüksek işlemler için güncelleme aralığı";
 
 // CPU
 "CPU usage" = "CPU kullanımı";
@@ -147,11 +147,11 @@
 "Show hyper-threading cores" = "Hyper-thread çekirdekleri göster";
 "Split the value (System/User)" = "Değeri böl (Sistem/Kullanıcı)";
 "Scheduler limit" = "Scheduler limit";
-"Speed limit" = "Speed limit";
-"Average load" = "Average load";
-"1 minute" = "1 minute";
-"5 minutes" = "5 minutes";
-"15 minutes" = "15 minutes";
+"Speed limit" = "Hız limiti";
+"Average load" = "Ortalama yük";
+"1 minute" = "1 dakika";
+"5 minutes" = "5 dakika";
+"15 minutes" = "15 dakika";
 
 // GPU
 "GPU to show" = "Gösterilecek GPU";
@@ -194,7 +194,7 @@
 "Temperature unit" = "Sıcaklık birimi";
 "Celsius" = "Santigrat";
 "Fahrenheit" = "Fahrenhayt";
-"Save the fan speed" = "Save the fan speed";
+"Save the fan speed" = "Fan hızını kaydet";
 "Fan" = "Fan";
 
 // Network
@@ -204,7 +204,7 @@
 "Local IP" = "Yerel IP";
 "Interface" = "Arayüz";
 "Physical address" = "Fiziksel adres";
-"Refresh" = "Tazele";
+"Refresh" = "Yenile";
 "Click to copy public IP address" = "Genel IP adresini kopyalamak için tıklayın";
 "Click to copy local IP address" = "Yerel IP adresini kopyalamak için tıklayın";
 "Click to copy wifi name" = "Wifi adını kopyalamak için tıklayın";
@@ -216,7 +216,7 @@
 "Reader type" = "Okuma yöntemi";
 "Interface based" = "Arayüz";
 "Processes based" = "Süreçler";
-"Reset data usage" = "Reset data usage";
+"Reset data usage" = "Veri kullanımını sıfırla";
 
 // Battery
 "Level" = "Doluluk";
@@ -242,7 +242,7 @@
 "Low battery" = "Düşük batarya";
 "High battery" = "Yüksek batarya";
 "Battery remaining" = "%0% kaldı";
-"Battery remaining to full charge" = "Tan şarja %0% kaldı";
+"Battery remaining to full charge" = "Tam şarja %0% kaldı";
 "Percentage" = "Yüzde";
 "Percentage and time" = "Yüzde ve zaman";
 "Time and percentage" = "Zaman ve yüzde";
@@ -255,7 +255,7 @@
 
 // Colors
 "Based on utilization" = "Kullanıma dayalı";
-"Based on pressure" = "Basınca dayalı";
+"Based on pressure" = "Yüke dayalı";
 "System accent" = "Sistem vurgusu";
 "Monochrome accent" = "Tek renkli vurgu";
 "Clear" = "Temizle";
