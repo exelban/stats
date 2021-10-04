@@ -70,6 +70,7 @@ internal class FanView: NSStackView {
     
     private var slider: NSSlider? = nil
     private var controlView: NSView? = nil
+    private var modeButtons: ModeButtons? = nil
     private var debouncer: DispatchWorkItem? = nil
     
     private var minBtn: NSButton? = nil
@@ -103,6 +104,7 @@ internal class FanView: NSStackView {
             return self.fan.value
         }
     }
+    private var resetModeAfterSleep: Bool = false
     
     public init(_ fan: Fan, width: CGFloat, callback: @escaping (() -> Void)) {
         self.fan = fan
@@ -133,10 +135,16 @@ internal class FanView: NSStackView {
         let h = self.arrangedSubviews.map({ $0.bounds.height }).reduce(0, +) + (inset*2)
         self.setFrameSize(NSSize(width: self.frame.width, height: h))
         self.sizeCallback()
+        
+        NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(self.wakeListener), name: NSWorkspace.didWakeNotification, object: nil)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    deinit {
+        NSWorkspace.shared.notificationCenter.removeObserver(self)
     }
     
     override func updateLayer() {
@@ -243,6 +251,7 @@ internal class FanView: NSStackView {
         }
         
         view.addSubview(buttons)
+        self.modeButtons = buttons
         
         return view
     }
@@ -387,6 +396,10 @@ internal class FanView: NSStackView {
         self.setSpeed(value: Int(self.fan.maxSpeed))
     }
     
+    @objc private func wakeListener(aNotification: NSNotification) {
+        self.resetModeAfterSleep = true
+    }
+    
     public func update(_ value: Fan) {
         DispatchQueue.main.async(execute: {
             if (self.window?.isVisible ?? false) || !self.ready {
@@ -399,6 +412,15 @@ internal class FanView: NSStackView {
                 
                 self.percentageField?.stringValue = percentage
                 self.valueField?.stringValue = value.formattedValue
+                
+                if self.resetModeAfterSleep && value.mode != .automatic {
+                    if self.sliderValueField?.stringValue != "" && self.slider?.doubleValue != value.value {
+                        self.slider?.doubleValue = value.value
+                        self.sliderValueField?.stringValue = ""
+                    }
+                    self.modeButtons?.setManualMode()
+                    self.resetModeAfterSleep = false
+                }
                 
                 self.ready = true
             }
@@ -462,7 +484,7 @@ private class ModeButtons: NSStackView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    @objc func autoMode(_ sender: NSButton) {
+    @objc private func autoMode(_ sender: NSButton) {
         if sender.state.rawValue == 0 {
             self.autoBtn.state = .on
             return
@@ -473,7 +495,7 @@ private class ModeButtons: NSStackView {
         self.callback(.automatic)
     }
     
-    @objc func manualMode(_ sender: NSButton) {
+    @objc private func manualMode(_ sender: NSButton) {
         if sender.state.rawValue == 0 {
             self.manualBtn.state = .on
             return
@@ -484,7 +506,7 @@ private class ModeButtons: NSStackView {
         self.callback(.forced)
     }
     
-    @objc func turboMode(_ sender: NSButton) {
+    @objc private func turboMode(_ sender: NSButton) {
         if sender.state.rawValue == 0 {
             self.turboBtn.state = .on
             return
@@ -493,5 +515,12 @@ private class ModeButtons: NSStackView {
         self.manualBtn.state = .off
         self.autoBtn.state = .off
         self.turbo()
+    }
+    
+    public func setManualMode() {
+        self.manualBtn.state = .on
+        self.autoBtn.state = .off
+        self.turboBtn.state = .off
+        self.callback(.forced)
     }
 }
