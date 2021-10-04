@@ -10,8 +10,7 @@
 //
 
 import Cocoa
-import ModuleKit
-import StatsKit
+import Kit
 
 internal class Popup: NSView, Popup_p {
     private var title: String
@@ -20,14 +19,18 @@ internal class Popup: NSView, Popup_p {
     
     private let dashboardHeight: CGFloat = 90
     private let chartHeight: CGFloat = 90 + Constants.Popup.separatorHeight
-    private let detailsHeight: CGFloat = (22*3) + Constants.Popup.separatorHeight
+    private let detailsHeight: CGFloat = (22*5) + Constants.Popup.separatorHeight
+    private let averageHeight: CGFloat = (22*3) + Constants.Popup.separatorHeight
     private let processHeight: CGFloat = 22
-    
-    private var loadField: NSTextField? = nil
     
     private var systemField: NSTextField? = nil
     private var userField: NSTextField? = nil
     private var idleField: NSTextField? = nil
+    private var shedulerLimitField: NSTextField? = nil
+    private var speedLimitField: NSTextField? = nil
+    private var average1Field: NSTextField? = nil
+    private var average5Field: NSTextField? = nil
+    private var average15Field: NSTextField? = nil
     
     private var chart: LineChartView? = nil
     private var circle: PieChartView? = nil
@@ -37,6 +40,8 @@ internal class Popup: NSView, Popup_p {
     private var initializedTemperature: Bool = false
     private var initializedFrequency: Bool = false
     private var initializedProcesses: Bool = false
+    private var initializedLimits: Bool = false
+    private var initializedAverage: Bool = false
     
     private var processes: [ProcessView] = []
     private var maxFreq: Double = 0
@@ -62,7 +67,7 @@ internal class Popup: NSView, Popup_p {
             x: 0,
             y: 0,
             width: Constants.Popup.width,
-            height: self.dashboardHeight + self.chartHeight + self.detailsHeight
+            height: self.dashboardHeight + self.chartHeight + self.detailsHeight + self.averageHeight
         ))
         self.setFrameSize(NSSize(width: self.frame.width, height: self.frame.height+self.processesHeight))
         
@@ -73,11 +78,13 @@ internal class Popup: NSView, Popup_p {
         gridView.addRow(with: [self.initDashboard()])
         gridView.addRow(with: [self.initChart()])
         gridView.addRow(with: [self.initDetails()])
+        gridView.addRow(with: [self.initAverage()])
         gridView.addRow(with: [self.initProcesses()])
         
         gridView.row(at: 0).height = self.dashboardHeight
         gridView.row(at: 1).height = self.chartHeight
         gridView.row(at: 2).height = self.detailsHeight
+        gridView.row(at: 3).height = self.averageHeight
         
         self.addSubview(gridView)
         self.grid = gridView
@@ -123,17 +130,17 @@ internal class Popup: NSView, Popup_p {
             width: container.frame.height,
             height: container.frame.height
         ), segments: [], drawValue: true)
-        self.circle!.toolTip = LocalizedString("CPU usage")
+        self.circle!.toolTip = localizedString("CPU usage")
         container.addSubview(self.circle!)
         
         let centralWidth: CGFloat = self.dashboardHeight-20
         let sideWidth: CGFloat = (view.frame.width - centralWidth - (Constants.Popup.margins*2))/2
         self.temperatureCircle = HalfCircleGraphView(frame: NSRect(x: (sideWidth - 60)/2, y: 10, width: 60, height: 50))
-        self.temperatureCircle!.toolTip = LocalizedString("CPU temperature")
+        self.temperatureCircle!.toolTip = localizedString("CPU temperature")
         (self.temperatureCircle! as NSView).isHidden = true
         
         self.frequencyCircle = HalfCircleGraphView(frame: NSRect(x: view.frame.width - 60 - Constants.Popup.margins*2, y: 10, width: 60, height: 50))
-        self.frequencyCircle!.toolTip = LocalizedString("CPU frequency")
+        self.frequencyCircle!.toolTip = localizedString("CPU frequency")
         (self.frequencyCircle! as NSView).isHidden = true
         
         view.addSubview(self.temperatureCircle!)
@@ -145,7 +152,7 @@ internal class Popup: NSView, Popup_p {
     
     private func initChart() -> NSView {
         let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.chartHeight))
-        let separator = SeparatorView(LocalizedString("Usage history"), origin: NSPoint(x: 0, y: self.chartHeight-Constants.Popup.separatorHeight), width: self.frame.width)
+        let separator = separatorView(localizedString("Usage history"), origin: NSPoint(x: 0, y: self.chartHeight-Constants.Popup.separatorHeight), width: self.frame.width)
         let container: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: separator.frame.origin.y))
         container.wantsLayer = true
         container.layer?.backgroundColor = NSColor.lightGray.withAlphaComponent(0.1).cgColor
@@ -162,12 +169,29 @@ internal class Popup: NSView, Popup_p {
     
     private func initDetails() -> NSView {
         let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.detailsHeight))
-        let separator = SeparatorView(LocalizedString("Details"), origin: NSPoint(x: 0, y: self.detailsHeight-Constants.Popup.separatorHeight), width: self.frame.width)
+        let separator = separatorView(localizedString("Details"), origin: NSPoint(x: 0, y: self.detailsHeight-Constants.Popup.separatorHeight), width: self.frame.width)
         let container: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: separator.frame.origin.y))
         
-        self.systemField = PopupWithColorRow(container, color: NSColor.systemRed, n: 2, title: "\(LocalizedString("System")):", value: "")
-        self.userField = PopupWithColorRow(container, color: NSColor.systemBlue, n: 1, title: "\(LocalizedString("User")):", value: "")
-        self.idleField = PopupWithColorRow(container, color: NSColor.lightGray.withAlphaComponent(0.5), n: 0, title: "\(LocalizedString("Idle")):", value: "")
+        self.systemField = popupWithColorRow(container, color: NSColor.systemRed, n: 4, title: "\(localizedString("System")):", value: "")
+        self.userField = popupWithColorRow(container, color: NSColor.systemBlue, n: 3, title: "\(localizedString("User")):", value: "")
+        self.idleField = popupWithColorRow(container, color: NSColor.lightGray.withAlphaComponent(0.5), n: 2, title: "\(localizedString("Idle")):", value: "")
+        self.shedulerLimitField = popupRow(container, n: 1, title: "\(localizedString("Scheduler limit")):", value: "").1
+        self.speedLimitField = popupRow(container, n: 0, title: "\(localizedString("Speed limit")):", value: "").1
+        
+        view.addSubview(separator)
+        view.addSubview(container)
+        
+        return view
+    }
+    
+    private func initAverage() -> NSView {
+        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.averageHeight))
+        let separator = separatorView(localizedString("Average load"), origin: NSPoint(x: 0, y: self.averageHeight-Constants.Popup.separatorHeight), width: self.frame.width)
+        let container: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: separator.frame.origin.y))
+        
+        self.average1Field = popupRow(container, n: 2, title: "\(localizedString("1 minute")):", value: "").1
+        self.average5Field = popupRow(container, n: 1, title: "\(localizedString("5 minutes")):", value: "").1
+        self.average15Field = popupRow(container, n: 0, title: "\(localizedString("15 minutes")):", value: "").1
         
         view.addSubview(separator)
         view.addSubview(container)
@@ -177,13 +201,15 @@ internal class Popup: NSView, Popup_p {
     
     private func initProcesses() -> NSView {
         let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.processesHeight))
-        let separator = SeparatorView(LocalizedString("Top processes"), origin: NSPoint(x: 0, y: self.processesHeight-Constants.Popup.separatorHeight), width: self.frame.width)
-        let container: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: separator.frame.origin.y))
+        let separator = separatorView(localizedString("Top processes"), origin: NSPoint(x: 0, y: self.processesHeight-Constants.Popup.separatorHeight), width: self.frame.width)
+        let container: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: separator.frame.origin.y))
+        container.orientation = .vertical
+        container.spacing = 0
         
-        for i in 0..<self.numberOfProcesses {
-            let processView = ProcessView(CGFloat(i))
+        for _ in 0..<self.numberOfProcesses {
+            let processView = ProcessView()
             self.processes.append(processView)
-            container.addSubview(processView)
+            container.addArrangedSubview(processView)
         }
         
         view.addSubview(separator)
@@ -195,19 +221,17 @@ internal class Popup: NSView, Popup_p {
     public func loadCallback(_ value: CPU_Load) {
         DispatchQueue.main.async(execute: {
             if (self.window?.isVisible ?? false) || !self.initialized {
-                self.systemField?.stringValue = "\(Int(value.systemLoad.rounded(toPlaces: 2) * 100)) %"
-                self.userField?.stringValue = "\(Int(value.userLoad.rounded(toPlaces: 2) * 100)) %"
-                self.idleField?.stringValue = "\(Int(value.idleLoad.rounded(toPlaces: 2) * 100)) %"
-                
-                let v = Int(value.totalUsage.rounded(toPlaces: 2) * 100)
-                self.loadField?.stringValue = "\(v) %"
-                self.initialized = true
+                self.systemField?.stringValue = "\(Int(value.systemLoad.rounded(toPlaces: 2) * 100))%"
+                self.userField?.stringValue = "\(Int(value.userLoad.rounded(toPlaces: 2) * 100))%"
+                self.idleField?.stringValue = "\(Int(value.idleLoad.rounded(toPlaces: 2) * 100))%"
                 
                 self.circle?.setValue(value.totalUsage)
                 self.circle?.setSegments([
                     circle_segment(value: value.systemLoad, color: NSColor.systemRed),
-                    circle_segment(value: value.userLoad, color: NSColor.systemBlue),
+                    circle_segment(value: value.userLoad, color: NSColor.systemBlue)
                 ])
+                
+                self.initialized = true
             }
             self.chart?.addValue(value.totalUsage)
         })
@@ -261,13 +285,42 @@ internal class Popup: NSView, Popup_p {
             }
             
             for i in 0..<list.count {
-                let process = list[i]
-                let index = list.count-i-1
-                self.processes[index].attachProcess(process)
-                self.processes[index].value = "\(process.usage)%"
+                self.processes[i].set(list[i])
+                self.processes[i].value = "\(list[i].usage)%"
             }
             
             self.initializedProcesses = true
+        })
+    }
+    
+    public func limitCallback(_ value: CPU_Limit) {
+        DispatchQueue.main.async(execute: {
+            if !(self.window?.isVisible ?? false) && self.initializedLimits {
+                return
+            }
+            
+            self.shedulerLimitField?.stringValue = "\(value.scheduler)%"
+            self.speedLimitField?.stringValue = "\(value.speed)%"
+            
+            self.initializedLimits = true
+        })
+    }
+    
+    public func averageCallback(_ value: [Double]) {
+        guard value.count == 3 else {
+            return
+        }
+        
+        DispatchQueue.main.async(execute: {
+            if !(self.window?.isVisible ?? false) && self.initializedAverage {
+                return
+            }
+            
+            self.average1Field?.stringValue = "\(value[0])"
+            self.average5Field?.stringValue = "\(value[1])"
+            self.average15Field?.stringValue = "\(value[2])"
+            
+            self.initializedAverage = true
         })
     }
     

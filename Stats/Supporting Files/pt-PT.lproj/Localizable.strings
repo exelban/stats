@@ -9,13 +9,32 @@
 //  Copyright © 2020 Rafael Fernandes. All rights reserved.
 //
 
+// Modules
+"CPU" = "CPU";
+"Open CPU settings" = "Open CPU settings";
+"GPU" = "GPU";
+"Open GPU settings" = "Open GPU settings";
+"RAM" = "RAM";
+"Open RAM settings" = "Open RAM settings";
+"Disk" = "Disk";
+"Open Disk settings" = "Open disk settings";
+"Sensors" = "Sensors";
+"Open Sensors settings" = "Open sensors settings";
+"Fans" = "Fans";
+"Open Fans settings" = "Open fans settings";
+"Network" = "Network";
+"Open Network settings" = "Open network settings";
+"Battery" = "Battery";
+"Open Battery settings" = "Open battery settings";
+"Bluetooth" = "Bluetooth";
+"Open Bluetooth settings" = "Open bluetooth settings";
+
 // Words
 "Unknown" = "Desconhecido";
 "Version" = "Versão";
 "Processor" = "Processador";
 "Memory" = "Memória";
 "Graphics" = "Gráficos";
-"Disk" = "Disco";
 "Close" = "Fechar";
 "Download" = "Fazer download";
 "Install" = "Instalar";
@@ -34,6 +53,13 @@
 "Statistics" = "Estatísticas";
 "Max" = "Max";
 "Min" = "Min";
+"Reset" = "Reset";
+"Alignment" = "Alignment";
+"Left alignment" = "Left";
+"Center alignment" = "Center";
+"Right alignment" = "Right";
+"Dashboard" = "Dashboard";
+"Disabled" = "Disabled";
 
 // Alerts
 "New version available" = "Nova versão disponível";
@@ -47,7 +73,7 @@
 "Support the application" = "Apoie o aplicativo";
 "Close application" = "Fechar aplicação";
 "Open application settings" = "Abrir configurações da aplicação";
-"Open moduleName settings" = "Abrir configurações do %0";
+"Open dashboard" = "Open dashboard";
 
 // Application settings
 "Update application" = "Atualizar aplicação";
@@ -94,6 +120,7 @@
 "Battery widget" = "Battery";
 "Text widget" = "Text";
 "Memory widget" = "Memory";
+"Static width" = "Static width";
 
 // Module Kit
 "Open module settings" = "Abrir configurações do módulo";
@@ -107,6 +134,7 @@
 
 // Modules
 "Number of top processes" = "Número de processos principais";
+"Update interval for top processes" = "Update interval for top processes";
 
 // CPU
 "CPU usage" = "Utilização do CPU";
@@ -117,6 +145,13 @@
 "Idle" = "Parado";
 "Show usage per core" = "Mostrar uso por núcleo";
 "Show hyper-threading cores" = "Mostrar núcleos hyper-threading";
+"Split the value (System/User)" = "Divida o valor (Sistema/Utilizador)";
+"Scheduler limit" = "Scheduler limit";
+"Speed limit" = "Speed limit";
+"Average load" = "Average load";
+"1 minute" = "1 minute";
+"5 minutes" = "5 minutes";
+"15 minutes" = "15 minutes";
 
 // GPU
 "GPU to show" = "GPU para mostrar";
@@ -135,7 +170,7 @@
 "Memory clock" = "Memory clock";
 "Utilization" = "Utilization";
 
-// Memory
+// RAM
 "Memory usage" = "Memória utilizada";
 "Memory pressure" = "Pressão de memória";
 "Total" = "Total";
@@ -145,6 +180,7 @@
 "Compressed" = "Compresso";
 "Free" = "Livre";
 "Swap" = "Swap";
+"Split the value (App/Wired/Compressed)" = "Divida o valor (App/Por fio/Compresso)";
 
 // Disk
 "Show removable disks" = "Mostrar discos removíveis";
@@ -158,6 +194,8 @@
 "Temperature unit" = "Unidade de temperatura";
 "Celsius" = "Celsius";
 "Fahrenheit" = "Fahrenheit";
+"Save the fan speed" = "Save the fan speed";
+"Fan" = "Fan";
 
 // Network
 "Uploading" = "Enviando";
@@ -165,7 +203,6 @@
 "Public IP" = "IP Público";
 "Local IP" = "IP Local";
 "Interface" = "Interface";
-"Network" = "Rede";
 "Physical address" = "Endereço físico";
 "Refresh" = "Refresh";
 "Click to copy public IP address" = "Clique para copiar o endereço de IP público";
@@ -179,6 +216,7 @@
 "Reader type" = "Tipo de leitor";
 "Interface based" = "Interface";
 "Processes based" = "Processo";
+"Reset data usage" = "Reset data usage";
 
 // Battery
 "Level" = "Nível";
@@ -187,7 +225,6 @@
 "Battery Power" = "Battery Power";
 "Time" = "Tempo";
 "Health" = "Saúde";
-"Battery" = "Bateria";
 "Amperage" = "Amperagem";
 "Voltage" = "Voltagem";
 "Cycles" = "Número de ciclos";
@@ -213,8 +250,8 @@
 "Hide additional information when full" = "Ocultar informações adicionais quando estiver cheia";
 "Last charge" = "Última carga";
 
-// Fans
-"Fans" = "Ventoinhas";
+// Bluetooth
+"Battery to show" = "Battery to show";
 
 // Colors
 "Based on utilization" = "Based on utilization";

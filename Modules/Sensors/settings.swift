@@ -10,19 +10,18 @@
 //
 
 import Cocoa
-import StatsKit
-import ModuleKit
+import Kit
 
 internal class Settings: NSView, Settings_v {
     private var updateIntervalValue: Int = 3
     
     private let title: String
     private var button: NSPopUpButton?
-    private let list: [Sensor_t]
+    private let list: [Sensor_p]
     public var callback: (() -> Void) = {}
     public var setInterval: ((_ value: Int) -> Void) = {_ in }
     
-    public init(_ title: String, list: [Sensor_t]) {
+    public init(_ title: String, list: [Sensor_p]) {
         self.title = title
         self.list = list
         
@@ -50,7 +49,7 @@ internal class Settings: NSView, Settings_v {
         self.subviews.forEach{ $0.removeFromSuperview() }
         
         var types: [SensorType] = []
-        self.list.forEach { (s: Sensor_t) in
+        self.list.forEach { (s: Sensor_p) in
             if !types.contains(s.type) {
                 types.append(s.type)
             }
@@ -68,9 +67,9 @@ internal class Settings: NSView, Settings_v {
             height: height
         ))
         
-        self.addSubview(SelectTitleRow(
+        self.addSubview(selectTitleRow(
             frame: NSRect(x: Constants.Settings.margin, y: height - rowHeight, width: view.frame.width, height: rowHeight),
-            title: LocalizedString("Update interval"),
+            title: localizedString("Update interval"),
             action: #selector(changeUpdateInterval),
             items: ReaderUpdateIntervals.map{ "\($0) sec" },
             selected: "\(self.updateIntervalValue) sec"
@@ -80,15 +79,15 @@ internal class Settings: NSView, Settings_v {
         types.reversed().forEach { (typ: SensorType) in
             let filtered = self.list.filter{ $0.type == typ }
             var groups: [SensorGroup] = []
-            filtered.forEach { (s: Sensor_t) in
+            filtered.forEach { (s: Sensor_p) in
                 if !groups.contains(s.group) {
                     groups.append(s.group)
                 }
             }
             
             groups.reversed().forEach { (group: SensorGroup) in
-                filtered.reversed().filter{ $0.group == group }.forEach { (s: Sensor_t) in
-                    let row: NSView = ToggleTitleRow(
+                filtered.reversed().filter{ $0.group == group }.forEach { (s: Sensor_p) in
+                    let row: NSView = toggleTitleRow(
                         frame: NSRect(x: 0, y: y, width: view.frame.width, height: rowHeight),
                         title: s.name,
                         action: #selector(self.handleSelection),
@@ -103,7 +102,7 @@ internal class Settings: NSView, Settings_v {
             }
             
             let rowTitleView: NSView = NSView(frame: NSRect(x: 0, y: y, width: view.frame.width, height: rowHeight))
-            let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: (rowHeight-19)/2, width: view.frame.width, height: 19), LocalizedString(typ.rawValue))
+            let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: (rowHeight-19)/2, width: view.frame.width, height: 19), localizedString(typ.rawValue))
             rowTitle.font = NSFont.systemFont(ofSize: 14, weight: .regular)
             rowTitle.textColor = .secondaryLabelColor
             rowTitle.alignment = .center
@@ -127,7 +126,7 @@ internal class Settings: NSView, Settings_v {
             state = sender is NSButton ? (sender as! NSButton).state: nil
         }
         
-        Store.shared.set(key: "sensor_\(id.rawValue)", value:  state! == NSControl.StateValue.on)
+        Store.shared.set(key: "sensor_\(id.rawValue)", value: state! == NSControl.StateValue.on)
         self.callback()
     }
     

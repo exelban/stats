@@ -10,8 +10,7 @@
 //
 
 import Cocoa
-import StatsKit
-import ModuleKit
+import Kit
 import SystemConfiguration
 
 public enum Network_t: String {
@@ -58,7 +57,7 @@ public struct Network_Usage: value_t {
         self.ssid = nil
     }
     
-    public var widget_value: Double = 0
+    public var widgetValue: Double = 0
 }
 
 public struct Network_Process {
@@ -76,6 +75,9 @@ public class Network: Module {
     
     private var usageReader: UsageReader? = nil
     private var processReader: ProcessReader? = nil
+    
+    private let ipUpdater = NSBackgroundActivityScheduler(identifier: "eu.exelban.Stats.Network.IP")
+    private let usageReseter = NSBackgroundActivityScheduler(identifier: "eu.exelban.Stats.Network.Usage")
     
     public init() {
         self.settingsView = Settings("Network")
@@ -114,6 +116,9 @@ public class Network: Module {
             self.usageReader?.getDetails()
             self.usageReader?.read()
         }
+        self.settingsView.usageResetCallback = { [unowned self] in
+            self.setUsageReset()
+        }
         
         if let reader = self.usageReader {
             self.addReader(reader)
@@ -121,6 +126,9 @@ public class Network: Module {
         if let reader = self.processReader {
             self.addReader(reader)
         }
+        
+        self.setIPUpdater()
+        self.setUsageReset()
     }
     
     public override func isAvailable() -> Bool {
@@ -130,11 +138,11 @@ public class Network: Module {
                 list.append(displayName as String)
             }
         }
-        return list.count > 0
+        return !list.isEmpty
     }
     
     private func usageCallback(_ raw: Network_Usage?) {
-        guard let value = raw else {
+        guard let value = raw, self.enabled else {
             return
         }
         
@@ -146,6 +154,35 @@ public class Network: Module {
             case let widget as NetworkChart: widget.setValue(upload: Double(value.bandwidth.upload), download: Double(value.bandwidth.download))
             default: break
             }
+        }
+    }
+    
+    private func setIPUpdater() {
+        self.ipUpdater.interval = 60 * 60
+        self.ipUpdater.repeats = true
+        self.ipUpdater.schedule { (completion: @escaping NSBackgroundActivityScheduler.CompletionHandler) in
+            debug("going to automatically refresh IP address...")
+            NotificationCenter.default.post(name: .refreshPublicIP, object: nil, userInfo: nil)
+            completion(NSBackgroundActivityScheduler.Result.finished)
+        }
+    }
+    
+    private func setUsageReset() {
+        self.usageReseter.invalidate()
+        
+        switch AppUpdateInterval(rawValue: Store.shared.string(key: "\(self.config.name)_usageReset", defaultValue: AppUpdateInterval.atStart.rawValue)) {
+        case .oncePerDay: self.usageReseter.interval = 60 * 60 * 24
+        case .oncePerWeek: self.usageReseter.interval = 60 * 60 * 24 * 7
+        case .oncePerMonth: self.usageReseter.interval = 60 * 60 * 24 * 30
+        case .never, .atStart: return
+        default: return
+        }
+        
+        self.usageReseter.repeats = true
+        self.usageReseter.schedule { (completion: @escaping NSBackgroundActivityScheduler.CompletionHandler) in
+            debug("going to reset the usage...")
+            NotificationCenter.default.post(name: .resetTotalNetworkUsage, object: nil, userInfo: nil)
+            completion(NSBackgroundActivityScheduler.Result.finished)
         }
     }
 }

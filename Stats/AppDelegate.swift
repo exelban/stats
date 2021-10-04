@@ -7,10 +7,8 @@
 //
 
 import Cocoa
-import os.log
 
-import StatsKit
-import ModuleKit
+import Kit
 
 import CPU
 import RAM
@@ -20,6 +18,7 @@ import Battery
 import Sensors
 import GPU
 import Fans
+import Bluetooth
 
 let updater = macAppUpdater(user: "exelban", repo: "stats")
 var modules: [Module] = [
@@ -31,14 +30,21 @@ var modules: [Module] = [
     Fans(),
     Network(),
     Battery(),
+    Bluetooth()
 ]
-var log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: "Stats")
 
+@main
 class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDelegate {
     internal let settingsWindow: SettingsWindow = SettingsWindow()
     internal let updateNotification = NSUserNotification()
     
     private let updateActivity = NSBackgroundActivityScheduler(identifier: "eu.exelban.Stats.updateCheck")
+    
+    static func main() {
+        let delegate = AppDelegate()
+        NSApplication.shared.delegate = delegate
+        NSApplication.shared.run()
+    }
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         let startingPoint = Date()
@@ -46,20 +52,24 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         self.parseArguments()
         self.parseVersion()
         
-        NSUserNotificationCenter.default.removeAllDeliveredNotifications()
-        NotificationCenter.default.addObserver(self, selector: #selector(updateCron), name: .changeCronInterval, object: nil)
-        
         modules.forEach{ $0.mount() }
-        
         self.settingsWindow.setModules()
         
         self.defaultValues()
         self.updateCron()
-        os_log(.info, log: log, "Stats started in %.4f seconds", startingPoint.timeIntervalSinceNow * -1)
+        info("Stats started in \((startingPoint.timeIntervalSinceNow * -1).rounded(toPlaces: 4)) seconds")
+        
+        Server.shared.sendEvent(
+            modules: modules.filter({ $0.enabled != false && $0.available != false }).map({ $0.config.name }),
+            omit: CommandLine.arguments.contains("--omit")
+        )
     }
     
     func applicationWillTerminate(_ aNotification: Notification) {
         modules.forEach{ $0.terminate() }
+    }
+    
+    deinit {
         NotificationCenter.default.removeObserver(self)
     }
     
@@ -74,7 +84,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     
     func userNotificationCenter(_ center: NSUserNotificationCenter, didActivate notification: NSUserNotification) {
         if let uri = notification.userInfo?["url"] as? String {
-            os_log(.debug, log: log, "Downloading new version of app...")
+            debug("Downloading new version of app...")
             if let url = URL(string: uri) {
                 updater.download(url, doneHandler: { path in
                     updater.install(path: path)
@@ -92,7 +102,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         guard let updateInterval = AppUpdateInterval(rawValue: Store.shared.string(key: "update-interval", defaultValue: AppUpdateInterval.atStart.rawValue)) else {
             return
         }
-        os_log(.debug, log: log, "Application update interval is '%s'", "\(updateInterval.rawValue)")
+        debug("Application update interval is '\(updateInterval.rawValue)'")
         
         switch updateInterval {
         case .oncePerDay: self.updateActivity.interval = 60 * 60 * 24

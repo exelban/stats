@@ -10,8 +10,7 @@
 //
 
 import Cocoa
-import StatsKit
-import ModuleKit
+import Kit
 import IOKit.ps
 
 struct Battery_Usage: value_t {
@@ -33,7 +32,7 @@ struct Battery_Usage: value_t {
     var timeToCharge: Int = 0
     var timeOnACPower: Date? = nil
     
-    public var widget_value: Double {
+    public var widgetValue: Double {
         get {
             return self.level
         }
@@ -98,11 +97,11 @@ public class Battery: Module {
     public override func isAvailable() -> Bool {
         let snapshot = IOPSCopyPowerSourcesInfo().takeRetainedValue()
         let sources = IOPSCopyPowerSourcesList(snapshot).takeRetainedValue() as Array
-        return sources.count > 0
+        return !sources.isEmpty
     }
     
     private func usageCallback(_ raw: Battery_Usage?) {
-        guard let value = raw else {
+        guard let value = raw, self.enabled else {
             return
         }
         
@@ -113,7 +112,7 @@ public class Battery: Module {
         self.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
             switch w.item {
             case let widget as Mini: widget.setValue(abs(value.level))
-            case let widget as BarChart: widget.setValue([value.level])
+            case let widget as BarChart: widget.setValue([[ColorValue(value.level)]])
             case let widget as BatterykWidget:
                 widget.setValue(
                     percentage: value.level ,
@@ -149,13 +148,13 @@ public class Battery: Module {
         }
         
         if value.level <= notificationLevel && self.lowNotification == nil {
-            var subtitle = LocalizedString("Battery remaining", "\(Int(value.level*100))")
+            var subtitle = localizedString("Battery remaining", "\(Int(value.level*100))")
             if value.timeToEmpty > 0 {
                 subtitle += " (\(Double(value.timeToEmpty*60).printSecondsToHoursMinutesSeconds()))"
             }
             
             self.lowNotification = showNotification(
-                title: LocalizedString("Low battery"),
+                title: localizedString("Low battery"),
                 subtitle: subtitle,
                 id: "battery-level",
                 icon: NSImage(named: NSImage.Name("low-battery"))!
@@ -186,13 +185,13 @@ public class Battery: Module {
         }
         
         if value.level >= notificationLevel && self.highNotification == nil {
-            var subtitle = LocalizedString("Battery remaining to full charge", "\(Int((1-value.level)*100))")
+            var subtitle = localizedString("Battery remaining to full charge", "\(Int((1-value.level)*100))")
             if value.timeToCharge > 0 {
                 subtitle += " (\(Double(value.timeToCharge*60).printSecondsToHoursMinutesSeconds()))"
             }
             
             self.highNotification = showNotification(
-                title: LocalizedString("High battery"),
+                title: localizedString("High battery"),
                 subtitle: subtitle,
                 id: "battery-level2",
                 icon: NSImage(named: NSImage.Name("high-battery"))!

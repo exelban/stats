@@ -10,8 +10,7 @@
 //
 
 import Cocoa
-import StatsKit
-import os.log
+import Kit
 
 class ApplicationSettings: NSScrollView {
     private var updateIntervalValue: String {
@@ -97,6 +96,7 @@ class ApplicationSettings: NSScrollView {
         statsName.font = NSFont.systemFont(ofSize: 20, weight: .regular)
         statsName.stringValue = "Stats"
         statsName.isSelectable = true
+        statsName.toolTip = Server.shared.ID
         
         let versionNumber = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
         let buildNumber = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as! String
@@ -104,12 +104,12 @@ class ApplicationSettings: NSScrollView {
         let statsVersion: NSTextField = TextView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: 16))
         statsVersion.alignment = .center
         statsVersion.font = NSFont.systemFont(ofSize: 12, weight: .regular)
-        statsVersion.stringValue = "\(LocalizedString("Version")) \(versionNumber)"
+        statsVersion.stringValue = "\(localizedString("Version")) \(versionNumber)"
         statsVersion.isSelectable = true
         statsVersion.toolTip = "Build number: \(buildNumber)"
         
         let button: NSButton = NSButton(frame: NSRect(x: (view.frame.width - 160)/2, y: 0, width: 160, height: 30))
-        button.title = LocalizedString("Check for update")
+        button.title = localizedString("Check for update")
         button.bezelStyle = .rounded
         button.target = self
         button.action = #selector(updateAction)
@@ -162,7 +162,7 @@ class ApplicationSettings: NSScrollView {
         
         NSLayoutConstraint.activate([
             grid.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            grid.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            grid.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
         
         return view
@@ -172,8 +172,8 @@ class ApplicationSettings: NSScrollView {
     
     private func updates() -> [NSView] {
         return [
-            self.titleView(LocalizedString("Check for updates")),
-            SelectView(
+            self.titleView(localizedString("Check for updates")),
+            selectView(
                 action: #selector(self.toggleUpdateInterval),
                 items: AppUpdateIntervals,
                 selected: self.updateIntervalValue
@@ -183,8 +183,8 @@ class ApplicationSettings: NSScrollView {
     
     private func temperature() -> [NSView] {
         return [
-            self.titleView(LocalizedString("Temperature")),
-            SelectView(
+            self.titleView(localizedString("Temperature")),
+            selectView(
                 action: #selector(self.toggleTemperatureUnits),
                 items: TemperatureUnits,
                 selected: self.temperatureUnitsValue
@@ -194,7 +194,7 @@ class ApplicationSettings: NSScrollView {
     
     private func dockIcon() -> [NSView] {
         return [
-            self.titleView(LocalizedString("Show icon in dock")),
+            self.titleView(localizedString("Show icon in dock")),
             self.toggleView(
                 action: #selector(self.toggleDock),
                 state: Store.shared.bool(key: "dockIcon", defaultValue: false)
@@ -204,7 +204,7 @@ class ApplicationSettings: NSScrollView {
     
     private func startAtLogin() -> [NSView] {
         return [
-            self.titleView(LocalizedString("Start at login")),
+            self.titleView(localizedString("Start at login")),
             self.toggleView(
                 action: #selector(self.toggleLaunchAtLogin),
                 state: LaunchAtLogin.isEnabled
@@ -251,14 +251,14 @@ class ApplicationSettings: NSScrollView {
     }
     
     @objc func updateAction(_ sender: NSObject) {
-        updater.check() { result, error in
+        updater.check { result, error in
             if error != nil {
-                os_log(.error, log: log, "error updater.check(): %s", "\(error!.localizedDescription)")
+                debug("error updater.check(): \(error!.localizedDescription)")
                 return
             }
             
             guard error == nil, let version: version_s = result else {
-                os_log(.error, log: log, "download error(): %s", "\(error!.localizedDescription)")
+                debug("download error(): \(error!.localizedDescription)")
                 return
             }
             

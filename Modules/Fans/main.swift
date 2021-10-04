@@ -10,8 +10,7 @@
 //
 
 import Cocoa
-import StatsKit
-import ModuleKit
+import Kit
 
 public struct Fan {
     public let id: Int
@@ -76,13 +75,13 @@ public class Fans: Module {
     }
     
     private func checkIfNoSensorsEnabled() {
-        if self.fansReader.list.filter({ $0.state }).count == 0 {
+        if self.fansReader.list.filter({ $0.state }).isEmpty {
             NotificationCenter.default.post(name: .toggleModule, object: nil, userInfo: ["module": self.config.name, "state": false])
         }
     }
     
     private func usageCallback(_ raw: [Fan]?) {
-        guard let value = raw else {
+        guard let value = raw, self.enabled else {
             return
         }
         
@@ -90,16 +89,19 @@ public class Fans: Module {
         
         let label: Bool = Store.shared.bool(key: "Fans_label", defaultValue: false)
         var list: [KeyValue_t] = []
+        var flatList: [[ColorValue]] = []
         value.forEach { (f: Fan) in
             if f.state {
                 let str = label ? "\(f.name.prefix(1).uppercased()): \(Int(f.value))" : f.formattedValue
                 list.append(KeyValue_t(key: "Fan#\(f.id)", value: str))
+                flatList.append([ColorValue(((f.value*100)/f.maxSpeed)/100)])
             }
         }
         
         self.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
             switch w.item {
             case let widget as SensorsWidget: widget.setValues(list)
+            case let widget as BarChart: widget.setValue(flatList)
             default: break
             }
         }

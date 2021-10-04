@@ -7,8 +7,7 @@
 //
 
 import Cocoa
-import ModuleKit
-import StatsKit
+import Kit
 
 public struct CPU_Load: value_t {
     var totalUsage: Double = 0
@@ -18,11 +17,17 @@ public struct CPU_Load: value_t {
     var userLoad: Double = 0
     var idleLoad: Double = 0
     
-    public var widget_value: Double {
+    public var widgetValue: Double {
         get {
             return self.totalUsage
         }
     }
+}
+
+public struct CPU_Limit {
+    var scheduler: Int = 0
+    var cpus: Int = 0
+    var speed: Int = 0
 }
 
 public class CPU: Module {
@@ -33,10 +38,17 @@ public class CPU: Module {
     private var processReader: ProcessReader? = nil
     private var temperatureReader: TemperatureReader? = nil
     private var frequencyReader: FrequencyReader? = nil
+    private var limitReader: LimitReader? = nil
+    private var averageReader: AverageReader? = nil
     
     private var usagePerCoreState: Bool {
         get {
             return Store.shared.bool(key: "\(self.config.name)_usagePerCore", defaultValue: false)
+        }
+    }
+    private var splitValueState: Bool {
+        get {
+            return Store.shared.bool(key: "\(self.config.name)_splitValue", defaultValue: false)
         }
     }
     
@@ -52,6 +64,8 @@ public class CPU: Module {
         
         self.loadReader = LoadReader()
         self.processReader = ProcessReader()
+        self.limitReader = LimitReader(popup: true)
+        self.averageReader = AverageReader(popup: true)
         
         #if arch(x86_64)
         self.temperatureReader = TemperatureReader(popup: true)
@@ -69,6 +83,9 @@ public class CPU: Module {
         }
         self.settingsView.setInterval = { [unowned self] value in
             self.loadReader?.setInterval(value)
+        }
+        self.settingsView.setTopInterval = { [unowned self] value in
+            self.processReader?.setInterval(value)
         }
         self.settingsView.IPGCallback = { [unowned self] value in
             if value {
@@ -91,13 +108,23 @@ public class CPU: Module {
         }
         
         self.temperatureReader?.callbackHandler = { [unowned self] value in
-            if value != nil {
-                self.popupView.temperatureCallback(value!)
+            if let v = value  {
+                self.popupView.temperatureCallback(v)
             }
         }
         self.frequencyReader?.callbackHandler = { [unowned self] value in
-            if value != nil {
-                self.popupView.frequencyCallback(value!)
+            if let v = value  {
+                self.popupView.frequencyCallback(v)
+            }
+        }
+        self.limitReader?.callbackHandler = { [unowned self] value in
+            if let v = value  {
+                self.popupView.limitCallback(v)
+            }
+        }
+        self.averageReader?.callbackHandler = { [unowned self] value in
+            if let v = value  {
+                self.popupView.averageCallback(v)
             }
         }
         
@@ -113,10 +140,16 @@ public class CPU: Module {
         if let reader = self.frequencyReader {
             self.addReader(reader)
         }
+        if let reader = self.limitReader {
+            self.addReader(reader)
+        }
+        if let reader = self.averageReader {
+            self.addReader(reader)
+        }
     }
     
     private func loadCallback(_ raw: CPU_Load?) {
-        guard let value = raw else {
+        guard let value = raw, self.enabled else {
             return
         }
         
@@ -126,7 +159,17 @@ public class CPU: Module {
             switch w.item {
             case let widget as Mini: widget.setValue(value.totalUsage)
             case let widget as LineChart: widget.setValue(value.totalUsage)
-            case let widget as BarChart: widget.setValue(self.usagePerCoreState ? value.usagePerCore : [value.totalUsage])
+            case let widget as BarChart:
+                var val: [[ColorValue]] = [[ColorValue(value.totalUsage)]]
+                if self.usagePerCoreState {
+                    val = value.usagePerCore.map({ [ColorValue($0)] })
+                } else if self.splitValueState {
+                    val = [[
+                        ColorValue(value.systemLoad, color: NSColor.systemRed),
+                        ColorValue(value.userLoad, color: NSColor.systemBlue)
+                    ]]
+                }
+                widget.setValue(val)
             case let widget as PieChart:
                 widget.setValue([
                     circle_segment(value: value.systemLoad, color: NSColor.systemRed),

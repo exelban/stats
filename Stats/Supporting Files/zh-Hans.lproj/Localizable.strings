@@ -9,13 +9,32 @@
 //  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
 //
 
+// Modules
+"CPU" = "CPU";
+"Open CPU settings" = "打开 CPU 设置";
+"GPU" = "GPU";
+"Open GPU settings" = "打开 GPU 设置";
+"RAM" = "内存";
+"Open RAM settings" = "打开内存设置";
+"Disk" = "磁盘";
+"Open Disk settings" = "打开磁盘设置";
+"Sensors" = "传感器";
+"Open Sensors settings" = "打开传感器设置";
+"Fans" = "风扇";
+"Open Fans settings" = "打开风扇设置";
+"Network" = "网络";
+"Open Network settings" = "打开网络设置";
+"Battery" = "电池";
+"Open Battery settings" = "打开电池设置";
+"Bluetooth" = "蓝牙";
+"Open Bluetooth settings" = "打开蓝牙设置";
+
 // Words
 "Unknown" = "未知";
 "Version" = "版本";
 "Processor" = "处理器";
 "Memory" = "内存";
 "Graphics" = "图形卡"; // Use the same translation as the "about this mac"
-"Disk" = "磁盘";
 "Close" = "关闭";
 "Download" = "下载";
 "Install" = "安装";
@@ -34,6 +53,13 @@
 "Statistics" = "统计";
 "Max" = "最大";
 "Min" = "最小";
+"Reset" = "重置";
+"Alignment" = "对齐";
+"Left alignment" = "左对齐";
+"Center alignment" = "居中";
+"Right alignment" = "右对齐";
+"Dashboard" = "仪表盘";
+"Disabled" = "Disabled";
 
 // Alerts
 "New version available" = "新版本可用";
@@ -47,7 +73,7 @@
 "Support the application" = "支持本应用";
 "Close application" = "关闭应用";
 "Open application settings" = "打开应用设置";
-"Open moduleName settings" = "打开 %0 设置";
+"Open dashboard" = "打开仪表盘";
 
 // Application settings
 "Update application" = "更新应用";
@@ -94,6 +120,7 @@
 "Battery widget" = "电池";
 "Text widget" = "文本";
 "Memory widget" = "容量";
+"Static width" = "固定宽度";
 
 // Module Kit
 "Open module settings" = "打开模块设置";
@@ -107,6 +134,7 @@
 
 // Modules
 "Number of top processes" = "高占用进程数";
+"Update interval for top processes" = "高占用进程的更新间隔";
 
 // CPU
 "CPU usage" = "CPU 占用";
@@ -117,6 +145,13 @@
 "Idle" = "闲置";
 "Show usage per core" = "显示每个物理核心占用";
 "Show hyper-threading cores" = "显示超线程核心";
+"Split the value (System/User)" = "柱状图区分显示（系统/用户";
+"Scheduler limit" = "调度限制";
+"Speed limit" = "速度限制";
+"Average load" = "平均负载";
+"1 minute" = "1 分钟";
+"5 minutes" = "5 分钟";
+"15 minutes" = "15 分钟";
 
 // GPU
 "GPU to show" = "显示的 GPU";
@@ -135,7 +170,7 @@
 "Memory clock" = "内存时钟";
 "Utilization" = "利用率";
 
-// Memory
+// RAM
 "Memory usage" = "内存占用";
 "Memory pressure" = "内存压力";
 "Total" = "共计";
@@ -145,6 +180,7 @@
 "Compressed" = "被压缩";
 "Free" = "可用";
 "Swap" = "交换区";
+"Split the value (App/Wired/Compressed)" = "柱状图区分显示（App 内存/联动内存/被压缩）";
 
 // Disk
 "Show removable disks" = "显示可移动磁盘";
@@ -158,6 +194,8 @@
 "Temperature unit" = "温度单位";
 "Celsius" = "摄氏度";
 "Fahrenheit" = "华氏度";
+"Save the fan speed" = "保存风扇转速";
+"Fan" = "Fan";
 
 // Network
 "Uploading" = "上传";
@@ -165,7 +203,6 @@
 "Public IP" = "公网 IP";
 "Local IP" = "本地 IP";
 "Interface" = "接口";
-"Network" = "网络";
 "Physical address" = "物理地址";
 "Refresh" = "刷新";
 "Click to copy public IP address" = "点击拷贝公网 IP";
@@ -179,6 +216,7 @@
 "Reader type" = "读取器类型";
 "Interface based" = "基于接口";
 "Processes based" = "基于进程";
+"Reset data usage" = "重置用量";
 
 // Battery
 "Level" = "电量";
@@ -187,7 +225,6 @@
 "Battery Power" = "电池";
 "Time" = "时间";
 "Health" = "健康度";
-"Battery" = "电池";
 "Amperage" = "电流";
 "Voltage" = "电压";
 "Cycles" = "循环数";
@@ -211,10 +248,10 @@
 "Time and percentage" = "时间和百分比";
 "Time format" = "时间格式";
 "Hide additional information when full" = "电池充满后隐藏其他信息";
-"Last charge" = "最后一次收费";
+"Last charge" = "最后一次充电";
 
-// Fans
-"Fans" = "风扇";
+// Bluetooth
+"Battery to show" = "显示的设备";
 
 // Colors
 "Based on utilization" = "基于利用率";

@@ -9,13 +9,32 @@
 //  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
 //
 
+// Modules
+"CPU" = "CPU";
+"Open CPU settings" = "Otevřít nastevení CPU";
+"GPU" = "GPU";
+"Open GPU settings" = "Otevřít nastevení GPU";
+"RAM" = "RAM";
+"Open RAM settings" = "Otevřít nastevení RAM";
+"Disk" = "Disk";
+"Open Disk settings" = "Otevřít nastevení disku";
+"Sensors" = "Senzory";
+"Open Sensors settings" = "Otevřít nastevení senzorů";
+"Fans" = "Ventilátory";
+"Open Fans settings" = "Otevřít nastevení ventilátoræ";
+"Network" = "Síť";
+"Open Network settings" = "Otevřít nastevení sítě";
+"Battery" = "Baterie";
+"Open Battery settings" = "Otevřít nastevení baterie";
+"Bluetooth" = "Bluetooth";
+"Open Bluetooth settings" = "Otevřít nastevení bluetooth";
+
 // Words
 "Unknown" = "Neznámý";
 "Version" = "Verze";
 "Processor" = "Procesor";
 "Memory" = "Paměť";
 "Graphics" = "Grafika";
-"Disk" = "Disk";
 "Close" = "Zavřít";
 "Download" = "Stáhnout";
 "Install" = "Instalovat";
@@ -34,6 +53,13 @@
 "Statistics" = "Statistiky";
 "Max" = "Max";
 "Min" = "Min";
+"Reset" = "Reset";
+"Alignment" = "Zarovnání";
+"Left alignment" = "Zarovnat doleva";
+"Center alignment" = "Zarovnat na střed";
+"Right alignment" = "Zarovnat doprava";
+"Dashboard" = "Dashboard";
+"Disabled" = "Disabled";
 
 // Alerts
 "New version available" = "Nová verze k dispozici";
@@ -47,7 +73,7 @@
 "Support the application" = "Podpořte aplikaci";
 "Close application" = "Zavřít aplikaci";
 "Open application settings" = "Otevřít nastavení aplikace";
-"Open moduleName settings" = "Otevřít nastavení %0";
+"Open dashboard" = "Otevřít dashboard";
 
 // Application settings
 "Update application" = "Aktualizovat aplikaci";
@@ -94,6 +120,7 @@
 "Battery widget" = "Baterie";
 "Text widget" = "Text";
 "Memory widget" = "Paměť";
+"Static width" = "Statická šířka";
 
 // Module Kit
 "Open module settings" = "Otevřít nastavení modulu";
@@ -107,6 +134,7 @@
 
 // Modules
 "Number of top processes" = "Počet prvních procesů";
+"Update interval for top processes" = "Interval aktualizace pro první procesy";
 
 // CPU
 "CPU usage" = "Použití CPU";
@@ -117,9 +145,16 @@
 "Idle" = "Nečinný";
 "Show usage per core" = "Zobrazit použití po jádrech";
 "Show hyper-threading cores" = "Zobrazit jádra hyper-threading";
+"Split the value (System/User)" = "Rozdělit hodnotu (Systém/Uživatel)";
+"Scheduler limit" = "Omezení plánovače";
+"Speed limit" = "Omezení rychlosti";
+"Average load" = "Průměrné zatížení";
+"1 minute" = "1 minuta";
+"5 minutes" = "5 minut";
+"15 minutes" = "15 minut";
 
 // GPU
-"GPU to show" = "Ukázat GPU";
+"GPU to show" = "GPU k zobrazení";
 "Show GPU type" = "Zobrazit typ GPU";
 "GPU enabled" = "GPU aktivováno";
 "GPU disabled" = "GPU deaktivováno";
@@ -135,7 +170,7 @@
 "Memory clock" = "Takt pamětí";
 "Utilization" = "Využití";
 
-// Memory
+// RAM
 "Memory usage" = "Využití paměti";
 "Memory pressure" = "Zatížení paměti";
 "Total" = "Celkem";
@@ -145,6 +180,7 @@
 "Compressed" = "Komprese";
 "Free" = "Volná";
 "Swap" = "Odkládací";
+"Split the value (App/Wired/Compressed)" = "Rozdělit hodnotu (Aplikační/Pevná/Komprese)";
 
 // Disk
 "Show removable disks" = "Zobrazovat vyměnitelné disky";
@@ -158,6 +194,8 @@
 "Temperature unit" = "Jednotka teploty";
 "Celsius" = "Celsius";
 "Fahrenheit" = "Fahrenheit";
+"Save the fan speed" = "Save the fan speed";
+"Fan" = "Fan";
 
 // Network
 "Uploading" = "Nahrávání";
@@ -165,7 +203,6 @@
 "Public IP" = "Veřejná IP";
 "Local IP" = "Místní IP";
 "Interface" = "Rozhraní";
-"Network" = "Síť";
 "Physical address" = "Fyzická adresa";
 "Refresh" = "Obnovit";
 "Click to copy public IP address" = "Klikněte pro zkopírování veřejné IP adresy";
@@ -179,6 +216,7 @@
 "Reader type" = "Typ přehledu";
 "Interface based" = "Podle rozhraní";
 "Processes based" = "Podle procesů";
+"Reset data usage" = "Reset data usage";
 
 // Battery
 "Level" = "Úroveň";
@@ -187,7 +225,6 @@
 "Battery Power" = "Napájení z baterie";
 "Time" = "Čas";
 "Health" = "Zdraví";
-"Battery" = "Baterie";
 "Amperage" = "Proud";
 "Voltage" = "Napětí";
 "Cycles" = "Počet cyklů";
@@ -211,10 +248,10 @@
 "Time and percentage" = "Čas a procenta";
 "Time format" = "Formát času";
 "Hide additional information when full" = "Skrýt další informace při plném nabití";
-"Last charge" = "Poslední poplatek";
+"Last charge" = "Poslední nabití";
 
-// Fans
-"Fans" = "Ventilátory";
+// Bluetooth
+"Battery to show" = "Baterie k zobrazení";
 
 // Colors
 "Based on utilization" = "Na základě využití";

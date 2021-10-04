@@ -10,8 +10,7 @@
 //
 
 import Cocoa
-import ModuleKit
-import StatsKit
+import Kit
 
 public typealias GPU_type = String
 public enum GPU_types: GPU_type {
@@ -54,7 +53,7 @@ public struct GPUs: value_t {
         return self.list.filter{ $0.state && $0.utilization != nil }.sorted{ $0.utilization ?? 0 > $1.utilization ?? 0 }
     }
     
-    public var widget_value: Double {
+    public var widgetValue: Double {
         get {
             return list.isEmpty ? 0 : (list[0].utilization ?? 0)
         }
@@ -110,7 +109,7 @@ public class GPU: Module {
     }
     
     private func infoCallback(_ raw: GPUs?) {
-        guard raw != nil && !raw!.list.isEmpty, let value = raw else {
+        guard raw != nil && !raw!.list.isEmpty, let value = raw, self.enabled else {
             return
         }
         
@@ -134,7 +133,7 @@ public class GPU: Module {
                 widget.setValue(utilization)
                 widget.setTitle(self.showType ? "\(selectedGPU.type)GPU" : nil)
             case let widget as LineChart: widget.setValue(utilization)
-            case let widget as BarChart: widget.setValue([utilization])
+            case let widget as BarChart: widget.setValue([[ColorValue(utilization)]])
             default: break
             }
         }

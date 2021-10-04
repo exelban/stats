@@ -10,15 +10,14 @@
 //
 
 import Cocoa
-import os.log
-import StatsKit
+import Kit
 
 extension AppDelegate {
     internal func parseArguments() {
         let args = CommandLine.arguments
         
         if args.contains("--reset") {
-            os_log(.debug, log: log, "Receive --reset argument. Reseting store (UserDefaults)...")
+            debug("Receive --reset argument. Reseting store (UserDefaults)...")
             Store.shared.reset()
         }
         
@@ -40,7 +39,7 @@ extension AppDelegate {
                 asyncShell("/usr/bin/hdiutil detach \(mountPath)")
                 asyncShell("/bin/rm -rf \(mountPath)")
                 
-                os_log(.debug, log: log, "DMG was unmounted and mountPath deleted")
+                debug("DMG was unmounted and mountPath deleted")
             }
         }
         
@@ -48,7 +47,7 @@ extension AppDelegate {
             if args.indices.contains(dmgIndex+1) {
                 asyncShell("/bin/rm -rf \(args[dmgIndex+1])")
                 
-                os_log(.debug, log: log, "DMG was deleted")
+                debug("DMG was deleted")
             }
         }
     }
@@ -59,22 +58,22 @@ extension AppDelegate {
         
         if !Store.shared.exist(key: key) {
             Store.shared.reset()
-            os_log(.debug, log: log, "Previous version not detected. Current version (%s) set", currentVersion)
+            debug("Previous version not detected. Current version (\(currentVersion) set")
         } else {
             let prevVersion = Store.shared.string(key: key, defaultValue: "")
             if prevVersion == currentVersion {
                 return
             }
             
-            if IsNewestVersion(currentVersion: prevVersion, latestVersion: currentVersion) {
+            if isNewestVersion(currentVersion: prevVersion, latestVersion: currentVersion) {
                 _ = showNotification(
-                    title: LocalizedString("Successfully updated"),
-                    subtitle: LocalizedString("Stats was updated to v", currentVersion),
+                    title: localizedString("Successfully updated"),
+                    subtitle: localizedString("Stats was updated to v", currentVersion),
                     id: "updated-from-\(prevVersion)-to-\(currentVersion)"
                 )
             }
             
-            os_log(.debug, log: log, "Detected previous version %s. Current version (%s) set", prevVersion, currentVersion)
+            debug("Detected previous version \(prevVersion). Current version (\(currentVersion) set")
         }
         
         Store.shared.set(key: key, value: currentVersion)
@@ -97,28 +96,28 @@ extension AppDelegate {
     }
     
     internal func checkForNewVersion() {
-        updater.check() { result, error in
+        updater.check { result, error in
             if error != nil {
-                os_log(.error, log: log, "error updater.check(): %s", "\(error!.localizedDescription)")
+                debug("error updater.check(): \(error!.localizedDescription)")
                 return
             }
             
             guard error == nil, let version: version_s = result else {
-                os_log(.error, log: log, "download error(): %s", "\(error!.localizedDescription)")
+                debug("download error(): \(error!.localizedDescription)")
                 return
             }
             
             DispatchQueue.main.async(execute: {
                 if version.newest {
-                    os_log(.debug, log: log, "show update window because new version of app found: %s", "\(version.latest)")
+                    debug("show update window because new version of app found: \(version.latest)")
                     
                     self.updateNotification.identifier = "new-version-\(version.latest)"
-                    self.updateNotification.title = LocalizedString("New version available")
-                    self.updateNotification.subtitle = LocalizedString("Click to install the new version of Stats")
+                    self.updateNotification.title = localizedString("New version available")
+                    self.updateNotification.subtitle = localizedString("Click to install the new version of Stats")
                     self.updateNotification.soundName = NSUserNotificationDefaultSoundName
                     
                     self.updateNotification.hasActionButton = true
-                    self.updateNotification.actionButtonTitle = LocalizedString("Install")
+                    self.updateNotification.actionButtonTitle = localizedString("Install")
                     self.updateNotification.userInfo = ["url": version.url]
                     
                     NSUserNotificationCenter.default.delegate = self

@@ -10,33 +10,44 @@
 //
 
 import Cocoa
-import StatsKit
-import ModuleKit
+import Kit
 
-internal class Settings: NSView, Settings_v {
+internal class Settings: NSStackView, Settings_v {
     private var updateIntervalValue: Int = 1
+    private var updateTopIntervalValue: Int = 1
     private var numberOfProcesses: Int = 8
+    private var splitValueState: Bool = false
     
     private let title: String
     
     public var callback: (() -> Void) = {}
     public var callbackWhenUpdateNumberOfProcesses: (() -> Void) = {}
     public var setInterval: ((_ value: Int) -> Void) = {_ in }
+    public var setTopInterval: ((_ value: Int) -> Void) = {_ in }
     
     public init(_ title: String) {
         self.title = title
         self.updateIntervalValue = Store.shared.int(key: "\(self.title)_updateInterval", defaultValue: self.updateIntervalValue)
+        self.updateTopIntervalValue = Store.shared.int(key: "\(self.title)_updateTopInterval", defaultValue: self.updateTopIntervalValue)
         self.numberOfProcesses = Store.shared.int(key: "\(self.title)_processes", defaultValue: self.numberOfProcesses)
+        self.splitValueState = Store.shared.bool(key: "\(self.title)_splitValue", defaultValue: self.splitValueState)
         
-        super.init(frame: CGRect(
+        super.init(frame: NSRect(
             x: 0,
             y: 0,
             width: Constants.Settings.width - (Constants.Settings.margin*2),
             height: 0
         ))
         
-        self.wantsLayer = true
-        self.canDrawConcurrently = true
+        self.orientation = .vertical
+        self.distribution = .gravityAreas
+        self.edgeInsets = NSEdgeInsets(
+            top: Constants.Settings.margin,
+            left: Constants.Settings.margin,
+            bottom: Constants.Settings.margin,
+            right: Constants.Settings.margin
+        )
+        self.spacing = Constants.Settings.margin
     }
     
     required init?(coder: NSCoder) {
@@ -45,27 +56,45 @@ internal class Settings: NSView, Settings_v {
     
     public func load(widgets: [widget_t]) {
         self.subviews.forEach{ $0.removeFromSuperview() }
+        let width: CGFloat = self.frame.width - (Constants.Settings.margin*2)
         
-        let rowHeight: CGFloat = 30
-        let num: CGFloat = 1
-        
-        self.addSubview(SelectTitleRow(
-            frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * num, width: self.frame.width - (Constants.Settings.margin*2), height: rowHeight),
-            title: LocalizedString("Update interval"),
+        self.addArrangedSubview(selectTitleRow(
+            frame: NSRect(x: 0, y: 0, width: width, height: Constants.Settings.row),
+            title: localizedString("Update interval"),
             action: #selector(changeUpdateInterval),
             items: ReaderUpdateIntervals.map{ "\($0) sec" },
             selected: "\(self.updateIntervalValue) sec"
         ))
         
-        self.addSubview(SelectTitleRow(
-            frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin, width: self.frame.width - (Constants.Settings.margin*2), height: rowHeight),
-            title: LocalizedString("Number of top processes"),
+        self.addArrangedSubview(selectTitleRow(
+            frame: NSRect(x: 0, y: 0, width: width, height: Constants.Settings.row),
+            title: localizedString("Update interval for top processes"),
+            action: #selector(changeUpdateTopInterval),
+            items: ReaderUpdateIntervals.map{ "\($0) sec" },
+            selected: "\(self.updateTopIntervalValue) sec"
+        ))
+        
+        self.addArrangedSubview(selectTitleRow(
+            frame: NSRect(x: 0, y: 0, width: width, height: Constants.Settings.row),
+            title: localizedString("Number of top processes"),
             action: #selector(changeNumberOfProcesses),
             items: NumbersOfProcesses.map{ "\($0)" },
             selected: "\(self.numberOfProcesses)"
         ))
         
-        self.setFrameSize(NSSize(width: self.frame.width, height: (rowHeight*(num+1)) + (Constants.Settings.margin*(2+num))))
+        if !widgets.filter({ $0 == .barChart }).isEmpty {
+            self.addArrangedSubview(toggleTitleRow(
+                frame: NSRect(x: 0, y: 0, width: width, height: Constants.Settings.row),
+                title: localizedString("Split the value (App/Wired/Compressed)"),
+                action: #selector(toggleSplitValue),
+                state: self.splitValueState
+            ))
+        }
+        
+        let h = self.arrangedSubviews.map({ $0.bounds.height + self.spacing }).reduce(0, +) - self.spacing + self.edgeInsets.top + self.edgeInsets.bottom
+        if self.frame.size.height != h {
+            self.setFrameSize(NSSize(width: self.bounds.width, height: h))
+        }
     }
     
     @objc private func changeUpdateInterval(_ sender: NSMenuItem) {
@@ -76,11 +105,32 @@ internal class Settings: NSView, Settings_v {
         }
     }
     
+    @objc private func changeUpdateTopInterval(_ sender: NSMenuItem) {
+        if let value = Int(sender.title.replacingOccurrences(of: " sec", with: "")) {
+            self.updateTopIntervalValue = value
+            Store.shared.set(key: "\(self.title)_updateTopInterval", value: value)
+            self.setTopInterval(value)
+        }
+    }
+    
     @objc private func changeNumberOfProcesses(_ sender: NSMenuItem) {
         if let value = Int(sender.title) {
             self.numberOfProcesses = value
             Store.shared.set(key: "\(self.title)_processes", value: value)
             self.callbackWhenUpdateNumberOfProcesses()
         }
+    }
+    
+    @objc func toggleSplitValue(_ sender: NSControl) {
+        var state: NSControl.StateValue? = nil
+        if #available(OSX 10.15, *) {
+            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
+        } else {
+            state = sender is NSButton ? (sender as! NSButton).state: nil
+        }
+        
+        self.splitValueState = state! == .on ? true : false
+        Store.shared.set(key: "\(self.title)_splitValue", value: self.splitValueState)
+        self.callback()
     }
 }

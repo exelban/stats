@@ -9,13 +9,32 @@
 //  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
 //
 
+// Modules
+"CPU" = "CPU";
+"Open CPU settings" = "Open CPU settings";
+"GPU" = "GPU";
+"Open GPU settings" = "Open GPU settings";
+"RAM" = "RAM";
+"Open RAM settings" = "Open RAM settings";
+"Disk" = "Disk";
+"Open Disk settings" = "Open disk settings";
+"Sensors" = "Sensors";
+"Open Sensors settings" = "Open sensors settings";
+"Fans" = "Fans";
+"Open Fans settings" = "Open fans settings";
+"Network" = "Network";
+"Open Network settings" = "Open network settings";
+"Battery" = "Battery";
+"Open Battery settings" = "Open battery settings";
+"Bluetooth" = "Bluetooth";
+"Open Bluetooth settings" = "Open bluetooth settings";
+
 // Words
 "Unknown" = "Necunoscut";
 "Version" = "Versiune";
 "Processor" = "Procesor";
 "Memory" = "Memorie";
 "Graphics" = "Grafică";
-"Disk" = "Disc";
 "Close" = "Închide";
 "Download" = "Descarcă";
 "Install" = "Instalează";
@@ -34,6 +53,13 @@
 "Statistics" = "Statistici";
 "Max" = "Max";
 "Min" = "Min";
+"Reset" = "Reset";
+"Alignment" = "Alignment";
+"Left alignment" = "Left";
+"Center alignment" = "Center";
+"Right alignment" = "Right";
+"Dashboard" = "Dashboard";
+"Disabled" = "Disabled";
 
 // Alerts
 "New version available" = "Versiune nouă disponibilă";
@@ -47,7 +73,7 @@
 "Support the application" = "Susține aplicația";
 "Close application" = "Închide aplicația";
 "Open application settings" = "Deschide setăriile aplicației";
-"Open moduleName settings" = "Deschide setăriile modulului %0";
+"Open dashboard" = "Open dashboard";
 
 // Application settings
 "Update application" = "Actualizează aplicația";
@@ -94,6 +120,7 @@
 "Battery widget" = "Battery";
 "Text widget" = "Text";
 "Memory widget" = "Memory";
+"Static width" = "Static width";
 
 // Module Kit
 "Open module settings" = "Deschide setăriile modulului";
@@ -107,6 +134,7 @@
 
 // Modules
 "Number of top processes" = "Numărul proceselor de vârf";
+"Update interval for top processes" = "Update interval for top processes";
 
 // CPU
 "CPU usage" = "Utilizarea procesorului";
@@ -117,6 +145,13 @@
 "Idle" = "Inactiv";
 "Show usage per core" = "Arată utilizarea pe fiecare nucleu";
 "Show hyper-threading cores" = "Arată nucleurile ce lucrează suplimentar";
+"Split the value (System/User)" = "Împarte valoarea (Sistem/Utilizator)";
+"Scheduler limit" = "Scheduler limit";
+"Speed limit" = "Speed limit";
+"Average load" = "Average load";
+"1 minute" = "1 minute";
+"5 minutes" = "5 minutes";
+"15 minutes" = "15 minutes";
 
 // GPU
 "GPU to show" = "Placa video să fie arătată";
@@ -135,7 +170,7 @@
 "Memory clock" = "Frecvența memoriei";
 "Utilization" = "Gradul de utilizare";
 
-// Memory
+// RAM
 "Memory usage" = "Memoria folosită";
 "Memory pressure" = "Presiunea memoriei";
 "Total" = "Total";
@@ -145,6 +180,7 @@
 "Compressed" = "Comprimat";
 "Free" = "Gratuit";
 "Swap" = "Schimbă";
+"Split the value (App/Wired/Compressed)" = "Împarte valoarea (Aplicația/Conectat prin cablu/Comprimat)";
 
 // Disk
 "Show removable disks" = "Arată discurile detașabile";
@@ -158,6 +194,8 @@
 "Temperature unit" = "Temperatura unității";
 "Celsius" = "Celsius";
 "Fahrenheit" = "Fahrenheit";
+"Save the fan speed" = "Save the fan speed";
+"Fan" = "Fan";
 
 // Network
 "Uploading" = "Incarcă";
@@ -165,7 +203,6 @@
 "Public IP" = "Adresa de IP publică";
 "Local IP" = "Adresa de IP locală";
 "Interface" = "Interfață";
-"Network" = "Rețea";
 "Physical address" = "Adresa fizică";
 "Refresh" = "Refresh";
 "Click to copy public IP address" = "Click pentru a copia adresa de IP publică";
@@ -179,6 +216,7 @@
 "Reader type" = "Tipul de cititor";
 "Interface based" = "Bazat pe interfață";
 "Processes based" = "Bazat pe procese";
+"Reset data usage" = "Reset data usage";
 
 // Battery
 "Level" = "Nivel";
@@ -187,7 +225,6 @@
 "Battery Power" = "Battery Power";
 "Time" = "Timp";
 "Health" = "Sănătate";
-"Battery" = "Baterie";
 "Amperage" = "Amperaj";
 "Voltage" = "Voltaj";
 "Cycles" = "Cicluri";
@@ -213,8 +250,8 @@
 "Hide additional information when full" = "Ascunde restul informației cand e plină";
 "Last charge" = "Ultima încărcare";
 
-// Fans
-"Fans" = "Ventilatoare";
+// Bluetooth
+"Battery to show" = "Battery to show";
 
 // Colors
 "Based on utilization" = "Based on utilization";

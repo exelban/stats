@@ -10,9 +10,7 @@
 //
 
 import Cocoa
-import StatsKit
-import ModuleKit
-import os.log
+import Kit
 
 internal class UsageReader: Reader<RAM_Usage> {
     public var totalSize: Double = 0
@@ -33,7 +31,7 @@ internal class UsageReader: Reader<RAM_Usage> {
         }
         
         self.totalSize = 0
-        os_log(.error, log: log, "host_info(): %s", "\((String(cString: mach_error_string(kerr), encoding: String.Encoding.ascii) ?? "unknown error"))")
+        error("host_info(): \(String(cString: mach_error_string(kerr), encoding: String.Encoding.ascii) ?? "unknown error")", log: self.log)
     }
     
     public override func read() {
@@ -58,13 +56,13 @@ internal class UsageReader: Reader<RAM_Usage> {
             let used = active + inactive + speculative + wired + compressed - purgeable - external
             let free = self.totalSize - used
             
-            var int_size: size_t = MemoryLayout<uint>.size
+            var intSize: size_t = MemoryLayout<uint>.size
             var pressureLevel: Int = 0
-            sysctlbyname("kern.memorystatus_vm_pressure_level", &pressureLevel, &int_size, nil, 0)
+            sysctlbyname("kern.memorystatus_vm_pressure_level", &pressureLevel, &intSize, nil, 0)
             
-            var string_size: size_t = MemoryLayout<xsw_usage>.size
+            var stringSize: size_t = MemoryLayout<xsw_usage>.size
             var swap: xsw_usage = xsw_usage()
-            sysctlbyname("vm.swapusage", &swap, &string_size, nil, 0)
+            sysctlbyname("vm.swapusage", &swap, &stringSize, nil, 0)
             
             self.callback(RAM_Usage(
                 total: self.totalSize,
@@ -91,7 +89,7 @@ internal class UsageReader: Reader<RAM_Usage> {
             return
         }
         
-        os_log(.error, log: log, "host_statistics64(): %s", "\((String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))")
+        error("host_statistics64(): \(String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error")", log: self.log)
     }
 }
 
@@ -106,6 +104,7 @@ public class ProcessReader: Reader<[TopProcess]> {
     
     public override func setup() {
         self.popup = true
+        self.setInterval(Store.shared.int(key: "\(self.title)_updateTopInterval", defaultValue: 1))
     }
     
     public override func read() {
@@ -130,8 +129,8 @@ public class ProcessReader: Reader<[TopProcess]> {
         
         do {
             try task.run()
-        } catch let error {
-            os_log(.error, log: log, "top(): %s", "\(error.localizedDescription)")
+        } catch let err {
+            error("top(): \(err.localizedDescription)", log: self.log)
             return
         }
         
@@ -145,23 +144,23 @@ public class ProcessReader: Reader<[TopProcess]> {
         }
         
         var processes: [TopProcess] = []
-        output.enumerateLines { (line, _) -> () in
+        output.enumerateLines { (line, _) -> Void in
             if line.matches("^\\d+ +.* +\\d+[A-Z]*\\+?\\-? *$") {
                 var str = line.trimmingCharacters(in: .whitespaces)
                 let pidString = str.findAndCrop(pattern: "^\\d+")
-                let usageString = str.suffix(5)
+                let usageString = str.suffix(6)
                 var command = str.replacingOccurrences(of: pidString, with: "")
                 command = command.replacingOccurrences(of: usageString, with: "")
                 
                 if let regex = try? NSRegularExpression(pattern: " (\\+|\\-)*$", options: .caseInsensitive) {
-                    command = regex.stringByReplacingMatches(in: command, options: [], range: NSRange(location: 0, length:  command.count), withTemplate: "")
+                    command = regex.stringByReplacingMatches(in: command, options: [], range: NSRange(location: 0, length: command.count), withTemplate: "")
                 }
                 
                 let pid = Int(pidString.filter("01234567890.".contains)) ?? 0
                 var usage = Double(usageString.filter("01234567890.".contains)) ?? 0
-                if usageString.contains("G") {
+                if usageString.contains("G") && usageString.first != "G" {
                     usage *= 1024 // apply gigabyte multiplier
-                } else if usageString.contains("K") {
+                } else if usageString.contains("K") && usageString.first != "K" {
                     usage /= 1024 // apply kilobyte divider
                 }
                 

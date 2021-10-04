@@ -10,8 +10,7 @@
 //
 
 import Cocoa
-import StatsKit
-import ModuleKit
+import Kit
 
 public struct RAM_Usage: value_t {
     var total: Double
@@ -30,7 +29,7 @@ public struct RAM_Usage: value_t {
     var pressureLevel: Int
     var swap: Swap
     
-    public var widget_value: Double {
+    public var widgetValue: Double {
         get {
             return self.usage
         }
@@ -55,6 +54,12 @@ public class RAM: Module {
     private var usageReader: UsageReader? = nil
     private var processReader: ProcessReader? = nil
     
+    private var splitValueState: Bool {
+        get {
+            return Store.shared.bool(key: "\(self.config.name)_splitValue", defaultValue: false)
+        }
+    }
+    
     public init() {
         self.settingsView = Settings("RAM")
         self.popupView = Popup("RAM")
@@ -65,9 +70,15 @@ public class RAM: Module {
         )
         guard self.available else { return }
         
+        self.settingsView.callback = { [unowned self] in
+            self.usageReader?.read()
+        }
         self.settingsView.setInterval = { [unowned self] value in
             self.processReader?.read()
             self.usageReader?.setInterval(value)
+        }
+        self.settingsView.setTopInterval = { [unowned self] value in
+            self.processReader?.setInterval(value)
         }
         
         self.usageReader = UsageReader()
@@ -102,12 +113,13 @@ public class RAM: Module {
     }
     
     private func loadCallback(_ raw: RAM_Usage?) {
-        guard raw != nil, let value = raw else {
+        guard raw != nil, let value = raw, self.enabled else {
             return
         }
         
         self.popupView.loadCallback(value)
         
+        let total: Double = value.total == 0 ? 1 : value.total
         self.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
             switch w.item {
             case let widget as Mini:
@@ -117,11 +129,18 @@ public class RAM: Module {
                 widget.setValue(value.usage)
                 widget.setPressure(value.pressureLevel)
             case let widget as BarChart:
-                widget.setValue([value.usage])
-                widget.setColorZones((0.8, 0.95))
-                widget.setPressure(value.pressureLevel)
+                if self.splitValueState {
+                    widget.setValue([[
+                        ColorValue(value.app/total, color: NSColor.systemBlue),
+                        ColorValue(value.wired/total, color: NSColor.systemOrange),
+                        ColorValue(value.compressed/total, color: NSColor.systemPink)
+                    ]])
+                } else {
+                    widget.setValue([[ColorValue(value.usage)]])
+                    widget.setColorZones((0.8, 0.95))
+                    widget.setPressure(value.pressureLevel)
+                }
             case let widget as PieChart:
-                let total: Double = value.total == 0 ? 1 : value.total
                 widget.setValue([
                     circle_segment(value: value.app/total, color: NSColor.systemBlue),
                     circle_segment(value: value.wired/total, color: NSColor.systemOrange),

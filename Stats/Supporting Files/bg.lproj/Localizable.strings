@@ -9,13 +9,32 @@
 //  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
 //
 
+// Modules
+"CPU" = "CPU";
+"Open CPU settings" = "Open CPU settings";
+"GPU" = "GPU";
+"Open GPU settings" = "Open GPU settings";
+"RAM" = "RAM";
+"Open RAM settings" = "Open RAM settings";
+"Disk" = "Disk";
+"Open Disk settings" = "Open disk settings";
+"Sensors" = "Sensors";
+"Open Sensors settings" = "Open sensors settings";
+"Fans" = "Fans";
+"Open Fans settings" = "Open fans settings";
+"Network" = "Network";
+"Open Network settings" = "Open network settings";
+"Battery" = "Battery";
+"Open Battery settings" = "Open battery settings";
+"Bluetooth" = "Bluetooth";
+"Open Bluetooth settings" = "Open bluetooth settings";
+
 // Words
 "Unknown" = "Непознато";
 "Version" = "Версия";
 "Processor" = "Процесор";
 "Memory" = "Памет";
 "Graphics" = "Графика";
-"Disk" = "Диск";
 "Close" = "Затваряне";
 "Download" = "Изтегляне";
 "Install" = "Инсталиране";
@@ -34,6 +53,13 @@
 "Statistics" = "Статистика";
 "Max" = "Макс.";
 "Min" = "Мин.";
+"Reset" = "Reset";
+"Alignment" = "Alignment";
+"Left alignment" = "Left";
+"Center alignment" = "Center";
+"Right alignment" = "Right";
+"Dashboard" = "Dashboard";
+"Disabled" = "Disabled";
 
 // Alerts
 "New version available" = "Налична е нова версия";
@@ -47,7 +73,7 @@
 "Support the application" = "Подкрепа";
 "Close application" = "Затваряне на приложението";
 "Open application settings" = "Отваряне на настройките на приложението";
-"Open moduleName settings" = "Отваряне на настройките на %0";
+"Open dashboard" = "Open dashboard";
 
 // Application settings
 "Update application" = "Обновяване на приложението";
@@ -94,6 +120,7 @@
 "Battery widget" = "Батерия";
 "Text widget" = "Текст";
 "Memory widget" = "Памет";
+"Static width" = "Static width";
 
 // Module Kit
 "Open module settings" = "Отваряне на настройките на модула";
@@ -107,6 +134,7 @@
 
 // Modules
 "Number of top processes" = "Брой топ процеси";
+"Update interval for top processes" = "Update interval for top processes";
 
 // CPU
 "CPU usage" = "Употреба на процесора";
@@ -117,6 +145,13 @@
 "Idle" = "В покой";
 "Show usage per core" = "Показване на употреба по ядро";
 "Show hyper-threading cores" = "Показване на hyper-threading ядра";
+"Split the value (System/User)" = "Разделете стойността (Система/Потребител)";
+"Scheduler limit" = "Scheduler limit";
+"Speed limit" = "Speed limit";
+"Average load" = "Average load";
+"1 minute" = "1 minute";
+"5 minutes" = "5 minutes";
+"15 minutes" = "15 minutes";
 
 // GPU
 "GPU to show" = "Показване на графична карта";
@@ -135,7 +170,7 @@
 "Memory clock" = "Тактова честота на паметта";
 "Utilization" = "Утилизация";
 
-// Memory
+// RAM
 "Memory usage" = "Заета памет";
 "Memory pressure" = "Memory pressure";
 "Total" = "Общо";
@@ -145,6 +180,7 @@
 "Compressed" = "Компересирана";
 "Free" = "Свободна";
 "Swap" = "Swap";
+"Split the value (App/Wired/Compressed)" = "Разделете стойността (Приложения/Wired/Компересирана)";
 
 // Disk
 "Show removable disks" = "Показване на преносими дискове";
@@ -158,6 +194,8 @@
 "Temperature unit" = "Температурна единица";
 "Celsius" = "Целзиус";
 "Fahrenheit" = "Фаренхайт";
+"Save the fan speed" = "Save the fan speed";
+"Fan" = "Fan";
 
 // Network
 "Uploading" = "Качване";
@@ -165,7 +203,6 @@
 "Public IP" = "Публично IP";
 "Local IP" = "Локално IP";
 "Interface" = "Интерфейс";
-"Network" = "Мрежа";
 "Physical address" = "Физически адрес";
 "Refresh" = "Refresh";
 "Click to copy public IP address" = "Натиснете, за да копирате публичния IP адрес";
@@ -179,6 +216,7 @@
 "Reader type" = "Тип четец";
 "Interface based" = "На база интерфейс";
 "Processes based" = "На база процес";
+"Reset data usage" = "Reset data usage";
 
 // Battery
 "Level" = "Ниво";
@@ -187,7 +225,6 @@
 "Battery Power" = "Батерия";
 "Time" = "Време";
 "Health" = "Здраве";
-"Battery" = "Батерия";
 "Amperage" = "Сила на тока";
 "Voltage" = "Волтаж";
 "Cycles" = "Цикли";
@@ -213,8 +250,8 @@
 "Hide additional information when full" = "Скриване на допълнителна информация при пълен заряд";
 "Last charge" = "Последно зареждане";
 
-// Fans
-"Fans" = "Вентилатори";
+// Bluetooth
+"Battery to show" = "Battery to show";
 
 // Colors
 "Based on utilization" = "Based on utilization";

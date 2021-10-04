@@ -10,16 +10,17 @@
 //
 
 import Cocoa
-import StatsKit
-import ModuleKit
+import Kit
 import SystemConfiguration
 
-internal class Settings: NSView, Settings_v {
+internal class Settings: NSStackView, Settings_v {
     private var numberOfProcesses: Int = 8
     private var readerType: String = "interface"
+    private var usageReset: String = AppUpdateInterval.atStart.rawValue
     
     public var callback: (() -> Void) = {}
     public var callbackWhenUpdateNumberOfProcesses: (() -> Void) = {}
+    public var usageResetCallback: (() -> Void) = {}
     
     private let title: String
     private var button: NSPopUpButton?
@@ -30,13 +31,9 @@ internal class Settings: NSView, Settings_v {
         self.title = title
         self.numberOfProcesses = Store.shared.int(key: "\(self.title)_processes", defaultValue: self.numberOfProcesses)
         self.readerType = Store.shared.string(key: "\(self.title)_reader", defaultValue: self.readerType)
+        self.usageReset = Store.shared.string(key: "\(self.title)_usageReset", defaultValue: self.usageReset)
         
-        super.init(frame: CGRect(
-            x: 0,
-            y: 0,
-            width: Constants.Settings.width - (Constants.Settings.margin*2),
-            height: 0
-        ))
+        super.init(frame: NSRect(x: 0, y: 0, width: Constants.Settings.width - (Constants.Settings.margin*2), height: 0))
         
         for interface in SCNetworkInterfaceCopyAll() as NSArray {
             if  let bsdName = SCNetworkInterfaceGetBSDName(interface as! SCNetworkInterface),
@@ -45,7 +42,15 @@ internal class Settings: NSView, Settings_v {
             }
         }
         
-        self.canDrawConcurrently = true
+        self.orientation = .vertical
+        self.distribution = .gravityAreas
+        self.edgeInsets = NSEdgeInsets(
+            top: Constants.Settings.margin,
+            left: Constants.Settings.margin,
+            bottom: Constants.Settings.margin,
+            right: Constants.Settings.margin
+        )
+        self.spacing = Constants.Settings.margin
     }
     
     required init?(coder: NSCoder) {
@@ -55,38 +60,48 @@ internal class Settings: NSView, Settings_v {
     public func load(widgets: [widget_t]) {
         self.subviews.forEach{ $0.removeFromSuperview() }
         
-        let rowHeight: CGFloat = 30
-        let num: CGFloat = 2
+        let width: CGFloat = self.frame.width - (Constants.Settings.margin*2)
         
-        self.addSubview(SelectTitleRow(
-            frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * 2, width: self.frame.width - (Constants.Settings.margin*2), height: 30),
-            title: LocalizedString("Number of top processes"),
+        self.addArrangedSubview(selectTitleRow(
+            frame: NSRect(x: 0, y: 0, width: width, height: Constants.Settings.row),
+            title: localizedString("Number of top processes"),
             action: #selector(changeNumberOfProcesses),
             items: NumbersOfProcesses.map{ "\($0)" },
             selected: "\(self.numberOfProcesses)"
         ))
         
-        self.addSubview(SelectRow(
-            frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * 1, width: self.frame.width - (Constants.Settings.margin*2), height: 30),
-            title: LocalizedString("Reader type"),
+        self.addArrangedSubview(selectRow(
+            frame: NSRect(x: 0, y: 0, width: width, height: Constants.Settings.row),
+            title: localizedString("Reader type"),
             action: #selector(changeReaderType),
             items: NetworkReaders,
             selected: self.readerType
         ))
         
+        self.addArrangedSubview(selectRow(
+            frame: NSRect(x: 0, y: 0, width: width, height: Constants.Settings.row),
+            title: localizedString("Reset data usage"),
+            action: #selector(toggleUsageReset),
+            items: AppUpdateIntervals.dropLast(2),
+            selected: self.usageReset
+        ))
+        
         self.addInterfaceSelector()
         
-        self.setFrameSize(NSSize(width: self.frame.width, height: (rowHeight*(num+1)) + (Constants.Settings.margin*(2+num))))
+        let h = self.arrangedSubviews.map({ $0.bounds.height + self.spacing }).reduce(0, +) - self.spacing + self.edgeInsets.top + self.edgeInsets.bottom
+        if self.frame.size.height != h {
+            self.setFrameSize(NSSize(width: self.bounds.width, height: h))
+        }
     }
     
     private func addInterfaceSelector() {
-        let view: NSView = NSView(frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin, width: self.frame.width, height: 30))
+        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 30))
         
-        let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: (view.frame.height - 16)/2, width: view.frame.width - 52, height: 17), LocalizedString("Network interface"))
+        let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: (view.frame.height - 16)/2, width: view.frame.width - 52, height: 17), localizedString("Network interface"))
         rowTitle.font = NSFont.systemFont(ofSize: 13, weight: .light)
         rowTitle.textColor = .textColor
         
-        self.button = NSPopUpButton(frame: NSRect(x: view.frame.width - 200 - Constants.Settings.margin*2, y: 0, width: 200, height: 30))
+        self.button = NSPopUpButton(frame: NSRect(x: view.frame.width - 200 - Constants.Settings.margin*2, y: 0, width: 200, height: 26))
         self.button?.target = self
         self.button?.action = #selector(self.handleSelection)
         self.button?.isEnabled = self.readerType == "interface"
@@ -115,7 +130,7 @@ internal class Settings: NSView, Settings_v {
         view.addSubview(rowTitle)
         view.addSubview(self.button!)
         
-        self.addSubview(view)
+        self.addArrangedSubview(view)
     }
     
     @objc func handleSelection(_ sender: NSPopUpButton) {
@@ -147,5 +162,14 @@ internal class Settings: NSView, Settings_v {
         self.readerType = key
         Store.shared.set(key: "\(self.title)_reader", value: key)
         self.button?.isEnabled = self.readerType == "interface"
+    }
+    
+    @objc private func toggleUsageReset(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String else {
+            return
+        }
+        self.usageReset = key
+        Store.shared.set(key: "\(self.title)_usageReset", value: key)
+        self.usageResetCallback()
     }
 }

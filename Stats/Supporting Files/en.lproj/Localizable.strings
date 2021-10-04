@@ -9,13 +9,32 @@
 //  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
 //
 
+// Modules
+"CPU" = "CPU";
+"Open CPU settings" = "Open CPU settings";
+"GPU" = "GPU";
+"Open GPU settings" = "Open GPU settings";
+"RAM" = "RAM";
+"Open RAM settings" = "Open RAM settings";
+"Disk" = "Disk";
+"Open Disk settings" = "Open disk settings";
+"Sensors" = "Sensors";
+"Open Sensors settings" = "Open sensors settings";
+"Fans" = "Fans";
+"Open Fans settings" = "Open fans settings";
+"Network" = "Network";
+"Open Network settings" = "Open network settings";
+"Battery" = "Battery";
+"Open Battery settings" = "Open battery settings";
+"Bluetooth" = "Bluetooth";
+"Open Bluetooth settings" = "Open bluetooth settings";
+
 // Words
 "Unknown" = "Unknown";
 "Version" = "Version";
 "Processor" = "Processor";
 "Memory" = "Memory";
 "Graphics" = "Graphics";
-"Disk" = "Disk";
 "Close" = "Close";
 "Download" = "Download";
 "Install" = "Install";
@@ -34,6 +53,13 @@
 "Statistics" = "Statistics";
 "Max" = "Max";
 "Min" = "Min";
+"Reset" = "Reset";
+"Alignment" = "Alignment";
+"Left alignment" = "Left";
+"Center alignment" = "Center";
+"Right alignment" = "Right";
+"Dashboard" = "Dashboard";
+"Disabled" = "Disabled";
 
 // Alerts
 "New version available" = "New version available";
@@ -47,7 +73,7 @@
 "Support the application" = "Support the application";
 "Close application" = "Close application";
 "Open application settings" = "Open application settings";
-"Open moduleName settings" = "Open %0 settings";
+"Open dashboard" = "Open dashboard";
 
 // Application settings
 "Update application" = "Update application";
@@ -94,6 +120,7 @@
 "Battery widget" = "Battery";
 "Text widget" = "Text";
 "Memory widget" = "Memory";
+"Static width" = "Static width";
 
 // Module Kit
 "Open module settings" = "Open module settings";
@@ -107,6 +134,7 @@
 
 // Modules
 "Number of top processes" = "Number of top processes";
+"Update interval for top processes" = "Update interval for top processes";
 
 // CPU
 "CPU usage" = "CPU usage";
@@ -117,6 +145,13 @@
 "Idle" = "Idle";
 "Show usage per core" = "Show usage per core";
 "Show hyper-threading cores" = "Show hyper-threading cores";
+"Split the value (System/User)" = "Split the value (System/User)";
+"Scheduler limit" = "Scheduler limit";
+"Speed limit" = "Speed limit";
+"Average load" = "Average load";
+"1 minute" = "1 minute";
+"5 minutes" = "5 minutes";
+"15 minutes" = "15 minutes";
 
 // GPU
 "GPU to show" = "GPU to show";
@@ -135,7 +170,7 @@
 "Memory clock" = "Memory clock";
 "Utilization" = "Utilization";
 
-// Memory
+// RAM
 "Memory usage" = "Memory usage";
 "Memory pressure" = "Memory pressure";
 "Total" = "Total";
@@ -145,6 +180,7 @@
 "Compressed" = "Compressed";
 "Free" = "Free";
 "Swap" = "Swap";
+"Split the value (App/Wired/Compressed)" = "Split the value (App/Wired/Compressed)";
 
 // Disk
 "Show removable disks" = "Show removable disks";
@@ -158,6 +194,8 @@
 "Temperature unit" = "Temperature unit";
 "Celsius" = "Celsius";
 "Fahrenheit" = "Fahrenheit";
+"Save the fan speed" = "Save the fan speed";
+"Fan" = "Fan";
 
 // Network
 "Uploading" = "Upload";
@@ -165,7 +203,6 @@
 "Public IP" = "Public IP";
 "Local IP" = "Local IP";
 "Interface" = "Interface";
-"Network" = "Network";
 "Physical address" = "Physical address";
 "Refresh" = "Refresh";
 "Click to copy public IP address" = "Click to copy public IP address";
@@ -179,6 +216,7 @@
 "Reader type" = "Reader type";
 "Interface based" = "Interface based";
 "Processes based" = "Process based";
+"Reset data usage" = "Reset data usage";
 
 // Battery
 "Level" = "Level";
@@ -187,7 +225,6 @@
 "Battery Power" = "Battery Power";
 "Time" = "Time";
 "Health" = "Health";
-"Battery" = "Battery";
 "Amperage" = "Amperage";
 "Voltage" = "Voltage";
 "Cycles" = "Cycles";
@@ -213,8 +250,8 @@
 "Hide additional information when full" = "Hide additional information when full";
 "Last charge" = "Last charge";
 
-// Fans
-"Fans" = "Fans";
+// Bluetooth
+"Battery to show" = "Battery to show";
 
 // Colors
 "Based on utilization" = "Based on utilization";

@@ -9,13 +9,32 @@
 //  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
 //
 
+// Modules
+"CPU" = "CPU";
+"Open CPU settings" = "Ouvrir les paramètres du CPU";
+"GPU" = "GPU";
+"Open GPU settings" = "Ouvrir les paramètres du GPU";
+"RAM" = "RAM";
+"Open RAM settings" = "Ouvrir les paramètres de la RAM";
+"Disk" = "Disque";
+"Open Disk settings" = "Ouvrir les paramètres du disque";
+"Sensors" = "Capteurs";
+"Open Sensors settings" = "Ouvrir les paramètres des capteurs";
+"Fans" = "Ventilateurs";
+"Open Fans settings" = "Ouvrir les paramètres ventilateurs";
+"Network" = "Réseau";
+"Open Network settings" = "Ouvrir les paramètres réseau";
+"Battery" = "Batterie";
+"Open Battery settings" = "Ouvrir les paramètres de la batterie";
+"Bluetooth" = "Bluetooth";
+"Open Bluetooth settings" = "Ouvrir les paramètres Bluetooth";
+
 // Words
 "Unknown" = "Inconnu";
 "Version" = "Version";
 "Processor" = "Processeur";
 "Memory" = "Mémoire";
 "Graphics" = "Graphisme";
-"Disk" = "Disque";
 "Close" = "Fermer";
 "Download" = "Télécharger";
 "Install" = "Installer";
@@ -24,7 +43,7 @@
 "Yes" = "Oui";
 "No" = "Non";
 "Automatic" = "Automatique";
-"Manual" = "Manual";
+"Manual" = "Manuel";
 "None" = "Aucun";
 "Dots" = "Points";
 "Arrows" = "Flèches";
@@ -34,6 +53,13 @@
 "Statistics" = "Statistiques";
 "Max" = "Max";
 "Min" = "Min";
+"Reset" = "Réinitialiser";
+"Alignment" = "Alignement";
+"Left alignment" = "Gauche";
+"Center alignment" = "Centre";
+"Right alignment" = "Droite";
+"Dashboard" = "Dashboard";
+"Disabled" = "Disabled";
 
 // Alerts
 "New version available" = "Nouvelle version disponible";
@@ -47,7 +73,7 @@
 "Support the application" = "Soutenir l'application";
 "Close application" = "Fermer l'application";
 "Open application settings" = "Ouvrir les paramètres de l'application";
-"Open moduleName settings" = "Ouvrir les paramètres du module %0";
+"Open dashboard" = "Ouvrir la dashboard";
 
 // Application settings
 "Update application" = "Mettre à jour l'application";
@@ -86,19 +112,20 @@
 "One row" = "Une ligne";
 "Two rows" = "Deux lignes";
 "Mini widget" = "Mini";
-"Line chart widget" = "Line chart";
-"Bar chart widget" = "Bar chart";
-"Pie chart widget" = "Pie chart";
-"Network chart widget" = "Network chart";
-"Speed widget" = "Speed";
-"Battery widget" = "Battery";
-"Text widget" = "Text";
-"Memory widget" = "Memory";
+"Line chart widget" = "Graphique en ligne";
+"Bar chart widget" = "Graphique en barres";
+"Pie chart widget" = "Graphique circulaire";
+"Network chart widget" = "Graphique réseau";
+"Speed widget" = "Vitesse";
+"Battery widget" = "Batterie";
+"Text widget" = "Texte";
+"Memory widget" = "Mémoire";
+"Static width" = "Largeur fixée";
 
 // Module Kit
 "Open module settings" = "Ouvrir les paramètres du module";
 "Select widget" = "Sélectionner le widget %0";
-"Open widget settings" = "Open widget settings";
+"Open widget settings" = "Ouvrir les paramètres du widget";
 "Update interval" = "Intervalle de mise à jour";
 "Usage history" = "Historique d'utilisation";
 "Details" = "Détails";
@@ -107,6 +134,7 @@
 
 // Modules
 "Number of top processes" = "Nombre de processus principaux";
+"Update interval for top processes" = "Intervalle de mise à jour des processus principaux";
 
 // CPU
 "CPU usage" = "Usage CPU";
@@ -117,25 +145,32 @@
 "Idle" = "Libre";
 "Show usage per core" = "Afficher l'utilisation par coeur";
 "Show hyper-threading cores" = "Afficher les coeurs hyper-threading";
+"Split the value (System/User)" = "Diviser la valeur (Système/Utilisateur)";
+"Scheduler limit" = "Limite du planificateur";
+"Speed limit" = "Limite de vitesse";
+"Average load" = "Charge moyenne";
+"1 minute" = "1 minute";
+"5 minutes" = "5 minutes";
+"15 minutes" = "15 minutes";
 
 // GPU
 "GPU to show" = "GPU à afficher";
 "Show GPU type" = "Afficher le type de GPU";
-"GPU enabled" = "GPU enabled";
-"GPU disabled" = "GPU disabled";
+"GPU enabled" = "GPU activé";
+"GPU disabled" = "GPU désactivé";
 "GPU temperature" = "Température du GPU";
 "GPU utilization" = "Utilisation du GPU";
-"Vendor" = "Vendor";
-"Model" = "Model";
-"Status" = "Status";
-"Active" = "Active";
-"Non active" = "Non active";
-"Fan speed" = "Fan speed";
-"Core clock" = "Core clock";
-"Memory clock" = "Memory clock";
-"Utilization" = "Utilization";
+"Vendor" = "Fournisseur";
+"Model" = "Modèle";
+"Status" = "Statut";
+"Active" = "Actif";
+"Non active" = "Inactif";
+"Fan speed" = "Vitesse du ventilateur";
+"Core clock" = "Fréquence CPU";
+"Memory clock" = "Fréquence RAM";
+"Utilization" = "Utilisation";
 
-// Memory
+// RAM
 "Memory usage" = "Utilisation de la mémoire";
 "Memory pressure" = "Pression mémoire";
 "Total" = "Total";
@@ -145,6 +180,7 @@
 "Compressed" = "Compressée";
 "Free" = "Libre";
 "Swap" = "Swap";
+"Split the value (App/Wired/Compressed)" = "Diviser la valeur (Application/Réservée/Compressée)";
 
 // Disk
 "Show removable disks" = "Afficher les disques amovibles";
@@ -158,16 +194,17 @@
 "Temperature unit" = "Unité de température";
 "Celsius" = "Celsius";
 "Fahrenheit" = "Fahrenheit";
+"Save the fan speed" = "Sauvegarder la vitesse des ventilateurs";
+"Fan" = "Ventilateur";
 
 // Network
 "Uploading" = "Upload";
 "Downloading" = "Download";
 "Public IP" = "IP publique";
-"Local IP" = "IP Locale";
+"Local IP" = "IP locale";
 "Interface" = "Interface";
-"Network" = "Réseau";
 "Physical address" = "Adresse physique";
-"Refresh" = "Refresh";
+"Refresh" = "Rafraîchir";
 "Click to copy public IP address" = "Cliquez pour copier l'adresse IP publique";
 "Click to copy local IP address" = "Cliquez pour copier l'adresse IP locale";
 "Click to copy wifi name" = "Cliquez pour copier le nom du wifi";
@@ -179,15 +216,15 @@
 "Reader type" = "Type de lecteur";
 "Interface based" = "Interface";
 "Processes based" = "Processus";
+"Reset data usage" = "Réinitialiser l'utilisation des données";
 
 // Battery
 "Level" = "Niveau";
 "Source" = "Source";
-"AC Power" = "AC Power";
-"Battery Power" = "Battery Power";
+"AC Power" = "Alimentation secteur";
+"Battery Power" = "Alimentation batterie";
 "Time" = "Temps";
 "Health" = "Santé";
-"Battery" = "Batterie";
 "Amperage" = "Intensité";
 "Voltage" = "Tension";
 "Cycles" = "Nombre de cycles";
@@ -201,11 +238,11 @@
 "Fully charged" = "Complètement chargée";
 "Not connected" = "Non connecté";
 "Low level notification" = "Notification de niveau faible";
-"High level notification" = "High level notification";
+"High level notification" = "Notification de haut niveau";
 "Low battery" = "Batterie faible";
-"High battery" = "High battery";
+"High battery" = "Batterie haute";
 "Battery remaining" = "%0% restant";
-"Battery remaining to full charge" = "%0% to full charge";
+"Battery remaining to full charge" = "%0% pour charger complètement";
 "Percentage" = "Pourcentage";
 "Percentage and time" = "Pourcentage et temps";
 "Time and percentage" = "Temps et pourcentage";
@@ -213,37 +250,37 @@
 "Hide additional information when full" = "Masquer les informations supplémentaires lorsque la batterie est pleine";
 "Last charge" = "Dernière charge";
 
-// Fans
-"Fans" = "Fans";
+// Bluetooth
+"Battery to show" = "Batterie à montrer";
 
 // Colors
-"Based on utilization" = "Based on utilization";
-"Based on pressure" = "Based on pressure";
-"System accent" = "System accent";
-"Monochrome accent" = "Monochrome accent";
-"Clear" = "Clear";
-"White" = "White";
-"Black" = "Black";
-"Gray" = "Gray";
-"Second gray" = "Second gray";
-"Dark gray" = "Dark gray";
-"Light gray" = "Light gray";
-"Red" = "Red";
-"Second red" = "Second red";
-"Green" = "Green";
-"Second green" = "Second green";
-"Blue" = "Blue";
-"Second blue" = "Second blue";
-"Yellow" = "Yellow";
-"Second yellow" = "Second yellow";
+"Based on utilization" = "Basé sur l'utilisation";
+"Based on pressure" = "Basé sur la pression";
+"System accent" = "Couleur système";
+"Monochrome accent" = "Monochrome";
+"Clear" = "Transparent";
+"White" = "Blanc";
+"Black" = "Noir";
+"Gray" = "Gris";
+"Second gray" = "Deuxième gris";
+"Dark gray" = "Gris sombre";
+"Light gray" = "Gris clair";
+"Red" = "Rouge";
+"Second red" = "Deuxième rouge";
+"Green" = "Vert";
+"Second green" = "Deuxième vert";
+"Blue" = "Bleu";
+"Second blue" = "Deuxième bleu";
+"Yellow" = "Jaune";
+"Second yellow" = "Deuxième jaune";
 "Orange" = "Orange";
-"Second orange" = "Second orange";
-"Purple" = "Purple";
-"Second purple" = "Second purple";
-"Brown" = "Brown";
-"Second brown" = "Second brown";
+"Second orange" = "Deuxième orange";
+"Purple" = "Violet";
+"Second purple" = "Deuxième puVioletrple";
+"Brown" = "Marron";
+"Second brown" = "Deuxième marron";
 "Cyan" = "Cyan";
 "Magenta" = "Magenta";
-"Pink" = "Pink";
-"Teal" = "Teal";
+"Pink" = "Rose";
+"Teal" = "Sarcelle";
 "Indigo" = "Indigo";

@@ -9,36 +9,62 @@
 //  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
 //
 
+// Modules
+"CPU" = "CPU";
+"Open CPU settings" = "CPU ayalarını aç";
+"GPU" = "GPU";
+"Open GPU settings" = "GPU ayarlarını aç";
+"RAM" = "RAM";
+"Open RAM settings" = "RAM ayalarını aç";
+"Disk" = "Disk";
+"Open Disk settings" = "Disk ayarlarını aç";
+"Sensors" = "Sensörler";
+"Open Sensors settings" = "Sensör ayarlarını aç";
+"Fans" = "Fanlar";
+"Open Fans settings" = "Fan ayarlarını aç";
+"Network" = "Ağ";
+"Open Network settings" = "Ağ ayarlarını aç";
+"Battery" = "Batarya";
+"Open Battery settings" = "Batarya ayarlarını aç";
+"Bluetooth" = "Bluetooth";
+"Open Bluetooth settings" = "Bluetooth ayarlarını aç";
+
 // Words
 "Unknown" = "Bilinmeyen";
 "Version" = "Sürüm";
 "Processor" = "İşlemci";
-"Memory" = "Ram";
+"Memory" = "Bellek";
 "Graphics" = "Grafik";
-"Disk" = "Disk";
 "Close" = "Kapat";
 "Download" = "İndir";
 "Install" = "Yükle";
 "Cancel" = "İptal";
-"Unavailable" = "Devre Dışı";
+"Unavailable" = "Kullanım Dışı";
 "Yes" = "Evet";
 "No" = "Hayır";
 "Automatic" = "Otomatik";
-"Manual" = "Manual";
+"Manual" = "Elle";
 "None" = "Yok";
 "Dots" = "Noktalar";
 "Arrows" = "Oklar";
-"Characters" = "Mektuplar";
+"Characters" = "Karakterler";
 "Short" = "Kısa";
 "Long" = "Uzun";
 "Statistics" = "İstatistik";
-"Max" = "Max";
+"Max" = "Maks";
 "Min" = "Min";
+"Reset" = "Reset";
+"Alignment" = "Hizalama";
+"Left alignment" = "Sola hizalama";
+"Center alignment" = "Ortaya hizalama";
+"Right alignment" = "Sağa hizalama";
+"Dashboard" = "Panel";
+"Disabled" = "Disabled";
 
 // Alerts
-"New version available" = "Yeni versiyon indirilebilir";
+"New version available" = "Yeni sürüm indirilebilir";
 "Click to install the new version of Stats" = "Stats'ın yeni sürümünü indirmek için tıklayın";
-"Successfully updated" = "Başarıyla indirildi";
+"Successfully updated" = "Başarıyla güncellendi";
 "Stats was updated to v" = "Stats v%0 sürümüne güncellendi";
 
 // Settings
@@ -47,7 +73,7 @@
 "Support the application" = "Uygulamayı destekleyin";
 "Close application" = "Uygulamayı kapat";
 "Open application settings" = "Uygulama ayarlarını aç";
-"Open moduleName settings" = "%0 ayarlarını aç";
+"Open dashboard" = "Dashboardu aç";
 
 // Application settings
 "Update application" = "Uygulamayı güncelle";
@@ -83,22 +109,23 @@
 "Reverse values order" = "Değerler sırasını tersine çevir";
 "Base" = "Temel";
 "Display mode" = "Ekran modu";
-"One row" = "Bir sıra";
+"One row" = "Tek sıra";
 "Two rows" = "İki sıra";
-"Mini widget" = "Mini";
-"Line chart widget" = "Çizgi grafik";
-"Bar chart widget" = "Çubuk grafik";
-"Pie chart widget" = "Pasta grafik";
-"Network chart widget" = "Ağ grafiği";
-"Speed widget" = "Hız";
-"Battery widget" = "Batarya";
-"Text widget" = "Metin";
-"Memory widget" = "Bellek";
+"Mini widget" = "Mini widget";
+"Line chart widget" = "Çizgi grafik widget";
+"Bar chart widget" = "Çubuk grafik widget";
+"Pie chart widget" = "Pasta grafik widget";
+"Network chart widget" = "Ağ pasta grafik widget";
+"Speed widget" = "Hız widget";
+"Battery widget" = "Batarya widget";
+"Text widget" = "Metin widget";
+"Memory widget" = "Bellek widget";
+"Static width" = "Sabit genişlik";
 
 // Module Kit
 "Open module settings" = "Modül ayarlarını aç";
 "Select widget" = "%0 widgetini seç";
-"Open widget settings" = "Open widget settings";
+"Open widget settings" = "Widget ayarlarını aç";
 "Update interval" = "Güncelleme aralığı";
 "Usage history" = "Kullanım geçmişi";
 "Details" = "Detaylar";
@@ -107,6 +134,7 @@
 
 // Modules
 "Number of top processes" = "İşlem sayısı";
+"Update interval for top processes" = "En yüksek işlemler için güncelleme aralığı";
 
 // CPU
 "CPU usage" = "CPU kullanımı";
@@ -117,6 +145,13 @@
 "Idle" = "Boşta";
 "Show usage per core" = "Çekirdek başına kullanımı göster";
 "Show hyper-threading cores" = "Hyper-thread çekirdekleri göster";
+"Split the value (System/User)" = "Değeri böl (Sistem/Kullanıcı)";
+"Scheduler limit" = "Scheduler limit";
+"Speed limit" = "Hız limiti";
+"Average load" = "Ortalama yük";
+"1 minute" = "1 dakika";
+"5 minutes" = "5 dakika";
+"15 minutes" = "15 dakika";
 
 // GPU
 "GPU to show" = "Gösterilecek GPU";
@@ -135,7 +170,7 @@
 "Memory clock" = "Bellek frekansı";
 "Utilization" = "Kullanım";
 
-// Memory
+// RAM
 "Memory usage" = "Ram kullanımı";
 "Memory pressure" = "Ram yoğunluğu";
 "Total" = "Toplam";
@@ -143,13 +178,14 @@
 "App" = "Uygulama";
 "Wired" = "Bağlı";
 "Compressed" = "Sıkıştırılmış";
-"Free" = "Boş";
+"Free" = "Serbest";
 "Swap" = "Swap";
+"Split the value (App/Wired/Compressed)" = "Değeri böl (Uygulama/Bağlı/Sıkıştırılmış)";
 
 // Disk
 "Show removable disks" = "Çıkarılabilir diskleri göster";
 "Used disk memory" = "Kullanılan %0, toplam %1";
-"Free disk memory" = "Ücretsiz %0, toplam %1";
+"Free disk memory" = "Boş %0, toplam %1";
 "Disk to show" = "Gösterilecek disk";
 "Open disk" = "Açık disk";
 "Switch view" = "Görünümü değiştir";
@@ -157,7 +193,9 @@
 // Sensors
 "Temperature unit" = "Sıcaklık birimi";
 "Celsius" = "Santigrat";
-"Fahrenheit" = "Fahrenheit";
+"Fahrenheit" = "Fahrenhayt";
+"Save the fan speed" = "Fan hızını kaydet";
+"Fan" = "Fan";
 
 // Network
 "Uploading" = "Yükleme";
@@ -165,9 +203,8 @@
 "Public IP" = "Genel IP";
 "Local IP" = "Yerel IP";
 "Interface" = "Arayüz";
-"Network" = "Ağ";
 "Physical address" = "Fiziksel adres";
-"Refresh" = "Refresh";
+"Refresh" = "Yenile";
 "Click to copy public IP address" = "Genel IP adresini kopyalamak için tıklayın";
 "Click to copy local IP address" = "Yerel IP adresini kopyalamak için tıklayın";
 "Click to copy wifi name" = "Wifi adını kopyalamak için tıklayın";
@@ -179,6 +216,7 @@
 "Reader type" = "Okuma yöntemi";
 "Interface based" = "Arayüz";
 "Processes based" = "Süreçler";
+"Reset data usage" = "Veri kullanımını sıfırla";
 
 // Battery
 "Level" = "Doluluk";
@@ -187,7 +225,6 @@
 "Battery Power" = "Batarya gücü";
 "Time" = "Süre";
 "Health" = "Sağlık";
-"Battery" = "Batarya";
 "Amperage" = "Amper";
 "Voltage" = "Voltaj";
 "Cycles" = "Döngü sayısı";
@@ -200,50 +237,50 @@
 "Calculating" = "Hesaplanıyor";
 "Fully charged" = "Tam şarjlı";
 "Not connected" = "Bağlı değil";
-"Low level notification" = "Düşük güç bildirimi";
-"High level notification" = "Güç bildirimi";
+"Low level notification" = "Düşük seviye bildirimi";
+"High level notification" = "Yüksek seviye bildirimi";
 "Low battery" = "Düşük batarya";
-"High battery" = "Dolu batarya";
+"High battery" = "Yüksek batarya";
 "Battery remaining" = "%0% kaldı";
-"Battery remaining to full charge" = "%0% to full charge";
+"Battery remaining to full charge" = "Tam şarja %0% kaldı";
 "Percentage" = "Yüzde";
 "Percentage and time" = "Yüzde ve zaman";
 "Time and percentage" = "Zaman ve yüzde";
 "Time format" = "Zaman formatı";
 "Hide additional information when full" = "Pil dolduğunda ek bilgileri gizle";
-"Last charge" = "Son ödeme";
+"Last charge" = "Son şarj";
 
-// Fans
-"Fans" = "Fanlar";
+// Bluetooth
+"Battery to show" = "Gösterilecek pil";
 
 // Colors
-"Based on utilization" = "Based on utilization";
-"Based on pressure" = "Based on pressure";
-"System accent" = "System accent";
-"Monochrome accent" = "Monochrome accent";
-"Clear" = "Clear";
-"White" = "White";
-"Black" = "Black";
-"Gray" = "Gray";
-"Second gray" = "Second gray";
-"Dark gray" = "Dark gray";
-"Light gray" = "Light gray";
-"Red" = "Red";
-"Second red" = "Second red";
-"Green" = "Green";
-"Second green" = "Second green";
-"Blue" = "Blue";
-"Second blue" = "Second blue";
-"Yellow" = "Yellow";
-"Second yellow" = "Second yellow";
-"Orange" = "Orange";
-"Second orange" = "Second orange";
-"Purple" = "Purple";
-"Second purple" = "Second purple";
-"Brown" = "Brown";
-"Second brown" = "Second brown";
-"Cyan" = "Cyan";
-"Magenta" = "Magenta";
-"Pink" = "Pink";
-"Teal" = "Teal";
-"Indigo" = "Indigo";
+"Based on utilization" = "Kullanıma dayalı";
+"Based on pressure" = "Yüke dayalı";
+"System accent" = "Sistem vurgusu";
+"Monochrome accent" = "Tek renkli vurgu";
+"Clear" = "Temizle";
+"White" = "Beyaz";
+"Black" = "Siyah";
+"Gray" = "Gri";
+"Second gray" = "İkinci gri";
+"Dark gray" = "Koyu gri";
+"Light gray" = "Açık gri";
+"Red" = "Kırmızı";
+"Second red" = "İkinci kırmızı";
+"Green" = "Yeşil";
+"Second green" = "İkinci yeşil";
+"Blue" = "Mavi";
+"Second blue" = "İkinci mavi";
+"Yellow" = "Sarı";
+"Second yellow" = "İkinci sarı";
+"Orange" = "Turuncu";
+"Second orange" = "İkinci turuncu";
+"Purple" = "Mor";
+"Second purple" = "İkinci mor";
+"Brown" = "Kahverengi";
+"Second brown" = "İkinci kahverengi";
+"Cyan" = "Açık mavi";
+"Magenta" = "Macenta";
+"Pink" = "Pembe";
+"Teal" = "Camgöbeği";
+"Indigo" = "Çivit";

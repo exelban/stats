@@ -10,8 +10,7 @@
 //
 
 import Cocoa
-import ModuleKit
-import StatsKit
+import Kit
 
 internal class Popup: NSView, Popup_p {
     private var list: [String: NSTextField] = [:]
@@ -26,13 +25,13 @@ internal class Popup: NSView, Popup_p {
         fatalError("init(coder:) has not been implemented")
     }
     
-    internal func setup(_ values: [Sensor_t]?) {
+    internal func setup(_ values: [Sensor_p]?) {
         guard values != nil else {
             return
         }
         
         var types: [SensorType] = []
-        values!.forEach { (s: Sensor_t) in
+        values!.forEach { (s: Sensor_p) in
             if !types.contains(s.type) {
                 types.append(s.type)
             }
@@ -46,7 +45,7 @@ internal class Popup: NSView, Popup_p {
         types.reversed().forEach { (typ: SensorType) in
             let filtered = values!.filter{ $0.type == typ }
             var groups: [SensorGroup] = []
-            filtered.forEach { (s: Sensor_t) in
+            filtered.forEach { (s: Sensor_p) in
                 if !groups.contains(s.group) {
                     groups.append(s.group)
                 }
@@ -54,13 +53,13 @@ internal class Popup: NSView, Popup_p {
             
             let height: CGFloat = CGFloat((22*filtered.count)) + Constants.Popup.separatorHeight
             let view: NSView = NSView(frame: NSRect(x: 0, y: y, width: self.frame.width, height: height))
-            let separator = SeparatorView(LocalizedString(typ.rawValue), origin: NSPoint(x: 0, y: view.frame.height - Constants.Popup.separatorHeight), width: self.frame.width)
+            let separator = separatorView(localizedString(typ.rawValue), origin: NSPoint(x: 0, y: view.frame.height - Constants.Popup.separatorHeight), width: self.frame.width)
             view.addSubview(separator)
             
             var i: CGFloat = 0
             groups.reversed().forEach { (group: SensorGroup) in
-                filtered.reversed().filter{ $0.group == group }.forEach { (s: Sensor_t) in
-                    let (key, value) = PopupRow(view, n: i, title: "\(s.name):", value: s.formattedValue)
+                filtered.reversed().filter{ $0.group == group }.forEach { (s: Sensor_p) in
+                    let (key, value) = popupRow(view, n: i, title: "\(s.name):", value: s.formattedValue)
                     key.toolTip = s.key
                     self.list[s.key] = value
                     i += 1
@@ -75,10 +74,10 @@ internal class Popup: NSView, Popup_p {
         self.sizeCallback?(self.frame.size)
     }
     
-    internal func usageCallback(_ values: [Sensor_t]) {
+    internal func usageCallback(_ values: [Sensor_p]) {
         DispatchQueue.main.async(execute: {
-            if (self.window?.isVisible ?? false) {
-                values.forEach { (s: Sensor_t) in
+            if self.window?.isVisible ?? false {
+                values.forEach { (s: Sensor_p) in
                     if self.list[s.key] != nil {
                         self.list[s.key]?.stringValue = s.formattedValue
                     }

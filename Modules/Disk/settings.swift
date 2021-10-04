@@ -10,8 +10,7 @@
 //
 
 import Cocoa
-import StatsKit
-import ModuleKit
+import Kit
 
 internal class Settings: NSView, Settings_v {
     private var removableState: Bool = false
@@ -53,9 +52,14 @@ internal class Settings: NSView, Settings_v {
         let rowHeight: CGFloat = 30
         let num: CGFloat = 3
         
-        self.intervalSelectView = SelectTitleRow(
-            frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * 2, width: self.frame.width - (Constants.Settings.margin*2), height: rowHeight),
-            title: LocalizedString("Update interval"),
+        self.intervalSelectView = selectTitleRow(
+            frame: NSRect(
+                x: Constants.Settings.margin,
+                y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * 2,
+                width: self.frame.width - (Constants.Settings.margin*2),
+                height: rowHeight
+            ),
+            title: localizedString("Update interval"),
             action: #selector(changeUpdateInterval),
             items: ReaderUpdateIntervals.map{ "\($0) sec" },
             selected: "\(self.updateIntervalValue) sec"
@@ -64,9 +68,14 @@ internal class Settings: NSView, Settings_v {
         
         self.addDiskSelector()
         
-        self.addSubview(ToggleTitleRow(
-            frame: NSRect(x: Constants.Settings.margin, y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * 0, width: self.frame.width - (Constants.Settings.margin*2), height: rowHeight),
-            title: LocalizedString("Show removable disks"),
+        self.addSubview(toggleTitleRow(
+            frame: NSRect(
+                x: Constants.Settings.margin,
+                y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * 0,
+                width: self.frame.width - (Constants.Settings.margin*2),
+                height: rowHeight
+            ),
+            title: localizedString("Show removable disks"),
             action: #selector(toggleRemovable),
             state: self.removableState
         ))
@@ -82,7 +91,7 @@ internal class Settings: NSView, Settings_v {
             height: 30
         ))
         
-        let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: (view.frame.height - 16)/2, width: view.frame.width - 52, height: 17), LocalizedString("Disk to show"))
+        let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: (view.frame.height - 16)/2, width: view.frame.width - 52, height: 17), localizedString("Disk to show"))
         rowTitle.font = NSFont.systemFont(ofSize: 13, weight: .light)
         rowTitle.textColor = .textColor
         
@@ -96,8 +105,8 @@ internal class Settings: NSView, Settings_v {
         self.addSubview(view)
     }
     
-    internal func setList(_ list: DiskList) {
-        let disks = list.list.map{ $0.mediaName }
+    internal func setList(_ list: Disks) {
+        let disks = list.map{ $0.mediaName }
         DispatchQueue.main.async(execute: {
             if self.button?.itemTitles.count != disks.count {
                 self.button?.removeAllItems()

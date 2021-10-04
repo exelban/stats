@@ -10,8 +10,7 @@
 //
 
 import Cocoa
-import ModuleKit
-import StatsKit
+import Kit
 
 internal class Popup: NSView, Popup_p {
     private let diskFullHeight: CGFloat = 62
@@ -27,15 +26,15 @@ internal class Popup: NSView, Popup_p {
         fatalError("init(coder:) has not been implemented")
     }
     
-    internal func usageCallback(_ value: DiskList) {
-        if self.list.count != value.list.count && self.list.count != 0 {
+    internal func capacityCallback(_ value: Disks) {
+        if self.list.count != value.count && !self.list.isEmpty {
             self.subviews.forEach{ $0.removeFromSuperview() }
             self.list = [:]
         }
         
-        value.list.reversed().forEach { (drive: drive) in
+        value.reversed().forEach { (drive: drive) in
             if let disk = self.list[drive.mediaName] {
-                disk.update(free: drive.free, read: drive.stats?.read, write: drive.stats?.write)
+                disk.updateFree(free: drive.free)
             } else {
                 let disk = DiskView(
                     NSRect(
@@ -58,6 +57,14 @@ internal class Popup: NSView, Popup_p {
         if self.frame.size.height != h {
             self.setFrameSize(NSSize(width: self.frame.width, height: h))
             self.sizeCallback?(self.frame.size)
+        }
+    }
+    
+    internal func activityCallback(_ value: Disks) {
+        value.reversed().forEach { (drive: drive) in
+            if let disk = self.list[drive.mediaName] {
+                disk.updateReadWrite(read: drive.activity.read, write: drive.activity.write)
+            }
         }
     }
 }
@@ -102,9 +109,13 @@ internal class DiskView: NSView {
         self.layer?.backgroundColor = isDarkMode ? NSColor(hexString: "#111111", alpha: 0.25).cgColor : NSColor(hexString: "#f5f5f5", alpha: 1).cgColor
     }
     
-    public func update(free: Int64, read: Int64?, write: Int64?) {
-        self.nameAndBarView.update(free: free, read: read, write: write)
+    public func updateFree(free: Int64) {
+        self.nameAndBarView.update(free: free, read: nil, write: nil)
         self.legendView.update(free: free)
+    }
+    
+    public func updateReadWrite(read: Int64, write: Int64) {
+        self.nameAndBarView.update(free: nil, read: read, write: write)
     }
 }
 
@@ -118,7 +129,7 @@ internal class DiskNameAndBarView: NSView {
     
     private var usedBarSpace: NSView? = nil
     
-    private let topHeight: CGFloat = 15
+    private let topHeight: CGFloat = 16
     private let barHeight: CGFloat = 10
     
     public init(_ frame: NSRect, name: String, size: Int64, free: Int64, path: URL?) {
@@ -126,7 +137,7 @@ internal class DiskNameAndBarView: NSView {
         self.uri = path
         
         super.init(frame: frame)
-        self.toolTip = LocalizedString("Open disk")
+        self.toolTip = localizedString("Open disk")
         
         self.addName(name: name)
         self.addHorizontalBar(size: size, free: free)
@@ -145,46 +156,51 @@ internal class DiskNameAndBarView: NSView {
     }
     
     private func addName(name: String) {
-        let topView: NSView = NSView(frame: NSRect(
+        let view: NSStackView = NSStackView(frame: NSRect(
             x: 0,
-            y: self.frame.height - topHeight,
+            y: self.frame.height - self.topHeight,
             width: self.frame.width,
-            height: topHeight
+            height: self.topHeight
         ))
         
-        let nameField: NSTextField = TextView(frame: NSRect(x: 0, y: 0, width: topView.frame.width - 66, height: topView.frame.height))
+        let nameField: NSTextField = TextView(frame: NSRect(x: 0, y: 0, width: view.frame.width - 64, height: view.frame.height))
+        nameField.widthAnchor.constraint(equalToConstant: nameField.bounds.width).isActive = true
         nameField.stringValue = name
         nameField.cell?.truncatesLastVisibleLine = true
         
-        let activityView: NSView = NSView(frame: NSRect(x: topView.frame.width-66, y: 0, width: 66, height: topView.frame.height))
+        let activity: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: 64, height: view.frame.height))
+        activity.distribution = .fillEqually
+        activity.spacing = 0
         
-        let readView: NSView = NSView(frame: NSRect(x: 0, y: 0, width: activityView.frame.width/2, height: activityView.frame.height))
+        let readView: NSView = NSView(frame: NSRect(x: 0, y: 0, width: 32, height: activity.frame.height))
         let readField: NSTextField = TextView(frame: NSRect(x: 0, y: 0, width: nameField.frame.width, height: readView.frame.height))
         readField.stringValue = "R"
-        readView.addSubview(readField)
-        let readState: NSView = NSView(frame: NSRect(x: 15, y: (readView.frame.height-9)/2, width: 9, height: 9))
+        let readState: NSView = NSView(frame: NSRect(x: 13, y: (readView.frame.height-10)/2, width: 9, height: 9))
         readState.wantsLayer = true
         readState.layer?.backgroundColor = NSColor.lightGray.withAlphaComponent(0.75).cgColor
         readState.layer?.cornerRadius = 2
-        readView.addSubview(readState)
         
-        let writeView: NSView = NSView(frame: NSRect(x: activityView.frame.width/2, y: 0, width: activityView.frame.width/2, height: activityView.frame.height))
+        let writeView: NSView = NSView(frame: NSRect(x: 0, y: 0, width: 32, height: activity.frame.height))
         let writeField: NSTextField = TextView(frame: NSRect(x: 0, y: 0, width: nameField.frame.width, height: readView.frame.height))
         writeField.stringValue = "W"
-        writeView.addSubview(writeField)
-        let writeState: NSView = NSView(frame: NSRect(x: 17, y: (writeView.frame.height-9)/2, width: 9, height: 9))
+        let writeState: NSView = NSView(frame: NSRect(x: 17, y: (writeView.frame.height-10)/2, width: 9, height: 9))
         writeState.wantsLayer = true
         writeState.layer?.backgroundColor = NSColor.lightGray.withAlphaComponent(0.75).cgColor
         writeState.layer?.cornerRadius = 2
+        
+        readView.addSubview(readField)
+        readView.addSubview(readState)
+        
+        writeView.addSubview(writeField)
         writeView.addSubview(writeState)
         
-        activityView.addSubview(readView)
-        activityView.addSubview(writeView)
+        activity.addArrangedSubview(readView)
+        activity.addArrangedSubview(writeView)
         
-        topView.addSubview(nameField)
-        topView.addSubview(activityView)
+        view.addArrangedSubview(nameField)
+        view.addArrangedSubview(activity)
         
-        self.addSubview(topView)
+        self.addSubview(view)
         
         self.readState = readState
         self.writeState = writeState
@@ -207,24 +223,26 @@ internal class DiskNameAndBarView: NSView {
         let width: CGFloat = (view.frame.width * (percentage < 0 ? 0 : percentage)) / 1
         self.usedBarSpace = NSView(frame: NSRect(x: 0, y: 0, width: width, height: view.frame.height))
         self.usedBarSpace?.wantsLayer = true
-        self.usedBarSpace?.layer?.backgroundColor = NSColor.controlAccentColor.cgColor
+        self.usedBarSpace?.layer?.backgroundColor = controlAccentColor.cgColor
         
         view.addSubview(self.usedBarSpace!)
         self.addSubview(view)
     }
     
-    public func update(free: Int64, read: Int64?, write: Int64?) {
+    public func update(free: Int64?, read: Int64?, write: Int64?) {
         if (self.window?.isVisible ?? false) || !self.ready {
-            if self.usedBarSpace != nil {
+            if let free = free, self.usedBarSpace != nil {
                 let percentage = CGFloat(self.size - free) / CGFloat(self.size)
                 let width: CGFloat = ((self.frame.width - 2) * (percentage < 0 ? 0 : percentage)) / 1
                 self.usedBarSpace?.setFrameSize(NSSize(width: width, height: self.usedBarSpace!.frame.height))
             }
             
-            if read != nil {
+            if let read = read {
+                self.readState?.toolTip = DiskSize(read).getReadableMemory()
                 self.readState?.layer?.backgroundColor = read != 0 ? NSColor.systemBlue.cgColor : NSColor.lightGray.withAlphaComponent(0.75).cgColor
             }
-            if write != nil {
+            if let write = write {
+                self.writeState?.toolTip = DiskSize(write).getReadableMemory()
                 self.writeState?.layer?.backgroundColor = write != 0 ? NSColor.systemRed.cgColor : NSColor.lightGray.withAlphaComponent(0.75).cgColor
             }
             
@@ -262,7 +280,7 @@ internal class DiskLegendView: NSView {
         self.free = free
         
         super.init(frame: frame)
-        self.toolTip = LocalizedString("Switch view")
+        self.toolTip = localizedString("Switch view")
         
         let height: CGFloat = 14
         let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height))
@@ -324,9 +342,9 @@ internal class DiskLegendView: NSView {
             if usedSpace < 0 {
                 usedSpace = 0
             }
-            value = LocalizedString("Used disk memory", DiskSize(usedSpace).getReadableMemory(), DiskSize(self.size).getReadableMemory())
+            value = localizedString("Used disk memory", DiskSize(usedSpace).getReadableMemory(), DiskSize(self.size).getReadableMemory())
         } else {
-            value = LocalizedString("Free disk memory", DiskSize(free).getReadableMemory(), DiskSize(self.size).getReadableMemory())
+            value = localizedString("Free disk memory", DiskSize(free).getReadableMemory(), DiskSize(self.size).getReadableMemory())
         }
         
         return value

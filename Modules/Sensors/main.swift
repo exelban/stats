@@ -10,8 +10,7 @@
 //
 
 import Cocoa
-import ModuleKit
-import StatsKit
+import Kit
 
 public class Sensors: Module {
     private var sensorsReader: SensorsReader
@@ -58,18 +57,18 @@ public class Sensors: Module {
     }
     
     private func checkIfNoSensorsEnabled() {
-        if self.sensorsReader.list.filter({ $0.state }).count == 0 {
+        if self.sensorsReader.list.filter({ $0.state }).isEmpty {
             NotificationCenter.default.post(name: .toggleModule, object: nil, userInfo: ["module": self.config.name, "state": false])
         }
     }
     
-    private func usageCallback(_ raw: [Sensor_t]?) {
-        guard let value = raw else {
+    private func usageCallback(_ raw: [Sensor_p]?) {
+        guard let value = raw, self.enabled else {
             return
         }
         
         var list: [KeyValue_t] = []
-        value.forEach { (s: Sensor_t) in
+        value.forEach { (s: Sensor_p) in
             if s.state {
                 list.append(KeyValue_t(key: s.key, value: s.formattedMiniValue))
             }

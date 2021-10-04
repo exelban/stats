@@ -10,8 +10,7 @@
 //
 
 import Cocoa
-import StatsKit
-import ModuleKit
+import Kit
 
 internal class Settings: NSView, Settings_v {
     private var updateIntervalValue: Int = 1
@@ -54,28 +53,28 @@ internal class Settings: NSView, Settings_v {
         let rowHeight: CGFloat = 30
         let num: CGFloat = widgets.filter{ $0 == .mini }.isEmpty ? 2 : 3
         
-        self.addSubview(SelectTitleRow(
+        self.addSubview(selectTitleRow(
             frame: NSRect(
                 x: Constants.Settings.margin,
                 y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * (num-1),
                 width: self.frame.width - (Constants.Settings.margin*2),
                 height: rowHeight
             ),
-            title: LocalizedString("Update interval"),
+            title: localizedString("Update interval"),
             action: #selector(changeUpdateInterval),
             items: ReaderUpdateIntervals.map{ "\($0) sec" },
             selected: "\(self.updateIntervalValue) sec"
         ))
         
         if !widgets.filter({ $0 == .mini }).isEmpty {
-            self.addSubview(ToggleTitleRow(
+            self.addSubview(toggleTitleRow(
                 frame: NSRect(
                     x: Constants.Settings.margin,
                     y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * 1,
                     width: self.frame.width - (Constants.Settings.margin*2),
                     height: rowHeight
                 ),
-                title: LocalizedString("Show GPU type"),
+                title: localizedString("Show GPU type"),
                 action: #selector(toggleShowType),
                 state: self.showTypeValue
             ))
@@ -95,7 +94,7 @@ internal class Settings: NSView, Settings_v {
         let view: NSGridView = NSGridView(frame: frame)
         view.yPlacement = .center
         
-        let title: NSTextField = LabelField(frame: NSRect(x: 0, y: 0, width: 100, height: 17), LocalizedString("GPU to show"))
+        let title: NSTextField = LabelField(frame: NSRect(x: 0, y: 0, width: 100, height: 17), localizedString("GPU to show"))
         title.font = NSFont.systemFont(ofSize: 13, weight: .light)
         title.textColor = .textColor
         
@@ -116,7 +115,7 @@ internal class Settings: NSView, Settings_v {
     internal func setList(_ gpus: GPUs) {
         var list: [KeyValue_t] = [
             KeyValue_t(key: "automatic", value: "Automatic"),
-            KeyValue_t(key: "separator", value: "separator"),
+            KeyValue_t(key: "separator", value: "separator")
         ]
         gpus.active().forEach{ list.append(KeyValue_t(key: $0.model, value: $0.model)) }
         
@@ -132,7 +131,7 @@ internal class Settings: NSView, Settings_v {
                     if item.key.contains("separator") {
                         menu.addItem(NSMenuItem.separator())
                     } else {
-                        let interfaceMenu = NSMenuItem(title: LocalizedString(item.value), action: nil, keyEquivalent: "")
+                        let interfaceMenu = NSMenuItem(title: localizedString(item.value), action: nil, keyEquivalent: "")
                         interfaceMenu.representedObject = item.key
                         menu.addItem(interfaceMenu)
                         if self.selectedGPU == item.key {
