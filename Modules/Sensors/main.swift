@@ -31,7 +31,6 @@ public class Sensors: Module {
         )
         guard self.available else { return }
         
-        self.checkIfNoSensorsEnabled()
         self.popupView.setup(self.sensorsReader.list)
         
         self.settingsView.callback = { [unowned self] in

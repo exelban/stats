@@ -40,6 +40,7 @@ public struct Network_Usage: value_t {
     
     var interface: Network_interface? = nil
     var connectionType: Network_t? = nil
+    var status: Bool = false
     
     var countryCode: String? = nil
     var ssid: String? = nil

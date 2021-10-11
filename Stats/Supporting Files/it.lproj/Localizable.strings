@@ -17,7 +17,7 @@
 "RAM" = "RAM";
 "Open RAM settings" = "Apri impostazioni RAM";
 "Disk" = "Disco";
-"Open Disk settings" = "Apri impostazioni disco";
+"Open Disk settings" = "Apri impostazioni Disco";
 "Sensors" = "Sensori";
 "Open Sensors settings" = "Apri impostazioni Sensori";
 "Fans" = "Ventole";
@@ -59,7 +59,7 @@
 "Center alignment" = "Centro";
 "Right alignment" = "Destra";
 "Dashboard" = "Dashboard";
-"Disabled" = "Disabled";
+"Disabled" = "Disabilitato";
 
 // Alerts
 "New version available" = "Nuova versione disponibile";
