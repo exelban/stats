@@ -36,6 +36,7 @@ internal class Popup: NSStackView, Popup_p {
     private var macAdressField: ValueField? = nil
     private var totalUploadField: ValueField? = nil
     private var totalDownloadField: ValueField? = nil
+    private var connectionField: ValueField? = nil
     
     private var publicIPStackView: NSStackView? = nil
     private var publicIPv4Field: ValueField? = nil
@@ -180,12 +181,13 @@ internal class Popup: NSStackView, Popup_p {
         
         self.totalUploadField = popupWithColorRow(container, color: NSColor.systemRed, n: 5, title: "\(localizedString("Total upload")):", value: "0")
         self.totalDownloadField = popupWithColorRow(container, color: NSColor.systemBlue, n: 4, title: "\(localizedString("Total download")):", value: "0")
-
+        
+        self.connectionField = popupRow(container, n: 4, title: "\(localizedString("Status")):", value: localizedString("Unknown")).1
         self.interfaceField = popupRow(container, n: 3, title: "\(localizedString("Interface")):", value: localizedString("Unknown")).1
         self.ssidField = popupRow(container, n: 2, title: "\(localizedString("Network")):", value: localizedString("Unknown")).1
         self.macAdressField = popupRow(container, n: 1, title: "\(localizedString("Physical address")):", value: localizedString("Unknown")).1
         self.localIPField = popupRow(container, n: 0, title: "\(localizedString("Local IP")):", value: localizedString("Unknown")).1
-
+        
         self.localIPField?.isSelectable = true
         self.macAdressField?.isSelectable = true
         
@@ -329,6 +331,8 @@ internal class Popup: NSStackView, Popup_p {
                 if self.localIPField?.stringValue != value.laddr {
                     self.localIPField?.stringValue = value.laddr ?? localizedString("Unknown")
                 }
+                
+                self.connectionField?.stringValue = localizedString(value.status ? "UP" : "DOWN")
                 
                 self.initialized = true
             }

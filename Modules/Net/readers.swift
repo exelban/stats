@@ -90,6 +90,8 @@ internal class UsageReader: Reader<Network_Usage> {
         self.usage.total.upload += self.usage.bandwidth.upload
         self.usage.total.download += self.usage.bandwidth.download
         
+        self.usage.status = self.reachability?.connection != Optional.none
+        
         self.callback(self.usage)
         
         self.usage.bandwidth.upload = current.upload
