@@ -1,62 +1,48 @@
 //
-//  PieChart.swift
+//  Tachometer.swift
 //  Kit
 //
-//  Created by Serhiy Mytrovtsiy on 30/11/2020.
+//  Created by Serhiy Mytrovtsiy on 11/10/2021.
 //  Using Swift 5.0.
 //  Running on macOS 10.15.
 //
-//  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
+//  Copyright © 2021 Serhiy Mytrovtsiy. All rights reserved.
 //
 
 import Cocoa
 
-public class PieChart: WidgetWrapper {
+public class Tachometer: WidgetWrapper {
     private var labelState: Bool = false
     
-    private var chart: PieChartView = PieChartView(
+    private var chart: TachometerGraphView = TachometerGraphView(
         frame: NSRect(
             x: Constants.Widget.margin.x,
             y: Constants.Widget.margin.y,
             width: Constants.Widget.height,
             height: Constants.Widget.height
-        ),
-        segments: [], filled: true, drawValue: false
+        ), segments: []
     )
     private var labelView: NSView? = nil
     
     private let size: CGFloat = Constants.Widget.height - (Constants.Widget.margin.y*2) + (Constants.Widget.margin.x*2)
     
     public init(title: String, config: NSDictionary?, preview: Bool = false) {
-        var widgetTitle: String = title
-        if config != nil {
-            if let titleFromConfig = config!["Title"] as? String {
-                widgetTitle = titleFromConfig
-            }
-        }
+        let widgetTitle: String = title
         
-        super.init(.pieChart, title: widgetTitle, frame: CGRect(
+        super.init(.battery, title: widgetTitle, frame: CGRect(
             x: Constants.Widget.margin.x,
             y: Constants.Widget.margin.y,
             width: self.size,
-            height: Constants.Widget.height - (Constants.Widget.margin.y*2)
+            height: Constants.Widget.height - (2*Constants.Widget.margin.y)
         ))
         
         self.canDrawConcurrently = true
         
         if preview {
-            if self.title == "CPU" {
-                self.chart.setSegments([
-                    circle_segment(value: 0.16, color: NSColor.systemRed),
-                    circle_segment(value: 0.28, color: NSColor.systemBlue)
-                ])
-            } else if self.title == "RAM" {
-                self.chart.setSegments([
-                    circle_segment(value: 0.36, color: NSColor.systemBlue),
-                    circle_segment(value: 0.12, color: NSColor.systemOrange),
-                    circle_segment(value: 0.08, color: NSColor.systemPink)
-                ])
-            }
+            self.chart.setSegments([
+                circle_segment(value: 0.20, color: NSColor.systemRed),
+                circle_segment(value: 0.57, color: NSColor.systemBlue)
+            ])
         } else {
             self.labelState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_label", defaultValue: self.labelState)
         }
@@ -92,18 +78,10 @@ public class PieChart: WidgetWrapper {
     // MARK: - Settings
     
     public override func settings(width: CGFloat) -> NSView {
-        let rowHeight: CGFloat = 30
-        let height: CGFloat = ((rowHeight + Constants.Settings.margin) * 1) + Constants.Settings.margin
+        let view = SettingsContainerView(width: width)
         
-        let view: NSView = NSView(frame: NSRect(
-            x: Constants.Settings.margin,
-            y: Constants.Settings.margin,
-            width: width - (Constants.Settings.margin*2),
-            height: height
-        ))
-        
-        view.addSubview(toggleTitleRow(
-            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: rowHeight),
+        view.addArrangedSubview(toggleTitleRow(
+            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
             title: localizedString("Label"),
             action: #selector(toggleLabel),
             state: self.labelState

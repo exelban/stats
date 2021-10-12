@@ -316,6 +316,12 @@ public class PieChartView: NSView {
             self.display()
         }
     }
+    
+    public func setFrame(_ frame: NSRect) {
+        var original = self.frame
+        original = frame
+        self.frame = original
+    }
 }
 
 public class HalfCircleGraphView: NSView {
@@ -393,5 +399,68 @@ public class HalfCircleGraphView: NSView {
         if self.window?.isVisible ?? true {
             self.display()
         }
+    }
+}
+
+public class TachometerGraphView: NSView {
+    private var filled: Bool
+    private var segments: [circle_segment]
+    
+    public init(frame: NSRect, segments: [circle_segment], filled: Bool = true) {
+        self.filled = filled
+        self.segments = segments
+        
+        super.init(frame: frame)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    public override func draw(_ rect: CGRect) {
+        let arcWidth: CGFloat = self.filled ? min(rect.width, rect.height) / 2 : 7
+        var segments = self.segments
+        let totalAmount = segments.reduce(0) { $0 + $1.value }
+        if totalAmount < 1 {
+            segments.append(circle_segment(value: Double(1-totalAmount), color: NSColor.lightGray.withAlphaComponent(0.5)))
+        }
+        
+        let centerPoint = CGPoint(x: rect.midX, y: rect.midY)
+        let radius = (min(rect.width, rect.height) - arcWidth) / 2
+        
+        guard let context = NSGraphicsContext.current?.cgContext else { return }
+        context.setShouldAntialias(true)
+        context.setLineWidth(arcWidth)
+        context.setLineCap(.butt)
+        
+        context.translateBy(x: rect.width, y: -4)
+        context.scaleBy(x: -1, y: 1)
+        
+        let startAngle: CGFloat = 0
+        let endCircle: CGFloat = CGFloat.pi
+        var previousAngle = startAngle
+        
+        for segment in segments {
+            let currentAngle: CGFloat = previousAngle + (CGFloat(segment.value) * endCircle)
+            
+            context.setStrokeColor(segment.color.cgColor)
+            context.addArc(center: centerPoint, radius: radius, startAngle: previousAngle, endAngle: currentAngle, clockwise: false)
+            context.strokePath()
+            
+            previousAngle = currentAngle
+        }
+    }
+    
+    public func setSegments(_ segments: [circle_segment]) {
+        self.segments = segments
+        if self.window?.isVisible ?? true {
+            self.display()
+        }
+    }
+    
+    public func setFrame(_ frame: NSRect) {
+        var original = self.frame
+        original = frame
+        self.frame = original
     }
 }
