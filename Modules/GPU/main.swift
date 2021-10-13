@@ -134,6 +134,10 @@ public class GPU: Module {
                 widget.setTitle(self.showType ? "\(selectedGPU.type)GPU" : nil)
             case let widget as LineChart: widget.setValue(utilization)
             case let widget as BarChart: widget.setValue([[ColorValue(utilization)]])
+            case let widget as Tachometer:
+                widget.setValue([
+                    circle_segment(value: utilization, color: NSColor.systemBlue)
+                ])
             default: break
             }
         }

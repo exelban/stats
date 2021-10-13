@@ -175,6 +175,11 @@ public class CPU: Module {
                     circle_segment(value: value.systemLoad, color: NSColor.systemRed),
                     circle_segment(value: value.userLoad, color: NSColor.systemBlue)
                 ])
+            case let widget as Tachometer:
+                widget.setValue([
+                    circle_segment(value: value.systemLoad, color: NSColor.systemRed),
+                    circle_segment(value: value.userLoad, color: NSColor.systemBlue)
+                ])
             default: break
             }
         }

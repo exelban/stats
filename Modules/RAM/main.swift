@@ -150,6 +150,12 @@ public class RAM: Module {
                 let free = Units(bytes: Int64(value.free)).getReadableMemory()
                 let used = Units(bytes: Int64(value.used)).getReadableMemory()
                 widget.setValue((free, used))
+            case let widget as Tachometer:
+                widget.setValue([
+                    circle_segment(value: value.app/total, color: NSColor.systemBlue),
+                    circle_segment(value: value.wired/total, color: NSColor.systemOrange),
+                    circle_segment(value: value.compressed/total, color: NSColor.systemPink)
+                ])
             default: break
             }
         }

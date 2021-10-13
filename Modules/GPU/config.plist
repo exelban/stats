@@ -62,6 +62,13 @@
 			<key>Order</key>
 			<integer>3</integer>
 		</dict>
+		<key>tachometer</key>
+		<dict>
+			<key>Default</key>
+			<false/>
+			<key>Order</key>
+			<integer>4</integer>
+		</dict>
 	</dict>
 </dict>
 </plist>
