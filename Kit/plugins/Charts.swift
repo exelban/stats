@@ -22,7 +22,7 @@ public enum chart_t: Int {
 
 public struct circle_segment {
     public let value: Double
-    public let color: NSColor
+    public var color: NSColor
     
     public init(value: Double, color: NSColor) {
         self.value = value

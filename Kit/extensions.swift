@@ -413,6 +413,15 @@ public extension NSColor {
         let blue  = CGFloat(b) / 255.0
         self.init(red: red, green: green, blue: blue, alpha: alpha)
     }
+    
+    func grayscaled() -> NSColor {
+        guard let space = CGColorSpace(name: CGColorSpace.extendedGray),
+              let cg = self.cgColor.converted(to: space, intent: .perceptual, options: nil),
+              let color = NSColor.init(cgColor: cg) else {
+            return self
+        }
+        return color
+    }
 }
 
 public extension CATransaction {
