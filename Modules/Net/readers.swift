@@ -12,7 +12,6 @@
 import Cocoa
 import Kit
 import SystemConfiguration
-import Reachability
 import CoreWLAN
 
 struct ipResponse: Decodable {
@@ -22,7 +21,7 @@ struct ipResponse: Decodable {
 }
 
 internal class UsageReader: Reader<Network_Usage> {
-    private var reachability: Reachability? = nil
+    private var reachability: Reachability = Reachability(start: true)
     private var usage: Network_Usage = Network_Usage()
     
     private var primaryInterface: String {
@@ -50,19 +49,12 @@ internal class UsageReader: Reader<Network_Usage> {
     }
     
     public override func setup() {
-        do {
-            self.reachability = try Reachability()
-            try self.reachability!.startNotifier()
-        } catch let err {
-            error("initialize Reachability error \(err)", log: self.log)
-        }
-        
-        self.reachability!.whenReachable = { _ in
+        self.reachability.reachable = {
             if self.active {
                 self.getDetails()
             }
         }
-        self.reachability!.whenUnreachable = { _ in
+        self.reachability.unreachable = {
             if self.active {
                 self.usage.reset()
                 self.callback(self.usage)
@@ -71,6 +63,10 @@ internal class UsageReader: Reader<Network_Usage> {
         
         NotificationCenter.default.addObserver(self, selector: #selector(refreshPublicIP), name: .refreshPublicIP, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(resetTotalNetworkUsage), name: .resetTotalNetworkUsage, object: nil)
+    }
+    
+    public override func terminate() {
+        self.reachability.stop()
     }
     
     public override func read() {
@@ -90,7 +86,7 @@ internal class UsageReader: Reader<Network_Usage> {
         self.usage.total.upload += self.usage.bandwidth.upload
         self.usage.total.download += self.usage.bandwidth.download
         
-        self.usage.status = self.reachability?.connection != Optional.none
+        self.usage.status = self.reachability.isReachable
         
         self.callback(self.usage)
         

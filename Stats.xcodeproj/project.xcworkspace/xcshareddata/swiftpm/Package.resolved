@@ -2,15 +2,6 @@
   "object": {
     "pins": [
       {
-        "package": "Reachability",
-        "repositoryURL": "https://github.com/ashleymills/Reachability.swift",
-        "state": {
-          "branch": null,
-          "revision": "c01bbdf2d633cf049ae1ed1a68a2020a8bda32e2",
-          "version": "5.1.0"
-        }
-      },
-      {
         "package": "Repeat",
         "repositoryURL": "https://github.com/malcommac/Repeat",
         "state": {
