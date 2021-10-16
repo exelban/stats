@@ -59,7 +59,7 @@
 "Center alignment" = "置中對齊";
 "Right alignment" = "靠右對齊";
 "Dashboard" = "儀表板";
-"Disabled" = "Disabled";
+"Disabled" = "已停用";
 
 // Alerts
 "New version available" = "有新版本可用";
@@ -216,7 +216,7 @@
 "Reader type" = "讀取機類型";
 "Interface based" = "依連接埠";
 "Processes based" = "依程序";
-"Reset data usage" = "Reset data usage";
+"Reset data usage" = "重置資料用量";
 
 // Battery
 "Level" = "電量";
