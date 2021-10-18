@@ -121,6 +121,7 @@
 "Text widget" = "文本";
 "Memory widget" = "容量";
 "Static width" = "固定宽度";
+"Tachometer widget" = "Tachometer";
 
 // Module Kit
 "Open module settings" = "打开模块设置";

@@ -121,6 +121,7 @@
 "Text widget" = "Văn bản";
 "Memory widget" = "Bộ nhớ";
 "Static width" = "Chiều rộng cố định";
+"Tachometer widget" = "Tachometer";
 
 // Module Kit
 "Open module settings" = "Mở cài đặt module";

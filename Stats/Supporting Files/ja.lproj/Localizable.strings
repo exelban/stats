@@ -121,6 +121,7 @@
 "Text widget" = "テキスト";
 "Memory widget" = "未使用/使用済み";
 "Static width" = "固定幅";
+"Tachometer widget" = "Tachometer";
 
 // Module Kit
 "Open module settings" = "このモジュールの設定を開く";

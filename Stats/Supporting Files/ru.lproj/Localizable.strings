@@ -121,6 +121,7 @@
 "Text widget" = "Text";
 "Memory widget" = "Memory";
 "Static width" = "Статическая ширина";
+"Tachometer widget" = "Тахометр";
 
 // Module Kit
 "Open module settings" = "Открыть настройки модуля";

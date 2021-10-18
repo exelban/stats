@@ -121,6 +121,7 @@
 "Text widget" = "Text";
 "Memory widget" = "Paměť";
 "Static width" = "Statická šířka";
+"Tachometer widget" = "Tachometer";
 
 // Module Kit
 "Open module settings" = "Otevřít nastavení modulu";

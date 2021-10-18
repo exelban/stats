@@ -121,6 +121,7 @@
 "Text widget" = "Szöveg";
 "Memory widget" = "Memória";
 "Static width" = "Fix szélesség";
+"Tachometer widget" = "Tachometer";
 
 // Module Kit
 "Open module settings" = "Modul beállításainak megnyitása";

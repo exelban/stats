@@ -121,6 +121,7 @@
 "Text widget" = "Text";
 "Memory widget" = "Memory";
 "Static width" = "Static width";
+"Tachometer widget" = "Tachometer";
 
 // Module Kit
 "Open module settings" = "Abrir configurações do módulo";
