@@ -87,9 +87,7 @@ internal class x86_SensorsReader: SensorsReader {
     
     public override func read() {
         for i in 0..<self.list.count {
-            if let newValue = SMC.shared.getValue(self.list[i].key) {
-                self.list[i].value = newValue
-            }
+            self.list[i].value = SMC.shared.getValue(self.list[i].key) ?? 0
         }
         self.callback(self.list)
     }
