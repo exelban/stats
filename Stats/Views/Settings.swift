@@ -278,7 +278,7 @@ private class SettingsView: NSView {
     
     private func supportView() -> NSViewController {
         let vc: NSViewController = NSViewController(nibName: nil, bundle: nil)
-        let view: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: 200, height: 40))
+        let view: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: 160, height: 40))
         view.spacing = 0
         view.orientation = .horizontal
         
@@ -286,7 +286,6 @@ private class SettingsView: NSView {
         view.addArrangedSubview(supportButton(name: "PayPal", image: "paypal", action: #selector(self.openPaypal)))
         view.addArrangedSubview(supportButton(name: "Ko-fi", image: "ko-fi", action: #selector(self.openKofi)))
         view.addArrangedSubview(supportButton(name: "Patreon", image: "patreon", action: #selector(self.openPatreon)))
-        view.addArrangedSubview(supportButton(name: "Open Collective", image: "open_collective", action: #selector(self.openOpencollective)))
         
         vc.view = view
         return vc
@@ -337,10 +336,6 @@ private class SettingsView: NSView {
     
     @objc private func openPatreon(_ sender: NSButton) {
         NSWorkspace.shared.open(URL(string: "https://patreon.com/exelban")!)
-    }
-    
-    @objc private func openOpencollective(_ sender: NSButton) {
-        NSWorkspace.shared.open(URL(string: "https://opencollective.com/stats")!)
     }
     
     @objc private func closeApp(_ sender: Any) {
