@@ -219,11 +219,10 @@ public class LineChart: WidgetWrapper {
     }
     
     public func setValue(_ value: Double) {
-        guard self.value != value else {
-            return
+        if self.value != value {
+            self.value = value
         }
         
-        self.value = value
         DispatchQueue.main.async(execute: {
             self.chart.addValue(value)
             self.display()
