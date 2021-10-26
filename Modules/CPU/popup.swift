@@ -106,13 +106,13 @@ internal class Popup: NSView, Popup_p {
         DispatchQueue.main.async(execute: {
             self.processes = []
             
-            let h: CGFloat = self.dashboardHeight + self.chartHeight + self.detailsHeight + self.processesHeight
+            let h: CGFloat = self.dashboardHeight + self.chartHeight + self.detailsHeight + self.averageHeight + self.processesHeight
             self.setFrameSize(NSSize(width: self.frame.width, height: h))
             
             self.grid?.setFrameSize(NSSize(width: self.frame.width, height: h))
             
-            self.grid?.row(at: 3).cell(at: 0).contentView?.removeFromSuperview()
-            self.grid?.removeRow(at: 3)
+            self.grid?.row(at: 4).cell(at: 0).contentView?.removeFromSuperview()
+            self.grid?.removeRow(at: 4)
             self.grid?.addRow(with: [self.initProcesses()])
             self.initializedProcesses = false
             
