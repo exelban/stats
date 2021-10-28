@@ -71,7 +71,7 @@ public class LineChartView: NSView {
             return (CGFloat(point) * xRatio) + dirtyRect.origin.x
         }
         let columnYPoint = { (point: Int) -> CGFloat in
-            return CGFloat((CGFloat(truncating: self.points[point] as NSNumber) * height)) + dirtyRect.origin.y + 0.5
+            return CGFloat((CGFloat(truncating: self.points[point] as NSNumber) * height)) + dirtyRect.origin.y + offset
         }
         
         let line = NSBezierPath()
@@ -87,8 +87,8 @@ public class LineChartView: NSView {
         
         let underLinePath = line.copy() as! NSBezierPath
         
-        underLinePath.line(to: CGPoint(x: columnXPoint(self.points.count - 1), y: 0))
-        underLinePath.line(to: CGPoint(x: columnXPoint(0), y: 0))
+        underLinePath.line(to: CGPoint(x: columnXPoint(self.points.count), y: offset))
+        underLinePath.line(to: CGPoint(x: 0, y: offset))
         underLinePath.close()
         underLinePath.addClip()
         
