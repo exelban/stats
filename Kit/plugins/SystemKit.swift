@@ -388,6 +388,10 @@ let deviceDict: [String: model_s] = [
     "iMac17,1": model_s(name: "iMac 27-Inch (5K, Late 2015)", year: 2015, type: .imac),
     "iMac18,3": model_s(name: "iMac 27-Inch (5K, Mid 2017)", year: 2017, type: .imac),
     "iMac19,1": model_s(name: "iMac 27-Inch (5K, 2019)", year: 2019, type: .imac),
+    "iMac20,1": model_s(name: "iMac 27-Inch (5K, 2020)", year: 2020, type: .imac),
+    "iMac20,2": model_s(name: "iMac 27-Inch (5K, 2020, 5700/XT)", year: 2020, type: .imac),
+    "iMac21,1": model_s(name: "iMac 24-Inch (M1, 2021)", year: 2021, type: .imac),
+    "iMac21,2": model_s(name: "iMac 24-Inch (M1, 2021)", year: 2021, type: .imac),
     
     // iMac Pro
     "iMacPro1,1": model_s(name: "iMac Pro (5K, Late 2017)", year: 2017, type: .imacpro),
@@ -433,7 +437,11 @@ let deviceDict: [String: model_s] = [
     "MacBookPro16,1": model_s(name: "MacBook Pro 16\" (Late 2019)", year: 2019, type: .macbookPro),
     "MacBookPro16,2": model_s(name: "MacBook Pro 13\" (Mid 2020)", year: 2019, type: .macbookPro),
     "MacBookPro16,3": model_s(name: "MacBook Pro 13\" (Mid 2020)", year: 2020, type: .macbookPro),
-    "MacBookPro17,1": model_s(name: "MacBook Pro 13\" (M1, 2020)", year: 2020, type: .macbookPro)
+    "MacBookPro17,1": model_s(name: "MacBook Pro 13\" (M1, 2020)", year: 2020, type: .macbookPro),
+    "MacBookPro18,1": model_s(name: "MacBook Pro 16\" (M1 Pro, 2021)", year: 2021, type: .macbookPro),
+    "MacBookPro18,2": model_s(name: "MacBook Pro 16\" (M1 Max, 2021)", year: 2021, type: .macbookPro),
+    "MacBookPro18,3": model_s(name: "MacBook Pro 14\" (M1 Pro, 2021)", year: 2021, type: .macbookPro),
+    "MacBookPro18,4": model_s(name: "MacBook Pro 14\" (M1 Max, 2021)", year: 2021, type: .macbookPro)
 ]
 
 let osDict: [String: String] = [
