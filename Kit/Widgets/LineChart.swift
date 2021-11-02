@@ -169,7 +169,7 @@ public class LineChart: WidgetWrapper {
         let box = NSBezierPath(roundedRect: NSRect(
             x: x+offset,
             y: offset,
-            width: self.width - Constants.Widget.margin.x - (x+offset)*2,
+            width: self.width - Constants.Widget.margin.x*2 - offset*2,
             height: boxSize.height - (offset*2)
         ), xRadius: 2, yRadius: 2)
         
@@ -189,7 +189,7 @@ public class LineChart: WidgetWrapper {
         let chartFrame = NSRect(
             x: x+offset+lineWidth,
             y: offset,
-            width: self.width - (x+offset+lineWidth)*2,
+            width: box.bounds.width - (offset*2+lineWidth),
             height: box.bounds.height - offset
         )
         self.chart.color = color

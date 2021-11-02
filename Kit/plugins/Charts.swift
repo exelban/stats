@@ -39,7 +39,7 @@ public class LineChartView: NSView {
     public var color: NSColor = controlAccentColor
     
     public init(frame: NSRect, num: Int) {
-        self.points = Array(repeating: 0, count: num)
+        self.points = Array(repeating: 0.01, count: num)
         super.init(frame: frame)
     }
     
@@ -88,7 +88,7 @@ public class LineChartView: NSView {
         let underLinePath = line.copy() as! NSBezierPath
         
         underLinePath.line(to: CGPoint(x: columnXPoint(self.points.count), y: offset))
-        underLinePath.line(to: CGPoint(x: 0, y: offset))
+        underLinePath.line(to: CGPoint(x: columnXPoint(0), y: offset))
         underLinePath.close()
         underLinePath.addClip()
         
