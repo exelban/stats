@@ -32,12 +32,7 @@ internal class Settings: NSStackView, Settings_v {
         self.numberOfProcesses = Store.shared.int(key: "\(self.title)_processes", defaultValue: self.numberOfProcesses)
         self.splitValueState = Store.shared.bool(key: "\(self.title)_splitValue", defaultValue: self.splitValueState)
         
-        super.init(frame: NSRect(
-            x: 0,
-            y: 0,
-            width: Constants.Settings.width - (Constants.Settings.margin*2),
-            height: 0
-        ))
+        super.init(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
         
         self.orientation = .vertical
         self.distribution = .gravityAreas
@@ -56,26 +51,22 @@ internal class Settings: NSStackView, Settings_v {
     
     public func load(widgets: [widget_t]) {
         self.subviews.forEach{ $0.removeFromSuperview() }
-        let width: CGFloat = self.frame.width - (Constants.Settings.margin*2)
         
-        self.addArrangedSubview(selectTitleRow(
-            frame: NSRect(x: 0, y: 0, width: width, height: Constants.Settings.row),
+        self.addArrangedSubview(selectSettingsRowV1(
             title: localizedString("Update interval"),
             action: #selector(changeUpdateInterval),
             items: ReaderUpdateIntervals.map{ "\($0) sec" },
             selected: "\(self.updateIntervalValue) sec"
         ))
         
-        self.addArrangedSubview(selectTitleRow(
-            frame: NSRect(x: 0, y: 0, width: width, height: Constants.Settings.row),
+        self.addArrangedSubview(selectSettingsRowV1(
             title: localizedString("Update interval for top processes"),
             action: #selector(changeUpdateTopInterval),
             items: ReaderUpdateIntervals.map{ "\($0) sec" },
             selected: "\(self.updateTopIntervalValue) sec"
         ))
         
-        self.addArrangedSubview(selectTitleRow(
-            frame: NSRect(x: 0, y: 0, width: width, height: Constants.Settings.row),
+        self.addArrangedSubview(selectSettingsRowV1(
             title: localizedString("Number of top processes"),
             action: #selector(changeNumberOfProcesses),
             items: NumbersOfProcesses.map{ "\($0)" },
@@ -83,17 +74,11 @@ internal class Settings: NSStackView, Settings_v {
         ))
         
         if !widgets.filter({ $0 == .barChart }).isEmpty {
-            self.addArrangedSubview(toggleTitleRow(
-                frame: NSRect(x: 0, y: 0, width: width, height: Constants.Settings.row),
+            self.addArrangedSubview(toggleSettingRow(
                 title: localizedString("Split the value (App/Wired/Compressed)"),
                 action: #selector(toggleSplitValue),
                 state: self.splitValueState
             ))
-        }
-        
-        let h = self.arrangedSubviews.map({ $0.bounds.height + self.spacing }).reduce(0, +) - self.spacing + self.edgeInsets.top + self.edgeInsets.bottom
-        if self.frame.size.height != h {
-            self.setFrameSize(NSSize(width: self.bounds.width, height: h))
         }
     }
     

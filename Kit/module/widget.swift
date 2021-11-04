@@ -26,8 +26,10 @@ public enum widget_t: String {
     case tachometer = "tachometer"
     
     public func new(module: String, config: NSDictionary, defaultWidget: widget_t) -> Widget? {
+        var image: NSImage? = nil
         var preview: widget_p? = nil
         var item: widget_p? = nil
+        
         guard let widgetConfig: NSDictionary = config[self.rawValue] as? NSDictionary else {
             return nil
         }
@@ -69,8 +71,41 @@ public enum widget_t: String {
         default: break
         }
         
-        if let preview = preview, let item = item {
-            return Widget(self, defaultWidget: defaultWidget, module: module, preview: preview, item: item)
+        if let view = preview {
+            var width: CGFloat = view.bounds.width
+            
+            switch preview {
+            case is BarChart:
+                if module == "GPU" || module == "RAM" || module == "Disk" {
+                    width = 15
+                } else if module == "Fans" {
+                    width = 26
+                } else if module == "CPU" {
+                    width = 34
+                }
+            case is SensorsWidget:
+                if module == "Sensors" {
+                    width = 25
+                }
+            default: width = view.bounds.width
+            }
+            
+            let r = NSRect(
+                x: -view.frame.origin.x/2,
+                y: 0,
+                width: width - view.frame.origin.x,
+                height: view.bounds.height
+            )
+            
+            if let rep = view.bitmapImageRepForCachingDisplay(in: r) {
+                view.cacheDisplay(in: r, to: rep)
+                image = NSImage(size: r.size)
+                image?.addRepresentation(rep)
+            }
+        }
+        
+        if let item = item, let image = image {
+            return Widget(self, defaultWidget: defaultWidget, module: module, item: item, image: image)
         }
         
         return nil
@@ -102,7 +137,7 @@ public protocol widget_p: NSView {
     var widthHandler: ((CGFloat) -> Void)? { get set }
     
     func setValues(_ values: [value_t])
-    func settings(width: CGFloat) -> NSView
+    func settings() -> NSView
 }
 
 open class WidgetWrapper: NSView, widget_p {
@@ -136,7 +171,7 @@ open class WidgetWrapper: NSView, widget_p {
     
     // MARK: - stubs
     
-    open func settings(width: CGFloat) -> NSView { return NSView() }
+    open func settings() -> NSView { return NSView() }
     open func setValues(_ values: [value_t]) {}
 }
 
@@ -144,7 +179,7 @@ public class Widget {
     public let type: widget_t
     public let defaultWidget: widget_t
     public let module: String
-    public let preview: widget_p
+    public let image: NSImage
     public let item: widget_p
     
     public var isActive: Bool {
@@ -176,12 +211,12 @@ public class Widget {
         }
     }
     
-    public init(_ type: widget_t, defaultWidget: widget_t, module: String, preview: widget_p, item: widget_p) {
+    public init(_ type: widget_t, defaultWidget: widget_t, module: String, item: widget_p, image: NSImage) {
         self.type = type
         self.module = module
-        self.preview = preview
         self.item = item
         self.defaultWidget = defaultWidget
+        self.image = image
         
         self.item.widthHandler = { [weak self] value in
             if let s = self, let item = s.menuBarItem, item.length != value {

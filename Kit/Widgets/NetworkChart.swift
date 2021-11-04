@@ -21,12 +21,12 @@ public class NetworkChart: WidgetWrapper {
         frame: NSRect(
             x: 0,
             y: 0,
-            width: 34,
+            width: 30,
             height: Constants.Widget.height - (2*Constants.Widget.margin.y)
         ),
         num: 60, minMax: false
     )
-    private let width: CGFloat = 34
+    private let width: CGFloat = 30
     
     private var boxSettingsView: NSView? = nil
     private var frameSettingsView: NSView? = nil
@@ -79,7 +79,7 @@ public class NetworkChart: WidgetWrapper {
         let offset = lineWidth / 2
         let boxSize: CGSize = CGSize(width: self.width - (Constants.Widget.margin.x*2), height: self.frame.size.height)
         var x: CGFloat = 0
-        var width: CGFloat = self.width
+        var width = self.width + (Constants.Widget.margin.x*2)
         
         if self.labelState {
             let style = NSMutableParagraphStyle()
@@ -108,7 +108,7 @@ public class NetworkChart: WidgetWrapper {
         let box = NSBezierPath(roundedRect: NSRect(
             x: x + offset,
             y: offset,
-            width: boxSize.width - (offset*2),
+            width: self.width - offset*2,
             height: boxSize.height - (offset*2)
         ), xRadius: 2, yRadius: 2)
         
@@ -120,12 +120,14 @@ public class NetworkChart: WidgetWrapper {
         
         context.saveGState()
         
-        self.chart.draw(NSRect(
-            x: x+offset,
-            y: 1,
-            width: box.bounds.width - 1 - offset,
-            height: box.bounds.height - ((box.bounds.origin.y + lineWidth)*2)
-        ))
+        let chartFrame = NSRect(
+            x: x+offset+lineWidth,
+            y: offset,
+            width: box.bounds.width - (offset*2+lineWidth),
+            height: box.bounds.height - offset
+        )
+        self.chart.setFrameSize(NSSize(width: chartFrame.width, height: chartFrame.height))
+        self.chart.draw(chartFrame)
         
         context.restoreGState()
         
@@ -147,34 +149,30 @@ public class NetworkChart: WidgetWrapper {
     
     // MARK: - Settings
     
-    public override func settings(width: CGFloat) -> NSView {
-        let view = SettingsContainerView(width: width)
+    public override func settings() -> NSView {
+        let view = SettingsContainerView()
         
-        view.addArrangedSubview(toggleTitleRow(
-            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
+        view.addArrangedSubview(toggleSettingRow(
             title: localizedString("Label"),
             action: #selector(toggleLabel),
             state: self.labelState
         ))
         
-        self.boxSettingsView = toggleTitleRow(
-            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
+        self.boxSettingsView = toggleSettingRow(
             title: localizedString("Box"),
             action: #selector(toggleBox),
             state: self.boxState
         )
         view.addArrangedSubview(self.boxSettingsView!)
         
-        self.frameSettingsView = toggleTitleRow(
-            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
+        self.frameSettingsView = toggleSettingRow(
             title: localizedString("Frame"),
             action: #selector(toggleFrame),
             state: self.frameState
         )
         view.addArrangedSubview(self.frameSettingsView!)
         
-        view.addArrangedSubview(toggleTitleRow(
-            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
+        view.addArrangedSubview(toggleSettingRow(
             title: localizedString("Monochrome accent"),
             action: #selector(toggleMonochrome),
             state: self.monochromeState

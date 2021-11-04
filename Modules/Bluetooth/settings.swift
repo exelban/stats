@@ -18,12 +18,7 @@ internal class Settings: NSStackView, Settings_v {
     private var list: [String: Bool] = [:]
     
     public init() {
-        super.init(frame: NSRect(
-            x: 0,
-            y: 0,
-            width: Constants.Settings.width - (Constants.Settings.margin*2),
-            height: 20
-        ))
+        super.init(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
         
         self.orientation = .vertical
         self.distribution = .gravityAreas
@@ -34,6 +29,8 @@ internal class Settings: NSStackView, Settings_v {
             right: Constants.Settings.margin
         )
         self.spacing = Constants.Settings.margin
+        
+        self.addArrangedSubview(NSView())
     }
     
     required init?(coder: NSCoder) {
@@ -50,8 +47,7 @@ internal class Settings: NSStackView, Settings_v {
         
         list.forEach { (d: BLEDevice) in
             if self.list[d.id] == nil {
-                let row: NSView = toggleTitleRow(
-                    frame: NSRect(x: 0, y: 0, width: self.frame.width - (Constants.Settings.margin*2), height: Constants.Settings.row),
+                let row: NSView = toggleSettingRow(
                     title: d.name,
                     action: #selector(self.handleSelection),
                     state: d.state
@@ -62,11 +58,6 @@ internal class Settings: NSStackView, Settings_v {
                 self.list[d.id] = true
                 self.addArrangedSubview(row)
             }
-        }
-        
-        let h = self.arrangedSubviews.map({ $0.bounds.height + self.spacing }).reduce(0, +) - self.spacing + self.edgeInsets.top + self.edgeInsets.bottom
-        if self.frame.size.height != h {
-            self.setFrameSize(NSSize(width: self.bounds.width, height: h))
         }
     }
     

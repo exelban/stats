@@ -28,7 +28,7 @@ public struct Fan {
     
     var formattedValue: String {
         get {
-            return "\(Int(value)) RPM"
+            return "\(Int(value))"
         }
     }
 }

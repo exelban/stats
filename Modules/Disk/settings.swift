@@ -12,7 +12,7 @@
 import Cocoa
 import Kit
 
-internal class Settings: NSView, Settings_v {
+internal class Settings: NSStackView, Settings_v {
     private var removableState: Bool = false
     private var updateIntervalValue: Int = 10
     
@@ -31,15 +31,18 @@ internal class Settings: NSView, Settings_v {
         self.removableState = Store.shared.bool(key: "\(self.title)_removable", defaultValue: self.removableState)
         self.updateIntervalValue = Store.shared.int(key: "\(self.title)_updateInterval", defaultValue: self.updateIntervalValue)
         
-        super.init(frame: CGRect(
-            x: 0,
-            y: 0,
-            width: Constants.Settings.width - (Constants.Settings.margin*2),
-            height: 0
-        ))
+        super.init(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
         
         self.wantsLayer = true
-        self.canDrawConcurrently = true
+        self.orientation = .vertical
+        self.distribution = .gravityAreas
+        self.edgeInsets = NSEdgeInsets(
+            top: Constants.Settings.margin,
+            left: Constants.Settings.margin,
+            bottom: Constants.Settings.margin,
+            right: Constants.Settings.margin
+        )
+        self.spacing = Constants.Settings.margin
     }
     
     required init?(coder: NSCoder) {
@@ -49,60 +52,45 @@ internal class Settings: NSView, Settings_v {
     public func load(widgets: [widget_t]) {
         self.subviews.forEach{ $0.removeFromSuperview() }
         
-        let rowHeight: CGFloat = 30
-        let num: CGFloat = 3
-        
-        self.intervalSelectView = selectTitleRow(
-            frame: NSRect(
-                x: Constants.Settings.margin,
-                y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * 2,
-                width: self.frame.width - (Constants.Settings.margin*2),
-                height: rowHeight
-            ),
+        self.intervalSelectView = selectSettingsRowV1(
             title: localizedString("Update interval"),
             action: #selector(changeUpdateInterval),
             items: ReaderUpdateIntervals.map{ "\($0) sec" },
             selected: "\(self.updateIntervalValue) sec"
         )
-            self.addSubview(self.intervalSelectView!)
+        self.addArrangedSubview(self.intervalSelectView!)
         
         self.addDiskSelector()
         
-        self.addSubview(toggleTitleRow(
-            frame: NSRect(
-                x: Constants.Settings.margin,
-                y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * 0,
-                width: self.frame.width - (Constants.Settings.margin*2),
-                height: rowHeight
-            ),
+        self.addArrangedSubview(toggleSettingRow(
             title: localizedString("Show removable disks"),
             action: #selector(toggleRemovable),
             state: self.removableState
         ))
-        
-        self.setFrameSize(NSSize(width: self.frame.width, height: rowHeight*num + (Constants.Settings.margin*(num+1))))
     }
     
     private func addDiskSelector() {
-        let view: NSView = NSView(frame: NSRect(
-            x: Constants.Settings.margin,
-            y: Constants.Settings.margin*2 + 30,
-            width: self.frame.width - Constants.Settings.margin*2,
-            height: 30
-        ))
+        let view: NSStackView = NSStackView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.heightAnchor.constraint(equalToConstant: Constants.Settings.row).isActive = true
+        view.orientation = .horizontal
+        view.alignment = .centerY
+        view.distribution = .fill
+        view.spacing = 0
         
-        let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: (view.frame.height - 16)/2, width: view.frame.width - 52, height: 17), localizedString("Disk to show"))
+        let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: 0, width: 0, height: 17), localizedString("Disk to show"))
         rowTitle.font = NSFont.systemFont(ofSize: 13, weight: .light)
         rowTitle.textColor = .textColor
         
-        self.button = NSPopUpButton(frame: NSRect(x: view.frame.width - 140, y: -1, width: 140, height: 30))
+        self.button = NSPopUpButton(frame: NSRect(x: 0, y: 0, width: 0, height: 30))
         self.button!.target = self
         self.button?.action = #selector(self.handleSelection)
         
-        view.addSubview(rowTitle)
-        view.addSubview(self.button!)
+        view.addArrangedSubview(rowTitle)
+        view.addArrangedSubview(NSView())
+        view.addArrangedSubview(self.button!)
         
-        self.addSubview(view)
+        self.addArrangedSubview(view)
     }
     
     internal func setList(_ list: Disks) {

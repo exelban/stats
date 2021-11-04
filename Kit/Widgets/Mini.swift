@@ -179,26 +179,23 @@ public class Mini: WidgetWrapper {
     
     // MARK: - Settings
     
-    public override func settings(width: CGFloat) -> NSView {
-        let view = SettingsContainerView(width: width)
+    public override func settings() -> NSView {
+        let view = SettingsContainerView()
         
-        view.addArrangedSubview(toggleTitleRow(
-            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
+        view.addArrangedSubview(toggleSettingRow(
             title: localizedString("Label"),
             action: #selector(toggleLabel),
             state: self.labelState
         ))
         
-        view.addArrangedSubview(selectRow(
-            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
+        view.addArrangedSubview(selectSettingsRow(
             title: localizedString("Color"),
             action: #selector(toggleColor),
             items: self.colors,
             selected: self.colorState.key
         ))
         
-        view.addArrangedSubview(selectRow(
-            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
+        view.addArrangedSubview(selectSettingsRow(
             title: localizedString("Alignment"),
             action: #selector(toggleAlignment),
             items: Alignments,

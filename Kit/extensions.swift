@@ -224,27 +224,30 @@ public extension NSView {
         }
     }
     
-    func toggleTitleRow(frame: NSRect, title: String, action: Selector, state: Bool) -> NSView {
-        let row: NSStackView = NSStackView(frame: frame)
-        row.orientation = .horizontal
-        row.spacing = 0
-        row.distribution = .fillProportionally
+    func toggleSettingRow(title: String, action: Selector, state: Bool) -> NSView {
+        let view: NSStackView = NSStackView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.heightAnchor.constraint(equalToConstant: Constants.Settings.row).isActive = true
+        view.orientation = .horizontal
+        view.alignment = .centerY
+        view.distribution = .fill
+        view.spacing = 0
         
-        let title: NSTextField = LabelField(frame: NSRect(x: 0, y: 0, width: 0, height: 0), title)
-        title.font = NSFont.systemFont(ofSize: 13, weight: .light)
-        title.textColor = .textColor
+        let titleField: NSTextField = LabelField(frame: NSRect(x: 0, y: 0, width: 0, height: 0), title)
+        titleField.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+        titleField.textColor = .textColor
         
         let state: NSControl.StateValue = state ? .on : .off
         var toggle: NSControl = NSControl()
         if #available(OSX 10.15, *) {
-            let switchButton = NSSwitch(frame: NSRect(x: 0, y: 0, width: 50, height: row.frame.height))
+            let switchButton = NSSwitch()
             switchButton.state = state
             switchButton.action = action
             switchButton.target = self
             
             toggle = switchButton
         } else {
-            let button: NSButton = NSButton(frame: NSRect(x: 0, y: 0, width: 20, height: row.frame.height))
+            let button: NSButton = NSButton()
             button.widthAnchor.constraint(equalToConstant: button.bounds.width).isActive = true
             button.setButtonType(.switch)
             button.state = state
@@ -258,23 +261,50 @@ public extension NSView {
             toggle = button
         }
         
-        row.addArrangedSubview(title)
-        row.addArrangedSubview(toggle)
+        view.addArrangedSubview(titleField)
+        view.addArrangedSubview(NSView())
+        view.addArrangedSubview(toggle)
         
-        row.widthAnchor.constraint(equalToConstant: row.bounds.width).isActive = true
-        row.heightAnchor.constraint(equalToConstant: row.bounds.height).isActive = true
-        
-        return row
+        return view
     }
     
-    func selectTitleRow(frame: NSRect, title: String, action: Selector, items: [String], selected: String) -> NSView {
-        let row: NSView = NSView(frame: frame)
+    func selectSettingsRow(title: String, action: Selector, items: [KeyValue_p], selected: String) -> NSView {
+        let view = NSStackView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.heightAnchor.constraint(equalToConstant: Constants.Settings.row).isActive = true
+        view.orientation = .horizontal
+        view.alignment = .centerY
+        view.distribution = .fill
+        view.spacing = 0
         
-        let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: (row.frame.height - 16)/2, width: row.frame.width - 52, height: 17), title)
-        rowTitle.font = NSFont.systemFont(ofSize: 13, weight: .light)
-        rowTitle.textColor = .textColor
+        let titleField: NSTextField = LabelField(frame: NSRect(x: 0, y: 0, width: 0, height: 0), title)
+        titleField.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+        titleField.textColor = .textColor
         
-        let select: NSPopUpButton = NSPopUpButton(frame: NSRect(x: row.frame.width - 50, y: (row.frame.height-26)/2, width: 50, height: 26))
+        let select: NSPopUpButton = selectView(action: action, items: items, selected: selected)
+        select.sizeToFit()
+        
+        view.addArrangedSubview(titleField)
+        view.addArrangedSubview(NSView())
+        view.addArrangedSubview(select)
+        
+        return view
+    }
+    
+    func selectSettingsRowV1(title: String, action: Selector, items: [String], selected: String) -> NSView {
+        let view = NSStackView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.heightAnchor.constraint(equalToConstant: Constants.Settings.row).isActive = true
+        view.orientation = .horizontal
+        view.alignment = .centerY
+        view.distribution = .fill
+        view.spacing = 0
+        
+        let titleField: NSTextField = LabelField(frame: NSRect(x: 0, y: 0, width: 0, height: 0), title)
+        titleField.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+        titleField.textColor = .textColor
+        
+        let select: NSPopUpButton = NSPopUpButton()
         select.target = self
         select.action = action
         
@@ -294,38 +324,11 @@ public extension NSView {
         select.menu = menu
         select.sizeToFit()
         
-        rowTitle.setFrameSize(NSSize(width: row.frame.width - select.frame.width, height: rowTitle.frame.height))
-        select.setFrameOrigin(NSPoint(x: row.frame.width - select.frame.width, y: select.frame.origin.y))
+        view.addArrangedSubview(titleField)
+        view.addArrangedSubview(NSView())
+        view.addArrangedSubview(select)
         
-        row.addSubview(select)
-        row.addSubview(rowTitle)
-        
-        row.widthAnchor.constraint(equalToConstant: row.bounds.width).isActive = true
-        row.heightAnchor.constraint(equalToConstant: row.bounds.height).isActive = true
-        
-        return row
-    }
-    
-    func selectRow(frame: NSRect, title: String, action: Selector, items: [KeyValue_p], selected: String) -> NSView {
-        let row: NSView = NSView(frame: frame)
-        
-        let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: (row.frame.height - 16)/2, width: row.frame.width - 52, height: 17), title)
-        rowTitle.font = NSFont.systemFont(ofSize: 13, weight: .light)
-        rowTitle.textColor = .textColor
-        
-        let select: NSPopUpButton = selectView(action: action, items: items, selected: selected)
-        select.sizeToFit()
-        
-        rowTitle.setFrameSize(NSSize(width: row.frame.width - select.frame.width, height: rowTitle.frame.height))
-        select.setFrameOrigin(NSPoint(x: row.frame.width - select.frame.width, y: select.frame.origin.y))
-        
-        row.addSubview(select)
-        row.addSubview(rowTitle)
-        
-        row.widthAnchor.constraint(equalToConstant: row.bounds.width).isActive = true
-        row.heightAnchor.constraint(equalToConstant: row.bounds.height).isActive = true
-        
-        return row
+        return view
     }
     
     func selectView(action: Selector, items: [KeyValue_p], selected: String) -> NSPopUpButton {
@@ -473,10 +476,15 @@ public final class ScrollableStackView: NSView {
         scrollView.documentView = stackView
         
         NSLayoutConstraint.activate([
+            clipView.leftAnchor.constraint(equalTo: scrollView.leftAnchor),
+            clipView.rightAnchor.constraint(equalTo: scrollView.rightAnchor),
+            
             stackView.leftAnchor.constraint(equalTo: clipView.leftAnchor),
             stackView.rightAnchor.constraint(equalTo: clipView.rightAnchor),
             stackView.topAnchor.constraint(equalTo: clipView.topAnchor)
         ])
+        
+        clipView.translatesAutoresizingMaskIntoConstraints = false
     }
     
     required public init?(coder: NSCoder) {

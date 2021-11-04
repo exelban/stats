@@ -814,14 +814,10 @@ public func process(path: String, arguments: [String]) -> String? {
 }
 
 public class SettingsContainerView: NSStackView {
-    public init(width: CGFloat) {
-        super.init(frame: NSRect(
-            x: Constants.Settings.margin,
-            y: 0,
-            width: width - (Constants.Settings.margin*2),
-            height: 0
-        ))
+    public init() {
+        super.init(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
         
+        self.translatesAutoresizingMaskIntoConstraints = false
         self.orientation = .vertical
         self.distribution = .gravityAreas
         self.edgeInsets = NSEdgeInsets(
@@ -835,18 +831,6 @@ public class SettingsContainerView: NSStackView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    private func resize() {
-        let h = self.arrangedSubviews.map({ $0.bounds.height + self.spacing }).reduce(0, +) - self.spacing + self.edgeInsets.top + self.edgeInsets.bottom
-        if self.frame.size.height != h {
-            self.setFrameSize(NSSize(width: self.bounds.width, height: h))
-        }
-    }
-    
-    public override func addArrangedSubview(_ view: NSView) {
-        super.addArrangedSubview(view)
-        self.resize()
     }
 }
 

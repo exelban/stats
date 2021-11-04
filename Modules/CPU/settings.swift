@@ -47,15 +47,11 @@ internal class Settings: NSStackView, Settings_v {
         }
         self.hasHyperthreadingCores = sysctlByName("hw.physicalcpu") != sysctlByName("hw.logicalcpu")
         
-        super.init(frame: NSRect(
-            x: 0,
-            y: 0,
-            width: Constants.Settings.width - (Constants.Settings.margin*2),
-            height: 0
-        ))
+        super.init(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
         
         self.orientation = .vertical
         self.distribution = .gravityAreas
+        self.translatesAutoresizingMaskIntoConstraints = false
         self.edgeInsets = NSEdgeInsets(
             top: Constants.Settings.margin,
             left: Constants.Settings.margin,
@@ -73,24 +69,20 @@ internal class Settings: NSStackView, Settings_v {
         self.subviews.forEach{ $0.removeFromSuperview() }
         
         var hasIPG = false
-        let width: CGFloat = self.frame.width - (Constants.Settings.margin*2)
-        
         #if arch(x86_64)
         let path: CFString = "/Library/Frameworks/IntelPowerGadget.framework" as CFString
         let bundleURL = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, path, CFURLPathStyle.cfurlposixPathStyle, true)
         hasIPG = CFBundleCreate(kCFAllocatorDefault, bundleURL) != nil
         #endif
         
-        self.addArrangedSubview(selectTitleRow(
-            frame: NSRect(x: 0, y: 0, width: width, height: Constants.Settings.row),
+        self.addArrangedSubview(selectSettingsRowV1(
             title: localizedString("Update interval"),
             action: #selector(changeUpdateInterval),
             items: ReaderUpdateIntervals.map{ "\($0) sec" },
             selected: "\(self.updateIntervalValue) sec"
         ))
         
-        self.addArrangedSubview(selectTitleRow(
-            frame: NSRect(x: 0, y: 0, width: width, height: Constants.Settings.row),
+        self.addArrangedSubview(selectSettingsRowV1(
             title: localizedString("Update interval for top processes"),
             action: #selector(changeUpdateTopInterval),
             items: ReaderUpdateIntervals.map{ "\($0) sec" },
@@ -98,16 +90,14 @@ internal class Settings: NSStackView, Settings_v {
         ))
         
         if !widgets.filter({ $0 == .barChart }).isEmpty {
-            self.addArrangedSubview(toggleTitleRow(
-                frame: NSRect(x: 0, y: 0, width: width, height: Constants.Settings.row),
+            self.addArrangedSubview(toggleSettingRow(
                 title: localizedString("Show usage per core"),
                 action: #selector(toggleUsagePerCore),
                 state: self.usagePerCoreState
             ))
             
             if self.hasHyperthreadingCores {
-                self.hyperthreadView = toggleTitleRow(
-                    frame: NSRect(x: 0, y: 0, width: self.frame.width - (Constants.Settings.margin*2), height: Constants.Settings.row),
+                self.hyperthreadView = toggleSettingRow(
                     title: localizedString("Show hyper-threading cores"),
                     action: #selector(toggleMultithreading),
                     state: self.hyperthreadState
@@ -119,8 +109,7 @@ internal class Settings: NSStackView, Settings_v {
                 self.addArrangedSubview(self.hyperthreadView!)
             }
             
-            self.splitValueView = toggleTitleRow(
-                frame: NSRect(x: 0, y: 0, width: width, height: Constants.Settings.row),
+            self.splitValueView = toggleSettingRow(
                 title: localizedString("Split the value (System/User)"),
                 action: #selector(toggleSplitValue),
                 state: self.splitValueState
@@ -133,26 +122,19 @@ internal class Settings: NSStackView, Settings_v {
         }
         
         if hasIPG {
-            self.addArrangedSubview(toggleTitleRow(
-                frame: NSRect(x: 0, y: 0, width: width, height: Constants.Settings.row),
+            self.addArrangedSubview(toggleSettingRow(
                 title: "\(localizedString("CPU frequency")) (IPG)",
                 action: #selector(toggleIPG),
                 state: self.IPGState
             ))
         }
         
-        self.addArrangedSubview(selectTitleRow(
-            frame: NSRect(x: 0, y: 0, width: width, height: Constants.Settings.row),
+        self.addArrangedSubview(selectSettingsRowV1(
             title: localizedString("Number of top processes"),
             action: #selector(changeNumberOfProcesses),
             items: NumbersOfProcesses.map{ "\($0)" },
             selected: "\(self.numberOfProcesses)"
         ))
-        
-        let h = self.arrangedSubviews.map({ $0.bounds.height + self.spacing }).reduce(0, +) - self.spacing + self.edgeInsets.top + self.edgeInsets.bottom
-        if self.frame.size.height != h {
-            self.setFrameSize(NSSize(width: self.bounds.width, height: h))
-        }
     }
     
     @objc private func changeUpdateInterval(_ sender: NSMenuItem) {

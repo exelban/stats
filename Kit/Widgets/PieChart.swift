@@ -91,19 +91,10 @@ public class PieChart: WidgetWrapper {
     
     // MARK: - Settings
     
-    public override func settings(width: CGFloat) -> NSView {
-        let rowHeight: CGFloat = 30
-        let height: CGFloat = ((rowHeight + Constants.Settings.margin) * 1) + Constants.Settings.margin
+    public override func settings() -> NSView {
+        let view = SettingsContainerView()
         
-        let view: NSView = NSView(frame: NSRect(
-            x: Constants.Settings.margin,
-            y: Constants.Settings.margin,
-            width: width - (Constants.Settings.margin*2),
-            height: height
-        ))
-        
-        view.addSubview(toggleTitleRow(
-            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: rowHeight),
+        view.addArrangedSubview(toggleSettingRow(
             title: localizedString("Label"),
             action: #selector(toggleLabel),
             state: self.labelState

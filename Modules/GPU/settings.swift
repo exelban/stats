@@ -12,7 +12,7 @@
 import Cocoa
 import Kit
 
-internal class Settings: NSView, Settings_v {
+internal class Settings: NSStackView, Settings_v {
     private var updateIntervalValue: Int = 1
     private var selectedGPU: String
     private var showTypeValue: Bool = false
@@ -32,15 +32,18 @@ internal class Settings: NSView, Settings_v {
         self.updateIntervalValue = Store.shared.int(key: "\(self.title)_updateInterval", defaultValue: self.updateIntervalValue)
         self.showTypeValue = Store.shared.bool(key: "\(self.title)_showType", defaultValue: self.showTypeValue)
         
-        super.init(frame: CGRect(
-            x: 0,
-            y: 0,
-            width: Constants.Settings.width - (Constants.Settings.margin*2),
-            height: 0
-        ))
+        super.init(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
         
         self.wantsLayer = true
-        self.canDrawConcurrently = true
+        self.orientation = .vertical
+        self.distribution = .gravityAreas
+        self.edgeInsets = NSEdgeInsets(
+            top: Constants.Settings.margin,
+            left: Constants.Settings.margin,
+            bottom: Constants.Settings.margin,
+            right: Constants.Settings.margin
+        )
+        self.spacing = Constants.Settings.margin
     }
     
     required init?(coder: NSCoder) {
@@ -50,16 +53,7 @@ internal class Settings: NSView, Settings_v {
     public func load(widgets: [widget_t]) {
         self.subviews.forEach{ $0.removeFromSuperview() }
         
-        let rowHeight: CGFloat = 30
-        let num: CGFloat = widgets.filter{ $0 == .mini }.isEmpty ? 2 : 3
-        
-        self.addSubview(selectTitleRow(
-            frame: NSRect(
-                x: Constants.Settings.margin,
-                y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * (num-1),
-                width: self.frame.width - (Constants.Settings.margin*2),
-                height: rowHeight
-            ),
+        self.addArrangedSubview(selectSettingsRowV1(
             title: localizedString("Update interval"),
             action: #selector(changeUpdateInterval),
             items: ReaderUpdateIntervals.map{ "\($0) sec" },
@@ -67,34 +61,26 @@ internal class Settings: NSView, Settings_v {
         ))
         
         if !widgets.filter({ $0 == .mini }).isEmpty {
-            self.addSubview(toggleTitleRow(
-                frame: NSRect(
-                    x: Constants.Settings.margin,
-                    y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * 1,
-                    width: self.frame.width - (Constants.Settings.margin*2),
-                    height: rowHeight
-                ),
+            self.addArrangedSubview(toggleSettingRow(
                 title: localizedString("Show GPU type"),
                 action: #selector(toggleShowType),
                 state: self.showTypeValue
             ))
         }
         
-        self.addGPUSelector(frame: NSRect(
-            x: Constants.Settings.margin,
-            y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * 0,
-            width: self.frame.width - (Constants.Settings.margin*2),
-            height: rowHeight
-        ))
-        
-        self.setFrameSize(NSSize(width: self.frame.width, height: (rowHeight*num) + (Constants.Settings.margin*(num+1))))
+        self.addGPUSelector()
     }
     
-    private func addGPUSelector(frame: NSRect) {
-        let view: NSGridView = NSGridView(frame: frame)
-        view.yPlacement = .center
+    private func addGPUSelector() {
+        let view: NSStackView = NSStackView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.heightAnchor.constraint(equalToConstant: Constants.Settings.row).isActive = true
+        view.orientation = .horizontal
+        view.alignment = .centerY
+        view.distribution = .fill
+        view.spacing = 0
         
-        let title: NSTextField = LabelField(frame: NSRect(x: 0, y: 0, width: 100, height: 17), localizedString("GPU to show"))
+        let title: NSTextField = LabelField(frame: NSRect(x: 0, y: 0, width: 0, height: 17), localizedString("GPU to show"))
         title.font = NSFont.systemFont(ofSize: 13, weight: .light)
         title.textColor = .textColor
         
@@ -107,9 +93,11 @@ internal class Settings: NSView, Settings_v {
         self.button = button
         container.addRow(with: [button])
         
-        view.addRow(with: [title, container])
+        view.addArrangedSubview(title)
+        view.addArrangedSubview(NSView())
+        view.addArrangedSubview(container)
         
-        self.addSubview(view)
+        self.addArrangedSubview(view)
     }
     
     internal func setList(_ gpus: GPUs) {

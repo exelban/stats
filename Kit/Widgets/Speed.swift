@@ -212,41 +212,36 @@ public class SpeedWidget: WidgetWrapper {
         }
     }
     
-    public override func settings(width: CGFloat) -> NSView {
-        let view = SettingsContainerView(width: width)
+    public override func settings() -> NSView {
+        let view = SettingsContainerView()
         
-        view.addArrangedSubview(selectRow(
-            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
+        view.addArrangedSubview(selectSettingsRow(
             title: localizedString("Pictogram"),
             action: #selector(toggleIcon),
             items: SpeedPictogram,
             selected: self.icon
         ))
         
-        view.addArrangedSubview(selectRow(
-            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
+        view.addArrangedSubview(selectSettingsRow(
             title: localizedString("Base"),
             action: #selector(toggleBase),
             items: SpeedBase,
             selected: self.baseValue
         ))
         
-        view.addArrangedSubview(toggleTitleRow(
-            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
+        view.addArrangedSubview(toggleSettingRow(
             title: localizedString("Value"),
             action: #selector(toggleValue),
             state: self.valueState
         ))
         
-        view.addArrangedSubview(toggleTitleRow(
-            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
+        view.addArrangedSubview(toggleSettingRow(
             title: localizedString("Units"),
             action: #selector(toggleUnits),
             state: self.unitsState
         ))
         
-        view.addArrangedSubview(toggleTitleRow(
-            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
+        view.addArrangedSubview(toggleSettingRow(
             title: localizedString("Monochrome accent"),
             action: #selector(toggleMonochrome),
             state: self.monochromeState

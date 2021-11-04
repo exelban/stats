@@ -19,12 +19,12 @@ public class LineChart: WidgetWrapper {
     private var valueColorState: Bool = false
     private var colorState: Color = .systemAccent
     
-    private let width: CGFloat = 34
+    private let width: CGFloat = 30
     
     private var chart: LineChartView = LineChartView(frame: NSRect(
         x: 0,
         y: 0,
-        width: 34,
+        width: 30,
         height: Constants.Widget.height - (2*Constants.Widget.margin.y)
     ), num: 60)
     private var colors: [Color] = Color.allCases
@@ -62,7 +62,7 @@ public class LineChart: WidgetWrapper {
         super.init(.lineChart, title: widgetTitle, frame: CGRect(
             x: Constants.Widget.margin.x,
             y: Constants.Widget.margin.y,
-            width: self.width + (2*Constants.Widget.margin.x),
+            width: self.width + (Constants.Widget.margin.x*2),
             height: Constants.Widget.height - (2*Constants.Widget.margin.y)
         ))
         
@@ -101,7 +101,7 @@ public class LineChart: WidgetWrapper {
         
         guard let context = NSGraphicsContext.current?.cgContext else { return }
         
-        var width = self.width
+        var width = self.width + (Constants.Widget.margin.x*2)
         var x: CGFloat = 0
         let lineWidth = 1 / (NSScreen.main?.backingScaleFactor ?? 1)
         let offset = lineWidth / 2
@@ -159,7 +159,7 @@ public class LineChart: WidgetWrapper {
                 NSAttributedString.Key.paragraphStyle: style
             ]
             
-            let rect = CGRect(x: x, y: boxSize.height-7, width: boxSize.width-1, height: 7)
+            let rect = CGRect(x: x+4, y: boxSize.height-7, width: boxSize.width-1, height: 7)
             let str = NSAttributedString.init(string: "\(Int((value.rounded(toPlaces: 2)) * 100))%", attributes: stringAttributes)
             str.draw(with: rect)
             
@@ -169,7 +169,7 @@ public class LineChart: WidgetWrapper {
         let box = NSBezierPath(roundedRect: NSRect(
             x: x+offset,
             y: offset,
-            width: self.width - Constants.Widget.margin.x*2 - offset*2,
+            width: self.width - offset*2,
             height: boxSize.height - (offset*2)
         ), xRadius: 2, yRadius: 2)
         
@@ -242,58 +242,43 @@ public class LineChart: WidgetWrapper {
     
     // MARK: - Settings
     
-    public override func settings(width: CGFloat) -> NSView {
-        let rowHeight: CGFloat = 30
-        let settingsNumber: CGFloat = 6
-        let height: CGFloat = ((rowHeight + Constants.Settings.margin) * settingsNumber) + Constants.Settings.margin
+    public override func settings() -> NSView {
+        let view = SettingsContainerView()
         
-        let view: NSView = NSView(frame: NSRect(
-            x: Constants.Settings.margin,
-            y: Constants.Settings.margin,
-            width: width - (Constants.Settings.margin*2),
-            height: height
-        ))
-        
-        view.addSubview(toggleTitleRow(
-            frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 5, width: view.frame.width, height: rowHeight),
+        view.addArrangedSubview(toggleSettingRow(
             title: localizedString("Label"),
             action: #selector(toggleLabel),
             state: self.labelState
         ))
         
-        view.addSubview(toggleTitleRow(
-            frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 4, width: view.frame.width, height: rowHeight),
+        view.addArrangedSubview(toggleSettingRow(
             title: localizedString("Value"),
             action: #selector(toggleValue),
             state: self.valueState
         ))
         
-        self.boxSettingsView = toggleTitleRow(
-            frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 3, width: view.frame.width, height: rowHeight),
+        self.boxSettingsView = toggleSettingRow(
             title: localizedString("Box"),
             action: #selector(toggleBox),
             state: self.boxState
         )
-        view.addSubview(self.boxSettingsView!)
+        view.addArrangedSubview(self.boxSettingsView!)
         
-        self.frameSettingsView = toggleTitleRow(
-            frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 2, width: view.frame.width, height: rowHeight),
+        self.frameSettingsView = toggleSettingRow(
             title: localizedString("Frame"),
             action: #selector(toggleFrame),
             state: self.frameState
         )
-        view.addSubview(self.frameSettingsView!)
+        view.addArrangedSubview(self.frameSettingsView!)
         
-        view.addSubview(selectRow(
-            frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 1, width: view.frame.width, height: rowHeight),
+        view.addArrangedSubview(selectSettingsRow(
             title: localizedString("Color"),
             action: #selector(toggleColor),
             items: self.colors,
             selected: self.colorState.key
         ))
         
-        view.addSubview(toggleTitleRow(
-            frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 0, width: view.frame.width, height: rowHeight),
+        view.addArrangedSubview(toggleSettingRow(
             title: localizedString("Colorize value"),
             action: #selector(toggleValueColor),
             state: self.valueColorState

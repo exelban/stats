@@ -82,7 +82,7 @@
 			<key>Default</key>
 			<false/>
 			<key>Icon</key>
-			<string>characters</string>
+			<string>chars</string>
 			<key>Symbols</key>
 			<array>
 				<string>W</string>

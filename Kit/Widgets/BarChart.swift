@@ -81,6 +81,7 @@ public class BarChart: WidgetWrapper {
             }
             self.setFrameSize(NSSize(width: 36, height: self.frame.size.height))
             self.invalidateIntrinsicContentSize()
+            self.display()
         }
     }
     
@@ -92,7 +93,7 @@ public class BarChart: WidgetWrapper {
     public override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         
-        var width: CGFloat = (Constants.Widget.margin.x*2)
+        var width: CGFloat = Constants.Widget.margin.x*2
         var x: CGFloat = 0
         let lineWidth = 1 / (NSScreen.main?.backingScaleFactor ?? 1)
         let offset = lineWidth / 2
@@ -237,34 +238,30 @@ public class BarChart: WidgetWrapper {
     
     // MARK: - Settings
     
-    public override func settings(width: CGFloat) -> NSView {
-        let view = SettingsContainerView(width: width)
+    public override func settings() -> NSView {
+        let view = SettingsContainerView()
         
-        view.addArrangedSubview(toggleTitleRow(
-            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
+        view.addArrangedSubview(toggleSettingRow(
             title: localizedString("Label"),
             action: #selector(toggleLabel),
             state: self.labelState
         ))
         
-        self.boxSettingsView = toggleTitleRow(
-            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
+        self.boxSettingsView = toggleSettingRow(
             title: localizedString("Box"),
             action: #selector(toggleBox),
             state: self.boxState
         )
         view.addArrangedSubview(self.boxSettingsView!)
         
-        self.frameSettingsView = toggleTitleRow(
-            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
+        self.frameSettingsView = toggleSettingRow(
             title: localizedString("Frame"),
             action: #selector(toggleFrame),
             state: self.frameState
         )
         view.addArrangedSubview(self.frameSettingsView!)
         
-        view.addArrangedSubview(selectRow(
-            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
+        view.addArrangedSubview(selectSettingsRow(
             title: localizedString("Color"),
             action: #selector(toggleColor),
             items: self.colors,

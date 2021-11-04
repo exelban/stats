@@ -326,31 +326,28 @@ public class BatterykWidget: WidgetWrapper {
     
     // MARK: - Settings
     
-    public override func settings(width: CGFloat) -> NSView {
-        let view = SettingsContainerView(width: width)
+    public override func settings() -> NSView {
+        let view = SettingsContainerView()
         
         var additionalOptions = BatteryAdditionals
         if self.title == "Bluetooth" {
             additionalOptions = additionalOptions.filter({ $0.key == "none" || $0.key == "percentage" })
         }
         
-        view.addArrangedSubview(selectRow(
-            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
+        view.addArrangedSubview(selectSettingsRow(
             title: localizedString("Additional information"),
             action: #selector(toggleAdditional),
             items: additionalOptions,
             selected: self.additional
         ))
         
-        view.addArrangedSubview(toggleTitleRow(
-            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
+        view.addArrangedSubview(toggleSettingRow(
             title: localizedString("Hide additional information when full"),
             action: #selector(toggleHideAdditionalWhenFull),
             state: self.hideAdditionalWhenFull
         ))
         
-        view.addArrangedSubview(toggleTitleRow(
-            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
+        view.addArrangedSubview(toggleSettingRow(
             title: localizedString("Colorize"),
             action: #selector(toggleColor),
             state: self.colorState

@@ -28,12 +28,7 @@ internal class Settings: NSStackView, Settings_v {
         self.title = title
         self.list = list
         
-        super.init(frame: CGRect(
-            x: 0,
-            y: 0,
-            width: Constants.Settings.width - (Constants.Settings.margin*2),
-            height: 0
-        ))
+        super.init(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
         
         self.wantsLayer = true
         self.orientation = .vertical
@@ -58,50 +53,50 @@ internal class Settings: NSStackView, Settings_v {
     public func load(widgets: [widget_t]) {
         self.subviews.forEach{ $0.removeFromSuperview() }
         
-        let width: CGFloat = self.frame.width - (Constants.Settings.margin*2)
-        
-        self.addArrangedSubview(selectTitleRow(
-            frame: NSRect(x: Constants.Settings.margin, y: 0, width: width, height: Constants.Settings.row),
+        self.addArrangedSubview(selectSettingsRowV1(
             title: localizedString("Update interval"),
             action: #selector(changeUpdateInterval),
             items: ReaderUpdateIntervals.map{ "\($0) sec" },
             selected: "\(self.updateIntervalValue) sec"
         ))
         
-        self.addArrangedSubview(toggleTitleRow(
-            frame: NSRect(x: Constants.Settings.margin, y: 0, width: width, height: Constants.Settings.row),
+        self.addArrangedSubview(toggleSettingRow(
             title: localizedString("Label"),
             action: #selector(toggleLabelState),
             state: self.labelState
         ))
         
-        self.addArrangedSubview(toggleTitleRow(
-            frame: NSRect(x: Constants.Settings.margin, y: 0, width: width, height: Constants.Settings.row),
+        self.addArrangedSubview(toggleSettingRow(
             title: localizedString("Save the fan speed"),
             action: #selector(toggleSpeedState),
             state: self.speedState
         ))
         
-        let view: NSStackView = NSStackView(frame: NSRect(
-            x: Constants.Settings.margin,
-            y: Constants.Settings.margin,
-            width: self.frame.width - (Constants.Settings.margin*2),
-            height: 0
-        ))
-        view.orientation = .vertical
-        view.distribution = .gravityAreas
-        view.spacing = Constants.Settings.margin
+        let header = NSStackView()
+        header.heightAnchor.constraint(equalToConstant: Constants.Settings.row).isActive = true
+        header.spacing = 0
         
-        let title: NSTextField = LabelField(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: 19), localizedString("Fans"))
-        title.font = NSFont.systemFont(ofSize: 14, weight: .regular)
-        title.textColor = .secondaryLabelColor
-        title.alignment = .center
-        title.heightAnchor.constraint(equalToConstant: title.bounds.height).isActive = true
-        view.addArrangedSubview(title)
+        let titleField: NSTextField = LabelField(frame: NSRect(x: 0, y: 0, width: 0, height: 0), localizedString("Fans"))
+        titleField.font = NSFont.systemFont(ofSize: 13, weight: .medium)
+        titleField.textColor = .labelColor
+        
+        header.addArrangedSubview(titleField)
+        header.addArrangedSubview(NSView())
+        
+        self.addArrangedSubview(header)
+        
+        let container = NSStackView()
+        container.orientation = .vertical
+        container.edgeInsets = NSEdgeInsets(
+            top: 0,
+            left: Constants.Settings.margin,
+            bottom: 0,
+            right: Constants.Settings.margin
+        )
+        container.spacing = 0
         
         self.list.pointee.forEach { (f: Fan) in
-            let row: NSView = toggleTitleRow(
-                frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
+            let row: NSView = toggleSettingRow(
                 title: f.name,
                 action: #selector(self.handleSelection),
                 state: f.state
@@ -109,22 +104,10 @@ internal class Settings: NSStackView, Settings_v {
             row.subviews.filter{ $0 is NSControl }.forEach { (control: NSView) in
                 control.identifier = NSUserInterfaceItemIdentifier(rawValue: "\(f.id)")
             }
-            view.addArrangedSubview(row)
+            container.addArrangedSubview(row)
         }
         
-        let listHeight = view.arrangedSubviews.map({ $0.bounds.height + self.spacing }).reduce(0, +) - self.spacing
-        view.setFrameSize(NSSize(width: view.frame.width, height: listHeight))
-        NSLayoutConstraint.activate([
-            view.heightAnchor.constraint(equalToConstant: listHeight),
-            view.widthAnchor.constraint(equalToConstant: view.bounds.width)
-        ])
-        
-        self.addArrangedSubview(view)
-        
-        let h = self.arrangedSubviews.map({ $0.bounds.height + self.spacing }).reduce(0, +) - self.spacing + self.edgeInsets.top + self.edgeInsets.bottom
-        if self.frame.size.height != h {
-            self.setFrameSize(NSSize(width: self.frame.width, height: h))
-        }
+        self.addArrangedSubview(container)
     }
     
     @objc private func handleSelection(_ sender: NSControl) {

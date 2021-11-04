@@ -12,7 +12,7 @@
 import Cocoa
 import Kit
 
-internal class Settings: NSView, Settings_v {
+internal class Settings: NSStackView, Settings_v {
     private var updateIntervalValue: Int = 3
     
     private let title: String
@@ -25,15 +25,19 @@ internal class Settings: NSView, Settings_v {
         self.title = title
         self.list = list
         
-        super.init(frame: CGRect(
-            x: 0,
-            y: 0,
-            width: Constants.Settings.width - (Constants.Settings.margin*2),
-            height: 0
-        ))
+        super.init(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
         
         self.wantsLayer = true
-        self.canDrawConcurrently = true
+        self.orientation = .vertical
+        self.distribution = .gravityAreas
+        self.translatesAutoresizingMaskIntoConstraints = false
+        self.edgeInsets = NSEdgeInsets(
+            top: Constants.Settings.margin,
+            left: Constants.Settings.margin,
+            bottom: Constants.Settings.margin,
+            right: Constants.Settings.margin
+        )
+        self.spacing = Constants.Settings.margin
         
         self.updateIntervalValue = Store.shared.int(key: "\(self.title)_updateInterval", defaultValue: self.updateIntervalValue)
     }
@@ -55,28 +59,27 @@ internal class Settings: NSView, Settings_v {
             }
         }
         
-        let rowHeight: CGFloat = 30
-        let settingsHeight: CGFloat = (rowHeight*1) + Constants.Settings.margin
-        let sensorsListHeight: CGFloat = (rowHeight+Constants.Settings.margin) * CGFloat(self.list.count) + ((rowHeight+Constants.Settings.margin) * CGFloat(types.count) + 1)
-        let height: CGFloat = settingsHeight + sensorsListHeight
-        let x: CGFloat = height < 360 ? 0 : Constants.Settings.margin
-        let view: NSView = NSView(frame: NSRect(
-            x: Constants.Settings.margin,
-            y: Constants.Settings.margin,
-            width: self.frame.width - (Constants.Settings.margin*2) - x,
-            height: height
-        ))
-        
-        self.addSubview(selectTitleRow(
-            frame: NSRect(x: Constants.Settings.margin, y: height - rowHeight, width: view.frame.width, height: rowHeight),
+        self.addArrangedSubview(selectSettingsRowV1(
             title: localizedString("Update interval"),
             action: #selector(changeUpdateInterval),
             items: ReaderUpdateIntervals.map{ "\($0) sec" },
             selected: "\(self.updateIntervalValue) sec"
         ))
         
-        var y: CGFloat = 0
         types.reversed().forEach { (typ: SensorType) in
+            let header = NSStackView()
+            header.heightAnchor.constraint(equalToConstant: Constants.Settings.row).isActive = true
+            header.spacing = 0
+            
+            let titleField: NSTextField = LabelField(frame: NSRect(x: 0, y: 0, width: 0, height: 0), localizedString(typ.rawValue))
+            titleField.font = NSFont.systemFont(ofSize: 13, weight: .medium)
+            titleField.textColor = .labelColor
+            
+            header.addArrangedSubview(titleField)
+            header.addArrangedSubview(NSView())
+            
+            self.addArrangedSubview(header)
+            
             let filtered = self.list.filter{ $0.type == typ }
             var groups: [SensorGroup] = []
             filtered.forEach { (s: Sensor_p) in
@@ -85,10 +88,19 @@ internal class Settings: NSView, Settings_v {
                 }
             }
             
+            let container = NSStackView()
+            container.orientation = .vertical
+            container.edgeInsets = NSEdgeInsets(
+                top: 0,
+                left: Constants.Settings.margin,
+                bottom: 0,
+                right: Constants.Settings.margin
+            )
+            container.spacing = 0
+            
             groups.reversed().forEach { (group: SensorGroup) in
                 filtered.reversed().filter{ $0.group == group }.forEach { (s: Sensor_p) in
-                    let row: NSView = toggleTitleRow(
-                        frame: NSRect(x: 0, y: y, width: view.frame.width, height: rowHeight),
+                    let row: NSView = toggleSettingRow(
                         title: s.name,
                         action: #selector(self.handleSelection),
                         state: s.state
@@ -96,24 +108,12 @@ internal class Settings: NSView, Settings_v {
                     row.subviews.filter{ $0 is NSControl }.forEach { (control: NSView) in
                         control.identifier = NSUserInterfaceItemIdentifier(rawValue: s.key)
                     }
-                    view.addSubview(row)
-                    y += rowHeight + Constants.Settings.margin
+                    container.addArrangedSubview(row)
                 }
             }
-            
-            let rowTitleView: NSView = NSView(frame: NSRect(x: 0, y: y, width: view.frame.width, height: rowHeight))
-            let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: (rowHeight-19)/2, width: view.frame.width, height: 19), localizedString(typ.rawValue))
-            rowTitle.font = NSFont.systemFont(ofSize: 14, weight: .regular)
-            rowTitle.textColor = .secondaryLabelColor
-            rowTitle.alignment = .center
-            rowTitleView.addSubview(rowTitle)
-            
-            view.addSubview(rowTitleView)
-            y += rowHeight + Constants.Settings.margin
+
+            self.addArrangedSubview(container)
         }
-        
-        self.addSubview(view)
-        self.setFrameSize(NSSize(width: self.frame.width, height: height + (Constants.Settings.margin*1)))
     }
     
     @objc private func handleSelection(_ sender: NSControl) {

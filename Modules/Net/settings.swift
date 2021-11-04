@@ -33,7 +33,7 @@ internal class Settings: NSStackView, Settings_v {
         self.readerType = Store.shared.string(key: "\(self.title)_reader", defaultValue: self.readerType)
         self.usageReset = Store.shared.string(key: "\(self.title)_usageReset", defaultValue: self.usageReset)
         
-        super.init(frame: NSRect(x: 0, y: 0, width: Constants.Settings.width - (Constants.Settings.margin*2), height: 0))
+        super.init(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
         
         for interface in SCNetworkInterfaceCopyAll() as NSArray {
             if  let bsdName = SCNetworkInterfaceGetBSDName(interface as! SCNetworkInterface),
@@ -60,42 +60,32 @@ internal class Settings: NSStackView, Settings_v {
     public func load(widgets: [widget_t]) {
         self.subviews.forEach{ $0.removeFromSuperview() }
         
-        let width: CGFloat = self.frame.width - (Constants.Settings.margin*2)
-        
-        self.addArrangedSubview(selectTitleRow(
-            frame: NSRect(x: 0, y: 0, width: width, height: Constants.Settings.row),
+        self.addArrangedSubview(selectSettingsRowV1(
             title: localizedString("Number of top processes"),
             action: #selector(changeNumberOfProcesses),
             items: NumbersOfProcesses.map{ "\($0)" },
             selected: "\(self.numberOfProcesses)"
         ))
         
-        self.addArrangedSubview(selectRow(
-            frame: NSRect(x: 0, y: 0, width: width, height: Constants.Settings.row),
+        self.addArrangedSubview(selectSettingsRow(
             title: localizedString("Reader type"),
             action: #selector(changeReaderType),
             items: NetworkReaders,
             selected: self.readerType
         ))
         
-        self.addArrangedSubview(selectRow(
-            frame: NSRect(x: 0, y: 0, width: width, height: Constants.Settings.row),
+        self.addArrangedSubview(selectSettingsRow(
             title: localizedString("Reset data usage"),
             action: #selector(toggleUsageReset),
             items: AppUpdateIntervals.dropLast(2),
             selected: self.usageReset
         ))
         
-        self.addInterfaceSelector()
-        
-        let h = self.arrangedSubviews.map({ $0.bounds.height + self.spacing }).reduce(0, +) - self.spacing + self.edgeInsets.top + self.edgeInsets.bottom
-        if self.frame.size.height != h {
-            self.setFrameSize(NSSize(width: self.bounds.width, height: h))
-        }
+//        self.addInterfaceSelector()
     }
     
     private func addInterfaceSelector() {
-        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 30))
+        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: 0, height: 30))
         
         let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: (view.frame.height - 16)/2, width: view.frame.width - 52, height: 17), localizedString("Network interface"))
         rowTitle.font = NSFont.systemFont(ofSize: 13, weight: .light)
