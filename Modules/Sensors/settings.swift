@@ -66,7 +66,7 @@ internal class Settings: NSStackView, Settings_v {
             selected: "\(self.updateIntervalValue) sec"
         ))
         
-        types.reversed().forEach { (typ: SensorType) in
+        types.forEach { (typ: SensorType) in
             let header = NSStackView()
             header.heightAnchor.constraint(equalToConstant: Constants.Settings.row).isActive = true
             header.spacing = 0
