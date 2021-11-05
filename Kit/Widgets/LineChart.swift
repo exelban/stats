@@ -19,12 +19,12 @@ public class LineChart: WidgetWrapper {
     private var valueColorState: Bool = false
     private var colorState: Color = .systemAccent
     
-    private let width: CGFloat = 30
+    private let width: CGFloat = 32
     
     private var chart: LineChartView = LineChartView(frame: NSRect(
         x: 0,
         y: 0,
-        width: 30,
+        width: 32,
         height: Constants.Widget.height - (2*Constants.Widget.margin.y)
     ), num: 60)
     private var colors: [Color] = Color.allCases
@@ -159,7 +159,7 @@ public class LineChart: WidgetWrapper {
                 NSAttributedString.Key.paragraphStyle: style
             ]
             
-            let rect = CGRect(x: x+4, y: boxSize.height-7, width: boxSize.width-1, height: 7)
+            let rect = CGRect(x: x+4, y: boxSize.height-7, width: boxSize.width-4, height: 7)
             let str = NSAttributedString.init(string: "\(Int((value.rounded(toPlaces: 2)) * 100))%", attributes: stringAttributes)
             str.draw(with: rect)
             
