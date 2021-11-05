@@ -25,6 +25,7 @@ public enum widget_t: String {
     case label = "label"
     case tachometer = "tachometer"
     
+    // swiftlint:disable function_body_length
     public func new(module: String, config: NSDictionary, defaultWidget: widget_t) -> Widget? {
         var image: NSImage? = nil
         var preview: widget_p? = nil
@@ -76,12 +77,12 @@ public enum widget_t: String {
             
             switch preview {
             case is BarChart:
-                if module == "GPU" || module == "RAM" || module == "Disk" {
-                    width = 15
+                if module == "GPU" || module == "RAM" || module == "Disk" || module == "Battery" {
+                    width = 11 + Constants.Widget.margin.x
                 } else if module == "Fans" {
-                    width = 26
+                    width = 22
                 } else if module == "CPU" {
-                    width = 34
+                    width = 30
                 }
             case is SensorsWidget:
                 if module == "Sensors" {
