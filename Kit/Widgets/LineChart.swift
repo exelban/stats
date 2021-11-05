@@ -159,7 +159,7 @@ public class LineChart: WidgetWrapper {
                 NSAttributedString.Key.paragraphStyle: style
             ]
             
-            let rect = CGRect(x: x+4, y: boxSize.height-7, width: boxSize.width-4, height: 7)
+            let rect = CGRect(x: Constants.Widget.margin.x, y: boxSize.height-7, width: self.width - Constants.Widget.margin.x - 1, height: 7)
             let str = NSAttributedString.init(string: "\(Int((value.rounded(toPlaces: 2)) * 100))%", attributes: stringAttributes)
             str.draw(with: rect)
             
