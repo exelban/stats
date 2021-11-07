@@ -78,11 +78,11 @@ public enum widget_t: String {
             switch preview {
             case is BarChart:
                 if module == "GPU" || module == "RAM" || module == "Disk" || module == "Battery" {
-                    width = 11 + Constants.Widget.margin.x
+                    width = 11 + (Constants.Widget.margin.x*2)
                 } else if module == "Fans" {
-                    width = 22
+                    width = 22 + (Constants.Widget.margin.x*2)
                 } else if module == "CPU" {
-                    width = 30
+                    width = 30 + (Constants.Widget.margin.x*2)
                 }
             case is SensorsWidget:
                 if module == "Sensors" {
