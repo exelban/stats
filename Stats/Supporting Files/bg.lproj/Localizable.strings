@@ -10,24 +10,24 @@
 //
 
 // Modules
-"CPU" = "CPU";
-"Open CPU settings" = "Open CPU settings";
-"GPU" = "GPU";
-"Open GPU settings" = "Open GPU settings";
+"CPU" = "Процесор";
+"Open CPU settings" = "Настройки на процесора";
+"GPU" = "Графична карта";
+"Open GPU settings" = "Настройки на графичната карта";
 "RAM" = "RAM";
-"Open RAM settings" = "Open RAM settings";
-"Disk" = "Disk";
-"Open Disk settings" = "Open disk settings";
-"Sensors" = "Sensors";
-"Open Sensors settings" = "Open sensors settings";
-"Fans" = "Fans";
-"Open Fans settings" = "Open fans settings";
-"Network" = "Network";
-"Open Network settings" = "Open network settings";
-"Battery" = "Battery";
-"Open Battery settings" = "Open battery settings";
+"Open RAM settings" = "Настройки на RAM";
+"Disk" = "Диск";
+"Open Disk settings" = "Настройки на диска";
+"Sensors" = "Сензори";
+"Open Sensors settings" = "Настройки на сензорите";
+"Fans" = "Вентилатори";
+"Open Fans settings" = "Настройки на вентилаторите";
+"Network" = "Мрежа";
+"Open Network settings" = "Настройки на мрежата";
+"Battery" = "Батерия";
+"Open Battery settings" = "Настройки на мрежата";
 "Bluetooth" = "Bluetooth";
-"Open Bluetooth settings" = "Open bluetooth settings";
+"Open Bluetooth settings" = "Настройки на bluetooth";
 
 // Words
 "Unknown" = "Непознато";
@@ -53,13 +53,13 @@
 "Statistics" = "Статистика";
 "Max" = "Макс.";
 "Min" = "Мин.";
-"Reset" = "Reset";
-"Alignment" = "Alignment";
-"Left alignment" = "Left";
-"Center alignment" = "Center";
-"Right alignment" = "Right";
-"Dashboard" = "Dashboard";
-"Disabled" = "Disabled";
+"Reset" = "Зануляване";
+"Alignment" = "Подравняване";
+"Left alignment" = "Ляво";
+"Center alignment" = "Център";
+"Right alignment" = "Дясно";
+"Dashboard" = "Табло";
+"Disabled" = "Изключено";
 
 // Alerts
 "New version available" = "Налична е нова версия";
@@ -120,13 +120,13 @@
 "Battery widget" = "Батерия";
 "Text widget" = "Текст";
 "Memory widget" = "Памет";
-"Static width" = "Static width";
-"Tachometer widget" = "Tachometer";
+"Static width" = "Постоянна ширина";
+"Tachometer widget" = "Тахометър";
 
 // Module Kit
 "Open module settings" = "Отваряне на настройките на модула";
 "Select widget" = "Избор на уиджет %0";
-"Open widget settings" = "Open widget settings";
+"Open widget settings" = "Настройки на уиджета";
 "Update interval" = "Интервал на опресняване";
 "Usage history" = "История на използването";
 "Details" = "Подробности";
@@ -135,7 +135,7 @@
 
 // Modules
 "Number of top processes" = "Брой топ процеси";
-"Update interval for top processes" = "Update interval for top processes";
+"Update interval for top processes" = "Интервал на опресняване на топ процесите";
 
 // CPU
 "CPU usage" = "Употреба на процесора";
@@ -146,13 +146,13 @@
 "Idle" = "В покой";
 "Show usage per core" = "Показване на употреба по ядро";
 "Show hyper-threading cores" = "Показване на hyper-threading ядра";
-"Split the value (System/User)" = "Разделете стойността (Система/Потребител)";
+"Split the value (System/User)" = "Разделяне на стойността (Система/Потребител)";
 "Scheduler limit" = "Scheduler limit";
-"Speed limit" = "Speed limit";
-"Average load" = "Average load";
-"1 minute" = "1 minute";
-"5 minutes" = "5 minutes";
-"15 minutes" = "15 minutes";
+"Speed limit" = "Ограничение на скоростта";
+"Average load" = "Средно натоварване";
+"1 minute" = "1 минута";
+"5 minutes" = "5 минути";
+"15 minutes" = "15 минути";
 
 // GPU
 "GPU to show" = "Показване на графична карта";
@@ -173,7 +173,7 @@
 
 // RAM
 "Memory usage" = "Заета памет";
-"Memory pressure" = "Memory pressure";
+"Memory pressure" = "Натоварване на паметта";
 "Total" = "Общо";
 "Used" = "Заета";
 "App" = "Приложения";
@@ -195,8 +195,8 @@
 "Temperature unit" = "Температурна единица";
 "Celsius" = "Целзиус";
 "Fahrenheit" = "Фаренхайт";
-"Save the fan speed" = "Save the fan speed";
-"Fan" = "Fan";
+"Save the fan speed" = "Запазете скоростта на вентилатора";
+"Fan" = "Вентилатор";
 
 // Network
 "Uploading" = "Качване";
@@ -205,7 +205,7 @@
 "Local IP" = "Локално IP";
 "Interface" = "Интерфейс";
 "Physical address" = "Физически адрес";
-"Refresh" = "Refresh";
+"Refresh" = "Опресняване";
 "Click to copy public IP address" = "Натиснете, за да копирате публичния IP адрес";
 "Click to copy local IP address" = "Натиснете, за да копирате локалния IP адрес";
 "Click to copy wifi name" = "Натиснете, за да копирате името на WiFi мреждата";
@@ -217,7 +217,7 @@
 "Reader type" = "Тип четец";
 "Interface based" = "На база интерфейс";
 "Processes based" = "На база процес";
-"Reset data usage" = "Reset data usage";
+"Reset data usage" = "Зануляване";
 
 // Battery
 "Level" = "Ниво";
@@ -243,7 +243,7 @@
 "Low battery" = "Ниско ниво на батерията";
 "High battery" = "Високо ниво на батерията";
 "Battery remaining" = "Оставащи %0%";
-"Battery remaining to full charge" = "%0% to full charge";
+"Battery remaining to full charge" = "%0% до пълен заряд";
 "Percentage" = "Процент";
 "Percentage and time" = "Процент и време";
 "Time and percentage" = "Време и процент";
@@ -252,36 +252,36 @@
 "Last charge" = "Последно зареждане";
 
 // Bluetooth
-"Battery to show" = "Battery to show";
+"Battery to show" = "Батерия за показване";
 
 // Colors
-"Based on utilization" = "Based on utilization";
-"Based on pressure" = "Based on pressure";
-"System accent" = "System accent";
-"Monochrome accent" = "Monochrome accent";
-"Clear" = "Clear";
-"White" = "White";
-"Black" = "Black";
-"Gray" = "Gray";
-"Second gray" = "Second gray";
-"Dark gray" = "Dark gray";
-"Light gray" = "Light gray";
-"Red" = "Red";
-"Second red" = "Second red";
-"Green" = "Green";
-"Second green" = "Second green";
-"Blue" = "Blue";
-"Second blue" = "Second blue";
-"Yellow" = "Yellow";
-"Second yellow" = "Second yellow";
-"Orange" = "Orange";
-"Second orange" = "Second orange";
-"Purple" = "Purple";
-"Second purple" = "Second purple";
-"Brown" = "Brown";
-"Second brown" = "Second brown";
-"Cyan" = "Cyan";
-"Magenta" = "Magenta";
-"Pink" = "Pink";
-"Teal" = "Teal";
-"Indigo" = "Indigo";
+"Based on utilization" = "На база утилизация";
+"Based on pressure" = "На база натоварване";
+"System accent" = "Системен акцент";
+"Monochrome accent" = "Едноцветен акцент";
+"Clear" = "Прозрачно";
+"White" = "Бяло";
+"Black" = "Черно";
+"Gray" = "Сиво";
+"Second gray" = "Второ сиво";
+"Dark gray" = "Тъмно сиво";
+"Light gray" = "Светло сиво";
+"Red" = "Червено";
+"Second red" = "Второ червено";
+"Green" = "Зелено";
+"Second green" = "Второ зелено";
+"Blue" = "Синьо";
+"Second blue" = "Второ синьо";
+"Yellow" = "Жълто";
+"Second yellow" = "Второ жълто";
+"Orange" = "Оранжево";
+"Second orange" = "Второ оранжево";
+"Purple" = "Виолетово";
+"Second purple" = "Второ виолетово";
+"Brown" = "Кафяво";
+"Second brown" = "Второ кафяво";
+"Cyan" = "Циан";
+"Magenta" = "Магента";
+"Pink" = "Розово";
+"Teal" = "Изумруд";
+"Indigo" = "Индиго";
