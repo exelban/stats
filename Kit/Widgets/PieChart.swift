@@ -56,6 +56,10 @@ public class PieChart: WidgetWrapper {
                     circle_segment(value: 0.12, color: NSColor.systemOrange),
                     circle_segment(value: 0.08, color: NSColor.systemPink)
                 ])
+            } else if self.title == "Disk" {
+                self.chart.setSegments([
+                    circle_segment(value: 0.86, color: NSColor.systemBlue)
+                ])
             }
         } else {
             self.labelState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_label", defaultValue: self.labelState)

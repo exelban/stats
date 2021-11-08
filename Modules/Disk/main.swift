@@ -206,6 +206,10 @@ public class Disk: Module {
             case let widget as Mini: widget.setValue(percentage)
             case let widget as BarChart: widget.setValue([[ColorValue(percentage)]])
             case let widget as MemoryWidget: widget.setValue((DiskSize(free).getReadableMemory(), DiskSize(usedSpace).getReadableMemory()))
+            case let widget as PieChart:
+                widget.setValue([
+                    circle_segment(value: percentage, color: NSColor.systemBlue)
+                ])
             default: break
             }
         }

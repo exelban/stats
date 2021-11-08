@@ -65,6 +65,13 @@
 			<key>Order</key>
 			<integer>2</integer>
 		</dict>
+		<key>pie_chart</key>
+		<dict>
+			<key>Default</key>
+			<false/>
+			<key>Order</key>
+			<integer>3</integer>
+		</dict>
 		<key>memory</key>
 		<dict>
 			<key>Default</key>
@@ -75,7 +82,7 @@
 				<string>47.85 GB, 184.84 GB</string>
 			</dict>
 			<key>Order</key>
-			<integer>3</integer>
+			<integer>4</integer>
 		</dict>
 		<key>speed</key>
 		<dict>
@@ -89,7 +96,7 @@
 				<string>R</string>
 			</array>
 			<key>Order</key>
-			<integer>4</integer>
+			<integer>5</integer>
 		</dict>
 	</dict>
 </dict>
