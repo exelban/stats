@@ -34,6 +34,7 @@ public class Sensors: Module {
         self.popupView.setup(self.sensorsReader.list)
         
         self.settingsView.callback = { [unowned self] in
+            self.checkIfNoSensorsEnabled()
             self.sensorsReader.read()
         }
         self.settingsView.setInterval = { [unowned self] value in
@@ -52,6 +53,12 @@ public class Sensors: Module {
     
     public override func isAvailable() -> Bool {
         return !self.sensorsReader.list.isEmpty
+    }
+    
+    private func checkIfNoSensorsEnabled() {
+        if self.sensorsReader.list.filter({ $0.state }).isEmpty {
+            NotificationCenter.default.post(name: .toggleModule, object: nil, userInfo: ["module": self.config.name, "state": false])
+        }
     }
     
     private func usageCallback(_ raw: [Sensor_p]?) {

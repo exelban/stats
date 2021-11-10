@@ -30,6 +30,8 @@ open class Settings: NSStackView, Settings_p {
     private var moduleSettingsContainer: NSStackView?
     private var widgetSettingsContainer: NSStackView?
     
+    private var enableControl: NSControl?
+    
     private let headerSeparator: NSView = {
         let view: NSView = NSView()
         view.heightAnchor.constraint(equalToConstant: 1).isActive = true
@@ -45,6 +47,8 @@ open class Settings: NSStackView, Settings_p {
         self.moduleSettings = moduleSettings
         
         super.init(frame: NSRect(x: 0, y: 0, width: Constants.Settings.width, height: Constants.Settings.height))
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(externalModuleToggle), name: .toggleModule, object: nil)
         
         self.wantsLayer = true
         self.appearance = NSAppearance(named: .aqua)
@@ -119,6 +123,7 @@ open class Settings: NSStackView, Settings_p {
             
             toggleBtn = button
         }
+        self.enableControl = toggleBtn
         
         view.addArrangedSubview(titleView)
         view.addArrangedSubview(NSView())
@@ -163,13 +168,15 @@ open class Settings: NSStackView, Settings_p {
         )
         view.spacing = Constants.Settings.margin
         
-        for i in 0...self.widgets.pointee.count - 1 {
-            let preview = WidgetPreview(&self.widgets.pointee[i])
-            preview.stateCallback = { [weak self] in
-                self?.loadModuleSettings()
-                self?.loadWidgetSettings()
+        if !self.widgets.pointee.isEmpty {
+            for i in 0...self.widgets.pointee.count - 1 {
+                let preview = WidgetPreview(&self.widgets.pointee[i])
+                preview.stateCallback = { [weak self] in
+                    self?.loadModuleSettings()
+                    self?.loadWidgetSettings()
+                }
+                view.addArrangedSubview(preview)
             }
-            view.addArrangedSubview(preview)
         }
         view.addArrangedSubview(NSView())
         
@@ -211,6 +218,16 @@ open class Settings: NSStackView, Settings_p {
     
     @objc private func toggleEnable(_ sender: Any) {
         self.toggleCallback()
+    }
+    
+    @objc private func externalModuleToggle(_ notification: Notification) {
+        if let name = notification.userInfo?["module"] as? String {
+            if name == self.config.pointee.name {
+                if let state = notification.userInfo?["state"] as? Bool {
+                    toggleNSControlState(self.enableControl, state: state ? .on : .off)
+                }
+            }
+        }
     }
     
     @objc private func loadModuleSettings() {
