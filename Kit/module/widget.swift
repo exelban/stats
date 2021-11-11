@@ -98,11 +98,7 @@ public enum widget_t: String {
                 height: view.bounds.height
             )
             
-            if let rep = view.bitmapImageRepForCachingDisplay(in: r) {
-                view.cacheDisplay(in: r, to: rep)
-                image = NSImage(size: r.size)
-                image?.addRepresentation(rep)
-            }
+            image = NSImage(data: view.dataWithPDF(inside: r))
         }
         
         if let item = item, let image = image {
