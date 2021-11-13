@@ -81,20 +81,27 @@ internal class Settings: NSStackView, Settings_v {
             selected: self.usageReset
         ))
         
-//        self.addInterfaceSelector()
+        self.addArrangedSubview(self.interfaceSelector())
     }
     
-    private func addInterfaceSelector() {
-        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: 0, height: 30))
+    private func interfaceSelector() -> NSView {
+        let view = NSStackView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.heightAnchor.constraint(equalToConstant: Constants.Settings.row).isActive = true
+        view.orientation = .horizontal
+        view.alignment = .centerY
+        view.distribution = .fill
+        view.spacing = 0
         
-        let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: (view.frame.height - 16)/2, width: view.frame.width - 52, height: 17), localizedString("Network interface"))
-        rowTitle.font = NSFont.systemFont(ofSize: 13, weight: .light)
-        rowTitle.textColor = .textColor
+        let titleField: NSTextField = LabelField(frame: NSRect(x: 0, y: 0, width: 0, height: 0), localizedString("Network interface"))
+        titleField.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+        titleField.textColor = .textColor
         
-        self.button = NSPopUpButton(frame: NSRect(x: view.frame.width - 200 - Constants.Settings.margin*2, y: 0, width: 200, height: 26))
-        self.button?.target = self
-        self.button?.action = #selector(self.handleSelection)
-        self.button?.isEnabled = self.readerType == "interface"
+        let select: NSPopUpButton = NSPopUpButton()
+        select.target = self
+        select.action = #selector(self.handleSelection)
+        select.isEnabled = self.readerType == "interface"
+        self.button = select
         
         let selectedInterface = Store.shared.string(key: "\(self.title)_interface", defaultValue: "")
         let menu = NSMenu()
@@ -111,16 +118,18 @@ internal class Settings: NSStackView, Settings_v {
             }
         }
         
-        self.button?.menu = menu
+        select.menu = menu
+        select.sizeToFit()
         
         if selectedInterface == "" {
-            self.button?.selectItem(withTitle: "Autodetection")
+            select.selectItem(withTitle: "Autodetection")
         }
         
-        view.addSubview(rowTitle)
-        view.addSubview(self.button!)
+        view.addArrangedSubview(titleField)
+        view.addArrangedSubview(NSView())
+        view.addArrangedSubview(select)
         
-        self.addArrangedSubview(view)
+        return view
     }
     
     @objc func handleSelection(_ sender: NSPopUpButton) {
