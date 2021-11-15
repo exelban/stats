@@ -14,6 +14,9 @@ import Cocoa
 public class MemoryWidget: WidgetWrapper {
     private var orderReversedState: Bool = false
     private var value: (String, String) = ("0", "0")
+    private var symbolsState: Bool = true
+    
+    private let width: CGFloat = 50
     
     public init(title: String, config: NSDictionary?, preview: Bool = false) {
         if config != nil {
@@ -34,9 +37,9 @@ public class MemoryWidget: WidgetWrapper {
         }
         
         super.init(.memory, title: title, frame: CGRect(
-            x: 0,
+            x: Constants.Widget.margin.x,
             y: Constants.Widget.margin.y,
-            width: 62,
+            width: self.width + (Constants.Widget.margin.x*2),
             height: Constants.Widget.height - (2*Constants.Widget.margin.y)
         ))
         
@@ -44,6 +47,7 @@ public class MemoryWidget: WidgetWrapper {
         
         if !preview {
             self.orderReversedState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_orderReversed", defaultValue: self.orderReversedState)
+            self.symbolsState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_symbols", defaultValue: self.symbolsState)
         }
         
         if preview {
@@ -59,8 +63,12 @@ public class MemoryWidget: WidgetWrapper {
         super.draw(dirtyRect)
         
         let letterWidth: CGFloat = 8
-        let rowWidth: CGFloat = self.frame.width - Constants.Widget.margin.x - letterWidth
         let rowHeight: CGFloat = self.frame.height / 2
+        var width: CGFloat = self.width
+        var x: CGFloat = 0
+        
+        let freeY: CGFloat = !self.orderReversedState ? rowHeight+1 : 1
+        let usedY: CGFloat = !self.orderReversedState ? 1 : rowHeight+1
         
         let style = NSMutableParagraphStyle()
         style.alignment = .right
@@ -70,24 +78,28 @@ public class MemoryWidget: WidgetWrapper {
             NSAttributedString.Key.paragraphStyle: style
         ]
         
-        let freeY: CGFloat = !self.orderReversedState ? rowHeight+1 : 1
-        let usedY: CGFloat = !self.orderReversedState ? 1 : rowHeight+1
+        if self.symbolsState {
+            var rect = CGRect(x: Constants.Widget.margin.x, y: freeY, width: letterWidth, height: rowHeight)
+            var str = NSAttributedString.init(string: "F:", attributes: attributes)
+            str.draw(with: rect)
+            
+            rect = CGRect(x: Constants.Widget.margin.x, y: usedY, width: letterWidth, height: rowHeight)
+            str = NSAttributedString.init(string: "U:", attributes: attributes)
+            str.draw(with: rect)
+            
+            x = letterWidth + Constants.Widget.spacing*2
+            width += x
+        }
         
-        var rect = CGRect(x: Constants.Widget.margin.x, y: freeY, width: letterWidth, height: rowHeight)
-        var str = NSAttributedString.init(string: "F:", attributes: attributes)
+        var rect = CGRect(x: x, y: freeY, width: width - x, height: rowHeight)
+        var str = NSAttributedString.init(string: self.value.0, attributes: attributes)
         str.draw(with: rect)
         
-        rect = CGRect(x: letterWidth, y: freeY, width: rowWidth, height: rowHeight)
-        str = NSAttributedString.init(string: self.value.0, attributes: attributes)
-        str.draw(with: rect)
-        
-        rect = CGRect(x: Constants.Widget.margin.x, y: usedY, width: letterWidth, height: rowHeight)
-        str = NSAttributedString.init(string: "U:", attributes: attributes)
-        str.draw(with: rect)
-        
-        rect = CGRect(x: letterWidth, y: usedY, width: rowWidth, height: rowHeight)
+        rect = CGRect(x: x, y: usedY, width: width - x, height: rowHeight)
         str = NSAttributedString.init(string: self.value.1, attributes: attributes)
         str.draw(with: rect)
+        
+        self.setWidth(width + (Constants.Widget.margin.x*2))
     }
     
     public func setValue(_ value: (String, String)) {
@@ -107,6 +119,12 @@ public class MemoryWidget: WidgetWrapper {
             state: self.orderReversedState
         ))
         
+        view.addArrangedSubview(toggleSettingRow(
+            title: localizedString("Show symbols"),
+            action: #selector(toggleSymbols),
+            state: self.symbolsState
+        ))
+        
         return view
     }
     
@@ -117,8 +135,22 @@ public class MemoryWidget: WidgetWrapper {
         } else {
             state = sender is NSButton ? (sender as! NSButton).state: nil
         }
+        
         self.orderReversedState = state! == .on ? true : false
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_orderReversed", value: self.orderReversedState)
+        self.display()
+    }
+    
+    @objc private func toggleSymbols(_ sender: NSControl) {
+        var state: NSControl.StateValue? = nil
+        if #available(OSX 10.15, *) {
+            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
+        } else {
+            state = sender is NSButton ? (sender as! NSButton).state: nil
+        }
+        
+        self.symbolsState = state! == .on ? true : false
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_symbols", value: self.symbolsState)
         self.display()
     }
 }

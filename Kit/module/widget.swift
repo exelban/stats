@@ -88,6 +88,8 @@ public enum widget_t: String {
                 if module == "Sensors" {
                     width = 25
                 }
+            case is MemoryWidget:
+                width = view.bounds.width + 8 + Constants.Widget.spacing*2
             default: width = view.bounds.width
             }
             
