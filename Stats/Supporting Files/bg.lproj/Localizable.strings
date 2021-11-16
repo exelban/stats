@@ -122,6 +122,7 @@
 "Memory widget" = "Памет";
 "Static width" = "Постоянна ширина";
 "Tachometer widget" = "Тахометър";
+"Show symbols" = "Show symbols";
 
 // Module Kit
 "Open module settings" = "Отваряне на настройките на модула";

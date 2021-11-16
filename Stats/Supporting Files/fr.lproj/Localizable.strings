@@ -122,6 +122,7 @@
 "Memory widget" = "Mémoire";
 "Static width" = "Largeur fixée";
 "Tachometer widget" = "Tachometer";
+"Show symbols" = "Show symbols";
 
 // Module Kit
 "Open module settings" = "Ouvrir les paramètres du module";
