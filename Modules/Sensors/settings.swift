@@ -98,8 +98,8 @@ internal class Settings: NSStackView, Settings_v {
             )
             container.spacing = 0
             
-            groups.reversed().forEach { (group: SensorGroup) in
-                filtered.reversed().filter{ $0.group == group }.forEach { (s: Sensor_p) in
+            groups.forEach { (group: SensorGroup) in
+                filtered.filter{ $0.group == group }.forEach { (s: Sensor_p) in
                     let row: NSView = toggleSettingRow(
                         title: s.name,
                         action: #selector(self.handleSelection),
