@@ -1,0 +1,288 @@
+//
+//  Localizable.strings
+//  Stats
+//
+//  Created by Casper Sørensen (casperes1996) on 18/11/2021.
+//  Using Swift 5.0.
+//  Running on macOS 12.1.
+//
+// Project  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
+//
+
+// Modules
+"CPU" = "CPU";
+"Open CPU settings" = "Åben indstillinger for CPU";
+"GPU" = "GPU";
+"Open GPU settings" = "Åben indstillinger for GPU";
+"RAM" = "RAM";
+"Open RAM settings" = "Åben indstillinger for RAM";
+"Disk" = "Disk";
+"Open Disk settings" = "Åben indstillinger for disk";
+"Sensors" = "Sensorer";
+"Open Sensors settings" = "Åben indstillinger for sensorer";
+"Fans" = "Blæsere";
+"Open Fans settings" = "Åben indstillinger for blæsere";
+"Network" = "Netværk";
+"Open Network settings" = "Åben indstillinger for netværk";
+"Battery" = "Batteri";
+"Open Battery settings" = "Åben indstillinger for batteri";
+"Bluetooth" = "Bluetooth";
+"Open Bluetooth settings" = "Åben indstillinger for bluetooth";
+
+// Words
+"Unknown" = "Ukendt";
+"Version" = "Version";
+"Processor" = "Processor";
+"Memory" = "Hukommelse";
+"Graphics" = "Grafik";
+"Close" = "Luk";
+"Download" = "Download";
+"Install" = "Installér";
+"Cancel" = "Annuller";
+"Unavailable" = "Utilgængelig";
+"Yes" = "Ja";
+"No" = "Nej";
+"Automatic" = "Automatisk";
+"Manual" = "Manuelt"; // As in opposed to automatic, not a manual. A manual would be translated as manual, same as English.
+"None" = "Ingen";
+"Dots" = "Prikker";
+"Arrows" = "Pile";
+"Characters" = "Tegn";
+"Short" = "Kort";
+"Long" = "Lang";
+"Statistics" = "Statistik";
+"Max" = "Max";
+"Min" = "Min";
+"Reset" = "Nulstil";
+"Alignment" = "Opstilling"; //As in text alignment
+"Left alignment" = "Venstrejusteret";
+"Center alignment" = "Midterjusteret";
+"Right alignment" = "Højrejusteret";
+"Dashboard" = "Instrumentbræt";
+"Disabled" = "Deaktiveret";
+
+// Alerts
+"New version available" = "Ny udgave tilgængelig";
+"Click to install the new version of Stats" = "Klik for at installere den nye udgave af Stats";
+"Successfully updated" = "Udpaterede succesfuldt";
+"Stats was updated to v" = "Stats er blevet opdateret til v%0";
+
+// Settings
+"Open Activity Monitor" = "Åben Aktivitetsmonitor";
+"Report a bug" = "Rapportér en fejl";
+"Support the application" = "Støt programmets udvikling";
+"Close application" = "Luk programmet";
+"Open application settings" = "Åben applikationsindstillinger";
+"Open dashboard" = "Åben instrumentbræt";
+
+// Application settings
+"Update application" = "Opdatér applikation";
+"Check for updates" = "Søg efter opdateringer";
+"At start" = "Ved opstart";
+"Once per day" = "Én gang om dagen";
+"Once per week" = "Én gang om ugen";
+"Once per month" = "Én gang om måneden";
+"Never" = "Aldrig";
+"Check for update" = "Søg efter opdatering";
+"Show icon in dock" = "Vis ikon i Dock";
+"Start at login" = "Start ved login";
+
+// Dashboard
+"Serial number" = "Serienummer";
+"Uptime" = "Uptime"; // There exists some translations but in technical speak it's always just called uptime in Danish as well. Thus I left the translation as is
+
+// Update
+"The latest version of Stats installed" = "Den nyeste udgave af Stats er installeret";
+"Downloading..." = "Downloader...";
+"Current version: " = "Nuværende version:  ";
+"Latest version: " = "Nyeste version:    ";
+
+// Widgets
+"Color" = "Farve";
+"Label" = "Tekstmærke";
+"Box" = "Boks";
+"Frame" = "Ramme";
+"Value" = "Værdi";
+"Colorize" = "Farve";
+"Colorize value" = "Farve værdi";
+"Additional information" = "Yderligere information";
+"Reverse values order" = "Omvend værdi-rækkefølge";
+"Base" = "Base";
+"Display mode" = "Visningstilstand";
+"One row" = "Én række";
+"Two rows" = "Two rækker";
+"Mini widget" = "Mini";
+"Line chart widget" = "Linjegraf";
+"Bar chart widget" = "Bjælegraf";
+"Pie chart widget" = "Cirkeldiagram";
+"Network chart widget" = "Netværksgraf";
+"Speed widget" = "Hastighed";
+"Battery widget" = "Batteri";
+"Text widget" = "Tekst";
+"Memory widget" = "Hukommelse";
+"Static width" = "Statisk bredde";
+"Tachometer widget" = "Omdrejningstæller";
+"Show symbols" = "Vis symboler";
+
+// Module Kit
+"Open module settings" = "Åben indstillinger for moduler";
+"Select widget" = "Vælg %0 widget";
+"Open widget settings" = "Åben indstillinger for widgets";
+"Update interval" = "Opdateringsinterval";
+"Usage history" = "Brugshistorik";
+"Details" = "Detaljer";
+"Top processes" = "Top processer";
+"Pictogram" = "Pictogram";
+
+// Modules
+"Number of top processes" = "Antal topprocesser";
+"Update interval for top processes" = "Opdateringsinterval for topprocesser";
+
+// CPU
+"CPU usage" = "CPU brug";
+"CPU temperature" = "CPU temperatur";
+"CPU frequency" = "CPU frekvens";
+"System" = "System";
+"User" = "Bruger";
+"Idle" = "Ikke i brug";
+"Show usage per core" = "Vis brug per kærne";
+"Show hyper-threading cores" = "Vis hyper-threading kærner";
+"Split the value (System/User)" = "Opdel værdier (System/Bruger)";
+"Scheduler limit" = "Schedulerbegrænsning";
+"Speed limit" = "Hastighedsbegræsning";
+"Average load" = "Gennemsnitlig belastning";
+"1 minute" = "1 minut";
+"5 minutes" = "5 minuter";
+"15 minutes" = "15 minuter";
+
+// GPU
+"GPU to show" = "GPU der vises";
+"Show GPU type" = "Vis GPU type";
+"GPU enabled" = "GPU aktiveret";
+"GPU disabled" = "GPU deaktiveret";
+"GPU temperature" = "GPU temperatur";
+"GPU utilization" = "GPU brugsniveau";
+"Vendor" = "Leverandør";
+"Model" = "Model";
+"Status" = "Status";
+"Active" = "Aktiv";
+"Non active" = "Ikke aktiv";
+"Fan speed" = "Blæserhastighed";
+"Core clock" = "Kærnefrekvens";
+"Memory clock" = "Hukommelsesfrekvens";
+"Utilization" = "Brugsniveau";
+
+// RAM
+"Memory usage" = "Hukommelse i brug";
+"Memory pressure" = "Hukommelsebelastning";
+"Total" = "Total";
+"Used" = "Brugt";
+"App" = "App";
+"Wired" = "Wired"; //Technical term with no good translation that doesn't lose meaning - The word wired is used in Danish to describe the technical meaning
+"Compressed" = "Komprimeret";
+"Free" = "Ledig";
+"Swap" = "Swap";
+"Split the value (App/Wired/Compressed)" = "Opdel værdierne (App/Wired/Komprimeret)";
+
+// Disk
+"Show removable disks" = "Vis eksterne diske";
+"Used disk memory" = "%0 af %1 i brug";
+"Free disk memory" = "%0 af %1 ledig";
+"Disk to show" = "Disk der vises";
+"Open disk" = "Åben disk";
+"Switch view" = "Skift visning";
+
+// Sensors
+"Temperature unit" = "Temperaturenhed";
+"Celsius" = "Celsius";
+"Fahrenheit" = "Fahrenheit";
+"Save the fan speed" = "Gem blæserhastighed";
+"Fan" = "Blæser";
+
+// Network
+"Uploading" = "Upload";
+"Downloading" = "Download";
+"Public IP" = "Offentlig IP";
+"Local IP" = "Lokal IP";
+"Interface" = "Interface";
+"Physical address" = "Fysisk adresse";
+"Refresh" = "Genopfrisk";
+"Click to copy public IP address" = "Klik for at kopiere offentlig IP";
+"Click to copy local IP address" = "Klik for at kopiere lokal IP";
+"Click to copy wifi name" = "Klik for at kopiere wifi-navn";
+"Click to copy mac address" = "Klik for at kopiere mac-adresse";
+"No connection" = "Ingen forbindelse";
+"Network interface" = "Netværksinterface";
+"Total download" = "Total download";
+"Total upload" = "Total upload";
+"Reader type" = "Læsertype";
+"Interface based" = "Interface baseret";
+"Processes based" = "Process baseret";
+"Reset data usage" = "Nulstil databrug";
+
+// Battery
+"Level" = "Niveau";
+"Source" = "Kilde";
+"AC Power" = "Strøm fra AC";
+"Battery Power" = "Strøm fra batteri";
+"Time" = "Tid";
+"Health" = "Helbred";
+"Amperage" = "Amper";
+"Voltage" = "Volt";
+"Cycles" = "Cykler";
+"Temperature" = "Temperatur";
+"Power adapter" = "Strømforsyning";
+"Power" = "Strøm";
+"Is charging" = "Oplader";
+"Time to discharge" = "Tid til afladning";
+"Time to charge" = "Tid til opladning";
+"Calculating" = "Udregner";
+"Fully charged" = "Fuldt opladt";
+"Not connected" = "Ikke forbundet";
+"Low level notification" = "Notifikation om lavt niveau";
+"High level notification" = "Notifikation om højt niveau";
+"Low battery" = "Lavt batteri";
+"High battery" = "Højt batteri";
+"Battery remaining" = "%0% Tilbage";
+"Battery remaining to full charge" = "%0% Indtil fuldt opladt";
+"Percentage" = "Procent";
+"Percentage and time" = "Procent og tid";
+"Time and percentage" = "Tid og procent";
+"Time format" = "Tidsformat";
+"Hide additional information when full" = "Skjul yderligere information når fuldt opladt";
+"Last charge" = "Sidst opladt";
+
+// Bluetooth
+"Battery to show" = "Batteri der vises";
+
+// Colors
+"Based on utilization" = "Baseret på brug";
+"Based on pressure" = "Baseret på belastning";
+"System accent" = "System accent";
+"Monochrome accent" = "Monochromatisk accent";
+"Clear" = "Gennemsigtig";
+"White" = "Hvid";
+"Black" = "Sort";
+"Gray" = "Grå";
+"Second gray" = "Sekundær grå";
+"Dark gray" = "Mørk grå";
+"Light gray" = "Lys grå";
+"Red" = "Rød";
+"Second red" = "Sekundær rød";
+"Green" = "Grøn";
+"Second green" = "Sekundær grøn";
+"Blue" = "Blå";
+"Second blue" = "Sekundær blå";
+"Yellow" = "Gul";
+"Second yellow" = "Sekundær gul";
+"Orange" = "Orange";
+"Second orange" = "Sekundær orange";
+"Purple" = "Lilla";
+"Second purple" = "Sekundær lilla";
+"Brown" = "Brun";
+"Second brown" = "Sekundær brun";
+"Cyan" = "Cyan";
+"Magenta" = "Magenta";
+"Pink" = "Pink";
+"Teal" = "Blågrøn";
+"Indigo" = "Indigo";
