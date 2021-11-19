@@ -203,6 +203,7 @@ open class Settings: NSStackView, Settings_p {
         widgetTab.label = localizedString("Widget settings")
         widgetTab.view = {
             let view = ScrollableStackView()
+            view.stackView.spacing = 0
             self.widgetSettingsContainer = view.stackView
             self.loadWidgetSettings()
             return view
@@ -250,36 +251,11 @@ open class Settings: NSStackView, Settings_p {
         }
         
         for i in 0...list.count - 1 {
-            let container = NSStackView()
-            container.orientation = .vertical
-            container.edgeInsets = NSEdgeInsets(
-                top: 0,
-                left: Constants.Settings.margin,
-                bottom: 0,
-                right: Constants.Settings.margin
-            )
-            container.spacing = 0
-            
-            let header = NSStackView()
-            header.heightAnchor.constraint(equalToConstant: Constants.Settings.row).isActive = true
-            header.orientation = .horizontal
-            header.spacing = 0
-            
-            let image = NSImageView(frame: NSRect(origin: .zero, size: list[i].image.size))
-            image.image = list[i].image
-            
-            let title: NSTextField = LabelField(frame: NSRect(x: 0, y: 0, width: 0, height: 0), list[i].type.name())
-            title.font = NSFont.systemFont(ofSize: 13, weight: .regular)
-            title.textColor = .textColor
-            
-            header.addArrangedSubview(image)
-            header.addArrangedSubview(title)
-            header.addArrangedSubview(NSView())
-            
-            container.addArrangedSubview(header)
-            container.addArrangedSubview(list[i].item.settings())
-            
-            self.widgetSettingsContainer?.addArrangedSubview(container)
+            self.widgetSettingsContainer?.addArrangedSubview(WidgetSettings(
+                title: list[i].type.name(),
+                image: list[i].image,
+                settingsView: list[i].item.settings()
+            ))
         }
     }
 }
@@ -345,5 +321,97 @@ internal class WidgetPreview: NSStackView {
     override func mouseDown(with: NSEvent) {
         self.widget.pointee.toggle()
         self.stateCallback()
+    }
+}
+
+internal class WidgetSettings: NSStackView {
+    public init(title: String, image: NSImage, settingsView: NSView) {
+        super.init(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
+        
+        self.translatesAutoresizingMaskIntoConstraints = false
+        self.orientation = .vertical
+        self.edgeInsets = NSEdgeInsets(
+            top: 0,
+            left: Constants.Settings.margin,
+            bottom: 0,
+            right: Constants.Settings.margin
+        )
+        self.spacing = 0
+        
+        self.addArrangedSubview(self.header(title, image))
+        self.addArrangedSubview(self.settings(settingsView))
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func header(_ title: String, _ image: NSImage) -> NSView {
+        let container = NSStackView()
+        container.translatesAutoresizingMaskIntoConstraints = false
+        container.orientation = .horizontal
+        container.edgeInsets = NSEdgeInsets(
+            top: 6,
+            left: 0,
+            bottom: 6,
+            right: 0
+        )
+        container.spacing = 0
+        container.distribution = .equalCentering
+        
+        let content = NSStackView()
+        content.translatesAutoresizingMaskIntoConstraints = false
+        content.orientation = .vertical
+        content.distribution = .fill
+        content.spacing = 0
+        
+        let title: NSTextField = LabelField(frame: NSRect(x: 0, y: 0, width: 0, height: 0), title)
+        title.font = NSFont.systemFont(ofSize: 13, weight: .regular)
+        title.textColor = .textColor
+        
+        let imageContainer = NSStackView()
+        imageContainer.orientation = .vertical
+        imageContainer.spacing = 0
+        imageContainer.wantsLayer = true
+        imageContainer.layer?.backgroundColor = NSColor.white.cgColor
+        imageContainer.layer?.cornerRadius = 2
+        imageContainer.edgeInsets = NSEdgeInsets(
+            top: 2,
+            left: 2,
+            bottom: 2,
+            right: 2
+        )
+        
+        let imageView = NSImageView(frame: NSRect(origin: .zero, size: image.size))
+        imageView.image = image
+        
+        imageContainer.addArrangedSubview(imageView)
+        
+        content.addArrangedSubview(imageContainer)
+        content.addArrangedSubview(title)
+        
+        container.addArrangedSubview(NSView())
+        container.addArrangedSubview(content)
+        container.addArrangedSubview(NSView())
+        
+        return container
+    }
+    
+    private func settings(_ view: NSView) -> NSView {
+        let container = NSStackView()
+        container.orientation = .vertical
+        container.spacing = 0
+        container.wantsLayer = true
+        container.layer?.backgroundColor = NSColor.init(calibratedWhite: 0.1, alpha: 0.06).cgColor
+        container.layer?.cornerRadius = 4
+        container.edgeInsets = NSEdgeInsets(
+            top: 2,
+            left: 2,
+            bottom: 2,
+            right: 2
+        )
+        container.addArrangedSubview(view)
+        
+        return container
     }
 }
