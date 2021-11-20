@@ -25,6 +25,8 @@ internal class Settings: NSStackView, Settings_v {
     private var button: NSPopUpButton?
     private var intervalSelectView: NSView? = nil
     
+    private var list: [String] = []
+    
     public init(_ title: String) {
         self.title = title
         self.selectedDisk = Store.shared.string(key: "\(self.title)_disk", defaultValue: "")
@@ -85,6 +87,7 @@ internal class Settings: NSStackView, Settings_v {
         self.button = NSPopUpButton(frame: NSRect(x: 0, y: 0, width: 0, height: 30))
         self.button!.target = self
         self.button?.action = #selector(self.handleSelection)
+        self.button?.addItems(withTitles: list)
         
         view.addArrangedSubview(rowTitle)
         view.addArrangedSubview(NSView())
@@ -102,6 +105,7 @@ internal class Settings: NSStackView, Settings_v {
             
             if disks != self.button?.itemTitles {
                 self.button?.addItems(withTitles: disks)
+                self.list = disks
                 if self.selectedDisk != "" {
                     self.button?.selectItem(withTitle: self.selectedDisk)
                 }
