@@ -164,6 +164,9 @@ public class Disk: Module {
         self.settingsView.callback = { [unowned self] in
             self.capacityReader?.read()
         }
+        self.settingsView.setInterval = { [unowned self] value in
+            self.capacityReader?.setInterval(value)
+        }
         
         if let reader = self.capacityReader {
             self.addReader(reader)
