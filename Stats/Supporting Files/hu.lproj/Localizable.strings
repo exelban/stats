@@ -59,7 +59,7 @@
 "Center alignment" = "Középre igazítás";
 "Right alignment" = "Jobbra igazítás";
 "Dashboard" = "Irányítópult";
-"Disabled" = "Disabled";
+"Disabled" = "Kikapcsolva";
 
 // Alerts
 "New version available" = "Új verzió érhető el";
@@ -121,8 +121,8 @@
 "Text widget" = "Szöveg";
 "Memory widget" = "Memória";
 "Static width" = "Fix szélesség";
-"Tachometer widget" = "Tachometer";
-"Show symbols" = "Show symbols";
+"Tachometer widget" = "Fordulatszámmérő";
+"Show symbols" = "Szimbólumok mutatása";
 
 // Module Kit
 "Open module settings" = "Modul beállításainak megnyitása";
@@ -136,7 +136,7 @@
 
 // Modules
 "Number of top processes" = "Top folyamatok száma";
-"Update interval for top processes" = "Update interval for top processes";
+"Update interval for top processes" = "Top folyamatok frissítési időköze";
 
 // CPU
 "CPU usage" = "CPU használat";
@@ -196,8 +196,8 @@
 "Temperature unit" = "Hőmérséklet mértékegysége";
 "Celsius" = "Celsius";
 "Fahrenheit" = "Fahrenheit";
-"Save the fan speed" = "Save the fan speed";
-"Fan" = "Fan";
+"Save the fan speed" = "Ventilátor sebesség mentése";
+"Fan" = "Ventilátor";
 
 // Network
 "Uploading" = "Feltöltés";
@@ -218,7 +218,7 @@
 "Reader type" = "Olvasó típusa";
 "Interface based" = "Interfész alapú";
 "Processes based" = "Folyamat alapú";
-"Reset data usage" = "Reset data usage";
+"Reset data usage" = "Adathasználati adatok alaphelyzetbe állítása";
 
 // Battery
 "Level" = "Töltöttségi szint";
