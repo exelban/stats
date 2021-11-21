@@ -121,8 +121,8 @@
 "Text widget" = "文字";
 "Memory widget" = "記憶體";
 "Static width" = "靜態寬度";
-"Tachometer widget" = "Tachometer";
-"Show symbols" = "Show symbols";
+"Tachometer widget" = "轉速計";
+"Show symbols" = "顯示符號";
 
 // Module Kit
 "Open module settings" = "打開模組設定";
