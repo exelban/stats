@@ -248,7 +248,6 @@ public extension NSView {
             toggle = switchButton
         } else {
             let button: NSButton = NSButton()
-            button.widthAnchor.constraint(equalToConstant: button.bounds.width).isActive = true
             button.setButtonType(.switch)
             button.state = state
             button.title = ""
