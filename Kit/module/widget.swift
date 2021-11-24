@@ -76,6 +76,10 @@ public enum widget_t: String {
             var width: CGFloat = view.bounds.width
             
             switch preview {
+            case is Mini:
+                if module == "Battery" {
+                    width = view.bounds.width + 3
+                }
             case is BarChart:
                 if module == "GPU" || module == "RAM" || module == "Disk" || module == "Battery" {
                     width = 11 + (Constants.Widget.margin.x*2)
@@ -90,6 +94,8 @@ public enum widget_t: String {
                 }
             case is MemoryWidget:
                 width = view.bounds.width + 8 + Constants.Widget.spacing*2
+            case is BatterykWidget:
+                width = view.bounds.width - 3
             default: width = view.bounds.width
             }
             
