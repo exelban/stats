@@ -1,0 +1,289 @@
+//
+//  Localizable.strings
+//  Stats
+//
+//  Created by David Alonso (davidalonso) on 25/11/2021.
+//  Using Swift 5.0.
+//  Running on macOS 12.0.
+//
+//  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
+//
+
+// Modules
+"CPU" = "CPU";
+"Open CPU settings" = "Obre la configuració de CPU";
+"GPU" = "GPU";
+"Open GPU settings" = "Obre la configuració de GPU";
+"RAM" = "RAM";
+"Open RAM settings" = "Obre la configuració de RAM";
+"Disk" = "Disc";
+"Open Disk settings" = "Obre la configuració de disc";
+"Sensors" = "Sensors";
+"Open Sensors settings" = "Obre la configuració de sensors";
+"Fans" = "Ventiladors";
+"Open Fans settings" = "Obre la configuració de ventiladors";
+"Network" = "Xarxa";
+"Open Network settings" = "Obre la configuració de xarxa";
+"Battery" = "Bateria";
+"Open Battery settings" = "Obre la configuració de bateria";
+"Bluetooth" = "Bluetooth";
+"Open Bluetooth settings" = "Obre la configuració de bluetooth";
+
+// Words
+"Unknown" = "Desconegut";
+"Version" = "Versió";
+"Processor" = "Processador";
+"Memory" = "Memòria";
+"Graphics" = "Gràfics";
+"Close" = "Tanca";
+"Download" = "Baixa";
+"Install" = "Instal·la";
+"Cancel" = "Cancel·la";
+"Unavailable" = "No disponible";
+"Yes" = "Sí";
+"No" = "No";
+"Automatic" = "Automàtic";
+"Manual" = "Manual";
+"None" = "Cap";
+"Dots" = "Punts";
+"Arrows" = "Fletxes";
+"Characters" = "Lletres";
+"Short" = "Curt";
+"Long" = "Llarg";
+"Statistics" = "Estadístiques";
+"Max" = "Màx";
+"Min" = "Mín";
+"Reset" = "Reinicialitza";
+"Alignment" = "Alineació";
+"Left alignment" = "Esquerra";
+"Center alignment" = "Centre";
+"Right alignment" = "Dreta";
+"Dashboard" = "Panell";
+"Disabled" = "Desactivat";
+
+// Alerts
+"New version available" = "Nova versió disponible";
+"Click to install the new version of Stats" = "Clica per a instal·lar la nova versió d'Stats";
+"Successfully updated" = "Actualització completada amb èxit";
+"Stats was updated to v" = "Stats s'ha actualitzat a v%0";
+
+// Settings
+"Open Activity Monitor" = "Obre el Visor d'Activitat";
+"Report a bug" = "Reporta un problema";
+"Support the application" = "Suporta l'aplicació";
+"Close application" = "Tanca l'aplicació";
+"Open application settings" = "Obre la configuració de l'aplicació";
+"Open dashboard" = "Obre el panell";
+
+// Application settings
+"Update application" = "Actualitza l'aplicació";
+"Check for updates" = "Busca actualitzacions";
+"At start" = "A l'inici";
+"Once per day" = "Un cop al día";
+"Once per week" = "Un cop per setmana";
+"Once per month" = "Un cop al mes";
+"Never" = "Mai";
+"Check for update" = "Busca actualitzacions";
+"Show icon in dock" = "Mostra l'icona al Dock";
+"Start at login" = "Arranca al iniciar sessió";
+
+// Dashboard
+"Serial number" = "Número de sèrie";
+"Uptime" = "Temps d'activitat";
+
+// Update
+"The latest version of Stats installed" = "L'última versió d'Stats està instal·lada";
+"Downloading..." = "Baixant...";
+"Current version: " = "Versió instal·lada: ";
+"Latest version: " = "Última versió: ";
+
+// Widgets
+"Color" = "Color";
+"Label" = "Etiqueta";
+"Box" = "Caixa";
+"Frame" = "Marc";
+"Value" = "Valor";
+"Colorize" = "Acoloreix";
+"Colorize value" = "Valor de l'acoloriment";
+"Additional information" = "Informació addicional";
+"Reverse values order" = "Invertir l'ordre dels valors";
+"Base" = "Base";
+"Display mode" = "Mode de visualització";
+"One row" = "Una fila";
+"Two rows" = "Dues files";
+"Mini widget" = "Mini widget";
+"Line chart widget" = "Gràfic de línies";
+"Bar chart widget" = "Gràfic de barres";
+"Pie chart widget" = "Gràfic circular";
+"Network chart widget" = "Gràfic de xarxa";
+"Speed widget" = "Velocitat";
+"Battery widget" = "Bateria";
+"Text widget" = "Text";
+"Memory widget" = "Memòria";
+"Static width" = "Ample fixe";
+"Tachometer widget" = "Tacòmetre";
+"Show symbols" = "Mostra els símbols";
+"Label widget" = "Etiqueta";
+
+// Module Kit
+"Open module settings" = "Obre la configuració del mòdul";
+"Select widget" = "Selecciona el widget %0";
+"Open widget settings" = "Obre la configuració del widget";
+"Update interval" = "Freqüència de refresc";
+"Usage history" = "Historial d'ús";
+"Details" = "Detalls";
+"Top processes" = "Processos principals";
+"Pictogram" = "Pictograma";
+
+// Modules
+"Number of top processes" = "Nombre de processos principals";
+"Update interval for top processes" = "Freqüència de refresc per als processos principals";
+
+// CPU
+"CPU usage" = "Ús de la CPU";
+"CPU temperature" = "Temperatura de la CPU";
+"CPU frequency" = "Freqüència de la CPU";
+"System" = "Sistema";
+"User" = "Usuari";
+"Idle" = "Inactiu";
+"Show usage per core" = "Mostra l'ús per nucli";
+"Show hyper-threading cores" = "Mostra els nuclis amb hyper-threading";
+"Split the value (System/User)" = "Divideix el valor (Sistema/Usuari)";
+"Scheduler limit" = "Límit del planificador";
+"Speed limit" = "Límit de velocitat";
+"Average load" = "Càrrega mitja";
+"1 minute" = "1 minut";
+"5 minutes" = "5 minuts";
+"15 minutes" = "15 minuts";
+
+// GPU
+"GPU to show" = "GPU a mostrar";
+"Show GPU type" = "Mostra el tipus de GPU";
+"GPU enabled" = "GPU activada";
+"GPU disabled" = "GPU desactivada";
+"GPU temperature" = "Temperatura de la GPU";
+"GPU utilization" = "Ús de la GPU";
+"Vendor" = "Fabricant";
+"Model" = "Model";
+"Status" = "Estat";
+"Active" = "Activa";
+"Non active" = "Inactiva";
+"Fan speed" = "Velocitat del ventilador";
+"Core clock" = "Rellotge del nucli";
+"Memory clock" = "Rellotge de la memòria";
+"Utilization" = "Ús";
+
+// RAM
+"Memory usage" = "Ús de la memòria";
+"Memory pressure" = "Pressió de la memòria";
+"Total" = "Total";
+"Used" = "Usada";
+"App" = "Aplicació";
+"Wired" = "Física";
+"Compressed" = "Comprimida";
+"Free" = "Lliure";
+"Swap" = "Swap";
+"Split the value (App/Wired/Compressed)" = "Dividir el valor (Aplicació/Física/Comprimida)";
+
+// Disk
+"Show removable disks" = "Mostra els discs extraïbles";
+"Used disk memory" = "En ús %0 de %1";
+"Free disk memory" = "Lliure %0 de %1";
+"Disk to show" = "Disc a mostrar";
+"Open disk" = "Disc obert";
+"Switch view" = "Canviar vista";
+
+// Sensors
+"Temperature unit" = "Unitat de temperatura";
+"Celsius" = "Celsius";
+"Fahrenheit" = "Fahrenheit";
+"Save the fan speed" = "Guarda la velocitat del ventilador";
+"Fan" = "Ventilador";
+
+// Network
+"Uploading" = "Carregant";
+"Downloading" = "Baixant";
+"Public IP" = "IP Pública";
+"Local IP" = "IP Local";
+"Interface" = "Interfície";
+"Physical address" = "Direcció física";
+"Refresh" = "Actualitza";
+"Click to copy public IP address" = "Clica per a copiar la direcció IP pública";
+"Click to copy local IP address" = "Clica per a copiar la direcció IP local";
+"Click to copy wifi name" = "Clica per a copiar el nom de la xarxa WiFi";
+"Click to copy mac address" = "Clica per a copiar la direcció MAC";
+"No connection" = "Sense connexió";
+"Network interface" = "Interfície de xarxa";
+"Total download" = "Baixada total";
+"Total upload" = "Càrrega total";
+"Reader type" = "Tipus de lector";
+"Interface based" = "Interfície";
+"Processes based" = "Procés";
+"Reset data usage" = "Reinicia l'ús de dades";
+
+// Battery
+"Level" = "Nivell";
+"Source" = "Font";
+"AC Power" = "Alimentació";
+"Battery Power" = "Alimentat per bateria";
+"Time" = "Temps";
+"Health" = "Salut";
+"Amperage" = "Amperatge";
+"Voltage" = "Voltatge";
+"Cycles" = "Nombre de cicles";
+"Temperature" = "Temperatura";
+"Power adapter" = "Adaptador de corrent";
+"Power" = "Corrent";
+"Is charging" = "Està carregant";
+"Time to discharge" = "Temps fins la descàrrega completa";
+"Time to charge" = "Temps fins la càrrega completa";
+"Calculating" = "Calculant";
+"Fully charged" = "Completament carregada";
+"Not connected" = "No connectat";
+"Low level notification" = "Notificació de nivell baix";
+"High level notification" = "Notificació de nivell alt";
+"Low battery" = "Bateria baixa";
+"High battery" = "Bateria alta";
+"Battery remaining" = "%0% restant";
+"Battery remaining to full charge" = "%0% fins la càrrega completa";
+"Percentage" = "Percentatge";
+"Percentage and time" = "Percentatge y temps";
+"Time and percentage" = "Temps y percentatge";
+"Time format" = "Format de temps";
+"Hide additional information when full" = "Oculta informació addicional quan la bateria estigui carregada";
+"Last charge" = "Última càrrega";
+
+// Bluetooth
+"Battery to show" = "Bateria a mostrar";
+
+// Colors
+"Based on utilization" = "Basat en l'utilització";
+"Based on pressure" = "Basat en la pressió";
+"System accent" = "Accent del sistema";
+"Monochrome accent" = "Accent monocromàtic";
+"Clear" = "Clar";
+"White" = "Blanc";
+"Black" = "Negre";
+"Gray" = "Gris";
+"Second gray" = "Segon gris";
+"Dark gray" = "Gris fosc";
+"Light gray" = "Gris clar";
+"Red" = "Vermell";
+"Second red" = "Segon vermell";
+"Green" = "Verd";
+"Second green" = "Segon verd";
+"Blue" = "Blau";
+"Second blue" = "Segon blau";
+"Yellow" = "Groc";
+"Second yellow" = "Segon groc";
+"Orange" = "Taronja";
+"Second orange" = "Segon taronja";
+"Purple" = "Morat";
+"Second purple" = "Segon morat";
+"Brown" = "Marró";
+"Second brown" = "Segon marró";
+"Cyan" = "Cian";
+"Magenta" = "Magenta";
+"Pink" = "Rosa";
+"Teal" = "Verd-blau";
+"Indigo" = "Indi";
