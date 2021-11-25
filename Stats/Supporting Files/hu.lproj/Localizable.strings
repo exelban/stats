@@ -123,6 +123,7 @@
 "Static width" = "Fix szélesség";
 "Tachometer widget" = "Fordulatszámmérő";
 "Show symbols" = "Szimbólumok mutatása";
+"Label widget" = "Label";
 
 // Module Kit
 "Open module settings" = "Modul beállításainak megnyitása";

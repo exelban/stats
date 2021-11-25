@@ -123,10 +123,11 @@
 "Static width" = "Statyczna szerokość";
 "Tachometer widget" = "Tachometr";
 "Show symbols" = "Pokaż symbole";
+"Label widget" = "Etykieta";
 
 // Module Kit
 "Open module settings" = "Otwórz ustawienia modułu";
-"Select widget" = "Wybierz %0 widget";
+"Select widget" = "Wybierz %0 widżet";
 "Open widget settings" = "Otwórz ustawienia widgetu";
 "Update interval" = "Interwał odświeżania";
 "Usage history" = "Historia użycia";
