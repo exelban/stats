@@ -68,17 +68,17 @@ internal class Settings: NSStackView, Settings_v {
         ))
         
         self.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Reader type"),
-            action: #selector(changeReaderType),
-            items: NetworkReaders,
-            selected: self.readerType
-        ))
-        
-        self.addArrangedSubview(selectSettingsRow(
             title: localizedString("Reset data usage"),
             action: #selector(toggleUsageReset),
             items: AppUpdateIntervals.dropLast(2),
             selected: self.usageReset
+        ))
+        
+        self.addArrangedSubview(selectSettingsRow(
+            title: localizedString("Reader type"),
+            action: #selector(changeReaderType),
+            items: NetworkReaders,
+            selected: self.readerType
         ))
         
         self.addArrangedSubview(self.interfaceSelector())
