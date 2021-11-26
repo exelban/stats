@@ -123,6 +123,7 @@
 "Static width" = "Статическая ширина";
 "Tachometer widget" = "Тахометр";
 "Show symbols" = "Показать символы";
+"Label widget" = "Этикетка";
 
 // Module Kit
 "Open module settings" = "Открыть настройки модуля";

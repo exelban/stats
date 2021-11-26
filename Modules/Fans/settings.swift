@@ -14,7 +14,6 @@ import Kit
 
 internal class Settings: NSStackView, Settings_v {
     private var updateIntervalValue: Int = 1
-    private var labelState: Bool = false
     private var speedState: Bool = false
     
     private let title: String
@@ -42,8 +41,10 @@ internal class Settings: NSStackView, Settings_v {
         self.spacing = Constants.Settings.margin
         
         self.updateIntervalValue = Store.shared.int(key: "\(self.title)_updateInterval", defaultValue: self.updateIntervalValue)
-        self.labelState = Store.shared.bool(key: "\(self.title)_label", defaultValue: self.labelState)
-        self.speedState = Store.shared.bool(key: "\(self.title)_speed", defaultValue: self.labelState)
+        if Store.shared.exist(key: "\(self.title)_label") {
+            Store.shared.remove("\(self.title)_label")
+        }
+        self.speedState = Store.shared.bool(key: "\(self.title)_speed", defaultValue: self.speedState)
     }
     
     required init?(coder: NSCoder) {
@@ -58,12 +59,6 @@ internal class Settings: NSStackView, Settings_v {
             action: #selector(changeUpdateInterval),
             items: ReaderUpdateIntervals.map{ "\($0) sec" },
             selected: "\(self.updateIntervalValue) sec"
-        ))
-        
-        self.addArrangedSubview(toggleSettingRow(
-            title: localizedString("Label"),
-            action: #selector(toggleLabelState),
-            state: self.labelState
         ))
         
         self.addArrangedSubview(toggleSettingRow(
@@ -130,19 +125,6 @@ internal class Settings: NSStackView, Settings_v {
             Store.shared.set(key: "\(self.title)_updateInterval", value: value)
             self.setInterval(value)
         }
-    }
-    
-    @objc private func toggleLabelState(_ sender: NSControl) {
-        var state: NSControl.StateValue? = nil
-        if #available(OSX 10.15, *) {
-            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
-        } else {
-            state = sender is NSButton ? (sender as! NSButton).state: nil
-        }
-        
-        self.labelState = state! == .on ? true : false
-        Store.shared.set(key: "\(self.title)_label", value: self.labelState)
-        self.callback()
     }
     
     @objc private func toggleSpeedState(_ sender: NSControl) {

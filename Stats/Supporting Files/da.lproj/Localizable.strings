@@ -123,6 +123,7 @@
 "Static width" = "Statisk bredde";
 "Tachometer widget" = "Omdrejningstæller";
 "Show symbols" = "Vis symboler";
+"Label widget" = "Label";
 
 // Module Kit
 "Open module settings" = "Åben indstillinger for moduler";

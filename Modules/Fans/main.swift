@@ -87,13 +87,11 @@ public class Fans: Module {
         
         self.popupView.usageCallback(value)
         
-        let label: Bool = Store.shared.bool(key: "Fans_label", defaultValue: false)
         var list: [KeyValue_t] = []
         var flatList: [[ColorValue]] = []
         value.forEach { (f: Fan) in
             if f.state {
-                let str = label ? "\(f.name.prefix(1).uppercased()): \(Int(f.value))" : f.formattedValue
-                list.append(KeyValue_t(key: "Fan#\(f.id)", value: str))
+                list.append(KeyValue_t(key: "Fan#\(f.id)", value: f.formattedValue))
                 flatList.append([ColorValue(((f.value*100)/f.maxSpeed)/100)])
             }
         }
