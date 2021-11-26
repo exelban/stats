@@ -198,7 +198,7 @@
 "Celsius" = "攝氏 (˚C)";
 "Fahrenheit" = "華氏 (˚F)";
 "Save the fan speed" = "儲存風扇速度";
-"Fan" = "Fan";
+"Fan" = "風扇";
 
 // Network
 "Uploading" = "上傳";
