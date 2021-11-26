@@ -123,6 +123,7 @@
 "Static width" = "靜態寬度";
 "Tachometer widget" = "轉速計";
 "Show symbols" = "顯示符號";
+"Label widget" = "標籤";
 
 // Module Kit
 "Open module settings" = "打開模組設定";
