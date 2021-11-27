@@ -241,7 +241,7 @@ class ApplicationSettings: NSScrollView {
             button.title = ""
             button.action = action
             button.isBordered = false
-            button.isTransparent = true
+            button.isTransparent = false
             button.target = self
             
             toggle = button
