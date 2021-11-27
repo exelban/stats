@@ -180,7 +180,7 @@ public class SensorsWidget: WidgetWrapper {
         
         view.addArrangedSubview(selectSettingsRow(
             title: localizedString("Display mode"),
-            action: #selector(changeMode),
+            action: #selector(changeDisplayMode),
             items: SensorsWidgetMode,
             selected: self.modeState
         ))
@@ -194,7 +194,7 @@ public class SensorsWidget: WidgetWrapper {
         return view
     }
     
-    @objc private func changeMode(_ sender: NSMenuItem) {
+    @objc private func changeDisplayMode(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String else {
             return
         }
