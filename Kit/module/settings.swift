@@ -118,7 +118,7 @@ open class Settings: NSStackView, Settings_p {
             button.title = ""
             button.action = #selector(self.toggleEnable)
             button.isBordered = false
-            button.isTransparent = true
+            button.isTransparent = false
             button.target = self
             
             toggleBtn = button
