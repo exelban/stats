@@ -41,9 +41,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     private let updateActivity = NSBackgroundActivityScheduler(identifier: "eu.exelban.Stats.updateCheck")
     
     static func main() {
+        let app = NSApplication.shared
         let delegate = AppDelegate()
-        NSApplication.shared.delegate = delegate
-        NSApplication.shared.run()
+        app.delegate = delegate
+        app.run()
     }
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
