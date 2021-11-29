@@ -411,7 +411,7 @@ private class MenuView: NSView {
     
     public func activate() {
         NotificationCenter.default.post(name: .openModuleSettings, object: nil, userInfo: ["module": self.title])
-        self.layer?.backgroundColor = .init(gray: 0.1, alpha: 0.4)
+        self.layer?.backgroundColor = .init(gray: 0.01, alpha: 0.25)
         self.active = true
     }
     
