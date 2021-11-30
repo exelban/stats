@@ -49,7 +49,6 @@ public class Fans: Module {
         )
         guard self.available else { return }
         
-        self.checkIfNoSensorsEnabled()
         self.popupView.setup(self.fansReader.list)
         
         self.settingsView.callback = { [unowned self] in
