@@ -80,6 +80,7 @@ public class LineChartView: NSView {
         for i in 1..<self.points.count {
             line.line(to: CGPoint(x: columnXPoint(i), y: columnYPoint(i)))
         }
+        line.line(to: CGPoint(x: columnXPoint(self.points.count), y: columnYPoint(self.points.count-1)))
         
         lineColor.setStroke()
         line.lineWidth = offset
@@ -102,6 +103,18 @@ public class LineChartView: NSView {
         
         if self.window?.isVisible ?? true {
             self.display()
+        }
+    }
+    
+    public func reinit(_ num: Int = 60) {
+        guard self.points.count != num else { return }
+        
+        if num < self.points.count {
+            self.points = Array(self.points[self.points.count-num..<self.points.count])
+        } else {
+            let origin = self.points
+            self.points = Array(repeating: 0.01, count: num)
+            self.points.replaceSubrange(Range(uncheckedBounds: (lower: origin.count, upper: num)), with: origin)
         }
     }
 }
