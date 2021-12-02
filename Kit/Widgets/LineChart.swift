@@ -18,8 +18,7 @@ public class LineChart: WidgetWrapper {
     private var valueState: Bool = false
     private var valueColorState: Bool = false
     private var colorState: Color = .systemAccent
-    
-    private let width: CGFloat = 32
+    private var historyCount: Int = 60
     
     private var chart: LineChartView = LineChartView(frame: NSRect(
         x: 0,
@@ -30,6 +29,29 @@ public class LineChart: WidgetWrapper {
     private var colors: [Color] = Color.allCases
     private var value: Double = 0
     private var pressureLevel: Int = 0
+    
+    private var historyNumbers: [KeyValue_p] = [
+        KeyValue_t(key: "30", value: "30"),
+        KeyValue_t(key: "60", value: "60"),
+        KeyValue_t(key: "90", value: "90"),
+        KeyValue_t(key: "120", value: "120")
+    ]
+    private var width: CGFloat {
+        get {
+            switch self.historyCount {
+            case 30:
+                return 24
+            case 60:
+                return 32
+            case 90:
+                return 42
+            case 120:
+                return 52
+            default:
+                return 32
+            }
+        }
+    }
     
     private var boxSettingsView: NSView? = nil
     private var frameSettingsView: NSView? = nil
@@ -62,7 +84,7 @@ public class LineChart: WidgetWrapper {
         super.init(.lineChart, title: widgetTitle, frame: CGRect(
             x: Constants.Widget.margin.x,
             y: Constants.Widget.margin.y,
-            width: self.width + (Constants.Widget.margin.x*2),
+            width: 32 + (Constants.Widget.margin.x*2),
             height: Constants.Widget.height - (2*Constants.Widget.margin.y)
         ))
         
@@ -75,6 +97,9 @@ public class LineChart: WidgetWrapper {
             self.labelState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_label", defaultValue: self.labelState)
             self.valueColorState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_valueColor", defaultValue: self.valueColorState)
             self.colorState = Color.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_color", defaultValue: self.colorState.key))
+            self.historyCount = Store.shared.int(key: "\(self.title)_\(self.type.rawValue)_historyCount", defaultValue: self.historyCount)
+            
+            self.chart.reinit(self.historyCount)
         }
         
         if self.labelState {
@@ -159,7 +184,7 @@ public class LineChart: WidgetWrapper {
                 NSAttributedString.Key.paragraphStyle: style
             ]
             
-            let rect = CGRect(x: Constants.Widget.margin.x, y: boxSize.height-7, width: self.width - Constants.Widget.margin.x - 1, height: 7)
+            let rect = CGRect(x: x+2, y: boxSize.height-7, width: boxSize.width, height: 7)
             let str = NSAttributedString.init(string: "\(Int((value.rounded(toPlaces: 2)) * 100))%", attributes: stringAttributes)
             str.draw(with: rect)
             
@@ -207,17 +232,6 @@ public class LineChart: WidgetWrapper {
         self.setWidth(width)
     }
     
-    public override func setValues(_ values: [value_t]) {
-        let historyValues = values.map{ $0.widgetValue }.suffix(60)
-        let end = self.chart.points.count
-        
-        if !historyValues.isEmpty {
-            self.chart.points.replaceSubrange(end-historyValues.count...end-1, with: historyValues)
-        }
-        
-        self.display()
-    }
-    
     public func setValue(_ value: Double) {
         if self.value != value {
             self.value = value
@@ -257,6 +271,12 @@ public class LineChart: WidgetWrapper {
             state: self.valueState
         ))
         
+        view.addArrangedSubview(toggleSettingRow(
+            title: localizedString("Colorize value"),
+            action: #selector(toggleValueColor),
+            state: self.valueColorState
+        ))
+        
         self.boxSettingsView = toggleSettingRow(
             title: localizedString("Box"),
             action: #selector(toggleBox),
@@ -278,10 +298,11 @@ public class LineChart: WidgetWrapper {
             selected: self.colorState.key
         ))
         
-        view.addArrangedSubview(toggleSettingRow(
-            title: localizedString("Colorize value"),
-            action: #selector(toggleValueColor),
-            state: self.valueColorState
+        view.addArrangedSubview(selectSettingsRow(
+            title: localizedString("Number of reads in the chart"),
+            action: #selector(toggleHistoryCount),
+            items: self.historyNumbers,
+            selected: "\(self.historyCount)"
         ))
         
         return view
@@ -369,7 +390,19 @@ public class LineChart: WidgetWrapper {
             state = sender is NSButton ? (sender as! NSButton).state: nil
         }
         self.valueColorState = state! == .on ? true : false
+        
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_valueColor", value: self.valueColorState)
+        self.display()
+    }
+    
+    @objc private func toggleHistoryCount(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String, let value = Int(key) else {
+            return
+        }
+        self.historyCount = value
+        
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_historyCount", value: value)
+        self.chart.reinit(value)
         self.display()
     }
 }
