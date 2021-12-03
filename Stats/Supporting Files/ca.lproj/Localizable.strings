@@ -124,6 +124,7 @@
 "Tachometer widget" = "Tacòmetre";
 "Show symbols" = "Mostra els símbols";
 "Label widget" = "Etiqueta";
+"Number of reads in the chart" = "Number of reads in the chart";
 
 // Module Kit
 "Open module settings" = "Obre la configuració del mòdul";

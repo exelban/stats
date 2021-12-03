@@ -124,6 +124,7 @@
 "Tachometer widget" = "轉速計";
 "Show symbols" = "顯示符號";
 "Label widget" = "標籤";
+"Number of reads in the chart" = "Number of reads in the chart";
 
 // Module Kit
 "Open module settings" = "打開模組設定";

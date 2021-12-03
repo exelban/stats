@@ -124,6 +124,7 @@
 "Tachometer widget" = "Fordulatszámmérő";
 "Show symbols" = "Szimbólumok mutatása";
 "Label widget" = "Label";
+"Number of reads in the chart" = "Number of reads in the chart";
 
 // Module Kit
 "Open module settings" = "Modul beállításainak megnyitása";

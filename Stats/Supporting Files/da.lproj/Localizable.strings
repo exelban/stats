@@ -124,6 +124,7 @@
 "Tachometer widget" = "Omdrejningstæller";
 "Show symbols" = "Vis symboler";
 "Label widget" = "Label";
+"Number of reads in the chart" = "Number of reads in the chart";
 
 // Module Kit
 "Open module settings" = "Åben indstillinger for moduler";

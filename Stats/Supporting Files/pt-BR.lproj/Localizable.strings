@@ -124,6 +124,7 @@
 "Tachometer widget" = "Tachometer";
 "Show symbols" = "Show symbols";
 "Label widget" = "Label";
+"Number of reads in the chart" = "Number of reads in the chart";
 
 // Module Kit
 "Open module settings" = "Abrir configurações do módulo";

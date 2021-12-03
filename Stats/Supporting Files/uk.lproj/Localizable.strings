@@ -124,6 +124,7 @@
 "Tachometer widget" = "Тахометр";
 "Show symbols" = "Показати символи";
 "Label widget" = "Етикетка";
+"Number of reads in the chart" = "Кількість зчитувань на діаграмі";
 
 // Module Kit
 "Open module settings" = "Відкрити налаштування модуля";
