@@ -641,7 +641,11 @@ public class ProcessView: NSStackView {
     private var pid: Int? = nil
     
     private var imageView: NSImageView = NSImageView(frame: NSRect(x: 5, y: 5, width: 12, height: 12))
-    private var labelView: LabelField = LabelField(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
+    private var labelView: LabelField = {
+        let view = LabelField(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
+        view.cell?.truncatesLastVisibleLine = true
+        return view
+    }()
     private var valueView: ValueField = ValueField(frame: NSRect(x: 0, y: 0, width: 70, height: 0))
     
     public init() {
