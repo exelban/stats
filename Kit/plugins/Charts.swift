@@ -124,7 +124,7 @@ public class NetworkChartView: NSView {
     public var base: DataSizeBase = .byte
     public var monohorome: Bool = false
     
-    public var points: [(Double, Double)]? = nil
+    public var points: [(Double, Double)]
     private var colors: [NSColor] {
         get {
             return self.monohorome ? [MonochromeColor.red, MonochromeColor.blue] : [NSColor.systemRed, NSColor.systemBlue]
@@ -146,10 +146,10 @@ public class NetworkChartView: NSView {
     public override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         
-        guard let points = self.points else { return }
         guard let context = NSGraphicsContext.current?.cgContext else { return }
         context.setShouldAntialias(true)
         
+        let points = self.points
         var uploadMax: Double = points.map{ $0.0 }.max() ?? 0
         var downloadMax: Double = points.map{ $0.1 }.max() ?? 0
         if uploadMax == 0 {
@@ -236,15 +236,23 @@ public class NetworkChartView: NSView {
     }
     
     public func addValue(upload: Double, download: Double) {
-        if self.points == nil {
-            return
-        }
-        
-        self.points?.remove(at: 0)
-        self.points?.append((upload, download))
+        self.points.remove(at: 0)
+        self.points.append((upload, download))
         
         if self.window?.isVisible ?? true {
             self.display()
+        }
+    }
+    
+    public func reinit(_ num: Int = 60) {
+        guard self.points.count != num else { return }
+        
+        if num < self.points.count {
+            self.points = Array(self.points[self.points.count-num..<self.points.count])
+        } else {
+            let origin = self.points
+            self.points = Array(repeating: (0, 0), count: num)
+            self.points.replaceSubrange(Range(uncheckedBounds: (lower: origin.count, upper: num)), with: origin)
         }
     }
 }
