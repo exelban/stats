@@ -16,6 +16,7 @@ public class NetworkChart: WidgetWrapper {
     private var frameState: Bool = false
     private var labelState: Bool = false
     private var monochromeState: Bool = false
+    private var historyCount: Int = 60
     
     private var chart: NetworkChartView = NetworkChartView(
         frame: NSRect(
@@ -26,7 +27,29 @@ public class NetworkChart: WidgetWrapper {
         ),
         num: 60, minMax: false
     )
-    private let width: CGFloat = 30
+    private var width: CGFloat {
+        get {
+            switch self.historyCount {
+            case 30:
+                return 22
+            case 60:
+                return 30
+            case 90:
+                return 40
+            case 120:
+                return 50
+            default:
+                return 30
+            }
+        }
+    }
+    
+    private var historyNumbers: [KeyValue_p] = [
+        KeyValue_t(key: "30", value: "30"),
+        KeyValue_t(key: "60", value: "60"),
+        KeyValue_t(key: "90", value: "90"),
+        KeyValue_t(key: "120", value: "120")
+    ]
     
     private var boxSettingsView: NSView? = nil
     private var frameSettingsView: NSView? = nil
@@ -42,7 +65,7 @@ public class NetworkChart: WidgetWrapper {
         super.init(.networkChart, title: widgetTitle, frame: CGRect(
             x: Constants.Widget.margin.x,
             y: Constants.Widget.margin.y,
-            width: self.width + (2*Constants.Widget.margin.x),
+            width: 30 + (2*Constants.Widget.margin.x),
             height: Constants.Widget.height - (2*Constants.Widget.margin.y)
         ))
         
@@ -53,7 +76,9 @@ public class NetworkChart: WidgetWrapper {
             self.frameState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_frame", defaultValue: self.frameState)
             self.labelState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_label", defaultValue: self.labelState)
             self.monochromeState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_monochrome", defaultValue: self.monochromeState)
+            self.historyCount = Store.shared.int(key: "\(self.title)_\(self.type.rawValue)_historyCount", defaultValue: self.historyCount)
             
+            self.chart.reinit(self.historyCount)
             self.chart.monohorome = self.monochromeState
         }
         
@@ -178,6 +203,13 @@ public class NetworkChart: WidgetWrapper {
             state: self.monochromeState
         ))
         
+        view.addArrangedSubview(selectSettingsRow(
+            title: localizedString("Number of reads in the chart"),
+            action: #selector(toggleHistoryCount),
+            items: self.historyNumbers,
+            selected: "\(self.historyCount)"
+        ))
+        
         return view
     }
     
@@ -243,6 +275,17 @@ public class NetworkChart: WidgetWrapper {
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_monochrome", value: self.monochromeState)
         
         self.chart.monohorome = self.monochromeState
+        self.display()
+    }
+    
+    @objc private func toggleHistoryCount(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String, let value = Int(key) else {
+            return
+        }
+        self.historyCount = value
+        
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_historyCount", value: value)
+        self.chart.reinit(value)
         self.display()
     }
 }
