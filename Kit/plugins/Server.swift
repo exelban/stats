@@ -26,7 +26,7 @@ struct event: Codable {
 }
 
 public class Server {
-    public static let shared = Server(url: URL(string: "https://api.serhiy.io/v1/stats")!)
+    public static let shared = Server(url: URL(string: "")!)
     
     public var ID: String {
         get {
@@ -44,35 +44,5 @@ public class Server {
     }
     
     public func sendEvent(modules: [String], omit: Bool = false) {
-        let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
-        let build = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String
-        let systemVersion = ProcessInfo().operatingSystemVersion
-        
-        let e = event(
-            ID: self.ID,
-            version: version ?? "unknown",
-            build: build ?? "unknown",
-            modules: modules, device: SystemKit.shared.modelName() ?? "unknown",
-            os: systemVersion.getFullVersion(),
-            language: Locale.current.languageCode ?? "unknown",
-            omit: omit
-        )
-        
-        var request = URLRequest(url: self.url)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        
-        do {
-            request.httpBody = try JSONEncoder().encode(e)
-        } catch let err {
-            error("failed to encode json: \(err)")
-        }
-        
-        let task = URLSession.shared.dataTask(with: request) { (_, _, err) in
-            if err != nil {
-                error("send report \(String(describing: err))")
-            }
-        }
-        task.resume()
     }
 }
