@@ -59,7 +59,7 @@
 "Center alignment" = "居中";
 "Right alignment" = "右对齐";
 "Dashboard" = "仪表盘";
-"Disabled" = "Disabled";
+"Disabled" = "已停用";
 
 // Alerts
 "New version available" = "新版本可用";
@@ -121,10 +121,10 @@
 "Text widget" = "文本";
 "Memory widget" = "容量";
 "Static width" = "固定宽度";
-"Tachometer widget" = "Tachometer";
-"Show symbols" = "Show symbols";
-"Label widget" = "Label";
-"Number of reads in the chart" = "Number of reads in the chart";
+"Tachometer widget" = "转速计";
+"Show symbols" = "显示标识";
+"Label widget" = "标签";
+"Number of reads in the chart" = "图表显示的读取次数";
 
 // Module Kit
 "Open module settings" = "打开模块设置";
