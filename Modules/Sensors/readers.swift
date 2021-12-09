@@ -158,11 +158,11 @@ internal class AppleSilicon_SensorsReader: SensorsReader {
             eventType = kIOHIDEventTypeTemperature
         case .current:
             page = 0xff08
-            usage = 0x0003
+            usage = 0x0002
             eventType = kIOHIDEventTypePower
         case .voltage:
             page = 0xff08
-            usage = 0x0002
+            usage = 0x0003
             eventType = kIOHIDEventTypePower
         case .power: break
         case .fan: break
