@@ -237,7 +237,7 @@ public extension NSBezierPath {
     }
 }
 
-public func separatorView(_ title: String, origin: NSPoint, width: CGFloat) -> NSView {
+public func separatorView(_ title: String, origin: NSPoint = NSPoint(x: 0, y: 0), width: CGFloat) -> NSView {
     let view: NSView = NSView(frame: NSRect(x: origin.x, y: origin.y, width: width, height: 30))
     view.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
     
