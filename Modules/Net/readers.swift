@@ -368,6 +368,10 @@ public class ProcessReader: Reader<[Network_Process]> {
                 process.name = nameArray.dropLast().joined(separator: ".")
             }
             
+            if process.name == "" {
+                process.name = process.pid
+            }
+            
             if let download = Int(parsedLine[1]) {
                 process.download = download
             }
