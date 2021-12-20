@@ -97,7 +97,6 @@ internal class Popup: NSStackView, Popup_p {
         self.recalculateHeight()
     }
     
-    // swiftlint:disable empty_enum_arguments
     internal func usageCallback(_ values: [Sensor_p]) {
         DispatchQueue.main.async(execute: {
             if self.window?.isVisible ?? false {
