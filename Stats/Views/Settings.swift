@@ -28,6 +28,14 @@ class SettingsWindow: NSWindow, NSWindowDelegate {
             defer: false
         )
         
+        if let close = self.standardWindowButton(.closeButton),
+           let mini = self.standardWindowButton(.miniaturizeButton),
+           let zoom = self.standardWindowButton(.zoomButton) {
+            close.setFrameOrigin(NSPoint(x: 7, y: 1))
+            mini.setFrameOrigin(NSPoint(x: 27, y: 1))
+            zoom.setFrameOrigin(NSPoint(x: 47, y: 1))
+        }
+        
         self.contentViewController = self.viewController
         self.animationBehavior = .default
         self.collectionBehavior = .moveToActiveSpace
