@@ -239,6 +239,6 @@ let AppleSiliconSensorsList: [Sensor] = [
     Sensor(key: "PMU tdev%", name: "Power management unit dev %", group: .sensor, type: .temperature),
     Sensor(key: "PMU tdie%", name: "Power management unit die %", group: .sensor, type: .temperature),
     
-    Sensor(key: "Gas gauge battery", name: "Battery", group: .sensor, type: .temperature),
+    Sensor(key: "gas gauge battery", name: "Battery", group: .sensor, type: .temperature),
     Sensor(key: "NAND CH% temp", name: "Disk %s", group: .GPU, type: .temperature)
 ]

@@ -195,13 +195,17 @@ internal class AppleSilicon_SensorsReader: SensorsReader {
             var name: String = key
             var g: SensorGroup = group
             
-            AppleSiliconSensorsList.filter{ $0.key.contains("%") }.forEach { (s: Sensor) in
-                var index = 1
-                for i in 0..<64 {
-                    if s.key.replacingOccurrences(of: "%", with: "\(i)") == key {
-                        name = s.name.replacingOccurrences(of: "%", with: "\(index)")
+            AppleSiliconSensorsList.forEach { (s: Sensor) in
+                if s.key.contains("%") {
+                    var index = 1
+                    for i in 0..<64 {
+                        if s.key.replacingOccurrences(of: "%", with: "\(i)") == key {
+                            name = s.name.replacingOccurrences(of: "%", with: "\(index)")
+                        }
+                        index += 1
                     }
-                    index += 1
+                } else if s.key == key {
+                    name = s.name
                 }
                 g = s.group
             }
