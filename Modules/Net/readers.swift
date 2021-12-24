@@ -48,6 +48,19 @@ internal class UsageReader: Reader<Network_Usage> {
         }
     }
     
+    private var vpnConnection: Bool {
+        if let settings = CFNetworkCopySystemProxySettings()?.takeRetainedValue() as? [String: Any], let scopes = settings["__SCOPED__"] as? [String: Any] {
+            return !scopes.filter({ $0.key.contains("tap") || $0.key.contains("tun") || $0.key.contains("ppp") || $0.key.contains("ipsec") || $0.key.contains("ipsec0")}).isEmpty
+        }
+        return false
+    }
+    
+    private var VPNMode: Bool {
+        get {
+            return Store.shared.bool(key: "Network_VPNMode", defaultValue: false)
+        }
+    }
+    
     public override func setup() {
         self.reachability.reachable = {
             if self.active {
@@ -93,6 +106,11 @@ internal class UsageReader: Reader<Network_Usage> {
         self.usage.total.download += self.usage.bandwidth.download
         
         self.usage.status = self.reachability.isReachable
+        
+        if self.vpnConnection && self.VPNMode {
+            self.usage.bandwidth.upload /= 2
+            self.usage.bandwidth.download /= 2
+        }
         
         self.callback(self.usage)
         

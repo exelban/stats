@@ -17,6 +17,7 @@ internal class Settings: NSStackView, Settings_v {
     private var numberOfProcesses: Int = 8
     private var readerType: String = "interface"
     private var usageReset: String = AppUpdateInterval.atStart.rawValue
+    private var VPNModeState: Bool = false
     
     public var callback: (() -> Void) = {}
     public var callbackWhenUpdateNumberOfProcesses: (() -> Void) = {}
@@ -27,11 +28,19 @@ internal class Settings: NSStackView, Settings_v {
     
     private var list: [Network_interface] = []
     
+    private var vpnConnection: Bool {
+        if let settings = CFNetworkCopySystemProxySettings()?.takeRetainedValue() as? [String: Any], let scopes = settings["__SCOPED__"] as? [String: Any] {
+            return !scopes.filter({ $0.key.contains("tap") || $0.key.contains("tun") || $0.key.contains("ppp") || $0.key.contains("ipsec") || $0.key.contains("ipsec0")}).isEmpty
+        }
+        return false
+    }
+    
     public init(_ title: String) {
         self.title = title
         self.numberOfProcesses = Store.shared.int(key: "\(self.title)_processes", defaultValue: self.numberOfProcesses)
         self.readerType = Store.shared.string(key: "\(self.title)_reader", defaultValue: self.readerType)
         self.usageReset = Store.shared.string(key: "\(self.title)_usageReset", defaultValue: self.usageReset)
+        self.VPNModeState = Store.shared.bool(key: "\(self.title)_VPNMode", defaultValue: self.VPNModeState)
         
         super.init(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
         
@@ -82,6 +91,14 @@ internal class Settings: NSStackView, Settings_v {
         ))
         
         self.addArrangedSubview(self.interfaceSelector())
+        
+        if self.vpnConnection {
+            self.addArrangedSubview(toggleSettingRow(
+                title: localizedString("VPN mode"),
+                action: #selector(toggleVPNMode),
+                state: self.VPNModeState
+            ))
+        }
     }
     
     private func interfaceSelector() -> NSView {
@@ -170,5 +187,17 @@ internal class Settings: NSStackView, Settings_v {
         self.usageReset = key
         Store.shared.set(key: "\(self.title)_usageReset", value: key)
         self.usageResetCallback()
+    }
+    
+    @objc func toggleVPNMode(_ sender: NSControl) {
+        var state: NSControl.StateValue? = nil
+        if #available(OSX 10.15, *) {
+            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
+        } else {
+            state = sender is NSButton ? (sender as! NSButton).state: nil
+        }
+        
+        self.VPNModeState = state! == .on ? true : false
+        Store.shared.set(key: "\(self.title)_VPNMode", value: self.VPNModeState)
     }
 }
