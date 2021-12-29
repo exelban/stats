@@ -108,7 +108,7 @@ internal class Popup: NSStackView, Popup_p {
                         }
                     case let sensors as NSTextField:
                         sensors.stringValue = s.formattedValue
-                    case .none, .some(_):
+                    case .none, .some:
                         break
                     }
                 }
