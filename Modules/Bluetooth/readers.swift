@@ -14,40 +14,15 @@ import Kit
 import CoreBluetooth
 import IOBluetooth
 
-internal class DevicesReader: Reader<[BLEDevice]> {
-    private let queue = DispatchQueue(label: "eu.exelban.Stats.Bluetooth.reader", attributes: .concurrent)
+internal class DevicesReader: Reader<[BLEDevice]>, CBCentralManagerDelegate, CBPeripheralDelegate {
+    private var manager: CBCentralManager!
+    private var devices: [BLEDevice] = []
     
-    private var _devices: [BLEDevice] = []
-    private var _uuidAddress: [UUID: String] = [:]
-    private var peripherals: [CBPeripheral] = []
-    private var characteristicsDict: [UUID: CBCharacteristic] = [:]
-    
-    internal var devices: [BLEDevice] {
-        get {
-            self.queue.sync { self._devices }
-        }
-        set {
-            self.queue.async(flags: .barrier) {
-                self._devices = newValue
-            }
-        }
-    }
-    private var uuidAddress: [UUID: String] {
-        get {
-            self.queue.sync { self._uuidAddress }
-        }
-        set {
-            self.queue.async(flags: .barrier) {
-                self._uuidAddress = newValue
-            }
-        }
-    }
-    
-    private let batteryServiceUUID = CBUUID(string: "0x180F")
-    private let batteryCharacteristicsUUID = CBUUID(string: "0x2A19")
+    static let batteryServiceUUID = CBUUID(string: "0x180F")
     
     init() {
         super.init()
+        self.manager = CBCentralManager(delegate: self, queue: nil)
     }
     
     public override func read() {
@@ -64,6 +39,22 @@ internal class DevicesReader: Reader<[BLEDevice]> {
             self.devices[idx].isPaired = device.isPaired()
             self.devices[idx].isConnected = device.isConnected()
         })
+        
+        self.manager.retrievePeripherals(withIdentifiers: self.devices.compactMap({ $0.uuid })).forEach { (p: CBPeripheral) in
+            guard let idx = self.devices.firstIndex(where: { $0.uuid == p.identifier }) else {
+                return
+            }
+            
+            if self.devices[idx].peripheral == nil {
+                self.devices[idx].peripheral = p
+            }
+            
+            if p.state == .disconnected {
+                if self.manager.isScanning {
+                    self.manager.connect(p, options: nil)
+                }
+            }
+        }
         
         self.callback(self.devices)
     }
@@ -115,17 +106,6 @@ internal class DevicesReader: Reader<[BLEDevice]> {
             return
         }
         
-        coreCache.forEach { (key: String, dict: [String: Any]) in
-            guard let field = dict.first(where: { $0.key == "DeviceAddress" }),
-                  let value = field.value as? String else {
-                return
-            }
-            
-            if let uuid = UUID(uuidString: key), self.uuidAddress[uuid] == nil {
-                self.uuidAddress[uuid] = value
-            }
-        }
-        
         deviceCache.filter({ pairedDevices.contains($0.key) }).forEach { (address: String, dict: [String: Any]) in
             if self.devices.filter({ $0.conn == .ioDevice || $0.conn == .ble }).contains(where: { $0.address == address }) {
                 return
@@ -168,15 +148,41 @@ internal class DevicesReader: Reader<[BLEDevice]> {
                         self.devices[idx].isPaired = device.isPaired()
                     }
                 } else {
+                    var uuid: UUID? = nil
+                    coreCache.forEach { (key: String, dict: [String: Any]) in
+                        guard let field = dict.first(where: { $0.key == "DeviceAddress" }),
+                              let value = field.value as? String,
+                              value == address else {
+                            return
+                        }
+                        uuid = UUID(uuidString: key)
+                    }
+                    
                     self.devices.append(BLEDevice(
                         conn: .cache,
                         address: address,
                         name: name ?? "",
+                        uuid: uuid,
                         batteryLevel: batteryLevel,
                         isPaired: true
                     ))
                 }
             }
         }
+    }
+    
+    // MARK: - CBCentralManager
+    
+    func centralManagerDidUpdateState(_ central: CBCentralManager) {
+        if central.state == .poweredOff {
+            central.stopScan()
+        } else if central.state == .poweredOn {
+            central.scanForPeripherals(withServices: nil, options: nil)
+        }
+    }
+    
+    func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral) {
+        peripheral.delegate = self
+        peripheral.discoverServices([DevicesReader.batteryServiceUUID])
     }
 }
