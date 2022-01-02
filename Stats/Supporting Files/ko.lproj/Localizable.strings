@@ -221,6 +221,7 @@
 "Interface based" = "상호 작용";
 "Processes based" = "프로세스";
 "Reset data usage" = "Reset data usage";
+"VPN mode" = "VPN mode";
 
 // Battery
 "Level" = "잔량";

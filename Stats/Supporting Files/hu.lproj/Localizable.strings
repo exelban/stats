@@ -221,6 +221,7 @@
 "Interface based" = "Interfész alapú";
 "Processes based" = "Folyamat alapú";
 "Reset data usage" = "Adathasználati adatok alaphelyzetbe állítása";
+"VPN mode" = "VPN mode";
 
 // Battery
 "Level" = "Töltöttségi szint";

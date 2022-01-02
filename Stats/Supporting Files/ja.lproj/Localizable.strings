@@ -221,6 +221,7 @@
 "Interface based" = "インターフェイス";
 "Processes based" = "プロセス";
 "Reset data usage" = "Reset data usage";
+"VPN mode" = "VPN mode";
 
 // Battery
 "Level" = "充電残量";

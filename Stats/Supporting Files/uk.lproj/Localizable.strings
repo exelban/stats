@@ -221,6 +221,7 @@
 "Interface based" = "Інтерфейс";
 "Processes based" = "Процеси";
 "Reset data usage" = "Скинути використання даних";
+"VPN mode" = "Режим VPN";
 
 // Battery
 "Level" = "Рівень заряду";

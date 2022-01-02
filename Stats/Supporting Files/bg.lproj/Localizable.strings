@@ -221,6 +221,7 @@
 "Interface based" = "На база интерфейс";
 "Processes based" = "На база процес";
 "Reset data usage" = "Зануляване";
+"VPN mode" = "VPN mode";
 
 // Battery
 "Level" = "Ниво";

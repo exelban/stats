@@ -221,6 +221,7 @@
 "Interface based" = "Grensesnitt";
 "Processes based" = "Prosess";
 "Reset data usage" = "Reset data usage";
+"VPN mode" = "VPN mode";
 
 // Battery
 "Level" = "Nivå";

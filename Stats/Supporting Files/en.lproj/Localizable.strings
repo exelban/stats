@@ -221,6 +221,7 @@
 "Interface based" = "Interface based";
 "Processes based" = "Process based";
 "Reset data usage" = "Reset data usage";
+"VPN mode" = "VPN mode";
 
 // Battery
 "Level" = "Level";

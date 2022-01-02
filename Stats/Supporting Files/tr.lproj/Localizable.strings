@@ -221,6 +221,7 @@
 "Interface based" = "Arayüz";
 "Processes based" = "Süreçler";
 "Reset data usage" = "Veri kullanımını sıfırla";
+"VPN mode" = "VPN mode";
 
 // Battery
 "Level" = "Doluluk";

@@ -221,6 +221,7 @@
 "Interface based" = "Giao diện";
 "Processes based" = "Quá trình";
 "Reset data usage" = "Đặt lại mức sử dụng dữ liệu";
+"VPN mode" = "VPN mode";
 
 // Battery
 "Level" = "Dung lượng Pin";
