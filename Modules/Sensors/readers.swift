@@ -42,7 +42,7 @@ internal class x86_SensorsReader: SensorsReader {
         
         available = available.filter({ (key: String) -> Bool in
             switch key.prefix(1) {
-            case "T", "V", "P": return true
+            case "T", "V", "P", "I": return true
             default: return false
             }
         })

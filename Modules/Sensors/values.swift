@@ -204,6 +204,12 @@ let SensorsList: [Sensor] = [
     Sensor(key: "VV9S", name: "12V", group: .sensor, type: .voltage),
     Sensor(key: "VeES", name: "PCI 12V", group: .sensor, type: .voltage),
     
+    // Current
+    Sensor(key: "IC0R", name: "CPU High side", group: .sensor, type: .current),
+    Sensor(key: "IG0R", name: "GPU High side", group: .sensor, type: .current),
+    Sensor(key: "ID0R", name: "DC In", group: .sensor, type: .current),
+    Sensor(key: "IBAC", name: "Battery", group: .sensor, type: .current),
+    
     // Power
     Sensor(key: "PC0C", name: "CPU Core", group: .CPU, type: .power),
     Sensor(key: "PCAM", name: "CPU Core (IMON)", group: .CPU, type: .power),
