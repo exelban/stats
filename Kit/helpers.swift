@@ -642,12 +642,8 @@ public func sysctlByName(_ name: String) -> Int64 {
 }
 
 public class ProcessView: NSStackView {
-    public var value: String {
-        get { return self.valueView.stringValue }
-        set { self.valueView.stringValue = newValue }
-    }
-    
     private var pid: Int? = nil
+    private var lock: Bool = false
     
     private var imageView: NSImageView = NSImageView(frame: NSRect(x: 5, y: 5, width: 12, height: 12))
     private var labelView: LabelField = {
@@ -660,9 +656,11 @@ public class ProcessView: NSStackView {
     public init() {
         super.init(frame: NSRect(x: 0, y: 0, width: 264, height: 22))
         
+        self.wantsLayer = true
         self.orientation = .horizontal
         self.distribution = .fillProportionally
         self.spacing = 0
+        self.layer?.cornerRadius = 3
         
         let imageBox = NSView(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
         imageBox.addSubview(self.imageView)
@@ -670,6 +668,18 @@ public class ProcessView: NSStackView {
         self.addArrangedSubview(imageBox)
         self.addArrangedSubview(self.labelView)
         self.addArrangedSubview(self.valueView)
+        
+        self.addTrackingArea(NSTrackingArea(
+            rect: NSRect(
+                x: 0,
+                y: 0,
+                width: self.frame.width,
+                height: self.frame.height
+            ),
+            options: [NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited, NSTrackingArea.Options.activeInActiveApp],
+            owner: self,
+            userInfo: nil
+        ))
         
         NSLayoutConstraint.activate([
             imageBox.widthAnchor.constraint(equalToConstant: self.bounds.height),
@@ -685,8 +695,30 @@ public class ProcessView: NSStackView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func set(_ process: TopProcess) {
+    public override func mouseEntered(with: NSEvent) {
+        if self.lock { return }
+        self.layer?.backgroundColor = .init(gray: 0.01, alpha: 0.05)
+    }
+    
+    public override func mouseExited(with: NSEvent) {
+        if self.lock { return }
+        self.layer?.backgroundColor = .none
+    }
+    
+    public override func mouseDown(with: NSEvent) {
+        self.lock = !self.lock
+        if self.lock {
+            self.layer?.backgroundColor = .init(gray: 0.01, alpha: 0.1)
+        } else {
+            self.layer?.backgroundColor = .none
+        }
+    }
+    
+    public func set(_ process: TopProcess, _ value: String) {
+        if self.lock && process.pid != self.pid { return }
+        
         self.labelView.stringValue = process.name != nil ? process.name! : process.command
+        self.valueView.stringValue = value
         self.imageView.image = process.icon
         self.pid = process.pid
         self.toolTip = "pid: \(process.pid)"
