@@ -646,12 +646,13 @@ public class ProcessView: NSStackView {
     private var lock: Bool = false
     
     private var imageView: NSImageView = NSImageView(frame: NSRect(x: 5, y: 5, width: 12, height: 12))
+    private var killView: NSButton = NSButton(frame: NSRect(x: 5, y: 5, width: 12, height: 12))
     private var labelView: LabelField = {
         let view = LabelField(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
         view.cell?.truncatesLastVisibleLine = true
         return view
     }()
-    private var valueView: ValueField = ValueField(frame: NSRect(x: 0, y: 0, width: 70, height: 0))
+    private var valueView: ValueField = ValueField(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
     
     public init() {
         super.init(frame: NSRect(x: 0, y: 0, width: 264, height: 22))
@@ -662,20 +663,35 @@ public class ProcessView: NSStackView {
         self.spacing = 0
         self.layer?.cornerRadius = 3
         
-        let imageBox = NSView(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
-        imageBox.addSubview(self.imageView)
+        let imageBox: NSView = {
+            let view = NSView(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
+            
+            self.killView.bezelStyle = .regularSquare
+            self.killView.translatesAutoresizingMaskIntoConstraints = false
+            self.killView.imageScaling = .scaleNone
+            self.killView.image = Bundle(for: type(of: self)).image(forResource: "cancel")!
+            if #available(OSX 10.14, *) {
+                self.killView.contentTintColor = .lightGray
+            }
+            self.killView.isBordered = false
+            self.killView.action = #selector(self.kill)
+            self.killView.target = self
+            self.killView.toolTip = localizedString("Kill process")
+            self.killView.focusRingType = .none
+            self.killView.isHidden = true
+            
+            view.addSubview(self.imageView)
+            view.addSubview(self.killView)
+            
+            return view
+        }()
         
         self.addArrangedSubview(imageBox)
         self.addArrangedSubview(self.labelView)
         self.addArrangedSubview(self.valueView)
         
         self.addTrackingArea(NSTrackingArea(
-            rect: NSRect(
-                x: 0,
-                y: 0,
-                width: self.frame.width,
-                height: self.frame.height
-            ),
+            rect: NSRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height),
             options: [NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited, NSTrackingArea.Options.activeInActiveApp],
             owner: self,
             userInfo: nil
@@ -685,7 +701,6 @@ public class ProcessView: NSStackView {
             imageBox.widthAnchor.constraint(equalToConstant: self.bounds.height),
             imageBox.heightAnchor.constraint(equalToConstant: self.bounds.height),
             self.labelView.heightAnchor.constraint(equalToConstant: 16),
-            self.valueView.widthAnchor.constraint(equalToConstant: self.valueView.bounds.width),
             self.widthAnchor.constraint(equalToConstant: self.bounds.width),
             self.heightAnchor.constraint(equalToConstant: self.bounds.height)
         ])
@@ -696,20 +711,32 @@ public class ProcessView: NSStackView {
     }
     
     public override func mouseEntered(with: NSEvent) {
-        if self.lock { return }
+        if self.lock {
+            self.imageView.isHidden = true
+            self.killView.isHidden = false
+            return
+        }
         self.layer?.backgroundColor = .init(gray: 0.01, alpha: 0.05)
     }
     
     public override func mouseExited(with: NSEvent) {
-        if self.lock { return }
+        if self.lock {
+            self.imageView.isHidden = false
+            self.killView.isHidden = true
+            return
+        }
         self.layer?.backgroundColor = .none
     }
     
     public override func mouseDown(with: NSEvent) {
         self.lock = !self.lock
         if self.lock {
+            self.imageView.isHidden = true
+            self.killView.isHidden = false
             self.layer?.backgroundColor = .init(gray: 0.01, alpha: 0.1)
         } else {
+            self.imageView.isHidden = false
+            self.killView.isHidden = true
             self.layer?.backgroundColor = .none
         }
     }
@@ -730,6 +757,12 @@ public class ProcessView: NSStackView {
         self.imageView.image = nil
         self.pid = nil
         self.toolTip = ""
+    }
+    
+    @objc public func kill() {
+        if let pid = self.pid {
+            asyncShell("kill \(pid)")
+        }
     }
 }
 
