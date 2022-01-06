@@ -508,7 +508,7 @@ public struct TopProcess {
         self.command = command
         self.name = name
         self.usage = usage
-        self.icon = icon
+        self.icon = icon != nil ? icon : Constants.defaultProcessIcon
     }
 }
 

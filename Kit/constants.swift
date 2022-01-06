@@ -50,4 +50,6 @@ public struct Constants {
     public static let Popup: Popup_c_s = Popup_c_s()
     public static let Settings: Settings_c_s = Settings_c_s()
     public static let Widget: Widget_c_s = Widget_c_s()
+    
+    public static let defaultProcessIcon = NSWorkspace.shared.icon(forFile: "/bin/bash")
 }

@@ -381,9 +381,10 @@ public class ProcessReader: Reader<[Network_Process]> {
             }
             if let app = NSRunningApplication(processIdentifier: pid_t(process.pid) ?? 0) {
                 process.name = app.localizedName ?? nameArray.dropLast().joined(separator: ".")
-                process.icon = app.icon
+                process.icon = app.icon != nil ? app.icon : Constants.defaultProcessIcon
             } else {
                 process.name = nameArray.dropLast().joined(separator: ".")
+                process.icon = Constants.defaultProcessIcon
             }
             
             if process.name == "" {
