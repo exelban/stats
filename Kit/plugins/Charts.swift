@@ -122,14 +122,9 @@ public class LineChartView: NSView {
 public class NetworkChartView: NSView {
     public var id: String = UUID().uuidString
     public var base: DataSizeBase = .byte
-    public var monohorome: Bool = false
-    
+    public var colors: [NSColor] = [NSColor.systemRed, NSColor.systemBlue]
     public var points: [(Double, Double)]
-    private var colors: [NSColor] {
-        get {
-            return self.monohorome ? [MonochromeColor.red, MonochromeColor.blue] : [NSColor.systemRed, NSColor.systemBlue]
-        }
-    }
+    
     private var minMax: Bool = false
     
     public init(frame: NSRect, num: Int, minMax: Bool = true) {

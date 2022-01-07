@@ -33,6 +33,12 @@
 			<false/>
 			<key>Order</key>
 			<integer>2</integer>
+			<key>Unsupported colors</key>
+			<array>
+				<string>utilization</string>
+				<string>pressure</string>
+				<string>system</string>
+			</array>
 		</dict>
 	</dict>
 </dict>
