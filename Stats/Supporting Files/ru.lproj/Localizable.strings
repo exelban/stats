@@ -125,6 +125,8 @@
 "Show symbols" = "Показать символы";
 "Label widget" = "Этикетка";
 "Number of reads in the chart" = "Количество чтений на графике";
+"Color of download" = "Цвет загрузки";
+"Color of upload" = "Цвет выгрузки";
 
 // Module Kit
 "Open module settings" = "Открыть настройки модуля";

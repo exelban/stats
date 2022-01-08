@@ -202,14 +202,14 @@ public class NetworkChart: WidgetWrapper {
         view.addArrangedSubview(self.frameSettingsView!)
         
         view.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Download color"),
+            title: localizedString("Color of download"),
             action: #selector(toggleDownloadColor),
             items: self.colors,
             selected: self.downloadColor.key
         ))
         
         view.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Upload color"),
+            title: localizedString("Color of upload"),
             action: #selector(toggleUploadColor),
             items: self.colors,
             selected: self.uploadColor.key

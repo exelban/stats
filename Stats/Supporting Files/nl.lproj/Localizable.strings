@@ -125,6 +125,8 @@
 "Show symbols" = "Show symbols";
 "Label widget" = "Label";
 "Number of reads in the chart" = "Number of reads in the chart";
+"Color of download" = "Color of download";
+"Color of upload" = "Color of upload";
 
 // Module Kit
 "Open module settings" = "Open module-instellingen";

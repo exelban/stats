@@ -125,6 +125,8 @@
 "Show symbols" = "顯示符號";
 "Label widget" = "標籤";
 "Number of reads in the chart" = "圖表中的讀取次數";
+"Color of download" = "Color of download";
+"Color of upload" = "Color of upload";
 
 // Module Kit
 "Open module settings" = "打開模組設定";

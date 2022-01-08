@@ -125,6 +125,8 @@
 "Show symbols" = "显示标识";
 "Label widget" = "标签";
 "Number of reads in the chart" = "图表显示的读取次数";
+"Color of download" = "Color of download";
+"Color of upload" = "Color of upload";
 
 // Module Kit
 "Open module settings" = "打开模块设置";
