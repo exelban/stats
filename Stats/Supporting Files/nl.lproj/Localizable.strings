@@ -11,23 +11,23 @@
 
 // Modules
 "CPU" = "CPU";
-"Open CPU settings" = "Open CPU settings";
+"Open CPU settings" = "Open CPU instellingen";
 "GPU" = "GPU";
-"Open GPU settings" = "Open GPU settings";
+"Open GPU settings" = "Open GPU instellingen";
 "RAM" = "RAM";
-"Open RAM settings" = "Open RAM settings";
+"Open RAM settings" = "Open RAM instellingen";
 "Disk" = "Disk";
-"Open Disk settings" = "Open disk settings";
+"Open Disk settings" = "Open disk instellingen";
 "Sensors" = "Sensors";
-"Open Sensors settings" = "Open sensors settings";
+"Open Sensors settings" = "Open sensors instellingen";
 "Fans" = "Fans";
-"Open Fans settings" = "Open fans settings";
+"Open Fans settings" = "Open fans instellingen";
 "Network" = "Network";
-"Open Network settings" = "Open network settings";
+"Open Network settings" = "Open network instellingen";
 "Battery" = "Battery";
-"Open Battery settings" = "Open battery settings";
+"Open Battery settings" = "Open battery instellingen";
 "Bluetooth" = "Bluetooth";
-"Open Bluetooth settings" = "Open bluetooth settings";
+"Open Bluetooth settings" = "Open bluetooth instellingen";
 
 // Words
 "Unknown" = "Onbekend";
@@ -54,12 +54,12 @@
 "Max" = "Maximaal";
 "Min" = "Min";
 "Reset" = "Reset";
-"Alignment" = "Alignment";
-"Left alignment" = "Left";
-"Center alignment" = "Center";
-"Right alignment" = "Right";
+"Alignment" = "Uitlijning";
+"Left alignment" = "Links";
+"Center alignment" = "Midden";
+"Right alignment" = "Rechts";
 "Dashboard" = "Dashboard";
-"Disabled" = "Disabled";
+"Disabled" = "Uitgeschakeld";
 
 // Alerts
 "New version available" = "Nieuwe versie beschikbaar";
@@ -122,11 +122,11 @@
 "Memory widget" = "Geheugenwidget";
 "Static width" = "Static width";
 "Tachometer widget" = "Tachometer";
-"Show symbols" = "Show symbols";
+"Show symbols" = "Toon symbolen";
 "Label widget" = "Label";
-"Number of reads in the chart" = "Number of reads in the chart";
-"Color of download" = "Color of download";
-"Color of upload" = "Color of upload";
+"Number of reads in the chart" = "Aantal keer gelezen in de grafiek";
+"Color of download" = "Kleur van download";
+"Color of upload" = "Kleur van upload";
 
 // Module Kit
 "Open module settings" = "Open module-instellingen";
@@ -140,7 +140,7 @@
 
 // Modules
 "Number of top processes" = "Aantal topprocessen";
-"Update interval for top processes" = "Update interval for top processes";
+"Update interval for top processes" = "Bewerk interval voor top processen";
 
 // CPU
 "CPU usage" = "CPU gebruik";
@@ -152,12 +152,12 @@
 "Show usage per core" = "Gebruik per core weergeven";
 "Show hyper-threading cores" = "Hyperthreading cores weergeven";
 "Split the value (System/User)" = "Opdel værdien (Systeem/Gebruiker)";
-"Scheduler limit" = "Scheduler limit";
-"Speed limit" = "Speed limit";
-"Average load" = "Average load";
-"1 minute" = "1 minute";
-"5 minutes" = "5 minutes";
-"15 minutes" = "15 minutes";
+"Scheduler limit" = "Planner limiet";
+"Speed limit" = "Snelheidslimiet";
+"Average load" = "Gemiddelde belasting ";
+"1 minute" = "1 minuut";
+"5 minutes" = "5 minuten";
+"15 minutes" = "15 minuten";
 
 // GPU
 "GPU to show" = "GPU om te laten zien";
@@ -200,8 +200,8 @@
 "Temperature unit" = "Temperatuureenheid";
 "Celsius" = "Celsius";
 "Fahrenheit" = "Fahrenheit";
-"Save the fan speed" = "Save the fan speed";
-"Fan" = "Fan";
+"Save the fan speed" = "Ventilatorsnelheid opslaan";
+"Fan" = "Ventilator";
 
 // Network
 "Uploading" = "Uploaden";
