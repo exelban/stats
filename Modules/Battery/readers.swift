@@ -175,6 +175,10 @@ public class ProcessReader: Reader<[TopProcess]> {
                 if line.matches("^\\d* +.+ \\d*.?\\d*$") {
                     var str = line.trimmingCharacters(in: .whitespaces)
                     
+                    if self.paused {
+                        return
+                    }
+                    
                     let pidString = str.findAndCrop(pattern: "^\\d+")
                     let usageString = str.findAndCrop(pattern: " +[0-9]+.*[0-9]*$")
                     let command = str.trimmingCharacters(in: .whitespaces)
