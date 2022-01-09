@@ -237,7 +237,7 @@
 "Cycles" = "Ladezyklen";
 "Temperature" = "Temperatur";
 "Power adapter" = "Netzteil";
-"Power" = "Strom";
+"Power" = "Leistung";
 "Is charging" = "wird aufgeladen";
 "Time to discharge" = "Entladedauer";
 "Time to charge" = "Ladedauer";
