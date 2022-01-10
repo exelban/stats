@@ -13,15 +13,7 @@ import Foundation
 import Kit
 import CoreBluetooth
 
-public enum BLEConnType: Int {
-    case ioDevice
-    case cache
-    case ble
-}
-
 public struct BLEDevice {
-    let conn: BLEConnType
-    
     let address: String
     var name: String
     var uuid: UUID?
@@ -33,7 +25,7 @@ public struct BLEDevice {
     var isPaired: Bool = false
     
     var peripheral: CBPeripheral?
-    var isPeripheralConnected: Bool = false
+    var isPeripheralInitialized: Bool = false
     
     var id: String {
         get {
