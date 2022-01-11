@@ -125,8 +125,8 @@
 "Show symbols" = "显示标识";
 "Label widget" = "标签";
 "Number of reads in the chart" = "图表显示的读取次数";
-"Color of download" = "Color of download";
-"Color of upload" = "Color of upload";
+"Color of download" = "下载的颜色";
+"Color of upload" = "上传的颜色";
 
 // Module Kit
 "Open module settings" = "打开模块设置";
@@ -151,7 +151,7 @@
 "Idle" = "闲置";
 "Show usage per core" = "显示每个物理核心占用";
 "Show hyper-threading cores" = "显示超线程核心";
-"Split the value (System/User)" = "柱状图区分显示（系统/用户";
+"Split the value (System/User)" = "柱状图区分显示（系统/用户)";
 "Scheduler limit" = "调度限制";
 "Speed limit" = "速度限制";
 "Average load" = "平均负载";
