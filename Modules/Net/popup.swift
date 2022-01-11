@@ -372,7 +372,6 @@ internal class Popup: NSStackView, Popup_p {
     
     // MARK: - helpers
     
-    // swiftlint:disable large_tuple
     private func topValueView(_ view: NSView, title: String, color: NSColor) -> (NSView, NSTextField, NSTextField, ColorView) {
         let topHeight: CGFloat = 30
         let titleHeight: CGFloat = 15

@@ -6,6 +6,7 @@ disabled_rules:
   - opening_brace
   - implicit_getter
   - redundant_optional_initialization
+  - large_tuple
 
 opt_in_rules:
   - control_statement
