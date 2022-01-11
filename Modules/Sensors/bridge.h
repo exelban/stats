@@ -25,12 +25,6 @@ typedef float IOHIDFloat;
 #define kIOHIDEventTypeTemperature  15
 #define kIOHIDEventTypePower        25
 
-typedef enum AppleSiliconSensorType: NSUInteger {
-    temperature=1,
-    current=2,
-    voltage=3,
-} AppleSiliconSensorType;
-
 IOHIDEventSystemClientRef IOHIDEventSystemClientCreate(CFAllocatorRef allocator);
 int IOHIDEventSystemClientSetMatching(IOHIDEventSystemClientRef client, CFDictionaryRef match);
 IOHIDEventRef IOHIDServiceClientCopyEvent(IOHIDServiceClientRef, int64_t , int32_t, int64_t);

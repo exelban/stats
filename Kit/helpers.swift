@@ -533,16 +533,19 @@ public func fetchIOService(_ name: String) -> [NSDictionary]? {
     var list: [NSDictionary] = []
     
     let result = IOServiceGetMatchingServices(kIOMasterPortDefault, IOServiceMatching(name), &iterator)
-    if result == kIOReturnSuccess {
-        while obj != 0 {
-            obj = IOIteratorNext(iterator)
-            if let props = getIOProperties(obj) {
-                list.append(props)
-            }
-            IOObjectRelease(obj)
-        }
-        IOObjectRelease(iterator)
+    if result != kIOReturnSuccess {
+        print("Error IOServiceGetMatchingServices(): " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
+        return nil
     }
+    
+    while obj != 0 {
+        obj = IOIteratorNext(iterator)
+        if let props = getIOProperties(obj) {
+            list.append(props)
+        }
+        IOObjectRelease(obj)
+    }
+    IOObjectRelease(iterator)
     
     return list.isEmpty ? nil : list
 }

@@ -18,11 +18,7 @@ public class Sensors: Module {
     private var settingsView: Settings
     
     public init() {
-        #if arch(x86_64)
-        self.sensorsReader = x86_SensorsReader()
-        #else
-        self.sensorsReader = AppleSilicon_SensorsReader()
-        #endif
+        self.sensorsReader = SensorsReader()
         self.settingsView = Settings("Sensors", list: self.sensorsReader.list)
         
         super.init(

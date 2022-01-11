@@ -16,6 +16,7 @@ internal enum SensorGroup: String {
     case GPU = "GPU"
     case system = "Systems"
     case sensor = "Sensors"
+    case hid = "HID"
 }
 
 internal enum SensorType: String {
