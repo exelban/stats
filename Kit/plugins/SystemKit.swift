@@ -57,6 +57,7 @@ public struct gpu_s {
     public var name: String? = nil
     public var vendor: String? = nil
     public var vram: String? = nil
+    public var cores: Int? = nil
 }
 
 public struct disk_s {
@@ -227,6 +228,7 @@ public class SystemKit {
                         
                         gpu.name = obj["sppci_model"] as? String
                         gpu.vendor = obj["spdisplays_vendor"] as? String
+                        gpu.cores = Int(obj["sppci_cores"] as? String ?? "")
                         
                         if let vram = obj["spdisplays_vram_shared"] as? String {
                             gpu.vram = vram

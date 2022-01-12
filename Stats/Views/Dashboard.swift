@@ -263,8 +263,19 @@ class Dashboard: NSScrollView {
             for i in 0..<gpus.count {
                 var row = gpus[i].name != nil ? gpus[i].name! : localizedString("Unknown")
                 
-                if let size = gpus[i].vram {
-                    row += " (\(size))"
+                if gpus[i].vram != nil || gpus[i].cores != nil {
+                    row += " ("
+                    if let cores = gpus[i].cores {
+                        row += "\(cores) cores"
+                    }
+                    if let size = gpus[i].vram {
+                        if gpus[i].cores != nil {
+                            row += ", \(size)"
+                        } else {
+                            row += "\(size)"
+                        }
+                    }
+                    row += ")"
                 }
                 
                 value += "\(row)\(i == gpus.count-1 ? "" : "\n")"
