@@ -283,6 +283,8 @@ private class GPUDetails: NSView {
     private var memoryClock: NSTextField? = nil
     private var temperature: NSTextField? = nil
     private var utilization: NSTextField? = nil
+    private var renderUtilization: NSTextField? = nil
+    private var tilerUtilization: NSTextField? = nil
     
     open override var intrinsicContentSize: CGSize {
         return CGSize(width: self.bounds.width, height: self.bounds.height)
@@ -292,10 +294,8 @@ private class GPUDetails: NSView {
         super.init(frame: NSRect(x: 0, y: 0, width: width, height: 0))
         
         let grid: NSGridView = NSGridView(frame: NSRect(
-            x: Constants.Popup.margins,
-            y: Constants.Popup.margins,
-            width: self.frame.width - (Constants.Popup.margins*2),
-            height: 0
+            x: Constants.Popup.margins, y: Constants.Popup.margins,
+            width: self.frame.width - (Constants.Popup.margins*2), height: 0
         ))
         grid.yPlacement = .center
         grid.xPlacement = .leading
@@ -310,6 +310,12 @@ private class GPUDetails: NSView {
         }
         
         grid.addRow(with: keyValueRow("\(localizedString("Model")):", value.model))
+        
+        if let value = value.cores {
+            let arr = keyValueRow("\(localizedString("Cores")):", "\(value)")
+            grid.addRow(with: arr)
+            num += 1
+        }
         
         let state: String = value.state ? localizedString("Active") : localizedString("Non active")
         let arr = keyValueRow("\(localizedString("Status")):", state)
@@ -344,6 +350,18 @@ private class GPUDetails: NSView {
         if let value = value.utilization {
             let arr = keyValueRow("\(localizedString("Utilization")):", "\(Int(value*100))%")
             self.utilization = arr.last
+            grid.addRow(with: arr)
+            num += 1
+        }
+        if let value = value.renderUtilization {
+            let arr = keyValueRow("\(localizedString("Renderer utilization")):", "\(Int(value*100))%")
+            self.renderUtilization = arr.last
+            grid.addRow(with: arr)
+            num += 1
+        }
+        if let value = value.tilerUtilization {
+            let arr = keyValueRow("\(localizedString("Tiler utilization")):", "\(Int(value*100))%")
+            self.tilerUtilization = arr.last
             grid.addRow(with: arr)
             num += 1
         }
@@ -382,6 +400,12 @@ private class GPUDetails: NSView {
         }
         if let value = gpu.utilization {
             self.utilization?.stringValue = "\(Int(value*100))%"
+        }
+        if let value = gpu.renderUtilization {
+            self.renderUtilization?.stringValue = "\(Int(value*100))%"
+        }
+        if let value = gpu.tilerUtilization {
+            self.tilerUtilization?.stringValue = "\(Int(value*100))%"
         }
     }
 }

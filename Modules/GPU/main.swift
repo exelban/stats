@@ -28,6 +28,7 @@ public struct GPU_Info {
     public let IOClass: String
     public var vendor: String? = nil
     public let model: String
+    public var cores: Int? = nil
     
     public var state: Bool = true
     
@@ -36,13 +37,16 @@ public struct GPU_Info {
     public var memoryClock: Int? = nil
     public var temperature: Double? = nil
     public var utilization: Double? = nil
+    public var renderUtilization: Double? = nil
+    public var tilerUtilization: Double? = nil
     
-    init(id: String, type: GPU_type, IOClass: String, vendor: String? = nil, model: String) {
+    init(id: String, type: GPU_type, IOClass: String, vendor: String? = nil, model: String, cores: Int?) {
         self.id = id
         self.type = type
         self.IOClass = IOClass
         self.vendor = vendor
         self.model = model
+        self.cores = cores
     }
 }
 
