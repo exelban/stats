@@ -204,3 +204,13 @@ public extension Notification.Name {
     static let refreshPublicIP = Notification.Name("refreshPublicIP")
     static let resetTotalNetworkUsage = Notification.Name("resetTotalNetworkUsage")
 }
+
+public var isARM: Bool {
+    get {
+        var value = false
+        #if arch(arm64)
+        value = true
+        #endif
+        return value
+    }
+}

@@ -64,11 +64,11 @@ public class CPU: Module {
         
         self.loadReader = LoadReader()
         self.processReader = ProcessReader()
-        self.limitReader = LimitReader(popup: true)
         self.averageReader = AverageReader(popup: true)
         self.temperatureReader = TemperatureReader(popup: true)
         
         #if arch(x86_64)
+        self.limitReader = LimitReader(popup: true)
         self.frequencyReader = FrequencyReader(popup: true)
         #endif
         

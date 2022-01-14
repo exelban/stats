@@ -19,7 +19,14 @@ internal class Popup: NSView, Popup_p {
     
     private let dashboardHeight: CGFloat = 90
     private let chartHeight: CGFloat = 90 + Constants.Popup.separatorHeight
-    private let detailsHeight: CGFloat = (22*5) + Constants.Popup.separatorHeight
+    private var detailsHeight: CGFloat {
+        get {
+            if isARM {
+                return (22*3) + Constants.Popup.separatorHeight
+            }
+            return (22*5) + Constants.Popup.separatorHeight
+        }
+    }
     private let averageHeight: CGFloat = (22*3) + Constants.Popup.separatorHeight
     private let processHeight: CGFloat = 22
     
@@ -67,9 +74,9 @@ internal class Popup: NSView, Popup_p {
             x: 0,
             y: 0,
             width: Constants.Popup.width,
-            height: self.dashboardHeight + self.chartHeight + self.detailsHeight + self.averageHeight
+            height: self.dashboardHeight + self.chartHeight + self.averageHeight
         ))
-        self.setFrameSize(NSSize(width: self.frame.width, height: self.frame.height+self.processesHeight))
+        self.setFrameSize(NSSize(width: self.frame.width, height: self.frame.height + self.detailsHeight + self.processesHeight))
         
         let gridView: NSGridView = NSGridView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height))
         gridView.rowSpacing = 0
@@ -169,14 +176,21 @@ internal class Popup: NSView, Popup_p {
     
     private func initDetails() -> NSView {
         let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.detailsHeight))
-        let separator = separatorView(localizedString("Details"), origin: NSPoint(x: 0, y: self.detailsHeight-Constants.Popup.separatorHeight), width: self.frame.width)
-        let container: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: separator.frame.origin.y))
+        let separator = separatorView(localizedString("Details"), origin: NSPoint(
+            x: 0,
+            y: self.detailsHeight-Constants.Popup.separatorHeight
+        ), width: self.frame.width)
+        let container: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: separator.frame.origin.y))
+        container.orientation = .vertical
+        container.spacing = 0
         
         self.systemField = popupWithColorRow(container, color: NSColor.systemRed, n: 4, title: "\(localizedString("System")):", value: "")
         self.userField = popupWithColorRow(container, color: NSColor.systemBlue, n: 3, title: "\(localizedString("User")):", value: "")
         self.idleField = popupWithColorRow(container, color: NSColor.lightGray.withAlphaComponent(0.5), n: 2, title: "\(localizedString("Idle")):", value: "")
-        self.shedulerLimitField = popupRow(container, n: 1, title: "\(localizedString("Scheduler limit")):", value: "").1
-        self.speedLimitField = popupRow(container, n: 0, title: "\(localizedString("Speed limit")):", value: "").1
+        if !isARM {
+            self.shedulerLimitField = popupRow(container, n: 1, title: "\(localizedString("Scheduler limit")):", value: "").1
+            self.speedLimitField = popupRow(container, n: 0, title: "\(localizedString("Speed limit")):", value: "").1
+        }
         
         view.addSubview(separator)
         view.addSubview(container)
