@@ -66,9 +66,9 @@ public class CPU: Module {
         self.processReader = ProcessReader()
         self.limitReader = LimitReader(popup: true)
         self.averageReader = AverageReader(popup: true)
+        self.temperatureReader = TemperatureReader(popup: true)
         
         #if arch(x86_64)
-        self.temperatureReader = TemperatureReader(popup: true)
         self.frequencyReader = FrequencyReader(popup: true)
         #endif
         
