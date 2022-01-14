@@ -14,11 +14,14 @@ import Kit
 
 internal class Settings: NSStackView, Settings_v {
     private var updateIntervalValue: Int = 3
+    private var hidState: Bool = false
+    private var fanSpeedState: Bool = false
     
     private let title: String
     private var button: NSPopUpButton?
     private let list: [Sensor_p]
     public var callback: (() -> Void) = {}
+    public var HIDcallback: (() -> Void) = {}
     public var setInterval: ((_ value: Int) -> Void) = {_ in }
     
     public init(_ title: String, list: [Sensor_p]) {
@@ -40,6 +43,8 @@ internal class Settings: NSStackView, Settings_v {
         self.spacing = Constants.Settings.margin
         
         self.updateIntervalValue = Store.shared.int(key: "\(self.title)_updateInterval", defaultValue: self.updateIntervalValue)
+        self.hidState = Store.shared.bool(key: "\(self.title)_hid", defaultValue: self.hidState)
+        self.fanSpeedState = Store.shared.bool(key: "\(self.title)_speed", defaultValue: self.fanSpeedState)
     }
     
     required init?(coder: NSCoder) {
@@ -64,6 +69,18 @@ internal class Settings: NSStackView, Settings_v {
             action: #selector(changeUpdateInterval),
             items: ReaderUpdateIntervals.map{ "\($0) sec" },
             selected: "\(self.updateIntervalValue) sec"
+        ))
+        
+        self.addArrangedSubview(toggleSettingRow(
+            title: localizedString("Save the fan speed"),
+            action: #selector(toggleSpeedState),
+            state: self.fanSpeedState
+        ))
+        
+        self.addArrangedSubview(toggleSettingRow(
+            title: localizedString("HID sensors"),
+            action: #selector(toggleHID),
+            state: self.hidState
         ))
         
         types.forEach { (typ: SensorType) in
@@ -136,5 +153,31 @@ internal class Settings: NSStackView, Settings_v {
             Store.shared.set(key: "\(self.title)_updateInterval", value: value)
             self.setInterval(value)
         }
+    }
+    
+    @objc private func toggleSpeedState(_ sender: NSControl) {
+        var state: NSControl.StateValue? = nil
+        if #available(OSX 10.15, *) {
+            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
+        } else {
+            state = sender is NSButton ? (sender as! NSButton).state: nil
+        }
+        
+        self.fanSpeedState = state! == .on ? true : false
+        Store.shared.set(key: "\(self.title)_speed", value: self.fanSpeedState)
+        self.callback()
+    }
+    
+    @objc func toggleHID(_ sender: NSControl) {
+        var state: NSControl.StateValue? = nil
+        if #available(OSX 10.15, *) {
+            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
+        } else {
+            state = sender is NSButton ? (sender as! NSButton).state: nil
+        }
+        
+        self.hidState = state! == .on ? true : false
+        Store.shared.set(key: "\(self.title)_hid", value: self.hidState)
+        self.HIDcallback()
     }
 }

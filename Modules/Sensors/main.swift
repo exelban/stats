@@ -30,11 +30,14 @@ public class Sensors: Module {
         self.popupView.setup(self.sensorsReader.list)
         
         self.settingsView.callback = { [unowned self] in
-            self.checkIfNoSensorsEnabled()
             self.sensorsReader.read()
         }
         self.settingsView.setInterval = { [unowned self] value in
             self.sensorsReader.setInterval(value)
+        }
+        self.settingsView.HIDcallback = { [unowned self] in
+            self.sensorsReader.HIDCallback()
+            self.popupView.setup(self.sensorsReader.list)
         }
         
         self.sensorsReader.callbackHandler = { [unowned self] value in
