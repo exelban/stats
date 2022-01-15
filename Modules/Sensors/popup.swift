@@ -85,7 +85,7 @@ internal class Popup: NSStackView, Popup_p {
                 width: self.frame.width
             ))
             
-            groups.reversed().forEach { (group: SensorGroup) in
+            groups.forEach { (group: SensorGroup) in
                 filtered.filter{ $0.group == group }.forEach { (s: Sensor_p) in
                     let (key, value) = popupRow(self, n: 0, title: "\(s.name):", value: s.formattedValue)
                     key.toolTip = s.key
@@ -132,7 +132,6 @@ internal class FanView: NSStackView {
     private var ready: Bool = false
     
     private var valueField: NSTextField? = nil
-    private var percentageField: NSTextField? = nil
     private var sliderValueField: NSTextField? = nil
     
     private var slider: NSSlider? = nil
@@ -185,14 +184,13 @@ internal class FanView: NSStackView {
         self.orientation = .vertical
         self.alignment = .centerX
         self.distribution = .fillProportionally
-        self.spacing = 0
+        self.spacing = 1
         self.edgeInsets = NSEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
         self.wantsLayer = true
         self.layer?.cornerRadius = 2
         self.layer?.backgroundColor = NSColor.red.cgColor
         
         self.addArrangedSubview(self.nameAndSpeed())
-        self.addArrangedSubview(self.keyAndPercentage())
         self.addArrangedSubview(self.mode())
         
         if let view = self.controlView, fan.mode == .forced {
@@ -219,72 +217,34 @@ internal class FanView: NSStackView {
     }
     
     private func nameAndSpeed() -> NSView {
-        let row: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 16))
+        let row: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 16))
+        row.widthAnchor.constraint(equalToConstant: self.frame.width).isActive = true
         row.heightAnchor.constraint(equalToConstant: row.bounds.height).isActive = true
+        row.orientation = .horizontal
+        row.distribution = .fillProportionally
+        row.spacing = 0
         
-        let valueWidth: CGFloat = 80
-        let nameField: NSTextField = TextView(frame: NSRect(
-            x: 0,
-            y: 0,
-            width: row.frame.width - valueWidth,
-            height: row.frame.height
-        ))
+        let nameField: NSTextField = TextView()
         nameField.stringValue = self.fan.name
         nameField.cell?.truncatesLastVisibleLine = true
-        
-        let valueField: NSTextField = TextView(frame: NSRect(
-            x: row.frame.width - valueWidth,
-            y: 0,
-            width: valueWidth,
-            height: row.frame.height
-        ))
-        valueField.font = NSFont.systemFont(ofSize: 13, weight: .regular)
-        valueField.stringValue = self.fan.formattedValue
-        valueField.alignment = .right
-        
-        row.addSubview(nameField)
-        row.addSubview(valueField)
-        self.valueField = valueField
-        
-        return row
-    }
-    
-    private func keyAndPercentage() -> NSView {
-        let row: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 14))
-        row.heightAnchor.constraint(equalToConstant: row.bounds.height).isActive = true
         
         let value = self.fan.value
         var percentage = ""
         if value != 1 && self.fan.maxSpeed != 1 {
             percentage = "\((100*Int(value)) / Int(self.fan.maxSpeed))%"
         }
-        let percentageWidth: CGFloat = 40
         
-        let keyField: NSTextField = TextView(frame: NSRect(
-            x: 0,
-            y: 0,
-            width: row.frame.width - percentageWidth,
-            height: row.frame.height
-        ))
-        keyField.font = NSFont.systemFont(ofSize: 11, weight: .light)
-        keyField.textColor = .secondaryLabelColor
-        keyField.stringValue = "Fan #\(self.fan.id)"
-        keyField.alignment = .left
+        let valueField: NSTextField = TextView()
+        valueField.font = NSFont.systemFont(ofSize: 13, weight: .regular)
+        valueField.stringValue = self.fan.formattedValue
+        valueField.alignment = .right
+        valueField.stringValue = percentage
+        valueField.toolTip = "\(value)"
         
-        let percentageField: NSTextField = TextView(frame: NSRect(
-            x: row.frame.width - percentageWidth,
-            y: 0,
-            width: percentageWidth,
-            height: row.frame.height
-        ))
-        percentageField.font = NSFont.systemFont(ofSize: 11, weight: .light)
-        percentageField.textColor = .secondaryLabelColor
-        percentageField.stringValue = percentage
-        percentageField.alignment = .right
+        row.addArrangedSubview(nameField)
+        row.addArrangedSubview(valueField)
         
-        row.addSubview(keyField)
-        row.addSubview(percentageField)
-        self.percentageField = percentageField
+        self.valueField = valueField
         
         return row
     }
@@ -477,8 +437,8 @@ internal class FanView: NSStackView {
                     percentage = "\((100*Int(value.value)) / Int(self.fan.maxSpeed))%"
                 }
                 
-                self.percentageField?.stringValue = percentage
-                self.valueField?.stringValue = value.formattedValue
+                self.valueField?.stringValue = percentage
+                self.valueField?.toolTip = value.formattedValue
                 
                 if self.resetModeAfterSleep && value.mode != .automatic {
                     if self.sliderValueField?.stringValue != "" && self.slider?.doubleValue != value.value {

@@ -32,8 +32,8 @@ class SettingsWindow: NSWindow, NSWindowDelegate {
            let mini = self.standardWindowButton(.miniaturizeButton),
            let zoom = self.standardWindowButton(.zoomButton) {
             close.setFrameOrigin(NSPoint(x: 7, y: close.frame.origin.y))
-            mini.setFrameOrigin(NSPoint(x: 27, y: close.frame.origin.y))
-            zoom.setFrameOrigin(NSPoint(x: 47, y: close.frame.origin.y))
+            mini.setFrameOrigin(NSPoint(x: 27, y: mini.frame.origin.y))
+            zoom.setFrameOrigin(NSPoint(x: 47, y: zoom.frame.origin.y))
         }
         
         self.contentViewController = self.viewController
