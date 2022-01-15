@@ -69,6 +69,8 @@ private class GPUView: NSStackView {
     
     private var temperatureChart: LineChartView? = nil
     private var utilizationChart: LineChartView? = nil
+    private var renderUtilizationChart: LineChartView? = nil
+    private var tilerUtilizationChart: LineChartView? = nil
     
     public var sizeCallback: (() -> Void)
     
@@ -165,6 +167,8 @@ private class GPUView: NSStackView {
         
         self.addStats(id: "temperature", self.value.temperature)
         self.addStats(id: "utilization", self.value.utilization)
+        self.addStats(id: "Render utilization", self.value.renderUtilization)
+        self.addStats(id: "Tiler utilization", self.value.tilerUtilization)
         
         container.addArrangedSubview(circles)
         container.addArrangedSubview(charts)
@@ -239,6 +243,20 @@ private class GPUView: NSStackView {
             if self.utilizationChart == nil {
                 self.utilizationChart = chart
             }
+        } else if id == "Render utilization" {
+            circle.setValue(value)
+            circle.setText("\(Int(value*100))%")
+            
+            if self.renderUtilizationChart == nil {
+                self.renderUtilizationChart = chart
+            }
+        } else if id == "Tiler utilization" {
+            circle.setValue(value)
+            circle.setText("\(Int(value*100))%")
+            
+            if self.tilerUtilizationChart == nil {
+                self.tilerUtilizationChart = chart
+            }
         }
     }
     
@@ -251,6 +269,8 @@ private class GPUView: NSStackView {
             
             self.addStats(id: "temperature", gpu.temperature)
             self.addStats(id: "utilization", gpu.utilization)
+            self.addStats(id: "Render utilization", gpu.renderUtilization)
+            self.addStats(id: "Tiler utilization", gpu.tilerUtilization)
         }
         
         if let value = gpu.temperature {
@@ -258,6 +278,12 @@ private class GPUView: NSStackView {
         }
         if let value = gpu.utilization {
             self.utilizationChart?.addValue(value)
+        }
+        if let value = gpu.renderUtilization {
+            self.renderUtilizationChart?.addValue(value)
+        }
+        if let value = gpu.tilerUtilization {
+            self.tilerUtilizationChart?.addValue(value)
         }
     }
     
