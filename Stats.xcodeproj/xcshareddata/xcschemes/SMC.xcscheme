@@ -53,7 +53,7 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "list"
+            argument = "list -t"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument

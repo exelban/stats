@@ -35,6 +35,7 @@ internal protocol Sensor_p {
     
     var group: SensorGroup { get }
     var type: SensorType { get }
+    var isIntelOnly: Bool { get }
     
     var unit: String { get }
     var formattedValue: String { get }
@@ -49,6 +50,7 @@ internal struct Sensor: Sensor_p {
     
     var group: SensorGroup
     var type: SensorType
+    var isIntelOnly: Bool = false
     
     var unit: String {
         get {
@@ -128,6 +130,7 @@ internal struct Fan: Sensor_p {
     
     var group: SensorGroup = .sensor
     var type: SensorType = .fan
+    var isIntelOnly: Bool = false
     var unit: String = "RPM"
     
     var formattedValue: String {
@@ -152,7 +155,7 @@ internal struct Fan: Sensor_p {
 let SensorsList: [Sensor] = [
     // Temperature
     Sensor(key: "TA%P", name: "Ambient %", group: .sensor, type: .temperature),
-    Sensor(key: "Th%H", name: "Heatpipe %", group: .sensor, type: .temperature),
+    Sensor(key: "Th%H", name: "Heatpipe %", group: .sensor, type: .temperature, isIntelOnly: true),
     Sensor(key: "TZ%C", name: "Termal zone %", group: .sensor, type: .temperature),
     
     Sensor(key: "TC0D", name: "CPU diode", group: .CPU, type: .temperature),
@@ -172,7 +175,7 @@ let SensorsList: [Sensor] = [
     Sensor(key: "TG0P", name: "GPU proximity", group: .GPU, type: .temperature),
     
     Sensor(key: "Tm0P", name: "Mainboard", group: .system, type: .temperature),
-    Sensor(key: "Tp0P", name: "Powerboard", group: .system, type: .temperature),
+    Sensor(key: "Tp0P", name: "Powerboard", group: .system, type: .temperature, isIntelOnly: true),
     Sensor(key: "TB1T", name: "Battery", group: .system, type: .temperature),
     Sensor(key: "TW0P", name: "Airport", group: .system, type: .temperature),
     Sensor(key: "TL0P", name: "Display", group: .system, type: .temperature),
@@ -184,6 +187,26 @@ let SensorsList: [Sensor] = [
     Sensor(key: "TN0D", name: "Northbridge diode", group: .system, type: .temperature),
     Sensor(key: "TN0H", name: "Northbridge heatsink", group: .system, type: .temperature),
     Sensor(key: "TN0P", name: "Northbridge proximity", group: .system, type: .temperature),
+    
+    // Apple silicon
+    Sensor(key: "Tp09", name: "CPU efficient core 1", group: .CPU, type: .temperature),
+    Sensor(key: "Tp0T", name: "CPU efficient core 2", group: .CPU, type: .temperature),
+    Sensor(key: "Tp01", name: "CPU performance core 1", group: .CPU, type: .temperature),
+    Sensor(key: "Tp05", name: "CPU performance core 2", group: .CPU, type: .temperature),
+    Sensor(key: "Tp0D", name: "CPU performance core 3", group: .CPU, type: .temperature),
+    Sensor(key: "Tp0H", name: "CPU performance core 4", group: .CPU, type: .temperature),
+    Sensor(key: "Tp0L", name: "CPU performance core 5", group: .CPU, type: .temperature),
+    Sensor(key: "Tp0P", name: "CPU performance core 6", group: .CPU, type: .temperature),
+    Sensor(key: "Tp0X", name: "CPU performance core 7", group: .CPU, type: .temperature),
+    Sensor(key: "Tp0b", name: "CPU performance core 8", group: .CPU, type: .temperature),
+    
+    Sensor(key: "Tg05", name: "GPU 1", group: .GPU, type: .temperature),
+    Sensor(key: "Tg0D", name: "GPU 2", group: .GPU, type: .temperature),
+    Sensor(key: "Tg0L", name: "GPU 3", group: .GPU, type: .temperature),
+    Sensor(key: "Tg0T", name: "GPU 4", group: .GPU, type: .temperature),
+    
+    Sensor(key: "TaLP", name: "Airflow left", group: .sensor, type: .temperature),
+    Sensor(key: "TaRF", name: "Airflow right", group: .sensor, type: .temperature),
     
     // Voltage
     Sensor(key: "VCAC", name: "CPU IA", group: .CPU, type: .voltage),
@@ -233,7 +256,7 @@ let SensorsList: [Sensor] = [
     Sensor(key: "PSTR", name: "System total", group: .sensor, type: .power)
 ]
 
-let AppleSiliconSensorsList: [Sensor] = [
+let HIDSensorsList: [Sensor] = [
     Sensor(key: "pACC MTR Temp Sensor%", name: "CPU performance core %", group: .CPU, type: .temperature),
     Sensor(key: "eACC MTR Temp Sensor%", name: "CPU efficiency core %", group: .CPU, type: .temperature),
     

@@ -27,7 +27,10 @@ internal class SensorsReader: Reader<[Sensor_p]> {
         
         var available: [String] = SMC.shared.getAllKeys()
         var list: [Sensor] = []
-        let sensorsList = SensorsList
+        var sensorsList = SensorsList
+        #if arch(arm64)
+        sensorsList = sensorsList.filter({ !$0.isIntelOnly })
+        #endif
         
         if let count = SMC.shared.getValue("FNum") {
             debug("Found \(Int(count)) fans", log: self.log)
