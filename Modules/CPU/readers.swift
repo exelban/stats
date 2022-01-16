@@ -248,7 +248,7 @@ public class TemperatureReader: Reader<Double> {
             #if arch(arm64)
             var total: Double = 0
             var counter: Double = 0
-            ["Tp09", "Tp0T", "Tp01", "Tp05", "Tp0D", "Tp0H", "Tp0L", "Tp0P", "Tp0X", "Tp0b", ].forEach { (key: String) in
+            ["Tp09", "Tp0T", "Tp01", "Tp05", "Tp0D", "Tp0H", "Tp0L", "Tp0P", "Tp0X", "Tp0b"].forEach { (key: String) in
                 if let value = SMC.shared.getValue(key) {
                     total += value
                     counter += 1
