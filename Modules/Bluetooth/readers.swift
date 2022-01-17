@@ -205,6 +205,8 @@ internal class DevicesReader: Reader<[BLEDevice]>, CBCentralManagerDelegate, CBP
         peripheral.discoverCharacteristics([DevicesReader.batteryCharacteristicsUUID], for: service)
     }
     
+    func peripheral(_ peripheral: CBPeripheral, didModifyServices invalidatedServices: [CBService]) {}
+    
     func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
         guard error == nil else {
             error_msg("didDiscoverCharacteristicsFor: \(error!)")
