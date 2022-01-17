@@ -77,11 +77,13 @@ internal class Settings: NSStackView, Settings_v {
             state: self.fanSpeedState
         ))
         
-        self.addArrangedSubview(toggleSettingRow(
-            title: localizedString("HID sensors"),
-            action: #selector(toggleHID),
-            state: self.hidState
-        ))
+        if isARM {
+            self.addArrangedSubview(toggleSettingRow(
+                title: localizedString("HID sensors"),
+                action: #selector(toggleHID),
+                state: self.hidState
+            ))
+        }
         
         types.forEach { (typ: SensorType) in
             let header = NSStackView()
