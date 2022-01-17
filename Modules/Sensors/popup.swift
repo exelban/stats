@@ -172,6 +172,12 @@ internal class FanView: NSStackView {
     }
     private var resetModeAfterSleep: Bool = false
     
+    private var horizontalMargin: CGFloat {
+        get {
+            return self.edgeInsets.top + self.edgeInsets.bottom + (self.spacing*CGFloat(self.arrangedSubviews.count))
+        }
+    }
+    
     public init(_ fan: Fan, width: CGFloat, callback: @escaping (() -> Void)) {
         self.fan = fan
         self.sizeCallback = callback
@@ -197,8 +203,8 @@ internal class FanView: NSStackView {
             self.addArrangedSubview(view)
         }
         
-        let h = self.arrangedSubviews.map({ $0.bounds.height }).reduce(0, +) + (inset*2)
-        self.setFrameSize(NSSize(width: self.frame.width, height: h))
+        let h = self.arrangedSubviews.map({ $0.bounds.height }).reduce(0, +)
+        self.setFrameSize(NSSize(width: self.frame.width, height: h + self.horizontalMargin))
         self.sizeCallback()
         
         NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(self.wakeListener), name: NSWorkspace.didWakeNotification, object: nil)
@@ -373,8 +379,8 @@ internal class FanView: NSStackView {
             view.removeFromSuperview()
         }
         
-        let h = self.arrangedSubviews.map({ $0.bounds.height }).reduce(0, +) + 10
-        self.setFrameSize(NSSize(width: self.frame.width, height: h))
+        let h = self.arrangedSubviews.map({ $0.bounds.height }).reduce(0, +)
+        self.setFrameSize(NSSize(width: self.frame.width, height: h + self.horizontalMargin))
         self.sizeCallback()
     }
     
