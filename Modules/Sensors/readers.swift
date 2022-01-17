@@ -222,33 +222,35 @@ internal class SensorsReader: Reader<[Sensor_p]> {
         
         for typ in SensorsReader.HIDtypes {
             let (page, usage, type) = self.m1Preset(type: typ)
-            AppleSiliconSensors(page, usage, type).forEach { (key, value) in
-                guard let key = key as? String, let value = value as? Double else {
-                    return
-                }
-                var name: String = key
-                
-                HIDSensorsList.forEach { (s: Sensor) in
-                    if s.key.contains("%") {
-                        var index = 1
-                        for i in 0..<64 {
-                            if s.key.replacingOccurrences(of: "%", with: "\(i)") == key {
-                                name = s.name.replacingOccurrences(of: "%", with: "\(index)")
-                            }
-                            index += 1
-                        }
-                    } else if s.key == key {
-                        name = s.name
+            if let sensors = AppleSiliconSensors(page, usage, type) {
+                sensors.forEach { (key, value) in
+                    guard let key = key as? String, let value = value as? Double else {
+                        return
                     }
+                    var name: String = key
+                    
+                    HIDSensorsList.forEach { (s: Sensor) in
+                        if s.key.contains("%") {
+                            var index = 1
+                            for i in 0..<64 {
+                                if s.key.replacingOccurrences(of: "%", with: "\(i)") == key {
+                                    name = s.name.replacingOccurrences(of: "%", with: "\(index)")
+                                }
+                                index += 1
+                            }
+                        } else if s.key == key {
+                            name = s.name
+                        }
+                    }
+                    
+                    list.append(Sensor(
+                        key: key,
+                        name: name,
+                        value: value,
+                        group: .hid,
+                        type: typ
+                    ))
                 }
-                
-                list.append(Sensor(
-                    key: key,
-                    name: name,
-                    value: value,
-                    group: .hid,
-                    type: typ
-                ))
             }
         }
         
