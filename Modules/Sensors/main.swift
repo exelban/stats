@@ -38,6 +38,7 @@ public class Sensors: Module {
         self.settingsView.HIDcallback = { [unowned self] in
             self.sensorsReader.HIDCallback()
             self.popupView.setup(self.sensorsReader.list)
+            self.settingsView.setList(list: self.sensorsReader.list)
         }
         
         self.sensorsReader.callbackHandler = { [unowned self] value in

@@ -19,7 +19,8 @@ internal class Settings: NSStackView, Settings_v {
     
     private let title: String
     private var button: NSPopUpButton?
-    private let list: [Sensor_p]
+    private var list: [Sensor_p]
+    private var widgets: [widget_t] = []
     public var callback: (() -> Void) = {}
     public var HIDcallback: (() -> Void) = {}
     public var setInterval: ((_ value: Int) -> Void) = {_ in }
@@ -57,13 +58,6 @@ internal class Settings: NSStackView, Settings_v {
         }
         self.subviews.forEach{ $0.removeFromSuperview() }
         
-        var types: [SensorType] = []
-        self.list.forEach { (s: Sensor_p) in
-            if !types.contains(s.type) {
-                types.append(s.type)
-            }
-        }
-        
         self.addArrangedSubview(selectSettingsRowV1(
             title: localizedString("Update interval"),
             action: #selector(changeUpdateInterval),
@@ -83,6 +77,13 @@ internal class Settings: NSStackView, Settings_v {
                 action: #selector(toggleHID),
                 state: self.hidState
             ))
+        }
+        
+        var types: [SensorType] = []
+        self.list.forEach { (s: Sensor_p) in
+            if !types.contains(s.type) {
+                types.append(s.type)
+            }
         }
         
         types.forEach { (typ: SensorType) in
@@ -133,6 +134,13 @@ internal class Settings: NSStackView, Settings_v {
 
             self.addArrangedSubview(container)
         }
+        
+        self.widgets = widgets
+    }
+    
+    public func setList(list: [Sensor_p]) {
+        self.list = list
+        self.load(widgets: self.widgets)
     }
     
     @objc private func handleSelection(_ sender: NSControl) {
