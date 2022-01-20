@@ -176,7 +176,7 @@ let SensorsList: [Sensor] = [
     
     Sensor(key: "Tm0P", name: "Mainboard", group: .system, type: .temperature),
     Sensor(key: "Tp0P", name: "Powerboard", group: .system, type: .temperature, isIntelOnly: true),
-    Sensor(key: "TB1T", name: "Battery", group: .system, type: .temperature),
+    Sensor(key: "TB1T", name: "Battery", group: .system, type: .temperature, isIntelOnly: true),
     Sensor(key: "TW0P", name: "Airport", group: .system, type: .temperature),
     Sensor(key: "TL0P", name: "Display", group: .system, type: .temperature),
     Sensor(key: "TI%P", name: "Thunderbold %", group: .system, type: .temperature),
@@ -188,7 +188,7 @@ let SensorsList: [Sensor] = [
     Sensor(key: "TN0H", name: "Northbridge heatsink", group: .system, type: .temperature),
     Sensor(key: "TN0P", name: "Northbridge proximity", group: .system, type: .temperature),
     
-    // Apple silicon
+    // Apple Silicon
     Sensor(key: "Tp09", name: "CPU efficient core 1", group: .CPU, type: .temperature),
     Sensor(key: "Tp0T", name: "CPU efficient core 2", group: .CPU, type: .temperature),
     Sensor(key: "Tp01", name: "CPU performance core 1", group: .CPU, type: .temperature),
@@ -207,6 +207,11 @@ let SensorsList: [Sensor] = [
     
     Sensor(key: "TaLP", name: "Airflow left", group: .sensor, type: .temperature),
     Sensor(key: "TaRF", name: "Airflow right", group: .sensor, type: .temperature),
+    
+    Sensor(key: "TH0x", name: "NAND", group: .system, type: .temperature),
+    Sensor(key: "TB1T", name: "Battery 1", group: .system, type: .temperature),
+    Sensor(key: "TB2T", name: "Battery 2", group: .system, type: .temperature),
+    Sensor(key: "TW0P", name: "Airport", group: .system, type: .temperature),
     
     // Voltage
     Sensor(key: "VCAC", name: "CPU IA", group: .CPU, type: .voltage),
