@@ -60,6 +60,7 @@
 "Right alignment" = "по правому";
 "Dashboard" = "Dashboard";
 "Disabled" = "Отключено";
+"Silent" = "Бесшумно";
 
 // Alerts
 "New version available" = "Доступна новая версия";
@@ -90,6 +91,8 @@
 // Dashboard
 "Serial number" = "Серийный номер";
 "Uptime" = "Время работы";
+"Number of cores" = "%0 ядер";
+"Number of threads" = "%0 потоков";
 
 // Update
 "The latest version of Stats installed" = "Установлена последняя версия";
@@ -137,6 +140,8 @@
 "Details" = "Подробности";
 "Top processes" = "Топ процессы";
 "Pictogram" = "Пиктограмма";
+"Module settings" = "Настройки модуля";
+"Widget settings" = "Настройки виджета";
 
 // Modules
 "Number of top processes" = "Количество процессов";
@@ -175,6 +180,8 @@
 "Core clock" = "Частота ядра";
 "Memory clock" = "Частота памяти";
 "Utilization" = "Использование";
+"Render utilization" = "Использование render";
+"Tiler utilization" = "Использование tiler";
 
 // RAM
 "Memory usage" = "Нагрузка на память";
@@ -202,6 +209,7 @@
 "Fahrenheit" = "Фаренгейта";
 "Save the fan speed" = "Сохранить скорость вентилятора";
 "Fan" = "Вентилятор";
+"HID sensors" = "HID датчики";
 
 // Network
 "Uploading" = "Выгрузка";
@@ -256,6 +264,8 @@
 "Time format" = "Формат времени";
 "Hide additional information when full" = "Скрыть дополнительную информацию при полном заряде";
 "Last charge" = "Последняя зарядка";
+"Capacity" = "Емкость";
+"maximum / designed" = "максимальная / расчетная";
 
 // Bluetooth
 "Battery to show" = "Активная батарея";

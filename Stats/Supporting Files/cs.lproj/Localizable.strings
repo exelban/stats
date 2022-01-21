@@ -60,6 +60,7 @@
 "Right alignment" = "Zarovnat doprava";
 "Dashboard" = "Dashboard";
 "Disabled" = "Disabled";
+"Silent" = "Silent";
 
 // Alerts
 "New version available" = "Nová verze k dispozici";
@@ -90,6 +91,8 @@
 // Dashboard
 "Serial number" = "Sériové číslo";
 "Uptime" = "Spuštěno";
+"Number of cores" = "%0 cores";
+"Number of threads" = "%0 threads";
 
 // Update
 "The latest version of Stats installed" = "Byla nainstalována nejnovější verze Stats";
@@ -137,6 +140,8 @@
 "Details" = "Detaily";
 "Top processes" = "První procesy";
 "Pictogram" = "Piktogram";
+"Module settings" = "Module settings";
+"Widget settings" = "Widget settings";
 
 // Modules
 "Number of top processes" = "Počet prvních procesů";
@@ -175,6 +180,8 @@
 "Core clock" = "Takt jádra";
 "Memory clock" = "Takt pamětí";
 "Utilization" = "Využití";
+"Render utilization" = "Render utilization";
+"Tiler utilization" = "Tiler utilization";
 
 // RAM
 "Memory usage" = "Využití paměti";
@@ -202,6 +209,7 @@
 "Fahrenheit" = "Fahrenheit";
 "Save the fan speed" = "Save the fan speed";
 "Fan" = "Fan";
+"HID sensors" = "HID sensors";
 
 // Network
 "Uploading" = "Nahrávání";
@@ -256,6 +264,8 @@
 "Time format" = "Formát času";
 "Hide additional information when full" = "Skrýt další informace při plném nabití";
 "Last charge" = "Poslední nabití";
+"Capacity" = "Capacity";
+"maximum / designed" = "maximum / designed";
 
 // Bluetooth
 "Battery to show" = "Baterie k zobrazení";

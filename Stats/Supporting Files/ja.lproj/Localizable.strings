@@ -60,6 +60,7 @@
 "Right alignment" = "右揃え";
 "Dashboard" = "ダッシュボード";
 "Disabled" = "Disabled";
+"Silent" = "Silent";
 
 // Alerts
 "New version available" = "新しいバージョンが利用可能です";
@@ -90,6 +91,8 @@
 // Dashboard
 "Serial number" = "シリアル番号";
 "Uptime" = "起動してからの時間";
+"Number of cores" = "%0 cores";
+"Number of threads" = "%0 threads";
 
 // Update
 "The latest version of Stats installed" = "最新の Stats がインストールされています";
@@ -137,6 +140,8 @@
 "Details" = "詳細";
 "Top processes" = "上位のプロセス";
 "Pictogram" = "ピクトグラム";
+"Module settings" = "Module settings";
+"Widget settings" = "Widget settings";
 
 // Modules
 "Number of top processes" = "表示する上位プロセスの数";
@@ -175,6 +180,8 @@
 "Core clock" = "コアクロック";
 "Memory clock" = "メモリクロック";
 "Utilization" = "使用率";
+"Render utilization" = "Render utilization";
+"Tiler utilization" = "Tiler utilization";
 
 // RAM
 "Memory usage" = "メモリ使用率";
@@ -202,6 +209,7 @@
 "Fahrenheit" = "華氏（℉）";
 "Save the fan speed" = "Save the fan speed";
 "Fan" = "Fan";
+"HID sensors" = "HID sensors";
 
 // Network
 "Uploading" = "送信";
@@ -256,6 +264,8 @@
 "Time format" = "時間の表示形式";
 "Hide additional information when full" = "フル充電済みのときはアイコンのみ表示";
 "Last charge" = "最後の充電から";
+"Capacity" = "Capacity";
+"maximum / designed" = "maximum / designed";
 
 // Bluetooth
 "Battery to show" = "バッテリー残量を表示するデバイス";

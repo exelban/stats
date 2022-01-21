@@ -60,6 +60,7 @@
 "Right alignment" = "Right";
 "Dashboard" = "Dashboard";
 "Disabled" = "Disabled";
+"Silent" = "Silent";
 
 // Alerts
 "New version available" = "새로운 버전을 이용할 수 있습니다";
@@ -90,6 +91,8 @@
 // Dashboard
 "Serial number" = "일련 번호";
 "Uptime" = "가동 시간";
+"Number of cores" = "%0 cores";
+"Number of threads" = "%0 threads";
 
 // Update
 "The latest version of Stats installed" = "최신 버전의 Stats가 설치되어 있습니다";
@@ -137,6 +140,8 @@
 "Details" = "세부 사항";
 "Top processes" = "상위 프로세스";
 "Pictogram" = "픽토그램";
+"Module settings" = "Module settings";
+"Widget settings" = "Widget settings";
 
 // Modules
 "Number of top processes" = "프로세스 수";
@@ -175,6 +180,8 @@
 "Core clock" = "Core clock";
 "Memory clock" = "Memory clock";
 "Utilization" = "Utilization";
+"Render utilization" = "Render utilization";
+"Tiler utilization" = "Tiler utilization";
 
 // RAM
 "Memory usage" = "메모리 사용량";
@@ -202,6 +209,7 @@
 "Fahrenheit" = "화씨";
 "Save the fan speed" = "Save the fan speed";
 "Fan" = "Fan";
+"HID sensors" = "HID sensors";
 
 // Network
 "Uploading" = "업로딩";
@@ -256,6 +264,8 @@
 "Time format" = "시간 형식";
 "Hide additional information when full" = "배터리가 가득 차면 추가 정보 숨기기";
 "Last charge" = "마지막 청구";
+"Capacity" = "Capacity";
+"maximum / designed" = "maximum / designed";
 
 // Bluetooth
 "Battery to show" = "Battery to show";

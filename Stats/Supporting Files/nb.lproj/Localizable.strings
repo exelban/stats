@@ -60,6 +60,7 @@
 "Right alignment" = "Høyre";
 "Dashboard" = "Dashboard";
 "Disabled" = "Disabled";
+"Silent" = "Silent";
 
 // Alerts
 "New version available" = "Ny versjon tilgjengelig";
@@ -90,6 +91,8 @@
 // Dashboard
 "Serial number" = "Serienummer";
 "Uptime" = "Oppetid";
+"Number of cores" = "%0 cores";
+"Number of threads" = "%0 threads";
 
 // Update
 "The latest version of Stats installed" = "Du har den nyeste versjonen av Stats";
@@ -137,6 +140,8 @@
 "Details" = "Detaljer";
 "Top processes" = "Topp-prosesser";
 "Pictogram" = "Piktogram";
+"Module settings" = "Module settings";
+"Widget settings" = "Widget settings";
 
 // Modules
 "Number of top processes" = "Antall topp-prosesser";
@@ -175,6 +180,8 @@
 "Core clock" = "Kjerneklokke";
 "Memory clock" = "Minneklokke";
 "Utilization" = "Bruk";
+"Render utilization" = "Render utilization";
+"Tiler utilization" = "Tiler utilization";
 
 // RAM
 "Memory usage" = "Minnebruk";
@@ -202,6 +209,7 @@
 "Fahrenheit" = "Fahrenheit";
 "Save the fan speed" = "Lagre viftehastighet";
 "Fan" = "Fan";
+"HID sensors" = "HID sensors";
 
 // Network
 "Uploading" = "Opplasting";
@@ -256,6 +264,8 @@
 "Time format" = "Tidsformat";
 "Hide additional information when full" = "Skjul ekstra information når fulladet";
 "Last charge" = "Siste lading";
+"Capacity" = "Capacity";
+"maximum / designed" = "maximum / designed";
 
 // Bluetooth
 "Battery to show" = "Battery å vise";

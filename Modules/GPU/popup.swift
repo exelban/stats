@@ -380,7 +380,7 @@ private class GPUDetails: NSView {
             num += 1
         }
         if let value = value.renderUtilization {
-            let arr = keyValueRow("\(localizedString("Renderer utilization")):", "\(Int(value*100))%")
+            let arr = keyValueRow("\(localizedString("Render utilization")):", "\(Int(value*100))%")
             self.renderUtilization = arr.last
             grid.addRow(with: arr)
             num += 1

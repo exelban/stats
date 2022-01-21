@@ -60,6 +60,7 @@
 "Right alignment" = "Do prawej";
 "Dashboard" = "Dashboard";
 "Disabled" = "Wyłączone";
+"Silent" = "Tryb cichy";
 
 // Alerts
 "New version available" = "Dostępna nowa wersja";
@@ -90,6 +91,8 @@
 // Dashboard
 "Serial number" = "Numer seryjny";
 "Uptime" = "Czas pracy";
+"Number of cores" = "%0 rdzeni";
+"Number of threads" = "%0 wątków";
 
 // Update
 "The latest version of Stats installed" = "Najnowsza wersja Stats zainstalowana";
@@ -137,6 +140,8 @@
 "Details" = "Szczegóły";
 "Top processes" = "Top procesy";
 "Pictogram" = "Ikonka";
+"Module settings" = "Ustawienia modułu";
+"Widget settings" = "Ustawienia widżetu";
 
 // Modules
 "Number of top processes" = "Liczba procesów";
@@ -166,7 +171,7 @@
 "GPU disabled" = "GPU wyłączone";
 "GPU temperature" = "Temperatura GPU";
 "GPU utilization" = "Wykorzystanie GPU";
-"Vendor" = "Vendor";
+"Vendor" = "Producent";
 "Model" = "Model";
 "Status" = "Status";
 "Active" = "Aktywny";
@@ -175,6 +180,8 @@
 "Core clock" = "Taktowanie rdzenia";
 "Memory clock" = "Taktowanie pamięci";
 "Utilization" = "Wykorzystanie";
+"Render utilization" = "Wykorzystanie rendera";
+"Tiler utilization" = "Wykorzystanie tilera";
 
 // RAM
 "Memory usage" = "Użycie pamięci";
@@ -202,6 +209,7 @@
 "Fahrenheit" = "Fahrenheit";
 "Save the fan speed" = "Zapisz prędkość wentylatora";
 "Fan" = "Wentylator";
+"HID sensors" = "Czujniki HID";
 
 // Network
 "Uploading" = "Wysyłanie";
@@ -256,6 +264,8 @@
 "Time format" = "Format czasu";
 "Hide additional information when full" = "Ukryj dodatkowe informacje, gdy bateria jest naładowana";
 "Last charge" = "Ostatnie ładowanie";
+"Capacity" = "Pojemność";
+"maximum / designed" = "maksymalna / zaprojektowana";
 
 // Bluetooth
 "Battery to show" = "Bateria do wyświetlenia";

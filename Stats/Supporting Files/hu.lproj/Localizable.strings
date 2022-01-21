@@ -60,6 +60,7 @@
 "Right alignment" = "Jobbra igazítás";
 "Dashboard" = "Irányítópult";
 "Disabled" = "Kikapcsolva";
+"Silent" = "Silent";
 
 // Alerts
 "New version available" = "Új verzió érhető el";
@@ -90,6 +91,8 @@
 // Dashboard
 "Serial number" = "Sorozatszám";
 "Uptime" = "Indítás óta eltel idő";
+"Number of cores" = "%0 cores";
+"Number of threads" = "%0 threads";
 
 // Update
 "The latest version of Stats installed" = "A Stats legújabb verziója van telepítve";
@@ -137,6 +140,8 @@
 "Details" = "Részletek";
 "Top processes" = "Top folyamatok";
 "Pictogram" = "Piktogram";
+"Module settings" = "Module settings";
+"Widget settings" = "Widget settings";
 
 // Modules
 "Number of top processes" = "Top folyamatok száma";
@@ -175,6 +180,8 @@
 "Core clock" = "Mag órajel";
 "Memory clock" = "Memória órajel";
 "Utilization" = "Felhasználás";
+"Render utilization" = "Render utilization";
+"Tiler utilization" = "Tiler utilization";
 
 // RAM
 "Memory usage" = "Memóriahasználat";
@@ -202,6 +209,7 @@
 "Fahrenheit" = "Fahrenheit";
 "Save the fan speed" = "Ventilátor sebesség mentése";
 "Fan" = "Ventilátor";
+"HID sensors" = "HID sensors";
 
 // Network
 "Uploading" = "Feltöltés";
@@ -256,6 +264,8 @@
 "Time format" = "Időformátum";
 "Hide additional information when full" = "További információk elrejtése, ha teljesen fel van töltve";
 "Last charge" = "Utolsó töltés";
+"Capacity" = "Capacity";
+"maximum / designed" = "maximum / designed";
 
 // Bluetooth
 "Battery to show" = "Akkumulátor megjelenítése";

@@ -60,6 +60,7 @@
 "Right alignment" = "Destra";
 "Dashboard" = "Dashboard";
 "Disabled" = "Disabilitato";
+"Silent" = "Silent";
 
 // Alerts
 "New version available" = "Nuova versione disponibile";
@@ -90,6 +91,8 @@
 // Dashboard
 "Serial number" = "Numero di serie";
 "Uptime" = "Tempo di attività";
+"Number of cores" = "%0 cores";
+"Number of threads" = "%0 threads";
 
 // Update
 "The latest version of Stats installed" = "L'ultima versione di Stats è installata";
@@ -137,6 +140,8 @@
 "Details" = "Dettagli";
 "Top processes" = "Processi principali";
 "Pictogram" = "Pittogramma";
+"Module settings" = "Module settings";
+"Widget settings" = "Widget settings";
 
 // Modules
 "Number of top processes" = "Numero di processi principali";
@@ -175,6 +180,8 @@
 "Core clock" = "Clock core";
 "Memory clock" = "Clock memoria";
 "Utilization" = "Utilizzo";
+"Render utilization" = "Render utilization";
+"Tiler utilization" = "Tiler utilization";
 
 // RAM
 "Memory usage" = "Memoria utilizzata";
@@ -202,6 +209,7 @@
 "Fahrenheit" = "Fahrenheit";
 "Save the fan speed" = "Salva la velocità delle ventole";
 "Fan" = "Fan";
+"HID sensors" = "HID sensors";
 
 // Network
 "Uploading" = "Upload";
@@ -256,6 +264,8 @@
 "Time format" = "Formato del tempo";
 "Hide additional information when full" = "Nascondi informazioni addizionali quando piena";
 "Last charge" = "Ultima carica";
+"Capacity" = "Capacity";
+"maximum / designed" = "maximum / designed";
 
 // Bluetooth
 "Battery to show" = "Batteria da mostrare";

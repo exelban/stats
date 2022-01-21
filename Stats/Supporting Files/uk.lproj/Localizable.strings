@@ -60,6 +60,7 @@
 "Right alignment" = "Праворуч";
 "Dashboard" = "Dashboard";
 "Disabled" = "Виключено";
+"Silent" = "Безшумно";
 
 // Alerts
 "New version available" = "Доступна нова версія";
@@ -90,6 +91,8 @@
 // Dashboard
 "Serial number" = "Серійний номер";
 "Uptime" = "Час роботи";
+"Number of cores" = "%0 ядер";
+"Number of threads" = "%0 потоків";
 
 // Update
 "The latest version of Stats installed" = "Встановлено останню версію";
@@ -137,6 +140,8 @@
 "Details" = "Деталі";
 "Top processes" = "Топ процесів";
 "Pictogram" = "Піктограма";
+"Module settings" = "Налаштування модуля";
+"Widget settings" = "Налаштування віджетів";
 
 // Modules
 "Number of top processes" = "Кількість процесів";
@@ -175,6 +180,8 @@
 "Core clock" = "Частота процесора";
 "Memory clock" = "Частота пам'яті";
 "Utilization" = "Використання";
+"Render utilization" = "Використання render";
+"Tiler utilization" = "Використання tiler";
 
 // RAM
 "Memory usage" = "Навантаженість пам’яті";
@@ -202,6 +209,7 @@
 "Fahrenheit" = "Фаренгейта";
 "Save the fan speed" = "Зберегти швидкість вентилятора";
 "Fan" = "Вентилятор";
+"HID sensors" = "HID датчики";
 
 // Network
 "Uploading" = "Висилання";
@@ -256,6 +264,8 @@
 "Time format" = "Формат часу";
 "Hide additional information when full" = "Приховати додаткову інформацію, якщо акумулятор заряджений";
 "Last charge" = "Остання зарядка";
+"Capacity" = "Ємність";
+"maximum / designed" = "максимальна / запроектована";
 
 // Bluetooth
 "Battery to show" = "Активна батарея";

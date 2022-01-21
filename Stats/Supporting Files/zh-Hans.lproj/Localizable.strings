@@ -60,6 +60,7 @@
 "Right alignment" = "右对齐";
 "Dashboard" = "仪表盘";
 "Disabled" = "已停用";
+"Silent" = "Silent";
 
 // Alerts
 "New version available" = "新版本可用";
@@ -90,6 +91,8 @@
 // Dashboard
 "Serial number" = "序列号";
 "Uptime" = "启动时间";
+"Number of cores" = "%0 cores";
+"Number of threads" = "%0 threads";
 
 // Update
 "The latest version of Stats installed" = "已安装最新版 Stats";
@@ -137,6 +140,8 @@
 "Details" = "详细信息";
 "Top processes" = "高占用进程";
 "Pictogram" = "标识";
+"Module settings" = "Module settings";
+"Widget settings" = "Widget settings";
 
 // Modules
 "Number of top processes" = "高占用进程数";
@@ -175,6 +180,8 @@
 "Core clock" = "核心时钟";
 "Memory clock" = "内存时钟";
 "Utilization" = "利用率";
+"Render utilization" = "Render utilization";
+"Tiler utilization" = "Tiler utilization";
 
 // RAM
 "Memory usage" = "内存占用";
@@ -202,6 +209,7 @@
 "Fahrenheit" = "华氏度";
 "Save the fan speed" = "保存风扇转速";
 "Fan" = "风扇";
+"HID sensors" = "HID sensors";
 
 // Network
 "Uploading" = "上传";
@@ -256,6 +264,8 @@
 "Time format" = "时间格式";
 "Hide additional information when full" = "电池充满后隐藏其他信息";
 "Last charge" = "最后一次充电";
+"Capacity" = "Capacity";
+"maximum / designed" = "maximum / designed";
 
 // Bluetooth
 "Battery to show" = "显示的设备";

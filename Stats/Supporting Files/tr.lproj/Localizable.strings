@@ -60,6 +60,7 @@
 "Right alignment" = "Sağa hizalama";
 "Dashboard" = "Panel";
 "Disabled" = "Disabled";
+"Silent" = "Silent";
 
 // Alerts
 "New version available" = "Yeni sürüm indirilebilir";
@@ -90,6 +91,8 @@
 // Dashboard
 "Serial number" = "Seri numarası";
 "Uptime" = "Çalışma süresi";
+"Number of cores" = "%0 cores";
+"Number of threads" = "%0 threads";
 
 // Update
 "The latest version of Stats installed" = "Stats'ın son sürümü yüklendi";
@@ -137,6 +140,8 @@
 "Details" = "Detaylar";
 "Top processes" = "İşlemler";
 "Pictogram" = "Piktogram";
+"Module settings" = "Module settings";
+"Widget settings" = "Widget settings";
 
 // Modules
 "Number of top processes" = "İşlem sayısı";
@@ -175,6 +180,8 @@
 "Core clock" = "Çekirdek frekansı";
 "Memory clock" = "Bellek frekansı";
 "Utilization" = "Kullanım";
+"Render utilization" = "Render utilization";
+"Tiler utilization" = "Tiler utilization";
 
 // RAM
 "Memory usage" = "Ram kullanımı";
@@ -202,6 +209,7 @@
 "Fahrenheit" = "Fahrenhayt";
 "Save the fan speed" = "Fan hızını kaydet";
 "Fan" = "Fan";
+"HID sensors" = "HID sensors";
 
 // Network
 "Uploading" = "Yükleme";
@@ -256,6 +264,8 @@
 "Time format" = "Zaman formatı";
 "Hide additional information when full" = "Pil dolduğunda ek bilgileri gizle";
 "Last charge" = "Son şarj";
+"Capacity" = "Capacity";
+"maximum / designed" = "maximum / designed";
 
 // Bluetooth
 "Battery to show" = "Gösterilecek pil";

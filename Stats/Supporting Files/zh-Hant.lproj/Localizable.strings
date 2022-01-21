@@ -60,6 +60,7 @@
 "Right alignment" = "靠右對齊";
 "Dashboard" = "儀表板";
 "Disabled" = "已停用";
+"Silent" = "Silent";
 
 // Alerts
 "New version available" = "有新版本可用";
@@ -90,6 +91,8 @@
 // Dashboard
 "Serial number" = "序號";
 "Uptime" = "開機時間";
+"Number of cores" = "%0 cores";
+"Number of threads" = "%0 threads";
 
 // Update
 "The latest version of Stats installed" = "已安裝最新版本";
@@ -137,6 +140,8 @@
 "Details" = "詳細資訊";
 "Top processes" = "高能耗程序";
 "Pictogram" = "標示";
+"Module settings" = "Module settings";
+"Widget settings" = "Widget settings";
 
 // Modules
 "Number of top processes" = "高能耗程序數量";
@@ -175,6 +180,8 @@
 "Core clock" = "核心時脈";
 "Memory clock" = "記憶體時脈";
 "Utilization" = "使用率";
+"Render utilization" = "Render utilization";
+"Tiler utilization" = "Tiler utilization";
 
 // RAM
 "Memory usage" = "記憶體使用率";
@@ -202,6 +209,7 @@
 "Fahrenheit" = "華氏 (˚F)";
 "Save the fan speed" = "儲存風扇速度";
 "Fan" = "風扇";
+"HID sensors" = "HID sensors";
 
 // Network
 "Uploading" = "上傳";
@@ -256,6 +264,8 @@
 "Time format" = "時間格式";
 "Hide additional information when full" = "電池充飽後隱藏其他資訊";
 "Last charge" = "最近一次充電";
+"Capacity" = "Capacity";
+"maximum / designed" = "maximum / designed";
 
 // Bluetooth
 "Battery to show" = "顯示藍牙裝置的電池電量";

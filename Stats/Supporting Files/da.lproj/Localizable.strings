@@ -60,6 +60,7 @@
 "Right alignment" = "Højrejusteret";
 "Dashboard" = "Instrumentbræt";
 "Disabled" = "Deaktiveret";
+"Silent" = "Silent";
 
 // Alerts
 "New version available" = "Ny udgave tilgængelig";
@@ -90,6 +91,8 @@
 // Dashboard
 "Serial number" = "Serienummer";
 "Uptime" = "Uptime"; // There exists some translations but in technical speak it's always just called uptime in Danish as well. Thus I left the translation as is
+"Number of cores" = "%0 cores";
+"Number of threads" = "%0 threads";
 
 // Update
 "The latest version of Stats installed" = "Den nyeste udgave af Stats er installeret";
@@ -137,6 +140,8 @@
 "Details" = "Detaljer";
 "Top processes" = "Top processer";
 "Pictogram" = "Pictogram";
+"Module settings" = "Module settings";
+"Widget settings" = "Widget settings";
 
 // Modules
 "Number of top processes" = "Antal topprocesser";
@@ -175,6 +180,8 @@
 "Core clock" = "Kærnefrekvens";
 "Memory clock" = "Hukommelsesfrekvens";
 "Utilization" = "Brugsniveau";
+"Render utilization" = "Render utilization";
+"Tiler utilization" = "Tiler utilization";
 
 // RAM
 "Memory usage" = "Hukommelse i brug";
@@ -202,6 +209,7 @@
 "Fahrenheit" = "Fahrenheit";
 "Save the fan speed" = "Gem blæserhastighed";
 "Fan" = "Blæser";
+"HID sensors" = "HID sensors";
 
 // Network
 "Uploading" = "Upload";
@@ -256,6 +264,8 @@
 "Time format" = "Tidsformat";
 "Hide additional information when full" = "Skjul yderligere information når fuldt opladt";
 "Last charge" = "Sidst opladt";
+"Capacity" = "Capacity";
+"maximum / designed" = "maximum / designed";
 
 // Bluetooth
 "Battery to show" = "Batteri der vises";

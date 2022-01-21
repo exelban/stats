@@ -60,6 +60,7 @@
 "Right alignment" = "Dreta";
 "Dashboard" = "Panell";
 "Disabled" = "Desactivat";
+"Silent" = "Silent";
 
 // Alerts
 "New version available" = "Nova versió disponible";
@@ -90,6 +91,8 @@
 // Dashboard
 "Serial number" = "Número de sèrie";
 "Uptime" = "Temps d'activitat";
+"Number of cores" = "%0 cores";
+"Number of threads" = "%0 threads";
 
 // Update
 "The latest version of Stats installed" = "L'última versió d'Stats està instal·lada";
@@ -137,6 +140,8 @@
 "Details" = "Detalls";
 "Top processes" = "Processos principals";
 "Pictogram" = "Pictograma";
+"Module settings" = "Module settings";
+"Widget settings" = "Widget settings";
 
 // Modules
 "Number of top processes" = "Nombre de processos principals";
@@ -175,6 +180,8 @@
 "Core clock" = "Rellotge del nucli";
 "Memory clock" = "Rellotge de la memòria";
 "Utilization" = "Ús";
+"Render utilization" = "Render utilization";
+"Tiler utilization" = "Tiler utilization";
 
 // RAM
 "Memory usage" = "Ús de la memòria";
@@ -202,6 +209,7 @@
 "Fahrenheit" = "Fahrenheit";
 "Save the fan speed" = "Guarda la velocitat del ventilador";
 "Fan" = "Ventilador";
+"HID sensors" = "HID sensors";
 
 // Network
 "Uploading" = "Carregant";
@@ -256,6 +264,8 @@
 "Time format" = "Format de temps";
 "Hide additional information when full" = "Oculta informació addicional quan la bateria estigui carregada";
 "Last charge" = "Última càrrega";
+"Capacity" = "Capacity";
+"maximum / designed" = "maximum / designed";
 
 // Bluetooth
 "Battery to show" = "Bateria a mostrar";
