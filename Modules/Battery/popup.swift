@@ -19,7 +19,7 @@ internal class Popup: NSView, Popup_p {
     
     private let dashboardHeight: CGFloat = 90
     
-    private let detailsHeight: CGFloat = (22 * 6) + Constants.Popup.separatorHeight
+    private let detailsHeight: CGFloat = (22 * 7) + Constants.Popup.separatorHeight
     private let batteryHeight: CGFloat = (22 * 4) + Constants.Popup.separatorHeight
     private let adapterHeight: CGFloat = (22 * 2) + Constants.Popup.separatorHeight
     private let processHeight: CGFloat = (22 * 1)
@@ -35,6 +35,7 @@ internal class Popup: NSView, Popup_p {
     private var timeLabelField: NSTextField? = nil
     private var timeField: NSTextField? = nil
     private var healthField: NSTextField? = nil
+    private var capacityField: NSTextField? = nil
     private var cyclesField: NSTextField? = nil
     private var lastChargeField: NSTextField? = nil
     
@@ -146,12 +147,14 @@ internal class Popup: NSView, Popup_p {
         let separator = separatorView(localizedString("Details"), origin: NSPoint(x: 0, y: self.detailsHeight-Constants.Popup.separatorHeight), width: self.frame.width)
         let container: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: separator.frame.origin.y))
 
-        self.levelField = popupRow(container, n: 5, title: "\(localizedString("Level")):", value: "").1
-        self.sourceField = popupRow(container, n: 4, title: "\(localizedString("Source")):", value: "").1
-        let t = self.labelValue(container, n: 3, title: "\(localizedString("Time")):", value: "")
+        self.levelField = popupRow(container, n: 6, title: "\(localizedString("Level")):", value: "").1
+        self.sourceField = popupRow(container, n: 5, title: "\(localizedString("Source")):", value: "").1
+        let t = self.labelValue(container, n: 4, title: "\(localizedString("Time")):", value: "")
         self.timeLabelField = t.0
         self.timeField = t.1
-        self.healthField = popupRow(container, n: 2, title: "\(localizedString("Health")):", value: "").1
+        self.healthField = popupRow(container, n: 3, title: "\(localizedString("Health")):", value: "").1
+        self.capacityField = popupRow(container, n: 2, title: "\(localizedString("Capacity")):", value: "").1
+        self.capacityField?.toolTip = localizedString("maximum / designed")
         self.cyclesField = popupRow(container, n: 1, title: "\(localizedString("Cycles")):", value: "").1
         self.lastChargeField = popupRow(container, n: 0, title: "\(localizedString("Last charge")):", value: "").1
         
@@ -258,6 +261,8 @@ internal class Popup: NSView, Popup_p {
             }
             
             self.healthField?.stringValue = "\(value.health)%"
+            self.capacityField?.stringValue = "\(value.maxCapacity) / \(value.designedCapacity) mAh"
+            
             if let state = value.state {
                 self.healthField?.stringValue += " (\(state))"
             }

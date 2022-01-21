@@ -22,6 +22,9 @@ struct Battery_Usage: value_t {
     var cycles: Int = 0
     var health: Int = 0
     
+    var designedCapacity: Int = 0
+    var maxCapacity: Int = 0
+    
     var amperage: Int = 0
     var voltage: Double = 0
     var temperature: Double = 0
