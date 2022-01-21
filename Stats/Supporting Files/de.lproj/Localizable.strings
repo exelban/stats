@@ -19,7 +19,7 @@
 "Disk" = "Festplatte";
 "Open Disk settings" = "Festplatten Einstellungen öffnen";
 "Sensors" = "Sensoren";
-"Open Sensors settings" = "Sensoren Einstellungen öffnen";
+"Open Sensors settings" = "Sensor Einstellungen öffnen";
 "Fans" = "Lüfter";
 "Open Fans settings" = "Lüfter Einstellungen öffnen";
 "Network" = "Netzwerk";
@@ -49,8 +49,8 @@
 "Arrows" = "Pfeile";
 "Characters" = "Buchstaben";
 "Short" = "Kurz";
-"Long" = "Lange";
-"Statistics" = "Statistiken";
+"Long" = "Lang";
+"Statistics" = "Statistik";
 "Max" = "Max";
 "Min" = "Min";
 "Reset" = "Zurücksetzen";
@@ -69,8 +69,8 @@
 
 // Settings
 "Open Activity Monitor" = "Aktivitätsanzeige öffnen";
-"Report a bug" = "Einen Fehler melden";
-"Support the application" = "Unterstützen Sie die Anwendung";
+"Report a bug" = "Fehler melden";
+"Support the application" = "Anwendung unterstützen";
 "Close application" = "Anwendung schließen";
 "Open application settings" = "Einstellungen öffnen";
 "Open dashboard" = "Dashboard öffnen";
@@ -83,7 +83,7 @@
 "Once per week" = "Wöchentlich";
 "Once per month" = "Monatlich";
 "Never" = "Nie";
-"Check for update" = "Nach Aktualisierungen suchen";
+"Check for update" = "Nach Updates suchen";
 "Show icon in dock" = "Symbol im Dock anzeigen";
 "Start at login" = "Beim Login starten";
 
@@ -122,11 +122,11 @@
 "Memory widget" = "Speicher";
 "Static width" = "Statische Breite";
 "Tachometer widget" = "Tachometer";
-"Show symbols" = "Show symbols";
+"Show symbols" = "Symbole anzeigen";
 "Label widget" = "Label";
 "Number of reads in the chart" = "Number of reads in the chart";
-"Color of download" = "Color of download";
-"Color of upload" = "Color of upload";
+"Color of download" = "Download Farbe";
+"Color of upload" = "Upload Farbe";
 
 // Module Kit
 "Open module settings" = "Modul Einstellungen öffnen";
@@ -151,8 +151,8 @@
 "Idle" = "Leerlauf";
 "Show usage per core" = "Nutzung pro Kern anzeigen";
 "Show hyper-threading cores" = "Hyper-Threading-Kerne anzeigen";
-"Split the value (System/User)" = "Teilen Sie den Wert auf (System/Nutzer)";
-"Scheduler limit" = "Maximale Planer-Geschwindigkeit";
+"Split the value (System/User)" = "Werte aufteilen (System/Nutzer)";
+"Scheduler limit" = "Maximale Scheduler-Geschwindigkeit";
 "Speed limit" = "Maximale CPU-Geschwindigkeit";
 "Average load" = "Durchschnittliche Last";
 "1 minute" = "1 Minute";
