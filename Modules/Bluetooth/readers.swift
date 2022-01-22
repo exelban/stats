@@ -21,6 +21,14 @@ private struct bleDevice {
     var batteryLevel: [KeyValue_t]
 }
 
+private struct ioDevice {
+    var name: String
+    var address: String
+    var rssi: Int8
+    var isConnected: Bool
+    var isPaired: Bool
+}
+
 internal class DevicesReader: Reader<[BLEDevice]>, CBCentralManagerDelegate, CBPeripheralDelegate {
     private var devices: [BLEDevice] = []
     private var manager: CBCentralManager!
@@ -46,34 +54,47 @@ internal class DevicesReader: Reader<[BLEDevice]>, CBCentralManagerDelegate, CBP
             }
         }
         
-        IOBluetoothDevice.pairedDevices()?.forEach({ pd in
-            guard let device = pd as? IOBluetoothDevice, device.isPaired() || device.isConnected(),
-                  let data = list.first(where: { $0.address == device.addressString }) else {
-                return
+        let pairedDevices: [ioDevice] = IOBluetoothDevice.pairedDevices()?.compactMap({
+            if let device = $0 as? IOBluetoothDevice, device.isPaired() || device.isConnected() {
+                return ioDevice(
+                    name: device.nameOrAddress,
+                    address: device.addressString,
+                    rssi: device.rssi(),
+                    isConnected: device.isConnected(),
+                    isPaired: device.isPaired()
+                )
             }
-            
-            let d = BLEDevice(
-                address: data.address,
-                name: data.name ?? device.nameOrAddress,
-                uuid: data.uuid,
-                RSSI: device.rawRSSI() == 127 ? nil : Int(device.rawRSSI()),
-                batteryLevel: data.batteryLevel,
-                isConnected: device.isConnected(),
-                isPaired: device.isPaired()
-            )
-            
-            if let idx = self.devices.firstIndex(where: { $0.address == data.address }) {
-                self.devices[idx].RSSI = d.RSSI
-                self.devices[idx].batteryLevel = d.batteryLevel
-                self.devices[idx].isPaired = d.isPaired
-                self.devices[idx].isConnected = d.isConnected
-                return
-            }
-            
-            self.devices.append(d)
-        })
+            return nil
+        }) ?? []
         
-        self.manager.retrievePeripherals(withIdentifiers: self.devices.compactMap({ $0.uuid })).forEach { (p: CBPeripheral) in
+        pairedDevices.forEach { (device: ioDevice) in
+            guard let data = list.first(where: { $0.address == device.address }) else {
+                return
+            }
+            
+            let rssi = device.rssi == 127 ? nil : Int(device.rssi)
+            if let idx = self.devices.firstIndex(where: { $0.address == data.address }) {
+                self.devices[idx].RSSI = rssi
+                self.devices[idx].batteryLevel = data.batteryLevel
+                self.devices[idx].isPaired = device.isPaired
+                self.devices[idx].isConnected = device.isConnected
+                
+                return
+            }
+            
+            self.devices.append(BLEDevice(
+                address: data.address,
+                name: data.name ?? device.name,
+                uuid: data.uuid,
+                RSSI: rssi,
+                batteryLevel: data.batteryLevel,
+                isConnected: device.isConnected,
+                isPaired: device.isPaired
+            ))
+        }
+        
+        let peripherals = self.manager.retrievePeripherals(withIdentifiers: self.devices.compactMap({ $0.uuid }))
+        peripherals.forEach { (p: CBPeripheral) in
             guard let idx = self.devices.firstIndex(where: { $0.uuid == p.identifier }) else {
                 return
             }
