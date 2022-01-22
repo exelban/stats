@@ -31,6 +31,7 @@ private struct ioDevice {
 
 internal class DevicesReader: Reader<[BLEDevice]>, CBCentralManagerDelegate, CBPeripheralDelegate {
     private var devices: [BLEDevice] = []
+    private var devicesToRemove: [UUID] = []
     private var manager: CBCentralManager!
     
     private var characteristicsDict: [UUID: CBCharacteristic] = [:]
@@ -107,6 +108,8 @@ internal class DevicesReader: Reader<[BLEDevice]>, CBCentralManagerDelegate, CBP
                 if self.manager.isScanning {
                     self.manager.connect(p, options: nil)
                 }
+            } else if p.state == .disconnecting {
+                self.devicesToRemove.append(p.identifier)
             } else if p.state == .connected && !self.devices[idx].isPeripheralInitialized {
                 p.delegate = self
                 p.discoverServices([DevicesReader.batteryServiceUUID])
@@ -118,6 +121,16 @@ internal class DevicesReader: Reader<[BLEDevice]>, CBCentralManagerDelegate, CBP
             if let uuid = d.uuid, let val = self.bleLevels[uuid] {
                 self.devices[i].batteryLevel = [val]
             }
+        }
+        
+        if !self.devicesToRemove.isEmpty {
+            self.devices = self.devices.filter { (d: BLEDevice) -> Bool in
+                if let uuid = d.uuid, self.devicesToRemove.contains(uuid) {
+                    return false
+                }
+                return true
+            }
+            self.devicesToRemove = []
         }
         
         self.callback(self.devices.filter({ $0.RSSI != nil }))
@@ -208,6 +221,10 @@ internal class DevicesReader: Reader<[BLEDevice]>, CBCentralManagerDelegate, CBP
         } else if central.state == .poweredOn {
             central.scanForPeripherals(withServices: nil, options: nil)
         }
+    }
+    
+    func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
+        self.devicesToRemove.append(peripheral.identifier)
     }
     
     // MARK: - CBPeripheral

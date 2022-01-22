@@ -15,8 +15,6 @@ import Kit
 internal class Popup: NSStackView, Popup_p {
     public var sizeCallback: ((NSSize) -> Void)? = nil
     
-    private var list: [UUID: BLEView] = [:]
-    
     public init() {
         super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: 0))
         
@@ -29,7 +27,11 @@ internal class Popup: NSStackView, Popup_p {
     }
     
     internal func batteryCallback(_ list: [BLEDevice]) {
-        let views = self.subviews.filter{ $0 is BLEView }.map{ $0 as! BLEView }
+        var views = self.subviews.filter{ $0 is BLEView }.map{ $0 as! BLEView }
+        if list.count < views.count && !views.isEmpty {
+            views.forEach{ $0.removeFromSuperview() }
+            views = []
+        }
         
         list.reversed().forEach { (ble: BLEDevice) in
             if let view = views.first(where: { $0.address == ble.address }) {
