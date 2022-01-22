@@ -181,13 +181,13 @@ class Dashboard: NSScrollView {
                 
                 var mini = ""
                 if let cores = cpu.physicalCores {
-                    mini += "\(cores) cores"
+                    mini += localizedString("Number of cores", "\(cores)")
                 }
                 if let threads = cpu.logicalCores {
                     if mini != "" {
                         mini += ", "
                     }
-                    mini += "\(threads) threads"
+                    mini += localizedString("Number of threads", "\(threads)")
                 }
                 value += "\(mini)"
             }
@@ -266,7 +266,7 @@ class Dashboard: NSScrollView {
                 if gpus[i].vram != nil || gpus[i].cores != nil {
                     row += " ("
                     if let cores = gpus[i].cores {
-                        row += "\(cores) cores"
+                        row += localizedString("Number of cores", "\(cores)")
                     }
                     if let size = gpus[i].vram {
                         if gpus[i].cores != nil {

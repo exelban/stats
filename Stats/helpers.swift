@@ -11,6 +11,7 @@
 
 import Cocoa
 import Kit
+import UserNotifications
 
 extension AppDelegate {
     internal func parseArguments() {
@@ -90,8 +91,26 @@ extension AppDelegate {
             NSApp.setActivationPolicy(dockIconStatus)
         }
         
-        if Store.shared.string(key: "update-interval", defaultValue: AppUpdateInterval.atStart.rawValue) != AppUpdateInterval.never.rawValue {
-            self.checkForNewVersion()
+        if let updateInterval = AppUpdateInterval(rawValue: Store.shared.string(key: "update-interval", defaultValue: AppUpdateInterval.atStart.rawValue)) {
+            self.updateActivity.invalidate()
+            self.updateActivity.repeats = true
+            
+            debug("Application update interval is '\(updateInterval.rawValue)'")
+            
+            switch updateInterval {
+            case .oncePerDay: self.updateActivity.interval = 60 * 60 * 24
+            case .oncePerWeek: self.updateActivity.interval = 60 * 60 * 24 * 7
+            case .oncePerMonth: self.updateActivity.interval = 60 * 60 * 24 * 30
+            case .atStart:
+                self.checkForNewVersion()
+                return
+            default: return
+            }
+            
+            self.updateActivity.schedule { (completion: @escaping NSBackgroundActivityScheduler.CompletionHandler) in
+                self.checkForNewVersion()
+                completion(NSBackgroundActivityScheduler.Result.finished)
+            }
         }
     }
     
@@ -107,23 +126,63 @@ extension AppDelegate {
                 return
             }
             
-            DispatchQueue.main.async(execute: {
-                if version.newest {
-                    debug("show update window because new version of app found: \(version.latest)")
-                    
-                    self.updateNotification.identifier = "new-version-\(version.latest)"
-                    self.updateNotification.title = localizedString("New version available")
-                    self.updateNotification.subtitle = localizedString("Click to install the new version of Stats")
-                    self.updateNotification.soundName = NSUserNotificationDefaultSoundName
-                    
-                    self.updateNotification.hasActionButton = true
-                    self.updateNotification.actionButtonTitle = localizedString("Install")
-                    self.updateNotification.userInfo = ["url": version.url]
-                    
-                    NSUserNotificationCenter.default.delegate = self
-                    NSUserNotificationCenter.default.deliver(self.updateNotification)
+            if !version.newest {
+                return
+            }
+            
+            debug("show update view because new version of app found: \(version.latest)")
+            
+            if #available(OSX 10.14, *) {
+                let center = UNUserNotificationCenter.current()
+                center.getNotificationSettings { settings in
+                    switch settings.authorizationStatus {
+                    case .authorized, .provisional:
+                        self.showUpdateNotification(version: version)
+                    case .denied:
+                        self.showUpdateWindow(version: version)
+                    case .notDetermined:
+                        center.requestAuthorization(options: [.sound, .alert, .badge], completionHandler: { (_, error) in
+                            if error == nil {
+                                NSApplication.shared.registerForRemoteNotifications()
+                                self.showUpdateNotification(version: version)
+                            } else {
+                                self.showUpdateWindow(version: version)
+                            }
+                        })
+                    @unknown default:
+                        self.showUpdateWindow(version: version)
+                        error_msg("unknown notification setting")
+                    }
                 }
-            })
+            } else {
+                self.showUpdateWindow(version: version)
+            }
         }
+    }
+    
+    private func showUpdateNotification(version: version_s) {
+        debug("show update notification")
+        
+        DispatchQueue.main.async(execute: {
+            self.updateNotification.identifier = "new-version-\(version.latest)"
+            self.updateNotification.title = localizedString("New version available")
+            self.updateNotification.subtitle = localizedString("Click to install the new version of Stats")
+            self.updateNotification.soundName = NSUserNotificationDefaultSoundName
+            
+            self.updateNotification.hasActionButton = true
+            self.updateNotification.actionButtonTitle = localizedString("Install")
+            self.updateNotification.userInfo = ["url": version.url]
+            
+            NSUserNotificationCenter.default.delegate = self
+            NSUserNotificationCenter.default.deliver(self.updateNotification)
+        })
+    }
+    
+    private func showUpdateWindow(version: version_s) {
+        debug("show update window")
+        
+        DispatchQueue.main.async(execute: {
+            self.updateWindow.open(version)
+        })
     }
 }

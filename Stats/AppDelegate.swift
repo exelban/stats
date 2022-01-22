@@ -36,9 +36,9 @@ var modules: [Module] = [
 @main
 class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDelegate {
     internal let settingsWindow: SettingsWindow = SettingsWindow()
+    internal let updateWindow: UpdateWindow = UpdateWindow()
     internal let updateNotification = NSUserNotification()
-    
-    private let updateActivity = NSBackgroundActivityScheduler(identifier: "eu.exelban.Stats.updateCheck")
+    internal let updateActivity = NSBackgroundActivityScheduler(identifier: "eu.exelban.Stats.updateCheck")
     
     static func main() {
         let app = NSApplication.shared
@@ -57,7 +57,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         self.settingsWindow.setModules()
         
         self.defaultValues()
-        self.updateCron()
+        
         info("Stats started in \((startingPoint.timeIntervalSinceNow * -1).rounded(toPlaces: 4)) seconds")
         
         Server.shared.sendEvent(
@@ -94,28 +94,5 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         }
         
         NSUserNotificationCenter.default.removeDeliveredNotification(self.updateNotification)
-    }
-    
-    @objc private func updateCron() {
-        self.updateActivity.invalidate()
-        self.updateActivity.repeats = true
-        
-        guard let updateInterval = AppUpdateInterval(rawValue: Store.shared.string(key: "update-interval", defaultValue: AppUpdateInterval.atStart.rawValue)) else {
-            return
-        }
-        debug("Application update interval is '\(updateInterval.rawValue)'")
-        
-        switch updateInterval {
-        case .oncePerDay: self.updateActivity.interval = 60 * 60 * 24
-        case .oncePerWeek: self.updateActivity.interval = 60 * 60 * 24 * 7
-        case .oncePerMonth: self.updateActivity.interval = 60 * 60 * 24 * 30
-        case .never, .atStart: return
-        default: return
-        }
-        
-        self.updateActivity.schedule { (completion: @escaping NSBackgroundActivityScheduler.CompletionHandler) in
-            self.checkForNewVersion()
-            completion(NSBackgroundActivityScheduler.Result.finished)
-        }
     }
 }
