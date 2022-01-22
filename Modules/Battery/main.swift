@@ -48,8 +48,8 @@ public class Battery: Module {
     private let popupView: Popup
     private var settingsView: Settings
     
-    private var lowNotification: NSUserNotification? = nil
-    private var highNotification: NSUserNotification? = nil
+    private var lowLevelNotificationState: Bool = false
+    private var highLevelNotificationState: Bool = false
     
     public init() {
         self.settingsView = Settings("Battery")
@@ -138,10 +138,9 @@ public class Battery: Module {
             return
         }
         
-        if (value.level > notificationLevel || value.powerSource != "Battery Power") && self.lowNotification != nil {
-            NSUserNotificationCenter.default.removeDeliveredNotification(self.lowNotification!)
+        if (value.level > notificationLevel || value.powerSource != "Battery Power") && self.lowLevelNotificationState {
             if value.level > notificationLevel {
-                self.lowNotification = nil
+                self.lowLevelNotificationState = false
             }
             return
         }
@@ -150,18 +149,26 @@ public class Battery: Module {
             return
         }
         
-        if value.level <= notificationLevel && self.lowNotification == nil {
+        if value.level <= notificationLevel && !self.lowLevelNotificationState {
+            let title = localizedString("Low battery")
             var subtitle = localizedString("Battery remaining", "\(Int(value.level*100))")
             if value.timeToEmpty > 0 {
                 subtitle += " (\(Double(value.timeToEmpty*60).printSecondsToHoursMinutesSeconds()))"
             }
             
-            self.lowNotification = showNotification(
-                title: localizedString("Low battery"),
-                subtitle: subtitle,
-                id: "battery-level",
-                icon: NSImage(named: NSImage.Name("low-battery"))!
-            )
+            if #available(macOS 10.14, *) {
+                showNotification(
+                    title: title,
+                    subtitle: subtitle
+                )
+            } else {
+                showNSNotification(
+                    title: title,
+                    subtitle: subtitle
+                )
+            }
+            
+            self.lowLevelNotificationState = true
         }
     }
     
@@ -175,10 +182,9 @@ public class Battery: Module {
             return
         }
         
-        if (value.level < notificationLevel || value.powerSource == "Battery Power") && self.highNotification != nil {
-            NSUserNotificationCenter.default.removeDeliveredNotification(self.highNotification!)
+        if (value.level < notificationLevel || value.powerSource == "Battery Power") && self.highLevelNotificationState {
             if value.level < notificationLevel {
-                self.highNotification = nil
+                self.highLevelNotificationState = false
             }
             return
         }
@@ -187,18 +193,26 @@ public class Battery: Module {
             return
         }
         
-        if value.level >= notificationLevel && self.highNotification == nil {
+        if value.level >= notificationLevel && !self.highLevelNotificationState {
+            let title = localizedString("High battery")
             var subtitle = localizedString("Battery remaining to full charge", "\(Int((1-value.level)*100))")
             if value.timeToCharge > 0 {
                 subtitle += " (\(Double(value.timeToCharge*60).printSecondsToHoursMinutesSeconds()))"
             }
             
-            self.highNotification = showNotification(
-                title: localizedString("High battery"),
-                subtitle: subtitle,
-                id: "battery-level2",
-                icon: NSImage(named: NSImage.Name("high-battery"))!
-            )
+            if #available(macOS 10.14, *) {
+                showNotification(
+                    title: title,
+                    subtitle: subtitle
+                )
+            } else {
+                showNSNotification(
+                    title: title,
+                    subtitle: subtitle
+                )
+            }
+            
+            self.highLevelNotificationState = true
         }
     }
 }

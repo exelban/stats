@@ -67,11 +67,21 @@ extension AppDelegate {
             }
             
             if isNewestVersion(currentVersion: prevVersion, latestVersion: currentVersion) {
-                _ = showNotification(
-                    title: localizedString("Successfully updated"),
-                    subtitle: localizedString("Stats was updated to v", currentVersion),
-                    id: "updated-from-\(prevVersion)-to-\(currentVersion)"
-                )
+                let title: String = localizedString("Successfully updated")
+                let subtitle: String = localizedString("Stats was updated to v", currentVersion)
+                
+                if #available(macOS 10.14, *) {
+                    showNotification(
+                        title: title,
+                        subtitle: subtitle,
+                        delegate: self
+                    )
+                } else {
+                    showNSNotification(
+                        title: title,
+                        subtitle: subtitle
+                    )
+                }
             }
             
             debug("Detected previous version \(prevVersion). Current version (\(currentVersion) set")
@@ -163,19 +173,24 @@ extension AppDelegate {
     private func showUpdateNotification(version: version_s) {
         debug("show update notification")
         
-        DispatchQueue.main.async(execute: {
-            self.updateNotification.identifier = "new-version-\(version.latest)"
-            self.updateNotification.title = localizedString("New version available")
-            self.updateNotification.subtitle = localizedString("Click to install the new version of Stats")
-            self.updateNotification.soundName = NSUserNotificationDefaultSoundName
-            
-            self.updateNotification.hasActionButton = true
-            self.updateNotification.actionButtonTitle = localizedString("Install")
-            self.updateNotification.userInfo = ["url": version.url]
-            
-            NSUserNotificationCenter.default.delegate = self
-            NSUserNotificationCenter.default.deliver(self.updateNotification)
-        })
+        let title = localizedString("New version available")
+        let subtitle = localizedString("Click to install the new version of Stats")
+        let userInfo = ["url": version.url]
+        
+        if #available(macOS 10.14, *) {
+            showNotification(
+                title: title,
+                subtitle: subtitle,
+                userInfo: userInfo,
+                delegate: self
+            )
+        } else {
+            showNSNotification(
+                title: title,
+                subtitle: subtitle,
+                userInfo: userInfo
+            )
+        }
     }
     
     private func showUpdateWindow(version: version_s) {

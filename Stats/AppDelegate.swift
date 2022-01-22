@@ -9,6 +9,7 @@
 import Cocoa
 
 import Kit
+import UserNotifications
 
 import CPU
 import RAM
@@ -34,11 +35,11 @@ var modules: [Module] = [
 ]
 
 @main
-class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDelegate {
     internal let settingsWindow: SettingsWindow = SettingsWindow()
     internal let updateWindow: UpdateWindow = UpdateWindow()
-    internal let updateNotification = NSUserNotification()
     internal let updateActivity = NSBackgroundActivityScheduler(identifier: "eu.exelban.Stats.updateCheck")
+    internal var clickInNotification: Bool = false
     
     static func main() {
         let app = NSApplication.shared
@@ -75,16 +76,27 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     }
     
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
+        if self.clickInNotification {
+            self.clickInNotification = false
+            return true
+        }
+        
         if flag {
             self.settingsWindow.makeKeyAndOrderFront(self)
         } else {
             self.settingsWindow.setIsVisible(true)
         }
+        
         return true
     }
     
-    func userNotificationCenter(_ center: NSUserNotificationCenter, didActivate notification: NSUserNotification) {
-        if let uri = notification.userInfo?["url"] as? String {
+    @available(macOS 10.14, *)
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                didReceive response: UNNotificationResponse,
+                                withCompletionHandler completionHandler: @escaping () -> Void) {
+        self.clickInNotification = true
+        
+        if let uri = response.notification.request.content.userInfo["url"] as? String {
             debug("Downloading new version of app...")
             if let url = URL(string: uri) {
                 updater.download(url, doneHandler: { path in
@@ -93,6 +105,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             }
         }
         
-        NSUserNotificationCenter.default.removeDeliveredNotification(self.updateNotification)
+        completionHandler()
     }
 }

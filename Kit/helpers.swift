@@ -12,6 +12,7 @@
 
 import Cocoa
 import ServiceManagement
+import UserNotifications
 
 public struct LaunchAtLogin {
     private static let id = "\(Bundle.main.bundleIdentifier!).LaunchAtLogin"
@@ -477,23 +478,42 @@ public func isNewestVersion(currentVersion: String, latestVersion: String) -> Bo
     return false
 }
 
-public func showNotification(title: String, subtitle: String? = nil, text: String? = nil, id: String = UUID().uuidString, icon: NSImage? = nil) -> NSUserNotification {
+@available(macOS 10.14, *)
+public func showNotification(title: String, subtitle: String? = nil, userInfo: [AnyHashable: Any] = [:], delegate: UNUserNotificationCenterDelegate? = nil) {
+    let id = UUID().uuidString
+    
+    let content = UNMutableNotificationContent()
+    content.title = title
+    if let value = subtitle {
+        content.subtitle = value
+    }
+    content.userInfo = userInfo
+    content.sound = UNNotificationSound.default
+    
+    let request = UNNotificationRequest(identifier: id, content: content, trigger: nil)
+    let center = UNUserNotificationCenter.current()
+    center.delegate = delegate
+    
+    center.requestAuthorization(options: [.alert, .sound]) { _, _ in }
+    center.add(request) { (error: Error?) in
+        if let err = error {
+            print(err)
+        }
+    }
+}
+
+public func showNSNotification(title: String, subtitle: String? = nil, body: String? = nil, userInfo: [AnyHashable: Any] = [:]) {
     let notification = NSUserNotification()
+    let id = UUID().uuidString
     
     notification.identifier = id
     notification.title = title
     notification.subtitle = subtitle
-    notification.informativeText = text
+    notification.informativeText = body
     notification.soundName = NSUserNotificationDefaultSoundName
     notification.hasActionButton = false
     
-    if icon != nil {
-        notification.setValue(icon, forKey: "_identityImage")
-    }
-    
     NSUserNotificationCenter.default.deliver(notification)
-    
-    return notification
 }
 
 public struct TopProcess {
