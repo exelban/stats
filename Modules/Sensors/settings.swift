@@ -14,7 +14,7 @@ import Kit
 
 internal class Settings: NSStackView, Settings_v {
     private var updateIntervalValue: Int = 3
-    private var hidState: Bool = false
+    private var hidState: Bool
     private var fanSpeedState: Bool = false
     
     private let title: String
@@ -28,6 +28,7 @@ internal class Settings: NSStackView, Settings_v {
     public init(_ title: String, list: [Sensor_p]) {
         self.title = title
         self.list = list
+        self.hidState = isM1 ? true : false
         
         super.init(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
         

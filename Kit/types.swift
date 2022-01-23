@@ -214,3 +214,9 @@ public var isARM: Bool {
         return value
     }
 }
+
+public var isM1: Bool {
+    get {
+        return SystemKit.shared.device.info.cpu?.name == "Apple M1" ? true : false
+    }
+}
