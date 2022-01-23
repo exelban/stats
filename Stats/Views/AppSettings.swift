@@ -15,7 +15,7 @@ import Kit
 class ApplicationSettings: NSScrollView {
     private var updateIntervalValue: String {
         get {
-            return Store.shared.string(key: "update-interval", defaultValue: AppUpdateInterval.atStart.rawValue)
+            return Store.shared.string(key: "update-interval", defaultValue: AppUpdateInterval.silent.rawValue)
         }
     }
     

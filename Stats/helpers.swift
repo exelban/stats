@@ -101,7 +101,7 @@ extension AppDelegate {
             NSApp.setActivationPolicy(dockIconStatus)
         }
         
-        if let updateInterval = AppUpdateInterval(rawValue: Store.shared.string(key: "update-interval", defaultValue: AppUpdateInterval.atStart.rawValue)) {
+        if let updateInterval = AppUpdateInterval(rawValue: Store.shared.string(key: "update-interval", defaultValue: AppUpdateInterval.silent.rawValue)) {
             self.updateActivity.invalidate()
             self.updateActivity.repeats = true
             
@@ -114,6 +114,9 @@ extension AppDelegate {
             case .atStart:
                 self.checkForNewVersion()
                 return
+            case .silent:
+                self.checkForNewVersion(silent: true)
+                return
             default: return
             }
             
@@ -124,7 +127,7 @@ extension AppDelegate {
         }
     }
     
-    internal func checkForNewVersion() {
+    internal func checkForNewVersion(silent: Bool = false) {
         updater.check { result, error in
             if error != nil {
                 debug("error updater.check(): \(error!.localizedDescription)")
@@ -137,6 +140,15 @@ extension AppDelegate {
             }
             
             if !version.newest {
+                return
+            }
+            
+            if silent {
+                if let url = URL(string: version.url) {
+                    updater.download(url, doneHandler: { path in
+                        updater.install(path: path)
+                    })
+                }
                 return
             }
             

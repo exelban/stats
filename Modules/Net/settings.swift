@@ -79,7 +79,7 @@ internal class Settings: NSStackView, Settings_v {
         self.addArrangedSubview(selectSettingsRow(
             title: localizedString("Reset data usage"),
             action: #selector(toggleUsageReset),
-            items: AppUpdateIntervals.dropLast(2),
+            items: AppUpdateIntervals.dropLast(2).filter({ $0.key != "Silent" }),
             selected: self.usageReset
         ))
         

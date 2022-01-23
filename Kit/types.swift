@@ -27,6 +27,7 @@ public struct ColorValue: Equatable {
 }
 
 public enum AppUpdateInterval: String {
+    case silent = "Silent"
     case atStart = "At start"
     case separator1 = "separator_1"
     case oncePerDay = "Once per day"
@@ -36,6 +37,7 @@ public enum AppUpdateInterval: String {
     case never = "Never"
 }
 public let AppUpdateIntervals: [KeyValue_t] = [
+    KeyValue_t(key: "Silent", value: AppUpdateInterval.silent.rawValue),
     KeyValue_t(key: "At start", value: AppUpdateInterval.atStart.rawValue),
     KeyValue_t(key: "separator_1", value: "separator_1"),
     KeyValue_t(key: "Once per day", value: AppUpdateInterval.oncePerDay.rawValue),
