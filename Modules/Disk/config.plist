@@ -98,6 +98,19 @@
 			<key>Order</key>
 			<integer>5</integer>
 		</dict>
+		<key>network_chart</key>
+		<dict>
+			<key>Default</key>
+			<false/>
+			<key>Order</key>
+			<integer>6</integer>
+			<key>Unsupported colors</key>
+			<array>
+				<string>utilization</string>
+				<string>pressure</string>
+				<string>system</string>
+			</array>
+		</dict>
 	</dict>
 </dict>
 </plist>
