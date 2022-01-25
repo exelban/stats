@@ -36,10 +36,22 @@ internal class SensorsReader: Reader<[Sensor_p]> {
             debug("Found \(Int(count)) fans", log: self.log)
             
             for i in 0..<Int(count) {
+                var name = SMC.shared.getStringValue("F\(i)ID")
+                
+                if name == nil && count == 2 {
+                    switch i {
+                    case 0:
+                        name = localizedString("Left fan")
+                    case 1:
+                        name = localizedString("Right fan")
+                    default: break
+                    }
+                }
+                
                 self.list.append(Fan(
                     id: i,
                     key: "F\(i)Ac",
-                    name: SMC.shared.getStringValue("F\(i)ID") ?? "\(localizedString("Fan")) #\(i)",
+                    name: name ?? "\(localizedString("Fan")) #\(i)",
                     minSpeed: SMC.shared.getValue("F\(i)Mn") ?? 1,
                     maxSpeed: SMC.shared.getValue("F\(i)Mx") ?? 1,
                     value: SMC.shared.getValue("F\(i)Ac") ?? 0,
