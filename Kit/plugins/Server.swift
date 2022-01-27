@@ -75,4 +75,24 @@ public class Server {
         }
         task.resume()
     }
+    
+    public func getTeamID(completionHandler: @escaping (_ result: String?, _ error: Error?) -> Void) {
+        guard let url = URL(string: "\(self.url)/team-id") else {
+            completionHandler(nil, "prepare url")
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, _, err) in
+            guard let data = data, err == nil else {
+                completionHandler(nil, "no data or error \(String(describing: err))")
+                return
+            }
+            let str = String(decoding: data, as: UTF8.self)
+            completionHandler(str, nil)
+        }
+        task.resume()
+    }
 }

@@ -221,12 +221,12 @@ private class UpdateView: NSView {
         installButton.target = self
         installButton.isHidden = true
         
-        updater.download(url, progressHandler: { progress in
+        updater.download(url, progress: { progress in
             DispatchQueue.main.async {
                 progressBar.doubleValue = progress.fractionCompleted
                 state.stringValue = "\(Int(progress.fractionCompleted*100))%"
             }
-        }, doneHandler: { path in
+        }, completion: { path in
             self.path = path
             DispatchQueue.main.async {
                 closeButton.setFrameSize(NSSize(width: view.frame.width/2, height: closeButton.frame.height))
@@ -253,6 +253,6 @@ private class UpdateView: NSView {
     }
     
     @objc private func install(_ sender: Any) {
-        updater.install(path: self.path)
+//        updater.install(path: self.path)
     }
 }

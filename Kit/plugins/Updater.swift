@@ -34,87 +34,91 @@ public struct Version {
     var beta: Int? = nil
 }
 
-public class macAppUpdater {
-    private let user: String
-    private let repo: String
+public class Updater {
+    private let github: URL
+    private let server: URL
     
     private let appName: String = Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as! String
     private let currentVersion: String = "v\(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String)"
     
-    public var latest: version_s? = nil
+    private var teamID: String? = nil
     private var observation: NSKeyValueObservation?
     
-    private var url: String {
-        return "https://api.github.com/repos/\(user)/\(repo)/releases/latest"
-    }
-    
-    public init(user: String, repo: String) {
-        self.user = user
-        self.repo = repo
+    public init(github: String, url: String) {
+        self.github = URL(string: "https://api.github.com/repos/\(github)/releases/latest")!
+        self.server = URL(string: url)!
+        
+        Server.shared.getTeamID { (val, err) in
+            if let teamID = val, err != nil {
+                self.teamID = teamID
+            }
+        }
     }
     
     deinit {
-      observation?.invalidate()
+        observation?.invalidate()
     }
     
-    public func check(completionHandler: @escaping (_ result: version_s?, _ error: Error?) -> Void) {
+    public func check(completion: @escaping (_ result: version_s?, _ error: Error?) -> Void) {
         if !isConnectedToNetwork() {
-            completionHandler(nil, "No internet connection")
+            completion(nil, "No internet connection")
             return
         }
         
-        fetchLastVersion { result, error in
-            guard error == nil else {
-                completionHandler(nil, error)
+        self.fetchRelease(uri: self.github) { (result, err) in
+            guard let result = result, err == nil else {
+                self.fetchRelease(uri: self.server) { (result, err) in
+                    guard let result = result, err == nil else {
+                        completion(nil, err)
+                        return
+                    }
+                    
+                    completion(version_s(
+                        current: self.currentVersion,
+                        latest: result.1,
+                        newest: isNewestVersion(currentVersion: self.currentVersion, latestVersion: result.1),
+                        url: result.0
+                    ), nil)
+                }
                 return
             }
             
-            guard let results = result, results.count > 1 else {
-                completionHandler(nil, "wrong results")
-                return
-            }
-            
-            let downloadURL: String = result![1]
-            let lastVersion: String = result![0]
-            let newVersion: Bool = isNewestVersion(currentVersion: self.currentVersion, latestVersion: lastVersion)
-            
-            self.latest = version_s(current: self.currentVersion, latest: lastVersion, newest: newVersion, url: downloadURL)
-            completionHandler(self.latest, nil)
+            completion(version_s(
+                current: self.currentVersion,
+                latest: result.1,
+                newest: isNewestVersion(currentVersion: self.currentVersion, latestVersion: result.1),
+                url: result.0
+            ), nil)
         }
     }
     
-    private func fetchLastVersion(completionHandler: @escaping (_ result: [String]?, _ error: Error?) -> Void) {
-        guard let url = URL(string: self.url) else {
-            completionHandler(nil, "wrong url")
-            return
-        }
-        
-        URLSession.shared.dataTask(with: url) { data, _, error in
-            guard let data = data, error == nil else { return }
+    private func fetchRelease(uri: URL, completion: @escaping (_ result: (String, String)?, _ error: Error?) -> Void) {
+        let task = URLSession.shared.dataTask(with: uri) { data, _, error in
+            guard let data = data, error == nil else {
+                completion(nil, "no data")
+                return
+            }
             
             do {
                 let jsonResponse = try JSONSerialization.jsonObject(with: data, options: [])
-                guard let jsonArray = jsonResponse as? [String: Any] else {
-                    completionHandler(nil, "parse json")
+                guard let jsonArray = jsonResponse as? [String: Any],
+                      let lastVersion = jsonArray["tag_name"] as? String,
+                      let assets = jsonArray["assets"] as? [[String: Any]],
+                      let asset = assets.first(where: {$0["name"] as! String == "\(self.appName).dmg"}),
+                      let downloadURL = asset["browser_download_url"] as? String else {
+                    completion(nil, "parse json")
                     return
                 }
-                let lastVersion = jsonArray["tag_name"] as? String
                 
-                guard let assets = jsonArray["assets"] as? [[String: Any]] else {
-                    completionHandler(nil, "parse assets")
-                    return
-                }
-                if let asset = assets.first(where: {$0["name"] as! String == "\(self.appName).dmg"}) {
-                    let downloadURL = asset["browser_download_url"] as? String
-                    completionHandler([lastVersion!, downloadURL!], nil)
-                }
+                 completion((lastVersion, downloadURL), nil)
             } catch let parsingError {
-                completionHandler(nil, parsingError)
+                completion(nil, parsingError)
             }
-        }.resume()
+        }
+        task.resume()
     }
     
-    public func download(_ url: URL, progressHandler: @escaping (_ progress: Progress) -> Void = {_ in }, doneHandler: @escaping (_ path: String) -> Void = {_ in }) {
+    public func download(_ url: URL, progress: @escaping (_ progress: Progress) -> Void = {_ in }, completion: @escaping (_ path: String) -> Void = {_ in }) {
         let downloadTask = URLSession.shared.downloadTask(with: url) { urlOrNil, _, _ in
             guard let fileURL = urlOrNil else { return }
             do {
@@ -127,15 +131,15 @@ public class macAppUpdater {
                         return
                     }
                     
-                    doneHandler(path)
+                    completion(path)
                 }
             } catch {
                 print("file error: \(error)")
             }
         }
         
-        self.observation = downloadTask.progress.observe(\.fractionCompleted) { progress, _ in
-            progressHandler(progress)
+        self.observation = downloadTask.progress.observe(\.fractionCompleted) { value, _ in
+            progress(value)
         }
         
         downloadTask.resume()
@@ -170,6 +174,21 @@ public class macAppUpdater {
         print("Run updater.sh with app: \(pwd) and dmg: \(dmg)")
         
         exit(0)
+    }
+    
+    public func isSignatureOK(path: String) -> Bool {
+        let line = syncShell("codesign -dv \(path) 2>&1 | grep TeamIdentifier")
+        let arr = line.split(separator: "=")
+        guard arr.count == 2 else {
+            return true
+        }
+        let teamID = arr[1]
+        
+        guard let externalTeamID = self.teamID else {
+            return true
+        }
+        
+        return externalTeamID == teamID
     }
     
     private func copyFile(from: URL, to: URL, completionHandler: @escaping (_ path: String, _ error: Error?) -> Void) {

@@ -21,7 +21,7 @@ import GPU
 import Fans
 import Bluetooth
 
-let updater = macAppUpdater(user: "exelban", repo: "stats")
+let updater = Updater(github: "exelban/stats", url: "https://api.serhiy.io/v1/stats/release/latest")
 var modules: [Module] = [
     CPU(),
     GPU(),
@@ -99,7 +99,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
         if let uri = response.notification.request.content.userInfo["url"] as? String {
             debug("Downloading new version of app...")
             if let url = URL(string: uri) {
-                updater.download(url, doneHandler: { path in
+                updater.download(url, completion: { path in
                     updater.install(path: path)
                 })
             }

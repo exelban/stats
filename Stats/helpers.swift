@@ -145,7 +145,7 @@ extension AppDelegate {
             
             if silent {
                 if let url = URL(string: version.url) {
-                    updater.download(url, doneHandler: { path in
+                    updater.download(url, completion: { path in
                         updater.install(path: path)
                     })
                 }
