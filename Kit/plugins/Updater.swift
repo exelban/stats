@@ -75,9 +75,9 @@ public class Updater {
                     
                     completion(version_s(
                         current: self.currentVersion,
-                        latest: result.1,
-                        newest: isNewestVersion(currentVersion: self.currentVersion, latestVersion: result.1),
-                        url: result.0
+                        latest: result.tag,
+                        newest: isNewestVersion(currentVersion: self.currentVersion, latestVersion: result.tag),
+                        url: result.url
                     ), nil)
                 }
                 return
@@ -85,14 +85,14 @@ public class Updater {
             
             completion(version_s(
                 current: self.currentVersion,
-                latest: result.1,
-                newest: isNewestVersion(currentVersion: self.currentVersion, latestVersion: result.1),
-                url: result.0
+                latest: result.tag,
+                newest: isNewestVersion(currentVersion: self.currentVersion, latestVersion: result.tag),
+                url: result.url
             ), nil)
         }
     }
     
-    private func fetchRelease(uri: URL, completion: @escaping (_ result: (String, String)?, _ error: Error?) -> Void) {
+    private func fetchRelease(uri: URL, completion: @escaping (_ result: (tag: String, url: String)?, _ error: Error?) -> Void) {
         let task = URLSession.shared.dataTask(with: uri) { data, _, error in
             guard let data = data, error == nil else {
                 completion(nil, "no data")
