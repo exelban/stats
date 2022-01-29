@@ -8,6 +8,7 @@
 //
 //  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
 //
+// swiftlint:disable file_length
 
 import Cocoa
 import Kit
@@ -87,9 +88,9 @@ internal class Popup: NSStackView, Popup_p {
             
             groups.forEach { (group: SensorGroup) in
                 filtered.filter{ $0.group == group }.forEach { (s: Sensor_p) in
-                    let (key, value) = popupRow(self, n: 0, title: "\(s.name):", value: s.formattedValue)
-                    key.toolTip = s.key
-                    self.list[s.key] = value
+                    let sensor = SensorView(s, width: self.frame.width)
+                    self.addArrangedSubview(sensor)
+                    self.list[s.key] = sensor
                 }
             }
         }
@@ -106,8 +107,8 @@ internal class Popup: NSStackView, Popup_p {
                         if let f = s as? Fan {
                             fan.update(f)
                         }
-                    case let sensors as NSTextField:
-                        sensors.stringValue = s.formattedValue
+                    case let sensor as SensorView:
+                        sensor.update(s)
                     case .none, .some:
                         break
                     }
@@ -124,6 +125,85 @@ internal class Popup: NSStackView, Popup_p {
         }
     }
 }
+
+// MARK: - Sensor view
+
+internal class SensorView: NSStackView {
+    private var labelView: LabelField = {
+        let view = LabelField(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
+        view.cell?.truncatesLastVisibleLine = true
+        return view
+    }()
+    private var valueView: ValueField = ValueField(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
+    
+    public init(_ sensor: Sensor_p, width: CGFloat) {
+        super.init(frame: NSRect(x: 0, y: 0, width: width, height: 22))
+        
+        self.wantsLayer = true
+        self.orientation = .horizontal
+        self.distribution = .fillProportionally
+        self.spacing = 0
+        self.layer?.cornerRadius = 3
+        
+        self.labelView.stringValue = sensor.name
+        self.labelView.toolTip = sensor.key
+        self.valueView.stringValue = sensor.formattedValue
+        
+        self.addArrangedSubview(self.labelView)
+        self.addArrangedSubview(self.valueView)
+        
+        self.addTrackingArea(NSTrackingArea(
+            rect: NSRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height),
+            options: [NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited, NSTrackingArea.Options.activeInActiveApp],
+            owner: self,
+            userInfo: nil
+        ))
+        
+        NSLayoutConstraint.activate([
+            self.labelView.heightAnchor.constraint(equalToConstant: 16),
+            self.widthAnchor.constraint(equalToConstant: self.bounds.width),
+            self.heightAnchor.constraint(equalToConstant: self.bounds.height)
+        ])
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    public func update(_ sensor: Sensor_p) {
+        self.valueView.stringValue = sensor.formattedValue
+    }
+    
+    public override func mouseEntered(with: NSEvent) {
+        self.layer?.backgroundColor = .init(gray: 0.01, alpha: 0.05)
+    }
+    
+    public override func mouseExited(with: NSEvent) {
+        self.layer?.backgroundColor = .none
+    }
+}
+
+public func popupRow(_ view: NSView, n: CGFloat = 0, title: String, value: String) -> (LabelField, ValueField) {
+    let rowView: NSView = NSView(frame: NSRect(x: 0, y: 22*n, width: view.frame.width, height: 22))
+    
+    let labelWidth = title.widthOfString(usingFont: .systemFont(ofSize: 13, weight: .regular)) + 4
+    let labelView: LabelField = LabelField(frame: NSRect(x: 0, y: (22-16)/2, width: labelWidth, height: 16), title)
+    let valueView: ValueField = ValueField(frame: NSRect(x: labelWidth, y: (22-16)/2, width: rowView.frame.width - labelWidth, height: 16), value)
+    
+    rowView.addSubview(labelView)
+    rowView.addSubview(valueView)
+    
+    if let view = view as? NSStackView {
+        rowView.heightAnchor.constraint(equalToConstant: rowView.bounds.height).isActive = true
+        view.addArrangedSubview(rowView)
+    } else {
+        view.addSubview(rowView)
+    }
+    
+    return (labelView, valueView)
+}
+
+// MARK: - Fan view
 
 internal class FanView: NSStackView {
     public var sizeCallback: (() -> Void)
@@ -232,6 +312,7 @@ internal class FanView: NSStackView {
         
         let nameField: NSTextField = TextView()
         nameField.stringValue = self.fan.name
+        nameField.toolTip = self.fan.key
         nameField.cell?.truncatesLastVisibleLine = true
         
         let value = self.fan.value
