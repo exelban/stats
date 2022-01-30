@@ -91,8 +91,8 @@
 // Dashboard
 "Serial number" = "序號";
 "Uptime" = "開機時間";
-"Number of cores" = "%0 cores";
-"Number of threads" = "%0 threads";
+"Number of cores" = "%0 核心";
+"Number of threads" = "%0 執行緒";
 
 // Update
 "The latest version of Stats installed" = "已安裝最新版本";
@@ -128,8 +128,8 @@
 "Show symbols" = "顯示符號";
 "Label widget" = "標籤";
 "Number of reads in the chart" = "圖表中的讀取次數";
-"Color of download" = "Color of download";
-"Color of upload" = "Color of upload";
+"Color of download" = "下載的顯示色彩";
+"Color of upload" = "上傳的顯示色彩";
 
 // Module Kit
 "Open module settings" = "打開模組設定";
@@ -140,8 +140,8 @@
 "Details" = "詳細資訊";
 "Top processes" = "高能耗程序";
 "Pictogram" = "標示";
-"Module settings" = "Module settings";
-"Widget settings" = "Widget settings";
+"Module settings" = "模組設定";
+"Widget settings" = "小工具設定";
 
 // Modules
 "Number of top processes" = "高能耗程序數量";
@@ -180,8 +180,8 @@
 "Core clock" = "核心時脈";
 "Memory clock" = "記憶體時脈";
 "Utilization" = "使用率";
-"Render utilization" = "Render utilization";
-"Tiler utilization" = "Tiler utilization";
+"Render utilization" = "渲染使用率";
+"Tiler utilization" = "圖塊使用率";
 
 // RAM
 "Memory usage" = "記憶體使用率";
@@ -209,7 +209,7 @@
 "Fahrenheit" = "華氏 (˚F)";
 "Save the fan speed" = "儲存風扇速度";
 "Fan" = "風扇";
-"HID sensors" = "HID sensors";
+"HID sensors" = "HID 感知器";
 
 // Network
 "Uploading" = "上傳";
@@ -264,8 +264,8 @@
 "Time format" = "時間格式";
 "Hide additional information when full" = "電池充飽後隱藏其他資訊";
 "Last charge" = "最近一次充電";
-"Capacity" = "Capacity";
-"maximum / designed" = "maximum / designed";
+"Capacity" = "容量";
+"maximum / designed" = "最大容量 / 設計容量";
 
 // Bluetooth
 "Battery to show" = "顯示藍牙裝置的電池電量";
