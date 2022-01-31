@@ -56,6 +56,9 @@ extension AppDelegate {
     internal func parseVersion() {
         let key = "version"
         let currentVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
+        guard let updateInterval = AppUpdateInterval(rawValue: Store.shared.string(key: "update-interval", defaultValue: AppUpdateInterval.silent.rawValue)) else {
+            return
+        }
         
         if !Store.shared.exist(key: key) {
             Store.shared.reset()
@@ -66,7 +69,7 @@ extension AppDelegate {
                 return
             }
             
-            if isNewestVersion(currentVersion: prevVersion, latestVersion: currentVersion) {
+            if updateInterval != .silent && isNewestVersion(currentVersion: prevVersion, latestVersion: currentVersion) {
                 let title: String = localizedString("Successfully updated")
                 let subtitle: String = localizedString("Stats was updated to v", currentVersion)
                 
