@@ -124,6 +124,7 @@ internal class PopupView: NSView {
     override var intrinsicContentSize: CGSize {
         return CGSize(width: self.frame.width, height: self.frame.height)
     }
+    private var windowHeight: CGFloat?
     
     override init(frame: NSRect) {
         self.header = HeaderView(frame: NSRect(
@@ -138,6 +139,7 @@ internal class PopupView: NSView {
             width: frame.width - Constants.Popup.margins*2,
             height: frame.height - self.header.frame.height - Constants.Popup.margins*2
         ))
+        self.windowHeight = NSScreen.main?.visibleFrame.height
         
         super.init(frame: CGRect(x: frame.origin.x, y: frame.origin.y, width: frame.width, height: frame.height))
         
@@ -192,6 +194,12 @@ internal class PopupView: NSView {
     internal func appear() {
         self.display()
         self.body.subviews.first?.display()
+        
+        if let screenHeight = NSScreen.main?.visibleFrame.height, let size = self.body.documentView?.frame.size {
+            if screenHeight != self.windowHeight {
+                self.recalculateHeight(size)
+            }
+        }
     }
     internal func disappear() {}
     
@@ -202,6 +210,7 @@ internal class PopupView: NSView {
             height: size.height + Constants.Popup.headerHeight + (Constants.Popup.margins*2)
         )
         
+        self.windowHeight = NSScreen.main?.visibleFrame.height
         if let screenHeight = NSScreen.main?.visibleFrame.height, windowSize.height > screenHeight {
             windowSize.height = screenHeight - Constants.Widget.height
             isScrollVisible = true
