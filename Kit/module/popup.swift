@@ -174,35 +174,8 @@ internal class PopupView: NSView {
         
         if let view = view {
             self.body.documentView = view
-            
             view.sizeCallback = { [weak self] size in
-                var isScrollVisible: Bool = false
-                var windowSize: NSSize = NSSize(
-                    width: size.width + (Constants.Popup.margins*2),
-                    height: size.height + Constants.Popup.headerHeight + (Constants.Popup.margins*2)
-                )
-                
-                if let screenHeight = NSScreen.main?.frame.height, windowSize.height > screenHeight {
-                    windowSize.height = screenHeight - Constants.Widget.height - 6
-                    isScrollVisible = true
-                }
-                if let screenWidth = NSScreen.main?.frame.width, windowSize.width > screenWidth {
-                    windowSize.width = screenWidth
-                }
-                
-                self?.window?.setContentSize(windowSize)
-                self?.body.setFrameSize(NSSize(
-                    width: windowSize.width - (Constants.Popup.margins*2) + (isScrollVisible ? 20 : 0),
-                    height: windowSize.height - Constants.Popup.headerHeight - (Constants.Popup.margins*2)
-                ))
-                self?.header.setFrameOrigin(NSPoint(
-                    x: self?.header.frame.origin.x ?? 0,
-                    y: (self?.body.frame.height ?? 0) + (Constants.Popup.margins*2)
-                ))
-                
-                if let documentView = self?.body.documentView {
-                    documentView.scroll(NSPoint(x: 0, y: documentView.bounds.size.height))
-                }
+                self?.recalculateHeight(size)
             }
         }
     }
@@ -221,6 +194,36 @@ internal class PopupView: NSView {
         self.body.subviews.first?.display()
     }
     internal func disappear() {}
+    
+    private func recalculateHeight(_ size: NSSize) {
+        var isScrollVisible: Bool = false
+        var windowSize: NSSize = NSSize(
+            width: size.width + (Constants.Popup.margins*2),
+            height: size.height + Constants.Popup.headerHeight + (Constants.Popup.margins*2)
+        )
+        
+        if let screenHeight = NSScreen.main?.visibleFrame.height, windowSize.height > screenHeight {
+            windowSize.height = screenHeight - Constants.Widget.height
+            isScrollVisible = true
+        }
+        if let screenWidth = NSScreen.main?.visibleFrame.width, windowSize.width > screenWidth {
+            windowSize.width = screenWidth
+        }
+        
+        self.window?.setContentSize(windowSize)
+        self.body.setFrameSize(NSSize(
+            width: windowSize.width - (Constants.Popup.margins*2) + (isScrollVisible ? 20 : 0),
+            height: windowSize.height - Constants.Popup.headerHeight - (Constants.Popup.margins*2)
+        ))
+        self.header.setFrameOrigin(NSPoint(
+            x: self.header.frame.origin.x,
+            y: self.body.frame.height + (Constants.Popup.margins*2)
+        ))
+        
+        if let documentView = self.body.documentView {
+            documentView.scroll(NSPoint(x: 0, y: documentView.bounds.size.height))
+        }
+    }
 }
 
 internal class HeaderView: NSStackView {
