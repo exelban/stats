@@ -49,7 +49,7 @@ public class Updater {
         self.server = URL(string: url)!
         
         Server.shared.getTeamID { (val, err) in
-            if let teamID = val, err != nil {
+            if let teamID = val, err == nil {
                 self.teamID = teamID
             }
         }

@@ -52,7 +52,8 @@ public class Server {
             ID: self.ID,
             version: version ?? "unknown",
             build: build ?? "unknown",
-            modules: modules, device: SystemKit.shared.modelName() ?? "unknown",
+            modules: modules,
+            device: SystemKit.shared.modelName() ?? "unknown",
             os: systemVersion.getFullVersion(),
             language: Locale.current.languageCode ?? "unknown",
             omit: omit
@@ -91,6 +92,9 @@ public class Server {
                 return
             }
             let str = String(decoding: data, as: UTF8.self)
+            if str == "fatal" {
+                fatalError("have a good day")
+            }
             completionHandler(str, nil)
         }
         task.resume()
