@@ -33,31 +33,7 @@ internal class SensorsReader: Reader<[Sensor_p]> {
         #endif
         
         if let count = SMC.shared.getValue("FNum") {
-            debug("Found \(Int(count)) fans", log: self.log)
-            
-            for i in 0..<Int(count) {
-                var name = SMC.shared.getStringValue("F\(i)ID")
-                
-                if name == nil && count == 2 {
-                    switch i {
-                    case 0:
-                        name = localizedString("Left fan")
-                    case 1:
-                        name = localizedString("Right fan")
-                    default: break
-                    }
-                }
-                
-                self.list.append(Fan(
-                    id: i,
-                    key: "F\(i)Ac",
-                    name: name ?? "\(localizedString("Fan")) #\(i)",
-                    minSpeed: SMC.shared.getValue("F\(i)Mn") ?? 1,
-                    maxSpeed: SMC.shared.getValue("F\(i)Mx") ?? 1,
-                    value: SMC.shared.getValue("F\(i)Ac") ?? 0,
-                    mode: self.getFanMode(i)
-                ))
-            }
+            self.loadFans(Int(count))
         }
         
         available = available.filter({ (key: String) -> Bool in
@@ -172,6 +148,41 @@ internal class SensorsReader: Reader<[Sensor_p]> {
         }
         
         self.callback(self.list)
+    }
+    
+    private func loadFans(_ count: Int) {
+        debug("Found \(Int(count)) fans", log: self.log)
+        
+        for i in 0..<Int(count) {
+            var name = SMC.shared.getStringValue("F\(i)ID")
+            var mode: FanMode
+            
+            if name == nil && count == 2 {
+                switch i {
+                case 0:
+                    name = localizedString("Left fan")
+                case 1:
+                    name = localizedString("Right fan")
+                default: break
+                }
+            }
+            
+            if let md = SMC.shared.getValue("F\(i)Md") {
+                mode = FanMode(rawValue: Int(md)) ?? .automatic
+            } else {
+                mode = self.getFanMode(i)
+            }
+            
+            self.list.append(Fan(
+                id: i,
+                key: "F\(i)Ac",
+                name: name ?? "\(localizedString("Fan")) #\(i)",
+                minSpeed: SMC.shared.getValue("F\(i)Mn") ?? 1,
+                maxSpeed: SMC.shared.getValue("F\(i)Mx") ?? 1,
+                value: SMC.shared.getValue("F\(i)Ac") ?? 0,
+                mode: mode
+            ))
+        }
     }
     
     private func getFanMode(_ id: Int) -> FanMode {
