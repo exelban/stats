@@ -18,7 +18,6 @@ import Net
 import Battery
 import Sensors
 import GPU
-import Fans
 import Bluetooth
 
 let updater = Updater(github: "exelban/stats", url: "https://api.serhiy.io/v1/stats/release/latest")
