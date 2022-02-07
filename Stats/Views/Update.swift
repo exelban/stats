@@ -253,6 +253,6 @@ private class UpdateView: NSView {
     }
     
     @objc private func install(_ sender: Any) {
-//        updater.install(path: self.path)
+        updater.install(path: self.path)
     }
 }
