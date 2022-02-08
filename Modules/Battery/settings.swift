@@ -31,7 +31,8 @@ internal class Settings: NSStackView, Settings_v {
         KeyValue_t(key: "25%", value: "25%"),
         KeyValue_t(key: "30%", value: "30%"),
         KeyValue_t(key: "40%", value: "40%"),
-        KeyValue_t(key: "50%", value: "50%")
+        KeyValue_t(key: "50%", value: "50%"),
+        KeyValue_t(key: "60%", value: "60%")
     ]
     private let highLevelsList: [KeyValue_t] = [
         KeyValue_t(key: "Disabled", value: "Disabled"),
