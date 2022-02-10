@@ -36,6 +36,8 @@ internal protocol Sensor_p {
     var group: SensorGroup { get }
     var type: SensorType { get }
     var isIntelOnly: Bool { get }
+    var isComputed: Bool { get }
+    var average: Bool { get }
     
     var unit: String { get }
     var formattedValue: String { get }
@@ -51,6 +53,8 @@ internal struct Sensor: Sensor_p {
     var group: SensorGroup
     var type: SensorType
     var isIntelOnly: Bool = false
+    var isComputed: Bool = false
+    var average: Bool = false
     
     var unit: String {
         get {
@@ -115,7 +119,15 @@ internal struct Sensor: Sensor_p {
     }
     
     func copy() -> Sensor {
-        return Sensor(key: self.key, name: self.name, group: self.group, type: self.type)
+        return Sensor(
+            key: self.key,
+            name: self.name,
+            group: self.group,
+            type: self.type,
+            isIntelOnly: self.isIntelOnly,
+            isComputed: self.isComputed,
+            average: self.average
+        )
     }
 }
 
@@ -131,6 +143,8 @@ internal struct Fan: Sensor_p {
     var group: SensorGroup = .sensor
     var type: SensorType = .fan
     var isIntelOnly: Bool = false
+    var isComputed: Bool = false
+    var average: Bool = false
     var unit: String = "RPM"
     
     var formattedValue: String {
@@ -165,8 +179,8 @@ let SensorsList: [Sensor] = [
     Sensor(key: "TC0P", name: "CPU proximity", group: .CPU, type: .temperature),
     Sensor(key: "TCAD", name: "CPU package", group: .CPU, type: .temperature),
     
-    Sensor(key: "TC%c", name: "CPU core %", group: .CPU, type: .temperature),
-    Sensor(key: "TC%C", name: "CPU core %", group: .CPU, type: .temperature),
+    Sensor(key: "TC%c", name: "CPU core %", group: .CPU, type: .temperature, average: true),
+    Sensor(key: "TC%C", name: "CPU core %", group: .CPU, type: .temperature, average: true),
     
     Sensor(key: "TCGC", name: "GPU Intel Graphics", group: .GPU, type: .temperature),
     Sensor(key: "TG0D", name: "GPU diode", group: .GPU, type: .temperature),
@@ -189,21 +203,21 @@ let SensorsList: [Sensor] = [
     Sensor(key: "TN0P", name: "Northbridge proximity", group: .system, type: .temperature),
     
     // Apple Silicon
-    Sensor(key: "Tp09", name: "CPU efficient core 1", group: .CPU, type: .temperature),
-    Sensor(key: "Tp0T", name: "CPU efficient core 2", group: .CPU, type: .temperature),
-    Sensor(key: "Tp01", name: "CPU performance core 1", group: .CPU, type: .temperature),
-    Sensor(key: "Tp05", name: "CPU performance core 2", group: .CPU, type: .temperature),
-    Sensor(key: "Tp0D", name: "CPU performance core 3", group: .CPU, type: .temperature),
-    Sensor(key: "Tp0H", name: "CPU performance core 4", group: .CPU, type: .temperature),
-    Sensor(key: "Tp0L", name: "CPU performance core 5", group: .CPU, type: .temperature),
-    Sensor(key: "Tp0P", name: "CPU performance core 6", group: .CPU, type: .temperature),
-    Sensor(key: "Tp0X", name: "CPU performance core 7", group: .CPU, type: .temperature),
-    Sensor(key: "Tp0b", name: "CPU performance core 8", group: .CPU, type: .temperature),
+    Sensor(key: "Tp09", name: "CPU efficient core 1", group: .CPU, type: .temperature, average: true),
+    Sensor(key: "Tp0T", name: "CPU efficient core 2", group: .CPU, type: .temperature, average: true),
+    Sensor(key: "Tp01", name: "CPU performance core 1", group: .CPU, type: .temperature, average: true),
+    Sensor(key: "Tp05", name: "CPU performance core 2", group: .CPU, type: .temperature, average: true),
+    Sensor(key: "Tp0D", name: "CPU performance core 3", group: .CPU, type: .temperature, average: true),
+    Sensor(key: "Tp0H", name: "CPU performance core 4", group: .CPU, type: .temperature, average: true),
+    Sensor(key: "Tp0L", name: "CPU performance core 5", group: .CPU, type: .temperature, average: true),
+    Sensor(key: "Tp0P", name: "CPU performance core 6", group: .CPU, type: .temperature, average: true),
+    Sensor(key: "Tp0X", name: "CPU performance core 7", group: .CPU, type: .temperature, average: true),
+    Sensor(key: "Tp0b", name: "CPU performance core 8", group: .CPU, type: .temperature, average: true),
     
-    Sensor(key: "Tg05", name: "GPU 1", group: .GPU, type: .temperature),
-    Sensor(key: "Tg0D", name: "GPU 2", group: .GPU, type: .temperature),
-    Sensor(key: "Tg0L", name: "GPU 3", group: .GPU, type: .temperature),
-    Sensor(key: "Tg0T", name: "GPU 4", group: .GPU, type: .temperature),
+    Sensor(key: "Tg05", name: "GPU 1", group: .GPU, type: .temperature, average: true),
+    Sensor(key: "Tg0D", name: "GPU 2", group: .GPU, type: .temperature, average: true),
+    Sensor(key: "Tg0L", name: "GPU 3", group: .GPU, type: .temperature, average: true),
+    Sensor(key: "Tg0T", name: "GPU 4", group: .GPU, type: .temperature, average: true),
     
     Sensor(key: "TaLP", name: "Airflow left", group: .sensor, type: .temperature),
     Sensor(key: "TaRF", name: "Airflow right", group: .sensor, type: .temperature),
