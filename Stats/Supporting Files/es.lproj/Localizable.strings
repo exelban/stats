@@ -74,7 +74,7 @@
 "Support the application" = "Apoya la aplicación";
 "Close application" = "Cerrar la aplicación";
 "Open application settings" = "Abrir la configuración de la aplicación";
-"Open dashboard" = "Open dashboard";
+"Open dashboard" = "Abrir dashboard";
 
 // Application settings
 "Update application" = "Actualizar la aplicación";
@@ -91,8 +91,8 @@
 // Dashboard
 "Serial number" = "Número de serie";
 "Uptime" = "Tiempo de actividad";
-"Number of cores" = "%0 cores";
-"Number of threads" = "%0 threads";
+"Number of cores" = "%0 núcleos";
+"Number of threads" = "%0 hilos";
 
 // Update
 "The latest version of Stats installed" = "La última versión de Stats está instalada";
@@ -128,8 +128,8 @@
 "Show symbols" = "Show symbols";
 "Label widget" = "Label";
 "Number of reads in the chart" = "Number of reads in the chart";
-"Color of download" = "Color of download";
-"Color of upload" = "Color of upload";
+"Color of download" = "Color de descarga";
+"Color of upload" = "Color de subida";
 
 // Module Kit
 "Open module settings" = "Abrir la configruación del módulo";
@@ -140,12 +140,12 @@
 "Details" = "Detalles";
 "Top processes" = "Procesos principales";
 "Pictogram" = "Ícono";
-"Module settings" = "Module settings";
-"Widget settings" = "Widget settings";
+"Module settings" = "Configuración del módulo";
+"Widget settings" = "Configuración de widget";
 
 // Modules
 "Number of top processes" = "Número de procesos principales";
-"Update interval for top processes" = "Update interval for top processes";
+"Update interval for top processes" = "Intervalo de actualización para los procesos principales";
 
 // CPU
 "CPU usage" = "Uso de la CPU";
@@ -157,12 +157,12 @@
 "Show usage per core" = "Mostrar uso por núcleo";
 "Show hyper-threading cores" = "Mostrar los núcleos hyper-threading";
 "Split the value (System/User)" = "Dividir el valor (Sistema/Usuario)";
-"Scheduler limit" = "Scheduler limit";
-"Speed limit" = "Speed limit";
-"Average load" = "Average load";
-"1 minute" = "1 minute";
-"5 minutes" = "5 minutes";
-"15 minutes" = "15 minutes";
+"Scheduler limit" = "Límite del programador";
+"Speed limit" = "Límite de velocidad";
+"Average load" = "Carga media";
+"1 minute" = "1 minuto";
+"5 minutes" = "5 minutos";
+"15 minutes" = "15 minutos";
 
 // GPU
 "GPU to show" = "GPU a mostrar";
@@ -207,9 +207,9 @@
 "Temperature unit" = "Unidad de temperatura";
 "Celsius" = "Celsius";
 "Fahrenheit" = "Fahrenheit";
-"Save the fan speed" = "Save the fan speed";
+"Save the fan speed" = "Guardar la velocidad del ventilador";
 "Fan" = "Fan";
-"HID sensors" = "HID sensors";
+"HID sensors" = "Sensores HID";
 
 // Network
 "Uploading" = "Carga";
@@ -230,8 +230,8 @@
 "Reader type" = "Tipo de lector";
 "Interface based" = "Interfaz";
 "Processes based" = "Proceso";
-"Reset data usage" = "Reset data usage";
-"VPN mode" = "VPN mode";
+"Reset data usage" = "Restablecer el uso de datos";
+"VPN mode" = "Modo VPN";
 
 // Battery
 "Level" = "Nivel";
