@@ -19,7 +19,7 @@ brew install --cask stats
 ```
 
 ## Requirements
-Stats currently supported on macOS 10.13 (High Sierra) and higher.
+Stats is currently supported on macOS 10.13 (High Sierra) and higher.
 
 ## Features
 Stats is an application that allows you to monitor your macOS system. 
