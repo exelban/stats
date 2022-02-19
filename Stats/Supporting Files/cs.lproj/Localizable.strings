@@ -21,7 +21,7 @@
 "Sensors" = "Senzory";
 "Open Sensors settings" = "Otevřít nastevení senzorů";
 "Fans" = "Ventilátory";
-"Open Fans settings" = "Otevřít nastevení ventilátoræ";
+"Open Fans settings" = "Otevřít nastevení ventilátorů";
 "Network" = "Síť";
 "Open Network settings" = "Otevřít nastevení sítě";
 "Battery" = "Baterie";
@@ -59,8 +59,8 @@
 "Center alignment" = "Zarovnat na střed";
 "Right alignment" = "Zarovnat doprava";
 "Dashboard" = "Dashboard";
-"Disabled" = "Disabled";
-"Silent" = "Silent";
+"Disabled" = "Deaktivováno";
+"Silent" = "Tichý";
 
 // Alerts
 "New version available" = "Nová verze k dispozici";
@@ -91,8 +91,8 @@
 // Dashboard
 "Serial number" = "Sériové číslo";
 "Uptime" = "Spuštěno";
-"Number of cores" = "%0 cores";
-"Number of threads" = "%0 threads";
+"Number of cores" = "%0 jader";
+"Number of threads" = "%0 vláken";
 
 // Update
 "The latest version of Stats installed" = "Byla nainstalována nejnovější verze Stats";
@@ -124,24 +124,24 @@
 "Text widget" = "Text";
 "Memory widget" = "Paměť";
 "Static width" = "Statická šířka";
-"Tachometer widget" = "Tachometer";
-"Show symbols" = "Show symbols";
-"Label widget" = "Label";
-"Number of reads in the chart" = "Number of reads in the chart";
-"Color of download" = "Color of download";
-"Color of upload" = "Color of upload";
+"Tachometer widget" = "Tachometr";
+"Show symbols" = "Zobrazit symboly";
+"Label widget" = "Popisek";
+"Number of reads in the chart" = "Počet čtení v grafu";
+"Color of download" = "Barva stahování";
+"Color of upload" = "Barva nahrávání";
 
 // Module Kit
 "Open module settings" = "Otevřít nastavení modulu";
 "Select widget" = "Vyber widget %0";
-"Open widget settings" = "Open widget settings";
+"Open widget settings" = "Otevřít nastavení widgetu";
 "Update interval" = "Interval aktualizace";
 "Usage history" = "Historie použití";
 "Details" = "Detaily";
 "Top processes" = "První procesy";
 "Pictogram" = "Piktogram";
-"Module settings" = "Module settings";
-"Widget settings" = "Widget settings";
+"Module settings" = "Nastavení modulu";
+"Widget settings" = "Nastavení widgetu";
 
 // Modules
 "Number of top processes" = "Počet prvních procesů";
@@ -180,8 +180,8 @@
 "Core clock" = "Takt jádra";
 "Memory clock" = "Takt pamětí";
 "Utilization" = "Využití";
-"Render utilization" = "Render utilization";
-"Tiler utilization" = "Tiler utilization";
+"Render utilization" = "Využití vykreslování";
+"Tiler utilization" = "Využití tilingu";
 
 // RAM
 "Memory usage" = "Využití paměti";
@@ -207,9 +207,9 @@
 "Temperature unit" = "Jednotka teploty";
 "Celsius" = "Celsius";
 "Fahrenheit" = "Fahrenheit";
-"Save the fan speed" = "Save the fan speed";
-"Fan" = "Fan";
-"HID sensors" = "HID sensors";
+"Save the fan speed" = "Uložit rychlost ventilátoru";
+"Fan" = "Ventilátor";
+"HID sensors" = "HID senzory";
 
 // Network
 "Uploading" = "Nahrávání";
@@ -231,7 +231,7 @@
 "Interface based" = "Podle rozhraní";
 "Processes based" = "Podle procesů";
 "Reset data usage" = "Reset data usage";
-"VPN mode" = "VPN mode";
+"VPN mode" = "VPN režim";
 
 // Battery
 "Level" = "Úroveň";
@@ -264,8 +264,8 @@
 "Time format" = "Formát času";
 "Hide additional information when full" = "Skrýt další informace při plném nabití";
 "Last charge" = "Poslední nabití";
-"Capacity" = "Capacity";
-"maximum / designed" = "maximum / designed";
+"Capacity" = "Kapicita";
+"maximum / designed" = "maximum / výrobní";
 
 // Bluetooth
 "Battery to show" = "Baterie k zobrazení";
