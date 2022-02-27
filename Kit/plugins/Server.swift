@@ -12,8 +12,6 @@
 import Foundation
 
 struct event: Codable {
-    var ID: String
-    
     var version: String
     var build: String
     var modules: [String]
@@ -28,19 +26,10 @@ struct event: Codable {
 public class Server {
     public static let shared = Server(url: URL(string: "https://api.serhiy.io/v1/stats")!)
     
-    public var ID: String {
-        get {
-            return Store.shared.string(key: "id", defaultValue: UUID().uuidString)
-        }
-    }
     private let url: URL
     
     public init(url: URL) {
         self.url = url
-        
-        if !Store.shared.exist(key: "id") {
-            Store.shared.set(key: "id", value: self.ID)
-        }
     }
     
     public func sendEvent(modules: [String], omit: Bool = false) {
@@ -49,7 +38,6 @@ public class Server {
         let systemVersion = ProcessInfo().operatingSystemVersion
         
         let e = event(
-            ID: self.ID,
             version: version ?? "unknown",
             build: build ?? "unknown",
             modules: modules,

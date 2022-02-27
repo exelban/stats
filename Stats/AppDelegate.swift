@@ -59,10 +59,15 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
         
         info("Stats started in \((startingPoint.timeIntervalSinceNow * -1).rounded(toPlaces: 4)) seconds")
         
-        Server.shared.sendEvent(
-            modules: modules.filter({ $0.enabled != false && $0.available != false }).map({ $0.config.name }),
-            omit: CommandLine.arguments.contains("--omit")
-        )
+        let currVersion = Store.shared.string(key: "version", defaultValue: "")
+        let prevVersion = Store.shared.string(key: "previous_version", defaultValue: "")
+        if (prevVersion != currVersion) {
+            Server.shared.sendEvent(
+                modules: modules.filter({ $0.enabled != false && $0.available != false }).map({ $0.config.name }),
+                omit: CommandLine.arguments.contains("--omit")
+            )
+            Store.shared.set(key: "previous_version", value: currVersion)
+        }
     }
     
     func applicationWillTerminate(_ aNotification: Notification) {
