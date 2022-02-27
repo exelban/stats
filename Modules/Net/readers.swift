@@ -208,10 +208,6 @@ internal class UsageReader: Reader<Network_Usage> {
     public func getDetails() {
         self.usage.reset()
         
-        DispatchQueue.global(qos: .background).async {
-            self.getPublicIP()
-        }
-        
         if self.interfaceID != "" {
             for interface in SCNetworkInterfaceCopyAll() as NSArray {
                 if  let bsdName = SCNetworkInterfaceGetBSDName(interface as! SCNetworkInterface),

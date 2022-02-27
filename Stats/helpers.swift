@@ -104,7 +104,7 @@ extension AppDelegate {
             NSApp.setActivationPolicy(dockIconStatus)
         }
         
-        if let updateInterval = AppUpdateInterval(rawValue: Store.shared.string(key: "update-interval", defaultValue: AppUpdateInterval.silent.rawValue)) {
+        if let updateInterval = AppUpdateInterval(rawValue: Store.shared.string(key: "update-interval", defaultValue: AppUpdateInterval.never.rawValue)) {
             self.updateActivity.invalidate()
             self.updateActivity.repeats = true
             
