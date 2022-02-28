@@ -8,34 +8,33 @@
 macOS system monitor in your menu bar
 
 ## Installation
-### Manually
+### Manual
 You can download the latest version [here](https://github.com/exelban/stats/releases/latest/download/Stats.dmg).  
 This will download a file called `Stats.dmg`. Open it and move the app to the application folder.
 
 ### Homebrew
-
+To install it using Homebrew, open the Terminal app and type:
 ```bash
 brew install --cask stats
 ```
 
 ## Requirements
-Stats currently supported on macOS 10.13 (High Sierra) and higher.
+Stats is currently supported on macOS 10.13 (High Sierra) and higher.
 
 ## Features
 Stats is an application that allows you to monitor your macOS system. 
 
+ - Battery level
+ - Bluetooth devices
  - CPU utilization
+ - Disk utilization
+ - Fan/s control
  - GPU utilization
  - Memory usage
- - Disk utilization
- - Sensors information (Temperature/Voltage/Power)
- - Battery level
  - Network usage
- - Fans speed
- - Fan control
- - Bluetooth devices
+ - Sensors information (Temperature/Voltage/Power)
 
-## Supporting languages
+## Supported languages
 - English
 - Polski
 - Українська
@@ -62,7 +61,7 @@ Stats is an application that allows you to monitor your macOS system.
 - Danish (thanks to [casperes1996](https://github.com/casperes1996))
 - Catalan (thanks to [davidalonso](https://github.com/davidalonso))
 
-You can help by adding a new language or improve existing translation.
+You can help by adding a new language or improve the existing translation.
 
 ## License
 [MIT License](https://github.com/exelban/stats/blob/master/LICENSE)
