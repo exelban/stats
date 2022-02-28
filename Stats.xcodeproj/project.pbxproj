@@ -76,7 +76,6 @@
 		9A81C75E2449A41400825D92 /* RAM.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A81C7562449A41400825D92 /* RAM.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9A81C7692449A43600825D92 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A81C7672449A43600825D92 /* main.swift */; };
 		9A81C76A2449A43600825D92 /* readers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A81C7682449A43600825D92 /* readers.swift */; };
-		9A8AE0A326921A2A00B13054 /* Server.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8AE0A226921A2A00B13054 /* Server.swift */; };
 		9A8B923D2696445C00FD6D83 /* settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8B923C2696445C00FD6D83 /* settings.swift */; };
 		9A90E19024EAD2BB00471E9A /* GPU.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A90E18924EAD2BB00471E9A /* GPU.framework */; };
 		9A90E19124EAD2BB00471E9A /* GPU.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A90E18924EAD2BB00471E9A /* GPU.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -382,7 +381,6 @@
 		9A81C7592449A41400825D92 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9A81C7672449A43600825D92 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		9A81C7682449A43600825D92 /* readers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = readers.swift; sourceTree = "<group>"; };
-		9A8AE0A226921A2A00B13054 /* Server.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Server.swift; sourceTree = "<group>"; };
 		9A8B923C2696445C00FD6D83 /* settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = settings.swift; sourceTree = "<group>"; };
 		9A90E18924EAD2BB00471E9A /* GPU.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GPU.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A90E18C24EAD2BB00471E9A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -773,7 +771,6 @@
 				9A2848032666AB2F00EC1F6D /* SystemKit.swift */,
 				9A2848072666AB3000EC1F6D /* Updater.swift */,
 				9A6EEBBD2685259500897371 /* Logger.swift */,
-				9A8AE0A226921A2A00B13054 /* Server.swift */,
 				9A5A8446271895B700BC40A4 /* Reachability.swift */,
 			);
 			path = plugins;
@@ -1440,7 +1437,6 @@
 				9A2847622666AA2700EC1F6D /* Label.swift in Sources */,
 				9A28477C2666AA5000EC1F6D /* reader.swift in Sources */,
 				9A9B8C9D27149A3700218374 /* Tachometer.swift in Sources */,
-				9A8AE0A326921A2A00B13054 /* Server.swift in Sources */,
 				9A2847652666AA2700EC1F6D /* Memory.swift in Sources */,
 				9A2847642666AA2700EC1F6D /* Battery.swift in Sources */,
 				9A28480B2666AB3000EC1F6D /* Charts.swift in Sources */,

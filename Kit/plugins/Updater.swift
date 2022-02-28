@@ -47,12 +47,6 @@ public class Updater {
     public init(github: String, url: String) {
         self.github = URL(string: "https://api.github.com/repos/\(github)/releases/latest")!
         self.server = URL(string: url)!
-        
-        Server.shared.getTeamID { (val, err) in
-            if let teamID = val, err == nil {
-                self.teamID = teamID
-            }
-        }
     }
     
     deinit {
@@ -65,9 +59,9 @@ public class Updater {
             return
         }
         
-        self.fetchRelease(uri: self.github) { (result, err) in
+        self.fetchRelease(uri: self.server) { (result, err) in
             guard let result = result, err == nil else {
-                self.fetchRelease(uri: self.server) { (result, err) in
+                self.fetchRelease(uri: self.github) { (result, err) in
                     guard let result = result, err == nil else {
                         completion(nil, err)
                         return

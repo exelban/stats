@@ -96,7 +96,6 @@ class ApplicationSettings: NSScrollView {
         statsName.font = NSFont.systemFont(ofSize: 20, weight: .regular)
         statsName.stringValue = "Stats"
         statsName.isSelectable = true
-        statsName.toolTip = Server.shared.ID
         
         let versionNumber = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
         let buildNumber = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as! String
