@@ -60,7 +60,7 @@
 "Right alignment" = "Phải";
 "Dashboard" = "Bảng điều khiển";
 "Disabled" = "Vô hiệu hóa";
-"Silent" = "Silent";
+"Silent" = "Im lặng";
 
 // Alerts
 "New version available" = "Phiên bản mới có sẵn";
@@ -83,7 +83,7 @@
 "Once per day" = "Một lần một ngày";
 "Once per week" = "Một tuần một lần";
 "Once per month" = "Mỗi tháng một lần";
-"Never" = "Never";
+"Never" = "Không bao giờ";
 "Check for update" = "Kiểm tra cập nhật";
 "Show icon in dock" = "Hiện icon trên Dock";
 "Start at login" = "Khởi động lúc đăng nhập";
@@ -91,8 +91,8 @@
 // Dashboard
 "Serial number" = "Số sê-ri";
 "Uptime" = "Thời gian hoạt động";
-"Number of cores" = "%0 cores";
-"Number of threads" = "%0 threads";
+"Number of cores" = "%0 nhân";
+"Number of threads" = "%0 luồng";
 
 // Update
 "The latest version of Stats installed" = "Stats đã được cập nhật";
@@ -124,12 +124,12 @@
 "Text widget" = "Văn bản";
 "Memory widget" = "Bộ nhớ";
 "Static width" = "Chiều rộng cố định";
-"Tachometer widget" = "Tachometer";
-"Show symbols" = "Show symbols";
-"Label widget" = "Label";
-"Number of reads in the chart" = "Number of reads in the chart";
-"Color of download" = "Color of download";
-"Color of upload" = "Color of upload";
+"Tachometer widget" = "Máy đo tốc độ";
+"Show symbols" = "Hiển thị các biểu tượng";
+"Label widget" = "Nhãn";
+"Number of reads in the chart" = "Số lần đọc trong biểu đồ";
+"Color of download" = "Màu tải xuống";
+"Color of upload" = "Màu tải lên";
 
 // Module Kit
 "Open module settings" = "Mở cài đặt module";
@@ -140,8 +140,8 @@
 "Details" = "Chi tiết";
 "Top processes" = "Top tiến trình";
 "Pictogram" = "Tượng hình";
-"Module settings" = "Module settings";
-"Widget settings" = "Widget settings";
+"Module settings" = "Cài đặt mô-đun";
+"Widget settings" = "Cài đặt tiện ích";
 
 // Modules
 "Number of top processes" = "Số lượng top tiến trình";
@@ -209,7 +209,7 @@
 "Fahrenheit" = "Độ F";
 "Save the fan speed" = "Lưu tốc độ quạt";
 "Fan" = "Quạt";
-"HID sensors" = "HID sensors";
+"HID sensors" = "Cảm biến HID";
 
 // Network
 "Uploading" = "Tải lên";
@@ -231,7 +231,7 @@
 "Interface based" = "Giao diện";
 "Processes based" = "Quá trình";
 "Reset data usage" = "Đặt lại mức sử dụng dữ liệu";
-"VPN mode" = "VPN mode";
+"VPN mode" = "Chế độ VPN";
 
 // Battery
 "Level" = "Dung lượng Pin";
@@ -264,8 +264,8 @@
 "Time format" = "Định dạng thời gian";
 "Hide additional information when full" = "Ẩn thông tin bổ sung khi pin đầy";
 "Last charge" = "Lần sạc cuối cùng";
-"Capacity" = "Capacity";
-"maximum / designed" = "maximum / designed";
+"Capacity" = "Dung tích";
+"maximum / designed" = "tối đa / thiết kế";
 
 // Bluetooth
 "Battery to show" = "Pin hiển thị";
