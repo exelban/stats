@@ -195,13 +195,16 @@ public extension Double {
             return "\(h):\(minutes)"
         }
         
+        let longMinutes = "\(minutes) \(localizedString("minutes"))"
+        let longHours = "\(h) \(localizedString("hours"))"
+
         if h == 0 {
-            return "\(minutes)min"
+            return longMinutes
         } else if m == 0 {
-            return "\(h)h"
+            return longHours
         }
         
-        return "\(h)h \(minutes)min"
+        return "\(longHours) \(longMinutes)"
     }
 }
 
