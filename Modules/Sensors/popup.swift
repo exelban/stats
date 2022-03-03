@@ -88,7 +88,9 @@ internal class Popup: NSStackView, Popup_p {
             
             groups.forEach { (group: SensorGroup) in
                 filtered.filter{ $0.group == group }.forEach { (s: Sensor_p) in
-                    let sensor = SensorView(s, width: self.frame.width)
+                    let sensor = SensorView(s, width: self.frame.width)  { [weak self] in
+                        self?.recalculateHeight()
+                    }
                     self.addArrangedSubview(sensor)
                     self.list[s.key] = sensor
                 }
@@ -129,6 +131,60 @@ internal class Popup: NSStackView, Popup_p {
 // MARK: - Sensor view
 
 internal class SensorView: NSStackView {
+    public var sizeCallback: (() -> Void)
+    
+    private var valueView: ValueSensorView!
+    private var chartView: ChartSensorView!
+    
+    private var openned: Bool = false
+    
+    public init(_ sensor: Sensor_p, width: CGFloat, callback: @escaping (() -> Void)) {
+        self.sizeCallback = callback
+        
+        super.init(frame: NSRect(x: 0, y: 0, width: width, height: 22))
+        
+        self.orientation = .vertical
+        self.distribution = .fillProportionally
+        self.spacing = 0
+        
+        self.valueView = ValueSensorView(sensor, width: width, callback: { [weak self] in
+            self?.open()
+        })
+        self.chartView = ChartSensorView(width: width)
+        
+        self.addArrangedSubview(self.valueView)
+        
+        NSLayoutConstraint.activate([
+            self.widthAnchor.constraint(equalToConstant: self.bounds.width)
+        ])
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    public func update(_ sensor: Sensor_p) {
+        self.valueView.update(sensor.formattedValue)
+        self.chartView.update(sensor.value)
+    }
+    
+    private func open() {
+        if self.openned {
+            self.chartView.removeFromSuperview()
+        } else {
+            self.addArrangedSubview(self.chartView)
+        }
+        self.openned = !self.openned
+        
+        let h = self.arrangedSubviews.map({ $0.bounds.height }).reduce(0, +)
+        self.setFrameSize(NSSize(width: self.frame.width, height: h))
+        self.sizeCallback()
+    }
+}
+
+internal class ValueSensorView: NSStackView {
+    public var callback: (() -> Void)
+    
     private var labelView: LabelField = {
         let view = LabelField(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
         view.cell?.truncatesLastVisibleLine = true
@@ -136,7 +192,8 @@ internal class SensorView: NSStackView {
     }()
     private var valueView: ValueField = ValueField(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
     
-    public init(_ sensor: Sensor_p, width: CGFloat) {
+    public init(_ sensor: Sensor_p, width: CGFloat, callback: @escaping (() -> Void)) {
+        self.callback = callback
         super.init(frame: NSRect(x: 0, y: 0, width: width, height: 22))
         
         self.wantsLayer = true
@@ -153,7 +210,7 @@ internal class SensorView: NSStackView {
         self.addArrangedSubview(self.valueView)
         
         self.addTrackingArea(NSTrackingArea(
-            rect: NSRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height),
+            rect: NSRect(x: 0, y: 0, width: self.frame.width, height: 22),
             options: [NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited, NSTrackingArea.Options.activeInActiveApp],
             owner: self,
             userInfo: nil
@@ -170,8 +227,12 @@ internal class SensorView: NSStackView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func update(_ sensor: Sensor_p) {
-        self.valueView.stringValue = sensor.formattedValue
+    public func update(_ value: String) {
+        self.valueView.stringValue = value
+    }
+    
+    override func mouseDown(with theEvent: NSEvent) {
+        self.callback()
     }
     
     public override func mouseEntered(with: NSEvent) {
@@ -183,24 +244,38 @@ internal class SensorView: NSStackView {
     }
 }
 
-public func popupRow(_ view: NSView, n: CGFloat = 0, title: String, value: String) -> (LabelField, ValueField) {
-    let rowView: NSView = NSView(frame: NSRect(x: 0, y: 22*n, width: view.frame.width, height: 22))
+internal class ChartSensorView: NSStackView {
+    private var chart: LineChartView? = nil
     
-    let labelWidth = title.widthOfString(usingFont: .systemFont(ofSize: 13, weight: .regular)) + 4
-    let labelView: LabelField = LabelField(frame: NSRect(x: 0, y: (22-16)/2, width: labelWidth, height: 16), title)
-    let valueView: ValueField = ValueField(frame: NSRect(x: labelWidth, y: (22-16)/2, width: rowView.frame.width - labelWidth, height: 16), value)
-    
-    rowView.addSubview(labelView)
-    rowView.addSubview(valueView)
-    
-    if let view = view as? NSStackView {
-        rowView.heightAnchor.constraint(equalToConstant: rowView.bounds.height).isActive = true
-        view.addArrangedSubview(rowView)
-    } else {
-        view.addSubview(rowView)
+    public init(width: CGFloat) {
+        super.init(frame: NSRect(x: 0, y: 0, width: width, height: 60))
+        
+        self.wantsLayer = true
+        self.layer?.backgroundColor = NSColor.lightGray.withAlphaComponent(0.1).cgColor
+        self.orientation = .horizontal
+        self.distribution = .fillProportionally
+        self.spacing = 0
+        self.layer?.cornerRadius = 3
+        
+        self.chart = LineChartView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height), num: 120)
+        
+        if let view = self.chart {
+            self.addArrangedSubview(view)
+        }
+        
+        NSLayoutConstraint.activate([
+            self.widthAnchor.constraint(equalToConstant: self.bounds.width),
+            self.heightAnchor.constraint(equalToConstant: self.bounds.height)
+        ])
     }
     
-    return (labelView, valueView)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    public func update(_ value: Double) {
+        self.chart?.addValue(value/100)
+    }
 }
 
 // MARK: - Fan view
