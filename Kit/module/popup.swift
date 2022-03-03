@@ -230,7 +230,7 @@ internal class PopupView: NSView {
         ))
         
         if let documentView = self.body.documentView {
-            documentView.scroll(NSPoint(x: 0, y: self.body.documentVisibleRect.origin.y))
+            documentView.scroll(NSPoint(x: 0, y: documentView.bounds.size.height))
         }
     }
 }
