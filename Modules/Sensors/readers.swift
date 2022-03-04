@@ -99,6 +99,7 @@ internal class SensorsReader: Reader<[Sensor_p]> {
         
         var cpuSensors = self.list.filter({ $0.group == .CPU && $0.type == .temperature && $0.average }).map{ $0.value }
         var gpuSensors = self.list.filter({ $0.group == .GPU && $0.type == .temperature && $0.average }).map{ $0.value }
+        var fanSensors = self.list.filter({ $0.type == .fan && !$0.isComputed }).map{ $0.value }
         
         #if arch(arm64)
         if self.HIDState {
@@ -148,6 +149,13 @@ internal class SensorsReader: Reader<[Sensor_p]> {
             }
             if let max = gpuSensors.max() {
                 if let idx = self.list.firstIndex(where: { $0.key == "Hottest GPU" }) {
+                    self.list[idx].value = max
+                }
+            }
+        }
+        if !fanSensors.isEmpty && fanSensors.count > 1 {
+            if let max = fanSensors.max() {
+                if let idx = self.list.firstIndex(where: { $0.key == "Fastest Fan" }) {
                     self.list[idx].value = max
                 }
             }
@@ -327,6 +335,7 @@ internal class SensorsReader: Reader<[Sensor_p]> {
         
         let cpuSensors = self.list.filter({ $0.group == .CPU && $0.type == .temperature && $0.average }).map{ $0.value }
         let gpuSensors = self.list.filter({ $0.group == .GPU && $0.type == .temperature && $0.average }).map{ $0.value }
+        let fanSensors = self.list.filter({ $0.type == .fan && !$0.isComputed }).map{ $0.value}
         
         if !cpuSensors.isEmpty {
             let value = cpuSensors.reduce(0, +) / Double(cpuSensors.count)
@@ -340,6 +349,11 @@ internal class SensorsReader: Reader<[Sensor_p]> {
             list.append(Sensor(key: "Average GPU", name: "Average GPU", value: value, group: .hid, type: .temperature))
             if let max = gpuSensors.max() {
                 list.append(Sensor(key: "Hottest GPU", name: "Hottest GPU", value: max, group: .hid, type: .temperature))
+            }
+        }
+        if !fanSensors.isEmpty && fanSensors.count > 1 {
+            if let max = fanSensors.max() {
+                list.append(Sensor(key: "Fastest Fan", name: "Fastest Fan", value: max, group: .sensor, type: .fan, isComputed: true))
             }
         }
         
