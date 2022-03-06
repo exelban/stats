@@ -44,7 +44,7 @@
 "No" = "No";
 "Automatic" = "Automatico";
 "Manual" = "Manuale";
-"None" = "Nessuna";
+"None" = "Nessuno";
 "Dots" = "Punti";
 "Arrows" = "Frecce";
 "Characters" = "Caratteri";
@@ -60,13 +60,13 @@
 "Right alignment" = "Destra";
 "Dashboard" = "Dashboard";
 "Disabled" = "Disabilitato";
-"Silent" = "Silent";
+"Silent" = "Silenzioso";
 
 // Alerts
 "New version available" = "Nuova versione disponibile";
 "Click to install the new version of Stats" = "Clicca per installare la nuova versione di Stats";
 "Successfully updated" = "Aggiornato con successo";
-"Stats was updated to v" = "Stats è stato aggiornato a v%0";
+"Stats was updated to v" = "Stats è stato aggiornato alla v%0";
 
 // Settings
 "Open Activity Monitor" = "Apri Monitoraggio Attività";
@@ -74,7 +74,7 @@
 "Support the application" = "Supporta l'applicazione";
 "Close application" = "Chiudi applicazione";
 "Open application settings" = "Apri le impostazioni dell'applicazione";
-"Open dashboard" = "Apri dashboard";
+"Open dashboard" = "Apri la dashboard";
 
 // Application settings
 "Update application" = "Aggiorna applicazione";
@@ -124,24 +124,24 @@
 "Text widget" = "Testo";
 "Memory widget" = "Memoria";
 "Static width" = "Larghezza fissa";
-"Tachometer widget" = "Tachometer";
-"Show symbols" = "Show symbols";
-"Label widget" = "Label";
-"Number of reads in the chart" = "Number of reads in the chart";
-"Color of download" = "Color of download";
-"Color of upload" = "Color of upload";
+"Tachometer widget" = "Tachimetro";
+"Show symbols" = "Mostra simboli";
+"Label widget" = "Etichetta widget";
+"Number of reads in the chart" = "Numero di letture nel grafico";
+"Color of download" = "Colore del download";
+"Color of upload" = "Colore dell'upload";
 
 // Module Kit
 "Open module settings" = "Apri impostazioni modulo";
 "Select widget" = "Seleziona il widget %0";
-"Open widget settings" = "Open widget settings";
+"Open widget settings" = "Apri impostazioni widget";
 "Update interval" = "Intervallo di aggiornamento";
 "Usage history" = "Cronologia d'uso";
 "Details" = "Dettagli";
 "Top processes" = "Processi principali";
 "Pictogram" = "Pittogramma";
-"Module settings" = "Module settings";
-"Widget settings" = "Widget settings";
+"Module settings" = "Impostazioni modulo";
+"Widget settings" = "Impostazioni widget";
 
 // Modules
 "Number of top processes" = "Numero di processi principali";
@@ -155,7 +155,7 @@
 "User" = "Utente";
 "Idle" = "Inattiva";
 "Show usage per core" = "Mostra uso per core";
-"Show hyper-threading cores" = "Mostra cores hyper-threading";
+"Show hyper-threading cores" = "Mostra hyper-threading cores";
 "Split the value (System/User)" = "Dividi il valore (Sistema/Utente)";
 "Scheduler limit" = "Limite di pianificazione";
 "Speed limit" = "Limite velocità";
@@ -167,21 +167,21 @@
 // GPU
 "GPU to show" = "GPU da mostrare";
 "Show GPU type" = "Mostra il tipo di GPU";
-"GPU enabled" = "GPU abilitato";
-"GPU disabled" = "GPU disabilitato";
+"GPU enabled" = "GPU abilitata";
+"GPU disabled" = "GPU disabilitata";
 "GPU temperature" = "Temperatura GPU";
 "GPU utilization" = "Utilizzo GPU";
-"Vendor" = "Venditore";
+"Vendor" = "Produttore";
 "Model" = "Modello";
 "Status" = "Stato";
-"Active" = "Attivo";
-"Non active" = "Non attivo";
+"Active" = "Attiva";
+"Non active" = "Non attiva";
 "Fan speed" = "Velocità ventole";
 "Core clock" = "Clock core";
 "Memory clock" = "Clock memoria";
 "Utilization" = "Utilizzo";
-"Render utilization" = "Render utilization";
-"Tiler utilization" = "Tiler utilization";
+"Render utilization" = "Utilizzo rendering";
+"Tiler utilization" = "Utilizzo tassellamento";
 
 // RAM
 "Memory usage" = "Memoria utilizzata";
@@ -189,11 +189,11 @@
 "Total" = "Totale";
 "Used" = "Usata";
 "App" = "App";
-"Wired" = "Cablata";
+"Wired" = "Wired";
 "Compressed" = "Compressa";
 "Free" = "Libera";
 "Swap" = "Scambiata";
-"Split the value (App/Wired/Compressed)" = "Dividi il valore (App/Cablata/Compressa)";
+"Split the value (App/Wired/Compressed)" = "Dividi il valore (App/Wired/Compressa)";
 
 // Disk
 "Show removable disks" = "Mostra dischi rimovibili";
@@ -208,8 +208,8 @@
 "Celsius" = "Celsius";
 "Fahrenheit" = "Fahrenheit";
 "Save the fan speed" = "Salva la velocità delle ventole";
-"Fan" = "Fan";
-"HID sensors" = "HID sensors";
+"Fan" = "Ventola";
+"HID sensors" = "Sensori HID";
 
 // Network
 "Uploading" = "Upload";
@@ -228,24 +228,24 @@
 "Total download" = "Download totale";
 "Total upload" = "Upload totale";
 "Reader type" = "Tipo di lettore";
-"Interface based" = "Interfaccia";
-"Processes based" = "Processi";
+"Interface based" = "Basato sull'interfaccia";
+"Processes based" = "Basato sui processi";
 "Reset data usage" = "Ripristina l'utilizzo dei dati";
-"VPN mode" = "VPN mode";
+"VPN mode" = "Modalità VPN";
 
 // Battery
 "Level" = "Livello";
 "Source" = "Sorgente";
-"AC Power" = "AC Power";
+"AC Power" = "Caricatore AC";
 "Battery Power" = "Batteria";
 "Time" = "Tempo";
 "Health" = "Vita";
 "Amperage" = "Amperaggio";
-"Voltage" = "Voltaggio";
+"Voltage" = "Tensione";
 "Cycles" = "Numero di cicli";
 "Temperature" = "Temperatura";
 "Power adapter" = "Alimentatore di corrente";
-"Power" = "Corrente";
+"Power" = "Output";
 "Is charging" = "In carica";
 "Time to discharge" = "Tempo di scarica";
 "Time to charge" = "Tempo di carica";
@@ -264,8 +264,8 @@
 "Time format" = "Formato del tempo";
 "Hide additional information when full" = "Nascondi informazioni addizionali quando piena";
 "Last charge" = "Ultima carica";
-"Capacity" = "Capacity";
-"maximum / designed" = "maximum / designed";
+"Capacity" = "Capacità";
+"maximum / designed" = "massima / progettata";
 
 // Bluetooth
 "Battery to show" = "Batteria da mostrare";
