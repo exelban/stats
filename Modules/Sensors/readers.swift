@@ -99,7 +99,7 @@ internal class SensorsReader: Reader<[Sensor_p]> {
         
         var cpuSensors = self.list.filter({ $0.group == .CPU && $0.type == .temperature && $0.average }).map{ $0.value }
         var gpuSensors = self.list.filter({ $0.group == .GPU && $0.type == .temperature && $0.average }).map{ $0.value }
-        var fanSensors = self.list.filter({ $0.type == .fan && !$0.isComputed }).map{ $0.value }
+        let fanSensors = self.list.filter({ $0.type == .fan && !$0.isComputed }).map{ $0.value }
         
         #if arch(arm64)
         if self.HIDState {
