@@ -59,8 +59,8 @@
 "Center alignment" = "Ortaya hizalama";
 "Right alignment" = "Sağa hizalama";
 "Dashboard" = "Panel";
-"Disabled" = "Disabled";
-"Silent" = "Silent";
+"Disabled" = "Devre dışı";
+"Silent" = "Sessiz";
 
 // Alerts
 "New version available" = "Yeni sürüm indirilebilir";
@@ -91,8 +91,8 @@
 // Dashboard
 "Serial number" = "Seri numarası";
 "Uptime" = "Çalışma süresi";
-"Number of cores" = "%0 cores";
-"Number of threads" = "%0 threads";
+"Number of cores" = "%0 çekirdek";
+"Number of threads" = "%0 iş parçacığı";
 
 // Update
 "The latest version of Stats installed" = "Stats'ın son sürümü yüklendi";
@@ -124,12 +124,12 @@
 "Text widget" = "Metin widget";
 "Memory widget" = "Bellek widget";
 "Static width" = "Sabit genişlik";
-"Tachometer widget" = "Tachometer";
-"Show symbols" = "Show symbols";
-"Label widget" = "Label";
-"Number of reads in the chart" = "Number of reads in the chart";
-"Color of download" = "Color of download";
-"Color of upload" = "Color of upload";
+"Tachometer widget" = "Takometre";
+"Show symbols" = "sembolleri göster";
+"Label widget" = "Etiket";
+"Number of reads in the chart" = "Grafikteki okuma sayısı";
+"Color of download" = "Download rengi";
+"Color of upload" = "Upload rengi";
 
 // Module Kit
 "Open module settings" = "Modül ayarlarını aç";
@@ -140,8 +140,8 @@
 "Details" = "Detaylar";
 "Top processes" = "İşlemler";
 "Pictogram" = "Piktogram";
-"Module settings" = "Module settings";
-"Widget settings" = "Widget settings";
+"Module settings" = "Modül ayarları";
+"Widget settings" = "Widget ayarları";
 
 // Modules
 "Number of top processes" = "İşlem sayısı";
@@ -180,8 +180,8 @@
 "Core clock" = "Çekirdek frekansı";
 "Memory clock" = "Bellek frekansı";
 "Utilization" = "Kullanım";
-"Render utilization" = "Render utilization";
-"Tiler utilization" = "Tiler utilization";
+"Render utilization" = "Render kullanımı";
+"Tiler utilization" = "Tiler kullanımı";
 
 // RAM
 "Memory usage" = "Ram kullanımı";
@@ -209,7 +209,7 @@
 "Fahrenheit" = "Fahrenhayt";
 "Save the fan speed" = "Fan hızını kaydet";
 "Fan" = "Fan";
-"HID sensors" = "HID sensors";
+"HID sensors" = "HID sensörleri";
 
 // Network
 "Uploading" = "Yükleme";
@@ -231,7 +231,7 @@
 "Interface based" = "Arayüz";
 "Processes based" = "Süreçler";
 "Reset data usage" = "Veri kullanımını sıfırla";
-"VPN mode" = "VPN mode";
+"VPN mode" = "VPN modu";
 
 // Battery
 "Level" = "Doluluk";
@@ -264,8 +264,8 @@
 "Time format" = "Zaman formatı";
 "Hide additional information when full" = "Pil dolduğunda ek bilgileri gizle";
 "Last charge" = "Son şarj";
-"Capacity" = "Capacity";
-"maximum / designed" = "maximum / designed";
+"Capacity" = "Kapasite";
+"maximum / designed" = "maksimum / orijinal";
 
 // Bluetooth
 "Battery to show" = "Gösterilecek pil";
