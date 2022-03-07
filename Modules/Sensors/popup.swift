@@ -594,12 +594,16 @@ internal class FanView: NSStackView {
             if (self.window?.isVisible ?? false) || !self.ready {
                 self.fan.value = value.value
                 
-                var percentage = ""
-                if value.value != 1 && self.fan.maxSpeed != 1 {
-                    percentage = "\((100*Int(value.value)) / Int(self.fan.maxSpeed))%"
+                var speed = ""
+                if value.value != 1 {
+                    if self.fan.maxSpeed == 1 || self.fan.maxSpeed == 0 {
+                        speed = "\(Int(value.value))RPM"
+                    } else {
+                        speed = "\((100*Int(value.value)) / Int(self.fan.maxSpeed))%"
+                    }
                 }
                 
-                self.valueField?.stringValue = percentage
+                self.valueField?.stringValue = speed
                 self.valueField?.toolTip = value.formattedValue
                 
                 if self.resetModeAfterSleep && value.mode != .automatic {
