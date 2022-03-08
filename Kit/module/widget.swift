@@ -83,7 +83,7 @@ public enum widget_t: String {
             case is BarChart:
                 if module == "GPU" || module == "RAM" || module == "Disk" || module == "Battery" {
                     width = 11 + (Constants.Widget.margin.x*2)
-                } else if module == "Fans" {
+                } else if module == "Sensors" {
                     width = 22 + (Constants.Widget.margin.x*2)
                 } else if module == "CPU" {
                     width = 30 + (Constants.Widget.margin.x*2)

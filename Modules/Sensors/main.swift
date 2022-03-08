@@ -67,9 +67,14 @@ public class Sensors: Module {
         }
         
         var list: [KeyValue_t] = []
+        var flatList: [[ColorValue]] = []
+        
         value.forEach { (s: Sensor_p) in
             if s.state {
                 list.append(KeyValue_t(key: s.key, value: s.formattedMiniValue))
+                if let f = s as? Fan {
+                    flatList.append([ColorValue(((f.value*100)/f.maxSpeed)/100)])
+                }
             }
         }
         
@@ -78,6 +83,7 @@ public class Sensors: Module {
         self.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
             switch w.item {
             case let widget as SensorsWidget: widget.setValues(list)
+            case let widget as BarChart: widget.setValue(flatList)
             default: break
             }
         }

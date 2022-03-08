@@ -597,7 +597,7 @@ internal class FanView: NSStackView {
                 var speed = ""
                 if value.value != 1 {
                     if self.fan.maxSpeed == 1 || self.fan.maxSpeed == 0 {
-                        speed = "\(Int(value.value))RPM"
+                        speed = "\(Int(value.value)) RPM"
                     } else {
                         speed = "\((100*Int(value.value)) / Int(self.fan.maxSpeed))%"
                     }
