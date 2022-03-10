@@ -21,6 +21,7 @@ public class Mini: WidgetWrapper {
     
     private let onlyValueWidth: CGFloat = 40
     private var colors: [Color] = Color.allCases
+    private var colorZones: colorZones = (0.6, 0.8)
     
     private var value: Double = 0
     private var pressureLevel: Int = 0
@@ -121,12 +122,7 @@ public class Mini: WidgetWrapper {
         var color: NSColor = controlAccentColor
         switch self.colorState {
         case .systemAccent: color = controlAccentColor
-        case .utilization:
-            if self.title == "BAT" {
-                color = value.usageColor(zones: (0.15, 0.3), reversed: true)
-            } else {
-                color = value.usageColor()
-            }
+        case .utilization: color = value.usageColor(zones: self.colorZones, reversed: self.title == "BAT")
         case .pressure: color = self.pressureLevel.pressureColor()
         case .monochrome: color = (isDarkMode ? NSColor.white : NSColor.black)
         default: color = self.colorState.additional as? NSColor ?? controlAccentColor
@@ -179,6 +175,17 @@ public class Mini: WidgetWrapper {
         self.label = title
         DispatchQueue.main.async(execute: {
             self.needsDisplay = true
+        })
+    }
+    
+    public func setColorZones(_ zones: colorZones) {
+        guard self.colorZones != zones else {
+            return
+        }
+        
+        self.colorZones = zones
+        DispatchQueue.main.async(execute: {
+            self.display()
         })
     }
     

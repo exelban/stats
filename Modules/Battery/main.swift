@@ -114,7 +114,9 @@ public class Battery: Module {
         
         self.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
             switch w.item {
-            case let widget as Mini: widget.setValue(abs(value.level))
+            case let widget as Mini:
+                widget.setValue(abs(value.level))
+                widget.setColorZones((0.15, 0.3))
             case let widget as BarChart: widget.setValue([[ColorValue(value.level)]])
             case let widget as BatterykWidget:
                 widget.setValue(
