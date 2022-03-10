@@ -171,7 +171,7 @@ public class BarChart: WidgetWrapper {
                 if partitionValue.color == nil {
                     switch self.colorState {
                     case .systemAccent: controlAccentColor.set()
-                    case .utilization: partitionValue.value.usageColor(zones: self.colorZones).setFill()
+                    case .utilization: partitionValue.value.usageColor(zones: self.colorZones, reversed: self.title == "Battery").setFill()
                     case .pressure: self.pressureLevel.pressureColor().setFill()
                     case .monochrome:
                         if self.boxState {
