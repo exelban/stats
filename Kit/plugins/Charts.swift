@@ -97,11 +97,11 @@ public class LineChartView: NSView {
         underLinePath.fill()
     }
     
-    public func addValue(_ value: Double) {
+    public func addValue(_ value: Double, redraw: Bool = true) {
         self.points.remove(at: 0)
         self.points.append(value)
         
-        if self.window?.isVisible ?? true {
+        if redraw && self.window?.isVisible ?? true {
             self.display()
         }
     }
