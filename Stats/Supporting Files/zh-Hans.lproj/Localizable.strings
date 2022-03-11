@@ -269,6 +269,7 @@
 
 // Bluetooth
 "Battery to show" = "显示的设备";
+"No Bluetooth devices are available" = "No Bluetooth devices are available";
 
 // Colors
 "Based on utilization" = "基于利用率";

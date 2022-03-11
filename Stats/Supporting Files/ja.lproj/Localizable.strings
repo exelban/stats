@@ -269,6 +269,7 @@
 
 // Bluetooth
 "Battery to show" = "バッテリー残量を表示するデバイス";
+"No Bluetooth devices are available" = "No Bluetooth devices are available";
 
 // Colors
 "Based on utilization" = "使用率に基づいたカラー";

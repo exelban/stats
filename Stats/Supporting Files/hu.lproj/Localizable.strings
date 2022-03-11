@@ -269,6 +269,7 @@
 
 // Bluetooth
 "Battery to show" = "Akkumulátor megjelenítése";
+"No Bluetooth devices are available" = "No Bluetooth devices are available";
 
 // Colors
 "Based on utilization" = "Használat függő";

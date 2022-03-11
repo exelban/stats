@@ -269,6 +269,7 @@
 
 // Bluetooth
 "Battery to show" = "Батерия за показване";
+"No Bluetooth devices are available" = "No Bluetooth devices are available";
 
 // Colors
 "Based on utilization" = "На база утилизация";

@@ -258,8 +258,6 @@ internal class DevicesReader: Reader<[BLEDevice]>, CBCentralManagerDelegate, CBP
         
         self.characteristicsDict[peripheral.identifier] = batteryCharacteristics
         peripheral.readValue(for: batteryCharacteristics)
-        
-        debug("\(peripheral.identifier): discover battery service")
     }
     
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {

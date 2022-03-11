@@ -269,6 +269,7 @@
 
 // Bluetooth
 "Battery to show" = "Активна батарея";
+"No Bluetooth devices are available" = "Немає пристроїв Bluetooth";
 
 // Colors
 "Based on utilization" = "На основі використання";

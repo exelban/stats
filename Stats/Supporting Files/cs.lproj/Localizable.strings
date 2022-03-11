@@ -269,6 +269,7 @@
 
 // Bluetooth
 "Battery to show" = "Baterie k zobrazení";
+"No Bluetooth devices are available" = "No Bluetooth devices are available";
 
 // Colors
 "Based on utilization" = "Na základě využití";

@@ -269,6 +269,7 @@
 
 // Bluetooth
 "Battery to show" = "Batteria da mostrare";
+"No Bluetooth devices are available" = "No Bluetooth devices are available";
 
 // Colors
 "Based on utilization" = "Basato sull'utilizzo";

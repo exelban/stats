@@ -269,6 +269,7 @@
 
 // Bluetooth
 "Battery to show" = "Prikazana baterija";
+"No Bluetooth devices are available" = "No Bluetooth devices are available";
 
 // Colors
 "Based on utilization" = "Na osnovi korištenja";

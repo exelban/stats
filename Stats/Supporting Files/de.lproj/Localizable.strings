@@ -269,6 +269,7 @@
 
 // Bluetooth
 "Battery to show" = "Angezeigter Akku";
+"No Bluetooth devices are available" = "No Bluetooth devices are available";
 
 // Colors
 "Based on utilization" = "Basierend auf Auslastung";

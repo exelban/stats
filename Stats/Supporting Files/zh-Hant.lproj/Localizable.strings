@@ -269,6 +269,7 @@
 
 // Bluetooth
 "Battery to show" = "顯示藍牙裝置的電池電量";
+"No Bluetooth devices are available" = "No Bluetooth devices are available";
 
 // Colors
 "Based on utilization" = "根據使用率";
