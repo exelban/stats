@@ -12,7 +12,7 @@
 import Cocoa
 import Kit
 
-class ApplicationSettings: NSScrollView {
+class ApplicationSettings: NSStackView {
     private var updateIntervalValue: String {
         get {
             return Store.shared.string(key: "update-interval", defaultValue: AppUpdateInterval.silent.rawValue)
@@ -28,7 +28,6 @@ class ApplicationSettings: NSScrollView {
         }
     }
     
-    private var updateButton: NSButton? = nil
     private let updateWindow: UpdateWindow = UpdateWindow()
     
     init() {
@@ -39,59 +38,38 @@ class ApplicationSettings: NSScrollView {
             height: 480
         ))
         
-        self.drawsBackground = false
-        self.borderType = .noBorder
-        self.hasVerticalScroller = true
-        self.hasHorizontalScroller = false
-        self.autohidesScrollers = true
-        self.horizontalScrollElasticity = .none
-        self.automaticallyAdjustsContentInsets = false
+        self.orientation = .vertical
+        self.distribution = .fill
+        self.spacing = 0
         
-        let versionsView = self.versions()
-        let settingsView = self.settings()
-        
-        let grid: NSGridView = NSGridView(frame: NSRect(
-            x: 0,
-            y: 0,
-            width: self.frame.width,
-            height: versionsView.frame.height + settingsView.frame.height
-        ))
-        grid.rowSpacing = 0
-        grid.yPlacement = .fill
-        
-        let separator = NSBox()
-        separator.boxType = .separator
-        
-        grid.addRow(with: [versionsView])
-        grid.addRow(with: [separator])
-        grid.addRow(with: [settingsView])
-        
-        grid.row(at: 0).height = versionsView.frame.height
-        grid.row(at: 2).height = settingsView.frame.height
-        
-        self.documentView = grid
-        if let documentView = self.documentView {
-            documentView.scroll(NSPoint(x: 0, y: documentView.bounds.size.height))
-        }
+        self.addArrangedSubview(self.informationView())
+        self.addArrangedSubview(self.separatorView())
+        self.addArrangedSubview(self.settingsView())
+        self.addArrangedSubview(self.separatorView())
+        self.addArrangedSubview(self.buttonsView())
     }
     
     required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func versions() -> NSView {
-        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 280))
+    private func informationView() -> NSView {
+        let view = NSStackView()
+        view.heightAnchor.constraint(equalToConstant: 240).isActive = true
+        view.orientation = .vertical
+        view.distribution = .fill
+        view.alignment = .centerY
+        view.spacing = 0
         
-        let h: CGFloat = 120+60+18
-        let container: NSGridView = NSGridView(frame: NSRect(x: 0, y: (view.frame.height-h)/2, width: self.frame.width, height: h))
+        let container: NSGridView = NSGridView()
+        container.heightAnchor.constraint(equalToConstant: 180).isActive = true
         container.rowSpacing = 0
         container.yPlacement = .center
         container.xPlacement = .center
         
         let iconView: NSImageView = NSImageView(image: NSImage(named: NSImage.Name("AppIcon"))!)
-        iconView.frame = NSRect(x: (view.frame.width - 50)/2, y: 0, width: 50, height: 50)
         
-        let statsName: NSTextField = TextView(frame: NSRect(x: 0, y: 20, width: view.frame.width, height: 22))
+        let statsName: NSTextField = TextView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: 22))
         statsName.alignment = .center
         statsName.font = NSFont.systemFont(ofSize: 20, weight: .regular)
         statsName.stringValue = "Stats"
@@ -105,30 +83,29 @@ class ApplicationSettings: NSScrollView {
         statsVersion.font = NSFont.systemFont(ofSize: 12, weight: .regular)
         statsVersion.stringValue = "\(localizedString("Version")) \(versionNumber)"
         statsVersion.isSelectable = true
-        statsVersion.toolTip = "Build number: \(buildNumber)"
+        statsVersion.toolTip = "\(localizedString("Build number")) \(buildNumber)"
         
-        let button: NSButton = NSButton(frame: NSRect(x: (view.frame.width - 160)/2, y: 0, width: 160, height: 30))
-        button.title = localizedString("Check for update")
-        button.bezelStyle = .rounded
-        button.target = self
-        button.action = #selector(updateAction)
-        self.updateButton = button
+        let updateButton: NSButton = NSButton()
+        updateButton.title = localizedString("Check for update")
+        updateButton.bezelStyle = .rounded
+        updateButton.target = self
+        updateButton.action = #selector(self.updateAction)
         
         container.addRow(with: [iconView])
         container.addRow(with: [statsName])
         container.addRow(with: [statsVersion])
-        container.addRow(with: [button])
+        container.addRow(with: [updateButton])
         
-        container.column(at: 0).width = self.frame.width
         container.row(at: 1).height = 22
         container.row(at: 2).height = 20
         container.row(at: 3).height = 30
         
-        view.addSubview(container)
+        view.addArrangedSubview(container)
+        
         return view
     }
     
-    private func settings() -> NSView {
+    private func settingsView() -> NSView {
         let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 0))
         
         let grid: NSGridView = NSGridView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: 0))
@@ -138,26 +115,37 @@ class ApplicationSettings: NSScrollView {
         grid.rowAlignment = .firstBaseline
         grid.translatesAutoresizingMaskIntoConstraints = false
         
-        let separator = NSBox()
-        separator.boxType = .separator
+        grid.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        grid.setContentHuggingPriority(.defaultHigh, for: .vertical)
         
-        grid.addRow(with: self.updates())
-        grid.addRow(with: self.temperature())
-        grid.addRow(with: self.dockIcon())
-        grid.addRow(with: self.startAtLogin())
+        grid.addRow(with: [
+            self.titleView(localizedString("Check for updates")),
+            selectView(
+                action: #selector(self.toggleUpdateInterval),
+                items: AppUpdateIntervals,
+                selected: self.updateIntervalValue
+            )
+        ])
+        grid.addRow(with: [
+            self.titleView(localizedString("Temperature")),
+            selectView(
+                action: #selector(self.toggleTemperatureUnits),
+                items: TemperatureUnits,
+                selected: self.temperatureUnitsValue
+            )
+        ])
+        grid.addRow(with: [NSGridCell.emptyContentView, self.toggleView(
+            action: #selector(self.toggleDock),
+            state: Store.shared.bool(key: "dockIcon", defaultValue: false),
+            text: localizedString("Show icon in dock")
+        )])
+        grid.addRow(with: [NSGridCell.emptyContentView, self.toggleView(
+            action: #selector(self.toggleLaunchAtLogin),
+            state: LaunchAtLogin.isEnabled,
+            text: localizedString("Start at login")
+        )])
         
         view.addSubview(grid)
-        
-        var height: CGFloat = (CGFloat(grid.numberOfRows)-2) * grid.rowSpacing
-        for i in 0..<grid.numberOfRows {
-            let row = grid.row(at: i)
-            for a in 0..<row.numberOfCells {
-                if let contentView = row.cell(at: a).contentView {
-                    height += contentView.frame.height
-                }
-            }
-        }
-        view.setFrameSize(NSSize(width: view.frame.width, height: max(200, height)))
         
         NSLayoutConstraint.activate([
             grid.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -167,51 +155,28 @@ class ApplicationSettings: NSScrollView {
         return view
     }
     
-    // MARK: - Views
-    
-    private func updates() -> [NSView] {
-        return [
-            self.titleView(localizedString("Check for updates")),
-            selectView(
-                action: #selector(self.toggleUpdateInterval),
-                items: AppUpdateIntervals,
-                selected: self.updateIntervalValue
-            )
-        ]
-    }
-    
-    private func temperature() -> [NSView] {
-        return [
-            self.titleView(localizedString("Temperature")),
-            selectView(
-                action: #selector(self.toggleTemperatureUnits),
-                items: TemperatureUnits,
-                selected: self.temperatureUnitsValue
-            )
-        ]
-    }
-    
-    private func dockIcon() -> [NSView] {
-        return [
-            self.titleView(localizedString("Show icon in dock")),
-            self.toggleView(
-                action: #selector(self.toggleDock),
-                state: Store.shared.bool(key: "dockIcon", defaultValue: false)
-            )
-        ]
-    }
-    
-    private func startAtLogin() -> [NSView] {
-        return [
-            self.titleView(localizedString("Start at login")),
-            self.toggleView(
-                action: #selector(self.toggleLaunchAtLogin),
-                state: LaunchAtLogin.isEnabled
-            )
-        ]
+    private func buttonsView() -> NSView {
+        let view = NSStackView()
+        view.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        
+        let reset: NSButton = NSButton()
+        reset.title = localizedString("Reset settings")
+        reset.bezelStyle = .rounded
+        reset.target = self
+        reset.action = #selector(self.resetSettings)
+        
+        view.addArrangedSubview(reset)
+        
+        return view
     }
     
     // MARK: - helpers
+    
+    private func separatorView() -> NSBox {
+        let view = NSBox()
+        view.boxType = .separator
+        return view
+    }
     
     private func titleView(_ value: String) -> NSTextField {
         let field: NSTextField = TextView(frame: NSRect(x: 0, y: 0, width: 120, height: 17))
@@ -222,32 +187,20 @@ class ApplicationSettings: NSScrollView {
         return field
     }
     
-    private func toggleView(action: Selector, state: Bool) -> NSView {
-        let state: NSControl.StateValue = state ? .on : .off
-        var toggle: NSControl = NSControl()
+    private func toggleView(action: Selector, state: Bool, text: String) -> NSView {
+        let button: NSButton = NSButton(frame: NSRect(x: 0, y: 0, width: 30, height: 20))
+        button.setButtonType(.switch)
+        button.state = state ? .on : .off
+        button.title = text
+        button.action = action
+        button.isBordered = false
+        button.isTransparent = false
+        button.target = self
         
-        if #available(OSX 11.0, *) {
-            let switchButton = NSSwitch(frame: NSRect(x: 0, y: 0, width: 50, height: 20))
-            switchButton.state = state
-            switchButton.action = action
-            switchButton.target = self
-            
-            toggle = switchButton
-        } else {
-            let button: NSButton = NSButton(frame: NSRect(x: 0, y: 0, width: 30, height: 20))
-            button.setButtonType(.switch)
-            button.state = state
-            button.title = ""
-            button.action = action
-            button.isBordered = false
-            button.isTransparent = false
-            button.target = self
-            
-            toggle = button
-        }
-        
-        return toggle
+        return button
     }
+    
+    // MARK: - actions
     
     @objc func updateAction(_ sender: NSObject) {
         updater.check { result, error in
@@ -313,6 +266,23 @@ class ApplicationSettings: NSScrollView {
         LaunchAtLogin.isEnabled = state! == NSControl.StateValue.on
         if !Store.shared.exist(key: "runAtLoginInitialized") {
             Store.shared.set(key: "runAtLoginInitialized", value: true)
+        }
+    }
+    
+    @objc func resetSettings(_ sender: NSObject) {
+        let alert = NSAlert()
+        alert.messageText = localizedString("Reset settings")
+        alert.informativeText = localizedString("Reset settings text")
+        alert.alertStyle = .warning
+        alert.addButton(withTitle: localizedString("Yes"))
+        alert.addButton(withTitle: localizedString("No"))
+        
+        if alert.runModal() == .alertFirstButtonReturn {
+            Store.shared.reset()
+            if let path = Bundle.main.resourceURL?.deletingLastPathComponent().deletingLastPathComponent().absoluteString {
+                asyncShell("/usr/bin/open \(path)")
+                NSApp.terminate(self)
+            }
         }
     }
 }
