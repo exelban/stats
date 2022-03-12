@@ -20,8 +20,6 @@
 "Open Disk settings" = "Lemez beállítások megnyitása";
 "Sensors" = "Érzékelők";
 "Open Sensors settings" = "Érzékelő beállítások megnyitása";
-"Fans" = "Ventilátorok";
-"Open Fans settings" = "Ventilátor beállítások megnyitása";
 "Network" = "Hálózat";
 "Open Network settings" = "Hálózati beállítások megnyitása";
 "Battery" = "Akkumulátor";
@@ -61,12 +59,15 @@
 "Dashboard" = "Irányítópult";
 "Disabled" = "Kikapcsolva";
 "Silent" = "Silent";
+"Units" = "Units";
+"Fans" = "Ventilátorok";
 
 // Alerts
 "New version available" = "Új verzió érhető el";
 "Click to install the new version of Stats" = "Kattintson a Stats új verziójának telepítéséhez";
 "Successfully updated" = "Sikeres frissítés";
 "Stats was updated to v" = "A Stats sikeresen frissítve lett a(z) v%0 verzióra";
+"Reset settings text" = "All application settings will be reset and the application will be restarted. Are you sure you want to do this?";
 
 // Settings
 "Open Activity Monitor" = "Tevékenységfigyelő megnyitása";
@@ -87,6 +88,8 @@
 "Check for update" = "Frissítés keresése";
 "Show icon in dock" = "Ikon megjelenítése a Dockban";
 "Start at login" = "Alkalmazás indítása bejelentkezéskor";
+"Build number" = "Build number";
+"Reset settings" = "Reset settings";
 
 // Dashboard
 "Serial number" = "Sorozatszám";

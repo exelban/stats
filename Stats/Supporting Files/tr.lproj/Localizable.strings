@@ -20,8 +20,6 @@
 "Open Disk settings" = "Disk ayarlarını aç";
 "Sensors" = "Sensörler";
 "Open Sensors settings" = "Sensör ayarlarını aç";
-"Fans" = "Fanlar";
-"Open Fans settings" = "Fan ayarlarını aç";
 "Network" = "Ağ";
 "Open Network settings" = "Ağ ayarlarını aç";
 "Battery" = "Batarya";
@@ -61,12 +59,15 @@
 "Dashboard" = "Panel";
 "Disabled" = "Devre dışı";
 "Silent" = "Sessiz";
+"Units" = "Units";
+"Fans" = "Fanlar";
 
 // Alerts
 "New version available" = "Yeni sürüm indirilebilir";
 "Click to install the new version of Stats" = "Stats'ın yeni sürümünü indirmek için tıklayın";
 "Successfully updated" = "Başarıyla güncellendi";
 "Stats was updated to v" = "Stats v%0 sürümüne güncellendi";
+"Reset settings text" = "All application settings will be reset and the application will be restarted. Are you sure you want to do this?";
 
 // Settings
 "Open Activity Monitor" = "Etkinlik Monitörünü aç";
@@ -87,6 +88,8 @@
 "Check for update" = "Güncellemeleri denetle";
 "Show icon in dock" = "Dock'ta göster";
 "Start at login" = "Başlangıçta çalıştır";
+"Build number" = "Build number";
+"Reset settings" = "Reset settings";
 
 // Dashboard
 "Serial number" = "Seri numarası";

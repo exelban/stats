@@ -20,8 +20,6 @@
 "Open Disk settings" = "Åpne diskinnstillinger";
 "Sensors" = "Sensors";
 "Open Sensors settings" = "Åpne sensorinnstillinger";
-"Fans" = "Fans";
-"Open Fans settings" = "Åpne vifteinnstillinger";
 "Network" = "Network";
 "Open Network settings" = "Åpne nettverksinnstillinger";
 "Battery" = "Battery";
@@ -61,12 +59,15 @@
 "Dashboard" = "Dashboard";
 "Disabled" = "Disabled";
 "Silent" = "Silent";
+"Units" = "Units";
+"Fans" = "Fans";
 
 // Alerts
 "New version available" = "Ny versjon tilgjengelig";
 "Click to install the new version of Stats" = "Klikk for å installere ny versjon av Stats";
 "Successfully updated" = "Oppdateringen var vellykket";
 "Stats was updated to v" = "Stats ble oppdatert til v%0";
+"Reset settings text" = "All application settings will be reset and the application will be restarted. Are you sure you want to do this?";
 
 // Settings
 "Open Activity Monitor" = "Åpne Aktivitetsmonitor";
@@ -87,6 +88,8 @@
 "Check for update" = "Se etter oppdatering";
 "Show icon in dock" = "Vis ikon i dock";
 "Start at login" = "Start ved innlogging";
+"Build number" = "Build number";
+"Reset settings" = "Reset settings";
 
 // Dashboard
 "Serial number" = "Serienummer";

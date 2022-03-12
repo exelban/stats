@@ -20,8 +20,6 @@
 "Open Disk settings" = "Mở cài đặt Ổ đĩa";
 "Sensors" = "Cảm biến";
 "Open Sensors settings" = "Mở cài đặt cảm biến";
-"Fans" = "Quạt";
-"Open Fans settings" = "Mở cài đặt quạt";
 "Network" = "Mạng";
 "Open Network settings" = "Mở cài đặt mạng";
 "Battery" = "Pin";
@@ -61,12 +59,15 @@
 "Dashboard" = "Bảng điều khiển";
 "Disabled" = "Vô hiệu hóa";
 "Silent" = "Im lặng";
+"Units" = "Units";
+"Fans" = "Quạt";
 
 // Alerts
 "New version available" = "Phiên bản mới có sẵn";
 "Click to install the new version of Stats" = "Nhấn vào đây để cài đặt phiên bản mới của Stats";
 "Successfully updated" = "Đã cập nhật thành công";
 "Stats was updated to v" = "Stats đã được cập nhật lên v%0";
+"Reset settings text" = "All application settings will be reset and the application will be restarted. Are you sure you want to do this?";
 
 // Settings
 "Open Activity Monitor" = "Mở trình Giám sát hoạt động";
@@ -87,6 +88,8 @@
 "Check for update" = "Kiểm tra cập nhật";
 "Show icon in dock" = "Hiện icon trên Dock";
 "Start at login" = "Khởi động lúc đăng nhập";
+"Build number" = "Build number";
+"Reset settings" = "Reset settings";
 
 // Dashboard
 "Serial number" = "Số sê-ri";

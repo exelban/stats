@@ -20,8 +20,6 @@
 "Open Disk settings" = "Festplatten Einstellungen öffnen";
 "Sensors" = "Sensoren";
 "Open Sensors settings" = "Sensor Einstellungen öffnen";
-"Fans" = "Lüfter";
-"Open Fans settings" = "Lüfter Einstellungen öffnen";
 "Network" = "Netzwerk";
 "Open Network settings" = "Netzwerk Einstellungen öffnen";
 "Battery" = "Akku";
@@ -61,12 +59,15 @@
 "Dashboard" = "Dashboard";
 "Disabled" = "Deaktiviert";
 "Silent" = "Silent";
+"Units" = "Units";
+"Fans" = "Lüfter";
 
 // Alerts
 "New version available" = "Neue Version verfügbar";
 "Click to install the new version of Stats" = "Klicken Sie hier, um die neue Version von Stats zu installieren";
 "Successfully updated" = "Erfolgreich aktualisiert";
 "Stats was updated to v" = "Stats wurde auf v%0 aktualisiert";
+"Reset settings text" = "All application settings will be reset and the application will be restarted. Are you sure you want to do this?";
 
 // Settings
 "Open Activity Monitor" = "Aktivitätsanzeige öffnen";
@@ -87,6 +88,8 @@
 "Check for update" = "Nach Updates suchen";
 "Show icon in dock" = "Symbol im Dock anzeigen";
 "Start at login" = "Beim Login starten";
+"Build number" = "Build number";
+"Reset settings" = "Reset settings";
 
 // Dashboard
 "Serial number" = "Seriennummer";

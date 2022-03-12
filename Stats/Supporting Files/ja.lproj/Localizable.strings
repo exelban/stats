@@ -20,8 +20,6 @@
 "Open Disk settings" = "ディスクの設定を開く";
 "Sensors" = "センサー";
 "Open Sensors settings" = "センサーの設定を開く";
-"Fans" = "ファン";
-"Open Fans settings" = "ファンの設定を開く";
 "Network" = "ネットワーク";
 "Open Network settings" = "ネットワークの設定を開く";
 "Battery" = "バッテリー";
@@ -61,12 +59,15 @@
 "Dashboard" = "ダッシュボード";
 "Disabled" = "無効";
 "Silent" = "サイレント";
+"Units" = "Units";
+"Fans" = "ファン";
 
 // Alerts
 "New version available" = "新しいバージョンが利用可能です";
 "Click to install the new version of Stats" = "クリックして新しいバージョンの Stats をインストール";
 "Successfully updated" = "正常にアップデートされました";
 "Stats was updated to v" = "Stats v%0 にアップデートしました";
+"Reset settings text" = "All application settings will be reset and the application will be restarted. Are you sure you want to do this?";
 
 // Settings
 "Open Activity Monitor" = "アクティビティモニタを開く";
@@ -87,6 +88,8 @@
 "Check for update" = "アップデートを確認する";
 "Show icon in dock" = "Dock にアイコンを表示";
 "Start at login" = "ログイン時に開く";
+"Build number" = "Build number";
+"Reset settings" = "Reset settings";
 
 // Dashboard
 "Serial number" = "シリアル番号";

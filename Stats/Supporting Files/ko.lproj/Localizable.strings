@@ -20,8 +20,6 @@
 "Open Disk settings" = "Open disk settings";
 "Sensors" = "Sensors";
 "Open Sensors settings" = "Open sensors settings";
-"Fans" = "Fans";
-"Open Fans settings" = "Open fans settings";
 "Network" = "Network";
 "Open Network settings" = "Open network settings";
 "Battery" = "Battery";
@@ -61,12 +59,15 @@
 "Dashboard" = "Dashboard";
 "Disabled" = "Disabled";
 "Silent" = "Silent";
+"Units" = "Units";
+"Fans" = "Fans";
 
 // Alerts
 "New version available" = "새로운 버전을 이용할 수 있습니다";
 "Click to install the new version of Stats" = "새로운 버전의 Stats를 설치하기 위해 클릭하세요";
 "Successfully updated" = "성공적으로 업데이트되었습니다";
 "Stats was updated to v" = "Stats가 v%0 버전으로 업데이트되었습니다";
+"Reset settings text" = "All application settings will be reset and the application will be restarted. Are you sure you want to do this?";
 
 // Settings
 "Open Activity Monitor" = "활성 상태 열기";
@@ -87,6 +88,8 @@
 "Check for update" = "신규 업데이트 확인";
 "Show icon in dock" = "Dock에서 아이콘 보이기";
 "Start at login" = "로그인시 시작";
+"Build number" = "Build number";
+"Reset settings" = "Reset settings";
 
 // Dashboard
 "Serial number" = "일련 번호";

@@ -20,8 +20,6 @@
 "Open Disk settings" = "Otevřít nastevení disku";
 "Sensors" = "Senzory";
 "Open Sensors settings" = "Otevřít nastevení senzorů";
-"Fans" = "Ventilátory";
-"Open Fans settings" = "Otevřít nastevení ventilátorů";
 "Network" = "Síť";
 "Open Network settings" = "Otevřít nastevení sítě";
 "Battery" = "Baterie";
@@ -61,12 +59,15 @@
 "Dashboard" = "Dashboard";
 "Disabled" = "Deaktivováno";
 "Silent" = "Tichý";
+"Units" = "Units";
+"Fans" = "Ventilátory";
 
 // Alerts
 "New version available" = "Nová verze k dispozici";
 "Click to install the new version of Stats" = "Klikněte pro instalaci nové verze Stats";
 "Successfully updated" = "Úspěšně aktualizováno";
 "Stats was updated to v" = "Stats byly aktualizovány na v%0";
+"Reset settings text" = "All application settings will be reset and the application will be restarted. Are you sure you want to do this?";
 
 // Settings
 "Open Activity Monitor" = "Otevřít Monitor aktivity";
@@ -87,6 +88,8 @@
 "Check for update" = "Zkontrolovat aktualizace";
 "Show icon in dock" = "Zobrazovat ikonu v Docku";
 "Start at login" = "Spustit po přihlášení";
+"Build number" = "Build number";
+"Reset settings" = "Reset settings";
 
 // Dashboard
 "Serial number" = "Sériové číslo";

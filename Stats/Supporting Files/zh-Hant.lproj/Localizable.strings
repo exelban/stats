@@ -20,8 +20,6 @@
 "Open Disk settings" = "打開磁碟設定";
 "Sensors" = "感知器";
 "Open Sensors settings" = "打開感知器設定";
-"Fans" = "風扇";
-"Open Fans settings" = "打開風扇設定";
 "Network" = "網路";
 "Open Network settings" = "打開網路設定";
 "Battery" = "電池";
@@ -61,12 +59,15 @@
 "Dashboard" = "儀表板";
 "Disabled" = "已停用";
 "Silent" = "Silent";
+"Units" = "Units";
+"Fans" = "風扇";
 
 // Alerts
 "New version available" = "有新版本可用";
 "Click to install the new version of Stats" = "安裝 Stats 的新版本";
 "Successfully updated" = "更新成功";
 "Stats was updated to v" = "Stats 已更新到 v%0";
+"Reset settings text" = "All application settings will be reset and the application will be restarted. Are you sure you want to do this?";
 
 // Settings
 "Open Activity Monitor" = "打開活動監視器";
@@ -87,6 +88,8 @@
 "Check for update" = "檢查更新";
 "Show icon in dock" = "在 Dock 上顯示圖示";
 "Start at login" = "登入時打開";
+"Build number" = "Build number";
+"Reset settings" = "Reset settings";
 
 // Dashboard
 "Serial number" = "序號";

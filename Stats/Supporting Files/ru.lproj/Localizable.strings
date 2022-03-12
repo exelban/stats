@@ -20,8 +20,6 @@
 "Open Disk settings" = "Открыть настройки диска";
 "Sensors" = "Датчики";
 "Open Sensors settings" = "Открыть настройки датчиков";
-"Fans" = "Вентиляторы";
-"Open Fans settings" = "Открыть настройки вентиляторов";
 "Network" = "Сеть";
 "Open Network settings" = "Открыть настройки сети";
 "Battery" = "Аккумулятор";
@@ -61,12 +59,15 @@
 "Dashboard" = "Dashboard";
 "Disabled" = "Отключено";
 "Silent" = "Бесшумно";
+"Units" = "Units";
+"Fans" = "Вентиляторы";
 
 // Alerts
 "New version available" = "Доступна новая версия";
 "Click to install the new version of Stats" = "Нажмите, чтобы установить новую версию Stats";
 "Successfully updated" = "Успешно обновлено";
 "Stats was updated to v" = "Stats обновлено до v%0";
+"Reset settings text" = "Все настройки приложения будут сброшены, и приложение будет перезапущено. Вы уверены, что хотите это сделать?";
 
 // Settings
 "Open Activity Monitor" = "Открыть Мониторинг системы";
@@ -87,6 +88,8 @@
 "Check for update" = "Проверить обновление";
 "Show icon in dock" = "Показать значок в dock";
 "Start at login" = "Запуск при входе";
+"Build number" = "Номер сборки";
+"Reset settings" = "Сбросить настройки";
 
 // Dashboard
 "Serial number" = "Серийный номер";

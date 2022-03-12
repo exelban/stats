@@ -20,8 +20,6 @@
 "Open Disk settings" = "Open disk instellingen";
 "Sensors" = "Sensors";
 "Open Sensors settings" = "Open sensors instellingen";
-"Fans" = "Fans";
-"Open Fans settings" = "Open fans instellingen";
 "Network" = "Network";
 "Open Network settings" = "Open network instellingen";
 "Battery" = "Battery";
@@ -61,12 +59,15 @@
 "Dashboard" = "Dashboard";
 "Disabled" = "Uitgeschakeld";
 "Silent" = "Silent";
+"Units" = "Units";
+"Fans" = "Fans";
 
 // Alerts
 "New version available" = "Nieuwe versie beschikbaar";
 "Click to install the new version of Stats" = "Klik om de nieuwe versie van Stats te installeren";
 "Successfully updated" = "Succesvol geüpdatet";
 "Stats was updated to v" = "Stats is bijgewerkt naar v%0";
+"Reset settings text" = "All application settings will be reset and the application will be restarted. Are you sure you want to do this?";
 
 // Settings
 "Open Activity Monitor" = "Open Activiteitenweergave";
@@ -87,6 +88,8 @@
 "Check for update" = "Controleer op updates";
 "Show icon in dock" = "Pictogram in dock weergeven";
 "Start at login" = "Starten bij inloggen";
+"Build number" = "Build number";
+"Reset settings" = "Reset settings";
 
 // Dashboard
 "Serial number" = "Serienummer";

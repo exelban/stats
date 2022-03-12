@@ -20,8 +20,6 @@
 "Open Disk settings" = "Otvori postavke diska";
 "Sensors" = "Senzori";
 "Open Sensors settings" = "Otvori postavke senzora";
-"Fans" = "Ventilatori";
-"Open Fans settings" = "Otvori postavke ventilatora";
 "Network" = "Mreža";
 "Open Network settings" = "Otvori postavke mreže";
 "Battery" = "Baterija";
@@ -61,12 +59,15 @@
 "Dashboard" = "Dashboard";
 "Disabled" = "Disabled";
 "Silent" = "Silent";
+"Units" = "Units";
+"Fans" = "Ventilatori";
 
 // Alerts
 "New version available" = "Postoji nova verzija";
 "Click to install the new version of Stats" = "Pritisni za instaliranje nove verzije programa Stats";
 "Successfully updated" = "Uspješno aktualizirano";
 "Stats was updated to v" = "Stats je aktualiziran na v%0";
+"Reset settings text" = "All application settings will be reset and the application will be restarted. Are you sure you want to do this?";
 
 // Settings
 "Open Activity Monitor" = "Otvori program Praćenje aktivnosti";
@@ -87,6 +88,8 @@
 "Check for update" = "Traži novu verziju";
 "Show icon in dock" = "Prikaži ikonu u programskoj traci";
 "Start at login" = "Pokreni nakon prijave";
+"Build number" = "Build number";
+"Reset settings" = "Reset settings";
 
 // Dashboard
 "Serial number" = "Serijski broj";

@@ -20,8 +20,6 @@
 "Open Disk settings" = "Åben indstillinger for disk";
 "Sensors" = "Sensorer";
 "Open Sensors settings" = "Åben indstillinger for sensorer";
-"Fans" = "Blæsere";
-"Open Fans settings" = "Åben indstillinger for blæsere";
 "Network" = "Netværk";
 "Open Network settings" = "Åben indstillinger for netværk";
 "Battery" = "Batteri";
@@ -61,12 +59,15 @@
 "Dashboard" = "Instrumentbræt";
 "Disabled" = "Deaktiveret";
 "Silent" = "Silent";
+"Units" = "Units";
+"Fans" = "Blæsere";
 
 // Alerts
 "New version available" = "Ny udgave tilgængelig";
 "Click to install the new version of Stats" = "Klik for at installere den nye udgave af Stats";
 "Successfully updated" = "Udpaterede succesfuldt";
 "Stats was updated to v" = "Stats er blevet opdateret til v%0";
+"Reset settings text" = "All application settings will be reset and the application will be restarted. Are you sure you want to do this?";
 
 // Settings
 "Open Activity Monitor" = "Åben Aktivitetsmonitor";
@@ -87,10 +88,12 @@
 "Check for update" = "Søg efter opdatering";
 "Show icon in dock" = "Vis ikon i Dock";
 "Start at login" = "Start ved login";
+"Build number" = "Build number";
+"Reset settings" = "Reset settings";
 
 // Dashboard
 "Serial number" = "Serienummer";
-"Uptime" = "Uptime"; // There exists some translations but in technical speak it's always just called uptime in Danish as well. Thus I left the translation as is
+"Uptime" = "Uptime";
 "Number of cores" = "%0 cores";
 "Number of threads" = "%0 threads";
 

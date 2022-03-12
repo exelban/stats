@@ -20,8 +20,6 @@
 "Open Disk settings" = "Obre la configuració de disc";
 "Sensors" = "Sensors";
 "Open Sensors settings" = "Obre la configuració de sensors";
-"Fans" = "Ventiladors";
-"Open Fans settings" = "Obre la configuració de ventiladors";
 "Network" = "Xarxa";
 "Open Network settings" = "Obre la configuració de xarxa";
 "Battery" = "Bateria";
@@ -61,12 +59,15 @@
 "Dashboard" = "Panell";
 "Disabled" = "Desactivat";
 "Silent" = "Silent";
+"Units" = "Units";
+"Fans" = "Ventiladors";
 
 // Alerts
 "New version available" = "Nova versió disponible";
 "Click to install the new version of Stats" = "Clica per a instal·lar la nova versió d'Stats";
 "Successfully updated" = "Actualització completada amb èxit";
 "Stats was updated to v" = "Stats s'ha actualitzat a v%0";
+"Reset settings text" = "All application settings will be reset and the application will be restarted. Are you sure you want to do this?";
 
 // Settings
 "Open Activity Monitor" = "Obre el Visor d'Activitat";
@@ -87,6 +88,8 @@
 "Check for update" = "Busca actualitzacions";
 "Show icon in dock" = "Mostra l'icona al Dock";
 "Start at login" = "Arranca al iniciar sessió";
+"Build number" = "Build number";
+"Reset settings" = "Reset settings";
 
 // Dashboard
 "Serial number" = "Número de sèrie";
