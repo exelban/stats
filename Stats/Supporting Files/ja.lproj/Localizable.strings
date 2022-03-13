@@ -58,8 +58,8 @@
 "Right alignment" = "右揃え";
 "Dashboard" = "ダッシュボード";
 "Disabled" = "無効";
-"Silent" = "サイレント";
-"Units" = "Units";
+"Silent" = "自動（サイレント）";
+"Units" = "単位";
 "Fans" = "ファン";
 
 // Alerts
@@ -67,7 +67,7 @@
 "Click to install the new version of Stats" = "クリックして新しいバージョンの Stats をインストール";
 "Successfully updated" = "正常にアップデートされました";
 "Stats was updated to v" = "Stats v%0 にアップデートしました";
-"Reset settings text" = "All application settings will be reset and the application will be restarted. Are you sure you want to do this?";
+"Reset settings text" = "アプリの設定をすべてリセットし、アプリを再起動します。本当に続けますか？";
 
 // Settings
 "Open Activity Monitor" = "アクティビティモニタを開く";
@@ -88,8 +88,8 @@
 "Check for update" = "アップデートを確認する";
 "Show icon in dock" = "Dock にアイコンを表示";
 "Start at login" = "ログイン時に開く";
-"Build number" = "Build number";
-"Reset settings" = "Reset settings";
+"Build number" = "ビルド番号";
+"Reset settings" = "設定をリセット";
 
 // Dashboard
 "Serial number" = "シリアル番号";
@@ -127,7 +127,7 @@
 "Text widget" = "テキスト";
 "Memory widget" = "未使用/使用済み";
 "Static width" = "固定幅";
-"Tachometer widget" = "タコメータ";
+"Tachometer widget" = "タコメーター";
 "Show symbols" = "シンボルを表示";
 "Label widget" = "ラベル";
 "Number of reads in the chart" = "読み取り回数のチャート";
@@ -183,8 +183,8 @@
 "Core clock" = "コアクロック";
 "Memory clock" = "メモリクロック";
 "Utilization" = "使用率";
-"Render utilization" = "描画の使用率";
-"Tiler utilization" = "頂点処理の使用率";
+"Render utilization" = "レンダリング";
+"Tiler utilization" = "タイルレンダリング";
 
 // RAM
 "Memory usage" = "メモリ使用率";
@@ -211,7 +211,7 @@
 "Celsius" = "摂氏（℃）";
 "Fahrenheit" = "華氏（℉）";
 "Save the fan speed" = "ファンの速度を保存";
-"Fan" = "Fan";
+"Fan" = "ファン";
 "HID sensors" = "HID センサー";
 
 // Network
@@ -272,7 +272,7 @@
 
 // Bluetooth
 "Battery to show" = "バッテリー残量を表示するデバイス";
-"No Bluetooth devices are available" = "No Bluetooth devices are available";
+"No Bluetooth devices are available" = "利用可能な Bluetooth デバイスがありません";
 
 // Colors
 "Based on utilization" = "使用率に基づいたカラー";
