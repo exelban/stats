@@ -58,8 +58,8 @@
 "Right alignment" = "Rechts";
 "Dashboard" = "Dashboard";
 "Disabled" = "Deaktiviert";
-"Silent" = "Silent";
-"Units" = "Units";
+"Silent" = "Leise";
+"Units" = "Einheit";
 "Fans" = "Lüfter";
 
 // Alerts
@@ -67,7 +67,7 @@
 "Click to install the new version of Stats" = "Klicken Sie hier, um die neue Version von Stats zu installieren";
 "Successfully updated" = "Erfolgreich aktualisiert";
 "Stats was updated to v" = "Stats wurde auf v%0 aktualisiert";
-"Reset settings text" = "All application settings will be reset and the application will be restarted. Are you sure you want to do this?";
+"Reset settings text" = "Alle Einstellungen der Applikation werden zurückgesetzt und die Applikation neu gestartet. Möchten Sie dies wirklich?";
 
 // Settings
 "Open Activity Monitor" = "Aktivitätsanzeige öffnen";
@@ -88,8 +88,8 @@
 "Check for update" = "Nach Updates suchen";
 "Show icon in dock" = "Symbol im Dock anzeigen";
 "Start at login" = "Beim Login starten";
-"Build number" = "Build number";
-"Reset settings" = "Reset settings";
+"Build number" = "Build-Nummer";
+"Reset settings" = "Einstellungen zurücksetzen";
 
 // Dashboard
 "Serial number" = "Seriennummer";
@@ -143,8 +143,8 @@
 "Details" = "Details";
 "Top processes" = "Top-Prozesse";
 "Pictogram" = "Piktogramm";
-"Module settings" = "Module settings";
-"Widget settings" = "Widget settings";
+"Module settings" = "Modul Einstellungen";
+"Widget settings" = "Widget Einstellungen";
 
 // Modules
 "Number of top processes" = "Anzahl der Top-Prozesse";
@@ -234,7 +234,7 @@
 "Interface based" = "Schnittstelle";
 "Processes based" = "Prozess";
 "Reset data usage" = "Nutzungsdaten zurücksetzen";
-"VPN mode" = "VPN mode";
+"VPN mode" = "VPN Modus";
 
 // Battery
 "Level" = "Ladezustand";
@@ -267,12 +267,12 @@
 "Time format" = "Zeitformat";
 "Hide additional information when full" = "Zusätzliche Informationen bei vollständiger Ladung verbergen";
 "Last charge" = "Letzte Ladung";
-"Capacity" = "Capacity";
+"Capacity" = "Kapazität";
 "maximum / designed" = "maximum / designed";
 
 // Bluetooth
 "Battery to show" = "Angezeigter Akku";
-"No Bluetooth devices are available" = "No Bluetooth devices are available";
+"No Bluetooth devices are available" = "Keine Bluetooth Geräte verfügbar";
 
 // Colors
 "Based on utilization" = "Basierend auf Auslastung";
