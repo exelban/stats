@@ -101,13 +101,13 @@ internal class Popup: NSStackView, Popup_p {
     }
     
     internal func usageCallback(_ values: [Sensor_p]) {
-        values.filter({ $0 is Sensor }).forEach { (s: Sensor_p) in
-            if let sensor = self.list[s.key] as? SensorView {
-                sensor.addHistoryPoint(s)
-            }
-        }
-        
         DispatchQueue.main.async(execute: {
+            values.filter({ $0 is Sensor }).forEach { (s: Sensor_p) in
+                if let sensor = self.list[s.key] as? SensorView {
+                    sensor.addHistoryPoint(s)
+                }
+            }
+            
             if self.window?.isVisible ?? false {
                 values.forEach { (s: Sensor_p) in
                     switch self.list[s.key] {
@@ -283,7 +283,7 @@ internal class ChartSensorView: NSStackView {
     }
     
     public func update(_ value: Double) {
-        self.chart?.addValue(value/100, redraw: false)
+        self.chart?.addValue(value/100)
     }
 }
 
