@@ -234,7 +234,7 @@ public class NetworkChartView: NSView {
         self.points.remove(at: 0)
         self.points.append((upload, download))
         
-        if self.window?.isVisible ?? true {
+        if self.window?.isVisible ?? false {
             self.display()
         }
     }
@@ -321,14 +321,14 @@ public class PieChartView: NSView {
     
     public func setValue(_ value: Double) {
         self.value = value
-        if self.window?.isVisible ?? true {
+        if self.window?.isVisible ?? false {
             self.display()
         }
     }
     
     public func setSegments(_ segments: [circle_segment]) {
         self.segments = segments
-        if self.window?.isVisible ?? true {
+        if self.window?.isVisible ?? false {
             self.display()
         }
     }
@@ -405,14 +405,14 @@ public class HalfCircleGraphView: NSView {
     
     public func setValue(_ value: Double) {
         self.value = value > 1 ? value/100 : value
-        if self.window?.isVisible ?? true {
+        if self.window?.isVisible ?? false {
             self.display()
         }
     }
     
     public func setText(_ value: String) {
         self.text = value
-        if self.window?.isVisible ?? true {
+        if self.window?.isVisible ?? false {
             self.display()
         }
     }
@@ -469,7 +469,7 @@ public class TachometerGraphView: NSView {
     
     public func setSegments(_ segments: [circle_segment]) {
         self.segments = segments
-        if self.window?.isVisible ?? true {
+        if self.window?.isVisible ?? false {
             self.display()
         }
     }
