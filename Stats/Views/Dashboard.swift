@@ -291,9 +291,15 @@ class Dashboard: NSScrollView {
     }
     
     private func disk() -> [NSView] {
+        var text = "\(SystemKit.shared.device.info.disk?.model ?? SystemKit.shared.device.info.disk?.name ?? localizedString("Unknown"))"
+        
+        if let size = SystemKit.shared.device.info.disk?.size, size != 0 {
+            text += " (\(DiskSize(size).getReadableMemory()))"
+        }
+        
         return [
             self.titleView("\(localizedString("Disk")):"),
-            self.valueView("\(SystemKit.shared.device.info.disk?.model ?? SystemKit.shared.device.info.disk?.name ?? localizedString("Unknown"))")
+            self.valueView(text)
         ]
     }
     
