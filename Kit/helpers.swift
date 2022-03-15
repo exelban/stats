@@ -135,9 +135,9 @@ public struct Units {
         case 1_024..<(1_024 * 1_024 * 1_024):
             return String(format: "%.0f MB", megabytes)
         case 1_024..<(1_024 * 1_024 * 1_024 * 1_024):
-            return String(format: "%.2f GB", gigabytes)
+            return String(format: "%.1f GB", gigabytes)
         case (1_024 * 1_024 * 1_024 * 1_024)...Int64.max:
-            return String(format: "%.2f TB", terabytes)
+            return String(format: "%.1f TB", terabytes)
         default:
             return String(format: "%.0f KB", kilobytes)
         }
@@ -173,9 +173,9 @@ public struct DiskSize {
         case 1_000..<(1_000 * 1_000 * 1_000):
             return String(format: "%.0f MB", megabytes)
         case 1_000..<(1_000 * 1_000 * 1_000 * 1_000):
-            return String(format: "%.2f GB", gigabytes)
+            return String(format: "%.1f GB", gigabytes)
         case (1_000 * 1_000 * 1_000 * 1_000)...Int64.max:
-            return String(format: "%.2f TB", terabytes)
+            return String(format: "%.1f TB", terabytes)
         default:
             return String(format: "%.0f KB", kilobytes)
         }
