@@ -67,7 +67,6 @@
 "Click to install the new version of Stats" = "새로운 버전의 Stats를 설치하기 위해 클릭하세요";
 "Successfully updated" = "성공적으로 업데이트되었습니다";
 "Stats was updated to v" = "Stats가 v%0 버전으로 업데이트되었습니다";
-"Reset settings text" = "Stats가 v%0 버전으로 업데이트되었습니다“;
 “Reset settings text” = “설정 값이 초기화되며 Stats가 다시 시작됩니다. 정말 초기화 하시겠습니까?";
 
 // Settings
