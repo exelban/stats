@@ -58,8 +58,8 @@
 "Right alignment" = "靠右對齊";
 "Dashboard" = "儀表板";
 "Disabled" = "已停用";
-"Silent" = "Silent";
-"Units" = "Units";
+"Silent" = "靜止";
+"Units" = "單位";
 "Fans" = "風扇";
 
 // Alerts
@@ -67,7 +67,7 @@
 "Click to install the new version of Stats" = "安裝 Stats 的新版本";
 "Successfully updated" = "更新成功";
 "Stats was updated to v" = "Stats 已更新到 v%0";
-"Reset settings text" = "All application settings will be reset and the application will be restarted. Are you sure you want to do this?";
+"Reset settings text" = "應用程式的所有設定將會重置，並且重新打開此應用程式。您確定要這樣做嗎？";
 
 // Settings
 "Open Activity Monitor" = "打開活動監視器";
@@ -88,8 +88,8 @@
 "Check for update" = "檢查更新";
 "Show icon in dock" = "在 Dock 上顯示圖示";
 "Start at login" = "登入時打開";
-"Build number" = "Build number";
-"Reset settings" = "Reset settings";
+"Build number" = "組建號碼";
+"Reset settings" = "重置設定";
 
 // Dashboard
 "Serial number" = "序號";
@@ -272,7 +272,7 @@
 
 // Bluetooth
 "Battery to show" = "顯示藍牙裝置的電池電量";
-"No Bluetooth devices are available" = "No Bluetooth devices are available";
+"No Bluetooth devices are available" = "沒有可用的藍牙裝置";
 
 // Colors
 "Based on utilization" = "根據使用率";
