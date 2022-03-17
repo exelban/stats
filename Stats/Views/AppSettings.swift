@@ -237,17 +237,10 @@ class ApplicationSettings: NSStackView {
         self.temperatureUnitsValue = key
     }
     
-    @objc func toggleDock(_ sender: NSControl) {
-        var state: NSControl.StateValue? = nil
-        if #available(OSX 11.0, *) {
-            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
-        } else {
-            state = sender is NSButton ? (sender as! NSButton).state: nil
-        }
+    @objc func toggleDock(_ sender: NSButton) {
+        let state = sender.state
         
-        if state != nil {
-            Store.shared.set(key: "dockIcon", value: state! == NSControl.StateValue.on)
-        }
+        Store.shared.set(key: "dockIcon", value: state == NSControl.StateValue.on)
         let dockIconStatus = state == NSControl.StateValue.on ? NSApplication.ActivationPolicy.regular : NSApplication.ActivationPolicy.accessory
         NSApp.setActivationPolicy(dockIconStatus)
         if state == .off {
@@ -255,15 +248,8 @@ class ApplicationSettings: NSStackView {
         }
     }
     
-    @objc func toggleLaunchAtLogin(_ sender: NSControl) {
-        var state: NSControl.StateValue? = nil
-        if #available(OSX 11.0, *) {
-            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
-        } else {
-            state = sender is NSButton ? (sender as! NSButton).state: nil
-        }
-        
-        LaunchAtLogin.isEnabled = state! == NSControl.StateValue.on
+    @objc func toggleLaunchAtLogin(_ sender: NSButton) {
+        LaunchAtLogin.isEnabled = sender.state == NSControl.StateValue.on
         if !Store.shared.exist(key: "runAtLoginInitialized") {
             Store.shared.set(key: "runAtLoginInitialized", value: true)
         }
