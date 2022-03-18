@@ -163,10 +163,10 @@ public class NetworkChartView: NSView {
             return (CGFloat(point) * xRatio) + (dirtyRect.origin.x - lineWidth)
         }
         let uploadYPoint = { (point: Int) -> CGFloat in
-            return CGFloat((points[point].0 * Double(dirtyRect.height/2)) / uploadMax) + dirtyRect.origin.y + dirtyRect.height/2 + lineWidth - offset
+            return CGFloat((points[point].0 * Double(dirtyRect.height/2)) / uploadMax) + dirtyRect.origin.y + dirtyRect.height/2 - offset
         }
         let downloadYPoint = { (point: Int) -> CGFloat in
-            return (dirtyRect.height/2 + dirtyRect.origin.y + offset - lineWidth) - CGFloat((points[point].1 * Double(dirtyRect.height/2)) / downloadMax)
+            return (dirtyRect.height/2 + dirtyRect.origin.y + offset) - CGFloat((points[point].1 * Double(dirtyRect.height/2)) / downloadMax)
         }
         
         let uploadlinePath = NSBezierPath()
