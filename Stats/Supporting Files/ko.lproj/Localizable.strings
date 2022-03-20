@@ -41,7 +41,7 @@
 "Yes" = "예";
 "No" = "아니요";
 "Automatic" = "자동";
-"Manual" = "Manual";
+"Manual" = "수동";
 "None" = "없음";
 "Dots" = "도트";
 "Arrows" = "화살표";
@@ -52,10 +52,10 @@
 "Max" = "Max";
 "Min" = "Min";
 "Reset" = "Reset";
-"Alignment" = "Alignment";
-"Left alignment" = "Left";
-"Center alignment" = "Center";
-"Right alignment" = "Right";
+"Alignment" = "정렬";
+"Left alignment" = "왼쪽";
+"Center alignment" = "가운데";
+"Right alignment" = "오른쪽";
 "Dashboard" = "Dashboard";
 "Disabled" = "Disabled";
 "Silent" = "Silent";
@@ -67,7 +67,7 @@
 "Click to install the new version of Stats" = "새로운 버전의 Stats를 설치하기 위해 클릭하세요";
 "Successfully updated" = "성공적으로 업데이트되었습니다";
 "Stats was updated to v" = "Stats가 v%0 버전으로 업데이트되었습니다";
-"Reset settings text" = "All application settings will be reset and the application will be restarted. Are you sure you want to do this?";
+"Reset settings text" = "설정 값이 초기화되며 Stats가 다시 시작됩니다. 정말 초기화 하시겠습니까?";
 
 // Settings
 "Open Activity Monitor" = "활성 상태 열기";
@@ -80,16 +80,16 @@
 // Application settings
 "Update application" = "앱 업데이트";
 "Check for updates" = "신규 업데이트 확인";
-"At start" = "At start";
-"Once per day" = "Once per day";
-"Once per week" = "Once per week";
-"Once per month" = "Once per month";
-"Never" = "Never";
+"At start" = "시작할 때";
+"Once per day" = "매일";
+"Once per week" = "1주일마다";
+"Once per month" = "1개월마다";
+"Never" = "확인하지 않음";
 "Check for update" = "신규 업데이트 확인";
 "Show icon in dock" = "Dock에서 아이콘 보이기";
 "Start at login" = "로그인시 시작";
 "Build number" = "Build number";
-"Reset settings" = "Reset settings";
+"Reset settings" = "설정 초기화";
 
 // Dashboard
 "Serial number" = "일련 번호";
@@ -126,13 +126,13 @@
 "Battery widget" = "Battery";
 "Text widget" = "Text";
 "Memory widget" = "Memory";
-"Static width" = "Static width";
+"Static width" = "너비 고정";
 "Tachometer widget" = "Tachometer";
 "Show symbols" = "Show symbols";
 "Label widget" = "Label";
-"Number of reads in the chart" = "Number of reads in the chart";
-"Color of download" = "Color of download";
-"Color of upload" = "Color of upload";
+"Number of reads in the chart" = "차트의 읽기 횟수";
+"Color of download" = "다운로드 색상";
+"Color of upload" = "업로드 색상";
 
 // Module Kit
 "Open module settings" = "모듈 설정 열기";
@@ -148,7 +148,7 @@
 
 // Modules
 "Number of top processes" = "프로세스 수";
-"Update interval for top processes" = "Update interval for top processes";
+"Update interval for top processes" = "상위 프로세스의 업데이트 주기";
 
 // CPU
 "CPU usage" = "CPU 사용량";
@@ -162,10 +162,10 @@
 "Split the value (System/User)" = "값 분할 (시스템/사용자)";
 "Scheduler limit" = "Scheduler limit";
 "Speed limit" = "Speed limit";
-"Average load" = "Average load";
-"1 minute" = "1 minute";
-"5 minutes" = "5 minutes";
-"15 minutes" = "15 minutes";
+"Average load" = "평균 부하";
+"1 minute" = "1 분";
+"5 minutes" = "5 분";
+"15 minutes" = "15 분";
 
 // GPU
 "GPU to show" = "표시할 GPU";
@@ -195,13 +195,13 @@
 "Wired" = "예약됨";
 "Compressed" = "압축됨";
 "Free" = "여유";
-"Swap" = "Swap";
+"Swap" = "사용된 스왑 공간";
 "Split the value (App/Wired/Compressed)" = "값 분할 (앱/예약됨/압축됨)";
 
 // Disk
 "Show removable disks" = "이동식 디스크 표시";
 "Used disk memory" = "%1 중 %0 사용되었습니다";
-"Free disk memory" = "%1 중 %0 비어 있는";
+"Free disk memory" = "%1 중 %0 비어 있음";
 "Disk to show" = "표시할 디스크";
 "Open disk" = "디스크 열기";
 "Switch view" = "보기 전환";
@@ -210,9 +210,9 @@
 "Temperature unit" = "온도 단위";
 "Celsius" = "섭씨";
 "Fahrenheit" = "화씨";
-"Save the fan speed" = "Save the fan speed";
+"Save the fan speed" = "팬 속도 절약";
 "Fan" = "Fan";
-"HID sensors" = "HID sensors";
+"HID sensors" = "HID 센서";
 
 // Network
 "Uploading" = "업로딩";
@@ -233,8 +233,8 @@
 "Reader type" = "리더 유형";
 "Interface based" = "상호 작용";
 "Processes based" = "프로세스";
-"Reset data usage" = "Reset data usage";
-"VPN mode" = "VPN mode";
+"Reset data usage" = "데이터 사용 내역 재설정";
+"VPN mode" = "VPN 모드";
 
 // Battery
 "Level" = "잔량";
@@ -256,18 +256,18 @@
 "Fully charged" = "완전히 충전됨";
 "Not connected" = "연결되지 않음";
 "Low level notification" = "배터리 부족 상태 알림";
-"High level notification" = "High level notification";
+"High level notification" = "배터리 충전 상태 알림";
 "Low battery" = "배터리 부족";
-"High battery" = "High battery";
+"High battery" = "배터리 충전됨";
 "Battery remaining" = "%0% 남았습니다";
-"Battery remaining to full charge" = "%0% to full charge";
+"Battery remaining to full charge" = "완전히 충전되기까지 %0%";
 "Percentage" = "백분율";
 "Percentage and time" = "비율과 시간";
 "Time and percentage" = "시간과 비율";
 "Time format" = "시간 형식";
 "Hide additional information when full" = "배터리가 가득 차면 추가 정보 숨기기";
-"Last charge" = "마지막 청구";
-"Capacity" = "Capacity";
+"Last charge" = "마지막 충전";
+"Capacity" = "용량";
 "maximum / designed" = "maximum / designed";
 
 // Bluetooth
@@ -275,33 +275,33 @@
 "No Bluetooth devices are available" = "No Bluetooth devices are available";
 
 // Colors
-"Based on utilization" = "Based on utilization";
-"Based on pressure" = "Based on pressure";
-"System accent" = "System accent";
-"Monochrome accent" = "Monochrome accent";
-"Clear" = "Clear";
-"White" = "White";
-"Black" = "Black";
-"Gray" = "Gray";
-"Second gray" = "Second gray";
-"Dark gray" = "Dark gray";
-"Light gray" = "Light gray";
-"Red" = "Red";
-"Second red" = "Second red";
-"Green" = "Green";
-"Second green" = "Second green";
-"Blue" = "Blue";
-"Second blue" = "Second blue";
-"Yellow" = "Yellow";
-"Second yellow" = "Second yellow";
-"Orange" = "Orange";
-"Second orange" = "Second orange";
-"Purple" = "Purple";
-"Second purple" = "Second purple";
-"Brown" = "Brown";
-"Second brown" = "Second brown";
-"Cyan" = "Cyan";
-"Magenta" = "Magenta";
-"Pink" = "Pink";
-"Teal" = "Teal";
-"Indigo" = "Indigo";
+"Based on utilization" = "사용률 기준";
+"Based on pressure" = "압력 기준";
+"System accent" = "시스템 강조 색상";
+"Monochrome accent" = "흑백";
+"Clear" = "투명";
+"White" = "화이트";
+"Black" = "블랙";
+"Gray" = "그레이";
+"Second gray" = "시스템 그레이";
+"Dark gray" = "다크 그레이";
+"Light gray" = "라이트 그레이";
+"Red" = "레드";
+"Second red" = "시스템 레드";
+"Green" = "그린";
+"Second green" = "시스템 그린";
+"Blue" = "블루";
+"Second blue" = "시스템 블루";
+"Yellow" = "옐로우";
+"Second yellow" = "시스템 옐로우";
+"Orange" = "오렌지";
+"Second orange" = "시스템 오렌지";
+"Purple" = "퍼플";
+"Second purple" = "시스템 퍼플";
+"Brown" = "브라운";
+"Second brown" = "시스템 브라운";
+"Cyan" = "시안";
+"Magenta" = "마젠타";
+"Pink" = "핑크";
+"Teal" = "암청색";
+"Indigo" = "인디고";
