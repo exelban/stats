@@ -249,8 +249,8 @@
 "Temperature" = "Suhu";
 "Power adapter" = "Adaptor daya";
 "Power" = "Daya";
-"Is charging" = "Sedang mengisi daya";
-"Time to discharge" = "Waktu untuk melepas daya";
+"Is charging" = "Sedang mengisi";
+"Time to discharge" = "Waktu untuk melepas";
 "Time to charge" = "Waktu untuk mengisi daya";
 "Calculating" = "Menghitung";
 "Fully charged" = "Terisi penuh";
