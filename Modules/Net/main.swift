@@ -162,6 +162,10 @@ public class Network: Module {
         self.ipUpdater.interval = 60 * 60
         self.ipUpdater.repeats = true
         self.ipUpdater.schedule { (completion: @escaping NSBackgroundActivityScheduler.CompletionHandler) in
+            guard self.enabled && self.isAvailable() else {
+                return
+            }
+            
             debug("going to automatically refresh IP address...")
             NotificationCenter.default.post(name: .refreshPublicIP, object: nil, userInfo: nil)
             completion(NSBackgroundActivityScheduler.Result.finished)
@@ -181,6 +185,10 @@ public class Network: Module {
         
         self.usageReseter.repeats = true
         self.usageReseter.schedule { (completion: @escaping NSBackgroundActivityScheduler.CompletionHandler) in
+            guard self.enabled && self.isAvailable() else {
+                return
+            }
+            
             debug("going to reset the usage...")
             NotificationCenter.default.post(name: .resetTotalNetworkUsage, object: nil, userInfo: nil)
             completion(NSBackgroundActivityScheduler.Result.finished)
