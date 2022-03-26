@@ -266,8 +266,17 @@ public class Widget {
     }
     
     // toggle the widget
-    public func toggle() {
-        self.isActive = !self.isActive
+    public func toggle(_ state: Bool? = nil) {
+        var newState: Bool = !self.isActive
+        if let state = state {
+            newState = state
+        }
+        
+        if self.isActive == newState {
+            return
+        }
+        
+        self.isActive = newState
         
         if !self.isActive {
             self.disable()

@@ -24,7 +24,7 @@ open class Settings: NSStackView, Settings_p {
     public var toggleCallback: () -> Void = {}
     
     private var config: UnsafePointer<module_c>
-    private var widgets: UnsafeMutablePointer<[Widget]>
+    private var widgets: [Widget]
     private var moduleSettings: Settings_v?
     
     private var moduleSettingsContainer: NSStackView?
@@ -43,7 +43,7 @@ open class Settings: NSStackView, Settings_p {
     
     init(config: UnsafePointer<module_c>, widgets: UnsafeMutablePointer<[Widget]>, enabled: Bool, moduleSettings: Settings_v?) {
         self.config = config
-        self.widgets = widgets
+        self.widgets = widgets.pointee
         self.moduleSettings = moduleSettings
         
         super.init(frame: NSRect(x: 0, y: 0, width: Constants.Settings.width, height: Constants.Settings.height))
@@ -145,43 +145,13 @@ open class Settings: NSStackView, Settings_p {
         )
         view.spacing = Constants.Settings.margin
         
-        view.addArrangedSubview(self.widgetSelector())
+        view.addArrangedSubview(WidgetSelectorView(widgets: self.widgets, stateCallback: self.loadWidget))
         view.addArrangedSubview(self.settings())
         
         return view
     }
     
     // MARK: - views
-    
-    private func widgetSelector() -> NSView {
-        let view = NSStackView()
-        view.heightAnchor.constraint(equalToConstant: Constants.Widget.height + (Constants.Settings.margin*2)).isActive = true
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.wantsLayer = true
-        view.layer?.backgroundColor = .white
-        view.layer?.cornerRadius = 3
-        view.edgeInsets = NSEdgeInsets(
-            top: Constants.Settings.margin,
-            left: Constants.Settings.margin,
-            bottom: Constants.Settings.margin,
-            right: Constants.Settings.margin
-        )
-        view.spacing = Constants.Settings.margin
-        
-        if !self.widgets.pointee.isEmpty {
-            for i in 0...self.widgets.pointee.count - 1 {
-                let preview = WidgetPreview(&self.widgets.pointee[i])
-                preview.stateCallback = { [weak self] in
-                    self?.loadModuleSettings()
-                    self?.loadWidgetSettings()
-                }
-                view.addArrangedSubview(preview)
-            }
-        }
-        view.addArrangedSubview(NSView())
-        
-        return view
-    }
     
     private func settings() -> NSView {
         let view: NSTabView = NSTabView()
@@ -231,20 +201,25 @@ open class Settings: NSStackView, Settings_p {
         }
     }
     
-    @objc private func loadModuleSettings() {
+    private func loadWidget() {
+        self.loadModuleSettings()
+        self.loadWidgetSettings()
+    }
+    
+    private func loadModuleSettings() {
         self.moduleSettingsContainer?.subviews.forEach{ $0.removeFromSuperview() }
         
         if let settingsView = self.moduleSettings {
-            settingsView.load(widgets: self.widgets.pointee.filter{ $0.isActive }.map{ $0.type })
+            settingsView.load(widgets: self.widgets.filter{ $0.isActive }.map{ $0.type })
             self.moduleSettingsContainer?.addArrangedSubview(settingsView)
         } else {
             self.moduleSettingsContainer?.addArrangedSubview(NSView())
         }
     }
     
-    @objc private func loadWidgetSettings() {
+    private func loadWidgetSettings() {
         self.widgetSettingsContainer?.subviews.forEach{ $0.removeFromSuperview() }
-        let list = self.widgets.pointee.filter({ $0.isActive && $0.type != .label })
+        let list = self.widgets.filter({ $0.isActive && $0.type != .label })
         
         guard !list.isEmpty else {
             return
@@ -260,37 +235,182 @@ open class Settings: NSStackView, Settings_p {
     }
 }
 
+class WidgetSelectorView: NSStackView {
+    private var stateCallback: () -> Void = {}
+    
+    public init(widgets: [Widget], stateCallback: @escaping () -> Void) {
+        self.stateCallback = stateCallback
+        
+        super.init(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
+        
+        self.translatesAutoresizingMaskIntoConstraints = false
+        self.wantsLayer = true
+        self.layer?.backgroundColor = .white
+        self.layer?.cornerRadius = 3
+        self.edgeInsets = NSEdgeInsets(
+            top: Constants.Settings.margin,
+            left: Constants.Settings.margin,
+            bottom: Constants.Settings.margin,
+            right: Constants.Settings.margin
+        )
+        self.spacing = Constants.Settings.margin
+        
+        var active: [WidgetPreview] = []
+        var inactive: [WidgetPreview] = []
+        
+        if !widgets.isEmpty {
+            for i in 0...widgets.count - 1 {
+                let widget = widgets[i]
+                let preview = WidgetPreview(type: widget.type, image: widget.image, isActive: widget.isActive, { [weak self] state in
+                    widget.toggle(state)
+                    self?.stateCallback()
+                })
+                if widget.isActive {
+                    active.append(preview)
+                } else {
+                    inactive.append(preview)
+                }
+            }
+        }
+        
+        active.forEach { (widget: WidgetPreview) in
+            self.addArrangedSubview(widget)
+        }
+        
+        let separator = NSView()
+        separator.identifier = NSUserInterfaceItemIdentifier(rawValue: "separator")
+        separator.wantsLayer = true
+        separator.layer?.backgroundColor = NSColor(hexString: "#d5d5d5").cgColor
+        self.addArrangedSubview(separator)
+        
+        inactive.forEach { (widget: WidgetPreview) in
+            self.addArrangedSubview(widget)
+        }
+        
+        self.addArrangedSubview(NSView())
+        
+        NSLayoutConstraint.activate([
+            self.heightAnchor.constraint(equalToConstant: Constants.Widget.height + (Constants.Settings.margin*2)),
+            separator.widthAnchor.constraint(equalToConstant: 1),
+            separator.heightAnchor.constraint(equalTo: self.heightAnchor, constant: -6)
+        ])
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func mouseDown(with event: NSEvent) {
+        let location = convert(event.locationInWindow, from: nil)
+        guard let targetIdx = self.views.firstIndex(where: { $0.hitTest(location) != nil }),
+              let separatorIdx = self.views.firstIndex(where: { $0.identifier?.rawValue == "separator" }),
+              let window = self.window, self.views[targetIdx].identifier != nil else {
+            super.mouseDragged(with: event)
+            return
+        }
+        
+        let target = self.views[targetIdx]
+        
+        var newIdx = -1
+        let d0 = target.frame.origin
+        let p0 = convert(event.locationInWindow, from: nil)
+        
+        window.trackEvents(matching: [.leftMouseDragged, .leftMouseUp], timeout: 1e6, mode: .eventTracking) { event, stop in
+            guard let event = event else {
+                stop.pointee = true
+                return
+            }
+            
+            if event.type == .leftMouseDragged {
+                let p1 = self.convert(event.locationInWindow, from: nil)
+                
+                let dx = (self.orientation == .horizontal) ? p1.x - p0.x : 0
+                let dy = (self.orientation == .vertical)   ? p1.y - p0.y : 0
+                
+                CATransaction.begin()
+                CATransaction.setDisableActions(true)
+                target.frame.origin.x = d0.x + dx
+                target.frame.origin.y = d0.y + dy
+                CATransaction.commit()
+                
+                let reordered = self.views.map {
+                    (view: $0,
+                     position: $0 !== target
+                        ? NSPoint(x: $0.frame.midX, y: $0.frame.midY)
+                        : NSPoint(x: target.frame.midX, y: target.frame.midY))
+                    }
+                    .sorted{ $0.position.x < $1.position.x }
+                    .map { $0.view }
+                
+                guard let nextIndex = reordered.firstIndex(of: target),
+                      let prevIndex = self.views.firstIndex(of: target) else {
+                    stop.pointee = true
+                    return
+                }
+                
+                if nextIndex != prevIndex && nextIndex != self.views.count - 1 {
+                    newIdx = nextIndex
+                    target.removeFromSuperviewWithoutNeedingDisplay()
+                    self.insertArrangedSubview(target, at: newIdx)
+                    self.layoutSubtreeIfNeeded()
+                }
+            } else {
+                if newIdx != -1, let view = self.views[newIdx] as? WidgetPreview {
+                    if newIdx <= separatorIdx && newIdx < targetIdx {
+                        view.status(true)
+                    } else if newIdx >= separatorIdx {
+                        view.status(false)
+                    }
+                }
+                
+                target.mouseUp(with: event)
+                stop.pointee = true
+            }
+        }
+    }
+}
+
 internal class WidgetPreview: NSStackView {
-    public var stateCallback: () -> Void = {}
+    private var stateCallback: (_ status: Bool) -> Void = {_ in }
     
-    private var widget: UnsafeMutablePointer<Widget>
+    private let rgbImage: NSImage
+    private let grayImage: NSImage
+    private let imageView: NSImageView
     
-    public init(_ widget: UnsafeMutablePointer<Widget>) {
-        self.widget = widget
+    private var state: Bool
+    
+    public init(type: widget_t, image: NSImage, isActive: Bool, _ callback: @escaping (_ status: Bool) -> Void) {
+        self.stateCallback = callback
+        self.rgbImage = image
+        self.grayImage = grayscaleImage(image) ?? image
+        self.imageView = NSImageView(frame: NSRect(origin: .zero, size: image.size))
+        self.state = isActive
         
         super.init(frame: NSRect(x: 0, y: 0, width: 0, height: Constants.Widget.height))
         
         self.wantsLayer = true
         self.layer?.cornerRadius = 2
-        self.layer?.borderColor = widget.pointee.isActive ? NSColor.systemBlue.cgColor : NSColor(hexString: "#dddddd").cgColor
+        self.layer?.borderColor = NSColor(hexString: "#dddddd").cgColor
         self.layer?.borderWidth = 1
-        self.toolTip = localizedString("Select widget", widget.pointee.type.name())
+        
+        self.identifier = NSUserInterfaceItemIdentifier(rawValue: type.rawValue)
+        self.toolTip = localizedString("Move widget", type.name())
         
         self.orientation = .vertical
         self.distribution = .fill
         self.alignment = .centerY
         self.spacing = 0
         
-        let image = NSImageView(frame: NSRect(origin: .zero, size: widget.pointee.image.size))
-        image.image = widget.pointee.image
+        self.imageView.image = isActive ? self.rgbImage : self.grayImage
+        self.imageView.alphaValue = isActive ? 1 : 0.75
         
-        self.addArrangedSubview(image)
+        self.addArrangedSubview(self.imageView)
         
         self.addTrackingArea(NSTrackingArea(
             rect: NSRect(
                 x: Constants.Widget.spacing,
                 y: 0,
-                width: image.frame.width + Constants.Widget.spacing*2,
+                width: self.imageView.frame.width + Constants.Widget.spacing*2,
                 height: self.frame.height
             ),
             options: [NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited, NSTrackingArea.Options.activeInActiveApp],
@@ -299,7 +419,7 @@ internal class WidgetPreview: NSStackView {
         ))
         
         NSLayoutConstraint.activate([
-            self.widthAnchor.constraint(equalToConstant: image.frame.width + Constants.Widget.spacing*2),
+            self.widthAnchor.constraint(equalToConstant: self.imageView.frame.width + Constants.Widget.spacing*2),
             self.heightAnchor.constraint(equalToConstant: self.frame.height)
         ])
     }
@@ -308,19 +428,27 @@ internal class WidgetPreview: NSStackView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    public func status(_ newState: Bool) {
+        self.state = newState
+        self.stateCallback(newState)
+        self.imageView.image = newState ? self.rgbImage : self.grayImage
+        self.imageView.alphaValue = newState ? 1 : 0.8
+    }
+    
     override func mouseEntered(with: NSEvent) {
-        self.layer?.borderColor = NSColor.systemBlue.cgColor
         NSCursor.pointingHand.set()
+        if !self.state {
+            self.imageView.image = self.rgbImage
+            self.imageView.alphaValue = 0.9
+        }
     }
     
     override func mouseExited(with: NSEvent) {
-        self.layer?.borderColor = self.widget.pointee.isActive ? NSColor.systemBlue.cgColor : NSColor(hexString: "#dddddd").cgColor
         NSCursor.arrow.set()
-    }
-    
-    override func mouseDown(with: NSEvent) {
-        self.widget.pointee.toggle()
-        self.stateCallback()
+        if !self.state {
+            self.imageView.image = self.grayImage
+            self.imageView.alphaValue = 0.8
+        }
     }
 }
 

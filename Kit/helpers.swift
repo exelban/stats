@@ -999,3 +999,18 @@ public class SMCHelper {
         return true
     }
 }
+
+func grayscaleImage(_ image: NSImage) -> NSImage? {
+    guard let cgImage = image.cgImage(forProposedRect: nil, context: nil, hints: nil) else {
+        return nil
+    }
+    let bitmap = NSBitmapImageRep(cgImage: cgImage)
+    
+    guard let grayscale = bitmap.converting(to: .genericGray, renderingIntent: .default) else {
+        return nil
+    }
+    let greyImage = NSImage(size: grayscale.size)
+    greyImage.addRepresentation(grayscale)
+    
+    return greyImage
+}
