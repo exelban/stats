@@ -312,8 +312,8 @@ class WidgetSelectorView: NSStackView {
         let target = self.views[targetIdx]
         
         var newIdx = -1
-        let d0 = target.frame.origin
-        let p0 = convert(event.locationInWindow, from: nil)
+        let originCenter = target.frame.midX
+        let p0 = convert(event.locationInWindow, from: nil).x
         
         window.trackEvents(matching: [.leftMouseDragged, .leftMouseUp], timeout: 1e6, mode: .eventTracking) { event, stop in
             guard let event = event else {
@@ -322,25 +322,12 @@ class WidgetSelectorView: NSStackView {
             }
             
             if event.type == .leftMouseDragged {
-                let p1 = self.convert(event.locationInWindow, from: nil)
+                let p1 = self.convert(event.locationInWindow, from: nil).x
+                let diff = p1 - p0
                 
-                let dx = (self.orientation == .horizontal) ? p1.x - p0.x : 0
-                let dy = (self.orientation == .vertical)   ? p1.y - p0.y : 0
-                
-                CATransaction.begin()
-                CATransaction.setDisableActions(true)
-                target.frame.origin.x = d0.x + dx
-                target.frame.origin.y = d0.y + dy
-                CATransaction.commit()
-                
-                let reordered = self.views.map {
-                    (view: $0,
-                     position: $0 !== target
-                        ? NSPoint(x: $0.frame.midX, y: $0.frame.midY)
-                        : NSPoint(x: target.frame.midX, y: target.frame.midY))
-                    }
-                    .sorted{ $0.position.x < $1.position.x }
-                    .map { $0.view }
+                let reordered = self.views.map{
+                    (view: $0, x: $0 !== target ? $0.frame.midX : originCenter + diff)
+                }.sorted{ $0.x < $1.x }.map { $0.view }
                 
                 guard let nextIndex = reordered.firstIndex(of: target),
                       let prevIndex = self.views.firstIndex(of: target) else {
