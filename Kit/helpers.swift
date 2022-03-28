@@ -1009,7 +1009,7 @@ func grayscaleImage(_ image: NSImage) -> NSImage? {
     guard let grayscale = bitmap.converting(to: .genericGray, renderingIntent: .default) else {
         return nil
     }
-    let greyImage = NSImage(size: grayscale.size)
+    let greyImage = NSImage(size: image.size)
     greyImage.addRepresentation(grayscale)
     
     return greyImage
