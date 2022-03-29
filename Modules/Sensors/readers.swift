@@ -116,8 +116,8 @@ internal class SensorsReader: Reader<[Sensor_p]> {
                 }
             }
             
-            cpuSensors = list.filter({ $0.key.hasPrefix("pACC MTR Temp") || $0.key.hasPrefix("eACC MTR Temp") }).map{ $0.value }
-            gpuSensors = list.filter({ $0.key.hasPrefix("GPU MTR Temp") }).map{ $0.value }
+            cpuSensors += self.list.filter({ $0.key.hasPrefix("pACC MTR Temp") || $0.key.hasPrefix("eACC MTR Temp") }).map{ $0.value }
+            gpuSensors += self.list.filter({ $0.key.hasPrefix("GPU MTR Temp") }).map{ $0.value }
         }
         #endif
         
@@ -304,8 +304,16 @@ internal class SensorsReader: Reader<[Sensor_p]> {
     private func initCalculatedSensors() -> [Sensor] {
         var list: [Sensor] = []
         
-        let cpuSensors = self.list.filter({ $0.group == .CPU && $0.type == .temperature && $0.average }).map{ $0.value }
-        let gpuSensors = self.list.filter({ $0.group == .GPU && $0.type == .temperature && $0.average }).map{ $0.value }
+        var cpuSensors = self.list.filter({ $0.group == .CPU && $0.type == .temperature && $0.average }).map{ $0.value }
+        var gpuSensors = self.list.filter({ $0.group == .GPU && $0.type == .temperature && $0.average }).map{ $0.value }
+        
+        #if arch(arm64)
+        if self.HIDState {
+            cpuSensors += list.filter({ $0.key.hasPrefix("pACC MTR Temp") || $0.key.hasPrefix("eACC MTR Temp") }).map{ $0.value }
+            gpuSensors += list.filter({ $0.key.hasPrefix("GPU MTR Temp") }).map{ $0.value }
+        }
+        #endif
+        
         let fanSensors = self.list.filter({ $0.type == .fan && !$0.isComputed }).map{ $0.value}
         
         if !cpuSensors.isEmpty {
