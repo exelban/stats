@@ -322,7 +322,6 @@ public class ProcessReader: Reader<[Network_Process]> {
         self.popup = true
     }
     
-    // swiftlint:disable function_body_length
     public override func read() {
         if self.numberOfProcesses == 0 {
             return

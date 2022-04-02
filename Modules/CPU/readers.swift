@@ -37,7 +37,6 @@ internal class LoadReader: Reader<CPU_Load> {
         }
     }
     
-    // swiftlint:disable function_body_length
     public override func read() {
         let result: kern_return_t = host_processor_info(mach_host_self(), PROCESSOR_CPU_LOAD_INFO, &self.numCPUsU, &self.cpuInfo, &self.numCpuInfo)
         if result == KERN_SUCCESS {

@@ -25,7 +25,6 @@ public enum widget_t: String {
     case label = "label"
     case tachometer = "tachometer"
     
-    // swiftlint:disable function_body_length
     public func new(module: String, config: NSDictionary, defaultWidget: widget_t) -> Widget? {
         var image: NSImage? = nil
         var preview: widget_p? = nil

@@ -37,8 +37,8 @@ identifier_name:
 line_length: 200
 
 function_body_length:
-  - 60
   - 80
+  - 100
 
 type_body_length:
   - 300
