@@ -25,11 +25,12 @@ class UpdateWindow: NSWindow, NSWindowDelegate {
                 width: self.viewController.view.frame.width,
                 height: self.viewController.view.frame.height
             ),
-            styleMask: [.closable, .titled, .fullSizeContentView],
+            styleMask: [.closable, .titled],
             backing: .buffered,
             defer: true
         )
         
+        self.title = "Stats"
         self.contentViewController = self.viewController
         self.animationBehavior = .default
         self.collectionBehavior = .transient
@@ -100,14 +101,41 @@ private class UpdateView: NSView {
     
     public func newVersion(_ version: version_s) {
         self.version = version
-        let view: NSView = NSView(frame: NSRect(x: 10, y: 10, width: self.frame.width - 20, height: self.frame.height - 20 - 26))
+        let view: NSStackView = NSStackView(frame: NSRect(
+            x: Constants.Settings.margin,
+            y: 0,
+            width: self.frame.width-(Constants.Settings.margin*2),
+            height: self.frame.height
+        ))
+        view.orientation = .vertical
+        view.alignment = .centerX
+        view.distribution = .fillEqually
+        view.spacing = Constants.Settings.margin
+        view.edgeInsets = NSEdgeInsets(
+            top: Constants.Settings.margin*1.5,
+            left: 0,
+            bottom: Constants.Settings.margin,
+            right: 0
+        )
         
-        let title: NSTextField = TextView(frame: NSRect(x: 0, y: view.frame.height - 20, width: view.frame.width, height: 18))
+        let header: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: 0, height: 44))
+        header.heightAnchor.constraint(equalToConstant: header.frame.height).isActive = true
+        header.orientation = .horizontal
+        header.spacing = 10
+        header.distribution = .equalCentering
+        
+        let icon: NSImageView = NSImageView(image: NSImage(named: NSImage.Name("AppIcon"))!)
+        icon.setFrameSize(NSSize(width: 44, height: 44))
+        icon.widthAnchor.constraint(equalToConstant: 44).isActive = true
+        let title: NSTextField = TextView()
         title.font = NSFont.systemFont(ofSize: 14, weight: .medium)
-        title.alignment = .center
         title.stringValue = localizedString("New version available")
         
-        let versions: NSGridView = NSGridView(frame: NSRect(x: (view.frame.width-180)/2, y: 54, width: 180, height: 32))
+        header.addArrangedSubview(icon)
+        header.addArrangedSubview(title)
+        
+        let versions: NSGridView = NSGridView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: 32))
+        versions.heightAnchor.constraint(equalToConstant: versions.frame.height).isActive = true
         versions.rowSpacing = 0
         versions.yPlacement = .fill
         versions.xPlacement = .fill
@@ -124,6 +152,12 @@ private class UpdateView: NSView {
         
         versions.addRow(with: [currentVersionTitle, currentVersion])
         versions.addRow(with: [latestVersionTitle, latestVersion])
+        
+        let buttons: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: 26))
+        buttons.heightAnchor.constraint(equalToConstant: buttons.frame.height).isActive = true
+        buttons.orientation = .horizontal
+        buttons.spacing = 10
+        buttons.distribution = .fillEqually
         
         let closeButton: NSButton = NSButton(frame: NSRect(x: 0, y: 0, width: view.frame.width/2, height: 26))
         closeButton.title = localizedString("Close")
@@ -143,18 +177,15 @@ private class UpdateView: NSView {
         downloadButton.action = #selector(self.download)
         downloadButton.target = self
         
-        let buttons: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: 26))
-        buttons.orientation = .horizontal
-        buttons.spacing = 10
-        buttons.distribution = .fillEqually
-        
         buttons.addArrangedSubview(closeButton)
         buttons.addArrangedSubview(changelogButton)
         buttons.addArrangedSubview(downloadButton)
         
-        view.addSubview(title)
-        view.addSubview(versions)
-        view.addSubview(buttons)
+        view.addArrangedSubview(header)
+        view.addArrangedSubview(NSView())
+        view.addArrangedSubview(versions)
+        view.addArrangedSubview(NSView())
+        view.addArrangedSubview(buttons)
         
         self.addSubview(view)
     }
