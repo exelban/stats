@@ -203,8 +203,8 @@ let SensorsList: [Sensor] = [
     Sensor(key: "TN0P", name: "Northbridge proximity", group: .system, type: .temperature),
     
     // Apple Silicon
-    Sensor(key: "Tp09", name: "CPU efficient core 1", group: .CPU, type: .temperature, average: true),
-    Sensor(key: "Tp0T", name: "CPU efficient core 2", group: .CPU, type: .temperature, average: true),
+    Sensor(key: "Tp09", name: "CPU efficiency core 1", group: .CPU, type: .temperature, average: true),
+    Sensor(key: "Tp0T", name: "CPU efficiency core 2", group: .CPU, type: .temperature, average: true),
     Sensor(key: "Tp01", name: "CPU performance core 1", group: .CPU, type: .temperature, average: true),
     Sensor(key: "Tp05", name: "CPU performance core 2", group: .CPU, type: .temperature, average: true),
     Sensor(key: "Tp0D", name: "CPU performance core 3", group: .CPU, type: .temperature, average: true),
