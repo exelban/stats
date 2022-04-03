@@ -17,6 +17,15 @@ To install it using Homebrew, open the Terminal app and type:
 ```bash
 brew install --cask stats
 ```
+## FAQs
+
+### How do you change the order of the menu bar icons?
+macOS decides the order of the menu bar items not `Stats` - it may change after the first reboot after installing Stats.
+
+To change the order of any menu bar icon - macOS Mojave (version 10.14) and up.
+1. Hold down ⌘ (command key)
+2. Drag the icon to the desired position on the menu bar.
+3. Release ⌘ (command key)
 
 ## Requirements
 Stats is currently supported on macOS 10.13 (High Sierra) and higher.
