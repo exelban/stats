@@ -118,6 +118,18 @@ internal class SensorsReader: Reader<[Sensor_p]> {
             
             cpuSensors += self.list.filter({ $0.key.hasPrefix("pACC MTR Temp") || $0.key.hasPrefix("eACC MTR Temp") }).map{ $0.value }
             gpuSensors += self.list.filter({ $0.key.hasPrefix("GPU MTR Temp") }).map{ $0.value }
+            
+            let socSensors = list.filter({ $0.key.hasPrefix("SOC MTR Temp") }).map{ $0.value }
+            if !socSensors.isEmpty {
+                if let idx = self.list.firstIndex(where: { $0.key == "Average SOC" }) {
+                    self.list[idx].value = socSensors.reduce(0, +) / Double(socSensors.count)
+                }
+                if let max = socSensors.max() {
+                    if let idx = self.list.firstIndex(where: { $0.key == "Hottest SOC" }) {
+                        self.list[idx].value = max
+                    }
+                }
+            }
         }
         #endif
         
@@ -309,8 +321,8 @@ internal class SensorsReader: Reader<[Sensor_p]> {
         
         #if arch(arm64)
         if self.HIDState {
-            cpuSensors += list.filter({ $0.key.hasPrefix("pACC MTR Temp") || $0.key.hasPrefix("eACC MTR Temp") }).map{ $0.value }
-            gpuSensors += list.filter({ $0.key.hasPrefix("GPU MTR Temp") }).map{ $0.value }
+            cpuSensors += self.list.filter({ $0.key.hasPrefix("pACC MTR Temp") || $0.key.hasPrefix("eACC MTR Temp") }).map{ $0.value }
+            gpuSensors += self.list.filter({ $0.key.hasPrefix("GPU MTR Temp") }).map{ $0.value }
         }
         #endif
         
