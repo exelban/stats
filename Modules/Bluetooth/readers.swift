@@ -47,9 +47,15 @@ internal class DevicesReader: Reader<[BLEDevice]>, CBCentralManagerDelegate, CBP
     
     public override func read() {
         let hid = self.HIDDevices()
+        let SPB = self.profilerDevices()
         var list = self.cacheDevices()
         
         hid.forEach { v in
+            if !list.contains(where: {$0.address == v.address}) {
+                list.append(v)
+            }
+        }
+        SPB.0.forEach { v in
             if !list.contains(where: {$0.address == v.address}) {
                 list.append(v)
             }
@@ -132,6 +138,9 @@ internal class DevicesReader: Reader<[BLEDevice]>, CBCentralManagerDelegate, CBP
             }
             self.devicesToRemove = []
         }
+        if !SPB.1.isEmpty {
+            self.devices = self.devices.filter({ !SPB.1.contains($0.address) })
+        }
         
         self.callback(self.devices.filter({ $0.RSSI != nil }))
     }
@@ -211,6 +220,57 @@ internal class DevicesReader: Reader<[BLEDevice]>, CBCentralManagerDelegate, CBP
         }
         
         return list
+    }
+    
+    // MARK: - system_profiler
+    
+    private func profilerDevices() -> ([bleDevice], [String]) {
+        guard let res = process(path: "/usr/sbin/system_profiler", arguments: ["SPBluetoothDataType", "-json"]) else {
+            return ([], [])
+        }
+        
+        var list: [bleDevice] = []
+        var notConnected: [String] = []
+        do {
+            if let json = try JSONSerialization.jsonObject(with: Data(res.utf8), options: []) as? [String: Any] {
+                guard let arr = json["SPBluetoothDataType"] as? [[String: Any]], let data = arr.first else {
+                    return (list, notConnected)
+                }
+                
+                if let rawList = data["device_connected"] as? [[String: [String: Any]]], let devices = rawList.first {
+                    for obj in devices {
+                        var batteryLevel: [KeyValue_t] = []
+                        
+                        for key in ["device_batteryLevelCase", "device_batteryLevelLeft", "device_batteryLevelRight", "Left Battery Level", "Right Battery Level"] {
+                            if let pair = obj.value.first(where: { $0.key == key }) {
+                                batteryLevel.append(KeyValue_t(key: key, value: (pair.value as? String)?.replacingOccurrences(of: "%", with: "") ?? "-1"))
+                            }
+                        }
+                        
+                        let address = obj.value["device_address"] as? String ?? ""
+                        list.append(bleDevice(
+                            name: obj.key,
+                            address: address.replacingOccurrences(of: ":", with: "-").lowercased(),
+                            batteryLevel: batteryLevel
+                        ))
+                    }
+                }
+                if let rawList = data["device_not_connected"] as? [[String: [String: String]]] {
+                    for device in rawList {
+                        for d in device.values {
+                            if let addr = d["device_address"] {
+                                notConnected.append(addr.replacingOccurrences(of: ":", with: "-").lowercased())
+                            }
+                        }
+                    }
+                }
+            }
+        } catch let err as NSError {
+            error("error to parse system_profiler SPBluetoothDataType: \(err.localizedDescription)")
+            return (list, notConnected)
+        }
+        
+        return (list, notConnected)
     }
     
     // MARK: - CBCentralManager
