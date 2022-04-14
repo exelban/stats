@@ -309,10 +309,24 @@ class WidgetSelectorView: NSStackView {
             return
         }
         
-        let target = self.views[targetIdx]
+        let view = self.views[targetIdx]
+        let copy = ViewCopy(view)
+        copy.zPosition = 2
+        copy.transform = CATransform3DMakeScale(0.9, 0.9, 1)
+        
+        // hide the original view, show the copy
+        view.subviews.forEach({ $0.isHidden = true })
+        self.layer?.addSublayer(copy)
+        
+        // hide the copy view, show the original
+        defer {
+            copy.removeFromSuperlayer()
+            view.subviews.forEach({ $0.isHidden = false })
+        }
         
         var newIdx = -1
-        let originCenter = target.frame.midX
+        let originCenter = view.frame.midX
+        let originX = view.frame.origin.x
         let p0 = convert(event.locationInWindow, from: nil).x
         
         window.trackEvents(matching: [.leftMouseDragged, .leftMouseUp], timeout: 1e6, mode: .eventTracking) { event, stop in
@@ -325,20 +339,25 @@ class WidgetSelectorView: NSStackView {
                 let p1 = self.convert(event.locationInWindow, from: nil).x
                 let diff = p1 - p0
                 
+                CATransaction.begin()
+                CATransaction.setDisableActions(true)
+                copy.frame.origin.x = originX + diff
+                CATransaction.commit()
+                
                 let reordered = self.views.map{
-                    (view: $0, x: $0 !== target ? $0.frame.midX : originCenter + diff)
+                    (view: $0, x: $0 !== view ? $0.frame.midX : originCenter + diff)
                 }.sorted{ $0.x < $1.x }.map { $0.view }
                 
-                guard let nextIndex = reordered.firstIndex(of: target),
-                      let prevIndex = self.views.firstIndex(of: target) else {
+                guard let nextIndex = reordered.firstIndex(of: view),
+                      let prevIndex = self.views.firstIndex(of: view) else {
                     stop.pointee = true
                     return
                 }
                 
                 if nextIndex != prevIndex && nextIndex != self.views.count - 1 {
                     newIdx = nextIndex
-                    target.removeFromSuperviewWithoutNeedingDisplay()
-                    self.insertArrangedSubview(target, at: newIdx)
+                    view.removeFromSuperviewWithoutNeedingDisplay()
+                    self.insertArrangedSubview(view, at: newIdx)
                     self.layoutSubtreeIfNeeded()
                 }
             } else {
@@ -350,7 +369,7 @@ class WidgetSelectorView: NSStackView {
                     }
                 }
                 
-                target.mouseUp(with: event)
+                view.mouseUp(with: event)
                 stop.pointee = true
             }
         }

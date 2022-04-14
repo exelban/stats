@@ -1000,7 +1000,7 @@ public class SMCHelper {
     }
 }
 
-func grayscaleImage(_ image: NSImage) -> NSImage? {
+internal func grayscaleImage(_ image: NSImage) -> NSImage? {
     guard let cgImage = image.cgImage(forProposedRect: nil, context: nil, hints: nil) else {
         return nil
     }
@@ -1013,4 +1013,20 @@ func grayscaleImage(_ image: NSImage) -> NSImage? {
     greyImage.addRepresentation(grayscale)
     
     return greyImage
+}
+
+internal class ViewCopy: CALayer {
+    init(_ view: NSView) {
+        super.init()
+        
+        guard let bitmap = view.bitmapImageRepForCachingDisplay(in: view.bounds) else { return }
+        view.cacheDisplay(in: view.bounds, to: bitmap)
+        
+        frame = view.frame
+        contents = bitmap.cgImage
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }
