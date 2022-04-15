@@ -178,6 +178,8 @@ internal class Settings: NSStackView, Settings_v {
         self.readerType = key
         Store.shared.set(key: "\(self.title)_reader", value: key)
         self.button?.isEnabled = self.readerType == "interface"
+        
+        NotificationCenter.default.post(name: .resetTotalNetworkUsage, object: nil, userInfo: nil)
     }
     
     @objc private func toggleUsageReset(_ sender: NSMenuItem) {
