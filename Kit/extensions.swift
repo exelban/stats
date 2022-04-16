@@ -59,6 +59,22 @@ extension String: LocalizedError {
         return ""
     }
     
+    public func find(pattern: String) -> String {
+        do {
+            let regex = try NSRegularExpression(pattern: pattern)
+            let stringRange = NSRange(location: 0, length: self.utf16.count)
+            
+            if let searchRange = regex.firstMatch(in: self, options: [], range: stringRange) {
+                let start = self.index(self.startIndex, offsetBy: searchRange.range.lowerBound)
+                let end = self.index(self.startIndex, offsetBy: searchRange.range.upperBound)
+                let value  = String(self[start..<end]).trimmingCharacters(in: .whitespaces)
+                return value.trimmingCharacters(in: .whitespaces)
+            }
+        } catch {}
+        
+        return ""
+    }
+    
     public var trimmed: String {
         var buf = [UInt8]()
         var trimming = true
