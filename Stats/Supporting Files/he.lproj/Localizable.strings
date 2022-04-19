@@ -1,0 +1,308 @@
+//
+//  Localizable.strings
+//  Stats
+//
+//  Created by Serhiy Mytrovtsiy on 27/08/2020.
+//  Using Swift 5.0.
+//  Running on macOS 10.15.
+//
+//  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
+//
+
+
+// Modules
+"CPU" = "מעבד";
+"Open CPU settings" = "פתח/י הגדרות מעבד";
+"GPU" = "GPU";
+"Open GPU settings" = "פתח/י הגדרות גרפיות";
+"RAM" = "זכרון";
+"Open RAM settings" = "פתח/י הגדרות זכרון";
+"Disk" = "דיסק";
+"Open Disk settings" = "פתח/י הגדרות דיסק";
+"Sensors" = "חיישנים";
+"Open Sensors settings" = "פתח/י הגדרות חיישנים";
+"Network" = "רשת";
+"Open Network settings" = "פתח/י הגדרות רשת";
+"Battery" = "בטרייה";
+"Open Battery settings" = "פתח/י הגדרות בטרייה";
+"Bluetooth" = "בלוטות׳";
+"Open Bluetooth settings" = "פתח/י הגדרות בלוטות׳";
+
+// Words
+"Unknown" = "לא ידוע";
+"Version" = "גרסא";
+"Processor" = "מעבד";
+"Memory" = "זכרון";
+"Graphics" = "גרפיקה";
+"Close" = "סגירה";
+"Download" = "הורדה";
+"Install" = "התקנה";
+"Cancel" = "בטל";
+"Unavailable" = "לא זמין";
+"Yes" = "כן";
+"No" = "לא";
+"Automatic" = "אוטומטי";
+"Manual" = "ידני";
+"None" = "כלום";
+"Dots" = "נקודות";
+"Arrows" = "חצים";
+"Characters" = "תווים";
+"Short" = "קצר";
+"Long" = "ארוך";
+"Statistics" = "סטטיסטיקה";
+"Max" = "מקסימום";
+"Min" = "מינימום";
+"Reset" = "ריסט";
+"Alignment" = "יישור";
+"Left alignment" = "שמאל";
+"Center alignment" = "מרכז";
+"Right alignment" = "ימין";
+"Dashboard" = "דאשבורד";
+"Disabled" = "חסימה";
+"Silent" = "שקט";
+"Units" = "יחידות";
+"Fans" = "מאווררים";
+
+// Alerts
+"New version available" = "גרסא חדשה זמינה";
+"Click to install the new version of Stats" = "Stats לחץ כדי להתקין גרסא חדשה של";
+"Successfully updated" = "עודכן בהצלחה";
+"Stats was updated to v" = "v%0עודכן ל Stats";
+"Reset settings text" = "?כל הגדרות התוכנה יתאפסו והתוכנה תופעל מחדש. האם אתם בטוחים שאתם רוצים לעשות את זה";
+
+// Settings
+"Open Activity Monitor" = "פתח/י את מעקב הפעילות";
+"Report a bug" = "דווחו על באג";
+"Support the application" = "תתמכו באפליקציה";
+"Close application" = "סגירת אפליקציה";
+"Open application settings" = "פתיחת הגדרות האפליקציה";
+"Open dashboard" = "פתיחת דאשבורד";
+
+// Application settings
+"Update application" = "עדכון אפליקציה";
+"Check for updates" = "בדוק עדכונים";
+"At start" = "בעלייה";
+"Once per day" = "בכל יום";
+"Once per week" = "בכל שבוע";
+"Once per month" = "בכל חודש";
+"Never" = "אף פעם";
+"Check for update" = "בדיקת עדכון";
+"Show icon in dock" = "הצג סמל בשורת התפריטים";
+"Start at login" = "התחל בעלייה";
+"Build number" = "מספר בילד";
+"Reset settings" = "איפוס הגדרות";
+
+// Dashboard
+"Serial number" = "מספר סריאלי";
+"Uptime" = "משך הזמן ללא השבתה";
+"Number of cores" = "%0 ליבות";
+"Number of threads" = "%0 טרדים";
+
+// Update
+"The latest version of Stats installed" = "מותקנת Stats הגרסא האחרונה של";
+"Downloading..." = "...מוריד";
+"Current version: " = "  :גרסא נוכחית";
+"Latest version: " = "    :גרסא אחרונה";
+
+// Widgets
+"Color" = "צבע";
+"Label" = "תווית";
+"Box" = "קופסא";
+"Frame" = "מסגרת";
+"Value" = "ערך";
+"Colorize" = "הוספת צבע";
+"Colorize value" = "הוספת ערך לצבע";
+"Additional information" = "מידע נוסף";
+"Reverse values order" = "היפוך סדר הערכים";
+"Base" = "בסיס";
+"Display mode" = "מצב צפייה";
+"One row" = "שורה אחת";
+"Two rows" = "שתי שורות";
+"Mini widget" = "מיני";
+"Line chart widget" = "מגמת שורות";
+"Bar chart widget" = "טבלת עמודות";
+"Pie chart widget" = "טבלת עוגה";
+"Network chart widget" = "טבלת רשת";
+"Speed widget" = "מהירות";
+"Battery widget" = "בטרייה";
+"Text widget" = "טקסט";
+"Memory widget" = "זכרון";
+"Static width" = "אורך סטאטי";
+"Tachometer widget" = "טכומטר";
+"Show symbols" = "הראה סמלים";
+"Label widget" = "תווית";
+"Number of reads in the chart" = "מספר קריאות במגמה";
+"Color of download" = "צבע של הורדה";
+"Color of upload" = "צבע של העלאה";
+
+// Module Kit
+"Open module settings" = "פתח/י הגדרות מודל";
+"Select widget" = "סמן %0 יישומון";
+"Open widget settings" = "פתח/י הגדרות יישומון";
+"Update interval" = "מרווח עדכון";
+"Usage history" = "היסטוריית שימוש";
+"Details" = "פרטים";
+"Top processes" = "תהליכים מובילים";
+"Pictogram" = "פיקטוגרמה";
+"Module settings" = "הגדרות מודל";
+"Widget settings" = "הגדרות יישומון";
+
+// Modules
+"Number of top processes" = "מספר התהליכים המובילים";
+"Update interval for top processes" = "מרווח עדכון עבור תהליכים מובילים";
+
+// CPU
+"CPU usage" = "שימוש המעבד";
+"CPU temperature" = "טמפרטורת המעבד";
+"CPU frequency" = "תדירות המעבד";
+"System" = "מערכת";
+"User" = "משתמש";
+"Idle" = "מושהה";
+"Show usage per core" = "הצג שימוש לכל ליבה";
+"Show hyper-threading cores" = "הצג ליבות היפר-טרדינג";
+"Split the value (System/User)" = "(מערכת/משתמש)פצלו את הערך";
+"Scheduler limit" = "הגבלת תזמון";
+"Speed limit" = "הגבלת מהירות";
+"Average load" = "עומס ממוצע";
+"1 minute" = "דקה";
+"5 minutes" = "5 דקות";
+"15 minutes" = "דקות 15";
+
+// GPU
+"GPU to show" = "להראות GPU";
+"Show GPU type" = "GPUהראה את סוג ה";
+"GPU enabled" = "מופעל GPU";
+"GPU disabled" = "מושבת GPU";
+"GPU temperature" = "GPU טמפרטורה של";
+"GPU utilization" = "GPU ניצול";
+"Vendor" = "ספק";
+"Model" = "דגם";
+"Status" = "מצב";
+"Active" = "פעיל";
+"Non active" = "לא פעיל";
+"Fan speed" = "מהירות מאורר";
+"Core clock" = "שעון ליבה";
+"Memory clock" = "שעון זיכרון";
+"Utilization" = "ניצול";
+"Render utilization" = "ניצול רנדור";
+"Tiler utilization" = "ניצול ריצוף";
+
+// RAM
+"Memory usage" = "שימוש בזכרון";
+"Memory pressure" = "לחץ בזיכרון";
+"Total" = "כולל";
+"Used" = "בשימוש";
+"App" = "אפליקציה";
+"Wired" = "חוטי";
+"Compressed" = "מכווץ";
+"Free" = "משוחרר";
+"Swap" = "החלפה";
+"Split the value (App/Wired/Compressed)" = "(אפליקציה/חוטי/מכווץ) פצל/י את הערך";
+
+// Disk
+"Show removable disks" = "הראה דיסקים הניתנים להסרה";
+"Used disk memory" = "0% מתוך %1 בשימוש";
+"Free disk memory" = "0% מתוך %1 פנויים";
+"Disk to show" = "דיסק להראות";
+"Open disk" = "פתח/י דיסק";
+"Switch view" = "החלף תצוגה";
+
+// Sensors
+"Temperature unit" = "יחידת טמפרטורה";
+"Celsius" = "צלסיוס";
+"Fahrenheit" = "פרנהייט";
+"Save the fan speed" = "שמירת מהירות המאורר";
+"Fan" = "Fan";
+"HID sensors" = "HID חיישני";
+
+// Network
+"Uploading" = "העלאה";
+"Downloading" = "הורדה";
+"Public IP" = "כתובת רשת ציבורית";
+"Local IP" = "כתובת רשת מקומית";
+"Interface" = "ממשק";
+"Physical address" = "כתובת פיזית";
+"Refresh" = "רענן";
+"Click to copy public IP address" = "לחץ כדי להעתיק כתובת רשת ציבורית";
+"Click to copy local IP address" = "לחץ כדי להעתיק כתובת רשת מקומית";
+"Click to copy wifi name" = "לחץ כדי להעתיק את שם האינטרנט האלחוטי";
+"Click to copy mac address" = "MACלחץ כדי להעתיק את כתובת ה";
+"No connection" = "אין חיבור";
+"Network interface" = "ממשק רשת";
+"Total download" = "הורדה כוללת";
+"Total upload" = "העלאה כוללת";
+"Reader type" = "מצב קריאה";
+"Interface based" = "מבוסס ממשק";
+"Processes based" = "מבוסס מעבד";
+"Reset data usage" = "אפס את השימוש בנתונים";
+"VPN mode" = "VPN מצב";
+
+// Battery
+"Level" = "רמה";
+"Source" = "מקור";
+"AC Power" = "מטען";
+"Battery Power" = "הספק בטרייה";
+"Time" = "זמן";
+"Health" = "בריאות";
+"Amperage" = "זרם";
+"Voltage" = "מתח";
+"Cycles" = "מחזורים";
+"Temperature" = "טמפרטורה";
+"Power adapter" = "מטען";
+"Power" = "מתח";
+"Is charging" = "מטעין";
+"Time to discharge" = "זמן לפריקה";
+"Time to charge" = "זמן להטענה";
+"Calculating" = "מחשב";
+"Fully charged" = "טעון במלואה";
+"Not connected" = "לא מחובר";
+"Low level notification" = "התראה ברמה נמוכה";
+"High level notification" = "התראה ברמה גבוהה";
+"Low battery" = "בטרייה נמוכנה";
+"High battery" = "בטרייה גבוהה";
+"Battery remaining" = "נשאר %0%";
+"Battery remaining to full charge" = "לטעינה מלאה %0%";
+"Percentage" = "אחוז";
+"Percentage and time" = "אחוז וזמן";
+"Time and percentage" = "זמן ואחוז";
+"Time format" = "פורמט זמן";
+"Hide additional information when full" = "הסתר מידע נוסף כשהסוללה מלאה";
+"Last charge" = "טעינה אחרונה";
+"Capacity" = "קיבולת";
+"maximum / designed" = "מקסימום / עיצוב";
+
+// Bluetooth
+"Battery to show" = "סוללה להצגה";
+"No Bluetooth devices are available" = "לא קיימים מכשירים בלוטות׳ זמינים";
+
+// Colors
+"Based on utilization" = "מבוסס על ניצול";
+"Based on pressure" = "מבוסס על לחץ";
+"System accent" = "הדגשת מערכת";
+"Monochrome accent" = "הדגשת מונוכרום";
+"Clear" = "נקה";
+"White" = "לבן";
+"Black" = "שחור";
+"Gray" = "אפור";
+"Second gray" = "אפור שני";
+"Dark gray" = "אפור כהה";
+"Light gray" = "אפור בהיר";
+"Red" = "אדום";
+"Second red" = "אדום שני";
+"Green" = "ירוק";
+"Second green" = "ירוק שני";
+"Blue" = "כחול";
+"Second blue" = "כחול שני";
+"Yellow" = "צהוב";
+"Second yellow" = "צהוב שני";
+"Orange" = "כתום";
+"Second orange" = "כתום שני";
+"Purple" = "סגול";
+"Second purple" = "סגול שני";
+"Brown" = "חום";
+"Second brown" = "חום שני";
+"Cyan" = "ציאן";
+"Magenta" = "מג'נטה";
+"Pink" = "ורוד";
+"Teal" = "ירוק-כחול";
+"Indigo" = "אינדיגו";
