@@ -308,7 +308,7 @@ internal class FanView: NSStackView {
     
     private var speedState: Bool {
         get {
-            return Store.shared.bool(key: "Fans_speed", defaultValue: false)
+            return Store.shared.bool(key: "Sensors_speed", defaultValue: false)
         }
     }
     private var speedValue: Int? {
@@ -323,6 +323,21 @@ internal class FanView: NSStackView {
                 Store.shared.set(key: "fan_\(self.fan.id)_speed", value: value)
             } else {
                 Store.shared.remove("fan_\(self.fan.id)_speed")
+            }
+        }
+    }
+    private var fanMode: Int? {
+        get {
+            if !Store.shared.exist(key: "fan_\(self.fan.id)_mode") {
+                return nil
+            }
+            return Store.shared.int(key: "fan_\(self.fan.id)_mode", defaultValue: FanMode.automatic.rawValue)
+        }
+        set {
+            if let value = newValue {
+                Store.shared.set(key: "fan_\(self.fan.id)_mode", value: value)
+            } else {
+                Store.shared.remove("fan_\(self.fan.id)_mode")
             }
         }
     }
@@ -372,6 +387,17 @@ internal class FanView: NSStackView {
         self.sizeCallback()
         
         NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(self.wakeListener), name: NSWorkspace.didWakeNotification, object: nil)
+        
+        if let fanMode = self.fanMode, self.speedState && fanMode != FanMode.automatic.rawValue {
+            SMCHelper.shared.setFanMode(fan.id, mode: fanMode)
+            self.modeButtons?.setMode(FanMode(rawValue: fanMode) ?? .automatic)
+            
+            self.setSpeed(value: Int(self.speed), then: {
+                DispatchQueue.main.async {
+                    self.sliderValueField?.textColor = .systemBlue
+                }
+            })
+        }
     }
     
     required init?(coder: NSCoder) {
@@ -433,6 +459,7 @@ internal class FanView: NSStackView {
         buttons.callback = { [weak self] (mode: FanMode) in
             if let fan = self?.fan, fan.mode != mode {
                 self?.fan.mode = mode
+                self?.fanMode = mode.rawValue
                 SMCHelper.shared.setFanMode(fan.id, mode: mode.rawValue)
             }
             self?.toggleControlView(mode == .forced)
@@ -444,6 +471,7 @@ internal class FanView: NSStackView {
                     SMCHelper.shared.setFanMode(fan.id, mode: FanMode.forced.rawValue)
                 }
                 SMCHelper.shared.setFanSpeed(fan.id, speed: Int(fan.maxSpeed))
+                self?.speedValue = Int(fan.maxSpeed)
             }
             self?.toggleControlView(false)
         }
@@ -596,6 +624,9 @@ internal class FanView: NSStackView {
     
     @objc private func wakeListener(aNotification: NSNotification) {
         self.resetModeAfterSleep = true
+        if let value = self.speedValue, self.fan.mode != .automatic {
+            self.setSpeed(value: value)
+        }
     }
     
     public func update(_ value: Fan) {
@@ -620,7 +651,7 @@ internal class FanView: NSStackView {
                         self.slider?.doubleValue = value.value
                         self.sliderValueField?.stringValue = ""
                     }
-                    self.modeButtons?.setManualMode()
+                    self.modeButtons?.setMode(.forced)
                     self.resetModeAfterSleep = false
                 }
                 
@@ -719,10 +750,17 @@ private class ModeButtons: NSStackView {
         self.turbo()
     }
     
-    public func setManualMode() {
-        self.manualBtn.state = .on
-        self.autoBtn.state = .off
-        self.turboBtn.state = .off
-        self.callback(.forced)
+    public func setMode(_ mode: FanMode) {
+        if mode == .automatic {
+            self.autoBtn.state = .on
+            self.manualBtn.state = .off
+            self.turboBtn.state = .off
+            self.callback(.automatic)
+        } else if mode == .forced {
+            self.manualBtn.state = .on
+            self.autoBtn.state = .off
+            self.turboBtn.state = .off
+            self.callback(.forced)
+        }
     }
 }
