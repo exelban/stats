@@ -410,6 +410,8 @@
 		9A9B25BC24F7DE2B00C3CCE6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9A9B8C9C27149A3700218374 /* Tachometer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tachometer.swift; sourceTree = "<group>"; };
 		9A9EA9442476D34500E3B883 /* Update.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Update.swift; sourceTree = "<group>"; };
+		9A9FAD35281535AA003362CB /* id */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = id; path = id.lproj/Localizable.strings; sourceTree = "<group>"; };
+		9A9FAD37281535FD003362CB /* he */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = he; path = he.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9AA6425F244B274200416A33 /* popup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = popup.swift; sourceTree = "<group>"; };
 		9AAAE83524F953FC00CD92D7 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9AAAE83624FAA4B700CD92D7 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -1303,6 +1305,8 @@
 				hr,
 				da,
 				ca,
+				id,
+				he,
 			);
 			mainGroup = 9A1410EC229E721100D29793;
 			packageReferences = (
@@ -1739,6 +1743,8 @@
 				9AC2FE652699E69F00EBE30A /* hr */,
 				40BE2B202745D63800AE9396 /* da */,
 				63A07F97275018DF00352C46 /* ca */,
+				9A9FAD35281535AA003362CB /* id */,
+				9A9FAD37281535FD003362CB /* he */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
