@@ -261,9 +261,13 @@ class WidgetSelectorView: NSStackView {
         if !widgets.isEmpty {
             for i in 0...widgets.count - 1 {
                 let widget = widgets[i]
-                let preview = WidgetPreview(type: widget.type, image: widget.image, isActive: widget.isActive, { [weak self] state in
-                    widget.toggle(state)
-                    self?.stateCallback()
+                let preview = WidgetPreview(
+                    id: "\(widget.module)_\(widget.type)",
+                    type: widget.type,
+                    image: widget.image,
+                    isActive: widget.isActive, { [weak self] state in
+                        widget.toggle(state)
+                        self?.stateCallback()
                 })
                 if widget.isActive {
                     active.append(preview)
@@ -272,6 +276,9 @@ class WidgetSelectorView: NSStackView {
                 }
             }
         }
+        
+        active.sort(by: { $0.position < $1.position })
+        inactive.sort(by: { $0.position < $1.position })
         
         active.forEach { (widget: WidgetPreview) in
             self.addArrangedSubview(widget)
@@ -359,6 +366,10 @@ class WidgetSelectorView: NSStackView {
                     view.removeFromSuperviewWithoutNeedingDisplay()
                     self.insertArrangedSubview(view, at: newIdx)
                     self.layoutSubtreeIfNeeded()
+                    
+                    for (i, v) in self.views(in: .leading).compactMap({$0 as? WidgetPreview}).enumerated() {
+                        v.position = i
+                    }
                 }
             } else {
                 if newIdx != -1, let view = self.views[newIdx] as? WidgetPreview {
@@ -384,8 +395,19 @@ internal class WidgetPreview: NSStackView {
     private let imageView: NSImageView
     
     private var state: Bool
+    private let id: String
     
-    public init(type: widget_t, image: NSImage, isActive: Bool, _ callback: @escaping (_ status: Bool) -> Void) {
+    public var position: Int {
+        get {
+            return Store.shared.int(key: "\(self.id)_position", defaultValue: 0)
+        }
+        set {
+            Store.shared.set(key: "\(self.id)_position", value: newValue)
+        }
+    }
+    
+    public init(id: String, type: widget_t, image: NSImage, isActive: Bool, _ callback: @escaping (_ status: Bool) -> Void) {
+        self.id = id
         self.stateCallback = callback
         self.rgbImage = image
         self.grayImage = grayscaleImage(image) ?? image
