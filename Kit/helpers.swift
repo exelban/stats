@@ -963,7 +963,7 @@ public class SMCHelper {
         _ = syncShell("\(self.smc) fan -id \(id) -m \(mode)")
     }
     
-    private func checkRights() -> Bool {
+    public func checkRights() -> Bool {
         do {
             let attributes = try FileManager.default.attributesOfItem(atPath: self.smc)
             guard let owner = attributes[FileAttributeKey(rawValue: "NSFileOwnerAccountName")] as? String,

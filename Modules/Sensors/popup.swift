@@ -311,39 +311,9 @@ internal class FanView: NSStackView {
             return Store.shared.bool(key: "Sensors_speed", defaultValue: false)
         }
     }
-    private var speedValue: Int? {
-        get {
-            if !Store.shared.exist(key: "fan_\(self.fan.id)_speed") {
-                return nil
-            }
-            return Store.shared.int(key: "fan_\(self.fan.id)_speed", defaultValue: Int(self.fan.minSpeed))
-        }
-        set {
-            if let value = newValue {
-                Store.shared.set(key: "fan_\(self.fan.id)_speed", value: value)
-            } else {
-                Store.shared.remove("fan_\(self.fan.id)_speed")
-            }
-        }
-    }
-    private var fanMode: Int? {
-        get {
-            if !Store.shared.exist(key: "fan_\(self.fan.id)_mode") {
-                return nil
-            }
-            return Store.shared.int(key: "fan_\(self.fan.id)_mode", defaultValue: FanMode.automatic.rawValue)
-        }
-        set {
-            if let value = newValue {
-                Store.shared.set(key: "fan_\(self.fan.id)_mode", value: value)
-            } else {
-                Store.shared.remove("fan_\(self.fan.id)_mode")
-            }
-        }
-    }
     private var speed: Double {
         get {
-            if let v = self.speedValue, self.speedState {
+            if let v = self.fan.customSpeed, self.speedState {
                 return Double(v)
             }
             return self.fan.value
@@ -388,9 +358,9 @@ internal class FanView: NSStackView {
         
         NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(self.wakeListener), name: NSWorkspace.didWakeNotification, object: nil)
         
-        if let fanMode = self.fanMode, self.speedState && fanMode != FanMode.automatic.rawValue {
-            SMCHelper.shared.setFanMode(fan.id, mode: fanMode)
-            self.modeButtons?.setMode(FanMode(rawValue: fanMode) ?? .automatic)
+        if let fanMode = self.fan.customMode, self.speedState && fanMode != FanMode.automatic {
+            SMCHelper.shared.setFanMode(fan.id, mode: fanMode.rawValue)
+            self.modeButtons?.setMode(FanMode(rawValue: fanMode.rawValue) ?? .automatic)
             
             self.setSpeed(value: Int(self.speed), then: {
                 DispatchQueue.main.async {
@@ -459,7 +429,7 @@ internal class FanView: NSStackView {
         buttons.callback = { [weak self] (mode: FanMode) in
             if let fan = self?.fan, fan.mode != mode {
                 self?.fan.mode = mode
-                self?.fanMode = mode.rawValue
+                self?.fan.customMode = mode
                 SMCHelper.shared.setFanMode(fan.id, mode: mode.rawValue)
             }
             self?.toggleControlView(mode == .forced)
@@ -471,7 +441,7 @@ internal class FanView: NSStackView {
                     SMCHelper.shared.setFanMode(fan.id, mode: FanMode.forced.rawValue)
                 }
                 SMCHelper.shared.setFanSpeed(fan.id, speed: Int(fan.maxSpeed))
-                self?.speedValue = Int(fan.maxSpeed)
+                self?.fan.customSpeed = Int(fan.maxSpeed)
             }
             self?.toggleControlView(false)
         }
@@ -580,7 +550,7 @@ internal class FanView: NSStackView {
     private func setSpeed(value: Int, then: @escaping () -> Void = {}) {
         self.sliderValueField?.stringValue = "\(value) RPM"
         self.sliderValueField?.textColor = .secondaryLabelColor
-        self.speedValue = value
+        self.fan.customSpeed = value
         
         self.debouncer?.cancel()
         
@@ -624,7 +594,7 @@ internal class FanView: NSStackView {
     
     @objc private func wakeListener(aNotification: NSNotification) {
         self.resetModeAfterSleep = true
-        if let value = self.speedValue, self.fan.mode != .automatic {
+        if let value = self.fan.customSpeed, self.fan.mode != .automatic {
             self.setSpeed(value: value)
         }
     }
