@@ -346,7 +346,9 @@ internal class FanView: NSStackView {
         self.layer?.backgroundColor = NSColor.red.cgColor
         
         self.addArrangedSubview(self.nameAndSpeed())
-        self.addArrangedSubview(self.mode())
+        if self.fan.maxSpeed != self.fan.minSpeed {
+            self.addArrangedSubview(self.mode())
+        }
         
         if let view = self.controlView, fan.mode == .forced {
             self.addArrangedSubview(view)
