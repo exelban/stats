@@ -125,6 +125,7 @@ internal class PopupView: NSView {
         return CGSize(width: self.frame.width, height: self.frame.height)
     }
     private var windowHeight: CGFloat?
+    private var containerHeight: CGFloat?
     
     override init(frame: NSRect) {
         self.header = HeaderView(frame: NSRect(
@@ -140,6 +141,7 @@ internal class PopupView: NSView {
             height: frame.height - self.header.frame.height - Constants.Popup.margins*2
         ))
         self.windowHeight = NSScreen.main?.visibleFrame.height
+        self.containerHeight = self.body.documentView?.frame.height
         
         super.init(frame: CGRect(x: frame.origin.x, y: frame.origin.y, width: frame.width, height: frame.height))
         
@@ -213,8 +215,10 @@ internal class PopupView: NSView {
             width: size.width + (Constants.Popup.margins*2),
             height: size.height + Constants.Popup.headerHeight + (Constants.Popup.margins*2)
         )
+        let h0 = self.containerHeight ?? 0
         
-        self.windowHeight = NSScreen.main?.visibleFrame.height
+        self.windowHeight = NSScreen.main?.visibleFrame.height // for height recalculate when appear/disappear
+        self.containerHeight = self.body.documentView?.frame.height // for scroll diff calculation
         if let screenHeight = NSScreen.main?.visibleFrame.height, windowSize.height > screenHeight {
             windowSize.height = screenHeight - Constants.Widget.height
             isScrollVisible = true
@@ -234,7 +238,11 @@ internal class PopupView: NSView {
         ))
         
         if let documentView = self.body.documentView {
-            documentView.scroll(NSPoint(x: 0, y: self.body.documentVisibleRect.origin.y))
+            let diff = h0 - (self.body.documentView?.frame.height ?? 0)
+            documentView.scroll(NSPoint(
+                x: 0,
+                y: self.body.documentVisibleRect.origin.y - (diff < 0 ? diff : 0)
+            ))
         }
     }
 }
