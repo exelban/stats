@@ -74,13 +74,13 @@ extension AppDelegate {
                 let subtitle: String = localizedString("Stats was updated to v", currentVersion)
                 
                 if #available(macOS 10.14, *) {
-                    showNotification(
+                    _ = showNotification(
                         title: title,
                         subtitle: subtitle,
                         delegate: self
                     )
                 } else {
-                    showNSNotification(
+                    _ = showNSNotification(
                         title: title,
                         subtitle: subtitle
                     )
@@ -193,14 +193,14 @@ extension AppDelegate {
         let userInfo = ["url": version.url]
         
         if #available(macOS 10.14, *) {
-            showNotification(
+            _ = showNotification(
                 title: title,
                 subtitle: subtitle,
                 userInfo: userInfo,
                 delegate: self
             )
         } else {
-            showNSNotification(
+            _ = showNSNotification(
                 title: title,
                 subtitle: subtitle,
                 userInfo: userInfo

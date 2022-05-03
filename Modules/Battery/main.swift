@@ -50,6 +50,7 @@ public class Battery: Module {
     
     private var lowLevelNotificationState: Bool = false
     private var highLevelNotificationState: Bool = false
+    private var notificationID: String? = nil
     
     public init() {
         self.settingsView = Settings("Battery")
@@ -94,6 +95,18 @@ public class Battery: Module {
         }
         if let reader = self.processReader {
             self.addReader(reader)
+        }
+    }
+    
+    public override func willTerminate() {
+        guard self.isAvailable() else { return }
+        
+        if let id = self.notificationID {
+            if #available(macOS 10.14, *) {
+                removeNotification(id)
+            } else {
+                removeNSNotification(id)
+            }
         }
     }
     
@@ -144,6 +157,14 @@ public class Battery: Module {
         
         if (value.level > notificationLevel || value.powerSource != "Battery Power") && self.lowLevelNotificationState {
             if value.level > notificationLevel {
+                if let id = self.notificationID {
+                    if #available(macOS 10.14, *) {
+                        removeNotification(id)
+                    } else {
+                        removeNSNotification(id)
+                    }
+                    self.notificationID = nil
+                }
                 self.lowLevelNotificationState = false
             }
             return
@@ -161,12 +182,12 @@ public class Battery: Module {
             }
             
             if #available(macOS 10.14, *) {
-                showNotification(
+                self.notificationID = showNotification(
                     title: title,
                     subtitle: subtitle
                 )
             } else {
-                showNSNotification(
+                self.notificationID = showNSNotification(
                     title: title,
                     subtitle: subtitle
                 )
@@ -188,6 +209,14 @@ public class Battery: Module {
         
         if (value.level < notificationLevel || value.powerSource == "Battery Power") && self.highLevelNotificationState {
             if value.level < notificationLevel {
+                if let id = self.notificationID {
+                    if #available(macOS 10.14, *) {
+                        removeNotification(id)
+                    } else {
+                        removeNSNotification(id)
+                    }
+                    self.notificationID = nil
+                }
                 self.highLevelNotificationState = false
             }
             return
@@ -205,12 +234,12 @@ public class Battery: Module {
             }
             
             if #available(macOS 10.14, *) {
-                showNotification(
+                self.notificationID = showNotification(
                     title: title,
                     subtitle: subtitle
                 )
             } else {
-                showNSNotification(
+                self.notificationID = showNSNotification(
                     title: title,
                     subtitle: subtitle
                 )

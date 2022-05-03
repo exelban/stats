@@ -479,7 +479,7 @@ public func isNewestVersion(currentVersion: String, latestVersion: String) -> Bo
 }
 
 @available(macOS 10.14, *)
-public func showNotification(title: String, subtitle: String? = nil, userInfo: [AnyHashable: Any] = [:], delegate: UNUserNotificationCenterDelegate? = nil) {
+public func showNotification(title: String, subtitle: String? = nil, userInfo: [AnyHashable: Any] = [:], delegate: UNUserNotificationCenterDelegate? = nil) -> String {
     let id = UUID().uuidString
     
     let content = UNMutableNotificationContent()
@@ -500,9 +500,17 @@ public func showNotification(title: String, subtitle: String? = nil, userInfo: [
             print(err)
         }
     }
+    
+    return id
 }
 
-public func showNSNotification(title: String, subtitle: String? = nil, body: String? = nil, userInfo: [AnyHashable: Any] = [:]) {
+@available(macOS 10.14, *)
+public func removeNotification(_ id: String) {
+    let center = UNUserNotificationCenter.current()
+    center.removeDeliveredNotifications(withIdentifiers: [id])
+}
+
+public func showNSNotification(title: String, subtitle: String? = nil, body: String? = nil, userInfo: [AnyHashable: Any] = [:]) -> String {
     let notification = NSUserNotification()
     let id = UUID().uuidString
     
@@ -514,6 +522,15 @@ public func showNSNotification(title: String, subtitle: String? = nil, body: Str
     notification.hasActionButton = false
     
     NSUserNotificationCenter.default.deliver(notification)
+    
+    return id
+}
+
+public func removeNSNotification(_ id: String) {
+    let notificationCenter = NSUserNotificationCenter.default
+    if let notification = notificationCenter.deliveredNotifications.first(where: { $0.identifier == id }) {
+        notificationCenter.removeScheduledNotification(notification)
+    }
 }
 
 public struct TopProcess {
