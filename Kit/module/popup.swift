@@ -207,7 +207,9 @@ internal class PopupView: NSView {
             documentView.scroll(NSPoint(x: 0, y: documentView.bounds.size.height))
         }
     }
-    internal func disappear() {}
+    internal func disappear() {
+        self.header.setCloseButton(false)
+    }
     
     private func recalculateHeight(_ size: NSSize) {
         var isScrollVisible: Bool = false
