@@ -38,9 +38,23 @@ public class LineChartView: NSView {
     
     public var color: NSColor = controlAccentColor
     
+    private var cursor: NSPoint? = nil
+    private var stop: Bool = false
+    
     public init(frame: NSRect, num: Int) {
         self.points = Array(repeating: 0.01, count: num)
+        
         super.init(frame: frame)
+        
+        self.addTrackingArea(NSTrackingArea(
+            rect: CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height),
+            options: [
+                NSTrackingArea.Options.activeAlways,
+                NSTrackingArea.Options.mouseEnteredAndExited,
+                NSTrackingArea.Options.mouseMoved
+            ],
+            owner: self, userInfo: nil
+        ))
     }
     
     required init?(coder: NSCoder) {
@@ -67,37 +81,112 @@ public class LineChartView: NSView {
         let height: CGFloat = self.frame.size.height - self.frame.origin.y - offset
         let xRatio: CGFloat = self.frame.size.width / CGFloat(self.points.count)
         
-        let columnXPoint = { (point: Int) -> CGFloat in
-            return (CGFloat(point) * xRatio) + dirtyRect.origin.x
-        }
-        let columnYPoint = { (point: Int) -> CGFloat in
-            return CGFloat((CGFloat(truncating: self.points[point] as NSNumber) * height)) + dirtyRect.origin.y + offset
+        let list = self.points.enumerated().compactMap { (i: Int, v: Double) -> (value: Double, point: CGPoint) in
+            let x: CGFloat = (CGFloat(i) * xRatio) + dirtyRect.origin.x
+            let y = CGFloat((CGFloat(truncating: v as NSNumber) * height)) + dirtyRect.origin.y + offset
+            
+            return (v, CGPoint(x: x, y: y))
         }
         
         let line = NSBezierPath()
-        line.move(to: CGPoint(x: columnXPoint(0), y: columnYPoint(0)))
+        line.move(to: list[0].point)
         
         for i in 1..<self.points.count {
-            line.line(to: CGPoint(x: columnXPoint(i), y: columnYPoint(i)))
+            line.line(to: list[i].point)
         }
-        line.line(to: CGPoint(x: columnXPoint(self.points.count), y: columnYPoint(self.points.count-1)))
+        line.line(to: list[list.count-1].point)
         
-        lineColor.setStroke()
+        lineColor.set()
         line.lineWidth = offset
         line.stroke()
         
         let underLinePath = line.copy() as! NSBezierPath
-        
-        underLinePath.line(to: CGPoint(x: columnXPoint(self.points.count), y: offset))
-        underLinePath.line(to: CGPoint(x: columnXPoint(0), y: offset))
+        underLinePath.line(to: CGPoint(x: list[list.count-1].point.x, y: offset))
+        underLinePath.line(to: CGPoint(x: list[0].point.x, y: offset))
         underLinePath.close()
-        underLinePath.addClip()
-        
-        gradientColor.setFill()
+        gradientColor.set()
         underLinePath.fill()
+        
+        if let p = self.cursor, let over = list.first(where: { $0.point.x >= p.x }), let under = list.last(where: { $0.point.x <= p.x }) {
+            guard p.y <= height else { return }
+            
+            let diffOver = over.point.x - p.x
+            let diffUnder = p.x - under.point.x
+            let nearest = (diffOver < diffUnder) ? over : under
+            let vLine = NSBezierPath()
+            let hLine = NSBezierPath()
+            
+            vLine.setLineDash([4, 4], count: 2, phase: 0)
+            hLine.setLineDash([6, 6], count: 2, phase: 0)
+            
+            vLine.move(to: CGPoint(x: p.x, y: 0))
+            vLine.line(to: CGPoint(x: p.x, y: height))
+            vLine.close()
+            
+            hLine.move(to: CGPoint(x: 0, y: p.y))
+            hLine.line(to: CGPoint(x: self.frame.size.width+self.frame.origin.x, y: p.y))
+            hLine.close()
+            
+            NSColor.tertiaryLabelColor.set()
+            
+            vLine.lineWidth = offset
+            hLine.lineWidth = offset
+            
+            vLine.stroke()
+            hLine.stroke()
+            
+            let dotSize: CGFloat = 4
+            let path = NSBezierPath(ovalIn: CGRect(
+                x: nearest.point.x-(dotSize/2),
+                y: nearest.point.y-(dotSize/2),
+                width: dotSize,
+                height: dotSize
+            ))
+            NSColor.red.set()
+            path.stroke()
+            
+            let style = NSMutableParagraphStyle()
+            style.alignment = .left
+            var textPosition: CGPoint = CGPoint(x: nearest.point.x+4, y: nearest.point.y+4)
+            
+            if textPosition.x + 24 > self.frame.size.width+self.frame.origin.x {
+                textPosition.x = nearest.point.x - 30
+                style.alignment = .right
+            }
+            if textPosition.y + 14 > height {
+                textPosition.y = nearest.point.y - 14
+            }
+            
+            let stringAttributes = [
+                NSAttributedString.Key.font: NSFont.systemFont(ofSize: 10, weight: .regular),
+                NSAttributedString.Key.foregroundColor: isDarkMode ? NSColor.white : NSColor.textColor,
+                NSAttributedString.Key.paragraphStyle: style
+            ]
+            let rect = CGRect(x: textPosition.x, y: textPosition.y, width: 26, height: 10)
+            let value = "\(Int(nearest.value.rounded(toPlaces: 2) * 100))%"
+            let str = NSAttributedString.init(string: value, attributes: stringAttributes)
+            str.draw(with: rect)
+        }
+    }
+    
+    public override func updateTrackingAreas() {
+        self.trackingAreas.forEach({ self.removeTrackingArea($0) })
+        self.addTrackingArea(NSTrackingArea(
+            rect: CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height),
+            options: [
+                NSTrackingArea.Options.activeAlways,
+                NSTrackingArea.Options.mouseEnteredAndExited,
+                NSTrackingArea.Options.mouseMoved
+            ],
+            owner: self, userInfo: nil
+        ))
+        super.updateTrackingAreas()
     }
     
     public func addValue(_ value: Double) {
+        if self.stop {
+            return
+        }
         self.points.remove(at: 0)
         self.points.append(value)
         
@@ -116,6 +205,33 @@ public class LineChartView: NSView {
             self.points = Array(repeating: 0.01, count: num)
             self.points.replaceSubrange(Range(uncheckedBounds: (lower: origin.count, upper: num)), with: origin)
         }
+    }
+    
+    public override func mouseEntered(with event: NSEvent) {
+        self.cursor = convert(event.locationInWindow, from: nil)
+        self.needsDisplay = true
+    }
+    
+    public override func mouseMoved(with event: NSEvent) {
+        self.cursor = convert(event.locationInWindow, from: nil)
+        self.needsDisplay = true
+    }
+    
+    public override func mouseDragged(with event: NSEvent) {
+        self.cursor = convert(event.locationInWindow, from: nil)
+        self.needsDisplay = true
+    }
+    
+    public override func mouseExited(with event: NSEvent) {
+        self.cursor = nil
+        self.needsDisplay = true
+    }
+    
+    public override func mouseDown(with: NSEvent) {
+        self.stop = true
+    }
+    public override func mouseUp(with: NSEvent) {
+        self.stop = false
     }
 }
 
