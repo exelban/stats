@@ -74,16 +74,22 @@ extension AppDelegate {
                 let subtitle: String = localizedString("Stats was updated to v", currentVersion)
                 
                 if #available(macOS 10.14, *) {
-                    _ = showNotification(
+                    let id = showNotification(
                         title: title,
                         subtitle: subtitle,
                         delegate: self
                     )
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
+                        removeNotification(id)
+                    }
                 } else {
-                    _ = showNSNotification(
+                    let id = showNSNotification(
                         title: title,
                         subtitle: subtitle
                     )
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
+                        removeNSNotification(id)
+                    }
                 }
             }
             
