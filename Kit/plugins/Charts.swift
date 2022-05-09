@@ -34,6 +34,7 @@ public class LineChartView: NSView {
     public var id: String = UUID().uuidString
     
     public var points: [Double]
+    public var shadowPoints: [Double] = []
     public var transparent: Bool = true
     
     public var color: NSColor = controlAccentColor
@@ -64,7 +65,12 @@ public class LineChartView: NSView {
     public override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         
-        if self.points.isEmpty {
+        var points = self.points
+        if self.stop {
+            points = self.shadowPoints
+        }
+        
+        if points.isEmpty {
             return
         }
         
@@ -79,9 +85,9 @@ public class LineChartView: NSView {
         
         let offset: CGFloat = 1 / (NSScreen.main?.backingScaleFactor ?? 1)
         let height: CGFloat = self.frame.size.height - self.frame.origin.y - offset
-        let xRatio: CGFloat = self.frame.size.width / CGFloat(self.points.count)
+        let xRatio: CGFloat = self.frame.size.width / CGFloat(points.count)
         
-        let list = self.points.enumerated().compactMap { (i: Int, v: Double) -> (value: Double, point: CGPoint) in
+        let list = points.enumerated().compactMap { (i: Int, v: Double) -> (value: Double, point: CGPoint) in
             let x: CGFloat = (CGFloat(i) * xRatio) + dirtyRect.origin.x
             let y = CGFloat((CGFloat(truncating: v as NSNumber) * height)) + dirtyRect.origin.y + offset
             
@@ -91,7 +97,7 @@ public class LineChartView: NSView {
         let line = NSBezierPath()
         line.move(to: list[0].point)
         
-        for i in 1..<self.points.count {
+        for i in 1..<points.count {
             line.line(to: list[i].point)
         }
         line.line(to: list[list.count-1].point)
@@ -184,9 +190,6 @@ public class LineChartView: NSView {
     }
     
     public func addValue(_ value: Double) {
-        if self.stop {
-            return
-        }
         self.points.remove(at: 0)
         self.points.append(value)
         
@@ -228,6 +231,7 @@ public class LineChartView: NSView {
     }
     
     public override func mouseDown(with: NSEvent) {
+        self.shadowPoints = self.points
         self.stop = true
     }
     public override func mouseUp(with: NSEvent) {
