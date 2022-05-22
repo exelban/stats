@@ -76,6 +76,8 @@ internal class SensorsReader: Reader<[Sensor_p]> {
         self.list += list.filter({ (s: Sensor) -> Bool in
             if s.type == .temperature && (s.value == 0 || s.value > 110) {
                 return false
+            } else if s.type == .current && s.value > 100 {
+                return false
             }
             return true
         })
