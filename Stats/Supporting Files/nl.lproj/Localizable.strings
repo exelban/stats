@@ -67,7 +67,7 @@
 "Click to install the new version of Stats" = "Klik om de nieuwe versie van Stats te installeren";
 "Successfully updated" = "Succesvol geüpdatet";
 "Stats was updated to v" = "Stats is bijgewerkt naar v%0";
-"Reset settings text" = "All application settings will be reset and the application will be restarted. Are you sure you want to do this?";
+"Reset settings text" = "Alle applicatie instellingen worden gereset en de applicatie wordt opnieuw opgestart. Weet u zeker dat u dit wilt doen?";
 
 // Settings
 "Open Activity Monitor" = "Open Activiteitenweergave";
