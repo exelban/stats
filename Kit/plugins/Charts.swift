@@ -36,7 +36,6 @@ public class LineChartView: NSView {
     public var points: [Double]
     public var shadowPoints: [Double] = []
     public var transparent: Bool = true
-    
     public var color: NSColor = controlAccentColor
     
     private var cursor: NSPoint? = nil
@@ -430,7 +429,7 @@ public class PieChartView: NSView {
                 NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
             ]
             
-            let percentage = "\(Int(value*100))%"
+            let percentage = "\(Int(value.rounded(toPlaces: 2) * 100))%"
             let width: CGFloat = percentage.widthOfString(usingFont: NSFont.systemFont(ofSize: 15))
             let rect = CGRect(x: (self.frame.width-width)/2, y: (self.frame.height-11)/2, width: width, height: 12)
             let str = NSAttributedString.init(string: percentage, attributes: stringAttributes)
