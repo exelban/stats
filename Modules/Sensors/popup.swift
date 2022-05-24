@@ -8,7 +8,6 @@
 //
 //  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
 //
-// swiftlint:disable file_length
 
 import Cocoa
 import Kit
@@ -156,7 +155,7 @@ internal class SensorView: NSStackView {
         self.valueView = ValueSensorView(sensor, width: width, callback: { [weak self] in
             self?.open()
         })
-        self.chartView = ChartSensorView(width: width)
+        self.chartView = ChartSensorView(width: width, suffix: sensor.unit)
         
         self.addArrangedSubview(self.valueView)
         

@@ -45,5 +45,5 @@ type_body_length:
   - 400
 
 file_length:
-  - 600
   - 800
+  - 1000
