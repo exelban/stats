@@ -278,7 +278,7 @@ internal class Popup: NSView, Popup_p {
                 
                 if let freqCircle = self.frequencyCircle {
                     freqCircle.setValue((100*value)/self.maxFreq)
-                    freqCircle.setText("\((value/1000).rounded(toPlaces: 2))\nGHz")
+                    freqCircle.setText("\((value/1000).rounded(toPlaces: 2))")
                 }
                 
                 self.initializedFrequency = true
