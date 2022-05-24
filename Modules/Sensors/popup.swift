@@ -256,7 +256,7 @@ internal class ValueSensorView: NSStackView {
 internal class ChartSensorView: NSStackView {
     private var chart: LineChartView? = nil
     
-    public init(width: CGFloat) {
+    public init(width: CGFloat, suffix: String) {
         super.init(frame: NSRect(x: 0, y: 0, width: width, height: 60))
         
         self.wantsLayer = true
@@ -267,6 +267,7 @@ internal class ChartSensorView: NSStackView {
         self.layer?.cornerRadius = 3
         
         self.chart = LineChartView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height), num: 120)
+        self.chart?.suffix = suffix
         
         if let view = self.chart {
             self.addArrangedSubview(view)

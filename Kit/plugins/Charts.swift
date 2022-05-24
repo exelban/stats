@@ -37,6 +37,7 @@ public class LineChartView: NSView {
     public var shadowPoints: [Double] = []
     public var transparent: Bool = true
     public var color: NSColor = controlAccentColor
+    public var suffix: String = "%"
     
     private var cursor: NSPoint? = nil
     private var stop: Bool = false
@@ -168,7 +169,7 @@ public class LineChartView: NSView {
                 NSAttributedString.Key.paragraphStyle: style
             ]
             let rect = CGRect(x: textPosition.x, y: textPosition.y, width: 26, height: 10)
-            let value = "\(Int(nearest.value.rounded(toPlaces: 2) * 100))%"
+            let value = "\(Int(nearest.value.rounded(toPlaces: 2) * 100))\(self.suffix)"
             let str = NSAttributedString.init(string: value, attributes: stringAttributes)
             str.draw(with: rect)
         }
