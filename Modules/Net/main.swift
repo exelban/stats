@@ -31,6 +31,37 @@ public struct Network_addr {
     var v6: String? = nil
 }
 
+public struct Network_wifi {
+    var countryCode: String? = nil
+    var ssid: String? = nil
+    var RSSI: Int? = nil
+    var noise: Int? = nil
+    var transmitRate: Double? = nil
+    var transmitPower: Int? = nil
+    
+    var standard: String? = nil
+    var mode: String? = nil
+    var security: String? = nil
+    var channel: String? = nil
+    
+    var channelBand: String? = nil
+    var channelWidth: String? = nil
+    var channelNumber: String? = nil
+    
+    mutating func reset() {
+        self.countryCode = nil
+        self.ssid = nil
+        self.RSSI = nil
+        self.noise = nil
+        self.transmitRate = nil
+        self.transmitPower = nil
+        self.standard = nil
+        self.mode = nil
+        self.security = nil
+        self.channel = nil
+    }
+}
+
 public struct Network_Usage: value_t {
     var bandwidth: Bandwidth = (0, 0)
     var total: Bandwidth = (0, 0)
@@ -42,8 +73,7 @@ public struct Network_Usage: value_t {
     var connectionType: Network_t? = nil
     var status: Bool = false
     
-    var countryCode: String? = nil
-    var ssid: String? = nil
+    var wifiDetails: Network_wifi = Network_wifi()
     
     mutating func reset() {
         self.bandwidth = (0, 0)
@@ -54,8 +84,7 @@ public struct Network_Usage: value_t {
         self.interface = nil
         self.connectionType = nil
         
-        self.countryCode = nil
-        self.ssid = nil
+        self.wifiDetails.reset()
     }
     
     public var widgetValue: Double = 0

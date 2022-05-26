@@ -32,7 +32,6 @@ internal class Popup: NSStackView, Popup_p {
     
     private var localIPField: ValueField? = nil
     private var interfaceField: ValueField? = nil
-    private var ssidField: ValueField? = nil
     private var macAdressField: ValueField? = nil
     private var totalUploadField: ValueField? = nil
     private var totalDownloadField: ValueField? = nil
@@ -41,6 +40,11 @@ internal class Popup: NSStackView, Popup_p {
     private var publicIPStackView: NSStackView? = nil
     private var publicIPv4Field: ValueField? = nil
     private var publicIPv6Field: ValueField? = nil
+    
+    private var ssidField: ValueField? = nil
+    private var standardField: ValueField? = nil
+    private var securityField: ValueField? = nil
+    private var channelField: ValueField? = nil
     
     private var processesView: NSView? = nil
     
@@ -182,10 +186,15 @@ internal class Popup: NSStackView, Popup_p {
         self.totalUploadField = popupWithColorRow(container, color: NSColor.systemRed, n: 5, title: "\(localizedString("Total upload")):", value: "0")
         self.totalDownloadField = popupWithColorRow(container, color: NSColor.systemBlue, n: 4, title: "\(localizedString("Total download")):", value: "0")
         
-        self.connectionField = popupRow(container, n: 4, title: "\(localizedString("Status")):", value: localizedString("Unknown")).1
-        self.interfaceField = popupRow(container, n: 3, title: "\(localizedString("Interface")):", value: localizedString("Unknown")).1
-        self.ssidField = popupRow(container, n: 2, title: "\(localizedString("Network")):", value: localizedString("Unknown")).1
-        self.macAdressField = popupRow(container, n: 1, title: "\(localizedString("Physical address")):", value: localizedString("Unknown")).1
+        self.connectionField = popupRow(container, n: 0, title: "\(localizedString("Status")):", value: localizedString("Unknown")).1
+        
+        self.ssidField = popupRow(container, n: 0, title: "\(localizedString("Network")):", value: localizedString("Unknown")).1
+        self.standardField = popupRow(container, n: 0, title: "\(localizedString("Standard")):", value: localizedString("Unknown")).1
+        self.securityField = popupRow(container, n: 0, title: "\(localizedString("Security")):", value: localizedString("Unknown")).1
+        self.channelField = popupRow(container, n: 0, title: "\(localizedString("Channel")):", value: localizedString("Unknown")).1
+        
+        self.interfaceField = popupRow(container, n: 0, title: "\(localizedString("Interface")):", value: localizedString("Unknown")).1
+        self.macAdressField = popupRow(container, n: 0, title: "\(localizedString("Physical address")):", value: localizedString("Unknown")).1
         self.localIPField = popupRow(container, n: 0, title: "\(localizedString("Local IP")):", value: localizedString("Unknown")).1
         
         self.localIPField?.isSelectable = true
@@ -308,14 +317,28 @@ internal class Popup: NSStackView, Popup_p {
                 }
                 
                 if value.connectionType == .wifi {
-                    self.ssidField?.stringValue = value.ssid ?? "Unknown"
+                    self.ssidField?.stringValue = value.wifiDetails.ssid ?? localizedString("Unknown")
+                    if let v = value.wifiDetails.RSSI {
+                        self.ssidField?.stringValue += " (\(v))"
+                    }
+                    self.standardField?.stringValue = value.wifiDetails.standard ?? localizedString("Unknown")
+                    self.securityField?.stringValue = value.wifiDetails.security ?? localizedString("Unknown")
+                    self.channelField?.stringValue = value.wifiDetails.channel ?? localizedString("Unknown")
+                    
+                    let number = value.wifiDetails.channelNumber ?? localizedString("Unknown")
+                    let band = value.wifiDetails.channelBand ?? localizedString("Unknown")
+                    let width = value.wifiDetails.channelWidth ?? localizedString("Unknown")
+                    self.channelField?.toolTip = "Channel number: \(number)\nChannel band: \(band)\nChannel width: \(width)"
                 } else {
                     self.ssidField?.stringValue = localizedString("Unavailable")
+                    self.standardField?.stringValue = localizedString("Unavailable")
+                    self.securityField?.stringValue = localizedString("Unavailable")
+                    self.channelField?.stringValue = localizedString("Unavailable")
                 }
                 
                 if let view = self.publicIPv4Field, view.stringValue != value.raddr.v4 {
                     if let addr = value.raddr.v4 {
-                        view.stringValue = (value.countryCode != nil) ? "\(addr) (\(value.countryCode!))" : addr
+                        view.stringValue = (value.wifiDetails.countryCode != nil) ? "\(addr) (\(value.wifiDetails.countryCode!))" : addr
                     } else {
                         view.stringValue = localizedString("Unknown")
                     }

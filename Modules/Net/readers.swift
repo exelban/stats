@@ -8,6 +8,7 @@
 //
 //  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
 //
+// swiftlint:disable control_statement
 
 import Cocoa
 import Kit
@@ -18,6 +19,85 @@ struct ipResponse: Decodable {
     var ip: String
     var country: String
     var cc: String
+}
+
+extension CWPHYMode: CustomStringConvertible {
+    public var description: String {
+        switch(self) {
+        case .mode11a:  return "802.11a"
+        case .mode11ac: return "802.11ac"
+        case .mode11b:  return "802.11b"
+        case .mode11g:  return "802.11g"
+        case .mode11n:  return "802.11n"
+        case .modeNone: return "none"
+        @unknown default: return "unknown"
+        }
+    }
+}
+
+extension CWInterfaceMode: CustomStringConvertible {
+    public var description: String {
+        switch(self) {
+        case .hostAP:       return "AP"
+        case .IBSS:         return "Adhoc"
+        case .station:      return "Station"
+        case .none:         return "none"
+        @unknown default:   return "unknown"
+        }
+    }
+}
+
+extension CWSecurity: CustomStringConvertible {
+    public var description: String {
+        switch(self) {
+        case .none:               return "none"
+        case .WEP:                return "WEP"
+        case .wpaPersonal:        return "WPA Personal"
+        case .wpaPersonalMixed:   return "WPA Personal Mixed"
+        case .wpa2Personal:       return "WPA2 Personal"
+        case .personal:           return "Personal"
+        case .dynamicWEP:         return "Dynamic WEP"
+        case .wpaEnterprise:      return "WPA Enterprise"
+        case .wpaEnterpriseMixed: return "WPA Enterprise Mixed"
+        case .wpa2Enterprise:     return "WPA2 Enterprise"
+        case .enterprise:         return "Enterprise"
+        case .unknown:            return "unknown"
+        case .wpa3Personal:       return "WPA3 Personal"
+        case .wpa3Enterprise:     return "WPA3 Enterprise"
+        case .wpa3Transition:     return "WPA3 Transition"
+        @unknown default:         return "unknown"
+        }
+    }
+}
+
+extension CWChannelBand: CustomStringConvertible {
+    public var description: String {
+        switch(self) {
+        case .band2GHz:     return "2 GHz"
+        case .band5GHz:     return "5 Ghz"
+        case .bandUnknown:  return "unknown"
+        @unknown default:   return "unknown"
+        }
+    }
+}
+
+extension CWChannelWidth: CustomStringConvertible {
+    public var description: String {
+        switch(self) {
+        case .width20MHz:   return "20 MHz"
+        case .width40MHz:   return "40 MHz"
+        case .width80MHz:   return "80 MHz"
+        case .width160MHz:  return "160 MHz"
+        case .widthUnknown: return "unknown"
+        @unknown default:   return "unknown"
+        }
+    }
+}
+
+extension CWChannel {
+    override public var description: String {
+        return "\(channelNumber) (\(channelBand), \(channelWidth))"
+    }
 }
 
 internal class UsageReader: Reader<Network_Usage> {
@@ -212,32 +292,50 @@ internal class UsageReader: Reader<Network_Usage> {
             self.getPublicIP()
         }
         
-        if self.interfaceID != "" {
-            for interface in SCNetworkInterfaceCopyAll() as NSArray {
-                if  let bsdName = SCNetworkInterfaceGetBSDName(interface as! SCNetworkInterface),
-                    bsdName as String == self.interfaceID,
-                    let type = SCNetworkInterfaceGetInterfaceType(interface as! SCNetworkInterface),
-                    let displayName = SCNetworkInterfaceGetLocalizedDisplayName(interface as! SCNetworkInterface),
-                    let address = SCNetworkInterfaceGetHardwareAddressString(interface as! SCNetworkInterface) {
-                    self.usage.interface = Network_interface(displayName: displayName as String, BSDName: bsdName as String, address: address as String)
-                    
-                    switch type {
-                    case kSCNetworkInterfaceTypeEthernet:
-                        self.usage.connectionType = .ethernet
-                    case kSCNetworkInterfaceTypeIEEE80211, kSCNetworkInterfaceTypeWWAN:
-                        self.usage.connectionType = .wifi
-                    case kSCNetworkInterfaceTypeBluetooth:
-                        self.usage.connectionType = .bluetooth
-                    default:
-                        self.usage.connectionType = .other
-                    }
+        guard self.interfaceID != "" else {
+            return
+        }
+        
+        for interface in SCNetworkInterfaceCopyAll() as NSArray {
+            if let bsdName = SCNetworkInterfaceGetBSDName(interface as! SCNetworkInterface), bsdName as String == self.interfaceID,
+               let type = SCNetworkInterfaceGetInterfaceType(interface as! SCNetworkInterface),
+               let displayName = SCNetworkInterfaceGetLocalizedDisplayName(interface as! SCNetworkInterface),
+               let address = SCNetworkInterfaceGetHardwareAddressString(interface as! SCNetworkInterface) {
+                self.usage.interface = Network_interface(displayName: displayName as String, BSDName: bsdName as String, address: address as String)
+                
+                switch type {
+                case kSCNetworkInterfaceTypeEthernet:
+                    self.usage.connectionType = .ethernet
+                case kSCNetworkInterfaceTypeIEEE80211, kSCNetworkInterfaceTypeWWAN:
+                    self.usage.connectionType = .wifi
+                case kSCNetworkInterfaceTypeBluetooth:
+                    self.usage.connectionType = .bluetooth
+                default:
+                    self.usage.connectionType = .other
                 }
             }
         }
         
-        if let interface = CWWiFiClient.shared().interface(), self.usage.connectionType == .wifi {
-            self.usage.ssid = interface.ssid()
-            self.usage.countryCode = interface.countryCode()
+        if let interface = CWWiFiClient.shared().interface(withName: self.interfaceID), self.usage.connectionType == .wifi {
+            self.usage.wifiDetails.ssid = interface.ssid()
+            self.usage.wifiDetails.countryCode = interface.countryCode()
+            
+            self.usage.wifiDetails.RSSI = interface.rssiValue()
+            self.usage.wifiDetails.noise = interface.noiseMeasurement()
+            self.usage.wifiDetails.transmitRate = interface.transmitRate()
+            self.usage.wifiDetails.transmitPower = interface.transmitPower()
+            
+            self.usage.wifiDetails.standard = interface.activePHYMode().description
+            self.usage.wifiDetails.mode = interface.interfaceMode().description
+            self.usage.wifiDetails.security = interface.security().description
+            
+            if let ch = interface.wlanChannel() {
+                self.usage.wifiDetails.channel = ch.description
+                
+                self.usage.wifiDetails.channelBand = ch.channelBand.description
+                self.usage.wifiDetails.channelWidth = ch.channelWidth.description
+                self.usage.wifiDetails.channelNumber = ch.channelNumber.description
+            }
         }
     }
     
