@@ -232,6 +232,7 @@ private class GPUView: NSStackView {
         if id == "temperature" {
             circle.setValue(value)
             circle.setText(Temperature(value))
+            chart.suffix = UnitTemperature.current.symbol
             
             if self.temperatureChart == nil {
                 self.temperatureChart = chart

@@ -10,6 +10,7 @@
 //
 
 import Kit
+import Cocoa
 
 internal enum SensorGroup: String {
     case CPU = "CPU"
@@ -60,7 +61,7 @@ internal struct Sensor: Sensor_p {
         get {
             switch self.type {
             case .temperature:
-                return "°C"
+                return UnitTemperature.current.symbol
             case .voltage:
                 return "V"
             case .power:

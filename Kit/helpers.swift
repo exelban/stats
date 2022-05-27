@@ -640,32 +640,34 @@ public func localizedString(_ key: String, _ params: String..., comment: String 
     return string
 }
 
-extension UnitTemperature {
-    static var current: UnitTemperature {
+public extension UnitTemperature {
+    static var system: UnitTemperature {
         let measureFormatter = MeasurementFormatter()
         let measurement = Measurement(value: 0, unit: UnitTemperature.celsius)
         return measureFormatter.string(from: measurement).hasSuffix("C") ? .celsius : .fahrenheit
+    }
+    
+    static var current: UnitTemperature {
+        let stringUnit: String = Store.shared.string(key: "temperature_units", defaultValue: "system")
+        var unit = UnitTemperature.system
+        if stringUnit != "system" {
+            if let value = TemperatureUnits.first(where: { $0.key == stringUnit }), let temperatureUnit = value.additional as? UnitTemperature {
+                unit = temperatureUnit
+            }
+        }
+        return unit
     }
 }
 
 // swiftlint:disable identifier_name
 public func Temperature(_ value: Double) -> String {
-    let stringUnit: String = Store.shared.string(key: "temperature_units", defaultValue: "system")
     let formatter = MeasurementFormatter()
     formatter.locale = Locale.init(identifier: "en_US")
     formatter.numberFormatter.maximumFractionDigits = 0
     formatter.unitOptions = .providedUnit
     
-    var measurement = Measurement(value: value, unit: UnitTemperature.celsius)
-    if stringUnit == "system" {
-        measurement.convert(to: UnitTemperature.current)
-    } else {
-        if let temperatureUnit = TemperatureUnits.first(where: { $0.key == stringUnit }) {
-            if let unit = temperatureUnit.additional as? UnitTemperature {
-                measurement.convert(to: unit)
-            }
-        }
-    }
+    var measurement = Measurement(value: value, unit: UnitTemperature.system)
+    measurement.convert(to: UnitTemperature.current)
     
     return formatter.string(from: measurement)
 }
