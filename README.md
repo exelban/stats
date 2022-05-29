@@ -73,6 +73,7 @@ To change the order of any menu bar icon - macOS Mojave (version 10.14) and up.
 - Catalan (thanks to [davidalonso](https://github.com/davidalonso))
 - Indonesian (thanks to [yooody](https://github.com/yooody))
 - Hebrew (thanks to [BadSugar](https://github.com/BadSugar))
+- Slovenian (thanks to [zigapovhe](https://github.com/zigapovhe))
 
 You can help by adding a new language or improve the existing translation.
 
