@@ -192,7 +192,7 @@
 "Total" = "Total";
 "Used" = "Brugt";
 "App" = "App";
-"Wired" = "Wired"; //Technical term with no good translation that doesn't lose meaning - The word wired is used in Danish to describe the technical meaning
+"Wired" = "Wired";
 "Compressed" = "Komprimeret";
 "Free" = "Ledig";
 "Swap" = "Swap";
@@ -235,6 +235,9 @@
 "Processes based" = "Process baseret";
 "Reset data usage" = "Nulstil databrug";
 "VPN mode" = "VPN mode";
+"Standard" = "Standard";
+"Security" = "Security";
+"Channel" = "Channel";
 
 // Battery
 "Level" = "Niveau";

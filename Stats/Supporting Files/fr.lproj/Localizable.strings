@@ -235,6 +235,9 @@
 "Processes based" = "Processus";
 "Reset data usage" = "Réinitialiser l'utilisation des données";
 "VPN mode" = "VPN mode";
+"Standard" = "Standard";
+"Security" = "Security";
+"Channel" = "Channel";
 
 // Battery
 "Level" = "Niveau";

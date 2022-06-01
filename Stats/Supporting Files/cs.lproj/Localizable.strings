@@ -235,6 +235,9 @@
 "Processes based" = "Podle procesů";
 "Reset data usage" = "Reset data usage";
 "VPN mode" = "VPN režim";
+"Standard" = "Standard";
+"Security" = "Security";
+"Channel" = "Channel";
 
 // Battery
 "Level" = "Úroveň";
