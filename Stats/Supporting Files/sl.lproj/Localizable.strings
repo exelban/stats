@@ -235,6 +235,9 @@
 "Processes based" = "Na podlagi procesa";
 "Reset data usage" = "Ponastavi porabo podatkov";
 "VPN mode" = "VPN način";
+"Standard" = "Standard";
+"Security" = "Security";
+"Channel" = "Channel";
 
 // Battery
 "Level" = "Raven";

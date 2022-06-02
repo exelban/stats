@@ -235,6 +235,9 @@
 "Processes based" = "Quá trình";
 "Reset data usage" = "Đặt lại mức sử dụng dữ liệu";
 "VPN mode" = "Chế độ VPN";
+"Standard" = "Standard";
+"Security" = "Security";
+"Channel" = "Channel";
 
 // Battery
 "Level" = "Dung lượng Pin";

@@ -236,6 +236,9 @@
 "Processes based" = "מבוסס מעבד";
 "Reset data usage" = "אפס את השימוש בנתונים";
 "VPN mode" = "VPN מצב";
+"Standard" = "Standard";
+"Security" = "Security";
+"Channel" = "Channel";
 
 // Battery
 "Level" = "רמה";

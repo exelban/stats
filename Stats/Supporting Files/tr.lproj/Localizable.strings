@@ -235,6 +235,9 @@
 "Processes based" = "Süreçler";
 "Reset data usage" = "Veri kullanımını sıfırla";
 "VPN mode" = "VPN modu";
+"Standard" = "Standard";
+"Security" = "Security";
+"Channel" = "Channel";
 
 // Battery
 "Level" = "Doluluk";

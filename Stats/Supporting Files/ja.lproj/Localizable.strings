@@ -235,6 +235,9 @@
 "Processes based" = "プロセス";
 "Reset data usage" = "データ使用履歴をリセット";
 "VPN mode" = "VPN モード";
+"Standard" = "Standard";
+"Security" = "Security";
+"Channel" = "Channel";
 
 // Battery
 "Level" = "充電残量";

@@ -235,6 +235,9 @@
 "Processes based" = "Процеси";
 "Reset data usage" = "Скинути використання даних";
 "VPN mode" = "Режим VPN";
+"Standard" = "Стандарт";
+"Security" = "Шифрування";
+"Channel" = "Канал";
 
 // Battery
 "Level" = "Рівень заряду";

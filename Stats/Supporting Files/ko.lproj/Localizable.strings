@@ -235,6 +235,9 @@
 "Processes based" = "프로세스";
 "Reset data usage" = "데이터 사용 내역 재설정";
 "VPN mode" = "VPN 모드";
+"Standard" = "Standard";
+"Security" = "Security";
+"Channel" = "Channel";
 
 // Battery
 "Level" = "잔량";

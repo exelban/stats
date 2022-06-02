@@ -235,6 +235,9 @@
 "Processes based" = "基于进程";
 "Reset data usage" = "重置用量";
 "VPN mode" = "VPN 模式";
+"Standard" = "Standard";
+"Security" = "Security";
+"Channel" = "Channel";
 
 // Battery
 "Level" = "电量";

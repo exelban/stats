@@ -235,6 +235,9 @@
 "Processes based" = "Procesy";
 "Reset data usage" = "Resetuj użycie danych";
 "VPN mode" = "Tryb VPN";
+"Standard" = "Standard";
+"Security" = "Szyfrowanie";
+"Channel" = "Kanał";
 
 // Battery
 "Level" = "Poziom naładowania";

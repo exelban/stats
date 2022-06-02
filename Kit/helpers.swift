@@ -660,13 +660,13 @@ public extension UnitTemperature {
 }
 
 // swiftlint:disable identifier_name
-public func Temperature(_ value: Double) -> String {
+public func Temperature(_ value: Double, defaultUnit: UnitTemperature = UnitTemperature.celsius) -> String {
     let formatter = MeasurementFormatter()
     formatter.locale = Locale.init(identifier: "en_US")
     formatter.numberFormatter.maximumFractionDigits = 0
     formatter.unitOptions = .providedUnit
     
-    var measurement = Measurement(value: value, unit: UnitTemperature.system)
+    var measurement = Measurement(value: value, unit: defaultUnit)
     measurement.convert(to: UnitTemperature.current)
     
     return formatter.string(from: measurement)
