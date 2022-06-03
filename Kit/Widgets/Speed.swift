@@ -18,6 +18,7 @@ public class SpeedWidget: WidgetWrapper {
     private var baseValue: String = "byte"
     private var unitsState: Bool = true
     private var monochromeState: Bool = false
+    private var valueColorState: Bool = false
     
     private var symbols: [String] = ["U", "D"]
     
@@ -28,6 +29,8 @@ public class SpeedWidget: WidgetWrapper {
     private var downloadValue: Int64 = 0
     
     private var width: CGFloat = 58
+    
+    private var valueColorView: NSView? = nil
     
     private var downloadColor: NSColor {
         get {
@@ -66,6 +69,7 @@ public class SpeedWidget: WidgetWrapper {
             self.baseValue = Store.shared.string(key: "\(self.title)_base", defaultValue: self.baseValue)
             self.unitsState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_units", defaultValue: self.unitsState)
             self.monochromeState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_monochrome", defaultValue: self.monochromeState)
+            self.valueColorState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_valueColor", defaultValue: self.valueColorState)
         }
         
         if self.valueState && self.icon != "none" {
@@ -105,9 +109,15 @@ public class SpeedWidget: WidgetWrapper {
             let rowHeight: CGFloat = self.frame.height / 2
             let style = NSMutableParagraphStyle()
             style.alignment = .right
-            let stringAttributes = [
+            
+            let downloadStringAttributes = [
                 NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .light),
-                NSAttributedString.Key.foregroundColor: NSColor.textColor,
+                NSAttributedString.Key.foregroundColor: self.valueColorState && self.downloadValue >= 1_024 ? self.downloadColor : NSColor.textColor,
+                NSAttributedString.Key.paragraphStyle: style
+            ]
+            let uploadStringAttributes = [
+                NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .light),
+                NSAttributedString.Key.foregroundColor: self.valueColorState && self.uploadValue >= 1_024 ? self.uploadColor : NSColor.textColor,
                 NSAttributedString.Key.paragraphStyle: style
             ]
             
@@ -115,14 +125,14 @@ public class SpeedWidget: WidgetWrapper {
             var rect = CGRect(x: Constants.Widget.margin.x + x, y: 1, width: rowWidth - (Constants.Widget.margin.x*2), height: rowHeight)
             let download = NSAttributedString.init(
                 string: Units(bytes: self.downloadValue).getReadableSpeed(base: base, omitUnits: !self.unitsState),
-                attributes: stringAttributes
+                attributes: downloadStringAttributes
             )
             download.draw(with: rect)
             
             rect = CGRect(x: Constants.Widget.margin.x + x, y: rect.height+1, width: rowWidth - (Constants.Widget.margin.x*2), height: rowHeight)
             let upload = NSAttributedString.init(
                 string: Units(bytes: self.uploadValue).getReadableSpeed(base: base, omitUnits: !self.unitsState),
-                attributes: stringAttributes
+                attributes: uploadStringAttributes
             )
             upload.draw(with: rect)
             
@@ -235,6 +245,14 @@ public class SpeedWidget: WidgetWrapper {
             state: self.valueState
         ))
         
+        self.valueColorView = toggleSettingRow(
+            title: localizedString("Colorize value"),
+            action: #selector(toggleValueColor),
+            state: self.valueColorState
+        )
+        view.addArrangedSubview(self.valueColorView!)
+        findAndToggleEnableNSControlState(self.valueColorView, state: self.valueState)
+        
         view.addArrangedSubview(toggleSettingRow(
             title: localizedString("Units"),
             action: #selector(toggleUnits),
@@ -257,7 +275,9 @@ public class SpeedWidget: WidgetWrapper {
         } else {
             state = sender is NSButton ? (sender as! NSButton).state: nil
         }
+        
         self.valueState = state! == .on ? true : false
+        findAndToggleEnableNSControlState(self.valueColorView, state: self.valueState)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_value", value: self.valueState)
         self.display()
         
@@ -318,6 +338,19 @@ public class SpeedWidget: WidgetWrapper {
         
         self.monochromeState = state! == .on ? true : false
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_monochrome", value: self.monochromeState)
+        self.display()
+    }
+    
+    @objc private func toggleValueColor(_ sender: NSControl) {
+        var state: NSControl.StateValue? = nil
+        if #available(OSX 10.15, *) {
+            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
+        } else {
+            state = sender is NSButton ? (sender as! NSButton).state: nil
+        }
+        self.valueColorState = state! == .on ? true : false
+        
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_valueColor", value: self.valueColorState)
         self.display()
     }
     
