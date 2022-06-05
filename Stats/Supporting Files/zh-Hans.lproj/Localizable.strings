@@ -58,8 +58,8 @@
 "Right alignment" = "右对齐";
 "Dashboard" = "仪表盘";
 "Disabled" = "已停用";
-"Silent" = "Silent";
-"Units" = "Units";
+"Silent" = "运行时静默";
+"Units" = "单位";
 "Fans" = "风扇";
 
 // Alerts
@@ -67,7 +67,7 @@
 "Click to install the new version of Stats" = "点击安装 Stats 的新版本";
 "Successfully updated" = "更新成功";
 "Stats was updated to v" = "Stats 已更新到 v%0";
-"Reset settings text" = "All application settings will be reset and the application will be restarted. Are you sure you want to do this?";
+"Reset settings text" = "应用程序的所有设置将会被重置，应用程序也将重新启动。您确定要这么做吗？";
 
 // Settings
 "Open Activity Monitor" = "打开活动监视器";
@@ -88,14 +88,14 @@
 "Check for update" = "检查更新";
 "Show icon in dock" = "在程序坞显示图标";
 "Start at login" = "登录时打开";
-"Build number" = "Build number";
-"Reset settings" = "Reset settings";
+"Build number" = "版本号";
+"Reset settings" = "初始化所有设置";
 
 // Dashboard
 "Serial number" = "序列号";
 "Uptime" = "启动时间";
-"Number of cores" = "%0 cores";
-"Number of threads" = "%0 threads";
+"Number of cores" = "%0 核心";
+"Number of threads" = "%0 线程";
 
 // Update
 "The latest version of Stats installed" = "已安装最新版 Stats";
@@ -143,8 +143,8 @@
 "Details" = "详细信息";
 "Top processes" = "高占用进程";
 "Pictogram" = "标识";
-"Module settings" = "Module settings";
-"Widget settings" = "Widget settings";
+"Module settings" = "模块设置";
+"Widget settings" = "小组件设置";
 
 // Modules
 "Number of top processes" = "高占用进程数";
@@ -183,8 +183,8 @@
 "Core clock" = "核心时钟";
 "Memory clock" = "内存时钟";
 "Utilization" = "利用率";
-"Render utilization" = "Render utilization";
-"Tiler utilization" = "Tiler utilization";
+"Render utilization" = "渲染利用率";
+"Tiler utilization" = "Tiler 利用率";
 
 // RAM
 "Memory usage" = "内存占用";
@@ -212,7 +212,7 @@
 "Fahrenheit" = "华氏度";
 "Save the fan speed" = "保存风扇转速";
 "Fan" = "风扇";
-"HID sensors" = "HID sensors";
+"HID sensors" = "HID 传感器";
 
 // Network
 "Uploading" = "上传";
@@ -224,9 +224,9 @@
 "Refresh" = "刷新";
 "Click to copy public IP address" = "点击拷贝公网 IP";
 "Click to copy local IP address" = "点击拷贝本地 IP";
-"Click to copy wifi name" = "点击拷贝 WiFi 名称";
+"Click to copy wifi name" = "点击拷贝 Wi-Fi 名称";
 "Click to copy mac address" = "点击拷贝 MAC 地址";
-"No connection" = "无连接";
+"No connection" = "无网络连接";
 "Network interface" = "网络接口";
 "Total download" = "总下载";
 "Total upload" = "总上传";
@@ -235,9 +235,9 @@
 "Processes based" = "基于进程";
 "Reset data usage" = "重置用量";
 "VPN mode" = "VPN 模式";
-"Standard" = "Standard";
-"Security" = "Security";
-"Channel" = "Channel";
+"Standard" = "标准";
+"Security" = "安全";
+"Channel" = "频道";
 
 // Battery
 "Level" = "电量";
@@ -270,12 +270,12 @@
 "Time format" = "时间格式";
 "Hide additional information when full" = "电池充满后隐藏其他信息";
 "Last charge" = "最后一次充电";
-"Capacity" = "Capacity";
-"maximum / designed" = "maximum / designed";
+"Capacity" = "容量";
+"maximum / designed" = "最大值 / 设计值";
 
 // Bluetooth
 "Battery to show" = "显示的设备";
-"No Bluetooth devices are available" = "No Bluetooth devices are available";
+"No Bluetooth devices are available" = "没有可用的蓝牙设备";
 
 // Colors
 "Based on utilization" = "基于利用率";
