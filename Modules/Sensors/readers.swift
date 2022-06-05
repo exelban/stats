@@ -22,9 +22,35 @@ internal class SensorsReader: Reader<[Sensor_p]> {
         }
     }
     
+    private var erroneousSensors: Bool {
+        get {
+            return Store.shared.bool(key: "Sensors_erroneousSensors", defaultValue: false)
+        }
+    }
+
     init() {
         super.init()
+
+        self.list = self.initSensors()
+    }
+
+    private func initSensors() -> [Sensor] {
+        var list: [Sensor] = []
+
+        list += self.initSMCSensors()
+
+        #if arch(arm64)
+        if self.HIDState {
+            list += self.initHIDSensors()
+        }
+        #endif
+
+        list += self.initCalculatedSensors()
         
+        return list
+    }
+
+    private func initSMCSensors() -> [Sensor] {
         var available: [String] = SMC.shared.getAllKeys()
         var list: [Sensor] = []
         var sensorsList = SensorsList
@@ -73,7 +99,10 @@ internal class SensorsReader: Reader<[Sensor_p]> {
             }
         }
         
-        self.list += list.filter({ (s: Sensor) -> Bool in
+        return list.filter({ (s: Sensor) -> Bool in
+            if self.erroneousSensors {
+                return true
+            }
             if s.type == .temperature && (s.value == 0 || s.value > 110) {
                 return false
             } else if s.type == .current && s.value > 100 {
@@ -81,14 +110,6 @@ internal class SensorsReader: Reader<[Sensor_p]> {
             }
             return true
         })
-        
-        #if arch(arm64)
-        if self.HIDState {
-            self.list += self.initHIDSensors()
-        }
-        #endif
-        
-        self.list += self.initCalculatedSensors()
     }
     
     public override func read() {
@@ -303,6 +324,9 @@ internal class SensorsReader: Reader<[Sensor_p]> {
         }
         
         return list.filter({ (s: Sensor_p) -> Bool in
+            if self.erroneousSensors {
+                return true
+            }
             switch s.type {
             case .temperature:
                 return s.value < 110 && s.value >= 0
@@ -351,6 +375,9 @@ internal class SensorsReader: Reader<[Sensor_p]> {
         }
         
         return list.filter({ (s: Sensor_p) -> Bool in
+            if self.erroneousSensors {
+                return true
+            }
             switch s.type {
             case .temperature:
                 return s.value < 110 && s.value >= 0
@@ -369,5 +396,9 @@ internal class SensorsReader: Reader<[Sensor_p]> {
         } else {
             self.list = self.list.filter({ $0.group != .hid })
         }
+    }
+
+    public func erroneousSensorsCallback() {
+        self.list = self.initSensors()
     }
 }

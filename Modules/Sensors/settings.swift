@@ -16,6 +16,7 @@ internal class Settings: NSStackView, Settings_v {
     private var updateIntervalValue: Int = 3
     private var hidState: Bool
     private var fanSpeedState: Bool = false
+    private var erroneousSensorsState: Bool = false
     
     private let title: String
     private var button: NSPopUpButton?
@@ -23,6 +24,7 @@ internal class Settings: NSStackView, Settings_v {
     private var widgets: [widget_t] = []
     public var callback: (() -> Void) = {}
     public var HIDcallback: (() -> Void) = {}
+    public var erroneousSensorsCallback: (() -> Void) = {}
     public var setInterval: ((_ value: Int) -> Void) = {_ in }
     
     public init(_ title: String, list: [Sensor_p]) {
@@ -47,6 +49,7 @@ internal class Settings: NSStackView, Settings_v {
         self.updateIntervalValue = Store.shared.int(key: "\(self.title)_updateInterval", defaultValue: self.updateIntervalValue)
         self.hidState = Store.shared.bool(key: "\(self.title)_hid", defaultValue: self.hidState)
         self.fanSpeedState = Store.shared.bool(key: "\(self.title)_speed", defaultValue: self.fanSpeedState)
+        self.erroneousSensorsState = Store.shared.bool(key: "\(self.title)_erroneousSensors", defaultValue: self.erroneousSensorsState)
     }
     
     required init?(coder: NSCoder) {
@@ -80,6 +83,12 @@ internal class Settings: NSStackView, Settings_v {
             ))
         }
         
+        self.addArrangedSubview(toggleSettingRow(
+            title: localizedString("Show erroneous sensors"),
+            action: #selector(toggleErroneousSensors),
+            state: self.erroneousSensorsState
+        ))
+
         var types: [SensorType] = []
         self.list.forEach { (s: Sensor_p) in
             if !types.contains(s.type) {
@@ -190,5 +199,18 @@ internal class Settings: NSStackView, Settings_v {
         self.hidState = state! == .on ? true : false
         Store.shared.set(key: "\(self.title)_hid", value: self.hidState)
         self.HIDcallback()
+    }
+
+    @objc func toggleErroneousSensors(_ sender: NSControl) {
+        var state: NSControl.StateValue? = nil
+        if #available(OSX 10.15, *) {
+            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
+        } else {
+            state = sender is NSButton ? (sender as! NSButton).state: nil
+        }
+
+        self.erroneousSensorsState = state! == .on ? true : false
+        Store.shared.set(key: "\(self.title)_erroneousSensors", value: self.erroneousSensorsState)
+        self.erroneousSensorsCallback()
     }
 }
