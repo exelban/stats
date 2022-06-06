@@ -41,8 +41,24 @@ public class Updater {
     private let appName: String = Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as! String
     private let currentVersion: String = "v\(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String)"
     
-    private var teamID: String? = nil
     private var observation: NSKeyValueObservation?
+    
+    private var lastCheckTS: Int {
+        get {
+            return Store.shared.int(key: "updater_check_ts", defaultValue: -1)
+        }
+        set {
+            Store.shared.set(key: "updater_check_ts", value: newValue)
+        }
+    }
+    private var lastInstallTS: Int {
+        get {
+            return Store.shared.int(key: "updater_install_ts", defaultValue: -1)
+        }
+        set {
+            Store.shared.set(key: "updater_install_ts", value: newValue)
+        }
+    }
     
     public init(github: String, url: String) {
         self.github = URL(string: "https://api.github.com/repos/\(github)/releases/latest")!
@@ -54,9 +70,19 @@ public class Updater {
     }
     
     public func check(completion: @escaping (_ result: version_s?, _ error: Error?) -> Void) {
+        let diff = (Int(Date().timeIntervalSince1970) - self.lastCheckTS) / 60
+        if diff <= 10 {
+            completion(nil, "last check was \(diff) minutes ago, stopping...")
+            return
+        }
+        
         if !isConnectedToNetwork() {
             completion(nil, "No internet connection")
             return
+        }
+        
+        defer {
+            self.lastCheckTS = Int(Date().timeIntervalSince1970)
         }
         
         self.fetchRelease(uri: self.server) { (result, err) in
@@ -140,6 +166,16 @@ public class Updater {
     }
     
     public func install(path: String) {
+        let diff = (Int(Date().timeIntervalSince1970) - self.lastInstallTS) / 60
+        if diff <= 3 {
+            print("last install was \(diff) minutes ago, stopping...")
+            return
+        }
+        
+        defer {
+            self.lastInstallTS = Int(Date().timeIntervalSince1970)
+        }
+        
         print("Started new version installation...")
         
         _ = syncShell("mkdir /tmp/Stats") // make sure that directory exist
@@ -168,21 +204,6 @@ public class Updater {
         print("Run updater.sh with app: \(pwd) and dmg: \(dmg)")
         
         exit(0)
-    }
-    
-    public func isSignatureOK(path: String) -> Bool {
-        let line = syncShell("codesign -dv \(path) 2>&1 | grep TeamIdentifier")
-        let arr = line.split(separator: "=")
-        guard arr.count == 2 else {
-            return true
-        }
-        let teamID = arr[1]
-        
-        guard let externalTeamID = self.teamID else {
-            return true
-        }
-        
-        return externalTeamID == teamID
     }
     
     private func copyFile(from: URL, to: URL, completionHandler: @escaping (_ path: String, _ error: Error?) -> Void) {
