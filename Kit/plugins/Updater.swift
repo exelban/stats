@@ -69,9 +69,9 @@ public class Updater {
         observation?.invalidate()
     }
     
-    public func check(completion: @escaping (_ result: version_s?, _ error: Error?) -> Void) {
+    public func check(force: Bool = false, completion: @escaping (_ result: version_s?, _ error: Error?) -> Void) {
         let diff = (Int(Date().timeIntervalSince1970) - self.lastCheckTS) / 60
-        if diff <= 10 {
+        if !force && diff <= 10 {
             completion(nil, "last check was \(diff) minutes ago, stopping...")
             return
         }

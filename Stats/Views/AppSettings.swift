@@ -203,7 +203,7 @@ class ApplicationSettings: NSStackView {
     // MARK: - actions
     
     @objc func updateAction(_ sender: NSObject) {
-        updater.check { result, error in
+        updater.check(force: true, completion: { result, error in
             if error != nil {
                 debug("error updater.check(): \(error!.localizedDescription)")
                 return
@@ -218,7 +218,7 @@ class ApplicationSettings: NSStackView {
                 self.updateWindow.open(version)
                 return
             })
-        }
+        })
     }
     
     @objc private func toggleUpdateInterval(_ sender: NSMenuItem) {
