@@ -88,6 +88,7 @@ internal class DiskView: NSView {
         )
         self.legendView = DiskLegendView(
             NSRect(x: 5, y: 5, width: frame.width - 10, height: self.legendHeight),
+            id: "\(name)_\(path?.absoluteString ?? "")",
             size: size,
             free: free
         )
@@ -268,14 +269,23 @@ internal class DiskNameAndBarView: NSView {
 internal class DiskLegendView: NSView {
     private let size: Int64
     private var free: Int64
+    private let id: String
     private var ready: Bool = false
     
-    private var showUsedSpace: Bool = true
+    private var showUsedSpace: Bool {
+        get {
+            return Store.shared.bool(key: "\(self.id)_usedSpace", defaultValue: false)
+        }
+        set {
+            Store.shared.set(key: "\(self.id)_usedSpace", value: newValue)
+        }
+    }
     
     private var legendField: NSTextField? = nil
     private var percentageField: NSTextField? = nil
     
-    public init(_ frame: NSRect, size: Int64, free: Int64) {
+    public init(_ frame: NSRect, id: String, size: Int64, free: Int64) {
+        self.id = id
         self.size = size
         self.free = free
         
