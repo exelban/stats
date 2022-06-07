@@ -213,7 +213,7 @@ let SensorsList: [Sensor] = [
     Sensor(key: "TCAD", name: "CPU package", group: .CPU, type: .temperature),
     
     Sensor(key: "TC%c", name: "CPU core %", group: .CPU, type: .temperature, average: true),
-    Sensor(key: "TC%C", name: "CPU core %", group: .CPU, type: .temperature, average: true),
+    Sensor(key: "TC%C", name: "CPU Core %", group: .CPU, type: .temperature, average: true),
     
     Sensor(key: "TCGC", name: "GPU Intel Graphics", group: .GPU, type: .temperature),
     Sensor(key: "TG0D", name: "GPU diode", group: .GPU, type: .temperature),
