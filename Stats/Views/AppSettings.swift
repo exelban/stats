@@ -203,7 +203,7 @@ class ApplicationSettings: NSStackView {
     // MARK: - actions
     
     @objc func updateAction(_ sender: NSObject) {
-        updater.check(force: true, completion: { result, error in
+        updater.check(completion: { result, error in
             if error != nil {
                 debug("error updater.check(): \(error!.localizedDescription)")
                 return
