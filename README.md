@@ -45,6 +45,11 @@ To change the order of any menu bar icon - macOS Mojave (version 10.14) and up.
 2. Drag the icon to the desired position on the menu bar.
 3. Release ⌘ (command key)
 
+### What if you don't see sensors (M1 macs)?
+Sensors data on the first generation of M1 mac could be obtained only from HID services. It's disabled by default because it consumes a lot of CPU and energy. You can enable it in the Sensors module settings with the option `HID sensors`.
+
+It's only valid for M1 Apple Silicon macs. If you don't see sensors on another mac, please open an issue for that.
+
 ## Supported languages
 - English
 - Polski
