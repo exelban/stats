@@ -1049,3 +1049,32 @@ internal class ViewCopy: CALayer {
         fatalError("init(coder:) has not been implemented")
     }
 }
+
+public class EmptyView: NSStackView {
+    public init(height: CGFloat = 120, isHidden: Bool = false, msg: String) {
+        super.init(frame: NSRect())
+        
+        self.heightAnchor.constraint(equalToConstant: height).isActive = true
+        
+        self.translatesAutoresizingMaskIntoConstraints = true
+        self.orientation = .vertical
+        self.distribution = .fillEqually
+        self.isHidden = isHidden
+        self.identifier = NSUserInterfaceItemIdentifier(rawValue: "emptyView")
+        
+        let textView: NSTextView = NSTextView()
+        textView.heightAnchor.constraint(equalToConstant: (height/2)+6).isActive = true
+        textView.alignment = .center
+        textView.isEditable = false
+        textView.isSelectable = false
+        textView.drawsBackground = false
+        textView.string = msg
+        
+        self.addArrangedSubview(NSView())
+        self.addArrangedSubview(textView)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}

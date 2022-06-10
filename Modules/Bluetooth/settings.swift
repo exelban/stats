@@ -16,7 +16,7 @@ internal class Settings: NSStackView, Settings_v {
     public var callback: (() -> Void) = {}
     
     private var list: [String: Bool] = [:]
-    private let emptyView: EmptyView = EmptyView()
+    private let emptyView: EmptyView = EmptyView(msg: localizedString("No Bluetooth devices are available"))
     
     public init() {
         super.init(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
@@ -82,34 +82,5 @@ internal class Settings: NSStackView, Settings_v {
         
         Store.shared.set(key: "ble_\(id.rawValue)", value: state! == NSControl.StateValue.on)
         self.callback()
-    }
-}
-
-internal class EmptyView: NSStackView {
-    public init(height: CGFloat = 120, isHidden: Bool = false) {
-        super.init(frame: NSRect())
-        
-        self.heightAnchor.constraint(equalToConstant: height).isActive = true
-        
-        self.translatesAutoresizingMaskIntoConstraints = true
-        self.orientation = .vertical
-        self.distribution = .fillEqually
-        self.isHidden = isHidden
-        self.identifier = NSUserInterfaceItemIdentifier(rawValue: "emptyView")
-        
-        let textView: NSTextView = NSTextView()
-        textView.heightAnchor.constraint(equalToConstant: (height/2)+6).isActive = true
-        textView.alignment = .center
-        textView.isEditable = false
-        textView.isSelectable = false
-        textView.drawsBackground = false
-        textView.string = localizedString("No Bluetooth devices are available")
-        
-        self.addArrangedSubview(NSView())
-        self.addArrangedSubview(textView)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }

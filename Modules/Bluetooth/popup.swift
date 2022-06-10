@@ -14,7 +14,7 @@ import Kit
 
 internal class Popup: NSStackView, Popup_p {
     public var sizeCallback: ((NSSize) -> Void)? = nil
-    private let emptyView: EmptyView = EmptyView(height: 30, isHidden: false)
+    private let emptyView: EmptyView = EmptyView(height: 30, isHidden: false, msg: localizedString("No Bluetooth devices are available"))
     
     public init() {
         super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: 30))

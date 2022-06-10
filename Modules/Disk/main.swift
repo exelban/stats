@@ -50,6 +50,11 @@ public class Disks {
         return result
     }
     
+    // swiftlint:disable empty_count
+    public var isEmpty: Bool {
+        return self.count == 0
+    }
+    
     public func first(where predicate: (drive) -> Bool) -> drive? {
         var result: drive?
         self.queue.sync { result = self.array.first(where: predicate) }
