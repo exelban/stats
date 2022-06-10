@@ -43,6 +43,23 @@ public class Updater {
     
     private var observation: NSKeyValueObservation?
     
+    private var lastCheckTS: Int {
+        get {
+            return Store.shared.int(key: "updater_check_ts", defaultValue: -1)
+        }
+        set {
+            Store.shared.set(key: "updater_check_ts", value: newValue)
+        }
+    }
+    private var lastInstallTS: Int {
+        get {
+            return Store.shared.int(key: "updater_install_ts", defaultValue: -1)
+        }
+        set {
+            Store.shared.set(key: "updater_install_ts", value: newValue)
+        }
+    }
+    
     public init(github: String, url: String) {
         self.github = URL(string: "https://api.github.com/repos/\(github)/releases/latest")!
         self.server = URL(string: url)!
@@ -52,10 +69,20 @@ public class Updater {
         observation?.invalidate()
     }
     
-    public func check(completion: @escaping (_ result: version_s?, _ error: Error?) -> Void) {
+    public func check(force: Bool = false, completion: @escaping (_ result: version_s?, _ error: Error?) -> Void) {
         if !isConnectedToNetwork() {
             completion(nil, "No internet connection")
             return
+        }
+        
+        let diff = (Int(Date().timeIntervalSince1970) - self.lastCheckTS) / 60
+        if !force && diff <= 10 {
+            completion(nil, "last check was \(diff) minutes ago, stopping...")
+            return
+        }
+        
+        defer {
+            self.lastCheckTS = Int(Date().timeIntervalSince1970)
         }
         
         self.fetchRelease(uri: self.server) { (result, err) in
@@ -139,6 +166,16 @@ public class Updater {
     }
     
     public func install(path: String) {
+        let diff = (Int(Date().timeIntervalSince1970) - self.lastInstallTS) / 60
+        if diff <= 3 {
+            print("last install was \(diff) minutes ago, stopping...")
+            return
+        }
+        
+        defer {
+            self.lastInstallTS = Int(Date().timeIntervalSince1970)
+        }
+        
         print("Started new version installation...")
         
         _ = syncShell("mkdir /tmp/Stats") // make sure that directory exist
