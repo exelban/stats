@@ -79,6 +79,7 @@ It's only valid for M1 Apple Silicon macs. If you don't see sensors on another m
 - Indonesian (thanks to [yooody](https://github.com/yooody))
 - Hebrew (thanks to [BadSugar](https://github.com/BadSugar))
 - Slovenian (thanks to [zigapovhe](https://github.com/zigapovhe))
+- Greek (thanks to [sudoxcess](https://github.com/sudoxcess))
 
 You can help by adding a new language or improve the existing translation.
 
