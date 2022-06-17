@@ -88,8 +88,8 @@
 "Check for update" = "Zkontrolovat aktualizace";
 "Show icon in dock" = "Zobrazovat ikonu v Docku";
 "Start at login" = "Spustit po přihlášení";
-"Build number" = "Build number";
-"Reset settings" = "Reset settings";
+"Build number" = "Číslo sestavení";
+"Reset settings" = "Obnovit nastavení";
 
 // Dashboard
 "Serial number" = "Sériové číslo";
@@ -236,8 +236,8 @@
 "Reset data usage" = "Reset data usage";
 "VPN mode" = "VPN režim";
 "Standard" = "Standard";
-"Security" = "Security";
-"Channel" = "Channel";
+"Security" = "Zabezpečení";
+"Channel" = "Kanál";
 
 // Battery
 "Level" = "Úroveň";
@@ -275,7 +275,7 @@
 
 // Bluetooth
 "Battery to show" = "Baterie k zobrazení";
-"No Bluetooth devices are available" = "No Bluetooth devices are available";
+"No Bluetooth devices are available" = "Žádná bluetooth zařízení nejsou k dispozici";
 
 // Colors
 "Based on utilization" = "Na základě využití";
