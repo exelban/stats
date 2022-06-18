@@ -43,10 +43,11 @@ internal class Popup: NSStackView, Popup_p {
             }
         }
         
-        var views = self.subviews.filter{ $0 is DiskView }.map{ $0 as! DiskView }
-        if value.count < views.count && !views.isEmpty {
-            views.forEach{ $0.removeFromSuperview() }
-            views = []
+        let views = self.subviews.filter{ $0 is DiskView }.map{ $0 as! DiskView }
+        views.forEach { (v: DiskView) in
+            if !value.map({$0.mediaName}).contains(v.name) {
+                v.removeFromSuperview()
+            }
         }
         
         value.forEach { (drive: drive) in

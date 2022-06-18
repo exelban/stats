@@ -60,13 +60,9 @@ internal class CapacityReader: Reader<Disks> {
             }
         }
         
-        if active.count < self.list.count {
-            let missingDisks = active.difference(from: self.list.map{ $0.BSDName })
-            
-            missingDisks.forEach { (BSDName: String) in
-                if let idx = self.list.index(where: { $0.BSDName == BSDName }) {
-                    self.list.remove(at: idx)
-                }
+        active.difference(from: self.list.map{ $0.BSDName }).forEach { (BSDName: String) in
+            if let idx = self.list.index(where: { $0.BSDName == BSDName }) {
+                self.list.remove(at: idx)
             }
         }
         
@@ -77,7 +73,7 @@ internal class CapacityReader: Reader<Disks> {
         do {
             if let url = URL(string: path.absoluteString) {
                 let values = try url.resourceValues(forKeys: [.volumeAvailableCapacityForImportantUsageKey])
-                if let capacity = values.volumeAvailableCapacityForImportantUsage {
+                if let capacity = values.volumeAvailableCapacityForImportantUsage, capacity != 0 {
                     return capacity
                 }
             }
@@ -146,13 +142,9 @@ internal class ActivityReader: Reader<Disks> {
             }
         }
         
-        if active.count < self.list.count {
-            let missingDisks = active.difference(from: self.list.map{ $0.BSDName })
-            
-            missingDisks.forEach { (BSDName: String) in
-                if let idx = self.list.index(where: { $0.BSDName == BSDName }) {
-                    self.list.remove(at: idx)
-                }
+        active.difference(from: self.list.map{ $0.BSDName }).forEach { (BSDName: String) in
+            if let idx = self.list.index(where: { $0.BSDName == BSDName }) {
+                self.list.remove(at: idx)
             }
         }
         
