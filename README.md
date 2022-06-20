@@ -50,6 +50,9 @@ Sensors data on the first generation of M1 mac could be obtained only from HID s
 
 It's only valid for M1 Apple Silicon macs. If you don't see sensors on another mac, please open an issue for that.
 
+### How to show the CPU frequency?
+The CPU frequency is available only on Intel-based macs. You need to have installed [Intel Power Gadget](https://www.intel.com/content/www/us/en/developer/articles/tool/power-gadget.html) (IPG) for that. It allows receiving the CPU frequency from the IPG driver. There is no way to obtain a CPU frequency on Apple silicon macs.
+
 ## Supported languages
 - English
 - Polski
