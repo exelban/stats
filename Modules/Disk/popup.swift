@@ -51,11 +51,12 @@ internal class Popup: NSStackView, Popup_p {
         }
         
         value.forEach { (drive: drive) in
-            if let view = views.first(where: { $0.name == drive.mediaName }) {
+            if let view = views.first(where: { $0.BSDName == drive.BSDName }) {
                 view.updateFree(free: drive.free)
             } else {
                 self.addArrangedSubview(DiskView(
                     width: self.frame.width,
+                    BSDName: drive.BSDName,
                     name: drive.mediaName,
                     size: drive.size,
                     free: drive.free,
@@ -77,13 +78,15 @@ internal class Popup: NSStackView, Popup_p {
 
 internal class DiskView: NSStackView {
     public var name: String
+    public var BSDName: String
     
     private var nameView: NameView
     private var chartView: ChartView
     private var barView: BarView
     private var legendView: LegendView
     
-    init(width: CGFloat, name: String, size: Int64, free: Int64, path: URL?) {
+    init(width: CGFloat, BSDName: String, name: String, size: Int64, free: Int64, path: URL?) {
+        self.BSDName = BSDName
         self.name = name
         let innerWidth: CGFloat = width - (Constants.Popup.margins * 2)
         self.nameView = NameView(width: innerWidth, name: name, size: size, free: free, path: path)
