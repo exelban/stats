@@ -771,16 +771,7 @@ public class ProcessView: NSStackView {
     }
     
     public override func mouseDown(with: NSEvent) {
-        self.lock = !self.lock
-        if self.lock {
-            self.imageView.isHidden = true
-            self.killView.isHidden = false
-            self.layer?.backgroundColor = .init(gray: 0.01, alpha: 0.1)
-        } else {
-            self.imageView.isHidden = false
-            self.killView.isHidden = true
-            self.layer?.backgroundColor = .none
-        }
+        self.setLock(!self.lock)
     }
     
     public func set(_ process: TopProcess, _ value: String) {
@@ -798,7 +789,21 @@ public class ProcessView: NSStackView {
         self.valueView.stringValue = ""
         self.imageView.image = nil
         self.pid = nil
+        self.setLock(false)
         self.toolTip = ""
+    }
+    
+    private func setLock(_ state: Bool) {
+        self.lock = state
+        if self.lock {
+            self.imageView.isHidden = true
+            self.killView.isHidden = false
+            self.layer?.backgroundColor = .init(gray: 0.01, alpha: 0.1)
+        } else {
+            self.imageView.isHidden = false
+            self.killView.isHidden = true
+            self.layer?.backgroundColor = .none
+        }
     }
     
     @objc public func kill() {
