@@ -198,13 +198,10 @@ public extension Notification.Name {
     static let togglePopup = Notification.Name("togglePopup")
     static let toggleWidget = Notification.Name("toggleWidget")
     static let openModuleSettings = Notification.Name("openModuleSettings")
-    static let settingsAppear = Notification.Name("settingsAppear")
-    static let switchWidget = Notification.Name("switchWidget")
-    static let checkForUpdates = Notification.Name("checkForUpdates")
-    static let changeCronInterval = Notification.Name("changeCronInterval")
     static let clickInSettings = Notification.Name("clickInSettings")
     static let refreshPublicIP = Notification.Name("refreshPublicIP")
     static let resetTotalNetworkUsage = Notification.Name("resetTotalNetworkUsage")
+    static let syncFansControl = Notification.Name("syncFansControl")
 }
 
 public var isARM: Bool {

@@ -227,7 +227,6 @@ class ApplicationSettings: NSStackView {
         }
         
         Store.shared.set(key: "update-interval", value: key)
-        NotificationCenter.default.post(name: .changeCronInterval, object: nil, userInfo: nil)
     }
     
     @objc private func toggleTemperatureUnits(_ sender: NSMenuItem) {

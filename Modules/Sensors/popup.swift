@@ -637,6 +637,12 @@ private class ModeButtons: NSStackView {
     public var callback: (FanMode) -> Void = {_ in }
     public var turbo: () -> Void = {}
     
+    private var fansSyncState: Bool {
+        get {
+            return Store.shared.bool(key: "Sensors_fansSync", defaultValue: false)
+        }
+    }
+    
     private var autoBtn: NSButton = NSButton(title: localizedString("Automatic"), target: nil, action: #selector(autoMode))
     private var manualBtn: NSButton = NSButton(title: localizedString("Manual"), target: nil, action: #selector(manualMode))
     private var turboBtn: NSButton = NSButton(image: NSImage(named: NSImage.Name("ac_unit"))!, target: nil, action: #selector(turboMode))
@@ -683,10 +689,16 @@ private class ModeButtons: NSStackView {
         
         self.addArrangedSubview(modes)
         self.addArrangedSubview(self.turboBtn)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(syncFanMode), name: .syncFansControl, object: nil)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     @objc private func autoMode(_ sender: NSButton) {
@@ -698,6 +710,8 @@ private class ModeButtons: NSStackView {
         self.manualBtn.state = .off
         self.turboBtn.state = .off
         self.callback(.automatic)
+        
+        NotificationCenter.default.post(name: .syncFansControl, object: nil, userInfo: ["mode": "automatic"])
     }
     
     @objc private func manualMode(_ sender: NSButton) {
@@ -709,6 +723,8 @@ private class ModeButtons: NSStackView {
         self.autoBtn.state = .off
         self.turboBtn.state = .off
         self.callback(.forced)
+        
+        NotificationCenter.default.post(name: .syncFansControl, object: nil, userInfo: ["mode": "forced"])
     }
     
     @objc private func turboMode(_ sender: NSButton) {
@@ -719,7 +735,29 @@ private class ModeButtons: NSStackView {
         
         self.manualBtn.state = .off
         self.autoBtn.state = .off
+        self.turboBtn.state = .on
         self.turbo()
+        
+        if sender.title != "sync" {
+            NotificationCenter.default.post(name: .syncFansControl, object: nil, userInfo: ["mode": "turbo"])
+        }
+    }
+    
+    @objc private func syncFanMode(_ notification: Notification) {
+        guard let mode = notification.userInfo?["mode"] as? String, self.fansSyncState else {
+            return
+        }
+        
+        if mode == "automatic" {
+            self.setMode(.automatic)
+        } else if mode == "forced" {
+            self.setMode(.forced)
+        } else if mode == "turbo" {
+            let btn = NSButton()
+            btn.state = .on
+            btn.title = "sync"
+            self.turboMode(btn)
+        }
     }
     
     public func setMode(_ mode: FanMode) {
