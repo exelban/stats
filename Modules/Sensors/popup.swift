@@ -359,6 +359,7 @@ internal class FanView: NSStackView {
         self.sizeCallback()
         
         NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(self.wakeListener), name: NSWorkspace.didWakeNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(syncFanSpeed), name: .syncFansControl, object: nil)
         
         if let fanMode = self.fan.customMode, self.speedState && fanMode != FanMode.automatic {
             SMCHelper.shared.setFanMode(fan.id, mode: fanMode.rawValue)
@@ -378,6 +379,7 @@ internal class FanView: NSStackView {
     
     deinit {
         NSWorkspace.shared.notificationCenter.removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
     
     override func updateLayer() {
@@ -570,28 +572,35 @@ internal class FanView: NSStackView {
     }
     
     @objc private func sliderCallback(_ sender: NSSlider) {
-        let value = sender.doubleValue
+        let value = sender.doubleValue < self.fan.maxSpeed ? sender.doubleValue : self.fan.maxSpeed
         
         self.minBtn?.state = .off
         self.maxBtn?.state = .off
         
         self.setSpeed(value: Int(value), then: {
             DispatchQueue.main.async {
+                self.slider?.intValue = Int32(value)
                 self.sliderValueField?.textColor = .systemBlue
             }
         })
+        
+        if sender.tag != 4 {
+            NotificationCenter.default.post(name: .syncFansControl, object: nil, userInfo: ["speed": Int(value)])
+        }
     }
     
     @objc func setMin(_ sender: NSButton) {
         self.slider?.doubleValue = self.fan.minSpeed
         self.maxBtn?.state = .off
         self.setSpeed(value: Int(self.fan.minSpeed))
+        NotificationCenter.default.post(name: .syncFansControl, object: nil, userInfo: ["speed": Int(self.fan.minSpeed)])
     }
     
     @objc func setMax(_ sender: NSButton) {
         self.slider?.doubleValue = self.fan.maxSpeed
         self.minBtn?.state = .off
         self.setSpeed(value: Int(self.fan.maxSpeed))
+        NotificationCenter.default.post(name: .syncFansControl, object: nil, userInfo: ["speed": Int(self.fan.maxSpeed)])
     }
     
     @objc private func wakeListener(aNotification: NSNotification) {
@@ -599,6 +608,19 @@ internal class FanView: NSStackView {
         if let value = self.fan.customSpeed, self.fan.mode != .automatic {
             self.setSpeed(value: value)
         }
+    }
+    
+    @objc private func syncFanSpeed(_ notification: Notification) {
+        guard let speed = notification.userInfo?["speed"] as? Int, self.fan.customSpeed != speed else {
+            return
+        }
+        
+        let slider = NSSlider()
+        slider.tag = 4
+        slider.maxValue = 30000
+        slider.intValue = Int32(speed)
+        
+        self.sliderCallback(slider)
     }
     
     public func update(_ value: Fan) {
@@ -738,7 +760,7 @@ private class ModeButtons: NSStackView {
         self.turboBtn.state = .on
         self.turbo()
         
-        if sender.title != "sync" {
+        if sender.tag != 4 {
             NotificationCenter.default.post(name: .syncFansControl, object: nil, userInfo: ["mode": "turbo"])
         }
     }
@@ -755,7 +777,7 @@ private class ModeButtons: NSStackView {
         } else if mode == "turbo" {
             let btn = NSButton()
             btn.state = .on
-            btn.title = "sync"
+            btn.tag = 4
             self.turboMode(btn)
         }
     }
