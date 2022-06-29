@@ -235,9 +235,9 @@
 "Processes based" = "Folyamat alapú";
 "Reset data usage" = "Adathasználati adatok alaphelyzetbe állítása";
 "VPN mode" = "VPN mód";
-"Standard" = "Standard";
-"Security" = "Security";
-"Channel" = "Channel";
+"Standard" = "Szabvány";
+"Security" = "Biztonság";
+"Channel" = "Csatorna";
 
 // Battery
 "Level" = "Töltöttségi szint";
