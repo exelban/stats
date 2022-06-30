@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -31,7 +31,6 @@
 		9A28477B2666AA5000EC1F6D /* popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2847762666AA5000EC1F6D /* popup.swift */; };
 		9A28477C2666AA5000EC1F6D /* reader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2847772666AA5000EC1F6D /* reader.swift */; };
 		9A28477D2666AA5000EC1F6D /* widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2847782666AA5000EC1F6D /* widget.swift */; };
-		9A2847AB2666AA7B00EC1F6D /* Repeat in Frameworks */ = {isa = PBXBuildFile; productRef = 9A2847AA2666AA7B00EC1F6D /* Repeat */; };
 		9A2847C22666AA8700EC1F6D /* Kit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A2846F72666A9CC00EC1F6D /* Kit.framework */; };
 		9A2847C72666AA8C00EC1F6D /* Kit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A2846F72666A9CC00EC1F6D /* Kit.framework */; };
 		9A2847CC2666AA9100EC1F6D /* Kit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A2846F72666A9CC00EC1F6D /* Kit.framework */; };
@@ -49,6 +48,7 @@
 		9A2848202666AB3600EC1F6D /* types.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A28481C2666AB3500EC1F6D /* types.swift */; };
 		9A2848212666AB3600EC1F6D /* helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A28481D2666AB3600EC1F6D /* helpers.swift */; };
 		9A2848892666AC0100EC1F6D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9A2848882666AC0100EC1F6D /* Assets.xcassets */; };
+		9A302614286A2A3B00B41D57 /* Repeater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A302613286A2A3B00B41D57 /* Repeater.swift */; };
 		9A34353B243E278D006B19F9 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A34353A243E278D006B19F9 /* main.swift */; };
 		9A34353C243E27E8006B19F9 /* LaunchAtLogin.app in Copy Files */ = {isa = PBXBuildFile; fileRef = 9A343527243E26A0006B19F9 /* LaunchAtLogin.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		9A3E17D3247A94AF00449CD1 /* Net.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A3E17CC247A94AF00449CD1 /* Net.framework */; };
@@ -360,6 +360,7 @@
 		9A28481D2666AB3600EC1F6D /* helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = helpers.swift; sourceTree = "<group>"; };
 		9A2848882666AC0100EC1F6D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9A28493E2666AD2A00EC1F6D /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9A302613286A2A3B00B41D57 /* Repeater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repeater.swift; sourceTree = "<group>"; };
 		9A343527243E26A0006B19F9 /* LaunchAtLogin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LaunchAtLogin.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A343535243E26A0006B19F9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9A343536243E26A0006B19F9 /* LaunchAtLogin.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LaunchAtLogin.entitlements; sourceTree = "<group>"; };
@@ -485,7 +486,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9A2847AB2666AA7B00EC1F6D /* Repeat in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -796,6 +796,7 @@
 				9A2848072666AB3000EC1F6D /* Updater.swift */,
 				9A6EEBBD2685259500897371 /* Logger.swift */,
 				9A5A8446271895B700BC40A4 /* Reachability.swift */,
+				9A302613286A2A3B00B41D57 /* Repeater.swift */,
 			);
 			path = plugins;
 			sourceTree = "<group>";
@@ -1011,7 +1012,6 @@
 			);
 			name = Kit;
 			packageProductDependencies = (
-				9A2847AA2666AA7B00EC1F6D /* Repeat */,
 			);
 			productName = Kit;
 			productReference = 9A2846F72666A9CC00EC1F6D /* Kit.framework */;
@@ -1314,7 +1314,6 @@
 			);
 			mainGroup = 9A1410EC229E721100D29793;
 			packageReferences = (
-				9A27D4D72538A38A001BB651 /* XCRemoteSwiftPackageReference "Repeat" */,
 			);
 			productRefGroup = 9A1410F6229E721100D29793 /* Products */;
 			projectDirPath = "";
@@ -1499,6 +1498,7 @@
 				9A2848212666AB3600EC1F6D /* helpers.swift in Sources */,
 				9A28477A2666AA5000EC1F6D /* settings.swift in Sources */,
 				9A28475F2666AA2700EC1F6D /* LineChart.swift in Sources */,
+				9A302614286A2A3B00B41D57 /* Repeater.swift in Sources */,
 				9A28480E2666AB3000EC1F6D /* Updater.swift in Sources */,
 				9A5A8447271895B700BC40A4 /* Reachability.swift in Sources */,
 				9A2847622666AA2700EC1F6D /* Label.swift in Sources */,
@@ -2784,25 +2784,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		9A27D4D72538A38A001BB651 /* XCRemoteSwiftPackageReference "Repeat" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/malcommac/Repeat";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.6.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		9A2847AA2666AA7B00EC1F6D /* Repeat */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 9A27D4D72538A38A001BB651 /* XCRemoteSwiftPackageReference "Repeat" */;
-			productName = Repeat;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 9A1410ED229E721100D29793 /* Project object */;
 }
