@@ -30,7 +30,7 @@ public class Tachometer: WidgetWrapper {
     public init(title: String, config: NSDictionary?, preview: Bool = false) {
         let widgetTitle: String = title
         
-        super.init(.battery, title: widgetTitle, frame: CGRect(
+        super.init(.tachometer, title: widgetTitle, frame: CGRect(
             x: Constants.Widget.margin.x,
             y: Constants.Widget.margin.y,
             width: self.size,
