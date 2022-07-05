@@ -70,10 +70,17 @@ public class GPU: Module {
     private var popupView: Popup = Popup()
     
     private var selectedGPU: String = ""
+    private var notificationLevelState: Bool = false
+    private var notificationID: String? = nil
     
     private var showType: Bool {
         get {
             return Store.shared.bool(key: "\(self.config.name)_showType", defaultValue: false)
+        }
+    }
+    private var notificationLevel: String {
+        get {
+            return Store.shared.string(key: "\(self.config.name)_notificationLevel", defaultValue: "Disabled")
         }
     }
     
@@ -131,6 +138,8 @@ public class GPU: Module {
             return
         }
         
+        self.checkNotificationLevel(utilization)
+        
         self.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
             switch w.item {
             case let widget as Mini:
@@ -144,6 +153,32 @@ public class GPU: Module {
                 ])
             default: break
             }
+        }
+    }
+    
+    private func checkNotificationLevel(_ value: Double) {
+        guard self.notificationLevel != "Disabled", let level = Double(self.notificationLevel) else { return }
+        
+        if let id = self.notificationID, value < level && self.notificationLevelState {
+            if #available(macOS 10.14, *) {
+                removeNotification(id)
+            } else {
+                removeNSNotification(id)
+            }
+            
+            self.notificationID = nil
+            self.notificationLevelState = false
+        } else if value >= level && !self.notificationLevelState {
+            let title = localizedString("GPU usage threshold")
+            let subtitle = localizedString("GPU usage is", "\(Int((value)*100))%")
+            
+            if #available(macOS 10.14, *) {
+                self.notificationID = showNotification(title: title, subtitle: subtitle)
+            } else {
+                self.notificationID = showNSNotification(title: title, subtitle: subtitle)
+            }
+            
+            self.notificationLevelState = true
         }
     }
 }

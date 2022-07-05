@@ -16,6 +16,7 @@ internal class Settings: NSStackView, Settings_v {
     private var updateIntervalValue: Int = 1
     private var selectedGPU: String
     private var showTypeValue: Bool = false
+    private var notificationLevel: String = "Disabled"
     
     private let title: String
     
@@ -31,6 +32,7 @@ internal class Settings: NSStackView, Settings_v {
         self.selectedGPU = Store.shared.string(key: "\(self.title)_gpu", defaultValue: "")
         self.updateIntervalValue = Store.shared.int(key: "\(self.title)_updateInterval", defaultValue: self.updateIntervalValue)
         self.showTypeValue = Store.shared.bool(key: "\(self.title)_showType", defaultValue: self.showTypeValue)
+        self.notificationLevel = Store.shared.string(key: "\(self.title)_notificationLevel", defaultValue: self.notificationLevel)
         
         super.init(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
         
@@ -69,6 +71,13 @@ internal class Settings: NSStackView, Settings_v {
         }
         
         self.addGPUSelector()
+        
+        self.addArrangedSubview(selectSettingsRow(
+            title: localizedString("Notification level"),
+            action: #selector(changeNotificationLevel),
+            items: notificationLevels,
+            selected: self.notificationLevel == "disabled" ? self.notificationLevel : "\(Int((Double(self.notificationLevel) ?? 0)*100))%"
+        ))
     }
     
     private func addGPUSelector() {
@@ -163,5 +172,15 @@ internal class Settings: NSStackView, Settings_v {
         self.showTypeValue = state! == .on ? true : false
         Store.shared.set(key: "\(self.title)_showType", value: self.showTypeValue)
         self.callback()
+    }
+    
+    @objc func changeNotificationLevel(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String else { return }
+        
+        if key == "Disabled" {
+            Store.shared.set(key: "\(self.title)_notificationLevel", value: key)
+        } else if let value = Double(key.replacingOccurrences(of: "%", with: "")) {
+            Store.shared.set(key: "\(self.title)_notificationLevel", value: "\(value/100)")
+        }
     }
 }
