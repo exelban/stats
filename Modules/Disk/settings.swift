@@ -15,6 +15,7 @@ import Kit
 internal class Settings: NSStackView, Settings_v {
     private var removableState: Bool = false
     private var updateIntervalValue: Int = 10
+    private var notificationLevel: String = "Disabled"
     
     public var selectedDiskHandler: (String) -> Void = {_ in }
     public var callback: (() -> Void) = {}
@@ -32,6 +33,7 @@ internal class Settings: NSStackView, Settings_v {
         self.selectedDisk = Store.shared.string(key: "\(self.title)_disk", defaultValue: "")
         self.removableState = Store.shared.bool(key: "\(self.title)_removable", defaultValue: self.removableState)
         self.updateIntervalValue = Store.shared.int(key: "\(self.title)_updateInterval", defaultValue: self.updateIntervalValue)
+        self.notificationLevel = Store.shared.string(key: "\(self.title)_notificationLevel", defaultValue: self.notificationLevel)
         
         super.init(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
         
@@ -68,6 +70,13 @@ internal class Settings: NSStackView, Settings_v {
             title: localizedString("Show removable disks"),
             action: #selector(toggleRemovable),
             state: self.removableState
+        ))
+        
+        self.addArrangedSubview(selectSettingsRow(
+            title: localizedString("Notification level"),
+            action: #selector(changeNotificationLevel),
+            items: notificationLevels,
+            selected: self.notificationLevel == "Disabled" ? self.notificationLevel : "\(Int((Double(self.notificationLevel) ?? 0)*100))%"
         ))
     }
     
@@ -136,6 +145,16 @@ internal class Settings: NSStackView, Settings_v {
     @objc private func changeUpdateInterval(_ sender: NSMenuItem) {
         if let value = Int(sender.title.replacingOccurrences(of: " sec", with: "")) {
             self.setUpdateInterval(value: value)
+        }
+    }
+    
+    @objc func changeNotificationLevel(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String else { return }
+        
+        if key == "Disabled" {
+            Store.shared.set(key: "\(self.title)_notificationLevel", value: key)
+        } else if let value = Double(key.replacingOccurrences(of: "%", with: "")) {
+            Store.shared.set(key: "\(self.title)_notificationLevel", value: "\(value/100)")
         }
     }
     

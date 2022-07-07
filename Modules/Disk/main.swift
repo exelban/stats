@@ -133,6 +133,14 @@ public class Disk: Module {
     private var activityReader: ActivityReader? = nil
     private var settingsView: Settings
     private var selectedDisk: String = ""
+    private var notificationLevelState: Bool = false
+    private var notificationID: String? = nil
+    
+    private var notificationLevel: String {
+        get {
+            return Store.shared.string(key: "\(self.config.name)_notificationLevel", defaultValue: "Disabled")
+        }
+    }
     
     public init() {
         self.settingsView = Settings("Disk")
@@ -209,6 +217,8 @@ public class Disk: Module {
         }
         let percentage = Double(usedSpace) / Double(total)
         
+        self.checkNotificationLevel(percentage)
+        
         self.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
             switch w.item {
             case let widget as Mini: widget.setValue(percentage)
@@ -242,6 +252,32 @@ public class Disk: Module {
             case let widget as NetworkChart: widget.setValue(upload: Double(d.activity.write), download: Double(d.activity.read))
             default: break
             }
+        }
+    }
+    
+    private func checkNotificationLevel(_ value: Double) {
+        guard self.notificationLevel != "Disabled", let level = Double(self.notificationLevel) else { return }
+        
+        if let id = self.notificationID, value < level && self.notificationLevelState {
+            if #available(macOS 10.14, *) {
+                removeNotification(id)
+            } else {
+                removeNSNotification(id)
+            }
+            
+            self.notificationID = nil
+            self.notificationLevelState = false
+        } else if value >= level && !self.notificationLevelState {
+            let title = localizedString("Disk utilization threshold")
+            let subtitle = localizedString("Disk utilization is", "\(Int((value)*100))%")
+            
+            if #available(macOS 10.14, *) {
+                self.notificationID = showNotification(title: title, subtitle: subtitle)
+            } else {
+                self.notificationID = showNSNotification(title: title, subtitle: subtitle)
+            }
+            
+            self.notificationLevelState = true
         }
     }
 }
