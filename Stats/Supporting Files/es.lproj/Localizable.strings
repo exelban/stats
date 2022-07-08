@@ -149,6 +149,7 @@
 // Modules
 "Number of top processes" = "Número de procesos principales";
 "Update interval for top processes" = "Intervalo de actualización para los procesos principales";
+"Notification level" = "Notification level";
 
 // CPU
 "CPU usage" = "Uso de la CPU";
@@ -166,6 +167,8 @@
 "1 minute" = "1 minuto";
 "5 minutes" = "5 minutos";
 "15 minutes" = "15 minutos";
+"CPU usage threshold" = "CPU usage threshold";
+"CPU usage is" = "CPU usage is %0";
 
 // GPU
 "GPU to show" = "GPU a mostrar";
@@ -185,6 +188,8 @@
 "Utilization" = "Utilización";
 "Render utilization" = "Render utilization";
 "Tiler utilization" = "Tiler utilization";
+"GPU usage threshold" = "GPU usage threshold";
+"GPU usage is" = "GPU usage is %0";
 
 // RAM
 "Memory usage" = "Uso de la memoria";
@@ -197,6 +202,8 @@
 "Free" = "Libre";
 "Swap" = "Swap";
 "Split the value (App/Wired/Compressed)" = "Dividir el valor (App/Física/Comprimida)";
+"RAM utilization threshold" = "RAM utilization threshold";
+"RAM utilization is" = "RAM utilization is %0";
 
 // Disk
 "Show removable disks" = "Mostrar los discos extraíbles";
@@ -205,6 +212,8 @@
 "Disk to show" = "Disco a mostrar";
 "Open disk" = "Disco abierto";
 "Switch view" = "Cambiar vista";
+"Disk utilization threshold" = "Disk utilization threshold";
+"Disk utilization is" = "Disk utilization is %0";
 
 // Sensors
 "Temperature unit" = "Unidad de temperatura";
@@ -213,6 +222,7 @@
 "Save the fan speed" = "Guardar la velocidad del ventilador";
 "Fan" = "Fan";
 "HID sensors" = "Sensores HID";
+"Synchronize fan's control" = "Synchronize fan's control";
 
 // Network
 "Uploading" = "Carga";

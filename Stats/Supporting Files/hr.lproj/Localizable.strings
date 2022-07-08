@@ -149,6 +149,7 @@
 // Modules
 "Number of top processes" = "Broj glavnih procesa";
 "Update interval for top processes" = "Interval aktualiziranja za glavne procese";
+"Notification level" = "Notification level";
 
 // CPU
 "CPU usage" = "Korištenje procesora";
@@ -166,6 +167,8 @@
 "1 minute" = "1 minuta";
 "5 minutes" = "5 minuta";
 "15 minutes" = "15 minuta";
+"CPU usage threshold" = "CPU usage threshold";
+"CPU usage is" = "CPU usage is %0";
 
 // GPU
 "GPU to show" = "Grafički procesor";
@@ -185,6 +188,8 @@
 "Utilization" = "Korištenje";
 "Render utilization" = "Korištenje iscrtavača";
 "Tiler utilization" = "Korištenje popločivanja";
+"GPU usage threshold" = "GPU usage threshold";
+"GPU usage is" = "GPU usage is %0";
 
 // RAM
 "Memory usage" = "Korištenje memorije";
@@ -197,6 +202,8 @@
 "Free" = "Slobodno";
 "Swap" = "Virtualno";
 "Split the value (App/Wired/Compressed)" = "Podijeli vrijednost (Program/Rezidentno/Komprimirano)";
+"RAM utilization threshold" = "RAM utilization threshold";
+"RAM utilization is" = "RAM utilization is %0";
 
 // Disk
 "Show removable disks" = "Prikaži prijenosne diskove";
@@ -205,6 +212,8 @@
 "Disk to show" = "Disk";
 "Open disk" = "Otvori disk";
 "Switch view" = "Zamijeni prikaz";
+"Disk utilization threshold" = "Disk utilization threshold";
+"Disk utilization is" = "Disk utilization is %0";
 
 // Sensors
 "Temperature unit" = "Jedinica temperature";
@@ -213,6 +222,7 @@
 "Save the fan speed" = "Spremi brzinu ventilatora";
 "Fan" = "Ventilator";
 "HID sensors" = "HID sensori";
+"Synchronize fan's control" = "Synchronize fan's control";
 
 // Network
 "Uploading" = "Slanje";

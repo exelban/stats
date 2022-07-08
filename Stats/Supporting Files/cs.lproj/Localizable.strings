@@ -149,6 +149,7 @@
 // Modules
 "Number of top processes" = "Počet prvních procesů";
 "Update interval for top processes" = "Interval aktualizace pro první procesy";
+"Notification level" = "Notification level";
 
 // CPU
 "CPU usage" = "Použití CPU";
@@ -166,6 +167,8 @@
 "1 minute" = "1 minuta";
 "5 minutes" = "5 minut";
 "15 minutes" = "15 minut";
+"CPU usage threshold" = "CPU usage threshold";
+"CPU usage is" = "CPU usage is %0";
 
 // GPU
 "GPU to show" = "GPU k zobrazení";
@@ -185,6 +188,8 @@
 "Utilization" = "Využití";
 "Render utilization" = "Využití vykreslování";
 "Tiler utilization" = "Využití tilingu";
+"GPU usage threshold" = "GPU usage threshold";
+"GPU usage is" = "GPU usage is %0";
 
 // RAM
 "Memory usage" = "Využití paměti";
@@ -197,6 +202,8 @@
 "Free" = "Volná";
 "Swap" = "Odkládací";
 "Split the value (App/Wired/Compressed)" = "Rozdělit hodnotu (Aplikační/Pevná/Komprese)";
+"RAM utilization threshold" = "RAM utilization threshold";
+"RAM utilization is" = "RAM utilization is %0";
 
 // Disk
 "Show removable disks" = "Zobrazovat vyměnitelné disky";
@@ -205,6 +212,8 @@
 "Disk to show" = "Zobrazit disk";
 "Open disk" = "Otevřít disk";
 "Switch view" = "Přepnout pohled";
+"Disk utilization threshold" = "Disk utilization threshold";
+"Disk utilization is" = "Disk utilization is %0";
 
 // Sensors
 "Temperature unit" = "Jednotka teploty";
@@ -213,6 +222,7 @@
 "Save the fan speed" = "Uložit rychlost ventilátoru";
 "Fan" = "Ventilátor";
 "HID sensors" = "HID senzory";
+"Synchronize fan's control" = "Synchronize fan's control";
 
 // Network
 "Uploading" = "Nahrávání";

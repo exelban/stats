@@ -149,6 +149,7 @@
 // Modules
 "Number of top processes" = "Top folyamatok száma";
 "Update interval for top processes" = "Top folyamatok frissítési időköze";
+"Notification level" = "Notification level";
 
 // CPU
 "CPU usage" = "CPU használat";
@@ -166,6 +167,8 @@
 "1 minute" = "1 perc";
 "5 minutes" = "5 perc";
 "15 minutes" = "15 perc";
+"CPU usage threshold" = "CPU usage threshold";
+"CPU usage is" = "CPU usage is %0";
 
 // GPU
 "GPU to show" = "Megjelenítendő GPU";
@@ -185,6 +188,8 @@
 "Utilization" = "Felhasználás";
 "Render utilization" = "Render használat";
 "Tiler utilization" = "Tiler használat";
+"GPU usage threshold" = "GPU usage threshold";
+"GPU usage is" = "GPU usage is %0";
 
 // RAM
 "Memory usage" = "Memóriahasználat";
@@ -197,6 +202,8 @@
 "Free" = "Szabad";
 "Swap" = "Csereterület";
 "Split the value (App/Wired/Compressed)" = "Ossza fel az értéket (Alkalmazás/Nem lapozható/Tömörített)";
+"RAM utilization threshold" = "RAM utilization threshold";
+"RAM utilization is" = "RAM utilization is %0";
 
 // Disk
 "Show removable disks" = "Eltávolítható adattárolók megjelenítése";
@@ -205,6 +212,8 @@
 "Disk to show" = "Megjelenítendő lemez";
 "Open disk" = "Merevlemez megnyitása";
 "Switch view" = "Nézet felcserélése";
+"Disk utilization threshold" = "Disk utilization threshold";
+"Disk utilization is" = "Disk utilization is %0";
 
 // Sensors
 "Temperature unit" = "Hőmérséklet mértékegysége";
@@ -213,6 +222,7 @@
 "Save the fan speed" = "Ventilátor sebesség mentése";
 "Fan" = "Ventilátor";
 "HID sensors" = "HID szenzorok";
+"Synchronize fan's control" = "Synchronize fan's control";
 
 // Network
 "Uploading" = "Feltöltés";

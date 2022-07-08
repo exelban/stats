@@ -149,6 +149,7 @@
 // Modules
 "Number of top processes" = "Количество процессов";
 "Update interval for top processes" = "Интервал обновления процессов";
+"Notification level" = "Уровень уведомления";
 
 // CPU
 "CPU usage" = "Использование процессора";
@@ -166,6 +167,8 @@
 "1 minute" = "1 минута";
 "5 minutes" = "5 минут";
 "15 minutes" = "15 минут";
+"CPU usage threshold" = "CPU usage threshold";
+"CPU usage is" = "CPU usage is %0";
 
 // GPU
 "GPU to show" = "Активный графический процессор";
@@ -185,6 +188,8 @@
 "Utilization" = "Использование";
 "Render utilization" = "Использование render";
 "Tiler utilization" = "Использование tiler";
+"GPU usage threshold" = "GPU usage threshold";
+"GPU usage is" = "GPU usage is %0";
 
 // RAM
 "Memory usage" = "Нагрузка на память";
@@ -197,6 +202,8 @@
 "Free" = "Свободная";
 "Swap" = "Swap";
 "Split the value (App/Wired/Compressed)" = "Разделить значение (Программы/Зарезервированная/Сжатая)";
+"RAM utilization threshold" = "RAM utilization threshold";
+"RAM utilization is" = "RAM utilization is %0";
 
 // Disk
 "Show removable disks" = "Показать съемные диски";
@@ -205,6 +212,8 @@
 "Disk to show" = "Активный диск";
 "Open disk" = "Открытый диск";
 "Switch view" = "Переключить вид";
+"Disk utilization threshold" = "Disk utilization threshold";
+"Disk utilization is" = "Disk utilization is %0";
 
 // Sensors
 "Temperature unit" = "Единица измерения температуры";
@@ -213,6 +222,7 @@
 "Save the fan speed" = "Сохранить скорость вентилятора";
 "Fan" = "Вентилятор";
 "HID sensors" = "HID датчики";
+"Synchronize fan's control" = "Synchronize fan's control";
 
 // Network
 "Uploading" = "Выгрузка";

@@ -9,7 +9,6 @@
 //  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
 //
 
-
 // Modules
 "CPU" = "מעבד";
 "Open CPU settings" = "פתח/י הגדרות מעבד";
@@ -150,6 +149,7 @@
 // Modules
 "Number of top processes" = "מספר התהליכים המובילים";
 "Update interval for top processes" = "מרווח עדכון עבור תהליכים מובילים";
+"Notification level" = "Notification level";
 
 // CPU
 "CPU usage" = "שימוש המעבד";
@@ -167,6 +167,8 @@
 "1 minute" = "דקה";
 "5 minutes" = "5 דקות";
 "15 minutes" = "דקות 15";
+"CPU usage threshold" = "CPU usage threshold";
+"CPU usage is" = "CPU usage is %0";
 
 // GPU
 "GPU to show" = "להראות GPU";
@@ -186,6 +188,8 @@
 "Utilization" = "ניצול";
 "Render utilization" = "ניצול רנדור";
 "Tiler utilization" = "ניצול ריצוף";
+"GPU usage threshold" = "GPU usage threshold";
+"GPU usage is" = "GPU usage is %0";
 
 // RAM
 "Memory usage" = "שימוש בזכרון";
@@ -198,6 +202,8 @@
 "Free" = "משוחרר";
 "Swap" = "החלפה";
 "Split the value (App/Wired/Compressed)" = "(אפליקציה/חוטי/מכווץ) פצל/י את הערך";
+"RAM utilization threshold" = "RAM utilization threshold";
+"RAM utilization is" = "RAM utilization is %0";
 
 // Disk
 "Show removable disks" = "הראה דיסקים הניתנים להסרה";
@@ -206,6 +212,8 @@
 "Disk to show" = "דיסק להראות";
 "Open disk" = "פתח/י דיסק";
 "Switch view" = "החלף תצוגה";
+"Disk utilization threshold" = "Disk utilization threshold";
+"Disk utilization is" = "Disk utilization is %0";
 
 // Sensors
 "Temperature unit" = "יחידת טמפרטורה";
@@ -214,6 +222,7 @@
 "Save the fan speed" = "שמירת מהירות המאורר";
 "Fan" = "Fan";
 "HID sensors" = "HID חיישני";
+"Synchronize fan's control" = "Synchronize fan's control";
 
 // Network
 "Uploading" = "העלאה";

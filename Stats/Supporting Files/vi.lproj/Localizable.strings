@@ -149,6 +149,7 @@
 // Modules
 "Number of top processes" = "Số lượng top tiến trình";
 "Update interval for top processes" = "Khoảng thời gian cập nhật cho các top tiến trình";
+"Notification level" = "Notification level";
 
 // CPU
 "CPU usage" = "Sử dụng CPU";
@@ -166,6 +167,8 @@
 "1 minute" = "1 phút";
 "5 minutes" = "5 phút";
 "15 minutes" = "15 phút";
+"CPU usage threshold" = "CPU usage threshold";
+"CPU usage is" = "CPU usage is %0";
 
 // GPU
 "GPU to show" = "GPU để hiển thị";
@@ -185,6 +188,8 @@
 "Utilization" = "Công suất sử dụng";
 "Render utilization" = "Render utilization";
 "Tiler utilization" = "Tiler utilization";
+"GPU usage threshold" = "GPU usage threshold";
+"GPU usage is" = "GPU usage is %0";
 
 // RAM
 "Memory usage" = "Sử dụng Bộ nhớ";
@@ -197,6 +202,8 @@
 "Free" = "Còn Trống";
 "Swap" = "RAM ảo";
 "Split the value (App/Wired/Compressed)" = "Chia nhỏ giá trị (Ứng dụng/Tính toán/Đã nén)";
+"RAM utilization threshold" = "RAM utilization threshold";
+"RAM utilization is" = "RAM utilization is %0";
 
 // Disk
 "Show removable disks" = "Hiển thị các đĩa rời";
@@ -205,6 +212,8 @@
 "Disk to show" = "Đĩa hiển thị";
 "Open disk" = "Mở ổ đĩa";
 "Switch view" = "Chuyển đổi chế độ xem";
+"Disk utilization threshold" = "Disk utilization threshold";
+"Disk utilization is" = "Disk utilization is %0";
 
 // Sensors
 "Temperature unit" = "Đơn vị nhiệt độ";
@@ -213,6 +222,7 @@
 "Save the fan speed" = "Lưu tốc độ quạt";
 "Fan" = "Quạt";
 "HID sensors" = "Cảm biến HID";
+"Synchronize fan's control" = "Synchronize fan's control";
 
 // Network
 "Uploading" = "Tải lên";

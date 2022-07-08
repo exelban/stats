@@ -149,6 +149,7 @@
 // Modules
 "Number of top processes" = "프로세스 수";
 "Update interval for top processes" = "상위 프로세스의 업데이트 주기";
+"Notification level" = "Notification level";
 
 // CPU
 "CPU usage" = "CPU 사용량";
@@ -166,6 +167,8 @@
 "1 minute" = "1 분";
 "5 minutes" = "5 분";
 "15 minutes" = "15 분";
+"CPU usage threshold" = "CPU usage threshold";
+"CPU usage is" = "CPU usage is %0";
 
 // GPU
 "GPU to show" = "표시할 GPU";
@@ -185,6 +188,8 @@
 "Utilization" = "Utilization";
 "Render utilization" = "Render utilization";
 "Tiler utilization" = "Tiler utilization";
+"GPU usage threshold" = "GPU usage threshold";
+"GPU usage is" = "GPU usage is %0";
 
 // RAM
 "Memory usage" = "메모리 사용량";
@@ -197,6 +202,8 @@
 "Free" = "여유";
 "Swap" = "사용된 스왑 공간";
 "Split the value (App/Wired/Compressed)" = "값 분할 (앱/예약됨/압축됨)";
+"RAM utilization threshold" = "RAM utilization threshold";
+"RAM utilization is" = "RAM utilization is %0";
 
 // Disk
 "Show removable disks" = "이동식 디스크 표시";
@@ -205,6 +212,8 @@
 "Disk to show" = "표시할 디스크";
 "Open disk" = "디스크 열기";
 "Switch view" = "보기 전환";
+"Disk utilization threshold" = "Disk utilization threshold";
+"Disk utilization is" = "Disk utilization is %0";
 
 // Sensors
 "Temperature unit" = "온도 단위";
@@ -213,6 +222,7 @@
 "Save the fan speed" = "팬 속도 절약";
 "Fan" = "Fan";
 "HID sensors" = "HID 센서";
+"Synchronize fan's control" = "Synchronize fan's control";
 
 // Network
 "Uploading" = "업로딩";

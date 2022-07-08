@@ -149,6 +149,7 @@
 // Modules
 "Number of top processes" = "表示する上位プロセスの数";
 "Update interval for top processes" = "上位プロセスの更新間隔";
+"Notification level" = "Notification level";
 
 // CPU
 "CPU usage" = "CPU 使用率";
@@ -166,6 +167,8 @@
 "1 minute" = "1 分";
 "5 minutes" = "5 分";
 "15 minutes" = "15 分";
+"CPU usage threshold" = "CPU usage threshold";
+"CPU usage is" = "CPU usage is %0";
 
 // GPU
 "GPU to show" = "表示する GPU";
@@ -185,6 +188,8 @@
 "Utilization" = "使用率";
 "Render utilization" = "レンダリング";
 "Tiler utilization" = "タイルレンダリング";
+"GPU usage threshold" = "GPU usage threshold";
+"GPU usage is" = "GPU usage is %0";
 
 // RAM
 "Memory usage" = "メモリ使用率";
@@ -197,6 +202,8 @@
 "Free" = "空き";
 "Swap" = "スワップ使用領域";
 "Split the value (App/Wired/Compressed)" = "値を分割する (アプリケーションメモリ/確保されているメモリ/圧縮)";
+"RAM utilization threshold" = "RAM utilization threshold";
+"RAM utilization is" = "RAM utilization is %0";
 
 // Disk
 "Show removable disks" = "リムーバブルディスクを表示";
@@ -205,6 +212,8 @@
 "Disk to show" = "表示するディスク";
 "Open disk" = "このディスクを表示";
 "Switch view" = "表示を切り替える";
+"Disk utilization threshold" = "Disk utilization threshold";
+"Disk utilization is" = "Disk utilization is %0";
 
 // Sensors
 "Temperature unit" = "温度単位";
@@ -213,6 +222,7 @@
 "Save the fan speed" = "ファンの速度を保存";
 "Fan" = "ファン";
 "HID sensors" = "HID センサー";
+"Synchronize fan's control" = "Synchronize fan's control";
 
 // Network
 "Uploading" = "送信";

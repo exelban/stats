@@ -149,6 +149,7 @@
 // Modules
 "Number of top processes" = "Aantal topprocessen";
 "Update interval for top processes" = "Bewerk interval voor top processen";
+"Notification level" = "Notification level";
 
 // CPU
 "CPU usage" = "CPU gebruik";
@@ -166,6 +167,8 @@
 "1 minute" = "1 minuut";
 "5 minutes" = "5 minuten";
 "15 minutes" = "15 minuten";
+"CPU usage threshold" = "CPU usage threshold";
+"CPU usage is" = "CPU usage is %0";
 
 // GPU
 "GPU to show" = "GPU om te laten zien";
@@ -185,6 +188,8 @@
 "Utilization" = "Benutting";
 "Render utilization" = "Render utilization";
 "Tiler utilization" = "Tiler utilization";
+"GPU usage threshold" = "GPU usage threshold";
+"GPU usage is" = "GPU usage is %0";
 
 // RAM
 "Memory usage" = "Geheugengebruik";
@@ -197,6 +202,8 @@
 "Free" = "Vrij";
 "Swap" = "Swap";
 "Split the value (App/Wired/Compressed)" = "Opdel værdien (App/Wired/Gecomprimeerd)";
+"RAM utilization threshold" = "RAM utilization threshold";
+"RAM utilization is" = "RAM utilization is %0";
 
 // Disk
 "Show removable disks" = "Toon verwijderbare schijven";
@@ -205,6 +212,8 @@
 "Disk to show" = "Schijf om te laten zien";
 "Open disk" = "Open schijf";
 "Switch view" = "Wissel weergave";
+"Disk utilization threshold" = "Disk utilization threshold";
+"Disk utilization is" = "Disk utilization is %0";
 
 // Sensors
 "Temperature unit" = "Temperatuureenheid";
@@ -213,6 +222,7 @@
 "Save the fan speed" = "Ventilatorsnelheid opslaan";
 "Fan" = "Ventilator";
 "HID sensors" = "HID sensors";
+"Synchronize fan's control" = "Synchronize fan's control";
 
 // Network
 "Uploading" = "Uploaden";

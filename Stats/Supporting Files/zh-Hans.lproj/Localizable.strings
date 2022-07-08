@@ -149,6 +149,7 @@
 // Modules
 "Number of top processes" = "高占用进程数";
 "Update interval for top processes" = "高占用进程的更新间隔";
+"Notification level" = "Notification level";
 
 // CPU
 "CPU usage" = "CPU 占用";
@@ -166,6 +167,8 @@
 "1 minute" = "1 分钟";
 "5 minutes" = "5 分钟";
 "15 minutes" = "15 分钟";
+"CPU usage threshold" = "CPU usage threshold";
+"CPU usage is" = "CPU usage is %0";
 
 // GPU
 "GPU to show" = "显示的 GPU";
@@ -185,18 +188,22 @@
 "Utilization" = "利用率";
 "Render utilization" = "渲染利用率";
 "Tiler utilization" = "Tiler 利用率";
+"GPU usage threshold" = "GPU usage threshold";
+"GPU usage is" = "GPU usage is %0";
 
 // RAM
 "Memory usage" = "内存占用";
 "Memory pressure" = "内存压力";
 "Total" = "共计";
 "Used" = "已用";
-"App" = "App 内存"; // Use the same translation as the "Activity Monitor.app"
+"App" = "App 内存";
 "Wired" = "联动内存";
 "Compressed" = "被压缩";
 "Free" = "可用";
 "Swap" = "交换区";
 "Split the value (App/Wired/Compressed)" = "柱状图区分显示（App 内存/联动内存/被压缩）";
+"RAM utilization threshold" = "RAM utilization threshold";
+"RAM utilization is" = "RAM utilization is %0";
 
 // Disk
 "Show removable disks" = "显示可移动磁盘";
@@ -205,6 +212,8 @@
 "Disk to show" = "显示的磁盘";
 "Open disk" = "打开磁盘";
 "Switch view" = "切换视图";
+"Disk utilization threshold" = "Disk utilization threshold";
+"Disk utilization is" = "Disk utilization is %0";
 
 // Sensors
 "Temperature unit" = "温度单位";
@@ -213,6 +222,7 @@
 "Save the fan speed" = "保存风扇转速";
 "Fan" = "风扇";
 "HID sensors" = "HID 传感器";
+"Synchronize fan's control" = "Synchronize fan's control";
 
 // Network
 "Uploading" = "上传";

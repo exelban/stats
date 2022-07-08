@@ -149,6 +149,7 @@
 // Modules
 "Number of top processes" = "Кількість процесів";
 "Update interval for top processes" = "Інтервал оновлення для процесів";
+"Notification level" = "Рівень сповіщення";
 
 // CPU
 "CPU usage" = "Використання процесора";
@@ -166,6 +167,8 @@
 "1 minute" = "1 хвилина";
 "5 minutes" = "5 хвилин";
 "15 minutes" = "15 хвилин";
+"CPU usage threshold" = "CPU usage threshold";
+"CPU usage is" = "CPU usage is %0";
 
 // GPU
 "GPU to show" = "Активний графічний процесор";
@@ -185,6 +188,8 @@
 "Utilization" = "Використання";
 "Render utilization" = "Використання render";
 "Tiler utilization" = "Використання tiler";
+"GPU usage threshold" = "GPU usage threshold";
+"GPU usage is" = "GPU usage is %0";
 
 // RAM
 "Memory usage" = "Навантаженість пам’яті";
@@ -197,6 +202,8 @@
 "Free" = "Вільна";
 "Swap" = "Swap";
 "Split the value (App/Wired/Compressed)" = "Розділити значення (Програми/Постійна/Стисненна)";
+"RAM utilization threshold" = "RAM utilization threshold";
+"RAM utilization is" = "RAM utilization is %0";
 
 // Disk
 "Show removable disks" = "Показати зйомні диски";
@@ -205,6 +212,8 @@
 "Disk to show" = "Активний диск";
 "Open disk" = "Відкрити диск";
 "Switch view" = "Переключити вигляд";
+"Disk utilization threshold" = "Disk utilization threshold";
+"Disk utilization is" = "Disk utilization is %0";
 
 // Sensors
 "Temperature unit" = "Одиниця виміру температури";
@@ -213,6 +222,7 @@
 "Save the fan speed" = "Зберегти швидкість вентилятора";
 "Fan" = "Вентилятор";
 "HID sensors" = "HID датчики";
+"Synchronize fan's control" = "Synchronize fan's control";
 
 // Network
 "Uploading" = "Висилання";

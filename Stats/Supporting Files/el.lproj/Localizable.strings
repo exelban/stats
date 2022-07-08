@@ -149,6 +149,7 @@
 // Modules
 "Number of top processes" = "Αριθμός κορυφαίων διεργασιών";
 "Update interval for top processes" = "Ενημέρωση μεσοδιαστήματος για τις κορυφαίες διεργασίες";
+"Notification level" = "Notification level";
 
 // CPU
 "CPU usage" = "Χρήση CPU";
@@ -166,6 +167,8 @@
 "1 minute" = "1 λεπτό";
 "5 minutes" = "5 λεπτά";
 "15 minutes" = "15 λεπτά";
+"CPU usage threshold" = "CPU usage threshold";
+"CPU usage is" = "CPU usage is %0";
 
 // GPU
 "GPU to show" = "GPU προς εμφάνιση";
@@ -185,6 +188,8 @@
 "Utilization" = "Χρήση";
 "Render utilization" = "Render utilization";
 "Tiler utilization" = "Tiler utilization";
+"GPU usage threshold" = "GPU usage threshold";
+"GPU usage is" = "GPU usage is %0";
 
 // RAM
 "Memory usage" = "Χρήση μνήμης";
@@ -197,6 +202,8 @@
 "Free" = "Ελεύθερη";
 "Swap" = "Ανταλλαγή";
 "Split the value (App/Wired/Compressed)" = "Χωρισμός της τιμής (Εφαρμογή/Δεσμευμένη/Συμπιεσμένη)";
+"RAM utilization threshold" = "RAM utilization threshold";
+"RAM utilization is" = "RAM utilization is %0";
 
 // Disk
 "Show removable disks" = "Εμφάνιση αφαιρούμενων δίσκων";
@@ -204,7 +211,9 @@
 "Free disk memory" = "%0 απο %1 ελεύθερη";
 "Disk to show" = "Δίσκοι προς εμφάνιση";
 "Open disk" = "Άνοιγμα δίσκου";
-"Switch view" = "Αλλαγή προβολής ";
+"Switch view" = "Αλλαγή προβολής";
+"Disk utilization threshold" = "Disk utilization threshold";
+"Disk utilization is" = "Disk utilization is %0";
 
 // Sensors
 "Temperature unit" = "Μονάδα θερμοκρασίας";
@@ -213,6 +222,7 @@
 "Save the fan speed" = "Αποθήκευση ταχύτητας του ανεμιστήρα";
 "Fan" = "Ανεμιστήρας";
 "HID sensors" = "HID αισθητήρας";
+"Synchronize fan's control" = "Synchronize fan's control";
 
 // Network
 "Uploading" = "Μεταφόρτωση";

@@ -149,6 +149,7 @@
 // Modules
 "Number of top processes" = "Antall topp-prosesser";
 "Update interval for top processes" = "Oppdateringsintervall for topp-prosesser";
+"Notification level" = "Notification level";
 
 // CPU
 "CPU usage" = "CPU-bruk";
@@ -166,6 +167,8 @@
 "1 minute" = "1 minutt";
 "5 minutes" = "5 minutter";
 "15 minutes" = "15 minutter";
+"CPU usage threshold" = "CPU usage threshold";
+"CPU usage is" = "CPU usage is %0";
 
 // GPU
 "GPU to show" = "GPU å vise";
@@ -185,6 +188,8 @@
 "Utilization" = "Bruk";
 "Render utilization" = "Render utilization";
 "Tiler utilization" = "Tiler utilization";
+"GPU usage threshold" = "GPU usage threshold";
+"GPU usage is" = "GPU usage is %0";
 
 // RAM
 "Memory usage" = "Minnebruk";
@@ -197,6 +202,8 @@
 "Free" = "Ledig";
 "Swap" = "Swap";
 "Split the value (App/Wired/Compressed)" = "Del verdien (Programmer/Opptatt/Komprimert)";
+"RAM utilization threshold" = "RAM utilization threshold";
+"RAM utilization is" = "RAM utilization is %0";
 
 // Disk
 "Show removable disks" = "Vis utløsbare disker";
@@ -205,6 +212,8 @@
 "Disk to show" = "Disker å vise";
 "Open disk" = "Åpne disken";
 "Switch view" = "Bytt visning";
+"Disk utilization threshold" = "Disk utilization threshold";
+"Disk utilization is" = "Disk utilization is %0";
 
 // Sensors
 "Temperature unit" = "Temperaturenhet";
@@ -213,6 +222,7 @@
 "Save the fan speed" = "Lagre viftehastighet";
 "Fan" = "Fan";
 "HID sensors" = "HID sensors";
+"Synchronize fan's control" = "Synchronize fan's control";
 
 // Network
 "Uploading" = "Opplasting";
