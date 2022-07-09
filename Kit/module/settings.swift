@@ -41,6 +41,15 @@ open class Settings: NSStackView, Settings_p {
         return view
     }()
     
+    private var oneViewState: Bool {
+        get {
+            return Store.shared.bool(key: "\(self.config.pointee.name)_oneView", defaultValue: false)
+        }
+        set {
+            Store.shared.set(key: "\(self.config.pointee.name)_oneView", value: newValue)
+        }
+    }
+    
     init(config: UnsafePointer<module_c>, widgets: UnsafeMutablePointer<[Widget]>, enabled: Bool, moduleSettings: Settings_v?) {
         self.config = config
         self.widgets = widgets.pointee
@@ -145,7 +154,7 @@ open class Settings: NSStackView, Settings_p {
         )
         view.spacing = Constants.Settings.margin
         
-        view.addArrangedSubview(WidgetSelectorView(widgets: self.widgets, stateCallback: self.loadWidget))
+        view.addArrangedSubview(WidgetSelectorView(module: self.config.pointee.name, widgets: self.widgets, stateCallback: self.loadWidget))
         view.addArrangedSubview(self.settings())
         
         return view
@@ -225,6 +234,26 @@ open class Settings: NSStackView, Settings_p {
             return
         }
         
+        let container = NSStackView()
+        container.orientation = .vertical
+        container.distribution = .gravityAreas
+        container.translatesAutoresizingMaskIntoConstraints = false
+        container.edgeInsets = NSEdgeInsets(
+            top: Constants.Settings.margin,
+            left: Constants.Settings.margin,
+            bottom: Constants.Settings.margin,
+            right: Constants.Settings.margin
+        )
+        container.spacing = Constants.Settings.margin
+        
+        container.addArrangedSubview(toggleSettingRow(
+            title: "\(localizedString("Merge widgets into one"))",
+            action: #selector(self.toggleOneView),
+            state: self.oneViewState
+        ))
+        
+        self.widgetSettingsContainer?.addArrangedSubview(container)
+        
         for i in 0...list.count - 1 {
             self.widgetSettingsContainer?.addArrangedSubview(WidgetSettings(
                 title: list[i].type.name(),
@@ -233,12 +262,26 @@ open class Settings: NSStackView, Settings_p {
             ))
         }
     }
+    
+    @objc private func toggleOneView(_ sender: NSControl) {
+        var state: NSControl.StateValue? = nil
+        if #available(OSX 10.15, *) {
+            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
+        } else {
+            state = sender is NSButton ? (sender as! NSButton).state: nil
+        }
+        
+        self.oneViewState = state! == .on ? true : false
+        NotificationCenter.default.post(name: .toggleOneView, object: nil, userInfo: ["module": self.config.pointee.name])
+    }
 }
 
 class WidgetSelectorView: NSStackView {
+    private var module: String
     private var stateCallback: () -> Void = {}
     
-    public init(widgets: [Widget], stateCallback: @escaping () -> Void) {
+    public init(module: String, widgets: [Widget], stateCallback: @escaping () -> Void) {
+        self.module = module
         self.stateCallback = stateCallback
         
         super.init(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
@@ -378,6 +421,7 @@ class WidgetSelectorView: NSStackView {
                     } else if newIdx >= separatorIdx {
                         view.status(false)
                     }
+                    NotificationCenter.default.post(name: .widgetRearrange, object: nil, userInfo: ["module": self.module])
                 }
                 
                 view.mouseUp(with: event)

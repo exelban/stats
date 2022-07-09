@@ -94,7 +94,7 @@ public class Sensors: Module {
         
         self.popupView.usageCallback(value)
         
-        self.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
+        self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
             switch w.item {
             case let widget as SensorsWidget: widget.setValues(list)
             case let widget as BarChart: widget.setValue(flatList)

@@ -125,7 +125,7 @@ public class Battery: Module {
         self.checkHighNotification(value: value)
         self.popupView.usageCallback(value)
         
-        self.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
+        self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
             switch w.item {
             case let widget as Mini:
                 widget.setValue(abs(value.level))

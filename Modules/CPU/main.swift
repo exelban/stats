@@ -164,7 +164,7 @@ public class CPU: Module {
         self.popupView.loadCallback(value)
         self.checkNotificationLevel(value.totalUsage)
         
-        self.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
+        self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
             switch w.item {
             case let widget as Mini: widget.setValue(value.totalUsage)
             case let widget as LineChart: widget.setValue(value.totalUsage)

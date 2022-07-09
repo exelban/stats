@@ -75,7 +75,7 @@ internal class Settings: NSStackView, Settings_v {
         ))
         
         self.addArrangedSubview(toggleSettingRow(
-            title: localizedString("Synchronize the fans control"),
+            title: localizedString("Synchronize fan's control"),
             action: #selector(toggleFansSync),
             state: self.fansSyncState
         ))

@@ -178,7 +178,7 @@ public class Network: Module {
         
         self.popupView.usageCallback(value)
         
-        self.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
+        self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
             switch w.item {
             case let widget as SpeedWidget: widget.setValue(upload: value.bandwidth.upload, download: value.bandwidth.download)
             case let widget as NetworkChart: widget.setValue(upload: Double(value.bandwidth.upload), download: Double(value.bandwidth.download))

@@ -219,7 +219,7 @@ public class Disk: Module {
         
         self.checkNotificationLevel(percentage)
         
-        self.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
+        self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
             switch w.item {
             case let widget as Mini: widget.setValue(percentage)
             case let widget as BarChart: widget.setValue([[ColorValue(percentage)]])
@@ -246,7 +246,7 @@ public class Disk: Module {
             return
         }
         
-        self.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
+        self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
             switch w.item {
             case let widget as SpeedWidget: widget.setValue(upload: d.activity.write, download: d.activity.read)
             case let widget as NetworkChart: widget.setValue(upload: Double(d.activity.write), download: Double(d.activity.read))
