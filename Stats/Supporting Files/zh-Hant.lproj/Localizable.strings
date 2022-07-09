@@ -133,6 +133,7 @@
 "Number of reads in the chart" = "圖表中的讀取次數";
 "Color of download" = "下載的顯示色彩";
 "Color of upload" = "上傳的顯示色彩";
+"Merge widgets" = "Merge widgets";
 
 // Module Kit
 "Open module settings" = "打開模組設定";

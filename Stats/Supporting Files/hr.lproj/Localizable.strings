@@ -133,6 +133,7 @@
 "Number of reads in the chart" = "Broj čitanja u dijagramu";
 "Color of download" = "Boja primanja";
 "Color of upload" = "Boja slanja";
+"Merge widgets" = "Merge widgets";
 
 // Module Kit
 "Open module settings" = "Otvori postavke modula";

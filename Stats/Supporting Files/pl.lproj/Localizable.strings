@@ -145,6 +145,7 @@
 "Pictogram" = "Ikonka";
 "Module settings" = "Ustawienia modułu";
 "Widget settings" = "Ustawienia widżetu";
+"Merge widgets" = "Pąłącz widżety";
 
 // Modules
 "Number of top processes" = "Liczba procesów";
@@ -167,8 +168,8 @@
 "1 minute" = "1 minuta";
 "5 minutes" = "5 minut";
 "15 minutes" = "15 minut";
-"CPU usage threshold" = "CPU usage threshold";
-"CPU usage is" = "CPU usage is %0";
+"CPU usage threshold" = "Próg wykorzystania procesora";
+"CPU usage is" = "Użycie procesora %0";
 
 // GPU
 "GPU to show" = "GPU do wyświetlenia";
@@ -188,8 +189,8 @@
 "Utilization" = "Wykorzystanie";
 "Render utilization" = "Wykorzystanie rendera";
 "Tiler utilization" = "Wykorzystanie tilera";
-"GPU usage threshold" = "GPU usage threshold";
-"GPU usage is" = "GPU usage is %0";
+"GPU usage threshold" = "Próg wykorzystania GPU";
+"GPU usage is" = "Użycie GPU %0";
 
 // RAM
 "Memory usage" = "Użycie pamięci";
@@ -202,8 +203,8 @@
 "Free" = "Wolna";
 "Swap" = "Pamięć wymiany";
 "Split the value (App/Wired/Compressed)" = "Podzielić wartość (Aplikacje/Układowa/Skompresowana)";
-"RAM utilization threshold" = "RAM utilization threshold";
-"RAM utilization is" = "RAM utilization is %0";
+"RAM utilization threshold" = "Próg wykorzystania pamięci RAM";
+"RAM utilization is" = "Wykorzystanie pamięci RAM %0";
 
 // Disk
 "Show removable disks" = "Pokaż dyski wymienne";
@@ -212,8 +213,8 @@
 "Disk to show" = "Aktywny dysk";
 "Open disk" = "Otwórz dysk";
 "Switch view" = "Przełącz widok";
-"Disk utilization threshold" = "Disk utilization threshold";
-"Disk utilization is" = "Disk utilization is %0";
+"Disk utilization threshold" = "Próg wykorzystania dysku";
+"Disk utilization is" = "Wykorzystanie dysku %0";
 
 // Sensors
 "Temperature unit" = "Jednostka temperatury";
@@ -222,7 +223,7 @@
 "Save the fan speed" = "Zapisz prędkość wentylatora";
 "Fan" = "Wentylator";
 "HID sensors" = "Czujniki HID";
-"Synchronize fan's control" = "Synchronize fan's control";
+"Synchronize fan's control" = "Synchronizuj sterowanie wentylatorami";
 
 // Network
 "Uploading" = "Wysyłanie";

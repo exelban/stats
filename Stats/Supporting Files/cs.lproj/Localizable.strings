@@ -133,6 +133,7 @@
 "Number of reads in the chart" = "Počet čtení v grafu";
 "Color of download" = "Barva stahování";
 "Color of upload" = "Barva nahrávání";
+"Merge widgets" = "Merge widgets";
 
 // Module Kit
 "Open module settings" = "Otevřít nastavení modulu";

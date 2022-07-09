@@ -133,6 +133,7 @@
 "Number of reads in the chart" = "Количество чтений на графике";
 "Color of download" = "Цвет загрузки";
 "Color of upload" = "Цвет выгрузки";
+"Merge widgets" = "Объединить виджеты";
 
 // Module Kit
 "Open module settings" = "Открыть настройки модуля";
@@ -167,8 +168,8 @@
 "1 minute" = "1 минута";
 "5 minutes" = "5 минут";
 "15 minutes" = "15 минут";
-"CPU usage threshold" = "CPU usage threshold";
-"CPU usage is" = "CPU usage is %0";
+"CPU usage threshold" = "Порог использования процессора";
+"CPU usage is" = "Использование процессора %0";
 
 // GPU
 "GPU to show" = "Активный графический процессор";
@@ -188,8 +189,8 @@
 "Utilization" = "Использование";
 "Render utilization" = "Использование render";
 "Tiler utilization" = "Использование tiler";
-"GPU usage threshold" = "GPU usage threshold";
-"GPU usage is" = "GPU usage is %0";
+"GPU usage threshold" = "Порог использования графического процессора";
+"GPU usage is" = "Использование графического процессора %0";
 
 // RAM
 "Memory usage" = "Нагрузка на память";
@@ -202,8 +203,8 @@
 "Free" = "Свободная";
 "Swap" = "Swap";
 "Split the value (App/Wired/Compressed)" = "Разделить значение (Программы/Зарезервированная/Сжатая)";
-"RAM utilization threshold" = "RAM utilization threshold";
-"RAM utilization is" = "RAM utilization is %0";
+"RAM utilization threshold" = "Порог использования оперативной памяти";
+"RAM utilization is" = "Использование оперативной памяти %0";
 
 // Disk
 "Show removable disks" = "Показать съемные диски";
@@ -212,8 +213,8 @@
 "Disk to show" = "Активный диск";
 "Open disk" = "Открытый диск";
 "Switch view" = "Переключить вид";
-"Disk utilization threshold" = "Disk utilization threshold";
-"Disk utilization is" = "Disk utilization is %0";
+"Disk utilization threshold" = "Порог использования диска";
+"Disk utilization is" = "Использование диска %0";
 
 // Sensors
 "Temperature unit" = "Единица измерения температуры";
@@ -222,7 +223,7 @@
 "Save the fan speed" = "Сохранить скорость вентилятора";
 "Fan" = "Вентилятор";
 "HID sensors" = "HID датчики";
-"Synchronize fan's control" = "Synchronize fan's control";
+"Synchronize fan's control" = "Синхронизировать управление вентиляторами";
 
 // Network
 "Uploading" = "Выгрузка";

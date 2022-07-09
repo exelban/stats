@@ -133,6 +133,7 @@
 "Number of reads in the chart" = "מספר קריאות במגמה";
 "Color of download" = "צבע של הורדה";
 "Color of upload" = "צבע של העלאה";
+"Merge widgets" = "Merge widgets";
 
 // Module Kit
 "Open module settings" = "פתח/י הגדרות מודל";

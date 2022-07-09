@@ -133,6 +133,7 @@
 "Number of reads in the chart" = "Кількість зчитувань на діаграмі";
 "Color of download" = "Колір завантаження";
 "Color of upload" = "Колір висилання";
+"Merge widgets" = "Об’єднайти віджети";
 
 // Module Kit
 "Open module settings" = "Відкрити налаштування модуля";
@@ -167,8 +168,8 @@
 "1 minute" = "1 хвилина";
 "5 minutes" = "5 хвилин";
 "15 minutes" = "15 хвилин";
-"CPU usage threshold" = "CPU usage threshold";
-"CPU usage is" = "CPU usage is %0";
+"CPU usage threshold" = "Поріг використання процесора";
+"CPU usage is" = "Використання процесора %0";
 
 // GPU
 "GPU to show" = "Активний графічний процесор";
@@ -188,8 +189,8 @@
 "Utilization" = "Використання";
 "Render utilization" = "Використання render";
 "Tiler utilization" = "Використання tiler";
-"GPU usage threshold" = "GPU usage threshold";
-"GPU usage is" = "GPU usage is %0";
+"GPU usage threshold" = "Поріг використання графічного процесора";
+"GPU usage is" = "Використання графічного процесора %0";
 
 // RAM
 "Memory usage" = "Навантаженість пам’яті";
@@ -202,8 +203,8 @@
 "Free" = "Вільна";
 "Swap" = "Swap";
 "Split the value (App/Wired/Compressed)" = "Розділити значення (Програми/Постійна/Стисненна)";
-"RAM utilization threshold" = "RAM utilization threshold";
-"RAM utilization is" = "RAM utilization is %0";
+"RAM utilization threshold" = "Поріг використання оперативної пам'яті";
+"RAM utilization is" = "Використання оперативної пам'яті %0";
 
 // Disk
 "Show removable disks" = "Показати зйомні диски";
@@ -212,8 +213,8 @@
 "Disk to show" = "Активний диск";
 "Open disk" = "Відкрити диск";
 "Switch view" = "Переключити вигляд";
-"Disk utilization threshold" = "Disk utilization threshold";
-"Disk utilization is" = "Disk utilization is %0";
+"Disk utilization threshold" = "Поріг використання диска";
+"Disk utilization is" = "Використання диска %0";
 
 // Sensors
 "Temperature unit" = "Одиниця виміру температури";
@@ -222,7 +223,7 @@
 "Save the fan speed" = "Зберегти швидкість вентилятора";
 "Fan" = "Вентилятор";
 "HID sensors" = "HID датчики";
-"Synchronize fan's control" = "Synchronize fan's control";
+"Synchronize fan's control" = "Синхронізація керування вентиляторами";
 
 // Network
 "Uploading" = "Висилання";

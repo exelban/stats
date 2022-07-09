@@ -133,6 +133,7 @@
 "Number of reads in the chart" = "图表显示的读取次数";
 "Color of download" = "下载的颜色";
 "Color of upload" = "上传的颜色";
+"Merge widgets" = "Merge widgets";
 
 // Module Kit
 "Open module settings" = "打开模块设置";

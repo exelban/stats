@@ -133,6 +133,7 @@
 "Number of reads in the chart" = "Grafikteki okuma sayısı";
 "Color of download" = "İndirme rengi";
 "Color of upload" = "Yükleme rengi";
+"Merge widgets" = "Merge widgets";
 
 // Module Kit
 "Open module settings" = "Modül ayarlarını aç";

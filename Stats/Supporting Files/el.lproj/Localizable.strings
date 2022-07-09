@@ -133,6 +133,7 @@
 "Number of reads in the chart" = "Αριθμός αναγνώσεων του διαγράμματος";
 "Color of download" = "Χρώμα της λήψης";
 "Color of upload" = "Χρώμα της μεταφόρτωσης";
+"Merge widgets" = "Merge widgets";
 
 // Module Kit
 "Open module settings" = "Άνοιγμα ρυθμίσεων ενότητας";

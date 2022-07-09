@@ -133,6 +133,7 @@
 "Number of reads in the chart" = "Aantal keer gelezen in de grafiek";
 "Color of download" = "Kleur van download";
 "Color of upload" = "Kleur van upload";
+"Merge widgets" = "Merge widgets";
 
 // Module Kit
 "Open module settings" = "Open module-instellingen";

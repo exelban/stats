@@ -133,6 +133,7 @@
 "Number of reads in the chart" = "Értékek száma a grafikonon";
 "Color of download" = "Letöltés színe";
 "Color of upload" = "Feltöltés színe";
+"Merge widgets" = "Merge widgets";
 
 // Module Kit
 "Open module settings" = "Modul beállításainak megnyitása";

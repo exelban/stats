@@ -133,6 +133,7 @@
 "Number of reads in the chart" = "차트의 읽기 횟수";
 "Color of download" = "다운로드 색상";
 "Color of upload" = "업로드 색상";
+"Merge widgets" = "Merge widgets";
 
 // Module Kit
 "Open module settings" = "모듈 설정 열기";

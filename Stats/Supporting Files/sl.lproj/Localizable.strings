@@ -133,6 +133,7 @@
 "Number of reads in the chart" = "Število branj v grafu";
 "Color of download" = "Barva prenosa";
 "Color of upload" = "Barva oddajanja";
+"Merge widgets" = "Merge widgets";
 
 // Module Kit
 "Open module settings" = "Odpri nastavitve modula";

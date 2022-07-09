@@ -133,6 +133,7 @@
 "Number of reads in the chart" = "Number of reads in the chart";
 "Color of download" = "Color de descarga";
 "Color of upload" = "Color de subida";
+"Merge widgets" = "Merge widgets";
 
 // Module Kit
 "Open module settings" = "Abrir la configruación del módulo";

@@ -133,6 +133,7 @@
 "Number of reads in the chart" = "Jumlah yang dibaca pada diagram";
 "Color of download" = "Warna pada unduhan";
 "Color of upload" = "Warna pada unggahan";
+"Merge widgets" = "Merge widgets";
 
 // Module Kit
 "Open module settings" = "Buka pengaturan modul";

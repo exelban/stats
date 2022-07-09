@@ -133,6 +133,7 @@
 "Number of reads in the chart" = "Số lần đọc trong biểu đồ";
 "Color of download" = "Màu tải xuống";
 "Color of upload" = "Màu tải lên";
+"Merge widgets" = "Merge widgets";
 
 // Module Kit
 "Open module settings" = "Mở cài đặt module";

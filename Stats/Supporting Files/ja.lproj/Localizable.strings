@@ -133,6 +133,7 @@
 "Number of reads in the chart" = "読み取り回数のチャート";
 "Color of download" = "ダウンロードの色";
 "Color of upload" = "アップロードの色";
+"Merge widgets" = "Merge widgets";
 
 // Module Kit
 "Open module settings" = "このモジュールの設定を開く";
