@@ -37,32 +37,12 @@ notarize:
 	osascript -e 'display notification "Submitting app for notarization..." with title "Build the Stats"'
 	echo "Submitting app for notarization..."
 
-	xcrun altool --notarize-app \
-	  --primary-bundle-id $(BUNDLE_ID)\
-	  -itc_provider $(AC_PROVIDER) \
-	  -u $(AC_USERNAME) \
-	  -p @keychain:AC_PASSWORD \
-	  --file $(ZIP_PATH)
+	xcrun notarytool submit --keychain-profile "AC_PASSWORD" --wait $(ZIP_PATH)
 
-	echo "Application sent to the notarization center"
-
-	sleep 30s
-
-LAST_REQUEST="test"
+	echo "Stats successfully notarized"
 
 sign:
-	osascript -e 'display notification "Checking if package is approved by Apple..." with title "Build the Stats"'
-	echo "Checking if package is approved by Apple..."
-
-	while true; do \
-		if [[ "$$(xcrun altool --notarization-history 0 -itc_provider $(AC_PROVIDER) -u $(AC_USERNAME) -p @keychain:AC_PASSWORD | sed -n '6p')" == *"success"* ]]; then \
-			echo "OK" ;\
-			break ;\
-		fi ;\
-		echo "Package was not approved by Apple, recheck in 10s..."; \
-		sleep 10s ;\
-	done
-
+	osascript -e 'display notification "Stampling the Stats..." with title "Build the Stats"'
 	echo "Going to staple an application..."
 
 	xcrun stapler staple $(APP_PATH)
