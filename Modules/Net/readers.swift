@@ -29,6 +29,7 @@ extension CWPHYMode: CustomStringConvertible {
         case .mode11b:  return "802.11b"
         case .mode11g:  return "802.11g"
         case .mode11n:  return "802.11n"
+        case .mode11ax: return "802.11ax"
         case .modeNone: return "none"
         @unknown default: return "unknown"
         }

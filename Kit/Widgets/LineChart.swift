@@ -109,7 +109,7 @@ public class LineChart: WidgetWrapper {
         if preview {
             var list: [Double] = []
             for _ in 0..<16 {
-                list.append(Double(CGFloat(Float(arc4random()) / Float(UINT32_MAX))))
+                list.append(Double.random(in: 0..<1))
             }
             self.chart.points = list
             self.value = 0.38
