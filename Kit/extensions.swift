@@ -453,53 +453,45 @@ public extension CATransaction {
     }
 }
 
-public final class FlippedClipView: NSClipView {
-    public override var isFlipped: Bool {
-        return true
-    }
+public class FlippedStackView: NSStackView {
+    public override var isFlipped: Bool { return true }
 }
 
-public final class ScrollableStackView: NSView {
-    public let stackView: NSStackView = NSStackView()
-    public let clipView: FlippedClipView = FlippedClipView()
+public class ScrollableStackView: NSView {
+    public var stackView: NSStackView = FlippedStackView()
+    
+    private let clipView: NSClipView = NSClipView()
     private let scrollView: NSScrollView = NSScrollView()
     
     public override init(frame: NSRect) {
         super.init(frame: frame)
         
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.borderType = .noBorder
-        scrollView.hasVerticalScroller = true
-        scrollView.hasHorizontalScroller = false
-        scrollView.autohidesScrollers = true
-        scrollView.horizontalScrollElasticity = .none
-        scrollView.drawsBackground = false
+        self.clipView.drawsBackground = false
+        
+        self.stackView.orientation = .vertical
+        self.stackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        self.scrollView.translatesAutoresizingMaskIntoConstraints = false
+        self.scrollView.hasVerticalScroller = true
+        self.scrollView.hasHorizontalScroller = false
+        self.scrollView.autohidesScrollers = true
+        self.scrollView.horizontalScrollElasticity = .none
+        self.scrollView.drawsBackground = false
+        self.scrollView.contentView = self.clipView
+        self.scrollView.documentView = self.stackView
+        
         self.addSubview(self.scrollView)
         
         NSLayoutConstraint.activate([
-            scrollView.leftAnchor.constraint(equalTo: self.leftAnchor),
-            scrollView.rightAnchor.constraint(equalTo: self.rightAnchor),
-            scrollView.topAnchor.constraint(equalTo: self.topAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
-        ])
-        
-        clipView.drawsBackground = false
-        scrollView.contentView = clipView
-        
-        stackView.orientation = .vertical
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.documentView = stackView
-        
-        NSLayoutConstraint.activate([
-            clipView.leftAnchor.constraint(equalTo: scrollView.leftAnchor),
-            clipView.rightAnchor.constraint(equalTo: scrollView.rightAnchor),
+            self.scrollView.leftAnchor.constraint(equalTo: self.leftAnchor),
+            self.scrollView.rightAnchor.constraint(equalTo: self.rightAnchor),
+            self.scrollView.topAnchor.constraint(equalTo: self.topAnchor),
+            self.scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             
-            stackView.leftAnchor.constraint(equalTo: clipView.leftAnchor),
-            stackView.rightAnchor.constraint(equalTo: clipView.rightAnchor),
-            stackView.topAnchor.constraint(equalTo: clipView.topAnchor)
+            self.stackView.leftAnchor.constraint(equalTo: self.clipView.leftAnchor),
+            self.stackView.rightAnchor.constraint(equalTo: self.clipView.rightAnchor),
+            self.stackView.topAnchor.constraint(equalTo: self.clipView.topAnchor)
         ])
-        
-        clipView.translatesAutoresizingMaskIntoConstraints = false
     }
     
     required public init?(coder: NSCoder) {
