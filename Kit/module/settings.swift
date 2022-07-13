@@ -236,25 +236,27 @@ open class Settings: NSStackView, Settings_p {
             return
         }
         
-        let container = NSStackView()
-        container.orientation = .vertical
-        container.distribution = .gravityAreas
-        container.translatesAutoresizingMaskIntoConstraints = false
-        container.edgeInsets = NSEdgeInsets(
-            top: Constants.Settings.margin,
-            left: Constants.Settings.margin,
-            bottom: Constants.Settings.margin,
-            right: Constants.Settings.margin
-        )
-        container.spacing = Constants.Settings.margin
-        
-        container.addArrangedSubview(toggleSettingRow(
-            title: "\(localizedString("Merge widgets into one"))",
-            action: #selector(self.toggleOneView),
-            state: self.oneViewState
-        ))
-        
-        self.widgetSettingsContainer?.addArrangedSubview(container)
+        if self.widgets.filter({ $0.isActive }).count > 1 {
+            let container = NSStackView()
+            container.orientation = .vertical
+            container.distribution = .gravityAreas
+            container.translatesAutoresizingMaskIntoConstraints = false
+            container.edgeInsets = NSEdgeInsets(
+                top: Constants.Settings.margin,
+                left: Constants.Settings.margin,
+                bottom: Constants.Settings.margin,
+                right: Constants.Settings.margin
+            )
+            container.spacing = Constants.Settings.margin
+            
+            container.addArrangedSubview(toggleSettingRow(
+                title: "\(localizedString("Merge widgets into one"))",
+                action: #selector(self.toggleOneView),
+                state: self.oneViewState
+            ))
+            
+            self.widgetSettingsContainer?.addArrangedSubview(container)
+        }
         
         for i in 0...list.count - 1 {
             self.widgetSettingsContainer?.addArrangedSubview(WidgetSettings(
