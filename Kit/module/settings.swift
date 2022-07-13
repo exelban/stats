@@ -40,6 +40,7 @@ open class Settings: NSStackView, Settings_p {
         
         return view
     }()
+    private let noWidgetsView: EmptyView = EmptyView(msg: localizedString("No available widgets to configure"))
     
     private var oneViewState: Bool {
         get {
@@ -231,6 +232,7 @@ open class Settings: NSStackView, Settings_p {
         let list = self.widgets.filter({ $0.isActive && $0.type != .label })
         
         guard !list.isEmpty else {
+            self.widgetSettingsContainer?.addArrangedSubview(self.noWidgetsView)
             return
         }
         
