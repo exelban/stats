@@ -384,7 +384,7 @@ let deviceDict: [String: model_s] = [
     "Mac13,2": model_s(name: "Mac Studio (M1 Ultra)", year: 2022, type: .macStudio),
     
     // Mac Pro
-    "MacPro5,1": model_s(name: "Mac Pro (2012)", year: 2010, type: .macPro),
+    "MacPro5,1": model_s(name: "Mac Pro (2010/2012)", year: 2010, type: .macPro),
     "MacPro6,1": model_s(name: "Mac Pro (Late 2013)", year: 2016, type: .macPro),
     "MacPro7,1": model_s(name: "Mac Pro (2019)", year: 2019, type: .macPro),
     
