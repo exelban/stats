@@ -27,14 +27,12 @@ internal class Popup: NSStackView, Popup_p {
     }
     
     internal func infoCallback(_ value: GPUs) {
-        let views = self.arrangedSubviews.filter{ $0 is GPUView }.map{ $0 as! GPUView }
-        
-        if views.count != value.list.count {
+        if self.arrangedSubviews.filter({ $0 is GPUView }).count != value.list.count {
             self.arrangedSubviews.forEach{ $0.removeFromSuperview() }
         }
         
         value.list.reversed().forEach { (gpu: GPU_Info) in
-            if let view = views.first(where: { $0.value.id == gpu.id }) {
+            if let view = self.arrangedSubviews.filter({ $0 is GPUView }).map({ $0 as! GPUView }).first(where: { $0.value.id == gpu.id }) {
                 view.update(gpu)
             } else {
                 self.addArrangedSubview(GPUView(

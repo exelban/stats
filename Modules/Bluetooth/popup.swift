@@ -49,7 +49,7 @@ internal class Popup: NSStackView, Popup_p {
         }
         
         list.reversed().forEach { (ble: BLEDevice) in
-            if let view = views.first(where: { $0.address == ble.address }) {
+            if let view = self.subviews.filter({ $0 is BLEView }).map({ $0 as! BLEView }).first(where: { $0.address == ble.address }) {
                 view.update(ble.batteryLevel)
             } else {
                 self.addArrangedSubview(BLEView(
