@@ -98,14 +98,8 @@ internal struct Sensor: Sensor_p {
             switch self.type {
             case .temperature:
                 return Temperature(value).replacingOccurrences(of: "C", with: "").replacingOccurrences(of: "F", with: "")
-            case .voltage:
-                let val = value >= 10 ? "\(Int(value))" : String(format: "%.1f", value)
-                return "\(val)\(unit)"
-            case .power:
-                let val = value >= 10 ? "\(Int(value))" : String(format: "%.1f", value)
-                return "\(val)\(unit)"
-            case .current:
-                let val = value >= 10 ? "\(Int(value))" : String(format: "%.1f", value)
+            case .voltage, .power, .current:
+                let val = value >= 9.95 ? "\(Int(round(value)))" : String(format: "%.1f", value)
                 return "\(val)\(unit)"
             case .fan:
                 return "\(Int(value))"
