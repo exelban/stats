@@ -152,9 +152,12 @@ open class WidgetWrapper: NSView, widget_p {
     
     public var widthHandler: (() -> Void)? = nil
     
+    public var shadowSize: CGSize
+    
     public init(_ type: widget_t, title: String, frame: NSRect) {
         self.type = type
         self.title = title
+        self.shadowSize = frame.size
         
         super.init(frame: frame)
     }
@@ -164,9 +167,8 @@ open class WidgetWrapper: NSView, widget_p {
     }
     
     public func setWidth(_ width: CGFloat) {
-        if self.frame.width == width {
-            return
-        }
+        guard self.shadowSize.width != width else { return }
+        self.shadowSize.width = width
         
         DispatchQueue.main.async {
             self.setFrameSize(NSSize(width: width, height: self.frame.size.height))
