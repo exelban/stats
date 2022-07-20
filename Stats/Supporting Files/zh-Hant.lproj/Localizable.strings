@@ -130,10 +130,10 @@
 "Tachometer widget" = "轉速計";
 "Show symbols" = "顯示符號";
 "Label widget" = "標籤";
-"Number of reads in the chart" = "圖表中的讀取次數";
+"Number of reads in the chart" = "圖表中的未讀計數";
 "Color of download" = "下載的顯示色彩";
 "Color of upload" = "上傳的顯示色彩";
-"Merge widgets" = "Merge widgets";
+"Merge widgets" = "整合型小工具";
 
 // Module Kit
 "Open module settings" = "打開模組設定";
@@ -150,7 +150,7 @@
 // Modules
 "Number of top processes" = "高能耗程序數量";
 "Update interval for top processes" = "高能耗程序更新頻率";
-"Notification level" = "Notification level";
+"Notification level" = "通知等級";
 
 // CPU
 "CPU usage" = "處理器使用率";
@@ -168,8 +168,8 @@
 "1 minute" = "1 分鐘";
 "5 minutes" = "5 分鐘";
 "15 minutes" = "15 分鐘";
-"CPU usage threshold" = "CPU usage threshold";
-"CPU usage is" = "CPU usage is %0";
+"CPU usage threshold" = "處理器使用率臨界點";
+"CPU usage is" = "處理器使用率為：%0";
 
 // GPU
 "GPU to show" = "顯示顯示卡";
@@ -189,8 +189,8 @@
 "Utilization" = "使用率";
 "Render utilization" = "渲染使用率";
 "Tiler utilization" = "圖塊使用率";
-"GPU usage threshold" = "GPU usage threshold";
-"GPU usage is" = "GPU usage is %0";
+"GPU usage threshold" = "顯示卡使用率臨界點";
+"GPU usage is" = "顯示卡使用率為：%0";
 
 // RAM
 "Memory usage" = "記憶體使用率";
@@ -203,8 +203,8 @@
 "Free" = "可使用";
 "Swap" = "調換區";
 "Split the value (App/Wired/Compressed)" = "分割值 (App/固定/壓縮)";
-"RAM utilization threshold" = "RAM utilization threshold";
-"RAM utilization is" = "RAM utilization is %0";
+"RAM utilization threshold" = "記憶體利用率臨界值";
+"RAM utilization is" = "記憶體利用率為：%0";
 
 // Disk
 "Show removable disks" = "顯示抽取式磁碟";
@@ -213,8 +213,8 @@
 "Disk to show" = "顯示磁碟";
 "Open disk" = "開啟磁碟";
 "Switch view" = "切換視窗";
-"Disk utilization threshold" = "Disk utilization threshold";
-"Disk utilization is" = "Disk utilization is %0";
+"Disk utilization threshold" = "磁碟利用率臨界點";
+"Disk utilization is" = "磁碟利用率為：%0";
 
 // Sensors
 "Temperature unit" = "溫度單位";
@@ -223,7 +223,7 @@
 "Save the fan speed" = "儲存風扇速度";
 "Fan" = "風扇";
 "HID sensors" = "HID 感知器";
-"Synchronize fan's control" = "Synchronize fan's control";
+"Synchronize fan's control" = "同步風扇控制";
 
 // Network
 "Uploading" = "上傳";
@@ -246,9 +246,9 @@
 "Processes based" = "依程序";
 "Reset data usage" = "重置資料用量";
 "VPN mode" = "VPN 模式";
-"Standard" = "Standard";
-"Security" = "Security";
-"Channel" = "Channel";
+"Standard" = "標準";
+"Security" = "安全";
+"Channel" = "通道";
 
 // Battery
 "Level" = "電量";
