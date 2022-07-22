@@ -136,6 +136,22 @@ extension AppDelegate {
         }
     }
     
+    internal func setup(completion: @escaping () -> Void) {
+        if Store.shared.exist(key: "setupProcess") || Store.shared.exist(key: "runAtLoginInitialized") {
+            completion()
+            return
+        }
+        
+        debug("showing the setup window")
+        
+        self.setupWindow.show()
+        self.setupWindow.finishHandler = {
+            debug("setup is finished, starting the app")
+            completion()
+        }
+        Store.shared.set(key: "setupProcess", value: true)
+    }
+    
     internal func checkForNewVersion(silent: Bool = false) {
         updater.check { result, error in
             if error != nil {
