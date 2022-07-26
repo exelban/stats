@@ -24,7 +24,7 @@ public class Mini: WidgetWrapper {
     private var colorZones: colorZones = (0.6, 0.8)
     
     private var value: Double = 0
-    private var pressureLevel: Int = 0
+    private var pressureLevel: DispatchSource.MemoryPressureEvent = .normal
     private var defaultLabel: String
     private var label: String
     
@@ -151,7 +151,7 @@ public class Mini: WidgetWrapper {
         })
     }
     
-    public func setPressure(_ level: Int) {
+    public func setPressure(_ level: DispatchSource.MemoryPressureEvent) {
         if self.pressureLevel == level {
             return
         }

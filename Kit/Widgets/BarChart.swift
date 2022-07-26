@@ -19,7 +19,7 @@ public class BarChart: WidgetWrapper {
     
     private var colors: [Color] = Color.allCases
     private var value: [[ColorValue]] = [[]]
-    private var pressureLevel: Int = 0
+    private var pressureLevel: DispatchSource.MemoryPressureEvent = .normal
     private var colorZones: colorZones = (0.6, 0.8)
     
     private var boxSettingsView: NSView? = nil
@@ -214,7 +214,7 @@ public class BarChart: WidgetWrapper {
         })
     }
     
-    public func setPressure(_ level: Int) {
+    public func setPressure(_ level: DispatchSource.MemoryPressureEvent) {
         guard self.pressureLevel != level else {
             return
         }

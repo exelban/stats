@@ -26,7 +26,7 @@ public struct RAM_Usage: value_t {
     var cache: Double
     var pressure: Double
     
-    var pressureLevel: Int
+    var pressureLevel: DispatchSource.MemoryPressureEvent
     var swap: Swap
     
     public var widgetValue: Double {

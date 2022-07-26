@@ -28,7 +28,7 @@ public class LineChart: WidgetWrapper {
     ), num: 60)
     private var colors: [Color] = Color.allCases
     private var value: Double = 0
-    private var pressureLevel: Int = 0
+    private var pressureLevel: DispatchSource.MemoryPressureEvent = .normal
     
     private var historyNumbers: [KeyValue_p] = [
         KeyValue_t(key: "30", value: "30"),
@@ -242,7 +242,7 @@ public class LineChart: WidgetWrapper {
         })
     }
     
-    public func setPressure(_ level: Int) {
+    public func setPressure(_ level: DispatchSource.MemoryPressureEvent) {
         guard self.pressureLevel != level else {
             return
         }

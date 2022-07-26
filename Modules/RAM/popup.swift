@@ -264,7 +264,7 @@ public class PressureView: NSView {
         circle_segment(value: 1/3, color: NSColor.systemRed)
     ]
     
-    private var level: Int = 1
+    private var level: DispatchSource.MemoryPressureEvent = .normal
     
     public override func draw(_ rect: CGRect) {
         let arcWidth: CGFloat = 7.0
@@ -301,15 +301,15 @@ public class PressureView: NSView {
         let needlePath =  NSBezierPath()
         
         switch self.level {
-        case 1: // NORMAL
+        case .normal:
             needlePath.move(to: CGPoint(x: self.bounds.width * 0.15, y: self.bounds.width * 0.40))
             needlePath.line(to: CGPoint(x: self.bounds.width/2, y: self.bounds.height/2 - needleEndSize))
             needlePath.line(to: CGPoint(x: self.bounds.width/2, y: self.bounds.height/2 + needleEndSize))
-        case 2: // WARN
+        case .warning:
             needlePath.move(to: CGPoint(x: self.bounds.width/2, y: self.bounds.width * 0.85))
             needlePath.line(to: CGPoint(x: self.bounds.width/2 - needleEndSize, y: self.bounds.height/2))
             needlePath.line(to: CGPoint(x: self.bounds.width/2 + needleEndSize, y: self.bounds.height/2))
-        case 4: // CRITICAL
+        case .critical:
             needlePath.move(to: CGPoint(x: self.bounds.width * 0.85, y: self.bounds.width * 0.40))
             needlePath.line(to: CGPoint(x: self.bounds.width/2, y: self.bounds.height/2 - needleEndSize))
             needlePath.line(to: CGPoint(x: self.bounds.width/2, y: self.bounds.height/2 + needleEndSize))
@@ -336,11 +336,11 @@ public class PressureView: NSView {
         ]
         
         let rect = CGRect(x: (self.frame.width-6)/2, y: (self.frame.height-26)/2, width: 6, height: 12)
-        let str = NSAttributedString.init(string: "\(self.level)", attributes: stringAttributes)
+        let str = NSAttributedString.init(string: "\(self.level.rawValue)", attributes: stringAttributes)
         str.draw(with: rect)
     }
     
-    public func setLevel(_ level: Int) {
+    public func setLevel(_ level: DispatchSource.MemoryPressureEvent) {
         self.level = level
         if self.window?.isVisible ?? true {
             self.display()

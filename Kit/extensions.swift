@@ -107,14 +107,14 @@ extension String: LocalizedError {
     }
 }
 
-public extension Int {
+public extension DispatchSource.MemoryPressureEvent {
     func pressureColor() -> NSColor {
         switch self {
-        case 1:
+        case .normal:
             return NSColor.systemGreen
-        case 2:
+        case .warning:
             return NSColor.systemYellow
-        case 3:
+        case .critical:
             return NSColor.systemRed
         default:
             return controlAccentColor

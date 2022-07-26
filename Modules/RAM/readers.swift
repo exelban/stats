@@ -78,7 +78,7 @@ internal class UsageReader: Reader<RAM_Usage> {
                 cache: purgeable + external,
                 pressure: 100.0 * (wired + compressed) / self.totalSize,
                 
-                pressureLevel: pressureLevel,
+                pressureLevel: DispatchSource.MemoryPressureEvent(rawValue: UInt(pressureLevel)),
                 
                 swap: Swap(
                     total: Double(swap.xsu_total),
