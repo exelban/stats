@@ -1,0 +1,321 @@
+//
+//  Localizable.strings
+//  Stats
+//
+//  Created by Fredrik Nilsson on 27/07/2022.
+//  Using Swift 5.0.
+//  Running on macOS 12.
+//
+//  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
+//
+
+// Modules
+"CPU" = "CPU";
+"Open CPU settings" = "Öppna CPU-inställningar";
+"GPU" = "GPU";
+"Open GPU settings" = "Öppna GPU-inställningar";
+"RAM" = "Minne";
+"Open RAM settings" = "Öppna minnesinställningar";
+"Disk" = "Skiva";
+"Open Disk settings" = "Öppna skivinställningar";
+"Sensors" = "Sensorer";
+"Open Sensors settings" = "Öppna sensorinställningar";
+"Network" = "Nätverk";
+"Open Network settings" = "Öppna nätverksinställningar";
+"Battery" = "Batteri";
+"Open Battery settings" = "Öppna batteriinställningar";
+"Bluetooth" = "Bluetooth";
+"Open Bluetooth settings" = "Öppna bluetoothinställningar";
+
+// Words
+"Unknown" = "Okänd";
+"Version" = "Version";
+"Processor" = "Processor";
+"Memory" = "Minne";
+"Graphics" = "Grafik";
+"Close" = "Stäng";
+"Download" = "Hämta";
+"Install" = "Installera";
+"Cancel" = "Avbryt";
+"Unavailable" = "Otillgänglig";
+"Yes" = "Ja";
+"No" = "Nej";
+"Automatic" = "Automatisk";
+"Manual" = "Manuell";
+"None" = "Ingen";
+"Dots" = "Punkter";
+"Arrows" = "Pilar";
+"Characters" = "Tecken";
+"Short" = "Kort";
+"Long" = "Lång";
+"Statistics" = "Statistik";
+"Max" = "Max";
+"Min" = "Min";
+"Reset" = "Återställ";
+"Alignment" = "Justering";
+"Left alignment" = "Vänster";
+"Center alignment" = "Centrerad";
+"Right alignment" = "Höger";
+"Dashboard" = "Kontrollpanel";
+"Disabled" = "Inaktiverad";
+"Silent" = "Tyst";
+"Units" = "Enheter";
+"Fans" = "Fläktar";
+
+// Alerts
+"New version available" = "Ny version tillgänglig";
+"Click to install the new version of Stats" = "Klicka här för att installera en ny version av Stats";
+"Successfully updated" = "Uppdateringen lyckades";
+"Stats was updated to v" = "Stats uppdaterat till v%0";
+"Reset settings text" = "Alla programinställningar kommer att återställas och programmet starta om. Är du säker?";
+
+// Settings
+"Open Activity Monitor" = "Öppna Aktivitetskontroll";
+"Report a bug" = "Rapportera en bugg";
+"Support the application" = "Stöd Stats";
+"Close application" = "Avsluta Stats";
+"Open application settings" = "Öppna programinställningar";
+"Open dashboard" = "Öppna kontrollpanelen";
+
+// Application settings
+"Update application" = "Uppdatering tillgänglig";
+"Check for updates" = "Sök efter uppdateringar";
+"At start" = "Vid start";
+"Once per day" = "Dagligen";
+"Once per week" = "Veckovis";
+"Once per month" = "Månadsvis";
+"Never" = "Aldrig";
+"Check for update" = "Sök efter uppdatering";
+"Show icon in dock" = "Visa i Dock";
+"Start at login" = "Öppna vid inloggning";
+"Build number" = "Byggnummer";
+"Reset settings" = "Återställ inställningar";
+
+// Dashboard
+"Serial number" = "Serienummer";
+"Uptime" = "Upptid";
+"Number of cores" = "%0 kärnor";
+"Number of threads" = "%0 trådar";
+
+// Update
+"The latest version of Stats installed" = "Du har den senaste versionen av Stats";
+"Downloading..." = "Hämtar...";
+"Current version: " = "Nuvarande version:  ";
+"Latest version: " = "Senaste version:    ";
+
+// Widgets
+"Color" = "Färg";
+"Label" = "Etikett";
+"Box" = "Låda";
+"Frame" = "Ram";
+"Value" = "Värde";
+"Colorize" = "Färglägg";
+"Colorize value" = "Färglägg värde";
+"Additional information" = "Mer..";
+"Reverse values order" = "Växla ordning";
+"Base" = "Enhet";
+"Display mode" = "Visningsläge";
+"One row" = "En rad";
+"Two rows" = "Två rader";
+"Mini widget" = "Mini";
+"Line chart widget" = "Linjediagram";
+"Bar chart widget" = "Stapeldiagram";
+"Pie chart widget" = "Cirkeldiagram";
+"Network chart widget" = "Nätverksdiagram";
+"Speed widget" = "Hastighet";
+"Battery widget" = "Batteri";
+"Text widget" = "Text";
+"Memory widget" = "Minne";
+"Static width" = "Fast bredd";
+"Tachometer widget" = "Varvräknare";
+"Show symbols" = "Visa symboler";
+"Label widget" = "Etikett";
+"Number of reads in the chart" = "Antal avläsningar i diagram";
+"Color of download" = "Färg för skickar";
+"Color of upload" = "Färg för tar emot";
+"Merge widgets" = "Slå samman widgetar";
+
+// Module Kit
+"Open module settings" = "Öppna modulinställningar";
+"Select widget" = "Välj %0 widgeten";
+"Open widget settings" = "Öppna widgetinställningar";
+"Update interval" = "Uppdateringsintervall";
+"Usage history" = "Användningshistorik";
+"Details" = "Detaljer";
+"Top processes" = "Topprocesser";
+"Pictogram" = "Pictogram";
+"Module settings" = "Modulinställningar";
+"Widget settings" = "Widgetinställningar";
+
+// Modules
+"Number of top processes" = "Antal topprocesser";
+"Update interval for top processes" = "Uppdateringsintervall topprocesser";
+"Notification level" = "Notisnivå";
+
+// CPU
+"CPU usage" = "CPU-användning";
+"CPU temperature" = "CPU-temperatur";
+"CPU frequency" = "CPU-frekvens";
+"System" = "System";
+"User" = "Användare";
+"Idle" = "Overksam";
+"Show usage per core" = "Visa användande per kärna";
+"Show hyper-threading cores" = "Visa hypertrådskärnor";
+"Split the value (System/User)" = "Visa fördelning (System/Användare)";
+"Scheduler limit" = "Gräns för schemaläggare";
+"Speed limit" = "Hatighetsbegränsning";
+"Average load" = "Gnomsnittlig last";
+"1 minute" = "1 minut";
+"5 minutes" = "5 minuter";
+"15 minutes" = "15 minuter";
+"CPU usage threshold" = "Tröskelvärde CPU-användning";
+"CPU usage is" = "CPU-anvädningen är %0";
+
+// GPU
+"GPU to show" = "GPU att visa";
+"Show GPU type" = "Visa GPU-typ";
+"GPU enabled" = "GPU aktiverad";
+"GPU disabled" = "GPU inaktiverad";
+"GPU temperature" = "GPU-temperatur";
+"GPU utilization" = "GPU-användning";
+"Vendor" = "Tillverkare";
+"Model" = "Model";
+"Status" = "Status";
+"Active" = "Aktiv";
+"Non active" = "Inaktiv";
+"Fan speed" = "Fläkthastighet";
+"Core clock" = "Klockfrekvens";
+"Memory clock" = "Minnesklockfrekvens";
+"Utilization" = "Användning";
+"Render utilization" = "Render-användning";
+"Tiler utilization" = "Tiler-användning";
+"GPU usage threshold" = "Tröskelvärde GPU-användning";
+"GPU usage is" = "GPU-användningen är %0";
+
+// RAM
+"Memory usage" = "Minnesanvändning";
+"Memory pressure" = "Minnestryck";
+"Total" = "Totalt";
+"Used" = "Använt";
+"App" = "Appminne";
+"Wired" = "Resident minne";
+"Compressed" = "Komprimerat";
+"Free" = "Ledigt";
+"Swap" = "Växelfil";
+"Split the value (App/Wired/Compressed)" = "Visa fördelning (App/Resident/Komprimerat)";
+"RAM utilization threshold" = "Tröskelvärde minnesanvändning";
+"RAM utilization is" = "Minnesanvändning %0";
+
+// Disk
+"Show removable disks" = "Visa flyttbara skivor";
+"Used disk memory" = "%0 av %1 används";
+"Free disk memory" = "%0 av %1 ledigt";
+"Disk to show" = "Skiva att visa";
+"Open disk" = "Öppna skiva";
+"Switch view" = "Växla vy";
+"Disk utilization threshold" = "Tröskelvärde skivanvändning";
+"Disk utilization is" = "Skivanvändning %0";
+
+// Sensors
+"Temperature unit" = "Temperaturenhet";
+"Celsius" = "Celsius";
+"Fahrenheit" = "Fahrenheit";
+"Save the fan speed" = "Spara fläkthastighet";
+"Fan" = "Fläkt";
+"HID sensors" = "HID-sensorer";
+"Synchronize fan's control" = "Synkronisera fläktkontroll";
+
+// Network
+"Uploading" = "Skickar";
+"Downloading" = "Tar emot";
+"Public IP" = "Publik IP";
+"Local IP" = "Lokal IP";
+"Interface" = "Gränssnitt";
+"Physical address" = "MAC-adress";
+"Refresh" = "Uppdatera";
+"Click to copy public IP address" = "Klicka för att kopiera publik IP-adress";
+"Click to copy local IP address" = "Klicka för att kopiera lokal IP-adress";
+"Click to copy wifi name" = "Klicka för att kopiera wifi-namn";
+"Click to copy mac address" = "Klicka för att kopiera Click to copy MAC-adress";
+"No connection" = "Ingen anslutning";
+"Network interface" = "Nätverkskort";
+"Total download" = "Totalt mottaget";
+"Total upload" = "Totalt skickat";
+"Reader type" = "Läsartyp";
+"Interface based" = "Gränssnitt";
+"Processes based" = "Process";
+"Reset data usage" = "Nollställ användningshistorik";
+"VPN mode" = "VPN-läge";
+"Standard" = "Standard";
+"Security" = "Säkerhet";
+"Channel" = "Kanal";
+
+// Battery
+"Level" = "Nivå";
+"Source" = "Strömkälla";
+"AC Power" = "Strömadapter";
+"Battery Power" = "Batteri";
+"Time" = "Tid";
+"Health" = "Hälsa";
+"Amperage" = "Ström";
+"Voltage" = "Spänning";
+"Cycles" = "Cykler";
+"Temperature" = "Temperatur";
+"Power adapter" = "Strömadapter";
+"Power" = "Effekt";
+"Is charging" = "Laddar";
+"Time to discharge" = "Tid till urladdat";
+"Time to charge" = "Tid till fulladdat";
+"Calculating" = "Beräknar";
+"Fully charged" = "Fulladdat";
+"Not connected" = "Ej ansluten";
+"Low level notification" = "Notis för låg nivå";
+"High level notification" = "Notis för hög nivå";
+"Low battery" = "Låg batterinivå";
+"High battery" = "Hög batterinivå";
+"Battery remaining" = "%0% återstår";
+"Battery remaining to full charge" = "%0% till fulladdat";
+"Percentage" = "Procent";
+"Percentage and time" = "Procent och tid";
+"Time and percentage" = "Tid och procent";
+"Time format" = "Tidformat";
+"Hide additional information when full" = "Göm detaljer när fulladdat";
+"Last charge" = "Senaste laddning";
+"Capacity" = "Kapacitet";
+"maximum / designed" = "nuvarande / ursprunglig";
+
+// Bluetooth
+"Battery to show" = "Batteri att visa";
+"No Bluetooth devices are available" = "Inga bluetoothenheter tillgängliga";
+
+// Colors
+"Based on utilization" = "Baserat på användning";
+"Based on pressure" = "Baserat på tryck";
+"System accent" = "Systemets accent";
+"Monochrome accent" = "Svartvit accent";
+"Clear" = "Transparent";
+"White" = "Vit";
+"Black" = "Svart";
+"Gray" = "Grå";
+"Second gray" = "Alternativ grå";
+"Dark gray" = "Mörkgrå";
+"Light gray" = "Ljusgrå";
+"Red" = "Röd";
+"Second red" = "Alternativ röd";
+"Green" = "Grön";
+"Second green" = "Alternativ grön";
+"Blue" = "Blå";
+"Second blue" = "Alternativ blå";
+"Yellow" = "Gul";
+"Second yellow" = "Alternativ gul";
+"Orange" = "Orange";
+"Second orange" = "Alternativ orange";
+"Purple" = "Lila";
+"Second purple" = "Alternativ lila";
+"Brown" = "Brun";
+"Second brown" = "Alternativ brun";
+"Cyan" = "Cyan";
+"Magenta" = "Magenta";
+"Pink" = "Rosa";
+"Teal" = "Teal";
+"Indigo" = "Indigo";
