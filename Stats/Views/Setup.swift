@@ -12,10 +12,6 @@
 import Cocoa
 import Kit
 
-internal protocol setup_p: NSView {
-    func reset()
-}
-
 private let setupSize: CGSize = CGSize(width: 600, height: 400)
 
 internal class SetupWindow: NSWindow, NSWindowDelegate {
@@ -65,7 +61,7 @@ internal class SetupWindow: NSWindow, NSWindowDelegate {
 }
 
 private class SetupContainer: NSStackView {
-    private let pages: [setup_p] = [SetupView_1()]
+    private let pages: [NSView] = [SetupView_1(), SetupView_2()]
     
     private var main: NSView = NSView()
     private var prevBtn: NSButton = NSButton()
@@ -162,46 +158,72 @@ private class SetupContainer: NSStackView {
             self.nextBtn.toolTip = localizedString("Next page")
         }
         
-        let view = self.pages[i]
-        view.reset()
-        
         self.main.subviews.forEach({ $0.removeFromSuperview() })
-        self.main.addSubview(view)
+        self.main.addSubview(self.pages[i])
     }
 }
 
-private class SetupView_1: NSStackView, setup_p {
+private class SetupView_1: NSStackView {
     init() {
         super.init(frame: NSRect(x: 0, y: 0, width: setupSize.width, height: setupSize.height - 60))
         
         let container: NSGridView = NSGridView()
-        container.heightAnchor.constraint(equalToConstant: 220).isActive = true
         container.rowSpacing = 0
         container.yPlacement = .center
         container.xPlacement = .center
         
+        let title: NSTextField = TextView()
+        title.alignment = .center
+        title.font = NSFont.systemFont(ofSize: 20, weight: .semibold)
+        title.stringValue = localizedString("Welcome to Stats")
+        title.toolTip = localizedString("Welcome to Stats")
+        title.isSelectable = false
+        
         let icon: NSImageView = NSImageView(image: NSImage(named: NSImage.Name("AppIcon"))!)
         icon.heightAnchor.constraint(equalToConstant: 120).isActive = true
         
-        let name: NSTextField = TextView(frame: NSRect(x: 0, y: 0, width: container.frame.width, height: 22))
-        name.alignment = .center
-        name.font = NSFont.systemFont(ofSize: 18, weight: .regular)
-        name.stringValue = localizedString("Welcome to Stats")
-        name.toolTip = localizedString("Welcome to Stats")
-        name.isSelectable = false
-        
-        let message: NSTextField = TextView(frame: NSRect(x: 0, y: 0, width: container.frame.width, height: 16))
+        let message: NSTextField = TextView()
         message.alignment = .center
         message.font = NSFont.systemFont(ofSize: 12, weight: .regular)
         message.stringValue = localizedString("welcome_message")
         message.toolTip = localizedString("welcome_message")
         message.isSelectable = false
         
+        container.addRow(with: [title])
         container.addRow(with: [icon])
-        container.addRow(with: [name])
         container.addRow(with: [message])
         
-        container.row(at: 1).height = 36
+        container.row(at: 0).height = 100
+        container.row(at: 1).height = 120
+        
+        self.addArrangedSubview(container)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+private class SetupView_2: NSStackView {
+    init() {
+        super.init(frame: NSRect(x: 0, y: 0, width: setupSize.width, height: setupSize.height - 60))
+        
+        let container: NSGridView = NSGridView()
+        container.rowSpacing = 0
+        container.yPlacement = .center
+        container.xPlacement = .center
+        
+        let title: NSTextField = TextView(frame: NSRect(x: 0, y: 0, width: container.frame.width, height: 22))
+        title.alignment = .center
+        title.font = NSFont.systemFont(ofSize: 20, weight: .semibold)
+        title.stringValue = localizedString("Start at login")
+        title.toolTip = localizedString("Start at login")
+        title.isSelectable = false
+        
+        container.addRow(with: [title])
+        container.addRow(with: [self.content()])
+        
+        container.row(at: 0).height = 100
         
         self.addArrangedSubview(container)
     }
@@ -210,5 +232,41 @@ private class SetupView_1: NSStackView, setup_p {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func reset() {}
+    private func content() -> NSView {
+        let container: NSGridView = NSGridView()
+        
+        container.addRow(with: [self.option(
+            tag: 1,
+            state: LaunchAtLogin.isEnabled,
+            text: localizedString("Start the application automatically when starting your Mac")
+        )])
+        container.addRow(with: [self.option(
+            tag: 2,
+            state: !LaunchAtLogin.isEnabled,
+            text: localizedString("Do not start the application automatically when starting your Mac")
+        )])
+        
+        return container
+    }
+    
+    private func option(tag: Int, state: Bool, text: String) -> NSView {
+        let button: NSButton = NSButton(frame: NSRect(x: 0, y: 0, width: 30, height: 20))
+        button.setButtonType(.radio)
+        button.state = state ? .on : .off
+        button.title = text
+        button.action = #selector(self.toggle)
+        button.isBordered = false
+        button.isTransparent = false
+        button.target = self
+        button.tag = tag
+        
+        return button
+    }
+    
+    @objc private func toggle(_ sender: NSButton) {
+        LaunchAtLogin.isEnabled = sender.tag == 1
+        if !Store.shared.exist(key: "runAtLoginInitialized") {
+            Store.shared.set(key: "runAtLoginInitialized", value: true)
+        }
+    }
 }
