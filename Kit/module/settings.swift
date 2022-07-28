@@ -250,7 +250,7 @@ open class Settings: NSStackView, Settings_p {
             container.spacing = Constants.Settings.margin
             
             container.addArrangedSubview(toggleSettingRow(
-                title: "\(localizedString("Merge widgets into one"))",
+                title: "\(localizedString("Merge widgets"))",
                 action: #selector(self.toggleOneView),
                 state: self.oneViewState
             ))
