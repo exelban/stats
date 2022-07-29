@@ -58,6 +58,10 @@ internal class SetupWindow: NSWindow, NSWindowDelegate {
         self.close()
         self.finishHandler()
     }
+    
+    func windowWillClose(_ notification: Notification) {
+        self.finishHandler()
+    }
 }
 
 private class SetupContainer: NSStackView {
