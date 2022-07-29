@@ -65,7 +65,7 @@ internal class SetupWindow: NSWindow, NSWindowDelegate {
 }
 
 private class SetupContainer: NSStackView {
-    private let pages: [NSView] = [SetupView_1(), SetupView_2()]
+    private let pages: [NSView] = [SetupView_1(), SetupView_2(), SetupView_3()]
     
     private var main: NSView = NSView()
     private var prevBtn: NSButton = NSButton()
@@ -272,5 +272,96 @@ private class SetupView_2: NSStackView {
         if !Store.shared.exist(key: "runAtLoginInitialized") {
             Store.shared.set(key: "runAtLoginInitialized", value: true)
         }
+    }
+}
+
+private class SetupView_3: NSStackView {
+    private var value: AppUpdateInterval {
+        get {
+            let value = Store.shared.string(key: "update-interval", defaultValue: AppUpdateInterval.silent.rawValue)
+            return AppUpdateInterval(rawValue: value) ?? AppUpdateInterval.silent
+        }
+    }
+    
+    init() {
+        super.init(frame: NSRect(x: 0, y: 0, width: setupSize.width, height: setupSize.height - 60))
+        
+        let container: NSGridView = NSGridView()
+        container.rowSpacing = 0
+        container.yPlacement = .center
+        container.xPlacement = .center
+        
+        let title: NSTextField = TextView(frame: NSRect(x: 0, y: 0, width: container.frame.width, height: 22))
+        title.alignment = .center
+        title.font = NSFont.systemFont(ofSize: 20, weight: .semibold)
+        title.stringValue = localizedString("Check for updates")
+        title.toolTip = localizedString("Check for updates")
+        title.isSelectable = false
+        
+        container.addRow(with: [title])
+        container.addRow(with: [self.content()])
+        
+        container.row(at: 0).height = 100
+        
+        self.addArrangedSubview(container)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func content() -> NSView {
+        let container: NSGridView = NSGridView()
+        
+        container.addRow(with: [self.option(
+            value: AppUpdateInterval.silent,
+            text: localizedString("Do everything silently in the background (recommended)")
+        )])
+        container.addRow(with: [self.option(
+            value: AppUpdateInterval.atStart,
+            text: localizedString("Check for a new version on startup")
+        )])
+        container.addRow(with: [NSView()])
+        container.addRow(with: [self.option(
+            value: AppUpdateInterval.oncePerDay,
+            text: localizedString("Check for a new version every day (once a day)")
+        )])
+        container.addRow(with: [self.option(
+            value: AppUpdateInterval.oncePerWeek,
+            text: localizedString("Check for a new version every week (once a week)")
+        )])
+        container.addRow(with: [self.option(
+            value: AppUpdateInterval.oncePerMonth,
+            text: localizedString("Check for a new version every month (once a month)")
+        )])
+        container.addRow(with: [NSView()])
+        container.addRow(with: [self.option(
+            value: AppUpdateInterval.never,
+            text: localizedString("Never check for updates (not recommended)")
+        )])
+        
+        container.row(at: 2).height = 1
+        container.row(at: container.numberOfRows-2).height = 1
+        
+        return container
+    }
+    
+    private func option(value: AppUpdateInterval, text: String) -> NSView {
+        let button: NSButton = NSButton(frame: NSRect(x: 0, y: 0, width: 30, height: 20))
+        button.setButtonType(.radio)
+        button.state = self.value == value ? .on : .off
+        button.title = text
+        button.action = #selector(self.toggle)
+        button.isBordered = false
+        button.isTransparent = false
+        button.target = self
+        button.identifier = NSUserInterfaceItemIdentifier(rawValue: value.rawValue)
+        
+        return button
+    }
+    
+    @objc private func toggle(_ sender: NSButton) {
+        guard let key = sender.identifier?.rawValue, !key.isEmpty else { return }
+        Store.shared.set(key: "update-interval", value: key)
     }
 }
