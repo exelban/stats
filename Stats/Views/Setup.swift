@@ -65,7 +65,7 @@ internal class SetupWindow: NSWindow, NSWindowDelegate {
 }
 
 private class SetupContainer: NSStackView {
-    private let pages: [NSView] = [SetupView_1(), SetupView_2(), SetupView_3()]
+    private let pages: [NSView] = [SetupView_1(), SetupView_2(), SetupView_3(), SetupView_4()]
     
     private var main: NSView = NSView()
     private var prevBtn: NSButton = NSButton()
@@ -363,5 +363,91 @@ private class SetupView_3: NSStackView {
     @objc private func toggle(_ sender: NSButton) {
         guard let key = sender.identifier?.rawValue, !key.isEmpty else { return }
         Store.shared.set(key: "update-interval", value: key)
+    }
+}
+
+private class SetupView_4: NSStackView {
+    init() {
+        super.init(frame: NSRect(x: 0, y: 0, width: setupSize.width, height: setupSize.height - 60))
+        
+        let container: NSGridView = NSGridView()
+        container.rowSpacing = 0
+        container.yPlacement = .center
+        container.xPlacement = .center
+        
+        let title: NSTextField = TextView(frame: NSRect(x: 0, y: 0, width: container.frame.width, height: 22))
+        title.alignment = .center
+        title.font = NSFont.systemFont(ofSize: 20, weight: .semibold)
+        title.stringValue = localizedString("The configuration is completed")
+        title.toolTip = localizedString("The configuration is completed")
+        title.isSelectable = false
+        
+        let content = NSStackView()
+        content.orientation = .vertical
+        
+        let message: NSTextField = TextView(frame: NSRect(x: 0, y: 0, width: container.frame.width, height: 16))
+        message.alignment = .center
+        message.font = NSFont.systemFont(ofSize: 13, weight: .regular)
+        message.stringValue = localizedString("finish_setup_message")
+        message.toolTip = localizedString("finish_setup_message")
+        message.isSelectable = false
+        
+        let support: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: 160, height: 50))
+        support.spacing = 0
+        support.orientation = .horizontal
+        
+        support.addArrangedSubview(supportButton(name: "GitHub Sponsors", image: "github", action: #selector(self.openGithub)))
+        support.addArrangedSubview(supportButton(name: "PayPal", image: "paypal", action: #selector(self.openPaypal)))
+        support.addArrangedSubview(supportButton(name: "Ko-fi", image: "ko-fi", action: #selector(self.openKofi)))
+        support.addArrangedSubview(supportButton(name: "Patreon", image: "patreon", action: #selector(self.openPatreon)))
+        
+        content.addArrangedSubview(message)
+        content.addArrangedSubview(support)
+        
+        container.addRow(with: [title])
+        container.addRow(with: [content])
+        
+        container.row(at: 0).height = 100
+        
+        self.addArrangedSubview(container)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func supportButton(name: String, image: String, action: Selector) -> NSButton {
+        let button = NSButtonWithPadding()
+        button.frame = CGRect(x: 0, y: 0, width: 24, height: 24)
+        button.verticalPadding = 16
+        button.horizontalPadding = 16
+        button.title = name
+        button.toolTip = name
+        button.bezelStyle = .regularSquare
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.imageScaling = .scaleNone
+        button.image = Bundle(for: type(of: self)).image(forResource: image)!
+        button.isBordered = false
+        button.target = self
+        button.focusRingType = .none
+        button.action = action
+        
+        return button
+    }
+    
+    @objc private func openGithub(_ sender: NSButton) {
+        NSWorkspace.shared.open(URL(string: "https://github.com/sponsors/exelban")!)
+    }
+    
+    @objc private func openPaypal(_ sender: NSButton) {
+        NSWorkspace.shared.open(URL(string: "https://www.paypal.com/donate?hosted_button_id=3DS5JHDBATMTC")!)
+    }
+    
+    @objc private func openKofi(_ sender: NSButton) {
+        NSWorkspace.shared.open(URL(string: "https://ko-fi.com/exelban")!)
+    }
+    
+    @objc private func openPatreon(_ sender: NSButton) {
+        NSWorkspace.shared.open(URL(string: "https://patreon.com/exelban")!)
     }
 }
