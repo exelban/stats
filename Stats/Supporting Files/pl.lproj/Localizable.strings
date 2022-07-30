@@ -62,6 +62,27 @@
 "Units" = "Jednostki";
 "Fans" = "Wentylatory";
 
+// Setup
+"Stats Setup" = "Konfiguracja Stats";
+"Previous" = "Poprzednia";
+"Previous page" = "Poprzednia strona";
+"Next" = "Następna";
+"Next page" = "Następna strona";
+"Finish" = "Zakończ";
+"Finish setup" = "Zakończ konfigurację";
+"Welcome to Stats" = "Witamy w Stats";
+"welcome_message" = "Dziękujemy za korzystanie ze Stats,\n bezpłatnego monitora systemu macOS o otwartym kodzie źródłowym.";
+"Start the application automatically when starting your Mac" = "Uruchomiaj aplikację automatycznie podczas uruchamiania komputera";
+"Do not start the application automatically when starting your Mac" = "Nie uruchamiaj aplikacji automatycznie podczas uruchamiania komputera";
+"Do everything silently in the background (recommended)" = "Rób wszystko w tle (zalecane)";
+"Check for a new version on startup" = "Sprawdzaj nową wersję podczas uruchamiania";
+"Check for a new version every day (once a day)" = "Sprawdzaj codziennie nową wersję (raz dziennie)";
+"Check for a new version every week (once a week)" = "Sprawdzaj nową wersję co tydzień (raz w tygodniu)";
+"Check for a new version every month (once a month)" = "Sprawdzaj nową wersję co miesiąc (raz w miesiącu)";
+"Never check for updates (not recommended)" = "Nigdy nie sprawdzaj czy są aktualizacje (niezalecane)";
+"The configuration is completed" = "Konfiguracja zakończona";
+"finish_setup_message" = "Wszystko gotowe! \n Stats to narzędzie open source, które jest bezpłatne i zawsze takie będzie. \n Jeśli Ci się spodoba, możesz wesprzeć projekt, to jest zawsze mile widziane!";
+
 // Alerts
 "New version available" = "Dostępna nowa wersja";
 "Click to install the new version of Stats" = "Kliknij, aby zainstalować nową wersję";
