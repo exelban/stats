@@ -29,6 +29,8 @@ class ApplicationSettings: NSStackView {
     }
     
     private let updateWindow: UpdateWindow = UpdateWindow()
+    private var updateSelector: NSPopUpButton?
+    private var startAtLoginBtn: NSButton?
     
     init() {
         super.init(frame: NSRect(
@@ -51,6 +53,20 @@ class ApplicationSettings: NSStackView {
     
     required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    public func viewWillAppear() {
+        self.startAtLoginBtn?.state = LaunchAtLogin.isEnabled ? .on : .off
+        
+        var idx = self.updateSelector?.indexOfSelectedItem ?? 0
+        if let items = self.updateSelector?.menu?.items {
+            for (i, item) in items.enumerated() {
+                if let obj = item.representedObject as? String, obj == self.updateIntervalValue {
+                    idx = i
+                }
+            }
+        }
+        self.updateSelector?.selectItem(at: idx)
     }
     
     private func informationView() -> NSView {
@@ -118,13 +134,14 @@ class ApplicationSettings: NSStackView {
         grid.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         grid.setContentHuggingPriority(.defaultHigh, for: .vertical)
         
+        self.updateSelector = selectView(
+            action: #selector(self.toggleUpdateInterval),
+            items: AppUpdateIntervals,
+            selected: self.updateIntervalValue
+        )
         grid.addRow(with: [
             self.titleView(localizedString("Check for updates")),
-            selectView(
-                action: #selector(self.toggleUpdateInterval),
-                items: AppUpdateIntervals,
-                selected: self.updateIntervalValue
-            )
+            self.updateSelector!
         ])
         grid.addRow(with: [
             self.titleView(localizedString("Temperature")),
@@ -139,11 +156,12 @@ class ApplicationSettings: NSStackView {
             state: Store.shared.bool(key: "dockIcon", defaultValue: false),
             text: localizedString("Show icon in dock")
         )])
-        grid.addRow(with: [NSGridCell.emptyContentView, self.toggleView(
+        self.startAtLoginBtn = self.toggleView(
             action: #selector(self.toggleLaunchAtLogin),
             state: LaunchAtLogin.isEnabled,
             text: localizedString("Start at login")
-        )])
+        )
+        grid.addRow(with: [NSGridCell.emptyContentView, self.startAtLoginBtn!])
         
         view.addSubview(grid)
         
@@ -187,7 +205,7 @@ class ApplicationSettings: NSStackView {
         return field
     }
     
-    private func toggleView(action: Selector, state: Bool, text: String) -> NSView {
+    private func toggleView(action: Selector, state: Bool, text: String) -> NSButton {
         let button: NSButton = NSButton(frame: NSRect(x: 0, y: 0, width: 30, height: 20))
         button.setButtonType(.switch)
         button.state = state ? .on : .off

@@ -138,7 +138,7 @@ private class SettingsView: NSView {
     private var mainView: NSView = NSView()
     
     private var dashboard: NSView = Dashboard()
-    private var settings: NSView = ApplicationSettings()
+    private var settings: ApplicationSettings = ApplicationSettings()
     
     private let supportPopover = NSPopover()
     
@@ -237,6 +237,7 @@ private class SettingsView: NSView {
             } else if title == "Dashboard" {
                 view = self.dashboard
             } else if title == "settings" {
+                self.settings.viewWillAppear()
                 view = self.settings
             }
             
