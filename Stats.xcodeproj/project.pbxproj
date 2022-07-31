@@ -367,6 +367,7 @@
 		9A343536243E26A0006B19F9 /* LaunchAtLogin.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LaunchAtLogin.entitlements; sourceTree = "<group>"; };
 		9A34353A243E278D006B19F9 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		9A3616E82613C3D400D657B6 /* bridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bridge.h; sourceTree = "<group>"; };
+		9A39DAD32896A3CA0013A3B6 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9A3E17CC247A94AF00449CD1 /* Net.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Net.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A3E17CF247A94AF00449CD1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9A3E17D8247A94B500449CD1 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -1314,6 +1315,7 @@
 				he,
 				sl,
 				el,
+				sv,
 			);
 			mainGroup = 9A1410EC229E721100D29793;
 			packageReferences = (
@@ -1755,6 +1757,7 @@
 				9A9FAD37281535FD003362CB /* he */,
 				9585D8482830523E007EC0D7 /* sl */,
 				9ABD6F7528561472009B8BC1 /* el */,
+				9A39DAD32896A3CA0013A3B6 /* sv */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
