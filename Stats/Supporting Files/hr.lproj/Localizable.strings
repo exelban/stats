@@ -32,7 +32,7 @@
 "Version" = "Verzija";
 "Processor" = "Procesor";
 "Memory" = "Memorija";
-"Graphics" = "Grafike";
+"Graphics" = "Grafičke kartice";
 "Close" = "Zatvori";
 "Download" = "Preuzmi";
 "Install" = "Instaliraj";
@@ -45,7 +45,7 @@
 "None" = "Ništa";
 "Dots" = "Točke";
 "Arrows" = "Strelice";
-"Characters" = "Slovo";
+"Characters" = "Znakovi";
 "Short" = "Kratko";
 "Long" = "Dugo";
 "Statistics" = "Statistika";
@@ -59,39 +59,39 @@
 "Dashboard" = "Pregledna ploča";
 "Disabled" = "Deaktivirano";
 "Silent" = "Tiho";
-"Units" = "Vrijednosti";
+"Units" = "Jedinice";
 "Fans" = "Ventilatori";
 
 // Setup
-"Stats Setup" = "Stats Setup";
-"Previous" = "Previous";
-"Previous page" = "Previous page";
-"Next" = "Next";
-"Next page" = "Next page";
-"Finish" = "Finish";
-"Finish setup" = "Finish setup";
-"Welcome to Stats" = "Welcome to Stats";
-"welcome_message" = "Thanks for using Stats, a free open source macOS system monitor for your menu bar.";
-"Start the application automatically when starting your Mac" = "Start the application automatically when starting your Mac";
-"Do not start the application automatically when starting your Mac" = "Do not start the application automatically when starting your Mac";
-"Do everything silently in the background (recommended)" = "Do everything silently in the background (recommended)";
-"Check for a new version on startup" = "Check for a new version on startup";
-"Check for a new version every day (once a day)" = "Check for a new version every day (once a day)";
-"Check for a new version every week (once a week)" = "Check for a new version every week (once a week)";
-"Check for a new version every month (once a month)" = "Check for a new version every month (once a month)";
-"Never check for updates (not recommended)" = "Never check for updates (not recommended)";
-"The configuration is completed" = "The configuration is completed";
-"finish_setup_message" = "Everything is set up! \n The Stats is an open source tool, it's free and always be. \n If you enjoy it you can support a project, it's always appreciated!";
+"Stats Setup" = "Postavljanje programa Stats";
+"Previous" = "Prethodna";
+"Previous page" = "Prethodna stranica";
+"Next" = "Sljedeća";
+"Next page" = "Sljedeća stranica";
+"Finish" = "Završi";
+"Finish setup" = "Završi postavljanje";
+"Welcome to Stats" = "Stats dobrodošlica";
+"welcome_message" = "Hvala što koristiš Stats, besplatni program otvorenog koda za praćenje macOS sustava u traci izbornika.";
+"Start the application automatically when starting your Mac" = "Pokreni program automatski pri pokretanju računala";
+"Do not start the application automatically when starting your Mac" = "Nemoj pokrenuti program automatski pri pokretanju računala";
+"Do everything silently in the background (recommended)" = "Obavi sve tiho u pozadini (preporučuje se)";
+"Check for a new version on startup" = "Traži nove verzije pri pokretanju programa";
+"Check for a new version every day (once a day)" = "Traži nove verzije svaki dan (jednom dnevno)";
+"Check for a new version every week (once a week)" = "Traži nove verzije svaki tjedan (jednom tjedno)";
+"Check for a new version every month (once a month)" = "Traži nove verzije svaki mjesec (jednom mjesečno)";
+"Never check for updates (not recommended)" = "Nikada nemoj tražiti nove verzije (ne preporučuje se)";
+"The configuration is completed" = "Konfiguracija je završena";
+"finish_setup_message" = "Sve je postavljeno! \n Stats je alat otvorenog koda, besplatan je i uvijek će takav biti. \n Ako ti se program sviđa, možeš podržati projekt. Zahvalni smo za svaku vrstu podrške!!";
 
 // Alerts
 "New version available" = "Dostupna je nova verzija";
 "Click to install the new version of Stats" = "Pritisni za instaliranje nove verzije programa Stats";
-"Successfully updated" = "Uspješno aktualizirano";
+"Successfully updated" = "Aktualiziranje je uspjelo";
 "Stats was updated to v" = "Stats je aktualiziran na v%0";
 "Reset settings text" = "Sve postavke programa će se resetirati i program će se ponovo pokrenuti. Stvarno to želiš učiniti?";
 
 // Settings
-"Open Activity Monitor" = "Otvori program Praćenje aktivnosti";
+"Open Activity Monitor" = "Otvori program „Praćenje aktivnosti”";
 "Report a bug" = "Prijavi grešku";
 "Support the application" = "Podrži program";
 "Close application" = "Zatvori program";
@@ -119,7 +119,7 @@
 "Number of threads" = "Broj komponenti procesa: %0";
 
 // Update
-"The latest version of Stats installed" = "Najnovija verzija programa Stats je instalirana";
+"The latest version of Stats installed" = "Instalirana je najnovija verzija programa Stats";
 "Downloading..." = "Preuzimanje …";
 "Current version: " = "Trenutačna verzija:  ";
 "Latest version: " = "Najnovija verzija:    ";
@@ -154,7 +154,7 @@
 "Number of reads in the chart" = "Broj čitanja u dijagramu";
 "Color of download" = "Boja primanja";
 "Color of upload" = "Boja slanja";
-"Merge widgets" = "Merge widgets";
+"Merge widgets" = "Spoji programčiće";
 
 // Module Kit
 "Open module settings" = "Otvori postavke modula";
@@ -171,7 +171,7 @@
 // Modules
 "Number of top processes" = "Broj glavnih procesa";
 "Update interval for top processes" = "Interval aktualiziranja za glavne procese";
-"Notification level" = "Notification level";
+"Notification level" = "Razina obavještavanja";
 
 // CPU
 "CPU usage" = "Korištenje procesora";
@@ -183,14 +183,14 @@
 "Show usage per core" = "Prikaži korištenje procesora pojedinačno";
 "Show hyper-threading cores" = "Prikaži hyper-threading procesore";
 "Split the value (System/User)" = "Podijeli vrijednost (Sustav/Korisnik)";
-"Scheduler limit" = "Ograničenje rasporeda";
+"Scheduler limit" = "Ograničenje planera";
 "Speed limit" = "Ograničenje brzine";
 "Average load" = "Prosječno učitavanje";
 "1 minute" = "1 minuta";
 "5 minutes" = "5 minuta";
 "15 minutes" = "15 minuta";
-"CPU usage threshold" = "CPU usage threshold";
-"CPU usage is" = "CPU usage is %0";
+"CPU usage threshold" = "Prag korištenja procesora";
+"CPU usage is" = "Korištenje procesora je %0";
 
 // GPU
 "GPU to show" = "Grafički procesor";
@@ -210,12 +210,12 @@
 "Utilization" = "Korištenje";
 "Render utilization" = "Korištenje iscrtavača";
 "Tiler utilization" = "Korištenje popločivanja";
-"GPU usage threshold" = "GPU usage threshold";
-"GPU usage is" = "GPU usage is %0";
+"GPU usage threshold" = "Prag korištenja grafičkog procesora";
+"GPU usage is" = "Korištenje grafičkog procesora je %0";
 
 // RAM
-"Memory usage" = "Korištenje memorije";
-"Memory pressure" = "Opterećenje memorije";
+"Memory usage" = "Korištenje radne memorije";
+"Memory pressure" = "Opterećenje radne memorije";
 "Total" = "Ukupno";
 "Used" = "Korišteno";
 "App" = "Program";
@@ -224,8 +224,8 @@
 "Free" = "Slobodno";
 "Swap" = "Virtualno";
 "Split the value (App/Wired/Compressed)" = "Podijeli vrijednost (Program/Rezidentno/Komprimirano)";
-"RAM utilization threshold" = "RAM utilization threshold";
-"RAM utilization is" = "RAM utilization is %0";
+"RAM utilization threshold" = "Prag korištenja radne memorije";
+"RAM utilization is" = "Korištenje radne memorije je %0";
 
 // Disk
 "Show removable disks" = "Prikaži prijenosne diskove";
@@ -234,8 +234,8 @@
 "Disk to show" = "Disk";
 "Open disk" = "Otvori disk";
 "Switch view" = "Zamijeni prikaz";
-"Disk utilization threshold" = "Disk utilization threshold";
-"Disk utilization is" = "Disk utilization is %0";
+"Disk utilization threshold" = "Prag korištenja diska";
+"Disk utilization is" = "Korištenje diska je %0";
 
 // Sensors
 "Temperature unit" = "Jedinica temperature";
@@ -243,8 +243,8 @@
 "Fahrenheit" = "Fahrenheit";
 "Save the fan speed" = "Spremi brzinu ventilatora";
 "Fan" = "Ventilator";
-"HID sensors" = "HID sensori";
-"Synchronize fan's control" = "Synchronize fan's control";
+"HID sensors" = "Senzori HID uređaja";
+"Synchronize fan's control" = "Sinkroniziraj upravljanje ventilatora";
 
 // Network
 "Uploading" = "Slanje";
@@ -266,10 +266,10 @@
 "Interface based" = "Na osnovi sučelja";
 "Processes based" = "Na osnovi procesa";
 "Reset data usage" = "Resetiraj korištenje podataka";
-"VPN mode" = "VPN modus";
+"VPN mode" = "Modus virtualne privatne mreže (VPN)";
 "Standard" = "Standard";
-"Security" = "Security";
-"Channel" = "Channel";
+"Security" = "Sigurnost";
+"Channel" = "Kanal";
 
 // Battery
 "Level" = "Stanje";
@@ -292,8 +292,8 @@
 "Not connected" = "Nije priključena";
 "Low level notification" = "Obavijest za slabu bateriju";
 "High level notification" = "Obavijest za napunjenu bateriju";
-"Low battery" = "Slaba baterija";
-"High battery" = "Napunjena baterija";
+"Low battery" = "Baterija je slaba";
+"High battery" = "Baterija je napunjena";
 "Battery remaining" = "%0 % preostalo";
 "Battery remaining to full charge" = "%0 % do napunjenosti";
 "Percentage" = "Postotak";
