@@ -118,6 +118,9 @@ internal class PopupViewController: NSViewController {
 internal class PopupView: NSView {
     private var title: String? = nil
     
+    private var foreground: NSVisualEffectView
+    private var background: NSView
+    
     private let header: HeaderView
     private let body: NSScrollView
     
@@ -143,10 +146,19 @@ internal class PopupView: NSView {
         self.windowHeight = NSScreen.main?.visibleFrame.height
         self.containerHeight = self.body.documentView?.frame.height
         
-        super.init(frame: CGRect(x: frame.origin.x, y: frame.origin.y, width: frame.width, height: frame.height))
+        self.foreground = NSVisualEffectView(frame: frame)
+        self.foreground.material = .titlebar
+        self.foreground.blendingMode = .behindWindow
+        self.foreground.state = .active
+        self.foreground.wantsLayer = true
+        self.foreground.layer?.backgroundColor = NSColor.red.cgColor
+        self.foreground.layer?.cornerRadius = 6
         
-        self.wantsLayer = true
-        self.layer?.cornerRadius = 3
+        self.background = NSView(frame: frame)
+        self.background.wantsLayer = true
+        self.foreground.addSubview(self.background)
+        
+        super.init(frame: frame)
         
         self.body.drawsBackground = false
         self.body.translatesAutoresizingMaskIntoConstraints = true
@@ -156,6 +168,7 @@ internal class PopupView: NSView {
         self.body.autohidesScrollers = true
         self.body.horizontalScrollElasticity = .none
         
+        self.addSubview(self.foreground, positioned: .below, relativeTo: .none)
         self.addSubview(self.header)
         self.addSubview(self.body)
     }
@@ -165,7 +178,7 @@ internal class PopupView: NSView {
     }
     
     override func updateLayer() {
-        self.layer!.backgroundColor = self.isDarkMode ? NSColor.windowBackgroundColor.cgColor : NSColor.white.cgColor
+        self.background.layer?.backgroundColor = self.isDarkMode ? .clear : NSColor.white.cgColor
     }
     
     public func setView(_ view: Popup_p?) {
@@ -173,6 +186,8 @@ internal class PopupView: NSView {
         let height: CGFloat = (view?.frame.height ?? 0) + Constants.Popup.headerHeight + (Constants.Popup.margins*2)
         
         self.setFrameSize(NSSize(width: width, height: height))
+        self.foreground.setFrameSize(NSSize(width: width, height: height))
+        self.background.setFrameSize(NSSize(width: width, height: height))
         self.header.setFrameOrigin(NSPoint(x: 0, y: height - Constants.Popup.headerHeight))
         self.body.setFrameSize(NSSize(width: (view?.frame.width ?? Constants.Popup.width), height: (view?.frame.height ?? 0)))
         
@@ -230,6 +245,8 @@ internal class PopupView: NSView {
         }
         
         self.window?.setContentSize(windowSize)
+        self.foreground.setFrameSize(windowSize)
+        self.background.setFrameSize(windowSize)
         self.body.setFrameSize(NSSize(
             width: windowSize.width - (Constants.Popup.margins*2) + (isScrollVisible ? 20 : 0),
             height: windowSize.height - Constants.Popup.headerHeight - (Constants.Popup.margins*2)
