@@ -61,6 +61,11 @@
 "Silent" = "Tiho";
 "Units" = "Enote";
 "Fans" = "Ventilatorji";
+"Scaling" = "Scaling";
+"Linear" = "Linear";
+"Square" = "Square";
+"Cube" = "Cube";
+"Logarithmic" = "Logarithmic";
 
 // Setup
 "Stats Setup" = "Stats Setup";

@@ -61,6 +61,11 @@
 "Silent" = "Sessiz";
 "Units" = "Birimler";
 "Fans" = "Fanlar";
+"Scaling" = "Scaling";
+"Linear" = "Linear";
+"Square" = "Square";
+"Cube" = "Cube";
+"Logarithmic" = "Logarithmic";
 
 // Setup
 "Stats Setup" = "Stats Setup";

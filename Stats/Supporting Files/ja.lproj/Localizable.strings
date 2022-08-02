@@ -61,6 +61,11 @@
 "Silent" = "自動（サイレント）";
 "Units" = "単位";
 "Fans" = "ファン";
+"Scaling" = "Scaling";
+"Linear" = "Linear";
+"Square" = "Square";
+"Cube" = "Cube";
+"Logarithmic" = "Logarithmic";
 
 // Setup
 "Stats Setup" = "Stats Setup";

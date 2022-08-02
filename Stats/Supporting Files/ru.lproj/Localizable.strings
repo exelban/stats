@@ -61,6 +61,11 @@
 "Silent" = "Бесшумно";
 "Units" = "Units";
 "Fans" = "Вентиляторы";
+"Scaling" = "Масштабирование";
+"Linear" = "Линейное";
+"Square" = "Квадратное";
+"Cube" = "Кубическое";
+"Logarithmic" = "Логарифмическое";
 
 // Setup
 "Stats Setup" = "Stats Setup";

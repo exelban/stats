@@ -61,6 +61,11 @@
 "Silent" = "Tiho";
 "Units" = "Jedinice";
 "Fans" = "Ventilatori";
+"Scaling" = "Scaling";
+"Linear" = "Linear";
+"Square" = "Square";
+"Cube" = "Cube";
+"Logarithmic" = "Logarithmic";
 
 // Setup
 "Stats Setup" = "Postavljanje programa Stats";

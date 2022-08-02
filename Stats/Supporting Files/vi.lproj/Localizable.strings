@@ -61,6 +61,11 @@
 "Silent" = "Im lặng";
 "Units" = "Units";
 "Fans" = "Quạt";
+"Scaling" = "Scaling";
+"Linear" = "Linear";
+"Square" = "Square";
+"Cube" = "Cube";
+"Logarithmic" = "Logarithmic";
 
 // Setup
 "Stats Setup" = "Stats Setup";

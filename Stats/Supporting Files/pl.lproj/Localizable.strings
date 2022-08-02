@@ -61,6 +61,11 @@
 "Silent" = "Tryb cichy";
 "Units" = "Jednostki";
 "Fans" = "Wentylatory";
+"Scaling" = "Skalowanie";
+"Linear" = "Liniowe";
+"Square" = "Kwadratowe";
+"Cube" = "Kubiczne";
+"Logarithmic" = "Logarytmiczne";
 
 // Setup
 "Stats Setup" = "Konfiguracja Stats";

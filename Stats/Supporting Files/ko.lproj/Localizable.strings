@@ -61,6 +61,11 @@
 "Silent" = "조용한";
 "Units" = "단위";
 "Fans" = "팬";
+"Scaling" = "Scaling";
+"Linear" = "Linear";
+"Square" = "Square";
+"Cube" = "Cube";
+"Logarithmic" = "Logarithmic";
 
 // Setup
 "Stats Setup" = "Stats Setup";

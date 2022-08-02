@@ -61,6 +61,11 @@
 "Silent" = "靜止";
 "Units" = "單位";
 "Fans" = "風扇";
+"Scaling" = "Scaling";
+"Linear" = "Linear";
+"Square" = "Square";
+"Cube" = "Cube";
+"Logarithmic" = "Logarithmic";
 
 // Setup
 "Stats Setup" = "Stats Setup";
