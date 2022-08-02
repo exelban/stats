@@ -243,3 +243,30 @@ public let notificationLevels: [KeyValue_t] = [
     KeyValue_t(key: "97%", value: "97%"),
     KeyValue_t(key: "100%", value: "100%")
 ]
+
+public struct Scale: KeyValue_p, Equatable {
+    public let key: String
+    public let value: String
+    public var additional: Any?
+    
+    public static func == (lhs: Scale, rhs: Scale) -> Bool {
+        return lhs.key == rhs.key
+    }
+}
+
+extension Scale: CaseIterable {
+    public static var none: Scale { return Scale(key: "none", value: "None") }
+    public static var separator: Scale { return Scale(key: "separator", value: "separator") }
+    public static var linear: Scale { return Scale(key: "linear", value: "Linear") }
+    public static var square: Scale { return Scale(key: "square", value: "Square") }
+    public static var cube: Scale { return Scale(key: "cube", value: "Cube") }
+    public static var logarithmic: Scale { return Scale(key: "logarithmic", value: "Logarithmic") }
+    
+    public static var allCases: [Scale] {
+        return [.none, .separator, .linear, .square, .cube, .logarithmic]
+    }
+    
+    public static func fromString(_ key: String, defaultValue: Scale = .linear) -> Scale {
+        return Scale.allCases.first{ $0.key == key } ?? defaultValue
+    }
+}

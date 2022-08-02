@@ -30,6 +30,50 @@ public struct circle_segment {
     }
 }
 
+private func scaleValue(scale: Scale = .linear, value: Double, maxValue: Double, maxHeight: CGFloat) -> CGFloat {
+    var value = value
+    var localMaxValue = maxValue
+    var y = value * maxHeight
+    
+    switch scale {
+    case .square:
+        if value > 0 {
+            value = sqrt(value)
+        }
+        if localMaxValue > 0 {
+            localMaxValue = sqrt(maxValue)
+        }
+    case .cube:
+        if value > 0 {
+            value = cbrt(value)
+        }
+        if localMaxValue > 0 {
+            localMaxValue = cbrt(maxValue)
+        }
+    case .logarithmic:
+        if value > 0 {
+            value = log(value*100)
+        }
+        if localMaxValue > 0 {
+            localMaxValue = log(maxValue*100)
+        }
+    default: break
+    }
+    
+    if value < 0 {
+        value = 0
+    }
+    if localMaxValue <= 0 {
+        localMaxValue = 1
+    }
+    
+    if scale != .none {
+        y = (maxHeight * value)/localMaxValue
+    }
+    
+    return y
+}
+
 public class LineChartView: NSView {
     public var id: String = UUID().uuidString
     
@@ -38,12 +82,13 @@ public class LineChartView: NSView {
     public var transparent: Bool = true
     public var color: NSColor = controlAccentColor
     public var suffix: String = "%"
+    public var scale: Scale = .none
     
     private var cursor: NSPoint? = nil
     private var stop: Bool = false
     
     public init(frame: NSRect, num: Int) {
-        self.points = Array(repeating: 0.01, count: num)
+        self.points = Array(repeating: 0, count: num)
         
         super.init(frame: frame)
         
@@ -69,6 +114,7 @@ public class LineChartView: NSView {
         if self.stop {
             points = self.shadowPoints
         }
+        guard let maxValue = points.max() else { return }
         
         if points.isEmpty {
             return
@@ -88,10 +134,10 @@ public class LineChartView: NSView {
         let xRatio: CGFloat = self.frame.size.width / CGFloat(points.count)
         
         let list = points.enumerated().compactMap { (i: Int, v: Double) -> (value: Double, point: CGPoint) in
-            let x: CGFloat = (CGFloat(i) * xRatio) + dirtyRect.origin.x
-            let y = CGFloat((CGFloat(truncating: v as NSNumber) * height)) + dirtyRect.origin.y + offset
-            
-            return (v, CGPoint(x: x, y: y))
+            return (v, CGPoint(
+                x: (CGFloat(i) * xRatio) + dirtyRect.origin.x,
+                y: scaleValue(scale: self.scale, value: v, maxValue: maxValue, maxHeight: height) + dirtyRect.origin.y + offset
+            ))
         }
         
         let line = NSBezierPath()
@@ -210,6 +256,13 @@ public class LineChartView: NSView {
         }
     }
     
+    public func setScale(_ newScale: Scale) {
+        self.scale = newScale
+        if self.window?.isVisible ?? false {
+            self.display()
+        }
+    }
+    
     public override func mouseEntered(with event: NSEvent) {
         self.cursor = convert(event.locationInWindow, from: nil)
         self.needsDisplay = true
@@ -246,6 +299,7 @@ public class NetworkChartView: NSView {
     public var points: [(Double, Double)]
     
     private var minMax: Bool = false
+    private var scale: Scale = .none
     
     public init(frame: NSRect, num: Int, minMax: Bool = true) {
         self.minMax = minMax
@@ -282,10 +336,10 @@ public class NetworkChartView: NSView {
             return (CGFloat(point) * xRatio) + (dirtyRect.origin.x - lineWidth)
         }
         let uploadYPoint = { (point: Int) -> CGFloat in
-            return CGFloat((points[point].0 * Double(dirtyRect.height/2)) / uploadMax) + dirtyRect.origin.y + dirtyRect.height/2 - offset
+            return scaleValue(scale: self.scale, value: points[point].0, maxValue: uploadMax, maxHeight: dirtyRect.height/2) + (dirtyRect.origin.y + dirtyRect.height/2 - offset)
         }
         let downloadYPoint = { (point: Int) -> CGFloat in
-            return (dirtyRect.height/2 + dirtyRect.origin.y + offset) - CGFloat((points[point].1 * Double(dirtyRect.height/2)) / downloadMax)
+            return (dirtyRect.height/2 + dirtyRect.origin.y + offset) - scaleValue(scale: self.scale, value: points[point].1, maxValue: downloadMax, maxHeight: dirtyRect.height/2)
         }
         
         let uploadlinePath = NSBezierPath()
@@ -367,6 +421,13 @@ public class NetworkChartView: NSView {
             let origin = self.points
             self.points = Array(repeating: (0, 0), count: num)
             self.points.replaceSubrange(Range(uncheckedBounds: (lower: origin.count, upper: num)), with: origin)
+        }
+    }
+    
+    public func setScale(_ newScale: Scale) {
+        self.scale = newScale
+        if self.window?.isVisible ?? false {
+            self.display()
         }
     }
 }
