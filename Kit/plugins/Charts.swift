@@ -32,6 +32,9 @@ public struct circle_segment {
 
 private func scaleValue(scale: Scale = .linear, value: Double, maxValue: Double, maxHeight: CGFloat) -> CGFloat {
     var value = value
+    if scale == .none && value > 1 && maxValue != 0 {
+        value /= maxValue
+    }
     var localMaxValue = maxValue
     var y = value * maxHeight
     
