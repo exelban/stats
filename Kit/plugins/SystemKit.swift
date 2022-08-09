@@ -23,6 +23,12 @@ public enum deviceType: Int {
     case macStudio = 8
 }
 
+public enum coreType: Int {
+    case unknown = -1
+    case efficiency = 1
+    case performance = 2
+}
+
 public struct model_s {
     public let name: String
     public let year: Int
@@ -36,10 +42,19 @@ public struct os_s {
     public let build: String
 }
 
+public struct core_s {
+    public var id: Int32
+    public var name: String
+    public var type: coreType
+}
+
 public struct cpu_s {
     public var name: String? = nil
     public var physicalCores: Int8? = nil
     public var logicalCores: Int8? = nil
+    public var eCores: Int32? = nil
+    public var pCores: Int32? = nil
+    public var cores: [core_s]? = nil
 }
 
 public struct dimm_s {
@@ -212,7 +227,85 @@ public class SystemKit {
         cpu.physicalCores = Int8(data.physical_cpu)
         cpu.logicalCores = Int8(data.logical_cpu)
         
+        if let cores = getCPUCores() {
+            cpu.eCores = cores.0
+            cpu.pCores = cores.1
+            cpu.cores = cores.2
+        }
+        
         return cpu
+    }
+    
+    func getCPUCores() -> (Int32?, Int32?, [core_s])? {
+        var iterator: io_iterator_t = io_iterator_t()
+        let result = IOServiceGetMatchingServices(kIOMasterPortDefault, IOServiceMatching("AppleARMPE"), &iterator)
+        if result != kIOReturnSuccess {
+            print("Error find AppleARMPE: " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
+            return nil
+        }
+        
+        var service: io_registry_entry_t = 1
+        var list: [core_s] = []
+        var pCores: Int32? = nil
+        var eCores: Int32? = nil
+        
+        while service != 0 {
+            service = IOIteratorNext(iterator)
+            
+            var entry: io_iterator_t = io_iterator_t()
+            if IORegistryEntryGetChildIterator(service, kIOServicePlane, &entry) != kIOReturnSuccess {
+                continue
+            }
+            var child: io_registry_entry_t = 1
+            while child != 0 {
+                child = IOIteratorNext(entry)
+                guard child != 0 else {
+                    continue
+                }
+                
+                guard let name = getIOName(child),
+                      let props = getIOProperties(child) else { continue }
+                
+                if name.matches("^cpu\\d") {
+                    var type: coreType = .unknown
+                    
+                    if let rawType = props.object(forKey: "cluster-type") as? Data,
+                       let typ = String(data: rawType, encoding: .utf8)?.trimmed {
+                        switch typ {
+                        case "E":
+                            type = .efficiency
+                        case "P":
+                            type = .performance
+                        default:
+                            type = .unknown
+                        }
+                    }
+                    
+                    let rawCPUId = props.object(forKey: "cpu-id") as? Data
+                    let id = rawCPUId?.withUnsafeBytes { pointer in
+                        return pointer.load(as: Int32.self)
+                    }
+                    
+                    list.append(core_s(id: id ?? -1, name: name, type: type))
+                } else if name.trimmed == "cpus" {
+                    eCores = (props.object(forKey: "e-core-count") as? Data)?.withUnsafeBytes { pointer in
+                        return pointer.load(as: Int32.self)
+                    }
+                    pCores = (props.object(forKey: "p-core-count") as? Data)?.withUnsafeBytes { pointer in
+                        return pointer.load(as: Int32.self)
+                    }
+                }
+                
+                IOObjectRelease(child)
+            }
+            IOObjectRelease(entry)
+            
+            IOObjectRelease(service)
+        }
+        
+        IOObjectRelease(iterator)
+        
+        return (eCores, pCores, list)
     }
     
     private func getGPUInfo() -> [gpu_s]? {
