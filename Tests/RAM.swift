@@ -31,7 +31,7 @@ class RAM: XCTestCase {
         
         process = ProcessReader.parseProcess("359   NotificationCent 62M")
         XCTAssertEqual(process.pid, 359)
-        XCTAssertEqual(process.command, "NotificationCe")
+        XCTAssertEqual(process.command, "NotificationCent")
         XCTAssertEqual(process.usage, 62 * Double(1024 * 1024))
         
         process = ProcessReader.parseProcess("623    SafariCloudHisto 1608K")
@@ -48,6 +48,11 @@ class RAM: XCTestCase {
         XCTAssertEqual(process.pid, 329)
         XCTAssertEqual(process.command, "Finder")
         XCTAssertEqual(process.usage, 488 * Double(1024 * 1024))
+        
+        process = ProcessReader.parseProcess("7163* AutoCAD LT 2023  11G  ")
+        XCTAssertEqual(process.pid, 7163)
+        XCTAssertEqual(process.command, "AutoCAD LT 2023")
+        XCTAssertEqual(process.usage, 11 * Double(1024 * 1024 * 1024))
     }
     
     func testReplacePID() throws {
