@@ -161,7 +161,7 @@ extension Color: CaseIterable {
     } }
     
     public static var allCases: [Color] {
-        return [.utilization, .pressure, .cluster, separator1,
+        return [.utilization, .pressure, separator1,
                 .systemAccent, .monochrome, separator2,
                 .clear, .white, .black, .gray, .secondGray, .darkGray, .lightGray,
                 .red, .secondRed, .green, .secondGreen, .blue, .secondBlue, .yellow, .secondYellow,
