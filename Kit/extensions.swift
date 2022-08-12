@@ -193,6 +193,22 @@ public extension Double {
         }
     }
     
+    func clusterColor(_ i: Int) -> NSColor? {
+        guard let cores = SystemKit.shared.device.info.cpu?.cores,
+              let core = cores.first(where: {$0.id == i }) else {
+            return nil
+        }
+        
+        switch core.type {
+        case .efficiency:
+            return .systemTeal
+        case .performance:
+            return .systemBlue
+        default:
+            return nil
+        }
+    }
+    
     func secondsToHoursMinutesSeconds() -> (Int, Int) {
         let mins = (self.truncatingRemainder(dividingBy: 3600)) / 60
         return (Int(self / 3600), Int(mins))

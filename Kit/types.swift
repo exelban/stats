@@ -120,6 +120,7 @@ public struct Color: KeyValue_p, Equatable {
 extension Color: CaseIterable {
     public static var utilization: Color { return Color(key: "utilization", value: "Based on utilization", additional: NSColor.black) }
     public static var pressure: Color { return Color(key: "pressure", value: "Based on pressure", additional: NSColor.black) }
+    public static var cluster: Color { return Color(key: "cluster", value: "Based on cluster", additional: NSColor.black) }
     
     public static var separator1: Color { return Color(key: "separator_1", value: "separator_1", additional: NSColor.black) }
     
@@ -160,7 +161,7 @@ extension Color: CaseIterable {
     } }
     
     public static var allCases: [Color] {
-        return [.utilization, .pressure, separator1,
+        return [.utilization, .pressure, .cluster, separator1,
                 .systemAccent, .monochrome, separator2,
                 .clear, .white, .black, .gray, .secondGray, .darkGray, .lightGray,
                 .red, .secondRed, .green, .secondGreen, .blue, .secondBlue, .yellow, .secondYellow,
