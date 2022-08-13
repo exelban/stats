@@ -122,6 +122,8 @@
 "Uptime" = "가동 시간";
 "Number of cores" = "%0 코어";
 "Number of threads" = "%0 쓰레드";
+"Number of e-cores" = "%0 efficiency cores";
+"Number of p-cores" = "%0 performance cores";
 
 // Update
 "The latest version of Stats installed" = "최신 버전의 Stats가 설치되어 있습니다";
@@ -196,6 +198,8 @@
 "15 minutes" = "15분";
 "CPU usage threshold" = "CPU 사용량 임계값";
 "CPU usage is" = "CPU 사용량 %0";
+"Efficiency cores" = "Efficiency cores";
+"Performance cores" = "Performance cores";
 
 // GPU
 "GPU to show" = "표시할 GPU";

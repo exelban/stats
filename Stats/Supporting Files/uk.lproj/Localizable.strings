@@ -122,6 +122,8 @@
 "Uptime" = "Час роботи";
 "Number of cores" = "%0 ядер";
 "Number of threads" = "%0 потоків";
+"Number of e-cores" = "%0 енергоефективних ядер";
+"Number of p-cores" = "%0 високопродуктивних ядер";
 
 // Update
 "The latest version of Stats installed" = "Встановлено останню версію";
@@ -196,6 +198,8 @@
 "15 minutes" = "15 хвилин";
 "CPU usage threshold" = "Поріг використання процесора";
 "CPU usage is" = "Використання процесора %0";
+"Efficiency cores" = "Енергоефективні ядра";
+"Performance cores" = "Високопродуктивні ядра";
 
 // GPU
 "GPU to show" = "Активний графічний процесор";

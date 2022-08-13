@@ -202,10 +202,10 @@ internal class Popup: NSView, Popup_p {
         }
         
         if SystemKit.shared.device.info.cpu?.eCores != nil {
-            self.eCoresField = popupRow(container, n: 0, title: "\(localizedString("E-cores")):", value: "").1
+            self.eCoresField = popupRow(container, n: 0, title: "\(localizedString("Efficiency cores")):", value: "").1
         }
         if SystemKit.shared.device.info.cpu?.pCores != nil {
-            self.pCoresField = popupRow(container, n: 0, title: "\(localizedString("P-cores")):", value: "").1
+            self.pCoresField = popupRow(container, n: 0, title: "\(localizedString("Performance cores")):", value: "").1
         }
         
         view.addSubview(separator)

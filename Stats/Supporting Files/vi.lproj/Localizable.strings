@@ -122,6 +122,8 @@
 "Uptime" = "Thời gian hoạt động";
 "Number of cores" = "%0 nhân";
 "Number of threads" = "%0 luồng";
+"Number of e-cores" = "%0 efficiency cores";
+"Number of p-cores" = "%0 performance cores";
 
 // Update
 "The latest version of Stats installed" = "Stats đã được cập nhật";
@@ -196,6 +198,8 @@
 "15 minutes" = "15 phút";
 "CPU usage threshold" = "CPU usage threshold";
 "CPU usage is" = "CPU usage is %0";
+"Efficiency cores" = "Efficiency cores";
+"Performance cores" = "Performance cores";
 
 // GPU
 "GPU to show" = "GPU để hiển thị";

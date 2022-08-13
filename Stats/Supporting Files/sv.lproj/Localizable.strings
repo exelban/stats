@@ -122,6 +122,8 @@
 "Uptime" = "Upptid";
 "Number of cores" = "%0 kärnor";
 "Number of threads" = "%0 trådar";
+"Number of e-cores" = "%0 efficiency cores";
+"Number of p-cores" = "%0 performance cores";
 
 // Update
 "The latest version of Stats installed" = "Du har den senaste versionen av Stats";
@@ -196,6 +198,8 @@
 "15 minutes" = "15 minuter";
 "CPU usage threshold" = "Tröskelvärde CPU-användning";
 "CPU usage is" = "CPU-anvädningen är %0";
+"Efficiency cores" = "Efficiency cores";
+"Performance cores" = "Performance cores";
 
 // GPU
 "GPU to show" = "GPU att visa";
