@@ -25,6 +25,7 @@ internal class LoadReader: Reader<CPU_Load> {
     private var response: CPU_Load = CPU_Load()
     private var numCPUsU: natural_t = 0
     private var usagePerCore: [Double] = []
+    private var cores: [core_s]? = nil
     
     public override func setup() {
         self.hasHyperthreadingCores = sysctlByName("hw.physicalcpu") != sysctlByName("hw.logicalcpu")
@@ -35,6 +36,7 @@ internal class LoadReader: Reader<CPU_Load> {
                 self.numCPUs = 1
             }
         }
+        self.cores = SystemKit.shared.device.info.cpu?.cores
     }
     
     public override func read() {
@@ -126,6 +128,24 @@ internal class LoadReader: Reader<CPU_Load> {
         }
         self.previousInfo = cpuInfo!
         self.response.totalUsage = self.response.systemLoad + self.response.userLoad
+        
+        if let cores = self.cores {
+            let eCoresList: [Double] = cores.filter({ $0.type == .efficiency }).compactMap { (c: core_s) in
+                if self.response.usagePerCore.indices.contains(Int(c.id)) {
+                    return self.response.usagePerCore[Int(c.id)]
+                }
+                return 0
+            }
+            let pCoresList: [Double] = cores.filter({ $0.type == .performance }).compactMap { (c: core_s) in
+                if self.response.usagePerCore.indices.contains(Int(c.id)) {
+                    return self.response.usagePerCore[Int(c.id)]
+                }
+                return 0
+            }
+            
+            self.response.usageECores = eCoresList.reduce(0, +)/Double(cores.count)
+            self.response.usagePCores = pCoresList.reduce(0, +)/Double(cores.count)
+        }
         
         self.callback(self.response)
     }

@@ -21,10 +21,17 @@ internal class Popup: NSView, Popup_p {
     private let chartHeight: CGFloat = 90 + Constants.Popup.separatorHeight
     private var detailsHeight: CGFloat {
         get {
+            var count: CGFloat = 5
             if isARM {
-                return (22*3) + Constants.Popup.separatorHeight
+                count = 3
             }
-            return (22*5) + Constants.Popup.separatorHeight
+            if SystemKit.shared.device.info.cpu?.eCores != nil {
+                count += 1
+            }
+            if SystemKit.shared.device.info.cpu?.pCores != nil {
+                count += 1
+            }
+            return (22*count) + Constants.Popup.separatorHeight
         }
     }
     private let averageHeight: CGFloat = (22*3) + Constants.Popup.separatorHeight
@@ -35,6 +42,8 @@ internal class Popup: NSView, Popup_p {
     private var idleField: NSTextField? = nil
     private var shedulerLimitField: NSTextField? = nil
     private var speedLimitField: NSTextField? = nil
+    private var eCoresField: NSTextField? = nil
+    private var pCoresField: NSTextField? = nil
     private var average1Field: NSTextField? = nil
     private var average5Field: NSTextField? = nil
     private var average15Field: NSTextField? = nil
@@ -192,6 +201,13 @@ internal class Popup: NSView, Popup_p {
             self.speedLimitField = popupRow(container, n: 0, title: "\(localizedString("Speed limit")):", value: "").1
         }
         
+        if SystemKit.shared.device.info.cpu?.eCores != nil {
+            self.eCoresField = popupRow(container, n: 0, title: "\(localizedString("E-cores")):", value: "").1
+        }
+        if SystemKit.shared.device.info.cpu?.pCores != nil {
+            self.pCoresField = popupRow(container, n: 0, title: "\(localizedString("P-cores")):", value: "").1
+        }
+        
         view.addSubview(separator)
         view.addSubview(container)
         
@@ -244,6 +260,13 @@ internal class Popup: NSView, Popup_p {
                     circle_segment(value: value.systemLoad, color: NSColor.systemRed),
                     circle_segment(value: value.userLoad, color: NSColor.systemBlue)
                 ])
+                
+                if let field = self.eCoresField, let usage = value.usageECores {
+                    field.stringValue = "\(Int(usage * 100))%"
+                }
+                if let field = self.pCoresField, let usage = value.usagePCores {
+                    field.stringValue = "\(Int(usage * 100))%"
+                }
                 
                 self.initialized = true
             }
