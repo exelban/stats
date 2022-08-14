@@ -601,6 +601,41 @@ public func getIOProperties(_ entry: io_registry_entry_t) -> NSDictionary? {
     return properties?.takeUnretainedValue()
 }
 
+public func getIOName(_ entry: io_registry_entry_t) -> String? {
+    let pointer = UnsafeMutablePointer<io_name_t>.allocate(capacity: 1)
+    
+    let result = IORegistryEntryGetName(entry, pointer)
+    if result != kIOReturnSuccess {
+        print("Error IORegistryEntryGetName(): " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
+        return nil
+    }
+    
+    return String(cString: UnsafeRawPointer(pointer).assumingMemoryBound(to: CChar.self))
+}
+
+public func getIOChildrens(_ entry: io_registry_entry_t) -> [String]? {
+    var iter: io_iterator_t = io_iterator_t()
+    if IORegistryEntryGetChildIterator(entry, kIOServicePlane, &iter) != kIOReturnSuccess {
+        return nil
+    }
+    
+    var iterator: io_registry_entry_t = 1
+    var list: [String] = []
+    while iterator != 0 {
+        iterator = IOIteratorNext(iter)
+        
+        let pointer = UnsafeMutablePointer<io_name_t>.allocate(capacity: 1)
+        if IORegistryEntryGetName(iterator, pointer) != kIOReturnSuccess {
+            continue
+        }
+        
+        list.append(String(cString: UnsafeRawPointer(pointer).assumingMemoryBound(to: CChar.self)))
+        IOObjectRelease(iterator)
+    }
+    
+    return list
+}
+
 public class ColorView: NSView {
     public var inactiveColor: NSColor = NSColor.lightGray.withAlphaComponent(0.75)
     

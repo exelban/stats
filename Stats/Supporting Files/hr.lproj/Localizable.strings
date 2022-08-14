@@ -122,6 +122,8 @@
 "Uptime" = "Vrijeme rada";
 "Number of cores" = "Broj jezgri: %0";
 "Number of threads" = "Broj komponenti procesa: %0";
+"Number of e-cores" = "%0 efficiency cores";
+"Number of p-cores" = "%0 performance cores";
 
 // Update
 "The latest version of Stats installed" = "Instalirana je najnovija verzija programa Stats";
@@ -196,6 +198,8 @@
 "15 minutes" = "15 minuta";
 "CPU usage threshold" = "Prag korištenja procesora";
 "CPU usage is" = "Korištenje procesora je %0";
+"Efficiency cores" = "Efficiency cores";
+"Performance cores" = "Performance cores";
 
 // GPU
 "GPU to show" = "Grafički procesor";

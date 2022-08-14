@@ -56,7 +56,6 @@ internal class SetupWindow: NSWindow, NSWindowDelegate {
     
     public func hide() {
         self.close()
-        self.finishHandler()
     }
     
     func windowWillClose(_ notification: Notification) {

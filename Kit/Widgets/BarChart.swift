@@ -17,7 +17,7 @@ public class BarChart: WidgetWrapper {
     private var frameState: Bool = false
     private var colorState: Color = .systemAccent
     
-    private var colors: [Color] = Color.allCases
+    private var colors: [Color] = [Color.cluster] + Color.allCases
     private var value: [[ColorValue]] = [[]]
     private var pressureLevel: DispatchSource.MemoryPressureEvent = .normal
     private var colorZones: colorZones = (0.6, 0.8)
@@ -171,8 +171,9 @@ public class BarChart: WidgetWrapper {
                 if partitionValue.color == nil {
                     switch self.colorState {
                     case .systemAccent: controlAccentColor.set()
-                    case .utilization: partitionValue.value.usageColor(zones: self.colorZones, reversed: self.title == "Battery").setFill()
-                    case .pressure: self.pressureLevel.pressureColor().setFill()
+                    case .utilization: partitionValue.value.usageColor(zones: self.colorZones, reversed: self.title == "Battery").set()
+                    case .pressure: self.pressureLevel.pressureColor().set()
+                    case .cluster: (partitionValue.value.clusterColor(i) ?? controlAccentColor).set()
                     case .monochrome:
                         if self.boxState {
                             (isDarkMode ? NSColor.black : NSColor.white).set()
@@ -325,7 +326,7 @@ public class BarChart: WidgetWrapper {
         guard let key = sender.representedObject as? String else {
             return
         }
-        if let newColor = Color.allCases.first(where: { $0.key == key }) {
+        if let newColor = self.colors.first(where: { $0.key == key }) {
             self.colorState = newColor
         }
         

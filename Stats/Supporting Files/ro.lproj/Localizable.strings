@@ -122,6 +122,8 @@
 "Uptime" = "Timp în opererare";
 "Number of cores" = "%0 cores";
 "Number of threads" = "%0 threads";
+"Number of e-cores" = "%0 efficiency cores";
+"Number of p-cores" = "%0 performance cores";
 
 // Update
 "The latest version of Stats installed" = "Cea mai recentă versiune de Stats instalată";
@@ -196,6 +198,8 @@
 "15 minutes" = "15 minutes";
 "CPU usage threshold" = "CPU usage threshold";
 "CPU usage is" = "CPU usage is %0";
+"Efficiency cores" = "Efficiency cores";
+"Performance cores" = "Performance cores";
 
 // GPU
 "GPU to show" = "Placa video să fie arătată";

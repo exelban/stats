@@ -122,6 +122,8 @@
 "Uptime" = "Χρόνος Δραστηριότητας";
 "Number of cores" = "%0 πυρήνες";
 "Number of threads" = "%0 threads";
+"Number of e-cores" = "%0 efficiency cores";
+"Number of p-cores" = "%0 performance cores";
 
 // Update
 "The latest version of Stats installed" = "Η τελευταία έκδοση του Stats είναι εγκατεστημένη";
@@ -196,6 +198,8 @@
 "15 minutes" = "15 λεπτά";
 "CPU usage threshold" = "CPU usage threshold";
 "CPU usage is" = "CPU usage is %0";
+"Efficiency cores" = "Efficiency cores";
+"Performance cores" = "Performance cores";
 
 // GPU
 "GPU to show" = "GPU προς εμφάνιση";

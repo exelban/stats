@@ -59,6 +59,10 @@
 			</dict>
 			<key>Order</key>
 			<integer>3</integer>
+			<key>Unsupported colors</key>
+			<array>
+				<string>cluster</string>
+			</array>
 		</dict>
 		<key>pie_chart</key>
 		<dict>

@@ -122,6 +122,8 @@
 "Uptime" = "Betriebszeit";
 "Number of cores" = "%0 cores";
 "Number of threads" = "%0 threads";
+"Number of e-cores" = "%0 efficiency cores";
+"Number of p-cores" = "%0 performance cores";
 
 // Update
 "The latest version of Stats installed" = "Die neueste Version von Stats ist installiert";
@@ -196,6 +198,8 @@
 "15 minutes" = "15 Minuten";
 "CPU usage threshold" = "CPU usage threshold";
 "CPU usage is" = "CPU usage is %0";
+"Efficiency cores" = "Efficiency cores";
+"Performance cores" = "Performance cores";
 
 // GPU
 "GPU to show" = "GPU auswählen";

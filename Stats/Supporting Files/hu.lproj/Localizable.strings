@@ -122,6 +122,8 @@
 "Uptime" = "Indítás óta eltel idő";
 "Number of cores" = "%0 mag";
 "Number of threads" = "%0 szál";
+"Number of e-cores" = "%0 efficiency cores";
+"Number of p-cores" = "%0 performance cores";
 
 // Update
 "The latest version of Stats installed" = "A Stats legújabb verziója van telepítve";
@@ -196,6 +198,8 @@
 "15 minutes" = "15 perc";
 "CPU usage threshold" = "CPU usage threshold";
 "CPU usage is" = "CPU usage is %0";
+"Efficiency cores" = "Efficiency cores";
+"Performance cores" = "Performance cores";
 
 // GPU
 "GPU to show" = "Megjelenítendő GPU";

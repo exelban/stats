@@ -122,6 +122,8 @@
 "Uptime" = "启动时间";
 "Number of cores" = "%0 核心";
 "Number of threads" = "%0 线程";
+"Number of e-cores" = "%0 efficiency cores";
+"Number of p-cores" = "%0 performance cores";
 
 // Update
 "The latest version of Stats installed" = "已安装最新版 Stats";
@@ -196,6 +198,8 @@
 "15 minutes" = "15 分钟";
 "CPU usage threshold" = "CPU usage threshold";
 "CPU usage is" = "CPU usage is %0";
+"Efficiency cores" = "Efficiency cores";
+"Performance cores" = "Performance cores";
 
 // GPU
 "GPU to show" = "显示的 GPU";

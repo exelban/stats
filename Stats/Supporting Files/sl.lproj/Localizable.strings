@@ -122,6 +122,8 @@
 "Uptime" = "Čas delovanja";
 "Number of cores" = "%0 jeder";
 "Number of threads" = "%0 niti";
+"Number of e-cores" = "%0 efficiency cores";
+"Number of p-cores" = "%0 performance cores";
 
 // Update
 "The latest version of Stats installed" = "Nameščena je najnovejša različica programa Stats";
@@ -196,6 +198,8 @@
 "15 minutes" = "15 minut";
 "CPU usage threshold" = "Prag uporabe CPE";
 "CPU usage is" = "Uporaba CPE je %0";
+"Efficiency cores" = "Efficiency cores";
+"Performance cores" = "Performance cores";
 
 // GPU
 "GPU to show" = "GPE na ogled";

@@ -191,6 +191,24 @@ class Dashboard: NSScrollView {
                 }
                 value += "\(mini)"
             }
+            
+            if cpu.eCores != nil || cpu.pCores != nil {
+                if !value.isEmpty {
+                    value += "\n"
+                }
+                
+                var mini = ""
+                if let eCores = cpu.eCores {
+                    mini += localizedString("Number of e-cores", "\(eCores)")
+                }
+                if let pCores = cpu.pCores {
+                    if mini != "" {
+                        mini += ", "
+                    }
+                    mini += localizedString("Number of p-cores", "\(pCores)")
+                }
+                value += "\(mini)"
+            }
         } else {
             value = localizedString("Unknown")
         }

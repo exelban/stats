@@ -12,6 +12,8 @@ import Kit
 public struct CPU_Load: value_t {
     var totalUsage: Double = 0
     var usagePerCore: [Double] = []
+    var usageECores: Double? = nil
+    var usagePCores: Double? = nil
     
     var systemLoad: Double = 0
     var userLoad: Double = 0

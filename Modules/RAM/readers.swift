@@ -156,8 +156,19 @@ public class ProcessReader: Reader<[TopProcess]> {
     static public func parseProcess(_ raw: String) -> TopProcess {
         let str = raw.trimmingCharacters(in: .whitespaces)
         let pidString = str.find(pattern: "^\\d+")
-        let usageString = str.suffix(6)
-        var command = str.replacingOccurrences(of: usageString, with: "")
+        
+        var arr = str.replacingOccurrences(of: pidString, with: "").split(separator: " ")
+        if arr.first == "*" {
+            arr.removeFirst()
+        }
+        
+        var usageString = str.suffix(6)
+        if let lastElement = arr.last {
+            usageString = lastElement
+            arr.removeLast()
+        }
+        
+        var command = arr.joined(separator: " ")
             .replacingOccurrences(of: pidString, with: "")
             .trimmingCharacters(in: .whitespaces)
         

@@ -122,6 +122,8 @@
 "Uptime" = "Время работы";
 "Number of cores" = "%0 ядер";
 "Number of threads" = "%0 потоков";
+"Number of e-cores" = "%0 производительных ядер";
+"Number of p-cores" = "%0 энергоэффективных ядер";
 
 // Update
 "The latest version of Stats installed" = "Установлена последняя версия";
@@ -196,6 +198,8 @@
 "15 minutes" = "15 минут";
 "CPU usage threshold" = "Порог использования процессора";
 "CPU usage is" = "Использование процессора %0";
+"Efficiency cores" = "Энергоэффективные ядра";
+"Performance cores" = "Производительные ядра";
 
 // GPU
 "GPU to show" = "Активный графический процессор";

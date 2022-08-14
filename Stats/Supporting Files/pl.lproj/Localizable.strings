@@ -122,6 +122,8 @@
 "Uptime" = "Czas pracy";
 "Number of cores" = "%0 rdzeni";
 "Number of threads" = "%0 wątków";
+"Number of e-cores" = "%0 rdzeni energooszczędnych";
+"Number of p-cores" = "%0 rdzeni wydajności";
 
 // Update
 "The latest version of Stats installed" = "Najnowsza wersja Stats zainstalowana";
@@ -196,6 +198,8 @@
 "15 minutes" = "15 minut";
 "CPU usage threshold" = "Próg wykorzystania procesora";
 "CPU usage is" = "Użycie procesora %0";
+"Efficiency cores" = "Rdzenie energooszczędne";
+"Performance cores" = "Rdzenie wydajnościowe";
 
 // GPU
 "GPU to show" = "GPU do wyświetlenia";

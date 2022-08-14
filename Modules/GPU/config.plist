@@ -58,6 +58,7 @@
 			<key>Unsupported colors</key>
 			<array>
 				<string>pressure</string>
+				<string>cluster</string>
 			</array>
 			<key>Order</key>
 			<integer>3</integer>
