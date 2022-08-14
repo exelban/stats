@@ -123,7 +123,7 @@
 "Number of cores" = "%0 rdzeni";
 "Number of threads" = "%0 wątków";
 "Number of e-cores" = "%0 rdzeni energooszczędnych";
-"Number of p-cores" = "%0 rdzeni wydajności";
+"Number of p-cores" = "%0 rdzeni wydajnościowych";
 
 // Update
 "The latest version of Stats installed" = "Najnowsza wersja Stats zainstalowana";
