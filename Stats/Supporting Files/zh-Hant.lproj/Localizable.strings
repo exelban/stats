@@ -61,32 +61,32 @@
 "Silent" = "靜止";
 "Units" = "單位";
 "Fans" = "風扇";
-"Scaling" = "Scaling";
-"Linear" = "Linear";
-"Square" = "Square";
-"Cube" = "Cube";
-"Logarithmic" = "Logarithmic";
+"Scaling" = "縮放";
+"Linear" = "線性";
+"Square" = "方形";
+"Cube" = "立方體";
+"Logarithmic" = "對數";
 
 // Setup
-"Stats Setup" = "Stats Setup";
-"Previous" = "Previous";
-"Previous page" = "Previous page";
-"Next" = "Next";
-"Next page" = "Next page";
-"Finish" = "Finish";
-"Finish setup" = "Finish setup";
-"Welcome to Stats" = "Welcome to Stats";
-"welcome_message" = "Thanks for using Stats, a free open source macOS system monitor for your menu bar.";
-"Start the application automatically when starting your Mac" = "Start the application automatically when starting your Mac";
-"Do not start the application automatically when starting your Mac" = "Do not start the application automatically when starting your Mac";
-"Do everything silently in the background (recommended)" = "Do everything silently in the background (recommended)";
-"Check for a new version on startup" = "Check for a new version on startup";
-"Check for a new version every day (once a day)" = "Check for a new version every day (once a day)";
-"Check for a new version every week (once a week)" = "Check for a new version every week (once a week)";
-"Check for a new version every month (once a month)" = "Check for a new version every month (once a month)";
-"Never check for updates (not recommended)" = "Never check for updates (not recommended)";
-"The configuration is completed" = "The configuration is completed";
-"finish_setup_message" = "Everything is set up! \n The Stats is an open source tool, it's free and always be. \n If you enjoy it you can support a project, it's always appreciated!";
+"Stats Setup" = "Stats 設定";
+"Previous" = "上一步";
+"Previous page" = "上一頁";
+"Next" = "下一步";
+"Next page" = "下一頁";
+"Finish" = "完成";
+"Finish setup" = "完成設定";
+"Welcome to Stats" = "歡迎使用 Stats";
+"welcome_message" = "感謝您使用 Stats！「Stats」是一款能在選單列一目瞭然顯示 macOS 系統資源監視器的開源 App。";
+"Start the application automatically when starting your Mac" = "啟動 Mac 時自動打開 Stats";
+"Do not start the application automatically when starting your Mac" = "不要在啟動 Mac 時自動打開 Stats";
+"Do everything silently in the background (recommended)" = "在背景靜默執行（建議）";
+"Check for a new version on startup" = "啟動 Stats 時自動檢查新版本";
+"Check for a new version every day (once a day)" = "每天檢查一次新版本（一天一次）";
+"Check for a new version every week (once a week)" = "每週檢查一次新版本（一週一次）";
+"Check for a new version every month (once a month)" = "每月檢查一次新版本（一個月一次）";
+"Never check for updates (not recommended)" = "不要檢查新版本（不建議）";
+"The configuration is completed" = "組態設定完成！The configuration is completed";
+"finish_setup_message" = "您已完成所有設定！\n 「Stats」是一款開源且永久免費的工具程式。\n 如果您喜歡 Stats，歡迎您支持這個專案，非常感謝！";
 
 // Alerts
 "New version available" = "有新版本可用";
@@ -122,8 +122,8 @@
 "Uptime" = "開機時間";
 "Number of cores" = "%0 核心";
 "Number of threads" = "%0 執行緒";
-"Number of e-cores" = "%0 efficiency cores";
-"Number of p-cores" = "%0 performance cores";
+"Number of e-cores" = "%0 效率核心";
+"Number of p-cores" = "%0 效能核心";
 
 // Update
 "The latest version of Stats installed" = "已安裝最新版本";
@@ -198,8 +198,8 @@
 "15 minutes" = "15 分鐘";
 "CPU usage threshold" = "處理器使用率臨界點";
 "CPU usage is" = "處理器使用率為：%0";
-"Efficiency cores" = "Efficiency cores";
-"Performance cores" = "Performance cores";
+"Efficiency cores" = "效率核心";
+"Performance cores" = "效能核心";
 
 // GPU
 "GPU to show" = "顯示顯示卡";
