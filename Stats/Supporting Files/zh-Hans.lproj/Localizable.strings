@@ -61,32 +61,32 @@
 "Silent" = "运行时静默";
 "Units" = "单位";
 "Fans" = "风扇";
-"Scaling" = "Scaling";
-"Linear" = "Linear";
-"Square" = "Square";
-"Cube" = "Cube";
-"Logarithmic" = "Logarithmic";
+"Scaling" = "缩放";
+"Linear" = "线性";
+"Square" = "方形";
+"Cube" = "立方体";
+"Logarithmic" = "对数";
 
 // Setup
-"Stats Setup" = "Stats Setup";
-"Previous" = "Previous";
-"Previous page" = "Previous page";
-"Next" = "Next";
-"Next page" = "Next page";
-"Finish" = "Finish";
-"Finish setup" = "Finish setup";
-"Welcome to Stats" = "Welcome to Stats";
-"welcome_message" = "Thanks for using Stats, a free open source macOS system monitor for your menu bar.";
-"Start the application automatically when starting your Mac" = "Start the application automatically when starting your Mac";
-"Do not start the application automatically when starting your Mac" = "Do not start the application automatically when starting your Mac";
-"Do everything silently in the background (recommended)" = "Do everything silently in the background (recommended)";
-"Check for a new version on startup" = "Check for a new version on startup";
-"Check for a new version every day (once a day)" = "Check for a new version every day (once a day)";
-"Check for a new version every week (once a week)" = "Check for a new version every week (once a week)";
-"Check for a new version every month (once a month)" = "Check for a new version every month (once a month)";
-"Never check for updates (not recommended)" = "Never check for updates (not recommended)";
-"The configuration is completed" = "The configuration is completed";
-"finish_setup_message" = "Everything is set up! \n The Stats is an open source tool, it's free and always be. \n If you enjoy it you can support a project, it's always appreciated!";
+"Stats Setup" = "Stats 设置";
+"Previous" = "上一步";
+"Previous page" = "上一页";
+"Next" = "下一步";
+"Next page" = "下一页";
+"Finish" = "完成";
+"Finish setup" = "完成设置";
+"Welcome to Stats" = "欢迎使用 Stats";
+"welcome_message" = "感谢你使用 Stats，一个免费的开源 macOS 菜单栏系统监视器。";
+"Start the application automatically when starting your Mac" = "在启动你的 Mac 时自动开启应用程序";
+"Do not start the application automatically when starting your Mac" = "在启动你的 Mac 时不要自动开启应用程序";
+"Do everything silently in the background (recommended)" = "在后台静默运行（推荐）";
+"Check for a new version on startup" = "启动时检查新版本";
+"Check for a new version every day (once a day)" = "每天检查一次新版本（一天一次）";
+"Check for a new version every week (once a week)" = "每周检查一次新版本（一周一次）";
+"Check for a new version every month (once a month)" = "每月检查一次新版本（一月一次）";
+"Never check for updates (not recommended)" = "不要检查更新（不推荐）";
+"The configuration is completed" = "配置完成";
+"finish_setup_message" = "设置完成！Stats 是一个开源且永远免费的工具。如果你喜欢它，你可以支持这个项目，非常感谢!";
 
 // Alerts
 "New version available" = "新版本可用";
@@ -122,8 +122,8 @@
 "Uptime" = "启动时间";
 "Number of cores" = "%0 核心";
 "Number of threads" = "%0 线程";
-"Number of e-cores" = "%0 efficiency cores";
-"Number of p-cores" = "%0 performance cores";
+"Number of e-cores" = "%0 效率内核";
+"Number of p-cores" = "%0 性能内核";
 
 // Update
 "The latest version of Stats installed" = "已安装最新版 Stats";
@@ -161,7 +161,7 @@
 "Number of reads in the chart" = "图表显示的读取次数";
 "Color of download" = "下载的颜色";
 "Color of upload" = "上传的颜色";
-"Merge widgets" = "Merge widgets";
+"Merge widgets" = "合并组件";
 
 // Module Kit
 "Open module settings" = "打开模块设置";
@@ -178,7 +178,7 @@
 // Modules
 "Number of top processes" = "高占用进程数";
 "Update interval for top processes" = "高占用进程的更新间隔";
-"Notification level" = "Notification level";
+"Notification level" = "通知级别";
 
 // CPU
 "CPU usage" = "CPU 占用";
@@ -196,10 +196,10 @@
 "1 minute" = "1 分钟";
 "5 minutes" = "5 分钟";
 "15 minutes" = "15 分钟";
-"CPU usage threshold" = "CPU usage threshold";
-"CPU usage is" = "CPU usage is %0";
-"Efficiency cores" = "Efficiency cores";
-"Performance cores" = "Performance cores";
+"CPU usage threshold" = "CPU 占用阈值";
+"CPU usage is" = "CPU 利用率是 %0";
+"Efficiency cores" = "效率核心";
+"Performance cores" = "性能核心";
 
 // GPU
 "GPU to show" = "显示的 GPU";
@@ -219,8 +219,8 @@
 "Utilization" = "利用率";
 "Render utilization" = "渲染利用率";
 "Tiler utilization" = "Tiler 利用率";
-"GPU usage threshold" = "GPU usage threshold";
-"GPU usage is" = "GPU usage is %0";
+"GPU usage threshold" = "GPU 占用阈值";
+"GPU usage is" = "GPU 利用率是 %0";
 
 // RAM
 "Memory usage" = "内存占用";
@@ -233,8 +233,8 @@
 "Free" = "可用";
 "Swap" = "交换区";
 "Split the value (App/Wired/Compressed)" = "柱状图区分显示（App 内存/联动内存/被压缩）";
-"RAM utilization threshold" = "RAM utilization threshold";
-"RAM utilization is" = "RAM utilization is %0";
+"RAM utilization threshold" = "RAM 占用阈值";
+"RAM utilization is" = "RAM 利用率是 %0";
 
 // Disk
 "Show removable disks" = "显示可移动磁盘";
@@ -243,8 +243,8 @@
 "Disk to show" = "显示的磁盘";
 "Open disk" = "打开磁盘";
 "Switch view" = "切换视图";
-"Disk utilization threshold" = "Disk utilization threshold";
-"Disk utilization is" = "Disk utilization is %0";
+"Disk utilization threshold" = "Disk 占用阈值";
+"Disk utilization is" = "Disk 利用率是 %0";
 
 // Sensors
 "Temperature unit" = "温度单位";
@@ -253,7 +253,7 @@
 "Save the fan speed" = "保存风扇转速";
 "Fan" = "风扇";
 "HID sensors" = "HID 传感器";
-"Synchronize fan's control" = "Synchronize fan's control";
+"Synchronize fan's control" = "同步控制风扇";
 
 // Network
 "Uploading" = "上传";
