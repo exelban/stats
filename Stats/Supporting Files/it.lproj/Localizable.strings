@@ -20,8 +20,6 @@
 "Open Disk settings" = "Apri impostazioni Disco";
 "Sensors" = "Sensori";
 "Open Sensors settings" = "Apri impostazioni Sensori";
-"Fans" = "Ventole";
-"Open Fans settings" = "Apri impostazioni Ventole";
 "Network" = "Rete";
 "Open Network settings" = "Apri impostazioni Rete";
 "Battery" = "Batteria";
@@ -44,7 +42,7 @@
 "No" = "No";
 "Automatic" = "Automatico";
 "Manual" = "Manuale";
-"None" = "Nessuna";
+"None" = "Nessuno";
 "Dots" = "Punti";
 "Arrows" = "Frecce";
 "Characters" = "Caratteri";
@@ -60,13 +58,42 @@
 "Right alignment" = "Destra";
 "Dashboard" = "Dashboard";
 "Disabled" = "Disabilitato";
-"Silent" = "Silent";
+"Silent" = "Silenzioso";
+"Units" = "Units";
+"Fans" = "Ventole";
+"Scaling" = "Scaling";
+"Linear" = "Linear";
+"Square" = "Square";
+"Cube" = "Cube";
+"Logarithmic" = "Logarithmic";
+
+// Setup
+"Stats Setup" = "Stats Setup";
+"Previous" = "Previous";
+"Previous page" = "Previous page";
+"Next" = "Next";
+"Next page" = "Next page";
+"Finish" = "Finish";
+"Finish setup" = "Finish setup";
+"Welcome to Stats" = "Welcome to Stats";
+"welcome_message" = "Thanks for using Stats, a free open source macOS system monitor for your menu bar.";
+"Start the application automatically when starting your Mac" = "Start the application automatically when starting your Mac";
+"Do not start the application automatically when starting your Mac" = "Do not start the application automatically when starting your Mac";
+"Do everything silently in the background (recommended)" = "Do everything silently in the background (recommended)";
+"Check for a new version on startup" = "Check for a new version on startup";
+"Check for a new version every day (once a day)" = "Check for a new version every day (once a day)";
+"Check for a new version every week (once a week)" = "Check for a new version every week (once a week)";
+"Check for a new version every month (once a month)" = "Check for a new version every month (once a month)";
+"Never check for updates (not recommended)" = "Never check for updates (not recommended)";
+"The configuration is completed" = "The configuration is completed";
+"finish_setup_message" = "Everything is set up! \n The Stats is an open source tool, it's free and always be. \n If you enjoy it you can support a project, it's always appreciated!";
 
 // Alerts
 "New version available" = "Nuova versione disponibile";
 "Click to install the new version of Stats" = "Clicca per installare la nuova versione di Stats";
 "Successfully updated" = "Aggiornato con successo";
-"Stats was updated to v" = "Stats è stato aggiornato a v%0";
+"Stats was updated to v" = "Stats è stato aggiornato alla v%0";
+"Reset settings text" = "All application settings will be reset and the application will be restarted. Are you sure you want to do this?";
 
 // Settings
 "Open Activity Monitor" = "Apri Monitoraggio Attività";
@@ -74,7 +101,7 @@
 "Support the application" = "Supporta l'applicazione";
 "Close application" = "Chiudi applicazione";
 "Open application settings" = "Apri le impostazioni dell'applicazione";
-"Open dashboard" = "Apri dashboard";
+"Open dashboard" = "Apri la dashboard";
 
 // Application settings
 "Update application" = "Aggiorna applicazione";
@@ -87,12 +114,16 @@
 "Check for update" = "Controlla aggiornamento";
 "Show icon in dock" = "Mostra icona nel dock";
 "Start at login" = "Avvia al login";
+"Build number" = "Build number";
+"Reset settings" = "Reset settings";
 
 // Dashboard
 "Serial number" = "Numero di serie";
 "Uptime" = "Tempo di attività";
 "Number of cores" = "%0 cores";
 "Number of threads" = "%0 threads";
+"Number of e-cores" = "%0 efficiency cores";
+"Number of p-cores" = "%0 performance cores";
 
 // Update
 "The latest version of Stats installed" = "L'ultima versione di Stats è installata";
@@ -124,28 +155,30 @@
 "Text widget" = "Testo";
 "Memory widget" = "Memoria";
 "Static width" = "Larghezza fissa";
-"Tachometer widget" = "Tachometer";
-"Show symbols" = "Show symbols";
-"Label widget" = "Label";
-"Number of reads in the chart" = "Number of reads in the chart";
-"Color of download" = "Color of download";
-"Color of upload" = "Color of upload";
+"Tachometer widget" = "Tachimetro";
+"Show symbols" = "Mostra simboli";
+"Label widget" = "Etichetta widget";
+"Number of reads in the chart" = "Numero di letture nel grafico";
+"Color of download" = "Colore del download";
+"Color of upload" = "Colore dell'upload";
+"Merge widgets" = "Merge widgets";
 
 // Module Kit
 "Open module settings" = "Apri impostazioni modulo";
 "Select widget" = "Seleziona il widget %0";
-"Open widget settings" = "Open widget settings";
+"Open widget settings" = "Apri impostazioni widget";
 "Update interval" = "Intervallo di aggiornamento";
 "Usage history" = "Cronologia d'uso";
 "Details" = "Dettagli";
 "Top processes" = "Processi principali";
 "Pictogram" = "Pittogramma";
-"Module settings" = "Module settings";
-"Widget settings" = "Widget settings";
+"Module settings" = "Impostazioni modulo";
+"Widget settings" = "Impostazioni widget";
 
 // Modules
 "Number of top processes" = "Numero di processi principali";
 "Update interval for top processes" = "Intervallo d'aggiornamento per processi principali";
+"Notification level" = "Notification level";
 
 // CPU
 "CPU usage" = "Utilizzo CPU";
@@ -155,7 +188,7 @@
 "User" = "Utente";
 "Idle" = "Inattiva";
 "Show usage per core" = "Mostra uso per core";
-"Show hyper-threading cores" = "Mostra cores hyper-threading";
+"Show hyper-threading cores" = "Mostra hyper-threading cores";
 "Split the value (System/User)" = "Dividi il valore (Sistema/Utente)";
 "Scheduler limit" = "Limite di pianificazione";
 "Speed limit" = "Limite velocità";
@@ -163,25 +196,31 @@
 "1 minute" = "1 minuto";
 "5 minutes" = "5 minuti";
 "15 minutes" = "15 minuti";
+"CPU usage threshold" = "CPU usage threshold";
+"CPU usage is" = "CPU usage is %0";
+"Efficiency cores" = "Efficiency cores";
+"Performance cores" = "Performance cores";
 
 // GPU
 "GPU to show" = "GPU da mostrare";
 "Show GPU type" = "Mostra il tipo di GPU";
-"GPU enabled" = "GPU abilitato";
-"GPU disabled" = "GPU disabilitato";
+"GPU enabled" = "GPU abilitata";
+"GPU disabled" = "GPU disabilitata";
 "GPU temperature" = "Temperatura GPU";
 "GPU utilization" = "Utilizzo GPU";
-"Vendor" = "Venditore";
+"Vendor" = "Produttore";
 "Model" = "Modello";
 "Status" = "Stato";
-"Active" = "Attivo";
-"Non active" = "Non attivo";
+"Active" = "Attiva";
+"Non active" = "Non attiva";
 "Fan speed" = "Velocità ventole";
 "Core clock" = "Clock core";
 "Memory clock" = "Clock memoria";
 "Utilization" = "Utilizzo";
-"Render utilization" = "Render utilization";
-"Tiler utilization" = "Tiler utilization";
+"Render utilization" = "Utilizzo rendering";
+"Tiler utilization" = "Utilizzo tassellamento";
+"GPU usage threshold" = "GPU usage threshold";
+"GPU usage is" = "GPU usage is %0";
 
 // RAM
 "Memory usage" = "Memoria utilizzata";
@@ -189,11 +228,13 @@
 "Total" = "Totale";
 "Used" = "Usata";
 "App" = "App";
-"Wired" = "Cablata";
+"Wired" = "Wired";
 "Compressed" = "Compressa";
 "Free" = "Libera";
 "Swap" = "Scambiata";
-"Split the value (App/Wired/Compressed)" = "Dividi il valore (App/Cablata/Compressa)";
+"Split the value (App/Wired/Compressed)" = "Dividi il valore (App/Wired/Compressa)";
+"RAM utilization threshold" = "RAM utilization threshold";
+"RAM utilization is" = "RAM utilization is %0";
 
 // Disk
 "Show removable disks" = "Mostra dischi rimovibili";
@@ -202,14 +243,17 @@
 "Disk to show" = "Disco da mostrare";
 "Open disk" = "Apri disco";
 "Switch view" = "Cambia visualizzazione";
+"Disk utilization threshold" = "Disk utilization threshold";
+"Disk utilization is" = "Disk utilization is %0";
 
 // Sensors
 "Temperature unit" = "Unità di temperatura";
 "Celsius" = "Celsius";
 "Fahrenheit" = "Fahrenheit";
 "Save the fan speed" = "Salva la velocità delle ventole";
-"Fan" = "Fan";
-"HID sensors" = "HID sensors";
+"Fan" = "Ventola";
+"HID sensors" = "Sensori HID";
+"Synchronize fan's control" = "Synchronize fan's control";
 
 // Network
 "Uploading" = "Upload";
@@ -228,24 +272,27 @@
 "Total download" = "Download totale";
 "Total upload" = "Upload totale";
 "Reader type" = "Tipo di lettore";
-"Interface based" = "Interfaccia";
-"Processes based" = "Processi";
+"Interface based" = "Basato sull'interfaccia";
+"Processes based" = "Basato sui processi";
 "Reset data usage" = "Ripristina l'utilizzo dei dati";
-"VPN mode" = "VPN mode";
+"VPN mode" = "Modalità VPN";
+"Standard" = "Standard";
+"Security" = "Security";
+"Channel" = "Channel";
 
 // Battery
 "Level" = "Livello";
 "Source" = "Sorgente";
-"AC Power" = "AC Power";
+"AC Power" = "Caricatore AC";
 "Battery Power" = "Batteria";
 "Time" = "Tempo";
 "Health" = "Vita";
 "Amperage" = "Amperaggio";
-"Voltage" = "Voltaggio";
+"Voltage" = "Tensione";
 "Cycles" = "Numero di cicli";
 "Temperature" = "Temperatura";
 "Power adapter" = "Alimentatore di corrente";
-"Power" = "Corrente";
+"Power" = "Output";
 "Is charging" = "In carica";
 "Time to discharge" = "Tempo di scarica";
 "Time to charge" = "Tempo di carica";
@@ -264,11 +311,12 @@
 "Time format" = "Formato del tempo";
 "Hide additional information when full" = "Nascondi informazioni addizionali quando piena";
 "Last charge" = "Ultima carica";
-"Capacity" = "Capacity";
-"maximum / designed" = "maximum / designed";
+"Capacity" = "Capacità";
+"maximum / designed" = "massima / progettata";
 
 // Bluetooth
 "Battery to show" = "Batteria da mostrare";
+"No Bluetooth devices are available" = "No Bluetooth devices are available";
 
 // Colors
 "Based on utilization" = "Basato sull'utilizzo";

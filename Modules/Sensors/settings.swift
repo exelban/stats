@@ -16,6 +16,7 @@ internal class Settings: NSStackView, Settings_v {
     private var updateIntervalValue: Int = 3
     private var hidState: Bool
     private var fanSpeedState: Bool = false
+    private var fansSyncState: Bool = false
     
     private let title: String
     private var button: NSPopUpButton?
@@ -47,6 +48,7 @@ internal class Settings: NSStackView, Settings_v {
         self.updateIntervalValue = Store.shared.int(key: "\(self.title)_updateInterval", defaultValue: self.updateIntervalValue)
         self.hidState = Store.shared.bool(key: "\(self.title)_hid", defaultValue: self.hidState)
         self.fanSpeedState = Store.shared.bool(key: "\(self.title)_speed", defaultValue: self.fanSpeedState)
+        self.fansSyncState = Store.shared.bool(key: "\(self.title)_fansSync", defaultValue: self.fansSyncState)
     }
     
     required init?(coder: NSCoder) {
@@ -70,6 +72,12 @@ internal class Settings: NSStackView, Settings_v {
             title: localizedString("Save the fan speed"),
             action: #selector(toggleSpeedState),
             state: self.fanSpeedState
+        ))
+        
+        self.addArrangedSubview(toggleSettingRow(
+            title: localizedString("Synchronize fan's control"),
+            action: #selector(toggleFansSync),
+            state: self.fansSyncState
         ))
         
         if isARM {
@@ -190,5 +198,17 @@ internal class Settings: NSStackView, Settings_v {
         self.hidState = state! == .on ? true : false
         Store.shared.set(key: "\(self.title)_hid", value: self.hidState)
         self.HIDcallback()
+    }
+    
+    @objc func toggleFansSync(_ sender: NSControl) {
+        var state: NSControl.StateValue? = nil
+        if #available(OSX 10.15, *) {
+            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
+        } else {
+            state = sender is NSButton ? (sender as! NSButton).state: nil
+        }
+        
+        self.fansSyncState = state! == .on ? true : false
+        Store.shared.set(key: "\(self.title)_fansSync", value: self.fansSyncState)
     }
 }

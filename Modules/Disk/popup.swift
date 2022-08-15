@@ -12,14 +12,16 @@
 import Cocoa
 import Kit
 
-internal class Popup: NSView, Popup_p {
-    private let diskFullHeight: CGFloat = 62
-    private var list: [String: DiskView] = [:]
-    
+internal class Popup: NSStackView, Popup_p {
     public var sizeCallback: ((NSSize) -> Void)? = nil
     
+    private let emptyView: EmptyView = EmptyView(height: 30, isHidden: false, msg: localizedString("No disks are available"))
+    
     public init() {
-        super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: 0))
+        super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: 30))
+        
+        self.orientation = .vertical
+        self.spacing = Constants.Popup.margins
     }
     
     required init?(coder: NSCoder) {
@@ -27,78 +29,93 @@ internal class Popup: NSView, Popup_p {
     }
     
     internal func capacityCallback(_ value: Disks) {
-        if self.list.count != value.count && !self.list.isEmpty {
-            self.subviews.forEach{ $0.removeFromSuperview() }
-            self.list = [:]
+        defer {
+            if value.isEmpty && self.emptyView.superview == nil {
+                self.addArrangedSubview(self.emptyView)
+            } else if !value.isEmpty && self.emptyView.superview != nil {
+                self.emptyView.removeFromSuperview()
+            }
+            
+            let h = self.arrangedSubviews.map({ $0.bounds.height + self.spacing }).reduce(0, +) - self.spacing
+            if h > 0 && self.frame.size.height != h {
+                self.setFrameSize(NSSize(width: self.frame.width, height: h))
+                self.sizeCallback?(self.frame.size)
+            }
         }
         
-        value.reversed().forEach { (drive: drive) in
-            if let disk = self.list[drive.mediaName] {
-                disk.updateFree(free: drive.free)
+        self.subviews.filter{ $0 is DiskView }.map{ $0 as! DiskView }.forEach { (v: DiskView) in
+            if !value.map({$0.BSDName}).contains(v.BSDName) {
+                v.removeFromSuperview()
+            }
+        }
+        
+        value.forEach { (drive: drive) in
+            if let view = self.subviews.filter({ $0 is DiskView }).map({ $0 as! DiskView }).first(where: { $0.BSDName == drive.BSDName }) {
+                view.updateFree(free: drive.free)
             } else {
-                let disk = DiskView(
-                    NSRect(
-                        x: 0,
-                        y: (self.diskFullHeight + Constants.Popup.margins) * CGFloat(self.list.count),
-                        width: self.frame.width,
-                        height: self.diskFullHeight
-                    ),
+                self.addArrangedSubview(DiskView(
+                    width: self.frame.width,
+                    BSDName: drive.BSDName,
                     name: drive.mediaName,
                     size: drive.size,
                     free: drive.free,
                     path: drive.path
-                )
-                self.list[drive.mediaName] = disk
-                self.addSubview(disk)
+                ))
             }
-        }
-        
-        let h: CGFloat = ((self.diskFullHeight + Constants.Popup.margins) * CGFloat(self.list.count)) - Constants.Popup.margins
-        if self.frame.size.height != h {
-            self.setFrameSize(NSSize(width: self.frame.width, height: h))
-            self.sizeCallback?(self.frame.size)
         }
     }
     
     internal func activityCallback(_ value: Disks) {
+        let views = self.subviews.filter{ $0 is DiskView }.map{ $0 as! DiskView }
         value.reversed().forEach { (drive: drive) in
-            if let disk = self.list[drive.mediaName] {
-                disk.updateReadWrite(read: drive.activity.read, write: drive.activity.write)
+            if let view = views.first(where: { $0.name == drive.mediaName }) {
+                view.updateReadWrite(read: drive.activity.read, write: drive.activity.write)
             }
         }
     }
 }
 
-internal class DiskView: NSView {
-    private var ready: Bool = false
+internal class DiskView: NSStackView {
+    public var name: String
+    public var BSDName: String
     
-    private let nameAndBarHeight: CGFloat = 36
-    private let legendHeight: CGFloat = 16
+    private var nameView: NameView
+    private var chartView: ChartView
+    private var barView: BarView
+    private var legendView: LegendView
     
-    private var nameAndBarView: DiskNameAndBarView
-    private var legendView: DiskLegendView
-    
-    public init(_ frame: NSRect, name: String, size: Int64, free: Int64, path: URL?) {
-        self.nameAndBarView = DiskNameAndBarView(
-            NSRect(x: 5, y: self.legendHeight + 5, width: frame.width - 10, height: self.nameAndBarHeight),
-            name: name,
-            size: size,
-            free: free,
-            path: path
-        )
-        self.legendView = DiskLegendView(
-            NSRect(x: 5, y: 5, width: frame.width - 10, height: self.legendHeight),
-            size: size,
-            free: free
-        )
+    init(width: CGFloat, BSDName: String, name: String, size: Int64, free: Int64, path: URL?) {
+        self.BSDName = BSDName
+        self.name = name
+        let innerWidth: CGFloat = width - (Constants.Popup.margins * 2)
+        self.nameView = NameView(width: innerWidth, name: name, size: size, free: free, path: path)
+        self.chartView = ChartView(width: innerWidth)
+        self.barView = BarView(width: innerWidth, size: size, free: free)
+        self.legendView = LegendView(width: innerWidth, id: "\(name)_\(path?.absoluteString ?? "")", size: size, free: free)
         
-        super.init(frame: frame)
+        super.init(frame: NSRect(x: 0, y: 0, width: width, height: 82))
         
+        self.orientation = .vertical
+        self.distribution = .fillProportionally
+        self.spacing = 5
+        self.edgeInsets = NSEdgeInsets(
+            top: 5,
+            left: 0,
+            bottom: 5,
+            right: 0
+        )
         self.wantsLayer = true
         self.layer?.cornerRadius = 2
         
-        self.addSubview(self.nameAndBarView)
-        self.addSubview(self.legendView)
+        self.addArrangedSubview(self.nameView)
+        self.addArrangedSubview(self.chartView)
+        self.addArrangedSubview(self.barView)
+        self.addArrangedSubview(self.legendView)
+        
+        let h = self.arrangedSubviews.map({ $0.bounds.height + self.spacing }).reduce(0, +) - 5 + 10
+        self.setFrameSize(NSSize(width: self.frame.width, height: h))
+        self.widthAnchor.constraint(equalToConstant: width).isActive = true
+        self.heightAnchor.constraint(equalToConstant: h).isActive = true
     }
     
     required init?(coder: NSCoder) {
@@ -110,16 +127,17 @@ internal class DiskView: NSView {
     }
     
     public func updateFree(free: Int64) {
-        self.nameAndBarView.update(free: free, read: nil, write: nil)
+        self.nameView.update(free: free, read: nil, write: nil)
         self.legendView.update(free: free)
     }
-    
     public func updateReadWrite(read: Int64, write: Int64) {
-        self.nameAndBarView.update(free: nil, read: read, write: write)
+        self.nameView.update(free: nil, read: read, write: write)
+        self.chartView.update(read: read, write: write)
+        self.barView.update(free: nil, read: read, write: write)
     }
 }
 
-internal class DiskNameAndBarView: NSView {
+internal class NameView: NSStackView {
     private let size: Int64
     private let uri: URL?
     private var ready: Bool = false
@@ -127,48 +145,24 @@ internal class DiskNameAndBarView: NSView {
     private var readState: NSView? = nil
     private var writeState: NSView? = nil
     
-    private var usedBarSpace: NSView? = nil
-    
-    private let topHeight: CGFloat = 16
-    private let barHeight: CGFloat = 10
-    
-    public init(_ frame: NSRect, name: String, size: Int64, free: Int64, path: URL?) {
+    public init(width: CGFloat, name: String, size: Int64, free: Int64, path: URL?) {
         self.size = size
         self.uri = path
         
-        super.init(frame: frame)
+        super.init(frame: NSRect(x: 0, y: 0, width: width, height: 16))
+        
+        self.orientation = .horizontal
+        self.alignment = .centerY
+        self.spacing = 0
+        
         self.toolTip = localizedString("Open disk")
         
-        self.addName(name: name)
-        self.addHorizontalBar(size: size, free: free)
-        
-        let trackingArea = NSTrackingArea(
-            rect: CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height),
-            options: [NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited, NSTrackingArea.Options.activeInActiveApp],
-            owner: self,
-            userInfo: nil
-        )
-        self.addTrackingArea(trackingArea)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    private func addName(name: String) {
-        let view: NSStackView = NSStackView(frame: NSRect(
-            x: 0,
-            y: self.frame.height - self.topHeight,
-            width: self.frame.width,
-            height: self.topHeight
-        ))
-        
-        let nameField: NSTextField = TextView(frame: NSRect(x: 0, y: 0, width: view.frame.width - 64, height: view.frame.height))
+        let nameField: NSTextField = TextView(frame: NSRect(x: 0, y: 0, width: self.frame.width - 64, height: self.frame.height))
         nameField.widthAnchor.constraint(equalToConstant: nameField.bounds.width).isActive = true
         nameField.stringValue = name
         nameField.cell?.truncatesLastVisibleLine = true
         
-        let activity: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: 64, height: view.frame.height))
+        let activity: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: 64, height: self.frame.height))
         activity.distribution = .fillEqually
         activity.spacing = 0
         
@@ -197,46 +191,30 @@ internal class DiskNameAndBarView: NSView {
         activity.addArrangedSubview(readView)
         activity.addArrangedSubview(writeView)
         
-        view.addArrangedSubview(nameField)
-        view.addArrangedSubview(activity)
-        
-        self.addSubview(view)
+        self.addArrangedSubview(nameField)
+        self.addArrangedSubview(activity)
         
         self.readState = readState
         self.writeState = writeState
+        
+        let trackingArea = NSTrackingArea(
+            rect: CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height),
+            options: [NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited, NSTrackingArea.Options.activeInActiveApp],
+            owner: self,
+            userInfo: nil
+        )
+        self.addTrackingArea(trackingArea)
+        
+        self.widthAnchor.constraint(equalToConstant: self.frame.width).isActive = true
+        self.heightAnchor.constraint(equalToConstant: self.frame.height).isActive = true
     }
     
-    private func addHorizontalBar(size: Int64, free: Int64) {
-        let view: NSView = NSView(frame: NSRect(
-            x: 1,
-            y: ((self.frame.height - self.topHeight) - self.barHeight)/2,
-            width: self.frame.width - 2,
-            height: self.barHeight
-        ))
-        view.wantsLayer = true
-        view.layer?.backgroundColor = NSColor.white.cgColor
-        view.layer?.borderColor = NSColor.secondaryLabelColor.cgColor
-        view.layer?.borderWidth = 0.25
-        view.layer?.cornerRadius = 3
-        
-        let percentage = CGFloat(size - free) / CGFloat(size)
-        let width: CGFloat = (view.frame.width * (percentage < 0 ? 0 : percentage)) / 1
-        self.usedBarSpace = NSView(frame: NSRect(x: 0, y: 0, width: width, height: view.frame.height))
-        self.usedBarSpace?.wantsLayer = true
-        self.usedBarSpace?.layer?.backgroundColor = controlAccentColor.cgColor
-        
-        view.addSubview(self.usedBarSpace!)
-        self.addSubview(view)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     public func update(free: Int64?, read: Int64?, write: Int64?) {
         if (self.window?.isVisible ?? false) || !self.ready {
-            if let free = free, self.usedBarSpace != nil {
-                let percentage = CGFloat(self.size - free) / CGFloat(self.size)
-                let width: CGFloat = ((self.frame.width - 2) * (percentage < 0 ? 0 : percentage)) / 1
-                self.usedBarSpace?.setFrameSize(NSSize(width: width, height: self.usedBarSpace!.frame.height))
-            }
-            
             if let read = read {
                 self.readState?.toolTip = DiskSize(read).getReadableMemory()
                 self.readState?.layer?.backgroundColor = read != 0 ? NSColor.systemBlue.cgColor : NSColor.lightGray.withAlphaComponent(0.75).cgColor
@@ -245,7 +223,6 @@ internal class DiskNameAndBarView: NSView {
                 self.writeState?.toolTip = DiskSize(write).getReadableMemory()
                 self.writeState?.layer?.backgroundColor = write != 0 ? NSColor.systemRed.cgColor : NSColor.lightGray.withAlphaComponent(0.75).cgColor
             }
-            
             self.ready = true
         }
     }
@@ -265,21 +242,111 @@ internal class DiskNameAndBarView: NSView {
     }
 }
 
-internal class DiskLegendView: NSView {
-    private let size: Int64
-    private var free: Int64
+internal class ChartView: NSStackView {
+    private var chart: NetworkChartView? = nil
     private var ready: Bool = false
     
-    private var showUsedSpace: Bool = true
+    public init(width: CGFloat) {
+        super.init(frame: NSRect(x: 0, y: 0, width: width, height: 36))
+        
+        self.wantsLayer = true
+        self.layer?.backgroundColor = NSColor.white.cgColor
+        self.layer?.cornerRadius = 3
+        
+        let chart = NetworkChartView(frame: NSRect(
+            x: 0,
+            y: 1,
+            width: self.frame.width,
+            height: self.frame.height - 2
+        ), num: 120)
+        self.chart = chart
+        
+        self.addArrangedSubview(chart)
+        
+        self.widthAnchor.constraint(equalToConstant: self.frame.width).isActive = true
+        self.heightAnchor.constraint(equalToConstant: self.frame.height).isActive = true
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    public func update(read: Int64, write: Int64) {
+        self.chart?.addValue(upload: Double(write), download: Double(read))
+    }
+}
+
+internal class BarView: NSView {
+    private let size: Int64
+    private var usedBarSpace: NSView? = nil
+    private var ready: Bool = false
+    
+    public init(width: CGFloat, size: Int64, free: Int64) {
+        self.size = size
+        
+        super.init(frame: NSRect(x: 0, y: 0, width: width, height: 10))
+        
+        let view: NSView = NSView(frame: NSRect(x: 1, y: 0, width: self.frame.width - 2, height: self.frame.height))
+        view.wantsLayer = true
+        view.layer?.backgroundColor = NSColor.white.cgColor
+        view.layer?.borderColor = NSColor.secondaryLabelColor.cgColor
+        view.layer?.borderWidth = 0.25
+        view.layer?.cornerRadius = 3
+        
+        let percentage = CGFloat(size - free) / CGFloat(size)
+        let width: CGFloat = (view.frame.width * (percentage < 0 ? 0 : percentage)) / 1
+        self.usedBarSpace = NSView(frame: NSRect(x: 0, y: 0, width: width, height: view.frame.height))
+        self.usedBarSpace?.wantsLayer = true
+        self.usedBarSpace?.layer?.backgroundColor = controlAccentColor.cgColor
+        
+        view.addSubview(self.usedBarSpace!)
+        self.addSubview(view)
+        
+        self.widthAnchor.constraint(equalToConstant: self.frame.width).isActive = true
+        self.heightAnchor.constraint(equalToConstant: self.frame.height).isActive = true
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    public func update(free: Int64?, read: Int64?, write: Int64?) {
+        if (self.window?.isVisible ?? false) || !self.ready {
+            if let free = free, self.usedBarSpace != nil {
+                let percentage = CGFloat(self.size - free) / CGFloat(self.size)
+                let width: CGFloat = ((self.frame.width - 2) * (percentage < 0 ? 0 : percentage)) / 1
+                self.usedBarSpace?.setFrameSize(NSSize(width: width, height: self.usedBarSpace!.frame.height))
+            }
+            
+            self.ready = true
+        }
+    }
+}
+
+internal class LegendView: NSView {
+    private let size: Int64
+    private var free: Int64
+    private let id: String
+    private var ready: Bool = false
+    
+    private var showUsedSpace: Bool {
+        get {
+            return Store.shared.bool(key: "\(self.id)_usedSpace", defaultValue: false)
+        }
+        set {
+            Store.shared.set(key: "\(self.id)_usedSpace", value: newValue)
+        }
+    }
     
     private var legendField: NSTextField? = nil
     private var percentageField: NSTextField? = nil
     
-    public init(_ frame: NSRect, size: Int64, free: Int64) {
+    public init(width: CGFloat, id: String, size: Int64, free: Int64) {
+        self.id = id
         self.size = size
         self.free = free
         
-        super.init(frame: frame)
+        super.init(frame: CGRect(x: 0, y: 0, width: width, height: 16))
         self.toolTip = localizedString("Switch view")
         
         let height: CGFloat = 14
@@ -313,6 +380,9 @@ internal class DiskLegendView: NSView {
             userInfo: nil
         )
         self.addTrackingArea(trackingArea)
+        
+        self.widthAnchor.constraint(equalToConstant: self.frame.width).isActive = true
+        self.heightAnchor.constraint(equalToConstant: self.frame.height).isActive = true
     }
     
     required init?(coder: NSCoder) {

@@ -191,6 +191,24 @@ class Dashboard: NSScrollView {
                 }
                 value += "\(mini)"
             }
+            
+            if cpu.eCores != nil || cpu.pCores != nil {
+                if !value.isEmpty {
+                    value += "\n"
+                }
+                
+                var mini = ""
+                if let eCores = cpu.eCores {
+                    mini += localizedString("Number of e-cores", "\(eCores)")
+                }
+                if let pCores = cpu.pCores {
+                    if mini != "" {
+                        mini += ", "
+                    }
+                    mini += localizedString("Number of p-cores", "\(pCores)")
+                }
+                value += "\(mini)"
+            }
         } else {
             value = localizedString("Unknown")
         }
@@ -291,9 +309,15 @@ class Dashboard: NSScrollView {
     }
     
     private func disk() -> [NSView] {
+        var text = "\(SystemKit.shared.device.info.disk?.model ?? SystemKit.shared.device.info.disk?.name ?? localizedString("Unknown"))"
+        
+        if let size = SystemKit.shared.device.info.disk?.size, size != 0 {
+            text += " (\(DiskSize(size).getReadableMemory()))"
+        }
+        
         return [
             self.titleView("\(localizedString("Disk")):"),
-            self.valueView("\(SystemKit.shared.device.info.disk?.model ?? SystemKit.shared.device.info.disk?.name ?? localizedString("Unknown"))")
+            self.valueView(text)
         ]
     }
     

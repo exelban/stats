@@ -70,7 +70,7 @@ open class Module: Module_p {
     public var available: Bool = false
     public var enabled: Bool = false
     
-    public var widgets: [Widget] = []
+    public var menuBar: MenuBar
     public var settings: Settings_p? = nil
     
     private var settingsView: Settings_v? = nil
@@ -86,6 +86,7 @@ open class Module: Module_p {
         self.log = NextLog.shared.copy(category: self.config.name)
         self.settingsView = settings
         self.popupView = popup
+        self.menuBar = MenuBar(moduleName: self.config.name)
         self.available = self.isAvailable()
         self.enabled = Store.shared.bool(key: "\(self.config.name)_state", defaultValue: self.config.defaultState)
         
@@ -112,7 +113,7 @@ open class Module: Module_p {
             debug("Module started without widget", log: self.log)
         }
         
-        self.settings = Settings(config: &self.config, widgets: &self.widgets, enabled: self.enabled, moduleSettings: self.settingsView)
+        self.settings = Settings(config: &self.config, widgets: &self.menuBar.widgets, enabled: self.enabled, moduleSettings: self.settingsView)
         self.settings?.toggleCallback = { [weak self] in
             self?.toggleEnabled()
         }
@@ -149,7 +150,7 @@ open class Module: Module_p {
             $0.stop()
             $0.terminate()
         }
-        self.widgets.forEach{ $0.disable() }
+        self.menuBar.disable()
         debug("Module terminated", log: self.log)
     }
     
@@ -166,7 +167,7 @@ open class Module: Module_p {
             reader.initStoreValues(title: self.config.name)
             reader.start()
         }
-        self.widgets.forEach{ $0.enable() }
+        self.menuBar.enable()
         debug("Module enabled", log: self.log)
     }
     
@@ -177,7 +178,7 @@ open class Module: Module_p {
         self.enabled = false
         Store.shared.set(key: "\(self.config.name)_state", value: false)
         self.readers.forEach{ $0.stop() }
-        self.widgets.forEach{ $0.disable() }
+        self.menuBar.disable()
         self.popup?.setIsVisible(false)
         debug("Module disabled", log: self.log)
     }
@@ -199,7 +200,7 @@ open class Module: Module_p {
     
     // handler for reader, calls when main reader is ready, and return first value
     public func readyHandler() {
-        self.widgets.forEach{ $0.enable() }
+        self.menuBar.enable()
         debug("Reader report readiness", log: self.log)
     }
     
@@ -223,7 +224,7 @@ open class Module: Module_p {
                 config: self.config.widgetsConfig,
                 defaultWidget: self.config.defaultWidget
             ) {
-                self.widgets.append(widget)
+                self.menuBar.append(widget)
             }
         }
     }
@@ -302,7 +303,7 @@ open class Module: Module_p {
         guard let name = notification.userInfo?["module"] as? String, name == self.config.name else {
             return
         }
-        let isEmpty = self.widgets.filter({ $0.isActive }).isEmpty
+        let isEmpty = self.menuBar.widgets.filter({ $0.isActive }).isEmpty
         var state = self.enabled
         
         if isEmpty && self.enabled {

@@ -30,17 +30,80 @@ public struct circle_segment {
     }
 }
 
+private func scaleValue(scale: Scale = .linear, value: Double, maxValue: Double, maxHeight: CGFloat) -> CGFloat {
+    var value = value
+    if scale == .none && value > 1 && maxValue != 0 {
+        value /= maxValue
+    }
+    var localMaxValue = maxValue
+    var y = value * maxHeight
+    
+    switch scale {
+    case .square:
+        if value > 0 {
+            value = sqrt(value)
+        }
+        if localMaxValue > 0 {
+            localMaxValue = sqrt(maxValue)
+        }
+    case .cube:
+        if value > 0 {
+            value = cbrt(value)
+        }
+        if localMaxValue > 0 {
+            localMaxValue = cbrt(maxValue)
+        }
+    case .logarithmic:
+        if value > 0 {
+            value = log(value*100)
+        }
+        if localMaxValue > 0 {
+            localMaxValue = log(maxValue*100)
+        }
+    default: break
+    }
+    
+    if value < 0 {
+        value = 0
+    }
+    if localMaxValue <= 0 {
+        localMaxValue = 1
+    }
+    
+    if scale != .none {
+        y = (maxHeight * value)/localMaxValue
+    }
+    
+    return y
+}
+
 public class LineChartView: NSView {
     public var id: String = UUID().uuidString
     
     public var points: [Double]
+    public var shadowPoints: [Double] = []
     public var transparent: Bool = true
-    
     public var color: NSColor = controlAccentColor
+    public var suffix: String = "%"
+    public var scale: Scale = .none
+    
+    private var cursor: NSPoint? = nil
+    private var stop: Bool = false
     
     public init(frame: NSRect, num: Int) {
-        self.points = Array(repeating: 0.01, count: num)
+        self.points = Array(repeating: 0, count: num)
+        
         super.init(frame: frame)
+        
+        self.addTrackingArea(NSTrackingArea(
+            rect: CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height),
+            options: [
+                NSTrackingArea.Options.activeAlways,
+                NSTrackingArea.Options.mouseEnteredAndExited,
+                NSTrackingArea.Options.mouseMoved
+            ],
+            owner: self, userInfo: nil
+        ))
     }
     
     required init?(coder: NSCoder) {
@@ -50,7 +113,13 @@ public class LineChartView: NSView {
     public override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         
-        if self.points.isEmpty {
+        var points = self.points
+        if self.stop {
+            points = self.shadowPoints
+        }
+        guard let maxValue = points.max() else { return }
+        
+        if points.isEmpty {
             return
         }
         
@@ -65,43 +134,115 @@ public class LineChartView: NSView {
         
         let offset: CGFloat = 1 / (NSScreen.main?.backingScaleFactor ?? 1)
         let height: CGFloat = self.frame.size.height - self.frame.origin.y - offset
-        let xRatio: CGFloat = self.frame.size.width / CGFloat(self.points.count)
+        let xRatio: CGFloat = self.frame.size.width / CGFloat(points.count)
         
-        let columnXPoint = { (point: Int) -> CGFloat in
-            return (CGFloat(point) * xRatio) + dirtyRect.origin.x
-        }
-        let columnYPoint = { (point: Int) -> CGFloat in
-            return CGFloat((CGFloat(truncating: self.points[point] as NSNumber) * height)) + dirtyRect.origin.y + offset
+        let list = points.enumerated().compactMap { (i: Int, v: Double) -> (value: Double, point: CGPoint) in
+            return (v, CGPoint(
+                x: (CGFloat(i) * xRatio) + dirtyRect.origin.x,
+                y: scaleValue(scale: self.scale, value: v, maxValue: maxValue, maxHeight: height) + dirtyRect.origin.y + offset
+            ))
         }
         
         let line = NSBezierPath()
-        line.move(to: CGPoint(x: columnXPoint(0), y: columnYPoint(0)))
+        line.move(to: list[0].point)
         
-        for i in 1..<self.points.count {
-            line.line(to: CGPoint(x: columnXPoint(i), y: columnYPoint(i)))
+        for i in 1..<points.count {
+            line.line(to: list[i].point)
         }
-        line.line(to: CGPoint(x: columnXPoint(self.points.count), y: columnYPoint(self.points.count-1)))
+        line.line(to: list[list.count-1].point)
         
-        lineColor.setStroke()
+        lineColor.set()
         line.lineWidth = offset
         line.stroke()
         
         let underLinePath = line.copy() as! NSBezierPath
-        
-        underLinePath.line(to: CGPoint(x: columnXPoint(self.points.count), y: offset))
-        underLinePath.line(to: CGPoint(x: columnXPoint(0), y: offset))
+        underLinePath.line(to: CGPoint(x: list[list.count-1].point.x, y: offset))
+        underLinePath.line(to: CGPoint(x: list[0].point.x, y: offset))
         underLinePath.close()
-        underLinePath.addClip()
-        
-        gradientColor.setFill()
+        gradientColor.set()
         underLinePath.fill()
+        
+        if let p = self.cursor, let over = list.first(where: { $0.point.x >= p.x }), let under = list.last(where: { $0.point.x <= p.x }) {
+            guard p.y <= height else { return }
+            
+            let diffOver = over.point.x - p.x
+            let diffUnder = p.x - under.point.x
+            let nearest = (diffOver < diffUnder) ? over : under
+            let vLine = NSBezierPath()
+            let hLine = NSBezierPath()
+            
+            vLine.setLineDash([4, 4], count: 2, phase: 0)
+            hLine.setLineDash([6, 6], count: 2, phase: 0)
+            
+            vLine.move(to: CGPoint(x: p.x, y: 0))
+            vLine.line(to: CGPoint(x: p.x, y: height))
+            vLine.close()
+            
+            hLine.move(to: CGPoint(x: 0, y: p.y))
+            hLine.line(to: CGPoint(x: self.frame.size.width+self.frame.origin.x, y: p.y))
+            hLine.close()
+            
+            NSColor.tertiaryLabelColor.set()
+            
+            vLine.lineWidth = offset
+            hLine.lineWidth = offset
+            
+            vLine.stroke()
+            hLine.stroke()
+            
+            let dotSize: CGFloat = 4
+            let path = NSBezierPath(ovalIn: CGRect(
+                x: nearest.point.x-(dotSize/2),
+                y: nearest.point.y-(dotSize/2),
+                width: dotSize,
+                height: dotSize
+            ))
+            NSColor.red.set()
+            path.stroke()
+            
+            let style = NSMutableParagraphStyle()
+            style.alignment = .left
+            var textPosition: CGPoint = CGPoint(x: nearest.point.x+4, y: nearest.point.y+4)
+            
+            if textPosition.x + 24 > self.frame.size.width+self.frame.origin.x {
+                textPosition.x = nearest.point.x - 30
+                style.alignment = .right
+            }
+            if textPosition.y + 14 > height {
+                textPosition.y = nearest.point.y - 14
+            }
+            
+            let stringAttributes = [
+                NSAttributedString.Key.font: NSFont.systemFont(ofSize: 10, weight: .regular),
+                NSAttributedString.Key.foregroundColor: isDarkMode ? NSColor.white : NSColor.textColor,
+                NSAttributedString.Key.paragraphStyle: style
+            ]
+            let rect = CGRect(x: textPosition.x, y: textPosition.y, width: 26, height: 10)
+            let value = "\(Int(nearest.value.rounded(toPlaces: 2) * 100))\(self.suffix)"
+            let str = NSAttributedString.init(string: value, attributes: stringAttributes)
+            str.draw(with: rect)
+        }
+    }
+    
+    public override func updateTrackingAreas() {
+        self.trackingAreas.forEach({ self.removeTrackingArea($0) })
+        self.addTrackingArea(NSTrackingArea(
+            rect: CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height),
+            options: [
+                NSTrackingArea.Options.activeAlways,
+                NSTrackingArea.Options.mouseEnteredAndExited,
+                NSTrackingArea.Options.mouseMoved
+            ],
+            owner: self, userInfo: nil
+        ))
+        super.updateTrackingAreas()
     }
     
     public func addValue(_ value: Double) {
         self.points.remove(at: 0)
         self.points.append(value)
         
-        if self.window?.isVisible ?? true {
+        if self.window?.isVisible ?? false {
             self.display()
         }
     }
@@ -117,6 +258,41 @@ public class LineChartView: NSView {
             self.points.replaceSubrange(Range(uncheckedBounds: (lower: origin.count, upper: num)), with: origin)
         }
     }
+    
+    public func setScale(_ newScale: Scale) {
+        self.scale = newScale
+        if self.window?.isVisible ?? false {
+            self.display()
+        }
+    }
+    
+    public override func mouseEntered(with event: NSEvent) {
+        self.cursor = convert(event.locationInWindow, from: nil)
+        self.needsDisplay = true
+    }
+    
+    public override func mouseMoved(with event: NSEvent) {
+        self.cursor = convert(event.locationInWindow, from: nil)
+        self.needsDisplay = true
+    }
+    
+    public override func mouseDragged(with event: NSEvent) {
+        self.cursor = convert(event.locationInWindow, from: nil)
+        self.needsDisplay = true
+    }
+    
+    public override func mouseExited(with event: NSEvent) {
+        self.cursor = nil
+        self.needsDisplay = true
+    }
+    
+    public override func mouseDown(with: NSEvent) {
+        self.shadowPoints = self.points
+        self.stop = true
+    }
+    public override func mouseUp(with: NSEvent) {
+        self.stop = false
+    }
 }
 
 public class NetworkChartView: NSView {
@@ -126,6 +302,7 @@ public class NetworkChartView: NSView {
     public var points: [(Double, Double)]
     
     private var minMax: Bool = false
+    private var scale: Scale = .none
     
     public init(frame: NSRect, num: Int, minMax: Bool = true) {
         self.minMax = minMax
@@ -137,7 +314,6 @@ public class NetworkChartView: NSView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // swiftlint:disable function_body_length
     public override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         
@@ -163,10 +339,10 @@ public class NetworkChartView: NSView {
             return (CGFloat(point) * xRatio) + (dirtyRect.origin.x - lineWidth)
         }
         let uploadYPoint = { (point: Int) -> CGFloat in
-            return CGFloat((points[point].0 * Double(dirtyRect.height/2)) / uploadMax) + dirtyRect.origin.y + dirtyRect.height/2 + lineWidth - offset
+            return scaleValue(scale: self.scale, value: points[point].0, maxValue: uploadMax, maxHeight: dirtyRect.height/2) + (dirtyRect.origin.y + dirtyRect.height/2 - offset)
         }
         let downloadYPoint = { (point: Int) -> CGFloat in
-            return (dirtyRect.height/2 + dirtyRect.origin.y + offset - lineWidth) - CGFloat((points[point].1 * Double(dirtyRect.height/2)) / downloadMax)
+            return (dirtyRect.height/2 + dirtyRect.origin.y + offset) - scaleValue(scale: self.scale, value: points[point].1, maxValue: downloadMax, maxHeight: dirtyRect.height/2)
         }
         
         let uploadlinePath = NSBezierPath()
@@ -234,7 +410,7 @@ public class NetworkChartView: NSView {
         self.points.remove(at: 0)
         self.points.append((upload, download))
         
-        if self.window?.isVisible ?? true {
+        if self.window?.isVisible ?? false {
             self.display()
         }
     }
@@ -248,6 +424,13 @@ public class NetworkChartView: NSView {
             let origin = self.points
             self.points = Array(repeating: (0, 0), count: num)
             self.points.replaceSubrange(Range(uncheckedBounds: (lower: origin.count, upper: num)), with: origin)
+        }
+    }
+    
+    public func setScale(_ newScale: Scale) {
+        self.scale = newScale
+        if self.window?.isVisible ?? false {
+            self.display()
         }
     }
 }
@@ -311,7 +494,7 @@ public class PieChartView: NSView {
                 NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
             ]
             
-            let percentage = "\(Int(value*100))%"
+            let percentage = "\(Int(value.rounded(toPlaces: 2) * 100))%"
             let width: CGFloat = percentage.widthOfString(usingFont: NSFont.systemFont(ofSize: 15))
             let rect = CGRect(x: (self.frame.width-width)/2, y: (self.frame.height-11)/2, width: width, height: 12)
             let str = NSAttributedString.init(string: percentage, attributes: stringAttributes)
@@ -321,14 +504,14 @@ public class PieChartView: NSView {
     
     public func setValue(_ value: Double) {
         self.value = value
-        if self.window?.isVisible ?? true {
+        if self.window?.isVisible ?? false {
             self.display()
         }
     }
     
     public func setSegments(_ segments: [circle_segment]) {
         self.segments = segments
-        if self.window?.isVisible ?? true {
+        if self.window?.isVisible ?? false {
             self.display()
         }
     }
@@ -386,7 +569,7 @@ public class HalfCircleGraphView: NSView {
         
         context.restoreGState()
         
-        if self.text != nil {
+        if let text = self.text {
             let style = NSMutableParagraphStyle()
             style.alignment = .center
             let stringAttributes = [
@@ -395,24 +578,23 @@ public class HalfCircleGraphView: NSView {
                 NSAttributedString.Key.paragraphStyle: style
             ]
             
-            let width: CGFloat = self.text!.widthOfString(usingFont: NSFont.systemFont(ofSize: 10))
-            let height: CGFloat = self.text!.heightOfString(usingFont: NSFont.systemFont(ofSize: 10))
-            let rect = CGRect(x: ((self.frame.width-width)/2)-0.5, y: (self.frame.height-6)/2, width: width, height: height)
-            let str = NSAttributedString.init(string: self.text!, attributes: stringAttributes)
+            let width: CGFloat = text.widthOfString(usingFont: NSFont.systemFont(ofSize: 10))
+            let rect = CGRect(x: ((self.frame.width-width)/2)-0.5, y: (self.frame.height-6)/2, width: width, height: 13)
+            let str = NSAttributedString.init(string: text, attributes: stringAttributes)
             str.draw(with: rect)
         }
     }
     
     public func setValue(_ value: Double) {
         self.value = value > 1 ? value/100 : value
-        if self.window?.isVisible ?? true {
+        if self.window?.isVisible ?? false {
             self.display()
         }
     }
     
     public func setText(_ value: String) {
         self.text = value
-        if self.window?.isVisible ?? true {
+        if self.window?.isVisible ?? false {
             self.display()
         }
     }
@@ -469,7 +651,7 @@ public class TachometerGraphView: NSView {
     
     public func setSegments(_ segments: [circle_segment]) {
         self.segments = segments
-        if self.window?.isVisible ?? true {
+        if self.window?.isVisible ?? false {
             self.display()
         }
     }

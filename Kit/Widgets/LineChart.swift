@@ -19,6 +19,7 @@ public class LineChart: WidgetWrapper {
     private var valueColorState: Bool = false
     private var colorState: Color = .systemAccent
     private var historyCount: Int = 60
+    private var scaleState: Scale = .none
     
     private var chart: LineChartView = LineChartView(frame: NSRect(
         x: 0,
@@ -28,7 +29,7 @@ public class LineChart: WidgetWrapper {
     ), num: 60)
     private var colors: [Color] = Color.allCases
     private var value: Double = 0
-    private var pressureLevel: Int = 0
+    private var pressureLevel: DispatchSource.MemoryPressureEvent = .normal
     
     private var historyNumbers: [KeyValue_p] = [
         KeyValue_t(key: "30", value: "30"),
@@ -98,7 +99,9 @@ public class LineChart: WidgetWrapper {
             self.valueColorState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_valueColor", defaultValue: self.valueColorState)
             self.colorState = Color.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_color", defaultValue: self.colorState.key))
             self.historyCount = Store.shared.int(key: "\(self.title)_\(self.type.rawValue)_historyCount", defaultValue: self.historyCount)
+            self.scaleState = Scale.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_scale", defaultValue: self.scaleState.key))
             
+            self.chart.setScale(self.scaleState)
             self.chart.reinit(self.historyCount)
         }
         
@@ -109,7 +112,7 @@ public class LineChart: WidgetWrapper {
         if preview {
             var list: [Double] = []
             for _ in 0..<16 {
-                list.append(Double(CGFloat(Float(arc4random()) / Float(UINT32_MAX))))
+                list.append(Double.random(in: 0..<1))
             }
             self.chart.points = list
             self.value = 0.38
@@ -120,7 +123,6 @@ public class LineChart: WidgetWrapper {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // swiftlint:disable function_body_length
     public override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         
@@ -243,7 +245,7 @@ public class LineChart: WidgetWrapper {
         })
     }
     
-    public func setPressure(_ level: Int) {
+    public func setPressure(_ level: DispatchSource.MemoryPressureEvent) {
         guard self.pressureLevel != level else {
             return
         }
@@ -303,6 +305,13 @@ public class LineChart: WidgetWrapper {
             action: #selector(toggleHistoryCount),
             items: self.historyNumbers,
             selected: "\(self.historyCount)"
+        ))
+        
+        view.addArrangedSubview(selectSettingsRow(
+            title: localizedString("Scaling"),
+            action: #selector(toggleScale),
+            items: Scale.allCases,
+            selected: self.scaleState.key
         ))
         
         return view
@@ -403,6 +412,18 @@ public class LineChart: WidgetWrapper {
         
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_historyCount", value: value)
         self.chart.reinit(value)
+        self.display()
+    }
+    
+    @objc private func toggleScale(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String else {
+            return
+        }
+        guard let value = Scale.allCases.first(where: { $0.key == key }) else { return }
+        
+        self.scaleState = value
+        self.chart.setScale(value)
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_scale", value: key)
         self.display()
     }
 }

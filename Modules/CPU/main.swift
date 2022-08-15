@@ -12,6 +12,8 @@ import Kit
 public struct CPU_Load: value_t {
     var totalUsage: Double = 0
     var usagePerCore: [Double] = []
+    var usageECores: Double? = nil
+    var usagePCores: Double? = nil
     
     var systemLoad: Double = 0
     var userLoad: Double = 0
@@ -41,6 +43,9 @@ public class CPU: Module {
     private var limitReader: LimitReader? = nil
     private var averageReader: AverageReader? = nil
     
+    private var notificationLevelState: Bool = false
+    private var notificationID: String? = nil
+    
     private var usagePerCoreState: Bool {
         get {
             return Store.shared.bool(key: "\(self.config.name)_usagePerCore", defaultValue: false)
@@ -49,6 +54,11 @@ public class CPU: Module {
     private var splitValueState: Bool {
         get {
             return Store.shared.bool(key: "\(self.config.name)_splitValue", defaultValue: false)
+        }
+    }
+    private var notificationLevel: String {
+        get {
+            return Store.shared.string(key: "\(self.config.name)_notificationLevel", defaultValue: "Disabled")
         }
     }
     
@@ -154,8 +164,9 @@ public class CPU: Module {
         }
         
         self.popupView.loadCallback(value)
+        self.checkNotificationLevel(value.totalUsage)
         
-        self.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
+        self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
             switch w.item {
             case let widget as Mini: widget.setValue(value.totalUsage)
             case let widget as LineChart: widget.setValue(value.totalUsage)
@@ -182,6 +193,32 @@ public class CPU: Module {
                 ])
             default: break
             }
+        }
+    }
+    
+    private func checkNotificationLevel(_ value: Double) {
+        guard self.notificationLevel != "Disabled", let level = Double(self.notificationLevel) else { return }
+        
+        if let id = self.notificationID, value < level && self.notificationLevelState {
+            if #available(macOS 10.14, *) {
+                removeNotification(id)
+            } else {
+                removeNSNotification(id)
+            }
+            
+            self.notificationID = nil
+            self.notificationLevelState = false
+        } else if value >= level && !self.notificationLevelState {
+            let title = localizedString("CPU usage threshold")
+            let subtitle = localizedString("CPU usage is", "\(Int((value)*100))%")
+            
+            if #available(macOS 10.14, *) {
+                self.notificationID = showNotification(title: title, subtitle: subtitle)
+            } else {
+                self.notificationID = showNSNotification(title: title, subtitle: subtitle)
+            }
+            
+            self.notificationLevelState = true
         }
     }
 }

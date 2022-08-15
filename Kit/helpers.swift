@@ -135,9 +135,9 @@ public struct Units {
         case 1_024..<(1_024 * 1_024 * 1_024):
             return String(format: "%.0f MB", megabytes)
         case 1_024..<(1_024 * 1_024 * 1_024 * 1_024):
-            return String(format: "%.2f GB", gigabytes)
+            return String(format: "%.1f GB", gigabytes)
         case (1_024 * 1_024 * 1_024 * 1_024)...Int64.max:
-            return String(format: "%.2f TB", terabytes)
+            return String(format: "%.1f TB", terabytes)
         default:
             return String(format: "%.0f KB", kilobytes)
         }
@@ -173,9 +173,9 @@ public struct DiskSize {
         case 1_000..<(1_000 * 1_000 * 1_000):
             return String(format: "%.0f MB", megabytes)
         case 1_000..<(1_000 * 1_000 * 1_000 * 1_000):
-            return String(format: "%.2f GB", gigabytes)
+            return String(format: "%.1f GB", gigabytes)
         case (1_000 * 1_000 * 1_000 * 1_000)...Int64.max:
-            return String(format: "%.2f TB", terabytes)
+            return String(format: "%.1f TB", terabytes)
         default:
             return String(format: "%.0f KB", kilobytes)
         }
@@ -479,7 +479,7 @@ public func isNewestVersion(currentVersion: String, latestVersion: String) -> Bo
 }
 
 @available(macOS 10.14, *)
-public func showNotification(title: String, subtitle: String? = nil, userInfo: [AnyHashable: Any] = [:], delegate: UNUserNotificationCenterDelegate? = nil) {
+public func showNotification(title: String, subtitle: String? = nil, userInfo: [AnyHashable: Any] = [:], delegate: UNUserNotificationCenterDelegate? = nil) -> String {
     let id = UUID().uuidString
     
     let content = UNMutableNotificationContent()
@@ -500,9 +500,17 @@ public func showNotification(title: String, subtitle: String? = nil, userInfo: [
             print(err)
         }
     }
+    
+    return id
 }
 
-public func showNSNotification(title: String, subtitle: String? = nil, body: String? = nil, userInfo: [AnyHashable: Any] = [:]) {
+@available(macOS 10.14, *)
+public func removeNotification(_ id: String) {
+    let center = UNUserNotificationCenter.current()
+    center.removeDeliveredNotifications(withIdentifiers: [id])
+}
+
+public func showNSNotification(title: String, subtitle: String? = nil, body: String? = nil, userInfo: [AnyHashable: Any] = [:]) -> String {
     let notification = NSUserNotification()
     let id = UUID().uuidString
     
@@ -514,6 +522,15 @@ public func showNSNotification(title: String, subtitle: String? = nil, body: Str
     notification.hasActionButton = false
     
     NSUserNotificationCenter.default.deliver(notification)
+    
+    return id
+}
+
+public func removeNSNotification(_ id: String) {
+    let notificationCenter = NSUserNotificationCenter.default
+    if let notification = notificationCenter.deliveredNotifications.first(where: { $0.identifier == id }) {
+        notificationCenter.removeScheduledNotification(notification)
+    }
 }
 
 public struct TopProcess {
@@ -584,6 +601,41 @@ public func getIOProperties(_ entry: io_registry_entry_t) -> NSDictionary? {
     return properties?.takeUnretainedValue()
 }
 
+public func getIOName(_ entry: io_registry_entry_t) -> String? {
+    let pointer = UnsafeMutablePointer<io_name_t>.allocate(capacity: 1)
+    
+    let result = IORegistryEntryGetName(entry, pointer)
+    if result != kIOReturnSuccess {
+        print("Error IORegistryEntryGetName(): " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
+        return nil
+    }
+    
+    return String(cString: UnsafeRawPointer(pointer).assumingMemoryBound(to: CChar.self))
+}
+
+public func getIOChildrens(_ entry: io_registry_entry_t) -> [String]? {
+    var iter: io_iterator_t = io_iterator_t()
+    if IORegistryEntryGetChildIterator(entry, kIOServicePlane, &iter) != kIOReturnSuccess {
+        return nil
+    }
+    
+    var iterator: io_registry_entry_t = 1
+    var list: [String] = []
+    while iterator != 0 {
+        iterator = IOIteratorNext(iter)
+        
+        let pointer = UnsafeMutablePointer<io_name_t>.allocate(capacity: 1)
+        if IORegistryEntryGetName(iterator, pointer) != kIOReturnSuccess {
+            continue
+        }
+        
+        list.append(String(cString: UnsafeRawPointer(pointer).assumingMemoryBound(to: CChar.self)))
+        IOObjectRelease(iterator)
+    }
+    
+    return list
+}
+
 public class ColorView: NSView {
     public var inactiveColor: NSColor = NSColor.lightGray.withAlphaComponent(0.75)
     
@@ -623,32 +675,34 @@ public func localizedString(_ key: String, _ params: String..., comment: String 
     return string
 }
 
-extension UnitTemperature {
-    static var current: UnitTemperature {
+public extension UnitTemperature {
+    static var system: UnitTemperature {
         let measureFormatter = MeasurementFormatter()
         let measurement = Measurement(value: 0, unit: UnitTemperature.celsius)
         return measureFormatter.string(from: measurement).hasSuffix("C") ? .celsius : .fahrenheit
     }
+    
+    static var current: UnitTemperature {
+        let stringUnit: String = Store.shared.string(key: "temperature_units", defaultValue: "system")
+        var unit = UnitTemperature.system
+        if stringUnit != "system" {
+            if let value = TemperatureUnits.first(where: { $0.key == stringUnit }), let temperatureUnit = value.additional as? UnitTemperature {
+                unit = temperatureUnit
+            }
+        }
+        return unit
+    }
 }
 
 // swiftlint:disable identifier_name
-public func Temperature(_ value: Double) -> String {
-    let stringUnit: String = Store.shared.string(key: "temperature_units", defaultValue: "system")
+public func Temperature(_ value: Double, defaultUnit: UnitTemperature = UnitTemperature.celsius) -> String {
     let formatter = MeasurementFormatter()
     formatter.locale = Locale.init(identifier: "en_US")
     formatter.numberFormatter.maximumFractionDigits = 0
     formatter.unitOptions = .providedUnit
     
-    var measurement = Measurement(value: value, unit: UnitTemperature.celsius)
-    if stringUnit == "system" {
-        measurement.convert(to: UnitTemperature.current)
-    } else {
-        if let temperatureUnit = TemperatureUnits.first(where: { $0.key == stringUnit }) {
-            if let unit = temperatureUnit.additional as? UnitTemperature {
-                measurement.convert(to: unit)
-            }
-        }
-    }
+    var measurement = Measurement(value: value, unit: defaultUnit)
+    measurement.convert(to: UnitTemperature.current)
     
     return formatter.string(from: measurement)
 }
@@ -752,16 +806,7 @@ public class ProcessView: NSStackView {
     }
     
     public override func mouseDown(with: NSEvent) {
-        self.lock = !self.lock
-        if self.lock {
-            self.imageView.isHidden = true
-            self.killView.isHidden = false
-            self.layer?.backgroundColor = .init(gray: 0.01, alpha: 0.1)
-        } else {
-            self.imageView.isHidden = false
-            self.killView.isHidden = true
-            self.layer?.backgroundColor = .none
-        }
+        self.setLock(!self.lock)
     }
     
     public func set(_ process: TopProcess, _ value: String) {
@@ -779,7 +824,21 @@ public class ProcessView: NSStackView {
         self.valueView.stringValue = ""
         self.imageView.image = nil
         self.pid = nil
+        self.setLock(false)
         self.toolTip = ""
+    }
+    
+    private func setLock(_ state: Bool) {
+        self.lock = state
+        if self.lock {
+            self.imageView.isHidden = true
+            self.killView.isHidden = false
+            self.layer?.backgroundColor = .init(gray: 0.01, alpha: 0.1)
+        } else {
+            self.imageView.isHidden = false
+            self.killView.isHidden = true
+            self.layer?.backgroundColor = .none
+        }
     }
     
     @objc public func kill() {
@@ -963,7 +1022,7 @@ public class SMCHelper {
         _ = syncShell("\(self.smc) fan -id \(id) -m \(mode)")
     }
     
-    private func checkRights() -> Bool {
+    public func checkRights() -> Bool {
         do {
             let attributes = try FileManager.default.attributesOfItem(atPath: self.smc)
             guard let owner = attributes[FileAttributeKey(rawValue: "NSFileOwnerAccountName")] as? String,
@@ -997,5 +1056,65 @@ public class SMCHelper {
         }
         
         return true
+    }
+}
+
+internal func grayscaleImage(_ image: NSImage) -> NSImage? {
+    guard let cgImage = image.cgImage(forProposedRect: nil, context: nil, hints: nil) else {
+        return nil
+    }
+    let bitmap = NSBitmapImageRep(cgImage: cgImage)
+    
+    guard let grayscale = bitmap.converting(to: .genericGray, renderingIntent: .default) else {
+        return nil
+    }
+    let greyImage = NSImage(size: image.size)
+    greyImage.addRepresentation(grayscale)
+    
+    return greyImage
+}
+
+internal class ViewCopy: CALayer {
+    init(_ view: NSView) {
+        super.init()
+        
+        guard let bitmap = view.bitmapImageRepForCachingDisplay(in: view.bounds) else { return }
+        view.cacheDisplay(in: view.bounds, to: bitmap)
+        
+        frame = view.frame
+        contents = bitmap.cgImage
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+public class EmptyView: NSStackView {
+    public init(height: CGFloat = 120, isHidden: Bool = false, msg: String) {
+        super.init(frame: NSRect())
+        
+        self.heightAnchor.constraint(equalToConstant: height).isActive = true
+        
+        self.translatesAutoresizingMaskIntoConstraints = true
+        self.orientation = .vertical
+        self.distribution = .fillEqually
+        self.isHidden = isHidden
+        self.identifier = NSUserInterfaceItemIdentifier(rawValue: "emptyView")
+        
+        let textView: NSTextView = NSTextView()
+        textView.heightAnchor.constraint(equalToConstant: (height/2)+6).isActive = true
+        textView.alignment = .center
+        textView.isEditable = false
+        textView.isSelectable = false
+        textView.drawsBackground = false
+        textView.string = msg
+        
+        self.addArrangedSubview(NSView())
+        self.addArrangedSubview(textView)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }

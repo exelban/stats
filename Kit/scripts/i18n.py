@@ -38,6 +38,7 @@ def main():
 			for i, el in enumerate(en_keys):
 				if el != keys[i]:
 					sys.exit(f"line {i}: en=`{el}`; {name}=`{keys[i]}`\n")
+			exit(1)
 
 	print(f"All fine, found {en_count} lines in {len(languages)} languages.")
 

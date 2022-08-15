@@ -36,6 +36,7 @@ var modules: [Module] = [
 class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDelegate {
     internal let settingsWindow: SettingsWindow = SettingsWindow()
     internal let updateWindow: UpdateWindow = UpdateWindow()
+    internal let setupWindow: SetupWindow = SetupWindow()
     internal let updateActivity = NSBackgroundActivityScheduler(identifier: "eu.exelban.Stats.updateCheck")
     internal var clickInNotification: Bool = false
     
@@ -51,9 +52,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
         
         self.parseArguments()
         self.parseVersion()
-        
-        modules.forEach{ $0.mount() }
-        self.settingsWindow.setModules()
+        self.setup {
+            modules.forEach{ $0.mount() }
+            self.settingsWindow.setModules()
+        }
         
         self.defaultValues()
         

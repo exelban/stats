@@ -2,7 +2,7 @@
 //  Localizable.strings
 //  Stats
 //
-//  Created by @moriczr on 22/01/2021, updated by András Oravecz (info@oandras.hu) on 15/07/2021
+//  Created by @moriczr on 22/01/2021, updated by András Oravecz (info@oandras.hu) on 09/05/2022
 //  Using Swift 5.0.
 //  Running on macOS 10.15.
 //
@@ -20,8 +20,6 @@
 "Open Disk settings" = "Lemez beállítások megnyitása";
 "Sensors" = "Érzékelők";
 "Open Sensors settings" = "Érzékelő beállítások megnyitása";
-"Fans" = "Ventilátorok";
-"Open Fans settings" = "Ventilátor beállítások megnyitása";
 "Network" = "Hálózat";
 "Open Network settings" = "Hálózati beállítások megnyitása";
 "Battery" = "Akkumulátor";
@@ -60,13 +58,42 @@
 "Right alignment" = "Jobbra igazítás";
 "Dashboard" = "Irányítópult";
 "Disabled" = "Kikapcsolva";
-"Silent" = "Silent";
+"Silent" = "Néma";
+"Units" = "Mértékegységek";
+"Fans" = "Ventilátorok";
+"Scaling" = "Scaling";
+"Linear" = "Linear";
+"Square" = "Square";
+"Cube" = "Cube";
+"Logarithmic" = "Logarithmic";
+
+// Setup
+"Stats Setup" = "Stats Setup";
+"Previous" = "Previous";
+"Previous page" = "Previous page";
+"Next" = "Next";
+"Next page" = "Next page";
+"Finish" = "Finish";
+"Finish setup" = "Finish setup";
+"Welcome to Stats" = "Welcome to Stats";
+"welcome_message" = "Thanks for using Stats, a free open source macOS system monitor for your menu bar.";
+"Start the application automatically when starting your Mac" = "Start the application automatically when starting your Mac";
+"Do not start the application automatically when starting your Mac" = "Do not start the application automatically when starting your Mac";
+"Do everything silently in the background (recommended)" = "Do everything silently in the background (recommended)";
+"Check for a new version on startup" = "Check for a new version on startup";
+"Check for a new version every day (once a day)" = "Check for a new version every day (once a day)";
+"Check for a new version every week (once a week)" = "Check for a new version every week (once a week)";
+"Check for a new version every month (once a month)" = "Check for a new version every month (once a month)";
+"Never check for updates (not recommended)" = "Never check for updates (not recommended)";
+"The configuration is completed" = "The configuration is completed";
+"finish_setup_message" = "Everything is set up! \n The Stats is an open source tool, it's free and always be. \n If you enjoy it you can support a project, it's always appreciated!";
 
 // Alerts
 "New version available" = "Új verzió érhető el";
 "Click to install the new version of Stats" = "Kattintson a Stats új verziójának telepítéséhez";
 "Successfully updated" = "Sikeres frissítés";
 "Stats was updated to v" = "A Stats sikeresen frissítve lett a(z) v%0 verzióra";
+"Reset settings text" = "Minden alkalmazás beállítás alaphelyzetbe fog állni, és az alkalmazás újra fog indulni. Biztosan ezt szeretnéd?";
 
 // Settings
 "Open Activity Monitor" = "Tevékenységfigyelő megnyitása";
@@ -87,12 +114,16 @@
 "Check for update" = "Frissítés keresése";
 "Show icon in dock" = "Ikon megjelenítése a Dockban";
 "Start at login" = "Alkalmazás indítása bejelentkezéskor";
+"Build number" = "Verziószám";
+"Reset settings" = "Beállítások alaphelyzetbe állítása";
 
 // Dashboard
 "Serial number" = "Sorozatszám";
 "Uptime" = "Indítás óta eltel idő";
-"Number of cores" = "%0 cores";
-"Number of threads" = "%0 threads";
+"Number of cores" = "%0 mag";
+"Number of threads" = "%0 szál";
+"Number of e-cores" = "%0 efficiency cores";
+"Number of p-cores" = "%0 performance cores";
 
 // Update
 "The latest version of Stats installed" = "A Stats legújabb verziója van telepítve";
@@ -126,10 +157,11 @@
 "Static width" = "Fix szélesség";
 "Tachometer widget" = "Fordulatszámmérő";
 "Show symbols" = "Szimbólumok mutatása";
-"Label widget" = "Label";
-"Number of reads in the chart" = "Number of reads in the chart";
-"Color of download" = "Color of download";
-"Color of upload" = "Color of upload";
+"Label widget" = "Címke";
+"Number of reads in the chart" = "Értékek száma a grafikonon";
+"Color of download" = "Letöltés színe";
+"Color of upload" = "Feltöltés színe";
+"Merge widgets" = "Merge widgets";
 
 // Module Kit
 "Open module settings" = "Modul beállításainak megnyitása";
@@ -140,12 +172,13 @@
 "Details" = "Részletek";
 "Top processes" = "Top folyamatok";
 "Pictogram" = "Piktogram";
-"Module settings" = "Module settings";
-"Widget settings" = "Widget settings";
+"Module settings" = "Modul beállítások";
+"Widget settings" = "Widget beállítások";
 
 // Modules
 "Number of top processes" = "Top folyamatok száma";
 "Update interval for top processes" = "Top folyamatok frissítési időköze";
+"Notification level" = "Notification level";
 
 // CPU
 "CPU usage" = "CPU használat";
@@ -157,12 +190,16 @@
 "Show usage per core" = "Terhelés megjelenítése magonként";
 "Show hyper-threading cores" = "Hyper-threading magok mutatása";
 "Split the value (System/User)" = "Ossza fel az értéket (Rendszer/Felhasználó)";
-"Scheduler limit" = "Scheduler limit";
-"Speed limit" = "Speed limit";
-"Average load" = "Average load";
-"1 minute" = "1 minute";
-"5 minutes" = "5 minutes";
-"15 minutes" = "15 minutes";
+"Scheduler limit" = "Ütemező korlát";
+"Speed limit" = "Sebesség korlát";
+"Average load" = "Átlagos terheltség";
+"1 minute" = "1 perc";
+"5 minutes" = "5 perc";
+"15 minutes" = "15 perc";
+"CPU usage threshold" = "CPU usage threshold";
+"CPU usage is" = "CPU usage is %0";
+"Efficiency cores" = "Efficiency cores";
+"Performance cores" = "Performance cores";
 
 // GPU
 "GPU to show" = "Megjelenítendő GPU";
@@ -180,8 +217,10 @@
 "Core clock" = "Mag órajel";
 "Memory clock" = "Memória órajel";
 "Utilization" = "Felhasználás";
-"Render utilization" = "Render utilization";
-"Tiler utilization" = "Tiler utilization";
+"Render utilization" = "Render használat";
+"Tiler utilization" = "Tiler használat";
+"GPU usage threshold" = "GPU usage threshold";
+"GPU usage is" = "GPU usage is %0";
 
 // RAM
 "Memory usage" = "Memóriahasználat";
@@ -194,6 +233,8 @@
 "Free" = "Szabad";
 "Swap" = "Csereterület";
 "Split the value (App/Wired/Compressed)" = "Ossza fel az értéket (Alkalmazás/Nem lapozható/Tömörített)";
+"RAM utilization threshold" = "RAM utilization threshold";
+"RAM utilization is" = "RAM utilization is %0";
 
 // Disk
 "Show removable disks" = "Eltávolítható adattárolók megjelenítése";
@@ -202,6 +243,8 @@
 "Disk to show" = "Megjelenítendő lemez";
 "Open disk" = "Merevlemez megnyitása";
 "Switch view" = "Nézet felcserélése";
+"Disk utilization threshold" = "Disk utilization threshold";
+"Disk utilization is" = "Disk utilization is %0";
 
 // Sensors
 "Temperature unit" = "Hőmérséklet mértékegysége";
@@ -209,7 +252,8 @@
 "Fahrenheit" = "Fahrenheit";
 "Save the fan speed" = "Ventilátor sebesség mentése";
 "Fan" = "Ventilátor";
-"HID sensors" = "HID sensors";
+"HID sensors" = "HID szenzorok";
+"Synchronize fan's control" = "Synchronize fan's control";
 
 // Network
 "Uploading" = "Feltöltés";
@@ -231,7 +275,10 @@
 "Interface based" = "Interfész alapú";
 "Processes based" = "Folyamat alapú";
 "Reset data usage" = "Adathasználati adatok alaphelyzetbe állítása";
-"VPN mode" = "VPN mode";
+"VPN mode" = "VPN mód";
+"Standard" = "Szabvány";
+"Security" = "Biztonság";
+"Channel" = "Csatorna";
 
 // Battery
 "Level" = "Töltöttségi szint";
@@ -264,11 +311,12 @@
 "Time format" = "Időformátum";
 "Hide additional information when full" = "További információk elrejtése, ha teljesen fel van töltve";
 "Last charge" = "Utolsó töltés";
-"Capacity" = "Capacity";
-"maximum / designed" = "maximum / designed";
+"Capacity" = "Kapacitás";
+"maximum / designed" = "maximum / gyári";
 
 // Bluetooth
 "Battery to show" = "Akkumulátor megjelenítése";
+"No Bluetooth devices are available" = "Nincs elérhető Bluetooth eszköz";
 
 // Colors
 "Based on utilization" = "Használat függő";

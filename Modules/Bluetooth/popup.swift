@@ -14,9 +14,10 @@ import Kit
 
 internal class Popup: NSStackView, Popup_p {
     public var sizeCallback: ((NSSize) -> Void)? = nil
+    private let emptyView: EmptyView = EmptyView(height: 30, isHidden: false, msg: localizedString("No Bluetooth devices are available"))
     
     public init() {
-        super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: 0))
+        super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: 30))
         
         self.orientation = .vertical
         self.spacing = Constants.Popup.margins
@@ -27,6 +28,20 @@ internal class Popup: NSStackView, Popup_p {
     }
     
     internal func batteryCallback(_ list: [BLEDevice]) {
+        defer {
+            if list.isEmpty && self.emptyView.superview == nil {
+                self.addArrangedSubview(self.emptyView)
+            } else if !list.isEmpty && self.emptyView.superview != nil {
+                self.emptyView.removeFromSuperview()
+            }
+            
+            let h = self.arrangedSubviews.map({ $0.bounds.height + self.spacing }).reduce(0, +) - self.spacing
+            if h > 0 && self.frame.size.height != h {
+                self.setFrameSize(NSSize(width: self.frame.width, height: h))
+                self.sizeCallback?(self.frame.size)
+            }
+        }
+        
         var views = self.subviews.filter{ $0 is BLEView }.map{ $0 as! BLEView }
         if list.count < views.count && !views.isEmpty {
             views.forEach{ $0.removeFromSuperview() }
@@ -34,7 +49,7 @@ internal class Popup: NSStackView, Popup_p {
         }
         
         list.reversed().forEach { (ble: BLEDevice) in
-            if let view = views.first(where: { $0.address == ble.address }) {
+            if let view = self.subviews.filter({ $0 is BLEView }).map({ $0 as! BLEView }).first(where: { $0.address == ble.address }) {
                 view.update(ble.batteryLevel)
             } else {
                 self.addArrangedSubview(BLEView(
@@ -44,12 +59,6 @@ internal class Popup: NSStackView, Popup_p {
                     batteryLevel: ble.batteryLevel
                 ))
             }
-        }
-        
-        let h = self.arrangedSubviews.map({ $0.bounds.height + self.spacing }).reduce(0, +) - self.spacing
-        if h > 0 && self.frame.size.height != h {
-            self.setFrameSize(NSSize(width: self.frame.width, height: h))
-            self.sizeCallback?(self.frame.size)
         }
     }
 }

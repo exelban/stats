@@ -13,6 +13,7 @@ import Cocoa
 
 public class PieChart: WidgetWrapper {
     private var labelState: Bool = false
+    private var monochromeState: Bool = false
     
     private var chart: PieChartView = PieChartView(
         frame: NSRect(
@@ -63,6 +64,7 @@ public class PieChart: WidgetWrapper {
             }
         } else {
             self.labelState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_label", defaultValue: self.labelState)
+            self.monochromeState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_monochrome", defaultValue: self.monochromeState)
         }
         
         self.draw()
@@ -87,7 +89,15 @@ public class PieChart: WidgetWrapper {
         self.setWidth(self.size + x)
     }
     
-    public func setValue(_ segments: [circle_segment]) {
+    public func setValue(_ list: [circle_segment]) {
+        var segments = list
+        
+        if self.monochromeState {
+            for i in 0..<segments.count {
+                segments[i].color = segments[i].color.grayscaled()
+            }
+        }
+        
         DispatchQueue.main.async(execute: {
             self.chart.setSegments(segments)
         })
@@ -102,6 +112,12 @@ public class PieChart: WidgetWrapper {
             title: localizedString("Label"),
             action: #selector(toggleLabel),
             state: self.labelState
+        ))
+        
+        view.addArrangedSubview(toggleSettingRow(
+            title: localizedString("Monochrome accent"),
+            action: #selector(toggleMonochrome),
+            state: self.monochromeState
         ))
         
         return view
@@ -122,5 +138,17 @@ public class PieChart: WidgetWrapper {
         self.labelView!.isHidden = !self.labelState
         self.chart.setFrameOrigin(NSPoint(x: x, y: 0))
         self.setWidth(self.labelState ? self.size+x : self.size)
+    }
+    
+    @objc private func toggleMonochrome(_ sender: NSControl) {
+        var state: NSControl.StateValue? = nil
+        if #available(OSX 10.15, *) {
+            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
+        } else {
+            state = sender is NSButton ? (sender as! NSButton).state: nil
+        }
+        
+        self.monochromeState = state! == .on ? true : false
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_monochrome", value: self.monochromeState)
     }
 }

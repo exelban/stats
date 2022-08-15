@@ -51,6 +51,20 @@ public class Sensors: Module {
         self.addReader(self.sensorsReader)
     }
     
+    public override func willTerminate() {
+        if !SMCHelper.shared.checkRights() {
+            return
+        }
+        
+        self.sensorsReader.list.filter({ $0 is Fan }).forEach { (s: Sensor_p) in
+            if let f = s as? Fan, let mode = f.customMode {
+                if mode != .automatic {
+                    SMCHelper.shared.setFanMode(f.id, mode: FanMode.automatic.rawValue)
+                }
+            }
+        }
+    }
+    
     public override func isAvailable() -> Bool {
         return !self.sensorsReader.list.isEmpty
     }
@@ -67,17 +81,23 @@ public class Sensors: Module {
         }
         
         var list: [KeyValue_t] = []
+        var flatList: [[ColorValue]] = []
+        
         value.forEach { (s: Sensor_p) in
             if s.state {
                 list.append(KeyValue_t(key: s.key, value: s.formattedMiniValue))
+                if let f = s as? Fan {
+                    flatList.append([ColorValue(((f.value*100)/f.maxSpeed)/100)])
+                }
             }
         }
         
         self.popupView.usageCallback(value)
         
-        self.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
+        self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
             switch w.item {
             case let widget as SensorsWidget: widget.setValues(list)
+            case let widget as BarChart: widget.setValue(flatList)
             default: break
             }
         }

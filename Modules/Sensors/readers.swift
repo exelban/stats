@@ -76,6 +76,8 @@ internal class SensorsReader: Reader<[Sensor_p]> {
         self.list += list.filter({ (s: Sensor) -> Bool in
             if s.type == .temperature && (s.value == 0 || s.value > 110) {
                 return false
+            } else if s.type == .current && s.value > 100 {
+                return false
             }
             return true
         })
@@ -99,6 +101,7 @@ internal class SensorsReader: Reader<[Sensor_p]> {
         
         var cpuSensors = self.list.filter({ $0.group == .CPU && $0.type == .temperature && $0.average }).map{ $0.value }
         var gpuSensors = self.list.filter({ $0.group == .GPU && $0.type == .temperature && $0.average }).map{ $0.value }
+        let fanSensors = self.list.filter({ $0.type == .fan && !$0.isComputed }).map{ $0.value }
         
         #if arch(arm64)
         if self.HIDState {
@@ -115,10 +118,10 @@ internal class SensorsReader: Reader<[Sensor_p]> {
                 }
             }
             
-            cpuSensors = list.filter({ $0.key.hasPrefix("pACC MTR Temp") || $0.key.hasPrefix("eACC MTR Temp") }).map{ $0.value }
-            gpuSensors = list.filter({ $0.key.hasPrefix("GPU MTR Temp") }).map{ $0.value }
-            let socSensors = list.filter({ $0.key.hasPrefix("SOC MTR Temp") }).map{ $0.value }
+            cpuSensors += self.list.filter({ $0.key.hasPrefix("pACC MTR Temp") || $0.key.hasPrefix("eACC MTR Temp") }).map{ $0.value }
+            gpuSensors += self.list.filter({ $0.key.hasPrefix("GPU MTR Temp") }).map{ $0.value }
             
+            let socSensors = list.filter({ $0.key.hasPrefix("SOC MTR Temp") }).map{ $0.value }
             if !socSensors.isEmpty {
                 if let idx = self.list.firstIndex(where: { $0.key == "Average SOC" }) {
                     self.list[idx].value = socSensors.reduce(0, +) / Double(socSensors.count)
@@ -148,6 +151,13 @@ internal class SensorsReader: Reader<[Sensor_p]> {
             }
             if let max = gpuSensors.max() {
                 if let idx = self.list.firstIndex(where: { $0.key == "Hottest GPU" }) {
+                    self.list[idx].value = max
+                }
+            }
+        }
+        if !fanSensors.isEmpty && fanSensors.count > 1 {
+            if let max = fanSensors.max() {
+                if let idx = self.list.firstIndex(where: { $0.key == "Fastest Fan" }) {
                     self.list[idx].value = max
                 }
             }
@@ -283,24 +293,7 @@ internal class SensorsReader: Reader<[Sensor_p]> {
             }
         }
         
-        let cpuSensors = list.filter({ $0.key.hasPrefix("pACC MTR Temp") || $0.key.hasPrefix("eACC MTR Temp") }).map{ $0.value }
-        let gpuSensors = list.filter({ $0.key.hasPrefix("GPU MTR Temp") }).map{ $0.value }
         let socSensors = list.filter({ $0.key.hasPrefix("SOC MTR Temp") }).map{ $0.value }
-        
-        if !cpuSensors.isEmpty {
-            let value = cpuSensors.reduce(0, +) / Double(cpuSensors.count)
-            list.append(Sensor(key: "Average CPU", name: "Average CPU", value: value, group: .hid, type: .temperature))
-            if let max = cpuSensors.max() {
-                list.append(Sensor(key: "Hottest CPU", name: "Hottest CPU", value: max, group: .hid, type: .temperature))
-            }
-        }
-        if !gpuSensors.isEmpty {
-            let value = gpuSensors.reduce(0, +) / Double(gpuSensors.count)
-            list.append(Sensor(key: "Average GPU", name: "Average GPU", value: value, group: .hid, type: .temperature))
-            if let max = gpuSensors.max() {
-                list.append(Sensor(key: "Hottest GPU", name: "Hottest GPU", value: max, group: .hid, type: .temperature))
-            }
-        }
         if !socSensors.isEmpty {
             let value = socSensors.reduce(0, +) / Double(socSensors.count)
             list.append(Sensor(key: "Average SOC", name: "Average SOC", value: value, group: .hid, type: .temperature))
@@ -325,21 +318,35 @@ internal class SensorsReader: Reader<[Sensor_p]> {
     private func initCalculatedSensors() -> [Sensor] {
         var list: [Sensor] = []
         
-        let cpuSensors = self.list.filter({ $0.group == .CPU && $0.type == .temperature && $0.average }).map{ $0.value }
-        let gpuSensors = self.list.filter({ $0.group == .GPU && $0.type == .temperature && $0.average }).map{ $0.value }
+        var cpuSensors = self.list.filter({ $0.group == .CPU && $0.type == .temperature && $0.average }).map{ $0.value }
+        var gpuSensors = self.list.filter({ $0.group == .GPU && $0.type == .temperature && $0.average }).map{ $0.value }
+        
+        #if arch(arm64)
+        if self.HIDState {
+            cpuSensors += self.list.filter({ $0.key.hasPrefix("pACC MTR Temp") || $0.key.hasPrefix("eACC MTR Temp") }).map{ $0.value }
+            gpuSensors += self.list.filter({ $0.key.hasPrefix("GPU MTR Temp") }).map{ $0.value }
+        }
+        #endif
+        
+        let fanSensors = self.list.filter({ $0.type == .fan && !$0.isComputed }).map{ $0.value}
         
         if !cpuSensors.isEmpty {
             let value = cpuSensors.reduce(0, +) / Double(cpuSensors.count)
-            list.append(Sensor(key: "Average CPU", name: "Average CPU", value: value, group: .hid, type: .temperature))
+            list.append(Sensor(key: "Average CPU", name: "Average CPU", value: value, group: .CPU, type: .temperature, isComputed: true))
             if let max = cpuSensors.max() {
-                list.append(Sensor(key: "Hottest CPU", name: "Hottest CPU", value: max, group: .hid, type: .temperature))
+                list.append(Sensor(key: "Hottest CPU", name: "Hottest CPU", value: max, group: .CPU, type: .temperature, isComputed: true))
             }
         }
         if !gpuSensors.isEmpty {
             let value = gpuSensors.reduce(0, +) / Double(gpuSensors.count)
-            list.append(Sensor(key: "Average GPU", name: "Average GPU", value: value, group: .hid, type: .temperature))
+            list.append(Sensor(key: "Average GPU", name: "Average GPU", value: value, group: .GPU, type: .temperature, isComputed: true))
             if let max = gpuSensors.max() {
-                list.append(Sensor(key: "Hottest GPU", name: "Hottest GPU", value: max, group: .hid, type: .temperature))
+                list.append(Sensor(key: "Hottest GPU", name: "Hottest GPU", value: max, group: .GPU, type: .temperature, isComputed: true))
+            }
+        }
+        if !fanSensors.isEmpty && fanSensors.count > 1 {
+            if let max = fanSensors.max() {
+                list.append(Sensor(key: "Fastest Fan", name: "Fastest Fan", value: max, group: .sensor, type: .fan, isComputed: true))
             }
         }
         

@@ -20,8 +20,6 @@
 "Open Disk settings" = "Åben indstillinger for disk";
 "Sensors" = "Sensorer";
 "Open Sensors settings" = "Åben indstillinger for sensorer";
-"Fans" = "Blæsere";
-"Open Fans settings" = "Åben indstillinger for blæsere";
 "Network" = "Netværk";
 "Open Network settings" = "Åben indstillinger for netværk";
 "Battery" = "Batteri";
@@ -61,12 +59,41 @@
 "Dashboard" = "Instrumentbræt";
 "Disabled" = "Deaktiveret";
 "Silent" = "Silent";
+"Units" = "Units";
+"Fans" = "Blæsere";
+"Scaling" = "Scaling";
+"Linear" = "Linear";
+"Square" = "Square";
+"Cube" = "Cube";
+"Logarithmic" = "Logarithmic";
+
+// Setup
+"Stats Setup" = "Stats Setup";
+"Previous" = "Previous";
+"Previous page" = "Previous page";
+"Next" = "Next";
+"Next page" = "Next page";
+"Finish" = "Finish";
+"Finish setup" = "Finish setup";
+"Welcome to Stats" = "Welcome to Stats";
+"welcome_message" = "Thanks for using Stats, a free open source macOS system monitor for your menu bar.";
+"Start the application automatically when starting your Mac" = "Start the application automatically when starting your Mac";
+"Do not start the application automatically when starting your Mac" = "Do not start the application automatically when starting your Mac";
+"Do everything silently in the background (recommended)" = "Do everything silently in the background (recommended)";
+"Check for a new version on startup" = "Check for a new version on startup";
+"Check for a new version every day (once a day)" = "Check for a new version every day (once a day)";
+"Check for a new version every week (once a week)" = "Check for a new version every week (once a week)";
+"Check for a new version every month (once a month)" = "Check for a new version every month (once a month)";
+"Never check for updates (not recommended)" = "Never check for updates (not recommended)";
+"The configuration is completed" = "The configuration is completed";
+"finish_setup_message" = "Everything is set up! \n The Stats is an open source tool, it's free and always be. \n If you enjoy it you can support a project, it's always appreciated!";
 
 // Alerts
 "New version available" = "Ny udgave tilgængelig";
 "Click to install the new version of Stats" = "Klik for at installere den nye udgave af Stats";
 "Successfully updated" = "Udpaterede succesfuldt";
 "Stats was updated to v" = "Stats er blevet opdateret til v%0";
+"Reset settings text" = "All application settings will be reset and the application will be restarted. Are you sure you want to do this?";
 
 // Settings
 "Open Activity Monitor" = "Åben Aktivitetsmonitor";
@@ -87,12 +114,16 @@
 "Check for update" = "Søg efter opdatering";
 "Show icon in dock" = "Vis ikon i Dock";
 "Start at login" = "Start ved login";
+"Build number" = "Build number";
+"Reset settings" = "Reset settings";
 
 // Dashboard
 "Serial number" = "Serienummer";
-"Uptime" = "Uptime"; // There exists some translations but in technical speak it's always just called uptime in Danish as well. Thus I left the translation as is
+"Uptime" = "Uptime";
 "Number of cores" = "%0 cores";
 "Number of threads" = "%0 threads";
+"Number of e-cores" = "%0 efficiency cores";
+"Number of p-cores" = "%0 performance cores";
 
 // Update
 "The latest version of Stats installed" = "Den nyeste udgave af Stats er installeret";
@@ -130,6 +161,7 @@
 "Number of reads in the chart" = "Number of reads in the chart";
 "Color of download" = "Color of download";
 "Color of upload" = "Color of upload";
+"Merge widgets" = "Merge widgets";
 
 // Module Kit
 "Open module settings" = "Åben indstillinger for moduler";
@@ -146,6 +178,7 @@
 // Modules
 "Number of top processes" = "Antal topprocesser";
 "Update interval for top processes" = "Opdateringsinterval for topprocesser";
+"Notification level" = "Notification level";
 
 // CPU
 "CPU usage" = "CPU brug";
@@ -163,6 +196,10 @@
 "1 minute" = "1 minut";
 "5 minutes" = "5 minuter";
 "15 minutes" = "15 minuter";
+"CPU usage threshold" = "CPU usage threshold";
+"CPU usage is" = "CPU usage is %0";
+"Efficiency cores" = "Efficiency cores";
+"Performance cores" = "Performance cores";
 
 // GPU
 "GPU to show" = "GPU der vises";
@@ -182,6 +219,8 @@
 "Utilization" = "Brugsniveau";
 "Render utilization" = "Render utilization";
 "Tiler utilization" = "Tiler utilization";
+"GPU usage threshold" = "GPU usage threshold";
+"GPU usage is" = "GPU usage is %0";
 
 // RAM
 "Memory usage" = "Hukommelse i brug";
@@ -189,11 +228,13 @@
 "Total" = "Total";
 "Used" = "Brugt";
 "App" = "App";
-"Wired" = "Wired"; //Technical term with no good translation that doesn't lose meaning - The word wired is used in Danish to describe the technical meaning
+"Wired" = "Wired";
 "Compressed" = "Komprimeret";
 "Free" = "Ledig";
 "Swap" = "Swap";
 "Split the value (App/Wired/Compressed)" = "Opdel værdierne (App/Wired/Komprimeret)";
+"RAM utilization threshold" = "RAM utilization threshold";
+"RAM utilization is" = "RAM utilization is %0";
 
 // Disk
 "Show removable disks" = "Vis eksterne diske";
@@ -202,6 +243,8 @@
 "Disk to show" = "Disk der vises";
 "Open disk" = "Åben disk";
 "Switch view" = "Skift visning";
+"Disk utilization threshold" = "Disk utilization threshold";
+"Disk utilization is" = "Disk utilization is %0";
 
 // Sensors
 "Temperature unit" = "Temperaturenhed";
@@ -210,6 +253,7 @@
 "Save the fan speed" = "Gem blæserhastighed";
 "Fan" = "Blæser";
 "HID sensors" = "HID sensors";
+"Synchronize fan's control" = "Synchronize fan's control";
 
 // Network
 "Uploading" = "Upload";
@@ -232,6 +276,9 @@
 "Processes based" = "Process baseret";
 "Reset data usage" = "Nulstil databrug";
 "VPN mode" = "VPN mode";
+"Standard" = "Standard";
+"Security" = "Security";
+"Channel" = "Channel";
 
 // Battery
 "Level" = "Niveau";
@@ -269,6 +316,7 @@
 
 // Bluetooth
 "Battery to show" = "Batteri der vises";
+"No Bluetooth devices are available" = "No Bluetooth devices are available";
 
 // Colors
 "Based on utilization" = "Baseret på brug";

@@ -84,7 +84,7 @@ class SettingsWindow: NSWindow, NSWindowDelegate {
     
     public func setModules() {
         self.viewController.setModules(modules)
-        if modules.filter({ $0.enabled != false && $0.available != false && !$0.widgets.filter({ $0.isActive }).isEmpty }).isEmpty {
+        if modules.filter({ $0.enabled != false && $0.available != false && !$0.menuBar.widgets.filter({ $0.isActive }).isEmpty }).isEmpty {
             self.setIsVisible(true)
         }
     }
@@ -138,7 +138,7 @@ private class SettingsView: NSView {
     private var mainView: NSView = NSView()
     
     private var dashboard: NSView = Dashboard()
-    private var settings: NSView = ApplicationSettings()
+    private var settings: ApplicationSettings = ApplicationSettings()
     
     private let supportPopover = NSPopover()
     
@@ -237,6 +237,7 @@ private class SettingsView: NSView {
             } else if title == "Dashboard" {
                 view = self.dashboard
             } else if title == "settings" {
+                self.settings.viewWillAppear()
                 view = self.settings
             }
             

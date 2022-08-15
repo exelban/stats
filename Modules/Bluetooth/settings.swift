@@ -16,6 +16,7 @@ internal class Settings: NSStackView, Settings_v {
     public var callback: (() -> Void) = {}
     
     private var list: [String: Bool] = [:]
+    private let emptyView: EmptyView = EmptyView(msg: localizedString("No Bluetooth devices are available"))
     
     public init() {
         super.init(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
@@ -31,6 +32,7 @@ internal class Settings: NSStackView, Settings_v {
         self.spacing = Constants.Settings.margin
         
         self.addArrangedSubview(NSView())
+        self.addArrangedSubview(self.emptyView)
     }
     
     required init?(coder: NSCoder) {
@@ -41,8 +43,15 @@ internal class Settings: NSStackView, Settings_v {
     
     internal func setList(_ list: [BLEDevice]) {
         if self.list.count != list.count && !self.list.isEmpty {
-            self.subviews.forEach{ $0.removeFromSuperview() }
+            self.subviews.filter({ $0 is NSStackView && ($0 as! NSStackView).identifier != NSUserInterfaceItemIdentifier(rawValue: "emptyView") }).forEach{ $0.removeFromSuperview() }
             self.list = [:]
+        }
+        
+        if list.isEmpty && self.emptyView.isHidden {
+            self.emptyView.isHidden = false
+            return
+        } else if !list.isEmpty && !self.emptyView.isHidden {
+            self.emptyView.isHidden = true
         }
         
         list.forEach { (d: BLEDevice) in

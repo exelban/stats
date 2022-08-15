@@ -59,6 +59,22 @@ extension String: LocalizedError {
         return ""
     }
     
+    public func find(pattern: String) -> String {
+        do {
+            let regex = try NSRegularExpression(pattern: pattern)
+            let stringRange = NSRange(location: 0, length: self.utf16.count)
+            
+            if let searchRange = regex.firstMatch(in: self, options: [], range: stringRange) {
+                let start = self.index(self.startIndex, offsetBy: searchRange.range.lowerBound)
+                let end = self.index(self.startIndex, offsetBy: searchRange.range.upperBound)
+                let value  = String(self[start..<end]).trimmingCharacters(in: .whitespaces)
+                return value.trimmingCharacters(in: .whitespaces)
+            }
+        } catch {}
+        
+        return ""
+    }
+    
     public var trimmed: String {
         var buf = [UInt8]()
         var trimming = true
@@ -91,14 +107,14 @@ extension String: LocalizedError {
     }
 }
 
-public extension Int {
+public extension DispatchSource.MemoryPressureEvent {
     func pressureColor() -> NSColor {
         switch self {
-        case 1:
+        case .normal:
             return NSColor.systemGreen
-        case 2:
+        case .warning:
             return NSColor.systemYellow
-        case 3:
+        case .critical:
             return NSColor.systemRed
         default:
             return controlAccentColor
@@ -174,6 +190,22 @@ public extension Double {
             return NSColor.systemGreen
         default:
             return NSColor.systemRed
+        }
+    }
+    
+    func clusterColor(_ i: Int) -> NSColor? {
+        guard let cores = SystemKit.shared.device.info.cpu?.cores,
+              let core = cores.first(where: {$0.id == i }) else {
+            return nil
+        }
+        
+        switch core.type {
+        case .efficiency:
+            return .systemTeal
+        case .performance:
+            return .systemBlue
+        default:
+            return nil
         }
     }
     
@@ -331,7 +363,7 @@ public extension NSView {
     }
     
     func selectView(action: Selector, items: [KeyValue_p], selected: String) -> NSPopUpButton {
-        let select: NSPopUpButton = NSPopUpButton(frame: NSRect(x: 0, y: 0, width: 50, height: 26))
+        let select: NSPopUpButton = NSPopUpButton(frame: NSRect(x: 0, y: 0, width: 50, height: 28))
         select.target = self
         select.action = action
         
@@ -437,53 +469,45 @@ public extension CATransaction {
     }
 }
 
-public final class FlippedClipView: NSClipView {
-    public override var isFlipped: Bool {
-        return true
-    }
+public class FlippedStackView: NSStackView {
+    public override var isFlipped: Bool { return true }
 }
 
-public final class ScrollableStackView: NSView {
-    public let stackView: NSStackView = NSStackView()
-    public let clipView: FlippedClipView = FlippedClipView()
+public class ScrollableStackView: NSView {
+    public var stackView: NSStackView = FlippedStackView()
+    
+    private let clipView: NSClipView = NSClipView()
     private let scrollView: NSScrollView = NSScrollView()
     
     public override init(frame: NSRect) {
         super.init(frame: frame)
         
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.borderType = .noBorder
-        scrollView.hasVerticalScroller = true
-        scrollView.hasHorizontalScroller = false
-        scrollView.autohidesScrollers = true
-        scrollView.horizontalScrollElasticity = .none
-        scrollView.drawsBackground = false
+        self.clipView.drawsBackground = false
+        
+        self.stackView.orientation = .vertical
+        self.stackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        self.scrollView.translatesAutoresizingMaskIntoConstraints = false
+        self.scrollView.hasVerticalScroller = true
+        self.scrollView.hasHorizontalScroller = false
+        self.scrollView.autohidesScrollers = true
+        self.scrollView.horizontalScrollElasticity = .none
+        self.scrollView.drawsBackground = false
+        self.scrollView.contentView = self.clipView
+        self.scrollView.documentView = self.stackView
+        
         self.addSubview(self.scrollView)
         
         NSLayoutConstraint.activate([
-            scrollView.leftAnchor.constraint(equalTo: self.leftAnchor),
-            scrollView.rightAnchor.constraint(equalTo: self.rightAnchor),
-            scrollView.topAnchor.constraint(equalTo: self.topAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
-        ])
-        
-        clipView.drawsBackground = false
-        scrollView.contentView = clipView
-        
-        stackView.orientation = .vertical
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.documentView = stackView
-        
-        NSLayoutConstraint.activate([
-            clipView.leftAnchor.constraint(equalTo: scrollView.leftAnchor),
-            clipView.rightAnchor.constraint(equalTo: scrollView.rightAnchor),
+            self.scrollView.leftAnchor.constraint(equalTo: self.leftAnchor),
+            self.scrollView.rightAnchor.constraint(equalTo: self.rightAnchor),
+            self.scrollView.topAnchor.constraint(equalTo: self.topAnchor),
+            self.scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             
-            stackView.leftAnchor.constraint(equalTo: clipView.leftAnchor),
-            stackView.rightAnchor.constraint(equalTo: clipView.rightAnchor),
-            stackView.topAnchor.constraint(equalTo: clipView.topAnchor)
+            self.stackView.leftAnchor.constraint(equalTo: self.clipView.leftAnchor),
+            self.stackView.rightAnchor.constraint(equalTo: self.clipView.rightAnchor),
+            self.stackView.topAnchor.constraint(equalTo: self.clipView.topAnchor)
         ])
-        
-        clipView.translatesAutoresizingMaskIntoConstraints = false
     }
     
     required public init?(coder: NSCoder) {

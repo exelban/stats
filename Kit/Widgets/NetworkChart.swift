@@ -18,6 +18,7 @@ public class NetworkChart: WidgetWrapper {
     private var historyCount: Int = 60
     private var downloadColor: Color = .secondRed
     private var uploadColor: Color = .secondBlue
+    private var scaleState: Scale = .linear
     
     private var chart: NetworkChartView = NetworkChartView(
         frame: NSRect(x: 0, y: 0, width: 30, height: Constants.Widget.height - (2*Constants.Widget.margin.y)),
@@ -78,6 +79,7 @@ public class NetworkChart: WidgetWrapper {
             self.historyCount = Store.shared.int(key: "\(self.title)_\(self.type.rawValue)_historyCount", defaultValue: self.historyCount)
             self.downloadColor = Color.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_downloadColor", defaultValue: self.downloadColor.key))
             self.uploadColor = Color.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_uploadColor", defaultValue: self.uploadColor.key))
+            self.scaleState = Scale.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_scale", defaultValue: self.scaleState.key))
             
             if let downloadColor =  self.downloadColor.additional as? NSColor,
                let uploadColor = self.uploadColor.additional as? NSColor {
@@ -222,6 +224,13 @@ public class NetworkChart: WidgetWrapper {
             selected: "\(self.historyCount)"
         ))
         
+        view.addArrangedSubview(selectSettingsRow(
+            title: localizedString("Scaling"),
+            action: #selector(toggleScale),
+            items: Scale.allCases.filter({ $0 != .none && $0 != .separator }),
+            selected: self.scaleState.key
+        ))
+        
         return view
     }
     
@@ -297,7 +306,7 @@ public class NetworkChart: WidgetWrapper {
         
         if let downloadColor =  self.downloadColor.additional as? NSColor,
            let uploadColor = self.uploadColor.additional as? NSColor {
-            self.chart.colors = [downloadColor, uploadColor]
+            self.chart.colors = [uploadColor, downloadColor]
         }
         self.display()
     }
@@ -313,8 +322,20 @@ public class NetworkChart: WidgetWrapper {
         
         if let downloadColor =  self.downloadColor.additional as? NSColor,
            let uploadColor = self.uploadColor.additional as? NSColor {
-            self.chart.colors = [downloadColor, uploadColor]
+            self.chart.colors = [uploadColor, downloadColor]
         }
+        self.display()
+    }
+    
+    @objc private func toggleScale(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String else {
+            return
+        }
+        guard let value = Scale.allCases.first(where: { $0.key == key }) else { return }
+        
+        self.scaleState = value
+        self.chart.setScale(value)
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_scale", value: key)
         self.display()
     }
 }

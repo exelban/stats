@@ -74,16 +74,22 @@ extension AppDelegate {
                 let subtitle: String = localizedString("Stats was updated to v", currentVersion)
                 
                 if #available(macOS 10.14, *) {
-                    showNotification(
+                    let id = showNotification(
                         title: title,
                         subtitle: subtitle,
                         delegate: self
                     )
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
+                        removeNotification(id)
+                    }
                 } else {
-                    showNSNotification(
+                    let id = showNSNotification(
                         title: title,
                         subtitle: subtitle
                     )
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
+                        removeNSNotification(id)
+                    }
                 }
             }
             
@@ -128,6 +134,22 @@ extension AppDelegate {
                 completion(NSBackgroundActivityScheduler.Result.finished)
             }
         }
+    }
+    
+    internal func setup(completion: @escaping () -> Void) {
+        if Store.shared.exist(key: "setupProcess") || Store.shared.exist(key: "runAtLoginInitialized") {
+            completion()
+            return
+        }
+        
+        debug("showing the setup window")
+        
+        self.setupWindow.show()
+        self.setupWindow.finishHandler = {
+            debug("setup is finished, starting the app")
+            completion()
+        }
+        Store.shared.set(key: "setupProcess", value: true)
     }
     
     internal func checkForNewVersion(silent: Bool = false) {
@@ -193,14 +215,14 @@ extension AppDelegate {
         let userInfo = ["url": version.url]
         
         if #available(macOS 10.14, *) {
-            showNotification(
+            _ = showNotification(
                 title: title,
                 subtitle: subtitle,
                 userInfo: userInfo,
                 delegate: self
             )
         } else {
-            showNSNotification(
+            _ = showNSNotification(
                 title: title,
                 subtitle: subtitle,
                 userInfo: userInfo

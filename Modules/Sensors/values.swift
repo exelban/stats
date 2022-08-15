@@ -10,6 +10,7 @@
 //
 
 import Kit
+import Cocoa
 
 internal enum SensorGroup: String {
     case CPU = "CPU"
@@ -60,7 +61,7 @@ internal struct Sensor: Sensor_p {
         get {
             switch self.type {
             case .temperature:
-                return "°C"
+                return UnitTemperature.current.symbol
             case .voltage:
                 return "V"
             case .power:
@@ -97,14 +98,8 @@ internal struct Sensor: Sensor_p {
             switch self.type {
             case .temperature:
                 return Temperature(value).replacingOccurrences(of: "C", with: "").replacingOccurrences(of: "F", with: "")
-            case .voltage:
-                let val = value >= 10 ? "\(Int(value))" : String(format: "%.1f", value)
-                return "\(val)\(unit)"
-            case .power:
-                let val = value >= 10 ? "\(Int(value))" : String(format: "%.1f", value)
-                return "\(val)\(unit)"
-            case .current:
-                let val = value >= 10 ? "\(Int(value))" : String(format: "%.1f", value)
+            case .voltage, .power, .current:
+                let val = value >= 9.95 ? "\(Int(round(value)))" : String(format: "%.1f", value)
                 return "\(val)\(unit)"
             case .fan:
                 return "\(Int(value))"
@@ -163,6 +158,38 @@ internal struct Fan: Sensor_p {
             return Store.shared.bool(key: "sensor_\(self.key)", defaultValue: false)
         }
     }
+    
+    var customSpeed: Int? {
+        get {
+            if !Store.shared.exist(key: "fan_\(self.id)_speed") {
+                return nil
+            }
+            return Store.shared.int(key: "fan_\(self.id)_speed", defaultValue: Int(self.minSpeed))
+        }
+        set {
+            if let value = newValue {
+                Store.shared.set(key: "fan_\(self.id)_speed", value: value)
+            } else {
+                Store.shared.remove("fan_\(self.id)_speed")
+            }
+        }
+    }
+    var customMode: FanMode? {
+        get {
+            if !Store.shared.exist(key: "fan_\(self.id)_mode") {
+                return nil
+            }
+            let value = Store.shared.int(key: "fan_\(self.id)_mode", defaultValue: FanMode.automatic.rawValue)
+            return FanMode(rawValue: value)
+        }
+        set {
+            if let value = newValue {
+                Store.shared.set(key: "fan_\(self.id)_mode", value: value.rawValue)
+            } else {
+                Store.shared.remove("fan_\(self.id)_mode")
+            }
+        }
+    }
 }
 
 // List of keys: https://github.com/acidanthera/VirtualSMC/blob/master/Docs/SMCSensorKeys.txt
@@ -180,7 +207,7 @@ let SensorsList: [Sensor] = [
     Sensor(key: "TCAD", name: "CPU package", group: .CPU, type: .temperature),
     
     Sensor(key: "TC%c", name: "CPU core %", group: .CPU, type: .temperature, average: true),
-    Sensor(key: "TC%C", name: "CPU core %", group: .CPU, type: .temperature, average: true),
+    Sensor(key: "TC%C", name: "CPU Core %", group: .CPU, type: .temperature, average: true),
     
     Sensor(key: "TCGC", name: "GPU Intel Graphics", group: .GPU, type: .temperature),
     Sensor(key: "TG0D", name: "GPU diode", group: .GPU, type: .temperature),
@@ -203,8 +230,8 @@ let SensorsList: [Sensor] = [
     Sensor(key: "TN0P", name: "Northbridge proximity", group: .system, type: .temperature),
     
     // Apple Silicon
-    Sensor(key: "Tp09", name: "CPU efficient core 1", group: .CPU, type: .temperature, average: true),
-    Sensor(key: "Tp0T", name: "CPU efficient core 2", group: .CPU, type: .temperature, average: true),
+    Sensor(key: "Tp09", name: "CPU efficiency core 1", group: .CPU, type: .temperature, average: true),
+    Sensor(key: "Tp0T", name: "CPU efficiency core 2", group: .CPU, type: .temperature, average: true),
     Sensor(key: "Tp01", name: "CPU performance core 1", group: .CPU, type: .temperature, average: true),
     Sensor(key: "Tp05", name: "CPU performance core 2", group: .CPU, type: .temperature, average: true),
     Sensor(key: "Tp0D", name: "CPU performance core 3", group: .CPU, type: .temperature, average: true),

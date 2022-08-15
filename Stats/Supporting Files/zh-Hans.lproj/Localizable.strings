@@ -20,8 +20,6 @@
 "Open Disk settings" = "打开磁盘设置";
 "Sensors" = "传感器";
 "Open Sensors settings" = "打开传感器设置";
-"Fans" = "风扇";
-"Open Fans settings" = "打开风扇设置";
 "Network" = "网络";
 "Open Network settings" = "打开网络设置";
 "Battery" = "电池";
@@ -60,13 +58,42 @@
 "Right alignment" = "右对齐";
 "Dashboard" = "仪表盘";
 "Disabled" = "已停用";
-"Silent" = "Silent";
+"Silent" = "运行时静默";
+"Units" = "单位";
+"Fans" = "风扇";
+"Scaling" = "缩放";
+"Linear" = "线性";
+"Square" = "方形";
+"Cube" = "立方体";
+"Logarithmic" = "对数";
+
+// Setup
+"Stats Setup" = "Stats 设置";
+"Previous" = "上一步";
+"Previous page" = "上一页";
+"Next" = "下一步";
+"Next page" = "下一页";
+"Finish" = "完成";
+"Finish setup" = "完成设置";
+"Welcome to Stats" = "欢迎使用 Stats";
+"welcome_message" = "感谢你使用 Stats，一个免费的开源 macOS 菜单栏系统监视器。";
+"Start the application automatically when starting your Mac" = "在启动你的 Mac 时自动开启应用程序";
+"Do not start the application automatically when starting your Mac" = "在启动你的 Mac 时不要自动开启应用程序";
+"Do everything silently in the background (recommended)" = "在后台静默运行（推荐）";
+"Check for a new version on startup" = "启动时检查新版本";
+"Check for a new version every day (once a day)" = "每天检查一次新版本（一天一次）";
+"Check for a new version every week (once a week)" = "每周检查一次新版本（一周一次）";
+"Check for a new version every month (once a month)" = "每月检查一次新版本（一月一次）";
+"Never check for updates (not recommended)" = "不要检查更新（不推荐）";
+"The configuration is completed" = "配置完成";
+"finish_setup_message" = "设置完成！Stats 是一个开源且永远免费的工具。如果你喜欢它，你可以支持这个项目，非常感谢!";
 
 // Alerts
 "New version available" = "新版本可用";
 "Click to install the new version of Stats" = "点击安装 Stats 的新版本";
 "Successfully updated" = "更新成功";
 "Stats was updated to v" = "Stats 已更新到 v%0";
+"Reset settings text" = "应用程序的所有设置将会被重置，应用程序也将重新启动。您确定要这么做吗？";
 
 // Settings
 "Open Activity Monitor" = "打开活动监视器";
@@ -87,12 +114,16 @@
 "Check for update" = "检查更新";
 "Show icon in dock" = "在程序坞显示图标";
 "Start at login" = "登录时打开";
+"Build number" = "版本号";
+"Reset settings" = "初始化所有设置";
 
 // Dashboard
 "Serial number" = "序列号";
 "Uptime" = "启动时间";
-"Number of cores" = "%0 cores";
-"Number of threads" = "%0 threads";
+"Number of cores" = "%0 核心";
+"Number of threads" = "%0 线程";
+"Number of e-cores" = "%0 效率内核";
+"Number of p-cores" = "%0 性能内核";
 
 // Update
 "The latest version of Stats installed" = "已安装最新版 Stats";
@@ -130,6 +161,7 @@
 "Number of reads in the chart" = "图表显示的读取次数";
 "Color of download" = "下载的颜色";
 "Color of upload" = "上传的颜色";
+"Merge widgets" = "合并组件";
 
 // Module Kit
 "Open module settings" = "打开模块设置";
@@ -140,12 +172,13 @@
 "Details" = "详细信息";
 "Top processes" = "高占用进程";
 "Pictogram" = "标识";
-"Module settings" = "Module settings";
-"Widget settings" = "Widget settings";
+"Module settings" = "模块设置";
+"Widget settings" = "小组件设置";
 
 // Modules
 "Number of top processes" = "高占用进程数";
 "Update interval for top processes" = "高占用进程的更新间隔";
+"Notification level" = "通知级别";
 
 // CPU
 "CPU usage" = "CPU 占用";
@@ -163,6 +196,10 @@
 "1 minute" = "1 分钟";
 "5 minutes" = "5 分钟";
 "15 minutes" = "15 分钟";
+"CPU usage threshold" = "CPU 占用阈值";
+"CPU usage is" = "CPU 利用率是 %0";
+"Efficiency cores" = "效率核心";
+"Performance cores" = "性能核心";
 
 // GPU
 "GPU to show" = "显示的 GPU";
@@ -180,20 +217,24 @@
 "Core clock" = "核心时钟";
 "Memory clock" = "内存时钟";
 "Utilization" = "利用率";
-"Render utilization" = "Render utilization";
-"Tiler utilization" = "Tiler utilization";
+"Render utilization" = "渲染利用率";
+"Tiler utilization" = "Tiler 利用率";
+"GPU usage threshold" = "GPU 占用阈值";
+"GPU usage is" = "GPU 利用率是 %0";
 
 // RAM
 "Memory usage" = "内存占用";
 "Memory pressure" = "内存压力";
 "Total" = "共计";
 "Used" = "已用";
-"App" = "App 内存"; // Use the same translation as the "Activity Monitor.app"
+"App" = "App 内存";
 "Wired" = "联动内存";
 "Compressed" = "被压缩";
 "Free" = "可用";
 "Swap" = "交换区";
 "Split the value (App/Wired/Compressed)" = "柱状图区分显示（App 内存/联动内存/被压缩）";
+"RAM utilization threshold" = "RAM 占用阈值";
+"RAM utilization is" = "RAM 利用率是 %0";
 
 // Disk
 "Show removable disks" = "显示可移动磁盘";
@@ -202,6 +243,8 @@
 "Disk to show" = "显示的磁盘";
 "Open disk" = "打开磁盘";
 "Switch view" = "切换视图";
+"Disk utilization threshold" = "Disk 占用阈值";
+"Disk utilization is" = "Disk 利用率是 %0";
 
 // Sensors
 "Temperature unit" = "温度单位";
@@ -209,7 +252,8 @@
 "Fahrenheit" = "华氏度";
 "Save the fan speed" = "保存风扇转速";
 "Fan" = "风扇";
-"HID sensors" = "HID sensors";
+"HID sensors" = "HID 传感器";
+"Synchronize fan's control" = "同步控制风扇";
 
 // Network
 "Uploading" = "上传";
@@ -221,9 +265,9 @@
 "Refresh" = "刷新";
 "Click to copy public IP address" = "点击拷贝公网 IP";
 "Click to copy local IP address" = "点击拷贝本地 IP";
-"Click to copy wifi name" = "点击拷贝 WiFi 名称";
+"Click to copy wifi name" = "点击拷贝 Wi-Fi 名称";
 "Click to copy mac address" = "点击拷贝 MAC 地址";
-"No connection" = "无连接";
+"No connection" = "无网络连接";
 "Network interface" = "网络接口";
 "Total download" = "总下载";
 "Total upload" = "总上传";
@@ -232,6 +276,9 @@
 "Processes based" = "基于进程";
 "Reset data usage" = "重置用量";
 "VPN mode" = "VPN 模式";
+"Standard" = "标准";
+"Security" = "安全";
+"Channel" = "频道";
 
 // Battery
 "Level" = "电量";
@@ -264,11 +311,12 @@
 "Time format" = "时间格式";
 "Hide additional information when full" = "电池充满后隐藏其他信息";
 "Last charge" = "最后一次充电";
-"Capacity" = "Capacity";
-"maximum / designed" = "maximum / designed";
+"Capacity" = "容量";
+"maximum / designed" = "最大值 / 设计值";
 
 // Bluetooth
 "Battery to show" = "显示的设备";
+"No Bluetooth devices are available" = "没有可用的蓝牙设备";
 
 // Colors
 "Based on utilization" = "基于利用率";

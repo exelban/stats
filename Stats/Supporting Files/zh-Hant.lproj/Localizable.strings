@@ -20,8 +20,6 @@
 "Open Disk settings" = "打開磁碟設定";
 "Sensors" = "感知器";
 "Open Sensors settings" = "打開感知器設定";
-"Fans" = "風扇";
-"Open Fans settings" = "打開風扇設定";
 "Network" = "網路";
 "Open Network settings" = "打開網路設定";
 "Battery" = "電池";
@@ -60,13 +58,42 @@
 "Right alignment" = "靠右對齊";
 "Dashboard" = "儀表板";
 "Disabled" = "已停用";
-"Silent" = "Silent";
+"Silent" = "靜止";
+"Units" = "單位";
+"Fans" = "風扇";
+"Scaling" = "縮放";
+"Linear" = "線性";
+"Square" = "方形";
+"Cube" = "立方體";
+"Logarithmic" = "對數";
+
+// Setup
+"Stats Setup" = "Stats 設定";
+"Previous" = "上一步";
+"Previous page" = "上一頁";
+"Next" = "下一步";
+"Next page" = "下一頁";
+"Finish" = "完成";
+"Finish setup" = "完成設定";
+"Welcome to Stats" = "歡迎使用 Stats";
+"welcome_message" = "感謝您使用 Stats！「Stats」是一款能在選單列一目瞭然顯示 macOS 系統資源監視器的開源 App。";
+"Start the application automatically when starting your Mac" = "啟動 Mac 時自動打開 Stats";
+"Do not start the application automatically when starting your Mac" = "不要在啟動 Mac 時自動打開 Stats";
+"Do everything silently in the background (recommended)" = "在背景靜默執行（建議）";
+"Check for a new version on startup" = "啟動 Stats 時自動檢查新版本";
+"Check for a new version every day (once a day)" = "每天檢查一次新版本（一天一次）";
+"Check for a new version every week (once a week)" = "每週檢查一次新版本（一週一次）";
+"Check for a new version every month (once a month)" = "每月檢查一次新版本（一個月一次）";
+"Never check for updates (not recommended)" = "不要檢查新版本（不建議）";
+"The configuration is completed" = "組態設定完成！The configuration is completed";
+"finish_setup_message" = "您已完成所有設定！\n 「Stats」是一款開源且永久免費的工具程式。\n 如果您喜歡 Stats，歡迎您支持這個專案，非常感謝！";
 
 // Alerts
 "New version available" = "有新版本可用";
 "Click to install the new version of Stats" = "安裝 Stats 的新版本";
 "Successfully updated" = "更新成功";
 "Stats was updated to v" = "Stats 已更新到 v%0";
+"Reset settings text" = "應用程式的所有設定將會重置，並且重新打開此應用程式。您確定要這樣做嗎？";
 
 // Settings
 "Open Activity Monitor" = "打開活動監視器";
@@ -87,12 +114,16 @@
 "Check for update" = "檢查更新";
 "Show icon in dock" = "在 Dock 上顯示圖示";
 "Start at login" = "登入時打開";
+"Build number" = "組建號碼";
+"Reset settings" = "重置設定";
 
 // Dashboard
 "Serial number" = "序號";
 "Uptime" = "開機時間";
 "Number of cores" = "%0 核心";
 "Number of threads" = "%0 執行緒";
+"Number of e-cores" = "%0 效率核心";
+"Number of p-cores" = "%0 效能核心";
 
 // Update
 "The latest version of Stats installed" = "已安裝最新版本";
@@ -127,9 +158,10 @@
 "Tachometer widget" = "轉速計";
 "Show symbols" = "顯示符號";
 "Label widget" = "標籤";
-"Number of reads in the chart" = "圖表中的讀取次數";
+"Number of reads in the chart" = "圖表中的未讀計數";
 "Color of download" = "下載的顯示色彩";
 "Color of upload" = "上傳的顯示色彩";
+"Merge widgets" = "整合型小工具";
 
 // Module Kit
 "Open module settings" = "打開模組設定";
@@ -146,6 +178,7 @@
 // Modules
 "Number of top processes" = "高能耗程序數量";
 "Update interval for top processes" = "高能耗程序更新頻率";
+"Notification level" = "通知等級";
 
 // CPU
 "CPU usage" = "處理器使用率";
@@ -163,6 +196,10 @@
 "1 minute" = "1 分鐘";
 "5 minutes" = "5 分鐘";
 "15 minutes" = "15 分鐘";
+"CPU usage threshold" = "處理器使用率臨界點";
+"CPU usage is" = "處理器使用率為：%0";
+"Efficiency cores" = "效率核心";
+"Performance cores" = "效能核心";
 
 // GPU
 "GPU to show" = "顯示顯示卡";
@@ -182,6 +219,8 @@
 "Utilization" = "使用率";
 "Render utilization" = "渲染使用率";
 "Tiler utilization" = "圖塊使用率";
+"GPU usage threshold" = "顯示卡使用率臨界點";
+"GPU usage is" = "顯示卡使用率為：%0";
 
 // RAM
 "Memory usage" = "記憶體使用率";
@@ -194,6 +233,8 @@
 "Free" = "可使用";
 "Swap" = "調換區";
 "Split the value (App/Wired/Compressed)" = "分割值 (App/固定/壓縮)";
+"RAM utilization threshold" = "記憶體利用率臨界值";
+"RAM utilization is" = "記憶體利用率為：%0";
 
 // Disk
 "Show removable disks" = "顯示抽取式磁碟";
@@ -202,6 +243,8 @@
 "Disk to show" = "顯示磁碟";
 "Open disk" = "開啟磁碟";
 "Switch view" = "切換視窗";
+"Disk utilization threshold" = "磁碟利用率臨界點";
+"Disk utilization is" = "磁碟利用率為：%0";
 
 // Sensors
 "Temperature unit" = "溫度單位";
@@ -210,6 +253,7 @@
 "Save the fan speed" = "儲存風扇速度";
 "Fan" = "風扇";
 "HID sensors" = "HID 感知器";
+"Synchronize fan's control" = "同步風扇控制";
 
 // Network
 "Uploading" = "上傳";
@@ -232,6 +276,9 @@
 "Processes based" = "依程序";
 "Reset data usage" = "重置資料用量";
 "VPN mode" = "VPN 模式";
+"Standard" = "標準";
+"Security" = "安全";
+"Channel" = "通道";
 
 // Battery
 "Level" = "電量";
@@ -269,6 +316,7 @@
 
 // Bluetooth
 "Battery to show" = "顯示藍牙裝置的電池電量";
+"No Bluetooth devices are available" = "沒有可用的藍牙裝置";
 
 // Colors
 "Based on utilization" = "根據使用率";

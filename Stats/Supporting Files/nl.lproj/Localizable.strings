@@ -20,8 +20,6 @@
 "Open Disk settings" = "Open disk instellingen";
 "Sensors" = "Sensors";
 "Open Sensors settings" = "Open sensors instellingen";
-"Fans" = "Fans";
-"Open Fans settings" = "Open fans instellingen";
 "Network" = "Network";
 "Open Network settings" = "Open network instellingen";
 "Battery" = "Battery";
@@ -61,12 +59,41 @@
 "Dashboard" = "Dashboard";
 "Disabled" = "Uitgeschakeld";
 "Silent" = "Silent";
+"Units" = "Units";
+"Fans" = "Fans";
+"Scaling" = "Scaling";
+"Linear" = "Linear";
+"Square" = "Square";
+"Cube" = "Cube";
+"Logarithmic" = "Logarithmic";
+
+// Setup
+"Stats Setup" = "Stats Setup";
+"Previous" = "Previous";
+"Previous page" = "Previous page";
+"Next" = "Next";
+"Next page" = "Next page";
+"Finish" = "Finish";
+"Finish setup" = "Finish setup";
+"Welcome to Stats" = "Welcome to Stats";
+"welcome_message" = "Thanks for using Stats, a free open source macOS system monitor for your menu bar.";
+"Start the application automatically when starting your Mac" = "Start the application automatically when starting your Mac";
+"Do not start the application automatically when starting your Mac" = "Do not start the application automatically when starting your Mac";
+"Do everything silently in the background (recommended)" = "Do everything silently in the background (recommended)";
+"Check for a new version on startup" = "Check for a new version on startup";
+"Check for a new version every day (once a day)" = "Check for a new version every day (once a day)";
+"Check for a new version every week (once a week)" = "Check for a new version every week (once a week)";
+"Check for a new version every month (once a month)" = "Check for a new version every month (once a month)";
+"Never check for updates (not recommended)" = "Never check for updates (not recommended)";
+"The configuration is completed" = "The configuration is completed";
+"finish_setup_message" = "Everything is set up! \n The Stats is an open source tool, it's free and always be. \n If you enjoy it you can support a project, it's always appreciated!";
 
 // Alerts
 "New version available" = "Nieuwe versie beschikbaar";
 "Click to install the new version of Stats" = "Klik om de nieuwe versie van Stats te installeren";
 "Successfully updated" = "Succesvol geüpdatet";
 "Stats was updated to v" = "Stats is bijgewerkt naar v%0";
+"Reset settings text" = "Alle applicatie instellingen worden gereset en de applicatie wordt opnieuw opgestart. Weet u zeker dat u dit wilt doen?";
 
 // Settings
 "Open Activity Monitor" = "Open Activiteitenweergave";
@@ -87,12 +114,16 @@
 "Check for update" = "Controleer op updates";
 "Show icon in dock" = "Pictogram in dock weergeven";
 "Start at login" = "Starten bij inloggen";
+"Build number" = "Build number";
+"Reset settings" = "Reset settings";
 
 // Dashboard
 "Serial number" = "Serienummer";
 "Uptime" = "Beschikbaarheid";
 "Number of cores" = "%0 cores";
 "Number of threads" = "%0 threads";
+"Number of e-cores" = "%0 efficiency cores";
+"Number of p-cores" = "%0 performance cores";
 
 // Update
 "The latest version of Stats installed" = "De laatste versie van Stats is geïnstalleerd.";
@@ -130,6 +161,7 @@
 "Number of reads in the chart" = "Aantal keer gelezen in de grafiek";
 "Color of download" = "Kleur van download";
 "Color of upload" = "Kleur van upload";
+"Merge widgets" = "Merge widgets";
 
 // Module Kit
 "Open module settings" = "Open module-instellingen";
@@ -146,6 +178,7 @@
 // Modules
 "Number of top processes" = "Aantal topprocessen";
 "Update interval for top processes" = "Bewerk interval voor top processen";
+"Notification level" = "Notification level";
 
 // CPU
 "CPU usage" = "CPU gebruik";
@@ -163,6 +196,10 @@
 "1 minute" = "1 minuut";
 "5 minutes" = "5 minuten";
 "15 minutes" = "15 minuten";
+"CPU usage threshold" = "CPU usage threshold";
+"CPU usage is" = "CPU usage is %0";
+"Efficiency cores" = "Efficiency cores";
+"Performance cores" = "Performance cores";
 
 // GPU
 "GPU to show" = "GPU om te laten zien";
@@ -182,6 +219,8 @@
 "Utilization" = "Benutting";
 "Render utilization" = "Render utilization";
 "Tiler utilization" = "Tiler utilization";
+"GPU usage threshold" = "GPU usage threshold";
+"GPU usage is" = "GPU usage is %0";
 
 // RAM
 "Memory usage" = "Geheugengebruik";
@@ -194,6 +233,8 @@
 "Free" = "Vrij";
 "Swap" = "Swap";
 "Split the value (App/Wired/Compressed)" = "Opdel værdien (App/Wired/Gecomprimeerd)";
+"RAM utilization threshold" = "RAM utilization threshold";
+"RAM utilization is" = "RAM utilization is %0";
 
 // Disk
 "Show removable disks" = "Toon verwijderbare schijven";
@@ -202,6 +243,8 @@
 "Disk to show" = "Schijf om te laten zien";
 "Open disk" = "Open schijf";
 "Switch view" = "Wissel weergave";
+"Disk utilization threshold" = "Disk utilization threshold";
+"Disk utilization is" = "Disk utilization is %0";
 
 // Sensors
 "Temperature unit" = "Temperatuureenheid";
@@ -210,6 +253,7 @@
 "Save the fan speed" = "Ventilatorsnelheid opslaan";
 "Fan" = "Ventilator";
 "HID sensors" = "HID sensors";
+"Synchronize fan's control" = "Synchronize fan's control";
 
 // Network
 "Uploading" = "Uploaden";
@@ -232,6 +276,9 @@
 "Processes based" = "Proces-gebaseerd";
 "Reset data usage" = "Reset data usage";
 "VPN mode" = "VPN mode";
+"Standard" = "Standard";
+"Security" = "Security";
+"Channel" = "Channel";
 
 // Battery
 "Level" = "Niveau";
@@ -269,6 +316,7 @@
 
 // Bluetooth
 "Battery to show" = "Battery to show";
+"No Bluetooth devices are available" = "No Bluetooth devices are available";
 
 // Colors
 "Based on utilization" = "Gebaseerd op gebruik";

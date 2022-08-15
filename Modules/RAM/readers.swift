@@ -78,7 +78,7 @@ internal class UsageReader: Reader<RAM_Usage> {
                 cache: purgeable + external,
                 pressure: 100.0 * (wired + compressed) / self.totalSize,
                 
-                pressureLevel: pressureLevel,
+                pressureLevel: DispatchSource.MemoryPressureEvent(rawValue: UInt(pressureLevel)),
                 
                 swap: Swap(
                     total: Double(swap.xsu_total),
@@ -146,36 +146,51 @@ public class ProcessReader: Reader<[TopProcess]> {
         var processes: [TopProcess] = []
         output.enumerateLines { (line, _) -> Void in
             if line.matches("^\\d+ +.* +\\d+[A-Z]*\\+?\\-? *$") {
-                var str = line.trimmingCharacters(in: .whitespaces)
-                let pidString = str.findAndCrop(pattern: "^\\d+")
-                let usageString = str.suffix(6)
-                var command = str.replacingOccurrences(of: pidString, with: "")
-                command = command.replacingOccurrences(of: usageString, with: "")
-                
-                if let regex = try? NSRegularExpression(pattern: " (\\+|\\-)*$", options: .caseInsensitive) {
-                    command = regex.stringByReplacingMatches(in: command, options: [], range: NSRange(location: 0, length: command.count), withTemplate: "")
-                }
-                
-                let pid = Int(pidString.filter("01234567890.".contains)) ?? 0
-                var usage = Double(usageString.filter("01234567890.".contains)) ?? 0
-                if usageString.last == "G" {
-                    usage *= 1024 // apply gigabyte multiplier
-                } else if usageString.last == "K" {
-                    usage /= 1024 // apply kilobyte divider
-                }
-                
-                var name: String? = nil
-                var icon: NSImage? = nil
-                if let app = NSRunningApplication(processIdentifier: pid_t(pid) ) {
-                    name = app.localizedName ?? nil
-                    icon = app.icon
-                }
-                
-                let process = TopProcess(pid: pid, command: command, name: name, usage: usage * Double(1024 * 1024), icon: icon)
-                processes.append(process)
+                processes.append(ProcessReader.parseProcess(line))
             }
         }
         
         self.callback(processes)
+    }
+    
+    static public func parseProcess(_ raw: String) -> TopProcess {
+        let str = raw.trimmingCharacters(in: .whitespaces)
+        let pidString = str.find(pattern: "^\\d+")
+        
+        var arr = str.replacingOccurrences(of: pidString, with: "").split(separator: " ")
+        if arr.first == "*" {
+            arr.removeFirst()
+        }
+        
+        var usageString = str.suffix(6)
+        if let lastElement = arr.last {
+            usageString = lastElement
+            arr.removeLast()
+        }
+        
+        var command = arr.joined(separator: " ")
+            .replacingOccurrences(of: pidString, with: "")
+            .trimmingCharacters(in: .whitespaces)
+        
+        if let regex = try? NSRegularExpression(pattern: " (\\+|\\-)*$", options: .caseInsensitive) {
+            command = regex.stringByReplacingMatches(in: command, options: [], range: NSRange(location: 0, length: command.count), withTemplate: "")
+        }
+        
+        let pid = Int(pidString.filter("01234567890.".contains)) ?? 0
+        var usage = Double(usageString.filter("01234567890.".contains)) ?? 0
+        if usageString.last == "G" {
+            usage *= 1024 // apply gigabyte multiplier
+        } else if usageString.last == "K" {
+            usage /= 1024 // apply kilobyte divider
+        }
+        
+        var name: String = command
+        var icon: NSImage? = nil
+        if let app = NSRunningApplication(processIdentifier: pid_t(pid) ) {
+            name = app.localizedName ?? command
+            icon = app.icon
+        }
+        
+        return TopProcess(pid: pid, command: command, name: name, usage: usage * Double(1024 * 1024), icon: icon)
     }
 }

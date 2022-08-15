@@ -293,7 +293,7 @@ internal class Popup: NSView, Popup_p {
             self.voltageField?.stringValue = "\(value.voltage.roundTo(decimalPlaces: 2)) V"
             let batteryPower = value.voltage * (Double(abs(value.amperage))/1000)
             self.batteryPowerField?.stringValue = "\(batteryPower.roundTo(decimalPlaces: 2)) W"
-            self.temperatureField?.stringValue = "\(value.temperature) °C"
+            self.temperatureField?.stringValue = Temperature(value.temperature)
             
             self.powerField?.stringValue = value.powerSource == "Battery Power" ? localizedString("Not connected") : "\(value.ACwatts) W"
             self.chargingStateField?.stringValue = value.isCharging ? localizedString("Yes") : localizedString("No")
