@@ -354,26 +354,21 @@ internal class UsageReader: Reader<Network_Usage> {
     }
     
     private func getPublicIP() {
-        do {
-            if let url = URL(string: "https://api.ipify.org") {
-                let value = try String(contentsOf: url)
-                if !value.contains("<!DOCTYPE html>") && self.isIPv4(value) {
-                    self.usage.raddr.v4 = value
-                }
-            }
-        } catch let err {
-            error("get public ipv4: \(err)", log: self.log)
+        struct Addr_s: Decodable {
+            let ipv4: String?
+            let ipv6: String?
         }
         
-        do {
-            if let url = URL(string: "https://api64.ipify.org") {
-                let value = try String(contentsOf: url)
-                if self.usage.raddr.v4 != value && !self.isIPv4(value) {
-                    self.usage.raddr.v6 = value
-                }
+        if let url = URL(string: "https://api.serhiy.io/v1/stats/ip"),
+            let data = try? Data(contentsOf: url),
+            let addr = try? JSONDecoder().decode(Addr_s.self, from: data) {
+            
+            if let ip = addr.ipv4, self.isIPv4(ip) {
+                self.usage.raddr.v4 = ip
             }
-        } catch let err {
-            error("get public ipv6: \(err)", log: self.log)
+            if let ip = addr.ipv6, !self.isIPv4(ip) {
+                self.usage.raddr.v6 = ip
+            }
         }
     }
     
