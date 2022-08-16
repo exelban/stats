@@ -16,6 +16,7 @@ internal class SensorsReader: Reader<[Sensor_p]> {
     internal var list: [Sensor_p] = []
     static let HIDtypes: [SensorType] = [.temperature, .voltage]
     private var lastRead: Date = Date()
+    private let firstRead: Date = Date()
     
     private var HIDState: Bool {
         get {
@@ -165,11 +166,13 @@ internal class SensorsReader: Reader<[Sensor_p]> {
         }
         
         // Cumulative power is in watt-hours
-        if let idx = self.list.firstIndex(where: {$0.key == "Cumulative System Power"}) {
-            if let PSTRSensor = self.list.first(where: { $0.key == "PSTR"}) {
-                let timeDelta = Date().timeIntervalSince(self.lastRead)
-                let whConsumed = PSTRSensor.value * timeDelta / 3600
-                self.list[idx].value += whConsumed
+        if let PSTRSensor = self.list.first(where: { $0.key == "PSTR"}) {
+            if let totalIdx = self.list.firstIndex(where: {$0.key == "Total System Consumption"}) {
+                self.list[totalIdx].value += PSTRSensor.value * Date().timeIntervalSince(self.lastRead) / 3600
+                if let avgIdx = self.list.firstIndex(where: {$0.key == "Average System Total"}) {
+                    // Avg power consumption is simply total consumption divided by time online
+                    self.list[avgIdx].value = self.list[totalIdx].value * 3600 / Date().timeIntervalSince(self.firstRead)
+                }
                 self.lastRead = Date()
             }
         }
@@ -362,7 +365,8 @@ internal class SensorsReader: Reader<[Sensor_p]> {
         
         // Init total power since launched, only if Total Power sensor is available
         if self.list.contains(where: { $0.key == "PSTR"}) {
-            list.append(Sensor(key: "Cumulative System Power", name: "Cumulative System Power", value: 0, group: .sensor, type: .energy, isComputed: true))
+            list.append(Sensor(key: "Total System Consumption", name: "Total System Consumption", value: 0, group: .sensor, type: .energy, isComputed: true))
+            list.append(Sensor(key: "Average System Total", name: "Average System Total", value: 0, group: .sensor, type: .power, isComputed: true))
         }
         
         return list.filter({ (s: Sensor_p) -> Bool in

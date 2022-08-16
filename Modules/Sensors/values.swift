@@ -200,7 +200,7 @@ let SensorsList: [Sensor] = [
     // Temperature
     Sensor(key: "TA%P", name: "Ambient %", group: .sensor, type: .temperature),
     Sensor(key: "Th%H", name: "Heatpipe %", group: .sensor, type: .temperature, isIntelOnly: true),
-    Sensor(key: "TZ%C", name: "Termal zone %", group: .sensor, type: .temperature),
+    Sensor(key: "TZ%C", name: "Thermal zone %", group: .sensor, type: .temperature),
     
     Sensor(key: "TC0D", name: "CPU diode", group: .CPU, type: .temperature),
     Sensor(key: "TC0E", name: "CPU diode virtual", group: .CPU, type: .temperature),
@@ -302,7 +302,7 @@ let SensorsList: [Sensor] = [
     Sensor(key: "PC3C", name: "RAM", group: .sensor, type: .power),
     Sensor(key: "PPBR", name: "Battery", group: .sensor, type: .power),
     Sensor(key: "PDTR", name: "DC In", group: .sensor, type: .power),
-    Sensor(key: "PSTR", name: "System total", group: .sensor, type: .power)
+    Sensor(key: "PSTR", name: "System Total", group: .sensor, type: .power)
 ]
 
 let HIDSensorsList: [Sensor] = [
