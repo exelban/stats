@@ -25,6 +25,7 @@ internal enum SensorType: String {
     case voltage = "Voltage"
     case current = "Current"
     case power = "Power"
+    case energy = "Energy"
     case fan = "Fans"
 }
 
@@ -66,6 +67,8 @@ internal struct Sensor: Sensor_p {
                 return "V"
             case .power:
                 return "W"
+            case .energy:
+                return "Wh"
             case .current:
                 return "A"
             case .fan:
@@ -82,7 +85,7 @@ internal struct Sensor: Sensor_p {
             case .voltage:
                 let val = value >= 100 ? "\(Int(value))" : String(format: "%.3f", value)
                 return "\(val)\(unit)"
-            case .power:
+            case .power, .energy:
                 let val = value >= 100 ? "\(Int(value))" : String(format: "%.2f", value)
                 return "\(val)\(unit)"
             case .current:
@@ -98,7 +101,7 @@ internal struct Sensor: Sensor_p {
             switch self.type {
             case .temperature:
                 return Temperature(value).replacingOccurrences(of: "C", with: "").replacingOccurrences(of: "F", with: "")
-            case .voltage, .power, .current:
+            case .voltage, .power, .energy, .current:
                 let val = value >= 9.95 ? "\(Int(round(value)))" : String(format: "%.1f", value)
                 return "\(val)\(unit)"
             case .fan:

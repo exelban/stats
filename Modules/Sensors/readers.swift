@@ -15,6 +15,7 @@ import Kit
 internal class SensorsReader: Reader<[Sensor_p]> {
     internal var list: [Sensor_p] = []
     static let HIDtypes: [SensorType] = [.temperature, .voltage]
+    private var lastRead: Date = Date()
     
     private var HIDState: Bool {
         get {
@@ -163,6 +164,16 @@ internal class SensorsReader: Reader<[Sensor_p]> {
             }
         }
         
+        // Cumulative power is in watt-hours
+        if let idx = self.list.firstIndex(where: {$0.key == "Cumulative System Power"}) {
+            if let PSTRSensor = self.list.first(where: { $0.key == "PSTR"}) {
+                let timeDelta = Date().timeIntervalSince(self.lastRead)
+                let whConsumed = PSTRSensor.value * timeDelta / 3600
+                self.list[idx].value += whConsumed
+                self.lastRead = Date()
+            }
+        }
+        
         self.callback(self.list)
     }
     
@@ -249,8 +260,7 @@ internal class SensorsReader: Reader<[Sensor_p]> {
             page = 0xff08
             usage = 0x0003
             eventType = kIOHIDEventTypePower
-        case .power: break
-        case .fan: break
+        case .power, .energy, .fan: break
         }
         
         return (page, usage, eventType)
@@ -348,6 +358,11 @@ internal class SensorsReader: Reader<[Sensor_p]> {
             if let max = fanSensors.max() {
                 list.append(Sensor(key: "Fastest Fan", name: "Fastest Fan", value: max, group: .sensor, type: .fan, isComputed: true))
             }
+        }
+        
+        // Init total power since launched, only if Total Power sensor is available
+        if self.list.contains(where: { $0.key == "PSTR"}) {
+            list.append(Sensor(key: "Cumulative System Power", name: "Cumulative System Power", value: 0, group: .sensor, type: .energy, isComputed: true))
         }
         
         return list.filter({ (s: Sensor_p) -> Bool in
