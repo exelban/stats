@@ -8,6 +8,7 @@
 //
 //  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
 //
+// swiftlint:disable file_length
 
 import Cocoa
 import Kit
@@ -327,6 +328,9 @@ internal class FanView: NSStackView {
         }
     }
     
+    private var willSleepMode: FanMode? = nil
+    private var willSleepSpeed: Int? = nil
+    
     public init(_ fan: Fan, width: CGFloat, callback: @escaping (() -> Void)) {
         self.fan = fan
         self.sizeCallback = callback
@@ -359,6 +363,7 @@ internal class FanView: NSStackView {
         self.sizeCallback()
         
         NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(self.wakeListener), name: NSWorkspace.didWakeNotification, object: nil)
+        NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(self.sleepListener), name: NSWorkspace.willSleepNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(syncFanSpeed), name: .syncFansControl, object: nil)
         
         if let fanMode = self.fan.customMode, self.speedState && fanMode != FanMode.automatic {
@@ -605,9 +610,29 @@ internal class FanView: NSStackView {
     
     @objc private func wakeListener(aNotification: NSNotification) {
         self.resetModeAfterSleep = true
+        
+        if self.speedState {
+            if let mode = self.willSleepMode, let speed = self.willSleepSpeed {
+                SMCHelper.shared.setFanMode(fan.id, mode: mode.rawValue)
+                self.modeButtons?.setMode(mode)
+                if mode != .automatic {
+                    self.setSpeed(value: speed)
+                }
+            }
+            self.willSleepMode = nil
+            self.willSleepSpeed = nil
+        }
+        
         if let value = self.fan.customSpeed, self.fan.mode != .automatic {
             self.setSpeed(value: value)
         }
+    }
+    
+    @objc private func sleepListener(aNotification: NSNotification) {
+        self.willSleepMode = self.fan.customMode
+        self.willSleepSpeed = self.fan.customSpeed
+        SMCHelper.shared.setFanMode(fan.id, mode: FanMode.automatic.rawValue)
+        self.modeButtons?.setMode(.automatic)
     }
     
     @objc private func syncFanSpeed(_ notification: Notification) {
