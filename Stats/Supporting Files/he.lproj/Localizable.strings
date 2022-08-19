@@ -57,6 +57,7 @@
 "Center alignment" = "מרכז";
 "Right alignment" = "ימין";
 "Dashboard" = "דאשבורד";
+"Enabled" = "Enabled";
 "Disabled" = "חסימה";
 "Silent" = "שקט";
 "Units" = "יחידות";
@@ -313,6 +314,7 @@
 "Last charge" = "טעינה אחרונה";
 "Capacity" = "קיבולת";
 "maximum / designed" = "מקסימום / עיצוב";
+"Low power mode" = "Low power mode";
 
 // Bluetooth
 "Battery to show" = "סוללה להצגה";

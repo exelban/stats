@@ -18,6 +18,7 @@ struct Battery_Usage: value_t {
     var state: String? = nil
     var isCharged: Bool = false
     var isCharging: Bool = false
+    var isLowPowerMode: Bool? = false
     var level: Double = 0
     var cycles: Int = 0
     var health: Int = 0
@@ -137,7 +138,8 @@ public class Battery: Module {
                 widget.setValue(
                     percentage: value.level ,
                     ACStatus: value.powerSource != "Battery Power",
-                    isCharging: value.isCharging ,
+                    isCharging: value.isCharging,
+                    lowPowerMode: value.isLowPowerMode,
                     time: value.timeToEmpty == 0 && value.timeToCharge != 0 ? value.timeToCharge : value.timeToEmpty
                 )
             default: break

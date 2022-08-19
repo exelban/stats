@@ -57,6 +57,7 @@
 "Center alignment" = "Zarovnat na střed";
 "Right alignment" = "Zarovnat doprava";
 "Dashboard" = "Dashboard";
+"Enabled" = "Enabled";
 "Disabled" = "Deaktivováno";
 "Silent" = "Tichý";
 "Units" = "Units";
@@ -313,6 +314,7 @@
 "Last charge" = "Poslední nabití";
 "Capacity" = "Kapicita";
 "maximum / designed" = "maximum / výrobní";
+"Low power mode" = "Low power mode";
 
 // Bluetooth
 "Battery to show" = "Baterie k zobrazení";

@@ -57,6 +57,7 @@
 "Center alignment" = "Alignment tengah";
 "Right alignment" = "Alignment kanan";
 "Dashboard" = "Dasbor";
+"Enabled" = "Enabled";
 "Disabled" = "Dinonaktifkan";
 "Silent" = "Hening";
 "Units" = "Unit";
@@ -313,6 +314,7 @@
 "Last charge" = "Terakhir diisi";
 "Capacity" = "Kapasitas";
 "maximum / designed" = "maksimal / dirancang";
+"Low power mode" = "Low power mode";
 
 // Bluetooth
 "Battery to show" = "Baterai untuk ditampilkan";

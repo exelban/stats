@@ -57,6 +57,7 @@
 "Center alignment" = "Център";
 "Right alignment" = "Дясно";
 "Dashboard" = "Табло";
+"Enabled" = "Enabled";
 "Disabled" = "Изключено";
 "Silent" = "Silent";
 "Units" = "Units";
@@ -313,6 +314,7 @@
 "Last charge" = "Последно зареждане";
 "Capacity" = "Capacity";
 "maximum / designed" = "maximum / designed";
+"Low power mode" = "Low power mode";
 
 // Bluetooth
 "Battery to show" = "Батерия за показване";

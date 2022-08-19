@@ -57,6 +57,7 @@
 "Center alignment" = "по центру";
 "Right alignment" = "по правому";
 "Dashboard" = "Dashboard";
+"Enabled" = "Включено";
 "Disabled" = "Отключено";
 "Silent" = "Бесшумно";
 "Units" = "Units";
@@ -313,6 +314,7 @@
 "Last charge" = "Последняя зарядка";
 "Capacity" = "Емкость";
 "maximum / designed" = "максимальная / расчетная";
+"Low power mode" = "Режим пониженного энергопотребления";
 
 // Bluetooth
 "Battery to show" = "Активная батарея";

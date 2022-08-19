@@ -57,6 +57,7 @@
 "Center alignment" = "Κεντρική";
 "Right alignment" = "Δεξιά";
 "Dashboard" = "Ταμπλό";
+"Enabled" = "Enabled";
 "Disabled" = "Απενεργοποιημένο";
 "Silent" = "Σίγαση";
 "Units" = "Μονάδες";
@@ -313,6 +314,7 @@
 "Last charge" = "Τελευταία φόρτιση";
 "Capacity" = "Χωρητικότητα";
 "maximum / designed" = "Μέγιστη / designed";
+"Low power mode" = "Low power mode";
 
 // Bluetooth
 "Battery to show" = "Μπαταρία προς εμφάνιση";

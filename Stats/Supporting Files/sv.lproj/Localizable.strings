@@ -57,6 +57,7 @@
 "Center alignment" = "Centrerad";
 "Right alignment" = "Höger";
 "Dashboard" = "Kontrollpanel";
+"Enabled" = "Enabled";
 "Disabled" = "Inaktiverad";
 "Silent" = "Tyst";
 "Units" = "Enheter";
@@ -313,6 +314,7 @@
 "Last charge" = "Senaste laddning";
 "Capacity" = "Kapacitet";
 "maximum / designed" = "nuvarande / ursprunglig";
+"Low power mode" = "Low power mode";
 
 // Bluetooth
 "Battery to show" = "Batteri att visa";

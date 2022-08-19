@@ -57,6 +57,7 @@
 "Center alignment" = "Giữa";
 "Right alignment" = "Phải";
 "Dashboard" = "Bảng điều khiển";
+"Enabled" = "Enabled";
 "Disabled" = "Vô hiệu hóa";
 "Silent" = "Im lặng";
 "Units" = "Units";
@@ -313,6 +314,7 @@
 "Last charge" = "Lần sạc cuối cùng";
 "Capacity" = "Dung tích";
 "maximum / designed" = "tối đa / thiết kế";
+"Low power mode" = "Low power mode";
 
 // Bluetooth
 "Battery to show" = "Pin hiển thị";

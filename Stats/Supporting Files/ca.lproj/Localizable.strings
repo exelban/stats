@@ -57,6 +57,7 @@
 "Center alignment" = "Centre";
 "Right alignment" = "Dreta";
 "Dashboard" = "Panell";
+"Enabled" = "Enabled";
 "Disabled" = "Desactivat";
 "Silent" = "Silent";
 "Units" = "Units";
@@ -313,6 +314,7 @@
 "Last charge" = "Última càrrega";
 "Capacity" = "Capacity";
 "maximum / designed" = "maximum / designed";
+"Low power mode" = "Low power mode";
 
 // Bluetooth
 "Battery to show" = "Bateria a mostrar";

@@ -57,6 +57,7 @@
 "Center alignment" = "Midterjusteret";
 "Right alignment" = "Højrejusteret";
 "Dashboard" = "Instrumentbræt";
+"Enabled" = "Enabled";
 "Disabled" = "Deaktiveret";
 "Silent" = "Silent";
 "Units" = "Units";
@@ -313,6 +314,7 @@
 "Last charge" = "Sidst opladt";
 "Capacity" = "Capacity";
 "maximum / designed" = "maximum / designed";
+"Low power mode" = "Low power mode";
 
 // Bluetooth
 "Battery to show" = "Batteri der vises";

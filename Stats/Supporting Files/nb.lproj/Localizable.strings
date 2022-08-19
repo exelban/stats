@@ -57,6 +57,7 @@
 "Center alignment" = "Sentrum";
 "Right alignment" = "Høyre";
 "Dashboard" = "Dashboard";
+"Enabled" = "Enabled";
 "Disabled" = "Disabled";
 "Silent" = "Silent";
 "Units" = "Units";
@@ -313,6 +314,7 @@
 "Last charge" = "Siste lading";
 "Capacity" = "Capacity";
 "maximum / designed" = "maximum / designed";
+"Low power mode" = "Low power mode";
 
 // Bluetooth
 "Battery to show" = "Battery å vise";

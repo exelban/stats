@@ -57,6 +57,7 @@
 "Center alignment" = "Ortaya hizalama";
 "Right alignment" = "Sağa hizalama";
 "Dashboard" = "Panel";
+"Enabled" = "Enabled";
 "Disabled" = "Devre dışı";
 "Silent" = "Sessiz";
 "Units" = "Birimler";
@@ -313,6 +314,7 @@
 "Last charge" = "Son şarj";
 "Capacity" = "Kapasite";
 "maximum / designed" = "maksimum / orijinal";
+"Low power mode" = "Low power mode";
 
 // Bluetooth
 "Battery to show" = "Gösterilecek pil";

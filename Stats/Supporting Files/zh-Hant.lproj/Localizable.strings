@@ -57,6 +57,7 @@
 "Center alignment" = "置中對齊";
 "Right alignment" = "靠右對齊";
 "Dashboard" = "儀表板";
+"Enabled" = "Enabled";
 "Disabled" = "已停用";
 "Silent" = "靜止";
 "Units" = "單位";
@@ -313,6 +314,7 @@
 "Last charge" = "最近一次充電";
 "Capacity" = "容量";
 "maximum / designed" = "最大容量 / 設計容量";
+"Low power mode" = "Low power mode";
 
 // Bluetooth
 "Battery to show" = "顯示藍牙裝置的電池電量";

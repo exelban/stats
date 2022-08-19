@@ -19,7 +19,13 @@ internal class Popup: NSView, Popup_p {
     
     private let dashboardHeight: CGFloat = 90
     
-    private let detailsHeight: CGFloat = (22 * 7) + Constants.Popup.separatorHeight
+    private var detailsHeight: CGFloat {
+        var count: CGFloat = 7
+        if #available(macOS 12.0, *) {
+            count += 1
+        }
+        return (22 * count) + Constants.Popup.separatorHeight
+    }
     private let batteryHeight: CGFloat = (22 * 4) + Constants.Popup.separatorHeight
     private let adapterHeight: CGFloat = (22 * 2) + Constants.Popup.separatorHeight
     private let processHeight: CGFloat = (22 * 1)
@@ -38,6 +44,7 @@ internal class Popup: NSView, Popup_p {
     private var capacityField: NSTextField? = nil
     private var cyclesField: NSTextField? = nil
     private var lastChargeField: NSTextField? = nil
+    private var lowPowerModeField: NSTextField? = nil
     
     private var amperageField: NSTextField? = nil
     private var voltageField: NSTextField? = nil
@@ -76,9 +83,9 @@ internal class Popup: NSView, Popup_p {
             x: 0,
             y: 0,
             width: Constants.Popup.width,
-            height: self.dashboardHeight + self.detailsHeight + self.batteryHeight + self.adapterHeight
+            height: self.dashboardHeight + self.batteryHeight + self.adapterHeight
         ))
-        self.setFrameSize(NSSize(width: self.frame.width, height: self.frame.height+self.processesHeight))
+        self.setFrameSize(NSSize(width: self.frame.width, height: self.frame.height + self.detailsHeight + self.processesHeight))
         
         let gridView: NSGridView = NSGridView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height))
         gridView.rowSpacing = 0
@@ -145,18 +152,24 @@ internal class Popup: NSView, Popup_p {
     private func initDetails() -> NSView {
         let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.detailsHeight))
         let separator = separatorView(localizedString("Details"), origin: NSPoint(x: 0, y: self.detailsHeight-Constants.Popup.separatorHeight), width: self.frame.width)
-        let container: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: separator.frame.origin.y))
-
-        self.levelField = popupRow(container, n: 6, title: "\(localizedString("Level")):", value: "").1
-        self.sourceField = popupRow(container, n: 5, title: "\(localizedString("Source")):", value: "").1
-        let t = self.labelValue(container, n: 4, title: "\(localizedString("Time")):", value: "")
+        let container: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: separator.frame.origin.y))
+        container.orientation = .vertical
+        container.spacing = 0
+        
+        self.levelField = popupRow(container, title: "\(localizedString("Level")):", value: "").1
+        self.sourceField = popupRow(container, title: "\(localizedString("Source")):", value: "").1
+        self.healthField = popupRow(container, title: "\(localizedString("Health")):", value: "").1
+        self.capacityField = popupRow(container, title: "\(localizedString("Capacity")):", value: "").1
+        self.capacityField?.toolTip = localizedString("maximum / designed")
+        self.cyclesField = popupRow(container, title: "\(localizedString("Cycles")):", value: "").1
+        let t = self.labelValue(container, title: "\(localizedString("Time")):", value: "")
         self.timeLabelField = t.0
         self.timeField = t.1
-        self.healthField = popupRow(container, n: 3, title: "\(localizedString("Health")):", value: "").1
-        self.capacityField = popupRow(container, n: 2, title: "\(localizedString("Capacity")):", value: "").1
-        self.capacityField?.toolTip = localizedString("maximum / designed")
-        self.cyclesField = popupRow(container, n: 1, title: "\(localizedString("Cycles")):", value: "").1
-        self.lastChargeField = popupRow(container, n: 0, title: "\(localizedString("Last charge")):", value: "").1
+        self.lastChargeField = popupRow(container, title: "\(localizedString("Last charge")):", value: "").1
+        
+        if #available(macOS 12.0, *) {
+            self.lowPowerModeField = popupRow(container, title: "\(localizedString("Low power mode")):", value: localizedString("Unknown")).1
+        }
         
         view.addSubview(separator)
         view.addSubview(container)
@@ -215,15 +228,21 @@ internal class Popup: NSView, Popup_p {
         return view
     }
     
-    private func labelValue(_ view: NSView, n: CGFloat, title: String, value: String) -> (NSTextField, NSTextField) {
-        let rowView: NSView = NSView(frame: NSRect(x: 0, y: 22*n, width: view.frame.width, height: 22))
+    private func labelValue(_ view: NSView, title: String, value: String) -> (NSTextField, NSTextField) {
+        let rowView: NSView = NSView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: 22))
         
         let labelView: LabelField = LabelField(frame: NSRect(x: 0, y: (22-15)/2, width: view.frame.width/2, height: 15), title)
         let valueView: ValueField = ValueField(frame: NSRect(x: view.frame.width/2, y: (22-16)/2, width: view.frame.width/2, height: 16), value)
         
         rowView.addSubview(labelView)
         rowView.addSubview(valueView)
-        view.addSubview(rowView)
+        
+        if let view = view as? NSStackView {
+            rowView.heightAnchor.constraint(equalToConstant: rowView.bounds.height).isActive = true
+            view.addArrangedSubview(rowView)
+        } else {
+            view.addSubview(rowView)
+        }
         
         return (labelView, valueView)
     }
@@ -287,6 +306,10 @@ internal class Popup: NSView, Popup_p {
             } else {
                 self.lastChargeField?.stringValue = localizedString("Unknown")
                 self.lastChargeField?.toolTip = localizedString("Unknown")
+            }
+            
+            if let powerMode = value.isLowPowerMode {
+                self.lowPowerModeField?.stringValue = powerMode ? localizedString("Enabled") : localizedString("Disabled")
             }
             
             self.amperageField?.stringValue = "\(abs(value.amperage)) mA"

@@ -57,6 +57,7 @@
 "Center alignment" = "Középre igazítás";
 "Right alignment" = "Jobbra igazítás";
 "Dashboard" = "Irányítópult";
+"Enabled" = "Enabled";
 "Disabled" = "Kikapcsolva";
 "Silent" = "Néma";
 "Units" = "Mértékegységek";
@@ -313,6 +314,7 @@
 "Last charge" = "Utolsó töltés";
 "Capacity" = "Kapacitás";
 "maximum / designed" = "maximum / gyári";
+"Low power mode" = "Low power mode";
 
 // Bluetooth
 "Battery to show" = "Akkumulátor megjelenítése";

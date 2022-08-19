@@ -57,6 +57,7 @@
 "Center alignment" = "Sredina";
 "Right alignment" = "Desno";
 "Dashboard" = "Nadzorna plošča";
+"Enabled" = "Enabled";
 "Disabled" = "Onemogočeno";
 "Silent" = "Tiho";
 "Units" = "Enote";
@@ -313,6 +314,7 @@
 "Last charge" = "Zadnje polnjenje";
 "Capacity" = "Kapaciteta";
 "maximum / designed" = "največja / predvidena";
+"Low power mode" = "Low power mode";
 
 // Bluetooth
 "Battery to show" = "Prikaz baterije";
