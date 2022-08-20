@@ -173,7 +173,11 @@ public extension Double {
         }
     }
     
-    func batteryColor(color: Bool = false) -> NSColor {
+    func batteryColor(color: Bool = false, lowPowerMode: Bool = false) -> NSColor {
+        if lowPowerMode {
+            return NSColor.systemOrange
+        }
+        
         switch self {
         case 0.2...0.4:
             if !color {

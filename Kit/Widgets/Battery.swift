@@ -22,6 +22,7 @@ public class BatterykWidget: WidgetWrapper {
     private var time: Int = 0
     private var charging: Bool = false
     private var ACStatus: Bool = false
+    private var lowPowerMode: Bool = false
     
     public init(title: String, config: NSDictionary?, preview: Bool = false) {
         let widgetTitle: String = title
@@ -152,7 +153,7 @@ public class BatterykWidget: WidgetWrapper {
                 width: innerWidth,
                 height: batterySize.height - offset*2 - borderWidth*2 - 1
             ), xRadius: 1, yRadius: 1)
-            percentage.batteryColor(color: self.colorState).set()
+            percentage.batteryColor(color: self.colorState, lowPowerMode: self.lowPowerMode).set()
             inner.fill()
         } else {
             let attributes = [
@@ -292,7 +293,7 @@ public class BatterykWidget: WidgetWrapper {
         return rowWidth
     }
     
-    public func setValue(percentage: Double? = nil, ACStatus: Bool? = nil, isCharging: Bool? = nil, time: Int? = nil) {
+    public func setValue(percentage: Double? = nil, ACStatus: Bool? = nil, isCharging: Bool? = nil, lowPowerMode: Bool? = nil, time: Int? = nil) {
         var updated: Bool = false
         let timeFormat: String = Store.shared.string(key: "\(self.title)_timeFormat", defaultValue: self.timeFormat)
         
@@ -314,6 +315,10 @@ public class BatterykWidget: WidgetWrapper {
         }
         if self.timeFormat != timeFormat {
             self.timeFormat = timeFormat
+            updated = true
+        }
+        if let state = lowPowerMode, self.lowPowerMode != state {
+            self.lowPowerMode = state
             updated = true
         }
         
