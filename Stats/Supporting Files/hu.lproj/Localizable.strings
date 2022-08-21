@@ -2,7 +2,7 @@
 //  Localizable.strings
 //  Stats
 //
-//  Created by @moriczr on 22/01/2021, updated by András Oravecz (info@oandras.hu) on 09/05/2022
+//  Created by @moriczr on 22/01/2021, updated by András Oravecz (info@oandras.hu) on 21/08/2022
 //  Using Swift 5.0.
 //  Running on macOS 10.15.
 //
@@ -57,37 +57,37 @@
 "Center alignment" = "Középre igazítás";
 "Right alignment" = "Jobbra igazítás";
 "Dashboard" = "Irányítópult";
-"Enabled" = "Enabled";
+"Enabled" = "Bekapcsolva";
 "Disabled" = "Kikapcsolva";
 "Silent" = "Néma";
 "Units" = "Mértékegységek";
 "Fans" = "Ventilátorok";
-"Scaling" = "Scaling";
-"Linear" = "Linear";
-"Square" = "Square";
-"Cube" = "Cube";
-"Logarithmic" = "Logarithmic";
+"Scaling" = "Méretezés";
+"Linear" = "Lineáris";
+"Square" = "Négyzet";
+"Cube" = "Kocka";
+"Logarithmic" = "Logaritmikus";
 
 // Setup
-"Stats Setup" = "Stats Setup";
-"Previous" = "Previous";
-"Previous page" = "Previous page";
-"Next" = "Next";
-"Next page" = "Next page";
-"Finish" = "Finish";
-"Finish setup" = "Finish setup";
-"Welcome to Stats" = "Welcome to Stats";
-"welcome_message" = "Thanks for using Stats, a free open source macOS system monitor for your menu bar.";
-"Start the application automatically when starting your Mac" = "Start the application automatically when starting your Mac";
-"Do not start the application automatically when starting your Mac" = "Do not start the application automatically when starting your Mac";
-"Do everything silently in the background (recommended)" = "Do everything silently in the background (recommended)";
-"Check for a new version on startup" = "Check for a new version on startup";
-"Check for a new version every day (once a day)" = "Check for a new version every day (once a day)";
-"Check for a new version every week (once a week)" = "Check for a new version every week (once a week)";
-"Check for a new version every month (once a month)" = "Check for a new version every month (once a month)";
-"Never check for updates (not recommended)" = "Never check for updates (not recommended)";
-"The configuration is completed" = "The configuration is completed";
-"finish_setup_message" = "Everything is set up! \n The Stats is an open source tool, it's free and always be. \n If you enjoy it you can support a project, it's always appreciated!";
+"Stats Setup" = "A Stats beállítása";
+"Previous" = "Előző";
+"Previous page" = "Előző oldal";
+"Next" = "Következő";
+"Next page" = "Következő oldal";
+"Finish" = "Befejezés";
+"Finish setup" = "Beállítás befejezése";
+"Welcome to Stats" = "Üdvözlünk a Stats programban";
+"welcome_message" = "Köszönjük, hogy a Stats programot használod, ami egy ingyenes, nyílt forráskódú, macOS rendszer monitorozó alkalmazás a menüsorodba.";
+"Start the application automatically when starting your Mac" = "Az alkalmazás indítása a rendszer indulásakor";
+"Do not start the application automatically when starting your Mac" = "Ne indítsa az alkalmazást a rendszer indulásakor";
+"Do everything silently in the background (recommended)" = "Végezzen mindent csendben a háttérben (ajánlott)";
+"Check for a new version on startup" = "Új verzió keresése indításkor";
+"Check for a new version every day (once a day)" = "Új verzió keresése minden nap (napi egyszer)";
+"Check for a new version every week (once a week)" = "Új verzió keresése minden héten (heti egyszer)";
+"Check for a new version every month (once a month)" = "Új verzió keresése minden hónapban (havi egyszer)";
+"Never check for updates (not recommended)" = "Ne keressen frissítéseket (nem ajánlott)";
+"The configuration is completed" = "A konfiguráció befejezve";
+"finish_setup_message" = "Minden beállítva!\nA Stats egy nyílt forráskódú eszköz, ami ingyenes és az is marad.\nHa hasznosnak találod, támogathatod a fejlesztését, mindig nagyra értékeljük!";
 
 // Alerts
 "New version available" = "Új verzió érhető el";
@@ -123,8 +123,8 @@
 "Uptime" = "Indítás óta eltel idő";
 "Number of cores" = "%0 mag";
 "Number of threads" = "%0 szál";
-"Number of e-cores" = "%0 efficiency cores";
-"Number of p-cores" = "%0 performance cores";
+"Number of e-cores" = "%0 energia­takarékos mag";
+"Number of p-cores" = "%0 teljesítményre optimalizált mag";
 
 // Update
 "The latest version of Stats installed" = "A Stats legújabb verziója van telepítve";
@@ -162,7 +162,7 @@
 "Number of reads in the chart" = "Értékek száma a grafikonon";
 "Color of download" = "Letöltés színe";
 "Color of upload" = "Feltöltés színe";
-"Merge widgets" = "Merge widgets";
+"Merge widgets" = "Modulok egyesítése";
 
 // Module Kit
 "Open module settings" = "Modul beállításainak megnyitása";
@@ -179,7 +179,7 @@
 // Modules
 "Number of top processes" = "Top folyamatok száma";
 "Update interval for top processes" = "Top folyamatok frissítési időköze";
-"Notification level" = "Notification level";
+"Notification level" = "Értesítési szint";
 
 // CPU
 "CPU usage" = "CPU használat";
@@ -197,10 +197,10 @@
 "1 minute" = "1 perc";
 "5 minutes" = "5 perc";
 "15 minutes" = "15 perc";
-"CPU usage threshold" = "CPU usage threshold";
-"CPU usage is" = "CPU usage is %0";
-"Efficiency cores" = "Efficiency cores";
-"Performance cores" = "Performance cores";
+"CPU usage threshold" = "CPU használati küszöb";
+"CPU usage is" = "%0 a CPU használat";
+"Efficiency cores" = "Energiatakarékos magok";
+"Performance cores" = "Teljesítményre optimalizált magok";
 
 // GPU
 "GPU to show" = "Megjelenítendő GPU";
@@ -220,8 +220,8 @@
 "Utilization" = "Felhasználás";
 "Render utilization" = "Render használat";
 "Tiler utilization" = "Tiler használat";
-"GPU usage threshold" = "GPU usage threshold";
-"GPU usage is" = "GPU usage is %0";
+"GPU usage threshold" = "GPU használati küszöb";
+"GPU usage is" = "%0 a GPU használat";
 
 // RAM
 "Memory usage" = "Memóriahasználat";
@@ -234,8 +234,8 @@
 "Free" = "Szabad";
 "Swap" = "Csereterület";
 "Split the value (App/Wired/Compressed)" = "Ossza fel az értéket (Alkalmazás/Nem lapozható/Tömörített)";
-"RAM utilization threshold" = "RAM utilization threshold";
-"RAM utilization is" = "RAM utilization is %0";
+"RAM utilization threshold" = "RAM használati küszöb";
+"RAM utilization is" = "%0 a RAM használat";
 
 // Disk
 "Show removable disks" = "Eltávolítható adattárolók megjelenítése";
@@ -244,8 +244,8 @@
 "Disk to show" = "Megjelenítendő lemez";
 "Open disk" = "Merevlemez megnyitása";
 "Switch view" = "Nézet felcserélése";
-"Disk utilization threshold" = "Disk utilization threshold";
-"Disk utilization is" = "Disk utilization is %0";
+"Disk utilization threshold" = "Lemez használati küszöb";
+"Disk utilization is" = "%0 a lemez használat";
 
 // Sensors
 "Temperature unit" = "Hőmérséklet mértékegysége";
@@ -254,7 +254,7 @@
 "Save the fan speed" = "Ventilátor sebesség mentése";
 "Fan" = "Ventilátor";
 "HID sensors" = "HID szenzorok";
-"Synchronize fan's control" = "Synchronize fan's control";
+"Synchronize fan's control" = "Ventilátor vezérlés szinkronizálása";
 
 // Network
 "Uploading" = "Feltöltés";
@@ -314,7 +314,7 @@
 "Last charge" = "Utolsó töltés";
 "Capacity" = "Kapacitás";
 "maximum / designed" = "maximum / gyári";
-"Low power mode" = "Low power mode";
+"Low power mode" = "Energia takarékos mód";
 
 // Bluetooth
 "Battery to show" = "Akkumulátor megjelenítése";
@@ -338,7 +338,7 @@
 "Second green" = "Második zöld";
 "Blue" = "Kék";
 "Second blue" = "Második kék";
-"Yellow" = "Citromárga";
+"Yellow" = "Citromsárga";
 "Second yellow" = "Második citromsárga";
 "Orange" = "Narancssárga";
 "Second orange" = "Második narancssárga";
