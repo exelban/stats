@@ -15,6 +15,8 @@ import Kit
 internal class SensorsReader: Reader<[Sensor_p]> {
     internal var list: [Sensor_p] = []
     static let HIDtypes: [SensorType] = [.temperature, .voltage]
+    private var lastRead: Date = Date()
+    private let firstRead: Date = Date()
     
     private var HIDState: Bool {
         get {
@@ -163,6 +165,18 @@ internal class SensorsReader: Reader<[Sensor_p]> {
             }
         }
         
+        // Cumulative power is in watt-hours
+        if let PSTRSensor = self.list.first(where: { $0.key == "PSTR"}) {
+            if let totalIdx = self.list.firstIndex(where: {$0.key == "Total System Consumption"}) {
+                self.list[totalIdx].value += PSTRSensor.value * Date().timeIntervalSince(self.lastRead) / 3600
+                if let avgIdx = self.list.firstIndex(where: {$0.key == "Average System Total"}) {
+                    // Avg power consumption is simply total consumption divided by time online
+                    self.list[avgIdx].value = self.list[totalIdx].value * 3600 / Date().timeIntervalSince(self.firstRead)
+                }
+                self.lastRead = Date()
+            }
+        }
+        
         self.callback(self.list)
     }
     
@@ -249,8 +263,7 @@ internal class SensorsReader: Reader<[Sensor_p]> {
             page = 0xff08
             usage = 0x0003
             eventType = kIOHIDEventTypePower
-        case .power: break
-        case .fan: break
+        case .power, .energy, .fan: break
         }
         
         return (page, usage, eventType)
@@ -348,6 +361,12 @@ internal class SensorsReader: Reader<[Sensor_p]> {
             if let max = fanSensors.max() {
                 list.append(Sensor(key: "Fastest Fan", name: "Fastest Fan", value: max, group: .sensor, type: .fan, isComputed: true))
             }
+        }
+        
+        // Init total power since launched, only if Total Power sensor is available
+        if self.list.contains(where: { $0.key == "PSTR"}) {
+            list.append(Sensor(key: "Total System Consumption", name: "Total System Consumption", value: 0, group: .sensor, type: .energy, isComputed: true))
+            list.append(Sensor(key: "Average System Total", name: "Average System Total", value: 0, group: .sensor, type: .power, isComputed: true))
         }
         
         return list.filter({ (s: Sensor_p) -> Bool in
