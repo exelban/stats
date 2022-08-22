@@ -57,7 +57,7 @@
 "Center alignment" = "中央揃え";
 "Right alignment" = "右揃え";
 "Dashboard" = "ダッシュボード";
-"Enabled" = "Enabled";
+"Enabled" = "有効";
 "Disabled" = "無効";
 "Silent" = "自動（サイレント）";
 "Units" = "単位";
@@ -314,7 +314,7 @@
 "Last charge" = "最後の充電から";
 "Capacity" = "容量";
 "maximum / designed" = "最大 / 規格";
-"Low power mode" = "Low power mode";
+"Low power mode" = "低電力モード";
 
 // Bluetooth
 "Battery to show" = "バッテリー残量を表示するデバイス";
