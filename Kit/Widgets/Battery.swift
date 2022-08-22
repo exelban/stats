@@ -17,6 +17,7 @@ public class BatterykWidget: WidgetWrapper {
     private var iconState: Bool = true
     private var colorState: Bool = false
     private var hideAdditionalWhenFull: Bool = true
+    private var lowPowerModeState: Bool = true
     
     private var percentage: Double? = nil
     private var time: Int = 0
@@ -42,6 +43,7 @@ public class BatterykWidget: WidgetWrapper {
             self.iconState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_icon", defaultValue: self.iconState)
             self.colorState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_color", defaultValue: self.colorState)
             self.hideAdditionalWhenFull = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_hideAdditionalWhenFull", defaultValue: self.hideAdditionalWhenFull)
+            self.lowPowerModeState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_lowPowerMode", defaultValue: self.lowPowerMode)
         }
         
         if preview {
@@ -153,7 +155,11 @@ public class BatterykWidget: WidgetWrapper {
                 width: innerWidth,
                 height: batterySize.height - offset*2 - borderWidth*2 - 1
             ), xRadius: 1, yRadius: 1)
-            percentage.batteryColor(color: self.colorState, lowPowerMode: self.lowPowerMode).set()
+            if self.lowPowerModeState {
+                percentage.batteryColor(color: self.colorState, lowPowerMode: self.lowPowerMode).set()
+            } else {
+                percentage.batteryColor(color: self.colorState).set()
+            }
             inner.fill()
         } else {
             let attributes = [
@@ -353,6 +359,12 @@ public class BatterykWidget: WidgetWrapper {
         ))
         
         view.addArrangedSubview(toggleSettingRow(
+            title: localizedString("Low power mode"),
+            action: #selector(toggleLowPowerMode),
+            state: self.lowPowerModeState
+        ))
+        
+        view.addArrangedSubview(toggleSettingRow(
             title: localizedString("Colorize"),
             action: #selector(toggleColor),
             state: self.colorState
@@ -391,6 +403,18 @@ public class BatterykWidget: WidgetWrapper {
         }
         self.colorState = state! == .on ? true : false
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_color", value: self.colorState)
+        self.display()
+    }
+    
+    @objc private func toggleLowPowerMode(_ sender: NSControl) {
+        var state: NSControl.StateValue? = nil
+        if #available(OSX 10.15, *) {
+            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
+        } else {
+            state = sender is NSButton ? (sender as! NSButton).state: nil
+        }
+        self.lowPowerModeState = state! == .on ? true : false
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_lowPowerMode", value: self.lowPowerModeState)
         self.display()
     }
 }
