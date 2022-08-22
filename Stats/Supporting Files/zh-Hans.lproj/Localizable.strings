@@ -123,8 +123,8 @@
 "Uptime" = "启动时间";
 "Number of cores" = "%0 核心";
 "Number of threads" = "%0 线程";
-"Number of e-cores" = "%0 效率内核";
-"Number of p-cores" = "%0 性能内核";
+"Number of e-cores" = "%0 能效核心";
+"Number of p-cores" = "%0 性能核心";
 
 // Update
 "The latest version of Stats installed" = "已安装最新版 Stats";
@@ -215,8 +215,8 @@
 "Active" = "活跃";
 "Non active" = "非活跃";
 "Fan speed" = "风扇速度";
-"Core clock" = "核心时钟";
-"Memory clock" = "内存时钟";
+"Core clock" = "核心频率";
+"Memory clock" = "显存频率";
 "Utilization" = "利用率";
 "Render utilization" = "渲染利用率";
 "Tiler utilization" = "Tiler 利用率";
@@ -314,7 +314,7 @@
 "Last charge" = "最后一次充电";
 "Capacity" = "容量";
 "maximum / designed" = "最大值 / 设计值";
-"Low power mode" = "Low power mode";
+"Low power mode" = "低电量模式";
 
 // Bluetooth
 "Battery to show" = "显示的设备";
