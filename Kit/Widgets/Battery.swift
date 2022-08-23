@@ -8,6 +8,7 @@
 //
 //  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
 //
+// swiftlint:disable function_body_length type_body_length
 
 import Cocoa
 
@@ -58,7 +59,6 @@ public class BatterykWidget: WidgetWrapper {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // swiftlint:disable function_body_length
     public override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         
@@ -147,7 +147,12 @@ public class BatterykWidget: WidgetWrapper {
         
         if let percentage = self.percentage {
             let maxWidth = batterySize.width - offset*2 - borderWidth*2 - 1
-            let innerWidth: CGFloat = max(1, maxWidth * CGFloat(percentage))
+            var innerWidth: CGFloat = max(1, maxWidth * CGFloat(percentage))
+            
+            if self.additional == "innerPercentage" && !self.ACStatus {
+                innerWidth = maxWidth
+            }
+            
             let innerOffset: CGFloat = -offset + borderWidth + 1
             let inner = NSBezierPath(roundedRect: NSRect(
                 x: batteryFrame.bounds.origin.x + innerOffset,
@@ -155,12 +160,32 @@ public class BatterykWidget: WidgetWrapper {
                 width: innerWidth,
                 height: batterySize.height - offset*2 - borderWidth*2 - 1
             ), xRadius: 1, yRadius: 1)
+            
             if self.lowPowerModeState {
                 percentage.batteryColor(color: self.colorState, lowPowerMode: self.lowPowerMode).set()
             } else {
                 percentage.batteryColor(color: self.colorState).set()
             }
             inner.fill()
+            
+            if self.additional == "innerPercentage" && !self.ACStatus {
+                let style = NSMutableParagraphStyle()
+                style.alignment = .center
+                let attributes = [
+                    NSAttributedString.Key.font: NSFont.systemFont(ofSize: 8, weight: .bold),
+                    NSAttributedString.Key.foregroundColor: NSColor.clear,
+                    NSAttributedString.Key.paragraphStyle: style
+                ]
+                
+                let value = "\(Int((percentage.rounded(toPlaces: 2)) * 100))"
+                let rect = CGRect(x: inner.bounds.origin.x, y: (Constants.Widget.height-10)/2, width: innerWidth, height: 8)
+                let str = NSAttributedString.init(string: value, attributes: attributes)
+                
+                ctx.saveGState()
+                ctx.setBlendMode(.destinationIn)
+                str.draw(with: rect)
+                ctx.restoreGState()
+            }
         } else {
             let attributes = [
                 NSAttributedString.Key.font: NSFont.systemFont(ofSize: 11, weight: .regular),

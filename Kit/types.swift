@@ -81,6 +81,8 @@ public let SpeedPictogram: [KeyValue_t] = [
 public let BatteryAdditionals: [KeyValue_t] = [
     KeyValue_t(key: "none", value: "None"),
     KeyValue_t(key: "separator", value: "separator"),
+    KeyValue_t(key: "innerPercentage", value: "Percentage inside the icon"),
+    KeyValue_t(key: "separator", value: "separator"),
     KeyValue_t(key: "percentage", value: "Percentage"),
     KeyValue_t(key: "time", value: "Time"),
     KeyValue_t(key: "percentageAndTime", value: "Percentage and time"),
