@@ -629,6 +629,8 @@ internal class FanView: NSStackView {
     }
     
     @objc private func sleepListener(aNotification: NSNotification) {
+        guard SMCHelper.shared.checkRights() && self.fan.customMode != .automatic else { return }
+        
         self.willSleepMode = self.fan.customMode
         self.willSleepSpeed = self.fan.customSpeed
         SMCHelper.shared.setFanMode(fan.id, mode: FanMode.automatic.rawValue)
