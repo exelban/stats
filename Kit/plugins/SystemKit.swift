@@ -11,6 +11,25 @@
 
 import Cocoa
 
+public enum Platform: String {
+    case intel
+    
+    case m1
+    case m1Pro
+    case m1Max
+    case m1Ultra
+    
+    case m2
+    
+    public static var apple: [Platform] {
+        return [.m1, .m1Pro, .m1Max, .m1Ultra, .m2]
+    }
+    
+    public static var all: [Platform] {
+        return apple + [.intel]
+    }
+}
+
 public enum deviceType: Int {
     case unknown = -1
     case macMini = 1
@@ -97,6 +116,7 @@ public struct device_s {
     
     public var os: os_s? = nil
     public var info: info_s = info_s()
+    public var platform: Platform? = nil
 }
 
 public class SystemKit {
@@ -140,6 +160,24 @@ public class SystemKit {
         self.device.info.ram = self.getRamInfo()
         self.device.info.gpu = self.getGPUInfo()
         self.device.info.disk = self.getDiskInfo()
+        
+        if let name = self.device.info.cpu?.name?.lowercased() {
+            if name.contains("intel") {
+                self.device.platform = .intel
+            } else if name.contains("m1") {
+                if name.contains("pro") {
+                    self.device.platform = .m1Pro
+                } else if name.contains("max") {
+                    self.device.platform = .m1Max
+                } else if name.contains("ultra") {
+                    self.device.platform = .m1Ultra
+                } else {
+                    self.device.platform = .m1
+                }
+            } else if name.contains("m2") {
+                self.device.platform = .m2
+            }
+        }
     }
     
     public func modelName() -> String? {
@@ -196,9 +234,9 @@ public class SystemKit {
         
         var sizeOfName = 0
         sysctlbyname("machdep.cpu.brand_string", nil, &sizeOfName, nil, 0)
-        var nameCharts = [CChar](repeating: 0, count: sizeOfName)
-        sysctlbyname("machdep.cpu.brand_string", &nameCharts, &sizeOfName, nil, 0)
-        var name = String(cString: nameCharts)
+        var nameChars = [CChar](repeating: 0, count: sizeOfName)
+        sysctlbyname("machdep.cpu.brand_string", &nameChars, &sizeOfName, nil, 0)
+        var name = String(cString: nameChars)
         if name != "" {
             name = name.replacingOccurrences(of: "(TM)", with: "")
             name = name.replacingOccurrences(of: "(R)", with: "")
