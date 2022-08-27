@@ -219,12 +219,6 @@ public var isARM: Bool {
     }
 }
 
-public var isM1: Bool {
-    get {
-        return SystemKit.shared.device.info.cpu?.name == "Apple M1" ? true : false
-    }
-}
-
 public let notificationLevels: [KeyValue_t] = [
     KeyValue_t(key: "Disabled", value: "Disabled"),
     KeyValue_t(key: "10%", value: "10%"),

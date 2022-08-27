@@ -91,17 +91,10 @@ next-version:
 	/usr/libexec/PlistBuddy -c "Set :CFBundleVersion $$versionNumber" "$(PWD)/Stats/Supporting Files/Info.plist" ;\
 
 check:
-	xcrun altool \
-	  --notarization-info 36ba52a7-97bb-43e7-8faf-72bd6e9e1df3 \
-	  -itc_provider $(AC_PROVIDER) \
-	  -u $(AC_USERNAME) \
-	  -p @keychain:AC_PASSWORD
+	xcrun notarytool log 2d0045cc-8f0d-4f4c-ba6f-728895fd064a --keychain-profile "AC_PASSWORD"
 
 history:
-	xcrun altool --notarization-history 0 \
-		-itc_provider $(AC_PROVIDER) \
-		-u $(AC_USERNAME) \
-		-p @keychain:AC_PASSWORD
+	xcrun notarytool history --keychain-profile "AC_PASSWORD"
 
 open:
 	osascript -e 'display notification "Stats signed and ready for distribution" with title "Build the Stats"'

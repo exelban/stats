@@ -29,7 +29,7 @@ internal class Settings: NSStackView, Settings_v {
     public init(_ title: String, list: [Sensor_p]) {
         self.title = title
         self.list = list
-        self.hidState = isM1 ? true : false
+        self.hidState = SystemKit.shared.device.platform == .m1 ? true : false
         
         super.init(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
         

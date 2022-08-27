@@ -13,8 +13,10 @@ import Cocoa
 import Kit
 
 internal class SensorsReader: Reader<[Sensor_p]> {
-    internal var list: [Sensor_p] = []
     static let HIDtypes: [SensorType] = [.temperature, .voltage]
+    
+    internal var list: [Sensor_p] = []
+    
     private var lastRead: Date = Date()
     private let firstRead: Date = Date()
     
@@ -30,9 +32,10 @@ internal class SensorsReader: Reader<[Sensor_p]> {
         var available: [String] = SMC.shared.getAllKeys()
         var list: [Sensor] = []
         var sensorsList = SensorsList
-        #if arch(arm64)
-        sensorsList = sensorsList.filter({ !$0.isIntelOnly })
-        #endif
+        
+        if let platform = SystemKit.shared.device.platform {
+            sensorsList = sensorsList.filter({ $0.platforms.contains(platform) })
+        }
         
         if let count = SMC.shared.getValue("FNum") {
             self.loadFans(Int(count))
@@ -180,6 +183,64 @@ internal class SensorsReader: Reader<[Sensor_p]> {
         self.callback(self.list)
     }
     
+    private func initCalculatedSensors() -> [Sensor] {
+        var list: [Sensor] = []
+        
+        var cpuSensors = self.list.filter({ $0.group == .CPU && $0.type == .temperature && $0.average }).map{ $0.value }
+        var gpuSensors = self.list.filter({ $0.group == .GPU && $0.type == .temperature && $0.average }).map{ $0.value }
+        
+        #if arch(arm64)
+        if self.HIDState {
+            cpuSensors += self.list.filter({ $0.key.hasPrefix("pACC MTR Temp") || $0.key.hasPrefix("eACC MTR Temp") }).map{ $0.value }
+            gpuSensors += self.list.filter({ $0.key.hasPrefix("GPU MTR Temp") }).map{ $0.value }
+        }
+        #endif
+        
+        let fanSensors = self.list.filter({ $0.type == .fan && !$0.isComputed }).map{ $0.value}
+        
+        if !cpuSensors.isEmpty {
+            let value = cpuSensors.reduce(0, +) / Double(cpuSensors.count)
+            list.append(Sensor(key: "Average CPU", name: "Average CPU", value: value, group: .CPU, type: .temperature, platforms: Platform.all, isComputed: true))
+            if let max = cpuSensors.max() {
+                list.append(Sensor(key: "Hottest CPU", name: "Hottest CPU", value: max, group: .CPU, type: .temperature, platforms: Platform.all, isComputed: true))
+            }
+        }
+        if !gpuSensors.isEmpty {
+            let value = gpuSensors.reduce(0, +) / Double(gpuSensors.count)
+            list.append(Sensor(key: "Average GPU", name: "Average GPU", value: value, group: .GPU, type: .temperature, platforms: Platform.all, isComputed: true))
+            if let max = gpuSensors.max() {
+                list.append(Sensor(key: "Hottest GPU", name: "Hottest GPU", value: max, group: .GPU, type: .temperature, platforms: Platform.all, isComputed: true))
+            }
+        }
+        if !fanSensors.isEmpty && fanSensors.count > 1 {
+            if let max = fanSensors.max() {
+                list.append(Sensor(key: "Fastest Fan", name: "Fastest Fan", value: max, group: .sensor, type: .fan, platforms: Platform.all, isComputed: true))
+            }
+        }
+        
+        // Init total power since launched, only if Total Power sensor is available
+        if self.list.contains(where: { $0.key == "PSTR"}) {
+            list.append(Sensor(key: "Total System Consumption", name: "Total System Consumption", value: 0, group: .sensor, type: .energy, platforms: Platform.all, isComputed: true))
+            list.append(Sensor(key: "Average System Total", name: "Average System Total", value: 0, group: .sensor, type: .power, platforms: Platform.all, isComputed: true))
+        }
+        
+        return list.filter({ (s: Sensor_p) -> Bool in
+            switch s.type {
+            case .temperature:
+                return s.value < 110 && s.value >= 0
+            case .voltage:
+                return s.value < 300 && s.value >= 0
+            case .current:
+                return s.value < 100 && s.value >= 0
+            default: return true
+            }
+        }).sorted { $0.key.lowercased() < $1.key.lowercased() }
+    }
+}
+
+// MARK: - Fans
+
+extension SensorsReader {
     private func loadFans(_ count: Int) {
         debug("Found \(Int(count)) fans", log: self.log)
         
@@ -231,7 +292,11 @@ internal class SensorsReader: Reader<[Sensor_p]> {
         
         return mode
     }
-    
+}
+
+// MARK: - HID sensors
+
+extension SensorsReader {
     private func m1Preset(type: SensorType) -> (Int32, Int32, Int32) {
         var page: Int32 = 0
         var usage: Int32 = 0
@@ -300,7 +365,8 @@ internal class SensorsReader: Reader<[Sensor_p]> {
                         name: name,
                         value: value,
                         group: .hid,
-                        type: typ
+                        type: typ,
+                        platforms: Platform.all
                     ))
                 }
             }
@@ -309,64 +375,10 @@ internal class SensorsReader: Reader<[Sensor_p]> {
         let socSensors = list.filter({ $0.key.hasPrefix("SOC MTR Temp") }).map{ $0.value }
         if !socSensors.isEmpty {
             let value = socSensors.reduce(0, +) / Double(socSensors.count)
-            list.append(Sensor(key: "Average SOC", name: "Average SOC", value: value, group: .hid, type: .temperature))
+            list.append(Sensor(key: "Average SOC", name: "Average SOC", value: value, group: .hid, type: .temperature, platforms: Platform.all))
             if let max = socSensors.max() {
-                list.append(Sensor(key: "Hottest SOC", name: "Hottest SOC", value: max, group: .hid, type: .temperature))
+                list.append(Sensor(key: "Hottest SOC", name: "Hottest SOC", value: max, group: .hid, type: .temperature, platforms: Platform.all))
             }
-        }
-        
-        return list.filter({ (s: Sensor_p) -> Bool in
-            switch s.type {
-            case .temperature:
-                return s.value < 110 && s.value >= 0
-            case .voltage:
-                return s.value < 300 && s.value >= 0
-            case .current:
-                return s.value < 100 && s.value >= 0
-            default: return true
-            }
-        }).sorted { $0.key.lowercased() < $1.key.lowercased() }
-    }
-    
-    private func initCalculatedSensors() -> [Sensor] {
-        var list: [Sensor] = []
-        
-        var cpuSensors = self.list.filter({ $0.group == .CPU && $0.type == .temperature && $0.average }).map{ $0.value }
-        var gpuSensors = self.list.filter({ $0.group == .GPU && $0.type == .temperature && $0.average }).map{ $0.value }
-        
-        #if arch(arm64)
-        if self.HIDState {
-            cpuSensors += self.list.filter({ $0.key.hasPrefix("pACC MTR Temp") || $0.key.hasPrefix("eACC MTR Temp") }).map{ $0.value }
-            gpuSensors += self.list.filter({ $0.key.hasPrefix("GPU MTR Temp") }).map{ $0.value }
-        }
-        #endif
-        
-        let fanSensors = self.list.filter({ $0.type == .fan && !$0.isComputed }).map{ $0.value}
-        
-        if !cpuSensors.isEmpty {
-            let value = cpuSensors.reduce(0, +) / Double(cpuSensors.count)
-            list.append(Sensor(key: "Average CPU", name: "Average CPU", value: value, group: .CPU, type: .temperature, isComputed: true))
-            if let max = cpuSensors.max() {
-                list.append(Sensor(key: "Hottest CPU", name: "Hottest CPU", value: max, group: .CPU, type: .temperature, isComputed: true))
-            }
-        }
-        if !gpuSensors.isEmpty {
-            let value = gpuSensors.reduce(0, +) / Double(gpuSensors.count)
-            list.append(Sensor(key: "Average GPU", name: "Average GPU", value: value, group: .GPU, type: .temperature, isComputed: true))
-            if let max = gpuSensors.max() {
-                list.append(Sensor(key: "Hottest GPU", name: "Hottest GPU", value: max, group: .GPU, type: .temperature, isComputed: true))
-            }
-        }
-        if !fanSensors.isEmpty && fanSensors.count > 1 {
-            if let max = fanSensors.max() {
-                list.append(Sensor(key: "Fastest Fan", name: "Fastest Fan", value: max, group: .sensor, type: .fan, isComputed: true))
-            }
-        }
-        
-        // Init total power since launched, only if Total Power sensor is available
-        if self.list.contains(where: { $0.key == "PSTR"}) {
-            list.append(Sensor(key: "Total System Consumption", name: "Total System Consumption", value: 0, group: .sensor, type: .energy, isComputed: true))
-            list.append(Sensor(key: "Average System Total", name: "Average System Total", value: 0, group: .sensor, type: .power, isComputed: true))
         }
         
         return list.filter({ (s: Sensor_p) -> Bool in
