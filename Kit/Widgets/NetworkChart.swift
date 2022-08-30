@@ -19,6 +19,7 @@ public class NetworkChart: WidgetWrapper {
     private var downloadColor: Color = .secondRed
     private var uploadColor: Color = .secondBlue
     private var scaleState: Scale = .linear
+    private var commonScaleState: Bool = true
     
     private var chart: NetworkChartView = NetworkChartView(
         frame: NSRect(x: 0, y: 0, width: 30, height: Constants.Widget.height - (2*Constants.Widget.margin.y)),
@@ -80,11 +81,13 @@ public class NetworkChart: WidgetWrapper {
             self.downloadColor = Color.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_downloadColor", defaultValue: self.downloadColor.key))
             self.uploadColor = Color.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_uploadColor", defaultValue: self.uploadColor.key))
             self.scaleState = Scale.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_scale", defaultValue: self.scaleState.key))
+            self.commonScaleState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_commonScale", defaultValue: self.commonScaleState)
             
             if let downloadColor =  self.downloadColor.additional as? NSColor,
                let uploadColor = self.uploadColor.additional as? NSColor {
                 self.chart.colors = [downloadColor, uploadColor]
             }
+            self.chart.setScale(self.scaleState, self.commonScaleState)
             self.chart.reinit(self.historyCount)
         }
         
@@ -231,6 +234,12 @@ public class NetworkChart: WidgetWrapper {
             selected: self.scaleState.key
         ))
         
+        view.addArrangedSubview(toggleSettingRow(
+            title: localizedString("Common scale"),
+            action: #selector(toggleCommonScale),
+            state: self.commonScaleState
+        ))
+        
         return view
     }
     
@@ -334,8 +343,22 @@ public class NetworkChart: WidgetWrapper {
         guard let value = Scale.allCases.first(where: { $0.key == key }) else { return }
         
         self.scaleState = value
-        self.chart.setScale(value)
+        self.chart.setScale(value, self.commonScaleState)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_scale", value: key)
+        self.display()
+    }
+    
+    @objc private func toggleCommonScale(_ sender: NSControl) {
+        var state: NSControl.StateValue? = nil
+        if #available(OSX 10.15, *) {
+            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
+        } else {
+            state = sender is NSButton ? (sender as! NSButton).state: nil
+        }
+        
+        self.commonScaleState = state! == .on ? true : false
+        self.chart.setScale(self.scaleState, self.commonScaleState)
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_commonScale", value: self.commonScaleState)
         self.display()
     }
 }

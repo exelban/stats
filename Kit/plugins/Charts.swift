@@ -303,6 +303,7 @@ public class NetworkChartView: NSView {
     
     private var minMax: Bool = false
     private var scale: Scale = .none
+    private var commonScale: Bool = true
     
     public init(frame: NSRect, num: Int, minMax: Bool = true) {
         self.minMax = minMax
@@ -328,6 +329,14 @@ public class NetworkChartView: NSView {
         }
         if downloadMax == 0 {
             downloadMax = 1
+        }
+        
+        if !self.commonScale {
+            if downloadMax > uploadMax {
+                uploadMax = downloadMax
+            } else {
+                downloadMax = uploadMax
+            }
         }
         
         let lineWidth = 1 / (NSScreen.main?.backingScaleFactor ?? 1)
@@ -427,8 +436,10 @@ public class NetworkChartView: NSView {
         }
     }
     
-    public func setScale(_ newScale: Scale) {
+    public func setScale(_ newScale: Scale, _ commonScale: Bool) {
         self.scale = newScale
+        self.commonScale = commonScale
+        
         if self.window?.isVisible ?? false {
             self.display()
         }
