@@ -67,6 +67,7 @@
 "Square" = "Négyzet";
 "Cube" = "Kocka";
 "Logarithmic" = "Logaritmikus";
+"Cores" = "Cores";
 
 // Setup
 "Stats Setup" = "A Stats beállítása";
@@ -255,6 +256,8 @@
 "Fan" = "Ventilátor";
 "HID sensors" = "HID szenzorok";
 "Synchronize fan's control" = "Ventilátor vezérlés szinkronizálása";
+"Current" = "Current";
+"Energy" = "Energy";
 
 // Network
 "Uploading" = "Feltöltés";
@@ -280,6 +283,8 @@
 "Standard" = "Szabvány";
 "Security" = "Biztonság";
 "Channel" = "Csatorna";
+"Common scale" = "Common scale";
+"Autodetection" = "Autodetection";
 
 // Battery
 "Level" = "Töltöttségi szint";
@@ -315,6 +320,7 @@
 "Capacity" = "Kapacitás";
 "maximum / designed" = "maximum / gyári";
 "Low power mode" = "Energia takarékos mód";
+"Percentage inside the icon" = "Percentage inside the icon";
 
 // Bluetooth
 "Battery to show" = "Akkumulátor megjelenítése";

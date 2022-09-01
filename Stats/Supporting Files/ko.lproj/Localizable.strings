@@ -67,6 +67,7 @@
 "Square" = "Square";
 "Cube" = "Cube";
 "Logarithmic" = "Logarithmic";
+"Cores" = "Cores";
 
 // Setup
 "Stats Setup" = "Stats Setup";
@@ -255,6 +256,8 @@
 "Fan" = "팬";
 "HID sensors" = "HID 센서";
 "Synchronize fan's control" = "팬 제어 동기화";
+"Current" = "Current";
+"Energy" = "Energy";
 
 // Network
 "Uploading" = "업로드";
@@ -280,6 +283,8 @@
 "Standard" = "표준";
 "Security" = "보안";
 "Channel" = "채널";
+"Common scale" = "Common scale";
+"Autodetection" = "Autodetection";
 
 // Battery
 "Level" = "잔량";
@@ -315,6 +320,7 @@
 "Capacity" = "용량";
 "maximum / designed" = "최대 / 설계";
 "Low power mode" = "Low power mode";
+"Percentage inside the icon" = "Percentage inside the icon";
 
 // Bluetooth
 "Battery to show" = "표시할 배터리";

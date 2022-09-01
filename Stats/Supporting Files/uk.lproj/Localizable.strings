@@ -67,6 +67,7 @@
 "Square" = "Квадратне";
 "Cube" = "Кубічне";
 "Logarithmic" = "Логарифмічне";
+"Cores" = "Ядра";
 
 // Setup
 "Stats Setup" = "Stats Setup";
@@ -255,6 +256,8 @@
 "Fan" = "Вентилятор";
 "HID sensors" = "HID датчики";
 "Synchronize fan's control" = "Синхронізація керування вентиляторами";
+"Current" = "Струм";
+"Energy" = "Енергія";
 
 // Network
 "Uploading" = "Висилання";
@@ -280,6 +283,8 @@
 "Standard" = "Стандарт";
 "Security" = "Шифрування";
 "Channel" = "Канал";
+"Common scale" = "Загальна шкала";
+"Autodetection" = "Автовизначення";
 
 // Battery
 "Level" = "Рівень заряду";
@@ -315,6 +320,7 @@
 "Capacity" = "Ємність";
 "maximum / designed" = "максимальна / запроектована";
 "Low power mode" = "Режим низької потужності";
+"Percentage inside the icon" = "Відсоток всередині віджету";
 
 // Bluetooth
 "Battery to show" = "Активна батарея";

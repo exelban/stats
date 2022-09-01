@@ -67,6 +67,7 @@
 "Square" = "Square";
 "Cube" = "Cube";
 "Logarithmic" = "Logarithmic";
+"Cores" = "Cores";
 
 // Setup
 "Stats Setup" = "Postavljanje programa Stats";
@@ -255,6 +256,8 @@
 "Fan" = "Ventilator";
 "HID sensors" = "Senzori HID uređaja";
 "Synchronize fan's control" = "Sinkroniziraj upravljanje ventilatora";
+"Current" = "Current";
+"Energy" = "Energy";
 
 // Network
 "Uploading" = "Slanje";
@@ -280,6 +283,8 @@
 "Standard" = "Standard";
 "Security" = "Sigurnost";
 "Channel" = "Kanal";
+"Common scale" = "Common scale";
+"Autodetection" = "Autodetection";
 
 // Battery
 "Level" = "Stanje";
@@ -315,6 +320,7 @@
 "Capacity" = "Kapacitet";
 "maximum / designed" = "maksimalni / projektirani";
 "Low power mode" = "Low power mode";
+"Percentage inside the icon" = "Percentage inside the icon";
 
 // Bluetooth
 "Battery to show" = "Baterija";

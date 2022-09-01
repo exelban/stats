@@ -67,6 +67,7 @@
 "Square" = "Hình vuông";
 "Cube" = "Khối lập phương";
 "Logarithmic" = "Logarithmic";
+"Cores" = "Cores";
 
 // Setup
 "Stats Setup" = "Cài đặt Stats";
@@ -255,6 +256,8 @@
 "Fan" = "Quạt";
 "HID sensors" = "Cảm biến HID";
 "Synchronize fan's control" = "Đồng bộ hóa điều khiển của quạt";
+"Current" = "Current";
+"Energy" = "Energy";
 
 // Network
 "Uploading" = "Tải lên";
@@ -280,6 +283,8 @@
 "Standard" = "Tiêu chuẩn";
 "Security" = "Bảo mật";
 "Channel" = "Kênh";
+"Common scale" = "Common scale";
+"Autodetection" = "Autodetection";
 
 // Battery
 "Level" = "Dung lượng Pin";
@@ -315,6 +320,7 @@
 "Capacity" = "Dung tích";
 "maximum / designed" = "tối đa / thiết kế";
 "Low power mode" = "Low power mode";
+"Percentage inside the icon" = "Percentage inside the icon";
 
 // Bluetooth
 "Battery to show" = "Pin hiển thị";

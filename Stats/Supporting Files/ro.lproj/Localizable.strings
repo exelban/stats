@@ -67,6 +67,7 @@
 "Square" = "Square";
 "Cube" = "Cube";
 "Logarithmic" = "Logarithmic";
+"Cores" = "Cores";
 
 // Setup
 "Stats Setup" = "Stats Setup";
@@ -255,6 +256,8 @@
 "Fan" = "Fan";
 "HID sensors" = "HID sensors";
 "Synchronize fan's control" = "Synchronize fan's control";
+"Current" = "Current";
+"Energy" = "Energy";
 
 // Network
 "Uploading" = "Incarcă";
@@ -280,6 +283,8 @@
 "Standard" = "Standard";
 "Security" = "Security";
 "Channel" = "Channel";
+"Common scale" = "Common scale";
+"Autodetection" = "Autodetection";
 
 // Battery
 "Level" = "Nivel";
@@ -315,6 +320,7 @@
 "Capacity" = "Capacity";
 "maximum / designed" = "maximum / designed";
 "Low power mode" = "Low power mode";
+"Percentage inside the icon" = "Percentage inside the icon";
 
 // Bluetooth
 "Battery to show" = "Battery to show";

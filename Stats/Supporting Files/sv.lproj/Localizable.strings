@@ -67,6 +67,7 @@
 "Square" = "Square";
 "Cube" = "Cube";
 "Logarithmic" = "Logarithmic";
+"Cores" = "Cores";
 
 // Setup
 "Stats Setup" = "Stats Setup";
@@ -255,6 +256,8 @@
 "Fan" = "Fläkt";
 "HID sensors" = "HID-sensorer";
 "Synchronize fan's control" = "Synkronisera fläktkontroll";
+"Current" = "Current";
+"Energy" = "Energy";
 
 // Network
 "Uploading" = "Skickar";
@@ -280,6 +283,8 @@
 "Standard" = "Standard";
 "Security" = "Säkerhet";
 "Channel" = "Kanal";
+"Common scale" = "Common scale";
+"Autodetection" = "Autodetection";
 
 // Battery
 "Level" = "Nivå";
@@ -315,6 +320,7 @@
 "Capacity" = "Kapacitet";
 "maximum / designed" = "nuvarande / ursprunglig";
 "Low power mode" = "Low power mode";
+"Percentage inside the icon" = "Percentage inside the icon";
 
 // Bluetooth
 "Battery to show" = "Batteri att visa";

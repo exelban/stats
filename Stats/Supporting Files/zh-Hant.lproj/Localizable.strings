@@ -67,6 +67,7 @@
 "Square" = "方形";
 "Cube" = "立方體";
 "Logarithmic" = "對數";
+"Cores" = "Cores";
 
 // Setup
 "Stats Setup" = "Stats 設定";
@@ -255,6 +256,8 @@
 "Fan" = "風扇";
 "HID sensors" = "HID 感知器";
 "Synchronize fan's control" = "同步風扇控制";
+"Current" = "Current";
+"Energy" = "Energy";
 
 // Network
 "Uploading" = "上傳";
@@ -280,6 +283,8 @@
 "Standard" = "標準";
 "Security" = "安全";
 "Channel" = "通道";
+"Common scale" = "Common scale";
+"Autodetection" = "Autodetection";
 
 // Battery
 "Level" = "電量";
@@ -315,6 +320,7 @@
 "Capacity" = "容量";
 "maximum / designed" = "最大容量 / 設計容量";
 "Low power mode" = "低電量模式";
+"Percentage inside the icon" = "Percentage inside the icon";
 
 // Bluetooth
 "Battery to show" = "顯示藍牙裝置的電池電量";

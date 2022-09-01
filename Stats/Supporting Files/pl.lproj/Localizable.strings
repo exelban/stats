@@ -67,6 +67,7 @@
 "Square" = "Kwadratowe";
 "Cube" = "Kubiczne";
 "Logarithmic" = "Logarytmiczne";
+"Cores" = "Rdzeni";
 
 // Setup
 "Stats Setup" = "Konfiguracja Stats";
@@ -255,6 +256,8 @@
 "Fan" = "Wentylator";
 "HID sensors" = "Czujniki HID";
 "Synchronize fan's control" = "Synchronizuj sterowanie wentylatorami";
+"Current" = "Prąd";
+"Energy" = "Energia";
 
 // Network
 "Uploading" = "Wysyłanie";
@@ -280,6 +283,8 @@
 "Standard" = "Standard";
 "Security" = "Szyfrowanie";
 "Channel" = "Kanał";
+"Common scale" = "Wspólna skala";
+"Autodetection" = "Autodetekcja";
 
 // Battery
 "Level" = "Poziom naładowania";
@@ -315,6 +320,7 @@
 "Capacity" = "Pojemność";
 "maximum / designed" = "maksymalna / zaprojektowana";
 "Low power mode" = "Niskie zużycie energii";
+"Percentage inside the icon" = "Procent wewnątrz ikony";
 
 // Bluetooth
 "Battery to show" = "Bateria do wyświetlenia";

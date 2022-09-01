@@ -67,6 +67,7 @@
 "Square" = "Square";
 "Cube" = "Cube";
 "Logarithmic" = "Logarithmic";
+"Cores" = "Cores";
 
 // Setup
 "Stats Setup" = "Stats Setup";
@@ -255,6 +256,8 @@
 "Fan" = "ファン";
 "HID sensors" = "HID センサー";
 "Synchronize fan's control" = "Synchronize fan's control";
+"Current" = "Current";
+"Energy" = "Energy";
 
 // Network
 "Uploading" = "送信";
@@ -280,6 +283,8 @@
 "Standard" = "Standard";
 "Security" = "Security";
 "Channel" = "Channel";
+"Common scale" = "Common scale";
+"Autodetection" = "Autodetection";
 
 // Battery
 "Level" = "充電残量";
@@ -315,6 +320,7 @@
 "Capacity" = "容量";
 "maximum / designed" = "最大 / 規格";
 "Low power mode" = "低電力モード";
+"Percentage inside the icon" = "Percentage inside the icon";
 
 // Bluetooth
 "Battery to show" = "バッテリー残量を表示するデバイス";

@@ -67,6 +67,7 @@
 "Square" = "Square";
 "Cube" = "Cube";
 "Logarithmic" = "Logarithmic";
+"Cores" = "Cores";
 
 // Setup
 "Stats Setup" = "Stats Setup";
@@ -255,6 +256,8 @@
 "Fan" = "Ventilátor";
 "HID sensors" = "HID senzory";
 "Synchronize fan's control" = "Synchronize fan's control";
+"Current" = "Current";
+"Energy" = "Energy";
 
 // Network
 "Uploading" = "Nahrávání";
@@ -280,6 +283,8 @@
 "Standard" = "Standard";
 "Security" = "Zabezpečení";
 "Channel" = "Kanál";
+"Common scale" = "Common scale";
+"Autodetection" = "Autodetection";
 
 // Battery
 "Level" = "Úroveň";
@@ -315,6 +320,7 @@
 "Capacity" = "Kapicita";
 "maximum / designed" = "maximum / výrobní";
 "Low power mode" = "Low power mode";
+"Percentage inside the icon" = "Percentage inside the icon";
 
 // Bluetooth
 "Battery to show" = "Baterie k zobrazení";

@@ -67,6 +67,7 @@
 "Square" = "Квадратное";
 "Cube" = "Кубическое";
 "Logarithmic" = "Логарифмическое";
+"Cores" = "Ядра";
 
 // Setup
 "Stats Setup" = "Stats Setup";
@@ -255,6 +256,8 @@
 "Fan" = "Вентилятор";
 "HID sensors" = "HID датчики";
 "Synchronize fan's control" = "Синхронизировать управление вентиляторами";
+"Current" = "Ток";
+"Energy" = "Энергия";
 
 // Network
 "Uploading" = "Выгрузка";
@@ -280,6 +283,8 @@
 "Standard" = "Стандарт";
 "Security" = "Шифрование";
 "Channel" = "Канал";
+"Common scale" = "Общий масштаб";
+"Autodetection" = "Автоопределение";
 
 // Battery
 "Level" = "Уровень заряда";
@@ -315,6 +320,7 @@
 "Capacity" = "Емкость";
 "maximum / designed" = "максимальная / расчетная";
 "Low power mode" = "Режим пониженного энергопотребления";
+"Percentage inside the icon" = "Процент внутри виджета";
 
 // Bluetooth
 "Battery to show" = "Активная батарея";
