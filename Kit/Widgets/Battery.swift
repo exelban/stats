@@ -148,9 +148,11 @@ public class BatterykWidget: WidgetWrapper {
         if let percentage = self.percentage {
             let maxWidth = batterySize.width - offset*2 - borderWidth*2 - 1
             var innerWidth: CGFloat = max(1, maxWidth * CGFloat(percentage))
+            var colorState = self.colorState
             
             if self.additional == "innerPercentage" && !self.ACStatus {
                 innerWidth = maxWidth
+                colorState = false
             }
             
             let innerOffset: CGFloat = -offset + borderWidth + 1
@@ -162,9 +164,9 @@ public class BatterykWidget: WidgetWrapper {
             ), xRadius: 1, yRadius: 1)
             
             if self.lowPowerModeState {
-                percentage.batteryColor(color: self.colorState, lowPowerMode: self.lowPowerMode).set()
+                percentage.batteryColor(color: colorState, lowPowerMode: self.lowPowerMode).set()
             } else {
-                percentage.batteryColor(color: self.colorState).set()
+                percentage.batteryColor(color: colorState).set()
             }
             inner.fill()
             
