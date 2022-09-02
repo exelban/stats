@@ -122,7 +122,9 @@ internal class Settings: NSStackView, Settings_v {
         
         let selectedInterface = Store.shared.string(key: "\(self.title)_interface", defaultValue: "")
         let menu = NSMenu()
-        let autodetection = NSMenuItem(title: "Autodetection", action: nil, keyEquivalent: "")
+        let autodetection = NSMenuItem(title: localizedString("Autodetection"), action: nil, keyEquivalent: "")
+        autodetection.identifier = NSUserInterfaceItemIdentifier(rawValue: "autodetection")
+        autodetection.tag = 128
         menu.addItem(autodetection)
         menu.addItem(NSMenuItem.separator())
         
@@ -139,7 +141,7 @@ internal class Settings: NSStackView, Settings_v {
         select.sizeToFit()
         
         if selectedInterface == "" {
-            select.selectItem(withTitle: "Autodetection")
+            select.selectItem(withTag: 128)
         }
         
         view.addArrangedSubview(titleField)
@@ -150,9 +152,9 @@ internal class Settings: NSStackView, Settings_v {
     }
     
     @objc func handleSelection(_ sender: NSPopUpButton) {
-        guard let item = sender.selectedItem else { return }
+        guard let item = sender.selectedItem, let id = item.identifier?.rawValue else { return }
         
-        if item.title == "Autodetection" {
+        if id == "autodetection" {
             Store.shared.remove("\(self.title)_interface")
         } else {
             if let bsdName = item.identifier?.rawValue {
