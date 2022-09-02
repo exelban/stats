@@ -67,7 +67,7 @@
 "Square" = "方形";
 "Cube" = "立方體";
 "Logarithmic" = "對數";
-"Cores" = "Cores";
+"Cores" = "核心數";
 
 // Setup
 "Stats Setup" = "Stats 設定";
@@ -124,7 +124,7 @@
 "Uptime" = "開機時間";
 "Number of cores" = "%0 核心";
 "Number of threads" = "%0 執行緒";
-"Number of e-cores" = "%0 效率核心";
+"Number of e-cores" = "%0 節能核心";
 "Number of p-cores" = "%0 效能核心";
 
 // Update
@@ -200,7 +200,7 @@
 "15 minutes" = "15 分鐘";
 "CPU usage threshold" = "處理器使用率臨界點";
 "CPU usage is" = "處理器使用率為：%0";
-"Efficiency cores" = "效率核心";
+"Efficiency cores" = "節能核心";
 "Performance cores" = "效能核心";
 
 // GPU
@@ -256,8 +256,8 @@
 "Fan" = "風扇";
 "HID sensors" = "HID 感知器";
 "Synchronize fan's control" = "同步風扇控制";
-"Current" = "Current";
-"Energy" = "Energy";
+"Current" = "電流";
+"Energy" = "能耗";
 
 // Network
 "Uploading" = "上傳";
@@ -283,8 +283,8 @@
 "Standard" = "標準";
 "Security" = "安全";
 "Channel" = "通道";
-"Common scale" = "Common scale";
-"Autodetection" = "Autodetection";
+"Common scale" = "統一比例";
+"Autodetection" = "自動檢測";
 
 // Battery
 "Level" = "電量";
@@ -320,7 +320,7 @@
 "Capacity" = "容量";
 "maximum / designed" = "最大容量 / 設計容量";
 "Low power mode" = "低電量模式";
-"Percentage inside the icon" = "Percentage inside the icon";
+"Percentage inside the icon" = "圖示内百分比";
 
 // Bluetooth
 "Battery to show" = "顯示藍牙裝置的電池電量";
