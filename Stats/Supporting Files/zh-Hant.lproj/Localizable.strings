@@ -285,7 +285,7 @@
 "Channel" = "通道";
 "Common scale" = "統一比例";
 "Autodetection" = "自動檢測";
-"Widget activation threshold" = "小工具啟動閥值";
+"Widget activation threshold" = "小工具啟動臨界點";
 
 // Battery
 "Level" = "電量";
