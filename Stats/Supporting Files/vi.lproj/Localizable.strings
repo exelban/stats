@@ -285,6 +285,7 @@
 "Channel" = "Kênh";
 "Common scale" = "Common scale";
 "Autodetection" = "Autodetection";
+"Widget activation threshold" = "Widget activation threshold";
 
 // Battery
 "Level" = "Dung lượng Pin";

@@ -164,16 +164,19 @@ open class Settings: NSStackView, Settings_p {
     // MARK: - views
     
     private func settings() -> NSView {
-        let view: NSTabView = NSTabView()
-        view.widthAnchor.constraint(equalToConstant: Constants.Settings.width - Constants.Settings.margin*2).isActive = true
-        view.heightAnchor.constraint(equalToConstant: Constants.Settings.height - 40 - Constants.Widget.height - (Constants.Settings.margin*5)).isActive = true
+        let view: NSTabView = NSTabView(frame: NSRect(x: 0, y: 0,
+            width: Constants.Settings.width - Constants.Settings.margin*2,
+            height: Constants.Settings.height - 40 - Constants.Widget.height - (Constants.Settings.margin*5)
+        ))
+        view.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
+        view.heightAnchor.constraint(equalToConstant: view.frame.height).isActive = true
         view.tabViewType = .topTabsBezelBorder
         view.tabViewBorderType = .line
         
         let moduleTab: NSTabViewItem = NSTabViewItem()
         moduleTab.label = localizedString("Module settings")
         moduleTab.view = {
-            let view = ScrollableStackView()
+            let view = ScrollableStackView(frame: view.frame)
             self.moduleSettingsContainer = view.stackView
             self.loadModuleSettings()
             return view
@@ -182,7 +185,7 @@ open class Settings: NSStackView, Settings_p {
         let widgetTab: NSTabViewItem = NSTabViewItem()
         widgetTab.label = localizedString("Widget settings")
         widgetTab.view = {
-            let view = ScrollableStackView()
+            let view = ScrollableStackView(frame: view.frame)
             view.stackView.spacing = 0
             self.widgetSettingsContainer = view.stackView
             self.loadWidgetSettings()

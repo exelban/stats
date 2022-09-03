@@ -285,6 +285,7 @@
 "Channel" = "Канал";
 "Common scale" = "Общий масштаб";
 "Autodetection" = "Автоопределение";
+"Widget activation threshold" = "Порог активации виджета";
 
 // Battery
 "Level" = "Уровень заряда";

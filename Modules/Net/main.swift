@@ -109,6 +109,12 @@ public class Network: Module {
     private let ipUpdater = NSBackgroundActivityScheduler(identifier: "eu.exelban.Stats.Network.IP")
     private let usageReseter = NSBackgroundActivityScheduler(identifier: "eu.exelban.Stats.Network.Usage")
     
+    private var widgetActivationThreshold: Int {
+        get {
+            return Store.shared.int(key: "\(self.config.name)_widgetActivationThreshold", defaultValue: 0)
+        }
+    }
+    
     public init() {
         self.settingsView = Settings("Network")
         self.popupView = Popup("Network")
@@ -178,10 +184,19 @@ public class Network: Module {
         
         self.popupView.usageCallback(value)
         
+        var upload = value.bandwidth.upload
+        var download = value.bandwidth.download
+        let activationValue = Units(bytes: min(upload, download)).kilobytes
+        
+        if Double(self.widgetActivationThreshold) > activationValue {
+            upload = 0
+            download = 0
+        }
+        
         self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
             switch w.item {
-            case let widget as SpeedWidget: widget.setValue(upload: value.bandwidth.upload, download: value.bandwidth.download)
-            case let widget as NetworkChart: widget.setValue(upload: Double(value.bandwidth.upload), download: Double(value.bandwidth.download))
+            case let widget as SpeedWidget: widget.setValue(upload: upload, download: download)
+            case let widget as NetworkChart: widget.setValue(upload: Double(upload), download: Double(download))
             default: break
             }
         }

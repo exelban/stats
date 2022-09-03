@@ -285,6 +285,7 @@
 "Channel" = "Kanał";
 "Common scale" = "Wspólna skala";
 "Autodetection" = "Autodetekcja";
+"Widget activation threshold" = "Próg aktywacji widżetu";
 
 // Battery
 "Level" = "Poziom naładowania";
