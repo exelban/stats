@@ -18,6 +18,7 @@ internal class Settings: NSStackView, Settings_v {
     private var readerType: String = "interface"
     private var usageReset: String = AppUpdateInterval.atStart.rawValue
     private var VPNModeState: Bool = false
+    private var widgetActivationThreshold: Int = 0
     
     public var callback: (() -> Void) = {}
     public var callbackWhenUpdateNumberOfProcesses: (() -> Void) = {}
@@ -25,6 +26,7 @@ internal class Settings: NSStackView, Settings_v {
     
     private let title: String
     private var button: NSPopUpButton?
+    private var valueField: NSTextField?
     
     private var list: [Network_interface] = []
     
@@ -41,6 +43,7 @@ internal class Settings: NSStackView, Settings_v {
         self.readerType = Store.shared.string(key: "\(self.title)_reader", defaultValue: self.readerType)
         self.usageReset = Store.shared.string(key: "\(self.title)_usageReset", defaultValue: self.usageReset)
         self.VPNModeState = Store.shared.bool(key: "\(self.title)_VPNMode", defaultValue: self.VPNModeState)
+        self.widgetActivationThreshold = Store.shared.int(key: "\(self.title)_widgetActivationThreshold", defaultValue: self.widgetActivationThreshold)
         
         super.init(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
         
@@ -68,6 +71,8 @@ internal class Settings: NSStackView, Settings_v {
     
     public func load(widgets: [widget_t]) {
         self.subviews.forEach{ $0.removeFromSuperview() }
+        
+        self.addArrangedSubview(self.activationSlider())
         
         self.addArrangedSubview(selectSettingsRowV1(
             title: localizedString("Number of top processes"),
@@ -151,6 +156,57 @@ internal class Settings: NSStackView, Settings_v {
         return view
     }
     
+    func activationSlider() -> NSView {
+        let view: NSStackView = NSStackView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.heightAnchor.constraint(equalToConstant: Constants.Settings.row * 1.5).isActive = true
+        view.orientation = .horizontal
+        view.alignment = .centerY
+        view.distribution = .fill
+        view.spacing = 0
+        
+        let titleField: NSTextField = LabelField(frame: NSRect(x: 0, y: 0, width: 0, height: 0), localizedString("Widget activation threshold"))
+        titleField.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+        titleField.textColor = .textColor
+        
+        let container = NSStackView()
+        container.spacing = 0
+        container.orientation = .vertical
+        container.alignment = .centerX
+        container.distribution = .fillEqually
+        
+        var value = localizedString("Disabled")
+        if self.widgetActivationThreshold != 0 {
+            value = "\(self.widgetActivationThreshold) KB"
+        }
+        
+        let valueField: NSTextField = LabelField(frame: NSRect(x: 0, y: 0, width: 0, height: 0), value)
+        valueField.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+        valueField.textColor = .textColor
+        self.valueField = valueField
+        
+        let slider = NSSlider()
+        slider.minValue = 0
+        slider.maxValue = 1024
+        slider.doubleValue = Double(self.widgetActivationThreshold)
+        slider.target = self
+        slider.isContinuous = true
+        slider.action = #selector(self.sliderCallback)
+        slider.sizeToFit()
+        
+        container.addArrangedSubview(valueField)
+        container.addArrangedSubview(slider)
+        
+        view.addArrangedSubview(titleField)
+        view.addArrangedSubview(NSView())
+        view.addArrangedSubview(container)
+        
+        container.widthAnchor.constraint(equalToConstant: 180).isActive = true
+        container.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
+        
+        return view
+    }
+    
     @objc func handleSelection(_ sender: NSPopUpButton) {
         guard let item = sender.selectedItem, let id = item.identifier?.rawValue else { return }
         
@@ -203,5 +259,18 @@ internal class Settings: NSStackView, Settings_v {
         
         self.VPNModeState = state! == .on ? true : false
         Store.shared.set(key: "\(self.title)_VPNMode", value: self.VPNModeState)
+    }
+    
+    @objc private func sliderCallback(_ sender: NSSlider) {
+        guard let valueField = self.valueField else { return }
+        
+        let value = Int(sender.doubleValue)
+        if value == 0 {
+            valueField.stringValue = localizedString("Disabled")
+        } else {
+            valueField.stringValue = "\(value) KB"
+        }
+        self.widgetActivationThreshold = value
+        Store.shared.set(key: "\(self.title)_widgetActivationThreshold", value: widgetActivationThreshold)
     }
 }
