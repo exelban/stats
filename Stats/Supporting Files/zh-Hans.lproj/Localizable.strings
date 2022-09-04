@@ -67,7 +67,7 @@
 "Square" = "方形";
 "Cube" = "立方体";
 "Logarithmic" = "对数";
-"Cores" = "Cores";
+"Cores" = "核心数";
 
 // Setup
 "Stats Setup" = "Stats 设置";
@@ -200,7 +200,7 @@
 "15 minutes" = "15 分钟";
 "CPU usage threshold" = "CPU 占用阈值";
 "CPU usage is" = "CPU 利用率是 %0";
-"Efficiency cores" = "效率核心";
+"Efficiency cores" = "能效核心";
 "Performance cores" = "性能核心";
 
 // GPU
@@ -256,8 +256,8 @@
 "Fan" = "风扇";
 "HID sensors" = "HID 传感器";
 "Synchronize fan's control" = "同步控制风扇";
-"Current" = "Current";
-"Energy" = "Energy";
+"Current" = "电流";
+"Energy" = "能耗";
 
 // Network
 "Uploading" = "上传";
@@ -283,9 +283,9 @@
 "Standard" = "标准";
 "Security" = "安全";
 "Channel" = "频道";
-"Common scale" = "Common scale";
-"Autodetection" = "Autodetection";
-"Widget activation threshold" = "Widget activation threshold";
+"Common scale" = "统一比例";
+"Autodetection" = "自动检测";
+"Widget activation threshold" = "小组件激活阀值";
 
 // Battery
 "Level" = "电量";
@@ -321,7 +321,7 @@
 "Capacity" = "容量";
 "maximum / designed" = "最大值 / 设计值";
 "Low power mode" = "低电量模式";
-"Percentage inside the icon" = "Percentage inside the icon";
+"Percentage inside the icon" = "图标内百分比";
 
 // Bluetooth
 "Battery to show" = "显示的设备";
