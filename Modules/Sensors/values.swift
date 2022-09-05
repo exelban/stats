@@ -224,7 +224,7 @@ internal let SensorsList: [Sensor] = [
     Sensor(key: "TB1T", name: "Battery", group: .system, type: .temperature, platforms: [.intel]),
     Sensor(key: "TW0P", name: "Airport", group: .system, type: .temperature, platforms: Platform.all),
     Sensor(key: "TL0P", name: "Display", group: .system, type: .temperature, platforms: Platform.all),
-    Sensor(key: "TI%P", name: "Thunderbold %", group: .system, type: .temperature, platforms: Platform.all),
+    Sensor(key: "TI%P", name: "Thunderbolt %", group: .system, type: .temperature, platforms: Platform.all),
     Sensor(key: "TH%A", name: "Disk % (A)", group: .system, type: .temperature, platforms: Platform.all),
     Sensor(key: "TH%B", name: "Disk % (B)", group: .system, type: .temperature, platforms: Platform.all),
     Sensor(key: "TH%C", name: "Disk % (C)", group: .system, type: .temperature, platforms: Platform.all),
