@@ -85,7 +85,7 @@ public class Sensors: Module {
         
         value.forEach { (s: Sensor_p) in
             if s.state {
-                list.append(KeyValue_t(key: s.key, value: s.formattedMiniValue))
+                list.append(KeyValue_t(key: s.key, value: s.formattedMiniValue, additional: s.name))
                 if let f = s as? Fan {
                     flatList.append([ColorValue(((f.value*100)/f.maxSpeed)/100)])
                 }
