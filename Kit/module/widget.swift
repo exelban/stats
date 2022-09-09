@@ -286,9 +286,16 @@ public class Widget {
     
     public func setMenuBarItem(state: Bool) {
         if state {
+            let prevTag = "NSStatusItem Preferred Position \(self.module)_\(self.type.name())"
+            let prevPosition = Store.shared.int(key: prevTag, defaultValue: -1)
+            if prevPosition != -1 {
+                Store.shared.set(key: "NSStatusItem Preferred Position \(self.module)_\(self.type.rawValue)", value: prevPosition)
+                Store.shared.remove(prevTag)
+            }
+            
             DispatchQueue.main.async(execute: {
                 self.menuBarItem = NSStatusBar.system.statusItem(withLength: self.item.frame.width)
-                self.menuBarItem?.autosaveName = "\(self.module)_\(self.type.name())"
+                self.menuBarItem?.autosaveName = "\(self.module)_\(self.type.rawValue)"
                 if self.item.frame.origin.x != self.originX {
                     self.item.setFrameOrigin(NSPoint(x: self.originX, y: self.item.frame.origin.y))
                 }
