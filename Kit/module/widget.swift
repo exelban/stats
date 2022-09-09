@@ -293,6 +293,8 @@ public class Widget {
                 Store.shared.remove(prevTag)
             }
             
+            restoreNSStatusItemPosition(id: "\(self.module)_\(self.type.rawValue)")
+            
             DispatchQueue.main.async(execute: {
                 self.menuBarItem = NSStatusBar.system.statusItem(withLength: self.item.frame.width)
                 self.menuBarItem?.autosaveName = "\(self.module)_\(self.type.rawValue)"
@@ -310,6 +312,7 @@ public class Widget {
                 self.menuBarItem?.button?.sendAction(on: [.leftMouseDown, .rightMouseDown])
             })
         } else if let item = self.menuBarItem {
+            saveNSStatusItemPosition(id: "\(self.module)_\(self.type.rawValue)")
             NSStatusBar.system.removeStatusItem(item)
             self.menuBarItem = nil
         }
@@ -402,6 +405,7 @@ public class MenuBar {
     
     private func setupMenuBarItem(_ state: Bool) {
         if state {
+            restoreNSStatusItemPosition(id: self.moduleName)
             self.menuBarItem = NSStatusBar.system.statusItem(withLength: 0)
             self.menuBarItem?.autosaveName = self.moduleName
             self.menuBarItem?.isVisible = true
@@ -411,6 +415,7 @@ public class MenuBar {
             self.menuBarItem?.button?.action = #selector(self.togglePopup)
             self.menuBarItem?.button?.sendAction(on: [.leftMouseDown, .rightMouseDown])
         } else if let item = self.menuBarItem {
+            saveNSStatusItemPosition(id: self.moduleName)
             NSStatusBar.system.removeStatusItem(item)
             self.menuBarItem = nil
         }

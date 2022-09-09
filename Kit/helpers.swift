@@ -1118,3 +1118,17 @@ public class EmptyView: NSStackView {
         fatalError("init(coder:) has not been implemented")
     }
 }
+
+public func saveNSStatusItemPosition(id: String) {
+    let position = Store.shared.int(key: "NSStatusItem Preferred Position \(id)", defaultValue: -1)
+    if position != -1 {
+        Store.shared.set(key: "NSStatusItem Restore Position \(id)", value: position)
+    }
+}
+public func restoreNSStatusItemPosition(id: String) {
+    let prevPosition = Store.shared.int(key: "NSStatusItem Restore Position \(id)", defaultValue: -1)
+    if prevPosition != -1 {
+        Store.shared.set(key: "NSStatusItem Preferred Position \(id)", value: prevPosition)
+        Store.shared.remove("NSStatusItem Restore Position \(id)")
+    }
+}
