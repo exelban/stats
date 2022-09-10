@@ -13,6 +13,7 @@ import Cocoa
 
 public protocol Settings_p: NSView {
     var toggleCallback: () -> Void { get set }
+    func setState(_ newState: Bool)
 }
 
 public protocol Settings_v: NSView {
@@ -212,6 +213,10 @@ open class Settings: NSStackView, Settings_p {
                 }
             }
         }
+    }
+    
+    public func setState(_ newState: Bool) {
+        toggleNSControlState(self.enableControl, state: newState ? .on : .off)
     }
     
     private func loadWidget() {

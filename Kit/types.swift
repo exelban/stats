@@ -207,6 +207,7 @@ public extension Notification.Name {
     static let syncFansControl = Notification.Name("syncFansControl")
     static let toggleOneView = Notification.Name("toggleOneView")
     static let widgetRearrange = Notification.Name("widgetRearrange")
+    static let pause = Notification.Name("pause")
 }
 
 public var isARM: Bool {

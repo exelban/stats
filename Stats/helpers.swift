@@ -237,4 +237,36 @@ extension AppDelegate {
             self.updateWindow.open(version)
         })
     }
+    
+    @objc internal func listenForAppPause() {
+        for m in modules {
+            if self.pauseState && m.enabled {
+                m.disable()
+            } else if !self.pauseState && !m.enabled && Store.shared.bool(key: "\(m.config.name)_state", defaultValue: m.config.defaultState) {
+                m.enable()
+            }
+        }
+        self.icon()
+    }
+    
+    internal func icon() {
+        if self.pauseState {
+            self.menuBarItem = NSStatusBar.system.statusItem(withLength: AppIcon.size.width)
+            self.menuBarItem?.autosaveName = "Stats"
+            self.menuBarItem?.button?.addSubview(AppIcon())
+            
+            self.menuBarItem?.button?.target = self
+            self.menuBarItem?.button?.action = #selector(self.openSettings)
+            self.menuBarItem?.button?.sendAction(on: [.leftMouseDown, .rightMouseDown])
+        } else {
+            if let item = self.menuBarItem {
+                NSStatusBar.system.removeStatusItem(item)
+            }
+            self.menuBarItem = nil
+        }
+    }
+    
+    @objc internal func openSettings() {
+        NotificationCenter.default.post(name: .toggleSettings, object: nil, userInfo: ["module": "Dashboard"])
+    }
 }

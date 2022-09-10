@@ -24,11 +24,11 @@ public struct module_c {
     public var name: String = ""
     public var icon: NSImage?
     
-    var defaultState: Bool = false
-    var defaultWidget: widget_t = .unknown
-    var availableWidgets: [widget_t] = []
+    public var defaultState: Bool = false
+    internal var defaultWidget: widget_t = .unknown
+    internal var availableWidgets: [widget_t] = []
     
-    var widgetsConfig: NSDictionary = NSDictionary()
+    internal var widgetsConfig: NSDictionary = NSDictionary()
     
     init(in path: String) {
         let dict: NSDictionary = NSDictionary(contentsOfFile: path)!
@@ -80,6 +80,15 @@ open class Module: Module_p {
     private let log: NextLog
     private var readers: [Reader_p] = []
     
+    private var pauseState: Bool {
+        get {
+            return Store.shared.bool(key: "pause", defaultValue: false)
+        }
+        set {
+            Store.shared.set(key: "pause", value: newValue)
+        }
+    }
+    
     public init(popup: Popup_p? = nil, settings: Settings_v? = nil) {
         self.config = module_c(in: Bundle(for: type(of: self)).path(forResource: "config", ofType: "plist")!)
         
@@ -99,6 +108,8 @@ open class Module: Module_p {
             }
             
             return
+        } else if self.pauseState {
+            self.disable()
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(listenForMouseDownInSettings), name: .clickInSettings, object: nil)
@@ -116,6 +127,10 @@ open class Module: Module_p {
         self.settings = Settings(config: &self.config, widgets: &self.menuBar.widgets, enabled: self.enabled, moduleSettings: self.settingsView)
         self.settings?.toggleCallback = { [weak self] in
             self?.toggleEnabled()
+            if self?.pauseState == true {
+                self?.pauseState = false
+                NotificationCenter.default.post(name: .pause, object: nil, userInfo: ["state": false])
+            }
         }
         
         self.popup = PopupWindow(title: self.config.name, view: self.popupView, visibilityCallback: self.visibilityCallback)
@@ -168,6 +183,7 @@ open class Module: Module_p {
             reader.start()
         }
         self.menuBar.enable()
+        self.settings?.setState(self.enabled)
         debug("Module enabled", log: self.log)
     }
     
@@ -176,9 +192,12 @@ open class Module: Module_p {
         guard self.available else { return }
         
         self.enabled = false
-        Store.shared.set(key: "\(self.config.name)_state", value: false)
+        if !self.pauseState { // omit saving the disable state when toggle by pause, need for resume state restoration
+            Store.shared.set(key: "\(self.config.name)_state", value: false)
+        }
         self.readers.forEach{ $0.stop() }
         self.menuBar.disable()
+        self.settings?.setState(self.enabled)
         self.popup?.setIsVisible(false)
         debug("Module disabled", log: self.log)
     }

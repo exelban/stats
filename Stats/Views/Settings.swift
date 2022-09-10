@@ -15,6 +15,10 @@ import Kit
 class SettingsWindow: NSWindow, NSWindowDelegate {
     private let viewController: SettingsViewController = SettingsViewController()
     
+    private var pauseState: Bool {
+        Store.shared.bool(key: "pause", defaultValue: false)
+    }
+    
     init() {
         super.init(
             contentRect: NSRect(
@@ -76,6 +80,9 @@ class SettingsWindow: NSWindow, NSWindowDelegate {
             self.setIsVisible(true)
             self.makeKeyAndOrderFront(nil)
         }
+        if !self.isKeyWindow {
+            self.orderFrontRegardless()
+        }
         
         if let name = notification.userInfo?["module"] as? String {
             self.viewController.openMenu(name)
@@ -84,7 +91,7 @@ class SettingsWindow: NSWindow, NSWindowDelegate {
     
     public func setModules() {
         self.viewController.setModules(modules)
-        if modules.filter({ $0.enabled != false && $0.available != false && !$0.menuBar.widgets.filter({ $0.isActive }).isEmpty }).isEmpty {
+        if !self.pauseState && modules.filter({ $0.enabled != false && $0.available != false && !$0.menuBar.widgets.filter({ $0.isActive }).isEmpty }).isEmpty {
             self.setIsVisible(true)
         }
     }

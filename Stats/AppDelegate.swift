@@ -39,6 +39,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
     internal let setupWindow: SetupWindow = SetupWindow()
     internal let updateActivity = NSBackgroundActivityScheduler(identifier: "eu.exelban.Stats.updateCheck")
     internal var clickInNotification: Bool = false
+    internal var menuBarItem: NSStatusItem? = nil
+    
+    internal var pauseState: Bool {
+        Store.shared.bool(key: "pause", defaultValue: false)
+    }
     
     static func main() {
         let app = NSApplication.shared
@@ -56,8 +61,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
             modules.forEach{ $0.mount() }
             self.settingsWindow.setModules()
         }
-        
         self.defaultValues()
+        self.icon()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(listenForAppPause), name: .pause, object: nil)
         
         info("Stats started in \((startingPoint.timeIntervalSinceNow * -1).rounded(toPlaces: 4)) seconds")
     }

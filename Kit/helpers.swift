@@ -1132,3 +1132,104 @@ public func restoreNSStatusItemPosition(id: String) {
         Store.shared.remove("NSStatusItem Restore Position \(id)")
     }
 }
+
+public class AppIcon: NSView {
+    public static let size: CGSize = CGSize(width: 16, height: 16)
+    
+    public init() {
+        super.init(frame: NSRect(x: 0, y: 3, width: AppIcon.size.width, height: AppIcon.size.height))
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    public override func draw(_ dirtyRect: NSRect) {
+        super.draw(dirtyRect)
+        
+        guard let ctx = NSGraphicsContext.current?.cgContext else { return }
+        ctx.setShouldAntialias(true)
+        
+        NSColor.textColor.set()
+        NSBezierPath(roundedRect: NSRect(
+            x: 0,
+            y: 0,
+            width: AppIcon.size.width,
+            height: AppIcon.size.height
+        ), xRadius: 4, yRadius: 4).fill()
+        
+        NSColor.controlTextColor.set()
+        NSBezierPath(roundedRect: NSRect(
+            x: 1.5,
+            y: 1.5,
+            width: AppIcon.size.width - 3,
+            height: AppIcon.size.height - 3
+        ), xRadius: 3, yRadius: 3).fill()
+        
+        let lineWidth = 1 / (NSScreen.main?.backingScaleFactor ?? 1) / 2
+        let offset = lineWidth/2
+        let zero = (AppIcon.size.height - 3 + 1.5)/2 + lineWidth
+        let x = 1.5
+        
+        let downloadLine = drawLine(points: [
+            (x+0, zero-offset),
+            (x+1, zero-offset),
+            (x+2, zero-offset-2.5),
+            (x+3, zero-offset-4),
+            (x+4, zero-offset),
+            (x+5, zero-offset-2),
+            (x+6, zero-offset),
+            (x+7, zero-offset),
+            (x+8, zero-offset-2),
+            (x+9, zero-offset),
+            (x+10, zero-offset-4),
+            (x+11, zero-offset-0.5),
+            (x+12, zero-offset)
+        ], color: NSColor.systemBlue, lineWidth: lineWidth)
+        
+        let uploadLine = drawLine(points: [
+            (x+0, zero+offset),
+            (x+1, zero+offset),
+            (x+2, zero+offset+2),
+            (x+3, zero+offset),
+            (x+4, zero+offset),
+            (x+5, zero+offset),
+            (x+6, zero+offset+3),
+            (x+7, zero+offset+3),
+            (x+8, zero+offset),
+            (x+9, zero+offset+1),
+            (x+10, zero+offset+5),
+            (x+11, zero+offset),
+            (x+12, zero+offset)
+        ], color: NSColor.systemRed, lineWidth: lineWidth)
+        
+        ctx.saveGState()
+        drawUnderLine(dirtyRect, path: downloadLine, color: NSColor.systemBlue, x: x, y: zero-offset)
+        ctx.restoreGState()
+        ctx.saveGState()
+        drawUnderLine(dirtyRect, path: uploadLine, color: NSColor.systemRed, x: x, y: zero+offset)
+        ctx.restoreGState()
+    }
+    
+    private func drawLine(points: [(CGFloat, CGFloat)], color: NSColor, lineWidth: CGFloat) -> NSBezierPath {
+        let linePath = NSBezierPath()
+        linePath.move(to: CGPoint(x: points[0].0, y: points[0].1))
+        for i in 1..<points.count {
+            linePath.line(to: CGPoint(x: points[i].0, y: points[i].1))
+        }
+        color.setStroke()
+        linePath.lineWidth = lineWidth
+        linePath.stroke()
+        return linePath
+    }
+    
+    private func drawUnderLine(_ rect: NSRect, path: NSBezierPath, color: NSColor, x: CGFloat, y: CGFloat) {
+        let underLinePath = path.copy() as! NSBezierPath
+        underLinePath.line(to: CGPoint(x: x, y: y))
+        underLinePath.line(to: CGPoint(x: x, y: y))
+        underLinePath.close()
+        underLinePath.addClip()
+        color.withAlphaComponent(0.5).setFill()
+        NSBezierPath(rect: rect).fill()
+    }
+}
