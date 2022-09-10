@@ -118,6 +118,8 @@
 "Start at login" = "Zaženi ob prijavi";
 "Build number" = "Številka gradnje";
 "Reset settings" = "Ponastavi nastavitve";
+"Pause the Stats" = "Pause the Stats";
+"Resume the Stats" = "Resume the Stats";
 
 // Dashboard
 "Serial number" = "Serijska številka";

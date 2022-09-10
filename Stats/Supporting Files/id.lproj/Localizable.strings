@@ -118,6 +118,8 @@
 "Start at login" = "Mulai saat login";
 "Build number" = "Build number";
 "Reset settings" = "Atur ulang pengaturan";
+"Pause the Stats" = "Pause the Stats";
+"Resume the Stats" = "Resume the Stats";
 
 // Dashboard
 "Serial number" = "Nomor serial";

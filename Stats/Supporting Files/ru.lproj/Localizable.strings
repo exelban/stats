@@ -118,6 +118,8 @@
 "Start at login" = "Запуск при входе";
 "Build number" = "Номер сборки";
 "Reset settings" = "Сбросить настройки";
+"Pause the Stats" = "Приостановить Stats";
+"Resume the Stats" = "Возобновить Stats";
 
 // Dashboard
 "Serial number" = "Серийный номер";

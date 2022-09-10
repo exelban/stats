@@ -118,6 +118,8 @@
 "Start at login" = "로그인시 시작";
 "Build number" = "빌드 번호";
 "Reset settings" = "설정 초기화";
+"Pause the Stats" = "Pause the Stats";
+"Resume the Stats" = "Resume the Stats";
 
 // Dashboard
 "Serial number" = "일련 번호";

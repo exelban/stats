@@ -118,6 +118,8 @@
 "Start at login" = "Öppna vid inloggning";
 "Build number" = "Byggnummer";
 "Reset settings" = "Återställ inställningar";
+"Pause the Stats" = "Pause the Stats";
+"Resume the Stats" = "Resume the Stats";
 
 // Dashboard
 "Serial number" = "Serienummer";

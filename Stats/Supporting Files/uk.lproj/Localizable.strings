@@ -118,6 +118,8 @@
 "Start at login" = "Запускати при логуванні";
 "Build number" = "Номер збірки";
 "Reset settings" = "Скинути налаштування";
+"Pause the Stats" = "Призупинити Stats";
+"Resume the Stats" = "Відновити Stats";
 
 // Dashboard
 "Serial number" = "Серійний номер";

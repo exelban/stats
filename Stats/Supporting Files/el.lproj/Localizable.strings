@@ -118,6 +118,8 @@
 "Start at login" = "Εκκίνηση κατά τη σύνδεση";
 "Build number" = "Αριθμός Build";
 "Reset settings" = "Επαναφορά ρυθμίσεων";
+"Pause the Stats" = "Pause the Stats";
+"Resume the Stats" = "Resume the Stats";
 
 // Dashboard
 "Serial number" = "Σειριακός αριθμός";

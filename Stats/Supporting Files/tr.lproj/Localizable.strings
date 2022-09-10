@@ -118,6 +118,8 @@
 "Start at login" = "Başlangıçta çalıştır";
 "Build number" = "Build number";
 "Reset settings" = "Ayarları sıfırla";
+"Pause the Stats" = "Pause the Stats";
+"Resume the Stats" = "Resume the Stats";
 
 // Dashboard
 "Serial number" = "Seri numarası";

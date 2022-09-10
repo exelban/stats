@@ -118,6 +118,8 @@
 "Start at login" = "Khởi động lúc đăng nhập";
 "Build number" = "Số hiệu bản dựng";
 "Reset settings" = "Thiết lập lại cài đặt";
+"Pause the Stats" = "Pause the Stats";
+"Resume the Stats" = "Resume the Stats";
 
 // Dashboard
 "Serial number" = "Số sê-ri";

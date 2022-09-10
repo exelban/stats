@@ -118,6 +118,8 @@
 "Start at login" = "התחל בעלייה";
 "Build number" = "מספר בילד";
 "Reset settings" = "איפוס הגדרות";
+"Pause the Stats" = "Pause the Stats";
+"Resume the Stats" = "Resume the Stats";
 
 // Dashboard
 "Serial number" = "מספר סריאלי";

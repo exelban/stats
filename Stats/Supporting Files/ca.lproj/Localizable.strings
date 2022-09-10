@@ -118,6 +118,8 @@
 "Start at login" = "Arranca al iniciar sessió";
 "Build number" = "Build number";
 "Reset settings" = "Reset settings";
+"Pause the Stats" = "Pause the Stats";
+"Resume the Stats" = "Resume the Stats";
 
 // Dashboard
 "Serial number" = "Número de sèrie";

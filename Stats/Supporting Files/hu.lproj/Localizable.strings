@@ -104,6 +104,8 @@
 "Close application" = "Alkalmazás bezárása";
 "Open application settings" = "Beállítások megnyitása";
 "Open dashboard" = "Irányítópult megnyitása";
+"Pause the Stats" = "Pause the Stats";
+"Resume the Stats" = "Resume the Stats";
 
 // Application settings
 "Update application" = "Alkalmazás frissítése";

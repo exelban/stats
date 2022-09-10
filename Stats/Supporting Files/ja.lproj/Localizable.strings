@@ -118,6 +118,8 @@
 "Start at login" = "ログイン時に開く";
 "Build number" = "ビルド番号";
 "Reset settings" = "設定をリセット";
+"Pause the Stats" = "Pause the Stats";
+"Resume the Stats" = "Resume the Stats";
 
 // Dashboard
 "Serial number" = "シリアル番号";

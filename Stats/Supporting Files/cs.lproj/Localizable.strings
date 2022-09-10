@@ -118,6 +118,8 @@
 "Start at login" = "Spustit po přihlášení";
 "Build number" = "Číslo sestavení";
 "Reset settings" = "Obnovit nastavení";
+"Pause the Stats" = "Pause the Stats";
+"Resume the Stats" = "Resume the Stats";
 
 // Dashboard
 "Serial number" = "Sériové číslo";

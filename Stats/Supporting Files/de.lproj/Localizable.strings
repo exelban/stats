@@ -118,6 +118,8 @@
 "Start at login" = "Beim Login starten";
 "Build number" = "Build-Nummer";
 "Reset settings" = "Einstellungen zurücksetzen";
+"Pause the Stats" = "Pause the Stats";
+"Resume the Stats" = "Resume the Stats";
 
 // Dashboard
 "Serial number" = "Seriennummer";
