@@ -57,15 +57,15 @@
 "Center alignment" = "居中";
 "Right alignment" = "右对齐";
 "Dashboard" = "仪表盘";
-"Enabled" = "Enabled";
+"Enabled" = "已启用";
 "Disabled" = "已停用";
 "Silent" = "运行时静默";
 "Units" = "单位";
 "Fans" = "风扇";
 "Scaling" = "缩放";
 "Linear" = "线性";
-"Square" = "方形";
-"Cube" = "立方体";
+"Square" = "平方";
+"Cube" = "立方";
 "Logarithmic" = "对数";
 "Cores" = "核心数";
 
