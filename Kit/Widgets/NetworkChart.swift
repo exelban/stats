@@ -85,7 +85,7 @@ public class NetworkChart: WidgetWrapper {
             
             if let downloadColor =  self.downloadColor.additional as? NSColor,
                let uploadColor = self.uploadColor.additional as? NSColor {
-                self.chart.colors = [downloadColor, uploadColor]
+                self.chart.colors = [uploadColor, downloadColor]
             }
             self.chart.setScale(self.scaleState, self.commonScaleState)
             self.chart.reinit(self.historyCount)
