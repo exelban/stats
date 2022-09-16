@@ -103,7 +103,16 @@ extension CWChannel {
 
 internal class UsageReader: Reader<Network_Usage> {
     private var reachability: Reachability = Reachability(start: true)
-    private var usage: Network_Usage = Network_Usage()
+    private let variablesQueue = DispatchQueue(label: "eu.exelban.NetworkUsageReader")
+    private var _usage: Network_Usage = Network_Usage()
+    public var usage: Network_Usage {
+        get {
+            self.variablesQueue.sync { self._usage }
+        }
+        set {
+            self.variablesQueue.sync { self._usage = newValue }
+        }
+    }
     
     private var primaryInterface: String {
         get {
