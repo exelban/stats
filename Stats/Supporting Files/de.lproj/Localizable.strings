@@ -70,32 +70,32 @@
 "Cores" = "Cores";
 
 // Setup
-"Stats Setup" = "Stats Setup";
-"Previous" = "Previous";
-"Previous page" = "Previous page";
-"Next" = "Next";
-"Next page" = "Next page";
-"Finish" = "Finish";
-"Finish setup" = "Finish setup";
-"Welcome to Stats" = "Welcome to Stats";
-"welcome_message" = "Thanks for using Stats, a free open source macOS system monitor for your menu bar.";
-"Start the application automatically when starting your Mac" = "Start the application automatically when starting your Mac";
-"Do not start the application automatically when starting your Mac" = "Do not start the application automatically when starting your Mac";
-"Do everything silently in the background (recommended)" = "Do everything silently in the background (recommended)";
-"Check for a new version on startup" = "Check for a new version on startup";
-"Check for a new version every day (once a day)" = "Check for a new version every day (once a day)";
-"Check for a new version every week (once a week)" = "Check for a new version every week (once a week)";
-"Check for a new version every month (once a month)" = "Check for a new version every month (once a month)";
-"Never check for updates (not recommended)" = "Never check for updates (not recommended)";
-"The configuration is completed" = "The configuration is completed";
-"finish_setup_message" = "Everything is set up! \n The Stats is an open source tool, it's free and always be. \n If you enjoy it you can support a project, it's always appreciated!";
+"Stats Setup" = "Stats einrichten";
+"Previous" = "Zurück";
+"Previous page" = "Vorherige Seite";
+"Next" = "Weiter";
+"Next page" = "Nächste Seite";
+"Finish" = "Fertigstellen";
+"Finish setup" = "Einrichtung abschließen";
+"Welcome to Stats" = "Willkommen zu Stats";
+"welcome_message" = "Danke für die Benutzung von Stats, einem kostenlosen Open Source macOS System-Überwachungstool für die Statusleiste.";
+"Start the application automatically when starting your Mac" = "Starte Stats automatisch mit dem Mac";
+"Do not start the application automatically when starting your Mac" = "Starte Stats nicht automatisch mit dem Mac";
+"Do everything silently in the background (recommended)" = "Alles ohne Nachfrage im Hintergrund durchführen. (empfohlen)";
+"Check for a new version on startup" = "Prüfe auf neue Version beim Start";
+"Check for a new version every day (once a day)" = "Prüfe tägliche auf Updates (einmal pro Tag)";
+"Check for a new version every week (once a week)" = "Prüfe wöchentlich auf Updates (einmal pro Woche)";
+"Check for a new version every month (once a month)" = "Prüfe monatlich auf Updates (einmal pro Monat)";
+"Never check for updates (not recommended)" = "Nie nach neuen Updates suchen (nicht empfohlen)";
+"The configuration is completed" = "Die Einrichtung ist abgeschlossen";
+"finish_setup_message" = "Alles erledigt! \n Stats ist ein Open Source Program. Es ist und bleibt für immer kostenlos. \n Wenn es Ihnen gefällt, können Sie das Projekt gerne unterstützen!";
 
 // Alerts
 "New version available" = "Neue Version verfügbar";
 "Click to install the new version of Stats" = "Klicken Sie hier, um die neue Version von Stats zu installieren";
 "Successfully updated" = "Erfolgreich aktualisiert";
 "Stats was updated to v" = "Stats wurde auf v%0 aktualisiert";
-"Reset settings text" = "Alle Einstellungen der Applikation werden zurückgesetzt und die Applikation neu gestartet. Möchten Sie dies wirklich?";
+"Reset settings text" = "Alle Einstellungen von Stats werden zurückgesetzt und Stats wird im Anschluss neu gestartet. Möchten Sie dies wirklich?";
 
 // Settings
 "Open Activity Monitor" = "Aktivitätsanzeige öffnen";
@@ -118,16 +118,16 @@
 "Start at login" = "Beim Login starten";
 "Build number" = "Build-Nummer";
 "Reset settings" = "Einstellungen zurücksetzen";
-"Pause the Stats" = "Pause the Stats";
-"Resume the Stats" = "Resume the Stats";
+"Pause the Stats" = "Stats pausieren";
+"Resume the Stats" = "Stats fortsetzen";
 
 // Dashboard
 "Serial number" = "Seriennummer";
 "Uptime" = "Betriebszeit";
-"Number of cores" = "%0 cores";
-"Number of threads" = "%0 threads";
-"Number of e-cores" = "%0 efficiency cores";
-"Number of p-cores" = "%0 performance cores";
+"Number of cores" = "%0 Cores";
+"Number of threads" = "%0 Threads";
+"Number of e-cores" = "%0 Efficiency Cores";
+"Number of p-cores" = "%0 Performance Cores";
 
 // Update
 "The latest version of Stats installed" = "Die neueste Version von Stats ist installiert";
@@ -162,10 +162,10 @@
 "Tachometer widget" = "Tachometer";
 "Show symbols" = "Symbole anzeigen";
 "Label widget" = "Label";
-"Number of reads in the chart" = "Number of reads in the chart";
+"Number of reads in the chart" = "Anzahl an Elementen im Diagramm";
 "Color of download" = "Download Farbe";
 "Color of upload" = "Upload Farbe";
-"Merge widgets" = "Merge widgets";
+"Merge widgets" = "Widgets zusammenfassen";
 
 // Module Kit
 "Open module settings" = "Modul Einstellungen öffnen";
@@ -182,7 +182,7 @@
 // Modules
 "Number of top processes" = "Anzahl der Top-Prozesse";
 "Update interval for top processes" = "Update-Intervall der Top-Prozesse";
-"Notification level" = "Notification level";
+"Notification level" = "Benachrichtungslevel";
 
 // CPU
 "CPU usage" = "CPU Nutzung";
@@ -200,10 +200,10 @@
 "1 minute" = "1 Minute";
 "5 minutes" = "5 Minuten";
 "15 minutes" = "15 Minuten";
-"CPU usage threshold" = "CPU usage threshold";
-"CPU usage is" = "CPU usage is %0";
-"Efficiency cores" = "Efficiency cores";
-"Performance cores" = "Performance cores";
+"CPU usage threshold" = "Schwellwert für CPU Auslastung erreicht";
+"CPU usage is" = "Auslastung ist %0";
+"Efficiency cores" = "Efficiency Cores";
+"Performance cores" = "Performance Cores";
 
 // GPU
 "GPU to show" = "GPU auswählen";
@@ -221,10 +221,10 @@
 "Core clock" = "Kern Taktfrequenz";
 "Memory clock" = "Speicher Taktfrequenz";
 "Utilization" = "Auslastung";
-"Render utilization" = "Render utilization";
-"Tiler utilization" = "Tiler utilization";
-"GPU usage threshold" = "GPU usage threshold";
-"GPU usage is" = "GPU usage is %0";
+"Render utilization" = "Rendering Auslastung";
+"Tiler utilization" = "Tile Rendering Auslastung";
+"GPU usage threshold" = "Schwellwert für GPU Auslastung erreicht";
+"GPU usage is" = "Auslastung ist %0";
 
 // RAM
 "Memory usage" = "Speicherauslastung";
@@ -237,8 +237,8 @@
 "Free" = "Frei";
 "Swap" = "Swap";
 "Split the value (App/Wired/Compressed)" = "Teilen Sie den Wert auf (App/Reserviert/Komprimiert)";
-"RAM utilization threshold" = "RAM utilization threshold";
-"RAM utilization is" = "RAM utilization is %0";
+"RAM utilization threshold" = "Schwellwert für RAM Auslastung erreicht";
+"RAM utilization is" = "Auslastung ist %0";
 
 // Disk
 "Show removable disks" = "Wechseldatenträger anzeigen";
@@ -247,8 +247,8 @@
 "Disk to show" = "Festplatte auswählen";
 "Open disk" = "Festplatte öffnen";
 "Switch view" = "Ansicht wechseln";
-"Disk utilization threshold" = "Disk utilization threshold";
-"Disk utilization is" = "Disk utilization is %0";
+"Disk utilization threshold" = "Schwellwert für Datenträger Auslastung erreicht";
+"Disk utilization is" = "Auslastung ist %0";
 
 // Sensors
 "Temperature unit" = "Temperatureinheit";
@@ -257,7 +257,7 @@
 "Save the fan speed" = "Lüftergeschwindigkeit speichern";
 "Fan" = "Lüfter";
 "HID sensors" = "HID sensors";
-"Synchronize fan's control" = "Synchronize fan's control";
+"Synchronize fan's control" = "Lüfter synchron halten";
 "Current" = "Current";
 "Energy" = "Energy";
 
@@ -269,10 +269,10 @@
 "Interface" = "Schnittstelle";
 "Physical address" = "Physische Adresse";
 "Refresh" = "Aktualisieren";
-"Click to copy public IP address" = "Klicken Sie zum Kopieren der öffentlichen IP-Adresse";
-"Click to copy local IP address" = "Klicken Sie zum Kopieren der lokalen IP-Adresse";
-"Click to copy wifi name" = "Klicken Sie zum Kopieren des WLAN-Namens";
-"Click to copy mac address" = "Klicken Sie zum Kopieren der MAC-Adresse";
+"Click to copy public IP address" = "Öffentliche IP-Adresse kopieren";
+"Click to copy local IP address" = "Lokale IP-Adresse kopieren";
+"Click to copy wifi name" = "WLAN-Name kopieren";
+"Click to copy mac address" = "MAC-Adresse kopieren";
 "No connection" = "Keine Verbindung";
 "Network interface" = "Netzwerkschnittstelle";
 "Total download" = "Empfangen";
@@ -283,11 +283,11 @@
 "Reset data usage" = "Nutzungsdaten zurücksetzen";
 "VPN mode" = "VPN Modus";
 "Standard" = "Standard";
-"Security" = "Security";
-"Channel" = "Channel";
+"Security" = "Sicherheit";
+"Channel" = "Kanal";
 "Common scale" = "Common scale";
-"Autodetection" = "Autodetection";
-"Widget activation threshold" = "Widget activation threshold";
+"Autodetection" = "Automatisch";
+"Widget activation threshold" = "Schwellwert für Anzeige vom Widget";
 
 // Battery
 "Level" = "Ladezustand";
@@ -322,8 +322,8 @@
 "Last charge" = "Letzte Ladung";
 "Capacity" = "Kapazität";
 "maximum / designed" = "maximum / designed";
-"Low power mode" = "Low power mode";
-"Percentage inside the icon" = "Percentage inside the icon";
+"Low power mode" = "Stromsparmodus";
+"Percentage inside the icon" = "Prozenzsatz im Symbol";
 
 // Bluetooth
 "Battery to show" = "Angezeigter Akku";
