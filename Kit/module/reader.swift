@@ -62,7 +62,18 @@ open class Reader<T>: NSObject, ReaderInternal_p {
     private var ready: Bool = false
     private var locked: Bool = true
     private var initlizalized: Bool = false
-    public var active: Bool = false
+    
+    private let variablesQueue = DispatchQueue(label: "eu.exelban.readerQueue")
+    
+    private var _active: Bool = false
+    public var active: Bool {
+        get {
+            self.variablesQueue.sync { self._active }
+        }
+        set {
+            self.variablesQueue.sync { self._active = newValue }
+        }
+    }
     
     private var history: [T]? = []
     
