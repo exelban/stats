@@ -549,3 +549,12 @@ extension NSTextView {
         return super.performKeyEquivalent(with: event)
     }
 }
+
+public extension Data {
+    var socketAddress: sockaddr {
+        return withUnsafeBytes { $0.load(as: sockaddr.self) }
+    }
+    var socketAddressInternet: sockaddr_in {
+        return withUnsafeBytes { $0.load(as: sockaddr_in.self) }
+    }
+}
