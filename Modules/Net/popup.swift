@@ -35,7 +35,8 @@ internal class Popup: NSStackView, Popup_p {
     private var macAdressField: ValueField? = nil
     private var totalUploadField: ValueField? = nil
     private var totalDownloadField: ValueField? = nil
-    private var connectionField: ValueField? = nil
+    private var statusField: ValueField? = nil
+    private var connectivityField: ValueField? = nil
     
     private var publicIPStackView: NSStackView? = nil
     private var publicIPv4Field: ValueField? = nil
@@ -50,6 +51,7 @@ internal class Popup: NSStackView, Popup_p {
     
     private var initialized: Bool = false
     private var processesInitialized: Bool = false
+    private var connectionInitialized: Bool = false
     
     private var chart: NetworkChartView? = nil
     private var processes: [NetworkProcessView] = []
@@ -186,7 +188,8 @@ internal class Popup: NSStackView, Popup_p {
         self.totalUploadField = popupWithColorRow(container, color: NSColor.systemRed, n: 5, title: "\(localizedString("Total upload")):", value: "0")
         self.totalDownloadField = popupWithColorRow(container, color: NSColor.systemBlue, n: 4, title: "\(localizedString("Total download")):", value: "0")
         
-        self.connectionField = popupRow(container, n: 0, title: "\(localizedString("Status")):", value: localizedString("Unknown")).1
+        self.statusField = popupRow(container, n: 0, title: "\(localizedString("Status")):", value: localizedString("Unknown")).1
+        self.connectivityField = popupRow(container, n: 0, title: "\(localizedString("Connectivity")):", value: localizedString("Unknown")).1
         
         self.ssidField = popupRow(container, n: 0, title: "\(localizedString("Network")):", value: localizedString("Unknown")).1
         self.standardField = popupRow(container, n: 0, title: "\(localizedString("Standard")):", value: localizedString("Unknown")).1
@@ -355,7 +358,7 @@ internal class Popup: NSStackView, Popup_p {
                     self.localIPField?.stringValue = value.laddr ?? localizedString("Unknown")
                 }
                 
-                self.connectionField?.stringValue = localizedString(value.status ? "UP" : "DOWN")
+                self.statusField?.stringValue = localizedString(value.status ? "UP" : "DOWN")
                 
                 self.initialized = true
             }
@@ -365,6 +368,20 @@ internal class Popup: NSStackView, Popup_p {
                     chart.base = self.base
                 }
                 chart.addValue(upload: Double(value.bandwidth.upload), download: Double(value.bandwidth.download))
+            }
+        })
+    }
+    
+    public func connectivityCallback(_ value: Bool?) {
+        DispatchQueue.main.async(execute: {
+            if (self.window?.isVisible ?? false) || !self.connectionInitialized {
+                var text = "Unknown"
+                if let v = value, v == true {
+                    text = v ? "UP" : "DOWN"
+                }
+                
+                self.connectivityField?.stringValue = localizedString(text)
+                self.connectionInitialized = true
             }
         })
     }

@@ -105,6 +105,7 @@ public class Network: Module {
     
     private var usageReader: UsageReader? = nil
     private var processReader: ProcessReader? = nil
+    private var connectivityReader: ConnectivityReader? = nil
     
     private let ipUpdater = NSBackgroundActivityScheduler(identifier: "eu.exelban.Stats.Network.IP")
     private let usageReseter = NSBackgroundActivityScheduler(identifier: "eu.exelban.Stats.Network.Usage")
@@ -127,6 +128,7 @@ public class Network: Module {
         
         self.usageReader = UsageReader()
         self.processReader = ProcessReader()
+        self.connectivityReader = ConnectivityReader()
         
         self.settingsView.callbackWhenUpdateNumberOfProcesses = {
             self.popupView.numberOfProcessesUpdated()
@@ -148,6 +150,10 @@ public class Network: Module {
             }
         }
         
+        self.connectivityReader?.callbackHandler = { [unowned self] value in
+            self.popupView.connectivityCallback(value)
+        }
+        
         self.settingsView.callback = { [unowned self] in
             self.usageReader?.getDetails()
             self.usageReader?.read()
@@ -160,6 +166,9 @@ public class Network: Module {
             self.addReader(reader)
         }
         if let reader = self.processReader {
+            self.addReader(reader)
+        }
+        if let reader = self.connectivityReader {
             self.addReader(reader)
         }
         
