@@ -118,8 +118,8 @@
 "Start at login" = "登入時打開";
 "Build number" = "組建號碼";
 "Reset settings" = "重置設定";
-"Pause the Stats" = "Pause the Stats";
-"Resume the Stats" = "Resume the Stats";
+"Pause the Stats" = "暫停 Stats";
+"Resume the Stats" = "恢復 Stats";
 
 // Dashboard
 "Serial number" = "序號";
