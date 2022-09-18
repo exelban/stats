@@ -264,12 +264,12 @@
 // Network
 "Uploading" = "上傳";
 "Downloading" = "下載";
-"Public IP" = "公網 IP";
+"Public IP" = "公用 IP";
 "Local IP" = "區域 IP";
 "Interface" = "介面";
 "Physical address" = "實體位址";
 "Refresh" = "重新整理";
-"Click to copy public IP address" = "點按來拷貝公網 IP 位址";
+"Click to copy public IP address" = "點按來拷貝公用 IP 位址";
 "Click to copy local IP address" = "點按來拷貝區域 IP 位址";
 "Click to copy wifi name" = "點按來拷貝 Wi-Fi 名稱";
 "Click to copy mac address" = "點按來拷貝 MAC 位址";
@@ -321,7 +321,7 @@
 "Hide additional information when full" = "電池充飽後隱藏其他資訊";
 "Last charge" = "最近一次充電";
 "Capacity" = "容量";
-"maximum / designed" = "最大容量 / 設計容量";
+"maximum / designed" = "最大容量/設計容量";
 "Low power mode" = "低電量模式";
 "Percentage inside the icon" = "圖示內百分比";
 
