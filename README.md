@@ -15,7 +15,7 @@ This will download a file called `Stats.dmg`. Open it and move the app to the ap
 ### Homebrew
 To install it using Homebrew, open the Terminal app and type:
 ```bash
-brew install --cask stats
+brew install stats
 ```
 
 ## Requirements
