@@ -151,7 +151,7 @@ public class Network: Module {
         }
         
         self.connectivityReader?.callbackHandler = { [unowned self] value in
-            self.popupView.connectivityCallback(value)
+            self.connectivityCallback(value)
         }
         
         self.settingsView.callback = { [unowned self] in
@@ -206,6 +206,19 @@ public class Network: Module {
             switch w.item {
             case let widget as SpeedWidget: widget.setValue(upload: upload, download: download)
             case let widget as NetworkChart: widget.setValue(upload: Double(upload), download: Double(download))
+            default: break
+            }
+        }
+    }
+    
+    private func connectivityCallback(_ raw: Bool?) {
+        guard let value = raw, self.enabled else { return }
+        
+        self.popupView.connectivityCallback(value)
+        
+        self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
+            switch w.item {
+            case let widget as StateWidget: widget.setValue(value)
             default: break
             }
         }

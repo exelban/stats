@@ -24,6 +24,7 @@ public enum widget_t: String {
     case memory = "memory"
     case label = "label"
     case tachometer = "tachometer"
+    case state = "state"
     
     public func new(module: String, config: NSDictionary, defaultWidget: widget_t) -> Widget? {
         var image: NSImage? = nil
@@ -68,6 +69,9 @@ public enum widget_t: String {
         case .tachometer:
             preview = Tachometer(title: module, config: widgetConfig, preview: true)
             item = Tachometer(title: module, config: widgetConfig, preview: false)
+        case .state:
+            preview = StateWidget(title: module, config: widgetConfig, preview: true)
+            item = StateWidget(title: module, config: widgetConfig, preview: false)
         default: break
         }
         
@@ -128,6 +132,7 @@ public enum widget_t: String {
         case .memory: return localizedString("Memory widget")
         case .label: return localizedString("Label widget")
         case .tachometer: return localizedString("Tachometer widget")
+        case .state: return localizedString("State widget")
         default: return ""
         }
     }

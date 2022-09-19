@@ -122,6 +122,7 @@
 		9AE29AF6249A52B00071B02D /* config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9AE29AF4249A52870071B02D /* config.plist */; };
 		9AE29AFB249A53DC0071B02D /* readers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE29AF9249A53780071B02D /* readers.swift */; };
 		9AE29AFC249A53DC0071B02D /* values.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE29AF7249A53420071B02D /* values.swift */; };
+		9AEBBE4D28D773430082A6A1 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEBBE4C28D773430082A6A1 /* State.swift */; };
 		9AF9EE0924648751005D2270 /* Disk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AF9EE0224648751005D2270 /* Disk.framework */; };
 		9AF9EE0A24648751005D2270 /* Disk.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9AF9EE0224648751005D2270 /* Disk.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9AF9EE0F2464875F005D2270 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF9EE0E2464875F005D2270 /* main.swift */; };
@@ -446,6 +447,7 @@
 		9AE29AF4249A52870071B02D /* config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = config.plist; path = Modules/Sensors/config.plist; sourceTree = SOURCE_ROOT; };
 		9AE29AF7249A53420071B02D /* values.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = values.swift; path = Modules/Sensors/values.swift; sourceTree = SOURCE_ROOT; };
 		9AE29AF9249A53780071B02D /* readers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = readers.swift; path = Modules/Sensors/readers.swift; sourceTree = SOURCE_ROOT; };
+		9AEBBE4C28D773430082A6A1 /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
 		9AF9EE0224648751005D2270 /* Disk.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Disk.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AF9EE0524648751005D2270 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9AF9EE0E2464875F005D2270 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -661,6 +663,7 @@
 				9A28475E2666AA2700EC1F6D /* Sensors.swift */,
 				9A28475C2666AA2700EC1F6D /* Speed.swift */,
 				9A9B8C9C27149A3700218374 /* Tachometer.swift */,
+				9AEBBE4C28D773430082A6A1 /* State.swift */,
 			);
 			path = Widgets;
 			sourceTree = "<group>";
@@ -1520,6 +1523,7 @@
 				9A2847792666AA5000EC1F6D /* module.swift in Sources */,
 				9A2847662666AA2700EC1F6D /* Speed.swift in Sources */,
 				9A2847682666AA2700EC1F6D /* Sensors.swift in Sources */,
+				9AEBBE4D28D773430082A6A1 /* State.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

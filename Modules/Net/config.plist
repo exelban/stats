@@ -40,6 +40,18 @@
 				<string>system</string>
 			</array>
 		</dict>
+		<key>state</key>
+		<dict>
+			<key>Default</key>
+			<false/>
+			<key>Order</key>
+			<integer>3</integer>
+			<key>Preview</key>
+			<dict>
+				<key>Value</key>
+				<true/>
+			</dict>
+		</dict>
 	</dict>
 </dict>
 </plist>
