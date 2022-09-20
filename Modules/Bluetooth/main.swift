@@ -81,7 +81,7 @@ public class Bluetooth: Module {
         active.forEach { (d: BLEDevice) in
             if d.state {
                 d.batteryLevel.forEach { (p: KeyValue_t) in
-                    list.append(KeyValue_t(key: p.key, value: "\(p.value)%"))
+                    list.append(KeyValue_t(key: "\(d.address)-\(p.key)", value: "\(p.value)%"))
                 }
             }
         }
