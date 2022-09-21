@@ -168,16 +168,18 @@ internal class SensorsReader: Reader<[Sensor_p]> {
             }
         }
         
-        // Cumulative power is in watt-hours
-        if let PSTRSensor = self.list.first(where: { $0.key == "PSTR"}) {
-            if let totalIdx = self.list.firstIndex(where: {$0.key == "Total System Consumption"}) {
-                self.list[totalIdx].value += PSTRSensor.value * Date().timeIntervalSince(self.lastRead) / 3600
-                if let avgIdx = self.list.firstIndex(where: {$0.key == "Average System Total"}) {
-                    // Avg power consumption is simply total consumption divided by time online
-                    self.list[avgIdx].value = self.list[totalIdx].value * 3600 / Date().timeIntervalSince(self.firstRead)
+        if let PSTRSensor = self.list.first(where: { $0.key == "PSTR"}), PSTRSensor.value > 0 {
+            let sinceLastRead = Date().timeIntervalSince(self.lastRead)
+            let sinceFirstRead = Date().timeIntervalSince(self.firstRead)
+            
+            if let totalIdx = self.list.firstIndex(where: {$0.key == "Total System Consumption"}), sinceLastRead > 0 {
+                self.list[totalIdx].value += PSTRSensor.value * sinceLastRead / 3600
+                if let avgIdx = self.list.firstIndex(where: {$0.key == "Average System Total"}), sinceFirstRead > 0 {
+                    self.list[avgIdx].value = self.list[totalIdx].value * 3600 / sinceFirstRead
                 }
-                self.lastRead = Date()
             }
+            
+            self.lastRead = Date()
         }
         
         self.callback(self.list)
