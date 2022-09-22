@@ -12,7 +12,12 @@
 import Cocoa
 
 public class StateWidget: WidgetWrapper {
+    private var activeColorState: Color = .secondGreen
+    private var nonactiveColorState: Color = .secondRed
+    
     private var value: Bool = false
+    
+    private var colors: [Color] = Color.allColors
     
     public init(title: String, config: NSDictionary?, preview: Bool = false) {
         if config != nil {
@@ -36,6 +41,11 @@ public class StateWidget: WidgetWrapper {
         ))
         
         self.canDrawConcurrently = true
+        
+        if !preview {
+            self.activeColorState = Color.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_activeColor", defaultValue: self.activeColorState.key))
+            self.nonactiveColorState = Color.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_nonactiveColor", defaultValue: self.nonactiveColorState.key))
+        }
     }
     
     required init?(coder: NSCoder) {
@@ -46,7 +56,8 @@ public class StateWidget: WidgetWrapper {
         super.draw(dirtyRect)
         
         let circle = NSBezierPath(ovalIn: CGRect(x: Constants.Widget.margin.x, y: (self.frame.height - 8)/2, width: 8, height: 8))
-        (self.value ? NSColor.systemGreen : NSColor.systemRed).set()
+        let color = self.value ? self.activeColorState : self.nonactiveColorState
+        (color.additional as? NSColor)?.set()
         circle.fill()
     }
     
@@ -56,5 +67,51 @@ public class StateWidget: WidgetWrapper {
         DispatchQueue.main.async(execute: {
             self.display()
         })
+    }
+    
+    // MARK: - Settings
+    
+    public override func settings() -> NSView {
+        let view = SettingsContainerView()
+        
+        view.addArrangedSubview(selectSettingsRow(
+            title: localizedString("Active state color"),
+            action: #selector(self.toggleActiveColor),
+            items: self.colors,
+            selected: self.activeColorState.key
+        ))
+        
+        view.addArrangedSubview(selectSettingsRow(
+            title: localizedString("Nonactive state color"),
+            action: #selector(self.toggleNonactiveColor),
+            items: self.colors,
+            selected: self.nonactiveColorState.key
+        ))
+        
+        return view
+    }
+    
+    @objc private func toggleActiveColor(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String else {
+            return
+        }
+        if let newColor = Color.allCases.first(where: { $0.key == key }) {
+            self.activeColorState = newColor
+        }
+        
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_activeColor", value: key)
+        self.display()
+    }
+    
+    @objc private func toggleNonactiveColor(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String else {
+            return
+        }
+        if let newColor = Color.allCases.first(where: { $0.key == key }) {
+            self.nonactiveColorState = newColor
+        }
+        
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_nonactiveColor", value: key)
+        self.display()
     }
 }

@@ -172,6 +172,14 @@ extension Color: CaseIterable {
         ]
     }
     
+    public static var allColors: [Color] {
+        return [.clear, .white, .black, .gray, .secondGray, .darkGray, .lightGray,
+                .red, .secondRed, .green, .secondGreen, .blue, .secondBlue, .yellow, .secondYellow,
+                .orange, .secondOrange, .purple, .secondPurple, .brown, .secondBrown,
+                .cyan, .magenta, .pink, .teal, .indigo
+        ]
+    }
+    
     public static func fromString(_ key: String, defaultValue: Color = .systemAccent) -> Color {
         return Color.allCases.first{ $0.key == key } ?? defaultValue
     }
