@@ -160,6 +160,7 @@
 "Memory widget" = "未使用/使用済み";
 "Static width" = "固定幅";
 "Tachometer widget" = "タコメーター";
+"State widget" = "State widget";
 "Show symbols" = "シンボルを表示";
 "Label widget" = "ラベル";
 "Number of reads in the chart" = "読み取り回数のチャート";
@@ -288,6 +289,9 @@
 "Common scale" = "Common scale";
 "Autodetection" = "Autodetection";
 "Widget activation threshold" = "Widget activation threshold";
+"Internet connection" = "Internet connection";
+"Active state color" = "Active state color";
+"Nonactive state color" = "Nonactive state color";
 
 // Battery
 "Level" = "充電残量";

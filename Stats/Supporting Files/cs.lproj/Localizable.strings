@@ -160,6 +160,7 @@
 "Memory widget" = "Paměť";
 "Static width" = "Statická šířka";
 "Tachometer widget" = "Tachometr";
+"State widget" = "State widget";
 "Show symbols" = "Zobrazit symboly";
 "Label widget" = "Popisek";
 "Number of reads in the chart" = "Počet čtení v grafu";
@@ -288,6 +289,9 @@
 "Common scale" = "Common scale";
 "Autodetection" = "Autodetection";
 "Widget activation threshold" = "Widget activation threshold";
+"Internet connection" = "Internet connection";
+"Active state color" = "Active state color";
+"Nonactive state color" = "Nonactive state color";
 
 // Battery
 "Level" = "Úroveň";

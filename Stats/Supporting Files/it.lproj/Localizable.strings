@@ -160,6 +160,7 @@
 "Memory widget" = "Memoria";
 "Static width" = "Larghezza fissa";
 "Tachometer widget" = "Tachimetro";
+"State widget" = "State widget";
 "Show symbols" = "Mostra simboli";
 "Label widget" = "Etichetta widget";
 "Number of reads in the chart" = "Numero di letture nel grafico";
@@ -288,6 +289,9 @@
 "Common scale" = "Common scale";
 "Autodetection" = "Autodetection";
 "Widget activation threshold" = "Widget activation threshold";
+"Internet connection" = "Internet connection";
+"Active state color" = "Active state color";
+"Nonactive state color" = "Nonactive state color";
 
 // Battery
 "Level" = "Livello";

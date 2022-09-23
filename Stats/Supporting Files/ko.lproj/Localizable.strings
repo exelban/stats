@@ -160,6 +160,7 @@
 "Memory widget" = "메모리";
 "Static width" = "너비 고정";
 "Tachometer widget" = "회전 속도계";
+"State widget" = "State widget";
 "Show symbols" = "기호 표시";
 "Label widget" = "레이블";
 "Number of reads in the chart" = "도표의 읽기 횟수";
@@ -288,6 +289,9 @@
 "Common scale" = "Common scale";
 "Autodetection" = "Autodetection";
 "Widget activation threshold" = "Widget activation threshold";
+"Internet connection" = "Internet connection";
+"Active state color" = "Active state color";
+"Nonactive state color" = "Nonactive state color";
 
 // Battery
 "Level" = "잔량";

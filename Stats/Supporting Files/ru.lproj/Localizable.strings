@@ -160,6 +160,7 @@
 "Memory widget" = "Memory";
 "Static width" = "Статическая ширина";
 "Tachometer widget" = "Тахометр";
+"State widget" = "Состояние";
 "Show symbols" = "Показать символы";
 "Label widget" = "Этикетка";
 "Number of reads in the chart" = "Количество чтений на графике";
@@ -288,6 +289,9 @@
 "Common scale" = "Общий масштаб";
 "Autodetection" = "Автоопределение";
 "Widget activation threshold" = "Порог активации виджета";
+"Internet connection" = "Интернет-соединение";
+"Active state color" = "Цвет активного состояния";
+"Nonactive state color" = "Цвет неактивного состояния";
 
 // Battery
 "Level" = "Уровень заряда";

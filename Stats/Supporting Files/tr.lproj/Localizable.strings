@@ -160,6 +160,7 @@
 "Memory widget" = "Bellek widget";
 "Static width" = "Sabit genişlik";
 "Tachometer widget" = "Takometre";
+"State widget" = "State widget";
 "Show symbols" = "Sembolleri göster";
 "Label widget" = "Etiket";
 "Number of reads in the chart" = "Grafikteki okuma sayısı";
@@ -288,6 +289,9 @@
 "Common scale" = "Common scale";
 "Autodetection" = "Autodetection";
 "Widget activation threshold" = "Widget activation threshold";
+"Internet connection" = "Internet connection";
+"Active state color" = "Active state color";
+"Nonactive state color" = "Nonactive state color";
 
 // Battery
 "Level" = "Doluluk";

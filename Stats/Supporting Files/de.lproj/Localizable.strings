@@ -160,6 +160,7 @@
 "Memory widget" = "Speicher";
 "Static width" = "Statische Breite";
 "Tachometer widget" = "Tachometer";
+"State widget" = "State widget";
 "Show symbols" = "Symbole anzeigen";
 "Label widget" = "Label";
 "Number of reads in the chart" = "Anzahl an Elementen im Diagramm";
@@ -288,6 +289,9 @@
 "Common scale" = "Common scale";
 "Autodetection" = "Automatisch";
 "Widget activation threshold" = "Schwellwert für Anzeige vom Widget";
+"Internet connection" = "Internet connection";
+"Active state color" = "Active state color";
+"Nonactive state color" = "Nonactive state color";
 
 // Battery
 "Level" = "Ladezustand";
