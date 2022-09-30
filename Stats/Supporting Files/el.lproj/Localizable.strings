@@ -167,6 +167,7 @@
 "Color of download" = "Χρώμα της λήψης";
 "Color of upload" = "Χρώμα της μεταφόρτωσης";
 "Merge widgets" = "Merge widgets";
+"No available widgets to configure" = "No available widgets to configure";
 
 // Module Kit
 "Open module settings" = "Άνοιγμα ρυθμίσεων ενότητας";
@@ -336,6 +337,7 @@
 // Colors
 "Based on utilization" = "Βάσει της χρήσης";
 "Based on pressure" = "Βάσει πίεσης";
+"Based on cluster" = "Based on cluster";
 "System accent" = "Τόνος συστήματος";
 "Monochrome accent" = "Ασπρόμαυρος τόνος";
 "Clear" = "Διάφανο";

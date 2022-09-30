@@ -167,6 +167,7 @@
 "Color of download" = "Màu tải xuống";
 "Color of upload" = "Màu tải lên";
 "Merge widgets" = "Gộp các tiện ích";
+"No available widgets to configure" = "No available widgets to configure";
 
 // Module Kit
 "Open module settings" = "Mở cài đặt module";
@@ -336,6 +337,7 @@
 // Colors
 "Based on utilization" = "Dựa trên việc sử dụng";
 "Based on pressure" = "Dựa trên áp lực";
+"Based on cluster" = "Based on cluster";
 "System accent" = "Màu nhấn mạnh hệ thống";
 "Monochrome accent" = "Màu nhấn mạnh đơn sắc";
 "Clear" = "Màu sắc rõ ràng";

@@ -167,6 +167,7 @@
 "Color of download" = "Color de descarga";
 "Color of upload" = "Color de subida";
 "Merge widgets" = "Merge widgets";
+"No available widgets to configure" = "No available widgets to configure";
 
 // Module Kit
 "Open module settings" = "Abrir la configruación del módulo";
@@ -336,6 +337,7 @@
 // Colors
 "Based on utilization" = "Basado en utilización";
 "Based on pressure" = "Basado en presión";
+"Based on cluster" = "Based on cluster";
 "System accent" = "Acento del sistema";
 "Monochrome accent" = "Acento monocromo";
 "Clear" = "Claro";

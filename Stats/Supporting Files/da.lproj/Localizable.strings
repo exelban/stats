@@ -167,6 +167,7 @@
 "Color of download" = "Color of download";
 "Color of upload" = "Color of upload";
 "Merge widgets" = "Merge widgets";
+"No available widgets to configure" = "No available widgets to configure";
 
 // Module Kit
 "Open module settings" = "Åben indstillinger for moduler";
@@ -336,6 +337,7 @@
 // Colors
 "Based on utilization" = "Baseret på brug";
 "Based on pressure" = "Baseret på belastning";
+"Based on cluster" = "Based on cluster";
 "System accent" = "System accent";
 "Monochrome accent" = "Monochromatisk accent";
 "Clear" = "Gennemsigtig";

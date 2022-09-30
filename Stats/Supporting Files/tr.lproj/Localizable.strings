@@ -167,6 +167,7 @@
 "Color of download" = "İndirme rengi";
 "Color of upload" = "Yükleme rengi";
 "Merge widgets" = "Merge widgets";
+"No available widgets to configure" = "No available widgets to configure";
 
 // Module Kit
 "Open module settings" = "Modül ayarlarını aç";
@@ -336,6 +337,7 @@
 // Colors
 "Based on utilization" = "Kullanıma dayalı";
 "Based on pressure" = "Yüke dayalı";
+"Based on cluster" = "Based on cluster";
 "System accent" = "Sistem vurgusu";
 "Monochrome accent" = "Tek renkli vurgu";
 "Clear" = "Temizle";

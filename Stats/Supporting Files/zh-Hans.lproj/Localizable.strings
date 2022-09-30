@@ -167,6 +167,7 @@
 "Color of download" = "下载的颜色";
 "Color of upload" = "上传的颜色";
 "Merge widgets" = "合并组件";
+"No available widgets to configure" = "No available widgets to configure";
 
 // Module Kit
 "Open module settings" = "打开模块设置";
@@ -336,6 +337,7 @@
 // Colors
 "Based on utilization" = "基于利用率";
 "Based on pressure" = "基于压力";
+"Based on cluster" = "Based on cluster";
 "System accent" = "系统强调色";
 "Monochrome accent" = "黑白";
 "Clear" = "透明";

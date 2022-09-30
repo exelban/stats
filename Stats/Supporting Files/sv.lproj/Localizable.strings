@@ -167,6 +167,7 @@
 "Color of download" = "Färg för skickar";
 "Color of upload" = "Färg för tar emot";
 "Merge widgets" = "Slå samman widgetar";
+"No available widgets to configure" = "No available widgets to configure";
 
 // Module Kit
 "Open module settings" = "Öppna modulinställningar";
@@ -336,6 +337,7 @@
 // Colors
 "Based on utilization" = "Baserat på användning";
 "Based on pressure" = "Baserat på tryck";
+"Based on cluster" = "Based on cluster";
 "System accent" = "Systemets accent";
 "Monochrome accent" = "Svartvit accent";
 "Clear" = "Transparent";

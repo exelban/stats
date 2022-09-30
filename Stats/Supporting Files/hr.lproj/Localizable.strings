@@ -167,6 +167,7 @@
 "Color of download" = "Boja primanja";
 "Color of upload" = "Boja slanja";
 "Merge widgets" = "Spoji programčiće";
+"No available widgets to configure" = "No available widgets to configure";
 
 // Module Kit
 "Open module settings" = "Otvori postavke modula";
@@ -336,6 +337,7 @@
 // Colors
 "Based on utilization" = "Na osnovi korištenja";
 "Based on pressure" = "Na osnovi opterećenja";
+"Based on cluster" = "Based on cluster";
 "System accent" = "Boje sustava";
 "Monochrome accent" = "Jednobojno";
 "Clear" = "Bezbojno";

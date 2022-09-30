@@ -167,6 +167,7 @@
 "Color of download" = "Цвет загрузки";
 "Color of upload" = "Цвет выгрузки";
 "Merge widgets" = "Объединить виджеты";
+"No available widgets to configure" = "No available widgets to configure";
 
 // Module Kit
 "Open module settings" = "Открыть настройки модуля";
@@ -336,6 +337,7 @@
 // Colors
 "Based on utilization" = "На основе использования";
 "Based on pressure" = "На основании давления";
+"Based on cluster" = "Based on cluster";
 "System accent" = "Цвет системы";
 "Monochrome accent" = "Монохромный акцент";
 "Clear" = "Прозрачный";

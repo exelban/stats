@@ -167,6 +167,7 @@
 "Color of download" = "下載的顯示色彩";
 "Color of upload" = "上傳的顯示色彩";
 "Merge widgets" = "整合型小工具";
+"No available widgets to configure" = "No available widgets to configure";
 
 // Module Kit
 "Open module settings" = "打開模組設定";
@@ -336,6 +337,7 @@
 // Colors
 "Based on utilization" = "根據使用率";
 "Based on pressure" = "根據壓力";
+"Based on cluster" = "Based on cluster";
 "System accent" = "系統強調色";
 "Monochrome accent" = "黑白";
 "Clear" = "透明";

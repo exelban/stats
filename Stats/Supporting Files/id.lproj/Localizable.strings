@@ -167,6 +167,7 @@
 "Color of download" = "Warna pada unduhan";
 "Color of upload" = "Warna pada unggahan";
 "Merge widgets" = "Merge widgets";
+"No available widgets to configure" = "No available widgets to configure";
 
 // Module Kit
 "Open module settings" = "Buka pengaturan modul";
@@ -336,6 +337,7 @@
 // Colors
 "Based on utilization" = "Berdasarkan pemanfaatan";
 "Based on pressure" = "Berdasarkan tekanan";
+"Based on cluster" = "Based on cluster";
 "System accent" = "Aksen berdasarkan sistem";
 "Monochrome accent" = "Akses monokrom";
 "Clear" = "Bening";

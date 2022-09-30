@@ -166,6 +166,7 @@
 "Number of reads in the chart" = "Liczba odczytów na wykresie";
 "Color of download" = "Kolor pobrania";
 "Color of upload" = "Kolor wysyłki";
+"No available widgets to configure" = "No available widgets to configure";
 
 // Module Kit
 "Open module settings" = "Otwórz ustawienia modułu";
@@ -336,6 +337,7 @@
 // Colors
 "Based on utilization" = "Na podstawie wykorzystania";
 "Based on pressure" = "Na podstawie obciążenia";
+"Based on cluster" = "Based on cluster";
 "System accent" = "Akcent systemowy";
 "Monochrome accent" = "Akcent monochromatyczny";
 "Clear" = "Przezroczysty";
