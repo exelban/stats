@@ -166,8 +166,6 @@
 "Number of reads in the chart" = "Počet čtení v grafu";
 "Color of download" = "Barva stahování";
 "Color of upload" = "Barva nahrávání";
-"Merge widgets" = "Merge widgets";
-"No available widgets to configure" = "No available widgets to configure";
 
 // Module Kit
 "Open module settings" = "Otevřít nastavení modulu";
@@ -180,6 +178,8 @@
 "Pictogram" = "Piktogram";
 "Module settings" = "Nastavení modulu";
 "Widget settings" = "Nastavení widgetu";
+"Merge widgets" = "Merge widgets";
+"No available widgets to configure" = "No available widgets to configure";
 
 // Modules
 "Number of top processes" = "Počet prvních procesů";

@@ -166,8 +166,6 @@
 "Number of reads in the chart" = "Số lần đọc trong biểu đồ";
 "Color of download" = "Màu tải xuống";
 "Color of upload" = "Màu tải lên";
-"Merge widgets" = "Gộp các tiện ích";
-"No available widgets to configure" = "No available widgets to configure";
 
 // Module Kit
 "Open module settings" = "Mở cài đặt module";
@@ -180,6 +178,8 @@
 "Pictogram" = "Tượng hình";
 "Module settings" = "Cài đặt mô-đun";
 "Widget settings" = "Cài đặt tiện ích";
+"Merge widgets" = "Gộp các tiện ích";
+"No available widgets to configure" = "No available widgets to configure";
 
 // Modules
 "Number of top processes" = "Số lượng top tiến trình";

@@ -166,8 +166,6 @@
 "Number of reads in the chart" = "Количество чтений на графике";
 "Color of download" = "Цвет загрузки";
 "Color of upload" = "Цвет выгрузки";
-"Merge widgets" = "Объединить виджеты";
-"No available widgets to configure" = "No available widgets to configure";
 
 // Module Kit
 "Open module settings" = "Открыть настройки модуля";
@@ -180,6 +178,8 @@
 "Pictogram" = "Пиктограмма";
 "Module settings" = "Настройки модуля";
 "Widget settings" = "Настройки виджета";
+"Merge widgets" = "Объединить виджеты";
+"No available widgets to configure" = "Нет доступных виджетов для настройки";
 
 // Modules
 "Number of top processes" = "Количество процессов";
@@ -337,7 +337,7 @@
 // Colors
 "Based on utilization" = "На основе использования";
 "Based on pressure" = "На основании давления";
-"Based on cluster" = "Based on cluster";
+"Based on cluster" = "На основе кластера";
 "System accent" = "Цвет системы";
 "Monochrome accent" = "Монохромный акцент";
 "Clear" = "Прозрачный";

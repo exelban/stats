@@ -166,8 +166,6 @@
 "Number of reads in the chart" = "読み取り回数のチャート";
 "Color of download" = "ダウンロードの色";
 "Color of upload" = "アップロードの色";
-"Merge widgets" = "Merge widgets";
-"No available widgets to configure" = "No available widgets to configure";
 
 // Module Kit
 "Open module settings" = "このモジュールの設定を開く";
@@ -180,6 +178,8 @@
 "Pictogram" = "ピクトグラム";
 "Module settings" = "モジュールの設定";
 "Widget settings" = "ウィジェットの設定";
+"Merge widgets" = "Merge widgets";
+"No available widgets to configure" = "No available widgets to configure";
 
 // Modules
 "Number of top processes" = "表示する上位プロセスの数";

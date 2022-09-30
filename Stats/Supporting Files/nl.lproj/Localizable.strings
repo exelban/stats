@@ -166,8 +166,6 @@
 "Number of reads in the chart" = "Aantal keer gelezen in de grafiek";
 "Color of download" = "Kleur van download";
 "Color of upload" = "Kleur van upload";
-"Merge widgets" = "Merge widgets";
-"No available widgets to configure" = "No available widgets to configure";
 
 // Module Kit
 "Open module settings" = "Open module-instellingen";
@@ -180,6 +178,8 @@
 "Pictogram" = "Pictogram";
 "Module settings" = "Module settings";
 "Widget settings" = "Widget settings";
+"Merge widgets" = "Merge widgets";
+"No available widgets to configure" = "No available widgets to configure";
 
 // Modules
 "Number of top processes" = "Aantal topprocessen";

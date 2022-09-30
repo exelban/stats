@@ -169,6 +169,7 @@
 "Merge widgets" = "合并组件";
 "No available widgets to configure" = "没有可配置的小组件";
 
+
 // Module Kit
 "Open module settings" = "打开模块设置";
 "Select widget" = "选择%0小组件";
@@ -180,6 +181,8 @@
 "Pictogram" = "标识";
 "Module settings" = "模块设置";
 "Widget settings" = "小组件设置";
+"Merge widgets" = "合并组件";
+"No available widgets to configure" = "No available widgets to configure";
 
 // Modules
 "Number of top processes" = "高占用进程数";
