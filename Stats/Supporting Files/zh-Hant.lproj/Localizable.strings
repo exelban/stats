@@ -160,7 +160,7 @@
 "Memory widget" = "容量";
 "Static width" = "靜態寬度";
 "Tachometer widget" = "轉速計";
-"State widget" = "State widget";
+"State widget" = "State 小工具";
 "Show symbols" = "顯示符號";
 "Label widget" = "標籤";
 "Number of reads in the chart" = "圖表中的未讀計數";
@@ -289,9 +289,9 @@
 "Common scale" = "統一比例";
 "Autodetection" = "自動檢測";
 "Widget activation threshold" = "小工具啟動臨界點";
-"Internet connection" = "Internet connection";
-"Active state color" = "Active state color";
-"Nonactive state color" = "Nonactive state color";
+"Internet connection" = "網際網路連線";
+"Active state color" = "啟用狀態色彩";
+"Nonactive state color" = "未啟用狀態色彩";
 
 // Battery
 "Level" = "電量";
