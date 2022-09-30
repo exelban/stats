@@ -166,8 +166,6 @@
 "Number of reads in the chart" = "Broj čitanja u dijagramu";
 "Color of download" = "Boja primanja";
 "Color of upload" = "Boja slanja";
-"Merge widgets" = "Spoji programčiće";
-"No available widgets to configure" = "No available widgets to configure";
 
 // Module Kit
 "Open module settings" = "Otvori postavke modula";
@@ -180,6 +178,8 @@
 "Pictogram" = "Piktogram";
 "Module settings" = "Postavke modula";
 "Widget settings" = "Postavke programčića";
+"Merge widgets" = "Spoji programčiće";
+"No available widgets to configure" = "No available widgets to configure";
 
 // Modules
 "Number of top processes" = "Broj glavnih procesa";

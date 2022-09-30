@@ -166,8 +166,6 @@
 "Number of reads in the chart" = "Antal avläsningar i diagram";
 "Color of download" = "Färg för skickar";
 "Color of upload" = "Färg för tar emot";
-"Merge widgets" = "Slå samman widgetar";
-"No available widgets to configure" = "No available widgets to configure";
 
 // Module Kit
 "Open module settings" = "Öppna modulinställningar";
@@ -180,6 +178,8 @@
 "Pictogram" = "Pictogram";
 "Module settings" = "Modulinställningar";
 "Widget settings" = "Widgetinställningar";
+"Merge widgets" = "Slå samman widgetar";
+"No available widgets to configure" = "No available widgets to configure";
 
 // Modules
 "Number of top processes" = "Antal topprocesser";

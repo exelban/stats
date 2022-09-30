@@ -166,8 +166,6 @@
 "Number of reads in the chart" = "מספר קריאות במגמה";
 "Color of download" = "צבע של הורדה";
 "Color of upload" = "צבע של העלאה";
-"Merge widgets" = "Merge widgets";
-"No available widgets to configure" = "No available widgets to configure";
 
 // Module Kit
 "Open module settings" = "פתח/י הגדרות מודל";
@@ -180,6 +178,8 @@
 "Pictogram" = "פיקטוגרמה";
 "Module settings" = "הגדרות מודל";
 "Widget settings" = "הגדרות יישומון";
+"Merge widgets" = "Merge widgets";
+"No available widgets to configure" = "No available widgets to configure";
 
 // Modules
 "Number of top processes" = "מספר התהליכים המובילים";

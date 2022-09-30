@@ -166,8 +166,6 @@
 "Number of reads in the chart" = "Αριθμός αναγνώσεων του διαγράμματος";
 "Color of download" = "Χρώμα της λήψης";
 "Color of upload" = "Χρώμα της μεταφόρτωσης";
-"Merge widgets" = "Merge widgets";
-"No available widgets to configure" = "No available widgets to configure";
 
 // Module Kit
 "Open module settings" = "Άνοιγμα ρυθμίσεων ενότητας";
@@ -180,6 +178,8 @@
 "Pictogram" = "Εικονόγραμμα";
 "Module settings" = "Ρυθμίσεις ενότητας";
 "Widget settings" = "Ρυθμίσεις widget";
+"Merge widgets" = "Merge widgets";
+"No available widgets to configure" = "No available widgets to configure";
 
 // Modules
 "Number of top processes" = "Αριθμός κορυφαίων διεργασιών";

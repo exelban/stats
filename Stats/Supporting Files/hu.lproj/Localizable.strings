@@ -104,8 +104,6 @@
 "Close application" = "Alkalmazás bezárása";
 "Open application settings" = "Beállítások megnyitása";
 "Open dashboard" = "Irányítópult megnyitása";
-"Pause the Stats" = "Pause the Stats";
-"Resume the Stats" = "Resume the Stats";
 
 // Application settings
 "Update application" = "Alkalmazás frissítése";
@@ -120,6 +118,8 @@
 "Start at login" = "Alkalmazás indítása bejelentkezéskor";
 "Build number" = "Verziószám";
 "Reset settings" = "Beállítások alaphelyzetbe állítása";
+"Pause the Stats" = "Pause the Stats";
+"Resume the Stats" = "Resume the Stats";
 
 // Dashboard
 "Serial number" = "Sorozatszám";
@@ -166,8 +166,6 @@
 "Number of reads in the chart" = "Értékek száma a grafikonon";
 "Color of download" = "Letöltés színe";
 "Color of upload" = "Feltöltés színe";
-"Merge widgets" = "Modulok egyesítése";
-"No available widgets to configure" = "No available widgets to configure";
 
 // Module Kit
 "Open module settings" = "Modul beállításainak megnyitása";
@@ -180,6 +178,8 @@
 "Pictogram" = "Piktogram";
 "Module settings" = "Modul beállítások";
 "Widget settings" = "Widget beállítások";
+"Merge widgets" = "Modulok egyesítése";
+"No available widgets to configure" = "No available widgets to configure";
 
 // Modules
 "Number of top processes" = "Top folyamatok száma";

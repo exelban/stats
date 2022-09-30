@@ -166,8 +166,6 @@
 "Number of reads in the chart" = "图表显示的读取次数";
 "Color of download" = "下载的颜色";
 "Color of upload" = "上传的颜色";
-"Merge widgets" = "合并组件";
-"No available widgets to configure" = "No available widgets to configure";
 
 // Module Kit
 "Open module settings" = "打开模块设置";
@@ -180,6 +178,8 @@
 "Pictogram" = "标识";
 "Module settings" = "模块设置";
 "Widget settings" = "小组件设置";
+"Merge widgets" = "合并组件";
+"No available widgets to configure" = "No available widgets to configure";
 
 // Modules
 "Number of top processes" = "高占用进程数";

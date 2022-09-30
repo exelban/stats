@@ -166,8 +166,6 @@
 "Number of reads in the chart" = "도표의 읽기 횟수";
 "Color of download" = "다운로드 색상";
 "Color of upload" = "업로드 색상";
-"Merge widgets" = "위젯 병합";
-"No available widgets to configure" = "No available widgets to configure";
 
 // Module Kit
 "Open module settings" = "모듈 설정 열기";
@@ -180,6 +178,8 @@
 "Pictogram" = "그림 그래프";
 "Module settings" = "모듈 설정";
 "Widget settings" = "위젯 설정";
+"Merge widgets" = "위젯 병합";
+"No available widgets to configure" = "No available widgets to configure";
 
 // Modules
 "Number of top processes" = "상위 프로세스 수";

@@ -166,8 +166,6 @@
 "Number of reads in the chart" = "Jumlah yang dibaca pada diagram";
 "Color of download" = "Warna pada unduhan";
 "Color of upload" = "Warna pada unggahan";
-"Merge widgets" = "Merge widgets";
-"No available widgets to configure" = "No available widgets to configure";
 
 // Module Kit
 "Open module settings" = "Buka pengaturan modul";
@@ -180,6 +178,8 @@
 "Pictogram" = "Piktogram";
 "Module settings" = "Pengaturan modul";
 "Widget settings" = "Pengaturan widget";
+"Merge widgets" = "Merge widgets";
+"No available widgets to configure" = "No available widgets to configure";
 
 // Modules
 "Number of top processes" = "Jumlah dari proses teratas";
