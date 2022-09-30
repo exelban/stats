@@ -57,17 +57,17 @@
 "Center alignment" = "Centre";
 "Right alignment" = "Droite";
 "Dashboard" = "Dashboard";
-"Enabled" = "Enabled";
-"Disabled" = "Disabled";
+"Enabled" = "Activé";
+"Disabled" = "Désactivé";
 "Silent" = "Silent";
 "Units" = "Units";
 "Fans" = "Ventilateurs";
 "Scaling" = "Scaling";
-"Linear" = "Linear";
-"Square" = "Square";
-"Cube" = "Cube";
-"Logarithmic" = "Logarithmic";
-"Cores" = "Cores";
+"Linear" = "Linéaire";
+"Square" = "Carré";
+"Cube" = "Cubique";
+"Logarithmic" = "Logarithmique";
+"Cores" = "Cœurs";
 
 // Setup
 "Stats Setup" = "Stats Setup";
@@ -124,10 +124,10 @@
 // Dashboard
 "Serial number" = "Numéro de série";
 "Uptime" = "Disponibilité";
-"Number of cores" = "%0 cores";
+"Number of cores" = "%0 cœurs";
 "Number of threads" = "%0 threads";
-"Number of e-cores" = "%0 efficiency cores";
-"Number of p-cores" = "%0 performance cores";
+"Number of e-cores" = "%0 cœurs à haute efficacité énergétique";
+"Number of p-cores" = "%0 cœurs de performance";
 
 // Update
 "The latest version of Stats installed" = "La dernière version de Stats installée";
@@ -204,8 +204,8 @@
 "15 minutes" = "15 minutes";
 "CPU usage threshold" = "CPU usage threshold";
 "CPU usage is" = "CPU usage is %0";
-"Efficiency cores" = "Efficiency cores";
-"Performance cores" = "Performance cores";
+"Efficiency cores" = "Cœurs à haute efficacité énergétique";
+"Performance cores" = "Cœurs de performance";
 
 // GPU
 "GPU to show" = "GPU à afficher";
@@ -258,7 +258,7 @@
 "Fahrenheit" = "Fahrenheit";
 "Save the fan speed" = "Sauvegarder la vitesse des ventilateurs";
 "Fan" = "Ventilateur";
-"HID sensors" = "HID sensors";
+"HID sensors" = "Capteurs HID";
 "Synchronize fan's control" = "Synchronize fan's control";
 "Current" = "Current";
 "Energy" = "Energy";
