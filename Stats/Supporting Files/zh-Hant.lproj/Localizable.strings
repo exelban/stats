@@ -160,7 +160,7 @@
 "Memory widget" = "容量";
 "Static width" = "靜態寬度";
 "Tachometer widget" = "轉速計";
-"State widget" = "State widget";
+"State widget" = "State 小工具";
 "Show symbols" = "顯示符號";
 "Label widget" = "標籤";
 "Number of reads in the chart" = "圖表中的未讀計數";
@@ -179,7 +179,7 @@
 "Module settings" = "模組設定";
 "Widget settings" = "小工具設定";
 "Merge widgets" = "整合型小工具";
-"No available widgets to configure" = "No available widgets to configure";
+"No available widgets to configure" = "沒有可供組態設定的小工具";
 
 // Modules
 "Number of top processes" = "高能耗程序數量";
@@ -290,9 +290,9 @@
 "Common scale" = "統一比例";
 "Autodetection" = "自動檢測";
 "Widget activation threshold" = "小工具啟動臨界點";
-"Internet connection" = "Internet connection";
-"Active state color" = "Active state color";
-"Nonactive state color" = "Nonactive state color";
+"Internet connection" = "網際網路連線裝態";
+"Active state color" = "已連線狀態色彩";
+"Nonactive state color" = "未連線狀態色彩";
 
 // Battery
 "Level" = "電量";
@@ -337,7 +337,7 @@
 // Colors
 "Based on utilization" = "根據使用率";
 "Based on pressure" = "根據壓力";
-"Based on cluster" = "Based on cluster";
+"Based on cluster" = "根據群集";
 "System accent" = "系統強調色";
 "Monochrome accent" = "黑白";
 "Clear" = "透明";
