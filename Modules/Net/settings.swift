@@ -13,16 +13,18 @@ import Cocoa
 import Kit
 import SystemConfiguration
 
-internal class Settings: NSStackView, Settings_v {
+internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
     private var numberOfProcesses: Int = 8
     private var readerType: String = "interface"
     private var usageReset: String = AppUpdateInterval.atStart.rawValue
     private var VPNModeState: Bool = false
     private var widgetActivationThreshold: Int = 0
+    private var ICMPHost: String = "1.1.1.1"
     
     public var callback: (() -> Void) = {}
     public var callbackWhenUpdateNumberOfProcesses: (() -> Void) = {}
     public var usageResetCallback: (() -> Void) = {}
+    public var ICMPHostCallback: ((_ newState: Bool) -> Void) = { _ in }
     
     private let title: String
     private var button: NSPopUpButton?
@@ -44,6 +46,7 @@ internal class Settings: NSStackView, Settings_v {
         self.usageReset = Store.shared.string(key: "\(self.title)_usageReset", defaultValue: self.usageReset)
         self.VPNModeState = Store.shared.bool(key: "\(self.title)_VPNMode", defaultValue: self.VPNModeState)
         self.widgetActivationThreshold = Store.shared.int(key: "\(self.title)_widgetActivationThreshold", defaultValue: self.widgetActivationThreshold)
+        self.ICMPHost = Store.shared.string(key: "\(self.title)_ICMPHost", defaultValue: self.ICMPHost)
         
         super.init(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
         
@@ -104,6 +107,8 @@ internal class Settings: NSStackView, Settings_v {
                 state: self.VPNModeState
             ))
         }
+        
+        self.addArrangedSubview(self.connectivityHost())
     }
     
     private func interfaceSelector() -> NSView {
@@ -207,6 +212,44 @@ internal class Settings: NSStackView, Settings_v {
         return view
     }
     
+    func connectivityHost() -> NSView {
+        let view: NSStackView = NSStackView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.heightAnchor.constraint(equalToConstant: Constants.Settings.row).isActive = true
+        view.orientation = .horizontal
+        view.alignment = .centerY
+        view.distribution = .fill
+        view.spacing = 0
+        
+        let titleField: NSTextField = LabelField(frame: NSRect(x: 0, y: 0, width: 0, height: 0), localizedString("Connectivity host (ICMP)"))
+        titleField.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+        titleField.textColor = .textColor
+        
+        let valueField: NSTextField = NSTextField()
+        valueField.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+        valueField.textColor = .textColor
+        valueField.isEditable = true
+        valueField.isSelectable = true
+        valueField.isBezeled = false
+        valueField.wantsLayer = true
+        valueField.canDrawSubviewsIntoLayer = true
+        valueField.usesSingleLineMode = true
+        valueField.maximumNumberOfLines = 1
+        valueField.focusRingType = .none
+        valueField.delegate = self
+        valueField.stringValue = self.ICMPHost
+        valueField.placeholderString = localizedString("Leave empty to disable check")
+        valueField.alignment = .natural
+        
+        view.addArrangedSubview(titleField)
+        view.addArrangedSubview(NSView())
+        view.addArrangedSubview(valueField)
+        
+        valueField.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        
+        return view
+    }
+    
     @objc func handleSelection(_ sender: NSPopUpButton) {
         guard let item = sender.selectedItem, let id = item.identifier?.rawValue else { return }
         
@@ -272,5 +315,13 @@ internal class Settings: NSStackView, Settings_v {
         }
         self.widgetActivationThreshold = value
         Store.shared.set(key: "\(self.title)_widgetActivationThreshold", value: widgetActivationThreshold)
+    }
+    
+    func controlTextDidChange(_ notification: Notification) {
+        if let textField = notification.object as? NSTextField {
+            self.ICMPHost = textField.stringValue
+            Store.shared.set(key: "\(self.title)_ICMPHost", value: self.ICMPHost)
+            self.ICMPHostCallback(self.ICMPHost.isEmpty)
+        }
     }
 }

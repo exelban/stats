@@ -563,7 +563,10 @@ internal class ConnectivityReader: Reader<Bool> {
     private let identifier = UInt16.random(in: 0..<UInt16.max)
     private var fingerprint: UUID = UUID()
     
-    private let host: String = "1.1.1.1"
+    private var host: String {
+        Store.shared.string(key: "Network_ICMPHost", defaultValue: "1.1.1.1")
+    }
+    private var lastHost: String = ""
     private var addr: Data? = nil
     private let timeout: TimeInterval = 7
     
@@ -644,6 +647,11 @@ internal class ConnectivityReader: Reader<Bool> {
     }
     
     override func read() {
+        guard !self.host.isEmpty else { return }
+        if self.lastHost != self.host {
+            self.addr = self.resolve()
+        }
+        
         guard !self.isPinging && self.active, let socket = self.socket, let addr = self.addr, let data = self.request() else { return }
         self.isPinging = true
         
@@ -714,7 +722,6 @@ internal class ConnectivityReader: Reader<Bool> {
         let typecode = Data([header.type, header.code]).withUnsafeBytes { $0.load(as: UInt16.self) }
         var sum = UInt64(typecode) + UInt64(header.identifier) + UInt64(header.sequenceNumber)
         let payload = convert(payload: header.payload) + additionalPayload
-        
         guard payload.count % 2 == 0 else { return nil }
         
         var i = 0
@@ -726,7 +733,6 @@ internal class ConnectivityReader: Reader<Bool> {
         while sum >> 16 != 0 {
             sum = (sum & 0xffff) + (sum >> 16)
         }
-        
         guard sum < UInt16.max else { return nil }
         
         return ~UInt16(sum)
@@ -754,7 +760,6 @@ internal class ConnectivityReader: Reader<Bool> {
         let info = ConnectivityReaderWrapper(self)
         let unmanagedSocketInfo = Unmanaged.passRetained(info)
         var context = CFSocketContext(version: 0, info: unmanagedSocketInfo.toOpaque(), retain: nil, release: nil, copyDescription: nil)
-        
         self.socket = CFSocketCreate(kCFAllocatorDefault, AF_INET, SOCK_DGRAM, IPPROTO_ICMP, CFSocketCallBackType.dataCallBack.rawValue, { _, callBackType, _, data, info in
             guard let info = info, let data = data else { return }
             if (callBackType as CFSocketCallBackType) == CFSocketCallBackType.dataCallBack {
@@ -763,28 +768,24 @@ internal class ConnectivityReader: Reader<Bool> {
                 wrapper.reader?.socketCallback(data: cfdata as Data)
             }
         }, &context)
-        
         let handle = CFSocketGetNative(self.socket)
         var value: Int32 = 1
         let err = setsockopt(handle, SOL_SOCKET, SO_NOSIGPIPE, &value, socklen_t(MemoryLayout.size(ofValue: value)))
         guard err == 0 else { return }
-        
         self.socketSource = CFSocketCreateRunLoopSource(nil, self.socket, 0)
         CFRunLoopAddSource(CFRunLoopGetMain(), self.socketSource, .commonModes)
     }
     
-    // resolve host ip if hostname is provided
     private func resolve() -> Data? {
+        self.lastHost = self.host
         var streamError = CFStreamError()
         let cfhost = CFHostCreateWithName(nil, self.host as CFString).takeRetainedValue()
         let status = CFHostStartInfoResolution(cfhost, .addresses, &streamError)
         guard status else { return nil }
-        
         var success: DarwinBoolean = false
         guard let addresses = CFHostGetAddressing(cfhost, &success)?.takeUnretainedValue() as? [Data] else {
             return nil
         }
-        
         var data: Data?
         for address in addresses {
             let addrin = address.socketAddress
@@ -794,7 +795,6 @@ internal class ConnectivityReader: Reader<Bool> {
             }
         }
         guard let data = data, !data.isEmpty else { return nil }
-        
         return data
     }
 }

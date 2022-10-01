@@ -161,6 +161,12 @@ public class Network: Module {
         self.settingsView.usageResetCallback = { [unowned self] in
             self.setUsageReset()
         }
+        self.settingsView.ICMPHostCallback = { [unowned self] isDisabled in
+            if isDisabled {
+                self.popupView.resetConnectivityView()
+                self.connectivityCallback(false)
+            }
+        }
         
         if let reader = self.usageReader {
             self.addReader(reader)
