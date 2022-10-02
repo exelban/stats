@@ -160,7 +160,7 @@
 "Memory widget" = "容量";
 "Static width" = "固定宽度";
 "Tachometer widget" = "转速计";
-"State widget" = "State widget";
+"State widget" = "状态小组件";
 "Show symbols" = "显示标识";
 "Label widget" = "标签";
 "Number of reads in the chart" = "图表显示的读取次数";
@@ -179,7 +179,7 @@
 "Module settings" = "模块设置";
 "Widget settings" = "小组件设置";
 "Merge widgets" = "合并组件";
-"No available widgets to configure" = "No available widgets to configure";
+"No available widgets to configure" = "没有可配置的小组件";
 
 // Modules
 "Number of top processes" = "高占用进程数";
@@ -290,9 +290,9 @@
 "Common scale" = "统一比例";
 "Autodetection" = "自动检测";
 "Widget activation threshold" = "小组件激活阀值";
-"Internet connection" = "Internet connection";
-"Active state color" = "Active state color";
-"Nonactive state color" = "Nonactive state color";
+"Internet connection" = "网络连接状态";
+"Active state color" = "活跃状态颜色";
+"Nonactive state color" = "非活跃状态颜色";
 
 // Battery
 "Level" = "电量";
@@ -337,7 +337,7 @@
 // Colors
 "Based on utilization" = "基于利用率";
 "Based on pressure" = "基于压力";
-"Based on cluster" = "Based on cluster";
+"Based on cluster" = "基于集群";
 "System accent" = "系统强调色";
 "Monochrome accent" = "黑白";
 "Clear" = "透明";
