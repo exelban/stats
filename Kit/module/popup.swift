@@ -13,6 +13,7 @@ import Cocoa
 
 public protocol Popup_p: NSView {
     var sizeCallback: ((NSSize) -> Void)? { get set }
+    func settings() -> NSView?
 }
 
 internal class PopupWindow: NSWindow, NSWindowDelegate {

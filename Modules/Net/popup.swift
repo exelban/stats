@@ -414,6 +414,12 @@ internal class Popup: NSStackView, Popup_p {
         self.connectivityField?.stringValue = localizedString("Unknown")
     }
     
+    // MARK: - Settings
+    
+    public func settings() -> NSView? {
+        return nil
+    }
+    
     // MARK: - helpers
     
     private func topValueView(_ view: NSView, title: String, color: NSColor) -> (NSView, NSTextField, NSTextField, ColorView) {

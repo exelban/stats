@@ -73,6 +73,12 @@ internal class Popup: NSStackView, Popup_p {
             }
         }
     }
+    
+    // MARK: - Settings
+    
+    public func settings() -> NSView? {
+        return nil
+    }
 }
 
 internal class DiskView: NSStackView {

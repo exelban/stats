@@ -27,9 +27,11 @@ open class Settings: NSStackView, Settings_p {
     private var config: UnsafePointer<module_c>
     private var widgets: [Widget]
     private var moduleSettings: Settings_v?
+    private var popupSettings: Popup_p?
     
     private var moduleSettingsContainer: NSStackView?
     private var widgetSettingsContainer: NSStackView?
+    private var popupSettingsContainer: NSStackView?
     
     private var enableControl: NSControl?
     
@@ -42,6 +44,7 @@ open class Settings: NSStackView, Settings_p {
         return view
     }()
     private let noWidgetsView: EmptyView = EmptyView(msg: localizedString("No available widgets to configure"))
+    private let noPopupSettingsView: EmptyView = EmptyView(msg: localizedString("No options to configure for the popup in this module"))
     
     private var oneViewState: Bool {
         get {
@@ -52,10 +55,11 @@ open class Settings: NSStackView, Settings_p {
         }
     }
     
-    init(config: UnsafePointer<module_c>, widgets: UnsafeMutablePointer<[Widget]>, enabled: Bool, moduleSettings: Settings_v?) {
+    init(config: UnsafePointer<module_c>, widgets: UnsafeMutablePointer<[Widget]>, enabled: Bool, moduleSettings: Settings_v?, popupSettings: Popup_p?) {
         self.config = config
         self.widgets = widgets.pointee
         self.moduleSettings = moduleSettings
+        self.popupSettings = popupSettings
         
         super.init(frame: NSRect(x: 0, y: 0, width: Constants.Settings.width, height: Constants.Settings.height))
         
@@ -193,8 +197,19 @@ open class Settings: NSStackView, Settings_p {
             return view
         }()
         
+        let popupTab: NSTabViewItem = NSTabViewItem()
+        popupTab.label = localizedString("Popup settings")
+        popupTab.view = {
+            let view = ScrollableStackView(frame: view.frame)
+            view.stackView.spacing = 0
+            self.popupSettingsContainer = view.stackView
+            self.loadPopupSettings()
+            return view
+        }()
+        
         view.addTabViewItem(moduleTab)
         view.addTabViewItem(widgetTab)
+        view.addTabViewItem(popupTab)
         
         return view
     }
@@ -272,6 +287,16 @@ open class Settings: NSStackView, Settings_p {
                 image: list[i].image,
                 settingsView: list[i].item.settings()
             ))
+        }
+    }
+    
+    private func loadPopupSettings() {
+        self.popupSettingsContainer?.subviews.forEach{ $0.removeFromSuperview() }
+        
+        if let settingsView = self.popupSettings, let view = settingsView.settings() {
+            self.popupSettingsContainer?.addArrangedSubview(view)
+        } else {
+            self.popupSettingsContainer?.addArrangedSubview(self.noPopupSettingsView)
         }
     }
     

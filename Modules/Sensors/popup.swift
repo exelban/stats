@@ -132,6 +132,12 @@ internal class Popup: NSStackView, Popup_p {
             self.sizeCallback?(self.frame.size)
         }
     }
+    
+    // MARK: - Settings
+    
+    public func settings() -> NSView? {
+        return nil
+    }
 }
 
 // MARK: - Sensor view

@@ -368,4 +368,10 @@ internal class Popup: NSView, Popup_p {
             self.initializedFrequency = false
         })
     }
+    
+    // MARK: - Settings
+    
+    public func settings() -> NSView? {
+        return nil
+    }
 }

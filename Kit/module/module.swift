@@ -124,7 +124,13 @@ open class Module: Module_p {
             debug("Module started without widget", log: self.log)
         }
         
-        self.settings = Settings(config: &self.config, widgets: &self.menuBar.widgets, enabled: self.enabled, moduleSettings: self.settingsView)
+        self.settings = Settings(
+            config: &self.config,
+            widgets: &self.menuBar.widgets,
+            enabled: self.enabled,
+            moduleSettings: self.settingsView,
+            popupSettings: self.popupView
+        )
         self.settings?.toggleCallback = { [weak self] in
             self?.toggleEnabled()
             if self?.pauseState == true {

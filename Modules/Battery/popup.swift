@@ -342,6 +342,12 @@ internal class Popup: NSView, Popup_p {
             self.processesInitialized = true
         })
     }
+    
+    // MARK: - Settings
+    
+    public func settings() -> NSView? {
+        return nil
+    }
 }
 
 private class BatteryView: NSView {
