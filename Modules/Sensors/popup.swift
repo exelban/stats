@@ -8,7 +8,6 @@
 //
 //  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
 //
-// swiftlint:disable file_length
 
 import Cocoa
 import Kit

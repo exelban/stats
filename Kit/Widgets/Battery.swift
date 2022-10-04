@@ -8,7 +8,7 @@
 //
 //  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
 //
-// swiftlint:disable function_body_length type_body_length
+// swiftlint:disable function_body_length
 
 import Cocoa
 

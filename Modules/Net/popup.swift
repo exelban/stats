@@ -12,7 +12,6 @@
 import Cocoa
 import Kit
 
-// swiftlint:disable type_body_length
 internal class Popup: NSStackView, Popup_p {
     public var sizeCallback: ((NSSize) -> Void)? = nil
     

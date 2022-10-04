@@ -41,9 +41,9 @@ function_body_length:
   - 100
 
 type_body_length:
-  - 300
-  - 400
+  - 450
+  - 600
 
 file_length:
-  - 800
-  - 1000
+  - 1200
+  - 1600
