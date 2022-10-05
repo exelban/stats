@@ -450,6 +450,7 @@ public class PieChartView: NSView {
     
     private var filled: Bool = false
     private var drawValue: Bool = false
+    private var nonActiveSegmentColor: NSColor = NSColor.lightGray
     
     private var value: Double? = nil
     private var segments: [circle_segment] = []
@@ -472,7 +473,7 @@ public class PieChartView: NSView {
         var segments = self.segments
         let totalAmount = segments.reduce(0) { $0 + $1.value }
         if totalAmount < 1 {
-            segments.append(circle_segment(value: Double(1-totalAmount), color: NSColor.lightGray.withAlphaComponent(0.5)))
+            segments.append(circle_segment(value: Double(1-totalAmount), color: self.nonActiveSegmentColor.withAlphaComponent(0.5)))
         }
         
         let centerPoint = CGPoint(x: rect.midX, y: rect.midY)
@@ -530,6 +531,14 @@ public class PieChartView: NSView {
         var original = self.frame
         original = frame
         self.frame = original
+    }
+    
+    public func setNonActiveSegmentColor(_ newColor: NSColor) {
+        guard self.nonActiveSegmentColor != newColor else { return }
+        self.nonActiveSegmentColor = newColor
+        if self.window?.isVisible ?? false {
+            self.display()
+        }
     }
 }
 

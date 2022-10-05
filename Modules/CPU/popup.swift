@@ -48,6 +48,10 @@ internal class Popup: NSView, Popup_p {
     private var average5Field: NSTextField? = nil
     private var average15Field: NSTextField? = nil
     
+    private var systemColorView: NSView? = nil
+    private var userColorView: NSView? = nil
+    private var idleColorView: NSView? = nil
+    
     private var chart: LineChartView? = nil
     private var circle: PieChartView? = nil
     private var temperatureCircle: HalfCircleGraphView? = nil
@@ -61,6 +65,39 @@ internal class Popup: NSView, Popup_p {
     
     private var processes: [ProcessView] = []
     private var maxFreq: Double = 0
+    
+    private var systemColorState: Color = .secondRed
+    private var systemColor: NSColor {
+        var value = NSColor.systemRed
+        if let color = self.systemColorState.additional as? NSColor {
+            value = color
+        }
+        return value
+    }
+    private var userColorState: Color = .secondBlue
+    private var userColor: NSColor {
+        var value = NSColor.systemBlue
+        if let color = self.userColorState.additional as? NSColor {
+            value = color
+        }
+        return value
+    }
+    private var idleColorState: Color = .lightGray
+    private var idleColor: NSColor {
+        var value = NSColor.lightGray
+        if let color = self.idleColorState.additional as? NSColor {
+            value = color
+        }
+        return value
+    }
+    private var chartColorState: Color = .systemAccent
+    private var chartColor: NSColor {
+        var value = NSColor.systemBlue
+        if let color = self.chartColorState.additional as? NSColor {
+            value = color
+        }
+        return value
+    }
     
     public var sizeCallback: ((NSSize) -> Void)? = nil
     
@@ -86,6 +123,11 @@ internal class Popup: NSView, Popup_p {
             height: self.dashboardHeight + self.chartHeight + self.averageHeight
         ))
         self.setFrameSize(NSSize(width: self.frame.width, height: self.frame.height + self.detailsHeight + self.processesHeight))
+        
+        self.systemColorState = Color.fromString(Store.shared.string(key: "\(self.title)_systemColor", defaultValue: self.systemColorState.key))
+        self.userColorState = Color.fromString(Store.shared.string(key: "\(self.title)_userColor", defaultValue: self.userColorState.key))
+        self.idleColorState = Color.fromString(Store.shared.string(key: "\(self.title)_idleColor", defaultValue: self.idleColorState.key))
+        self.chartColorState = Color.fromString(Store.shared.string(key: "\(self.title)_chartColor", defaultValue: self.chartColorState.key))
         
         let gridView: NSGridView = NSGridView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height))
         gridView.rowSpacing = 0
@@ -175,6 +217,7 @@ internal class Popup: NSView, Popup_p {
         container.layer?.cornerRadius = 3
         
         self.chart = LineChartView(frame: NSRect(x: 1, y: 0, width: view.frame.width, height: container.frame.height), num: 120)
+        self.chart?.color = self.chartColor
         container.addSubview(self.chart!)
         
         view.addSubview(separator)
@@ -193,9 +236,9 @@ internal class Popup: NSView, Popup_p {
         container.orientation = .vertical
         container.spacing = 0
         
-        self.systemField = popupWithColorRow(container, color: NSColor.systemRed, n: 4, title: "\(localizedString("System")):", value: "")
-        self.userField = popupWithColorRow(container, color: NSColor.systemBlue, n: 3, title: "\(localizedString("User")):", value: "")
-        self.idleField = popupWithColorRow(container, color: NSColor.lightGray.withAlphaComponent(0.5), n: 2, title: "\(localizedString("Idle")):", value: "")
+        (self.systemColorView, self.systemField) = popupWithColorRow(container, color: self.systemColor, n: 4, title: "\(localizedString("System")):", value: "")
+        (self.userColorView, self.userField) = popupWithColorRow(container, color: self.userColor, n: 3, title: "\(localizedString("User")):", value: "")
+        (self.idleColorView, self.idleField) = popupWithColorRow(container, color: self.idleColor.withAlphaComponent(0.5), n: 2, title: "\(localizedString("Idle")):", value: "")
         if !isARM {
             self.shedulerLimitField = popupRow(container, n: 1, title: "\(localizedString("Scheduler limit")):", value: "").1
             self.speedLimitField = popupRow(container, n: 0, title: "\(localizedString("Speed limit")):", value: "").1
@@ -257,9 +300,10 @@ internal class Popup: NSView, Popup_p {
                 
                 self.circle?.setValue(value.totalUsage)
                 self.circle?.setSegments([
-                    circle_segment(value: value.systemLoad, color: NSColor.systemRed),
-                    circle_segment(value: value.userLoad, color: NSColor.systemBlue)
+                    circle_segment(value: value.systemLoad, color: self.systemColor),
+                    circle_segment(value: value.userLoad, color: self.userColor)
                 ])
+                self.circle?.setNonActiveSegmentColor(self.idleColor)
                 
                 if let field = self.eCoresField, let usage = value.usageECores {
                     field.stringValue = "\(Int(usage * 100))%"
@@ -372,6 +416,81 @@ internal class Popup: NSView, Popup_p {
     // MARK: - Settings
     
     public func settings() -> NSView? {
-        return nil
+        let view = SettingsContainerView()
+        
+        view.addArrangedSubview(selectSettingsRow(
+            title: localizedString("System color"),
+            action: #selector(toggleSystemColor),
+            items: Color.allColors,
+            selected: self.systemColorState.key
+        ))
+        
+        view.addArrangedSubview(selectSettingsRow(
+            title: localizedString("User color"),
+            action: #selector(toggleUserColor),
+            items: Color.allColors,
+            selected: self.userColorState.key
+        ))
+        
+        view.addArrangedSubview(selectSettingsRow(
+            title: localizedString("Idle color"),
+            action: #selector(toggleIdleColor),
+            items: Color.allColors,
+            selected: self.idleColorState.key
+        ))
+        
+        view.addArrangedSubview(selectSettingsRow(
+            title: localizedString("Chart color"),
+            action: #selector(toggleChartColor),
+            items: Color.allColors,
+            selected: self.chartColorState.key
+        ))
+        
+        return view
+    }
+    
+    @objc private func toggleSystemColor(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String,
+              let newValue = Color.allColors.first(where: { $0.key == key }) else {
+            return
+        }
+        self.systemColorState = newValue
+        Store.shared.set(key: "\(self.title)_systemColor", value: key)
+        if let color = newValue.additional as? NSColor {
+            self.systemColorView?.layer?.backgroundColor = color.cgColor
+        }
+    }
+    @objc private func toggleUserColor(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String,
+              let newValue = Color.allColors.first(where: { $0.key == key }) else {
+            return
+        }
+        self.userColorState = newValue
+        Store.shared.set(key: "\(self.title)_userColor", value: key)
+        if let color = newValue.additional as? NSColor {
+            self.userColorView?.layer?.backgroundColor = color.cgColor
+        }
+    }
+    @objc private func toggleIdleColor(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String,
+              let newValue = Color.allColors.first(where: { $0.key == key }) else {
+            return
+        }
+        self.idleColorState = newValue
+        Store.shared.set(key: "\(self.title)_idleColor", value: key)
+        if let color = newValue.additional as? NSColor {
+            self.idleColorView?.layer?.backgroundColor = color.cgColor
+        }
+    }
+    @objc private func toggleChartColor(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String,
+              let newValue = Color.allColors.first(where: { $0.key == key }) else {
+            return
+        }
+        self.chartColorState = newValue
+        Store.shared.set(key: "\(self.title)_chartColor", value: key)
+        if let color = newValue.additional as? NSColor {
+            self.chart?.color = color
+        }
     }
 }

@@ -283,7 +283,7 @@ public func popupRow(_ view: NSView, n: CGFloat = 0, title: String, value: Strin
     return (labelView, valueView)
 }
 
-public func popupWithColorRow(_ view: NSView, color: NSColor, n: CGFloat, title: String, value: String) -> ValueField {
+public func popupWithColorRow(_ view: NSView, color: NSColor, n: CGFloat, title: String, value: String) -> (NSView, ValueField) {
     let rowView: NSView = NSView(frame: NSRect(x: 0, y: 22*n, width: view.frame.width, height: 22))
     
     let colorView: NSView = NSView(frame: NSRect(x: 2, y: 5, width: 12, height: 12))
@@ -305,7 +305,7 @@ public func popupWithColorRow(_ view: NSView, color: NSColor, n: CGFloat, title:
         view.addSubview(rowView)
     }
     
-    return valueView
+    return (colorView, valueView)
 }
 
 public extension Array where Element: Equatable {
