@@ -375,7 +375,7 @@ internal class Popup: NSStackView, Popup_p {
         DispatchQueue.main.async(execute: {
             if (self.window?.isVisible ?? false) || !self.connectionInitialized {
                 var text = "Unknown"
-                if let v = value, v == true {
+                if let v = value {
                     text = v ? "UP" : "DOWN"
                 }
                 
