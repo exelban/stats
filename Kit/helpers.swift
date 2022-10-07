@@ -639,7 +639,7 @@ public func getIOChildrens(_ entry: io_registry_entry_t) -> [String]? {
 public class ColorView: NSView {
     public var inactiveColor: NSColor = NSColor.lightGray.withAlphaComponent(0.75)
     
-    private let color: NSColor
+    private var color: NSColor
     private var state: Bool
     
     public init(frame: NSRect, color: NSColor, state: Bool = false, radius: CGFloat = 2) {
@@ -662,6 +662,12 @@ public class ColorView: NSView {
             self.layer?.backgroundColor = (newState ? self.color : inactiveColor).cgColor
             self.state = newState
         }
+    }
+    
+    public func setColor(_ newColor: NSColor) {
+        guard self.color != newColor else { return }
+        self.color = newColor
+        self.layer?.backgroundColor = newColor.cgColor
     }
 }
 

@@ -85,7 +85,7 @@ public class NetworkChart: WidgetWrapper {
             
             if let downloadColor =  self.downloadColor.additional as? NSColor,
                let uploadColor = self.uploadColor.additional as? NSColor {
-                self.chart.colors = [uploadColor, downloadColor]
+                self.chart.setColors(in: downloadColor, out: uploadColor)
             }
             self.chart.setScale(self.scaleState, self.commonScaleState)
             self.chart.reinit(self.historyCount)
@@ -313,9 +313,8 @@ public class NetworkChart: WidgetWrapper {
             Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_downloadColor", value: newColor.key)
         }
         
-        if let downloadColor =  self.downloadColor.additional as? NSColor,
-           let uploadColor = self.uploadColor.additional as? NSColor {
-            self.chart.colors = [uploadColor, downloadColor]
+        if let downloadColor =  self.downloadColor.additional as? NSColor  {
+            self.chart.setColors(in: downloadColor)
         }
         self.display()
     }
@@ -329,9 +328,8 @@ public class NetworkChart: WidgetWrapper {
             Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_uploadColor", value: newColor.key)
         }
         
-        if let downloadColor =  self.downloadColor.additional as? NSColor,
-           let uploadColor = self.uploadColor.additional as? NSColor {
-            self.chart.colors = [uploadColor, downloadColor]
+        if let uploadColor = self.uploadColor.additional as? NSColor {
+            self.chart.setColors(out: uploadColor)
         }
         self.display()
     }

@@ -29,6 +29,9 @@ internal class Popup: NSStackView, Popup_p {
     private var downloadUnitField: NSTextField? = nil
     private var downloadStateView: ColorView? = nil
     
+    private var downloadColorView: NSView? = nil
+    private var uploadColorView: NSView? = nil
+    
     private var localIPField: ValueField? = nil
     private var interfaceField: ValueField? = nil
     private var macAdressField: ValueField? = nil
@@ -72,6 +75,23 @@ internal class Popup: NSStackView, Popup_p {
         }
     }
     
+    private var downloadColorState: Color = .secondBlue
+    private var downloadColor: NSColor {
+        var value = NSColor.systemRed
+        if let color = self.downloadColorState.additional as? NSColor {
+            value = color
+        }
+        return value
+    }
+    private var uploadColorState: Color = .secondRed
+    private var uploadColor: NSColor {
+        var value = NSColor.systemBlue
+        if let color = self.uploadColorState.additional as? NSColor {
+            value = color
+        }
+        return value
+    }
+    
     public init(_ title: String) {
         self.title = title
         
@@ -81,6 +101,9 @@ internal class Popup: NSStackView, Popup_p {
             width: Constants.Popup.width,
             height: 0
         ))
+        
+        self.downloadColorState = Color.fromString(Store.shared.string(key: "\(self.title)_downloadColor", defaultValue: self.downloadColorState.key))
+        self.uploadColorState = Color.fromString(Store.shared.string(key: "\(self.title)_uploadColor", defaultValue: self.uploadColorState.key))
         
         self.spacing = 0
         self.orientation = .vertical
@@ -113,14 +136,14 @@ internal class Popup: NSStackView, Popup_p {
         view.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
         
         let leftPart: NSView = NSView(frame: NSRect(x: 0, y: 0, width: view.frame.width / 2, height: view.frame.height))
-        let uploadFields = self.topValueView(leftPart, title: localizedString("Uploading"), color: NSColor.systemRed)
+        let uploadFields = self.topValueView(leftPart, title: localizedString("Uploading"), color: self.uploadColor)
         self.uploadView = uploadFields.0
         self.uploadValueField = uploadFields.1
         self.uploadUnitField = uploadFields.2
         self.uploadStateView = uploadFields.3
         
         let rightPart: NSView = NSView(frame: NSRect(x: view.frame.width / 2, y: 0, width: view.frame.width / 2, height: view.frame.height))
-        let downloadFields = self.topValueView(rightPart, title: localizedString("Downloading"), color: NSColor.systemBlue)
+        let downloadFields = self.topValueView(rightPart, title: localizedString("Downloading"), color: self.downloadColor)
         self.downloadView = downloadFields.0
         self.downloadValueField = downloadFields.1
         self.downloadUnitField = downloadFields.2
@@ -147,7 +170,7 @@ internal class Popup: NSStackView, Popup_p {
             y: 1,
             width: container.frame.width,
             height: container.frame.height - 2
-        ), num: 120)
+        ), num: 120, outColor: self.uploadColor, inColor: self.downloadColor)
         chart.base = self.base
         container.addSubview(chart)
         self.chart = chart
@@ -184,8 +207,8 @@ internal class Popup: NSStackView, Popup_p {
         
         container.addArrangedSubview(row)
         
-        self.totalUploadField = popupWithColorRow(container, color: NSColor.systemRed, n: 5, title: "\(localizedString("Total upload")):", value: "0")
-        self.totalDownloadField = popupWithColorRow(container, color: NSColor.systemBlue, n: 4, title: "\(localizedString("Total download")):", value: "0")
+        (self.uploadColorView, self.totalUploadField) = popupWithColorRow(container, color: self.uploadColor, n: 0, title: "\(localizedString("Total upload")):", value: "0")
+        (self.downloadColorView, self.totalDownloadField) = popupWithColorRow(container, color: self.downloadColor, n: 0, title: "\(localizedString("Total download")):", value: "0")
         
         self.statusField = popupRow(container, n: 0, title: "\(localizedString("Status")):", value: localizedString("Unknown")).1
         self.connectivityField = popupRow(container, n: 0, title: "\(localizedString("Internet connection")):", value: localizedString("Unknown")).1
@@ -417,6 +440,50 @@ internal class Popup: NSStackView, Popup_p {
     
     public func settings() -> NSView? {
         return nil
+        let view = SettingsContainerView()
+        
+        view.addArrangedSubview(selectSettingsRow(
+            title: localizedString("Upload color"),
+            action: #selector(toggleUploadColor),
+            items: Color.allColors,
+            selected: self.uploadColorState.key
+        ))
+        
+        view.addArrangedSubview(selectSettingsRow(
+            title: localizedString("Download color"),
+            action: #selector(toggleDownloadColor),
+            items: Color.allColors,
+            selected: self.downloadColorState.key
+        ))
+        
+        return view
+    }
+    
+    @objc private func toggleUploadColor(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String,
+              let newValue = Color.allColors.first(where: { $0.key == key }) else {
+            return
+        }
+        self.uploadColorState = newValue
+        Store.shared.set(key: "\(self.title)_uploadColor", value: key)
+        if let color = newValue.additional as? NSColor {
+            self.uploadColorView?.layer?.backgroundColor = color.cgColor
+            self.uploadStateView?.setColor(color)
+            self.chart?.setColors(out: color)
+        }
+    }
+    @objc private func toggleDownloadColor(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String,
+              let newValue = Color.allColors.first(where: { $0.key == key }) else {
+            return
+        }
+        self.downloadColorState = newValue
+        Store.shared.set(key: "\(self.title)_downloadColor", value: key)
+        if let color = newValue.additional as? NSColor {
+            self.downloadColorView?.layer?.backgroundColor = color.cgColor
+            self.downloadStateView?.setColor(color)
+            self.chart?.setColors(in: color)
+        }
     }
     
     // MARK: - helpers
