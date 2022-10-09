@@ -439,7 +439,6 @@ internal class Popup: NSStackView, Popup_p {
     // MARK: - Settings
     
     public func settings() -> NSView? {
-        return nil
         let view = SettingsContainerView()
         
         view.addArrangedSubview(selectSettingsRow(
