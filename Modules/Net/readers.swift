@@ -368,15 +368,22 @@ internal class UsageReader: Reader<Network_Usage> {
             let ipv6: String?
         }
         
-        if let url = URL(string: "https://api.serhiy.io/v1/stats/ip"),
-            let data = try? Data(contentsOf: url),
-            let addr = try? JSONDecoder().decode(Addr_s.self, from: data) {
-            
-            if let ip = addr.ipv4, self.isIPv4(ip) {
-                self.usage.raddr.v4 = ip
+        DispatchQueue.global(qos: .userInitiated).async {
+            let response = syncShell("curl -s -4 https://api.serhiy.io/v1/stats/ip")
+            if !response.isEmpty, let data = response.data(using: .utf8),
+               let addr = try? JSONDecoder().decode(Addr_s.self, from: data) {
+                if let ip = addr.ipv4, self.isIPv4(ip) {
+                    self.usage.raddr.v4 = ip
+                }
             }
-            if let ip = addr.ipv6, !self.isIPv4(ip) {
-                self.usage.raddr.v6 = ip
+        }
+        DispatchQueue.global(qos: .userInitiated).async {
+            let response = syncShell("curl -s -6 https://api.serhiy.io/v1/stats/ip")
+            if !response.isEmpty, let data = response.data(using: .utf8),
+               let addr = try? JSONDecoder().decode(Addr_s.self, from: data) {
+                if let ip = addr.ipv6, !self.isIPv4(ip) {
+                    self.usage.raddr.v6 = ip
+                }
             }
         }
     }
