@@ -575,7 +575,7 @@ internal class ConnectivityReader: Reader<Bool> {
     }
     private var lastHost: String = ""
     private var addr: Data? = nil
-    private let timeout: TimeInterval = 7
+    private let timeout: TimeInterval = 5
     
     private var socket: CFSocket?
     private var socketSource: CFRunLoopSource?
@@ -633,7 +633,7 @@ internal class ConnectivityReader: Reader<Bool> {
     }
     
     override func setup() {
-        self.interval = 3
+        self.interval = 1
         self.addr = self.resolve()
         self.setConn()
         
@@ -679,12 +679,11 @@ internal class ConnectivityReader: Reader<Bool> {
     }
     
     private func socketCallback(data: Data? = nil, error: CFSocketError? = nil) {
-        if let data = data {
-            self.status = validateResponse(data)
-        } else {
-            self.status = false
+        guard let data = data, validateResponse(data) else {
+            return
         }
         
+        self.status = error == nil
         self.isPinging = false
         self.timeoutTimer?.invalidate()
         self.timeoutTimer = nil
@@ -701,7 +700,7 @@ internal class ConnectivityReader: Reader<Bool> {
         let payload = data.subdata(in: (data.count - payloadSize)..<data.count)
         let uuid = UUID(uuid: icmpHeader.payload)
         
-        guard uuid == fingerprint else { return false }
+        guard uuid == self.fingerprint else { return false }
         guard icmpHeader.checksum == computeChecksum(header: icmpHeader, additionalPayload: [UInt8](payload)) else { return false }
         guard icmpHeader.type == 0 else { return false }
         guard icmpHeader.code == 0 else { return false }
