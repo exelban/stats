@@ -178,13 +178,16 @@
 "Pictogram" = "标识";
 "Module settings" = "模块设置";
 "Widget settings" = "小组件设置";
+"Popup settings" = "Popup settings";
 "Merge widgets" = "合并组件";
 "No available widgets to configure" = "没有可配置的小组件";
+"No options to configure for the popup in this module" = "No options to configure for the popup in this module";
 
 // Modules
 "Number of top processes" = "高占用进程数";
 "Update interval for top processes" = "高占用进程的更新间隔";
 "Notification level" = "通知级别";
+"Chart color" = "Chart color";
 
 // CPU
 "CPU usage" = "CPU 占用";
@@ -206,6 +209,9 @@
 "CPU usage is" = "CPU 利用率是 %0";
 "Efficiency cores" = "能效核心";
 "Performance cores" = "性能核心";
+"System color" = "System color";
+"User color" = "User color";
+"Idle color" = "Idle color";
 
 // GPU
 "GPU to show" = "显示的 GPU";
@@ -241,6 +247,10 @@
 "Split the value (App/Wired/Compressed)" = "柱状图区分显示（App 内存/联动内存/被压缩）";
 "RAM utilization threshold" = "RAM 占用阈值";
 "RAM utilization is" = "RAM 利用率是 %0";
+"App color" = "App color";
+"Wired color" = "Wired color";
+"Compressed color" = "Compressed color";
+"Free color" = "Free color";
 
 // Disk
 "Show removable disks" = "显示可移动磁盘";

@@ -178,13 +178,16 @@
 "Pictogram" = "Piktogram";
 "Module settings" = "Modul beállítások";
 "Widget settings" = "Widget beállítások";
+"Popup settings" = "Popup settings";
 "Merge widgets" = "Modulok egyesítése";
 "No available widgets to configure" = "No available widgets to configure";
+"No options to configure for the popup in this module" = "No options to configure for the popup in this module";
 
 // Modules
 "Number of top processes" = "Top folyamatok száma";
 "Update interval for top processes" = "Top folyamatok frissítési időköze";
 "Notification level" = "Értesítési szint";
+"Chart color" = "Chart color";
 
 // CPU
 "CPU usage" = "CPU használat";
@@ -206,6 +209,9 @@
 "CPU usage is" = "%0 a CPU használat";
 "Efficiency cores" = "Energiatakarékos magok";
 "Performance cores" = "Teljesítményre optimalizált magok";
+"System color" = "System color";
+"User color" = "User color";
+"Idle color" = "Idle color";
 
 // GPU
 "GPU to show" = "Megjelenítendő GPU";
@@ -241,6 +247,10 @@
 "Split the value (App/Wired/Compressed)" = "Ossza fel az értéket (Alkalmazás/Nem lapozható/Tömörített)";
 "RAM utilization threshold" = "RAM használati küszöb";
 "RAM utilization is" = "%0 a RAM használat";
+"App color" = "App color";
+"Wired color" = "Wired color";
+"Compressed color" = "Compressed color";
+"Free color" = "Free color";
 
 // Disk
 "Show removable disks" = "Eltávolítható adattárolók megjelenítése";

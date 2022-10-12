@@ -178,13 +178,16 @@
 "Pictogram" = "Ikonka";
 "Module settings" = "Ustawienia modułu";
 "Widget settings" = "Ustawienia widżetu";
+"Popup settings" = "Ustawienia okienka";
 "Merge widgets" = "Pąłącz widżety";
 "No available widgets to configure" = "Brak dostępnych widżetów do konfiguracji";
+"No options to configure for the popup in this module" = "Brak opcji do skonfigurowania dla okienka w tym module";
 
 // Modules
 "Number of top processes" = "Liczba procesów";
 "Update interval for top processes" = "Interwał odświeżania procesów";
 "Notification level" = "Poziom powiadomienia";
+"Chart color" = "Kolor wykresu";
 
 // CPU
 "CPU usage" = "Obciążenie procesora";
@@ -206,6 +209,9 @@
 "CPU usage is" = "Użycie procesora %0";
 "Efficiency cores" = "Rdzenie energooszczędne";
 "Performance cores" = "Rdzenie wydajnościowe";
+"System color" = "Kolor systemu";
+"User color" = "Kolor użytkownika";
+"Idle color" = "Nieaktywny kolor";
 
 // GPU
 "GPU to show" = "GPU do wyświetlenia";
@@ -241,6 +247,10 @@
 "Split the value (App/Wired/Compressed)" = "Podzielić wartość (Aplikacje/Układowa/Skompresowana)";
 "RAM utilization threshold" = "Próg wykorzystania pamięci RAM";
 "RAM utilization is" = "Wykorzystanie pamięci RAM %0";
+"App color" = "Kolor aplikacji";
+"Wired color" = "Kolor układowej przestrzeni";
+"Compressed color" = "Kolor skompresowanej przestrzeni";
+"Free color" = "Kolor wolnej przestrzeni";
 
 // Disk
 "Show removable disks" = "Pokaż dyski wymienne";

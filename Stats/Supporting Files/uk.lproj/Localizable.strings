@@ -178,13 +178,16 @@
 "Pictogram" = "Піктограма";
 "Module settings" = "Налаштування модуля";
 "Widget settings" = "Налаштування віджетів";
+"Popup settings" = "Налаштування спливаючих вікон";
 "Merge widgets" = "Об’єднайти віджети";
 "No available widgets to configure" = "Немає доступних віджетів для налаштування";
+"No options to configure for the popup in this module" = "У цьому модулі немає параметрів для налаштування спливаючого вікна";
 
 // Modules
 "Number of top processes" = "Кількість процесів";
 "Update interval for top processes" = "Інтервал оновлення для процесів";
 "Notification level" = "Рівень сповіщення";
+"Chart color" = "Колір діаграми";
 
 // CPU
 "CPU usage" = "Використання процесора";
@@ -206,6 +209,9 @@
 "CPU usage is" = "Використання процесора %0";
 "Efficiency cores" = "Енергоефективні ядра";
 "Performance cores" = "Високопродуктивні ядра";
+"System color" = "Системний колір";
+"User color" = "Колір користувача";
+"Idle color" = "Колір простою";
 
 // GPU
 "GPU to show" = "Активний графічний процесор";
@@ -241,6 +247,10 @@
 "Split the value (App/Wired/Compressed)" = "Розділити значення (Програми/Постійна/Стисненна)";
 "RAM utilization threshold" = "Поріг використання оперативної пам'яті";
 "RAM utilization is" = "Використання оперативної пам'яті %0";
+"App color" = "Колір програми";
+"Wired color" = "Колір постійної пам’яті";
+"Compressed color" = "Колір стисненої пам’яті";
+"Free color" = "Колір вільної пам’яті";
 
 // Disk
 "Show removable disks" = "Показати зйомні диски";
