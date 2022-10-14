@@ -21,6 +21,7 @@ internal class Settings: NSStackView, Settings_v {
     private var updateTopIntervalValue: Int = 1
     private var numberOfProcesses: Int = 8
     private var notificationLevel: String = "Disabled"
+    private var clustersGroupState: Bool = false
     
     private let title: String
     private var hasHyperthreadingCores = false
@@ -33,6 +34,8 @@ internal class Settings: NSStackView, Settings_v {
     
     private var hyperthreadView: NSView? = nil
     private var splitValueView: NSView? = nil
+    private var usagePerCoreView: NSView? = nil
+    private var groupByClustersView: NSView? = nil
     
     public init(_ title: String) {
         self.title = title
@@ -48,6 +51,7 @@ internal class Settings: NSStackView, Settings_v {
             self.hyperthreadState = false
         }
         self.hasHyperthreadingCores = sysctlByName("hw.physicalcpu") != sysctlByName("hw.logicalcpu")
+        self.clustersGroupState = Store.shared.bool(key: "\(self.title)_clustersGroup", defaultValue: self.clustersGroupState)
         
         super.init(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
         
@@ -92,11 +96,19 @@ internal class Settings: NSStackView, Settings_v {
         ))
         
         if !widgets.filter({ $0 == .barChart }).isEmpty {
-            self.addArrangedSubview(toggleSettingRow(
+            self.usagePerCoreView = toggleSettingRow(
                 title: localizedString("Show usage per core"),
                 action: #selector(toggleUsagePerCore),
                 state: self.usagePerCoreState
-            ))
+            )
+            self.addArrangedSubview(self.usagePerCoreView!)
+            
+            self.groupByClustersView = toggleSettingRow(
+                title: localizedString("Cluster grouping"),
+                action: #selector(toggleClustersGroup),
+                state: self.clustersGroupState
+            )
+            self.addArrangedSubview(self.groupByClustersView!)
             
             if self.hasHyperthreadingCores {
                 self.hyperthreadView = toggleSettingRow(
@@ -116,13 +128,14 @@ internal class Settings: NSStackView, Settings_v {
                 action: #selector(toggleSplitValue),
                 state: self.splitValueState
             )
-            if self.usagePerCoreState {
+            if self.usagePerCoreState || self.clustersGroupState {
                 findAndToggleEnableNSControlState(self.splitValueView, state: false)
                 findAndToggleNSControlState(self.splitValueView, state: .off)
             }
             self.addArrangedSubview(self.splitValueView!)
         }
         
+        #if arch(x86_64)
         if hasIPG {
             self.addArrangedSubview(toggleSettingRow(
                 title: "\(localizedString("CPU frequency")) (IPG)",
@@ -130,6 +143,7 @@ internal class Settings: NSStackView, Settings_v {
                 state: self.IPGState
             ))
         }
+        #endif
         
         self.addArrangedSubview(selectSettingsRowV1(
             title: localizedString("Number of top processes"),
@@ -183,7 +197,7 @@ internal class Settings: NSStackView, Settings_v {
         self.callback()
         
         findAndToggleEnableNSControlState(self.hyperthreadView, state: self.usagePerCoreState)
-        findAndToggleEnableNSControlState(self.splitValueView, state: !self.usagePerCoreState)
+        findAndToggleEnableNSControlState(self.splitValueView, state: !(self.usagePerCoreState || self.clustersGroupState))
         
         if !self.usagePerCoreState {
             self.hyperthreadState = false
@@ -193,6 +207,12 @@ internal class Settings: NSStackView, Settings_v {
             self.splitValueState = false
             Store.shared.set(key: "\(self.title)_splitValue", value: self.splitValueState)
             findAndToggleNSControlState(self.splitValueView, state: .off)
+        }
+        
+        if self.clustersGroupState && self.usagePerCoreState {
+            self.clustersGroupState = false
+            Store.shared.set(key: "\(self.title)_clustersGroup", value: self.clustersGroupState)
+            findAndToggleNSControlState(self.groupByClustersView, state: .off)
         }
     }
     
@@ -243,5 +263,30 @@ internal class Settings: NSStackView, Settings_v {
         } else if let value = Double(key.replacingOccurrences(of: "%", with: "")) {
             Store.shared.set(key: "\(self.title)_notificationLevel", value: "\(value/100)")
         }
+    }
+    
+    @objc func toggleClustersGroup(_ sender: NSControl) {
+        var state: NSControl.StateValue? = nil
+        if #available(OSX 10.15, *) {
+            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
+        } else {
+            state = sender is NSButton ? (sender as! NSButton).state: nil
+        }
+        
+        self.clustersGroupState = state! == .on ? true : false
+        Store.shared.set(key: "\(self.title)_clustersGroup", value: self.clustersGroupState)
+        
+        findAndToggleEnableNSControlState(self.splitValueView, state: !(self.usagePerCoreState || self.clustersGroupState))
+        
+        if self.clustersGroupState && self.usagePerCoreState {
+            if #available(macOS 10.15, *) {
+                findAndToggleNSControlState(self.usagePerCoreView, state: .off)
+                let toggle: NSSwitch = NSSwitch()
+                toggle.state = .off
+                self.toggleUsagePerCore(toggle)
+            }
+        }
+        
+        self.callback()
     }
 }
