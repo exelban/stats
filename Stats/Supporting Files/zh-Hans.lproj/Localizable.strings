@@ -250,8 +250,8 @@
 "RAM utilization is" = "RAM 利用率是 %0";
 "App color" = "App 内存颜色";
 "Wired color" = "联动内存颜色";
-"Compressed color" = "被压缩颜色";
-"Free color" = "可用颜色";
+"Compressed color" = "被压缩内存颜色";
+"Free color" = "可用内存颜色";
 
 // Disk
 "Show removable disks" = "显示可移动磁盘";
