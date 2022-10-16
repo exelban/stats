@@ -178,13 +178,16 @@
 "Pictogram" = "Пиктограмма";
 "Module settings" = "Настройки модуля";
 "Widget settings" = "Настройки виджета";
+"Popup settings" = "Настройки всплывающего окна";
 "Merge widgets" = "Объединить виджеты";
 "No available widgets to configure" = "Нет доступных виджетов для настройки";
+"No options to configure for the popup in this module" = "Нет параметров для настройки всплывающего окна в этом модуле";
 
 // Modules
 "Number of top processes" = "Количество процессов";
 "Update interval for top processes" = "Интервал обновления процессов";
 "Notification level" = "Уровень уведомления";
+"Chart color" = "Цвет графика";
 
 // CPU
 "CPU usage" = "Использование процессора";
@@ -206,6 +209,10 @@
 "CPU usage is" = "Использование процессора %0";
 "Efficiency cores" = "Энергоэффективные ядра";
 "Performance cores" = "Производительные ядра";
+"System color" = "Системный цвет";
+"User color" = "Пользовательский цвет";
+"Idle color" = "Холостой цвет";
+"Cluster grouping" = "Кластерная группировка";
 
 // GPU
 "GPU to show" = "Активный графический процессор";
@@ -241,6 +248,10 @@
 "Split the value (App/Wired/Compressed)" = "Разделить значение (Программы/Зарезервированная/Сжатая)";
 "RAM utilization threshold" = "Порог использования оперативной памяти";
 "RAM utilization is" = "Использование оперативной памяти %0";
+"App color" = "Цвет приложения";
+"Wired color" = "Цвет зарезервированной памяти";
+"Compressed color" = "Цвет сжатой памяти";
+"Free color" = "Цвет свободной памяти";
 
 // Disk
 "Show removable disks" = "Показать съемные диски";

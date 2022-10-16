@@ -178,13 +178,16 @@
 "Pictogram" = "Piktogram";
 "Module settings" = "Nastavitve modulov";
 "Widget settings" = "Nastavitve pripomočkov";
+"Popup settings" = "Popup settings";
 "Merge widgets" = "Združevanje pripomočkov";
 "No available widgets to configure" = "No available widgets to configure";
+"No options to configure for the popup in this module" = "No options to configure for the popup in this module";
 
 // Modules
 "Number of top processes" = "Število glavnih procesov";
 "Update interval for top processes" = "Interval posodabljanja za glavne procese";
 "Notification level" = "Raven za obvestila";
+"Chart color" = "Chart color";
 
 // CPU
 "CPU usage" = "CPE poraba";
@@ -206,6 +209,10 @@
 "CPU usage is" = "Uporaba CPE je %0";
 "Efficiency cores" = "Efficiency cores";
 "Performance cores" = "Performance cores";
+"System color" = "System color";
+"User color" = "User color";
+"Idle color" = "Idle color";
+"Cluster grouping" = "Cluster grouping";
 
 // GPU
 "GPU to show" = "GPE na ogled";
@@ -241,6 +248,10 @@
 "Split the value (App/Wired/Compressed)" = "Razdelitev vrednosti (Aplikacijski/Žičen/Stisjen)";
 "RAM utilization threshold" = "Prag izkoriščenosti RAM-a";
 "RAM utilization is" = "Izkoriščenost pomnilnika RAM je %0";
+"App color" = "App color";
+"Wired color" = "Wired color";
+"Compressed color" = "Compressed color";
+"Free color" = "Free color";
 
 // Disk
 "Show removable disks" = "Prikaži odstranljive diske";

@@ -178,13 +178,16 @@
 "Pictogram" = "Pictograma";
 "Module settings" = "Module settings";
 "Widget settings" = "Widget settings";
+"Popup settings" = "Popup settings";
 "Merge widgets" = "Merge widgets";
 "No available widgets to configure" = "No available widgets to configure";
+"No options to configure for the popup in this module" = "No options to configure for the popup in this module";
 
 // Modules
 "Number of top processes" = "Nombre de processos principals";
 "Update interval for top processes" = "Freqüència de refresc per als processos principals";
 "Notification level" = "Notification level";
+"Chart color" = "Chart color";
 
 // CPU
 "CPU usage" = "Ús de la CPU";
@@ -206,6 +209,10 @@
 "CPU usage is" = "CPU usage is %0";
 "Efficiency cores" = "Efficiency cores";
 "Performance cores" = "Performance cores";
+"System color" = "System color";
+"User color" = "User color";
+"Idle color" = "Idle color";
+"Cluster grouping" = "Cluster grouping";
 
 // GPU
 "GPU to show" = "GPU a mostrar";
@@ -241,6 +248,10 @@
 "Split the value (App/Wired/Compressed)" = "Dividir el valor (Aplicació/Física/Comprimida)";
 "RAM utilization threshold" = "RAM utilization threshold";
 "RAM utilization is" = "RAM utilization is %0";
+"App color" = "App color";
+"Wired color" = "Wired color";
+"Compressed color" = "Compressed color";
+"Free color" = "Free color";
 
 // Disk
 "Show removable disks" = "Mostra els discs extraïbles";

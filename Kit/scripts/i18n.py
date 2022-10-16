@@ -1,46 +1,82 @@
 import os
 import sys
 
-PATH = os.getcwd()+"/Stats/Supporting Files/"
 
-def get_keys(list):
-	arr = []
-	for el in list:
-		if el.startswith("//") or len(el) == 0 or el == "\n":
-			continue
-		key = el.replace("\n", "").split(" = ")[0].replace('"', "")
-		arr.append(key)
+def dictionary(lines):
+    parsed_lines = {}
+    for i, line in enumerate(lines):
+        if line.startswith("//") or len(line) == 0 or line == "\n":
+            continue
+        line = line.replace("\n", "")
+        pair = line.split(" = ")
+        parsed_lines[i] = {
+            "key": pair[0].replace('"', ""),
+            "value": pair[1].replace('"', "").replace(';', "")
+        }
+    return parsed_lines
 
-	return arr
 
-def main():
-	en_file = open(f"{PATH}/en.lproj/Localizable.strings", "r").readlines()
-	if en_file == None:
-		sys.exit("English language not found.")
-	en_count = len(en_file)
-	en_keys = get_keys(en_file)
-	if len(en_keys) == 0:
-		sys.exit("No English keys found.")
+class i18n:
+    path = os.getcwd() + "/Stats/Supporting Files/"
 
-	languages = list(filter(lambda x: x.endswith(".lproj"), os.listdir(PATH)))
-	
-	for lang in languages:
-		file = open(f"{PATH}/{lang}/Localizable.strings", "r").readlines()
-		count = len(file)
-		name = lang.replace(".lproj", "")
-		keys = get_keys(file)
-		if len(keys) == 0:
-			sys.exit(f"No {name} keys found.")
+    def __init__(self):
+        if "Kit/scripts" in os.getcwd():
+            self.path = os.getcwd() + "/../../Stats/Supporting Files/"
+        self.languages = list(filter(lambda x: x.endswith(".lproj"), os.listdir(self.path)))
 
-		if count != en_count:
-			print(f"`{lang}` has different number of lines ({count}) than English ({en_count})\n")
+    def en_file(self):
+        en_file = open(f"{self.path}/en.lproj/Localizable.strings", "r").readlines()
+        if en_file is None:
+            sys.exit("English language not found.")
+        return en_file
 
-			for i, el in enumerate(en_keys):
-				if el != keys[i]:
-					sys.exit(f"line {i}: en=`{el}`; {name}=`{keys[i]}`\n")
-			exit(1)
+    def check(self):
+        en_file = self.en_file()
+        en_dict = dictionary(en_file)
 
-	print(f"All fine, found {en_count} lines in {len(languages)} languages.")
+        for lang in self.languages:
+            file = open(f"{self.path}/{lang}/Localizable.strings", "r").readlines()
+            name = lang.replace(".lproj", "")
+            lang_dict = dictionary(file)
+
+            for v in en_dict:
+                en_key = en_dict[v].get("key")
+                lang_ley = lang_dict[v].get("key")
+                if lang_ley != en_key:
+                    sys.exit(f"missing or wrong key `{lang_ley}` in `{name}` on line `{v}`, must be `{en_key}`")
+
+        print(f"All fine, found {len(en_file)} lines in {len(self.languages)} languages.")
+
+    def fix(self):
+        en_file = self.en_file()
+        en_dict = dictionary(en_file)
+
+        for v in en_dict:
+            en_key = en_dict[v].get("key")
+            en_value = en_dict[v].get("value")
+
+            for lang in self.languages:
+                lang_path = f"{self.path}/{lang}/Localizable.strings"
+                file = open(lang_path, "r").readlines()
+                lang_dict = dictionary(file)
+
+                if v not in lang_dict or en_key != lang_dict[v].get("key"):
+                    file.insert(v, f"\"{en_key}\" = \"{en_value}\";\n")
+                    with open(lang_path, "w") as f:
+                        file = "".join(file)
+                        f.write(file)
+                        f.close()
+
+        self.check()
+
 
 if __name__ == "__main__":
-    main()
+    i18n = i18n()
+    if len(sys.argv) >= 2 and sys.argv[1] == "fix":
+        print("running fix command...")
+        i18n.fix()
+    else:
+        print("running check command...")
+        i18n.check()
+
+    print("done")

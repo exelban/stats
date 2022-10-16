@@ -56,6 +56,11 @@ public class CPU: Module {
             return Store.shared.bool(key: "\(self.config.name)_splitValue", defaultValue: false)
         }
     }
+    private var groupByClustersState: Bool {
+        get {
+            return Store.shared.bool(key: "\(self.config.name)_clustersGroup", defaultValue: false)
+        }
+    }
     private var notificationLevel: String {
         get {
             return Store.shared.string(key: "\(self.config.name)_notificationLevel", defaultValue: "Disabled")
@@ -179,6 +184,11 @@ public class CPU: Module {
                         ColorValue(value.systemLoad, color: NSColor.systemRed),
                         ColorValue(value.userLoad, color: NSColor.systemBlue)
                     ]]
+                } else if self.groupByClustersState, let e = value.usageECores, let p = value.usagePCores {
+                    val = [
+                        [ColorValue(e, color: NSColor.systemTeal)],
+                        [ColorValue(p, color: NSColor.systemBlue)]
+                    ]
                 }
                 widget.setValue(val)
             case let widget as PieChart:

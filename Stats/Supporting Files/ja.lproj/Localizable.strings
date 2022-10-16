@@ -178,13 +178,16 @@
 "Pictogram" = "ピクトグラム";
 "Module settings" = "モジュールの設定";
 "Widget settings" = "ウィジェットの設定";
+"Popup settings" = "Popup settings";
 "Merge widgets" = "Merge widgets";
 "No available widgets to configure" = "No available widgets to configure";
+"No options to configure for the popup in this module" = "No options to configure for the popup in this module";
 
 // Modules
 "Number of top processes" = "表示する上位プロセスの数";
 "Update interval for top processes" = "上位プロセスの更新間隔";
 "Notification level" = "Notification level";
+"Chart color" = "Chart color";
 
 // CPU
 "CPU usage" = "CPU 使用率";
@@ -206,6 +209,10 @@
 "CPU usage is" = "CPU usage is %0";
 "Efficiency cores" = "Efficiency cores";
 "Performance cores" = "Performance cores";
+"System color" = "System color";
+"User color" = "User color";
+"Idle color" = "Idle color";
+"Cluster grouping" = "Cluster grouping";
 
 // GPU
 "GPU to show" = "表示する GPU";
@@ -241,6 +248,10 @@
 "Split the value (App/Wired/Compressed)" = "値を分割する (アプリケーションメモリ/確保されているメモリ/圧縮)";
 "RAM utilization threshold" = "RAM utilization threshold";
 "RAM utilization is" = "RAM utilization is %0";
+"App color" = "App color";
+"Wired color" = "Wired color";
+"Compressed color" = "Compressed color";
+"Free color" = "Free color";
 
 // Disk
 "Show removable disks" = "リムーバブルディスクを表示";
