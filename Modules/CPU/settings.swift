@@ -103,12 +103,14 @@ internal class Settings: NSStackView, Settings_v {
             )
             self.addArrangedSubview(self.usagePerCoreView!)
             
+            #if arch(arm64)
             self.groupByClustersView = toggleSettingRow(
                 title: localizedString("Cluster grouping"),
                 action: #selector(toggleClustersGroup),
                 state: self.clustersGroupState
             )
             self.addArrangedSubview(self.groupByClustersView!)
+            #endif
             
             if self.hasHyperthreadingCores {
                 self.hyperthreadView = toggleSettingRow(
