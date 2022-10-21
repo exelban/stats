@@ -340,6 +340,7 @@ public class MenuBar {
     private var moduleName: String
     private var menuBarItem: NSStatusItem? = nil
     private var view: MenuBarView = MenuBarView()
+    private var active: Bool = false
     
     public var oneView: Bool = false
     public var activeWidgets: [Widget] {
@@ -401,33 +402,43 @@ public class MenuBar {
     }
     
     public func enable() {
+        if self.oneView {
+            self.setupMenuBarItem(true)
+        }
+        self.active = true
         self.widgets.forEach{ $0.enable() }
     }
     
     public func disable() {
         self.widgets.forEach{ $0.disable() }
-    }
-    
-    private func setupMenuBarItem(_ state: Bool) {
-        if state {
-            restoreNSStatusItemPosition(id: self.moduleName)
-            self.menuBarItem = NSStatusBar.system.statusItem(withLength: 0)
-            self.menuBarItem?.autosaveName = self.moduleName
-            self.menuBarItem?.isVisible = true
-            
-            self.menuBarItem?.button?.addSubview(self.view)
-            self.menuBarItem?.button?.target = self
-            self.menuBarItem?.button?.action = #selector(self.togglePopup)
-            self.menuBarItem?.button?.sendAction(on: [.leftMouseDown, .rightMouseDown])
-        } else if let item = self.menuBarItem {
-            saveNSStatusItemPosition(id: self.moduleName)
-            NSStatusBar.system.removeStatusItem(item)
-            self.menuBarItem = nil
+        self.active = false
+        if self.oneView {
+            self.setupMenuBarItem(false)
         }
     }
     
+    private func setupMenuBarItem(_ state: Bool) {
+        DispatchQueue.main.async(execute: {
+            if state {
+                restoreNSStatusItemPosition(id: self.moduleName)
+                self.menuBarItem = NSStatusBar.system.statusItem(withLength: 0)
+                self.menuBarItem?.autosaveName = self.moduleName
+                self.menuBarItem?.isVisible = true
+                
+                self.menuBarItem?.button?.addSubview(self.view)
+                self.menuBarItem?.button?.target = self
+                self.menuBarItem?.button?.action = #selector(self.togglePopup)
+                self.menuBarItem?.button?.sendAction(on: [.leftMouseDown, .rightMouseDown])
+            } else if let item = self.menuBarItem {
+                saveNSStatusItemPosition(id: self.moduleName)
+                NSStatusBar.system.removeStatusItem(item)
+                self.menuBarItem = nil
+            }
+        })
+    }
+    
     private func recalculateWidth() {
-        guard self.oneView else { return }
+        guard self.oneView, self.active else { return }
         
         let w = self.activeWidgets.map({ $0.item.frame.width }).reduce(0, +) +
             (CGFloat(self.activeWidgets.count - 1) * Constants.Widget.spacing) +
@@ -449,7 +460,7 @@ public class MenuBar {
     }
     
     @objc private func listenForOneView(_ notification: Notification) {
-        guard let name = notification.userInfo?["module"] as? String, name == self.moduleName else {
+        guard let name = notification.userInfo?["module"] as? String, name == self.moduleName, self.active else {
             return
         }
         
@@ -471,7 +482,6 @@ public class MenuBar {
         guard let name = notification.userInfo?["module"] as? String, name == self.moduleName else {
             return
         }
-        
         self.view.recalculate(self.sortedWidgets)
     }
 }
