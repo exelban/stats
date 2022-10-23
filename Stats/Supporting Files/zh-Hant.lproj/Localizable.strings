@@ -178,16 +178,16 @@
 "Pictogram" = "標示";
 "Module settings" = "模組設定";
 "Widget settings" = "小工具設定";
-"Popup settings" = "Popup settings";
+"Popup settings" = "彈出式視窗設定";
 "Merge widgets" = "整合型小工具";
 "No available widgets to configure" = "沒有可供組態設定的小工具";
-"No options to configure for the popup in this module" = "No options to configure for the popup in this module";
+"No options to configure for the popup in this module" = "此模組沒有可供彈出式視窗組態設定的選項";
 
 // Modules
 "Number of top processes" = "高能耗程序數量";
 "Update interval for top processes" = "高能耗程序更新頻率";
 "Notification level" = "通知等級";
-"Chart color" = "Chart color";
+"Chart color" = "圖表色彩";
 
 // CPU
 "CPU usage" = "處理器使用率";
@@ -209,10 +209,10 @@
 "CPU usage is" = "處理器使用率為：%0";
 "Efficiency cores" = "節能核心";
 "Performance cores" = "效能核心";
-"System color" = "System color";
-"User color" = "User color";
-"Idle color" = "Idle color";
-"Cluster grouping" = "Cluster grouping";
+"System color" = "系統色彩";
+"User color" = "使用者色彩";
+"Idle color" = "閒置時色彩";
+"Cluster grouping" = "依群集分組";
 
 // GPU
 "GPU to show" = "顯示顯示卡";
@@ -248,10 +248,10 @@
 "Split the value (App/Wired/Compressed)" = "分割值 (App/固定/壓縮)";
 "RAM utilization threshold" = "記憶體利用率臨界值";
 "RAM utilization is" = "記憶體利用率為：%0";
-"App color" = "App color";
-"Wired color" = "Wired color";
-"Compressed color" = "Compressed color";
-"Free color" = "Free color";
+"App color" = "App 色彩";
+"Wired color" = "固定記憶體色彩";
+"Compressed color" = "已壓縮色彩";
+"Free color" = "可使用記憶體色彩";
 
 // Disk
 "Show removable disks" = "顯示抽取式磁碟";
