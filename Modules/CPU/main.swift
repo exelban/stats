@@ -47,24 +47,32 @@ public class CPU: Module {
     private var notificationID: String? = nil
     
     private var usagePerCoreState: Bool {
-        get {
-            return Store.shared.bool(key: "\(self.config.name)_usagePerCore", defaultValue: false)
-        }
+        Store.shared.bool(key: "\(self.config.name)_usagePerCore", defaultValue: false)
     }
     private var splitValueState: Bool {
-        get {
-            return Store.shared.bool(key: "\(self.config.name)_splitValue", defaultValue: false)
-        }
+        Store.shared.bool(key: "\(self.config.name)_splitValue", defaultValue: false)
     }
     private var groupByClustersState: Bool {
-        get {
-            return Store.shared.bool(key: "\(self.config.name)_clustersGroup", defaultValue: false)
-        }
+        Store.shared.bool(key: "\(self.config.name)_clustersGroup", defaultValue: false)
     }
     private var notificationLevel: String {
-        get {
-            return Store.shared.string(key: "\(self.config.name)_notificationLevel", defaultValue: "Disabled")
+        Store.shared.string(key: "\(self.config.name)_notificationLevel", defaultValue: "Disabled")
+    }
+    private var systemColor: NSColor {
+        let color = Color.secondRed
+        let key = Store.shared.string(key: "\(self.config.name)_systemColor", defaultValue: color.key)
+        if let c = Color.fromString(key).additional as? NSColor {
+            return c
         }
+        return color.additional as! NSColor
+    }
+    private var userColor: NSColor {
+        let color = Color.secondBlue
+        let key = Store.shared.string(key: "\(self.config.name)_systemColor", defaultValue: color.key)
+        if let c = Color.fromString(key).additional as? NSColor {
+            return c
+        }
+        return color.additional as! NSColor
     }
     
     public init() {
@@ -181,8 +189,8 @@ public class CPU: Module {
                     val = value.usagePerCore.map({ [ColorValue($0)] })
                 } else if self.splitValueState {
                     val = [[
-                        ColorValue(value.systemLoad, color: NSColor.systemRed),
-                        ColorValue(value.userLoad, color: NSColor.systemBlue)
+                        ColorValue(value.systemLoad, color: self.systemColor),
+                        ColorValue(value.userLoad, color: self.userColor)
                     ]]
                 } else if self.groupByClustersState, let e = value.usageECores, let p = value.usagePCores {
                     val = [
@@ -193,13 +201,13 @@ public class CPU: Module {
                 widget.setValue(val)
             case let widget as PieChart:
                 widget.setValue([
-                    circle_segment(value: value.systemLoad, color: NSColor.systemRed),
-                    circle_segment(value: value.userLoad, color: NSColor.systemBlue)
+                    circle_segment(value: value.systemLoad, color: self.systemColor),
+                    circle_segment(value: value.userLoad, color: self.userColor)
                 ])
             case let widget as Tachometer:
                 widget.setValue([
-                    circle_segment(value: value.systemLoad, color: NSColor.systemRed),
-                    circle_segment(value: value.userLoad, color: NSColor.systemBlue)
+                    circle_segment(value: value.systemLoad, color: self.systemColor),
+                    circle_segment(value: value.userLoad, color: self.userColor)
                 ])
             default: break
             }
