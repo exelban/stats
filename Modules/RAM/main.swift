@@ -58,14 +58,34 @@ public class RAM: Module {
     private var notificationID: String? = nil
     
     private var splitValueState: Bool {
-        get {
-            return Store.shared.bool(key: "\(self.config.name)_splitValue", defaultValue: false)
-        }
+        return Store.shared.bool(key: "\(self.config.name)_splitValue", defaultValue: false)
     }
     private var notificationLevel: String {
-        get {
-            return Store.shared.string(key: "\(self.config.name)_notificationLevel", defaultValue: "Disabled")
+        return Store.shared.string(key: "\(self.config.name)_notificationLevel", defaultValue: "Disabled")
+    }
+    private var appColor: NSColor {
+        let color = Color.secondBlue
+        let key = Store.shared.string(key: "\(self.config.name)_appColor", defaultValue: color.key)
+        if let c = Color.fromString(key).additional as? NSColor {
+            return c
         }
+        return color.additional as! NSColor
+    }
+    private var wiredColor: NSColor {
+        let color = Color.secondOrange
+        let key = Store.shared.string(key: "\(self.config.name)_wiredColor", defaultValue: color.key)
+        if let c = Color.fromString(key).additional as? NSColor {
+            return c
+        }
+        return color.additional as! NSColor
+    }
+    private var compressedColor: NSColor {
+        let color = Color.pink
+        let key = Store.shared.string(key: "\(self.config.name)_compressedColor", defaultValue: color.key)
+        if let c = Color.fromString(key).additional as? NSColor {
+            return c
+        }
+        return color.additional as! NSColor
     }
     
     public init() {
@@ -140,9 +160,9 @@ public class RAM: Module {
             case let widget as BarChart:
                 if self.splitValueState {
                     widget.setValue([[
-                        ColorValue(value.app/total, color: NSColor.systemBlue),
-                        ColorValue(value.wired/total, color: NSColor.systemOrange),
-                        ColorValue(value.compressed/total, color: NSColor.systemPink)
+                        ColorValue(value.app/total, color: self.appColor),
+                        ColorValue(value.wired/total, color: self.wiredColor),
+                        ColorValue(value.compressed/total, color: self.compressedColor)
                     ]])
                 } else {
                     widget.setValue([[ColorValue(value.usage)]])
@@ -151,9 +171,9 @@ public class RAM: Module {
                 }
             case let widget as PieChart:
                 widget.setValue([
-                    circle_segment(value: value.app/total, color: NSColor.systemBlue),
-                    circle_segment(value: value.wired/total, color: NSColor.systemOrange),
-                    circle_segment(value: value.compressed/total, color: NSColor.systemPink)
+                    circle_segment(value: value.app/total, color: self.appColor),
+                    circle_segment(value: value.wired/total, color: self.wiredColor),
+                    circle_segment(value: value.compressed/total, color: self.compressedColor)
                 ])
             case let widget as MemoryWidget:
                 let free = Units(bytes: Int64(value.free)).getReadableMemory()
@@ -161,9 +181,9 @@ public class RAM: Module {
                 widget.setValue((free, used))
             case let widget as Tachometer:
                 widget.setValue([
-                    circle_segment(value: value.app/total, color: NSColor.systemBlue),
-                    circle_segment(value: value.wired/total, color: NSColor.systemOrange),
-                    circle_segment(value: value.compressed/total, color: NSColor.systemPink)
+                    circle_segment(value: value.app/total, color: self.appColor),
+                    circle_segment(value: value.wired/total, color: self.wiredColor),
+                    circle_segment(value: value.compressed/total, color: self.compressedColor)
                 ])
             default: break
             }
