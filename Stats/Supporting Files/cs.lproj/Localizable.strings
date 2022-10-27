@@ -304,6 +304,8 @@
 "Internet connection" = "Připojení k internetu";
 "Active state color" = "Barva aktivního stavu";
 "Nonactive state color" = "Barva neaktivního stavu";
+"Connectivity host (ICMP)" = "Connectivity host (ICMP)";
+"Leave empty to disable the check" = "Leave empty to disable the check";
 
 // Battery
 "Level" = "Úroveň";

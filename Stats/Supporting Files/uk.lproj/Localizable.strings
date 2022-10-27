@@ -304,6 +304,8 @@
 "Internet connection" = "Підключення до інтернету";
 "Active state color" = "Колір активного стану";
 "Nonactive state color" = "Колір неактивного стану";
+"Connectivity host (ICMP)" = "Хост підключення (ICMP)";
+"Leave empty to disable the check" = "Залиште пустим, щоб вимкнути перевірку";
 
 // Battery
 "Level" = "Рівень заряду";

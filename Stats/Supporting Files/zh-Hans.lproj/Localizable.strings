@@ -304,6 +304,8 @@
 "Internet connection" = "网络连接状态";
 "Active state color" = "活跃状态颜色";
 "Nonactive state color" = "非活跃状态颜色";
+"Connectivity host (ICMP)" = "Connectivity host (ICMP)";
+"Leave empty to disable the check" = "Leave empty to disable the check";
 
 // Battery
 "Level" = "电量";
