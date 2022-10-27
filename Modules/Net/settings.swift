@@ -238,7 +238,7 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
         valueField.focusRingType = .none
         valueField.delegate = self
         valueField.stringValue = self.ICMPHost
-        valueField.placeholderString = localizedString("Leave empty to disable check")
+        valueField.placeholderString = localizedString("Leave empty to disable the check")
         valueField.alignment = .natural
         
         view.addArrangedSubview(titleField)

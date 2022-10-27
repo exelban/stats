@@ -442,14 +442,14 @@ internal class Popup: NSStackView, Popup_p {
         let view = SettingsContainerView()
         
         view.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Upload color"),
+            title: localizedString("Color of upload"),
             action: #selector(toggleUploadColor),
             items: Color.allColors,
             selected: self.uploadColorState.key
         ))
         
         view.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Download color"),
+            title: localizedString("Color of download"),
             action: #selector(toggleDownloadColor),
             items: Color.allColors,
             selected: self.downloadColorState.key
