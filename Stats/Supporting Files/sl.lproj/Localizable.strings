@@ -304,10 +304,12 @@
 "Internet connection" = "Internetna povezava";
 "Active state color" = "Barva aktivnega stanja";
 "Nonactive state color" = "Barva neaktivnega stanja";
+"Connectivity host (ICMP)" = "Gostitelj za preverjanje povezljivosti (ICMP)";
+"Leave empty to disable the check" = "Pustite prazno, če želite onemogočiti preverjanje povezljivosti";
 
 // Battery
 "Level" = "Raven";
-"Source" = "Vir:";
+"Source" = "Vir";
 "AC Power" = "Napajanje z izmeničnim tokom";
 "Battery Power" = "Napajanje z baterijo";
 "Time" = "Čas";
