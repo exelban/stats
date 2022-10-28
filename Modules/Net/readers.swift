@@ -241,7 +241,7 @@ internal class UsageReader: Reader<Network_Usage> {
     private func readProcessBandwidth() -> Bandwidth {
         let task = Process()
         task.launchPath = "/usr/bin/nettop"
-        task.arguments = ["-P", "-L", "1", "-k", "time,interface,state,rx_dupe,rx_ooo,re-tx,rtt_avg,rcvsize,tx_win,tc_class,tc_mgt,cc_algo,P,C,R,W,arch"]
+        task.arguments = ["-P", "-L", "1", "-n", "-k", "time,interface,state,rx_dupe,rx_ooo,re-tx,rtt_avg,rcvsize,tx_win,tc_class,tc_mgt,cc_algo,P,C,R,W,arch"]
         
         let outputPipe = Pipe()
         let errorPipe = Pipe()
@@ -439,7 +439,7 @@ public class ProcessReader: Reader<[Network_Process]> {
         
         let task = Process()
         task.launchPath = "/usr/bin/nettop"
-        task.arguments = ["-P", "-L", "1", "-k", "time,interface,state,rx_dupe,rx_ooo,re-tx,rtt_avg,rcvsize,tx_win,tc_class,tc_mgt,cc_algo,P,C,R,W,arch"]
+        task.arguments = ["-P", "-L", "1", "-n", "-k", "time,interface,state,rx_dupe,rx_ooo,re-tx,rtt_avg,rcvsize,tx_win,tc_class,tc_mgt,cc_algo,P,C,R,W,arch"]
         
         let outputPipe = Pipe()
         let errorPipe = Pipe()
