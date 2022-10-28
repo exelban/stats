@@ -88,7 +88,7 @@
 "Check for a new version every month (once a month)" = "Check for a new version every month (once a month)";
 "Never check for updates (not recommended)" = "Never check for updates (not recommended)";
 "The configuration is completed" = "The configuration is completed";
-"finish_setup_message" = "Everything is set up! \n The Stats is an open source tool, it's free and always be. \n If you enjoy it you can support a project, it's always appreciated!";
+"finish_setup_message" = "Everything is set up! \n The Stats is an open source tool, it's free and always will be. \n If you enjoy it you can support a project, it's always appreciated!";
 
 // Alerts
 "New version available" = "Yeni sürüm mevcut";
@@ -295,6 +295,7 @@
 "Processes based" = "Süreçler";
 "Reset data usage" = "Veri kullanımını sıfırla";
 "VPN mode" = "VPN modu";
+
 "Standard" = "Standart";
 "Security" = "Güvenlik";
 "Channel" = "Kanal";
@@ -304,6 +305,8 @@
 "Internet connection" = "Internet bağlantısı";
 "Active state color" = "Etkin durum rengi";
 "Nonactive state color" = "Etkin olmayan durum rengi";
+"Connectivity host (ICMP)" = "Bağlantı sunucusu (ICMP)";
+"Leave empty to disable the check" = "Kontrolü devre dışı bırakmak için boş bırakın";
 
 // Battery
 "Level" = "Doluluk";
