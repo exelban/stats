@@ -256,7 +256,6 @@ internal class ChartView: NSStackView {
         super.init(frame: NSRect(x: 0, y: 0, width: width, height: 36))
         
         self.wantsLayer = true
-        self.layer?.backgroundColor = NSColor.white.cgColor
         self.layer?.cornerRadius = 3
         
         let chart = NetworkChartView(frame: NSRect(
@@ -280,12 +279,18 @@ internal class ChartView: NSStackView {
     public func update(read: Int64, write: Int64) {
         self.chart?.addValue(upload: Double(write), download: Double(read))
     }
+    
+    override func updateLayer() {
+        self.layer?.backgroundColor = self.isDarkMode ? NSColor.lightGray.withAlphaComponent(0.1).cgColor : NSColor.white.cgColor
+    }
 }
 
 internal class BarView: NSView {
     private let size: Int64
     private var usedBarSpace: NSView? = nil
     private var ready: Bool = false
+    
+    private var background: NSView? = nil
     
     public init(width: CGFloat, size: Int64, free: Int64) {
         self.size = size
@@ -294,10 +299,10 @@ internal class BarView: NSView {
         
         let view: NSView = NSView(frame: NSRect(x: 1, y: 0, width: self.frame.width - 2, height: self.frame.height))
         view.wantsLayer = true
-        view.layer?.backgroundColor = NSColor.white.cgColor
         view.layer?.borderColor = NSColor.secondaryLabelColor.cgColor
         view.layer?.borderWidth = 0.25
         view.layer?.cornerRadius = 3
+        self.background = view
         
         let percentage = CGFloat(size - free) / CGFloat(size)
         let width: CGFloat = (view.frame.width * (percentage < 0 ? 0 : percentage)) / 1
@@ -314,6 +319,10 @@ internal class BarView: NSView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func updateLayer() {
+        self.background?.layer?.backgroundColor = self.isDarkMode ? NSColor.lightGray.withAlphaComponent(0.1).cgColor : NSColor.white.cgColor
     }
     
     public func update(free: Int64?, read: Int64?, write: Int64?) {
