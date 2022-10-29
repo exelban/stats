@@ -55,12 +55,15 @@ class RAM: XCTestCase {
         XCTAssertEqual(process.usage, 11 * Double(1024 * 1024 * 1024))
     }
     
-    func testReplacePID() throws {
-        let raw = "0      kernel_task      270M "
-        let process = ProcessReader.parseProcess(raw)
-        
+    func testKernelTask() throws {
+        var process = ProcessReader.parseProcess("0      kernel_task      270M ")
         XCTAssertEqual(process.pid, 0)
         XCTAssertEqual(process.command, "kernel_task")
         XCTAssertEqual(process.usage, 270 * Double(1024 * 1024))
+        
+        process = ProcessReader.parseProcess("0     kernel_task      280M")
+        XCTAssertEqual(process.pid, 0)
+        XCTAssertEqual(process.command, "kernel_task")
+        XCTAssertEqual(process.usage, 280 * Double(1024 * 1024))
     }
 }
