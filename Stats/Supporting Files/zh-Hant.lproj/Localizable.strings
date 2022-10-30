@@ -88,7 +88,7 @@
 "Check for a new version every month (once a month)" = "每月檢查是否有新版本 (1 個月 1 次)";
 "Never check for updates (not recommended)" = "不要檢查更新 (不建議）";
 "The configuration is completed" = "組態設定完成！";
-"finish_setup_message" = "所有設定均已大功告成！\n Stats 是一款開源且永久免費的工具程式。\n 如果您喜歡 Stats，也歡迎您支持這個專案，非常感謝！";
+"finish_setup_message" = "所有設定均已大功告成！\n Stats 是一款開源且永久免費的工具程式。\n 由衷地感謝您喜歡與愛用 Stats，也歡迎您支持這個專案！";
 
 // Alerts
 "New version available" = "有新版本可用";
@@ -180,8 +180,8 @@
 "Widget settings" = "小工具設定";
 "Popup settings" = "彈出式視窗設定";
 "Merge widgets" = "整合型小工具";
-"No available widgets to configure" = "沒有可供組態設定的小工具";
-"No options to configure for the popup in this module" = "此模組沒有可供彈出式視窗組態設定的選項";
+"No available widgets to configure" = "沒有可用的小工具來進行組態設定";
+"No options to configure for the popup in this module" = "沒有可用於此模組的彈出式視窗組態設定選項";
 
 // Modules
 "Number of top processes" = "高能耗程序數量";
@@ -304,8 +304,8 @@
 "Internet connection" = "網際網路連線裝態";
 "Active state color" = "已連線狀態色彩";
 "Nonactive state color" = "未連線狀態色彩";
-"Connectivity host (ICMP)" = "Connectivity host (ICMP)";
-"Leave empty to disable the check" = "Leave empty to disable the check";
+"Connectivity host (ICMP)" = "連線主機 (ICMP)";
+"Leave empty to disable the check" = "留空來停用檢查";
 
 // Battery
 "Level" = "電量";
