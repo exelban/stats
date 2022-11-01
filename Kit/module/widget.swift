@@ -327,6 +327,7 @@ public class Widget {
         if let item = self.menuBarItem, let window = item.button?.window {
             NotificationCenter.default.post(name: .togglePopup, object: nil, userInfo: [
                 "module": self.module,
+                "widget": self.type,
                 "origin": window.frame.origin,
                 "center": window.frame.width/2
             ])
