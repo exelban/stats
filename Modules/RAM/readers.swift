@@ -145,7 +145,7 @@ public class ProcessReader: Reader<[TopProcess]> {
         
         var processes: [TopProcess] = []
         output.enumerateLines { (line, _) -> Void in
-            if line.matches("^\\d+ +.* +\\d+[A-Z]*\\+?\\-? *$") {
+            if line.matches("^\\d+\\** +.* +\\d+[A-Z]*\\+?\\-? *$") {
                 processes.append(ProcessReader.parseProcess(line))
             }
         }
