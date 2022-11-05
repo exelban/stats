@@ -66,6 +66,8 @@ extension CWSecurity: CustomStringConvertible {
         case .wpa3Personal:       return "WPA3 Personal"
         case .wpa3Enterprise:     return "WPA3 Enterprise"
         case .wpa3Transition:     return "WPA3 Transition"
+        case .OWE:                return "OWE"
+        case .oweTransition:      return "OWE Transition"
         @unknown default:         return "unknown"
         }
     }
