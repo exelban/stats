@@ -17,7 +17,7 @@ public class BarChart: WidgetWrapper {
     private var frameState: Bool = false
     private var colorState: Color = .systemAccent
     
-    private var colors: [Color] = [Color.cluster] + Color.allCases
+    private var colors: [Color] = Color.allCases
     private var value: [[ColorValue]] = [[]]
     private var pressureLevel: DispatchSource.MemoryPressureEvent = .normal
     private var colorZones: colorZones = (0.6, 0.8)
@@ -330,6 +330,7 @@ public class BarChart: WidgetWrapper {
             self.colorState = newColor
         }
         
+        print(key)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_color", value: key)
         self.display()
     }
