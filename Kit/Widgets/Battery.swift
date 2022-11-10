@@ -147,15 +147,27 @@ public class BatterykWidget: WidgetWrapper {
         
         if let percentage = self.percentage {
             let maxWidth = batterySize.width - offset*2 - borderWidth*2 - 1
-            var innerWidth: CGFloat = max(1, maxWidth * CGFloat(percentage))
+            let innerWidth: CGFloat = max(1, maxWidth * CGFloat(percentage))
+            let innerOffset: CGFloat = -offset + borderWidth + 1
             var colorState = self.colorState
-            
-            if self.additional == "innerPercentage" && !self.ACStatus {
-                innerWidth = maxWidth
-                colorState = false
+            var color = percentage.batteryColor(color: colorState)
+            if self.lowPowerModeState {
+                color = percentage.batteryColor(color: colorState, lowPowerMode: self.lowPowerMode)
             }
             
-            let innerOffset: CGFloat = -offset + borderWidth + 1
+            if self.additional == "innerPercentage" && !self.ACStatus {
+                colorState = false
+                
+                let innerUnderground = NSBezierPath(roundedRect: NSRect(
+                    x: batteryFrame.bounds.origin.x + innerOffset,
+                    y: batteryFrame.bounds.origin.y + innerOffset,
+                    width: maxWidth,
+                    height: batterySize.height - offset*2 - borderWidth*2 - 1
+                ), xRadius: 1, yRadius: 1)
+                color.withAlphaComponent(0.65).set()
+                innerUnderground.fill()
+            }
+            
             let inner = NSBezierPath(roundedRect: NSRect(
                 x: batteryFrame.bounds.origin.x + innerOffset,
                 y: batteryFrame.bounds.origin.y + innerOffset,
@@ -163,11 +175,7 @@ public class BatterykWidget: WidgetWrapper {
                 height: batterySize.height - offset*2 - borderWidth*2 - 1
             ), xRadius: 1, yRadius: 1)
             
-            if self.lowPowerModeState {
-                percentage.batteryColor(color: colorState, lowPowerMode: self.lowPowerMode).set()
-            } else {
-                percentage.batteryColor(color: colorState).set()
-            }
+            color.set()
             inner.fill()
             
             if self.additional == "innerPercentage" && !self.ACStatus {
@@ -180,7 +188,7 @@ public class BatterykWidget: WidgetWrapper {
                 ]
                 
                 let value = "\(Int((percentage.rounded(toPlaces: 2)) * 100))"
-                let rect = CGRect(x: inner.bounds.origin.x, y: (Constants.Widget.height-10)/2, width: innerWidth, height: 8)
+                let rect = CGRect(x: inner.bounds.origin.x, y: (Constants.Widget.height-10)/2, width: maxWidth, height: 8)
                 let str = NSAttributedString.init(string: value, attributes: attributes)
                 
                 ctx.saveGState()
