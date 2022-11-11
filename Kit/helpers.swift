@@ -1239,3 +1239,15 @@ public class AppIcon: NSView {
         NSBezierPath(rect: rect).fill()
     }
 }
+
+public func controlState(_ sender: NSControl) -> Bool {
+    var state: NSControl.StateValue
+    
+    if #available(OSX 10.15, *) {
+        state = sender is NSSwitch ? (sender as! NSSwitch).state : .off
+    } else {
+        state = sender is NSButton ? (sender as! NSButton).state : .off
+    }
+    
+    return state == .on
+}

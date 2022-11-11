@@ -273,6 +273,7 @@
 "Synchronize fan's control" = "Synchronizace ovládání ventilátoru";
 "Current" = "Proud";
 "Energy" = "Energie";
+"Show unknown sensors" = "Show unknown sensors";
 
 // Network
 "Uploading" = "Nahrávání";

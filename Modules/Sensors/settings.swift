@@ -17,6 +17,7 @@ internal class Settings: NSStackView, Settings_v {
     private var hidState: Bool
     private var fanSpeedState: Bool = false
     private var fansSyncState: Bool = false
+    private var unknownSensorsState: Bool = false
     
     private let title: String
     private var button: NSPopUpButton?
@@ -24,6 +25,7 @@ internal class Settings: NSStackView, Settings_v {
     private var widgets: [widget_t] = []
     public var callback: (() -> Void) = {}
     public var HIDcallback: (() -> Void) = {}
+    public var unknownCallback: (() -> Void) = {}
     public var setInterval: ((_ value: Int) -> Void) = {_ in }
     
     public init(_ title: String, list: [Sensor_p]) {
@@ -49,6 +51,7 @@ internal class Settings: NSStackView, Settings_v {
         self.hidState = Store.shared.bool(key: "\(self.title)_hid", defaultValue: self.hidState)
         self.fanSpeedState = Store.shared.bool(key: "\(self.title)_speed", defaultValue: self.fanSpeedState)
         self.fansSyncState = Store.shared.bool(key: "\(self.title)_fansSync", defaultValue: self.fansSyncState)
+        self.unknownSensorsState = Store.shared.bool(key: "\(self.title)_unknown", defaultValue: self.unknownSensorsState)
     }
     
     required init?(coder: NSCoder) {
@@ -87,6 +90,12 @@ internal class Settings: NSStackView, Settings_v {
                 state: self.hidState
             ))
         }
+        
+        self.addArrangedSubview(toggleSettingRow(
+            title: localizedString("Show unknown sensors"),
+            action: #selector(toggleuUnknownSensors),
+            state: self.unknownSensorsState
+        ))
         
         var types: [SensorType] = []
         self.list.forEach { (s: Sensor_p) in
@@ -154,15 +163,7 @@ internal class Settings: NSStackView, Settings_v {
     
     @objc private func handleSelection(_ sender: NSControl) {
         guard let id = sender.identifier else { return }
-        
-        var state: NSControl.StateValue? = nil
-        if #available(OSX 10.15, *) {
-            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
-        } else {
-            state = sender is NSButton ? (sender as! NSButton).state: nil
-        }
-        
-        Store.shared.set(key: "sensor_\(id.rawValue)", value: state! == NSControl.StateValue.on)
+        Store.shared.set(key: "sensor_\(id.rawValue)", value: controlState(sender))
         self.callback()
     }
     
@@ -175,40 +176,25 @@ internal class Settings: NSStackView, Settings_v {
     }
     
     @objc private func toggleSpeedState(_ sender: NSControl) {
-        var state: NSControl.StateValue? = nil
-        if #available(OSX 10.15, *) {
-            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
-        } else {
-            state = sender is NSButton ? (sender as! NSButton).state: nil
-        }
-        
-        self.fanSpeedState = state! == .on ? true : false
+        self.fanSpeedState = controlState(sender)
         Store.shared.set(key: "\(self.title)_speed", value: self.fanSpeedState)
         self.callback()
     }
     
     @objc func toggleHID(_ sender: NSControl) {
-        var state: NSControl.StateValue? = nil
-        if #available(OSX 10.15, *) {
-            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
-        } else {
-            state = sender is NSButton ? (sender as! NSButton).state: nil
-        }
-        
-        self.hidState = state! == .on ? true : false
+        self.hidState = controlState(sender)
         Store.shared.set(key: "\(self.title)_hid", value: self.hidState)
         self.HIDcallback()
     }
     
     @objc func toggleFansSync(_ sender: NSControl) {
-        var state: NSControl.StateValue? = nil
-        if #available(OSX 10.15, *) {
-            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
-        } else {
-            state = sender is NSButton ? (sender as! NSButton).state: nil
-        }
-        
-        self.fansSyncState = state! == .on ? true : false
+        self.fansSyncState = controlState(sender)
         Store.shared.set(key: "\(self.title)_fansSync", value: self.fansSyncState)
+    }
+    
+    @objc func toggleuUnknownSensors(_ sender: NSControl) {
+        self.unknownSensorsState = controlState(sender)
+        Store.shared.set(key: "\(self.title)_unknown", value: self.unknownSensorsState)
+        self.unknownCallback()
     }
 }

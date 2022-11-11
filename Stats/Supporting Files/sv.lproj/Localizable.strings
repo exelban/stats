@@ -273,6 +273,7 @@
 "Synchronize fan's control" = "Synkronisera fläktkontroll";
 "Current" = "Current";
 "Energy" = "Energy";
+"Show unknown sensors" = "Show unknown sensors";
 
 // Network
 "Uploading" = "Skickar";

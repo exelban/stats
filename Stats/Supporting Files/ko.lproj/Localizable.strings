@@ -273,6 +273,7 @@
 "Synchronize fan's control" = "팬 제어 동기화";
 "Current" = "Current";
 "Energy" = "Energy";
+"Show unknown sensors" = "Show unknown sensors";
 
 // Network
 "Uploading" = "업로드";

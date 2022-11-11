@@ -273,6 +273,7 @@
 "Synchronize fan's control" = "同步控制风扇";
 "Current" = "电流";
 "Energy" = "能耗";
+"Show unknown sensors" = "Show unknown sensors";
 
 // Network
 "Uploading" = "上传";

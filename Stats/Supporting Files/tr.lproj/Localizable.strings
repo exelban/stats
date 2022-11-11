@@ -273,6 +273,7 @@
 "Synchronize fan's control" = "Fanın kontrolünü senkronize et";
 "Current" = "Akım";
 "Energy" = "Enerji";
+"Show unknown sensors" = "Show unknown sensors";
 
 // Network
 "Uploading" = "Yükleme";

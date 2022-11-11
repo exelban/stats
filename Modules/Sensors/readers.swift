@@ -15,20 +15,35 @@ import Kit
 internal class SensorsReader: Reader<[Sensor_p]> {
     static let HIDtypes: [SensorType] = [.temperature, .voltage]
     
-    internal var list: [Sensor_p] = []
+    private let listQueue = DispatchQueue(label: "listQueue")
+    internal var listData: [Sensor_p] = []
+    internal var list: [Sensor_p] {
+        get {
+            self.listQueue.sync{self.listData}
+        }
+        set(newValue) {
+            self.listQueue.sync {
+                self.listData = newValue
+            }
+        }
+    }
     
     private var lastRead: Date = Date()
     private let firstRead: Date = Date()
     
     private var HIDState: Bool {
-        get {
-            return Store.shared.bool(key: "Sensors_hid", defaultValue: false)
-        }
+        return Store.shared.bool(key: "Sensors_hid", defaultValue: false)
+    }
+    private var unknownSensorsState: Bool {
+        return Store.shared.bool(key: "Sensors_unknown", defaultValue: false)
     }
     
     init() {
         super.init()
-        
+        self.list = self.sensors()
+    }
+    
+    private func sensors() -> [Sensor_p] {
         var available: [String] = SMC.shared.getAllKeys()
         var list: [Sensor] = []
         var sensorsList = SensorsList
@@ -54,18 +69,33 @@ internal class SensorsReader: Reader<[Sensor_p]> {
                 available.remove(at: idx)
             }
         }
-        
         sensorsList.filter{ $0.key.contains("%") }.forEach { (s: Sensor) in
             var index = 1
             for i in 0..<10 {
                 let key = s.key.replacingOccurrences(of: "%", with: "\(i)")
-                if available.firstIndex(where: { $0 == key }) != nil {
+                if let idx = available.firstIndex(where: { $0 == key }) {
                     var sensor = s.copy()
                     sensor.key = key
                     sensor.name = s.name.replacingOccurrences(of: "%", with: "\(index)")
                     
                     list.append(sensor)
+                    available.remove(at: idx)
                     index += 1
+                }
+            }
+        }
+        if self.unknownSensorsState {
+            available.forEach { (key: String) in
+                var type: SensorType? = nil
+                switch key.prefix(1) {
+                case "T": type = .temperature
+                case "V": type = .voltage
+                case "P": type = .power
+                case "I": type = .current
+                default: type = nil
+                }
+                if let t = type {
+                    list.append(Sensor(key: key, name: key, group: .unknown, type: t, platforms: []))
                 }
             }
         }
@@ -78,7 +108,8 @@ internal class SensorsReader: Reader<[Sensor_p]> {
             }
         }
         
-        self.list += list.filter({ (s: Sensor) -> Bool in
+        var results: [Sensor_p] = []
+        results += list.filter({ (s: Sensor) -> Bool in
             if s.type == .temperature && (s.value == 0 || s.value > 110) {
                 return false
             } else if s.type == .current && s.value > 100 {
@@ -89,11 +120,12 @@ internal class SensorsReader: Reader<[Sensor_p]> {
         
         #if arch(arm64)
         if self.HIDState {
-            self.list += self.initHIDSensors()
+            results += self.initHIDSensors()
         }
         #endif
+        results += self.initCalculatedSensors()
         
-        self.list += self.initCalculatedSensors()
+        return results
     }
     
     public override func read() {
@@ -237,6 +269,10 @@ internal class SensorsReader: Reader<[Sensor_p]> {
             default: return true
             }
         }).sorted { $0.key.lowercased() < $1.key.lowercased() }
+    }
+    
+    public func unknownCallback() {
+        self.list = self.sensors()
     }
 }
 

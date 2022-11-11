@@ -273,6 +273,7 @@
 "Synchronize fan's control" = "Синхронізація керування вентиляторами";
 "Current" = "Струм";
 "Energy" = "Енергія";
+"Show unknown sensors" = "Show unknown sensors";
 
 // Network
 "Uploading" = "Висилання";

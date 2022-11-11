@@ -40,6 +40,11 @@ public class Sensors: Module {
             self.popupView.setup(self.sensorsReader.list)
             self.settingsView.setList(list: self.sensorsReader.list)
         }
+        self.settingsView.unknownCallback = { [unowned self] in
+            self.sensorsReader.unknownCallback()
+            self.popupView.setup(self.sensorsReader.list)
+            self.settingsView.setList(list: self.sensorsReader.list)
+        }
         
         self.sensorsReader.callbackHandler = { [unowned self] value in
             self.usageCallback(value)
