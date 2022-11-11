@@ -273,7 +273,7 @@
 "Synchronize fan's control" = "Синхронизировать управление вентиляторами";
 "Current" = "Ток";
 "Energy" = "Энергия";
-"Show unknown sensors" = "Show unknown sensors";
+"Show unknown sensors" = "Показать неизвестные датчики";
 
 // Network
 "Uploading" = "Выгрузка";
