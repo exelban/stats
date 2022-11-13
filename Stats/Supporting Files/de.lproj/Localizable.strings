@@ -322,7 +322,7 @@
 "Power adapter" = "Netzteil";
 "Power" = "Leistung";
 "Is charging" = "wird aufgeladen";
-"Time to discharge" = "Entladedauer";
+"Time to discharge" = "verbleibend";
 "Time to charge" = "Ladedauer";
 "Calculating" = "Berechnen...";
 "Fully charged" = "vollständig aufgeladen";
