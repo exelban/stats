@@ -273,7 +273,7 @@
 "Synchronize fan's control" = "同步風扇控制";
 "Current" = "電流";
 "Energy" = "能耗";
-"Show unknown sensors" = "Show unknown sensors";
+"Show unknown sensors" = "顯示未知的感知器";
 
 // Network
 "Uploading" = "上傳";
