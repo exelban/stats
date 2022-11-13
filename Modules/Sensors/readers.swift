@@ -45,7 +45,7 @@ internal class SensorsReader: Reader<[Sensor_p]> {
     
     private func sensors() -> [Sensor_p] {
         var available: [String] = SMC.shared.getAllKeys()
-        var list: [Sensor] = []
+        var list: [Sensor_p] = []
         var sensorsList = SensorsList
         
         if let platform = SystemKit.shared.device.platform {
@@ -53,7 +53,7 @@ internal class SensorsReader: Reader<[Sensor_p]> {
         }
         
         if let count = SMC.shared.getValue("FNum") {
-            self.loadFans(Int(count))
+            list += self.loadFans(Int(count))
         }
         
         available = available.filter({ (key: String) -> Bool in
@@ -109,7 +109,7 @@ internal class SensorsReader: Reader<[Sensor_p]> {
         }
         
         var results: [Sensor_p] = []
-        results += list.filter({ (s: Sensor) -> Bool in
+        results += list.filter({ (s: Sensor_p) -> Bool in
             if s.type == .temperature && (s.value == 0 || s.value > 110) {
                 return false
             } else if s.type == .current && s.value > 100 {
@@ -279,9 +279,10 @@ internal class SensorsReader: Reader<[Sensor_p]> {
 // MARK: - Fans
 
 extension SensorsReader {
-    private func loadFans(_ count: Int) {
+    private func loadFans(_ count: Int) -> [Sensor_p] {
         debug("Found \(Int(count)) fans", log: self.log)
         
+        var list: [Fan] = []
         for i in 0..<Int(count) {
             var name = SMC.shared.getStringValue("F\(i)ID")
             var mode: FanMode
@@ -302,7 +303,7 @@ extension SensorsReader {
                 mode = self.getFanMode(i)
             }
             
-            self.list.append(Fan(
+            list.append(Fan(
                 id: i,
                 key: "F\(i)Ac",
                 name: name ?? "\(localizedString("Fan")) #\(i)",
@@ -312,6 +313,8 @@ extension SensorsReader {
                 mode: mode
             ))
         }
+        
+        return list
     }
     
     private func getFanMode(_ id: Int) -> FanMode {
