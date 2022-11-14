@@ -123,7 +123,7 @@ internal class SensorsReader: Reader<[Sensor_p]> {
             results += self.initHIDSensors()
         }
         #endif
-        results += self.initCalculatedSensors()
+        results += self.initCalculatedSensors(results)
         
         return results
     }
@@ -217,20 +217,20 @@ internal class SensorsReader: Reader<[Sensor_p]> {
         self.callback(self.list)
     }
     
-    private func initCalculatedSensors() -> [Sensor] {
+    private func initCalculatedSensors(_ sensors: [Sensor_p]) -> [Sensor] {
         var list: [Sensor] = []
         
-        var cpuSensors = self.list.filter({ $0.group == .CPU && $0.type == .temperature && $0.average }).map{ $0.value }
-        var gpuSensors = self.list.filter({ $0.group == .GPU && $0.type == .temperature && $0.average }).map{ $0.value }
+        var cpuSensors = sensors.filter({ $0.group == .CPU && $0.type == .temperature && $0.average }).map{ $0.value }
+        var gpuSensors = sensors.filter({ $0.group == .GPU && $0.type == .temperature && $0.average }).map{ $0.value }
         
         #if arch(arm64)
         if self.HIDState {
-            cpuSensors += self.list.filter({ $0.key.hasPrefix("pACC MTR Temp") || $0.key.hasPrefix("eACC MTR Temp") }).map{ $0.value }
-            gpuSensors += self.list.filter({ $0.key.hasPrefix("GPU MTR Temp") }).map{ $0.value }
+            cpuSensors += sensors.filter({ $0.key.hasPrefix("pACC MTR Temp") || $0.key.hasPrefix("eACC MTR Temp") }).map{ $0.value }
+            gpuSensors += sensors.filter({ $0.key.hasPrefix("GPU MTR Temp") }).map{ $0.value }
         }
         #endif
         
-        let fanSensors = self.list.filter({ $0.type == .fan && !$0.isComputed }).map{ $0.value}
+        let fanSensors = sensors.filter({ $0.type == .fan && !$0.isComputed }).map{ $0.value}
         
         if !cpuSensors.isEmpty {
             let value = cpuSensors.reduce(0, +) / Double(cpuSensors.count)
@@ -253,7 +253,7 @@ internal class SensorsReader: Reader<[Sensor_p]> {
         }
         
         // Init total power since launched, only if Total Power sensor is available
-        if self.list.contains(where: { $0.key == "PSTR"}) {
+        if sensors.contains(where: { $0.key == "PSTR"}) {
             list.append(Sensor(key: "Total System Consumption", name: "Total System Consumption", value: 0, group: .sensor, type: .energy, platforms: Platform.all, isComputed: true))
             list.append(Sensor(key: "Average System Total", name: "Average System Total", value: 0, group: .sensor, type: .power, platforms: Platform.all, isComputed: true))
         }
