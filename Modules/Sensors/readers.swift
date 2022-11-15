@@ -129,7 +129,9 @@ internal class SensorsReader: Reader<[Sensor_p]> {
     }
     
     public override func read() {
+        let sensorsCounter = self.list.count
         for (i, s) in self.list.enumerated() {
+            guard self.list.count == sensorsCounter else { return }
             if s.group == .hid || s.isComputed {
                 continue
             }
