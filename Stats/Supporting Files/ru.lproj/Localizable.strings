@@ -49,8 +49,8 @@
 "Short" = "Короткий";
 "Long" = "Длинный";
 "Statistics" = "Статистика";
-"Max" = "Мин.";
-"Min" = "Макс.";
+"Max" = "Макс.";
+"Min" = "Мин.";
 "Reset" = "Сбросить";
 "Alignment" = "Выравнивание";
 "Left alignment" = "по левому";
@@ -70,25 +70,25 @@
 "Cores" = "Ядра";
 
 // Setup
-"Stats Setup" = "Stats Setup";
-"Previous" = "Previous";
-"Previous page" = "Previous page";
-"Next" = "Next";
-"Next page" = "Next page";
-"Finish" = "Finish";
-"Finish setup" = "Finish setup";
-"Welcome to Stats" = "Welcome to Stats";
-"welcome_message" = "Thanks for using Stats, a free open source macOS system monitor for your menu bar.";
-"Start the application automatically when starting your Mac" = "Start the application automatically when starting your Mac";
-"Do not start the application automatically when starting your Mac" = "Do not start the application automatically when starting your Mac";
-"Do everything silently in the background (recommended)" = "Do everything silently in the background (recommended)";
-"Check for a new version on startup" = "Check for a new version on startup";
-"Check for a new version every day (once a day)" = "Check for a new version every day (once a day)";
-"Check for a new version every week (once a week)" = "Check for a new version every week (once a week)";
-"Check for a new version every month (once a month)" = "Check for a new version every month (once a month)";
-"Never check for updates (not recommended)" = "Never check for updates (not recommended)";
-"The configuration is completed" = "The configuration is completed";
-"finish_setup_message" = "Everything is set up! \n The Stats is an open source tool, it's free and always will be. \n If you enjoy it you can support a project, it's always appreciated!";
+"Stats Setup" = "Настройки Stats";
+"Previous" = "Назад";
+"Previous page" = "Предыдущая страница";
+"Next" = "Вперёд";
+"Next page" = "Следующая страница";
+"Finish" = "Завершить";
+"Finish setup" = "Завершить настройку";
+"Welcome to Stats" = "Добро пожаловать в Stats";
+"welcome_message" = "Спасибо за использование Stats, бесплатного системного монитора macOS с открытым исходным кодом для системного меню.";
+"Start the application automatically when starting your Mac" = "Запуск приложения автоматически при запуске Mac";
+"Do not start the application automatically when starting your Mac" = "Не запускать приложение автоматически при запуске Mac";
+"Do everything silently in the background (recommended)" = "Делать все тихо в фоновом режиме (рекомендуется)";
+"Check for a new version on startup" = "Проверять наличие новой версии при запуске";
+"Check for a new version every day (once a day)" = "Проверять наличие новой версии каждый день (один раз в день)";
+"Check for a new version every week (once a week)" = "Проверять наличие новой версии каждую неделю (раз в неделю)";
+"Check for a new version every month (once a month)" = "Проверять наличие новой версии каждый месяц (раз в месяц)";
+"Never check for updates (not recommended)" = "Никогда не проверять наличие обновлений (не рекомендуется)";
+"The configuration is completed" = "Настройка завершена";
+"finish_setup_message" = "Все готово! \n Stats — это инструмент с открытым исходным кодом, он бесплатный и всегда будет бесплатным. \n Если вам нравится, вы можете поддержать проект, это всегда ценно!";
 
 // Alerts
 "New version available" = "Доступна новая версия";
