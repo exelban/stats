@@ -37,7 +37,6 @@ internal class SetupWindow: NSWindow, NSWindowDelegate {
         
         self.contentViewController = self.vc
         self.animationBehavior = .default
-        self.collectionBehavior = .moveToActiveSpace
         self.titlebarAppearsTransparent = true
         self.delegate = self
         self.title = localizedString("Stats Setup")
