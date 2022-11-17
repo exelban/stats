@@ -203,7 +203,7 @@ class Dashboard: NSScrollView {
                 }
                 if let pCores = cpu.pCores {
                     if mini != "" {
-                        mini += ", "
+                        mini += "\n"
                     }
                     mini += localizedString("Number of p-cores", "\(pCores)")
                 }
