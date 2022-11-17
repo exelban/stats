@@ -1,0 +1,383 @@
+//
+//  Localizable.strings
+//  Stats
+//
+//  Created by Shayan Alizadeh on 17/11/2022.
+//  Using Swift 5.0.
+//  Running on macOS 13.
+//
+//  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
+//
+
+// Modules
+"CPU" = "سی پی یو";
+"Open CPU settings" = "باز کردن تنظیمات سی پی یو";
+"GPU" = "جی پی یو";
+"Open GPU settings" = "باز کردن تنظیمات جی پی یو";
+"RAM" = "رم";
+"Open RAM settings" = "باز کردن تنظیمات رم";
+"Disk" = "دیسک";
+"Open Disk settings" = "باز کردن تنظیمات دیسک";
+"Sensors" = "سنسور ها";
+"Open Sensors settings" = "باز کردن تنظیمات سنسور ها";
+"Network" = "شبکه";
+"Open Network settings" = "باز کردن تنظیمات شبکه";
+"Battery" = "باتری";
+"Open Battery settings" = "باز کردن تنظیمات باتری";
+"Bluetooth" = "بلوتوث";
+"Open Bluetooth settings" = "باز کردن تنظیمات بلوتوث";
+
+// Words
+"Unknown" = "نامعلوم";
+"Version" = "نسخه";
+"Processor" = "پردازنده";
+"Memory" = "حافظه";
+"Graphics" = "گرافیک ها";
+"Close" = "بستن";
+"Download" = "دانلود";
+"Install" = "نصب";
+"Cancel" = "لغو";
+"Unavailable" = "غیر قابل دسترس";
+"Yes" = "بله";
+"No" = "خیر";
+"Automatic" = "خودکار";
+"Manual" = "دستی";
+"None" = "هیچ کدام";
+"Dots" = "نقطه ای";
+"Arrows" = "فلش";
+"Characters" = "کرکتر";
+"Short" = "کوتاه";
+"Long" = "بلند";
+"Statistics" = "آمار";
+"Max" = "حداکثر";
+"Min" = "حداقل";
+"Reset" = "ریست";
+"Alignment" = "چینش";
+"Left alignment" = "چپ";
+"Center alignment" = "وسط";
+"Right alignment" = "راست";
+"Dashboard" = "داشبورد";
+"Enabled" = "فعال";
+"Disabled" = "غیرفعال";
+"Silent" = "حالت سکوت";
+"Units" = "واحد ها";
+"Fans" = "فن ها";
+"Scaling" = "مقیاس بندی";
+"Linear" = "خطی";
+"Square" = "مربع";
+"Cube" = "مکعب";
+"Logarithmic" = "لگاریتمی";
+"Cores" = "هسته ها";
+
+// Setup
+"Stats Setup" = "نصب Stats";
+"Previous" = "قبلی";
+"Previous page" = "صفحه قبل";
+"Next" = "بعدی";
+"Next page" = "صفحه بعد";
+"Finish" = "پایان";
+"Finish setup" = "پایان نصب";
+"Welcome to Stats" = "به Stats خوش آمدید";
+"welcome_message" = "ممنون از اینکه از Stats که یک اپ مانیتور کردن سیستم برای منو بار مک‌او‌اس هست استفاده می کنید."
+"Start the application automatically when starting your Mac" = "اجرای خودکار در زمان راه‌اندازی مک";
+
+"Do not start the application automatically when starting your Mac" = "اجرا نشدن خودکار در زمان راه‌اندازی مک";
+"Do everything silently in the background (recommended)" = "همه‌چیز در حالت سکوت در پس‌زمینه انجام شود (پیشنهاد شده)";
+"Check for a new version on startup" = "بررسی برای نسخه‌ی جدید در زمان راه‌اندازی مک";
+"Check for a new version every day (once a day)" = "بررسی روزانه برای نسخه جدید (روزی یک بار)";
+"Check for a new version every week (once a week)" = "بررسی هفتگی برای نسخه جدید (هفته‌ای یک بار)";
+"Check for a new version every month (once a month)" = "بررسی ماهانه برای نسخه جدید (ماهی یک بار)";
+"Never check for updates (not recommended)" = "هیچ وقت نسخه‌ی جدید بررسی نشود (پیشنهاد نمی‌شود)";
+"The configuration is completed" = "پیکربندی کامل شد";
+"finish_setup_message" = "همه چیز آماده است! \n Stats یک ابزار متن باز رایگان است و همیشه رایگان خواهد بود \n اگر از این پروژه راضی بودید می‌توانید از ما حمایت کنید";
+
+// Alerts
+"New version available" = "نسخه‌ی جدید در دسترس است";
+"Click to install the new version of Stats" = "برای نصب نسخه‌ی جدید Stats کلیک کنید";
+"Successfully updated" = "با موفقیت به‌روزرسانی شد";
+"Stats was updated to v" = "Stats به نسخه‌ی v%0 بروزسانی شد  ";
+"Reset settings text" = "تمام تنظیمات اپلیکیشن ریست خواهد شد و اپ دوباره راه‌اندازی خواهد شد، آیا از این کار مطمئنید؟";
+
+// Settings
+"Open Activity Monitor" = "باز کردن نظارت فعالیت‌ها";
+"Report a bug" = "گزارش باگ";
+"Support the application" = "حمایت از اپلیکیشن";
+"Close application" = "بستن اپلیکیشن";
+"Open application settings" = "بستن تنظیمات اپلیکیشن";
+"Open dashboard" = "باز کردن داشبورد";
+
+// Application settings
+"Update application" = "بروزرسانی اپلیکیشن";
+"Check for updates" = "بررسی برای نسخه‌های جدید";
+"At start" = "در زمان شروع";
+"Once per day" = "یک بار در روز";
+"Once per week" = "یک بار در هفته";
+"Once per month" = "یک بار در ماه";
+"Never" = "هیچ وقت";
+"Check for update" = "بررسی برای نسخه‌ی جدید";
+"Show icon in dock" = "نمایش آیکون در داک";
+"Start at login" = "باز شدن در زمان لاگین";
+"Build number" = "شماره ساخت";
+"Reset settings" = "ریست تنظیمات";
+"Pause the Stats" = "متوقف کردن Stats";
+"Resume the Stats" = "ادامه‌ی کار Stats";
+
+// Dashboard
+"Serial number" = "سریال نامبر";
+"Uptime" = "زمان روشن بودن";
+"Number of cores" = "%0 هسته‌ها";
+"Number of threads" = "%0 ترد‌ها";
+"Number of e-cores" = "%0 هسته‌های کم‌مصرف";
+"Number of p-cores" = "%0 هسته‌های پرقدرت";
+
+// Update
+"The latest version of Stats installed" = "آخرین نسخه‌ی Stats نصب شده است";
+"Downloading..." = "دانلود...";
+"Current version: " = "نسخه فعلی:  ";
+"Latest version: " = "آخرین نسخه:    ";
+
+// Widgets
+"Color" = "رنگ";
+"Label" = "لیبل";
+"Box" = "جعبه";
+"Frame" = "فریم";
+"Value" = "مقدار";
+"Colorize" = "رنگی";
+"Colorize value" = "مقدار رنگ";
+"Additional information" = "اطلاعات بیشتر";
+"Reverse values order" = "ترتیب برعکس";
+"Base" = "پایه";
+"Display mode" = "حالت نمایش";
+"One row" = "یک ردیف";
+"Two rows" = "دو ردیف";
+"Mini widget" = "کوچک";
+"Line chart widget" = "نمودار خطی";
+"Bar chart widget" = "نمودار میله‌ای";
+"Pie chart widget" = "نمودار دایره‌ای";
+"Network chart widget" = "نمودار شبکه";
+"Speed widget" = "سرعت";
+"Battery widget" = "باتری";
+"Text widget" = "متن";
+"Memory widget" = "حافظه";
+"Static width" = "عرض ثابت";
+"Tachometer widget" = "تاکومتر";
+"State widget" = "ویجت حالت";
+"Show symbols" = "ویجت نمادها";
+"Label widget" = "لیبل";
+"Number of reads in the chart" = "تعداد خواندن‌ها در نمودار";
+"Color of download" = "رنگ دانلود";
+"Color of upload" = "رنگ آپلود";
+
+// Module Kit
+"Open module settings" = "باز کردن تنظیمات ماژول‌ها";
+"Select widget" = "انتخاب %0 ویجت";
+"Open widget settings" = "باز کردن تنظیمات ویجت‌ها";
+"Update interval" = "بروزرسانی زمان‌بندی";
+"Usage history" = "تاریخچه مصرف";
+"Details" = "جزئیات";
+"Top processes" = "بیشترین پردازش‌ها";
+"Pictogram" = "پیکتوگرام";
+"Module settings" = "تنظیمات ماژول";
+"Widget settings" = "تنظیمات ویجت";
+"Popup settings" = "تنظیمان پاپ‌آپ";
+"Merge widgets" = "ادغام ویجت‌ها";
+"No available widgets to configure" = "ویجتی برای پیکربندی در دسترس نیست";
+"No options to configure for the popup in this module" = "در این ماژول تنظیمی برای پاپ‌آپ موجود نیست";
+
+// Modules
+"Number of top processes" = "تعداد بالاترین پردازش‌ها";
+"Update interval for top processes" = " بروزرسانی زمان‌بندی برای بالاترین پردازش‌ها";
+"Notification level" = "سطح نوتیفیکیشن";
+"Chart color" = "رنگ نمودار";
+
+// CPU
+"CPU usage" = "مصرف سی پی یو";
+"CPU temperature" = "دمای سی پی یو";
+"CPU frequency" = "فرکانس سی پی یو";
+"System" = "سیستم";
+"User" = "کاربر";
+"Idle" = "بیکار";
+"Show usage per core" = "نمایش مصرف براساس هسته";
+"Show hyper-threading cores" = "نمایش هسته‌های هایپرتردینگ";
+"Split the value (System/User)" = "جداسازی مقادیر (سیستم/کابر)";
+"Scheduler limit" = "محدودیت برنامه";
+"Speed limit" = "محدودیت سرعت";
+"Average load" = "میانگین بار";
+"1 minute" = "۱ دقیقه";
+"5 minutes" = "۵ دقیقه";
+"15 minutes" = "۱۵ دقیقه";
+"CPU usage threshold" = "آستانه مصرف سی پی یو";
+"CPU usage is" = "مصرف سی پی یو %0";
+"Efficiency cores" = "هسته‌های کم‌مصرف";
+"Performance cores" = "هسته‌های پرقدرت";
+"System color" = "رنگ سیستم";
+"User color" = "رنگ کاربر";
+"Idle color" = "رنگ بیکار";
+"Cluster grouping" = "گروه‌بندی کلاستر";
+
+// GPU
+"GPU to show" = "نمایش جی پی یو";
+"Show GPU type" = "نمایش نوع جی پی یو";
+"GPU enabled" = "جی پی یو فعال";
+"GPU disabled" = "جی پی یو غیرفعال";
+"GPU temperature" = "دمای جی پی یو ";
+"GPU utilization" = "مصرف جی پی یو";
+"Vendor" = "وندر";
+"Model" = "مدل";
+"Status" = "وضعیت";
+"Active" = "فعال";
+"Non active" = "غیر فعال";
+"Fan speed" = "سرعت فن";
+"Core clock" = "کلاک هسته";
+"Memory clock" = "کلاک حافظه";
+"Utilization" = "استفاده";
+"Render utilization" = "استفاده از رندر";
+"Tiler utilization" = "استفاده از تایلر";
+"GPU usage threshold" = "آستانه مصرف جی پی یو";
+"GPU usage is" = "مصرف جی پی یو %0";
+
+// RAM
+"Memory usage" = "مصرف حافظه";
+"Memory pressure" = "فشار حافظه";
+"Total" = "کل";
+"Used" = "استفاده شده";
+"App" = "اپ‌ها";
+"Wired" = "سیستم‌بندی";
+"Compressed" = "فشرده شده";
+"Free" = "آزاد";
+"Swap" = "تبادل";
+"Split the value (App/Wired/Compressed)" = "جداسازی مقادیر (اپ/سیستم‌بندی/فشرده شده)";
+"RAM utilization threshold" = "آستانه مصرف رم";
+"RAM utilization is" = "مصرف رم %0";
+"App color" = "رنگ اپ";
+"Wired color" = "رنگ سیستم‌بندی";
+"Compressed color" = "رنگ فشرده شده";
+"Free color" = "رنگ آزاد";
+
+// Disk
+"Show removable disks" = "نمایش حافظه‌های متصل شده";
+"Used disk memory" = "%0 از %1 استفاده شده";
+"Free disk memory" = "%0 از %1 آزاد است";
+"Disk to show" = "نمایش دیسک";
+"Open disk" = "باز کردن دیسک";
+"Switch view" = "تغییر نمایش";
+"Disk utilization threshold" = "آستانه مصرف دیسک";
+"Disk utilization is" = "مصرف دیسک %0";
+
+// Sensors
+"Temperature unit" = "واحد دما";
+"Celsius" = "سلسیوس";
+"Fahrenheit" = "فارنهایت";
+"Save the fan speed" = "ذخیره سرعت فن";
+"Fan" = "فن";
+"HID sensors" = "سنسور‌های HID";
+"Synchronize fan's control" = "همگام‌سازی سرعت فن‌ها";
+"Current" = "جریان";
+"Energy" = "انرژی";
+"Show unknown sensors" = "نمایش سنسور‌های ناشناخته";
+
+// Network
+"Uploading" = "آپلود";
+"Downloading" = "دانلود";
+"Public IP" = "آی پی عمومی";
+"Local IP" = "آی پی محلی";
+"Interface" = "نوع اتصال";
+"Physical address" = "آدرس فیزیکی";
+"Refresh" = "بروزرسانی";
+"Click to copy public IP address" = "برای کپی آدرس آی پی عمومی کلیک کنید";
+"Click to copy local IP address" = "برای کپی آدرس آی پی محلی کلیک کنید";
+"Click to copy wifi name" = "برای کپی نام وایفای کلیک کنید";
+"Click to copy mac address" = "برای کپی مک آدرس کلیک کنید";
+"No connection" = "اتصال قطع است";
+"Network interface" = "نوع اتصال شبکه";
+"Total download" = "کل دانلود‌ها";
+"Total upload" = "کل آپلود‌ها";
+"Reader type" = "حالت خواننده";
+"Interface based" = "براساس نوع اتصال";
+"Processes based" = "براساس پردازش‌ها";
+"Reset data usage" = "ریست مصرف دیتا";
+"VPN mode" = "حالت وی پی ان";
+"Standard" = "استاندارد";
+"Security" = "امنیت";
+"Channel" = "کانال";
+"Common scale" = "مقیاس عادی";
+"Autodetection" = "تشخیص خودکار";
+"Widget activation threshold" = "آستانه فعالسازی ویجت";
+"Internet connection" = "اتصال اینترنت";
+"Active state color" = "رنگ حالت فعال";
+"Nonactive state color" = "رنگ حالت غیر فعال";
+"Connectivity host (ICMP)" = "میزبان اتصال (ICMP)";
+"Leave empty to disable the check" = "خالی بگذارید تا بررسی غیرفعال شود";
+
+// Battery
+"Level" = "سطح";
+"Source" = "منبع";
+"AC Power" = "برق شهر";
+"Battery Power" = "نیروی باتری";
+"Time" = "زمان";
+"Health" = "سلامت";
+"Amperage" = "آمپر";
+"Voltage" = "ولتاژ";
+"Cycles" = "دوره";
+"Temperature" = "دما";
+"Power adapter" = "آداپتور برق";
+"Power" = "نیرو";
+"Is charging" = "در حال شارژ";
+"Time to discharge" = "زمان خالی شدن شارژ";
+"Time to charge" = "زمان شارژ";
+"Calculating" = "محاسبه";
+"Fully charged" = "شارژ کامل";
+"Not connected" = "وصل نیست";
+"Low level notification" = "نوتیفیکیشن سطح کم";
+"High level notification" = "نوتیفیکشن سطح زیاد";
+"Low battery" = "باتری کم";
+"High battery" = "باتری زیاد";
+"Battery remaining" = "%0% باقی‌مانده";
+"Battery remaining to full charge" = "%0% تا شارژ کامل";
+"Percentage" = "درصد";
+"Percentage and time" = "درصد و زمان";
+"Time and percentage" = "زمان و درصد";
+"Time format" = "فرمت زمان";
+"Hide additional information when full" = "پنهان کردن اطلاعات اضافه موقع شارژ کامل";
+"Last charge" = "آخرین شارژ";
+"Capacity" = "ظرفیت";
+"maximum / designed" = "حداکثر / طراحی شده";
+"Low power mode" = "حالت کم مصرف";
+"Percentage inside the icon" = "درصد داخل آیکون";
+
+// Bluetooth
+"Battery to show" = "نشان دادن باتری";
+"No Bluetooth devices are available" = "هیچ دیوایس بلوتوثی در دسترس نیست";
+
+// Colors
+"Based on utilization" = "بر اساس استفاده";
+"Based on pressure" = "بر اساس فشار";
+"Based on cluster" = "بر اساس کلاستر";
+"System accent" = "اکنست سیستم";
+"Monochrome accent" = "اکسنت تک‌رنگ";
+"Clear" = "روشن";
+"White" = "سفید";
+"Black" = "مشکی";
+"Gray" = "خاکستری";
+"Second gray" = "خاکستری دوم";
+"Dark gray" = "خاکستری تیره";
+"Light gray" = "خاکستری روشن";
+"Red" = "قرمز";
+"Second red" = "قرمز دوم";
+"Green" = "سبز";
+"Second green" = "سبز دوم";
+"Blue" = "آبی";
+"Second blue" = "آبی دوم";
+"Yellow" = "زرد";
+"Second yellow" = "زرد دوم";
+"Orange" = "نارنجی";
+"Second orange" = "نارنجی دوم";
+"Purple" = "بنفش";
+"Second purple" = "بنفش دوم";
+"Brown" = "قهوه‌ای";
+"Second brown" = "قهوه‌ای دوم";
+"Cyan" = "فیروزه‌ای";
+"Magenta" = "ارغوانی";
+"Pink" = "صورتی";
+"Teal" = "کله غازی";
+"Indigo" = "نیلی";
