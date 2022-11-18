@@ -42,7 +42,6 @@ class SettingsWindow: NSWindow, NSWindowDelegate {
         
         self.contentViewController = self.viewController
         self.animationBehavior = .default
-        self.collectionBehavior = .moveToActiveSpace
         self.titlebarAppearsTransparent = true
         if #available(OSX 10.14, *) {
             self.appearance = NSAppearance(named: .darkAqua)
