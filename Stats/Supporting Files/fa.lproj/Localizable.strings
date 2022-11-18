@@ -80,7 +80,6 @@
 "Welcome to Stats" = "به Stats خوش آمدید";
 "welcome_message" = "ممنون از اینکه از Stats که یک اپ مانیتور کردن سیستم برای منو بار مک‌او‌اس هست استفاده می کنید.";
 "Start the application automatically when starting your Mac" = "اجرای خودکار در زمان راه‌اندازی مک";
-
 "Do not start the application automatically when starting your Mac" = "اجرا نشدن خودکار در زمان راه‌اندازی مک";
 "Do everything silently in the background (recommended)" = "همه‌چیز در حالت سکوت در پس‌زمینه انجام شود (پیشنهاد شده)";
 "Check for a new version on startup" = "بررسی برای نسخه‌ی جدید در زمان راه‌اندازی مک";
