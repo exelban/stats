@@ -97,25 +97,28 @@ func main() {
         
         print("[INFO]: set \(value) on \(key)")
     case .fan:
-        guard let idIndex = args.firstIndex(where: { $0 == "-id" }),
-              args.indices.contains(idIndex+1),
-              let id = Int(args[idIndex+1]) else {
-            print("[ERROR]: missing id")
+        guard let idString = args.first, let id = Int(idString) else {
+            print("[ERROR]: missing fan id")
             return
         }
+        var help: Bool = true
         
         if let index = args.firstIndex(where: { $0 == "-v" }), args.indices.contains(index+1), let value = Int(args[index+1]) {
             SMC.shared.setFanSpeed(id, speed: value)
-            return
+            help = false
         }
         
         if let index = args.firstIndex(where: { $0 == "-m" }), args.indices.contains(index+1),
            let raw = Int(args[index+1]), let mode = FanMode.init(rawValue: raw) {
             SMC.shared.setFanMode(id, mode: mode)
-            return
+            help = false
         }
         
-        print("[ERROR]: missing value or mode")
+        guard help else { return }
+        
+        print("Available Flags:")
+        print("  -m    change the fan mode: 0 - automatic, 1 - manual")
+        print("  -v    change the fan speed")
     case .fans:
         guard let count = SMC.shared.getValue("FNum") else {
             print("FNum not found")

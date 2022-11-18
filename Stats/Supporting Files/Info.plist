@@ -39,5 +39,10 @@
 	<string>NSApplication</string>
 	<key>NSUserNotificationAlertStyle</key>
 	<string>alert</string>
+	<key>SMPrivilegedExecutables</key>
+	<dict>
+		<key>eu.exelban.Stats.SMC.Helper</key>
+		<string>identifier &quot;eu.exelban.Stats.SMC.Helper&quot; and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
+	</dict>
 </dict>
 </plist>

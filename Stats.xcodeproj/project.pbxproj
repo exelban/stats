@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5C8E001029269C7F0027C75A /* protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CFE493829265055000F2856 /* protocol.swift */; };
+		5CFE492A29264DF1000F2856 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CFE492929264DF1000F2856 /* main.swift */; };
+		5CFE493929265055000F2856 /* protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CFE493829265055000F2856 /* protocol.swift */; };
+		5CFE493D2926513E000F2856 /* eu.exelban.Stats.SMC.Helper in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5CFE492729264DF1000F2856 /* eu.exelban.Stats.SMC.Helper */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		5CFE494229265418000F2856 /* uninstall.sh in Resources */ = {isa = PBXBuildFile; fileRef = 5CFE494129265418000F2856 /* uninstall.sh */; };
+		5CFE494429265421000F2856 /* changelog.py in Resources */ = {isa = PBXBuildFile; fileRef = 5CFE494329265421000F2856 /* changelog.py */; };
 		9A045EB72594F8D100ED58F2 /* Dashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A045EB62594F8D100ED58F2 /* Dashboard.swift */; };
 		9A11AAD6266FD77F000C1C05 /* Bluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A11AACF266FD77F000C1C05 /* Bluetooth.framework */; };
 		9A11AAD7266FD77F000C1C05 /* Bluetooth.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A11AACF266FD77F000C1C05 /* Bluetooth.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -259,6 +265,25 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		5CFE492529264DF1000F2856 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		5CFE493C29265130000F2856 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Contents/Library/LaunchServices;
+			dstSubfolderSpec = 1;
+			files = (
+				5CFE493D2926513E000F2856 /* eu.exelban.Stats.SMC.Helper in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9A46BF89266D7CFA001A1117 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -317,6 +342,13 @@
 		30370F8F253DCBC0006404D8 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		40BE2B202745D63800AE9396 /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4921436D25319699000A1C47 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
+		5CFE492729264DF1000F2856 /* eu.exelban.Stats.SMC.Helper */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = eu.exelban.Stats.SMC.Helper; sourceTree = BUILT_PRODUCTS_DIR; };
+		5CFE492929264DF1000F2856 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		5CFE493829265055000F2856 /* protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = protocol.swift; sourceTree = "<group>"; };
+		5CFE493A292650BD000F2856 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5CFE493B292650F8000F2856 /* Launchd.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Launchd.plist; sourceTree = "<group>"; };
+		5CFE494129265418000F2856 /* uninstall.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = uninstall.sh; sourceTree = "<group>"; };
+		5CFE494329265421000F2856 /* changelog.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = changelog.py; sourceTree = "<group>"; };
 		62BA5F74254810C8009D0AC2 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		63A07F97275018DF00352C46 /* ca */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7A19DAE52552C326001B192F /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -463,6 +495,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		5CFE492429264DF1000F2856 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9A11AACC266FD77F000C1C05 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -575,6 +614,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5CFE492829264DF1000F2856 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				5CFE492929264DF1000F2856 /* main.swift */,
+				5CFE493829265055000F2856 /* protocol.swift */,
+				5CFE493A292650BD000F2856 /* Info.plist */,
+				5CFE493B292650F8000F2856 /* Launchd.plist */,
+			);
+			path = Helper;
+			sourceTree = "<group>";
+		};
 		9A11AAD0266FD77F000C1C05 /* Bluetooth */ = {
 			isa = PBXGroup;
 			children = (
@@ -618,6 +668,7 @@
 				9A2846F72666A9CC00EC1F6D /* Kit.framework */,
 				9A11AACF266FD77F000C1C05 /* Bluetooth.framework */,
 				9AAC5E2A280ACC120043D892 /* Tests.xctest */,
+				5CFE492729264DF1000F2856 /* eu.exelban.Stats.SMC.Helper */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -716,7 +767,9 @@
 			isa = PBXGroup;
 			children = (
 				9A2848012666AB2F00EC1F6D /* updater.sh */,
+				5CFE494129265418000F2856 /* uninstall.sh */,
 				9A46BF35266D6E17001A1117 /* i18n.py */,
+				5CFE494329265421000F2856 /* changelog.py */,
 			);
 			path = scripts;
 			sourceTree = "<group>";
@@ -848,6 +901,7 @@
 		9ADE6FD9265D032100D2FBA8 /* SMC */ = {
 			isa = PBXGroup;
 			children = (
+				5CFE492829264DF1000F2856 /* Helper */,
 				9ADE6FDA265D032100D2FBA8 /* main.swift */,
 				9ADE7038265D059000D2FBA8 /* smc.swift */,
 			);
@@ -952,6 +1006,23 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		5CFE492629264DF1000F2856 /* Helper */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5CFE492D29264DF1000F2856 /* Build configuration list for PBXNativeTarget "Helper" */;
+			buildPhases = (
+				5CFE492329264DF1000F2856 /* Sources */,
+				5CFE492429264DF1000F2856 /* Frameworks */,
+				5CFE492529264DF1000F2856 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Helper;
+			productName = Helper;
+			productReference = 5CFE492729264DF1000F2856 /* eu.exelban.Stats.SMC.Helper */;
+			productType = "com.apple.product-type.tool";
+		};
 		9A11AACE266FD77F000C1C05 /* Bluetooth */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9A11AADA266FD77F000C1C05 /* Build configuration list for PBXNativeTarget "Bluetooth" */;
@@ -983,6 +1054,7 @@
 				9AECEF3D24ACF98800DB95D4 /* Copy Files */,
 				9A88E2672659002E00E2B7B0 /* ShellScript */,
 				9A46BF89266D7CFA001A1117 /* CopyFiles */,
+				5CFE493C29265130000F2856 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -1219,10 +1291,13 @@
 				KnownAssetTags = (
 					New,
 				);
-				LastSwiftUpdateCheck = 1240;
-				LastUpgradeCheck = 1400;
+				LastSwiftUpdateCheck = 1410;
+				LastUpgradeCheck = 1410;
 				ORGANIZATIONNAME = "Serhiy Mytrovtsiy";
 				TargetAttributes = {
+					5CFE492629264DF1000F2856 = {
+						CreatedOnToolsVersion = 14.1;
+					};
 					9A11AACE266FD77F000C1C05 = {
 						CreatedOnToolsVersion = 12.4;
 						LastSwiftMigration = 1240;
@@ -1340,6 +1415,7 @@
 				9AE29AD4249A50350071B02D /* Sensors */,
 				9A11AACE266FD77F000C1C05 /* Bluetooth */,
 				9AAC5E29280ACC120043D892 /* Tests */,
+				5CFE492629264DF1000F2856 /* Helper */,
 			);
 		};
 /* End PBXProject section */
@@ -1369,6 +1445,8 @@
 				9A46BF36266D6E17001A1117 /* i18n.py in Resources */,
 				9A2848892666AC0100EC1F6D /* Assets.xcassets in Resources */,
 				9A2848082666AB3000EC1F6D /* updater.sh in Resources */,
+				5CFE494229265418000F2856 /* uninstall.sh in Resources */,
+				5CFE494429265421000F2856 /* changelog.py in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1466,6 +1544,15 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		5CFE492329264DF1000F2856 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5CFE492A29264DF1000F2856 /* main.swift in Sources */,
+				5CFE493929265055000F2856 /* protocol.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9A11AACB266FD77F000C1C05 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1495,6 +1582,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5C8E001029269C7F0027C75A /* protocol.swift in Sources */,
 				9AD7F866266F759200E5F863 /* smc.swift in Sources */,
 				9A2847612666AA2700EC1F6D /* PieChart.swift in Sources */,
 				9A2847672666AA2700EC1F6D /* BarChart.swift in Sources */,
@@ -1770,6 +1858,58 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		5CFE492B29264DF1000F2856 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = RP2S87B72W;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/Helper/Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				"OTHER_LDFLAGS[arch=*]" = (
+					"-sectcreate",
+					__TEXT,
+					__info_plist,
+					"\"$(SRCROOT)/SMC/Helper/Info.plist\"",
+					"-sectcreate",
+					__TEXT,
+					__launchd_plist,
+					"\"$(SRCROOT)/SMC/Helper/Launchd.plist\"",
+				);
+				PRODUCT_NAME = eu.exelban.Stats.SMC.Helper;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		5CFE492C29264DF1000F2856 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = RP2S87B72W;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/Helper/Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				"OTHER_LDFLAGS[arch=*]" = (
+					"-sectcreate",
+					__TEXT,
+					__info_plist,
+					"\"$(SRCROOT)/SMC/Helper/Info.plist\"",
+					"-sectcreate",
+					__TEXT,
+					__launchd_plist,
+					"\"$(SRCROOT)/SMC/Helper/Launchd.plist\"",
+				);
+				PRODUCT_NAME = eu.exelban.Stats.SMC.Helper;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 		9A11AAD8266FD77F000C1C05 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2431,7 +2571,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_BUNDLE_IDENTIFIER = io.serhiy.Stats.Tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -2453,7 +2593,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_BUNDLE_IDENTIFIER = io.serhiy.Stats.Tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -2701,6 +2841,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		5CFE492D29264DF1000F2856 /* Build configuration list for PBXNativeTarget "Helper" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5CFE492B29264DF1000F2856 /* Debug */,
+				5CFE492C29264DF1000F2856 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		9A11AADA266FD77F000C1C05 /* Build configuration list for PBXNativeTarget "Bluetooth" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

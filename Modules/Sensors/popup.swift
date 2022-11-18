@@ -313,9 +313,7 @@ internal class FanView: NSStackView {
     private var maxBtn: NSButton? = nil
     
     private var speedState: Bool {
-        get {
-            return Store.shared.bool(key: "Sensors_speed", defaultValue: false)
-        }
+        Store.shared.bool(key: "Sensors_speed", defaultValue: false)
     }
     private var speed: Double {
         get {
@@ -328,9 +326,7 @@ internal class FanView: NSStackView {
     private var resetModeAfterSleep: Bool = false
     
     private var horizontalMargin: CGFloat {
-        get {
-            return self.edgeInsets.top + self.edgeInsets.bottom + (self.spacing*CGFloat(self.arrangedSubviews.count))
-        }
+        self.edgeInsets.top + self.edgeInsets.bottom + (self.spacing*CGFloat(self.arrangedSubviews.count))
     }
     
     private var willSleepMode: FanMode? = nil
@@ -634,7 +630,7 @@ internal class FanView: NSStackView {
     }
     
     @objc private func sleepListener(aNotification: NSNotification) {
-        guard SMCHelper.shared.checkRights() && self.fan.customMode != .automatic else { return }
+        guard SMCHelper.shared.isActive() && self.fan.customMode != .automatic else { return }
         
         self.willSleepMode = self.fan.customMode
         self.willSleepSpeed = self.fan.customSpeed

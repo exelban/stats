@@ -1002,66 +1002,127 @@ public class SettingsContainerView: NSStackView {
 
 public class SMCHelper {
     public static let shared = SMCHelper()
-    private let smc: String
-    
-    public init() {
-        self.smc = Bundle.main.path(forResource: "smc", ofType: nil)!
-    }
+    private var connection: NSXPCConnection? = nil
     
     public func setFanSpeed(_ id: Int, speed: Int) {
-        if !self.checkRights() {
-            if !self.ensureRights() {
-                return
+        helperStatus { installed in
+            if !installed {
+                self.install()
+            }
+            guard let helper = self.helper(nil) else { return }
+            
+            helper.setFanSpeed(id: id, value: speed) { result in
+                if let result, !result.isEmpty {
+                    print(result)
+                }
             }
         }
-        
-        _ = syncShell("\(self.smc) fan -id \(id) -v \(speed)")
     }
     
     public func setFanMode(_ id: Int, mode: Int) {
-        if !self.checkRights() {
-            if !self.ensureRights() {
-                return
+        helperStatus { installed in
+            if !installed {
+                self.install()
             }
-        }
-        
-        _ = syncShell("\(self.smc) fan -id \(id) -m \(mode)")
-    }
-    
-    public func checkRights() -> Bool {
-        do {
-            let attributes = try FileManager.default.attributesOfItem(atPath: self.smc)
-            guard let owner = attributes[FileAttributeKey(rawValue: "NSFileOwnerAccountName")] as? String,
-                  let ownerGroup = attributes[FileAttributeKey(rawValue: "NSFileGroupOwnerAccountName")] as? String,
-                  let permissions = attributes[FileAttributeKey(rawValue: "NSFilePosixPermissions")]  as? Int else {
-                print("some of the smc attributes is missing")
-                return false
-            }
+            guard let helper = self.helper(nil) else { return }
             
-            if owner == "root" && ownerGroup == "admin" && permissions == 3437 {
-                return true
+            helper.setFanMode(id: id, mode: mode) { result in
+                if let result, !result.isEmpty {
+                    print(result)
+                }
             }
-        } catch let error {
-            print("get smc attributes, \(error)")
-            return false
         }
-        
-        return false
     }
     
-    private func ensureRights() -> Bool {
-        guard let script = NSAppleScript(source: "do shell script \"/usr/sbin/chown root:admin \(self.smc) && /bin/chmod 6555 \(self.smc)\" with administrator privileges") else {
-            return false
+    public func isActive() -> Bool {
+        return self.connection != nil
+    }
+    
+    private func helperStatus(completion: @escaping (_ installed: Bool) -> Void) {
+        let helperURL = Bundle.main.bundleURL.appendingPathComponent("Contents/Library/LaunchServices/eu.exelban.Stats.SMC.Helper")
+        guard
+            let helperBundleInfo = CFBundleCopyInfoDictionaryForURL(helperURL as CFURL) as? [String: Any],
+            let helperVersion = helperBundleInfo["CFBundleShortVersionString"] as? String,
+            let helper = self.helper(completion) else {
+                completion(false)
+                return
         }
         
-        var err: NSDictionary? = nil
-        script.executeAndReturnError(&err)
-        if err != nil {
-            print("cannot upgrade owner to root: \(String(describing: err))")
-            return false
+        helper.version { installedHelperVersion in
+            completion(installedHelperVersion == helperVersion)
+        }
+    }
+    
+    private func install() {
+        var authRef: AuthorizationRef?
+        var authStatus = AuthorizationCreate(nil, nil, [.preAuthorize], &authRef)
+        
+        guard authStatus == errAuthorizationSuccess else {
+            print("Unable to get a valid empty authorization reference to load Helper daemon")
+            return
         }
         
-        return true
+        let authItem = kSMRightBlessPrivilegedHelper.withCString { authorizationString in
+            AuthorizationItem(name: authorizationString, valueLength: 0, value: nil, flags: 0)
+        }
+        
+        let pointer = UnsafeMutablePointer<AuthorizationItem>.allocate(capacity: 1)
+        pointer.initialize(to: authItem)
+        
+        defer {
+            pointer.deinitialize(count: 1)
+            pointer.deallocate()
+        }
+        
+        var authRights = AuthorizationRights(count: 1, items: pointer)
+        
+        let flags: AuthorizationFlags = [.interactionAllowed, .extendRights, .preAuthorize]
+        authStatus = AuthorizationCreate(&authRights, nil, flags, &authRef)
+        
+        guard authStatus == errAuthorizationSuccess else {
+            print("Unable to get a valid loading authorization reference to load Helper daemon")
+            return
+        }
+        
+        var error: Unmanaged<CFError>?
+        if SMJobBless(kSMDomainUserLaunchd, "eu.exelban.Stats.SMC.Helper" as CFString, authRef, &error) == false {
+            let blessError = error!.takeRetainedValue() as Error
+                print("Error while installing the Helper: \(blessError.localizedDescription)")
+            return
+        }
+        
+        AuthorizationFree(authRef!, [])
+    }
+    
+    private func helperConnection() -> NSXPCConnection? {
+        guard self.connection == nil else {
+            return self.connection
+        }
+        
+        let connection = NSXPCConnection(machServiceName: "eu.exelban.Stats.SMC.Helper", options: .privileged)
+        connection.exportedObject = self
+        connection.remoteObjectInterface = NSXPCInterface(with: HelperProtocol.self)
+        connection.invalidationHandler = {
+            self.connection?.invalidationHandler = nil
+            OperationQueue.main.addOperation {
+                self.connection = nil
+            }
+        }
+        
+        self.connection = connection
+        self.connection?.resume()
+        
+        return self.connection
+    }
+    
+    private func helper(_ completion: ((Bool) -> Void)?) -> HelperProtocol? {
+        guard let helper = self.helperConnection()?.remoteObjectProxyWithErrorHandler({ _ in
+            if let onCompletion = completion { onCompletion(false) }
+        }) as? HelperProtocol else { return nil }
+        
+        helper.setSMCPath(Bundle.main.path(forResource: "smc", ofType: nil)!)
+        
+        return helper
     }
 }
 

@@ -20,6 +20,20 @@
                ReferencedContainer = "container:Stats.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "5CFE492629264DF1000F2856"
+               BuildableName = "eu.exelban.Stats.SMC.Helper"
+               BlueprintName = "Helper"
+               ReferencedContainer = "container:Stats.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
