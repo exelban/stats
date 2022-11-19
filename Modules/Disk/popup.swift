@@ -135,11 +135,11 @@ internal class DiskView: NSStackView {
     public func updateFree(free: Int64) {
         self.nameView.update(free: free, read: nil, write: nil)
         self.legendView.update(free: free)
+        self.barView.update(free: free)
     }
     public func updateReadWrite(read: Int64, write: Int64) {
         self.nameView.update(free: nil, read: read, write: write)
         self.chartView.update(read: read, write: write)
-        self.barView.update(free: nil, read: read, write: write)
     }
 }
 
@@ -325,7 +325,7 @@ internal class BarView: NSView {
         self.background?.layer?.backgroundColor = self.isDarkMode ? NSColor.lightGray.withAlphaComponent(0.1).cgColor : NSColor.white.cgColor
     }
     
-    public func update(free: Int64?, read: Int64?, write: Int64?) {
+    public func update(free: Int64?) {
         if (self.window?.isVisible ?? false) || !self.ready {
             if let free = free, self.usedBarSpace != nil {
                 let percentage = CGFloat(self.size - free) / CGFloat(self.size)
