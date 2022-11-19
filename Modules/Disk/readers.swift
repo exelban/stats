@@ -51,6 +51,7 @@ internal class CapacityReader: Reader<Disks> {
                         if var d = driveDetails(disk, removableState: removableState) {
                             if let path = d.path {
                                 d.free = self.freeDiskSpaceInBytes(path)
+                                d.size = self.totalDiskSpaceInBytes(path)
                             }
                             self.list.append(d)
                             self.list.sort()
@@ -88,6 +89,30 @@ internal class CapacityReader: Reader<Disks> {
             }
         } catch let err {
             error("error retrieving free space #1: \(err.localizedDescription)", log: self.log)
+        }
+        
+        return 0
+    }
+    
+    private func totalDiskSpaceInBytes(_ path: URL) -> Int64 {
+        do {
+            let systemAttributes = try FileManager.default.attributesOfFileSystem(forPath: path.path)
+            if let totalSpace = (systemAttributes[FileAttributeKey.systemSize] as? NSNumber)?.int64Value {
+                return totalSpace
+            }
+        } catch let err {
+            error("error retrieving total space #2: \(err.localizedDescription)", log: self.log)
+        }
+        
+        do {
+            if let url = URL(string: path.absoluteString) {
+                let values = try url.resourceValues(forKeys: [.volumeTotalCapacityKey])
+                if let space = values.volumeAvailableCapacityForImportantUsage, space != 0 {
+                    return space
+                }
+            }
+        } catch let err {
+            error("error retrieving total space #1: \(err.localizedDescription)", log: self.log)
         }
         
         return 0
@@ -206,9 +231,6 @@ private func driveDetails(_ disk: DADisk, removableState: Bool) -> drive? {
                     }
                 }
             }
-            if let mediaSize = dict[kDADiskDescriptionMediaSizeKey as String] {
-                d.size = Int64(truncating: mediaSize as! NSNumber)
-            }
             if let deviceModel = dict[kDADiskDescriptionDeviceModelKey as String] {
                 d.model = (deviceModel as! String).trimmingCharacters(in: .whitespacesAndNewlines)
             }
@@ -256,11 +278,9 @@ public func getDeviceIOParent(_ obj: io_registry_entry_t, level: Int) -> io_regi
         return nil
     }
     
-    for _ in 1...level {
-        if IORegistryEntryGetParentEntry(parent, kIOServicePlane, &parent) != KERN_SUCCESS {
-            IOObjectRelease(parent)
-            return nil
-        }
+    for _ in 1...level where IORegistryEntryGetParentEntry(parent, kIOServicePlane, &parent) != KERN_SUCCESS {
+        IOObjectRelease(parent)
+        return nil
     }
     
     return parent
