@@ -12,7 +12,6 @@
 import Cocoa
 import Kit
 
-// swiftlint:disable type_body_length
 internal class Popup: NSStackView, Popup_p {
     public var sizeCallback: ((NSSize) -> Void)? = nil
     
@@ -30,22 +29,31 @@ internal class Popup: NSStackView, Popup_p {
     private var downloadUnitField: NSTextField? = nil
     private var downloadStateView: ColorView? = nil
     
+    private var downloadColorView: NSView? = nil
+    private var uploadColorView: NSView? = nil
+    
     private var localIPField: ValueField? = nil
     private var interfaceField: ValueField? = nil
-    private var ssidField: ValueField? = nil
     private var macAdressField: ValueField? = nil
     private var totalUploadField: ValueField? = nil
     private var totalDownloadField: ValueField? = nil
-    private var connectionField: ValueField? = nil
+    private var statusField: ValueField? = nil
+    private var connectivityField: ValueField? = nil
     
     private var publicIPStackView: NSStackView? = nil
     private var publicIPv4Field: ValueField? = nil
     private var publicIPv6Field: ValueField? = nil
     
+    private var ssidField: ValueField? = nil
+    private var standardField: ValueField? = nil
+    private var securityField: ValueField? = nil
+    private var channelField: ValueField? = nil
+    
     private var processesView: NSView? = nil
     
     private var initialized: Bool = false
     private var processesInitialized: Bool = false
+    private var connectionInitialized: Bool = false
     
     private var chart: NetworkChartView? = nil
     private var processes: [NetworkProcessView] = []
@@ -67,6 +75,23 @@ internal class Popup: NSStackView, Popup_p {
         }
     }
     
+    private var downloadColorState: Color = .secondBlue
+    private var downloadColor: NSColor {
+        var value = NSColor.systemRed
+        if let color = self.downloadColorState.additional as? NSColor {
+            value = color
+        }
+        return value
+    }
+    private var uploadColorState: Color = .secondRed
+    private var uploadColor: NSColor {
+        var value = NSColor.systemBlue
+        if let color = self.uploadColorState.additional as? NSColor {
+            value = color
+        }
+        return value
+    }
+    
     public init(_ title: String) {
         self.title = title
         
@@ -76,6 +101,9 @@ internal class Popup: NSStackView, Popup_p {
             width: Constants.Popup.width,
             height: 0
         ))
+        
+        self.downloadColorState = Color.fromString(Store.shared.string(key: "\(self.title)_downloadColor", defaultValue: self.downloadColorState.key))
+        self.uploadColorState = Color.fromString(Store.shared.string(key: "\(self.title)_uploadColor", defaultValue: self.uploadColorState.key))
         
         self.spacing = 0
         self.orientation = .vertical
@@ -108,14 +136,14 @@ internal class Popup: NSStackView, Popup_p {
         view.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
         
         let leftPart: NSView = NSView(frame: NSRect(x: 0, y: 0, width: view.frame.width / 2, height: view.frame.height))
-        let uploadFields = self.topValueView(leftPart, title: localizedString("Uploading"), color: NSColor.systemRed)
+        let uploadFields = self.topValueView(leftPart, title: localizedString("Uploading"), color: self.uploadColor)
         self.uploadView = uploadFields.0
         self.uploadValueField = uploadFields.1
         self.uploadUnitField = uploadFields.2
         self.uploadStateView = uploadFields.3
         
         let rightPart: NSView = NSView(frame: NSRect(x: view.frame.width / 2, y: 0, width: view.frame.width / 2, height: view.frame.height))
-        let downloadFields = self.topValueView(rightPart, title: localizedString("Downloading"), color: NSColor.systemBlue)
+        let downloadFields = self.topValueView(rightPart, title: localizedString("Downloading"), color: self.downloadColor)
         self.downloadView = downloadFields.0
         self.downloadValueField = downloadFields.1
         self.downloadUnitField = downloadFields.2
@@ -142,7 +170,7 @@ internal class Popup: NSStackView, Popup_p {
             y: 1,
             width: container.frame.width,
             height: container.frame.height - 2
-        ), num: 120)
+        ), num: 120, outColor: self.uploadColor, inColor: self.downloadColor)
         chart.base = self.base
         container.addSubview(chart)
         self.chart = chart
@@ -179,13 +207,19 @@ internal class Popup: NSStackView, Popup_p {
         
         container.addArrangedSubview(row)
         
-        self.totalUploadField = popupWithColorRow(container, color: NSColor.systemRed, n: 5, title: "\(localizedString("Total upload")):", value: "0")
-        self.totalDownloadField = popupWithColorRow(container, color: NSColor.systemBlue, n: 4, title: "\(localizedString("Total download")):", value: "0")
+        (self.uploadColorView, self.totalUploadField) = popupWithColorRow(container, color: self.uploadColor, n: 0, title: "\(localizedString("Total upload")):", value: "0")
+        (self.downloadColorView, self.totalDownloadField) = popupWithColorRow(container, color: self.downloadColor, n: 0, title: "\(localizedString("Total download")):", value: "0")
         
-        self.connectionField = popupRow(container, n: 4, title: "\(localizedString("Status")):", value: localizedString("Unknown")).1
-        self.interfaceField = popupRow(container, n: 3, title: "\(localizedString("Interface")):", value: localizedString("Unknown")).1
-        self.ssidField = popupRow(container, n: 2, title: "\(localizedString("Network")):", value: localizedString("Unknown")).1
-        self.macAdressField = popupRow(container, n: 1, title: "\(localizedString("Physical address")):", value: localizedString("Unknown")).1
+        self.statusField = popupRow(container, n: 0, title: "\(localizedString("Status")):", value: localizedString("Unknown")).1
+        self.connectivityField = popupRow(container, n: 0, title: "\(localizedString("Internet connection")):", value: localizedString("Unknown")).1
+        
+        self.ssidField = popupRow(container, n: 0, title: "\(localizedString("Network")):", value: localizedString("Unknown")).1
+        self.standardField = popupRow(container, n: 0, title: "\(localizedString("Standard")):", value: localizedString("Unknown")).1
+        self.securityField = popupRow(container, n: 0, title: "\(localizedString("Security")):", value: localizedString("Unknown")).1
+        self.channelField = popupRow(container, n: 0, title: "\(localizedString("Channel")):", value: localizedString("Unknown")).1
+        
+        self.interfaceField = popupRow(container, n: 0, title: "\(localizedString("Interface")):", value: localizedString("Unknown")).1
+        self.macAdressField = popupRow(container, n: 0, title: "\(localizedString("Physical address")):", value: localizedString("Unknown")).1
         self.localIPField = popupRow(container, n: 0, title: "\(localizedString("Local IP")):", value: localizedString("Unknown")).1
         
         self.localIPField?.isSelectable = true
@@ -308,14 +342,28 @@ internal class Popup: NSStackView, Popup_p {
                 }
                 
                 if value.connectionType == .wifi {
-                    self.ssidField?.stringValue = value.ssid ?? "Unknown"
+                    self.ssidField?.stringValue = value.wifiDetails.ssid ?? localizedString("Unknown")
+                    if let v = value.wifiDetails.RSSI {
+                        self.ssidField?.stringValue += " (\(v))"
+                    }
+                    self.standardField?.stringValue = value.wifiDetails.standard ?? localizedString("Unknown")
+                    self.securityField?.stringValue = value.wifiDetails.security ?? localizedString("Unknown")
+                    self.channelField?.stringValue = value.wifiDetails.channel ?? localizedString("Unknown")
+                    
+                    let number = value.wifiDetails.channelNumber ?? localizedString("Unknown")
+                    let band = value.wifiDetails.channelBand ?? localizedString("Unknown")
+                    let width = value.wifiDetails.channelWidth ?? localizedString("Unknown")
+                    self.channelField?.toolTip = "Channel number: \(number)\nChannel band: \(band)\nChannel width: \(width)"
                 } else {
                     self.ssidField?.stringValue = localizedString("Unavailable")
+                    self.standardField?.stringValue = localizedString("Unavailable")
+                    self.securityField?.stringValue = localizedString("Unavailable")
+                    self.channelField?.stringValue = localizedString("Unavailable")
                 }
                 
                 if let view = self.publicIPv4Field, view.stringValue != value.raddr.v4 {
                     if let addr = value.raddr.v4 {
-                        view.stringValue = (value.countryCode != nil) ? "\(addr) (\(value.countryCode!))" : addr
+                        view.stringValue = (value.wifiDetails.countryCode != nil) ? "\(addr) (\(value.wifiDetails.countryCode!))" : addr
                     } else {
                         view.stringValue = localizedString("Unknown")
                     }
@@ -332,7 +380,7 @@ internal class Popup: NSStackView, Popup_p {
                     self.localIPField?.stringValue = value.laddr ?? localizedString("Unknown")
                 }
                 
-                self.connectionField?.stringValue = localizedString(value.status ? "UP" : "DOWN")
+                self.statusField?.stringValue = localizedString(value.status ? "UP" : "DOWN")
                 
                 self.initialized = true
             }
@@ -342,6 +390,20 @@ internal class Popup: NSStackView, Popup_p {
                     chart.base = self.base
                 }
                 chart.addValue(upload: Double(value.bandwidth.upload), download: Double(value.bandwidth.download))
+            }
+        })
+    }
+    
+    public func connectivityCallback(_ value: Bool?) {
+        DispatchQueue.main.async(execute: {
+            if (self.window?.isVisible ?? false) || !self.connectionInitialized {
+                var text = "Unknown"
+                if let v = value {
+                    text = v ? "UP" : "DOWN"
+                }
+                
+                self.connectivityField?.stringValue = localizedString(text)
+                self.connectionInitialized = true
             }
         })
     }
@@ -370,9 +432,61 @@ internal class Popup: NSStackView, Popup_p {
         })
     }
     
+    public func resetConnectivityView() {
+        self.connectivityField?.stringValue = localizedString("Unknown")
+    }
+    
+    // MARK: - Settings
+    
+    public func settings() -> NSView? {
+        let view = SettingsContainerView()
+        
+        view.addArrangedSubview(selectSettingsRow(
+            title: localizedString("Color of upload"),
+            action: #selector(toggleUploadColor),
+            items: Color.allColors,
+            selected: self.uploadColorState.key
+        ))
+        
+        view.addArrangedSubview(selectSettingsRow(
+            title: localizedString("Color of download"),
+            action: #selector(toggleDownloadColor),
+            items: Color.allColors,
+            selected: self.downloadColorState.key
+        ))
+        
+        return view
+    }
+    
+    @objc private func toggleUploadColor(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String,
+              let newValue = Color.allColors.first(where: { $0.key == key }) else {
+            return
+        }
+        self.uploadColorState = newValue
+        Store.shared.set(key: "\(self.title)_uploadColor", value: key)
+        if let color = newValue.additional as? NSColor {
+            self.uploadColorView?.layer?.backgroundColor = color.cgColor
+            self.uploadStateView?.setColor(color)
+            self.chart?.setColors(out: color)
+        }
+    }
+    @objc private func toggleDownloadColor(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String,
+              let newValue = Color.allColors.first(where: { $0.key == key }) else {
+            return
+        }
+        self.downloadColorState = newValue
+        Store.shared.set(key: "\(self.title)_downloadColor", value: key)
+        if let color = newValue.additional as? NSColor {
+            self.downloadColorView?.layer?.backgroundColor = color.cgColor
+            self.downloadStateView?.setColor(color)
+            self.chart?.setColors(in: color)
+        }
+    }
+    
     // MARK: - helpers
     
-    // swiftlint:disable large_tuple
     private func topValueView(_ view: NSView, title: String, color: NSColor) -> (NSView, NSTextField, NSTextField, ColorView) {
         let topHeight: CGFloat = 30
         let titleHeight: CGFloat = 15

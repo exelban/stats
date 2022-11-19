@@ -31,6 +31,11 @@ internal class Popup: NSView, Popup_p {
     private var compressedField: NSTextField? = nil
     private var swapField: NSTextField? = nil
     
+    private var appColorView: NSView? = nil
+    private var wiredColorView: NSView? = nil
+    private var compressedColorView: NSView? = nil
+    private var freeColorView: NSView? = nil
+    
     private var chart: LineChartView? = nil
     private var circle: PieChartView? = nil
     private var level: PressureView? = nil
@@ -51,6 +56,47 @@ internal class Popup: NSView, Popup_p {
         }
     }
     
+    private var appColorState: Color = .secondBlue
+    private var appColor: NSColor {
+        var value = NSColor.systemRed
+        if let color = self.appColorState.additional as? NSColor {
+            value = color
+        }
+        return value
+    }
+    private var wiredColorState: Color = .secondOrange
+    private var wiredColor: NSColor {
+        var value = NSColor.systemBlue
+        if let color = self.wiredColorState.additional as? NSColor {
+            value = color
+        }
+        return value
+    }
+    private var compressedColorState: Color = .pink
+    private var compressedColor: NSColor {
+        var value = NSColor.lightGray
+        if let color = self.compressedColorState.additional as? NSColor {
+            value = color
+        }
+        return value
+    }
+    private var freeColorState: Color = .lightGray
+    private var freeColor: NSColor {
+        var value = NSColor.systemBlue
+        if let color = self.freeColorState.additional as? NSColor {
+            value = color
+        }
+        return value
+    }
+    private var chartColorState: Color = .systemAccent
+    private var chartColor: NSColor {
+        var value = NSColor.systemBlue
+        if let color = self.chartColorState.additional as? NSColor {
+            value = color
+        }
+        return value
+    }
+    
     public var sizeCallback: ((NSSize) -> Void)? = nil
     
     public init(_ title: String) {
@@ -63,6 +109,12 @@ internal class Popup: NSView, Popup_p {
             height: dashboardHeight + chartHeight + detailsHeight
         ))
         self.setFrameSize(NSSize(width: self.frame.width, height: self.frame.height+self.processesHeight))
+        
+        self.appColorState = Color.fromString(Store.shared.string(key: "\(self.title)_appColor", defaultValue: self.appColorState.key))
+        self.wiredColorState = Color.fromString(Store.shared.string(key: "\(self.title)_wiredColor", defaultValue: self.wiredColorState.key))
+        self.compressedColorState = Color.fromString(Store.shared.string(key: "\(self.title)_compressedColor", defaultValue: self.compressedColorState.key))
+        self.freeColorState = Color.fromString(Store.shared.string(key: "\(self.title)_freeColor", defaultValue: self.freeColorState.key))
+        self.chartColorState = Color.fromString(Store.shared.string(key: "\(self.title)_chartColor", defaultValue: self.chartColorState.key))
         
         let gridView: NSGridView = NSGridView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height))
         gridView.rowSpacing = 0
@@ -144,6 +196,7 @@ internal class Popup: NSView, Popup_p {
         container.layer?.cornerRadius = 3
         
         self.chart = LineChartView(frame: NSRect(x: 1, y: 0, width: view.frame.width, height: container.frame.height), num: 120)
+        self.chart?.color = self.chartColor
         container.addSubview(self.chart!)
         
         view.addSubview(separator)
@@ -158,10 +211,10 @@ internal class Popup: NSView, Popup_p {
         let container: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: separator.frame.origin.y))
         
         self.usedField = popupRow(container, n: 5, title: "\(localizedString("Used")):", value: "").1
-        self.appField = popupWithColorRow(container, color: NSColor.systemBlue, n: 4, title: "\(localizedString("App")):", value: "")
-        self.wiredField = popupWithColorRow(container, color: NSColor.systemOrange, n: 3, title: "\(localizedString("Wired")):", value: "")
-        self.compressedField = popupWithColorRow(container, color: NSColor.systemPink, n: 2, title: "\(localizedString("Compressed")):", value: "")
-        self.freeField = popupWithColorRow(container, color: NSColor.lightGray.withAlphaComponent(0.5), n: 1, title: "\(localizedString("Free")):", value: "")
+        (self.appColorView, self.appField) = popupWithColorRow(container, color: self.appColor, n: 4, title: "\(localizedString("App")):", value: "")
+        (self.wiredColorView, self.wiredField) = popupWithColorRow(container, color: self.wiredColor, n: 3, title: "\(localizedString("Wired")):", value: "")
+        (self.compressedColorView, self.compressedField) = popupWithColorRow(container, color: self.compressedColor, n: 2, title: "\(localizedString("Compressed")):", value: "")
+        (self.freeColorView, self.freeField) = popupWithColorRow(container, color: self.freeColor.withAlphaComponent(0.5), n: 1, title: "\(localizedString("Free")):", value: "")
         self.swapField = popupRow(container, n: 0, title: "\(localizedString("Swap")):", value: "").1
         
         view.addSubview(separator)
@@ -224,10 +277,11 @@ internal class Popup: NSView, Popup_p {
                 
                 self.circle?.setValue(value.usage)
                 self.circle?.setSegments([
-                    circle_segment(value: value.app/value.total, color: NSColor.systemBlue),
-                    circle_segment(value: value.wired/value.total, color: NSColor.systemOrange),
-                    circle_segment(value: value.compressed/value.total, color: NSColor.systemPink)
+                    circle_segment(value: value.app/value.total, color: self.appColor),
+                    circle_segment(value: value.wired/value.total, color: self.wiredColor),
+                    circle_segment(value: value.compressed/value.total, color: self.compressedColor)
                 ])
+                self.circle?.setNonActiveSegmentColor(self.freeColor)
                 self.level?.setLevel(value.pressureLevel)
                 
                 self.initialized = true
@@ -249,12 +303,106 @@ internal class Popup: NSView, Popup_p {
             }
             
             for i in 0..<list.count {
-                self.processes[i].set(list[i])
-                self.processes[i].value = Units(bytes: Int64(list[i].usage)).getReadableMemory()
+                self.processes[i].set(list[i], Units(bytes: Int64(list[i].usage)).getReadableMemory())
             }
             
             self.processesInitialized = true
         })
+    }
+    
+    // MARK: - Settings
+    
+    public func settings() -> NSView? {
+        let view = SettingsContainerView()
+        
+        view.addArrangedSubview(selectSettingsRow(
+            title: localizedString("App color"),
+            action: #selector(toggleAppColor),
+            items: Color.allColors,
+            selected: self.appColorState.key
+        ))
+        view.addArrangedSubview(selectSettingsRow(
+            title: localizedString("Wired color"),
+            action: #selector(toggleWiredColor),
+            items: Color.allColors,
+            selected: self.wiredColorState.key
+        ))
+        view.addArrangedSubview(selectSettingsRow(
+            title: localizedString("Compressed color"),
+            action: #selector(toggleCompressedColor),
+            items: Color.allColors,
+            selected: self.compressedColorState.key
+        ))
+        view.addArrangedSubview(selectSettingsRow(
+            title: localizedString("Free color"),
+            action: #selector(toggleFreeColor),
+            items: Color.allColors,
+            selected: self.freeColorState.key
+        ))
+        view.addArrangedSubview(selectSettingsRow(
+            title: localizedString("Chart color"),
+            action: #selector(toggleChartColor),
+            items: Color.allColors,
+            selected: self.chartColorState.key
+        ))
+        
+        return view
+    }
+    
+    @objc private func toggleAppColor(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String,
+              let newValue = Color.allColors.first(where: { $0.key == key }) else {
+            return
+        }
+        self.appColorState = newValue
+        Store.shared.set(key: "\(self.title)_appColor", value: key)
+        if let color = newValue.additional as? NSColor {
+            self.appColorView?.layer?.backgroundColor = color.cgColor
+        }
+    }
+    @objc private func toggleWiredColor(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String,
+              let newValue = Color.allColors.first(where: { $0.key == key }) else {
+            return
+        }
+        self.wiredColorState = newValue
+        Store.shared.set(key: "\(self.title)_wiredColor", value: key)
+        if let color = newValue.additional as? NSColor {
+            self.wiredColorView?.layer?.backgroundColor = color.cgColor
+        }
+    }
+    @objc private func toggleCompressedColor(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String,
+              let newValue = Color.allColors.first(where: { $0.key == key }) else {
+            return
+        }
+        self.compressedColorState = newValue
+        Store.shared.set(key: "\(self.title)_compressedColor", value: key)
+        if let color = newValue.additional as? NSColor {
+            self.compressedColorView?.layer?.backgroundColor = color.cgColor
+        }
+    }
+    @objc private func toggleFreeColor(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String,
+              let newValue = Color.allColors.first(where: { $0.key == key }) else {
+            return
+        }
+        self.freeColorState = newValue
+        Store.shared.set(key: "\(self.title)_freeColor", value: key)
+        if let color = newValue.additional as? NSColor {
+            self.freeColorView?.layer?.backgroundColor = color.cgColor
+        }
+    }
+    @objc private func toggleChartColor(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String,
+              let newValue = Color.allColors.first(where: { $0.key == key }) else {
+            return
+        }
+        self.chartColorState = newValue
+        Store.shared.set(key: "\(self.title)_chartColor", value: key)
+        if let color = newValue.additional as? NSColor {
+            self.chart?.color = color
+        }
     }
 }
 
@@ -265,7 +413,7 @@ public class PressureView: NSView {
         circle_segment(value: 1/3, color: NSColor.systemRed)
     ]
     
-    private var level: Int = 1
+    private var level: DispatchSource.MemoryPressureEvent = .normal
     
     public override func draw(_ rect: CGRect) {
         let arcWidth: CGFloat = 7.0
@@ -302,15 +450,15 @@ public class PressureView: NSView {
         let needlePath =  NSBezierPath()
         
         switch self.level {
-        case 1: // NORMAL
+        case .normal:
             needlePath.move(to: CGPoint(x: self.bounds.width * 0.15, y: self.bounds.width * 0.40))
             needlePath.line(to: CGPoint(x: self.bounds.width/2, y: self.bounds.height/2 - needleEndSize))
             needlePath.line(to: CGPoint(x: self.bounds.width/2, y: self.bounds.height/2 + needleEndSize))
-        case 2: // WARN
+        case .warning:
             needlePath.move(to: CGPoint(x: self.bounds.width/2, y: self.bounds.width * 0.85))
             needlePath.line(to: CGPoint(x: self.bounds.width/2 - needleEndSize, y: self.bounds.height/2))
             needlePath.line(to: CGPoint(x: self.bounds.width/2 + needleEndSize, y: self.bounds.height/2))
-        case 4: // CRITICAL
+        case .critical:
             needlePath.move(to: CGPoint(x: self.bounds.width * 0.85, y: self.bounds.width * 0.40))
             needlePath.line(to: CGPoint(x: self.bounds.width/2, y: self.bounds.height/2 - needleEndSize))
             needlePath.line(to: CGPoint(x: self.bounds.width/2, y: self.bounds.height/2 + needleEndSize))
@@ -337,11 +485,11 @@ public class PressureView: NSView {
         ]
         
         let rect = CGRect(x: (self.frame.width-6)/2, y: (self.frame.height-26)/2, width: 6, height: 12)
-        let str = NSAttributedString.init(string: "\(self.level)", attributes: stringAttributes)
+        let str = NSAttributedString.init(string: "\(self.level.rawValue)", attributes: stringAttributes)
         str.draw(with: rect)
     }
     
-    public func setLevel(_ level: Int) {
+    public func setLevel(_ level: DispatchSource.MemoryPressureEvent) {
         self.level = level
         if self.window?.isVisible ?? true {
             self.display()

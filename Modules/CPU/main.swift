@@ -12,6 +12,8 @@ import Kit
 public struct CPU_Load: value_t {
     var totalUsage: Double = 0
     var usagePerCore: [Double] = []
+    var usageECores: Double? = nil
+    var usagePCores: Double? = nil
     
     var systemLoad: Double = 0
     var userLoad: Double = 0
@@ -41,15 +43,36 @@ public class CPU: Module {
     private var limitReader: LimitReader? = nil
     private var averageReader: AverageReader? = nil
     
+    private var notificationLevelState: Bool = false
+    private var notificationID: String? = nil
+    
     private var usagePerCoreState: Bool {
-        get {
-            return Store.shared.bool(key: "\(self.config.name)_usagePerCore", defaultValue: false)
-        }
+        Store.shared.bool(key: "\(self.config.name)_usagePerCore", defaultValue: false)
     }
     private var splitValueState: Bool {
-        get {
-            return Store.shared.bool(key: "\(self.config.name)_splitValue", defaultValue: false)
+        Store.shared.bool(key: "\(self.config.name)_splitValue", defaultValue: false)
+    }
+    private var groupByClustersState: Bool {
+        Store.shared.bool(key: "\(self.config.name)_clustersGroup", defaultValue: false)
+    }
+    private var notificationLevel: String {
+        Store.shared.string(key: "\(self.config.name)_notificationLevel", defaultValue: "Disabled")
+    }
+    private var systemColor: NSColor {
+        let color = Color.secondRed
+        let key = Store.shared.string(key: "\(self.config.name)_systemColor", defaultValue: color.key)
+        if let c = Color.fromString(key).additional as? NSColor {
+            return c
         }
+        return color.additional as! NSColor
+    }
+    private var userColor: NSColor {
+        let color = Color.secondBlue
+        let key = Store.shared.string(key: "\(self.config.name)_systemColor", defaultValue: color.key)
+        if let c = Color.fromString(key).additional as? NSColor {
+            return c
+        }
+        return color.additional as! NSColor
     }
     
     public init() {
@@ -64,11 +87,11 @@ public class CPU: Module {
         
         self.loadReader = LoadReader()
         self.processReader = ProcessReader()
-        self.limitReader = LimitReader(popup: true)
         self.averageReader = AverageReader(popup: true)
+        self.temperatureReader = TemperatureReader(popup: true)
         
         #if arch(x86_64)
-        self.temperatureReader = TemperatureReader(popup: true)
+        self.limitReader = LimitReader(popup: true)
         self.frequencyReader = FrequencyReader(popup: true)
         #endif
         
@@ -154,8 +177,9 @@ public class CPU: Module {
         }
         
         self.popupView.loadCallback(value)
+        self.checkNotificationLevel(value.totalUsage)
         
-        self.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
+        self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
             switch w.item {
             case let widget as Mini: widget.setValue(value.totalUsage)
             case let widget as LineChart: widget.setValue(value.totalUsage)
@@ -165,23 +189,54 @@ public class CPU: Module {
                     val = value.usagePerCore.map({ [ColorValue($0)] })
                 } else if self.splitValueState {
                     val = [[
-                        ColorValue(value.systemLoad, color: NSColor.systemRed),
-                        ColorValue(value.userLoad, color: NSColor.systemBlue)
+                        ColorValue(value.systemLoad, color: self.systemColor),
+                        ColorValue(value.userLoad, color: self.userColor)
                     ]]
+                } else if self.groupByClustersState, let e = value.usageECores, let p = value.usagePCores {
+                    val = [
+                        [ColorValue(e, color: NSColor.systemTeal)],
+                        [ColorValue(p, color: NSColor.systemBlue)]
+                    ]
                 }
                 widget.setValue(val)
             case let widget as PieChart:
                 widget.setValue([
-                    circle_segment(value: value.systemLoad, color: NSColor.systemRed),
-                    circle_segment(value: value.userLoad, color: NSColor.systemBlue)
+                    circle_segment(value: value.systemLoad, color: self.systemColor),
+                    circle_segment(value: value.userLoad, color: self.userColor)
                 ])
             case let widget as Tachometer:
                 widget.setValue([
-                    circle_segment(value: value.systemLoad, color: NSColor.systemRed),
-                    circle_segment(value: value.userLoad, color: NSColor.systemBlue)
+                    circle_segment(value: value.systemLoad, color: self.systemColor),
+                    circle_segment(value: value.userLoad, color: self.userColor)
                 ])
             default: break
             }
+        }
+    }
+    
+    private func checkNotificationLevel(_ value: Double) {
+        guard self.notificationLevel != "Disabled", let level = Double(self.notificationLevel) else { return }
+        
+        if let id = self.notificationID, value < level && self.notificationLevelState {
+            if #available(macOS 10.14, *) {
+                removeNotification(id)
+            } else {
+                removeNSNotification(id)
+            }
+            
+            self.notificationID = nil
+            self.notificationLevelState = false
+        } else if value >= level && !self.notificationLevelState {
+            let title = localizedString("CPU usage threshold")
+            let subtitle = localizedString("CPU usage is", "\(Int((value)*100))%")
+            
+            if #available(macOS 10.14, *) {
+                self.notificationID = showNotification(title: title, subtitle: subtitle)
+            } else {
+                self.notificationID = showNSNotification(title: title, subtitle: subtitle)
+            }
+            
+            self.notificationLevelState = true
         }
     }
 }

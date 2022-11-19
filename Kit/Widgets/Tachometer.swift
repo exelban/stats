@@ -30,7 +30,7 @@ public class Tachometer: WidgetWrapper {
     public init(title: String, config: NSDictionary?, preview: Bool = false) {
         let widgetTitle: String = title
         
-        super.init(.battery, title: widgetTitle, frame: CGRect(
+        super.init(.tachometer, title: widgetTitle, frame: CGRect(
             x: Constants.Widget.margin.x,
             y: Constants.Widget.margin.y,
             width: self.size,
@@ -87,18 +87,16 @@ public class Tachometer: WidgetWrapper {
     
     // MARK: - Settings
     
-    public override func settings(width: CGFloat) -> NSView {
-        let view = SettingsContainerView(width: width)
+    public override func settings() -> NSView {
+        let view = SettingsContainerView()
         
-        view.addArrangedSubview(toggleTitleRow(
-            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
+        view.addArrangedSubview(toggleSettingRow(
             title: localizedString("Label"),
             action: #selector(toggleLabel),
             state: self.labelState
         ))
         
-        view.addArrangedSubview(toggleTitleRow(
-            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
+        view.addArrangedSubview(toggleSettingRow(
             title: localizedString("Monochrome accent"),
             action: #selector(toggleMonochrome),
             state: self.monochromeState

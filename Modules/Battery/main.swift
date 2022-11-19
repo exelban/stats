@@ -18,9 +18,13 @@ struct Battery_Usage: value_t {
     var state: String? = nil
     var isCharged: Bool = false
     var isCharging: Bool = false
+    var isLowPowerMode: Bool? = false
     var level: Double = 0
     var cycles: Int = 0
     var health: Int = 0
+    
+    var designedCapacity: Int = 0
+    var maxCapacity: Int = 0
     
     var amperage: Int = 0
     var voltage: Double = 0
@@ -45,8 +49,9 @@ public class Battery: Module {
     private let popupView: Popup
     private var settingsView: Settings
     
-    private var lowNotification: NSUserNotification? = nil
-    private var highNotification: NSUserNotification? = nil
+    private var lowLevelNotificationState: Bool = false
+    private var highLevelNotificationState: Bool = false
+    private var notificationID: String? = nil
     
     public init() {
         self.settingsView = Settings("Battery")
@@ -94,6 +99,18 @@ public class Battery: Module {
         }
     }
     
+    public override func willTerminate() {
+        guard self.isAvailable() else { return }
+        
+        if let id = self.notificationID {
+            if #available(macOS 10.14, *) {
+                removeNotification(id)
+            } else {
+                removeNSNotification(id)
+            }
+        }
+    }
+    
     public override func isAvailable() -> Bool {
         let snapshot = IOPSCopyPowerSourcesInfo().takeRetainedValue()
         let sources = IOPSCopyPowerSourcesList(snapshot).takeRetainedValue() as Array
@@ -109,15 +126,20 @@ public class Battery: Module {
         self.checkHighNotification(value: value)
         self.popupView.usageCallback(value)
         
-        self.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
+        self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
             switch w.item {
-            case let widget as Mini: widget.setValue(abs(value.level))
-            case let widget as BarChart: widget.setValue([[ColorValue(value.level)]])
+            case let widget as Mini:
+                widget.setValue(abs(value.level))
+                widget.setColorZones((0.15, 0.3))
+            case let widget as BarChart:
+                widget.setValue([[ColorValue(value.level)]])
+                widget.setColorZones((0.15, 0.3))
             case let widget as BatterykWidget:
                 widget.setValue(
-                    percentage: value.level ,
+                    percentage: value.level,
                     ACStatus: value.powerSource != "Battery Power",
-                    isCharging: value.isCharging ,
+                    isCharging: value.isCharging,
+                    lowPowerMode: value.isLowPowerMode,
                     time: value.timeToEmpty == 0 && value.timeToCharge != 0 ? value.timeToCharge : value.timeToEmpty
                 )
             default: break
@@ -135,10 +157,17 @@ public class Battery: Module {
             return
         }
         
-        if (value.level > notificationLevel || value.powerSource != "Battery Power") && self.lowNotification != nil {
-            NSUserNotificationCenter.default.removeDeliveredNotification(self.lowNotification!)
+        if (value.level > notificationLevel || value.powerSource != "Battery Power") && self.lowLevelNotificationState {
             if value.level > notificationLevel {
-                self.lowNotification = nil
+                if let id = self.notificationID {
+                    if #available(macOS 10.14, *) {
+                        removeNotification(id)
+                    } else {
+                        removeNSNotification(id)
+                    }
+                    self.notificationID = nil
+                }
+                self.lowLevelNotificationState = false
             }
             return
         }
@@ -147,18 +176,26 @@ public class Battery: Module {
             return
         }
         
-        if value.level <= notificationLevel && self.lowNotification == nil {
+        if value.level <= notificationLevel && !self.lowLevelNotificationState {
+            let title = localizedString("Low battery")
             var subtitle = localizedString("Battery remaining", "\(Int(value.level*100))")
             if value.timeToEmpty > 0 {
                 subtitle += " (\(Double(value.timeToEmpty*60).printSecondsToHoursMinutesSeconds()))"
             }
             
-            self.lowNotification = showNotification(
-                title: localizedString("Low battery"),
-                subtitle: subtitle,
-                id: "battery-level",
-                icon: NSImage(named: NSImage.Name("low-battery"))!
-            )
+            if #available(macOS 10.14, *) {
+                self.notificationID = showNotification(
+                    title: title,
+                    subtitle: subtitle
+                )
+            } else {
+                self.notificationID = showNSNotification(
+                    title: title,
+                    subtitle: subtitle
+                )
+            }
+            
+            self.lowLevelNotificationState = true
         }
     }
     
@@ -172,10 +209,17 @@ public class Battery: Module {
             return
         }
         
-        if (value.level < notificationLevel || value.powerSource == "Battery Power") && self.highNotification != nil {
-            NSUserNotificationCenter.default.removeDeliveredNotification(self.highNotification!)
+        if (value.level < notificationLevel || value.powerSource == "Battery Power") && self.highLevelNotificationState {
             if value.level < notificationLevel {
-                self.highNotification = nil
+                if let id = self.notificationID {
+                    if #available(macOS 10.14, *) {
+                        removeNotification(id)
+                    } else {
+                        removeNSNotification(id)
+                    }
+                    self.notificationID = nil
+                }
+                self.highLevelNotificationState = false
             }
             return
         }
@@ -184,18 +228,26 @@ public class Battery: Module {
             return
         }
         
-        if value.level >= notificationLevel && self.highNotification == nil {
+        if value.level >= notificationLevel && !self.highLevelNotificationState {
+            let title = localizedString("High battery")
             var subtitle = localizedString("Battery remaining to full charge", "\(Int((1-value.level)*100))")
             if value.timeToCharge > 0 {
                 subtitle += " (\(Double(value.timeToCharge*60).printSecondsToHoursMinutesSeconds()))"
             }
             
-            self.highNotification = showNotification(
-                title: localizedString("High battery"),
-                subtitle: subtitle,
-                id: "battery-level2",
-                icon: NSImage(named: NSImage.Name("high-battery"))!
-            )
+            if #available(macOS 10.14, *) {
+                self.notificationID = showNotification(
+                    title: title,
+                    subtitle: subtitle
+                )
+            } else {
+                self.notificationID = showNSNotification(
+                    title: title,
+                    subtitle: subtitle
+                )
+            }
+            
+            self.highLevelNotificationState = true
         }
     }
 }

@@ -12,30 +12,46 @@
 import Cocoa
 import Kit
 
-internal class Settings: NSView, Settings_v {
+internal class Settings: NSStackView, Settings_v {
     private var updateIntervalValue: Int = 3
+    private var hidState: Bool
+    private var fanSpeedState: Bool = false
+    private var fansSyncState: Bool = false
+    private var unknownSensorsState: Bool = false
     
     private let title: String
     private var button: NSPopUpButton?
-    private let list: [Sensor_p]
+    private var list: [Sensor_p]
+    private var widgets: [widget_t] = []
     public var callback: (() -> Void) = {}
+    public var HIDcallback: (() -> Void) = {}
+    public var unknownCallback: (() -> Void) = {}
     public var setInterval: ((_ value: Int) -> Void) = {_ in }
     
     public init(_ title: String, list: [Sensor_p]) {
         self.title = title
         self.list = list
+        self.hidState = SystemKit.shared.device.platform == .m1 ? true : false
         
-        super.init(frame: CGRect(
-            x: 0,
-            y: 0,
-            width: Constants.Settings.width - (Constants.Settings.margin*2),
-            height: 0
-        ))
+        super.init(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
         
         self.wantsLayer = true
-        self.canDrawConcurrently = true
+        self.orientation = .vertical
+        self.distribution = .gravityAreas
+        self.translatesAutoresizingMaskIntoConstraints = false
+        self.edgeInsets = NSEdgeInsets(
+            top: Constants.Settings.margin,
+            left: Constants.Settings.margin,
+            bottom: Constants.Settings.margin,
+            right: Constants.Settings.margin
+        )
+        self.spacing = Constants.Settings.margin
         
         self.updateIntervalValue = Store.shared.int(key: "\(self.title)_updateInterval", defaultValue: self.updateIntervalValue)
+        self.hidState = Store.shared.bool(key: "\(self.title)_hid", defaultValue: self.hidState)
+        self.fanSpeedState = Store.shared.bool(key: "\(self.title)_speed", defaultValue: self.fanSpeedState)
+        self.fansSyncState = Store.shared.bool(key: "\(self.title)_fansSync", defaultValue: self.fansSyncState)
+        self.unknownSensorsState = Store.shared.bool(key: "\(self.title)_unknown", defaultValue: self.unknownSensorsState)
     }
     
     required init?(coder: NSCoder) {
@@ -48,6 +64,39 @@ internal class Settings: NSView, Settings_v {
         }
         self.subviews.forEach{ $0.removeFromSuperview() }
         
+        self.addArrangedSubview(selectSettingsRowV1(
+            title: localizedString("Update interval"),
+            action: #selector(changeUpdateInterval),
+            items: ReaderUpdateIntervals.map{ "\($0) sec" },
+            selected: "\(self.updateIntervalValue) sec"
+        ))
+        
+        self.addArrangedSubview(toggleSettingRow(
+            title: localizedString("Save the fan speed"),
+            action: #selector(toggleSpeedState),
+            state: self.fanSpeedState
+        ))
+        
+        self.addArrangedSubview(toggleSettingRow(
+            title: localizedString("Synchronize fan's control"),
+            action: #selector(toggleFansSync),
+            state: self.fansSyncState
+        ))
+        
+        if isARM {
+            self.addArrangedSubview(toggleSettingRow(
+                title: localizedString("HID sensors"),
+                action: #selector(toggleHID),
+                state: self.hidState
+            ))
+        }
+        
+        self.addArrangedSubview(toggleSettingRow(
+            title: localizedString("Show unknown sensors"),
+            action: #selector(toggleuUnknownSensors),
+            state: self.unknownSensorsState
+        ))
+        
         var types: [SensorType] = []
         self.list.forEach { (s: Sensor_p) in
             if !types.contains(s.type) {
@@ -55,28 +104,20 @@ internal class Settings: NSView, Settings_v {
             }
         }
         
-        let rowHeight: CGFloat = 30
-        let settingsHeight: CGFloat = (rowHeight*1) + Constants.Settings.margin
-        let sensorsListHeight: CGFloat = (rowHeight+Constants.Settings.margin) * CGFloat(self.list.count) + ((rowHeight+Constants.Settings.margin) * CGFloat(types.count) + 1)
-        let height: CGFloat = settingsHeight + sensorsListHeight
-        let x: CGFloat = height < 360 ? 0 : Constants.Settings.margin
-        let view: NSView = NSView(frame: NSRect(
-            x: Constants.Settings.margin,
-            y: Constants.Settings.margin,
-            width: self.frame.width - (Constants.Settings.margin*2) - x,
-            height: height
-        ))
-        
-        self.addSubview(selectTitleRow(
-            frame: NSRect(x: Constants.Settings.margin, y: height - rowHeight, width: view.frame.width, height: rowHeight),
-            title: localizedString("Update interval"),
-            action: #selector(changeUpdateInterval),
-            items: ReaderUpdateIntervals.map{ "\($0) sec" },
-            selected: "\(self.updateIntervalValue) sec"
-        ))
-        
-        var y: CGFloat = 0
-        types.reversed().forEach { (typ: SensorType) in
+        types.forEach { (typ: SensorType) in
+            let header = NSStackView()
+            header.heightAnchor.constraint(equalToConstant: Constants.Settings.row).isActive = true
+            header.spacing = 0
+            
+            let titleField: NSTextField = LabelField(frame: NSRect(x: 0, y: 0, width: 0, height: 0), localizedString(typ.rawValue))
+            titleField.font = NSFont.systemFont(ofSize: 13, weight: .medium)
+            titleField.textColor = .labelColor
+            
+            header.addArrangedSubview(titleField)
+            header.addArrangedSubview(NSView())
+            
+            self.addArrangedSubview(header)
+            
             let filtered = self.list.filter{ $0.type == typ }
             var groups: [SensorGroup] = []
             filtered.forEach { (s: Sensor_p) in
@@ -85,10 +126,19 @@ internal class Settings: NSView, Settings_v {
                 }
             }
             
-            groups.reversed().forEach { (group: SensorGroup) in
-                filtered.reversed().filter{ $0.group == group }.forEach { (s: Sensor_p) in
-                    let row: NSView = toggleTitleRow(
-                        frame: NSRect(x: 0, y: y, width: view.frame.width, height: rowHeight),
+            let container = NSStackView()
+            container.orientation = .vertical
+            container.edgeInsets = NSEdgeInsets(
+                top: 0,
+                left: Constants.Settings.margin,
+                bottom: 0,
+                right: Constants.Settings.margin
+            )
+            container.spacing = 0
+            
+            groups.forEach { (group: SensorGroup) in
+                filtered.filter{ $0.group == group }.forEach { (s: Sensor_p) in
+                    let row: NSView = toggleSettingRow(
                         title: s.name,
                         action: #selector(self.handleSelection),
                         state: s.state
@@ -96,37 +146,24 @@ internal class Settings: NSView, Settings_v {
                     row.subviews.filter{ $0 is NSControl }.forEach { (control: NSView) in
                         control.identifier = NSUserInterfaceItemIdentifier(rawValue: s.key)
                     }
-                    view.addSubview(row)
-                    y += rowHeight + Constants.Settings.margin
+                    container.addArrangedSubview(row)
                 }
             }
-            
-            let rowTitleView: NSView = NSView(frame: NSRect(x: 0, y: y, width: view.frame.width, height: rowHeight))
-            let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: (rowHeight-19)/2, width: view.frame.width, height: 19), localizedString(typ.rawValue))
-            rowTitle.font = NSFont.systemFont(ofSize: 14, weight: .regular)
-            rowTitle.textColor = .secondaryLabelColor
-            rowTitle.alignment = .center
-            rowTitleView.addSubview(rowTitle)
-            
-            view.addSubview(rowTitleView)
-            y += rowHeight + Constants.Settings.margin
+
+            self.addArrangedSubview(container)
         }
         
-        self.addSubview(view)
-        self.setFrameSize(NSSize(width: self.frame.width, height: height + (Constants.Settings.margin*1)))
+        self.widgets = widgets
+    }
+    
+    public func setList(list: [Sensor_p]) {
+        self.list = list
+        self.load(widgets: self.widgets)
     }
     
     @objc private func handleSelection(_ sender: NSControl) {
         guard let id = sender.identifier else { return }
-        
-        var state: NSControl.StateValue? = nil
-        if #available(OSX 10.15, *) {
-            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
-        } else {
-            state = sender is NSButton ? (sender as! NSButton).state: nil
-        }
-        
-        Store.shared.set(key: "sensor_\(id.rawValue)", value: state! == NSControl.StateValue.on)
+        Store.shared.set(key: "sensor_\(id.rawValue)", value: controlState(sender))
         self.callback()
     }
     
@@ -136,5 +173,28 @@ internal class Settings: NSView, Settings_v {
             Store.shared.set(key: "\(self.title)_updateInterval", value: value)
             self.setInterval(value)
         }
+    }
+    
+    @objc private func toggleSpeedState(_ sender: NSControl) {
+        self.fanSpeedState = controlState(sender)
+        Store.shared.set(key: "\(self.title)_speed", value: self.fanSpeedState)
+        self.callback()
+    }
+    
+    @objc func toggleHID(_ sender: NSControl) {
+        self.hidState = controlState(sender)
+        Store.shared.set(key: "\(self.title)_hid", value: self.hidState)
+        self.HIDcallback()
+    }
+    
+    @objc func toggleFansSync(_ sender: NSControl) {
+        self.fansSyncState = controlState(sender)
+        Store.shared.set(key: "\(self.title)_fansSync", value: self.fansSyncState)
+    }
+    
+    @objc func toggleuUnknownSensors(_ sender: NSControl) {
+        self.unknownSensorsState = controlState(sender)
+        Store.shared.set(key: "\(self.title)_unknown", value: self.unknownSensorsState)
+        self.unknownCallback()
     }
 }

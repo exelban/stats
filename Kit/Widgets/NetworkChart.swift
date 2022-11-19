@@ -15,34 +15,59 @@ public class NetworkChart: WidgetWrapper {
     private var boxState: Bool = false
     private var frameState: Bool = false
     private var labelState: Bool = false
-    private var monochromeState: Bool = false
+    private var historyCount: Int = 60
+    private var downloadColor: Color = .secondRed
+    private var uploadColor: Color = .secondBlue
+    private var scaleState: Scale = .linear
+    private var commonScaleState: Bool = true
     
     private var chart: NetworkChartView = NetworkChartView(
-        frame: NSRect(
-            x: 0,
-            y: 0,
-            width: 34,
-            height: Constants.Widget.height - (2*Constants.Widget.margin.y)
-        ),
+        frame: NSRect(x: 0, y: 0, width: 30, height: Constants.Widget.height - (2*Constants.Widget.margin.y)),
         num: 60, minMax: false
     )
-    private let width: CGFloat = 34
+    private var width: CGFloat {
+        get {
+            switch self.historyCount {
+            case 30:
+                return 22
+            case 60:
+                return 30
+            case 90:
+                return 40
+            case 120:
+                return 50
+            default:
+                return 30
+            }
+        }
+    }
+    
+    private var historyNumbers: [KeyValue_p] = [
+        KeyValue_t(key: "30", value: "30"),
+        KeyValue_t(key: "60", value: "60"),
+        KeyValue_t(key: "90", value: "90"),
+        KeyValue_t(key: "120", value: "120")
+    ]
+    private var colors: [Color] = Color.allCases
     
     private var boxSettingsView: NSView? = nil
     private var frameSettingsView: NSView? = nil
     
     public init(title: String, config: NSDictionary?, preview: Bool = false) {
         var widgetTitle: String = title
-        if config != nil {
-            if let titleFromConfig = config!["Title"] as? String {
+        if let config = config {
+            if let titleFromConfig = config["Title"] as? String {
                 widgetTitle = titleFromConfig
+            }
+            if let unsupportedColors = config["Unsupported colors"] as? [String] {
+                self.colors = self.colors.filter{ !unsupportedColors.contains($0.key) }
             }
         }
         
         super.init(.networkChart, title: widgetTitle, frame: CGRect(
             x: Constants.Widget.margin.x,
             y: Constants.Widget.margin.y,
-            width: self.width + (2*Constants.Widget.margin.x),
+            width: 30 + (2*Constants.Widget.margin.x),
             height: Constants.Widget.height - (2*Constants.Widget.margin.y)
         ))
         
@@ -52,9 +77,18 @@ public class NetworkChart: WidgetWrapper {
             self.boxState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_box", defaultValue: self.boxState)
             self.frameState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_frame", defaultValue: self.frameState)
             self.labelState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_label", defaultValue: self.labelState)
-            self.monochromeState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_monochrome", defaultValue: self.monochromeState)
+            self.historyCount = Store.shared.int(key: "\(self.title)_\(self.type.rawValue)_historyCount", defaultValue: self.historyCount)
+            self.downloadColor = Color.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_downloadColor", defaultValue: self.downloadColor.key))
+            self.uploadColor = Color.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_uploadColor", defaultValue: self.uploadColor.key))
+            self.scaleState = Scale.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_scale", defaultValue: self.scaleState.key))
+            self.commonScaleState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_commonScale", defaultValue: self.commonScaleState)
             
-            self.chart.monohorome = self.monochromeState
+            if let downloadColor =  self.downloadColor.additional as? NSColor,
+               let uploadColor = self.uploadColor.additional as? NSColor {
+                self.chart.setColors(in: downloadColor, out: uploadColor)
+            }
+            self.chart.setScale(self.scaleState, self.commonScaleState)
+            self.chart.reinit(self.historyCount)
         }
         
         if preview {
@@ -79,7 +113,7 @@ public class NetworkChart: WidgetWrapper {
         let offset = lineWidth / 2
         let boxSize: CGSize = CGSize(width: self.width - (Constants.Widget.margin.x*2), height: self.frame.size.height)
         var x: CGFloat = 0
-        var width: CGFloat = self.width
+        var width = self.width + (Constants.Widget.margin.x*2)
         
         if self.labelState {
             let style = NSMutableParagraphStyle()
@@ -108,7 +142,7 @@ public class NetworkChart: WidgetWrapper {
         let box = NSBezierPath(roundedRect: NSRect(
             x: x + offset,
             y: offset,
-            width: boxSize.width - (offset*2),
+            width: self.width - offset*2,
             height: boxSize.height - (offset*2)
         ), xRadius: 2, yRadius: 2)
         
@@ -120,12 +154,14 @@ public class NetworkChart: WidgetWrapper {
         
         context.saveGState()
         
-        self.chart.draw(NSRect(
-            x: x+offset,
-            y: 1,
-            width: box.bounds.width - 1 - offset,
-            height: box.bounds.height - ((box.bounds.origin.y + lineWidth)*2)
-        ))
+        let chartFrame = NSRect(
+            x: x+offset+lineWidth,
+            y: offset,
+            width: box.bounds.width - (offset*2+lineWidth),
+            height: box.bounds.height - offset
+        )
+        self.chart.setFrameSize(NSSize(width: chartFrame.width, height: chartFrame.height))
+        self.chart.draw(chartFrame)
         
         context.restoreGState()
         
@@ -147,37 +183,61 @@ public class NetworkChart: WidgetWrapper {
     
     // MARK: - Settings
     
-    public override func settings(width: CGFloat) -> NSView {
-        let view = SettingsContainerView(width: width)
+    public override func settings() -> NSView {
+        let view = SettingsContainerView()
         
-        view.addArrangedSubview(toggleTitleRow(
-            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
+        view.addArrangedSubview(toggleSettingRow(
             title: localizedString("Label"),
             action: #selector(toggleLabel),
             state: self.labelState
         ))
         
-        self.boxSettingsView = toggleTitleRow(
-            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
+        self.boxSettingsView = toggleSettingRow(
             title: localizedString("Box"),
             action: #selector(toggleBox),
             state: self.boxState
         )
         view.addArrangedSubview(self.boxSettingsView!)
         
-        self.frameSettingsView = toggleTitleRow(
-            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
+        self.frameSettingsView = toggleSettingRow(
             title: localizedString("Frame"),
             action: #selector(toggleFrame),
             state: self.frameState
         )
         view.addArrangedSubview(self.frameSettingsView!)
         
-        view.addArrangedSubview(toggleTitleRow(
-            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
-            title: localizedString("Monochrome accent"),
-            action: #selector(toggleMonochrome),
-            state: self.monochromeState
+        view.addArrangedSubview(selectSettingsRow(
+            title: localizedString("Color of download"),
+            action: #selector(toggleDownloadColor),
+            items: self.colors,
+            selected: self.downloadColor.key
+        ))
+        
+        view.addArrangedSubview(selectSettingsRow(
+            title: localizedString("Color of upload"),
+            action: #selector(toggleUploadColor),
+            items: self.colors,
+            selected: self.uploadColor.key
+        ))
+        
+        view.addArrangedSubview(selectSettingsRow(
+            title: localizedString("Number of reads in the chart"),
+            action: #selector(toggleHistoryCount),
+            items: self.historyNumbers,
+            selected: "\(self.historyCount)"
+        ))
+        
+        view.addArrangedSubview(selectSettingsRow(
+            title: localizedString("Scaling"),
+            action: #selector(toggleScale),
+            items: Scale.allCases.filter({ $0 != .none && $0 != .separator }),
+            selected: self.scaleState.key
+        ))
+        
+        view.addArrangedSubview(toggleSettingRow(
+            title: localizedString("Common scale"),
+            action: #selector(toggleCommonScale),
+            state: self.commonScaleState
         ))
         
         return view
@@ -233,7 +293,60 @@ public class NetworkChart: WidgetWrapper {
         self.display()
     }
     
-    @objc private func toggleMonochrome(_ sender: NSControl) {
+    @objc private func toggleHistoryCount(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String, let value = Int(key) else {
+            return
+        }
+        self.historyCount = value
+        
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_historyCount", value: value)
+        self.chart.reinit(value)
+        self.display()
+    }
+    
+    @objc private func toggleDownloadColor(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String else {
+            return
+        }
+        if let newColor = Color.allCases.first(where: { $0.key == key }) {
+            self.downloadColor = newColor
+            Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_downloadColor", value: newColor.key)
+        }
+        
+        if let downloadColor =  self.downloadColor.additional as? NSColor  {
+            self.chart.setColors(in: downloadColor)
+        }
+        self.display()
+    }
+    
+    @objc private func toggleUploadColor(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String else {
+            return
+        }
+        if let newColor = Color.allCases.first(where: { $0.key == key }) {
+            self.uploadColor = newColor
+            Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_uploadColor", value: newColor.key)
+        }
+        
+        if let uploadColor = self.uploadColor.additional as? NSColor {
+            self.chart.setColors(out: uploadColor)
+        }
+        self.display()
+    }
+    
+    @objc private func toggleScale(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String else {
+            return
+        }
+        guard let value = Scale.allCases.first(where: { $0.key == key }) else { return }
+        
+        self.scaleState = value
+        self.chart.setScale(value, self.commonScaleState)
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_scale", value: key)
+        self.display()
+    }
+    
+    @objc private func toggleCommonScale(_ sender: NSControl) {
         var state: NSControl.StateValue? = nil
         if #available(OSX 10.15, *) {
             state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
@@ -241,10 +354,9 @@ public class NetworkChart: WidgetWrapper {
             state = sender is NSButton ? (sender as! NSButton).state: nil
         }
         
-        self.monochromeState = state! == .on ? true : false
-        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_monochrome", value: self.monochromeState)
-        
-        self.chart.monohorome = self.monochromeState
+        self.commonScaleState = state! == .on ? true : false
+        self.chart.setScale(self.scaleState, self.commonScaleState)
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_commonScale", value: self.commonScaleState)
         self.display()
     }
 }

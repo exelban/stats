@@ -13,27 +13,42 @@ import Cocoa
 import Kit
 import SystemConfiguration
 
-internal class Settings: NSStackView, Settings_v {
+internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
     private var numberOfProcesses: Int = 8
     private var readerType: String = "interface"
     private var usageReset: String = AppUpdateInterval.atStart.rawValue
+    private var VPNModeState: Bool = false
+    private var widgetActivationThreshold: Int = 0
+    private var ICMPHost: String = "1.1.1.1"
     
     public var callback: (() -> Void) = {}
     public var callbackWhenUpdateNumberOfProcesses: (() -> Void) = {}
     public var usageResetCallback: (() -> Void) = {}
+    public var ICMPHostCallback: ((_ newState: Bool) -> Void) = { _ in }
     
     private let title: String
     private var button: NSPopUpButton?
+    private var valueField: NSTextField?
     
     private var list: [Network_interface] = []
+    
+    private var vpnConnection: Bool {
+        if let settings = CFNetworkCopySystemProxySettings()?.takeRetainedValue() as? [String: Any], let scopes = settings["__SCOPED__"] as? [String: Any] {
+            return !scopes.filter({ $0.key.contains("tap") || $0.key.contains("tun") || $0.key.contains("ppp") || $0.key.contains("ipsec") || $0.key.contains("ipsec0")}).isEmpty
+        }
+        return false
+    }
     
     public init(_ title: String) {
         self.title = title
         self.numberOfProcesses = Store.shared.int(key: "\(self.title)_processes", defaultValue: self.numberOfProcesses)
         self.readerType = Store.shared.string(key: "\(self.title)_reader", defaultValue: self.readerType)
         self.usageReset = Store.shared.string(key: "\(self.title)_usageReset", defaultValue: self.usageReset)
+        self.VPNModeState = Store.shared.bool(key: "\(self.title)_VPNMode", defaultValue: self.VPNModeState)
+        self.widgetActivationThreshold = Store.shared.int(key: "\(self.title)_widgetActivationThreshold", defaultValue: self.widgetActivationThreshold)
+        self.ICMPHost = Store.shared.string(key: "\(self.title)_ICMPHost", defaultValue: self.ICMPHost)
         
-        super.init(frame: NSRect(x: 0, y: 0, width: Constants.Settings.width - (Constants.Settings.margin*2), height: 0))
+        super.init(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
         
         for interface in SCNetworkInterfaceCopyAll() as NSArray {
             if  let bsdName = SCNetworkInterfaceGetBSDName(interface as! SCNetworkInterface),
@@ -60,55 +75,66 @@ internal class Settings: NSStackView, Settings_v {
     public func load(widgets: [widget_t]) {
         self.subviews.forEach{ $0.removeFromSuperview() }
         
-        let width: CGFloat = self.frame.width - (Constants.Settings.margin*2)
+        self.addArrangedSubview(self.activationSlider())
         
-        self.addArrangedSubview(selectTitleRow(
-            frame: NSRect(x: 0, y: 0, width: width, height: Constants.Settings.row),
+        self.addArrangedSubview(selectSettingsRowV1(
             title: localizedString("Number of top processes"),
             action: #selector(changeNumberOfProcesses),
             items: NumbersOfProcesses.map{ "\($0)" },
             selected: "\(self.numberOfProcesses)"
         ))
         
-        self.addArrangedSubview(selectRow(
-            frame: NSRect(x: 0, y: 0, width: width, height: Constants.Settings.row),
+        self.addArrangedSubview(selectSettingsRow(
+            title: localizedString("Reset data usage"),
+            action: #selector(toggleUsageReset),
+            items: AppUpdateIntervals.dropLast(2).filter({ $0.key != "Silent" }),
+            selected: self.usageReset
+        ))
+        
+        self.addArrangedSubview(selectSettingsRow(
             title: localizedString("Reader type"),
             action: #selector(changeReaderType),
             items: NetworkReaders,
             selected: self.readerType
         ))
         
-        self.addArrangedSubview(selectRow(
-            frame: NSRect(x: 0, y: 0, width: width, height: Constants.Settings.row),
-            title: localizedString("Reset data usage"),
-            action: #selector(toggleUsageReset),
-            items: AppUpdateIntervals.dropLast(2),
-            selected: self.usageReset
-        ))
+        self.addArrangedSubview(self.interfaceSelector())
         
-        self.addInterfaceSelector()
-        
-        let h = self.arrangedSubviews.map({ $0.bounds.height + self.spacing }).reduce(0, +) - self.spacing + self.edgeInsets.top + self.edgeInsets.bottom
-        if self.frame.size.height != h {
-            self.setFrameSize(NSSize(width: self.bounds.width, height: h))
+        if self.vpnConnection {
+            self.addArrangedSubview(toggleSettingRow(
+                title: localizedString("VPN mode"),
+                action: #selector(toggleVPNMode),
+                state: self.VPNModeState
+            ))
         }
+        
+        self.addArrangedSubview(self.connectivityHost())
     }
     
-    private func addInterfaceSelector() {
-        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 30))
+    private func interfaceSelector() -> NSView {
+        let view = NSStackView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.heightAnchor.constraint(equalToConstant: Constants.Settings.row).isActive = true
+        view.orientation = .horizontal
+        view.alignment = .centerY
+        view.distribution = .fill
+        view.spacing = 0
         
-        let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: (view.frame.height - 16)/2, width: view.frame.width - 52, height: 17), localizedString("Network interface"))
-        rowTitle.font = NSFont.systemFont(ofSize: 13, weight: .light)
-        rowTitle.textColor = .textColor
+        let titleField: NSTextField = LabelField(frame: NSRect(x: 0, y: 0, width: 0, height: 0), localizedString("Network interface"))
+        titleField.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+        titleField.textColor = .textColor
         
-        self.button = NSPopUpButton(frame: NSRect(x: view.frame.width - 200 - Constants.Settings.margin*2, y: 0, width: 200, height: 26))
-        self.button?.target = self
-        self.button?.action = #selector(self.handleSelection)
-        self.button?.isEnabled = self.readerType == "interface"
+        let select: NSPopUpButton = NSPopUpButton()
+        select.target = self
+        select.action = #selector(self.handleSelection)
+        select.isEnabled = self.readerType == "interface"
+        self.button = select
         
         let selectedInterface = Store.shared.string(key: "\(self.title)_interface", defaultValue: "")
         let menu = NSMenu()
-        let autodetection = NSMenuItem(title: "Autodetection", action: nil, keyEquivalent: "")
+        let autodetection = NSMenuItem(title: localizedString("Autodetection"), action: nil, keyEquivalent: "")
+        autodetection.identifier = NSUserInterfaceItemIdentifier(rawValue: "autodetection")
+        autodetection.tag = 128
         menu.addItem(autodetection)
         menu.addItem(NSMenuItem.separator())
         
@@ -121,22 +147,113 @@ internal class Settings: NSStackView, Settings_v {
             }
         }
         
-        self.button?.menu = menu
+        select.menu = menu
+        select.sizeToFit()
         
         if selectedInterface == "" {
-            self.button?.selectItem(withTitle: "Autodetection")
+            select.selectItem(withTag: 128)
         }
         
-        view.addSubview(rowTitle)
-        view.addSubview(self.button!)
+        view.addArrangedSubview(titleField)
+        view.addArrangedSubview(NSView())
+        view.addArrangedSubview(select)
         
-        self.addArrangedSubview(view)
+        return view
+    }
+    
+    func activationSlider() -> NSView {
+        let view: NSStackView = NSStackView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.heightAnchor.constraint(equalToConstant: Constants.Settings.row * 1.5).isActive = true
+        view.orientation = .horizontal
+        view.alignment = .centerY
+        view.distribution = .fill
+        view.spacing = 0
+        
+        let titleField: NSTextField = LabelField(frame: NSRect(x: 0, y: 0, width: 0, height: 0), localizedString("Widget activation threshold"))
+        titleField.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+        titleField.textColor = .textColor
+        
+        let container = NSStackView()
+        container.spacing = 0
+        container.orientation = .vertical
+        container.alignment = .centerX
+        container.distribution = .fillEqually
+        
+        var value = localizedString("Disabled")
+        if self.widgetActivationThreshold != 0 {
+            value = "\(self.widgetActivationThreshold) KB"
+        }
+        
+        let valueField: NSTextField = LabelField(frame: NSRect(x: 0, y: 0, width: 0, height: 0), value)
+        valueField.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+        valueField.textColor = .textColor
+        self.valueField = valueField
+        
+        let slider = NSSlider()
+        slider.minValue = 0
+        slider.maxValue = 1024
+        slider.doubleValue = Double(self.widgetActivationThreshold)
+        slider.target = self
+        slider.isContinuous = true
+        slider.action = #selector(self.sliderCallback)
+        slider.sizeToFit()
+        
+        container.addArrangedSubview(valueField)
+        container.addArrangedSubview(slider)
+        
+        view.addArrangedSubview(titleField)
+        view.addArrangedSubview(NSView())
+        view.addArrangedSubview(container)
+        
+        container.widthAnchor.constraint(equalToConstant: 180).isActive = true
+        container.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
+        
+        return view
+    }
+    
+    func connectivityHost() -> NSView {
+        let view: NSStackView = NSStackView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.heightAnchor.constraint(equalToConstant: Constants.Settings.row).isActive = true
+        view.orientation = .horizontal
+        view.alignment = .centerY
+        view.distribution = .fill
+        view.spacing = 0
+        
+        let titleField: NSTextField = LabelField(frame: NSRect(x: 0, y: 0, width: 0, height: 0), localizedString("Connectivity host (ICMP)"))
+        titleField.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+        titleField.textColor = .textColor
+        
+        let valueField: NSTextField = NSTextField()
+        valueField.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+        valueField.textColor = .textColor
+        valueField.isEditable = true
+        valueField.isSelectable = true
+        valueField.isBezeled = false
+        valueField.wantsLayer = true
+        valueField.canDrawSubviewsIntoLayer = true
+        valueField.usesSingleLineMode = true
+        valueField.maximumNumberOfLines = 1
+        valueField.focusRingType = .none
+        valueField.delegate = self
+        valueField.stringValue = self.ICMPHost
+        valueField.placeholderString = localizedString("Leave empty to disable the check")
+        valueField.alignment = .natural
+        
+        view.addArrangedSubview(titleField)
+        view.addArrangedSubview(NSView())
+        view.addArrangedSubview(valueField)
+        
+        valueField.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        
+        return view
     }
     
     @objc func handleSelection(_ sender: NSPopUpButton) {
-        guard let item = sender.selectedItem else { return }
+        guard let item = sender.selectedItem, let id = item.identifier?.rawValue else { return }
         
-        if item.title == "Autodetection" {
+        if id == "autodetection" {
             Store.shared.remove("\(self.title)_interface")
         } else {
             if let bsdName = item.identifier?.rawValue {
@@ -162,6 +279,8 @@ internal class Settings: NSStackView, Settings_v {
         self.readerType = key
         Store.shared.set(key: "\(self.title)_reader", value: key)
         self.button?.isEnabled = self.readerType == "interface"
+        
+        NotificationCenter.default.post(name: .resetTotalNetworkUsage, object: nil, userInfo: nil)
     }
     
     @objc private func toggleUsageReset(_ sender: NSMenuItem) {
@@ -171,5 +290,38 @@ internal class Settings: NSStackView, Settings_v {
         self.usageReset = key
         Store.shared.set(key: "\(self.title)_usageReset", value: key)
         self.usageResetCallback()
+    }
+    
+    @objc func toggleVPNMode(_ sender: NSControl) {
+        var state: NSControl.StateValue? = nil
+        if #available(OSX 10.15, *) {
+            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
+        } else {
+            state = sender is NSButton ? (sender as! NSButton).state: nil
+        }
+        
+        self.VPNModeState = state! == .on ? true : false
+        Store.shared.set(key: "\(self.title)_VPNMode", value: self.VPNModeState)
+    }
+    
+    @objc private func sliderCallback(_ sender: NSSlider) {
+        guard let valueField = self.valueField else { return }
+        
+        let value = Int(sender.doubleValue)
+        if value == 0 {
+            valueField.stringValue = localizedString("Disabled")
+        } else {
+            valueField.stringValue = "\(value) KB"
+        }
+        self.widgetActivationThreshold = value
+        Store.shared.set(key: "\(self.title)_widgetActivationThreshold", value: widgetActivationThreshold)
+    }
+    
+    func controlTextDidChange(_ notification: Notification) {
+        if let textField = notification.object as? NSTextField {
+            self.ICMPHost = textField.stringValue
+            Store.shared.set(key: "\(self.title)_ICMPHost", value: self.ICMPHost)
+            self.ICMPHostCallback(self.ICMPHost.isEmpty)
+        }
     }
 }

@@ -51,13 +51,14 @@
 			<key>Preview</key>
 			<dict>
 				<key>Value</key>
-				<string>0.36,0.28,0.32,0.26</string>
+				<string>0.58</string>
 				<key>Color</key>
 				<true/>
 			</dict>
 			<key>Unsupported colors</key>
 			<array>
 				<string>pressure</string>
+				<string>cluster</string>
 			</array>
 			<key>Order</key>
 			<integer>3</integer>

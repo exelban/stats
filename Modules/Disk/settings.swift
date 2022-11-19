@@ -12,9 +12,10 @@
 import Cocoa
 import Kit
 
-internal class Settings: NSView, Settings_v {
+internal class Settings: NSStackView, Settings_v {
     private var removableState: Bool = false
     private var updateIntervalValue: Int = 10
+    private var notificationLevel: String = "Disabled"
     
     public var selectedDiskHandler: (String) -> Void = {_ in }
     public var callback: (() -> Void) = {}
@@ -25,21 +26,27 @@ internal class Settings: NSView, Settings_v {
     private var button: NSPopUpButton?
     private var intervalSelectView: NSView? = nil
     
+    private var list: [String] = []
+    
     public init(_ title: String) {
         self.title = title
         self.selectedDisk = Store.shared.string(key: "\(self.title)_disk", defaultValue: "")
         self.removableState = Store.shared.bool(key: "\(self.title)_removable", defaultValue: self.removableState)
         self.updateIntervalValue = Store.shared.int(key: "\(self.title)_updateInterval", defaultValue: self.updateIntervalValue)
+        self.notificationLevel = Store.shared.string(key: "\(self.title)_notificationLevel", defaultValue: self.notificationLevel)
         
-        super.init(frame: CGRect(
-            x: 0,
-            y: 0,
-            width: Constants.Settings.width - (Constants.Settings.margin*2),
-            height: 0
-        ))
+        super.init(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
         
         self.wantsLayer = true
-        self.canDrawConcurrently = true
+        self.orientation = .vertical
+        self.distribution = .gravityAreas
+        self.edgeInsets = NSEdgeInsets(
+            top: Constants.Settings.margin,
+            left: Constants.Settings.margin,
+            bottom: Constants.Settings.margin,
+            right: Constants.Settings.margin
+        )
+        self.spacing = Constants.Settings.margin
     }
     
     required init?(coder: NSCoder) {
@@ -49,60 +56,53 @@ internal class Settings: NSView, Settings_v {
     public func load(widgets: [widget_t]) {
         self.subviews.forEach{ $0.removeFromSuperview() }
         
-        let rowHeight: CGFloat = 30
-        let num: CGFloat = 3
-        
-        self.intervalSelectView = selectTitleRow(
-            frame: NSRect(
-                x: Constants.Settings.margin,
-                y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * 2,
-                width: self.frame.width - (Constants.Settings.margin*2),
-                height: rowHeight
-            ),
+        self.intervalSelectView = selectSettingsRowV1(
             title: localizedString("Update interval"),
             action: #selector(changeUpdateInterval),
             items: ReaderUpdateIntervals.map{ "\($0) sec" },
             selected: "\(self.updateIntervalValue) sec"
         )
-            self.addSubview(self.intervalSelectView!)
+        self.addArrangedSubview(self.intervalSelectView!)
         
         self.addDiskSelector()
         
-        self.addSubview(toggleTitleRow(
-            frame: NSRect(
-                x: Constants.Settings.margin,
-                y: Constants.Settings.margin + (rowHeight + Constants.Settings.margin) * 0,
-                width: self.frame.width - (Constants.Settings.margin*2),
-                height: rowHeight
-            ),
+        self.addArrangedSubview(toggleSettingRow(
             title: localizedString("Show removable disks"),
             action: #selector(toggleRemovable),
             state: self.removableState
         ))
         
-        self.setFrameSize(NSSize(width: self.frame.width, height: rowHeight*num + (Constants.Settings.margin*(num+1))))
+        self.addArrangedSubview(selectSettingsRow(
+            title: localizedString("Notification level"),
+            action: #selector(changeNotificationLevel),
+            items: notificationLevels,
+            selected: self.notificationLevel == "Disabled" ? self.notificationLevel : "\(Int((Double(self.notificationLevel) ?? 0)*100))%"
+        ))
     }
     
     private func addDiskSelector() {
-        let view: NSView = NSView(frame: NSRect(
-            x: Constants.Settings.margin,
-            y: Constants.Settings.margin*2 + 30,
-            width: self.frame.width - Constants.Settings.margin*2,
-            height: 30
-        ))
+        let view: NSStackView = NSStackView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.heightAnchor.constraint(equalToConstant: Constants.Settings.row).isActive = true
+        view.orientation = .horizontal
+        view.alignment = .centerY
+        view.distribution = .fill
+        view.spacing = 0
         
-        let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: (view.frame.height - 16)/2, width: view.frame.width - 52, height: 17), localizedString("Disk to show"))
+        let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: 0, width: 0, height: 17), localizedString("Disk to show"))
         rowTitle.font = NSFont.systemFont(ofSize: 13, weight: .light)
         rowTitle.textColor = .textColor
         
-        self.button = NSPopUpButton(frame: NSRect(x: view.frame.width - 140, y: -1, width: 140, height: 30))
+        self.button = NSPopUpButton(frame: NSRect(x: 0, y: 0, width: 0, height: 30))
         self.button!.target = self
         self.button?.action = #selector(self.handleSelection)
+        self.button?.addItems(withTitles: list)
         
-        view.addSubview(rowTitle)
-        view.addSubview(self.button!)
+        view.addArrangedSubview(rowTitle)
+        view.addArrangedSubview(NSView())
+        view.addArrangedSubview(self.button!)
         
-        self.addSubview(view)
+        self.addArrangedSubview(view)
     }
     
     internal func setList(_ list: Disks) {
@@ -114,6 +114,7 @@ internal class Settings: NSView, Settings_v {
             
             if disks != self.button?.itemTitles {
                 self.button?.addItems(withTitles: disks)
+                self.list = disks
                 if self.selectedDisk != "" {
                     self.button?.selectItem(withTitle: self.selectedDisk)
                 }
@@ -144,6 +145,16 @@ internal class Settings: NSView, Settings_v {
     @objc private func changeUpdateInterval(_ sender: NSMenuItem) {
         if let value = Int(sender.title.replacingOccurrences(of: " sec", with: "")) {
             self.setUpdateInterval(value: value)
+        }
+    }
+    
+    @objc func changeNotificationLevel(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String else { return }
+        
+        if key == "Disabled" {
+            Store.shared.set(key: "\(self.title)_notificationLevel", value: key)
+        } else if let value = Double(key.replacingOccurrences(of: "%", with: "")) {
+            Store.shared.set(key: "\(self.title)_notificationLevel", value: "\(value/100)")
         }
     }
     

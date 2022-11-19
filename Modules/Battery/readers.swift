@@ -39,6 +39,10 @@ internal class UsageReader: Reader<Battery_Usage> {
         CFRunLoopAddSource(self.loop, source, .defaultMode)
         
         self.read()
+        
+        if #available(macOS 12.0, *) {
+            NotificationCenter.default.addObserver(self, selector: #selector(self.lowModeChanged), name: Notification.Name.NSProcessInfoPowerStateDidChange, object: nil)
+        }
     }
     
     public override func stop() {
@@ -48,6 +52,10 @@ internal class UsageReader: Reader<Battery_Usage> {
         
         self.active = false
         CFRunLoopRemoveSource(runLoop, source, .defaultMode)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     public override func read() {
@@ -63,6 +71,9 @@ internal class UsageReader: Reader<Battery_Usage> {
                 self.usage.powerSource = list[kIOPSPowerSourceStateKey] as? String ?? "AC Power"
                 self.usage.isCharged = list[kIOPSIsChargedKey] as? Bool ?? false
                 self.usage.isCharging = self.getBoolValue("IsCharging" as CFString) ?? false
+                if #available(macOS 12.0, *) {
+                    self.usage.isLowPowerMode = ProcessInfo.processInfo.isLowPowerModeEnabled
+                }
                 self.usage.level = Double(list[kIOPSCurrentCapacityKey] as? Int ?? 0) / 100
                 
                 if let time = list[kIOPSTimeToEmptyKey] as? Int {
@@ -78,15 +89,12 @@ internal class UsageReader: Reader<Battery_Usage> {
                 
                 self.usage.cycles = self.getIntValue("CycleCount" as CFString) ?? 0
                 
-                var maxCapacity: Int = 1
-                let designCapacity: Int = self.getIntValue("DesignCapacity" as CFString) ?? 1
-                #if arch(x86_64)
-                maxCapacity = self.getIntValue("MaxCapacity" as CFString) ?? 1
-                self.usage.state = list[kIOPSBatteryHealthKey] as? String
-                #else
-                maxCapacity = self.getIntValue("AppleRawMaxCapacity" as CFString) ?? 1
-                #endif
-                self.usage.health = (100 * maxCapacity) / designCapacity
+                self.usage.designedCapacity = self.getIntValue("DesignCapacity" as CFString) ?? 1
+                self.usage.maxCapacity = self.getIntValue((isARM ? "AppleRawMaxCapacity" : "MaxCapacity") as CFString) ?? 1
+                if !isARM {
+                    self.usage.state = list[kIOPSBatteryHealthKey] as? String
+                }
+                self.usage.health = Int((Double(100 * self.usage.maxCapacity) / Double(self.usage.designedCapacity)).rounded(.toNearestOrEven))
                 
                 self.usage.amperage = self.getIntValue("Amperage" as CFString) ?? 0
                 self.usage.voltage = self.getVoltage() ?? 0
@@ -142,98 +150,84 @@ internal class UsageReader: Reader<Battery_Usage> {
         }
         return nil
     }
+    
+    @objc private func lowModeChanged() {
+        if #available(macOS 12.0, *) {
+            self.usage.isLowPowerMode = ProcessInfo.processInfo.isLowPowerModeEnabled
+            self.callback(self.usage)
+        }
+    }
 }
 
 public class ProcessReader: Reader<[TopProcess]> {
-    private let title: String = "Battery"
-    
-    private var task: Process = Process()
-    private var initialized: Bool = false
-    private var paused: Bool = false
-    private var initRead: Bool = false
-    
     private var numberOfProcesses: Int {
         get {
-            return Store.shared.int(key: "\(self.title)_processes", defaultValue: 8)
+            return Store.shared.int(key: "Battery_processes", defaultValue: 8)
         }
     }
     
     public override func setup() {
         self.popup = true
-        
-        let pipe = Pipe()
-        
-        self.task.standardOutput = pipe
-        self.task.launchPath = "/usr/bin/top"
-        self.task.arguments = ["-o", "power", "-n", "\(self.numberOfProcesses)", "-stats", "pid,command,power"]
-        
-        pipe.fileHandleForReading.readabilityHandler = { (fileHandle) -> Void in
-            let output = String(decoding: fileHandle.availableData, as: UTF8.self)
-            var processes: [TopProcess] = []
-            
-            output.enumerateLines { (line, _) -> Void in
-                if line.matches("^\\d* +.+ \\d*.?\\d*$") {
-                    var str = line.trimmingCharacters(in: .whitespaces)
-                    
-                    let pidString = str.findAndCrop(pattern: "^\\d+")
-                    let usageString = str.findAndCrop(pattern: " +[0-9]+.*[0-9]*$")
-                    let command = str.trimmingCharacters(in: .whitespaces)
-                    
-                    let pid = Int(pidString) ?? 0
-                    guard let usage = Double(usageString.filter("01234567890.".contains)) else {
-                        return
-                    }
-                    
-                    var name: String? = nil
-                    var icon: NSImage? = nil
-                    if let app = NSRunningApplication(processIdentifier: pid_t(pid) ) {
-                        name = app.localizedName ?? nil
-                        icon = app.icon
-                    }
-                    
-                    processes.append(TopProcess(pid: pid, command: command, name: name, usage: usage, icon: icon))
-                }
-            }
-            
-            if !processes.isEmpty {
-                self.callback(processes.prefix(self.numberOfProcesses).reversed().reversed())
-            }
-            
-            if !self.initRead {
-                self.pause()
-                self.initRead = true
-            }
-        }
     }
     
-    public override func start() {
-        if !self.initialized {
-            self.task.launch()
-            self.initialized = true
+    public override func read() {
+        if self.numberOfProcesses == 0 {
             return
         }
         
-        self.initRead = true
-        if !self.task.isRunning {
-            do {
-                try self.task.run()
-            } catch let error {
-                debug("run Battery process reader \(error)", log: self.log)
+        let task = Process()
+        task.launchPath = "/bin/ps"
+        task.launchPath = "/usr/bin/top"
+        task.arguments = ["-o", "power", "-l", "2", "-n", "\(self.numberOfProcesses)", "-stats", "pid,command,power"]
+        
+        let outputPipe = Pipe()
+        defer {
+            outputPipe.fileHandleForReading.closeFile()
+        }
+        task.standardOutput = outputPipe
+        
+        do {
+            try task.run()
+        } catch let err {
+            error("error read ps: \(err.localizedDescription)", log: self.log)
+            return
+        }
+        
+        let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
+        if outputData.isEmpty {
+            return
+        }
+        
+        let output = String(decoding: outputData.advanced(by: outputData.count/2), as: UTF8.self)
+        if output.isEmpty {
+            return
+        }
+        
+        var processes: [TopProcess] = []
+        output.enumerateLines { (line, _) -> Void in
+            if line.matches("^\\d+ *[^(\\d)]*\\d+\\.*\\d* *$") {
+                var str = line.trimmingCharacters(in: .whitespaces)
+                
+                let pidString = str.findAndCrop(pattern: "^\\d+")
+                let usageString = str.findAndCrop(pattern: " +[0-9]+.*[0-9]*$")
+                let command = str.trimmingCharacters(in: .whitespaces)
+                
+                let pid = Int(pidString) ?? 0
+                guard let usage = Double(usageString.filter("01234567890.".contains)) else {
+                    return
+                }
+                
+                var name: String? = nil
+                var icon: NSImage? = nil
+                if let app = NSRunningApplication(processIdentifier: pid_t(pid) ) {
+                    name = app.localizedName ?? nil
+                    icon = app.icon
+                }
+                
+                processes.append(TopProcess(pid: pid, command: command, name: name, usage: usage, icon: icon))
             }
-        } else if self.paused {
-            self.paused = !self.task.resume()
         }
-    }
-    
-    public override func pause() {
-        if self.task.isRunning && !self.paused {
-            self.paused = self.task.suspend()
-        }
-    }
-    
-    public override func stop() {
-        if self.task.isRunning && !self.paused {
-            self.paused = self.task.suspend()
-        }
+        
+        self.callback(processes.suffix(self.numberOfProcesses).sorted(by: { $0.usage > $1.usage }))
     }
 }

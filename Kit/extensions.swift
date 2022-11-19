@@ -59,6 +59,22 @@ extension String: LocalizedError {
         return ""
     }
     
+    public func find(pattern: String) -> String {
+        do {
+            let regex = try NSRegularExpression(pattern: pattern)
+            let stringRange = NSRange(location: 0, length: self.utf16.count)
+            
+            if let searchRange = regex.firstMatch(in: self, options: [], range: stringRange) {
+                let start = self.index(self.startIndex, offsetBy: searchRange.range.lowerBound)
+                let end = self.index(self.startIndex, offsetBy: searchRange.range.upperBound)
+                let value  = String(self[start..<end]).trimmingCharacters(in: .whitespaces)
+                return value.trimmingCharacters(in: .whitespaces)
+            }
+        } catch {}
+        
+        return ""
+    }
+    
     public var trimmed: String {
         var buf = [UInt8]()
         var trimming = true
@@ -91,14 +107,14 @@ extension String: LocalizedError {
     }
 }
 
-public extension Int {
+public extension DispatchSource.MemoryPressureEvent {
     func pressureColor() -> NSColor {
         switch self {
-        case 1:
+        case .normal:
             return NSColor.systemGreen
-        case 2:
+        case .warning:
             return NSColor.systemYellow
-        case 3:
+        case .critical:
             return NSColor.systemRed
         default:
             return controlAccentColor
@@ -157,7 +173,11 @@ public extension Double {
         }
     }
     
-    func batteryColor(color: Bool = false) -> NSColor {
+    func batteryColor(color: Bool = false, lowPowerMode: Bool? = nil) -> NSColor {
+        if let mode = lowPowerMode, mode {
+            return NSColor.systemOrange
+        }
+        
         switch self {
         case 0.2...0.4:
             if !color {
@@ -174,6 +194,22 @@ public extension Double {
             return NSColor.systemGreen
         default:
             return NSColor.systemRed
+        }
+    }
+    
+    func clusterColor(_ i: Int) -> NSColor? {
+        guard let cores = SystemKit.shared.device.info.cpu?.cores,
+              let core = cores.first(where: {$0.id == i }) else {
+            return nil
+        }
+        
+        switch core.type {
+        case .efficiency:
+            return .systemTeal
+        case .performance:
+            return .systemBlue
+        default:
+            return nil
         }
     }
     
@@ -224,28 +260,30 @@ public extension NSView {
         }
     }
     
-    func toggleTitleRow(frame: NSRect, title: String, action: Selector, state: Bool) -> NSView {
-        let row: NSStackView = NSStackView(frame: frame)
-        row.orientation = .horizontal
-        row.spacing = 0
-        row.distribution = .fillProportionally
+    func toggleSettingRow(title: String, action: Selector, state: Bool) -> NSView {
+        let view: NSStackView = NSStackView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.heightAnchor.constraint(equalToConstant: Constants.Settings.row).isActive = true
+        view.orientation = .horizontal
+        view.alignment = .centerY
+        view.distribution = .fill
+        view.spacing = 0
         
-        let title: NSTextField = LabelField(frame: NSRect(x: 0, y: 0, width: 0, height: 0), title)
-        title.font = NSFont.systemFont(ofSize: 13, weight: .light)
-        title.textColor = .textColor
+        let titleField: NSTextField = LabelField(frame: NSRect(x: 0, y: 0, width: 0, height: 0), title)
+        titleField.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+        titleField.textColor = .textColor
         
         let state: NSControl.StateValue = state ? .on : .off
         var toggle: NSControl = NSControl()
         if #available(OSX 10.15, *) {
-            let switchButton = NSSwitch(frame: NSRect(x: 0, y: 0, width: 50, height: row.frame.height))
+            let switchButton = NSSwitch()
             switchButton.state = state
             switchButton.action = action
             switchButton.target = self
             
             toggle = switchButton
         } else {
-            let button: NSButton = NSButton(frame: NSRect(x: 0, y: 0, width: 20, height: row.frame.height))
-            button.widthAnchor.constraint(equalToConstant: button.bounds.width).isActive = true
+            let button: NSButton = NSButton()
             button.setButtonType(.switch)
             button.state = state
             button.title = ""
@@ -258,23 +296,50 @@ public extension NSView {
             toggle = button
         }
         
-        row.addArrangedSubview(title)
-        row.addArrangedSubview(toggle)
+        view.addArrangedSubview(titleField)
+        view.addArrangedSubview(NSView())
+        view.addArrangedSubview(toggle)
         
-        row.widthAnchor.constraint(equalToConstant: row.bounds.width).isActive = true
-        row.heightAnchor.constraint(equalToConstant: row.bounds.height).isActive = true
-        
-        return row
+        return view
     }
     
-    func selectTitleRow(frame: NSRect, title: String, action: Selector, items: [String], selected: String) -> NSView {
-        let row: NSView = NSView(frame: frame)
+    func selectSettingsRow(title: String, action: Selector, items: [KeyValue_p], selected: String) -> NSView {
+        let view = NSStackView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.heightAnchor.constraint(equalToConstant: Constants.Settings.row).isActive = true
+        view.orientation = .horizontal
+        view.alignment = .centerY
+        view.distribution = .fill
+        view.spacing = 0
         
-        let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: (row.frame.height - 16)/2, width: row.frame.width - 52, height: 17), title)
-        rowTitle.font = NSFont.systemFont(ofSize: 13, weight: .light)
-        rowTitle.textColor = .textColor
+        let titleField: NSTextField = LabelField(frame: NSRect(x: 0, y: 0, width: 0, height: 0), title)
+        titleField.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+        titleField.textColor = .textColor
         
-        let select: NSPopUpButton = NSPopUpButton(frame: NSRect(x: row.frame.width - 50, y: (row.frame.height-26)/2, width: 50, height: 26))
+        let select: NSPopUpButton = selectView(action: action, items: items, selected: selected)
+        select.sizeToFit()
+        
+        view.addArrangedSubview(titleField)
+        view.addArrangedSubview(NSView())
+        view.addArrangedSubview(select)
+        
+        return view
+    }
+    
+    func selectSettingsRowV1(title: String, action: Selector, items: [String], selected: String) -> NSView {
+        let view = NSStackView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.heightAnchor.constraint(equalToConstant: Constants.Settings.row).isActive = true
+        view.orientation = .horizontal
+        view.alignment = .centerY
+        view.distribution = .fill
+        view.spacing = 0
+        
+        let titleField: NSTextField = LabelField(frame: NSRect(x: 0, y: 0, width: 0, height: 0), title)
+        titleField.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+        titleField.textColor = .textColor
+        
+        let select: NSPopUpButton = NSPopUpButton()
         select.target = self
         select.action = action
         
@@ -294,42 +359,15 @@ public extension NSView {
         select.menu = menu
         select.sizeToFit()
         
-        rowTitle.setFrameSize(NSSize(width: row.frame.width - select.frame.width, height: rowTitle.frame.height))
-        select.setFrameOrigin(NSPoint(x: row.frame.width - select.frame.width, y: select.frame.origin.y))
+        view.addArrangedSubview(titleField)
+        view.addArrangedSubview(NSView())
+        view.addArrangedSubview(select)
         
-        row.addSubview(select)
-        row.addSubview(rowTitle)
-        
-        row.widthAnchor.constraint(equalToConstant: row.bounds.width).isActive = true
-        row.heightAnchor.constraint(equalToConstant: row.bounds.height).isActive = true
-        
-        return row
-    }
-    
-    func selectRow(frame: NSRect, title: String, action: Selector, items: [KeyValue_p], selected: String) -> NSView {
-        let row: NSView = NSView(frame: frame)
-        
-        let rowTitle: NSTextField = LabelField(frame: NSRect(x: 0, y: (row.frame.height - 16)/2, width: row.frame.width - 52, height: 17), title)
-        rowTitle.font = NSFont.systemFont(ofSize: 13, weight: .light)
-        rowTitle.textColor = .textColor
-        
-        let select: NSPopUpButton = selectView(action: action, items: items, selected: selected)
-        select.sizeToFit()
-        
-        rowTitle.setFrameSize(NSSize(width: row.frame.width - select.frame.width, height: rowTitle.frame.height))
-        select.setFrameOrigin(NSPoint(x: row.frame.width - select.frame.width, y: select.frame.origin.y))
-        
-        row.addSubview(select)
-        row.addSubview(rowTitle)
-        
-        row.widthAnchor.constraint(equalToConstant: row.bounds.width).isActive = true
-        row.heightAnchor.constraint(equalToConstant: row.bounds.height).isActive = true
-        
-        return row
+        return view
     }
     
     func selectView(action: Selector, items: [KeyValue_p], selected: String) -> NSPopUpButton {
-        let select: NSPopUpButton = NSPopUpButton(frame: NSRect(x: 0, y: 0, width: 50, height: 26))
+        let select: NSPopUpButton = NSPopUpButton(frame: NSRect(x: 0, y: 0, width: 50, height: 28))
         select.target = self
         select.action = action
         
@@ -435,47 +473,44 @@ public extension CATransaction {
     }
 }
 
-public final class FlippedClipView: NSClipView {
-    public override var isFlipped: Bool {
-        return true
-    }
+public class FlippedStackView: NSStackView {
+    public override var isFlipped: Bool { return true }
 }
 
-public final class ScrollableStackView: NSView {
-    public let stackView: NSStackView = NSStackView()
-    public let clipView: FlippedClipView = FlippedClipView()
+public class ScrollableStackView: NSView {
+    public var stackView: NSStackView = FlippedStackView()
+    
+    private let clipView: NSClipView = NSClipView()
     private let scrollView: NSScrollView = NSScrollView()
     
     public override init(frame: NSRect) {
         super.init(frame: frame)
         
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.borderType = .noBorder
-        scrollView.hasVerticalScroller = true
-        scrollView.hasHorizontalScroller = false
-        scrollView.autohidesScrollers = true
-        scrollView.horizontalScrollElasticity = .none
-        scrollView.drawsBackground = false
+        self.clipView.drawsBackground = false
+        
+        self.stackView.orientation = .vertical
+        self.stackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        self.scrollView.translatesAutoresizingMaskIntoConstraints = false
+        self.scrollView.hasVerticalScroller = true
+        self.scrollView.hasHorizontalScroller = false
+        self.scrollView.autohidesScrollers = true
+        self.scrollView.horizontalScrollElasticity = .none
+        self.scrollView.drawsBackground = false
+        self.scrollView.contentView = self.clipView
+        self.scrollView.documentView = self.stackView
+        
         self.addSubview(self.scrollView)
         
         NSLayoutConstraint.activate([
-            scrollView.leftAnchor.constraint(equalTo: self.leftAnchor),
-            scrollView.rightAnchor.constraint(equalTo: self.rightAnchor),
-            scrollView.topAnchor.constraint(equalTo: self.topAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
-        ])
-        
-        clipView.drawsBackground = false
-        scrollView.contentView = clipView
-        
-        stackView.orientation = .vertical
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.documentView = stackView
-        
-        NSLayoutConstraint.activate([
-            stackView.leftAnchor.constraint(equalTo: clipView.leftAnchor),
-            stackView.rightAnchor.constraint(equalTo: clipView.rightAnchor),
-            stackView.topAnchor.constraint(equalTo: clipView.topAnchor)
+            self.scrollView.leftAnchor.constraint(equalTo: self.leftAnchor),
+            self.scrollView.rightAnchor.constraint(equalTo: self.rightAnchor),
+            self.scrollView.topAnchor.constraint(equalTo: self.topAnchor),
+            self.scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            
+            self.stackView.leftAnchor.constraint(equalTo: self.clipView.leftAnchor),
+            self.stackView.rightAnchor.constraint(equalTo: self.clipView.rightAnchor),
+            self.stackView.topAnchor.constraint(equalTo: self.clipView.topAnchor)
         ])
     }
     
@@ -512,5 +547,14 @@ extension NSTextView {
             }
         }
         return super.performKeyEquivalent(with: event)
+    }
+}
+
+public extension Data {
+    var socketAddress: sockaddr {
+        return withUnsafeBytes { $0.load(as: sockaddr.self) }
+    }
+    var socketAddressInternet: sockaddr_in {
+        return withUnsafeBytes { $0.load(as: sockaddr_in.self) }
     }
 }

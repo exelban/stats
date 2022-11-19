@@ -18,18 +18,41 @@ public class LineChart: WidgetWrapper {
     private var valueState: Bool = false
     private var valueColorState: Bool = false
     private var colorState: Color = .systemAccent
-    
-    private let width: CGFloat = 34
+    private var historyCount: Int = 60
+    private var scaleState: Scale = .none
     
     private var chart: LineChartView = LineChartView(frame: NSRect(
         x: 0,
         y: 0,
-        width: 34,
+        width: 32,
         height: Constants.Widget.height - (2*Constants.Widget.margin.y)
     ), num: 60)
     private var colors: [Color] = Color.allCases
     private var value: Double = 0
-    private var pressureLevel: Int = 0
+    private var pressureLevel: DispatchSource.MemoryPressureEvent = .normal
+    
+    private var historyNumbers: [KeyValue_p] = [
+        KeyValue_t(key: "30", value: "30"),
+        KeyValue_t(key: "60", value: "60"),
+        KeyValue_t(key: "90", value: "90"),
+        KeyValue_t(key: "120", value: "120")
+    ]
+    private var width: CGFloat {
+        get {
+            switch self.historyCount {
+            case 30:
+                return 24
+            case 60:
+                return 32
+            case 90:
+                return 42
+            case 120:
+                return 52
+            default:
+                return 32
+            }
+        }
+    }
     
     private var boxSettingsView: NSView? = nil
     private var frameSettingsView: NSView? = nil
@@ -62,7 +85,7 @@ public class LineChart: WidgetWrapper {
         super.init(.lineChart, title: widgetTitle, frame: CGRect(
             x: Constants.Widget.margin.x,
             y: Constants.Widget.margin.y,
-            width: self.width + (2*Constants.Widget.margin.x),
+            width: 32 + (Constants.Widget.margin.x*2),
             height: Constants.Widget.height - (2*Constants.Widget.margin.y)
         ))
         
@@ -75,6 +98,11 @@ public class LineChart: WidgetWrapper {
             self.labelState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_label", defaultValue: self.labelState)
             self.valueColorState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_valueColor", defaultValue: self.valueColorState)
             self.colorState = Color.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_color", defaultValue: self.colorState.key))
+            self.historyCount = Store.shared.int(key: "\(self.title)_\(self.type.rawValue)_historyCount", defaultValue: self.historyCount)
+            self.scaleState = Scale.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_scale", defaultValue: self.scaleState.key))
+            
+            self.chart.setScale(self.scaleState)
+            self.chart.reinit(self.historyCount)
         }
         
         if self.labelState {
@@ -84,7 +112,7 @@ public class LineChart: WidgetWrapper {
         if preview {
             var list: [Double] = []
             for _ in 0..<16 {
-                list.append(Double(CGFloat(Float(arc4random()) / Float(UINT32_MAX))))
+                list.append(Double.random(in: 0..<1))
             }
             self.chart.points = list
             self.value = 0.38
@@ -95,13 +123,12 @@ public class LineChart: WidgetWrapper {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // swiftlint:disable function_body_length
     public override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         
         guard let context = NSGraphicsContext.current?.cgContext else { return }
         
-        var width = self.width
+        var width = self.width + (Constants.Widget.margin.x*2)
         var x: CGFloat = 0
         let lineWidth = 1 / (NSScreen.main?.backingScaleFactor ?? 1)
         let offset = lineWidth / 2
@@ -159,7 +186,7 @@ public class LineChart: WidgetWrapper {
                 NSAttributedString.Key.paragraphStyle: style
             ]
             
-            let rect = CGRect(x: x, y: boxSize.height-7, width: boxSize.width-1, height: 7)
+            let rect = CGRect(x: x+2, y: boxSize.height-7, width: boxSize.width - 2, height: 7)
             let str = NSAttributedString.init(string: "\(Int((value.rounded(toPlaces: 2)) * 100))%", attributes: stringAttributes)
             str.draw(with: rect)
             
@@ -169,7 +196,7 @@ public class LineChart: WidgetWrapper {
         let box = NSBezierPath(roundedRect: NSRect(
             x: x+offset,
             y: offset,
-            width: self.width - Constants.Widget.margin.x - (x+offset)*2,
+            width: self.width - offset*2,
             height: boxSize.height - (offset*2)
         ), xRadius: 2, yRadius: 2)
         
@@ -189,7 +216,7 @@ public class LineChart: WidgetWrapper {
         let chartFrame = NSRect(
             x: x+offset+lineWidth,
             y: offset,
-            width: self.width - (x+offset+lineWidth)*2,
+            width: box.bounds.width - (offset*2+lineWidth),
             height: box.bounds.height - offset
         )
         self.chart.color = color
@@ -207,17 +234,6 @@ public class LineChart: WidgetWrapper {
         self.setWidth(width)
     }
     
-    public override func setValues(_ values: [value_t]) {
-        let historyValues = values.map{ $0.widgetValue }.suffix(60)
-        let end = self.chart.points.count
-        
-        if !historyValues.isEmpty {
-            self.chart.points.replaceSubrange(end-historyValues.count...end-1, with: historyValues)
-        }
-        
-        self.display()
-    }
-    
     public func setValue(_ value: Double) {
         if self.value != value {
             self.value = value
@@ -229,7 +245,7 @@ public class LineChart: WidgetWrapper {
         })
     }
     
-    public func setPressure(_ level: Int) {
+    public func setPressure(_ level: DispatchSource.MemoryPressureEvent) {
         guard self.pressureLevel != level else {
             return
         }
@@ -242,61 +258,60 @@ public class LineChart: WidgetWrapper {
     
     // MARK: - Settings
     
-    public override func settings(width: CGFloat) -> NSView {
-        let rowHeight: CGFloat = 30
-        let settingsNumber: CGFloat = 6
-        let height: CGFloat = ((rowHeight + Constants.Settings.margin) * settingsNumber) + Constants.Settings.margin
+    public override func settings() -> NSView {
+        let view = SettingsContainerView()
         
-        let view: NSView = NSView(frame: NSRect(
-            x: Constants.Settings.margin,
-            y: Constants.Settings.margin,
-            width: width - (Constants.Settings.margin*2),
-            height: height
-        ))
-        
-        view.addSubview(toggleTitleRow(
-            frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 5, width: view.frame.width, height: rowHeight),
+        view.addArrangedSubview(toggleSettingRow(
             title: localizedString("Label"),
             action: #selector(toggleLabel),
             state: self.labelState
         ))
         
-        view.addSubview(toggleTitleRow(
-            frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 4, width: view.frame.width, height: rowHeight),
+        view.addArrangedSubview(toggleSettingRow(
             title: localizedString("Value"),
             action: #selector(toggleValue),
             state: self.valueState
         ))
         
-        self.boxSettingsView = toggleTitleRow(
-            frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 3, width: view.frame.width, height: rowHeight),
+        view.addArrangedSubview(toggleSettingRow(
+            title: localizedString("Colorize value"),
+            action: #selector(toggleValueColor),
+            state: self.valueColorState
+        ))
+        
+        self.boxSettingsView = toggleSettingRow(
             title: localizedString("Box"),
             action: #selector(toggleBox),
             state: self.boxState
         )
-        view.addSubview(self.boxSettingsView!)
+        view.addArrangedSubview(self.boxSettingsView!)
         
-        self.frameSettingsView = toggleTitleRow(
-            frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 2, width: view.frame.width, height: rowHeight),
+        self.frameSettingsView = toggleSettingRow(
             title: localizedString("Frame"),
             action: #selector(toggleFrame),
             state: self.frameState
         )
-        view.addSubview(self.frameSettingsView!)
+        view.addArrangedSubview(self.frameSettingsView!)
         
-        view.addSubview(selectRow(
-            frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 1, width: view.frame.width, height: rowHeight),
+        view.addArrangedSubview(selectSettingsRow(
             title: localizedString("Color"),
             action: #selector(toggleColor),
             items: self.colors,
             selected: self.colorState.key
         ))
         
-        view.addSubview(toggleTitleRow(
-            frame: NSRect(x: 0, y: (rowHeight + Constants.Settings.margin) * 0, width: view.frame.width, height: rowHeight),
-            title: localizedString("Colorize value"),
-            action: #selector(toggleValueColor),
-            state: self.valueColorState
+        view.addArrangedSubview(selectSettingsRow(
+            title: localizedString("Number of reads in the chart"),
+            action: #selector(toggleHistoryCount),
+            items: self.historyNumbers,
+            selected: "\(self.historyCount)"
+        ))
+        
+        view.addArrangedSubview(selectSettingsRow(
+            title: localizedString("Scaling"),
+            action: #selector(toggleScale),
+            items: Scale.allCases,
+            selected: self.scaleState.key
         ))
         
         return view
@@ -384,7 +399,31 @@ public class LineChart: WidgetWrapper {
             state = sender is NSButton ? (sender as! NSButton).state: nil
         }
         self.valueColorState = state! == .on ? true : false
+        
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_valueColor", value: self.valueColorState)
+        self.display()
+    }
+    
+    @objc private func toggleHistoryCount(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String, let value = Int(key) else {
+            return
+        }
+        self.historyCount = value
+        
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_historyCount", value: value)
+        self.chart.reinit(value)
+        self.display()
+    }
+    
+    @objc private func toggleScale(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String else {
+            return
+        }
+        guard let value = Scale.allCases.first(where: { $0.key == key }) else { return }
+        
+        self.scaleState = value
+        self.chart.setScale(value)
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_scale", value: key)
         self.display()
     }
 }

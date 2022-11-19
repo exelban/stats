@@ -9,6 +9,7 @@
 import Cocoa
 
 import Kit
+import UserNotifications
 
 import CPU
 import RAM
@@ -17,33 +18,38 @@ import Net
 import Battery
 import Sensors
 import GPU
-import Fans
 import Bluetooth
 
-let updater = macAppUpdater(user: "exelban", repo: "stats")
+let updater = Updater(github: "exelban/stats", url: "https://api.serhiy.io/v1/stats/release/latest")
 var modules: [Module] = [
     CPU(),
     GPU(),
     RAM(),
     Disk(),
     Sensors(),
-    Fans(),
     Network(),
     Battery(),
     Bluetooth()
 ]
 
 @main
-class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDelegate {
     internal let settingsWindow: SettingsWindow = SettingsWindow()
-    internal let updateNotification = NSUserNotification()
+    internal let updateWindow: UpdateWindow = UpdateWindow()
+    internal let setupWindow: SetupWindow = SetupWindow()
+    internal let updateActivity = NSBackgroundActivityScheduler(identifier: "eu.exelban.Stats.updateCheck")
+    internal var clickInNotification: Bool = false
+    internal var menuBarItem: NSStatusItem? = nil
     
-    private let updateActivity = NSBackgroundActivityScheduler(identifier: "eu.exelban.Stats.updateCheck")
+    internal var pauseState: Bool {
+        Store.shared.bool(key: "pause", defaultValue: false)
+    }
     
     static func main() {
+        let app = NSApplication.shared
         let delegate = AppDelegate()
-        NSApplication.shared.delegate = delegate
-        NSApplication.shared.run()
+        app.delegate = delegate
+        app.run()
     }
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
@@ -51,18 +57,16 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         
         self.parseArguments()
         self.parseVersion()
-        
-        modules.forEach{ $0.mount() }
-        self.settingsWindow.setModules()
-        
+        self.setup {
+            modules.forEach{ $0.mount() }
+            self.settingsWindow.setModules()
+        }
         self.defaultValues()
-        self.updateCron()
-        info("Stats started in \((startingPoint.timeIntervalSinceNow * -1).rounded(toPlaces: 4)) seconds")
+        self.icon()
         
-        Server.shared.sendEvent(
-            modules: modules.filter({ $0.enabled != false && $0.available != false }).map({ $0.config.name }),
-            omit: CommandLine.arguments.contains("--omit")
-        )
+        NotificationCenter.default.addObserver(self, selector: #selector(listenForAppPause), name: .pause, object: nil)
+        
+        info("Stats started in \((startingPoint.timeIntervalSinceNow * -1).rounded(toPlaces: 4)) seconds")
     }
     
     func applicationWillTerminate(_ aNotification: Notification) {
@@ -74,47 +78,35 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     }
     
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
+        if self.clickInNotification {
+            self.clickInNotification = false
+            return true
+        }
+        
         if flag {
             self.settingsWindow.makeKeyAndOrderFront(self)
         } else {
             self.settingsWindow.setIsVisible(true)
         }
+        
         return true
     }
     
-    func userNotificationCenter(_ center: NSUserNotificationCenter, didActivate notification: NSUserNotification) {
-        if let uri = notification.userInfo?["url"] as? String {
+    @available(macOS 10.14, *)
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                didReceive response: UNNotificationResponse,
+                                withCompletionHandler completionHandler: @escaping () -> Void) {
+        self.clickInNotification = true
+        
+        if let uri = response.notification.request.content.userInfo["url"] as? String {
             debug("Downloading new version of app...")
             if let url = URL(string: uri) {
-                updater.download(url, doneHandler: { path in
+                updater.download(url, completion: { path in
                     updater.install(path: path)
                 })
             }
         }
         
-        NSUserNotificationCenter.default.removeDeliveredNotification(self.updateNotification)
-    }
-    
-    @objc private func updateCron() {
-        self.updateActivity.invalidate()
-        self.updateActivity.repeats = true
-        
-        guard let updateInterval = AppUpdateInterval(rawValue: Store.shared.string(key: "update-interval", defaultValue: AppUpdateInterval.atStart.rawValue)) else {
-            return
-        }
-        debug("Application update interval is '\(updateInterval.rawValue)'")
-        
-        switch updateInterval {
-        case .oncePerDay: self.updateActivity.interval = 60 * 60 * 24
-        case .oncePerWeek: self.updateActivity.interval = 60 * 60 * 24 * 7
-        case .oncePerMonth: self.updateActivity.interval = 60 * 60 * 24 * 30
-        case .never, .atStart: return
-        default: return
-        }
-        
-        self.updateActivity.schedule { (completion: @escaping NSBackgroundActivityScheduler.CompletionHandler) in
-            self.checkForNewVersion()
-            completion(NSBackgroundActivityScheduler.Result.finished)
-        }
+        completionHandler()
     }
 }

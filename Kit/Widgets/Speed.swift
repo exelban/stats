@@ -18,6 +18,10 @@ public class SpeedWidget: WidgetWrapper {
     private var baseValue: String = "byte"
     private var unitsState: Bool = true
     private var monochromeState: Bool = false
+    private var valueColorState: Bool = false
+    
+    private var downloadColorState: Color = .secondBlue
+    private var uploadColorState: Color = .secondRed
     
     private var symbols: [String] = ["U", "D"]
     
@@ -29,14 +33,16 @@ public class SpeedWidget: WidgetWrapper {
     
     private var width: CGFloat = 58
     
+    private var valueColorView: NSView? = nil
+    
     private var downloadColor: NSColor {
         get {
-            return self.monochromeState ? MonochromeColor.blue : NSColor.systemBlue
+            return self.monochromeState ? MonochromeColor.blue : (self.downloadColorState.additional as? NSColor ?? NSColor.systemBlue)
         }
     }
     private var uploadColor: NSColor {
         get {
-            return self.monochromeState ? MonochromeColor.red : NSColor.red
+            return self.monochromeState ? MonochromeColor.red : (self.uploadColorState.additional as? NSColor ?? NSColor.red)
         }
     }
     
@@ -66,6 +72,9 @@ public class SpeedWidget: WidgetWrapper {
             self.baseValue = Store.shared.string(key: "\(self.title)_base", defaultValue: self.baseValue)
             self.unitsState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_units", defaultValue: self.unitsState)
             self.monochromeState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_monochrome", defaultValue: self.monochromeState)
+            self.valueColorState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_valueColor", defaultValue: self.valueColorState)
+            self.downloadColorState = Color.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_downloadColor", defaultValue: self.downloadColorState.key))
+            self.uploadColorState = Color.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_uploadColor", defaultValue: self.uploadColorState.key))
         }
         
         if self.valueState && self.icon != "none" {
@@ -105,9 +114,15 @@ public class SpeedWidget: WidgetWrapper {
             let rowHeight: CGFloat = self.frame.height / 2
             let style = NSMutableParagraphStyle()
             style.alignment = .right
-            let stringAttributes = [
+            
+            let downloadStringAttributes = [
                 NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .light),
-                NSAttributedString.Key.foregroundColor: NSColor.textColor,
+                NSAttributedString.Key.foregroundColor: self.valueColorState && self.downloadValue >= 1_024 ? self.downloadColor : NSColor.textColor,
+                NSAttributedString.Key.paragraphStyle: style
+            ]
+            let uploadStringAttributes = [
+                NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .light),
+                NSAttributedString.Key.foregroundColor: self.valueColorState && self.uploadValue >= 1_024 ? self.uploadColor : NSColor.textColor,
                 NSAttributedString.Key.paragraphStyle: style
             ]
             
@@ -115,14 +130,14 @@ public class SpeedWidget: WidgetWrapper {
             var rect = CGRect(x: Constants.Widget.margin.x + x, y: 1, width: rowWidth - (Constants.Widget.margin.x*2), height: rowHeight)
             let download = NSAttributedString.init(
                 string: Units(bytes: self.downloadValue).getReadableSpeed(base: base, omitUnits: !self.unitsState),
-                attributes: stringAttributes
+                attributes: downloadStringAttributes
             )
             download.draw(with: rect)
             
             rect = CGRect(x: Constants.Widget.margin.x + x, y: rect.height+1, width: rowWidth - (Constants.Widget.margin.x*2), height: rowHeight)
             let upload = NSAttributedString.init(
                 string: Units(bytes: self.uploadValue).getReadableSpeed(base: base, omitUnits: !self.unitsState),
-                attributes: stringAttributes
+                attributes: uploadStringAttributes
             )
             upload.draw(with: rect)
             
@@ -212,44 +227,61 @@ public class SpeedWidget: WidgetWrapper {
         }
     }
     
-    public override func settings(width: CGFloat) -> NSView {
-        let view = SettingsContainerView(width: width)
+    public override func settings() -> NSView {
+        let view = SettingsContainerView()
         
-        view.addArrangedSubview(selectRow(
-            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
+        view.addArrangedSubview(selectSettingsRow(
             title: localizedString("Pictogram"),
             action: #selector(toggleIcon),
             items: SpeedPictogram,
             selected: self.icon
         ))
         
-        view.addArrangedSubview(selectRow(
-            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
+        view.addArrangedSubview(selectSettingsRow(
             title: localizedString("Base"),
             action: #selector(toggleBase),
             items: SpeedBase,
             selected: self.baseValue
         ))
         
-        view.addArrangedSubview(toggleTitleRow(
-            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
+        view.addArrangedSubview(toggleSettingRow(
             title: localizedString("Value"),
             action: #selector(toggleValue),
             state: self.valueState
         ))
         
-        view.addArrangedSubview(toggleTitleRow(
-            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
+        self.valueColorView = toggleSettingRow(
+            title: localizedString("Colorize value"),
+            action: #selector(toggleValueColor),
+            state: self.valueColorState
+        )
+        view.addArrangedSubview(self.valueColorView!)
+        findAndToggleEnableNSControlState(self.valueColorView, state: self.valueState)
+        
+        view.addArrangedSubview(toggleSettingRow(
             title: localizedString("Units"),
             action: #selector(toggleUnits),
             state: self.unitsState
         ))
         
-        view.addArrangedSubview(toggleTitleRow(
-            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
+        view.addArrangedSubview(toggleSettingRow(
             title: localizedString("Monochrome accent"),
             action: #selector(toggleMonochrome),
             state: self.monochromeState
+        ))
+        
+        view.addArrangedSubview(selectSettingsRow(
+            title: localizedString("Color of upload"),
+            action: #selector(toggleUploadColor),
+            items: Color.allColors,
+            selected: self.uploadColorState.key
+        ))
+        
+        view.addArrangedSubview(selectSettingsRow(
+            title: localizedString("Color of download"),
+            action: #selector(toggleDownloadColor),
+            items: Color.allColors,
+            selected: self.downloadColorState.key
         ))
         
         return view
@@ -262,7 +294,9 @@ public class SpeedWidget: WidgetWrapper {
         } else {
             state = sender is NSButton ? (sender as! NSButton).state: nil
         }
+        
         self.valueState = state! == .on ? true : false
+        findAndToggleEnableNSControlState(self.valueColorView, state: self.valueState)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_value", value: self.valueState)
         self.display()
         
@@ -324,6 +358,36 @@ public class SpeedWidget: WidgetWrapper {
         self.monochromeState = state! == .on ? true : false
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_monochrome", value: self.monochromeState)
         self.display()
+    }
+    
+    @objc private func toggleValueColor(_ sender: NSControl) {
+        var state: NSControl.StateValue? = nil
+        if #available(OSX 10.15, *) {
+            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
+        } else {
+            state = sender is NSButton ? (sender as! NSButton).state: nil
+        }
+        self.valueColorState = state! == .on ? true : false
+        
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_valueColor", value: self.valueColorState)
+        self.display()
+    }
+    
+    @objc private func toggleUploadColor(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String,
+              let newValue = Color.allColors.first(where: { $0.key == key }) else {
+            return
+        }
+        self.uploadColorState = newValue
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_uploadColor", value: key)
+    }
+    @objc private func toggleDownloadColor(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String,
+              let newValue = Color.allColors.first(where: { $0.key == key }) else {
+            return
+        }
+        self.downloadColorState = newValue
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_downloadColor", value: key)
     }
     
     public func setValue(upload: Int64, download: Int64) {

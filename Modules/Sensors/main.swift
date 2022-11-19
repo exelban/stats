@@ -18,11 +18,7 @@ public class Sensors: Module {
     private var settingsView: Settings
     
     public init() {
-        #if arch(x86_64)
-        self.sensorsReader = x86_SensorsReader()
-        #else
-        self.sensorsReader = AppleSilicon_SensorsReader()
-        #endif
+        self.sensorsReader = SensorsReader()
         self.settingsView = Settings("Sensors", list: self.sensorsReader.list)
         
         super.init(
@@ -34,11 +30,20 @@ public class Sensors: Module {
         self.popupView.setup(self.sensorsReader.list)
         
         self.settingsView.callback = { [unowned self] in
-            self.checkIfNoSensorsEnabled()
             self.sensorsReader.read()
         }
         self.settingsView.setInterval = { [unowned self] value in
             self.sensorsReader.setInterval(value)
+        }
+        self.settingsView.HIDcallback = { [unowned self] in
+            self.sensorsReader.HIDCallback()
+            self.popupView.setup(self.sensorsReader.list)
+            self.settingsView.setList(list: self.sensorsReader.list)
+        }
+        self.settingsView.unknownCallback = { [unowned self] in
+            self.sensorsReader.unknownCallback()
+            self.popupView.setup(self.sensorsReader.list)
+            self.settingsView.setList(list: self.sensorsReader.list)
         }
         
         self.sensorsReader.callbackHandler = { [unowned self] value in
@@ -49,6 +54,18 @@ public class Sensors: Module {
         }
         
         self.addReader(self.sensorsReader)
+    }
+    
+    public override func willTerminate() {
+        guard SMCHelper.shared.isActive() else { return }
+        
+        self.sensorsReader.list.filter({ $0 is Fan }).forEach { (s: Sensor_p) in
+            if let f = s as? Fan, let mode = f.customMode {
+                if mode != .automatic {
+                    SMCHelper.shared.setFanMode(f.id, mode: FanMode.automatic.rawValue)
+                }
+            }
+        }
     }
     
     public override func isAvailable() -> Bool {
@@ -67,17 +84,23 @@ public class Sensors: Module {
         }
         
         var list: [KeyValue_t] = []
+        var flatList: [[ColorValue]] = []
+        
         value.forEach { (s: Sensor_p) in
             if s.state {
-                list.append(KeyValue_t(key: s.key, value: s.formattedMiniValue))
+                list.append(KeyValue_t(key: s.key, value: s.formattedMiniValue, additional: s.name))
+                if let f = s as? Fan {
+                    flatList.append([ColorValue(((f.value*100)/f.maxSpeed)/100)])
+                }
             }
         }
         
         self.popupView.usageCallback(value)
         
-        self.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
+        self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
             switch w.item {
             case let widget as SensorsWidget: widget.setValues(list)
+            case let widget as BarChart: widget.setValue(flatList)
             default: break
             }
         }

@@ -20,8 +20,6 @@
 "Open Disk settings" = "Mở cài đặt Ổ đĩa";
 "Sensors" = "Cảm biến";
 "Open Sensors settings" = "Mở cài đặt cảm biến";
-"Fans" = "Quạt";
-"Open Fans settings" = "Mở cài đặt quạt";
 "Network" = "Mạng";
 "Open Network settings" = "Mở cài đặt mạng";
 "Battery" = "Pin";
@@ -59,13 +57,45 @@
 "Center alignment" = "Giữa";
 "Right alignment" = "Phải";
 "Dashboard" = "Bảng điều khiển";
+"Enabled" = "Enabled";
 "Disabled" = "Vô hiệu hóa";
+"Silent" = "Im lặng";
+"Units" = "Các đơn vị";
+"Fans" = "Quạt";
+"Scaling" = "Chia tỉ lệ";
+"Linear" = "Tuyến tính";
+"Square" = "Hình vuông";
+"Cube" = "Khối lập phương";
+"Logarithmic" = "Logarithmic";
+"Cores" = "Cores";
+
+// Setup
+"Stats Setup" = "Cài đặt Stats";
+"Previous" = "Trước";
+"Previous page" = "Trang trước";
+"Next" = "Kế tiếp";
+"Next page" = "Trang sau";
+"Finish" = "Kết thúc";
+"Finish setup" = "Kết thúc cài đặt";
+"Welcome to Stats" = "Chào mừng đến với Stats";
+"welcome_message" = "Cảm ơn bạn đã sử dụng Stats, một trình giám sát hệ thống macOS mã nguồn mở miễn phí cho thanh menu của bạn.";
+"Start the application automatically when starting your Mac" = "Khởi động ứng dụng tự động khi khởi động máy Mac của bạn";
+"Do not start the application automatically when starting your Mac" = "Không tự động khởi động ứng dụng khi khởi động máy Mac của bạn";
+"Do everything silently in the background (recommended)" = "Làm mọi thứ âm thầm dưới nền (chạy ẩn ứng dụng - được khuyến nghị)";
+"Check for a new version on startup" = "Kiểm tra phiên bản mới khi khởi động";
+"Check for a new version every day (once a day)" = "Kiểm tra phiên bản mới mỗi ngày (mỗi ngày một lần)";
+"Check for a new version every week (once a week)" = "Kiểm tra phiên bản mới mỗi tuần (mỗi tuần một lần)";
+"Check for a new version every month (once a month)" = "Kiểm tra phiên bản mới hàng tháng (mỗi tháng một lần)";
+"Never check for updates (not recommended)" = "Không bao giờ kiểm tra các bản cập nhật (không được khuyến nghị)";
+"The configuration is completed" = "Cấu hình đã hoàn thành";
+"finish_setup_message" = "Mọi thứ đã được thiết lập! \ n Stats là một công cụ mã nguồn mở, Stats hoàn toàn miễn phí và luôn luôn như vậy. \ n Nếu bạn thích nó, bạn có thể hỗ trợ dự án, việc đó luôn được đánh giá cao!";
 
 // Alerts
 "New version available" = "Phiên bản mới có sẵn";
 "Click to install the new version of Stats" = "Nhấn vào đây để cài đặt phiên bản mới của Stats";
 "Successfully updated" = "Đã cập nhật thành công";
 "Stats was updated to v" = "Stats đã được cập nhật lên v%0";
+"Reset settings text" = "Tất cả cài đặt ứng dụng sẽ được đặt lại và ứng dụng sẽ được khởi động lại. Bạn có chắc chắn muốn làm điều này?";
 
 // Settings
 "Open Activity Monitor" = "Mở trình Giám sát hoạt động";
@@ -82,19 +112,27 @@
 "Once per day" = "Một lần một ngày";
 "Once per week" = "Một tuần một lần";
 "Once per month" = "Mỗi tháng một lần";
-"Never" = "Never";
+"Never" = "Không bao giờ";
 "Check for update" = "Kiểm tra cập nhật";
 "Show icon in dock" = "Hiện icon trên Dock";
 "Start at login" = "Khởi động lúc đăng nhập";
+"Build number" = "Số hiệu bản dựng";
+"Reset settings" = "Thiết lập lại cài đặt";
+"Pause the Stats" = "Pause the Stats";
+"Resume the Stats" = "Resume the Stats";
 
 // Dashboard
 "Serial number" = "Số sê-ri";
 "Uptime" = "Thời gian hoạt động";
+"Number of cores" = "%0 nhân";
+"Number of threads" = "%0 luồng";
+"Number of e-cores" = "%0 lõi tiết kiệm điện";
+"Number of p-cores" = "%0 lõi hiệu năng";
 
 // Update
 "The latest version of Stats installed" = "Stats đã được cập nhật";
 "Downloading..." = "Đang tải xuống...";
-"Current version: " = "Phiên bản hiện tại:  ";
+"Current version: " = "Phiên bản hiện tại: ";
 "Latest version: " = "Bản mới nhất: ";
 
 // Widgets
@@ -121,7 +159,13 @@
 "Text widget" = "Văn bản";
 "Memory widget" = "Bộ nhớ";
 "Static width" = "Chiều rộng cố định";
-"Tachometer widget" = "Tachometer";
+"Tachometer widget" = "Máy đo tốc độ";
+"State widget" = "State widget";
+"Show symbols" = "Hiển thị các biểu tượng";
+"Label widget" = "Nhãn";
+"Number of reads in the chart" = "Số lần đọc trong biểu đồ";
+"Color of download" = "Màu tải xuống";
+"Color of upload" = "Màu tải lên";
 
 // Module Kit
 "Open module settings" = "Mở cài đặt module";
@@ -132,10 +176,18 @@
 "Details" = "Chi tiết";
 "Top processes" = "Top tiến trình";
 "Pictogram" = "Tượng hình";
+"Module settings" = "Cài đặt mô-đun";
+"Widget settings" = "Cài đặt tiện ích";
+"Popup settings" = "Popup settings";
+"Merge widgets" = "Gộp các tiện ích";
+"No available widgets to configure" = "No available widgets to configure";
+"No options to configure for the popup in this module" = "No options to configure for the popup in this module";
 
 // Modules
 "Number of top processes" = "Số lượng top tiến trình";
 "Update interval for top processes" = "Khoảng thời gian cập nhật cho các top tiến trình";
+"Notification level" = "Mức độ thông báo";
+"Chart color" = "Chart color";
 
 // CPU
 "CPU usage" = "Sử dụng CPU";
@@ -153,6 +205,14 @@
 "1 minute" = "1 phút";
 "5 minutes" = "5 phút";
 "15 minutes" = "15 phút";
+"CPU usage threshold" = "CPU usage threshold";
+"CPU usage is" = "CPU usage is %0";
+"Efficiency cores" = "Lõi tiết kiệm điện E-core";
+"Performance cores" = "Lõi hiệu năng cao P-core";
+"System color" = "System color";
+"User color" = "User color";
+"Idle color" = "Idle color";
+"Cluster grouping" = "Cluster grouping";
 
 // GPU
 "GPU to show" = "GPU để hiển thị";
@@ -170,6 +230,10 @@
 "Core clock" = "Xung của nhân";
 "Memory clock" = "Xung của bộ nhớ (RAM)";
 "Utilization" = "Công suất sử dụng";
+"Render utilization" = "Render utilization";
+"Tiler utilization" = "Tiler utilization";
+"GPU usage threshold" = "Ngưỡng sử dụng GPU";
+"GPU usage is" = "Mức sử dụng GPU là %0";
 
 // RAM
 "Memory usage" = "Sử dụng Bộ nhớ";
@@ -182,14 +246,22 @@
 "Free" = "Còn Trống";
 "Swap" = "RAM ảo";
 "Split the value (App/Wired/Compressed)" = "Chia nhỏ giá trị (Ứng dụng/Tính toán/Đã nén)";
+"RAM utilization threshold" = "Ngưỡng sử dụng RAM";
+"RAM utilization is" = "Mức sử dụng RAM là %0";
+"App color" = "App color";
+"Wired color" = "Wired color";
+"Compressed color" = "Compressed color";
+"Free color" = "Free color";
 
 // Disk
 "Show removable disks" = "Hiển thị các đĩa rời";
 "Used disk memory" = "Đã dùng %0 trong tổng %1";
-"Free disk memory" = "Miễn phí %0 từ %1";
+"Free disk memory" = "Còn trống %0 từ %1";
 "Disk to show" = "Đĩa hiển thị";
 "Open disk" = "Mở ổ đĩa";
 "Switch view" = "Chuyển đổi chế độ xem";
+"Disk utilization threshold" = "Ngưỡng sử dụng đĩa";
+"Disk utilization is" = "Mức sử dụng đĩa là %0";
 
 // Sensors
 "Temperature unit" = "Đơn vị nhiệt độ";
@@ -197,19 +269,24 @@
 "Fahrenheit" = "Độ F";
 "Save the fan speed" = "Lưu tốc độ quạt";
 "Fan" = "Quạt";
+"HID sensors" = "Cảm biến HID";
+"Synchronize fan's control" = "Đồng bộ hóa điều khiển của quạt";
+"Current" = "Current";
+"Energy" = "Energy";
+"Show unknown sensors" = "Show unknown sensors";
 
 // Network
 "Uploading" = "Tải lên";
 "Downloading" = "Tải xuống";
 "Public IP" = "IP công cộng";
 "Local IP" = "IP cục bộ";
-"Interface" = "Giao diện mạng";
+"Interface" = "Giao diện";
 "Physical address" = "Địa chỉ vật lý (MAC)";
 "Refresh" = "Làm mới";
-"Click to copy public IP address" = "Nhấp để copy IP công cộng";
-"Click to copy local IP address" = "Nhấp để copy IP cục bộ";
-"Click to copy wifi name" = "Nhấp để copy tên WIFI";
-"Click to copy mac address" = "Nhấp để copy MAC";
+"Click to copy public IP address" = "Bấm vào để copy IP công cộng";
+"Click to copy local IP address" = "Bấm vào để copy IP cục bộ";
+"Click to copy wifi name" = "Bấm vào để copy tên WIFI";
+"Click to copy mac address" = "Bấm vào để copy MAC";
 "No connection" = "Không có kết nối";
 "Network interface" = "Giao diện mạng";
 "Total download" = "Tổng tải";
@@ -218,6 +295,18 @@
 "Interface based" = "Giao diện";
 "Processes based" = "Quá trình";
 "Reset data usage" = "Đặt lại mức sử dụng dữ liệu";
+"VPN mode" = "Chế độ VPN";
+"Standard" = "Tiêu chuẩn";
+"Security" = "Bảo mật";
+"Channel" = "Kênh";
+"Common scale" = "Common scale";
+"Autodetection" = "Autodetection";
+"Widget activation threshold" = "Widget activation threshold";
+"Internet connection" = "Internet connection";
+"Active state color" = "Active state color";
+"Nonactive state color" = "Nonactive state color";
+"Connectivity host (ICMP)" = "Connectivity host (ICMP)";
+"Leave empty to disable the check" = "Leave empty to disable the check";
 
 // Battery
 "Level" = "Dung lượng Pin";
@@ -238,25 +327,31 @@
 "Calculating" = "Đang tính";
 "Fully charged" = "Đã sạc đầy";
 "Not connected" = "Không kết nối";
-"Low level notification" = "Thông báo PIN yếu";
-"High level notification" = "Thông báo cấp cao";
+"Low level notification" = "Thông báo cấp độ thấp";
+"High level notification" = "Thông báo cấp độ cao";
 "Low battery" = "Pin yếu";
 "High battery" = "Pin khoẻ";
 "Battery remaining" = "%0% còn lại";
 "Battery remaining to full charge" = "Còn %0% để sạch đầy";
 "Percentage" = "Phần trăm";
 "Percentage and time" = "Phần trăm và thời gian";
-"Time and percentage" = "Thời gian và tỷ lệ phần trăm";
+"Time and percentage" = "Thời gian và phần trăm";
 "Time format" = "Định dạng thời gian";
 "Hide additional information when full" = "Ẩn thông tin bổ sung khi pin đầy";
-"Last charge" = "Lần sạc cuối cùng";
+"Last charge" = "Lần sạc cuối";
+"Capacity" = "Dung tích";
+"maximum / designed" = "tối đa / thiết kế";
+"Low power mode" = "Low power mode";
+"Percentage inside the icon" = "Percentage inside the icon";
 
 // Bluetooth
 "Battery to show" = "Pin hiển thị";
+"No Bluetooth devices are available" = "Không có thiết bị Bluetooth nào khả dụng";
 
 // Colors
 "Based on utilization" = "Dựa trên việc sử dụng";
 "Based on pressure" = "Dựa trên áp lực";
+"Based on cluster" = "Based on cluster";
 "System accent" = "Màu nhấn mạnh hệ thống";
 "Monochrome accent" = "Màu nhấn mạnh đơn sắc";
 "Clear" = "Màu sắc rõ ràng";

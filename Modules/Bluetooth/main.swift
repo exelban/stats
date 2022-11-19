@@ -13,15 +13,7 @@ import Foundation
 import Kit
 import CoreBluetooth
 
-public enum BLEConnType: Int {
-    case ioDevice
-    case cache
-    case ble
-}
-
 public struct BLEDevice {
-    let conn: BLEConnType
-    
     let address: String
     var name: String
     var uuid: UUID?
@@ -33,7 +25,7 @@ public struct BLEDevice {
     var isPaired: Bool = false
     
     var peripheral: CBPeripheral?
-    var isPeripheralConnected: Bool = false
+    var isPeripheralInitialized: Bool = false
     
     var id: String {
         get {
@@ -89,12 +81,12 @@ public class Bluetooth: Module {
         active.forEach { (d: BLEDevice) in
             if d.state {
                 d.batteryLevel.forEach { (p: KeyValue_t) in
-                    list.append(KeyValue_t(key: p.key, value: "\(p.value)%"))
+                    list.append(KeyValue_t(key: "\(d.address)-\(p.key)", value: "\(p.value)%"))
                 }
             }
         }
         
-        self.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
+        self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
             switch w.item {
             case let widget as SensorsWidget: widget.setValues(list)
             default: break

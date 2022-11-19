@@ -20,8 +20,6 @@
 "Open Disk settings" = "Åpne diskinnstillinger";
 "Sensors" = "Sensors";
 "Open Sensors settings" = "Åpne sensorinnstillinger";
-"Fans" = "Fans";
-"Open Fans settings" = "Åpne vifteinnstillinger";
 "Network" = "Network";
 "Open Network settings" = "Åpne nettverksinnstillinger";
 "Battery" = "Battery";
@@ -59,13 +57,45 @@
 "Center alignment" = "Sentrum";
 "Right alignment" = "Høyre";
 "Dashboard" = "Dashboard";
+"Enabled" = "Enabled";
 "Disabled" = "Disabled";
+"Silent" = "Silent";
+"Units" = "Units";
+"Fans" = "Fans";
+"Scaling" = "Scaling";
+"Linear" = "Linear";
+"Square" = "Square";
+"Cube" = "Cube";
+"Logarithmic" = "Logarithmic";
+"Cores" = "Cores";
+
+// Setup
+"Stats Setup" = "Stats Setup";
+"Previous" = "Previous";
+"Previous page" = "Previous page";
+"Next" = "Next";
+"Next page" = "Next page";
+"Finish" = "Finish";
+"Finish setup" = "Finish setup";
+"Welcome to Stats" = "Welcome to Stats";
+"welcome_message" = "Thanks for using Stats, a free open source macOS system monitor for your menu bar.";
+"Start the application automatically when starting your Mac" = "Start the application automatically when starting your Mac";
+"Do not start the application automatically when starting your Mac" = "Do not start the application automatically when starting your Mac";
+"Do everything silently in the background (recommended)" = "Do everything silently in the background (recommended)";
+"Check for a new version on startup" = "Check for a new version on startup";
+"Check for a new version every day (once a day)" = "Check for a new version every day (once a day)";
+"Check for a new version every week (once a week)" = "Check for a new version every week (once a week)";
+"Check for a new version every month (once a month)" = "Check for a new version every month (once a month)";
+"Never check for updates (not recommended)" = "Never check for updates (not recommended)";
+"The configuration is completed" = "The configuration is completed";
+"finish_setup_message" = "Everything is set up! \n The Stats is an open source tool, it's free and always will be. \n If you enjoy it you can support a project, it's always appreciated!";
 
 // Alerts
 "New version available" = "Ny versjon tilgjengelig";
 "Click to install the new version of Stats" = "Klikk for å installere ny versjon av Stats";
 "Successfully updated" = "Oppdateringen var vellykket";
 "Stats was updated to v" = "Stats ble oppdatert til v%0";
+"Reset settings text" = "All application settings will be reset and the application will be restarted. Are you sure you want to do this?";
 
 // Settings
 "Open Activity Monitor" = "Åpne Aktivitetsmonitor";
@@ -86,10 +116,18 @@
 "Check for update" = "Se etter oppdatering";
 "Show icon in dock" = "Vis ikon i dock";
 "Start at login" = "Start ved innlogging";
+"Build number" = "Build number";
+"Reset settings" = "Reset settings";
+"Pause the Stats" = "Pause the Stats";
+"Resume the Stats" = "Resume the Stats";
 
 // Dashboard
 "Serial number" = "Serienummer";
 "Uptime" = "Oppetid";
+"Number of cores" = "%0 cores";
+"Number of threads" = "%0 threads";
+"Number of e-cores" = "%0 efficiency cores";
+"Number of p-cores" = "%0 performance cores";
 
 // Update
 "The latest version of Stats installed" = "Du har den nyeste versjonen av Stats";
@@ -122,6 +160,12 @@
 "Memory widget" = "Tall";
 "Static width" = "Statisk bredde";
 "Tachometer widget" = "Tachometer";
+"State widget" = "State widget";
+"Show symbols" = "Show symbols";
+"Label widget" = "Label";
+"Number of reads in the chart" = "Number of reads in the chart";
+"Color of download" = "Color of download";
+"Color of upload" = "Color of upload";
 
 // Module Kit
 "Open module settings" = "Åpne modulinnstillinger";
@@ -132,10 +176,18 @@
 "Details" = "Detaljer";
 "Top processes" = "Topp-prosesser";
 "Pictogram" = "Piktogram";
+"Module settings" = "Module settings";
+"Widget settings" = "Widget settings";
+"Popup settings" = "Popup settings";
+"Merge widgets" = "Merge widgets";
+"No available widgets to configure" = "No available widgets to configure";
+"No options to configure for the popup in this module" = "No options to configure for the popup in this module";
 
 // Modules
 "Number of top processes" = "Antall topp-prosesser";
 "Update interval for top processes" = "Oppdateringsintervall for topp-prosesser";
+"Notification level" = "Notification level";
+"Chart color" = "Chart color";
 
 // CPU
 "CPU usage" = "CPU-bruk";
@@ -153,6 +205,14 @@
 "1 minute" = "1 minutt";
 "5 minutes" = "5 minutter";
 "15 minutes" = "15 minutter";
+"CPU usage threshold" = "CPU usage threshold";
+"CPU usage is" = "CPU usage is %0";
+"Efficiency cores" = "Efficiency cores";
+"Performance cores" = "Performance cores";
+"System color" = "System color";
+"User color" = "User color";
+"Idle color" = "Idle color";
+"Cluster grouping" = "Cluster grouping";
 
 // GPU
 "GPU to show" = "GPU å vise";
@@ -170,6 +230,10 @@
 "Core clock" = "Kjerneklokke";
 "Memory clock" = "Minneklokke";
 "Utilization" = "Bruk";
+"Render utilization" = "Render utilization";
+"Tiler utilization" = "Tiler utilization";
+"GPU usage threshold" = "GPU usage threshold";
+"GPU usage is" = "GPU usage is %0";
 
 // RAM
 "Memory usage" = "Minnebruk";
@@ -182,6 +246,12 @@
 "Free" = "Ledig";
 "Swap" = "Swap";
 "Split the value (App/Wired/Compressed)" = "Del verdien (Programmer/Opptatt/Komprimert)";
+"RAM utilization threshold" = "RAM utilization threshold";
+"RAM utilization is" = "RAM utilization is %0";
+"App color" = "App color";
+"Wired color" = "Wired color";
+"Compressed color" = "Compressed color";
+"Free color" = "Free color";
 
 // Disk
 "Show removable disks" = "Vis utløsbare disker";
@@ -190,6 +260,8 @@
 "Disk to show" = "Disker å vise";
 "Open disk" = "Åpne disken";
 "Switch view" = "Bytt visning";
+"Disk utilization threshold" = "Disk utilization threshold";
+"Disk utilization is" = "Disk utilization is %0";
 
 // Sensors
 "Temperature unit" = "Temperaturenhet";
@@ -197,6 +269,11 @@
 "Fahrenheit" = "Fahrenheit";
 "Save the fan speed" = "Lagre viftehastighet";
 "Fan" = "Fan";
+"HID sensors" = "HID sensors";
+"Synchronize fan's control" = "Synchronize fan's control";
+"Current" = "Current";
+"Energy" = "Energy";
+"Show unknown sensors" = "Show unknown sensors";
 
 // Network
 "Uploading" = "Opplasting";
@@ -218,6 +295,18 @@
 "Interface based" = "Grensesnitt";
 "Processes based" = "Prosess";
 "Reset data usage" = "Reset data usage";
+"VPN mode" = "VPN mode";
+"Standard" = "Standard";
+"Security" = "Security";
+"Channel" = "Channel";
+"Common scale" = "Common scale";
+"Autodetection" = "Autodetection";
+"Widget activation threshold" = "Widget activation threshold";
+"Internet connection" = "Internet connection";
+"Active state color" = "Active state color";
+"Nonactive state color" = "Nonactive state color";
+"Connectivity host (ICMP)" = "Connectivity host (ICMP)";
+"Leave empty to disable the check" = "Leave empty to disable the check";
 
 // Battery
 "Level" = "Nivå";
@@ -250,13 +339,19 @@
 "Time format" = "Tidsformat";
 "Hide additional information when full" = "Skjul ekstra information når fulladet";
 "Last charge" = "Siste lading";
+"Capacity" = "Capacity";
+"maximum / designed" = "maximum / designed";
+"Low power mode" = "Low power mode";
+"Percentage inside the icon" = "Percentage inside the icon";
 
 // Bluetooth
 "Battery to show" = "Battery å vise";
+"No Bluetooth devices are available" = "No Bluetooth devices are available";
 
 // Colors
 "Based on utilization" = "Basert på bruk";
 "Based on pressure" = "Basert på trykk";
+"Based on cluster" = "Based on cluster";
 "System accent" = "Systemaksent";
 "Monochrome accent" = "Ensfarget aksent";
 "Clear" = "Blank";

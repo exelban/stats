@@ -11,23 +11,21 @@
 
 // Modules
 "CPU" = "CPU";
-"Open CPU settings" = "Otevřít nastevení CPU";
+"Open CPU settings" = "Otevřít nastavení CPU";
 "GPU" = "GPU";
-"Open GPU settings" = "Otevřít nastevení GPU";
+"Open GPU settings" = "Otevřít nastavení GPU";
 "RAM" = "RAM";
-"Open RAM settings" = "Otevřít nastevení RAM";
+"Open RAM settings" = "Otevřít nastavení RAM";
 "Disk" = "Disk";
-"Open Disk settings" = "Otevřít nastevení disku";
+"Open Disk settings" = "Otevřít nastavení disku";
 "Sensors" = "Senzory";
-"Open Sensors settings" = "Otevřít nastevení senzorů";
-"Fans" = "Ventilátory";
-"Open Fans settings" = "Otevřít nastevení ventilátoræ";
+"Open Sensors settings" = "Otevřít nastavení senzorů";
 "Network" = "Síť";
-"Open Network settings" = "Otevřít nastevení sítě";
+"Open Network settings" = "Otevřít nastavení sítě";
 "Battery" = "Baterie";
-"Open Battery settings" = "Otevřít nastevení baterie";
+"Open Battery settings" = "Otevřít nastavení baterie";
 "Bluetooth" = "Bluetooth";
-"Open Bluetooth settings" = "Otevřít nastevení bluetooth";
+"Open Bluetooth settings" = "Otevřít nastavení bluetooth";
 
 // Words
 "Unknown" = "Neznámý";
@@ -59,13 +57,45 @@
 "Center alignment" = "Zarovnat na střed";
 "Right alignment" = "Zarovnat doprava";
 "Dashboard" = "Dashboard";
-"Disabled" = "Disabled";
+"Enabled" = "Povoleno";
+"Disabled" = "Zakázáno";
+"Silent" = "Tichý";
+"Units" = "Jednotky";
+"Fans" = "Ventilátory";
+"Scaling" = "Měřítko";
+"Linear" = "Lineární";
+"Square" = "Čtvercový";
+"Cube" = "Kubický";
+"Logarithmic" = "Logaritmický";
+"Cores" = "Jádra";
+
+// Setup
+"Stats Setup" = "Nastavení Stats";
+"Previous" = "Zpět";
+"Previous page" = "Předchozí strana";
+"Next" = "Dále";
+"Next page" = "Další strana";
+"Finish" = "Dokončit";
+"Finish setup" = "Dokončit nastavení";
+"Welcome to Stats" = "Vítejte ve Stats";
+"welcome_message" = "Děkujeme, že používáte Stats, bezplatný open source monitor systému macOS pro nástrojovou lištu.";
+"Start the application automatically when starting your Mac" = "Automatické spuštění aplikace při startu počítače Mac";
+"Do not start the application automatically when starting your Mac" = "Nespouštějte aplikaci automaticky při spuštění Macu";
+"Do everything silently in the background (recommended)" = "Provádět vše tiše na pozadí (doporučeno)";
+"Check for a new version on startup" = "Kontrola nové verze při spuštění";
+"Check for a new version every day (once a day)" = "Kontrola nové verze každý den (jednou denně)";
+"Check for a new version every week (once a week)" = "Kontrola nové verze každý týden (jednou týdně)";
+"Check for a new version every month (once a month)" = "Kontrola nové verze každý měsíc (jednou měsíčně)";
+"Never check for updates (not recommended)" = "Nikdy nekontrolovat aktualizace (nedoporučuje se)";
+"The configuration is completed" = "Konfigurace je dokončena";
+"finish_setup_message" = "Vše je připraveno! \n Statistiky jsou open source nástroj, který je zdarma a vždy bude. \n Pokud se vám líbí, můžete projekt podpořit, vždy se to cení!";
 
 // Alerts
 "New version available" = "Nová verze k dispozici";
 "Click to install the new version of Stats" = "Klikněte pro instalaci nové verze Stats";
 "Successfully updated" = "Úspěšně aktualizováno";
 "Stats was updated to v" = "Stats byly aktualizovány na v%0";
+"Reset settings text" = "Všechna nastavení aplikace budou resetována a aplikace bude restartována. Jste si jisti, že to chcete udělat?";
 
 // Settings
 "Open Activity Monitor" = "Otevřít Monitor aktivity";
@@ -86,10 +116,18 @@
 "Check for update" = "Zkontrolovat aktualizace";
 "Show icon in dock" = "Zobrazovat ikonu v Docku";
 "Start at login" = "Spustit po přihlášení";
+"Build number" = "Číslo sestavení";
+"Reset settings" = "Obnovit nastavení";
+"Pause the Stats" = "Pozastavit Stats";
+"Resume the Stats" = "Obnovit Stats";
 
 // Dashboard
 "Serial number" = "Sériové číslo";
 "Uptime" = "Spuštěno";
+"Number of cores" = "%0 jader";
+"Number of threads" = "%0 vláken";
+"Number of e-cores" = "%0 efektivních jader";
+"Number of p-cores" = "%0 výkonných jader";
 
 // Update
 "The latest version of Stats installed" = "Byla nainstalována nejnovější verze Stats";
@@ -121,21 +159,35 @@
 "Text widget" = "Text";
 "Memory widget" = "Paměť";
 "Static width" = "Statická šířka";
-"Tachometer widget" = "Tachometer";
+"Tachometer widget" = "Tachometr";
+"State widget" = "Stav";
+"Show symbols" = "Zobrazit symboly";
+"Label widget" = "Popisek";
+"Number of reads in the chart" = "Počet čtení v grafu";
+"Color of download" = "Barva stahování";
+"Color of upload" = "Barva nahrávání";
 
 // Module Kit
 "Open module settings" = "Otevřít nastavení modulu";
 "Select widget" = "Vyber widget %0";
-"Open widget settings" = "Open widget settings";
+"Open widget settings" = "Otevřít nastavení widgetu";
 "Update interval" = "Interval aktualizace";
 "Usage history" = "Historie použití";
 "Details" = "Detaily";
 "Top processes" = "První procesy";
 "Pictogram" = "Piktogram";
+"Module settings" = "Nastavení modulu";
+"Widget settings" = "Nastavení widgetu";
+"Popup settings" = "Popup settings";
+"Merge widgets" = "Sloučit widgety";
+"No available widgets to configure" = "Žádné dostupné widgety ke konfiguraci";
+"No options to configure for the popup in this module" = "No options to configure for the popup in this module";
 
 // Modules
 "Number of top processes" = "Počet prvních procesů";
 "Update interval for top processes" = "Interval aktualizace pro první procesy";
+"Notification level" = "Úroveň oznámení";
+"Chart color" = "Chart color";
 
 // CPU
 "CPU usage" = "Použití CPU";
@@ -153,6 +205,14 @@
 "1 minute" = "1 minuta";
 "5 minutes" = "5 minut";
 "15 minutes" = "15 minut";
+"CPU usage threshold" = "Prahová hodnota využití CPU";
+"CPU usage is" = "Využití procesoru je %0";
+"Efficiency cores" = "Efektivní jádra";
+"Performance cores" = "Výkonná jádra";
+"System color" = "System color";
+"User color" = "User color";
+"Idle color" = "Idle color";
+"Cluster grouping" = "Cluster grouping";
 
 // GPU
 "GPU to show" = "GPU k zobrazení";
@@ -170,6 +230,10 @@
 "Core clock" = "Takt jádra";
 "Memory clock" = "Takt pamětí";
 "Utilization" = "Využití";
+"Render utilization" = "Využití vykreslování";
+"Tiler utilization" = "Využití tilingu";
+"GPU usage threshold" = "Prahová hodnota využití GPU";
+"GPU usage is" = "Využití GPU je %0";
 
 // RAM
 "Memory usage" = "Využití paměti";
@@ -182,6 +246,12 @@
 "Free" = "Volná";
 "Swap" = "Odkládací";
 "Split the value (App/Wired/Compressed)" = "Rozdělit hodnotu (Aplikační/Pevná/Komprese)";
+"RAM utilization threshold" = "Prahová hodnota využití paměti";
+"RAM utilization is" = "Využití paměti je %0";
+"App color" = "App color";
+"Wired color" = "Wired color";
+"Compressed color" = "Compressed color";
+"Free color" = "Free color";
 
 // Disk
 "Show removable disks" = "Zobrazovat vyměnitelné disky";
@@ -190,13 +260,20 @@
 "Disk to show" = "Zobrazit disk";
 "Open disk" = "Otevřít disk";
 "Switch view" = "Přepnout pohled";
+"Disk utilization threshold" = "Prahová hodnota využití disku";
+"Disk utilization is" = "Využití disku je %0";
 
 // Sensors
 "Temperature unit" = "Jednotka teploty";
 "Celsius" = "Celsius";
 "Fahrenheit" = "Fahrenheit";
-"Save the fan speed" = "Save the fan speed";
-"Fan" = "Fan";
+"Save the fan speed" = "Uložit rychlost ventilátoru";
+"Fan" = "Ventilátor";
+"HID sensors" = "HID senzory";
+"Synchronize fan's control" = "Synchronizace ovládání ventilátoru";
+"Current" = "Proud";
+"Energy" = "Energie";
+"Show unknown sensors" = "Show unknown sensors";
 
 // Network
 "Uploading" = "Nahrávání";
@@ -217,7 +294,19 @@
 "Reader type" = "Typ přehledu";
 "Interface based" = "Podle rozhraní";
 "Processes based" = "Podle procesů";
-"Reset data usage" = "Reset data usage";
+"Reset data usage" = "Resetovat využití dat";
+"VPN mode" = "VPN režim";
+"Standard" = "Standard";
+"Security" = "Zabezpečení";
+"Channel" = "Kanál";
+"Common scale" = "Společná stupnice";
+"Autodetection" = "Automatická detekce";
+"Widget activation threshold" = "Práh aktivace widgetu";
+"Internet connection" = "Připojení k internetu";
+"Active state color" = "Barva aktivního stavu";
+"Nonactive state color" = "Barva neaktivního stavu";
+"Connectivity host (ICMP)" = "Connectivity host (ICMP)";
+"Leave empty to disable the check" = "Leave empty to disable the check";
 
 // Battery
 "Level" = "Úroveň";
@@ -250,13 +339,19 @@
 "Time format" = "Formát času";
 "Hide additional information when full" = "Skrýt další informace při plném nabití";
 "Last charge" = "Poslední nabití";
+"Capacity" = "Kapacita";
+"maximum / designed" = "maximum / výrobní";
+"Low power mode" = "Režim nízké spotřeby";
+"Percentage inside the icon" = "Procento uvnitř ikony";
 
 // Bluetooth
 "Battery to show" = "Baterie k zobrazení";
+"No Bluetooth devices are available" = "Žádná bluetooth zařízení nejsou k dispozici";
 
 // Colors
 "Based on utilization" = "Na základě využití";
 "Based on pressure" = "Na základě tlaku";
+"Based on cluster" = "Based on cluster";
 "System accent" = "Systém";
 "Monochrome accent" = "Černobílá";
 "Clear" = "Průhledná";

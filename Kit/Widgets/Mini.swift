@@ -21,9 +21,10 @@ public class Mini: WidgetWrapper {
     
     private let onlyValueWidth: CGFloat = 40
     private var colors: [Color] = Color.allCases
+    private var colorZones: colorZones = (0.6, 0.8)
     
     private var value: Double = 0
-    private var pressureLevel: Int = 0
+    private var pressureLevel: DispatchSource.MemoryPressureEvent = .normal
     private var defaultLabel: String
     private var label: String
     
@@ -121,7 +122,7 @@ public class Mini: WidgetWrapper {
         var color: NSColor = controlAccentColor
         switch self.colorState {
         case .systemAccent: color = controlAccentColor
-        case .utilization: color = value.usageColor()
+        case .utilization: color = value.usageColor(zones: self.colorZones, reversed: self.title == "BAT")
         case .pressure: color = self.pressureLevel.pressureColor()
         case .monochrome: color = (isDarkMode ? NSColor.white : NSColor.black)
         default: color = self.colorState.additional as? NSColor ?? controlAccentColor
@@ -150,7 +151,7 @@ public class Mini: WidgetWrapper {
         })
     }
     
-    public func setPressure(_ level: Int) {
+    public func setPressure(_ level: DispatchSource.MemoryPressureEvent) {
         if self.pressureLevel == level {
             return
         }
@@ -177,28 +178,36 @@ public class Mini: WidgetWrapper {
         })
     }
     
+    public func setColorZones(_ zones: colorZones) {
+        guard self.colorZones != zones else {
+            return
+        }
+        
+        self.colorZones = zones
+        DispatchQueue.main.async(execute: {
+            self.display()
+        })
+    }
+    
     // MARK: - Settings
     
-    public override func settings(width: CGFloat) -> NSView {
-        let view = SettingsContainerView(width: width)
+    public override func settings() -> NSView {
+        let view = SettingsContainerView()
         
-        view.addArrangedSubview(toggleTitleRow(
-            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
+        view.addArrangedSubview(toggleSettingRow(
             title: localizedString("Label"),
             action: #selector(toggleLabel),
             state: self.labelState
         ))
         
-        view.addArrangedSubview(selectRow(
-            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
+        view.addArrangedSubview(selectSettingsRow(
             title: localizedString("Color"),
             action: #selector(toggleColor),
             items: self.colors,
             selected: self.colorState.key
         ))
         
-        view.addArrangedSubview(selectRow(
-            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
+        view.addArrangedSubview(selectSettingsRow(
             title: localizedString("Alignment"),
             action: #selector(toggleAlignment),
             items: Alignments,

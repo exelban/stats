@@ -37,32 +37,12 @@ notarize:
 	osascript -e 'display notification "Submitting app for notarization..." with title "Build the Stats"'
 	echo "Submitting app for notarization..."
 
-	xcrun altool --notarize-app \
-	  --primary-bundle-id $(BUNDLE_ID)\
-	  -itc_provider $(AC_PROVIDER) \
-	  -u $(AC_USERNAME) \
-	  -p @keychain:AC_PASSWORD \
-	  --file $(ZIP_PATH)
+	xcrun notarytool submit --keychain-profile "AC_PASSWORD" --wait $(ZIP_PATH)
 
-	echo "Application sent to the notarization center"
-
-	sleep 30s
-
-LAST_REQUEST="test"
+	echo "Stats successfully notarized"
 
 sign:
-	osascript -e 'display notification "Checking if package is approved by Apple..." with title "Build the Stats"'
-	echo "Checking if package is approved by Apple..."
-
-	while true; do \
-		if [[ "$$(xcrun altool --notarization-history 0 -itc_provider $(AC_PROVIDER) -u $(AC_USERNAME) -p @keychain:AC_PASSWORD | sed -n '6p')" == *"success"* ]]; then \
-			echo "OK" ;\
-			break ;\
-		fi ;\
-		echo "Package was not approved by Apple, recheck in 10s..."; \
-		sleep 10s ;\
-	done
-
+	osascript -e 'display notification "Stampling the Stats..." with title "Build the Stats"'
 	echo "Going to staple an application..."
 
 	xcrun stapler staple $(APP_PATH)
@@ -111,17 +91,10 @@ next-version:
 	/usr/libexec/PlistBuddy -c "Set :CFBundleVersion $$versionNumber" "$(PWD)/Stats/Supporting Files/Info.plist" ;\
 
 check:
-	xcrun altool \
-	  --notarization-info 36ba52a7-97bb-43e7-8faf-72bd6e9e1df3 \
-	  -itc_provider $(AC_PROVIDER) \
-	  -u $(AC_USERNAME) \
-	  -p @keychain:AC_PASSWORD
+	xcrun notarytool log 2d0045cc-8f0d-4f4c-ba6f-728895fd064a --keychain-profile "AC_PASSWORD"
 
 history:
-	xcrun altool --notarization-history 0 \
-		-itc_provider $(AC_PROVIDER) \
-		-u $(AC_USERNAME) \
-		-p @keychain:AC_PASSWORD
+	xcrun notarytool history --keychain-profile "AC_PASSWORD"
 
 open:
 	osascript -e 'display notification "Stats signed and ready for distribution" with title "Build the Stats"'

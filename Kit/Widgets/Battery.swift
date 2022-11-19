@@ -8,6 +8,7 @@
 //
 //  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
 //
+// swiftlint:disable function_body_length
 
 import Cocoa
 
@@ -17,11 +18,13 @@ public class BatterykWidget: WidgetWrapper {
     private var iconState: Bool = true
     private var colorState: Bool = false
     private var hideAdditionalWhenFull: Bool = true
+    private var lowPowerModeState: Bool = true
     
     private var percentage: Double? = nil
     private var time: Int = 0
     private var charging: Bool = false
     private var ACStatus: Bool = false
+    private var lowPowerMode: Bool = false
     
     public init(title: String, config: NSDictionary?, preview: Bool = false) {
         let widgetTitle: String = title
@@ -41,6 +44,7 @@ public class BatterykWidget: WidgetWrapper {
             self.iconState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_icon", defaultValue: self.iconState)
             self.colorState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_color", defaultValue: self.colorState)
             self.hideAdditionalWhenFull = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_hideAdditionalWhenFull", defaultValue: self.hideAdditionalWhenFull)
+            self.lowPowerModeState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_lowPowerMode", defaultValue: self.lowPowerMode)
         }
         
         if preview {
@@ -55,7 +59,6 @@ public class BatterykWidget: WidgetWrapper {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // swiftlint:disable function_body_length
     public override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         
@@ -146,14 +149,53 @@ public class BatterykWidget: WidgetWrapper {
             let maxWidth = batterySize.width - offset*2 - borderWidth*2 - 1
             let innerWidth: CGFloat = max(1, maxWidth * CGFloat(percentage))
             let innerOffset: CGFloat = -offset + borderWidth + 1
+            var colorState = self.colorState
+            var color = percentage.batteryColor(color: colorState)
+            if self.lowPowerModeState {
+                color = percentage.batteryColor(color: colorState, lowPowerMode: self.lowPowerMode)
+            }
+            
+            if self.additional == "innerPercentage" && !self.ACStatus {
+                colorState = false
+                
+                let innerUnderground = NSBezierPath(roundedRect: NSRect(
+                    x: batteryFrame.bounds.origin.x + innerOffset,
+                    y: batteryFrame.bounds.origin.y + innerOffset,
+                    width: maxWidth,
+                    height: batterySize.height - offset*2 - borderWidth*2 - 1
+                ), xRadius: 1, yRadius: 1)
+                color.withAlphaComponent(0.65).set()
+                innerUnderground.fill()
+            }
+            
             let inner = NSBezierPath(roundedRect: NSRect(
                 x: batteryFrame.bounds.origin.x + innerOffset,
                 y: batteryFrame.bounds.origin.y + innerOffset,
                 width: innerWidth,
                 height: batterySize.height - offset*2 - borderWidth*2 - 1
             ), xRadius: 1, yRadius: 1)
-            percentage.batteryColor(color: self.colorState).set()
+            
+            color.set()
             inner.fill()
+            
+            if self.additional == "innerPercentage" && !self.ACStatus {
+                let style = NSMutableParagraphStyle()
+                style.alignment = .center
+                let attributes = [
+                    NSAttributedString.Key.font: NSFont.systemFont(ofSize: 8, weight: .bold),
+                    NSAttributedString.Key.foregroundColor: NSColor.clear,
+                    NSAttributedString.Key.paragraphStyle: style
+                ]
+                
+                let value = "\(Int((percentage.rounded(toPlaces: 2)) * 100))"
+                let rect = CGRect(x: inner.bounds.origin.x, y: (Constants.Widget.height-10)/2, width: maxWidth, height: 8)
+                let str = NSAttributedString.init(string: value, attributes: attributes)
+                
+                ctx.saveGState()
+                ctx.setBlendMode(.destinationIn)
+                str.draw(with: rect)
+                ctx.restoreGState()
+            }
         } else {
             let attributes = [
                 NSAttributedString.Key.font: NSFont.systemFont(ofSize: 11, weight: .regular),
@@ -292,7 +334,7 @@ public class BatterykWidget: WidgetWrapper {
         return rowWidth
     }
     
-    public func setValue(percentage: Double? = nil, ACStatus: Bool? = nil, isCharging: Bool? = nil, time: Int? = nil) {
+    public func setValue(percentage: Double? = nil, ACStatus: Bool? = nil, isCharging: Bool? = nil, lowPowerMode: Bool? = nil, time: Int? = nil) {
         var updated: Bool = false
         let timeFormat: String = Store.shared.string(key: "\(self.title)_timeFormat", defaultValue: self.timeFormat)
         
@@ -316,6 +358,10 @@ public class BatterykWidget: WidgetWrapper {
             self.timeFormat = timeFormat
             updated = true
         }
+        if let state = lowPowerMode, self.lowPowerMode != state {
+            self.lowPowerMode = state
+            updated = true
+        }
         
         if updated {
             DispatchQueue.main.async(execute: {
@@ -326,31 +372,34 @@ public class BatterykWidget: WidgetWrapper {
     
     // MARK: - Settings
     
-    public override func settings(width: CGFloat) -> NSView {
-        let view = SettingsContainerView(width: width)
+    public override func settings() -> NSView {
+        let view = SettingsContainerView()
         
         var additionalOptions = BatteryAdditionals
         if self.title == "Bluetooth" {
             additionalOptions = additionalOptions.filter({ $0.key == "none" || $0.key == "percentage" })
         }
         
-        view.addArrangedSubview(selectRow(
-            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
+        view.addArrangedSubview(selectSettingsRow(
             title: localizedString("Additional information"),
             action: #selector(toggleAdditional),
             items: additionalOptions,
             selected: self.additional
         ))
         
-        view.addArrangedSubview(toggleTitleRow(
-            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
+        view.addArrangedSubview(toggleSettingRow(
             title: localizedString("Hide additional information when full"),
             action: #selector(toggleHideAdditionalWhenFull),
             state: self.hideAdditionalWhenFull
         ))
         
-        view.addArrangedSubview(toggleTitleRow(
-            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
+        view.addArrangedSubview(toggleSettingRow(
+            title: localizedString("Low power mode"),
+            action: #selector(toggleLowPowerMode),
+            state: self.lowPowerModeState
+        ))
+        
+        view.addArrangedSubview(toggleSettingRow(
             title: localizedString("Colorize"),
             action: #selector(toggleColor),
             state: self.colorState
@@ -389,6 +438,18 @@ public class BatterykWidget: WidgetWrapper {
         }
         self.colorState = state! == .on ? true : false
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_color", value: self.colorState)
+        self.display()
+    }
+    
+    @objc private func toggleLowPowerMode(_ sender: NSControl) {
+        var state: NSControl.StateValue? = nil
+        if #available(OSX 10.15, *) {
+            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
+        } else {
+            state = sender is NSButton ? (sender as! NSButton).state: nil
+        }
+        self.lowPowerModeState = state! == .on ? true : false
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_lowPowerMode", value: self.lowPowerModeState)
         self.display()
     }
 }

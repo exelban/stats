@@ -15,6 +15,10 @@ import Kit
 class SettingsWindow: NSWindow, NSWindowDelegate {
     private let viewController: SettingsViewController = SettingsViewController()
     
+    private var pauseState: Bool {
+        Store.shared.bool(key: "pause", defaultValue: false)
+    }
+    
     init() {
         super.init(
             contentRect: NSRect(
@@ -28,9 +32,16 @@ class SettingsWindow: NSWindow, NSWindowDelegate {
             defer: false
         )
         
+        if let close = self.standardWindowButton(.closeButton),
+           let mini = self.standardWindowButton(.miniaturizeButton),
+           let zoom = self.standardWindowButton(.zoomButton) {
+            close.setFrameOrigin(NSPoint(x: 7, y: close.frame.origin.y))
+            mini.setFrameOrigin(NSPoint(x: 27, y: mini.frame.origin.y))
+            zoom.setFrameOrigin(NSPoint(x: 47, y: zoom.frame.origin.y))
+        }
+        
         self.contentViewController = self.viewController
         self.animationBehavior = .default
-        self.collectionBehavior = .moveToActiveSpace
         self.titlebarAppearsTransparent = true
         if #available(OSX 10.14, *) {
             self.appearance = NSAppearance(named: .darkAqua)
@@ -68,6 +79,9 @@ class SettingsWindow: NSWindow, NSWindowDelegate {
             self.setIsVisible(true)
             self.makeKeyAndOrderFront(nil)
         }
+        if !self.isKeyWindow {
+            self.orderFrontRegardless()
+        }
         
         if let name = notification.userInfo?["module"] as? String {
             self.viewController.openMenu(name)
@@ -76,7 +90,7 @@ class SettingsWindow: NSWindow, NSWindowDelegate {
     
     public func setModules() {
         self.viewController.setModules(modules)
-        if modules.filter({ $0.enabled != false && $0.available != false && !$0.widgets.filter({ $0.isActive }).isEmpty }).isEmpty {
+        if !self.pauseState && modules.filter({ $0.enabled != false && $0.available != false && !$0.menuBar.widgets.filter({ $0.isActive }).isEmpty }).isEmpty {
             self.setIsVisible(true)
         }
     }
@@ -130,7 +144,7 @@ private class SettingsView: NSView {
     private var mainView: NSView = NSView()
     
     private var dashboard: NSView = Dashboard()
-    private var settings: NSView = ApplicationSettings()
+    private var settings: ApplicationSettings = ApplicationSettings()
     
     private let supportPopover = NSPopover()
     
@@ -229,6 +243,7 @@ private class SettingsView: NSView {
             } else if title == "Dashboard" {
                 view = self.dashboard
             } else if title == "settings" {
+                self.settings.viewWillAppear()
                 view = self.settings
             }
             
@@ -411,7 +426,7 @@ private class MenuView: NSView {
     
     public func activate() {
         NotificationCenter.default.post(name: .openModuleSettings, object: nil, userInfo: ["module": self.title])
-        self.layer?.backgroundColor = .init(gray: 0.1, alpha: 0.4)
+        self.layer?.backgroundColor = .init(gray: 0.01, alpha: 0.25)
         self.active = true
     }
     

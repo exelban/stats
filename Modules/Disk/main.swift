@@ -50,6 +50,11 @@ public class Disks {
         return result
     }
     
+    // swiftlint:disable empty_count
+    public var isEmpty: Bool {
+        return self.count == 0
+    }
+    
     public func first(where predicate: (drive) -> Bool) -> drive? {
         var result: drive?
         self.queue.sync { result = self.array.first(where: predicate) }
@@ -128,6 +133,14 @@ public class Disk: Module {
     private var activityReader: ActivityReader? = nil
     private var settingsView: Settings
     private var selectedDisk: String = ""
+    private var notificationLevelState: Bool = false
+    private var notificationID: String? = nil
+    
+    private var notificationLevel: String {
+        get {
+            return Store.shared.string(key: "\(self.config.name)_notificationLevel", defaultValue: "Disabled")
+        }
+    }
     
     public init() {
         self.settingsView = Settings("Disk")
@@ -163,6 +176,9 @@ public class Disk: Module {
         }
         self.settingsView.callback = { [unowned self] in
             self.capacityReader?.read()
+        }
+        self.settingsView.setInterval = { [unowned self] value in
+            self.capacityReader?.setInterval(value)
         }
         
         if let reader = self.capacityReader {
@@ -201,11 +217,17 @@ public class Disk: Module {
         }
         let percentage = Double(usedSpace) / Double(total)
         
-        self.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
+        self.checkNotificationLevel(percentage)
+        
+        self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
             switch w.item {
             case let widget as Mini: widget.setValue(percentage)
             case let widget as BarChart: widget.setValue([[ColorValue(percentage)]])
             case let widget as MemoryWidget: widget.setValue((DiskSize(free).getReadableMemory(), DiskSize(usedSpace).getReadableMemory()))
+            case let widget as PieChart:
+                widget.setValue([
+                    circle_segment(value: percentage, color: NSColor.systemBlue)
+                ])
             default: break
             }
         }
@@ -224,11 +246,38 @@ public class Disk: Module {
             return
         }
         
-        self.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
+        self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
             switch w.item {
             case let widget as SpeedWidget: widget.setValue(upload: d.activity.write, download: d.activity.read)
+            case let widget as NetworkChart: widget.setValue(upload: Double(d.activity.write), download: Double(d.activity.read))
             default: break
             }
+        }
+    }
+    
+    private func checkNotificationLevel(_ value: Double) {
+        guard self.notificationLevel != "Disabled", let level = Double(self.notificationLevel) else { return }
+        
+        if let id = self.notificationID, value < level && self.notificationLevelState {
+            if #available(macOS 10.14, *) {
+                removeNotification(id)
+            } else {
+                removeNSNotification(id)
+            }
+            
+            self.notificationID = nil
+            self.notificationLevelState = false
+        } else if value >= level && !self.notificationLevelState {
+            let title = localizedString("Disk utilization threshold")
+            let subtitle = localizedString("Disk utilization is", "\(Int((value)*100))%")
+            
+            if #available(macOS 10.14, *) {
+                self.notificationID = showNotification(title: title, subtitle: subtitle)
+            } else {
+                self.notificationID = showNSNotification(title: title, subtitle: subtitle)
+            }
+            
+            self.notificationLevelState = true
         }
     }
 }

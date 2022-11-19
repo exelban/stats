@@ -19,7 +19,7 @@ public class BarChart: WidgetWrapper {
     
     private var colors: [Color] = Color.allCases
     private var value: [[ColorValue]] = [[]]
-    private var pressureLevel: Int = 0
+    private var pressureLevel: DispatchSource.MemoryPressureEvent = .normal
     private var colorZones: colorZones = (0.6, 0.8)
     
     private var boxSettingsView: NSView? = nil
@@ -81,6 +81,7 @@ public class BarChart: WidgetWrapper {
             }
             self.setFrameSize(NSSize(width: 36, height: self.frame.size.height))
             self.invalidateIntrinsicContentSize()
+            self.display()
         }
     }
     
@@ -92,7 +93,7 @@ public class BarChart: WidgetWrapper {
     public override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         
-        var width: CGFloat = (Constants.Widget.margin.x*2)
+        var width: CGFloat = Constants.Widget.margin.x*2
         var x: CGFloat = 0
         let lineWidth = 1 / (NSScreen.main?.backingScaleFactor ?? 1)
         let offset = lineWidth / 2
@@ -170,8 +171,9 @@ public class BarChart: WidgetWrapper {
                 if partitionValue.color == nil {
                     switch self.colorState {
                     case .systemAccent: controlAccentColor.set()
-                    case .utilization: partitionValue.value.usageColor(zones: self.colorZones).setFill()
-                    case .pressure: self.pressureLevel.pressureColor().setFill()
+                    case .utilization: partitionValue.value.usageColor(zones: self.colorZones, reversed: self.title == "Battery").set()
+                    case .pressure: self.pressureLevel.pressureColor().set()
+                    case .cluster: (partitionValue.value.clusterColor(i) ?? controlAccentColor).set()
                     case .monochrome:
                         if self.boxState {
                             (isDarkMode ? NSColor.black : NSColor.white).set()
@@ -213,7 +215,7 @@ public class BarChart: WidgetWrapper {
         })
     }
     
-    public func setPressure(_ level: Int) {
+    public func setPressure(_ level: DispatchSource.MemoryPressureEvent) {
         guard self.pressureLevel != level else {
             return
         }
@@ -237,34 +239,30 @@ public class BarChart: WidgetWrapper {
     
     // MARK: - Settings
     
-    public override func settings(width: CGFloat) -> NSView {
-        let view = SettingsContainerView(width: width)
+    public override func settings() -> NSView {
+        let view = SettingsContainerView()
         
-        view.addArrangedSubview(toggleTitleRow(
-            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
+        view.addArrangedSubview(toggleSettingRow(
             title: localizedString("Label"),
             action: #selector(toggleLabel),
             state: self.labelState
         ))
         
-        self.boxSettingsView = toggleTitleRow(
-            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
+        self.boxSettingsView = toggleSettingRow(
             title: localizedString("Box"),
             action: #selector(toggleBox),
             state: self.boxState
         )
         view.addArrangedSubview(self.boxSettingsView!)
         
-        self.frameSettingsView = toggleTitleRow(
-            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
+        self.frameSettingsView = toggleSettingRow(
             title: localizedString("Frame"),
             action: #selector(toggleFrame),
             state: self.frameState
         )
         view.addArrangedSubview(self.frameSettingsView!)
         
-        view.addArrangedSubview(selectRow(
-            frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Settings.row),
+        view.addArrangedSubview(selectSettingsRow(
             title: localizedString("Color"),
             action: #selector(toggleColor),
             items: self.colors,
@@ -328,10 +326,11 @@ public class BarChart: WidgetWrapper {
         guard let key = sender.representedObject as? String else {
             return
         }
-        if let newColor = Color.allCases.first(where: { $0.key == key }) {
+        if let newColor = self.colors.first(where: { $0.key == key }) {
             self.colorState = newColor
         }
         
+        print(key)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_color", value: key)
         self.display()
     }

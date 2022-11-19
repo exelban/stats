@@ -25,6 +25,7 @@ internal class LoadReader: Reader<CPU_Load> {
     private var response: CPU_Load = CPU_Load()
     private var numCPUsU: natural_t = 0
     private var usagePerCore: [Double] = []
+    private var cores: [core_s]? = nil
     
     public override func setup() {
         self.hasHyperthreadingCores = sysctlByName("hw.physicalcpu") != sysctlByName("hw.logicalcpu")
@@ -35,9 +36,9 @@ internal class LoadReader: Reader<CPU_Load> {
                 self.numCPUs = 1
             }
         }
+        self.cores = SystemKit.shared.device.info.cpu?.cores
     }
     
-    // swiftlint:disable function_body_length
     public override func read() {
         let result: kern_return_t = host_processor_info(mach_host_self(), PROCESSOR_CPU_LOAD_INFO, &self.numCPUsU, &self.cpuInfo, &self.numCpuInfo)
         if result == KERN_SUCCESS {
@@ -127,6 +128,24 @@ internal class LoadReader: Reader<CPU_Load> {
         }
         self.previousInfo = cpuInfo!
         self.response.totalUsage = self.response.systemLoad + self.response.userLoad
+        
+        if let cores = self.cores {
+            let eCoresList: [Double] = cores.filter({ $0.type == .efficiency }).compactMap { (c: core_s) in
+                if self.response.usagePerCore.indices.contains(Int(c.id)) {
+                    return self.response.usagePerCore[Int(c.id)]
+                }
+                return 0
+            }
+            let pCoresList: [Double] = cores.filter({ $0.type == .performance }).compactMap { (c: core_s) in
+                if self.response.usagePerCore.indices.contains(Int(c.id)) {
+                    return self.response.usagePerCore[Int(c.id)]
+                }
+                return 0
+            }
+            
+            self.response.usageECores = eCoresList.reduce(0, +)/Double(eCoresList.count)
+            self.response.usagePCores = pCoresList.reduce(0, +)/Double(pCoresList.count)
+        }
         
         self.callback(self.response)
     }
@@ -244,6 +263,20 @@ public class TemperatureReader: Reader<Double> {
             temperature = value
         } else if let value = SMC.shared.getValue("TC0H"), value < 110 {
             temperature = value
+        } else {
+            #if arch(arm64)
+            var total: Double = 0
+            var counter: Double = 0
+            ["Tp09", "Tp0T", "Tp01", "Tp05", "Tp0D", "Tp0H", "Tp0L", "Tp0P", "Tp0X", "Tp0b"].forEach { (key: String) in
+                if let value = SMC.shared.getValue(key) {
+                    total += value
+                    counter += 1
+                }
+            }
+            if total != 0 && counter != 0 {
+                temperature = total / counter
+            }
+            #endif
         }
         
         self.callback(temperature)

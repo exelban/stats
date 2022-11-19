@@ -20,8 +20,6 @@
 "Open Disk settings" = "ディスクの設定を開く";
 "Sensors" = "センサー";
 "Open Sensors settings" = "センサーの設定を開く";
-"Fans" = "ファン";
-"Open Fans settings" = "ファンの設定を開く";
 "Network" = "ネットワーク";
 "Open Network settings" = "ネットワークの設定を開く";
 "Battery" = "バッテリー";
@@ -59,13 +57,45 @@
 "Center alignment" = "中央揃え";
 "Right alignment" = "右揃え";
 "Dashboard" = "ダッシュボード";
-"Disabled" = "Disabled";
+"Enabled" = "有効";
+"Disabled" = "無効";
+"Silent" = "自動（サイレント）";
+"Units" = "単位";
+"Fans" = "ファン";
+"Scaling" = "Scaling";
+"Linear" = "Linear";
+"Square" = "Square";
+"Cube" = "Cube";
+"Logarithmic" = "Logarithmic";
+"Cores" = "Cores";
+
+// Setup
+"Stats Setup" = "Stats Setup";
+"Previous" = "Previous";
+"Previous page" = "Previous page";
+"Next" = "Next";
+"Next page" = "Next page";
+"Finish" = "Finish";
+"Finish setup" = "Finish setup";
+"Welcome to Stats" = "Welcome to Stats";
+"welcome_message" = "Thanks for using Stats, a free open source macOS system monitor for your menu bar.";
+"Start the application automatically when starting your Mac" = "Start the application automatically when starting your Mac";
+"Do not start the application automatically when starting your Mac" = "Do not start the application automatically when starting your Mac";
+"Do everything silently in the background (recommended)" = "Do everything silently in the background (recommended)";
+"Check for a new version on startup" = "Check for a new version on startup";
+"Check for a new version every day (once a day)" = "Check for a new version every day (once a day)";
+"Check for a new version every week (once a week)" = "Check for a new version every week (once a week)";
+"Check for a new version every month (once a month)" = "Check for a new version every month (once a month)";
+"Never check for updates (not recommended)" = "Never check for updates (not recommended)";
+"The configuration is completed" = "The configuration is completed";
+"finish_setup_message" = "Everything is set up! \n The Stats is an open source tool, it's free and always will be. \n If you enjoy it you can support a project, it's always appreciated!";
 
 // Alerts
 "New version available" = "新しいバージョンが利用可能です";
 "Click to install the new version of Stats" = "クリックして新しいバージョンの Stats をインストール";
 "Successfully updated" = "正常にアップデートされました";
 "Stats was updated to v" = "Stats v%0 にアップデートしました";
+"Reset settings text" = "アプリの設定をすべてリセットし、アプリを再起動します。本当に続けますか？";
 
 // Settings
 "Open Activity Monitor" = "アクティビティモニタを開く";
@@ -86,10 +116,18 @@
 "Check for update" = "アップデートを確認する";
 "Show icon in dock" = "Dock にアイコンを表示";
 "Start at login" = "ログイン時に開く";
+"Build number" = "ビルド番号";
+"Reset settings" = "設定をリセット";
+"Pause the Stats" = "Pause the Stats";
+"Resume the Stats" = "Resume the Stats";
 
 // Dashboard
 "Serial number" = "シリアル番号";
 "Uptime" = "起動してからの時間";
+"Number of cores" = "%0 コア";
+"Number of threads" = "%0 スレッド";
+"Number of e-cores" = "%0 efficiency cores";
+"Number of p-cores" = "%0 performance cores";
 
 // Update
 "The latest version of Stats installed" = "最新の Stats がインストールされています";
@@ -121,7 +159,13 @@
 "Text widget" = "テキスト";
 "Memory widget" = "未使用/使用済み";
 "Static width" = "固定幅";
-"Tachometer widget" = "Tachometer";
+"Tachometer widget" = "タコメーター";
+"State widget" = "State widget";
+"Show symbols" = "シンボルを表示";
+"Label widget" = "ラベル";
+"Number of reads in the chart" = "読み取り回数のチャート";
+"Color of download" = "ダウンロードの色";
+"Color of upload" = "アップロードの色";
 
 // Module Kit
 "Open module settings" = "このモジュールの設定を開く";
@@ -132,10 +176,18 @@
 "Details" = "詳細";
 "Top processes" = "上位のプロセス";
 "Pictogram" = "ピクトグラム";
+"Module settings" = "モジュールの設定";
+"Widget settings" = "ウィジェットの設定";
+"Popup settings" = "Popup settings";
+"Merge widgets" = "Merge widgets";
+"No available widgets to configure" = "No available widgets to configure";
+"No options to configure for the popup in this module" = "No options to configure for the popup in this module";
 
 // Modules
 "Number of top processes" = "表示する上位プロセスの数";
-"Update interval for top processes" = "Update interval for top processes";
+"Update interval for top processes" = "上位プロセスの更新間隔";
+"Notification level" = "Notification level";
+"Chart color" = "Chart color";
 
 // CPU
 "CPU usage" = "CPU 使用率";
@@ -147,12 +199,20 @@
 "Show usage per core" = "コアごとの使用率を表示";
 "Show hyper-threading cores" = "ハイパースレッディングコアを表示";
 "Split the value (System/User)" = "値を分割する (システム/ユーザー)";
-"Scheduler limit" = "Scheduler limit";
-"Speed limit" = "Speed limit";
-"Average load" = "Average load";
-"1 minute" = "1 minute";
-"5 minutes" = "5 minutes";
-"15 minutes" = "15 minutes";
+"Scheduler limit" = "スケジューラの上限";
+"Speed limit" = "速度の上限";
+"Average load" = "平均ロード";
+"1 minute" = "1 分";
+"5 minutes" = "5 分";
+"15 minutes" = "15 分";
+"CPU usage threshold" = "CPU usage threshold";
+"CPU usage is" = "CPU usage is %0";
+"Efficiency cores" = "Efficiency cores";
+"Performance cores" = "Performance cores";
+"System color" = "System color";
+"User color" = "User color";
+"Idle color" = "Idle color";
+"Cluster grouping" = "Cluster grouping";
 
 // GPU
 "GPU to show" = "表示する GPU";
@@ -170,6 +230,10 @@
 "Core clock" = "コアクロック";
 "Memory clock" = "メモリクロック";
 "Utilization" = "使用率";
+"Render utilization" = "レンダリング";
+"Tiler utilization" = "タイルレンダリング";
+"GPU usage threshold" = "GPU usage threshold";
+"GPU usage is" = "GPU usage is %0";
 
 // RAM
 "Memory usage" = "メモリ使用率";
@@ -182,6 +246,12 @@
 "Free" = "空き";
 "Swap" = "スワップ使用領域";
 "Split the value (App/Wired/Compressed)" = "値を分割する (アプリケーションメモリ/確保されているメモリ/圧縮)";
+"RAM utilization threshold" = "RAM utilization threshold";
+"RAM utilization is" = "RAM utilization is %0";
+"App color" = "App color";
+"Wired color" = "Wired color";
+"Compressed color" = "Compressed color";
+"Free color" = "Free color";
 
 // Disk
 "Show removable disks" = "リムーバブルディスクを表示";
@@ -190,13 +260,20 @@
 "Disk to show" = "表示するディスク";
 "Open disk" = "このディスクを表示";
 "Switch view" = "表示を切り替える";
+"Disk utilization threshold" = "Disk utilization threshold";
+"Disk utilization is" = "Disk utilization is %0";
 
 // Sensors
 "Temperature unit" = "温度単位";
 "Celsius" = "摂氏（℃）";
 "Fahrenheit" = "華氏（℉）";
-"Save the fan speed" = "Save the fan speed";
-"Fan" = "Fan";
+"Save the fan speed" = "ファンの速度を保存";
+"Fan" = "ファン";
+"HID sensors" = "HID センサー";
+"Synchronize fan's control" = "Synchronize fan's control";
+"Current" = "Current";
+"Energy" = "Energy";
+"Show unknown sensors" = "Show unknown sensors";
 
 // Network
 "Uploading" = "送信";
@@ -217,7 +294,19 @@
 "Reader type" = "リーダータイプ";
 "Interface based" = "インターフェイス";
 "Processes based" = "プロセス";
-"Reset data usage" = "Reset data usage";
+"Reset data usage" = "データ使用履歴をリセット";
+"VPN mode" = "VPN モード";
+"Standard" = "Standard";
+"Security" = "Security";
+"Channel" = "Channel";
+"Common scale" = "Common scale";
+"Autodetection" = "Autodetection";
+"Widget activation threshold" = "Widget activation threshold";
+"Internet connection" = "Internet connection";
+"Active state color" = "Active state color";
+"Nonactive state color" = "Nonactive state color";
+"Connectivity host (ICMP)" = "Connectivity host (ICMP)";
+"Leave empty to disable the check" = "Leave empty to disable the check";
 
 // Battery
 "Level" = "充電残量";
@@ -250,13 +339,19 @@
 "Time format" = "時間の表示形式";
 "Hide additional information when full" = "フル充電済みのときはアイコンのみ表示";
 "Last charge" = "最後の充電から";
+"Capacity" = "容量";
+"maximum / designed" = "最大 / 規格";
+"Low power mode" = "低電力モード";
+"Percentage inside the icon" = "Percentage inside the icon";
 
 // Bluetooth
 "Battery to show" = "バッテリー残量を表示するデバイス";
+"No Bluetooth devices are available" = "利用可能な Bluetooth デバイスがありません";
 
 // Colors
 "Based on utilization" = "使用率に基づいたカラー";
 "Based on pressure" = "負荷に基づいたカラー";
+"Based on cluster" = "Based on cluster";
 "System accent" = "システムアクセント";
 "Monochrome accent" = "モノクロ";
 "Clear" = "クリア";

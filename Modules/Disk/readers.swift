@@ -51,6 +51,7 @@ internal class CapacityReader: Reader<Disks> {
                         if var d = driveDetails(disk, removableState: removableState) {
                             if let path = d.path {
                                 d.free = self.freeDiskSpaceInBytes(path)
+                                d.size = self.totalDiskSpaceInBytes(path)
                             }
                             self.list.append(d)
                             self.list.sort()
@@ -60,13 +61,9 @@ internal class CapacityReader: Reader<Disks> {
             }
         }
         
-        if active.count < self.list.count {
-            let missingDisks = active.difference(from: self.list.map{ $0.BSDName })
-            
-            missingDisks.forEach { (BSDName: String) in
-                if let idx = self.list.index(where: { $0.BSDName == BSDName }) {
-                    self.list.remove(at: idx)
-                }
+        active.difference(from: self.list.map{ $0.BSDName }).forEach { (BSDName: String) in
+            if let idx = self.list.index(where: { $0.BSDName == BSDName }) {
+                self.list.remove(at: idx)
             }
         }
         
@@ -75,9 +72,18 @@ internal class CapacityReader: Reader<Disks> {
     
     private func freeDiskSpaceInBytes(_ path: URL) -> Int64 {
         do {
+            let systemAttributes = try FileManager.default.attributesOfFileSystem(forPath: path.path)
+            if let freeSpace = (systemAttributes[FileAttributeKey.systemFreeSize] as? NSNumber)?.int64Value {
+                return freeSpace
+            }
+        } catch let err {
+            error("error retrieving free space #2: \(err.localizedDescription)", log: self.log)
+        }
+        
+        do {
             if let url = URL(string: path.absoluteString) {
                 let values = try url.resourceValues(forKeys: [.volumeAvailableCapacityForImportantUsageKey])
-                if let capacity = values.volumeAvailableCapacityForImportantUsage {
+                if let capacity = values.volumeAvailableCapacityForImportantUsage, capacity != 0 {
                     return capacity
                 }
             }
@@ -85,13 +91,28 @@ internal class CapacityReader: Reader<Disks> {
             error("error retrieving free space #1: \(err.localizedDescription)", log: self.log)
         }
         
+        return 0
+    }
+    
+    private func totalDiskSpaceInBytes(_ path: URL) -> Int64 {
         do {
             let systemAttributes = try FileManager.default.attributesOfFileSystem(forPath: path.path)
-            if let freeSpace = (systemAttributes[FileAttributeKey.systemFreeSize] as? NSNumber)?.int64Value {
-                return freeSpace
+            if let totalSpace = (systemAttributes[FileAttributeKey.systemSize] as? NSNumber)?.int64Value {
+                return totalSpace
             }
         } catch let err {
-            error("error retrieving free space #2: \(err.localizedDescription)", log: self.log)
+            error("error retrieving total space #2: \(err.localizedDescription)", log: self.log)
+        }
+        
+        do {
+            if let url = URL(string: path.absoluteString) {
+                let values = try url.resourceValues(forKeys: [.volumeTotalCapacityKey])
+                if let space = values.volumeAvailableCapacityForImportantUsage, space != 0 {
+                    return space
+                }
+            }
+        } catch let err {
+            error("error retrieving total space #1: \(err.localizedDescription)", log: self.log)
         }
         
         return 0
@@ -146,13 +167,9 @@ internal class ActivityReader: Reader<Disks> {
             }
         }
         
-        if active.count < self.list.count {
-            let missingDisks = active.difference(from: self.list.map{ $0.BSDName })
-            
-            missingDisks.forEach { (BSDName: String) in
-                if let idx = self.list.index(where: { $0.BSDName == BSDName }) {
-                    self.list.remove(at: idx)
-                }
+        active.difference(from: self.list.map{ $0.BSDName }).forEach { (BSDName: String) in
+            if let idx = self.list.index(where: { $0.BSDName == BSDName }) {
+                self.list.remove(at: idx)
             }
         }
         
@@ -214,9 +231,6 @@ private func driveDetails(_ disk: DADisk, removableState: Bool) -> drive? {
                     }
                 }
             }
-            if let mediaSize = dict[kDADiskDescriptionMediaSizeKey as String] {
-                d.size = Int64(truncating: mediaSize as! NSNumber)
-            }
             if let deviceModel = dict[kDADiskDescriptionDeviceModelKey as String] {
                 d.model = (deviceModel as! String).trimmingCharacters(in: .whitespacesAndNewlines)
             }
@@ -264,11 +278,9 @@ public func getDeviceIOParent(_ obj: io_registry_entry_t, level: Int) -> io_regi
         return nil
     }
     
-    for _ in 1...level {
-        if IORegistryEntryGetParentEntry(parent, kIOServicePlane, &parent) != KERN_SUCCESS {
-            IOObjectRelease(parent)
-            return nil
-        }
+    for _ in 1...level where IORegistryEntryGetParentEntry(parent, kIOServicePlane, &parent) != KERN_SUCCESS {
+        IOObjectRelease(parent)
+        return nil
     }
     
     return parent

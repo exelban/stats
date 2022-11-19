@@ -8,34 +8,55 @@
 macOS system monitor in your menu bar
 
 ## Installation
-### Manually
+### Manual
 You can download the latest version [here](https://github.com/exelban/stats/releases/latest/download/Stats.dmg).  
 This will download a file called `Stats.dmg`. Open it and move the app to the application folder.
 
 ### Homebrew
-
+To install it using Homebrew, open the Terminal app and type:
 ```bash
-brew install --cask stats
+brew install stats
 ```
 
 ## Requirements
-Stats currently supported on macOS 10.13 (High Sierra) and higher.
+Stats is currently supported on macOS 10.13 (High Sierra) and higher.
 
 ## Features
 Stats is an application that allows you to monitor your macOS system. 
 
+ - Battery level
+ - Bluetooth devices
  - CPU utilization
+ - Disk utilization
+ - Fan/s control
  - GPU utilization
  - Memory usage
- - Disk utilization
- - Sensors information (Temperature/Voltage/Power)
- - Battery level
  - Network usage
- - Fans speed
- - Fan control
- - Bluetooth devices
+ - Sensors information (Temperature/Voltage/Power)
 
-## Supporting languages
+## FAQs
+
+### How do you change the order of the menu bar icons?
+macOS decides the order of the menu bar items not `Stats` - it may change after the first reboot after installing Stats.
+
+To change the order of any menu bar icon - macOS Mojave (version 10.14) and up.
+
+1. Hold down ⌘ (command key).
+2. Drag the icon to the desired position on the menu bar.
+3. Release ⌘ (command key)
+
+### What if you don't see sensors (M1 macs)?
+Sensors data on the first generation of M1 mac could be obtained only from HID services. It's disabled by default because it consumes a lot of CPU and energy. You can enable it in the Sensors module settings with the option `HID sensors`.
+
+It's only valid for M1 Apple Silicon macs. If you don't see sensors on another mac, please open an issue for that.
+
+### How to show the CPU frequency?
+The CPU frequency is available only on Intel-based macs. You need to have installed [Intel Power Gadget](https://www.intel.com/content/www/us/en/developer/articles/tool/power-gadget.html) (IPG) for that. It allows receiving the CPU frequency from the IPG driver. There is no way to obtain a CPU frequency on Apple silicon macs.
+
+### How to reduce energy impact or CPU usage of Stats?
+Stats tries to be efficient as it's possible. But reading some data periodically it's not a cheap task. Each module has its own "price". So, if you want to reduce energy impact from the Stats you need to disable some Stats modules. The most inefficient modules are Sensors and Bluetooth. Disabling these modules could reduce CPU usage and power efficiency by up to 50% in some cases.
+
+## Supported languages
 - English
 - Polski
 - Українська
@@ -59,8 +80,14 @@ Stats is an application that allows you to monitor your macOS system.
 - Romanian (thanks to [razluta](https://github.com/razluta))
 - Dutch (thanks to [ngohungphuc](https://github.com/ngohungphuc))
 - Hrvatski (thanks to [milotype](https://github.com/milotype))
+- Danish (thanks to [casperes1996](https://github.com/casperes1996))
+- Catalan (thanks to [davidalonso](https://github.com/davidalonso))
+- Indonesian (thanks to [yooody](https://github.com/yooody))
+- Hebrew (thanks to [BadSugar](https://github.com/BadSugar))
+- Slovenian (thanks to [zigapovhe](https://github.com/zigapovhe))
+- Greek (thanks to [sudoxcess](https://github.com/sudoxcess))
 
-You can help by adding a new language or improve existing translation.
+You can help by adding a new language or improve the existing translation.
 
 ## License
 [MIT License](https://github.com/exelban/stats/blob/master/LICENSE)

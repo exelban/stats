@@ -6,6 +6,7 @@ disabled_rules:
   - opening_brace
   - implicit_getter
   - redundant_optional_initialization
+  - large_tuple
 
 opt_in_rules:
   - control_statement
@@ -36,13 +37,13 @@ identifier_name:
 line_length: 200
 
 function_body_length:
-  - 60
   - 80
+  - 100
 
 type_body_length:
-  - 300
-  - 400
+  - 450
+  - 600
 
 file_length:
-  - 600
-  - 800
+  - 1200
+  - 1600

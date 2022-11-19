@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1300"
+   LastUpgradeVersion = "1410"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -53,16 +53,16 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "list"
-            isEnabled = "YES">
+            argument = "list -t"
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "fans"
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "fan -id 0 -v 2761"
-            isEnabled = "NO">
+            argument = "fan 0"
+            isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "set -k &quot;FS! &quot; -v 0000"

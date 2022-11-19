@@ -181,13 +181,31 @@ class Dashboard: NSScrollView {
                 
                 var mini = ""
                 if let cores = cpu.physicalCores {
-                    mini += "\(cores) cores"
+                    mini += localizedString("Number of cores", "\(cores)")
                 }
                 if let threads = cpu.logicalCores {
                     if mini != "" {
                         mini += ", "
                     }
-                    mini += "\(threads) threads"
+                    mini += localizedString("Number of threads", "\(threads)")
+                }
+                value += "\(mini)"
+            }
+            
+            if cpu.eCores != nil || cpu.pCores != nil {
+                if !value.isEmpty {
+                    value += "\n"
+                }
+                
+                var mini = ""
+                if let eCores = cpu.eCores {
+                    mini += localizedString("Number of e-cores", "\(eCores)")
+                }
+                if let pCores = cpu.pCores {
+                    if mini != "" {
+                        mini += "\n"
+                    }
+                    mini += localizedString("Number of p-cores", "\(pCores)")
                 }
                 value += "\(mini)"
             }
@@ -263,8 +281,19 @@ class Dashboard: NSScrollView {
             for i in 0..<gpus.count {
                 var row = gpus[i].name != nil ? gpus[i].name! : localizedString("Unknown")
                 
-                if let size = gpus[i].vram {
-                    row += " (\(size))"
+                if gpus[i].vram != nil || gpus[i].cores != nil {
+                    row += " ("
+                    if let cores = gpus[i].cores {
+                        row += localizedString("Number of cores", "\(cores)")
+                    }
+                    if let size = gpus[i].vram {
+                        if gpus[i].cores != nil {
+                            row += ", \(size)"
+                        } else {
+                            row += "\(size)"
+                        }
+                    }
+                    row += ")"
                 }
                 
                 value += "\(row)\(i == gpus.count-1 ? "" : "\n")"
@@ -280,9 +309,15 @@ class Dashboard: NSScrollView {
     }
     
     private func disk() -> [NSView] {
+        var text = "\(SystemKit.shared.device.info.disk?.model ?? SystemKit.shared.device.info.disk?.name ?? localizedString("Unknown"))"
+        
+        if let size = SystemKit.shared.device.info.disk?.size, size != 0 {
+            text += " (\(DiskSize(size).getReadableMemory()))"
+        }
+        
         return [
             self.titleView("\(localizedString("Disk")):"),
-            self.valueView("\(SystemKit.shared.device.info.disk?.model ?? SystemKit.shared.device.info.disk?.name ?? localizedString("Unknown"))")
+            self.valueView(text)
         ]
     }
     

@@ -19,9 +19,7 @@
 "Disk" = "Festplatte";
 "Open Disk settings" = "Festplatten Einstellungen öffnen";
 "Sensors" = "Sensoren";
-"Open Sensors settings" = "Sensoren Einstellungen öffnen";
-"Fans" = "Lüfter";
-"Open Fans settings" = "Lüfter Einstellungen öffnen";
+"Open Sensors settings" = "Sensor Einstellungen öffnen";
 "Network" = "Netzwerk";
 "Open Network settings" = "Netzwerk Einstellungen öffnen";
 "Battery" = "Akku";
@@ -49,8 +47,8 @@
 "Arrows" = "Pfeile";
 "Characters" = "Buchstaben";
 "Short" = "Kurz";
-"Long" = "Lange";
-"Statistics" = "Statistiken";
+"Long" = "Lang";
+"Statistics" = "Statistik";
 "Max" = "Max";
 "Min" = "Min";
 "Reset" = "Zurücksetzen";
@@ -59,18 +57,50 @@
 "Center alignment" = "Mitte";
 "Right alignment" = "Rechts";
 "Dashboard" = "Dashboard";
+"Enabled" = "Enabled";
 "Disabled" = "Deaktiviert";
+"Silent" = "Leise";
+"Units" = "Einheit";
+"Fans" = "Lüfter";
+"Scaling" = "Scaling";
+"Linear" = "Linear";
+"Square" = "Square";
+"Cube" = "Cube";
+"Logarithmic" = "Logarithmic";
+"Cores" = "Cores";
+
+// Setup
+"Stats Setup" = "Stats einrichten";
+"Previous" = "Zurück";
+"Previous page" = "Vorherige Seite";
+"Next" = "Weiter";
+"Next page" = "Nächste Seite";
+"Finish" = "Fertigstellen";
+"Finish setup" = "Einrichtung abschließen";
+"Welcome to Stats" = "Willkommen zu Stats";
+"welcome_message" = "Danke für die Benutzung von Stats, einem kostenlosen Open Source macOS System-Überwachungstool für die Statusleiste.";
+"Start the application automatically when starting your Mac" = "Starte Stats automatisch mit dem Mac";
+"Do not start the application automatically when starting your Mac" = "Starte Stats nicht automatisch mit dem Mac";
+"Do everything silently in the background (recommended)" = "Alles ohne Nachfrage im Hintergrund durchführen. (empfohlen)";
+"Check for a new version on startup" = "Prüfe auf neue Version beim Start";
+"Check for a new version every day (once a day)" = "Prüfe tägliche auf Updates (einmal pro Tag)";
+"Check for a new version every week (once a week)" = "Prüfe wöchentlich auf Updates (einmal pro Woche)";
+"Check for a new version every month (once a month)" = "Prüfe monatlich auf Updates (einmal pro Monat)";
+"Never check for updates (not recommended)" = "Nie nach neuen Updates suchen (nicht empfohlen)";
+"The configuration is completed" = "Die Einrichtung ist abgeschlossen";
+"finish_setup_message" = "Alles erledigt! \n Stats ist ein Open Source Program. Es ist und bleibt für immer kostenlos. \n Wenn es Ihnen gefällt, können Sie das Projekt gerne unterstützen!";
 
 // Alerts
 "New version available" = "Neue Version verfügbar";
 "Click to install the new version of Stats" = "Klicken Sie hier, um die neue Version von Stats zu installieren";
 "Successfully updated" = "Erfolgreich aktualisiert";
 "Stats was updated to v" = "Stats wurde auf v%0 aktualisiert";
+"Reset settings text" = "Alle Einstellungen von Stats werden zurückgesetzt und Stats wird im Anschluss neu gestartet. Möchten Sie dies wirklich?";
 
 // Settings
 "Open Activity Monitor" = "Aktivitätsanzeige öffnen";
-"Report a bug" = "Einen Fehler melden";
-"Support the application" = "Unterstützen Sie die Anwendung";
+"Report a bug" = "Fehler melden";
+"Support the application" = "Anwendung unterstützen";
 "Close application" = "Anwendung schließen";
 "Open application settings" = "Einstellungen öffnen";
 "Open dashboard" = "Dashboard öffnen";
@@ -83,13 +113,21 @@
 "Once per week" = "Wöchentlich";
 "Once per month" = "Monatlich";
 "Never" = "Nie";
-"Check for update" = "Nach Aktualisierungen suchen";
+"Check for update" = "Nach Updates suchen";
 "Show icon in dock" = "Symbol im Dock anzeigen";
 "Start at login" = "Beim Login starten";
+"Build number" = "Build-Nummer";
+"Reset settings" = "Einstellungen zurücksetzen";
+"Pause the Stats" = "Stats pausieren";
+"Resume the Stats" = "Stats fortsetzen";
 
 // Dashboard
 "Serial number" = "Seriennummer";
 "Uptime" = "Betriebszeit";
+"Number of cores" = "%0 Cores";
+"Number of threads" = "%0 Threads";
+"Number of e-cores" = "%0 Efficiency Cores";
+"Number of p-cores" = "%0 Performance Cores";
 
 // Update
 "The latest version of Stats installed" = "Die neueste Version von Stats ist installiert";
@@ -122,6 +160,12 @@
 "Memory widget" = "Speicher";
 "Static width" = "Statische Breite";
 "Tachometer widget" = "Tachometer";
+"State widget" = "State widget";
+"Show symbols" = "Symbole anzeigen";
+"Label widget" = "Label";
+"Number of reads in the chart" = "Anzahl an Elementen im Diagramm";
+"Color of download" = "Download Farbe";
+"Color of upload" = "Upload Farbe";
 
 // Module Kit
 "Open module settings" = "Modul Einstellungen öffnen";
@@ -132,10 +176,18 @@
 "Details" = "Details";
 "Top processes" = "Top-Prozesse";
 "Pictogram" = "Piktogramm";
+"Module settings" = "Modul Einstellungen";
+"Widget settings" = "Widget Einstellungen";
+"Popup settings" = "Popup settings";
+"Merge widgets" = "Widgets zusammenfassen";
+"No available widgets to configure" = "No available widgets to configure";
+"No options to configure for the popup in this module" = "No options to configure for the popup in this module";
 
 // Modules
 "Number of top processes" = "Anzahl der Top-Prozesse";
 "Update interval for top processes" = "Update-Intervall der Top-Prozesse";
+"Notification level" = "Benachrichtungslevel";
+"Chart color" = "Chart color";
 
 // CPU
 "CPU usage" = "CPU Nutzung";
@@ -146,13 +198,21 @@
 "Idle" = "Leerlauf";
 "Show usage per core" = "Nutzung pro Kern anzeigen";
 "Show hyper-threading cores" = "Hyper-Threading-Kerne anzeigen";
-"Split the value (System/User)" = "Teilen Sie den Wert auf (System/Nutzer)";
-"Scheduler limit" = "Maximale Planer-Geschwindigkeit";
+"Split the value (System/User)" = "Werte aufteilen (System/Nutzer)";
+"Scheduler limit" = "Maximale Scheduler-Geschwindigkeit";
 "Speed limit" = "Maximale CPU-Geschwindigkeit";
 "Average load" = "Durchschnittliche Last";
 "1 minute" = "1 Minute";
 "5 minutes" = "5 Minuten";
 "15 minutes" = "15 Minuten";
+"CPU usage threshold" = "Schwellwert für CPU Auslastung erreicht";
+"CPU usage is" = "Auslastung ist %0";
+"Efficiency cores" = "Efficiency Cores";
+"Performance cores" = "Performance Cores";
+"System color" = "System color";
+"User color" = "User color";
+"Idle color" = "Idle color";
+"Cluster grouping" = "Cluster grouping";
 
 // GPU
 "GPU to show" = "GPU auswählen";
@@ -170,6 +230,10 @@
 "Core clock" = "Kern Taktfrequenz";
 "Memory clock" = "Speicher Taktfrequenz";
 "Utilization" = "Auslastung";
+"Render utilization" = "Rendering Auslastung";
+"Tiler utilization" = "Tile Rendering Auslastung";
+"GPU usage threshold" = "Schwellwert für GPU Auslastung erreicht";
+"GPU usage is" = "Auslastung ist %0";
 
 // RAM
 "Memory usage" = "Speicherauslastung";
@@ -182,6 +246,12 @@
 "Free" = "Frei";
 "Swap" = "Swap";
 "Split the value (App/Wired/Compressed)" = "Teilen Sie den Wert auf (App/Reserviert/Komprimiert)";
+"RAM utilization threshold" = "Schwellwert für RAM Auslastung erreicht";
+"RAM utilization is" = "Auslastung ist %0";
+"App color" = "App color";
+"Wired color" = "Wired color";
+"Compressed color" = "Compressed color";
+"Free color" = "Free color";
 
 // Disk
 "Show removable disks" = "Wechseldatenträger anzeigen";
@@ -190,6 +260,8 @@
 "Disk to show" = "Festplatte auswählen";
 "Open disk" = "Festplatte öffnen";
 "Switch view" = "Ansicht wechseln";
+"Disk utilization threshold" = "Schwellwert für Datenträger Auslastung erreicht";
+"Disk utilization is" = "Auslastung ist %0";
 
 // Sensors
 "Temperature unit" = "Temperatureinheit";
@@ -197,6 +269,11 @@
 "Fahrenheit" = "Fahrenheit";
 "Save the fan speed" = "Lüftergeschwindigkeit speichern";
 "Fan" = "Lüfter";
+"HID sensors" = "HID sensors";
+"Synchronize fan's control" = "Lüfter synchron halten";
+"Current" = "Current";
+"Energy" = "Energy";
+"Show unknown sensors" = "Show unknown sensors";
 
 // Network
 "Uploading" = "Upload";
@@ -206,10 +283,10 @@
 "Interface" = "Schnittstelle";
 "Physical address" = "Physische Adresse";
 "Refresh" = "Aktualisieren";
-"Click to copy public IP address" = "Klicken Sie zum Kopieren der öffentlichen IP-Adresse";
-"Click to copy local IP address" = "Klicken Sie zum Kopieren der lokalen IP-Adresse";
-"Click to copy wifi name" = "Klicken Sie zum Kopieren des WLAN-Namens";
-"Click to copy mac address" = "Klicken Sie zum Kopieren der MAC-Adresse";
+"Click to copy public IP address" = "Öffentliche IP-Adresse kopieren";
+"Click to copy local IP address" = "Lokale IP-Adresse kopieren";
+"Click to copy wifi name" = "WLAN-Name kopieren";
+"Click to copy mac address" = "MAC-Adresse kopieren";
 "No connection" = "Keine Verbindung";
 "Network interface" = "Netzwerkschnittstelle";
 "Total download" = "Empfangen";
@@ -218,6 +295,18 @@
 "Interface based" = "Schnittstelle";
 "Processes based" = "Prozess";
 "Reset data usage" = "Nutzungsdaten zurücksetzen";
+"VPN mode" = "VPN Modus";
+"Standard" = "Standard";
+"Security" = "Sicherheit";
+"Channel" = "Kanal";
+"Common scale" = "Common scale";
+"Autodetection" = "Automatisch";
+"Widget activation threshold" = "Schwellwert für Anzeige vom Widget";
+"Internet connection" = "Internet connection";
+"Active state color" = "Active state color";
+"Nonactive state color" = "Nonactive state color";
+"Connectivity host (ICMP)" = "Connectivity host (ICMP)";
+"Leave empty to disable the check" = "Leave empty to disable the check";
 
 // Battery
 "Level" = "Ladezustand";
@@ -231,9 +320,9 @@
 "Cycles" = "Ladezyklen";
 "Temperature" = "Temperatur";
 "Power adapter" = "Netzteil";
-"Power" = "Strom";
+"Power" = "Leistung";
 "Is charging" = "wird aufgeladen";
-"Time to discharge" = "Entladedauer";
+"Time to discharge" = "verbleibend";
 "Time to charge" = "Ladedauer";
 "Calculating" = "Berechnen...";
 "Fully charged" = "vollständig aufgeladen";
@@ -250,13 +339,19 @@
 "Time format" = "Zeitformat";
 "Hide additional information when full" = "Zusätzliche Informationen bei vollständiger Ladung verbergen";
 "Last charge" = "Letzte Ladung";
+"Capacity" = "Kapazität";
+"maximum / designed" = "maximum / designed";
+"Low power mode" = "Stromsparmodus";
+"Percentage inside the icon" = "Prozenzsatz im Symbol";
 
 // Bluetooth
 "Battery to show" = "Angezeigter Akku";
+"No Bluetooth devices are available" = "Keine Bluetooth Geräte verfügbar";
 
 // Colors
 "Based on utilization" = "Basierend auf Auslastung";
 "Based on pressure" = "Basierend auf Druck";
+"Based on cluster" = "Based on cluster";
 "System accent" = "System Akzentfarbe";
 "Monochrome accent" = "Monochromer Akzent";
 "Clear" = "Durchsichtig";

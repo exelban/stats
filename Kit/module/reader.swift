@@ -10,7 +10,6 @@
 //
 
 import Cocoa
-import Repeat
 
 public protocol value_t {
     var widgetValue: Double { get }
@@ -63,7 +62,18 @@ open class Reader<T>: NSObject, ReaderInternal_p {
     private var ready: Bool = false
     private var locked: Bool = true
     private var initlizalized: Bool = false
-    public var active: Bool = false
+    
+    private let variablesQueue = DispatchQueue(label: "eu.exelban.readerQueue")
+    
+    private var _active: Bool = false
+    public var active: Bool {
+        get {
+            self.variablesQueue.sync { self._active }
+        }
+        set {
+            self.variablesQueue.sync { self._active = newValue }
+        }
+    }
     
     private var history: [T]? = []
     
@@ -138,9 +148,9 @@ open class Reader<T>: NSObject, ReaderInternal_p {
                 debug("Set up update interval: \(Int(interval)) sec", log: self.log)
             }
             
-            self.repeatTask = Repeater.init(interval: .seconds(interval), observer: { _ in
-                self.read()
-            })
+            self.repeatTask = Repeater.init(seconds: Int(interval)) { [weak self] in
+                self?.read()
+            }
         }
         
         if !self.initlizalized {
@@ -159,7 +169,7 @@ open class Reader<T>: NSObject, ReaderInternal_p {
     }
     
     open func stop() {
-        self.repeatTask?.removeAllObservers(thenStop: true)
+        self.repeatTask?.pause()
         self.repeatTask = nil
         self.active = false
         self.initlizalized = false
@@ -168,7 +178,7 @@ open class Reader<T>: NSObject, ReaderInternal_p {
     public func setInterval(_ value: Int) {
         debug("Set update interval: \(Int(value)) sec", log: self.log)
         self.interval = Double(value)
-        self.repeatTask?.reset(.seconds(Double(value)), restart: true)
+        self.repeatTask?.reset(seconds: value, restart: true)
     }
 }
 

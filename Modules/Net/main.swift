@@ -31,6 +31,37 @@ public struct Network_addr {
     var v6: String? = nil
 }
 
+public struct Network_wifi {
+    var countryCode: String? = nil
+    var ssid: String? = nil
+    var RSSI: Int? = nil
+    var noise: Int? = nil
+    var transmitRate: Double? = nil
+    var transmitPower: Int? = nil
+    
+    var standard: String? = nil
+    var mode: String? = nil
+    var security: String? = nil
+    var channel: String? = nil
+    
+    var channelBand: String? = nil
+    var channelWidth: String? = nil
+    var channelNumber: String? = nil
+    
+    mutating func reset() {
+        self.countryCode = nil
+        self.ssid = nil
+        self.RSSI = nil
+        self.noise = nil
+        self.transmitRate = nil
+        self.transmitPower = nil
+        self.standard = nil
+        self.mode = nil
+        self.security = nil
+        self.channel = nil
+    }
+}
+
 public struct Network_Usage: value_t {
     var bandwidth: Bandwidth = (0, 0)
     var total: Bandwidth = (0, 0)
@@ -42,8 +73,7 @@ public struct Network_Usage: value_t {
     var connectionType: Network_t? = nil
     var status: Bool = false
     
-    var countryCode: String? = nil
-    var ssid: String? = nil
+    var wifiDetails: Network_wifi = Network_wifi()
     
     mutating func reset() {
         self.bandwidth = (0, 0)
@@ -54,8 +84,7 @@ public struct Network_Usage: value_t {
         self.interface = nil
         self.connectionType = nil
         
-        self.countryCode = nil
-        self.ssid = nil
+        self.wifiDetails.reset()
     }
     
     public var widgetValue: Double = 0
@@ -76,9 +105,16 @@ public class Network: Module {
     
     private var usageReader: UsageReader? = nil
     private var processReader: ProcessReader? = nil
+    private var connectivityReader: ConnectivityReader? = nil
     
     private let ipUpdater = NSBackgroundActivityScheduler(identifier: "eu.exelban.Stats.Network.IP")
     private let usageReseter = NSBackgroundActivityScheduler(identifier: "eu.exelban.Stats.Network.Usage")
+    
+    private var widgetActivationThreshold: Int {
+        get {
+            return Store.shared.int(key: "\(self.config.name)_widgetActivationThreshold", defaultValue: 0)
+        }
+    }
     
     public init() {
         self.settingsView = Settings("Network")
@@ -92,6 +128,7 @@ public class Network: Module {
         
         self.usageReader = UsageReader()
         self.processReader = ProcessReader()
+        self.connectivityReader = ConnectivityReader()
         
         self.settingsView.callbackWhenUpdateNumberOfProcesses = {
             self.popupView.numberOfProcessesUpdated()
@@ -113,6 +150,10 @@ public class Network: Module {
             }
         }
         
+        self.connectivityReader?.callbackHandler = { [unowned self] value in
+            self.connectivityCallback(value)
+        }
+        
         self.settingsView.callback = { [unowned self] in
             self.usageReader?.getDetails()
             self.usageReader?.read()
@@ -120,11 +161,20 @@ public class Network: Module {
         self.settingsView.usageResetCallback = { [unowned self] in
             self.setUsageReset()
         }
+        self.settingsView.ICMPHostCallback = { [unowned self] isDisabled in
+            if isDisabled {
+                self.popupView.resetConnectivityView()
+                self.connectivityCallback(false)
+            }
+        }
         
         if let reader = self.usageReader {
             self.addReader(reader)
         }
         if let reader = self.processReader {
+            self.addReader(reader)
+        }
+        if let reader = self.connectivityReader {
             self.addReader(reader)
         }
         
@@ -149,10 +199,32 @@ public class Network: Module {
         
         self.popupView.usageCallback(value)
         
-        self.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
+        var upload = value.bandwidth.upload
+        var download = value.bandwidth.download
+        let activationValue = Units(bytes: min(upload, download)).kilobytes
+        
+        if Double(self.widgetActivationThreshold) > activationValue {
+            upload = 0
+            download = 0
+        }
+        
+        self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
             switch w.item {
-            case let widget as SpeedWidget: widget.setValue(upload: value.bandwidth.upload, download: value.bandwidth.download)
-            case let widget as NetworkChart: widget.setValue(upload: Double(value.bandwidth.upload), download: Double(value.bandwidth.download))
+            case let widget as SpeedWidget: widget.setValue(upload: upload, download: download)
+            case let widget as NetworkChart: widget.setValue(upload: Double(upload), download: Double(download))
+            default: break
+            }
+        }
+    }
+    
+    private func connectivityCallback(_ raw: Bool?) {
+        guard let value = raw, self.enabled else { return }
+        
+        self.popupView.connectivityCallback(value)
+        
+        self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
+            switch w.item {
+            case let widget as StateWidget: widget.setValue(value)
             default: break
             }
         }
@@ -162,6 +234,10 @@ public class Network: Module {
         self.ipUpdater.interval = 60 * 60
         self.ipUpdater.repeats = true
         self.ipUpdater.schedule { (completion: @escaping NSBackgroundActivityScheduler.CompletionHandler) in
+            guard self.enabled && self.isAvailable() else {
+                return
+            }
+            
             debug("going to automatically refresh IP address...")
             NotificationCenter.default.post(name: .refreshPublicIP, object: nil, userInfo: nil)
             completion(NSBackgroundActivityScheduler.Result.finished)
@@ -181,6 +257,10 @@ public class Network: Module {
         
         self.usageReseter.repeats = true
         self.usageReseter.schedule { (completion: @escaping NSBackgroundActivityScheduler.CompletionHandler) in
+            guard self.enabled && self.isAvailable() else {
+                return
+            }
+            
             debug("going to reset the usage...")
             NotificationCenter.default.post(name: .resetTotalNetworkUsage, object: nil, userInfo: nil)
             completion(NSBackgroundActivityScheduler.Result.finished)

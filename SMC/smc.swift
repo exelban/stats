@@ -72,7 +72,7 @@ internal struct SMCKeyData_t {
     }
     
     struct keyInfo_t {
-        var dataSize: IOByteCount = 0
+        var dataSize: IOByteCount32 = 0
         var dataType: UInt32 = 0
         var dataAttributes: UInt8 = 0
     }
@@ -128,7 +128,6 @@ extension UInt16 {
     }
 }
 
-// swiftlint:disable large_tuple
 extension UInt32 {
     init(bytes: (UInt8, UInt8, UInt8, UInt8)) {
         self = UInt32(bytes.0) << 24 | UInt32(bytes.1) << 16 | UInt32(bytes.2) << 8 | UInt32(bytes.3)
@@ -509,7 +508,7 @@ public class SMC {
         
         input.key = FourCharCode(fromString: value.key)
         input.data8 = SMCKeys.WRITE_BYTES.rawValue
-        input.keyInfo.dataSize = IOByteCount(value.dataSize)
+        input.keyInfo.dataSize = IOByteCount32(value.dataSize)
         input.bytes = (value.bytes[0], value.bytes[1], value.bytes[2], value.bytes[3], value.bytes[4], value.bytes[5],
                        value.bytes[6], value.bytes[7], value.bytes[8], value.bytes[9], value.bytes[10], value.bytes[11],
                        value.bytes[12], value.bytes[13], value.bytes[14], value.bytes[15], value.bytes[16], value.bytes[17],

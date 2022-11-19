@@ -1,0 +1,382 @@
+//
+//  Localizable.strings
+//  Stats
+//
+//  Created by Serhiy Mytrovtsiy on 27/08/2020.
+//  Using Swift 5.0.
+//  Running on macOS 10.15.
+//
+//  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
+//
+
+// Modules
+"CPU" = "CPU";
+"Open CPU settings" = "Buka pengaturan CPU";
+"GPU" = "GPU";
+"Open GPU settings" = "Buka pengaturan GPU";
+"RAM" = "RAM";
+"Open RAM settings" = "Buka pengaturan RAM";
+"Disk" = "Disk";
+"Open Disk settings" = "Buka pengaturan Disk";
+"Sensors" = "Sensor";
+"Open Sensors settings" = "Buka pengaturan sensor";
+"Network" = "Jaringan";
+"Open Network settings" = "Buka pengaturan jaringan";
+"Battery" = "Baterai";
+"Open Battery settings" = "Buka pengaturan baterai";
+"Bluetooth" = "Bluetooth";
+"Open Bluetooth settings" = "Buka pengaturan bluetooth";
+
+// Words
+"Unknown" = "Tidak dikenal";
+"Version" = "Versi";
+"Processor" = "Prosesor";
+"Memory" = "Memori";
+"Graphics" = "Grafis";
+"Close" = "Tutup";
+"Download" = "Unduh";
+"Install" = "Pasang";
+"Cancel" = "Batal";
+"Unavailable" = "Tidak tersedia";
+"Yes" = "Ya";
+"No" = "Tidak";
+"Automatic" = "Otomatis";
+"Manual" = "Manual";
+"None" = "Tidak ada";
+"Dots" = "Titik";
+"Arrows" = "Anak panah";
+"Characters" = "Karakter";
+"Short" = "Pendek";
+"Long" = "Panjang";
+"Statistics" = "Statistik";
+"Max" = "Maks";
+"Min" = "Min";
+"Reset" = "Atur ulang";
+"Alignment" = "Alignment";
+"Left alignment" = "Alignment Kiri";
+"Center alignment" = "Alignment tengah";
+"Right alignment" = "Alignment kanan";
+"Dashboard" = "Dasbor";
+"Enabled" = "Enabled";
+"Disabled" = "Dinonaktifkan";
+"Silent" = "Hening";
+"Units" = "Unit";
+"Fans" = "Kipas";
+"Scaling" = "Scaling";
+"Linear" = "Linear";
+"Square" = "Square";
+"Cube" = "Cube";
+"Logarithmic" = "Logarithmic";
+"Cores" = "Cores";
+
+// Setup
+"Stats Setup" = "Stats Setup";
+"Previous" = "Previous";
+"Previous page" = "Previous page";
+"Next" = "Next";
+"Next page" = "Next page";
+"Finish" = "Finish";
+"Finish setup" = "Finish setup";
+"Welcome to Stats" = "Welcome to Stats";
+"welcome_message" = "Thanks for using Stats, a free open source macOS system monitor for your menu bar.";
+"Start the application automatically when starting your Mac" = "Start the application automatically when starting your Mac";
+"Do not start the application automatically when starting your Mac" = "Do not start the application automatically when starting your Mac";
+"Do everything silently in the background (recommended)" = "Do everything silently in the background (recommended)";
+"Check for a new version on startup" = "Check for a new version on startup";
+"Check for a new version every day (once a day)" = "Check for a new version every day (once a day)";
+"Check for a new version every week (once a week)" = "Check for a new version every week (once a week)";
+"Check for a new version every month (once a month)" = "Check for a new version every month (once a month)";
+"Never check for updates (not recommended)" = "Never check for updates (not recommended)";
+"The configuration is completed" = "The configuration is completed";
+"finish_setup_message" = "Everything is set up! \n The Stats is an open source tool, it's free and always will be. \n If you enjoy it you can support a project, it's always appreciated!";
+
+// Alerts
+"New version available" = "Versi baru tersedia";
+"Click to install the new version of Stats" = "Klik untuk memasang versi baru dari Stats";
+"Successfully updated" = "Pembaruan berhasil";
+"Stats was updated to v" = "Stats telah diperbarui v%0";
+"Reset settings text" = "Semua pengaturan aplikasi akan diatur ulang, dan aplikasi akan mengulang kembali. Anda yakin untuk melakukan ini?";
+
+// Settings
+"Open Activity Monitor" = "Buka Monitor Aktivitas";
+"Report a bug" = "Laporkan bug";
+"Support the application" = "Dukung aplikasi ini";
+"Close application" = "Tutup aplikasi";
+"Open application settings" = "Buka pengaturan aplikasi";
+"Open dashboard" = "Buka dasbor";
+
+// Application settings
+"Update application" = "Perbarui aplikasi";
+"Check for updates" = "Periksa pembaruan";
+"At start" = "Saat memulai";
+"Once per day" = "Sekali setiap hari";
+"Once per week" = "Sekali setiap minggu";
+"Once per month" = "Sekali setiap bulan";
+"Never" = "Jangan pernah";
+"Check for update" = "Periksa pembaruan";
+"Show icon in dock" = "Tampilkan ikon pada dok";
+"Start at login" = "Mulai saat login";
+"Build number" = "Build number";
+"Reset settings" = "Atur ulang pengaturan";
+"Pause the Stats" = "Pause the Stats";
+"Resume the Stats" = "Resume the Stats";
+
+// Dashboard
+"Serial number" = "Nomor serial";
+"Uptime" = "Waktu aktif";
+"Number of cores" = "%0 core";
+"Number of threads" = "%0 thread";
+"Number of e-cores" = "%0 efficiency cores";
+"Number of p-cores" = "%0 performance cores";
+
+// Update
+"The latest version of Stats installed" = "Versi terbaru dari Stats telah dipasang";
+"Downloading..." = "Mengunduh...";
+"Current version: " = "Versi sekarang:  ";
+"Latest version: " = "Versi terbaru:    ";
+
+// Widgets
+"Color" = "Warna";
+"Label" = "Label";
+"Box" = "Kotak";
+"Frame" = "Bingkai";
+"Value" = "Nilai";
+"Colorize" = "Colorize";
+"Colorize value" = "Colorize value";
+"Additional information" = "Informasi tambahan";
+"Reverse values order" = "Balikkan posisi nilai";
+"Base" = "Basis";
+"Display mode" = "Mode tampilan";
+"One row" = "Satu baris";
+"Two rows" = "Dua baris";
+"Mini widget" = "Kecil";
+"Line chart widget" = "Diagram garis";
+"Bar chart widget" = "Diagram batang";
+"Pie chart widget" = "Diagram pie";
+"Network chart widget" = "Diagram jaringan";
+"Speed widget" = "Kecepatan";
+"Battery widget" = "Baterai";
+"Text widget" = "Teks";
+"Memory widget" = "Memori";
+"Static width" = "Lebar statis";
+"Tachometer widget" = "Takometer";
+"State widget" = "State widget";
+"Show symbols" = "Tampilkan simbol";
+"Label widget" = "Label";
+"Number of reads in the chart" = "Jumlah yang dibaca pada diagram";
+"Color of download" = "Warna pada unduhan";
+"Color of upload" = "Warna pada unggahan";
+
+// Module Kit
+"Open module settings" = "Buka pengaturan modul";
+"Select widget" = "%0 widget dipilih";
+"Open widget settings" = "Buka pengaturan widget";
+"Update interval" = "Perbarui waktu jeda";
+"Usage history" = "Riwayat penggunaan";
+"Details" = "Rincian";
+"Top processes" = "Proses teratas";
+"Pictogram" = "Piktogram";
+"Module settings" = "Pengaturan modul";
+"Widget settings" = "Pengaturan widget";
+"Popup settings" = "Popup settings";
+"Merge widgets" = "Merge widgets";
+"No available widgets to configure" = "No available widgets to configure";
+"No options to configure for the popup in this module" = "No options to configure for the popup in this module";
+
+// Modules
+"Number of top processes" = "Jumlah dari proses teratas";
+"Update interval for top processes" = "Pembaruan waktu jeda dari proses teratas";
+"Notification level" = "Notification level";
+"Chart color" = "Chart color";
+
+// CPU
+"CPU usage" = "Penggunaan CPU";
+"CPU temperature" = "Suhu CPU";
+"CPU frequency" = "Frekuensi CPU";
+"System" = "Sistem";
+"User" = "Pengguna";
+"Idle" = "Tidak berjalan";
+"Show usage per core" = "Tampilan penggunaan tiap core";
+"Show hyper-threading cores" = "Tampilkan hyper-threading core";
+"Split the value (System/User)" = "Pisahkan nilai (Sistem/User)";
+"Scheduler limit" = "Batas penjadwal";
+"Speed limit" = "Batas kecepatan";
+"Average load" = "Beban rata-rata";
+"1 minute" = "1 menit";
+"5 minutes" = "5 menit";
+"15 minutes" = "15 menit";
+"CPU usage threshold" = "CPU usage threshold";
+"CPU usage is" = "CPU usage is %0";
+"Efficiency cores" = "Efficiency cores";
+"Performance cores" = "Performance cores";
+"System color" = "System color";
+"User color" = "User color";
+"Idle color" = "Idle color";
+"Cluster grouping" = "Cluster grouping";
+
+// GPU
+"GPU to show" = "GPU yang ditampilkan";
+"Show GPU type" = "Tampilkan jenis GPU";
+"GPU enabled" = "GPU dinyalakan";
+"GPU disabled" = "GPU dinonaktifkan";
+"GPU temperature" = "Suhu GPU";
+"GPU utilization" = "Pemanfaatan GPU";
+"Vendor" = "Vendor";
+"Model" = "Model";
+"Status" = "Status";
+"Active" = "Aktif";
+"Non active" = "Tidak aktif";
+"Fan speed" = "Kecepatan kipas";
+"Core clock" = "Core clock";
+"Memory clock" = "Memori clock";
+"Utilization" = "Pemanfaatan";
+"Render utilization" = "Pemanfaatan render";
+"Tiler utilization" = "Pemanfaatan tiler";
+"GPU usage threshold" = "GPU usage threshold";
+"GPU usage is" = "GPU usage is %0";
+
+// RAM
+"Memory usage" = "Penggunaan memori";
+"Memory pressure" = "Tekanan memori";
+"Total" = "Total";
+"Used" = "Digunakan";
+"App" = "App";
+"Wired" = "Wired";
+"Compressed" = "Dikompres";
+"Free" = "Kosong";
+"Swap" = "Swap";
+"Split the value (App/Wired/Compressed)" = "Pisahkan nilai (App/Wired/Compressed)";
+"RAM utilization threshold" = "RAM utilization threshold";
+"RAM utilization is" = "RAM utilization is %0";
+"App color" = "App color";
+"Wired color" = "Wired color";
+"Compressed color" = "Compressed color";
+"Free color" = "Free color";
+
+// Disk
+"Show removable disks" = "Tampilkan disk yang dapat dilepas";
+"Used disk memory" = "%0 dari %1 yang digunakan";
+"Free disk memory" = "%0 dari %1 yang kosong";
+"Disk to show" = "Disk yang ditampilkan";
+"Open disk" = "Buka disk";
+"Switch view" = "Alihkan tampilan";
+"Disk utilization threshold" = "Disk utilization threshold";
+"Disk utilization is" = "Disk utilization is %0";
+
+// Sensors
+"Temperature unit" = "Unit suhu";
+"Celsius" = "Celsius";
+"Fahrenheit" = "Fahrenheit";
+"Save the fan speed" = "Simpan kecepatan kipas";
+"Fan" = "Kipas";
+"HID sensors" = "Sensor HID";
+"Synchronize fan's control" = "Synchronize fan's control";
+"Current" = "Current";
+"Energy" = "Energy";
+"Show unknown sensors" = "Show unknown sensors";
+
+// Network
+"Uploading" = "Unggah";
+"Downloading" = "Unduh";
+"Public IP" = "IP Publik";
+"Local IP" = "IP Lokal";
+"Interface" = "Antarmuka";
+"Physical address" = "Alamat fisik";
+"Refresh" = "Segarkan";
+"Click to copy public IP address" = "Klik untuk menyalin alamat IP publik";
+"Click to copy local IP address" = "Klik untuk menyalin alamat IP lokal";
+"Click to copy wifi name" = "Klik untuk menyalin nama wifi";
+"Click to copy mac address" = "Klik untuk menyalin alamat mac";
+"No connection" = "Tidak ada koneksi";
+"Network interface" = "Antarmuka jaringan";
+"Total download" = "Total diunduh";
+"Total upload" = "Total diunggah";
+"Reader type" = "Tipe pembaca";
+"Interface based" = "Berdasarkan antarmuka";
+"Processes based" = "Berdasarkan proses";
+"Reset data usage" = "Atur ulang penggunaan data";
+"VPN mode" = "Mode VPN";
+"Standard" = "Standard";
+"Security" = "Security";
+"Channel" = "Channel";
+"Common scale" = "Common scale";
+"Autodetection" = "Autodetection";
+"Widget activation threshold" = "Widget activation threshold";
+"Internet connection" = "Internet connection";
+"Active state color" = "Active state color";
+"Nonactive state color" = "Nonactive state color";
+"Connectivity host (ICMP)" = "Connectivity host (ICMP)";
+"Leave empty to disable the check" = "Leave empty to disable the check";
+
+// Battery
+"Level" = "Level";
+"Source" = "Sumber";
+"AC Power" = "Daya AC";
+"Battery Power" = "Daya baterai";
+"Time" = "Waktu";
+"Health" = "Kesehatan";
+"Amperage" = "Arus listrik";
+"Voltage" = "Voltase";
+"Cycles" = "Siklus";
+"Temperature" = "Suhu";
+"Power adapter" = "Adaptor daya";
+"Power" = "Daya";
+"Is charging" = "Sedang mengisi";
+"Time to discharge" = "Waktu untuk melepas";
+"Time to charge" = "Waktu untuk mengisi daya";
+"Calculating" = "Menghitung";
+"Fully charged" = "Terisi penuh";
+"Not connected" = "Tidak terhubung";
+"Low level notification" = "Notifikasi tingkat rendah";
+"High level notification" = "Notifikasi tingkat tinggi";
+"Low battery" = "Baterai lemah";
+"High battery" = "Baterai tinggi";
+"Battery remaining" = "Tersisa %0%";
+"Battery remaining to full charge" = "%0% untuk mengisi penuh";
+"Percentage" = "Persentase";
+"Percentage and time" = "Persentase dan waktu";
+"Time and percentage" = "Waktu dan persentase";
+"Time format" = "Format waktu";
+"Hide additional information when full" = "Sembunyikan informasi tambahan ketika penuh";
+"Last charge" = "Terakhir diisi";
+"Capacity" = "Kapasitas";
+"maximum / designed" = "maksimal / dirancang";
+"Low power mode" = "Low power mode";
+"Percentage inside the icon" = "Percentage inside the icon";
+
+// Bluetooth
+"Battery to show" = "Baterai untuk ditampilkan";
+"No Bluetooth devices are available" = "Tidak ada perangkat bluetooth yang tersedia";
+
+// Colors
+"Based on utilization" = "Berdasarkan pemanfaatan";
+"Based on pressure" = "Berdasarkan tekanan";
+"Based on cluster" = "Based on cluster";
+"System accent" = "Aksen berdasarkan sistem";
+"Monochrome accent" = "Akses monokrom";
+"Clear" = "Bening";
+"White" = "Putih";
+"Black" = "Hitam";
+"Gray" = "Abu-abu";
+"Second gray" = "Abu-abu kedua";
+"Dark gray" = "Abu-abu gelap";
+"Light gray" = "Abu-abu terang";
+"Red" = "Merah";
+"Second red" = "Merah kedua";
+"Green" = "Hijau";
+"Second green" = "Hijau kedua";
+"Blue" = "Biru";
+"Second blue" = "Biru kedua";
+"Yellow" = "Kuning";
+"Second yellow" = "Kuning kedua";
+"Orange" = "Oranye";
+"Second orange" = "Oranye kedua";
+"Purple" = "Ungu";
+"Second purple" = "Ungu kedua";
+"Brown" = "Coklat";
+"Second brown" = "Coklat kedua";
+"Cyan" = "Cyan";
+"Magenta" = "Magenta";
+"Pink" = "Pink";
+"Teal" = "Teal";
+"Indigo" = "Indigo";
