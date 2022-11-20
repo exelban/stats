@@ -86,6 +86,7 @@ Stats tries to be efficient as it's possible. But reading some data periodically
 - Hebrew (thanks to [BadSugar](https://github.com/BadSugar))
 - Slovenian (thanks to [zigapovhe](https://github.com/zigapovhe))
 - Greek (thanks to [sudoxcess](https://github.com/sudoxcess))
+- Persian (thanks to [ShawnAlisson](https://github.com/ShawnAlisson))
 
 You can help by adding a new language or improve the existing translation.
 
