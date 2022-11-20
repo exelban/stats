@@ -57,38 +57,38 @@
 "Center alignment" = "Ortaya hizalama";
 "Right alignment" = "Sağa hizalama";
 "Dashboard" = "Panel";
-"Enabled" = "Enabled";
+"Enabled" = "Aktif";
 "Disabled" = "Devre dışı";
 "Silent" = "Sessiz";
 "Units" = "Birimler";
 "Fans" = "Fanlar";
-"Scaling" = "Scaling";
-"Linear" = "Linear";
-"Square" = "Square";
-"Cube" = "Cube";
-"Logarithmic" = "Logarithmic";
-"Cores" = "Cores";
+"Scaling" = "Ölçekli";
+"Linear" = "Doğrusal";
+"Square" = "Karesel";
+"Cube" = "Kübik";
+"Logarithmic" = "Logaritmik";
+"Cores" = "Çekirdekler";
 
 // Setup
-"Stats Setup" = "Stats Setup";
-"Previous" = "Previous";
-"Previous page" = "Previous page";
-"Next" = "Next";
-"Next page" = "Next page";
-"Finish" = "Finish";
-"Finish setup" = "Finish setup";
-"Welcome to Stats" = "Welcome to Stats";
-"welcome_message" = "Thanks for using Stats, a free open source macOS system monitor for your menu bar.";
-"Start the application automatically when starting your Mac" = "Start the application automatically when starting your Mac";
-"Do not start the application automatically when starting your Mac" = "Do not start the application automatically when starting your Mac";
-"Do everything silently in the background (recommended)" = "Do everything silently in the background (recommended)";
-"Check for a new version on startup" = "Check for a new version on startup";
-"Check for a new version every day (once a day)" = "Check for a new version every day (once a day)";
-"Check for a new version every week (once a week)" = "Check for a new version every week (once a week)";
-"Check for a new version every month (once a month)" = "Check for a new version every month (once a month)";
-"Never check for updates (not recommended)" = "Never check for updates (not recommended)";
-"The configuration is completed" = "The configuration is completed";
-"finish_setup_message" = "Everything is set up! \n The Stats is an open source tool, it's free and always will be. \n If you enjoy it you can support a project, it's always appreciated!";
+"Stats Setup" = "Stats Kurulumu";
+"Previous" = "Önceki";
+"Previous page" = "Önceki sayfa";
+"Next" = "Sonraki";
+"Next page" = "Sonraki sayfa";
+"Finish" = "Bitir";
+"Finish setup" = "Kurulumu bitir";
+"Welcome to Stats" = "Stats'a hoş geldiniz";
+"welcome_message" = "Stats'ı kullandığınız için teşekkürler, Stats MacOS sistem monitörü açık kaynaklı menü bar uygulamasıdır";
+"Start the application automatically when starting your Mac" = "Mac'i açınca otomatik çalıştır";
+"Do not start the application automatically when starting your Mac" = "Mac'i açınca otomatik çalıştırma";
+"Do everything silently in the background (recommended)" = "Her şeyi arkada sessiz yap (önerilir)";
+"Check for a new version on startup" = "Başlangıçta güncellemeleri denetle";
+"Check for a new version every day (once a day)" = "Güncellemeleri günde bir defa denetle";
+"Check for a new version every week (once a week)" = "Güncellemeleri haftada bir defa denetle";
+"Check for a new version every month (once a month)" = "Güncellemeleri ayda bir defa denetle";
+"Never check for updates (not recommended)" = "Güncellemeleri denetleme (önerilmez)";
+"The configuration is completed" = "Konfigürasyon tamamlandı";
+"finish_setup_message" = "Her şey hazur! \n Stats açık kaynaklı bir araçtır, Ücretsiz ve hep öyle kalacak. \n Beğendiyseniz projeyi destekleyebilirsiniz, Teşekkürler!";
 
 // Alerts
 "New version available" = "Yeni sürüm mevcut";
@@ -116,7 +116,7 @@
 "Check for update" = "Güncellemeleri denetle";
 "Show icon in dock" = "Dock'ta göster";
 "Start at login" = "Başlangıçta çalıştır";
-"Build number" = "Build number";
+"Build number" = "Sürüm numarası";
 "Reset settings" = "Ayarları sıfırla";
 "Pause the Stats" = "Stats'ı Duraklat";
 "Resume the Stats" = "Stats'ı Sürdür";
@@ -187,7 +187,7 @@
 "Number of top processes" = "İşlem sayısı";
 "Update interval for top processes" = "En yüksek işlemler için güncelleme aralığı";
 "Notification level" = "Bildirim düzeyi";
-"Chart color" = "Chart color";
+"Chart color" = "Grafik rengi";
 
 // CPU
 "CPU usage" = "CPU kullanımı";
@@ -209,9 +209,9 @@
 "CPU usage is" = "CPU kullanımı %0";
 "Efficiency cores" = "Verimlilik Çekirdeği";
 "Performance cores" = "Performans Çekirdeği";
-"System color" = "System color";
-"User color" = "User color";
-"Idle color" = "Idle color";
+"System color" = "Sistem rengi";
+"User color" = "Kullanıcı rengi";
+"Idle color" = "Bekleme rengi";
 "Cluster grouping" = "Küme gruplaması";
 
 // GPU
@@ -248,10 +248,10 @@
 "Split the value (App/Wired/Compressed)" = "Değeri böl (Uygulama/Bağlı/Sıkıştırılmış)";
 "RAM utilization threshold" = "RAM kullanım eşiği";
 "RAM utilization is" = "RAM Kullanımı %0";
-"App color" = "App color";
-"Wired color" = "Wired color";
-"Compressed color" = "Compressed color";
-"Free color" = "Free color";
+"App color" = "Uygulama rengi";
+"Wired color" = "Bağlı rengi";
+"Compressed color" = "Sıkıştırılmış rengi";
+"Free color" = "Boşta rengi";
 
 // Disk
 "Show removable disks" = "Çıkarılabilir diskleri göster";
@@ -273,7 +273,7 @@
 "Synchronize fan's control" = "Fanın kontrolünü senkronize et";
 "Current" = "Akım";
 "Energy" = "Enerji";
-"Show unknown sensors" = "Show unknown sensors";
+"Show unknown sensors" = "Bilinmeyen sensörleri göster";
 
 // Network
 "Uploading" = "Yükleme";
@@ -351,7 +351,7 @@
 // Colors
 "Based on utilization" = "Kullanıma dayalı";
 "Based on pressure" = "Yüke dayalı";
-"Based on cluster" = "Based on cluster";
+"Based on cluster" = "Kümeye dayalı";
 "System accent" = "Sistem vurgusu";
 "Monochrome accent" = "Tek renkli vurgu";
 "Clear" = "Temizle";
