@@ -39,11 +39,25 @@ public class Sensors: Module {
             self.sensorsReader.HIDCallback()
             self.popupView.setup(self.sensorsReader.list)
             self.settingsView.setList(list: self.sensorsReader.list)
+            DispatchQueue.global(qos: .background).async {
+                self.sensorsReader.HIDCallback()
+                DispatchQueue.main.async {
+                    self.popupView.setup(self.sensorsReader.list)
+                    self.settingsView.setList(list: self.sensorsReader.list)
+                }
+            }
         }
         self.settingsView.unknownCallback = { [unowned self] in
             self.sensorsReader.unknownCallback()
             self.popupView.setup(self.sensorsReader.list)
             self.settingsView.setList(list: self.sensorsReader.list)
+            DispatchQueue.global(qos: .background).async {
+                self.sensorsReader.unknownCallback()
+                DispatchQueue.main.async {
+                    self.popupView.setup(self.sensorsReader.list)
+                    self.settingsView.setList(list: self.sensorsReader.list)
+                }
+            }
         }
         
         self.sensorsReader.callbackHandler = { [unowned self] value in
