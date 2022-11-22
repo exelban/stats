@@ -315,6 +315,9 @@ internal class FanView: NSStackView {
     private var speedState: Bool {
         Store.shared.bool(key: "Sensors_speed", defaultValue: false)
     }
+    private var fansSyncState: Bool {
+        Store.shared.bool(key: "Sensors_fansSync", defaultValue: false)
+    }
     private var speed: Double {
         get {
             if let v = self.fan.customSpeed, self.speedState {
@@ -639,7 +642,7 @@ internal class FanView: NSStackView {
     }
     
     @objc private func syncFanSpeed(_ notification: Notification) {
-        guard let speed = notification.userInfo?["speed"] as? Int, self.fan.customSpeed != speed else {
+        guard self.fansSyncState, let speed = notification.userInfo?["speed"] as? Int, self.fan.customSpeed != speed else {
             return
         }
         
@@ -688,9 +691,7 @@ private class ModeButtons: NSStackView {
     public var turbo: () -> Void = {}
     
     private var fansSyncState: Bool {
-        get {
-            return Store.shared.bool(key: "Sensors_fansSync", defaultValue: false)
-        }
+        Store.shared.bool(key: "Sensors_fansSync", defaultValue: false)
     }
     
     private var autoBtn: NSButton = NSButton(title: localizedString("Automatic"), target: nil, action: #selector(autoMode))
