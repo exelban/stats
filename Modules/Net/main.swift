@@ -34,10 +34,10 @@ public struct Network_addr {
 public struct Network_wifi {
     var countryCode: String? = nil
     var ssid: String? = nil
+    var bssid: String? = nil
     var RSSI: Int? = nil
     var noise: Int? = nil
     var transmitRate: Double? = nil
-    var transmitPower: Int? = nil
     
     var standard: String? = nil
     var mode: String? = nil
@@ -54,7 +54,6 @@ public struct Network_wifi {
         self.RSSI = nil
         self.noise = nil
         self.transmitRate = nil
-        self.transmitPower = nil
         self.standard = nil
         self.mode = nil
         self.security = nil

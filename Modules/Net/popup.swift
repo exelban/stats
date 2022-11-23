@@ -346,6 +346,20 @@ internal class Popup: NSStackView, Popup_p {
                     if let v = value.wifiDetails.RSSI {
                         self.ssidField?.stringValue += " (\(v))"
                     }
+                    var rssi = localizedString("Unknown")
+                    if let v = value.wifiDetails.RSSI {
+                        rssi = "\(v) dBm"
+                    }
+                    var noise = localizedString("Unknown")
+                    if let v = value.wifiDetails.noise {
+                        noise = "\(v) dBm"
+                    }
+                    var txRate = localizedString("Unknown")
+                    if let v = value.wifiDetails.transmitRate {
+                        txRate = "\(v) Mbps"
+                    }
+                    self.ssidField?.toolTip = "RSSI: \(rssi)\nNoise: \(noise)\nTransmit rate: \(txRate)"
+                    
                     self.standardField?.stringValue = value.wifiDetails.standard ?? localizedString("Unknown")
                     self.securityField?.stringValue = value.wifiDetails.security ?? localizedString("Unknown")
                     self.channelField?.stringValue = value.wifiDetails.channel ?? localizedString("Unknown")
@@ -353,7 +367,7 @@ internal class Popup: NSStackView, Popup_p {
                     let number = value.wifiDetails.channelNumber ?? localizedString("Unknown")
                     let band = value.wifiDetails.channelBand ?? localizedString("Unknown")
                     let width = value.wifiDetails.channelWidth ?? localizedString("Unknown")
-                    self.channelField?.toolTip = "Channel number: \(number)\nChannel band: \(band)\nChannel width: \(width)"
+                    self.channelField?.toolTip = "Channel number: \(number)\nChannel band: \(band)\nChannel width: \(width)\nTransmit rate: \(txRate)"
                 } else {
                     self.ssidField?.stringValue = localizedString("Unavailable")
                     self.standardField?.stringValue = localizedString("Unavailable")

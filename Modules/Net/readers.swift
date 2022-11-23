@@ -328,12 +328,12 @@ internal class UsageReader: Reader<Network_Usage> {
         
         if let interface = CWWiFiClient.shared().interface(withName: self.interfaceID), self.usage.connectionType == .wifi {
             self.usage.wifiDetails.ssid = interface.ssid()
+            self.usage.wifiDetails.bssid = interface.bssid()
             self.usage.wifiDetails.countryCode = interface.countryCode()
             
             self.usage.wifiDetails.RSSI = interface.rssiValue()
             self.usage.wifiDetails.noise = interface.noiseMeasurement()
             self.usage.wifiDetails.transmitRate = interface.transmitRate()
-            self.usage.wifiDetails.transmitPower = interface.transmitPower()
             
             self.usage.wifiDetails.standard = interface.activePHYMode().description
             self.usage.wifiDetails.mode = interface.interfaceMode().description
