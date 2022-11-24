@@ -107,8 +107,8 @@ internal class CapacityReader: Reader<Disks> {
         do {
             if let url = URL(string: path.absoluteString) {
                 let values = try url.resourceValues(forKeys: [.volumeTotalCapacityKey])
-                if let space = values.volumeAvailableCapacityForImportantUsage, space != 0 {
-                    return space
+                if let space = values.volumeTotalCapacity, space != 0 {
+                    return Int64(space)
                 }
             }
         } catch let err {
