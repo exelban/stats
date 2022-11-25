@@ -307,6 +307,7 @@
 "Nonactive state color" = "رنگ حالت غیر فعال";
 "Connectivity host (ICMP)" = "میزبان اتصال (ICMP)";
 "Leave empty to disable the check" = "خالی بگذارید تا بررسی غیرفعال شود";
+"Transparent pictogram when no activity" = "Transparent pictogram when no activity";
 
 // Battery
 "Level" = "سطح";

@@ -19,6 +19,7 @@ public class SpeedWidget: WidgetWrapper {
     private var unitsState: Bool = true
     private var monochromeState: Bool = false
     private var valueColorState: Bool = false
+    private var transparentIconsState: Bool = false
     
     private var downloadColorState: Color = .secondBlue
     private var uploadColorState: Color = .secondRed
@@ -34,16 +35,16 @@ public class SpeedWidget: WidgetWrapper {
     private var width: CGFloat = 58
     
     private var valueColorView: NSView? = nil
+    private var transparentIconView: NSView? = nil
     
     private var downloadColor: NSColor {
-        get {
-            return self.monochromeState ? MonochromeColor.blue : (self.downloadColorState.additional as? NSColor ?? NSColor.systemBlue)
-        }
+        self.monochromeState ? MonochromeColor.blue : (self.downloadColorState.additional as? NSColor ?? NSColor.systemBlue)
     }
     private var uploadColor: NSColor {
-        get {
-            return self.monochromeState ? MonochromeColor.red : (self.uploadColorState.additional as? NSColor ?? NSColor.red)
-        }
+        self.monochromeState ? MonochromeColor.red : (self.uploadColorState.additional as? NSColor ?? NSColor.red)
+    }
+    private var noActivityColor: NSColor {
+        self.transparentIconsState ? NSColor.clear : NSColor.textColor
     }
     
     public init(title: String, config: NSDictionary?, preview: Bool = false) {
@@ -75,6 +76,7 @@ public class SpeedWidget: WidgetWrapper {
             self.valueColorState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_valueColor", defaultValue: self.valueColorState)
             self.downloadColorState = Color.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_downloadColor", defaultValue: self.downloadColorState.key))
             self.uploadColorState = Color.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_uploadColor", defaultValue: self.uploadColorState.key))
+            self.transparentIconsState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_transparentIcons", defaultValue: self.transparentIconsState)
         }
         
         if self.valueState && self.icon != "none" {
@@ -157,12 +159,12 @@ public class SpeedWidget: WidgetWrapper {
         
         var downloadCircle = NSBezierPath()
         downloadCircle = NSBezierPath(ovalIn: CGRect(x: Constants.Widget.margin.x, y: y-0.2, width: size, height: size))
-        (self.downloadValue >= 1_024 ? self.downloadColor : NSColor.textColor).set()
+        (self.downloadValue >= 1_024 ? self.downloadColor : self.noActivityColor).set()
         downloadCircle.fill()
         
         var uploadCircle = NSBezierPath()
         uploadCircle = NSBezierPath(ovalIn: CGRect(x: Constants.Widget.margin.x, y: 10.5, width: size, height: size))
-        (self.uploadValue >= 1_024 ? self.uploadColor : NSColor.textColor).set()
+        (self.uploadValue >= 1_024 ? self.uploadColor : self.noActivityColor).set()
         uploadCircle.fill()
     }
     
@@ -182,7 +184,7 @@ public class SpeedWidget: WidgetWrapper {
             arrowAngle: arrowAngle
         )
         
-        (self.downloadValue >= 1_024 ? self.downloadColor : NSColor.textColor).set()
+        (self.downloadValue >= 1_024 ? self.downloadColor : self.noActivityColor).set()
         downloadArrow.lineWidth = lineWidth
         downloadArrow.stroke()
         downloadArrow.close()
@@ -195,7 +197,7 @@ public class SpeedWidget: WidgetWrapper {
             arrowAngle: arrowAngle
         )
         
-        (self.uploadValue >= 1_024 ? self.uploadColor : NSColor.textColor).set()
+        (self.uploadValue >= 1_024 ? self.uploadColor : self.noActivityColor).set()
         uploadArrow.lineWidth = lineWidth
         uploadArrow.stroke()
         uploadArrow.close()
@@ -207,7 +209,7 @@ public class SpeedWidget: WidgetWrapper {
         if self.symbols.count > 1 {
             let downloadAttributes = [
                 NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .regular),
-                NSAttributedString.Key.foregroundColor: self.downloadValue >= 1_024 ? self.downloadColor : NSColor.textColor,
+                NSAttributedString.Key.foregroundColor: self.downloadValue >= 1_024 ? self.downloadColor : self.noActivityColor,
                 NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
             ]
             let rect = CGRect(x: Constants.Widget.margin.x, y: 1, width: 8, height: rowHeight)
@@ -218,7 +220,7 @@ public class SpeedWidget: WidgetWrapper {
         if !self.symbols.isEmpty {
             let uploadAttributes = [
                 NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .regular),
-                NSAttributedString.Key.foregroundColor: self.uploadValue >= 1_024 ? self.uploadColor : NSColor.textColor,
+                NSAttributedString.Key.foregroundColor: self.uploadValue >= 1_024 ? self.uploadColor : self.noActivityColor,
                 NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
             ]
             let rect = CGRect(x: Constants.Widget.margin.x, y: rowHeight+1, width: 8, height: rowHeight)
@@ -236,6 +238,16 @@ public class SpeedWidget: WidgetWrapper {
             items: SpeedPictogram,
             selected: self.icon
         ))
+        
+        self.transparentIconView = toggleSettingRow(
+            title: localizedString("Transparent pictogram when no activity"),
+            action: #selector(toggleTransparentIcons),
+            state: self.transparentIconsState
+        )
+        if let v = self.transparentIconView {
+            view.addArrangedSubview(v)
+            findAndToggleEnableNSControlState(v, state: self.icon != "none")
+        }
         
         view.addArrangedSubview(selectSettingsRow(
             title: localizedString("Base"),
@@ -337,6 +349,8 @@ public class SpeedWidget: WidgetWrapper {
             NotificationCenter.default.post(name: .toggleModule, object: nil, userInfo: ["module": self.title, "state": true])
             self.state = true
         }
+        
+        findAndToggleEnableNSControlState(self.transparentIconView, state: self.icon != "none")
     }
     
     @objc private func toggleBase(_ sender: NSMenuItem) {
@@ -407,5 +421,18 @@ public class SpeedWidget: WidgetWrapper {
                 self.display()
             })
         }
+    }
+    
+    @objc private func toggleTransparentIcons(_ sender: NSControl) {
+        var state: NSControl.StateValue? = nil
+        if #available(OSX 10.15, *) {
+            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
+        } else {
+            state = sender is NSButton ? (sender as! NSButton).state: nil
+        }
+        self.transparentIconsState = state! == .on ? true : false
+        
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_transparentIcons", value: self.transparentIconsState)
+        self.display()
     }
 }

@@ -307,6 +307,7 @@
 "Nonactive state color" = "未連線狀態色彩";
 "Connectivity host (ICMP)" = "連線主機 (ICMP)";
 "Leave empty to disable the check" = "留空來停用檢查";
+"Transparent pictogram when no activity" = "Transparent pictogram when no activity";
 
 // Battery
 "Level" = "電量";

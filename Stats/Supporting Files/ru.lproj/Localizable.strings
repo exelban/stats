@@ -307,6 +307,7 @@
 "Nonactive state color" = "Цвет неактивного состояния";
 "Connectivity host (ICMP)" = "Хост подключения (ICMP)";
 "Leave empty to disable the check" = "Оставьте пустым, чтобы отключить проверку";
+"Transparent pictogram when no activity" = "Прозрачная пиктограмма при отсутствии активности";
 
 // Battery
 "Level" = "Уровень заряда";

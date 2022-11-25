@@ -307,6 +307,7 @@
 "Nonactive state color" = "Etkin olmayan durum rengi";
 "Connectivity host (ICMP)" = "Bağlantı sunucusu (ICMP)";
 "Leave empty to disable the check" = "Kontrolü devre dışı bırakmak için boş bırakın";
+"Transparent pictogram when no activity" = "Transparent pictogram when no activity";
 
 // Battery
 "Level" = "Doluluk";

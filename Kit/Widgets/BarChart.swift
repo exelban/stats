@@ -330,7 +330,6 @@ public class BarChart: WidgetWrapper {
             self.colorState = newColor
         }
         
-        print(key)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_color", value: key)
         self.display()
     }

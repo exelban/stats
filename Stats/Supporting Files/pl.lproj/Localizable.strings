@@ -307,6 +307,7 @@
 "Nonactive state color" = "Kolor stanu nieaktywnego";
 "Connectivity host (ICMP)" = "Host łączności (ICMP)";
 "Leave empty to disable the check" = "Pozostaw puste, aby wyłączyć sprawdzanie";
+"Transparent pictogram when no activity" = "Przejrzysty piktogram, przy braku aktywności";
 
 // Battery
 "Level" = "Poziom naładowania";
