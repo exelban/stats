@@ -332,8 +332,12 @@ public func findAndToggleNSControlState(_ view: NSView?, state: NSControl.StateV
 }
 
 public func findAndToggleEnableNSControlState(_ view: NSView?, state: Bool) {
-    if let control = view?.subviews.first(where: { $0 is NSControl && !($0 is NSTextField) }) {
-        toggleEnableNSControlState(control as? NSControl, state: state)
+    if let control = view?.subviews.first(where: { ($0 is NSControl || $0 is NSPopUpButton) && !($0 is NSTextField) }) {
+        if control is NSControl {
+            toggleEnableNSControlState(control as? NSControl, state: state)
+        } else if control is NSPopUpButton {
+            toggleEnableNSControlState(control as? NSPopUpButton, state: state)
+        }
     }
 }
 
@@ -352,6 +356,8 @@ public func toggleNSControlState(_ control: NSControl?, state: NSControl.StateVa
 public func toggleEnableNSControlState(_ control: NSControl?, state: Bool) {
     if #available(OSX 10.15, *) {
         if let checkbox = control as? NSSwitch {
+            checkbox.isEnabled = state
+        } else if let checkbox = control as? NSPopUpButton {
             checkbox.isEnabled = state
         }
     } else {

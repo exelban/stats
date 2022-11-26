@@ -20,6 +20,7 @@ public class SpeedWidget: WidgetWrapper {
     private var monochromeState: Bool = false
     private var valueColorState: Bool = false
     private var transparentIconsState: Bool = false
+    private var valueAlignmentState: String = "right"
     
     private var downloadColorState: Color = .secondBlue
     private var uploadColorState: Color = .secondRed
@@ -36,6 +37,7 @@ public class SpeedWidget: WidgetWrapper {
     
     private var valueColorView: NSView? = nil
     private var transparentIconView: NSView? = nil
+    private var valueAlignmentView: NSView? = nil
     
     private var downloadColor: NSColor {
         self.monochromeState ? MonochromeColor.blue : (self.downloadColorState.additional as? NSColor ?? NSColor.systemBlue)
@@ -45,6 +47,14 @@ public class SpeedWidget: WidgetWrapper {
     }
     private var noActivityColor: NSColor {
         self.transparentIconsState ? NSColor.clear : NSColor.textColor
+    }
+    private var valueAlignment: NSTextAlignment {
+        get {
+            if let alignmentPair = Alignments.first(where: { $0.key == self.valueAlignmentState }) {
+                return alignmentPair.additional as? NSTextAlignment ?? .left
+            }
+            return .left
+        }
     }
     
     public init(title: String, config: NSDictionary?, preview: Bool = false) {
@@ -77,6 +87,7 @@ public class SpeedWidget: WidgetWrapper {
             self.downloadColorState = Color.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_downloadColor", defaultValue: self.downloadColorState.key))
             self.uploadColorState = Color.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_uploadColor", defaultValue: self.uploadColorState.key))
             self.transparentIconsState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_transparentIcons", defaultValue: self.transparentIconsState)
+            self.valueAlignmentState = Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_valueAlignment", defaultValue: self.valueAlignmentState)
         }
         
         if self.valueState && self.icon != "none" {
@@ -115,7 +126,7 @@ public class SpeedWidget: WidgetWrapper {
             let rowWidth: CGFloat = self.unitsState ? 48 : 30
             let rowHeight: CGFloat = self.frame.height / 2
             let style = NSMutableParagraphStyle()
-            style.alignment = .right
+            style.alignment = self.valueAlignment
             
             let downloadStringAttributes = [
                 NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .light),
@@ -244,10 +255,8 @@ public class SpeedWidget: WidgetWrapper {
             action: #selector(toggleTransparentIcons),
             state: self.transparentIconsState
         )
-        if let v = self.transparentIconView {
-            view.addArrangedSubview(v)
-            findAndToggleEnableNSControlState(v, state: self.icon != "none")
-        }
+        view.addArrangedSubview(self.transparentIconView!)
+        findAndToggleEnableNSControlState(self.transparentIconView!, state: self.icon != "none")
         
         view.addArrangedSubview(selectSettingsRow(
             title: localizedString("Base"),
@@ -269,6 +278,15 @@ public class SpeedWidget: WidgetWrapper {
         )
         view.addArrangedSubview(self.valueColorView!)
         findAndToggleEnableNSControlState(self.valueColorView, state: self.valueState)
+        
+        self.valueAlignmentView = selectSettingsRow(
+            title: localizedString("Alignment"),
+            action: #selector(toggleValueAlignment),
+            items: Alignments,
+            selected: self.valueAlignmentState
+        )
+        view.addArrangedSubview(self.valueAlignmentView!)
+        findAndToggleEnableNSControlState(self.valueAlignmentView, state: self.valueState)
         
         view.addArrangedSubview(toggleSettingRow(
             title: localizedString("Units"),
@@ -309,6 +327,7 @@ public class SpeedWidget: WidgetWrapper {
         
         self.valueState = state! == .on ? true : false
         findAndToggleEnableNSControlState(self.valueColorView, state: self.valueState)
+        findAndToggleEnableNSControlState(self.valueAlignmentView, state: self.valueState)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_value", value: self.valueState)
         self.display()
         
@@ -433,6 +452,19 @@ public class SpeedWidget: WidgetWrapper {
         self.transparentIconsState = state! == .on ? true : false
         
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_transparentIcons", value: self.transparentIconsState)
+        self.display()
+    }
+    
+    @objc private func toggleValueAlignment(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String else {
+            return
+        }
+        
+        if let newAlignment = Alignments.first(where: { $0.key == key }) {
+            self.valueAlignmentState = newAlignment.key
+        }
+        
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_valueAlignment", value: key)
         self.display()
     }
 }
