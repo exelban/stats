@@ -13,7 +13,8 @@ import Cocoa
 import Kit
 
 class SettingsWindow: NSWindow, NSWindowDelegate {
-    private let viewController: SettingsViewController = SettingsViewController()
+    static let size: CGSize = CGSize(width: 720, height: 480)
+    private let vc: SettingsView = SettingsView()
     
     private var pauseState: Bool {
         Store.shared.bool(key: "pause", defaultValue: false)
@@ -22,30 +23,19 @@ class SettingsWindow: NSWindow, NSWindowDelegate {
     init() {
         super.init(
             contentRect: NSRect(
-                x: NSScreen.main!.frame.width - self.viewController.view.frame.width,
-                y: NSScreen.main!.frame.height - self.viewController.view.frame.height,
-                width: self.viewController.view.frame.width,
-                height: self.viewController.view.frame.height
+                x: NSScreen.main!.frame.width - SettingsWindow.size.width,
+                y: NSScreen.main!.frame.height - SettingsWindow.size.height,
+                width: SettingsWindow.size.width,
+                height: SettingsWindow.size.height
             ),
             styleMask: [.closable, .titled, .miniaturizable, .fullSizeContentView],
             backing: .buffered,
             defer: false
         )
         
-        if let close = self.standardWindowButton(.closeButton),
-           let mini = self.standardWindowButton(.miniaturizeButton),
-           let zoom = self.standardWindowButton(.zoomButton) {
-            close.setFrameOrigin(NSPoint(x: 7, y: close.frame.origin.y))
-            mini.setFrameOrigin(NSPoint(x: 27, y: mini.frame.origin.y))
-            zoom.setFrameOrigin(NSPoint(x: 47, y: zoom.frame.origin.y))
-        }
-        
-        self.contentViewController = self.viewController
-        self.animationBehavior = .default
+        self.contentViewController = self.vc
         self.titlebarAppearsTransparent = true
-        if #available(OSX 10.14, *) {
-            self.appearance = NSAppearance(named: .darkAqua)
-        }
+        self.backgroundColor = .clear
         self.center()
         self.setIsVisible(false)
         
@@ -53,11 +43,19 @@ class SettingsWindow: NSWindow, NSWindowDelegate {
         windowController.window = self
         windowController.loadWindow()
         
+        let newToolbar = NSToolbar(identifier: "eu.exelban.Stats.Settings.Toolbar")
+        newToolbar.allowsUserCustomization = false
+        newToolbar.autosavesConfiguration = true
+        newToolbar.displayMode = .default
+        newToolbar.showsBaselineSeparator = true
+        
+        self.toolbar = newToolbar
+        
         NotificationCenter.default.addObserver(self, selector: #selector(toggleSettingsHandler), name: .toggleSettings, object: nil)
     }
     
     deinit {
-        NotificationCenter.default.removeObserver(self)
+        NotificationCenter.default.removeObserver(self, name: .toggleSettings, object: nil)
     }
     
     override func performKeyEquivalent(with event: NSEvent) -> Bool {
@@ -84,19 +82,19 @@ class SettingsWindow: NSWindow, NSWindowDelegate {
         }
         
         if let name = notification.userInfo?["module"] as? String {
-            self.viewController.openMenu(name)
+            self.vc.openMenu(name)
         }
     }
     
     public func setModules() {
-        self.viewController.setModules(modules)
+        self.vc.setModules(modules)
         if !self.pauseState && modules.filter({ $0.enabled != false && $0.available != false && !$0.menuBar.widgets.filter({ $0.isActive }).isEmpty }).isEmpty {
             self.setIsVisible(true)
         }
     }
     
     public func openMenu(_ title: String) {
-        self.viewController.openMenu(title)
+        self.vc.openMenu(title)
     }
     
     override func mouseUp(with: NSEvent) {
@@ -104,94 +102,35 @@ class SettingsWindow: NSWindow, NSWindowDelegate {
     }
 }
 
-private class SettingsViewController: NSViewController {
-    private var settings: SettingsView
-    
-    public init() {
-        self.settings = SettingsView(frame: NSRect(x: 0, y: 0, width: 720, height: 480))
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func loadView() {
-        self.view = self.settings
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-    
-    public func setModules(_ list: [Module]) {
-        self.settings.setModules(list)
-    }
-    
-    public func openMenu(_ title: String) {
-        self.settings.openMenu(title)
-    }
-}
-
-private class SettingsView: NSView {
+private class SettingsView: NSSplitViewController {
     private var modules: [Module] = []
     
-    private let sidebarWidth: CGFloat = 180
-    private let navigationHeight: CGFloat = 45
+    private let split: NSSplitView = SplitView()
     
-    private var menuView: NSScrollView = NSScrollView()
-    private var navigationView: NSView = NSView()
-    private var mainView: NSView = NSView()
+    private let sidebar: SidebarView = SidebarView(frame: NSRect(x: 0, y: 0, width: 180, height: 480))
+    private let main: MainView = MainView(frame: NSRect(x: 0, y: 0, width: 540, height: 480))
     
     private var dashboard: NSView = Dashboard()
     private var settings: ApplicationSettings = ApplicationSettings()
     
-    private let supportPopover = NSPopover()
-    
-    override init(frame: NSRect) {
-        super.init(frame: CGRect(x: frame.origin.x, y: frame.origin.y, width: frame.width, height: frame.height))
-        self.wantsLayer = true
+    init() {
+        super.init(nibName: nil, bundle: nil)
+        self.splitView = self.split
+        
+        let sidebarVC: NSViewController = NSViewController(nibName: nil, bundle: nil)
+        sidebarVC.view = self.sidebar
+        let mainVC: NSViewController = NSViewController(nibName: nil, bundle: nil)
+        mainVC.view = self.main
+        
+        let sidebarItem = NSSplitViewItem(sidebarWithViewController: sidebarVC)
+        let contentItem = NSSplitViewItem(viewController: mainVC)
+        
+        self.addSplitViewItem(sidebarItem)
+        self.addSplitViewItem(contentItem)
+        
+        self.splitViewItems[0].canCollapse = false
         
         NotificationCenter.default.addObserver(self, selector: #selector(menuCallback), name: .openModuleSettings, object: nil)
-        
-        let sidebar = NSVisualEffectView(frame: NSRect(x: 0, y: 0, width: self.sidebarWidth, height: self.frame.height))
-        sidebar.material = .sidebar
-        sidebar.blendingMode = .behindWindow
-        sidebar.state = .active
-        
-        self.supportPopover.behavior = .transient
-        self.supportPopover.contentViewController = self.supportView()
-        
-        self.menuView.frame = NSRect(
-            x: 0,
-            y: self.navigationHeight,
-            width: self.sidebarWidth,
-            height: frame.height - self.navigationHeight - 26
-        )
-        self.menuView.wantsLayer = true
-        self.menuView.drawsBackground = false
-        self.menuView.addSubview(MenuView(n: 0, icon: NSImage(named: NSImage.Name("apps"))!, title: "Dashboard"))
-        
-        self.navigationView.frame = NSRect(x: 0, y: 0, width: self.sidebarWidth, height: navigationHeight)
-        self.navigationView.wantsLayer = true
-        
-        self.navigationView.addSubview(self.makeButton(4, title: localizedString("Open application settings"), image: "settings", action: #selector(openSettings)))
-        self.navigationView.addSubview(self.makeButton(3, title: localizedString("Report a bug"), image: "bug", action: #selector(reportBug)))
-        self.navigationView.addSubview(self.makeButton(2, title: localizedString("Support the application"), image: "donate", action: #selector(donate)))
-        self.navigationView.addSubview(self.makeButton(1, title: localizedString("Close application"), image: "power", action: #selector(closeApp)))
-        
-        self.mainView.frame = NSRect(
-            x: self.sidebarWidth + 1, // separation line
-            y: 1,
-            width: frame.width - self.sidebarWidth - 1, // separation line
-            height: frame.height - 2
-        )
-        self.mainView.wantsLayer = true
-        
-        self.addSubview(sidebar)
-        self.addSubview(self.menuView)
-        self.addSubview(self.navigationView)
-        self.addSubview(self.mainView)
         
         self.openMenu("Dashboard")
     }
@@ -200,69 +139,124 @@ private class SettingsView: NSView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func draw(_ dirtyRect: NSRect) {
-        super.draw(dirtyRect)
-        
-        let line = NSBezierPath()
-        line.move(to: NSPoint(x: self.sidebarWidth, y: 0))
-        line.line(to: NSPoint(x: self.sidebarWidth, y: self.frame.height))
-        line.lineWidth = 1
-        
-        NSColor.black.set()
-        line.stroke()
-    }
-    
     public func openMenu(_ title: String) {
-        self.menuView.subviews.forEach({ (m: NSView) in
-            if let menu = m as? MenuView {
-                if menu.title == title {
-                    menu.activate()
-                }
-            }
-        })
+        self.sidebar.openMenu(title)
     }
     
     public func setModules(_ list: [Module]) {
-        list.forEach { (m: Module) in
-            if !m.available { return }
-            let n: Int = self.menuView.subviews.count - 1
-            let menu: NSView = MenuView(n: n, icon: m.config.icon, title: m.config.name)
-            self.menuView.addSubview(menu)
-        }
+        self.sidebar.setModules(list)
         self.modules = list
     }
     
     @objc private func menuCallback(_ notification: Notification) {
         if let title = notification.userInfo?["module"] as? String {
             var view: NSView = NSView()
-            
             if let detectedModule = self.modules.first(where: { $0.config.name == title }) {
                 if let v = detectedModule.settings {
                     view = v
                 }
             } else if title == "Dashboard" {
                 view = self.dashboard
-            } else if title == "settings" {
+            } else if title == "Settings" {
                 self.settings.viewWillAppear()
                 view = self.settings
             }
             
-            self.mainView.subviews.forEach{ $0.removeFromSuperview() }
-            self.mainView.addSubview(view)
-            
-            self.menuView.subviews.forEach({ (m: NSView) in
-                if let menu = m as? MenuView {
-                    if menu.active {
-                        menu.reset()
-                    }
-                }
-            })
+            self.main.setView(view)
+            self.sidebar.openMenu(title)
         }
     }
+}
+
+private class SplitView: NSSplitView, NSSplitViewDelegate {
+    init() {
+        super.init(frame: NSRect.zero)
+        
+        self.isVertical = true
+        self.delegate = self
+        
+        self.widthAnchor.constraint(equalToConstant: SettingsWindow.size.width).isActive = true
+        self.heightAnchor.constraint(equalToConstant: SettingsWindow.size.height).isActive = true
+    }
     
-    private func makeButton(_ n: Int, title: String, image: String, action: Selector) -> NSButton {
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func cursorUpdate(with event: NSEvent) {
+        NSCursor.arrow.set()
+    }
+}
+
+private class SidebarView: NSStackView {
+    private let scrollView: ScrollableStackView
+    
+    private let supportPopover = NSPopover()
+    
+    override init(frame: NSRect) {
+        self.scrollView = ScrollableStackView(frame: NSRect(x: 0, y: 0, width: frame.width, height: frame.height))
+        self.scrollView.stackView.spacing = 0
+        self.scrollView.stackView.edgeInsets = NSEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
+        
+        super.init(frame: frame)
+        self.orientation = .vertical
+        self.spacing = 0
+        self.widthAnchor.constraint(equalToConstant: frame.width).isActive = true
+        
+        let spacer = NSView()
+        spacer.heightAnchor.constraint(equalToConstant: 10).isActive = true
+        
+        self.scrollView.stackView.addArrangedSubview(MenuItem(icon: NSImage(named: NSImage.Name("apps"))!, title: "Dashboard"))
+        self.scrollView.stackView.addArrangedSubview(spacer)
+        self.scrollView.stackView.addArrangedSubview(MenuItem(icon: NSImage(named: NSImage.Name("settings"))!, title: "Settings"))
+        
+        self.supportPopover.behavior = .transient
+        self.supportPopover.contentViewController = self.supportView()
+        
+        let additionalButtons: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: frame.width, height: 40))
+        additionalButtons.orientation = .horizontal
+        additionalButtons.distribution = .fillEqually
+        additionalButtons.spacing = 0
+        
+        additionalButtons.addArrangedSubview(self.makeButton(title: localizedString("Report a bug"), image: "bug", action: #selector(reportBug)))
+        additionalButtons.addArrangedSubview(self.makeButton(title: localizedString("Support the application"), image: "donate", action: #selector(donate)))
+        additionalButtons.addArrangedSubview(self.makeButton(title: localizedString("Close application"), image: "power", action: #selector(closeApp)))
+        
+        self.addArrangedSubview(self.scrollView)
+        self.addArrangedSubview(additionalButtons)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    public func openMenu(_ title: String) {
+        self.scrollView.stackView.subviews.forEach({ (m: NSView) in
+            if let menu = m as? MenuItem {
+                if menu.title == title {
+                    menu.activate()
+                } else {
+                    menu.reset()
+                }
+            }
+        })
+    }
+    
+    public func setModules(_ list: [Module]) {
+        list.reversed().forEach { (m: Module) in
+            if !m.available { return }
+            let menu: NSView = MenuItem(icon: m.config.icon, title: m.config.name)
+            self.scrollView.stackView.insertArrangedSubview(menu, at: 2)
+        }
+        
+        let spacer = NSView()
+        spacer.heightAnchor.constraint(equalToConstant: 10).isActive = true
+        self.scrollView.stackView.insertArrangedSubview(spacer, at: self.scrollView.stackView.subviews.count - 1)
+    }
+    
+    private func makeButton(title: String, image: String, action: Selector) -> NSButton {
         let button = NSButtonWithPadding()
-        button.frame = CGRect(x: Int(self.sidebarWidth) - (45*n), y: 0, width: 44, height: 44)
+        button.frame = CGRect(x: 0, y: 0, width: 44, height: 44)
         button.verticalPadding = 20
         button.horizontalPadding = 20
         button.title = title
@@ -272,14 +266,14 @@ private class SettingsView: NSView {
         button.imageScaling = .scaleNone
         button.image = Bundle(for: type(of: self)).image(forResource: image)!
         if #available(OSX 10.14, *) {
-            button.contentTintColor = .lightGray
+            button.contentTintColor = .secondaryLabelColor
         }
         button.isBordered = false
         button.action = action
         button.target = self
         button.focusRingType = .none
         
-        let rect = NSRect(x: Int(self.sidebarWidth) - (45*n), y: 0, width: 44, height: 44)
+        let rect = NSRect(x: 0, y: 0, width: 44, height: 44)
         let trackingArea = NSTrackingArea(
             rect: rect,
             options: [NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited, NSTrackingArea.Options.activeInActiveApp],
@@ -325,10 +319,6 @@ private class SettingsView: NSView {
         return button
     }
     
-    @objc private func openSettings(_ sender: Any) {
-        NotificationCenter.default.post(name: .openModuleSettings, object: nil, userInfo: ["module": "settings"])
-    }
-    
     @objc private func reportBug(_ sender: Any) {
         NSWorkspace.shared.open(URL(string: "https://github.com/exelban/stats/issues/new")!)
     }
@@ -358,24 +348,23 @@ private class SettingsView: NSView {
     }
 }
 
-private class MenuView: NSView {
-    private let height: CGFloat = 40
-    private let width: CGFloat = 180
+private class MenuItem: NSView {
+    public let title: String
+    public var active: Bool = false
     
     private var imageView: NSImageView? = nil
     private var titleView: NSTextField? = nil
     
-    public let title: String
-    public var active: Bool = false
-    
-    init(n: Int, icon: NSImage?, title: String) {
+    init(icon: NSImage?, title: String) {
         self.title = title
-        super.init(frame: NSRect(x: 0, y: self.height*CGFloat(n), width: width, height: self.height))
+        
+        super.init(frame: NSRect.zero)
+        
         self.wantsLayer = true
-        self.layer?.backgroundColor = .clear
+        self.layer?.cornerRadius = 5
         
         var toolTip = ""
-        if title == "State" {
+        if title == "Settings" {
             toolTip = localizedString("Open application settings")
         } else if title == "Dashboard" {
             toolTip = localizedString("Open dashboard")
@@ -384,36 +373,29 @@ private class MenuView: NSView {
         }
         self.toolTip = toolTip
         
-        let rect = NSRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
-        let trackingArea = NSTrackingArea(
-            rect: rect,
-            options: [NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited, NSTrackingArea.Options.activeInActiveApp],
-            owner: self,
-            userInfo: ["menu": title]
-        )
-        self.addTrackingArea(trackingArea)
-        
         let imageView = NSImageView()
         if icon != nil {
             imageView.image = icon!
         }
-        imageView.frame = NSRect(x: 8, y: (self.height - 18)/2, width: 18, height: 18)
+        imageView.frame = NSRect(x: 8, y: (32 - 18)/2, width: 18, height: 18)
         imageView.wantsLayer = true
         if #available(OSX 10.14, *) {
             imageView.contentTintColor = .labelColor
         }
+        self.imageView = imageView
         
-        let titleView = TextView(frame: NSRect(x: 34, y: (self.height - 16)/2, width: 100, height: 16))
-        titleView.alignment = .natural
+        let titleView = TextView(frame: NSRect(x: 34, y: ((32 - 16)/2) + 1, width: 100, height: 16))
         titleView.textColor = .labelColor
         titleView.font = NSFont.systemFont(ofSize: 13, weight: .regular)
         titleView.stringValue = localizedString(title)
+        self.titleView = titleView
         
         self.addSubview(imageView)
         self.addSubview(titleView)
         
-        self.imageView = imageView
-        self.titleView = titleView
+        NSLayoutConstraint.activate([
+            self.heightAnchor.constraint(equalToConstant: 32)
+        ])
     }
     
     required init?(coder: NSCoder) {
@@ -425,13 +407,57 @@ private class MenuView: NSView {
     }
     
     public func activate() {
-        NotificationCenter.default.post(name: .openModuleSettings, object: nil, userInfo: ["module": self.title])
-        self.layer?.backgroundColor = .init(gray: 0.01, alpha: 0.25)
+        guard !self.active else { return }
         self.active = true
+        
+        NotificationCenter.default.post(name: .openModuleSettings, object: nil, userInfo: ["module": self.title])
+        
+        if #available(macOS 10.14, *) {
+            self.layer?.backgroundColor = NSColor.selectedContentBackgroundColor.cgColor
+        } else {
+            self.layer?.backgroundColor = NSColor.systemBlue.cgColor
+        }
+        
+        if #available(macOS 10.14, *) {
+            self.imageView?.contentTintColor = .white
+        }
+        self.titleView?.textColor = .white
     }
     
     public func reset() {
         self.layer?.backgroundColor = .clear
+        if #available(macOS 10.14, *) {
+            self.imageView?.contentTintColor = .labelColor
+        }
+        self.titleView?.textColor = .labelColor
         self.active = false
+    }
+}
+
+private class MainView: NSView {
+    override init(frame: NSRect) {
+        super.init(frame: frame)
+        
+        self.wantsLayer = true
+        
+        let foreground = NSVisualEffectView(frame: NSRect(x: 0, y: 0, width: frame.width, height: frame.height))
+        foreground.blendingMode = .withinWindow
+        if #available(macOS 10.14, *) {
+            foreground.material = .windowBackground
+        } else {
+            foreground.material = .popover
+        }
+        foreground.state = .active
+        
+        self.addSubview(foreground, positioned: .below, relativeTo: .none)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    public func setView(_ view: NSView) {
+        self.subviews.filter{ !($0 is NSVisualEffectView) }.forEach{ $0.removeFromSuperview() }
+        self.addSubview(view)
     }
 }
