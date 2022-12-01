@@ -32,12 +32,7 @@ class UpdateWindow: NSWindow, NSWindowDelegate {
         
         self.title = "Stats"
         self.contentViewController = self.viewController
-        self.animationBehavior = .default
-        self.collectionBehavior = .transient
         self.titlebarAppearsTransparent = true
-        if #available(OSX 10.14, *) {
-            self.appearance = NSAppearance(named: .darkAqua)
-        }
         self.center()
         self.setIsVisible(false)
         
