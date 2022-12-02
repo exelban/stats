@@ -12,9 +12,21 @@
 import Cocoa
 import Kit
 
-class SettingsWindow: NSWindow, NSWindowDelegate {
+public extension NSToolbarItem.Identifier {
+    static let toggleButton = NSToolbarItem.Identifier("toggleButton")
+}
+
+class SettingsWindow: NSWindow, NSWindowDelegate, NSToolbarDelegate {
     static let size: CGSize = CGSize(width: 720, height: 480)
-    private let vc: SettingsView = SettingsView()
+    
+    private let mainView: MainView = MainView(frame: NSRect(x: 0, y: 0, width: 540, height: 480))
+    private let sidebarView: SidebarView = SidebarView(frame: NSRect(x: 0, y: 0, width: 180, height: 480))
+    
+    private var dashboard: NSView = Dashboard()
+    private var settings: ApplicationSettings = ApplicationSettings()
+    
+    private var toggleButton: NSControl? = nil
+    private var activeModuleName: String? = nil
     
     private var pauseState: Bool {
         Store.shared.bool(key: "pause", defaultValue: false)
@@ -33,29 +45,59 @@ class SettingsWindow: NSWindow, NSWindowDelegate {
             defer: false
         )
         
-        self.contentViewController = self.vc
-        self.titlebarAppearsTransparent = true
-        self.backgroundColor = .clear
-        self.center()
-        self.setIsVisible(false)
+        let sidebarViewController = NSSplitViewController()
         
-        let windowController = NSWindowController()
-        windowController.window = self
-        windowController.loadWindow()
+        let sidebarVC: NSViewController = NSViewController(nibName: nil, bundle: nil)
+        sidebarVC.view = self.sidebarView
+        let mainVC: NSViewController = NSViewController(nibName: nil, bundle: nil)
+        mainVC.view = self.mainView
+        
+        let sidebarItem = NSSplitViewItem(sidebarWithViewController: sidebarVC)
+        let contentItem = NSSplitViewItem(viewController: mainVC)
+        
+        sidebarItem.canCollapse = false
+        contentItem.canCollapse = false
+        
+        sidebarViewController.addSplitViewItem(sidebarItem)
+        sidebarViewController.addSplitViewItem(contentItem)
         
         let newToolbar = NSToolbar(identifier: "eu.exelban.Stats.Settings.Toolbar")
         newToolbar.allowsUserCustomization = false
         newToolbar.autosavesConfiguration = true
         newToolbar.displayMode = .default
         newToolbar.showsBaselineSeparator = true
+        newToolbar.delegate = self
         
         self.toolbar = newToolbar
+        self.contentViewController = sidebarViewController
+        self.titlebarAppearsTransparent = true
+        self.backgroundColor = .clear
+//        self.center()
+        self.setIsVisible(true)
         
+        let windowController = NSWindowController()
+        windowController.window = self
+        windowController.loadWindow()
+        
+        NSLayoutConstraint.activate([
+            self.sidebarView.widthAnchor.constraint(equalToConstant: 180),
+            self.mainView.widthAnchor.constraint(equalToConstant: 540),
+            self.mainView.container.widthAnchor.constraint(equalToConstant: 540),
+            self.mainView.container.topAnchor.constraint(equalTo: (self.contentLayoutGuide as! NSLayoutGuide).topAnchor),
+            self.mainView.container.bottomAnchor.constraint(equalTo: (self.contentLayoutGuide as! NSLayoutGuide).bottomAnchor)
+        ])
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(menuCallback), name: .openModuleSettings, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(toggleSettingsHandler), name: .toggleSettings, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(externalModuleToggle), name: .toggleModule, object: nil)
+        
+        self.sidebarView.openMenu("Dashboard")
     }
     
     deinit {
         NotificationCenter.default.removeObserver(self, name: .toggleSettings, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .openModuleSettings, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .toggleModule, object: nil)
     }
     
     override func performKeyEquivalent(with event: NSEvent) -> Bool {
@@ -68,8 +110,53 @@ class SettingsWindow: NSWindow, NSWindowDelegate {
                 return true
             }
         }
-        
         return super.performKeyEquivalent(with: event)
+    }
+    
+    override func mouseUp(with: NSEvent) {
+        NotificationCenter.default.post(name: .clickInSettings, object: nil, userInfo: nil)
+    }
+    
+    func toolbar(_ toolbar: NSToolbar, itemForItemIdentifier itemIdentifier: NSToolbarItem.Identifier, willBeInsertedIntoToolbar flag: Bool) -> NSToolbarItem? {
+        switch itemIdentifier {
+        case .toggleButton:
+            var toggleBtn: NSControl = NSControl()
+            if #available(OSX 10.15, *) {
+                let switchButton = NSSwitch()
+                switchButton.state = .on
+                switchButton.action = #selector(self.toggleEnable)
+                switchButton.target = self
+                toggleBtn = switchButton
+            } else {
+                let button: NSButton = NSButton()
+                button.setButtonType(.switch)
+                button.state = .on
+                button.title = ""
+                button.action = #selector(self.toggleEnable)
+                button.isBordered = false
+                button.isTransparent = false
+                button.target = self
+                toggleBtn = button
+            }
+            self.toggleButton = toggleBtn
+            
+            let toolbarItem = NSToolbarItem(itemIdentifier: itemIdentifier)
+            toolbarItem.label = "Toggle the module"
+            toolbarItem.paletteLabel = "Toggle the module"
+            toolbarItem.toolTip = "Toggle the module"
+            toolbarItem.view = toggleBtn
+            
+            return toolbarItem
+        default:
+            return nil
+        }
+    }
+        
+    func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
+        return [.flexibleSpace, .toggleButton]
+    }
+    func toolbarDefaultItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
+        return [.flexibleSpace, .toggleButton]
     }
     
     @objc private func toggleSettingsHandler(_ notification: Notification) {
@@ -82,111 +169,101 @@ class SettingsWindow: NSWindow, NSWindowDelegate {
         }
         
         if let name = notification.userInfo?["module"] as? String {
-            self.vc.openMenu(name)
+            self.sidebarView.openMenu(name)
         }
-    }
-    
-    public func setModules() {
-        self.vc.setModules(modules)
-        if !self.pauseState && modules.filter({ $0.enabled != false && $0.available != false && !$0.menuBar.widgets.filter({ $0.isActive }).isEmpty }).isEmpty {
-            self.setIsVisible(true)
-        }
-    }
-    
-    public func openMenu(_ title: String) {
-        self.vc.openMenu(title)
-    }
-    
-    override func mouseUp(with: NSEvent) {
-        NotificationCenter.default.post(name: .clickInSettings, object: nil, userInfo: nil)
-    }
-}
-
-private class SettingsView: NSSplitViewController {
-    private var modules: [Module] = []
-    
-    private let split: NSSplitView = SplitView()
-    
-    private let sidebar: SidebarView = SidebarView(frame: NSRect(x: 0, y: 0, width: 180, height: 480))
-    private let main: MainView = MainView(frame: NSRect(x: 0, y: 0, width: 540, height: 480))
-    
-    private var dashboard: NSView = Dashboard()
-    private var settings: ApplicationSettings = ApplicationSettings()
-    
-    init() {
-        super.init(nibName: nil, bundle: nil)
-        self.splitView = self.split
-        
-        let sidebarVC: NSViewController = NSViewController(nibName: nil, bundle: nil)
-        sidebarVC.view = self.sidebar
-        let mainVC: NSViewController = NSViewController(nibName: nil, bundle: nil)
-        mainVC.view = self.main
-        
-        let sidebarItem = NSSplitViewItem(sidebarWithViewController: sidebarVC)
-        let contentItem = NSSplitViewItem(viewController: mainVC)
-        
-        self.addSplitViewItem(sidebarItem)
-        self.addSplitViewItem(contentItem)
-        
-        self.splitViewItems[0].canCollapse = false
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(menuCallback), name: .openModuleSettings, object: nil)
-        
-        self.openMenu("Dashboard")
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    public func openMenu(_ title: String) {
-        self.sidebar.openMenu(title)
-    }
-    
-    public func setModules(_ list: [Module]) {
-        self.sidebar.setModules(list)
-        self.modules = list
     }
     
     @objc private func menuCallback(_ notification: Notification) {
         if let title = notification.userInfo?["module"] as? String {
             var view: NSView = NSView()
-            if let detectedModule = self.modules.first(where: { $0.config.name == title }) {
+            if let detectedModule = modules.first(where: { $0.config.name == title }) {
                 if let v = detectedModule.settings {
                     view = v
                 }
+                self.activeModuleName = detectedModule.config.name
+                toggleNSControlState(self.toggleButton, state: detectedModule.enabled ? .on : .off)
+                self.toggleButton?.isHidden = false
             } else if title == "Dashboard" {
                 view = self.dashboard
+                self.toggleButton?.isHidden = true
             } else if title == "Settings" {
                 self.settings.viewWillAppear()
                 view = self.settings
+                self.toggleButton?.isHidden = true
             }
             
-            self.main.setView(view)
-            self.sidebar.openMenu(title)
+            self.title = localizedString(title)
+            
+            self.mainView.setView(view)
+            self.sidebarView.openMenu(title)
         }
+    }
+    
+    @objc private func toggleEnable(_ sender: NSControl) {
+        guard let moduleName = self.activeModuleName else { return }
+        NotificationCenter.default.post(name: .toggleModule, object: nil, userInfo: ["module": moduleName, "state": controlState(sender)])
+    }
+    
+    @objc private func externalModuleToggle(_ notification: Notification) {
+        if let name = notification.userInfo?["module"] as? String, name == self.activeModuleName {
+            if let state = notification.userInfo?["state"] as? Bool {
+                toggleNSControlState(self.toggleButton, state: state ? .on : .off)
+            }
+        }
+    }
+    
+    public func setModules() {
+        self.sidebarView.setModules(modules)
+        if !self.pauseState && modules.filter({ $0.enabled != false && $0.available != false && !$0.menuBar.widgets.filter({ $0.isActive }).isEmpty }).isEmpty {
+            self.setIsVisible(true)
+        }
+        self.sidebarView.openMenu("Network")
     }
 }
 
-private class SplitView: NSSplitView, NSSplitViewDelegate {
-    init() {
+// MARK: - MainView
+
+private class MainView: NSView {
+    public let container: NSStackView
+    
+    override init(frame: NSRect) {
+        self.container = NSStackView(frame: NSRect(x: 0, y: 0, width: frame.width, height: frame.height))
+        
+        let foreground = NSVisualEffectView(frame: NSRect(x: 0, y: 0, width: frame.width, height: frame.height))
+        foreground.blendingMode = .withinWindow
+        if #available(macOS 10.14, *) {
+            foreground.material = .windowBackground
+        } else {
+            foreground.material = .popover
+        }
+        foreground.state = .active
+        
         super.init(frame: NSRect.zero)
         
-        self.isVertical = true
-        self.delegate = self
+        self.container.translatesAutoresizingMaskIntoConstraints = false
         
-        self.widthAnchor.constraint(equalToConstant: SettingsWindow.size.width).isActive = true
-        self.heightAnchor.constraint(equalToConstant: SettingsWindow.size.height).isActive = true
+        self.addSubview(foreground, positioned: .below, relativeTo: .none)
+        self.addSubview(self.container)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func cursorUpdate(with event: NSEvent) {
-        NSCursor.arrow.set()
+    public func setView(_ view: NSView) {
+        self.container.subviews.forEach{ $0.removeFromSuperview() }
+        self.container.addArrangedSubview(view)
+        
+        NSLayoutConstraint.activate([
+            view.leftAnchor.constraint(equalTo: self.container.leftAnchor),
+            view.rightAnchor.constraint(equalTo: self.container.rightAnchor),
+            view.topAnchor.constraint(equalTo: self.container.topAnchor),
+            view.bottomAnchor.constraint(equalTo: self.container.bottomAnchor)
+        ])
     }
 }
+
+// MARK: - Sidebar
 
 private class SidebarView: NSStackView {
     private let scrollView: ScrollableStackView
@@ -431,33 +508,5 @@ private class MenuItem: NSView {
         }
         self.titleView?.textColor = .labelColor
         self.active = false
-    }
-}
-
-private class MainView: NSView {
-    override init(frame: NSRect) {
-        super.init(frame: frame)
-        
-        self.wantsLayer = true
-        
-        let foreground = NSVisualEffectView(frame: NSRect(x: 0, y: 0, width: frame.width, height: frame.height))
-        foreground.blendingMode = .withinWindow
-        if #available(macOS 10.14, *) {
-            foreground.material = .windowBackground
-        } else {
-            foreground.material = .popover
-        }
-        foreground.state = .active
-        
-        self.addSubview(foreground, positioned: .below, relativeTo: .none)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    public func setView(_ view: NSView) {
-        self.subviews.filter{ !($0 is NSVisualEffectView) }.forEach{ $0.removeFromSuperview() }
-        self.addSubview(view)
     }
 }

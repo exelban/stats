@@ -25,11 +25,9 @@ class Dashboard: NSScrollView {
         
         self.drawsBackground = false
         self.borderType = .noBorder
+        self.scrollerStyle = .overlay
         self.hasVerticalScroller = true
         self.hasHorizontalScroller = false
-        self.autohidesScrollers = true
-        self.horizontalScrollElasticity = .none
-        self.automaticallyAdjustsContentInsets = false
         
         NotificationCenter.default.addObserver(self, selector: #selector(windowOpens), name: .openModuleSettings, object: nil)
         
@@ -56,8 +54,10 @@ class Dashboard: NSScrollView {
         grid.row(at: 2).height = specsView.frame.height
         
         self.documentView = grid
-        if let documentView = self.documentView {
-            documentView.scroll(NSPoint(x: 0, y: documentView.bounds.size.height))
+        DispatchQueue.main.async {
+            if let documentView = self.documentView {
+                documentView.scroll(NSPoint(x: 0, y: documentView.bounds.size.height))
+            }
         }
     }
     
@@ -66,7 +66,7 @@ class Dashboard: NSScrollView {
     }
     
     private func versions() -> NSView {
-        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 280))
+        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 220))
         
         let h: CGFloat = 120+60+18
         let container: NSGridView = NSGridView(frame: NSRect(x: 0, y: (view.frame.height-h)/2, width: self.frame.width, height: h))
