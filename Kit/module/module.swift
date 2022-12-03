@@ -39,6 +39,11 @@ public struct module_c {
         if let state = dict["State"] as? Bool {
             self.defaultState = state
         }
+        if let symbol = dict["Symbol"] as? String {
+            if #available(macOS 11.0, *) {
+                self.icon = NSImage(systemSymbolName: symbol, accessibilityDescription: nil)
+            }
+        }
         
         if let widgetsDict = dict["Widgets"] as? NSDictionary {
             var list: [String: Int] = [:]

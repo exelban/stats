@@ -6,6 +6,8 @@
 	<string>Battery</string>
 	<key>State</key>
 	<true/>
+	<key>Symbol</key>
+	<string>battery.100</string>
 	<key>Widgets</key>
 	<dict>
 		<key>label</key>

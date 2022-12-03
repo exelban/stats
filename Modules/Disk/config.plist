@@ -6,6 +6,8 @@
 	<string>Disk</string>
 	<key>State</key>
 	<true/>
+	<key>Symbol</key>
+	<string>opticaldiscdrive</string>
 	<key>Widgets</key>
 	<dict>
 		<key>label</key>
