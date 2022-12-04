@@ -307,7 +307,7 @@
 "Nonactive state color" = "非活跃状态颜色";
 "Connectivity host (ICMP)" = "连接Host (ICMP)";
 "Leave empty to disable the check" = "不在该选项内输入以禁用检查";
-"Transparent pictogram when no activity" = "Transparent pictogram when no activity";
+"Transparent pictogram when no activity" = "不活跃时隐藏标识";
 
 // Battery
 "Level" = "电量";
