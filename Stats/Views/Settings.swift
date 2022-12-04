@@ -72,8 +72,8 @@ class SettingsWindow: NSWindow, NSWindowDelegate, NSToolbarDelegate {
         self.contentViewController = sidebarViewController
         self.titlebarAppearsTransparent = true
         self.backgroundColor = .clear
-//        self.center()
-        self.setIsVisible(true)
+        self.center()
+        self.setIsVisible(false)
         
         let windowController = NSWindowController()
         windowController.window = self
@@ -217,7 +217,6 @@ class SettingsWindow: NSWindow, NSWindowDelegate, NSToolbarDelegate {
         if !self.pauseState && modules.filter({ $0.enabled != false && $0.available != false && !$0.menuBar.widgets.filter({ $0.isActive }).isEmpty }).isEmpty {
             self.setIsVisible(true)
         }
-        self.sidebarView.openMenu("Network")
     }
 }
 
