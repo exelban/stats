@@ -141,8 +141,6 @@ class SettingsWindow: NSWindow, NSWindowDelegate, NSToolbarDelegate {
             self.toggleButton = toggleBtn
             
             let toolbarItem = NSToolbarItem(itemIdentifier: itemIdentifier)
-            toolbarItem.label = "Toggle the module"
-            toolbarItem.paletteLabel = "Toggle the module"
             toolbarItem.toolTip = "Toggle the module"
             toolbarItem.view = toggleBtn
             
