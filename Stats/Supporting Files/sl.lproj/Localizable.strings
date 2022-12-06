@@ -68,6 +68,7 @@
 "Cube" = "Kubično";
 "Logarithmic" = "Logaritmično";
 "Cores" = "Jedra";
+"Settings" = "Settings";
 
 // Setup
 "Stats Setup" = "Stats konfigurator";

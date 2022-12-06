@@ -68,6 +68,7 @@
 "Cube" = "Кубично";
 "Logarithmic" = "Логаритмично";
 "Cores" = "Ядра";
+"Settings" = "Settings";
 
 // Setup
 "Stats Setup" = "Настройки на Stats";

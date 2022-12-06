@@ -68,6 +68,7 @@
 "Cube" = "立方";
 "Logarithmic" = "对数";
 "Cores" = "核心数";
+"Settings" = "Settings";
 
 // Setup
 "Stats Setup" = "Stats 设置";
