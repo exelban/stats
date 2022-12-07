@@ -57,7 +57,7 @@
 "Center alignment" = "Mitte";
 "Right alignment" = "Rechts";
 "Dashboard" = "Dashboard";
-"Enabled" = "Enabled";
+"Enabled" = "Aktiviert";
 "Disabled" = "Deaktiviert";
 "Silent" = "Leise";
 "Units" = "Einheit";
@@ -68,7 +68,7 @@
 "Cube" = "Cube";
 "Logarithmic" = "Logarithmic";
 "Cores" = "Cores";
-"Settings" = "Settings";
+"Settings" = "Einstellungen";
 
 // Setup
 "Stats Setup" = "Stats einrichten";
@@ -179,16 +179,16 @@
 "Pictogram" = "Piktogramm";
 "Module settings" = "Modul Einstellungen";
 "Widget settings" = "Widget Einstellungen";
-"Popup settings" = "Popup settings";
+"Popup settings" = "Popup Einstellungen";
 "Merge widgets" = "Widgets zusammenfassen";
-"No available widgets to configure" = "No available widgets to configure";
-"No options to configure for the popup in this module" = "No options to configure for the popup in this module";
+"No available widgets to configure" = "Keine Widgets zum Konfigurieren verfügbar";
+"No options to configure for the popup in this module" = "Keine Optionen für das Popup zum Konfigurieren verfügbar";
 
 // Modules
 "Number of top processes" = "Anzahl der Top-Prozesse";
 "Update interval for top processes" = "Update-Intervall der Top-Prozesse";
 "Notification level" = "Benachrichtungslevel";
-"Chart color" = "Chart color";
+"Chart color" = "Diagramm Farbe";
 
 // CPU
 "CPU usage" = "CPU Nutzung";
@@ -210,10 +210,10 @@
 "CPU usage is" = "Auslastung ist %0";
 "Efficiency cores" = "Efficiency Cores";
 "Performance cores" = "Performance Cores";
-"System color" = "System color";
-"User color" = "User color";
-"Idle color" = "Idle color";
-"Cluster grouping" = "Cluster grouping";
+"System color" = "System Farbe";
+"User color" = "Benutzer Farbe";
+"Idle color" = "Inaktivität Farbe";
+"Cluster grouping" = "Clustergruppierung";
 
 // GPU
 "GPU to show" = "GPU auswählen";
@@ -249,10 +249,10 @@
 "Split the value (App/Wired/Compressed)" = "Teilen Sie den Wert auf (App/Reserviert/Komprimiert)";
 "RAM utilization threshold" = "Schwellwert für RAM Auslastung erreicht";
 "RAM utilization is" = "Auslastung ist %0";
-"App color" = "App color";
-"Wired color" = "Wired color";
-"Compressed color" = "Compressed color";
-"Free color" = "Free color";
+"App color" = "App Farbe";
+"Wired color" = "Reserviert Farbe";
+"Compressed color" = "Komprimiert Farbe";
+"Free color" = "Frei Farbe";
 
 // Disk
 "Show removable disks" = "Wechseldatenträger anzeigen";
@@ -272,9 +272,9 @@
 "Fan" = "Lüfter";
 "HID sensors" = "HID sensors";
 "Synchronize fan's control" = "Lüfter synchron halten";
-"Current" = "Current";
-"Energy" = "Energy";
-"Show unknown sensors" = "Show unknown sensors";
+"Current" = "Aktuell";
+"Energy" = "Energie";
+"Show unknown sensors" = "Unbekannte Sensoren anzeigen";
 
 // Network
 "Uploading" = "Upload";
@@ -303,12 +303,12 @@
 "Common scale" = "Common scale";
 "Autodetection" = "Automatisch";
 "Widget activation threshold" = "Schwellwert für Anzeige vom Widget";
-"Internet connection" = "Internet connection";
-"Active state color" = "Active state color";
-"Nonactive state color" = "Nonactive state color";
-"Connectivity host (ICMP)" = "Connectivity host (ICMP)";
-"Leave empty to disable the check" = "Leave empty to disable the check";
-"Transparent pictogram when no activity" = "Transparent pictogram when no activity";
+"Internet connection" = "Internetverbindung";
+"Active state color" = "Aktiv-Status Farbe";
+"Nonactive state color" = "Inaktiv-Status Farbe";
+"Connectivity host (ICMP)" = "Verbindungsverfügbarkeits-Host (ICMP)";
+"Leave empty to disable the check" = "Leer lassen zum Deaktivieren";
+"Transparent pictogram when no activity" = "Transparentes Piktrogramm bei keiner Aktivität";
 
 // Battery
 "Level" = "Ladezustand";
@@ -342,7 +342,7 @@
 "Hide additional information when full" = "Zusätzliche Informationen bei vollständiger Ladung verbergen";
 "Last charge" = "Letzte Ladung";
 "Capacity" = "Kapazität";
-"maximum / designed" = "maximum / designed";
+"maximum / designed" = "Aktuell / ab Werk";
 "Low power mode" = "Stromsparmodus";
 "Percentage inside the icon" = "Prozenzsatz im Symbol";
 
@@ -353,7 +353,7 @@
 // Colors
 "Based on utilization" = "Basierend auf Auslastung";
 "Based on pressure" = "Basierend auf Druck";
-"Based on cluster" = "Based on cluster";
+"Based on cluster" = "Basierend auf Cluster";
 "System accent" = "System Akzentfarbe";
 "Monochrome accent" = "Monochromer Akzent";
 "Clear" = "Durchsichtig";
