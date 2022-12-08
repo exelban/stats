@@ -62,11 +62,11 @@
 "Silent" = "Leise";
 "Units" = "Einheit";
 "Fans" = "Lüfter";
-"Scaling" = "Scaling";
+"Scaling" = "Skalierung";
 "Linear" = "Linear";
-"Square" = "Square";
-"Cube" = "Cube";
-"Logarithmic" = "Logarithmic";
+"Square" = "Quadratisch";
+"Cube" = "Kubisch";
+"Logarithmic" = "Logarithmisch";
 "Cores" = "Cores";
 "Settings" = "Einstellungen";
 
@@ -89,7 +89,7 @@
 "Check for a new version every month (once a month)" = "Prüfe monatlich auf Updates (einmal pro Monat)";
 "Never check for updates (not recommended)" = "Nie nach neuen Updates suchen (nicht empfohlen)";
 "The configuration is completed" = "Die Einrichtung ist abgeschlossen";
-"finish_setup_message" = "Alles erledigt! \n Stats ist ein Open Source Program. Es ist und bleibt für immer kostenlos. \n Wenn es Ihnen gefällt, können Sie das Projekt gerne unterstützen!";
+"finish_setup_message" = "Alles erledigt! \n Stats ist ein Open Source Programm. Es ist und bleibt für immer kostenlos. \n Wenn es Ihnen gefällt, können Sie das Projekt gerne unterstützen!";
 
 // Alerts
 "New version available" = "Neue Version verfügbar";
@@ -161,7 +161,7 @@
 "Memory widget" = "Speicher";
 "Static width" = "Statische Breite";
 "Tachometer widget" = "Tachometer";
-"State widget" = "State widget";
+"State widget" = "Status Widget";
 "Show symbols" = "Symbole anzeigen";
 "Label widget" = "Label";
 "Number of reads in the chart" = "Anzahl an Elementen im Diagramm";
@@ -308,7 +308,7 @@
 "Nonactive state color" = "Inaktiv-Status Farbe";
 "Connectivity host (ICMP)" = "Verbindungsverfügbarkeits-Host (ICMP)";
 "Leave empty to disable the check" = "Leer lassen zum Deaktivieren";
-"Transparent pictogram when no activity" = "Transparentes Piktrogramm bei keiner Aktivität";
+"Transparent pictogram when no activity" = "Transparentes Piktogramm bei keiner Aktivität";
 
 // Battery
 "Level" = "Ladezustand";
