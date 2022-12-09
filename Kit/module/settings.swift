@@ -207,6 +207,8 @@ class WidgetSelectorView: NSStackView {
             view.material = .popover
         }
         view.state = .active
+        view.wantsLayer = true
+        view.layer?.cornerRadius = 5
         return view
     }()
     
@@ -217,8 +219,6 @@ class WidgetSelectorView: NSStackView {
         super.init(frame: NSRect.zero)
         
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.wantsLayer = true
-        self.layer?.cornerRadius = 3
         self.edgeInsets = NSEdgeInsets(
             top: Constants.Settings.margin,
             left: Constants.Settings.margin,
