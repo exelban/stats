@@ -1008,34 +1008,27 @@ public class SettingsContainerView: NSStackView {
 
 public class SMCHelper {
     public static let shared = SMCHelper()
+    
+    public var isInstalled: Bool {
+        syncShell("ls /Library/PrivilegedHelperTools/").contains("eu.exelban.Stats.SMC.Helper")
+    }
+    
     private var connection: NSXPCConnection? = nil
     
     public func setFanSpeed(_ id: Int, speed: Int) {
-        helperStatus { installed in
-            if !installed {
-                self.install()
-            }
-            guard let helper = self.helper(nil) else { return }
-            
-            helper.setFanSpeed(id: id, value: speed) { result in
-                if let result, !result.isEmpty {
-                    print(result)
-                }
+        guard let helper = self.helper(nil) else { return }
+        helper.setFanSpeed(id: id, value: speed) { result in
+            if let result, !result.isEmpty {
+                print(result)
             }
         }
     }
     
     public func setFanMode(_ id: Int, mode: Int) {
-        helperStatus { installed in
-            if !installed {
-                self.install()
-            }
-            guard let helper = self.helper(nil) else { return }
-            
-            helper.setFanMode(id: id, mode: mode) { result in
-                if let result, !result.isEmpty {
-                    print(result)
-                }
+        guard let helper = self.helper(nil) else { return }
+        helper.setFanMode(id: id, mode: mode) { result in
+            if let result, !result.isEmpty {
+                print(result)
             }
         }
     }
@@ -1059,12 +1052,13 @@ public class SMCHelper {
         }
     }
     
-    private func install() {
+    public func install(completion: @escaping (_ installed: Bool) -> Void) {
         var authRef: AuthorizationRef?
         var authStatus = AuthorizationCreate(nil, nil, [.preAuthorize], &authRef)
         
         guard authStatus == errAuthorizationSuccess else {
             print("Unable to get a valid empty authorization reference to load Helper daemon")
+            completion(false)
             return
         }
         
@@ -1087,17 +1081,20 @@ public class SMCHelper {
         
         guard authStatus == errAuthorizationSuccess else {
             print("Unable to get a valid loading authorization reference to load Helper daemon")
+            completion(false)
             return
         }
         
         var error: Unmanaged<CFError>?
         if SMJobBless(kSMDomainUserLaunchd, "eu.exelban.Stats.SMC.Helper" as CFString, authRef, &error) == false {
             let blessError = error!.takeRetainedValue() as Error
-                print("Error while installing the Helper: \(blessError.localizedDescription)")
+            print("Error while installing the Helper: \(blessError.localizedDescription)")
+            completion(false)
             return
         }
         
         AuthorizationFree(authRef!, [])
+        completion(true)
     }
     
     private func helperConnection() -> NSXPCConnection? {

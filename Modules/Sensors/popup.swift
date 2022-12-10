@@ -301,11 +301,14 @@ internal class FanView: NSStackView {
     private var fan: Fan
     private var ready: Bool = false
     
+    private var helperView: NSView? = nil
+    private var controlView: NSView? = nil
+    private var buttonsView: NSView? = nil
+    
     private var valueField: NSTextField? = nil
     private var sliderValueField: NSTextField? = nil
     
     private var slider: NSSlider? = nil
-    private var controlView: NSView? = nil
     private var modeButtons: ModeButtons? = nil
     private var debouncer: DispatchWorkItem? = nil
     
@@ -342,7 +345,9 @@ internal class FanView: NSStackView {
         let inset: CGFloat = 5
         super.init(frame: NSRect(x: 0, y: 0, width: width - (inset*2), height: 0))
         
+        self.helperView = self.noHelper()
         self.controlView = self.control()
+        self.buttonsView = self.mode()
         
         self.orientation = .vertical
         self.alignment = .centerX
@@ -353,13 +358,19 @@ internal class FanView: NSStackView {
         self.layer?.cornerRadius = 2
         self.layer?.backgroundColor = NSColor.red.cgColor
         
-        self.addArrangedSubview(self.nameAndSpeed())
-        if self.fan.maxSpeed != self.fan.minSpeed {
-            self.addArrangedSubview(self.mode())
-        }
+        self.nameAndSpeed()
         
-        if let view = self.controlView, fan.mode == .forced {
-            self.addArrangedSubview(view)
+        if !SMCHelper.shared.isInstalled {
+            if let v = self.helperView {
+                self.addArrangedSubview(v)
+            }
+        } else {
+            if self.fan.maxSpeed != self.fan.minSpeed, let v = self.buttonsView {
+                self.addArrangedSubview(v)
+            }
+            if fan.mode == .forced, let view = self.controlView {
+                self.addArrangedSubview(view)
+            }
         }
         
         let h = self.arrangedSubviews.map({ $0.bounds.height }).reduce(0, +)
@@ -369,6 +380,7 @@ internal class FanView: NSStackView {
         NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(self.wakeListener), name: NSWorkspace.didWakeNotification, object: nil)
         NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(self.sleepListener), name: NSWorkspace.willSleepNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(syncFanSpeed), name: .syncFansControl, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(changeHelperState), name: .fanHelperState, object: nil)
         
         if let fanMode = self.fan.customMode, self.speedState && fanMode != FanMode.automatic {
             SMCHelper.shared.setFanMode(fan.id, mode: fanMode.rawValue)
@@ -395,7 +407,7 @@ internal class FanView: NSStackView {
         self.layer?.backgroundColor = isDarkMode ? NSColor(hexString: "#111111", alpha: 0.25).cgColor : NSColor(hexString: "#f5f5f5", alpha: 1).cgColor
     }
     
-    private func nameAndSpeed() -> NSView {
+    private func nameAndSpeed() {
         let row: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 16))
         row.widthAnchor.constraint(equalToConstant: self.frame.width).isActive = true
         row.heightAnchor.constraint(equalToConstant: row.bounds.height).isActive = true
@@ -426,7 +438,31 @@ internal class FanView: NSStackView {
         
         self.valueField = valueField
         
-        return row
+        self.addArrangedSubview(row)
+    }
+    
+    private func noHelper() -> NSView {
+        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 30))
+        view.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
+        
+        let container = NSStackView(frame: NSRect(x: 0, y: 4, width: view.frame.width, height: view.frame.height - 8))
+        container.wantsLayer = true
+        container.layer?.cornerRadius = 3
+        container.layer?.borderWidth = 1
+        container.layer?.borderColor = NSColor.lightGray.cgColor
+        container.orientation = .horizontal
+        container.alignment = .centerY
+        container.distribution = .fillProportionally
+        container.spacing = 0
+        
+        let button: NSButton = NSButton(title: localizedString("Install fan helper"), target: nil, action: #selector(self.installHelper))
+        button.isBordered = false
+        button.target = self
+        
+        container.addArrangedSubview(button)
+        view.addSubview(container)
+        
+        return view
     }
     
     private func mode() -> NSView {
@@ -683,6 +719,41 @@ internal class FanView: NSStackView {
                 self.ready = true
             }
         })
+    }
+    
+    @objc private func installHelper(_ sender: NSButton) {
+        SMCHelper.shared.install { status in
+            NotificationCenter.default.post(name: .fanHelperState, object: nil, userInfo: ["state": status])
+        }
+    }
+    
+    private func setupControls(_ state: Bool) {
+        if state {
+            self.helperView?.removeFromSuperview()
+            if self.fan.maxSpeed != self.fan.minSpeed, let v = self.buttonsView {
+                self.addArrangedSubview(v)
+            }
+            if self.fan.mode == .forced, let v = self.controlView {
+                self.addArrangedSubview(v)
+            }
+        } else {
+            self.buttonsView?.removeFromSuperview()
+            self.controlView?.removeFromSuperview()
+            if let v = self.helperView {
+                self.addArrangedSubview(v)
+            }
+        }
+        
+        let h = self.arrangedSubviews.map({ $0.bounds.height }).reduce(0, +)
+        self.setFrameSize(NSSize(width: self.frame.width, height: h + self.horizontalMargin))
+        self.sizeCallback()
+    }
+    
+    @objc private func changeHelperState(_ notification: Notification) {
+        guard let state = notification.userInfo?["state"] as? Bool, self.helperView?.superview != nil else {
+            return
+        }
+        self.setupControls(state)
     }
 }
 
