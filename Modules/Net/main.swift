@@ -110,9 +110,7 @@ public class Network: Module {
     private let usageReseter = NSBackgroundActivityScheduler(identifier: "eu.exelban.Stats.Network.Usage")
     
     private var widgetActivationThreshold: Int {
-        get {
-            return Store.shared.int(key: "\(self.config.name)_widgetActivationThreshold", defaultValue: 0)
-        }
+        Store.shared.int(key: "\(self.config.name)_widgetActivationThreshold", defaultValue: 0) * 1_024
     }
     
     public init() {
@@ -198,13 +196,11 @@ public class Network: Module {
         
         self.popupView.usageCallback(value)
         
-        var upload = value.bandwidth.upload
-        var download = value.bandwidth.download
-        let activationValue = Units(bytes: min(upload, download)).kilobytes
-        
-        if Double(self.widgetActivationThreshold) > activationValue {
-            upload = 0
-            download = 0
+        var upload: Int64 = 0
+        var download: Int64 = 0
+        if value.bandwidth.upload >= self.widgetActivationThreshold || value.bandwidth.download >= self.widgetActivationThreshold {
+            upload = value.bandwidth.upload
+            download = value.bandwidth.download
         }
         
         self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
