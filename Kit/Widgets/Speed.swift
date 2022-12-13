@@ -137,7 +137,7 @@ public class SpeedWidget: WidgetWrapper {
         case "arrows":
             width += self.drawArrow(CGPoint(x: width, y: 0), symbol: "U", color: uploadIconColor)
         case "chars":
-            width += self.drawChar(CGPoint(x: width, y: 0), symbol: "U", color: uploadIconColor)
+            width += self.drawChar(CGPoint(x: width, y: 0), symbol: self.symbols[0], color: uploadIconColor)
         default: break
         }
         
@@ -158,7 +158,7 @@ public class SpeedWidget: WidgetWrapper {
         case "arrows":
             width += self.drawArrow(CGPoint(x: width, y: 0), symbol: "D", color: downloadIconColor)
         case "chars":
-            width += self.drawChar(CGPoint(x: width, y: 0), symbol: "D", color: downloadIconColor)
+            width += self.drawChar(CGPoint(x: width, y: 0), symbol: self.symbols[1], color: downloadIconColor)
         default: break
         }
         
