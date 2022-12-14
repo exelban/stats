@@ -39,8 +39,8 @@ public class SensorsWidget: WidgetWrapper {
     private var fixedSizeState: Bool = false
     private var values: [Sensor_t] = []
     
-    private var oneRowWidth: CGFloat = 36
-    private var twoRowWidth: CGFloat = 26
+    private var oneRowWidth: CGFloat = 38
+    private var twoRowWidth: CGFloat = 28
     
     private let orderTableView: OrderTableView
     
