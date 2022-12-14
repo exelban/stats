@@ -3,6 +3,7 @@
 //  Stats
 //
 //  Created by Marcelo Chaves on 11/11/2020.
+//  Update by André Felipe Schulle on 14/12/2022.
 //  Using Swift 5.0.
 //  Running on macOS 10.15.
 //
@@ -11,21 +12,21 @@
 
 // Modules
 "CPU" = "CPU";
-"Open CPU settings" = "Open CPU settings";
+"Open CPU settings" = "Abrir Configurações da CPU";
 "GPU" = "GPU";
-"Open GPU settings" = "Open GPU settings";
+"Open GPU settings" = "Abrir Configurações da GPU";
 "RAM" = "RAM";
-"Open RAM settings" = "Open RAM settings";
-"Disk" = "Disk";
-"Open Disk settings" = "Open disk settings";
-"Sensors" = "Sensors";
-"Open Sensors settings" = "Open sensors settings";
-"Network" = "Network";
-"Open Network settings" = "Open network settings";
-"Battery" = "Battery";
-"Open Battery settings" = "Open battery settings";
+"Open RAM settings" = "Abrir Configurações da RAM";
+"Disk" = "Disco";
+"Open Disk settings" = "Abrir Configurações do Disco";
+"Sensors" = "Sensores";
+"Open Sensors settings" = "Abrir Configurações dos Sensores";
+"Network" = "Rede";
+"Open Network settings" = "Abrir Configurações de Rede";
+"Battery" = "Bateria";
+"Open Battery settings" = "Abrir Configurações da Bateria";
 "Bluetooth" = "Bluetooth";
-"Open Bluetooth settings" = "Open bluetooth settings";
+"Open Bluetooth settings" = "Abrir Configurações do Bluetooth";
 
 // Words
 "Unknown" = "Desconhecido";
@@ -118,9 +119,9 @@
 "Show icon in dock" = "Mostrar ícone no dock";
 "Start at login" = "Inicie no login";
 "Build number" = "Build number";
-"Reset settings" = "Reset settings";
-"Pause the Stats" = "Pause the Stats";
-"Resume the Stats" = "Resume the Stats";
+"Reset settings" = "Redefinir configurações";
+"Pause the Stats" = "Pausar o Stats";
+"Resume the Stats" = "Continuar o Stats";
 
 // Dashboard
 "Serial number" = "Número de série";
