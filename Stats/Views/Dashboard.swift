@@ -12,53 +12,25 @@
 import Cocoa
 import Kit
 
-class Dashboard: NSScrollView {
+class Dashboard: NSStackView {
     private var uptimeField: NSTextField? = nil
     
     init() {
-        super.init(frame: NSRect(
-            x: 0,
-            y: 0,
-            width: 540,
-            height: 480
-        ))
+        super.init(frame: NSRect.zero)
         
-        self.drawsBackground = false
-        self.borderType = .noBorder
-        self.scrollerStyle = .overlay
-        self.hasVerticalScroller = true
-        self.hasHorizontalScroller = false
+        self.translatesAutoresizingMaskIntoConstraints = false
         
-        NotificationCenter.default.addObserver(self, selector: #selector(windowOpens), name: .openModuleSettings, object: nil)
-        
-        let versionsView = self.versions()
-        let specsView = self.specs()
-        
-        let grid: NSGridView = NSGridView(frame: NSRect(
-            x: 0,
-            y: 0,
-            width: self.frame.width,
-            height: versionsView.frame.height + specsView.frame.height
-        ))
-        grid.rowSpacing = 0
-        grid.yPlacement = .fill
+        let scrollView = ScrollableStackView()
+        scrollView.stackView.spacing = 10
         
         let separator = NSBox()
         separator.boxType = .separator
         
-        grid.addRow(with: [versionsView])
-        grid.addRow(with: [separator])
-        grid.addRow(with: [specsView])
+        scrollView.stackView.addArrangedSubview(self.versions())
+        scrollView.stackView.addArrangedSubview(separator)
+        scrollView.stackView.addArrangedSubview(self.specs())
         
-        grid.row(at: 0).height = versionsView.frame.height
-        grid.row(at: 2).height = specsView.frame.height
-        
-        self.documentView = grid
-        DispatchQueue.main.async {
-            if let documentView = self.documentView {
-                documentView.scroll(NSPoint(x: 0, y: documentView.bounds.size.height))
-            }
-        }
+        self.addArrangedSubview(scrollView)
     }
     
     required public init?(coder: NSCoder) {
@@ -66,25 +38,21 @@ class Dashboard: NSScrollView {
     }
     
     private func versions() -> NSView {
-        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 220))
-        
-        let h: CGFloat = 120+60+18
-        let container: NSGridView = NSGridView(frame: NSRect(x: 0, y: (view.frame.height-h)/2, width: self.frame.width, height: h))
+        let container: NSGridView = NSGridView()
         container.rowSpacing = 0
         container.yPlacement = .center
         container.xPlacement = .center
         
         let deviceImageView: NSImageView = NSImageView(image: SystemKit.shared.device.model.icon)
-        deviceImageView.frame = NSRect(x: (view.frame.width - 160)/2, y: 0, width: 160, height: 120)
         
-        let deviceNameField: NSTextField = TextView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: 22))
+        let deviceNameField: NSTextField = TextView()
         deviceNameField.alignment = .center
         deviceNameField.font = NSFont.systemFont(ofSize: 14, weight: .regular)
         deviceNameField.stringValue = SystemKit.shared.device.model.name
         deviceNameField.isSelectable = true
         deviceNameField.toolTip = SystemKit.shared.device.modelIdentifier
         
-        let osField: NSTextField = TextView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: 18))
+        let osField: NSTextField = TextView()
         osField.alignment = .center
         osField.font = NSFont.systemFont(ofSize: 12, weight: .regular)
         osField.stringValue = "macOS \(SystemKit.shared.device.os?.name ?? localizedString("Unknown")) (\(SystemKit.shared.device.os?.version.getFullVersion() ?? ""))"
@@ -94,12 +62,10 @@ class Dashboard: NSScrollView {
         container.addRow(with: [deviceNameField])
         container.addRow(with: [osField])
         
-        container.column(at: 0).width = self.frame.width
         container.row(at: 1).height = 22
         container.row(at: 2).height = 20
         
-        view.addSubview(container)
-        return view
+        return container
     }
     
     private func specs() -> NSView {
@@ -139,6 +105,7 @@ class Dashboard: NSScrollView {
             }
         }
         view.setFrameSize(NSSize(width: view.frame.width, height: height))
+        view.heightAnchor.constraint(equalToConstant: height).isActive = true
         
         NSLayoutConstraint.activate([
             grid.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -354,7 +321,7 @@ class Dashboard: NSScrollView {
     
     private func titleView(_ value: String) -> NSTextField {
         let field: NSTextField = TextView(frame: NSRect(x: 0, y: 0, width: 120, height: 17))
-        field.font = NSFont.systemFont(ofSize: 13, weight: .regular)
+        field.font = NSFont.systemFont(ofSize: 13, weight: .light)
         field.textColor = .labelColor
         field.stringValue = value
         
@@ -363,7 +330,8 @@ class Dashboard: NSScrollView {
     
     private func valueView(_ value: String) -> NSTextField {
         let field: NSTextField = TextView(frame: NSRect(x: 0, y: 0, width: 0, height: 17))
-        field.font = NSFont.systemFont(ofSize: 13, weight: .light)
+        field.font = NSFont.systemFont(ofSize: 13, weight: .regular)
+        field.textColor = .labelColor
         field.alignment = .right
         field.stringValue = value
         field.isSelectable = true
