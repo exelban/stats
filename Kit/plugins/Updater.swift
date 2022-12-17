@@ -62,7 +62,7 @@ public class Updater {
     
     public init(github: String, url: String) {
         self.github = URL(string: "https://api.github.com/repos/\(github)/releases/latest")!
-        self.server = URL(string: url)!
+        self.server = URL(string: "\(url)?macOS=\(ProcessInfo().operatingSystemVersion.getFullVersion())")!
     }
     
     deinit {
