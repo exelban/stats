@@ -19,13 +19,13 @@
 "Disk" = "Disk";
 "Open Disk settings" = "Buka pengaturan Disk";
 "Sensors" = "Sensor";
-"Open Sensors settings" = "Buka pengaturan sensor";
+"Open Sensors settings" = "Buka pengaturan Sensor";
 "Network" = "Jaringan";
-"Open Network settings" = "Buka pengaturan jaringan";
+"Open Network settings" = "Buka pengaturan Jaringan";
 "Battery" = "Baterai";
-"Open Battery settings" = "Buka pengaturan baterai";
+"Open Battery settings" = "Buka pengaturan Baterai";
 "Bluetooth" = "Bluetooth";
-"Open Bluetooth settings" = "Buka pengaturan bluetooth";
+"Open Bluetooth settings" = "Buka pengaturan Bluetooth";
 
 // Words
 "Unknown" = "Tidak dikenal";
@@ -49,39 +49,39 @@
 "Short" = "Pendek";
 "Long" = "Panjang";
 "Statistics" = "Statistik";
-"Max" = "Maks";
-"Min" = "Min";
+"Max" = "Maks.";
+"Min" = "Min.";
 "Reset" = "Atur ulang";
-"Alignment" = "Alignment";
-"Left alignment" = "Alignment Kiri";
-"Center alignment" = "Alignment tengah";
-"Right alignment" = "Alignment kanan";
+"Alignment" = "Letak Teks";
+"Left alignment" = "Rata kiri";
+"Center alignment" = "Rata tengah";
+"Right alignment" = "Rata kanan";
 "Dashboard" = "Dasbor";
-"Enabled" = "Enabled";
-"Disabled" = "Dinonaktifkan";
-"Silent" = "Hening";
+"Enabled" = "Aktif";
+"Disabled" = "Tidak Aktif";
+"Silent" = "Sunyi";
 "Units" = "Unit";
 "Fans" = "Kipas";
-"Scaling" = "Scaling";
+"Scaling" = "Skala";
 "Linear" = "Linear";
-"Square" = "Square";
-"Cube" = "Cube";
-"Logarithmic" = "Logarithmic";
+"Square" = "Kotak";
+"Cube" = "Kubus";
+"Logarithmic" = "Logaritmik";
 "Cores" = "Cores";
-"Settings" = "Settings";
+"Settings" = "Pengaturan";
 
 // Setup
-"Stats Setup" = "Stats Setup";
-"Previous" = "Previous";
-"Previous page" = "Previous page";
-"Next" = "Next";
-"Next page" = "Next page";
-"Finish" = "Finish";
-"Finish setup" = "Finish setup";
-"Welcome to Stats" = "Welcome to Stats";
-"welcome_message" = "Thanks for using Stats, a free open source macOS system monitor for your menu bar.";
-"Start the application automatically when starting your Mac" = "Start the application automatically when starting your Mac";
-"Do not start the application automatically when starting your Mac" = "Do not start the application automatically when starting your Mac";
+"Stats Setup" = "Pengaturan Stats";
+"Previous" = "Sebelumnya";
+"Previous page" = "Halaman sebelumnya";
+"Next" = "Berikutnya";
+"Next page" = "Halaman berikutnya";
+"Finish" = "Selesai";
+"Finish setup" = "Konfigurasi selesai";
+"Welcome to Stats" = "Selamat datang di Stats!";
+"welcome_message" = "Terima kasih telah menggunakan Stats, sebuah software open-source monitor sistem MacOS pada menu bar anda.";
+"Start the application automatically when starting your Mac" = "Menyalakan aplikasi secara otomatis ketika menyalakan Mac";
+"Do not start the application automatically when starting your Mac" = "Tidak menyalakan aplikasi secara otomatis ketika menyalakan Mac";
 "Do everything silently in the background (recommended)" = "Do everything silently in the background (recommended)";
 "Check for a new version on startup" = "Check for a new version on startup";
 "Check for a new version every day (once a day)" = "Check for a new version every day (once a day)";
@@ -110,25 +110,25 @@
 "Update application" = "Perbarui aplikasi";
 "Check for updates" = "Periksa pembaruan";
 "At start" = "Saat memulai";
-"Once per day" = "Sekali setiap hari";
-"Once per week" = "Sekali setiap minggu";
-"Once per month" = "Sekali setiap bulan";
+"Once per day" = "1x setiap hari";
+"Once per week" = "1x setiap minggu";
+"Once per month" = "1x setiap bulan";
 "Never" = "Jangan pernah";
 "Check for update" = "Periksa pembaruan";
-"Show icon in dock" = "Tampilkan ikon pada dok";
-"Start at login" = "Mulai saat login";
-"Build number" = "Build number";
+"Show icon in dock" = "Tampilkan ikon pada dock";
+"Start at login" = "Menyalakan pada saat login";
+"Build number" = "Nomor bangun";
 "Reset settings" = "Atur ulang pengaturan";
-"Pause the Stats" = "Pause the Stats";
-"Resume the Stats" = "Resume the Stats";
+"Pause the Stats" = "Jeda aplikasi Stats";
+"Resume the Stats" = "Lanjutkan aplikasi Stats";
 
 // Dashboard
 "Serial number" = "Nomor serial";
 "Uptime" = "Waktu aktif";
-"Number of cores" = "%0 core";
+"Number of cores" = "%0 cores";
 "Number of threads" = "%0 thread";
-"Number of e-cores" = "%0 efficiency cores";
-"Number of p-cores" = "%0 performance cores";
+"Number of e-cores" = "%0 cores irit daya";
+"Number of p-cores" = "%0 cores performa tinggi";
 
 // Update
 "The latest version of Stats installed" = "Versi terbaru dari Stats telah dipasang";
@@ -181,8 +181,8 @@
 "Widget settings" = "Pengaturan widget";
 "Popup settings" = "Popup settings";
 "Merge widgets" = "Merge widgets";
-"No available widgets to configure" = "No available widgets to configure";
-"No options to configure for the popup in this module" = "No options to configure for the popup in this module";
+"No available widgets to configure" = "Tidak ada widget yang dapat dikonfigurasi";
+"No options to configure for the popup in this module" = "Tidak ada opsi untuk popup pada modul ini";
 
 // Modules
 "Number of top processes" = "Jumlah dari proses teratas";
@@ -196,7 +196,7 @@
 "CPU frequency" = "Frekuensi CPU";
 "System" = "Sistem";
 "User" = "Pengguna";
-"Idle" = "Tidak berjalan";
+"Idle" = "Siaga";
 "Show usage per core" = "Tampilan penggunaan tiap core";
 "Show hyper-threading cores" = "Tampilkan hyper-threading core";
 "Split the value (System/User)" = "Pisahkan nilai (Sistem/User)";
@@ -206,14 +206,14 @@
 "1 minute" = "1 menit";
 "5 minutes" = "5 menit";
 "15 minutes" = "15 menit";
-"CPU usage threshold" = "CPU usage threshold";
-"CPU usage is" = "CPU usage is %0";
-"Efficiency cores" = "Efficiency cores";
-"Performance cores" = "Performance cores";
+"CPU usage threshold" = "Batas penggunaan CPU";
+"CPU usage is" = "Pengunaan CPU adalah %0";
+"Efficiency cores" = "Cores irit daya";
+"Performance cores" = "Cores performa";
 "System color" = "System color";
-"User color" = "User color";
-"Idle color" = "Idle color";
-"Cluster grouping" = "Cluster grouping";
+"User color" = "Warna User";
+"Idle color" = "Warna Siaga";
+"Cluster grouping" = "Pengelompokan Cluster";
 
 // GPU
 "GPU to show" = "GPU yang ditampilkan";
@@ -271,12 +271,12 @@
 "Save the fan speed" = "Simpan kecepatan kipas";
 "Fan" = "Kipas";
 "HID sensors" = "Sensor HID";
-"Synchronize fan's control" = "Synchronize fan's control";
-"Current" = "Current";
-"Energy" = "Energy";
-"Show unknown sensors" = "Show unknown sensors";
-"Install fan helper" = "Install fan helper";
-"Uninstall fan helper" = "Uninstall fan helper";
+"Synchronize fan's control" = "Sinkronisasi kontrol kipas";
+"Current" = "Saat ini";
+"Energy" = "Energi";
+"Show unknown sensors" = "Tampilkan sensor tidak diketahui";
+"Install fan helper" = "Pasang fan helper";
+"Uninstall fan helper" = "Bongkar fan helper";
 
 // Network
 "Uploading" = "Unggah";
@@ -303,14 +303,14 @@
 "Security" = "Security";
 "Channel" = "Channel";
 "Common scale" = "Common scale";
-"Autodetection" = "Autodetection";
-"Widget activation threshold" = "Widget activation threshold";
-"Internet connection" = "Internet connection";
-"Active state color" = "Active state color";
-"Nonactive state color" = "Nonactive state color";
-"Connectivity host (ICMP)" = "Connectivity host (ICMP)";
-"Leave empty to disable the check" = "Leave empty to disable the check";
-"Transparent pictogram when no activity" = "Transparent pictogram when no activity";
+"Autodetection" = "Autodeteksi";
+"Widget activation threshold" = "Batas aktivasi widget";
+"Internet connection" = "Koneksi internet";
+"Active state color" = "Warna status aktif";
+"Nonactive state color" = "Warna status inaktif";
+"Connectivity host (ICMP)" = "Host konektivitas (ICMP)";
+"Leave empty to disable the check" = "Biarkan kosong untuk menonaktifkan centang";
+"Transparent pictogram when no activity" = "Pictogram transparan ketika tidak ada aktivitas";
 
 // Battery
 "Level" = "Level";
@@ -345,8 +345,8 @@
 "Last charge" = "Terakhir diisi";
 "Capacity" = "Kapasitas";
 "maximum / designed" = "maksimal / dirancang";
-"Low power mode" = "Low power mode";
-"Percentage inside the icon" = "Percentage inside the icon";
+"Low power mode" = "Mode hemat";
+"Percentage inside the icon" = "Persentase di dalam icon";
 
 // Bluetooth
 "Battery to show" = "Baterai untuk ditampilkan";
@@ -356,7 +356,7 @@
 "Based on utilization" = "Berdasarkan pemanfaatan";
 "Based on pressure" = "Berdasarkan tekanan";
 "Based on cluster" = "Based on cluster";
-"System accent" = "Aksen berdasarkan sistem";
+"System accent" = "Aksen sistem";
 "Monochrome accent" = "Akses monokrom";
 "Clear" = "Bening";
 "White" = "Putih";
