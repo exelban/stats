@@ -275,6 +275,8 @@
 "Current" = "Ток";
 "Energy" = "Энергия";
 "Show unknown sensors" = "Показать неизвестные датчики";
+"Install fan helper" = "Установить помощник для вентилятора";
+"Uninstall fan helper" = "Удалить помощник для вентилятора";
 
 // Network
 "Uploading" = "Выгрузка";

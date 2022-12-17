@@ -275,6 +275,8 @@
 "Current" = "Струм";
 "Energy" = "Енергія";
 "Show unknown sensors" = "Показати невідомі датчики";
+"Install fan helper" = "Встановити помічник для вентилятора";
+"Uninstall fan helper" = "Видалити помічник для вентилятора";
 
 // Network
 "Uploading" = "Висилання";
