@@ -275,8 +275,8 @@
 "Current" = "电流";
 "Energy" = "能耗";
 "Show unknown sensors" = "显示未知的传感器";
-"Install fan helper" = "Install fan helper";
-"Uninstall fan helper" = "Uninstall fan helper";
+"Install fan helper" = "安装风扇帮助程序";
+"Uninstall fan helper" = "卸载风扇帮助程序";
 
 // Network
 "Uploading" = "上传";
