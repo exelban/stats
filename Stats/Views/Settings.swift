@@ -68,7 +68,9 @@ class SettingsWindow: NSWindow, NSWindowDelegate, NSToolbarDelegate {
         newToolbar.showsBaselineSeparator = true
         newToolbar.delegate = self
         
-        self.toolbar = newToolbar
+        if #available(macOS 11, *) {
+            self.toolbar = newToolbar
+        }
         self.contentViewController = sidebarViewController
         self.titlebarAppearsTransparent = true
         self.backgroundColor = .clear
@@ -296,6 +298,12 @@ private class SidebarView: NSStackView {
         additionalButtons.addArrangedSubview(self.makeButton(title: localizedString("Support the application"), image: "donate", action: #selector(donate)))
         additionalButtons.addArrangedSubview(self.makeButton(title: localizedString("Close application"), image: "power", action: #selector(closeApp)))
         
+        let emptySpace = NSView()
+        emptySpace.heightAnchor.constraint(equalToConstant: 28).isActive = true
+        
+        if #unavailable(macOS 11) {
+            self.addArrangedSubview(emptySpace)
+        }
         self.addArrangedSubview(self.scrollView)
         self.addArrangedSubview(additionalButtons)
     }
