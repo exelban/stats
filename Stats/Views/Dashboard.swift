@@ -31,10 +31,16 @@ class Dashboard: NSStackView {
         scrollView.stackView.addArrangedSubview(self.specs())
         
         self.addArrangedSubview(scrollView)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(windowOpens), name: .openModuleSettings, object: nil)
     }
     
     required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: .openModuleSettings, object: nil)
     }
     
     private func versions() -> NSView {
@@ -116,6 +122,7 @@ class Dashboard: NSStackView {
     }
     
     @objc private func windowOpens(_ notification: Notification) {
+        print(1)
         guard notification.userInfo?["module"] as? String == "Dashboard" else {
             return
         }
