@@ -17,6 +17,10 @@ public class Sensors: Module {
     private let popupView: Popup = Popup()
     private var settingsView: Settings
     
+    private var fanValueState: FanValue {
+        FanValue(rawValue: Store.shared.string(key: "\(self.config.name)_fanValue", defaultValue: "percentage")) ?? .percentage
+    }
+    
     public init() {
         self.sensorsReader = SensorsReader()
         self.settingsView = Settings("Sensors", list: self.sensorsReader.list)
@@ -102,10 +106,14 @@ public class Sensors: Module {
         
         value.forEach { (s: Sensor_p) in
             if s.state {
-                list.append(KeyValue_t(key: s.key, value: s.formattedMiniValue, additional: s.name))
+                var value = s.formattedMiniValue
                 if let f = s as? Fan {
                     flatList.append([ColorValue(((f.value*100)/f.maxSpeed)/100)])
+                    if self.fanValueState == .percentage {
+                        value = "\(f.percentage)%"
+                    }
                 }
+                list.append(KeyValue_t(key: s.key, value: value, additional: s.name))
             }
         }
         

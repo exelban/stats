@@ -421,16 +421,11 @@ internal class FanView: NSStackView {
         nameField.cell?.truncatesLastVisibleLine = true
         
         let value = self.fan.value
-        var percentage = ""
-        if value != 1 && self.fan.maxSpeed != 1 {
-            percentage = "\((100*Int(value)) / Int(self.fan.maxSpeed))%"
-        }
-        
         let valueField: NSTextField = TextView()
         valueField.font = NSFont.systemFont(ofSize: 13, weight: .regular)
         valueField.stringValue = self.fan.formattedValue
         valueField.alignment = .right
-        valueField.stringValue = percentage
+        valueField.stringValue = "\(self.fan.percentage)%"
         valueField.toolTip = "\(value)"
         
         row.addArrangedSubview(nameField)
@@ -700,7 +695,7 @@ internal class FanView: NSStackView {
                     if self.fan.maxSpeed == 1 || self.fan.maxSpeed == 0 {
                         speed = "\(Int(value.value)) RPM"
                     } else {
-                        speed = "\((100*Int(value.value)) / Int(self.fan.maxSpeed))%"
+                        speed = "\(value.percentage)%"
                     }
                 }
                 
