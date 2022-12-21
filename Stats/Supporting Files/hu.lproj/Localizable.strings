@@ -277,6 +277,7 @@
 "Show unknown sensors" = "Show unknown sensors";
 "Install fan helper" = "Install fan helper";
 "Uninstall fan helper" = "Uninstall fan helper";
+"Fan value" = "Fan value";
 
 // Network
 "Uploading" = "Feltöltés";
@@ -344,7 +345,7 @@
 "Hide additional information when full" = "További információk elrejtése, ha teljesen fel van töltve";
 "Last charge" = "Utolsó töltés";
 "Capacity" = "Kapacitás";
-"maximum / designed" = "maximum / gyári";
+"current / maximum / designed" = "current / maximum / gyári";
 "Low power mode" = "Energia takarékos mód";
 "Percentage inside the icon" = "Percentage inside the icon";
 

@@ -277,6 +277,7 @@
 "Show unknown sensors" = "顯示未知的感知器";
 "Install fan helper" = "Install fan helper";
 "Uninstall fan helper" = "Uninstall fan helper";
+"Fan value" = "Fan value";
 
 // Network
 "Uploading" = "上傳";
@@ -344,7 +345,7 @@
 "Hide additional information when full" = "電池充飽後隱藏其他資訊";
 "Last charge" = "最近一次充電";
 "Capacity" = "容量";
-"maximum / designed" = "最大容量/設計容量";
+"current / maximum / designed" = "current/最大容量/設計容量";
 "Low power mode" = "低電量模式";
 "Percentage inside the icon" = "圖示內百分比";
 

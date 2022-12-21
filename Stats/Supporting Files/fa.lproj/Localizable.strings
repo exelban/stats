@@ -277,6 +277,7 @@
 "Show unknown sensors" = "نمایش سنسور‌های ناشناخته";
 "Install fan helper" = "Install fan helper";
 "Uninstall fan helper" = "Uninstall fan helper";
+"Fan value" = "Fan value";
 
 // Network
 "Uploading" = "آپلود";
@@ -344,7 +345,7 @@
 "Hide additional information when full" = "پنهان کردن اطلاعات اضافه موقع شارژ کامل";
 "Last charge" = "آخرین شارژ";
 "Capacity" = "ظرفیت";
-"maximum / designed" = "حداکثر / طراحی شده";
+"current / maximum / designed" = "current / حداکثر / طراحی شده";
 "Low power mode" = "حالت کم مصرف";
 "Percentage inside the icon" = "درصد داخل آیکون";
 

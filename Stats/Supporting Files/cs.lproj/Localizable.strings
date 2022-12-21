@@ -277,6 +277,7 @@
 "Show unknown sensors" = "Show unknown sensors";
 "Install fan helper" = "Install fan helper";
 "Uninstall fan helper" = "Uninstall fan helper";
+"Fan value" = "Fan value";
 
 // Network
 "Uploading" = "Nahrávání";
@@ -344,7 +345,7 @@
 "Hide additional information when full" = "Skrýt další informace při plném nabití";
 "Last charge" = "Poslední nabití";
 "Capacity" = "Kapacita";
-"maximum / designed" = "maximum / výrobní";
+"current / maximum / designed" = "current / maximum / výrobní";
 "Low power mode" = "Režim nízké spotřeby";
 "Percentage inside the icon" = "Procento uvnitř ikony";
 
