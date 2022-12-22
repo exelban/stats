@@ -17,6 +17,10 @@ internal class Popup: NSStackView, Popup_p {
     
     public var sizeCallback: ((NSSize) -> Void)? = nil
     
+    private var unknownSensorsState: Bool {
+        return Store.shared.bool(key: "Sensors_unknown", defaultValue: false)
+    }
+    
     public init() {
         super.init(frame: NSRect( x: 0, y: 0, width: Constants.Popup.width, height: 0))
         
@@ -30,8 +34,11 @@ internal class Popup: NSStackView, Popup_p {
     
     internal func setup(_ values: [Sensor_p]?) {
         guard let fans = values?.filter({ $0.type == .fan }),
-              let sensors = values?.filter({ $0.type != .fan }) else {
+              var sensors = values?.filter({ $0.type != .fan }) else {
             return
+        }
+        if !self.unknownSensorsState {
+            sensors = sensors.filter({ $0.group != .unknown })
         }
         
         self.subviews.forEach { (v: NSView) in

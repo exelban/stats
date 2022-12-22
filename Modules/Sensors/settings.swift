@@ -166,7 +166,7 @@ internal class Settings: NSStackView, Settings_v {
     }
     
     public func setList(list: [Sensor_p]) {
-        self.list = list
+        self.list = self.unknownSensorsState ? list : list.filter({ $0.group != .unknown })
         self.load(widgets: self.widgets)
     }
     
