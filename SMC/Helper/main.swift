@@ -30,6 +30,18 @@ class Helper: NSObject, NSXPCListenerDelegate, HelperProtocol {
     }
     
     public func run() {
+        let args = CommandLine.arguments.dropFirst()
+        if !args.isEmpty && args.first == "uninstall" {
+            NSLog("detected uninstall command")
+            if let val = args.last, let pid: pid_t = Int32(val) {
+                while kill(pid, 0) == 0 {
+                    usleep(50000)
+                }
+            }
+            self.uninstallHelper()
+            exit(0)
+        }
+        
         self.listener.resume()
         while !self.shouldQuit {
             RunLoop.current.run(until: Date(timeIntervalSinceNow: self.shouldQuitCheckInterval))
@@ -52,6 +64,34 @@ class Helper: NSObject, NSXPCListenerDelegate, HelperProtocol {
         connection.resume()
         
         return true
+    }
+    
+    private func uninstallHelper() {
+        let process = Process()
+        process.launchPath = "/bin/launchctl"
+        process.qualityOfService = QualityOfService.utility
+        process.arguments = ["unload", "/Library/LaunchDaemons/eu.exelban.Stats.SMC.Helper.plist"]
+        process.launch()
+        process.waitUntilExit()
+        
+        if process.terminationStatus != .zero {
+            NSLog("termination code: \(process.terminationStatus)")
+        }
+        NSLog("unloaded from launchctl")
+        
+        do {
+            try FileManager.default.removeItem(at: URL(fileURLWithPath: "/Library/LaunchDaemons/eu.exelban.Stats.SMC.Helper.plist"))
+        } catch let err {
+            NSLog("plist deletion: \(err)")
+        }
+        NSLog("property list deleted")
+        
+        do {
+            try FileManager.default.removeItem(at: URL(fileURLWithPath: "/Library/PrivilegedHelperTools/eu.exelban.Stats.SMC.Helper"))
+        } catch let err {
+            NSLog("helper deletion: \(err)")
+        }
+        NSLog("smc helper deleted")
     }
 }
 
@@ -93,5 +133,14 @@ extension Helper {
         
         let data = pipe.fileHandleForReading.readDataToEndOfFile()
         return String(data: data, encoding: .utf8)!
+    }
+    
+    func uninstall() {
+        let process = Process()
+        process.launchPath = "/Library/PrivilegedHelperTools/eu.exelban.Stats.SMC.Helper"
+        process.qualityOfService = QualityOfService.utility
+        process.arguments = ["uninstall", String(getpid())]
+        process.launch()
+        exit(0)
     }
 }

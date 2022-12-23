@@ -752,9 +752,7 @@ internal class FanView: NSStackView {
     }
     
     @objc private func changeHelperState(_ notification: Notification) {
-        guard let state = notification.userInfo?["state"] as? Bool, self.helperView?.superview != nil else {
-            return
-        }
+        guard let state = notification.userInfo?["state"] as? Bool else { return }
         self.setupControls(state)
     }
 }
