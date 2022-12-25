@@ -277,6 +277,7 @@
 "Show unknown sensors" = "Показване на непознатите сензори";
 "Install fan helper" = "Install fan helper";
 "Uninstall fan helper" = "Uninstall fan helper";
+"Fan value" = "Fan value";
 
 // Network
 "Uploading" = "Качване";
@@ -344,7 +345,7 @@
 "Hide additional information when full" = "Скриване на допълнителна информация при пълен заряд";
 "Last charge" = "Последно зареждане";
 "Capacity" = "Капацитет";
-"maximum / designed" = "maximum / designed";
+"current / maximum / designed" = "current / maximum / designed";
 "Low power mode" = "Режим за пестене на енергията";
 "Percentage inside the icon" = "Процент в иконата";
 

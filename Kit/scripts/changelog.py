@@ -57,7 +57,7 @@ class Changelog:
             elif self.langPattern.match(line) or "translation" in line or "localization" in line:
                 lang.append(line)
             else:
-                raise ValueError("Failed to detect commit {} type".format(line))
+                print("Failed to detect commit {} type".format(line))
 
         return fix, feat, lang
 

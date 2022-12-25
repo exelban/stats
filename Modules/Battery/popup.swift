@@ -160,7 +160,7 @@ internal class Popup: NSView, Popup_p {
         self.sourceField = popupRow(container, title: "\(localizedString("Source")):", value: "").1
         self.healthField = popupRow(container, title: "\(localizedString("Health")):", value: "").1
         self.capacityField = popupRow(container, title: "\(localizedString("Capacity")):", value: "").1
-        self.capacityField?.toolTip = localizedString("maximum / designed")
+        self.capacityField?.toolTip = localizedString("current / maximum / designed")
         self.cyclesField = popupRow(container, title: "\(localizedString("Cycles")):", value: "").1
         let t = self.labelValue(container, title: "\(localizedString("Time")):", value: "")
         self.timeLabelField = t.0
@@ -251,7 +251,8 @@ internal class Popup: NSView, Popup_p {
         DispatchQueue.main.async(execute: {
             self.dashboardBatteryView?.setValue(abs(value.level))
             
-            self.levelField?.stringValue = "\(Int(abs(value.level) * 100)) %"
+            self.levelField?.stringValue = "\(Int(abs(value.level) * 100))%"
+            self.levelField?.toolTip = "\(value.currentCapacity) mAh"
             self.sourceField?.stringValue = localizedString(value.powerSource)
             self.timeField?.stringValue = ""
             
@@ -280,7 +281,7 @@ internal class Popup: NSView, Popup_p {
             }
             
             self.healthField?.stringValue = "\(value.health)%"
-            self.capacityField?.stringValue = "\(value.maxCapacity) / \(value.designedCapacity) mAh"
+            self.capacityField?.stringValue = "\(value.currentCapacity) / \(value.maxCapacity) / \(value.designedCapacity) mAh"
             
             if let state = value.state {
                 self.healthField?.stringValue += " (\(state))"

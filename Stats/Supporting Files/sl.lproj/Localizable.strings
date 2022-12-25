@@ -277,6 +277,7 @@
 "Show unknown sensors" = "Show unknown sensors";
 "Install fan helper" = "Install fan helper";
 "Uninstall fan helper" = "Uninstall fan helper";
+"Fan value" = "Fan value";
 
 // Network
 "Uploading" = "Oddajanje";
@@ -344,7 +345,7 @@
 "Hide additional information when full" = "Skrij dodatne informacije, ko je batarija polna";
 "Last charge" = "Zadnje polnjenje";
 "Capacity" = "Kapaciteta";
-"maximum / designed" = "največja / predvidena";
+"current / maximum / designed" = "current / največja / predvidena";
 "Low power mode" = "Način nizke porabe";
 "Percentage inside the icon" = "Odstotek znotraj ikone";
 

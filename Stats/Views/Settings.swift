@@ -269,6 +269,38 @@ private class SidebarView: NSStackView {
     
     private let supportPopover = NSPopover()
     
+    private var dashboardIcon: NSImage {
+        if #available(macOS 11.0, *), let icon = NSImage(systemSymbolName: "circle.grid.3x3.fill", accessibilityDescription: nil) {
+            return icon
+        }
+        return NSImage(named: NSImage.Name("apps"))!
+    }
+    private var settingsIcon: NSImage {
+        if #available(macOS 11.0, *), let icon = NSImage(systemSymbolName: "gear", accessibilityDescription: nil) {
+            return icon
+        }
+        return NSImage(named: NSImage.Name("settings"))!
+    }
+    
+    private var bugIcon: NSImage {
+//        if #available(macOS 11.0, *), let icon = NSImage(systemSymbolName: "ladybug", accessibilityDescription: nil) {
+//            return icon
+//        }
+        return NSImage(named: NSImage.Name("bug"))!
+    }
+    private var supportIcon: NSImage {
+//        if #available(macOS 11.0, *), let icon = NSImage(systemSymbolName: "heart.fill", accessibilityDescription: nil) {
+//            return icon
+//        }
+        return NSImage(named: NSImage.Name("donate"))!
+    }
+    private var closeIcon: NSImage {
+//        if #available(macOS 11.0, *), let icon = NSImage(systemSymbolName: "power.circle", accessibilityDescription: nil) {
+//            return icon
+//        }
+        return NSImage(named: NSImage.Name("power"))!
+    }
+    
     override init(frame: NSRect) {
         self.scrollView = ScrollableStackView(frame: NSRect(x: 0, y: 0, width: frame.width, height: frame.height))
         self.scrollView.stackView.spacing = 0
@@ -282,9 +314,9 @@ private class SidebarView: NSStackView {
         let spacer = NSView()
         spacer.heightAnchor.constraint(equalToConstant: 10).isActive = true
         
-        self.scrollView.stackView.addArrangedSubview(MenuItem(icon: NSImage(named: NSImage.Name("apps"))!, title: "Dashboard"))
+        self.scrollView.stackView.addArrangedSubview(MenuItem(icon: self.dashboardIcon, title: "Dashboard"))
         self.scrollView.stackView.addArrangedSubview(spacer)
-        self.scrollView.stackView.addArrangedSubview(MenuItem(icon: NSImage(named: NSImage.Name("settings"))!, title: "Settings"))
+        self.scrollView.stackView.addArrangedSubview(MenuItem(icon: self.settingsIcon, title: "Settings"))
         
         self.supportPopover.behavior = .transient
         self.supportPopover.contentViewController = self.supportView()
@@ -294,9 +326,9 @@ private class SidebarView: NSStackView {
         additionalButtons.distribution = .fillEqually
         additionalButtons.spacing = 0
         
-        additionalButtons.addArrangedSubview(self.makeButton(title: localizedString("Report a bug"), image: "bug", action: #selector(reportBug)))
-        additionalButtons.addArrangedSubview(self.makeButton(title: localizedString("Support the application"), image: "donate", action: #selector(donate)))
-        additionalButtons.addArrangedSubview(self.makeButton(title: localizedString("Close application"), image: "power", action: #selector(closeApp)))
+        additionalButtons.addArrangedSubview(self.makeButton(title: localizedString("Report a bug"), image: self.bugIcon, action: #selector(reportBug)))
+        additionalButtons.addArrangedSubview(self.makeButton(title: localizedString("Support the application"), image: self.supportIcon, action: #selector(donate)))
+        additionalButtons.addArrangedSubview(self.makeButton(title: localizedString("Close application"), image: self.closeIcon, action: #selector(closeApp)))
         
         let emptySpace = NSView()
         emptySpace.heightAnchor.constraint(equalToConstant: 28).isActive = true
@@ -336,7 +368,7 @@ private class SidebarView: NSStackView {
         self.scrollView.stackView.insertArrangedSubview(spacer, at: self.scrollView.stackView.subviews.count - 1)
     }
     
-    private func makeButton(title: String, image: String, action: Selector) -> NSButton {
+    private func makeButton(title: String, image: NSImage, action: Selector) -> NSButton {
         let button = NSButtonWithPadding()
         button.frame = CGRect(x: 0, y: 0, width: 44, height: 44)
         button.verticalPadding = 20
@@ -346,7 +378,7 @@ private class SidebarView: NSStackView {
         button.bezelStyle = .regularSquare
         button.translatesAutoresizingMaskIntoConstraints = false
         button.imageScaling = .scaleNone
-        button.image = Bundle(for: type(of: self)).image(forResource: image)!
+        button.image = image
         if #available(OSX 10.14, *) {
             button.contentTintColor = .secondaryLabelColor
         }

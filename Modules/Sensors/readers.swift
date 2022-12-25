@@ -34,11 +34,10 @@ internal class SensorsReader: Reader<[Sensor_p]> {
     private var HIDState: Bool {
         return Store.shared.bool(key: "Sensors_hid", defaultValue: false)
     }
-    private var unknownSensorsState: Bool {
-        return Store.shared.bool(key: "Sensors_unknown", defaultValue: false)
-    }
+    private var unknownSensorsState: Bool
     
     init() {
+        self.unknownSensorsState = Store.shared.bool(key: "Sensors_unknown", defaultValue: false)
         super.init()
         self.list = self.sensors()
     }
@@ -84,19 +83,17 @@ internal class SensorsReader: Reader<[Sensor_p]> {
                 }
             }
         }
-        if self.unknownSensorsState {
-            available.forEach { (key: String) in
-                var type: SensorType? = nil
-                switch key.prefix(1) {
-                case "T": type = .temperature
-                case "V": type = .voltage
-                case "P": type = .power
-                case "I": type = .current
-                default: type = nil
-                }
-                if let t = type {
-                    list.append(Sensor(key: key, name: key, group: .unknown, type: t, platforms: []))
-                }
+        available.forEach { (key: String) in
+            var type: SensorType? = nil
+            switch key.prefix(1) {
+            case "T": type = .temperature
+            case "V": type = .voltage
+            case "P": type = .power
+            case "I": type = .current
+            default: type = nil
+            }
+            if let t = type {
+                list.append(Sensor(key: key, name: key, group: .unknown, type: t, platforms: []))
             }
         }
         
@@ -129,12 +126,9 @@ internal class SensorsReader: Reader<[Sensor_p]> {
     }
     
     public override func read() {
-        let sensorsCounter = self.list.count
-        for (i, s) in self.list.enumerated() {
-            guard self.list.count == sensorsCounter else { return }
-            if s.group == .hid || s.isComputed {
-                continue
-            }
+        for i in self.list.indices {
+            guard self.list[i].group != .hid && !self.list[i].isComputed else { continue }
+            if !self.unknownSensorsState && self.list[i].group == .unknown { continue }
             self.list[i].value = SMC.shared.getValue(self.list[i].key) ?? 0
         }
         
@@ -274,7 +268,7 @@ internal class SensorsReader: Reader<[Sensor_p]> {
     }
     
     public func unknownCallback() {
-        self.list = self.sensors()
+        self.unknownSensorsState = Store.shared.bool(key: "Sensors_unknown", defaultValue: false)
     }
 }
 

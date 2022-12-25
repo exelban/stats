@@ -277,6 +277,7 @@
 "Show unknown sensors" = "Show unknown sensors";
 "Install fan helper" = "Install fan helper";
 "Uninstall fan helper" = "Uninstall fan helper";
+"Fan value" = "Fan value";
 
 // Network
 "Uploading" = "送信";
@@ -344,7 +345,7 @@
 "Hide additional information when full" = "フル充電済みのときはアイコンのみ表示";
 "Last charge" = "最後の充電から";
 "Capacity" = "容量";
-"maximum / designed" = "最大 / 規格";
+"current / maximum / designed" = "current / 最大 / 規格";
 "Low power mode" = "低電力モード";
 "Percentage inside the icon" = "Percentage inside the icon";
 

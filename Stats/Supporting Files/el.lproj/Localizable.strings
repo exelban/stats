@@ -277,6 +277,7 @@
 "Show unknown sensors" = "Show unknown sensors";
 "Install fan helper" = "Install fan helper";
 "Uninstall fan helper" = "Uninstall fan helper";
+"Fan value" = "Fan value";
 
 // Network
 "Uploading" = "Μεταφόρτωση";
@@ -344,7 +345,7 @@
 "Hide additional information when full" = "Απόκρυψη επιπρόσθετων πληροφοριών όταν γεμίσει";
 "Last charge" = "Τελευταία φόρτιση";
 "Capacity" = "Χωρητικότητα";
-"maximum / designed" = "Μέγιστη / designed";
+"current / maximum / designed" = "current / Μέγιστη / designed";
 "Low power mode" = "Low power mode";
 "Percentage inside the icon" = "Percentage inside the icon";
 

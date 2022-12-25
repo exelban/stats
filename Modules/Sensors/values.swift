@@ -139,6 +139,13 @@ internal struct Fan: Sensor_p {
     var value: Double
     var mode: FanMode
     
+    var percentage: Int {
+        if self.value != 0 && self.maxSpeed != 0 && self.value != 1 && self.maxSpeed != 1 {
+            return (100*Int(self.value)) / Int(self.maxSpeed)
+        }
+        return 0
+    }
+    
     var group: SensorGroup = .sensor
     var type: SensorType = .fan
     var platforms: [Platform] = Platform.all

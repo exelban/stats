@@ -277,3 +277,12 @@ extension Scale: CaseIterable {
         return Scale.allCases.first{ $0.key == key } ?? defaultValue
     }
 }
+
+public enum FanValue: String {
+    case rpm
+    case percentage
+}
+public let FanValues: [KeyValue_t] = [
+    KeyValue_t(key: "rpm", value: "RPM", additional: FanValue.rpm),
+    KeyValue_t(key: "percentage", value: "Percentage", additional: FanValue.percentage)
+]

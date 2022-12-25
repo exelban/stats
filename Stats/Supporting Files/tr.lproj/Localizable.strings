@@ -277,6 +277,7 @@
 "Show unknown sensors" = "Bilinmeyen sensörleri göster";
 "Install fan helper" = "Install fan helper";
 "Uninstall fan helper" = "Uninstall fan helper";
+"Fan value" = "Fan value";
 
 // Network
 "Uploading" = "Yükleme";
@@ -344,7 +345,7 @@
 "Hide additional information when full" = "Pil dolduğunda ek bilgileri gizle";
 "Last charge" = "Son şarj";
 "Capacity" = "Kapasite";
-"maximum / designed" = "maksimum / orijinal";
+"current / maximum / designed" = "current / maksimum / orijinal";
 "Low power mode" = "Düşük güç modu";
 "Percentage inside the icon" = "Percentage inside the icon";
 

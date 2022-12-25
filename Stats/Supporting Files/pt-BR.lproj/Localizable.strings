@@ -277,6 +277,7 @@
 "Show unknown sensors" = "Show unknown sensors";
 "Install fan helper" = "Install fan helper";
 "Uninstall fan helper" = "Uninstall fan helper";
+"Fan value" = "Fan value";
 
 // Network
 "Uploading" = "Enviando";
@@ -344,7 +345,7 @@
 "Hide additional information when full" = "Ocultar informações adicionais quando estiver cheia";
 "Last charge" = "Última carga";
 "Capacity" = "Capacity";
-"maximum / designed" = "maximum / designed";
+"current / maximum / designed" = "current / maximum / designed";
 "Low power mode" = "Low power mode";
 "Percentage inside the icon" = "Percentage inside the icon";
 

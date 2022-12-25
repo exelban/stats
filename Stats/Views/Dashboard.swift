@@ -122,7 +122,6 @@ class Dashboard: NSStackView {
     }
     
     @objc private func windowOpens(_ notification: Notification) {
-        print(1)
         guard notification.userInfo?["module"] as? String == "Dashboard" else {
             return
         }

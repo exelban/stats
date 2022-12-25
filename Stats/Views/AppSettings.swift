@@ -14,9 +14,7 @@ import Kit
 
 class ApplicationSettings: NSStackView {
     private var updateIntervalValue: String {
-        get {
-            return Store.shared.string(key: "update-interval", defaultValue: AppUpdateInterval.silent.rawValue)
-        }
+        Store.shared.string(key: "update-interval", defaultValue: AppUpdateInterval.silent.rawValue)
     }
     
     private var temperatureUnitsValue: String {
@@ -41,14 +39,11 @@ class ApplicationSettings: NSStackView {
     private var updateSelector: NSPopUpButton?
     private var startAtLoginBtn: NSButton?
     private var pauseButton: NSButton?
+    private var uninstallHelperButton: NSButton?
+    private var buttonsContainer: NSStackView?
     
     init() {
-        super.init(frame: NSRect(
-            x: 0,
-            y: 0,
-            width: 540,
-            height: 480
-        ))
+        super.init(frame: NSRect(x: 0, y: 0, width: Constants.Settings.width, height: Constants.Settings.height))
         
         self.orientation = .vertical
         self.distribution = .fill
@@ -61,6 +56,7 @@ class ApplicationSettings: NSStackView {
         self.addArrangedSubview(self.buttonsView())
         
         NotificationCenter.default.addObserver(self, selector: #selector(listenForPause), name: .pause, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(toggleUninstallHelperButton), name: .fanHelperState, object: nil)
     }
     
     required public init?(coder: NSCoder) {
@@ -68,7 +64,8 @@ class ApplicationSettings: NSStackView {
     }
     
     deinit {
-        NotificationCenter.default.removeObserver(self)
+        NotificationCenter.default.removeObserver(self, name: .pause, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .fanHelperState, object: nil)
     }
     
     public func viewWillAppear() {
@@ -191,7 +188,11 @@ class ApplicationSettings: NSStackView {
     
     private func buttonsView() -> NSView {
         let view = NSStackView()
+        view.orientation = .vertical
+        view.alignment = .centerY
+        view.distribution = .fill
         view.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        self.buttonsContainer = view
         
         let reset: NSButton = NSButton()
         reset.title = localizedString("Reset settings")
@@ -206,8 +207,18 @@ class ApplicationSettings: NSStackView {
         pause.action = #selector(self.togglePause)
         self.pauseButton = pause
         
+        let uninstall: NSButton = NSButton()
+        uninstall.title = localizedString("Uninstall fan helper")
+        uninstall.bezelStyle = .rounded
+        uninstall.target = self
+        uninstall.action = #selector(self.uninstallHelper)
+        self.uninstallHelperButton = uninstall
+        
         view.addArrangedSubview(reset)
         view.addArrangedSubview(pause)
+        if SMCHelper.shared.isInstalled {
+            view.addArrangedSubview(uninstall)
+        }
         
         return view
     }
@@ -321,5 +332,20 @@ class ApplicationSettings: NSStackView {
     
     @objc func listenForPause() {
         self.pauseButton?.title = localizedString(self.pauseState ? "Resume the Stats" : "Pause the Stats")
+    }
+    
+    @objc private func toggleUninstallHelperButton(_ notification: Notification) {
+        guard let state = notification.userInfo?["state"] as? Bool, let v = self.uninstallHelperButton else {
+            return
+        }
+        if state && v.superview == nil {
+            self.buttonsContainer?.addArrangedSubview(v)
+        } else if !state && v.superview != nil {
+            v.removeFromSuperview()
+        }
+    }
+    
+    @objc private func uninstallHelper() {
+        SMCHelper.shared.uninstall()
     }
 }
