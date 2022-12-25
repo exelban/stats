@@ -277,7 +277,7 @@
 "Show unknown sensors" = "显示未知传感器";
 "Install fan helper" = "安装风扇控制程序";
 "Uninstall fan helper" = "卸载风扇控制程序";
-"Fan value" = "Fan value";
+"Fan value" = "风扇转数";
 
 // Network
 "Uploading" = "上传";
@@ -345,7 +345,7 @@
 "Hide additional information when full" = "电池充满后隐藏其他信息";
 "Last charge" = "最后一次充电";
 "Capacity" = "容量";
-"current / maximum / designed" = "current / 最大值 / 设计值";
+"current / maximum / designed" = "当前 / 最大值 / 设计值";
 "Low power mode" = "低电量模式";
 "Percentage inside the icon" = "图标内百分比";
 
