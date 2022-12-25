@@ -277,7 +277,7 @@
 "Show unknown sensors" = "Unbekannte Sensoren anzeigen";
 "Install fan helper" = "Lüftersteuerung installieren";
 "Uninstall fan helper" = "Lüftersteuerung deinstallieren";
-"Fan value" = "Fan value";
+"Fan value" = "Lüftergeschwindigkeitswert Art";
 
 // Network
 "Uploading" = "Upload";
@@ -345,7 +345,7 @@
 "Hide additional information when full" = "Zusätzliche Informationen bei vollständiger Ladung verbergen";
 "Last charge" = "Letzte Ladung";
 "Capacity" = "Kapazität";
-"current / maximum / designed" = "current / Aktuell / ab Werk";
+"current / maximum / designed" = "Aktuell / Maximal / ab Werk";
 "Low power mode" = "Stromsparmodus";
 "Percentage inside the icon" = "Prozenzsatz im Symbol";
 
