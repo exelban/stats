@@ -277,6 +277,7 @@
 "Show unknown sensors" = "Pokaż nieznane czujniki";
 "Install fan helper" = "Zainstaluj narzędzie do wentylatora";
 "Uninstall fan helper" = "Odinstaluj narzędzie do wentylatora";
+"Fan value" = "Wartość wentylatora";
 
 // Network
 "Uploading" = "Wysyłanie";
@@ -344,7 +345,7 @@
 "Hide additional information when full" = "Ukryj dodatkowe informacje, gdy bateria jest naładowana";
 "Last charge" = "Ostatnie ładowanie";
 "Capacity" = "Pojemność";
-"maximum / designed" = "maksymalna / zaprojektowana";
+"current / maximum / designed" = "aktualna / maksymalna / zaprojektowana";
 "Low power mode" = "Niskie zużycie energii";
 "Percentage inside the icon" = "Procent wewnątrz ikony";
 

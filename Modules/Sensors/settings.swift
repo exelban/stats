@@ -18,6 +18,7 @@ internal class Settings: NSStackView, Settings_v {
     private var fanSpeedState: Bool = false
     private var fansSyncState: Bool = false
     private var unknownSensorsState: Bool = false
+    private var fanValueState: FanValue = .percentage
     
     private let title: String
     private var button: NSPopUpButton?
@@ -52,6 +53,7 @@ internal class Settings: NSStackView, Settings_v {
         self.fanSpeedState = Store.shared.bool(key: "\(self.title)_speed", defaultValue: self.fanSpeedState)
         self.fansSyncState = Store.shared.bool(key: "\(self.title)_fansSync", defaultValue: self.fansSyncState)
         self.unknownSensorsState = Store.shared.bool(key: "\(self.title)_unknown", defaultValue: self.unknownSensorsState)
+        self.fanValueState = FanValue(rawValue: Store.shared.string(key: "\(self.title)_fanValue", defaultValue: self.fanValueState.rawValue)) ?? .percentage
     }
     
     required init?(coder: NSCoder) {
@@ -81,6 +83,13 @@ internal class Settings: NSStackView, Settings_v {
             title: localizedString("Synchronize fan's control"),
             action: #selector(toggleFansSync),
             state: self.fansSyncState
+        ))
+        
+        self.addArrangedSubview(selectSettingsRow(
+            title: localizedString("Fan value"),
+            action: #selector(toggleFanValue),
+            items: FanValues,
+            selected: self.fanValueState.rawValue
         ))
         
         if isARM {
@@ -157,7 +166,7 @@ internal class Settings: NSStackView, Settings_v {
     }
     
     public func setList(list: [Sensor_p]) {
-        self.list = list
+        self.list = self.unknownSensorsState ? list : list.filter({ $0.group != .unknown })
         self.load(widgets: self.widgets)
     }
     
@@ -196,5 +205,13 @@ internal class Settings: NSStackView, Settings_v {
         self.unknownSensorsState = controlState(sender)
         Store.shared.set(key: "\(self.title)_unknown", value: self.unknownSensorsState)
         self.unknownCallback()
+    }
+    
+    @objc func toggleFanValue(_ sender: NSMenuItem) {
+        if let key = sender.representedObject as? String, let value = FanValue(rawValue: key) {
+            self.fanValueState = value
+            Store.shared.set(key: "\(self.title)_fanValue", value: self.fanValueState.rawValue)
+            self.callback()
+        }
     }
 }

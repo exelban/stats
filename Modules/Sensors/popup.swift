@@ -17,6 +17,10 @@ internal class Popup: NSStackView, Popup_p {
     
     public var sizeCallback: ((NSSize) -> Void)? = nil
     
+    private var unknownSensorsState: Bool {
+        return Store.shared.bool(key: "Sensors_unknown", defaultValue: false)
+    }
+    
     public init() {
         super.init(frame: NSRect( x: 0, y: 0, width: Constants.Popup.width, height: 0))
         
@@ -30,8 +34,11 @@ internal class Popup: NSStackView, Popup_p {
     
     internal func setup(_ values: [Sensor_p]?) {
         guard let fans = values?.filter({ $0.type == .fan }),
-              let sensors = values?.filter({ $0.type != .fan }) else {
+              var sensors = values?.filter({ $0.type != .fan }) else {
             return
+        }
+        if !self.unknownSensorsState {
+            sensors = sensors.filter({ $0.group != .unknown })
         }
         
         self.subviews.forEach { (v: NSView) in
@@ -421,16 +428,11 @@ internal class FanView: NSStackView {
         nameField.cell?.truncatesLastVisibleLine = true
         
         let value = self.fan.value
-        var percentage = ""
-        if value != 1 && self.fan.maxSpeed != 1 {
-            percentage = "\((100*Int(value)) / Int(self.fan.maxSpeed))%"
-        }
-        
         let valueField: NSTextField = TextView()
         valueField.font = NSFont.systemFont(ofSize: 13, weight: .regular)
         valueField.stringValue = self.fan.formattedValue
         valueField.alignment = .right
-        valueField.stringValue = percentage
+        valueField.stringValue = "\(self.fan.percentage)%"
         valueField.toolTip = "\(value)"
         
         row.addArrangedSubview(nameField)
@@ -700,7 +702,7 @@ internal class FanView: NSStackView {
                     if self.fan.maxSpeed == 1 || self.fan.maxSpeed == 0 {
                         speed = "\(Int(value.value)) RPM"
                     } else {
-                        speed = "\((100*Int(value.value)) / Int(self.fan.maxSpeed))%"
+                        speed = "\(value.percentage)%"
                     }
                 }
                 
@@ -750,9 +752,7 @@ internal class FanView: NSStackView {
     }
     
     @objc private func changeHelperState(_ notification: Notification) {
-        guard let state = notification.userInfo?["state"] as? Bool, self.helperView?.superview != nil else {
-            return
-        }
+        guard let state = notification.userInfo?["state"] as? Bool else { return }
         self.setupControls(state)
     }
 }

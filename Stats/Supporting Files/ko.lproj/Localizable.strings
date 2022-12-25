@@ -277,6 +277,7 @@
 "Show unknown sensors" = "Show unknown sensors";
 "Install fan helper" = "Install fan helper";
 "Uninstall fan helper" = "Uninstall fan helper";
+"Fan value" = "Fan value";
 
 // Network
 "Uploading" = "업로드";
@@ -344,7 +345,7 @@
 "Hide additional information when full" = "완충되면 추가 정보 숨기기";
 "Last charge" = "마지막 충전";
 "Capacity" = "용량";
-"maximum / designed" = "최대 / 설계";
+"current / maximum / designed" = "current / 최대 / 설계";
 "Low power mode" = "Low power mode";
 "Percentage inside the icon" = "Percentage inside the icon";
 

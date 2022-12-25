@@ -277,6 +277,7 @@
 "Show unknown sensors" = "Показати невідомі датчики";
 "Install fan helper" = "Встановити помічник для вентилятора";
 "Uninstall fan helper" = "Видалити помічник для вентилятора";
+"Fan value" = "Значення вентилятора";
 
 // Network
 "Uploading" = "Висилання";
@@ -344,7 +345,7 @@
 "Hide additional information when full" = "Приховати додаткову інформацію, якщо акумулятор заряджений";
 "Last charge" = "Остання зарядка";
 "Capacity" = "Ємність";
-"maximum / designed" = "максимальна / запроектована";
+"current / maximum / designed" = "поточна / максимальна / запроектована";
 "Low power mode" = "Режим низької потужності";
 "Percentage inside the icon" = "Відсоток всередині віджету";
 

@@ -33,6 +33,7 @@ identifier_name:
     - _devices
     - _uuidAddress
     - AppleSiliconSensorsList
+    - FanValues
 
 line_length: 200
 

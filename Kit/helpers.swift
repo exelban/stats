@@ -1127,6 +1127,12 @@ public class SMCHelper {
         
         return helper
     }
+    
+    public func uninstall() {
+        guard let helper = self.helper(nil) else { return }
+        helper.uninstall()
+        NotificationCenter.default.post(name: .fanHelperState, object: nil, userInfo: ["state": false])
+    }
 }
 
 internal func grayscaleImage(_ image: NSImage) -> NSImage? {
