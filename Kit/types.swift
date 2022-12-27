@@ -221,11 +221,13 @@ public extension Notification.Name {
 
 public var isARM: Bool {
     get {
-        var value = false
-        #if arch(arm64)
-        value = true
-        #endif
-        return value
+        var size: Int = 0
+        sysctlbyname("machdep.cpu.brand_string", nil, &size, nil, 0)
+        var machine = [CChar](repeating: 0, count: Int(size))
+        sysctlbyname("machdep.cpu.brand_string", &machine, &size, nil, 0)
+        let cpuInfo: String = String(cString:machine)
+        
+        return cpuInfo.contains("Apple")
     }
 }
 
