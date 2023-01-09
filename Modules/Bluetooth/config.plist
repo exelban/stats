@@ -8,6 +8,8 @@
 	<false/>
 	<key>Symbol</key>
 	<string>point.3.filled.connected.trianglepath.dotted</string>
+	<key>AlternativeSymbol</key>
+	<string>scale.3d</string>
 	<key>Widgets</key>
 	<dict>
 		<key>label</key>

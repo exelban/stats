@@ -8,6 +8,8 @@
 	<true/>
 	<key>Symbol</key>
 	<string>cpu.fill</string>
+	<key>AlternativeSymbol</key>
+	<string>cpu</string>
 	<key>Widgets</key>
 	<dict>
 		<key>label</key>
