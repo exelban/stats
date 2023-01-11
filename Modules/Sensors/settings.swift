@@ -61,9 +61,14 @@ internal class Settings: NSStackView, Settings_v {
     }
     
     public func load(widgets: [widget_t]) {
-        guard !self.list.isEmpty else {
+        var sensors = self.list
+        guard !sensors.isEmpty else {
             return
         }
+        if !self.unknownSensorsState {
+            sensors = sensors.filter({ $0.group != .unknown })
+        }
+        
         self.subviews.forEach{ $0.removeFromSuperview() }
         
         self.addArrangedSubview(selectSettingsRowV1(
@@ -107,7 +112,7 @@ internal class Settings: NSStackView, Settings_v {
         ))
         
         var types: [SensorType] = []
-        self.list.forEach { (s: Sensor_p) in
+        sensors.forEach { (s: Sensor_p) in
             if !types.contains(s.type) {
                 types.append(s.type)
             }
@@ -127,7 +132,7 @@ internal class Settings: NSStackView, Settings_v {
             
             self.addArrangedSubview(header)
             
-            let filtered = self.list.filter{ $0.type == typ }
+            let filtered = sensors.filter{ $0.type == typ }
             var groups: [SensorGroup] = []
             filtered.forEach { (s: Sensor_p) in
                 if !groups.contains(s.group) {
@@ -158,7 +163,7 @@ internal class Settings: NSStackView, Settings_v {
                     container.addArrangedSubview(row)
                 }
             }
-
+            
             self.addArrangedSubview(container)
         }
         

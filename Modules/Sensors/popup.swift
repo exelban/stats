@@ -18,7 +18,7 @@ internal class Popup: NSStackView, Popup_p {
     public var sizeCallback: ((NSSize) -> Void)? = nil
     
     private var unknownSensorsState: Bool {
-        return Store.shared.bool(key: "Sensors_unknown", defaultValue: false)
+        Store.shared.bool(key: "Sensors_unknown", defaultValue: false)
     }
     
     public init() {
