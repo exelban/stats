@@ -220,13 +220,7 @@ public extension Notification.Name {
 }
 
 public var isARM: Bool {
-    get {
-        var value = false
-        #if arch(arm64)
-        value = true
-        #endif
-        return value
-    }
+    SystemKit.shared.device.platform != .intel
 }
 
 public let notificationLevels: [KeyValue_t] = [
