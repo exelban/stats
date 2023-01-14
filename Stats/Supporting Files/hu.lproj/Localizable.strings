@@ -2,7 +2,7 @@
 //  Localizable.strings
 //  Stats
 //
-//  Created by @moriczr on 22/01/2021, updated by András Oravecz (info@oandras.hu) on 21/08/2022
+//  Created by @moriczr on 22/01/2021, updated by András Oravecz (info@oandras.hu) on 06/01/2023
 //  Using Swift 5.0.
 //  Running on macOS 10.15.
 //
@@ -67,8 +67,8 @@
 "Square" = "Négyzet";
 "Cube" = "Kocka";
 "Logarithmic" = "Logaritmikus";
-"Cores" = "Cores";
-"Settings" = "Settings";
+"Cores" = "Magok";
+"Settings" = "Beállítások";
 
 // Setup
 "Stats Setup" = "A Stats beállítása";
@@ -119,8 +119,8 @@
 "Start at login" = "Alkalmazás indítása bejelentkezéskor";
 "Build number" = "Verziószám";
 "Reset settings" = "Beállítások alaphelyzetbe állítása";
-"Pause the Stats" = "Pause the Stats";
-"Resume the Stats" = "Resume the Stats";
+"Pause the Stats" = "Stats felfüggesztése";
+"Resume the Stats" = "Stats folytatása";
 
 // Dashboard
 "Serial number" = "Sorozatszám";
@@ -161,7 +161,7 @@
 "Memory widget" = "Memória";
 "Static width" = "Fix szélesség";
 "Tachometer widget" = "Fordulatszámmérő";
-"State widget" = "State widget";
+"State widget" = "Állapot";
 "Show symbols" = "Szimbólumok mutatása";
 "Label widget" = "Címke";
 "Number of reads in the chart" = "Értékek száma a grafikonon";
@@ -179,16 +179,16 @@
 "Pictogram" = "Piktogram";
 "Module settings" = "Modul beállítások";
 "Widget settings" = "Widget beállítások";
-"Popup settings" = "Popup settings";
-"Merge widgets" = "Modulok egyesítése";
-"No available widgets to configure" = "No available widgets to configure";
-"No options to configure for the popup in this module" = "No options to configure for the popup in this module";
+"Popup settings" = "Lenyíló ablak beállításai";
+"Merge widgets" = "Widgetek egyesítése";
+"No available widgets to configure" = "Nincs elérhető widget a beállításhoz";
+"No options to configure for the popup in this module" = "A modul lenyíló ablakához nem tartozik beállítás";
 
 // Modules
 "Number of top processes" = "Top folyamatok száma";
 "Update interval for top processes" = "Top folyamatok frissítési időköze";
 "Notification level" = "Értesítési szint";
-"Chart color" = "Chart color";
+"Chart color" = "Diagram színe";
 
 // CPU
 "CPU usage" = "CPU használat";
@@ -210,9 +210,9 @@
 "CPU usage is" = "%0 a CPU használat";
 "Efficiency cores" = "Energiatakarékos magok";
 "Performance cores" = "Teljesítményre optimalizált magok";
-"System color" = "System color";
-"User color" = "User color";
-"Idle color" = "Idle color";
+"System color" = "Rendszer színe";
+"User color" = "Felhasználó színe";
+"Idle color" = "Tétlenség színe";
 "Cluster grouping" = "Cluster grouping";
 
 // GPU
@@ -249,10 +249,10 @@
 "Split the value (App/Wired/Compressed)" = "Ossza fel az értéket (Alkalmazás/Nem lapozható/Tömörített)";
 "RAM utilization threshold" = "RAM használati küszöb";
 "RAM utilization is" = "%0 a RAM használat";
-"App color" = "App color";
-"Wired color" = "Wired color";
-"Compressed color" = "Compressed color";
-"Free color" = "Free color";
+"App color" = "Alkalmazás színe";
+"Wired color" = "Nem lapozható színe";
+"Compressed color" = "Tömörített színe";
+"Free color" = "Szabad színe";
 
 // Disk
 "Show removable disks" = "Eltávolítható adattárolók megjelenítése";
@@ -272,12 +272,12 @@
 "Fan" = "Ventilátor";
 "HID sensors" = "HID szenzorok";
 "Synchronize fan's control" = "Ventilátor vezérlés szinkronizálása";
-"Current" = "Current";
-"Energy" = "Energy";
-"Show unknown sensors" = "Show unknown sensors";
-"Install fan helper" = "Install fan helper";
-"Uninstall fan helper" = "Uninstall fan helper";
-"Fan value" = "Fan value";
+"Current" = "Áramerősség";
+"Energy" = "Energia";
+"Show unknown sensors" = "Ismeretlen szenzorok megjelenítése";
+"Install fan helper" = "Ventillátor segítő telepítése";
+"Uninstall fan helper" = "Ventillátor segítő törlése";
+"Fan value" = "Ventillátor érték";
 
 // Network
 "Uploading" = "Feltöltés";
@@ -303,15 +303,15 @@
 "Standard" = "Szabvány";
 "Security" = "Biztonság";
 "Channel" = "Csatorna";
-"Common scale" = "Common scale";
-"Autodetection" = "Autodetection";
-"Widget activation threshold" = "Widget activation threshold";
-"Internet connection" = "Internet connection";
-"Active state color" = "Active state color";
-"Nonactive state color" = "Nonactive state color";
-"Connectivity host (ICMP)" = "Connectivity host (ICMP)";
-"Leave empty to disable the check" = "Leave empty to disable the check";
-"Transparent pictogram when no activity" = "Transparent pictogram when no activity";
+"Common scale" = "Azonos méretezés";
+"Autodetection" = "Automatikus észlelés";
+"Widget activation threshold" = "Widget aktivációs küszöbe";
+"Internet connection" = "Internet kapcsolat";
+"Active state color" = "Aktív állapot színe";
+"Nonactive state color" = "Inaktív állapot színe";
+"Connectivity host (ICMP)" = "Kapcsolati gazdagép (ICMP)";
+"Leave empty to disable the check" = "Hagyd üresen az ellenőrzés kikapcsolásához";
+"Transparent pictogram when no activity" = "Átlátszó ikon, ha nincs forgalom";
 
 // Battery
 "Level" = "Töltöttségi szint";
@@ -345,9 +345,9 @@
 "Hide additional information when full" = "További információk elrejtése, ha teljesen fel van töltve";
 "Last charge" = "Utolsó töltés";
 "Capacity" = "Kapacitás";
-"current / maximum / designed" = "current / maximum / gyári";
+"current / maximum / designed" = "jelenlegi / maximum / gyári";
 "Low power mode" = "Energia takarékos mód";
-"Percentage inside the icon" = "Percentage inside the icon";
+"Percentage inside the icon" = "Százalék megjelenítése az ikonban";
 
 // Bluetooth
 "Battery to show" = "Akkumulátor megjelenítése";
@@ -356,7 +356,7 @@
 // Colors
 "Based on utilization" = "Használat függő";
 "Based on pressure" = "Terhelés függő";
-"Based on cluster" = "Based on cluster";
+"Based on cluster" = "Csoport függő";
 "System accent" = "Rendszer kiemelő színe";
 "Monochrome accent" = "Monokróm kiemelő szín";
 "Clear" = "Átlátszó";
