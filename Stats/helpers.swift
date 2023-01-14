@@ -103,6 +103,8 @@ extension AppDelegate {
         if !Store.shared.exist(key: "runAtLoginInitialized") {
             Store.shared.set(key: "runAtLoginInitialized", value: true)
             LaunchAtLogin.isEnabled = true
+        } else {
+            LaunchAtLogin.migrate()
         }
         
         if Store.shared.exist(key: "dockIcon") {

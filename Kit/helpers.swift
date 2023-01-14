@@ -19,6 +19,23 @@ public struct LaunchAtLogin {
     
     public static var isEnabled: Bool {
         get {
+            if #available(macOS 13, *) {
+                return isEnabledNext
+            } else {
+                return isEnabledLegacy
+            }
+        }
+        set {
+            if #available(macOS 13, *) {
+                isEnabledNext = newValue
+            } else {
+                isEnabledLegacy = newValue
+            }
+        }
+    }
+    
+    private static var isEnabledLegacy: Bool {
+        get {
             guard let jobs = (LaunchAtLogin.self as DeprecationWarningWorkaround.Type).jobsDict else {
                 return false
             }
@@ -28,6 +45,36 @@ public struct LaunchAtLogin {
         set {
             SMLoginItemSetEnabled(id as CFString, newValue)
         }
+    }
+    
+    @available(macOS 13, *)
+    private static var isEnabledNext: Bool {
+        get { SMAppService.mainApp.status == .enabled }
+        set {
+            do {
+                if newValue {
+                    if SMAppService.mainApp.status == .enabled {
+                        try? SMAppService.mainApp.unregister()
+                    }
+                    try SMAppService.mainApp.register()
+                } else {
+                    try SMAppService.mainApp.unregister()
+                }
+            } catch {
+                print("failed to \(newValue ? "enable" : "disable") launch at login: \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    public static func migrate() {
+        guard #available(macOS 13, *), !Store.shared.exist(key: "LaunchAtLoginNext") else {
+            return
+        }
+        
+        Store.shared.set(key: "LaunchAtLoginNext", value: true)
+        isEnabledNext = isEnabledLegacy
+        isEnabledLegacy = false
+        try? SMAppService.loginItem(identifier: id).unregister()
     }
 }
 
