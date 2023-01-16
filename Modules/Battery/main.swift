@@ -19,6 +19,7 @@ struct Battery_Usage: value_t {
     var isCharged: Bool = false
     var isCharging: Bool = false
     var isLowPowerMode: Bool? = false
+    var optimizedChargingEngaged: Bool = false
     var level: Double = 0
     var cycles: Int = 0
     var health: Int = 0
@@ -141,6 +142,7 @@ public class Battery: Module {
                     ACStatus: value.powerSource != "Battery Power",
                     isCharging: value.isCharging,
                     lowPowerMode: value.isLowPowerMode,
+                    optimizedCharging: value.optimizedChargingEngaged,
                     time: value.timeToEmpty == 0 && value.timeToCharge != 0 ? value.timeToCharge : value.timeToEmpty
                 )
             default: break

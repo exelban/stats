@@ -25,6 +25,7 @@ public class BatterykWidget: WidgetWrapper {
     private var charging: Bool = false
     private var ACStatus: Bool = false
     private var lowPowerMode: Bool = false
+    private var optimizedCharging: Bool = false
     
     public init(title: String, config: NSDictionary?, preview: Bool = false) {
         let widgetTitle: String = title
@@ -68,7 +69,7 @@ public class BatterykWidget: WidgetWrapper {
         var x: CGFloat = 0
         let isShortTimeFormat: Bool = self.timeFormat == "short"
         
-        if !self.hideAdditionalWhenFull || (self.hideAdditionalWhenFull && self.percentage != 1) {
+        if !self.hideAdditionalWhenFull || (self.hideAdditionalWhenFull && self.percentage != 1 && !self.optimizedCharging) {
             switch self.additional {
             case "percentage":
                 var value = "n/a"
@@ -334,7 +335,7 @@ public class BatterykWidget: WidgetWrapper {
         return rowWidth
     }
     
-    public func setValue(percentage: Double? = nil, ACStatus: Bool? = nil, isCharging: Bool? = nil, lowPowerMode: Bool? = nil, time: Int? = nil) {
+    public func setValue(percentage: Double? = nil, ACStatus: Bool? = nil, isCharging: Bool? = nil, lowPowerMode: Bool? = nil, optimizedCharging: Bool? = nil, time: Int? = nil) {
         var updated: Bool = false
         let timeFormat: String = Store.shared.string(key: "\(self.title)_timeFormat", defaultValue: self.timeFormat)
         
@@ -360,6 +361,10 @@ public class BatterykWidget: WidgetWrapper {
         }
         if let state = lowPowerMode, self.lowPowerMode != state {
             self.lowPowerMode = state
+            updated = true
+        }
+        if let state = optimizedCharging, self.optimizedCharging != state {
+            self.optimizedCharging = state
             updated = true
         }
         
