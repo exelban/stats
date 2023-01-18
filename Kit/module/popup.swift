@@ -44,6 +44,7 @@ internal class PopupWindow: NSWindow, NSWindowDelegate {
         self.contentViewController = self.viewController
         self.titlebarAppearsTransparent = true
         self.animationBehavior = .default
+        self.collectionBehavior = .moveToActiveSpace
         self.backgroundColor = .clear
         self.hasShadow = true
         self.setIsVisible(false)
