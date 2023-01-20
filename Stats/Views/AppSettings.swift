@@ -26,19 +26,9 @@ class ApplicationSettings: NSStackView {
         }
     }
     
-    private var pauseState: Bool {
-        get {
-            return Store.shared.bool(key: "pause", defaultValue: false)
-        }
-        set {
-            Store.shared.set(key: "pause", value: newValue)
-        }
-    }
-    
     private let updateWindow: UpdateWindow = UpdateWindow()
     private var updateSelector: NSPopUpButton?
     private var startAtLoginBtn: NSButton?
-    private var pauseButton: NSButton?
     private var uninstallHelperButton: NSButton?
     private var buttonsContainer: NSStackView?
     
@@ -55,7 +45,6 @@ class ApplicationSettings: NSStackView {
         self.addArrangedSubview(self.separatorView())
         self.addArrangedSubview(self.buttonsView())
         
-        NotificationCenter.default.addObserver(self, selector: #selector(listenForPause), name: .pause, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(toggleUninstallHelperButton), name: .fanHelperState, object: nil)
     }
     
@@ -64,7 +53,6 @@ class ApplicationSettings: NSStackView {
     }
     
     deinit {
-        NotificationCenter.default.removeObserver(self, name: .pause, object: nil)
         NotificationCenter.default.removeObserver(self, name: .fanHelperState, object: nil)
     }
     
@@ -200,13 +188,6 @@ class ApplicationSettings: NSStackView {
         reset.target = self
         reset.action = #selector(self.resetSettings)
         
-        let pause: NSButton = NSButton()
-        pause.title = localizedString(self.pauseState ? "Resume the Stats" : "Pause the Stats")
-        pause.bezelStyle = .rounded
-        pause.target = self
-        pause.action = #selector(self.togglePause)
-        self.pauseButton = pause
-        
         let uninstall: NSButton = NSButton()
         uninstall.title = localizedString("Uninstall fan helper")
         uninstall.bezelStyle = .rounded
@@ -215,7 +196,6 @@ class ApplicationSettings: NSStackView {
         self.uninstallHelperButton = uninstall
         
         view.addArrangedSubview(reset)
-        view.addArrangedSubview(pause)
         if SMCHelper.shared.isInstalled {
             view.addArrangedSubview(uninstall)
         }
@@ -322,16 +302,6 @@ class ApplicationSettings: NSStackView {
                 NSApp.terminate(self)
             }
         }
-    }
-    
-    @objc func togglePause(_ sender: NSButton) {
-        self.pauseState = !self.pauseState
-        self.pauseButton?.title = localizedString(self.pauseState ? "Resume the Stats" : "Pause the Stats")
-        NotificationCenter.default.post(name: .pause, object: nil, userInfo: ["state": self.pauseState])
-    }
-    
-    @objc func listenForPause() {
-        self.pauseButton?.title = localizedString(self.pauseState ? "Resume the Stats" : "Pause the Stats")
     }
     
     @objc private func toggleUninstallHelperButton(_ notification: Notification) {

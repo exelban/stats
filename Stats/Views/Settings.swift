@@ -268,6 +268,16 @@ private class SidebarView: NSStackView {
     private let scrollView: ScrollableStackView
     
     private let supportPopover = NSPopover()
+    private var pauseButton: NSButton? = nil
+    
+    private var pauseState: Bool {
+        get {
+            return Store.shared.bool(key: "pause", defaultValue: false)
+        }
+        set {
+            Store.shared.set(key: "pause", value: newValue)
+        }
+    }
     
     private var dashboardIcon: NSImage {
         if #available(macOS 11.0, *), let icon = NSImage(systemSymbolName: "circle.grid.3x3.fill", accessibilityDescription: nil) {
@@ -283,22 +293,19 @@ private class SidebarView: NSStackView {
     }
     
     private var bugIcon: NSImage {
-//        if #available(macOS 11.0, *), let icon = NSImage(systemSymbolName: "ladybug", accessibilityDescription: nil) {
-//            return icon
-//        }
-        return NSImage(named: NSImage.Name("bug"))!
+        NSImage(named: NSImage.Name("bug"))!
     }
     private var supportIcon: NSImage {
-//        if #available(macOS 11.0, *), let icon = NSImage(systemSymbolName: "heart.fill", accessibilityDescription: nil) {
-//            return icon
-//        }
-        return NSImage(named: NSImage.Name("donate"))!
+        NSImage(named: NSImage.Name("donate"))!
+    }
+    private var pauseIcon: NSImage {
+        NSImage(named: NSImage.Name("pause"))!
+    }
+    private var resumeIcon: NSImage {
+        NSImage(named: NSImage.Name("resume"))!
     }
     private var closeIcon: NSImage {
-//        if #available(macOS 11.0, *), let icon = NSImage(systemSymbolName: "power.circle", accessibilityDescription: nil) {
-//            return icon
-//        }
-        return NSImage(named: NSImage.Name("power"))!
+        NSImage(named: NSImage.Name("power"))!
     }
     
     override init(frame: NSRect) {
@@ -326,8 +333,12 @@ private class SidebarView: NSStackView {
         additionalButtons.distribution = .fillEqually
         additionalButtons.spacing = 0
         
+        let pauseButton = self.makeButton(title: localizedString("Pause the Stats"), image: self.pauseState ? self.resumeIcon : self.pauseIcon, action: #selector(togglePause))
+        self.pauseButton = pauseButton
+        
         additionalButtons.addArrangedSubview(self.makeButton(title: localizedString("Report a bug"), image: self.bugIcon, action: #selector(reportBug)))
         additionalButtons.addArrangedSubview(self.makeButton(title: localizedString("Support the application"), image: self.supportIcon, action: #selector(donate)))
+        additionalButtons.addArrangedSubview(pauseButton)
         additionalButtons.addArrangedSubview(self.makeButton(title: localizedString("Close application"), image: self.closeIcon, action: #selector(closeApp)))
         
         let emptySpace = NSView()
@@ -338,6 +349,12 @@ private class SidebarView: NSStackView {
         }
         self.addArrangedSubview(self.scrollView)
         self.addArrangedSubview(additionalButtons)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(listenForPause), name: .pause, object: nil)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: .pause, object: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -459,6 +476,18 @@ private class SidebarView: NSStackView {
     
     @objc private func closeApp(_ sender: Any) {
         NSApp.terminate(sender)
+    }
+    
+    @objc private func togglePause(_ sender: NSButton) {
+        self.pauseState = !self.pauseState
+        self.pauseButton?.toolTip = localizedString(self.pauseState ? "Resume the Stats" : "Pause the Stats")
+        self.pauseButton?.image = self.pauseState ? self.resumeIcon : self.pauseIcon
+        NotificationCenter.default.post(name: .pause, object: nil, userInfo: ["state": self.pauseState])
+    }
+    
+    @objc func listenForPause() {
+        self.pauseButton?.toolTip = localizedString(self.pauseState ? "Resume the Stats" : "Pause the Stats")
+        self.pauseButton?.image = self.pauseState ? self.resumeIcon : self.pauseIcon
     }
 }
 
