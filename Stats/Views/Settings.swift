@@ -293,19 +293,34 @@ private class SidebarView: NSStackView {
     }
     
     private var bugIcon: NSImage {
-        NSImage(named: NSImage.Name("bug"))!
+        if #available(macOS 12.0, *), let icon = iconFromSymbol(name: "ladybug", scale: .large) {
+            return icon
+        }
+        return NSImage(named: NSImage.Name("bug"))!
     }
     private var supportIcon: NSImage {
-        NSImage(named: NSImage.Name("donate"))!
+        if #available(macOS 12.0, *), let icon = iconFromSymbol(name: "heart.fill", scale: .large) {
+            return icon
+        }
+        return NSImage(named: NSImage.Name("donate"))!
     }
     private var pauseIcon: NSImage {
-        NSImage(named: NSImage.Name("pause"))!
+        if #available(macOS 11.0, *), let icon = iconFromSymbol(name: "pause.fill", scale: .large) {
+            return icon
+        }
+        return NSImage(named: NSImage.Name("pause"))!
     }
     private var resumeIcon: NSImage {
-        NSImage(named: NSImage.Name("resume"))!
+        if #available(macOS 11.0, *), let icon = iconFromSymbol(name: "play.fill", scale: .large) {
+            return icon
+        }
+        return NSImage(named: NSImage.Name("resume"))!
     }
     private var closeIcon: NSImage {
-        NSImage(named: NSImage.Name("power"))!
+        if #available(macOS 12.0, *), let icon = iconFromSymbol(name: "power", scale: .large) {
+            return icon
+        }
+        return NSImage(named: NSImage.Name("power"))!
     }
     
     override init(frame: NSRect) {
@@ -328,9 +343,11 @@ private class SidebarView: NSStackView {
         self.supportPopover.behavior = .transient
         self.supportPopover.contentViewController = self.supportView()
         
-        let additionalButtons: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: frame.width, height: 40))
+        let additionalButtons: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: frame.width, height: 45))
+        additionalButtons.heightAnchor.constraint(equalToConstant: 45).isActive = true
         additionalButtons.orientation = .horizontal
         additionalButtons.distribution = .fillEqually
+        additionalButtons.alignment = .centerY
         additionalButtons.spacing = 0
         
         let pauseButton = self.makeButton(title: localizedString("Pause the Stats"), image: self.pauseState ? self.resumeIcon : self.pauseIcon, action: #selector(togglePause))
@@ -386,10 +403,7 @@ private class SidebarView: NSStackView {
     }
     
     private func makeButton(title: String, image: NSImage, action: Selector) -> NSButton {
-        let button = NSButtonWithPadding()
-        button.frame = CGRect(x: 0, y: 0, width: 44, height: 44)
-        button.verticalPadding = 20
-        button.horizontalPadding = 20
+        let button = NSButton()
         button.title = title
         button.toolTip = title
         button.bezelStyle = .regularSquare
@@ -403,8 +417,9 @@ private class SidebarView: NSStackView {
         button.action = action
         button.target = self
         button.focusRingType = .none
+        button.widthAnchor.constraint(equalToConstant: 45).isActive = true
         
-        let rect = NSRect(x: 0, y: 0, width: 44, height: 44)
+        let rect = NSRect(x: 0, y: 0, width: 45, height: 45)
         let trackingArea = NSTrackingArea(
             rect: rect,
             options: [NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited, NSTrackingArea.Options.activeInActiveApp],

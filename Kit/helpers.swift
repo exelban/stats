@@ -1368,3 +1368,12 @@ public func controlState(_ sender: NSControl) -> Bool {
     
     return state == .on
 }
+
+@available(macOS 11.0, *)
+public func iconFromSymbol(name: String, scale: NSImage.SymbolScale) -> NSImage? {
+    let config = NSImage.SymbolConfiguration(textStyle: .body, scale: scale)
+    if let symbol = NSImage(systemSymbolName: name, accessibilityDescription: nil) {
+        return symbol.withSymbolConfiguration(config)
+    }
+    return nil
+}
