@@ -74,7 +74,7 @@ class SettingsWindow: NSWindow, NSWindowDelegate, NSToolbarDelegate {
         self.contentViewController = sidebarViewController
         self.titlebarAppearsTransparent = true
         self.backgroundColor = .clear
-        self.center()
+        self.positionCenter()
         self.setIsVisible(false)
         
         let windowController = NSWindowController()
@@ -217,6 +217,13 @@ class SettingsWindow: NSWindow, NSWindowDelegate, NSToolbarDelegate {
         if !self.pauseState && modules.filter({ $0.enabled != false && $0.available != false && !$0.menuBar.widgets.filter({ $0.isActive }).isEmpty }).isEmpty {
             self.setIsVisible(true)
         }
+    }
+    
+    private func positionCenter() {
+        self.setFrameOrigin(NSPoint(
+            x: (NSScreen.main!.frame.width - SettingsWindow.size.width)/2,
+            y: (NSScreen.main!.frame.height - SettingsWindow.size.height)/2
+        ))
     }
 }
 
