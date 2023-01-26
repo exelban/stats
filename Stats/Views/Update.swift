@@ -41,8 +41,8 @@ class UpdateWindow: NSWindow, NSWindowDelegate {
         windowController.loadWindow()
     }
     
-    public func open(_ v: version_s) {
-        if !self.isVisible {
+    public func open(_ v: version_s, settingButton: Bool = false) {
+        if !self.isVisible || settingButton {
             self.setIsVisible(true)
             self.makeKeyAndOrderFront(nil)
         }

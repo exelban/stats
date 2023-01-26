@@ -248,7 +248,7 @@ class ApplicationSettings: NSStackView {
             }
             
             DispatchQueue.main.async(execute: {
-                self.updateWindow.open(version)
+                self.updateWindow.open(version, settingButton: true)
                 return
             })
         })
