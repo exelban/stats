@@ -47,10 +47,30 @@ class ApplicationSettings: NSStackView {
         scrollView.stackView.addArrangedSubview(self.buttonsView())
         
         self.addArrangedSubview(scrollView)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(toggleUninstallHelperButton), name: .fanHelperState, object: nil)
     }
     
     required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: .fanHelperState, object: nil)
+    }
+    
+    public func viewWillAppear() {
+        self.startAtLoginBtn?.state = LaunchAtLogin.isEnabled ? .on : .off
+        
+        var idx = self.updateSelector?.indexOfSelectedItem ?? 0
+        if let items = self.updateSelector?.menu?.items {
+            for (i, item) in items.enumerated() {
+                if let obj = item.representedObject as? String, obj == self.updateIntervalValue {
+                    idx = i
+                }
+            }
+        }
+        self.updateSelector?.selectItem(at: idx)
     }
     
     private func informationView() -> NSView {
