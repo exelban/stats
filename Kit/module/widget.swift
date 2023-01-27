@@ -336,18 +336,21 @@ public class Widget {
 }
 
 public class MenuBar {
+    public var callback: (() -> Void)? = nil
     public var widgets: [Widget] = []
     
     private var moduleName: String
     private var menuBarItem: NSStatusItem? = nil
-    private var view: MenuBarView = MenuBarView()
     private var active: Bool = false
     
+    private var globalOneView: Bool {
+        Store.shared.bool(key: "OneView", defaultValue: false)
+    }
+    
+    public var view: MenuBarView = MenuBarView()
     public var oneView: Bool = false
     public var activeWidgets: [Widget] {
-        get {
-            return self.widgets.filter({ $0.isActive })
-        }
+        self.widgets.filter({ $0.isActive })
     }
     public var sortedWidgets: [widget_t] {
         get {
@@ -362,14 +365,21 @@ public class MenuBar {
     init(moduleName: String) {
         self.moduleName = moduleName
         self.oneView = Store.shared.bool(key: "\(self.moduleName)_oneView", defaultValue: self.oneView)
-        self.setupMenuBarItem(self.oneView)
+        self.view.identifier = NSUserInterfaceItemIdentifier(rawValue: moduleName)
+        
+        if self.globalOneView {
+            self.oneView = true
+        } else {
+            self.setupMenuBarItem(self.oneView)
+        }
         
         NotificationCenter.default.addObserver(self, selector: #selector(listenForOneView), name: .toggleOneView, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(listenForWidgetRearrange), name: .widgetRearrange, object: nil)
     }
     
     deinit {
-        NotificationCenter.default.removeObserver(self)
+        NotificationCenter.default.removeObserver(self, name: .toggleOneView, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .widgetRearrange, object: nil)
     }
     
     public func append(_ widget: Widget) {
@@ -403,11 +413,12 @@ public class MenuBar {
     }
     
     public func enable() {
-        if self.oneView {
+        if self.oneView && !self.globalOneView {
             self.setupMenuBarItem(true)
         }
         self.active = true
         self.widgets.forEach{ $0.enable() }
+        self.callback?()
     }
     
     public func disable() {
@@ -416,11 +427,12 @@ public class MenuBar {
         if self.oneView {
             self.setupMenuBarItem(false)
         }
+        self.callback?()
     }
     
     private func setupMenuBarItem(_ state: Bool) {
         DispatchQueue.main.async(execute: {
-            if state {
+            if state && self.active {
                 restoreNSStatusItemPosition(id: self.moduleName)
                 self.menuBarItem = NSStatusBar.system.statusItem(withLength: 0)
                 self.menuBarItem?.autosaveName = self.moduleName
@@ -430,6 +442,8 @@ public class MenuBar {
                 self.menuBarItem?.button?.target = self
                 self.menuBarItem?.button?.action = #selector(self.togglePopup)
                 self.menuBarItem?.button?.sendAction(on: [.leftMouseDown, .rightMouseDown])
+                
+                self.recalculateWidth()
             } else if let item = self.menuBarItem {
                 saveNSStatusItemPosition(id: self.moduleName)
                 NSStatusBar.system.removeStatusItem(item)
@@ -445,9 +459,11 @@ public class MenuBar {
             (CGFloat(self.activeWidgets.count - 1) * Constants.Widget.spacing) +
             Constants.Widget.spacing * 2
         self.menuBarItem?.length = w
+        self.view.setFrameOrigin(NSPoint(x: 0, y: 0))
         self.view.setFrameSize(NSSize(width: w, height: Constants.Widget.height))
         
         self.view.recalculate(self.sortedWidgets)
+        self.callback?()
     }
     
     @objc private func togglePopup(_ sender: Any) {
@@ -461,18 +477,25 @@ public class MenuBar {
     }
     
     @objc private func listenForOneView(_ notification: Notification) {
-        guard let name = notification.userInfo?["module"] as? String, name == self.moduleName, self.active else {
-            return
+        if notification.userInfo?["module"] as? String == nil {
+            self.toggleOneView()
+        } else if let name = notification.userInfo?["module"] as? String, name == self.moduleName, self.active {
+            self.toggleOneView()
         }
-        
+    }
+    
+    private func toggleOneView() {
         self.activeWidgets.forEach { (w: Widget) in
             w.disable()
         }
         
-        self.setupMenuBarItem(!self.oneView)
-        self.recalculateWidth()
-        
-        self.oneView = Store.shared.bool(key: "\(self.moduleName)_oneView", defaultValue: self.oneView)
+        if self.globalOneView {
+            self.oneView = true
+            self.setupMenuBarItem(false)
+        } else {
+            self.oneView = Store.shared.bool(key: "\(self.moduleName)_oneView", defaultValue: self.oneView)
+            self.setupMenuBarItem(self.oneView)
+        }
         
         self.activeWidgets.forEach { (w: Widget) in
             w.enable()

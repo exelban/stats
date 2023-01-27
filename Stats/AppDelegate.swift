@@ -40,6 +40,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
     internal let updateActivity = NSBackgroundActivityScheduler(identifier: "eu.exelban.Stats.updateCheck")
     internal var clickInNotification: Bool = false
     internal var menuBarItem: NSStatusItem? = nil
+    internal var oneView: OneView = OneView()
     
     internal var pauseState: Bool {
         Store.shared.bool(key: "pause", defaultValue: false)

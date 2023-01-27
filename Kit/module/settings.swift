@@ -31,10 +31,14 @@ open class Settings: NSStackView, Settings_p {
     private var popupSettingsContainer: NSStackView?
     
     private var enableControl: NSControl?
+    private var oneViewRow: NSView?
     
     private let noWidgetsView: EmptyView = EmptyView(msg: localizedString("No available widgets to configure"))
     private let noPopupSettingsView: EmptyView = EmptyView(msg: localizedString("No options to configure for the popup in this module"))
     
+    private var globalOneView: Bool {
+        Store.shared.bool(key: "OneView", defaultValue: false)
+    }
     private var oneViewState: Bool {
         get {
             return Store.shared.bool(key: "\(self.config.pointee.name)_oneView", defaultValue: false)
@@ -109,10 +113,12 @@ open class Settings: NSStackView, Settings_p {
         
         self.addArrangedSubview(widgetSelector)
         self.addArrangedSubview(tabView)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(listenForOneView), name: .toggleOneView, object: nil)
     }
     
     deinit {
-        NotificationCenter.default.removeObserver(self)
+        NotificationCenter.default.removeObserver(self, name: .toggleOneView, object: nil)
     }
     
     required public init?(coder: NSCoder) {
@@ -160,11 +166,17 @@ open class Settings: NSStackView, Settings_p {
             )
             container.spacing = Constants.Settings.margin
             
-            container.addArrangedSubview(toggleSettingRow(
+            let row = toggleSettingRow(
                 title: "\(localizedString("Merge widgets"))",
                 action: #selector(self.toggleOneView),
                 state: self.oneViewState
-            ))
+            )
+            container.addArrangedSubview(row)
+            findAndToggleEnableNSControlState(row, state: !self.globalOneView)
+            if self.globalOneView {
+                findAndToggleNSControlState(row, state: .on)
+            }
+            self.oneViewRow = row
             
             self.widgetSettingsContainer?.addArrangedSubview(container)
         }
@@ -189,8 +201,18 @@ open class Settings: NSStackView, Settings_p {
     }
     
     @objc private func toggleOneView(_ sender: NSControl) {
+        guard !self.globalOneView else { return }
         self.oneViewState = controlState(sender)
         NotificationCenter.default.post(name: .toggleOneView, object: nil, userInfo: ["module": self.config.pointee.name])
+    }
+    
+    @objc private func listenForOneView(_ notification: Notification) {
+        guard notification.userInfo?["module"] == nil else { return }
+        findAndToggleEnableNSControlState(self.oneViewRow, state: !self.globalOneView)
+        
+        if !self.globalOneView {
+            findAndToggleNSControlState(self.oneViewRow, state: self.oneViewState ? .on : .off)
+        }
     }
 }
 

@@ -35,39 +35,22 @@ class ApplicationSettings: NSStackView {
     init() {
         super.init(frame: NSRect(x: 0, y: 0, width: Constants.Settings.width, height: Constants.Settings.height))
         
-        self.orientation = .vertical
-        self.distribution = .fill
-        self.spacing = 0
+        self.translatesAutoresizingMaskIntoConstraints = false
         
-        self.addArrangedSubview(self.informationView())
-        self.addArrangedSubview(self.separatorView())
-        self.addArrangedSubview(self.settingsView())
-        self.addArrangedSubview(self.separatorView())
-        self.addArrangedSubview(self.buttonsView())
+        let scrollView = ScrollableStackView()
+        scrollView.stackView.spacing = 0
         
-        NotificationCenter.default.addObserver(self, selector: #selector(toggleUninstallHelperButton), name: .fanHelperState, object: nil)
+        scrollView.stackView.addArrangedSubview(self.informationView())
+        scrollView.stackView.addArrangedSubview(self.separatorView())
+        scrollView.stackView.addArrangedSubview(self.settingsView())
+        scrollView.stackView.addArrangedSubview(self.separatorView())
+        scrollView.stackView.addArrangedSubview(self.buttonsView())
+        
+        self.addArrangedSubview(scrollView)
     }
     
     required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    deinit {
-        NotificationCenter.default.removeObserver(self, name: .fanHelperState, object: nil)
-    }
-    
-    public func viewWillAppear() {
-        self.startAtLoginBtn?.state = LaunchAtLogin.isEnabled ? .on : .off
-        
-        var idx = self.updateSelector?.indexOfSelectedItem ?? 0
-        if let items = self.updateSelector?.menu?.items {
-            for (i, item) in items.enumerated() {
-                if let obj = item.representedObject as? String, obj == self.updateIntervalValue {
-                    idx = i
-                }
-            }
-        }
-        self.updateSelector?.selectItem(at: idx)
     }
     
     private func informationView() -> NSView {
@@ -124,7 +107,6 @@ class ApplicationSettings: NSStackView {
     
     private func settingsView() -> NSView {
         let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 0))
-        
         let grid: NSGridView = NSGridView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: 0))
         grid.rowSpacing = 10
         grid.columnSpacing = 20
@@ -163,8 +145,25 @@ class ApplicationSettings: NSStackView {
             text: localizedString("Start at login")
         )
         grid.addRow(with: [NSGridCell.emptyContentView, self.startAtLoginBtn!])
+        grid.addRow(with: [NSGridCell.emptyContentView, self.toggleView(
+            action: #selector(self.toggleOneView),
+            state: Store.shared.bool(key: "OneView", defaultValue: false),
+            text: localizedString("OneView")
+        )])
         
         view.addSubview(grid)
+        
+        var height: CGFloat = (CGFloat(grid.numberOfRows)-2) * grid.rowSpacing
+        for i in 0..<grid.numberOfRows {
+            let row = grid.row(at: i)
+            for a in 0..<row.numberOfCells {
+                if let contentView = row.cell(at: a).contentView {
+                    height += contentView.frame.height
+                }
+            }
+        }
+        view.setFrameSize(NSSize(width: view.frame.width, height: height))
+        view.heightAnchor.constraint(equalToConstant: height).isActive = true
         
         NSLayoutConstraint.activate([
             grid.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -175,12 +174,15 @@ class ApplicationSettings: NSStackView {
     }
     
     private func buttonsView() -> NSView {
-        let view = NSStackView()
-        view.orientation = .vertical
-        view.alignment = .centerY
-        view.distribution = .fill
+        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 60))
         view.heightAnchor.constraint(equalToConstant: 60).isActive = true
-        self.buttonsContainer = view
+        
+        let row = NSStackView()
+        row.translatesAutoresizingMaskIntoConstraints = false
+        row.orientation = .vertical
+        row.alignment = .centerY
+        row.distribution = .fill
+        self.buttonsContainer = row
         
         let reset: NSButton = NSButton()
         reset.title = localizedString("Reset settings")
@@ -195,10 +197,17 @@ class ApplicationSettings: NSStackView {
         uninstall.action = #selector(self.uninstallHelper)
         self.uninstallHelperButton = uninstall
         
-        view.addArrangedSubview(reset)
+        row.addArrangedSubview(reset)
         if SMCHelper.shared.isInstalled {
-            view.addArrangedSubview(uninstall)
+            row.addArrangedSubview(uninstall)
         }
+        
+        view.addSubview(row)
+        
+        NSLayoutConstraint.activate([
+            row.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            row.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
         
         return view
     }
@@ -317,5 +326,10 @@ class ApplicationSettings: NSStackView {
     
     @objc private func uninstallHelper() {
         SMCHelper.shared.uninstall()
+    }
+    
+    @objc private func toggleOneView(_ sender: NSButton) {
+        Store.shared.set(key: "OneView", value: sender.state == NSControl.StateValue.on)
+        NotificationCenter.default.post(name: .toggleOneView, object: nil, userInfo: nil)
     }
 }
