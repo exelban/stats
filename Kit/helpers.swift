@@ -1176,6 +1176,11 @@ public class SMCHelper {
     }
     
     public func uninstall() {
+        if let count = SMC.shared.getValue("FNum") {
+            for i in 0..<Int(count) {
+                self.setFanMode(i, mode: 0)
+            }
+        }
         guard let helper = self.helper(nil) else { return }
         helper.uninstall()
         NotificationCenter.default.post(name: .fanHelperState, object: nil, userInfo: ["state": false])
