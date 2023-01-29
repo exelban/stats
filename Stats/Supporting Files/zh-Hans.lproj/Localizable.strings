@@ -96,7 +96,7 @@
 "Click to install the new version of Stats" = "点击安装 Stats 的新版本";
 "Successfully updated" = "更新成功";
 "Stats was updated to v" = "Stats 已更新到 v%0";
-"Reset settings text" = "应用程序的所有设置将会被重置，应用程序也将重新启动。您确定要这么做吗？";
+"Reset settings text" = "应用程序的所有设置将会被重置，应用程序也将重新启动。你确定要这么做吗？";
 
 // Settings
 "Open Activity Monitor" = "打开活动监视器";
@@ -345,7 +345,7 @@
 "Hide additional information when full" = "电池充满后隐藏其他信息";
 "Last charge" = "最后一次充电";
 "Capacity" = "容量";
-"current / maximum / designed" = "当前 / 最大值 / 设计值";
+"current / maximum / designed" = "当前容量 / 最大容量 / 设计容量";
 "Low power mode" = "低电量模式";
 "Percentage inside the icon" = "图标内百分比";
 
