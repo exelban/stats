@@ -165,7 +165,7 @@ public class BatterykWidget: WidgetWrapper {
                     width: maxWidth,
                     height: batterySize.height - offset*2 - borderWidth*2 - 1
                 ), xRadius: 1, yRadius: 1)
-                color.withAlphaComponent(0.65).set()
+                (self.colorState ? color : NSColor.textColor).withAlphaComponent(0.65).set()
                 innerUnderground.fill()
             }
             
