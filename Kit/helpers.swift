@@ -563,29 +563,6 @@ public func removeNotification(_ id: String) {
     center.removeDeliveredNotifications(withIdentifiers: [id])
 }
 
-public func showNSNotification(title: String, subtitle: String? = nil, body: String? = nil, userInfo: [AnyHashable: Any] = [:]) -> String {
-    let notification = NSUserNotification()
-    let id = UUID().uuidString
-    
-    notification.identifier = id
-    notification.title = title
-    notification.subtitle = subtitle
-    notification.informativeText = body
-    notification.soundName = NSUserNotificationDefaultSoundName
-    notification.hasActionButton = false
-    
-    NSUserNotificationCenter.default.deliver(notification)
-    
-    return id
-}
-
-public func removeNSNotification(_ id: String) {
-    let notificationCenter = NSUserNotificationCenter.default
-    if let notification = notificationCenter.deliveredNotifications.first(where: { $0.identifier == id }) {
-        notificationCenter.removeScheduledNotification(notification)
-    }
-}
-
 public struct TopProcess {
     public var pid: Int
     public var command: String

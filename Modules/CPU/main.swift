@@ -218,24 +218,14 @@ public class CPU: Module {
         guard self.notificationLevel != "Disabled", let level = Double(self.notificationLevel) else { return }
         
         if let id = self.notificationID, value < level && self.notificationLevelState {
-            if #available(macOS 10.14, *) {
-                removeNotification(id)
-            } else {
-                removeNSNotification(id)
-            }
-            
+            removeNotification(id)
             self.notificationID = nil
             self.notificationLevelState = false
         } else if value >= level && !self.notificationLevelState {
-            let title = localizedString("CPU usage threshold")
-            let subtitle = localizedString("CPU usage is", "\(Int((value)*100))%")
-            
-            if #available(macOS 10.14, *) {
-                self.notificationID = showNotification(title: title, subtitle: subtitle)
-            } else {
-                self.notificationID = showNSNotification(title: title, subtitle: subtitle)
-            }
-            
+            self.notificationID = showNotification(
+                title: localizedString("CPU usage threshold"),
+                subtitle: localizedString("CPU usage is", "\(Int((value)*100))%")
+            )
             self.notificationLevelState = true
         }
     }

@@ -105,11 +105,7 @@ public class Battery: Module {
         guard self.isAvailable() else { return }
         
         if let id = self.notificationID {
-            if #available(macOS 10.14, *) {
-                removeNotification(id)
-            } else {
-                removeNSNotification(id)
-            }
+            removeNotification(id)
         }
     }
     
@@ -163,11 +159,7 @@ public class Battery: Module {
         if (value.level > notificationLevel || value.powerSource != "Battery Power") && self.lowLevelNotificationState {
             if value.level > notificationLevel {
                 if let id = self.notificationID {
-                    if #available(macOS 10.14, *) {
-                        removeNotification(id)
-                    } else {
-                        removeNSNotification(id)
-                    }
+                    removeNotification(id)
                     self.notificationID = nil
                 }
                 self.lowLevelNotificationState = false
@@ -180,24 +172,11 @@ public class Battery: Module {
         }
         
         if value.level <= notificationLevel && !self.lowLevelNotificationState {
-            let title = localizedString("Low battery")
             var subtitle = localizedString("Battery remaining", "\(Int(value.level*100))")
             if value.timeToEmpty > 0 {
                 subtitle += " (\(Double(value.timeToEmpty*60).printSecondsToHoursMinutesSeconds()))"
             }
-            
-            if #available(macOS 10.14, *) {
-                self.notificationID = showNotification(
-                    title: title,
-                    subtitle: subtitle
-                )
-            } else {
-                self.notificationID = showNSNotification(
-                    title: title,
-                    subtitle: subtitle
-                )
-            }
-            
+            self.notificationID = showNotification(title: localizedString("Low battery"), subtitle: subtitle)
             self.lowLevelNotificationState = true
         }
     }
@@ -215,11 +194,7 @@ public class Battery: Module {
         if (value.level < notificationLevel || value.powerSource == "Battery Power") && self.highLevelNotificationState {
             if value.level < notificationLevel {
                 if let id = self.notificationID {
-                    if #available(macOS 10.14, *) {
-                        removeNotification(id)
-                    } else {
-                        removeNSNotification(id)
-                    }
+                    removeNotification(id)
                     self.notificationID = nil
                 }
                 self.highLevelNotificationState = false
@@ -232,24 +207,11 @@ public class Battery: Module {
         }
         
         if value.level >= notificationLevel && !self.highLevelNotificationState {
-            let title = localizedString("High battery")
             var subtitle = localizedString("Battery remaining to full charge", "\(Int((1-value.level)*100))")
             if value.timeToCharge > 0 {
                 subtitle += " (\(Double(value.timeToCharge*60).printSecondsToHoursMinutesSeconds()))"
             }
-            
-            if #available(macOS 10.14, *) {
-                self.notificationID = showNotification(
-                    title: title,
-                    subtitle: subtitle
-                )
-            } else {
-                self.notificationID = showNSNotification(
-                    title: title,
-                    subtitle: subtitle
-                )
-            }
-            
+            self.notificationID = showNotification(title: localizedString("High battery"), subtitle: subtitle)
             self.highLevelNotificationState = true
         }
     }

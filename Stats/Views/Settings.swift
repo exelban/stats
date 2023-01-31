@@ -237,11 +237,7 @@ private class MainView: NSView {
         
         let foreground = NSVisualEffectView(frame: NSRect(x: 0, y: 0, width: frame.width, height: frame.height))
         foreground.blendingMode = .withinWindow
-        if #available(macOS 10.14, *) {
-            foreground.material = .windowBackground
-        } else {
-            foreground.material = .popover
-        }
+        foreground.material = .windowBackground
         foreground.state = .active
         
         super.init(frame: NSRect.zero)
@@ -577,23 +573,14 @@ private class MenuItem: NSView {
         
         NotificationCenter.default.post(name: .openModuleSettings, object: nil, userInfo: ["module": self.title])
         
-        if #available(macOS 10.14, *) {
-            self.layer?.backgroundColor = NSColor.selectedContentBackgroundColor.cgColor
-        } else {
-            self.layer?.backgroundColor = NSColor.systemBlue.cgColor
-        }
-        
-        if #available(macOS 10.14, *) {
-            self.imageView?.contentTintColor = .white
-        }
+        self.layer?.backgroundColor = NSColor.selectedContentBackgroundColor.cgColor
+        self.imageView?.contentTintColor = .white
         self.titleView?.textColor = .white
     }
     
     public func reset() {
         self.layer?.backgroundColor = .clear
-        if #available(macOS 10.14, *) {
-            self.imageView?.contentTintColor = .labelColor
-        }
+        self.imageView?.contentTintColor = .labelColor
         self.titleView?.textColor = .labelColor
         self.active = false
     }

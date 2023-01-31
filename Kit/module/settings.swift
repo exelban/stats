@@ -223,11 +223,7 @@ class WidgetSelectorView: NSStackView {
     private var background: NSVisualEffectView = {
         let view = NSVisualEffectView(frame: NSRect.zero)
         view.blendingMode = .withinWindow
-        if #available(macOS 10.14, *) {
-            view.material = .contentBackground
-        } else {
-            view.material = .popover
-        }
+        view.material = .contentBackground
         view.state = .active
         view.wantsLayer = true
         view.layer?.cornerRadius = 5

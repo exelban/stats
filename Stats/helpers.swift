@@ -73,23 +73,9 @@ extension AppDelegate {
                 let title: String = localizedString("Successfully updated")
                 let subtitle: String = localizedString("Stats was updated to v", currentVersion)
                 
-                if #available(macOS 10.14, *) {
-                    let id = showNotification(
-                        title: title,
-                        subtitle: subtitle,
-                        delegate: self
-                    )
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
-                        removeNotification(id)
-                    }
-                } else {
-                    let id = showNSNotification(
-                        title: title,
-                        subtitle: subtitle
-                    )
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
-                        removeNSNotification(id)
-                    }
+                let id = showNotification(title: title, subtitle: subtitle, delegate: self)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
+                    removeNotification(id)
                 }
             }
             
@@ -211,25 +197,12 @@ extension AppDelegate {
     
     private func showUpdateNotification(version: version_s) {
         debug("show update notification")
-        
-        let title = localizedString("New version available")
-        let subtitle = localizedString("Click to install the new version of Stats")
-        let userInfo = ["url": version.url]
-        
-        if #available(macOS 10.14, *) {
-            _ = showNotification(
-                title: title,
-                subtitle: subtitle,
-                userInfo: userInfo,
-                delegate: self
-            )
-        } else {
-            _ = showNSNotification(
-                title: title,
-                subtitle: subtitle,
-                userInfo: userInfo
-            )
-        }
+        _ = showNotification(
+            title: localizedString("New version available"),
+            subtitle: localizedString("Click to install the new version of Stats"),
+            userInfo: ["url": version.url],
+            delegate: self
+        )
     }
     
     private func showUpdateWindow(version: version_s) {
