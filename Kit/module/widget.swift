@@ -343,8 +343,8 @@ public class MenuBar {
     private var menuBarItem: NSStatusItem? = nil
     private var active: Bool = false
     
-    private var globalOneView: Bool {
-        Store.shared.bool(key: "OneView", defaultValue: false)
+    private var combinedModules: Bool {
+        Store.shared.bool(key: "CombinedModules", defaultValue: false)
     }
     
     public var view: MenuBarView = MenuBarView()
@@ -367,7 +367,7 @@ public class MenuBar {
         self.oneView = Store.shared.bool(key: "\(self.moduleName)_oneView", defaultValue: self.oneView)
         self.view.identifier = NSUserInterfaceItemIdentifier(rawValue: moduleName)
         
-        if self.globalOneView {
+        if self.combinedModules {
             self.oneView = true
         } else {
             self.setupMenuBarItem(self.oneView)
@@ -413,7 +413,7 @@ public class MenuBar {
     }
     
     public func enable() {
-        if self.oneView && !self.globalOneView {
+        if self.oneView && !self.combinedModules {
             self.setupMenuBarItem(true)
         }
         self.active = true
@@ -489,7 +489,7 @@ public class MenuBar {
             w.disable()
         }
         
-        if self.globalOneView {
+        if self.combinedModules {
             self.oneView = true
             self.setupMenuBarItem(false)
         } else {

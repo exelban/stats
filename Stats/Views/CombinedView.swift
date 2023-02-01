@@ -1,5 +1,5 @@
 //
-//  OneView.swift
+//  CombinedView.swift
 //  Stats
 //
 //  Created by Serhiy Mytrovtsiy on 09/01/2023
@@ -12,12 +12,12 @@
 import Cocoa
 import Kit
 
-class OneView {
+class CombinedView {
     private var menuBarItem: NSStatusItem? = nil
     private var view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: 100, height: Constants.Widget.height))
     
     private var status: Bool {
-        Store.shared.bool(key: "OneView", defaultValue: false)
+        Store.shared.bool(key: "CombinedModules", defaultValue: false)
     }
     
     init() {
@@ -45,7 +45,7 @@ class OneView {
     
     public func enable() {
         self.menuBarItem = NSStatusBar.system.statusItem(withLength: 0)
-        self.menuBarItem?.autosaveName = "OneView"
+        self.menuBarItem?.autosaveName = "CombinedModules"
         self.menuBarItem?.button?.addSubview(self.view)
         
         self.menuBarItem?.button?.target = self

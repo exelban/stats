@@ -26,12 +26,12 @@ class ApplicationSettings: NSStackView {
         }
     }
     
-    private var oneViewState: Bool {
+    private var combinedModulesState: Bool {
         get {
-            Store.shared.bool(key: "OneView", defaultValue: false)
+            Store.shared.bool(key: "CombinedModules", defaultValue: false)
         }
         set {
-            Store.shared.set(key: "OneView", value: newValue)
+            Store.shared.set(key: "CombinedModules", value: newValue)
         }
     }
     
@@ -186,15 +186,15 @@ class ApplicationSettings: NSStackView {
         )
         grid.addRow(with: [NSGridCell.emptyContentView, self.startAtLoginBtn!])
         grid.addRow(with: [NSGridCell.emptyContentView, self.toggleView(
-            action: #selector(self.toggleOneView),
-            state: self.oneViewState,
-            text: localizedString("OneView")
+            action: #selector(self.toggleCombinedModules),
+            state: self.combinedModulesState,
+            text: localizedString("Combined modules")
         )])
         
         view.addArrangedSubview(self.moduleSelector)
         view.addArrangedSubview(grid)
         
-        self.moduleSelector.isHidden = !self.oneViewState
+        self.moduleSelector.isHidden = !self.combinedModulesState
         
         return view
     }
@@ -233,42 +233,6 @@ class ApplicationSettings: NSStackView {
         NSLayoutConstraint.activate([
             row.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             row.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-        ])
-        
-        return view
-    }
-    
-    private func oneViewSettingsView() -> NSView {
-        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 0))
-        let grid: NSGridView = NSGridView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: 0))
-        grid.rowSpacing = 10
-        grid.columnSpacing = 20
-        grid.xPlacement = .trailing
-        grid.rowAlignment = .firstBaseline
-        grid.translatesAutoresizingMaskIntoConstraints = false
-        
-        grid.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-        grid.setContentHuggingPriority(.defaultHigh, for: .vertical)
-        
-        grid.addRow(with: [self.moduleSelector])
-        
-        view.addSubview(grid)
-        
-        var height: CGFloat = grid.rowSpacing
-        for i in 0..<grid.numberOfRows {
-            let row = grid.row(at: i)
-            for a in 0..<row.numberOfCells {
-                if let contentView = row.cell(at: a).contentView {
-                    height += contentView.frame.height
-                }
-            }
-        }
-        
-        view.setFrameSize(NSSize(width: view.frame.width, height: height))
-        NSLayoutConstraint.activate([
-            view.heightAnchor.constraint(equalToConstant: height),
-            grid.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            grid.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
         
         return view
@@ -390,9 +354,9 @@ class ApplicationSettings: NSStackView {
         SMCHelper.shared.uninstall()
     }
     
-    @objc private func toggleOneView(_ sender: NSButton) {
-        self.oneViewState = sender.state == NSControl.StateValue.on
-        self.moduleSelector.isHidden = !self.oneViewState
+    @objc private func toggleCombinedModules(_ sender: NSButton) {
+        self.combinedModulesState = sender.state == NSControl.StateValue.on
+        self.moduleSelector.isHidden = !self.combinedModulesState
         NotificationCenter.default.post(name: .toggleOneView, object: nil, userInfo: nil)
     }
 }
