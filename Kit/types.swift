@@ -216,6 +216,7 @@ public extension Notification.Name {
     static let fanHelperState = Notification.Name("fanHelperState")
     static let toggleOneView = Notification.Name("toggleOneView")
     static let widgetRearrange = Notification.Name("widgetRearrange")
+    static let moduleRearrange = Notification.Name("moduleRearrange")
     static let pause = Notification.Name("pause")
 }
 

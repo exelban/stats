@@ -26,7 +26,17 @@ class ApplicationSettings: NSStackView {
         }
     }
     
+    private var oneViewState: Bool {
+        get {
+            Store.shared.bool(key: "OneView", defaultValue: false)
+        }
+        set {
+            Store.shared.set(key: "OneView", value: newValue)
+        }
+    }
+    
     private let updateWindow: UpdateWindow = UpdateWindow()
+    private let moduleSelector: ModuleSelectorView = ModuleSelectorView()
     private var updateSelector: NSPopUpButton?
     private var startAtLoginBtn: NSButton?
     private var uninstallHelperButton: NSButton?
@@ -126,14 +136,24 @@ class ApplicationSettings: NSStackView {
     }
     
     private func settingsView() -> NSView {
-        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 0))
+        let view: NSStackView = NSStackView()
+        view.orientation = .vertical
+        view.edgeInsets = NSEdgeInsets(
+            top: Constants.Settings.margin,
+            left: Constants.Settings.margin,
+            bottom: Constants.Settings.margin,
+            right: Constants.Settings.margin
+        )
+        view.spacing = 20
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.widthAnchor.constraint(equalToConstant: self.frame.width - 15).isActive = true
+        
         let grid: NSGridView = NSGridView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: 0))
         grid.rowSpacing = 10
         grid.columnSpacing = 20
         grid.xPlacement = .trailing
         grid.rowAlignment = .firstBaseline
         grid.translatesAutoresizingMaskIntoConstraints = false
-        
         grid.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         grid.setContentHuggingPriority(.defaultHigh, for: .vertical)
         
@@ -167,28 +187,14 @@ class ApplicationSettings: NSStackView {
         grid.addRow(with: [NSGridCell.emptyContentView, self.startAtLoginBtn!])
         grid.addRow(with: [NSGridCell.emptyContentView, self.toggleView(
             action: #selector(self.toggleOneView),
-            state: Store.shared.bool(key: "OneView", defaultValue: false),
+            state: self.oneViewState,
             text: localizedString("OneView")
         )])
         
-        view.addSubview(grid)
+        view.addArrangedSubview(self.moduleSelector)
+        view.addArrangedSubview(grid)
         
-        var height: CGFloat = (CGFloat(grid.numberOfRows)-2) * grid.rowSpacing
-        for i in 0..<grid.numberOfRows {
-            let row = grid.row(at: i)
-            for a in 0..<row.numberOfCells {
-                if let contentView = row.cell(at: a).contentView {
-                    height += contentView.frame.height
-                }
-            }
-        }
-        view.setFrameSize(NSSize(width: view.frame.width, height: height))
-        view.heightAnchor.constraint(equalToConstant: height).isActive = true
-        
-        NSLayoutConstraint.activate([
-            grid.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            grid.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-        ])
+        self.moduleSelector.isHidden = !self.oneViewState
         
         return view
     }
@@ -227,6 +233,42 @@ class ApplicationSettings: NSStackView {
         NSLayoutConstraint.activate([
             row.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             row.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+        
+        return view
+    }
+    
+    private func oneViewSettingsView() -> NSView {
+        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 0))
+        let grid: NSGridView = NSGridView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: 0))
+        grid.rowSpacing = 10
+        grid.columnSpacing = 20
+        grid.xPlacement = .trailing
+        grid.rowAlignment = .firstBaseline
+        grid.translatesAutoresizingMaskIntoConstraints = false
+        
+        grid.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        grid.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        
+        grid.addRow(with: [self.moduleSelector])
+        
+        view.addSubview(grid)
+        
+        var height: CGFloat = grid.rowSpacing
+        for i in 0..<grid.numberOfRows {
+            let row = grid.row(at: i)
+            for a in 0..<row.numberOfCells {
+                if let contentView = row.cell(at: a).contentView {
+                    height += contentView.frame.height
+                }
+            }
+        }
+        
+        view.setFrameSize(NSSize(width: view.frame.width, height: height))
+        NSLayoutConstraint.activate([
+            view.heightAnchor.constraint(equalToConstant: height),
+            grid.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            grid.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
         
         return view
@@ -349,7 +391,181 @@ class ApplicationSettings: NSStackView {
     }
     
     @objc private func toggleOneView(_ sender: NSButton) {
-        Store.shared.set(key: "OneView", value: sender.state == NSControl.StateValue.on)
+        self.oneViewState = sender.state == NSControl.StateValue.on
+        self.moduleSelector.isHidden = !self.oneViewState
         NotificationCenter.default.post(name: .toggleOneView, object: nil, userInfo: nil)
+    }
+}
+
+private class ModuleSelectorView: NSStackView {
+    init() {
+        super.init(frame: NSRect(x: 0, y: 0, width: 0, height: Constants.Widget.height + (Constants.Settings.margin*2)))
+        
+        self.translatesAutoresizingMaskIntoConstraints = false
+        self.edgeInsets = NSEdgeInsets(
+            top: Constants.Settings.margin,
+            left: Constants.Settings.margin,
+            bottom: Constants.Settings.margin,
+            right: Constants.Settings.margin
+        )
+        self.spacing = Constants.Settings.margin
+        
+        let background: NSVisualEffectView = {
+            let view = NSVisualEffectView(frame: NSRect.zero)
+            view.blendingMode = .withinWindow
+            view.material = .contentBackground
+            view.state = .active
+            view.wantsLayer = true
+            view.layer?.cornerRadius = 5
+            return view
+        }()
+        
+        var w = self.spacing
+        modules.filter({ $0.available }).sorted(by: { $0.oneViewPosition < $1.oneViewPosition }).forEach { (m: Module) in
+            let v = ModulePreview(id: m.name, icon: m.config.icon)
+            self.addArrangedSubview(v)
+            w += v.frame.width + self.spacing
+        }
+        
+        self.addSubview(background, positioned: .below, relativeTo: .none)
+        
+        self.setFrameSize(NSSize(width: w, height: self.frame.height))
+        background.setFrameSize(NSSize(width: w, height: self.frame.height))
+        
+        self.widthAnchor.constraint(equalToConstant: w).isActive = true
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func mouseDown(with event: NSEvent) {
+        let location = convert(event.locationInWindow, from: nil)
+        guard let targetIdx = self.views.firstIndex(where: { $0.hitTest(location) != nil }),
+              let window = self.window, self.views[targetIdx].identifier != nil else {
+            super.mouseDragged(with: event)
+            return
+        }
+        
+        let view = self.views[targetIdx]
+        let copy = ViewCopy(view)
+        copy.zPosition = 2
+        copy.transform = CATransform3DMakeScale(0.9, 0.9, 1)
+        
+        // hide the original view, show the copy
+        view.subviews.forEach({ $0.isHidden = true })
+        self.layer?.addSublayer(copy)
+        
+        // hide the copy view, show the original
+        defer {
+            copy.removeFromSuperlayer()
+            view.subviews.forEach({ $0.isHidden = false })
+        }
+        
+        var newIdx = -1
+        let originCenter = view.frame.midX
+        let originX = view.frame.origin.x
+        let p0 = convert(event.locationInWindow, from: nil).x
+        
+        window.trackEvents(matching: [.leftMouseDragged, .leftMouseUp], timeout: 1e6, mode: .eventTracking) { event, stop in
+            guard let event = event else {
+                stop.pointee = true
+                return
+            }
+            
+            if event.type == .leftMouseDragged {
+                let p1 = self.convert(event.locationInWindow, from: nil).x
+                let diff = p1 - p0
+                
+                CATransaction.begin()
+                CATransaction.setDisableActions(true)
+                copy.frame.origin.x = originX + diff
+                CATransaction.commit()
+                
+                let reordered = self.views.map{
+                    (view: $0, x: $0 !== view ? $0.frame.midX : originCenter + diff)
+                }.sorted{ $0.x < $1.x }.map { $0.view }
+                
+                guard let nextIndex = reordered.firstIndex(of: view),
+                      let prevIndex = self.views.firstIndex(of: view) else {
+                    stop.pointee = true
+                    return
+                }
+                
+                if nextIndex != prevIndex {
+                    newIdx = nextIndex
+                    view.removeFromSuperviewWithoutNeedingDisplay()
+                    self.insertArrangedSubview(view, at: newIdx)
+                    self.layoutSubtreeIfNeeded()
+                    
+                    for (i, v) in self.views(in: .leading).compactMap({$0 as? ModulePreview}).enumerated() {
+                        if let m = modules.first(where: { $0.name == v.identifier?.rawValue }) {
+                            m.oneViewPosition = i
+                        }
+                    }
+                }
+            } else {
+                if newIdx != -1, let view = self.views[newIdx] as? ModulePreview, let id = view.identifier?.rawValue {
+                    NotificationCenter.default.post(name: .moduleRearrange, object: nil, userInfo: ["id": id])
+                }
+                view.mouseUp(with: event)
+                stop.pointee = true
+            }
+        }
+    }
+}
+
+internal class ModulePreview: NSStackView {
+    private let id: String
+    private let imageView: NSImageView
+    
+    public init(id: String, icon: NSImage?) {
+        self.id = id
+        self.imageView = NSImageView(frame: NSRect(origin: .zero, size: NSSize(width: Constants.Widget.height, height: Constants.Widget.height)))
+        
+        let size: CGSize = CGSize(width: Constants.Widget.height + (Constants.Widget.spacing * 2), height: Constants.Widget.height)
+        super.init(frame: NSRect(x: 0, y: 0, width: size.width, height: size.height))
+        
+        self.wantsLayer = true
+        self.layer?.cornerRadius = 2
+        self.layer?.borderColor = NSColor(hexString: "#dddddd").cgColor
+        self.layer?.borderWidth = 1
+        self.layer?.backgroundColor = NSColor.white.cgColor
+        
+        self.identifier = NSUserInterfaceItemIdentifier(rawValue: id)
+        self.toolTip = localizedString("Move module", id)
+        
+        self.orientation = .vertical
+        self.distribution = .fill
+        self.alignment = .centerY
+        self.spacing = 0
+        
+        self.imageView.image = icon
+        
+        self.addArrangedSubview(self.imageView)
+        
+        self.addTrackingArea(NSTrackingArea(
+            rect: NSRect(x: 0, y: 0, width: size.width, height: size.height),
+            options: [NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited, NSTrackingArea.Options.activeInActiveApp],
+            owner: self,
+            userInfo: nil
+        ))
+        
+        NSLayoutConstraint.activate([
+            self.widthAnchor.constraint(equalToConstant: size.width),
+            self.heightAnchor.constraint(equalToConstant: size.height)
+        ])
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func mouseEntered(with: NSEvent) {
+        NSCursor.pointingHand.set()
+    }
+    
+    override func mouseExited(with: NSEvent) {
+        NSCursor.arrow.set()
     }
 }

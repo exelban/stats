@@ -1179,8 +1179,8 @@ internal func grayscaleImage(_ image: NSImage) -> NSImage? {
     return greyImage
 }
 
-internal class ViewCopy: CALayer {
-    init(_ view: NSView) {
+public class ViewCopy: CALayer {
+    public init(_ view: NSView) {
         super.init()
         
         guard let bitmap = view.bitmapImageRepForCachingDisplay(in: view.bounds) else { return }

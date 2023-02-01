@@ -79,6 +79,18 @@ open class Module: Module_p {
     public var menuBar: MenuBar
     public var settings: Settings_p? = nil
     
+    public var name: String {
+        config.name
+    }
+    public var oneViewPosition: Int {
+        get {
+            Store.shared.int(key: "\(self.name)_position", defaultValue: 0)
+        }
+        set {
+            Store.shared.set(key: "\(self.name)_position", value: newValue)
+        }
+    }
+    
     private var settingsView: Settings_v? = nil
     private var popup: PopupWindow? = nil
     private var popupView: Popup_p? = nil
@@ -88,7 +100,7 @@ open class Module: Module_p {
     
     private var pauseState: Bool {
         get {
-            return Store.shared.bool(key: "pause", defaultValue: false)
+            Store.shared.bool(key: "pause", defaultValue: false)
         }
         set {
             Store.shared.set(key: "pause", value: newValue)

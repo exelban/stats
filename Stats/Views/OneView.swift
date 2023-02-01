@@ -36,6 +36,7 @@ class OneView {
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(listenForOneView), name: .toggleOneView, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(listenForModuleRearrrange), name: .moduleRearrange, object: nil)
     }
     
     deinit {
@@ -68,7 +69,7 @@ class OneView {
         
         var w: CGFloat = 0
         var i: Int = 0
-        modules.filter({ $0.enabled }).forEach { (m: Module) in
+        modules.filter({ $0.enabled }).sorted(by: { $0.oneViewPosition < $1.oneViewPosition }).forEach { (m: Module) in
             self.view.addSubview(m.menuBar.view)
             self.view.subviews[i].setFrameOrigin(NSPoint(x: w, y: 0))
             w += m.menuBar.view.frame.width
@@ -90,5 +91,9 @@ class OneView {
         } else {
             self.disable()
         }
+    }
+    
+    @objc private func listenForModuleRearrrange() {
+        self.recalculate()
     }
 }
