@@ -20,9 +20,15 @@ public enum Platform: String {
     case m1Ultra
     
     case m2
+    case m2Pro
+    case m2Max
+    case m2Ultra
     
     public static var apple: [Platform] {
-        return [.m1, .m1Pro, .m1Max, .m1Ultra, .m2]
+        return [
+            .m1, .m1Pro, .m1Max, .m1Ultra,
+            .m2, .m2Pro, .m2Max, .m2Ultra
+        ]
     }
     
     public static var all: [Platform] {
@@ -30,16 +36,20 @@ public enum Platform: String {
     }
 }
 
-public enum deviceType: Int {
-    case unknown = -1
-    case macMini = 1
-    case macPro = 2
-    case imac = 3
-    case imacpro = 4
-    case macbook = 5
-    case macbookAir = 6
-    case macbookPro = 7
-    case macStudio = 8
+public enum deviceType: String {
+    case unknown
+    case macMini
+    case macPro
+    case iMac
+    case iMacPro
+    case macbook
+    case macbookAir
+    case macbookPro
+    case macStudio
+    
+    public static var all: [deviceType] {
+        return [.macMini, .macPro, .iMac, .iMacPro, .macbook, .macbookAir, .macbookPro, .macStudio]
+    }
 }
 
 public enum coreType: Int {
@@ -175,7 +185,15 @@ public class SystemKit {
                     self.device.platform = .m1
                 }
             } else if name.contains("m2") {
-                self.device.platform = .m2
+                if name.contains("pro") {
+                    self.device.platform = .m2Pro
+                } else if name.contains("max") {
+                    self.device.platform = .m2Max
+                } else if name.contains("ultra") {
+                    self.device.platform = .m2Ultra
+                } else {
+                    self.device.platform = .m2
+                }
             }
         }
     }
@@ -481,7 +499,7 @@ public class SystemKit {
             return NSImage(named: NSImage.Name("macMini"))!
         case .macStudio:
             return NSImage(named: NSImage.Name("macStudio"))!
-        case .imacpro:
+        case .iMacPro:
             return NSImage(named: NSImage.Name("imacPro"))!
         case .macPro:
             switch year {
@@ -490,7 +508,7 @@ public class SystemKit {
             default:
                 return NSImage(named: NSImage.Name("macPro"))!
             }
-        case .imac:
+        case .iMac:
             return NSImage(named: NSImage.Name("imac"))!
         case .macbook, .macbookAir:
             return NSImage(named: NSImage.Name("macbookAir"))!
@@ -520,23 +538,23 @@ let deviceDict: [String: model_s] = [
     "MacPro7,1": model_s(name: "Mac Pro", year: 2019, type: .macPro),
     
     // iMac
-    "iMac12,1": model_s(name: "iMac 27-Inch", year: 2011, type: .imac),
-    "iMac13,1": model_s(name: "iMac 21.5-Inch", year: 2012, type: .imac),
-    "iMac13,2": model_s(name: "iMac 27-Inch", year: 2012, type: .imac),
-    "iMac14,2": model_s(name: "iMac 27-Inch", year: 2013, type: .imac),
-    "iMac15,1": model_s(name: "iMac 27-Inch", year: 2014, type: .imac),
-    "iMac17,1": model_s(name: "iMac 27-Inch", year: 2015, type: .imac),
-    "iMac18,1": model_s(name: "iMac 21.5-Inch", year: 2017, type: .imac),
-    "iMac18,2": model_s(name: "iMac 21.5-Inch", year: 2017, type: .imac),
-    "iMac18,3": model_s(name: "iMac 27-Inch", year: 2017, type: .imac),
-    "iMac19,1": model_s(name: "iMac 27-Inch", year: 2019, type: .imac),
-    "iMac20,1": model_s(name: "iMac 27-Inch", year: 2020, type: .imac),
-    "iMac20,2": model_s(name: "iMac 27-Inch", year: 2020, type: .imac),
-    "iMac21,1": model_s(name: "iMac 24-Inch (M1)", year: 2021, type: .imac),
-    "iMac21,2": model_s(name: "iMac 24-Inch (M1)", year: 2021, type: .imac),
+    "iMac12,1": model_s(name: "iMac 27-Inch", year: 2011, type: .iMac),
+    "iMac13,1": model_s(name: "iMac 21.5-Inch", year: 2012, type: .iMac),
+    "iMac13,2": model_s(name: "iMac 27-Inch", year: 2012, type: .iMac),
+    "iMac14,2": model_s(name: "iMac 27-Inch", year: 2013, type: .iMac),
+    "iMac15,1": model_s(name: "iMac 27-Inch", year: 2014, type: .iMac),
+    "iMac17,1": model_s(name: "iMac 27-Inch", year: 2015, type: .iMac),
+    "iMac18,1": model_s(name: "iMac 21.5-Inch", year: 2017, type: .iMac),
+    "iMac18,2": model_s(name: "iMac 21.5-Inch", year: 2017, type: .iMac),
+    "iMac18,3": model_s(name: "iMac 27-Inch", year: 2017, type: .iMac),
+    "iMac19,1": model_s(name: "iMac 27-Inch", year: 2019, type: .iMac),
+    "iMac20,1": model_s(name: "iMac 27-Inch", year: 2020, type: .iMac),
+    "iMac20,2": model_s(name: "iMac 27-Inch", year: 2020, type: .iMac),
+    "iMac21,1": model_s(name: "iMac 24-Inch (M1)", year: 2021, type: .iMac),
+    "iMac21,2": model_s(name: "iMac 24-Inch (M1)", year: 2021, type: .iMac),
     
     // iMac Pro
-    "iMacPro1,1": model_s(name: "iMac Pro", year: 2017, type: .imacpro),
+    "iMacPro1,1": model_s(name: "iMac Pro", year: 2017, type: .iMacPro),
     
     // MacBook
     "MacBook8,1": model_s(name: "MacBook", year: 2015, type: .macbook),
@@ -585,7 +603,11 @@ let deviceDict: [String: model_s] = [
     "MacBookPro18,2": model_s(name: "MacBook Pro 16\" (M1 Max)", year: 2021, type: .macbookPro),
     "MacBookPro18,3": model_s(name: "MacBook Pro 14\" (M1 Pro)", year: 2021, type: .macbookPro),
     "MacBookPro18,4": model_s(name: "MacBook Pro 14\" (M1 Max)", year: 2021, type: .macbookPro),
-    "Mac14,7": model_s(name: "MacBook Pro 13\" (M2)", year: 2022, type: .macbookPro)
+    "Mac14,7": model_s(name: "MacBook Pro 13\" (M2)", year: 2022, type: .macbookPro),
+    "Mac14,5": model_s(name: "MacBook Pro 14\" (M2 Max)", year: 2023, type: .macbookPro),
+    "Mac14,6": model_s(name: "MacBook Pro 14\" (M2 Max)", year: 2023, type: .macbookPro),
+    "Mac14,9": model_s(name: "MacBook Pro 16\" (M2 Pro)", year: 2023, type: .macbookPro),
+    "Mac14,10": model_s(name: "MacBook Pro 16\" (M2 Pro)", year: 2023, type: .macbookPro)
 ]
 
 let osDict: [String: String] = [
