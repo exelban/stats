@@ -68,9 +68,7 @@ class SettingsWindow: NSWindow, NSWindowDelegate, NSToolbarDelegate {
         newToolbar.showsBaselineSeparator = true
         newToolbar.delegate = self
         
-        if #available(macOS 11, *) {
-            self.toolbar = newToolbar
-        }
+        self.toolbar = newToolbar
         self.contentViewController = sidebarViewController
         self.titlebarAppearsTransparent = true
         self.backgroundColor = .clear
