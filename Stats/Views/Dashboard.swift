@@ -56,7 +56,7 @@ class Dashboard: NSStackView {
         deviceNameField.font = NSFont.systemFont(ofSize: 14, weight: .regular)
         deviceNameField.stringValue = SystemKit.shared.device.model.name
         deviceNameField.isSelectable = true
-        deviceNameField.toolTip = SystemKit.shared.device.modelIdentifier
+        deviceNameField.toolTip = SystemKit.shared.device.model.id
         
         let osField: NSTextField = TextView()
         osField.alignment = .center

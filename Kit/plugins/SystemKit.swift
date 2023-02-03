@@ -59,6 +59,7 @@ public enum coreType: Int {
 }
 
 public struct model_s {
+    public var id: String = ""
     public let name: String
     public let year: Int
     public let type: deviceType
@@ -120,7 +121,6 @@ public struct info_s {
 
 public struct device_s {
     public var model: model_s = model_s(name: localizedString("Unknown"), year: Calendar.current.component(.year, from: Date()), type: .unknown)
-    public var modelIdentifier: String? = nil
     public var serialNumber: String? = nil
     public var bootDate: Date? = nil
     
@@ -136,22 +136,18 @@ public class SystemKit {
     private let log: NextLog = NextLog.shared.copy(category: "SystemKit")
     
     public init() {
-        if let modelName = self.modelName() {
-            if let modelInfo = deviceDict[modelName] {
-                self.device.model = modelInfo
-                self.device.model.icon = self.getIcon(type: self.device.model.type, year: self.device.model.year)
-            } else {
-                error("unknown device \(modelName)")
-            }
-        }
-        
         let (modelID, serialNumber) = self.modelAndSerialNumber()
-        if modelID != nil {
-            self.device.modelIdentifier = modelID
-        }
-        if serialNumber != nil {
+        if let serialNumber {
             self.device.serialNumber = serialNumber
         }
+        if let modelName = modelID ?? self.getModelID(), let model = deviceDict[modelName] {
+            self.device.model = model
+            self.device.model.id = modelName
+            self.device.model.icon = self.getIcon(type: self.device.model.type, year: self.device.model.year)
+        } else if let model = self.getModel() {
+            self.device.model = model
+        }
+        
         self.device.bootDate = self.bootDate()
         
         let procInfo = ProcessInfo()
@@ -198,7 +194,7 @@ public class SystemKit {
         }
     }
     
-    public func modelName() -> String? {
+    public func getModelID() -> String? {
         var mib = [CTL_HW, HW_MODEL]
         var size = MemoryLayout<io_name_t>.size
         
@@ -517,6 +513,33 @@ public class SystemKit {
         default:
             return NSImage(named: NSImage.Name("imacPro"))!
         }
+    }
+    
+    private func getModel() -> model_s? {
+        guard let res = process(path: "/usr/sbin/system_profiler", arguments: ["SPHardwareDataType", "-json"]) else {
+            return nil
+        }
+        
+        do {
+            if let json = try JSONSerialization.jsonObject(with: Data(res.utf8), options: []) as? [String: Any],
+               let obj = json["SPHardwareDataType"] as? [[String: Any]], !obj.isEmpty, let val = obj.first,
+               let name = val["machine_name"] as? String, let model = val["machine_model"] as? String, let cpu = val["chip_type"] as? String {
+                let year = Calendar.current.component(.year, from: Date())
+                let type = deviceType.all.first{ $0.rawValue.lowercased() ==  name.lowercased().removingWhitespaces() } ?? .unknown
+                return model_s(
+                    id: model,
+                    name: "\(name) (\(cpu.removedRegexMatches(pattern: "Apple ", replaceWith: "")))",
+                    year: year,
+                    type: type,
+                    icon: self.getIcon(type: type, year: year)
+                )
+            }
+        } catch let err as NSError {
+            error("error to parse system_profiler SPHardwareDataType: \(err.localizedDescription)")
+            return nil
+        }
+        
+        return nil
     }
 }
 

@@ -105,6 +105,10 @@ extension String: LocalizedError {
             return self
         }
     }
+    
+    func removingWhitespaces() -> String {
+        return components(separatedBy: .whitespaces).joined()
+    }
 }
 
 public extension DispatchSource.MemoryPressureEvent {
