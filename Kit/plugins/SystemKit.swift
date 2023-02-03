@@ -506,9 +506,17 @@ public class SystemKit {
             }
         case .iMac:
             return NSImage(named: NSImage.Name("imac"))!
-        case .macbook, .macbookAir:
+        case .macbook:
             return NSImage(named: NSImage.Name("macbookAir"))!
+        case .macbookAir:
+            if year >= 2022 {
+                return NSImage(named: NSImage.Name("macbookAir"))!
+            }
+            return NSImage(named: NSImage.Name("macbookAir4thGen"))!
         case .macbookPro:
+            if year >= 2021 {
+                return NSImage(named: NSImage.Name("macbookPro5thGen"))!
+            }
             return NSImage(named: NSImage.Name("macbookPro"))!
         default:
             return NSImage(named: NSImage.Name("imacPro"))!
