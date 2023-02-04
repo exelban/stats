@@ -68,7 +68,7 @@
 "Cube" = "Kubično";
 "Logarithmic" = "Logaritmično";
 "Cores" = "Jedra";
-"Settings" = "Settings";
+"Settings" = "Nastavitve";
 
 // Setup
 "Stats Setup" = "Stats konfigurator";
@@ -121,7 +121,7 @@
 "Reset settings" = "Ponastavi nastavitve";
 "Pause the Stats" = "Začasno zaustavi Stats";
 "Resume the Stats" = "Nadaljuj z izvajanjem Stats";
-"Combined modules" = "Combined modules";
+"Combined modules" = "Združena modula";
 
 // Dashboard
 "Serial number" = "Serijska številka";
@@ -275,10 +275,10 @@
 "Synchronize fan's control" = "Sinhroniziraj krmiljenje ventilatorja";
 "Current" = "Tok";
 "Energy" = "Energija";
-"Show unknown sensors" = "Show unknown sensors";
-"Install fan helper" = "Install fan helper";
-"Uninstall fan helper" = "Uninstall fan helper";
-"Fan value" = "Fan value";
+"Show unknown sensors" = "Prikaži neznane senzorje";
+"Install fan helper" = "Namesti pomočnika za ventilatorje";
+"Uninstall fan helper" = "Odstrani pomočnika za ventilatorje";
+"Fan value" = "Vrednost ventilatorja";
 
 // Network
 "Uploading" = "Oddajanje";
@@ -306,13 +306,13 @@
 "Channel" = "Kanal";
 "Common scale" = "Splošna lestvica";
 "Autodetection" = "Samodejna zaznava";
-"Widget activation threshold" = "Widget activation threshold";
+"Widget activation threshold" = "Prag aktiviranja pripomočka";
 "Internet connection" = "Internetna povezava";
 "Active state color" = "Barva aktivnega stanja";
 "Nonactive state color" = "Barva neaktivnega stanja";
 "Connectivity host (ICMP)" = "Gostitelj za preverjanje povezljivosti (ICMP)";
 "Leave empty to disable the check" = "Pustite prazno, če želite onemogočiti preverjanje povezljivosti";
-"Transparent pictogram when no activity" = "Transparent pictogram when no activity";
+"Transparent pictogram when no activity" = "Prosojni piktogram, ko ni dejavnosti";
 
 // Battery
 "Level" = "Raven";
