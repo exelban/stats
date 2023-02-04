@@ -492,7 +492,7 @@ public class MenuBar {
         if self.combinedModules {
             self.oneView = true
             self.setupMenuBarItem(false)
-        } else {
+        } else if self.active {
             self.oneView = Store.shared.bool(key: "\(self.moduleName)_oneView", defaultValue: self.oneView)
             self.setupMenuBarItem(self.oneView)
         }
