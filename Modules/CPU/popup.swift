@@ -18,7 +18,7 @@ internal class Popup: NSView, Popup_p {
     private var grid: NSGridView? = nil
     
     private let dashboardHeight: CGFloat = 90
-    private let chartHeight: CGFloat = 90 + Constants.Popup.separatorHeight
+    private let chartHeight: CGFloat = 120 + Constants.Popup.separatorHeight
     private var detailsHeight: CGFloat {
         get {
             var count: CGFloat = 5
@@ -52,7 +52,8 @@ internal class Popup: NSView, Popup_p {
     private var userColorView: NSView? = nil
     private var idleColorView: NSView? = nil
     
-    private var chart: LineChartView? = nil
+    private var lineChart: LineChartView? = nil
+    private var barChart: BarChartView? = nil
     private var circle: PieChartView? = nil
     private var temperatureCircle: HalfCircleGraphView? = nil
     private var frequencyCircle: HalfCircleGraphView? = nil
@@ -153,7 +154,7 @@ internal class Popup: NSView, Popup_p {
     }
     
     public override func updateLayer() {
-        self.chart?.display()
+        self.lineChart?.display()
     }
     
     public func numberOfProcessesUpdated() {
@@ -209,19 +210,58 @@ internal class Popup: NSView, Popup_p {
     }
     
     private func initChart() -> NSView {
-        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.chartHeight))
-        let separator = separatorView(localizedString("Usage history"), origin: NSPoint(x: 0, y: self.chartHeight-Constants.Popup.separatorHeight), width: self.frame.width)
-        let container: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: separator.frame.origin.y))
-        container.wantsLayer = true
-        container.layer?.backgroundColor = NSColor.lightGray.withAlphaComponent(0.1).cgColor
-        container.layer?.cornerRadius = 3
+        let view: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.chartHeight))
+        view.orientation = .vertical
+        view.spacing = 0
         
-        self.chart = LineChartView(frame: NSRect(x: 1, y: 0, width: view.frame.width, height: container.frame.height), num: 120)
-        self.chart?.color = self.chartColor
-        container.addSubview(self.chart!)
+        let separator = separatorView(localizedString("Usage history"), origin: NSPoint(x: 0, y: 0), width: self.frame.width)
         
-        view.addSubview(separator)
-        view.addSubview(container)
+        let lineChartContainer: NSView = {
+            let box: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 70))
+            box.heightAnchor.constraint(equalToConstant: box.frame.height).isActive = true
+            box.wantsLayer = true
+            box.layer?.backgroundColor = NSColor.lightGray.withAlphaComponent(0.1).cgColor
+            box.layer?.cornerRadius = 3
+            
+            let chart = LineChartView(frame: NSRect(
+                x: Constants.Popup.spacing,
+                y: Constants.Popup.spacing,
+                width: view.frame.width - (Constants.Popup.spacing*2),
+                height: box.frame.height - (Constants.Popup.spacing*2)
+            ), num: 120)
+            chart.color = self.chartColor
+            self.lineChart = chart
+            
+            box.addSubview(chart)
+            
+            return box
+        }()
+        
+        view.addArrangedSubview(separator)
+        view.addArrangedSubview(lineChartContainer)
+        
+        if let cores = SystemKit.shared.device.info.cpu?.cores {
+            let barChartContainer: NSView = {
+                let box: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 50))
+                box.heightAnchor.constraint(equalToConstant: box.frame.height).isActive = true
+                box.wantsLayer = true
+                box.layer?.backgroundColor = NSColor.lightGray.withAlphaComponent(0.1).cgColor
+                box.layer?.cornerRadius = 3
+                
+                let chart = BarChartView(frame: NSRect(
+                    x: Constants.Popup.spacing,
+                    y: Constants.Popup.spacing,
+                    width: view.frame.width - (Constants.Popup.spacing*2),
+                    height: box.frame.height - (Constants.Popup.spacing*2)
+                ), num: cores.count)
+                self.barChart = chart
+                
+                box.addSubview(chart)
+                
+                return box
+            }()
+            view.addArrangedSubview(barChartContainer)
+        }
         
         return view
     }
@@ -312,9 +352,17 @@ internal class Popup: NSView, Popup_p {
                     field.stringValue = "\(Int(usage * 100))%"
                 }
                 
+                if let cores = SystemKit.shared.device.info.cpu?.cores, cores.count == value.usagePerCore.count {
+                    var list: [ColorValue] = []
+                    for i in 0..<value.usagePerCore.count {
+                        list.append(ColorValue(value.usagePerCore[i], color: cores[i].type == .performance ? NSColor.systemBlue : NSColor.systemTeal))
+                    }
+                    self.barChart?.setValues(list)
+                }
+                
                 self.initialized = true
             }
-            self.chart?.addValue(value.totalUsage)
+            self.lineChart?.addValue(value.totalUsage)
         })
     }
     
@@ -490,7 +538,7 @@ internal class Popup: NSView, Popup_p {
         self.chartColorState = newValue
         Store.shared.set(key: "\(self.title)_chartColor", value: key)
         if let color = newValue.additional as? NSColor {
-            self.chart?.color = color
+            self.lineChart?.color = color
         }
     }
 }
