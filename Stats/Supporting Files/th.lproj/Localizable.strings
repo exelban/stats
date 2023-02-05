@@ -341,7 +341,7 @@
 "Battery remaining to full charge" = "%0% ในการเต็มแบต";
 "Percentage" = "เปอร์เซ็นต์";
 "Percentage and time" = "เปอร์เซ็นต์และเวลา";
-"Time and Percentage" = "เวลาและเปอร์เซ็นต์";
+"Time and percentage" = "เวลาและเปอร์เซ็นต์";
 "Time format" = "รูปแบบเวลา";
 "Hide additional information when full" = "ซ่อนข้อมูลเพิ่มเติมเมื่อเต็ม";
 "Last charge" = "ชาร์จครั้งสุดท้าย";
