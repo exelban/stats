@@ -344,6 +344,7 @@
 		29AA17CA2926879000709C01 /* fa */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fa; path = fa.lproj/Localizable.strings; sourceTree = "<group>"; };
 		30370F8F253DCBC0006404D8 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		40BE2B202745D63800AE9396 /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/Localizable.strings; sourceTree = "<group>"; };
+		47665544298DC92F00F7B709 /* sk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sk; path = sk.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4921436D25319699000A1C47 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5C0A2A89292A5B4D009B4C1F /* SMJobBlessUtil.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = SMJobBlessUtil.py; sourceTree = "<group>"; };
 		5C21D80A296C7B81005BA16D /* CombinedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombinedView.swift; sourceTree = "<group>"; };
@@ -1404,6 +1405,7 @@
 				sv,
 				fa,
 				th,
+				sk,
 			);
 			mainGroup = 9A1410EC229E721100D29793;
 			packageReferences = (
@@ -1865,6 +1867,7 @@
 				9A39DAD32896A3CA0013A3B6 /* sv */,
 				29AA17CA2926879000709C01 /* fa */,
 				CE47845D298F55F900F564FD /* th */,
+				47665544298DC92F00F7B709 /* sk */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
