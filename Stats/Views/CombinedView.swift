@@ -19,6 +19,9 @@ class CombinedView {
     private var status: Bool {
         Store.shared.bool(key: "CombinedModules", defaultValue: false)
     }
+    private var spacing: CGFloat {
+        CGFloat(Int(Store.shared.string(key: "CombinedModules_spacing", defaultValue: "")) ?? 0)
+    }
     
     init() {
         modules.forEach { (m: Module) in
@@ -69,10 +72,10 @@ class CombinedView {
         
         var w: CGFloat = 0
         var i: Int = 0
-        modules.filter({ $0.enabled }).sorted(by: { $0.oneViewPosition < $1.oneViewPosition }).forEach { (m: Module) in
+        modules.filter({ $0.enabled }).sorted(by: { $0.combinedPosition < $1.combinedPosition }).forEach { (m: Module) in
             self.view.addSubview(m.menuBar.view)
             self.view.subviews[i].setFrameOrigin(NSPoint(x: w, y: 0))
-            w += m.menuBar.view.frame.width
+            w += m.menuBar.view.frame.width + self.spacing
             i += 1
         }
         self.view.setFrameSize(NSSize(width: w, height: self.view.frame.height))

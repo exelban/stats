@@ -54,6 +54,18 @@ public let TemperatureUnits: [KeyValue_t] = [
     KeyValue_t(key: "fahrenheit", value: "Fahrenheit", additional: UnitTemperature.fahrenheit)
 ]
 
+public let CombinedModulesSpacings: [KeyValue_t] = [
+    KeyValue_t(key: "none", value: "None"),
+    KeyValue_t(key: "1", value: "1", additional: 1),
+    KeyValue_t(key: "2", value: "2", additional: 2),
+    KeyValue_t(key: "3", value: "3", additional: 3),
+    KeyValue_t(key: "4", value: "4", additional: 4),
+    KeyValue_t(key: "5", value: "5", additional: 5),
+    KeyValue_t(key: "6", value: "6", additional: 6),
+    KeyValue_t(key: "7", value: "7", additional: 7),
+    KeyValue_t(key: "8", value: "8", additional: 8)
+]
+
 public enum DataSizeBase: String {
     case bit
     case byte

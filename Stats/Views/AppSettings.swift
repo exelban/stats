@@ -19,7 +19,7 @@ class ApplicationSettings: NSStackView {
     
     private var temperatureUnitsValue: String {
         get {
-            return Store.shared.string(key: "temperature_units", defaultValue: "system")
+            Store.shared.string(key: "temperature_units", defaultValue: "system")
         }
         set {
             Store.shared.set(key: "temperature_units", value: newValue)
@@ -32,6 +32,14 @@ class ApplicationSettings: NSStackView {
         }
         set {
             Store.shared.set(key: "CombinedModules", value: newValue)
+        }
+    }
+    private var combinedModulesSpacing: String {
+        get {
+            Store.shared.string(key: "CombinedModules_spacing", defaultValue: "none")
+        }
+        set {
+            Store.shared.set(key: "CombinedModules_spacing", value: newValue)
         }
     }
     
@@ -190,6 +198,14 @@ class ApplicationSettings: NSStackView {
             state: self.combinedModulesState,
             text: localizedString("Combined modules")
         )])
+        grid.addRow(with: [
+            self.titleView(localizedString("Combined module spacing")),
+            selectView(
+                action: #selector(self.toggleCombinedModulesSpacing),
+                items: CombinedModulesSpacings,
+                selected: self.combinedModulesSpacing
+            )
+        ])
         
         view.addArrangedSubview(self.moduleSelector)
         view.addArrangedSubview(grid)
@@ -270,7 +286,7 @@ class ApplicationSettings: NSStackView {
     
     // MARK: - actions
     
-    @objc func updateAction(_ sender: NSObject) {
+    @objc private func updateAction(_ sender: NSObject) {
         updater.check(force: true, completion: { result, error in
             if error != nil {
                 debug("error updater.check(): \(error!.localizedDescription)")
@@ -290,21 +306,16 @@ class ApplicationSettings: NSStackView {
     }
     
     @objc private func toggleUpdateInterval(_ sender: NSMenuItem) {
-        guard let key = sender.representedObject as? String else {
-            return
-        }
-        
+        guard let key = sender.representedObject as? String else { return }
         Store.shared.set(key: "update-interval", value: key)
     }
     
     @objc private func toggleTemperatureUnits(_ sender: NSMenuItem) {
-        guard let key = sender.representedObject as? String else {
-            return
-        }
+        guard let key = sender.representedObject as? String else { return }
         self.temperatureUnitsValue = key
     }
     
-    @objc func toggleDock(_ sender: NSButton) {
+    @objc private func toggleDock(_ sender: NSButton) {
         let state = sender.state
         
         Store.shared.set(key: "dockIcon", value: state == NSControl.StateValue.on)
@@ -315,14 +326,14 @@ class ApplicationSettings: NSStackView {
         }
     }
     
-    @objc func toggleLaunchAtLogin(_ sender: NSButton) {
+    @objc private func toggleLaunchAtLogin(_ sender: NSButton) {
         LaunchAtLogin.isEnabled = sender.state == NSControl.StateValue.on
         if !Store.shared.exist(key: "runAtLoginInitialized") {
             Store.shared.set(key: "runAtLoginInitialized", value: true)
         }
     }
     
-    @objc func resetSettings(_ sender: NSObject) {
+    @objc private func resetSettings(_ sender: NSObject) {
         let alert = NSAlert()
         alert.messageText = localizedString("Reset settings")
         alert.informativeText = localizedString("Reset settings text")
@@ -359,6 +370,12 @@ class ApplicationSettings: NSStackView {
         self.moduleSelector.isHidden = !self.combinedModulesState
         NotificationCenter.default.post(name: .toggleOneView, object: nil, userInfo: nil)
     }
+    
+    @objc private func toggleCombinedModulesSpacing(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String else { return }
+        self.combinedModulesSpacing = key
+        NotificationCenter.default.post(name: .moduleRearrange, object: nil, userInfo: nil)
+    }
 }
 
 private class ModuleSelectorView: NSStackView {
@@ -385,7 +402,7 @@ private class ModuleSelectorView: NSStackView {
         }()
         
         var w = self.spacing
-        modules.filter({ $0.available }).sorted(by: { $0.oneViewPosition < $1.oneViewPosition }).forEach { (m: Module) in
+        modules.filter({ $0.available }).sorted(by: { $0.combinedPosition < $1.combinedPosition }).forEach { (m: Module) in
             let v = ModulePreview(id: m.name, icon: m.config.icon)
             self.addArrangedSubview(v)
             w += v.frame.width + self.spacing
@@ -464,7 +481,7 @@ private class ModuleSelectorView: NSStackView {
                     
                     for (i, v) in self.views(in: .leading).compactMap({$0 as? ModulePreview}).enumerated() {
                         if let m = modules.first(where: { $0.name == v.identifier?.rawValue }) {
-                            m.oneViewPosition = i
+                            m.combinedPosition = i
                         }
                     }
                 }

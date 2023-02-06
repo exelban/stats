@@ -82,7 +82,7 @@ open class Module: Module_p {
     public var name: String {
         config.name
     }
-    public var oneViewPosition: Int {
+    public var combinedPosition: Int {
         get {
             Store.shared.int(key: "\(self.name)_position", defaultValue: 0)
         }
