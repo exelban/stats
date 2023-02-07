@@ -50,6 +50,9 @@ class ApplicationSettings: NSStackView {
     private var uninstallHelperButton: NSButton?
     private var buttonsContainer: NSStackView?
     
+    private var combinedModules: NSView?
+    private var combinedModulesSeparator: NSView?
+    
     init() {
         super.init(frame: NSRect(x: 0, y: 0, width: Constants.Settings.width, height: Constants.Settings.height))
         
@@ -62,7 +65,13 @@ class ApplicationSettings: NSStackView {
         scrollView.stackView.addArrangedSubview(self.separatorView())
         scrollView.stackView.addArrangedSubview(self.settingsView())
         scrollView.stackView.addArrangedSubview(self.separatorView())
+        scrollView.stackView.addArrangedSubview(self.combinedModulesView())
+        let separator = self.separatorView()
+        self.combinedModulesSeparator = separator
+        scrollView.stackView.addArrangedSubview(separator)
         scrollView.stackView.addArrangedSubview(self.buttonsView())
+        
+        self.toggleCombinedModulesView()
         
         self.addArrangedSubview(scrollView)
         
@@ -152,7 +161,7 @@ class ApplicationSettings: NSStackView {
             bottom: Constants.Settings.margin,
             right: Constants.Settings.margin
         )
-        view.spacing = 20
+        view.spacing = 10
         view.translatesAutoresizingMaskIntoConstraints = false
         view.widthAnchor.constraint(equalToConstant: self.frame.width - 15).isActive = true
         
@@ -198,8 +207,36 @@ class ApplicationSettings: NSStackView {
             state: self.combinedModulesState,
             text: localizedString("Combined modules")
         )])
+        
+        view.addArrangedSubview(grid)
+        
+        return view
+    }
+    
+    private func combinedModulesView() -> NSView {
+        let view: NSStackView = NSStackView()
+        view.orientation = .vertical
+        view.edgeInsets = NSEdgeInsets(
+            top: Constants.Settings.margin,
+            left: Constants.Settings.margin,
+            bottom: Constants.Settings.margin,
+            right: Constants.Settings.margin
+        )
+        view.spacing = 10
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.widthAnchor.constraint(equalToConstant: self.frame.width - 15).isActive = true
+        
+        let grid: NSGridView = NSGridView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: 0))
+        grid.rowSpacing = 10
+        grid.columnSpacing = 20
+        grid.xPlacement = .trailing
+        grid.rowAlignment = .firstBaseline
+        grid.translatesAutoresizingMaskIntoConstraints = false
+        grid.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        grid.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        
         grid.addRow(with: [
-            self.titleView(localizedString("Combined module spacing")),
+            self.titleView(localizedString("Spacing")),
             selectView(
                 action: #selector(self.toggleCombinedModulesSpacing),
                 items: CombinedModulesSpacings,
@@ -210,8 +247,7 @@ class ApplicationSettings: NSStackView {
         view.addArrangedSubview(self.moduleSelector)
         view.addArrangedSubview(grid)
         
-        self.moduleSelector.isHidden = !self.combinedModulesState
-        
+        self.combinedModules = view
         return view
     }
     
@@ -282,6 +318,11 @@ class ApplicationSettings: NSStackView {
         button.target = self
         
         return button
+    }
+    
+    private func toggleCombinedModulesView() {
+        self.combinedModules?.isHidden = !self.combinedModulesState
+        self.combinedModulesSeparator?.isHidden = !self.combinedModulesState
     }
     
     // MARK: - actions
@@ -367,7 +408,7 @@ class ApplicationSettings: NSStackView {
     
     @objc private func toggleCombinedModules(_ sender: NSButton) {
         self.combinedModulesState = sender.state == NSControl.StateValue.on
-        self.moduleSelector.isHidden = !self.combinedModulesState
+        self.toggleCombinedModulesView()
         NotificationCenter.default.post(name: .toggleOneView, object: nil, userInfo: nil)
     }
     
