@@ -158,14 +158,13 @@ public class BatterykWidget: WidgetWrapper {
             
             if self.additional == "innerPercentage" && !self.ACStatus {
                 colorState = false
-                
                 let innerUnderground = NSBezierPath(roundedRect: NSRect(
                     x: batteryFrame.bounds.origin.x + innerOffset,
                     y: batteryFrame.bounds.origin.y + innerOffset,
                     width: maxWidth,
                     height: batterySize.height - offset*2 - borderWidth*2 - 1
                 ), xRadius: 1, yRadius: 1)
-                (self.colorState ? color : NSColor.textColor).withAlphaComponent(0.65).set()
+                (self.colorState ? color : NSColor.textColor).withAlphaComponent(0.5).set()
                 innerUnderground.fill()
             }
             
