@@ -240,7 +240,7 @@ internal class Popup: NSView, Popup_p {
         view.addArrangedSubview(separator)
         view.addArrangedSubview(lineChartContainer)
         
-        if let cores = SystemKit.shared.device.info.cpu?.cores {
+        if let cores = SystemKit.shared.device.info.cpu?.logicalCores {
             let barChartContainer: NSView = {
                 let box: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 50))
                 box.heightAnchor.constraint(equalToConstant: box.frame.height).isActive = true
@@ -253,7 +253,7 @@ internal class Popup: NSView, Popup_p {
                     y: Constants.Popup.spacing,
                     width: view.frame.width - (Constants.Popup.spacing*2),
                     height: box.frame.height - (Constants.Popup.spacing*2)
-                ), num: cores.count)
+                ), num: Int(cores))
                 self.barChart = chart
                 
                 box.addSubview(chart)
@@ -352,13 +352,17 @@ internal class Popup: NSView, Popup_p {
                     field.stringValue = "\(Int(usage * 100))%"
                 }
                 
+                var usagePerCore: [ColorValue] = []
                 if let cores = SystemKit.shared.device.info.cpu?.cores, cores.count == value.usagePerCore.count {
-                    var list: [ColorValue] = []
                     for i in 0..<value.usagePerCore.count {
-                        list.append(ColorValue(value.usagePerCore[i], color: cores[i].type == .performance ? NSColor.systemBlue : NSColor.systemTeal))
+                        usagePerCore.append(ColorValue(value.usagePerCore[i], color: cores[i].type == .efficiency ? NSColor.systemTeal : NSColor.systemBlue))
                     }
-                    self.barChart?.setValues(list)
+                } else {
+                    for i in 0..<value.usagePerCore.count {
+                        usagePerCore.append(ColorValue(value.usagePerCore[i], color: NSColor.systemBlue))
+                    }
                 }
+                self.barChart?.setValues(usagePerCore)
                 
                 self.initialized = true
             }
