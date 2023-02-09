@@ -41,7 +41,7 @@ internal class SetupWindow: NSWindow, NSWindowDelegate {
         self.delegate = self
         self.title = localizedString("Stats Setup")
         
-        self.center()
+        self.positionCenter()
         self.setIsVisible(false)
         
         let windowController = NSWindowController()
@@ -59,6 +59,13 @@ internal class SetupWindow: NSWindow, NSWindowDelegate {
     
     func windowWillClose(_ notification: Notification) {
         self.finishHandler()
+    }
+    
+    private func positionCenter() {
+        self.setFrameOrigin(NSPoint(
+            x: (NSScreen.main!.frame.width - self.view.frame.width)/2,
+            y: (NSScreen.main!.frame.height - self.view.frame.height)/2
+        ))
     }
 }
 
