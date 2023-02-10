@@ -182,7 +182,7 @@ internal class SensorView: NSStackView {
     }
     
     public func update(_ sensor: Sensor_p) {
-        self.valueView.update(sensor.formattedValue)
+        self.valueView.update(sensor.formattedPopupValue)
     }
     
     public func addHistoryPoint(_ sensor: Sensor_p) {
@@ -278,7 +278,7 @@ internal class ChartSensorView: NSStackView {
         self.spacing = 0
         self.layer?.cornerRadius = 3
         
-        self.chart = LineChartView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height), num: 120)
+        self.chart = LineChartView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height), num: 120, scale: .linear)
         self.chart?.suffix = suffix
         
         if let view = self.chart {

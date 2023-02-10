@@ -731,10 +731,13 @@ public extension UnitTemperature {
 }
 
 // swiftlint:disable identifier_name
-public func Temperature(_ value: Double, defaultUnit: UnitTemperature = UnitTemperature.celsius) -> String {
+public func Temperature(_ value: Double, defaultUnit: UnitTemperature = UnitTemperature.celsius, fractionDigits: Int = 0) -> String {
     let formatter = MeasurementFormatter()
     formatter.locale = Locale.init(identifier: "en_US")
-    formatter.numberFormatter.maximumFractionDigits = 0
+    formatter.numberFormatter.maximumFractionDigits = fractionDigits
+    if fractionDigits != 0 {
+        formatter.numberFormatter.minimumFractionDigits = fractionDigits
+    }
     formatter.unitOptions = .providedUnit
     
     var measurement = Measurement(value: value, unit: defaultUnit)

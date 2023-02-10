@@ -45,6 +45,7 @@ internal protocol Sensor_p {
     var unit: String { get }
     var formattedValue: String { get }
     var formattedMiniValue: String { get }
+    var formattedPopupValue: String { get }
 }
 
 internal struct Sensor: Sensor_p {
@@ -83,6 +84,25 @@ internal struct Sensor: Sensor_p {
             switch self.type {
             case .temperature:
                 return Temperature(value)
+            case .voltage:
+                let val = value >= 100 ? "\(Int(value))" : String(format: "%.3f", value)
+                return "\(val)\(unit)"
+            case .power, .energy:
+                let val = value >= 100 ? "\(Int(value))" : String(format: "%.2f", value)
+                return "\(val)\(unit)"
+            case .current:
+                let val = value >= 100 ? "\(Int(value))" : String(format: "%.2f", value)
+                return "\(val)\(unit)"
+            case .fan:
+                return "\(Int(value)) \(unit)"
+            }
+        }
+    }
+    var formattedPopupValue: String {
+        get {
+            switch self.type {
+            case .temperature:
+                return Temperature(value, fractionDigits: 1)
             case .voltage:
                 let val = value >= 100 ? "\(Int(value))" : String(format: "%.3f", value)
                 return "\(val)\(unit)"
@@ -155,20 +175,17 @@ internal struct Fan: Sensor_p {
     var unit: String = "RPM"
     
     var formattedValue: String {
-        get {
-            return "\(Int(value)) RPM"
-        }
+        "\(Int(value)) RPM"
     }
     var formattedMiniValue: String {
-        get {
-            return "\(Int(value))"
-        }
+        return "\(Int(value))"
+    }
+    var formattedPopupValue: String {
+        "\(Int(value)) RPM"
     }
     
     var state: Bool {
-        get {
-            return Store.shared.bool(key: "sensor_\(self.key)", defaultValue: false)
-        }
+        Store.shared.bool(key: "sensor_\(self.key)", defaultValue: false)
     }
     
     var customSpeed: Int? {
