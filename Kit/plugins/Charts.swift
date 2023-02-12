@@ -76,13 +76,14 @@ public class LineChartView: NSView {
     public var transparent: Bool = true
     public var color: NSColor = controlAccentColor
     public var suffix: String = "%"
-    public var scale: Scale = .none
+    public var scale: Scale
     
     private var cursor: NSPoint? = nil
     private var stop: Bool = false
     
-    public init(frame: NSRect, num: Int) {
+    public init(frame: NSRect, num: Int, scale: Scale = .none) {
         self.points = Array(repeating: 0, count: num)
+        self.scale = scale
         
         super.init(frame: frame)
         
@@ -124,8 +125,8 @@ public class LineChartView: NSView {
         context.setShouldAntialias(true)
         
         let offset: CGFloat = 1 / (NSScreen.main?.backingScaleFactor ?? 1)
-        let height: CGFloat = self.frame.size.height - self.frame.origin.y - offset
-        let xRatio: CGFloat = self.frame.size.width / CGFloat(points.count)
+        let height: CGFloat = dirtyRect.height - self.frame.origin.y - offset
+        let xRatio: CGFloat = dirtyRect.width / CGFloat(points.count-1)
         
         let list = points.enumerated().compactMap { (i: Int, v: Double) -> (value: Double, point: CGPoint) in
             return (v, CGPoint(
@@ -147,8 +148,8 @@ public class LineChartView: NSView {
         line.stroke()
         
         let underLinePath = line.copy() as! NSBezierPath
-        underLinePath.line(to: CGPoint(x: list[list.count-1].point.x, y: offset))
-        underLinePath.line(to: CGPoint(x: list[0].point.x, y: offset))
+        underLinePath.line(to: CGPoint(x: list[list.count-1].point.x, y: 0))
+        underLinePath.line(to: CGPoint(x: list[0].point.x, y: 0))
         underLinePath.close()
         gradientColor.set()
         underLinePath.fill()
