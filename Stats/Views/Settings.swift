@@ -538,9 +538,7 @@ private class MenuItem: NSView {
         }
         imageView.frame = NSRect(x: 8, y: (32 - 18)/2, width: 18, height: 18)
         imageView.wantsLayer = true
-        if #available(OSX 10.14, *) {
-            imageView.contentTintColor = .labelColor
-        }
+        imageView.contentTintColor = .labelColor
         self.imageView = imageView
         
         let titleView = TextView(frame: NSRect(x: 34, y: ((32 - 16)/2) + 1, width: 100, height: 16))

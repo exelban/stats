@@ -563,6 +563,7 @@ internal class ModulePreview: NSStackView {
         self.spacing = 0
         
         self.imageView.image = icon
+        self.imageView.contentTintColor = .textBackgroundColor
         
         self.addArrangedSubview(self.imageView)
         
