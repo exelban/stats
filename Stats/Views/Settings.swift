@@ -411,9 +411,7 @@ private class SidebarView: NSStackView {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.imageScaling = .scaleNone
         button.image = image
-        if #available(OSX 10.14, *) {
-            button.contentTintColor = .secondaryLabelColor
-        }
+        button.contentTintColor = .secondaryLabelColor
         button.isBordered = false
         button.action = action
         button.target = self

@@ -119,13 +119,13 @@ public class Mini: WidgetWrapper {
             origin.y = 1
         }
         
-        var color: NSColor = controlAccentColor
+        var color: NSColor = .controlAccentColor
         switch self.colorState {
-        case .systemAccent: color = controlAccentColor
+        case .systemAccent: color = .controlAccentColor
         case .utilization: color = value.usageColor(zones: self.colorZones, reversed: self.title == "BAT")
         case .pressure: color = self.pressureLevel.pressureColor()
         case .monochrome: color = (isDarkMode ? NSColor.white : NSColor.black)
-        default: color = self.colorState.additional as? NSColor ?? controlAccentColor
+        default: color = self.colorState.additional as? NSColor ?? .controlAccentColor
         }
         
         let stringAttributes = [

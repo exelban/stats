@@ -194,9 +194,7 @@ internal class Popup: NSStackView, Popup_p {
         button.bezelStyle = .regularSquare
         button.isBordered = false
         button.imageScaling = NSImageScaling.scaleAxesIndependently
-        if #available(OSX 10.14, *) {
-            button.contentTintColor = .lightGray
-        }
+        button.contentTintColor = .lightGray
         button.action = #selector(self.resetTotalNetworkUsage)
         button.target = self
         button.toolTip = localizedString("Reset")
@@ -249,9 +247,7 @@ internal class Popup: NSStackView, Popup_p {
         button.bezelStyle = .regularSquare
         button.isBordered = false
         button.imageScaling = NSImageScaling.scaleAxesIndependently
-        if #available(OSX 10.14, *) {
-            button.contentTintColor = .lightGray
-        }
+        button.contentTintColor = .lightGray
         button.action = #selector(self.refreshPublicIP)
         button.target = self
         button.toolTip = localizedString("Refresh")

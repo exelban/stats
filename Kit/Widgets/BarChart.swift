@@ -170,17 +170,17 @@ public class BarChart: WidgetWrapper {
                 
                 if partitionValue.color == nil {
                     switch self.colorState {
-                    case .systemAccent: controlAccentColor.set()
+                    case .systemAccent: NSColor.controlAccentColor.set()
                     case .utilization: partitionValue.value.usageColor(zones: self.colorZones, reversed: self.title == "Battery").set()
                     case .pressure: self.pressureLevel.pressureColor().set()
-                    case .cluster: (partitionValue.value.clusterColor(i) ?? controlAccentColor).set()
+                    case .cluster: (partitionValue.value.clusterColor(i) ?? .controlAccentColor).set()
                     case .monochrome:
                         if self.boxState {
                             (isDarkMode ? NSColor.black : NSColor.white).set()
                         } else {
                             (isDarkMode ? NSColor.white : NSColor.black).set()
                         }
-                    default: (self.colorState.additional as? NSColor ?? controlAccentColor).set()
+                    default: (self.colorState.additional as? NSColor ?? .controlAccentColor).set()
                     }
                 } else {
                     partitionValue.color?.set()

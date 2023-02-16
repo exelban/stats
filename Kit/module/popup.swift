@@ -290,9 +290,7 @@ internal class HeaderView: NSStackView {
         activity.translatesAutoresizingMaskIntoConstraints = false
         activity.imageScaling = .scaleNone
         activity.image = Bundle(for: type(of: self)).image(forResource: "chart")!
-        if #available(OSX 10.14, *) {
-            activity.contentTintColor = .lightGray
-        }
+        activity.contentTintColor = .lightGray
         activity.isBordered = false
         activity.action = #selector(openActivityMonitor)
         activity.target = self
@@ -320,9 +318,7 @@ internal class HeaderView: NSStackView {
         settings.translatesAutoresizingMaskIntoConstraints = false
         settings.imageScaling = .scaleNone
         settings.image = Bundle(for: type(of: self)).image(forResource: "settings")!
-        if #available(OSX 10.14, *) {
-            settings.contentTintColor = .lightGray
-        }
+        settings.contentTintColor = .lightGray
         settings.isBordered = false
         settings.action = #selector(openSettings)
         settings.target = self

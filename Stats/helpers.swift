@@ -167,30 +167,26 @@ extension AppDelegate {
             
             debug("show update view because new version of app found: \(version.latest)")
             
-            if #available(OSX 10.14, *) {
-                let center = UNUserNotificationCenter.current()
-                center.getNotificationSettings { settings in
-                    switch settings.authorizationStatus {
-                    case .authorized, .provisional:
-                        self.showUpdateNotification(version: version)
-                    case .denied:
-                        self.showUpdateWindow(version: version)
-                    case .notDetermined:
-                        center.requestAuthorization(options: [.sound, .alert, .badge], completionHandler: { (_, error) in
-                            if error == nil {
-                                NSApplication.shared.registerForRemoteNotifications()
-                                self.showUpdateNotification(version: version)
-                            } else {
-                                self.showUpdateWindow(version: version)
-                            }
-                        })
-                    @unknown default:
-                        self.showUpdateWindow(version: version)
-                        error_msg("unknown notification setting")
-                    }
+            let center = UNUserNotificationCenter.current()
+            center.getNotificationSettings { settings in
+                switch settings.authorizationStatus {
+                case .authorized, .provisional:
+                    self.showUpdateNotification(version: version)
+                case .denied:
+                    self.showUpdateWindow(version: version)
+                case .notDetermined:
+                    center.requestAuthorization(options: [.sound, .alert, .badge], completionHandler: { (_, error) in
+                        if error == nil {
+                            NSApplication.shared.registerForRemoteNotifications()
+                            self.showUpdateNotification(version: version)
+                        } else {
+                            self.showUpdateWindow(version: version)
+                        }
+                    })
+                @unknown default:
+                    self.showUpdateWindow(version: version)
+                    error_msg("unknown notification setting")
                 }
-            } else {
-                self.showUpdateWindow(version: version)
             }
         }
     }

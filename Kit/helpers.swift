@@ -531,7 +531,6 @@ public func isNewestVersion(currentVersion: String, latestVersion: String) -> Bo
     return false
 }
 
-@available(macOS 10.14, *)
 public func showNotification(title: String, subtitle: String? = nil, userInfo: [AnyHashable: Any] = [:], delegate: UNUserNotificationCenterDelegate? = nil) -> String {
     let id = UUID().uuidString
     
@@ -557,7 +556,6 @@ public func showNotification(title: String, subtitle: String? = nil, userInfo: [
     return id
 }
 
-@available(macOS 10.14, *)
 public func removeNotification(_ id: String) {
     let center = UNUserNotificationCenter.current()
     center.removeDeliveredNotifications(withIdentifiers: [id])
@@ -786,9 +784,7 @@ public class ProcessView: NSStackView {
             self.killView.translatesAutoresizingMaskIntoConstraints = false
             self.killView.imageScaling = .scaleNone
             self.killView.image = Bundle(for: type(of: self)).image(forResource: "cancel")!
-            if #available(OSX 10.14, *) {
-                self.killView.contentTintColor = .lightGray
-            }
+            self.killView.contentTintColor = .lightGray
             self.killView.isBordered = false
             self.killView.action = #selector(self.kill)
             self.killView.target = self

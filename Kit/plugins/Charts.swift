@@ -74,7 +74,7 @@ public class LineChartView: NSView {
     public var points: [Double]
     public var shadowPoints: [Double] = []
     public var transparent: Bool = true
-    public var color: NSColor = controlAccentColor
+    public var color: NSColor = .controlAccentColor
     public var suffix: String = "%"
     public var scale: Scale
     
@@ -699,7 +699,7 @@ public class BarChartView: NSView {
     
     public init(frame: NSRect, num: Int) {
         super.init(frame: frame)
-        self.values = Array(repeating: ColorValue(0, color: controlAccentColor), count: num)
+        self.values = Array(repeating: ColorValue(0, color: .controlAccentColor), count: num)
     }
     
     required init?(coder: NSCoder) {
@@ -724,7 +724,7 @@ public class BarChartView: NSView {
             partition.close()
             
             let value = self.values[i]
-            let color = value.color ?? controlAccentColor
+            let color = value.color ?? .controlAccentColor
             let activeBlockNum = Int(round(value.value*Double(blocks)))
             
             var y: CGFloat = spacing

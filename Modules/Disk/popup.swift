@@ -308,7 +308,7 @@ internal class BarView: NSView {
         let width: CGFloat = (view.frame.width * (percentage < 0 ? 0 : percentage)) / 1
         self.usedBarSpace = NSView(frame: NSRect(x: 0, y: 0, width: width, height: view.frame.height))
         self.usedBarSpace?.wantsLayer = true
-        self.usedBarSpace?.layer?.backgroundColor = controlAccentColor.cgColor
+        self.usedBarSpace?.layer?.backgroundColor = NSColor.controlAccentColor.cgColor
         
         view.addSubview(self.usedBarSpace!)
         self.addSubview(view)

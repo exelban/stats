@@ -134,9 +134,9 @@ public class LineChart: WidgetWrapper {
         let offset = lineWidth / 2
         var boxSize: CGSize = CGSize(width: self.width - (Constants.Widget.margin.x*2), height: self.frame.size.height)
         
-        var color: NSColor = controlAccentColor
+        var color: NSColor = .controlAccentColor
         switch self.colorState {
-        case .systemAccent: color = controlAccentColor
+        case .systemAccent: color = .controlAccentColor
         case .utilization: color = value.usageColor()
         case .pressure: color = self.pressureLevel.pressureColor()
         case .monochrome:
@@ -145,7 +145,7 @@ public class LineChart: WidgetWrapper {
             } else {
                 color = (isDarkMode ? NSColor.white : NSColor.black)
             }
-        default: color = self.colorState.additional as? NSColor ?? controlAccentColor
+        default: color = self.colorState.additional as? NSColor ?? .controlAccentColor
         }
         
         if self.labelState {

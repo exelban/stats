@@ -121,7 +121,7 @@ public extension DispatchSource.MemoryPressureEvent {
         case .critical:
             return NSColor.systemRed
         default:
-            return controlAccentColor
+            return .controlAccentColor
         }
     }
 }
@@ -247,20 +247,11 @@ public extension Double {
 
 public extension NSView {
     var isDarkMode: Bool {
-        if #available(OSX 10.14, *) {
-            switch effectiveAppearance.name {
-            case .darkAqua, .vibrantDark, .accessibilityHighContrastDarkAqua, .accessibilityHighContrastVibrantDark:
-                return true
-            default:
-                return false
-            }
-        } else {
-            switch effectiveAppearance.name {
-            case .vibrantDark:
-                return true
-            default:
-                return false
-            }
+        switch effectiveAppearance.name {
+        case .darkAqua, .vibrantDark, .accessibilityHighContrastDarkAqua, .accessibilityHighContrastVibrantDark:
+            return true
+        default:
+            return false
         }
     }
     

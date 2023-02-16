@@ -138,7 +138,7 @@ extension Color: CaseIterable {
     
     public static var separator1: Color { return Color(key: "separator_1", value: "separator_1", additional: NSColor.black) }
     
-    public static var systemAccent: Color { return Color(key: "system", value: "System accent", additional: controlAccentColor) }
+    public static var systemAccent: Color { return Color(key: "system", value: "System accent", additional: NSColor.controlAccentColor) }
     public static var monochrome: Color { return Color(key: "monochrome", value: "Monochrome accent", additional: NSColor.textColor) }
     
     public static var separator2: Color { return Color(key: "separator_2", value: "separator_2", additional: NSColor.black) }
@@ -194,16 +194,6 @@ extension Color: CaseIterable {
     
     public static func fromString(_ key: String, defaultValue: Color = .systemAccent) -> Color {
         return Color.allCases.first{ $0.key == key } ?? defaultValue
-    }
-}
-
-public var controlAccentColor: NSColor {
-    get {
-        if #available(OSX 10.14, *) {
-            return NSColor.controlAccentColor
-        } else {
-            return NSColor.systemBlue
-        }
     }
 }
 
