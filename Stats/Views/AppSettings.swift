@@ -563,7 +563,7 @@ internal class ModulePreview: NSStackView {
         self.spacing = 0
         
         self.imageView.image = icon
-        self.imageView.contentTintColor = .textBackgroundColor
+        self.imageView.contentTintColor = self.isDarkMode ? .textBackgroundColor : .textColor
         
         self.addArrangedSubview(self.imageView)
         
@@ -582,6 +582,10 @@ internal class ModulePreview: NSStackView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func updateLayer() {
+        self.imageView.contentTintColor = self.isDarkMode ? .textBackgroundColor : .textColor
     }
     
     override func mouseEntered(with: NSEvent) {
