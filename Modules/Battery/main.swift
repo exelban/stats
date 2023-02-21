@@ -132,7 +132,7 @@ public class Battery: Module {
             case let widget as BarChart:
                 widget.setValue([[ColorValue(value.level)]])
                 widget.setColorZones((0.15, 0.3))
-            case let widget as BatterykWidget:
+            case let widget as BatteryWidget:
                 widget.setValue(
                     percentage: value.level,
                     ACStatus: value.powerSource != "Battery Power",

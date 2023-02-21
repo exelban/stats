@@ -55,8 +55,8 @@ public enum widget_t: String {
             preview = SpeedWidget(title: module, config: widgetConfig, preview: true)
             item = SpeedWidget(title: module, config: widgetConfig, preview: false)
         case .battery:
-            preview = BatterykWidget(title: module, config: widgetConfig, preview: true)
-            item = BatterykWidget(title: module, config: widgetConfig, preview: false)
+            preview = BatteryWidget(title: module, config: widgetConfig, preview: true)
+            item = BatteryWidget(title: module, config: widgetConfig, preview: false)
         case .sensors:
             preview = SensorsWidget(title: module, config: widgetConfig, preview: true)
             item = SensorsWidget(title: module, config: widgetConfig, preview: false)
@@ -97,7 +97,7 @@ public enum widget_t: String {
                 }
             case is MemoryWidget:
                 width = view.bounds.width + 8 + Constants.Widget.spacing*2
-            case is BatterykWidget:
+            case is BatteryWidget:
                 width = view.bounds.width - 3
             default: width = view.bounds.width
             }

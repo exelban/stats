@@ -12,7 +12,7 @@
 
 import Cocoa
 
-public class BatterykWidget: WidgetWrapper {
+public class BatteryWidget: WidgetWrapper {
     private var additional: String = "none"
     private var timeFormat: String = "short"
     private var iconState: Bool = true
