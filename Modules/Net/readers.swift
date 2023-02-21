@@ -75,7 +75,7 @@ extension CWChannelBand: CustomStringConvertible {
     public var description: String {
         switch(self) {
         case .band2GHz:     return "2 GHz"
-        case .band5GHz:     return "5 Ghz"
+        case .band5GHz:     return "5 GHz"
         case .bandUnknown:  return "unknown"
         @unknown default:   return "unknown"
         }
