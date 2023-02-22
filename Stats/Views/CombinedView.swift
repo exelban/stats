@@ -15,6 +15,7 @@ import Kit
 class CombinedView {
     private var menuBarItem: NSStatusItem? = nil
     private var view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: 100, height: Constants.Widget.height))
+    private var popup: PopupWindow? = nil
     
     private var status: Bool {
         Store.shared.bool(key: "CombinedModules", defaultValue: false)
@@ -34,6 +35,8 @@ class CombinedView {
             }
         }
         
+        self.popup = PopupWindow(title: "Combined modules", view: Popup()) { _ in }
+        
         if self.status {
             self.enable()
         }
@@ -52,7 +55,7 @@ class CombinedView {
         self.menuBarItem?.button?.addSubview(self.view)
         
         self.menuBarItem?.button?.target = self
-        self.menuBarItem?.button?.action = #selector(self.openSettings)
+        self.menuBarItem?.button?.action = #selector(self.togglePopup)
         self.menuBarItem?.button?.sendAction(on: [.leftMouseDown, .rightMouseDown])
         
         DispatchQueue.main.async(execute: {
@@ -82,8 +85,33 @@ class CombinedView {
         self.menuBarItem?.length = w
     }
     
-    @objc private func openSettings() {
-        NotificationCenter.default.post(name: .toggleSettings, object: nil, userInfo: ["module": "Dashboard"])
+    // call when popup appear/disappear
+    private func visibilityCallback(_ state: Bool) {}
+    
+    @objc private func togglePopup(_ sender: Any) {
+        guard let popup = self.popup, let item = self.menuBarItem, let window = item.button?.window else { return }
+        let openedWindows = NSApplication.shared.windows.filter{ $0 is NSPanel }
+        openedWindows.forEach{ $0.setIsVisible(false) }
+        
+        if popup.occlusionState.rawValue == 8192 {
+            NSApplication.shared.activate(ignoringOtherApps: true)
+            
+            popup.contentView?.invalidateIntrinsicContentSize()
+            
+            let windowCenter = popup.contentView!.intrinsicContentSize.width / 2
+            var x = window.frame.origin.x - windowCenter + window.frame.width/2
+            let y = window.frame.origin.y - popup.contentView!.intrinsicContentSize.height - 3
+            
+            let maxWidth = NSScreen.screens.map{ $0.frame.width }.reduce(0, +)
+            if x + popup.contentView!.intrinsicContentSize.width > maxWidth {
+                x = maxWidth - popup.contentView!.intrinsicContentSize.width - 3
+            }
+            
+            popup.setFrameOrigin(NSPoint(x: x, y: y))
+            popup.setIsVisible(true)
+        } else {
+            popup.setIsVisible(false)
+        }
     }
     
     @objc private func listenForOneView(_ notification: Notification) {
@@ -98,5 +126,60 @@ class CombinedView {
     
     @objc private func listenForModuleRearrrange() {
         self.recalculate()
+    }
+}
+
+private class Popup: NSStackView, Popup_p {
+    public var sizeCallback: ((NSSize) -> Void)? = nil
+    
+    init() {
+        super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: 0))
+        
+        self.orientation = .vertical
+        self.distribution = .fill
+        self.alignment = .width
+        self.spacing = Constants.Popup.spacing
+        
+        self.reinit()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(reinit), name: .toggleModule, object: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: .toggleOneView, object: nil)
+    }
+    
+    public func settings() -> NSView? { return nil }
+    
+    @objc private func reinit() {
+        self.subviews.forEach({ $0.removeFromSuperview() })
+        
+        let availableModules = modules.filter({ $0.enabled && $0.portal != nil })
+        let pairs = stride(from: 0, to: availableModules.endIndex, by: 2).map {
+            (availableModules[$0], $0 < availableModules.index(before: availableModules.endIndex) ? availableModules[$0.advanced(by: 1)] : nil)
+        }
+        pairs.forEach { (m1: Module, m2: Module?) in
+            let row = NSStackView()
+            row.orientation = .horizontal
+            row.distribution = .fillEqually
+            row.spacing = Constants.Popup.spacing
+            
+            if let p = m1.portal {
+                row.addArrangedSubview(p)
+            }
+            if let p = m2?.portal {
+                row.addArrangedSubview(p)
+            }
+            
+            self.addArrangedSubview(row)
+        }
+        
+        let h = CGFloat(pairs.count) * Constants.Popup.portalHeight + (CGFloat(pairs.count)*Constants.Popup.spacing)
+        self.setFrameSize(NSSize(width: self.frame.width, height: h))
+        self.sizeCallback?(self.frame.size)
     }
 }

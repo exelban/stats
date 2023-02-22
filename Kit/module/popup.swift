@@ -16,12 +16,12 @@ public protocol Popup_p: NSView {
     func settings() -> NSView?
 }
 
-internal class PopupWindow: NSWindow, NSWindowDelegate {
+public class PopupWindow: NSWindow, NSWindowDelegate {
     private let viewController: PopupViewController = PopupViewController()
     internal var locked: Bool = false
     internal var openedBy: widget_t? = nil
     
-    init(title: String, view: Popup_p?, visibilityCallback: @escaping (_ state: Bool) -> Void) {
+    public init(title: String, view: Popup_p?, visibilityCallback: @escaping (_ state: Bool) -> Void) {
         self.viewController.setup(title: title, view: view)
         
         super.init(
@@ -51,12 +51,12 @@ internal class PopupWindow: NSWindow, NSWindowDelegate {
         self.delegate = self
     }
     
-    func windowWillMove(_ notification: Notification) {
+    public func windowWillMove(_ notification: Notification) {
         self.viewController.setCloseButton(true)
         self.locked = true
     }
     
-    func windowDidResignKey(_ notification: Notification) {
+    public func windowDidResignKey(_ notification: Notification) {
         if self.locked {
             return
         }

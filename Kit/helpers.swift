@@ -230,7 +230,7 @@ public struct DiskSize {
 }
 
 public class LabelField: NSTextField {
-    public init(frame: NSRect, _ label: String = "") {
+    public init(frame: NSRect = NSRect(), _ label: String = "") {
         super.init(frame: frame)
         
         self.isEditable = false
@@ -670,7 +670,7 @@ public class ColorView: NSView {
     private var color: NSColor
     private var state: Bool
     
-    public init(frame: NSRect, color: NSColor, state: Bool = false, radius: CGFloat = 2) {
+    public init(frame: NSRect = NSRect.zero, color: NSColor, state: Bool = false, radius: CGFloat = 2) {
         self.color = color
         self.state = state
         
@@ -759,17 +759,24 @@ public class ProcessView: NSStackView {
     private var pid: Int? = nil
     private var lock: Bool = false
     
-    private var imageView: NSImageView = NSImageView(frame: NSRect(x: 5, y: 5, width: 12, height: 12))
-    private var killView: NSButton = NSButton(frame: NSRect(x: 5, y: 5, width: 12, height: 12))
+    private var imageView: NSImageView = NSImageView()
+    private var killView: NSButton = NSButton()
     private var labelView: LabelField = {
-        let view = LabelField(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
+        let view = LabelField()
         view.cell?.truncatesLastVisibleLine = true
         return view
     }()
     private var valueView: ValueField = ValueField(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
     
-    public init() {
-        super.init(frame: NSRect(x: 0, y: 0, width: 264, height: 22))
+    public init(size: CGSize = CGSize(width: 264, height: 22)) {
+        var rect = NSRect(x: 5, y: 5, width: 12, height: 12)
+        if size.height != 22 {
+            rect = NSRect(x: 3, y: 3, width: 12, height: 12)
+        }
+        self.imageView = NSImageView(frame: rect)
+        self.killView = NSButton(frame: rect)
+        
+        super.init(frame: NSRect(x: 0, y: 0, width: size.width, height: size.height))
         
         self.wantsLayer = true
         self.orientation = .horizontal
@@ -778,7 +785,7 @@ public class ProcessView: NSStackView {
         self.layer?.cornerRadius = 3
         
         let imageBox: NSView = {
-            let view = NSView(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
+            let view = NSView()
             
             self.killView.bezelStyle = .regularSquare
             self.killView.translatesAutoresizingMaskIntoConstraints = false

@@ -166,7 +166,8 @@ class SettingsWindow: NSWindow, NSWindowDelegate, NSToolbarDelegate {
             self.orderFrontRegardless()
         }
         
-        if let name = notification.userInfo?["module"] as? String {
+        if var name = notification.userInfo?["module"] as? String {
+            if name == "Combined modules" { name = "Dashboard" }
             self.sidebarView.openMenu(name)
         }
     }

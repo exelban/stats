@@ -78,6 +78,7 @@ open class Module: Module_p {
     
     public var menuBar: MenuBar
     public var settings: Settings_p? = nil
+    public let portal: Portal_p?
     
     public var name: String {
         config.name
@@ -107,7 +108,8 @@ open class Module: Module_p {
         }
     }
     
-    public init(popup: Popup_p? = nil, settings: Settings_v? = nil) {
+    public init(popup: Popup_p? = nil, settings: Settings_v? = nil, portal: Portal_p? = nil) {
+        self.portal = portal
         self.config = module_c(in: Bundle(for: type(of: self)).path(forResource: "config", ofType: "plist")!)
         
         self.log = NextLog.shared.copy(category: self.config.name)
