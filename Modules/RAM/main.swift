@@ -49,8 +49,10 @@ public struct Swap {
 }
 
 public class RAM: Module {
-    private var settingsView: Settings
     private let popupView: Popup
+    private let settingsView: Settings
+    private let portalView: Portal
+    
     private var usageReader: UsageReader? = nil
     private var processReader: ProcessReader? = nil
     
@@ -91,10 +93,12 @@ public class RAM: Module {
     public init() {
         self.settingsView = Settings("RAM")
         self.popupView = Popup("RAM")
+        self.portalView = Portal("RAM")
         
         super.init(
             popup: self.popupView,
-            settings: self.settingsView
+            settings: self.settingsView,
+            portal: self.portalView
         )
         guard self.available else { return }
         
@@ -146,6 +150,7 @@ public class RAM: Module {
         }
         
         self.popupView.loadCallback(value)
+        self.portalView.loadCallback(value)
         self.checkNotificationLevel(value.usage)
         
         let total: Double = value.total == 0 ? 1 : value.total

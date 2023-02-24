@@ -33,8 +33,9 @@ public struct CPU_Limit {
 }
 
 public class CPU: Module {
-    private var popupView: Popup
-    private var settingsView: Settings
+    private let popupView: Popup
+    private let settingsView: Settings
+    private let portalView: Portal
     
     private var loadReader: LoadReader? = nil
     private var processReader: ProcessReader? = nil
@@ -78,10 +79,12 @@ public class CPU: Module {
     public init() {
         self.settingsView = Settings("CPU")
         self.popupView = Popup("CPU")
+        self.portalView = Portal("CPU")
         
         super.init(
             popup: self.popupView,
-            settings: self.settingsView
+            settings: self.settingsView,
+            portal: self.portalView
         )
         guard self.available else { return }
         
@@ -177,6 +180,7 @@ public class CPU: Module {
         }
         
         self.popupView.loadCallback(value)
+        self.portalView.loadCallback(value)
         self.checkNotificationLevel(value.totalUsage)
         
         self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
