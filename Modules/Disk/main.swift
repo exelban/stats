@@ -128,10 +128,12 @@ public class Disks {
 }
 
 public class Disk: Module {
-    private let popupView: Popup = Popup()
+    private let popupView: Popup
+    private let settingsView: Settings
+    private let portalView: Portal
+    
     private var capacityReader: CapacityReader? = nil
     private var activityReader: ActivityReader? = nil
-    private var settingsView: Settings
     private var selectedDisk: String = ""
     private var notificationLevelState: Bool = false
     private var notificationID: String? = nil
@@ -143,11 +145,14 @@ public class Disk: Module {
     }
     
     public init() {
+        self.popupView = Popup()
         self.settingsView = Settings("Disk")
+        self.portalView = Portal("Disk")
         
         super.init(
             popup: self.popupView,
-            settings: self.settingsView
+            settings: self.settingsView,
+            portal: self.portalView
         )
         guard self.available else { return }
         
@@ -217,6 +222,7 @@ public class Disk: Module {
         }
         let percentage = Double(usedSpace) / Double(total)
         
+        self.portalView.loadCallback(percentage)
         self.checkNotificationLevel(percentage)
         
         self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: Widget) in

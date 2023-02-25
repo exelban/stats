@@ -99,8 +99,9 @@ public struct Network_Process {
 }
 
 public class Network: Module {
-    private var popupView: Popup
-    private var settingsView: Settings
+    private let popupView: Popup
+    private let settingsView: Settings
+    private let portalView: Portal
     
     private var usageReader: UsageReader? = nil
     private var processReader: ProcessReader? = nil
@@ -116,10 +117,12 @@ public class Network: Module {
     public init() {
         self.settingsView = Settings("Network")
         self.popupView = Popup("Network")
+        self.portalView = Portal("Network")
         
         super.init(
             popup: self.popupView,
-            settings: self.settingsView
+            settings: self.settingsView,
+            portal: self.portalView
         )
         guard self.available else { return }
         
@@ -195,6 +198,7 @@ public class Network: Module {
         }
         
         self.popupView.usageCallback(value)
+        self.portalView.usageCallback(value)
         
         var upload: Int64 = 0
         var download: Int64 = 0

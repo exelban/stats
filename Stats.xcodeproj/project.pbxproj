@@ -9,6 +9,12 @@
 /* Begin PBXBuildFile section */
 		5C0A2A8A292A5B4D009B4C1F /* SMJobBlessUtil.py in Resources */ = {isa = PBXBuildFile; fileRef = 5C0A2A89292A5B4D009B4C1F /* SMJobBlessUtil.py */; };
 		5C21D80B296C7B81005BA16D /* CombinedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C21D80A296C7B81005BA16D /* CombinedView.swift */; };
+		5C23BC0229A0102500DBA990 /* portal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C23BC0129A0102500DBA990 /* portal.swift */; };
+		5C23BC0429A014AC00DBA990 /* portal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C23BC0329A014AC00DBA990 /* portal.swift */; };
+		5C23BC0829A03D1200DBA990 /* portal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C23BC0729A03D1200DBA990 /* portal.swift */; };
+		5C23BC0A29A0EDA300DBA990 /* portal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C23BC0929A0EDA300DBA990 /* portal.swift */; };
+		5C23BC0C29A10BE000DBA990 /* portal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C23BC0B29A10BE000DBA990 /* portal.swift */; };
+		5C23BC1029A3B5AE00DBA990 /* portal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C23BC0F29A3B5AE00DBA990 /* portal.swift */; };
 		5C8E001029269C7F0027C75A /* protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CFE493829265055000F2856 /* protocol.swift */; };
 		5CFE492A29264DF1000F2856 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CFE492929264DF1000F2856 /* main.swift */; };
 		5CFE493929265055000F2856 /* protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CFE493829265055000F2856 /* protocol.swift */; };
@@ -348,6 +354,12 @@
 		4921436D25319699000A1C47 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5C0A2A89292A5B4D009B4C1F /* SMJobBlessUtil.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = SMJobBlessUtil.py; sourceTree = "<group>"; };
 		5C21D80A296C7B81005BA16D /* CombinedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombinedView.swift; sourceTree = "<group>"; };
+		5C23BC0129A0102500DBA990 /* portal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = portal.swift; sourceTree = "<group>"; };
+		5C23BC0329A014AC00DBA990 /* portal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = portal.swift; sourceTree = "<group>"; };
+		5C23BC0729A03D1200DBA990 /* portal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = portal.swift; sourceTree = "<group>"; };
+		5C23BC0929A0EDA300DBA990 /* portal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = portal.swift; sourceTree = "<group>"; };
+		5C23BC0B29A10BE000DBA990 /* portal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = portal.swift; sourceTree = "<group>"; };
+		5C23BC0F29A3B5AE00DBA990 /* portal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = portal.swift; sourceTree = "<group>"; };
 		5CFE492729264DF1000F2856 /* eu.exelban.Stats.SMC.Helper */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = eu.exelban.Stats.SMC.Helper; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CFE492929264DF1000F2856 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		5CFE493829265055000F2856 /* protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = protocol.swift; sourceTree = "<group>"; };
@@ -743,6 +755,7 @@
 				9A2847782666AA5000EC1F6D /* widget.swift */,
 				9A2847772666AA5000EC1F6D /* reader.swift */,
 				9A2847752666AA5000EC1F6D /* settings.swift */,
+				5C23BC0329A014AC00DBA990 /* portal.swift */,
 			);
 			path = module;
 			sourceTree = "<group>";
@@ -763,6 +776,7 @@
 				9A3E17D8247A94B500449CD1 /* main.swift */,
 				9A3E17DA247A94BC00449CD1 /* readers.swift */,
 				9A3E17E9247B07BF00449CD1 /* popup.swift */,
+				5C23BC0B29A10BE000DBA990 /* portal.swift */,
 				9A58DEA324B3647600716A9F /* settings.swift */,
 				9A3E17CF247A94AF00449CD1 /* Info.plist */,
 				9A3E17DC247A94C300449CD1 /* config.plist */,
@@ -812,6 +826,7 @@
 				9A81C7672449A43600825D92 /* main.swift */,
 				9A81C7682449A43600825D92 /* readers.swift */,
 				9AA6425F244B274200416A33 /* popup.swift */,
+				5C23BC0729A03D1200DBA990 /* portal.swift */,
 				9A953A1324B9D22D0038EF4B /* settings.swift */,
 				9A81C7592449A41400825D92 /* Info.plist */,
 				9AF9EE192464A7B3005D2270 /* config.plist */,
@@ -825,6 +840,7 @@
 				9A90E19524EAD35F00471E9A /* main.swift */,
 				9A90E1A224EAD66600471E9A /* reader.swift */,
 				9A53EBFA24EB041E00648841 /* popup.swift */,
+				5C23BC0929A0EDA300DBA990 /* portal.swift */,
 				9A53EBF824EAFA5200648841 /* settings.swift */,
 				9A90E18C24EAD2BB00471E9A /* Info.plist */,
 				9A90E19724EAD3B000471E9A /* config.plist */,
@@ -838,6 +854,7 @@
 				9A97CEE82537338600742D8F /* main.swift */,
 				9A97CEF0253733D200742D8F /* readers.swift */,
 				9A97CEF5253733E400742D8F /* popup.swift */,
+				5C23BC0129A0102500DBA990 /* portal.swift */,
 				9A97CEFA253733F300742D8F /* settings.swift */,
 				9A97CECD2537331B00742D8F /* Info.plist */,
 				9A97CEFF2537340400742D8F /* config.plist */,
@@ -939,6 +956,7 @@
 				9AF9EE0E2464875F005D2270 /* main.swift */,
 				9AF9EE1024648ADC005D2270 /* readers.swift */,
 				9A5AF11A2469CE9B00684737 /* popup.swift */,
+				5C23BC0F29A3B5AE00DBA990 /* portal.swift */,
 				9AB7FD7B246B48DB00387FDA /* settings.swift */,
 				9AF9EE0524648751005D2270 /* Info.plist */,
 				9AF9EE12246492E8005D2270 /* config.plist */,
@@ -1622,6 +1640,7 @@
 				9A2847632666AA2700EC1F6D /* Mini.swift in Sources */,
 				9A6EEBBE2685259500897371 /* Logger.swift in Sources */,
 				9A2847602666AA2700EC1F6D /* NetworkChart.swift in Sources */,
+				5C23BC0429A014AC00DBA990 /* portal.swift in Sources */,
 				9A2847792666AA5000EC1F6D /* module.swift in Sources */,
 				9A2847662666AA2700EC1F6D /* Speed.swift in Sources */,
 				9A2847682666AA2700EC1F6D /* Sensors.swift in Sources */,
@@ -1643,6 +1662,7 @@
 			files = (
 				9A3E17DB247A94BC00449CD1 /* readers.swift in Sources */,
 				9A3E17EA247B07BF00449CD1 /* popup.swift in Sources */,
+				5C23BC0C29A10BE000DBA990 /* portal.swift in Sources */,
 				9A58DEA424B3647600716A9F /* settings.swift in Sources */,
 				9A3E17D9247A94B500449CD1 /* main.swift in Sources */,
 			);
@@ -1654,6 +1674,7 @@
 			files = (
 				9A81C76A2449A43600825D92 /* readers.swift in Sources */,
 				9AA64260244B274200416A33 /* popup.swift in Sources */,
+				5C23BC0829A03D1200DBA990 /* portal.swift in Sources */,
 				9A953A1424B9D22D0038EF4B /* settings.swift in Sources */,
 				9A81C7692449A43600825D92 /* main.swift in Sources */,
 			);
@@ -1666,6 +1687,7 @@
 				9A46C06B266D8602001A1117 /* smc.swift in Sources */,
 				9A90E1A324EAD66600471E9A /* reader.swift in Sources */,
 				9A90E19624EAD35F00471E9A /* main.swift in Sources */,
+				5C23BC0A29A0EDA300DBA990 /* portal.swift in Sources */,
 				9A53EBFB24EB041E00648841 /* popup.swift in Sources */,
 				9A53EBF924EAFA5200648841 /* settings.swift in Sources */,
 			);
@@ -1678,6 +1700,7 @@
 				9A46C077266D8606001A1117 /* smc.swift in Sources */,
 				9A97CEF1253733D200742D8F /* readers.swift in Sources */,
 				9A97CEF6253733E400742D8F /* popup.swift in Sources */,
+				5C23BC0229A0102500DBA990 /* portal.swift in Sources */,
 				9A97CEFB253733F300742D8F /* settings.swift in Sources */,
 				9A97CEE92537338600742D8F /* main.swift in Sources */,
 			);
@@ -1731,6 +1754,7 @@
 			files = (
 				9A5AF11B2469CE9B00684737 /* popup.swift in Sources */,
 				9AF9EE1124648ADC005D2270 /* readers.swift in Sources */,
+				5C23BC1029A3B5AE00DBA990 /* portal.swift in Sources */,
 				9AB7FD7C246B48DB00387FDA /* settings.swift in Sources */,
 				9AF9EE0F2464875F005D2270 /* main.swift in Sources */,
 			);
@@ -1882,11 +1906,13 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = RP2S87B72W;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/SMC/Helper/Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MARKETING_VERSION = 1.0.1;
 				"OTHER_LDFLAGS[arch=*]" = (
 					"-sectcreate",
 					__TEXT,
@@ -1912,11 +1938,13 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = RP2S87B72W;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/SMC/Helper/Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MARKETING_VERSION = 1.0.1;
 				"OTHER_LDFLAGS[arch=*]" = (
 					"-sectcreate",
 					__TEXT,
