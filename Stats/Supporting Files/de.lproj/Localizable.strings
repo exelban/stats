@@ -121,8 +121,8 @@
 "Reset settings" = "Einstellungen zurücksetzen";
 "Pause the Stats" = "Stats pausieren";
 "Resume the Stats" = "Stats fortsetzen";
-"Combined modules" = "Combined modules";
-"Spacing" = "Spacing";
+"Combined modules" = "Module zusammenfassen";
+"Spacing" = "Abstand";
 
 // Dashboard
 "Serial number" = "Seriennummer";
