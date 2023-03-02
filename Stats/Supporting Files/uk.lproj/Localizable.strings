@@ -216,6 +216,8 @@
 "User color" = "Колір користувача";
 "Idle color" = "Колір простою";
 "Cluster grouping" = "Кластерне групування";
+"Efficiency cores color" = "Колір енергоефективних ядер";
+"Performance cores color" = "Колір високопродуктивних ядер";
 
 // GPU
 "GPU to show" = "Активний графічний процесор";

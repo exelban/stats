@@ -216,6 +216,8 @@
 "User color" = "Kolor użytkownika";
 "Idle color" = "Nieaktywny kolor";
 "Cluster grouping" = "Grupowanie klastrów";
+"Efficiency cores color" = "Kolor rdzeni energooszczędnych";
+"Performance cores color" = "Kolor rdzeni wydajnościowych";
 
 // GPU
 "GPU to show" = "GPU do wyświetlenia";

@@ -216,6 +216,8 @@
 "User color" = "Barva uživatele";
 "Idle color" = "Barva nečinnosti";
 "Cluster grouping" = "Seskupení klastrů";
+"Efficiency cores color" = "Efficiency cores color";
+"Performance cores color" = "Performance cores color";
 
 // GPU
 "GPU to show" = "GPU k zobrazení";

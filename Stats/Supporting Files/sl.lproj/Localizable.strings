@@ -216,6 +216,8 @@
 "User color" = "Uporabniška barva";
 "Idle color" = "Barva mirovanja";
 "Cluster grouping" = "Združevanje v gruče";
+"Efficiency cores color" = "Efficiency cores color";
+"Performance cores color" = "Performance cores color";
 
 // GPU
 "GPU to show" = "GPE za prikaz";

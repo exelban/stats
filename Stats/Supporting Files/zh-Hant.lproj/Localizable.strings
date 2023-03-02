@@ -216,6 +216,8 @@
 "User color" = "使用者色彩";
 "Idle color" = "閒置時色彩";
 "Cluster grouping" = "依群集分組";
+"Efficiency cores color" = "Efficiency cores color";
+"Performance cores color" = "Performance cores color";
 
 // GPU
 "GPU to show" = "顯示顯示卡";

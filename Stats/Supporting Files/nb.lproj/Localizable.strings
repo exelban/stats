@@ -216,6 +216,8 @@
 "User color" = "Brukerfarge";
 "Idle color" = "Tomgangsfarge";
 "Cluster grouping" = "Klyngegruppering";
+"Efficiency cores color" = "Efficiency cores color";
+"Performance cores color" = "Performance cores color";
 
 // GPU
 "GPU to show" = "GPU å vise";

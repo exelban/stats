@@ -216,6 +216,8 @@
 "User color" = "用户占用颜色";
 "Idle color" = "闲置颜色";
 "Cluster grouping" = "按集群分组";
+"Efficiency cores color" = "Efficiency cores color";
+"Performance cores color" = "Performance cores color";
 
 // GPU
 "GPU to show" = "显示的 GPU";
