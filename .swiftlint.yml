@@ -35,6 +35,7 @@ identifier_name:
     - AppleSiliconSensorsList
     - FanValues
     - CombinedModulesSpacings
+    - BatteryInfo
 
 line_length: 200
 

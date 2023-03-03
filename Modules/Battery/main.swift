@@ -141,6 +141,11 @@ public class Battery: Module {
                     optimizedCharging: value.optimizedChargingEngaged,
                     time: value.timeToEmpty == 0 && value.timeToCharge != 0 ? value.timeToCharge : value.timeToEmpty
                 )
+            case let widget as BatteryDetailsWidget:
+                widget.setValue(
+                    percentage: value.level,
+                    time: value.timeToEmpty == 0 && value.timeToCharge != 0 ? value.timeToCharge : value.timeToEmpty
+                )
             default: break
             }
         }

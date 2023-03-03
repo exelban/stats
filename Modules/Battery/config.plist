@@ -69,6 +69,13 @@
 			<key>Order</key>
 			<integer>3</integer>
 		</dict>
+		<key>battery_details</key>
+		<dict>
+			<key>Default</key>
+			<false/>
+			<key>Order</key>
+			<integer>4</integer>
+		</dict>
 	</dict>
 </dict>
 </plist>

@@ -101,6 +101,13 @@ public let BatteryAdditionals: [KeyValue_t] = [
     KeyValue_t(key: "timeAndPercentage", value: "Time and percentage")
 ]
 
+public let BatteryInfo: [KeyValue_t] = [
+    KeyValue_t(key: "percentage", value: "Percentage"),
+    KeyValue_t(key: "time", value: "Time"),
+    KeyValue_t(key: "percentageAndTime", value: "Percentage and time"),
+    KeyValue_t(key: "timeAndPercentage", value: "Time and percentage")
+]
+
 public let ShortLong: [KeyValue_t] = [
     KeyValue_t(key: "short", value: "Short"),
     KeyValue_t(key: "long", value: "Long")
