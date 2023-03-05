@@ -16,8 +16,8 @@ public class NetworkChart: WidgetWrapper {
     private var frameState: Bool = false
     private var labelState: Bool = false
     private var historyCount: Int = 60
-    private var downloadColor: Color = .secondRed
-    private var uploadColor: Color = .secondBlue
+    private var downloadColor: Color = .secondBlue
+    private var uploadColor: Color = .secondRed
     private var scaleState: Scale = .linear
     private var commonScaleState: Bool = true
     
