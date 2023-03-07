@@ -74,7 +74,7 @@ internal struct Sensor: Sensor_p {
             case .current:
                 return "A"
             case .fan:
-                return "%"
+                return "RPM"
             }
         }
     }
@@ -126,7 +126,7 @@ internal struct Sensor: Sensor_p {
                 let val = value >= 9.95 ? "\(Int(round(value)))" : String(format: "%.1f", value)
                 return "\(val)\(unit)"
             case .fan:
-                return "\(Int(value))\(unit)"
+                return "\(Int(value))"
             }
         }
     }
@@ -154,8 +154,8 @@ internal struct Fan: Sensor_p {
     let id: Int
     var key: String
     var name: String
-    let minSpeed: Double
-    let maxSpeed: Double
+    var minSpeed: Double
+    var maxSpeed: Double
     var value: Double
     var mode: FanMode
     
