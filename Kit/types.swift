@@ -66,6 +66,14 @@ public let CombinedModulesSpacings: [KeyValue_t] = [
     KeyValue_t(key: "8", value: "8", additional: 8)
 ]
 
+public let PublicIPAddressRefreshIntervals: [KeyValue_t] = [
+    KeyValue_t(key: "never", value: "Never"),
+    KeyValue_t(key: "separator", value: "separator"),
+    KeyValue_t(key: "hour", value: "Every hour"),
+    KeyValue_t(key: "12", value: "Every 12 hours"),
+    KeyValue_t(key: "24", value: "Every 24 hours")
+]
+
 public enum DataSizeBase: String {
     case bit
     case byte

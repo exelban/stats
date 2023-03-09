@@ -36,6 +36,7 @@ identifier_name:
     - FanValues
     - CombinedModulesSpacings
     - BatteryInfo
+    - PublicIPAddressRefreshIntervals
 
 line_length: 200
 

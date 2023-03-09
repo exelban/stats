@@ -20,11 +20,13 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
     private var VPNModeState: Bool = false
     private var widgetActivationThreshold: Int = 0
     private var ICMPHost: String = "1.1.1.1"
+    private var publicIPRefreshInterval: String = "never"
     
     public var callback: (() -> Void) = {}
     public var callbackWhenUpdateNumberOfProcesses: (() -> Void) = {}
     public var usageResetCallback: (() -> Void) = {}
     public var ICMPHostCallback: ((_ newState: Bool) -> Void) = { _ in }
+    public var publicIPRefreshIntervalCallback: (() -> Void) = {}
     
     private let title: String
     private var button: NSPopUpButton?
@@ -47,6 +49,7 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
         self.VPNModeState = Store.shared.bool(key: "\(self.title)_VPNMode", defaultValue: self.VPNModeState)
         self.widgetActivationThreshold = Store.shared.int(key: "\(self.title)_widgetActivationThreshold", defaultValue: self.widgetActivationThreshold)
         self.ICMPHost = Store.shared.string(key: "\(self.title)_ICMPHost", defaultValue: self.ICMPHost)
+        self.publicIPRefreshInterval = Store.shared.string(key: "\(self.title)_publicIPRefreshInterval", defaultValue: self.publicIPRefreshInterval)
         
         super.init(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
         
@@ -96,6 +99,13 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
             action: #selector(changeReaderType),
             items: NetworkReaders,
             selected: self.readerType
+        ))
+        
+        self.addArrangedSubview(selectSettingsRow(
+            title: localizedString("Auto-refresh public IP address"),
+            action: #selector(toggleRefreshIPInterval),
+            items: PublicIPAddressRefreshIntervals,
+            selected: self.publicIPRefreshInterval
         ))
         
         self.addArrangedSubview(self.interfaceSelector())
@@ -273,9 +283,7 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
     }
     
     @objc private func changeReaderType(_ sender: NSMenuItem) {
-        guard let key = sender.representedObject as? String else {
-            return
-        }
+        guard let key = sender.representedObject as? String else { return }
         self.readerType = key
         Store.shared.set(key: "\(self.title)_reader", value: key)
         self.button?.isEnabled = self.readerType == "interface"
@@ -284,23 +292,14 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
     }
     
     @objc private func toggleUsageReset(_ sender: NSMenuItem) {
-        guard let key = sender.representedObject as? String else {
-            return
-        }
+        guard let key = sender.representedObject as? String else { return }
         self.usageReset = key
         Store.shared.set(key: "\(self.title)_usageReset", value: key)
         self.usageResetCallback()
     }
     
     @objc func toggleVPNMode(_ sender: NSControl) {
-        var state: NSControl.StateValue? = nil
-        if #available(OSX 10.15, *) {
-            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
-        } else {
-            state = sender is NSButton ? (sender as! NSButton).state: nil
-        }
-        
-        self.VPNModeState = state! == .on ? true : false
+        self.VPNModeState = controlState(sender)
         Store.shared.set(key: "\(self.title)_VPNMode", value: self.VPNModeState)
     }
     
@@ -314,7 +313,7 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
             valueField.stringValue = "\(value) KB"
         }
         self.widgetActivationThreshold = value
-        Store.shared.set(key: "\(self.title)_widgetActivationThreshold", value: widgetActivationThreshold)
+        Store.shared.set(key: "\(self.title)_widgetActivationThreshold", value: self.widgetActivationThreshold)
     }
     
     func controlTextDidChange(_ notification: Notification) {
@@ -323,5 +322,12 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
             Store.shared.set(key: "\(self.title)_ICMPHost", value: self.ICMPHost)
             self.ICMPHostCallback(self.ICMPHost.isEmpty)
         }
+    }
+    
+    @objc private func toggleRefreshIPInterval(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String else { return }
+        self.publicIPRefreshInterval = key
+        Store.shared.set(key: "\(self.title)_publicIPRefreshInterval", value: self.publicIPRefreshInterval)
+        self.publicIPRefreshIntervalCallback()
     }
 }
