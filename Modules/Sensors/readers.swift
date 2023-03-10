@@ -215,6 +215,15 @@ internal class SensorsReader: Reader<[Sensor_p]> {
             self.lastRead = Date()
         }
         
+        // cut off low dc in voltage
+        if let idx = self.list.firstIndex(where: { $0.key == "VD0R" }), self.list[idx].value < 0.1 {
+            self.list[idx].value = 0
+        }
+        // cut off low dc in current
+        if let idx = self.list.firstIndex(where: { $0.key == "ID0R" }), self.list[idx].value < 0.05 {
+            self.list[idx].value = 0
+        }
+        
         self.callback(self.list)
     }
     
