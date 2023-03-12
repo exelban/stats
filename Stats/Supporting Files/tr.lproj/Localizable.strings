@@ -216,6 +216,8 @@
 "User color" = "Kullanıcı rengi";
 "Idle color" = "Bekleme rengi";
 "Cluster grouping" = "Küme gruplaması";
+"Efficiency cores color" = "Efficiency cores color";
+"Performance cores color" = "Performance cores color";
 
 // GPU
 "GPU to show" = "Gösterilecek GPU";

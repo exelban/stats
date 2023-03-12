@@ -113,6 +113,9 @@ public class Network: Module {
     private var widgetActivationThreshold: Int {
         Store.shared.int(key: "\(self.config.name)_widgetActivationThreshold", defaultValue: 0) * 1_024
     }
+    private var publicIPRefreshInterval: String {
+        Store.shared.string(key: "\(self.name)_publicIPRefreshInterval", defaultValue: "never")
+    }
     
     public init() {
         self.settingsView = Settings("Network")
@@ -166,6 +169,9 @@ public class Network: Module {
                 self.popupView.resetConnectivityView()
                 self.connectivityCallback(false)
             }
+        }
+        self.settingsView.publicIPRefreshIntervalCallback = { [unowned self] in
+            self.setIPUpdater()
         }
         
         if let reader = self.usageReader {
@@ -230,13 +236,23 @@ public class Network: Module {
     }
     
     private func setIPUpdater() {
-        self.ipUpdater.interval = 60 * 60
+        self.ipUpdater.invalidate()
+        
+        switch self.publicIPRefreshInterval {
+        case "hour":
+            self.ipUpdater.interval = 60 * 60
+        case "12":
+            self.ipUpdater.interval = 60 * 60 * 12
+        case "24":
+            self.ipUpdater.interval = 60 * 60 * 24
+        default: return
+        }
+        
         self.ipUpdater.repeats = true
         self.ipUpdater.schedule { (completion: @escaping NSBackgroundActivityScheduler.CompletionHandler) in
             guard self.enabled && self.isAvailable() else {
                 return
             }
-            
             debug("going to automatically refresh IP address...")
             NotificationCenter.default.post(name: .refreshPublicIP, object: nil, userInfo: nil)
             completion(NSBackgroundActivityScheduler.Result.finished)

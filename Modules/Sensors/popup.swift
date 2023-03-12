@@ -33,7 +33,7 @@ internal class Popup: NSStackView, Popup_p {
     }
     
     internal func setup(_ values: [Sensor_p]?) {
-        guard let fans = values?.filter({ $0.type == .fan }),
+        guard let fans = values?.filter({ $0.type == .fan && !$0.isComputed }),
               var sensors = values?.filter({ $0.type != .fan }) else {
             return
         }

@@ -121,8 +121,8 @@
 "Reset settings" = "Einstellungen zurücksetzen";
 "Pause the Stats" = "Stats pausieren";
 "Resume the Stats" = "Stats fortsetzen";
-"Combined modules" = "Combined modules";
-"Spacing" = "Spacing";
+"Combined modules" = "Module zusammenfassen";
+"Spacing" = "Abstand";
 
 // Dashboard
 "Serial number" = "Seriennummer";
@@ -216,6 +216,8 @@
 "User color" = "Benutzer Farbe";
 "Idle color" = "Inaktivität Farbe";
 "Cluster grouping" = "Clustergruppierung";
+"Efficiency cores color" = "Efficiency Cores Farbe";
+"Performance cores color" = "Performance Cores Farbe";
 
 // GPU
 "GPU to show" = "GPU auswählen";

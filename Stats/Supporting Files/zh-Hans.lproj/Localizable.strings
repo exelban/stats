@@ -122,7 +122,7 @@
 "Pause the Stats" = "暂停 Stats";
 "Resume the Stats" = "恢复 Stats";
 "Combined modules" = "合并模块";
-"Spacing" = "Spacing";
+"Spacing" = "间距";
 
 // Dashboard
 "Serial number" = "序列号";
@@ -216,6 +216,8 @@
 "User color" = "用户占用颜色";
 "Idle color" = "闲置颜色";
 "Cluster grouping" = "按集群分组";
+"Efficiency cores color" = "能效核心颜色";
+"Performance cores color" = "性能核心颜色";
 
 // GPU
 "GPU to show" = "显示的 GPU";

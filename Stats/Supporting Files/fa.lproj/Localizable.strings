@@ -216,6 +216,8 @@
 "User color" = "رنگ کاربر";
 "Idle color" = "رنگ بیکار";
 "Cluster grouping" = "گروه‌بندی کلاستر";
+"Efficiency cores color" = "Efficiency cores color";
+"Performance cores color" = "Performance cores color";
 
 // GPU
 "GPU to show" = "نمایش جی پی یو";

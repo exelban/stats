@@ -20,6 +20,7 @@ public enum widget_t: String {
     case networkChart = "network_chart"
     case speed = "speed"
     case battery = "battery"
+    case batteryDetails = "battery_details"
     case sensors = "sensors"
     case memory = "memory"
     case label = "label"
@@ -57,6 +58,9 @@ public enum widget_t: String {
         case .battery:
             preview = BatteryWidget(title: module, config: widgetConfig, preview: true)
             item = BatteryWidget(title: module, config: widgetConfig, preview: false)
+        case .batteryDetails:
+            preview = BatteryDetailsWidget(title: module, config: widgetConfig, preview: true)
+            item = BatteryDetailsWidget(title: module, config: widgetConfig, preview: false)
         case .sensors:
             preview = SensorsWidget(title: module, config: widgetConfig, preview: true)
             item = SensorsWidget(title: module, config: widgetConfig, preview: false)
@@ -128,6 +132,7 @@ public enum widget_t: String {
         case .networkChart: return localizedString("Network chart widget")
         case .speed: return localizedString("Speed widget")
         case .battery: return localizedString("Battery widget")
+        case .batteryDetails: return localizedString("Battery details widget")
         case .sensors: return localizedString("Text widget")
         case .memory: return localizedString("Memory widget")
         case .label: return localizedString("Label widget")

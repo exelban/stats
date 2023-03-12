@@ -216,6 +216,8 @@
 "User color" = "Потребителски цвят";
 "Idle color" = "Цвят при неактивност";
 "Cluster grouping" = "Cluster grouping";
+"Efficiency cores color" = "Efficiency cores color";
+"Performance cores color" = "Performance cores color";
 
 // GPU
 "GPU to show" = "Показване на графична карта";

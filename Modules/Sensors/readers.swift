@@ -134,7 +134,7 @@ internal class SensorsReader: Reader<[Sensor_p]> {
         
         var cpuSensors = self.list.filter({ $0.group == .CPU && $0.type == .temperature && $0.average }).map{ $0.value }
         var gpuSensors = self.list.filter({ $0.group == .GPU && $0.type == .temperature && $0.average }).map{ $0.value }
-        let fanSensors = self.list.filter({ $0.type == .fan && !$0.isComputed }).map{ $0.value }
+        let fanSensors = self.list.filter({ $0.type == .fan && !$0.isComputed })
         
         #if arch(arm64)
         if self.HIDState {
@@ -189,9 +189,14 @@ internal class SensorsReader: Reader<[Sensor_p]> {
             }
         }
         if !fanSensors.isEmpty && fanSensors.count > 1 {
-            if let max = fanSensors.max() {
+            if let f = fanSensors.max(by: { $0.value < $1.value }) as? Fan {
                 if let idx = self.list.firstIndex(where: { $0.key == "Fastest Fan" }) {
-                    self.list[idx].value = max
+                    if var fan = self.list[idx] as? Fan {
+                        fan.value = f.value
+                        fan.minSpeed = f.minSpeed
+                        fan.maxSpeed = f.maxSpeed
+                        self.list[idx] = fan
+                    }
                 }
             }
         }
@@ -210,11 +215,20 @@ internal class SensorsReader: Reader<[Sensor_p]> {
             self.lastRead = Date()
         }
         
+        // cut off low dc in voltage
+        if let idx = self.list.firstIndex(where: { $0.key == "VD0R" }), self.list[idx].value < 0.1 {
+            self.list[idx].value = 0
+        }
+        // cut off low dc in current
+        if let idx = self.list.firstIndex(where: { $0.key == "ID0R" }), self.list[idx].value < 0.05 {
+            self.list[idx].value = 0
+        }
+        
         self.callback(self.list)
     }
     
-    private func initCalculatedSensors(_ sensors: [Sensor_p]) -> [Sensor] {
-        var list: [Sensor] = []
+    private func initCalculatedSensors(_ sensors: [Sensor_p]) -> [Sensor_p] {
+        var list: [Sensor_p] = []
         
         var cpuSensors = sensors.filter({ $0.group == .CPU && $0.type == .temperature && $0.average }).map{ $0.value }
         var gpuSensors = sensors.filter({ $0.group == .GPU && $0.type == .temperature && $0.average }).map{ $0.value }
@@ -226,7 +240,7 @@ internal class SensorsReader: Reader<[Sensor_p]> {
         }
         #endif
         
-        let fanSensors = sensors.filter({ $0.type == .fan && !$0.isComputed }).map{ $0.value}
+        let fanSensors = sensors.filter({ $0.type == .fan && !$0.isComputed })
         
         if !cpuSensors.isEmpty {
             let value = cpuSensors.reduce(0, +) / Double(cpuSensors.count)
@@ -243,8 +257,8 @@ internal class SensorsReader: Reader<[Sensor_p]> {
             }
         }
         if !fanSensors.isEmpty && fanSensors.count > 1 {
-            if let max = fanSensors.max() {
-                list.append(Sensor(key: "Fastest Fan", name: "Fastest Fan", value: max, group: .sensor, type: .fan, platforms: Platform.all, isComputed: true))
+            if let f = fanSensors.max(by: { $0.value < $1.value }) as? Fan {
+                list.append(Fan(id: -1, key: "Fastest Fan", name: "Fastest Fan", minSpeed: f.minSpeed, maxSpeed: f.maxSpeed, value: f.value, mode: .automatic, isComputed: true))
             }
         }
         

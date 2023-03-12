@@ -35,6 +35,8 @@ identifier_name:
     - AppleSiliconSensorsList
     - FanValues
     - CombinedModulesSpacings
+    - BatteryInfo
+    - PublicIPAddressRefreshIntervals
 
 line_length: 200
 

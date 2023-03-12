@@ -68,7 +68,7 @@
 "Cube" = "Kubický";
 "Logarithmic" = "Logaritmický";
 "Cores" = "Jádra";
-"Settings" = "Settings";
+"Settings" = "Nastavení";
 
 // Setup
 "Stats Setup" = "Nastavení Stats";
@@ -121,8 +121,8 @@
 "Reset settings" = "Obnovit nastavení";
 "Pause the Stats" = "Pozastavit Stats";
 "Resume the Stats" = "Obnovit Stats";
-"Combined modules" = "Combined modules";
-"Spacing" = "Spacing";
+"Combined modules" = "Kombinace modulů";
+"Spacing" = "Odsazení";
 
 // Dashboard
 "Serial number" = "Sériové číslo";
@@ -184,13 +184,13 @@
 "Popup settings" = "Popup settings";
 "Merge widgets" = "Sloučit widgety";
 "No available widgets to configure" = "Žádné dostupné widgety ke konfiguraci";
-"No options to configure for the popup in this module" = "No options to configure for the popup in this module";
+"No options to configure for the popup in this module" = "Žádné dostupné konfigurace vyskakovacího okna tohoto modulu";
 
 // Modules
 "Number of top processes" = "Počet prvních procesů";
 "Update interval for top processes" = "Interval aktualizace pro první procesy";
 "Notification level" = "Úroveň oznámení";
-"Chart color" = "Chart color";
+"Chart color" = "Barva grafu";
 
 // CPU
 "CPU usage" = "Použití CPU";
@@ -212,10 +212,12 @@
 "CPU usage is" = "Využití procesoru je %0";
 "Efficiency cores" = "Efektivní jádra";
 "Performance cores" = "Výkonná jádra";
-"System color" = "System color";
-"User color" = "User color";
-"Idle color" = "Idle color";
-"Cluster grouping" = "Cluster grouping";
+"System color" = "Systémová barva";
+"User color" = "Barva uživatele";
+"Idle color" = "Barva nečinnosti";
+"Cluster grouping" = "Seskupení klastrů";
+"Efficiency cores color" = "Efficiency cores color";
+"Performance cores color" = "Performance cores color";
 
 // GPU
 "GPU to show" = "GPU k zobrazení";
@@ -251,10 +253,10 @@
 "Split the value (App/Wired/Compressed)" = "Rozdělit hodnotu (Aplikační/Pevná/Komprese)";
 "RAM utilization threshold" = "Prahová hodnota využití paměti";
 "RAM utilization is" = "Využití paměti je %0";
-"App color" = "App color";
-"Wired color" = "Wired color";
-"Compressed color" = "Compressed color";
-"Free color" = "Free color";
+"App color" = "Barva aplikační paměti";
+"Wired color" = "Barva pevné paměti";
+"Compressed color" = "Barva kompresované paměti";
+"Free color" = "Barva volné paměti";
 
 // Disk
 "Show removable disks" = "Zobrazovat vyměnitelné disky";
@@ -276,10 +278,10 @@
 "Synchronize fan's control" = "Synchronizace ovládání ventilátoru";
 "Current" = "Proud";
 "Energy" = "Energie";
-"Show unknown sensors" = "Show unknown sensors";
-"Install fan helper" = "Install fan helper";
-"Uninstall fan helper" = "Uninstall fan helper";
-"Fan value" = "Fan value";
+"Show unknown sensors" = "Zobrazit neznáme senzory";
+"Install fan helper" = "Nainstalovat pomocnou aplikaci ovládání ventilátorů";
+"Uninstall fan helper" = "Odinstalovat pomocnou aplikaci ventilátorů";
+"Fan value" = "Hodnota ventilátoru";
 
 // Network
 "Uploading" = "Nahrávání";
@@ -311,9 +313,9 @@
 "Internet connection" = "Připojení k internetu";
 "Active state color" = "Barva aktivního stavu";
 "Nonactive state color" = "Barva neaktivního stavu";
-"Connectivity host (ICMP)" = "Connectivity host (ICMP)";
-"Leave empty to disable the check" = "Leave empty to disable the check";
-"Transparent pictogram when no activity" = "Transparent pictogram when no activity";
+"Connectivity host (ICMP)" = "Hostitel připojení (ICMP)";
+"Leave empty to disable the check" = "Pro vypnutí kontroly ponechte prázdné pole";
+"Transparent pictogram when no activity" = "Průhledný piktogram při inaktivitě";
 
 // Battery
 "Level" = "Úroveň";

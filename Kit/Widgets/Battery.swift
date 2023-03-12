@@ -457,3 +457,165 @@ public class BatteryWidget: WidgetWrapper {
         self.display()
     }
 }
+
+public class BatteryDetailsWidget: WidgetWrapper {
+    private var mode: String = "percentage"
+    private var timeFormat: String = "short"
+    
+    private var percentage: Double? = nil
+    private var time: Int = 0
+    
+    public init(title: String, config: NSDictionary?, preview: Bool = false) {
+        super.init(.batteryDetails, title: title, frame: CGRect(
+            x: Constants.Widget.margin.x,
+            y: Constants.Widget.margin.y,
+            width: 20 + (2*Constants.Widget.margin.x),
+            height: Constants.Widget.height - (2*Constants.Widget.margin.y)
+        ))
+        
+        self.canDrawConcurrently = true
+        
+        if preview {
+            self.percentage = 0.72
+            self.time = 415
+            self.mode = "percentageAndTime"
+        } else {
+            self.mode = Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_mode", defaultValue: self.mode)
+            self.timeFormat = Store.shared.string(key: "\(self.title)_timeFormat", defaultValue: self.timeFormat)
+        }
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    public override func draw(_ dirtyRect: NSRect) {
+        super.draw(dirtyRect)
+        
+        var width: CGFloat = Constants.Widget.margin.x*2
+        let x: CGFloat = Constants.Widget.margin.x
+        let isShortTimeFormat: Bool = self.timeFormat == "short"
+        
+        switch self.mode {
+        case "percentage":
+            var value = "n/a"
+            if let percentage = self.percentage {
+                value = "\(Int((percentage.rounded(toPlaces: 2)) * 100))%"
+            }
+            width = self.drawOneRow(value: value, x: x).rounded(.up)
+        case "time":
+            width = self.drawOneRow(
+                value: Double(self.time*60).printSecondsToHoursMinutesSeconds(short: isShortTimeFormat),
+                x: x
+            ).rounded(.up)
+        case "percentageAndTime":
+            var value = "n/a"
+            if let percentage = self.percentage {
+                value = "\(Int((percentage.rounded(toPlaces: 2)) * 100))%"
+            }
+            width = self.drawTwoRows(
+                first: value,
+                second: Double(self.time*60).printSecondsToHoursMinutesSeconds(short: isShortTimeFormat),
+                x: x
+            ).rounded(.up)
+        case "timeAndPercentage":
+            var value = "n/a"
+            if let percentage = self.percentage {
+                value = "\(Int((percentage.rounded(toPlaces: 2)) * 100))%"
+            }
+            width = self.drawTwoRows(
+                first: Double(self.time*60).printSecondsToHoursMinutesSeconds(short: isShortTimeFormat),
+                second: value,
+                x: x
+            ).rounded(.up)
+        default: break
+        }
+        
+        self.setWidth(width)
+    }
+    
+    private func drawOneRow(value: String, x: CGFloat) -> CGFloat {
+        let attributes = [
+            NSAttributedString.Key.font: NSFont.systemFont(ofSize: 12, weight: .regular),
+            NSAttributedString.Key.foregroundColor: isDarkMode ? NSColor.white : NSColor.textColor,
+            NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
+        ]
+        
+        let rowWidth = value.widthOfString(usingFont: .systemFont(ofSize: 12, weight: .regular))
+        let rect = CGRect(x: x, y: (Constants.Widget.height-12)/2, width: rowWidth, height: 12)
+        let str = NSAttributedString.init(string: value, attributes: attributes)
+        str.draw(with: rect)
+        
+        return rowWidth
+    }
+    
+    private func drawTwoRows(first: String, second: String, x: CGFloat) -> CGFloat {
+        let style = NSMutableParagraphStyle()
+        style.alignment = .center
+        let attributes = [
+            NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .regular),
+            NSAttributedString.Key.foregroundColor: NSColor.textColor,
+            NSAttributedString.Key.paragraphStyle: style
+        ]
+        let rowHeight: CGFloat = self.frame.height / 2
+        
+        let rowWidth = max(
+            first.widthOfString(usingFont: .systemFont(ofSize: 9, weight: .regular)),
+            second.widthOfString(usingFont: .systemFont(ofSize: 9, weight: .regular))
+        )
+        
+        var str = NSAttributedString.init(string: first, attributes: attributes)
+        str.draw(with: CGRect(x: x, y: rowHeight+1, width: rowWidth, height: rowHeight))
+        
+        str = NSAttributedString.init(string: second, attributes: attributes)
+        str.draw(with: CGRect(x: x, y: 1, width: rowWidth, height: rowHeight))
+        
+        return rowWidth
+    }
+    
+    public func setValue(percentage: Double? = nil, time: Int? = nil) {
+        var updated: Bool = false
+        let timeFormat: String = Store.shared.string(key: "\(self.title)_timeFormat", defaultValue: self.timeFormat)
+        
+        if self.percentage != percentage {
+            self.percentage = percentage
+            updated = true
+        }
+        if let time = time, self.time != time {
+            self.time = time
+            updated = true
+        }
+        if self.timeFormat != timeFormat {
+            self.timeFormat = timeFormat
+            updated = true
+        }
+        
+        if updated {
+            DispatchQueue.main.async(execute: {
+                self.display()
+            })
+        }
+    }
+    
+    // MARK: - Settings
+    
+    public override func settings() -> NSView {
+        let view = SettingsContainerView()
+        
+        view.addArrangedSubview(selectSettingsRow(
+            title: localizedString("Mode"),
+            action: #selector(self.toggleMode),
+            items: BatteryInfo,
+            selected: self.mode
+        ))
+        
+        return view
+    }
+    
+    @objc private func toggleMode(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String else { return }
+        self.mode = key
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_mode", value: key)
+        self.display()
+    }
+}

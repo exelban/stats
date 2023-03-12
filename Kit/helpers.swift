@@ -1067,18 +1067,23 @@ public class SMCHelper {
         return self.connection != nil
     }
     
-    private func helperStatus(completion: @escaping (_ installed: Bool) -> Void) {
+    public func checkForUpdate() {
         let helperURL = Bundle.main.bundleURL.appendingPathComponent("Contents/Library/LaunchServices/eu.exelban.Stats.SMC.Helper")
-        guard
-            let helperBundleInfo = CFBundleCopyInfoDictionaryForURL(helperURL as CFURL) as? [String: Any],
-            let helperVersion = helperBundleInfo["CFBundleShortVersionString"] as? String,
-            let helper = self.helper(completion) else {
-                completion(false)
-                return
-        }
+        guard let helperBundleInfo = CFBundleCopyInfoDictionaryForURL(helperURL as CFURL) as? [String: Any],
+              let helperVersion = helperBundleInfo["CFBundleShortVersionString"] as? String,
+              let helper = self.helper(nil) else { return }
         
         helper.version { installedHelperVersion in
-            completion(installedHelperVersion == helperVersion)
+            guard installedHelperVersion != helperVersion else { return }
+            print("new version of SMC helper is detected, going to update...")
+            self.uninstall(silent: true)
+            self.install { installed in
+                if installed {
+                    print("the new version of SMC helper was successfully installed")
+                } else {
+                    print("error when installing a new version of the SMC helper")
+                }
+            }
         }
     }
     
@@ -1158,7 +1163,7 @@ public class SMCHelper {
         return helper
     }
     
-    public func uninstall() {
+    public func uninstall(silent: Bool = false) {
         if let count = SMC.shared.getValue("FNum") {
             for i in 0..<Int(count) {
                 self.setFanMode(i, mode: 0)
@@ -1166,7 +1171,9 @@ public class SMCHelper {
         }
         guard let helper = self.helper(nil) else { return }
         helper.uninstall()
-        NotificationCenter.default.post(name: .fanHelperState, object: nil, userInfo: ["state": false])
+        if !silent {
+            NotificationCenter.default.post(name: .fanHelperState, object: nil, userInfo: ["state": false])
+        }
     }
 }
 

@@ -216,6 +216,8 @@
 "User color" = "สีของผู้ใช้";
 "Idle color" = "สีของว่างเปล่า";
 "Cluster grouping" = "การจัดกลุ่ม Cluster";
+"Efficiency cores color" = "Efficiency cores color";
+"Performance cores color" = "Performance cores color";
 
 // GPU
 "GPU to show" = "แสดง GPU";

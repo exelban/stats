@@ -122,7 +122,7 @@
 "Pause the Stats" = "暫停 Stats";
 "Resume the Stats" = "恢復 Stats";
 "Combined modules" = "合併模組";
-"Spacing" = "Spacing";
+"Spacing" = "間距";
 
 // Dashboard
 "Serial number" = "序號";
@@ -216,6 +216,8 @@
 "User color" = "使用者色彩";
 "Idle color" = "閒置時色彩";
 "Cluster grouping" = "依群集分組";
+"Efficiency cores color" = "節能核心色彩";
+"Performance cores color" = "效能核心色彩";
 
 // GPU
 "GPU to show" = "顯示顯示卡";

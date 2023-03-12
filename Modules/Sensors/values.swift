@@ -154,8 +154,8 @@ internal struct Fan: Sensor_p {
     let id: Int
     var key: String
     var name: String
-    let minSpeed: Double
-    let maxSpeed: Double
+    var minSpeed: Double
+    var maxSpeed: Double
     var value: Double
     var mode: FanMode
     
