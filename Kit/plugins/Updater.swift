@@ -166,6 +166,17 @@ public class Updater {
     }
     
     public func install(path: String) {
+        let pwd = Bundle.main.bundleURL.absoluteString
+            .replacingOccurrences(of: "file://", with: "")
+            .replacingOccurrences(of: "Stats.app", with: "")
+            .replacingOccurrences(of: "//", with: "/")
+        let dmg = path.replacingOccurrences(of: "file://", with: "")
+        
+        if !FileManager.default.isWritableFile(atPath: pwd) {
+            print("has no write permission on \(pwd)")
+            return
+        }
+        
         let diff = (Int(Date().timeIntervalSince1970) - self.lastInstallTS) / 60
         if diff <= 3 {
             print("last install was \(diff) minutes ago, stopping...")
@@ -194,11 +205,6 @@ public class Updater {
         
         print("Script is copied to $TMPDIR/updater.sh")
         
-        let pwd = Bundle.main.bundleURL.absoluteString
-            .replacingOccurrences(of: "file://", with: "")
-            .replacingOccurrences(of: "Stats.app", with: "")
-            .replacingOccurrences(of: "//", with: "/")
-        let dmg = path.replacingOccurrences(of: "file://", with: "")
         asyncShell("sh $TMPDIR/updater.sh --app \(pwd) --dmg \(dmg) >/dev/null &") // run updater script in in background
         
         print("Run updater.sh with app: \(pwd) and dmg: \(dmg)")
