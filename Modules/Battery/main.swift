@@ -46,10 +46,12 @@ struct Battery_Usage: value_t {
 }
 
 public class Battery: Module {
+    private let popupView: Popup
+    private let settingsView: Settings
+    private let portalView: Portal
+    
     private var usageReader: UsageReader? = nil
     private var processReader: ProcessReader? = nil
-    private let popupView: Popup
-    private var settingsView: Settings
     
     private var lowLevelNotificationState: Bool = false
     private var highLevelNotificationState: Bool = false
@@ -58,10 +60,12 @@ public class Battery: Module {
     public init() {
         self.settingsView = Settings("Battery")
         self.popupView = Popup("Battery")
+        self.portalView = Portal("Battery")
         
         super.init(
             popup: self.popupView,
-            settings: self.settingsView
+            settings: self.settingsView,
+            portal: self.portalView
         )
         guard self.available else { return }
         
@@ -123,6 +127,7 @@ public class Battery: Module {
         self.checkLowNotification(value: value)
         self.checkHighNotification(value: value)
         self.popupView.usageCallback(value)
+        self.portalView.loadCallback(value)
         
         self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
             switch w.item {

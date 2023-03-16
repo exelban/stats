@@ -57,10 +57,10 @@ internal class Popup: NSView, Popup_p {
     private var processes: [ProcessView] = []
     private var processesInitialized: Bool = false
     
+    private var colorState: Bool = false
+    
     private var numberOfProcesses: Int {
-        get {
-            return Store.shared.int(key: "\(self.title)_processes", defaultValue: 8)
-        }
+        return Store.shared.int(key: "\(self.title)_processes", defaultValue: 8)
     }
     private var processesHeight: CGFloat {
         get {
@@ -69,9 +69,7 @@ internal class Popup: NSView, Popup_p {
         }
     }
     private var timeFormat: String {
-        get {
-            return Store.shared.string(key: "\(self.title)_timeFormat", defaultValue: "short")
-        }
+        Store.shared.string(key: "\(self.title)_timeFormat", defaultValue: "short")
     }
     
     public var sizeCallback: ((NSSize) -> Void)? = nil
@@ -86,6 +84,8 @@ internal class Popup: NSView, Popup_p {
             height: self.dashboardHeight + self.batteryHeight + self.adapterHeight
         ))
         self.setFrameSize(NSSize(width: self.frame.width, height: self.frame.height + self.detailsHeight + self.processesHeight))
+        
+        self.colorState = Store.shared.bool(key: "\(self.title)_color", defaultValue: self.colorState)
         
         let gridView: NSGridView = NSGridView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height))
         gridView.rowSpacing = 0
@@ -347,14 +347,32 @@ internal class Popup: NSView, Popup_p {
     // MARK: - Settings
     
     public func settings() -> NSView? {
-        return nil
+        let view = SettingsContainerView()
+        
+        view.addArrangedSubview(toggleSettingRow(
+            title: localizedString("Colorize battery"),
+            action: #selector(toggleColor),
+            state: self.colorState
+        ))
+        
+        return view
+    }
+    
+    @objc private func toggleColor(_ sender: NSControl) {
+        self.colorState = controlState(sender)
+        Store.shared.set(key: "\(self.title)_color", value: self.colorState)
+        self.dashboardBatteryView?.display()
     }
 }
 
-private class BatteryView: NSView {
+internal class BatteryView: NSView {
     private var percentage: Double = 0
     
-    public override init(frame: NSRect) {
+    private var colorState: Bool {
+        return Store.shared.bool(key: "Battery_color", defaultValue: false)
+    }
+    
+    public override init(frame: NSRect = NSRect.zero) {
         super.init(frame: frame)
     }
     
@@ -365,27 +383,41 @@ private class BatteryView: NSView {
     public override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         
-        let w: CGFloat = 130
-        let h: CGFloat = 50
+        guard let ctx = NSGraphicsContext.current?.cgContext else { return }
+        
+        let w: CGFloat = min(dirtyRect.width, 120)
+        let h: CGFloat = min(dirtyRect.height, 50)
         let x: CGFloat = (dirtyRect.width - w)/2
         let y: CGFloat = (dirtyRect.size.height - h) / 2
-        let radius: CGFloat = 3
-        let batteryFrame = NSBezierPath(roundedRect: NSRect(x: x+1, y: y, width: w, height: h), xRadius: radius, yRadius: radius)
+        let batteryFrame = NSBezierPath(roundedRect: NSRect(x: x+1, y: y+1, width: w-8, height: h-2), xRadius: 3, yRadius: 3)
+        
         NSColor.textColor.set()
         
-        let bPX: CGFloat = x+w+1
-        let bPY: CGFloat = (dirtyRect.size.height / 2) - 4
-        let batteryPoint = NSBezierPath(roundedRect: NSRect(x: bPX, y: bPY, width: 4, height: 8), xRadius: radius, yRadius: radius)
-        batteryPoint.lineWidth = 1.1
-        batteryPoint.stroke()
+        let bPX: CGFloat = batteryFrame.bounds.origin.x + batteryFrame.bounds.width
+        let bPY: CGFloat = batteryFrame.bounds.origin.y + (batteryFrame.bounds.height/2) - 4
+        let batteryPoint = NSBezierPath(roundedRect: NSRect(x: bPX-2, y: bPY, width: 8, height: 8), xRadius: 4, yRadius: 4)
         batteryPoint.fill()
+        
+        let batteryPointSeparator = NSBezierPath()
+        batteryPointSeparator.move(to: CGPoint(x: bPX, y: batteryFrame.bounds.origin.y))
+        batteryPointSeparator.line(to: CGPoint(x: bPX, y: batteryFrame.bounds.origin.y + batteryFrame.bounds.height))
+        ctx.saveGState()
+        ctx.setBlendMode(.destinationOut)
+        NSColor.textColor.set()
+        batteryPointSeparator.lineWidth = 4
+        batteryPointSeparator.stroke()
+        ctx.restoreGState()
         
         batteryFrame.lineWidth = 1
         batteryFrame.stroke()
         
-        let maxWidth = w-2
-        let inner = NSBezierPath(roundedRect: NSRect(x: x+2, y: y+1, width: maxWidth * CGFloat(self.percentage), height: h-2), xRadius: radius, yRadius: radius)
-        self.percentage.batteryColor(color: true).set()
+        let inner = NSBezierPath(roundedRect: NSRect(
+            x: x+2,
+            y: y+2,
+            width: (w-10) * CGFloat(self.percentage),
+            height: h-4
+        ), xRadius: 3, yRadius: 3)
+        self.percentage.batteryColor(color: self.colorState).set()
         inner.lineWidth = 0
         inner.stroke()
         inner.close()
