@@ -256,7 +256,7 @@ internal class Popup: NSView, Popup_p {
             self.sourceField?.stringValue = localizedString(value.powerSource)
             self.timeField?.stringValue = ""
             
-            if value.powerSource == "Battery Power" {
+            if value.isBatteryPowered {
                 self.timeLabelField?.stringValue = "\(localizedString("Time to discharge")):"
                 if value.timeToEmpty != -1 && value.timeToEmpty != 0 {
                     self.timeField?.stringValue = Double(value.timeToEmpty*60).printSecondsToHoursMinutesSeconds(short: self.timeFormat == "short")
@@ -319,7 +319,7 @@ internal class Popup: NSView, Popup_p {
             self.batteryPowerField?.stringValue = "\(batteryPower.roundTo(decimalPlaces: 2)) W"
             self.temperatureField?.stringValue = Temperature(value.temperature)
             
-            self.powerField?.stringValue = value.powerSource == "Battery Power" ? localizedString("Not connected") : "\(value.ACwatts) W"
+            self.powerField?.stringValue = value.isBatteryPowered ? localizedString("Not connected") : "\(value.ACwatts) W"
             self.chargingStateField?.stringValue = value.isCharging ? localizedString("Yes") : localizedString("No")
         })
     }

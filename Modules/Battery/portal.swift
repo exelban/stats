@@ -77,7 +77,7 @@ internal class Portal: NSStackView, Portal_p {
                 
                 var seconds: Double = 0
                 if value.timeToEmpty != -1 && value.timeToEmpty != 0 {
-                    seconds = Double((value.powerSource == "Battery Power" ? value.timeToEmpty : value.timeToCharge)*60)
+                    seconds = Double((value.isBatteryPowered ? value.timeToEmpty : value.timeToCharge)*60)
                 }
                 self.timeField.stringValue = seconds != 0 ? seconds.printSecondsToHoursMinutesSeconds(short: self.timeFormat == "short") : ""
                 

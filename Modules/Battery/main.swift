@@ -19,6 +19,7 @@ struct Battery_Usage: value_t {
     var isCharged: Bool = false
     var isCharging: Bool = false
     var isLowPowerMode: Bool? = false
+    var isBatteryPowered: Bool = false
     var optimizedChargingEngaged: Bool = false
     var level: Double = 0
     var cycles: Int = 0
@@ -140,7 +141,7 @@ public class Battery: Module {
             case let widget as BatteryWidget:
                 widget.setValue(
                     percentage: value.level,
-                    ACStatus: value.powerSource != "Battery Power",
+                    ACStatus: !value.isBatteryPowered,
                     isCharging: value.isCharging,
                     lowPowerMode: value.isLowPowerMode,
                     optimizedCharging: value.optimizedChargingEngaged,
@@ -166,7 +167,7 @@ public class Battery: Module {
             return
         }
         
-        if (value.level > notificationLevel || value.powerSource != "Battery Power") && self.lowLevelNotificationState {
+        if (value.level > notificationLevel || !value.isBatteryPowered) && self.lowLevelNotificationState {
             if value.level > notificationLevel {
                 if let id = self.notificationID {
                     removeNotification(id)
@@ -201,7 +202,7 @@ public class Battery: Module {
             return
         }
         
-        if (value.level < notificationLevel || value.powerSource == "Battery Power") && self.highLevelNotificationState {
+        if (value.level < notificationLevel || value.isBatteryPowered) && self.highLevelNotificationState {
             if value.level < notificationLevel {
                 if let id = self.notificationID {
                     removeNotification(id)
