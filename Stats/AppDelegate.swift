@@ -103,7 +103,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
             debug("Downloading new version of app...")
             if let url = URL(string: uri) {
                 updater.download(url, completion: { path in
-                    updater.install(path: path)
+                    updater.install(path: path) { error in
+                        if let error {
+                            showAlert("Error update Stats", error, .critical)
+                        }
+                    }
                 })
             }
         }

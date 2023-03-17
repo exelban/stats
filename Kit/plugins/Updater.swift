@@ -165,7 +165,7 @@ public class Updater {
         downloadTask.resume()
     }
     
-    public func install(path: String) {
+    public func install(path: String, completion: @escaping (_ error: String?) -> Void) {
         let pwd = Bundle.main.bundleURL.absoluteString
             .replacingOccurrences(of: "file://", with: "")
             .replacingOccurrences(of: "Stats.app", with: "")
@@ -173,13 +173,13 @@ public class Updater {
         let dmg = path.replacingOccurrences(of: "file://", with: "")
         
         if !FileManager.default.isWritableFile(atPath: pwd) {
-            print("has no write permission on \(pwd)")
+            completion("has no write permission on \(pwd)")
             return
         }
         
         let diff = (Int(Date().timeIntervalSince1970) - self.lastInstallTS) / 60
         if diff <= 3 {
-            print("last install was \(diff) minutes ago, stopping...")
+            completion("last install was \(diff) minutes ago, stopping...")
             return
         }
         

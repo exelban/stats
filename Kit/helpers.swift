@@ -1372,3 +1372,14 @@ public func iconFromSymbol(name: String, scale: NSImage.SymbolScale) -> NSImage?
     }
     return nil
 }
+
+public func showAlert(_ message: String, _ information: String? = nil, _ style: NSAlert.Style = .informational) {
+    let alert = NSAlert()
+    alert.messageText = message
+    if let information = information {
+        alert.informativeText = information
+    }
+    alert.addButton(withTitle: "OK")
+    alert.alertStyle = style
+    alert.runModal()
+}

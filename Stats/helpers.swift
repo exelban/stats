@@ -159,7 +159,11 @@ extension AppDelegate {
             if silent {
                 if let url = URL(string: version.url) {
                     updater.download(url, completion: { path in
-                        updater.install(path: path)
+                        updater.install(path: path) { error in
+                            if let error {
+                                showAlert("Error update Stats", error, .critical)
+                            }
+                        }
                     })
                 }
                 return

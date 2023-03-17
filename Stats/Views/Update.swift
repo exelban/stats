@@ -284,6 +284,10 @@ private class UpdateView: NSView {
     }
     
     @objc private func install(_ sender: Any) {
-        updater.install(path: self.path)
+        updater.install(path: self.path) { error in
+            if let error {
+                showAlert("Error update Stats", error, .critical)
+            }
+        }
     }
 }
