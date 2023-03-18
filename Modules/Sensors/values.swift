@@ -35,6 +35,7 @@ internal protocol Sensor_p {
     var name: String { get }
     var value: Double { get set }
     var state: Bool { get }
+    var popupState: Bool { get }
     
     var group: SensorGroup { get }
     var type: SensorType { get }
@@ -132,13 +133,14 @@ internal struct Sensor: Sensor_p {
     }
     
     var state: Bool {
-        get {
-            return Store.shared.bool(key: "sensor_\(self.key)", defaultValue: false)
-        }
+        Store.shared.bool(key: "sensor_\(self.key)", defaultValue: false)
+    }
+    var popupState: Bool {
+        Store.shared.bool(key: "sensor_\(self.key)_popup", defaultValue: true)
     }
     
     func copy() -> Sensor {
-        return Sensor(
+        Sensor(
             key: self.key,
             name: self.name,
             group: self.group,
@@ -178,7 +180,7 @@ internal struct Fan: Sensor_p {
         "\(Int(value)) RPM"
     }
     var formattedMiniValue: String {
-        return "\(Int(value))"
+        "\(Int(value))"
     }
     var formattedPopupValue: String {
         "\(Int(value)) RPM"
@@ -186,6 +188,9 @@ internal struct Fan: Sensor_p {
     
     var state: Bool {
         Store.shared.bool(key: "sensor_\(self.key)", defaultValue: false)
+    }
+    var popupState: Bool {
+        Store.shared.bool(key: "sensor_\(self.key)_popup", defaultValue: true)
     }
     
     var customSpeed: Int? {

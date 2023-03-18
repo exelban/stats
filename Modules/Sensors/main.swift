@@ -14,7 +14,7 @@ import Kit
 
 public class Sensors: Module {
     private var sensorsReader: SensorsReader
-    private let popupView: Popup = Popup()
+    private let popupView: Popup
     private var settingsView: Settings
     
     private var fanValueState: FanValue {
@@ -24,6 +24,7 @@ public class Sensors: Module {
     public init() {
         self.sensorsReader = SensorsReader()
         self.settingsView = Settings("Sensors", list: self.sensorsReader.list)
+        self.popupView = Popup()
         
         super.init(
             popup: self.popupView,

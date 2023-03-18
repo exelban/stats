@@ -152,11 +152,7 @@ internal class Settings: NSStackView, Settings_v {
             
             groups.forEach { (group: SensorGroup) in
                 filtered.filter{ $0.group == group }.forEach { (s: Sensor_p) in
-                    let row: NSView = toggleSettingRow(
-                        title: s.name,
-                        action: #selector(self.handleSelection),
-                        state: s.state
-                    )
+                    let row: NSView = toggleSettingRow(title: s.name, action: #selector(self.toggleFan), state: s.state)
                     row.subviews.filter{ $0 is NSControl }.forEach { (control: NSView) in
                         control.identifier = NSUserInterfaceItemIdentifier(rawValue: s.key)
                     }
@@ -175,7 +171,7 @@ internal class Settings: NSStackView, Settings_v {
         self.load(widgets: self.widgets)
     }
     
-    @objc private func handleSelection(_ sender: NSControl) {
+    @objc private func toggleFan(_ sender: NSControl) {
         guard let id = sender.identifier else { return }
         Store.shared.set(key: "sensor_\(id.rawValue)", value: controlState(sender))
         self.callback()
@@ -195,24 +191,24 @@ internal class Settings: NSStackView, Settings_v {
         self.callback()
     }
     
-    @objc func toggleHID(_ sender: NSControl) {
+    @objc private func toggleHID(_ sender: NSControl) {
         self.hidState = controlState(sender)
         Store.shared.set(key: "\(self.title)_hid", value: self.hidState)
         self.HIDcallback()
     }
     
-    @objc func toggleFansSync(_ sender: NSControl) {
+    @objc private func toggleFansSync(_ sender: NSControl) {
         self.fansSyncState = controlState(sender)
         Store.shared.set(key: "\(self.title)_fansSync", value: self.fansSyncState)
     }
     
-    @objc func toggleuUnknownSensors(_ sender: NSControl) {
+    @objc private func toggleuUnknownSensors(_ sender: NSControl) {
         self.unknownSensorsState = controlState(sender)
         Store.shared.set(key: "\(self.title)_unknown", value: self.unknownSensorsState)
         self.unknownCallback()
     }
     
-    @objc func toggleFanValue(_ sender: NSMenuItem) {
+    @objc private func toggleFanValue(_ sender: NSMenuItem) {
         if let key = sender.representedObject as? String, let value = FanValue(rawValue: key) {
             self.fanValueState = value
             Store.shared.set(key: "\(self.title)_fanValue", value: self.fanValueState.rawValue)

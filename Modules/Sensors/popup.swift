@@ -12,14 +12,38 @@
 import Cocoa
 import Kit
 
-internal class Popup: NSStackView, Popup_p {
-    private var list: [String: NSView] = [:]
+private struct Sensor_t: KeyValue_p {
+    let key: String
+    let name: String?
     
+    var value: String
+    var additional: Any?
+    
+    var index: Int {
+        get {
+            return Store.shared.int(key: "sensors_\(self.key)_index", defaultValue: -1)
+        }
+        set {
+            Store.shared.set(key: "sensors_\(self.key)_index", value: newValue)
+        }
+    }
+    
+    init(key: String, value: String, name: String? = nil) {
+        self.key = key
+        self.value = value
+        self.name = name
+    }
+}
+
+internal class Popup: NSStackView, Popup_p {
     public var sizeCallback: ((NSSize) -> Void)? = nil
     
+    private var list: [String: NSView] = [:]
     private var unknownSensorsState: Bool {
         Store.shared.bool(key: "Sensors_unknown", defaultValue: false)
     }
+    private var sensors: [Sensor_p] = []
+    private let settingsView: NSStackView = SettingsContainerView()
     
     public init() {
         super.init(frame: NSRect( x: 0, y: 0, width: Constants.Popup.width, height: 0))
@@ -32,17 +56,17 @@ internal class Popup: NSStackView, Popup_p {
         fatalError("init(coder:) has not been implemented")
     }
     
-    internal func setup(_ values: [Sensor_p]?) {
-        guard let fans = values?.filter({ $0.type == .fan && !$0.isComputed }),
-              var sensors = values?.filter({ $0.type != .fan }) else {
-            return
-        }
+    internal func setup(_ values: [Sensor_p]? = nil, reload: Bool = false) {
+        guard let values = reload ? self.sensors : values else { return }
+        let fans = values.filter({ $0.type == .fan && !$0.isComputed })
+        var sensors = values.filter({ $0.type != .fan })
         if !self.unknownSensorsState {
             sensors = sensors.filter({ $0.group != .unknown })
         }
         
-        self.subviews.forEach { (v: NSView) in
-            v.removeFromSuperview()
+        self.subviews.forEach({ $0.removeFromSuperview() })
+        if !reload {
+            self.settingsView.subviews.forEach({ $0.removeFromSuperview() })
         }
         
         if !fans.isEmpty {
@@ -79,7 +103,7 @@ internal class Popup: NSStackView, Popup_p {
         }
         
         types.forEach { (typ: SensorType) in
-            let filtered = sensors.filter{ $0.type == typ }
+            var filtered = sensors.filter{ $0.type == typ }
             var groups: [SensorGroup] = []
             filtered.forEach { (s: Sensor_p) in
                 if !groups.contains(s.group) {
@@ -87,11 +111,44 @@ internal class Popup: NSStackView, Popup_p {
                 }
             }
             
-            self.addArrangedSubview(separatorView(
-                localizedString(typ.rawValue),
-                width: self.frame.width
-            ))
+            if !reload {
+                let header = NSStackView()
+                header.heightAnchor.constraint(equalToConstant: Constants.Settings.row).isActive = true
+                header.spacing = 0
+                
+                let titleField: NSTextField = LabelField(frame: NSRect(x: 0, y: 0, width: 0, height: 0), localizedString(typ.rawValue))
+                titleField.font = NSFont.systemFont(ofSize: 13, weight: .medium)
+                titleField.textColor = .labelColor
+                
+                header.addArrangedSubview(titleField)
+                header.addArrangedSubview(NSView())
+                
+                self.settingsView.addArrangedSubview(header)
+                
+                let container = NSStackView()
+                container.orientation = .vertical
+                container.edgeInsets = NSEdgeInsets(top: 0, left: Constants.Settings.margin, bottom: 0, right: Constants.Settings.margin)
+                container.spacing = 0
+                
+                groups.forEach { (group: SensorGroup) in
+                    filtered.filter{ $0.group == group }.forEach { (s: Sensor_p) in
+                        let row: NSView = toggleSettingRow(title: s.name, action: #selector(self.toggleFan), state: s.popupState)
+                        row.subviews.filter{ $0 is NSControl }.forEach { (control: NSView) in
+                            control.identifier = NSUserInterfaceItemIdentifier(rawValue: s.key)
+                        }
+                        container.addArrangedSubview(row)
+                    }
+                }
+                
+                self.settingsView.addArrangedSubview(container)
+            }
             
+            // popup
+            
+            filtered = filtered.filter{ $0.popupState }
+            if filtered.isEmpty { return }
+            
+            self.addArrangedSubview(separatorView(localizedString(typ.rawValue), width: self.frame.width))
             groups.forEach { (group: SensorGroup) in
                 filtered.filter{ $0.group == group }.forEach { (s: Sensor_p) in
                     let sensor = SensorView(s, width: self.frame.width)  { [weak self] in
@@ -103,6 +160,9 @@ internal class Popup: NSStackView, Popup_p {
             }
         }
         
+        if !reload {
+            self.sensors = values
+        }
         self.recalculateHeight()
     }
     
@@ -142,7 +202,15 @@ internal class Popup: NSStackView, Popup_p {
     // MARK: - Settings
     
     public func settings() -> NSView? {
-        return nil
+        self.settingsView
+    }
+    
+    // MARK: helpers
+    
+    @objc private func toggleFan(_ sender: NSControl) {
+        guard let id = sender.identifier else { return }
+        Store.shared.set(key: "sensor_\(id.rawValue)_popup", value: controlState(sender))
+        self.setup(reload: true)
     }
 }
 

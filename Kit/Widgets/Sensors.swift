@@ -246,6 +246,7 @@ public class SensorsWidget: WidgetWrapper {
         }
         self.setWidth(totalWidth)
     }
+    
     // MARK: - Settings
     
     public override func settings() -> NSView {
