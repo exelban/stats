@@ -82,7 +82,7 @@
 "welcome_message" = "Grazie per aver scelto Stats, un sistema di monitoraggio del sistema dalla menu bar gratuito e open source per macOS.";
 "Start the application automatically when starting your Mac" = "Avvia l'applicazione automaticamente all'accensione del Mac";
 "Do not start the application automatically when starting your Mac" = "Non avviare l'applicazione automaticamente all'accensione del Mac";
-"Do everything silently in the background (recommended)" = "Gestisci autonomamente in background (consigliato)"
+"Do everything silently in the background (recommended)" = "Gestisci autonomamente in background (consigliato)";
 "Check for a new version on startup" = "Verifica la disponibilità di nuove versioni all'avvio";
 "Check for a new version every day (once a day)" = "Verifica la disponibilità di nuove versioni ogni giorno (una volta al giorno)";
 "Check for a new version every week (once a week)" = "Verifica la disponibilità di nuove versioni ogni settimana (una volta a settimana)";
