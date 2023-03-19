@@ -216,7 +216,7 @@ internal class SensorsReader: Reader<[Sensor_p]> {
         }
         
         // cut off low dc in voltage
-        if let idx = self.list.firstIndex(where: { $0.key == "VD0R" }), self.list[idx].value < 0.1 {
+        if let idx = self.list.firstIndex(where: { $0.key == "VD0R" }), self.list[idx].value < 0.4 {
             self.list[idx].value = 0
         }
         // cut off low dc in current
