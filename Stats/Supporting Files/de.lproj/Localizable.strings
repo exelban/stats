@@ -60,7 +60,7 @@
 "Enabled" = "Aktiviert";
 "Disabled" = "Deaktiviert";
 "Silent" = "Leise";
-"Units" = "Einheit";
+"Units" = "Einheiten";
 "Fans" = "Lüfter";
 "Scaling" = "Skalierung";
 "Linear" = "Linear";
@@ -79,14 +79,14 @@
 "Finish" = "Fertigstellen";
 "Finish setup" = "Einrichtung abschließen";
 "Welcome to Stats" = "Willkommen zu Stats";
-"welcome_message" = "Danke für die Benutzung von Stats, einem kostenlosen Open Source macOS System-Überwachungstool für die Statusleiste.";
-"Start the application automatically when starting your Mac" = "Starte Stats automatisch mit dem Mac";
-"Do not start the application automatically when starting your Mac" = "Starte Stats nicht automatisch mit dem Mac";
+"welcome_message" = "Danke für die Benutzung von Stats, einem kostenlosen Open-Source macOS System-Überwachungstool für die Menüleiste.";
+"Start the application automatically when starting your Mac" = "Stats automatisch mit dem Mac starten";
+"Do not start the application automatically when starting your Mac" = "Stats nicht automatisch mit dem Mac starten";
 "Do everything silently in the background (recommended)" = "Alles ohne Nachfrage im Hintergrund durchführen. (empfohlen)";
-"Check for a new version on startup" = "Prüfe auf neue Version beim Start";
-"Check for a new version every day (once a day)" = "Prüfe tägliche auf Updates (einmal pro Tag)";
-"Check for a new version every week (once a week)" = "Prüfe wöchentlich auf Updates (einmal pro Woche)";
-"Check for a new version every month (once a month)" = "Prüfe monatlich auf Updates (einmal pro Monat)";
+"Check for a new version on startup" = "Beim Starten auf neue Version prüfen";
+"Check for a new version every day (once a day)" = "Tägliche nach Updates suchen (einmal pro Tag)";
+"Check for a new version every week (once a week)" = "Wöchentlich nach Updates suchen (einmal pro Woche)";
+"Check for a new version every month (once a month)" = "Monatlich nach Updates suchen (einmal pro Monat)";
 "Never check for updates (not recommended)" = "Nie nach neuen Updates suchen (nicht empfohlen)";
 "The configuration is completed" = "Die Einrichtung ist abgeschlossen";
 "finish_setup_message" = "Alles erledigt! \n Stats ist ein Open Source Programm. Es ist und bleibt für immer kostenlos. \n Wenn es Ihnen gefällt, können Sie das Projekt gerne unterstützen!";
@@ -96,11 +96,11 @@
 "Click to install the new version of Stats" = "Klicken Sie hier, um die neue Version von Stats zu installieren";
 "Successfully updated" = "Erfolgreich aktualisiert";
 "Stats was updated to v" = "Stats wurde auf v%0 aktualisiert";
-"Reset settings text" = "Alle Einstellungen von Stats werden zurückgesetzt und Stats wird im Anschluss neu gestartet. Möchten Sie dies wirklich?";
+"Reset settings text" = "Alle Einstellungen von Stats werden zurückgesetzt und Stats wird neu gestartet. Möchten Sie dies wirklich?";
 
 // Settings
 "Open Activity Monitor" = "Aktivitätsanzeige öffnen";
-"Report a bug" = "Fehler melden";
+"Report a bug" = "Problem melden";
 "Support the application" = "Anwendung unterstützen";
 "Close application" = "Anwendung schließen";
 "Open application settings" = "Einstellungen öffnen";
@@ -121,7 +121,7 @@
 "Reset settings" = "Einstellungen zurücksetzen";
 "Pause the Stats" = "Stats pausieren";
 "Resume the Stats" = "Stats fortsetzen";
-"Combined modules" = "Module zusammenfassen";
+"Combined modules" = "Zusammengefasste Module";
 "Spacing" = "Abstand";
 
 // Dashboard
@@ -147,12 +147,12 @@
 "Colorize" = "Einfärben";
 "Colorize value" = "Wert einfärben";
 "Additional information" = "Zusätzliche Informationen";
-"Reverse values order" = "Umgekehrte Reihenfolge der Werte";
+"Reverse values order" = "Reihenfolge der Werte umkehren";
 "Base" = "Basis";
 "Display mode" = "Anzeigemodus";
 "One row" = "Eine Reihe";
 "Two rows" = "Zwei Reihen";
-"Mini widget" = "Mini";
+"Mini widget" = "Mini Widget";
 "Line chart widget" = "Liniendiagramm";
 "Bar chart widget" = "Balkendiagramm";
 "Pie chart widget" = "Kuchendiagramm";
@@ -161,12 +161,12 @@
 "Battery widget" = "Akku";
 "Text widget" = "Text";
 "Memory widget" = "Speicher";
-"Static width" = "Statische Breite";
+"Static width" = "Feste Breite";
 "Tachometer widget" = "Tachometer";
 "State widget" = "Status Widget";
 "Show symbols" = "Symbole anzeigen";
-"Label widget" = "Label";
-"Number of reads in the chart" = "Anzahl an Elementen im Diagramm";
+"Label widget" = "Text Widget";
+"Number of reads in the chart" = "Anzahl der Elemente im Diagramm";
 "Color of download" = "Download Farbe";
 "Color of upload" = "Upload Farbe";
 
@@ -193,14 +193,14 @@
 "Chart color" = "Diagramm Farbe";
 
 // CPU
-"CPU usage" = "CPU Nutzung";
+"CPU usage" = "CPU Auslastung";
 "CPU temperature" = "CPU Temperatur";
 "CPU frequency" = "CPU Taktfrequenz";
 "System" = "System";
 "User" = "Nutzer";
 "Idle" = "Leerlauf";
-"Show usage per core" = "Nutzung pro Kern anzeigen";
-"Show hyper-threading cores" = "Hyper-Threading-Kerne anzeigen";
+"Show usage per core" = "Auslastung pro Kern anzeigen";
+"Show hyper-threading cores" = "Hyper-Threading Kerne anzeigen";
 "Split the value (System/User)" = "Werte aufteilen (System/Nutzer)";
 "Scheduler limit" = "Maximale Scheduler-Geschwindigkeit";
 "Speed limit" = "Maximale CPU-Geschwindigkeit";
@@ -208,13 +208,13 @@
 "1 minute" = "1 Minute";
 "5 minutes" = "5 Minuten";
 "15 minutes" = "15 Minuten";
-"CPU usage threshold" = "Schwellwert für CPU Auslastung erreicht";
+"CPU usage threshold" = "Schwellenwert für CPU Auslastung erreicht";
 "CPU usage is" = "Auslastung ist %0";
 "Efficiency cores" = "Efficiency Cores";
 "Performance cores" = "Performance Cores";
 "System color" = "System Farbe";
 "User color" = "Benutzer Farbe";
-"Idle color" = "Inaktivität Farbe";
+"Idle color" = "Leerlauf Farbe";
 "Cluster grouping" = "Clustergruppierung";
 "Efficiency cores color" = "Efficiency Cores Farbe";
 "Performance cores color" = "Performance Cores Farbe";
@@ -237,7 +237,7 @@
 "Utilization" = "Auslastung";
 "Render utilization" = "Rendering Auslastung";
 "Tiler utilization" = "Tile Rendering Auslastung";
-"GPU usage threshold" = "Schwellwert für GPU Auslastung erreicht";
+"GPU usage threshold" = "Schwellenwert für GPU Auslastung erreicht";
 "GPU usage is" = "Auslastung ist %0";
 
 // RAM
@@ -281,7 +281,7 @@
 "Show unknown sensors" = "Unbekannte Sensoren anzeigen";
 "Install fan helper" = "Lüftersteuerung installieren";
 "Uninstall fan helper" = "Lüftersteuerung deinstallieren";
-"Fan value" = "Lüftergeschwindigkeitswert Art";
+"Fan value" = "Lüftergeschwindigkeitswert";
 
 // Network
 "Uploading" = "Upload";
@@ -302,17 +302,17 @@
 "Reader type" = "Lesertyp";
 "Interface based" = "Schnittstelle";
 "Processes based" = "Prozess";
-"Reset data usage" = "Nutzungsdaten zurücksetzen";
+"Reset data usage" = "Datenverbrauch zurücksetzen";
 "VPN mode" = "VPN Modus";
 "Standard" = "Standard";
 "Security" = "Sicherheit";
 "Channel" = "Kanal";
 "Common scale" = "Common scale";
 "Autodetection" = "Automatisch";
-"Widget activation threshold" = "Schwellwert für Anzeige vom Widget";
+"Widget activation threshold" = "Schwellenwert für die Aktivierung des Widgets";
 "Internet connection" = "Internetverbindung";
-"Active state color" = "Aktiv-Status Farbe";
-"Nonactive state color" = "Inaktiv-Status Farbe";
+"Active state color" = "Aktiver-Status Farbe";
+"Nonactive state color" = "Inaktiver-Status Farbe";
 "Connectivity host (ICMP)" = "Verbindungsverfügbarkeits-Host (ICMP)";
 "Leave empty to disable the check" = "Leer lassen zum Deaktivieren";
 "Transparent pictogram when no activity" = "Transparentes Piktogramm bei keiner Aktivität";
@@ -323,24 +323,24 @@
 "AC Power" = "Netzteil";
 "Battery Power" = "Akkubetrieb";
 "Time" = "Zeit";
-"Health" = "Gesundheit";
+"Health" = "Zustand";
 "Amperage" = "Stromstärke";
 "Voltage" = "Spannung";
 "Cycles" = "Ladezyklen";
 "Temperature" = "Temperatur";
 "Power adapter" = "Netzteil";
 "Power" = "Leistung";
-"Is charging" = "wird aufgeladen";
-"Time to discharge" = "verbleibend";
-"Time to charge" = "Ladedauer";
+"Is charging" = "Wird geladen";
+"Time to discharge" = "Verbleibend";
+"Time to charge" = "Zeit bis geladen";
 "Calculating" = "Berechnen...";
-"Fully charged" = "vollständig aufgeladen";
-"Not connected" = "nicht angeschlossen";
+"Fully charged" = "Vollständig aufgeladen";
+"Not connected" = "Nicht angeschlossen";
 "Low level notification" = "Benachrichtigung bei niedrigem Ladezustand";
 "High level notification" = "Benachrichtigung bei hohem Ladezustand";
-"Low battery" = "Akku schwach";
+"Low battery" = "Niedriger Ladezustand";
 "High battery" = "Hoher Ladezustand";
-"Battery remaining" = "%0% verbleiben";
+"Battery remaining" = "%0% verbleibend";
 "Battery remaining to full charge" = "%0% bis vollständig geladen";
 "Percentage" = "Prozentsatz";
 "Percentage and time" = "Prozentsatz und Zeit";
@@ -349,9 +349,9 @@
 "Hide additional information when full" = "Zusätzliche Informationen bei vollständiger Ladung verbergen";
 "Last charge" = "Letzte Ladung";
 "Capacity" = "Kapazität";
-"current / maximum / designed" = "Aktuell / Maximal / ab Werk";
-"Low power mode" = "Stromsparmodus";
-"Percentage inside the icon" = "Prozenzsatz im Symbol";
+"current / maximum / designed" = "Aktuell / Maximal / Sollwert";
+"Low power mode" = "Energiesparmodus";
+"Percentage inside the icon" = "Prozentsatz im Symbol";
 
 // Bluetooth
 "Battery to show" = "Angezeigter Akku";
@@ -359,7 +359,7 @@
 
 // Colors
 "Based on utilization" = "Basierend auf Auslastung";
-"Based on pressure" = "Basierend auf Druck";
+"Based on pressure" = "Basierend auf Speicherdruck";
 "Based on cluster" = "Basierend auf Cluster";
 "System accent" = "System Akzentfarbe";
 "Monochrome accent" = "Monochromer Akzent";
