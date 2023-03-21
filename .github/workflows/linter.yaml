@@ -1,6 +1,7 @@
 name: Linter
 
 on:
+  workflow_dispatch:
   push:
     paths:
       - '.github/workflows/linter.yaml'
