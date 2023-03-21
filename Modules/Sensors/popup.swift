@@ -688,6 +688,7 @@ internal class FanView: NSStackView {
     
     @objc private func sliderCallback(_ sender: NSSlider) {
         let value = sender.doubleValue < self.fan.maxSpeed ? sender.doubleValue : self.fan.maxSpeed
+        value = value > self.fan.minSpeed ? value : self.fan.minSpeed
         
         self.minBtn?.state = .off
         self.maxBtn?.state = .off
