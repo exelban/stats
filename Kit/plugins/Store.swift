@@ -37,6 +37,10 @@ public class Store {
         return (!self.exist(key: key) ? value : defaults.integer(forKey: key))
     }
     
+    public func data(key: String) -> Data? {
+        return defaults.data(forKey: key)
+    }
+    
     public func set(key: String, value: Bool) {
         self.defaults.set(value, forKey: key)
     }
@@ -46,6 +50,10 @@ public class Store {
     }
     
     public func set(key: String, value: Int) {
+        self.defaults.set(value, forKey: key)
+    }
+    
+    public func set(key: String, value: Data) {
         self.defaults.set(value, forKey: key)
     }
     

@@ -207,6 +207,10 @@ extension Color: CaseIterable {
         ]
     }
     
+    public static var random: Color {
+        Color.allColors[.random(in: 0...Color.allColors.count)]
+    }
+    
     public static func fromString(_ key: String, defaultValue: Color = .systemAccent) -> Color {
         return Color.allCases.first{ $0.key == key } ?? defaultValue
     }
