@@ -361,6 +361,46 @@ public extension NSView {
         return view
     }
     
+    func fieldSettingRow(_ sender: NSTextFieldDelegate, title: String, value: String, placeholder: String? = nil, width: CGFloat = 200) -> NSView {
+        let view: NSStackView = NSStackView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.heightAnchor.constraint(equalToConstant: Constants.Settings.row).isActive = true
+        view.orientation = .horizontal
+        view.alignment = .centerY
+        view.distribution = .fill
+        view.spacing = 0
+        
+        let titleField: NSTextField = LabelField(frame: NSRect.zero, title)
+        titleField.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+        titleField.textColor = .textColor
+        
+        let valueField: NSTextField = NSTextField()
+        valueField.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+        valueField.textColor = .textColor
+        valueField.isEditable = true
+        valueField.isSelectable = true
+        valueField.isBezeled = false
+        valueField.wantsLayer = true
+        valueField.canDrawSubviewsIntoLayer = true
+        valueField.usesSingleLineMode = true
+        valueField.maximumNumberOfLines = 1
+        valueField.focusRingType = .none
+        valueField.stringValue = value
+        valueField.delegate = sender
+        if let placeholder {
+            valueField.placeholderString = placeholder
+        }
+        valueField.alignment = .natural
+        
+        view.addArrangedSubview(titleField)
+        view.addArrangedSubview(NSView())
+        view.addArrangedSubview(valueField)
+        
+        valueField.widthAnchor.constraint(equalToConstant: width).isActive = true
+        
+        return view
+    }
+    
     func selectView(action: Selector, items: [KeyValue_p], selected: String) -> NSPopUpButton {
         let select: NSPopUpButton = NSPopUpButton(frame: NSRect(x: 0, y: 0, width: 50, height: 28))
         select.target = self

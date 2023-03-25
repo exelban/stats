@@ -118,7 +118,12 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
             ))
         }
         
-        self.addArrangedSubview(self.connectivityHost())
+        self.addArrangedSubview(fieldSettingRow(self,
+            title: localizedString("Connectivity host (ICMP)"),
+            value: self.ICMPHost,
+            placeholder: localizedString("Leave empty to disable the check"),
+            width: 220
+        ))
     }
     
     private func interfaceSelector() -> NSView {
@@ -218,44 +223,6 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
         
         container.widthAnchor.constraint(equalToConstant: 180).isActive = true
         container.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
-        
-        return view
-    }
-    
-    func connectivityHost() -> NSView {
-        let view: NSStackView = NSStackView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.heightAnchor.constraint(equalToConstant: Constants.Settings.row).isActive = true
-        view.orientation = .horizontal
-        view.alignment = .centerY
-        view.distribution = .fill
-        view.spacing = 0
-        
-        let titleField: NSTextField = LabelField(frame: NSRect(x: 0, y: 0, width: 0, height: 0), localizedString("Connectivity host (ICMP)"))
-        titleField.font = NSFont.systemFont(ofSize: 12, weight: .regular)
-        titleField.textColor = .textColor
-        
-        let valueField: NSTextField = NSTextField()
-        valueField.font = NSFont.systemFont(ofSize: 12, weight: .regular)
-        valueField.textColor = .textColor
-        valueField.isEditable = true
-        valueField.isSelectable = true
-        valueField.isBezeled = false
-        valueField.wantsLayer = true
-        valueField.canDrawSubviewsIntoLayer = true
-        valueField.usesSingleLineMode = true
-        valueField.maximumNumberOfLines = 1
-        valueField.focusRingType = .none
-        valueField.delegate = self
-        valueField.stringValue = self.ICMPHost
-        valueField.placeholderString = localizedString("Leave empty to disable the check")
-        valueField.alignment = .natural
-        
-        view.addArrangedSubview(titleField)
-        view.addArrangedSubview(NSView())
-        view.addArrangedSubview(valueField)
-        
-        valueField.widthAnchor.constraint(equalToConstant: 200).isActive = true
         
         return view
     }
