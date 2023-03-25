@@ -35,9 +35,7 @@ private struct Sensor_t: KeyValue_p {
     }
 }
 
-internal class Popup: NSStackView, Popup_p {
-    public var sizeCallback: ((NSSize) -> Void)? = nil
-    
+internal class Popup: PopupWrapper {
     private var list: [String: NSView] = [:]
     private var unknownSensorsState: Bool {
         Store.shared.bool(key: "Sensors_unknown", defaultValue: false)
@@ -201,7 +199,7 @@ internal class Popup: NSStackView, Popup_p {
     
     // MARK: - Settings
     
-    public func settings() -> NSView? {
+    public override func settings() -> NSView? {
         self.settingsView
     }
     

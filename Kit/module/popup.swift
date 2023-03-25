@@ -16,6 +16,11 @@ public protocol Popup_p: NSView {
     func settings() -> NSView?
 }
 
+open class PopupWrapper: NSStackView, Popup_p {
+    open var sizeCallback: ((NSSize) -> Void)? = nil
+    open func settings() -> NSView? { return nil }
+}
+
 public class PopupWindow: NSWindow, NSWindowDelegate {
     private let viewController: PopupViewController = PopupViewController()
     internal var locked: Bool = false

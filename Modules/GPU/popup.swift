@@ -12,9 +12,7 @@
 import Cocoa
 import Kit
 
-internal class Popup: NSStackView, Popup_p {
-    public var sizeCallback: ((NSSize) -> Void)? = nil
-    
+internal class Popup: PopupWrapper {
     public init() {
         super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: 0))
         
@@ -52,12 +50,6 @@ internal class Popup: NSStackView, Popup_p {
             self.setFrameSize(NSSize(width: self.frame.width, height: h))
             self.sizeCallback?(self.frame.size)
         }
-    }
-    
-    // MARK: - Settings
-    
-    public func settings() -> NSView? {
-        return nil
     }
 }
 

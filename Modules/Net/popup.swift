@@ -12,9 +12,7 @@
 import Cocoa
 import Kit
 
-internal class Popup: NSStackView, Popup_p {
-    public var sizeCallback: ((NSSize) -> Void)? = nil
-    
+internal class Popup: PopupWrapper {
     private var title: String
     
     private var uploadView: NSView? = nil
@@ -448,7 +446,7 @@ internal class Popup: NSStackView, Popup_p {
     
     // MARK: - Settings
     
-    public func settings() -> NSView? {
+    public override func settings() -> NSView? {
         let view = SettingsContainerView()
         
         view.addArrangedSubview(selectSettingsRow(

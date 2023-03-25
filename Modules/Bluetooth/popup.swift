@@ -12,8 +12,7 @@
 import Cocoa
 import Kit
 
-internal class Popup: NSStackView, Popup_p {
-    public var sizeCallback: ((NSSize) -> Void)? = nil
+internal class Popup: PopupWrapper {
     private let emptyView: EmptyView = EmptyView(height: 30, isHidden: false, msg: localizedString("No Bluetooth devices are available"))
     
     public init() {
@@ -60,12 +59,6 @@ internal class Popup: NSStackView, Popup_p {
                 ))
             }
         }
-    }
-    
-    // MARK: - Settings
-    
-    public func settings() -> NSView? {
-        return nil
     }
 }
 

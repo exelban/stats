@@ -253,7 +253,6 @@ public class Widget {
             self?.sizeCallback?()
             if let s = self, let item = s.menuBarItem, let width: CGFloat = self?.item.frame.width, item.length != width {
                 item.length = width
-                debug("widget \(s.type) change width to \(Double(width).rounded(toPlaces: 2))", log: s.log)
             }
         }
         self.item.identifier = NSUserInterfaceItemIdentifier(self.type.rawValue)

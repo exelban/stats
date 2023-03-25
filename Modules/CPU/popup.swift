@@ -12,7 +12,7 @@
 import Cocoa
 import Kit
 
-internal class Popup: NSView, Popup_p {
+internal class Popup: PopupWrapper {
     private var title: String
     
     private var grid: NSGridView? = nil
@@ -117,8 +117,6 @@ internal class Popup: NSView, Popup_p {
         }
         return value
     }
-    
-    public var sizeCallback: ((NSSize) -> Void)? = nil
     
     private var numberOfProcesses: Int {
         get {
@@ -487,7 +485,7 @@ internal class Popup: NSView, Popup_p {
     
     // MARK: - Settings
     
-    public func settings() -> NSView? {
+    public override func settings() -> NSView? {
         let view = SettingsContainerView()
         
         view.addArrangedSubview(selectSettingsRow(
