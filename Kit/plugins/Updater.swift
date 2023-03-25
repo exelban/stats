@@ -216,17 +216,17 @@ public class Updater {
         var toPath = to
         let fileName = (URL(fileURLWithPath: to.absoluteString)).lastPathComponent
         let fileExt  = (URL(fileURLWithPath: to.absoluteString)).pathExtension
-        var fileNameWithotSuffix: String!
+        var fileNameWithoutSuffix: String!
         var newFileName: String!
         var counter = 0
         
         if fileName.hasSuffix(fileExt) {
-            fileNameWithotSuffix = String(fileName.prefix(fileName.count - (fileExt.count+1)))
+            fileNameWithoutSuffix = String(fileName.prefix(fileName.count - (fileExt.count+1)))
         }
         
         while toPath.checkFileExist() {
             counter += 1
-            newFileName =  "\(fileNameWithotSuffix!)-\(counter).\(fileExt)"
+            newFileName =  "\(fileNameWithoutSuffix!)-\(counter).\(fileExt)"
             toPath = to.deletingLastPathComponent().appendingPathComponent(newFileName)
         }
         

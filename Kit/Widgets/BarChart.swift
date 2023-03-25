@@ -165,8 +165,8 @@ public class BarChart: WidgetWrapper {
             var y = offset
             for a in 0..<self.value[i].count {
                 let partitionValue = self.value[i][a]
-                let partitonHeight = maxPartitionHeight * CGFloat(partitionValue.value)
-                let partition = NSBezierPath(rect: NSRect(x: x, y: y, width: partitionWidth, height: partitonHeight))
+                let partitionHeight = maxPartitionHeight * CGFloat(partitionValue.value)
+                let partition = NSBezierPath(rect: NSRect(x: x, y: y, width: partitionWidth, height: partitionHeight))
                 
                 if partitionValue.color == nil {
                     switch self.colorState {
@@ -189,7 +189,7 @@ public class BarChart: WidgetWrapper {
                 partition.fill()
                 partition.close()
                 
-                y += partitonHeight
+                y += partitionHeight
             }
             
             x += partitionWidth + partitionMargin

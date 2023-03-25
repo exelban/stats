@@ -18,7 +18,7 @@ extension AppDelegate {
         let args = CommandLine.arguments
         
         if args.contains("--reset") {
-            debug("Receive --reset argument. Reseting store (UserDefaults)...")
+            debug("Receive --reset argument. Resetting store (UserDefaults)...")
             Store.shared.reset()
         }
         
