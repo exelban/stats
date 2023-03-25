@@ -532,7 +532,7 @@ public class MenuBarView: NSView {
         if let view = self.subviews.first(where: { $0.identifier == NSUserInterfaceItemIdentifier(type.rawValue) }) {
             view.removeFromSuperview()
         } else {
-            error("\(type) cound not be removed from the one view bacause not found!")
+            error("\(type) could not be removed from the one view because not found!")
         }
     }
     

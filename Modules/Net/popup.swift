@@ -34,7 +34,7 @@ internal class Popup: NSStackView, Popup_p {
     
     private var localIPField: ValueField? = nil
     private var interfaceField: ValueField? = nil
-    private var macAdressField: ValueField? = nil
+    private var macAddressField: ValueField? = nil
     private var totalUploadField: ValueField? = nil
     private var totalDownloadField: ValueField? = nil
     private var statusField: ValueField? = nil
@@ -217,11 +217,11 @@ internal class Popup: NSStackView, Popup_p {
         self.channelField = popupRow(container, n: 0, title: "\(localizedString("Channel")):", value: localizedString("Unknown")).1
         
         self.interfaceField = popupRow(container, n: 0, title: "\(localizedString("Interface")):", value: localizedString("Unknown")).1
-        self.macAdressField = popupRow(container, n: 0, title: "\(localizedString("Physical address")):", value: localizedString("Unknown")).1
+        self.macAddressField = popupRow(container, n: 0, title: "\(localizedString("Physical address")):", value: localizedString("Unknown")).1
         self.localIPField = popupRow(container, n: 0, title: "\(localizedString("Local IP")):", value: localizedString("Unknown")).1
         
         self.localIPField?.isSelectable = true
-        self.macAdressField?.isSelectable = true
+        self.macAddressField?.isSelectable = true
         
         view.addSubview(container)
         
@@ -331,10 +331,10 @@ internal class Popup: NSStackView, Popup_p {
                 
                 if let interface = value.interface {
                     self.interfaceField?.stringValue = "\(interface.displayName) (\(interface.BSDName))"
-                    self.macAdressField?.stringValue = interface.address
+                    self.macAddressField?.stringValue = interface.address
                 } else {
                     self.interfaceField?.stringValue = localizedString("Unknown")
-                    self.macAdressField?.stringValue = localizedString("Unknown")
+                    self.macAddressField?.stringValue = localizedString("Unknown")
                 }
                 
                 if value.connectionType == .wifi {
