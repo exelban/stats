@@ -12,5 +12,5 @@
 import Cocoa
 
 public protocol Portal_p: NSView {
-    var name: String { get set }
+    var name: String { get }
 }

@@ -96,7 +96,7 @@ public class Sensors: Module {
             return
         }
         
-        var list: [KeyValue_t] = []
+        var list: [Stack_t] = []
         var flatList: [[ColorValue]] = []
         
         value.forEach { (s: Sensor_p) in
@@ -108,7 +108,7 @@ public class Sensors: Module {
                         value = "\(f.percentage)%"
                     }
                 }
-                list.append(KeyValue_t(key: s.key, value: value, additional: s.name))
+                list.append(Stack_t(key: s.key, value: value, additional: s.name))
             }
         }
         

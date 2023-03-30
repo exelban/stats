@@ -83,11 +83,17 @@ public let SpeedBase: [KeyValue_t] = [
     KeyValue_t(key: "byte", value: "Byte", additional: DataSizeBase.byte)
 ]
 
+public enum StackMode: String {
+    case auto = "automatic"
+    case oneRow = "oneRow"
+    case twoRows = "twoRows"
+}
+
 public let SensorsWidgetMode: [KeyValue_t] = [
-    KeyValue_t(key: "automatic", value: "Automatic"),
+    KeyValue_t(key: StackMode.auto.rawValue, value: "Automatic"),
     KeyValue_t(key: "separator", value: "separator"),
-    KeyValue_t(key: "oneRow", value: "One row"),
-    KeyValue_t(key: "twoRows", value: "Two rows")
+    KeyValue_t(key: StackMode.oneRow.rawValue, value: "One row"),
+    KeyValue_t(key: StackMode.twoRows.rawValue, value: "Two rows")
 ]
 
 public let SpeedPictogram: [KeyValue_t] = [

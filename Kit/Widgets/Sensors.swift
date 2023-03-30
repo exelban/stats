@@ -11,33 +11,33 @@
 
 import Cocoa
 
-private struct Sensor_t: KeyValue_p {
-    let key: String
-    let name: String?
-    
-    var value: String
-    var additional: Any?
+public struct Stack_t: KeyValue_p {
+    public var key: String
+    public var value: String
+    public var additional: Any?
     
     var index: Int {
         get {
-            return Store.shared.int(key: "sensors_\(self.key)_index", defaultValue: -1)
+            Store.shared.int(key: "stack_\(self.key)_index", defaultValue: -1)
         }
         set {
-            Store.shared.set(key: "sensors_\(self.key)_index", value: newValue)
+            Store.shared.set(key: "stack_\(self.key)_index", value: newValue)
         }
     }
     
-    init(key: String, value: String, name: String? = nil) {
+    public init(key: String, value: String, additional: Any? = nil) {
         self.key = key
         self.value = value
-        self.name = name
+        self.additional = additional
     }
 }
 
 public class SensorsWidget: WidgetWrapper {
-    private var modeState: String = "automatic"
+    private var modeState: StackMode = .auto
     private var fixedSizeState: Bool = false
-    private var values: [Sensor_t] = []
+    private var monospacedFontState: Bool = false
+    
+    private var values: [Stack_t] = []
     
     private var oneRowWidth: CGFloat = 38
     private var twoRowWidth: CGFloat = 28
@@ -45,16 +45,11 @@ public class SensorsWidget: WidgetWrapper {
     private let orderTableView: OrderTableView
     
     public init(title: String, config: NSDictionary?, preview: Bool = false) {
-        if config != nil {
-            var configuration = config!
-            
-            if preview {
-                if let previewConfig = config!["Preview"] as? NSDictionary {
-                    configuration = previewConfig
-                    if let value = configuration["Values"] as? String {
-                        for (i, value) in value.split(separator: ",").enumerated() {
-                            self.values.append(Sensor_t(key: "\(i)", value: String(value)))
-                        }
+        if let config, preview {
+            if let previewConfig = config["Preview"] as? NSDictionary {
+                if let value = previewConfig["Values"] as? String {
+                    for (i, value) in value.split(separator: ",").enumerated() {
+                        self.values.append(Stack_t(key: "\(i)", value: String(value)))
                     }
                 }
             }
@@ -70,8 +65,9 @@ public class SensorsWidget: WidgetWrapper {
         ))
         
         if !preview {
-            self.modeState = Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_mode", defaultValue: self.modeState)
+            self.modeState = StackMode(rawValue: Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_mode", defaultValue: self.modeState.rawValue)) ?? .auto
             self.fixedSizeState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_size", defaultValue: self.fixedSizeState)
+            self.monospacedFontState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_monospacedFont", defaultValue: self.monospacedFontState)
         }
         
         self.orderTableView.reorderCallback = { [weak self] in
@@ -98,15 +94,15 @@ public class SensorsWidget: WidgetWrapper {
         var i = 0
         while i < self.values.count {
             switch self.modeState {
-            case "automatic", "twoRows":
-                let firstSensor: Sensor_t = self.values[i]
-                let secondSensor: Sensor_t? = self.values.indices.contains(i+1) ? self.values[i+1] : nil
+            case .auto, .twoRows:
+                let firstElement: Stack_t = self.values[i]
+                let secondElement: Stack_t? = self.values.indices.contains(i+1) ? self.values[i+1] : nil
                 
                 var width: CGFloat = 0
-                if self.modeState == "automatic" && secondSensor == nil {
-                    width += self.drawOneRow(firstSensor, x: x)
+                if self.modeState == .auto && secondElement == nil {
+                    width += self.drawOneRow(x, firstElement)
                 } else {
-                    width += self.drawTwoRows(topSensor: firstSensor, bottomSensor: secondSensor, x: x)
+                    width += self.drawTwoRows(x, firstElement, secondElement)
                 }
                 
                 x += width
@@ -118,8 +114,8 @@ public class SensorsWidget: WidgetWrapper {
                 }
                 
                 i += 1
-            case "oneRow":
-                let width = self.drawOneRow(self.values[i], x: x)
+            case .oneRow:
+                let width = self.drawOneRow(x, self.values[i])
                 
                 x += width
                 totalWidth += width
@@ -129,31 +125,34 @@ public class SensorsWidget: WidgetWrapper {
                     x += Constants.Widget.spacing
                     totalWidth += Constants.Widget.spacing
                 }
-            default: break
             }
             
             i += 1
         }
         totalWidth += Constants.Widget.spacing // closing space
         
-        if abs(self.frame.width - totalWidth) < 2 {
-            return
-        }
+        guard abs(self.frame.width - totalWidth) > 2 else { return }
         self.setWidth(totalWidth)
     }
     
-    private func drawOneRow(_ sensor: Sensor_t, x: CGFloat) -> CGFloat {
-        let font: NSFont = NSFont.systemFont(ofSize: 13, weight: .regular)
+    private func drawOneRow(_ x: CGFloat, _ element: Stack_t) -> CGFloat {
+        var font: NSFont
+        if #available(macOS 10.15, *), self.monospacedFontState {
+            font = NSFont.monospacedSystemFont(ofSize: 13, weight: .regular)
+        } else {
+            font = NSFont.systemFont(ofSize: 13, weight: .regular)
+        }
+        
         let style = NSMutableParagraphStyle()
         style.alignment = .center
         
         var width: CGFloat = self.oneRowWidth
         if !self.fixedSizeState {
-            width = sensor.value.widthOfString(usingFont: font).rounded(.up) + 2
+            width = element.value.widthOfString(usingFont: font).rounded(.up) + 2
         }
         
         let rect = CGRect(x: x, y: (Constants.Widget.height-13)/2, width: width, height: 13)
-        let str = NSAttributedString.init(string: sensor.value, attributes: [
+        let str = NSAttributedString.init(string: element.value, attributes: [
             NSAttributedString.Key.font: font,
             NSAttributedString.Key.foregroundColor: NSColor.textColor,
             NSAttributedString.Key.paragraphStyle: style
@@ -163,10 +162,15 @@ public class SensorsWidget: WidgetWrapper {
         return width
     }
     
-    private func drawTwoRows(topSensor: Sensor_t, bottomSensor: Sensor_t?, x: CGFloat) -> CGFloat {
+    private func drawTwoRows(_ x: CGFloat, _ topElement: Stack_t, _ bottomElement: Stack_t?) -> CGFloat {
         let rowHeight: CGFloat = self.frame.height / 2
         
-        let font: NSFont = NSFont.systemFont(ofSize: 10, weight: .light)
+        var font: NSFont
+        if #available(macOS 10.15, *), self.monospacedFontState {
+            font = NSFont.monospacedSystemFont(ofSize: 10, weight: .light)
+        } else {
+            font = NSFont.systemFont(ofSize: 10, weight: .light)
+        }
         let style = NSMutableParagraphStyle()
         style.alignment = .right
         
@@ -178,34 +182,34 @@ public class SensorsWidget: WidgetWrapper {
         
         var width: CGFloat = self.twoRowWidth
         if !self.fixedSizeState {
-            let firstRowWidth = topSensor.value.widthOfString(usingFont: font)
-            let secondRowWidth = bottomSensor?.value.widthOfString(usingFont: font) ?? 0
+            let firstRowWidth = topElement.value.widthOfString(usingFont: font)
+            let secondRowWidth = bottomElement?.value.widthOfString(usingFont: font) ?? 0
             width = max(20, max(firstRowWidth, secondRowWidth)).rounded(.up) + 2
         }
         
         var rect = CGRect(x: x, y: rowHeight+1, width: width, height: rowHeight)
-        var str = NSAttributedString.init(string: topSensor.value, attributes: attributes)
+        var str = NSAttributedString.init(string: topElement.value, attributes: attributes)
         str.draw(with: rect)
         
-        if bottomSensor != nil {
+        if bottomElement != nil {
             rect = CGRect(x: x, y: 1, width: width, height: rowHeight)
-            str = NSAttributedString.init(string: bottomSensor!.value, attributes: attributes)
+            str = NSAttributedString.init(string: bottomElement!.value, attributes: attributes)
             str.draw(with: rect)
         }
         
         return width
     }
     
-    public func setValues(_ values: [KeyValue_t]) {
+    public func setValues(_ values: [Stack_t]) {
         var tableNeedsToBeUpdated: Bool = false
         
-        values.forEach { (p: KeyValue_t) in
+        values.forEach { (p: Stack_t) in
             if let idx = self.values.firstIndex(where: { $0.key == p.key }) {
                 self.values[idx].value = p.value
                 return
             }
             tableNeedsToBeUpdated = true
-            self.values.append(Sensor_t(key: p.key, value: p.value, name: p.additional as? String))
+            self.values.append(p)
         }
         
         let diff = self.values.filter({ v in values.contains(where: { $0.key == v.key }) })
@@ -218,7 +222,7 @@ public class SensorsWidget: WidgetWrapper {
             if tableNeedsToBeUpdated {
                 self.orderTableView.update()
             }
-            self.needsDisplay = true
+            self.display()
         })
     }
     
@@ -241,9 +245,6 @@ public class SensorsWidget: WidgetWrapper {
         line.lineWidth = lineWidth
         line.stroke()
         
-        if abs(self.frame.width - totalWidth) < 2 {
-            return
-        }
         self.setWidth(totalWidth)
     }
     
@@ -256,14 +257,24 @@ public class SensorsWidget: WidgetWrapper {
             title: localizedString("Display mode"),
             action: #selector(changeMode),
             items: SensorsWidgetMode,
-            selected: self.modeState
+            selected: self.modeState.rawValue
         ))
         
-        view.addArrangedSubview(toggleSettingRow(
-            title: localizedString("Static width"),
-            action: #selector(toggleSize),
-            state: self.fixedSizeState
-        ))
+        if self.title != "Clock" {
+            view.addArrangedSubview(toggleSettingRow(
+                title: localizedString("Static width"),
+                action: #selector(toggleSize),
+                state: self.fixedSizeState
+            ))
+        }
+        
+        if #available(macOS 10.15, *) {
+            view.addArrangedSubview(toggleSettingRow(
+                title: localizedString("Monospaced font"),
+                action: #selector(toggleMonospacedFont),
+                state: self.monospacedFontState
+            ))
+        }
         
         view.addArrangedSubview(self.orderTableView)
         
@@ -271,22 +282,21 @@ public class SensorsWidget: WidgetWrapper {
     }
     
     @objc private func changeMode(_ sender: NSMenuItem) {
-        guard let key = sender.representedObject as? String else {
-            return
-        }
-        self.modeState = key
+        guard let key = sender.representedObject as? String else { return }
+        self.modeState = StackMode(rawValue: key) ?? .auto
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_mode", value: key)
+        self.display()
     }
     
     @objc private func toggleSize(_ sender: NSControl) {
-        var state: NSControl.StateValue? = nil
-        if #available(OSX 10.15, *) {
-            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
-        } else {
-            state = sender is NSButton ? (sender as! NSButton).state: nil
-        }
-        self.fixedSizeState = state! == .on ? true : false
+        self.fixedSizeState = controlState(sender)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_size", value: self.fixedSizeState)
+        self.display()
+    }
+    
+    @objc private func toggleMonospacedFont(_ sender: NSControl) {
+        self.monospacedFontState = controlState(sender)
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_monospacedFont", value: self.monospacedFontState)
         self.display()
     }
 }
@@ -297,9 +307,9 @@ private class OrderTableView: NSView, NSTableViewDelegate, NSTableViewDataSource
     private var dragDropType = NSPasteboard.PasteboardType(rawValue: "\(Bundle.main.bundleIdentifier!).sensors-row")
     
     public var reorderCallback: () -> Void = {}
-    private let list: UnsafeMutablePointer<[Sensor_t]>
+    private let list: UnsafeMutablePointer<[Stack_t]>
     
-    init(_ list: UnsafeMutablePointer<[Sensor_t]>) {
+    init(_ list: UnsafeMutablePointer<[Stack_t]>) {
         self.list = list
         
         super.init(frame: NSRect.zero)
@@ -328,12 +338,7 @@ private class OrderTableView: NSView, NSTableViewDelegate, NSTableViewDataSource
             self.tableView.style = .plain
         }
         
-        let colKey = NSTableColumn(identifier: NSUserInterfaceItemIdentifier(rawValue: "key"))
-        colKey.width = 50
-        let colName = NSTableColumn(identifier: NSUserInterfaceItemIdentifier(rawValue: "name"))
-        
-        self.tableView.addTableColumn(colName)
-        self.tableView.addTableColumn(colKey)
+        self.tableView.addTableColumn(NSTableColumn(identifier: NSUserInterfaceItemIdentifier(rawValue: "name")))
         
         self.addSubview(self.scrollView)
         
@@ -376,10 +381,7 @@ private class OrderTableView: NSView, NSTableViewDelegate, NSTableViewDataSource
         text.identifier = NSUserInterfaceItemIdentifier(item.key)
         
         switch tableColumn?.identifier.rawValue {
-        case "key":
-            text.stringValue = item.key
-        case "name":
-            text.stringValue = "\(item.name ?? localizedString("Unknown"))"
+        case "name": text.stringValue = item.key
         default: break
         }
         

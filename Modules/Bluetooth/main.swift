@@ -77,11 +77,11 @@ public class Bluetooth: Module {
             self.settingsView.setList(active)
         })
         
-        var list: [KeyValue_t] = []
+        var list: [Stack_t] = []
         active.forEach { (d: BLEDevice) in
             if d.state {
                 d.batteryLevel.forEach { (p: KeyValue_t) in
-                    list.append(KeyValue_t(key: "\(d.address)-\(p.key)", value: "\(p.value)%"))
+                    list.append(Stack_t(key: "\(d.address)-\(p.key)", value: "\(p.value)%"))
                 }
             }
         }
