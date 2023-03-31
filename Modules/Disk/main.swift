@@ -54,6 +54,7 @@ public class Disks {
     public var isEmpty: Bool {
         return self.count == 0
     }
+    // swiftlint:enable empty_count
     
     public func first(where predicate: (drive) -> Bool) -> drive? {
         var result: drive?

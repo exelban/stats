@@ -234,6 +234,7 @@ public class LineChart: WidgetWrapper {
         
         self.setWidth(width)
     }
+    // swiftlint:enable function_body_length
     
     public func setValue(_ value: Double) {
         if self.value != value {

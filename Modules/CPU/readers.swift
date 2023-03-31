@@ -150,6 +150,7 @@ internal class LoadReader: Reader<CPU_Load> {
         
         self.callback(self.response)
     }
+    // swiftlint:enable function_body_length
     
     private func hostCPULoadInfo() -> host_cpu_load_info? {
         let count = MemoryLayout<host_cpu_load_info>.stride/MemoryLayout<integer_t>.stride
@@ -349,6 +350,7 @@ public class FrequencyReader: Reader<Double> {
             error("failed to find PGSample_Release", log: self.log)
             return
         }
+        // swiftlint:enable identifier_name
         
         self.PG_Initialize = unsafeBitCast(PG_InitializePointer, to: PG_InitializePointerFunction.self)
         self.PG_Shutdown = unsafeBitCast(PG_ShutdownPointer, to: PG_ShutdownPointerFunction.self)

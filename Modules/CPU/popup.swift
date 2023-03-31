@@ -588,3 +588,4 @@ internal class Popup: PopupWrapper {
         self.pCoresColorView?.layer?.backgroundColor = (newValue.additional as? NSColor)?.cgColor
     }
 }
+// swiftlint:enable type_body_length

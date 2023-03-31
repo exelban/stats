@@ -145,6 +145,7 @@ internal class DevicesReader: Reader<[BLEDevice]>, CBCentralManagerDelegate, CBP
         
         self.callback(self.devices.filter({ $0.RSSI != nil }))
     }
+    // swiftlint:enable function_body_length
     
     // MARK: - HIDDevices (connected ble peripherals to the mac: keyboard, mouse etc...)
     

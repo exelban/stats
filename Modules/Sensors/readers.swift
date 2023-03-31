@@ -227,6 +227,7 @@ internal class SensorsReader: Reader<[Sensor_p]> {
         
         self.callback(self.list)
     }
+    // swiftlint:enable function_body_length
     
     private func initCalculatedSensors(_ sensors: [Sensor_p]) -> [Sensor_p] {
         var list: [Sensor_p] = []

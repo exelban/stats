@@ -166,6 +166,7 @@ internal class Settings: NSStackView, Settings_v {
         
         self.widgets = widgets
     }
+    // swiftlint:enable function_body_length
     
     public func setList(list: [Sensor_p]) {
         self.list = self.unknownSensorsState ? list : list.filter({ $0.group != .unknown })

@@ -619,3 +619,4 @@ public class BatteryDetailsWidget: WidgetWrapper {
         self.display()
     }
 }
+// swiftlint:enable function_body_length

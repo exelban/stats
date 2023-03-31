@@ -119,6 +119,7 @@ open class Reader<T>: NSObject, ReaderInternal_p {
                 self.nilCallbackCounter = 0
             }
         }
+        // swiftlint:enable duplicate_conditions
         
         self.value = value
         if value != nil {

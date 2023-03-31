@@ -601,3 +601,4 @@ public class SpeedWidget: WidgetWrapper {
         self.display()
     }
 }
+// swiftlint:enable type_body_length

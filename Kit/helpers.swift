@@ -743,6 +743,7 @@ public func Temperature(_ value: Double, defaultUnit: UnitTemperature = UnitTemp
     
     return formatter.string(from: measurement)
 }
+// swiftlint:enable identifier_name
 
 public func sysctlByName(_ name: String) -> Int64 {
     var num: Int64 = 0

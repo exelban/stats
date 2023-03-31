@@ -209,4 +209,5 @@ internal class InfoReader: Reader<GPUs> {
         self.gpus.list.sort{ !$0.state && $1.state }
         self.callback(self.gpus)
     }
+    // swiftlint:enable function_body_length
 }

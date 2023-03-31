@@ -164,6 +164,7 @@ internal class Popup: PopupWrapper {
         }
         self.recalculateHeight()
     }
+    // swiftlint:enable function_body_length
     
     internal func usageCallback(_ values: [Sensor_p]) {
         DispatchQueue.main.async(execute: {

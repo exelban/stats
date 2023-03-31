@@ -203,6 +203,7 @@ public class BarChart: WidgetWrapper {
         
         self.setWidth(width)
     }
+    // swiftlint:enable function_body_length
     
     public func setValue(_ value: [[ColorValue]]) {
         guard self.value != value else {

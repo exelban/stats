@@ -589,6 +589,7 @@ internal class Popup: PopupWrapper {
         NotificationCenter.default.post(name: .resetTotalNetworkUsage, object: nil, userInfo: nil)
     }
 }
+// swiftlint:enable type_body_length
 
 public class NetworkProcessView: NSView {
     public var width: CGFloat {

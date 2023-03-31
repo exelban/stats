@@ -216,6 +216,7 @@ public class LineChartView: NSView {
             str.draw(with: rect)
         }
     }
+    // swiftlint:enable function_body_length
     
     public override func updateTrackingAreas() {
         self.trackingAreas.forEach({ self.removeTrackingArea($0) })

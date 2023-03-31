@@ -154,5 +154,6 @@ func main() {
         print("  -f    list fans\n")
     }
 }
+// swiftlint:enable function_body_length
 
 main()

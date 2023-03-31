@@ -174,6 +174,7 @@ public class CPU: Module {
             self.addReader(reader)
         }
     }
+    // swiftlint:enable function_body_length
     
     private func loadCallback(_ raw: CPU_Load?) {
         guard let value = raw, self.enabled else {

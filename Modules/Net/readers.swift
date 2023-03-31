@@ -94,6 +94,7 @@ extension CWChannelWidth: CustomStringConvertible {
         }
     }
 }
+// swiftlint:enable control_statement
 
 extension CWChannel {
     override public var description: String {
@@ -554,6 +555,7 @@ public class ProcessReader: Reader<[Network_Process]> {
         
         self.callback(processes.suffix(self.numberOfProcesses).reversed())
     }
+    // swiftlint:enable function_body_length
 }
 
 internal class ConnectivityReaderWrapper {

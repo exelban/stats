@@ -123,6 +123,7 @@ public enum widget_t: String {
         
         return nil
     }
+    // swiftlint:enable function_body_length
     
     public func name() -> String {
         switch self {

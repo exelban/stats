@@ -42,6 +42,7 @@ internal enum SMCKeys: UInt8 {
     case READ_PLIMIT = 11
     case READ_VERS = 12
 }
+// swiftlint:enable identifier_name
 
 public enum FanMode: Int {
     case automatic = 0
