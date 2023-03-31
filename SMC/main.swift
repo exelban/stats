@@ -49,6 +49,7 @@ enum FlagsType: String {
     }
 }
 
+// swiftlint:disable function_body_length
 func main() {
     var args = CommandLine.arguments.dropFirst()
     let cmd = CMDType(value: args.first ?? "")

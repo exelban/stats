@@ -76,6 +76,7 @@ public class CPU: Module {
         return color.additional as! NSColor
     }
     
+    // swiftlint:disable function_body_length
     public init() {
         self.settingsView = Settings("CPU")
         self.popupView = Popup("CPU")

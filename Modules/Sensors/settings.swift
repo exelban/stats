@@ -60,6 +60,7 @@ internal class Settings: NSStackView, Settings_v {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // swiftlint:disable function_body_length
     public func load(widgets: [widget_t]) {
         var sensors = self.list
         guard !sensors.isEmpty else {

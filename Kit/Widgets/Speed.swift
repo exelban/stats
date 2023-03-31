@@ -11,6 +11,7 @@
 
 import Cocoa
 
+// swiftlint:disable type_body_length
 public class SpeedWidget: WidgetWrapper {
     private var icon: String = "dots"
     private var state: Bool = false

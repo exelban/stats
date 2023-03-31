@@ -123,6 +123,7 @@ public class LineChart: WidgetWrapper {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // swiftlint:disable function_body_length
     public override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         

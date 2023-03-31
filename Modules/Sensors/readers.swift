@@ -125,6 +125,7 @@ internal class SensorsReader: Reader<[Sensor_p]> {
         return results
     }
     
+    // swiftlint:disable function_body_length
     public override func read() {
         for i in self.list.indices {
             guard self.list[i].group != .hid && !self.list[i].isComputed else { continue }

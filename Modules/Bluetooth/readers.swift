@@ -45,6 +45,7 @@ internal class DevicesReader: Reader<[BLEDevice]>, CBCentralManagerDelegate, CBP
         self.manager = CBCentralManager(delegate: self, queue: nil)
     }
     
+    // swiftlint:disable function_body_length
     public override func read() {
         let hid = self.HIDDevices()
         let SPB = self.profilerDevices()

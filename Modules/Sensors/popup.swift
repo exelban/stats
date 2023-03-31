@@ -54,6 +54,7 @@ internal class Popup: PopupWrapper {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // swiftlint:disable function_body_length
     internal func setup(_ values: [Sensor_p]? = nil, reload: Bool = false) {
         guard let values = reload ? self.sensors : values else { return }
         let fans = values.filter({ $0.type == .fan && !$0.isComputed })

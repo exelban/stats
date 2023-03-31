@@ -97,6 +97,7 @@ open class Reader<T>: NSObject, ReaderInternal_p {
         }
     }
     
+    // swiftlint:disable duplicate_conditions
     public func callback(_ value: T?) {
         if !self.optional && !self.ready {
             if self.value == nil && value != nil {
