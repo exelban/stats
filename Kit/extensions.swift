@@ -593,3 +593,19 @@ public extension Data {
         return withUnsafeBytes { $0.load(as: sockaddr_in.self) }
     }
 }
+
+public extension Date {
+    func convertToTimeZone(_ timeZone: TimeZone) -> Date {
+        return addingTimeInterval(TimeInterval(timeZone.secondsFromGMT(for: self) - TimeZone.current.secondsFromGMT(for: self)))
+    }
+}
+
+public extension TimeZone {
+    init(fromUTC: String) {
+        if let utc = Int(fromUTC), let tz = TimeZone(secondsFromGMT: utc*3600) {
+            self = tz
+        } else {
+            self = TimeZone.current
+        }
+    }
+}

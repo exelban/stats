@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Name</key>
+	<string>Clock</string>
+	<key>State</key>
+	<false/>
+	<key>Symbol</key>
+	<string>clock.fill</string>
+	<key>Widgets</key>
+	<dict>
+		<key>label</key>
+		<dict>
+			<key>Default</key>
+			<false/>
+			<key>Title</key>
+			<string>CLK</string>
+			<key>Order</key>
+			<integer>0</integer>
+		</dict>
+		<key>sensors</key>
+		<dict>
+			<key>Default</key>
+			<true/>
+			<key>Preview</key>
+			<dict>
+				<key>Values</key>
+				<string>23.03.2023 13:45</string>
+			</dict>
+			<key>Order</key>
+			<integer>1</integer>
+		</dict>
+	</dict>
+</dict>
+</plist>

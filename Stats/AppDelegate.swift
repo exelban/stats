@@ -19,6 +19,7 @@ import Battery
 import Sensors
 import GPU
 import Bluetooth
+import Clock
 
 let updater = Updater(github: "exelban/stats", url: "https://api.serhiy.io/v1/stats/release/latest")
 var modules: [Module] = [
@@ -29,7 +30,8 @@ var modules: [Module] = [
     Sensors(),
     Network(),
     Battery(),
-    Bluetooth()
+    Bluetooth(),
+    Clock()
 ]
 
 @main
