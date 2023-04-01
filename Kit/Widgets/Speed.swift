@@ -499,7 +499,7 @@ public class SpeedWidget: WidgetWrapper {
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_value", value: self.valueState)
         self.display()
         
-        if !self.valueState && self.icon == .none {
+        if !self.valueState && self.icon.isEmpty {
             NotificationCenter.default.post(name: .toggleModule, object: nil, userInfo: ["module": self.title, "state": false])
             self.state = false
         } else if !self.state {

@@ -28,13 +28,11 @@ public enum widget_t: String {
     case state = "state"
     
     public func new(module: String, config: NSDictionary, defaultWidget: widget_t) -> Widget? {
+        guard let widgetConfig: NSDictionary = config[self.rawValue] as? NSDictionary else { return nil }
+        
         var image: NSImage? = nil
         var preview: widget_p? = nil
         var item: widget_p? = nil
-        
-        guard let widgetConfig: NSDictionary = config[self.rawValue] as? NSDictionary else {
-            return nil
-        }
         
         switch self {
         case .mini:
@@ -98,6 +96,8 @@ public enum widget_t: String {
             case is SensorsWidget:
                 if module == "Sensors" {
                     width = 25
+                } else if module == "Clock" {
+                    width = 114
                 }
             case is MemoryWidget:
                 width = view.bounds.width + 8 + Constants.Widget.spacing*2
@@ -112,7 +112,6 @@ public enum widget_t: String {
                 width: width - view.frame.origin.x,
                 height: view.bounds.height
             )
-            
             image = NSImage(data: view.dataWithPDF(inside: r))
         }
         
@@ -201,7 +200,7 @@ public class Widget {
     
     public var isActive: Bool {
         get {
-            return self.list.contains{ $0 == self.type }
+            self.list.contains{ $0 == self.type }
         }
         set {
             if newValue {
@@ -216,11 +215,11 @@ public class Widget {
     public var sizeCallback: (() -> Void)? = nil
     
     public var log: NextLog {
-        return NextLog.shared.copy(category: self.module)
+        NextLog.shared.copy(category: self.module)
     }
     public var position: Int {
         get {
-            return Store.shared.int(key: "\(self.module)_\(self.type)_position", defaultValue: 0)
+            Store.shared.int(key: "\(self.module)_\(self.type)_position", defaultValue: 0)
         }
         set {
             Store.shared.set(key: "\(self.module)_\(self.type)_position", value: newValue)

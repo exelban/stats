@@ -7,6 +7,7 @@ disabled_rules:
   - implicit_getter
   - redundant_optional_initialization
   - large_tuple
+  - function_body_length
 
 opt_in_rules:
   - control_statement
@@ -40,13 +41,9 @@ identifier_name:
 
 line_length: 200
 
-function_body_length:
-  - 80
-  - 100
-
 type_body_length:
-  - 450
-  - 600
+  - 500
+  - 700
 
 file_length:
   - 1200

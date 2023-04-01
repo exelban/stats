@@ -66,7 +66,6 @@ internal class InfoReader: Reader<GPUs> {
         }
     }
     
-    // swiftlint:disable function_body_length
     public override func read() {
         guard let accelerators = fetchIOService(kIOAcceleratorClassName) else {
             return

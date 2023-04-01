@@ -396,7 +396,7 @@ internal class Popup: PopupWrapper {
                 }
                 
                 self.temperatureCircle?.setValue(value)
-                self.temperatureCircle?.setText(Temperature(value))
+                self.temperatureCircle?.setText(temperature(value))
                 self.initializedTemperature = true
             }
         })

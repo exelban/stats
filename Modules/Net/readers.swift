@@ -8,7 +8,6 @@
 //
 //  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
 //
-// swiftlint:disable control_statement
 
 import Cocoa
 import Kit
@@ -21,6 +20,7 @@ struct ipResponse: Decodable {
     var cc: String
 }
 
+// swiftlint:disable control_statement
 extension CWPHYMode: CustomStringConvertible {
     public var description: String {
         switch(self) {
@@ -76,6 +76,7 @@ extension CWChannelBand: CustomStringConvertible {
         switch(self) {
         case .band2GHz:     return "2 GHz"
         case .band5GHz:     return "5 GHz"
+        case .band6GHz:     return "6 GHz"
         case .bandUnknown:  return "unknown"
         @unknown default:   return "unknown"
         }
@@ -94,6 +95,7 @@ extension CWChannelWidth: CustomStringConvertible {
         }
     }
 }
+// swiftlint:enable control_statement
 
 extension CWChannel {
     override public var description: String {

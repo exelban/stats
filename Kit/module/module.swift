@@ -139,6 +139,7 @@ open class Module: Module_p {
         
         // swiftlint:disable empty_count
         if self.config.widgetsConfig.count != 0 {
+            // swiftlint:enable empty_count
             self.initWidgets()
         } else {
             debug("Module started without widget", log: self.log)

@@ -24,6 +24,7 @@ public struct ColorValue: Equatable {
     public static func ==(lhs: ColorValue, rhs: ColorValue) -> Bool {
         return lhs.value == rhs.value
     }
+    // swiftlint:enable operator_whitespace
 }
 
 public enum AppUpdateInterval: String {

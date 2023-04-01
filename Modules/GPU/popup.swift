@@ -227,7 +227,7 @@ private class GPUView: NSStackView {
         
         if id == "temperature" {
             circle.setValue(value)
-            circle.setText(Temperature(value))
+            circle.setText(temperature(value))
             chart.suffix = UnitTemperature.current.symbol
             
             if self.temperatureChart == nil {
@@ -365,7 +365,7 @@ private class GPUDetails: NSView {
         }
         
         if let value = value.temperature {
-            let arr = keyValueRow("\(localizedString("Temperature")):", Temperature(Double(value)))
+            let arr = keyValueRow("\(localizedString("Temperature")):", Kit.temperature(Double(value)))
             self.temperature = arr.last
             grid.addRow(with: arr)
             num += 1
@@ -419,7 +419,7 @@ private class GPUDetails: NSView {
         }
         
         if let value = gpu.temperature {
-            self.temperature?.stringValue = Temperature(Double(value))
+            self.temperature?.stringValue = Kit.temperature(Double(value))
         }
         if let value = gpu.utilization {
             self.utilization?.stringValue = "\(Int(value*100))%"

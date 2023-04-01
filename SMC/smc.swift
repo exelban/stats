@@ -32,15 +32,14 @@ internal enum SMCDataType: String {
     case FDS = "{fds"
 }
 
-// swiftlint:disable identifier_name
 internal enum SMCKeys: UInt8 {
-    case KERNEL_INDEX = 2
-    case READ_BYTES = 5
-    case WRITE_BYTES = 6
-    case READ_INDEX = 8
-    case READ_KEYINFO = 9
-    case READ_PLIMIT = 11
-    case READ_VERS = 12
+    case kernelIndex = 2
+    case readBytes = 5
+    case writeBytes = 6
+    case readIndex = 8
+    case readKeyInfo = 9
+    case readPLimit = 11
+    case readVers = 12
 }
 
 public enum FanMode: Int {
@@ -319,10 +318,10 @@ public class SMC {
             input = SMCKeyData_t()
             output = SMCKeyData_t()
             
-            input.data8 = SMCKeys.READ_INDEX.rawValue
+            input.data8 = SMCKeys.readIndex.rawValue
             input.data32 = UInt32(i)
             
-            result = call(SMCKeys.KERNEL_INDEX.rawValue, input: &input, output: &output)
+            result = call(SMCKeys.kernelIndex.rawValue, input: &input, output: &output)
             if result != kIOReturnSuccess {
                 continue
             }
@@ -480,9 +479,9 @@ public class SMC {
         var output = SMCKeyData_t()
         
         input.key = FourCharCode(fromString: value.pointee.key)
-        input.data8 = SMCKeys.READ_KEYINFO.rawValue
+        input.data8 = SMCKeys.readKeyInfo.rawValue
         
-        result = call(SMCKeys.KERNEL_INDEX.rawValue, input: &input, output: &output)
+        result = call(SMCKeys.kernelIndex.rawValue, input: &input, output: &output)
         if result != kIOReturnSuccess {
             return result
         }
@@ -490,9 +489,9 @@ public class SMC {
         value.pointee.dataSize = UInt32(output.keyInfo.dataSize)
         value.pointee.dataType = output.keyInfo.dataType.toString()
         input.keyInfo.dataSize = output.keyInfo.dataSize
-        input.data8 = SMCKeys.READ_BYTES.rawValue
+        input.data8 = SMCKeys.readBytes.rawValue
         
-        result = call(SMCKeys.KERNEL_INDEX.rawValue, input: &input, output: &output)
+        result = call(SMCKeys.kernelIndex.rawValue, input: &input, output: &output)
         if result != kIOReturnSuccess {
             return result
         }
@@ -507,7 +506,7 @@ public class SMC {
         var output = SMCKeyData_t()
         
         input.key = FourCharCode(fromString: value.key)
-        input.data8 = SMCKeys.WRITE_BYTES.rawValue
+        input.data8 = SMCKeys.writeBytes.rawValue
         input.keyInfo.dataSize = IOByteCount32(value.dataSize)
         input.bytes = (value.bytes[0], value.bytes[1], value.bytes[2], value.bytes[3], value.bytes[4], value.bytes[5],
                        value.bytes[6], value.bytes[7], value.bytes[8], value.bytes[9], value.bytes[10], value.bytes[11],
@@ -516,7 +515,7 @@ public class SMC {
                        value.bytes[24], value.bytes[25], value.bytes[26], value.bytes[27], value.bytes[28], value.bytes[29],
                        value.bytes[30], value.bytes[31])
         
-        let result = self.call(SMCKeys.KERNEL_INDEX.rawValue, input: &input, output: &output)
+        let result = self.call(SMCKeys.kernelIndex.rawValue, input: &input, output: &output)
         if result != kIOReturnSuccess {
             return result
         }

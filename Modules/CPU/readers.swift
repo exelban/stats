@@ -283,7 +283,6 @@ public class TemperatureReader: Reader<Double> {
     }
 }
 
-// swiftlint:disable identifier_name
 public class FrequencyReader: Reader<Double> {
     private typealias PGSample = UInt64
     private typealias UDouble = UnsafeMutablePointer<Double>
@@ -296,11 +295,11 @@ public class FrequencyReader: Reader<Double> {
     
     private var bundle: CFBundle? = nil
     
-    private var PG_Initialize: PG_InitializePointerFunction? = nil
-    private var PG_Shutdown: PG_ShutdownPointerFunction? = nil
-    private var PG_ReadSample: PG_ReadSamplePointerFunction? = nil
-    private var PGSample_GetIAFrequency: PGSample_GetIAFrequencyPointerFunction? = nil
-    private var PGSample_Release: PGSample_ReleasePointerFunction? = nil
+    private var pgIntialize: PG_InitializePointerFunction? = nil
+    private var pgShutdown: PG_ShutdownPointerFunction? = nil
+    private var pgReadSample: PG_ReadSamplePointerFunction? = nil
+    private var pgSampleGetIAFrequency: PGSample_GetIAFrequencyPointerFunction? = nil
+    private var pgSampleRelease: PGSample_ReleasePointerFunction? = nil
     
     private var sample: PGSample = 0
     private var reconnectAttempt: Int = 0
@@ -328,34 +327,34 @@ public class FrequencyReader: Reader<Double> {
             return
         }
         
-        guard let PG_InitializePointer = CFBundleGetFunctionPointerForName(self.bundle, "PG_Initialize" as CFString) else {
+        guard let pgIntialize = CFBundleGetFunctionPointerForName(self.bundle, "PG_Initialize" as CFString) else {
             error("failed to find PG_Initialize", log: self.log)
             return
         }
-        guard let PG_ShutdownPointer = CFBundleGetFunctionPointerForName(self.bundle, "PG_Shutdown" as CFString) else {
+        guard let pgShutdown = CFBundleGetFunctionPointerForName(self.bundle, "PG_Shutdown" as CFString) else {
             error("failed to find PG_Shutdown", log: self.log)
             return
         }
-        guard let PG_ReadSamplePointer = CFBundleGetFunctionPointerForName(self.bundle, "PG_ReadSample" as CFString) else {
+        guard let pgReadSample = CFBundleGetFunctionPointerForName(self.bundle, "PG_ReadSample" as CFString) else {
             error("failed to find PG_ReadSample", log: self.log)
             return
         }
-        guard let PGSample_GetIAFrequencyPointer = CFBundleGetFunctionPointerForName(self.bundle, "PGSample_GetIAFrequency" as CFString) else {
+        guard let pgSampleGetIAFrequency = CFBundleGetFunctionPointerForName(self.bundle, "PGSample_GetIAFrequency" as CFString) else {
             error("failed to find PGSample_GetIAFrequency", log: self.log)
             return
         }
-        guard let PGSample_ReleasePointer = CFBundleGetFunctionPointerForName(self.bundle, "PGSample_Release" as CFString) else {
+        guard let pgSampleRelease = CFBundleGetFunctionPointerForName(self.bundle, "PGSample_Release" as CFString) else {
             error("failed to find PGSample_Release", log: self.log)
             return
         }
         
-        self.PG_Initialize = unsafeBitCast(PG_InitializePointer, to: PG_InitializePointerFunction.self)
-        self.PG_Shutdown = unsafeBitCast(PG_ShutdownPointer, to: PG_ShutdownPointerFunction.self)
-        self.PG_ReadSample = unsafeBitCast(PG_ReadSamplePointer, to: PG_ReadSamplePointerFunction.self)
-        self.PGSample_GetIAFrequency = unsafeBitCast(PGSample_GetIAFrequencyPointer, to: PGSample_GetIAFrequencyPointerFunction.self)
-        self.PGSample_Release = unsafeBitCast(PGSample_ReleasePointer, to: PGSample_ReleasePointerFunction.self)
+        self.pgIntialize = unsafeBitCast(pgIntialize, to: PG_InitializePointerFunction.self)
+        self.pgShutdown = unsafeBitCast(pgShutdown, to: PG_ShutdownPointerFunction.self)
+        self.pgReadSample = unsafeBitCast(pgReadSample, to: PG_ReadSamplePointerFunction.self)
+        self.pgSampleGetIAFrequency = unsafeBitCast(pgSampleGetIAFrequency, to: PGSample_GetIAFrequencyPointerFunction.self)
+        self.pgSampleRelease = unsafeBitCast(pgSampleRelease, to: PGSample_ReleasePointerFunction.self)
         
-        if let initialize = self.PG_Initialize {
+        if let initialize = self.pgIntialize {
             if !initialize() {
                 error("IPG initialization failed", log: self.log)
                 return
@@ -370,14 +369,14 @@ public class FrequencyReader: Reader<Double> {
     }
     
     public override func terminate() {
-        if let shutdown = self.PG_Shutdown {
+        if let shutdown = self.pgShutdown {
             if !shutdown() {
                 error("IPG shutdown failed", log: self.log)
                 return
             }
         }
         
-        if let release = self.PGSample_Release {
+        if let release = self.pgSampleRelease {
             if self.sample != 0 {
                 _ = release(self.sample)
                 return
@@ -392,7 +391,7 @@ public class FrequencyReader: Reader<Double> {
         
         self.sample = 0
         self.terminate()
-        if let initialize = self.PG_Initialize {
+        if let initialize = self.pgIntialize {
             if !initialize() {
                 error("IPG initialization failed", log: self.log)
                 return
@@ -403,13 +402,13 @@ public class FrequencyReader: Reader<Double> {
     }
     
     public override func read() {
-        if !self.isEnabled || self.PG_ReadSample == nil || self.PGSample_GetIAFrequency == nil || self.PGSample_Release == nil {
+        if !self.isEnabled || self.pgReadSample == nil || self.pgSampleGetIAFrequency == nil || self.pgSampleRelease == nil {
             return
         }
         
         // first sample initlialization
         if self.sample == 0 {
-            if !self.PG_ReadSample!(0, &self.sample) {
+            if !self.pgReadSample!(0, &self.sample) {
                 error("read self.sample failed", log: self.log)
             }
             return
@@ -420,20 +419,20 @@ public class FrequencyReader: Reader<Double> {
         var min: Double = 0
         var max: Double = 0
         
-        if !self.PG_ReadSample!(0, &local) {
+        if !self.pgReadSample!(0, &local) {
             self.reconnect()
             error("read local sample failed", log: self.log)
             return
         }
         
         defer {
-            if !self.PGSample_Release!(self.sample) {
+            if !self.pgSampleRelease!(self.sample) {
                 error("release self.sample failed", log: self.log)
             }
             self.sample = local
         }
         
-        if !self.PGSample_GetIAFrequency!(self.sample, local, &value, &min, &max) {
+        if !self.pgSampleGetIAFrequency!(self.sample, local, &value, &min, &max) {
             error("read frequency failed", log: self.log)
             return
         }

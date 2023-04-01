@@ -57,14 +57,10 @@ internal class Popup: PopupWrapper {
     private var processes: [NetworkProcessView] = []
     
     private var base: DataSizeBase {
-        get {
-            return DataSizeBase(rawValue: Store.shared.string(key: "\(self.title)_base", defaultValue: "byte")) ?? .byte
-        }
+        DataSizeBase(rawValue: Store.shared.string(key: "\(self.title)_base", defaultValue: "byte")) ?? .byte
     }
     private var numberOfProcesses: Int {
-        get {
-            return Store.shared.int(key: "\(self.title)_processes", defaultValue: 8)
-        }
+        Store.shared.int(key: "\(self.title)_processes", defaultValue: 8)
     }
     private var processesHeight: CGFloat {
         get {
@@ -163,12 +159,10 @@ internal class Popup: PopupWrapper {
         container.layer?.backgroundColor = NSColor.lightGray.withAlphaComponent(0.1).cgColor
         container.layer?.cornerRadius = 3
         
-        let chart = NetworkChartView(frame: NSRect(
-            x: 0,
-            y: 1,
-            width: container.frame.width,
-            height: container.frame.height - 2
-        ), num: 120, outColor: self.uploadColor, inColor: self.downloadColor)
+        let chart = NetworkChartView(
+            frame: NSRect(x: 0, y: 1, width: container.frame.width, height: container.frame.height - 2),
+            num: 120, outColor: self.uploadColor, inColor: self.downloadColor
+        )
         chart.base = self.base
         container.addSubview(chart)
         self.chart = chart
@@ -409,7 +403,6 @@ internal class Popup: PopupWrapper {
                 if let v = value {
                     text = v ? "UP" : "DOWN"
                 }
-                
                 self.connectivityField?.stringValue = localizedString(text)
                 self.connectionInitialized = true
             }

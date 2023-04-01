@@ -84,7 +84,7 @@ internal struct Sensor: Sensor_p {
         get {
             switch self.type {
             case .temperature:
-                return Temperature(value)
+                return temperature(value)
             case .voltage:
                 let val = value >= 100 ? "\(Int(value))" : String(format: "%.3f", value)
                 return "\(val)\(unit)"
@@ -103,7 +103,7 @@ internal struct Sensor: Sensor_p {
         get {
             switch self.type {
             case .temperature:
-                return Temperature(value, fractionDigits: 1)
+                return temperature(value, fractionDigits: 1)
             case .voltage:
                 let val = value >= 100 ? "\(Int(value))" : String(format: "%.3f", value)
                 return "\(val)\(unit)"
@@ -122,7 +122,7 @@ internal struct Sensor: Sensor_p {
         get {
             switch self.type {
             case .temperature:
-                return Temperature(value).replacingOccurrences(of: "C", with: "").replacingOccurrences(of: "F", with: "")
+                return temperature(value).replacingOccurrences(of: "C", with: "").replacingOccurrences(of: "F", with: "")
             case .voltage, .power, .energy, .current:
                 let val = value >= 9.95 ? "\(Int(round(value)))" : String(format: "%.1f", value)
                 return "\(val)\(unit)"

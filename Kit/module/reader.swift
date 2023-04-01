@@ -103,7 +103,7 @@ open class Reader<T>: NSObject, ReaderInternal_p {
                 self.ready = true
                 self.readyCallback()
                 debug("Reader is ready", log: self.log)
-            } else if self.value == nil && value != nil {
+            } else if self.value == nil && value == nil {
                 if self.nilCallbackCounter > 5 {
                     error("Callback receive nil value more than 5 times. Please check this reader!", log: self.log)
                     self.stop()
