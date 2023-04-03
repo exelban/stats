@@ -15,8 +15,28 @@ import Kit
 internal class Popup: PopupWrapper {
     private let emptyView: EmptyView = EmptyView(height: 30, isHidden: false, msg: localizedString("No disks are available"))
     
+    private var readColorState: Color = .secondBlue
+    private var readColor: NSColor {
+        var value = NSColor.systemRed
+        if let color = self.readColorState.additional as? NSColor {
+            value = color
+        }
+        return value
+    }
+    private var writeColorState: Color = .secondRed
+    private var writeColor: NSColor {
+        var value = NSColor.systemBlue
+        if let color = self.writeColorState.additional as? NSColor {
+            value = color
+        }
+        return value
+    }
+    
     public init() {
         super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: 30))
+        
+        self.readColorState = Color.fromString(Store.shared.string(key: "\(Disk.name)_readColor", defaultValue: self.readColorState.key))
+        self.writeColorState = Color.fromString(Store.shared.string(key: "\(Disk.name)_writeColor", defaultValue: self.writeColorState.key))
         
         self.orientation = .vertical
         self.spacing = Constants.Popup.margins
@@ -68,6 +88,55 @@ internal class Popup: PopupWrapper {
         value.reversed().forEach { (drive: drive) in
             if let view = views.first(where: { $0.name == drive.mediaName }) {
                 view.updateReadWrite(read: drive.activity.read, write: drive.activity.write)
+            }
+        }
+    }
+    
+    // MARK: - Settings
+    
+    public override func settings() -> NSView? {
+        let view = SettingsContainerView()
+        
+        view.addArrangedSubview(selectSettingsRow(
+            title: localizedString("Color of write"),
+            action: #selector(toggleWriteColor),
+            items: Color.allColors,
+            selected: self.writeColorState.key
+        ))
+        
+        view.addArrangedSubview(selectSettingsRow(
+            title: localizedString("Color of read"),
+            action: #selector(toggleReadColor),
+            items: Color.allColors,
+            selected: self.readColorState.key
+        ))
+        
+        return view
+    }
+    
+    @objc private func toggleWriteColor(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String,
+              let newValue = Color.allColors.first(where: { $0.key == key }) else {
+            return
+        }
+        self.writeColorState = newValue
+        Store.shared.set(key: "\(Disk.name)_writeColor", value: key)
+        if let color = newValue.additional as? NSColor {
+            for view in self.subviews.filter({ $0 is DiskView }).map({ $0 as! DiskView }) {
+                view.setChartColor(write: color)
+            }
+        }
+    }
+    @objc private func toggleReadColor(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String,
+              let newValue = Color.allColors.first(where: { $0.key == key }) else {
+            return
+        }
+        self.readColorState = newValue
+        Store.shared.set(key: "\(Disk.name)_readColor", value: key)
+        if let color = newValue.additional as? NSColor {
+            for view in self.subviews.filter({ $0 is DiskView }).map({ $0 as! DiskView }) {
+                view.setChartColor(read: color)
             }
         }
     }
@@ -133,6 +202,9 @@ internal class DiskView: NSStackView {
         self.nameView.update(free: nil, read: read, write: write)
         self.chartView.update(read: read, write: write)
     }
+    public func setChartColor(read: NSColor? = nil, write: NSColor? = nil) {
+        self.chartView.setColors(read: read, write: write)
+    }
 }
 
 internal class NameView: NSStackView {
@@ -142,6 +214,13 @@ internal class NameView: NSStackView {
     
     private var readState: NSView? = nil
     private var writeState: NSView? = nil
+    
+    private var readColor: NSColor {
+        Color.fromString(Store.shared.string(key: "\(Disk.name)_readColor", defaultValue: Color.secondBlue.key)).additional as! NSColor
+    }
+    private var writeColor: NSColor {
+        Color.fromString(Store.shared.string(key: "\(Disk.name)_writeColor", defaultValue: Color.secondRed.key)).additional as! NSColor
+    }
     
     public init(width: CGFloat, name: String, size: Int64, free: Int64, path: URL?) {
         self.size = size
@@ -215,11 +294,11 @@ internal class NameView: NSStackView {
         if (self.window?.isVisible ?? false) || !self.ready {
             if let read = read {
                 self.readState?.toolTip = DiskSize(read).getReadableMemory()
-                self.readState?.layer?.backgroundColor = read != 0 ? NSColor.systemBlue.cgColor : NSColor.lightGray.withAlphaComponent(0.75).cgColor
+                self.readState?.layer?.backgroundColor = read != 0 ? self.readColor.cgColor : NSColor.lightGray.withAlphaComponent(0.75).cgColor
             }
             if let write = write {
                 self.writeState?.toolTip = DiskSize(write).getReadableMemory()
-                self.writeState?.layer?.backgroundColor = write != 0 ? NSColor.systemRed.cgColor : NSColor.lightGray.withAlphaComponent(0.75).cgColor
+                self.writeState?.layer?.backgroundColor = write != 0 ? self.writeColor.cgColor : NSColor.lightGray.withAlphaComponent(0.75).cgColor
             }
             self.ready = true
         }
@@ -244,6 +323,13 @@ internal class ChartView: NSStackView {
     private var chart: NetworkChartView? = nil
     private var ready: Bool = false
     
+    private var readColor: NSColor {
+        Color.fromString(Store.shared.string(key: "\(Disk.name)_readColor", defaultValue: Color.secondBlue.key)).additional as! NSColor
+    }
+    private var writeColor: NSColor {
+        Color.fromString(Store.shared.string(key: "\(Disk.name)_writeColor", defaultValue: Color.secondRed.key)).additional as! NSColor
+    }
+    
     public init(width: CGFloat) {
         super.init(frame: NSRect(x: 0, y: 0, width: width, height: 36))
         
@@ -255,7 +341,7 @@ internal class ChartView: NSStackView {
             y: 1,
             width: self.frame.width,
             height: self.frame.height - 2
-        ), num: 120)
+        ), num: 120, outColor: self.writeColor, inColor: self.readColor)
         self.chart = chart
         
         self.addArrangedSubview(chart)
@@ -268,12 +354,16 @@ internal class ChartView: NSStackView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func updateLayer() {
+        self.layer?.backgroundColor = self.isDarkMode ? NSColor.lightGray.withAlphaComponent(0.1).cgColor : NSColor.white.cgColor
+    }
+    
     public func update(read: Int64, write: Int64) {
         self.chart?.addValue(upload: Double(write), download: Double(read))
     }
     
-    override func updateLayer() {
-        self.layer?.backgroundColor = self.isDarkMode ? NSColor.lightGray.withAlphaComponent(0.1).cgColor : NSColor.white.cgColor
+    public func setColors(read: NSColor? = nil, write: NSColor? = nil) {
+        self.chart?.setColors(in: read, out: write)
     }
 }
 
