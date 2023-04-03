@@ -70,7 +70,7 @@ Stats tries to be efficient as it's possible. But reading some data periodically
 - Vietnamese (thanks to [xuandung38](https://github.com/xuandung38))
 - French (thanks to [RomainLt](https://github.com/RomainLt))
 - Italian (thanks to [gmcinalli](https://github.com/gmcinalli))
-- Portuguese (Brazil) (thanks to [marcelochaves95](https://github.com/marcelochaves95))
+- Portuguese (Brazil) (thanks to [marcelochaves95](https://github.com/marcelochaves95) and [pedroserigatto](https://github.com/pedroserigatto))
 - Norwegian Bokmål (thanks to [rubjo](https://github.com/rubjo))
 - 日本語 (thanks to [treastrain](https://github.com/treastrain))
 - Portuguese (Portugal) (thanks to [AdamModus](https://github.com/AdamModus))
