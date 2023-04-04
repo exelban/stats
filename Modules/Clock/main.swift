@@ -95,7 +95,7 @@ public class Clock: Module {
 extension Clock {
     static let title: String = "Clock"
     static var local: Clock_t {
-        Clock_t(name: localizedString("Local time"), format: "YYYY-MM-DD HH:mm:ss", tz: "local")
+        Clock_t(name: localizedString("Local time"), format: "yyyy-MM-dd HH:mm:ss", tz: "local")
     }
     static var zones: [KeyValue_t] {
         [
