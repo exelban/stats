@@ -285,3 +285,104 @@ public func getDeviceIOParent(_ obj: io_registry_entry_t, level: Int) -> io_regi
     
     return parent
 }
+
+struct io {
+    var read: Int
+    var write: Int
+}
+
+public class ProcessReader: Reader<[Disk_process]> {
+    private let queue = DispatchQueue(label: "eu.exelban.Disk.processReader")
+    
+    private var _list: [Int32: io] = [:]
+    private var list: [Int32: io] {
+        get {
+            self.queue.sync { self._list }
+        }
+        set {
+            self.queue.sync { self._list = newValue }
+        }
+    }
+    
+    private var numberOfProcesses: Int {
+        Store.shared.int(key: "\(Disk.name)_processes", defaultValue: 5)
+    }
+    
+    public override func read() {
+        guard self.numberOfProcesses != 0 else { return }
+        
+        guard let output = runProcess(path: "/bin/ps", args: ["-Aceo pid,args", "-r"]) else { return }
+        
+        var processes: [Disk_process] = []
+        output.enumerateLines { (line, _) -> Void in
+            var str = line.trimmingCharacters(in: .whitespaces)
+            let pidString = str.findAndCrop(pattern: "^\\d+")
+            if let range = str.range(of: pidString) {
+                str = str.replacingCharacters(in: range, with: "")
+            }
+            let name = str.findAndCrop(pattern: "^[^ ]+")
+            guard let pid = Int32(pidString) else { return }
+            
+            var usage = rusage_info_current()
+            let result = withUnsafeMutablePointer(to: &usage) {
+                $0.withMemoryRebound(to: (rusage_info_t?.self), capacity: 1) {
+                    proc_pid_rusage(pid, RUSAGE_INFO_CURRENT, $0)
+                }
+            }
+            guard result != -1 else { return }
+            
+            let bytesRead = Int(usage.ri_diskio_bytesread)
+            let bytesWritten = Int(usage.ri_diskio_byteswritten)
+            
+            if self.list[pid] == nil {
+                self.list[pid] = io(read: bytesRead, write: bytesWritten)
+            }
+            
+            if let v = self.list[pid] {
+                let read = bytesRead - v.read
+                let write = bytesWritten - v.write
+                if read != 0 || write != 0 {
+                    processes.append(Disk_process(pid: pid, name: name, read: read, write: write))
+                }
+            }
+            
+            self.list[pid]?.read = bytesRead
+            self.list[pid]?.write = bytesWritten
+        }
+        
+        processes.sort {
+            let firstMax = max($0.read, $0.write)
+            let secondMax = max($1.read, $1.write)
+            let firstMin = min($0.read, $0.write)
+            let secondMin = min($1.read, $1.write)
+            
+            if firstMax == secondMax && firstMin != secondMin { // max values are the same, min not. Sort by min values
+                return firstMin < secondMin
+            }
+            return firstMax < secondMax // max values are not the same, sort by max value
+        }
+        
+        self.callback(processes.suffix(self.numberOfProcesses).reversed())
+    }
+}
+
+private func runProcess(path: String, args: [String] = []) -> String? {
+    let task = Process()
+    task.launchPath = path
+    task.arguments = args
+    
+    let outputPipe = Pipe()
+    defer {
+        outputPipe.fileHandleForReading.closeFile()
+    }
+    task.standardOutput = outputPipe
+    
+    do {
+        try task.run()
+    } catch {
+        return nil
+    }
+    
+    let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
+    return String(decoding: outputData, as: UTF8.self)
+}

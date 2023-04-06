@@ -128,28 +128,62 @@ public class Disks {
     }
 }
 
+public struct Disk_process: IOProcess_p {
+    private var base: DataSizeBase {
+        DataSizeBase(rawValue: Store.shared.string(key: "\(Disk.name)_base", defaultValue: "byte")) ?? .byte
+    }
+    
+    public var pid: Int32
+    public var name: String
+    public var icon: NSImage = Constants.defaultProcessIcon
+    
+    var read: Int
+    var write: Int
+    
+    public var input: String {
+        Units(bytes: Int64(self.read)).getReadableSpeed(base: self.base)
+    }
+    public var output: String {
+        Units(bytes: Int64(self.write)).getReadableSpeed(base: self.base)
+    }
+    
+    init(pid: Int32, name: String, read: Int, write: Int) {
+        self.pid = pid
+        self.name = name
+        self.read = read
+        self.write = write
+        
+        if let app = NSRunningApplication(processIdentifier: pid) {
+            if let name = app.localizedName {
+                self.name = name
+            }
+            if let icon = app.icon {
+                self.icon = icon
+            }
+        }
+    }
+}
+
 public class Disk: Module {
-    private let popupView: Popup
-    private let settingsView: Settings
-    private let portalView: Portal
+    public static let name: String = "Disk"
+    
+    private let popupView: Popup = Popup()
+    private let settingsView: Settings = Settings()
+    private let portalView: Portal = Portal()
     
     private var capacityReader: CapacityReader? = nil
     private var activityReader: ActivityReader? = nil
+    private var processReader: ProcessReader? = nil
+    
     private var selectedDisk: String = ""
     private var notificationLevelState: Bool = false
     private var notificationID: String? = nil
     
     private var notificationLevel: String {
-        get {
-            return Store.shared.string(key: "\(self.config.name)_notificationLevel", defaultValue: "Disabled")
-        }
+        Store.shared.string(key: "\(Disk.name)_notificationLevel", defaultValue: "Disabled")
     }
     
     public init() {
-        self.popupView = Popup()
-        self.settingsView = Settings("Disk")
-        self.portalView = Portal("Disk")
-        
         super.init(
             popup: self.popupView,
             settings: self.settingsView,
@@ -159,7 +193,9 @@ public class Disk: Module {
         
         self.capacityReader = CapacityReader()
         self.activityReader = ActivityReader()
-        self.selectedDisk = Store.shared.string(key: "\(self.config.name)_disk", defaultValue: self.selectedDisk)
+        self.processReader = ProcessReader()
+        
+        self.selectedDisk = Store.shared.string(key: "\(Disk.name)_disk", defaultValue: self.selectedDisk)
         
         self.capacityReader?.callbackHandler = { [unowned self] value in
             if let value = value {
@@ -175,6 +211,11 @@ public class Disk: Module {
                 self.activityCallback(value)
             }
         }
+        self.processReader?.callbackHandler = { [unowned self] value in
+            if let list = value {
+                self.popupView.processCallback(list)
+            }
+        }
         
         self.settingsView.selectedDiskHandler = { [unowned self] value in
             self.selectedDisk = value
@@ -186,11 +227,20 @@ public class Disk: Module {
         self.settingsView.setInterval = { [unowned self] value in
             self.capacityReader?.setInterval(value)
         }
+        self.settingsView.callbackWhenUpdateNumberOfProcesses = {
+            self.popupView.numberOfProcessesUpdated()
+            DispatchQueue.global(qos: .background).async {
+                self.processReader?.read()
+            }
+        }
         
         if let reader = self.capacityReader {
             self.addReader(reader)
         }
         if let reader = self.activityReader {
+            self.addReader(reader)
+        }
+        if let reader = self.processReader {
             self.addReader(reader)
         }
     }

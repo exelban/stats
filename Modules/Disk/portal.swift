@@ -13,15 +13,13 @@ import Cocoa
 import Kit
 
 internal class Portal: NSStackView, Portal_p {
-    internal var name: String
+    internal var name: String { Disk.name }
     
     private var circle: PieChartView? = nil
     
     private var initialized: Bool = false
     
-    init(_ title: String) {
-        self.name = title
-        
+    init() {
         super.init(frame: NSRect.zero)
         
         self.wantsLayer = true
