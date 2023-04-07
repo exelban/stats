@@ -59,10 +59,10 @@
 "Dashboard" = "Dashboard";
 "Enabled" = "Activé";
 "Disabled" = "Désactivé";
-"Silent" = "Silent";
-"Units" = "Units";
+"Silent" = "Silencieux";
+"Units" = "Unités";
 "Fans" = "Ventilateurs";
-"Scaling" = "Scaling";
+"Scaling" = "Échelle";
 "Linear" = "Linéaire";
 "Square" = "Carré";
 "Cube" = "Cubique";
@@ -71,32 +71,32 @@
 "Settings" = "Paramètres";
 
 // Setup
-"Stats Setup" = "Stats Setup";
-"Previous" = "Previous";
-"Previous page" = "Previous page";
-"Next" = "Next";
-"Next page" = "Next page";
-"Finish" = "Finish";
-"Finish setup" = "Finish setup";
-"Welcome to Stats" = "Welcome to Stats";
-"welcome_message" = "Thanks for using Stats, a free open source macOS system monitor for your menu bar.";
-"Start the application automatically when starting your Mac" = "Start the application automatically when starting your Mac";
-"Do not start the application automatically when starting your Mac" = "Do not start the application automatically when starting your Mac";
-"Do everything silently in the background (recommended)" = "Do everything silently in the background (recommended)";
-"Check for a new version on startup" = "Check for a new version on startup";
-"Check for a new version every day (once a day)" = "Check for a new version every day (once a day)";
-"Check for a new version every week (once a week)" = "Check for a new version every week (once a week)";
-"Check for a new version every month (once a month)" = "Check for a new version every month (once a month)";
-"Never check for updates (not recommended)" = "Never check for updates (not recommended)";
-"The configuration is completed" = "The configuration is completed";
-"finish_setup_message" = "Everything is set up! \n The Stats is an open source tool, it's free and always will be. \n If you enjoy it you can support a project, it's always appreciated!";
+"Stats Setup" = "Configuration de Stats";
+"Previous" = "Précédent";
+"Previous page" = "Page précédente";
+"Next" = "Suivant";
+"Next page" = "Page suivante";
+"Finish" = "Terminer";
+"Finish setup" = "Terminer la configuration";
+"Welcome to Stats" = "Bienvenue sur Stats";
+"welcome_message" = "Merci d'utiliser Stats, un moniteur de système macOS gratuit et open source pour votre barre des menus.";
+"Start the application automatically when starting your Mac" = "Démarrer l'application automatiquement lors du démarrage de votre Mac";
+"Do not start the application automatically when starting your Mac" = "Ne pas démarrer l'application automatiquement lors du démarrage de votre Mac";
+"Do everything silently in the background (recommended)" = "Effectuer toutes les opérations en silence en arrière-plan (recommandé)";
+"Check for a new version on startup" = "Vérifier s'il existe une nouvelle version au démarrage";
+"Check for a new version every day (once a day)" = "Vérifier s'il existe une nouvelle version tous les jours (une fois par jour)";
+"Check for a new version every week (once a week)" = "Vérifier s'il existe une nouvelle version toutes les semaines (une fois par semaine)";
+"Check for a new version every month (once a month)" = "Vérifier s'il existe une nouvelle version tous les mois (une fois par mois)";
+"Never check for updates (not recommended)" = "Ne jamais vérifier les mises à jour (non recommandé)";
+"The configuration is completed" = "La configuration est terminée";
+"finish_setup_message" = "Tout est prêt! \n Stats est un outil open source, il est gratuit et le restera toujours. \n Si vous l'appréciez, vous pouvez soutenir le projet, c'est toujours apprécié!";
 
 // Alerts
 "New version available" = "Nouvelle version disponible";
 "Click to install the new version of Stats" = "Cliquez pour installer la nouvelle version de Stats";
 "Successfully updated" = "Mise à jour terminée avec succès";
 "Stats was updated to v" = "Stats a été mis à jour en v%0";
-"Reset settings text" = "All application settings will be reset and the application will be restarted. Are you sure you want to do this?";
+"Reset settings text" = "Tous les paramètres de l'application seront réinitialisés et l'application sera redémarrée. Êtes-vous sûr de vouloir continuer ?";
 
 // Settings
 "Open Activity Monitor" = "Ouvrir le moniteur d'activité";
@@ -117,12 +117,12 @@
 "Check for update" = "Vérifier la mise à jour";
 "Show icon in dock" = "Afficher l'icône dans le dock";
 "Start at login" = "Démarrer au lancement";
-"Build number" = "Build number";
-"Reset settings" = "Reset settings";
-"Pause the Stats" = "Pause the Stats";
-"Resume the Stats" = "Resume the Stats";
-"Combined modules" = "Combined modules";
-"Spacing" = "Spacing";
+"Build number" = "numéro de build";
+"Reset settings" = "Réinitialiser les paramètres";
+"Pause the Stats" = "Mettre en pause Stats";
+"Resume the Stats" = "Reprendre Stats";
+"Combined modules" = "Modules combinés";
+"Spacing" = "Espacement";
 
 // Dashboard
 "Serial number" = "Numéro de série";
@@ -163,12 +163,12 @@
 "Memory widget" = "Mémoire";
 "Static width" = "Largeur fixée";
 "Tachometer widget" = "Tachometer";
-"State widget" = "State widget";
-"Show symbols" = "Show symbols";
-"Label widget" = "Label";
-"Number of reads in the chart" = "Number of reads in the chart";
-"Color of download" = "Color of download";
-"Color of upload" = "Color of upload";
+"State widget" = "Widget d'état";
+"Show symbols" = "Afficher les symboles";
+"Label widget" = "Libellé";
+"Number of reads in the chart" = "Nombre de lectures sur le graphique";
+"Color of download" = "Couleur de téléchargement";
+"Color of upload" = "Couleur de téléversement";
 
 // Module Kit
 "Open module settings" = "Ouvrir les paramètres du module";
@@ -179,18 +179,18 @@
 "Details" = "Détails";
 "Top processes" = "Processus principaux";
 "Pictogram" = "Pictogramme";
-"Module settings" = "Module settings";
-"Widget settings" = "Widget settings";
-"Popup settings" = "Popup settings";
-"Merge widgets" = "Merge widgets";
-"No available widgets to configure" = "No available widgets to configure";
-"No options to configure for the popup in this module" = "No options to configure for the popup in this module";
+"Module settings" = "Paramètres du Module";
+"Widget settings" = "Paramètres du Widget";
+"Popup settings" = "Paramètres de la fenêtre contextuelle";
+"Merge widgets" = "Combiner les widgets";
+"No available widgets to configure" = "Aucun widget disponible à configurer";
+"No options to configure for the popup in this module" = "Il n'y a pas d'options à configurer pour la fenêtre contextuelle dans ce module";
 
 // Modules
 "Number of top processes" = "Nombre de processus principaux";
 "Update interval for top processes" = "Intervalle de mise à jour des processus principaux";
-"Notification level" = "Notification level";
-"Chart color" = "Chart color";
+"Notification level" = "Niveau de notification";
+"Chart color" = "Couleur du graphique";
 
 // CPU
 "CPU usage" = "Usage CPU";
@@ -208,16 +208,16 @@
 "1 minute" = "1 minute";
 "5 minutes" = "5 minutes";
 "15 minutes" = "15 minutes";
-"CPU usage threshold" = "CPU usage threshold";
-"CPU usage is" = "CPU usage is %0";
+"CPU usage threshold" = "Seuil d'utilisation du CPU";
+"CPU usage is" = "La usage CPU est de %0";
 "Efficiency cores" = "Cœurs à haute efficacité énergétique";
 "Performance cores" = "Cœurs de performance";
-"System color" = "System color";
-"User color" = "User color";
-"Idle color" = "Idle color";
-"Cluster grouping" = "Cluster grouping";
-"Efficiency cores color" = "Efficiency cores color";
-"Performance cores color" = "Performance cores color";
+"System color" = "Couleur du système";
+"User color" = "Couleur de l'utilisateur";
+"Idle color" = "Couleur d'inactivité";
+"Cluster grouping" = "Regrouper en fonction des clusters";
+"Efficiency cores color" = "Couleur des cœurs à haute efficacité énergétique";
+"Performance cores color" = "Couleur des cœurs de performance";
 
 // GPU
 "GPU to show" = "GPU à afficher";
