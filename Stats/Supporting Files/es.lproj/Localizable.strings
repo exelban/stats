@@ -11,28 +11,28 @@
 
 // Modules
 "CPU" = "CPU";
-"Open CPU settings" = "Open CPU settings";
+"Open CPU settings" = "Abrir ajustes de CPU";
 "GPU" = "GPU";
-"Open GPU settings" = "Open GPU settings";
+"Open GPU settings" = "Abrir ajustes de GPU";
 "RAM" = "RAM";
-"Open RAM settings" = "Open RAM settings";
-"Disk" = "Disk";
-"Open Disk settings" = "Open disk settings";
-"Sensors" = "Sensors";
-"Open Sensors settings" = "Open sensors settings";
-"Network" = "Network";
-"Open Network settings" = "Open network settings";
-"Battery" = "Battery";
-"Open Battery settings" = "Open battery settings";
+"Open RAM settings" = "Abrir ajustes de RAM";
+"Disk" = "Disco";
+"Open Disk settings" = "Abrir ajustes de disco";
+"Sensors" = "Sensores";
+"Open Sensors settings" = "Abrir ajustes de sensores";
+"Network" = "Red";
+"Open Network settings" = "Abrir ajustes de red";
+"Battery" = "Batería";
+"Open Battery settings" = "Abrir ajustes de batería";
 "Bluetooth" = "Bluetooth";
-"Open Bluetooth settings" = "Open bluetooth settings";
+"Open Bluetooth settings" = "Abrir ajustes de Bluetooth";
 
 // Words
 "Unknown" = "Desconocido";
 "Version" = "Versión";
 "Processor" = "Procesador";
 "Memory" = "Memoria";
-"Graphics" = "Gráficos";
+"Graphics" = "Gráficas";
 "Close" = "Cerrar";
 "Download" = "Descargar";
 "Install" = "Instalar";
@@ -51,45 +51,45 @@
 "Statistics" = "Estadísticas";
 "Max" = "Max";
 "Min" = "Min";
-"Reset" = "Reset";
-"Alignment" = "Alignment";
-"Left alignment" = "Left";
-"Center alignment" = "Center";
-"Right alignment" = "Right";
-"Dashboard" = "Dashboard";
-"Enabled" = "Enabled";
-"Disabled" = "Disabled";
-"Silent" = "Silent";
-"Units" = "Units";
-"Fans" = "Fans";
-"Scaling" = "Scaling";
+"Reset" = "Reiniciar";
+"Alignment" = "Alineación";
+"Left alignment" = "Izquierda";
+"Center alignment" = "Centro";
+"Right alignment" = "Derecha";
+"Dashboard" = "Panel";
+"Enabled" = "Activado";
+"Disabled" = "Desactivado";
+"Silent" = "Silencioso";
+"Units" = "Unidades";
+"Fans" = "Ventiladores";
+"Scaling" = "Escalada";
 "Linear" = "Linear";
-"Square" = "Square";
-"Cube" = "Cube";
-"Logarithmic" = "Logarithmic";
-"Cores" = "Cores";
-"Settings" = "Settings";
+"Square" = "Cuadrado";
+"Cube" = "Cubo";
+"Logarithmic" = "Logarítmica";
+"Cores" = "Núcleos";
+"Settings" = "Ajustes";
 
 // Setup
-"Stats Setup" = "Stats Setup";
-"Previous" = "Previous";
-"Previous page" = "Previous page";
-"Next" = "Next";
-"Next page" = "Next page";
-"Finish" = "Finish";
-"Finish setup" = "Finish setup";
-"Welcome to Stats" = "Welcome to Stats";
-"welcome_message" = "Thanks for using Stats, a free open source macOS system monitor for your menu bar.";
-"Start the application automatically when starting your Mac" = "Start the application automatically when starting your Mac";
-"Do not start the application automatically when starting your Mac" = "Do not start the application automatically when starting your Mac";
-"Do everything silently in the background (recommended)" = "Do everything silently in the background (recommended)";
-"Check for a new version on startup" = "Check for a new version on startup";
-"Check for a new version every day (once a day)" = "Check for a new version every day (once a day)";
-"Check for a new version every week (once a week)" = "Check for a new version every week (once a week)";
-"Check for a new version every month (once a month)" = "Check for a new version every month (once a month)";
-"Never check for updates (not recommended)" = "Never check for updates (not recommended)";
-"The configuration is completed" = "The configuration is completed";
-"finish_setup_message" = "Everything is set up! \n The Stats is an open source tool, it's free and always will be. \n If you enjoy it you can support a project, it's always appreciated!";
+"Stats Setup" = "Configuración de Stats";
+"Previous" = "anterior";
+"Previous page" = "Pagina anterior";
+"Next" = "Siguiente";
+"Next page" = "Pagina siguiente";
+"Finish" = "Finalizar";
+"Finish setup" = "Configuración finalizada";
+"Welcome to Stats" = "Bienvenido a Stats";
+"welcome_message" = "Gracias por usar Stats, un monitor de sistema para su barra de menú gratuito de fuente abierta para macOS.";
+"Start the application automatically when starting your Mac" = "Que empiece la aplicación automaticamente cuando inicialices tu Mac";
+"Do not start the application automatically when starting your Mac" = "Que no empiece la aplicación automaticamente cuando inicialices tu Mac";
+"Do everything silently in the background (recommended)" = "Hacer todo silenciosamente en el fondo (recomendado)";
+"Check for a new version on startup" = "Comprobar si hay una versión nueva al iniciar la aplicación";
+"Check for a new version every day (once a day)" = "Comprobar si hay una versión nueva todos los días (una vez al día)";
+"Check for a new version every week (once a week)" = "Comprobar si hay una versión nueva todas las semanas (una vez a la semana)";
+"Check for a new version every month (once a month)" = "Comprobar si hay una versión nueva todos los meses (una vez al mes)";
+"Never check for updates (not recommended)" = "Nunca comprobar si hay una versión nueva (no es recomendado)";
+"The configuration is completed" = "La configuración ha sido completada";
+"finish_setup_message" = "Todo ha sido configurado! \n Stats es una herramienta de fuente abierta, es gratis y siempre lo será. \n Si lo disfrutas puedes apoyar el proyecto, siempre es apreciado!";
 
 // Alerts
 "New version available" = "Nueva versión disponible";
@@ -193,9 +193,9 @@
 "Chart color" = "Chart color";
 
 // CPU
-"CPU usage" = "Uso de la CPU";
-"CPU temperature" = "Temperatura de la CPU";
-"CPU frequency" = "Frecuencia de la CPU";
+"CPU usage" = "Uso del CPU";
+"CPU temperature" = "Temperatura del CPU";
+"CPU frequency" = "Frecuencia del CPU";
 "System" = "Sistema";
 "User" = "Usuario";
 "Idle" = "Libre";
@@ -208,24 +208,24 @@
 "1 minute" = "1 minuto";
 "5 minutes" = "5 minutos";
 "15 minutes" = "15 minutos";
-"CPU usage threshold" = "CPU usage threshold";
-"CPU usage is" = "CPU usage is %0";
-"Efficiency cores" = "Efficiency cores";
-"Performance cores" = "Performance cores";
-"System color" = "System color";
-"User color" = "User color";
-"Idle color" = "Idle color";
-"Cluster grouping" = "Cluster grouping";
-"Efficiency cores color" = "Efficiency cores color";
-"Performance cores color" = "Performance cores color";
+"CPU usage threshold" = "Limite de uso del CPU";
+"CPU usage is" = "El uso del CPU es";
+"Efficiency cores" = "Núcleos de eficiencia";
+"Performance cores" = "Núcleos de rendimiento";
+"System color" = "Color de sistema";
+"User color" = "Color de usuario";
+"Idle color" = "Color inactivo";
+"Cluster grouping" = "Agrupación de clústeres";
+"Efficiency cores color" = "Color de núcleos de eficiencia";
+"Performance cores color" = "Color de núcleos de rendimiento";
 
 // GPU
 "GPU to show" = "GPU a mostrar";
 "Show GPU type" = "Mostrar tipo de GPU";
-"GPU enabled" = "GPU activada";
-"GPU disabled" = "GPU desactivada";
-"GPU temperature" = "Temperatura de la GPU";
-"GPU utilization" = "Utilización de la GPU";
+"GPU enabled" = "GPU activado";
+"GPU disabled" = "GPU desactivado";
+"GPU temperature" = "Temperatura del GPU";
+"GPU utilization" = "Utilización del GPU";
 "Vendor" = "Fabricante";
 "Model" = "Modelo";
 "Status" = "Estado";
@@ -237,8 +237,8 @@
 "Utilization" = "Utilización";
 "Render utilization" = "Render utilization";
 "Tiler utilization" = "Tiler utilization";
-"GPU usage threshold" = "GPU usage threshold";
-"GPU usage is" = "GPU usage is %0";
+"GPU usage threshold" = "Limite de uso del GPU";
+"GPU usage is" = "El uso del GPU es";
 
 // RAM
 "Memory usage" = "Uso de la memoria";
