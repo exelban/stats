@@ -230,7 +230,7 @@ public struct DiskSize {
 }
 
 public class LabelField: NSTextField {
-    public init(frame: NSRect = NSRect(), _ label: String = "") {
+    public init(frame: NSRect = NSRect.zero, _ label: String = "") {
         super.init(frame: frame)
         
         self.isEditable = false
@@ -252,7 +252,7 @@ public class LabelField: NSTextField {
 }
 
 public class ValueField: NSTextField {
-    public init(frame: NSRect, _ value: String = "") {
+    public init(frame: NSRect = NSRect.zero, _ value: String = "") {
         super.init(frame: frame)
         
         self.isEditable = false

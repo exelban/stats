@@ -138,7 +138,7 @@ public class SensorsWidget: WidgetWrapper {
     private func drawOneRow(_ x: CGFloat, _ element: Stack_t) -> CGFloat {
         var font: NSFont
         if #available(macOS 10.15, *), self.monospacedFontState {
-            font = NSFont.monospacedSystemFont(ofSize: 13, weight: .regular)
+            font = NSFont.monospacedDigitSystemFont(ofSize: 13, weight: .regular)
         } else {
             font = NSFont.systemFont(ofSize: 13, weight: .regular)
         }
@@ -167,7 +167,7 @@ public class SensorsWidget: WidgetWrapper {
         
         var font: NSFont
         if #available(macOS 10.15, *), self.monospacedFontState {
-            font = NSFont.monospacedSystemFont(ofSize: 10, weight: .light)
+            font = NSFont.monospacedDigitSystemFont(ofSize: 10, weight: .light)
         } else {
             font = NSFont.systemFont(ofSize: 10, weight: .light)
         }
