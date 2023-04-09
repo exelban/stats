@@ -57,39 +57,39 @@
 "Center alignment" = "가운데";
 "Right alignment" = "오른쪽";
 "Dashboard" = "대시보드";
-"Enabled" = "Enabled";
+"Enabled" = "사용";
 "Disabled" = "사용 안 함";
-"Silent" = "조용한";
+"Silent" = "조용하게";
 "Units" = "단위";
 "Fans" = "팬";
-"Scaling" = "Scaling";
-"Linear" = "Linear";
-"Square" = "Square";
-"Cube" = "Cube";
-"Logarithmic" = "Logarithmic";
-"Cores" = "Cores";
-"Settings" = "Settings";
+"Scaling" = "스케일";
+"Linear" = "선형";
+"Square" = "제곱";
+"Cube" = "세제곱";
+"Logarithmic" = "로그";
+"Cores" = "코어 수";
+"Settings" = "설정";
 
 // Setup
-"Stats Setup" = "Stats Setup";
-"Previous" = "Previous";
-"Previous page" = "Previous page";
-"Next" = "Next";
-"Next page" = "Next page";
-"Finish" = "Finish";
-"Finish setup" = "Finish setup";
-"Welcome to Stats" = "Welcome to Stats";
-"welcome_message" = "Thanks for using Stats, a free open source macOS system monitor for your menu bar.";
-"Start the application automatically when starting your Mac" = "Start the application automatically when starting your Mac";
-"Do not start the application automatically when starting your Mac" = "Do not start the application automatically when starting your Mac";
-"Do everything silently in the background (recommended)" = "Do everything silently in the background (recommended)";
-"Check for a new version on startup" = "Check for a new version on startup";
-"Check for a new version every day (once a day)" = "Check for a new version every day (once a day)";
-"Check for a new version every week (once a week)" = "Check for a new version every week (once a week)";
-"Check for a new version every month (once a month)" = "Check for a new version every month (once a month)";
-"Never check for updates (not recommended)" = "Never check for updates (not recommended)";
-"The configuration is completed" = "The configuration is completed";
-"finish_setup_message" = "Everything is set up! \n The Stats is an open source tool, it's free and always will be. \n If you enjoy it you can support a project, it's always appreciated!";
+"Stats Setup" = "Stats 설정";
+"Previous" = "이전";
+"Previous page" = "이전 페이지";
+"Next" = "다음";
+"Next page" = "다음 페이지";
+"Finish" = "완료";
+"Finish setup" = "설정 완료";
+"Welcome to Stats" = "Stats에 오신 것을 환영합니다";
+"welcome_message" = "무료 오픈 소스 macOS 메뉴 바 시스템 모니터, Stats를 사용해 주셔서 감사합니다.";
+"Start the application automatically when starting your Mac" = "Mac을 시작할 때 응용 프로그램을 자동으로 시작";
+"Do not start the application automatically when starting your Mac" = "Mac을 시작할 때 응용 프로그램을 자동으로 시작하지 않음";
+"Do everything silently in the background (recommended)" = "모든 것을 백그라운드에서 조용하게 처리 (추천)";
+"Check for a new version on startup" = "시작할 때 새 버전 확인";
+"Check for a new version every day (once a day)" = "매일 새 버전 확인 (하루에 한 번)";
+"Check for a new version every week (once a week)" = "주마다 새 버전 확인 (일주일에 한 번)";
+"Check for a new version every month (once a month)" = "달마다 새 버전 확인 (한 달에 한 번)";
+"Never check for updates (not recommended)" = "업데이트 확인 안 함 (추천하지 않음)";
+"The configuration is completed" = "설정이 완료되었습니다";
+"finish_setup_message" = "모든 것이 설정되었습니다! \n Stats는 무료 오픈 소스 도구이고 앞으로도 그럴 것입니다. \n 프로그램이 마음에 드신다면 후원을 하실 수 있습니다. 늘 감사합니다!";
 
 // Alerts
 "New version available" = "새로운 버전을 이용할 수 있습니다";
@@ -119,18 +119,18 @@
 "Start at login" = "로그인시 시작";
 "Build number" = "빌드 번호";
 "Reset settings" = "설정 초기화";
-"Pause the Stats" = "Pause the Stats";
-"Resume the Stats" = "Resume the Stats";
-"Combined modules" = "Combined modules";
-"Spacing" = "Spacing";
+"Pause the Stats" = "Stats 일시정지";
+"Resume the Stats" = "Stats 재개";
+"Combined modules" = "모듈 병합";
+"Spacing" = "간격";
 
 // Dashboard
 "Serial number" = "일련 번호";
 "Uptime" = "가동 시간";
 "Number of cores" = "%0 코어";
-"Number of threads" = "%0 쓰레드";
-"Number of e-cores" = "%0 efficiency cores";
-"Number of p-cores" = "%0 performance cores";
+"Number of threads" = "%0 스레드";
+"Number of e-cores" = "%0 효율 코어";
+"Number of p-cores" = "%0 성능 코어";
 
 // Update
 "The latest version of Stats installed" = "최신 버전의 Stats가 설치되어 있습니다";
@@ -155,18 +155,18 @@
 "Mini widget" = "미니";
 "Line chart widget" = "선 도표";
 "Bar chart widget" = "막대 도표";
-"Pie chart widget" = "원형 도포";
+"Pie chart widget" = "원형 도표";
 "Network chart widget" = "네트워크 도표";
 "Speed widget" = "속도";
 "Battery widget" = "배터리";
 "Text widget" = "텍스트";
 "Memory widget" = "메모리";
 "Static width" = "너비 고정";
-"Tachometer widget" = "회전 속도계";
-"State widget" = "State widget";
+"Tachometer widget" = "반원 도표";
+"State widget" = "상태 위젯";
 "Show symbols" = "기호 표시";
 "Label widget" = "레이블";
-"Number of reads in the chart" = "도표의 읽기 횟수";
+"Number of reads in the chart" = "도표의 행 크기";
 "Color of download" = "다운로드 색상";
 "Color of upload" = "업로드 색상";
 
@@ -174,23 +174,23 @@
 "Open module settings" = "모듈 설정 열기";
 "Select widget" = "%0 위젯 선택";
 "Open widget settings" = "위젯 설정 열기";
-"Update interval" = "업데이트 간격";
+"Update interval" = "업데이트 주기";
 "Usage history" = "사용 기록";
 "Details" = "세부 사항";
 "Top processes" = "상위 프로세스";
-"Pictogram" = "그림 그래프";
+"Pictogram" = "상태 아이콘";
 "Module settings" = "모듈 설정";
 "Widget settings" = "위젯 설정";
-"Popup settings" = "Popup settings";
+"Popup settings" = "팝업 설정";
 "Merge widgets" = "위젯 병합";
-"No available widgets to configure" = "No available widgets to configure";
-"No options to configure for the popup in this module" = "No options to configure for the popup in this module";
+"No available widgets to configure" = "구성할 위젯이 없습니다";
+"No options to configure for the popup in this module" = "이 모듈의 팝업에는 구성할 설정이 없습니다";
 
 // Modules
 "Number of top processes" = "상위 프로세스 수";
-"Update interval for top processes" = "상위 프로세스의 업데이트 간격";
+"Update interval for top processes" = "상위 프로세스의 업데이트 주기";
 "Notification level" = "알림 수준";
-"Chart color" = "Chart color";
+"Chart color" = "도표 색상";
 
 // CPU
 "CPU usage" = "CPU 사용량";
@@ -210,14 +210,14 @@
 "15 minutes" = "15분";
 "CPU usage threshold" = "CPU 사용량 임계값";
 "CPU usage is" = "CPU 사용량 %0";
-"Efficiency cores" = "Efficiency cores";
-"Performance cores" = "Performance cores";
-"System color" = "System color";
-"User color" = "User color";
-"Idle color" = "Idle color";
-"Cluster grouping" = "Cluster grouping";
-"Efficiency cores color" = "Efficiency cores color";
-"Performance cores color" = "Performance cores color";
+"Efficiency cores" = "효율 코어";
+"Performance cores" = "성능 코어";
+"System color" = "시스템 색상";
+"User color" = "사용자 색상";
+"Idle color" = "대기 색상";
+"Cluster grouping" = "클러스터 묶기";
+"Efficiency cores color" = "효율 코어 색상";
+"Performance cores color" = "성능 코어 색상";
 
 // GPU
 "GPU to show" = "표시할 GPU";
@@ -226,7 +226,7 @@
 "GPU disabled" = "GPU 사용 안 함";
 "GPU temperature" = "GPU 온도";
 "GPU utilization" = "GPU 사용률";
-"Vendor" = "공급업체";
+"Vendor" = "공급 업체";
 "Model" = "모델";
 "Status" = "상태";
 "Active" = "활성";
@@ -253,10 +253,10 @@
 "Split the value (App/Wired/Compressed)" = "값 분할 (앱/연결됨/압축됨)";
 "RAM utilization threshold" = "RAM 사용률 임계값";
 "RAM utilization is" = "RAM 사용률 %0";
-"App color" = "App color";
-"Wired color" = "Wired color";
-"Compressed color" = "Compressed color";
-"Free color" = "Free color";
+"App color" = "앱 색상";
+"Wired color" = "연결됨 색상";
+"Compressed color" = "압축됨 색상";
+"Free color" = "여유 색상";
 
 // Disk
 "Show removable disks" = "이동식 디스크 표시";
@@ -278,10 +278,10 @@
 "Synchronize fan's control" = "팬 제어 동기화";
 "Current" = "Current";
 "Energy" = "Energy";
-"Show unknown sensors" = "Show unknown sensors";
-"Install fan helper" = "Install fan helper";
-"Uninstall fan helper" = "Uninstall fan helper";
-"Fan value" = "Fan value";
+"Show unknown sensors" = "알 수 없는 센서 표시";
+"Install fan helper" = "팬 헬퍼 설치";
+"Uninstall fan helper" = "팬 헬퍼 제거";
+"Fan value" = "팬 값";
 
 // Network
 "Uploading" = "업로드";
@@ -307,15 +307,15 @@
 "Standard" = "표준";
 "Security" = "보안";
 "Channel" = "채널";
-"Common scale" = "Common scale";
-"Autodetection" = "Autodetection";
-"Widget activation threshold" = "Widget activation threshold";
-"Internet connection" = "Internet connection";
-"Active state color" = "Active state color";
-"Nonactive state color" = "Nonactive state color";
-"Connectivity host (ICMP)" = "Connectivity host (ICMP)";
-"Leave empty to disable the check" = "Leave empty to disable the check";
-"Transparent pictogram when no activity" = "Transparent pictogram when no activity";
+"Common scale" = "통일된 스케일 사용";
+"Autodetection" = "자동 감지";
+"Widget activation threshold" = "위젯 활성화 임계값";
+"Internet connection" = "인터넷 연결";
+"Active state color" = "활성 상태 색상";
+"Nonactive state color" = "비활성 상태 색상";
+"Connectivity host (ICMP)" = "인터넷 연결 확인 호스트 (ICMP)";
+"Leave empty to disable the check" = "확인을 비활성화하려면 이 란을 비워 두세요";
+"Transparent pictogram when no activity" = "활동이 없을 때 상태 아이콘 숨기기";
 
 // Battery
 "Level" = "잔량";
@@ -349,9 +349,9 @@
 "Hide additional information when full" = "완충되면 추가 정보 숨기기";
 "Last charge" = "마지막 충전";
 "Capacity" = "용량";
-"current / maximum / designed" = "current / 최대 / 설계";
-"Low power mode" = "Low power mode";
-"Percentage inside the icon" = "Percentage inside the icon";
+"current / maximum / designed" = "현재 / 최대 / 설계";
+"Low power mode" = "저전력 모드";
+"Percentage inside the icon" = "아이콘 속에 백분율";
 
 // Bluetooth
 "Battery to show" = "표시할 배터리";
@@ -360,7 +360,7 @@
 // Colors
 "Based on utilization" = "사용률 기준";
 "Based on pressure" = "압력 기준";
-"Based on cluster" = "Based on cluster";
+"Based on cluster" = "클러스터 기준";
 "System accent" = "시스템 강조";
 "Monochrome accent" = "단색 강조";
 "Clear" = "투명";
