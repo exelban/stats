@@ -308,6 +308,10 @@ public class ProcessReader: Reader<[Disk_process]> {
         Store.shared.int(key: "\(Disk.name)_processes", defaultValue: 5)
     }
     
+    public override func setup() {
+        self.popup = true
+    }
+    
     public override func read() {
         guard self.numberOfProcesses != 0 else { return }
         
