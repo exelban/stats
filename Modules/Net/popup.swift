@@ -54,6 +54,7 @@ internal class Popup: PopupWrapper {
     private var connectionInitialized: Bool = false
     
     private var chart: NetworkChartView? = nil
+    private var connectivityChart: GridChartView? = nil
     private var processes: [NetworkProcessView] = []
     
     private var base: DataSizeBase {
@@ -104,6 +105,7 @@ internal class Popup: PopupWrapper {
         
         self.addArrangedSubview(self.initDashboard())
         self.addArrangedSubview(self.initChart())
+        self.addArrangedSubview(self.initConnectivityChart())
         self.addArrangedSubview(self.initDetails())
         self.addArrangedSubview(self.initPublicIP())
         self.addArrangedSubview(self.initProcesses())
@@ -166,6 +168,25 @@ internal class Popup: PopupWrapper {
         chart.base = self.base
         container.addSubview(chart)
         self.chart = chart
+        
+        view.addSubview(separator)
+        view.addSubview(container)
+        
+        return view
+    }
+    
+    private func initConnectivityChart() -> NSView {
+        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 30 + Constants.Popup.separatorHeight))
+        view.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
+        let separator = separatorView(localizedString("Connectivity history"), origin: NSPoint(x: 0, y: 30), width: self.frame.width)
+        let container: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: separator.frame.origin.y))
+        container.wantsLayer = true
+        container.layer?.backgroundColor = NSColor.lightGray.withAlphaComponent(0.1).cgColor
+        container.layer?.cornerRadius = 3
+        
+        let chart = GridChartView(frame: NSRect(x: 0, y: 1, width: container.frame.width, height: container.frame.height - 2), grid: (30, 3))
+        container.addSubview(chart)
+        self.connectivityChart = chart
         
         view.addSubview(separator)
         view.addSubview(container)
@@ -405,6 +426,10 @@ internal class Popup: PopupWrapper {
                 }
                 self.connectivityField?.stringValue = localizedString(text)
                 self.connectionInitialized = true
+            }
+            
+            if let value, let chart = self.connectivityChart {
+                chart.addValue(value)
             }
         })
     }
