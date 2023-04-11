@@ -750,3 +750,54 @@ public class BarChartView: NSView {
         }
     }
 }
+
+public class GridChartView: NSView {
+    private let okColor: NSColor = .systemGreen
+    private let notOkColor: NSColor = .systemRed
+    private let inactiveColor: NSColor = .underPageBackgroundColor.withAlphaComponent(0.4)
+    
+    private var values: [NSColor] = []
+    private let grid: (rows: Int, columns: Int)
+    
+    public init(frame: NSRect, grid: (rows: Int, columns: Int)) {
+        self.grid = grid
+        super.init(frame: frame)
+        self.values = Array(repeating: self.inactiveColor, count: grid.rows * grid.columns)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    public override func draw(_ dirtyRect: NSRect) {
+        let spacing: CGFloat = 2
+        let size: CGSize = CGSize(
+            width: (self.frame.width - ((CGFloat(self.grid.rows)-1) * spacing)) / CGFloat(self.grid.rows),
+            height: (self.frame.height - ((CGFloat(self.grid.columns)-1) * spacing)) / CGFloat(self.grid.columns)
+        )
+        var origin: CGPoint = CGPoint(x: 0, y: (size.height + spacing) * CGFloat(self.grid.columns - 1))
+        
+        var i: Int = 0
+        for _ in 0..<self.grid.columns {
+            for _ in 0..<self.grid.rows {
+                let box = NSBezierPath(roundedRect: NSRect(origin: origin, size: size), xRadius: 1, yRadius: 1)
+                self.values[i].setFill()
+                box.fill()
+                box.close()
+                i += 1
+                origin.x += size.width + spacing
+            }
+            origin.x = 0
+            origin.y -= size.height + spacing
+        }
+    }
+    
+    public func addValue(_ value: Bool) {
+        self.values.remove(at: 0)
+        self.values.append(value ? self.okColor : self.notOkColor)
+        
+        if self.window?.isVisible ?? false {
+            self.display()
+        }
+    }
+}
