@@ -71,12 +71,14 @@ public class Clock: Module {
     }
     
     private func callback(_ value: Date) {
-        var clocks: [Clock_t] = self.list.filter({ $0.enabled })
-        var list: [Stack_t] = []
+        var clocks: [Clock_t] = self.list
+        var widgetList: [Stack_t] = []
         
         for (i, c) in clocks.enumerated() {
             clocks[i].value = value
-            list.append(Stack_t(key: c.name, value: clocks[i].formatted()))
+            if c.enabled {
+                widgetList.append(Stack_t(key: c.name, value: clocks[i].formatted()))
+            }
         }
         
         DispatchQueue.main.async(execute: {
@@ -85,7 +87,7 @@ public class Clock: Module {
         
         self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
             switch w.item {
-            case let widget as SensorsWidget: widget.setValues(list)
+            case let widget as SensorsWidget: widget.setValues(widgetList)
             default: break
             }
         }
