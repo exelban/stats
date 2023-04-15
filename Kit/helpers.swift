@@ -765,7 +765,7 @@ public class ProcessView: NSStackView {
         view.cell?.truncatesLastVisibleLine = true
         return view
     }()
-    private var valueView: ValueField = ValueField(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
+    private var valueView: ValueField = ValueField()
     
     public init(size: CGSize = CGSize(width: 264, height: 22)) {
         var rect = NSRect(x: 5, y: 5, width: 12, height: 12)
@@ -1153,13 +1153,20 @@ public class SMCHelper {
     }
     
     private func helper(_ completion: ((Bool) -> Void)?) -> HelperProtocol? {
-        guard let helper = self.helperConnection()?.remoteObjectProxyWithErrorHandler({ _ in
-            if let onCompletion = completion { onCompletion(false) }
-        }) as? HelperProtocol else { return nil }
+        guard let helper = self.helperConnection() else {
+            completion?(false)
+            return nil
+        }
+        guard let service = helper.remoteObjectProxyWithErrorHandler({ error in
+            print(error)
+        }) as? HelperProtocol else {
+            completion?(false)
+            return nil
+        }
         
-        helper.setSMCPath(Bundle.main.path(forResource: "smc", ofType: nil)!)
+        service.setSMCPath(Bundle.main.path(forResource: "smc", ofType: nil)!)
         
-        return helper
+        return service
     }
     
     public func uninstall(silent: Bool = false) {

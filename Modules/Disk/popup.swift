@@ -126,14 +126,14 @@ internal class Popup: PopupWrapper {
         let view = SettingsContainerView()
         
         view.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Color of write"),
+            title: localizedString("Write color"),
             action: #selector(toggleWriteColor),
             items: Color.allColors,
             selected: self.writeColorState.key
         ))
         
         view.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Color of read"),
+            title: localizedString("Read color"),
             action: #selector(toggleReadColor),
             items: Color.allColors,
             selected: self.readColorState.key
