@@ -169,6 +169,7 @@
 "Number of reads in the chart" = "読み取り回数のチャート";
 "Color of download" = "ダウンロードの色";
 "Color of upload" = "アップロードの色";
+"Monospaced font" = "Monospaced font";
 
 // Module Kit
 "Open module settings" = "このモジュールの設定を開く";
@@ -267,6 +268,8 @@
 "Switch view" = "表示を切り替える";
 "Disk utilization threshold" = "Disk utilization threshold";
 "Disk utilization is" = "Disk utilization is %0";
+"Read color" = "Read color";
+"Write color" = "Write color";
 
 // Sensors
 "Temperature unit" = "温度単位";
@@ -316,6 +319,7 @@
 "Connectivity host (ICMP)" = "Connectivity host (ICMP)";
 "Leave empty to disable the check" = "Leave empty to disable the check";
 "Transparent pictogram when no activity" = "Transparent pictogram when no activity";
+"Connectivity history" = "Connectivity history";
 
 // Battery
 "Level" = "充電残量";

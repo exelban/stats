@@ -169,6 +169,7 @@
 "Number of reads in the chart" = "Počet záznamov v grafe";
 "Color of download" = "Farba sťahovania (download)";
 "Color of upload" = "Farba nahrávania (upload)";
+"Monospaced font" = "Monospaced font";
 
 // Module Kit
 "Open module settings" = "Otvoriť nastavenia modulu";
@@ -267,6 +268,8 @@
 "Switch view" = "Prepnúť pohľad";
 "Disk utilization threshold" = "Prahová hodnota využitia disku";
 "Disk utilization is" = "Využitie disku je %0";
+"Read color" = "Read color";
+"Write color" = "Write color";
 
 // Sensors
 "Temperature unit" = "Jednotka teploty";
@@ -316,6 +319,7 @@
 "Connectivity host (ICMP)" = "Hostiteľ pripojenia (ICMP)";
 "Leave empty to disable the check" = "Ponechajte prázdne, ak chcete vypnúť kontrolu";
 "Transparent pictogram when no activity" = "Priehľadný piktogram, keď sa nevykonáva žiadna činnosť";
+"Connectivity history" = "Connectivity history";
 
 // Battery
 "Level" = "Úroveň";

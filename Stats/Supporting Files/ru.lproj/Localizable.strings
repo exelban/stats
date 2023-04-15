@@ -169,6 +169,7 @@
 "Number of reads in the chart" = "Количество чтений на графике";
 "Color of download" = "Цвет загрузки";
 "Color of upload" = "Цвет выгрузки";
+"Monospaced font" = "Моноширинный шрифт";
 
 // Module Kit
 "Open module settings" = "Открыть настройки модуля";
@@ -267,6 +268,8 @@
 "Switch view" = "Переключить вид";
 "Disk utilization threshold" = "Порог использования диска";
 "Disk utilization is" = "Использование диска %0";
+"Read color" = "Цвет чтения";
+"Write color" = "Цвет записи";
 
 // Sensors
 "Temperature unit" = "Единица измерения температуры";
@@ -316,6 +319,7 @@
 "Connectivity host (ICMP)" = "Хост подключения (ICMP)";
 "Leave empty to disable the check" = "Оставьте пустым, чтобы отключить проверку";
 "Transparent pictogram when no activity" = "Прозрачная пиктограмма при отсутствии активности";
+"Connectivity history" = "История подключения";
 
 // Battery
 "Level" = "Уровень заряда";

@@ -169,6 +169,7 @@
 "Number of reads in the chart" = "Értékek száma a grafikonon";
 "Color of download" = "Letöltés színe";
 "Color of upload" = "Feltöltés színe";
+"Monospaced font" = "Monospaced font";
 
 // Module Kit
 "Open module settings" = "Modul beállításainak megnyitása";
@@ -267,6 +268,8 @@
 "Switch view" = "Nézet felcserélése";
 "Disk utilization threshold" = "Lemez használati küszöb";
 "Disk utilization is" = "%0 a lemez használat";
+"Read color" = "Read color";
+"Write color" = "Write color";
 
 // Sensors
 "Temperature unit" = "Hőmérséklet mértékegysége";
@@ -316,6 +319,7 @@
 "Connectivity host (ICMP)" = "Kapcsolati gazdagép (ICMP)";
 "Leave empty to disable the check" = "Hagyd üresen az ellenőrzés kikapcsolásához";
 "Transparent pictogram when no activity" = "Átlátszó ikon, ha nincs forgalom";
+"Connectivity history" = "Connectivity history";
 
 // Battery
 "Level" = "Töltöttségi szint";

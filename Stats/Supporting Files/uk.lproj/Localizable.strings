@@ -169,6 +169,7 @@
 "Number of reads in the chart" = "Кількість зчитувань на діаграмі";
 "Color of download" = "Колір завантаження";
 "Color of upload" = "Колір висилання";
+"Monospaced font" = "Моноширинний шрифт";
 
 // Module Kit
 "Open module settings" = "Відкрити налаштування модуля";
@@ -267,6 +268,8 @@
 "Switch view" = "Переключити вигляд";
 "Disk utilization threshold" = "Поріг використання диска";
 "Disk utilization is" = "Використання диска %0";
+"Read color" = "Колір зчитування";
+"Write color" = "Колір запису";
 
 // Sensors
 "Temperature unit" = "Одиниця виміру температури";
@@ -316,6 +319,7 @@
 "Connectivity host (ICMP)" = "Хост підключення (ICMP)";
 "Leave empty to disable the check" = "Залиште пустим, щоб вимкнути перевірку";
 "Transparent pictogram when no activity" = "Прозора піктограма, коли немає активності";
+"Connectivity history" = "Історія підключення";
 
 // Battery
 "Level" = "Рівень заряду";

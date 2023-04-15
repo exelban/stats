@@ -169,6 +169,7 @@
 "Number of reads in the chart" = "Antal avläsningar i diagram";
 "Color of download" = "Färg för skickar";
 "Color of upload" = "Färg för tar emot";
+"Monospaced font" = "Monospaced font";
 
 // Module Kit
 "Open module settings" = "Öppna modulinställningar";
@@ -267,6 +268,8 @@
 "Switch view" = "Växla vy";
 "Disk utilization threshold" = "Tröskelvärde skivanvändning";
 "Disk utilization is" = "Skivanvändning %0";
+"Read color" = "Read color";
+"Write color" = "Write color";
 
 // Sensors
 "Temperature unit" = "Temperaturenhet";
@@ -316,6 +319,7 @@
 "Connectivity host (ICMP)" = "Connectivity host (ICMP)";
 "Leave empty to disable the check" = "Leave empty to disable the check";
 "Transparent pictogram when no activity" = "Transparent pictogram when no activity";
+"Connectivity history" = "Connectivity history";
 
 // Battery
 "Level" = "Nivå";

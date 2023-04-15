@@ -169,6 +169,7 @@
 "Number of reads in the chart" = "تعداد خواندن‌ها در نمودار";
 "Color of download" = "رنگ دانلود";
 "Color of upload" = "رنگ آپلود";
+"Monospaced font" = "Monospaced font";
 
 // Module Kit
 "Open module settings" = "باز کردن تنظیمات ماژول‌ها";
@@ -267,6 +268,8 @@
 "Switch view" = "تغییر نمایش";
 "Disk utilization threshold" = "آستانه مصرف دیسک";
 "Disk utilization is" = "مصرف دیسک %0";
+"Read color" = "Read color";
+"Write color" = "Write color";
 
 // Sensors
 "Temperature unit" = "واحد دما";
@@ -316,6 +319,7 @@
 "Connectivity host (ICMP)" = "میزبان اتصال (ICMP)";
 "Leave empty to disable the check" = "خالی بگذارید تا بررسی غیرفعال شود";
 "Transparent pictogram when no activity" = "Transparent pictogram when no activity";
+"Connectivity history" = "Connectivity history";
 
 // Battery
 "Level" = "سطح";

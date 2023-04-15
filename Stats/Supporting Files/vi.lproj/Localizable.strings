@@ -169,6 +169,7 @@
 "Number of reads in the chart" = "Số lần đọc trong biểu đồ";
 "Color of download" = "Màu tải xuống";
 "Color of upload" = "Màu tải lên";
+"Monospaced font" = "Monospaced font";
 
 // Module Kit
 "Open module settings" = "Mở cài đặt module";
@@ -267,6 +268,8 @@
 "Switch view" = "Chuyển đổi chế độ xem";
 "Disk utilization threshold" = "Ngưỡng sử dụng đĩa";
 "Disk utilization is" = "Mức sử dụng đĩa là %0";
+"Read color" = "Read color";
+"Write color" = "Write color";
 
 // Sensors
 "Temperature unit" = "Đơn vị nhiệt độ";
@@ -316,6 +319,7 @@
 "Connectivity host (ICMP)" = "Connectivity host (ICMP)";
 "Leave empty to disable the check" = "Leave empty to disable the check";
 "Transparent pictogram when no activity" = "Transparent pictogram when no activity";
+"Connectivity history" = "Connectivity history";
 
 // Battery
 "Level" = "Dung lượng Pin";

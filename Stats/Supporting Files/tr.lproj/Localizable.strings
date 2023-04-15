@@ -169,6 +169,7 @@
 "Number of reads in the chart" = "Grafikteki okuma sayısı";
 "Color of download" = "İndirme rengi";
 "Color of upload" = "Yükleme rengi";
+"Monospaced font" = "Monospaced font";
 
 // Module Kit
 "Open module settings" = "Modül ayarlarını aç";
@@ -267,6 +268,8 @@
 "Switch view" = "Görünümü değiştir";
 "Disk utilization threshold" = "Disk kullanım eşiği";
 "Disk utilization is" = "Disk kullanımı %0";
+"Read color" = "Read color";
+"Write color" = "Write color";
 
 // Sensors
 "Temperature unit" = "Sıcaklık birimi";
@@ -316,6 +319,7 @@
 "Connectivity host (ICMP)" = "Bağlantı sunucusu (ICMP)";
 "Leave empty to disable the check" = "Kontrolü devre dışı bırakmak için boş bırakın";
 "Transparent pictogram when no activity" = "Transparent pictogram when no activity";
+"Connectivity history" = "Connectivity history";
 
 // Battery
 "Level" = "Doluluk";

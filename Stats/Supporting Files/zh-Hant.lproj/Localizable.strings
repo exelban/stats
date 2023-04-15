@@ -169,6 +169,7 @@
 "Number of reads in the chart" = "圖表中的未讀計數";
 "Color of download" = "下載的顯示色彩";
 "Color of upload" = "上傳的顯示色彩";
+"Monospaced font" = "Monospaced font";
 
 // Module Kit
 "Open module settings" = "打開模組設定";
@@ -267,6 +268,8 @@
 "Switch view" = "切換視窗";
 "Disk utilization threshold" = "磁碟利用率臨界點";
 "Disk utilization is" = "磁碟利用率為：%0";
+"Read color" = "Read color";
+"Write color" = "Write color";
 
 // Sensors
 "Temperature unit" = "溫度單位";
@@ -316,6 +319,7 @@
 "Connectivity host (ICMP)" = "連線主機 (ICMP)";
 "Leave empty to disable the check" = "留空來停用檢查";
 "Transparent pictogram when no activity" = "未連線時隱藏標示";
+"Connectivity history" = "Connectivity history";
 
 // Battery
 "Level" = "電量";

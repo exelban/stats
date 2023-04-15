@@ -169,6 +169,7 @@
 "Number of reads in the chart" = "Jumlah yang dibaca pada diagram";
 "Color of download" = "Warna pada unduhan";
 "Color of upload" = "Warna pada unggahan";
+"Monospaced font" = "Monospaced font";
 
 // Module Kit
 "Open module settings" = "Buka pengaturan modul";
@@ -267,6 +268,8 @@
 "Switch view" = "Alihkan tampilan";
 "Disk utilization threshold" = "Disk utilization threshold";
 "Disk utilization is" = "Disk utilization is %0";
+"Read color" = "Read color";
+"Write color" = "Write color";
 
 // Sensors
 "Temperature unit" = "Unit suhu";
@@ -316,6 +319,7 @@
 "Connectivity host (ICMP)" = "Connectivity host (ICMP)";
 "Leave empty to disable the check" = "Leave empty to disable the check";
 "Transparent pictogram when no activity" = "Transparent pictogram when no activity";
+"Connectivity history" = "Connectivity history";
 
 // Battery
 "Level" = "Level";

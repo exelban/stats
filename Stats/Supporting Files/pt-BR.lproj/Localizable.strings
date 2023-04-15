@@ -169,6 +169,7 @@
 "Number of reads in the chart" = "Número de leituras no gráfico";
 "Color of download" = "Cor para download";
 "Color of upload" = "Cor para upload";
+"Monospaced font" = "Monospaced font";
 
 // Module Kit
 "Open module settings" = "Abrir configurações do módulo";
@@ -267,6 +268,8 @@
 "Switch view" = "Mudar de vista";
 "Disk utilization threshold" = "Limite de utilização de disco";
 "Disk utilization is" = "Utilização de disco é de %0";
+"Read color" = "Read color";
+"Write color" = "Write color";
 
 // Sensors
 "Temperature unit" = "Unidade de temperatura";
@@ -316,6 +319,7 @@
 "Connectivity host (ICMP)" = "Host de conectividade (ICMP)";
 "Leave empty to disable the check" = "Deixe em branco para desativar a verificação";
 "Transparent pictogram when no activity" = "Pictograma transparente quando não houver atividade";
+"Connectivity history" = "Connectivity history";
 
 // Battery
 "Level" = "Nível";

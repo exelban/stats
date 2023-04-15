@@ -169,6 +169,7 @@
 "Number of reads in the chart" = "จำนวนการอ่านในแผนภูมิ";
 "Color of download" = "สีของการดาวน์โหลด";
 "Color of upload" = "สีของการอัพโหลด";
+"Monospaced font" = "Monospaced font";
 
 // Module Kit
 "Open module settings" = "เปิดการตั้งค่าโมดูล";
@@ -267,6 +268,8 @@
 "Switch view" = "สลับมุมมอง";
 "Disk utilization threshold" = "เกณฑ์การใช้งานดิสก์";
 "Disk utilization is" = "ปริมาณการใช้งานดิสก์คือ %0";
+"Read color" = "Read color";
+"Write color" = "Write color";
 
 // Sensors
 "Temperature unit" = "หน่วยอุณหภูมิ";
@@ -316,6 +319,7 @@
 "Connectivity host (ICMP)" = "โฮสต์ที่เชื่อมต่อ (ICMP)";
 "Leave empty to disable the check" = "เว้นว่างไว้เพื่อปิดการตรวจสอบ";
 "Transparent pictogram when no activity" = "ไอคอนโปร่งใสเมื่อไม่มีกิจกรรม";
+"Connectivity history" = "Connectivity history";
 
 // Battery
 "Level" = "ระดับ";

@@ -169,6 +169,7 @@
 "Number of reads in the chart" = "도표의 행 크기";
 "Color of download" = "다운로드 색상";
 "Color of upload" = "업로드 색상";
+"Monospaced font" = "Monospaced font";
 
 // Module Kit
 "Open module settings" = "모듈 설정 열기";
@@ -267,6 +268,8 @@
 "Switch view" = "보기 전환";
 "Disk utilization threshold" = "디스크 사용률 임계값";
 "Disk utilization is" = "디스크 사용률 %0";
+"Read color" = "Read color";
+"Write color" = "Write color";
 
 // Sensors
 "Temperature unit" = "온도 단위";
@@ -316,6 +319,7 @@
 "Connectivity host (ICMP)" = "인터넷 연결 확인 호스트 (ICMP)";
 "Leave empty to disable the check" = "확인을 비활성화하려면 이 란을 비워 두세요";
 "Transparent pictogram when no activity" = "활동이 없을 때 상태 아이콘 숨기기";
+"Connectivity history" = "Connectivity history";
 
 // Battery
 "Level" = "잔량";

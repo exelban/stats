@@ -169,6 +169,7 @@
 "Number of reads in the chart" = "Število branj v grafu";
 "Color of download" = "Barva prenosa";
 "Color of upload" = "Barva oddajanja";
+"Monospaced font" = "Monospaced font";
 
 // Module Kit
 "Open module settings" = "Odpri nastavitve modula";
@@ -267,6 +268,8 @@
 "Switch view" = "Zamenjaj pogled";
 "Disk utilization threshold" = "Prag izkoriščenosti diska";
 "Disk utilization is" = "Izkoriščenost diska je %0";
+"Read color" = "Read color";
+"Write color" = "Write color";
 
 // Sensors
 "Temperature unit" = "Enota za temperaturo";
@@ -316,6 +319,7 @@
 "Connectivity host (ICMP)" = "Gostitelj za preverjanje povezljivosti (ICMP)";
 "Leave empty to disable the check" = "Pustite prazno, če želite onemogočiti preverjanje povezljivosti";
 "Transparent pictogram when no activity" = "Prosojni piktogram, ko ni dejavnosti";
+"Connectivity history" = "Connectivity history";
 
 // Battery
 "Level" = "Raven";

@@ -169,6 +169,7 @@
 "Number of reads in the chart" = "Брой прочитания в графиката";
 "Color of download" = "Цвят на свалянето";
 "Color of upload" = "Цвят на качването";
+"Monospaced font" = "Monospaced font";
 
 // Module Kit
 "Open module settings" = "Отваряне на настройките на модула";
@@ -267,6 +268,8 @@
 "Switch view" = "Преключване на изглед";
 "Disk utilization threshold" = "Праг на утилизацията на диска";
 "Disk utilization is" = "Утилизацията на диска е %0";
+"Read color" = "Read color";
+"Write color" = "Write color";
 
 // Sensors
 "Temperature unit" = "Температурна единица";
@@ -316,6 +319,7 @@
 "Connectivity host (ICMP)" = "Connectivity host (ICMP)";
 "Leave empty to disable the check" = "Оставете празно, за да изключите проверката";
 "Transparent pictogram when no activity" = "Transparent pictogram when no activity";
+"Connectivity history" = "Connectivity history";
 
 // Battery
 "Level" = "Ниво";
