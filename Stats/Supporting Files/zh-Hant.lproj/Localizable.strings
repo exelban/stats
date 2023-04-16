@@ -169,7 +169,7 @@
 "Number of reads in the chart" = "圖表中的未讀計數";
 "Color of download" = "下載的顯示色彩";
 "Color of upload" = "上傳的顯示色彩";
-"Monospaced font" = "Monospaced font";
+"Monospaced font" = "等寬字體";
 
 // Module Kit
 "Open module settings" = "打開模組設定";
@@ -319,7 +319,7 @@
 "Connectivity host (ICMP)" = "連線主機 (ICMP)";
 "Leave empty to disable the check" = "留空來停用檢查";
 "Transparent pictogram when no activity" = "未連線時隱藏標示";
-"Connectivity history" = "Connectivity history";
+"Connectivity history" = "連線歷程紀錄";
 
 // Battery
 "Level" = "電量";
