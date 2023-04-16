@@ -167,9 +167,9 @@
 "Show symbols" = "显示标识";
 "Label widget" = "标签";
 "Number of reads in the chart" = "图表显示的读取次数";
-"Color of download" = "下载的颜色";
-"Color of upload" = "上传的颜色";
-"Monospaced font" = "Monospaced font";
+"Color of download" = "下载颜色";
+"Color of upload" = "上传颜色";
+"Monospaced font" = "单间距字体";
 
 // Module Kit
 "Open module settings" = "打开模块设置";
@@ -268,8 +268,8 @@
 "Switch view" = "切换视图";
 "Disk utilization threshold" = "Disk 占用阈值";
 "Disk utilization is" = "Disk 利用率是 %0";
-"Read color" = "Read color";
-"Write color" = "Write color";
+"Read color" = "读取颜色";
+"Write color" = "写入颜色";
 
 // Sensors
 "Temperature unit" = "温度单位";
@@ -316,10 +316,10 @@
 "Internet connection" = "网络连接状态";
 "Active state color" = "活跃状态颜色";
 "Nonactive state color" = "非活跃状态颜色";
-"Connectivity host (ICMP)" = "连接Host (ICMP)";
+"Connectivity host (ICMP)" = "连接 Host (ICMP)";
 "Leave empty to disable the check" = "不在该选项内输入以禁用检查";
 "Transparent pictogram when no activity" = "不活跃时隐藏标识";
-"Connectivity history" = "Connectivity history";
+"Connectivity history" = "连接历史";
 
 // Battery
 "Level" = "电量";
