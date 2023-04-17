@@ -2,7 +2,8 @@
 //  Localizable.strings
 //  Stats
 //
-//  Created by Serhiy Mytrovtsiy on 27/08/2020.
+//  Created by sudoxcess on 31/01/2021,
+//  Updated by vaionicle on 17/04/2023
 //  Using Swift 5.0.
 //  Running on macOS 10.15.
 //
@@ -62,23 +63,23 @@
 "Silent" = "Σίγαση";
 "Units" = "Μονάδες";
 "Fans" = "Ανεμιστήρες";
-"Scaling" = "Scaling";
-"Linear" = "Linear";
-"Square" = "Square";
-"Cube" = "Cube";
-"Logarithmic" = "Logarithmic";
-"Cores" = "Cores";
-"Settings" = "Settings";
+"Scaling" = "Κλίμακα";
+"Linear" = "Γραμμικό";
+"Square" = "Τετραγωνικό";
+"Cube" = "Κυβικό";
+"Logarithmic" = "Λογαριθμικό";
+"Cores" = "Πυρίνες";
+"Settings" = "Ρυθμίσεις";
 
 // Setup
 "Stats Setup" = "Stats Setup";
-"Previous" = "Previous";
-"Previous page" = "Previous page";
-"Next" = "Next";
-"Next page" = "Next page";
-"Finish" = "Finish";
-"Finish setup" = "Finish setup";
-"Welcome to Stats" = "Welcome to Stats";
+"Previous" = "Προηγούμενο";
+"Previous page" = "Προηγούμενη σελιδα";
+"Next" = "Επόμενο";
+"Next page" = "Επόμενη σελίδα";
+"Finish" = "Τέλος";
+"Finish setup" = "Τέλος εγκαταστασης";
+"Welcome to Stats" = "Καλώς ήρθες στο Stats";
 "welcome_message" = "Thanks for using Stats, a free open source macOS system monitor for your menu bar.";
 "Start the application automatically when starting your Mac" = "Start the application automatically when starting your Mac";
 "Do not start the application automatically when starting your Mac" = "Do not start the application automatically when starting your Mac";
@@ -117,20 +118,20 @@
 "Check for update" = "Έλεγχος για ενημέρωση";
 "Show icon in dock" = "Εμφάνιση εικονιδίου στο dock";
 "Start at login" = "Εκκίνηση κατά τη σύνδεση";
-"Build number" = "Αριθμός Build";
+"Build number" = "Αριθμός έκδοσης";
 "Reset settings" = "Επαναφορά ρυθμίσεων";
-"Pause the Stats" = "Pause the Stats";
-"Resume the Stats" = "Resume the Stats";
-"Combined modules" = "Combined modules";
-"Spacing" = "Spacing";
+"Pause the Stats" = "Παύση του Stats";
+"Resume the Stats" = "Ξαναρχίζω το Stats";
+"Combined modules" = "Συνένωση ενοτήτων";
+"Spacing" = "Κενό";
 
 // Dashboard
 "Serial number" = "Σειριακός αριθμός";
 "Uptime" = "Χρόνος Δραστηριότητας";
 "Number of cores" = "%0 πυρήνες";
 "Number of threads" = "%0 threads";
-"Number of e-cores" = "%0 efficiency cores";
-"Number of p-cores" = "%0 performance cores";
+"Number of e-cores" = "%0 πυρήνες απόδοσης";
+"Number of p-cores" = "%0 πυρήνες επίδοσης";
 
 // Update
 "The latest version of Stats installed" = "Η τελευταία έκδοση του Stats είναι εγκατεστημένη";
@@ -190,7 +191,7 @@
 // Modules
 "Number of top processes" = "Αριθμός κορυφαίων διεργασιών";
 "Update interval for top processes" = "Ενημέρωση μεσοδιαστήματος για τις κορυφαίες διεργασίες";
-"Notification level" = "Notification level";
+"Notification level" = "Επίπεδο Ειδοποίησης";
 "Chart color" = "Chart color";
 
 // CPU
@@ -254,10 +255,10 @@
 "Split the value (App/Wired/Compressed)" = "Χωρισμός της τιμής (Εφαρμογή/Δεσμευμένη/Συμπιεσμένη)";
 "RAM utilization threshold" = "RAM utilization threshold";
 "RAM utilization is" = "RAM utilization is %0";
-"App color" = "App color";
-"Wired color" = "Wired color";
-"Compressed color" = "Compressed color";
-"Free color" = "Free color";
+"App color" = "Χρώμα Εφαρμογής";
+"Wired color" = "Χρώμα Δεσμευμένης";
+"Compressed color" = "Χρώμα Συμπίεσης";
+"Free color" = "Χρώμα Ελεύθερου";
 
 // Disk
 "Show removable disks" = "Εμφάνιση αφαιρούμενων δίσκων";
@@ -268,8 +269,8 @@
 "Switch view" = "Αλλαγή προβολής";
 "Disk utilization threshold" = "Disk utilization threshold";
 "Disk utilization is" = "Disk utilization is %0";
-"Read color" = "Read color";
-"Write color" = "Write color";
+"Read color" = "Χρώμα ανάγνωσης";
+"Write color" = "Χρώμα εγγραφής";
 
 // Sensors
 "Temperature unit" = "Μονάδα θερμοκρασίας";
@@ -279,11 +280,11 @@
 "Fan" = "Ανεμιστήρας";
 "HID sensors" = "HID αισθητήρας";
 "Synchronize fan's control" = "Synchronize fan's control";
-"Current" = "Current";
-"Energy" = "Energy";
-"Show unknown sensors" = "Show unknown sensors";
-"Install fan helper" = "Install fan helper";
-"Uninstall fan helper" = "Uninstall fan helper";
+"Current" = "Τρέχουσα";
+"Energy" = "Ενέργεια";
+"Show unknown sensors" = "Εμφάνιση άγνωστους αισθητήρες";
+"Install fan helper" = "Εγκατάσταση fan helper";
+"Uninstall fan helper" = "Απεγκατάσταση fan helper";
 "Fan value" = "Fan value";
 
 // Network
@@ -353,9 +354,9 @@
 "Hide additional information when full" = "Απόκρυψη επιπρόσθετων πληροφοριών όταν γεμίσει";
 "Last charge" = "Τελευταία φόρτιση";
 "Capacity" = "Χωρητικότητα";
-"current / maximum / designed" = "current / Μέγιστη / designed";
-"Low power mode" = "Low power mode";
-"Percentage inside the icon" = "Percentage inside the icon";
+"current / maximum / designed" = "τρέχουσα / μέγιστη / σχεδιασμένη";
+"Low power mode" = "Κατάστασης χαμηλής ενέργειας";
+"Percentage inside the icon" = "Ποσοστό μέσα στο εικονίδιο";
 
 // Bluetooth
 "Battery to show" = "Μπαταρία προς εμφάνιση";
