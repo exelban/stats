@@ -85,7 +85,7 @@ Stats tries to be efficient as it's possible. But reading some data periodically
 - Indonesian (thanks to [yooody](https://github.com/yooody))
 - Hebrew (thanks to [BadSugar](https://github.com/BadSugar))
 - Slovenian (thanks to [zigapovhe](https://github.com/zigapovhe))
-- Greek (thanks to [sudoxcess](https://github.com/sudoxcess))
+- Greek (thanks to [sudoxcess](https://github.com/sudoxcess) and [vaionicle](https://github.com/vaionicle))
 - Persian (thanks to [ShawnAlisson](https://github.com/ShawnAlisson))
 - Slovenský (thanks to [martinbernat](https://github.com/martinbernat))
 - Thai (thanks to [apiphoomchu](https://github.com/apiphoomchu))
