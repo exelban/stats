@@ -68,13 +68,13 @@
 "Square" = "Τετραγωνικό";
 "Cube" = "Κυβικό";
 "Logarithmic" = "Λογαριθμικό";
-"Cores" = "Πυρίνες";
+"Cores" = "Πυρήνες";
 "Settings" = "Ρυθμίσεις";
 
 // Setup
-"Stats Setup" = "Stats Setup";
+"Stats Setup" = "Εγκατάσταση Stats";
 "Previous" = "Προηγούμενο";
-"Previous page" = "Προηγούμενη σελιδα";
+"Previous page" = "Προηγούμενη σελίδα";
 "Next" = "Επόμενο";
 "Next page" = "Επόμενη σελίδα";
 "Finish" = "Τέλος";
@@ -97,7 +97,7 @@
 "Click to install the new version of Stats" = "Πάτησε εδώ για την εγκατάσταση της νέας έκδοσης του Stats";
 "Successfully updated" = "Επιτυχής ενημέρωση";
 "Stats was updated to v" = "Το Stats ενημερώθηκε στην ε%0";
-"Reset settings text" = "Όλες οι ρυθμίσεις της εφαρμογής θα επαναφερθούν και η εφαρμογή θα επανεκκινηθεί. Είστε σίγουροι;";
+"Reset settings text" = "Όλες οι ρυθμίσεις της εφαρμογής θα αρχικοποιηθούν και η εφαρμογή θα επανεκκινηθεί. Είστε σίγουροι;";
 
 // Settings
 "Open Activity Monitor" = "Άνοιγμα Παρακολούθησης Δραστηριότητας";
@@ -143,7 +143,7 @@
 "Color" = "Χρώμα";
 "Label" = "Ετικέτα";
 "Box" = "Κουτί";
-"Frame" = "Περίγραμα";
+"Frame" = "Περίγραμμα";
 "Value" = "Τιμή";
 "Colorize" = "Χρωματισμός";
 "Colorize value" = "Χρωματισμός Τιμής";
@@ -154,9 +154,9 @@
 "One row" = "Μια σειρά";
 "Two rows" = "Δυο σειρές";
 "Mini widget" = "Μίνι";
-"Line chart widget" = "Γραμμικό Διάγραμμα";
-"Bar chart widget" = "Ραβδόγραμα";
-"Pie chart widget" = "Διάγραμα πίτας";
+"Line chart widget" = "Γραμμικό διάγραμμα";
+"Bar chart widget" = "Ραβδόγραμμα";
+"Pie chart widget" = "Διάγραμμα πίτας";
 "Network chart widget" = "Διάγραμμα δικτύου";
 "Speed widget" = "Ταχύτητα";
 "Battery widget" = "Μπαταρία";
