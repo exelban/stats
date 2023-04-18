@@ -20,8 +20,13 @@ public struct stats {
     var writeBytes: Int64 = 0
 }
 
+public struct smart_t {
+    var temperature: Int = 0
+    var life: Int = 0
+}
+
 public struct drive {
-    var parent: io_registry_entry_t = 0
+    var parent: io_object_t = 0
     
     var mediaName: String = ""
     var BSDName: String = ""
@@ -38,6 +43,7 @@ public struct drive {
     var free: Int64 = 0
     
     var activity: stats = stats()
+    var smart: smart_t? = nil
 }
 
 public class Disks {
@@ -126,6 +132,12 @@ public class Disks {
             self.array[idx].activity.write = newValue
         }
     }
+    
+    func updateSMARTData(_ idx: Int, smart: smart_t) {
+        self.queue.async(flags: .barrier) {
+            self.array[idx].smart = smart
+        }
+    }
 }
 
 public struct Disk_process: IOProcess_p {
@@ -171,9 +183,9 @@ public class Disk: Module {
     private let settingsView: Settings = Settings()
     private let portalView: Portal = Portal()
     
-    private var capacityReader: CapacityReader? = nil
-    private var activityReader: ActivityReader? = nil
-    private var processReader: ProcessReader? = nil
+    private var capacityReader: CapacityReader = CapacityReader()
+    private var activityReader: ActivityReader = ActivityReader()
+    private var processReader: ProcessReader = ProcessReader()
     
     private var selectedDisk: String = ""
     private var notificationLevelState: Bool = false
@@ -191,27 +203,23 @@ public class Disk: Module {
         )
         guard self.available else { return }
         
-        self.capacityReader = CapacityReader()
-        self.activityReader = ActivityReader()
-        self.processReader = ProcessReader()
-        
         self.selectedDisk = Store.shared.string(key: "\(Disk.name)_disk", defaultValue: self.selectedDisk)
         
-        self.capacityReader?.callbackHandler = { [unowned self] value in
+        self.capacityReader.callbackHandler = { [unowned self] value in
             if let value = value {
                 self.capacityCallback(value)
             }
         }
-        self.capacityReader?.readyCallback = { [unowned self] in
+        self.capacityReader.readyCallback = { [unowned self] in
             self.readyHandler()
         }
         
-        self.activityReader?.callbackHandler = { [unowned self] value in
+        self.activityReader.callbackHandler = { [unowned self] value in
             if let value = value {
                 self.activityCallback(value)
             }
         }
-        self.processReader?.callbackHandler = { [unowned self] value in
+        self.processReader.callbackHandler = { [unowned self] value in
             if let list = value {
                 self.popupView.processCallback(list)
             }
@@ -219,34 +227,28 @@ public class Disk: Module {
         
         self.settingsView.selectedDiskHandler = { [unowned self] value in
             self.selectedDisk = value
-            self.capacityReader?.read()
+            self.capacityReader.read()
         }
         self.settingsView.callback = { [unowned self] in
-            self.capacityReader?.read()
+            self.capacityReader.read()
         }
         self.settingsView.setInterval = { [unowned self] value in
-            self.capacityReader?.setInterval(value)
+            self.capacityReader.setInterval(value)
         }
         self.settingsView.callbackWhenUpdateNumberOfProcesses = {
             self.popupView.numberOfProcessesUpdated()
             DispatchQueue.global(qos: .background).async {
-                self.processReader?.read()
+                self.processReader.read()
             }
         }
         
-        if let reader = self.capacityReader {
-            self.addReader(reader)
-        }
-        if let reader = self.activityReader {
-            self.addReader(reader)
-        }
-        if let reader = self.processReader {
-            self.addReader(reader)
-        }
+        self.addReader(self.capacityReader)
+        self.addReader(self.activityReader)
+        self.addReader(self.processReader)
     }
     
     public override func widgetDidSet(_ type: widget_t) {
-        if type == .speed && self.capacityReader?.interval != 1 {
+        if type == .speed && self.capacityReader.interval != 1 {
             self.settingsView.setUpdateInterval(value: 1)
         }
     }

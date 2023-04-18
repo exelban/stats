@@ -11,8 +11,26 @@
 
 import Cocoa
 import Kit
-import IOKit
-import Darwin
+import IOKit.storage
+
+let kIONVMeSMARTUserClientTypeID = CFUUIDGetConstantUUIDWithBytes(nil,
+                                                                  0xAA, 0x0F, 0xA6, 0xF9,
+                                                                  0xC2, 0xD6, 0x45, 0x7F,
+                                                                  0xB1, 0x0B, 0x59, 0xA1,
+                                                                  0x32, 0x53, 0x29, 0x2F
+)
+let kIONVMeSMARTInterfaceID = CFUUIDGetConstantUUIDWithBytes(nil,
+                                                             0xCC, 0xD1, 0xDB, 0x19,
+                                                             0xFD, 0x9A, 0x4D, 0xAF,
+                                                             0xBF, 0x95, 0x12, 0x45,
+                                                             0x4B, 0x23, 0x0A, 0xB6
+)
+let kIOCFPlugInInterfaceID = CFUUIDGetConstantUUIDWithBytes(nil,
+                                                            0xC2, 0x44, 0xE8, 0x58,
+                                                            0x10, 0x9C, 0x11, 0xD4,
+                                                            0x91, 0xD4, 0x00, 0x50,
+                                                            0xE4, 0xC6, 0x42, 0x6F
+)
 
 internal class CapacityReader: Reader<Disks> {
     internal var list: Disks = Disks()
@@ -43,6 +61,9 @@ internal class CapacityReader: Reader<Disks> {
                             
                             if let path = d.path {
                                 self.list.updateFreeSize(idx, newValue: self.freeDiskSpaceInBytes(path))
+                                if let smart = self.getSMARTDetails(for: BSDName) {
+                                    self.list.updateSMARTData(idx, smart: smart)
+                                }
                             }
                             
                             continue
@@ -52,6 +73,9 @@ internal class CapacityReader: Reader<Disks> {
                             if let path = d.path {
                                 d.free = self.freeDiskSpaceInBytes(path)
                                 d.size = self.totalDiskSpaceInBytes(path)
+                            }
+                            if let smart = self.getSMARTDetails(for: BSDName) {
+                                d.smart = smart
                             }
                             self.list.append(d)
                             self.list.sort()
@@ -116,6 +140,54 @@ internal class CapacityReader: Reader<Disks> {
         }
         
         return 0
+    }
+    
+    private func getSMARTDetails(for BSDName: String) -> smart_t? {
+        var disk = IOServiceGetMatchingService(kIOMasterPortDefault, IOBSDNameMatching(kIOMasterPortDefault, 0, BSDName.cString(using: .utf8)))
+        guard disk != kIOReturnSuccess else { return nil }
+        defer { IOObjectRelease(disk) }
+        
+        var parent = disk
+        while IOObjectConformsTo(disk, kIOBlockStorageDeviceClass) == 0 {
+            let error = IORegistryEntryGetParentEntry(disk, kIOServicePlane, &parent)
+            if error != kIOReturnSuccess || parent == kIOReturnSuccess { return nil }
+            disk = parent
+        }
+        
+        guard IOObjectConformsTo(disk, kIOBlockStorageDeviceClass) > 0,
+              let raw = IORegistryEntryCreateCFProperty(disk, "NVMe SMART Capable" as CFString, kCFAllocatorDefault, 0),
+              let val = raw.takeRetainedValue() as? Bool, val else {
+            return nil
+        }
+        
+        var pluginInterface: UnsafeMutablePointer<UnsafeMutablePointer<IOCFPlugInInterface>?>?
+        var smartInterface: UnsafeMutablePointer<UnsafeMutablePointer<IONVMeSMARTInterface>?>?
+        var score: Int32  = 0
+        
+        var result = IOCreatePlugInInterfaceForService(disk, kIONVMeSMARTUserClientTypeID, kIOCFPlugInInterfaceID, &pluginInterface, &score)
+        guard result == kIOReturnSuccess else { return nil }
+        defer { IODestroyPlugInInterface(pluginInterface) }
+        
+        result = withUnsafeMutablePointer(to: &smartInterface) {
+            $0.withMemoryRebound(to: Optional<LPVOID>.self, capacity: 1) {
+                pluginInterface?.pointee?.pointee.QueryInterface(pluginInterface, CFUUIDGetUUIDBytes(kIONVMeSMARTInterfaceID), $0) ?? KERN_NOT_FOUND
+            }
+        }
+        defer { _ = pluginInterface?.pointee?.pointee.Release(smartInterface) }
+        
+        guard result == KERN_SUCCESS, let smart = smartInterface?.pointee else { return nil }
+        var smartData: nvme_smart_log = nvme_smart_log()
+        guard smart.pointee.SMARTReadData(smartInterface, &smartData) == kIOReturnSuccess else { return nil }
+        
+        let temperatures: [UInt8] = [UInt8(smartData.temperature.1), UInt8(smartData.temperature.0)]
+        var temperature: UInt16 = 0
+        let data = NSData(bytes: temperatures, length: 2)
+        data.getBytes(&temperature, length: 2)
+        
+        return smart_t(
+            temperature: Int(UInt16(bigEndian: temperature) - 273),
+            life: 100 - Int(smartData.percent_used)
+        )
     }
 }
 
