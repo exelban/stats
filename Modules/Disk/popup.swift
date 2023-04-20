@@ -88,7 +88,7 @@ internal class Popup: PopupWrapper {
         
         value.forEach { (drive: drive) in
             if let view = self.disks.subviews.filter({ $0 is DiskView }).map({ $0 as! DiskView }).first(where: { $0.BSDName == drive.BSDName }) {
-                view.updateFree(free: drive.free)
+                view.update(free: drive.free, smart: drive.smart)
             } else {
                 self.disks.addArrangedSubview(DiskView(
                     width: self.frame.width,
@@ -96,7 +96,8 @@ internal class Popup: PopupWrapper {
                     name: drive.mediaName,
                     size: drive.size,
                     free: drive.free,
-                    path: drive.path
+                    path: drive.path,
+                    smart: drive.smart
                 ))
             }
         }
@@ -180,8 +181,10 @@ internal class DiskView: NSStackView {
     private var chartView: ChartView
     private var barView: BarView
     private var legendView: LegendView
+    private var temperatureView: TemperatureView?
+    private var lifeView: LifeView?
     
-    init(width: CGFloat, BSDName: String, name: String, size: Int64, free: Int64, path: URL?) {
+    init(width: CGFloat, BSDName: String, name: String, size: Int64, free: Int64, path: URL?, smart: smart_t?) {
         self.BSDName = BSDName
         self.name = name
         let innerWidth: CGFloat = width - (Constants.Popup.margins * 2)
@@ -189,6 +192,10 @@ internal class DiskView: NSStackView {
         self.chartView = ChartView(width: innerWidth)
         self.barView = BarView(width: innerWidth, size: size, free: free)
         self.legendView = LegendView(width: innerWidth, id: "\(name)_\(path?.absoluteString ?? "")", size: size, free: free)
+        if let smart {
+            self.temperatureView = TemperatureView(width: innerWidth, smart: smart)
+            self.lifeView = LifeView(width: innerWidth, smart: smart)
+        }
         
         super.init(frame: NSRect(x: 0, y: 0, width: width, height: 82))
         
@@ -208,6 +215,10 @@ internal class DiskView: NSStackView {
         self.addArrangedSubview(self.chartView)
         self.addArrangedSubview(self.barView)
         self.addArrangedSubview(self.legendView)
+        if smart != nil, let temperatureView = self.temperatureView, let lifeView = self.lifeView {
+            self.addArrangedSubview(temperatureView)
+            self.addArrangedSubview(lifeView)
+        }
         
         let h = self.arrangedSubviews.map({ $0.bounds.height + self.spacing }).reduce(0, +) - 5 + 10
         self.setFrameSize(NSSize(width: self.frame.width, height: h))
@@ -223,11 +234,16 @@ internal class DiskView: NSStackView {
         self.layer?.backgroundColor = isDarkMode ? NSColor(hexString: "#111111", alpha: 0.25).cgColor : NSColor(hexString: "#f5f5f5", alpha: 1).cgColor
     }
     
-    public func updateFree(free: Int64) {
+    public func update(free: Int64, smart: smart_t?) {
         self.nameView.update(free: free, read: nil, write: nil)
         self.legendView.update(free: free)
         self.barView.update(free: free)
+        if let smart {
+            self.temperatureView?.update(smart)
+            self.lifeView?.update(smart)
+        }
     }
+    
     public func updateReadWrite(read: Int64, write: Int64) {
         self.nameView.update(free: nil, read: read, write: write)
         self.chartView.update(read: read, write: write)
@@ -458,7 +474,7 @@ internal class LegendView: NSView {
     
     private var showUsedSpace: Bool {
         get {
-            return Store.shared.bool(key: "\(self.id)_usedSpace", defaultValue: false)
+            Store.shared.bool(key: "\(self.id)_usedSpace", defaultValue: false)
         }
         set {
             Store.shared.set(key: "\(self.id)_usedSpace", value: newValue)
@@ -578,6 +594,84 @@ internal class LegendView: NSView {
         }
         if let view = self.percentageField {
             view.stringValue = self.percentage(free: self.free)
+        }
+    }
+}
+
+internal class TemperatureView: NSStackView {
+    private var initialized: Bool = false
+    private let field: NSTextField = TextView()
+    
+    init(width: CGFloat, smart: smart_t) {
+        super.init(frame: CGRect(x: 0, y: 0, width: width, height: 16))
+        
+        self.orientation = .horizontal
+        self.spacing = 0
+        
+        let title = TextView()
+        title.font = NSFont.systemFont(ofSize: 11, weight: .light)
+        title.stringValue = "\(localizedString("Temperature")):"
+        title.cell?.truncatesLastVisibleLine = true
+        
+        self.field.font = NSFont.systemFont(ofSize: 11, weight: .regular)
+        self.field.alignment = .right
+        self.field.stringValue = "\(temperature(Double(smart.temperature)))"
+        
+        self.addArrangedSubview(title)
+        self.addArrangedSubview(NSView())
+        self.addArrangedSubview(self.field)
+        
+        self.widthAnchor.constraint(equalToConstant: self.frame.width).isActive = true
+        self.heightAnchor.constraint(equalToConstant: self.frame.height).isActive = true
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    public func update(_ newValue: smart_t) {
+        if (self.window?.isVisible ?? false) || !self.initialized {
+            self.field.stringValue = "\(temperature(Double(newValue.temperature)))"
+            self.initialized = true
+        }
+    }
+}
+
+internal class LifeView: NSStackView {
+    private var initialized: Bool = false
+    private let field: NSTextField = TextView()
+    
+    init(width: CGFloat, smart: smart_t) {
+        super.init(frame: CGRect(x: 0, y: 0, width: width, height: 16))
+        
+        self.orientation = .horizontal
+        self.spacing = 0
+        
+        let title = TextView()
+        title.font = NSFont.systemFont(ofSize: 11, weight: .light)
+        title.stringValue = "\(localizedString("Life")):"
+        title.cell?.truncatesLastVisibleLine = true
+        
+        self.field.font = NSFont.systemFont(ofSize: 11, weight: .regular)
+        self.field.alignment = .right
+        self.field.stringValue = "\(smart.life)%"
+        
+        self.addArrangedSubview(title)
+        self.addArrangedSubview(NSView())
+        self.addArrangedSubview(self.field)
+        
+        self.widthAnchor.constraint(equalToConstant: self.frame.width).isActive = true
+        self.heightAnchor.constraint(equalToConstant: self.frame.height).isActive = true
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    public func update(_ newValue: smart_t) {
+        if (self.window?.isVisible ?? false) || !self.initialized {
+            self.field.stringValue = "\(newValue.life)%"
+            self.initialized = true
         }
     }
 }
