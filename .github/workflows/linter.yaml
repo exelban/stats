@@ -1,4 +1,4 @@
-name: Linter
+name: linter
 
 on:
   push:
@@ -13,9 +13,11 @@ on:
       - '**/*.swift'
 
 jobs:
-  SwiftLint:
+  linter:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v3
       - uses: norio-nomura/action-swiftlint@3.2.1
+        with:
+          args: --output reports/swiftlint.json

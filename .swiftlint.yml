@@ -48,3 +48,6 @@ type_body_length:
 file_length:
   - 1200
   - 1600
+
+reporter: "sonarqube"
+

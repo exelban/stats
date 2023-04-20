@@ -1,4 +1,26 @@
 # Stats
+Just a fork for code scanning of [Stats](https://github.com/exelban/stats) by [SonarCloud](https://sonarcloud.io/summary/overall?id=Gibby_stats)
+
+## Code Scanning Results
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Gibby_stats&metric=bugs)](https://sonarcloud.io/summary/new_code?id=Gibby_stats)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=Gibby_stats&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=Gibby_stats)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Gibby_stats&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Gibby_stats)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=Gibby_stats&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=Gibby_stats)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=Gibby_stats&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=Gibby_stats)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=Gibby_stats&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=Gibby_stats)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Gibby_stats&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Gibby_stats)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=Gibby_stats&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=Gibby_stats)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=Gibby_stats&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=Gibby_stats)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=Gibby_stats&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=Gibby_stats)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=Gibby_stats&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=Gibby_stats)
+
+
+
+
+
+<details>
+<summary>Upstream Projects Original Readme</summary>
+# Stats
 
 <a href="https://github.com/exelban/stats/releases"><p align="center"><img src="https://serhiy.s3.eu-central-1.amazonaws.com/Github_repo/stats/logo.png?raw=true&v=1" width="120"></p></a>
 
@@ -9,7 +31,7 @@ macOS system monitor in your menu bar
 
 ## Installation
 ### Manual
-You can download the latest version [here](https://github.com/exelban/stats/releases/latest/download/Stats.dmg).  
+You can download the latest version [here](https://github.com/exelban/stats/releases/latest/download/Stats.dmg).
 This will download a file called `Stats.dmg`. Open it and move the app to the application folder.
 
 ### Homebrew
@@ -22,7 +44,7 @@ brew install stats
 Stats is currently supported on macOS 10.14 (Mojave) and higher.
 
 ## Features
-Stats is an application that allows you to monitor your macOS system. 
+Stats is an application that allows you to monitor your macOS system.
 
  - Battery level
  - Bluetooth devices
@@ -94,3 +116,4 @@ You can help by adding a new language or improve the existing translation.
 
 ## License
 [MIT License](https://github.com/exelban/stats/blob/master/LICENSE)
+</details>
