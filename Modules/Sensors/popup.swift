@@ -703,7 +703,12 @@ internal class FanView: NSStackView {
         })
         
         if sender.tag != 4 {
-            NotificationCenter.default.post(name: .syncFansControl, object: nil, userInfo: ["speed": Int(value)])
+            if self.fan.minSpeed != 0 && self.fan.maxSpeed != 0 && self.fan.maxSpeed != self.fan.minSpeed {
+                let percentage = Int((100*(value-self.fan.minSpeed))/(self.fan.maxSpeed - self.fan.minSpeed))
+                NotificationCenter.default.post(name: .syncFansControl, object: nil, userInfo: ["percentage": percentage])
+            } else {
+                NotificationCenter.default.post(name: .syncFansControl, object: nil, userInfo: ["speed": Int(value)])
+            }
         }
     }
     
@@ -751,9 +756,13 @@ internal class FanView: NSStackView {
     }
     
     @objc private func syncFanSpeed(_ notification: Notification) {
-        guard self.fansSyncState, let speed = notification.userInfo?["speed"] as? Int, self.fan.customSpeed != speed else {
-            return
+        guard self.fansSyncState else { return }
+        var speed = notification.userInfo?["speed"] as? Int
+        if let percentage = notification.userInfo?["percentage"] as? Int {
+            speed = ((Int(self.fan.maxSpeed - self.fan.minSpeed)*percentage)/100) + Int(self.fan.minSpeed)
         }
+        
+        guard let speed, self.fan.customSpeed != speed else { return }
         
         let slider = NSSlider()
         slider.tag = 4
