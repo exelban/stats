@@ -69,7 +69,7 @@ public class CPU: Module {
     }
     private var userColor: NSColor {
         let color = Color.secondBlue
-        let key = Store.shared.string(key: "\(self.config.name)_systemColor", defaultValue: color.key)
+        let key = Store.shared.string(key: "\(self.config.name)_userColor", defaultValue: color.key)
         if let c = Color.fromString(key).additional as? NSColor {
             return c
         }
