@@ -33,6 +33,7 @@ Stats is an application that allows you to monitor your macOS system.
  - Memory usage
  - Network usage
  - Sensors information (Temperature/Voltage/Power)
+ - Multiple time zone clock
 
 ## FAQs
 
