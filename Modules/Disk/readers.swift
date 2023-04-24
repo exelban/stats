@@ -166,14 +166,22 @@ internal class CapacityReader: Reader<Disks> {
         
         var result = IOCreatePlugInInterfaceForService(disk, kIONVMeSMARTUserClientTypeID, kIOCFPlugInInterfaceID, &pluginInterface, &score)
         guard result == kIOReturnSuccess else { return nil }
-        defer { IODestroyPlugInInterface(pluginInterface) }
+        defer {
+            if pluginInterface != nil {
+                IODestroyPlugInInterface(pluginInterface)
+            }
+        }
         
         result = withUnsafeMutablePointer(to: &smartInterface) {
             $0.withMemoryRebound(to: Optional<LPVOID>.self, capacity: 1) {
                 pluginInterface?.pointee?.pointee.QueryInterface(pluginInterface, CFUUIDGetUUIDBytes(kIONVMeSMARTInterfaceID), $0) ?? KERN_NOT_FOUND
             }
         }
-        defer { _ = pluginInterface?.pointee?.pointee.Release(smartInterface) }
+        defer {
+            if smartInterface != nil {
+                _ = pluginInterface?.pointee?.pointee.Release(smartInterface)
+            }
+        }
         
         guard result == KERN_SUCCESS, let smart = smartInterface?.pointee else { return nil }
         var smartData: nvme_smart_log = nvme_smart_log()
