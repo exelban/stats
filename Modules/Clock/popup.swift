@@ -13,8 +13,15 @@ import Cocoa
 import Kit
 
 internal class Popup: PopupWrapper {
+    private let orderTableView: OrderTableView = OrderTableView()
+    private var list: [Clock_t] = []
+    
     public init() {
         super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: 0))
+        
+        self.orderTableView.reorderCallback = { [weak self] in
+            self?.rearrange()
+        }
         
         self.orientation = .vertical
         self.spacing = Constants.Popup.margins
@@ -33,19 +40,40 @@ internal class Popup: PopupWrapper {
             }
         }
         
+        let sorted = list.sorted(by: { $0.popupIndex < $1.popupIndex })
         var views = self.subviews.filter{ $0 is ClockView }.compactMap{ $0 as? ClockView }
-        if list.count < views.count && !views.isEmpty {
+        
+        if sorted.count < views.count && !views.isEmpty {
             views.forEach{ $0.removeFromSuperview() }
             views = []
         }
         
-        list.forEach { (c: Clock_t) in
+        if sorted.count != self.orderTableView.list.count {
+            self.orderTableView.list = sorted
+            self.orderTableView.update()
+        }
+        
+        sorted.forEach { (c: Clock_t) in
             if let view = views.first(where: { $0.clock.id == c.id }) {
                 view.update(c)
             } else {
                 self.addArrangedSubview(ClockView(width: self.frame.width, clock: c))
             }
         }
+        
+        self.list = sorted
+    }
+    
+    override func settings() -> NSView? {
+        let view = SettingsContainerView()
+        view.addArrangedSubview(self.orderTableView)
+        return view
+    }
+    
+    private func rearrange() {
+        let views = self.subviews.filter{ $0 is ClockView }.compactMap{ $0 as? ClockView }
+        views.forEach{ $0.removeFromSuperview() }
+        self.callback(self.list)
     }
 }
 
@@ -211,5 +239,153 @@ private class ClockChart: NSView {
         DispatchQueue.main.async(execute: {
             self.display()
         })
+    }
+}
+
+private class OrderTableView: NSView, NSTableViewDelegate, NSTableViewDataSource {
+    private let scrollView = NSScrollView()
+    private let tableView = NSTableView()
+    private var dragDropType = NSPasteboard.PasteboardType(rawValue: "\(Bundle.main.bundleIdentifier!).sensors-row")
+    
+    public var reorderCallback: () -> Void = {}
+    public var list: [Clock_t] = []
+    
+    init() {
+        super.init(frame: NSRect.zero)
+        
+        self.wantsLayer = true
+        self.layer?.cornerRadius = 3
+        
+        self.scrollView.translatesAutoresizingMaskIntoConstraints = false
+        self.scrollView.documentView = self.tableView
+        self.scrollView.hasHorizontalScroller = false
+        self.scrollView.hasVerticalScroller = true
+        self.scrollView.autohidesScrollers = true
+        self.scrollView.backgroundColor = NSColor.clear
+        self.scrollView.drawsBackground = true
+        
+        self.tableView.frame = self.scrollView.bounds
+        self.tableView.delegate = self
+        self.tableView.dataSource = self
+        self.tableView.headerView = nil
+        self.tableView.backgroundColor = NSColor.clear
+        self.tableView.columnAutoresizingStyle = .firstColumnOnlyAutoresizingStyle
+        self.tableView.registerForDraggedTypes([dragDropType])
+        self.tableView.gridColor = .gridColor
+        self.tableView.gridStyleMask = [.solidVerticalGridLineMask, .solidHorizontalGridLineMask]
+        if #available(macOS 11.0, *) {
+            self.tableView.style = .plain
+        }
+        
+        self.tableView.addTableColumn(NSTableColumn(identifier: NSUserInterfaceItemIdentifier(rawValue: "name")))
+        
+        self.addSubview(self.scrollView)
+        
+        NSLayoutConstraint.activate([
+            self.scrollView.leftAnchor.constraint(equalTo: self.leftAnchor),
+            self.scrollView.rightAnchor.constraint(equalTo: self.rightAnchor),
+            self.scrollView.topAnchor.constraint(equalTo: self.topAnchor),
+            self.scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            
+            self.heightAnchor.constraint(equalToConstant: 120)
+        ])
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    public func update() {
+        self.tableView.reloadData()
+    }
+    
+    func numberOfRows(in tableView: NSTableView) -> Int {
+        return self.list.count
+    }
+    
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+        if !self.list.indices.contains(row) { return nil }
+        let item = self.list[row]
+        
+        let text: NSTextField = NSTextField()
+        text.drawsBackground = false
+        text.isBordered = false
+        text.isEditable = false
+        text.isSelectable = false
+        text.translatesAutoresizingMaskIntoConstraints = false
+        text.identifier = NSUserInterfaceItemIdentifier(item.name)
+        
+        switch tableColumn?.identifier.rawValue {
+        case "name": text.stringValue = item.name
+        default: break
+        }
+        
+        text.sizeToFit()
+        
+        let cell = NSTableCellView()
+        cell.addSubview(text)
+        
+        NSLayoutConstraint.activate([
+            text.widthAnchor.constraint(equalTo: cell.widthAnchor),
+            text.centerYAnchor.constraint(equalTo: cell.centerYAnchor)
+        ])
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: NSTableView, pasteboardWriterForRow row: Int) -> NSPasteboardWriting? {
+        let item = NSPasteboardItem()
+        item.setString(String(row), forType: self.dragDropType)
+        return item
+    }
+    
+    func tableView(_ tableView: NSTableView, validateDrop info: NSDraggingInfo, proposedRow row: Int, proposedDropOperation dropOperation: NSTableView.DropOperation) -> NSDragOperation {
+        if dropOperation == .above {
+            return .move
+        }
+        return []
+    }
+    
+    func tableView(_ tableView: NSTableView, acceptDrop info: NSDraggingInfo, row: Int, dropOperation: NSTableView.DropOperation) -> Bool {
+        var oldIndexes = [Int]()
+        info.enumerateDraggingItems(options: [], for: tableView, classes: [NSPasteboardItem.self], searchOptions: [:]) { dragItem, _, _ in
+            if let str = (dragItem.item as! NSPasteboardItem).string(forType: self.dragDropType), let index = Int(str) {
+                oldIndexes.append(index)
+            }
+        }
+        
+        var oldIndexOffset = 0
+        var newIndexOffset = 0
+        
+        tableView.beginUpdates()
+        for oldIndex in oldIndexes {
+            if oldIndex < row {
+                let currentIdx = oldIndex + oldIndexOffset
+                let newIdx = row - 1
+                
+                self.list[currentIdx].popupIndex = newIdx
+                self.list[newIdx].popupIndex = currentIdx
+                
+                oldIndexOffset -= 1
+            } else {
+                let currentIdx = oldIndex
+                let newIdx = row + newIndexOffset
+                
+                self.list[currentIdx].popupIndex = newIdx
+                self.list[newIdx].popupIndex = currentIdx
+                
+                newIndexOffset += 1
+            }
+            self.list = self.list.sorted(by: { $0.popupIndex < $1.popupIndex })
+            self.reorderCallback()
+            tableView.reloadData()
+        }
+        tableView.endUpdates()
+        
+        return true
     }
 }
