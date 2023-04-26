@@ -20,7 +20,7 @@ public class Repeater {
     private var callback: (() -> Void)
     private var state: State = .paused
     
-    private var timer: DispatchSourceTimer = DispatchSource.makeTimerSource(queue: DispatchQueue(label: "eu.exelban.Stats"))
+    private var timer: DispatchSourceTimer = DispatchSource.makeTimerSource(queue: DispatchQueue(label: "eu.exelban.Stats", qos: .background))
     
     public init(seconds: Int, callback: @escaping (() -> Void)) {
         self.callback = callback
@@ -33,12 +33,12 @@ public class Repeater {
     }
     
     private func setupTimer(_ interval: Int) {
-        timer.schedule(
+        self.timer.schedule(
             deadline: DispatchTime.now() + Double(interval),
             repeating: .seconds(interval),
             leeway: .seconds(0)
         )
-        timer.setEventHandler { [weak self] in
+        self.timer.setEventHandler { [weak self] in
             self?.callback()
         }
     }
