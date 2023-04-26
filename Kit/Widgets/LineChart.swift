@@ -27,7 +27,7 @@ public class LineChart: WidgetWrapper {
         width: 32,
         height: Constants.Widget.height - (2*Constants.Widget.margin.y)
     ), num: 60)
-    private var colors: [Color] = Color.allCases
+    private var colors: [Color] = Color.allCases.filter({ $0 != Color.cluster })
     private var value: Double = 0
     private var pressureLevel: DispatchSource.MemoryPressureEvent = .normal
     
