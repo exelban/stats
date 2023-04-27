@@ -238,10 +238,8 @@ internal class DiskView: NSStackView {
         self.nameView.update(free: free, read: nil, write: nil)
         self.legendView.update(free: free)
         self.barView.update(free: free)
-        if let smart {
-            self.temperatureView?.update(smart)
-            self.lifeView?.update(smart)
-        }
+        self.temperatureView?.update(smart)
+        self.lifeView?.update(smart)
     }
     
     public func updateReadWrite(read: Int64, write: Int64) {
@@ -503,11 +501,7 @@ internal class LegendView: NSView {
         let percentageField = TextView(frame: NSRect(x: view.frame.width - 40, y: (view.frame.height-height)/2, width: 40, height: height))
         percentageField.font = NSFont.systemFont(ofSize: 11, weight: .regular)
         percentageField.alignment = .right
-        var percentage = Int(Double(size - free) / Double(size == 0 ? 1 : size)) * 100
-        if percentage < 0 {
-            percentage = 0
-        }
-        percentageField.stringValue = "\(percentage)%"
+        percentageField.stringValue = self.percentage(free: free)
         
         view.addSubview(legendField)
         view.addSubview(percentageField)
@@ -629,9 +623,13 @@ internal class TemperatureView: NSStackView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func update(_ newValue: smart_t) {
+    public func update(_ newValue: smart_t?) {
         if (self.window?.isVisible ?? false) || !self.initialized {
-            self.field.stringValue = "\(temperature(Double(newValue.temperature)))"
+            if let newValue {
+                self.field.stringValue = "\(temperature(Double(newValue.temperature)))"
+            } else {
+                self.field.stringValue = "-"
+            }
             self.initialized = true
         }
     }
@@ -668,9 +666,13 @@ internal class LifeView: NSStackView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func update(_ newValue: smart_t) {
+    public func update(_ newValue: smart_t?) {
         if (self.window?.isVisible ?? false) || !self.initialized {
-            self.field.stringValue = "\(newValue.life)%"
+            if let newValue {
+                self.field.stringValue = "\(newValue.life)%"
+            } else {
+                self.field.stringValue = "-"
+            }
             self.initialized = true
         }
     }

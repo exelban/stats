@@ -133,7 +133,7 @@ public class Disks {
         }
     }
     
-    func updateSMARTData(_ idx: Int, smart: smart_t) {
+    func updateSMARTData(_ idx: Int, smart: smart_t?) {
         self.queue.async(flags: .barrier) {
             self.array[idx].smart = smart
         }
