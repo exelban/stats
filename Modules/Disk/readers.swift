@@ -37,8 +37,8 @@ internal class CapacityReader: Reader<Disks> {
     
     public override func read() {
         let keys: [URLResourceKey] = [.volumeNameKey]
-        let removableState = Store.shared.bool(key: "Disk_removable", defaultValue: false) 
-        let paths = FileManager.default.mountedVolumeURLs(includingResourceValuesForKeys: keys)!
+        let removableState = Store.shared.bool(key: "Disk_removable", defaultValue: false)
+        let paths = FileManager.default.mountedVolumeURLs(includingResourceValuesForKeys: keys, options: [.skipHiddenVolumes])!
         
         guard let session = DASessionCreate(kCFAllocatorDefault) else {
             error("cannot create main DASessionCreate()", log: self.log)
@@ -61,9 +61,7 @@ internal class CapacityReader: Reader<Disks> {
                             
                             if let path = d.path {
                                 self.list.updateFreeSize(idx, newValue: self.freeDiskSpaceInBytes(path))
-                                if let smart = self.getSMARTDetails(for: BSDName) {
-                                    self.list.updateSMARTData(idx, smart: smart)
-                                }
+                                self.list.updateSMARTData(idx, smart: self.getSMARTDetails(for: BSDName))
                             }
                             
                             continue
@@ -74,9 +72,7 @@ internal class CapacityReader: Reader<Disks> {
                                 d.free = self.freeDiskSpaceInBytes(path)
                                 d.size = self.totalDiskSpaceInBytes(path)
                             }
-                            if let smart = self.getSMARTDetails(for: BSDName) {
-                                d.smart = smart
-                            }
+                            d.smart = self.getSMARTDetails(for: BSDName)
                             self.list.append(d)
                             self.list.sort()
                         }
@@ -96,23 +92,12 @@ internal class CapacityReader: Reader<Disks> {
     
     private func freeDiskSpaceInBytes(_ path: URL) -> Int64 {
         do {
-            if let url = URL(string: path.absoluteString) {
-                let values = try url.resourceValues(forKeys: [.volumeAvailableCapacityForImportantUsageKey])
-                if let capacity = values.volumeAvailableCapacityForImportantUsage, capacity != 0 {
-                    return capacity
-                }
-            }
-        } catch let err {
-            error("error retrieving free space #1: \(err.localizedDescription)", log: self.log)
-        }
-        
-        do {
             let systemAttributes = try FileManager.default.attributesOfFileSystem(forPath: path.path)
             if let freeSpace = (systemAttributes[FileAttributeKey.systemFreeSize] as? NSNumber)?.int64Value {
                 return freeSpace
             }
         } catch let err {
-            error("error retrieving free space #2: \(err.localizedDescription)", log: self.log)
+            error("error retrieving free space: \(err.localizedDescription)", log: self.log)
         }
         
         return 0
@@ -125,18 +110,7 @@ internal class CapacityReader: Reader<Disks> {
                 return totalSpace
             }
         } catch let err {
-            error("error retrieving total space #2: \(err.localizedDescription)", log: self.log)
-        }
-        
-        do {
-            if let url = URL(string: path.absoluteString) {
-                let values = try url.resourceValues(forKeys: [.volumeTotalCapacityKey])
-                if let space = values.volumeTotalCapacity, space != 0 {
-                    return Int64(space)
-                }
-            }
-        } catch let err {
-            error("error retrieving total space #1: \(err.localizedDescription)", log: self.log)
+            error("error retrieving total space: \(err.localizedDescription)", log: self.log)
         }
         
         return 0
@@ -207,7 +181,7 @@ internal class ActivityReader: Reader<Disks> {
     }
     
     override func setup() {
-        setInterval(1)
+        self.setInterval(1)
     }
     
     public override func read() {
@@ -390,12 +364,11 @@ public class ProcessReader: Reader<[Disk_process]> {
     
     public override func setup() {
         self.popup = true
+        self.setInterval(1)
     }
     
     public override func read() {
-        guard self.numberOfProcesses != 0 else { return }
-        
-        guard let output = runProcess(path: "/bin/ps", args: ["-Aceo pid,args", "-r"]) else { return }
+        guard self.numberOfProcesses != 0, let output = runProcess(path: "/bin/ps", args: ["-Aceo pid,args", "-r"]) else { return }
         
         var processes: [Disk_process] = []
         output.enumerateLines { (line, _) -> Void in

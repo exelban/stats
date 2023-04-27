@@ -146,14 +146,7 @@ internal class Settings: NSStackView, Settings_v {
     }
     
     @objc private func toggleRemovable(_ sender: NSControl) {
-        var state: NSControl.StateValue? = nil
-        if #available(OSX 10.15, *) {
-            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
-        } else {
-            state = sender is NSButton ? (sender as! NSButton).state: nil
-        }
-        
-        self.removableState = state! == .on ? true : false
+        self.removableState = controlState(sender)
         Store.shared.set(key: "\(Disk.name)_removable", value: self.removableState)
         self.callback()
     }
