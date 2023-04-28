@@ -62,7 +62,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
         self.parseVersion()
         SMCHelper.shared.checkForUpdate()
         self.setup {
-            modules.forEach{ $0.mount() }
+            modules.reversed().forEach{ $0.mount() }
             self.settingsWindow.setModules()
         }
         self.defaultValues()
