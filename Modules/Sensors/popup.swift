@@ -408,8 +408,8 @@ internal class FanView: NSStackView {
         self.edgeInsets.top + self.edgeInsets.bottom + (self.spacing*CGFloat(self.arrangedSubviews.count))
     }
     
-    private var willSleepMode: FanMode? = nil
-    private var willSleepSpeed: Int? = nil
+    private var willSleepMode: FanMode? = nil // fan mode before sleep
+    private var willSleepSpeed: Int? = nil // fan speed before sleep
     
     public init(_ fan: Fan, width: CGFloat, callback: @escaping (() -> Void)) {
         self.fan = fan
@@ -731,10 +731,16 @@ internal class FanView: NSStackView {
         
         if self.speedState {
             if let mode = self.willSleepMode, let speed = self.willSleepSpeed {
-                SMCHelper.shared.setFanMode(fan.id, mode: mode.rawValue)
-                self.modeButtons?.setMode(mode)
-                if mode != .automatic {
-                    self.setSpeed(value: speed)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                    SMCHelper.shared.setFanMode(self.fan.id, mode: mode.rawValue)
+                    self.modeButtons?.setMode(mode)
+                    if mode != .automatic {
+                        self.setSpeed(value: speed, then: {
+                            DispatchQueue.main.async {
+                                self.sliderValueField?.textColor = .systemBlue
+                            }
+                        })
+                    }
                 }
             }
             self.willSleepMode = nil
@@ -742,7 +748,11 @@ internal class FanView: NSStackView {
         }
         
         if let value = self.fan.customSpeed, self.fan.mode != .automatic {
-            self.setSpeed(value: value)
+            self.setSpeed(value: value, then: {
+                DispatchQueue.main.async {
+                    self.sliderValueField?.textColor = .systemBlue
+                }
+            })
         }
     }
     

@@ -32,7 +32,7 @@ internal class SensorsReader: Reader<[Sensor_p]> {
     private let firstRead: Date = Date()
     
     private var HIDState: Bool {
-        return Store.shared.bool(key: "Sensors_hid", defaultValue: false)
+        Store.shared.bool(key: "Sensors_hid", defaultValue: false)
     }
     private var unknownSensorsState: Bool
     
