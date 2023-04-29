@@ -51,6 +51,7 @@ internal class SetupWindow: NSWindow, NSWindowDelegate {
     
     public func show() {
         self.setIsVisible(true)
+        self.orderFrontRegardless()
     }
     
     public func hide() {
