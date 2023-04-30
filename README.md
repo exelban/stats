@@ -1,6 +1,6 @@
 # Stats
 
-<a href="https://github.com/exelban/stats/releases"><p align="center"><img src="https://serhiy.s3.eu-central-1.amazonaws.com/Github_repo/stats/logo.png?raw=true&v=1" width="120"></p></a>
+<a href="https://github.com/exelban/stats/releases"><p align="center"><img src="https://github.com/exelban/stats/raw/master/Stats/Supporting%20Files/Assets.xcassets/AppIcon.appiconset/icon_256x256.png" width="120"></p></a>
 
 [![Stats](https://serhiy.s3.eu-central-1.amazonaws.com/Github_repo/stats/menus%3Fv2.3.2.png?v1)](https://github.com/exelban/stats/releases)
 [![Stats](https://serhiy.s3.eu-central-1.amazonaws.com/Github_repo/stats/popups%3Fv2.3.2.png?v3)](https://github.com/exelban/stats/releases)
@@ -13,7 +13,7 @@ You can download the latest version [here](https://github.com/exelban/stats/rele
 This will download a file called `Stats.dmg`. Open it and move the app to the application folder.
 
 ### Homebrew
-To install it using Homebrew, open the Terminal app and type:
+To install it using Homebrew, open the Terminal app and type:  
 ```bash
 brew install stats
 ```
