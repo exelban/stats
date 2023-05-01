@@ -53,7 +53,6 @@ internal class Popup: PopupWrapper {
         self.spacing = 0
         
         self.addArrangedSubview(self.disks)
-        self.addArrangedSubview(separatorView(localizedString("Top processes"), width: self.frame.width))
         self.addArrangedSubview(self.processes)
         
         self.recalculateHeight()
@@ -694,7 +693,7 @@ public class IOProcessView: NSStackView {
     
     private var initialized: Bool = false
     
-    private var count: Int {
+    private var numberOfProcesses: Int {
         Store.shared.int(key: countKey, defaultValue: 5)
     }
     private var readColor: NSColor {
@@ -708,7 +707,7 @@ public class IOProcessView: NSStackView {
     private var outputBoxView: NSView?
     
     public var height: CGFloat {
-        CGFloat((self.count+1) * 22)
+        CGFloat((self.numberOfProcesses+1) * 22) + Constants.Popup.separatorHeight
     }
     
     init(countKey: String, inputColorKey: String, outputColorKey: String) {
@@ -731,8 +730,14 @@ public class IOProcessView: NSStackView {
     public func reinit() {
         self.subviews.forEach({ $0.removeFromSuperview() })
         
+        if self.numberOfProcesses == 0 {
+            self.setFrameSize(NSSize(width: self.frame.width, height: 0))
+            return
+        }
+        
+        self.addArrangedSubview(separatorView(localizedString("Top processes"), width: Constants.Popup.width))
         self.addArrangedSubview(self.legendRow())
-        for _ in 0..<count {
+        for _ in 0..<self.numberOfProcesses {
             self.addArrangedSubview(TopProcess())
         }
         
@@ -775,7 +780,7 @@ public class IOProcessView: NSStackView {
             }
             
             for (i, p) in self.subviews.compactMap({ $0 as? TopProcess }).enumerated() {
-                if list.count != self.count && self.initialized {
+                if list.count != self.numberOfProcesses && self.initialized {
                     p.clear()
                 }
                 if list.indices.contains(i) {
