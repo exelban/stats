@@ -303,7 +303,6 @@ public func separatorView(_ title: String, origin: NSPoint = NSPoint(x: 0, y: 0)
     labelView.alignment = .center
     labelView.textColor = .secondaryLabelColor
     labelView.font = NSFont.systemFont(ofSize: 12, weight: .medium)
-    labelView.stringValue = title
     
     view.addSubview(labelView)
     

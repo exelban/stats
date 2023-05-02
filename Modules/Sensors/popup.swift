@@ -21,7 +21,7 @@ private struct Sensor_t: KeyValue_p {
     
     var index: Int {
         get {
-            return Store.shared.int(key: "sensors_\(self.key)_index", defaultValue: -1)
+            Store.shared.int(key: "sensors_\(self.key)_index", defaultValue: -1)
         }
         set {
             Store.shared.set(key: "sensors_\(self.key)_index", value: newValue)
@@ -37,17 +37,28 @@ private struct Sensor_t: KeyValue_p {
 
 internal class Popup: PopupWrapper {
     private var list: [String: NSView] = [:]
+    
     private var unknownSensorsState: Bool {
         Store.shared.bool(key: "Sensors_unknown", defaultValue: false)
     }
     private var sensors: [Sensor_p] = []
     private let settingsView: NSStackView = SettingsContainerView()
     
+    private var fanControlState: Bool {
+        get {
+            Store.shared.bool(key: "Sensors_fanControl", defaultValue: true)
+        }
+        set {
+            Store.shared.set(key: "Sensors_fanControl", value: newValue)
+        }
+    }
+    
     public init() {
         super.init(frame: NSRect( x: 0, y: 0, width: Constants.Popup.width, height: 0))
         
         self.orientation = .vertical
         self.spacing = 0
+        self.translatesAutoresizingMaskIntoConstraints = false
     }
     
     required init?(coder: NSCoder) {
@@ -68,6 +79,8 @@ internal class Popup: PopupWrapper {
         }
         
         if !fans.isEmpty {
+            self.addArrangedSubview(self.fansSeparatorView())
+            
             let container = NSStackView()
             container.orientation = .vertical
             container.spacing = Constants.Popup.margins
@@ -99,7 +112,7 @@ internal class Popup: PopupWrapper {
                 types.append(s.type)
             }
         }
-        
+
         types.forEach { (typ: SensorType) in
             var filtered = sensors.filter{ $0.type == typ }
             var groups: [SensorGroup] = []
@@ -108,44 +121,42 @@ internal class Popup: PopupWrapper {
                     groups.append(s.group)
                 }
             }
-            
+
             if !reload {
                 let header = NSStackView()
                 header.heightAnchor.constraint(equalToConstant: Constants.Settings.row).isActive = true
                 header.spacing = 0
-                
+
                 let titleField: NSTextField = LabelField(frame: NSRect(x: 0, y: 0, width: 0, height: 0), localizedString(typ.rawValue))
                 titleField.font = NSFont.systemFont(ofSize: 13, weight: .medium)
                 titleField.textColor = .labelColor
-                
+
                 header.addArrangedSubview(titleField)
                 header.addArrangedSubview(NSView())
-                
+
                 self.settingsView.addArrangedSubview(header)
-                
+
                 let container = NSStackView()
                 container.orientation = .vertical
                 container.edgeInsets = NSEdgeInsets(top: 0, left: Constants.Settings.margin, bottom: 0, right: Constants.Settings.margin)
                 container.spacing = 0
-                
+
                 groups.forEach { (group: SensorGroup) in
                     filtered.filter{ $0.group == group }.forEach { (s: Sensor_p) in
-                        let row: NSView = toggleSettingRow(title: s.name, action: #selector(self.toggleFan), state: s.popupState)
+                        let row: NSView = toggleSettingRow(title: s.name, action: #selector(self.toggleSensor), state: s.popupState)
                         row.subviews.filter{ $0 is NSControl }.forEach { (control: NSView) in
                             control.identifier = NSUserInterfaceItemIdentifier(rawValue: s.key)
                         }
                         container.addArrangedSubview(row)
                     }
                 }
-                
+
                 self.settingsView.addArrangedSubview(container)
             }
-            
-            // popup
-            
+
             filtered = filtered.filter{ $0.popupState }
             if filtered.isEmpty { return }
-            
+
             self.addArrangedSubview(separatorView(localizedString(typ.rawValue), width: self.frame.width))
             groups.forEach { (group: SensorGroup) in
                 filtered.filter{ $0.group == group }.forEach { (s: Sensor_p) in
@@ -205,10 +216,52 @@ internal class Popup: PopupWrapper {
     
     // MARK: helpers
     
-    @objc private func toggleFan(_ sender: NSControl) {
+    private func fansSeparatorView() -> NSView {
+        let view: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 26))
+        view.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
+        view.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
+        view.orientation = .horizontal
+        view.spacing = 0
+        view.distribution = .fillEqually
+        view.alignment = .top
+        
+        let labelView: NSTextField = TextView()
+        labelView.stringValue = localizedString("Fans")
+        labelView.alignment = .center
+        labelView.textColor = .secondaryLabelColor
+        labelView.font = NSFont.systemFont(ofSize: 12, weight: .medium)
+        
+        let btnContainer = NSView()
+        
+        let button = NSButton()
+        button.frame = CGRect(x: (self.frame.width/3)-20, y: 10, width: 15, height: 15)
+        button.bezelStyle = .regularSquare
+        button.isBordered = false
+        button.imageScaling = NSImageScaling.scaleAxesIndependently
+        button.contentTintColor = .lightGray
+        button.action = #selector(self.toggleFanControl)
+        button.target = self
+        button.toolTip = localizedString("Control")
+        button.image = Bundle(for: Module.self).image(forResource: "tune")!
+        
+        btnContainer.addSubview(button)
+        
+        view.addArrangedSubview(NSView())
+        view.addArrangedSubview(labelView)
+        view.addArrangedSubview(btnContainer)
+        
+        return view
+    }
+    
+    @objc private func toggleSensor(_ sender: NSControl) {
         guard let id = sender.identifier else { return }
         Store.shared.set(key: "sensor_\(id.rawValue)_popup", value: controlState(sender))
         self.setup(reload: true)
+    }
+    
+    @objc private func toggleFanControl() {
+        self.fanControlState = !self.fanControlState
+        NotificationCenter.default.post(name: .toggleFanControl, object: nil, userInfo: ["state": self.fanControlState])
     }
 }
 
@@ -391,7 +444,7 @@ internal class FanView: NSStackView {
     private var speedState: Bool {
         Store.shared.bool(key: "Sensors_speed", defaultValue: false)
     }
-    private var fansSyncState: Bool {
+    private var syncState: Bool {
         Store.shared.bool(key: "Sensors_fansSync", defaultValue: false)
     }
     private var speed: Double {
@@ -403,6 +456,7 @@ internal class FanView: NSStackView {
         }
     }
     private var resetModeAfterSleep: Bool = false
+    private var controlState: Bool
     
     private var horizontalMargin: CGFloat {
         self.edgeInsets.top + self.edgeInsets.bottom + (self.spacing*CGFloat(self.arrangedSubviews.count))
@@ -414,6 +468,7 @@ internal class FanView: NSStackView {
     public init(_ fan: Fan, width: CGFloat, callback: @escaping (() -> Void)) {
         self.fan = fan
         self.sizeCallback = callback
+        self.controlState = Store.shared.bool(key: "Sensors_fanControl", defaultValue: true)
         
         let inset: CGFloat = 5
         super.init(frame: NSRect(x: 0, y: 0, width: width - (inset*2), height: 0))
@@ -432,28 +487,13 @@ internal class FanView: NSStackView {
         self.layer?.backgroundColor = NSColor.red.cgColor
         
         self.nameAndSpeed()
-        
-        if !SMCHelper.shared.isInstalled {
-            if let v = self.helperView {
-                self.addArrangedSubview(v)
-            }
-        } else {
-            if self.fan.maxSpeed != self.fan.minSpeed, let v = self.buttonsView {
-                self.addArrangedSubview(v)
-            }
-            if fan.mode == .forced, let view = self.controlView {
-                self.addArrangedSubview(view)
-            }
-        }
-        
-        let h = self.arrangedSubviews.map({ $0.bounds.height }).reduce(0, +)
-        self.setFrameSize(NSSize(width: self.frame.width, height: h + self.horizontalMargin))
-        self.sizeCallback()
+        self.setupControls()
         
         NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(self.wakeListener), name: NSWorkspace.didWakeNotification, object: nil)
         NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(self.sleepListener), name: NSWorkspace.willSleepNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(syncFanSpeed), name: .syncFansControl, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(changeHelperState), name: .fanHelperState, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.syncFanSpeed), name: .syncFansControl, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.changeHelperState), name: .fanHelperState, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.controlCallback), name: .toggleFanControl, object: nil)
         
         if let fanMode = self.fan.customMode, self.speedState && fanMode != FanMode.automatic {
             SMCHelper.shared.setFanMode(fan.id, mode: fanMode.rawValue)
@@ -473,7 +513,9 @@ internal class FanView: NSStackView {
     
     deinit {
         NSWorkspace.shared.notificationCenter.removeObserver(self)
-        NotificationCenter.default.removeObserver(self)
+        NotificationCenter.default.removeObserver(self, name: .syncFansControl, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .fanHelperState, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .toggleSettings, object: nil)
     }
     
     override func updateLayer() {
@@ -496,7 +538,6 @@ internal class FanView: NSStackView {
         let value = self.fan.value
         let valueField: NSTextField = TextView()
         valueField.font = NSFont.systemFont(ofSize: 13, weight: .regular)
-        valueField.stringValue = self.fan.formattedValue
         valueField.alignment = .right
         valueField.stringValue = "\(self.fan.percentage)%"
         valueField.toolTip = "\(value)"
@@ -766,7 +807,7 @@ internal class FanView: NSStackView {
     }
     
     @objc private func syncFanSpeed(_ notification: Notification) {
-        guard self.fansSyncState else { return }
+        guard self.syncState else { return }
         var speed = notification.userInfo?["speed"] as? Int
         if let percentage = notification.userInfo?["percentage"] as? Int {
             speed = ((Int(self.fan.maxSpeed - self.fan.minSpeed)*percentage)/100) + Int(self.fan.minSpeed)
@@ -819,20 +860,28 @@ internal class FanView: NSStackView {
         }
     }
     
-    private func setupControls(_ state: Bool) {
-        if state {
+    private func setupControls(_ isInstalled: Bool? = nil) {
+        let helperState = isInstalled ?? SMCHelper.shared.isInstalled
+        
+        if !self.controlState {
             self.helperView?.removeFromSuperview()
-            if self.fan.maxSpeed != self.fan.minSpeed, let v = self.buttonsView {
-                self.addArrangedSubview(v)
-            }
-            if self.fan.mode == .forced, let v = self.controlView {
-                self.addArrangedSubview(v)
-            }
-        } else {
-            self.buttonsView?.removeFromSuperview()
             self.controlView?.removeFromSuperview()
-            if let v = self.helperView {
-                self.addArrangedSubview(v)
+            self.buttonsView?.removeFromSuperview()
+        } else {
+            if helperState {
+                self.helperView?.removeFromSuperview()
+                if self.fan.maxSpeed != self.fan.minSpeed, let v = self.buttonsView {
+                    self.addArrangedSubview(v)
+                }
+                if self.fan.mode == .forced, let v = self.controlView {
+                    self.addArrangedSubview(v)
+                }
+            } else {
+                self.buttonsView?.removeFromSuperview()
+                self.controlView?.removeFromSuperview()
+                if let v = self.helperView {
+                    self.addArrangedSubview(v)
+                }
             }
         }
         
@@ -844,6 +893,12 @@ internal class FanView: NSStackView {
     @objc private func changeHelperState(_ notification: Notification) {
         guard let state = notification.userInfo?["state"] as? Bool else { return }
         self.setupControls(state)
+    }
+    
+    @objc private func controlCallback(_ notification: Notification) {
+        guard let state = notification.userInfo?["state"] as? Bool else { return }
+        self.controlState = state
+        self.setupControls()
     }
 }
 
