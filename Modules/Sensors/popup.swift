@@ -41,6 +41,8 @@ internal class Popup: PopupWrapper {
     private var unknownSensorsState: Bool {
         Store.shared.bool(key: "Sensors_unknown", defaultValue: false)
     }
+    private var fanValueState: FanValue = .percentage
+    
     private var sensors: [Sensor_p] = []
     private let settingsView: NSStackView = SettingsContainerView()
     
@@ -59,6 +61,8 @@ internal class Popup: PopupWrapper {
         self.orientation = .vertical
         self.spacing = 0
         self.translatesAutoresizingMaskIntoConstraints = false
+        
+        self.fanValueState = FanValue(rawValue: Store.shared.string(key: "Sensors_popup_fanValue", defaultValue: self.fanValueState.rawValue)) ?? .percentage
     }
     
     required init?(coder: NSCoder) {
@@ -77,6 +81,13 @@ internal class Popup: PopupWrapper {
         if !reload {
             self.settingsView.subviews.forEach({ $0.removeFromSuperview() })
         }
+        
+        self.settingsView.addArrangedSubview(selectSettingsRow(
+            title: localizedString("Fan value"),
+            action: #selector(self.toggleFanValue),
+            items: FanValues,
+            selected: self.fanValueState.rawValue
+        ))
         
         if !fans.isEmpty {
             self.addArrangedSubview(self.fansSeparatorView())
@@ -212,6 +223,13 @@ internal class Popup: PopupWrapper {
     
     public override func settings() -> NSView? {
         self.settingsView
+    }
+    
+    @objc private func toggleFanValue(_ sender: NSMenuItem) {
+        if let key = sender.representedObject as? String, let value = FanValue(rawValue: key) {
+            self.fanValueState = value
+            Store.shared.set(key: "Sensors_popup_fanValue", value: self.fanValueState.rawValue)
+        }
     }
     
     // MARK: helpers
@@ -457,6 +475,9 @@ internal class FanView: NSStackView {
     }
     private var resetModeAfterSleep: Bool = false
     private var controlState: Bool
+    private var fanValue: FanValue {
+        FanValue(rawValue: Store.shared.string(key: "Sensors_popup_fanValue", defaultValue: FanValue.percentage.rawValue)) ?? .percentage
+    }
     
     private var horizontalMargin: CGFloat {
         self.edgeInsets.top + self.edgeInsets.bottom + (self.spacing*CGFloat(self.arrangedSubviews.count))
@@ -539,7 +560,7 @@ internal class FanView: NSStackView {
         let valueField: NSTextField = TextView()
         valueField.font = NSFont.systemFont(ofSize: 13, weight: .regular)
         valueField.alignment = .right
-        valueField.stringValue = "\(self.fan.percentage)%"
+        valueField.stringValue = self.fanValue == .percentage ? "\(self.fan.percentage)%" : self.fan.formattedValue
         valueField.toolTip = "\(value)"
         
         row.addArrangedSubview(nameField)
@@ -828,16 +849,16 @@ internal class FanView: NSStackView {
             if (self.window?.isVisible ?? false) || !self.ready {
                 self.fan.value = value.value
                 
-                var speed = ""
+                var newValue = ""
                 if value.value != 1 {
                     if self.fan.maxSpeed == 1 || self.fan.maxSpeed == 0 {
-                        speed = "\(Int(value.value)) RPM"
+                        newValue = "\(Int(value.value)) RPM"
                     } else {
-                        speed = "\(value.percentage)%"
+                        newValue = self.fanValue == .percentage ? "\(value.percentage)%" : value.formattedValue
                     }
                 }
                 
-                self.valueField?.stringValue = speed
+                self.valueField?.stringValue = newValue
                 self.valueField?.toolTip = value.formattedValue
                 
                 if self.resetModeAfterSleep && value.mode != .automatic {
