@@ -320,6 +320,10 @@
 "Leave empty to disable the check" = "不在该选项内输入以禁用检查";
 "Transparent pictogram when no activity" = "不活跃时隐藏标识";
 "Connectivity history" = "连接历史";
+"Auto-refresh public IP address" = "自动刷新公网 IP 地址";
+"Every hour" = "每 1 小时";
+"Every 12 hours" = "每 12 小时";
+"Every 24 hours" = "每 24 小时";
 
 // Battery
 "Level" = "电量";
