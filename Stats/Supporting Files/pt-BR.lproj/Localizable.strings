@@ -320,6 +320,10 @@
 "Leave empty to disable the check" = "Deixe em branco para desativar a verificação";
 "Transparent pictogram when no activity" = "Pictograma transparente quando não houver atividade";
 "Connectivity history" = "Connectivity history";
+"Auto-refresh public IP address" = "Auto-refresh public IP address";
+"Every hour" = "Every hour";
+"Every 12 hours" = "Every 12 hours";
+"Every 24 hours" = "Every 24 hours";
 
 // Battery
 "Level" = "Nível";

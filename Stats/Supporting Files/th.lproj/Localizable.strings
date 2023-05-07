@@ -320,6 +320,10 @@
 "Leave empty to disable the check" = "เว้นว่างไว้เพื่อปิดการตรวจสอบ";
 "Transparent pictogram when no activity" = "ไอคอนโปร่งใสเมื่อไม่มีกิจกรรม";
 "Connectivity history" = "Connectivity history";
+"Auto-refresh public IP address" = "Auto-refresh public IP address";
+"Every hour" = "Every hour";
+"Every 12 hours" = "Every 12 hours";
+"Every 24 hours" = "Every 24 hours";
 
 // Battery
 "Level" = "ระดับ";

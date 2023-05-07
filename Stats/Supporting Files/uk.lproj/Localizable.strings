@@ -320,6 +320,10 @@
 "Leave empty to disable the check" = "Залиште пустим, щоб вимкнути перевірку";
 "Transparent pictogram when no activity" = "Прозора піктограма, коли немає активності";
 "Connectivity history" = "Історія підключення";
+"Auto-refresh public IP address" = "Auto-refresh public IP address";
+"Every hour" = "Every hour";
+"Every 12 hours" = "Every 12 hours";
+"Every 24 hours" = "Every 24 hours";
 
 // Battery
 "Level" = "Рівень заряду";

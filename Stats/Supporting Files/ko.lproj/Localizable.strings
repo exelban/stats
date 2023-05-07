@@ -320,6 +320,10 @@
 "Leave empty to disable the check" = "확인을 비활성화하려면 이 란을 비워 두세요";
 "Transparent pictogram when no activity" = "활동이 없을 때 상태 아이콘 숨기기";
 "Connectivity history" = "Connectivity history";
+"Auto-refresh public IP address" = "Auto-refresh public IP address";
+"Every hour" = "Every hour";
+"Every 12 hours" = "Every 12 hours";
+"Every 24 hours" = "Every 24 hours";
 
 // Battery
 "Level" = "잔량";

@@ -320,6 +320,10 @@
 "Leave empty to disable the check" = "留空來停用檢查";
 "Transparent pictogram when no activity" = "未連線時隱藏標示";
 "Connectivity history" = "連線歷程紀錄";
+"Auto-refresh public IP address" = "Auto-refresh public IP address";
+"Every hour" = "Every hour";
+"Every 12 hours" = "Every 12 hours";
+"Every 24 hours" = "Every 24 hours";
 
 // Battery
 "Level" = "電量";
