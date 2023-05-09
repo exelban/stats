@@ -26,6 +26,8 @@
 "Open Battery settings" = "باز کردن تنظیمات باتری";
 "Bluetooth" = "بلوتوث";
 "Open Bluetooth settings" = "باز کردن تنظیمات بلوتوث";
+"Clock" = "Clock";
+"Open Clock settings" = "Open clock settings";
 
 // Words
 "Unknown" = "نامعلوم";
@@ -69,6 +71,8 @@
 "Logarithmic" = "لگاریتمی";
 "Cores" = "هسته ها";
 "Settings" = "Settings";
+"Name" = "Name";
+"Format" = "Format";
 
 // Setup
 "Stats Setup" = "نصب Stats";
@@ -320,6 +324,10 @@
 "Leave empty to disable the check" = "خالی بگذارید تا بررسی غیرفعال شود";
 "Transparent pictogram when no activity" = "Transparent pictogram when no activity";
 "Connectivity history" = "Connectivity history";
+"Auto-refresh public IP address" = "Auto-refresh public IP address";
+"Every hour" = "Every hour";
+"Every 12 hours" = "Every 12 hours";
+"Every 24 hours" = "Every 24 hours";
 
 // Battery
 "Level" = "سطح";
@@ -356,10 +364,15 @@
 "current / maximum / designed" = "current / حداکثر / طراحی شده";
 "Low power mode" = "حالت کم مصرف";
 "Percentage inside the icon" = "درصد داخل آیکون";
+"Colorize battery" = "Colorize battery";
 
 // Bluetooth
 "Battery to show" = "نشان دادن باتری";
 "No Bluetooth devices are available" = "هیچ دیوایس بلوتوثی در دسترس نیست";
+
+// Clock
+"Time zone" = "Time zone";
+"Local" = "Local";
 
 // Colors
 "Based on utilization" = "بر اساس استفاده";

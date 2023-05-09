@@ -26,6 +26,8 @@
 "Open Battery settings" = "Открыть настройки аккумулятора";
 "Bluetooth" = "Bluetooth";
 "Open Bluetooth settings" = "Открыть настройки bluetooth";
+"Clock" = "Часы";
+"Open Clock settings" = "Открыть настройки часов";
 
 // Words
 "Unknown" = "Неизвестно";
@@ -69,6 +71,8 @@
 "Logarithmic" = "Логарифмическое";
 "Cores" = "Ядра";
 "Settings" = "Настройки";
+"Name" = "Название";
+"Format" = "Формат";
 
 // Setup
 "Stats Setup" = "Настройки Stats";
@@ -320,6 +324,10 @@
 "Leave empty to disable the check" = "Оставьте пустым, чтобы отключить проверку";
 "Transparent pictogram when no activity" = "Прозрачная пиктограмма при отсутствии активности";
 "Connectivity history" = "История подключения";
+"Auto-refresh public IP address" = "Автоматическое обновление IP-адреса";
+"Every hour" = "Каждый час";
+"Every 12 hours" = "Каждые 12 часов";
+"Every 24 hours" = "Каждые 24 часа";
 
 // Battery
 "Level" = "Уровень заряда";
@@ -356,10 +364,15 @@
 "current / maximum / designed" = "текущая / максимальная / расчетная";
 "Low power mode" = "Режим пониженного энергопотребления";
 "Percentage inside the icon" = "Процент внутри виджета";
+"Colorize battery" = "Раскрасить батарею";
 
 // Bluetooth
 "Battery to show" = "Активная батарея";
 "No Bluetooth devices are available" = "Нет доступных устройств Bluetooth";
+
+// Clock
+"Time zone" = "Часовой пояс";
+"Local" = "Локальный";
 
 // Colors
 "Based on utilization" = "На основе использования";

@@ -26,6 +26,8 @@
 "Open Battery settings" = "פתח/י הגדרות בטרייה";
 "Bluetooth" = "בלוטות׳";
 "Open Bluetooth settings" = "פתח/י הגדרות בלוטות׳";
+"Clock" = "Clock";
+"Open Clock settings" = "Open clock settings";
 
 // Words
 "Unknown" = "לא ידוע";
@@ -69,6 +71,8 @@
 "Logarithmic" = "Logarithmic";
 "Cores" = "Cores";
 "Settings" = "Settings";
+"Name" = "Name";
+"Format" = "Format";
 
 // Setup
 "Stats Setup" = "Stats Setup";
@@ -320,6 +324,10 @@
 "Leave empty to disable the check" = "Leave empty to disable the check";
 "Transparent pictogram when no activity" = "Transparent pictogram when no activity";
 "Connectivity history" = "Connectivity history";
+"Auto-refresh public IP address" = "Auto-refresh public IP address";
+"Every hour" = "Every hour";
+"Every 12 hours" = "Every 12 hours";
+"Every 24 hours" = "Every 24 hours";
 
 // Battery
 "Level" = "רמה";
@@ -356,10 +364,15 @@
 "current / maximum / designed" = "current / מקסימום / עיצוב";
 "Low power mode" = "Low power mode";
 "Percentage inside the icon" = "Percentage inside the icon";
+"Colorize battery" = "Colorize battery";
 
 // Bluetooth
 "Battery to show" = "סוללה להצגה";
 "No Bluetooth devices are available" = "לא קיימים מכשירים בלוטות׳ זמינים";
+
+// Clock
+"Time zone" = "Time zone";
+"Local" = "Local";
 
 // Colors
 "Based on utilization" = "מבוסס על ניצול";

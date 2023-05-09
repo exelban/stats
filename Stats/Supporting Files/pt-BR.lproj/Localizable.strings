@@ -26,6 +26,8 @@
 "Open Battery settings" = "Abrir configurações da Bateria";
 "Bluetooth" = "Bluetooth";
 "Open Bluetooth settings" = "Abrir configurações do Bluetooth";
+"Clock" = "Clock";
+"Open Clock settings" = "Open clock settings";
 
 // Words
 "Unknown" = "Desconhecido";
@@ -69,6 +71,8 @@
 "Logarithmic" = "Logarítmica";
 "Cores" = "Cores";
 "Settings" = "Configurações";
+"Name" = "Name";
+"Format" = "Format";
 
 // Setup
 "Stats Setup" = "Configurar Stats";
@@ -320,6 +324,10 @@
 "Leave empty to disable the check" = "Deixe em branco para desativar a verificação";
 "Transparent pictogram when no activity" = "Pictograma transparente quando não houver atividade";
 "Connectivity history" = "Connectivity history";
+"Auto-refresh public IP address" = "Auto-refresh public IP address";
+"Every hour" = "Every hour";
+"Every 12 hours" = "Every 12 hours";
+"Every 24 hours" = "Every 24 hours";
 
 // Battery
 "Level" = "Nível";
@@ -356,10 +364,15 @@
 "current / maximum / designed" = "atual / máximo / projetado";
 "Low power mode" = "Modo de baixa energia";
 "Percentage inside the icon" = "Porcentagem dentro do ícone";
+"Colorize battery" = "Colorize battery";
 
 // Bluetooth
 "Battery to show" = "Bateria para mostrar";
 "No Bluetooth devices are available" = "Nenhum dispositivo Bluetooth disponível";
+
+// Clock
+"Time zone" = "Time zone";
+"Local" = "Local";
 
 // Colors
 "Based on utilization" = "Baseado na utilização";

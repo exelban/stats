@@ -26,6 +26,8 @@
 "Open Battery settings" = "Akkumulátor beállítások megnyitása";
 "Bluetooth" = "Bluetooth";
 "Open Bluetooth settings" = "Bluetooth beállítások megnyitása";
+"Clock" = "Clock";
+"Open Clock settings" = "Open clock settings";
 
 // Words
 "Unknown" = "Ismeretlen";
@@ -69,6 +71,8 @@
 "Logarithmic" = "Logaritmikus";
 "Cores" = "Magok";
 "Settings" = "Beállítások";
+"Name" = "Name";
+"Format" = "Format";
 
 // Setup
 "Stats Setup" = "A Stats beállítása";
@@ -320,6 +324,10 @@
 "Leave empty to disable the check" = "Hagyd üresen az ellenőrzés kikapcsolásához";
 "Transparent pictogram when no activity" = "Átlátszó ikon, ha nincs forgalom";
 "Connectivity history" = "Connectivity history";
+"Auto-refresh public IP address" = "Auto-refresh public IP address";
+"Every hour" = "Every hour";
+"Every 12 hours" = "Every 12 hours";
+"Every 24 hours" = "Every 24 hours";
 
 // Battery
 "Level" = "Töltöttségi szint";
@@ -356,10 +364,15 @@
 "current / maximum / designed" = "jelenlegi / maximum / gyári";
 "Low power mode" = "Energia takarékos mód";
 "Percentage inside the icon" = "Százalék megjelenítése az ikonban";
+"Colorize battery" = "Colorize battery";
 
 // Bluetooth
 "Battery to show" = "Akkumulátor megjelenítése";
 "No Bluetooth devices are available" = "Nincs elérhető Bluetooth eszköz";
+
+// Clock
+"Time zone" = "Time zone";
+"Local" = "Local";
 
 // Colors
 "Based on utilization" = "Használat függő";

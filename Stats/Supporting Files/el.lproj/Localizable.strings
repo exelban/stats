@@ -26,6 +26,8 @@
 "Open Battery settings" = "Άνοιγμα ρυθμίσεων Μπαταρίας";
 "Bluetooth" = "Bluetooth";
 "Open Bluetooth settings" = "Άνοιγμα ρυθμίσεων Bluetooth";
+"Clock" = "Clock";
+"Open Clock settings" = "Open clock settings";
 
 // Words
 "Unknown" = "Άγνωστο";
@@ -69,6 +71,8 @@
 "Logarithmic" = "Logarithmic";
 "Cores" = "Cores";
 "Settings" = "Settings";
+"Name" = "Name";
+"Format" = "Format";
 
 // Setup
 "Stats Setup" = "Stats Setup";
@@ -320,6 +324,10 @@
 "Leave empty to disable the check" = "Leave empty to disable the check";
 "Transparent pictogram when no activity" = "Transparent pictogram when no activity";
 "Connectivity history" = "Connectivity history";
+"Auto-refresh public IP address" = "Auto-refresh public IP address";
+"Every hour" = "Every hour";
+"Every 12 hours" = "Every 12 hours";
+"Every 24 hours" = "Every 24 hours";
 
 // Battery
 "Level" = "Επίπεδο";
@@ -356,10 +364,15 @@
 "current / maximum / designed" = "current / Μέγιστη / designed";
 "Low power mode" = "Low power mode";
 "Percentage inside the icon" = "Percentage inside the icon";
+"Colorize battery" = "Colorize battery";
 
 // Bluetooth
 "Battery to show" = "Μπαταρία προς εμφάνιση";
 "No Bluetooth devices are available" = "Καμία συσκευή Bluetooth δεν είναι διαθέσιμη";
+
+// Clock
+"Time zone" = "Time zone";
+"Local" = "Local";
 
 // Colors
 "Based on utilization" = "Βάσει της χρήσης";

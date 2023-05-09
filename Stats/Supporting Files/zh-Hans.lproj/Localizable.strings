@@ -26,6 +26,8 @@
 "Open Battery settings" = "打开电池设置";
 "Bluetooth" = "蓝牙";
 "Open Bluetooth settings" = "打开蓝牙设置";
+"Clock" = "Clock";
+"Open Clock settings" = "Open clock settings";
 
 // Words
 "Unknown" = "未知";
@@ -69,6 +71,8 @@
 "Logarithmic" = "对数";
 "Cores" = "核心数";
 "Settings" = "设置";
+"Name" = "Name";
+"Format" = "Format";
 
 // Setup
 "Stats Setup" = "Stats 设置";
@@ -320,6 +324,10 @@
 "Leave empty to disable the check" = "不在该选项内输入以禁用检查";
 "Transparent pictogram when no activity" = "不活跃时隐藏标识";
 "Connectivity history" = "连接历史";
+"Auto-refresh public IP address" = "Auto-refresh public IP address";
+"Every hour" = "Every hour";
+"Every 12 hours" = "Every 12 hours";
+"Every 24 hours" = "Every 24 hours";
 
 // Battery
 "Level" = "电量";
@@ -356,10 +364,15 @@
 "current / maximum / designed" = "当前容量 / 最大容量 / 设计容量";
 "Low power mode" = "低电量模式";
 "Percentage inside the icon" = "图标内百分比";
+"Colorize battery" = "Colorize battery";
 
 // Bluetooth
 "Battery to show" = "显示的设备";
 "No Bluetooth devices are available" = "没有可用的蓝牙设备";
+
+// Clock
+"Time zone" = "Time zone";
+"Local" = "Local";
 
 // Colors
 "Based on utilization" = "基于利用率";

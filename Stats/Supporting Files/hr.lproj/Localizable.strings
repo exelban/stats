@@ -26,6 +26,8 @@
 "Open Battery settings" = "Otvori postavke baterije";
 "Bluetooth" = "Bluetooth";
 "Open Bluetooth settings" = "Otvori postavke bluetootha";
+"Clock" = "Clock";
+"Open Clock settings" = "Open clock settings";
 
 // Words
 "Unknown" = "Nepoznato";
@@ -69,6 +71,8 @@
 "Logarithmic" = "Logarithmic";
 "Cores" = "Cores";
 "Settings" = "Settings";
+"Name" = "Name";
+"Format" = "Format";
 
 // Setup
 "Stats Setup" = "Postavljanje programa Stats";
@@ -320,6 +324,10 @@
 "Leave empty to disable the check" = "Leave empty to disable the check";
 "Transparent pictogram when no activity" = "Transparent pictogram when no activity";
 "Connectivity history" = "Connectivity history";
+"Auto-refresh public IP address" = "Auto-refresh public IP address";
+"Every hour" = "Every hour";
+"Every 12 hours" = "Every 12 hours";
+"Every 24 hours" = "Every 24 hours";
 
 // Battery
 "Level" = "Stanje";
@@ -356,10 +364,15 @@
 "current / maximum / designed" = "current / maksimalni / projektirani";
 "Low power mode" = "Low power mode";
 "Percentage inside the icon" = "Percentage inside the icon";
+"Colorize battery" = "Colorize battery";
 
 // Bluetooth
 "Battery to show" = "Baterija";
 "No Bluetooth devices are available" = "Nema dostupnih Bluetooth uređaja";
+
+// Clock
+"Time zone" = "Time zone";
+"Local" = "Local";
 
 // Colors
 "Based on utilization" = "Na osnovi korištenja";

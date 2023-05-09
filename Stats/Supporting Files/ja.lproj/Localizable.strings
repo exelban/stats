@@ -26,6 +26,8 @@
 "Open Battery settings" = "バッテリーの設定を開く";
 "Bluetooth" = "Bluetooth";
 "Open Bluetooth settings" = "Bluetooth の設定を開く";
+"Clock" = "Clock";
+"Open Clock settings" = "Open clock settings";
 
 // Words
 "Unknown" = "不明";
@@ -69,6 +71,8 @@
 "Logarithmic" = "Logarithmic";
 "Cores" = "Cores";
 "Settings" = "Settings";
+"Name" = "Name";
+"Format" = "Format";
 
 // Setup
 "Stats Setup" = "Stats Setup";
@@ -320,6 +324,10 @@
 "Leave empty to disable the check" = "Leave empty to disable the check";
 "Transparent pictogram when no activity" = "Transparent pictogram when no activity";
 "Connectivity history" = "Connectivity history";
+"Auto-refresh public IP address" = "Auto-refresh public IP address";
+"Every hour" = "Every hour";
+"Every 12 hours" = "Every 12 hours";
+"Every 24 hours" = "Every 24 hours";
 
 // Battery
 "Level" = "充電残量";
@@ -356,10 +364,15 @@
 "current / maximum / designed" = "current / 最大 / 規格";
 "Low power mode" = "低電力モード";
 "Percentage inside the icon" = "Percentage inside the icon";
+"Colorize battery" = "Colorize battery";
 
 // Bluetooth
 "Battery to show" = "バッテリー残量を表示するデバイス";
 "No Bluetooth devices are available" = "利用可能な Bluetooth デバイスがありません";
+
+// Clock
+"Time zone" = "Time zone";
+"Local" = "Local";
 
 // Colors
 "Based on utilization" = "使用率に基づいたカラー";

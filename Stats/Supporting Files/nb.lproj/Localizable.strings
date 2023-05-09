@@ -26,6 +26,8 @@
 "Open Battery settings" = "Åpne batteriinnstillinger";
 "Bluetooth" = "Bluetooth";
 "Open Bluetooth settings" = "Åpne Bluetooth-innstillinger";
+"Clock" = "Clock";
+"Open Clock settings" = "Open clock settings";
 
 // Words
 "Unknown" = "Ukjent";
@@ -69,6 +71,8 @@
 "Logarithmic" = "Logaritmisk";
 "Cores" = "Kjerner";
 "Settings" = "Innstillinger";
+"Name" = "Name";
+"Format" = "Format";
 
 // Setup
 "Stats Setup" = "Stats-oppsett";
@@ -320,6 +324,10 @@
 "Leave empty to disable the check" = "La stå tom for å deaktivere sjekken";
 "Transparent pictogram when no activity" = "Gjennomsiktig piktogram når ingen aktivitet";
 "Connectivity history" = "Connectivity history";
+"Auto-refresh public IP address" = "Auto-refresh public IP address";
+"Every hour" = "Every hour";
+"Every 12 hours" = "Every 12 hours";
+"Every 24 hours" = "Every 24 hours";
 
 // Battery
 "Level" = "Nivå";
@@ -356,10 +364,15 @@
 "current / maximum / designed" = "current / maksimum / tiltenkt";
 "Low power mode" = "Lav energi-modus";
 "Percentage inside the icon" = "Prosent inne i ikonet";
+"Colorize battery" = "Colorize battery";
 
 // Bluetooth
 "Battery to show" = "Battery å vise";
 "No Bluetooth devices are available" = "Ingen Bluetooth-enheter er tilgjengelige";
+
+// Clock
+"Time zone" = "Time zone";
+"Local" = "Local";
 
 // Colors
 "Based on utilization" = "Basert på bruk";

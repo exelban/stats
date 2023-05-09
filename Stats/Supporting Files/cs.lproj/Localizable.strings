@@ -26,6 +26,8 @@
 "Open Battery settings" = "Otevřít nastavení baterie";
 "Bluetooth" = "Bluetooth";
 "Open Bluetooth settings" = "Otevřít nastavení bluetooth";
+"Clock" = "Clock";
+"Open Clock settings" = "Open clock settings";
 
 // Words
 "Unknown" = "Neznámý";
@@ -69,6 +71,8 @@
 "Logarithmic" = "Logaritmický";
 "Cores" = "Jádra";
 "Settings" = "Nastavení";
+"Name" = "Name";
+"Format" = "Format";
 
 // Setup
 "Stats Setup" = "Nastavení Stats";
@@ -320,6 +324,10 @@
 "Leave empty to disable the check" = "Pro vypnutí kontroly ponechte prázdné pole";
 "Transparent pictogram when no activity" = "Průhledný piktogram při inaktivitě";
 "Connectivity history" = "Connectivity history";
+"Auto-refresh public IP address" = "Auto-refresh public IP address";
+"Every hour" = "Every hour";
+"Every 12 hours" = "Every 12 hours";
+"Every 24 hours" = "Every 24 hours";
 
 // Battery
 "Level" = "Úroveň";
@@ -356,10 +364,15 @@
 "current / maximum / designed" = "current / maximum / výrobní";
 "Low power mode" = "Režim nízké spotřeby";
 "Percentage inside the icon" = "Procento uvnitř ikony";
+"Colorize battery" = "Colorize battery";
 
 // Bluetooth
 "Battery to show" = "Baterie k zobrazení";
 "No Bluetooth devices are available" = "Žádná bluetooth zařízení nejsou k dispozici";
+
+// Clock
+"Time zone" = "Time zone";
+"Local" = "Local";
 
 // Colors
 "Based on utilization" = "Na základě využití";
