@@ -272,8 +272,8 @@
 "Switch view" = "切換視窗";
 "Disk utilization threshold" = "磁碟利用率臨界點";
 "Disk utilization is" = "磁碟利用率為：%0";
-"Read color" = "Read color";
-"Write color" = "Write color";
+"Read color" = "讀取色彩";
+"Write color" = "寫入色彩";
 
 // Sensors
 "Temperature unit" = "溫度單位";
