@@ -63,6 +63,7 @@ public class Portal: NSStackView, Portal_p {
             bottom: Constants.Popup.spacing*2,
             right: Constants.Popup.spacing*2
         )
+        self.addArrangedSubview(PortalHeader(name))
         
         let circle = PieChartView(frame: NSRect.zero, segments: [], drawValue: true)
         circle.toolTip = localizedString("CPU usage")

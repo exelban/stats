@@ -26,14 +26,16 @@ internal class Portal: NSStackView, Portal_p {
         self.layer?.backgroundColor = NSColor.windowBackgroundColor.cgColor
         self.layer?.cornerRadius = 3
         
-        self.orientation = .horizontal
+        self.orientation = .vertical
         self.distribution = .fillEqually
+        self.spacing = Constants.Popup.spacing*2
         self.edgeInsets = NSEdgeInsets(
-            top: Constants.Popup.margins,
-            left: Constants.Popup.margins,
-            bottom: Constants.Popup.margins,
-            right: Constants.Popup.margins
+            top: Constants.Popup.spacing*2,
+            left: Constants.Popup.spacing*2,
+            bottom: Constants.Popup.spacing*2,
+            right: Constants.Popup.spacing*2
         )
+        self.addArrangedSubview(PortalHeader(name))
         
         self.circle = PieChartView(frame: NSRect.zero, segments: [], drawValue: true)
         self.circle!.toolTip = localizedString("Disk usage")
