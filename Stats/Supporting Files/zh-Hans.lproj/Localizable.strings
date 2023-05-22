@@ -274,6 +274,7 @@
 "Disk utilization is" = "Disk 利用率是 %0";
 "Read color" = "读取颜色";
 "Write color" = "写入颜色";
+"Disk usage" = "Disk usage";
 
 // Sensors
 "Temperature unit" = "温度单位";
@@ -328,6 +329,7 @@
 "Every hour" = "每小时";
 "Every 12 hours" = "每 12 小时";
 "Every 24 hours" = "每 24 小时";
+"Network activity" = "Network activity";
 
 // Battery
 "Level" = "电量";

@@ -274,6 +274,7 @@
 "Disk utilization is" = "ปริมาณการใช้งานดิสก์คือ %0";
 "Read color" = "Read color";
 "Write color" = "Write color";
+"Disk usage" = "Disk usage";
 
 // Sensors
 "Temperature unit" = "หน่วยอุณหภูมิ";
@@ -328,6 +329,7 @@
 "Every hour" = "Every hour";
 "Every 12 hours" = "Every 12 hours";
 "Every 24 hours" = "Every 24 hours";
+"Network activity" = "Network activity";
 
 // Battery
 "Level" = "ระดับ";

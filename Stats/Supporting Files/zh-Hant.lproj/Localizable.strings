@@ -274,6 +274,7 @@
 "Disk utilization is" = "磁碟利用率為：%0";
 "Read color" = "讀取色彩";
 "Write color" = "寫入色彩";
+"Disk usage" = "Disk usage";
 
 // Sensors
 "Temperature unit" = "溫度單位";
@@ -328,6 +329,7 @@
 "Every hour" = "Every hour";
 "Every 12 hours" = "Every 12 hours";
 "Every 24 hours" = "Every 24 hours";
+"Network activity" = "Network activity";
 
 // Battery
 "Level" = "電量";
