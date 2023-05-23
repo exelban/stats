@@ -456,6 +456,8 @@ internal class FanView: NSStackView {
     private var modeButtons: ModeButtons? = nil
     private var debouncer: DispatchWorkItem? = nil
     
+    private var barView: NSView? = nil
+    
     private var minBtn: NSButton? = nil
     private var maxBtn: NSButton? = nil
     
@@ -505,7 +507,6 @@ internal class FanView: NSStackView {
         self.edgeInsets = NSEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
         self.wantsLayer = true
         self.layer?.cornerRadius = 2
-        self.layer?.backgroundColor = NSColor.red.cgColor
         
         self.nameAndSpeed()
         self.setupControls()
@@ -548,7 +549,7 @@ internal class FanView: NSStackView {
         row.widthAnchor.constraint(equalToConstant: self.frame.width).isActive = true
         row.heightAnchor.constraint(equalToConstant: row.bounds.height).isActive = true
         row.orientation = .horizontal
-        row.distribution = .fillProportionally
+        row.distribution = .fillEqually
         row.spacing = 0
         
         let nameField: NSTextField = TextView()
@@ -563,10 +564,28 @@ internal class FanView: NSStackView {
         valueField.stringValue = self.fanValue == .percentage ? "\(self.fan.percentage)%" : self.fan.formattedValue
         valueField.toolTip = "\(value)"
         
+        let bar: NSView = NSView(frame: NSRect(x: 0, y: 0, width: 80, height: 8))
+        bar.widthAnchor.constraint(equalToConstant: bar.bounds.width).isActive = true
+        bar.heightAnchor.constraint(equalToConstant: bar.bounds.height).isActive = true
+        bar.wantsLayer = true
+        bar.layer?.backgroundColor = NSColor.textBackgroundColor.cgColor
+        bar.layer?.borderColor = NSColor.secondaryLabelColor.cgColor
+        bar.layer?.borderWidth = 0.25
+        bar.layer?.cornerRadius = 2
+        
+        let width: CGFloat = (bar.frame.width * CGFloat(self.fan.percentage < 0 ? 0 : self.fan.percentage)) / 100
+        let barInner = NSView(frame: NSRect(x: 0, y: 0, width: width, height: bar.frame.height))
+        barInner.wantsLayer = true
+        barInner.layer?.backgroundColor = NSColor.controlAccentColor.cgColor
+        
+        bar.addSubview(barInner)
+        
         row.addArrangedSubview(nameField)
+        row.addArrangedSubview(bar)
         row.addArrangedSubview(valueField)
         
         self.valueField = valueField
+        self.barView = barInner
         
         self.addArrangedSubview(row)
     }
@@ -860,6 +879,11 @@ internal class FanView: NSStackView {
                 
                 self.valueField?.stringValue = newValue
                 self.valueField?.toolTip = value.formattedValue
+                
+                if let v = self.barView {
+                    let width: CGFloat = (80 * CGFloat(value.percentage < 0 ? 0 : value.percentage)) / 100
+                    v.setFrameSize(NSSize(width: width, height: v.frame.height))
+                }
                 
                 if self.resetModeAfterSleep && value.mode != .automatic {
                     if self.sliderValueField?.stringValue != "" && self.slider?.doubleValue != value.value {
