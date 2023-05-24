@@ -276,7 +276,6 @@
 "Write color" = "Couleur d'écriture";
 "Disk usage" = "Utilisation du disque";
 
-
 // Sensors
 "Temperature unit" = "Unité de température";
 "Celsius" = "Celsius";
@@ -331,7 +330,6 @@
 "Every 12 hours" = "Toutes les 12 heures";
 "Every 24 hours" = "Toutes les 24 heures";
 "Network activity" = "L'activité réseau";
-
 
 // Battery
 "Level" = "Niveau";
