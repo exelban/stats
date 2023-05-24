@@ -274,6 +274,7 @@
 "Disk utilization is" = "Использование диска %0";
 "Read color" = "Цвет чтения";
 "Write color" = "Цвет записи";
+"Disk usage" = "Использование диска";
 
 // Sensors
 "Temperature unit" = "Единица измерения температуры";
@@ -328,6 +329,7 @@
 "Every hour" = "Каждый час";
 "Every 12 hours" = "Каждые 12 часов";
 "Every 24 hours" = "Каждые 24 часа";
+"Network activity" = "Сетевая активность";
 
 // Battery
 "Level" = "Уровень заряда";

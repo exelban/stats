@@ -274,6 +274,7 @@
 "Disk utilization is" = "Використання диска %0";
 "Read color" = "Колір зчитування";
 "Write color" = "Колір запису";
+"Disk usage" = "Використання диска";
 
 // Sensors
 "Temperature unit" = "Одиниця виміру температури";
@@ -328,6 +329,7 @@
 "Every hour" = "Щогодини";
 "Every 12 hours" = "Кожні 12 годин";
 "Every 24 hours" = "Кожні 24 години";
+"Network activity" = "Мережева активність";
 
 // Battery
 "Level" = "Рівень заряду";
