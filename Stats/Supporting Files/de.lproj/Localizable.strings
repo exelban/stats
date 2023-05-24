@@ -272,9 +272,9 @@
 "Switch view" = "Ansicht wechseln";
 "Disk utilization threshold" = "Schwellwert für Datenträger Auslastung erreicht";
 "Disk utilization is" = "Auslastung ist %0";
-"Read color" = "Read color";
-"Write color" = "Write color";
-"Disk usage" = "Disk usage";
+"Read color" = "Lesen Farbe";
+"Write color" = "Schreiben Farbe";
+"Disk usage" = "Speichernutzung";
 
 // Sensors
 "Temperature unit" = "Temperatureinheit";
@@ -282,7 +282,7 @@
 "Fahrenheit" = "Fahrenheit";
 "Save the fan speed" = "Lüftergeschwindigkeit speichern";
 "Fan" = "Lüfter";
-"HID sensors" = "HID sensors";
+"HID sensors" = "HID Sensoren";
 "Synchronize fan's control" = "Lüfter synchron halten";
 "Current" = "Aktuell";
 "Energy" = "Energie";
@@ -324,12 +324,12 @@
 "Connectivity host (ICMP)" = "Verbindungsverfügbarkeits-Host (ICMP)";
 "Leave empty to disable the check" = "Leer lassen zum Deaktivieren";
 "Transparent pictogram when no activity" = "Transparentes Piktogramm bei keiner Aktivität";
-"Connectivity history" = "Connectivity history";
-"Auto-refresh public IP address" = "Auto-refresh public IP address";
-"Every hour" = "Every hour";
-"Every 12 hours" = "Every 12 hours";
-"Every 24 hours" = "Every 24 hours";
-"Network activity" = "Network activity";
+"Connectivity history" = "Verbindungshistorie";
+"Auto-refresh public IP address" = "Öffentliche IP automatisch aktualisieren";
+"Every hour" = "Jede Stunde";
+"Every 12 hours" = "Alle 12 Stunden";
+"Every 24 hours" = "Alle 24 Stunden";
+"Network activity" = "Netzwerkaktivität";
 
 // Battery
 "Level" = "Ladezustand";
@@ -366,15 +366,15 @@
 "current / maximum / designed" = "Aktuell / Maximal / Sollwert";
 "Low power mode" = "Energiesparmodus";
 "Percentage inside the icon" = "Prozentsatz im Symbol";
-"Colorize battery" = "Colorize battery";
+"Colorize battery" = "Akku einfärben";
 
 // Bluetooth
 "Battery to show" = "Angezeigter Akku";
 "No Bluetooth devices are available" = "Keine Bluetooth Geräte verfügbar";
 
 // Clock
-"Time zone" = "Time zone";
-"Local" = "Local";
+"Time zone" = "Zeitzone";
+"Local" = "Lokal";
 
 // Colors
 "Based on utilization" = "Basierend auf Auslastung";
