@@ -272,7 +272,7 @@
 "Switch view" = "보기 전환";
 "Disk utilization threshold" = "디스크 사용률 임계값";
 "Disk utilization is" = "디스크 사용률 %0";
-"Read color" = "읽기 ";
+"Read color" = "읽기 색상";
 "Write color" = "쓰기 색상";
 "Disk usage" = "디스크 사용량";
 
