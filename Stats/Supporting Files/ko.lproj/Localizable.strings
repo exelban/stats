@@ -26,8 +26,8 @@
 "Open Battery settings" = "배터리 설정 열기";
 "Bluetooth" = "Bluetooth";
 "Open Bluetooth settings" = "블루투스 설정 열기";
-"Clock" = "Clock";
-"Open Clock settings" = "Open clock settings";
+"Clock" = "시계";
+"Open Clock settings" = "시계 설정 ";
 
 // Words
 "Unknown" = "알 수 없음";
@@ -71,7 +71,7 @@
 "Logarithmic" = "로그";
 "Cores" = "코어 수";
 "Settings" = "설정";
-"Name" = "Name";
+"Name" = "";
 "Format" = "Format";
 
 // Setup
@@ -272,9 +272,9 @@
 "Switch view" = "보기 전환";
 "Disk utilization threshold" = "디스크 사용률 임계값";
 "Disk utilization is" = "디스크 사용률 %0";
-"Read color" = "Read color";
-"Write color" = "Write color";
-"Disk usage" = "Disk usage";
+"Read color" = "읽기 ";
+"Write color" = "쓰기 색상";
+"Disk usage" = "디스크 사용량";
 
 // Sensors
 "Temperature unit" = "온도 단위";
@@ -325,10 +325,10 @@
 "Leave empty to disable the check" = "확인을 비활성화하려면 이 란을 비워 두세요";
 "Transparent pictogram when no activity" = "활동이 없을 때 상태 아이콘 숨기기";
 "Connectivity history" = "Connectivity history";
-"Auto-refresh public IP address" = "Auto-refresh public IP address";
-"Every hour" = "Every hour";
-"Every 12 hours" = "Every 12 hours";
-"Every 24 hours" = "Every 24 hours";
+"Auto-refresh public IP address" = "공개 IP주소 자동 ";
+"Every hour" = "매 시간마다;
+"Every 12 hours" = "12시간마다";
+"Every 24 hours" = "24시간마다";
 "Network activity" = "Network activity";
 
 // Battery
@@ -373,8 +373,8 @@
 "No Bluetooth devices are available" = "사용 가능한 Bluetooth 장치가 없습니다";
 
 // Clock
-"Time zone" = "Time zone";
-"Local" = "Local";
+"Time zone" = "시간대";
+"Local" = "현지시각";
 
 // Colors
 "Based on utilization" = "사용률 기준";
@@ -407,4 +407,4 @@
 "Magenta" = "마젠타";
 "Pink" = "분홍";
 "Teal" = "암청색";
-"Indigo" = "인디고";
+"Indigo" = "남색";
