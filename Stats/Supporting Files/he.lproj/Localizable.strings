@@ -163,7 +163,7 @@
 "Network chart widget" = "טבלת רשת";
 "Speed widget" = "מהירות";
 "Battery widget" = "בטרייה";
-"Text widget" = "טקסט";
+"Stack widget" = "Stack";
 "Memory widget" = "זכרון";
 "Static width" = "אורך סטאטי";
 "Tachometer widget" = "טכומטר";

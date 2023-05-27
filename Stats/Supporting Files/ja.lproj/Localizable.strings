@@ -163,7 +163,7 @@
 "Network chart widget" = "ネットワーク使用状況チャート";
 "Speed widget" = "速度";
 "Battery widget" = "バッテリー";
-"Text widget" = "テキスト";
+"Stack widget" = "Stack";
 "Memory widget" = "未使用/使用済み";
 "Static width" = "固定幅";
 "Tachometer widget" = "タコメーター";

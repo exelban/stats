@@ -163,7 +163,7 @@
 "Network chart widget" = "Nätverksdiagram";
 "Speed widget" = "Hastighet";
 "Battery widget" = "Batteri";
-"Text widget" = "Text";
+"Stack widget" = "Stack";
 "Memory widget" = "Minne";
 "Static width" = "Fast bredd";
 "Tachometer widget" = "Varvräknare";

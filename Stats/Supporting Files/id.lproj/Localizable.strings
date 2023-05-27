@@ -163,7 +163,7 @@
 "Network chart widget" = "Diagram jaringan";
 "Speed widget" = "Kecepatan";
 "Battery widget" = "Baterai";
-"Text widget" = "Teks";
+"Stack widget" = "Stack";
 "Memory widget" = "Memori";
 "Static width" = "Lebar statis";
 "Tachometer widget" = "Takometer";

@@ -163,7 +163,7 @@
 "Network chart widget" = "Biểu đồ mạng";
 "Speed widget" = "Tốc độ";
 "Battery widget" = "Pin";
-"Text widget" = "Văn bản";
+"Stack widget" = "Stack";
 "Memory widget" = "Bộ nhớ";
 "Static width" = "Chiều rộng cố định";
 "Tachometer widget" = "Máy đo tốc độ";

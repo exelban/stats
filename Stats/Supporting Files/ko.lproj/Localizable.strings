@@ -163,7 +163,7 @@
 "Network chart widget" = "네트워크 도표";
 "Speed widget" = "속도";
 "Battery widget" = "배터리";
-"Text widget" = "텍스트";
+"Stack widget" = "Stack";
 "Memory widget" = "메모리";
 "Static width" = "너비 고정";
 "Tachometer widget" = "반원 도표";

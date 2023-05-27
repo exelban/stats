@@ -163,7 +163,7 @@
 "Network chart widget" = "Widget de gráfico de rede";
 "Speed widget" = "Widget de velocidade";
 "Battery widget" = "Widget de bateria";
-"Text widget" = "Widget de texto";
+"Stack widget" = "Stack";
 "Memory widget" = "Widget de memória";
 "Static width" = "Largura estática";
 "Tachometer widget" = "Widget de tacómetro";

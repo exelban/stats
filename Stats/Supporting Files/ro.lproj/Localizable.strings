@@ -163,7 +163,7 @@
 "Network chart widget" = "Network chart";
 "Speed widget" = "Speed";
 "Battery widget" = "Battery";
-"Text widget" = "Text";
+"Stack widget" = "Stack";
 "Memory widget" = "Memory";
 "Static width" = "Static width";
 "Tachometer widget" = "Tachometer";
