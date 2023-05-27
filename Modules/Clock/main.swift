@@ -96,7 +96,7 @@ public class Clock: Module {
         
         self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
             switch w.item {
-            case let widget as SensorsWidget: widget.setValues(widgetList)
+            case let widget as StackWidget: widget.setValues(widgetList)
             default: break
             }
         }

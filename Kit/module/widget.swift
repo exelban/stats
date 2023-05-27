@@ -21,7 +21,7 @@ public enum widget_t: String {
     case speed = "speed"
     case battery = "battery"
     case batteryDetails = "battery_details"
-    case sensors = "sensors"
+    case stack = "sensors" // to replace
     case memory = "memory"
     case label = "label"
     case tachometer = "tachometer"
@@ -59,9 +59,9 @@ public enum widget_t: String {
         case .batteryDetails:
             preview = BatteryDetailsWidget(title: module, config: widgetConfig, preview: true)
             item = BatteryDetailsWidget(title: module, config: widgetConfig, preview: false)
-        case .sensors:
-            preview = SensorsWidget(title: module, config: widgetConfig, preview: true)
-            item = SensorsWidget(title: module, config: widgetConfig, preview: false)
+        case .stack:
+            preview = StackWidget(title: module, config: widgetConfig, preview: true)
+            item = StackWidget(title: module, config: widgetConfig, preview: false)
         case .memory:
             preview = MemoryWidget(title: module, config: widgetConfig, preview: true)
             item = MemoryWidget(title: module, config: widgetConfig, preview: false)
@@ -93,7 +93,7 @@ public enum widget_t: String {
                 } else if module == "CPU" {
                     width = 30 + (Constants.Widget.margin.x*2)
                 }
-            case is SensorsWidget:
+            case is StackWidget:
                 if module == "Sensors" {
                     width = 25
                 } else if module == "Clock" {
@@ -132,7 +132,7 @@ public enum widget_t: String {
         case .speed: return localizedString("Speed widget")
         case .battery: return localizedString("Battery widget")
         case .batteryDetails: return localizedString("Battery details widget")
-        case .sensors: return localizedString("Text widget")
+        case .stack: return localizedString("Stack widget")
         case .memory: return localizedString("Memory widget")
         case .label: return localizedString("Label widget")
         case .tachometer: return localizedString("Tachometer widget")

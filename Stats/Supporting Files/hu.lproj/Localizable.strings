@@ -163,7 +163,7 @@
 "Network chart widget" = "Hálózati diagram";
 "Speed widget" = "Sebesség";
 "Battery widget" = "Akkumulátor";
-"Text widget" = "Szöveg";
+"Stack widget" = "Stack";
 "Memory widget" = "Memória";
 "Static width" = "Fix szélesség";
 "Tachometer widget" = "Fordulatszámmérő";

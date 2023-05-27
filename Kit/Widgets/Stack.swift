@@ -32,7 +32,7 @@ public struct Stack_t: KeyValue_p {
     }
 }
 
-public class SensorsWidget: WidgetWrapper {
+public class StackWidget: WidgetWrapper {
     private var modeState: StackMode = .auto
     private var fixedSizeState: Bool = false
     private var monospacedFontState: Bool = false
@@ -57,7 +57,7 @@ public class SensorsWidget: WidgetWrapper {
         
         self.orderTableView = OrderTableView(&self.values)
         
-        super.init(.sensors, title: title, frame: CGRect(
+        super.init(.stack, title: title, frame: CGRect(
             x: 0,
             y: Constants.Widget.margin.y,
             width: Constants.Widget.width,

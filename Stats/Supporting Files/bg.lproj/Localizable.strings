@@ -163,7 +163,7 @@
 "Network chart widget" = "Мрежова диаграма";
 "Speed widget" = "Скорост";
 "Battery widget" = "Батерия";
-"Text widget" = "Текст";
+"Stack widget" = "Stack";
 "Memory widget" = "Памет";
 "Static width" = "Постоянна ширина";
 "Tachometer widget" = "Тахометър";

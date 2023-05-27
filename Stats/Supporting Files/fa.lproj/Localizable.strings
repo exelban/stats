@@ -163,7 +163,7 @@
 "Network chart widget" = "نمودار شبکه";
 "Speed widget" = "سرعت";
 "Battery widget" = "باتری";
-"Text widget" = "متن";
+"Stack widget" = "Stack";
 "Memory widget" = "حافظه";
 "Static width" = "عرض ثابت";
 "Tachometer widget" = "تاکومتر";

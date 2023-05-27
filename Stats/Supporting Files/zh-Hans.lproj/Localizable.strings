@@ -163,7 +163,7 @@
 "Network chart widget" = "流量图";
 "Speed widget" = "速度";
 "Battery widget" = "电池";
-"Text widget" = "文本";
+"Stack widget" = "Stack";
 "Memory widget" = "容量";
 "Static width" = "固定宽度";
 "Tachometer widget" = "转速计";

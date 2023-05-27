@@ -163,7 +163,7 @@
 "Network chart widget" = "แผนภูมิเครือข่าย";
 "Speed widget" = "ความเร็ว";
 "Battery widget" = "แบตเตอรี่";
-"Text widget" = "ข้อความ";
+"Stack widget" = "Stack";
 "Memory widget" = "หน่วยความจำ";
 "Static width" = "ความกว้างคงที่";
 "Tachometer widget" = "วัดความเร็ว";
