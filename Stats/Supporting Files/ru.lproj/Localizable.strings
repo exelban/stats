@@ -156,15 +156,15 @@
 "Display mode" = "Режим отображения";
 "One row" = "Один ряд";
 "Two rows" = "Два ряда";
-"Mini widget" = "Mini";
-"Line chart widget" = "Line chart";
-"Bar chart widget" = "Bar chart";
-"Pie chart widget" = "Pie chart";
-"Network chart widget" = "Network chart";
-"Speed widget" = "Speed";
-"Battery widget" = "Battery";
-"Text widget" = "Text";
-"Memory widget" = "Memory";
+"Mini widget" = "Мини";
+"Line chart widget" = "Линейный график";
+"Bar chart widget" = "Гистограмма";
+"Pie chart widget" = "Круговая диаграмма";
+"Network chart widget" = "Сетевая диаграмма";
+"Speed widget" = "Скорость";
+"Battery widget" = "Батарея";
+"Stack widget" = "Стек";
+"Memory widget" = "Память";
 "Static width" = "Статическая ширина";
 "Tachometer widget" = "Тахометр";
 "State widget" = "Состояние";
@@ -274,6 +274,7 @@
 "Disk utilization is" = "Использование диска %0";
 "Read color" = "Цвет чтения";
 "Write color" = "Цвет записи";
+"Disk usage" = "Использование диска";
 
 // Sensors
 "Temperature unit" = "Единица измерения температуры";
@@ -328,6 +329,7 @@
 "Every hour" = "Каждый час";
 "Every 12 hours" = "Каждые 12 часов";
 "Every 24 hours" = "Каждые 24 часа";
+"Network activity" = "Сетевая активность";
 
 // Battery
 "Level" = "Уровень заряда";

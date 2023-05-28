@@ -116,7 +116,7 @@ public class Sensors: Module {
         
         self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
             switch w.item {
-            case let widget as SensorsWidget: widget.setValues(list)
+            case let widget as StackWidget: widget.setValues(list)
             case let widget as BarChart: widget.setValue(flatList)
             default: break
             }

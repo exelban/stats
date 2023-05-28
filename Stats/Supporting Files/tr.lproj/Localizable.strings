@@ -163,7 +163,7 @@
 "Network chart widget" = "Ağ pasta grafik widget";
 "Speed widget" = "Hız widget";
 "Battery widget" = "Batarya widget";
-"Text widget" = "Metin widget";
+"Stack widget" = "Stack";
 "Memory widget" = "Bellek widget";
 "Static width" = "Sabit genişlik";
 "Tachometer widget" = "Takometre";
@@ -274,6 +274,7 @@
 "Disk utilization is" = "Disk kullanımı %0";
 "Read color" = "Read color";
 "Write color" = "Write color";
+"Disk usage" = "Disk usage";
 
 // Sensors
 "Temperature unit" = "Sıcaklık birimi";
@@ -328,6 +329,7 @@
 "Every hour" = "Every hour";
 "Every 12 hours" = "Every 12 hours";
 "Every 24 hours" = "Every 24 hours";
+"Network activity" = "Network activity";
 
 // Battery
 "Level" = "Doluluk";

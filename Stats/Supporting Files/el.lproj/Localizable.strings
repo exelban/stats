@@ -163,7 +163,7 @@
 "Network chart widget" = "Διάγραμμα δικτύου";
 "Speed widget" = "Ταχύτητα";
 "Battery widget" = "Μπαταρία";
-"Text widget" = "Κείμενο";
+"Stack widget" = "Stack";
 "Memory widget" = "Μνήμη";
 "Static width" = "Σταθερό πλάτος";
 "Tachometer widget" = "Ταχύμετρο";
@@ -274,6 +274,7 @@
 "Disk utilization is" = "Disk utilization is %0";
 "Read color" = "Χρώμα ανάγνωσης";
 "Write color" = "Χρώμα εγγραφής";
+"Disk usage" = "Disk usage";
 
 // Sensors
 "Temperature unit" = "Μονάδα θερμοκρασίας";
@@ -328,6 +329,7 @@
 "Every hour" = "Every hour";
 "Every 12 hours" = "Every 12 hours";
 "Every 24 hours" = "Every 24 hours";
+"Network activity" = "Network activity";
 
 // Battery
 "Level" = "Επίπεδο";

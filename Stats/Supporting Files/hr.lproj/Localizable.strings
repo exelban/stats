@@ -163,7 +163,7 @@
 "Network chart widget" = "Dijagram mreže";
 "Speed widget" = "Brzina";
 "Battery widget" = "Baterija";
-"Text widget" = "Tekst";
+"Stack widget" = "Stack";
 "Memory widget" = "Memorija";
 "Static width" = "Statična širina";
 "Tachometer widget" = "Tahometar";
@@ -274,6 +274,7 @@
 "Disk utilization is" = "Korištenje diska je %0";
 "Read color" = "Read color";
 "Write color" = "Write color";
+"Disk usage" = "Disk usage";
 
 // Sensors
 "Temperature unit" = "Jedinica temperature";
@@ -328,6 +329,7 @@
 "Every hour" = "Every hour";
 "Every 12 hours" = "Every 12 hours";
 "Every 24 hours" = "Every 24 hours";
+"Network activity" = "Network activity";
 
 // Battery
 "Level" = "Stanje";

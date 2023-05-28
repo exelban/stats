@@ -163,7 +163,7 @@
 "Network chart widget" = "Linjediagram";
 "Speed widget" = "Tall";
 "Battery widget" = "Batteri";
-"Text widget" = "Tekst";
+"Stack widget" = "Stack";
 "Memory widget" = "Tall";
 "Static width" = "Statisk bredde";
 "Tachometer widget" = "Tachometer";
@@ -274,6 +274,7 @@
 "Disk utilization is" = "Disk-bruk er %0";
 "Read color" = "Read color";
 "Write color" = "Write color";
+"Disk usage" = "Disk usage";
 
 // Sensors
 "Temperature unit" = "Temperaturenhet";
@@ -328,6 +329,7 @@
 "Every hour" = "Every hour";
 "Every 12 hours" = "Every 12 hours";
 "Every 24 hours" = "Every 24 hours";
+"Network activity" = "Network activity";
 
 // Battery
 "Level" = "Nivå";

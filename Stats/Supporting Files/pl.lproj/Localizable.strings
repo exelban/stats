@@ -163,7 +163,7 @@
 "Network chart widget" = "Wykres sieciowy";
 "Speed widget" = "Prędkość";
 "Battery widget" = "Bateria";
-"Text widget" = "Tekst";
+"Stack widget" = "Stos";
 "Memory widget" = "Pamięć";
 "Static width" = "Statyczna szerokość";
 "Tachometer widget" = "Tachometr";
@@ -274,6 +274,7 @@
 "Disk utilization is" = "Wykorzystanie dysku %0";
 "Read color" = "Kolor odczytu";
 "Write color" = "Kolor zapisu";
+"Disk usage" = "Użycie dysku";
 
 // Sensors
 "Temperature unit" = "Jednostka temperatury";
@@ -328,6 +329,7 @@
 "Every hour" = "Co godzinę";
 "Every 12 hours" = "Co 12 godzin";
 "Every 24 hours" = "Co 24 godzin";
+"Network activity" = "Aktywność sieciowa";
 
 // Battery
 "Level" = "Poziom naładowania";

@@ -163,7 +163,7 @@
 "Network chart widget" = "Мрежова диаграма";
 "Speed widget" = "Скорост";
 "Battery widget" = "Батерия";
-"Text widget" = "Текст";
+"Stack widget" = "Stack";
 "Memory widget" = "Памет";
 "Static width" = "Постоянна ширина";
 "Tachometer widget" = "Тахометър";
@@ -274,6 +274,7 @@
 "Disk utilization is" = "Утилизацията на диска е %0";
 "Read color" = "Read color";
 "Write color" = "Write color";
+"Disk usage" = "Disk usage";
 
 // Sensors
 "Temperature unit" = "Температурна единица";
@@ -328,6 +329,7 @@
 "Every hour" = "Every hour";
 "Every 12 hours" = "Every 12 hours";
 "Every 24 hours" = "Every 24 hours";
+"Network activity" = "Network activity";
 
 // Battery
 "Level" = "Ниво";

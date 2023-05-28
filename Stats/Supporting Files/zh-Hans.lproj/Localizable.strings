@@ -163,7 +163,7 @@
 "Network chart widget" = "流量图";
 "Speed widget" = "速度";
 "Battery widget" = "电池";
-"Text widget" = "文本";
+"Stack widget" = "Stack";
 "Memory widget" = "容量";
 "Static width" = "固定宽度";
 "Tachometer widget" = "转速计";
@@ -270,10 +270,11 @@
 "Disk to show" = "显示的磁盘";
 "Open disk" = "打开磁盘";
 "Switch view" = "切换视图";
-"Disk utilization threshold" = "Disk 占用阈值";
-"Disk utilization is" = "Disk 利用率是 %0";
+"Disk utilization threshold" = "磁盘占用阈值";
+"Disk utilization is" = "磁盘利用率：%0";
 "Read color" = "读取颜色";
 "Write color" = "写入颜色";
+"Disk usage" = "磁盘使用";
 
 // Sensors
 "Temperature unit" = "温度单位";
@@ -328,6 +329,7 @@
 "Every hour" = "每小时";
 "Every 12 hours" = "每 12 小时";
 "Every 24 hours" = "每 24 小时";
+"Network activity" = "网络活动";
 
 // Battery
 "Level" = "电量";
