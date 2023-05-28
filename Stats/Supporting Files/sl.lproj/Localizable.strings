@@ -26,8 +26,8 @@
 "Open Battery settings" = "Odpri nastavitve baterije";
 "Bluetooth" = "Bluetooth";
 "Open Bluetooth settings" = "Odpri Bluetooth nastavitve";
-"Clock" = "Clock";
-"Open Clock settings" = "Open clock settings";
+"Clock" = "Ura";
+"Open Clock settings" = "Odpri nastavitve ure";
 
 // Words
 "Unknown" = "Neznano";
@@ -71,7 +71,7 @@
 "Logarithmic" = "Logaritmično";
 "Cores" = "Jedra";
 "Settings" = "Nastavitve";
-"Name" = "Name";
+"Name" = "Ime";
 "Format" = "Format";
 
 // Setup
@@ -173,7 +173,7 @@
 "Number of reads in the chart" = "Število branj v grafu";
 "Color of download" = "Barva prenosa";
 "Color of upload" = "Barva oddajanja";
-"Monospaced font" = "Monospaced font";
+"Monospaced font" = "Pisava s fiksno širino";
 
 // Module Kit
 "Open module settings" = "Odpri nastavitve modula";
@@ -216,13 +216,13 @@
 "CPU usage threshold" = "Prag uporabe CPE";
 "CPU usage is" = "Uporaba CPE je %0";
 "Efficiency cores" = "Učinkovita jedra";
-"Performance cores" = "Zmogljiva jedra";
+"Performance cores" = "Performančna jedra";
 "System color" = "Sistemska barva";
 "User color" = "Uporabniška barva";
 "Idle color" = "Barva mirovanja";
 "Cluster grouping" = "Združevanje v gruče";
-"Efficiency cores color" = "Efficiency cores color";
-"Performance cores color" = "Performance cores color";
+"Efficiency cores color" = "Barva učinkovitih jeder";
+"Performance cores color" = "Barva performančnih jeder";
 
 // GPU
 "GPU to show" = "GPE za prikaz";
@@ -272,8 +272,8 @@
 "Switch view" = "Zamenjaj pogled";
 "Disk utilization threshold" = "Prag izkoriščenosti diska";
 "Disk utilization is" = "Izkoriščenost diska je %0";
-"Read color" = "Read color";
-"Write color" = "Write color";
+"Read color" = "Barva branja";
+"Write color" = "Barva pisanja";
 "Disk usage" = "Disk usage";
 
 // Sensors
@@ -324,11 +324,11 @@
 "Connectivity host (ICMP)" = "Gostitelj za preverjanje povezljivosti (ICMP)";
 "Leave empty to disable the check" = "Pustite prazno, če želite onemogočiti preverjanje povezljivosti";
 "Transparent pictogram when no activity" = "Prosojni piktogram, ko ni dejavnosti";
-"Connectivity history" = "Connectivity history";
-"Auto-refresh public IP address" = "Auto-refresh public IP address";
-"Every hour" = "Every hour";
-"Every 12 hours" = "Every 12 hours";
-"Every 24 hours" = "Every 24 hours";
+"Connectivity history" = "Zgodovina povezljivosti";
+"Auto-refresh public IP address" = "Samodejna osvežitev javnega IP naslova";
+"Every hour" = "Vsako uro";
+"Every 12 hours" = "Vsakih 12 ur";
+"Every 24 hours" = "Vsakih 24 ur";
 "Network activity" = "Network activity";
 
 // Battery
@@ -366,15 +366,15 @@
 "current / maximum / designed" = "current / največja / predvidena";
 "Low power mode" = "Način nizke porabe";
 "Percentage inside the icon" = "Odstotek znotraj ikone";
-"Colorize battery" = "Colorize battery";
+"Colorize battery" = "Obarvanje batarije";
 
 // Bluetooth
 "Battery to show" = "Prikaz baterije";
 "No Bluetooth devices are available" = "Naprave Bluetooth niso na voljo";
 
 // Clock
-"Time zone" = "Time zone";
-"Local" = "Local";
+"Time zone" = "Časovni pas";
+"Local" = "Lokalno";
 
 // Colors
 "Based on utilization" = "Na podlagi uporabe";
