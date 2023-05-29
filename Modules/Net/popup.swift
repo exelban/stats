@@ -33,7 +33,9 @@ internal class Popup: PopupWrapper {
     private var localIPField: ValueField? = nil
     private var interfaceField: ValueField? = nil
     private var macAddressField: ValueField? = nil
+    private var totalUploadLabel: LabelField? = nil
     private var totalUploadField: ValueField? = nil
+    private var totalDownloadLabel: LabelField? = nil
     private var totalDownloadField: ValueField? = nil
     private var statusField: ValueField? = nil
     private var connectivityField: ValueField? = nil
@@ -56,6 +58,8 @@ internal class Popup: PopupWrapper {
     private var chart: NetworkChartView? = nil
     private var connectivityChart: GridChartView? = nil
     private var processes: [NetworkProcessView] = []
+    
+    private var lastReset: Date = Date()
     
     private var base: DataSizeBase {
         DataSizeBase(rawValue: Store.shared.string(key: "\(self.title)_base", defaultValue: "byte")) ?? .byte
@@ -111,10 +115,16 @@ internal class Popup: PopupWrapper {
         self.addArrangedSubview(self.initProcesses())
         
         self.recalculateHeight()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.resetTotalNetworkUsageCallback), name: .resetTotalNetworkUsage, object: nil)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: .resetTotalNetworkUsage, object: nil)
     }
     
     private func recalculateHeight() {
@@ -218,8 +228,16 @@ internal class Popup: PopupWrapper {
         
         container.addArrangedSubview(row)
         
-        (self.uploadColorView, self.totalUploadField) = popupWithColorRow(container, color: self.uploadColor, n: 0, title: "\(localizedString("Total upload")):", value: "0")
-        (self.downloadColorView, self.totalDownloadField) = popupWithColorRow(container, color: self.downloadColor, n: 0, title: "\(localizedString("Total download")):", value: "0")
+        let totalUpload = popupWithColorRow(container, color: self.uploadColor, n: 0, title: "\(localizedString("Total upload")):", value: "0")
+        let totalDownload = popupWithColorRow(container, color: self.downloadColor, n: 0, title: "\(localizedString("Total download")):", value: "0")
+        
+        self.uploadColorView = totalUpload.0
+        self.totalUploadLabel = totalUpload.1
+        self.totalUploadField = totalUpload.2
+        
+        self.downloadColorView = totalDownload.0
+        self.totalDownloadLabel = totalDownload.1
+        self.totalDownloadField = totalDownload.2
         
         self.statusField = popupRow(container, n: 0, title: "\(localizedString("Status")):", value: localizedString("Unknown")).1
         self.connectivityField = popupRow(container, n: 0, title: "\(localizedString("Internet connection")):", value: localizedString("Unknown")).1
@@ -341,6 +359,16 @@ internal class Popup: PopupWrapper {
                 
                 self.totalUploadField?.stringValue = Units(bytes: value.total.upload).getReadableMemory()
                 self.totalDownloadField?.stringValue = Units(bytes: value.total.download).getReadableMemory()
+                
+                let form = DateComponentsFormatter()
+                form.maximumUnitCount = 2
+                form.unitsStyle = .full
+                form.allowedUnits = [.day, .hour, .minute]
+                
+                if let duration = form.string(from: self.lastReset, to: Date()) {
+                    self.totalUploadLabel?.toolTip = localizedString("Last reset", duration)
+                    self.totalDownloadLabel?.toolTip = localizedString("Last reset", duration)
+                }
                 
                 if let interface = value.interface {
                     self.interfaceField?.stringValue = "\(interface.displayName) (\(interface.BSDName))"
@@ -604,6 +632,11 @@ internal class Popup: PopupWrapper {
     
     @objc private func resetTotalNetworkUsage() {
         NotificationCenter.default.post(name: .resetTotalNetworkUsage, object: nil, userInfo: nil)
+        self.lastReset = Date()
+    }
+    
+    @objc private func resetTotalNetworkUsageCallback() {
+        self.lastReset = Date()
     }
 }
 

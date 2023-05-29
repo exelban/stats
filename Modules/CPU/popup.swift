@@ -294,19 +294,19 @@ internal class Popup: PopupWrapper {
         container.orientation = .vertical
         container.spacing = 0
         
-        (self.systemColorView, self.systemField) = popupWithColorRow(container, color: self.systemColor, n: 4, title: "\(localizedString("System")):", value: "")
-        (self.userColorView, self.userField) = popupWithColorRow(container, color: self.userColor, n: 3, title: "\(localizedString("User")):", value: "")
-        (self.idleColorView, self.idleField) = popupWithColorRow(container, color: self.idleColor.withAlphaComponent(0.5), n: 2, title: "\(localizedString("Idle")):", value: "")
+        (self.systemColorView, _, self.systemField) = popupWithColorRow(container, color: self.systemColor, n: 4, title: "\(localizedString("System")):", value: "")
+        (self.userColorView, _, self.userField) = popupWithColorRow(container, color: self.userColor, n: 3, title: "\(localizedString("User")):", value: "")
+        (self.idleColorView, _, self.idleField) = popupWithColorRow(container, color: self.idleColor.withAlphaComponent(0.5), n: 2, title: "\(localizedString("Idle")):", value: "")
         if !isARM {
             self.shedulerLimitField = popupRow(container, n: 1, title: "\(localizedString("Scheduler limit")):", value: "").1
             self.speedLimitField = popupRow(container, n: 0, title: "\(localizedString("Speed limit")):", value: "").1
         }
         
         if SystemKit.shared.device.info.cpu?.eCores != nil {
-            (self.eCoresColorView, self.eCoresField) = popupWithColorRow(container, color: self.eCoresColor, n: 0, title: "\(localizedString("Efficiency cores")):", value: "")
+            (self.eCoresColorView, _, self.eCoresField) = popupWithColorRow(container, color: self.eCoresColor, n: 0, title: "\(localizedString("Efficiency cores")):", value: "")
         }
         if SystemKit.shared.device.info.cpu?.pCores != nil {
-            (self.pCoresColorView, self.pCoresField) = popupWithColorRow(container, color: self.pCoresColor, n: 0, title: "\(localizedString("Performance cores")):", value: "")
+            (self.pCoresColorView, _, self.pCoresField) = popupWithColorRow(container, color: self.pCoresColor, n: 0, title: "\(localizedString("Performance cores")):", value: "")
         }
         
         view.addSubview(separator)
