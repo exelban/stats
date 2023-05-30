@@ -330,6 +330,7 @@
 "Every 12 hours" = "12시간마다";
 "Every 24 hours" = "24시간마다";
 "Network activity" = "Network activity";
+"Last reset" = "Last reset %0 ago";
 
 // Battery
 "Level" = "잔량";

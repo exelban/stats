@@ -330,6 +330,7 @@
 "Every 12 hours" = "每 12 小時";
 "Every 24 hours" = "每 24 小時";
 "Network activity" = "網路活動";
+"Last reset" = "Last reset %0 ago";
 
 // Battery
 "Level" = "電量";

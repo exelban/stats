@@ -330,6 +330,7 @@
 "Every 12 hours" = "Co 12 godzin";
 "Every 24 hours" = "Co 24 godzin";
 "Network activity" = "Aktywność sieciowa";
+"Last reset" = "Ostatni reset %0 temu";
 
 // Battery
 "Level" = "Poziom naładowania";

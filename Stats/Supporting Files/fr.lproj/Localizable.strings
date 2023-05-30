@@ -330,6 +330,7 @@
 "Every 12 hours" = "Toutes les 12 heures";
 "Every 24 hours" = "Toutes les 24 heures";
 "Network activity" = "L'activité réseau";
+"Last reset" = "Last reset %0 ago";
 
 // Battery
 "Level" = "Niveau";

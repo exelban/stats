@@ -330,6 +330,7 @@
 "Every 12 hours" = "Кожні 12 годин";
 "Every 24 hours" = "Кожні 24 години";
 "Network activity" = "Мережева активність";
+"Last reset" = "Останнє скидання %0 тому";
 
 // Battery
 "Level" = "Рівень заряду";
