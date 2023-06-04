@@ -330,6 +330,7 @@
 "Every 12 hours" = "Vsakih 12 ur";
 "Every 24 hours" = "Vsakih 24 ur";
 "Network activity" = "Dejavnost v omrežju";
+"Last reset" = "Last reset %0 ago";
 
 // Battery
 "Level" = "Raven";

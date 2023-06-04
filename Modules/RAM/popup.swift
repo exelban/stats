@@ -209,10 +209,10 @@ internal class Popup: PopupWrapper {
         let container: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: separator.frame.origin.y))
         
         self.usedField = popupRow(container, n: 5, title: "\(localizedString("Used")):", value: "").1
-        (self.appColorView, self.appField) = popupWithColorRow(container, color: self.appColor, n: 4, title: "\(localizedString("App")):", value: "")
-        (self.wiredColorView, self.wiredField) = popupWithColorRow(container, color: self.wiredColor, n: 3, title: "\(localizedString("Wired")):", value: "")
-        (self.compressedColorView, self.compressedField) = popupWithColorRow(container, color: self.compressedColor, n: 2, title: "\(localizedString("Compressed")):", value: "")
-        (self.freeColorView, self.freeField) = popupWithColorRow(container, color: self.freeColor.withAlphaComponent(0.5), n: 1, title: "\(localizedString("Free")):", value: "")
+        (self.appColorView, _, self.appField) = popupWithColorRow(container, color: self.appColor, n: 4, title: "\(localizedString("App")):", value: "")
+        (self.wiredColorView, _, self.wiredField) = popupWithColorRow(container, color: self.wiredColor, n: 3, title: "\(localizedString("Wired")):", value: "")
+        (self.compressedColorView, _, self.compressedField) = popupWithColorRow(container, color: self.compressedColor, n: 2, title: "\(localizedString("Compressed")):", value: "")
+        (self.freeColorView, _, self.freeField) = popupWithColorRow(container, color: self.freeColor.withAlphaComponent(0.5), n: 1, title: "\(localizedString("Free")):", value: "")
         self.swapField = popupRow(container, n: 0, title: "\(localizedString("Swap")):", value: "").1
         
         view.addSubview(separator)

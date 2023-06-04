@@ -330,6 +330,7 @@
 "Every 12 hours" = "每 12 小時";
 "Every 24 hours" = "每 24 小時";
 "Network activity" = "網路活動";
+"Last reset" = "上次重置於 %0 前";
 
 // Battery
 "Level" = "電量";
@@ -366,7 +367,7 @@
 "current / maximum / designed" = "目前容量/最大容量/設計容量";
 "Low power mode" = "低電量模式";
 "Percentage inside the icon" = "在圖示內顯示百分比";
-"Colorize battery" = "色彩化電池顯示";
+"Colorize battery" = "啟用彩色電池圖示";
 
 // Bluetooth
 "Battery to show" = "顯示藍牙裝置的電池電量";
