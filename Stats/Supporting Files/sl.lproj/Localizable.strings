@@ -126,7 +126,7 @@
 "Pause the Stats" = "Začasno zaustavi Stats";
 "Resume the Stats" = "Nadaljuj z izvajanjem Stats";
 "Combined modules" = "Združeni moduli";
-"Spacing" = "Spacing";
+"Spacing" = "Razmik";
 
 // Dashboard
 "Serial number" = "Serijska številka";
@@ -134,7 +134,7 @@
 "Number of cores" = "%0 jeder";
 "Number of threads" = "%0 niti";
 "Number of e-cores" = "%0 učinkovitih jeder";
-"Number of p-cores" = "%0 zmogljivih jeder";
+"Number of p-cores" = "%0 performančnih jeder";
 
 // Update
 "The latest version of Stats installed" = "Nameščena je najnovejša različica programa Stats";
@@ -274,7 +274,7 @@
 "Disk utilization is" = "Izkoriščenost diska je %0";
 "Read color" = "Barva branja";
 "Write color" = "Barva pisanja";
-"Disk usage" = "Disk usage";
+"Disk usage" = "Uporaba diska";
 
 // Sensors
 "Temperature unit" = "Enota za temperaturo";
@@ -329,7 +329,7 @@
 "Every hour" = "Vsako uro";
 "Every 12 hours" = "Vsakih 12 ur";
 "Every 24 hours" = "Vsakih 24 ur";
-"Network activity" = "Network activity";
+"Network activity" = "Dejavnost v omrežju";
 "Last reset" = "Last reset %0 ago";
 
 // Battery
@@ -364,7 +364,7 @@
 "Hide additional information when full" = "Skrij dodatne informacije, ko je batarija polna";
 "Last charge" = "Zadnje polnjenje";
 "Capacity" = "Kapaciteta";
-"current / maximum / designed" = "current / največja / predvidena";
+"current / maximum / designed" = "trenutna / največja / predvidena";
 "Low power mode" = "Način nizke porabe";
 "Percentage inside the icon" = "Odstotek znotraj ikone";
 "Colorize battery" = "Obarvanje batarije";
