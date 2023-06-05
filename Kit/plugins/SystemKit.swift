@@ -647,5 +647,6 @@ let osDict: [String: String] = [
     "10.15": "Catalina",
     "11": "Big Sur",
     "12": "Monterey",
-    "13": "Ventura"
+    "13": "Ventura",
+    "14": "Sonoma"
 ]
