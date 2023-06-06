@@ -762,6 +762,7 @@ public class ProcessView: NSStackView {
     private var labelView: LabelField = {
         let view = LabelField()
         view.cell?.truncatesLastVisibleLine = true
+        view.cell?.usesSingleLineMode = true
         return view
     }()
     private var valueView: ValueField = ValueField()
