@@ -268,8 +268,8 @@ public class SpeedWidget: WidgetWrapper {
     // MARK: - two rows
     
     private func drawTwoRows(_ dirtyRect: NSRect) -> CGFloat {
-        var width: CGFloat = 10
-        var x: CGFloat = 10
+        var width: CGFloat = 7
+        var x: CGFloat = 7
         
         switch self.icon {
         case "dots":
