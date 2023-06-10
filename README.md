@@ -57,6 +57,10 @@ The CPU frequency is available only on Intel-based macs. You need to have instal
 ### How to reduce energy impact or CPU usage of Stats?
 Stats tries to be efficient as it's possible. But reading some data periodically is not a cheap task. Each module has its own "price". So, if you want to reduce energy impact from the Stats you need to disable some Stats modules. The most inefficient modules are Sensors and Bluetooth. Disabling these modules could reduce CPU usage and power efficiency by up to 50% in some cases.
 
+### Why my issue was closed without any response?
+Most probably because it's a duplicated issue and there is an answer to the question, report, or proposition. Please use a search by closed issues to get an answer.
+So, if your issue was closed without any response, most probably it already has a response.
+
 ## Supported languages
 - English
 - Polski
