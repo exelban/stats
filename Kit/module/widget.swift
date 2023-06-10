@@ -176,13 +176,40 @@ open class WidgetWrapper: NSView, widget_p {
     }
     
     public func setWidth(_ width: CGFloat) {
-        guard self.shadowSize.width != width else { return }
-        self.shadowSize.width = width
+        var newWidth = width
+        if width == 0 || width == 1 {
+            newWidth = self.emptyView()
+        }
+        
+        guard self.shadowSize.width != newWidth else { return }
+        self.shadowSize.width = newWidth
         
         DispatchQueue.main.async {
-            self.setFrameSize(NSSize(width: width, height: self.frame.size.height))
+            self.setFrameSize(NSSize(width: newWidth, height: self.frame.size.height))
             self.widthHandler?()
         }
+    }
+    
+    public func emptyView() -> CGFloat {
+        let size: CGFloat = 15
+        let lineWidth = 1 / (NSScreen.main?.backingScaleFactor ?? 1)
+        let offset = lineWidth / 2
+        let width: CGFloat = (Constants.Widget.margin.x*2) + size + (lineWidth*2)
+        
+        NSColor.textColor.set()
+        
+        var circle = NSBezierPath()
+        circle = NSBezierPath(ovalIn: CGRect(x: Constants.Widget.margin.x+offset, y: 1+offset, width: size, height: size))
+        circle.stroke()
+        circle.lineWidth = lineWidth
+        
+        let line = NSBezierPath()
+        line.move(to: NSPoint(x: 3, y: 3.5))
+        line.line(to: NSPoint(x: 13.5, y: 14))
+        line.lineWidth = lineWidth
+        line.stroke()
+        
+        return width
     }
     
     // MARK: - stubs
