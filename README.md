@@ -9,11 +9,11 @@ macOS system monitor in your menu bar
 
 ## Installation
 ### Manual
-You can download the latest version [here](https://github.com/exelban/stats/releases/latest/download/Stats.dmg).  
+You can download the latest version [here](https://github.com/exelban/stats/releases/latest/download/Stats.dmg).
 This will download a file called `Stats.dmg`. Open it and move the app to the application folder.
 
 ### Homebrew
-To install it using Homebrew, open the Terminal app and type:  
+To install it using Homebrew, open the Terminal app and type:
 ```bash
 brew install stats
 ```
@@ -22,7 +22,7 @@ brew install stats
 Stats is currently supported on macOS 10.14 (Mojave) and higher.
 
 ## Features
-Stats is an application that allows you to monitor your macOS system. 
+Stats is an application that allows you to monitor your macOS system.
 
  - Battery level
  - Bluetooth devices
@@ -85,7 +85,7 @@ So, if your issue was closed without any response, most probably it already has 
 - Romanian (thanks to [razluta](https://github.com/razluta))
 - Dutch (thanks to [ngohungphuc](https://github.com/ngohungphuc))
 - Hrvatski (thanks to [milotype](https://github.com/milotype))
-- Danish (thanks to [casperes1996](https://github.com/casperes1996))
+- Danish (thanks to [casperes1996](https://github.com/casperes1996) and [aleksanderbl29](https://github.com/aleksanderbl29))
 - Catalan (thanks to [davidalonso](https://github.com/davidalonso))
 - Indonesian (thanks to [yooody](https://github.com/yooody))
 - Hebrew (thanks to [BadSugar](https://github.com/BadSugar))
