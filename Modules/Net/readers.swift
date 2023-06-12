@@ -637,26 +637,26 @@ internal class ConnectivityReader: Reader<Bool> {
     override func setup() {
         self.interval = 1
         self.addr = self.resolve()
-        self.setConn()
-        
+        self.openConn()
         self.read()
     }
     
     deinit {
-        if let source = self.socketSource {
-            CFRunLoopSourceInvalidate(source)
-            self.socketSource = nil
-        }
-        if let socket = self.socket {
-            CFSocketInvalidate(socket)
-            self.socket = nil
-        }
-        self.timeoutTimer?.invalidate()
-        self.timeoutTimer = nil
+        self.closeConn()
     }
     
     override func read() {
-        guard !self.host.isEmpty else { return }
+        guard !self.host.isEmpty else {
+            if self.socket != nil {
+                self.closeConn()
+            }
+            return
+        }
+        
+        if self.socket == nil {
+            self.setup()
+        }
+        
         if self.lastHost != self.host {
             self.addr = self.resolve()
         }
@@ -681,9 +681,7 @@ internal class ConnectivityReader: Reader<Bool> {
     }
     
     private func socketCallback(data: Data? = nil, error: CFSocketError? = nil) {
-        guard let data = data, validateResponse(data) else {
-            return
-        }
+        guard let data = data, validateResponse(data) else { return }
         
         self.status = error == nil
         self.isPinging = false
@@ -764,7 +762,7 @@ internal class ConnectivityReader: Reader<Bool> {
         return nil
     }
     
-    private func setConn() {
+    private func openConn() {
         let info = ConnectivityReaderWrapper(self)
         let unmanagedSocketInfo = Unmanaged.passRetained(info)
         var context = CFSocketContext(version: 0, info: unmanagedSocketInfo.toOpaque(), retain: nil, release: nil, copyDescription: nil)
@@ -782,6 +780,19 @@ internal class ConnectivityReader: Reader<Bool> {
         guard err == 0 else { return }
         self.socketSource = CFSocketCreateRunLoopSource(nil, self.socket, 0)
         CFRunLoopAddSource(CFRunLoopGetMain(), self.socketSource, .commonModes)
+    }
+    
+    private func closeConn() {
+        if let source = self.socketSource {
+            CFRunLoopSourceInvalidate(source)
+            self.socketSource = nil
+        }
+        if let socket = self.socket {
+            CFSocketInvalidate(socket)
+            self.socket = nil
+        }
+        self.timeoutTimer?.invalidate()
+        self.timeoutTimer = nil
     }
     
     private func resolve() -> Data? {
