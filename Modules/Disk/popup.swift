@@ -646,7 +646,7 @@ internal class LifeView: NSStackView {
         
         let title = TextView()
         title.font = NSFont.systemFont(ofSize: 11, weight: .light)
-        title.stringValue = "\(localizedString("Life")):"
+        title.stringValue = "\(localizedString("Health")):"
         title.cell?.truncatesLastVisibleLine = true
         
         self.field.font = NSFont.systemFont(ofSize: 11, weight: .regular)
