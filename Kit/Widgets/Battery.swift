@@ -207,7 +207,7 @@ public class BatteryWidget: WidgetWrapper {
                 y: batteryFrame.bounds.origin.y + (batteryFrame.bounds.height/2)
             )
             
-            let rect = CGRect(x: batteryCenter.x-2, y: batteryCenter.y-4, width: 8, height: 12)
+            let rect = CGRect(x: batteryCenter.x-3, y: batteryCenter.y-4, width: 8, height: 12)
             NSAttributedString.init(string: "?", attributes: attributes).draw(with: rect)
         }
         
