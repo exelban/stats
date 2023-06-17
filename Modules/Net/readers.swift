@@ -366,24 +366,23 @@ internal class UsageReader: Reader<Network_Usage> {
     
     private func getPublicIP() {
         struct Addr_s: Decodable {
-            let ipv4: String?
-            let ipv6: String?
+            let ip: String?
         }
         
         DispatchQueue.global(qos: .userInitiated).async {
-            let response = syncShell("curl -s -4 https://api.serhiy.io/v1/stats/ip")
+            let response = syncShell("curl -A Chrome https://api-ipv4.ip.sb/jsonip")
             if !response.isEmpty, let data = response.data(using: .utf8),
                let addr = try? JSONDecoder().decode(Addr_s.self, from: data) {
-                if let ip = addr.ipv4, self.isIPv4(ip) {
+                if let ip = addr.ip, self.isIPv4(ip) {
                     self.usage.raddr.v4 = ip
                 }
             }
         }
         DispatchQueue.global(qos: .userInitiated).async {
-            let response = syncShell("curl -s -6 https://api.serhiy.io/v1/stats/ip")
+            let response = syncShell("curl -A Chrome https://api-ipv6.ip.sb/jsonip")
             if !response.isEmpty, let data = response.data(using: .utf8),
                let addr = try? JSONDecoder().decode(Addr_s.self, from: data) {
-                if let ip = addr.ipv6, !self.isIPv4(ip) {
+                if let ip = addr.ip, !self.isIPv4(ip) {
                     self.usage.raddr.v6 = ip
                 }
             }
