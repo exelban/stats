@@ -26,8 +26,8 @@
 "Open Battery settings" = "Apri impostazioni Batteria";
 "Bluetooth" = "Bluetooth";
 "Open Bluetooth settings" = "Apri impostazioni Bluetooth";
-"Clock" = "Clock";
-"Open Clock settings" = "Open clock settings";
+"Clock" = "Orologio";
+"Open Clock settings" = "Apri impostazioni Orologio";
 
 // Words
 "Unknown" = "Sconosciuto";
@@ -53,13 +53,13 @@
 "Statistics" = "Statistiche";
 "Max" = "Max";
 "Min" = "Min";
-"Reset" = "Reset";
+"Reset" = "Resetta";
 "Alignment" = "Allineamento";
 "Left alignment" = "Sinistra";
 "Center alignment" = "Centro";
 "Right alignment" = "Destra";
 "Dashboard" = "Dashboard";
-"Enabled" = "Enabled";
+"Enabled" = "Abilitato";
 "Disabled" = "Disabilitato";
 "Silent" = "Silenzioso";
 "Units" = "Unità";
@@ -72,16 +72,16 @@
 "Cores" = "Core";
 "Settings" = "Impostazioni";
 "Name" = "Name";
-"Format" = "Format";
+"Format" = "Formato";
 
 // Setup
-"Stats Setup" = "Stats Setup";
+"Stats Setup" = "Configurazione Stats";
 "Previous" = "Precedente";
 "Previous page" = "Pagina precedente";
 "Next" = "Successivo";
 "Next page" = "Pagina successiva";
 "Finish" = "Completa";
-"Finish setup" = "Completa setup";
+"Finish setup" = "Completa configurazione";
 "Welcome to Stats" = "Benvenuto in Stats";
 "welcome_message" = "Grazie per aver scelto Stats, un sistema di monitoraggio del sistema dalla menu bar gratuito e open source per macOS.";
 "Start the application automatically when starting your Mac" = "Avvia l'applicazione automaticamente all'accensione del Mac";
@@ -173,7 +173,7 @@
 "Number of reads in the chart" = "Numero di letture nel grafico";
 "Color of download" = "Colore del download";
 "Color of upload" = "Colore dell'upload";
-"Monospaced font" = "Monospaced font";
+"Monospaced font" = "Font larghezza fissa";
 
 // Module Kit
 "Open module settings" = "Apri impostazioni modulo";
@@ -251,17 +251,17 @@
 "Total" = "Totale";
 "Used" = "Usata";
 "App" = "App";
-"Wired" = "Wired";
+"Wired" = "Cablata";
 "Compressed" = "Compressa";
 "Free" = "Libera";
 "Swap" = "Scambiata";
 "Split the value (App/Wired/Compressed)" = "Dividi il valore (App/Wired/Compressa)";
 "RAM utilization threshold" = "Soglia utilizzo RAM";
 "RAM utilization is" = "Utilizzo RAM %0";
-"App color" = "Colore app";
-"Wired color" = "Wired color";
+"App color" = "Colore App";
+"Wired color" = "Colore Cablata";
 "Compressed color" = "Colore Compressa";
-"Free color" = "Colore libera";
+"Free color" = "Colore Libera";
 
 // Disk
 "Show removable disks" = "Mostra dischi rimovibili";
@@ -272,9 +272,9 @@
 "Switch view" = "Cambia visualizzazione";
 "Disk utilization threshold" = "Soglia di utilizzo disco";
 "Disk utilization is" = "Utilizzo disco %0";
-"Read color" = "Read color";
-"Write color" = "Write color";
-"Disk usage" = "Disk usage";
+"Read color" = "Colore lettura";
+"Write color" = "Colore scrittura";
+"Disk usage" = "Utilizzo Disco";
 
 // Sensors
 "Temperature unit" = "Unità di temperatura";
@@ -324,13 +324,13 @@
 "Connectivity host (ICMP)" = "Host (ICMP)";
 "Leave empty to disable the check" = "Lascia vuoto per disattivare la verifica";
 "Transparent pictogram when no activity" = "Pittogramma trasparente in assenza di attività";
-"Connectivity history" = "Connectivity history";
-"Auto-refresh public IP address" = "Auto-refresh public IP address";
-"Every hour" = "Every hour";
-"Every 12 hours" = "Every 12 hours";
-"Every 24 hours" = "Every 24 hours";
-"Network activity" = "Network activity";
-"Last reset" = "Last reset %0 ago";
+"Connectivity history" = "Cronologia connettività";
+"Auto-refresh public IP address" = "Aggiorna automaticamente indirizzo IP pubblico";
+"Every hour" = "Ogni ora";
+"Every 12 hours" = "Ogni 12 ore";
+"Every 24 hours" = "Ogni 24 ore";
+"Network activity" = "Attività di rete";
+"Last reset" = "Ultimo reset %0 fa";
 
 // Battery
 "Level" = "Livello";
@@ -367,20 +367,20 @@
 "current / maximum / designed" = "current / massima / progettata";
 "Low power mode" = "Modalità risparmio energetico";
 "Percentage inside the icon" = "Percentuale nell'icona";
-"Colorize battery" = "Colorize battery";
+"Colorize battery" = "Colora la batteria";
 
 // Bluetooth
 "Battery to show" = "Batteria da mostrare";
 "No Bluetooth devices are available" = "Nessun dispositivo Bluetooth disponibile";
 
 // Clock
-"Time zone" = "Time zone";
-"Local" = "Local";
+"Time zone" = "Fuso Orario";
+"Local" = "Locale";
 
 // Colors
 "Based on utilization" = "Basato sull'utilizzo";
 "Based on pressure" = "Basato sulla pressione";
-"Based on cluster" = "Based on cluster";
+"Based on cluster" = "Basato sul cluster";
 "System accent" = "Accento di sistema";
 "Monochrome accent" = "Accento monocromatico";
 "Clear" = "Chiaro";
