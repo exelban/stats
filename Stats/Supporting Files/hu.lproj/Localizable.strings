@@ -26,8 +26,8 @@
 "Open Battery settings" = "Akkumulátor beállítások megnyitása";
 "Bluetooth" = "Bluetooth";
 "Open Bluetooth settings" = "Bluetooth beállítások megnyitása";
-"Clock" = "Clock";
-"Open Clock settings" = "Open clock settings";
+"Clock" = "Óra";
+"Open Clock settings" = "Óra beállításainak megnyitása";
 
 // Words
 "Unknown" = "Ismeretlen";
@@ -71,8 +71,8 @@
 "Logarithmic" = "Logaritmikus";
 "Cores" = "Magok";
 "Settings" = "Beállítások";
-"Name" = "Name";
-"Format" = "Format";
+"Name" = "Név";
+"Format" = "Formátum";
 
 // Setup
 "Stats Setup" = "A Stats beállítása";
@@ -125,15 +125,15 @@
 "Reset settings" = "Beállítások alaphelyzetbe állítása";
 "Pause the Stats" = "Stats felfüggesztése";
 "Resume the Stats" = "Stats folytatása";
-"Combined modules" = "Combined modules";
-"Spacing" = "Spacing";
+"Combined modules" = "Egyesített modulok";
+"Spacing" = "Helyköz";
 
 // Dashboard
 "Serial number" = "Sorozatszám";
 "Uptime" = "Indítás óta eltel idő";
 "Number of cores" = "%0 mag";
 "Number of threads" = "%0 szál";
-"Number of e-cores" = "%0 energia­takarékos mag";
+"Number of e-cores" = "%0 energiatakarékos mag";
 "Number of p-cores" = "%0 teljesítményre optimalizált mag";
 
 // Update
@@ -173,7 +173,7 @@
 "Number of reads in the chart" = "Értékek száma a grafikonon";
 "Color of download" = "Letöltés színe";
 "Color of upload" = "Feltöltés színe";
-"Monospaced font" = "Monospaced font";
+"Monospaced font" = "Mono betűtípus";
 
 // Module Kit
 "Open module settings" = "Modul beállításainak megnyitása";
@@ -220,9 +220,9 @@
 "System color" = "Rendszer színe";
 "User color" = "Felhasználó színe";
 "Idle color" = "Tétlenség színe";
-"Cluster grouping" = "Cluster grouping";
-"Efficiency cores color" = "Efficiency cores color";
-"Performance cores color" = "Performance cores color";
+"Cluster grouping" = "Csoportosítás";
+"Efficiency cores color" = "Energiatakarékos magok színe";
+"Performance cores color" = "Teljesítmény magok színe";
 
 // GPU
 "GPU to show" = "Megjelenítendő GPU";
@@ -272,9 +272,9 @@
 "Switch view" = "Nézet felcserélése";
 "Disk utilization threshold" = "Lemez használati küszöb";
 "Disk utilization is" = "%0 a lemez használat";
-"Read color" = "Read color";
-"Write color" = "Write color";
-"Disk usage" = "Disk usage";
+"Read color" = "Olvasás színe";
+"Write color" = "Írás színe";
+"Disk usage" = "Lemez használat";
 
 // Sensors
 "Temperature unit" = "Hőmérséklet mértékegysége";
@@ -324,13 +324,13 @@
 "Connectivity host (ICMP)" = "Kapcsolati gazdagép (ICMP)";
 "Leave empty to disable the check" = "Hagyd üresen az ellenőrzés kikapcsolásához";
 "Transparent pictogram when no activity" = "Átlátszó ikon, ha nincs forgalom";
-"Connectivity history" = "Connectivity history";
-"Auto-refresh public IP address" = "Auto-refresh public IP address";
-"Every hour" = "Every hour";
-"Every 12 hours" = "Every 12 hours";
-"Every 24 hours" = "Every 24 hours";
-"Network activity" = "Network activity";
-"Last reset" = "Last reset %0 ago";
+"Connectivity history" = "Kapcsolati előzmények";
+"Auto-refresh public IP address" = "Publikus IP cím automatikus frissítése";
+"Every hour" = "Óránként";
+"Every 12 hours" = "12 óránként";
+"Every 24 hours" = "24 óránként";
+"Network activity" = "Hálózati tevékenység";
+"Last reset" = "Utolsó visszaállítás óta eltelt idő: %0";
 
 // Battery
 "Level" = "Töltöttségi szint";
@@ -367,15 +367,15 @@
 "current / maximum / designed" = "jelenlegi / maximum / gyári";
 "Low power mode" = "Energia takarékos mód";
 "Percentage inside the icon" = "Százalék megjelenítése az ikonban";
-"Colorize battery" = "Colorize battery";
+"Colorize battery" = "Akuumlátor színezése";
 
 // Bluetooth
 "Battery to show" = "Akkumulátor megjelenítése";
 "No Bluetooth devices are available" = "Nincs elérhető Bluetooth eszköz";
 
 // Clock
-"Time zone" = "Time zone";
-"Local" = "Local";
+"Time zone" = "Időzóna";
+"Local" = "Helyi";
 
 // Colors
 "Based on utilization" = "Használat függő";
