@@ -404,7 +404,7 @@ public class SpeedWidget: WidgetWrapper {
         
         view.addArrangedSubview(selectSettingsRow(
             title: localizedString("Display mode"),
-            action: #selector(changeMode),
+            action: #selector(changeDisplayMode),
             items: SensorsWidgetMode.filter({ $0.key == "oneRow" || $0.key == "twoRows"}),
             selected: self.modeState
         ))
@@ -483,7 +483,7 @@ public class SpeedWidget: WidgetWrapper {
         return view
     }
     
-    @objc private func changeMode(_ sender: NSMenuItem) {
+    @objc private func changeDisplayMode(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String else { return }
         self.modeState = key
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_mode", value: key)

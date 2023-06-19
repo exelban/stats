@@ -281,12 +281,10 @@ internal class Settings: NSStackView, Settings_v {
         findAndToggleEnableNSControlState(self.splitValueView, state: !(self.usagePerCoreState || self.clustersGroupState))
         
         if self.clustersGroupState && self.usagePerCoreState {
-            if #available(macOS 10.15, *) {
-                findAndToggleNSControlState(self.usagePerCoreView, state: .off)
-                let toggle: NSSwitch = NSSwitch()
-                toggle.state = .off
-                self.toggleUsagePerCore(toggle)
-            }
+            findAndToggleNSControlState(self.usagePerCoreView, state: .off)
+            let toggle: NSSwitch = NSSwitch()
+            toggle.state = .off
+            self.toggleUsagePerCore(toggle)
         }
         
         self.callback()

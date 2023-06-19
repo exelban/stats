@@ -137,7 +137,7 @@ public class StackWidget: WidgetWrapper {
     
     private func drawOneRow(_ x: CGFloat, _ element: Stack_t) -> CGFloat {
         var font: NSFont
-        if #available(macOS 10.15, *), self.monospacedFontState {
+        if self.monospacedFontState {
             font = NSFont.monospacedDigitSystemFont(ofSize: 13, weight: .regular)
         } else {
             font = NSFont.systemFont(ofSize: 13, weight: .regular)
@@ -166,7 +166,7 @@ public class StackWidget: WidgetWrapper {
         let rowHeight: CGFloat = self.frame.height / 2
         
         var font: NSFont
-        if #available(macOS 10.15, *), self.monospacedFontState {
+        if self.monospacedFontState {
             font = NSFont.monospacedDigitSystemFont(ofSize: 10, weight: .light)
         } else {
             font = NSFont.systemFont(ofSize: 10, weight: .light)
@@ -233,7 +233,7 @@ public class StackWidget: WidgetWrapper {
         
         view.addArrangedSubview(selectSettingsRow(
             title: localizedString("Display mode"),
-            action: #selector(changeMode),
+            action: #selector(changeDisplayMode),
             items: SensorsWidgetMode,
             selected: self.modeState.rawValue
         ))
@@ -246,20 +246,18 @@ public class StackWidget: WidgetWrapper {
             ))
         }
         
-        if #available(macOS 10.15, *) {
-            view.addArrangedSubview(toggleSettingRow(
-                title: localizedString("Monospaced font"),
-                action: #selector(toggleMonospacedFont),
-                state: self.monospacedFontState
-            ))
-        }
+        view.addArrangedSubview(toggleSettingRow(
+            title: localizedString("Monospaced font"),
+            action: #selector(toggleMonospacedFont),
+            state: self.monospacedFontState
+        ))
         
         view.addArrangedSubview(self.orderTableView)
         
         return view
     }
     
-    @objc private func changeMode(_ sender: NSMenuItem) {
+    @objc private func changeDisplayMode(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String else { return }
         self.modeState = StackMode(rawValue: key) ?? .auto
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_mode", value: key)

@@ -19,20 +19,20 @@ brew install stats
 ```
 
 ## Requirements
-Stats is currently supported on macOS 10.14 (Mojave) and higher.
+Stats is supported on the released macOS version starting from macOS 10.15 (Catalina).
 
 ## Features
 Stats is an application that allows you to monitor your macOS system.
 
- - Battery level
- - Bluetooth devices
  - CPU utilization
- - Disk utilization
- - Fan/s control
  - GPU utilization
  - Memory usage
+ - Disk utilization
  - Network usage
+ - Battery level
+ - Fan's control
  - Sensors information (Temperature/Voltage/Power)
+ - Bluetooth devices
  - Multiple time zone clock
 
 ## FAQs
