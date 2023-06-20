@@ -193,7 +193,7 @@ extension Color: CaseIterable {
     public static var indigo: Color { if #available(OSX 10.15, *) {
         return Color(key: "indigo", value: "Indigo", additional: NSColor.systemIndigo)
     } else {
-        return Color(key: "indigo", value: "Indigo", additional: NSColor(hexString: "#4B0082"))
+        return Color(key: "indigo", value: "Indigo", additional: NSColor(red: 75, green: 0, blue: 130, alpha: 1))
     } }
     
     public static var allCases: [Color] {

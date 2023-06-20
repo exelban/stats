@@ -277,7 +277,7 @@ class WidgetSelectorView: NSStackView {
         let separator = NSView()
         separator.identifier = NSUserInterfaceItemIdentifier(rawValue: "separator")
         separator.wantsLayer = true
-        separator.layer?.backgroundColor = NSColor(hexString: "#d5d5d5").cgColor
+        separator.layer?.backgroundColor = NSColor(red: 213/255, green: 213/255, blue: 213/255, alpha: 1).cgColor
         self.addArrangedSubview(separator)
         
         inactive.forEach { (widget: WidgetPreview) in
@@ -414,7 +414,7 @@ internal class WidgetPreview: NSStackView {
         
         self.wantsLayer = true
         self.layer?.cornerRadius = 2
-        self.layer?.borderColor = NSColor(hexString: "#dddddd").cgColor
+        self.layer?.borderColor = NSColor(red: 221/255, green: 221/255, blue: 221/255, alpha: 1).cgColor
         self.layer?.borderWidth = 1
         self.layer?.backgroundColor = NSColor.white.cgColor
         
