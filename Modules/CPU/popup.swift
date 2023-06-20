@@ -245,7 +245,7 @@ internal class Popup: PopupWrapper {
                 x: Constants.Popup.spacing,
                 y: Constants.Popup.spacing,
                 width: view.frame.width - (Constants.Popup.spacing*2),
-                height: box.frame.height - (Constants.Popup.spacing*2)
+                height: box.frame.height - Constants.Popup.spacing
             ), num: 120)
             chart.color = self.chartColor
             self.lineChart = chart
