@@ -558,15 +558,20 @@ let deviceDict: [String: model_s] = [
     "Macmini7,1": model_s(name: "Mac mini", year: 2014, type: .macMini),
     "Macmini8,1": model_s(name: "Mac mini", year: 2018, type: .macMini),
     "Macmini9,1": model_s(name: "Mac mini (M1)", year: 2020, type: .macMini),
+    "Mac14,3": model_s(name: "Mac mini (M2)", year: 2023, type: .macMini),
+    "Mac14,12": model_s(name: "Mac mini (M2 Pro)", year: 2023, type: .macMini),
     
     // Mac Studio
     "Mac13,1": model_s(name: "Mac Studio (M1 Max)", year: 2022, type: .macStudio),
     "Mac13,2": model_s(name: "Mac Studio (M1 Ultra)", year: 2022, type: .macStudio),
+    "Mac14,13": model_s(name: "Mac Studio (M2 Max)", year: 2023, type: .macStudio),
+    "Mac14,14": model_s(name: "Mac Studio (M2 Ultra)", year: 2023, type: .macStudio),
     
     // Mac Pro
     "MacPro5,1": model_s(name: "Mac Pro", year: 2010, type: .macPro),
     "MacPro6,1": model_s(name: "Mac Pro", year: 2016, type: .macPro),
     "MacPro7,1": model_s(name: "Mac Pro", year: 2019, type: .macPro),
+    "Mac14,8": model_s(name: "Mac Pro (M2 Ultra)", year: 2023, type: .macPro),
     
     // iMac
     "iMac12,1": model_s(name: "iMac 27-Inch", year: 2011, type: .iMac),
@@ -604,6 +609,7 @@ let deviceDict: [String: model_s] = [
     "MacBookAir9,1": model_s(name: "MacBook Air 13\"", year: 2020, type: .macbookAir),
     "MacBookAir10,1": model_s(name: "MacBook Air 13\" (M1)", year: 2020, type: .macbookAir),
     "Mac14,2": model_s(name: "MacBook Air 13\" (M2)", year: 2022, type: .macbookAir),
+    "Mac14,15": model_s(name: "MacBook Air 15\" (M2)", year: 2022, type: .macbookAir),
     
     // MacBook Pro
     "MacBookPro9,1": model_s(name: "MacBook Pro 15\"", year: 2012, type: .macbookPro),
