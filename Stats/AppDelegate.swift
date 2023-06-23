@@ -33,6 +33,7 @@ var modules: [Module] = [
     Bluetooth(),
     Clock()
 ]
+let telemetry: Telemetry = Telemetry(&modules)
 
 @main
 class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDelegate {
