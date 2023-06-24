@@ -92,6 +92,9 @@
 "Check for a new version every week (once a week)" = "Güncellemeleri haftada bir defa denetle";
 "Check for a new version every month (once a month)" = "Güncellemeleri ayda bir defa denetle";
 "Never check for updates (not recommended)" = "Güncellemeleri denetleme (önerilmez)";
+"Anonymous telemetry for better development decisions" = "Anonymous telemetry for better development decisions";
+"Share anonymous telemetry data" = "Share anonymous telemetry data";
+"Do not share anonymous telemetry data" = "Do not share anonymous telemetry data";
 "The configuration is completed" = "Konfigürasyon tamamlandı";
 "finish_setup_message" = "Her şey hazur! \n Stats açık kaynaklı bir araçtır, Ücretsiz ve hep öyle kalacak. \n Beğendiyseniz projeyi destekleyebilirsiniz, Teşekkürler!";
 
@@ -127,6 +130,7 @@
 "Resume the Stats" = "Stats'ı Sürdür";
 "Combined modules" = "Combined modules";
 "Spacing" = "Spacing";
+"Share anonymous telemetry" = "Share anonymous telemetry";
 
 // Dashboard
 "Serial number" = "Seri numarası";
@@ -184,9 +188,10 @@
 "Details" = "Detaylar";
 "Top processes" = "İşlemler";
 "Pictogram" = "Piktogram";
-"Module settings" = "Modül ayarları";
-"Widget settings" = "Widget ayarları";
-"Popup settings" = "Pop-up ayarları";
+"Module" = "Modül";
+"Widgets" = "Widgets";
+"Popup" = "Pop-up";
+"Notifications" = "Bildirimler";
 "Merge widgets" = "Widget'ları birleştir";
 "No available widgets to configure" = "Yapılandırılacak kullanılabilir widget yok";
 "No options to configure for the popup in this module" = "Bu modülde açılır pencere için yapılandırma seçeneği yok";

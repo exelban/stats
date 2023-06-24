@@ -92,6 +92,9 @@
 "Check for a new version every week (once a week)" = "Vérifier s'il existe une nouvelle version toutes les semaines (une fois par semaine)";
 "Check for a new version every month (once a month)" = "Vérifier s'il existe une nouvelle version tous les mois (une fois par mois)";
 "Never check for updates (not recommended)" = "Ne jamais vérifier les mises à jour (non recommandé)";
+"Anonymous telemetry for better development decisions" = "Anonymous telemetry for better development decisions";
+"Share anonymous telemetry data" = "Share anonymous telemetry data";
+"Do not share anonymous telemetry data" = "Do not share anonymous telemetry data";
 "The configuration is completed" = "La configuration est terminée";
 "finish_setup_message" = "Tout est prêt ! \n Stats est un outil open source, gratuit et le restera toujours. \n Si vous appréciez ce projet, vous pouvez le soutenir, cela sera toujours apprécié !";
 
@@ -127,6 +130,7 @@
 "Resume the Stats" = "Reprendre Stats";
 "Combined modules" = "Modules combinés";
 "Spacing" = "Espacement";
+"Share anonymous telemetry" = "Share anonymous telemetry";
 
 // Dashboard
 "Serial number" = "Numéro de série";
@@ -184,9 +188,10 @@
 "Details" = "Détails";
 "Top processes" = "Processus principaux";
 "Pictogram" = "Pictogramme";
-"Module settings" = "Paramètres du module";
-"Widget settings" = "Paramètres du widget";
-"Popup settings" = "Paramètres de la fenêtre contextuelle";
+"Module" = "Module";
+"Widgets" = "Widgets";
+"Popup" = "Surgir";
+"Notifications" = "Avis";
 "Merge widgets" = "Fusionner les widgets";
 "No available widgets to configure" = "Aucun widget disponible à configurer";
 "No options to configure for the popup in this module" = "Aucune option à configurer pour la fenêtre contextuelle dans ce module";

@@ -92,6 +92,9 @@
 "Check for a new version every week (once a week)" = "Kontrola novej verzie každý týždeň (raz týždenne)";
 "Check for a new version every month (once a month)" = "Kontrola novej verzie každý mesiac (raz mesačne)";
 "Never check for updates (not recommended)" = "Nikdy nekontrolovať aktualizácie (neodporúča sa)";
+"Anonymous telemetry for better development decisions" = "Anonymous telemetry for better development decisions";
+"Share anonymous telemetry data" = "Share anonymous telemetry data";
+"Do not share anonymous telemetry data" = "Do not share anonymous telemetry data";
 "The configuration is completed" = "Konfigurácia je dokončená";
 "finish_setup_message" = "Všetko je pripravené! \n Stats je open source nástroj, který je zadarmo a vždy bude. \n Ak sa vám páči, môžete projekt podporiť, ceníme si to!";
 
@@ -127,6 +130,7 @@
 "Resume the Stats" = "Obnoviť Stats";
 "Combined modules" = "Kombinovať moduly";
 "Spacing" = "Spacing";
+"Share anonymous telemetry" = "Share anonymous telemetry";
 
 // Dashboard
 "Serial number" = "Sériové číslo";
@@ -173,7 +177,7 @@
 "Number of reads in the chart" = "Počet záznamov v grafe";
 "Color of download" = "Farba sťahovania (download)";
 "Color of upload" = "Farba nahrávania (upload)";
-"Monospaced font" = "Monospaced font";
+"Monospaced font" = "Nerozložené písmo";
 
 // Module Kit
 "Open module settings" = "Otvoriť nastavenia modulu";
@@ -184,9 +188,10 @@
 "Details" = "Detaily";
 "Top processes" = "Top procesy";
 "Pictogram" = "Piktogram";
-"Module settings" = "Nastavenia modulu";
-"Widget settings" = "Nastavenia widgetu";
-"Popup settings" = "Nastavenia vyskakovacieho okna";
+"Module" = "Modul";
+"Widgets" = "Miniaplikácie";
+"Popup" = "Objaviť sa";
+"Notifications" = "Upozornenia";
 "Merge widgets" = "Zlúčiť widgety";
 "No available widgets to configure" = "Žiadne dostupné widgety na konfiguráciu";
 "No options to configure for the popup in this module" = "Žiadne možnosti konfigurácie vyskakovacieho okna v tomto module";

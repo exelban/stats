@@ -92,6 +92,9 @@
 "Check for a new version every week (once a week)" = "Check for a new version every week (once a week)";
 "Check for a new version every month (once a month)" = "Check for a new version every month (once a month)";
 "Never check for updates (not recommended)" = "Never check for updates (not recommended)";
+"Anonymous telemetry for better development decisions" = "Anonymous telemetry for better development decisions";
+"Share anonymous telemetry data" = "Share anonymous telemetry data";
+"Do not share anonymous telemetry data" = "Do not share anonymous telemetry data";
 "The configuration is completed" = "The configuration is completed";
 "finish_setup_message" = "Everything is set up! \n The Stats is an open source tool, it's free and always will be. \n If you enjoy it you can support a project, it's always appreciated!";
 
@@ -127,6 +130,7 @@
 "Resume the Stats" = "Resume the Stats";
 "Combined modules" = "Combined modules";
 "Spacing" = "Spacing";
+"Share anonymous telemetry" = "Share anonymous telemetry";
 
 // Dashboard
 "Serial number" = "Serienummer";
@@ -173,7 +177,7 @@
 "Number of reads in the chart" = "Aantal keer gelezen in de grafiek";
 "Color of download" = "Kleur van download";
 "Color of upload" = "Kleur van upload";
-"Monospaced font" = "Monospaced font";
+"Monospaced font" = "Monospaced lettertype";
 
 // Module Kit
 "Open module settings" = "Open module-instellingen";
@@ -184,18 +188,19 @@
 "Details" = "Details";
 "Top processes" = "Topprocessen";
 "Pictogram" = "Pictogram";
-"Module settings" = "Module settings";
-"Widget settings" = "Widget settings";
-"Popup settings" = "Popup settings";
-"Merge widgets" = "Merge widgets";
-"No available widgets to configure" = "No available widgets to configure";
-"No options to configure for the popup in this module" = "No options to configure for the popup in this module";
+"Module" = "Module";
+"Widgets" = "Widgets";
+"Popup" = "Pop-up";
+"Notifications" = "Meddelelser";
+"Merge widgets" = "Widgets samenvoegen";
+"No available widgets to configure" = "Geen beschikbare widgets om te configureren";
+"No options to configure for the popup in this module" = "Meervoudige configuratie voor pop-op-vinduet en deze module";
 
 // Modules
 "Number of top processes" = "Aantal topprocessen";
 "Update interval for top processes" = "Bewerk interval voor top processen";
-"Notification level" = "Notification level";
-"Chart color" = "Chart color";
+"Notification level" = "Meldingsniveau";
+"Chart color" = "Kortfarve";
 
 // CPU
 "CPU usage" = "CPU gebruik";

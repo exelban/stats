@@ -92,6 +92,9 @@
 "Check for a new version every week (once a week)" = "Check for a new version every week (once a week)";
 "Check for a new version every month (once a month)" = "Check for a new version every month (once a month)";
 "Never check for updates (not recommended)" = "Never check for updates (not recommended)";
+"Anonymous telemetry for better development decisions" = "Anonymous telemetry for better development decisions";
+"Share anonymous telemetry data" = "Share anonymous telemetry data";
+"Do not share anonymous telemetry data" = "Do not share anonymous telemetry data";
 "The configuration is completed" = "The configuration is completed";
 "finish_setup_message" = "Everything is set up! \n The Stats is an open source tool, it's free and always will be. \n If you enjoy it you can support a project, it's always appreciated!";
 
@@ -127,6 +130,7 @@
 "Resume the Stats" = "Resume the Stats";
 "Combined modules" = "Combined modules";
 "Spacing" = "Spacing";
+"Share anonymous telemetry" = "Share anonymous telemetry";
 
 // Dashboard
 "Serial number" = "シリアル番号";
@@ -173,7 +177,7 @@
 "Number of reads in the chart" = "読み取り回数のチャート";
 "Color of download" = "ダウンロードの色";
 "Color of upload" = "アップロードの色";
-"Monospaced font" = "Monospaced font";
+"Monospaced font" = "等幅フォント";
 
 // Module Kit
 "Open module settings" = "このモジュールの設定を開く";
@@ -184,18 +188,19 @@
 "Details" = "詳細";
 "Top processes" = "上位のプロセス";
 "Pictogram" = "ピクトグラム";
-"Module settings" = "モジュールの設定";
-"Widget settings" = "ウィジェットの設定";
-"Popup settings" = "Popup settings";
-"Merge widgets" = "Merge widgets";
-"No available widgets to configure" = "No available widgets to configure";
-"No options to configure for the popup in this module" = "No options to configure for the popup in this module";
+"Module" = "モジュール";
+"Widgets" = "ウィジェット";
+"Popup" = "現れる";
+"Notifications" = "通知";
+"Merge widgets" = "ウィジェットを結合する";
+"No available widgets to configure" = "設定できるウィジェットがありません";
+"No options to configure for the popup in this module" = "このモジュールにはポップアップ用に設定するオプションはありません";
 
 // Modules
 "Number of top processes" = "表示する上位プロセスの数";
 "Update interval for top processes" = "上位プロセスの更新間隔";
-"Notification level" = "Notification level";
-"Chart color" = "Chart color";
+"Notification level" = "通知レベル";
+"Chart color" = "チャートの色";
 
 // CPU
 "CPU usage" = "CPU 使用率";

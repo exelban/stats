@@ -384,8 +384,8 @@ private class SetupView_4: NSStackView {
         let title: NSTextField = TextView(frame: NSRect(x: 0, y: 0, width: container.frame.width, height: 22))
         title.alignment = .center
         title.font = NSFont.systemFont(ofSize: 20, weight: .semibold)
-        title.stringValue = localizedString("Share anonymous telemetry for better development decisions")
-        title.toolTip = localizedString("Share anonymous telemetry for better development decisions")
+        title.stringValue = localizedString("Anonymous telemetry for better development decisions")
+        title.toolTip = localizedString("Anonymous telemetry for better development decisions")
         title.isSelectable = false
         
         container.addRow(with: [title])

@@ -92,6 +92,9 @@
 "Check for a new version every week (once a week)" = "Se etter ny versjon én gang hver uke";
 "Check for a new version every month (once a month)" = "Se etter ny versjon én gang hver måned";
 "Never check for updates (not recommended)" = "Aldri se etter ny versjon (ikke anbefalt)";
+"Anonymous telemetry for better development decisions" = "Anonymous telemetry for better development decisions";
+"Share anonymous telemetry data" = "Share anonymous telemetry data";
+"Do not share anonymous telemetry data" = "Do not share anonymous telemetry data";
 "The configuration is completed" = "Konfigurasjonen er fullført";
 "finish_setup_message" = "Alt er satt opp! \n Stats er et fritt tilgjengelig verktøy, det er gratis og vil alltid være det. \n Hvis du liker Stats, kan du støtte prosjektet, det settes veldig pris på!";
 
@@ -127,6 +130,7 @@
 "Resume the Stats" = "Gjenoppta Stats";
 "Combined modules" = "Combined modules";
 "Spacing" = "Spacing";
+"Share anonymous telemetry" = "Share anonymous telemetry";
 
 // Dashboard
 "Serial number" = "Serienummer";
@@ -184,9 +188,10 @@
 "Details" = "Detaljer";
 "Top processes" = "Topp-prosesser";
 "Pictogram" = "Piktogram";
-"Module settings" = "Modulinnstillinger";
-"Widget settings" = "Diagraminnstillinger";
-"Popup settings" = "Popup-innstillinger";
+"Module" = "Modul";
+"Widgets" = "Widgets";
+"Popup" = "Popup";
+"Notifications" = "Varsler";
 "Merge widgets" = "Slå sammen diagrammer";
 "No available widgets to configure" = "Ingen tilgjengelige diagrammer å konfigurere";
 "No options to configure for the popup in this module" = "Ingen innstillinger å konfigurere for popup-en i denne modulen";

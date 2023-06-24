@@ -74,7 +74,7 @@ open class Settings: NSStackView, Settings_p {
         tabView.tabViewBorderType = .line
         
         let moduleTab: NSTabViewItem = NSTabViewItem()
-        moduleTab.label = localizedString("Module settings")
+        moduleTab.label = localizedString("Module")
         moduleTab.view = {
             let container = NSStackView()
             container.translatesAutoresizingMaskIntoConstraints = false
@@ -88,7 +88,7 @@ open class Settings: NSStackView, Settings_p {
         }()
         
         let widgetTab: NSTabViewItem = NSTabViewItem()
-        widgetTab.label = localizedString("Widget settings")
+        widgetTab.label = localizedString("Widgets")
         widgetTab.view = {
             let view = ScrollableStackView(frame: tabView.frame)
             view.stackView.spacing = 0
@@ -98,7 +98,7 @@ open class Settings: NSStackView, Settings_p {
         }()
         
         let popupTab: NSTabViewItem = NSTabViewItem()
-        popupTab.label = localizedString("Popup settings")
+        popupTab.label = localizedString("Popup")
         popupTab.view = {
             let view = ScrollableStackView(frame: tabView.frame)
             view.stackView.spacing = 0

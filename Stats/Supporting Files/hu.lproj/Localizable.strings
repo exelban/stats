@@ -92,6 +92,9 @@
 "Check for a new version every week (once a week)" = "Új verzió keresése minden héten (heti egyszer)";
 "Check for a new version every month (once a month)" = "Új verzió keresése minden hónapban (havi egyszer)";
 "Never check for updates (not recommended)" = "Ne keressen frissítéseket (nem ajánlott)";
+"Anonymous telemetry for better development decisions" = "Anonymous telemetry for better development decisions";
+"Share anonymous telemetry data" = "Share anonymous telemetry data";
+"Do not share anonymous telemetry data" = "Do not share anonymous telemetry data";
 "The configuration is completed" = "A konfiguráció befejezve";
 "finish_setup_message" = "Minden beállítva!\nA Stats egy nyílt forráskódú eszköz, ami ingyenes és az is marad.\nHa hasznosnak találod, támogathatod a fejlesztését, mindig nagyra értékeljük!";
 
@@ -127,6 +130,7 @@
 "Resume the Stats" = "Stats folytatása";
 "Combined modules" = "Egyesített modulok";
 "Spacing" = "Helyköz";
+"Share anonymous telemetry" = "Share anonymous telemetry";
 
 // Dashboard
 "Serial number" = "Sorozatszám";
@@ -184,9 +188,10 @@
 "Details" = "Részletek";
 "Top processes" = "Top folyamatok";
 "Pictogram" = "Piktogram";
-"Module settings" = "Modul beállítások";
-"Widget settings" = "Widget beállítások";
-"Popup settings" = "Lenyíló ablak beállításai";
+"Module" = "Modul";
+"Widgets" = "Widgetek";
+"Popup" = "Felugrik";
+"Notifications" = "Értesítések";
 "Merge widgets" = "Widgetek egyesítése";
 "No available widgets to configure" = "Nincs elérhető widget a beállításhoz";
 "No options to configure for the popup in this module" = "A modul lenyíló ablakához nem tartozik beállítás";

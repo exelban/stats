@@ -92,6 +92,9 @@
 "Check for a new version every week (once a week)" = "Проверять наличие новой версии каждую неделю (раз в неделю)";
 "Check for a new version every month (once a month)" = "Проверять наличие новой версии каждый месяц (раз в месяц)";
 "Never check for updates (not recommended)" = "Никогда не проверять наличие обновлений (не рекомендуется)";
+"Anonymous telemetry for better development decisions" = "Анонимная телеметрия для принятия лучших решений при разработке";
+"Share anonymous telemetry data" = "Делится анонимными данными телеметрии";
+"Do not share anonymous telemetry data" = "Не передавайте анонимные данные телеметрии";
 "The configuration is completed" = "Настройка завершена";
 "finish_setup_message" = "Все готово! \n Stats — это инструмент с открытым исходным кодом, он бесплатный и всегда будет бесплатным. \n Если вам нравится, вы можете поддержать проект, это всегда ценно!";
 
@@ -127,6 +130,7 @@
 "Resume the Stats" = "Возобновить Stats";
 "Combined modules" = "Комбинированные модули";
 "Spacing" = "Интервал";
+"Share anonymous telemetry" = "Делится анонимной телеметрией";
 
 // Dashboard
 "Serial number" = "Серийный номер";
@@ -184,9 +188,10 @@
 "Details" = "Подробности";
 "Top processes" = "Топ процессы";
 "Pictogram" = "Пиктограмма";
-"Module settings" = "Настройки модуля";
-"Widget settings" = "Настройки виджета";
-"Popup settings" = "Настройки всплывающего окна";
+"Module" = "Модуль";
+"Widgets" = "Виджеты";
+"Popup" = "Всплывающее окно";
+"Notifications" = "Уведомления";
 "Merge widgets" = "Объединить виджеты";
 "No available widgets to configure" = "Нет доступных виджетов для настройки";
 "No options to configure for the popup in this module" = "Нет параметров для настройки всплывающего окна в этом модуле";
