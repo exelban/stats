@@ -92,9 +92,9 @@
 "Check for a new version every week (once a week)" = "每周检查一次新版本（一周一次）";
 "Check for a new version every month (once a month)" = "每月检查一次新版本（一月一次）";
 "Never check for updates (not recommended)" = "不要检查更新（不推荐）";
-"Anonymous telemetry for better development decisions" = "Anonymous telemetry for better development decisions";
-"Share anonymous telemetry data" = "Share anonymous telemetry data";
-"Do not share anonymous telemetry data" = "Do not share anonymous telemetry data";
+"Anonymous telemetry for better development decisions" = "匿名诊断数据将用于改善开发决策";
+"Share anonymous telemetry data" = "分享匿名诊断数据";
+"Do not share anonymous telemetry data" = "不分享匿名诊断数据";
 "The configuration is completed" = "配置完成";
 "finish_setup_message" = "设置完成！Stats 是一个开源且永远免费的工具。如果你喜欢它，你可以支持这个项目，非常感谢!";
 
@@ -130,7 +130,7 @@
 "Resume the Stats" = "恢复 Stats";
 "Combined modules" = "合并模块";
 "Spacing" = "间距";
-"Share anonymous telemetry" = "Share anonymous telemetry";
+"Share anonymous telemetry" = "分享匿名诊断数据";
 
 // Dashboard
 "Serial number" = "序列号";
@@ -189,7 +189,7 @@
 "Top processes" = "高占用进程";
 "Pictogram" = "标识";
 "Module" = "模块";
-"Widgets" = "小部件";
+"Widgets" = "小组件";
 "Popup" = "弹出窗口";
 "Notifications" = "通知";
 "Merge widgets" = "合并组件";
