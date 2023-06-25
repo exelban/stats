@@ -92,6 +92,9 @@
 "Check for a new version every week (once a week)" = "Проверяване за нова версия всяка седмица (веднъж на седмица)";
 "Check for a new version every month (once a month)" = "Проверяване за нова версия всеки месец (веднъж на месец)";
 "Never check for updates (not recommended)" = "Без проверяване за нови версии (не се препоръчва)";
+"Anonymous telemetry for better development decisions" = "Anonymous telemetry for better development decisions";
+"Share anonymous telemetry data" = "Share anonymous telemetry data";
+"Do not share anonymous telemetry data" = "Do not share anonymous telemetry data";
 "The configuration is completed" = "Конфигурацията е завършена";
 "finish_setup_message" = "Всичко е настроено! \n Stats е приложение с отворен код, безплатно е и винаги ще бъде. \n Ако ви допада, може да подкрепите проекта, ще сме много благодарни!";
 
@@ -127,6 +130,7 @@
 "Resume the Stats" = "Продължаване на Stats";
 "Combined modules" = "Combined modules";
 "Spacing" = "Spacing";
+"Share anonymous telemetry" = "Share anonymous telemetry";
 
 // Dashboard
 "Serial number" = "Сериен номер";
@@ -184,9 +188,10 @@
 "Details" = "Подробности";
 "Top processes" = "Топ процеси";
 "Pictogram" = "Пиктограма";
-"Module settings" = "Настройки на модула";
-"Widget settings" = "Настройки на уиджет";
-"Popup settings" = "Настройки на изскачащият прозорец";
+"Module" = "Модул";
+"Widgets" = "Джаджи";
+"Popup" = "Изскачащ прозорец";
+"Notifications" = "Известия";
 "Merge widgets" = "Сливане на уиджети";
 "No available widgets to configure" = "Няма налични уиджети за конфигуриране";
 "No options to configure for the popup in this module" = "Няма опции за конфигуриране за изскачащият прозорец в този модул";

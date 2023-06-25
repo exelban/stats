@@ -92,6 +92,9 @@
 "Check for a new version every week (once a week)" = "Sprawdzaj nową wersję co tydzień (raz w tygodniu)";
 "Check for a new version every month (once a month)" = "Sprawdzaj nową wersję co miesiąc (raz w miesiącu)";
 "Never check for updates (not recommended)" = "Nigdy nie sprawdzaj czy są aktualizacje (niezalecane)";
+"Anonymous telemetry for better development decisions" = "Anonimowe dane telemetryczne aby podejmować lepsze decyzje rozwojowe";
+"Share anonymous telemetry data" = "Udostępniaj anonimowe dane telemetryczne";
+"Do not share anonymous telemetry data" = "Nie udostępniaj anonimowych danych telemetrycznych";
 "The configuration is completed" = "Konfiguracja zakończona";
 "finish_setup_message" = "Wszystko gotowe! \n Stats to narzędzie open source, które jest bezpłatne i zawsze takie będzie. \n Jeśli Ci się spodoba, możesz wesprzeć projekt, to jest zawsze mile widziane!";
 
@@ -127,6 +130,7 @@
 "Resume the Stats" = "Wznów Stats";
 "Combined modules" = "Połączone moduły";
 "Spacing" = "Rozstaw";
+"Share anonymous telemetry" = "Udostępnij anonimową telemetrię";
 
 // Dashboard
 "Serial number" = "Numer seryjny";
@@ -184,9 +188,10 @@
 "Details" = "Szczegóły";
 "Top processes" = "Top procesy";
 "Pictogram" = "Ikonka";
-"Module settings" = "Ustawienia modułu";
-"Widget settings" = "Ustawienia widżetu";
-"Popup settings" = "Ustawienia okienka";
+"Module" = "Moduł";
+"Widgets" = "Widżety";
+"Popup" = "Okienko";
+"Notifications" = "Powiadomienia";
 "Merge widgets" = "Pąłącz widżety";
 "No available widgets to configure" = "Brak dostępnych widżetów do konfiguracji";
 "No options to configure for the popup in this module" = "Brak opcji do skonfigurowania dla okienka w tym module";

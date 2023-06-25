@@ -92,6 +92,9 @@
 "Check for a new version every week (once a week)" = "Za novo različico preveri vsak teden (enkrat na teden)";
 "Check for a new version every month (once a month)" = "Za novo različico preveri vsak mesec (enkrat na mesec)";
 "Never check for updates (not recommended)" = "Nikoli ne preverjaj ali so na voljo nove posodobitve (ni priporočljivo)";
+"Anonymous telemetry for better development decisions" = "Anonymous telemetry for better development decisions";
+"Share anonymous telemetry data" = "Share anonymous telemetry data";
+"Do not share anonymous telemetry data" = "Do not share anonymous telemetry data";
 "The configuration is completed" = "Konfiguracija je zaključena";
 "finish_setup_message" = "Vse je pripravljeno! \n Stats je odprtokodno orodje katero je brezplačno in vedno bo. \Če vam je všeč, lahko projekt podprete, kar je vedno dobrodošlo!";
 
@@ -127,6 +130,7 @@
 "Resume the Stats" = "Nadaljuj z izvajanjem Stats";
 "Combined modules" = "Združeni moduli";
 "Spacing" = "Razmik";
+"Share anonymous telemetry" = "Share anonymous telemetry";
 
 // Dashboard
 "Serial number" = "Serijska številka";
@@ -184,9 +188,10 @@
 "Details" = "Podrobnosti";
 "Top processes" = "Glavni procesi";
 "Pictogram" = "Piktogram";
-"Module settings" = "Nastavitve modulov";
-"Widget settings" = "Nastavitve pripomočkov";
-"Popup settings" = "Nastavitve pojavnega okna";
+"Module" = "Modul";
+"Widgets" = "Pripomočki";
+"Popup" = "Pojavno okno";
+"Notifications" = "Obvestila";
 "Merge widgets" = "Združevanje pripomočkov";
 "No available widgets to configure" = "Ni razpoložljivih pripomočkov za konfiguracijo";
 "No options to configure for the popup in this module" = "V tem modulu ni možnosti za konfiguracijo pojavnega okna";

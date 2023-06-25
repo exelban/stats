@@ -92,6 +92,9 @@
 "Check for a new version every week (once a week)" = "بررسی هفتگی برای نسخه جدید (هفته‌ای یک بار)";
 "Check for a new version every month (once a month)" = "بررسی ماهانه برای نسخه جدید (ماهی یک بار)";
 "Never check for updates (not recommended)" = "هیچ وقت نسخه‌ی جدید بررسی نشود (پیشنهاد نمی‌شود)";
+"Anonymous telemetry for better development decisions" = "Anonymous telemetry for better development decisions";
+"Share anonymous telemetry data" = "Share anonymous telemetry data";
+"Do not share anonymous telemetry data" = "Do not share anonymous telemetry data";
 "The configuration is completed" = "پیکربندی کامل شد";
 "finish_setup_message" = "همه چیز آماده است! \n Stats یک ابزار متن باز رایگان است و همیشه رایگان خواهد بود \n اگر از این پروژه راضی بودید می‌توانید از ما حمایت کنید";
 
@@ -127,6 +130,7 @@
 "Resume the Stats" = "ادامه‌ی کار Stats";
 "Combined modules" = "Combined modules";
 "Spacing" = "Spacing";
+"Share anonymous telemetry" = "Share anonymous telemetry";
 
 // Dashboard
 "Serial number" = "سریال نامبر";
@@ -184,9 +188,10 @@
 "Details" = "جزئیات";
 "Top processes" = "بیشترین پردازش‌ها";
 "Pictogram" = "پیکتوگرام";
-"Module settings" = "تنظیمات ماژول";
-"Widget settings" = "تنظیمات ویجت";
-"Popup settings" = "تنظیمان پاپ‌آپ";
+"Module" = "مدول";
+"Widgets" = "بزارک ها";
+"Popup" = "پنجره بازشو";
+"Notifications" = "اطلاعیه";
 "Merge widgets" = "ادغام ویجت‌ها";
 "No available widgets to configure" = "ویجتی برای پیکربندی در دسترس نیست";
 "No options to configure for the popup in this module" = "در این ماژول تنظیمی برای پاپ‌آپ موجود نیست";

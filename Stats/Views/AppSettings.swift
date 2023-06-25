@@ -49,6 +49,7 @@ class ApplicationSettings: NSStackView {
     private var startAtLoginBtn: NSButton?
     private var uninstallHelperButton: NSButton?
     private var buttonsContainer: NSStackView?
+    private var telemetryBtn: NSButton?
     
     private var combinedModules: NSView?
     private var combinedModulesSeparator: NSView?
@@ -88,6 +89,7 @@ class ApplicationSettings: NSStackView {
     
     public func viewWillAppear() {
         self.startAtLoginBtn?.state = LaunchAtLogin.isEnabled ? .on : .off
+        self.telemetryBtn?.state = telemetry.isEnabled ? .on : .off
         
         var idx = self.updateSelector?.indexOfSelectedItem ?? 0
         if let items = self.updateSelector?.menu?.items {
@@ -202,6 +204,14 @@ class ApplicationSettings: NSStackView {
             text: localizedString("Start at login")
         )
         grid.addRow(with: [NSGridCell.emptyContentView, self.startAtLoginBtn!])
+        
+        self.telemetryBtn = self.toggleView(
+            action: #selector(self.toggleTelemetry),
+            state: telemetry.isEnabled,
+            text: localizedString("Share anonymous telemetry")
+        )
+        grid.addRow(with: [NSGridCell.emptyContentView, self.telemetryBtn!])
+        
         grid.addRow(with: [NSGridCell.emptyContentView, self.toggleView(
             action: #selector(self.toggleCombinedModules),
             state: self.combinedModulesState,
@@ -417,6 +427,10 @@ class ApplicationSettings: NSStackView {
         self.combinedModulesSpacing = key
         NotificationCenter.default.post(name: .moduleRearrange, object: nil, userInfo: nil)
     }
+    
+    @objc private func toggleTelemetry(_ sender: NSButton) {
+        telemetry.isEnabled = sender.state == NSControl.StateValue.on
+    }
 }
 
 private class ModuleSelectorView: NSStackView {
@@ -550,7 +564,7 @@ internal class ModulePreview: NSStackView {
         
         self.wantsLayer = true
         self.layer?.cornerRadius = 2
-        self.layer?.borderColor = NSColor(hexString: "#dddddd").cgColor
+        self.layer?.borderColor = NSColor(red: 221/255, green: 221/255, blue: 221/255, alpha: 1).cgColor
         self.layer?.borderWidth = 1
         self.layer?.backgroundColor = NSColor.white.cgColor
         

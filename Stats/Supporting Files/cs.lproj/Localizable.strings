@@ -92,6 +92,9 @@
 "Check for a new version every week (once a week)" = "Kontrola nové verze každý týden (jednou týdně)";
 "Check for a new version every month (once a month)" = "Kontrola nové verze každý měsíc (jednou měsíčně)";
 "Never check for updates (not recommended)" = "Nikdy nekontrolovat aktualizace (nedoporučuje se)";
+"Anonymous telemetry for better development decisions" = "Anonymous telemetry for better development decisions";
+"Share anonymous telemetry data" = "Share anonymous telemetry data";
+"Do not share anonymous telemetry data" = "Do not share anonymous telemetry data";
 "The configuration is completed" = "Konfigurace je dokončena";
 "finish_setup_message" = "Vše je připraveno! \n Statistiky jsou open source nástroj, který je zdarma a vždy bude. \n Pokud se vám líbí, můžete projekt podpořit, vždy se to cení!";
 
@@ -127,6 +130,7 @@
 "Resume the Stats" = "Obnovit Stats";
 "Combined modules" = "Kombinace modulů";
 "Spacing" = "Odsazení";
+"Share anonymous telemetry" = "Share anonymous telemetry";
 
 // Dashboard
 "Serial number" = "Sériové číslo";
@@ -184,9 +188,10 @@
 "Details" = "Detaily";
 "Top processes" = "První procesy";
 "Pictogram" = "Piktogram";
-"Module settings" = "Nastavení modulu";
-"Widget settings" = "Nastavení widgetu";
-"Popup settings" = "Popup settings";
+"Module" = "Modul";
+"Widgets" = "Widgety";
+"Popup" = "Vyskakovat";
+"Notifications" = "Oznámení";
 "Merge widgets" = "Sloučit widgety";
 "No available widgets to configure" = "Žádné dostupné widgety ke konfiguraci";
 "No options to configure for the popup in this module" = "Žádné dostupné konfigurace vyskakovacího okna tohoto modulu";

@@ -92,6 +92,9 @@
 "Check for a new version every week (once a week)" = "주마다 새 버전 확인 (일주일에 한 번)";
 "Check for a new version every month (once a month)" = "달마다 새 버전 확인 (한 달에 한 번)";
 "Never check for updates (not recommended)" = "업데이트 확인 안 함 (추천하지 않음)";
+"Anonymous telemetry for better development decisions" = "Anonymous telemetry for better development decisions";
+"Share anonymous telemetry data" = "Share anonymous telemetry data";
+"Do not share anonymous telemetry data" = "Do not share anonymous telemetry data";
 "The configuration is completed" = "설정이 완료되었습니다";
 "finish_setup_message" = "모든 것이 설정되었습니다! \n Stats는 무료 오픈 소스 도구이고 앞으로도 그럴 것입니다. \n 프로그램이 마음에 드신다면 후원을 하실 수 있습니다. 늘 감사합니다!";
 
@@ -127,6 +130,7 @@
 "Resume the Stats" = "Stats 재개";
 "Combined modules" = "모듈 병합";
 "Spacing" = "간격";
+"Share anonymous telemetry" = "Share anonymous telemetry";
 
 // Dashboard
 "Serial number" = "일련 번호";
@@ -184,9 +188,10 @@
 "Details" = "세부 사항";
 "Top processes" = "상위 프로세스";
 "Pictogram" = "상태 아이콘";
-"Module settings" = "모듈 설정";
-"Widget settings" = "위젯 설정";
-"Popup settings" = "팝업 설정";
+"Module" = "기준 치수";
+"Widgets" = "위젯";
+"Popup" = "팝업";
+"Notifications" = "알림";
 "Merge widgets" = "위젯 병합";
 "No available widgets to configure" = "구성할 위젯이 없습니다";
 "No options to configure for the popup in this module" = "이 모듈의 팝업에는 구성할 설정이 없습니다";

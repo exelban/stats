@@ -92,6 +92,9 @@
 "Check for a new version every week (once a week)" = "ตรวจสอบเวอร์ชันใหม่ทุกสัปดาห์ (สัปดาห์ละครั้ง)";
 "Check for a new version every month (once a month)" = "ตรวจสอบเวอร์ชันใหม่ทุกเดือน (เดือนละครั้ง)";
 "Never check for updates (not recommended)" = "ไม่เช็คการอัปเดต (ไม่แนะนำ)";
+"Anonymous telemetry for better development decisions" = "Anonymous telemetry for better development decisions";
+"Share anonymous telemetry data" = "Share anonymous telemetry data";
+"Do not share anonymous telemetry data" = "Do not share anonymous telemetry data";
 "The configuration is completed" = "การกำหนดค่าเสร็จสมบูรณ์";
 "finish_setup_message" = "ทุกอย่างถูกตั้งค่า! \n Stats เป็นเครื่องมือโอเพ่นซอร์สที่ฟรีและจะเป็นแบบนี้ตลอดไป \n ถ้าคุณชอบ คุณสามารถสนับสนุนโปรเจคนี้ เราพร้อมรับและขอบคุณเสมอ!";
 
@@ -127,6 +130,7 @@
 "Resume the Stats" = "เริ่มต้น Stats";
 "Combined modules" = "โมดูลผสม";
 "Spacing" = "Spacing";
+"Share anonymous telemetry" = "Share anonymous telemetry";
 
 // Dashboard
 "Serial number" = "หมายเลขซีเรียล";
@@ -173,7 +177,7 @@
 "Number of reads in the chart" = "จำนวนการอ่านในแผนภูมิ";
 "Color of download" = "สีของการดาวน์โหลด";
 "Color of upload" = "สีของการอัพโหลด";
-"Monospaced font" = "Monospaced font";
+"Monospaced font" = "แบบอักษรโมโนสเปซ";
 
 // Module Kit
 "Open module settings" = "เปิดการตั้งค่าโมดูล";
@@ -184,9 +188,10 @@
 "Details" = "รายละเอียด";
 "Top processes" = "กระบวนการบนสุด";
 "Pictogram" = "รูปภาพสัญลักษณ์";
-"Module settings" = "การตั้งค่าโมดูล";
-"Widget settings" = "การตั้งค่าวิดเจ็ต";
-"Popup settings" = "การตั้งค่าป๊อปอัป";
+"Module" = "โมดูล";
+"Widgets" = "วิดเจ็ต";
+"Popup" = "ป๊อปอัพ";
+"Notifications" = "การแจ้งเตือน";
 "Merge widgets" = "รวมวิดเจ็ต";
 "No available widgets to configure" = "ไม่มีวิดเจ็ตที่สามารถกำหนดค่าได้";
 "No options to configure for the popup in this module" = "ไม่มีตัวเลือกที่สามารถกำหนดค่าสำหรับป๊อปอัปในโมดูลนี้";

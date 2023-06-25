@@ -92,6 +92,9 @@
 "Check for a new version every week (once a week)" = "每周检查一次新版本（一周一次）";
 "Check for a new version every month (once a month)" = "每月检查一次新版本（一月一次）";
 "Never check for updates (not recommended)" = "不要检查更新（不推荐）";
+"Anonymous telemetry for better development decisions" = "Anonymous telemetry for better development decisions";
+"Share anonymous telemetry data" = "Share anonymous telemetry data";
+"Do not share anonymous telemetry data" = "Do not share anonymous telemetry data";
 "The configuration is completed" = "配置完成";
 "finish_setup_message" = "设置完成！Stats 是一个开源且永远免费的工具。如果你喜欢它，你可以支持这个项目，非常感谢!";
 
@@ -127,6 +130,7 @@
 "Resume the Stats" = "恢复 Stats";
 "Combined modules" = "合并模块";
 "Spacing" = "间距";
+"Share anonymous telemetry" = "Share anonymous telemetry";
 
 // Dashboard
 "Serial number" = "序列号";
@@ -184,9 +188,10 @@
 "Details" = "详细信息";
 "Top processes" = "高占用进程";
 "Pictogram" = "标识";
-"Module settings" = "模块设置";
-"Widget settings" = "小组件设置";
-"Popup settings" = "弹出窗口设置";
+"Module" = "模块";
+"Widgets" = "小部件";
+"Popup" = "弹出窗口";
+"Notifications" = "通知";
 "Merge widgets" = "合并组件";
 "No available widgets to configure" = "没有可配置的小组件";
 "No options to configure for the popup in this module" = "该组件没有可配置的选项";
