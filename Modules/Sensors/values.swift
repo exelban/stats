@@ -259,6 +259,9 @@ internal let SensorsList: [Sensor] = [
     Sensor(key: "TH%B", name: "Disk % (B)", group: .system, type: .temperature, platforms: Platform.all),
     Sensor(key: "TH%C", name: "Disk % (C)", group: .system, type: .temperature, platforms: Platform.all),
     
+    Sensor(key: "TTLD", name: "Thunderbolt left", group: .system, type: .temperature, platforms: Platform.all),
+    Sensor(key: "TTRD", name: "Thunderbolt right", group: .system, type: .temperature, platforms: Platform.all),
+    
     Sensor(key: "TN0D", name: "Northbridge diode", group: .system, type: .temperature, platforms: Platform.all),
     Sensor(key: "TN0H", name: "Northbridge heatsink", group: .system, type: .temperature, platforms: Platform.all),
     Sensor(key: "TN0P", name: "Northbridge proximity", group: .system, type: .temperature, platforms: Platform.all),
