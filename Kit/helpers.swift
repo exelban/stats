@@ -95,15 +95,32 @@ public protocol KeyValue_p {
     var additional: Any? { get }
 }
 
-public struct KeyValue_t: KeyValue_p {
+public struct KeyValue_t: KeyValue_p, Codable {
     public let key: String
     public let value: String
     public let additional: Any?
+    
+    private enum CodingKeys: String, CodingKey {
+        case key, value
+    }
     
     public init(key: String, value: String, additional: Any? = nil) {
         self.key = key
         self.value = value
         self.additional = additional
+    }
+    
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.key = try container.decode(String.self, forKey: .key)
+        self.value = try container.decode(String.self, forKey: .value)
+        self.additional = nil
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(key, forKey: .key)
+        try container.encode(value, forKey: .value)
     }
 }
 
@@ -560,19 +577,26 @@ public func removeNotification(_ id: String) {
     center.removeDeliveredNotifications(withIdentifiers: [id])
 }
 
-public struct TopProcess {
+public struct TopProcess: Codable {
     public var pid: Int
     public var command: String
     public var name: String?
     public var usage: Double
-    public var icon: NSImage?
     
-    public init(pid: Int, command: String, name: String?, usage: Double, icon: NSImage?) {
+    public var icon: NSImage? {
+        get {
+            if let app = NSRunningApplication(processIdentifier: pid_t(self.pid) ) {
+                return app.icon
+            }
+            return Constants.defaultProcessIcon
+        }
+    }
+    
+    public init(pid: Int, command: String, name: String?, usage: Double) {
         self.pid = pid
         self.command = command
         self.name = name
         self.usage = usage
-        self.icon = icon != nil ? icon : Constants.defaultProcessIcon
     }
 }
 

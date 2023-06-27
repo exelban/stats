@@ -12,7 +12,7 @@
 import Cocoa
 import Kit
 
-public struct RAM_Usage: value_t {
+public struct RAM_Usage: value_t, Codable {
     var total: Double
     var used: Double
     var free: Double
@@ -26,7 +26,7 @@ public struct RAM_Usage: value_t {
     var cache: Double
     var pressure: Double
     
-    var pressureLevel: DispatchSource.MemoryPressureEvent
+    var rawPressureLevel: UInt
     var swap: Swap
     
     public var widgetValue: Double {
@@ -40,9 +40,13 @@ public struct RAM_Usage: value_t {
             return Double((self.total - self.free) / self.total)
         }
     }
+    
+    public var pressureLevel: DispatchSource.MemoryPressureEvent {
+        DispatchSource.MemoryPressureEvent(rawValue: self.rawPressureLevel)
+    }
 }
 
-public struct Swap {
+public struct Swap: Codable {
     var total: Double
     var used: Double
     var free: Double

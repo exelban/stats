@@ -21,7 +21,7 @@ public enum GPU_types: GPU_type {
     case discrete = "d"
 }
 
-public struct GPU_Info {
+public struct GPU_Info: Codable {
     public let id: String
     public let type: GPU_type
     
@@ -50,7 +50,7 @@ public struct GPU_Info {
     }
 }
 
-public struct GPUs: value_t {
+public struct GPUs: value_t, Codable {
     public var list: [GPU_Info] = []
     
     internal func active() -> [GPU_Info] {

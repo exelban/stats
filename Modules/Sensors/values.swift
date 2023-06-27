@@ -12,7 +12,7 @@
 import Kit
 import Cocoa
 
-internal enum SensorGroup: String {
+public enum SensorGroup: String, Codable {
     case CPU = "CPU"
     case GPU = "GPU"
     case system = "Systems"
@@ -21,7 +21,7 @@ internal enum SensorGroup: String {
     case unknown = "Unknown"
 }
 
-internal enum SensorType: String {
+public enum SensorType: String, Codable {
     case temperature = "Temperature"
     case voltage = "Voltage"
     case current = "Current"
@@ -30,7 +30,7 @@ internal enum SensorType: String {
     case fan = "Fans"
 }
 
-internal protocol Sensor_p {
+public protocol Sensor_p {
     var key: String { get }
     var name: String { get }
     var value: Double { get set }
@@ -49,19 +49,92 @@ internal protocol Sensor_p {
     var formattedPopupValue: String { get }
 }
 
-internal struct Sensor: Sensor_p {
-    var key: String
-    var name: String
+public struct Sensors_List: Codable {
+    private var queue: DispatchQueue = DispatchQueue(label: "eu.exelban.Stats.Sensors.SynchronizedArray", attributes: .concurrent)
     
-    var value: Double = 0
+    private var list: [Sensor_p] = []
+    public var sensors: [Sensor_p] {
+        get {
+            self.queue.sync{self.list}
+        }
+        set(newValue) {
+            self.queue.sync {
+                self.list = newValue
+            }
+        }
+    }
     
-    var group: SensorGroup
-    var type: SensorType
-    var platforms: [Platform]
-    var isComputed: Bool = false
-    var average: Bool = false
+    private enum CodingKeys: String, CodingKey {
+        case sensors
+    }
     
-    var unit: String {
+    public init() {}
+    
+    public func encode(to encoder: Encoder) throws {
+        let wrappers = sensors.map { Sensor_w($0) }
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(wrappers, forKey: .sensors)
+    }
+    
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let wrappers = try container.decode([Sensor_w].self, forKey: .sensors)
+        self.sensors = wrappers.map { $0.sensor }
+    }
+}
+
+public struct Sensor_w: Codable {
+    let sensor: Sensor_p
+    
+    private enum CodingKeys: String, CodingKey {
+        case base, payload
+    }
+    
+    private enum Typ: Int, Codable {
+        case sensor
+        case fan
+    }
+    
+    init(_ sensor: Sensor_p) {
+        self.sensor = sensor
+    }
+    
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let base = try container.decode(Typ.self, forKey: .base)
+        switch base {
+        case .sensor: self.sensor = try container.decode(Sensor.self, forKey: .payload)
+        case .fan: self.sensor = try container.decode(Fan.self, forKey: .payload)
+        }
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch sensor {
+        case let payload as Sensor:
+            try container.encode(Typ.sensor, forKey: .base)
+            try container.encode(payload, forKey: .payload)
+        case let payload as Fan:
+            try container.encode(Typ.fan, forKey: .base)
+            try container.encode(payload, forKey: .payload)
+        default: break
+        }
+    }
+}
+
+public struct Sensor: Sensor_p, Codable {
+    public var key: String
+    public var name: String
+    
+    public var value: Double = 0
+    
+    public var group: SensorGroup
+    public var type: SensorType
+    public var platforms: [Platform]
+    public var isComputed: Bool = false
+    public var average: Bool = false
+    
+    public var unit: String {
         get {
             switch self.type {
             case .temperature:
@@ -80,7 +153,7 @@ internal struct Sensor: Sensor_p {
         }
     }
     
-    var formattedValue: String {
+    public var formattedValue: String {
         get {
             switch self.type {
             case .temperature:
@@ -99,7 +172,7 @@ internal struct Sensor: Sensor_p {
             }
         }
     }
-    var formattedPopupValue: String {
+    public var formattedPopupValue: String {
         get {
             switch self.type {
             case .temperature:
@@ -118,7 +191,7 @@ internal struct Sensor: Sensor_p {
             }
         }
     }
-    var formattedMiniValue: String {
+    public var formattedMiniValue: String {
         get {
             switch self.type {
             case .temperature:
@@ -132,14 +205,14 @@ internal struct Sensor: Sensor_p {
         }
     }
     
-    var state: Bool {
+    public var state: Bool {
         Store.shared.bool(key: "sensor_\(self.key)", defaultValue: false)
     }
-    var popupState: Bool {
+    public var popupState: Bool {
         Store.shared.bool(key: "sensor_\(self.key)_popup", defaultValue: true)
     }
     
-    func copy() -> Sensor {
+    public func copy() -> Sensor {
         Sensor(
             key: self.key,
             name: self.name,
@@ -152,48 +225,48 @@ internal struct Sensor: Sensor_p {
     }
 }
 
-internal struct Fan: Sensor_p {
-    let id: Int
-    var key: String
-    var name: String
-    var minSpeed: Double
-    var maxSpeed: Double
-    var value: Double
-    var mode: FanMode
+public struct Fan: Sensor_p, Codable {
+    public let id: Int
+    public var key: String
+    public var name: String
+    public var minSpeed: Double
+    public var maxSpeed: Double
+    public var value: Double
+    public var mode: FanMode
     
-    var percentage: Int {
+    public var percentage: Int {
         if self.value != 0 && self.maxSpeed != 0 && self.value != 1 && self.maxSpeed != 1 {
             return (100*Int(self.value)) / Int(self.maxSpeed)
         }
         return 0
     }
     
-    var group: SensorGroup = .sensor
-    var type: SensorType = .fan
-    var platforms: [Platform] = Platform.all
-    var isIntelOnly: Bool = false
-    var isComputed: Bool = false
-    var average: Bool = false
-    var unit: String = "RPM"
+    public var group: SensorGroup = .sensor
+    public var type: SensorType = .fan
+    public var platforms: [Platform] = Platform.all
+    public var isIntelOnly: Bool = false
+    public var isComputed: Bool = false
+    public var average: Bool = false
+    public var unit: String = "RPM"
     
-    var formattedValue: String {
+    public var formattedValue: String {
         "\(Int(value)) RPM"
     }
-    var formattedMiniValue: String {
+    public var formattedMiniValue: String {
         "\(Int(value))"
     }
-    var formattedPopupValue: String {
+    public var formattedPopupValue: String {
         "\(Int(value)) RPM"
     }
     
-    var state: Bool {
+    public var state: Bool {
         Store.shared.bool(key: "sensor_\(self.key)", defaultValue: false)
     }
-    var popupState: Bool {
+    public var popupState: Bool {
         Store.shared.bool(key: "sensor_\(self.key)_popup", defaultValue: true)
     }
     
-    var customSpeed: Int? {
+    public var customSpeed: Int? {
         get {
             if !Store.shared.exist(key: "fan_\(self.id)_speed") {
                 return nil
@@ -208,7 +281,7 @@ internal struct Fan: Sensor_p {
             }
         }
     }
-    var customMode: FanMode? {
+    public var customMode: FanMode? {
         get {
             if !Store.shared.exist(key: "fan_\(self.id)_mode") {
                 return nil

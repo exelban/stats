@@ -13,25 +13,25 @@ import Cocoa
 import Kit
 import SystemConfiguration
 
-public enum Network_t: String {
+public enum Network_t: String, Codable {
     case wifi
     case ethernet
     case bluetooth
     case other
 }
 
-public struct Network_interface {
+public struct Network_interface: Codable {
     var displayName: String = ""
     var BSDName: String = ""
     var address: String = ""
 }
 
-public struct Network_addr {
+public struct Network_addr: Codable {
     var v4: String? = nil
     var v6: String? = nil
 }
 
-public struct Network_wifi {
+public struct Network_wifi: Codable {
     var countryCode: String? = nil
     var ssid: String? = nil
     var bssid: String? = nil
@@ -61,9 +61,14 @@ public struct Network_wifi {
     }
 }
 
-public struct Network_Usage: value_t {
-    var bandwidth: Bandwidth = (0, 0)
-    var total: Bandwidth = (0, 0)
+public struct Bandwidth: Codable {
+    var upload: Int64 = 0
+    var download: Int64 = 0
+}
+
+public struct Network_Usage: value_t, Codable {
+    var bandwidth: Bandwidth = Bandwidth()
+    var total: Bandwidth = Bandwidth()
     
     var laddr: String? = nil // local ip
     var raddr: Network_addr = Network_addr() // remote ip
@@ -75,7 +80,7 @@ public struct Network_Usage: value_t {
     var wifiDetails: Network_wifi = Network_wifi()
     
     mutating func reset() {
-        self.bandwidth = (0, 0)
+        self.bandwidth = Bandwidth()
         
         self.laddr = nil
         self.raddr = Network_addr()
@@ -89,13 +94,24 @@ public struct Network_Usage: value_t {
     public var widgetValue: Double = 0
 }
 
-public struct Network_Process {
+public struct Network_Connectivity: Codable {
+    var status: Bool = false
+}
+
+public struct Network_Process: Codable {
     var time: Date = Date()
     var name: String = ""
     var pid: String = ""
     var download: Int = 0
     var upload: Int = 0
-    var icon: NSImage? = nil
+    var icon: NSImage {
+        get {
+            if let pid = pid_t(self.pid), let app = NSRunningApplication(processIdentifier: pid) {
+                return app.icon ?? Constants.defaultProcessIcon
+            }
+            return Constants.defaultProcessIcon
+        }
+    }
 }
 
 public class Network: Module {
@@ -167,7 +183,7 @@ public class Network: Module {
         self.settingsView.ICMPHostCallback = { [unowned self] isDisabled in
             if isDisabled {
                 self.popupView.resetConnectivityView()
-                self.connectivityCallback(false)
+                self.connectivityCallback(Network_Connectivity(status: false))
             }
         }
         self.settingsView.publicIPRefreshIntervalCallback = { [unowned self] in
@@ -222,14 +238,14 @@ public class Network: Module {
         }
     }
     
-    private func connectivityCallback(_ raw: Bool?) {
+    private func connectivityCallback(_ raw: Network_Connectivity?) {
         guard let value = raw, self.enabled else { return }
         
-        self.popupView.connectivityCallback(value)
+        self.popupView.connectivityCallback(value.status)
         
         self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
             switch w.item {
-            case let widget as StateWidget: widget.setValue(value)
+            case let widget as StateWidget: widget.setValue(value.status)
             default: break
             }
         }

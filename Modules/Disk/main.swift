@@ -12,7 +12,7 @@
 import Cocoa
 import Kit
 
-public struct stats {
+public struct stats: Codable {
     var read: Int64 = 0
     var write: Int64 = 0
     
@@ -20,12 +20,12 @@ public struct stats {
     var writeBytes: Int64 = 0
 }
 
-public struct smart_t {
+public struct smart_t: Codable {
     var temperature: Int = 0
     var life: Int = 0
 }
 
-public struct drive {
+public struct drive: Codable {
     var parent: io_object_t = 0
     
     var mediaName: String = ""
@@ -46,9 +46,25 @@ public struct drive {
     var smart: smart_t? = nil
 }
 
-public class Disks {
-    fileprivate let queue = DispatchQueue(label: "eu.exelban.Stats.Disk.SynchronizedArray", attributes: .concurrent)
-    fileprivate var array = [drive]()
+public class Disks: Codable {
+    private var queue: DispatchQueue = DispatchQueue(label: "eu.exelban.Stats.Disk.SynchronizedArray", attributes: .concurrent)
+    private var array: [drive] = []
+    
+    enum CodingKeys: String, CodingKey {
+        case array
+    }
+    
+    required public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.array = try container.decode(Array<drive>.self, forKey: CodingKeys.array)
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(array, forKey: .array)
+    }
+    
+    init() {}
     
     public var count: Int {
         var result = 0
@@ -140,14 +156,19 @@ public class Disks {
     }
 }
 
-public struct Disk_process: IOProcess_p {
+public struct Disk_process: IOProcess_p, Codable {
     private var base: DataSizeBase {
         DataSizeBase(rawValue: Store.shared.string(key: "\(Disk.name)_base", defaultValue: "byte")) ?? .byte
     }
     
     public var pid: Int32
     public var name: String
-    public var icon: NSImage = Constants.defaultProcessIcon
+    public var icon: NSImage {
+        if let app = NSRunningApplication(processIdentifier: self.pid) {
+            return app.icon ?? Constants.defaultProcessIcon
+        }
+        return Constants.defaultProcessIcon
+    }
     
     var read: Int
     var write: Int
@@ -168,9 +189,6 @@ public struct Disk_process: IOProcess_p {
         if let app = NSRunningApplication(processIdentifier: pid) {
             if let name = app.localizedName {
                 self.name = name
-            }
-            if let icon = app.icon {
-                self.icon = icon
             }
         }
     }
