@@ -2,7 +2,7 @@
 //  Localizable.strings
 //  Stats
 //
-//  Created by Casper Sørensen (casperes1996) on 18/11/2021, updated by Aleksander Bang-Larsen (aleksanderbl29) on 11/06/2023.
+//  Created by Casper Sørensen (casperes1996) on 18/11/2021, updated by Aleksander Bang-Larsen (aleksanderbl29) on 11/06/2023 and 28/06/2023.
 //  Using Swift 5.0.
 //  Running on macOS 13.4.
 //
@@ -92,9 +92,9 @@
 "Check for a new version every week (once a week)" = "Søg efter ny opdatering hver uge (en gang om ugen)";
 "Check for a new version every month (once a month)" = "Søg efter ny opdatering hver måned (en gang hver måned)";
 "Never check for updates (not recommended)" = "Søg aldrig efter nye opdateringer (ikke anbefalet)";
-"Anonymous telemetry for better development decisions" = "Anonymous telemetry for better development decisions";
-"Share anonymous telemetry data" = "Share anonymous telemetry data";
-"Do not share anonymous telemetry data" = "Do not share anonymous telemetry data";
+"Anonymous telemetry for better development decisions" = "Anonym brugsdata til at forbedre udviklingen af programmet";
+"Share anonymous telemetry data" = "Del anonym data om brugen af programmet";
+"Do not share anonymous telemetry data" = "Del ikke anonym data om brugen af programmet";
 "The configuration is completed" = "Opsætning gennemført!";
 "finish_setup_message" = "Alting er opsat! \n Stats er et open source værktøj, det er gratis og vil altid være det. \n Hvis du nyder Stats er du meget velkommen til at støtte projektet!";
 
@@ -130,7 +130,7 @@
 "Resume the Stats" = "Genoptag Stats";
 "Combined modules" = "Kombinerede moduler";
 "Spacing" = "Mellemrum";
-"Share anonymous telemetry" = "Share anonymous telemetry";
+"Share anonymous telemetry" = "Del anonym brugsdata";
 
 // Dashboard
 "Serial number" = "Serienummer";
