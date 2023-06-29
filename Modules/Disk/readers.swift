@@ -177,7 +177,7 @@ internal class ActivityReader: Reader<Disks> {
     internal var list: Disks = Disks()
     
     init() {
-        super.init()
+        super.init(.disk)
     }
     
     override func setup() {

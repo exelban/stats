@@ -145,9 +145,9 @@ public class Network: Module {
         )
         guard self.available else { return }
         
-        self.usageReader = UsageReader()
-        self.processReader = ProcessReader()
-        self.connectivityReader = ConnectivityReader()
+        self.usageReader = UsageReader(.network)
+        self.processReader = ProcessReader(.network)
+        self.connectivityReader = ConnectivityReader(.network)
         
         self.settingsView.callbackWhenUpdateNumberOfProcesses = {
             self.popupView.numberOfProcessesUpdated()

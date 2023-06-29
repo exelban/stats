@@ -70,8 +70,8 @@ public class Battery: Module {
         )
         guard self.available else { return }
         
-        self.usageReader = UsageReader()
-        self.processReader = ProcessReader()
+        self.usageReader = UsageReader(.battery)
+        self.processReader = ProcessReader(.battery)
         
         self.settingsView.callback = {
             DispatchQueue.global(qos: .background).async {

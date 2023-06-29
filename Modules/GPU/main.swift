@@ -98,7 +98,7 @@ public class GPU: Module {
         )
         guard self.available else { return }
         
-        self.infoReader = InfoReader()
+        self.infoReader = InfoReader(.GPU)
         self.selectedGPU = Store.shared.string(key: "\(self.config.name)_gpu", defaultValue: self.selectedGPU)
         
         self.infoReader?.callbackHandler = { [unowned self] value in

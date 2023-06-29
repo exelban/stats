@@ -41,7 +41,7 @@ internal class DevicesReader: Reader<[BLEDevice]>, CBCentralManagerDelegate, CBP
     static let batteryCharacteristicsUUID = CBUUID(string: "0x2A19")
     
     init() {
-        super.init()
+        super.init(.bluetooth)
         self.manager = CBCentralManager(delegate: self, queue: nil)
     }
     

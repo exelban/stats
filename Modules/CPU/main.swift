@@ -88,10 +88,10 @@ public class CPU: Module {
         )
         guard self.available else { return }
         
-        self.loadReader = LoadReader()
-        self.processReader = ProcessReader()
-        self.averageReader = AverageReader(popup: true)
-        self.temperatureReader = TemperatureReader(popup: true)
+        self.loadReader = LoadReader(.CPU)
+        self.processReader = ProcessReader(.CPU)
+        self.averageReader = AverageReader(.CPU, popup: true)
+        self.temperatureReader = TemperatureReader(.CPU, popup: true)
         
         #if arch(x86_64)
         self.limitReader = LimitReader(popup: true)

@@ -201,9 +201,9 @@ public class Disk: Module {
     private let settingsView: Settings = Settings()
     private let portalView: Portal = Portal()
     
-    private var capacityReader: CapacityReader = CapacityReader()
+    private var capacityReader: CapacityReader = CapacityReader(.disk)
     private var activityReader: ActivityReader = ActivityReader()
-    private var processReader: ProcessReader = ProcessReader()
+    private var processReader: ProcessReader = ProcessReader(.disk)
     
     private var selectedDisk: String = ""
     private var notificationLevelState: Bool = false

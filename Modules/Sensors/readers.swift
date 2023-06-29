@@ -27,7 +27,7 @@ internal class SensorsReader: Reader<Sensors_List> {
     
     init() {
         self.unknownSensorsState = Store.shared.bool(key: "Sensors_unknown", defaultValue: false)
-        super.init()
+        super.init(.sensors)
         self.list.sensors = self.sensors()
     }
     

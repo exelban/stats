@@ -49,7 +49,7 @@ public class Clock: Module {
     private let popupView: Popup = Popup()
     private let settingsView: Settings = Settings()
     
-    private var reader: ClockReader = ClockReader()
+    private var reader: ClockReader = ClockReader(.clock)
     
     private var list: [Clock_t] {
         if let objects = Store.shared.data(key: "\(Clock.title)_list") {

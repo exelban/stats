@@ -117,8 +117,8 @@ public class RAM: Module {
             self.processReader?.setInterval(value)
         }
         
-        self.usageReader = UsageReader()
-        self.processReader = ProcessReader()
+        self.usageReader = UsageReader(.RAM)
+        self.processReader = ProcessReader(.RAM)
         
         self.settingsView.callbackWhenUpdateNumberOfProcesses = {
             self.popupView.numberOfProcessesUpdated()
