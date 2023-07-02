@@ -94,8 +94,8 @@ public class CPU: Module {
         self.temperatureReader = TemperatureReader(.CPU, popup: true)
         
         #if arch(x86_64)
-        self.limitReader = LimitReader(popup: true)
-        self.frequencyReader = FrequencyReader(popup: true)
+        self.limitReader = LimitReader(.CPU, popup: true)
+        self.frequencyReader = FrequencyReader(.CPU, popup: true)
         #endif
         
         self.settingsView.callback = { [unowned self] in
