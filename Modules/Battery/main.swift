@@ -13,7 +13,7 @@ import Cocoa
 import Kit
 import IOKit.ps
 
-struct Battery_Usage: value_t {
+struct Battery_Usage: value_t, Codable {
     var powerSource: String = ""
     var state: String? = nil
     var isCharged: Bool = false
@@ -70,8 +70,8 @@ public class Battery: Module {
         )
         guard self.available else { return }
         
-        self.usageReader = UsageReader()
-        self.processReader = ProcessReader()
+        self.usageReader = UsageReader(.battery)
+        self.processReader = ProcessReader(.battery)
         
         self.settingsView.callback = {
             DispatchQueue.global(qos: .background).async {

@@ -62,6 +62,13 @@ internal class Popup: PopupWrapper {
         self.spacing = 0
         self.translatesAutoresizingMaskIntoConstraints = false
         
+        self.settingsView.addArrangedSubview(selectSettingsRow(
+            title: localizedString("Fan value"),
+            action: #selector(self.toggleFanValue),
+            items: FanValues,
+            selected: self.fanValueState.rawValue
+        ))
+        
         self.fanValueState = FanValue(rawValue: Store.shared.string(key: "Sensors_popup_fanValue", defaultValue: self.fanValueState.rawValue)) ?? .percentage
     }
     
@@ -80,14 +87,14 @@ internal class Popup: PopupWrapper {
         self.subviews.forEach({ $0.removeFromSuperview() })
         if !reload {
             self.settingsView.subviews.forEach({ $0.removeFromSuperview() })
+            
+            self.settingsView.addArrangedSubview(selectSettingsRow(
+                title: localizedString("Fan value"),
+                action: #selector(self.toggleFanValue),
+                items: FanValues,
+                selected: self.fanValueState.rawValue
+            ))
         }
-        
-        self.settingsView.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Fan value"),
-            action: #selector(self.toggleFanValue),
-            items: FanValues,
-            selected: self.fanValueState.rawValue
-        ))
         
         if !fans.isEmpty {
             self.addArrangedSubview(self.fansSeparatorView())

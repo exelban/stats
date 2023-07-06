@@ -78,7 +78,7 @@ internal class UsageReader: Reader<RAM_Usage> {
                 cache: purgeable + external,
                 pressure: 100.0 * (wired + compressed) / self.totalSize,
                 
-                pressureLevel: DispatchSource.MemoryPressureEvent(rawValue: UInt(pressureLevel)),
+                rawPressureLevel: UInt(pressureLevel),
                 
                 swap: Swap(
                     total: Double(swap.xsu_total),
@@ -189,12 +189,10 @@ public class ProcessReader: Reader<[TopProcess]> {
         }
         
         var name: String = command
-        var icon: NSImage? = nil
         if let app = NSRunningApplication(processIdentifier: pid_t(pid) ) {
             name = app.localizedName ?? command
-            icon = app.icon
         }
         
-        return TopProcess(pid: pid, command: command, name: name, usage: usage * Double(1024 * 1024), icon: icon)
+        return TopProcess(pid: pid, command: command, name: name, usage: usage * Double(1024 * 1024))
     }
 }

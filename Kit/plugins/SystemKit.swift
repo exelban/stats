@@ -11,7 +11,7 @@
 
 import Cocoa
 
-public enum Platform: String {
+public enum Platform: String, Codable {
     case intel
     
     case m1

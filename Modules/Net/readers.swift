@@ -215,7 +215,7 @@ internal class UsageReader: Reader<Network_Usage> {
         var totalUpload: Int64 = 0
         var totalDownload: Int64 = 0
         guard getifaddrs(&interfaceAddresses) == 0 else {
-            return (0, 0)
+            return Bandwidth()
         }
         
         var pointer = interfaceAddresses
@@ -237,7 +237,7 @@ internal class UsageReader: Reader<Network_Usage> {
         }
         freeifaddrs(interfaceAddresses)
         
-        return (totalUpload, totalDownload)
+        return Bandwidth(upload: totalUpload, download: totalDownload)
     }
     
     private func readProcessBandwidth() -> Bandwidth {
@@ -260,7 +260,7 @@ internal class UsageReader: Reader<Network_Usage> {
             try task.run()
         } catch let err {
             error("read bandwidth from processes: \(err)", log: self.log)
-            return (0, 0)
+            return Bandwidth()
         }
         
         let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
@@ -269,7 +269,7 @@ internal class UsageReader: Reader<Network_Usage> {
         _ = String(decoding: errorData, as: UTF8.self)
         
         if output.isEmpty {
-            return (0, 0)
+            return Bandwidth()
         }
 
         var totalUpload: Int64 = 0
@@ -294,7 +294,7 @@ internal class UsageReader: Reader<Network_Usage> {
             }
         }
         
-        return (totalUpload, totalDownload)
+        return Bandwidth(upload: totalUpload, download: totalDownload)
     }
     
     public func getDetails() {
@@ -416,7 +416,7 @@ internal class UsageReader: Reader<Network_Usage> {
     }
     
     @objc func resetTotalNetworkUsage() {
-        self.usage.total = (0, 0)
+        self.usage.total = Bandwidth()
     }
 }
 
@@ -492,10 +492,8 @@ public class ProcessReader: Reader<[Network_Process]> {
             }
             if let app = NSRunningApplication(processIdentifier: pid_t(process.pid) ?? 0) {
                 process.name = app.localizedName ?? nameArray.dropLast().joined(separator: ".")
-                process.icon = app.icon != nil ? app.icon : Constants.defaultProcessIcon
             } else {
                 process.name = nameArray.dropLast().joined(separator: ".")
-                process.icon = Constants.defaultProcessIcon
             }
             
             if process.name == "" {
@@ -533,7 +531,7 @@ public class ProcessReader: Reader<[Network_Process]> {
                         upload = 0
                     }
                     
-                    processes.append(Network_Process(time: time, name: p.name, pid: p.pid, download: download, upload: upload, icon: p.icon))
+                    processes.append(Network_Process(time: time, name: p.name, pid: p.pid, download: download, upload: upload))
                 }
             }
             self.previous = list
@@ -566,7 +564,7 @@ internal class ConnectivityReaderWrapper {
 }
 
 // inspired by https://github.com/samiyr/SwiftyPing
-internal class ConnectivityReader: Reader<Bool> {
+internal class ConnectivityReader: Reader<Network_Connectivity> {
     private let variablesQueue = DispatchQueue(label: "eu.exelban.ConnectivityReaderQueue")
     
     private let identifier = UInt16.random(in: 0..<UInt16.max)
@@ -581,6 +579,8 @@ internal class ConnectivityReader: Reader<Bool> {
     
     private var socket: CFSocket?
     private var socketSource: CFRunLoopSource?
+    
+    private var wrapper: Network_Connectivity = Network_Connectivity(status: false)
     
     private var _status: Bool? = nil
     private var status: Bool? {
@@ -672,7 +672,11 @@ internal class ConnectivityReader: Reader<Bool> {
         if error != .success {
             self.socketCallback(data: nil, error: error)
         }
-        self.callback(self.status)
+        
+        if let v = self.status {
+            self.wrapper.status = v
+            self.callback(self.wrapper)
+        }
     }
     
     @objc private func timeoutCallback() {

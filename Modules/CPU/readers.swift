@@ -232,13 +232,11 @@ public class ProcessReader: Reader<[TopProcess]> {
                 let usage = Double(usageString.replacingOccurrences(of: ",", with: ".")) ?? 0
                 
                 var name: String? = nil
-                var icon: NSImage? = nil
                 if let app = NSRunningApplication(processIdentifier: pid_t(pid) ) {
                     name = app.localizedName ?? nil
-                    icon = app.icon
                 }
                 
-                processes.append(TopProcess(pid: pid, command: command, name: name, usage: usage, icon: icon))
+                processes.append(TopProcess(pid: pid, command: command, name: name, usage: usage))
             }
             
             if index == self.numberOfProcesses { stop = true }

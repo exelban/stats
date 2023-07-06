@@ -23,7 +23,7 @@ public class Sensors: Module {
     
     public init() {
         self.sensorsReader = SensorsReader()
-        self.settingsView = Settings("Sensors", list: self.sensorsReader.list)
+        self.settingsView = Settings("Sensors", list: self.sensorsReader.list.sensors)
         self.popupView = Popup()
         
         super.init(
@@ -32,7 +32,7 @@ public class Sensors: Module {
         )
         guard self.available else { return }
         
-        self.popupView.setup(self.sensorsReader.list)
+        self.popupView.setup(self.sensorsReader.list.sensors)
         
         self.settingsView.callback = { [unowned self] in
             self.sensorsReader.read()
@@ -44,8 +44,8 @@ public class Sensors: Module {
             DispatchQueue.global(qos: .background).async {
                 self.sensorsReader.HIDCallback()
                 DispatchQueue.main.async {
-                    self.popupView.setup(self.sensorsReader.list)
-                    self.settingsView.setList(list: self.sensorsReader.list)
+                    self.popupView.setup(self.sensorsReader.list.sensors)
+                    self.settingsView.setList(list: self.sensorsReader.list.sensors)
                 }
             }
         }
@@ -53,8 +53,8 @@ public class Sensors: Module {
             DispatchQueue.global(qos: .background).async {
                 self.sensorsReader.unknownCallback()
                 DispatchQueue.main.async {
-                    self.popupView.setup(self.sensorsReader.list)
-                    self.settingsView.setList(list: self.sensorsReader.list)
+                    self.popupView.setup(self.sensorsReader.list.sensors)
+                    self.settingsView.setList(list: self.sensorsReader.list.sensors)
                 }
             }
         }
@@ -72,7 +72,7 @@ public class Sensors: Module {
     public override func willTerminate() {
         guard SMCHelper.shared.isActive() else { return }
         
-        self.sensorsReader.list.filter({ $0 is Fan }).forEach { (s: Sensor_p) in
+        self.sensorsReader.list.sensors.filter({ $0 is Fan }).forEach { (s: Sensor_p) in
             if let f = s as? Fan, let mode = f.customMode {
                 if mode != .automatic {
                     SMCHelper.shared.setFanMode(f.id, mode: FanMode.automatic.rawValue)
@@ -82,16 +82,16 @@ public class Sensors: Module {
     }
     
     public override func isAvailable() -> Bool {
-        return !self.sensorsReader.list.isEmpty
+        return !self.sensorsReader.list.sensors.isEmpty
     }
     
     private func checkIfNoSensorsEnabled() {
-        if self.sensorsReader.list.filter({ $0.state }).isEmpty {
+        if self.sensorsReader.list.sensors.filter({ $0.state }).isEmpty {
             NotificationCenter.default.post(name: .toggleModule, object: nil, userInfo: ["module": self.config.name, "state": false])
         }
     }
     
-    private func usageCallback(_ raw: [Sensor_p]?) {
+    private func usageCallback(_ raw: Sensors_List?) {
         guard let value = raw, self.enabled else {
             return
         }
@@ -99,7 +99,7 @@ public class Sensors: Module {
         var list: [Stack_t] = []
         var flatList: [[ColorValue]] = []
         
-        value.forEach { (s: Sensor_p) in
+        value.sensors.forEach { (s: Sensor_p) in
             if s.state {
                 var value = s.formattedMiniValue
                 if let f = s as? Fan {
@@ -112,7 +112,7 @@ public class Sensors: Module {
             }
         }
         
-        self.popupView.usageCallback(value)
+        self.popupView.usageCallback(value.sensors)
         
         self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
             switch w.item {

@@ -9,7 +9,7 @@
 import Cocoa
 import Kit
 
-public struct CPU_Load: value_t {
+public struct CPU_Load: value_t, Codable {
     var totalUsage: Double = 0
     var usagePerCore: [Double] = []
     var usageECores: Double? = nil
@@ -26,7 +26,7 @@ public struct CPU_Load: value_t {
     }
 }
 
-public struct CPU_Limit {
+public struct CPU_Limit: Codable {
     var scheduler: Int = 0
     var cpus: Int = 0
     var speed: Int = 0
@@ -88,14 +88,14 @@ public class CPU: Module {
         )
         guard self.available else { return }
         
-        self.loadReader = LoadReader()
-        self.processReader = ProcessReader()
-        self.averageReader = AverageReader(popup: true)
-        self.temperatureReader = TemperatureReader(popup: true)
+        self.loadReader = LoadReader(.CPU)
+        self.processReader = ProcessReader(.CPU)
+        self.averageReader = AverageReader(.CPU, popup: true)
+        self.temperatureReader = TemperatureReader(.CPU, popup: true)
         
         #if arch(x86_64)
-        self.limitReader = LimitReader(popup: true)
-        self.frequencyReader = FrequencyReader(popup: true)
+        self.limitReader = LimitReader(.CPU, popup: true)
+        self.frequencyReader = FrequencyReader(.CPU, popup: true)
         #endif
         
         self.settingsView.callback = { [unowned self] in
