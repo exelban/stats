@@ -154,6 +154,8 @@ private class Popup: NSStackView, Popup_p {
     }
     
     public func settings() -> NSView? { return nil }
+    public func appear() {}
+    public func disappear() {}
     
     @objc private func reinit() {
         self.subviews.forEach({ $0.removeFromSuperview() })

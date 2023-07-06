@@ -893,7 +893,7 @@ public class ProcessView: NSStackView {
         self.toolTip = ""
     }
     
-    private func setLock(_ state: Bool) {
+    public func setLock(_ state: Bool) {
         self.lock = state
         if self.lock {
             self.imageView.isHidden = true

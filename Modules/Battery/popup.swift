@@ -108,6 +108,10 @@ internal class Popup: PopupWrapper {
         fatalError("init(coder:) has not been implemented")
     }
     
+    public override func disappear() {
+        self.processes.forEach{ $0.setLock(false) }
+    }
+    
     public func numberOfProcessesUpdated() {
         if self.processes.count == self.numberOfProcesses {
             return

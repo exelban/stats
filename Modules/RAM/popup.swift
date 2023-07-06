@@ -139,6 +139,10 @@ internal class Popup: PopupWrapper {
         self.chart?.display()
     }
     
+    public override func disappear() {
+        self.processes.forEach{ $0.setLock(false) }
+    }
+    
     public func numberOfProcessesUpdated() {
         if self.processes.count == self.numberOfProcesses {
             return

@@ -14,11 +14,16 @@ import Cocoa
 public protocol Popup_p: NSView {
     var sizeCallback: ((NSSize) -> Void)? { get set }
     func settings() -> NSView?
+    
+    func appear()
+    func disappear()
 }
 
 open class PopupWrapper: NSStackView, Popup_p {
     open var sizeCallback: ((NSSize) -> Void)? = nil
     open func settings() -> NSView? { return nil }
+    open func appear() {}
+    open func disappear() {}
 }
 
 public class PopupWindow: NSWindow, NSWindowDelegate {
@@ -124,6 +129,7 @@ internal class PopupViewController: NSViewController {
 
 internal class PopupView: NSView {
     private var title: String? = nil
+    private var view: Popup_p? = nil
     
     private var foreground: NSVisualEffectView
     private var background: NSView
@@ -189,6 +195,8 @@ internal class PopupView: NSView {
     }
     
     public func setView(_ view: Popup_p?) {
+        self.view = view
+        
         let width: CGFloat = (view?.frame.width ?? Constants.Popup.width) + (Constants.Popup.margins*2)
         let height: CGFloat = (view?.frame.height ?? 0) + Constants.Popup.headerHeight + (Constants.Popup.margins*2)
         
@@ -228,9 +236,12 @@ internal class PopupView: NSView {
         if let documentView = self.body.documentView {
             documentView.scroll(NSPoint(x: 0, y: documentView.bounds.size.height))
         }
+        
+        self.view?.appear()
     }
     internal func disappear() {
         self.header.setCloseButton(false)
+        self.view?.disappear()
     }
     
     private func recalculateHeight(_ size: NSSize) {
