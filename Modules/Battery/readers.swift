@@ -39,10 +39,6 @@ internal class UsageReader: Reader<Battery_Usage> {
         CFRunLoopAddSource(self.loop, source, .defaultMode)
         
         self.read()
-        
-        if #available(macOS 12.0, *) {
-            NotificationCenter.default.addObserver(self, selector: #selector(self.lowModeChanged), name: Notification.Name.NSProcessInfoPowerStateDidChange, object: nil)
-        }
     }
     
     public override func stop() {
@@ -52,10 +48,6 @@ internal class UsageReader: Reader<Battery_Usage> {
         
         self.active = false
         CFRunLoopRemoveSource(runLoop, source, .defaultMode)
-    }
-    
-    deinit {
-        NotificationCenter.default.removeObserver(self)
     }
     
     public override func read() {
@@ -73,9 +65,6 @@ internal class UsageReader: Reader<Battery_Usage> {
                 self.usage.isCharged = list[kIOPSIsChargedKey] as? Bool ?? false
                 self.usage.isCharging = self.getBoolValue("IsCharging" as CFString) ?? false
                 self.usage.optimizedChargingEngaged = list["Optimized Battery Charging Engaged"] as? Int == 1
-                if #available(macOS 12.0, *) {
-                    self.usage.isLowPowerMode = ProcessInfo.processInfo.isLowPowerModeEnabled
-                }
                 self.usage.level = Double(list[kIOPSCurrentCapacityKey] as? Int ?? 0) / 100
                 
                 if let time = list[kIOPSTimeToEmptyKey] as? Int {
@@ -152,13 +141,6 @@ internal class UsageReader: Reader<Battery_Usage> {
             return value.takeRetainedValue() as! Double / 100.0
         }
         return nil
-    }
-    
-    @objc private func lowModeChanged() {
-        if #available(macOS 12.0, *) {
-            self.usage.isLowPowerMode = ProcessInfo.processInfo.isLowPowerModeEnabled
-            self.callback(self.usage)
-        }
     }
 }
 

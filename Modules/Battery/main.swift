@@ -18,7 +18,6 @@ struct Battery_Usage: value_t, Codable {
     var state: String? = nil
     var isCharged: Bool = false
     var isCharging: Bool = false
-    var isLowPowerMode: Bool? = false
     var isBatteryPowered: Bool = false
     var optimizedChargingEngaged: Bool = false
     var level: Double = 0
@@ -143,7 +142,6 @@ public class Battery: Module {
                     percentage: value.level,
                     ACStatus: !value.isBatteryPowered,
                     isCharging: value.isCharging,
-                    lowPowerMode: value.isLowPowerMode,
                     optimizedCharging: value.optimizedChargingEngaged,
                     time: value.timeToEmpty == 0 && value.timeToCharge != 0 ? value.timeToCharge : value.timeToEmpty
                 )

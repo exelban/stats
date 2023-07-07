@@ -17,7 +17,6 @@ public class BatteryWidget: WidgetWrapper {
     private var iconState: Bool = true
     private var colorState: Bool = false
     private var hideAdditionalWhenFull: Bool = true
-    private var lowPowerModeState: Bool = true
     
     private var percentage: Double? = nil
     private var time: Int = 0
@@ -44,7 +43,6 @@ public class BatteryWidget: WidgetWrapper {
             self.iconState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_icon", defaultValue: self.iconState)
             self.colorState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_color", defaultValue: self.colorState)
             self.hideAdditionalWhenFull = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_hideAdditionalWhenFull", defaultValue: self.hideAdditionalWhenFull)
-            self.lowPowerModeState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_lowPowerMode", defaultValue: self.lowPowerMode)
         }
         
         if preview {
@@ -150,10 +148,7 @@ public class BatteryWidget: WidgetWrapper {
             let innerWidth: CGFloat = max(1, maxWidth * CGFloat(percentage))
             let innerOffset: CGFloat = -offset + borderWidth + 1
             var colorState = self.colorState
-            var color = percentage.batteryColor(color: colorState)
-            if self.lowPowerModeState {
-                color = percentage.batteryColor(color: colorState, lowPowerMode: self.lowPowerMode)
-            }
+            let color = percentage.batteryColor(color: colorState)
             
             if self.additional == "innerPercentage" && !self.ACStatus {
                 colorState = false
@@ -333,7 +328,7 @@ public class BatteryWidget: WidgetWrapper {
         return rowWidth
     }
     
-    public func setValue(percentage: Double? = nil, ACStatus: Bool? = nil, isCharging: Bool? = nil, lowPowerMode: Bool? = nil, optimizedCharging: Bool? = nil, time: Int? = nil) {
+    public func setValue(percentage: Double? = nil, ACStatus: Bool? = nil, isCharging: Bool? = nil, optimizedCharging: Bool? = nil, time: Int? = nil) {
         var updated: Bool = false
         let timeFormat: String = Store.shared.string(key: "\(self.title)_timeFormat", defaultValue: self.timeFormat)
         
@@ -355,10 +350,6 @@ public class BatteryWidget: WidgetWrapper {
         }
         if self.timeFormat != timeFormat {
             self.timeFormat = timeFormat
-            updated = true
-        }
-        if let state = lowPowerMode, self.lowPowerMode != state {
-            self.lowPowerMode = state
             updated = true
         }
         if let state = optimizedCharging, self.optimizedCharging != state {
@@ -394,12 +385,6 @@ public class BatteryWidget: WidgetWrapper {
             title: localizedString("Hide additional information when full"),
             action: #selector(toggleHideAdditionalWhenFull),
             state: self.hideAdditionalWhenFull
-        ))
-        
-        view.addArrangedSubview(toggleSettingRow(
-            title: localizedString("Low power mode"),
-            action: #selector(toggleLowPowerMode),
-            state: self.lowPowerModeState
         ))
         
         view.addArrangedSubview(toggleSettingRow(
@@ -441,18 +426,6 @@ public class BatteryWidget: WidgetWrapper {
         }
         self.colorState = state! == .on ? true : false
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_color", value: self.colorState)
-        self.display()
-    }
-    
-    @objc private func toggleLowPowerMode(_ sender: NSControl) {
-        var state: NSControl.StateValue? = nil
-        if #available(OSX 10.15, *) {
-            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
-        } else {
-            state = sender is NSButton ? (sender as! NSButton).state: nil
-        }
-        self.lowPowerModeState = state! == .on ? true : false
-        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_lowPowerMode", value: self.lowPowerModeState)
         self.display()
     }
 }
