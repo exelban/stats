@@ -40,7 +40,7 @@
 "Install" = "Installa";
 "Cancel" = "Annulla";
 "Unavailable" = "Non disponibile";
-"Yes" = "Si";
+"Yes" = "Sì";
 "No" = "No";
 "Automatic" = "Automatico";
 "Manual" = "Manuale";
@@ -66,12 +66,12 @@
 "Fans" = "Ventole";
 "Scaling" = "Ridimensionamento";
 "Linear" = "Lineare";
-"Square" = "Quatratico";
+"Square" = "Quadratico";
 "Cube" = "Cubico";
 "Logarithmic" = "Logaritmico";
 "Cores" = "Core";
 "Settings" = "Impostazioni";
-"Name" = "Name";
+"Name" = "Nome";
 "Format" = "Formato";
 
 // Setup
@@ -92,9 +92,9 @@
 "Check for a new version every week (once a week)" = "Verifica la disponibilità di nuove versioni ogni settimana (una volta a settimana)";
 "Check for a new version every month (once a month)" = "Verifica la disponibilità di nuove versioni ogni mese (una volta al mese)";
 "Never check for updates (not recommended)" = "Non verificare mai la disponibilità di nuove versioni (sconsigliato)";
-"Anonymous telemetry for better development decisions" = "Anonymous telemetry for better development decisions";
-"Share anonymous telemetry data" = "Share anonymous telemetry data";
-"Do not share anonymous telemetry data" = "Do not share anonymous telemetry data";
+"Anonymous telemetry for better development decisions" = "Telemetria anonima per decisioni di sviluppo migliori";
+"Share anonymous telemetry data" = "Condividi dati anonimi di telemetria";
+"Do not share anonymous telemetry data" = "Non condividere dati anonimi di telemetria";
 "The configuration is completed" = "Configurazione completata";
 "finish_setup_message" = "È tutto pronto! \n Stats è uno strumento open source gratuito, e lo rimarrà per sempre. \n Se ti piace, dacci il tuo supporto: è sempre ben accetto!";
 
@@ -130,7 +130,7 @@
 "Resume the Stats" = "Riprendi Stats";
 "Combined modules" = "Moduli combinati";
 "Spacing" = "Spazio";
-"Share anonymous telemetry" = "Share anonymous telemetry";
+"Share anonymous telemetry" = "Condividi telemetria anonima";
 
 // Dashboard
 "Serial number" = "Numero di serie";
@@ -177,7 +177,7 @@
 "Number of reads in the chart" = "Numero di letture nel grafico";
 "Color of download" = "Colore del download";
 "Color of upload" = "Colore dell'upload";
-"Monospaced font" = "Font larghezza fissa";
+"Monospaced font" = "Font a larghezza fissa";
 
 // Module Kit
 "Open module settings" = "Apri impostazioni modulo";
@@ -190,7 +190,7 @@
 "Pictogram" = "Pittogramma";
 "Module" = "Modulo";
 "Widgets" = "Widgets";
-"Popup" = "Apparire";
+"Popup" = "Popup";
 "Notifications" = "Notifiche";
 "Merge widgets" = "Combina moduli";
 "No available widgets to configure" = "Nessun modulo disponibile";
@@ -259,7 +259,7 @@
 "Wired" = "Cablata";
 "Compressed" = "Compressa";
 "Free" = "Libera";
-"Swap" = "Scambiata";
+"Swap" = "Swap";
 "Split the value (App/Wired/Compressed)" = "Dividi il valore (App/Wired/Compressa)";
 "RAM utilization threshold" = "Soglia utilizzo RAM";
 "RAM utilization is" = "Utilizzo RAM %0";
@@ -271,7 +271,7 @@
 // Disk
 "Show removable disks" = "Mostra dischi rimovibili";
 "Used disk memory" = "Usato %0 su %1";
-"Free disk memory" = "Libera %0 su %1";
+"Free disk memory" = "Libero %0 su %1";
 "Disk to show" = "Disco da mostrare";
 "Open disk" = "Apri disco";
 "Switch view" = "Cambia visualizzazione";
@@ -340,10 +340,10 @@
 // Battery
 "Level" = "Livello";
 "Source" = "Sorgente";
-"AC Power" = "Caricatore AC";
+"AC Power" = "Alimentazione AC";
 "Battery Power" = "Batteria";
 "Time" = "Tempo";
-"Health" = "Vita";
+"Health" = "Salute";
 "Amperage" = "Amperaggio";
 "Voltage" = "Tensione";
 "Cycles" = "Numero di cicli";
@@ -369,7 +369,7 @@
 "Hide additional information when full" = "Nascondi informazioni addizionali quando piena";
 "Last charge" = "Ultima carica";
 "Capacity" = "Capacità";
-"current / maximum / designed" = "current / massima / progettata";
+"current / maximum / designed" = "corrente / massima / progettata";
 "Low power mode" = "Modalità risparmio energetico";
 "Percentage inside the icon" = "Percentuale nell'icona";
 "Colorize battery" = "Colora la batteria";
