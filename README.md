@@ -94,8 +94,9 @@ So, if your issue was closed without any response, most probably it already has 
 - Persian (thanks to [ShawnAlisson](https://github.com/ShawnAlisson))
 - Slovenský (thanks to [martinbernat](https://github.com/martinbernat))
 - Thai (thanks to [apiphoomchu](https://github.com/apiphoomchu))
+- Estonian (thanks to [postylem](https://github.com/postylem))
 
-You can help by adding a new language or improve the existing translation.
+You can help by adding a new language or improving the existing translation.
 
 ## License
 [MIT License](https://github.com/exelban/stats/blob/master/LICENSE)
