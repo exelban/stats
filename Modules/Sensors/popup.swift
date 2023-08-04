@@ -639,6 +639,17 @@ internal class FanView: NSStackView {
             }
             self?.toggleControlView(mode == .forced)
         }
+        buttons.off = { [weak self] in
+            if let fan = self?.fan {
+                if self?.fan.mode != .forced {
+                    self?.fan.mode = .forced
+                    SMCHelper.shared.setFanMode(fan.id, mode: FanMode.forced.rawValue)
+                }
+                SMCHelper.shared.setFanSpeed(fan.id, speed: 0)
+                self?.fan.customSpeed = 0
+            }
+            self?.toggleControlView(false)
+        }
         buttons.turbo = { [weak self] in
             if let fan = self?.fan {
                 if self?.fan.mode != .forced {
@@ -957,16 +968,32 @@ internal class FanView: NSStackView {
 private class ModeButtons: NSStackView {
     public var callback: (FanMode) -> Void = {_ in }
     public var turbo: () -> Void = {}
+    public var off: () -> Void = {}
     
     private var fansSyncState: Bool {
         Store.shared.bool(key: "Sensors_fansSync", defaultValue: false)
     }
     
+    private var offBtn: NSButton
     private var autoBtn: NSButton = NSButton(title: localizedString("Automatic"), target: nil, action: #selector(autoMode))
     private var manualBtn: NSButton = NSButton(title: localizedString("Manual"), target: nil, action: #selector(manualMode))
-    private var turboBtn: NSButton = NSButton(image: NSImage(named: NSImage.Name("ac_unit"))!, target: nil, action: #selector(turboMode))
+    private var turboBtn: NSButton
     
     public init(frame: NSRect, mode: FanMode) {
+        var turboIcon: NSImage = NSImage(named: NSImage.Name("ac_unit"))!
+        var offIcon: NSImage = NSImage(named: NSImage.Name("ac_unit"))!
+        if #available(macOS 12.0, *) {
+            if let icon = iconFromSymbol(name: "snowflake", scale: .large) {
+                turboIcon = icon
+            }
+            if let icon = iconFromSymbol(name: "fanblades.slash", scale: .medium) {
+                offIcon = icon
+            }
+        }
+        
+        self.offBtn = NSButton(image: offIcon, target: nil, action: #selector(offMode))
+        self.turboBtn = NSButton(image: turboIcon, target: nil, action: #selector(turboMode))
+        
         super.init(frame: frame)
         
         self.orientation = .horizontal
@@ -996,17 +1023,24 @@ private class ModeButtons: NSStackView {
         modes.addArrangedSubview(self.autoBtn)
         modes.addArrangedSubview(self.manualBtn)
         
+        self.offBtn.setButtonType(.toggle)
+        self.offBtn.isBordered = false
+        self.offBtn.target = self
+        
         self.turboBtn.setButtonType(.toggle)
         self.turboBtn.isBordered = false
         self.turboBtn.target = self
         
         NSLayoutConstraint.activate([
+            self.offBtn.widthAnchor.constraint(equalToConstant: 26),
+            self.offBtn.heightAnchor.constraint(equalToConstant: self.frame.height),
             self.turboBtn.widthAnchor.constraint(equalToConstant: 26),
             self.turboBtn.heightAnchor.constraint(equalToConstant: self.frame.height),
             modes.heightAnchor.constraint(equalToConstant: self.frame.height)
         ])
         
         self.addArrangedSubview(modes)
+        self.addArrangedSubview(self.offBtn)
         self.addArrangedSubview(self.turboBtn)
         
         NotificationCenter.default.addObserver(self, selector: #selector(syncFanMode), name: .syncFansControl, object: nil)
@@ -1027,6 +1061,7 @@ private class ModeButtons: NSStackView {
         }
         
         self.manualBtn.state = .off
+        self.offBtn.state = .off
         self.turboBtn.state = .off
         self.callback(.automatic)
         
@@ -1040,10 +1075,28 @@ private class ModeButtons: NSStackView {
         }
         
         self.autoBtn.state = .off
+        self.offBtn.state = .off
         self.turboBtn.state = .off
         self.callback(.forced)
         
         NotificationCenter.default.post(name: .syncFansControl, object: nil, userInfo: ["mode": "forced"])
+    }
+    
+    @objc private func offMode(_ sender: NSButton) {
+        if sender.state.rawValue == 0 {
+            self.turboBtn.state = .on
+            return
+        }
+        
+        self.manualBtn.state = .off
+        self.autoBtn.state = .off
+        self.offBtn.state = .on
+        self.turboBtn.state = .off
+        self.off()
+        
+        if sender.tag != 4 {
+            NotificationCenter.default.post(name: .syncFansControl, object: nil, userInfo: ["mode": "off"])
+        }
     }
     
     @objc private func turboMode(_ sender: NSButton) {
@@ -1054,6 +1107,7 @@ private class ModeButtons: NSStackView {
         
         self.manualBtn.state = .off
         self.autoBtn.state = .off
+        self.offBtn.state = .off
         self.turboBtn.state = .on
         self.turbo()
         
@@ -1071,6 +1125,11 @@ private class ModeButtons: NSStackView {
             self.setMode(.automatic)
         } else if mode == "forced" {
             self.setMode(.forced)
+        } else if mode == "off" {
+            let btn = NSButton()
+            btn.state = .on
+            btn.tag = 4
+            self.offMode(btn)
         } else if mode == "turbo" {
             let btn = NSButton()
             btn.state = .on
@@ -1083,11 +1142,13 @@ private class ModeButtons: NSStackView {
         if mode == .automatic {
             self.autoBtn.state = .on
             self.manualBtn.state = .off
+            self.offBtn.state = .off
             self.turboBtn.state = .off
             self.callback(.automatic)
         } else if mode == .forced {
             self.manualBtn.state = .on
             self.autoBtn.state = .off
+            self.offBtn.state = .off
             self.turboBtn.state = .off
             self.callback(.forced)
         }
