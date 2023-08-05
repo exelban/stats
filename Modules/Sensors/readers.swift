@@ -118,7 +118,13 @@ internal class SensorsReader: Reader<Sensors_List> {
         for i in self.list.sensors.indices {
             guard self.list.sensors[i].group != .hid && !self.list.sensors[i].isComputed else { continue }
             if !self.unknownSensorsState && self.list.sensors[i].group == .unknown { continue }
-            self.list.sensors[i].value = SMC.shared.getValue(self.list.sensors[i].key) ?? 0
+            
+            var newValue = SMC.shared.getValue(self.list.sensors[i].key) ?? 0
+            if self.list.sensors[i].type == .temperature && self.list.sensors[i].group == .CPU &&
+                (newValue < 10 || newValue > 120) { // fix for m2 broken sensors
+                newValue = self.list.sensors[i].value
+            }
+            self.list.sensors[i].value = newValue
         }
         
         var cpuSensors = self.list.sensors.filter({ $0.group == .CPU && $0.type == .temperature && $0.average }).map{ $0.value }
