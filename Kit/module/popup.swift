@@ -197,14 +197,30 @@ internal class PopupView: NSView {
     public func setView(_ view: Popup_p?) {
         self.view = view
         
-        let width: CGFloat = (view?.frame.width ?? Constants.Popup.width) + (Constants.Popup.margins*2)
-        let height: CGFloat = (view?.frame.height ?? 0) + Constants.Popup.headerHeight + (Constants.Popup.margins*2)
+        var isScrollVisible: Bool = false
+        var size: NSSize = NSSize(
+            width: (view?.frame.width ?? Constants.Popup.width) + (Constants.Popup.margins*2),
+            height: (view?.frame.height ?? 0) + Constants.Popup.headerHeight + (Constants.Popup.margins*2)
+        )
         
-        self.setFrameSize(NSSize(width: width, height: height))
-        self.foreground.setFrameSize(NSSize(width: width, height: height))
-        self.background.setFrameSize(NSSize(width: width, height: height))
-        self.header.setFrameOrigin(NSPoint(x: 0, y: height - Constants.Popup.headerHeight))
-        self.body.setFrameSize(NSSize(width: (view?.frame.width ?? Constants.Popup.width), height: (view?.frame.height ?? 0)))
+        self.windowHeight = NSScreen.main?.visibleFrame.height // for height recalculate when appear/disappear
+        self.containerHeight = self.body.documentView?.frame.height // for scroll diff calculation
+        if let screenHeight = NSScreen.main?.visibleFrame.height, size.height > screenHeight {
+            size.height = screenHeight - Constants.Widget.height
+            isScrollVisible = true
+        }
+        if let screenWidth = NSScreen.main?.visibleFrame.width, size.width > screenWidth {
+            size.width = screenWidth
+        }
+        
+        self.setFrameSize(size)
+        self.foreground.setFrameSize(size)
+        self.background.setFrameSize(size)
+        self.body.setFrameSize(NSSize(
+            width: size.width - (Constants.Popup.margins*2) + (isScrollVisible ? 20 : 0),
+            height: size.height - Constants.Popup.headerHeight - (Constants.Popup.margins*2)
+        ))
+        self.header.setFrameOrigin(NSPoint(x: 0, y: size.height - Constants.Popup.headerHeight))
         
         if let view = view {
             self.body.documentView = view
