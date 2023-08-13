@@ -106,37 +106,37 @@ public class RAM: Module {
         )
         guard self.available else { return }
         
-        self.settingsView.callback = { [unowned self] in
-            self.usageReader?.read()
+        self.settingsView.callback = { [weak self] in
+            self?.usageReader?.read()
         }
-        self.settingsView.setInterval = { [unowned self] value in
-            self.processReader?.read()
-            self.usageReader?.setInterval(value)
+        self.settingsView.setInterval = { [weak self] value in
+            self?.processReader?.read()
+            self?.usageReader?.setInterval(value)
         }
-        self.settingsView.setTopInterval = { [unowned self] value in
-            self.processReader?.setInterval(value)
+        self.settingsView.setTopInterval = { [weak self] value in
+            self?.processReader?.setInterval(value)
         }
         
         self.usageReader = UsageReader(.RAM)
         self.processReader = ProcessReader(.RAM)
         
-        self.settingsView.callbackWhenUpdateNumberOfProcesses = {
-            self.popupView.numberOfProcessesUpdated()
+        self.settingsView.callbackWhenUpdateNumberOfProcesses = { [weak self] in
+            self?.popupView.numberOfProcessesUpdated()
             DispatchQueue.global(qos: .background).async {
-                self.processReader?.read()
+                self?.processReader?.read()
             }
         }
         
-        self.usageReader?.callbackHandler = { [unowned self] value in
-            self.loadCallback(value)
+        self.usageReader?.callbackHandler = { [weak self] value in
+            self?.loadCallback(value)
         }
-        self.usageReader?.readyCallback = { [unowned self] in
-            self.readyHandler()
+        self.usageReader?.readyCallback = { [weak self] in
+            self?.readyHandler()
         }
         
-        self.processReader?.callbackHandler = { [unowned self] value in
+        self.processReader?.callbackHandler = { [weak self] value in
             if let list = value {
-                self.popupView.processCallback(list)
+                self?.popupView.processCallback(list)
             }
         }
         
@@ -149,9 +149,7 @@ public class RAM: Module {
     }
     
     private func loadCallback(_ raw: RAM_Usage?) {
-        guard raw != nil, let value = raw, self.enabled else {
-            return
-        }
+        guard raw != nil, let value = raw, self.enabled else { return }
         
         self.popupView.loadCallback(value)
         self.portalView.loadCallback(value)

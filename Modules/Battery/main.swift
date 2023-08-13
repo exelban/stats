@@ -72,28 +72,28 @@ public class Battery: Module {
         self.usageReader = UsageReader(.battery)
         self.processReader = ProcessReader(.battery)
         
-        self.settingsView.callback = {
+        self.settingsView.callback = { [weak self] in
             DispatchQueue.global(qos: .background).async {
-                self.usageReader?.read()
+                self?.usageReader?.read()
             }
         }
-        self.settingsView.callbackWhenUpdateNumberOfProcesses = {
-            self.popupView.numberOfProcessesUpdated()
+        self.settingsView.callbackWhenUpdateNumberOfProcesses = { [weak self] in
+            self?.popupView.numberOfProcessesUpdated()
             DispatchQueue.global(qos: .background).async {
-                self.processReader?.read()
+                self?.processReader?.read()
             }
         }
         
-        self.usageReader?.callbackHandler = { [unowned self] value in
-            self.usageCallback(value)
+        self.usageReader?.callbackHandler = { [weak self] value in
+            self?.usageCallback(value)
         }
-        self.usageReader?.readyCallback = { [unowned self] in
-            self.readyHandler()
+        self.usageReader?.readyCallback = { [weak self] in
+            self?.readyHandler()
         }
         
-        self.processReader?.callbackHandler = { [unowned self] value in
+        self.processReader?.callbackHandler = { [weak self] value in
             if let list = value {
-                self.popupView.processCallback(list)
+                self?.popupView.processCallback(list)
             }
         }
         
@@ -120,9 +120,7 @@ public class Battery: Module {
     }
     
     private func usageCallback(_ raw: Battery_Usage?) {
-        guard let value = raw, self.enabled else {
-            return
-        }
+        guard let value = raw, self.enabled else { return }
         
         self.checkLowNotification(value: value)
         self.checkHighNotification(value: value)

@@ -98,8 +98,8 @@ public class CPU: Module {
         self.frequencyReader = FrequencyReader(.CPU, popup: true)
         #endif
         
-        self.settingsView.callback = { [unowned self] in
-            self.loadReader?.read()
+        self.settingsView.callback = { [weak self] in
+            self?.loadReader?.read()
         }
         self.settingsView.callbackWhenUpdateNumberOfProcesses = {
             self.popupView.numberOfProcessesUpdated()
@@ -107,50 +107,50 @@ public class CPU: Module {
                 self.processReader?.read()
             }
         }
-        self.settingsView.setInterval = { [unowned self] value in
-            self.loadReader?.setInterval(value)
+        self.settingsView.setInterval = { [weak self] value in
+            self?.loadReader?.setInterval(value)
         }
-        self.settingsView.setTopInterval = { [unowned self] value in
-            self.processReader?.setInterval(value)
+        self.settingsView.setTopInterval = { [weak self] value in
+            self?.processReader?.setInterval(value)
         }
-        self.settingsView.IPGCallback = { [unowned self] value in
+        self.settingsView.IPGCallback = { [weak self] value in
             if value {
-                self.frequencyReader?.setup()
+                self?.frequencyReader?.setup()
             }
-            self.popupView.toggleFrequency(state: value)
+            self?.popupView.toggleFrequency(state: value)
         }
         
-        self.loadReader?.callbackHandler = { [unowned self] value in
-            self.loadCallback(value)
+        self.loadReader?.callbackHandler = { [weak self] value in
+            self?.loadCallback(value)
         }
-        self.loadReader?.readyCallback = { [unowned self] in
-            self.readyHandler()
+        self.loadReader?.readyCallback = { [weak self] in
+            self?.readyHandler()
         }
         
-        self.processReader?.callbackHandler = { [unowned self] value in
+        self.processReader?.callbackHandler = { [weak self] value in
             if let list = value {
-                self.popupView.processCallback(list)
+                self?.popupView.processCallback(list)
             }
         }
         
-        self.temperatureReader?.callbackHandler = { [unowned self] value in
+        self.temperatureReader?.callbackHandler = { [weak self] value in
             if let v = value  {
-                self.popupView.temperatureCallback(v)
+                self?.popupView.temperatureCallback(v)
             }
         }
-        self.frequencyReader?.callbackHandler = { [unowned self] value in
+        self.frequencyReader?.callbackHandler = { [weak self] value in
             if let v = value  {
-                self.popupView.frequencyCallback(v)
+                self?.popupView.frequencyCallback(v)
             }
         }
-        self.limitReader?.callbackHandler = { [unowned self] value in
+        self.limitReader?.callbackHandler = { [weak self] value in
             if let v = value  {
-                self.popupView.limitCallback(v)
+                self?.popupView.limitCallback(v)
             }
         }
-        self.averageReader?.callbackHandler = { [unowned self] value in
+        self.averageReader?.callbackHandler = { [weak self] value in
             if let v = value  {
-                self.popupView.averageCallback(v)
+                self?.popupView.averageCallback(v)
             }
         }
         
@@ -175,9 +175,7 @@ public class CPU: Module {
     }
     
     private func loadCallback(_ raw: CPU_Load?) {
-        guard let value = raw, self.enabled else {
-            return
-        }
+        guard let value = raw, self.enabled else { return }
         
         self.popupView.loadCallback(value)
         self.portalView.loadCallback(value)
