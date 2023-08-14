@@ -91,6 +91,16 @@ internal class CapacityReader: Reader<Disks> {
     }
     
     private func freeDiskSpaceInBytes(_ path: URL) -> Int64 {
+        let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        do {
+            let values = try url.resourceValues(forKeys: [.volumeAvailableCapacityForImportantUsageKey])
+            if let capacity = values.volumeAvailableCapacityForImportantUsage {
+                return capacity
+            }
+        } catch let err {
+            error("error retrieving free space: \(err.localizedDescription)", log: self.log)
+        }
+        
         do {
             let systemAttributes = try FileManager.default.attributesOfFileSystem(forPath: path.path)
             if let freeSpace = (systemAttributes[FileAttributeKey.systemFreeSize] as? NSNumber)?.int64Value {
