@@ -73,6 +73,7 @@
 "Settings" = "Nastavitve";
 "Name" = "Ime";
 "Format" = "Format";
+"Turn off" = "Turn off";
 
 // Setup
 "Stats Setup" = "Stats konfigurator";
@@ -295,6 +296,8 @@
 "Install fan helper" = "Namesti pomočnika za ventilatorje";
 "Uninstall fan helper" = "Odstrani pomočnika za ventilatorje";
 "Fan value" = "Vrednost ventilatorja";
+"Turn off fan" = "Turn off fan";
+"You are going to turn off the fan. That is not recommended action that can broke your mac, are you sure you want to do that?" = "You are going to turn off the fan. That is not recommended action that can broke your mac, are you sure you want to do that?";
 
 // Network
 "Uploading" = "Oddajanje";

@@ -73,6 +73,7 @@
 "Settings" = "Seaded";
 "Name" = "Nimi";
 "Format" = "Vorming";
+"Turn off" = "Turn off";
 
 // Setup
 "Stats Setup" = "Stats Seadistamine";
@@ -295,6 +296,8 @@
 "Install fan helper" = "Installi ventilaatoriabi";
 "Uninstall fan helper" = "Desinstalli fänniabi";
 "Fan value" = "Fänni väärtus";
+"Turn off fan" = "Turn off fan";
+"You are going to turn off the fan. That is not recommended action that can broke your mac, are you sure you want to do that?" = "You are going to turn off the fan. That is not recommended action that can broke your mac, are you sure you want to do that?";
 
 // Network
 "Uploading" = "Üleslaadimine";

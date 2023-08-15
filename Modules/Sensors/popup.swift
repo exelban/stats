@@ -1084,10 +1084,32 @@ private class ModeButtons: NSStackView {
     
     @objc private func offMode(_ sender: NSButton) {
         if sender.state.rawValue == 0 {
-            self.turboBtn.state = .on
+            self.offBtn.state = .on
             return
         }
         
+        if !Store.shared.bool(key: "Sensors_turnOffFanAlert", defaultValue: false) {
+            let alert = NSAlert()
+            alert.messageText = localizedString("Turn off fan")
+            alert.informativeText = localizedString("You are going to turn off the fan. That is not recommended action that can broke your mac, are you sure you want to do that?")
+            alert.showsSuppressionButton = true
+            alert.addButton(withTitle: localizedString("Turn off"))
+            alert.addButton(withTitle: localizedString("Cancel"))
+            
+            if alert.runModal() == .alertFirstButtonReturn {
+                if let suppressionButton = alert.suppressionButton, suppressionButton.state == .on {
+                    Store.shared.set(key: "Sensors_turnOffFanAlert", value: true)
+                }
+                self.toggleOffMode(sender)
+            } else {
+                self.offBtn.state = .off
+            }
+        } else {
+            self.toggleOffMode(sender)
+        }
+    }
+    
+    private func toggleOffMode(_ sender: NSButton) {
         self.manualBtn.state = .off
         self.autoBtn.state = .off
         self.offBtn.state = .on

@@ -73,6 +73,7 @@
 "Settings" = "Настройки";
 "Name" = "Название";
 "Format" = "Формат";
+"Turn off" = "Выключить";
 
 // Setup
 "Stats Setup" = "Настройки Stats";
@@ -295,6 +296,8 @@
 "Install fan helper" = "Установить помощник для вентилятора";
 "Uninstall fan helper" = "Удалить помощник для вентилятора";
 "Fan value" = "Значение вентилятора";
+"Turn off fan" = "Выключить вентилятор";
+"You are going to turn off the fan. That is not recommended action that can broke your mac, are you sure you want to do that?" = "Вы собираетесь выключить вентилятор. Это не рекомендуемое действие, которое может сломать ваш Mac. Вы уверены, что хотите это сделать?";
 
 // Network
 "Uploading" = "Выгрузка";

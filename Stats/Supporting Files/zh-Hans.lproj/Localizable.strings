@@ -73,6 +73,7 @@
 "Settings" = "设置";
 "Name" = "名称";
 "Format" = "格式";
+"Turn off" = "Turn off";
 
 // Setup
 "Stats Setup" = "Stats 设置";
@@ -295,6 +296,8 @@
 "Install fan helper" = "安装风扇控制程序";
 "Uninstall fan helper" = "卸载风扇控制程序";
 "Fan value" = "风扇转数";
+"Turn off fan" = "Turn off fan";
+"You are going to turn off the fan. That is not recommended action that can broke your mac, are you sure you want to do that?" = "You are going to turn off the fan. That is not recommended action that can broke your mac, are you sure you want to do that?";
 
 // Network
 "Uploading" = "上传";

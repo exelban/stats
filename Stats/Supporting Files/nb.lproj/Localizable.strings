@@ -73,6 +73,7 @@
 "Settings" = "Innstillinger";
 "Name" = "Name";
 "Format" = "Format";
+"Turn off" = "Turn off";
 
 // Setup
 "Stats Setup" = "Stats-oppsett";
@@ -295,6 +296,8 @@
 "Install fan helper" = "Installer viftehjelper";
 "Uninstall fan helper" = "Avinstaller viftehjelper";
 "Fan value" = "Fan value";
+"Turn off fan" = "Turn off fan";
+"You are going to turn off the fan. That is not recommended action that can broke your mac, are you sure you want to do that?" = "You are going to turn off the fan. That is not recommended action that can broke your mac, are you sure you want to do that?";
 
 // Network
 "Uploading" = "Opplasting";
