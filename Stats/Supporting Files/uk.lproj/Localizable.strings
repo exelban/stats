@@ -297,7 +297,7 @@
 "Uninstall fan helper" = "Видалити помічник для вентилятора";
 "Fan value" = "Значення вентилятора";
 "Turn off fan" = "Вимкнути вентилятор";
-"You are going to turn off the fan. That is not recommended action that can broke your mac, are you sure you want to do that?" = "Ви збираєтеся вимкнути вентилятор. Це не рекомендована дія, яка може зламати ваш Mac. Ви впевнені, що хочете це зробити?";
+"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Ви збираєтеся вимкнути вентилятор. Це не рекомендована дія, яка може зламати ваш Mac. Ви впевнені, що хочете це зробити?";
 
 // Network
 "Uploading" = "Висилання";

@@ -297,7 +297,7 @@
 "Uninstall fan helper" = "卸载风扇控制程序";
 "Fan value" = "风扇转数";
 "Turn off fan" = "Turn off fan";
-"You are going to turn off the fan. That is not recommended action that can broke your mac, are you sure you want to do that?" = "You are going to turn off the fan. That is not recommended action that can broke your mac, are you sure you want to do that?";
+"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?";
 
 // Network
 "Uploading" = "上传";
