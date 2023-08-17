@@ -73,7 +73,7 @@
 "Settings" = "設定";
 "Name" = "名稱";
 "Format" = "格式";
-"Turn off" = "Turn off";
+"Turn off" = "關閉";
 
 // Setup
 "Stats Setup" = "Stats 設定";
@@ -296,8 +296,8 @@
 "Install fan helper" = "安裝風扇輔助程式";
 "Uninstall fan helper" = "解除安裝風扇輔助程式";
 "Fan value" = "風扇轉速值";
-"Turn off fan" = "Turn off fan";
-"You are going to turn off the fan. That is not recommended action that can broke your mac, are you sure you want to do that?" = "You are going to turn off the fan. That is not recommended action that can broke your mac, are you sure you want to do that?";
+"Turn off fan" = "關閉風扇";
+"You are going to turn off the fan. That is not recommended action that can broke your mac, are you sure you want to do that?" = "您似乎要關閉您 Mac 的風扇。這可能會造成 Mac 的損毀，不建議進行此操作，您確定仍要關閉風扇嗎？";
 
 // Network
 "Uploading" = "上傳";
