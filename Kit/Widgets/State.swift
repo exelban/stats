@@ -92,25 +92,19 @@ public class StateWidget: WidgetWrapper {
     }
     
     @objc private func toggleActiveColor(_ sender: NSMenuItem) {
-        guard let key = sender.representedObject as? String else {
-            return
-        }
+        guard let key = sender.representedObject as? String else { return }
         if let newColor = Color.allCases.first(where: { $0.key == key }) {
             self.activeColorState = newColor
         }
-        
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_activeColor", value: key)
         self.display()
     }
     
     @objc private func toggleNonactiveColor(_ sender: NSMenuItem) {
-        guard let key = sender.representedObject as? String else {
-            return
-        }
+        guard let key = sender.representedObject as? String else { return }
         if let newColor = Color.allCases.first(where: { $0.key == key }) {
             self.nonactiveColorState = newColor
         }
-        
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_nonactiveColor", value: key)
         self.display()
     }

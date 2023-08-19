@@ -233,7 +233,7 @@ public class StackWidget: WidgetWrapper {
         
         view.addArrangedSubview(selectSettingsRow(
             title: localizedString("Display mode"),
-            action: #selector(changeDisplayMode),
+            action: #selector(self.changeDisplayMode),
             items: SensorsWidgetMode,
             selected: self.modeState.rawValue
         ))
@@ -241,14 +241,14 @@ public class StackWidget: WidgetWrapper {
         if self.title != "Clock" {
             view.addArrangedSubview(toggleSettingRow(
                 title: localizedString("Static width"),
-                action: #selector(toggleSize),
+                action: #selector(self.toggleSize),
                 state: self.fixedSizeState
             ))
         }
         
         view.addArrangedSubview(toggleSettingRow(
             title: localizedString("Monospaced font"),
-            action: #selector(toggleMonospacedFont),
+            action: #selector(self.toggleMonospacedFont),
             state: self.monospacedFontState
         ))
         

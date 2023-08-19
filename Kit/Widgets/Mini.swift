@@ -21,26 +21,23 @@ public class Mini: WidgetWrapper {
     
     private let onlyValueWidth: CGFloat = 40
     private var colors: [Color] = Color.allCases
-    private var colorZones: colorZones = (0.6, 0.8)
     
-    private var value: Double = 0
-    private var pressureLevel: DispatchSource.MemoryPressureEvent = .normal
+    private var _value: Double = 0
+    private var _pressureLevel: DispatchSource.MemoryPressureEvent = .normal
+    private var _colorZones: colorZones = (0.6, 0.8)
+    
     private var defaultLabel: String
-    private var label: String
+    private var _label: String
     
     private var width: CGFloat {
-        get {
-            return (self.labelState ? 31 : 36) + (2*Constants.Widget.margin.x)
-        }
+        (self.labelState ? 31 : 36) + (2*Constants.Widget.margin.x)
     }
     
     private var alignment: NSTextAlignment {
-        get {
-            if let alignmentPair = Alignments.first(where: { $0.key == self.alignmentState }) {
-                return alignmentPair.additional as? NSTextAlignment ?? .left
-            }
-            return .left
+        if let alignmentPair = Alignments.first(where: { $0.key == self.alignmentState }) {
+            return alignmentPair.additional as? NSTextAlignment ?? .left
         }
+        return .left
     }
     
     public init(title: String, config: NSDictionary?, preview: Bool = false) {
@@ -52,7 +49,7 @@ public class Mini: WidgetWrapper {
                 if let previewConfig = config!["Preview"] as? NSDictionary {
                     configuration = previewConfig
                     if let value = configuration["Value"] as? String {
-                        self.value = Double(value) ?? 0
+                        self._value = Double(value) ?? 0
                     }
                 }
             }
@@ -74,7 +71,7 @@ public class Mini: WidgetWrapper {
         }
         
         self.defaultLabel = widgetTitle
-        self.label = widgetTitle
+        self._label = widgetTitle
         super.init(.mini, title: widgetTitle, frame: CGRect(
             x: 0,
             y: Constants.Widget.margin.y,
@@ -98,6 +95,17 @@ public class Mini: WidgetWrapper {
     public override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         
+        var value: Double = 0
+        var pressureLevel: DispatchSource.MemoryPressureEvent = .normal
+        var colorZones: colorZones = (0.6, 0.8)
+        var label: String = ""
+        self.queue.sync {
+            value = self._value
+            pressureLevel = self._pressureLevel
+            colorZones = self._colorZones
+            label = self._label
+        }
+        
         let valueSize: CGFloat = self.labelState ? 12 : 14
         var origin: CGPoint = CGPoint(x: Constants.Widget.margin.x, y: (Constants.Widget.height-valueSize)/2)
         let style = NSMutableParagraphStyle()
@@ -113,7 +121,7 @@ public class Mini: WidgetWrapper {
                 NSAttributedString.Key.paragraphStyle: style
             ]
             let rect = CGRect(x: origin.x, y: 12, width: self.width - (Constants.Widget.margin.x*2), height: 7)
-            let str = NSAttributedString.init(string: self.label, attributes: stringAttributes)
+            let str = NSAttributedString.init(string: label, attributes: stringAttributes)
             str.draw(with: rect)
             
             origin.y = 1
@@ -122,8 +130,8 @@ public class Mini: WidgetWrapper {
         var color: NSColor = .controlAccentColor
         switch self.colorState {
         case .systemAccent: color = .controlAccentColor
-        case .utilization: color = value.usageColor(zones: self.colorZones, reversed: self.title == "BAT")
-        case .pressure: color = self.pressureLevel.pressureColor()
+        case .utilization: color = value.usageColor(zones: colorZones, reversed: self.title == "BAT")
+        case .pressure: color = pressureLevel.pressureColor()
         case .monochrome: color = (isDarkMode ? NSColor.white : NSColor.black)
         default: color = self.colorState.additional as? NSColor ?? .controlAccentColor
         }
@@ -134,29 +142,23 @@ public class Mini: WidgetWrapper {
             NSAttributedString.Key.paragraphStyle: style
         ]
         let rect = CGRect(x: origin.x, y: origin.y, width: self.width - (Constants.Widget.margin.x*2), height: valueSize+1)
-        let str = NSAttributedString.init(string: "\(Int(self.value.rounded(toPlaces: 2) * 100))%", attributes: stringAttributes)
+        let str = NSAttributedString.init(string: "\(Int(value.rounded(toPlaces: 2) * 100))%", attributes: stringAttributes)
         str.draw(with: rect)
         
         self.setWidth(width)
     }
     
-    public func setValue(_ value: Double) {
-        if self.value == value {
-            return
-        }
-        
-        self.value = value
+    public func setValue(_ newValue: Double) {
+        guard self._value != newValue else { return }
+        self._value = newValue
         DispatchQueue.main.async(execute: {
             self.display()
         })
     }
     
-    public func setPressure(_ level: DispatchSource.MemoryPressureEvent) {
-        if self.pressureLevel == level {
-            return
-        }
-        
-        self.pressureLevel = level
+    public func setPressure(_ newPressureLevel: DispatchSource.MemoryPressureEvent) {
+        guard self._pressureLevel != newPressureLevel else { return }
+        self._pressureLevel = newPressureLevel
         DispatchQueue.main.async(execute: {
             self.needsDisplay = true
         })
@@ -167,23 +169,16 @@ public class Mini: WidgetWrapper {
         if let new = newTitle {
             title = new
         }
-        
-        if self.label == title {
-            return
-        }
-        
-        self.label = title
+        guard self._label != title else { return }
+        self._label = title
         DispatchQueue.main.async(execute: {
             self.needsDisplay = true
         })
     }
     
-    public func setColorZones(_ zones: colorZones) {
-        guard self.colorZones != zones else {
-            return
-        }
-        
-        self.colorZones = zones
+    public func setColorZones(_ newColorZones: colorZones) {
+        guard self._colorZones != newColorZones else { return }
+        self._colorZones = newColorZones
         DispatchQueue.main.async(execute: {
             self.display()
         })
@@ -196,20 +191,20 @@ public class Mini: WidgetWrapper {
         
         view.addArrangedSubview(toggleSettingRow(
             title: localizedString("Label"),
-            action: #selector(toggleLabel),
+            action: #selector(self.toggleLabel),
             state: self.labelState
         ))
         
         view.addArrangedSubview(selectSettingsRow(
             title: localizedString("Color"),
-            action: #selector(toggleColor),
+            action: #selector(self.toggleColor),
             items: self.colors,
             selected: self.colorState.key
         ))
         
         view.addArrangedSubview(selectSettingsRow(
             title: localizedString("Alignment"),
-            action: #selector(toggleAlignment),
+            action: #selector(self.toggleAlignment),
             items: Alignments,
             selected: self.alignmentState
         ))
@@ -218,38 +213,25 @@ public class Mini: WidgetWrapper {
     }
     
     @objc private func toggleColor(_ sender: NSMenuItem) {
-        guard let key = sender.representedObject as? String else {
-            return
-        }
+        guard let key = sender.representedObject as? String else { return }
         if let newColor = Color.allCases.first(where: { $0.key == key }) {
             self.colorState = newColor
         }
-        
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_color", value: key)
         self.display()
     }
     
     @objc private func toggleLabel(_ sender: NSControl) {
-        var state: NSControl.StateValue? = nil
-        if #available(OSX 10.15, *) {
-            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
-        } else {
-            state = sender is NSButton ? (sender as! NSButton).state: nil
-        }
-        self.labelState = state! == .on ? true : false
+        self.labelState = controlState(sender)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_label", value: self.labelState)
         self.display()
     }
     
     @objc private func toggleAlignment(_ sender: NSMenuItem) {
-        guard let key = sender.representedObject as? String else {
-            return
-        }
-        
+        guard let key = sender.representedObject as? String else { return }
         if let newAlignment = Alignments.first(where: { $0.key == key }) {
             self.alignmentState = newAlignment.key
         }
-        
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_alignment", value: key)
         self.display()
     }

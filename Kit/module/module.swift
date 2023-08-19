@@ -162,10 +162,7 @@ open class Module: Module_p {
     
     // load function which call when app start
     public func mount() {
-        guard self.enabled else {
-            return
-        }
-        
+        guard self.enabled else { return }
         self.readers.forEach { (reader: Reader_p) in
             reader.initStoreValues(title: self.config.name)
             reader.start()

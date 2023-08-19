@@ -1091,7 +1091,7 @@ private class ModeButtons: NSStackView {
         if !Store.shared.bool(key: "Sensors_turnOffFanAlert", defaultValue: false) {
             let alert = NSAlert()
             alert.messageText = localizedString("Turn off fan")
-            alert.informativeText = localizedString("You are going to turn off the fan. That is not recommended action that can broke your mac, are you sure you want to do that?")
+            alert.informativeText = localizedString("You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?")
             alert.showsSuppressionButton = true
             alert.addButton(withTitle: localizedString("Turn off"))
             alert.addButton(withTitle: localizedString("Cancel"))
