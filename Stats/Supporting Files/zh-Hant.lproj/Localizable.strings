@@ -297,7 +297,7 @@
 "Uninstall fan helper" = "解除安裝風扇輔助程式";
 "Fan value" = "風扇轉速值";
 "Turn off fan" = "關閉風扇";
-"You are going to turn off the fan. That is not recommended action that can broke your mac, are you sure you want to do that?" = "您似乎要關閉您 Mac 的風扇。這可能會造成 Mac 的損毀，不建議進行此操作，您確定仍要關閉風扇嗎？";
+"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "您似乎要關閉您 Mac 的風扇。這可能會造成 Mac 的損毀，不建議進行此操作，您確定仍要關閉風扇嗎？";
 
 // Network
 "Uploading" = "上傳";

@@ -28,8 +28,8 @@ public class LineChart: WidgetWrapper {
         height: Constants.Widget.height - (2*Constants.Widget.margin.y)
     ), num: 60)
     private var colors: [Color] = Color.allCases.filter({ $0 != Color.cluster })
-    private var value: Double = 0
-    private var pressureLevel: DispatchSource.MemoryPressureEvent = .normal
+    private var _value: Double = 0
+    private var _pressureLevel: DispatchSource.MemoryPressureEvent = .normal
     
     private var historyNumbers: [KeyValue_p] = [
         KeyValue_t(key: "30", value: "30"),
@@ -115,7 +115,7 @@ public class LineChart: WidgetWrapper {
                 list.append(Double.random(in: 0..<1))
             }
             self.chart.points = list
-            self.value = 0.38
+            self._value = 0.38
         }
     }
     
@@ -128,6 +128,13 @@ public class LineChart: WidgetWrapper {
         
         guard let context = NSGraphicsContext.current?.cgContext else { return }
         
+        var value: Double = 0
+        var pressureLevel: DispatchSource.MemoryPressureEvent = .normal
+        self.queue.sync {
+            value = self._value
+            pressureLevel = self._pressureLevel
+        }
+        
         var width = self.width + (Constants.Widget.margin.x*2)
         var x: CGFloat = 0
         let lineWidth = 1 / (NSScreen.main?.backingScaleFactor ?? 1)
@@ -138,7 +145,7 @@ public class LineChart: WidgetWrapper {
         switch self.colorState {
         case .systemAccent: color = .controlAccentColor
         case .utilization: color = value.usageColor()
-        case .pressure: color = self.pressureLevel.pressureColor()
+        case .pressure: color = pressureLevel.pressureColor()
         case .monochrome:
             if self.boxState {
                 color = (isDarkMode ? NSColor.black : NSColor.white)
@@ -234,23 +241,17 @@ public class LineChart: WidgetWrapper {
         self.setWidth(width)
     }
     
-    public func setValue(_ value: Double) {
-        if self.value != value {
-            self.value = value
-        }
-        
+    public func setValue(_ newValue: Double) {
+        guard self._value != newValue else { return }
+        self._value = newValue
         DispatchQueue.main.async(execute: {
-            self.chart.addValue(value)
             self.display()
         })
     }
     
-    public func setPressure(_ level: DispatchSource.MemoryPressureEvent) {
-        guard self.pressureLevel != level else {
-            return
-        }
-        
-        self.pressureLevel = level
+    public func setPressure(_ newPressureLevel: DispatchSource.MemoryPressureEvent) {
+        guard self._pressureLevel != newPressureLevel else { return }
+        self._pressureLevel = newPressureLevel
         DispatchQueue.main.async(execute: {
             self.display()
         })
@@ -263,53 +264,53 @@ public class LineChart: WidgetWrapper {
         
         view.addArrangedSubview(toggleSettingRow(
             title: localizedString("Label"),
-            action: #selector(toggleLabel),
+            action: #selector(self.toggleLabel),
             state: self.labelState
         ))
         
         view.addArrangedSubview(toggleSettingRow(
             title: localizedString("Value"),
-            action: #selector(toggleValue),
+            action: #selector(self.toggleValue),
             state: self.valueState
         ))
         
         view.addArrangedSubview(toggleSettingRow(
             title: localizedString("Colorize value"),
-            action: #selector(toggleValueColor),
+            action: #selector(self.toggleValueColor),
             state: self.valueColorState
         ))
         
         self.boxSettingsView = toggleSettingRow(
             title: localizedString("Box"),
-            action: #selector(toggleBox),
+            action: #selector(self.toggleBox),
             state: self.boxState
         )
         view.addArrangedSubview(self.boxSettingsView!)
         
         self.frameSettingsView = toggleSettingRow(
             title: localizedString("Frame"),
-            action: #selector(toggleFrame),
+            action: #selector(self.toggleFrame),
             state: self.frameState
         )
         view.addArrangedSubview(self.frameSettingsView!)
         
         view.addArrangedSubview(selectSettingsRow(
             title: localizedString("Color"),
-            action: #selector(toggleColor),
+            action: #selector(self.toggleColor),
             items: self.colors,
             selected: self.colorState.key
         ))
         
         view.addArrangedSubview(selectSettingsRow(
             title: localizedString("Number of reads in the chart"),
-            action: #selector(toggleHistoryCount),
+            action: #selector(self.toggleHistoryCount),
             items: self.historyNumbers,
             selected: "\(self.historyCount)"
         ))
         
         view.addArrangedSubview(selectSettingsRow(
             title: localizedString("Scaling"),
-            action: #selector(toggleScale),
+            action: #selector(self.toggleScale),
             items: Scale.allCases,
             selected: self.scaleState.key
         ))
@@ -318,25 +319,13 @@ public class LineChart: WidgetWrapper {
     }
     
     @objc private func toggleLabel(_ sender: NSControl) {
-        var state: NSControl.StateValue? = nil
-        if #available(OSX 10.15, *) {
-            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
-        } else {
-            state = sender is NSButton ? (sender as! NSButton).state: nil
-        }
-        self.labelState = state! == .on ? true : false
+        self.labelState = controlState(sender)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_label", value: self.labelState)
         self.display()
     }
     
     @objc private func toggleBox(_ sender: NSControl) {
-        var state: NSControl.StateValue? = nil
-        if #available(OSX 10.15, *) {
-            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
-        } else {
-            state = sender is NSButton ? (sender as! NSButton).state: nil
-        }
-        self.boxState = state! == .on ? true : false
+        self.boxState = controlState(sender)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_box", value: self.boxState)
         
         if self.frameState {
@@ -349,13 +338,7 @@ public class LineChart: WidgetWrapper {
     }
     
     @objc private func toggleFrame(_ sender: NSControl) {
-        var state: NSControl.StateValue? = nil
-        if #available(OSX 10.15, *) {
-            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
-        } else {
-            state = sender is NSButton ? (sender as! NSButton).state: nil
-        }
-        self.frameState = state! == .on ? true : false
+        self.frameState = controlState(sender)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_frame", value: self.frameState)
         
         if self.boxState {
@@ -368,59 +351,37 @@ public class LineChart: WidgetWrapper {
     }
     
     @objc private func toggleValue(_ sender: NSControl) {
-        var state: NSControl.StateValue? = nil
-        if #available(OSX 10.15, *) {
-            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
-        } else {
-            state = sender is NSButton ? (sender as! NSButton).state: nil
-        }
-        self.valueState = state! == .on ? true : false
+        self.valueState = controlState(sender)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_value", value: self.valueState)
         self.display()
     }
     
     @objc private func toggleColor(_ sender: NSMenuItem) {
-        guard let key = sender.representedObject as? String else {
-            return
-        }
+        guard let key = sender.representedObject as? String else { return }
         if let newColor = Color.allCases.first(where: { $0.key == key }) {
             self.colorState = newColor
         }
-        
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_color", value: key)
         self.display()
     }
     
     @objc private func toggleValueColor(_ sender: NSControl) {
-        var state: NSControl.StateValue? = nil
-        if #available(OSX 10.15, *) {
-            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
-        } else {
-            state = sender is NSButton ? (sender as! NSButton).state: nil
-        }
-        self.valueColorState = state! == .on ? true : false
-        
+        self.valueColorState = controlState(sender)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_valueColor", value: self.valueColorState)
         self.display()
     }
     
     @objc private func toggleHistoryCount(_ sender: NSMenuItem) {
-        guard let key = sender.representedObject as? String, let value = Int(key) else {
-            return
-        }
+        guard let key = sender.representedObject as? String, let value = Int(key) else { return }
         self.historyCount = value
-        
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_historyCount", value: value)
         self.chart.reinit(value)
         self.display()
     }
     
     @objc private func toggleScale(_ sender: NSMenuItem) {
-        guard let key = sender.representedObject as? String else {
-            return
-        }
-        guard let value = Scale.allCases.first(where: { $0.key == key }) else { return }
-        
+        guard let key = sender.representedObject as? String,
+              let value = Scale.allCases.first(where: { $0.key == key }) else { return }
         self.scaleState = value
         self.chart.setScale(value)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_scale", value: key)

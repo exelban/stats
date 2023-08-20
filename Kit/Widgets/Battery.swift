@@ -18,12 +18,11 @@ public class BatteryWidget: WidgetWrapper {
     private var colorState: Bool = false
     private var hideAdditionalWhenFull: Bool = true
     
-    private var percentage: Double? = nil
-    private var time: Int = 0
-    private var charging: Bool = false
-    private var ACStatus: Bool = false
-    private var lowPowerMode: Bool = false
-    private var optimizedCharging: Bool = false
+    private var _percentage: Double? = nil
+    private var _time: Int = 0
+    private var _charging: Bool = false
+    private var _ACStatus: Bool = false
+    private var _optimizedCharging: Bool = false
     
     public init(title: String, config: NSDictionary?, preview: Bool = false) {
         let widgetTitle: String = title
@@ -46,7 +45,7 @@ public class BatteryWidget: WidgetWrapper {
         }
         
         if preview {
-            self.percentage = 0.72
+            self._percentage = 0.72
             self.additional = "none"
             self.iconState = true
             self.colorState = false
@@ -62,15 +61,28 @@ public class BatteryWidget: WidgetWrapper {
         
         guard let ctx = NSGraphicsContext.current?.cgContext else { return }
         
+        var percentage: Double? = nil
+        var time: Int = 0
+        var charging: Bool = false
+        var ACStatus: Bool = false
+        var optimizedCharging: Bool = false
+        self.queue.sync {
+            percentage = self._percentage
+            time = self._time
+            charging = self._charging
+            ACStatus = self._ACStatus
+            optimizedCharging = self._optimizedCharging
+        }
+        
         var width: CGFloat = Constants.Widget.margin.x*2
         var x: CGFloat = 0
         let isShortTimeFormat: Bool = self.timeFormat == "short"
         
-        if !self.hideAdditionalWhenFull || (self.hideAdditionalWhenFull && self.percentage != 1 && !self.optimizedCharging) {
+        if !self.hideAdditionalWhenFull || (self.hideAdditionalWhenFull && percentage != 1 && !optimizedCharging) {
             switch self.additional {
             case "percentage":
                 var value = "n/a"
-                if let percentage = self.percentage {
+                if let percentage {
                     value = "\(Int((percentage.rounded(toPlaces: 2)) * 100))%"
                 }
                 let rowWidth = self.drawOneRow(value: value, x: x).rounded(.up)
@@ -78,30 +90,30 @@ public class BatteryWidget: WidgetWrapper {
                 x += rowWidth + Constants.Widget.spacing
             case "time":
                 let rowWidth = self.drawOneRow(
-                    value: Double(self.time*60).printSecondsToHoursMinutesSeconds(short: isShortTimeFormat),
+                    value: Double(time*60).printSecondsToHoursMinutesSeconds(short: isShortTimeFormat),
                     x: x
                 ).rounded(.up)
                 width += rowWidth + Constants.Widget.spacing
                 x += rowWidth + Constants.Widget.spacing
             case "percentageAndTime":
                 var value = "n/a"
-                if let percentage = self.percentage {
+                if let percentage {
                     value = "\(Int((percentage.rounded(toPlaces: 2)) * 100))%"
                 }
                 let rowWidth = self.drawTwoRows(
                     first: value,
-                    second: Double(self.time*60).printSecondsToHoursMinutesSeconds(short: isShortTimeFormat),
+                    second: Double(time*60).printSecondsToHoursMinutesSeconds(short: isShortTimeFormat),
                     x: x
                 ).rounded(.up)
                 width += rowWidth + Constants.Widget.spacing
                 x += rowWidth + Constants.Widget.spacing
             case "timeAndPercentage":
                 var value = "n/a"
-                if let percentage = self.percentage {
+                if let percentage {
                     value = "\(Int((percentage.rounded(toPlaces: 2)) * 100))%"
                 }
                 let rowWidth = self.drawTwoRows(
-                    first: Double(self.time*60).printSecondsToHoursMinutesSeconds(short: isShortTimeFormat),
+                    first: Double(time*60).printSecondsToHoursMinutesSeconds(short: isShortTimeFormat),
                     second: value,
                     x: x
                 ).rounded(.up)
@@ -143,14 +155,14 @@ public class BatteryWidget: WidgetWrapper {
         ctx.restoreGState()
         width += 2 // add battery point width
         
-        if let percentage = self.percentage {
+        if let percentage {
             let maxWidth = batterySize.width - offset*2 - borderWidth*2 - 1
             let innerWidth: CGFloat = max(1, maxWidth * CGFloat(percentage))
             let innerOffset: CGFloat = -offset + borderWidth + 1
             var colorState = self.colorState
             let color = percentage.batteryColor(color: colorState)
             
-            if self.additional == "innerPercentage" && !self.ACStatus {
+            if self.additional == "innerPercentage" && !ACStatus {
                 colorState = false
                 let innerUnderground = NSBezierPath(roundedRect: NSRect(
                     x: batteryFrame.bounds.origin.x + innerOffset,
@@ -172,7 +184,7 @@ public class BatteryWidget: WidgetWrapper {
             color.set()
             inner.fill()
             
-            if self.additional == "innerPercentage" && !self.ACStatus {
+            if self.additional == "innerPercentage" && !ACStatus {
                 let style = NSMutableParagraphStyle()
                 style.alignment = .center
                 let attributes = [
@@ -206,14 +218,14 @@ public class BatteryWidget: WidgetWrapper {
             NSAttributedString.init(string: "?", attributes: attributes).draw(with: rect)
         }
         
-        if self.ACStatus {
+        if ACStatus {
             let batteryCenter: CGPoint = CGPoint(
                 x: batteryFrame.bounds.origin.x + (batteryFrame.bounds.width/2),
                 y: batteryFrame.bounds.origin.y + (batteryFrame.bounds.height/2)
             )
             var points: [CGPoint] = []
             
-            if self.charging {
+            if charging {
                 let iconSize: CGSize = CGSize(width: 9, height: batterySize.height + 6)
                 let min = CGPoint(
                     x: batteryCenter.x - (iconSize.width/2),
@@ -332,28 +344,28 @@ public class BatteryWidget: WidgetWrapper {
         var updated: Bool = false
         let timeFormat: String = Store.shared.string(key: "\(self.title)_timeFormat", defaultValue: self.timeFormat)
         
-        if self.percentage != percentage {
-            self.percentage = percentage
+        if self._percentage != percentage {
+            self._percentage = percentage
             updated = true
         }
-        if let status = ACStatus, self.ACStatus != status {
-            self.ACStatus = status
+        if let status = ACStatus, self._ACStatus != status {
+            self._ACStatus = status
             updated = true
         }
-        if let charging = isCharging, self.charging != charging {
-            self.charging = charging
+        if let charging = isCharging, self._charging != charging {
+            self._charging = charging
             updated = true
         }
-        if let time = time, self.time != time {
-            self.time = time
+        if let time = time, self._time != time {
+            self._time = time
             updated = true
         }
         if self.timeFormat != timeFormat {
             self.timeFormat = timeFormat
             updated = true
         }
-        if let state = optimizedCharging, self.optimizedCharging != state {
-            self.optimizedCharging = state
+        if let state = optimizedCharging, self._optimizedCharging != state {
+            self._optimizedCharging = state
             updated = true
         }
         

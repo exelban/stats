@@ -92,13 +92,13 @@ public class Tachometer: WidgetWrapper {
         
         view.addArrangedSubview(toggleSettingRow(
             title: localizedString("Label"),
-            action: #selector(toggleLabel),
+            action: #selector(self.toggleLabel),
             state: self.labelState
         ))
         
         view.addArrangedSubview(toggleSettingRow(
             title: localizedString("Monochrome accent"),
-            action: #selector(toggleMonochrome),
+            action: #selector(self.toggleMonochrome),
             state: self.monochromeState
         ))
         
@@ -106,14 +106,7 @@ public class Tachometer: WidgetWrapper {
     }
     
     @objc private func toggleLabel(_ sender: NSControl) {
-        var state: NSControl.StateValue? = nil
-        if #available(OSX 10.15, *) {
-            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
-        } else {
-            state = sender is NSButton ? (sender as! NSButton).state: nil
-        }
-        
-        self.labelState = state! == .on ? true : false
+        self.labelState = controlState(sender)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_label", value: self.labelState)
         
         let x = self.labelState ? 6 + Constants.Widget.spacing : 0
@@ -123,14 +116,7 @@ public class Tachometer: WidgetWrapper {
     }
     
     @objc private func toggleMonochrome(_ sender: NSControl) {
-        var state: NSControl.StateValue? = nil
-        if #available(OSX 10.15, *) {
-            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
-        } else {
-            state = sender is NSButton ? (sender as! NSButton).state: nil
-        }
-        
-        self.monochromeState = state! == .on ? true : false
+        self.monochromeState = controlState(sender)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_monochrome", value: self.monochromeState)
     }
 }

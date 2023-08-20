@@ -244,25 +244,13 @@ public class NetworkChart: WidgetWrapper {
     }
     
     @objc private func toggleLabel(_ sender: NSControl) {
-        var state: NSControl.StateValue? = nil
-        if #available(OSX 10.15, *) {
-            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
-        } else {
-            state = sender is NSButton ? (sender as! NSButton).state: nil
-        }
-        self.labelState = state! == .on ? true : false
+        self.labelState = controlState(sender)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_label", value: self.labelState)
         self.display()
     }
     
     @objc private func toggleBox(_ sender: NSControl) {
-        var state: NSControl.StateValue? = nil
-        if #available(OSX 10.15, *) {
-            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
-        } else {
-            state = sender is NSButton ? (sender as! NSButton).state: nil
-        }
-        self.boxState = state! == .on ? true : false
+        self.boxState = controlState(sender)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_box", value: self.boxState)
         
         if self.frameState {
@@ -275,13 +263,7 @@ public class NetworkChart: WidgetWrapper {
     }
     
     @objc private func toggleFrame(_ sender: NSControl) {
-        var state: NSControl.StateValue? = nil
-        if #available(OSX 10.15, *) {
-            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
-        } else {
-            state = sender is NSButton ? (sender as! NSButton).state: nil
-        }
-        self.frameState = state! == .on ? true : false
+        self.frameState = controlState(sender)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_frame", value: self.frameState)
         
         if self.boxState {
@@ -294,9 +276,7 @@ public class NetworkChart: WidgetWrapper {
     }
     
     @objc private func toggleHistoryCount(_ sender: NSMenuItem) {
-        guard let key = sender.representedObject as? String, let value = Int(key) else {
-            return
-        }
+        guard let key = sender.representedObject as? String, let value = Int(key) else { return }
         self.historyCount = value
         
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_historyCount", value: value)
@@ -305,9 +285,7 @@ public class NetworkChart: WidgetWrapper {
     }
     
     @objc private func toggleDownloadColor(_ sender: NSMenuItem) {
-        guard let key = sender.representedObject as? String else {
-            return
-        }
+        guard let key = sender.representedObject as? String else { return }
         if let newColor = Color.allCases.first(where: { $0.key == key }) {
             self.downloadColor = newColor
             Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_downloadColor", value: newColor.key)
@@ -320,9 +298,7 @@ public class NetworkChart: WidgetWrapper {
     }
     
     @objc private func toggleUploadColor(_ sender: NSMenuItem) {
-        guard let key = sender.representedObject as? String else {
-            return
-        }
+        guard let key = sender.representedObject as? String else { return }
         if let newColor = Color.allCases.first(where: { $0.key == key }) {
             self.uploadColor = newColor
             Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_uploadColor", value: newColor.key)
@@ -335,11 +311,8 @@ public class NetworkChart: WidgetWrapper {
     }
     
     @objc private func toggleScale(_ sender: NSMenuItem) {
-        guard let key = sender.representedObject as? String else {
-            return
-        }
-        guard let value = Scale.allCases.first(where: { $0.key == key }) else { return }
-        
+        guard let key = sender.representedObject as? String,
+              let value = Scale.allCases.first(where: { $0.key == key }) else { return }
         self.scaleState = value
         self.chart.setScale(value, self.commonScaleState)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_scale", value: key)
@@ -347,14 +320,7 @@ public class NetworkChart: WidgetWrapper {
     }
     
     @objc private func toggleCommonScale(_ sender: NSControl) {
-        var state: NSControl.StateValue? = nil
-        if #available(OSX 10.15, *) {
-            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
-        } else {
-            state = sender is NSButton ? (sender as! NSButton).state: nil
-        }
-        
-        self.commonScaleState = state! == .on ? true : false
+        self.commonScaleState = controlState(sender)
         self.chart.setScale(self.scaleState, self.commonScaleState)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_commonScale", value: self.commonScaleState)
         self.display()
