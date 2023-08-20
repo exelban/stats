@@ -66,7 +66,7 @@ So, if your issue was closed without any response, most probably it already has 
 - Polski
 - Українська
 - Русский
-- 中文 (简体) (thanks to [chenguokai](https://github.com/chenguokai) and [Tai-Zhou](https://github.com/Tai-Zhou))
+- 中文 (简体) (thanks to [chenguokai](https://github.com/chenguokai), [Tai-Zhou](https://github.com/Tai-Zhou), and [Jerry](https://github.com/Jerry23011))
 - Türkçe (thanks to [yusufozgul](https://github.com/yusufozgul))
 - Korean (thanks to [escapeanaemia](https://github.com/escapeanaemia))
 - German (thanks to [natterstefan](https://github.com/natterstefan) and [aneitel](https://github.com/aneitel))
