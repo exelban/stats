@@ -49,16 +49,16 @@ public protocol Sensor_p {
     var formattedPopupValue: String { get }
 }
 
-public struct Sensors_List: Codable {
+public class Sensors_List: Codable {
     private var queue: DispatchQueue = DispatchQueue(label: "eu.exelban.Stats.Sensors.SynchronizedArray", attributes: .concurrent)
     
     private var list: [Sensor_p] = []
     public var sensors: [Sensor_p] {
         get {
-            self.queue.sync{self.list}
+            self.queue.sync{ self.list }
         }
-        set(newValue) {
-            self.queue.sync {
+        set {
+            self.queue.async(flags: .barrier) {
                 self.list = newValue
             }
         }
@@ -76,7 +76,7 @@ public struct Sensors_List: Codable {
         try container.encode(wrappers, forKey: .sensors)
     }
     
-    public init(from decoder: Decoder) throws {
+    required public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let wrappers = try container.decode([Sensor_w].self, forKey: .sensors)
         self.sensors = wrappers.map { $0.sensor }

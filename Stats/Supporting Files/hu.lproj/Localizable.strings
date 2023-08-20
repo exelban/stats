@@ -297,7 +297,7 @@
 "Uninstall fan helper" = "Ventillátor segítő törlése";
 "Fan value" = "Ventillátor érték";
 "Turn off fan" = "Turn off fan";
-"You are going to turn off the fan. That is not recommended action that can broke your mac, are you sure you want to do that?" = "You are going to turn off the fan. That is not recommended action that can broke your mac, are you sure you want to do that?";
+"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?";
 
 // Network
 "Uploading" = "Feltöltés";

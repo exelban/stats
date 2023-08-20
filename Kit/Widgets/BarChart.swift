@@ -16,11 +16,11 @@ public class BarChart: WidgetWrapper {
     private var boxState: Bool = true
     private var frameState: Bool = false
     private var colorState: Color = .systemAccent
-    
     private var colors: [Color] = Color.allCases
-    private var value: [[ColorValue]] = [[]]
-    private var pressureLevel: DispatchSource.MemoryPressureEvent = .normal
-    private var colorZones: colorZones = (0.6, 0.8)
+    
+    private var _value: [[ColorValue]] = [[]]
+    private var _pressureLevel: DispatchSource.MemoryPressureEvent = .normal
+    private var _colorZones: colorZones = (0.6, 0.8)
     
     private var boxSettingsView: NSView? = nil
     private var frameSettingsView: NSView? = nil
@@ -38,7 +38,7 @@ public class BarChart: WidgetWrapper {
                 if let previewConfig = config!["Preview"] as? NSDictionary {
                     configuration = previewConfig
                     if let value = configuration["Value"] as? String {
-                        self.value = value.split(separator: ",").map{ ([ColorValue(Double($0) ?? 0)]) }
+                        self._value = value.split(separator: ",").map{ ([ColorValue(Double($0) ?? 0)]) }
                     }
                 }
             }
@@ -53,7 +53,7 @@ public class BarChart: WidgetWrapper {
                 self.colors = self.colors.filter{ !unsupportedColors.contains($0.key) }
             }
             if let color = configuration["Color"] as? String {
-                if let defaultColor = colors.first(where: { "\($0.self)" == color }) {
+                if let defaultColor = self.colors.first(where: { "\($0.self)" == color }) {
                     self.colorState = defaultColor
                 }
             }
@@ -76,8 +76,8 @@ public class BarChart: WidgetWrapper {
         }
         
         if preview {
-            if self.value.isEmpty {
-                self.value = [[ColorValue(0.72)], [ColorValue(0.38)]]
+            if self._value.isEmpty {
+                self._value = [[ColorValue(0.72)], [ColorValue(0.38)]]
             }
             self.setFrameSize(NSSize(width: 36, height: self.frame.size.height))
             self.invalidateIntrinsicContentSize()
@@ -92,12 +92,21 @@ public class BarChart: WidgetWrapper {
     public override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         
+        var value: [[ColorValue]] = []
+        var pressureLevel: DispatchSource.MemoryPressureEvent = .normal
+        var colorZones: colorZones = (0.6, 0.8)
+        self.queue.sync {
+            value = self._value
+            pressureLevel = self._pressureLevel
+            colorZones = self._colorZones
+        }
+        
         var width: CGFloat = Constants.Widget.margin.x*2
         var x: CGFloat = 0
         let lineWidth = 1 / (NSScreen.main?.backingScaleFactor ?? 1)
         let offset = lineWidth / 2
         
-        switch self.value.count {
+        switch value.count {
         case 0, 1:
             width += 10 + (offset*2)
         case 2:
@@ -155,23 +164,23 @@ public class BarChart: WidgetWrapper {
         
         let widthForBarChart = box.bounds.width
         let partitionMargin: CGFloat = 0.5
-        let partitionsMargin: CGFloat = (CGFloat(self.value.count - 1)) * partitionMargin / CGFloat(self.value.count - 1)
-        let partitionWidth: CGFloat = (widthForBarChart / CGFloat(self.value.count)) - CGFloat(partitionsMargin.isNaN ? 0 : partitionsMargin)
+        let partitionsMargin: CGFloat = (CGFloat(value.count - 1)) * partitionMargin / CGFloat(value.count - 1)
+        let partitionWidth: CGFloat = (widthForBarChart / CGFloat(value.count)) - CGFloat(partitionsMargin.isNaN ? 0 : partitionsMargin)
         let maxPartitionHeight: CGFloat = box.bounds.height
         
         x += offset
-        for i in 0..<self.value.count {
+        for i in 0..<value.count {
             var y = offset
-            for a in 0..<self.value[i].count {
-                let partitionValue = self.value[i][a]
+            for a in 0..<value[i].count {
+                let partitionValue = value[i][a]
                 let partitionHeight = maxPartitionHeight * CGFloat(partitionValue.value)
                 let partition = NSBezierPath(rect: NSRect(x: x, y: y, width: partitionWidth, height: partitionHeight))
                 
                 if partitionValue.color == nil {
                     switch self.colorState {
                     case .systemAccent: NSColor.controlAccentColor.set()
-                    case .utilization: partitionValue.value.usageColor(zones: self.colorZones, reversed: self.title == "Battery").set()
-                    case .pressure: self.pressureLevel.pressureColor().set()
+                    case .utilization: partitionValue.value.usageColor(zones: colorZones, reversed: self.title == "Battery").set()
+                    case .pressure: pressureLevel.pressureColor().set()
                     case .cluster: (partitionValue.value.clusterColor(i) ?? .controlAccentColor).set()
                     case .monochrome:
                         if self.boxState {
@@ -203,34 +212,25 @@ public class BarChart: WidgetWrapper {
         self.setWidth(width)
     }
     
-    public func setValue(_ value: [[ColorValue]]) {
-        guard self.value != value else {
-            return
-        }
-        
-        self.value = value
+    public func setValue(_ newValue: [[ColorValue]]) {
+        guard self._value != newValue else { return }
+        self._value = newValue
         DispatchQueue.main.async(execute: {
             self.display()
         })
     }
     
-    public func setPressure(_ level: DispatchSource.MemoryPressureEvent) {
-        guard self.pressureLevel != level else {
-            return
-        }
-        
-        self.pressureLevel = level
+    public func setPressure(_ newPressureLevel: DispatchSource.MemoryPressureEvent) {
+        guard self._pressureLevel != newPressureLevel else { return }
+        self._pressureLevel = newPressureLevel
         DispatchQueue.main.async(execute: {
             self.display()
         })
     }
     
-    public func setColorZones(_ zones: colorZones) {
-        guard self.colorZones != zones else {
-            return
-        }
-        
-        self.colorZones = zones
+    public func setColorZones(_ newColorZones: colorZones) {
+        guard self._colorZones != newColorZones else { return }
+        self._colorZones = newColorZones
         DispatchQueue.main.async(execute: {
             self.display()
         })
@@ -243,27 +243,27 @@ public class BarChart: WidgetWrapper {
         
         view.addArrangedSubview(toggleSettingRow(
             title: localizedString("Label"),
-            action: #selector(toggleLabel),
+            action: #selector(self.toggleLabel),
             state: self.labelState
         ))
         
         self.boxSettingsView = toggleSettingRow(
             title: localizedString("Box"),
-            action: #selector(toggleBox),
+            action: #selector(self.toggleBox),
             state: self.boxState
         )
         view.addArrangedSubview(self.boxSettingsView!)
         
         self.frameSettingsView = toggleSettingRow(
             title: localizedString("Frame"),
-            action: #selector(toggleFrame),
+            action: #selector(self.toggleFrame),
             state: self.frameState
         )
         view.addArrangedSubview(self.frameSettingsView!)
         
         view.addArrangedSubview(selectSettingsRow(
             title: localizedString("Color"),
-            action: #selector(toggleColor),
+            action: #selector(self.toggleColor),
             items: self.colors,
             selected: self.colorState.key
         ))
@@ -272,25 +272,13 @@ public class BarChart: WidgetWrapper {
     }
     
     @objc private func toggleLabel(_ sender: NSControl) {
-        var state: NSControl.StateValue? = nil
-        if #available(OSX 10.15, *) {
-            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
-        } else {
-            state = sender is NSButton ? (sender as! NSButton).state: nil
-        }
-        self.labelState = state! == .on ? true : false
+        self.labelState = controlState(sender)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_label", value: self.labelState)
         self.display()
     }
     
     @objc private func toggleBox(_ sender: NSControl) {
-        var state: NSControl.StateValue? = nil
-        if #available(OSX 10.15, *) {
-            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
-        } else {
-            state = sender is NSButton ? (sender as! NSButton).state: nil
-        }
-        self.boxState = state! == .on ? true : false
+        self.boxState = controlState(sender)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_box", value: self.boxState)
         
         if self.frameState {
@@ -303,13 +291,7 @@ public class BarChart: WidgetWrapper {
     }
     
     @objc private func toggleFrame(_ sender: NSControl) {
-        var state: NSControl.StateValue? = nil
-        if #available(OSX 10.15, *) {
-            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
-        } else {
-            state = sender is NSButton ? (sender as! NSButton).state: nil
-        }
-        self.frameState = state! == .on ? true : false
+        self.frameState = controlState(sender)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_frame", value: self.frameState)
         
         if self.boxState {
@@ -322,9 +304,7 @@ public class BarChart: WidgetWrapper {
     }
     
     @objc private func toggleColor(_ sender: NSMenuItem) {
-        guard let key = sender.representedObject as? String else {
-            return
-        }
+        guard let key = sender.representedObject as? String else { return }
         if let newColor = self.colors.first(where: { $0.key == key }) {
             self.colorState = newColor
         }
