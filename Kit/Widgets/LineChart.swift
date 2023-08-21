@@ -245,6 +245,7 @@ public class LineChart: WidgetWrapper {
         guard self._value != newValue else { return }
         self._value = newValue
         DispatchQueue.main.async(execute: {
+            self.chart.addValue(newValue)
             self.display()
         })
     }
