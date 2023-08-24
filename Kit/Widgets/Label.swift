@@ -58,10 +58,7 @@ public class Label: WidgetWrapper {
     }
     
     public func setLabel(_ new: String) {
-        if self.label == new {
-            return
-        }
-        
+        guard self.label != new else { return }
         self.label = new
         DispatchQueue.main.async(execute: {
             self.needsDisplay = true

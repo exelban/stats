@@ -66,10 +66,10 @@ So, if your issue was closed without any response, most probably it already has 
 - Polski
 - Українська
 - Русский
-- 中文 (简体) (thanks to [chenguokai](https://github.com/chenguokai) and [Tai-Zhou](https://github.com/Tai-Zhou))
+- 中文 (简体) (thanks to [chenguokai](https://github.com/chenguokai), [Tai-Zhou](https://github.com/Tai-Zhou), and [Jerry](https://github.com/Jerry23011))
 - Türkçe (thanks to [yusufozgul](https://github.com/yusufozgul))
 - Korean (thanks to [escapeanaemia](https://github.com/escapeanaemia))
-- German (thanks to [natterstefan](https://github.com/natterstefan))
+- German (thanks to [natterstefan](https://github.com/natterstefan) and [aneitel](https://github.com/aneitel))
 - 中文 (繁體) (thanks to [iamch15542](https://github.com/iamch15542) and [jrthsr700tmax](https://github.com/jrthsr700tmax))
 - Spanish (thanks to [jcconca](https://github.com/jcconca))
 - Vietnamese (thanks to [xuandung38](https://github.com/xuandung38))
@@ -94,8 +94,9 @@ So, if your issue was closed without any response, most probably it already has 
 - Persian (thanks to [ShawnAlisson](https://github.com/ShawnAlisson))
 - Slovenský (thanks to [martinbernat](https://github.com/martinbernat))
 - Thai (thanks to [apiphoomchu](https://github.com/apiphoomchu))
+- Estonian (thanks to [postylem](https://github.com/postylem))
 
-You can help by adding a new language or improve the existing translation.
+You can help by adding a new language or improving the existing translation.
 
 ## License
 [MIT License](https://github.com/exelban/stats/blob/master/LICENSE)

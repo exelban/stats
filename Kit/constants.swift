@@ -55,3 +55,29 @@ public struct Constants {
     
     public static let defaultProcessIcon = NSWorkspace.shared.icon(forFile: "/bin/bash")
 }
+
+public enum ModuleType: Int {
+    case CPU
+    case RAM
+    case GPU
+    case disk
+    case sensors
+    case network
+    case battery
+    case bluetooth
+    case clock
+    
+    var rawValue: String {
+        switch self {
+        case .CPU: return "CPU"
+        case .RAM: return "RAM"
+        case .GPU: return "GPU"
+        case .disk: return "Disk"
+        case .sensors: return "Sensors"
+        case .network: return "Network"
+        case .battery: return "Battery"
+        case .bluetooth: return "Bluetooth"
+        case .clock: return "Clock"
+        }
+    }
+}

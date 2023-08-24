@@ -12,14 +12,14 @@
 import Foundation
 
 private struct Report: Codable {
-    let deviceID: UUID
+    let id: UUID
     
+    let version: String?
     let modules: [String]
     
-    let language: String?
     let device: String?
-    let macOS: String?
-    let version: String?
+    let os: String?
+    let language: String?
 }
 
 public class Telemetry {
@@ -57,12 +57,12 @@ public class Telemetry {
         guard self.isEnabled else { return }
         
         let obj: Report = Report(
-            deviceID: self.id,
+            id: self.id,
+            version: Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String,
             modules: self.modules.pointee.filter({ $0.available && $0.enabled }).compactMap({ $0.name }),
-            language: Locale.current.languageCode,
             device: SystemKit.shared.device.model.id,
-            macOS: SystemKit.shared.device.os?.version.getFullVersion(),
-            version: Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+            os: SystemKit.shared.device.os?.version.getFullVersion(),
+            language: Locale.current.languageCode
         )
         let jsonData = try? JSONEncoder().encode(obj)
         

@@ -20,11 +20,7 @@ internal class Popup: PopupWrapper {
     private let dashboardHeight: CGFloat = 90
     
     private var detailsHeight: CGFloat {
-        var count: CGFloat = 7
-        if #available(macOS 12.0, *) {
-            count += 1
-        }
-        return (22 * count) + Constants.Popup.separatorHeight
+        return (22 * 7) + Constants.Popup.separatorHeight
     }
     private let batteryHeight: CGFloat = (22 * 4) + Constants.Popup.separatorHeight
     private let adapterHeight: CGFloat = (22 * 2) + Constants.Popup.separatorHeight
@@ -44,7 +40,6 @@ internal class Popup: PopupWrapper {
     private var capacityField: NSTextField? = nil
     private var cyclesField: NSTextField? = nil
     private var lastChargeField: NSTextField? = nil
-    private var lowPowerModeField: NSTextField? = nil
     
     private var amperageField: NSTextField? = nil
     private var voltageField: NSTextField? = nil
@@ -108,6 +103,10 @@ internal class Popup: PopupWrapper {
         fatalError("init(coder:) has not been implemented")
     }
     
+    public override func disappear() {
+        self.processes.forEach{ $0.setLock(false) }
+    }
+    
     public func numberOfProcessesUpdated() {
         if self.processes.count == self.numberOfProcesses {
             return
@@ -164,10 +163,6 @@ internal class Popup: PopupWrapper {
         self.timeLabelField = t.0
         self.timeField = t.1
         self.lastChargeField = popupRow(container, title: "\(localizedString("Last charge")):", value: "").1
-        
-        if #available(macOS 12.0, *) {
-            self.lowPowerModeField = popupRow(container, title: "\(localizedString("Low power mode")):", value: localizedString("Unknown")).1
-        }
         
         view.addSubview(separator)
         view.addSubview(container)
@@ -305,10 +300,6 @@ internal class Popup: PopupWrapper {
             } else {
                 self.lastChargeField?.stringValue = localizedString("Unknown")
                 self.lastChargeField?.toolTip = localizedString("Unknown")
-            }
-            
-            if let powerMode = value.isLowPowerMode {
-                self.lowPowerModeField?.stringValue = powerMode ? localizedString("Enabled") : localizedString("Disabled")
             }
             
             self.amperageField?.stringValue = "\(abs(value.amperage)) mA"

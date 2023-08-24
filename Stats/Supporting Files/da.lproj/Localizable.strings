@@ -73,6 +73,7 @@
 "Settings" = "Indstillinger";
 "Name" = "Navn";
 "Format" = "Format";
+"Turn off" = "Turn off";
 
 // Setup
 "Stats Setup" = "Stats opsætning";
@@ -295,6 +296,8 @@
 "Install fan helper" = "Tillad blæserkontrol";
 "Uninstall fan helper" = "Afinstaller blæserkontrol";
 "Fan value" = "Blæserværdi";
+"Turn off fan" = "Turn off fan";
+"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?";
 
 // Network
 "Uploading" = "Upload";

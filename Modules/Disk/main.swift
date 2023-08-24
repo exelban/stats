@@ -201,9 +201,9 @@ public class Disk: Module {
     private let settingsView: Settings = Settings()
     private let portalView: Portal = Portal()
     
-    private var capacityReader: CapacityReader = CapacityReader()
+    private var capacityReader: CapacityReader = CapacityReader(.disk)
     private var activityReader: ActivityReader = ActivityReader()
-    private var processReader: ProcessReader = ProcessReader()
+    private var processReader: ProcessReader = ProcessReader(.disk)
     
     private var selectedDisk: String = ""
     private var notificationLevelState: Bool = false
@@ -223,40 +223,40 @@ public class Disk: Module {
         
         self.selectedDisk = Store.shared.string(key: "\(Disk.name)_disk", defaultValue: self.selectedDisk)
         
-        self.capacityReader.callbackHandler = { [unowned self] value in
-            if let value = value {
-                self.capacityCallback(value)
+        self.capacityReader.callbackHandler = { [weak self] value in
+            if let value {
+                self?.capacityCallback(value)
             }
         }
-        self.capacityReader.readyCallback = { [unowned self] in
-            self.readyHandler()
+        self.capacityReader.readyCallback = { [weak self] in
+            self?.readyHandler()
         }
         
-        self.activityReader.callbackHandler = { [unowned self] value in
-            if let value = value {
-                self.activityCallback(value)
+        self.activityReader.callbackHandler = { [weak self] value in
+            if let value {
+                self?.activityCallback(value)
             }
         }
-        self.processReader.callbackHandler = { [unowned self] value in
+        self.processReader.callbackHandler = { [weak self] value in
             if let list = value {
-                self.popupView.processCallback(list)
+                self?.popupView.processCallback(list)
             }
         }
         
-        self.settingsView.selectedDiskHandler = { [unowned self] value in
-            self.selectedDisk = value
-            self.capacityReader.read()
+        self.settingsView.selectedDiskHandler = { [weak self] value in
+            self?.selectedDisk = value
+            self?.capacityReader.read()
         }
-        self.settingsView.callback = { [unowned self] in
-            self.capacityReader.read()
+        self.settingsView.callback = { [weak self] in
+            self?.capacityReader.read()
         }
-        self.settingsView.setInterval = { [unowned self] value in
-            self.capacityReader.setInterval(value)
+        self.settingsView.setInterval = { [weak self] value in
+            self?.capacityReader.setInterval(value)
         }
-        self.settingsView.callbackWhenUpdateNumberOfProcesses = {
-            self.popupView.numberOfProcessesUpdated()
+        self.settingsView.callbackWhenUpdateNumberOfProcesses = { [weak self] in
+            self?.popupView.numberOfProcessesUpdated()
             DispatchQueue.global(qos: .background).async {
-                self.processReader.read()
+                self?.processReader.read()
             }
         }
         
@@ -272,9 +272,7 @@ public class Disk: Module {
     }
     
     private func capacityCallback(_ value: Disks) {
-        guard self.enabled else {
-            return
-        }
+        guard self.enabled else { return }
         
         DispatchQueue.main.async(execute: {
             self.popupView.capacityCallback(value)

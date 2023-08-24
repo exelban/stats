@@ -115,13 +115,13 @@ public class MemoryWidget: WidgetWrapper {
         
         view.addArrangedSubview(toggleSettingRow(
             title: localizedString("Reverse values order"),
-            action: #selector(toggleOrder),
+            action: #selector(self.toggleOrder),
             state: self.orderReversedState
         ))
         
         view.addArrangedSubview(toggleSettingRow(
             title: localizedString("Show symbols"),
-            action: #selector(toggleSymbols),
+            action: #selector(self.toggleSymbols),
             state: self.symbolsState
         ))
         
@@ -129,27 +129,13 @@ public class MemoryWidget: WidgetWrapper {
     }
     
     @objc private func toggleOrder(_ sender: NSControl) {
-        var state: NSControl.StateValue? = nil
-        if #available(OSX 10.15, *) {
-            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
-        } else {
-            state = sender is NSButton ? (sender as! NSButton).state: nil
-        }
-        
-        self.orderReversedState = state! == .on ? true : false
+        self.orderReversedState = controlState(sender)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_orderReversed", value: self.orderReversedState)
         self.display()
     }
     
     @objc private func toggleSymbols(_ sender: NSControl) {
-        var state: NSControl.StateValue? = nil
-        if #available(OSX 10.15, *) {
-            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
-        } else {
-            state = sender is NSButton ? (sender as! NSButton).state: nil
-        }
-        
-        self.symbolsState = state! == .on ? true : false
+        self.symbolsState = controlState(sender)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_symbols", value: self.symbolsState)
         self.display()
     }

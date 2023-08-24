@@ -98,25 +98,25 @@ public class GPU: Module {
         )
         guard self.available else { return }
         
-        self.infoReader = InfoReader()
+        self.infoReader = InfoReader(.GPU)
         self.selectedGPU = Store.shared.string(key: "\(self.config.name)_gpu", defaultValue: self.selectedGPU)
         
-        self.infoReader?.callbackHandler = { [unowned self] value in
-            self.infoCallback(value)
+        self.infoReader?.callbackHandler = { [weak self] value in
+            self?.infoCallback(value)
         }
-        self.infoReader?.readyCallback = { [unowned self] in
-            self.readyHandler()
+        self.infoReader?.readyCallback = { [weak self] in
+            self?.readyHandler()
         }
         
-        self.settingsView.selectedGPUHandler = { [unowned self] value in
-            self.selectedGPU = value
-            self.infoReader?.read()
+        self.settingsView.selectedGPUHandler = { [weak self] value in
+            self?.selectedGPU = value
+            self?.infoReader?.read()
         }
-        self.settingsView.setInterval = { [unowned self] value in
-            self.infoReader?.setInterval(value)
+        self.settingsView.setInterval = { [weak self] value in
+            self?.infoReader?.setInterval(value)
         }
-        self.settingsView.callback = {
-            self.infoReader?.read()
+        self.settingsView.callback = { [weak self] in
+            self?.infoReader?.read()
         }
         
         if let reader = self.infoReader {
@@ -125,9 +125,7 @@ public class GPU: Module {
     }
     
     private func infoCallback(_ raw: GPUs?) {
-        guard raw != nil && !raw!.list.isEmpty, let value = raw, self.enabled else {
-            return
-        }
+        guard raw != nil && !raw!.list.isEmpty, let value = raw, self.enabled else { return }
         
         DispatchQueue.main.async(execute: {
             self.popupView.infoCallback(value)

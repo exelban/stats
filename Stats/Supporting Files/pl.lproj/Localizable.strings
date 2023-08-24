@@ -73,6 +73,7 @@
 "Settings" = "Ustawienia";
 "Name" = "Nazwa";
 "Format" = "Format";
+"Turn off" = "Wyłączyć";
 
 // Setup
 "Stats Setup" = "Konfiguracja Stats";
@@ -295,6 +296,8 @@
 "Install fan helper" = "Zainstaluj narzędzie do wentylatora";
 "Uninstall fan helper" = "Odinstaluj narzędzie do wentylatora";
 "Fan value" = "Wartość wentylatora";
+"Turn off fan" = "Wyłączyć wentylator";
+"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Zamierzasz wyłączyć wentylator. To nie jest zalecana czynność, która może spowodować uszkodzenie komputera Mac. Czy na pewno chcesz to zrobić?";
 
 // Network
 "Uploading" = "Wysyłanie";

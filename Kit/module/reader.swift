@@ -24,7 +24,6 @@ public protocol Reader_p {
     func terminate()
     
     func getValue<T>() -> T
-    func getHistory() -> [value_t]
     
     func start()
     func pause()
@@ -44,11 +43,15 @@ public protocol ReaderInternal_p {
     func read()
 }
 
-open class Reader<T>: NSObject, ReaderInternal_p {
+open class Reader<T: Codable>: NSObject, ReaderInternal_p {
     public var log: NextLog {
-        return NextLog.shared.copy(category: "\(String(describing: self))")
+        NextLog.shared.copy(category: "\(String(describing: self))")
     }
     public var value: T?
+    public var name: String {
+        String(NSStringFromClass(type(of: self)).split(separator: ".").last ?? "unknown")
+    }
+    
     public var interval: Double? = nil
     public var defaultInterval: Double = 1
     public var optional: Bool = false
@@ -75,9 +78,7 @@ open class Reader<T>: NSObject, ReaderInternal_p {
         }
     }
     
-    private var history: [T]? = []
-    
-    public init(popup: Bool = false) {
+    public init(_ module: ModuleType, popup: Bool = false) {
         self.popup = popup
         
         super.init()
@@ -120,12 +121,8 @@ open class Reader<T>: NSObject, ReaderInternal_p {
         }
         
         self.value = value
-        if value != nil {
-            if self.history?.count ?? 0 >= 300 {
-                self.history!.remove(at: 0)
-            }
-            self.history?.append(value!)
-            self.callbackHandler(value!)
+        if let value {
+            self.callbackHandler(value)
         }
     }
     
@@ -185,10 +182,6 @@ open class Reader<T>: NSObject, ReaderInternal_p {
 extension Reader: Reader_p {
     public func getValue<T>() -> T {
         return self.value as! T
-    }
-    
-    public func getHistory<T>() -> [T] {
-        return self.history as! [T]
     }
     
     public func lock() {

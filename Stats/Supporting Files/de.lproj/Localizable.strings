@@ -11,23 +11,23 @@
 
 // Modules
 "CPU" = "CPU";
-"Open CPU settings" = "CPU Einstellungen öffnen";
+"Open CPU settings" = "CPU-Einstellungen öffnen";
 "GPU" = "GPU";
-"Open GPU settings" = "GPU Einstellungen öffnen";
+"Open GPU settings" = "GPU-Einstellungen öffnen";
 "RAM" = "RAM";
-"Open RAM settings" = "RAM Einstellungen öffnen";
+"Open RAM settings" = "RAM-Einstellungen öffnen";
 "Disk" = "Festplatte";
-"Open Disk settings" = "Festplatten Einstellungen öffnen";
+"Open Disk settings" = "Festplatteneinstellungen öffnen";
 "Sensors" = "Sensoren";
-"Open Sensors settings" = "Sensor Einstellungen öffnen";
+"Open Sensors settings" = "Sensoreinstellungen öffnen";
 "Network" = "Netzwerk";
-"Open Network settings" = "Netzwerk Einstellungen öffnen";
+"Open Network settings" = "Netzwerkeinstellungen öffnen";
 "Battery" = "Akku";
-"Open Battery settings" = "Akku Einstellungen öffnen";
+"Open Battery settings" = "Batterieeinstellungen öffnen";
 "Bluetooth" = "Bluetooth";
-"Open Bluetooth settings" = "Bluetooth Einstellungen öffnen";
+"Open Bluetooth settings" = "Bluetooth-Einstellungen öffnen";
 "Clock" = "Clock";
-"Open Clock settings" = "Open clock settings";
+"Open Clock settings" = "Uhr-Einstellungen öffnen";
 
 // Words
 "Unknown" = "Unbekannt";
@@ -73,6 +73,7 @@
 "Settings" = "Einstellungen";
 "Name" = "Name";
 "Format" = "Format";
+"Turn off" = "Turn off";
 
 // Setup
 "Stats Setup" = "Stats einrichten";
@@ -92,9 +93,9 @@
 "Check for a new version every week (once a week)" = "Wöchentlich nach Updates suchen (einmal pro Woche)";
 "Check for a new version every month (once a month)" = "Monatlich nach Updates suchen (einmal pro Monat)";
 "Never check for updates (not recommended)" = "Nie nach neuen Updates suchen (nicht empfohlen)";
-"Anonymous telemetry for better development decisions" = "Anonymous telemetry for better development decisions";
-"Share anonymous telemetry data" = "Share anonymous telemetry data";
-"Do not share anonymous telemetry data" = "Do not share anonymous telemetry data";
+"Anonymous telemetry for better development decisions" = "Anonyme Telemetrie für bessere Entwicklungsentscheidungen";
+"Share anonymous telemetry data" = "Anonyme Telemetriedaten teilen";
+"Do not share anonymous telemetry data" = "Anonyme Telemetriedaten nicht teilen";
 "The configuration is completed" = "Die Einrichtung ist abgeschlossen";
 "finish_setup_message" = "Alles erledigt! \n Stats ist ein Open Source Programm. Es ist und bleibt für immer kostenlos. \n Wenn es Ihnen gefällt, können Sie das Projekt gerne unterstützen!";
 
@@ -130,7 +131,7 @@
 "Resume the Stats" = "Stats fortsetzen";
 "Combined modules" = "Zusammengefasste Module";
 "Spacing" = "Abstand";
-"Share anonymous telemetry" = "Share anonymous telemetry";
+"Share anonymous telemetry" = "Anonyme Telemetriedaten teilen";
 
 // Dashboard
 "Serial number" = "Seriennummer";
@@ -203,9 +204,9 @@
 "Chart color" = "Diagramm Farbe";
 
 // CPU
-"CPU usage" = "CPU Auslastung";
-"CPU temperature" = "CPU Temperatur";
-"CPU frequency" = "CPU Taktfrequenz";
+"CPU usage" = "CPU-Auslastung";
+"CPU temperature" = "CPU-Temperatur";
+"CPU frequency" = "CPU-Taktfrequenz";
 "System" = "System";
 "User" = "Nutzer";
 "Idle" = "Leerlauf";
@@ -234,8 +235,8 @@
 "Show GPU type" = "GPU Typ anzeigen";
 "GPU enabled" = "GPU aktiviert";
 "GPU disabled" = "GPU deaktiviert";
-"GPU temperature" = "GPU Temperatur";
-"GPU utilization" = "GPU Nutzung";
+"GPU temperature" = "GPU-Temperatur";
+"GPU utilization" = "GPU-Nutzung";
 "Vendor" = "Hersteller";
 "Model" = "Modell";
 "Status" = "Status";
@@ -295,6 +296,8 @@
 "Install fan helper" = "Lüftersteuerung installieren";
 "Uninstall fan helper" = "Lüftersteuerung deinstallieren";
 "Fan value" = "Lüftergeschwindigkeitswert";
+"Turn off fan" = "Turn off fan";
+"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?";
 
 // Network
 "Uploading" = "Upload";
@@ -335,7 +338,7 @@
 "Every 12 hours" = "Alle 12 Stunden";
 "Every 24 hours" = "Alle 24 Stunden";
 "Network activity" = "Netzwerkaktivität";
-"Last reset" = "Last reset %0 ago";
+"Last reset" = "Letztes Zurücksetzen vor %0";
 
 // Battery
 "Level" = "Ladezustand";

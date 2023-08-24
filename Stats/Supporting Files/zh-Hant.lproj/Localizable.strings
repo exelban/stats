@@ -73,6 +73,7 @@
 "Settings" = "設定";
 "Name" = "名稱";
 "Format" = "格式";
+"Turn off" = "關閉";
 
 // Setup
 "Stats Setup" = "Stats 設定";
@@ -188,9 +189,9 @@
 "Details" = "詳細資訊";
 "Top processes" = "高能耗程序";
 "Pictogram" = "標示";
-"Module" = "模塊";
-"Widgets" = "小部件";
-"Popup" = "彈出窗口";
+"Module" = "模組";
+"Widgets" = "小工具";
+"Popup" = "彈出式視窗";
 "Notifications" = "通知";
 "Merge widgets" = "整合型小工具";
 "No available widgets to configure" = "沒有可用的小工具來進行組態設定";
@@ -245,7 +246,7 @@
 "Core clock" = "核心時脈";
 "Memory clock" = "記憶體時脈";
 "Utilization" = "使用率";
-"Render utilization" = "渲染使用率";
+"Render utilization" = "繪製使用率";
 "Tiler utilization" = "圖塊使用率";
 "GPU usage threshold" = "顯示卡使用率臨界點";
 "GPU usage is" = "顯示卡使用率為：%0";
@@ -295,6 +296,8 @@
 "Install fan helper" = "安裝風扇輔助程式";
 "Uninstall fan helper" = "解除安裝風扇輔助程式";
 "Fan value" = "風扇轉速值";
+"Turn off fan" = "關閉風扇";
+"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "您似乎要關閉您 Mac 的風扇。這可能會造成 Mac 的損毀，不建議進行此操作，您確定仍要關閉風扇嗎？";
 
 // Network
 "Uploading" = "上傳";
@@ -309,11 +312,11 @@
 "Click to copy wifi name" = "點按來拷貝 Wi-Fi 名稱";
 "Click to copy mac address" = "點按來拷貝 MAC 位址";
 "No connection" = "沒有連線";
-"Network interface" = "網路連接埠";
+"Network interface" = "網路介面卡";
 "Total download" = "共下載";
 "Total upload" = "共上傳";
 "Reader type" = "讀取機類型";
-"Interface based" = "依連接埠";
+"Interface based" = "依介面卡";
 "Processes based" = "依程序";
 "Reset data usage" = "重置資料用量";
 "VPN mode" = "VPN 模式";
@@ -326,7 +329,7 @@
 "Internet connection" = "網際網路連線裝態";
 "Active state color" = "已連線狀態色彩";
 "Nonactive state color" = "未連線狀態色彩";
-"Connectivity host (ICMP)" = "連線主機 (ICMP)";
+"Connectivity host (ICMP)" = "連線能力測試的主機 (ICMP)";
 "Leave empty to disable the check" = "留空來停用檢查";
 "Transparent pictogram when no activity" = "未連線時隱藏標示";
 "Connectivity history" = "連線歷程紀錄";

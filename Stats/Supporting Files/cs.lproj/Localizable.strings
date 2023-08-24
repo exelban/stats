@@ -73,6 +73,7 @@
 "Settings" = "Nastavení";
 "Name" = "Name";
 "Format" = "Format";
+"Turn off" = "Turn off";
 
 // Setup
 "Stats Setup" = "Nastavení Stats";
@@ -295,6 +296,8 @@
 "Install fan helper" = "Nainstalovat pomocnou aplikaci ovládání ventilátorů";
 "Uninstall fan helper" = "Odinstalovat pomocnou aplikaci ventilátorů";
 "Fan value" = "Hodnota ventilátoru";
+"Turn off fan" = "Turn off fan";
+"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?";
 
 // Network
 "Uploading" = "Nahrávání";

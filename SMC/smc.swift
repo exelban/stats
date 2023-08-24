@@ -421,13 +421,9 @@ public class SMC {
     }
     
     public func setFanSpeed(_ id: Int, speed: Int) {
-        let minSpeed = Int(self.getValue("F\(id)Mn") ?? 2500)
         let maxSpeed = Int(self.getValue("F\(id)Mx") ?? 4000)
         
-        if speed < minSpeed {
-            print("new fan speed (\(speed)) is less than minimum speed (\(minSpeed))")
-            return
-        } else if speed > maxSpeed {
+        if speed > maxSpeed {
             print("new fan speed (\(speed)) is more than maximum speed (\(maxSpeed))")
             return
         }

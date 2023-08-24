@@ -73,6 +73,7 @@
 "Settings" = "Settings";
 "Name" = "Name";
 "Format" = "Format";
+"Turn off" = "Turn off";
 
 // Setup
 "Stats Setup" = "Stats Setup";
@@ -190,7 +191,7 @@
 "Pictogram" = "ピクトグラム";
 "Module" = "モジュール";
 "Widgets" = "ウィジェット";
-"Popup" = "現れる";
+"Popup" = "ポップアップ";
 "Notifications" = "通知";
 "Merge widgets" = "ウィジェットを結合する";
 "No available widgets to configure" = "設定できるウィジェットがありません";
@@ -295,6 +296,8 @@
 "Install fan helper" = "Install fan helper";
 "Uninstall fan helper" = "Uninstall fan helper";
 "Fan value" = "Fan value";
+"Turn off fan" = "Turn off fan";
+"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?";
 
 // Network
 "Uploading" = "送信";

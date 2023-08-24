@@ -73,6 +73,7 @@
 "Settings" = "설정";
 "Name" = "이름";
 "Format" = "Format";
+"Turn off" = "Turn off";
 
 // Setup
 "Stats Setup" = "Stats 설정";
@@ -295,6 +296,8 @@
 "Install fan helper" = "팬 헬퍼 설치";
 "Uninstall fan helper" = "팬 헬퍼 제거";
 "Fan value" = "팬 값";
+"Turn off fan" = "Turn off fan";
+"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?";
 
 // Network
 "Uploading" = "업로드";

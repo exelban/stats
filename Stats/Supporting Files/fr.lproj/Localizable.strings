@@ -73,6 +73,7 @@
 "Settings" = "Paramètres";
 "Name" = "Nom";
 "Format" = "Format";
+"Turn off" = "Turn off";
 
 // Setup
 "Stats Setup" = "Configuration de Stats";
@@ -295,6 +296,8 @@
 "Install fan helper" = "Installer l'assistant des ventilateurs";
 "Uninstall fan helper" = "Désinstaller l'assistant des ventilateurs";
 "Fan value" = "Vitesse du ventilateur";
+"Turn off fan" = "Turn off fan";
+"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?";
 
 // Network
 "Uploading" = "Envoi";

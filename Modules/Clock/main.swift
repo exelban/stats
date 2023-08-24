@@ -49,7 +49,7 @@ public class Clock: Module {
     private let popupView: Popup = Popup()
     private let settingsView: Settings = Settings()
     
-    private var reader: ClockReader = ClockReader()
+    private var reader: ClockReader = ClockReader(.clock)
     
     private var list: [Clock_t] {
         if let objects = Store.shared.data(key: "\(Clock.title)_list") {
@@ -68,14 +68,14 @@ public class Clock: Module {
         )
         guard self.available else { return }
         
-        self.reader.callbackHandler = { [unowned self] value in
+        self.reader.callbackHandler = { [weak self] value in
             guard let value else { return }
-            self.callback(value)
+            self?.callback(value)
         }
         
         self.addReader(self.reader)
-        self.reader.readyCallback = { [unowned self] in
-            self.readyHandler()
+        self.reader.readyCallback = { [weak self] in
+            self?.readyHandler()
         }
     }
     
