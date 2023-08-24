@@ -2,7 +2,7 @@
 //  Localizable.strings
 //  Stats
 //
-//  Created by Casper Sørensen (casperes1996) on 18/11/2021, updated by Aleksander Bang-Larsen (aleksanderbl29) on 11/06/2023 and 28/06/2023.
+//  Created by Casper Sørensen (casperes1996) on 18/11/2021, updated by Aleksander Bang-Larsen (aleksanderbl29) on 11/06/2023, 28/06/2023 and 25/08/2023.
 //  Using Swift 5.0.
 //  Running on macOS 13.4.
 //
@@ -73,7 +73,7 @@
 "Settings" = "Indstillinger";
 "Name" = "Navn";
 "Format" = "Format";
-"Turn off" = "Turn off";
+"Turn off" = "Sluk";
 
 // Setup
 "Stats Setup" = "Stats opsætning";
@@ -178,7 +178,7 @@
 "Number of reads in the chart" = "Antal læsninger i grafen";
 "Color of download" = "Download farve";
 "Color of upload" = "Upload farve";
-"Monospaced font" = "Monospaced font";
+"Monospaced font" = "Monospaced skrifttype";
 
 // Module Kit
 "Open module settings" = "Åben indstillinger for moduler";
@@ -297,7 +297,7 @@
 "Uninstall fan helper" = "Afinstaller blæserkontrol";
 "Fan value" = "Blæserværdi";
 "Turn off fan" = "Turn off fan";
-"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?";
+"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Du er ved at slukke for blæseren. Dette er ikke en anbefalet handling, da det kan skade din Mac. Er du sikker på du vil fortsætte?";
 
 // Network
 "Uploading" = "Upload";
