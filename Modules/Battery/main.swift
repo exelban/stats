@@ -20,6 +20,7 @@ struct Battery_Usage: value_t, Codable {
     var isCharging: Bool = false
     var isBatteryPowered: Bool = false
     var optimizedChargingEngaged: Bool = false
+    var lowPowerMode: Bool = false
     var level: Double = 0
     var cycles: Int = 0
     var health: Int = 0

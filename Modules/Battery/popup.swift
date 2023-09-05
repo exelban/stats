@@ -34,6 +34,7 @@ internal class Popup: PopupWrapper {
     
     private var levelField: NSTextField? = nil
     private var sourceField: NSTextField? = nil
+    private var lowPowerModeField: NSTextField? = nil
     private var timeLabelField: NSTextField? = nil
     private var timeField: NSTextField? = nil
     private var healthField: NSTextField? = nil
@@ -155,6 +156,7 @@ internal class Popup: PopupWrapper {
         
         self.levelField = popupRow(container, title: "\(localizedString("Level")):", value: "").1
         self.sourceField = popupRow(container, title: "\(localizedString("Source")):", value: "").1
+        self.lowPowerModeField = popupRow(container, title: "\(localizedString("Low Power Mode")):", value: "Off").1
         self.healthField = popupRow(container, title: "\(localizedString("Health")):", value: "").1
         self.capacityField = popupRow(container, title: "\(localizedString("Capacity")):", value: "").1
         self.capacityField?.toolTip = localizedString("current / maximum / designed")
@@ -249,6 +251,12 @@ internal class Popup: PopupWrapper {
             self.sourceField?.stringValue = localizedString(value.powerSource)
             self.timeField?.stringValue = ""
             
+            if value.lowPowerMode {
+                self.lowPowerModeField?.stringValue = localizedString("On")
+            } else {
+                self.lowPowerModeField?.stringValue = localizedString("Off")
+            }
+
             if value.isBatteryPowered {
                 self.timeLabelField?.stringValue = "\(localizedString("Time to discharge")):"
                 if value.timeToEmpty != -1 && value.timeToEmpty != 0 {

@@ -67,6 +67,10 @@ internal class UsageReader: Reader<Battery_Usage> {
                 self.usage.optimizedChargingEngaged = list["Optimized Battery Charging Engaged"] as? Int == 1
                 self.usage.level = Double(list[kIOPSCurrentCapacityKey] as? Int ?? 0) / 100
                 
+                if #available(macOS 12.0, *) {
+                    self.usage.lowPowerMode = ProcessInfo.processInfo.isLowPowerModeEnabled
+                }
+
                 if let time = list[kIOPSTimeToEmptyKey] as? Int {
                     self.usage.timeToEmpty = Int(time)
                 }
