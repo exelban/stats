@@ -73,7 +73,7 @@
 "Settings" = "Einstellungen";
 "Name" = "Name";
 "Format" = "Format";
-"Turn off" = "Turn off";
+"Turn off" = "Ausschalten";
 
 // Setup
 "Stats Setup" = "Stats einrichten";
@@ -296,8 +296,8 @@
 "Install fan helper" = "Lüftersteuerung installieren";
 "Uninstall fan helper" = "Lüftersteuerung deinstallieren";
 "Fan value" = "Lüftergeschwindigkeitswert";
-"Turn off fan" = "Turn off fan";
-"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?";
+"Turn off fan" = "Lüfter ausschalten";
+"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Sie sind dabei den Lüfter auszuschalten. Dies kann den Mac beschädigen und wird daher nicht empfohlen. Möchten Sie wirklich fortfahren?";
 
 // Network
 "Uploading" = "Upload";
