@@ -432,7 +432,7 @@ internal let HIDSensorsList: [Sensor] = [
     Sensor(key: "GPU MTR Temp Sensor%", name: "GPU core %", group: .GPU, type: .temperature, platforms: Platform.all),
     Sensor(key: "SOC MTR Temp Sensor%", name: "SOC core %", group: .sensor, type: .temperature, platforms: Platform.all),
     Sensor(key: "ANE MTR Temp Sensor%", name: "Neural engine %", group: .sensor, type: .temperature, platforms: Platform.all),
-    Sensor(key: "ISP MTR Temp Sensor%", name: "Airport %", group: .sensor, type: .temperature, platforms: Platform.all),
+    Sensor(key: "ISP MTR Temp Sensor%", name: "Image Signal Processor %", group: .sensor, type: .temperature, platforms: Platform.all),
     
     Sensor(key: "PMGR SOC Die Temp Sensor%", name: "Power manager die %", group: .sensor, type: .temperature, platforms: Platform.all),
     Sensor(key: "PMU tdev%", name: "Power management unit dev %", group: .sensor, type: .temperature, platforms: Platform.all),
