@@ -46,7 +46,7 @@ internal class Popup: PopupWrapper {
     
     private func recalculateHeight() {
         let h = self.arrangedSubviews.map({ $0.bounds.height + self.spacing }).reduce(0, +) - self.spacing
-        if self.frame.size.height != h {
+        if self.frame.size.height != h && h >= 0 {
             self.setFrameSize(NSSize(width: self.frame.width, height: h))
             self.sizeCallback?(self.frame.size)
         }
@@ -181,9 +181,7 @@ private class GPUView: NSStackView {
     }
     
     private func addStats(id: String, _ val: Double? = nil) {
-        guard let value = val else {
-            return
-        }
+        guard let value = val else { return }
         
         var circle: HalfCircleGraphView
         var chart: LineChartView
@@ -196,7 +194,7 @@ private class GPUView: NSStackView {
             circle.toolTip = localizedString("GPU \(id)")
             if let row = self.circleRow {
                 row.setFrameSize(NSSize(width: row.frame.width, height: self.circleSize + 20))
-                row.edgeInsets = NSEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
+                row.edgeInsets = NSEdgeInsets(top: 10, left: 10, bottom: 0, right: 10)
                 row.heightAnchor.constraint(equalToConstant: row.bounds.height).isActive = true
                 row.addArrangedSubview(circle)
             }

@@ -107,7 +107,7 @@ internal class Popup: PopupWrapper {
                 if let fan = f as? Fan {
                     let view = FanView(fan, width: self.frame.width) { [weak self] in
                         let h = container.arrangedSubviews.map({ $0.bounds.height + container.spacing }).reduce(0, +) - container.spacing
-                        if container.frame.size.height != h {
+                        if container.frame.size.height != h && h >= 0 {
                             container.setFrameSize(NSSize(width: container.frame.width, height: h))
                         }
                         self?.recalculateHeight()

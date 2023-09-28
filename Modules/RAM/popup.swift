@@ -419,8 +419,8 @@ public class PressureView: NSView {
     
     public override func draw(_ rect: CGRect) {
         let arcWidth: CGFloat = 7.0
-        let centerPoint = CGPoint(x: rect.midX, y: rect.midY)
-        let radius = (min(rect.width, rect.height) - arcWidth) / 2
+        let centerPoint = CGPoint(x: self.frame.width/2, y: self.frame.height/2)
+        let radius = (min(self.frame.width, self.frame.height) - arcWidth) / 2
         
         guard let context = NSGraphicsContext.current?.cgContext else { return }
         context.setShouldAntialias(true)
@@ -433,7 +433,7 @@ public class PressureView: NSView {
         var previousAngle = startAngle
         
         context.saveGState()
-        context.translateBy(x: rect.width, y: 0)
+        context.translateBy(x: self.frame.width, y: 0)
         context.scaleBy(x: -1, y: 1)
         
         for segment in self.segments {

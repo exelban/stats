@@ -204,29 +204,30 @@ internal class Popup: PopupWrapper {
     private func initDashboard() -> NSView {
         let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.dashboardHeight))
         
-        let container: NSView = NSView(frame: NSRect(x: 0, y: 10, width: view.frame.width, height: self.dashboardHeight-20))
-        self.circle = PieChartView(frame: NSRect(
-            x: (container.frame.width - container.frame.height)/2,
-            y: 0,
-            width: container.frame.height,
-            height: container.frame.height
-        ), segments: [], drawValue: true)
-        self.circle!.toolTip = localizedString("CPU usage")
-        container.addSubview(self.circle!)
+        let usageSize = self.dashboardHeight-20
+        let usageX = (view.frame.width - usageSize)/2
         
-        let centralWidth: CGFloat = self.dashboardHeight-20
-        let sideWidth: CGFloat = (view.frame.width - centralWidth - (Constants.Popup.margins*2))/2
-        self.temperatureCircle = HalfCircleGraphView(frame: NSRect(x: (sideWidth - 60)/2, y: 10, width: 60, height: 50))
+        let usage = NSView(frame: NSRect(x: usageX, y: (view.frame.height - usageSize)/2, width: usageSize, height: usageSize))
+        let temperature = NSView(frame: NSRect(x: (usageX - 50)/2, y: (view.frame.height - 50)/2 - 3, width: 50, height: 50))
+        let frequency = NSView(frame: NSRect(x: (usageX+usageSize) + (usageX - 50)/2, y: (view.frame.height - 50)/2 - 3, width: 50, height: 50))
+        
+        self.circle = PieChartView(frame: NSRect(x: 0, y: 0, width: usage.frame.width, height: usage.frame.height), segments: [], drawValue: true)
+        self.circle!.toolTip = localizedString("CPU usage")
+        usage.addSubview(self.circle!)
+        
+        self.temperatureCircle = HalfCircleGraphView(frame: NSRect(x: 0, y: 0, width: temperature.frame.width, height: temperature.frame.height))
         self.temperatureCircle!.toolTip = localizedString("CPU temperature")
         (self.temperatureCircle! as NSView).isHidden = true
+        temperature.addSubview(self.temperatureCircle!)
         
-        self.frequencyCircle = HalfCircleGraphView(frame: NSRect(x: view.frame.width - 60 - Constants.Popup.margins*2, y: 10, width: 60, height: 50))
+        self.frequencyCircle = HalfCircleGraphView(frame: NSRect(x: 0, y: 0, width: frequency.frame.width, height: frequency.frame.height))
         self.frequencyCircle!.toolTip = localizedString("CPU frequency")
         (self.frequencyCircle! as NSView).isHidden = true
+        frequency.addSubview(self.frequencyCircle!)
         
-        view.addSubview(self.temperatureCircle!)
-        view.addSubview(container)
-        view.addSubview(self.frequencyCircle!)
+        view.addSubview(temperature)
+        view.addSubview(usage)
+        view.addSubview(frequency)
         
         return view
     }
