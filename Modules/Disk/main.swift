@@ -47,7 +47,7 @@ public struct drive: Codable {
 }
 
 public class Disks: Codable {
-    private var queue: DispatchQueue = DispatchQueue(label: "eu.exelban.Stats.Disk.SynchronizedArray", attributes: .concurrent)
+    private var queue: DispatchQueue = DispatchQueue(label: "eu.exelban.Stats.Disk.SynchronizedArray")
     private var array: [drive] = []
     
     enum CodingKeys: String, CodingKey {
@@ -108,7 +108,9 @@ public class Disks: Codable {
     
     public func append( _ element: drive) {
         self.queue.async(flags: .barrier) {
-            self.array.append(element)
+            if !self.array.contains(where: {$0.BSDName == element.BSDName}) {
+                self.array.append(element)
+            }
         }
     }
     
