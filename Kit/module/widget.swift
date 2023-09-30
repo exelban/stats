@@ -371,7 +371,6 @@ public class MenuBar {
     
     private var moduleName: String
     private var menuBarItem: NSStatusItem? = nil
-    private var active: Bool = false
     private var queue: DispatchQueue
     
     private var combinedModules: Bool {
@@ -390,6 +389,16 @@ public class MenuBar {
                 list[w.type] = w.position
             }
             return list.sorted { $0.1 < $1.1 }.map{ $0.key }
+        }
+    }
+    
+    private var _active: Bool = false
+    public var active: Bool {
+        get {
+            self.queue.sync { self._active }
+        }
+        set {
+            self.queue.sync { self._active = newValue }
         }
     }
     
