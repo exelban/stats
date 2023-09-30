@@ -130,7 +130,7 @@ public class BatteryWidget: WidgetWrapper {
         
         let batteryFrame = NSBezierPath(roundedRect: NSRect(
             x: x + borderWidth + offset,
-            y: ((dirtyRect.size.height - batterySize.height)/2) + offset,
+            y: ((self.frame.size.height - batterySize.height)/2) + offset,
             width: batterySize.width - borderWidth,
             height: batterySize.height - borderWidth
         ), xRadius: 2, yRadius: 2)

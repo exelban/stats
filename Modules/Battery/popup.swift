@@ -374,10 +374,10 @@ internal class BatteryView: NSView {
         
         guard let ctx = NSGraphicsContext.current?.cgContext else { return }
         
-        let w: CGFloat = min(dirtyRect.width, 120)
-        let h: CGFloat = min(dirtyRect.height, 50)
-        let x: CGFloat = (dirtyRect.width - w)/2
-        let y: CGFloat = (dirtyRect.size.height - h) / 2
+        let w: CGFloat = min(self.frame.width, 120)
+        let h: CGFloat = min(self.frame.height, 50)
+        let x: CGFloat = (self.frame.width - w)/2
+        let y: CGFloat = (self.frame.size.height - h) / 2
         let batteryFrame = NSBezierPath(roundedRect: NSRect(x: x+1, y: y+1, width: w-8, height: h-2), xRadius: 3, yRadius: 3)
         
         NSColor.textColor.set()
