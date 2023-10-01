@@ -15,7 +15,6 @@ public class SpeedWidget: WidgetWrapper {
     private var icon: String = "dots"
     private var state: Bool = false
     private var valueState: Bool = true
-    private var baseValue: String = "byte"
     private var unitsState: Bool = true
     private var monochromeState: Bool = false
     private var valueColorState: Bool = false
@@ -58,6 +57,10 @@ public class SpeedWidget: WidgetWrapper {
         }
     }
     
+    private var base: DataSizeBase {
+        DataSizeBase(rawValue: Store.shared.string(key: "\(self.title)_base", defaultValue: "byte")) ?? .byte
+    }
+    
     public init(title: String, config: NSDictionary?, preview: Bool = false) {
         let widgetTitle: String = title
         if config != nil {
@@ -80,8 +83,7 @@ public class SpeedWidget: WidgetWrapper {
         
         if !preview {
             self.valueState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_value", defaultValue: self.valueState)
-            self.icon = Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_icon", defaultValue: self.baseValue)
-            self.baseValue = Store.shared.string(key: "\(self.title)_base", defaultValue: self.baseValue)
+            self.icon = Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_icon", defaultValue: self.icon)
             self.unitsState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_units", defaultValue: self.unitsState)
             self.monochromeState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_monochrome", defaultValue: self.monochromeState)
             self.valueColorState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_valueColor", defaultValue: self.valueColorState)
@@ -186,7 +188,6 @@ public class SpeedWidget: WidgetWrapper {
             NSAttributedString.Key.paragraphStyle: style
         ]
         
-        let base: DataSizeBase = DataSizeBase(rawValue: self.baseValue) ?? .byte
         let rect = CGRect(x: offset.x, y: (height-size)/2 + offset.y + 1, width: rowWidth - (Constants.Widget.margin.x*2), height: size)
         let value = NSAttributedString.init(
             string: Units(bytes: value).getReadableSpeed(base: base, omitUnits: !self.unitsState),
@@ -299,7 +300,6 @@ public class SpeedWidget: WidgetWrapper {
                 NSAttributedString.Key.paragraphStyle: style
             ]
             
-            let base: DataSizeBase = DataSizeBase(rawValue: self.baseValue) ?? .byte
             var rect = CGRect(x: Constants.Widget.margin.x + x, y: 1, width: rowWidth - (Constants.Widget.margin.x*2), height: rowHeight)
             let download = NSAttributedString.init(
                 string: Units(bytes: self.downloadValue).getReadableSpeed(base: base, omitUnits: !self.unitsState),
@@ -424,13 +424,6 @@ public class SpeedWidget: WidgetWrapper {
         view.addArrangedSubview(self.transparentIconView!)
         findAndToggleEnableNSControlState(self.transparentIconView!, state: self.icon != "none")
         
-        view.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Base"),
-            action: #selector(toggleBase),
-            items: SpeedBase,
-            selected: self.baseValue
-        ))
-        
         view.addArrangedSubview(toggleSettingRow(
             title: localizedString("Value"),
             action: #selector(toggleValue),
@@ -511,12 +504,6 @@ public class SpeedWidget: WidgetWrapper {
         findAndToggleEnableNSControlState(self.transparentIconView, state: self.icon != "none")
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_icon", value: key)
         self.display()
-    }
-    
-    @objc private func toggleBase(_ sender: NSMenuItem) {
-        guard let key = sender.representedObject as? String else { return }
-        self.baseValue = key
-        Store.shared.set(key: "\(self.title)_base", value: self.baseValue)
     }
     
     @objc private func toggleMonochrome(_ sender: NSControl) {
