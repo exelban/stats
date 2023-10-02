@@ -13,7 +13,6 @@ import Cocoa
 
 public protocol Portal_p: NSView {
     var name: String { get }
-    
 }
 
 public class PortalHeader: NSStackView {
