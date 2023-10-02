@@ -325,7 +325,7 @@
 "Channel" = "频道";
 "Common scale" = "统一比例";
 "Autodetection" = "自动检测";
-"Widget activation threshold" = "小组件激活阀值";
+"Widget activation threshold" = "小组件激活阈值";
 "Internet connection" = "网络连接状态";
 "Active state color" = "活跃状态颜色";
 "Nonactive state color" = "非活跃状态颜色";
