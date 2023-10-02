@@ -290,7 +290,11 @@ open class Module: Module_p {
             popup.openedBy = widget
         }
         
-        if popup.occlusionState.rawValue == 8192 || reopen {
+        if(popup.locked){
+            popup.orderFront(self)
+            NSApplication.shared.activate(ignoringOtherApps: true)
+        }
+        else if popup.occlusionState.rawValue == 8192 || reopen {
             NSApplication.shared.activate(ignoringOtherApps: true)
             
             popup.contentView?.invalidateIntrinsicContentSize()

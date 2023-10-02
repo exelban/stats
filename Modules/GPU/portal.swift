@@ -44,6 +44,9 @@ public class Portal: NSStackView, Portal_p {
         self.addArrangedSubview(self.circle!)
         
         self.heightAnchor.constraint(equalToConstant: Constants.Popup.portalHeight).isActive = true
+        
+
+        
     }
     
     required init?(coder: NSCoder) {

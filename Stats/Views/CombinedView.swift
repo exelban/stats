@@ -93,7 +93,11 @@ class CombinedView {
         let openedWindows = NSApplication.shared.windows.filter{ $0 is NSPanel }
         openedWindows.forEach{ $0.setIsVisible(false) }
         
-        if popup.occlusionState.rawValue == 8192 {
+        if(popup.locked){
+            popup.orderFront(self)
+            NSApplication.shared.activate(ignoringOtherApps: true)
+        }
+        else if popup.occlusionState.rawValue == 8192 {
             NSApplication.shared.activate(ignoringOtherApps: true)
             
             popup.contentView?.invalidateIntrinsicContentSize()
@@ -129,7 +133,7 @@ class CombinedView {
     }
 }
 
-private class Popup: NSStackView, Popup_p {
+private class Popup: NSStackView, Popup_p, NSGestureRecognizerDelegate {
     public var sizeCallback: ((NSSize) -> Void)? = nil
     
     init() {
@@ -171,10 +175,10 @@ private class Popup: NSStackView, Popup_p {
             row.spacing = Constants.Popup.spacing
             
             if let p = m1.portal {
-                row.addArrangedSubview(p)
+                addPortal(p:p, row:row)
             }
             if let p = m2?.portal {
-                row.addArrangedSubview(p)
+                addPortal(p:p, row:row)
             }
             
             self.addArrangedSubview(row)
@@ -184,4 +188,40 @@ private class Popup: NSStackView, Popup_p {
         self.setFrameSize(NSSize(width: self.frame.width, height: h))
         self.sizeCallback?(self.frame.size)
     }
+    
+    func addPortal(p:Portal_p, row:NSStackView){
+        let clickRecognizer = portalClick(target: self, action: #selector(self.togglePopup))
+        clickRecognizer.name = p.name
+        clickRecognizer.delegate = self
+        p.addGestureRecognizer(clickRecognizer)
+        row.addArrangedSubview(p)
+    }
+    
+    @objc private func togglePopup(_ sender: Any) {
+        if let window = self.window {
+            let portalClick = sender as! portalClick
+            let location = CGPoint(x:window.frame.origin.x,y:window.frame.maxY + 3)
+            NotificationCenter.default.post(name: .togglePopup, object: nil, userInfo: [
+                "module": portalClick.name,
+                "origin": location,
+                "center": window.frame.width/2
+            ])
+        }
+    }
+    
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: NSGestureRecognizer) -> Bool {
+        //prevents the click from being recognized if the setup button is pressed
+        let thePoint = gestureRecognizer.location(in: self.superview)
+        if let theView = self.hitTest(thePoint) {
+            return !(theView is NSButton)
+        }
+        else {
+            return true
+        }
+    }
+}
+
+class portalClick: NSClickGestureRecognizer {
+    var name: String = ""
+
 }

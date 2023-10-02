@@ -28,7 +28,7 @@ open class PopupWrapper: NSStackView, Popup_p {
 
 public class PopupWindow: NSWindow, NSWindowDelegate {
     private let viewController: PopupViewController = PopupViewController()
-    internal var locked: Bool = false
+    public var locked: Bool = false
     internal var openedBy: widget_t? = nil
     
     public init(title: String, view: Popup_p?, visibilityCallback: @escaping (_ state: Bool) -> Void) {
