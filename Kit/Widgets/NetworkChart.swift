@@ -161,6 +161,7 @@ public class NetworkChart: WidgetWrapper {
             height: box.bounds.height - offset
         )
         self.chart.setFrameSize(NSSize(width: chartFrame.width, height: chartFrame.height))
+        self.chart.setFrameOrigin(NSPoint(x: chartFrame.origin.x, y: chartFrame.origin.y))
         self.chart.draw(chartFrame)
         
         context.restoreGState()
