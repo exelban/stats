@@ -80,13 +80,6 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
     public func load(widgets: [widget_t]) {
         self.subviews.forEach{ $0.removeFromSuperview() }
         
-        self.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Base"),
-            action: #selector(toggleBase),
-            items: SpeedBase,
-            selected: self.baseValue
-        ))
-        
         self.addArrangedSubview(self.activationSlider())
         
         self.addArrangedSubview(selectSettingsRowV1(
@@ -108,6 +101,13 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
             action: #selector(changeReaderType),
             items: NetworkReaders,
             selected: self.readerType
+        ))
+        
+        self.addArrangedSubview(selectSettingsRow(
+            title: localizedString("Base"),
+            action: #selector(toggleBase),
+            items: SpeedBase,
+            selected: self.baseValue
         ))
         
         self.addArrangedSubview(selectSettingsRow(
@@ -133,7 +133,6 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
             placeholder: localizedString("Leave empty to disable the check"),
             width: 220
         ))
-        
     }
     
     private func interfaceSelector() -> NSView {

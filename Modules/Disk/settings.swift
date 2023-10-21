@@ -17,6 +17,7 @@ internal class Settings: NSStackView, Settings_v {
     private var updateIntervalValue: Int = 10
     private var notificationLevel: String = "Disabled"
     private var numberOfProcesses: Int = 5
+    private var baseValue: String = "byte"
     
     public var selectedDiskHandler: (String) -> Void = {_ in }
     public var callback: (() -> Void) = {}
@@ -35,6 +36,7 @@ internal class Settings: NSStackView, Settings_v {
         self.updateIntervalValue = Store.shared.int(key: "\(Disk.name)_updateInterval", defaultValue: self.updateIntervalValue)
         self.notificationLevel = Store.shared.string(key: "\(Disk.name)_notificationLevel", defaultValue: self.notificationLevel)
         self.numberOfProcesses = Store.shared.int(key: "\(Disk.name)_processes", defaultValue: self.numberOfProcesses)
+        self.baseValue = Store.shared.string(key: "\(Disk.name)_base", defaultValue: self.baseValue)
         
         super.init(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
         
@@ -71,6 +73,15 @@ internal class Settings: NSStackView, Settings_v {
             selected: "\(self.updateIntervalValue) sec"
         )
         self.addArrangedSubview(self.intervalSelectView!)
+        
+        if widgets.contains(where: { $0 == .speed }) {
+            self.addArrangedSubview(selectSettingsRow(
+                title: localizedString("Base"),
+                action: #selector(toggleBase),
+                items: SpeedBase,
+                selected: self.baseValue
+            ))
+        }
         
         self.addDiskSelector()
         
@@ -171,5 +182,11 @@ internal class Settings: NSStackView, Settings_v {
         self.updateIntervalValue = value
         Store.shared.set(key: "\(Disk.name)_updateInterval", value: value)
         self.setInterval(value)
+    }
+    
+    @objc private func toggleBase(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String else { return }
+        self.baseValue = key
+        Store.shared.set(key: "\(Disk.name)_base", value: self.baseValue)
     }
 }
