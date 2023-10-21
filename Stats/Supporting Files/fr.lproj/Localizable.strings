@@ -191,8 +191,8 @@
 "Pictogram" = "Pictogramme";
 "Module" = "Module";
 "Widgets" = "Widgets";
-"Popup" = "Surgir";
-"Notifications" = "Avis";
+"Popup" = "Popup";
+"Notifications" = "Notifications";
 "Merge widgets" = "Fusionner les widgets";
 "No available widgets to configure" = "Aucun widget disponible à configurer";
 "No options to configure for the popup in this module" = "Aucune option à configurer pour la fenêtre contextuelle dans ce module";
