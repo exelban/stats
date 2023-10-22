@@ -125,13 +125,13 @@ public class LineChartView: NSView {
         context.setShouldAntialias(true)
         
         let offset: CGFloat = 1 / (NSScreen.main?.backingScaleFactor ?? 1)
-        let height: CGFloat = self.frame.height - self.frame.origin.y - offset
+        let height: CGFloat = self.frame.height - dirtyRect.origin.y - offset
         let xRatio: CGFloat = self.frame.width / CGFloat(points.count-1)
         
         let list = points.enumerated().compactMap { (i: Int, v: Double) -> (value: Double, point: CGPoint) in
             return (v, CGPoint(
-                x: (CGFloat(i) * xRatio) + self.frame.origin.x,
-                y: scaleValue(scale: self.scale, value: v, maxValue: maxValue, maxHeight: height) + self.frame.origin.y + offset
+                x: (CGFloat(i) * xRatio) + dirtyRect.origin.x,
+                y: scaleValue(scale: self.scale, value: v, maxValue: maxValue, maxHeight: height) + dirtyRect.origin.y + offset
             ))
         }
         
