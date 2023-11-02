@@ -261,6 +261,8 @@ public class LabelField: NSTextField {
         self.textColor = .secondaryLabelColor
         self.alignment = .natural
         self.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+        
+        self.cell?.usesSingleLineMode = true
     }
     
     required init?(coder: NSCoder) {
@@ -283,6 +285,8 @@ public class ValueField: NSTextField {
         self.textColor = .textColor
         self.alignment = .right
         self.font = NSFont.systemFont(ofSize: 13, weight: .regular)
+        
+        self.cell?.usesSingleLineMode = true
     }
     
     required init?(coder: NSCoder) {
@@ -786,7 +790,6 @@ public class ProcessView: NSStackView {
     private var labelView: LabelField = {
         let view = LabelField()
         view.cell?.truncatesLastVisibleLine = true
-        view.cell?.usesSingleLineMode = true
         return view
     }()
     private var valueView: ValueField = ValueField()
