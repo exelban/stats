@@ -297,7 +297,7 @@
 "Uninstall fan helper" = "Fan yardımcısını kaldır";
 "Fan value" = "Fan değeri";
 "Turn off fan" = "Fanı kapat";
-"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Fanı kapatacaksınız. Bu, Mac'inize zarar verebilecek önerilen bir eylem değildir. Bunu yapmak istediğinizden emin misiniz?";
+"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Fanı kapatacaksınız. Bu, Mac'inize zarar verebilecek bir eylemdir ve önerilmez. Bunu yapmak istediğinizden emin misiniz?";
 
 // Network
 "Uploading" = "Yükleme";
