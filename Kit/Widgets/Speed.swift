@@ -21,6 +21,7 @@ public class SpeedWidget: WidgetWrapper {
     private var transparentIconsState: Bool = false
     private var valueAlignmentState: String = "right"
     private var modeState: String = "twoRows"
+    private var reverseOrderState: Bool = false
     
     private var downloadColorState: Color = .secondBlue
     private var uploadColorState: Color = .secondRed
@@ -92,6 +93,7 @@ public class SpeedWidget: WidgetWrapper {
             self.transparentIconsState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_transparentIcons", defaultValue: self.transparentIconsState)
             self.valueAlignmentState = Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_valueAlignment", defaultValue: self.valueAlignmentState)
             self.modeState = Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_mode", defaultValue: self.modeState)
+            self.reverseOrderState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_reverseOrder", defaultValue: self.reverseOrderState)
         }
         
         if self.valueState && self.icon != "none" {
@@ -300,14 +302,17 @@ public class SpeedWidget: WidgetWrapper {
                 NSAttributedString.Key.paragraphStyle: style
             ]
             
-            var rect = CGRect(x: Constants.Widget.margin.x + x, y: 1, width: rowWidth - (Constants.Widget.margin.x*2), height: rowHeight)
+            let downloadY: CGFloat = self.reverseOrderState ? rowHeight + 1 : 1
+            let uploadY: CGFloat = self.reverseOrderState ? 1 : rowHeight + 1
+            
+            var rect = CGRect(x: Constants.Widget.margin.x + x, y: downloadY, width: rowWidth - (Constants.Widget.margin.x*2), height: rowHeight)
             let download = NSAttributedString.init(
                 string: Units(bytes: self.downloadValue).getReadableSpeed(base: base, omitUnits: !self.unitsState),
                 attributes: downloadStringAttributes
             )
             download.draw(with: rect)
             
-            rect = CGRect(x: Constants.Widget.margin.x + x, y: rect.height+1, width: rowWidth - (Constants.Widget.margin.x*2), height: rowHeight)
+            rect = CGRect(x: Constants.Widget.margin.x + x, y: uploadY, width: rowWidth - (Constants.Widget.margin.x*2), height: rowHeight)
             let upload = NSAttributedString.init(
                 string: Units(bytes: self.uploadValue).getReadableSpeed(base: base, omitUnits: !self.unitsState),
                 attributes: uploadStringAttributes
@@ -324,14 +329,16 @@ public class SpeedWidget: WidgetWrapper {
         let rowHeight: CGFloat = self.frame.height / 2
         let size: CGFloat = 6
         let y: CGFloat = (rowHeight-size)/2
+        let downloadY: CGFloat = self.reverseOrderState ? 10.5 : y-0.2
+        let uploadY: CGFloat = self.reverseOrderState ? y-0.2 : 10.5
         
         var downloadCircle = NSBezierPath()
-        downloadCircle = NSBezierPath(ovalIn: CGRect(x: Constants.Widget.margin.x, y: y-0.2, width: size, height: size))
+        downloadCircle = NSBezierPath(ovalIn: CGRect(x: Constants.Widget.margin.x, y: downloadY, width: size, height: size))
         (self.downloadValue >= 1_024 ? self.downloadColor : self.noActivityColor).set()
         downloadCircle.fill()
         
         var uploadCircle = NSBezierPath()
-        uploadCircle = NSBezierPath(ovalIn: CGRect(x: Constants.Widget.margin.x, y: 10.5, width: size, height: size))
+        uploadCircle = NSBezierPath(ovalIn: CGRect(x: Constants.Widget.margin.x, y: uploadY, width: size, height: size))
         (self.uploadValue >= 1_024 ? self.uploadColor : self.noActivityColor).set()
         uploadCircle.fill()
     }
@@ -344,10 +351,16 @@ public class SpeedWidget: WidgetWrapper {
         let arrowSize: CGFloat = 3 + (scaleFactor/2)
         let x = Constants.Widget.margin.x + arrowSize + (lineWidth / 2)
         
+        let downloadYStart: CGFloat = self.reverseOrderState ? self.frame.size.height : half - Constants.Widget.spacing/2
+        let downloadYEnd: CGFloat = self.reverseOrderState ? (half + Constants.Widget.spacing/2)+1 : 0
+        
+        let uploadYStart: CGFloat = self.reverseOrderState ? 0 : half + Constants.Widget.spacing/2
+        let uploadYEnd: CGFloat = self.reverseOrderState ? (half - Constants.Widget.spacing/2)-1 : self.frame.size.height
+        
         let downloadArrow = NSBezierPath()
         downloadArrow.addArrow(
-            start: CGPoint(x: x, y: half - Constants.Widget.spacing/2),
-            end: CGPoint(x: x, y: 0),
+            start: CGPoint(x: x, y: downloadYStart),
+            end: CGPoint(x: x, y: downloadYEnd),
             pointerLineLength: arrowSize,
             arrowAngle: arrowAngle
         )
@@ -359,8 +372,8 @@ public class SpeedWidget: WidgetWrapper {
         
         let uploadArrow = NSBezierPath()
         uploadArrow.addArrow(
-            start: CGPoint(x: x, y: half + Constants.Widget.spacing/2),
-            end: CGPoint(x: x, y: self.frame.size.height),
+            start: CGPoint(x: x, y: uploadYStart),
+            end: CGPoint(x: x, y: uploadYEnd),
             pointerLineLength: arrowSize,
             arrowAngle: arrowAngle
         )
@@ -373,6 +386,8 @@ public class SpeedWidget: WidgetWrapper {
     
     private func drawChars(_ dirtyRect: NSRect) {
         let rowHeight: CGFloat = self.frame.height / 2
+        let downloadY: CGFloat = self.reverseOrderState ? rowHeight+1 : 1
+        let uploadY: CGFloat = self.reverseOrderState ? 1 : rowHeight+1
         
         if self.symbols.count > 1 {
             let downloadAttributes = [
@@ -380,7 +395,7 @@ public class SpeedWidget: WidgetWrapper {
                 NSAttributedString.Key.foregroundColor: self.downloadValue >= 1_024 ? self.downloadColor : self.noActivityColor,
                 NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
             ]
-            let rect = CGRect(x: Constants.Widget.margin.x, y: 1, width: 8, height: rowHeight)
+            let rect = CGRect(x: Constants.Widget.margin.x, y: downloadY, width: 8, height: rowHeight)
             let str = NSAttributedString.init(string: self.symbols[1], attributes: downloadAttributes)
             str.draw(with: rect)
         }
@@ -391,7 +406,7 @@ public class SpeedWidget: WidgetWrapper {
                 NSAttributedString.Key.foregroundColor: self.uploadValue >= 1_024 ? self.uploadColor : self.noActivityColor,
                 NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
             ]
-            let rect = CGRect(x: Constants.Widget.margin.x, y: rowHeight+1, width: 8, height: rowHeight)
+            let rect = CGRect(x: Constants.Widget.margin.x, y: uploadY, width: 8, height: rowHeight)
             let str = NSAttributedString.init(string: self.symbols[0], attributes: uploadAttributes)
             str.draw(with: rect)
         }
@@ -407,6 +422,12 @@ public class SpeedWidget: WidgetWrapper {
             action: #selector(changeDisplayMode),
             items: SensorsWidgetMode.filter({ $0.key == "oneRow" || $0.key == "twoRows"}),
             selected: self.modeState
+        ))
+        
+        view.addArrangedSubview(toggleSettingRow(
+            title: localizedString("Reverse order"),
+            action: #selector(toggleReverseOrder),
+            state: self.reverseOrderState
         ))
         
         view.addArrangedSubview(selectSettingsRow(
@@ -480,6 +501,12 @@ public class SpeedWidget: WidgetWrapper {
         guard let key = sender.representedObject as? String else { return }
         self.modeState = key
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_mode", value: key)
+        self.display()
+    }
+    
+    @objc private func toggleReverseOrder(_ sender: NSControl) {
+        self.reverseOrderState = controlState(sender)
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_reverseOrder", value: self.reverseOrderState)
         self.display()
     }
     
