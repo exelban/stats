@@ -134,47 +134,63 @@ public class SpeedWidget: WidgetWrapper {
         let downloadIconColor = self.downloadValue >= 1_024 ? self.downloadColor : self.noActivityColor
         let uploadIconColor = self.uploadValue >= 1_024 ? self.uploadColor : self.noActivityColor
         
-        switch self.icon {
-        case "dots":
-            width += self.drawDot(CGPoint(x: width, y: 0), color: uploadIconColor)
-        case "arrows":
-            width += self.drawArrow(CGPoint(x: width, y: 0), symbol: "U", color: uploadIconColor)
-        case "chars":
-            width += self.drawChar(CGPoint(x: width, y: 0), symbol: self.symbols[0], color: uploadIconColor)
-        default: break
-        }
-        
-        width += self.valueState && self.icon != "none" ? 2 : 0
-        
-        if self.valueState {
-            width += self.drawValue(self.uploadValue,
-                offset: CGPoint(x: width, y: 0),
-                color: self.valueColorState && self.uploadValue >= 1_024 ? self.uploadColor : NSColor.textColor
+        if self.reverseOrderState {
+            width = self.drawRowItem(
+                initWidth: width,
+                symbol: self.symbols[1],
+                iconColor: downloadIconColor,
+                value: self.downloadValue,
+                valueColor: self.valueColorState && self.downloadValue >= 1_024 ? self.downloadColor : NSColor.textColor
             )
-        }
-        
-        width += 4
-        
-        switch self.icon {
-        case "dots":
-            width += self.drawDot(CGPoint(x: width, y: 0), color: downloadIconColor)
-        case "arrows":
-            width += self.drawArrow(CGPoint(x: width, y: 0), symbol: "D", color: downloadIconColor)
-        case "chars":
-            width += self.drawChar(CGPoint(x: width, y: 0), symbol: self.symbols[1], color: downloadIconColor)
-        default: break
-        }
-        
-        width += self.valueState && self.icon != "none" ? 2 : 0
-        
-        if self.valueState {
-            width += self.drawValue(self.downloadValue,
-                offset: CGPoint(x: width, y: 0),
-                color: self.valueColorState && self.downloadValue >= 1_024 ? self.downloadColor : NSColor.textColor
+            width += 4
+            width = self.drawRowItem(
+                initWidth: width,
+                symbol: self.symbols[0],
+                iconColor: uploadIconColor,
+                value: self.uploadValue,
+                valueColor: self.valueColorState && self.uploadValue >= 1_024 ? self.uploadColor : NSColor.textColor
+            )
+        } else {
+            width = self.drawRowItem(
+                initWidth: width,
+                symbol: self.symbols[0],
+                iconColor: uploadIconColor,
+                value: self.uploadValue,
+                valueColor: self.valueColorState && self.uploadValue >= 1_024 ? self.uploadColor : NSColor.textColor
+            )
+            width += 4
+            width = self.drawRowItem(
+                initWidth: width,
+                symbol: self.symbols[1],
+                iconColor: downloadIconColor,
+                value: self.downloadValue,
+                valueColor: self.valueColorState && self.downloadValue >= 1_024 ? self.downloadColor : NSColor.textColor
             )
         }
         
         return width + Constants.Widget.margin.x
+    }
+    
+    private func drawRowItem(initWidth: CGFloat, symbol: String, iconColor: NSColor, value: Int64, valueColor: NSColor) -> CGFloat {
+        var width = initWidth
+        
+        switch self.icon {
+        case "dots":
+            width += self.drawDot(CGPoint(x: width, y: 0), color: iconColor)
+        case "arrows":
+            width += self.drawArrow(CGPoint(x: width, y: 0), symbol: symbol, color: iconColor)
+        case "chars":
+            width += self.drawChar(CGPoint(x: width, y: 0), symbol: symbol, color: iconColor)
+        default: break
+        }
+        
+        width += self.valueState && self.icon != "none" ? 2 : 0
+        
+        if self.valueState {
+            width += self.drawValue(value, offset: CGPoint(x: width, y: 0), color: valueColor)
+        }
+        
+        return width
     }
     
     private func drawValue(_ value: Int64, offset: CGPoint, color: NSColor) -> CGFloat {
