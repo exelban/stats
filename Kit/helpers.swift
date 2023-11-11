@@ -794,7 +794,7 @@ public class ProcessView: NSStackView {
     }()
     private var valueView: ValueField = ValueField()
     
-    public init(size: CGSize = CGSize(width: 264, height: 22)) {
+    public init(size: CGSize = CGSize(width: 264, height: 22), maxValue: String = "5555 GB") {
         var rect = NSRect(x: 5, y: 5, width: 12, height: 12)
         if size.height != 22 {
             rect = NSRect(x: 3, y: 3, width: 12, height: 12)
@@ -846,6 +846,7 @@ public class ProcessView: NSStackView {
             imageBox.widthAnchor.constraint(equalToConstant: self.bounds.height),
             imageBox.heightAnchor.constraint(equalToConstant: self.bounds.height),
             self.labelView.heightAnchor.constraint(equalToConstant: 16),
+            self.valueView.widthAnchor.constraint(equalToConstant: maxValue.widthOfString(usingFont: self.valueView.font!).rounded(.up)),
             self.widthAnchor.constraint(equalToConstant: self.bounds.width),
             self.heightAnchor.constraint(equalToConstant: self.bounds.height)
         ])

@@ -336,7 +336,7 @@ internal class Popup: PopupWrapper {
         container.spacing = 0
         
         for _ in 0..<self.numberOfProcesses {
-            let processView = ProcessView()
+            let processView = ProcessView(maxValue: "100.0%")
             self.processes.append(processView)
             container.addArrangedSubview(processView)
         }
