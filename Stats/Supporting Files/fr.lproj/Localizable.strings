@@ -179,6 +179,7 @@
 "Color of download" = "Couleur du téléchargement";
 "Color of upload" = "Couleur du téléversement";
 "Monospaced font" = "Police à espacement fixe";
+"Reverse order" = "Reverse order";
 
 // Module Kit
 "Open module settings" = "Ouvrir les paramètres du module";

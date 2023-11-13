@@ -179,6 +179,7 @@
 "Color of download" = "下載的顯示色彩";
 "Color of upload" = "上傳的顯示色彩";
 "Monospaced font" = "等寬字體";
+"Reverse order" = "Reverse order";
 
 // Module Kit
 "Open module settings" = "打開模組設定";

@@ -179,6 +179,7 @@
 "Color of download" = "Цвет загрузки";
 "Color of upload" = "Цвет выгрузки";
 "Monospaced font" = "Моноширинный шрифт";
+"Reverse order" = "Обратный порядок";
 
 // Module Kit
 "Open module settings" = "Открыть настройки модуля";

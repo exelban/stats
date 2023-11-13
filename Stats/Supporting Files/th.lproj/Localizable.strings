@@ -179,6 +179,7 @@
 "Color of download" = "สีของการดาวน์โหลด";
 "Color of upload" = "สีของการอัพโหลด";
 "Monospaced font" = "แบบอักษรโมโนสเปซ";
+"Reverse order" = "Reverse order";
 
 // Module Kit
 "Open module settings" = "เปิดการตั้งค่าโมดูล";
