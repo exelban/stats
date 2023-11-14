@@ -65,12 +65,8 @@ public class SpeedWidget: WidgetWrapper {
     public init(title: String, config: NSDictionary?, preview: Bool = false) {
         let widgetTitle: String = title
         if config != nil {
-            if let symbols = config!["Symbols"] as? [String] {
-                self.symbols = symbols
-            }
-            if let icon = config!["Icon"] as? String {
-                self.icon = icon
-            }
+            if let symbols = config!["Symbols"] as? [String] { self.symbols = symbols }
+            if let icon = config!["Icon"] as? String { self.icon = icon }
         }
         
         super.init(.speed, title: widgetTitle, frame: CGRect(
@@ -79,7 +75,6 @@ public class SpeedWidget: WidgetWrapper {
             width: width,
             height: Constants.Widget.height - (2*Constants.Widget.margin.y)
         ))
-        
         self.canDrawConcurrently = true
         
         if !preview {
@@ -130,7 +125,6 @@ public class SpeedWidget: WidgetWrapper {
     
     private func drawOneRow(_ dirtyRect: NSRect) -> CGFloat {
         var width: CGFloat = Constants.Widget.margin.x
-        
         let downloadIconColor = self.downloadValue >= 1_024 ? self.downloadColor : self.noActivityColor
         let uploadIconColor = self.uploadValue >= 1_024 ? self.uploadColor : self.noActivityColor
         

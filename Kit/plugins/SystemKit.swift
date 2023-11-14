@@ -24,10 +24,16 @@ public enum Platform: String, Codable {
     case m2Max
     case m2Ultra
     
+    case m3
+    case m3Pro
+    case m3Max
+    case m3Ultra
+    
     public static var apple: [Platform] {
         return [
             .m1, .m1Pro, .m1Max, .m1Ultra,
-            .m2, .m2Pro, .m2Max, .m2Ultra
+            .m2, .m2Pro, .m2Max, .m2Ultra,
+            .m3, .m3Pro, .m3Max, .m3Ultra
         ]
     }
     
