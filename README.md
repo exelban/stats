@@ -95,6 +95,7 @@ So, if your issue was closed without any response, most probably it already has 
 - Slovenský (thanks to [martinbernat](https://github.com/martinbernat))
 - Thai (thanks to [apiphoomchu](https://github.com/apiphoomchu))
 - Estonian (thanks to [postylem](https://github.com/postylem))
+- Hindi (thanks to [patiljignesh](https://github.com/patiljignesh))
 
 You can help by adding a new language or improving the existing translation.
 
