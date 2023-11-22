@@ -434,13 +434,27 @@ private class SidebarView: NSStackView {
     private func supportView() -> NSViewController {
         let vc: NSViewController = NSViewController(nibName: nil, bundle: nil)
         let view: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: 160, height: 40))
-        view.spacing = 0
+        view.spacing = 7
+        view.edgeInsets = NSEdgeInsets(top: 0, left: 8, bottom: 0, right: 0)
         view.orientation = .horizontal
         
-        view.addArrangedSubview(supportButton(name: "GitHub Sponsors", image: "github", action: #selector(self.openGithub)))
-        view.addArrangedSubview(supportButton(name: "PayPal", image: "paypal", action: #selector(self.openPaypal)))
-        view.addArrangedSubview(supportButton(name: "Ko-fi", image: "ko-fi", action: #selector(self.openKofi)))
-        view.addArrangedSubview(supportButton(name: "Patreon", image: "patreon", action: #selector(self.openPatreon)))
+        let github = SupportButtonView(name: "GitHub Sponsors", image: "github", action: {
+            NSWorkspace.shared.open(URL(string: "https://github.com/sponsors/exelban")!)
+        })
+        let paypal = SupportButtonView(name: "PayPal", image: "paypal", action: {
+            NSWorkspace.shared.open(URL(string: "https://www.paypal.com/donate?hosted_button_id=3DS5JHDBATMTC")!)
+        })
+        let koFi = SupportButtonView(name: "Ko-fi", image: "ko-fi", action: {
+            NSWorkspace.shared.open(URL(string: "https://ko-fi.com/exelban")!)
+        })
+        let patreon = SupportButtonView(name: "Patreon", image: "patreon", action: {
+            NSWorkspace.shared.open(URL(string: "https://patreon.com/exelban")!)
+        })
+        
+        view.addArrangedSubview(github)
+        view.addArrangedSubview(paypal)
+        view.addArrangedSubview(koFi)
+        view.addArrangedSubview(patreon)
         
         vc.view = view
         return vc
@@ -471,22 +485,6 @@ private class SidebarView: NSStackView {
     
     @objc private func donate(_ sender: NSButton) {
         self.supportPopover.show(relativeTo: sender.bounds, of: sender, preferredEdge: NSRectEdge.minY)
-    }
-    
-    @objc private func openGithub(_ sender: NSButton) {
-        NSWorkspace.shared.open(URL(string: "https://github.com/sponsors/exelban")!)
-    }
-    
-    @objc private func openPaypal(_ sender: NSButton) {
-        NSWorkspace.shared.open(URL(string: "https://www.paypal.com/donate?hosted_button_id=3DS5JHDBATMTC")!)
-    }
-    
-    @objc private func openKofi(_ sender: NSButton) {
-        NSWorkspace.shared.open(URL(string: "https://ko-fi.com/exelban")!)
-    }
-    
-    @objc private func openPatreon(_ sender: NSButton) {
-        NSWorkspace.shared.open(URL(string: "https://patreon.com/exelban")!)
     }
     
     @objc private func closeApp(_ sender: Any) {
