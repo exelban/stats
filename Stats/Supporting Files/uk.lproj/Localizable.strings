@@ -76,28 +76,28 @@
 "Turn off" = "Вимкнути";
 
 // Setup
-"Stats Setup" = "Stats Setup";
-"Previous" = "Previous";
-"Previous page" = "Previous page";
-"Next" = "Next";
-"Next page" = "Next page";
-"Finish" = "Finish";
-"Finish setup" = "Finish setup";
-"Welcome to Stats" = "Welcome to Stats";
-"welcome_message" = "Thanks for using Stats, a free open source macOS system monitor for your menu bar.";
-"Start the application automatically when starting your Mac" = "Start the application automatically when starting your Mac";
-"Do not start the application automatically when starting your Mac" = "Do not start the application automatically when starting your Mac";
-"Do everything silently in the background (recommended)" = "Do everything silently in the background (recommended)";
-"Check for a new version on startup" = "Check for a new version on startup";
-"Check for a new version every day (once a day)" = "Check for a new version every day (once a day)";
-"Check for a new version every week (once a week)" = "Check for a new version every week (once a week)";
-"Check for a new version every month (once a month)" = "Check for a new version every month (once a month)";
-"Never check for updates (not recommended)" = "Never check for updates (not recommended)";
+"Stats Setup" = "Налаштування";
+"Previous" = "Попередня";
+"Previous page" = "Попередня сторінка";
+"Next" = "Наступна";
+"Next page" = "Наступна сторінка";
+"Finish" = "Завершити";
+"Finish setup" = "Завершити налаштування";
+"Welcome to Stats" = "Вітаю в Stats";
+"welcome_message" = "Дякуємо, що використовуєте Stats, безкоштовним моніторингом системи macOS з відкритим кодом.";
+"Start the application automatically when starting your Mac" = "Запускати програму автоматично під час запуску Mac";
+"Do not start the application automatically when starting your Mac" = "Не запускати програму автоматично під час запуску Mac";
+"Do everything silently in the background (recommended)" = "Робити усе у фоновому режимі (рекомендовано)";
+"Check for a new version on startup" = "Перевірти наявність нової версії під час запуску програми";
+"Check for a new version every day (once a day)" = "Щодня перевіряти наявність нової версії (один раз на день)";
+"Check for a new version every week (once a week)" = "Щотижня перевіряти наявність нової версії (раз на тиждень)";
+"Check for a new version every month (once a month)" = "Перевіряти наявність нової версії щомісяця (раз на місяць)";
+"Never check for updates (not recommended)" = "Ніколи не перевіряти наявність оновлень (не рекомендовано)";
 "Anonymous telemetry for better development decisions" = "Анонімна телеметрія для кращих рішень щодо програми";
 "Share anonymous telemetry data" = "Ділитись анонімними даними телеметрії";
 "Do not share anonymous telemetry data" = "Не передавати анонімні дані телеметрії";
-"The configuration is completed" = "The configuration is completed";
-"finish_setup_message" = "Everything is set up! \n The Stats is an open source tool, it's free and always will be. \n If you enjoy it you can support a project, it's always appreciated!";
+"The configuration is completed" = "Налаштування завершено";
+"finish_setup_message" = "Все налаштовано! \n Stats — це інструмент з відкритим вихідним кодом, він безкоштовний і таким завжди буде. \n Якщо вам це подобається ви можете підтримати проект, це завжди цінується!";
 
 // Alerts
 "New version available" = "Доступна нова версія";
