@@ -76,6 +76,23 @@ public class CPU: Module {
         return color.additional as! NSColor
     }
     
+    private var eCoreColor: NSColor {
+        let color = Color.teal
+        let key = Store.shared.string(key: "\(self.config.name)_eCoresColor", defaultValue: color.key)
+        if let c = Color.fromString(key).additional as? NSColor {
+            return c
+        }
+        return color.additional as! NSColor
+    }
+    private var pCoreColor: NSColor {
+        let color = Color.secondBlue
+        let key = Store.shared.string(key: "\(self.config.name)_pCoresColor", defaultValue: color.key)
+        if let c = Color.fromString(key).additional as? NSColor {
+            return c
+        }
+        return color.additional as! NSColor
+    }
+    
     public init() {
         self.settingsView = Settings("CPU")
         self.popupView = Popup("CPU")
@@ -187,18 +204,32 @@ public class CPU: Module {
             case let widget as LineChart: widget.setValue(value.totalUsage)
             case let widget as BarChart:
                 var val: [[ColorValue]] = [[ColorValue(value.totalUsage)]]
+                let cores = SystemKit.shared.device.info.cpu?.cores ?? []
+                
                 if self.usagePerCoreState {
-                    val = value.usagePerCore.map({ [ColorValue($0)] })
+                    if widget.colorState == .cluster {
+                        val = []
+                        for (i, v) in value.usagePerCore.enumerated() {
+                            let core = cores.first(where: {$0.id == i })
+                            val.append([ColorValue(v, color: core?.type == .efficiency ? self.eCoreColor : self.pCoreColor)])
+                        }
+                    } else {
+                        val = value.usagePerCore.map({ [ColorValue($0)] })
+                    }
                 } else if self.splitValueState {
                     val = [[
                         ColorValue(value.systemLoad, color: self.systemColor),
                         ColorValue(value.userLoad, color: self.userColor)
                     ]]
                 } else if self.groupByClustersState, let e = value.usageECores, let p = value.usagePCores {
-                    val = [
-                        [ColorValue(e, color: NSColor.systemTeal)],
-                        [ColorValue(p, color: NSColor.systemBlue)]
-                    ]
+                    if widget.colorState == .cluster {
+                        val = [
+                            [ColorValue(e, color: self.eCoreColor)],
+                            [ColorValue(p, color: self.pCoreColor)]
+                        ]
+                    } else {
+                        val = [[ColorValue(e)], [ColorValue(p)]]
+                    }
                 }
                 widget.setValue(val)
             case let widget as PieChart:

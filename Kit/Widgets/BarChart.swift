@@ -15,7 +15,7 @@ public class BarChart: WidgetWrapper {
     private var labelState: Bool = false
     private var boxState: Bool = true
     private var frameState: Bool = false
-    private var colorState: Color = .systemAccent
+    public var colorState: Color = .systemAccent
     private var colors: [Color] = Color.allCases
     
     private var _value: [[ColorValue]] = [[]]
@@ -181,7 +181,6 @@ public class BarChart: WidgetWrapper {
                     case .systemAccent: NSColor.controlAccentColor.set()
                     case .utilization: partitionValue.value.usageColor(zones: colorZones, reversed: self.title == "Battery").set()
                     case .pressure: pressureLevel.pressureColor().set()
-                    case .cluster: (partitionValue.value.clusterColor(i) ?? .controlAccentColor).set()
                     case .monochrome:
                         if self.boxState {
                             (isDarkMode ? NSColor.black : NSColor.white).set()
