@@ -369,6 +369,34 @@ internal let SensorsList: [Sensor] = [
     Sensor(key: "Tg0f", name: "GPU 1", group: .GPU, type: .temperature, platforms: [.m2, .m2Max, .m2Pro, .m2Ultra], average: true),
     Sensor(key: "Tg0j", name: "GPU 2", group: .GPU, type: .temperature, platforms: [.m2, .m2Max, .m2Pro, .m2Ultra], average: true),
     
+    // M3
+    Sensor(key: "Te05", name: "CPU efficiency core 1", group: .CPU, type: .temperature, platforms: [.m3, .m3Max, .m3Pro, .m3Ultra], average: true),
+    Sensor(key: "Te0L", name: "CPU efficiency core 2", group: .CPU, type: .temperature, platforms: [.m3, .m3Max, .m3Pro, .m3Ultra], average: true),
+    Sensor(key: "Te0P", name: "CPU efficiency core 3", group: .CPU, type: .temperature, platforms: [.m3, .m3Max, .m3Pro, .m3Ultra], average: true),
+    Sensor(key: "Te0S", name: "CPU efficiency core 4", group: .CPU, type: .temperature, platforms: [.m3, .m3Max, .m3Pro, .m3Ultra], average: true),
+    
+    Sensor(key: "Tf04", name: "CPU performance core 1", group: .CPU, type: .temperature, platforms: [.m3, .m3Max, .m3Pro, .m3Ultra], average: true),
+    Sensor(key: "Tf09", name: "CPU performance core 2", group: .CPU, type: .temperature, platforms: [.m3, .m3Max, .m3Pro, .m3Ultra], average: true),
+    Sensor(key: "Tf0A", name: "CPU performance core 3", group: .CPU, type: .temperature, platforms: [.m3, .m3Max, .m3Pro, .m3Ultra], average: true),
+    Sensor(key: "Tf0B", name: "CPU performance core 4", group: .CPU, type: .temperature, platforms: [.m3, .m3Max, .m3Pro, .m3Ultra], average: true),
+    Sensor(key: "Tf0D", name: "CPU performance core 5", group: .CPU, type: .temperature, platforms: [.m3, .m3Max, .m3Pro, .m3Ultra], average: true),
+    Sensor(key: "Tf0E", name: "CPU performance core 6", group: .CPU, type: .temperature, platforms: [.m3, .m3Max, .m3Pro, .m3Ultra], average: true),
+    Sensor(key: "Tf44", name: "CPU performance core 7", group: .CPU, type: .temperature, platforms: [.m3, .m3Max, .m3Pro, .m3Ultra], average: true),
+    Sensor(key: "Tf49", name: "CPU performance core 8", group: .CPU, type: .temperature, platforms: [.m3, .m3Max, .m3Pro, .m3Ultra], average: true),
+    Sensor(key: "Tf4A", name: "CPU performance core 9", group: .CPU, type: .temperature, platforms: [.m3, .m3Max, .m3Pro, .m3Ultra], average: true),
+    Sensor(key: "Tf4B", name: "CPU performance core 10", group: .CPU, type: .temperature, platforms: [.m3, .m3Max, .m3Pro, .m3Ultra], average: true),
+    Sensor(key: "Tf4D", name: "CPU performance core 11", group: .CPU, type: .temperature, platforms: [.m3, .m3Max, .m3Pro, .m3Ultra], average: true),
+    Sensor(key: "Tf4E", name: "CPU performance core 12", group: .CPU, type: .temperature, platforms: [.m3, .m3Max, .m3Pro, .m3Ultra], average: true),
+    
+    Sensor(key: "Tf14", name: "GPU 1", group: .GPU, type: .temperature, platforms: [.m3, .m3Max, .m3Pro, .m3Ultra], average: true),
+    Sensor(key: "Tf18", name: "GPU 2", group: .GPU, type: .temperature, platforms: [.m3, .m3Max, .m3Pro, .m3Ultra], average: true),
+    Sensor(key: "Tf19", name: "GPU 3", group: .GPU, type: .temperature, platforms: [.m3, .m3Max, .m3Pro, .m3Ultra], average: true),
+    Sensor(key: "Tf1A", name: "GPU 4", group: .GPU, type: .temperature, platforms: [.m3, .m3Max, .m3Pro, .m3Ultra], average: true),
+    Sensor(key: "Tf24", name: "GPU 5", group: .GPU, type: .temperature, platforms: [.m3, .m3Max, .m3Pro, .m3Ultra], average: true),
+    Sensor(key: "Tf28", name: "GPU 6", group: .GPU, type: .temperature, platforms: [.m3, .m3Max, .m3Pro, .m3Ultra], average: true),
+    Sensor(key: "Tf29", name: "GPU 7", group: .GPU, type: .temperature, platforms: [.m3, .m3Max, .m3Pro, .m3Ultra], average: true),
+    Sensor(key: "Tf2A", name: "GPU 8", group: .GPU, type: .temperature, platforms: [.m3, .m3Max, .m3Pro, .m3Ultra], average: true),
+    
     Sensor(key: "TaLP", name: "Airflow left", group: .sensor, type: .temperature, platforms: Platform.apple),
     Sensor(key: "TaRF", name: "Airflow right", group: .sensor, type: .temperature, platforms: Platform.apple),
     
