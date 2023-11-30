@@ -356,6 +356,11 @@ internal let SensorsList: [Sensor] = [
     Sensor(key: "Tg0L", name: "GPU 3", group: .GPU, type: .temperature, platforms: [.m1, .m1Pro, .m1Max, .m1Ultra], average: true),
     Sensor(key: "Tg0T", name: "GPU 4", group: .GPU, type: .temperature, platforms: [.m1, .m1Pro, .m1Max, .m1Ultra], average: true),
     
+    Sensor(key: "Tm02", name: "Memory 1", group: .GPU, type: .temperature, platforms: [.m1, .m1Pro, .m1Max, .m1Ultra], average: true),
+    Sensor(key: "Tm06", name: "Memory 2", group: .GPU, type: .temperature, platforms: [.m1, .m1Pro, .m1Max, .m1Ultra], average: true),
+    Sensor(key: "Tm08", name: "Memory 3", group: .GPU, type: .temperature, platforms: [.m1, .m1Pro, .m1Max, .m1Ultra], average: true),
+    Sensor(key: "Tm09", name: "Memory 4", group: .GPU, type: .temperature, platforms: [.m1, .m1Pro, .m1Max, .m1Ultra], average: true),
+    
     // M2
     Sensor(key: "Tp0A", name: "CPU core 1", group: .CPU, type: .temperature, platforms: [.m2, .m2Max, .m2Pro, .m2Ultra], average: true),
     Sensor(key: "Tp0D", name: "CPU core 2", group: .CPU, type: .temperature, platforms: [.m2, .m2Max, .m2Pro, .m2Ultra], average: true),
