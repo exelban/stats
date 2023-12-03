@@ -73,7 +73,7 @@
 "Settings" = "Impostazioni";
 "Name" = "Nome";
 "Format" = "Formato";
-"Turn off" = "Turn off";
+"Turn off" = "Disattiva";
 
 // Setup
 "Stats Setup" = "Configurazione Stats";
@@ -297,8 +297,8 @@
 "Install fan helper" = "Installa estensione ventole";
 "Uninstall fan helper" = "Disinstalla estensione ventole";
 "Fan value" = "Valore ventola";
-"Turn off fan" = "Turn off fan";
-"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?";
+"Turn off fan" = "Disattiva la ventola";
+"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Stai per disattivare la ventola. Questa azione non è consigliata e può danneggiare il tuo mac, sei sicuro di voler proseguire?";
 
 // Network
 "Uploading" = "Upload";
