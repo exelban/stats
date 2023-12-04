@@ -42,9 +42,9 @@ identifier_name:
 line_length: 200
 
 type_body_length:
-  - 500
   - 700
+  - 1000
 
 file_length:
-  - 1200
-  - 1600
+  - 1400
+  - 1800

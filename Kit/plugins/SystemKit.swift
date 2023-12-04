@@ -196,6 +196,16 @@ public class SystemKit {
                 } else {
                     self.device.platform = .m2
                 }
+            } else if name.contains("m3") {
+                if name.contains("pro") {
+                    self.device.platform = .m3Pro
+                } else if name.contains("max") {
+                    self.device.platform = .m3Max
+                } else if name.contains("ultra") {
+                    self.device.platform = .m3Ultra
+                } else {
+                    self.device.platform = .m3
+                }
             }
         }
     }
