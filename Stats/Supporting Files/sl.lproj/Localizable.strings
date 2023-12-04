@@ -73,6 +73,7 @@
 "Settings" = "Nastavitve";
 "Name" = "Ime";
 "Format" = "Format";
+"Turn off" = "Turn off";
 
 // Setup
 "Stats Setup" = "Stats konfigurator";
@@ -178,6 +179,7 @@
 "Color of download" = "Barva prenosa";
 "Color of upload" = "Barva oddajanja";
 "Monospaced font" = "Pisava s fiksno širino";
+"Reverse order" = "Reverse order";
 
 // Module Kit
 "Open module settings" = "Odpri nastavitve modula";
@@ -295,6 +297,8 @@
 "Install fan helper" = "Namesti pomočnika za ventilatorje";
 "Uninstall fan helper" = "Odstrani pomočnika za ventilatorje";
 "Fan value" = "Vrednost ventilatorja";
+"Turn off fan" = "Turn off fan";
+"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?";
 
 // Network
 "Uploading" = "Oddajanje";

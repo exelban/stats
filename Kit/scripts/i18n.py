@@ -41,6 +41,8 @@ class i18n:
 
             for v in en_dict:
                 en_key = en_dict[v].get("key")
+                if v not in lang_dict:
+                    sys.exit(f"missing key `{en_key}` in `{name}` on line `{v}`")
                 lang_ley = lang_dict[v].get("key")
                 if lang_ley != en_key:
                     sys.exit(f"missing or wrong key `{lang_ley}` in `{name}` on line `{v}`, must be `{en_key}`")

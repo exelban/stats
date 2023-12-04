@@ -23,8 +23,6 @@ public protocol Reader_p {
     func read()
     func terminate()
     
-    func getValue<T>() -> T
-    
     func start()
     func pause()
     func stop()
@@ -62,7 +60,6 @@ open class Reader<T: Codable>: NSObject, ReaderInternal_p {
     
     private var repeatTask: Repeater?
     private var nilCallbackCounter: Int = 0
-    private var ready: Bool = false
     private var locked: Bool = true
     private var initlizalized: Bool = false
     
@@ -75,6 +72,16 @@ open class Reader<T: Codable>: NSObject, ReaderInternal_p {
         }
         set {
             self.variablesQueue.sync { self._active = newValue }
+        }
+    }
+    
+    private var _ready: Bool = false
+    public var ready: Bool {
+        get {
+            self.variablesQueue.sync { self._ready }
+        }
+        set {
+            self.variablesQueue.sync { self._ready = newValue }
         }
     }
     
@@ -180,10 +187,6 @@ open class Reader<T: Codable>: NSObject, ReaderInternal_p {
 }
 
 extension Reader: Reader_p {
-    public func getValue<T>() -> T {
-        return self.value as! T
-    }
-    
     public func lock() {
         self.locked = true
     }

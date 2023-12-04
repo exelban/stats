@@ -61,7 +61,6 @@ internal class CapacityReader: Reader<Disks> {
                             
                             if let path = d.path {
                                 self.list.updateFreeSize(idx, newValue: self.freeDiskSpaceInBytes(path))
-                                self.list.updateSMARTData(idx, smart: self.getSMARTDetails(for: BSDName))
                             }
                             
                             continue
@@ -72,7 +71,6 @@ internal class CapacityReader: Reader<Disks> {
                                 d.free = self.freeDiskSpaceInBytes(path)
                                 d.size = self.totalDiskSpaceInBytes(path)
                             }
-                            d.smart = self.getSMARTDetails(for: BSDName)
                             self.list.append(d)
                             self.list.sort()
                         }
@@ -91,6 +89,17 @@ internal class CapacityReader: Reader<Disks> {
     }
     
     private func freeDiskSpaceInBytes(_ path: URL) -> Int64 {
+        do {
+            if let url = URL(string: path.absoluteString) {
+                let values = try url.resourceValues(forKeys: [.volumeAvailableCapacityForImportantUsageKey])
+                if let capacity = values.volumeAvailableCapacityForImportantUsage, capacity != 0 {
+                    return capacity
+                }
+            }
+        } catch let err {
+            error("error retrieving free space #1: \(err.localizedDescription)", log: self.log)
+        }
+        
         do {
             let systemAttributes = try FileManager.default.attributesOfFileSystem(forPath: path.path)
             if let freeSpace = (systemAttributes[FileAttributeKey.systemFreeSize] as? NSNumber)?.int64Value {
@@ -151,13 +160,15 @@ internal class CapacityReader: Reader<Disks> {
                 pluginInterface?.pointee?.pointee.QueryInterface(pluginInterface, CFUUIDGetUUIDBytes(kIONVMeSMARTInterfaceID), $0) ?? KERN_NOT_FOUND
             }
         }
+        
+        guard result == kIOReturnSuccess else { return nil }
         defer {
             if smartInterface != nil {
                 _ = pluginInterface?.pointee?.pointee.Release(smartInterface)
             }
         }
         
-        guard result == KERN_SUCCESS, let smart = smartInterface?.pointee else { return nil }
+        guard let smart = smartInterface?.pointee else { return nil }
         var smartData: nvme_smart_log = nvme_smart_log()
         guard smart.pointee.SMARTReadData(smartInterface, &smartData) == kIOReturnSuccess else { return nil }
         

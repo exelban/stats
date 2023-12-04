@@ -76,6 +76,23 @@ public class CPU: Module {
         return color.additional as! NSColor
     }
     
+    private var eCoreColor: NSColor {
+        let color = Color.teal
+        let key = Store.shared.string(key: "\(self.config.name)_eCoresColor", defaultValue: color.key)
+        if let c = Color.fromString(key).additional as? NSColor {
+            return c
+        }
+        return color.additional as! NSColor
+    }
+    private var pCoreColor: NSColor {
+        let color = Color.secondBlue
+        let key = Store.shared.string(key: "\(self.config.name)_pCoresColor", defaultValue: color.key)
+        if let c = Color.fromString(key).additional as? NSColor {
+            return c
+        }
+        return color.additional as! NSColor
+    }
+    
     public init() {
         self.settingsView = Settings("CPU")
         self.popupView = Popup("CPU")
@@ -98,8 +115,8 @@ public class CPU: Module {
         self.frequencyReader = FrequencyReader(.CPU, popup: true)
         #endif
         
-        self.settingsView.callback = { [unowned self] in
-            self.loadReader?.read()
+        self.settingsView.callback = { [weak self] in
+            self?.loadReader?.read()
         }
         self.settingsView.callbackWhenUpdateNumberOfProcesses = {
             self.popupView.numberOfProcessesUpdated()
@@ -107,50 +124,50 @@ public class CPU: Module {
                 self.processReader?.read()
             }
         }
-        self.settingsView.setInterval = { [unowned self] value in
-            self.loadReader?.setInterval(value)
+        self.settingsView.setInterval = { [weak self] value in
+            self?.loadReader?.setInterval(value)
         }
-        self.settingsView.setTopInterval = { [unowned self] value in
-            self.processReader?.setInterval(value)
+        self.settingsView.setTopInterval = { [weak self] value in
+            self?.processReader?.setInterval(value)
         }
-        self.settingsView.IPGCallback = { [unowned self] value in
+        self.settingsView.IPGCallback = { [weak self] value in
             if value {
-                self.frequencyReader?.setup()
+                self?.frequencyReader?.setup()
             }
-            self.popupView.toggleFrequency(state: value)
+            self?.popupView.toggleFrequency(state: value)
         }
         
-        self.loadReader?.callbackHandler = { [unowned self] value in
-            self.loadCallback(value)
+        self.loadReader?.callbackHandler = { [weak self] value in
+            self?.loadCallback(value)
         }
-        self.loadReader?.readyCallback = { [unowned self] in
-            self.readyHandler()
+        self.loadReader?.readyCallback = { [weak self] in
+            self?.readyHandler()
         }
         
-        self.processReader?.callbackHandler = { [unowned self] value in
+        self.processReader?.callbackHandler = { [weak self] value in
             if let list = value {
-                self.popupView.processCallback(list)
+                self?.popupView.processCallback(list)
             }
         }
         
-        self.temperatureReader?.callbackHandler = { [unowned self] value in
+        self.temperatureReader?.callbackHandler = { [weak self] value in
             if let v = value  {
-                self.popupView.temperatureCallback(v)
+                self?.popupView.temperatureCallback(v)
             }
         }
-        self.frequencyReader?.callbackHandler = { [unowned self] value in
+        self.frequencyReader?.callbackHandler = { [weak self] value in
             if let v = value  {
-                self.popupView.frequencyCallback(v)
+                self?.popupView.frequencyCallback(v)
             }
         }
-        self.limitReader?.callbackHandler = { [unowned self] value in
+        self.limitReader?.callbackHandler = { [weak self] value in
             if let v = value  {
-                self.popupView.limitCallback(v)
+                self?.popupView.limitCallback(v)
             }
         }
-        self.averageReader?.callbackHandler = { [unowned self] value in
+        self.averageReader?.callbackHandler = { [weak self] value in
             if let v = value  {
-                self.popupView.averageCallback(v)
+                self?.popupView.averageCallback(v)
             }
         }
         
@@ -175,9 +192,7 @@ public class CPU: Module {
     }
     
     private func loadCallback(_ raw: CPU_Load?) {
-        guard let value = raw, self.enabled else {
-            return
-        }
+        guard let value = raw, self.enabled else { return }
         
         self.popupView.loadCallback(value)
         self.portalView.loadCallback(value)
@@ -189,18 +204,32 @@ public class CPU: Module {
             case let widget as LineChart: widget.setValue(value.totalUsage)
             case let widget as BarChart:
                 var val: [[ColorValue]] = [[ColorValue(value.totalUsage)]]
+                let cores = SystemKit.shared.device.info.cpu?.cores ?? []
+                
                 if self.usagePerCoreState {
-                    val = value.usagePerCore.map({ [ColorValue($0)] })
+                    if widget.colorState == .cluster {
+                        val = []
+                        for (i, v) in value.usagePerCore.enumerated() {
+                            let core = cores.first(where: {$0.id == i })
+                            val.append([ColorValue(v, color: core?.type == .efficiency ? self.eCoreColor : self.pCoreColor)])
+                        }
+                    } else {
+                        val = value.usagePerCore.map({ [ColorValue($0)] })
+                    }
                 } else if self.splitValueState {
                     val = [[
                         ColorValue(value.systemLoad, color: self.systemColor),
                         ColorValue(value.userLoad, color: self.userColor)
                     ]]
                 } else if self.groupByClustersState, let e = value.usageECores, let p = value.usagePCores {
-                    val = [
-                        [ColorValue(e, color: NSColor.systemTeal)],
-                        [ColorValue(p, color: NSColor.systemBlue)]
-                    ]
+                    if widget.colorState == .cluster {
+                        val = [
+                            [ColorValue(e, color: self.eCoreColor)],
+                            [ColorValue(p, color: self.pCoreColor)]
+                        ]
+                    } else {
+                        val = [[ColorValue(e)], [ColorValue(p)]]
+                    }
                 }
                 widget.setValue(val)
             case let widget as PieChart:

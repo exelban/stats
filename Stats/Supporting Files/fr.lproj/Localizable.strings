@@ -73,6 +73,7 @@
 "Settings" = "Paramètres";
 "Name" = "Nom";
 "Format" = "Format";
+"Turn off" = "Turn off";
 
 // Setup
 "Stats Setup" = "Configuration de Stats";
@@ -178,6 +179,7 @@
 "Color of download" = "Couleur du téléchargement";
 "Color of upload" = "Couleur du téléversement";
 "Monospaced font" = "Police à espacement fixe";
+"Reverse order" = "Reverse order";
 
 // Module Kit
 "Open module settings" = "Ouvrir les paramètres du module";
@@ -190,8 +192,8 @@
 "Pictogram" = "Pictogramme";
 "Module" = "Module";
 "Widgets" = "Widgets";
-"Popup" = "Surgir";
-"Notifications" = "Avis";
+"Popup" = "Popup";
+"Notifications" = "Notifications";
 "Merge widgets" = "Fusionner les widgets";
 "No available widgets to configure" = "Aucun widget disponible à configurer";
 "No options to configure for the popup in this module" = "Aucune option à configurer pour la fenêtre contextuelle dans ce module";
@@ -295,6 +297,8 @@
 "Install fan helper" = "Installer l'assistant des ventilateurs";
 "Uninstall fan helper" = "Désinstaller l'assistant des ventilateurs";
 "Fan value" = "Vitesse du ventilateur";
+"Turn off fan" = "Turn off fan";
+"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?";
 
 // Network
 "Uploading" = "Envoi";

@@ -34,36 +34,36 @@ public class Sensors: Module {
         
         self.popupView.setup(self.sensorsReader.list.sensors)
         
-        self.settingsView.callback = { [unowned self] in
-            self.sensorsReader.read()
+        self.settingsView.callback = { [weak self] in
+            self?.sensorsReader.read()
         }
-        self.settingsView.setInterval = { [unowned self] value in
-            self.sensorsReader.setInterval(value)
+        self.settingsView.setInterval = { [weak self] value in
+            self?.sensorsReader.setInterval(value)
         }
-        self.settingsView.HIDcallback = { [unowned self] in
+        self.settingsView.HIDcallback = { [weak self] in
             DispatchQueue.global(qos: .background).async {
-                self.sensorsReader.HIDCallback()
+                self?.sensorsReader.HIDCallback()
                 DispatchQueue.main.async {
-                    self.popupView.setup(self.sensorsReader.list.sensors)
-                    self.settingsView.setList(list: self.sensorsReader.list.sensors)
+                    self?.popupView.setup(self?.sensorsReader.list.sensors)
+                    self?.settingsView.setList(list: self?.sensorsReader.list.sensors ?? [])
                 }
             }
         }
-        self.settingsView.unknownCallback = { [unowned self] in
+        self.settingsView.unknownCallback = { [weak self] in
             DispatchQueue.global(qos: .background).async {
-                self.sensorsReader.unknownCallback()
+                self?.sensorsReader.unknownCallback()
                 DispatchQueue.main.async {
-                    self.popupView.setup(self.sensorsReader.list.sensors)
-                    self.settingsView.setList(list: self.sensorsReader.list.sensors)
+                    self?.popupView.setup(self?.sensorsReader.list.sensors)
+                    self?.settingsView.setList(list: self?.sensorsReader.list.sensors ?? [])
                 }
             }
         }
         
-        self.sensorsReader.callbackHandler = { [unowned self] value in
-            self.usageCallback(value)
+        self.sensorsReader.callbackHandler = { [weak self] value in
+            self?.usageCallback(value)
         }
-        self.sensorsReader.readyCallback = { [unowned self] in
-            self.readyHandler()
+        self.sensorsReader.readyCallback = { [weak self] in
+            self?.readyHandler()
         }
         
         self.addReader(self.sensorsReader)
@@ -92,9 +92,7 @@ public class Sensors: Module {
     }
     
     private func usageCallback(_ raw: Sensors_List?) {
-        guard let value = raw, self.enabled else {
-            return
-        }
+        guard let value = raw, self.enabled else { return }
         
         var list: [Stack_t] = []
         var flatList: [[ColorValue]] = []

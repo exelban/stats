@@ -24,12 +24,7 @@ internal class SetupWindow: NSWindow, NSWindowDelegate {
         self.vc.view = self.view
         
         super.init(
-            contentRect: NSRect(
-                x: NSScreen.main!.frame.width - self.view.frame.width,
-                y: NSScreen.main!.frame.height - self.view.frame.height,
-                width: self.view.frame.width,
-                height: self.view.frame.height
-            ),
+            contentRect: NSRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height),
             styleMask: [.closable, .titled],
             backing: .buffered,
             defer: true
@@ -463,13 +458,27 @@ private class SetupView_end: NSStackView {
         message.isSelectable = false
         
         let support: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: 160, height: 50))
-        support.spacing = 0
+        support.edgeInsets = NSEdgeInsets(top: 12, left: 0, bottom: 0, right: 0)
+        support.spacing = 12
         support.orientation = .horizontal
         
-        support.addArrangedSubview(supportButton(name: "GitHub Sponsors", image: "github", action: #selector(self.openGithub)))
-        support.addArrangedSubview(supportButton(name: "PayPal", image: "paypal", action: #selector(self.openPaypal)))
-        support.addArrangedSubview(supportButton(name: "Ko-fi", image: "ko-fi", action: #selector(self.openKofi)))
-        support.addArrangedSubview(supportButton(name: "Patreon", image: "patreon", action: #selector(self.openPatreon)))
+        let github = SupportButtonView(name: "GitHub Sponsors", image: "github", action: {
+            NSWorkspace.shared.open(URL(string: "https://github.com/sponsors/exelban")!)
+        })
+        let paypal = SupportButtonView(name: "PayPal", image: "paypal", action: {
+            NSWorkspace.shared.open(URL(string: "https://www.paypal.com/donate?hosted_button_id=3DS5JHDBATMTC")!)
+        })
+        let koFi = SupportButtonView(name: "Ko-fi", image: "ko-fi", action: {
+            NSWorkspace.shared.open(URL(string: "https://ko-fi.com/exelban")!)
+        })
+        let patreon = SupportButtonView(name: "Patreon", image: "patreon", action: {
+            NSWorkspace.shared.open(URL(string: "https://patreon.com/exelban")!)
+        })
+        
+        support.addArrangedSubview(github)
+        support.addArrangedSubview(paypal)
+        support.addArrangedSubview(koFi)
+        support.addArrangedSubview(patreon)
         
         content.addArrangedSubview(message)
         content.addArrangedSubview(support)
@@ -485,39 +494,57 @@ private class SetupView_end: NSStackView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+}
+
+public class SupportButtonView: NSButton {
+    public var callback: (() -> Void) = {}
     
-    private func supportButton(name: String, image: String, action: Selector) -> NSButton {
-        let button = NSButtonWithPadding()
-        button.frame = CGRect(x: 0, y: 0, width: 24, height: 24)
-        button.verticalPadding = 16
-        button.horizontalPadding = 16
-        button.title = name
-        button.toolTip = name
-        button.bezelStyle = .regularSquare
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.imageScaling = .scaleNone
-        button.image = Bundle(for: type(of: self)).image(forResource: image)!
-        button.isBordered = false
-        button.target = self
-        button.focusRingType = .none
-        button.action = action
+    public init(name: String, image: String, action: @escaping () -> Void) {
+        self.callback = action
         
-        return button
+        super.init(frame: NSRect(x: 0, y: 0, width: 30, height: 30))
+        
+        self.title = name
+        self.toolTip = name
+        self.bezelStyle = .regularSquare
+        self.translatesAutoresizingMaskIntoConstraints = false
+        self.imageScaling = .scaleProportionallyDown
+        self.image = Bundle(for: type(of: self)).image(forResource: image)!
+        self.isBordered = false
+        self.target = self
+        self.focusRingType = .none
+        self.action = #selector(self.click)
+        self.wantsLayer = true
+        self.alphaValue = 0.9
+        
+        self.addTrackingArea(NSTrackingArea(
+            rect: NSRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height),
+            options: [NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited, NSTrackingArea.Options.activeInActiveApp],
+            owner: self,
+            userInfo: nil
+        ))
+        
+        NSLayoutConstraint.activate([
+            self.widthAnchor.constraint(equalToConstant: self.bounds.width),
+            self.heightAnchor.constraint(equalToConstant: self.bounds.height)
+        ])
     }
     
-    @objc private func openGithub(_ sender: NSButton) {
-        NSWorkspace.shared.open(URL(string: "https://github.com/sponsors/exelban")!)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
-    @objc private func openPaypal(_ sender: NSButton) {
-        NSWorkspace.shared.open(URL(string: "https://www.paypal.com/donate?hosted_button_id=3DS5JHDBATMTC")!)
+    public override func mouseEntered(with: NSEvent) {
+        self.alphaValue = 1
+        NSCursor.pointingHand.set()
     }
     
-    @objc private func openKofi(_ sender: NSButton) {
-        NSWorkspace.shared.open(URL(string: "https://ko-fi.com/exelban")!)
+    public override func mouseExited(with: NSEvent) {
+        self.alphaValue = 0.9
+        NSCursor.arrow.set()
     }
     
-    @objc private func openPatreon(_ sender: NSButton) {
-        NSWorkspace.shared.open(URL(string: "https://patreon.com/exelban")!)
+    @objc private func click(_ sender: NSControl) {
+        self.callback()
     }
 }

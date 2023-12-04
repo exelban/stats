@@ -125,8 +125,8 @@ public class LineChartView: NSView {
         context.setShouldAntialias(true)
         
         let offset: CGFloat = 1 / (NSScreen.main?.backingScaleFactor ?? 1)
-        let height: CGFloat = dirtyRect.height - self.frame.origin.y - offset
-        let xRatio: CGFloat = dirtyRect.width / CGFloat(points.count-1)
+        let height: CGFloat = self.frame.height - dirtyRect.origin.y - offset
+        let xRatio: CGFloat = self.frame.width / CGFloat(points.count-1)
         
         let list = points.enumerated().compactMap { (i: Int, v: Double) -> (value: Double, point: CGPoint) in
             return (v, CGPoint(
@@ -335,17 +335,17 @@ public class NetworkChartView: NSView {
         }
         
         let lineWidth = 1 / (NSScreen.main?.backingScaleFactor ?? 1)
-        let zero: CGFloat = (dirtyRect.height/2) + dirtyRect.origin.y
-        let xRatio: CGFloat = (dirtyRect.width + (lineWidth*3)) / CGFloat(points.count)
+        let zero: CGFloat = (self.frame.height/2) + self.frame.origin.y
+        let xRatio: CGFloat = (self.frame.width + (lineWidth*3)) / CGFloat(points.count)
         
         let columnXPoint = { (point: Int) -> CGFloat in
-            return (CGFloat(point) * xRatio) + (dirtyRect.origin.x - lineWidth)
+            return (CGFloat(point) * xRatio) + (self.frame.origin.x - lineWidth)
         }
         let uploadYPoint = { (point: Int) -> CGFloat in
-            return scaleValue(scale: self.scale, value: points[point].0, maxValue: uploadMax, maxHeight: dirtyRect.height/2) + (dirtyRect.height/2 + dirtyRect.origin.y)
+            return scaleValue(scale: self.scale, value: points[point].0, maxValue: uploadMax, maxHeight: self.frame.height/2) + (self.frame.height/2 + self.frame.origin.y)
         }
         let downloadYPoint = { (point: Int) -> CGFloat in
-            return (dirtyRect.height/2 + dirtyRect.origin.y) - scaleValue(scale: self.scale, value: points[point].1, maxValue: downloadMax, maxHeight: dirtyRect.height/2)
+            return (self.frame.height/2 + self.frame.origin.y) - scaleValue(scale: self.scale, value: points[point].1, maxValue: downloadMax, maxHeight: self.frame.height/2)
         }
         
         let uploadlinePath = NSBezierPath()
@@ -375,7 +375,7 @@ public class NetworkChartView: NSView {
         underLinePath.close()
         underLinePath.addClip()
         self.outColor.withAlphaComponent(0.5).setFill()
-        NSBezierPath(rect: dirtyRect).fill()
+        NSBezierPath(rect: self.frame).fill()
         
         context.restoreGState()
         context.saveGState()
@@ -386,7 +386,7 @@ public class NetworkChartView: NSView {
         underLinePath.close()
         underLinePath.addClip()
         self.inColor.withAlphaComponent(0.5).setFill()
-        NSBezierPath(rect: dirtyRect).fill()
+        NSBezierPath(rect: self.frame).fill()
         
         context.restoreGState()
         
@@ -401,7 +401,7 @@ public class NetworkChartView: NSView {
             let uploadTextWidth = uploadText.widthOfString(usingFont: stringAttributes[NSAttributedString.Key.font] as! NSFont)
             let downloadTextWidth = downloadText.widthOfString(usingFont: stringAttributes[NSAttributedString.Key.font] as! NSFont)
             
-            var rect = CGRect(x: 1, y: dirtyRect.height - 9, width: uploadTextWidth, height: 8)
+            var rect = CGRect(x: 1, y: self.frame.height - 9, width: uploadTextWidth, height: 8)
             NSAttributedString.init(string: uploadText, attributes: stringAttributes).draw(with: rect)
             
             rect = CGRect(x: 1, y: 2, width: downloadTextWidth, height: 8)
@@ -480,7 +480,7 @@ public class PieChartView: NSView {
     }
     
     public override func draw(_ rect: CGRect) {
-        let arcWidth: CGFloat = self.filled ? min(rect.width, rect.height) / 2 : 7
+        let arcWidth: CGFloat = self.filled ? min(self.frame.width, self.frame.height) / 2 : 7
         let fullCircle = 2 * CGFloat.pi
         var segments = self.segments
         let totalAmount = segments.reduce(0) { $0 + $1.value }
@@ -488,8 +488,8 @@ public class PieChartView: NSView {
             segments.append(circle_segment(value: Double(1-totalAmount), color: self.nonActiveSegmentColor.withAlphaComponent(0.5)))
         }
         
-        let centerPoint = CGPoint(x: rect.midX, y: rect.midY)
-        let radius = (min(rect.width, rect.height) - arcWidth) / 2
+        let centerPoint = CGPoint(x: self.frame.width/2, y: self.frame.height/2)
+        let radius = (min(self.frame.width, self.frame.height) - arcWidth) / 2
         
         guard let context = NSGraphicsContext.current?.cgContext else { return }
         context.setShouldAntialias(true)
@@ -564,8 +564,8 @@ public class HalfCircleGraphView: NSView {
     
     public override func draw(_ rect: CGRect) {
         let arcWidth: CGFloat = 7.0
-        let centerPoint = CGPoint(x: rect.midX, y: rect.midY)
-        let radius = (min(rect.width, rect.height) - arcWidth) / 2
+        let radius = (min(self.frame.width, self.frame.height) - arcWidth) / 2
+        let centerPoint = CGPoint(x: self.frame.width/2, y: self.frame.height/2)
         
         guard let context = NSGraphicsContext.current?.cgContext else { return }
         context.setShouldAntialias(true)
@@ -585,7 +585,7 @@ public class HalfCircleGraphView: NSView {
         var previousAngle = startAngle
         
         context.saveGState()
-        context.translateBy(x: rect.width, y: 0)
+        context.translateBy(x: self.frame.width, y: 0)
         context.scaleBy(x: -1, y: 1)
         
         for segment in segments {
@@ -647,22 +647,22 @@ public class TachometerGraphView: NSView {
     }
     
     public override func draw(_ rect: CGRect) {
-        let arcWidth: CGFloat = self.filled ? min(rect.width, rect.height) / 2 : 7
+        let arcWidth: CGFloat = self.filled ? min(self.frame.width, self.frame.height) / 2 : 7
         var segments = self.segments
         let totalAmount = segments.reduce(0) { $0 + $1.value }
         if totalAmount < 1 {
             segments.append(circle_segment(value: Double(1-totalAmount), color: NSColor.lightGray.withAlphaComponent(0.5)))
         }
         
-        let centerPoint = CGPoint(x: rect.midX, y: rect.midY)
-        let radius = (min(rect.width, rect.height) - arcWidth) / 2
+        let centerPoint = CGPoint(x: self.frame.width/2, y: self.frame.height/2)
+        let radius = (min(self.frame.width, self.frame.height) - arcWidth) / 2
         
         guard let context = NSGraphicsContext.current?.cgContext else { return }
         context.setShouldAntialias(true)
         context.setLineWidth(arcWidth)
         context.setLineCap(.butt)
         
-        context.translateBy(x: rect.width, y: -4)
+        context.translateBy(x: self.frame.width, y: -4)
         context.scaleBy(x: -1, y: 1)
         
         let startAngle: CGFloat = 0

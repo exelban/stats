@@ -68,14 +68,14 @@ public class Clock: Module {
         )
         guard self.available else { return }
         
-        self.reader.callbackHandler = { [unowned self] value in
+        self.reader.callbackHandler = { [weak self] value in
             guard let value else { return }
-            self.callback(value)
+            self?.callback(value)
         }
         
         self.addReader(self.reader)
-        self.reader.readyCallback = { [unowned self] in
-            self.readyHandler()
+        self.reader.readyCallback = { [weak self] in
+            self?.readyHandler()
         }
     }
     
@@ -105,8 +105,9 @@ public class Clock: Module {
 
 extension Clock {
     static let title: String = "Clock"
+    static let localID: String = UUID().uuidString
     static var local: Clock_t {
-        Clock_t(name: localizedString("Local time"), format: "yyyy-MM-dd HH:mm:ss", tz: "local")
+        Clock_t(id: Clock.localID, name: localizedString("Local time"), format: "yyyy-MM-dd HH:mm:ss", tz: "local")
     }
     static var zones: [KeyValue_t] {
         [

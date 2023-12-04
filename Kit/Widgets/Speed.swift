@@ -15,13 +15,13 @@ public class SpeedWidget: WidgetWrapper {
     private var icon: String = "dots"
     private var state: Bool = false
     private var valueState: Bool = true
-    private var baseValue: String = "byte"
     private var unitsState: Bool = true
     private var monochromeState: Bool = false
     private var valueColorState: Bool = false
     private var transparentIconsState: Bool = false
     private var valueAlignmentState: String = "right"
     private var modeState: String = "twoRows"
+    private var reverseOrderState: Bool = false
     
     private var downloadColorState: Color = .secondBlue
     private var uploadColorState: Color = .secondRed
@@ -58,15 +58,15 @@ public class SpeedWidget: WidgetWrapper {
         }
     }
     
+    private var base: DataSizeBase {
+        DataSizeBase(rawValue: Store.shared.string(key: "\(self.title)_base", defaultValue: "byte")) ?? .byte
+    }
+    
     public init(title: String, config: NSDictionary?, preview: Bool = false) {
         let widgetTitle: String = title
         if config != nil {
-            if let symbols = config!["Symbols"] as? [String] {
-                self.symbols = symbols
-            }
-            if let icon = config!["Icon"] as? String {
-                self.icon = icon
-            }
+            if let symbols = config!["Symbols"] as? [String] { self.symbols = symbols }
+            if let icon = config!["Icon"] as? String { self.icon = icon }
         }
         
         super.init(.speed, title: widgetTitle, frame: CGRect(
@@ -75,13 +75,11 @@ public class SpeedWidget: WidgetWrapper {
             width: width,
             height: Constants.Widget.height - (2*Constants.Widget.margin.y)
         ))
-        
         self.canDrawConcurrently = true
         
         if !preview {
             self.valueState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_value", defaultValue: self.valueState)
-            self.icon = Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_icon", defaultValue: self.baseValue)
-            self.baseValue = Store.shared.string(key: "\(self.title)_base", defaultValue: self.baseValue)
+            self.icon = Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_icon", defaultValue: self.icon)
             self.unitsState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_units", defaultValue: self.unitsState)
             self.monochromeState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_monochrome", defaultValue: self.monochromeState)
             self.valueColorState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_valueColor", defaultValue: self.valueColorState)
@@ -90,6 +88,7 @@ public class SpeedWidget: WidgetWrapper {
             self.transparentIconsState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_transparentIcons", defaultValue: self.transparentIconsState)
             self.valueAlignmentState = Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_valueAlignment", defaultValue: self.valueAlignmentState)
             self.modeState = Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_mode", defaultValue: self.modeState)
+            self.reverseOrderState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_reverseOrder", defaultValue: self.reverseOrderState)
         }
         
         if self.valueState && self.icon != "none" {
@@ -126,51 +125,66 @@ public class SpeedWidget: WidgetWrapper {
     
     private func drawOneRow(_ dirtyRect: NSRect) -> CGFloat {
         var width: CGFloat = Constants.Widget.margin.x
-        
         let downloadIconColor = self.downloadValue >= 1_024 ? self.downloadColor : self.noActivityColor
         let uploadIconColor = self.uploadValue >= 1_024 ? self.uploadColor : self.noActivityColor
         
-        switch self.icon {
-        case "dots":
-            width += self.drawDot(CGPoint(x: width, y: 0), color: uploadIconColor)
-        case "arrows":
-            width += self.drawArrow(CGPoint(x: width, y: 0), symbol: "U", color: uploadIconColor)
-        case "chars":
-            width += self.drawChar(CGPoint(x: width, y: 0), symbol: self.symbols[0], color: uploadIconColor)
-        default: break
-        }
-        
-        width += self.valueState && self.icon != "none" ? 2 : 0
-        
-        if self.valueState {
-            width += self.drawValue(self.uploadValue,
-                offset: CGPoint(x: width, y: 0),
-                color: self.valueColorState && self.uploadValue >= 1_024 ? self.uploadColor : NSColor.textColor
+        if self.reverseOrderState {
+            width = self.drawRowItem(
+                initWidth: width,
+                symbol: self.symbols[1],
+                iconColor: downloadIconColor,
+                value: self.downloadValue,
+                valueColor: self.valueColorState && self.downloadValue >= 1_024 ? self.downloadColor : NSColor.textColor
             )
-        }
-        
-        width += 4
-        
-        switch self.icon {
-        case "dots":
-            width += self.drawDot(CGPoint(x: width, y: 0), color: downloadIconColor)
-        case "arrows":
-            width += self.drawArrow(CGPoint(x: width, y: 0), symbol: "D", color: downloadIconColor)
-        case "chars":
-            width += self.drawChar(CGPoint(x: width, y: 0), symbol: self.symbols[1], color: downloadIconColor)
-        default: break
-        }
-        
-        width += self.valueState && self.icon != "none" ? 2 : 0
-        
-        if self.valueState {
-            width += self.drawValue(self.downloadValue,
-                offset: CGPoint(x: width, y: 0),
-                color: self.valueColorState && self.downloadValue >= 1_024 ? self.downloadColor : NSColor.textColor
+            width += 4
+            width = self.drawRowItem(
+                initWidth: width,
+                symbol: self.symbols[0],
+                iconColor: uploadIconColor,
+                value: self.uploadValue,
+                valueColor: self.valueColorState && self.uploadValue >= 1_024 ? self.uploadColor : NSColor.textColor
+            )
+        } else {
+            width = self.drawRowItem(
+                initWidth: width,
+                symbol: self.symbols[0],
+                iconColor: uploadIconColor,
+                value: self.uploadValue,
+                valueColor: self.valueColorState && self.uploadValue >= 1_024 ? self.uploadColor : NSColor.textColor
+            )
+            width += 4
+            width = self.drawRowItem(
+                initWidth: width,
+                symbol: self.symbols[1],
+                iconColor: downloadIconColor,
+                value: self.downloadValue,
+                valueColor: self.valueColorState && self.downloadValue >= 1_024 ? self.downloadColor : NSColor.textColor
             )
         }
         
         return width + Constants.Widget.margin.x
+    }
+    
+    private func drawRowItem(initWidth: CGFloat, symbol: String, iconColor: NSColor, value: Int64, valueColor: NSColor) -> CGFloat {
+        var width = initWidth
+        
+        switch self.icon {
+        case "dots":
+            width += self.drawDot(CGPoint(x: width, y: 0), color: iconColor)
+        case "arrows":
+            width += self.drawArrow(CGPoint(x: width, y: 0), symbol: symbol, color: iconColor)
+        case "chars":
+            width += self.drawChar(CGPoint(x: width, y: 0), symbol: symbol, color: iconColor)
+        default: break
+        }
+        
+        width += self.valueState && self.icon != "none" ? 2 : 0
+        
+        if self.valueState {
+            width += self.drawValue(value, offset: CGPoint(x: width, y: 0), color: valueColor)
+        }
+        
+        return width
     }
     
     private func drawValue(_ value: Int64, offset: CGPoint, color: NSColor) -> CGFloat {
@@ -186,7 +200,6 @@ public class SpeedWidget: WidgetWrapper {
             NSAttributedString.Key.paragraphStyle: style
         ]
         
-        let base: DataSizeBase = DataSizeBase(rawValue: self.baseValue) ?? .byte
         let rect = CGRect(x: offset.x, y: (height-size)/2 + offset.y + 1, width: rowWidth - (Constants.Widget.margin.x*2), height: size)
         let value = NSAttributedString.init(
             string: Units(bytes: value).getReadableSpeed(base: base, omitUnits: !self.unitsState),
@@ -299,15 +312,17 @@ public class SpeedWidget: WidgetWrapper {
                 NSAttributedString.Key.paragraphStyle: style
             ]
             
-            let base: DataSizeBase = DataSizeBase(rawValue: self.baseValue) ?? .byte
-            var rect = CGRect(x: Constants.Widget.margin.x + x, y: 1, width: rowWidth - (Constants.Widget.margin.x*2), height: rowHeight)
+            let downloadY: CGFloat = self.reverseOrderState ? rowHeight + 1 : 1
+            let uploadY: CGFloat = self.reverseOrderState ? 1 : rowHeight + 1
+            
+            var rect = CGRect(x: Constants.Widget.margin.x + x, y: downloadY, width: rowWidth - (Constants.Widget.margin.x*2), height: rowHeight)
             let download = NSAttributedString.init(
                 string: Units(bytes: self.downloadValue).getReadableSpeed(base: base, omitUnits: !self.unitsState),
                 attributes: downloadStringAttributes
             )
             download.draw(with: rect)
             
-            rect = CGRect(x: Constants.Widget.margin.x + x, y: rect.height+1, width: rowWidth - (Constants.Widget.margin.x*2), height: rowHeight)
+            rect = CGRect(x: Constants.Widget.margin.x + x, y: uploadY, width: rowWidth - (Constants.Widget.margin.x*2), height: rowHeight)
             let upload = NSAttributedString.init(
                 string: Units(bytes: self.uploadValue).getReadableSpeed(base: base, omitUnits: !self.unitsState),
                 attributes: uploadStringAttributes
@@ -324,14 +339,16 @@ public class SpeedWidget: WidgetWrapper {
         let rowHeight: CGFloat = self.frame.height / 2
         let size: CGFloat = 6
         let y: CGFloat = (rowHeight-size)/2
+        let downloadY: CGFloat = self.reverseOrderState ? 10.5 : y-0.2
+        let uploadY: CGFloat = self.reverseOrderState ? y-0.2 : 10.5
         
         var downloadCircle = NSBezierPath()
-        downloadCircle = NSBezierPath(ovalIn: CGRect(x: Constants.Widget.margin.x, y: y-0.2, width: size, height: size))
+        downloadCircle = NSBezierPath(ovalIn: CGRect(x: Constants.Widget.margin.x, y: downloadY, width: size, height: size))
         (self.downloadValue >= 1_024 ? self.downloadColor : self.noActivityColor).set()
         downloadCircle.fill()
         
         var uploadCircle = NSBezierPath()
-        uploadCircle = NSBezierPath(ovalIn: CGRect(x: Constants.Widget.margin.x, y: 10.5, width: size, height: size))
+        uploadCircle = NSBezierPath(ovalIn: CGRect(x: Constants.Widget.margin.x, y: uploadY, width: size, height: size))
         (self.uploadValue >= 1_024 ? self.uploadColor : self.noActivityColor).set()
         uploadCircle.fill()
     }
@@ -344,10 +361,16 @@ public class SpeedWidget: WidgetWrapper {
         let arrowSize: CGFloat = 3 + (scaleFactor/2)
         let x = Constants.Widget.margin.x + arrowSize + (lineWidth / 2)
         
+        let downloadYStart: CGFloat = self.reverseOrderState ? self.frame.size.height : half - Constants.Widget.spacing/2
+        let downloadYEnd: CGFloat = self.reverseOrderState ? (half + Constants.Widget.spacing/2)+1 : 0
+        
+        let uploadYStart: CGFloat = self.reverseOrderState ? 0 : half + Constants.Widget.spacing/2
+        let uploadYEnd: CGFloat = self.reverseOrderState ? (half - Constants.Widget.spacing/2)-1 : self.frame.size.height
+        
         let downloadArrow = NSBezierPath()
         downloadArrow.addArrow(
-            start: CGPoint(x: x, y: half - Constants.Widget.spacing/2),
-            end: CGPoint(x: x, y: 0),
+            start: CGPoint(x: x, y: downloadYStart),
+            end: CGPoint(x: x, y: downloadYEnd),
             pointerLineLength: arrowSize,
             arrowAngle: arrowAngle
         )
@@ -359,8 +382,8 @@ public class SpeedWidget: WidgetWrapper {
         
         let uploadArrow = NSBezierPath()
         uploadArrow.addArrow(
-            start: CGPoint(x: x, y: half + Constants.Widget.spacing/2),
-            end: CGPoint(x: x, y: self.frame.size.height),
+            start: CGPoint(x: x, y: uploadYStart),
+            end: CGPoint(x: x, y: uploadYEnd),
             pointerLineLength: arrowSize,
             arrowAngle: arrowAngle
         )
@@ -373,6 +396,8 @@ public class SpeedWidget: WidgetWrapper {
     
     private func drawChars(_ dirtyRect: NSRect) {
         let rowHeight: CGFloat = self.frame.height / 2
+        let downloadY: CGFloat = self.reverseOrderState ? rowHeight+1 : 1
+        let uploadY: CGFloat = self.reverseOrderState ? 1 : rowHeight+1
         
         if self.symbols.count > 1 {
             let downloadAttributes = [
@@ -380,7 +405,7 @@ public class SpeedWidget: WidgetWrapper {
                 NSAttributedString.Key.foregroundColor: self.downloadValue >= 1_024 ? self.downloadColor : self.noActivityColor,
                 NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
             ]
-            let rect = CGRect(x: Constants.Widget.margin.x, y: 1, width: 8, height: rowHeight)
+            let rect = CGRect(x: Constants.Widget.margin.x, y: downloadY, width: 8, height: rowHeight)
             let str = NSAttributedString.init(string: self.symbols[1], attributes: downloadAttributes)
             str.draw(with: rect)
         }
@@ -391,7 +416,7 @@ public class SpeedWidget: WidgetWrapper {
                 NSAttributedString.Key.foregroundColor: self.uploadValue >= 1_024 ? self.uploadColor : self.noActivityColor,
                 NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
             ]
-            let rect = CGRect(x: Constants.Widget.margin.x, y: rowHeight+1, width: 8, height: rowHeight)
+            let rect = CGRect(x: Constants.Widget.margin.x, y: uploadY, width: 8, height: rowHeight)
             let str = NSAttributedString.init(string: self.symbols[0], attributes: uploadAttributes)
             str.draw(with: rect)
         }
@@ -409,6 +434,12 @@ public class SpeedWidget: WidgetWrapper {
             selected: self.modeState
         ))
         
+        view.addArrangedSubview(toggleSettingRow(
+            title: localizedString("Reverse order"),
+            action: #selector(toggleReverseOrder),
+            state: self.reverseOrderState
+        ))
+        
         view.addArrangedSubview(selectSettingsRow(
             title: localizedString("Pictogram"),
             action: #selector(toggleIcon),
@@ -423,13 +454,6 @@ public class SpeedWidget: WidgetWrapper {
         )
         view.addArrangedSubview(self.transparentIconView!)
         findAndToggleEnableNSControlState(self.transparentIconView!, state: self.icon != "none")
-        
-        view.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Base"),
-            action: #selector(toggleBase),
-            items: SpeedBase,
-            selected: self.baseValue
-        ))
         
         view.addArrangedSubview(toggleSettingRow(
             title: localizedString("Value"),
@@ -490,6 +514,12 @@ public class SpeedWidget: WidgetWrapper {
         self.display()
     }
     
+    @objc private func toggleReverseOrder(_ sender: NSControl) {
+        self.reverseOrderState = controlState(sender)
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_reverseOrder", value: self.reverseOrderState)
+        self.display()
+    }
+    
     @objc private func toggleValue(_ sender: NSControl) {
         self.valueState = controlState(sender)
         
@@ -511,12 +541,6 @@ public class SpeedWidget: WidgetWrapper {
         findAndToggleEnableNSControlState(self.transparentIconView, state: self.icon != "none")
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_icon", value: key)
         self.display()
-    }
-    
-    @objc private func toggleBase(_ sender: NSMenuItem) {
-        guard let key = sender.representedObject as? String else { return }
-        self.baseValue = key
-        Store.shared.set(key: "\(self.title)_base", value: self.baseValue)
     }
     
     @objc private func toggleMonochrome(_ sender: NSControl) {

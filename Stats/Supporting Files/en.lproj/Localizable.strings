@@ -73,6 +73,7 @@
 "Settings" = "Settings";
 "Name" = "Name";
 "Format" = "Format";
+"Turn off" = "Turn off";
 
 // Setup
 "Stats Setup" = "Stats Setup";
@@ -178,6 +179,7 @@
 "Color of download" = "Color of download";
 "Color of upload" = "Color of upload";
 "Monospaced font" = "Monospaced font";
+"Reverse order" = "Reverse order";
 
 // Module Kit
 "Open module settings" = "Open module settings";
@@ -295,6 +297,8 @@
 "Install fan helper" = "Install fan helper";
 "Uninstall fan helper" = "Uninstall fan helper";
 "Fan value" = "Fan value";
+"Turn off fan" = "Turn off fan";
+"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?";
 
 // Network
 "Uploading" = "Upload";

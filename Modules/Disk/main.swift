@@ -47,7 +47,7 @@ public struct drive: Codable {
 }
 
 public class Disks: Codable {
-    private var queue: DispatchQueue = DispatchQueue(label: "eu.exelban.Stats.Disk.SynchronizedArray", attributes: .concurrent)
+    private var queue: DispatchQueue = DispatchQueue(label: "eu.exelban.Stats.Disk.SynchronizedArray")
     private var array: [drive] = []
     
     enum CodingKeys: String, CodingKey {
@@ -108,7 +108,9 @@ public class Disks: Codable {
     
     public func append( _ element: drive) {
         self.queue.async(flags: .barrier) {
-            self.array.append(element)
+            if !self.array.contains(where: {$0.BSDName == element.BSDName}) {
+                self.array.append(element)
+            }
         }
     }
     
@@ -223,40 +225,40 @@ public class Disk: Module {
         
         self.selectedDisk = Store.shared.string(key: "\(Disk.name)_disk", defaultValue: self.selectedDisk)
         
-        self.capacityReader.callbackHandler = { [unowned self] value in
-            if let value = value {
-                self.capacityCallback(value)
+        self.capacityReader.callbackHandler = { [weak self] value in
+            if let value {
+                self?.capacityCallback(value)
             }
         }
-        self.capacityReader.readyCallback = { [unowned self] in
-            self.readyHandler()
+        self.capacityReader.readyCallback = { [weak self] in
+            self?.readyHandler()
         }
         
-        self.activityReader.callbackHandler = { [unowned self] value in
-            if let value = value {
-                self.activityCallback(value)
+        self.activityReader.callbackHandler = { [weak self] value in
+            if let value {
+                self?.activityCallback(value)
             }
         }
-        self.processReader.callbackHandler = { [unowned self] value in
+        self.processReader.callbackHandler = { [weak self] value in
             if let list = value {
-                self.popupView.processCallback(list)
+                self?.popupView.processCallback(list)
             }
         }
         
-        self.settingsView.selectedDiskHandler = { [unowned self] value in
-            self.selectedDisk = value
-            self.capacityReader.read()
+        self.settingsView.selectedDiskHandler = { [weak self] value in
+            self?.selectedDisk = value
+            self?.capacityReader.read()
         }
-        self.settingsView.callback = { [unowned self] in
-            self.capacityReader.read()
+        self.settingsView.callback = { [weak self] in
+            self?.capacityReader.read()
         }
-        self.settingsView.setInterval = { [unowned self] value in
-            self.capacityReader.setInterval(value)
+        self.settingsView.setInterval = { [weak self] value in
+            self?.capacityReader.setInterval(value)
         }
-        self.settingsView.callbackWhenUpdateNumberOfProcesses = {
-            self.popupView.numberOfProcessesUpdated()
+        self.settingsView.callbackWhenUpdateNumberOfProcesses = { [weak self] in
+            self?.popupView.numberOfProcessesUpdated()
             DispatchQueue.global(qos: .background).async {
-                self.processReader.read()
+                self?.processReader.read()
             }
         }
         
@@ -272,9 +274,7 @@ public class Disk: Module {
     }
     
     private func capacityCallback(_ value: Disks) {
-        guard self.enabled else {
-            return
-        }
+        guard self.enabled else { return }
         
         DispatchQueue.main.async(execute: {
             self.popupView.capacityCallback(value)

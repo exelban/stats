@@ -261,6 +261,8 @@ public class LabelField: NSTextField {
         self.textColor = .secondaryLabelColor
         self.alignment = .natural
         self.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+        
+        self.cell?.usesSingleLineMode = true
     }
     
     required init?(coder: NSCoder) {
@@ -283,6 +285,8 @@ public class ValueField: NSTextField {
         self.textColor = .textColor
         self.alignment = .right
         self.font = NSFont.systemFont(ofSize: 13, weight: .regular)
+        
+        self.cell?.usesSingleLineMode = true
     }
     
     required init?(coder: NSCoder) {
@@ -786,12 +790,11 @@ public class ProcessView: NSStackView {
     private var labelView: LabelField = {
         let view = LabelField()
         view.cell?.truncatesLastVisibleLine = true
-        view.cell?.usesSingleLineMode = true
         return view
     }()
     private var valueView: ValueField = ValueField()
     
-    public init(size: CGSize = CGSize(width: 264, height: 22)) {
+    public init(size: CGSize = CGSize(width: 264, height: 22), valueSize: CGFloat = 55) {
         var rect = NSRect(x: 5, y: 5, width: 12, height: 12)
         if size.height != 22 {
             rect = NSRect(x: 3, y: 3, width: 12, height: 12)
@@ -843,6 +846,7 @@ public class ProcessView: NSStackView {
             imageBox.widthAnchor.constraint(equalToConstant: self.bounds.height),
             imageBox.heightAnchor.constraint(equalToConstant: self.bounds.height),
             self.labelView.heightAnchor.constraint(equalToConstant: 16),
+            self.valueView.widthAnchor.constraint(equalToConstant: valueSize),
             self.widthAnchor.constraint(equalToConstant: self.bounds.width),
             self.heightAnchor.constraint(equalToConstant: self.bounds.height)
         ])
@@ -893,7 +897,7 @@ public class ProcessView: NSStackView {
         self.toolTip = ""
     }
     
-    private func setLock(_ state: Bool) {
+    public func setLock(_ state: Bool) {
         self.lock = state
         if self.lock {
             self.imageView.isHidden = true

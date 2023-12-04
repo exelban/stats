@@ -72,7 +72,8 @@
 "Cores" = "코어 수";
 "Settings" = "설정";
 "Name" = "이름";
-"Format" = "Format";
+"Format" = "형식";
+"Turn off" = "끄기";
 
 // Setup
 "Stats Setup" = "Stats 설정";
@@ -83,38 +84,38 @@
 "Finish" = "완료";
 "Finish setup" = "설정 완료";
 "Welcome to Stats" = "Stats에 오신 것을 환영합니다";
-"welcome_message" = "무료 오픈 소스 macOS 메뉴 바 시스템 모니터, Stats를 사용해 주셔서 감사합니다.";
-"Start the application automatically when starting your Mac" = "Mac을 시작할 때 응용 프로그램을 자동으로 시작";
-"Do not start the application automatically when starting your Mac" = "Mac을 시작할 때 응용 프로그램을 자동으로 시작하지 않음";
-"Do everything silently in the background (recommended)" = "모든 것을 백그라운드에서 조용하게 처리 (추천)";
+"welcome_message" = "당신의 메뉴 바를 위한 무료 오픈 소스 macOS 시스템 모니터, Stats를 사용해 주셔서 감사합니다.";
+"Start the application automatically when starting your Mac" = "Mac 시동 시 애플리케이션 자동 시작";
+"Do not start the application automatically when starting your Mac" = "Mac 시동 시 애플리케이션 자동 시작 안함";
+"Do everything silently in the background (recommended)" = "모든 것을 백그라운드에서 조용하게 처리 (권장)";
 "Check for a new version on startup" = "시작할 때 새 버전 확인";
 "Check for a new version every day (once a day)" = "매일 새 버전 확인 (하루에 한 번)";
 "Check for a new version every week (once a week)" = "주마다 새 버전 확인 (일주일에 한 번)";
 "Check for a new version every month (once a month)" = "달마다 새 버전 확인 (한 달에 한 번)";
 "Never check for updates (not recommended)" = "업데이트 확인 안 함 (추천하지 않음)";
-"Anonymous telemetry for better development decisions" = "Anonymous telemetry for better development decisions";
-"Share anonymous telemetry data" = "Share anonymous telemetry data";
-"Do not share anonymous telemetry data" = "Do not share anonymous telemetry data";
+"Anonymous telemetry for better development decisions" = "익명 사용정보를 통한 더 나은 개발 방향 결정";
+"Share anonymous telemetry data" = "익명 사용정보를 공유합니다";
+"Do not share anonymous telemetry data" = "익명 사용정보를 공유하지 않습니다";
 "The configuration is completed" = "설정이 완료되었습니다";
-"finish_setup_message" = "모든 것이 설정되었습니다! \n Stats는 무료 오픈 소스 도구이고 앞으로도 그럴 것입니다. \n 프로그램이 마음에 드신다면 후원을 하실 수 있습니다. 늘 감사합니다!";
+"finish_setup_message" = "모든 것이 설정되었습니다! \n Stats는 무료 오픈 소스 도구이며 앞으로도 그럴 것입니다. \n 이 애플리케이션이 마음에 드셨다면 프로젝트를 후원 하실 수 있습니다. 늘 감사합니다!";
 
 // Alerts
 "New version available" = "새로운 버전을 이용할 수 있습니다";
-"Click to install the new version of Stats" = "새 버전의 Stats를 설치하려면 클릭하십시오";
+"Click to install the new version of Stats" = "클릭하여 새 버전의 Stats 설치";
 "Successfully updated" = "성공적으로 업데이트되었습니다";
 "Stats was updated to v" = "Stats가 v%0 버전으로 업데이트되었습니다";
-"Reset settings text" = "모든 응용 프로그램 설정이 재설정되고 응용 프로그램이 다시 시작됩니다. 이 작업을 하시겠습니까?";
+"Reset settings text" = "모든 애플리케이션 설정이 재설정되고 다시 시작됩니다. 계속 진행하시겠습니까?";
 
 // Settings
 "Open Activity Monitor" = "활동 모니터 열기";
 "Report a bug" = "버그 보고";
-"Support the application" = "응용 프로그램 지원";
-"Close application" = "응용 프로그램 닫기";
-"Open application settings" = "응용 프로그램 설정 열기";
+"Support the application" = "애플리케이션 후원";
+"Close application" = "애플리케이션 닫기";
+"Open application settings" = "애플리케이션 설정 열기";
 "Open dashboard" = "대시보드 열기";
 
 // Application settings
-"Update application" = "응용 프로그램 업데이트";
+"Update application" = "애플리케이션 업데이트";
 "Check for updates" = "업데이트 확인";
 "At start" = "시작할 때";
 "Once per day" = "하루에 한 번";
@@ -123,14 +124,14 @@
 "Never" = "확인하지 않음";
 "Check for update" = "업데이트 확인";
 "Show icon in dock" = "Dock에 아이콘 표시";
-"Start at login" = "로그인시 시작";
+"Start at login" = "로그인 시 시작";
 "Build number" = "빌드 번호";
 "Reset settings" = "설정 초기화";
 "Pause the Stats" = "Stats 일시정지";
 "Resume the Stats" = "Stats 재개";
 "Combined modules" = "모듈 병합";
 "Spacing" = "간격";
-"Share anonymous telemetry" = "Share anonymous telemetry";
+"Share anonymous telemetry" = "익명 사용정보 공유";
 
 // Dashboard
 "Serial number" = "일련 번호";
@@ -160,24 +161,25 @@
 "Display mode" = "표기 방식";
 "One row" = "한 줄";
 "Two rows" = "두 줄";
-"Mini widget" = "미니";
+"Mini widget" = "소형 위젯";
 "Line chart widget" = "선 도표";
 "Bar chart widget" = "막대 도표";
 "Pie chart widget" = "원형 도표";
 "Network chart widget" = "네트워크 도표";
-"Speed widget" = "속도";
-"Battery widget" = "배터리";
-"Stack widget" = "Stack";
-"Memory widget" = "메모리";
+"Speed widget" = "속도 위젯";
+"Battery widget" = "배터리 위젯";
+"Stack widget" = "스택 위젯";
+"Memory widget" = "메모리 위젯";
 "Static width" = "너비 고정";
 "Tachometer widget" = "반원 도표";
 "State widget" = "상태 위젯";
 "Show symbols" = "기호 표시";
-"Label widget" = "레이블";
+"Label widget" = "레이블 위젯";
 "Number of reads in the chart" = "도표의 행 크기";
 "Color of download" = "다운로드 색상";
 "Color of upload" = "업로드 색상";
-"Monospaced font" = "Monospaced font";
+"Monospaced font" = "고정폭 서체";
+"Reverse order" = "Reverse order";
 
 // Module Kit
 "Open module settings" = "모듈 설정 열기";
@@ -194,7 +196,7 @@
 "Notifications" = "알림";
 "Merge widgets" = "위젯 병합";
 "No available widgets to configure" = "구성할 위젯이 없습니다";
-"No options to configure for the popup in this module" = "이 모듈의 팝업에는 구성할 설정이 없습니다";
+"No options to configure for the popup in this module" = "이 모듈은 구성할 팝업 설정이 없습니다.";
 
 // Modules
 "Number of top processes" = "상위 프로세스 수";
@@ -252,7 +254,7 @@
 
 // RAM
 "Memory usage" = "메모리 사용량";
-"Memory pressure" = "메모리 부족";
+"Memory pressure" = "메모리 부하";
 "Total" = "전체";
 "Used" = "사용";
 "App" = "앱";
@@ -271,7 +273,7 @@
 // Disk
 "Show removable disks" = "이동식 디스크 표시";
 "Used disk memory" = "%1 중 %0 사용";
-"Free disk memory" = "%1 중 %0 남음";
+"Free disk memory" = "%1 중 %0 여유";
 "Disk to show" = "표시할 디스크";
 "Open disk" = "디스크 열기";
 "Switch view" = "보기 전환";
@@ -289,12 +291,14 @@
 "Fan" = "팬";
 "HID sensors" = "HID 센서";
 "Synchronize fan's control" = "팬 제어 동기화";
-"Current" = "Current";
-"Energy" = "Energy";
+"Current" = "현재";
+"Energy" = "에너지";
 "Show unknown sensors" = "알 수 없는 센서 표시";
 "Install fan helper" = "팬 헬퍼 설치";
 "Uninstall fan helper" = "팬 헬퍼 제거";
 "Fan value" = "팬 값";
+"Turn off fan" = "팬 끄기";
+"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "팬을 끄려고 합니다. 팬을 끄는 행위는 Mac을 손상시킬 수 있으므로 권장하지 않습니다. 정말 팬을 끄겠습니까?";
 
 // Network
 "Uploading" = "업로드";
@@ -302,17 +306,17 @@
 "Public IP" = "공용 IP";
 "Local IP" = "로컬 IP";
 "Interface" = "인터페이스";
-"Physical address" = "물리적 주소";
+"Physical address" = "물리 주소";
 "Refresh" = "새로 고침";
 "Click to copy public IP address" = "공용 IP 주소를 복사하려면 클릭하세요";
 "Click to copy local IP address" = "로컬 IP 주소를 복사하려면 클릭하세요";
-"Click to copy wifi name" = "WiFi 이름을 복사하려면 클릭하세요";
+"Click to copy wifi name" = "WIFI 이름을 복사하려면 클릭하세요";
 "Click to copy mac address" = "MAC 주소를 복사하려면 클릭하세요";
 "No connection" = "연결되지 않음";
 "Network interface" = "네트워크 인터페이스";
 "Total download" = "총 다운로드";
 "Total upload" = "총 업로드";
-"Reader type" = "판독기 유형";
+"Reader type" = "읽기 유형";
 "Interface based" = "인터페이스 기반";
 "Processes based" = "프로세스 기반";
 "Reset data usage" = "데이터 사용량 재설정";
@@ -326,16 +330,16 @@
 "Internet connection" = "인터넷 연결";
 "Active state color" = "활성 상태 색상";
 "Nonactive state color" = "비활성 상태 색상";
-"Connectivity host (ICMP)" = "인터넷 연결 확인 호스트 (ICMP)";
-"Leave empty to disable the check" = "확인을 비활성화하려면 이 란을 비워 두세요";
+"Connectivity host (ICMP)" = "연결성 확인 호스트 (ICMP)";
+"Leave empty to disable the check" = "연결성 확인을 비활성화하려면 이 란을 비워 두세요";
 "Transparent pictogram when no activity" = "활동이 없을 때 상태 아이콘 숨기기";
-"Connectivity history" = "Connectivity history";
+"Connectivity history" = "연결성 기록";
 "Auto-refresh public IP address" = "공개 IP주소 자동으로 새로고침";
 "Every hour" = "매 시간마다";
 "Every 12 hours" = "12시간마다";
 "Every 24 hours" = "24시간마다";
-"Network activity" = "Network activity";
-"Last reset" = "Last reset %0 ago";
+"Network activity" = "네트워크 활동";
+"Last reset" = "마지막 초기화 이후 %0 경과";
 
 // Battery
 "Level" = "잔량";
@@ -366,13 +370,13 @@
 "Percentage and time" = "백분율 및 시간";
 "Time and percentage" = "시간 및 백분율";
 "Time format" = "시간 형식";
-"Hide additional information when full" = "완충되면 추가 정보 숨기기";
+"Hide additional information when full" = "완전 충전 시 추가 정보 숨기기";
 "Last charge" = "마지막 충전";
 "Capacity" = "용량";
 "current / maximum / designed" = "현재 / 최대 / 설계";
 "Low power mode" = "저전력 모드";
 "Percentage inside the icon" = "아이콘 속에 백분율";
-"Colorize battery" = "Colorize battery";
+"Colorize battery" = "배터리 색상 표시";
 
 // Bluetooth
 "Battery to show" = "표시할 배터리";
@@ -384,7 +388,7 @@
 
 // Colors
 "Based on utilization" = "사용률 기준";
-"Based on pressure" = "압력 기준";
+"Based on pressure" = "부하량 기준";
 "Based on cluster" = "클러스터 기준";
 "System accent" = "시스템 강조";
 "Monochrome accent" = "단색 강조";

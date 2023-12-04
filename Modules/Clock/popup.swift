@@ -86,7 +86,7 @@ private class ClockView: NSStackView {
     
     private var ready: Bool = false
     
-    private let clockView: ClockChart = ClockChart()
+    private let clockView: ClockChart = ClockChart(frame: CGRect(x: 0, y: 0, width: 34, height: 34))
     private let nameField: NSTextField = TextView()
     private let timeField: NSTextField = TextView()
     
@@ -189,11 +189,11 @@ private class ClockChart: NSView {
         let context = NSGraphicsContext.current!.cgContext
         context.saveGState()
         context.setFillColor(self.color.cgColor)
-        context.fillEllipse(in: dirtyRect)
+        context.fillEllipse(in: NSRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height))
         context.restoreGState()
         
         let anchor = CGPoint(x: 0.5, y: 0)
-        let center = CGPoint(x: dirtyRect.size.width / 2, y: dirtyRect.size.height / 2)
+        let center = CGPoint(x: self.frame.size.width / 2, y: self.frame.size.height / 2)
         
         let hourAngle: CGFloat = CGFloat(Double(hour) * (360.0 / 12.0)) + CGFloat(Double(minute) * (1.0 / 60.0) * (360.0 / 12.0))
         let minuteAngle: CGFloat = CGFloat(minute) * CGFloat(360.0 / 60.0)
@@ -202,21 +202,21 @@ private class ClockChart: NSView {
         self.hourLayer.backgroundColor = NSColor.white.cgColor
         self.hourLayer.anchorPoint = anchor
         self.hourLayer.position = center
-        self.hourLayer.bounds = CGRect(x: 0, y: 0, width: 3, height: dirtyRect.size.width / 2 - 7)
+        self.hourLayer.bounds = CGRect(x: 0, y: 0, width: 3, height: self.frame.size.width / 2 - 7)
         self.hourLayer.transform = CATransform3DMakeRotation(-hourAngle / 180 * CGFloat(Double.pi), 0, 0, 1)
         self.layer?.addSublayer(self.hourLayer)
         
         self.minuteLayer.backgroundColor = NSColor.white.cgColor
         self.minuteLayer.anchorPoint = anchor
         self.minuteLayer.position = center
-        self.minuteLayer.bounds = CGRect(x: 0, y: 0, width: 2, height: dirtyRect.size.width / 2 - 4)
+        self.minuteLayer.bounds = CGRect(x: 0, y: 0, width: 2, height: self.frame.size.width / 2 - 4)
         self.minuteLayer.transform = CATransform3DMakeRotation(-minuteAngle / 180 * CGFloat(Double.pi), 0, 0, 1)
         self.layer?.addSublayer(self.minuteLayer)
         
         self.secondsLayer.backgroundColor = NSColor.red.cgColor
         self.secondsLayer.anchorPoint = anchor
         self.secondsLayer.position = center
-        self.secondsLayer.bounds = CGRect(x: 0, y: 0, width: 1, height: dirtyRect.size.width / 2 - 2)
+        self.secondsLayer.bounds = CGRect(x: 0, y: 0, width: 1, height: self.frame.size.width / 2 - 2)
         self.secondsLayer.transform = CATransform3DMakeRotation(-secondsAngle / 180 * CGFloat(Double.pi), 0, 0, 1)
         self.layer?.addSublayer(self.secondsLayer)
         

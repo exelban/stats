@@ -158,15 +158,15 @@ open class WidgetWrapper: NSView, widget_p {
     public var type: widget_t
     public var title: String
     public var position: Int = -1
-    
     public var widthHandler: (() -> Void)? = nil
-    
     public var shadowSize: CGSize
+    internal var queue: DispatchQueue
     
     public init(_ type: widget_t, title: String, frame: NSRect) {
         self.type = type
         self.title = title
         self.shadowSize = frame.size
+        self.queue = DispatchQueue(label: "eu.exelban.Stats.WidgetWrapper.\(type.rawValue).\(title)")
         
         super.init(frame: frame)
     }
@@ -371,7 +371,7 @@ public class MenuBar {
     
     private var moduleName: String
     private var menuBarItem: NSStatusItem? = nil
-    private var active: Bool = false
+    private var queue: DispatchQueue
     
     private var combinedModules: Bool {
         Store.shared.bool(key: "CombinedModules", defaultValue: false)
@@ -392,8 +392,19 @@ public class MenuBar {
         }
     }
     
+    private var _active: Bool = false
+    public var active: Bool {
+        get {
+            self.queue.sync { self._active }
+        }
+        set {
+            self.queue.sync { self._active = newValue }
+        }
+    }
+    
     init(moduleName: String) {
         self.moduleName = moduleName
+        self.queue = DispatchQueue(label: "eu.exelban.Stats.MenuBar.\(moduleName)")
         self.oneView = Store.shared.bool(key: "\(self.moduleName)_oneView", defaultValue: self.oneView)
         self.view.identifier = NSUserInterfaceItemIdentifier(rawValue: moduleName)
         

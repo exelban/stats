@@ -73,6 +73,7 @@
 "Settings" = "Beállítások";
 "Name" = "Név";
 "Format" = "Formátum";
+"Turn off" = "Turn off";
 
 // Setup
 "Stats Setup" = "A Stats beállítása";
@@ -178,6 +179,7 @@
 "Color of download" = "Letöltés színe";
 "Color of upload" = "Feltöltés színe";
 "Monospaced font" = "Mono betűtípus";
+"Reverse order" = "Reverse order";
 
 // Module Kit
 "Open module settings" = "Modul beállításainak megnyitása";
@@ -295,6 +297,8 @@
 "Install fan helper" = "Ventillátor segítő telepítése";
 "Uninstall fan helper" = "Ventillátor segítő törlése";
 "Fan value" = "Ventillátor érték";
+"Turn off fan" = "Turn off fan";
+"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?";
 
 // Network
 "Uploading" = "Feltöltés";

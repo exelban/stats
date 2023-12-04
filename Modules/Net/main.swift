@@ -156,38 +156,38 @@ public class Network: Module {
             }
         }
         
-        self.usageReader?.callbackHandler = { [unowned self] value in
-            self.usageCallback(value)
+        self.usageReader?.callbackHandler = { [weak self] value in
+            self?.usageCallback(value)
         }
-        self.usageReader?.readyCallback = { [unowned self] in
-            self.readyHandler()
+        self.usageReader?.readyCallback = { [weak self] in
+            self?.readyHandler()
         }
         
-        self.processReader?.callbackHandler = { [unowned self] value in
+        self.processReader?.callbackHandler = { [weak self] value in
             if let list = value {
-                self.popupView.processCallback(list)
+                self?.popupView.processCallback(list)
             }
         }
         
-        self.connectivityReader?.callbackHandler = { [unowned self] value in
-            self.connectivityCallback(value)
+        self.connectivityReader?.callbackHandler = { [weak self] value in
+            self?.connectivityCallback(value)
         }
         
-        self.settingsView.callback = { [unowned self] in
-            self.usageReader?.getDetails()
-            self.usageReader?.read()
+        self.settingsView.callback = { [weak self] in
+            self?.usageReader?.getDetails()
+            self?.usageReader?.read()
         }
-        self.settingsView.usageResetCallback = { [unowned self] in
-            self.setUsageReset()
+        self.settingsView.usageResetCallback = { [weak self] in
+            self?.setUsageReset()
         }
-        self.settingsView.ICMPHostCallback = { [unowned self] isDisabled in
+        self.settingsView.ICMPHostCallback = { [weak self] isDisabled in
             if isDisabled {
-                self.popupView.resetConnectivityView()
-                self.connectivityCallback(Network_Connectivity(status: false))
+                self?.popupView.resetConnectivityView()
+                self?.connectivityCallback(Network_Connectivity(status: false))
             }
         }
-        self.settingsView.publicIPRefreshIntervalCallback = { [unowned self] in
-            self.setIPUpdater()
+        self.settingsView.publicIPRefreshIntervalCallback = { [weak self] in
+            self?.setIPUpdater()
         }
         
         if let reader = self.usageReader {
@@ -215,9 +215,7 @@ public class Network: Module {
     }
     
     private func usageCallback(_ raw: Network_Usage?) {
-        guard let value = raw, self.enabled else {
-            return
-        }
+        guard let value = raw, self.enabled else { return }
         
         self.popupView.usageCallback(value)
         self.portalView.usageCallback(value)

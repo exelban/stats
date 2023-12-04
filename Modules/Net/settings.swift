@@ -21,6 +21,7 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
     private var widgetActivationThreshold: Int = 0
     private var ICMPHost: String = "1.1.1.1"
     private var publicIPRefreshInterval: String = "never"
+    private var baseValue: String = "byte"
     
     public var callback: (() -> Void) = {}
     public var callbackWhenUpdateNumberOfProcesses: (() -> Void) = {}
@@ -50,6 +51,7 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
         self.widgetActivationThreshold = Store.shared.int(key: "\(self.title)_widgetActivationThreshold", defaultValue: self.widgetActivationThreshold)
         self.ICMPHost = Store.shared.string(key: "\(self.title)_ICMPHost", defaultValue: self.ICMPHost)
         self.publicIPRefreshInterval = Store.shared.string(key: "\(self.title)_publicIPRefreshInterval", defaultValue: self.publicIPRefreshInterval)
+        self.baseValue = Store.shared.string(key: "\(self.title)_base", defaultValue: self.baseValue)
         
         super.init(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
         
@@ -99,6 +101,13 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
             action: #selector(changeReaderType),
             items: NetworkReaders,
             selected: self.readerType
+        ))
+        
+        self.addArrangedSubview(selectSettingsRow(
+            title: localizedString("Base"),
+            action: #selector(toggleBase),
+            items: SpeedBase,
+            selected: self.baseValue
         ))
         
         self.addArrangedSubview(selectSettingsRow(
@@ -296,5 +305,11 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
         self.publicIPRefreshInterval = key
         Store.shared.set(key: "\(self.title)_publicIPRefreshInterval", value: self.publicIPRefreshInterval)
         self.publicIPRefreshIntervalCallback()
+    }
+    
+    @objc private func toggleBase(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String else { return }
+        self.baseValue = key
+        Store.shared.set(key: "\(self.title)_base", value: self.baseValue)
     }
 }
