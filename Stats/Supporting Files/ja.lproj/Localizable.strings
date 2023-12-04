@@ -70,20 +70,20 @@
 "Cube" = "Cube";
 "Logarithmic" = "Logarithmic";
 "Cores" = "Cores";
-"Settings" = "Settings";
-"Name" = "Name";
-"Format" = "Format";
-"Turn off" = "Turn off";
+"Settings" = "設定";
+"Name" = "名前";
+"Format" = "フォーマット";
+"Turn off" = "停止";
 
 // Setup
-"Stats Setup" = "Stats Setup";
-"Previous" = "Previous";
-"Previous page" = "Previous page";
-"Next" = "Next";
-"Next page" = "Next page";
-"Finish" = "Finish";
-"Finish setup" = "Finish setup";
-"Welcome to Stats" = "Welcome to Stats";
+"Stats Setup" = "Stats セットアップ";
+"Previous" = "前";
+"Previous page" = "前のページ";
+"Next" = "次";
+"Next page" = "次のページ";
+"Finish" = "完了";
+"Finish setup" = "セットアップ完了";
+"Welcome to Stats" = "Stats へようこそ";
 "welcome_message" = "Thanks for using Stats, a free open source macOS system monitor for your menu bar.";
 "Start the application automatically when starting your Mac" = "Start the application automatically when starting your Mac";
 "Do not start the application automatically when starting your Mac" = "Do not start the application automatically when starting your Mac";
@@ -138,8 +138,8 @@
 "Uptime" = "起動してからの時間";
 "Number of cores" = "%0 コア";
 "Number of threads" = "%0 スレッド";
-"Number of e-cores" = "%0 efficiency cores";
-"Number of p-cores" = "%0 performance cores";
+"Number of e-cores" = "%0 高効率コア";
+"Number of p-cores" = "%0 高性能コア";
 
 // Update
 "The latest version of Stats installed" = "最新の Stats がインストールされています";
@@ -297,8 +297,8 @@
 "Install fan helper" = "Install fan helper";
 "Uninstall fan helper" = "Uninstall fan helper";
 "Fan value" = "Fan value";
-"Turn off fan" = "Turn off fan";
-"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?";
+"Turn off fan" = "ファンの停止";
+"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "ファンの停止はmacに大きなダメージを与える可能性がある為、推奨されません。本当に実行しますか？";
 
 // Network
 "Uploading" = "送信";
