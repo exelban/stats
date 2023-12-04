@@ -594,6 +594,8 @@ let deviceDict: [String: model_s] = [
     "iMac20,2": model_s(name: "iMac 27-Inch", year: 2020, type: .iMac),
     "iMac21,1": model_s(name: "iMac 24-Inch (M1)", year: 2021, type: .iMac),
     "iMac21,2": model_s(name: "iMac 24-Inch (M1)", year: 2021, type: .iMac),
+    "Mac15,4": model_s(name: "iMac 24-Inch (M3, 8 CPU/8 GPU)", year: 2023, type: .iMac),
+    "Mac15,5": model_s(name: "iMac 24-Inch (M3, 8 CPU/10 GPU)", year: 2023, type: .iMac),
     
     // iMac Pro
     "iMacPro1,1": model_s(name: "iMac Pro", year: 2017, type: .iMacPro),
@@ -650,7 +652,14 @@ let deviceDict: [String: model_s] = [
     "Mac14,5": model_s(name: "MacBook Pro 14\" (M2 Max)", year: 2023, type: .macbookPro),
     "Mac14,6": model_s(name: "MacBook Pro 16\" (M2 Max)", year: 2023, type: .macbookPro),
     "Mac14,9": model_s(name: "MacBook Pro 14\" (M2 Pro)", year: 2023, type: .macbookPro),
-    "Mac14,10": model_s(name: "MacBook Pro 16\" (M2 Pro)", year: 2023, type: .macbookPro)
+    "Mac14,10": model_s(name: "MacBook Pro 16\" (M2 Pro)", year: 2023, type: .macbookPro),
+    "Mac15,3": model_s(name: "MacBook Pro 14\" (M3, 8 CPU/10 GPU)", year: 2023, type: .macbookPro),
+    "Mac15,6": model_s(name: "MacBook Pro 14\" (M3 Pro)", year: 2023, type: .macbookPro),
+    "Mac15,7": model_s(name: "MacBook Pro 16\" (M3 Pro, 12 CPU/18 GPU)", year: 2023, type: .macbookPro),
+    "Mac15,8": model_s(name: "MacBook Pro 14\" (M3 Max, 16 CPU/40 GPU)", year: 2023, type: .macbookPro),
+    "Mac15,9": model_s(name: "MacBook Pro 16\" (M3 Max, 16 CPU/40 GPU)", year: 2023, type: .macbookPro),
+    "Mac15,10": model_s(name: "MacBook Pro 14\" (M3 Max, 14 CPU/30 GPU)", year: 2023, type: .macbookPro),
+    "Mac15,11": model_s(name: "MacBook Pro 16\" (M3 Max, 14 CPU/30 GPU)", year: 2023, type: .macbookPro)
 ]
 
 let osDict: [String: String] = [
