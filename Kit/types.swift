@@ -128,7 +128,7 @@ public let ShortLong: [KeyValue_t] = [
     KeyValue_t(key: "long", value: "Long")
 ]
 
-public let ReaderUpdateIntervals: [Int] = [1, 2, 3, 5, 10, 15, 30]
+public let ReaderUpdateIntervals: [Int] = [1, 2, 3, 5, 10, 15, 30, 60]
 public let NumbersOfProcesses: [Int] = [0, 3, 5, 8, 10, 15]
 
 public typealias Bandwidth = (upload: Int64, download: Int64)
