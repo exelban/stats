@@ -69,7 +69,7 @@ internal class Settings: NSStackView, Settings_v {
         self.intervalSelectView = selectSettingsRowV1(
             title: localizedString("Update interval"),
             action: #selector(changeUpdateInterval),
-            items: ReaderUpdateIntervals.map{ "\($0) sec" },
+            items: (ReaderUpdateIntervals + [90, 120, 180, 240, 300]).map{ "\($0) sec" },
             selected: "\(self.updateIntervalValue) sec"
         )
         self.addArrangedSubview(self.intervalSelectView!)
