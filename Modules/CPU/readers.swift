@@ -223,13 +223,12 @@ public class ProcessReader: Reader<[TopProcess]> {
         var processes: [TopProcess] = []
         output.enumerateLines { (line, stop) -> Void in
             if index != 0 {
-                var str = line.trimmingCharacters(in: .whitespaces)
-                let pidString = str.findAndCrop(pattern: "^\\d+")
-                let usageString = str.findAndCrop(pattern: "^[0-9,.]+ ")
-                let command = str.trimmingCharacters(in: .whitespaces)
-                
-                let pid = Int(pidString) ?? 0
-                let usage = Double(usageString.replacingOccurrences(of: ",", with: ".")) ?? 0
+                let str = line.trimmingCharacters(in: .whitespaces)
+                let pidFind = str.findAndCrop(pattern: "^\\d+")
+                let usageFind = pidFind.remain.findAndCrop(pattern: "^[0-9,.]+ ")
+                let command = usageFind.remain.trimmingCharacters(in: .whitespaces)
+                let pid = Int(pidFind.cropped) ?? 0
+                let usage = Double(usageFind.cropped.replacingOccurrences(of: ",", with: ".")) ?? 0
                 
                 var name: String? = nil
                 if let app = NSRunningApplication(processIdentifier: pid_t(pid) ) {
@@ -525,8 +524,9 @@ public class AverageReader: Reader<[Double]> {
             return
         }
         
-        var str = line.trimmingCharacters(in: .whitespaces)
-        let strArr = str.findAndCrop(pattern: "(\\d+(.|,)\\d+ *){3}$").split(separator: " ")
+        let str = line.trimmingCharacters(in: .whitespaces)
+        let strFind = str.findAndCrop(pattern: "(\\d+(.|,)\\d+ *){3}$")
+        let strArr = strFind.cropped.split(separator: " ")
         guard strArr.count == 3 else {
             return
         }

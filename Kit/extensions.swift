@@ -36,27 +36,24 @@ extension String: LocalizedError {
         return components.filter { !$0.isEmpty }.joined(separator: " ")
     }
     
-    public mutating func findAndCrop(pattern: String) -> String {
+    public func findAndCrop(pattern: String) -> (cropped: String, remain: String) {
         do {
             let regex = try NSRegularExpression(pattern: pattern)
-            let stringRange = NSRange(location: 0, length: self.utf16.count)
-            var line = self
+            let range = NSRange(self.startIndex..., in: self)
             
-            if let searchRange = regex.firstMatch(in: self, options: [], range: stringRange) {
-                let start = self.index(self.startIndex, offsetBy: searchRange.range.lowerBound)
-                let end = self.index(self.startIndex, offsetBy: searchRange.range.upperBound)
-                let value  = String(self[start..<end]).trimmingCharacters(in: .whitespaces)
-                line = self.replacingOccurrences(
-                    of: value,
-                    with: "",
-                    options: .regularExpression
-                )
-                self = line.trimmingCharacters(in: .whitespaces)
-                return value.trimmingCharacters(in: .whitespaces)
+            if let match = regex.firstMatch(in: self, options: [], range: range) {
+                let matchRange = Range(match.range, in: self)
+                if let range = matchRange {
+                    let croppedString = String(self[range])
+                    let remainingString = String(self[range.upperBound...])
+                    return (croppedString.trimmingCharacters(in: .whitespaces), remainingString.trimmingCharacters(in: .whitespaces))
+                }
             }
-        } catch {}
+        } catch {
+            print("Error creating regex: \(error.localizedDescription)")
+        }
         
-        return ""
+        return ("", self)
     }
     
     public func find(pattern: String) -> String {

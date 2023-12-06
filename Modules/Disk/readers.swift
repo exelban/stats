@@ -383,13 +383,10 @@ public class ProcessReader: Reader<[Disk_process]> {
         
         var processes: [Disk_process] = []
         output.enumerateLines { (line, _) -> Void in
-            var str = line.trimmingCharacters(in: .whitespaces)
-            let pidString = str.findAndCrop(pattern: "^\\d+")
-            if let range = str.range(of: pidString) {
-                str = str.replacingCharacters(in: range, with: "")
-            }
-            let name = str.findAndCrop(pattern: "^[^ ]+")
-            guard let pid = Int32(pidString) else { return }
+            let str = line.trimmingCharacters(in: .whitespaces)
+            let pidFind = str.findAndCrop(pattern: "^\\d+")
+            guard let pid = Int32(pidFind.cropped) else { return }
+            let name = pidFind.remain.findAndCrop(pattern: "^[^ ]+").cropped
             
             var usage = rusage_info_current()
             let result = withUnsafeMutablePointer(to: &usage) {

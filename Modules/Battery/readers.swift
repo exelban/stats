@@ -191,14 +191,12 @@ public class ProcessReader: Reader<[TopProcess]> {
         var processes: [TopProcess] = []
         output.enumerateLines { (line, _) -> Void in
             if line.matches("^\\d+ *[^(\\d)]*\\d+\\.*\\d* *$") {
-                var str = line.trimmingCharacters(in: .whitespaces)
-                
-                let pidString = str.findAndCrop(pattern: "^\\d+")
-                let usageString = str.findAndCrop(pattern: " +[0-9]+.*[0-9]*$")
-                let command = str.trimmingCharacters(in: .whitespaces)
-                
-                let pid = Int(pidString) ?? 0
-                guard let usage = Double(usageString.filter("01234567890.".contains)) else {
+                let str = line.trimmingCharacters(in: .whitespaces)
+                let pidFind = str.findAndCrop(pattern: "^\\d+")
+                let usageFind = pidFind.remain.findAndCrop(pattern: " +[0-9]+.*[0-9]*$")
+                let command = usageFind.remain.trimmingCharacters(in: .whitespaces)
+                let pid = Int(pidFind.cropped) ?? 0
+                guard let usage = Double(usageFind.cropped.filter("01234567890.".contains)) else {
                     return
                 }
                 
