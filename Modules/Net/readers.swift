@@ -304,9 +304,7 @@ internal class UsageReader: Reader<Network_Usage> {
             self.getPublicIP()
         }
         
-        guard self.interfaceID != "" else {
-            return
-        }
+        guard self.interfaceID != "" else { return }
         
         for interface in SCNetworkInterfaceCopyAll() as NSArray {
             if let bsdName = SCNetworkInterfaceGetBSDName(interface as! SCNetworkInterface), bsdName as String == self.interfaceID,
@@ -327,6 +325,8 @@ internal class UsageReader: Reader<Network_Usage> {
                 }
             }
         }
+        
+        guard self.usage.interface != nil else { return }
         
         if let interface = CWWiFiClient.shared().interface(withName: self.interfaceID), self.usage.connectionType == .wifi {
             self.usage.wifiDetails.ssid = interface.ssid()
@@ -612,6 +612,18 @@ internal class ConnectivityReader: Reader<Network_Connectivity> {
         }
     }
     
+    private var _latency: Double? = nil
+    private var latency: Double? {
+        get {
+            self.variablesQueue.sync { self._latency }
+        }
+        set {
+            self.variablesQueue.sync { self._latency = newValue }
+        }
+    }
+    
+    var start: DispatchTime? = nil
+    
     private struct ICMPHeader {
         public var type: UInt8
         public var code: UInt8
@@ -667,6 +679,7 @@ internal class ConnectivityReader: Reader<Network_Connectivity> {
         let timer = Timer(timeInterval: self.timeout, target: self, selector: #selector(self.timeoutCallback), userInfo: nil, repeats: false)
         RunLoop.main.add(timer, forMode: .common)
         self.timeoutTimer = timer
+        self.start = DispatchTime.now()
         
         let error = CFSocketSendData(socket, addr as CFData, data as CFData, self.timeout)
         if error != .success {
@@ -675,6 +688,9 @@ internal class ConnectivityReader: Reader<Network_Connectivity> {
         
         if let v = self.status {
             self.wrapper.status = v
+            if let l = self.latency {
+                self.wrapper.latency = l
+            }
             self.callback(self.wrapper)
         }
     }
@@ -686,7 +702,9 @@ internal class ConnectivityReader: Reader<Network_Connectivity> {
     
     private func socketCallback(data: Data? = nil, error: CFSocketError? = nil) {
         guard let data = data, validateResponse(data) else { return }
+        let end = DispatchTime.now()
         
+        self.latency = Double(end.uptimeNanoseconds - (self.start?.uptimeNanoseconds ?? 0)) / 1_000_000
         self.status = error == nil
         self.isPinging = false
         self.timeoutTimer?.invalidate()
@@ -713,7 +731,14 @@ internal class ConnectivityReader: Reader<Network_Connectivity> {
     }
     
     private func request() -> Data? {
-        var header = ICMPHeader(type: 8, code: 0, checksum: 0, identifier: CFSwapInt16HostToBig(self.identifier), sequenceNumber: CFSwapInt16HostToBig(0), payload: self.fingerprint.uuid)
+        var header = ICMPHeader(
+            type: 8,
+            code: 0,
+            checksum: 0,
+            identifier: CFSwapInt16HostToBig(self.identifier),
+            sequenceNumber: CFSwapInt16HostToBig(0),
+            payload: self.fingerprint.uuid
+        )
         
         let delta = MemoryLayout<uuid_t>.size - MemoryLayout<uuid_t>.size
         var additional = [UInt8]()
@@ -724,8 +749,7 @@ internal class ConnectivityReader: Reader<Network_Connectivity> {
         guard let checksum = computeChecksum(header: header, additionalPayload: additional) else { return nil }
         header.checksum = checksum
         
-        let package = Data(bytes: &header, count: MemoryLayout<ICMPHeader>.size) + Data(additional)
-        return package
+        return Data(bytes: &header, count: MemoryLayout<ICMPHeader>.size) + Data(additional)
     }
     
     private func computeChecksum(header: ICMPHeader, additionalPayload: [UInt8]) -> UInt16? {

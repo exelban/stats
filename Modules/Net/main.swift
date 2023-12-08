@@ -96,6 +96,7 @@ public struct Network_Usage: value_t, Codable {
 
 public struct Network_Connectivity: Codable {
     var status: Bool = false
+    var latency: Double = 0
 }
 
 public struct Network_Process: Codable {
@@ -239,7 +240,7 @@ public class Network: Module {
     private func connectivityCallback(_ raw: Network_Connectivity?) {
         guard let value = raw, self.enabled else { return }
         
-        self.popupView.connectivityCallback(value.status)
+        self.popupView.connectivityCallback(value)
         
         self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
             switch w.item {

@@ -39,14 +39,13 @@ internal class Popup: PopupWrapper {
     private var totalDownloadField: ValueField? = nil
     private var statusField: ValueField? = nil
     private var connectivityField: ValueField? = nil
+    private var latencyField: ValueField? = nil
     
     private var publicIPStackView: NSStackView? = nil
     private var publicIPv4Field: ValueField? = nil
     private var publicIPv6Field: ValueField? = nil
     
-    private var ssidField: ValueField? = nil
     private var standardField: ValueField? = nil
-    private var securityField: ValueField? = nil
     private var channelField: ValueField? = nil
     
     private var processesView: NSView? = nil
@@ -90,6 +89,8 @@ internal class Popup: PopupWrapper {
         }
         return value
     }
+    
+    private var latency: [Double] = []
     
     public init(_ title: String) {
         self.title = title
@@ -241,13 +242,12 @@ internal class Popup: PopupWrapper {
         
         self.statusField = popupRow(container, n: 0, title: "\(localizedString("Status")):", value: localizedString("Unknown")).1
         self.connectivityField = popupRow(container, n: 0, title: "\(localizedString("Internet connection")):", value: localizedString("Unknown")).1
-        
-        self.ssidField = popupRow(container, n: 0, title: "\(localizedString("Network")):", value: localizedString("Unknown")).1
-        self.standardField = popupRow(container, n: 0, title: "\(localizedString("Standard")):", value: localizedString("Unknown")).1
-        self.securityField = popupRow(container, n: 0, title: "\(localizedString("Security")):", value: localizedString("Unknown")).1
-        self.channelField = popupRow(container, n: 0, title: "\(localizedString("Channel")):", value: localizedString("Unknown")).1
+        self.latencyField = popupRow(container, n: 0, title: "\(localizedString("Latency")):", value: "0 ms").1
         
         self.interfaceField = popupRow(container, n: 0, title: "\(localizedString("Interface")):", value: localizedString("Unknown")).1
+        self.standardField = popupRow(container, n: 0, title: "\(localizedString("Standard")):", value: localizedString("Unknown")).1
+        self.channelField = popupRow(container, n: 0, title: "\(localizedString("Channel")):", value: localizedString("Unknown")).1
+        
         self.macAddressField = popupRow(container, n: 0, title: "\(localizedString("Physical address")):", value: localizedString("Unknown")).1
         self.localIPField = popupRow(container, n: 0, title: "\(localizedString("Local IP")):", value: localizedString("Unknown")).1
         
@@ -371,7 +371,11 @@ internal class Popup: PopupWrapper {
                 }
                 
                 if let interface = value.interface {
-                    self.interfaceField?.stringValue = "\(interface.displayName) (\(interface.BSDName))"
+                    var details = interface.BSDName
+                    if value.connectionType == .wifi, let v = value.wifiDetails.RSSI {
+                        details += ", \(v)"
+                    }
+                    self.interfaceField?.stringValue = "\(interface.displayName) (\(details))"
                     self.macAddressField?.stringValue = interface.address
                 } else {
                     self.interfaceField?.stringValue = localizedString("Unknown")
@@ -379,10 +383,6 @@ internal class Popup: PopupWrapper {
                 }
                 
                 if value.connectionType == .wifi {
-                    self.ssidField?.stringValue = value.wifiDetails.ssid ?? localizedString("Unknown")
-                    if let v = value.wifiDetails.RSSI {
-                        self.ssidField?.stringValue += " (\(v))"
-                    }
                     var rssi = localizedString("Unknown")
                     if let v = value.wifiDetails.RSSI {
                         rssi = "\(v) dBm"
@@ -395,20 +395,16 @@ internal class Popup: PopupWrapper {
                     if let v = value.wifiDetails.transmitRate {
                         txRate = "\(v) Mbps"
                     }
-                    self.ssidField?.toolTip = "RSSI: \(rssi)\nNoise: \(noise)\nTransmit rate: \(txRate)"
                     
                     self.standardField?.stringValue = value.wifiDetails.standard ?? localizedString("Unknown")
-                    self.securityField?.stringValue = value.wifiDetails.security ?? localizedString("Unknown")
                     self.channelField?.stringValue = value.wifiDetails.channel ?? localizedString("Unknown")
                     
                     let number = value.wifiDetails.channelNumber ?? localizedString("Unknown")
                     let band = value.wifiDetails.channelBand ?? localizedString("Unknown")
                     let width = value.wifiDetails.channelWidth ?? localizedString("Unknown")
-                    self.channelField?.toolTip = "Channel number: \(number)\nChannel band: \(band)\nChannel width: \(width)\nTransmit rate: \(txRate)"
+                    self.channelField?.toolTip = "RSSI: \(rssi)\nNoise: \(noise)\nChannel number: \(number)\nChannel band: \(band)\nChannel width: \(width)\nTransmit rate: \(txRate)"
                 } else {
-                    self.ssidField?.stringValue = localizedString("Unavailable")
                     self.standardField?.stringValue = localizedString("Unavailable")
-                    self.securityField?.stringValue = localizedString("Unavailable")
                     self.channelField?.stringValue = localizedString("Unavailable")
                 }
                 
@@ -445,19 +441,27 @@ internal class Popup: PopupWrapper {
         })
     }
     
-    public func connectivityCallback(_ value: Bool?) {
+    public func connectivityCallback(_ value: Network_Connectivity?) {
+        if self.latency.count >= 90 {
+            self.latency.remove(at: 0)
+        }
+        self.latency.append(value?.latency ?? 0)
+        
         DispatchQueue.main.async(execute: {
             if (self.window?.isVisible ?? false) || !self.connectionInitialized {
                 var text = "Unknown"
                 if let v = value {
-                    text = v ? "UP" : "DOWN"
+                    text = v.status ? "UP" : "DOWN"
                 }
                 self.connectivityField?.stringValue = localizedString(text)
+                if !self.latency.isEmpty {
+                    self.latencyField?.stringValue = "\((self.latency.reduce(0, +) / Double(self.latency.count)).rounded(toPlaces: 2)) ms"
+                }
                 self.connectionInitialized = true
             }
             
             if let value, let chart = self.connectivityChart {
-                chart.addValue(value)
+                chart.addValue(value.status)
             }
         })
     }
