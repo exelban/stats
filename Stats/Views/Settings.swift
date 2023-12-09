@@ -221,7 +221,7 @@ class SettingsWindow: NSWindow, NSWindowDelegate, NSToolbarDelegate {
     private func positionCenter() {
         self.setFrameOrigin(NSPoint(
             x: (NSScreen.main!.frame.width - SettingsWindow.size.width)/2,
-            y: (NSScreen.main!.frame.height - SettingsWindow.size.height)/2
+            y: ((NSScreen.main!.frame.height - SettingsWindow.size.height)/1.75)
         ))
     }
 }

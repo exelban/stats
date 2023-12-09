@@ -50,7 +50,7 @@ class UpdateWindow: NSWindow, NSWindowDelegate {
     private func positionCenter() {
         self.setFrameOrigin(NSPoint(
             x: (NSScreen.main!.frame.width - self.viewController.view.frame.width)/2,
-            y: (NSScreen.main!.frame.height - self.viewController.view.frame.height)/2
+            y: (NSScreen.main!.frame.height - self.viewController.view.frame.height)/1.75
         ))
     }
 }
