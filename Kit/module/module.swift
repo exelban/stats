@@ -95,6 +95,7 @@ open class Module: Module_p {
     private var settingsView: Settings_v? = nil
     private var popup: PopupWindow? = nil
     private var popupView: Popup_p? = nil
+    private var notificationsView: NotificationsWrapper? = nil
     
     private let log: NextLog
     private var readers: [Reader_p] = []
@@ -108,13 +109,14 @@ open class Module: Module_p {
         }
     }
     
-    public init(popup: Popup_p? = nil, settings: Settings_v? = nil, portal: Portal_p? = nil) {
+    public init(popup: Popup_p? = nil, settings: Settings_v? = nil, portal: Portal_p? = nil, notifications: NotificationsWrapper? = nil) {
         self.portal = portal
         self.config = module_c(in: Bundle(for: type(of: self)).path(forResource: "config", ofType: "plist")!)
         
         self.log = NextLog.shared.copy(category: self.config.name)
         self.settingsView = settings
         self.popupView = popup
+        self.notificationsView = notifications
         self.menuBar = MenuBar(moduleName: self.config.name)
         self.available = self.isAvailable()
         self.enabled = Store.shared.bool(key: "\(self.config.name)_state", defaultValue: self.config.defaultState)
@@ -150,7 +152,8 @@ open class Module: Module_p {
             widgets: &self.menuBar.widgets,
             enabled: self.enabled,
             moduleSettings: self.settingsView,
-            popupSettings: self.popupView
+            popupSettings: self.popupView,
+            notificationsSettings: self.notificationsView
         )
         
         self.popup = PopupWindow(title: self.config.name, view: self.popupView, visibilityCallback: self.visibilityCallback)

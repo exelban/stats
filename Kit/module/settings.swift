@@ -25,16 +25,19 @@ open class Settings: NSStackView, Settings_p {
     private var widgets: [Widget]
     private var moduleSettings: Settings_v?
     private var popupSettings: Popup_p?
+    private var notificationsSettings: NotificationsWrapper?
     
     private var moduleSettingsContainer: NSStackView?
     private var widgetSettingsContainer: NSStackView?
     private var popupSettingsContainer: NSStackView?
+    private var notificationsSettingsContainer: NSStackView?
     
     private var enableControl: NSControl?
     private var oneViewRow: NSView?
     
     private let noWidgetsView: EmptyView = EmptyView(msg: localizedString("No available widgets to configure"))
     private let noPopupSettingsView: EmptyView = EmptyView(msg: localizedString("No options to configure for the popup in this module"))
+    private let noNotificationsView: EmptyView = EmptyView(msg: localizedString("No notifications available in this module"))
     
     private var globalOneView: Bool {
         Store.shared.bool(key: "OneView", defaultValue: false)
@@ -48,11 +51,12 @@ open class Settings: NSStackView, Settings_p {
         }
     }
     
-    init(config: UnsafePointer<module_c>, widgets: UnsafeMutablePointer<[Widget]>, enabled: Bool, moduleSettings: Settings_v?, popupSettings: Popup_p?) {
+    init(config: UnsafePointer<module_c>, widgets: UnsafeMutablePointer<[Widget]>, enabled: Bool, moduleSettings: Settings_v?, popupSettings: Popup_p?, notificationsSettings: NotificationsWrapper?) {
         self.config = config
         self.widgets = widgets.pointee
         self.moduleSettings = moduleSettings
         self.popupSettings = popupSettings
+        self.notificationsSettings = notificationsSettings
         
         super.init(frame: NSRect.zero)
         
@@ -107,9 +111,20 @@ open class Settings: NSStackView, Settings_p {
             return view
         }()
         
+        let notificationsTab: NSTabViewItem = NSTabViewItem()
+        notificationsTab.label = localizedString("Notifications")
+        notificationsTab.view = {
+            let view = ScrollableStackView(frame: tabView.frame)
+            view.stackView.spacing = 0
+            self.notificationsSettingsContainer = view.stackView
+            self.loadNotificationsSettings()
+            return view
+        }()
+        
         tabView.addTabViewItem(moduleTab)
         tabView.addTabViewItem(widgetTab)
         tabView.addTabViewItem(popupTab)
+        tabView.addTabViewItem(notificationsTab)
         
         self.addArrangedSubview(widgetSelector)
         self.addArrangedSubview(tabView)
@@ -197,6 +212,16 @@ open class Settings: NSStackView, Settings_p {
             self.popupSettingsContainer?.addArrangedSubview(view)
         } else {
             self.popupSettingsContainer?.addArrangedSubview(self.noPopupSettingsView)
+        }
+    }
+    
+    private func loadNotificationsSettings() {
+        self.notificationsSettingsContainer?.subviews.forEach{ $0.removeFromSuperview() }
+        
+        if let notificationsView = self.notificationsSettings {
+            self.notificationsSettingsContainer?.addArrangedSubview(notificationsView)
+        } else {
+            self.notificationsSettingsContainer?.addArrangedSubview(self.noNotificationsView)
         }
     }
     
