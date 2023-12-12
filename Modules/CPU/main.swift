@@ -32,10 +32,18 @@ public struct CPU_Limit: Codable {
     var speed: Int = 0
 }
 
+public struct CPU_Frequency: Codable {
+    var ECores: Int? = nil
+    var PCores: Int? = nil
+    var power: Int? = nil
+    var cores: [Int] = []
+}
+
 public class CPU: Module {
     private let popupView: Popup
     private let settingsView: Settings
     private let portalView: Portal
+    private let notificationsView: Notifications
     
     private var loadReader: LoadReader? = nil
     private var processReader: ProcessReader? = nil
@@ -43,9 +51,7 @@ public class CPU: Module {
     private var frequencyReader: FrequencyReader? = nil
     private var limitReader: LimitReader? = nil
     private var averageReader: AverageReader? = nil
-    
-    private var notificationLevelState: Bool = false
-    private var notificationID: String? = nil
+    private var powermetricsReader: PowermetricsReader? = nil
     
     private var usagePerCoreState: Bool {
         Store.shared.bool(key: "\(self.config.name)_usagePerCore", defaultValue: false)
@@ -55,9 +61,6 @@ public class CPU: Module {
     }
     private var groupByClustersState: Bool {
         Store.shared.bool(key: "\(self.config.name)_clustersGroup", defaultValue: false)
-    }
-    private var notificationLevel: String {
-        Store.shared.string(key: "\(self.config.name)_notificationLevel", defaultValue: "Disabled")
     }
     private var systemColor: NSColor {
         let color = Color.secondRed
@@ -97,11 +100,13 @@ public class CPU: Module {
         self.settingsView = Settings("CPU")
         self.popupView = Popup("CPU")
         self.portalView = Portal("CPU")
+        self.notificationsView = Notifications(.CPU)
         
         super.init(
             popup: self.popupView,
             settings: self.settingsView,
-            portal: self.portalView
+            portal: self.portalView,
+            notifications: self.notificationsView
         )
         guard self.available else { return }
         
@@ -109,6 +114,7 @@ public class CPU: Module {
         self.processReader = ProcessReader(.CPU)
         self.averageReader = AverageReader(.CPU, popup: true)
         self.temperatureReader = TemperatureReader(.CPU, popup: true)
+        self.powermetricsReader = PowermetricsReader(.CPU, popup: true)
         
         #if arch(x86_64)
         self.limitReader = LimitReader(.CPU, popup: true)
@@ -189,6 +195,9 @@ public class CPU: Module {
         if let reader = self.averageReader {
             self.addReader(reader)
         }
+        if let reader = self.powermetricsReader {
+            self.addReader(reader)
+        }
     }
     
     private func loadCallback(_ raw: CPU_Load?) {
@@ -196,7 +205,7 @@ public class CPU: Module {
         
         self.popupView.loadCallback(value)
         self.portalView.loadCallback(value)
-        self.checkNotificationLevel(value.totalUsage)
+        self.notificationsView.loadCallback(value)
         
         self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
             switch w.item {
@@ -244,22 +253,6 @@ public class CPU: Module {
                 ])
             default: break
             }
-        }
-    }
-    
-    private func checkNotificationLevel(_ value: Double) {
-        guard self.notificationLevel != "Disabled", let level = Double(self.notificationLevel) else { return }
-        
-        if let id = self.notificationID, value < level && self.notificationLevelState {
-            removeNotification(id)
-            self.notificationID = nil
-            self.notificationLevelState = false
-        } else if value >= level && !self.notificationLevelState {
-            self.notificationID = showNotification(
-                title: localizedString("CPU usage threshold"),
-                subtitle: localizedString("CPU usage is", "\(Int((value)*100))%")
-            )
-            self.notificationLevelState = true
         }
     }
 }

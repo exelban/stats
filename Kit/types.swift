@@ -254,25 +254,27 @@ public var isARM: Bool {
 }
 
 public let notificationLevels: [KeyValue_t] = [
-    KeyValue_t(key: "Disabled", value: "Disabled"),
-    KeyValue_t(key: "10%", value: "10%"),
-    KeyValue_t(key: "15%", value: "15%"),
-    KeyValue_t(key: "20%", value: "20%"),
-    KeyValue_t(key: "25%", value: "25%"),
-    KeyValue_t(key: "30%", value: "30%"),
-    KeyValue_t(key: "40%", value: "40%"),
-    KeyValue_t(key: "50%", value: "50%"),
-    KeyValue_t(key: "55%", value: "55%"),
-    KeyValue_t(key: "60%", value: "60%"),
-    KeyValue_t(key: "65%", value: "65%"),
-    KeyValue_t(key: "70%", value: "70%"),
-    KeyValue_t(key: "75%", value: "75%"),
-    KeyValue_t(key: "80%", value: "80%"),
-    KeyValue_t(key: "85%", value: "85%"),
-    KeyValue_t(key: "90%", value: "90%"),
-    KeyValue_t(key: "95%", value: "95%"),
-    KeyValue_t(key: "97%", value: "97%"),
-    KeyValue_t(key: "100%", value: "100%")
+    KeyValue_t(key: "", value: "Disabled"),
+    KeyValue_t(key: "0.1", value: "10%"),
+    KeyValue_t(key: "0.15", value: "15%"),
+    KeyValue_t(key: "0.2", value: "20%"),
+    KeyValue_t(key: "0.25", value: "25%"),
+    KeyValue_t(key: "0.3", value: "30%"),
+    KeyValue_t(key: "0.35", value: "35%"),
+    KeyValue_t(key: "0.4", value: "40%"),
+    KeyValue_t(key: "0.45", value: "45%"),
+    KeyValue_t(key: "0.5", value: "50%"),
+    KeyValue_t(key: "0.55", value: "55%"),
+    KeyValue_t(key: "0.6", value: "60%"),
+    KeyValue_t(key: "0.65", value: "65%"),
+    KeyValue_t(key: "0.7", value: "70%"),
+    KeyValue_t(key: "0.75", value: "75%"),
+    KeyValue_t(key: "0.8", value: "80%"),
+    KeyValue_t(key: "0.85", value: "85%"),
+    KeyValue_t(key: "0.9", value: "90%"),
+    KeyValue_t(key: "0.95", value: "95%"),
+    KeyValue_t(key: "0.97", value: "97%"),
+    KeyValue_t(key: "1.0", value: "100%")
 ]
 
 public struct Scale: KeyValue_p, Equatable {

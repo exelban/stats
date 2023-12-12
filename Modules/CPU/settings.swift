@@ -20,7 +20,6 @@ internal class Settings: NSStackView, Settings_v {
     private var updateIntervalValue: Int = 1
     private var updateTopIntervalValue: Int = 1
     private var numberOfProcesses: Int = 8
-    private var notificationLevel: String = "Disabled"
     private var clustersGroupState: Bool = false
     
     private let title: String
@@ -46,7 +45,6 @@ internal class Settings: NSStackView, Settings_v {
         self.updateIntervalValue = Store.shared.int(key: "\(self.title)_updateInterval", defaultValue: self.updateIntervalValue)
         self.updateTopIntervalValue = Store.shared.int(key: "\(self.title)_updateTopInterval", defaultValue: self.updateTopIntervalValue)
         self.numberOfProcesses = Store.shared.int(key: "\(self.title)_processes", defaultValue: self.numberOfProcesses)
-        self.notificationLevel = Store.shared.string(key: "\(self.title)_notificationLevel", defaultValue: self.notificationLevel)
         if !self.usagePerCoreState {
             self.hyperthreadState = false
         }
@@ -153,13 +151,6 @@ internal class Settings: NSStackView, Settings_v {
             items: NumbersOfProcesses.map{ "\($0)" },
             selected: "\(self.numberOfProcesses)"
         ))
-        
-        self.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Notification level"),
-            action: #selector(changeNotificationLevel),
-            items: notificationLevels,
-            selected: self.notificationLevel == "disabled" ? self.notificationLevel : "\(Int((Double(self.notificationLevel) ?? 0)*100))%"
-        ))
     }
     
     @objc private func changeUpdateInterval(_ sender: NSMenuItem) {
@@ -255,16 +246,6 @@ internal class Settings: NSStackView, Settings_v {
         self.splitValueState = state! == .on ? true : false
         Store.shared.set(key: "\(self.title)_splitValue", value: self.splitValueState)
         self.callback()
-    }
-    
-    @objc func changeNotificationLevel(_ sender: NSMenuItem) {
-        guard let key = sender.representedObject as? String else { return }
-        
-        if key == "Disabled" {
-            Store.shared.set(key: "\(self.title)_notificationLevel", value: key)
-        } else if let value = Double(key.replacingOccurrences(of: "%", with: "")) {
-            Store.shared.set(key: "\(self.title)_notificationLevel", value: "\(value/100)")
-        }
     }
     
     @objc func toggleClustersGroup(_ sender: NSControl) {
