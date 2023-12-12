@@ -68,6 +68,7 @@ public class GPU: Module {
     private let popupView: Popup
     private let settingsView: Settings
     private let portalView: Portal
+    private let notificationsView: Notifications
     
     private var infoReader: InfoReader? = nil
     
@@ -80,21 +81,18 @@ public class GPU: Module {
             return Store.shared.bool(key: "\(self.config.name)_showType", defaultValue: false)
         }
     }
-    private var notificationLevel: String {
-        get {
-            return Store.shared.string(key: "\(self.config.name)_notificationLevel", defaultValue: "Disabled")
-        }
-    }
     
     public init() {
         self.popupView = Popup()
         self.settingsView = Settings("GPU")
         self.portalView = Portal("GPU")
+        self.notificationsView = Notifications(.GPU)
         
         super.init(
             popup: self.popupView,
             settings: self.settingsView,
-            portal: self.portalView
+            portal: self.portalView,
+            notifications: self.notificationsView
         )
         guard self.available else { return }
         
@@ -142,7 +140,7 @@ public class GPU: Module {
         }
         
         self.portalView.loadCallback(selectedGPU)
-        self.checkNotificationLevel(utilization)
+        self.notificationsView.usageCallback(utilization)
         
         self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
             switch w.item {
@@ -157,22 +155,6 @@ public class GPU: Module {
                 ])
             default: break
             }
-        }
-    }
-    
-    private func checkNotificationLevel(_ value: Double) {
-        guard self.notificationLevel != "Disabled", let level = Double(self.notificationLevel) else { return }
-        
-        if let id = self.notificationID, value < level && self.notificationLevelState {
-            removeNotification(id)
-            self.notificationID = nil
-            self.notificationLevelState = false
-        } else if value >= level && !self.notificationLevelState {
-            self.notificationID = showNotification(
-                title: localizedString("GPU usage threshold"),
-                subtitle: localizedString("GPU usage is", "\(Int((value)*100))%")
-            )
-            self.notificationLevelState = true
         }
     }
 }
