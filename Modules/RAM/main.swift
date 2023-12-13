@@ -56,18 +56,13 @@ public class RAM: Module {
     private let popupView: Popup
     private let settingsView: Settings
     private let portalView: Portal
+    private let notificationsView: Notifications
     
     private var usageReader: UsageReader? = nil
     private var processReader: ProcessReader? = nil
     
-    private var notificationLevelState: Bool = false
-    private var notificationID: String? = nil
-    
     private var splitValueState: Bool {
         return Store.shared.bool(key: "\(self.config.name)_splitValue", defaultValue: false)
-    }
-    private var notificationLevel: String {
-        return Store.shared.string(key: "\(self.config.name)_notificationLevel", defaultValue: "Disabled")
     }
     private var appColor: NSColor {
         let color = Color.secondBlue
@@ -98,11 +93,13 @@ public class RAM: Module {
         self.settingsView = Settings("RAM")
         self.popupView = Popup("RAM")
         self.portalView = Portal("RAM")
+        self.notificationsView = Notifications(.RAM)
         
         super.init(
             popup: self.popupView,
             settings: self.settingsView,
-            portal: self.portalView
+            portal: self.portalView,
+            notifications: self.notificationsView
         )
         guard self.available else { return }
         
@@ -153,7 +150,7 @@ public class RAM: Module {
         
         self.popupView.loadCallback(value)
         self.portalView.loadCallback(value)
-        self.checkNotificationLevel(value.usage)
+        self.notificationsView.loadCallback(value)
         
         let total: Double = value.total == 0 ? 1 : value.total
         self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
@@ -194,22 +191,6 @@ public class RAM: Module {
                 ])
             default: break
             }
-        }
-    }
-    
-    private func checkNotificationLevel(_ value: Double) {
-        guard self.notificationLevel != "Disabled", let level = Double(self.notificationLevel) else { return }
-        
-        if let id = self.notificationID, value < level && self.notificationLevelState {
-            removeNotification(id)
-            self.notificationID = nil
-            self.notificationLevelState = false
-        } else if value >= level && !self.notificationLevelState {
-            self.notificationID = showNotification(
-                title: localizedString("RAM utilization threshold"),
-                subtitle: localizedString("RAM utilization is", "\(Int((value)*100))%")
-            )
-            self.notificationLevelState = true
         }
     }
 }
