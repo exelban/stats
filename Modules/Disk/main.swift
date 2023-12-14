@@ -202,24 +202,22 @@ public class Disk: Module {
     private let popupView: Popup = Popup()
     private let settingsView: Settings = Settings()
     private let portalView: Portal = Portal()
+    private let notificationsView: Notifications
     
     private var capacityReader: CapacityReader = CapacityReader(.disk)
     private var activityReader: ActivityReader = ActivityReader()
     private var processReader: ProcessReader = ProcessReader(.disk)
     
     private var selectedDisk: String = ""
-    private var notificationLevelState: Bool = false
-    private var notificationID: String? = nil
-    
-    private var notificationLevel: String {
-        Store.shared.string(key: "\(Disk.name)_notificationLevel", defaultValue: "Disabled")
-    }
     
     public init() {
+        self.notificationsView = Notifications(.disk)
+        
         super.init(
             popup: self.popupView,
             settings: self.settingsView,
-            portal: self.portalView
+            portal: self.portalView,
+            notifications: self.notificationsView
         )
         guard self.available else { return }
         
@@ -294,7 +292,7 @@ public class Disk: Module {
         let percentage = Double(usedSpace) / Double(total)
         
         self.portalView.loadCallback(percentage)
-        self.checkNotificationLevel(percentage)
+        self.notificationsView.utilizationCallback(percentage)
         
         self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
             switch w.item {
@@ -329,22 +327,6 @@ public class Disk: Module {
             case let widget as NetworkChart: widget.setValue(upload: Double(d.activity.write), download: Double(d.activity.read))
             default: break
             }
-        }
-    }
-    
-    private func checkNotificationLevel(_ value: Double) {
-        guard self.notificationLevel != "Disabled", let level = Double(self.notificationLevel) else { return }
-        
-        if let id = self.notificationID, value < level && self.notificationLevelState {
-            removeNotification(id)
-            self.notificationID = nil
-            self.notificationLevelState = false
-        } else if value >= level && !self.notificationLevelState {
-            self.notificationID = showNotification(
-                title: localizedString("Disk utilization threshold"),
-                subtitle: localizedString("Disk utilization is", "\(Int((value)*100))%")
-            )
-            self.notificationLevelState = true
         }
     }
 }
