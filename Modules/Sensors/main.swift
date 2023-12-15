@@ -13,9 +13,10 @@ import Cocoa
 import Kit
 
 public class Sensors: Module {
-    private var sensorsReader: SensorsReader
+    private let sensorsReader: SensorsReader
     private let popupView: Popup
-    private var settingsView: Settings
+    private let settingsView: Settings
+    private let notificationsView: Notifications
     
     private var fanValueState: FanValue {
         FanValue(rawValue: Store.shared.string(key: "\(self.config.name)_fanValue", defaultValue: "percentage")) ?? .percentage
@@ -25,14 +26,17 @@ public class Sensors: Module {
         self.sensorsReader = SensorsReader()
         self.settingsView = Settings("Sensors", list: self.sensorsReader.list.sensors)
         self.popupView = Popup()
+        self.notificationsView = Notifications(.sensors)
         
         super.init(
             popup: self.popupView,
-            settings: self.settingsView
+            settings: self.settingsView,
+            notifications: self.notificationsView
         )
         guard self.available else { return }
         
         self.popupView.setup(self.sensorsReader.list.sensors)
+        self.notificationsView.setup(self.sensorsReader.list.sensors)
         
         self.settingsView.callback = { [weak self] in
             self?.sensorsReader.read()
@@ -46,6 +50,7 @@ public class Sensors: Module {
                 DispatchQueue.main.async {
                     self?.popupView.setup(self?.sensorsReader.list.sensors)
                     self?.settingsView.setList(list: self?.sensorsReader.list.sensors ?? [])
+                    self?.notificationsView.setup(self?.sensorsReader.list.sensors)
                 }
             }
         }
@@ -55,6 +60,7 @@ public class Sensors: Module {
                 DispatchQueue.main.async {
                     self?.popupView.setup(self?.sensorsReader.list.sensors)
                     self?.settingsView.setList(list: self?.sensorsReader.list.sensors ?? [])
+                    self?.notificationsView.setup(self?.sensorsReader.list.sensors)
                 }
             }
         }
@@ -111,6 +117,7 @@ public class Sensors: Module {
         }
         
         self.popupView.usageCallback(value.sensors)
+        self.notificationsView.usageCallback(value.sensors)
         
         self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
             switch w.item {

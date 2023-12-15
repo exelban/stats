@@ -36,6 +36,7 @@ public protocol Sensor_p {
     var value: Double { get set }
     var state: Bool { get }
     var popupState: Bool { get }
+    var notificationThreshold: String { get }
     
     var group: SensorGroup { get }
     var type: SensorType { get }
@@ -211,6 +212,9 @@ public struct Sensor: Sensor_p, Codable {
     public var popupState: Bool {
         Store.shared.bool(key: "sensor_\(self.key)_popup", defaultValue: true)
     }
+    public var notificationThreshold: String {
+        Store.shared.string(key: "sensor_\(self.key)_notification", defaultValue: "")
+    }
     
     public func copy() -> Sensor {
         Sensor(
@@ -264,6 +268,9 @@ public struct Fan: Sensor_p, Codable {
     }
     public var popupState: Bool {
         Store.shared.bool(key: "sensor_\(self.key)_popup", defaultValue: true)
+    }
+    public var notificationThreshold: String {
+        Store.shared.string(key: "sensor_\(self.key)_notification", defaultValue: "")
     }
     
     public var customSpeed: Int? {
