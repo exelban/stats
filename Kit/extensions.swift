@@ -42,11 +42,10 @@ extension String: LocalizedError {
             let range = NSRange(self.startIndex..., in: self)
             
             if let match = regex.firstMatch(in: self, options: [], range: range) {
-                let matchRange = Range(match.range, in: self)
-                if let range = matchRange {
-                    let croppedString = String(self[range])
-                    let remainingString = String(self[range.upperBound...])
-                    return (croppedString.trimmingCharacters(in: .whitespaces), remainingString.trimmingCharacters(in: .whitespaces))
+                if let range = Range(match.range, in: self) {
+                    let cropped = String(self[range]).trimmingCharacters(in: .whitespaces)
+                    let remaining = self.replacingOccurrences(of: cropped, with: "", options: .regularExpression).trimmingCharacters(in: .whitespaces)
+                    return (cropped, remaining)
                 }
             }
         } catch {

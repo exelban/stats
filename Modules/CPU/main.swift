@@ -51,7 +51,6 @@ public class CPU: Module {
     private var frequencyReader: FrequencyReader? = nil
     private var limitReader: LimitReader? = nil
     private var averageReader: AverageReader? = nil
-    private var powermetricsReader: PowermetricsReader? = nil
     
     private var usagePerCoreState: Bool {
         Store.shared.bool(key: "\(self.config.name)_usagePerCore", defaultValue: false)
@@ -114,7 +113,6 @@ public class CPU: Module {
         self.processReader = ProcessReader(.CPU)
         self.averageReader = AverageReader(.CPU, popup: true)
         self.temperatureReader = TemperatureReader(.CPU, popup: true)
-        self.powermetricsReader = PowermetricsReader(.CPU, popup: true)
         
         #if arch(x86_64)
         self.limitReader = LimitReader(.CPU, popup: true)
@@ -193,9 +191,6 @@ public class CPU: Module {
             self.addReader(reader)
         }
         if let reader = self.averageReader {
-            self.addReader(reader)
-        }
-        if let reader = self.powermetricsReader {
             self.addReader(reader)
         }
     }
