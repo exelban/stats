@@ -328,25 +328,37 @@ internal class UsageReader: Reader<Network_Usage> {
         
         guard self.usage.interface != nil else { return }
         
-        if let interface = CWWiFiClient.shared().interface(withName: self.interfaceID), self.usage.connectionType == .wifi {
-            self.usage.wifiDetails.ssid = interface.ssid()
-            self.usage.wifiDetails.bssid = interface.bssid()
-            self.usage.wifiDetails.countryCode = interface.countryCode()
-            
-            self.usage.wifiDetails.RSSI = interface.rssiValue()
-            self.usage.wifiDetails.noise = interface.noiseMeasurement()
-            self.usage.wifiDetails.transmitRate = interface.transmitRate()
-            
-            self.usage.wifiDetails.standard = interface.activePHYMode().description
-            self.usage.wifiDetails.mode = interface.interfaceMode().description
-            self.usage.wifiDetails.security = interface.security().description
-            
-            if let ch = interface.wlanChannel() {
-                self.usage.wifiDetails.channel = ch.description
+        if self.usage.connectionType == .wifi {
+            if let interface = CWWiFiClient.shared().interface(withName: self.interfaceID) {
+                self.usage.wifiDetails.ssid = interface.ssid()
+                self.usage.wifiDetails.bssid = interface.bssid()
+                self.usage.wifiDetails.countryCode = interface.countryCode()
                 
-                self.usage.wifiDetails.channelBand = ch.channelBand.description
-                self.usage.wifiDetails.channelWidth = ch.channelWidth.description
-                self.usage.wifiDetails.channelNumber = ch.channelNumber.description
+                self.usage.wifiDetails.RSSI = interface.rssiValue()
+                self.usage.wifiDetails.noise = interface.noiseMeasurement()
+                self.usage.wifiDetails.transmitRate = interface.transmitRate()
+                
+                self.usage.wifiDetails.standard = interface.activePHYMode().description
+                self.usage.wifiDetails.mode = interface.interfaceMode().description
+                self.usage.wifiDetails.security = interface.security().description
+                
+                if let ch = interface.wlanChannel() {
+                    self.usage.wifiDetails.channel = ch.description
+                    
+                    self.usage.wifiDetails.channelBand = ch.channelBand.description
+                    self.usage.wifiDetails.channelWidth = ch.channelWidth.description
+                    self.usage.wifiDetails.channelNumber = ch.channelNumber.description
+                }
+            }
+            
+            if self.usage.wifiDetails.ssid == nil || self.usage.wifiDetails.ssid == "" {
+                let networksetupResponse = syncShell("networksetup -getairportnetwork \(self.interfaceID)")
+                if networksetupResponse.split(separator: "\n").count == 1 {
+                    let arr = networksetupResponse.split(separator: ":")
+                    if let ssid = arr.last {
+                        self.usage.wifiDetails.ssid = ssid.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+                    }
+                }
             }
         }
     }
