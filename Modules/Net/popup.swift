@@ -90,6 +90,7 @@ internal class Popup: PopupWrapper {
         }
         return value
     }
+    private var reverseOrderState: Bool = false
     
     private var latency: [Double] = []
     
@@ -105,6 +106,7 @@ internal class Popup: PopupWrapper {
         
         self.downloadColorState = Color.fromString(Store.shared.string(key: "\(self.title)_downloadColor", defaultValue: self.downloadColorState.key))
         self.uploadColorState = Color.fromString(Store.shared.string(key: "\(self.title)_uploadColor", defaultValue: self.uploadColorState.key))
+        self.reverseOrderState = Store.shared.bool(key: "\(self.title)_reverseOrder", defaultValue: self.reverseOrderState)
         
         self.spacing = 0
         self.orientation = .vertical
@@ -177,6 +179,7 @@ internal class Popup: PopupWrapper {
             frame: NSRect(x: 0, y: 1, width: container.frame.width, height: container.frame.height - 2),
             num: 120, outColor: self.uploadColor, inColor: self.downloadColor
         )
+        chart.setReverseOrder(self.reverseOrderState)
         chart.base = self.base
         container.addSubview(chart)
         self.chart = chart
@@ -516,6 +519,12 @@ internal class Popup: PopupWrapper {
             selected: self.downloadColorState.key
         ))
         
+        view.addArrangedSubview(toggleSettingRow(
+            title: localizedString("Reverse order"),
+            action: #selector(toggleReverseOrder),
+            state: self.reverseOrderState
+        ))
+        
         return view
     }
     
@@ -544,6 +553,12 @@ internal class Popup: PopupWrapper {
             self.downloadStateView?.setColor(color)
             self.chart?.setColors(in: color)
         }
+    }
+    @objc private func toggleReverseOrder(_ sender: NSControl) {
+        self.reverseOrderState = controlState(sender)
+        self.chart?.setReverseOrder(self.reverseOrderState)
+        Store.shared.set(key: "\(self.title)_reverseOrder", value: self.reverseOrderState)
+        self.display()
     }
     
     // MARK: - helpers

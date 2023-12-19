@@ -20,6 +20,7 @@ public class NetworkChart: WidgetWrapper {
     private var uploadColor: Color = .secondRed
     private var scaleState: Scale = .linear
     private var commonScaleState: Bool = true
+    private var reverseOrderState: Bool = false
     
     private var chart: NetworkChartView = NetworkChartView(
         frame: NSRect(x: 0, y: 0, width: 30, height: Constants.Widget.height - (2*Constants.Widget.margin.y)),
@@ -84,6 +85,7 @@ public class NetworkChart: WidgetWrapper {
             self.uploadColor = Color.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_uploadColor", defaultValue: self.uploadColor.key))
             self.scaleState = Scale.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_scale", defaultValue: self.scaleState.key))
             self.commonScaleState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_commonScale", defaultValue: self.commonScaleState)
+            self.reverseOrderState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_reverseOrder", defaultValue: self.reverseOrderState)
             
             if let downloadColor =  self.downloadColor.additional as? NSColor,
                let uploadColor = self.uploadColor.additional as? NSColor {
@@ -91,6 +93,7 @@ public class NetworkChart: WidgetWrapper {
             }
             self.chart.setScale(self.scaleState, self.commonScaleState)
             self.chart.reinit(self.historyCount)
+            self.chart.setReverseOrder(self.reverseOrderState)
         }
         
         if preview {
@@ -247,6 +250,12 @@ public class NetworkChart: WidgetWrapper {
             state: self.commonScaleState
         ))
         
+        view.addArrangedSubview(toggleSettingRow(
+            title: localizedString("Reverse order"),
+            action: #selector(toggleReverseOrder),
+            state: self.reverseOrderState
+        ))
+        
         return view
     }
     
@@ -330,6 +339,13 @@ public class NetworkChart: WidgetWrapper {
         self.commonScaleState = controlState(sender)
         self.chart.setScale(self.scaleState, self.commonScaleState)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_commonScale", value: self.commonScaleState)
+        self.display()
+    }
+    
+    @objc private func toggleReverseOrder(_ sender: NSControl) {
+        self.reverseOrderState = controlState(sender)
+        self.chart.setReverseOrder(self.reverseOrderState)
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_reverseOrder", value: self.reverseOrderState)
         self.display()
     }
 }
