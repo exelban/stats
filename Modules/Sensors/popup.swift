@@ -330,7 +330,7 @@ internal class SensorView: NSStackView {
     }
     
     public func addHistoryPoint(_ sensor: Sensor_p) {
-        self.chartView.update(sensor.value)
+        self.chartView.update(sensor.localValue)
     }
     
     private func open() {
