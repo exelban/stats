@@ -68,6 +68,14 @@ open class NotificationsWrapper: NSStackView {
         }
     }
     
+    public func hideNotification(_ rid: String) {
+        let id = "Stats_\(self.module)_\(rid)"
+        if self.ids[id] != nil {
+            removeNotification(id)
+            self.ids[id] = nil
+        }
+    }
+    
     private func showNotification(id: String, title: String, subtitle: String? = nil) {
         let content = UNMutableNotificationContent()
         content.title = title

@@ -54,7 +54,10 @@ class Notifications: NotificationsWrapper {
     }
     
     internal func usageCallback(_ value: Battery_Usage) {
-        if let threshold = Double(self.lowLevel) {
+        if value.isCharging || !value.isBatteryPowered {
+            self.hideNotification(self.lowID)
+        }
+        if let threshold = Double(self.lowLevel), !value.isCharging {
             let title = localizedString("Low battery")
             var subtitle = localizedString("Battery remaining", "\(Int(value.level*100))")
             if value.timeToEmpty > 0 {
@@ -63,7 +66,10 @@ class Notifications: NotificationsWrapper {
             self.checkDouble(id: self.lowID, value: value.level, threshold: threshold, title: title, subtitle: subtitle, less: true)
         }
         
-        if let threshold = Double(self.highLevel) {
+        if value.isBatteryPowered {
+            self.hideNotification(self.highID)
+        }
+        if let threshold = Double(self.highLevel), value.isCharging {
             let title = localizedString("High battery")
             var subtitle = localizedString("Battery remaining to full charge", "\(Int((1-value.level)*100))")
             if value.timeToCharge > 0 {
