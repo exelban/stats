@@ -161,7 +161,6 @@ public class ProcessReader: Reader<[TopProcess]> {
         }
         
         let task = Process()
-        task.launchPath = "/bin/ps"
         task.launchPath = "/usr/bin/top"
         task.arguments = ["-o", "power", "-l", "2", "-n", "\(self.numberOfProcesses)", "-stats", "pid,command,power"]
         

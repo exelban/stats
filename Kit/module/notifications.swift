@@ -38,6 +38,12 @@ open class NotificationsWrapper: NSStackView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    public func willTerminate() {
+        for id in self.ids {
+            removeNotification(id.key)
+        }
+    }
+    
     public func initIDs(_ ids: [String]) {
         for id in ids {
             let notificationID = "Stats_\(self.module)_\(id)"

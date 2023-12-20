@@ -25,6 +25,7 @@
 		5C23BC1029A3B5AE00DBA990 /* portal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C23BC0F29A3B5AE00DBA990 /* portal.swift */; };
 		5C5647F82A3F6B100098FFE9 /* Telemetry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5647F72A3F6B100098FFE9 /* Telemetry.swift */; };
 		5C8E001029269C7F0027C75A /* protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CFE493829265055000F2856 /* protocol.swift */; };
+		5CD342F42B2F2FB700225631 /* notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD342F32B2F2FB700225631 /* notifications.swift */; };
 		5CF2210D2B1E7EAF006C583F /* notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF2210C2B1E7EAF006C583F /* notifications.swift */; };
 		5CF221132B1E8078006C583F /* notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF221122B1E8078006C583F /* notifications.swift */; };
 		5CF221152B1F4792006C583F /* notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF221142B1F4792006C583F /* notifications.swift */; };
@@ -400,6 +401,7 @@
 		5C23BC0F29A3B5AE00DBA990 /* portal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = portal.swift; sourceTree = "<group>"; };
 		5C5647F72A3F6B100098FFE9 /* Telemetry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Telemetry.swift; sourceTree = "<group>"; };
 		5C9F90A02A76B30500D41748 /* et */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = et; path = et.lproj/Localizable.strings; sourceTree = "<group>"; };
+		5CD342F32B2F2FB700225631 /* notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = notifications.swift; sourceTree = "<group>"; };
 		5CF2210C2B1E7EAF006C583F /* notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = notifications.swift; sourceTree = "<group>"; };
 		5CF221122B1E8078006C583F /* notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = notifications.swift; sourceTree = "<group>"; };
 		5CF221142B1F4792006C583F /* notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = notifications.swift; sourceTree = "<group>"; };
@@ -993,6 +995,7 @@
 				5EE8037E29C36BDD0063D37D /* portal.swift */,
 				9ABFF913248C30A800C9041A /* popup.swift */,
 				9AD64FA124BF86C100419D59 /* settings.swift */,
+				5CD342F32B2F2FB700225631 /* notifications.swift */,
 				9ABFF8F9248BEBCB00C9041A /* Info.plist */,
 				9ABFF904248BEC0B00C9041A /* config.plist */,
 			);
@@ -1426,7 +1429,7 @@
 					New,
 				);
 				LastSwiftUpdateCheck = 1410;
-				LastUpgradeCheck = 1500;
+				LastUpgradeCheck = 1510;
 				ORGANIZATIONNAME = "Serhiy Mytrovtsiy";
 				TargetAttributes = {
 					5C22299C29CCB3C400F00E69 = {
@@ -1859,6 +1862,7 @@
 				9ABFF914248C30A800C9041A /* popup.swift in Sources */,
 				5EE8037F29C36BDD0063D37D /* portal.swift in Sources */,
 				9AD64FA224BF86C100419D59 /* settings.swift in Sources */,
+				5CD342F42B2F2FB700225631 /* notifications.swift in Sources */,
 				9ABFF903248BEBD700C9041A /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
