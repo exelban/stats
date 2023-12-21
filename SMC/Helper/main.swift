@@ -69,7 +69,7 @@ class Helper: NSObject, NSXPCListenerDelegate, HelperProtocol {
     private func uninstallHelper() {
         let process = Process()
         process.launchPath = "/bin/launchctl"
-        process.qualityOfService = QualityOfService.utility
+        process.qualityOfService = QualityOfService.userInitiated
         process.arguments = ["unload", "/Library/LaunchDaemons/eu.exelban.Stats.SMC.Helper.plist"]
         process.launch()
         process.waitUntilExit()
@@ -109,7 +109,14 @@ extension Helper {
             return
         }
         let result = syncShell("\(smc) fan \(id) -m \(mode)")
-        completion(result)
+        
+        if let error = result.error, !error.isEmpty {
+            NSLog("error set fan mode: \(error)")
+            completion(nil)
+            return
+        }
+        
+        completion(result.output)
     }
     
     func setFanSpeed(id: Int, value: Int, completion: (String?) -> Void) {
@@ -117,28 +124,62 @@ extension Helper {
             completion("missing smc tool")
             return
         }
+        
         let result = syncShell("\(smc) fan \(id) -v \(value)")
-        completion(result)
+        
+        if let error = result.error, !error.isEmpty {
+            NSLog("error set fan speed: \(error)")
+            completion(nil)
+            return
+        }
+        
+        completion(result.output)
     }
     
-    public func syncShell(_ args: String) -> String {
+    func powermetrics(_ samplers: [String], completion: @escaping (String?) -> Void) {
+        let result = syncShell("powermetrics -n 1 -s \(samplers.joined(separator: ",")) --sample-rate 1000")
+        if let error = result.error, !error.isEmpty {
+            NSLog("error call powermetrics: \(error)")
+            completion(nil)
+            return
+        }
+        completion(result.output)
+    }
+    
+    public func syncShell(_ args: String) -> (output: String?, error: String?) {
         let task = Process()
         task.launchPath = "/bin/sh"
         task.arguments = ["-c", args]
-        let pipe = Pipe()
         
-        task.standardOutput = pipe
-        task.launch()
-        task.waitUntilExit()
+        let outputPipe = Pipe()
+        let errorPipe = Pipe()
         
-        let data = pipe.fileHandleForReading.readDataToEndOfFile()
-        return String(data: data, encoding: .utf8)!
+        defer {
+            outputPipe.fileHandleForReading.closeFile()
+            errorPipe.fileHandleForReading.closeFile()
+        }
+        
+        task.standardOutput = outputPipe
+        task.standardError = errorPipe
+        
+        do {
+            try task.run()
+        } catch let err {
+            return (nil, "syncShell: \(err.localizedDescription)")
+        }
+        
+        let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
+        let errorData = errorPipe.fileHandleForReading.readDataToEndOfFile()
+        let output = String(decoding: outputData, as: UTF8.self)
+        let error = String(decoding: errorData, as: UTF8.self)
+        
+        return (output, error)
     }
     
     func uninstall() {
         let process = Process()
         process.launchPath = "/Library/PrivilegedHelperTools/eu.exelban.Stats.SMC.Helper"
-        process.qualityOfService = QualityOfService.utility
+        process.qualityOfService = QualityOfService.userInitiated
         process.arguments = ["uninstall", String(getpid())]
         process.launch()
         exit(0)
