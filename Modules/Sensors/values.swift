@@ -469,7 +469,7 @@ internal let SensorsList: [Sensor] = [
     Sensor(key: "PDTR", name: "DC In", group: .sensor, type: .power, platforms: Platform.all),
     Sensor(key: "PSTR", name: "System Total", group: .sensor, type: .power, platforms: Platform.all),
     
-    Sensor(key: "PDBR", name: "Power Delivery brightness", group: .sensor, type: .temperature, platforms: [.m1, .m1Pro, .m1Max, .m1Ultra])
+    Sensor(key: "PDBR", name: "Power Delivery Brightness", group: .sensor, type: .temperature, platforms: [.m1, .m1Pro, .m1Max, .m1Ultra])
 ]
 
 internal let HIDSensorsList: [Sensor] = [
