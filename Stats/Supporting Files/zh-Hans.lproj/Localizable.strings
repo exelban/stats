@@ -74,6 +74,9 @@
 "Name" = "名称";
 "Format" = "格式";
 "Turn off" = "禁用";
+"Warning" = "Warning";
+"Critical" = "Critical";
+"Usage" = "Usage";
 
 // Setup
 "Stats Setup" = "Stats 设置";
@@ -230,6 +233,11 @@
 "Cluster grouping" = "按集群分组";
 "Efficiency cores color" = "能效核心颜色";
 "Performance cores color" = "性能核心颜色";
+"Total load" = "Total load";
+"System load" = "System load";
+"User load" = "User load";
+"Efficiency cores load" = "Efficiency cores load";
+"Performance cores load" = "Performance cores load";
 
 // GPU
 "GPU to show" = "显示的 GPU";
@@ -269,6 +277,9 @@
 "Wired color" = "联动内存颜色";
 "Compressed color" = "被压缩内存颜色";
 "Free color" = "可用内存颜色";
+"Free memory (less than)" = "Free memory (less than)";
+"Swap size" = "Swap size";
+"Free RAM is" = "Free RAM is %0";
 
 // Disk
 "Show removable disks" = "显示可移动磁盘";
@@ -299,6 +310,7 @@
 "Fan value" = "风扇转数";
 "Turn off fan" = "禁用风扇";
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "你想禁用你的风扇，这可能损害你的 Mac。不推荐进行这个操作，你确定要继续吗？";
+"Sensor threshold" = "Sensor threshold";
 
 // Network
 "Uploading" = "上传";

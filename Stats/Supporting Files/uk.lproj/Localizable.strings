@@ -74,6 +74,9 @@
 "Name" = "Назва";
 "Format" = "Формат";
 "Turn off" = "Вимкнути";
+"Warning" = "Попереджнння";
+"Critical" = "Критичний";
+"Usage" = "Використання";
 
 // Setup
 "Stats Setup" = "Налаштування";
@@ -230,6 +233,11 @@
 "Cluster grouping" = "Кластерне групування";
 "Efficiency cores color" = "Колір енергоефективних ядер";
 "Performance cores color" = "Колір високопродуктивних ядер";
+"Total load" = "Загальне використання";
+"System load" = "Використання системи";
+"User load" = "Використання користувача";
+"Efficiency cores load" = "Використання енергоефективних ядер";
+"Performance cores load" = "Використання високопродуктивних ядер";
 
 // GPU
 "GPU to show" = "Активний графічний процесор";
@@ -269,6 +277,9 @@
 "Wired color" = "Колір постійної пам’яті";
 "Compressed color" = "Колір стисненої пам’яті";
 "Free color" = "Колір вільної пам’яті";
+"Free memory (less than)" = "Вільна пам'ять (менше ніж)";
+"Swap size" = "Розмір swap";
+"Free RAM is" = "Вільна оперативна пам'ять %0";
 
 // Disk
 "Show removable disks" = "Показати зйомні диски";
@@ -299,6 +310,7 @@
 "Fan value" = "Значення вентилятора";
 "Turn off fan" = "Вимкнути вентилятор";
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Ви збираєтеся вимкнути вентилятор. Це не рекомендована дія, яка може зламати ваш Mac. Ви впевнені, що хочете це зробити?";
+"Sensor threshold" = "Поріг датчика";
 
 // Network
 "Uploading" = "Висилання";

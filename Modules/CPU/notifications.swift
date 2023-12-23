@@ -86,27 +86,27 @@ class Notifications: NotificationsWrapper {
         let title = localizedString("CPU usage threshold")
         
         if let threshold = Double(self.totalLoadLevel) {
-            let subtitle = localizedString("Total usage is", "\(Int((value.totalUsage)*100))%")
+            let subtitle = "\(localizedString("Total load")): \(Int((value.totalUsage)*100))%"
             self.checkDouble(id: self.totalLoadID, value: value.totalUsage, threshold: threshold, title: title, subtitle: subtitle)
         }
         
         if let threshold = Double(self.systemLoadLevel) {
-            let subtitle = localizedString("System usage is", "\(Int((value.systemLoad)*100))%")
+            let subtitle = "\(localizedString("System load")): \(Int((value.systemLoad)*100))%"
             self.checkDouble(id: self.systemLoadID, value: value.systemLoad, threshold: threshold, title: title, subtitle: subtitle)
         }
         
         if let threshold = Double(self.userLoadLevel) {
-            let subtitle = localizedString("User usage is", "\(Int((value.systemLoad)*100))%")
+            let subtitle = "\(localizedString("User load")): \(Int((value.userLoad)*100))%"
             self.checkDouble(id: self.userLoadID, value: value.userLoad, threshold: threshold, title: title, subtitle: subtitle)
         }
         
         if let threshold = Double(self.eCoresLoadLevel), let usage = value.usageECores {
-            let subtitle = localizedString("Efficiency cores usage is", "\(Int((value.systemLoad)*100))%")
+            let subtitle = "\(localizedString("Efficiency cores load")): \(Int((usage)*100))%"
             self.checkDouble(id: self.eCoresLoadID, value: usage, threshold: threshold, title: title, subtitle: subtitle)
         }
         
         if let threshold = Double(self.pCoresLoadLevel), let usage = value.usagePCores {
-            let subtitle = localizedString("Performance cores usage is", "\(Int((value.systemLoad)*100))%")
+            let subtitle = "\(localizedString("Performance cores load")): \(Int((usage)*100))%"
             self.checkDouble(id: self.pCoresLoadID, value: usage, threshold: threshold, title: title, subtitle: subtitle)
         }
     }

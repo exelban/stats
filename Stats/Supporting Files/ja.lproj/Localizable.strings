@@ -74,6 +74,9 @@
 "Name" = "名前";
 "Format" = "フォーマット";
 "Turn off" = "停止";
+"Warning" = "Warning";
+"Critical" = "Critical";
+"Usage" = "Usage";
 
 // Setup
 "Stats Setup" = "Stats セットアップ";
@@ -230,6 +233,11 @@
 "Cluster grouping" = "Cluster grouping";
 "Efficiency cores color" = "Efficiency cores color";
 "Performance cores color" = "Performance cores color";
+"Total load" = "Total load";
+"System load" = "System load";
+"User load" = "User load";
+"Efficiency cores load" = "Efficiency cores load";
+"Performance cores load" = "Performance cores load";
 
 // GPU
 "GPU to show" = "表示する GPU";
@@ -269,6 +277,9 @@
 "Wired color" = "Wired color";
 "Compressed color" = "Compressed color";
 "Free color" = "Free color";
+"Free memory (less than)" = "Free memory (less than)";
+"Swap size" = "Swap size";
+"Free RAM is" = "Free RAM is %0";
 
 // Disk
 "Show removable disks" = "リムーバブルディスクを表示";
@@ -299,6 +310,7 @@
 "Fan value" = "Fan value";
 "Turn off fan" = "ファンの停止";
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "ファンの停止はmacに大きなダメージを与える可能性がある為、推奨されません。本当に実行しますか？";
+"Sensor threshold" = "Sensor threshold";
 
 // Network
 "Uploading" = "送信";

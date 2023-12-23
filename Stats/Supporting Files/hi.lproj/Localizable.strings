@@ -74,6 +74,9 @@
 "Name" = "नाम";
 "Format" = "प्रारूप";
 "Turn off" = "बंद करें";
+"Warning" = "Warning";
+"Critical" = "Critical";
+"Usage" = "Usage";
 
 // Setup
 "Stats Setup" = "आँकड़े सेटअप";
@@ -230,6 +233,11 @@
 "Cluster grouping" = "क्लस्टर समूहीकरण";
 "Efficiency cores color" = "दक्षता कोर रंग";
 "Performance cores color" = "प्रदर्शन कोर रंग";
+"Total load" = "Total load";
+"System load" = "System load";
+"User load" = "User load";
+"Efficiency cores load" = "Efficiency cores load";
+"Performance cores load" = "Performance cores load";
 
 // GPU
 "GPU to show" = "दिखाने के लिए जीपीयू";
@@ -269,6 +277,9 @@
 "Wired color" = "वायर्ड रंग";
 "Compressed color" = "संपीड़ित रंग";
 "Free color" = "मुक्त रंग";
+"Free memory (less than)" = "Free memory (less than)";
+"Swap size" = "Swap size";
+"Free RAM is" = "Free RAM is %0";
 
 // Disk
 "Show removable disks" = "हटाने योग्य डिस्क दिखाएँ";
@@ -299,6 +310,7 @@
 "Fan value" = "फैन वैल्यू";
 "Turn off fan" = "पंखा बंद करें";
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "आप पंखे को बंद करने जा रहे हैं। यह अनुशंसित कार्रवाई नहीं है जो आपके मैक को नुकसान पहुंचा सकती है, क्या आप वाकई ऐसा करना चाहते हैं?";
+"Sensor threshold" = "Sensor threshold";
 
 // Network
 "Uploading" = "अपलोड";

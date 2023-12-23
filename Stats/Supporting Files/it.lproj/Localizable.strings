@@ -74,6 +74,9 @@
 "Name" = "Nome";
 "Format" = "Formato";
 "Turn off" = "Disattiva";
+"Warning" = "Warning";
+"Critical" = "Critical";
+"Usage" = "Usage";
 
 // Setup
 "Stats Setup" = "Configurazione Stats";
@@ -230,6 +233,11 @@
 "Cluster grouping" = "Raggruppamento cluster";
 "Efficiency cores color" = "Colore per efficiency core";
 "Performance cores color" = "Colore per performance cores";
+"Total load" = "Total load";
+"System load" = "System load";
+"User load" = "User load";
+"Efficiency cores load" = "Efficiency cores load";
+"Performance cores load" = "Performance cores load";
 
 // GPU
 "GPU to show" = "GPU da mostrare";
@@ -269,6 +277,9 @@
 "Wired color" = "Colore Cablata";
 "Compressed color" = "Colore Compressa";
 "Free color" = "Colore Libera";
+"Free memory (less than)" = "Free memory (less than)";
+"Swap size" = "Swap size";
+"Free RAM is" = "Free RAM is %0";
 
 // Disk
 "Show removable disks" = "Mostra dischi rimovibili";
@@ -299,6 +310,7 @@
 "Fan value" = "Valore ventola";
 "Turn off fan" = "Disattiva la ventola";
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Stai per disattivare la ventola. Questa azione non è consigliata e può danneggiare il tuo mac, sei sicuro di voler proseguire?";
+"Sensor threshold" = "Sensor threshold";
 
 // Network
 "Uploading" = "Upload";
