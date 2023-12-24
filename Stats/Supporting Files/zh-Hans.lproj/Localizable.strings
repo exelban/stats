@@ -310,7 +310,7 @@
 "Fan value" = "风扇转数";
 "Turn off fan" = "禁用风扇";
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "你想禁用你的风扇，这可能损害你的 Mac。不推荐进行这个操作，你确定要继续吗？";
-"Sensor threshold" = "Sensor threshold";
+"Sensor threshold" = "传感器阈值";
 
 // Network
 "Uploading" = "上传";
