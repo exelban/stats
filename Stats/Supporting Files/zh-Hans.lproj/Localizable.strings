@@ -74,9 +74,9 @@
 "Name" = "名称";
 "Format" = "格式";
 "Turn off" = "禁用";
-"Warning" = "Warning";
-"Critical" = "Critical";
-"Usage" = "Usage";
+"Warning" = "警告";
+"Critical" = "重要通知";
+"Usage" = "用量";
 
 // Setup
 "Stats Setup" = "Stats 设置";
@@ -233,11 +233,11 @@
 "Cluster grouping" = "按集群分组";
 "Efficiency cores color" = "能效核心颜色";
 "Performance cores color" = "性能核心颜色";
-"Total load" = "Total load";
-"System load" = "System load";
-"User load" = "User load";
-"Efficiency cores load" = "Efficiency cores load";
-"Performance cores load" = "Performance cores load";
+"Total load" = "总占用";
+"System load" = "系统占用";
+"User load" = "用户占用";
+"Efficiency cores load" = "能效核心占用";
+"Performance cores load" = "性能核心占用";
 
 // GPU
 "GPU to show" = "显示的 GPU";
@@ -277,9 +277,9 @@
 "Wired color" = "联动内存颜色";
 "Compressed color" = "被压缩内存颜色";
 "Free color" = "可用内存颜色";
-"Free memory (less than)" = "Free memory (less than)";
-"Swap size" = "Swap size";
-"Free RAM is" = "Free RAM is %0";
+"Free memory (less than)" = "可用内存（小于）";
+"Swap size" = "已使用交换";
+"Free RAM is" = "可有内存还有 %0";
 
 // Disk
 "Show removable disks" = "显示可移动磁盘";
