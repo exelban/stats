@@ -858,6 +858,8 @@ public class TopProcess: NSStackView {
     }
     
     public func clear() {
+        self.imageView.image = nil
+        self.labelView.stringValue = "-"
         self.inputView.stringValue = "-"
         self.outputView.stringValue = "-"
         self.toolTip = ""

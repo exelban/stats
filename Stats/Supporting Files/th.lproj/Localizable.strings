@@ -74,6 +74,9 @@
 "Name" = "Name";
 "Format" = "Format";
 "Turn off" = "Turn off";
+"Warning" = "Warning";
+"Critical" = "Critical";
+"Usage" = "Usage";
 
 // Setup
 "Stats Setup" = "การตั้งค่าสถิติ";
@@ -230,6 +233,11 @@
 "Cluster grouping" = "การจัดกลุ่ม Cluster";
 "Efficiency cores color" = "Efficiency cores color";
 "Performance cores color" = "Performance cores color";
+"Total load" = "Total load";
+"System load" = "System load";
+"User load" = "User load";
+"Efficiency cores load" = "Efficiency cores load";
+"Performance cores load" = "Performance cores load";
 
 // GPU
 "GPU to show" = "แสดง GPU";
@@ -269,6 +277,9 @@
 "Wired color" = "สี Wired";
 "Compressed color" = "สีที่บีบอัด";
 "Free color" = "สีที่ว่าง";
+"Free memory (less than)" = "Free memory (less than)";
+"Swap size" = "Swap size";
+"Free RAM is" = "Free RAM is %0";
 
 // Disk
 "Show removable disks" = "แสดงดิสก์ถอดได้";
@@ -299,6 +310,7 @@
 "Fan value" = "ค่าพัดลม";
 "Turn off fan" = "Turn off fan";
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?";
+"Sensor threshold" = "Sensor threshold";
 
 // Network
 "Uploading" = "กำลังอัปโหลด";

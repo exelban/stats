@@ -1076,7 +1076,7 @@ public class SMCHelper {
         guard let helper = self.helper(nil) else { return }
         helper.setFanSpeed(id: id, value: speed) { result in
             if let result, !result.isEmpty {
-                print(result)
+                NSLog("set fan speed: \(result)")
             }
         }
     }
@@ -1085,8 +1085,15 @@ public class SMCHelper {
         guard let helper = self.helper(nil) else { return }
         helper.setFanMode(id: id, mode: mode) { result in
             if let result, !result.isEmpty {
-                print(result)
+                NSLog("set fan mode: \(result)")
             }
+        }
+    }
+    
+    public func powermetrics(_ samplers: [String], completion: @escaping (String?) -> Void) {
+        guard let helper = self.helper(nil) else { return }
+        helper.powermetrics(samplers) { result in
+            completion(result)
         }
     }
     

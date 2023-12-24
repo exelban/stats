@@ -290,19 +290,20 @@ public class LineChartView: NSView {
 public class NetworkChartView: NSView {
     public var id: String = UUID().uuidString
     public var base: DataSizeBase = .byte
-    public var inColor: NSColor
-    public var outColor: NSColor
+    public var topColor: NSColor
+    public var bottomColor: NSColor
     public var points: [(Double, Double)]
     
     private var minMax: Bool = false
     private var scale: Scale = .none
     private var commonScale: Bool = true
+    private var reverseOrder: Bool = false
     
     public init(frame: NSRect, num: Int, minMax: Bool = true, outColor: NSColor = .systemRed, inColor: NSColor = .systemBlue) {
         self.minMax = minMax
         self.points = Array(repeating: (0, 0), count: num)
-        self.outColor = outColor
-        self.inColor = inColor
+        self.topColor = inColor
+        self.bottomColor = outColor
         super.init(frame: frame)
     }
     
@@ -317,20 +318,20 @@ public class NetworkChartView: NSView {
         context.setShouldAntialias(true)
         
         let points = self.points
-        var uploadMax: Double = points.map{ $0.0 }.max() ?? 0
-        var downloadMax: Double = points.map{ $0.1 }.max() ?? 0
-        if uploadMax == 0 {
-            uploadMax = 1
+        var topMax: Double = (self.reverseOrder ? points.map{ $0.1 }.max() : points.map{ $0.0 }.max()) ?? 0
+        var bottomMax: Double = (self.reverseOrder ? points.map{ $0.0 }.max() : points.map{ $0.1 }.max()) ?? 0
+        if topMax == 0 {
+            topMax = 1
         }
-        if downloadMax == 0 {
-            downloadMax = 1
+        if bottomMax == 0 {
+            bottomMax = 1
         }
         
         if !self.commonScale {
-            if downloadMax > uploadMax {
-                uploadMax = downloadMax
+            if bottomMax > topMax {
+                topMax = bottomMax
             } else {
-                downloadMax = uploadMax
+                bottomMax = topMax
             }
         }
         
@@ -341,29 +342,35 @@ public class NetworkChartView: NSView {
         let columnXPoint = { (point: Int) -> CGFloat in
             return (CGFloat(point) * xRatio) + (self.frame.origin.x - lineWidth)
         }
-        let uploadYPoint = { (point: Int) -> CGFloat in
-            return scaleValue(scale: self.scale, value: points[point].0, maxValue: uploadMax, maxHeight: self.frame.height/2) + (self.frame.height/2 + self.frame.origin.y)
+        
+        let topYPoint = { (point: Int) -> CGFloat in
+            let value = self.reverseOrder ? points[point].1 : points[point].0
+            return scaleValue(scale: self.scale, value: value, maxValue: topMax, maxHeight: self.frame.height/2) + (self.frame.height/2 + self.frame.origin.y)
         }
-        let downloadYPoint = { (point: Int) -> CGFloat in
-            return (self.frame.height/2 + self.frame.origin.y) - scaleValue(scale: self.scale, value: points[point].1, maxValue: downloadMax, maxHeight: self.frame.height/2)
+        let bottomYPoint = { (point: Int) -> CGFloat in
+            let value = self.reverseOrder ? points[point].0 : points[point].1
+            return (self.frame.height/2 + self.frame.origin.y) - scaleValue(scale: self.scale, value: value, maxValue: bottomMax, maxHeight: self.frame.height/2)
         }
         
         let uploadlinePath = NSBezierPath()
-        uploadlinePath.move(to: CGPoint(x: columnXPoint(0), y: uploadYPoint(0)))
+        uploadlinePath.move(to: CGPoint(x: columnXPoint(0), y: topYPoint(0)))
         
         let downloadlinePath = NSBezierPath()
-        downloadlinePath.move(to: CGPoint(x: columnXPoint(0), y: downloadYPoint(0)))
+        downloadlinePath.move(to: CGPoint(x: columnXPoint(0), y: bottomYPoint(0)))
         
         for i in 1..<points.count {
-            uploadlinePath.line(to: CGPoint(x: columnXPoint(i), y: uploadYPoint(i)))
-            downloadlinePath.line(to: CGPoint(x: columnXPoint(i), y: downloadYPoint(i)))
+            uploadlinePath.line(to: CGPoint(x: columnXPoint(i), y: topYPoint(i)))
+            downloadlinePath.line(to: CGPoint(x: columnXPoint(i), y: bottomYPoint(i)))
         }
         
-        self.outColor.setStroke()
+        let topColor = self.reverseOrder ? self.bottomColor : self.topColor
+        let bottomColor = self.reverseOrder ? self.topColor : self.bottomColor
+        
+        bottomColor.setStroke()
         uploadlinePath.lineWidth = lineWidth
         uploadlinePath.stroke()
         
-        self.inColor.setStroke()
+        topColor.setStroke()
         downloadlinePath.lineWidth = lineWidth
         downloadlinePath.stroke()
         
@@ -374,7 +381,7 @@ public class NetworkChartView: NSView {
         underLinePath.line(to: CGPoint(x: columnXPoint(0), y: zero))
         underLinePath.close()
         underLinePath.addClip()
-        self.outColor.withAlphaComponent(0.5).setFill()
+        bottomColor.withAlphaComponent(0.5).setFill()
         NSBezierPath(rect: self.frame).fill()
         
         context.restoreGState()
@@ -385,7 +392,7 @@ public class NetworkChartView: NSView {
         underLinePath.line(to: CGPoint(x: columnXPoint(0), y: zero))
         underLinePath.close()
         underLinePath.addClip()
-        self.inColor.withAlphaComponent(0.5).setFill()
+        topColor.withAlphaComponent(0.5).setFill()
         NSBezierPath(rect: self.frame).fill()
         
         context.restoreGState()
@@ -396,16 +403,16 @@ public class NetworkChartView: NSView {
                 NSAttributedString.Key.foregroundColor: isDarkMode ? NSColor.white : NSColor.textColor,
                 NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
             ]
-            let uploadText = Units(bytes: Int64(uploadMax)).getReadableSpeed(base: self.base)
-            let downloadText = Units(bytes: Int64(downloadMax)).getReadableSpeed(base: self.base)
-            let uploadTextWidth = uploadText.widthOfString(usingFont: stringAttributes[NSAttributedString.Key.font] as! NSFont)
-            let downloadTextWidth = downloadText.widthOfString(usingFont: stringAttributes[NSAttributedString.Key.font] as! NSFont)
+            let topText = Units(bytes: Int64(topMax)).getReadableSpeed(base: self.base)
+            let bottomText = Units(bytes: Int64(bottomMax)).getReadableSpeed(base: self.base)
+            let topTextWidth = topText.widthOfString(usingFont: stringAttributes[NSAttributedString.Key.font] as! NSFont)
+            let bottomTextWidth = bottomText.widthOfString(usingFont: stringAttributes[NSAttributedString.Key.font] as! NSFont)
             
-            var rect = CGRect(x: 1, y: self.frame.height - 9, width: uploadTextWidth, height: 8)
-            NSAttributedString.init(string: uploadText, attributes: stringAttributes).draw(with: rect)
+            var rect = CGRect(x: 1, y: self.frame.height - 9, width: topTextWidth, height: 8)
+            NSAttributedString.init(string: topText, attributes: stringAttributes).draw(with: rect)
             
-            rect = CGRect(x: 1, y: 2, width: downloadTextWidth, height: 8)
-            NSAttributedString.init(string: downloadText, attributes: stringAttributes).draw(with: rect)
+            rect = CGRect(x: 1, y: 2, width: bottomTextWidth, height: 8)
+            NSAttributedString.init(string: bottomText, attributes: stringAttributes).draw(with: rect)
         }
     }
     
@@ -439,15 +446,23 @@ public class NetworkChartView: NSView {
         }
     }
     
+    public func setReverseOrder(_ newValue: Bool) {
+        self.reverseOrder = newValue
+        
+        if self.window?.isVisible ?? false {
+            self.display()
+        }
+    }
+    
     public func setColors(in inColor: NSColor? = nil, out outColor: NSColor? = nil) {
         var needUpdate: Bool = false
         
-        if let newColor = inColor, self.inColor != newColor {
-            self.inColor = newColor
+        if let newColor = inColor, self.topColor != newColor {
+            self.topColor = newColor
             needUpdate = true
         }
-        if let newColor = outColor, self.outColor != newColor {
-            self.outColor = newColor
+        if let newColor = outColor, self.bottomColor != newColor {
+            self.bottomColor = newColor
             needUpdate = true
         }
         

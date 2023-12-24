@@ -14,6 +14,10 @@ import Cocoa
 extension String: LocalizedError {
     public var errorDescription: String? { return self }
     
+    public var digits: String {
+        return components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
+    }
+    
     public func widthOfString(usingFont font: NSFont) -> CGFloat {
         let fontAttributes = [NSAttributedString.Key.font: font]
         let size = self.size(withAttributes: fontAttributes)

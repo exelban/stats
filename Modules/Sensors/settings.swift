@@ -152,7 +152,7 @@ internal class Settings: NSStackView, Settings_v {
             
             groups.forEach { (group: SensorGroup) in
                 filtered.filter{ $0.group == group }.forEach { (s: Sensor_p) in
-                    let row: NSView = toggleSettingRow(title: s.name, action: #selector(self.toggleFan), state: s.state)
+                    let row: NSView = toggleSettingRow(title: localizedString(s.name), action: #selector(self.toggleFan), state: s.state)
                     row.subviews.filter{ $0 is NSControl }.forEach { (control: NSView) in
                         control.identifier = NSUserInterfaceItemIdentifier(rawValue: s.key)
                     }

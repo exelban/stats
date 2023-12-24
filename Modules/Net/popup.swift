@@ -45,6 +45,7 @@ internal class Popup: PopupWrapper {
     private var publicIPv4Field: ValueField? = nil
     private var publicIPv6Field: ValueField? = nil
     
+    private var ssidField: ValueField? = nil
     private var standardField: ValueField? = nil
     private var channelField: ValueField? = nil
     
@@ -89,6 +90,7 @@ internal class Popup: PopupWrapper {
         }
         return value
     }
+    private var reverseOrderState: Bool = false
     
     private var latency: [Double] = []
     
@@ -104,6 +106,7 @@ internal class Popup: PopupWrapper {
         
         self.downloadColorState = Color.fromString(Store.shared.string(key: "\(self.title)_downloadColor", defaultValue: self.downloadColorState.key))
         self.uploadColorState = Color.fromString(Store.shared.string(key: "\(self.title)_uploadColor", defaultValue: self.uploadColorState.key))
+        self.reverseOrderState = Store.shared.bool(key: "\(self.title)_reverseOrder", defaultValue: self.reverseOrderState)
         
         self.spacing = 0
         self.orientation = .vertical
@@ -176,6 +179,7 @@ internal class Popup: PopupWrapper {
             frame: NSRect(x: 0, y: 1, width: container.frame.width, height: container.frame.height - 2),
             num: 120, outColor: self.uploadColor, inColor: self.downloadColor
         )
+        chart.setReverseOrder(self.reverseOrderState)
         chart.base = self.base
         container.addSubview(chart)
         self.chart = chart
@@ -245,6 +249,7 @@ internal class Popup: PopupWrapper {
         self.latencyField = popupRow(container, n: 0, title: "\(localizedString("Latency")):", value: "0 ms").1
         
         self.interfaceField = popupRow(container, n: 0, title: "\(localizedString("Interface")):", value: localizedString("Unknown")).1
+        self.ssidField = popupRow(container, n: 0, title: "\(localizedString("Network")):", value: localizedString("Unknown")).1
         self.standardField = popupRow(container, n: 0, title: "\(localizedString("Standard")):", value: localizedString("Unknown")).1
         self.channelField = popupRow(container, n: 0, title: "\(localizedString("Channel")):", value: localizedString("Unknown")).1
         
@@ -371,11 +376,7 @@ internal class Popup: PopupWrapper {
                 }
                 
                 if let interface = value.interface {
-                    var details = interface.BSDName
-                    if value.connectionType == .wifi, let v = value.wifiDetails.RSSI {
-                        details += ", \(v)"
-                    }
-                    self.interfaceField?.stringValue = "\(interface.displayName) (\(details))"
+                    self.interfaceField?.stringValue = "\(interface.displayName) (\(interface.BSDName))"
                     self.macAddressField?.stringValue = interface.address
                 } else {
                     self.interfaceField?.stringValue = localizedString("Unknown")
@@ -383,6 +384,10 @@ internal class Popup: PopupWrapper {
                 }
                 
                 if value.connectionType == .wifi {
+                    self.ssidField?.stringValue = value.wifiDetails.ssid ?? localizedString("Unknown")
+                    if let v = value.wifiDetails.RSSI {
+                        self.ssidField?.stringValue += " (\(v))"
+                    }
                     var rssi = localizedString("Unknown")
                     if let v = value.wifiDetails.RSSI {
                         rssi = "\(v) dBm"
@@ -404,6 +409,7 @@ internal class Popup: PopupWrapper {
                     let width = value.wifiDetails.channelWidth ?? localizedString("Unknown")
                     self.channelField?.toolTip = "RSSI: \(rssi)\nNoise: \(noise)\nChannel number: \(number)\nChannel band: \(band)\nChannel width: \(width)\nTransmit rate: \(txRate)"
                 } else {
+                    self.ssidField?.stringValue = localizedString("Unavailable")
                     self.standardField?.stringValue = localizedString("Unavailable")
                     self.channelField?.stringValue = localizedString("Unavailable")
                 }
@@ -513,6 +519,12 @@ internal class Popup: PopupWrapper {
             selected: self.downloadColorState.key
         ))
         
+        view.addArrangedSubview(toggleSettingRow(
+            title: localizedString("Reverse order"),
+            action: #selector(toggleReverseOrder),
+            state: self.reverseOrderState
+        ))
+        
         return view
     }
     
@@ -541,6 +553,12 @@ internal class Popup: PopupWrapper {
             self.downloadStateView?.setColor(color)
             self.chart?.setColors(in: color)
         }
+    }
+    @objc private func toggleReverseOrder(_ sender: NSControl) {
+        self.reverseOrderState = controlState(sender)
+        self.chart?.setReverseOrder(self.reverseOrderState)
+        Store.shared.set(key: "\(self.title)_reverseOrder", value: self.reverseOrderState)
+        self.display()
     }
     
     // MARK: - helpers

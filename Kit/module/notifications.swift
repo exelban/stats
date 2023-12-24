@@ -38,6 +38,12 @@ open class NotificationsWrapper: NSStackView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    public func willTerminate() {
+        for id in self.ids {
+            removeNotification(id.key)
+        }
+    }
+    
     public func initIDs(_ ids: [String]) {
         for id in ids {
             let notificationID = "Stats_\(self.module)_\(id)"
@@ -59,6 +65,14 @@ open class NotificationsWrapper: NSStackView {
         if self.ids[id] == nil && second {
             self.showNotification(id: id, title: title, subtitle: subtitle)
             self.ids[id] = true
+        }
+    }
+    
+    public func hideNotification(_ rid: String) {
+        let id = "Stats_\(self.module)_\(rid)"
+        if self.ids[id] != nil {
+            removeNotification(id)
+            self.ids[id] = nil
         }
     }
     

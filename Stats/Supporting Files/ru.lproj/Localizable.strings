@@ -74,6 +74,9 @@
 "Name" = "Название";
 "Format" = "Формат";
 "Turn off" = "Выключить";
+"Warning" = "Предупреждение";
+"Critical" = "Критический";
+"Usage" = "Использование";
 
 // Setup
 "Stats Setup" = "Настройки Stats";
@@ -230,6 +233,11 @@
 "Cluster grouping" = "Кластерная группировка";
 "Efficiency cores color" = "Цвет энергоэффективных ядер";
 "Performance cores color" = "Цвет производительных ядер";
+"Total load" = "Общая нагрузка";
+"System load" = "Системная нагрузка";
+"User load" = "Пользовательская нагрузка";
+"Efficiency cores load" = "Нагрузка энергоэффективных ядер";
+"Performance cores load" = "Нагрузка производительных ядер";
 
 // GPU
 "GPU to show" = "Активный графический процессор";
@@ -269,6 +277,9 @@
 "Wired color" = "Цвет зарезервированной памяти";
 "Compressed color" = "Цвет сжатой памяти";
 "Free color" = "Цвет свободной памяти";
+"Free memory (less than)" = "Свободная память (менее чем)";
+"Swap size" = "Размер swap";
+"Free RAM is" = "Свободная оперативная память %0";
 
 // Disk
 "Show removable disks" = "Показать съемные диски";
@@ -299,6 +310,7 @@
 "Fan value" = "Значение вентилятора";
 "Turn off fan" = "Выключить вентилятор";
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Вы собираетесь выключить вентилятор. Это не рекомендуемое действие, которое может сломать ваш Mac. Вы уверены, что хотите это сделать?";
+"Sensor threshold" = "Sensor threshold";
 
 // Network
 "Uploading" = "Выгрузка";

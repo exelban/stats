@@ -44,6 +44,7 @@ public protocol Sensor_p {
     var isComputed: Bool { get }
     var average: Bool { get }
     
+    var localValue: Double { get }
     var unit: String { get }
     var formattedValue: String { get }
     var formattedMiniValue: String { get }
@@ -136,74 +137,72 @@ public struct Sensor: Sensor_p, Codable {
     public var average: Bool = false
     
     public var unit: String {
-        get {
-            switch self.type {
-            case .temperature:
-                return UnitTemperature.current.symbol
-            case .voltage:
-                return "V"
-            case .power:
-                return "W"
-            case .energy:
-                return "Wh"
-            case .current:
-                return "A"
-            case .fan:
-                return "RPM"
-            }
+        switch self.type {
+        case .temperature:
+            return UnitTemperature.current.symbol
+        case .voltage:
+            return "V"
+        case .power:
+            return "W"
+        case .energy:
+            return "Wh"
+        case .current:
+            return "A"
+        case .fan:
+            return "RPM"
         }
     }
     
     public var formattedValue: String {
-        get {
-            switch self.type {
-            case .temperature:
-                return temperature(value)
-            case .voltage:
-                let val = value >= 100 ? "\(Int(value))" : String(format: "%.3f", value)
-                return "\(val)\(unit)"
-            case .power, .energy:
-                let val = value >= 100 ? "\(Int(value))" : String(format: "%.2f", value)
-                return "\(val)\(unit)"
-            case .current:
-                let val = value >= 100 ? "\(Int(value))" : String(format: "%.2f", value)
-                return "\(val)\(unit)"
-            case .fan:
-                return "\(Int(value)) \(unit)"
-            }
+        switch self.type {
+        case .temperature:
+            return temperature(value)
+        case .voltage:
+            let val = value >= 100 ? "\(Int(value))" : String(format: "%.3f", value)
+            return "\(val)\(unit)"
+        case .power, .energy:
+            let val = value >= 100 ? "\(Int(value))" : String(format: "%.2f", value)
+            return "\(val)\(unit)"
+        case .current:
+            let val = value >= 100 ? "\(Int(value))" : String(format: "%.2f", value)
+            return "\(val)\(unit)"
+        case .fan:
+            return "\(Int(value)) \(unit)"
         }
     }
     public var formattedPopupValue: String {
-        get {
-            switch self.type {
-            case .temperature:
-                return temperature(value, fractionDigits: 1)
-            case .voltage:
-                let val = value >= 100 ? "\(Int(value))" : String(format: "%.3f", value)
-                return "\(val)\(unit)"
-            case .power, .energy:
-                let val = value >= 100 ? "\(Int(value))" : String(format: "%.2f", value)
-                return "\(val)\(unit)"
-            case .current:
-                let val = value >= 100 ? "\(Int(value))" : String(format: "%.2f", value)
-                return "\(val)\(unit)"
-            case .fan:
-                return "\(Int(value)) \(unit)"
-            }
+        switch self.type {
+        case .temperature:
+            return temperature(value, fractionDigits: 1)
+        case .voltage:
+            let val = value >= 100 ? "\(Int(value))" : String(format: "%.3f", value)
+            return "\(val)\(unit)"
+        case .power, .energy:
+            let val = value >= 100 ? "\(Int(value))" : String(format: "%.2f", value)
+            return "\(val)\(unit)"
+        case .current:
+            let val = value >= 100 ? "\(Int(value))" : String(format: "%.2f", value)
+            return "\(val)\(unit)"
+        case .fan:
+            return "\(Int(value)) \(unit)"
         }
     }
     public var formattedMiniValue: String {
-        get {
-            switch self.type {
-            case .temperature:
-                return temperature(value).replacingOccurrences(of: "C", with: "").replacingOccurrences(of: "F", with: "")
-            case .voltage, .power, .energy, .current:
-                let val = value >= 9.95 ? "\(Int(round(value)))" : String(format: "%.1f", value)
-                return "\(val)\(unit)"
-            case .fan:
-                return "\(Int(value))"
-            }
+        switch self.type {
+        case .temperature:
+            return temperature(value).replacingOccurrences(of: "C", with: "").replacingOccurrences(of: "F", with: "")
+        case .voltage, .power, .energy, .current:
+            let val = value >= 9.95 ? "\(Int(round(value)))" : String(format: "%.1f", value)
+            return "\(val)\(unit)"
+        case .fan:
+            return "\(Int(value))"
         }
+    }
+    public var localValue: Double {
+        if self.type == .temperature {
+            return Double(self.formattedMiniValue.digits) ?? self.value
+        }
+        return self.value
     }
     
     public var state: Bool {
@@ -254,13 +253,16 @@ public struct Fan: Sensor_p, Codable {
     public var unit: String = "RPM"
     
     public var formattedValue: String {
-        "\(Int(value)) RPM"
+        "\(Int(self.value)) RPM"
     }
     public var formattedMiniValue: String {
-        "\(Int(value))"
+        "\(Int(self.value))"
     }
     public var formattedPopupValue: String {
-        "\(Int(value)) RPM"
+        "\(Int(self.value)) RPM"
+    }
+    public var localValue: Double {
+        return self.value
     }
     
     public var state: Bool {
@@ -367,9 +369,6 @@ internal let SensorsList: [Sensor] = [
     Sensor(key: "Tm06", name: "Memory 2", group: .sensor, type: .temperature, platforms: [.m1, .m1Pro, .m1Max, .m1Ultra]),
     Sensor(key: "Tm08", name: "Memory 3", group: .sensor, type: .temperature, platforms: [.m1, .m1Pro, .m1Max, .m1Ultra]),
     Sensor(key: "Tm09", name: "Memory 4", group: .sensor, type: .temperature, platforms: [.m1, .m1Pro, .m1Max, .m1Ultra]),
-    
-    Sensor(key: "TCMb", name: "Media Engine 1", group: .sensor, type: .temperature, platforms: [.m1, .m1Pro, .m1Max, .m1Ultra]),
-    Sensor(key: "TCMz", name: "Media Engine 2", group: .sensor, type: .temperature, platforms: [.m1, .m1Pro, .m1Max, .m1Ultra]),
     
     // M2
     Sensor(key: "Tp0A", name: "CPU core 1", group: .CPU, type: .temperature, platforms: [.m2, .m2Max, .m2Pro, .m2Ultra], average: true),

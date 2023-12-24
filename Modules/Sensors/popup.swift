@@ -161,7 +161,7 @@ internal class Popup: PopupWrapper {
 
                 groups.forEach { (group: SensorGroup) in
                     filtered.filter{ $0.group == group }.forEach { (s: Sensor_p) in
-                        let row: NSView = toggleSettingRow(title: s.name, action: #selector(self.toggleSensor), state: s.popupState)
+                        let row: NSView = toggleSettingRow(title: localizedString(s.name), action: #selector(self.toggleSensor), state: s.popupState)
                         row.subviews.filter{ $0 is NSControl }.forEach { (control: NSView) in
                             control.identifier = NSUserInterfaceItemIdentifier(rawValue: s.key)
                         }
@@ -330,7 +330,7 @@ internal class SensorView: NSStackView {
     }
     
     public func addHistoryPoint(_ sensor: Sensor_p) {
-        self.chartView.update(sensor.value)
+        self.chartView.update(sensor.localValue)
     }
     
     private func open() {

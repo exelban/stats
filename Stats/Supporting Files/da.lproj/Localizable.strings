@@ -74,6 +74,9 @@
 "Name" = "Navn";
 "Format" = "Format";
 "Turn off" = "Sluk";
+"Warning" = "Warning";
+"Critical" = "Critical";
+"Usage" = "Usage";
 
 // Setup
 "Stats Setup" = "Stats opsætning";
@@ -230,6 +233,11 @@
 "Cluster grouping" = "Grupper efter type";
 "Efficiency cores color" = "Efficiency kerner farve";
 "Performance cores color" = "Performance kerner farve";
+"Total load" = "Total load";
+"System load" = "System load";
+"User load" = "User load";
+"Efficiency cores load" = "Efficiency cores load";
+"Performance cores load" = "Performance cores load";
 
 // GPU
 "GPU to show" = "GPU der vises";
@@ -269,6 +277,9 @@
 "Wired color" = "Brugt farve";
 "Compressed color" = "Komprimeret farve";
 "Free color" = "Fri farve";
+"Free memory (less than)" = "Free memory (less than)";
+"Swap size" = "Swap size";
+"Free RAM is" = "Free RAM is %0";
 
 // Disk
 "Show removable disks" = "Vis eksterne diske";
@@ -299,6 +310,7 @@
 "Fan value" = "Blæserværdi";
 "Turn off fan" = "Turn off fan";
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Du er ved at slukke for blæseren. Dette er ikke en anbefalet handling, da det kan skade din Mac. Er du sikker på du vil fortsætte?";
+"Sensor threshold" = "Sensor threshold";
 
 // Network
 "Uploading" = "Upload";

@@ -255,6 +255,8 @@ public var isARM: Bool {
 
 public let notificationLevels: [KeyValue_t] = [
     KeyValue_t(key: "", value: "Disabled"),
+    KeyValue_t(key: "0.03", value: "3%"),
+    KeyValue_t(key: "0.05", value: "5%"),
     KeyValue_t(key: "0.1", value: "10%"),
     KeyValue_t(key: "0.15", value: "15%"),
     KeyValue_t(key: "0.2", value: "20%"),

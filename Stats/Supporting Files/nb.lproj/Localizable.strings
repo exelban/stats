@@ -74,6 +74,9 @@
 "Name" = "Navn";
 "Format" = "Format";
 "Turn off" = "Slå av";
+"Warning" = "Warning";
+"Critical" = "Critical";
+"Usage" = "Usage";
 
 // Setup
 "Stats Setup" = "Stats-oppsett";
@@ -230,6 +233,11 @@
 "Cluster grouping" = "Klyngegruppering";
 "Efficiency cores color" = "Farge på effektivitetskjerner";
 "Performance cores color" = "Farge på ytelseskjerner";
+"Total load" = "Total load";
+"System load" = "System load";
+"User load" = "User load";
+"Efficiency cores load" = "Efficiency cores load";
+"Performance cores load" = "Performance cores load";
 
 // GPU
 "GPU to show" = "GPU å vise";
@@ -269,6 +277,9 @@
 "Wired color" = "Bundet farge";
 "Compressed color" = "Komprimert farge";
 "Free color" = "Ledig farge";
+"Free memory (less than)" = "Free memory (less than)";
+"Swap size" = "Swap size";
+"Free RAM is" = "Free RAM is %0";
 
 // Disk
 "Show removable disks" = "Vis utløsbare disker";
@@ -299,6 +310,7 @@
 "Fan value" = "Vifteverdi";
 "Turn off fan" = "Slå av viften";
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Du slå nå av viften. Dette er en ikke-anbefalt handling som kan skade Mac-en din, er du sikker på at vil gjøre dette?";
+"Sensor threshold" = "Sensor threshold";
 
 // Network
 "Uploading" = "Opplasting";

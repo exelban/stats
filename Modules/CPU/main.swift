@@ -32,13 +32,6 @@ public struct CPU_Limit: Codable {
     var speed: Int = 0
 }
 
-public struct CPU_Frequency: Codable {
-    var ECores: Int? = nil
-    var PCores: Int? = nil
-    var power: Int? = nil
-    var cores: [Int] = []
-}
-
 public class CPU: Module {
     private let popupView: Popup
     private let settingsView: Settings

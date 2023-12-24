@@ -74,6 +74,9 @@
 "Name" = "Nazwa";
 "Format" = "Format";
 "Turn off" = "Wyłączyć";
+"Warning" = "Ostrzeżenie";
+"Critical" = "Krytyczny";
+"Usage" = "Wykorzystanie";
 
 // Setup
 "Stats Setup" = "Konfiguracja Stats";
@@ -230,6 +233,11 @@
 "Cluster grouping" = "Grupowanie klastrów";
 "Efficiency cores color" = "Kolor rdzeni energooszczędnych";
 "Performance cores color" = "Kolor rdzeni wydajnościowych";
+"Total load" = "Całkowite obciążenie";
+"System load" = "Obciążenie systemu";
+"User load" = "Obciążenie użytkownika";
+"Efficiency cores load" = "Obciążenie rdzeni energooszczędnych";
+"Performance cores load" = "Obciążenie rdzeni wydajnościowych";
 
 // GPU
 "GPU to show" = "GPU do wyświetlenia";
@@ -269,6 +277,9 @@
 "Wired color" = "Kolor układowej przestrzeni";
 "Compressed color" = "Kolor skompresowanej przestrzeni";
 "Free color" = "Kolor wolnej przestrzeni";
+"Free memory (less than)" = "Wolna pamięć (mniej niż)";
+"Swap size" = "Rozmiar swap";
+"Free RAM is" = "Wolna pamięć RAM %0";
 
 // Disk
 "Show removable disks" = "Pokaż dyski wymienne";
@@ -299,6 +310,7 @@
 "Fan value" = "Wartość wentylatora";
 "Turn off fan" = "Wyłączyć wentylator";
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Zamierzasz wyłączyć wentylator. To nie jest zalecana czynność, która może spowodować uszkodzenie komputera Mac. Czy na pewno chcesz to zrobić?";
+"Sensor threshold" = "Próg czujnika";
 
 // Network
 "Uploading" = "Wysyłanie";

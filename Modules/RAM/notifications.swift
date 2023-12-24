@@ -57,7 +57,7 @@ class Notifications: NotificationsWrapper {
         self.swapSize = Store.shared.string(key: "\(self.module)_notifications_swap", defaultValue: self.swapSize)
         
         self.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Total usage"),
+            title: localizedString("Usage"),
             action: #selector(self.changeTotalUsage),
             items: notificationLevels,
             selected: self.totalUsageLevel
@@ -106,14 +106,14 @@ class Notifications: NotificationsWrapper {
                     value: Double(value.pressureLevel.rawValue),
                     threshold: Double(threshold.rawValue),
                     title: title,
-                    subtitle: localizedString("RAM pressure is", thresholdPair.key)
+                    subtitle: "\(localizedString("Memory pressure")): \(thresholdPair.key)"
                 )
             }
         }
         
         if let threshold = Double(self.swapSize) {
             let value = Units(bytes: Int64(value.swap.used))
-            let subtitle = localizedString("RAM swap size is", value.getReadableMemory())
+            let subtitle = "\(localizedString("Swap size")): \(value.getReadableMemory())"
             self.checkDouble(id: self.freeID, value: value.megabytes, threshold: threshold, title: title, subtitle: subtitle)
         }
     }

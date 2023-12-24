@@ -74,6 +74,9 @@
 "Name" = "이름";
 "Format" = "형식";
 "Turn off" = "끄기";
+"Warning" = "Warning";
+"Critical" = "Critical";
+"Usage" = "Usage";
 
 // Setup
 "Stats Setup" = "Stats 설정";
@@ -230,6 +233,11 @@
 "Cluster grouping" = "클러스터 묶기";
 "Efficiency cores color" = "효율 코어 색상";
 "Performance cores color" = "성능 코어 색상";
+"Total load" = "Total load";
+"System load" = "System load";
+"User load" = "User load";
+"Efficiency cores load" = "Efficiency cores load";
+"Performance cores load" = "Performance cores load";
 
 // GPU
 "GPU to show" = "표시할 GPU";
@@ -269,6 +277,9 @@
 "Wired color" = "연결됨 색상";
 "Compressed color" = "압축됨 색상";
 "Free color" = "여유 색상";
+"Free memory (less than)" = "Free memory (less than)";
+"Swap size" = "Swap size";
+"Free RAM is" = "Free RAM is %0";
 
 // Disk
 "Show removable disks" = "이동식 디스크 표시";
@@ -299,6 +310,7 @@
 "Fan value" = "팬 값";
 "Turn off fan" = "팬 끄기";
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "팬을 끄려고 합니다. 팬을 끄는 행위는 Mac을 손상시킬 수 있으므로 권장하지 않습니다. 정말 팬을 끄겠습니까?";
+"Sensor threshold" = "Sensor threshold";
 
 // Network
 "Uploading" = "업로드";

@@ -74,6 +74,9 @@
 "Name" = "Név";
 "Format" = "Formátum";
 "Turn off" = "Turn off";
+"Warning" = "Warning";
+"Critical" = "Critical";
+"Usage" = "Usage";
 
 // Setup
 "Stats Setup" = "A Stats beállítása";
@@ -230,6 +233,11 @@
 "Cluster grouping" = "Csoportosítás";
 "Efficiency cores color" = "Energiatakarékos magok színe";
 "Performance cores color" = "Teljesítmény magok színe";
+"Total load" = "Total load";
+"System load" = "System load";
+"User load" = "User load";
+"Efficiency cores load" = "Efficiency cores load";
+"Performance cores load" = "Performance cores load";
 
 // GPU
 "GPU to show" = "Megjelenítendő GPU";
@@ -269,6 +277,9 @@
 "Wired color" = "Nem lapozható színe";
 "Compressed color" = "Tömörített színe";
 "Free color" = "Szabad színe";
+"Free memory (less than)" = "Free memory (less than)";
+"Swap size" = "Swap size";
+"Free RAM is" = "Free RAM is %0";
 
 // Disk
 "Show removable disks" = "Eltávolítható adattárolók megjelenítése";
@@ -299,6 +310,7 @@
 "Fan value" = "Ventillátor érték";
 "Turn off fan" = "Turn off fan";
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?";
+"Sensor threshold" = "Sensor threshold";
 
 // Network
 "Uploading" = "Feltöltés";

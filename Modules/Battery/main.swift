@@ -49,6 +49,7 @@ public class Battery: Module {
     private let popupView: Popup
     private let settingsView: Settings
     private let portalView: Portal
+    private let notificationsView: Notifications
     
     private var usageReader: UsageReader? = nil
     private var processReader: ProcessReader? = nil
@@ -61,11 +62,13 @@ public class Battery: Module {
         self.settingsView = Settings("Battery")
         self.popupView = Popup("Battery")
         self.portalView = Portal("Battery")
+        self.notificationsView = Notifications(.battery)
         
         super.init(
             popup: self.popupView,
             settings: self.settingsView,
-            portal: self.portalView
+            portal: self.portalView,
+            notifications: self.notificationsView
         )
         guard self.available else { return }
         
@@ -107,10 +110,7 @@ public class Battery: Module {
     
     public override func willTerminate() {
         guard self.isAvailable() else { return }
-        
-        if let id = self.notificationID {
-            removeNotification(id)
-        }
+        self.notificationsView.willTerminate()
     }
     
     public override func isAvailable() -> Bool {
@@ -122,10 +122,9 @@ public class Battery: Module {
     private func usageCallback(_ raw: Battery_Usage?) {
         guard let value = raw, self.enabled else { return }
         
-        self.checkLowNotification(value: value)
-        self.checkHighNotification(value: value)
         self.popupView.usageCallback(value)
         self.portalView.loadCallback(value)
+        self.notificationsView.usageCallback(value)
         
         self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
             switch w.item {
@@ -150,76 +149,6 @@ public class Battery: Module {
                 )
             default: break
             }
-        }
-    }
-    
-    private func checkLowNotification(value: Battery_Usage) {
-        let level = Store.shared.string(key: "\(self.config.name)_lowLevelNotification", defaultValue: "0.15")
-        if level == "Disabled" {
-            return
-        }
-        
-        guard let notificationLevel = Double(level) else {
-            return
-        }
-        
-        if (value.level > notificationLevel || !value.isBatteryPowered) && self.lowLevelNotificationState {
-            if value.level > notificationLevel {
-                if let id = self.notificationID {
-                    removeNotification(id)
-                    self.notificationID = nil
-                }
-                self.lowLevelNotificationState = false
-            }
-            return
-        }
-        
-        if value.isCharging {
-            return
-        }
-        
-        if value.level <= notificationLevel && !self.lowLevelNotificationState {
-            var subtitle = localizedString("Battery remaining", "\(Int(value.level*100))")
-            if value.timeToEmpty > 0 {
-                subtitle += " (\(Double(value.timeToEmpty*60).printSecondsToHoursMinutesSeconds()))"
-            }
-            self.notificationID = showNotification(title: localizedString("Low battery"), subtitle: subtitle)
-            self.lowLevelNotificationState = true
-        }
-    }
-    
-    private func checkHighNotification(value: Battery_Usage) {
-        let level = Store.shared.string(key: "\(self.config.name)_highLevelNotification", defaultValue: "Disabled")
-        if level == "Disabled" {
-            return
-        }
-        
-        guard let notificationLevel = Double(level) else {
-            return
-        }
-        
-        if (value.level < notificationLevel || value.isBatteryPowered) && self.highLevelNotificationState {
-            if value.level < notificationLevel {
-                if let id = self.notificationID {
-                    removeNotification(id)
-                    self.notificationID = nil
-                }
-                self.highLevelNotificationState = false
-            }
-            return
-        }
-        
-        if !value.isCharging {
-            return
-        }
-        
-        if value.level >= notificationLevel && !self.highLevelNotificationState {
-            var subtitle = localizedString("Battery remaining to full charge", "\(Int((1-value.level)*100))")
-            if value.timeToCharge > 0 {
-                subtitle += " (\(Double(value.timeToCharge*60).printSecondsToHoursMinutesSeconds()))"
-            }
-            self.notificationID = showNotification(title: localizedString("High battery"), subtitle: subtitle)
-            self.highLevelNotificationState = true
         }
     }
 }
