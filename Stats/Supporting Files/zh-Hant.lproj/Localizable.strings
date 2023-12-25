@@ -74,9 +74,9 @@
 "Name" = "名稱";
 "Format" = "格式";
 "Turn off" = "關閉";
-"Warning" = "Warning";
-"Critical" = "Critical";
-"Usage" = "Usage";
+"Warning" = "警告";
+"Critical" = "重要通知";
+"Usage" = "使用量";
 
 // Setup
 "Stats Setup" = "Stats 設定";
@@ -233,11 +233,11 @@
 "Cluster grouping" = "依群集分組";
 "Efficiency cores color" = "節能核心色彩";
 "Performance cores color" = "效能核心色彩";
-"Total load" = "Total load";
-"System load" = "System load";
-"User load" = "User load";
-"Efficiency cores load" = "Efficiency cores load";
-"Performance cores load" = "Performance cores load";
+"Total load" = "總占用";
+"System load" = "系統占用";
+"User load" = "使用者占用";
+"Efficiency cores load" = "節能核心占用";
+"Performance cores load" = "效能核心占用";
 
 // GPU
 "GPU to show" = "顯示顯示卡";
@@ -269,7 +269,7 @@
 "Wired" = "固定";
 "Compressed" = "已壓縮";
 "Free" = "可使用";
-"Swap" = "調換區";
+"Swap" = "調換";
 "Split the value (App/Wired/Compressed)" = "分割值 (App/固定/壓縮)";
 "RAM utilization threshold" = "記憶體利用率臨界值";
 "RAM utilization is" = "記憶體利用率為：%0";
@@ -277,9 +277,9 @@
 "Wired color" = "固定記憶體色彩";
 "Compressed color" = "已壓縮色彩";
 "Free color" = "可使用記憶體色彩";
-"Free memory (less than)" = "Free memory (less than)";
-"Swap size" = "Swap size";
-"Free RAM is" = "Free RAM is %0";
+"Free memory (less than)" = "可用記憶體 (小於)";
+"Swap size" = "已使用調換";
+"Free RAM is" = "可用記憶體剩餘 %0";
 
 // Disk
 "Show removable disks" = "顯示抽取式磁碟";
@@ -310,7 +310,7 @@
 "Fan value" = "風扇轉速值";
 "Turn off fan" = "關閉風扇";
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "您似乎要關閉您 Mac 的風扇。這可能會造成 Mac 的損毀，不建議進行此操作，您確定仍要關閉風扇嗎？";
-"Sensor threshold" = "Sensor threshold";
+"Sensor threshold" = "感知器臨界值";
 
 // Network
 "Uploading" = "上傳";
