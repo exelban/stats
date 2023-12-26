@@ -106,7 +106,7 @@ class Notifications: NotificationsWrapper {
                     value: Double(value.pressureLevel.rawValue),
                     threshold: Double(threshold.rawValue),
                     title: title,
-                    subtitle: "\(localizedString("Memory pressure")): \(thresholdPair.key)"
+                    subtitle: "\(localizedString("Memory pressure")): \(localizedString(thresholdPair.value))"
                 )
             }
         }

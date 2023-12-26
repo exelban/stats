@@ -370,7 +370,7 @@ internal let SensorsList: [Sensor] = [
     Sensor(key: "Tm08", name: "Memory 3", group: .sensor, type: .temperature, platforms: [.m1, .m1Pro, .m1Max, .m1Ultra]),
     Sensor(key: "Tm09", name: "Memory 4", group: .sensor, type: .temperature, platforms: [.m1, .m1Pro, .m1Max, .m1Ultra]),
     
-    //M2
+    // M2
     Sensor(key: "Tp1h", name: "CPU efficiency core 1", group: .CPU, type: .temperature, platforms: [.m2, .m2Max, .m2Pro, .m2Ultra], average: true),
     Sensor(key: "Tp1t", name: "CPU efficiency core 2", group: .CPU, type: .temperature, platforms: [.m2, .m2Max, .m2Pro, .m2Ultra], average: true),
     Sensor(key: "Tp1p", name: "CPU efficiency core 3", group: .CPU, type: .temperature, platforms: [.m2, .m2Max, .m2Pro, .m2Ultra], average: true),
