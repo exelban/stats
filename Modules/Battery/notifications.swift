@@ -75,7 +75,7 @@ class Notifications: NotificationsWrapper {
             if value.timeToCharge > 0 {
                 subtitle += " (\(Double(value.timeToCharge*60).printSecondsToHoursMinutesSeconds()))"
             }
-            self.checkDouble(id: self.lowID, value: value.level, threshold: threshold, title: title, subtitle: subtitle)
+            self.checkDouble(id: self.highID, value: value.level, threshold: threshold, title: title, subtitle: subtitle)
         }
     }
     
