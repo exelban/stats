@@ -23,6 +23,7 @@ public struct circle_segment {
 
 private func scaleValue(scale: Scale = .linear, value: Double, maxValue: Double, maxHeight: CGFloat) -> CGFloat {
     var value = value
+    // var maxValue = 125000000.0
     if scale == .none && value > 1 && maxValue != 0 {
         value /= maxValue
     }
@@ -297,6 +298,9 @@ public class NetworkChartView: NSView {
     private var minMax: Bool = false
     private var scale: Scale = .none
     private var commonScale: Bool = true
+    private var customScale: Bool = false
+    private var customMaxDownload: Int = 0
+    private var customMaxUpload: Int = 0
     private var reverseOrder: Bool = false
     
     public init(frame: NSRect, num: Int, minMax: Bool = true, outColor: NSColor = .systemRed, inColor: NSColor = .systemBlue) {
@@ -318,8 +322,18 @@ public class NetworkChartView: NSView {
         context.setShouldAntialias(true)
         
         let points = self.points
-        var topMax: Double = (self.reverseOrder ? points.map{ $0.1 }.max() : points.map{ $0.0 }.max()) ?? 0
-        var bottomMax: Double = (self.reverseOrder ? points.map{ $0.0 }.max() : points.map{ $0.1 }.max()) ?? 0
+        
+        var topMax: Double
+        var bottomMax: Double
+        
+        if self.customScale {
+            topMax = Double(customMaxDownload)
+            bottomMax = Double(customMaxUpload)
+        } else {
+            topMax = (self.reverseOrder ? points.map{ $0.1 }.max() : points.map{ $0.0 }.max()) ?? 0
+            bottomMax = (self.reverseOrder ? points.map{ $0.0 }.max() : points.map{ $0.1 }.max()) ?? 0
+        }
+        
         if topMax == 0 {
             topMax = 1
         }
@@ -444,6 +458,15 @@ public class NetworkChartView: NSView {
         if self.window?.isVisible ?? false {
             self.display()
         }
+    }
+    
+    public func setCustomScale(_ customScale: Bool, _ customMaxBandwidth: Int) {
+        self.customScale = customScale
+        self.customMaxDownload = Int(Double(customMaxBandwidth) / 8)
+        self.customMaxUpload = Int(Double(customMaxBandwidth) / 8)
+        if self.window?.isVisible ?? false {
+            self.display()
+    }
     }
     
     public func setReverseOrder(_ newValue: Bool) {

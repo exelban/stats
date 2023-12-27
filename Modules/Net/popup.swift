@@ -12,7 +12,7 @@
 import Cocoa
 import Kit
 
-internal class Popup: PopupWrapper {
+internal class Popup: PopupWrapper, NSTextFieldDelegate {
     private var title: String
     
     private var uploadView: NSView? = nil
@@ -92,6 +92,10 @@ internal class Popup: PopupWrapper {
     }
     private var reverseOrderState: Bool = false
     
+    private var customScaleState: Bool = false
+    
+    private var customMaxBandwidth: Int = 0
+    
     private var latency: [Double] = []
     
     public init(_ title: String) {
@@ -107,6 +111,8 @@ internal class Popup: PopupWrapper {
         self.downloadColorState = Color.fromString(Store.shared.string(key: "\(self.title)_downloadColor", defaultValue: self.downloadColorState.key))
         self.uploadColorState = Color.fromString(Store.shared.string(key: "\(self.title)_uploadColor", defaultValue: self.uploadColorState.key))
         self.reverseOrderState = Store.shared.bool(key: "\(self.title)_reverseOrder", defaultValue: self.reverseOrderState)
+        self.customScaleState = Store.shared.bool(key: "\(self.title)_customScale", defaultValue: self.customScaleState)
+        self.customMaxBandwidth = Store.shared.int(key: "\(self.title)_customMaxBandwidth", defaultValue: self.customMaxBandwidth)
         
         self.spacing = 0
         self.orientation = .vertical
@@ -180,6 +186,7 @@ internal class Popup: PopupWrapper {
             num: 120, outColor: self.uploadColor, inColor: self.downloadColor
         )
         chart.setReverseOrder(self.reverseOrderState)
+        chart.setCustomScale(self.customScaleState, self.customMaxBandwidth)
         chart.base = self.base
         container.addSubview(chart)
         self.chart = chart
@@ -525,6 +532,19 @@ internal class Popup: PopupWrapper {
             state: self.reverseOrderState
         ))
         
+        view.addArrangedSubview(toggleSettingRow(
+            title: localizedString("Custom Scale"),
+            action: #selector(toggleCustomScale),
+            state: self.customScaleState
+        ))
+        
+        view.addArrangedSubview(fieldSettingRow(self,
+            title: localizedString("Max Bandwidth (Mbps)"),
+            value: String(Int(Double(self.customMaxBandwidth)/1000000)),
+            placeholder: "0",
+            width: 100
+        ))
+        
         return view
     }
     
@@ -559,6 +579,25 @@ internal class Popup: PopupWrapper {
         self.chart?.setReverseOrder(self.reverseOrderState)
         Store.shared.set(key: "\(self.title)_reverseOrder", value: self.reverseOrderState)
         self.display()
+    }
+    
+    // TODO: Hide/disable this textfield when the above toggle is disabled
+    // TODO: Sanitize input to accept only numerical digits
+    // TODO: Accept separate values for download and upload speeds
+    @objc private func toggleCustomScale(_ sender: NSControl) {
+        self.customScaleState = controlState(sender)
+        self.chart?.setCustomScale(self.customScaleState, self.customMaxBandwidth)
+        Store.shared.set(key: "\(self.title)_customScale", value: self.customScaleState)
+        Store.shared.set(key: "\(self.title)_customMaxBandwidth", value: self.customMaxBandwidth)
+    }
+    
+    @objc public func controlTextDidChange(_ notification: Notification) {
+        if let textField = notification.object as? NSTextField {
+            let maxBandwidthInMbits = Double(textField.stringValue) ?? 0
+            self.customMaxBandwidth = Int(maxBandwidthInMbits * 1000000)
+            self.chart?.setCustomScale(self.customScaleState, self.customMaxBandwidth)
+            Store.shared.set(key: "\(self.title)_customMaxBandwidth", value: self.customMaxBandwidth)
+        }
     }
     
     // MARK: - helpers

@@ -10,8 +10,9 @@
 //
 
 import Cocoa
+import SwiftUI
 
-public class NetworkChart: WidgetWrapper {
+public class NetworkChart: WidgetWrapper, NSTextFieldDelegate {
     private var boxState: Bool = false
     private var frameState: Bool = false
     private var labelState: Bool = false
@@ -20,6 +21,8 @@ public class NetworkChart: WidgetWrapper {
     private var uploadColor: Color = .secondRed
     private var scaleState: Scale = .linear
     private var commonScaleState: Bool = true
+    private var customScaleState: Bool = false
+    private var customMaxBandwidth: Int = 0
     private var reverseOrderState: Bool = false
     
     private var chart: NetworkChartView = NetworkChartView(
@@ -85,6 +88,8 @@ public class NetworkChart: WidgetWrapper {
             self.uploadColor = Color.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_uploadColor", defaultValue: self.uploadColor.key))
             self.scaleState = Scale.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_scale", defaultValue: self.scaleState.key))
             self.commonScaleState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_commonScale", defaultValue: self.commonScaleState)
+            self.customScaleState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_customScale", defaultValue: self.customScaleState)
+            self.customMaxBandwidth = Store.shared.int(key: "\(self.title)_\(self.type.rawValue)_customMaxBandwidth", defaultValue: self.customMaxBandwidth)
             self.reverseOrderState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_reverseOrder", defaultValue: self.reverseOrderState)
             
             if let downloadColor =  self.downloadColor.additional as? NSColor,
@@ -92,6 +97,7 @@ public class NetworkChart: WidgetWrapper {
                 self.chart.setColors(in: downloadColor, out: uploadColor)
             }
             self.chart.setScale(self.scaleState, self.commonScaleState)
+            self.chart.setCustomScale(self.customScaleState, self.customMaxBandwidth)
             self.chart.reinit(self.historyCount)
             self.chart.setReverseOrder(self.reverseOrderState)
         }
@@ -251,6 +257,22 @@ public class NetworkChart: WidgetWrapper {
         ))
         
         view.addArrangedSubview(toggleSettingRow(
+            title: localizedString("Custom scale"),
+            action: #selector(toggleCustomScale),
+            state: self.customScaleState
+        ))
+        
+        // TODO: Hide/disable this textfield when the above toggle is disabled
+        // TODO: Sanitize input to accept only numerical digits
+        // TODO: Accept separate values for download and upload speeds
+        view.addArrangedSubview(fieldSettingRow(self,
+            title: localizedString("Max Bandwidth (Mbps)"),
+            value: String(Int(Double(self.customMaxBandwidth)/1000000)),
+            placeholder: "0",
+            width: 100
+        ))
+
+        view.addArrangedSubview(toggleSettingRow(
             title: localizedString("Reverse order"),
             action: #selector(toggleReverseOrder),
             state: self.reverseOrderState
@@ -342,10 +364,27 @@ public class NetworkChart: WidgetWrapper {
         self.display()
     }
     
+    @objc private func toggleCustomScale(_ sender: NSControl) {
+        self.customScaleState = controlState(sender)
+        self.chart.setCustomScale(self.customScaleState, self.customMaxBandwidth)
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_customScale", value: self.customScaleState)
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_customMaxBandwidth", value: self.customMaxBandwidth)
+    }
+    
     @objc private func toggleReverseOrder(_ sender: NSControl) {
         self.reverseOrderState = controlState(sender)
         self.chart.setReverseOrder(self.reverseOrderState)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_reverseOrder", value: self.reverseOrderState)
         self.display()
     }
+    
+    @objc public func controlTextDidChange(_ notification: Notification) {
+        if let textField = notification.object as? NSTextField {
+            let maxBandwidthInMbits = Double(textField.stringValue) ?? 0
+            self.customMaxBandwidth = Int(maxBandwidthInMbits * 1000000)
+            self.chart.setCustomScale(self.customScaleState, self.customMaxBandwidth)
+            Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_customMaxBandwidth", value: self.customMaxBandwidth)
+        }
+    }
+    
 }
