@@ -78,8 +78,8 @@ internal class Popup: PopupWrapper {
     
     internal func setup(_ values: [Sensor_p]? = nil, reload: Bool = false) {
         guard let values = reload ? self.sensors : values else { return }
-        let fans = values.filter({ $0.type == .fan && !$0.isComputed })
-        var sensors = values.filter({ $0.type != .fan })
+        let fans = values.filter({ $0.type == .fan && !$0.isComputed && $0.popupState })
+        var sensors = values.filter({ !($0.type == .fan && $0.isComputed) })
         if !self.unknownSensorsState {
             sensors = sensors.filter({ $0.group != .unknown })
         }
@@ -101,7 +101,7 @@ internal class Popup: PopupWrapper {
             
             let container = NSStackView()
             container.orientation = .vertical
-            container.spacing = Constants.Popup.margins
+            container.spacing = Constants.Popup.spacing
             
             fans.forEach { (f: Sensor_p) in
                 if let fan = f as? Fan {
@@ -130,7 +130,7 @@ internal class Popup: PopupWrapper {
                 types.append(s.type)
             }
         }
-
+        
         types.forEach { (typ: SensorType) in
             var filtered = sensors.filter{ $0.type == typ }
             var groups: [SensorGroup] = []
@@ -139,26 +139,26 @@ internal class Popup: PopupWrapper {
                     groups.append(s.group)
                 }
             }
-
+            
             if !reload {
                 let header = NSStackView()
                 header.heightAnchor.constraint(equalToConstant: Constants.Settings.row).isActive = true
                 header.spacing = 0
-
+                
                 let titleField: NSTextField = LabelField(frame: NSRect(x: 0, y: 0, width: 0, height: 0), localizedString(typ.rawValue))
                 titleField.font = NSFont.systemFont(ofSize: 13, weight: .medium)
                 titleField.textColor = .labelColor
-
+                
                 header.addArrangedSubview(titleField)
                 header.addArrangedSubview(NSView())
-
+                
                 self.settingsView.addArrangedSubview(header)
-
+                
                 let container = NSStackView()
                 container.orientation = .vertical
                 container.edgeInsets = NSEdgeInsets(top: 0, left: Constants.Settings.margin, bottom: 0, right: Constants.Settings.margin)
                 container.spacing = 0
-
+                
                 groups.forEach { (group: SensorGroup) in
                     filtered.filter{ $0.group == group }.forEach { (s: Sensor_p) in
                         let row: NSView = toggleSettingRow(title: localizedString(s.name), action: #selector(self.toggleSensor), state: s.popupState)
@@ -168,13 +168,14 @@ internal class Popup: PopupWrapper {
                         container.addArrangedSubview(row)
                     }
                 }
-
+                
                 self.settingsView.addArrangedSubview(container)
             }
-
+            
+            if typ == .fan { return }
             filtered = filtered.filter{ $0.popupState }
             if filtered.isEmpty { return }
-
+            
             self.addArrangedSubview(separatorView(localizedString(typ.rawValue), width: self.frame.width))
             groups.forEach { (group: SensorGroup) in
                 filtered.filter{ $0.group == group }.forEach { (s: Sensor_p) in
@@ -576,8 +577,8 @@ internal class FanView: NSStackView {
         bar.heightAnchor.constraint(equalToConstant: bar.bounds.height).isActive = true
         bar.wantsLayer = true
         bar.layer?.backgroundColor = NSColor.textBackgroundColor.cgColor
-        bar.layer?.borderColor = NSColor.secondaryLabelColor.cgColor
-        bar.layer?.borderWidth = 0.25
+        bar.layer?.borderColor = NSColor.quaternaryLabelColor.cgColor
+        bar.layer?.borderWidth = 1
         bar.layer?.cornerRadius = 2
         
         let width: CGFloat = (bar.frame.width * CGFloat(self.fan.percentage < 0 ? 0 : self.fan.percentage)) / 100
