@@ -40,17 +40,19 @@ internal class Popup: PopupWrapper {
             }
         }
         
-        let sorted = list.sorted(by: { $0.popupIndex < $1.popupIndex })
+        var sorted = list.sorted(by: { $0.popupIndex < $1.popupIndex })
         var views = self.subviews.filter{ $0 is ClockView }.compactMap{ $0 as? ClockView }
-        
-        if sorted.count < views.count && !views.isEmpty {
-            views.forEach{ $0.removeFromSuperview() }
-            views = []
-        }
         
         if sorted.count != self.orderTableView.list.count {
             self.orderTableView.list = sorted
             self.orderTableView.update()
+        }
+        
+        sorted = sorted.filter({ $0.popupState })
+        
+        if sorted.count < views.count && !views.isEmpty {
+            views.forEach{ $0.removeFromSuperview() }
+            views = []
         }
         
         sorted.forEach { (c: Clock_t) in
@@ -127,6 +129,8 @@ private class ClockView: NSStackView {
         
         self.addArrangedSubview(self.clockView)
         self.addArrangedSubview(container)
+        
+        self.update(clock)
     }
     
     required init?(coder: NSCoder) {
@@ -160,13 +164,13 @@ private class ClockView: NSStackView {
     }
 }
 
-private class ClockChart: NSView {
+internal class ClockChart: NSView {
     private var color: NSColor = Color.systemAccent.additional as! NSColor
     
     private let calendar = Calendar.current
-    private var hour: Int!
-    private var minute: Int!
-    private var second: Int!
+    private var hour: Int = 0
+    private var minute: Int = 0
+    private var second: Int = 0
     
     private let hourLayer = CALayer()
     private let minuteLayer = CALayer()
@@ -183,8 +187,6 @@ private class ClockChart: NSView {
     
     public override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
-        
-        guard (self.hour != nil), (self.minute != nil), (self.second != nil) else { return }
         
         let context = NSGraphicsContext.current!.cgContext
         context.saveGState()
@@ -267,7 +269,6 @@ private class OrderTableView: NSView, NSTableViewDelegate, NSTableViewDataSource
         self.tableView.frame = self.scrollView.bounds
         self.tableView.delegate = self
         self.tableView.dataSource = self
-        self.tableView.headerView = nil
         self.tableView.backgroundColor = NSColor.clear
         self.tableView.columnAutoresizingStyle = .firstColumnOnlyAutoresizingStyle
         self.tableView.registerForDraggedTypes([dragDropType])
@@ -277,7 +278,15 @@ private class OrderTableView: NSView, NSTableViewDelegate, NSTableViewDataSource
             self.tableView.style = .plain
         }
         
-        self.tableView.addTableColumn(NSTableColumn(identifier: NSUserInterfaceItemIdentifier(rawValue: "name")))
+        let nameColumn = NSTableColumn(identifier: nameColumnID)
+        nameColumn.headerCell.title = localizedString("Name")
+        nameColumn.headerCell.alignment = .center
+        let statusColumn = NSTableColumn(identifier: statusColumnID)
+        statusColumn.headerCell.title = ""
+        statusColumn.width = 16
+        
+        self.tableView.addTableColumn(nameColumn)
+        self.tableView.addTableColumn(statusColumn)
         
         self.addSubview(self.scrollView)
         
@@ -311,28 +320,42 @@ private class OrderTableView: NSView, NSTableViewDelegate, NSTableViewDataSource
         if !self.list.indices.contains(row) { return nil }
         let item = self.list[row]
         
-        let text: NSTextField = NSTextField()
-        text.drawsBackground = false
-        text.isBordered = false
-        text.isEditable = false
-        text.isSelectable = false
-        text.translatesAutoresizingMaskIntoConstraints = false
-        text.identifier = NSUserInterfaceItemIdentifier(item.name)
+        let cell = NSTableCellView()
         
-        switch tableColumn?.identifier.rawValue {
-        case "name": text.stringValue = item.name
+        switch tableColumn?.identifier {
+        case nameColumnID: 
+            let text: NSTextField = NSTextField()
+            text.drawsBackground = false
+            text.isBordered = false
+            text.isEditable = false
+            text.isSelectable = false
+            text.translatesAutoresizingMaskIntoConstraints = false
+            text.identifier = NSUserInterfaceItemIdentifier(item.name)
+            text.stringValue = item.name
+            
+            text.sizeToFit()
+            
+            cell.addSubview(text)
+            
+            NSLayoutConstraint.activate([
+                text.widthAnchor.constraint(equalTo: cell.widthAnchor),
+                text.centerYAnchor.constraint(equalTo: cell.centerYAnchor)
+            ])
+        case statusColumnID:
+            let button: NSButton = NSButton(frame: NSRect(x: 0, y: 5, width: 10, height: 10))
+            button.identifier = NSUserInterfaceItemIdentifier("\(row)")
+            button.setButtonType(.switch)
+            button.state = item.popupState ? .on : .off
+            button.action = #selector(self.toggleClock)
+            button.title = ""
+            button.isBordered = false
+            button.isTransparent = false
+            button.target = self
+            button.sizeToFit()
+            
+            cell.addSubview(button)
         default: break
         }
-        
-        text.sizeToFit()
-        
-        let cell = NSTableCellView()
-        cell.addSubview(text)
-        
-        NSLayoutConstraint.activate([
-            text.widthAnchor.constraint(equalTo: cell.widthAnchor),
-            text.centerYAnchor.constraint(equalTo: cell.centerYAnchor)
-        ])
         
         return cell
     }
@@ -387,5 +410,10 @@ private class OrderTableView: NSView, NSTableViewDelegate, NSTableViewDataSource
         tableView.endUpdates()
         
         return true
+    }
+    
+    @objc private func toggleClock(_ sender: NSButton) {
+        guard let id = sender.identifier, let i = Int(id.rawValue) else { return }
+        self.list[i].popupState = sender.state == NSControl.StateValue.on
     }
 }

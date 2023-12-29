@@ -30,6 +30,14 @@ public struct Clock_t: Codable {
             Store.shared.set(key: "clock_\(self.id)_popupIndex", value: newValue)
         }
     }
+    var popupState: Bool {
+        get {
+            Store.shared.bool(key: "clock_\(self.id)_popupState", defaultValue: true)
+        }
+        set {
+            Store.shared.set(key: "clock_\(self.id)_popupState", value: newValue)
+        }
+    }
     
     public func formatted() -> String {
         let formatter = DateFormatter()
