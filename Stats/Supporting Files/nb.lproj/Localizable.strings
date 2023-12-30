@@ -116,6 +116,7 @@
 "Close application" = "Lukk programmet";
 "Open application settings" = "Åpne programinnstillinger";
 "Open dashboard" = "Åpne dashboard";
+"No notifications available in this module" = "No notifications available in this module";
 
 // Application settings
 "Update application" = "Oppdater programmet";
@@ -311,6 +312,9 @@
 "Turn off fan" = "Slå av viften";
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Du slå nå av viften. Dette er en ikke-anbefalt handling som kan skade Mac-en din, er du sikker på at vil gjøre dette?";
 "Sensor threshold" = "Sensor threshold";
+"Left fan" = "Left";
+"Right fan" = "Right";
+"Fastest fan" = "Fastest";
 
 // Network
 "Uploading" = "Opplasting";

@@ -116,6 +116,7 @@
 "Close application" = "Uygulamayı kapat";
 "Open application settings" = "Uygulama ayarlarını aç";
 "Open dashboard" = "Paneli aç";
+"No notifications available in this module" = "No notifications available in this module";
 
 // Application settings
 "Update application" = "Uygulamayı güncelle";
@@ -311,6 +312,9 @@
 "Turn off fan" = "Fanı kapat";
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Fanı kapatacaksınız. Bu, Mac'inize zarar verebilecek bir eylemdir ve önerilmez. Bunu yapmak istediğinizden emin misiniz?";
 "Sensor threshold" = "Sensor threshold";
+"Left fan" = "Left";
+"Right fan" = "Right";
+"Fastest fan" = "Fastest";
 
 // Network
 "Uploading" = "Yükleme";
