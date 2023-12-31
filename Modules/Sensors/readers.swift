@@ -185,7 +185,7 @@ internal class SensorsReader: Reader<Sensors_List> {
         }
         if !fanSensors.isEmpty && fanSensors.count > 1 {
             if let f = fanSensors.max(by: { $0.value < $1.value }) as? Fan {
-                if let idx = self.list.sensors.firstIndex(where: { $0.key == "Fastest Fan" }) {
+                if let idx = self.list.sensors.firstIndex(where: { $0.key == "Fastest fan" }) {
                     if var fan = self.list.sensors[idx] as? Fan {
                         fan.value = f.value
                         fan.minSpeed = f.minSpeed
@@ -253,7 +253,7 @@ internal class SensorsReader: Reader<Sensors_List> {
         }
         if !fanSensors.isEmpty && fanSensors.count > 1 {
             if let f = fanSensors.max(by: { $0.value < $1.value }) as? Fan {
-                list.append(Fan(id: -1, key: "Fastest Fan", name: "Fastest Fan", minSpeed: f.minSpeed, maxSpeed: f.maxSpeed, value: f.value, mode: .automatic, isComputed: true))
+                list.append(Fan(id: -1, key: "Fastest fan", name: "Fastest fan", minSpeed: f.minSpeed, maxSpeed: f.maxSpeed, value: f.value, mode: .automatic, isComputed: true))
             }
         }
         

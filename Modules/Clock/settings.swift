@@ -239,7 +239,7 @@ internal class Settings: NSStackView, Settings_v, NSTableViewDelegate, NSTableVi
             self.deleteButton?.removeFromSuperview()
         } else {
             if let btn = self.deleteButton {
-                self.footerView?.addArrangedSubview(btn)
+                self.footerView?.insertArrangedSubview(btn, at: 1)
             }
         }
     }

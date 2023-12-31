@@ -30,6 +30,14 @@ public struct Clock_t: Codable {
             Store.shared.set(key: "clock_\(self.id)_popupIndex", value: newValue)
         }
     }
+    var popupState: Bool {
+        get {
+            Store.shared.bool(key: "clock_\(self.id)_popupState", defaultValue: true)
+        }
+        set {
+            Store.shared.set(key: "clock_\(self.id)_popupState", value: newValue)
+        }
+    }
     
     public func formatted() -> String {
         let formatter = DateFormatter()
@@ -47,11 +55,12 @@ internal class ClockReader: Reader<Date> {
 
 public class Clock: Module {
     private let popupView: Popup = Popup()
+    private let portalView: Portal
     private let settingsView: Settings = Settings()
     
     private var reader: ClockReader = ClockReader(.clock)
     
-    private var list: [Clock_t] {
+    static var list: [Clock_t] {
         if let objects = Store.shared.data(key: "\(Clock.title)_list") {
             let decoder = JSONDecoder()
             if let objectsDecoded = try? decoder.decode(Array.self, from: objects) as [Clock_t] {
@@ -62,9 +71,12 @@ public class Clock: Module {
     }
     
     public init() {
+        self.portalView = Portal("Clock", list: Clock.list)
+        
         super.init(
             popup: self.popupView,
-            settings: self.settingsView
+            settings: self.settingsView, 
+            portal: self.portalView
         )
         guard self.available else { return }
         
@@ -80,7 +92,7 @@ public class Clock: Module {
     }
     
     private func callback(_ value: Date) {
-        var clocks: [Clock_t] = self.list
+        var clocks: [Clock_t] = Clock.list
         var widgetList: [Stack_t] = []
         
         for (i, c) in clocks.enumerated() {
@@ -92,6 +104,7 @@ public class Clock: Module {
         
         DispatchQueue.main.async(execute: {
             self.popupView.callback(clocks)
+            self.portalView.callback(clocks)
         })
         
         self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: Widget) in

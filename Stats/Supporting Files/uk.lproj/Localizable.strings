@@ -116,6 +116,7 @@
 "Close application" = "Закрити програму";
 "Open application settings" = "Відкрити налаштування";
 "Open dashboard" = "Відкрити dashboard";
+"No notifications available in this module" = "У цьому модулі немає повідомлень";
 
 // Application settings
 "Update application" = "Оновити програму";
@@ -311,6 +312,9 @@
 "Turn off fan" = "Вимкнути вентилятор";
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Ви збираєтеся вимкнути вентилятор. Це не рекомендована дія, яка може зламати ваш Mac. Ви впевнені, що хочете це зробити?";
 "Sensor threshold" = "Поріг датчика";
+"Left fan" = "Лівий";
+"Right fan" = "Правий";
+"Fastest fan" = "Найшвидший";
 
 // Network
 "Uploading" = "Висилання";
