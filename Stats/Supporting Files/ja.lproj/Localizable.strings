@@ -116,6 +116,7 @@
 "Close application" = "Stats を終了";
 "Open application settings" = "Stats の設定を開く";
 "Open dashboard" = "ダッシュボードを開く";
+"No notifications available in this module" = "No notifications available in this module";
 
 // Application settings
 "Update application" = "アプリをアップデートする";
@@ -311,6 +312,9 @@
 "Turn off fan" = "ファンの停止";
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "ファンの停止はmacに大きなダメージを与える可能性がある為、推奨されません。本当に実行しますか？";
 "Sensor threshold" = "Sensor threshold";
+"Left fan" = "Left";
+"Right fan" = "Right";
+"Fastest fan" = "Fastest";
 
 // Network
 "Uploading" = "送信";

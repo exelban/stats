@@ -116,6 +116,7 @@
 "Close application" = "애플리케이션 닫기";
 "Open application settings" = "애플리케이션 설정 열기";
 "Open dashboard" = "대시보드 열기";
+"No notifications available in this module" = "No notifications available in this module";
 
 // Application settings
 "Update application" = "애플리케이션 업데이트";
@@ -311,6 +312,9 @@
 "Turn off fan" = "팬 끄기";
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "팬을 끄려고 합니다. 팬을 끄는 행위는 Mac을 손상시킬 수 있으므로 권장하지 않습니다. 정말 팬을 끄겠습니까?";
 "Sensor threshold" = "Sensor threshold";
+"Left fan" = "Left";
+"Right fan" = "Right";
+"Fastest fan" = "Fastest";
 
 // Network
 "Uploading" = "업로드";

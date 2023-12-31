@@ -116,6 +116,7 @@
 "Close application" = "Zamknij program";
 "Open application settings" = "Otwórz ustawienia";
 "Open dashboard" = "Otwórz dashboard";
+"No notifications available in this module" = "W tym module nie są dostępne żadne powiadomienia";
 
 // Application settings
 "Update application" = "Aktualizuj aplikacje";
@@ -311,6 +312,9 @@
 "Turn off fan" = "Wyłączyć wentylator";
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Zamierzasz wyłączyć wentylator. To nie jest zalecana czynność, która może spowodować uszkodzenie komputera Mac. Czy na pewno chcesz to zrobić?";
 "Sensor threshold" = "Próg czujnika";
+"Left fan" = "Lewy";
+"Right fan" = "Prawy";
+"Fastest fan" = "Najszybszy";
 
 // Network
 "Uploading" = "Wysyłanie";

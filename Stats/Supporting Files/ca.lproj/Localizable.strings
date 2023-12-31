@@ -116,6 +116,7 @@
 "Close application" = "Tanca l'aplicació";
 "Open application settings" = "Obre la configuració de l'aplicació";
 "Open dashboard" = "Obre el panell";
+"No notifications available in this module" = "No notifications available in this module";
 
 // Application settings
 "Update application" = "Actualitza l'aplicació";
@@ -311,6 +312,9 @@
 "Turn off fan" = "Turn off fan";
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?";
 "Sensor threshold" = "Sensor threshold";
+"Left fan" = "Left";
+"Right fan" = "Right";
+"Fastest fan" = "Fastest";
 
 // Network
 "Uploading" = "Carregant";

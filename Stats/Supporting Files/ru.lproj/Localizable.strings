@@ -116,6 +116,7 @@
 "Close application" = "Закрыть приложение";
 "Open application settings" = "Открыть настройки приложения";
 "Open dashboard" = "Открыть dashboard";
+"No notifications available in this module" = "В этом модуле нет доступных уведомлений";
 
 // Application settings
 "Update application" = "Обновить приложение";
@@ -310,7 +311,10 @@
 "Fan value" = "Значение вентилятора";
 "Turn off fan" = "Выключить вентилятор";
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Вы собираетесь выключить вентилятор. Это не рекомендуемое действие, которое может сломать ваш Mac. Вы уверены, что хотите это сделать?";
-"Sensor threshold" = "Sensor threshold";
+"Sensor threshold" = "Порог датчика";
+"Left fan" = "Левый";
+"Right fan" = "Правый";
+"Fastest fan" = "Самый быстрый";
 
 // Network
 "Uploading" = "Выгрузка";

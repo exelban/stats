@@ -484,19 +484,26 @@ public class ScrollableStackView: NSView {
     private let clipView: NSClipView = NSClipView()
     private let scrollView: NSScrollView = NSScrollView()
     
-    public override init(frame: NSRect) {
+    public init(frame: NSRect = NSRect.zero, orientation: NSUserInterfaceLayoutOrientation = .vertical) {
         super.init(frame: frame)
         
         self.clipView.drawsBackground = false
         
-        self.stackView.orientation = .vertical
+        self.stackView.orientation = orientation
         self.stackView.translatesAutoresizingMaskIntoConstraints = false
         
         self.scrollView.translatesAutoresizingMaskIntoConstraints = false
-        self.scrollView.hasVerticalScroller = true
-        self.scrollView.hasHorizontalScroller = false
-        self.scrollView.autohidesScrollers = true
-        self.scrollView.horizontalScrollElasticity = .none
+        if orientation == .vertical {
+            self.scrollView.hasVerticalScroller = true
+            self.scrollView.hasHorizontalScroller = false
+            self.scrollView.autohidesScrollers = true
+            self.scrollView.horizontalScrollElasticity = .none
+        } else {
+            self.scrollView.hasVerticalScroller = false
+            self.scrollView.hasHorizontalScroller = true
+            self.scrollView.autohidesScrollers = true
+            self.scrollView.verticalScrollElasticity = .none
+        }
         self.scrollView.drawsBackground = false
         self.scrollView.contentView = self.clipView
         self.scrollView.documentView = self.stackView
@@ -510,9 +517,14 @@ public class ScrollableStackView: NSView {
             self.scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             
             self.stackView.leftAnchor.constraint(equalTo: self.clipView.leftAnchor),
-            self.stackView.rightAnchor.constraint(equalTo: self.clipView.rightAnchor),
             self.stackView.topAnchor.constraint(equalTo: self.clipView.topAnchor)
         ])
+        
+        if orientation == .vertical {
+            self.stackView.rightAnchor.constraint(equalTo: self.clipView.rightAnchor).isActive = true
+        } else {
+            self.stackView.bottomAnchor.constraint(equalTo: self.clipView.bottomAnchor).isActive = true
+        }
     }
     
     required public init?(coder: NSCoder) {
