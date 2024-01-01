@@ -108,11 +108,11 @@ public class NetworkChart: WidgetWrapper {
         style.alignment = .center
         let stringAttributes = [
             NSAttributedString.Key.font: NSFont.systemFont(ofSize: 7, weight: .regular),
-            NSAttributedString.Key.foregroundColor: isDarkMode ? NSColor.white : NSColor.textColor,
+            NSAttributedString.Key.foregroundColor: NSColor.textColor,
             NSAttributedString.Key.paragraphStyle: style
         ]
         
-        for char in String(title.prefix(3)).uppercased().reversed() {
+        for char in String(self.title.prefix(3)).uppercased().reversed() {
             let str = NSAttributedString.init(string: "\(char)", attributes: stringAttributes)
             self.NSLabelCharts.append(str)
         }
