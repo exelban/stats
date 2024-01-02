@@ -74,9 +74,9 @@
 "Name" = "Name";
 "Format" = "Format";
 "Turn off" = "Ausschalten";
-"Warning" = "Warning";
-"Critical" = "Critical";
-"Usage" = "Usage";
+"Warning" = "Warnung";
+"Critical" = "Kritisch";
+"Usage" = "Benutzt";
 
 // Setup
 "Stats Setup" = "Stats einrichten";
@@ -182,8 +182,8 @@
 "Number of reads in the chart" = "Anzahl der Elemente im Diagramm";
 "Color of download" = "Download Farbe";
 "Color of upload" = "Upload Farbe";
-"Monospaced font" = "Monospaced font";
-"Reverse order" = "Reverse order";
+"Monospaced font" = "Monospace-Schrift";
+"Reverse order" = "Reihenfolge umkehren";
 
 // Module Kit
 "Open module settings" = "Modul Einstellungen öffnen";
@@ -234,11 +234,11 @@
 "Cluster grouping" = "Clustergruppierung";
 "Efficiency cores color" = "Efficiency Cores Farbe";
 "Performance cores color" = "Performance Cores Farbe";
-"Total load" = "Total load";
-"System load" = "System load";
-"User load" = "User load";
-"Efficiency cores load" = "Efficiency cores load";
-"Performance cores load" = "Performance cores load";
+"Total load" = "Last (Total)";
+"System load" = "Last (System)";
+"User load" = "Last (Benutzer)";
+"Efficiency cores load" = "Last (Efficiency Cores)";
+"Performance cores load" = "Last (Performance Cores)";
 
 // GPU
 "GPU to show" = "GPU auswählen";
@@ -278,9 +278,9 @@
 "Wired color" = "Reserviert Farbe";
 "Compressed color" = "Komprimiert Farbe";
 "Free color" = "Frei Farbe";
-"Free memory (less than)" = "Free memory (less than)";
-"Swap size" = "Swap size";
-"Free RAM is" = "Free RAM is %0";
+"Free memory (less than)" = "Freier Speicher (weniger als)";
+"Swap size" = "Swap-Größe";
+"Free RAM is" = "Freier RAM ist %0";
 
 // Disk
 "Show removable disks" = "Wechseldatenträger anzeigen";
@@ -311,10 +311,10 @@
 "Fan value" = "Lüftergeschwindigkeitswert";
 "Turn off fan" = "Lüfter ausschalten";
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Sie sind dabei den Lüfter auszuschalten. Dies kann den Mac beschädigen und wird daher nicht empfohlen. Möchten Sie wirklich fortfahren?";
-"Sensor threshold" = "Sensor threshold";
-"Left fan" = "Left";
-"Right fan" = "Right";
-"Fastest fan" = "Fastest";
+"Sensor threshold" = "Sensor Schwellwert";
+"Left fan" = "Links";
+"Right fan" = "Rechts";
+"Fastest fan" = "Schnellster";
 
 // Network
 "Uploading" = "Upload";
