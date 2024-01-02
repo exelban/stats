@@ -105,6 +105,8 @@
 		<dict>
 			<key>Default</key>
 			<false/>
+			<key>Title</key>
+			<string>SSD</string>
 			<key>Order</key>
 			<integer>6</integer>
 			<key>Unsupported colors</key>
