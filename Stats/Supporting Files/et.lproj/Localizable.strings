@@ -356,6 +356,7 @@
 "Every 24 hours" = "Iga 24 tunni järel";
 "Network activity" = "Võrgutegevus";
 "Last reset" = "Viimane lähtestamine %0 tagasi";
+"Latency" = "Latency";
 
 // Battery
 "Level" = "Tase";

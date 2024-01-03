@@ -356,6 +356,7 @@
 "Every 24 hours" = "हर 24 घंटे";
 "Network activity" = "नेटवर्क गतिविधि";
 "Last reset" = "अंतिम रीसेट %0 पहले";
+"Latency" = "Latency";
 
 // Battery
 "Level" = "स्तर";
