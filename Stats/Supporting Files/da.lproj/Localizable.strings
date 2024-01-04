@@ -356,6 +356,7 @@
 "Every 24 hours" = "Hver 24 timer";
 "Network activity" = "Netværksaktivitet";
 "Last reset" = "Sidste nulstilling %0 siden";
+"Latency" = "Latency";
 
 // Battery
 "Level" = "Niveau";

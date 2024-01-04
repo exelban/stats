@@ -356,6 +356,7 @@
 "Every 24 hours" = "Her 24 saat";
 "Network activity" = "Ağ aktivitesi";
 "Last reset" = "Son sıfırlama %0 önce";
+"Latency" = "Latency";
 
 // Battery
 "Level" = "Doluluk";

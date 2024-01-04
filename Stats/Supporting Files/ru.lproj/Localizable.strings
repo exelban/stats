@@ -356,6 +356,7 @@
 "Every 24 hours" = "Каждые 24 часа";
 "Network activity" = "Сетевая активность";
 "Last reset" = "Последний сброс %0 назад";
+"Latency" = "Задержка";
 
 // Battery
 "Level" = "Уровень заряда";
