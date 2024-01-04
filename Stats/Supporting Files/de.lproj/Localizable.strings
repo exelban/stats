@@ -356,7 +356,7 @@
 "Every 24 hours" = "Alle 24 Stunden";
 "Network activity" = "Netzwerkaktivität";
 "Last reset" = "Letztes Zurücksetzen vor %0";
-"Latency" = "Latency";
+"Latency" = "Latenz";
 
 // Battery
 "Level" = "Ladezustand";
