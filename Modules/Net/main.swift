@@ -99,19 +99,27 @@ public struct Network_Connectivity: Codable {
     var latency: Double = 0
 }
 
-public struct Network_Process: Codable {
-    var time: Date = Date()
-    var name: String = ""
-    var pid: String = ""
-    var download: Int = 0
-    var upload: Int = 0
-    var icon: NSImage {
+public struct Network_Process: Codable, Process_p {
+    public var pid: Int
+    public var name: String
+    public var time: Date
+    public var download: Int
+    public var upload: Int
+    public var icon: NSImage {
         get {
-            if let pid = pid_t(self.pid), let app = NSRunningApplication(processIdentifier: pid) {
-                return app.icon ?? Constants.defaultProcessIcon
+            if let app = NSRunningApplication(processIdentifier: pid_t(self.pid)), let icon = app.icon {
+                return icon
             }
             return Constants.defaultProcessIcon
         }
+    }
+    
+    public init(pid: Int = 0, name: String = "", time: Date = Date(), download: Int = 0, upload: Int = 0) {
+        self.pid = pid
+        self.name = name
+        self.time = time
+        self.download = download
+        self.upload = upload
     }
 }
 

@@ -8,7 +8,6 @@
 //
 //  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
 //
-// swiftlint:disable file_length
 
 import Cocoa
 import ServiceManagement
@@ -581,24 +580,21 @@ public func removeNotification(_ id: String) {
     center.removeDeliveredNotifications(withIdentifiers: [id])
 }
 
-public struct TopProcess: Codable {
+public struct TopProcess: Codable, Process_p {
     public var pid: Int
-    public var command: String
-    public var name: String?
+    public var name: String
     public var usage: Double
-    
-    public var icon: NSImage? {
+    public var icon: NSImage {
         get {
-            if let app = NSRunningApplication(processIdentifier: pid_t(self.pid) ) {
-                return app.icon
+            if let app = NSRunningApplication(processIdentifier: pid_t(self.pid)), let icon = app.icon {
+                return icon
             }
             return Constants.defaultProcessIcon
         }
     }
     
-    public init(pid: Int, command: String, name: String?, usage: Double) {
+    public init(pid: Int, name: String, usage: Double) {
         self.pid = pid
-        self.command = command
         self.name = name
         self.usage = usage
     }
@@ -779,142 +775,6 @@ public func sysctlByName(_ name: String) -> Int64 {
     }
     
     return num
-}
-
-public class ProcessView: NSStackView {
-    private var pid: Int? = nil
-    private var lock: Bool = false
-    
-    private var imageView: NSImageView = NSImageView()
-    private var killView: NSButton = NSButton()
-    private var labelView: LabelField = {
-        let view = LabelField()
-        view.cell?.truncatesLastVisibleLine = true
-        return view
-    }()
-    private var valueView: ValueField = ValueField()
-    
-    public init(size: CGSize = CGSize(width: 264, height: 22), valueSize: CGFloat = 55) {
-        var rect = NSRect(x: 5, y: 5, width: 12, height: 12)
-        if size.height != 22 {
-            rect = NSRect(x: 3, y: 3, width: 12, height: 12)
-        }
-        self.imageView = NSImageView(frame: rect)
-        self.killView = NSButton(frame: rect)
-        
-        super.init(frame: NSRect(x: 0, y: 0, width: size.width, height: size.height))
-        
-        self.wantsLayer = true
-        self.orientation = .horizontal
-        self.distribution = .fillProportionally
-        self.spacing = 0
-        self.layer?.cornerRadius = 3
-        
-        let imageBox: NSView = {
-            let view = NSView()
-            
-            self.killView.bezelStyle = .regularSquare
-            self.killView.translatesAutoresizingMaskIntoConstraints = false
-            self.killView.imageScaling = .scaleNone
-            self.killView.image = Bundle(for: type(of: self)).image(forResource: "cancel")!
-            self.killView.contentTintColor = .lightGray
-            self.killView.isBordered = false
-            self.killView.action = #selector(self.kill)
-            self.killView.target = self
-            self.killView.toolTip = localizedString("Kill process")
-            self.killView.focusRingType = .none
-            self.killView.isHidden = true
-            
-            view.addSubview(self.imageView)
-            view.addSubview(self.killView)
-            
-            return view
-        }()
-        
-        self.addArrangedSubview(imageBox)
-        self.addArrangedSubview(self.labelView)
-        self.addArrangedSubview(self.valueView)
-        
-        self.addTrackingArea(NSTrackingArea(
-            rect: NSRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height),
-            options: [NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited, NSTrackingArea.Options.activeInActiveApp],
-            owner: self,
-            userInfo: nil
-        ))
-        
-        NSLayoutConstraint.activate([
-            imageBox.widthAnchor.constraint(equalToConstant: self.bounds.height),
-            imageBox.heightAnchor.constraint(equalToConstant: self.bounds.height),
-            self.labelView.heightAnchor.constraint(equalToConstant: 16),
-            self.valueView.widthAnchor.constraint(equalToConstant: valueSize),
-            self.widthAnchor.constraint(equalToConstant: self.bounds.width),
-            self.heightAnchor.constraint(equalToConstant: self.bounds.height)
-        ])
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    public override func mouseEntered(with: NSEvent) {
-        if self.lock {
-            self.imageView.isHidden = true
-            self.killView.isHidden = false
-            return
-        }
-        self.layer?.backgroundColor = .init(gray: 0.01, alpha: 0.05)
-    }
-    
-    public override func mouseExited(with: NSEvent) {
-        if self.lock {
-            self.imageView.isHidden = false
-            self.killView.isHidden = true
-            return
-        }
-        self.layer?.backgroundColor = .none
-    }
-    
-    public override func mouseDown(with: NSEvent) {
-        self.setLock(!self.lock)
-    }
-    
-    public func set(_ process: TopProcess, _ value: String) {
-        if self.lock && process.pid != self.pid { return }
-        
-        self.labelView.stringValue = process.name != nil ? process.name! : process.command
-        self.valueView.stringValue = value
-        self.imageView.image = process.icon
-        self.pid = process.pid
-        self.toolTip = "pid: \(process.pid)"
-    }
-    
-    public func clear() {
-        self.labelView.stringValue = ""
-        self.valueView.stringValue = ""
-        self.imageView.image = nil
-        self.pid = nil
-        self.setLock(false)
-        self.toolTip = ""
-    }
-    
-    public func setLock(_ state: Bool) {
-        self.lock = state
-        if self.lock {
-            self.imageView.isHidden = true
-            self.killView.isHidden = false
-            self.layer?.backgroundColor = .init(gray: 0.01, alpha: 0.1)
-        } else {
-            self.imageView.isHidden = false
-            self.killView.isHidden = true
-            self.layer?.backgroundColor = .none
-        }
-    }
-    
-    @objc public func kill() {
-        if let pid = self.pid {
-            asyncShell("kill \(pid)")
-        }
-    }
 }
 
 public class CAText: CATextLayer {

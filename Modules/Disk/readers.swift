@@ -407,7 +407,7 @@ public class ProcessReader: Reader<[Disk_process]> {
                 let read = bytesRead - v.read
                 let write = bytesWritten - v.write
                 if read != 0 || write != 0 {
-                    processes.append(Disk_process(pid: pid, name: name, read: read, write: write))
+                    processes.append(Disk_process(pid: Int(pid), name: name, read: read, write: write))
                 }
             }
             
