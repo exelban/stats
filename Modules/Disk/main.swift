@@ -175,13 +175,6 @@ public struct Disk_process: Process_p, Codable {
     var read: Int
     var write: Int
     
-    public var input: String {
-        Units(bytes: Int64(self.read)).getReadableSpeed(base: self.base)
-    }
-    public var output: String {
-        Units(bytes: Int64(self.write)).getReadableSpeed(base: self.base)
-    }
-    
     init(pid: Int, name: String, read: Int, write: Int) {
         self.pid = pid
         self.name = name
