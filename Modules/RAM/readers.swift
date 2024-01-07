@@ -189,10 +189,10 @@ public class ProcessReader: Reader<[TopProcess]> {
         }
         
         var name: String = command
-        if let app = NSRunningApplication(processIdentifier: pid_t(pid) ) {
-            name = app.localizedName ?? command
+        if let app = NSRunningApplication(processIdentifier: pid_t(pid)), let n = app.localizedName {
+            name = n
         }
         
-        return TopProcess(pid: pid, command: command, name: name, usage: usage * Double(1024 * 1024))
+        return TopProcess(pid: pid, name: name, usage: usage * Double(1024 * 1024))
     }
 }

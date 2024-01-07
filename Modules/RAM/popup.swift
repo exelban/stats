@@ -42,18 +42,13 @@ internal class Popup: PopupWrapper {
     private var initialized: Bool = false
     private var processesInitialized: Bool = false
     
-    private var processes: [ProcessView] = []
+    private var processes: ProcessesView? = nil
     
     private var numberOfProcesses: Int {
-        get {
-            return Store.shared.int(key: "\(self.title)_processes", defaultValue: 8)
-        }
+        Store.shared.int(key: "\(self.title)_processes", defaultValue: 8)
     }
     private var processesHeight: CGFloat {
-        get {
-            let num = self.numberOfProcesses
-            return (self.processHeight*CGFloat(num)) + (num == 0 ? 0 : Constants.Popup.separatorHeight)
-        }
+        (self.processHeight*CGFloat(self.numberOfProcesses)) + (self.numberOfProcesses == 0 ? 0 : Constants.Popup.separatorHeight + 22)
     }
     
     private var appColorState: Color = .secondBlue
@@ -140,23 +135,20 @@ internal class Popup: PopupWrapper {
     }
     
     public override func disappear() {
-        self.processes.forEach{ $0.setLock(false) }
+        self.processes?.setLock(false)
     }
     
     public func numberOfProcessesUpdated() {
-        if self.processes.count == self.numberOfProcesses {
-            return
-        }
+        if self.processes?.count == self.numberOfProcesses { return }
         
         DispatchQueue.main.async(execute: {
-            self.processes = []
-            
             let h: CGFloat = self.dashboardHeight + self.chartHeight + self.detailsHeight + self.processesHeight
             self.setFrameSize(NSSize(width: self.frame.width, height: h))
             
             self.grid?.setFrameSize(NSSize(width: self.frame.width, height: h))
             
             self.grid?.row(at: 3).cell(at: 0).contentView?.removeFromSuperview()
+            self.processes = nil
             self.grid?.removeRow(at: 3)
             self.grid?.addRow(with: [self.initProcesses()])
             self.processesInitialized = false
@@ -226,17 +218,16 @@ internal class Popup: PopupWrapper {
     }
     
     private func initProcesses() -> NSView  {
+        if self.numberOfProcesses == 0 { return NSView() }
+        
         let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.processesHeight))
         let separator = separatorView(localizedString("Top processes"), origin: NSPoint(x: 0, y: self.processesHeight-Constants.Popup.separatorHeight), width: self.frame.width)
-        let container: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: separator.frame.origin.y))
-        container.orientation = .vertical
-        container.spacing = 0
-        
-        for _ in 0..<self.numberOfProcesses {
-            let processView = ProcessView()
-            self.processes.append(processView)
-            container.addArrangedSubview(processView)
-        }
+        let container: ProcessesView = ProcessesView(
+            frame: NSRect(x: 0, y: 0, width: self.frame.width, height: separator.frame.origin.y),
+            values: [(localizedString("Usage"), nil)],
+            n: self.numberOfProcesses
+        )
+        self.processes = container
         
         view.addSubview(separator)
         view.addSubview(container)
@@ -297,15 +288,12 @@ internal class Popup: PopupWrapper {
             if !(self.window?.isVisible ?? false) && self.processesInitialized {
                 return
             }
-            
-            if list.count != self.processes.count {
-                self.processes.forEach { processView in
-                    processView.clear()
-                }
-            }
+            let list = list.map { $0 }
+            if list.count != self.processes?.count { self.processes?.clear() }
             
             for i in 0..<list.count {
-                self.processes[i].set(list[i], Units(bytes: Int64(list[i].usage)).getReadableMemory())
+                let process = list[i]
+                self.processes?.set(i, process, [Units(bytes: Int64(process.usage)).getReadableMemory()])
             }
             
             self.processesInitialized = true

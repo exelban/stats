@@ -500,16 +500,16 @@ public class ProcessReader: Reader<[Network_Process]> {
             
             let nameArray = parsedLine[0].split(separator: ".")
             if let pid = nameArray.last {
-                process.pid = String(pid)
+                process.pid = Int(pid) ?? 0
             }
-            if let app = NSRunningApplication(processIdentifier: pid_t(process.pid) ?? 0) {
+            if let app = NSRunningApplication(processIdentifier: pid_t(process.pid) ) {
                 process.name = app.localizedName ?? nameArray.dropLast().joined(separator: ".")
             } else {
                 process.name = nameArray.dropLast().joined(separator: ".")
             }
             
             if process.name == "" {
-                process.name = process.pid
+                process.name = "\(process.pid)"
             }
             
             if let download = Int(parsedLine[1]) {
@@ -543,7 +543,7 @@ public class ProcessReader: Reader<[Network_Process]> {
                         upload = 0
                     }
                     
-                    processes.append(Network_Process(time: time, name: p.name, pid: p.pid, download: download, upload: upload))
+                    processes.append(Network_Process(pid: p.pid, name: p.name, time: time, download: download, upload: upload))
                 }
             }
             self.previous = list

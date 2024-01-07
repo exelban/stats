@@ -158,15 +158,15 @@ public class Disks: Codable {
     }
 }
 
-public struct Disk_process: IOProcess_p, Codable {
-    private var base: DataSizeBase {
+public struct Disk_process: Process_p, Codable {
+    public var base: DataSizeBase {
         DataSizeBase(rawValue: Store.shared.string(key: "\(Disk.name)_base", defaultValue: "byte")) ?? .byte
     }
     
-    public var pid: Int32
+    public var pid: Int
     public var name: String
     public var icon: NSImage {
-        if let app = NSRunningApplication(processIdentifier: self.pid) {
+        if let app = NSRunningApplication(processIdentifier: pid_t(self.pid)) {
             return app.icon ?? Constants.defaultProcessIcon
         }
         return Constants.defaultProcessIcon
@@ -175,20 +175,13 @@ public struct Disk_process: IOProcess_p, Codable {
     var read: Int
     var write: Int
     
-    public var input: String {
-        Units(bytes: Int64(self.read)).getReadableSpeed(base: self.base)
-    }
-    public var output: String {
-        Units(bytes: Int64(self.write)).getReadableSpeed(base: self.base)
-    }
-    
-    init(pid: Int32, name: String, read: Int, write: Int) {
+    init(pid: Int, name: String, read: Int, write: Int) {
         self.pid = pid
         self.name = name
         self.read = read
         self.write = write
         
-        if let app = NSRunningApplication(processIdentifier: pid) {
+        if let app = NSRunningApplication(processIdentifier: pid_t(pid)) {
             if let name = app.localizedName {
                 self.name = name
             }

@@ -356,6 +356,7 @@
 "Every 24 hours" = "Every 24 hours";
 "Network activity" = "Network activity";
 "Last reset" = "Last reset %0 ago";
+"Latency" = "Latency";
 
 // Battery
 "Level" = "Nivel";

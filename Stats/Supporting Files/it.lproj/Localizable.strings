@@ -74,9 +74,9 @@
 "Name" = "Nome";
 "Format" = "Formato";
 "Turn off" = "Disattiva";
-"Warning" = "Warning";
-"Critical" = "Critical";
-"Usage" = "Usage";
+"Warning" = "Avviso";
+"Critical" = "Critico";
+"Usage" = "Utilizzo";
 
 // Setup
 "Stats Setup" = "Configurazione Stats";
@@ -116,7 +116,7 @@
 "Close application" = "Chiudi applicazione";
 "Open application settings" = "Apri le impostazioni dell'applicazione";
 "Open dashboard" = "Apri la dashboard";
-"No notifications available in this module" = "No notifications available in this module";
+"No notifications available in this module" = "Notifiche non disponibili per questo modulo";
 
 // Application settings
 "Update application" = "Aggiorna applicazione";
@@ -183,7 +183,7 @@
 "Color of download" = "Colore del download";
 "Color of upload" = "Colore dell'upload";
 "Monospaced font" = "Font a larghezza fissa";
-"Reverse order" = "Reverse order";
+"Reverse order" = "Inverti ordine";
 
 // Module Kit
 "Open module settings" = "Apri impostazioni modulo";
@@ -234,11 +234,11 @@
 "Cluster grouping" = "Raggruppamento cluster";
 "Efficiency cores color" = "Colore per efficiency core";
 "Performance cores color" = "Colore per performance cores";
-"Total load" = "Total load";
-"System load" = "System load";
-"User load" = "User load";
-"Efficiency cores load" = "Efficiency cores load";
-"Performance cores load" = "Performance cores load";
+"Total load" = "Carico totale";
+"System load" = "Carico sistema";
+"User load" = "Carico utente";
+"Efficiency cores load" = "Carico efficiency core";
+"Performance cores load" = "Carico performance core";
 
 // GPU
 "GPU to show" = "GPU da mostrare";
@@ -278,9 +278,9 @@
 "Wired color" = "Colore Cablata";
 "Compressed color" = "Colore Compressa";
 "Free color" = "Colore Libera";
-"Free memory (less than)" = "Free memory (less than)";
+"Free memory (less than)" = "Memoria libera (meno di)";
 "Swap size" = "Swap size";
-"Free RAM is" = "Free RAM is %0";
+"Free RAM is" = "RAM libera è %0";
 
 // Disk
 "Show removable disks" = "Mostra dischi rimovibili";
@@ -311,10 +311,10 @@
 "Fan value" = "Valore ventola";
 "Turn off fan" = "Disattiva la ventola";
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Stai per disattivare la ventola. Questa azione non è consigliata e può danneggiare il tuo mac, sei sicuro di voler proseguire?";
-"Sensor threshold" = "Sensor threshold";
-"Left fan" = "Left";
-"Right fan" = "Right";
-"Fastest fan" = "Fastest";
+"Sensor threshold" = "Soglia sensore";
+"Left fan" = "Ventola sinistra";
+"Right fan" = "Ventola destra";
+"Fastest fan" = "Ventola più veloce";
 
 // Network
 "Uploading" = "Upload";
@@ -356,6 +356,7 @@
 "Every 24 hours" = "Ogni 24 ore";
 "Network activity" = "Attività di rete";
 "Last reset" = "Ultimo reset %0 fa";
+"Latency" = "Latency";
 
 // Battery
 "Level" = "Livello";

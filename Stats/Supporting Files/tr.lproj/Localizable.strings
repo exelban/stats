@@ -74,9 +74,9 @@
 "Name" = "Ad";
 "Format" = "Format";
 "Turn off" = "Kapat";
-"Warning" = "Warning";
-"Critical" = "Critical";
-"Usage" = "Usage";
+"Warning" = "Uyarı";
+"Critical" = "Kritik";
+"Usage" = "Kullanım";
 
 // Setup
 "Stats Setup" = "Stats Kurulumu";
@@ -116,7 +116,7 @@
 "Close application" = "Uygulamayı kapat";
 "Open application settings" = "Uygulama ayarlarını aç";
 "Open dashboard" = "Paneli aç";
-"No notifications available in this module" = "No notifications available in this module";
+"No notifications available in this module" = "Bu modülde kullanılabilir bildirim yok";
 
 // Application settings
 "Update application" = "Uygulamayı güncelle";
@@ -183,7 +183,7 @@
 "Color of download" = "İndirme rengi";
 "Color of upload" = "Yükleme rengi";
 "Monospaced font" = "Eşit aralıklı font";
-"Reverse order" = "Reverse order";
+"Reverse order" = "Ters sıralama";
 
 // Module Kit
 "Open module settings" = "Modül ayarlarını aç";
@@ -234,11 +234,11 @@
 "Cluster grouping" = "Küme gruplaması";
 "Efficiency cores color" = "Verimlilik çekirdeklerinin rengi";
 "Performance cores color" = "Performans çekirdeklerinin rengi";
-"Total load" = "Total load";
-"System load" = "System load";
-"User load" = "User load";
-"Efficiency cores load" = "Efficiency cores load";
-"Performance cores load" = "Performance cores load";
+"Total load" = "Toplam yük";
+"System load" = "Sistem yükü";
+"User load" = "Kullanıcı yükü";
+"Efficiency cores load" = "Verimlilik çekirdekleri yükü";
+"Performance cores load" = "Performans çekirdekleri yükü";
 
 // GPU
 "GPU to show" = "Gösterilecek GPU";
@@ -270,7 +270,7 @@
 "Wired" = "Bağlı";
 "Compressed" = "Sıkıştırılmış";
 "Free" = "Serbest";
-"Swap" = "Swap";
+"Swap" = "Takas";
 "Split the value (App/Wired/Compressed)" = "Değeri böl (Uygulama/Bağlı/Sıkıştırılmış)";
 "RAM utilization threshold" = "RAM kullanım eşiği";
 "RAM utilization is" = "RAM Kullanımı %0";
@@ -278,9 +278,9 @@
 "Wired color" = "Bağlı rengi";
 "Compressed color" = "Sıkıştırılmış rengi";
 "Free color" = "Boşta rengi";
-"Free memory (less than)" = "Free memory (less than)";
-"Swap size" = "Swap size";
-"Free RAM is" = "Free RAM is %0";
+"Free memory (less than)" = "Boş hafıza (daha az)";
+"Swap size" = "Takas boyutu";
+"Free RAM is" = "Boş RAM %0";
 
 // Disk
 "Show removable disks" = "Çıkarılabilir diskleri göster";
@@ -311,10 +311,10 @@
 "Fan value" = "Fan değeri";
 "Turn off fan" = "Fanı kapat";
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Fanı kapatacaksınız. Bu, Mac'inize zarar verebilecek bir eylemdir ve önerilmez. Bunu yapmak istediğinizden emin misiniz?";
-"Sensor threshold" = "Sensor threshold";
-"Left fan" = "Left";
-"Right fan" = "Right";
-"Fastest fan" = "Fastest";
+"Sensor threshold" = "Sensör eşiği";
+"Left fan" = "Sol fan";
+"Right fan" = "Sağ fan";
+"Fastest fan" = "En hızlı fan";
 
 // Network
 "Uploading" = "Yükleme";
@@ -356,6 +356,7 @@
 "Every 24 hours" = "Her 24 saat";
 "Network activity" = "Ağ aktivitesi";
 "Last reset" = "Son sıfırlama %0 önce";
+"Latency" = "Latency";
 
 // Battery
 "Level" = "Doluluk";
@@ -389,7 +390,7 @@
 "Hide additional information when full" = "Pil dolduğunda ek bilgileri gizle";
 "Last charge" = "Son şarj";
 "Capacity" = "Kapasite";
-"current / maximum / designed" = "current / maksimum / orijinal";
+"current / maximum / designed" = "mevcut / maksimum / tasarlanmış";
 "Low power mode" = "Düşük güç modu";
 "Percentage inside the icon" = "Simgenin içinde yüzde";
 "Colorize battery" = "Pili renklendir";
@@ -400,7 +401,7 @@
 
 // Clock
 "Time zone" = "Saat dilimi";
-"Local" = "Lokal";
+"Local" = "Yerel";
 
 // Colors
 "Based on utilization" = "Kullanıma dayalı";

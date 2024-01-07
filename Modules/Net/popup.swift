@@ -57,7 +57,7 @@ internal class Popup: PopupWrapper {
     
     private var chart: NetworkChartView? = nil
     private var connectivityChart: GridChartView? = nil
-    private var processes: [NetworkProcessView] = []
+    private var processes: ProcessesView? = nil
     
     private var lastReset: Date = Date()
     
@@ -68,10 +68,7 @@ internal class Popup: PopupWrapper {
         Store.shared.int(key: "\(self.title)_processes", defaultValue: 8)
     }
     private var processesHeight: CGFloat {
-        get {
-            let num = self.numberOfProcesses
-            return (22*CGFloat(num)) + (num == 0 ? 0 : Constants.Popup.separatorHeight)
-        }
+        (22*CGFloat(self.numberOfProcesses)) + (self.numberOfProcesses == 0 ? 0 : Constants.Popup.separatorHeight + 22)
     }
     
     private var downloadColorState: Color = .secondBlue
@@ -318,19 +315,22 @@ internal class Popup: PopupWrapper {
     }
     
     private func initProcesses() -> NSView {
-        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.processesHeight))
-        let separator = separatorView(localizedString("Top processes"), origin: NSPoint(x: 0, y: self.processesHeight-Constants.Popup.separatorHeight), width: self.frame.width)
-        let container: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: separator.frame.origin.y))
-        
-        for i in 0..<self.numberOfProcesses {
-            let processView = NetworkProcessView(CGFloat(i))
-            self.processes.append(processView)
-            container.addSubview(processView)
+        if self.numberOfProcesses == 0 {
+            let v = NSView()
+            self.processesView = v
+            return v
         }
         
+        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.processesHeight))
+        let separator = separatorView(localizedString("Top processes"), origin: NSPoint(x: 0, y: self.processesHeight-Constants.Popup.separatorHeight), width: self.frame.width)
+        let container: ProcessesView = ProcessesView(
+            frame: NSRect(x: 0, y: 0, width: self.frame.width, height: separator.frame.origin.y),
+            values: [(localizedString("Downloading"), self.downloadColor), (localizedString("Uploading"), self.uploadColor)],
+            n: self.numberOfProcesses
+        )
+        self.processes = container
         view.addSubview(separator)
         view.addSubview(container)
-        
         self.processesView = view
         return view
     }
@@ -338,19 +338,14 @@ internal class Popup: PopupWrapper {
     // MARK: - callbacks
     
     public func numberOfProcessesUpdated() {
-        if self.processes.count == self.numberOfProcesses {
-            return
-        }
+        if self.processes?.count == self.numberOfProcesses { return }
         
         DispatchQueue.main.async(execute: {
-            self.processes = []
-            
-            if let view = self.processesView {
-                self.removeView(view)
-            }
+            self.processesView?.removeFromSuperview()
+            self.processesView = nil
+            self.processes = nil
             self.addArrangedSubview(self.initProcesses())
             self.processesInitialized = false
-            
             self.recalculateHeight()
         })
     }
@@ -477,19 +472,14 @@ internal class Popup: PopupWrapper {
             if !(self.window?.isVisible ?? false) && self.processesInitialized {
                 return
             }
-            
-            if list.count != self.processes.count {
-                self.processes.forEach { processView in
-                    processView.clear()
-                }
-            }
+            let list = list.map{ $0 }
+            if list.count != self.processes?.count { self.processes?.clear() }
             
             for i in 0..<list.count {
                 let process = list[i]
-                let index = list.count-i-1
-                self.processes[index].attachProcess(process)
-                self.processes[index].upload = Units(bytes: Int64(process.upload)).getReadableSpeed(base: self.base)
-                self.processes[index].download = Units(bytes: Int64(process.download)).getReadableSpeed(base: self.base)
+                let upload = Units(bytes: Int64(process.upload)).getReadableSpeed(base: self.base)
+                let download = Units(bytes: Int64(process.download)).getReadableSpeed(base: self.base)
+                self.processes?.set(i, process, [download, upload])
             }
             
             self.processesInitialized = true
@@ -536,6 +526,7 @@ internal class Popup: PopupWrapper {
         self.uploadColorState = newValue
         Store.shared.set(key: "\(self.title)_uploadColor", value: key)
         if let color = newValue.additional as? NSColor {
+            self.processes?.setColor(1, color)
             self.uploadColorView?.layer?.backgroundColor = color.cgColor
             self.uploadStateView?.setColor(color)
             self.chart?.setColors(out: color)
@@ -549,6 +540,7 @@ internal class Popup: PopupWrapper {
         self.downloadColorState = newValue
         Store.shared.set(key: "\(self.title)_downloadColor", value: key)
         if let color = newValue.additional as? NSColor {
+            self.processes?.setColor(0, color)
             self.downloadColorView?.layer?.backgroundColor = color.cgColor
             self.downloadStateView?.setColor(color)
             self.chart?.setColors(in: color)
@@ -659,87 +651,5 @@ internal class Popup: PopupWrapper {
     
     @objc private func resetTotalNetworkUsageCallback() {
         self.lastReset = Date()
-    }
-}
-
-public class NetworkProcessView: NSView {
-    public var width: CGFloat {
-        get { return 0 }
-        set {
-            self.setFrameSize(NSSize(width: newValue, height: self.frame.height))
-        }
-    }
-    
-    public var icon: NSImage? {
-        get { return NSImage() }
-        set {
-            self.imageView?.image = newValue
-        }
-    }
-    public var label: String {
-        get { return "" }
-        set {
-            self.labelView?.stringValue = newValue
-        }
-    }
-    public var upload: String {
-        get { return "" }
-        set {
-            self.uploadView?.stringValue = newValue
-        }
-    }
-    public var download: String {
-        get { return "" }
-        set {
-            self.downloadView?.stringValue = newValue
-        }
-    }
-    
-    private var imageView: NSImageView? = nil
-    private var labelView: LabelField? = nil
-    private var uploadView: ValueField? = nil
-    private var downloadView: ValueField? = nil
-    
-    public init(_ n: CGFloat) {
-        super.init(frame: NSRect(x: 0, y: n*22, width: Constants.Popup.width, height: 16))
-        
-        let rowView: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 16))
-        
-        let imageView: NSImageView = NSImageView(frame: NSRect(x: 2, y: 2, width: 12, height: 12))
-        let labelView: LabelField = LabelField(frame: NSRect(x: 18, y: 0, width: rowView.frame.width - 138, height: 16), "")
-        let uploadView: ValueField = ValueField(frame: NSRect(x: rowView.frame.width - 120, y: 1.75, width: 60, height: 12), "")
-        let downloadView: ValueField = ValueField(frame: NSRect(x: rowView.frame.width - 60, y: 1.75, width: 60, height: 12), "")
-        uploadView.font = NSFont.systemFont(ofSize: 10, weight: .regular)
-        downloadView.font = NSFont.systemFont(ofSize: 10, weight: .regular)
-        
-        rowView.addSubview(imageView)
-        rowView.addSubview(labelView)
-        rowView.addSubview(uploadView)
-        rowView.addSubview(downloadView)
-        
-        self.imageView = imageView
-        self.labelView = labelView
-        self.uploadView = uploadView
-        self.downloadView = downloadView
-        
-        self.addSubview(rowView)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    public func attachProcess(_ process: Network_Process) {
-        self.label = process.name
-        self.icon = process.icon
-        self.toolTip = "pid: \(process.pid)"
-    }
-    
-    public func clear() {
-        self.label = ""
-        self.download = ""
-        self.upload = ""
-        self.icon = nil
-        self.toolTip = ""
     }
 }

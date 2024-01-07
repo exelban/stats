@@ -13,6 +13,8 @@ import Cocoa
 import Kit
 
 internal class Popup: PopupWrapper {
+    private var title: String
+    
     private var readColorState: Color = .secondBlue
     private var readColor: NSColor {
         var value = NSColor.systemRed
@@ -36,13 +38,21 @@ internal class Popup: PopupWrapper {
         view.orientation = .vertical
         return view
     }()
-    private var processes: IOProcessView = IOProcessView(
-        countKey: "\(Disk.name)_processes",
-        inputColorKey: "\(Disk.name)_readColor",
-        outputColorKey: "\(Disk.name)_writeColor"
-    )
+    
+    private var processesInitialized: Bool = false
+    
+    private var numberOfProcesses: Int {
+        Store.shared.int(key: "\(self.title)_processes", defaultValue: 8)
+    }
+    private var processesHeight: CGFloat {
+        (22*CGFloat(self.numberOfProcesses)) + (self.numberOfProcesses == 0 ? 0 : Constants.Popup.separatorHeight + 22)
+    }
+    private var processes: ProcessesView? = nil
+    private var processesView: NSView? = nil
     
     public init() {
+        self.title = Disk.name
+        
         super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: 0))
         
         self.readColorState = Color.fromString(Store.shared.string(key: "\(Disk.name)_readColor", defaultValue: self.readColorState.key))
@@ -53,7 +63,7 @@ internal class Popup: PopupWrapper {
         self.spacing = 0
         
         self.addArrangedSubview(self.disks)
-        self.addArrangedSubview(self.processes)
+        self.addArrangedSubview(self.initProcesses())
         
         self.recalculateHeight()
     }
@@ -68,6 +78,27 @@ internal class Popup: PopupWrapper {
             self.setFrameSize(NSSize(width: self.frame.width, height: h))
             self.sizeCallback?(self.frame.size)
         }
+    }
+    
+    private func initProcesses() -> NSView {
+        if self.numberOfProcesses == 0 {
+            let v = NSView()
+            self.processesView = v
+            return v
+        }
+        
+        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.processesHeight))
+        let separator = separatorView(localizedString("Top processes"), origin: NSPoint(x: 0, y: self.processesHeight-Constants.Popup.separatorHeight), width: self.frame.width)
+        let container: ProcessesView = ProcessesView(
+            frame: NSRect(x: 0, y: 0, width: self.frame.width, height: separator.frame.origin.y),
+            values: [(localizedString("Read"), self.readColor), (localizedString("Write"), self.writeColor)],
+            n: self.numberOfProcesses
+        )
+        self.processes = container
+        view.addSubview(separator)
+        view.addSubview(container)
+        self.processesView = view
+        return view
     }
     
     internal func capacityCallback(_ value: Disks) {
@@ -111,13 +142,38 @@ internal class Popup: PopupWrapper {
         }
     }
     
+    // MARK: - callbacks
+    
     internal func processCallback(_ list: [Disk_process]) {
-        self.processes.update(list)
+        DispatchQueue.main.async(execute: {
+            if !(self.window?.isVisible ?? false) && self.processesInitialized {
+                return
+            }
+            let list = list.map{ $0 }
+            if list.count != self.processes?.count { self.processes?.clear("-") }
+            
+            for i in 0..<list.count {
+                let process = list[i]
+                let write = Units(bytes: Int64(process.write)).getReadableSpeed(base: process.base)
+                let read = Units(bytes: Int64(process.read)).getReadableSpeed(base: process.base)
+                self.processes?.set(i, process, [read, write])
+            }
+            
+            self.processesInitialized = true
+        })
     }
     
     internal func numberOfProcessesUpdated() {
-        self.processes.reinit()
-        self.recalculateHeight()
+        if self.processes?.count == self.numberOfProcesses { return }
+        
+        DispatchQueue.main.async(execute: {
+            self.processesView?.removeFromSuperview()
+            self.processesView = nil
+            self.processes = nil
+            self.addArrangedSubview(self.initProcesses())
+            self.processesInitialized = false
+            self.recalculateHeight()
+        })
     }
     
     // MARK: - Settings
@@ -150,11 +206,11 @@ internal class Popup: PopupWrapper {
         self.writeColorState = newValue
         Store.shared.set(key: "\(Disk.name)_writeColor", value: key)
         if let color = newValue.additional as? NSColor {
+            self.processes?.setColor(1, color)
             for view in self.disks.subviews.filter({ $0 is DiskView }).map({ $0 as! DiskView }) {
                 view.setChartColor(write: color)
             }
         }
-        self.processes.updateColors()
     }
     @objc private func toggleReadColor(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String,
@@ -164,11 +220,11 @@ internal class Popup: PopupWrapper {
         self.readColorState = newValue
         Store.shared.set(key: "\(Disk.name)_readColor", value: key)
         if let color = newValue.additional as? NSColor {
+            self.processes?.setColor(0, color)
             for view in self.disks.subviews.filter({ $0 is DiskView }).map({ $0 as! DiskView }) {
                 view.setChartColor(read: color)
             }
         }
-        self.processes.updateColors()
     }
 }
 
@@ -674,194 +730,5 @@ internal class LifeView: NSStackView {
             }
             self.initialized = true
         }
-    }
-}
-
-public protocol IOProcess_p {
-    var pid: Int32 { get }
-    var name: String { get }
-    var icon: NSImage { get }
-    
-    var input: String { get }
-    var output: String { get }
-}
-
-public class IOProcessView: NSStackView {
-    private let countKey: String
-    private let inputColorKey: String
-    private let outputColorKey: String
-    
-    private var initialized: Bool = false
-    
-    private var numberOfProcesses: Int {
-        Store.shared.int(key: countKey, defaultValue: 5)
-    }
-    private var readColor: NSColor {
-        Color.fromString(Store.shared.string(key: inputColorKey, defaultValue: Color.secondBlue.key)).additional as! NSColor
-    }
-    private var writeColor: NSColor {
-        Color.fromString(Store.shared.string(key: outputColorKey, defaultValue: Color.secondRed.key)).additional as! NSColor
-    }
-    
-    private var inputBoxView: NSView?
-    private var outputBoxView: NSView?
-    
-    public var height: CGFloat {
-        CGFloat((self.numberOfProcesses+1) * 22) + Constants.Popup.separatorHeight
-    }
-    
-    init(countKey: String, inputColorKey: String, outputColorKey: String) {
-        self.countKey = countKey
-        self.inputColorKey = inputColorKey
-        self.outputColorKey = outputColorKey
-        
-        super.init(frame: NSRect.zero)
-        
-        self.orientation = .vertical
-        self.spacing = 1
-        
-        self.reinit()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    public func reinit() {
-        self.subviews.forEach({ $0.removeFromSuperview() })
-        
-        if self.numberOfProcesses == 0 {
-            self.setFrameSize(NSSize(width: self.frame.width, height: 0))
-            return
-        }
-        
-        self.addArrangedSubview(separatorView(localizedString("Top processes"), width: Constants.Popup.width))
-        self.addArrangedSubview(self.legendRow())
-        for _ in 0..<self.numberOfProcesses {
-            self.addArrangedSubview(TopProcess())
-        }
-        
-        self.setFrameSize(NSSize(width: self.frame.width, height: self.height))
-    }
-    
-    private func legendRow() -> NSView {
-        let view: NSStackView = NSStackView()
-        view.spacing = 50
-        view.orientation = .horizontal
-        view.heightAnchor.constraint(equalToConstant: 21).isActive = true
-        
-        let inputView: NSView = NSView()
-        inputView.widthAnchor.constraint(equalToConstant: 10).isActive = true
-        inputView.heightAnchor.constraint(equalToConstant: 10).isActive = true
-        inputView.wantsLayer = true
-        inputView.layer?.backgroundColor = self.readColor.cgColor
-        inputView.layer?.cornerRadius = 2
-        self.inputBoxView = inputView
-        
-        let outputView: NSView = NSView()
-        outputView.widthAnchor.constraint(equalToConstant: 10).isActive = true
-        outputView.heightAnchor.constraint(equalToConstant: 10).isActive = true
-        outputView.wantsLayer = true
-        outputView.layer?.backgroundColor = self.writeColor.cgColor
-        outputView.layer?.cornerRadius = 2
-        self.outputBoxView = outputView
-        
-        view.addArrangedSubview(NSView())
-        view.addArrangedSubview(inputView)
-        view.addArrangedSubview(outputView)
-        
-        return view
-    }
-    
-    public func update(_ list: [IOProcess_p]) {
-        DispatchQueue.main.async(execute: {
-            if !(self.window?.isVisible ?? false) && self.initialized {
-                return
-            }
-            
-            for (i, p) in self.subviews.compactMap({ $0 as? TopProcess }).enumerated() {
-                if list.count != self.numberOfProcesses && self.initialized {
-                    p.clear()
-                }
-                if list.indices.contains(i) {
-                    p.set(list[i])
-                }
-            }
-            
-            self.initialized = true
-        })
-    }
-    
-    public func updateColors() {
-        self.inputBoxView?.layer?.backgroundColor = self.readColor.cgColor
-        self.outputBoxView?.layer?.backgroundColor = self.writeColor.cgColor
-    }
-}
-
-public class TopProcess: NSStackView {
-    private var imageView: NSImageView = NSImageView()
-    private var labelView: NSTextField = LabelField()
-    private var inputView: NSTextField = ValueField()
-    private var outputView: NSTextField = ValueField()
-    
-    init() {
-        super.init(frame: NSRect.zero)
-        
-        self.orientation = .horizontal
-        self.spacing = 0
-        self.alignment = .centerY
-        self.layer?.cornerRadius = 3
-        
-        self.labelView.cell?.truncatesLastVisibleLine = true
-        self.inputView.font = NSFont.systemFont(ofSize: 10, weight: .regular)
-        self.outputView.font = NSFont.systemFont(ofSize: 10, weight: .regular)
-        
-        self.addArrangedSubview(self.imageView)
-        self.addArrangedSubview(self.labelView)
-        self.addArrangedSubview(NSView())
-        self.addArrangedSubview(self.inputView)
-        self.addArrangedSubview(self.outputView)
-        
-        self.addTrackingArea(NSTrackingArea(
-            rect: NSRect(x: 0, y: 0, width: 264, height: 21),
-            options: [NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited, NSTrackingArea.Options.activeInActiveApp],
-            owner: self,
-            userInfo: nil
-        ))
-        
-        NSLayoutConstraint.activate([
-            self.imageView.widthAnchor.constraint(equalToConstant: 12),
-            self.labelView.heightAnchor.constraint(equalToConstant: 16),
-            self.inputView.widthAnchor.constraint(equalToConstant: 60),
-            self.outputView.widthAnchor.constraint(equalToConstant: 60),
-            self.heightAnchor.constraint(equalToConstant: 21)
-        ])
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    public override func mouseEntered(with: NSEvent) {
-        self.layer?.backgroundColor = .init(gray: 0.01, alpha: 0.05)
-    }
-    public override func mouseExited(with: NSEvent) {
-        self.layer?.backgroundColor = .none
-    }
-    
-    public func set(_ process: IOProcess_p) {
-        self.imageView.image = process.icon
-        self.labelView.stringValue = process.name
-        self.inputView.stringValue = process.input
-        self.outputView.stringValue = process.output
-        self.toolTip = "pid: \(process.pid)"
-    }
-    
-    public func clear() {
-        self.imageView.image = nil
-        self.labelView.stringValue = "-"
-        self.inputView.stringValue = "-"
-        self.outputView.stringValue = "-"
-        self.toolTip = ""
     }
 }
