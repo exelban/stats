@@ -73,10 +73,10 @@
 "Settings" = "Nastavitve";
 "Name" = "Ime";
 "Format" = "Format";
-"Turn off" = "Turn off";
-"Warning" = "Warning";
-"Critical" = "Critical";
-"Usage" = "Usage";
+"Turn off" = "Izklopi";
+"Warning" = "Opozorilo";
+"Critical" = "Kritično";
+"Usage" = "Uporaba";
 
 // Setup
 "Stats Setup" = "Stats konfigurator";
@@ -86,7 +86,7 @@
 "Next page" = "Naslednja stran";
 "Finish" = "Zaključek";
 "Finish setup" = "Zaključi konfiguracijo";
-"Welcome to Stats" = "Dobrodošlji v Stats";
+"Welcome to Stats" = "Dobrodošli v Stats";
 "welcome_message" = "Hvala, ker uporabljate Stats, brezplačni odprtokodni sistemski nadzornik sistema macOS za menijsko vrstico.";
 "Start the application automatically when starting your Mac" = "Samodejni zagon programa ob zagonu računalnika Mac";
 "Do not start the application automatically when starting your Mac" = "Aplikacije ne zaženi samodejno ob zagonu računalnika Mac";
@@ -96,27 +96,28 @@
 "Check for a new version every week (once a week)" = "Za novo različico preveri vsak teden (enkrat na teden)";
 "Check for a new version every month (once a month)" = "Za novo različico preveri vsak mesec (enkrat na mesec)";
 "Never check for updates (not recommended)" = "Nikoli ne preverjaj ali so na voljo nove posodobitve (ni priporočljivo)";
-"Anonymous telemetry for better development decisions" = "Anonymous telemetry for better development decisions";
-"Share anonymous telemetry data" = "Share anonymous telemetry data";
-"Do not share anonymous telemetry data" = "Do not share anonymous telemetry data";
+"Anonymous telemetry for better development decisions" = "Anonimna telemetrija za boljše razvojne odločitve";
+"Share anonymous telemetry data" = "Deli anonimne podatke telemetrije";
+"Do not share anonymous telemetry data" = "Ne deli anonimne podatke telemetrije";
 "The configuration is completed" = "Konfiguracija je zaključena";
 "finish_setup_message" = "Vse je pripravljeno! \n Stats je odprtokodno orodje katero je brezplačno in vedno bo. \Če vam je všeč, lahko projekt podprete, kar je vedno dobrodošlo!";
 
 // Alerts
 "New version available" = "Na voljo je nova različica";
-"Click to install the new version of Stats" = "Kliknite za namestitev nove različice programa Stats";
+"Click to install the new version of Stats" = "Klikni za namestitev nove različice programa Stats";
 "Successfully updated" = "Uspešno posodobljeno";
 "Stats was updated to v" = "Program Stats je bil posodobljen na v%0";
-"Reset settings text" = "Vse nastavitve aplikacije se ponastavijo in aplikacija se znova zažene. Ali ste prepričani, da želite to storiti?";
+"Reset settings text" = "Vse nastavitve aplikacije se bodo ponastavile in aplikacija se bo znova zagnala. Ali ste prepričani, da želite
+ to storiti?";
 
 // Settings
-"Open Activity Monitor" = "Odprite monitor dejavnosti";
+"Open Activity Monitor" = "Odpri monitor dejavnosti";
 "Report a bug" = "Prijavi napako";
 "Support the application" = "Donacija za aplikacijo";
 "Close application" = "Zapri aplikacijo";
 "Open application settings" = "Odpri nastavitve aplikacije";
 "Open dashboard" = "Odpri nadzorno ploščo";
-"No notifications available in this module" = "No notifications available in this module";
+"No notifications available in this module" = "V tem modulu niso na voljo nobena obvestila";
 
 // Application settings
 "Update application" = "Posodobi aplikacijo";
@@ -135,7 +136,7 @@
 "Resume the Stats" = "Nadaljuj z izvajanjem Stats";
 "Combined modules" = "Združeni moduli";
 "Spacing" = "Razmik";
-"Share anonymous telemetry" = "Share anonymous telemetry";
+"Share anonymous telemetry" = "Deli anonimno telemetrijo";
 
 // Dashboard
 "Serial number" = "Serijska številka";
@@ -183,7 +184,7 @@
 "Color of download" = "Barva prenosa";
 "Color of upload" = "Barva oddajanja";
 "Monospaced font" = "Pisava s fiksno širino";
-"Reverse order" = "Reverse order";
+"Reverse order" = "Obratni vrstni red";
 
 // Module Kit
 "Open module settings" = "Odpri nastavitve modula";
@@ -234,11 +235,11 @@
 "Cluster grouping" = "Združevanje v gruče";
 "Efficiency cores color" = "Barva učinkovitih jeder";
 "Performance cores color" = "Barva performančnih jeder";
-"Total load" = "Total load";
-"System load" = "System load";
-"User load" = "User load";
-"Efficiency cores load" = "Efficiency cores load";
-"Performance cores load" = "Performance cores load";
+"Total load" = "Skupna obremenitev";
+"System load" = "Sistemska obremenitev";
+"User load" = "Uporabniška obremenitev";
+"Efficiency cores load" = "Obremenitev učinkovitih jeder";
+"Performance cores load" = "Obremenitev performančnih jeder";
 
 // GPU
 "GPU to show" = "GPE za prikaz";
@@ -278,9 +279,9 @@
 "Wired color" = "Žična barva";
 "Compressed color" = "Stisnjena barva";
 "Free color" = "Prosta barva";
-"Free memory (less than)" = "Free memory (less than)";
-"Swap size" = "Swap size";
-"Free RAM is" = "Free RAM is %0";
+"Free memory (less than)" = "Prosti pomnilnik (manj kot)";
+"Swap size" = "Swap velikost";
+"Free RAM is" = "RAM je prost %0";
 
 // Disk
 "Show removable disks" = "Prikaži odstranljive diske";
@@ -309,12 +310,12 @@
 "Install fan helper" = "Namesti pomočnika za ventilatorje";
 "Uninstall fan helper" = "Odstrani pomočnika za ventilatorje";
 "Fan value" = "Vrednost ventilatorja";
-"Turn off fan" = "Turn off fan";
-"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?";
-"Sensor threshold" = "Sensor threshold";
-"Left fan" = "Left";
-"Right fan" = "Right";
-"Fastest fan" = "Fastest";
+"Turn off fan" = "Izklopi ventilator";
+"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Izklopili boste ventilator. To ni priporočljivo dejanje, saj lahko poškoduje vaš mac. Ali ste prepričani, da želite to storiti?";
+"Sensor threshold" = "Prag zaznavanja";
+"Left fan" = "Levi";
+"Right fan" = "Desni";
+"Fastest fan" = "Najhitrejši";
 
 // Network
 "Uploading" = "Oddajanje";
@@ -324,10 +325,10 @@
 "Interface" = "Vmesnik";
 "Physical address" = "Fizični naslov";
 "Refresh" = "Osveži";
-"Click to copy public IP address" = "Kliknite za kopiranje javnega IP naslova";
-"Click to copy local IP address" = "Kliknite za kopiranje lokalnega IP naslova";
-"Click to copy wifi name" = "Kliknite za kopiranje imena WiFi";
-"Click to copy mac address" = "Kliknite za kopiranje mac naslova";
+"Click to copy public IP address" = "Klikni za kopiranje javnega IP naslova";
+"Click to copy local IP address" = "Klikni za kopiranje lokalnega IP naslova";
+"Click to copy wifi name" = "Klikni za kopiranje imena WiFi";
+"Click to copy mac address" = "Klikni za kopiranje MAC naslova";
 "No connection" = "Ni povezave";
 "Network interface" = "Mrežni vmesnik";
 "Total download" = "Skupno prenešeno";
@@ -347,7 +348,7 @@
 "Active state color" = "Barva aktivnega stanja";
 "Nonactive state color" = "Barva neaktivnega stanja";
 "Connectivity host (ICMP)" = "Gostitelj za preverjanje povezljivosti (ICMP)";
-"Leave empty to disable the check" = "Pustite prazno, če želite onemogočiti preverjanje povezljivosti";
+"Leave empty to disable the check" = "Pusti prazno, če želiš onemogočiti preverjanje povezljivosti";
 "Transparent pictogram when no activity" = "Prosojni piktogram, ko ni dejavnosti";
 "Connectivity history" = "Zgodovina povezljivosti";
 "Auto-refresh public IP address" = "Samodejna osvežitev javnega IP naslova";
@@ -355,8 +356,8 @@
 "Every 12 hours" = "Vsakih 12 ur";
 "Every 24 hours" = "Vsakih 24 ur";
 "Network activity" = "Dejavnost v omrežju";
-"Last reset" = "Last reset %0 ago";
-"Latency" = "Latency";
+"Last reset" = "Zadnja ponastavitev pred %0";
+"Latency" = "Zakasnitev";
 
 // Battery
 "Level" = "Raven";
