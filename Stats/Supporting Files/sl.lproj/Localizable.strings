@@ -107,8 +107,7 @@
 "Click to install the new version of Stats" = "Klikni za namestitev nove različice programa Stats";
 "Successfully updated" = "Uspešno posodobljeno";
 "Stats was updated to v" = "Program Stats je bil posodobljen na v%0";
-"Reset settings text" = "Vse nastavitve aplikacije se bodo ponastavile in aplikacija se bo znova zagnala. Ali ste prepričani, da želite
- to storiti?";
+"Reset settings text" = "Vse nastavitve aplikacije se bodo ponastavile in aplikacija se bo znova zagnala. Ali ste prepričani, da to storiti?";
 
 // Settings
 "Open Activity Monitor" = "Odpri monitor dejavnosti";
