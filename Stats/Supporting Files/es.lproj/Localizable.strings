@@ -80,7 +80,7 @@
 
 // Setup
 "Stats Setup" = "Configuración de Stats";
-"Previous" = "anterior";
+"Previous" = "Anterior";
 "Previous page" = "Pagina anterior";
 "Next" = "Siguiente";
 "Next page" = "Pagina siguiente";
@@ -356,7 +356,7 @@
 "Every 24 hours" = "Cada 24 horas";
 "Network activity" = "Actividad de red";
 "Last reset" = "Último reinicio hace %0";
-"Latency" = "Latency";
+"Latency" = "Latencia";
 
 // Battery
 "Level" = "Nivel";
