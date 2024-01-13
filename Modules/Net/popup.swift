@@ -143,18 +143,18 @@ internal class Popup: PopupWrapper {
         view.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
         
         let leftPart: NSView = NSView(frame: NSRect(x: 0, y: 0, width: view.frame.width / 2, height: view.frame.height))
-        let uploadFields = self.topValueView(leftPart, title: localizedString("Uploading"), color: self.uploadColor)
-        self.uploadView = uploadFields.0
-        self.uploadValueField = uploadFields.1
-        self.uploadUnitField = uploadFields.2
-        self.uploadStateView = uploadFields.3
-        
-        let rightPart: NSView = NSView(frame: NSRect(x: view.frame.width / 2, y: 0, width: view.frame.width / 2, height: view.frame.height))
-        let downloadFields = self.topValueView(rightPart, title: localizedString("Downloading"), color: self.downloadColor)
+        let downloadFields = self.topValueView(leftPart, title: localizedString("Downloading"), color: self.downloadColor)
         self.downloadView = downloadFields.0
         self.downloadValueField = downloadFields.1
         self.downloadUnitField = downloadFields.2
         self.downloadStateView = downloadFields.3
+        
+        let rightPart: NSView = NSView(frame: NSRect(x: view.frame.width / 2, y: 0, width: view.frame.width / 2, height: view.frame.height))
+        let uploadFields = self.topValueView(rightPart, title: localizedString("Uploading"), color: self.uploadColor)
+        self.uploadView = uploadFields.0
+        self.uploadValueField = uploadFields.1
+        self.uploadUnitField = uploadFields.2
+        self.uploadStateView = uploadFields.3
         
         view.addSubview(leftPart)
         view.addSubview(rightPart)
