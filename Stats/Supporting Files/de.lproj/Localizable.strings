@@ -76,7 +76,7 @@
 "Turn off" = "Ausschalten";
 "Warning" = "Warnung";
 "Critical" = "Kritisch";
-"Usage" = "Benutzt";
+"Usage" = "Auslastung";
 
 // Setup
 "Stats Setup" = "Stats einrichten";
@@ -196,17 +196,17 @@
 "Pictogram" = "Piktogramm";
 "Module" = "Modul";
 "Widgets" = "Widgets";
-"Popup" = "Aufpoppen";
+"Popup" = "Popup";
 "Notifications" = "Benachrichtigungen";
 "Merge widgets" = "Widgets zusammenfassen";
 "No available widgets to configure" = "Keine Widgets zum Konfigurieren verfügbar";
-"No options to configure for the popup in this module" = "Keine Optionen für das Popup zum Konfigurieren verfügbar";
+"No options to configure for the popup in this module" = "Keine weitere Konfigurationsmöglichkeit für das Popup verfügbar";
 
 // Modules
 "Number of top processes" = "Anzahl der Top-Prozesse";
 "Update interval for top processes" = "Update-Intervall der Top-Prozesse";
 "Notification level" = "Benachrichtungslevel";
-"Chart color" = "Diagramm Farbe";
+"Chart color" = "Diagrammfarbe";
 
 // CPU
 "CPU usage" = "CPU-Auslastung";
@@ -228,9 +228,9 @@
 "CPU usage is" = "Auslastung ist %0";
 "Efficiency cores" = "Efficiency Cores";
 "Performance cores" = "Performance Cores";
-"System color" = "System Farbe";
-"User color" = "Benutzer Farbe";
-"Idle color" = "Leerlauf Farbe";
+"System color" = "System-Farbe";
+"User color" = "Benutzer-Farbe";
+"Idle color" = "Leerlauf-Farbe";
 "Cluster grouping" = "Clustergruppierung";
 "Efficiency cores color" = "Efficiency Cores Farbe";
 "Performance cores color" = "Performance Cores Farbe";
@@ -253,8 +253,8 @@
 "Active" = "Aktiv";
 "Non active" = "Nicht aktiv";
 "Fan speed" = "Lüfterdrehzahl";
-"Core clock" = "Kern Taktfrequenz";
-"Memory clock" = "Speicher Taktfrequenz";
+"Core clock" = "Kern-Taktfrequenz";
+"Memory clock" = "Speicher-Taktfrequenz";
 "Utilization" = "Auslastung";
 "Render utilization" = "Rendering Auslastung";
 "Tiler utilization" = "Tile Rendering Auslastung";
@@ -271,13 +271,13 @@
 "Compressed" = "Komprimiert";
 "Free" = "Frei";
 "Swap" = "Swap";
-"Split the value (App/Wired/Compressed)" = "Teilen Sie den Wert auf (App/Reserviert/Komprimiert)";
-"RAM utilization threshold" = "Schwellwert für RAM Auslastung erreicht";
+"Split the value (App/Wired/Compressed)" = "Wert aufteilen (App/Reserviert/Komprimiert)";
+"RAM utilization threshold" = "Schwellwert für RAM-Auslastung erreicht";
 "RAM utilization is" = "Auslastung ist %0";
-"App color" = "App Farbe";
-"Wired color" = "Reserviert Farbe";
-"Compressed color" = "Komprimiert Farbe";
-"Free color" = "Frei Farbe";
+"App color" = "App-Farbe";
+"Wired color" = "Reserviert-Farbe";
+"Compressed color" = "Komprimiert-Farbe";
+"Free color" = "Frei-Farbe";
 "Free memory (less than)" = "Freier Speicher (weniger als)";
 "Swap size" = "Swap-Größe";
 "Free RAM is" = "Freier RAM ist %0";
@@ -289,10 +289,10 @@
 "Disk to show" = "Festplatte auswählen";
 "Open disk" = "Festplatte öffnen";
 "Switch view" = "Ansicht wechseln";
-"Disk utilization threshold" = "Schwellwert für Datenträger Auslastung erreicht";
+"Disk utilization threshold" = "Schwellwert für Datenträgerauslastung erreicht";
 "Disk utilization is" = "Auslastung ist %0";
-"Read color" = "Lesen Farbe";
-"Write color" = "Schreiben Farbe";
+"Read color" = "Lesen-Farbe";
+"Write color" = "Schreiben-Farbe";
 "Disk usage" = "Speichernutzung";
 
 // Sensors
@@ -302,16 +302,16 @@
 "Save the fan speed" = "Lüftergeschwindigkeit speichern";
 "Fan" = "Lüfter";
 "HID sensors" = "HID Sensoren";
-"Synchronize fan's control" = "Lüfter synchron halten";
+"Synchronize fan's control" = "Lüfter synchronisieren";
 "Current" = "Aktuell";
 "Energy" = "Energie";
 "Show unknown sensors" = "Unbekannte Sensoren anzeigen";
 "Install fan helper" = "Lüftersteuerung installieren";
 "Uninstall fan helper" = "Lüftersteuerung deinstallieren";
-"Fan value" = "Lüftergeschwindigkeitswert";
+"Fan value" = "Lüftergeschwindigkeit";
 "Turn off fan" = "Lüfter ausschalten";
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Sie sind dabei den Lüfter auszuschalten. Dies kann den Mac beschädigen und wird daher nicht empfohlen. Möchten Sie wirklich fortfahren?";
-"Sensor threshold" = "Sensor Schwellwert";
+"Sensor threshold" = "Sensor-Schwellwert";
 "Left fan" = "Links";
 "Right fan" = "Rechts";
 "Fastest fan" = "Schnellster";
@@ -348,7 +348,7 @@
 "Nonactive state color" = "Inaktiver-Status Farbe";
 "Connectivity host (ICMP)" = "Verbindungsverfügbarkeits-Host (ICMP)";
 "Leave empty to disable the check" = "Leer lassen zum Deaktivieren";
-"Transparent pictogram when no activity" = "Transparentes Piktogramm bei keiner Aktivität";
+"Transparent pictogram when no activity" = "Transparentes Piktogramm ohne Aktivität";
 "Connectivity history" = "Verbindungshistorie";
 "Auto-refresh public IP address" = "Öffentliche IP automatisch aktualisieren";
 "Every hour" = "Jede Stunde";
@@ -397,7 +397,7 @@
 
 // Bluetooth
 "Battery to show" = "Angezeigter Akku";
-"No Bluetooth devices are available" = "Keine Bluetooth Geräte verfügbar";
+"No Bluetooth devices are available" = "Keine Bluetooth-Geräte verfügbar";
 
 // Clock
 "Time zone" = "Zeitzone";
