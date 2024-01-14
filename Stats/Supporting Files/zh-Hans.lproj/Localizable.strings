@@ -356,7 +356,7 @@
 "Every 24 hours" = "每 24 小时";
 "Network activity" = "网络活动";
 "Last reset" = "上次重置于 %0 之前";
-"Latency" = "Latency";
+"Latency" = "延迟";
 
 // Battery
 "Level" = "电量";
