@@ -73,10 +73,10 @@
 "Settings" = "Paramètres";
 "Name" = "Nom";
 "Format" = "Format";
-"Turn off" = "Turn off";
-"Warning" = "Warning";
-"Critical" = "Critical";
-"Usage" = "Usage";
+"Turn off" = "Éteindre";
+"Warning" = "Avertissement";
+"Critical" = "Critique";
+"Usage" = "Utilisation";
 
 // Setup
 "Stats Setup" = "Configuration de Stats";
@@ -96,9 +96,9 @@
 "Check for a new version every week (once a week)" = "Vérifier s'il existe une nouvelle version toutes les semaines (une fois par semaine)";
 "Check for a new version every month (once a month)" = "Vérifier s'il existe une nouvelle version tous les mois (une fois par mois)";
 "Never check for updates (not recommended)" = "Ne jamais vérifier les mises à jour (non recommandé)";
-"Anonymous telemetry for better development decisions" = "Anonymous telemetry for better development decisions";
-"Share anonymous telemetry data" = "Share anonymous telemetry data";
-"Do not share anonymous telemetry data" = "Do not share anonymous telemetry data";
+"Anonymous telemetry for better development decisions" = "Télémétrie anonyme pour de meilleures décisions en matière de développement";
+"Share anonymous telemetry data" = "Partager les données télémétriques anonymes";
+"Do not share anonymous telemetry data" = "Ne pas partager les données télémétriques anonymes";
 "The configuration is completed" = "La configuration est terminée";
 "finish_setup_message" = "Tout est prêt ! \n Stats est un outil open source, gratuit et le restera toujours. \n Si vous appréciez ce projet, vous pouvez le soutenir, cela sera toujours apprécié !";
 
@@ -116,7 +116,7 @@
 "Close application" = "Fermer l'application";
 "Open application settings" = "Ouvrir les paramètres de l'application";
 "Open dashboard" = "Ouvrir le tableau de bord";
-"No notifications available in this module" = "No notifications available in this module";
+"No notifications available in this module" = "Aucune modification disponnible pour ce module";
 
 // Application settings
 "Update application" = "Mettre à jour l'application";
@@ -135,7 +135,7 @@
 "Resume the Stats" = "Reprendre Stats";
 "Combined modules" = "Modules combinés";
 "Spacing" = "Espacement";
-"Share anonymous telemetry" = "Share anonymous telemetry";
+"Share anonymous telemetry" = "Partager des données télémétriques anonymes";
 
 // Dashboard
 "Serial number" = "Numéro de série";
@@ -234,11 +234,11 @@
 "Cluster grouping" = "Regroupement par cluster";
 "Efficiency cores color" = "Couleur des cœurs d'efficacité énergétique";
 "Performance cores color" = "Couleur des cœurs de performance";
-"Total load" = "Total load";
-"System load" = "System load";
-"User load" = "User load";
-"Efficiency cores load" = "Efficiency cores load";
-"Performance cores load" = "Performance cores load";
+"Total load" = "Chargement total";
+"System load" = "Chargement système";
+"User load" = "Chargement utilisateur";
+"Efficiency cores load" = "Chargement des cœurs efficacité";
+"Performance cores load" = "Chargement des cœurs performance";
 
 // GPU
 "GPU to show" = "GPU à afficher";
@@ -278,9 +278,9 @@
 "Wired color" = "Couleur de la mémoire câblée";
 "Compressed color" = "Couleur de la mémoire compressée";
 "Free color" = "Couleur de la mémoire inactive";
-"Free memory (less than)" = "Free memory (less than)";
-"Swap size" = "Swap size";
-"Free RAM is" = "Free RAM is %0";
+"Free memory (less than)" = "Mémoire disponnible (moins de)";
+"Swap size" = "Taille du swap";
+"Free RAM is" = "La RAM disponnible est %0";
 
 // Disk
 "Show removable disks" = "Afficher les disques amovibles";
@@ -309,12 +309,12 @@
 "Install fan helper" = "Installer l'assistant des ventilateurs";
 "Uninstall fan helper" = "Désinstaller l'assistant des ventilateurs";
 "Fan value" = "Vitesse du ventilateur";
-"Turn off fan" = "Turn off fan";
-"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?";
-"Sensor threshold" = "Sensor threshold";
-"Left fan" = "Left";
-"Right fan" = "Right";
-"Fastest fan" = "Fastest";
+"Turn off fan" = "Éteindre les ventilateurs";
+"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Vous vous apprêtez à éteindre les ventilateurs. Cette action n'est pas recommandée car elle peut endommager votre mac, êtes-vous sûr de vouloir faire cela ?";
+"Sensor threshold" = "Seuil du capteur";
+"Left fan" = "Gauche";
+"Right fan" = "Droite";
+"Fastest fan" = "Le plus rapide";
 
 // Network
 "Uploading" = "Envoi";
@@ -355,8 +355,8 @@
 "Every 12 hours" = "Toutes les 12 heures";
 "Every 24 hours" = "Toutes les 24 heures";
 "Network activity" = "L'activité réseau";
-"Last reset" = "Last reset %0 ago";
-"Latency" = "Latency";
+"Last reset" = "Dernière réinitialisation il y a %0";
+"Latency" = "Latence";
 
 // Battery
 "Level" = "Niveau";
