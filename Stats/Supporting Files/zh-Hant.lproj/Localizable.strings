@@ -312,8 +312,8 @@
 "Turn off fan" = "關閉風扇";
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "您似乎要關閉您 Mac 的風扇。不建議進行此操作，因為這可能會造成 Mac 的損毀，您確定仍要關閉風扇嗎？";
 "Sensor threshold" = "感知器臨界值";
-"Left fan" = "右側風扇";
-"Right fan" = "左側風扇";
+"Left fan" = "左側風扇";
+"Right fan" = "右側風扇";
 "Fastest fan" = "最快速度";
 
 // Network
