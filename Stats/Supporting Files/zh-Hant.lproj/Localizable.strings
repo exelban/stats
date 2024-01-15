@@ -60,7 +60,7 @@
 "Right alignment" = "靠右對齊";
 "Dashboard" = "儀表板";
 "Enabled" = "啟用";
-"Disabled" = "已停用";
+"Disabled" = "停用";
 "Silent" = "寧靜執行";
 "Units" = "單位";
 "Fans" = "風扇";
@@ -116,7 +116,7 @@
 "Close application" = "關閉應用程式";
 "Open application settings" = "打開應用程式設定";
 "Open dashboard" = "打開儀表板";
-"No notifications available in this module" = "No notifications available in this module";
+"No notifications available in this module" = "沒有可用於此模組的通知";
 
 // Application settings
 "Update application" = "更新應用程式";
@@ -142,8 +142,8 @@
 "Uptime" = "開機時間";
 "Number of cores" = "%0 核心";
 "Number of threads" = "%0 執行緒";
-"Number of e-cores" = "%0 節能核心";
-"Number of p-cores" = "%0 效能核心";
+"Number of e-cores" = "%0 個節能核心";
+"Number of p-cores" = "%0 個效能核心";
 
 // Update
 "The latest version of Stats installed" = "已安裝最新版本";
@@ -157,14 +157,14 @@
 "Box" = "背景";
 "Frame" = "外框";
 "Value" = "數值";
-"Colorize" = "彩色";
-"Colorize value" = "色彩數值";
+"Colorize" = "以色彩顯示";
+"Colorize value" = "以色彩顯示數值";
 "Additional information" = "附加資訊";
-"Reverse values order" = "上下翻轉數值";
+"Reverse values order" = "在上方列顯示已使用數值";
 "Base" = "單位";
 "Display mode" = "顯示模式";
-"One row" = "單行";
-"Two rows" = "雙行";
+"One row" = "單列";
+"Two rows" = "雙列";
 "Mini widget" = "小型";
 "Line chart widget" = "線狀圖";
 "Bar chart widget" = "柱狀圖";
@@ -179,7 +179,7 @@
 "State widget" = "State 小工具";
 "Show symbols" = "顯示符號";
 "Label widget" = "標籤";
-"Number of reads in the chart" = "圖表中的未讀計數";
+"Number of reads in the chart" = "圖表顯示的未讀計數";
 "Color of download" = "下載的顯示色彩";
 "Color of upload" = "上傳的顯示色彩";
 "Monospaced font" = "等寬字體";
@@ -198,39 +198,39 @@
 "Widgets" = "小工具";
 "Popup" = "彈出式視窗";
 "Notifications" = "通知";
-"Merge widgets" = "整合型小工具";
+"Merge widgets" = "合併小工具";
 "No available widgets to configure" = "沒有可用的小工具來進行組態設定";
 "No options to configure for the popup in this module" = "沒有可用於此模組的彈出式視窗組態設定選項";
 
 // Modules
 "Number of top processes" = "高能耗程序數量";
 "Update interval for top processes" = "高能耗程序更新頻率";
-"Notification level" = "通知等級";
+"Notification level" = "觸發通知的數值";
 "Chart color" = "圖表色彩";
 
 // CPU
-"CPU usage" = "處理器使用率";
+"CPU usage" = "處理器使用量";
 "CPU temperature" = "處理器溫度";
 "CPU frequency" = "處理器頻率";
-"System" = "系統";
+"System" = "根據系統";
 "User" = "使用者";
 "Idle" = "閒置";
 "Show usage per core" = "顯示每個核心的使用狀態";
 "Show hyper-threading cores" = "顯示超執行緒核心";
 "Split the value (System/User)" = "分割值 (系統/使用者)";
-"Scheduler limit" = "排程限制";
+"Scheduler limit" = "調度限制";
 "Speed limit" = "速度限制";
 "Average load" = "平均負載";
 "1 minute" = "1 分鐘";
 "5 minutes" = "5 分鐘";
 "15 minutes" = "15 分鐘";
-"CPU usage threshold" = "處理器使用率臨界點";
-"CPU usage is" = "處理器使用率為：%0";
+"CPU usage threshold" = "處理器使用量臨界點";
+"CPU usage is" = "處理器使用量為：%0";
 "Efficiency cores" = "節能核心";
 "Performance cores" = "效能核心";
-"System color" = "系統色彩";
-"User color" = "使用者色彩";
-"Idle color" = "閒置時色彩";
+"System color" = "系統占用色彩";
+"User color" = "使用者占用色彩";
+"Idle color" = "閒置色彩";
 "Cluster grouping" = "依群集分組";
 "Efficiency cores color" = "節能核心色彩";
 "Performance cores color" = "效能核心色彩";
@@ -255,31 +255,31 @@
 "Fan speed" = "風扇轉速";
 "Core clock" = "核心時脈";
 "Memory clock" = "記憶體時脈";
-"Utilization" = "使用率";
-"Render utilization" = "繪製使用率";
-"Tiler utilization" = "圖塊使用率";
-"GPU usage threshold" = "顯示卡使用率臨界點";
-"GPU usage is" = "顯示卡使用率為：%0";
+"Utilization" = "利用率";
+"Render utilization" = "渲染利用率";
+"Tiler utilization" = "圖塊利用率";
+"GPU usage threshold" = "顯示卡使用量臨界點";
+"GPU usage is" = "顯示卡使用量為：%0";
 
 // RAM
-"Memory usage" = "記憶體使用率";
+"Memory usage" = "記憶體使用量";
 "Memory pressure" = "記憶體壓力";
 "Total" = "總共";
 "Used" = "已使用";
 "App" = "App 記憶體";
-"Wired" = "固定";
+"Wired" = "連動";
 "Compressed" = "已壓縮";
 "Free" = "可使用";
-"Swap" = "調換";
+"Swap" = "交換";
 "Split the value (App/Wired/Compressed)" = "分割值 (App/固定/壓縮)";
 "RAM utilization threshold" = "記憶體利用率臨界值";
 "RAM utilization is" = "記憶體利用率為：%0";
 "App color" = "App 色彩";
-"Wired color" = "固定記憶體色彩";
-"Compressed color" = "已壓縮色彩";
-"Free color" = "可使用記憶體色彩";
+"Wired color" = "連動記憶體色彩";
+"Compressed color" = "已壓縮記憶體色彩";
+"Free color" = "閒置記憶體色彩";
 "Free memory (less than)" = "可用記憶體 (小於)";
-"Swap size" = "已使用調換";
+"Swap size" = "已使用交換";
 "Free RAM is" = "可用記憶體剩餘 %0";
 
 // Disk
@@ -293,7 +293,7 @@
 "Disk utilization is" = "磁碟利用率為：%0";
 "Read color" = "讀取色彩";
 "Write color" = "寫入色彩";
-"Disk usage" = "磁碟使用率";
+"Disk usage" = "磁碟使用量";
 
 // Sensors
 "Temperature unit" = "溫度單位";
@@ -310,11 +310,11 @@
 "Uninstall fan helper" = "解除安裝風扇輔助程式";
 "Fan value" = "風扇轉速值";
 "Turn off fan" = "關閉風扇";
-"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "您似乎要關閉您 Mac 的風扇。這可能會造成 Mac 的損毀，不建議進行此操作，您確定仍要關閉風扇嗎？";
+"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "您似乎要關閉您 Mac 的風扇。不建議進行此操作，因為這可能會造成 Mac 的損毀，您確定仍要關閉風扇嗎？";
 "Sensor threshold" = "感知器臨界值";
-"Left fan" = "Left";
-"Right fan" = "Right";
-"Fastest fan" = "Fastest";
+"Left fan" = "右側風扇";
+"Right fan" = "左側風扇";
+"Fastest fan" = "最快速度";
 
 // Network
 "Uploading" = "上傳";
@@ -356,7 +356,7 @@
 "Every 24 hours" = "每 24 小時";
 "Network activity" = "網路活動";
 "Last reset" = "上次重置於 %0 前";
-"Latency" = "Latency";
+"Latency" = "延遲";
 
 // Battery
 "Level" = "電量";
@@ -401,7 +401,7 @@
 
 // Clock
 "Time zone" = "時區";
-"Local" = "當地";
+"Local" = "目前位置";
 
 // Colors
 "Based on utilization" = "根據使用率";
