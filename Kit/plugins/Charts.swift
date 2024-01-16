@@ -293,11 +293,15 @@ public class NetworkChartView: NSView {
     public var topColor: NSColor
     public var bottomColor: NSColor
     public var points: [(Double, Double)]
+    public var shadowPoints: [(Double, Double)] = []
     
     private var minMax: Bool = false
     private var scale: Scale = .none
     private var commonScale: Bool = true
     private var reverseOrder: Bool = false
+    
+    private var cursor: NSPoint? = nil
+    private var stop: Bool = false
     
     public init(frame: NSRect, num: Int, minMax: Bool = true, outColor: NSColor = .systemRed, inColor: NSColor = .systemBlue) {
         self.minMax = minMax
@@ -305,6 +309,16 @@ public class NetworkChartView: NSView {
         self.topColor = inColor
         self.bottomColor = outColor
         super.init(frame: frame)
+        
+        self.addTrackingArea(NSTrackingArea(
+            rect: CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height),
+            options: [
+                NSTrackingArea.Options.activeAlways,
+                NSTrackingArea.Options.mouseEnteredAndExited,
+                NSTrackingArea.Options.mouseMoved
+            ],
+            owner: self, userInfo: nil
+        ))
     }
     
     required init?(coder: NSCoder) {
@@ -317,7 +331,10 @@ public class NetworkChartView: NSView {
         guard let context = NSGraphicsContext.current?.cgContext else { return }
         context.setShouldAntialias(true)
         
-        let points = self.points
+        var points = self.points
+        if self.stop {
+            points = self.shadowPoints
+        }
         var topMax: Double = (self.reverseOrder ? points.map{ $0.1 }.max() : points.map{ $0.0 }.max()) ?? 0
         var bottomMax: Double = (self.reverseOrder ? points.map{ $0.0 }.max() : points.map{ $0.1 }.max()) ?? 0
         if topMax == 0 {
@@ -338,6 +355,8 @@ public class NetworkChartView: NSView {
         let lineWidth = 1 / (NSScreen.main?.backingScaleFactor ?? 1)
         let zero: CGFloat = (self.frame.height/2) + self.frame.origin.y
         let xRatio: CGFloat = (self.frame.width + (lineWidth*3)) / CGFloat(points.count)
+        let xCenter: CGFloat = self.frame.height/2 + self.frame.origin.y
+        let height: CGFloat = self.frame.height - dirtyRect.origin.y - lineWidth
         
         let columnXPoint = { (point: Int) -> CGFloat in
             return (CGFloat(point) * xRatio) + (self.frame.origin.x - lineWidth)
@@ -345,38 +364,45 @@ public class NetworkChartView: NSView {
         
         let topYPoint = { (point: Int) -> CGFloat in
             let value = self.reverseOrder ? points[point].1 : points[point].0
-            return scaleValue(scale: self.scale, value: value, maxValue: topMax, maxHeight: self.frame.height/2) + (self.frame.height/2 + self.frame.origin.y)
+            return scaleValue(scale: self.scale, value: value, maxValue: topMax, maxHeight: self.frame.height/2) + xCenter
         }
         let bottomYPoint = { (point: Int) -> CGFloat in
             let value = self.reverseOrder ? points[point].0 : points[point].1
-            return (self.frame.height/2 + self.frame.origin.y) - scaleValue(scale: self.scale, value: value, maxValue: bottomMax, maxHeight: self.frame.height/2)
+            return xCenter - scaleValue(scale: self.scale, value: value, maxValue: bottomMax, maxHeight: self.frame.height/2)
         }
         
-        let uploadlinePath = NSBezierPath()
-        uploadlinePath.move(to: CGPoint(x: columnXPoint(0), y: topYPoint(0)))
+        let topList = points.enumerated().compactMap { (i: Int, v: (Double, Double)) -> (value: Double, point: CGPoint) in
+            return (self.reverseOrder ? v.1 : v.0, CGPoint(x: columnXPoint(i), y: topYPoint(i)))
+        }
+        let bottomList = points.enumerated().compactMap { (i: Int, v: (Double, Double)) -> (value: Double, point: CGPoint) in
+            return (self.reverseOrder ? v.0 : v.1, CGPoint(x: columnXPoint(i), y: bottomYPoint(i)))
+        }
         
-        let downloadlinePath = NSBezierPath()
-        downloadlinePath.move(to: CGPoint(x: columnXPoint(0), y: bottomYPoint(0)))
+        let topLinePath = NSBezierPath()
+        topLinePath.move(to: CGPoint(x: columnXPoint(0), y: topYPoint(0)))
+        
+        let bottomLinePath = NSBezierPath()
+        bottomLinePath.move(to: CGPoint(x: columnXPoint(0), y: bottomYPoint(0)))
         
         for i in 1..<points.count {
-            uploadlinePath.line(to: CGPoint(x: columnXPoint(i), y: topYPoint(i)))
-            downloadlinePath.line(to: CGPoint(x: columnXPoint(i), y: bottomYPoint(i)))
+            topLinePath.line(to: CGPoint(x: columnXPoint(i), y: topYPoint(i)))
+            bottomLinePath.line(to: CGPoint(x: columnXPoint(i), y: bottomYPoint(i)))
         }
         
         let topColor = self.reverseOrder ? self.bottomColor : self.topColor
         let bottomColor = self.reverseOrder ? self.topColor : self.bottomColor
         
         bottomColor.setStroke()
-        uploadlinePath.lineWidth = lineWidth
-        uploadlinePath.stroke()
+        topLinePath.lineWidth = lineWidth
+        topLinePath.stroke()
         
         topColor.setStroke()
-        downloadlinePath.lineWidth = lineWidth
-        downloadlinePath.stroke()
+        bottomLinePath.lineWidth = lineWidth
+        bottomLinePath.stroke()
         
         context.saveGState()
         
-        var underLinePath = uploadlinePath.copy() as! NSBezierPath
+        var underLinePath = topLinePath.copy() as! NSBezierPath
         underLinePath.line(to: CGPoint(x: columnXPoint(points.count), y: zero))
         underLinePath.line(to: CGPoint(x: columnXPoint(0), y: zero))
         underLinePath.close()
@@ -387,7 +413,7 @@ public class NetworkChartView: NSView {
         context.restoreGState()
         context.saveGState()
         
-        underLinePath = downloadlinePath.copy() as! NSBezierPath
+        underLinePath = bottomLinePath.copy() as! NSBezierPath
         underLinePath.line(to: CGPoint(x: columnXPoint(points.count), y: zero))
         underLinePath.line(to: CGPoint(x: columnXPoint(0), y: zero))
         underLinePath.close()
@@ -413,6 +439,69 @@ public class NetworkChartView: NSView {
             
             rect = CGRect(x: 1, y: 2, width: bottomTextWidth, height: 8)
             NSAttributedString.init(string: bottomText, attributes: stringAttributes).draw(with: rect)
+        }
+        
+        if let p = self.cursor {
+            let list = p.y > xCenter ? topList : bottomList
+            if let over = list.first(where: { $0.point.x >= p.x }), let under = list.last(where: { $0.point.x <= p.x }) {
+                let diffOver = over.point.x - p.x
+                let diffUnder = p.x - under.point.x
+                let nearest = (diffOver < diffUnder) ? over : under
+                let vLine = NSBezierPath()
+                let hLine = NSBezierPath()
+                
+                vLine.setLineDash([4, 4], count: 2, phase: 0)
+                hLine.setLineDash([6, 6], count: 2, phase: 0)
+                
+                vLine.move(to: CGPoint(x: p.x, y: 0))
+                vLine.line(to: CGPoint(x: p.x, y: height))
+                vLine.close()
+                
+                hLine.move(to: CGPoint(x: 0, y: p.y))
+                hLine.line(to: CGPoint(x: self.frame.size.width+self.frame.origin.x, y: p.y))
+                hLine.close()
+                
+                NSColor.tertiaryLabelColor.set()
+                
+                vLine.lineWidth = lineWidth
+                hLine.lineWidth = lineWidth
+                
+                vLine.stroke()
+                hLine.stroke()
+                
+                let dotSize: CGFloat = 4
+                let path = NSBezierPath(ovalIn: CGRect(
+                    x: nearest.point.x-(dotSize/2),
+                    y: nearest.point.y-(dotSize/2),
+                    width: dotSize,
+                    height: dotSize
+                ))
+                NSColor.red.set()
+                path.stroke()
+                
+                let style = NSMutableParagraphStyle()
+                style.alignment = .left
+                var textPosition: CGPoint = CGPoint(x: nearest.point.x+4, y: nearest.point.y+4)
+                
+                if textPosition.x + 24 > self.frame.size.width+self.frame.origin.x {
+                    textPosition.x = nearest.point.x - 30
+                    style.alignment = .right
+                }
+                if textPosition.y + 14 > height {
+                    textPosition.y = nearest.point.y - 14
+                }
+                
+                let stringAttributes = [
+                    NSAttributedString.Key.font: NSFont.systemFont(ofSize: 10, weight: .regular),
+                    NSAttributedString.Key.foregroundColor: isDarkMode ? NSColor.white : NSColor.textColor,
+                    NSAttributedString.Key.paragraphStyle: style
+                ]
+                
+                let rect = CGRect(x: textPosition.x, y: textPosition.y, width: 26, height: 10)
+                let value = Units(bytes: Int64(nearest.value)).getReadableSpeed(base: self.base)
+                let str = NSAttributedString.init(string: value, attributes: stringAttributes)
+                str.draw(with: rect)
+            }
         }
     }
     
@@ -469,6 +558,34 @@ public class NetworkChartView: NSView {
         if needUpdate && self.window?.isVisible ?? false {
             self.display()
         }
+    }
+    
+    public override func mouseEntered(with event: NSEvent) {
+        self.cursor = convert(event.locationInWindow, from: nil)
+        self.needsDisplay = true
+    }
+    
+    public override func mouseMoved(with event: NSEvent) {
+        self.cursor = convert(event.locationInWindow, from: nil)
+        self.needsDisplay = true
+    }
+    
+    public override func mouseDragged(with event: NSEvent) {
+        self.cursor = convert(event.locationInWindow, from: nil)
+        self.needsDisplay = true
+    }
+    
+    public override func mouseExited(with event: NSEvent) {
+        self.cursor = nil
+        self.needsDisplay = true
+    }
+    
+    public override func mouseDown(with: NSEvent) {
+        self.shadowPoints = self.points
+        self.stop = true
+    }
+    public override func mouseUp(with: NSEvent) {
+        self.stop = false
     }
 }
 
