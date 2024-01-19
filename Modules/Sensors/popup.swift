@@ -352,11 +352,11 @@ internal class ValueSensorView: NSStackView {
     public var callback: (() -> Void)
     
     private var labelView: LabelField = {
-        let view = LabelField(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
+        let view = LabelField(frame: NSRect.zero)
         view.cell?.truncatesLastVisibleLine = true
         return view
     }()
-    private var valueView: ValueField = ValueField(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
+    private var valueView: ValueField = ValueField(frame: NSRect.zero)
     
     public init(_ sensor: Sensor_p, width: CGFloat, callback: @escaping (() -> Void)) {
         self.callback = callback

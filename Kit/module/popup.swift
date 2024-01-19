@@ -98,10 +98,6 @@ internal class PopupViewController: NSViewController {
         self.view = self.popup
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-    
     override func viewWillAppear() {
         super.viewWillAppear()
         
