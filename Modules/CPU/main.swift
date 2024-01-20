@@ -91,7 +91,7 @@ public class CPU: Module {
     public init() {
         self.settingsView = Settings("CPU")
         self.popupView = Popup("CPU")
-        self.portalView = Portal("CPU")
+        self.portalView = Portal(.CPU)
         self.notificationsView = Notifications(.CPU)
         
         super.init(
@@ -192,7 +192,7 @@ public class CPU: Module {
         guard let value = raw, self.enabled else { return }
         
         self.popupView.loadCallback(value)
-        self.portalView.loadCallback(value)
+        self.portalView.callback(value)
         self.notificationsView.loadCallback(value)
         
         self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: Widget) in

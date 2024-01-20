@@ -70,53 +70,17 @@ internal class Popup: PopupWrapper {
     private var maxFreq: Double = 0
     
     private var systemColorState: Color = .secondRed
-    private var systemColor: NSColor {
-        var value = NSColor.systemRed
-        if let color = self.systemColorState.additional as? NSColor {
-            value = color
-        }
-        return value
-    }
+    private var systemColor: NSColor { self.systemColorState.additional as? NSColor ?? NSColor.systemRed }
     private var userColorState: Color = .secondBlue
-    private var userColor: NSColor {
-        var value = NSColor.systemBlue
-        if let color = self.userColorState.additional as? NSColor {
-            value = color
-        }
-        return value
-    }
+    private var userColor: NSColor { self.userColorState.additional as? NSColor ?? NSColor.systemBlue }
     private var idleColorState: Color = .lightGray
-    private var idleColor: NSColor {
-        var value = NSColor.lightGray
-        if let color = self.idleColorState.additional as? NSColor {
-            value = color
-        }
-        return value
-    }
+    private var idleColor: NSColor { self.idleColorState.additional as? NSColor ?? NSColor.lightGray }
     private var chartColorState: Color = .systemAccent
-    private var chartColor: NSColor {
-        var value = NSColor.systemBlue
-        if let color = self.chartColorState.additional as? NSColor {
-            value = color
-        }
-        return value
-    }
+    private var chartColor: NSColor { self.chartColorState.additional as? NSColor ?? NSColor.systemBlue }
     private var eCoresColorState: Color = .teal
-    private var eCoresColor: NSColor {
-        var value = NSColor.systemTeal
-        if let color = self.eCoresColorState.additional as? NSColor {
-            value = color
-        }
-        return value
-    }
+    private var eCoresColor: NSColor { self.eCoresColorState.additional as? NSColor ?? NSColor.systemTeal }
     private var pCoresColorState: Color = .secondBlue
-    private var pCoresColor: NSColor {
-        var value = NSColor.systemBlue
-        if let color = self.pCoresColorState.additional as? NSColor {
-            value = color
-        }
-        return value
-    }
+    private var pCoresColor: NSColor { self.pCoresColorState.additional as? NSColor ?? NSColor.systemBlue }
     
     private var numberOfProcesses: Int {
         Store.shared.int(key: "\(self.title)_processes", defaultValue: 8)

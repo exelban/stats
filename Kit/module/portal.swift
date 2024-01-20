@@ -15,6 +15,50 @@ public protocol Portal_p: NSView {
     var name: String { get }
 }
 
+open class PortalWrapper: NSStackView, Portal_p {
+    public var name: String
+    
+    private let header: PortalHeader
+    
+    public init(_ type: ModuleType, height: CGFloat = Constants.Popup.portalHeight) {
+        self.name = type.rawValue
+        self.header = PortalHeader(type.rawValue)
+        
+        super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: height))
+        
+        self.wantsLayer = true
+        self.layer?.backgroundColor = NSColor.windowBackgroundColor.cgColor
+        self.layer?.cornerRadius = 3
+        
+        self.orientation = .vertical
+        self.distribution = .fillEqually
+        self.spacing = Constants.Popup.spacing*2
+        self.edgeInsets = NSEdgeInsets(
+            top: Constants.Popup.spacing*2,
+            left: Constants.Popup.spacing*2,
+            bottom: Constants.Popup.spacing*2,
+            right: Constants.Popup.spacing*2
+        )
+        self.addArrangedSubview(self.header)
+        
+        self.load()
+        
+        self.heightAnchor.constraint(equalToConstant: Constants.Popup.portalHeight).isActive = true
+    }
+    
+    required public init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    public override func updateLayer() {
+        self.layer?.backgroundColor = NSColor.windowBackgroundColor.cgColor
+    }
+    
+    open func load() {
+        self.addArrangedSubview(NSView())
+    }
+}
+
 public class PortalHeader: NSStackView {
     private let name: String
     

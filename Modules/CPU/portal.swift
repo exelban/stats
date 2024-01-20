@@ -12,107 +12,135 @@
 import Cocoa
 import Kit
 
-public class Portal: NSStackView, Portal_p {
-    public var name: String
-    
+public class Portal: PortalWrapper {
     private var circle: PieChartView? = nil
     private var barChart: BarChartView? = nil
     
     private var initialized: Bool = false
     
-    private var systemColorState: Color = .secondRed
-    private var systemColor: NSColor {
-        var value = NSColor.systemRed
-        if let color = self.systemColorState.additional as? NSColor {
-            value = color
-        }
-        return value
-    }
-    private var userColorState: Color = .secondBlue
-    private var userColor: NSColor {
-        var value = NSColor.systemBlue
-        if let color = self.userColorState.additional as? NSColor {
-            value = color
-        }
-        return value
-    }
-    private var idleColorState: Color = .lightGray
-    private var idleColor: NSColor {
-        var value = NSColor.lightGray
-        if let color = self.idleColorState.additional as? NSColor {
-            value = color
-        }
-        return value
-    }
+    private var systemField: NSTextField? = nil
+    private var userField: NSTextField? = nil
+    private var idleField: NSTextField? = nil
+    private var shedulerLimitField: NSTextField? = nil
+    private var speedLimitField: NSTextField? = nil
+    private var eCoresField: NSTextField? = nil
+    private var pCoresField: NSTextField? = nil
+    private var average1Field: NSTextField? = nil
+    private var average5Field: NSTextField? = nil
+    private var average15Field: NSTextField? = nil
     
-    init(_ name: String) {
-        self.name = name
-        
-        super.init(frame: NSRect.zero)
-        
-        self.wantsLayer = true
-        self.layer?.backgroundColor = NSColor.windowBackgroundColor.cgColor
-        self.layer?.cornerRadius = 3
-        
-        self.orientation = .vertical
-        self.distribution = .fillEqually
-        self.spacing = Constants.Popup.spacing*2
-        self.edgeInsets = NSEdgeInsets(
-            top: Constants.Popup.spacing*2,
+    private var systemColorView: NSView? = nil
+    private var userColorView: NSView? = nil
+    private var idleColorView: NSView? = nil
+    private var eCoresColorView: NSView? = nil
+    private var pCoresColorView: NSView? = nil
+    
+    private var systemColorState: Color = .secondRed
+    private var systemColor: NSColor { self.systemColorState.additional as? NSColor ?? NSColor.systemRed }
+    private var userColorState: Color = .secondBlue
+    private var userColor: NSColor { self.userColorState.additional as? NSColor ?? NSColor.systemBlue }
+    private var idleColorState: Color = .lightGray
+    private var idleColor: NSColor { self.idleColorState.additional as? NSColor ?? NSColor.lightGray }
+    private var eCoresColorState: Color = .teal
+    private var eCoresColor: NSColor { self.eCoresColorState.additional as? NSColor ?? NSColor.systemTeal }
+    private var pCoresColorState: Color = .secondBlue
+    private var pCoresColor: NSColor { self.pCoresColorState.additional as? NSColor ?? NSColor.systemBlue }
+    
+    public override func load() {
+        let view = NSStackView()
+        view.orientation = .horizontal
+        view.distribution = .fillEqually
+        view.spacing = Constants.Popup.spacing*2
+        view.edgeInsets = NSEdgeInsets(
+            top: 0,
             left: Constants.Popup.spacing*2,
-            bottom: Constants.Popup.spacing*2,
+            bottom: 0,
             right: Constants.Popup.spacing*2
         )
-        self.addArrangedSubview(PortalHeader(name))
+        
+        let chartsView = self.charts()
+        let detailsView = self.details()
+        
+        view.addArrangedSubview(chartsView)
+        view.addArrangedSubview(detailsView)
+        
+        self.addArrangedSubview(view)
+        
+        chartsView.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
+        detailsView.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
+    }
+    
+    private func charts() -> NSView {
+        let view = NSStackView()
+        view.orientation = .vertical
+        view.distribution = .fillEqually
+        view.spacing = Constants.Popup.spacing*2
         
         let circle = PieChartView(frame: NSRect.zero, segments: [], drawValue: true)
         circle.toolTip = localizedString("CPU usage")
         self.circle = circle
-        self.addArrangedSubview(circle)
+        view.addArrangedSubview(circle)
         
         if let cores = SystemKit.shared.device.info.cpu?.logicalCores {
             let barChartContainer: NSView = {
-                let box: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 30))
+                let box: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 24))
                 box.heightAnchor.constraint(equalToConstant: box.frame.height).isActive = true
                 box.wantsLayer = true
                 box.layer?.backgroundColor = NSColor.lightGray.withAlphaComponent(0.1).cgColor
                 box.layer?.cornerRadius = 3
                 
-                let chart = BarChartView(frame: NSRect(
-                    x: Constants.Popup.spacing,
-                    y: Constants.Popup.spacing,
-                    width: Constants.Popup.width/2 - (Constants.Popup.spacing*2),
-                    height: box.frame.height - (Constants.Popup.spacing*2)
-                ), num: Int(cores))
+                let chart = BarChartView(num: Int(cores))
                 self.barChart = chart
-                
                 box.addArrangedSubview(chart)
                 
                 return box
             }()
-            self.addArrangedSubview(barChartContainer)
+            view.addArrangedSubview(barChartContainer)
         }
         
-        self.heightAnchor.constraint(equalToConstant: Constants.Popup.portalHeight).isActive = true
+        return view
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    private func details() -> NSView {
+        let view = NSStackView()
+        view.orientation = .vertical
+        view.distribution = .fillEqually
+        view.spacing = 2
+        
+        (self.systemColorView, self.systemField) = portalWithColorRow(view, color: self.systemColor, title: "\(localizedString("System")):")
+        (self.userColorView, self.userField) = portalWithColorRow(view, color: self.userColor, title: "\(localizedString("User")):")
+        (self.idleColorView, self.idleField) = portalWithColorRow(view, color: self.idleColor.withAlphaComponent(0.5), title: "\(localizedString("Idle")):")
+        
+        if SystemKit.shared.device.info.cpu?.eCores != nil {
+            (self.eCoresColorView, self.eCoresField) = portalWithColorRow(view, color: self.eCoresColor, title: "E-cores:")
+        }
+        if SystemKit.shared.device.info.cpu?.pCores != nil {
+            (self.pCoresColorView, self.pCoresField) = portalWithColorRow(view, color: self.pCoresColor, title: "P-cores:")
+        }
+        
+        return view
     }
     
-    public override func updateLayer() {
-        self.layer?.backgroundColor = NSColor.windowBackgroundColor.cgColor
-    }
-    
-    public func loadCallback(_ value: CPU_Load) {
+    internal func callback(_ value: CPU_Load) {
         DispatchQueue.main.async(execute: {
             if (self.window?.isVisible ?? false) || !self.initialized {
+                self.systemField?.stringValue = "\(Int(value.systemLoad.rounded(toPlaces: 2) * 100))%"
+                self.userField?.stringValue = "\(Int(value.userLoad.rounded(toPlaces: 2) * 100))%"
+                self.idleField?.stringValue = "\(Int(value.idleLoad.rounded(toPlaces: 2) * 100))%"
+                
                 self.circle?.setValue(value.totalUsage)
                 self.circle?.setSegments([
                     circle_segment(value: value.systemLoad, color: self.systemColor),
                     circle_segment(value: value.userLoad, color: self.userColor)
                 ])
                 self.circle?.setNonActiveSegmentColor(self.idleColor)
+                
+                if let field = self.eCoresField, let usage = value.usageECores {
+                    field.stringValue = "\(Int(usage * 100))%"
+                }
+                if let field = self.pCoresField, let usage = value.usagePCores {
+                    field.stringValue = "\(Int(usage * 100))%"
+                }
                 
                 var usagePerCore: [ColorValue] = []
                 if let cores = SystemKit.shared.device.info.cpu?.cores, cores.count == value.usagePerCore.count {

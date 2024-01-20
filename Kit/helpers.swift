@@ -261,6 +261,7 @@ public class LabelField: NSTextField {
         self.alignment = .natural
         self.font = NSFont.systemFont(ofSize: 12, weight: .regular)
         
+        self.cell?.truncatesLastVisibleLine = true
         self.cell?.usesSingleLineMode = true
     }
     
@@ -372,6 +373,37 @@ public func popupWithColorRow(_ view: NSView, color: NSColor, n: CGFloat, title:
     }
     
     return (colorView, labelView, valueView)
+}
+
+public func portalWithColorRow(_ v: NSStackView, color: NSColor, title: String) -> (NSView, ValueField) {
+    let view: NSStackView = NSStackView()
+    view.orientation = .horizontal
+    view.distribution = .fillProportionally
+    view.spacing = 1
+    
+    let colorView: NSView = NSView()
+    colorView.widthAnchor.constraint(equalToConstant: 5).isActive = true
+    colorView.wantsLayer = true
+    colorView.layer?.backgroundColor = color.cgColor
+    colorView.layer?.cornerRadius = 2
+    
+    let labelView: LabelField = LabelField(title)
+    labelView.font = NSFont.systemFont(ofSize: 11, weight: .regular)
+    
+    let valueView: ValueField = ValueField()
+    valueView.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+    valueView.widthAnchor.constraint(equalToConstant: 40).isActive = true
+    
+    view.addArrangedSubview(colorView)
+    view.addArrangedSubview(labelView)
+    view.addArrangedSubview(NSView())
+    view.addArrangedSubview(valueView)
+    
+    v.addArrangedSubview(view)
+    
+    view.widthAnchor.constraint(equalTo: v.widthAnchor).isActive = true
+    
+    return (colorView, valueView)
 }
 
 public extension Array where Element: Equatable {

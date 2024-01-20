@@ -829,7 +829,7 @@ public class TachometerGraphView: NSView {
 public class BarChartView: NSView {
     private var values: [ColorValue] = []
     
-    public init(frame: NSRect, num: Int) {
+    public init(frame: NSRect = NSRect.zero, num: Int) {
         super.init(frame: frame)
         self.values = Array(repeating: ColorValue(0, color: .controlAccentColor), count: num)
     }
@@ -858,17 +858,28 @@ public class BarChartView: NSView {
             let value = self.values[i]
             let color = value.color ?? .controlAccentColor
             let activeBlockNum = Int(round(value.value*Double(blocks)))
+            let h = value.value*partitionSize.height
             
-            var y: CGFloat = spacing
-            for b in 0..<blocks {
+            if dirtyRect.height < 30 &&  h != 0 {
                 let block = NSBezierPath(
-                    roundedRect: NSRect(x: x+spacing, y: y, width: blockSize.width, height: blockSize.height),
+                    roundedRect: NSRect(x: x+spacing, y: 1, width: partitionSize.width-(spacing*2), height: value.value*partitionSize.height),
                     xRadius: 1, yRadius: 1
                 )
-                (activeBlockNum <= b ? NSColor.controlBackgroundColor.withAlphaComponent(0.4) : color).setFill()
+                color.setFill()
                 block.fill()
                 block.close()
-                y += blockSize.height + 1
+            } else {
+                var y: CGFloat = spacing
+                for b in 0..<blocks {
+                    let block = NSBezierPath(
+                        roundedRect: NSRect(x: x+spacing, y: y, width: blockSize.width, height: blockSize.height),
+                        xRadius: 1, yRadius: 1
+                    )
+                    (activeBlockNum <= b ? NSColor.controlBackgroundColor.withAlphaComponent(0.4) : color).setFill()
+                    block.fill()
+                    block.close()
+                    y += blockSize.height + 1
+                }
             }
             
             x += partitionSize.width + spacing
