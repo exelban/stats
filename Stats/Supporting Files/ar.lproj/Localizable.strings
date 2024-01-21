@@ -73,6 +73,10 @@
 "Settings" = "إعدادات";
 "Name" = "إسم";
 "Format" = "الصيغة";
+"Turn off" = "Turn off";
+"Warning" = "Warning";
+"Critical" = "Critical";
+"Usage" = "Usage";
 
 // Setup
 "Stats Setup" = "Stats Seadistamine";
@@ -112,6 +116,7 @@
 "Close application" = "Sule rakendus";
 "Open application settings" = "Ava rakenduse seaded";
 "Open dashboard" = "Ava armatuurlaud";
+"No notifications available in this module" = "No notifications available in this module";
 
 // Application settings
 "Update application" = "Uuenda rakendust";
@@ -178,6 +183,7 @@
 "Color of download" = "Allaladimise värv";
 "Color of upload" = "Üleslaadimise värv";
 "Monospaced font" = "Üheruumiline kirjastiil";
+"Reverse order" = "Reverse order";
 
 // Module Kit
 "Open module settings" = "Ava mooduli sätted";
@@ -228,6 +234,11 @@
 "Cluster grouping" = "Klastrite rühmitamine";
 "Efficiency cores color" = "Tõhusatuumade värv";
 "Performance cores color" = "Jõudlustuumade värv";
+"Total load" = "Total load";
+"System load" = "System load";
+"User load" = "User load";
+"Efficiency cores load" = "Efficiency cores load";
+"Performance cores load" = "Performance cores load";
 
 // GPU
 "GPU to show" = "GPU, mida näidata";
@@ -267,6 +278,9 @@
 "Wired color" = "Juhtmega värv";
 "Compressed color" = "Tihendatud värv";
 "Free color" = "Vaba värv";
+"Free memory (less than)" = "Free memory (less than)";
+"Swap size" = "Swap size";
+"Free RAM is" = "Free RAM is %0";
 
 // Disk
 "Show removable disks" = "Kuva irdkettad";
@@ -295,6 +309,12 @@
 "Install fan helper" = "Installi ventilaatoriabi";
 "Uninstall fan helper" = "Desinstalli fänniabi";
 "Fan value" = "Fänni väärtus";
+"Turn off fan" = "Turn off fan";
+"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?";
+"Sensor threshold" = "Sensor threshold";
+"Left fan" = "Left";
+"Right fan" = "Right";
+"Fastest fan" = "Fastest";
 
 // Network
 "Uploading" = "Üleslaadimine";
@@ -336,6 +356,7 @@
 "Every 24 hours" = "Iga 24 tunni järel";
 "Network activity" = "Võrgutegevus";
 "Last reset" = "Viimane lähtestamine %0 tagasi";
+"Latency" = "Latency";
 
 // Battery
 "Level" = "Tase";
@@ -412,5 +433,5 @@
 "Cyan" = "Tsüaan";
 "Magenta" = "Magenta";
 "Pink" = "Roosa";
-"Teal" = "Sinakasroheline"; // ehk rohekassinine
+"Teal" = "Sinakasroheline";
 "Indigo" = "Indigo";
