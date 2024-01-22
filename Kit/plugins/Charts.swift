@@ -483,8 +483,8 @@ public class NetworkChartView: NSView {
                 style.alignment = .left
                 var textPosition: CGPoint = CGPoint(x: nearest.point.x+4, y: nearest.point.y+4)
                 
-                if textPosition.x + 24 > self.frame.size.width+self.frame.origin.x {
-                    textPosition.x = nearest.point.x - 30
+                if textPosition.x + 35 > self.frame.size.width+self.frame.origin.x {
+                    textPosition.x = nearest.point.x - 55
                     style.alignment = .right
                 }
                 if textPosition.y + 14 > height {
@@ -497,7 +497,7 @@ public class NetworkChartView: NSView {
                     NSAttributedString.Key.paragraphStyle: style
                 ]
                 
-                let rect = CGRect(x: textPosition.x, y: textPosition.y, width: 26, height: 10)
+                let rect = CGRect(x: textPosition.x, y: textPosition.y, width: 52, height: 10)
                 let value = Units(bytes: Int64(nearest.value)).getReadableSpeed(base: self.base)
                 let str = NSAttributedString.init(string: value, attributes: stringAttributes)
                 str.draw(with: rect)
