@@ -12,51 +12,84 @@
 import Cocoa
 import Kit
 
-public class Portal: NSStackView, Portal_p {
-    public var name: String
-    
+public class Portal: PortalWrapper {
     private var circle: HalfCircleGraphView? = nil
+    
+    private var usageField: NSTextField? = nil
+    private var renderField: NSTextField? = nil
+    private var tilerField: NSTextField? = nil
     
     private var initialized: Bool = false
     
-    init(_ name: String) {
-        self.name = name
-        
-        super.init(frame: NSRect.zero)
-        
-        self.wantsLayer = true
-        self.layer?.backgroundColor = NSColor.windowBackgroundColor.cgColor
-        self.layer?.cornerRadius = 3
-        
-        self.orientation = .vertical
-        self.distribution = .fillEqually
-        self.spacing = Constants.Popup.spacing*2
-        self.edgeInsets = NSEdgeInsets(
-            top: Constants.Popup.spacing*2,
+    public override func load() {
+        let view = NSStackView()
+        view.orientation = .horizontal
+        view.distribution = .fillEqually
+        view.spacing = Constants.Popup.spacing*2
+        view.edgeInsets = NSEdgeInsets(
+            top: 0,
             left: Constants.Popup.spacing*2,
             bottom: 0,
             right: Constants.Popup.spacing*2
         )
-        self.addArrangedSubview(PortalHeader(name))
         
-        self.circle = HalfCircleGraphView()
-        self.circle!.toolTip = localizedString("GPU usage")
-        self.addArrangedSubview(self.circle!)
+        let chartsView = self.charts()
+        let detailsView = self.details()
         
-        self.heightAnchor.constraint(equalToConstant: Constants.Popup.portalHeight).isActive = true
+        view.addArrangedSubview(chartsView)
+        view.addArrangedSubview(detailsView)
+        
+        self.addArrangedSubview(view)
+        
+        chartsView.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    private func charts() -> NSView {
+        let view = NSStackView()
+        view.orientation = .vertical
+        view.distribution = .fillEqually
+        view.spacing = Constants.Popup.spacing*2
+        view.edgeInsets = NSEdgeInsets(
+            top: Constants.Popup.spacing*4,
+            left: Constants.Popup.spacing*4,
+            bottom: Constants.Popup.spacing*4,
+            right: Constants.Popup.spacing*4
+        )
+        
+        let chart = HalfCircleGraphView()
+        chart.toolTip = localizedString("GPU usage")
+        view.addArrangedSubview(chart)
+        self.circle = chart
+        
+        return view
     }
     
-    public override func updateLayer() {
-        self.layer?.backgroundColor = NSColor.windowBackgroundColor.cgColor
+    private func details() -> NSView {
+        let view = NSStackView()
+        view.orientation = .vertical
+        view.distribution = .fillEqually
+        view.spacing = Constants.Popup.spacing*2
+        
+        self.usageField = portalRow(view, title: "\(localizedString("Usage")):")
+        self.renderField = portalRow(view, title: "\(localizedString("Render")):")
+        self.tilerField = portalRow(view, title: "\(localizedString("Tiler")):")
+        
+        return view
     }
     
-    public func loadCallback(_ value: GPU_Info) {
+    internal func callback(_ value: GPU_Info) {
         DispatchQueue.main.async(execute: {
             if (self.window?.isVisible ?? false) || !self.initialized {
+                if let value = value.utilization {
+                    self.usageField?.stringValue = "\(Int(value*100))%"
+                }
+                if let value = value.renderUtilization {
+                    self.renderField?.stringValue = "\(Int(value*100))%"
+                }
+                if let value = value.tilerUtilization {
+                    self.tilerField?.stringValue = "\(Int(value*100))%"
+                }
+                
                 self.circle?.setValue(value.utilization!)
                 self.circle?.setText("\(Int(value.utilization!*100))%")
                 self.initialized = true

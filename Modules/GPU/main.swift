@@ -85,7 +85,7 @@ public class GPU: Module {
     public init() {
         self.popupView = Popup()
         self.settingsView = Settings("GPU")
-        self.portalView = Portal("GPU")
+        self.portalView = Portal(.GPU)
         self.notificationsView = Notifications(.GPU)
         
         super.init(
@@ -139,7 +139,7 @@ public class GPU: Module {
             return
         }
         
-        self.portalView.loadCallback(selectedGPU)
+        self.portalView.callback(selectedGPU)
         self.notificationsView.usageCallback(utilization)
         
         self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
