@@ -92,7 +92,7 @@ public class RAM: Module {
     public init() {
         self.settingsView = Settings("RAM")
         self.popupView = Popup("RAM")
-        self.portalView = Portal("RAM")
+        self.portalView = Portal(.RAM)
         self.notificationsView = Notifications(.RAM)
         
         super.init(
@@ -149,7 +149,7 @@ public class RAM: Module {
         guard raw != nil, let value = raw, self.enabled else { return }
         
         self.popupView.loadCallback(value)
-        self.portalView.loadCallback(value)
+        self.portalView.callback(value)
         self.notificationsView.loadCallback(value)
         
         let total: Double = value.total == 0 ? 1 : value.total

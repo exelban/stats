@@ -52,45 +52,15 @@ internal class Popup: PopupWrapper {
     }
     
     private var appColorState: Color = .secondBlue
-    private var appColor: NSColor {
-        var value = NSColor.systemRed
-        if let color = self.appColorState.additional as? NSColor {
-            value = color
-        }
-        return value
-    }
+    private var appColor: NSColor { self.appColorState.additional as? NSColor ?? NSColor.systemRed }
     private var wiredColorState: Color = .secondOrange
-    private var wiredColor: NSColor {
-        var value = NSColor.systemBlue
-        if let color = self.wiredColorState.additional as? NSColor {
-            value = color
-        }
-        return value
-    }
+    private var wiredColor: NSColor { self.wiredColorState.additional as? NSColor ?? NSColor.systemBlue }
     private var compressedColorState: Color = .pink
-    private var compressedColor: NSColor {
-        var value = NSColor.lightGray
-        if let color = self.compressedColorState.additional as? NSColor {
-            value = color
-        }
-        return value
-    }
+    private var compressedColor: NSColor { self.compressedColorState.additional as? NSColor ?? NSColor.lightGray }
     private var freeColorState: Color = .lightGray
-    private var freeColor: NSColor {
-        var value = NSColor.systemBlue
-        if let color = self.freeColorState.additional as? NSColor {
-            value = color
-        }
-        return value
-    }
+    private var freeColor: NSColor { self.freeColorState.additional as? NSColor ?? NSColor.systemBlue }
     private var chartColorState: Color = .systemAccent
-    private var chartColor: NSColor {
-        var value = NSColor.systemBlue
-        if let color = self.chartColorState.additional as? NSColor {
-            value = color
-        }
-        return value
-    }
+    private var chartColor: NSColor { self.chartColorState.additional as? NSColor ?? NSColor.systemBlue }
     
     public init(_ title: String) {
         self.title = title
