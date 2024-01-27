@@ -300,14 +300,16 @@ public class NetworkChartView: NSView {
     private var commonScale: Bool = true
     private var reverseOrder: Bool = false
     
+    private var cursorToolTip: Bool = false
     private var cursor: NSPoint? = nil
     private var stop: Bool = false
     
-    public init(frame: NSRect, num: Int, minMax: Bool = true, outColor: NSColor = .systemRed, inColor: NSColor = .systemBlue) {
+    public init(frame: NSRect, num: Int, minMax: Bool = true, outColor: NSColor = .systemRed, inColor: NSColor = .systemBlue, toolTip: Bool = false) {
         self.minMax = minMax
         self.points = Array(repeating: (0, 0), count: num)
         self.topColor = inColor
         self.bottomColor = outColor
+        self.cursorToolTip = toolTip
         super.init(frame: frame)
         
         self.addTrackingArea(NSTrackingArea(
@@ -561,30 +563,36 @@ public class NetworkChartView: NSView {
     }
     
     public override func mouseEntered(with event: NSEvent) {
+        guard self.cursorToolTip else { return }
         self.cursor = convert(event.locationInWindow, from: nil)
         self.needsDisplay = true
     }
     
     public override func mouseMoved(with event: NSEvent) {
+        guard self.cursorToolTip else { return }
         self.cursor = convert(event.locationInWindow, from: nil)
         self.needsDisplay = true
     }
     
     public override func mouseDragged(with event: NSEvent) {
+        guard self.cursorToolTip else { return }
         self.cursor = convert(event.locationInWindow, from: nil)
         self.needsDisplay = true
     }
     
     public override func mouseExited(with event: NSEvent) {
+        guard self.cursorToolTip else { return }
         self.cursor = nil
         self.needsDisplay = true
     }
     
     public override func mouseDown(with: NSEvent) {
+        guard self.cursorToolTip else { return }
         self.shadowPoints = self.points
         self.stop = true
     }
     public override func mouseUp(with: NSEvent) {
+        guard self.cursorToolTip else { return }
         self.stop = false
     }
 }
@@ -858,11 +866,11 @@ public class BarChartView: NSView {
             let value = self.values[i]
             let color = value.color ?? .controlAccentColor
             let activeBlockNum = Int(round(value.value*Double(blocks)))
-            let h = value.value*partitionSize.height
+            let h = value.value*(partitionSize.height-spacing)
             
-            if dirtyRect.height < 30 &&  h != 0 {
+            if dirtyRect.height < 30 && h != 0 {
                 let block = NSBezierPath(
-                    roundedRect: NSRect(x: x+spacing, y: 1, width: partitionSize.width-(spacing*2), height: value.value*partitionSize.height),
+                    roundedRect: NSRect(x: x+spacing, y: 1, width: partitionSize.width-(spacing*2), height: h),
                     xRadius: 1, yRadius: 1
                 )
                 color.setFill()

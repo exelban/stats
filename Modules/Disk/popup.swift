@@ -16,21 +16,9 @@ internal class Popup: PopupWrapper {
     private var title: String
     
     private var readColorState: Color = .secondBlue
-    private var readColor: NSColor {
-        var value = NSColor.systemRed
-        if let color = self.readColorState.additional as? NSColor {
-            value = color
-        }
-        return value
-    }
+    private var readColor: NSColor { self.readColorState.additional as? NSColor ?? NSColor.systemRed }
     private var writeColorState: Color = .secondRed
-    private var writeColor: NSColor {
-        var value = NSColor.systemBlue
-        if let color = self.writeColorState.additional as? NSColor {
-            value = color
-        }
-        return value
-    }
+    private var writeColor: NSColor { self.writeColorState.additional as? NSColor ?? NSColor.systemBlue }
     
     private var disks: NSStackView = {
         let view = NSStackView()
@@ -239,7 +227,7 @@ internal class DiskView: NSStackView {
     private var temperatureView: TemperatureView?
     private var lifeView: LifeView?
     
-    init(width: CGFloat, BSDName: String, name: String, size: Int64, free: Int64, path: URL?, smart: smart_t?) {
+    init(width: CGFloat, BSDName: String = "", name: String = "", size: Int64 = 1, free: Int64 = 1, path: URL? = nil, smart: smart_t? = nil) {
         self.BSDName = BSDName
         self.name = name
         let innerWidth: CGFloat = width - (Constants.Popup.margins * 2)

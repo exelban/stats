@@ -44,6 +44,16 @@ public struct drive: Codable {
     
     var activity: stats = stats()
     var smart: smart_t? = nil
+    
+    var percentage: Double {
+        let total = self.size
+        let free = self.free
+        var usedSpace = total - free
+        if usedSpace < 0 {
+            usedSpace = 0
+        }
+        return Double(usedSpace) / Double(total)
+    }
 }
 
 public class Disks: Codable {
@@ -194,7 +204,7 @@ public class Disk: Module {
     
     private let popupView: Popup = Popup()
     private let settingsView: Settings = Settings()
-    private let portalView: Portal = Portal()
+    private let portalView: Portal = Portal(.disk)
     private let notificationsView: Notifications
     
     private var capacityReader: CapacityReader = CapacityReader(.disk)
@@ -276,25 +286,17 @@ public class Disk: Module {
             return
         }
         
-        let total = d.size
-        let free = d.free
-        var usedSpace = total - free
-        if usedSpace < 0 {
-            usedSpace = 0
-        }
-        let percentage = Double(usedSpace) / Double(total)
-        
-        self.portalView.loadCallback(percentage)
-        self.notificationsView.utilizationCallback(percentage)
+        self.portalView.utilizationCallback(d)
+        self.notificationsView.utilizationCallback(d.percentage)
         
         self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
             switch w.item {
-            case let widget as Mini: widget.setValue(percentage)
-            case let widget as BarChart: widget.setValue([[ColorValue(percentage)]])
-            case let widget as MemoryWidget: widget.setValue((DiskSize(free).getReadableMemory(), DiskSize(usedSpace).getReadableMemory()))
+            case let widget as Mini: widget.setValue(d.percentage)
+            case let widget as BarChart: widget.setValue([[ColorValue(d.percentage)]])
+            case let widget as MemoryWidget: widget.setValue((DiskSize(d.free).getReadableMemory(), DiskSize(d.size - d.free).getReadableMemory()))
             case let widget as PieChart:
                 widget.setValue([
-                    circle_segment(value: percentage, color: NSColor.systemBlue)
+                    circle_segment(value: d.percentage, color: NSColor.systemBlue)
                 ])
             default: break
             }
@@ -302,9 +304,7 @@ public class Disk: Module {
     }
     
     private func activityCallback(_ value: Disks) {
-        guard self.enabled else {
-            return
-        }
+        guard self.enabled else { return }
         
         DispatchQueue.main.async(execute: {
             self.popupView.activityCallback(value)
@@ -313,6 +313,8 @@ public class Disk: Module {
         guard let d = value.first(where: { $0.mediaName == self.selectedDisk }) ?? value.first(where: { $0.root }) else {
             return
         }
+        
+        self.portalView.activityCallback(d)
         
         self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
             switch w.item {

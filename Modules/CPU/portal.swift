@@ -47,6 +47,8 @@ public class Portal: PortalWrapper {
     private var pCoresColor: NSColor { self.pCoresColorState.additional as? NSColor ?? NSColor.systemBlue }
     
     public override func load() {
+        self.loadColors()
+        
         let view = NSStackView()
         view.orientation = .horizontal
         view.distribution = .fillEqually
@@ -68,6 +70,14 @@ public class Portal: PortalWrapper {
         
         chartsView.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
         detailsView.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
+    }
+    
+    public func loadColors() {
+        self.systemColorState = Color.fromString(Store.shared.string(key: "\(self.name)_systemColor", defaultValue: self.systemColorState.key))
+        self.userColorState = Color.fromString(Store.shared.string(key: "\(self.name)_userColor", defaultValue: self.userColorState.key))
+        self.idleColorState = Color.fromString(Store.shared.string(key: "\(self.name)_idleColor", defaultValue: self.idleColorState.key))
+        self.eCoresColorState = Color.fromString(Store.shared.string(key: "\(self.name)_eCoresColor", defaultValue: self.eCoresColorState.key))
+        self.pCoresColorState = Color.fromString(Store.shared.string(key: "\(self.name)_pCoresColor", defaultValue: self.pCoresColorState.key))
     }
     
     private func charts() -> NSView {
@@ -145,7 +155,7 @@ public class Portal: PortalWrapper {
                 var usagePerCore: [ColorValue] = []
                 if let cores = SystemKit.shared.device.info.cpu?.cores, cores.count == value.usagePerCore.count {
                     for i in 0..<value.usagePerCore.count {
-                        usagePerCore.append(ColorValue(value.usagePerCore[i], color: cores[i].type == .efficiency ? NSColor.systemTeal : NSColor.systemBlue))
+                        usagePerCore.append(ColorValue(value.usagePerCore[i], color: cores[i].type == .efficiency ? self.eCoresColor : self.pCoresColor))
                     }
                 } else {
                     for i in 0..<value.usagePerCore.count {

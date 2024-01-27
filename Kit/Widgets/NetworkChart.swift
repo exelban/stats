@@ -24,7 +24,7 @@ public class NetworkChart: WidgetWrapper {
     
     private var chart: NetworkChartView = NetworkChartView(
         frame: NSRect(x: 0, y: 0, width: 30, height: Constants.Widget.height - (2*Constants.Widget.margin.y)),
-        num: 60, minMax: false
+        num: 60, minMax: false, toolTip: false
     )
     private var width: CGFloat {
         get {

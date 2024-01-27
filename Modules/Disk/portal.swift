@@ -12,55 +12,112 @@
 import Cocoa
 import Kit
 
-internal class Portal: NSStackView, Portal_p {
-    internal var name: String { Disk.name }
-    
+public class Portal: PortalWrapper {
     private var circle: PieChartView? = nil
+    private var chart: NetworkChartView? = nil
+    
+    private var nameField: NSTextField? = nil
+    private var usedField: NSTextField? = nil
+    private var freeField: NSTextField? = nil
+    
+    private var valueColorState: Color = .secondBlue
+    private var valueColor: NSColor { self.valueColorState.additional as? NSColor ?? NSColor.systemBlue }
+    
+    private var readColor: NSColor {
+        Color.fromString(Store.shared.string(key: "\(Disk.name)_readColor", defaultValue: Color.secondBlue.key)).additional as! NSColor
+    }
+    private var writeColor: NSColor {
+        Color.fromString(Store.shared.string(key: "\(Disk.name)_writeColor", defaultValue: Color.secondRed.key)).additional as! NSColor
+    }
     
     private var initialized: Bool = false
     
-    init() {
-        super.init(frame: NSRect.zero)
+    public override func load() {
+        self.loadColors()
         
-        self.wantsLayer = true
-        self.layer?.backgroundColor = NSColor.windowBackgroundColor.cgColor
-        self.layer?.cornerRadius = 3
-        
-        self.orientation = .vertical
-        self.distribution = .fillEqually
-        self.spacing = Constants.Popup.spacing*2
-        self.edgeInsets = NSEdgeInsets(
-            top: Constants.Popup.spacing*2,
+        let view = NSStackView()
+        view.orientation = .horizontal
+        view.distribution = .fillEqually
+        view.spacing = Constants.Popup.spacing*2
+        view.edgeInsets = NSEdgeInsets(
+            top: 0,
             left: Constants.Popup.spacing*2,
-            bottom: Constants.Popup.spacing*2,
+            bottom: 0,
             right: Constants.Popup.spacing*2
         )
-        self.addArrangedSubview(PortalHeader(name))
         
-        self.circle = PieChartView(frame: NSRect.zero, segments: [], drawValue: true)
-        self.circle!.toolTip = localizedString("Disk usage")
-        self.addArrangedSubview(self.circle!)
+        let chartsView = self.charts()
+        let detailsView = self.details()
         
-        self.heightAnchor.constraint(equalToConstant: Constants.Popup.portalHeight).isActive = true
+        view.addArrangedSubview(chartsView)
+        view.addArrangedSubview(detailsView)
+        
+        self.addArrangedSubview(view)
+        
+        chartsView.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    private func loadColors() {
+        self.valueColorState = Color.fromString(Store.shared.string(key: "\(self.name)_valueColor", defaultValue: self.valueColorState.key))
     }
     
-    public override func updateLayer() {
-        self.layer?.backgroundColor = NSColor.windowBackgroundColor.cgColor
+    private func charts() -> NSView {
+        let view = NSStackView()
+        view.orientation = .vertical
+        view.distribution = .fillEqually
+        view.spacing = Constants.Popup.spacing*2
+        view.edgeInsets = NSEdgeInsets(
+            top: Constants.Popup.spacing*4,
+            left: Constants.Popup.spacing*4,
+            bottom: Constants.Popup.spacing*4,
+            right: Constants.Popup.spacing*4
+        )
+        
+        let chart = PieChartView(frame: NSRect.zero, segments: [], drawValue: true)
+        chart.toolTip = localizedString("Disk usage")
+        view.addArrangedSubview(chart)
+        self.circle = chart
+        
+        return view
     }
     
-    public func loadCallback(_ value: Double) {
+    private func details() -> NSView {
+        let view = NSStackView()
+        view.orientation = .vertical
+        view.distribution = .fillEqually
+        view.spacing = Constants.Popup.spacing*2
+        
+        self.nameField = portalRow(view, title: "\(localizedString("Name")):")
+        self.usedField = portalRow(view, title: "\(localizedString("Used")):")
+        self.freeField = portalRow(view, title: "\(localizedString("Free")):")
+        
+        let chart = NetworkChartView(frame: NSRect.zero, num: 120, minMax: false, outColor: self.writeColor, inColor: self.readColor)
+        chart.heightAnchor.constraint(equalToConstant: 26).isActive = true
+        self.chart = chart
+        view.addArrangedSubview(chart)
+        
+        return view
+    }
+    
+    internal func utilizationCallback(_ value: drive) {
         DispatchQueue.main.async(execute: {
             if (self.window?.isVisible ?? false) || !self.initialized {
-                self.circle?.setValue(value)
+                self.nameField?.stringValue = value.mediaName
+                self.usedField?.stringValue = DiskSize(value.size - value.free).getReadableMemory()
+                self.freeField?.stringValue = DiskSize(value.free).getReadableMemory()
+                
+                self.circle?.setValue(value.percentage)
                 self.circle?.setSegments([
-                    circle_segment(value: value, color: .controlAccentColor)
+                    circle_segment(value: value.percentage, color: self.valueColor)
                 ])
                 self.initialized = true
             }
+        })
+    }
+    
+    internal func activityCallback(_ value: drive) {
+        DispatchQueue.main.async(execute: {
+            self.chart?.addValue(upload: Double(value.activity.write), download: Double(value.activity.read))
         })
     }
 }

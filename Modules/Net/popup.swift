@@ -174,7 +174,7 @@ internal class Popup: PopupWrapper {
         
         let chart = NetworkChartView(
             frame: NSRect(x: 0, y: 1, width: container.frame.width, height: container.frame.height - 2),
-            num: 120, outColor: self.uploadColor, inColor: self.downloadColor
+            num: 120, outColor: self.uploadColor, inColor: self.downloadColor, toolTip: true
         )
         chart.setReverseOrder(self.reverseOrderState)
         chart.base = self.base
