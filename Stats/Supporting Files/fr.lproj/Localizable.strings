@@ -116,7 +116,7 @@
 "Close application" = "Fermer l'application";
 "Open application settings" = "Ouvrir les paramètres de l'application";
 "Open dashboard" = "Ouvrir le tableau de bord";
-"No notifications available in this module" = "Aucune modification disponnible pour ce module";
+"No notifications available in this module" = "Aucune modification disponible pour ce module";
 
 // Application settings
 "Update application" = "Mettre à jour l'application";
@@ -234,11 +234,11 @@
 "Cluster grouping" = "Regroupement par cluster";
 "Efficiency cores color" = "Couleur des cœurs d'efficacité énergétique";
 "Performance cores color" = "Couleur des cœurs de performance";
-"Total load" = "Chargement total";
-"System load" = "Chargement système";
-"User load" = "Chargement utilisateur";
-"Efficiency cores load" = "Chargement des cœurs efficacité";
-"Performance cores load" = "Chargement des cœurs performance";
+"Total load" = "Charge totale";
+"System load" = "Charge système";
+"User load" = "Charge utilisateur";
+"Efficiency cores load" = "Charge des cœurs efficacité";
+"Performance cores load" = "Charge des cœurs performance";
 
 // GPU
 "GPU to show" = "GPU à afficher";
@@ -278,9 +278,9 @@
 "Wired color" = "Couleur de la mémoire câblée";
 "Compressed color" = "Couleur de la mémoire compressée";
 "Free color" = "Couleur de la mémoire inactive";
-"Free memory (less than)" = "Mémoire disponnible (moins de)";
+"Free memory (less than)" = "Mémoire disponible (moins de)";
 "Swap size" = "Taille du swap";
-"Free RAM is" = "La RAM disponnible est %0";
+"Free RAM is" = "La RAM disponible est %0";
 
 // Disk
 "Show removable disks" = "Afficher les disques amovibles";
