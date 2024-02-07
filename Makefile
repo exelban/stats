@@ -5,8 +5,8 @@ BUILD_PATH = $(PWD)/build
 APP_PATH = "$(BUILD_PATH)/$(APP).app"
 ZIP_PATH = "$(BUILD_PATH)/$(APP).zip"
 
-.SILENT: archive notarize sign prepare-dmg prepare-dSYM clean next-version check history disk smc
-.PHONY: build archive notarize sign prepare-dmg prepare-dSYM clean next-version check history open smc
+.SILENT: archive notarize sign prepare-dmg prepare-dSYM clean next-version check history disk smc leveldb
+.PHONY: build archive notarize sign prepare-dmg prepare-dSYM clean next-version check history open smc leveldb
 
 build: clean next-version archive notarize sign prepare-dmg prepare-dSYM open
 
@@ -104,3 +104,12 @@ open:
 smc:
 	$(MAKE) --directory=./smc
 	open $(PWD)/smc
+
+leveldb:
+	if [ ! -d $(PWD)/leveldb-source ]; then \
+		git clone --recurse-submodules https://github.com/google/leveldb.git leveldb-source; \
+	fi
+	mkdir -p $(PWD)/leveldb-source/build
+	cd $(PWD)/leveldb-source/build && cmake -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" -DCMAKE_BUILD_TYPE=Release .. && cmake --build .
+	cp $(PWD)/leveldb-source/build/libleveldb.a $(PWD)/Kit/lldb/libleveldb.a
+	rm -rf $(PWD)/leveldb-source
