@@ -168,7 +168,9 @@ private class Popup: NSStackView, Popup_p {
         }
         
         let h = CGFloat(availableModules.count) * Constants.Popup.portalHeight + (CGFloat(availableModules.count-1)*Constants.Popup.spacing)
-        self.setFrameSize(NSSize(width: self.frame.width, height: h))
-        self.sizeCallback?(self.frame.size)
+        if h > 0 {
+            self.setFrameSize(NSSize(width: self.frame.width, height: h))
+            self.sizeCallback?(self.frame.size)
+        }
     }
 }

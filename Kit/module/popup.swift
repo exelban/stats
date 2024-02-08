@@ -303,8 +303,11 @@ internal class HeaderView: NSStackView {
     
     private var title: String = ""
     private var isCloseAction: Bool = false
+    private let app: URL?
     
     override init(frame: NSRect) {
+        self.app = NSWorkspace.shared.urlForApplication(withBundleIdentifier: "com.apple.ActivityMonitor")
+        
         super.init(frame: CGRect(x: frame.origin.x, y: frame.origin.y, width: frame.width, height: frame.height))
         
         self.orientation = .horizontal
@@ -387,13 +390,8 @@ internal class HeaderView: NSStackView {
     
     @objc func openActivityMonitor(_ sender: Any) {
         self.window?.setIsVisible(false)
-        
-        NSWorkspace.shared.launchApplication(
-            withBundleIdentifier: "com.apple.ActivityMonitor",
-            options: [.default],
-            additionalEventParamDescriptor: nil,
-            launchIdentifier: nil
-        )
+        guard let app = self.app else { return }
+        NSWorkspace.shared.open([], withApplicationAt: app, configuration: NSWorkspace.OpenConfiguration())
     }
     
     @objc func openSettings(_ sender: Any) {

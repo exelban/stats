@@ -55,50 +55,42 @@ open class Reader<T: Codable>: NSObject, ReaderInternal_p {
     public var optional: Bool = false
     public var popup: Bool = false
     
-    public var readyCallback: () -> Void = {}
-    public var callbackHandler: (T?) -> Void = {_ in }
+    public var callbackHandler: (T?) -> Void
     
+    private let module: ModuleType
+    private var history: Bool
     private var repeatTask: Repeater?
     private var nilCallbackCounter: Int = 0
     private var locked: Bool = true
     private var initlizalized: Bool = false
     
-    private let variablesQueue = DispatchQueue(label: "eu.exelban.readerQueue")
-    
+    private let activeQueue = DispatchQueue(label: "eu.exelban.readerActiveQueue")
     private var _active: Bool = false
     public var active: Bool {
-        get {
-            self.variablesQueue.sync { self._active }
-        }
-        set {
-            self.variablesQueue.sync { self._active = newValue }
-        }
+        get { self.activeQueue.sync { self._active } }
+        set { self.activeQueue.sync { self._active = newValue } }
     }
     
-    private var _ready: Bool = false
-    public var ready: Bool {
-        get {
-            self.variablesQueue.sync { self._ready }
-        }
-        set {
-            self.variablesQueue.sync { self._ready = newValue }
-        }
-    }
-    
-    public init(_ module: ModuleType, popup: Bool = false) {
+    public init(_ module: ModuleType, popup: Bool = false, history: Bool = false, callback: @escaping (T?) -> Void = {_ in }) {
         self.popup = popup
+        self.module = module
+        self.history = history
+        self.callbackHandler = callback
         
         super.init()
+        DB.shared.setup(T.self, "\(module.rawValue)@\(self.name)")
         self.setup()
+        
+        if let lastValue = DB.shared.findOne(T.self, key: "\(module.rawValue)@\(self.name)") {
+            self.value = lastValue
+            callback(lastValue)
+        }
         
         debug("Successfully initialize reader", log: self.log)
     }
     
     public func initStoreValues(title: String) {
-        guard self.interval == nil else {
-            return
-        }
-        
+        guard self.interval == nil else { return }
         let updateIntervalString = Store.shared.string(key: "\(title)_updateInterval", defaultValue: "\(self.defaultInterval)")
         if let updateInterval = Double(updateIntervalString) {
             self.interval = updateInterval
@@ -106,29 +98,9 @@ open class Reader<T: Codable>: NSObject, ReaderInternal_p {
     }
     
     public func callback(_ value: T?) {
-        if !self.optional && !self.ready {
-            if self.value == nil && value != nil {
-                self.ready = true
-                self.readyCallback()
-                debug("Reader is ready", log: self.log)
-            } else if self.value == nil && value == nil {
-                if self.nilCallbackCounter > 5 {
-                    error("Callback receive nil value more than 5 times. Please check this reader!", log: self.log)
-                    self.stop()
-                    return
-                } else {
-                    debug("Restarting initial read", log: self.log)
-                    self.nilCallbackCounter += 1
-                    self.read()
-                    return
-                }
-            } else if self.nilCallbackCounter != 0 && value != nil {
-                self.nilCallbackCounter = 0
-            }
-        }
-        
         self.value = value
         if let value {
+            DB.shared.insert(key: "\(self.module.rawValue)@\(self.name)", value: value, ts: self.history)
             self.callbackHandler(value)
         }
     }
@@ -139,10 +111,8 @@ open class Reader<T: Codable>: NSObject, ReaderInternal_p {
     
     open func start() {
         if self.popup && self.locked {
-            if !self.ready {
-                DispatchQueue.global(qos: .background).async {
-                    self.read()
-                }
+            DispatchQueue.global(qos: .background).async {
+                self.read()
             }
             return
         }
