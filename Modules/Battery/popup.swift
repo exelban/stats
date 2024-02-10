@@ -64,8 +64,8 @@ internal class Popup: PopupWrapper {
         Store.shared.string(key: "\(self.title)_timeFormat", defaultValue: "short")
     }
     
-    public init(_ title: String) {
-        self.title = title
+    public init(_ module: ModuleType) {
+        self.title = module.rawValue
         
         super.init(frame: NSRect(
             x: 0,

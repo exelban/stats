@@ -143,9 +143,9 @@ public class Network: Module {
     }
     
     public init() {
-        self.settingsView = Settings("Network")
-        self.popupView = Popup("Network")
-        self.portalView = Portal("Network")
+        self.settingsView = Settings(.network)
+        self.popupView = Popup(.network)
+        self.portalView = Portal(.network)
         
         super.init(
             popup: self.popupView,
@@ -154,32 +154,23 @@ public class Network: Module {
         )
         guard self.available else { return }
         
-        self.usageReader = UsageReader(.network)
-        self.processReader = ProcessReader(.network)
-        self.connectivityReader = ConnectivityReader(.network)
+        self.usageReader = UsageReader(.network) { [weak self] value in
+            self?.usageCallback(value)
+        }
+        self.processReader = ProcessReader(.network) { [weak self] value in
+            if let list = value {
+                self?.popupView.processCallback(list)
+            }
+        }
+        self.connectivityReader = ConnectivityReader(.network) { [weak self] value in
+            self?.connectivityCallback(value)
+        }
         
         self.settingsView.callbackWhenUpdateNumberOfProcesses = {
             self.popupView.numberOfProcessesUpdated()
             DispatchQueue.global(qos: .background).async {
                 self.processReader?.read()
             }
-        }
-        
-        self.usageReader?.callbackHandler = { [weak self] value in
-            self?.usageCallback(value)
-        }
-        self.usageReader?.readyCallback = { [weak self] in
-            self?.readyHandler()
-        }
-        
-        self.processReader?.callbackHandler = { [weak self] value in
-            if let list = value {
-                self?.popupView.processCallback(list)
-            }
-        }
-        
-        self.connectivityReader?.callbackHandler = { [weak self] value in
-            self?.connectivityCallback(value)
         }
         
         self.settingsView.callback = { [weak self] in
@@ -199,15 +190,7 @@ public class Network: Module {
             self?.setIPUpdater()
         }
         
-        if let reader = self.usageReader {
-            self.addReader(reader)
-        }
-        if let reader = self.processReader {
-            self.addReader(reader)
-        }
-        if let reader = self.connectivityReader {
-            self.addReader(reader)
-        }
+        self.setReaders([self.usageReader, self.processReader, self.connectivityReader])
         
         self.setIPUpdater()
         self.setUsageReset()

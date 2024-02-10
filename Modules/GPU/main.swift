@@ -84,7 +84,7 @@ public class GPU: Module {
     
     public init() {
         self.popupView = Popup()
-        self.settingsView = Settings("GPU")
+        self.settingsView = Settings(.GPU)
         self.portalView = Portal(.GPU)
         self.notificationsView = Notifications(.GPU)
         
@@ -96,15 +96,10 @@ public class GPU: Module {
         )
         guard self.available else { return }
         
-        self.infoReader = InfoReader(.GPU)
-        self.selectedGPU = Store.shared.string(key: "\(self.config.name)_gpu", defaultValue: self.selectedGPU)
-        
-        self.infoReader?.callbackHandler = { [weak self] value in
+        self.infoReader = InfoReader(.GPU) { [weak self] value in
             self?.infoCallback(value)
         }
-        self.infoReader?.readyCallback = { [weak self] in
-            self?.readyHandler()
-        }
+        self.selectedGPU = Store.shared.string(key: "\(self.config.name)_gpu", defaultValue: self.selectedGPU)
         
         self.settingsView.selectedGPUHandler = { [weak self] value in
             self?.selectedGPU = value
@@ -117,9 +112,7 @@ public class GPU: Module {
             self?.infoReader?.read()
         }
         
-        if let reader = self.infoReader {
-            self.addReader(reader)
-        }
+        self.setReaders([self.infoReader])
     }
     
     private func infoCallback(_ raw: GPUs?) {

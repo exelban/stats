@@ -24,10 +24,10 @@ public class Portal: PortalWrapper {
     private var valueColor: NSColor { self.valueColorState.additional as? NSColor ?? NSColor.systemBlue }
     
     private var readColor: NSColor {
-        Color.fromString(Store.shared.string(key: "\(Disk.name)_readColor", defaultValue: Color.secondBlue.key)).additional as! NSColor
+        Color.fromString(Store.shared.string(key: "\(self.name)_readColor", defaultValue: Color.secondBlue.key)).additional as! NSColor
     }
     private var writeColor: NSColor {
-        Color.fromString(Store.shared.string(key: "\(Disk.name)_writeColor", defaultValue: Color.secondRed.key)).additional as! NSColor
+        Color.fromString(Store.shared.string(key: "\(self.name)_writeColor", defaultValue: Color.secondRed.key)).additional as! NSColor
     }
     
     private var initialized: Bool = false

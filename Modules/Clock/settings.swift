@@ -22,7 +22,7 @@ internal class Settings: NSStackView, Settings_v, NSTableViewDelegate, NSTableVi
     
     private var list: [Clock_t] {
         get {
-            if let objects = Store.shared.data(key: "\(Clock.title)_list") {
+            if let objects = Store.shared.data(key: "\(self.title)_list") {
                 let decoder = JSONDecoder()
                 if let objectsDecoded = try? decoder.decode(Array.self, from: objects) as [Clock_t] {
                     return objectsDecoded
@@ -32,16 +32,17 @@ internal class Settings: NSStackView, Settings_v, NSTableViewDelegate, NSTableVi
         }
         set {
             if newValue.isEmpty {
-                Store.shared.remove("\(Clock.title)_list")
+                Store.shared.remove("\(self.title)_list")
             } else {
                 let encoder = JSONEncoder()
                 if let encoded = try? encoder.encode(newValue){
-                    Store.shared.set(key: "\(Clock.title)_list", value: encoded)
+                    Store.shared.set(key: "\(self.title)_list", value: encoded)
                 }
             }
         }
     }
     
+    private var title: String
     private var selectedRow: Int = -1
     
     private let scrollView = NSScrollView()
@@ -49,7 +50,9 @@ internal class Settings: NSStackView, Settings_v, NSTableViewDelegate, NSTableVi
     private var footerView: NSStackView? = nil
     private var deleteButton: NSButton? = nil
     
-    public init() {
+    public init(_ module: ModuleType) {
+        self.title = module.rawValue
+        
         super.init(frame: NSRect.zero)
         
         self.orientation = .vertical

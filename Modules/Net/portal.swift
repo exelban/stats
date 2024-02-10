@@ -38,8 +38,8 @@ public class Portal: NSStackView, Portal_p {
         return value
     }
     
-    init(_ name: String) {
-        self.name = name
+    public init(_ module: ModuleType) {
+        self.name = module.rawValue
         
         super.init(frame: NSRect.zero)
         

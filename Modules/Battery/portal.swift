@@ -25,8 +25,8 @@ internal class Portal: NSStackView, Portal_p {
         Store.shared.string(key: "\(self.name)_timeFormat", defaultValue: "short")
     }
     
-    init(_ name: String) {
-        self.name = name
+    public init(_ module: ModuleType) {
+        self.name = module.rawValue
         
         super.init(frame: NSRect.zero)
         

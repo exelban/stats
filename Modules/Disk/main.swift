@@ -170,7 +170,7 @@ public class Disks: Codable {
 
 public struct Disk_process: Process_p, Codable {
     public var base: DataSizeBase {
-        DataSizeBase(rawValue: Store.shared.string(key: "\(Disk.name)_base", defaultValue: "byte")) ?? .byte
+        DataSizeBase(rawValue: Store.shared.string(key: "\(ModuleType.disk.rawValue)_base", defaultValue: "byte")) ?? .byte
     }
     
     public var pid: Int
@@ -200,22 +200,18 @@ public struct Disk_process: Process_p, Codable {
 }
 
 public class Disk: Module {
-    public static let name: String = "Disk"
-    
-    private let popupView: Popup = Popup()
-    private let settingsView: Settings = Settings()
+    private let popupView: Popup = Popup(.disk)
+    private let settingsView: Settings = Settings(.disk)
     private let portalView: Portal = Portal(.disk)
-    private let notificationsView: Notifications
+    private let notificationsView: Notifications = Notifications(.disk)
     
-    private var capacityReader: CapacityReader = CapacityReader(.disk)
-    private var activityReader: ActivityReader = ActivityReader()
-    private var processReader: ProcessReader = ProcessReader(.disk)
+    private var capacityReader: CapacityReader?
+    private var activityReader: ActivityReader?
+    private var processReader: ProcessReader?
     
     private var selectedDisk: String = ""
     
     public init() {
-        self.notificationsView = Notifications(.disk)
-        
         super.init(
             popup: self.popupView,
             settings: self.settingsView,
@@ -224,52 +220,46 @@ public class Disk: Module {
         )
         guard self.available else { return }
         
-        self.selectedDisk = Store.shared.string(key: "\(Disk.name)_disk", defaultValue: self.selectedDisk)
-        
-        self.capacityReader.callbackHandler = { [weak self] value in
+        self.capacityReader = CapacityReader(.disk) { [weak self] value in
             if let value {
                 self?.capacityCallback(value)
             }
         }
-        self.capacityReader.readyCallback = { [weak self] in
-            self?.readyHandler()
-        }
-        
-        self.activityReader.callbackHandler = { [weak self] value in
+        self.activityReader = ActivityReader(.disk) { [weak self] value in
             if let value {
                 self?.activityCallback(value)
             }
         }
-        self.processReader.callbackHandler = { [weak self] value in
+        self.processReader = ProcessReader(.disk) { [weak self] value in
             if let list = value {
                 self?.popupView.processCallback(list)
             }
         }
         
+        self.selectedDisk = Store.shared.string(key: "\(ModuleType.disk.rawValue)_disk", defaultValue: self.selectedDisk)
+        
         self.settingsView.selectedDiskHandler = { [weak self] value in
             self?.selectedDisk = value
-            self?.capacityReader.read()
+            self?.capacityReader?.read()
         }
         self.settingsView.callback = { [weak self] in
-            self?.capacityReader.read()
+            self?.capacityReader?.read()
         }
         self.settingsView.setInterval = { [weak self] value in
-            self?.capacityReader.setInterval(value)
+            self?.capacityReader?.setInterval(value)
         }
         self.settingsView.callbackWhenUpdateNumberOfProcesses = { [weak self] in
             self?.popupView.numberOfProcessesUpdated()
             DispatchQueue.global(qos: .background).async {
-                self?.processReader.read()
+                self?.processReader?.read()
             }
         }
         
-        self.addReader(self.capacityReader)
-        self.addReader(self.activityReader)
-        self.addReader(self.processReader)
+        self.setReaders([self.capacityReader, self.activityReader, self.processReader])
     }
     
     public override func widgetDidSet(_ type: widget_t) {
-        if type == .speed && self.capacityReader.interval != 1 {
+        if type == .speed && self.capacityReader?.interval != 1 {
             self.settingsView.setUpdateInterval(value: 1)
         }
     }

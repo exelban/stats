@@ -26,8 +26,8 @@ internal class Settings: NSStackView, Settings_v {
     private var hyperthreadView: NSView? = nil
     private var button: NSPopUpButton?
     
-    public init(_ title: String) {
-        self.title = title
+    public init(_ module: ModuleType) {
+        self.title = module.rawValue
         self.selectedGPU = Store.shared.string(key: "\(self.title)_gpu", defaultValue: "")
         self.updateIntervalValue = Store.shared.int(key: "\(self.title)_updateInterval", defaultValue: self.updateIntervalValue)
         self.showTypeValue = Store.shared.bool(key: "\(self.title)_showType", defaultValue: self.showTypeValue)

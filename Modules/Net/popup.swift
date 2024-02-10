@@ -91,8 +91,8 @@ internal class Popup: PopupWrapper {
     
     private var latency: [Double] = []
     
-    public init(_ title: String) {
-        self.title = title
+    public init(_ module: ModuleType) {
+        self.title = module.rawValue
         
         super.init(frame: NSRect(
             x: 0,

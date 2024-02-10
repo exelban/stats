@@ -62,8 +62,8 @@ internal class Popup: PopupWrapper {
     private var chartColorState: Color = .systemAccent
     private var chartColor: NSColor { self.chartColorState.additional as? NSColor ?? NSColor.systemBlue }
     
-    public init(_ title: String) {
-        self.title = title
+    public init(_ module: ModuleType) {
+        self.title = module.rawValue
         
         super.init(frame: NSRect(
             x: 0,

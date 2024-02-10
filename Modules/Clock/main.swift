@@ -56,12 +56,12 @@ internal class ClockReader: Reader<Date> {
 public class Clock: Module {
     private let popupView: Popup = Popup()
     private let portalView: Portal
-    private let settingsView: Settings = Settings()
+    private let settingsView: Settings = Settings(.clock)
     
-    private var reader: ClockReader = ClockReader(.clock)
+    private var reader: ClockReader?
     
     static var list: [Clock_t] {
-        if let objects = Store.shared.data(key: "\(Clock.title)_list") {
+        if let objects = Store.shared.data(key: "\(ModuleType.clock.rawValue)_list") {
             let decoder = JSONDecoder()
             if let objectsDecoded = try? decoder.decode(Array.self, from: objects) as [Clock_t] {
                 return objectsDecoded
@@ -71,7 +71,7 @@ public class Clock: Module {
     }
     
     public init() {
-        self.portalView = Portal("Clock", list: Clock.list)
+        self.portalView = Portal(.clock, list: Clock.list)
         
         super.init(
             popup: self.popupView,
@@ -80,18 +80,16 @@ public class Clock: Module {
         )
         guard self.available else { return }
         
-        self.reader.callbackHandler = { [weak self] value in
-            guard let value else { return }
+        self.reader = ClockReader(.clock) { [weak self] value in
             self?.callback(value)
         }
         
-        self.addReader(self.reader)
-        self.reader.readyCallback = { [weak self] in
-            self?.readyHandler()
-        }
+        self.setReaders([self.reader])
     }
     
-    private func callback(_ value: Date) {
+    private func callback(_ value: Date?) {
+        guard let value else { return }
+        
         var clocks: [Clock_t] = Clock.list
         var widgetList: [Stack_t] = []
         
@@ -117,7 +115,6 @@ public class Clock: Module {
 }
 
 extension Clock {
-    static let title: String = "Clock"
     static let localID: String = UUID().uuidString
     static var local: Clock_t {
         Clock_t(id: Clock.localID, name: localizedString("Local time"), format: "yyyy-MM-dd HH:mm:ss", tz: "local")

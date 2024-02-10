@@ -13,6 +13,8 @@ import Cocoa
 import Kit
 
 internal class Settings: NSStackView, Settings_v {
+    private let title: String
+    
     private var removableState: Bool = false
     private var updateIntervalValue: Int = 10
     private var notificationLevel: String = "Disabled"
@@ -30,13 +32,15 @@ internal class Settings: NSStackView, Settings_v {
     
     private var list: [String] = []
     
-    public init() {
-        self.selectedDisk = Store.shared.string(key: "\(Disk.name)_disk", defaultValue: "")
-        self.removableState = Store.shared.bool(key: "\(Disk.name)_removable", defaultValue: self.removableState)
-        self.updateIntervalValue = Store.shared.int(key: "\(Disk.name)_updateInterval", defaultValue: self.updateIntervalValue)
-        self.notificationLevel = Store.shared.string(key: "\(Disk.name)_notificationLevel", defaultValue: self.notificationLevel)
-        self.numberOfProcesses = Store.shared.int(key: "\(Disk.name)_processes", defaultValue: self.numberOfProcesses)
-        self.baseValue = Store.shared.string(key: "\(Disk.name)_base", defaultValue: self.baseValue)
+    public init(_ module: ModuleType) {
+        self.title = module.rawValue
+        
+        self.selectedDisk = Store.shared.string(key: "\(self.title)_disk", defaultValue: "")
+        self.removableState = Store.shared.bool(key: "\(self.title)_removable", defaultValue: self.removableState)
+        self.updateIntervalValue = Store.shared.int(key: "\(self.title)_updateInterval", defaultValue: self.updateIntervalValue)
+        self.notificationLevel = Store.shared.string(key: "\(self.title)_notificationLevel", defaultValue: self.notificationLevel)
+        self.numberOfProcesses = Store.shared.int(key: "\(self.title)_processes", defaultValue: self.numberOfProcesses)
+        self.baseValue = Store.shared.string(key: "\(self.title)_base", defaultValue: self.baseValue)
         
         super.init(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
         
@@ -144,7 +148,7 @@ internal class Settings: NSStackView, Settings_v {
     @objc private func changeNumberOfProcesses(_ sender: NSMenuItem) {
         if let value = Int(sender.title) {
             self.numberOfProcesses = value
-            Store.shared.set(key: "\(Disk.name)_processes", value: value)
+            Store.shared.set(key: "\(self.title)_processes", value: value)
             self.callbackWhenUpdateNumberOfProcesses()
         }
     }
@@ -152,13 +156,13 @@ internal class Settings: NSStackView, Settings_v {
     @objc private func handleSelection(_ sender: NSPopUpButton) {
         guard let item = sender.selectedItem else { return }
         self.selectedDisk = item.title
-        Store.shared.set(key: "\(Disk.name)_disk", value: item.title)
+        Store.shared.set(key: "\(self.title)_disk", value: item.title)
         self.selectedDiskHandler(item.title)
     }
     
     @objc private func toggleRemovable(_ sender: NSControl) {
         self.removableState = controlState(sender)
-        Store.shared.set(key: "\(Disk.name)_removable", value: self.removableState)
+        Store.shared.set(key: "\(self.title)_removable", value: self.removableState)
         self.callback()
     }
     
@@ -172,21 +176,21 @@ internal class Settings: NSStackView, Settings_v {
         guard let key = sender.representedObject as? String else { return }
         
         if key == "Disabled" {
-            Store.shared.set(key: "\(Disk.name)_notificationLevel", value: key)
+            Store.shared.set(key: "\(self.title)_notificationLevel", value: key)
         } else if let value = Double(key.replacingOccurrences(of: "%", with: "")) {
-            Store.shared.set(key: "\(Disk.name)_notificationLevel", value: "\(value/100)")
+            Store.shared.set(key: "\(self.title)_notificationLevel", value: "\(value/100)")
         }
     }
     
     public func setUpdateInterval(value: Int) {
         self.updateIntervalValue = value
-        Store.shared.set(key: "\(Disk.name)_updateInterval", value: value)
+        Store.shared.set(key: "\(self.title)_updateInterval", value: value)
         self.setInterval(value)
     }
     
     @objc private func toggleBase(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String else { return }
         self.baseValue = key
-        Store.shared.set(key: "\(Disk.name)_base", value: self.baseValue)
+        Store.shared.set(key: "\(self.title)_base", value: self.baseValue)
     }
 }

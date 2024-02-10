@@ -77,7 +77,7 @@ public struct BLEDevice: Codable {
 }
 
 public class Bluetooth: Module {
-    private var devicesReader: DevicesReader = DevicesReader()
+    private var devicesReader: DevicesReader?
     private let popupView: Popup = Popup()
     private let settingsView: Settings = Settings()
     
@@ -88,18 +88,15 @@ public class Bluetooth: Module {
         )
         guard self.available else { return }
         
-        self.settingsView.callback = { [weak self] in
-            self?.devicesReader.read()
-        }
-        
-        self.devicesReader.callbackHandler = { [weak self] value in
+        self.devicesReader = DevicesReader { [weak self] value in
             self?.batteryCallback(value)
         }
-        self.devicesReader.readyCallback = { [weak self] in
-            self?.readyHandler()
+        
+        self.settingsView.callback = { [weak self] in
+            self?.devicesReader?.read()
         }
         
-        self.addReader(self.devicesReader)
+        self.setReaders([self.devicesReader])
     }
     
     private func batteryCallback(_ raw: [BLEDevice]?) {

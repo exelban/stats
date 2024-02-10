@@ -22,16 +22,15 @@ internal class Settings: NSStackView, Settings_v {
     
     private let title: String
     private var button: NSPopUpButton?
-    private var list: [Sensor_p]
+    private var list: [Sensor_p] = []
     private var widgets: [widget_t] = []
     public var callback: (() -> Void) = {}
     public var HIDcallback: (() -> Void) = {}
     public var unknownCallback: (() -> Void) = {}
     public var setInterval: ((_ value: Int) -> Void) = {_ in }
     
-    public init(_ title: String, list: [Sensor_p]) {
-        self.title = title
-        self.list = list
+    public init(_ module: ModuleType) {
+        self.title = module.rawValue
         self.hidState = SystemKit.shared.device.platform == .m1 ? true : false
         
         super.init(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
@@ -166,7 +165,8 @@ internal class Settings: NSStackView, Settings_v {
         self.widgets = widgets
     }
     
-    public func setList(list: [Sensor_p]) {
+    public func setList(_ list: [Sensor_p]?) {
+        guard let list else { return }
         self.list = self.unknownSensorsState ? list : list.filter({ $0.group != .unknown })
         self.load(widgets: self.widgets)
     }

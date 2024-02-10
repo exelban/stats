@@ -187,10 +187,6 @@ internal class CapacityReader: Reader<Disks> {
 internal class ActivityReader: Reader<Disks> {
     internal var list: Disks = Disks()
     
-    init() {
-        super.init(.disk)
-    }
-    
     override func setup() {
         self.setInterval(1)
     }
@@ -370,7 +366,7 @@ public class ProcessReader: Reader<[Disk_process]> {
     }
     
     private var numberOfProcesses: Int {
-        Store.shared.int(key: "\(Disk.name)_processes", defaultValue: 5)
+        Store.shared.int(key: "\(ModuleType.disk.rawValue)_processes", defaultValue: 5)
     }
     
     public override func setup() {

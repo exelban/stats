@@ -170,6 +170,7 @@ open class Module: Module_p {
             reader.initStoreValues(title: self.config.name)
             reader.start()
         }
+        self.menuBar.enable()
     }
     
     // disable module
@@ -222,16 +223,8 @@ open class Module: Module_p {
         debug("Module disabled", log: self.log)
     }
     
-    // add reader to module. If module is enabled will fire a read function and start a reader
-    public func addReader(_ reader: Reader_p) {
-        self.readers.append(reader)
-        debug("\(reader.self) was added", log: self.log)
-    }
-    
-    // handler for reader, calls when main reader is ready, and return first value
-    public func readyHandler() {
-        self.menuBar.enable()
-        debug("Reader report readiness", log: self.log)
+    public func setReaders(_ list: [Reader_p?]) {
+        self.readers = list.filter({ $0 != nil }).map({ $0! as Reader_p })
     }
     
     // replace a popup view

@@ -20,8 +20,8 @@ public class Portal: NSStackView, Portal_p {
     private var oneContainer: NSGridView = NSGridView()
     private var multiplyContainer: ScrollableStackView = ScrollableStackView(orientation: .horizontal)
     
-    init(_ name: String, list: [Clock_t]) {
-        self.name = name
+    init(_ module: ModuleType, list: [Clock_t]) {
+        self.name = module.rawValue
         
         super.init(frame: NSRect.zero)
         

@@ -38,13 +38,13 @@ internal class Popup: PopupWrapper {
     private var processes: ProcessesView? = nil
     private var processesView: NSView? = nil
     
-    public init() {
-        self.title = Disk.name
+    public init(_ module: ModuleType) {
+        self.title = module.rawValue
         
         super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: 0))
         
-        self.readColorState = Color.fromString(Store.shared.string(key: "\(Disk.name)_readColor", defaultValue: self.readColorState.key))
-        self.writeColorState = Color.fromString(Store.shared.string(key: "\(Disk.name)_writeColor", defaultValue: self.writeColorState.key))
+        self.readColorState = Color.fromString(Store.shared.string(key: "\(self.title)_readColor", defaultValue: self.readColorState.key))
+        self.writeColorState = Color.fromString(Store.shared.string(key: "\(self.title)_writeColor", defaultValue: self.writeColorState.key))
         
         self.orientation = .vertical
         self.distribution = .fill
@@ -192,7 +192,7 @@ internal class Popup: PopupWrapper {
             return
         }
         self.writeColorState = newValue
-        Store.shared.set(key: "\(Disk.name)_writeColor", value: key)
+        Store.shared.set(key: "\(self.title)_writeColor", value: key)
         if let color = newValue.additional as? NSColor {
             self.processes?.setColor(1, color)
             for view in self.disks.subviews.filter({ $0 is DiskView }).map({ $0 as! DiskView }) {
@@ -206,7 +206,7 @@ internal class Popup: PopupWrapper {
             return
         }
         self.readColorState = newValue
-        Store.shared.set(key: "\(Disk.name)_readColor", value: key)
+        Store.shared.set(key: "\(self.title)_readColor", value: key)
         if let color = newValue.additional as? NSColor {
             self.processes?.setColor(0, color)
             for view in self.disks.subviews.filter({ $0 is DiskView }).map({ $0 as! DiskView }) {
@@ -297,21 +297,23 @@ internal class DiskView: NSStackView {
 internal class NameView: NSStackView {
     private let size: Int64
     private let uri: URL?
+    private let finder: URL?
     private var ready: Bool = false
     
     private var readState: NSView? = nil
     private var writeState: NSView? = nil
     
     private var readColor: NSColor {
-        Color.fromString(Store.shared.string(key: "\(Disk.name)_readColor", defaultValue: Color.secondBlue.key)).additional as! NSColor
+        Color.fromString(Store.shared.string(key: "\(ModuleType.disk.rawValue)_readColor", defaultValue: Color.secondBlue.key)).additional as! NSColor
     }
     private var writeColor: NSColor {
-        Color.fromString(Store.shared.string(key: "\(Disk.name)_writeColor", defaultValue: Color.secondRed.key)).additional as! NSColor
+        Color.fromString(Store.shared.string(key: "\(ModuleType.disk.rawValue)_writeColor", defaultValue: Color.secondRed.key)).additional as! NSColor
     }
     
     public init(width: CGFloat, name: String, size: Int64, free: Int64, path: URL?) {
         self.size = size
         self.uri = path
+        self.finder = NSWorkspace.shared.urlForApplication(withBundleIdentifier: "com.apple.Finder")
         
         super.init(frame: NSRect(x: 0, y: 0, width: width, height: 16))
         
@@ -400,8 +402,8 @@ internal class NameView: NSStackView {
     }
     
     override func mouseDown(with: NSEvent) {
-        if let uri = self.uri {
-            NSWorkspace.shared.openFile(uri.path, withApplication: "Finder")
+        if let uri = self.uri, let finder = self.finder {
+            NSWorkspace.shared.open([uri], withApplicationAt: finder, configuration: NSWorkspace.OpenConfiguration())
         }
     }
 }
@@ -411,10 +413,10 @@ internal class ChartView: NSStackView {
     private var ready: Bool = false
     
     private var readColor: NSColor {
-        Color.fromString(Store.shared.string(key: "\(Disk.name)_readColor", defaultValue: Color.secondBlue.key)).additional as! NSColor
+        Color.fromString(Store.shared.string(key: "\(ModuleType.disk.rawValue)_readColor", defaultValue: Color.secondBlue.key)).additional as! NSColor
     }
     private var writeColor: NSColor {
-        Color.fromString(Store.shared.string(key: "\(Disk.name)_writeColor", defaultValue: Color.secondRed.key)).additional as! NSColor
+        Color.fromString(Store.shared.string(key: "\(ModuleType.disk.rawValue)_writeColor", defaultValue: Color.secondRed.key)).additional as! NSColor
     }
     
     public init(width: CGFloat) {

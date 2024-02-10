@@ -59,9 +59,9 @@ public class Battery: Module {
     private var notificationID: String? = nil
     
     public init() {
-        self.settingsView = Settings("Battery")
-        self.popupView = Popup("Battery")
-        self.portalView = Portal("Battery")
+        self.settingsView = Settings(.battery)
+        self.popupView = Popup(.battery)
+        self.portalView = Portal(.battery)
         self.notificationsView = Notifications(.battery)
         
         super.init(
@@ -72,8 +72,14 @@ public class Battery: Module {
         )
         guard self.available else { return }
         
-        self.usageReader = UsageReader(.battery)
-        self.processReader = ProcessReader(.battery)
+        self.usageReader = UsageReader(.battery) { [weak self] value in
+            self?.usageCallback(value)
+        }
+        self.processReader = ProcessReader(.battery) { [weak self] value in
+            if let list = value {
+                self?.popupView.processCallback(list)
+            }
+        }
         
         self.settingsView.callback = { [weak self] in
             DispatchQueue.global(qos: .background).async {
@@ -87,25 +93,7 @@ public class Battery: Module {
             }
         }
         
-        self.usageReader?.callbackHandler = { [weak self] value in
-            self?.usageCallback(value)
-        }
-        self.usageReader?.readyCallback = { [weak self] in
-            self?.readyHandler()
-        }
-        
-        self.processReader?.callbackHandler = { [weak self] value in
-            if let list = value {
-                self?.popupView.processCallback(list)
-            }
-        }
-        
-        if let reader = self.usageReader {
-            self.addReader(reader)
-        }
-        if let reader = self.processReader {
-            self.addReader(reader)
-        }
+        self.setReaders([self.usageReader, self.processReader])
     }
     
     public override func willTerminate() {

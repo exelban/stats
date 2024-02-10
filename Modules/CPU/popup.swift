@@ -89,8 +89,8 @@ internal class Popup: PopupWrapper {
         (self.processHeight*CGFloat(self.numberOfProcesses)) + (self.numberOfProcesses == 0 ? 0 : Constants.Popup.separatorHeight + 22)
     }
     
-    public init(_ title: String) {
-        self.title = title
+    public init(_ module: ModuleType) {
+        self.title = module.rawValue
         
         super.init(frame: NSRect(
             x: 0,
@@ -341,7 +341,9 @@ internal class Popup: PopupWrapper {
         })
     }
     
-    public func temperatureCallback(_ value: Double) {
+    public func temperatureCallback(_ value: Double?) {
+        guard let value else { return }
+        
         DispatchQueue.main.async(execute: {
             if (self.window?.isVisible ?? false) || !self.initializedTemperature {
                 if let view = self.temperatureCircle, (view as NSView).isHidden {
@@ -355,7 +357,9 @@ internal class Popup: PopupWrapper {
         })
     }
     
-    public func frequencyCallback(_ value: Double) {
+    public func frequencyCallback(_ value: Double?) {
+        guard let value else { return }
+        
         DispatchQueue.main.async(execute: {
             if let view = self.frequencyCircle, (view as NSView).isHidden {
                 view.isHidden = false
@@ -376,7 +380,9 @@ internal class Popup: PopupWrapper {
         })
     }
     
-    public func processCallback(_ list: [TopProcess]) {
+    public func processCallback(_ list: [TopProcess]?) {
+        guard let list else { return }
+        
         DispatchQueue.main.async(execute: {
             if !(self.window?.isVisible ?? false) && self.initializedProcesses {
                 return
@@ -393,7 +399,9 @@ internal class Popup: PopupWrapper {
         })
     }
     
-    public func limitCallback(_ value: CPU_Limit) {
+    public func limitCallback(_ value: CPU_Limit?) {
+        guard let value else { return }
+        
         DispatchQueue.main.async(execute: {
             if !(self.window?.isVisible ?? false) && self.initializedLimits {
                 return
@@ -406,10 +414,8 @@ internal class Popup: PopupWrapper {
         })
     }
     
-    public func averageCallback(_ value: [Double]) {
-        guard value.count == 3 else {
-            return
-        }
+    public func averageCallback(_ value: [Double]?) {
+        guard let value, value.count == 3 else { return }
         
         DispatchQueue.main.async(execute: {
             if !(self.window?.isVisible ?? false) && self.initializedAverage {
