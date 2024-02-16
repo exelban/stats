@@ -38,6 +38,8 @@ identifier_name:
     - CombinedModulesSpacings
     - BatteryInfo
     - PublicIPAddressRefreshIntervals
+    - _values
+    - _writeTS
 
 line_length: 200
 

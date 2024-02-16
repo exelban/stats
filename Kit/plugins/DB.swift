@@ -18,7 +18,11 @@ public class DB {
     private let queue = DispatchQueue(label: "eu.exelban.db")
     private let ttl: Int = 60*60
     
-    public var keys: [String] = []
+    public var _writeTS: [String: Date] = [:]
+    public var writeTS: [String: Date] {
+        get { self.queue.sync { self._writeTS } }
+        set { self.queue.sync { self._writeTS = newValue } }
+    }
     
     private var _values: [String: Codable] = [:]
     public var values: [String: Codable] {
@@ -47,9 +51,7 @@ public class DB {
     }
     
     public func setup<T: Codable>(_ type: T.Type, _ key: String) {
-        self.keys.append(key)
         self.clean(key)
-        
         if let raw = self.lldb?.findOne(key), let value = try? JSONDecoder().decode(type, from: Data(raw.utf8)) {
             self.values[key] = value
         }
@@ -58,10 +60,15 @@ public class DB {
     public func insert(key: String, value: Codable, ts: Bool = true) {
         self.values[key] = value
         guard let blobData = try? JSONEncoder().encode(value) else { return }
-        self.lldb?.insert(key, value: String(decoding: blobData, as: UTF8.self))
+        
         if ts {
             self.lldb?.insert("\(key)@\(Date().currentTimeSeconds())", value: String(decoding: blobData, as: UTF8.self))
         }
+        
+        if let ts = self.writeTS[key], (Date().timeIntervalSince1970-ts.timeIntervalSince1970) < 30 { return }
+        
+        self.lldb?.insert(key, value: String(decoding: blobData, as: UTF8.self))
+        self.writeTS[key] = Date()
     }
     
     public func findOne<T: Decodable>(_ dynamicType: T.Type, key: String) -> T? {
