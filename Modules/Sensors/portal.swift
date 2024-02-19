@@ -61,6 +61,7 @@ public class Portal: NSStackView, Portal_p {
     
     public func setup(_ values: [Sensor_p]? = nil) {
         guard var list = values else { return }
+        list = list.filter{ $0.popupState }
         if !self.unknownSensorsState {
             list = list.filter({ $0.group != .unknown })
         }
