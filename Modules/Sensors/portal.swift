@@ -71,7 +71,10 @@ public class Portal: NSStackView, Portal_p {
             self.list = [:]
         }
         
-        let width: CGFloat = self.frame.width - self.edgeInsets.left - self.edgeInsets.right - Constants.Popup.margins
+        var width: CGFloat = self.frame.width - self.edgeInsets.left - self.edgeInsets.right
+        if list.count >= 4 {
+            width -= self.container.scrollWidth ?? Constants.Popup.margins
+        }
         list.forEach { s in
             let v = ValueSensorView(s, width: width, callback: {})
             self.container.stackView.addArrangedSubview(v)

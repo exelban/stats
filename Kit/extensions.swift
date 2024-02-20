@@ -484,6 +484,10 @@ public class ScrollableStackView: NSView {
     private let clipView: NSClipView = NSClipView()
     private let scrollView: NSScrollView = NSScrollView()
     
+    public var scrollWidth: CGFloat? {
+        self.scrollView.verticalScroller?.frame.size.width
+    }
+    
     public init(frame: NSRect = NSRect.zero, orientation: NSUserInterfaceLayoutOrientation = .vertical) {
         super.init(frame: frame)
         
