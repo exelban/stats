@@ -11,6 +11,18 @@
 
 import Cocoa
 
+public struct DoubleValue {
+    public var ts: Date = Date()
+    public let value: Double
+    
+    public init(_ value: Double = 0) {
+        self.value = value
+    }
+}
+extension [DoubleValue] {
+    public func max() -> Double? { self.max { $0.value < $1.value }?.value }
+}
+
 public struct ColorValue: Equatable {
     public let value: Double
     public let color: NSColor?

@@ -71,8 +71,8 @@ private func scaleValue(scale: Scale = .linear, value: Double, maxValue: Double,
 public class LineChartView: NSView {
     public var id: String = UUID().uuidString
     
-    public var points: [Double]
-    public var shadowPoints: [Double] = []
+    public var points: [DoubleValue]
+    public var shadowPoints: [DoubleValue] = []
     public var transparent: Bool = true
     public var color: NSColor = .controlAccentColor
     public var suffix: String = "%"
@@ -80,12 +80,15 @@ public class LineChartView: NSView {
     
     private var cursor: NSPoint? = nil
     private var stop: Bool = false
+    private let dateFormatter = DateFormatter()
     
     public init(frame: NSRect, num: Int, scale: Scale = .none) {
-        self.points = Array(repeating: 0, count: num)
+        self.points = Array(repeating: DoubleValue(), count: num)
         self.scale = scale
         
         super.init(frame: frame)
+        
+        self.dateFormatter.dateFormat = "dd/MM HH:mm:ss"
         
         self.addTrackingArea(NSTrackingArea(
             rect: CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height),
@@ -128,10 +131,10 @@ public class LineChartView: NSView {
         let height: CGFloat = self.frame.height - dirtyRect.origin.y - offset
         let xRatio: CGFloat = self.frame.width / CGFloat(points.count-1)
         
-        let list = points.enumerated().compactMap { (i: Int, v: Double) -> (value: Double, point: CGPoint) in
+        let list = points.enumerated().compactMap { (i: Int, v: DoubleValue) -> (value: DoubleValue, point: CGPoint) in
             return (v, CGPoint(
                 x: (CGFloat(i) * xRatio) + dirtyRect.origin.x,
-                y: scaleValue(scale: self.scale, value: v, maxValue: maxValue, maxHeight: height) + dirtyRect.origin.y + offset
+                y: scaleValue(scale: self.scale, value: v.value, maxValue: maxValue, maxHeight: height) + dirtyRect.origin.y + offset
             ))
         }
         
@@ -196,23 +199,39 @@ public class LineChartView: NSView {
             style.alignment = .left
             var textPosition: CGPoint = CGPoint(x: nearest.point.x+4, y: nearest.point.y+4)
             
-            if textPosition.x + 24 > self.frame.size.width+self.frame.origin.x {
-                textPosition.x = nearest.point.x - 30
+            if textPosition.x + 78 > self.frame.size.width+self.frame.origin.x {
+                textPosition.x = nearest.point.x - 78
                 style.alignment = .right
             }
-            if textPosition.y + 14 > height {
-                textPosition.y = nearest.point.y - 14
+            if textPosition.y + 22 > height {
+                textPosition.y = nearest.point.y - 24
             }
             
-            let stringAttributes = [
-                NSAttributedString.Key.font: NSFont.systemFont(ofSize: 10, weight: .regular),
-                NSAttributedString.Key.foregroundColor: isDarkMode ? NSColor.white : NSColor.textColor,
+            let box = NSBezierPath(roundedRect: NSRect(x: textPosition.x-4, y: textPosition.y-2, width: 78, height: 24), xRadius: 2, yRadius: 2)
+            NSColor.gray.setStroke()
+            box.stroke()
+            (isDarkMode ? NSColor.black : NSColor.white).withAlphaComponent(0.75).setFill()
+            box.fill()
+            
+            let tsAttributes = [
+                NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .medium),
+                NSAttributedString.Key.foregroundColor: (isDarkMode ? NSColor.white : NSColor.textColor).withAlphaComponent(0.7),
                 NSAttributedString.Key.paragraphStyle: style
             ]
-            let rect = CGRect(x: textPosition.x, y: textPosition.y, width: 26, height: 10)
-            let value = "\(Int(nearest.value.rounded(toPlaces: 2) * 100))\(self.suffix)"
-            let str = NSAttributedString.init(string: value, attributes: stringAttributes)
-            str.draw(with: rect)
+            let valueAttributes = [
+                NSAttributedString.Key.font: NSFont.systemFont(ofSize: 12, weight: .regular),
+                NSAttributedString.Key.foregroundColor: isDarkMode ? NSColor.white : NSColor.textColor
+            ]
+            
+            let tsRect = CGRect(x: textPosition.x, y: textPosition.y, width: 70, height: 9)
+            var value = self.dateFormatter.string(from: nearest.value.ts)
+            var str = NSAttributedString.init(string: value, attributes: tsAttributes)
+            str.draw(with: tsRect)
+            
+            let valueRect = CGRect(x: textPosition.x, y: textPosition.y+11, width: 32, height: 12)
+            value = "\(Int(nearest.value.value.rounded(toPlaces: 2) * 100))\(self.suffix)"
+            str = NSAttributedString.init(string: value, attributes: valueAttributes)
+            str.draw(with: valueRect)
         }
     }
     
@@ -230,13 +249,17 @@ public class LineChartView: NSView {
         super.updateTrackingAreas()
     }
     
-    public func addValue(_ value: Double) {
+    public func addValue(_ value: DoubleValue) {
         self.points.remove(at: 0)
         self.points.append(value)
         
         if self.window?.isVisible ?? false {
             self.display()
         }
+    }
+    
+    public func addValue(_ value: Double) {
+        self.addValue(DoubleValue(value))
     }
     
     public func reinit(_ num: Int = 60) {
@@ -246,7 +269,7 @@ public class LineChartView: NSView {
             self.points = Array(self.points[self.points.count-num..<self.points.count])
         } else {
             let origin = self.points
-            self.points = Array(repeating: 0.01, count: num)
+            self.points = Array(repeating: DoubleValue(), count: num)
             self.points.replaceSubrange(Range(uncheckedBounds: (lower: origin.count, upper: num)), with: origin)
         }
     }
