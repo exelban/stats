@@ -389,13 +389,11 @@ internal class HeaderView: NSStackView {
     }
     
     @objc func openActivityMonitor(_ sender: Any) {
-        self.window?.setIsVisible(false)
         guard let app = self.app else { return }
         NSWorkspace.shared.open([], withApplicationAt: app, configuration: NSWorkspace.OpenConfiguration())
     }
     
     @objc func openSettings(_ sender: Any) {
-        self.window?.setIsVisible(false)
         NotificationCenter.default.post(name: .toggleSettings, object: nil, userInfo: ["module": self.title])
     }
     
