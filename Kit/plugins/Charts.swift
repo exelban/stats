@@ -68,11 +68,49 @@ private func scaleValue(scale: Scale = .linear, value: Double, maxValue: Double,
     return y
 }
 
+private func drawToolTip(_ frame: NSRect, _ point: CGPoint, _ size: CGSize, value: String, subtitle: String? = nil) {
+    let style = NSMutableParagraphStyle()
+    style.alignment = .left
+    var position: CGPoint = point
+    let textHeight: CGFloat = subtitle != nil ? 22 : 12
+    let valueOffset: CGFloat = subtitle != nil ? 11 : 1
+    
+    if position.x + size.width > frame.size.width+frame.origin.x {
+        position.x = point.x - size.width
+        style.alignment = .right
+    }
+    if position.y + textHeight > size.height {
+        position.y = point.y - textHeight - 20
+    }
+    
+    let box = NSBezierPath(roundedRect: NSRect(x: position.x-3, y: position.y-2, width: size.width, height: textHeight+2), xRadius: 2, yRadius: 2)
+    NSColor.gray.setStroke()
+    box.stroke()
+    (isDarkMode ? NSColor.black : NSColor.white).withAlphaComponent(0.8).setFill()
+    box.fill()
+    
+    var attributes = [
+        NSAttributedString.Key.font: NSFont.systemFont(ofSize: 12, weight: .regular),
+        NSAttributedString.Key.foregroundColor: isDarkMode ? NSColor.white : NSColor.textColor
+    ]
+    var rect = CGRect(x: position.x, y: position.y+valueOffset, width: 32, height: 12)
+    var str = NSAttributedString.init(string: value, attributes: attributes)
+    str.draw(with: rect)
+    
+    if let subtitle {
+        attributes[NSAttributedString.Key.font] = NSFont.systemFont(ofSize: 9, weight: .medium)
+        attributes[NSAttributedString.Key.foregroundColor] = (isDarkMode ? NSColor.white : NSColor.textColor).withAlphaComponent(0.7)
+        rect = CGRect(x: position.x, y: position.y, width: size.width-8, height: 9)
+        str = NSAttributedString.init(string: subtitle, attributes: attributes)
+        str.draw(with: rect)
+    }
+}
+
 public class LineChartView: NSView {
     public var id: String = UUID().uuidString
     
-    public var points: [DoubleValue]
-    public var shadowPoints: [DoubleValue] = []
+    public var points: [DoubleValue?]
+    public var shadowPoints: [DoubleValue?] = []
     public var transparent: Bool = true
     public var color: NSColor = .controlAccentColor
     public var suffix: String = "%"
@@ -83,7 +121,7 @@ public class LineChartView: NSView {
     private let dateFormatter = DateFormatter()
     
     public init(frame: NSRect, num: Int, scale: Scale = .none) {
-        self.points = Array(repeating: DoubleValue(), count: num)
+        self.points = Array(repeating: nil, count: num)
         self.scale = scale
         
         super.init(frame: frame)
@@ -108,15 +146,10 @@ public class LineChartView: NSView {
     public override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         
-        var points = self.points
-        if self.stop {
-            points = self.shadowPoints
-        }
-        guard let maxValue = points.max() else { return }
-        
-        if points.isEmpty {
-            return
-        }
+        let points = self.stop ? self.shadowPoints : self.points
+        guard let context = NSGraphicsContext.current?.cgContext, !points.isEmpty else { return }
+        context.setShouldAntialias(true)
+        let maxValue = points.compactMap { $0 }.max() ?? 0
         
         let lineColor: NSColor = self.color
         var gradientColor: NSColor = self.color.withAlphaComponent(0.5)
@@ -124,38 +157,60 @@ public class LineChartView: NSView {
             gradientColor = self.color.withAlphaComponent(0.8)
         }
         
-        guard let context = NSGraphicsContext.current?.cgContext else { return }
-        context.setShouldAntialias(true)
-        
         let offset: CGFloat = 1 / (NSScreen.main?.backingScaleFactor ?? 1)
         let height: CGFloat = self.frame.height - dirtyRect.origin.y - offset
         let xRatio: CGFloat = self.frame.width / CGFloat(points.count-1)
         
-        let list = points.enumerated().compactMap { (i: Int, v: DoubleValue) -> (value: DoubleValue, point: CGPoint) in
-            return (v, CGPoint(
+        var lines: [[CGPoint]] = []
+        var line: [CGPoint] = []
+        var list: [(value: DoubleValue, point: CGPoint)] = []
+        
+        for (i, v) in points.enumerated() {
+            guard let v else {
+                if !line.isEmpty {
+                    lines.append(line)
+                    line = []
+                }
+                continue
+            }
+            let point = CGPoint(
                 x: (CGFloat(i) * xRatio) + dirtyRect.origin.x,
                 y: scaleValue(scale: self.scale, value: v.value, maxValue: maxValue, maxHeight: height) + dirtyRect.origin.y + offset
-            ))
+            )
+            line.append(point)
+            list.append((value: v, point: point))
+        }
+        if lines.isEmpty && !line.isEmpty {
+            lines.append(line)
         }
         
-        let line = NSBezierPath()
-        line.move(to: list[0].point)
-        
-        for i in 1..<points.count {
-            line.line(to: list[i].point)
+        var path = NSBezierPath()
+        for linePoints in lines {
+            if linePoints.count == 1 {
+                path = NSBezierPath(ovalIn: CGRect(x: linePoints[0].x-offset, y: linePoints[0].y-offset, width: 1, height: 1))
+                lineColor.set()
+                path.stroke()
+                gradientColor.set()
+                path.fill()
+                continue
+            }
+            
+            path = NSBezierPath()
+            path.move(to: linePoints[0])
+            for i in 1..<linePoints.count {
+                path.line(to: linePoints[i])
+            }
+            lineColor.set()
+            path.lineWidth = offset
+            path.stroke()
+            
+            path = path.copy() as! NSBezierPath
+            path.line(to: CGPoint(x: linePoints[linePoints.count-1].x, y: 0))
+            path.line(to: CGPoint(x: linePoints[0].x, y: 0))
+            path.close()
+            gradientColor.set()
+            path.fill()
         }
-        line.line(to: list[list.count-1].point)
-        
-        lineColor.set()
-        line.lineWidth = offset
-        line.stroke()
-        
-        let underLinePath = line.copy() as! NSBezierPath
-        underLinePath.line(to: CGPoint(x: list[list.count-1].point.x, y: 0))
-        underLinePath.line(to: CGPoint(x: list[0].point.x, y: 0))
-        underLinePath.close()
-        gradientColor.set()
-        underLinePath.fill()
         
         if let p = self.cursor, let over = list.first(where: { $0.point.x >= p.x }), let under = list.last(where: { $0.point.x <= p.x }) {
             guard p.y <= height else { return }
@@ -195,43 +250,9 @@ public class LineChartView: NSView {
             NSColor.red.set()
             path.stroke()
             
-            let style = NSMutableParagraphStyle()
-            style.alignment = .left
-            var textPosition: CGPoint = CGPoint(x: nearest.point.x+4, y: nearest.point.y+4)
-            
-            if textPosition.x + 78 > self.frame.size.width+self.frame.origin.x {
-                textPosition.x = nearest.point.x - 78
-                style.alignment = .right
-            }
-            if textPosition.y + 22 > height {
-                textPosition.y = nearest.point.y - 24
-            }
-            
-            let box = NSBezierPath(roundedRect: NSRect(x: textPosition.x-4, y: textPosition.y-2, width: 78, height: 24), xRadius: 2, yRadius: 2)
-            NSColor.gray.setStroke()
-            box.stroke()
-            (isDarkMode ? NSColor.black : NSColor.white).withAlphaComponent(0.75).setFill()
-            box.fill()
-            
-            let tsAttributes = [
-                NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .medium),
-                NSAttributedString.Key.foregroundColor: (isDarkMode ? NSColor.white : NSColor.textColor).withAlphaComponent(0.7),
-                NSAttributedString.Key.paragraphStyle: style
-            ]
-            let valueAttributes = [
-                NSAttributedString.Key.font: NSFont.systemFont(ofSize: 12, weight: .regular),
-                NSAttributedString.Key.foregroundColor: isDarkMode ? NSColor.white : NSColor.textColor
-            ]
-            
-            let tsRect = CGRect(x: textPosition.x, y: textPosition.y, width: 70, height: 9)
-            var value = self.dateFormatter.string(from: nearest.value.ts)
-            var str = NSAttributedString.init(string: value, attributes: tsAttributes)
-            str.draw(with: tsRect)
-            
-            let valueRect = CGRect(x: textPosition.x, y: textPosition.y+11, width: 32, height: 12)
-            value = "\(Int(nearest.value.value.rounded(toPlaces: 2) * 100))\(self.suffix)"
-            str = NSAttributedString.init(string: value, attributes: valueAttributes)
-            str.draw(with: valueRect)
+            let date = self.dateFormatter.string(from: nearest.value.ts)
+            let value = "\(Int(nearest.value.value.rounded(toPlaces: 2) * 100))\(self.suffix)"
+            drawToolTip(self.frame, CGPoint(x: nearest.point.x+4, y: nearest.point.y+4), CGSize(width: 78, height: height), value: value, subtitle: date)
         }
     }
     
@@ -269,8 +290,8 @@ public class LineChartView: NSView {
             self.points = Array(self.points[self.points.count-num..<self.points.count])
         } else {
             let origin = self.points
-            self.points = Array(repeating: DoubleValue(), count: num)
-            self.points.replaceSubrange(Range(uncheckedBounds: (lower: origin.count, upper: num)), with: origin)
+            self.points = Array(repeating: nil, count: num)
+            self.points.replaceSubrange(Range(uncheckedBounds: (lower: num-origin.count, upper: num)), with: origin)
         }
     }
     

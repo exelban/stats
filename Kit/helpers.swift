@@ -1339,3 +1339,12 @@ public func showAlert(_ message: String, _ information: String? = nil, _ style: 
     alert.alertStyle = style
     alert.runModal()
 }
+
+var isDarkMode: Bool {
+    switch NSAppearance.current.name {
+    case .darkAqua, .vibrantDark, .accessibilityHighContrastDarkAqua, .accessibilityHighContrastVibrantDark:
+        return true
+    default:
+        return false
+    }
+}
