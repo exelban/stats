@@ -880,10 +880,21 @@ public class TachometerGraphView: NSView {
 
 public class BarChartView: NSView {
     private var values: [ColorValue] = []
+    private var cursor: CGPoint? = nil
     
     public init(frame: NSRect = NSRect.zero, num: Int) {
         super.init(frame: frame)
         self.values = Array(repeating: ColorValue(0, color: .controlAccentColor), count: num)
+        
+        self.addTrackingArea(NSTrackingArea(
+            rect: CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height),
+            options: [
+                NSTrackingArea.Options.activeAlways,
+                NSTrackingArea.Options.mouseEnteredAndExited,
+                NSTrackingArea.Options.mouseMoved
+            ],
+            owner: self, userInfo: nil
+        ))
     }
     
     required init?(coder: NSCoder) {
@@ -897,6 +908,7 @@ public class BarChartView: NSView {
         let partitionSize: CGSize = CGSize(width: (self.frame.width - (count*spacing)) / count, height: self.frame.height)
         let blockSize = CGSize(width: partitionSize.width-(spacing*2), height: ((partitionSize.height - spacing - 1)/CGFloat(blocks))-1)
         
+        var list: [(value: Double, path: NSBezierPath)] = []
         var x: CGFloat = 0
         for i in 0..<self.values.count {
             let partition = NSBezierPath(
@@ -935,6 +947,13 @@ public class BarChartView: NSView {
             }
             
             x += partitionSize.width + spacing
+            list.append((value: value.value, path: partition))
+        }
+        
+        if let p = self.cursor, let block = list.first(where: { $0.path.contains(p) }) {
+            let value = "\(Int(block.value.rounded(toPlaces: 2) * 100))%"
+            let width: CGFloat = block.value == 1 ? 38 : block.value > 0.1 ? 32 : 24
+            drawToolTip(self.frame, CGPoint(x: p.x+4, y: p.y+4), CGSize(width: width, height: partitionSize.height), value: value)
         }
     }
     
@@ -943,6 +962,23 @@ public class BarChartView: NSView {
         if self.window?.isVisible ?? false {
             self.display()
         }
+    }
+    
+    public override func mouseEntered(with event: NSEvent) {
+        self.cursor = convert(event.locationInWindow, from: nil)
+        self.display()
+    }
+    public override func mouseMoved(with event: NSEvent) {
+        self.cursor = convert(event.locationInWindow, from: nil)
+        self.display()
+    }
+    public override func mouseDragged(with event: NSEvent) {
+        self.cursor = convert(event.locationInWindow, from: nil)
+        self.display()
+    }
+    public override func mouseExited(with event: NSEvent) {
+        self.cursor = nil
+        self.display()
     }
 }
 
