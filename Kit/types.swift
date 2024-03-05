@@ -20,7 +20,7 @@ public struct DoubleValue {
     }
 }
 extension [DoubleValue] {
-    public func max() -> Double? { self.max { $0.value < $1.value }?.value }
+    public func max() -> Double? { self.max(by: { $0.value < $1.value })?.value }
 }
 
 public struct ColorValue: Equatable {
@@ -325,4 +325,12 @@ public enum FanValue: String {
 public let FanValues: [KeyValue_t] = [
     KeyValue_t(key: "rpm", value: "RPM", additional: FanValue.rpm),
     KeyValue_t(key: "percentage", value: "Percentage", additional: FanValue.percentage)
+]
+
+public var LineChartHistory: [KeyValue_p] = [
+    KeyValue_t(key: "60", value: "1 minute"),
+    KeyValue_t(key: "120", value: "2 minutes"),
+    KeyValue_t(key: "180", value: "3 minutes"),
+    KeyValue_t(key: "300", value: "5 minutes"),
+    KeyValue_t(key: "600", value: "10 minutes")
 ]

@@ -68,6 +68,7 @@ internal class Popup: PopupWrapper {
     
     private var processes: ProcessesView? = nil
     private var maxFreq: Double = 0
+    private var lineChartHistory: Int = 180
     
     private var systemColorState: Color = .secondRed
     private var systemColor: NSColor { self.systemColorState.additional as? NSColor ?? NSColor.systemRed }
@@ -106,6 +107,7 @@ internal class Popup: PopupWrapper {
         self.chartColorState = Color.fromString(Store.shared.string(key: "\(self.title)_chartColor", defaultValue: self.chartColorState.key))
         self.eCoresColorState = Color.fromString(Store.shared.string(key: "\(self.title)_eCoresColor", defaultValue: self.eCoresColorState.key))
         self.pCoresColorState = Color.fromString(Store.shared.string(key: "\(self.title)_pCoresColor", defaultValue: self.pCoresColorState.key))
+        self.lineChartHistory = Store.shared.int(key: "\(self.title)_lineChartHistory", defaultValue: self.lineChartHistory)
         
         let gridView: NSGridView = NSGridView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height))
         gridView.rowSpacing = 0
@@ -202,7 +204,7 @@ internal class Popup: PopupWrapper {
             box.layer?.backgroundColor = NSColor.lightGray.withAlphaComponent(0.1).cgColor
             box.layer?.cornerRadius = 3
             
-            self.lineChart = LineChartView(frame: NSRect(x: 1, y: 0, width: box.frame.width, height: box.frame.height), num: 120)
+            self.lineChart = LineChartView(frame: NSRect(x: 1, y: 0, width: box.frame.width, height: box.frame.height), num: self.lineChartHistory)
             self.lineChart?.color = self.chartColor
             box.addSubview(self.lineChart!)
             
@@ -446,44 +448,51 @@ internal class Popup: PopupWrapper {
         
         view.addArrangedSubview(selectSettingsRow(
             title: localizedString("System color"),
-            action: #selector(toggleSystemColor),
+            action: #selector(self.toggleSystemColor),
             items: Color.allColors,
             selected: self.systemColorState.key
         ))
         
         view.addArrangedSubview(selectSettingsRow(
             title: localizedString("User color"),
-            action: #selector(toggleUserColor),
+            action: #selector(self.toggleUserColor),
             items: Color.allColors,
             selected: self.userColorState.key
         ))
         
         view.addArrangedSubview(selectSettingsRow(
             title: localizedString("Idle color"),
-            action: #selector(toggleIdleColor),
+            action: #selector(self.toggleIdleColor),
             items: Color.allColors,
             selected: self.idleColorState.key
         ))
         
         view.addArrangedSubview(selectSettingsRow(
             title: localizedString("Chart color"),
-            action: #selector(toggleChartColor),
+            action: #selector(self.toggleChartColor),
             items: Color.allColors,
             selected: self.chartColorState.key
         ))
         
         view.addArrangedSubview(selectSettingsRow(
             title: localizedString("Efficiency cores color"),
-            action: #selector(toggleeCoresColor),
+            action: #selector(self.toggleeCoresColor),
             items: Color.allColors,
             selected: self.eCoresColorState.key
         ))
         
         view.addArrangedSubview(selectSettingsRow(
             title: localizedString("Performance cores color"),
-            action: #selector(togglepCoresColor),
+            action: #selector(self.togglepCoresColor),
             items: Color.allColors,
             selected: self.pCoresColorState.key
+        ))
+        
+        view.addArrangedSubview(selectSettingsRow(
+            title: localizedString("Chart history"),
+            action: #selector(self.toggleLineChartHistory),
+            items: LineChartHistory,
+            selected: "\(self.lineChartHistory)"
         ))
         
         return view
@@ -541,5 +550,11 @@ internal class Popup: PopupWrapper {
         self.pCoresColorState = newValue
         Store.shared.set(key: "\(self.title)_pCoresColor", value: key)
         self.pCoresColorView?.layer?.backgroundColor = (newValue.additional as? NSColor)?.cgColor
+    }
+    @objc private func toggleLineChartHistory(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String, let value = Int(key) else { return }
+        self.lineChartHistory = value
+        Store.shared.set(key: "\(self.title)_lineChartHistory", value: value)
+        self.lineChart?.reinit(self.lineChartHistory)
     }
 }
