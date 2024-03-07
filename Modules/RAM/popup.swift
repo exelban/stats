@@ -51,6 +51,8 @@ internal class Popup: PopupWrapper {
         (self.processHeight*CGFloat(self.numberOfProcesses)) + (self.numberOfProcesses == 0 ? 0 : Constants.Popup.separatorHeight + 22)
     }
     
+    private var lineChartHistory: Int = 180
+    
     private var appColorState: Color = .secondBlue
     private var appColor: NSColor { self.appColorState.additional as? NSColor ?? NSColor.systemRed }
     private var wiredColorState: Color = .secondOrange
@@ -78,6 +80,7 @@ internal class Popup: PopupWrapper {
         self.compressedColorState = Color.fromString(Store.shared.string(key: "\(self.title)_compressedColor", defaultValue: self.compressedColorState.key))
         self.freeColorState = Color.fromString(Store.shared.string(key: "\(self.title)_freeColor", defaultValue: self.freeColorState.key))
         self.chartColorState = Color.fromString(Store.shared.string(key: "\(self.title)_chartColor", defaultValue: self.chartColorState.key))
+        self.lineChartHistory = Store.shared.int(key: "\(self.title)_lineChartHistory", defaultValue: self.lineChartHistory)
         
         let gridView: NSGridView = NSGridView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height))
         gridView.rowSpacing = 0
@@ -159,7 +162,7 @@ internal class Popup: PopupWrapper {
         container.layer?.backgroundColor = NSColor.lightGray.withAlphaComponent(0.1).cgColor
         container.layer?.cornerRadius = 3
         
-        self.chart = LineChartView(frame: NSRect(x: 1, y: 0, width: view.frame.width, height: container.frame.height), num: 120)
+        self.chart = LineChartView(frame: NSRect(x: 1, y: 0, width: view.frame.width, height: container.frame.height), num: self.lineChartHistory)
         self.chart?.color = self.chartColor
         container.addSubview(self.chart!)
         
@@ -306,6 +309,13 @@ internal class Popup: PopupWrapper {
             selected: self.chartColorState.key
         ))
         
+        view.addArrangedSubview(selectSettingsRow(
+            title: localizedString("Chart history"),
+            action: #selector(self.toggleLineChartHistory),
+            items: LineChartHistory,
+            selected: "\(self.lineChartHistory)"
+        ))
+        
         return view
     }
     
@@ -363,6 +373,12 @@ internal class Popup: PopupWrapper {
         if let color = newValue.additional as? NSColor {
             self.chart?.color = color
         }
+    }
+    @objc private func toggleLineChartHistory(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String, let value = Int(key) else { return }
+        self.lineChartHistory = value
+        Store.shared.set(key: "\(self.title)_lineChartHistory", value: value)
+        self.chart?.reinit(self.lineChartHistory)
     }
 }
 
