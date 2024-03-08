@@ -58,7 +58,11 @@ public struct drive: Codable {
 
 public class Disks: Codable {
     private var queue: DispatchQueue = DispatchQueue(label: "eu.exelban.Stats.Disk.SynchronizedArray")
-    private var array: [drive] = []
+    private var _array: [drive] = []
+    public var array: [drive] {
+        get { self.queue.sync { self._array } }
+        set { self.queue.sync { self._array = newValue } }
+    }
     
     enum CodingKeys: String, CodingKey {
         case array
@@ -89,82 +93,58 @@ public class Disks: Codable {
     // swiftlint:enable empty_count
     
     public func first(where predicate: (drive) -> Bool) -> drive? {
-        var result: drive?
-        self.queue.sync { result = self.array.first(where: predicate) }
-        return result
+        return self.array.first(where: predicate)
     }
     
     public func index(where predicate: (drive) -> Bool) -> Int? {
-        var result: Int?
-        self.queue.sync { result = self.array.firstIndex(where: predicate) }
-        return result
+        return self.array.firstIndex(where: predicate)
     }
     
     public func map<ElementOfResult>(_ transform: (drive) -> ElementOfResult?) -> [ElementOfResult] {
-        var result = [ElementOfResult]()
-        self.queue.sync { result = self.array.compactMap(transform) }
-        return result
+        return self.array.compactMap(transform)
     }
     
     public func reversed() -> [drive] {
-        var result: [drive] = []
-        self.queue.sync(flags: .barrier) { result = self.array.reversed() }
-        return result
+        return self.array.reversed()
     }
     
     func forEach(_ body: (drive) -> Void) {
-        self.queue.sync { self.array.forEach(body) }
+        self.array.forEach(body)
     }
     
     public func append( _ element: drive) {
-        self.queue.async(flags: .barrier) {
-            if !self.array.contains(where: {$0.BSDName == element.BSDName}) {
-                self.array.append(element)
-            }
+        if !self.array.contains(where: {$0.BSDName == element.BSDName}) {
+            self.array.append(element)
         }
     }
     
     public func remove(at index: Int) {
-        self.queue.async(flags: .barrier) {
-            self.array.remove(at: index)
-        }
+        self.array.remove(at: index)
     }
     
     public func sort() {
-        self.queue.async(flags: .barrier) {
-            self.array.sort{ $1.removable }
-        }
+        self.array.sort{ $1.removable }
     }
     
     func updateFreeSize(_ idx: Int, newValue: Int64) {
-        self.queue.async(flags: .barrier) {
-            self.array[idx].free = newValue
-        }
+        self.array[idx].free = newValue
     }
     
     func updateReadWrite(_ idx: Int, read: Int64, write: Int64) {
-        self.queue.async(flags: .barrier) {
-            self.array[idx].activity.readBytes = read
-            self.array[idx].activity.writeBytes = write
-        }
+        self.array[idx].activity.readBytes = read
+        self.array[idx].activity.writeBytes = write
     }
     
     func updateRead(_ idx: Int, newValue: Int64) {
-        self.queue.async(flags: .barrier) {
-            self.array[idx].activity.read = newValue
-        }
+        self.array[idx].activity.read = newValue
     }
     
     func updateWrite(_ idx: Int, newValue: Int64) {
-        self.queue.async(flags: .barrier) {
-            self.array[idx].activity.write = newValue
-        }
+        self.array[idx].activity.write = newValue
     }
     
     func updateSMARTData(_ idx: Int, smart: smart_t?) {
-        self.queue.async(flags: .barrier) {
-            self.array[idx].smart = smart
-        }
+        self.array[idx].smart = smart
     }
 }
 

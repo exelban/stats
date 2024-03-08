@@ -89,6 +89,8 @@ internal class Popup: PopupWrapper {
         return view
     }
     
+    // MARK: - callbacks
+    
     internal func capacityCallback(_ value: Disks) {
         defer {
             let h = self.disks.subviews.map({ $0.bounds.height + self.disks.spacing }).reduce(0, +) - self.disks.spacing
@@ -109,7 +111,7 @@ internal class Popup: PopupWrapper {
                 view.update(free: drive.free, smart: drive.smart)
             } else {
                 self.disks.addArrangedSubview(DiskView(
-                    width: self.frame.width,
+                    width: Constants.Popup.width,
                     BSDName: drive.BSDName,
                     name: drive.mediaName,
                     size: drive.size,
@@ -129,8 +131,6 @@ internal class Popup: PopupWrapper {
             }
         }
     }
-    
-    // MARK: - callbacks
     
     internal func processCallback(_ list: [Disk_process]) {
         DispatchQueue.main.async(execute: {
