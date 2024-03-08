@@ -73,10 +73,10 @@
 "Settings" = "Beállítások";
 "Name" = "Név";
 "Format" = "Formátum";
-"Turn off" = "Turn off";
-"Warning" = "Warning";
-"Critical" = "Critical";
-"Usage" = "Usage";
+"Turn off" = "Kikapcsolás";
+"Warning" = "Figyelmeztetés";
+"Critical" = "Kritikus";
+"Usage" = "Használat";
 
 // Setup
 "Stats Setup" = "A Stats beállítása";
@@ -96,9 +96,9 @@
 "Check for a new version every week (once a week)" = "Új verzió keresése minden héten (heti egyszer)";
 "Check for a new version every month (once a month)" = "Új verzió keresése minden hónapban (havi egyszer)";
 "Never check for updates (not recommended)" = "Ne keressen frissítéseket (nem ajánlott)";
-"Anonymous telemetry for better development decisions" = "Anonymous telemetry for better development decisions";
-"Share anonymous telemetry data" = "Share anonymous telemetry data";
-"Do not share anonymous telemetry data" = "Do not share anonymous telemetry data";
+"Anonymous telemetry for better development decisions" = "Névtelen telemetria a jobb fejlesztői döntések érdekében";
+"Share anonymous telemetry data" = "Névtelen telemetriai adatok megosztása";
+"Do not share anonymous telemetry data" = "Ne osszon meg névtelen telemetriai adatokat";
 "The configuration is completed" = "A konfiguráció befejezve";
 "finish_setup_message" = "Minden beállítva!\nA Stats egy nyílt forráskódú eszköz, ami ingyenes és az is marad.\nHa hasznosnak találod, támogathatod a fejlesztését, mindig nagyra értékeljük!";
 
@@ -116,7 +116,7 @@
 "Close application" = "Alkalmazás bezárása";
 "Open application settings" = "Beállítások megnyitása";
 "Open dashboard" = "Irányítópult megnyitása";
-"No notifications available in this module" = "No notifications available in this module";
+"No notifications available in this module" = "Nincsenek elérhető értesítések ebben a modulban";
 
 // Application settings
 "Update application" = "Alkalmazás frissítése";
@@ -135,7 +135,7 @@
 "Resume the Stats" = "Stats folytatása";
 "Combined modules" = "Egyesített modulok";
 "Spacing" = "Helyköz";
-"Share anonymous telemetry" = "Share anonymous telemetry";
+"Share anonymous telemetry" = "Telemetria megosztása névtelenül";
 
 // Dashboard
 "Serial number" = "Sorozatszám";
@@ -183,7 +183,7 @@
 "Color of download" = "Letöltés színe";
 "Color of upload" = "Feltöltés színe";
 "Monospaced font" = "Mono betűtípus";
-"Reverse order" = "Reverse order";
+"Reverse order" = "Fordított sorrend";
 
 // Module Kit
 "Open module settings" = "Modul beállításainak megnyitása";
@@ -234,11 +234,11 @@
 "Cluster grouping" = "Csoportosítás";
 "Efficiency cores color" = "Energiatakarékos magok színe";
 "Performance cores color" = "Teljesítmény magok színe";
-"Total load" = "Total load";
-"System load" = "System load";
-"User load" = "User load";
-"Efficiency cores load" = "Efficiency cores load";
-"Performance cores load" = "Performance cores load";
+"Total load" = "Teljes terheltség";
+"System load" = "Rendszer terheltség";
+"User load" = "Felhasználó terheltség";
+"Efficiency cores load" = "Energiatakarékos magok terheltsége";
+"Performance cores load" = "Teljesítmény magok terheltsége";
 
 // GPU
 "GPU to show" = "Megjelenítendő GPU";
@@ -278,9 +278,9 @@
 "Wired color" = "Nem lapozható színe";
 "Compressed color" = "Tömörített színe";
 "Free color" = "Szabad színe";
-"Free memory (less than)" = "Free memory (less than)";
-"Swap size" = "Swap size";
-"Free RAM is" = "Free RAM is %0";
+"Free memory (less than)" = "Szabad memória (kevesebb mint)";
+"Swap size" = "Swap mérete";
+"Free RAM is" = "%0 a szabad RAM";
 
 // Disk
 "Show removable disks" = "Eltávolítható adattárolók megjelenítése";
@@ -308,13 +308,13 @@
 "Show unknown sensors" = "Ismeretlen szenzorok megjelenítése";
 "Install fan helper" = "Ventilátor segítő telepítése";
 "Uninstall fan helper" = "Ventilátor segítő törlése";
-"Fan value" = "Ventillátor érték";
-"Turn off fan" = "Turn off fan";
-"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?";
-"Sensor threshold" = "Sensor threshold";
-"Left fan" = "Left";
-"Right fan" = "Right";
-"Fastest fan" = "Fastest";
+"Fan value" = "Ventilátor érték";
+"Turn off fan" = "Ventilátor kikapcsolása";
+"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "A ventilátor ki lesz kapcsolva. Ez a művelet károsíthatja a macjét, ezért nem ajánlott. Biztosan ki akarja kapcsolni a ventilátort?";
+"Sensor threshold" = "Szenzor küszöb";
+"Left fan" = "Bal ventilátor";
+"Right fan" = "Jobb ventilátor";
+"Fastest fan" = "Leggyorsabb ventilátor";
 
 // Network
 "Uploading" = "Feltöltés";
