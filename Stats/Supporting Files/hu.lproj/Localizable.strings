@@ -306,8 +306,8 @@
 "Current" = "Áramerősség";
 "Energy" = "Energia";
 "Show unknown sensors" = "Ismeretlen szenzorok megjelenítése";
-"Install fan helper" = "Ventillátor segítő telepítése";
-"Uninstall fan helper" = "Ventillátor segítő törlése";
+"Install fan helper" = "Ventilátor segítő telepítése";
+"Uninstall fan helper" = "Ventilátor segítő törlése";
 "Fan value" = "Ventillátor érték";
 "Turn off fan" = "Turn off fan";
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?";
@@ -393,7 +393,7 @@
 "current / maximum / designed" = "jelenlegi / maximum / gyári";
 "Low power mode" = "Energia takarékos mód";
 "Percentage inside the icon" = "Százalék megjelenítése az ikonban";
-"Colorize battery" = "Akuumlátor színezése";
+"Colorize battery" = "Akkumlátor színezése";
 
 // Bluetooth
 "Battery to show" = "Akkumulátor megjelenítése";
