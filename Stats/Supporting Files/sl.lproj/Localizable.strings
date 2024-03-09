@@ -77,6 +77,9 @@
 "Warning" = "Opozorilo";
 "Critical" = "Kritično";
 "Usage" = "Uporaba";
+"2 minutes" = "2 minutes";
+"3 minutes" = "3 minutes";
+"10 minutes" = "10 minutes";
 
 // Setup
 "Stats Setup" = "Stats konfigurator";
@@ -184,6 +187,7 @@
 "Color of upload" = "Barva oddajanja";
 "Monospaced font" = "Pisava s fiksno širino";
 "Reverse order" = "Obratni vrstni red";
+"Chart duration" = "Chart duration";
 
 // Module Kit
 "Open module settings" = "Odpri nastavitve modula";

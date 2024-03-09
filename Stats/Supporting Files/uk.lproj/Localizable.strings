@@ -77,6 +77,9 @@
 "Warning" = "Попереджнння";
 "Critical" = "Критичний";
 "Usage" = "Використання";
+"2 minutes" = "2 хвилини";
+"3 minutes" = "3 хвилини";
+"10 minutes" = "10 хвилин";
 
 // Setup
 "Stats Setup" = "Налаштування";
@@ -184,6 +187,7 @@
 "Color of upload" = "Колір висилання";
 "Monospaced font" = "Моноширинний шрифт";
 "Reverse order" = "Зворотній порядок";
+"Chart duration" = "Тривалість діаграми";
 
 // Module Kit
 "Open module settings" = "Відкрити налаштування модуля";

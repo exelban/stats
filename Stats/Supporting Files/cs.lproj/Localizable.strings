@@ -77,6 +77,9 @@
 "Warning" = "Warning";
 "Critical" = "Critical";
 "Usage" = "Usage";
+"2 minutes" = "2 minutes";
+"3 minutes" = "3 minutes";
+"10 minutes" = "10 minutes";
 
 // Setup
 "Stats Setup" = "Nastavení Stats";
@@ -184,6 +187,7 @@
 "Color of upload" = "Barva nahrávání";
 "Monospaced font" = "Monospaced font";
 "Reverse order" = "Reverse order";
+"Chart duration" = "Chart duration";
 
 // Module Kit
 "Open module settings" = "Otevřít nastavení modulu";

@@ -77,6 +77,9 @@
 "Warning" = "Warning";
 "Critical" = "Critical";
 "Usage" = "Usage";
+"2 minutes" = "2 minutes";
+"3 minutes" = "3 minutes";
+"10 minutes" = "10 minutes";
 
 // Setup
 "Stats Setup" = "Stats セットアップ";
@@ -184,6 +187,7 @@
 "Color of upload" = "アップロードの色";
 "Monospaced font" = "等幅フォント";
 "Reverse order" = "Reverse order";
+"Chart duration" = "Chart duration";
 
 // Module Kit
 "Open module settings" = "このモジュールの設定を開く";

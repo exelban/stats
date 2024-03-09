@@ -77,6 +77,9 @@
 "Warning" = "Warning";
 "Critical" = "Critical";
 "Usage" = "Usage";
+"2 minutes" = "2 minutes";
+"3 minutes" = "3 minutes";
+"10 minutes" = "10 minutes";
 
 // Setup
 "Stats Setup" = "Stats-oppsett";
@@ -184,6 +187,7 @@
 "Color of upload" = "Farge for opplasting";
 "Monospaced font" = "Skrifttype med fast bredde";
 "Reverse order" = "Reversert rekkefølge";
+"Chart duration" = "Chart duration";
 
 // Module Kit
 "Open module settings" = "Åpne modulinnstillinger";

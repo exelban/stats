@@ -77,6 +77,9 @@
 "Warning" = "Avertissement";
 "Critical" = "Critique";
 "Usage" = "Utilisation";
+"2 minutes" = "2 minutes";
+"3 minutes" = "3 minutes";
+"10 minutes" = "10 minutes";
 
 // Setup
 "Stats Setup" = "Configuration de Stats";
@@ -184,6 +187,7 @@
 "Color of upload" = "Couleur du téléversement";
 "Monospaced font" = "Police à espacement fixe";
 "Reverse order" = "Reverse order";
+"Chart duration" = "Chart duration";
 
 // Module Kit
 "Open module settings" = "Ouvrir les paramètres du module";
