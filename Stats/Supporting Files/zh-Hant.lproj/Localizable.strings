@@ -77,6 +77,9 @@
 "Warning" = "警告";
 "Critical" = "重要通知";
 "Usage" = "使用量";
+"2 minutes" = "2 minutes";
+"3 minutes" = "3 minutes";
+"10 minutes" = "10 minutes";
 
 // Setup
 "Stats Setup" = "Stats 設定";
@@ -184,6 +187,7 @@
 "Color of upload" = "上傳的顯示色彩";
 "Monospaced font" = "等寬字體";
 "Reverse order" = "排序對調";
+"Chart duration" = "Chart duration";
 
 // Module Kit
 "Open module settings" = "打開模組設定";

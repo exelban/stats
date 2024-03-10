@@ -310,7 +310,7 @@ internal class Popup: PopupWrapper {
         ))
         
         view.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Chart history"),
+            title: localizedString("Chart duration"),
             action: #selector(self.toggleLineChartHistory),
             items: LineChartHistory,
             selected: "\(self.lineChartHistory)"
