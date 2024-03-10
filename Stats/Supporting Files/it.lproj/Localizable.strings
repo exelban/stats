@@ -307,7 +307,7 @@
 "Fan" = "Ventola";
 "HID sensors" = "Sensori HID";
 "Synchronize fan's control" = "Sincronizza ventole";
-"Current" = "Attuale";
+"Current" = "Corrente";
 "Energy" = "Energia";
 "Show unknown sensors" = "Mostra sensori sconosciuti";
 "Install fan helper" = "Installa estensione ventole";
