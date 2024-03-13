@@ -30,6 +30,7 @@ public struct CPU_Limit: Codable {
     var scheduler: Int = 0
     var cpus: Int = 0
     var speed: Int = 0
+    var maxUsage: Double = 100
 }
 
 public class CPU: Module {
