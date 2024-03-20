@@ -73,7 +73,7 @@ internal class Popup: PopupWrapper {
     
     private var downloadColorState: Color = .secondBlue
     private var downloadColor: NSColor {
-        var value = NSColor.systemRed
+        var value = NSColor.systemBlue
         if let color = self.downloadColorState.additional as? NSColor {
             value = color
         }
@@ -81,7 +81,7 @@ internal class Popup: PopupWrapper {
     }
     private var uploadColorState: Color = .secondRed
     private var uploadColor: NSColor {
-        var value = NSColor.systemBlue
+        var value = NSColor.systemRed
         if let color = self.uploadColorState.additional as? NSColor {
             value = color
         }

@@ -350,7 +350,7 @@ public func popupRow(_ view: NSView, n: CGFloat = 0, title: String, value: Strin
     return (labelView, valueView)
 }
 
-public func portalRow(_ v: NSStackView, title: String) -> ValueField {
+public func portalRow(_ v: NSStackView, title: String, value: String = "") -> ValueField {
     let view: NSStackView = NSStackView()
     view.orientation = .horizontal
     view.distribution = .fillProportionally
@@ -359,7 +359,7 @@ public func portalRow(_ v: NSStackView, title: String) -> ValueField {
     let labelView: LabelField = LabelField(title)
     labelView.font = NSFont.systemFont(ofSize: 11, weight: .regular)
     
-    let valueView: ValueField = ValueField()
+    let valueView: ValueField = ValueField(value)
     valueView.font = NSFont.systemFont(ofSize: 12, weight: .regular)
     
     view.addArrangedSubview(labelView)
