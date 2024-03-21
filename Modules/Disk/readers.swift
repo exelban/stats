@@ -61,6 +61,7 @@ internal class CapacityReader: Reader<Disks> {
                             
                             if let path = d.path {
                                 self.list.updateFreeSize(idx, newValue: self.freeDiskSpaceInBytes(path))
+                                self.list.updateSMARTData(idx, smart: self.getSMARTDetails(for: BSDName))
                             }
                             
                             continue
@@ -71,6 +72,7 @@ internal class CapacityReader: Reader<Disks> {
                                 d.free = self.freeDiskSpaceInBytes(path)
                                 d.size = self.totalDiskSpaceInBytes(path)
                             }
+                            d.smart = self.getSMARTDetails(for: BSDName)
                             self.list.append(d)
                             self.list.sort()
                         }
