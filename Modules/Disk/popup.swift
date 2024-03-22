@@ -128,6 +128,7 @@ internal class Popup: PopupWrapper {
         value.reversed().forEach { (drive: drive) in
             if let view = views.first(where: { $0.name == drive.mediaName }) {
                 view.updateReadWrite(read: drive.activity.read, write: drive.activity.write)
+                view.updateReadWritten(read: drive.activity.readBytes, written: drive.activity.writeBytes)
             }
         }
     }
@@ -224,6 +225,8 @@ internal class DiskView: NSStackView {
     private var chartView: ChartView
     private var barView: BarView
     private var legendView: LegendView
+    private var readDataView: DataView
+    private var writtenDataView: DataView
     private var temperatureView: TemperatureView?
     private var lifeView: LifeView?
     
@@ -235,6 +238,8 @@ internal class DiskView: NSStackView {
         self.chartView = ChartView(width: innerWidth)
         self.barView = BarView(width: innerWidth, size: size, free: free)
         self.legendView = LegendView(width: innerWidth, id: "\(name)_\(path?.absoluteString ?? "")", size: size, free: free)
+        self.readDataView = DataView(width: innerWidth, title: "\(localizedString("Total bytes read")):")
+        self.writtenDataView = DataView(width: innerWidth, title: "\(localizedString("Total bytes written")):")
         if let smart {
             self.temperatureView = TemperatureView(width: innerWidth, smart: smart)
             self.lifeView = LifeView(width: innerWidth, smart: smart)
@@ -258,6 +263,8 @@ internal class DiskView: NSStackView {
         self.addArrangedSubview(self.chartView)
         self.addArrangedSubview(self.barView)
         self.addArrangedSubview(self.legendView)
+        self.addArrangedSubview(self.readDataView)
+        self.addArrangedSubview(self.writtenDataView)
         if smart != nil, let temperatureView = self.temperatureView, let lifeView = self.lifeView {
             self.addArrangedSubview(temperatureView)
             self.addArrangedSubview(lifeView)
@@ -288,6 +295,10 @@ internal class DiskView: NSStackView {
     public func updateReadWrite(read: Int64, write: Int64) {
         self.nameView.update(free: nil, read: read, write: write)
         self.chartView.update(read: read, write: write)
+    }
+    public func updateReadWritten(read: Int64, written: Int64) {
+        self.readDataView.update(read)
+        self.writtenDataView.update(written)
     }
     public func setChartColor(read: NSColor? = nil, write: NSColor? = nil) {
         self.chartView.setColors(read: read, write: write)
@@ -335,7 +346,7 @@ internal class NameView: NSStackView {
         let readView: NSView = NSView(frame: NSRect(x: 0, y: 0, width: 32, height: activity.frame.height))
         let readField: NSTextField = TextView(frame: NSRect(x: 0, y: 0, width: nameField.frame.width, height: readView.frame.height))
         readField.stringValue = "R"
-        let readState: NSView = NSView(frame: NSRect(x: 13, y: (readView.frame.height-9)/2, width: 10, height: 10))
+        let readState: NSView = NSView(frame: NSRect(x: 13, y: (readView.frame.height-10)/2, width: 10, height: 10))
         readState.wantsLayer = true
         readState.layer?.backgroundColor = NSColor.lightGray.withAlphaComponent(0.75).cgColor
         readState.layer?.cornerRadius = 2
@@ -718,6 +729,45 @@ internal class LifeView: NSStackView {
             } else {
                 self.field.stringValue = "-"
             }
+            self.initialized = true
+        }
+    }
+}
+
+internal class DataView: NSStackView {
+    private var initialized: Bool = false
+    private let field: NSTextField = TextView()
+    
+    init(width: CGFloat, title: String) {
+        super.init(frame: CGRect(x: 0, y: 0, width: width, height: 16))
+        
+        self.orientation = .horizontal
+        self.spacing = 0
+        
+        let titleField = TextView()
+        titleField.font = NSFont.systemFont(ofSize: 11, weight: .light)
+        titleField.stringValue = title
+        titleField.cell?.truncatesLastVisibleLine = true
+        
+        self.field.font = NSFont.systemFont(ofSize: 11, weight: .regular)
+        self.field.alignment = .right
+        self.field.stringValue = "0"
+        
+        self.addArrangedSubview(titleField)
+        self.addArrangedSubview(NSView())
+        self.addArrangedSubview(self.field)
+        
+        self.widthAnchor.constraint(equalToConstant: self.frame.width).isActive = true
+        self.heightAnchor.constraint(equalToConstant: self.frame.height).isActive = true
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    public func update(_ newValue: Int64) {
+        if (self.window?.isVisible ?? false) || !self.initialized {
+            self.field.stringValue = Units(bytes: newValue).getReadableMemory()
             self.initialized = true
         }
     }
