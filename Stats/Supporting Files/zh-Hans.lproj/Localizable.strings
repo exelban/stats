@@ -77,9 +77,9 @@
 "Warning" = "警告";
 "Critical" = "重要通知";
 "Usage" = "用量";
-"2 minutes" = "2 minutes";
-"3 minutes" = "3 minutes";
-"10 minutes" = "10 minutes";
+"2 minutes" = "2 分钟";
+"3 minutes" = "3 分钟";
+"10 minutes" = "10 分钟";
 
 // Setup
 "Stats Setup" = "Stats 设置";
@@ -119,7 +119,7 @@
 "Close application" = "关闭应用";
 "Open application settings" = "打开应用设置";
 "Open dashboard" = "打开仪表盘";
-"No notifications available in this module" = "No notifications available in this module";
+"No notifications available in this module" = "该模块不支持通知";
 
 // Application settings
 "Update application" = "更新应用";
@@ -187,7 +187,7 @@
 "Color of upload" = "上传颜色";
 "Monospaced font" = "等宽字体";
 "Reverse order" = "调转顺序";
-"Chart duration" = "Chart duration";
+"Chart duration" = "图表统计时长";
 
 // Module Kit
 "Open module settings" = "打开模块设置";
@@ -316,9 +316,9 @@
 "Turn off fan" = "禁用风扇";
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "你想禁用你的风扇，这可能损害你的 Mac。不推荐进行这个操作，你确定要继续吗？";
 "Sensor threshold" = "传感器阈值";
-"Left fan" = "Left";
-"Right fan" = "Right";
-"Fastest fan" = "Fastest";
+"Left fan" = "左侧风扇";
+"Right fan" = "右侧风扇";
+"Fastest fan" = "最高转速风扇";
 
 // Network
 "Uploading" = "上传";
