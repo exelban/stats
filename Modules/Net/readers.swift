@@ -244,15 +244,22 @@ internal class UsageReader: Reader<Network_Usage> {
         let task = Process()
         task.launchPath = "/usr/bin/nettop"
         task.arguments = ["-P", "-L", "1", "-n", "-k", "time,interface,state,rx_dupe,rx_ooo,re-tx,rtt_avg,rcvsize,tx_win,tc_class,tc_mgt,cc_algo,P,C,R,W,arch"]
+        task.environment = [
+            "NSUnbufferedIO": "YES",
+            "LC_ALL": "en_US.UTF-8",
+        ]
         
+        let inputPipe = Pipe()
         let outputPipe = Pipe()
         let errorPipe = Pipe()
         
         defer {
+            inputPipe.fileHandleForWriting.closeFile()
             outputPipe.fileHandleForReading.closeFile()
             errorPipe.fileHandleForReading.closeFile()
         }
         
+        task.standardInput = inputPipe
         task.standardOutput = outputPipe
         task.standardError = errorPipe
         
@@ -454,15 +461,22 @@ public class ProcessReader: Reader<[Network_Process]> {
         let task = Process()
         task.launchPath = "/usr/bin/nettop"
         task.arguments = ["-P", "-L", "1", "-n", "-k", "time,interface,state,rx_dupe,rx_ooo,re-tx,rtt_avg,rcvsize,tx_win,tc_class,tc_mgt,cc_algo,P,C,R,W,arch"]
+        task.environment = [
+            "NSUnbufferedIO": "YES",
+            "LC_ALL": "en_US.UTF-8",
+        ]
         
+        let inputPipe = Pipe()
         let outputPipe = Pipe()
         let errorPipe = Pipe()
         
         defer {
+            inputPipe.fileHandleForWriting.closeFile()
             outputPipe.fileHandleForReading.closeFile()
             errorPipe.fileHandleForReading.closeFile()
         }
         
+        task.standardInput = inputPipe
         task.standardOutput = outputPipe
         task.standardError = errorPipe
         
