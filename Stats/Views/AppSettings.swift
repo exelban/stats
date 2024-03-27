@@ -54,6 +54,9 @@ class ApplicationSettings: NSStackView {
     private var combinedModules: NSView?
     private var combinedModulesSeparator: NSView?
     
+    private var buttons: NSView?
+    private var buttonsSeparator: NSView?
+    
     init() {
         super.init(frame: NSRect(x: 0, y: 0, width: Constants.Settings.width, height: Constants.Settings.height))
         
@@ -62,19 +65,31 @@ class ApplicationSettings: NSStackView {
         let scrollView = ScrollableStackView()
         scrollView.stackView.spacing = 0
         
+        let settings = self.settingsView()
+        let appSettings = self.appSettingsView()
+        
         scrollView.stackView.addArrangedSubview(self.informationView())
         scrollView.stackView.addArrangedSubview(self.separatorView())
-        scrollView.stackView.addArrangedSubview(self.settingsView())
+        scrollView.stackView.addArrangedSubview(settings)
         scrollView.stackView.addArrangedSubview(self.separatorView())
         scrollView.stackView.addArrangedSubview(self.combinedModulesView())
-        let separator = self.separatorView()
+        var separator = self.separatorView()
         self.combinedModulesSeparator = separator
+        scrollView.stackView.addArrangedSubview(separator)
+        scrollView.stackView.addArrangedSubview(appSettings)
+        separator = self.separatorView()
+        self.buttonsSeparator = separator
         scrollView.stackView.addArrangedSubview(separator)
         scrollView.stackView.addArrangedSubview(self.buttonsView())
         
         self.toggleCombinedModulesView()
+        self.toggleButtonsView()
         
         self.addArrangedSubview(scrollView)
+        
+        if let settingsGrid = settings.subviews.first {
+            appSettings.subviews.first?.widthAnchor.constraint(equalTo: settingsGrid.widthAnchor).isActive = true
+        }
         
         NotificationCenter.default.addObserver(self, selector: #selector(toggleUninstallHelperButton), name: .fanHelperState, object: nil)
     }
@@ -261,6 +276,45 @@ class ApplicationSettings: NSStackView {
         return view
     }
     
+    private func appSettingsView() -> NSView {
+        let view: NSStackView = NSStackView()
+        view.orientation = .vertical
+        view.edgeInsets = NSEdgeInsets(
+            top: Constants.Settings.margin,
+            left: Constants.Settings.margin,
+            bottom: Constants.Settings.margin,
+            right: Constants.Settings.margin
+        )
+        view.spacing = 10
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.widthAnchor.constraint(equalToConstant: self.frame.width - 15).isActive = true
+        
+        let grid: NSGridView = NSGridView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: 0))
+        grid.rowSpacing = 10
+        grid.columnSpacing = 20
+        grid.xPlacement = .trailing
+        grid.rowAlignment = .firstBaseline
+        grid.translatesAutoresizingMaskIntoConstraints = false
+        grid.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        grid.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        
+        let resetBtn: NSButton = NSButton()
+        resetBtn.title = localizedString("Reset")
+        resetBtn.bezelStyle = .rounded
+        resetBtn.target = self
+        resetBtn.action = #selector(self.resetSettings)
+        resetBtn.widthAnchor.constraint(equalToConstant: 225).isActive = true
+        
+        grid.addRow(with: [
+            self.titleView(localizedString("Settings")),
+            resetBtn
+        ])
+        
+        view.addArrangedSubview(grid)
+        
+        return view
+    }
+    
     private func buttonsView() -> NSView {
         let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 60))
         view.heightAnchor.constraint(equalToConstant: 60).isActive = true
@@ -272,12 +326,6 @@ class ApplicationSettings: NSStackView {
         row.distribution = .fill
         self.buttonsContainer = row
         
-        let reset: NSButton = NSButton()
-        reset.title = localizedString("Reset settings")
-        reset.bezelStyle = .rounded
-        reset.target = self
-        reset.action = #selector(self.resetSettings)
-        
         let uninstall: NSButton = NSButton()
         uninstall.title = localizedString("Uninstall fan helper")
         uninstall.bezelStyle = .rounded
@@ -285,11 +333,7 @@ class ApplicationSettings: NSStackView {
         uninstall.action = #selector(self.uninstallHelper)
         self.uninstallHelperButton = uninstall
         
-        row.addArrangedSubview(reset)
-        if SMCHelper.shared.isInstalled {
-            row.addArrangedSubview(uninstall)
-        }
-        
+        row.addArrangedSubview(uninstall)
         view.addSubview(row)
         
         NSLayoutConstraint.activate([
@@ -297,6 +341,7 @@ class ApplicationSettings: NSStackView {
             row.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
         
+        self.buttons = view
         return view
     }
     
@@ -333,6 +378,11 @@ class ApplicationSettings: NSStackView {
     private func toggleCombinedModulesView() {
         self.combinedModules?.isHidden = !self.combinedModulesState
         self.combinedModulesSeparator?.isHidden = !self.combinedModulesState
+    }
+    
+    private func toggleButtonsView() {
+        self.buttons?.isHidden = !SMCHelper.shared.isInstalled
+        self.buttonsSeparator?.isHidden = !SMCHelper.shared.isInstalled
     }
     
     // MARK: - actions
@@ -461,6 +511,10 @@ private class ModuleSelectorView: NSStackView {
             let v = ModulePreview(id: m.name, icon: m.config.icon)
             self.addArrangedSubview(v)
             w += v.frame.width + self.spacing
+        }
+        
+        if w < 20 {
+            w = 20
         }
         
         self.addSubview(background, positioned: .below, relativeTo: .none)
