@@ -298,6 +298,18 @@ class ApplicationSettings: NSStackView {
         grid.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         grid.setContentHuggingPriority(.defaultHigh, for: .vertical)
         
+        let importBtn: NSButton = NSButton()
+        importBtn.title = localizedString("Import")
+        importBtn.bezelStyle = .rounded
+        importBtn.target = self
+        importBtn.action = #selector(self.importSettings)
+        
+        let exportBtn: NSButton = NSButton()
+        exportBtn.title = localizedString("Export")
+        exportBtn.bezelStyle = .rounded
+        exportBtn.target = self
+        exportBtn.action = #selector(self.exportSettings)
+        
         let resetBtn: NSButton = NSButton()
         resetBtn.title = localizedString("Reset")
         resetBtn.bezelStyle = .rounded
@@ -307,8 +319,10 @@ class ApplicationSettings: NSStackView {
         
         grid.addRow(with: [
             self.titleView(localizedString("Settings")),
-            resetBtn
+            importBtn
         ])
+        grid.addRow(with: [NSGridCell.emptyContentView, exportBtn])
+        grid.addRow(with: [NSGridCell.emptyContentView, resetBtn])
         
         view.addArrangedSubview(grid)
         
@@ -431,6 +445,30 @@ class ApplicationSettings: NSStackView {
         LaunchAtLogin.isEnabled = sender.state == NSControl.StateValue.on
         if !Store.shared.exist(key: "runAtLoginInitialized") {
             Store.shared.set(key: "runAtLoginInitialized", value: true)
+        }
+    }
+    
+    @objc private func importSettings(_ sender: NSObject) {
+        let panel = NSOpenPanel()
+        panel.level = NSWindow.Level(rawValue: Int(CGWindowLevelForKey(.modalPanelWindow)))
+        panel.begin { (result) in
+            guard result.rawValue == NSApplication.ModalResponse.OK.rawValue else { return }
+            if let url = panel.url {
+                Store.shared.import(from: url)
+            }
+        }
+    }
+    
+    @objc private func exportSettings(_ sender: NSObject) {
+        let panel = NSSavePanel()
+        panel.nameFieldStringValue = "Stats.plist"
+        panel.showsTagField = false
+        panel.level = NSWindow.Level(rawValue: Int(CGWindowLevelForKey(.modalPanelWindow)))
+        panel.begin { (result) in
+            guard result.rawValue == NSApplication.ModalResponse.OK.rawValue else { return }
+            if let url = panel.url {
+                Store.shared.export(to: url)
+            }
         }
     }
     

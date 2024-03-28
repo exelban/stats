@@ -62,4 +62,19 @@ public class Store {
             self.defaults.removeObject(forKey: key)
         }
     }
+    
+    public func export(to url: URL) {
+        guard let id = Bundle.main.bundleIdentifier,
+              let dicitionary = self.defaults.persistentDomain(forName: id) else { return }
+        NSDictionary(dictionary: dicitionary).write(to: url, atomically: true)
+    }
+    
+    public func `import`(from url: URL) {
+        guard let id = Bundle.main.bundleIdentifier, let dict = NSDictionary(contentsOf: url) as? [String: Any] else { return }
+        self.defaults.setPersistentDomain(dict, forName: id)
+        if let path = Bundle.main.resourceURL?.deletingLastPathComponent().deletingLastPathComponent().absoluteString {
+            asyncShell("/usr/bin/open \(path)")
+            NSApp.terminate(self)
+        }
+    }
 }
