@@ -80,6 +80,8 @@
 "2 minutes" = "2 minutes";
 "3 minutes" = "3 minutes";
 "10 minutes" = "10 minutes";
+"Import" = "Import";
+"Export" = "Export";
 
 // Setup
 "Stats Setup" = "Configuration de Stats";
@@ -298,6 +300,8 @@
 "Read color" = "Couleur de lecture";
 "Write color" = "Couleur d'écriture";
 "Disk usage" = "Utilisation du disque";
+"Total read" = "Total read";
+"Total written" = "Total written";
 
 // Sensors
 "Temperature unit" = "Unité de température";

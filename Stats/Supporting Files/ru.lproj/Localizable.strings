@@ -80,6 +80,8 @@
 "2 minutes" = "2 минуты";
 "3 minutes" = "3 минуты";
 "10 minutes" = "10 минут";
+"Import" = "Импорт";
+"Export" = "Экспорт";
 
 // Setup
 "Stats Setup" = "Настройки Stats";
@@ -298,6 +300,8 @@
 "Read color" = "Цвет чтения";
 "Write color" = "Цвет записи";
 "Disk usage" = "Использование диска";
+"Total read" = "Всего прочитано";
+"Total written" = "Всего записано";
 
 // Sensors
 "Temperature unit" = "Единица измерения температуры";

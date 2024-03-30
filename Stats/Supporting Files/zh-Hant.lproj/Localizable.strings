@@ -80,6 +80,8 @@
 "2 minutes" = "2 分鐘";
 "3 minutes" = "3 分鐘";
 "10 minutes" = "10 分鐘";
+"Import" = "Import";
+"Export" = "Export";
 
 // Setup
 "Stats Setup" = "Stats 設定";
@@ -298,6 +300,8 @@
 "Read color" = "讀取色彩";
 "Write color" = "寫入色彩";
 "Disk usage" = "磁碟使用量";
+"Total read" = "Total read";
+"Total written" = "Total written";
 
 // Sensors
 "Temperature unit" = "溫度單位";

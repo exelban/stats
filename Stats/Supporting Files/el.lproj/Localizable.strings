@@ -80,6 +80,8 @@
 "2 minutes" = "2 minutes";
 "3 minutes" = "3 minutes";
 "10 minutes" = "10 minutes";
+"Import" = "Import";
+"Export" = "Export";
 
 // Setup
 "Stats Setup" = "Εγκατάσταση Stats";
@@ -298,6 +300,8 @@
 "Read color" = "Χρώμα ανάγνωσης";
 "Write color" = "Χρώμα εγγραφής";
 "Disk usage" = "Disk usage";
+"Total read" = "Total read";
+"Total written" = "Total written";
 
 // Sensors
 "Temperature unit" = "Μονάδα θερμοκρασίας";

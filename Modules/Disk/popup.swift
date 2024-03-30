@@ -238,8 +238,8 @@ internal class DiskView: NSStackView {
         self.chartView = ChartView(width: innerWidth)
         self.barView = BarView(width: innerWidth, size: size, free: free)
         self.legendView = LegendView(width: innerWidth, id: "\(name)_\(path?.absoluteString ?? "")", size: size, free: free)
-        self.readDataView = DataView(width: innerWidth, title: "\(localizedString("Total bytes read")):")
-        self.writtenDataView = DataView(width: innerWidth, title: "\(localizedString("Total bytes written")):")
+        self.readDataView = DataView(width: innerWidth, title: "\(localizedString("Total read")):")
+        self.writtenDataView = DataView(width: innerWidth, title: "\(localizedString("Total written")):")
         if let smart {
             self.temperatureView = TemperatureView(width: innerWidth, smart: smart)
             self.lifeView = LifeView(width: innerWidth, smart: smart)

@@ -80,6 +80,8 @@
 "2 minutes" = "2 minutes";
 "3 minutes" = "3 minutes";
 "10 minutes" = "10 minutes";
+"Import" = "Import";
+"Export" = "Export";
 
 // Setup
 "Stats Setup" = "Stats konfigurator";
@@ -298,6 +300,8 @@
 "Read color" = "Barva branja";
 "Write color" = "Barva pisanja";
 "Disk usage" = "Uporaba diska";
+"Total read" = "Total read";
+"Total written" = "Total written";
 
 // Sensors
 "Temperature unit" = "Enota za temperaturo";

@@ -80,6 +80,8 @@
 "2 minutes" = "2 minutes";
 "3 minutes" = "3 minutes";
 "10 minutes" = "10 minutes";
+"Import" = "Import";
+"Export" = "Export";
 
 // Setup
 "Stats Setup" = "Stats 설정";
@@ -298,6 +300,8 @@
 "Read color" = "읽기 색상";
 "Write color" = "쓰기 색상";
 "Disk usage" = "디스크 사용량";
+"Total read" = "Total read";
+"Total written" = "Total written";
 
 // Sensors
 "Temperature unit" = "온도 단위";

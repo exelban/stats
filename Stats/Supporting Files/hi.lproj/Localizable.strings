@@ -80,6 +80,8 @@
 "2 minutes" = "2 minutes";
 "3 minutes" = "3 minutes";
 "10 minutes" = "10 minutes";
+"Import" = "Import";
+"Export" = "Export";
 
 // Setup
 "Stats Setup" = "आँकड़े सेटअप";
@@ -298,6 +300,8 @@
 "Read color" = "रंग पढ़ें";
 "Write color" = "रंग लिखें";
 "Disk usage" = "डिस्क उपयोग";
+"Total read" = "Total read";
+"Total written" = "Total written";
 
 // Sensors
 "Temperature unit" = "तापमान इकाई";

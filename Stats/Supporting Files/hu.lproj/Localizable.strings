@@ -80,6 +80,8 @@
 "2 minutes" = "2 minutes";
 "3 minutes" = "3 minutes";
 "10 minutes" = "10 minutes";
+"Import" = "Import";
+"Export" = "Export";
 
 // Setup
 "Stats Setup" = "A Stats beállítása";
@@ -298,6 +300,8 @@
 "Read color" = "Olvasás színe";
 "Write color" = "Írás színe";
 "Disk usage" = "Lemez használat";
+"Total read" = "Total read";
+"Total written" = "Total written";
 
 // Sensors
 "Temperature unit" = "Hőmérséklet mértékegysége";
