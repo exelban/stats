@@ -300,7 +300,7 @@
 "Read color" = "Lesen-Farbe";
 "Write color" = "Schreiben-Farbe";
 "Disk usage" = "Speichernutzung";
-"Total read" = "Ingesamt gelesen";
+"Total read" = "Insgesamt gelesen";
 "Total written" = "Insgesamt geschrieben";
 
 // Sensors
