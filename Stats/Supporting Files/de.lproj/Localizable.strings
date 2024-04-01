@@ -77,11 +77,11 @@
 "Warning" = "Warnung";
 "Critical" = "Kritisch";
 "Usage" = "Auslastung";
-"2 minutes" = "2 minutes";
-"3 minutes" = "3 minutes";
-"10 minutes" = "10 minutes";
-"Import" = "Import";
-"Export" = "Export";
+"2 minutes" = "2 Minuten";
+"3 minutes" = "3 Minuten";
+"10 minutes" = "10 Minuten";
+"Import" = "Importieren";
+"Export" = "Exportieren";
 
 // Setup
 "Stats Setup" = "Stats einrichten";
@@ -121,7 +121,7 @@
 "Close application" = "Anwendung schließen";
 "Open application settings" = "Einstellungen öffnen";
 "Open dashboard" = "Dashboard öffnen";
-"No notifications available in this module" = "No notifications available in this module";
+"No notifications available in this module" = "Keine Benachrichtigungen verfügbar";
 
 // Application settings
 "Update application" = "Anwendung aktualisieren";
@@ -189,7 +189,7 @@
 "Color of upload" = "Upload Farbe";
 "Monospaced font" = "Monospace-Schrift";
 "Reverse order" = "Reihenfolge umkehren";
-"Chart duration" = "Chart duration";
+"Chart duration" = "Diagramm-Zeitfenster";
 
 // Module Kit
 "Open module settings" = "Modul Einstellungen öffnen";
@@ -300,8 +300,8 @@
 "Read color" = "Lesen-Farbe";
 "Write color" = "Schreiben-Farbe";
 "Disk usage" = "Speichernutzung";
-"Total read" = "Total read";
-"Total written" = "Total written";
+"Total read" = "Ingesamt gelesen";
+"Total written" = "Insgesamt geschrieben";
 
 // Sensors
 "Temperature unit" = "Temperatureinheit";
