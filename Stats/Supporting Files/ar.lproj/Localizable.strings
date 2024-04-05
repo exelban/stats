@@ -58,7 +58,7 @@
 "Left alignment" = "يسار";
 "Center alignment" = "وسط";
 "Right alignment" = "يمين";
-"Dashboard" = "لوحة القيادة";
+"Dashboard" = "لوحة التحكم";
 "Enabled" = "مفعّل";
 "Disabled" = "معطل";
 "Silent" = "صامت";
@@ -107,7 +107,6 @@
 "The configuration is completed" = "تم الانتهاء من التكوين";
 "finish_setup_message" = "كل شيء مُعدّ، الإحصاءات هي أداة مفتوحة المصدر، مجانية وستظل دائمًا كذلك. إذا كنت تستمتع بها يمكنك دعم المشروع، دائمًا محل تقدير!";
 
-
 // Alerts
 "New version available" = "إصدار جديد متاح";
 "Click to install the new version of Stats" = "انقر لتثبيت الإصدار الجديد من الإحصاءات";
@@ -121,7 +120,7 @@
 "Support the application" = "دعم التطبيق";
 "Close application" = "إغلاق التطبيق";
 "Open application settings" = "فتح إعدادات التطبيق";
-"Open dashboard" = "فتح لوحة القيادة";
+"Open dashboard" = "فتح لوحة التحكم";
 "No notifications available in this module" = "لا توجد إشعارات متاحة في هذه الوحدة";
 
 // Application settings
