@@ -35,12 +35,13 @@ public class Portal: NSStackView, Portal_p {
         
         self.orientation = .vertical
         self.distribution = .fillEqually
-        self.spacing = Constants.Popup.spacing*2
+        self.widthAnchor.constraint(equalToConstant: Constants.Popup.width).isActive = true
+        self.spacing = Constants.Popup.spacing
         self.edgeInsets = NSEdgeInsets(
             top: Constants.Popup.spacing*2,
             left: Constants.Popup.spacing*2,
             bottom: Constants.Popup.spacing*2,
-            right: Constants.Popup.spacing*2
+            right: Constants.Popup.spacing
         )
         
         self.container.stackView.spacing = 0
