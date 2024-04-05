@@ -54,6 +54,8 @@ internal class Popup: PopupWrapper {
     private var eCoresColorView: NSView? = nil
     private var pCoresColorView: NSView? = nil
     
+    private var sliderView: NSView? = nil
+    
     private var lineChart: LineChartView? = nil
     private var barChart: BarChartView? = nil
     private var circle: PieChartView? = nil
@@ -69,6 +71,8 @@ internal class Popup: PopupWrapper {
     private var processes: ProcessesView? = nil
     private var maxFreq: Double = 0
     private var lineChartHistory: Int = 180
+    private var lineChartScale: Scale = .none
+    private var lineChartFixedScale: Double = 1
     
     private var systemColorState: Color = .secondRed
     private var systemColor: NSColor { self.systemColorState.additional as? NSColor ?? NSColor.systemRed }
@@ -108,6 +112,8 @@ internal class Popup: PopupWrapper {
         self.eCoresColorState = Color.fromString(Store.shared.string(key: "\(self.title)_eCoresColor", defaultValue: self.eCoresColorState.key))
         self.pCoresColorState = Color.fromString(Store.shared.string(key: "\(self.title)_pCoresColor", defaultValue: self.pCoresColorState.key))
         self.lineChartHistory = Store.shared.int(key: "\(self.title)_lineChartHistory", defaultValue: self.lineChartHistory)
+        self.lineChartScale = Scale.fromString(Store.shared.string(key: "\(self.title)_lineChartScale", defaultValue: self.lineChartScale.key))
+        self.lineChartFixedScale = Double(Store.shared.int(key: "\(self.title)_lineChartFixedScale", defaultValue: 100)) / 100
         
         let gridView: NSGridView = NSGridView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height))
         gridView.rowSpacing = 0
@@ -204,7 +210,8 @@ internal class Popup: PopupWrapper {
             box.layer?.backgroundColor = NSColor.lightGray.withAlphaComponent(0.1).cgColor
             box.layer?.cornerRadius = 3
             
-            self.lineChart = LineChartView(frame: NSRect(x: 1, y: 0, width: box.frame.width, height: box.frame.height), num: self.lineChartHistory)
+            let chartFrame = NSRect(x: 1, y: 0, width: box.frame.width, height: box.frame.height)
+            self.lineChart = LineChartView(frame: chartFrame, num: self.lineChartHistory, scale: self.lineChartScale, fixedScale: self.lineChartFixedScale)
             self.lineChart?.color = self.chartColor
             box.addSubview(self.lineChart!)
             
@@ -495,6 +502,23 @@ internal class Popup: PopupWrapper {
             selected: "\(self.lineChartHistory)"
         ))
         
+        view.addArrangedSubview(selectSettingsRow(
+            title: localizedString("Scaling"),
+            action: #selector(self.toggleLineChartScale),
+            items: Scale.allCases,
+            selected: self.lineChartScale.key
+        ))
+        
+        let slider = sliderSettingsRow(
+            title: localizedString("Fixed value"),
+            action: #selector(self.toggleLineChartFixedScale),
+            value: Int(self.lineChartFixedScale * 100),
+            suffix: "%",
+            isHidden: self.lineChartScale != .fixed
+        )
+        self.sliderView = slider
+        view.addArrangedSubview(slider)
+        
         return view
     }
     
@@ -556,5 +580,26 @@ internal class Popup: PopupWrapper {
         self.lineChartHistory = value
         Store.shared.set(key: "\(self.title)_lineChartHistory", value: value)
         self.lineChart?.reinit(self.lineChartHistory)
+    }
+    @objc private func toggleLineChartScale(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String,
+              let value = Scale.allCases.first(where: { $0.key == key }) else { return }
+        self.sliderView?.isHidden = value != .fixed
+        self.lineChartScale = value
+        self.lineChart?.setScale(self.lineChartScale, fixedScale: self.lineChartFixedScale)
+        Store.shared.set(key: "\(self.title)_lineChartScale", value: key)
+        self.display()
+    }
+    @objc private func toggleLineChartFixedScale(_ sender: NSSlider) {
+        let value = Int(sender.doubleValue)
+        
+        if let container = self.sliderView?.subviews.first(where: { $0.identifier == NSUserInterfaceItemIdentifier("container") }),
+           let field = container.subviews.first(where: { $0 is NSTextField }), let view = field as? NSTextField {
+            view.stringValue = "\(value) %"
+        }
+        
+        self.lineChartFixedScale = sender.doubleValue / 100
+        self.lineChart?.setScale(self.lineChartScale, fixedScale: self.lineChartFixedScale)
+        Store.shared.set(key: "\(self.title)_lineChartFixedScale", value: value)
     }
 }
