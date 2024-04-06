@@ -69,6 +69,7 @@
 "Square" = "Négyzet";
 "Cube" = "Kocka";
 "Logarithmic" = "Logaritmikus";
+"Fixed scale" = "Fixed";
 "Cores" = "Magok";
 "Settings" = "Beállítások";
 "Name" = "Név";
@@ -213,6 +214,8 @@
 "Update interval for top processes" = "Top folyamatok frissítési időköze";
 "Notification level" = "Értesítési szint";
 "Chart color" = "Diagram színe";
+"Main chart scaling" = "Main chart scaling";
+"Scale value" = "Scale value";
 
 // CPU
 "CPU usage" = "CPU használat";

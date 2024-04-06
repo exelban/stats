@@ -69,6 +69,7 @@
 "Square" = "مربع";
 "Cube" = "مکعب";
 "Logarithmic" = "لگاریتمی";
+"Fixed scale" = "Fixed";
 "Cores" = "هسته ها";
 "Settings" = "Settings";
 "Name" = "Name";
@@ -213,6 +214,8 @@
 "Update interval for top processes" = " بروزرسانی زمان‌بندی برای بالاترین پردازش‌ها";
 "Notification level" = "سطح نوتیفیکیشن";
 "Chart color" = "رنگ نمودار";
+"Main chart scaling" = "Main chart scaling";
+"Scale value" = "Scale value";
 
 // CPU
 "CPU usage" = "مصرف سی پی یو";

@@ -69,6 +69,7 @@
 "Square" = "Ruut";
 "Cube" = "Kuup";
 "Logarithmic" = "Logaritmiline";
+"Fixed scale" = "Fixed";
 "Cores" = "Tuumad";
 "Settings" = "Seaded";
 "Name" = "Nimi";
@@ -213,6 +214,8 @@
 "Update interval for top processes" = "Tippprotsesside värskendusintervall";
 "Notification level" = "Teavitustase";
 "Chart color" = "Diagrammi värv";
+"Main chart scaling" = "Main chart scaling";
+"Scale value" = "Scale value";
 
 // CPU
 "CPU usage" = "CPU kasutus";

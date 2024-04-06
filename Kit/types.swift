@@ -309,7 +309,7 @@ extension Scale: CaseIterable {
     public static var cube: Scale { return Scale(key: "cube", value: "Cube") }
     public static var logarithmic: Scale { return Scale(key: "logarithmic", value: "Logarithmic") }
     public static var separator2: Scale { return Scale(key: "separator", value: "separator") }
-    public static var fixed: Scale { return Scale(key: "fixed", value: "Fixed") }
+    public static var fixed: Scale { return Scale(key: "fixed", value: "Fixed scale") }
     
     public static var allCases: [Scale] {
         return [.none, .separator, .linear, .square, .cube, .logarithmic, .separator2, .fixed]

@@ -69,6 +69,7 @@
 "Square" = "مربع";
 "Cube" = "مكعب";
 "Logarithmic" = "لوغاريثمي";
+"Fixed scale" = "Fixed";
 "Cores" = "أانوية";
 "Settings" = "إعدادات";
 "Name" = "إسم";
@@ -213,6 +214,8 @@
 "Update interval for top processes" = "Tippprotsesside värskendusintervall";
 "Notification level" = "Teavitustase";
 "Chart color" = "Diagrammi värv";
+"Main chart scaling" = "Main chart scaling";
+"Scale value" = "Scale value";
 
 // CPU
 "CPU usage" = "CPU kasutus";

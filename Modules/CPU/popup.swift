@@ -503,17 +503,17 @@ internal class Popup: PopupWrapper {
         ))
         
         view.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Scaling"),
+            title: localizedString("Main chart scaling"),
             action: #selector(self.toggleLineChartScale),
             items: Scale.allCases,
             selected: self.lineChartScale.key
         ))
         
         let slider = sliderSettingsRow(
-            title: localizedString("Fixed value"),
+            title: localizedString("Scale value"),
             action: #selector(self.toggleLineChartFixedScale),
             value: Int(self.lineChartFixedScale * 100),
-            suffix: "%",
+            initialValue: "\(Int(self.lineChartFixedScale * 100)) %",
             isHidden: self.lineChartScale != .fixed
         )
         self.sliderView = slider

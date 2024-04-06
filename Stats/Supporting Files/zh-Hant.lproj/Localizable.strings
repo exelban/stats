@@ -69,6 +69,7 @@
 "Square" = "平方";
 "Cube" = "立方";
 "Logarithmic" = "對數";
+"Fixed scale" = "Fixed";
 "Cores" = "核心數";
 "Settings" = "設定";
 "Name" = "名稱";
@@ -213,6 +214,8 @@
 "Update interval for top processes" = "高能耗程序更新頻率";
 "Notification level" = "觸發通知的數值";
 "Chart color" = "圖表色彩";
+"Main chart scaling" = "Main chart scaling";
+"Scale value" = "Scale value";
 
 // CPU
 "CPU usage" = "處理器使用量";

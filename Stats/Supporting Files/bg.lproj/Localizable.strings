@@ -69,6 +69,7 @@
 "Square" = "Квадратно";
 "Cube" = "Кубично";
 "Logarithmic" = "Логаритмично";
+"Fixed scale" = "Fixed";
 "Cores" = "Ядра";
 "Settings" = "Settings";
 "Name" = "Name";
@@ -213,6 +214,8 @@
 "Update interval for top processes" = "Интервал на опресняване на топ процесите";
 "Notification level" = "Ниво на известия";
 "Chart color" = "Цвят на графиката";
+"Main chart scaling" = "Main chart scaling";
+"Scale value" = "Scale value";
 
 // CPU
 "CPU usage" = "Употреба на процесора";

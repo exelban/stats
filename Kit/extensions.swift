@@ -345,7 +345,7 @@ public extension NSView {
         return view
     }
     
-    func fieldSettingRow(_ sender: NSTextFieldDelegate, title: String, value: String, placeholder: String? = nil, width: CGFloat = 200) -> NSView {
+    func fieldSettingRow(_ sender: NSTextFieldDelegate, title: String, value: String, placeholder: String? = nil, width: CGFloat = 215) -> NSView {
         let view: NSStackView = NSStackView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.heightAnchor.constraint(equalToConstant: Constants.Settings.row).isActive = true
@@ -385,7 +385,7 @@ public extension NSView {
         return view
     }
     
-    func sliderSettingsRow(title: String, action: Selector, value: Int, suffix: String, isHidden: Bool = false, min: Double = 1, max: Double = 100) -> NSView {
+    func sliderSettingsRow(title: String, action: Selector, value: Int, initialValue: String, isHidden: Bool = false, min: Double = 1, max: Double = 100) -> NSView {
         let view: NSStackView = NSStackView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.heightAnchor.constraint(equalToConstant: Constants.Settings.row * 1.2).isActive = true
@@ -402,7 +402,7 @@ public extension NSView {
         let container: NSView = NSView()
         container.identifier = NSUserInterfaceItemIdentifier("container")
         
-        let valueField: NSTextField = LabelField(frame: NSRect(x: 0, y: 21, width: 195, height: 15), "\(value) \(suffix)")
+        let valueField: NSTextField = LabelField(frame: NSRect(x: 0, y: 21, width: 195, height: 15), initialValue)
         valueField.font = NSFont.systemFont(ofSize: 12, weight: .regular)
         valueField.textColor = .textColor
         valueField.alignment = .center

@@ -69,6 +69,7 @@
 "Square" = "वर्ग";
 "Cube" = "क्यूब";
 "Logarithmic" = "लघुगणकीय";
+"Fixed scale" = "Fixed";
 "Cores" = "कोर";
 "Settings" = "सेटिंग्स";
 "Name" = "नाम";
@@ -213,6 +214,8 @@
 "Update interval for top processes" = "शीर्ष प्रक्रियाओं के लिए अंतराल अपडेट करें";
 "Notification level" = "अधिसूचना स्तर";
 "Chart color" = "चार्ट रंग";
+"Main chart scaling" = "Main chart scaling";
+"Scale value" = "Scale value";
 
 // CPU
 "CPU usage" = "सीपीयू उपयोग";
