@@ -69,6 +69,7 @@
 "Square" = "Kvadratno";
 "Cube" = "Kubično";
 "Logarithmic" = "Logaritmično";
+"Fixed scale" = "Fixed";
 "Cores" = "Jedra";
 "Settings" = "Nastavitve";
 "Name" = "Ime";
@@ -213,6 +214,8 @@
 "Update interval for top processes" = "Interval posodabljanja za glavne procese";
 "Notification level" = "Raven za obvestila";
 "Chart color" = "Barva grafa";
+"Main chart scaling" = "Main chart scaling";
+"Scale value" = "Scale value";
 
 // CPU
 "CPU usage" = "CPE poraba";

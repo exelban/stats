@@ -69,6 +69,7 @@
 "Square" = "Štvorcová";
 "Cube" = "Kubická";
 "Logarithmic" = "Logaritmická";
+"Fixed scale" = "Fixed";
 "Cores" = "Jadrá";
 "Settings" = "Nastavenia";
 "Name" = "Name";
@@ -213,6 +214,8 @@
 "Update interval for top processes" = "Interval aktualizácie pre top procesy";
 "Notification level" = "Úroveň upozornenia";
 "Chart color" = "Farba grafu";
+"Main chart scaling" = "Main chart scaling";
+"Scale value" = "Scale value";
 
 // CPU
 "CPU usage" = "Použitie CPU";

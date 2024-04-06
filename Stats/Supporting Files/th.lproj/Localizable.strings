@@ -69,6 +69,7 @@
 "Square" = "สี่เหลี่ยม";
 "Cube" = "ลูกบาศก์";
 "Logarithmic" = "ลอการิทึม";
+"Fixed scale" = "Fixed";
 "Cores" = "หน่วยความจำ";
 "Settings" = "การตั้งค่า";
 "Name" = "Name";
@@ -213,6 +214,8 @@
 "Update interval for top processes" = "ช่วงเวลาปรับปรุงสำหรับกระบวนการสูงสุด";
 "Notification level" = "ระดับแจ้งเตือน";
 "Chart color" = "สีแผนภูมิ";
+"Main chart scaling" = "Main chart scaling";
+"Scale value" = "Scale value";
 
 // CPU
 "CPU usage" = "การใช้งาน CPU";

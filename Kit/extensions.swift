@@ -345,7 +345,7 @@ public extension NSView {
         return view
     }
     
-    func fieldSettingRow(_ sender: NSTextFieldDelegate, title: String, value: String, placeholder: String? = nil, width: CGFloat = 200) -> NSView {
+    func fieldSettingRow(_ sender: NSTextFieldDelegate, title: String, value: String, placeholder: String? = nil, width: CGFloat = 215) -> NSView {
         let view: NSStackView = NSStackView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.heightAnchor.constraint(equalToConstant: Constants.Settings.row).isActive = true
@@ -381,6 +381,50 @@ public extension NSView {
         view.addArrangedSubview(valueField)
         
         valueField.widthAnchor.constraint(equalToConstant: width).isActive = true
+        
+        return view
+    }
+    
+    func sliderSettingsRow(title: String, action: Selector, value: Int, initialValue: String, isHidden: Bool = false, min: Double = 1, max: Double = 100) -> NSView {
+        let view: NSStackView = NSStackView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.heightAnchor.constraint(equalToConstant: Constants.Settings.row * 1.2).isActive = true
+        view.orientation = .horizontal
+        view.alignment = .centerY
+        view.distribution = .fill
+        view.spacing = 0
+        view.isHidden = isHidden
+        
+        let titleField: NSTextField = LabelField(frame: NSRect(x: 0, y: 0, width: 0, height: 0), title)
+        titleField.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+        titleField.textColor = .textColor
+        
+        let container: NSView = NSView()
+        container.identifier = NSUserInterfaceItemIdentifier("container")
+        
+        let valueField: NSTextField = LabelField(frame: NSRect(x: 0, y: 21, width: 195, height: 15), initialValue)
+        valueField.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+        valueField.textColor = .textColor
+        valueField.alignment = .center
+        
+        let slider = NSSlider(frame: NSRect(x: 0, y: -5, width: 195, height: 0))
+        slider.minValue = min
+        slider.maxValue = max
+        slider.intValue = Int32(value)
+        slider.target = self
+        slider.isContinuous = true
+        slider.action = action
+        slider.sizeToFit()
+        
+        container.addSubview(valueField)
+        container.addSubview(slider)
+        
+        view.addArrangedSubview(titleField)
+        view.addArrangedSubview(NSView())
+        view.addArrangedSubview(container)
+        
+        container.widthAnchor.constraint(equalToConstant: 195).isActive = true
+        container.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
         
         return view
     }

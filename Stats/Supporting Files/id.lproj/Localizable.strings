@@ -69,6 +69,7 @@
 "Square" = "Square";
 "Cube" = "Cube";
 "Logarithmic" = "Logarithmic";
+"Fixed scale" = "Fixed";
 "Cores" = "Cores";
 "Settings" = "Settings";
 "Name" = "Name";
@@ -213,6 +214,8 @@
 "Update interval for top processes" = "Pembaruan waktu jeda dari proses teratas";
 "Notification level" = "Tingkat pemberitahuan";
 "Chart color" = "Warna bagan";
+"Main chart scaling" = "Main chart scaling";
+"Scale value" = "Scale value";
 
 // CPU
 "CPU usage" = "Penggunaan CPU";

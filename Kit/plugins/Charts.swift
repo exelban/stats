@@ -21,7 +21,7 @@ public struct circle_segment {
     }
 }
 
-private func scaleValue(scale: Scale = .linear, value: Double, maxValue: Double, maxHeight: CGFloat) -> CGFloat {
+private func scaleValue(scale: Scale = .linear, value: Double, maxValue: Double, maxHeight: CGFloat, limit: Double) -> CGFloat {
     var value = value
     if scale == .none && value > 1 && maxValue != 0 {
         value /= maxValue
@@ -51,6 +51,11 @@ private func scaleValue(scale: Scale = .linear, value: Double, maxValue: Double,
         if localMaxValue > 0 {
             localMaxValue = log(maxValue*100)
         }
+    case .fixed:
+        if value > limit {
+            value = limit
+        }
+        localMaxValue = limit
     default: break
     }
     
@@ -114,15 +119,18 @@ public class LineChartView: NSView {
     public var transparent: Bool = true
     public var color: NSColor = .controlAccentColor
     public var suffix: String = "%"
-    public var scale: Scale
+    
+    private var scale: Scale
+    private var fixedScale: Double
     
     private var cursor: NSPoint? = nil
     private var stop: Bool = false
     private let dateFormatter = DateFormatter()
     
-    public init(frame: NSRect, num: Int, scale: Scale = .none) {
+    public init(frame: NSRect, num: Int, scale: Scale = .none, fixedScale: Double = 1) {
         self.points = Array(repeating: nil, count: num)
         self.scale = scale
+        self.fixedScale = fixedScale
         
         super.init(frame: frame)
         
@@ -175,7 +183,7 @@ public class LineChartView: NSView {
             }
             let point = CGPoint(
                 x: (CGFloat(i) * xRatio) + dirtyRect.origin.x,
-                y: scaleValue(scale: self.scale, value: v.value, maxValue: maxValue, maxHeight: height) + dirtyRect.origin.y + offset
+                y: scaleValue(scale: self.scale, value: v.value, maxValue: maxValue, maxHeight: height, limit: self.fixedScale) + dirtyRect.origin.y + offset
             )
             line.append(point)
             list.append((value: v, point: point))
@@ -295,8 +303,9 @@ public class LineChartView: NSView {
         }
     }
     
-    public func setScale(_ newScale: Scale) {
+    public func setScale(_ newScale: Scale, fixedScale: Double = 1) {
         self.scale = newScale
+        self.fixedScale = fixedScale
         if self.window?.isVisible ?? false {
             self.display()
         }
@@ -341,6 +350,7 @@ public class NetworkChartView: NSView {
     
     private var minMax: Bool = false
     private var scale: Scale = .none
+    private var fixedScale: Double
     private var commonScale: Bool = true
     private var reverseOrder: Bool = false
     
@@ -348,12 +358,14 @@ public class NetworkChartView: NSView {
     private var cursor: NSPoint? = nil
     private var stop: Bool = false
     
-    public init(frame: NSRect, num: Int, minMax: Bool = true, outColor: NSColor = .systemRed, inColor: NSColor = .systemBlue, toolTip: Bool = false) {
+    public init(frame: NSRect, num: Int, minMax: Bool = true, outColor: NSColor = .systemRed, inColor: NSColor = .systemBlue, toolTip: Bool = false, scale: Scale = .none, fixedScale: Double = 1) {
         self.minMax = minMax
         self.points = Array(repeating: (0, 0), count: num)
         self.topColor = inColor
         self.bottomColor = outColor
         self.cursorToolTip = toolTip
+        self.scale = scale
+        self.fixedScale = fixedScale
         super.init(frame: frame)
         
         self.addTrackingArea(NSTrackingArea(
@@ -410,11 +422,11 @@ public class NetworkChartView: NSView {
         
         let topYPoint = { (point: Int) -> CGFloat in
             let value = self.reverseOrder ? points[point].1 : points[point].0
-            return scaleValue(scale: self.scale, value: value, maxValue: topMax, maxHeight: self.frame.height/2) + xCenter
+            return scaleValue(scale: self.scale, value: value, maxValue: topMax, maxHeight: self.frame.height/2, limit: self.fixedScale) + xCenter
         }
         let bottomYPoint = { (point: Int) -> CGFloat in
             let value = self.reverseOrder ? points[point].0 : points[point].1
-            return xCenter - scaleValue(scale: self.scale, value: value, maxValue: bottomMax, maxHeight: self.frame.height/2)
+            return xCenter - scaleValue(scale: self.scale, value: value, maxValue: bottomMax, maxHeight: self.frame.height/2, limit: self.fixedScale)
         }
         
         let topList = points.enumerated().compactMap { (i: Int, v: (Double, Double)) -> (value: Double, point: CGPoint) in
@@ -572,8 +584,9 @@ public class NetworkChartView: NSView {
         }
     }
     
-    public func setScale(_ newScale: Scale, _ commonScale: Bool) {
+    public func setScale(_ newScale: Scale, _ commonScale: Bool, _ fixedScale: Double = 1) {
         self.scale = newScale
+        self.fixedScale = fixedScale
         self.commonScale = commonScale
         
         if self.window?.isVisible ?? false {

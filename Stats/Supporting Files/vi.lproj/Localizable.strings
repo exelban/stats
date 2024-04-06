@@ -69,6 +69,7 @@
 "Square" = "Hình vuông";
 "Cube" = "Khối lập phương";
 "Logarithmic" = "Logarithmic";
+"Fixed scale" = "Fixed";
 "Cores" = "Cores";
 "Settings" = "Settings";
 "Name" = "Name";
@@ -213,6 +214,8 @@
 "Update interval for top processes" = "Khoảng thời gian cập nhật cho các top tiến trình";
 "Notification level" = "Mức độ thông báo";
 "Chart color" = "Chart color";
+"Main chart scaling" = "Main chart scaling";
+"Scale value" = "Scale value";
 
 // CPU
 "CPU usage" = "Sử dụng CPU";

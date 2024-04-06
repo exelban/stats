@@ -69,6 +69,7 @@
 "Square" = "Kwadratowe";
 "Cube" = "Kubiczne";
 "Logarithmic" = "Logarytmiczne";
+"Fixed scale" = "Stałe";
 "Cores" = "Rdzeni";
 "Settings" = "Ustawienia";
 "Name" = "Nazwa";
@@ -213,6 +214,8 @@
 "Update interval for top processes" = "Interwał odświeżania procesów";
 "Notification level" = "Poziom powiadomienia";
 "Chart color" = "Kolor wykresu";
+"Main chart scaling" = "Skalowanie wykresu głównego";
+"Scale value" = "Wartość skali";
 
 // CPU
 "CPU usage" = "Obciążenie procesora";

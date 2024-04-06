@@ -69,6 +69,7 @@
 "Square" = "제곱";
 "Cube" = "세제곱";
 "Logarithmic" = "로그";
+"Fixed scale" = "Fixed";
 "Cores" = "코어 수";
 "Settings" = "설정";
 "Name" = "이름";
@@ -213,6 +214,8 @@
 "Update interval for top processes" = "상위 프로세스의 업데이트 주기";
 "Notification level" = "알림 수준";
 "Chart color" = "도표 색상";
+"Main chart scaling" = "Main chart scaling";
+"Scale value" = "Scale value";
 
 // CPU
 "CPU usage" = "CPU 사용량";

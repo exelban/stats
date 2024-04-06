@@ -69,6 +69,7 @@
 "Square" = "Kvadratisk";
 "Cube" = "Kubisk";
 "Logarithmic" = "Logaritmisk";
+"Fixed scale" = "Fixed";
 "Cores" = "Kjerner";
 "Settings" = "Innstillinger";
 "Name" = "Navn";
@@ -213,6 +214,8 @@
 "Update interval for top processes" = "Oppdateringsintervall for topp-prosesser";
 "Notification level" = "Varslingsnivå";
 "Chart color" = "Diagramfarge";
+"Main chart scaling" = "Main chart scaling";
+"Scale value" = "Scale value";
 
 // CPU
 "CPU usage" = "CPU-bruk";

@@ -69,6 +69,7 @@
 "Square" = "Квадратное";
 "Cube" = "Кубическое";
 "Logarithmic" = "Логарифмическое";
+"Fixed scale" = "Фиксированное";
 "Cores" = "Ядра";
 "Settings" = "Настройки";
 "Name" = "Название";
@@ -213,6 +214,8 @@
 "Update interval for top processes" = "Интервал обновления процессов";
 "Notification level" = "Уровень уведомления";
 "Chart color" = "Цвет графика";
+"Main chart scaling" = "Масштабирование основного графика";
+"Scale value" = "Значение масштаба";
 
 // CPU
 "CPU usage" = "Использование процессора";
