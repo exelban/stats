@@ -56,8 +56,10 @@ internal class Popup: PopupWrapper {
     private var connectionInitialized: Bool = false
     
     private var chart: NetworkChartView? = nil
+    private var chartScale: Scale = .none
     private var connectivityChart: GridChartView? = nil
     private var processes: ProcessesView? = nil
+    private var sliderView: NSView? = nil
     
     private var lastReset: Date = Date()
     
@@ -104,6 +106,7 @@ internal class Popup: PopupWrapper {
         self.downloadColorState = Color.fromString(Store.shared.string(key: "\(self.title)_downloadColor", defaultValue: self.downloadColorState.key))
         self.uploadColorState = Color.fromString(Store.shared.string(key: "\(self.title)_uploadColor", defaultValue: self.uploadColorState.key))
         self.reverseOrderState = Store.shared.bool(key: "\(self.title)_reverseOrder", defaultValue: self.reverseOrderState)
+        self.chartScale = Scale.fromString(Store.shared.string(key: "\(self.title)_chartScale", defaultValue: self.chartScale.key))
         
         self.spacing = 0
         self.orientation = .vertical
@@ -174,7 +177,7 @@ internal class Popup: PopupWrapper {
         
         let chart = NetworkChartView(
             frame: NSRect(x: 0, y: 1, width: container.frame.width, height: container.frame.height - 2),
-            num: 120, outColor: self.uploadColor, inColor: self.downloadColor, toolTip: true
+            num: 120, outColor: self.uploadColor, inColor: self.downloadColor, toolTip: true, scale: self.chartScale
         )
         chart.setReverseOrder(self.reverseOrderState)
         chart.base = self.base
@@ -515,6 +518,13 @@ internal class Popup: PopupWrapper {
             state: self.reverseOrderState
         ))
         
+        view.addArrangedSubview(selectSettingsRow(
+            title: localizedString("Main chart scaling"),
+            action: #selector(self.toggleChartScale),
+            items: Scale.allCases.filter({ $0 != .fixed }),
+            selected: self.chartScale.key
+        ))
+        
         return view
     }
     
@@ -550,6 +560,14 @@ internal class Popup: PopupWrapper {
         self.reverseOrderState = controlState(sender)
         self.chart?.setReverseOrder(self.reverseOrderState)
         Store.shared.set(key: "\(self.title)_reverseOrder", value: self.reverseOrderState)
+        self.display()
+    }
+    @objc private func toggleChartScale(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String,
+              let value = Scale.allCases.first(where: { $0.key == key }) else { return }
+        self.chartScale = value
+        self.chart?.setScale(self.chartScale)
+        Store.shared.set(key: "\(self.title)_chartScale", value: key)
         self.display()
     }
     

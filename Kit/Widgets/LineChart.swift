@@ -312,7 +312,7 @@ public class LineChart: WidgetWrapper {
         view.addArrangedSubview(selectSettingsRow(
             title: localizedString("Scaling"),
             action: #selector(self.toggleScale),
-            items: Scale.allCases,
+            items: Scale.allCases.filter({ $0 != .fixed }),
             selected: self.scaleState.key
         ))
         
