@@ -81,8 +81,8 @@
 "2 minutes" = "2 minutes";
 "3 minutes" = "3 minutes";
 "10 minutes" = "10 minutes";
-"Import" = "Import";
-"Export" = "Export";
+"Import" = "Importa";
+"Export" = "Esporta";
 
 // Setup
 "Stats Setup" = "Configurazione Stats";
@@ -106,7 +106,7 @@
 "Share anonymous telemetry data" = "Condividi dati anonimi di telemetria";
 "Do not share anonymous telemetry data" = "Non condividere dati anonimi di telemetria";
 "The configuration is completed" = "Configurazione completata";
-"finish_setup_message" = "È tutto pronto! \n Stats è uno strumento open source gratuito, e lo rimarrà per sempre. \n Se ti piace, dacci il tuo supporto: è sempre ben accetto!";
+"finish_setup_message" = "È tutto pronto! \n Stats è un software open source gratuito, e lo rimarrà per sempre. \n Se ti piace, dacci il tuo supporto: è sempre ben accetto!";
 
 // Alerts
 "New version available" = "Nuova versione disponibile";
@@ -190,7 +190,7 @@
 "Color of upload" = "Colore dell'upload";
 "Monospaced font" = "Font a larghezza fissa";
 "Reverse order" = "Inverti ordine";
-"Chart duration" = "Chart duration";
+"Chart duration" = "Durata grafico";
 
 // Module Kit
 "Open module settings" = "Apri impostazioni modulo";
@@ -303,8 +303,8 @@
 "Read color" = "Colore lettura";
 "Write color" = "Colore scrittura";
 "Disk usage" = "Utilizzo Disco";
-"Total read" = "Total read";
-"Total written" = "Total written";
+"Total read" = "Totale letto";
+"Total written" = "Totale scritto";
 
 // Sensors
 "Temperature unit" = "Unità di temperatura";
@@ -367,7 +367,7 @@
 "Every 24 hours" = "Ogni 24 ore";
 "Network activity" = "Attività di rete";
 "Last reset" = "Ultimo reset %0 fa";
-"Latency" = "Latency";
+"Latency" = "Latenza";
 
 // Battery
 "Level" = "Livello";
