@@ -69,7 +69,7 @@
 "Square" = "Quadratisch";
 "Cube" = "Kubisch";
 "Logarithmic" = "Logarithmisch";
-"Fixed scale" = "Fixed";
+"Fixed scale" = "Fixiert";
 "Cores" = "Cores";
 "Settings" = "Einstellungen";
 "Name" = "Name";
@@ -213,9 +213,9 @@
 "Number of top processes" = "Anzahl der Top-Prozesse";
 "Update interval for top processes" = "Update-Intervall der Top-Prozesse";
 "Notification level" = "Benachrichtungslevel";
-"Chart color" = "Diagrammfarbe";
-"Main chart scaling" = "Main chart scaling";
-"Scale value" = "Scale value";
+"Chart color" = "Diagramm-Farbe";
+"Main chart scaling" = "Diagramm-Skalierung";
+"Scale value" = "Skalierung";
 
 // CPU
 "CPU usage" = "CPU-Auslastung";
