@@ -55,7 +55,7 @@ internal class Popup: PopupWrapper {
     private var processesInitialized: Bool = false
     private var connectionInitialized: Bool = false
     
-    private var chart: NetworkChartView? = nil
+    private var chart: NetworkChartViewV2? = nil
     private var chartScale: Scale = .none
     private var connectivityChart: GridChartView? = nil
     private var processes: ProcessesView? = nil
@@ -175,11 +175,10 @@ internal class Popup: PopupWrapper {
         container.layer?.backgroundColor = NSColor.lightGray.withAlphaComponent(0.1).cgColor
         container.layer?.cornerRadius = 3
         
-        let chart = NetworkChartView(
+        let chart = NetworkChartViewV2(
             frame: NSRect(x: 0, y: 1, width: container.frame.width, height: container.frame.height - 2),
-            num: 120, outColor: self.uploadColor, inColor: self.downloadColor, toolTip: true, scale: self.chartScale
+            num: 120, reversedOrder: self.reverseOrderState, outColor: self.uploadColor, inColor: self.downloadColor, scale: self.chartScale
         )
-        chart.setReverseOrder(self.reverseOrderState)
         chart.base = self.base
         container.addSubview(chart)
         self.chart = chart

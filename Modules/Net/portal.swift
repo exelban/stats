@@ -13,7 +13,7 @@ import Cocoa
 import Kit
 
 public class Portal: PortalWrapper {
-    private var chart: NetworkChartView? = nil
+    private var chart: NetworkChartViewV2? = nil
     
     private var publicIPField: NSTextField? = nil
     
@@ -73,7 +73,7 @@ public class Portal: PortalWrapper {
         view.orientation = .vertical
         view.distribution = .fill
         view.spacing = Constants.Popup.spacing*2
-        let chart = NetworkChartView(frame: NSRect.zero, num: 120, minMax: true, outColor: self.uploadColor, inColor: self.downloadColor)
+        let chart = NetworkChartViewV2(frame: NSRect.zero, num: 120, outColor: self.uploadColor, inColor: self.downloadColor)
         self.chart = chart
         
         view.addArrangedSubview(chart)

@@ -22,10 +22,7 @@ public class NetworkChart: WidgetWrapper {
     private var commonScaleState: Bool = true
     private var reverseOrderState: Bool = false
     
-    private var chart: NetworkChartView = NetworkChartView(
-        frame: NSRect(x: 0, y: 0, width: 30, height: Constants.Widget.height - (2*Constants.Widget.margin.y)),
-        num: 60, minMax: false, toolTip: false
-    )
+    private var chart: NetworkChartView = NetworkChartView(frame: NSRect(x: 0, y: 0, width: 30, height: Constants.Widget.height-(2*Constants.Widget.margin.y)), num: 60)
     private var width: CGFloat {
         get {
             switch self.historyCount {

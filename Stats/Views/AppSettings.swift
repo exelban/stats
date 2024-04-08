@@ -432,7 +432,6 @@ class ApplicationSettings: NSStackView {
     
     @objc private func toggleDock(_ sender: NSButton) {
         let state = sender.state
-        
         Store.shared.set(key: "dockIcon", value: state == NSControl.StateValue.on)
         let dockIconStatus = state == NSControl.StateValue.on ? NSApplication.ActivationPolicy.regular : NSApplication.ActivationPolicy.accessory
         NSApp.setActivationPolicy(dockIconStatus)
