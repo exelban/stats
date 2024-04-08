@@ -584,7 +584,7 @@ public class NetworkChartView: NSView {
         }
     }
     
-    public func setScale(_ newScale: Scale, _ commonScale: Bool, _ fixedScale: Double = 1) {
+    public func setScale(_ newScale: Scale, _ commonScale: Bool = false, _ fixedScale: Double = 1) {
         self.scale = newScale
         self.fixedScale = fixedScale
         self.commonScale = commonScale

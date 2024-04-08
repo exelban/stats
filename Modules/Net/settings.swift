@@ -32,6 +32,7 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
     private let title: String
     private var button: NSPopUpButton?
     private var valueField: NSTextField?
+    private var sliderView: NSView? = nil
     
     private var list: [Network_interface] = []
     
@@ -80,7 +81,16 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
     public func load(widgets: [widget_t]) {
         self.subviews.forEach{ $0.removeFromSuperview() }
         
-        self.addArrangedSubview(self.activationSlider())
+        let slider = sliderSettingsRow(
+            title: localizedString("Widget activation threshold"),
+            action: #selector(self.sliderCallback),
+            value: self.widgetActivationThreshold,
+            initialValue: self.widgetActivationThreshold != 0 ? "\(self.widgetActivationThreshold) KB" : localizedString("Disabled"),
+            min: 0,
+            max: 1024
+        )
+        self.sliderView = slider
+        self.addArrangedSubview(slider)
         
         self.addArrangedSubview(selectSettingsRowV1(
             title: localizedString("Number of top processes"),
@@ -130,8 +140,7 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
         self.addArrangedSubview(fieldSettingRow(self,
             title: localizedString("Connectivity host (ICMP)"),
             value: self.ICMPHost,
-            placeholder: localizedString("Leave empty to disable the check"),
-            width: 220
+            placeholder: localizedString("Leave empty to disable the check")
         ))
     }
     
@@ -185,57 +194,6 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
         return view
     }
     
-    func activationSlider() -> NSView {
-        let view: NSStackView = NSStackView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.heightAnchor.constraint(equalToConstant: Constants.Settings.row * 1.5).isActive = true
-        view.orientation = .horizontal
-        view.alignment = .centerY
-        view.distribution = .fill
-        view.spacing = 0
-        
-        let titleField: NSTextField = LabelField(frame: NSRect(x: 0, y: 0, width: 0, height: 0), localizedString("Widget activation threshold"))
-        titleField.font = NSFont.systemFont(ofSize: 12, weight: .regular)
-        titleField.textColor = .textColor
-        
-        let container = NSStackView()
-        container.spacing = 0
-        container.orientation = .vertical
-        container.alignment = .centerX
-        container.distribution = .fillEqually
-        
-        var value = localizedString("Disabled")
-        if self.widgetActivationThreshold != 0 {
-            value = "\(self.widgetActivationThreshold) KB"
-        }
-        
-        let valueField: NSTextField = LabelField(frame: NSRect(x: 0, y: 0, width: 0, height: 0), value)
-        valueField.font = NSFont.systemFont(ofSize: 12, weight: .regular)
-        valueField.textColor = .textColor
-        self.valueField = valueField
-        
-        let slider = NSSlider()
-        slider.minValue = 0
-        slider.maxValue = 1024
-        slider.doubleValue = Double(self.widgetActivationThreshold)
-        slider.target = self
-        slider.isContinuous = true
-        slider.action = #selector(self.sliderCallback)
-        slider.sizeToFit()
-        
-        container.addArrangedSubview(valueField)
-        container.addArrangedSubview(slider)
-        
-        view.addArrangedSubview(titleField)
-        view.addArrangedSubview(NSView())
-        view.addArrangedSubview(container)
-        
-        container.widthAnchor.constraint(equalToConstant: 180).isActive = true
-        container.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
-        
-        return view
-    }
-    
     @objc func handleSelection(_ sender: NSPopUpButton) {
         guard let item = sender.selectedItem, let id = item.identifier?.rawValue else { return }
         
@@ -280,13 +238,10 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
     }
     
     @objc private func sliderCallback(_ sender: NSSlider) {
-        guard let valueField = self.valueField else { return }
-        
         let value = Int(sender.doubleValue)
-        if value == 0 {
-            valueField.stringValue = localizedString("Disabled")
-        } else {
-            valueField.stringValue = "\(value) KB"
+        if let container = self.sliderView?.subviews.first(where: { $0.identifier == NSUserInterfaceItemIdentifier("container") }),
+            let field = container.subviews.first(where: { $0 is NSTextField }), let view = field as? NSTextField {
+            view.stringValue = value == 0 ? localizedString("Disabled") : "\(value) KB"
         }
         self.widgetActivationThreshold = value
         Store.shared.set(key: "\(self.title)_widgetActivationThreshold", value: self.widgetActivationThreshold)

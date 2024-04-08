@@ -78,7 +78,7 @@ public class PortalHeader: NSStackView {
         title.canDrawSubviewsIntoLayer = true
         title.alignment = .center
         title.font = NSFont.systemFont(ofSize: 12, weight: .regular)
-        title.stringValue = name
+        title.stringValue = localizedString(name)
         
         let settings = NSButton()
         settings.heightAnchor.constraint(equalToConstant: 18).isActive = true

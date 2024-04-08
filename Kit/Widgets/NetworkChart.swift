@@ -240,7 +240,7 @@ public class NetworkChart: WidgetWrapper {
         view.addArrangedSubview(selectSettingsRow(
             title: localizedString("Scaling"),
             action: #selector(toggleScale),
-            items: Scale.allCases.filter({ $0 != .none && $0 != .separator }),
+            items: Scale.allCases.filter({ $0 != .fixed }),
             selected: self.scaleState.key
         ))
         

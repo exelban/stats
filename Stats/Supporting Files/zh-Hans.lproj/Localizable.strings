@@ -81,8 +81,8 @@
 "2 minutes" = "2 分钟";
 "3 minutes" = "3 分钟";
 "10 minutes" = "10 分钟";
-"Import" = "Import";
-"Export" = "Export";
+"Import" = "导入";
+"Export" = "导出";
 
 // Setup
 "Stats Setup" = "Stats 设置";
@@ -303,8 +303,8 @@
 "Read color" = "读取颜色";
 "Write color" = "写入颜色";
 "Disk usage" = "磁盘使用";
-"Total read" = "Total read";
-"Total written" = "Total written";
+"Total read" = "总读取量";
+"Total written" = "总写入量";
 
 // Sensors
 "Temperature unit" = "温度单位";
