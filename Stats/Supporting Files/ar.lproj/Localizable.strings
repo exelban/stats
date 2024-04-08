@@ -214,6 +214,8 @@
 "Update interval for top processes" = "فاصل التحديث لأعلى العمليات";
 "Notification level" = "مستوى الإشعار";
 "Chart color" = "لون المخطط";
+"Main chart scaling" = "تحجيم المخطط الرئيسي";
+"Scale value" = "قيمة المقياس";
 
 // CPU
 "CPU usage" = "استخدام المعالج";
