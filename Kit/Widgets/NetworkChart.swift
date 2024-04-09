@@ -19,10 +19,10 @@ public class NetworkChart: WidgetWrapper {
     private var downloadColor: Color = .secondBlue
     private var uploadColor: Color = .secondRed
     private var scaleState: Scale = .linear
-    private var commonScaleState: Bool = true
     private var reverseOrderState: Bool = false
     
-    private var chart: NetworkChartView = NetworkChartView(frame: NSRect(x: 0, y: 0, width: 30, height: Constants.Widget.height-(2*Constants.Widget.margin.y)), num: 60)
+    private var points: [(Double, Double)] = Array(repeating: (0, 0), count: 60)
+    
     private var width: CGFloat {
         get {
             switch self.historyCount {
@@ -81,16 +81,7 @@ public class NetworkChart: WidgetWrapper {
             self.downloadColor = Color.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_downloadColor", defaultValue: self.downloadColor.key))
             self.uploadColor = Color.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_uploadColor", defaultValue: self.uploadColor.key))
             self.scaleState = Scale.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_scale", defaultValue: self.scaleState.key))
-            self.commonScaleState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_commonScale", defaultValue: self.commonScaleState)
             self.reverseOrderState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_reverseOrder", defaultValue: self.reverseOrderState)
-            
-            if let downloadColor =  self.downloadColor.additional as? NSColor,
-               let uploadColor = self.uploadColor.additional as? NSColor {
-                self.chart.setColors(in: downloadColor, out: uploadColor)
-            }
-            self.chart.setScale(self.scaleState, self.commonScaleState)
-            self.chart.reinit(self.historyCount)
-            self.chart.setReverseOrder(self.reverseOrderState)
         }
         
         if preview {
@@ -98,7 +89,7 @@ public class NetworkChart: WidgetWrapper {
             for _ in 0..<60 {
                 list.append((Double.random(in: 0..<23), Double.random(in: 0..<23)))
             }
-            self.chart.points = list
+            self.points = list
         }
         
         let style = NSMutableParagraphStyle()
@@ -166,9 +157,74 @@ public class NetworkChart: WidgetWrapper {
             width: box.bounds.width - (offset*2+lineWidth),
             height: box.bounds.height - offset
         )
-        self.chart.setFrameSize(NSSize(width: chartFrame.width, height: chartFrame.height))
-        self.chart.setFrameOrigin(NSPoint(x: chartFrame.origin.x, y: chartFrame.origin.y))
-        self.chart.draw(chartFrame)
+        let points = self.points
+        var topMax: Double = (self.reverseOrderState ? points.map{ $0.0 }.max() : points.map{ $0.1 }.max()) ?? 0
+        var bottomMax: Double = (self.reverseOrderState ? points.map{ $0.1 }.max() : points.map{ $0.0 }.max()) ?? 0
+        if topMax == 0 {
+            topMax = 1
+        }
+        if bottomMax == 0 {
+            bottomMax = 1
+        }
+        
+        let zero: CGFloat = (chartFrame.height/2) + chartFrame.origin.y
+        let xRatio: CGFloat = (chartFrame.width + (lineWidth*3)) / CGFloat(points.count)
+        let xCenter: CGFloat = chartFrame.height/2 + chartFrame.origin.y
+        
+        let columnXPoint = { (point: Int) -> CGFloat in
+            return (CGFloat(point) * xRatio) + (chartFrame.origin.x - lineWidth)
+        }
+        
+        let topYPoint = { (point: Int) -> CGFloat in
+            let value = self.reverseOrderState ? points[point].0 : points[point].1
+            return scaleValue(scale: self.scaleState, value: value, maxValue: topMax, maxHeight: chartFrame.height/2, limit: 1) + xCenter
+        }
+        let bottomYPoint = { (point: Int) -> CGFloat in
+            let value = self.reverseOrderState ? points[point].1 : points[point].0
+            return xCenter - scaleValue(scale: self.scaleState, value: value, maxValue: bottomMax, maxHeight: chartFrame.height/2, limit: 1)
+        }
+        
+        let topLinePath = NSBezierPath()
+        topLinePath.move(to: CGPoint(x: columnXPoint(0), y: topYPoint(0)))
+        let bottomLinePath = NSBezierPath()
+        bottomLinePath.move(to: CGPoint(x: columnXPoint(0), y: bottomYPoint(0)))
+        
+        for i in 1..<points.count {
+            topLinePath.line(to: CGPoint(x: columnXPoint(i), y: topYPoint(i)))
+            bottomLinePath.line(to: CGPoint(x: columnXPoint(i), y: bottomYPoint(i)))
+        }
+        
+        let topColor = (self.reverseOrderState ? self.uploadColor : self.downloadColor).additional as? NSColor
+        let bottomColor = (self.reverseOrderState ? self.downloadColor : self.uploadColor).additional as? NSColor
+        
+        bottomColor?.setStroke()
+        topLinePath.lineWidth = lineWidth
+        topLinePath.stroke()
+        
+        topColor?.setStroke()
+        bottomLinePath.lineWidth = lineWidth
+        bottomLinePath.stroke()
+        
+        context.saveGState()
+        
+        var underLinePath = topLinePath.copy() as! NSBezierPath
+        underLinePath.line(to: CGPoint(x: columnXPoint(points.count), y: zero))
+        underLinePath.line(to: CGPoint(x: columnXPoint(0), y: zero))
+        underLinePath.close()
+        underLinePath.addClip()
+        bottomColor?.withAlphaComponent(0.5).setFill()
+        NSBezierPath(rect: self.frame).fill()
+        
+        context.restoreGState()
+        context.saveGState()
+        
+        underLinePath = bottomLinePath.copy() as! NSBezierPath
+        underLinePath.line(to: CGPoint(x: columnXPoint(points.count), y: zero))
+        underLinePath.line(to: CGPoint(x: columnXPoint(0), y: zero))
+        underLinePath.close()
+        underLinePath.addClip()
+        topColor?.withAlphaComponent(0.5).setFill()
+        NSBezierPath(rect: self.frame).fill()
         
         context.restoreGState()
         
@@ -182,9 +238,13 @@ public class NetworkChart: WidgetWrapper {
     }
     
     public func setValue(upload: Double, download: Double) {
+        self.points.remove(at: 0)
+        self.points.append((upload, download))
+        
         DispatchQueue.main.async(execute: {
-            self.chart.addValue(upload: upload, download: download)
-            self.display()
+            if self.window?.isVisible ?? false {
+                self.display()
+            }
         })
     }
     
@@ -242,12 +302,6 @@ public class NetworkChart: WidgetWrapper {
         ))
         
         view.addArrangedSubview(toggleSettingRow(
-            title: localizedString("Common scale"),
-            action: #selector(toggleCommonScale),
-            state: self.commonScaleState
-        ))
-        
-        view.addArrangedSubview(toggleSettingRow(
             title: localizedString("Reverse order"),
             action: #selector(toggleReverseOrder),
             state: self.reverseOrderState
@@ -289,11 +343,18 @@ public class NetworkChart: WidgetWrapper {
     }
     
     @objc private func toggleHistoryCount(_ sender: NSMenuItem) {
-        guard let key = sender.representedObject as? String, let value = Int(key) else { return }
-        self.historyCount = value
+        guard let key = sender.representedObject as? String, let num = Int(key) else { return }
+        self.historyCount = num
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_historyCount", value: self.historyCount)
         
-        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_historyCount", value: value)
-        self.chart.reinit(value)
+        if num < self.points.count {
+            self.points = Array(self.points[self.points.count-num..<self.points.count])
+        } else {
+            let origin = self.points
+            self.points = Array(repeating: (0, 0), count: num)
+            self.points.replaceSubrange(Range(uncheckedBounds: (lower: origin.count, upper: num)), with: origin)
+        }
+        
         self.display()
     }
     
@@ -302,10 +363,6 @@ public class NetworkChart: WidgetWrapper {
         if let newColor = Color.allCases.first(where: { $0.key == key }) {
             self.downloadColor = newColor
             Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_downloadColor", value: newColor.key)
-        }
-        
-        if let downloadColor =  self.downloadColor.additional as? NSColor  {
-            self.chart.setColors(in: downloadColor)
         }
         self.display()
     }
@@ -316,10 +373,6 @@ public class NetworkChart: WidgetWrapper {
             self.uploadColor = newColor
             Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_uploadColor", value: newColor.key)
         }
-        
-        if let uploadColor = self.uploadColor.additional as? NSColor {
-            self.chart.setColors(out: uploadColor)
-        }
         self.display()
     }
     
@@ -327,21 +380,12 @@ public class NetworkChart: WidgetWrapper {
         guard let key = sender.representedObject as? String,
               let value = Scale.allCases.first(where: { $0.key == key }) else { return }
         self.scaleState = value
-        self.chart.setScale(value, self.commonScaleState)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_scale", value: key)
-        self.display()
-    }
-    
-    @objc private func toggleCommonScale(_ sender: NSControl) {
-        self.commonScaleState = controlState(sender)
-        self.chart.setScale(self.scaleState, self.commonScaleState)
-        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_commonScale", value: self.commonScaleState)
         self.display()
     }
     
     @objc private func toggleReverseOrder(_ sender: NSControl) {
         self.reverseOrderState = controlState(sender)
-        self.chart.setReverseOrder(self.reverseOrderState)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_reverseOrder", value: self.reverseOrderState)
         self.display()
     }

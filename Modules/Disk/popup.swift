@@ -420,7 +420,7 @@ internal class NameView: NSStackView {
 }
 
 internal class ChartView: NSStackView {
-    private var chart: NetworkChartViewV2? = nil
+    private var chart: NetworkChartView? = nil
     private var ready: Bool = false
     
     private var readColor: NSColor {
@@ -436,7 +436,7 @@ internal class ChartView: NSStackView {
         self.wantsLayer = true
         self.layer?.cornerRadius = 3
         
-        let chart = NetworkChartViewV2(frame: NSRect(
+        let chart = NetworkChartView(frame: NSRect(
             x: 0,
             y: 1,
             width: self.frame.width,

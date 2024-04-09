@@ -13,26 +13,32 @@ import Cocoa
 import Kit
 
 public class Portal: PortalWrapper {
-    private var chart: NetworkChartViewV2? = nil
+    private var chart: NetworkChartView? = nil
     
     private var publicIPField: NSTextField? = nil
     
     private var base: DataSizeBase {
         DataSizeBase(rawValue: Store.shared.string(key: "\(self.name)_base", defaultValue: "byte")) ?? .byte
     }
+    private var reverseOrderState: Bool {
+        Store.shared.bool(key: "\(self.name)_reverseOrder", defaultValue: false)
+    }
+    private var chartScale: Scale {
+        Scale.fromString(Store.shared.string(key: "\(self.name)_chartScale", defaultValue: Scale.none.key))
+    }
     
-    private var downloadColorState: Color = .secondBlue
     private var downloadColor: NSColor {
+        let v = Color.fromString(Store.shared.string(key: "\(self.name)_downloadColor", defaultValue: Color.secondBlue.key))
         var value = NSColor.systemBlue
-        if let color = self.downloadColorState.additional as? NSColor {
+        if let color = v.additional as? NSColor {
             value = color
         }
         return value
     }
-    private var uploadColorState: Color = .secondRed
     private var uploadColor: NSColor {
+        let v = Color.fromString(Store.shared.string(key: "\(self.name)_uploadColor", defaultValue: Color.secondRed.key))
         var value = NSColor.systemRed
-        if let color = self.uploadColorState.additional as? NSColor {
+        if let color = v.additional as? NSColor {
             value = color
         }
         return value
@@ -41,11 +47,9 @@ public class Portal: PortalWrapper {
     private var initialized: Bool = false
     
     public override func load() {
-        self.loadColors()
-        
         let view = NSStackView()
         view.orientation = .vertical
-        view.distribution = .fillEqually
+        view.distribution = .fill
         view.spacing = Constants.Popup.spacing*2
         view.edgeInsets = NSEdgeInsets(
             top: 0,
@@ -54,31 +58,21 @@ public class Portal: PortalWrapper {
             right: Constants.Popup.spacing*2
         )
         
-        let chartView = self.chartView()
-        view.addArrangedSubview(chartView)
+        let chart = NetworkChartView(
+            frame: CGRect(x: 0, y: 0, width: self.frame.width - (Constants.Popup.spacing*8), height: 68),
+            num: 120,
+            reversedOrder: self.reverseOrderState,
+            outColor: self.uploadColor,
+            inColor: self.downloadColor,
+            scale: self.chartScale
+        )
+        self.chart = chart
+        view.addArrangedSubview(chart)
         
         self.publicIPField = portalRow(view, title: "\(localizedString("Public IP")):", value: localizedString("Unknown"))
         view.subviews.last?.heightAnchor.constraint(equalToConstant: 16).isActive = true
         
         self.addArrangedSubview(view)
-    }
-    
-    public func loadColors() {
-        self.downloadColorState = Color.fromString(Store.shared.string(key: "\(self.name)_downloadColor", defaultValue: self.downloadColorState.key))
-        self.uploadColorState = Color.fromString(Store.shared.string(key: "\(self.name)_uploadColor", defaultValue: self.uploadColorState.key))
-    }
-    
-    private func chartView() -> NSView {
-        let view = NSStackView()
-        view.orientation = .vertical
-        view.distribution = .fill
-        view.spacing = Constants.Popup.spacing*2
-        let chart = NetworkChartViewV2(frame: NSRect.zero, num: 120, outColor: self.uploadColor, inColor: self.downloadColor)
-        self.chart = chart
-        
-        view.addArrangedSubview(chart)
-        
-        return view
     }
     
     public func usageCallback(_ value: Network_Usage) {
@@ -88,6 +82,8 @@ public class Portal: PortalWrapper {
                     chart.base = self.base
                 }
                 chart.addValue(upload: Double(value.bandwidth.upload), download: Double(value.bandwidth.download))
+                chart.setScale(self.chartScale, 1)
+                chart.setColors(in: self.downloadColor, out: self.uploadColor)
             }
             
             if let view = self.publicIPField, view.stringValue != value.raddr.v4 {

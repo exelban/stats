@@ -134,7 +134,7 @@ public class LineChartView: NSView {
     private var cursor: NSPoint? = nil
     private var stop: Bool = false
     
-    public init(frame: NSRect, num: Int, suffix: String = "", color: NSColor = .controlAccentColor, scale: Scale = .none, fixedScale: Double = 1) {
+    public init(frame: NSRect, num: Int, suffix: String = "%", color: NSColor = .controlAccentColor, scale: Scale = .none, fixedScale: Double = 1) {
         self.points = Array(repeating: nil, count: num)
         self.suffix = suffix
         self.color = color
@@ -198,7 +198,7 @@ public class LineChartView: NSView {
             }
             
             let point = CGPoint(
-                x: (CGFloat(i) * xRatio) + dirtyRect.origin.x,
+                x: (CGFloat(i) * xRatio),
                 y: y
             )
             line.append(point)
@@ -380,7 +380,7 @@ public class LineChartView: NSView {
     }
 }
 
-public class NetworkChartViewV2: NSView {
+public class NetworkChartView: NSView {
     public var id: String = UUID().uuidString
     
     public var base: DataSizeBase = .byte
@@ -461,174 +461,6 @@ public class NetworkChartViewV2: NSView {
         }
         if let outColor {
             self.outChart.color = outColor
-        }
-    }
-}
-
-public class NetworkChartView: NSView {
-    public var id: String = UUID().uuidString
-    public var base: DataSizeBase = .byte
-    public var topColor: NSColor
-    public var bottomColor: NSColor
-    public var points: [(Double, Double)]
-    
-    private var scale: Scale = .none
-    private var fixedScale: Double
-    private var commonScale: Bool = true
-    private var reverseOrder: Bool = false
-    
-    public init(frame: NSRect, num: Int, outColor: NSColor = .systemRed, inColor: NSColor = .systemBlue, scale: Scale = .none, fixedScale: Double = 1) {
-        self.points = Array(repeating: (0, 0), count: num)
-        self.topColor = inColor
-        self.bottomColor = outColor
-        self.scale = scale
-        self.fixedScale = fixedScale
-        super.init(frame: frame)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    public override func draw(_ dirtyRect: NSRect) {
-        super.draw(dirtyRect)
-        
-        guard let context = NSGraphicsContext.current?.cgContext else { return }
-        context.setShouldAntialias(true)
-        
-        let points = self.points
-        var topMax: Double = (self.reverseOrder ? points.map{ $0.1 }.max() : points.map{ $0.0 }.max()) ?? 0
-        var bottomMax: Double = (self.reverseOrder ? points.map{ $0.0 }.max() : points.map{ $0.1 }.max()) ?? 0
-        if topMax == 0 {
-            topMax = 1
-        }
-        if bottomMax == 0 {
-            bottomMax = 1
-        }
-        
-        if !self.commonScale {
-            if bottomMax > topMax {
-                topMax = bottomMax
-            } else {
-                bottomMax = topMax
-            }
-        }
-        
-        let lineWidth = 1 / (NSScreen.main?.backingScaleFactor ?? 1)
-        let zero: CGFloat = (self.frame.height/2) + self.frame.origin.y
-        let xRatio: CGFloat = (self.frame.width + (lineWidth*3)) / CGFloat(points.count)
-        let xCenter: CGFloat = self.frame.height/2 + self.frame.origin.y
-        
-        let columnXPoint = { (point: Int) -> CGFloat in
-            return (CGFloat(point) * xRatio) + (self.frame.origin.x - lineWidth)
-        }
-        
-        let topYPoint = { (point: Int) -> CGFloat in
-            let value = self.reverseOrder ? points[point].1 : points[point].0
-            return scaleValue(scale: self.scale, value: value, maxValue: topMax, maxHeight: self.frame.height/2, limit: self.fixedScale) + xCenter
-        }
-        let bottomYPoint = { (point: Int) -> CGFloat in
-            let value = self.reverseOrder ? points[point].0 : points[point].1
-            return xCenter - scaleValue(scale: self.scale, value: value, maxValue: bottomMax, maxHeight: self.frame.height/2, limit: self.fixedScale)
-        }
-        
-        let topLinePath = NSBezierPath()
-        topLinePath.move(to: CGPoint(x: columnXPoint(0), y: topYPoint(0)))
-        
-        let bottomLinePath = NSBezierPath()
-        bottomLinePath.move(to: CGPoint(x: columnXPoint(0), y: bottomYPoint(0)))
-        
-        for i in 1..<points.count {
-            topLinePath.line(to: CGPoint(x: columnXPoint(i), y: topYPoint(i)))
-            bottomLinePath.line(to: CGPoint(x: columnXPoint(i), y: bottomYPoint(i)))
-        }
-        
-        let topColor = self.reverseOrder ? self.bottomColor : self.topColor
-        let bottomColor = self.reverseOrder ? self.topColor : self.bottomColor
-        
-        bottomColor.setStroke()
-        topLinePath.lineWidth = lineWidth
-        topLinePath.stroke()
-        
-        topColor.setStroke()
-        bottomLinePath.lineWidth = lineWidth
-        bottomLinePath.stroke()
-        
-        context.saveGState()
-        
-        var underLinePath = topLinePath.copy() as! NSBezierPath
-        underLinePath.line(to: CGPoint(x: columnXPoint(points.count), y: zero))
-        underLinePath.line(to: CGPoint(x: columnXPoint(0), y: zero))
-        underLinePath.close()
-        underLinePath.addClip()
-        bottomColor.withAlphaComponent(0.5).setFill()
-        NSBezierPath(rect: self.frame).fill()
-        
-        context.restoreGState()
-        context.saveGState()
-        
-        underLinePath = bottomLinePath.copy() as! NSBezierPath
-        underLinePath.line(to: CGPoint(x: columnXPoint(points.count), y: zero))
-        underLinePath.line(to: CGPoint(x: columnXPoint(0), y: zero))
-        underLinePath.close()
-        underLinePath.addClip()
-        topColor.withAlphaComponent(0.5).setFill()
-        NSBezierPath(rect: self.frame).fill()
-    }
-    
-    public func addValue(upload: Double, download: Double) {
-        self.points.remove(at: 0)
-        self.points.append((upload, download))
-        
-        if self.window?.isVisible ?? false {
-            self.display()
-        }
-    }
-    
-    public func reinit(_ num: Int = 60) {
-        guard self.points.count != num else { return }
-        
-        if num < self.points.count {
-            self.points = Array(self.points[self.points.count-num..<self.points.count])
-        } else {
-            let origin = self.points
-            self.points = Array(repeating: (0, 0), count: num)
-            self.points.replaceSubrange(Range(uncheckedBounds: (lower: origin.count, upper: num)), with: origin)
-        }
-    }
-    
-    public func setScale(_ newScale: Scale, _ commonScale: Bool = false, _ fixedScale: Double = 1) {
-        self.scale = newScale
-        self.fixedScale = fixedScale
-        self.commonScale = commonScale
-        
-        if self.window?.isVisible ?? false {
-            self.display()
-        }
-    }
-    
-    public func setReverseOrder(_ newValue: Bool) {
-        self.reverseOrder = newValue
-        
-        if self.window?.isVisible ?? false {
-            self.display()
-        }
-    }
-    
-    public func setColors(in inColor: NSColor? = nil, out outColor: NSColor? = nil) {
-        var needUpdate: Bool = false
-        
-        if let newColor = inColor, self.topColor != newColor {
-            self.topColor = newColor
-            needUpdate = true
-        }
-        if let newColor = outColor, self.bottomColor != newColor {
-            self.bottomColor = newColor
-            needUpdate = true
-        }
-        
-        if needUpdate && self.window?.isVisible ?? false {
-            self.display()
         }
     }
 }

@@ -149,7 +149,7 @@ class SettingsWindow: NSWindow, NSWindowDelegate, NSToolbarDelegate {
             return nil
         }
     }
-        
+    
     func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
         return [.flexibleSpace, .toggleButton]
     }
