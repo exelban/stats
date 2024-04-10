@@ -86,10 +86,7 @@ extension AppDelegate {
     }
     
     internal func defaultValues() {
-        if !Store.shared.exist(key: "runAtLoginInitialized") {
-            Store.shared.set(key: "runAtLoginInitialized", value: true)
-            LaunchAtLogin.isEnabled = true
-        } else {
+        if Store.shared.exist(key: "runAtLoginInitialized") {
             LaunchAtLogin.migrate()
         }
         
