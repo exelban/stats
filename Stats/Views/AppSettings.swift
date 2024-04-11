@@ -18,29 +18,21 @@ class ApplicationSettings: NSStackView {
     }
     
     private var temperatureUnitsValue: String {
-        get {
-            Store.shared.string(key: "temperature_units", defaultValue: "system")
-        }
-        set {
-            Store.shared.set(key: "temperature_units", value: newValue)
-        }
+        get { Store.shared.string(key: "temperature_units", defaultValue: "system") }
+        set { Store.shared.set(key: "temperature_units", value: newValue) }
     }
     
     private var combinedModulesState: Bool {
-        get {
-            Store.shared.bool(key: "CombinedModules", defaultValue: false)
-        }
-        set {
-            Store.shared.set(key: "CombinedModules", value: newValue)
-        }
+        get { Store.shared.bool(key: "CombinedModules", defaultValue: false) }
+        set { Store.shared.set(key: "CombinedModules", value: newValue) }
     }
     private var combinedModulesSpacing: String {
-        get {
-            Store.shared.string(key: "CombinedModules_spacing", defaultValue: "none")
-        }
-        set {
-            Store.shared.set(key: "CombinedModules_spacing", value: newValue)
-        }
+        get { Store.shared.string(key: "CombinedModules_spacing", defaultValue: "none") }
+        set { Store.shared.set(key: "CombinedModules_spacing", value: newValue) }
+    }
+    private var combinedModulesPopup: Bool {
+        get { Store.shared.bool(key: "CombinedModules_popup", defaultValue: true) }
+        set { Store.shared.set(key: "CombinedModules_popup", value: newValue) }
     }
     
     private let updateWindow: UpdateWindow = UpdateWindow()
@@ -268,6 +260,11 @@ class ApplicationSettings: NSStackView {
                 selected: self.combinedModulesSpacing
             )
         ])
+        grid.addRow(with: [NSGridCell.emptyContentView, self.toggleView(
+            action: #selector(self.toggleCombinedModulesPopup),
+            state: self.combinedModulesPopup,
+            text: localizedString("Combined details")
+        )])
         
         view.addArrangedSubview(self.moduleSelector)
         view.addArrangedSubview(grid)
@@ -517,6 +514,11 @@ class ApplicationSettings: NSStackView {
     
     @objc private func toggleTelemetry(_ sender: NSButton) {
         telemetry.isEnabled = sender.state == NSControl.StateValue.on
+    }
+    
+    @objc private func toggleCombinedModulesPopup(_ sender: NSButton) {
+        self.combinedModulesPopup = sender.state == NSControl.StateValue.on
+        NotificationCenter.default.post(name: .combinedModulesPopup, object: nil, userInfo: nil)
     }
 }
 
