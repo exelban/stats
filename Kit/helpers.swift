@@ -8,6 +8,7 @@
 //
 //  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
 //
+// swiftlint:disable file_length
 
 import Cocoa
 import ServiceManagement
@@ -1346,5 +1347,97 @@ var isDarkMode: Bool {
         return true
     default:
         return false
+    }
+}
+
+public class PreferencesSection: NSStackView {
+    public init(_ components: [PreferencesRow] = []) {
+        super.init(frame: .zero)
+        
+        self.orientation = .vertical
+        
+        self.wantsLayer = true
+        self.layer?.cornerRadius = 5
+        self.layer?.borderColor = NSColor.separatorColor.withAlphaComponent(0.05).cgColor
+        self.layer?.borderWidth = 1
+        self.layer?.backgroundColor = NSColor.quaternaryLabelColor.withAlphaComponent(0.025).cgColor
+        
+        self.edgeInsets = NSEdgeInsets(
+            top: Constants.Settings.margin/2,
+            left: Constants.Settings.margin,
+            bottom: Constants.Settings.margin/2,
+            right: Constants.Settings.margin
+        )
+        self.spacing = Constants.Settings.margin/2
+        
+        for item in components {
+            self.add(item)
+        }
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    public override func updateLayer() {
+        self.layer?.borderColor = NSColor.separatorColor.withAlphaComponent(0.05).cgColor
+        self.layer?.backgroundColor = NSColor.quaternaryLabelColor.withAlphaComponent(0.025).cgColor
+    }
+    
+    public func add(_ view: NSView) {
+        if !self.subviews.isEmpty {
+            self.addArrangedSubview(PreferencesSeparator())
+        }
+        self.addArrangedSubview(view)
+    }
+    
+    public func toggleVisibility(_ at: Int, newState: Bool) {
+        for i in self.subviews.indices where i/2 == at && Double(i).remainder(dividingBy: 2) == 0 {
+            self.subviews[i-1].isHidden = !newState
+            self.subviews[i].isHidden = !newState
+        }
+    }
+}
+
+public class PreferencesSeparator: NSView {
+    public init() {
+        super.init(frame: .zero)
+        self.wantsLayer = true
+        self.layer?.backgroundColor = NSColor.separatorColor.withAlphaComponent(0.05).cgColor
+        self.heightAnchor.constraint(equalToConstant: 1).isActive = true
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    public override func updateLayer() {
+        self.layer?.backgroundColor = NSColor.separatorColor.withAlphaComponent(0.05).cgColor
+    }
+}
+
+public class PreferencesRow: NSStackView {
+    public init(_ title: String? = nil, component: NSView) {
+        super.init(frame: .zero)
+        
+        self.orientation = .horizontal
+        self.distribution = .fill
+        self.alignment = .top
+        self.edgeInsets = NSEdgeInsets(top: Constants.Settings.margin/2, left: 0, bottom: Constants.Settings.margin/2, right: 0)
+        self.spacing = 0
+        
+        let field: NSTextField = TextView()
+        field.font = NSFont.systemFont(ofSize: 13, weight: .regular)
+        if let title {
+            field.stringValue = title
+            self.addArrangedSubview(field)
+        }
+        
+        self.addArrangedSubview(NSView())
+        self.addArrangedSubview(component)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }

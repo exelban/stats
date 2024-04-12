@@ -451,6 +451,38 @@ public extension NSView {
         
         return select
     }
+    
+    func switchView(action: Selector, state: Bool) -> NSSwitch {
+        let s = NSSwitch()
+        s.controlSize = .mini
+        s.state = state ? .on : .off
+        s.action = action
+        s.target = self
+        return s
+    }
+    
+    func buttonIconView(_ action: Selector, icon: NSImage) -> NSButton {
+        let button = NSButton()
+        button.heightAnchor.constraint(equalToConstant: 22).isActive = true
+        button.bezelStyle = .regularSquare
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.imageScaling = .scaleNone
+        button.image = icon
+        button.contentTintColor = .labelColor
+        button.isBordered = false
+        button.action = action
+        button.target = self
+        button.focusRingType = .none
+        return button
+    }
+    
+    func textView(_ value: String) -> NSTextField {
+        let field: NSTextField = TextView()
+        field.font = NSFont.systemFont(ofSize: 13, weight: .regular)
+        field.stringValue = value
+        field.isSelectable = true
+        return field
+    }
 }
 
 public class NSButtonWithPadding: NSButton {
@@ -466,7 +498,7 @@ public class NSButtonWithPadding: NSButton {
 }
 
 public class TextView: NSTextField {
-    public override init(frame: NSRect) {
+    public override init(frame: NSRect = .zero) {
         super.init(frame: frame)
         
         self.isEditable = false
