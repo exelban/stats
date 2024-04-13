@@ -205,7 +205,7 @@ public class Updater {
         
         print("Script is copied to $TMPDIR/updater.sh")
         
-        asyncShell("sh $TMPDIR/updater.sh --app \(pwd) --dmg \(dmg) >/dev/null &") // run updater script in in background
+        asyncShell("sh $TMPDIR/updater.sh --app \(pwd) --dmg \(dmg) >/dev/null &") // run updater script in background
         
         print("Run updater.sh with app: \(pwd) and dmg: \(dmg)")
         

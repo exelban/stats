@@ -234,7 +234,7 @@ open class Module: Module_p {
         self.popup = PopupWindow(title: self.config.name, view: self.popupView, visibilityCallback: self.visibilityCallback)
     }
     
-    // determine if module is available (can be overrided in module)
+    // determine if module is available (can be overridden in module)
     open func isAvailable() -> Bool { return true }
     
     // load the widget and set up. Calls when module init
