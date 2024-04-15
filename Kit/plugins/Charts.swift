@@ -198,7 +198,7 @@ public class LineChartView: NSView {
             }
             
             let point = CGPoint(
-                x: (CGFloat(i) * xRatio),
+                x: (CGFloat(i) * xRatio) + dirtyRect.origin.x,
                 y: y
             )
             line.append(point)
@@ -390,7 +390,7 @@ public class NetworkChartView: NSView {
     private var inChart: LineChartView
     private var outChart: LineChartView
     
-    public init(frame: NSRect, num: Int, minMax: Bool = true, reversedOrder: Bool = false, 
+    public init(frame: NSRect, num: Int, minMax: Bool = true, reversedOrder: Bool = false,
                 outColor: NSColor = .systemRed, inColor: NSColor = .systemBlue, scale: Scale = .none, fixedScale: Double = 1) {
         self.reversedOrder = reversedOrder
         

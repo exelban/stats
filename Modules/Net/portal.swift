@@ -58,6 +58,10 @@ public class Portal: PortalWrapper {
             right: Constants.Popup.spacing*2
         )
         
+        let container: NSView = NSView(frame: CGRect(x: 0, y: 0, width: self.frame.width - (Constants.Popup.spacing*8), height: 68))
+        container.wantsLayer = true
+        container.layer?.cornerRadius = 3
+        
         let chart = NetworkChartView(
             frame: CGRect(x: 0, y: 0, width: self.frame.width - (Constants.Popup.spacing*8), height: 68),
             num: 120,
@@ -66,8 +70,10 @@ public class Portal: PortalWrapper {
             inColor: self.downloadColor,
             scale: self.chartScale
         )
+        chart.base = self.base
+        container.addSubview(chart)
         self.chart = chart
-        view.addArrangedSubview(chart)
+        view.addArrangedSubview(container)
         
         self.publicIPField = portalRow(view, title: "\(localizedString("Public IP")):", value: localizedString("Unknown"))
         view.subviews.last?.heightAnchor.constraint(equalToConstant: 16).isActive = true
