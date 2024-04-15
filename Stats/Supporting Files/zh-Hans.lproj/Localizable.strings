@@ -69,7 +69,7 @@
 "Square" = "平方";
 "Cube" = "立方";
 "Logarithmic" = "对数";
-"Fixed scale" = "Fixed";
+"Fixed scale" = "固定值";
 "Cores" = "核心数";
 "Settings" = "设置";
 "Name" = "名称";
@@ -214,8 +214,8 @@
 "Update interval for top processes" = "高占用进程的更新间隔";
 "Notification level" = "通知级别";
 "Chart color" = "图表颜色";
-"Main chart scaling" = "Main chart scaling";
-"Scale value" = "Scale value";
+"Main chart scaling" = "主图表缩放";
+"Scale value" = "缩放值";
 
 // CPU
 "CPU usage" = "CPU 占用";
