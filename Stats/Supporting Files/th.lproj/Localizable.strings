@@ -208,6 +208,8 @@
 "Merge widgets" = "รวมวิดเจ็ต";
 "No available widgets to configure" = "ไม่มีวิดเจ็ตที่สามารถกำหนดค่าได้";
 "No options to configure for the popup in this module" = "ไม่มีตัวเลือกที่สามารถกำหนดค่าสำหรับป๊อปอัปในโมดูลนี้";
+"Process" = "Process";
+"Kill process" = "Kill process";
 
 // Modules
 "Number of top processes" = "จำนวนของกระบวนการสูงสุด";

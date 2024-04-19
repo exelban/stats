@@ -208,6 +208,8 @@
 "Merge widgets" = "Slå sammen diagrammer";
 "No available widgets to configure" = "Ingen tilgjengelige diagrammer å konfigurere";
 "No options to configure for the popup in this module" = "Ingen innstillinger å konfigurere for popup-en i denne modulen";
+"Process" = "Process";
+"Kill process" = "Kill process";
 
 // Modules
 "Number of top processes" = "Antall topp-prosesser";

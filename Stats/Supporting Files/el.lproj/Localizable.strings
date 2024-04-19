@@ -208,6 +208,8 @@
 "Merge widgets" = "Συγχώνευση γραφικών στοιχείων";
 "No available widgets to configure" = "Δεν υπάρχουν διαθέσιμα γραφικά στοιχεία για διαμόρφωση";
 "No options to configure for the popup in this module" = "Δεν υπάρχουν επιλογές για διαμόρφωση για το αναδυόμενο παράθυρο σε αυτήν την ενότητα";
+"Process" = "Process";
+"Kill process" = "Kill process";
 
 // Modules
 "Number of top processes" = "Αριθμός κορυφαίων διεργασιών";

@@ -61,8 +61,8 @@ public class ProcessesView: NSStackView {
         
         let titleField = LabelField()
         titleField.cell?.truncatesLastVisibleLine = true
-        titleField.toolTip = "Process"
-        titleField.stringValue = "Process"
+        titleField.toolTip = localizedString("Process")
+        titleField.stringValue = localizedString("Process")
         titleField.textColor = .tertiaryLabelColor
         titleField.font = NSFont.systemFont(ofSize: 12, weight: .medium)
         view.addArrangedSubview(titleField)
