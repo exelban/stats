@@ -56,6 +56,7 @@ internal class Popup: PopupWrapper {
     private var connectionInitialized: Bool = false
     
     private var chart: NetworkChartView? = nil
+    private var reverseOrderState: Bool = false
     private var chartScale: Scale = .none
     private var connectivityChart: GridChartView? = nil
     private var processes: ProcessesView? = nil
@@ -89,7 +90,6 @@ internal class Popup: PopupWrapper {
         }
         return value
     }
-    private var reverseOrderState: Bool = false
     
     private var latency: [Double] = []
     
@@ -177,9 +177,8 @@ internal class Popup: PopupWrapper {
         
         let chart = NetworkChartView(
             frame: NSRect(x: 0, y: 1, width: container.frame.width, height: container.frame.height - 2),
-            num: 120, outColor: self.uploadColor, inColor: self.downloadColor, toolTip: true, scale: self.chartScale
+            num: 120, reversedOrder: self.reverseOrderState, outColor: self.uploadColor, inColor: self.downloadColor, scale: self.chartScale
         )
-        chart.setReverseOrder(self.reverseOrderState)
         chart.base = self.base
         container.addSubview(chart)
         self.chart = chart

@@ -31,19 +31,36 @@ public class DB {
     }
     
     init() {
-        var dbPath: URL
-        
         let fileManager = FileManager.default
-        let appSupportURL = fileManager.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
-        let folder = appSupportURL.appendingPathComponent("Stats")
-        do {
-            try fileManager.createDirectory(at: folder, withIntermediateDirectories: true, attributes: nil)
-            dbPath = folder.appendingPathComponent("lldb")
-        } catch {
-            dbPath = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("Stats").appendingPathComponent("lldb")
+        let supportPath = fileManager.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!.appendingPathComponent("Stats")
+        let tmpPath = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("Stats")
+        
+        try? fileManager.createDirectory(at: supportPath, withIntermediateDirectories: true, attributes: nil)
+        try? fileManager.createDirectory(at: tmpPath, withIntermediateDirectories: true, attributes: nil)
+        
+        var dbURL: URL?
+        var tmpURL: URL?
+        
+        if let values = try? supportPath.resourceValues(forKeys: [.isDirectoryKey]), values.isDirectory ?? false {
+            dbURL = supportPath.appendingPathComponent("lldb")
+        }
+        if let values = try? tmpPath.resourceValues(forKeys: [.isDirectoryKey]), values.isDirectory ?? false {
+            tmpURL = tmpPath.appendingPathComponent("lldb")
+        }
+        if dbURL == nil && tmpURL != nil {
+            dbURL = tmpURL
         }
         
-        self.lldb = LLDB(dbPath.path)
+        if let url = dbURL, let lldb = LLDB(url.path) {
+            self.lldb = lldb
+            return
+        }
+        if let url = tmpURL, let lldb = LLDB(url.path) {
+            self.lldb = lldb
+            return
+        }
+        
+        print("ERROR INITIALIZE DB")
     }
     
     deinit {

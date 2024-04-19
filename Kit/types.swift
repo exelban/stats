@@ -259,6 +259,7 @@ public extension Notification.Name {
     static let moduleRearrange = Notification.Name("moduleRearrange")
     static let pause = Notification.Name("pause")
     static let toggleFanControl = Notification.Name("toggleFanControl")
+    static let combinedModulesPopup = Notification.Name("combinedModulesPopup")
 }
 
 public var isARM: Bool {

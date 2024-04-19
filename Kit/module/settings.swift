@@ -244,6 +244,7 @@ open class Settings: NSStackView, Settings_p {
 class WidgetSelectorView: NSStackView {
     private var module: String
     private var stateCallback: () -> Void = {}
+    private var moved: Bool = false
     
     private var background: NSVisualEffectView = {
         let view = NSVisualEffectView(frame: NSRect.zero)
@@ -327,7 +328,31 @@ class WidgetSelectorView: NSStackView {
         self.background.setFrameSize(self.frame.size)
     }
     
+    override func mouseUp(with event: NSEvent) {
+        guard !self.moved else { return }
+        let location = convert(event.locationInWindow, from: nil)
+        guard let targetIdx = self.views.firstIndex(where: { $0.hitTest(location) != nil }),
+              let separatorIdx = self.views.firstIndex(where: { $0.identifier?.rawValue == "separator" }),
+              self.views[targetIdx].identifier != nil, let view = self.views[targetIdx] as? WidgetPreview else {
+            super.mouseUp(with: event)
+            return
+        }
+        let newIdx = separatorIdx
+        
+        view.removeFromSuperviewWithoutNeedingDisplay()
+        self.insertArrangedSubview(view, at: newIdx)
+        self.layoutSubtreeIfNeeded()
+        
+        for (i, v) in self.views(in: .leading).compactMap({$0 as? WidgetPreview}).enumerated() {
+            v.position = i
+        }
+        
+        view.status(separatorIdx < targetIdx)
+        NotificationCenter.default.post(name: .widgetRearrange, object: nil, userInfo: ["module": self.module])
+    }
+    
     override func mouseDown(with event: NSEvent) {
+        self.moved = false
         let location = convert(event.locationInWindow, from: nil)
         guard let targetIdx = self.views.firstIndex(where: { $0.hitTest(location) != nil }),
               let separatorIdx = self.views.firstIndex(where: { $0.identifier?.rawValue == "separator" }),
@@ -391,6 +416,7 @@ class WidgetSelectorView: NSStackView {
                         v.position = i
                     }
                 }
+                self.moved = abs(diff) > 1
             } else {
                 if newIdx != -1, let view = self.views[newIdx] as? WidgetPreview {
                     if newIdx <= separatorIdx && newIdx < targetIdx {
@@ -403,6 +429,7 @@ class WidgetSelectorView: NSStackView {
                 
                 view.mouseUp(with: event)
                 stop.pointee = true
+                self.moved = true
             }
         }
     }
@@ -419,12 +446,8 @@ internal class WidgetPreview: NSStackView {
     private let id: String
     
     public var position: Int {
-        get {
-            return Store.shared.int(key: "\(self.id)_position", defaultValue: 0)
-        }
-        set {
-            Store.shared.set(key: "\(self.id)_position", value: newValue)
-        }
+        get { Store.shared.int(key: "\(self.id)_position", defaultValue: 0) }
+        set { Store.shared.set(key: "\(self.id)_position", value: newValue) }
     }
     
     public init(id: String, type: widget_t, image: NSImage, isActive: Bool, _ callback: @escaping (_ status: Bool) -> Void) {
