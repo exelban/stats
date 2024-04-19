@@ -425,8 +425,8 @@ public class NetworkChartView: NSView {
     }
     
     public func addValue(upload: Double, download: Double) {
-        self.inChart.addValue(DoubleValue(upload))
-        self.outChart.addValue(DoubleValue(download))
+        self.inChart.addValue(DoubleValue(download))
+        self.outChart.addValue(DoubleValue(upload))
     }
     
     public func reinit(_ num: Int = 60) {
