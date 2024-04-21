@@ -208,8 +208,8 @@
 "Merge widgets" = "Объединить виджеты";
 "No available widgets to configure" = "Нет доступных виджетов для настройки";
 "No options to configure for the popup in this module" = "Нет параметров для настройки всплывающего окна в этом модуле";
-"Process" = "Process";
-"Kill process" = "Kill process";
+"Process" = "Процесс";
+"Kill process" = "Завершить процесс";
 
 // Modules
 "Number of top processes" = "Количество процессов";
