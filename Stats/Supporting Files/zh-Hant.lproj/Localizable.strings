@@ -69,7 +69,7 @@
 "Square" = "平方";
 "Cube" = "立方";
 "Logarithmic" = "對數";
-"Fixed scale" = "Fixed";
+"Fixed scale" = "固定值";
 "Cores" = "核心數";
 "Settings" = "設定";
 "Name" = "名稱";
@@ -214,8 +214,8 @@
 "Update interval for top processes" = "高能耗程序更新頻率";
 "Notification level" = "觸發通知的數值";
 "Chart color" = "圖表色彩";
-"Main chart scaling" = "Main chart scaling";
-"Scale value" = "Scale value";
+"Main chart scaling" = "主圖表縮放";
+"Scale value" = "縮放值";
 
 // CPU
 "CPU usage" = "處理器使用量";
@@ -233,7 +233,7 @@
 "1 minute" = "1 分鐘";
 "5 minutes" = "5 分鐘";
 "15 minutes" = "15 分鐘";
-"CPU usage threshold" = "處理器使用量臨界點";
+"CPU usage threshold" = "處理器使用量臨界值";
 "CPU usage is" = "處理器使用量為：%0";
 "Efficiency cores" = "節能核心";
 "Performance cores" = "效能核心";
@@ -267,7 +267,7 @@
 "Utilization" = "利用率";
 "Render utilization" = "渲染利用率";
 "Tiler utilization" = "圖塊利用率";
-"GPU usage threshold" = "顯示卡使用量臨界點";
+"GPU usage threshold" = "顯示卡使用量臨界值";
 "GPU usage is" = "顯示卡使用量為：%0";
 
 // RAM
@@ -298,7 +298,7 @@
 "Disk to show" = "顯示磁碟";
 "Open disk" = "開啟磁碟";
 "Switch view" = "切換視窗";
-"Disk utilization threshold" = "磁碟利用率臨界點";
+"Disk utilization threshold" = "磁碟利用率臨界值";
 "Disk utilization is" = "磁碟利用率為：%0";
 "Read color" = "讀取色彩";
 "Write color" = "寫入色彩";
@@ -353,7 +353,7 @@
 "Channel" = "通道";
 "Common scale" = "統一比例";
 "Autodetection" = "自動檢測";
-"Widget activation threshold" = "小工具啟動臨界點";
+"Widget activation threshold" = "小工具啟動臨界值";
 "Internet connection" = "網際網路連線裝態";
 "Active state color" = "已連線狀態色彩";
 "Nonactive state color" = "未連線狀態色彩";
