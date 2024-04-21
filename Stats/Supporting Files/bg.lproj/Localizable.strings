@@ -208,6 +208,8 @@
 "Merge widgets" = "Сливане на уиджети";
 "No available widgets to configure" = "Няма налични уиджети за конфигуриране";
 "No options to configure for the popup in this module" = "Няма опции за конфигуриране за изскачащият прозорец в този модул";
+"Process" = "Process";
+"Kill process" = "Kill process";
 
 // Modules
 "Number of top processes" = "Брой топ процеси";

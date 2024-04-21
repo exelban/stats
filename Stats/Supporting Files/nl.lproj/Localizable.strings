@@ -208,6 +208,8 @@
 "Merge widgets" = "Widgets samenvoegen";
 "No available widgets to configure" = "Geen beschikbare widgets om te configureren";
 "No options to configure for the popup in this module" = "Meervoudige configuratie voor pop-op-vinduet en deze module";
+"Process" = "Process";
+"Kill process" = "Kill process";
 
 // Modules
 "Number of top processes" = "Aantal topprocessen";

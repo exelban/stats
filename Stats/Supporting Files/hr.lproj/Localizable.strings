@@ -208,6 +208,8 @@
 "Merge widgets" = "Spoji programčiće";
 "No available widgets to configure" = "Nema dostupnih widgeta za konfiguraciju";
 "No options to configure for the popup in this module" = "Nema opcija za konfiguraciju za skočni prozor u ovom modulu";
+"Process" = "Process";
+"Kill process" = "Kill process";
 
 // Modules
 "Number of top processes" = "Broj glavnih procesa";

@@ -208,6 +208,8 @@
 "Merge widgets" = "ウィジェットを結合する";
 "No available widgets to configure" = "設定できるウィジェットがありません";
 "No options to configure for the popup in this module" = "このモジュールにはポップアップ用に設定するオプションはありません";
+"Process" = "Process";
+"Kill process" = "Kill process";
 
 // Modules
 "Number of top processes" = "表示する上位プロセスの数";

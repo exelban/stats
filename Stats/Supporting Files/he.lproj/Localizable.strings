@@ -208,6 +208,8 @@
 "Merge widgets" = "מיזוג ווידג'טים";
 "No available widgets to configure" = "אין ווידג'טים זמינים להגדרה";
 "No options to configure for the popup in this module" = "אין אפשרויות להגדיר עבור החלון הקופץ במודול זה";
+"Process" = "Process";
+"Kill process" = "Kill process";
 
 // Modules
 "Number of top processes" = "מספר התהליכים המובילים";

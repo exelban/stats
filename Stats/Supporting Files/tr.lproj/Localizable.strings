@@ -208,6 +208,8 @@
 "Merge widgets" = "Widget'ları birleştir";
 "No available widgets to configure" = "Yapılandırılacak kullanılabilir widget yok";
 "No options to configure for the popup in this module" = "Bu modülde açılır pencere için yapılandırma seçeneği yok";
+"Process" = "Process";
+"Kill process" = "Kill process";
 
 // Modules
 "Number of top processes" = "İşlem sayısı";
