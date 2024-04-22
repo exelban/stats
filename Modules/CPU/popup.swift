@@ -21,10 +21,7 @@ internal class Popup: PopupWrapper {
     private let chartHeight: CGFloat = 120 + Constants.Popup.separatorHeight
     private var detailsHeight: CGFloat {
         get {
-            var count: CGFloat = 5
-            if isARM {
-                count = 3
-            }
+            var count: CGFloat = isARM ? 4 : 6
             if SystemKit.shared.device.info.cpu?.eCores != nil {
                 count += 1
             }
@@ -44,6 +41,7 @@ internal class Popup: PopupWrapper {
     private var speedLimitField: NSTextField? = nil
     private var eCoresField: NSTextField? = nil
     private var pCoresField: NSTextField? = nil
+    private var uptimeField: NSTextField? = nil
     private var average1Field: NSTextField? = nil
     private var average5Field: NSTextField? = nil
     private var average15Field: NSTextField? = nil
@@ -93,6 +91,19 @@ internal class Popup: PopupWrapper {
     private var processesHeight: CGFloat {
         (self.processHeight*CGFloat(self.numberOfProcesses)) + (self.numberOfProcesses == 0 ? 0 : Constants.Popup.separatorHeight + 22)
     }
+    private var uptimeValue: String {
+        let form = DateComponentsFormatter()
+        form.maximumUnitCount = 2
+        form.unitsStyle = .full
+        form.allowedUnits = [.day, .hour, .minute]
+        var value = localizedString("Unknown")
+        if let bootDate = SystemKit.shared.device.bootDate {
+            if let duration = form.string(from: bootDate, to: Date()) {
+                value = duration
+            }
+        }
+        return value
+    }
     
     public init(_ module: ModuleType) {
         self.title = module.rawValue
@@ -140,6 +151,10 @@ internal class Popup: PopupWrapper {
     
     public override func updateLayer() {
         self.lineChart?.display()
+    }
+    
+    public override func appear() {
+        self.uptimeField?.stringValue = self.uptimeValue
     }
     
     public override func disappear() {
@@ -260,6 +275,7 @@ internal class Popup: PopupWrapper {
         (self.systemColorView, _, self.systemField) = popupWithColorRow(container, color: self.systemColor, n: 4, title: "\(localizedString("System")):", value: "")
         (self.userColorView, _, self.userField) = popupWithColorRow(container, color: self.userColor, n: 3, title: "\(localizedString("User")):", value: "")
         (self.idleColorView, _, self.idleField) = popupWithColorRow(container, color: self.idleColor.withAlphaComponent(0.5), n: 2, title: "\(localizedString("Idle")):", value: "")
+        
         if !isARM {
             self.shedulerLimitField = popupRow(container, n: 1, title: "\(localizedString("Scheduler limit")):", value: "").1
             self.speedLimitField = popupRow(container, n: 0, title: "\(localizedString("Speed limit")):", value: "").1
@@ -271,6 +287,9 @@ internal class Popup: PopupWrapper {
         if SystemKit.shared.device.info.cpu?.pCores != nil {
             (self.pCoresColorView, _, self.pCoresField) = popupWithColorRow(container, color: self.pCoresColor, n: 0, title: "\(localizedString("Performance cores")):", value: "")
         }
+        
+        self.uptimeField = popupRow(container, n: 0, title: "\(localizedString("Uptime")):", value: self.uptimeValue).1
+        self.uptimeField?.font = NSFont.systemFont(ofSize: 11, weight: .regular)
         
         view.addSubview(separator)
         view.addSubview(container)
