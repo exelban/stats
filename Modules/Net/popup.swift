@@ -41,7 +41,7 @@ internal class Popup: PopupWrapper {
     private var connectivityField: ValueField? = nil
     private var latencyField: ValueField? = nil
     
-    private var publicIPStackView: NSStackView? = nil
+    private var publicIPStackView: NSView? = nil
     private var publicIPv4Field: ValueField? = nil
     private var publicIPv6Field: ValueField? = nil
     
@@ -61,6 +61,7 @@ internal class Popup: PopupWrapper {
     private var connectivityChart: GridChartView? = nil
     private var processes: ProcessesView? = nil
     private var sliderView: NSView? = nil
+    private var publicIPState: Bool = true
     
     private var lastReset: Date = Date()
     
@@ -107,6 +108,7 @@ internal class Popup: PopupWrapper {
         self.uploadColorState = Color.fromString(Store.shared.string(key: "\(self.title)_uploadColor", defaultValue: self.uploadColorState.key))
         self.reverseOrderState = Store.shared.bool(key: "\(self.title)_reverseOrder", defaultValue: self.reverseOrderState)
         self.chartScale = Scale.fromString(Store.shared.string(key: "\(self.title)_chartScale", defaultValue: self.chartScale.key))
+        self.publicIPState = Store.shared.bool(key: "\(self.title)_publicIP", defaultValue: self.publicIPState)
         
         self.spacing = 0
         self.orientation = .vertical
@@ -117,6 +119,10 @@ internal class Popup: PopupWrapper {
         self.addArrangedSubview(self.initDetails())
         self.addArrangedSubview(self.initPublicIP())
         self.addArrangedSubview(self.initProcesses())
+        
+        if !self.publicIPState {
+            self.publicIPStackView?.removeFromSuperview()
+        }
         
         self.recalculateHeight()
         
@@ -311,7 +317,7 @@ internal class Popup: PopupWrapper {
         view.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
         container.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
         
-        self.publicIPStackView = container
+        self.publicIPStackView = view
         
         return view
     }
@@ -524,6 +530,12 @@ internal class Popup: PopupWrapper {
             selected: self.chartScale.key
         ))
         
+        view.addArrangedSubview(toggleSettingRow(
+            title: localizedString("Public IP"),
+            action: #selector(self.togglePublicIP),
+            state: self.publicIPState
+        ))
+        
         return view
     }
     
@@ -568,6 +580,19 @@ internal class Popup: PopupWrapper {
         self.chart?.setScale(self.chartScale)
         Store.shared.set(key: "\(self.title)_chartScale", value: key)
         self.display()
+    }
+    @objc private func togglePublicIP(_ sender: NSControl) {
+        self.publicIPState = controlState(sender)
+        Store.shared.set(key: "\(self.title)_publicIP", value: self.publicIPState)
+        
+        DispatchQueue.main.async(execute: {
+            if !self.publicIPState {
+                self.publicIPStackView?.removeFromSuperview()
+            } else if let view = self.publicIPStackView {
+                self.insertArrangedSubview(view, at: 4)
+            }
+            self.recalculateHeight()
+        })
     }
     
     // MARK: - helpers
