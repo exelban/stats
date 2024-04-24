@@ -503,38 +503,40 @@ internal class Popup: PopupWrapper {
     public override func settings() -> NSView? {
         let view = SettingsContainerView()
         
-        view.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Color of upload"),
-            action: #selector(toggleUploadColor),
-            items: Color.allColors,
-            selected: self.uploadColorState.key
-        ))
+        view.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Color of upload"), component: selectView(
+                action: #selector(self.toggleUploadColor),
+                items: Color.allColors,
+                selected: self.uploadColorState.key
+            )),
+            PreferencesRow(localizedString("Color of download"), component: selectView(
+                action: #selector(self.toggleDownloadColor),
+                items: Color.allColors,
+                selected: self.downloadColorState.key
+            ))
+        ]))
         
-        view.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Color of download"),
-            action: #selector(toggleDownloadColor),
-            items: Color.allColors,
-            selected: self.downloadColorState.key
-        ))
+        view.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Reverse order"), component: switchView(
+                action: #selector(self.toggleReverseOrder),
+                state: self.reverseOrderState
+            ))
+        ]))
         
-        view.addArrangedSubview(toggleSettingRow(
-            title: localizedString("Reverse order"),
-            action: #selector(toggleReverseOrder),
-            state: self.reverseOrderState
-        ))
+        view.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Main chart scaling"), component: selectView(
+                action: #selector(self.toggleChartScale),
+                items: Scale.allCases.filter({ $0 != .fixed }),
+                selected: self.chartScale.key
+            ))
+        ]))
         
-        view.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Main chart scaling"),
-            action: #selector(self.toggleChartScale),
-            items: Scale.allCases.filter({ $0 != .fixed }),
-            selected: self.chartScale.key
-        ))
-        
-        view.addArrangedSubview(toggleSettingRow(
-            title: localizedString("Public IP"),
-            action: #selector(self.togglePublicIP),
-            state: self.publicIPState
-        ))
+        view.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Public IP"), component: switchView(
+                action: #selector(self.togglePublicIP),
+                state: self.publicIPState
+            ))
+        ]))
         
         return view
     }

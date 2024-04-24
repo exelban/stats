@@ -55,5 +55,12 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>Settings</key>
+	<dict>
+		<key>popup</key>
+		<true/>
+		<key>notifications</key>
+		<false/>
+	</dict>
 </dict>
 </plist>

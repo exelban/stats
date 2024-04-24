@@ -34,5 +34,12 @@
 			<integer>1</integer>
 		</dict>
 	</dict>
+	<key>Settings</key>
+	<dict>
+		<key>popup</key>
+		<false/>
+		<key>notifications</key>
+		<false/>
+	</dict>
 </dict>
 </plist>

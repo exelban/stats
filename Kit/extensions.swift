@@ -305,130 +305,6 @@ public extension NSView {
         return view
     }
     
-    func selectSettingsRowV1(title: String, action: Selector, items: [String], selected: String) -> NSView {
-        let view = NSStackView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.heightAnchor.constraint(equalToConstant: Constants.Settings.row).isActive = true
-        view.orientation = .horizontal
-        view.alignment = .centerY
-        view.distribution = .fill
-        view.spacing = 0
-        
-        let titleField: NSTextField = LabelField(frame: NSRect(x: 0, y: 0, width: 0, height: 0), title)
-        titleField.font = NSFont.systemFont(ofSize: 12, weight: .regular)
-        titleField.textColor = .textColor
-        
-        let select: NSPopUpButton = NSPopUpButton()
-        select.target = self
-        select.action = action
-        
-        let menu = NSMenu()
-        items.forEach { (color: String) in
-            if color.contains("separator") {
-                menu.addItem(NSMenuItem.separator())
-            } else {
-                let interfaceMenu = NSMenuItem(title: color, action: nil, keyEquivalent: "")
-                menu.addItem(interfaceMenu)
-                if selected == color {
-                    interfaceMenu.state = .on
-                }
-            }
-        }
-        
-        select.menu = menu
-        select.sizeToFit()
-        
-        view.addArrangedSubview(titleField)
-        view.addArrangedSubview(NSView())
-        view.addArrangedSubview(select)
-        
-        return view
-    }
-    
-    func fieldSettingRow(_ sender: NSTextFieldDelegate, title: String, value: String, placeholder: String? = nil, width: CGFloat = 215) -> NSView {
-        let view: NSStackView = NSStackView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.heightAnchor.constraint(equalToConstant: Constants.Settings.row).isActive = true
-        view.orientation = .horizontal
-        view.alignment = .centerY
-        view.distribution = .fill
-        view.spacing = 0
-        
-        let titleField: NSTextField = LabelField(frame: NSRect.zero, title)
-        titleField.font = NSFont.systemFont(ofSize: 12, weight: .regular)
-        titleField.textColor = .textColor
-        
-        let valueField: NSTextField = NSTextField()
-        valueField.font = NSFont.systemFont(ofSize: 12, weight: .regular)
-        valueField.textColor = .textColor
-        valueField.isEditable = true
-        valueField.isSelectable = true
-        valueField.isBezeled = false
-        valueField.wantsLayer = true
-        valueField.canDrawSubviewsIntoLayer = true
-        valueField.usesSingleLineMode = true
-        valueField.maximumNumberOfLines = 1
-        valueField.focusRingType = .none
-        valueField.stringValue = value
-        valueField.delegate = sender
-        if let placeholder {
-            valueField.placeholderString = placeholder
-        }
-        valueField.alignment = .natural
-        
-        view.addArrangedSubview(titleField)
-        view.addArrangedSubview(NSView())
-        view.addArrangedSubview(valueField)
-        
-        valueField.widthAnchor.constraint(equalToConstant: width).isActive = true
-        
-        return view
-    }
-    
-    func sliderSettingsRow(title: String, action: Selector, value: Int, initialValue: String, isHidden: Bool = false, min: Double = 1, max: Double = 100) -> NSView {
-        let view: NSStackView = NSStackView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.heightAnchor.constraint(equalToConstant: Constants.Settings.row * 1.2).isActive = true
-        view.orientation = .horizontal
-        view.alignment = .centerY
-        view.distribution = .fill
-        view.spacing = 0
-        view.isHidden = isHidden
-        
-        let titleField: NSTextField = LabelField(frame: NSRect(x: 0, y: 0, width: 0, height: 0), title)
-        titleField.font = NSFont.systemFont(ofSize: 12, weight: .regular)
-        titleField.textColor = .textColor
-        
-        let container: NSView = NSView()
-        container.identifier = NSUserInterfaceItemIdentifier("container")
-        
-        let valueField: NSTextField = LabelField(frame: NSRect(x: 0, y: 21, width: 195, height: 15), initialValue)
-        valueField.font = NSFont.systemFont(ofSize: 12, weight: .regular)
-        valueField.textColor = .textColor
-        valueField.alignment = .center
-        
-        let slider = NSSlider(frame: NSRect(x: 0, y: -5, width: 195, height: 0))
-        slider.minValue = min
-        slider.maxValue = max
-        slider.intValue = Int32(value)
-        slider.target = self
-        slider.isContinuous = true
-        slider.action = action
-        slider.sizeToFit()
-        
-        container.addSubview(valueField)
-        container.addSubview(slider)
-        
-        view.addArrangedSubview(titleField)
-        view.addArrangedSubview(NSView())
-        view.addArrangedSubview(container)
-        
-        container.widthAnchor.constraint(equalToConstant: 195).isActive = true
-        container.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
-        
-        return view
-    }
-    
     func selectView(action: Selector, items: [KeyValue_p], selected: String) -> NSPopUpButton {
         let select: NSPopUpButton = NSPopUpButton(frame: NSRect(x: 0, y: 0, width: 50, height: 28))
         select.target = self
@@ -482,6 +358,33 @@ public extension NSView {
         field.stringValue = value
         field.isSelectable = true
         return field
+    }
+    
+    func sliderView(action: Selector, value: Int, initialValue: String, min: Double = 1, max: Double = 100, valueWidth: CGFloat = 40) -> NSView {
+        let view: NSStackView = NSStackView()
+        view.orientation = .horizontal
+        view.widthAnchor.constraint(equalToConstant: 195).isActive = true
+        
+        let valueField: NSTextField = LabelField(initialValue)
+        valueField.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+        valueField.textColor = .textColor
+        valueField.alignment = .center
+        valueField.widthAnchor.constraint(equalToConstant: valueWidth).isActive = true
+        
+        let slider = NSSlider()
+        slider.controlSize = .small
+        slider.minValue = min
+        slider.maxValue = max
+        slider.intValue = Int32(value)
+        slider.target = self
+        slider.isContinuous = true
+        slider.action = action
+        slider.sizeToFit()
+        
+        view.addArrangedSubview(slider)
+        view.addArrangedSubview(valueField)
+        
+        return view
     }
 }
 

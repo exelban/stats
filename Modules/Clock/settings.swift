@@ -57,12 +57,6 @@ internal class Settings: NSStackView, Settings_v, NSTableViewDelegate, NSTableVi
         
         self.orientation = .vertical
         self.distribution = .gravityAreas
-        self.edgeInsets = NSEdgeInsets(
-            top: Constants.Settings.margin,
-            left: Constants.Settings.margin,
-            bottom: Constants.Settings.margin,
-            right: Constants.Settings.margin
-        )
         self.spacing = 0
         
         self.scrollView.documentView = self.tableView
@@ -115,7 +109,7 @@ internal class Settings: NSStackView, Settings_v, NSTableViewDelegate, NSTableVi
         self.addArrangedSubview(self.footer())
         
         NSLayoutConstraint.activate([
-            self.scrollView.heightAnchor.constraint(equalToConstant: 278)
+            self.scrollView.heightAnchor.constraint(equalToConstant: 296)
         ])
     }
     
@@ -126,21 +120,19 @@ internal class Settings: NSStackView, Settings_v, NSTableViewDelegate, NSTableVi
     private func footer() -> NSView {
         let view = NSStackView()
         view.heightAnchor.constraint(equalToConstant: 27).isActive = true
-        view.spacing = 0
+        view.spacing = 4
         view.orientation = .horizontal
         
         var addButton: NSButton {
             let btn = NSButton()
             btn.widthAnchor.constraint(equalToConstant: 27).isActive = true
             btn.heightAnchor.constraint(equalToConstant: 27).isActive = true
-            btn.bezelStyle = .regularSquare
-            btn.translatesAutoresizingMaskIntoConstraints = false
+            btn.bezelStyle = .rounded
             if #available(macOS 11.0, *) {
-                btn.image =  iconFromSymbol(name: "plus", scale: .large)
+                btn.image =  iconFromSymbol(name: "plus", scale: .medium)
             } else {
-                btn.title = "Add"
+                btn.title = localizedString("Add")
             }
-            btn.isBordered = false
             btn.action = #selector(self.addNewClock)
             btn.target = self
             btn.toolTip = localizedString("Add new clock")
@@ -151,14 +143,12 @@ internal class Settings: NSStackView, Settings_v, NSTableViewDelegate, NSTableVi
             let btn = NSButton()
             btn.widthAnchor.constraint(equalToConstant: 27).isActive = true
             btn.heightAnchor.constraint(equalToConstant: 27).isActive = true
-            btn.bezelStyle = .regularSquare
-            btn.translatesAutoresizingMaskIntoConstraints = false
+            btn.bezelStyle = .rounded
             if #available(macOS 11.0, *) {
-                btn.image =  iconFromSymbol(name: "minus", scale: .large)
+                btn.image =  iconFromSymbol(name: "minus", scale: .medium)
             } else {
-                btn.title = "Add"
+                btn.title = localizedString("Delete")
             }
-            btn.isBordered = false
             btn.action = #selector(self.deleteClock)
             btn.target = self
             btn.toolTip = localizedString("Delete selected clock")
@@ -169,6 +159,16 @@ internal class Settings: NSStackView, Settings_v, NSTableViewDelegate, NSTableVi
         
         view.addArrangedSubview(addButton)
         view.addArrangedSubview(NSView())
+        
+        let helpBtn = NSButton()
+        helpBtn.widthAnchor.constraint(equalToConstant: 27).isActive = true
+        helpBtn.heightAnchor.constraint(equalToConstant: 27).isActive = true
+        helpBtn.bezelStyle = .helpButton
+        helpBtn.title = ""
+        helpBtn.action = #selector(self.openFormatHelp)
+        helpBtn.target = self
+        helpBtn.toolTip = localizedString("Help with datetime format")
+        view.addArrangedSubview(helpBtn)
         
         self.footerView = view
         return view
@@ -197,7 +197,6 @@ internal class Settings: NSStackView, Settings_v, NSTableViewDelegate, NSTableVi
             text.delegate = self
             text.stringValue = id == nameColumnID ? item.name : item.format
             text.translatesAutoresizingMaskIntoConstraints = false
-            
             cell.addSubview(text)
             text.widthAnchor.constraint(equalTo: cell.widthAnchor).isActive = true
             text.centerYAnchor.constraint(equalTo: cell.centerYAnchor).isActive = true
@@ -251,12 +250,10 @@ internal class Settings: NSStackView, Settings_v, NSTableViewDelegate, NSTableVi
         guard let key = sender.representedObject as? String, let id = sender.identifier, let i = Int(id.rawValue) else { return }
         self.list[i].tz = key
     }
-    
     @objc private func toggleClock(_ sender: NSButton) {
         guard let id = sender.identifier, let i = Int(id.rawValue) else { return }
         self.list[i].enabled = sender.state == NSControl.StateValue.on
     }
-    
     @objc private func addNewClock(_ sender: Any) {
         self.list.append(Clock_t(name: "Clock \(self.list.count)", format: Clock.local.format, tz: Clock.local.tz))
         self.tableView.reloadData()
@@ -266,5 +263,8 @@ internal class Settings: NSStackView, Settings_v, NSTableViewDelegate, NSTableVi
         self.list.remove(at: self.tableView.selectedRow)
         self.tableView.reloadData()
         self.deleteButton?.removeFromSuperview()
+    }
+    @objc private func openFormatHelp(_ sender: NSButton) {
+        NSWorkspace.shared.open(URL(string: "https://www.nsdateformatter.com")!)
     }
 }

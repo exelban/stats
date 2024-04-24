@@ -16,23 +16,22 @@ internal class Settings: NSStackView, Settings_v {
     public var callback: (() -> Void) = {}
     
     private var list: [String: Bool] = [:]
+    
     private let emptyView: EmptyView = EmptyView(msg: localizedString("No Bluetooth devices are available"))
+    private var section: PreferencesSection = PreferencesSection()
     
     public init() {
         super.init(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
         
         self.orientation = .vertical
         self.distribution = .gravityAreas
-        self.edgeInsets = NSEdgeInsets(
-            top: Constants.Settings.margin,
-            left: Constants.Settings.margin,
-            bottom: Constants.Settings.margin,
-            right: Constants.Settings.margin
-        )
         self.spacing = Constants.Settings.margin
         
-        self.addArrangedSubview(NSView())
         self.addArrangedSubview(self.emptyView)
+        self.addArrangedSubview(self.section)
+        self.section.isHidden = true
+        
+        self.addArrangedSubview(NSView())
     }
     
     required init?(coder: NSCoder) {
@@ -43,44 +42,38 @@ internal class Settings: NSStackView, Settings_v {
     
     internal func setList(_ list: [BLEDevice]) {
         if self.list.count != list.count && !self.list.isEmpty {
-            self.subviews.filter({ $0 is NSStackView && ($0 as! NSStackView).identifier != NSUserInterfaceItemIdentifier(rawValue: "emptyView") }).forEach{ $0.removeFromSuperview() }
+            self.section.removeFromSuperview()
+            self.section = PreferencesSection()
+            self.addArrangedSubview(self.section)
             self.list = [:]
         }
         
         if list.isEmpty && self.emptyView.isHidden {
             self.emptyView.isHidden = false
+            self.section.isHidden = true
             return
         } else if !list.isEmpty && !self.emptyView.isHidden {
             self.emptyView.isHidden = true
+            self.section.isHidden = false
         }
         
         list.forEach { (d: BLEDevice) in
             if self.list[d.id] == nil {
-                let row: NSView = toggleSettingRow(
-                    title: d.name,
+                let btn = switchView(
                     action: #selector(self.handleSelection),
                     state: d.state
                 )
-                row.subviews.filter{ $0 is NSControl }.forEach { (control: NSView) in
-                    control.identifier = NSUserInterfaceItemIdentifier(rawValue: "\(d.uuid?.uuidString ?? d.address)")
-                }
+                btn.identifier = NSUserInterfaceItemIdentifier(rawValue: "\(d.uuid?.uuidString ?? d.address)")
+                section.add(PreferencesRow(d.name, component: btn))
                 self.list[d.id] = true
-                self.addArrangedSubview(row)
             }
         }
     }
     
     @objc private func handleSelection(_ sender: NSControl) {
         guard let id = sender.identifier else { return }
-        
-        var state: NSControl.StateValue? = nil
-        if #available(OSX 10.15, *) {
-            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
-        } else {
-            state = sender is NSButton ? (sender as! NSButton).state: nil
-        }
-        
-        Store.shared.set(key: "ble_\(id.rawValue)", value: state! == NSControl.StateValue.on)
+        let value = controlState(sender)
+        Store.shared.set(key: "ble_\(id.rawValue)", value: value)
         self.callback()
     }
 }

@@ -60,44 +60,19 @@ class Notifications: NotificationsWrapper {
                 }
             }
             
-            let header = NSStackView()
-            header.heightAnchor.constraint(equalToConstant: Constants.Settings.row).isActive = true
-            header.spacing = 0
-            
-            let titleField: NSTextField = LabelField(frame: NSRect(x: 0, y: 0, width: 0, height: 0), localizedString(typ.rawValue))
-            titleField.font = NSFont.systemFont(ofSize: 13, weight: .medium)
-            titleField.textColor = .labelColor
-            
-            header.addArrangedSubview(titleField)
-            header.addArrangedSubview(NSView())
-            
-            self.addArrangedSubview(header)
-            
-            let container = NSStackView()
-            container.orientation = .vertical
-            container.edgeInsets = NSEdgeInsets(top: 0, left: Constants.Settings.margin, bottom: 0, right: Constants.Settings.margin)
-            container.spacing = 0
-            
+            let section = PreferencesSection(label: typ.rawValue)
             groups.forEach { (group: SensorGroup) in
                 filtered.filter{ $0.group == group }.forEach { (s: Sensor_p) in
-                    var items = notificationLevels
-                    if s.type == .temperature {
-                        items = temperatureLevels
-                    }
-                    let row: NSView = selectSettingsRow(
-                        title: localizedString(s.name),
+                    let btn = selectView(
                         action: #selector(self.changeSensorNotificaion),
-                        items: items,
+                        items: s.type == .temperature ? temperatureLevels : notificationLevels,
                         selected: s.notificationThreshold
                     )
-                    row.subviews.filter{ $0 is NSControl }.forEach { (control: NSView) in
-                        control.identifier = NSUserInterfaceItemIdentifier(rawValue: s.key)
-                    }
-                    container.addArrangedSubview(row)
+                    btn.identifier = NSUserInterfaceItemIdentifier(rawValue: s.key)
+                    section.add(PreferencesRow(localizedString(s.name), component: btn))
                 }
             }
-            
-            self.addArrangedSubview(container)
+            self.addArrangedSubview(section)
         }
     }
     

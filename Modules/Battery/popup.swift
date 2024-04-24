@@ -328,11 +328,12 @@ internal class Popup: PopupWrapper {
     public override func settings() -> NSView? {
         let view = SettingsContainerView()
         
-        view.addArrangedSubview(toggleSettingRow(
-            title: localizedString("Colorize battery"),
-            action: #selector(toggleColor),
-            state: self.colorState
-        ))
+        view.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Colorize battery"), component: switchView(
+                action: #selector(self.toggleColor),
+                state: self.colorState
+            ))
+        ]))
         
         return view
     }

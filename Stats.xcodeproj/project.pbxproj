@@ -1078,8 +1078,8 @@
 			children = (
 				9ABFF902248BEBD700C9041A /* main.swift */,
 				9ABFF90F248BEE7200C9041A /* readers.swift */,
-				5EE8037E29C36BDD0063D37D /* portal.swift */,
 				9ABFF913248C30A800C9041A /* popup.swift */,
+				5EE8037E29C36BDD0063D37D /* portal.swift */,
 				9AD64FA124BF86C100419D59 /* settings.swift */,
 				5CD342F32B2F2FB700225631 /* notifications.swift */,
 				9ABFF8F9248BEBCB00C9041A /* Info.plist */,

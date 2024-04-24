@@ -30,9 +30,8 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
     public var publicIPRefreshIntervalCallback: (() -> Void) = {}
     
     private let title: String
-    private var button: NSPopUpButton?
-    private var valueField: NSTextField?
     private var sliderView: NSView? = nil
+    private var section: PreferencesSection? = nil
     
     private var list: [Network_interface] = []
     
@@ -54,7 +53,9 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
         self.publicIPRefreshInterval = Store.shared.string(key: "\(self.title)_publicIPRefreshInterval", defaultValue: self.publicIPRefreshInterval)
         self.baseValue = Store.shared.string(key: "\(self.title)_base", defaultValue: self.baseValue)
         
-        super.init(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
+        super.init(frame: NSRect.zero)
+        self.orientation = .vertical
+        self.spacing = Constants.Settings.margin
         
         for interface in SCNetworkInterfaceCopyAll() as NSArray {
             if  let bsdName = SCNetworkInterfaceGetBSDName(interface as! SCNetworkInterface),
@@ -62,16 +63,6 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
                 self.list.append(Network_interface(displayName: displayName as String, BSDName: bsdName as String))
             }
         }
-        
-        self.orientation = .vertical
-        self.distribution = .gravityAreas
-        self.edgeInsets = NSEdgeInsets(
-            top: Constants.Settings.margin,
-            left: Constants.Settings.margin,
-            bottom: Constants.Settings.margin,
-            right: Constants.Settings.margin
-        )
-        self.spacing = Constants.Settings.margin
     }
     
     required init?(coder: NSCoder) {
@@ -81,88 +72,19 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
     public func load(widgets: [widget_t]) {
         self.subviews.forEach{ $0.removeFromSuperview() }
         
-        let slider = sliderSettingsRow(
-            title: localizedString("Widget activation threshold"),
-            action: #selector(self.sliderCallback),
-            value: self.widgetActivationThreshold,
-            initialValue: self.widgetActivationThreshold != 0 ? "\(self.widgetActivationThreshold) KB" : localizedString("Disabled"),
-            min: 0,
-            max: 1024
-        )
-        self.sliderView = slider
-        self.addArrangedSubview(slider)
-        
-        self.addArrangedSubview(selectSettingsRowV1(
-            title: localizedString("Number of top processes"),
-            action: #selector(changeNumberOfProcesses),
-            items: NumbersOfProcesses.map{ "\($0)" },
-            selected: "\(self.numberOfProcesses)"
-        ))
-        
-        self.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Reset data usage"),
-            action: #selector(toggleUsageReset),
-            items: AppUpdateIntervals.dropLast(2).filter({ $0.key != "Silent" }),
-            selected: self.usageReset
-        ))
-        
-        self.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Reader type"),
-            action: #selector(changeReaderType),
-            items: NetworkReaders,
-            selected: self.readerType
-        ))
-        
-        self.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Base"),
-            action: #selector(toggleBase),
-            items: SpeedBase,
-            selected: self.baseValue
-        ))
-        
-        self.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Auto-refresh public IP address"),
-            action: #selector(toggleRefreshIPInterval),
-            items: PublicIPAddressRefreshIntervals,
-            selected: self.publicIPRefreshInterval
-        ))
-        
-        self.addArrangedSubview(self.interfaceSelector())
-        
-        if self.vpnConnection {
-            self.addArrangedSubview(toggleSettingRow(
-                title: localizedString("VPN mode"),
-                action: #selector(toggleVPNMode),
-                state: self.VPNModeState
+        self.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Number of top processes"), component: selectView(
+                action: #selector(self.changeNumberOfProcesses),
+                items: NumbersOfProcesses.map{ KeyValue_t(key: "\($0)", value: "\($0)") },
+                selected: "\(self.numberOfProcesses)"
             ))
-        }
+        ]))
         
-        self.addArrangedSubview(fieldSettingRow(self,
-            title: localizedString("Connectivity host (ICMP)"),
-            value: self.ICMPHost,
-            placeholder: localizedString("Leave empty to disable the check")
-        ))
-    }
-    
-    private func interfaceSelector() -> NSView {
-        let view = NSStackView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.heightAnchor.constraint(equalToConstant: Constants.Settings.row).isActive = true
-        view.orientation = .horizontal
-        view.alignment = .centerY
-        view.distribution = .fill
-        view.spacing = 0
-        
-        let titleField: NSTextField = LabelField(frame: NSRect(x: 0, y: 0, width: 0, height: 0), localizedString("Network interface"))
-        titleField.font = NSFont.systemFont(ofSize: 12, weight: .regular)
-        titleField.textColor = .textColor
-        
-        let select: NSPopUpButton = NSPopUpButton()
-        select.target = self
-        select.action = #selector(self.handleSelection)
-        select.isEnabled = self.readerType == "interface"
-        self.button = select
-        
+        let interfaces = selectView(
+            action: #selector(self.handleSelection),
+            items: [],
+            selected: ""
+        )
         let selectedInterface = Store.shared.string(key: "\(self.title)_interface", defaultValue: "")
         let menu = NSMenu()
         let autodetection = NSMenuItem(title: localizedString("Autodetection"), action: nil, keyEquivalent: "")
@@ -170,7 +92,6 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
         autodetection.tag = 128
         menu.addItem(autodetection)
         menu.addItem(NSMenuItem.separator())
-        
         self.list.forEach { (interface: Network_interface) in
             let interfaceMenu = NSMenuItem(title: "\(interface.displayName) (\(interface.BSDName))", action: nil, keyEquivalent: "")
             interfaceMenu.identifier = NSUserInterfaceItemIdentifier(rawValue: interface.BSDName)
@@ -179,22 +100,79 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
                 interfaceMenu.state = .on
             }
         }
-        
-        select.menu = menu
-        select.sizeToFit()
-        
+        interfaces.menu = menu
+        interfaces.sizeToFit()
         if selectedInterface == "" {
-            select.selectItem(withTag: 128)
+            interfaces.selectItem(withTag: 128)
         }
         
-        view.addArrangedSubview(titleField)
-        view.addArrangedSubview(NSView())
-        view.addArrangedSubview(select)
+        var prefs: [PreferencesRow] = [
+            PreferencesRow(localizedString("Reader type"), component: selectView(
+                action: #selector(self.changeReaderType),
+                items: NetworkReaders,
+                selected: self.readerType
+            )),
+            PreferencesRow(localizedString("Network interface"), component: interfaces),
+            PreferencesRow(localizedString("Base"), component: selectView(
+                action: #selector(self.toggleBase),
+                items: SpeedBase,
+                selected: self.baseValue
+            )),
+            PreferencesRow(localizedString("Reset data usage"), component: selectView(
+                action: #selector(self.toggleUsageReset),
+                items: AppUpdateIntervals.dropLast(2).filter({ $0.key != "Silent" }),
+                selected: self.usageReset
+            )),
+            PreferencesRow(localizedString("Auto-refresh public IP address"), component: selectView(
+                action: #selector(self.toggleRefreshIPInterval),
+                items: PublicIPAddressRefreshIntervals,
+                selected: self.publicIPRefreshInterval
+            ))
+        ]
+        if self.vpnConnection {
+            prefs.append(PreferencesRow(localizedString("VPN mode"), component: switchView(
+                action: #selector(self.toggleVPNMode),
+                state: self.VPNModeState
+            )))
+        }
+        let section = PreferencesSection(prefs)
+        section.toggleVisibility(1, newState: self.readerType == "interface")
+        self.addArrangedSubview(section)
+        self.section = section
         
-        return view
+        self.sliderView = sliderView(
+            action: #selector(self.sliderCallback),
+            value: self.widgetActivationThreshold,
+            initialValue: self.widgetActivationThreshold != 0 ? "\(self.widgetActivationThreshold) KB" : localizedString("Disabled"), 
+            min: 0,
+            max: 1024,
+            valueWidth: 70
+        )
+        self.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Widget activation threshold"), component: self.sliderView!)
+        ]))
+        
+        let valueField: NSTextField = NSTextField()
+        valueField.widthAnchor.constraint(equalToConstant: 250).isActive = true
+        valueField.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+        valueField.textColor = .textColor
+        valueField.isEditable = true
+        valueField.isSelectable = true
+        valueField.isBezeled = false
+        valueField.canDrawSubviewsIntoLayer = true
+        valueField.usesSingleLineMode = true
+        valueField.maximumNumberOfLines = 1
+        valueField.focusRingType = .none
+        valueField.stringValue = self.ICMPHost
+        valueField.delegate = self
+        valueField.placeholderString = localizedString("Leave empty to disable the check")
+        
+        self.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Connectivity host (ICMP)"), component: valueField)
+        ]))
     }
     
-    @objc func handleSelection(_ sender: NSPopUpButton) {
+    @objc private func handleSelection(_ sender: NSPopUpButton) {
         guard let item = sender.selectedItem, let id = item.identifier?.rawValue else { return }
         
         if id == "autodetection" {
@@ -207,7 +185,6 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
         
         self.callback()
     }
-    
     @objc private func changeNumberOfProcesses(_ sender: NSMenuItem) {
         if let value = Int(sender.title) {
             self.numberOfProcesses = value
@@ -215,32 +192,26 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
             self.callbackWhenUpdateNumberOfProcesses()
         }
     }
-    
     @objc private func changeReaderType(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String else { return }
         self.readerType = key
         Store.shared.set(key: "\(self.title)_reader", value: key)
-        self.button?.isEnabled = self.readerType == "interface"
-        
+        self.section?.toggleVisibility(1, newState: self.readerType == "interface")
         NotificationCenter.default.post(name: .resetTotalNetworkUsage, object: nil, userInfo: nil)
     }
-    
     @objc private func toggleUsageReset(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String else { return }
         self.usageReset = key
         Store.shared.set(key: "\(self.title)_usageReset", value: key)
         self.usageResetCallback()
     }
-    
     @objc func toggleVPNMode(_ sender: NSControl) {
         self.VPNModeState = controlState(sender)
         Store.shared.set(key: "\(self.title)_VPNMode", value: self.VPNModeState)
     }
-    
     @objc private func sliderCallback(_ sender: NSSlider) {
         let value = Int(sender.doubleValue)
-        if let container = self.sliderView?.subviews.first(where: { $0.identifier == NSUserInterfaceItemIdentifier("container") }),
-            let field = container.subviews.first(where: { $0 is NSTextField }), let view = field as? NSTextField {
+        if let field = self.sliderView?.subviews.first(where: { $0 is NSTextField }), let view = field as? NSTextField {
             view.stringValue = value == 0 ? localizedString("Disabled") : "\(value) KB"
         }
         self.widgetActivationThreshold = value
@@ -261,7 +232,6 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
         Store.shared.set(key: "\(self.title)_publicIPRefreshInterval", value: self.publicIPRefreshInterval)
         self.publicIPRefreshIntervalCallback()
     }
-    
     @objc private func toggleBase(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String else { return }
         self.baseValue = key

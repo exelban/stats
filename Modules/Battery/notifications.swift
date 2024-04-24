@@ -35,18 +35,18 @@ class Notifications: NotificationsWrapper {
         self.lowLevel = Store.shared.string(key: "\(self.module)_notifications_low", defaultValue: self.lowLevel)
         self.highLevel = Store.shared.string(key: "\(self.module)_notifications_high", defaultValue: self.highLevel)
         
-        self.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Low level notification"),
-            action: #selector(self.changeLowLevel),
-            items: notificationLevels,
-            selected: self.lowLevel
-        ))
-        self.addArrangedSubview(selectSettingsRow(
-            title: localizedString("High level notification"),
-            action: #selector(self.changeHighLevel),
-            items: notificationLevels,
-            selected: self.highLevel
-        ))
+        self.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Low level notification"), component: selectView(
+                action: #selector(self.changeLowLevel),
+                items: notificationLevels,
+                selected: self.lowLevel
+            )),
+            PreferencesRow(localizedString("High level notification"), component: selectView(
+                action: #selector(self.changeHighLevel),
+                items: notificationLevels,
+                selected: self.highLevel
+            ))
+        ]))
     }
     
     required init?(coder: NSCoder) {
@@ -84,7 +84,6 @@ class Notifications: NotificationsWrapper {
         self.lowLevel = key.isEmpty ? "" : "\(Double(key) ?? 0)"
         Store.shared.set(key: "\(self.module)_notifications_low", value: self.lowLevel)
     }
-    
     @objc private func changeHighLevel(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String else { return }
         self.highLevel = key.isEmpty ? "" : "\(Double(key) ?? 0)"

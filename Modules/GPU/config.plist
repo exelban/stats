@@ -73,5 +73,12 @@
 			<integer>4</integer>
 		</dict>
 	</dict>
+	<key>Settings</key>
+	<dict>
+		<key>popup</key>
+		<false/>
+		<key>notifications</key>
+		<true/>
+	</dict>
 </dict>
 </plist>

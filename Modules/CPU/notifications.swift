@@ -40,41 +40,37 @@ class Notifications: NotificationsWrapper {
         self.eCoresLoadLevel = Store.shared.string(key: "\(self.module)_notifications_eCoresLoad", defaultValue: self.eCoresLoadLevel)
         self.pCoresLoadLevel = Store.shared.string(key: "\(self.module)_notifications_pCoresLoad", defaultValue: self.pCoresLoadLevel)
         
-        self.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Total load"),
-            action: #selector(self.changeTotalLoad),
-            items: notificationLevels,
-            selected: self.totalLoadLevel
-        ))
-        
-        self.addArrangedSubview(selectSettingsRow(
-            title: localizedString("System load"),
-            action: #selector(self.changeSystemLoad),
-            items: notificationLevels,
-            selected: self.systemLoadLevel
-        ))
-        
-        self.addArrangedSubview(selectSettingsRow(
-            title: localizedString("User load"),
-            action: #selector(self.changeUserLoad),
-            items: notificationLevels,
-            selected: self.userLoadLevel
-        ))
+        self.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Total load"), component: selectView(
+                action: #selector(self.changeTotalLoad),
+                items: notificationLevels,
+                selected: self.totalLoadLevel
+            )),
+            PreferencesRow(localizedString("System load"), component: selectView(
+                action: #selector(self.changeSystemLoad),
+                items: notificationLevels,
+                selected: self.systemLoadLevel
+            )),
+            PreferencesRow(localizedString("User load"), component: selectView(
+                action: #selector(self.changeUserLoad),
+                items: notificationLevels,
+                selected: self.userLoadLevel
+            ))
+        ]))
         
         #if arch(arm64)
-        self.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Efficiency cores load"),
-            action: #selector(self.changeECoresLoad),
-            items: notificationLevels,
-            selected: self.eCoresLoadLevel
-        ))
-        
-        self.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Performance cores load"),
-            action: #selector(self.changePCoresLoad),
-            items: notificationLevels,
-            selected: self.pCoresLoadLevel
-        ))
+        self.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Efficiency cores load"), component: selectView(
+                action: #selector(self.changeECoresLoad),
+                items: notificationLevels,
+                selected: self.eCoresLoadLevel
+            )),
+            PreferencesRow(localizedString("Performance cores load"), component: selectView(
+                action: #selector(self.changePCoresLoad),
+                items: notificationLevels,
+                selected: self.pCoresLoadLevel
+            ))
+        ]))
         #endif
     }
     

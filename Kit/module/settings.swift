@@ -23,6 +23,10 @@ public protocol Settings_v: NSView {
 open class Settings: NSStackView, Settings_p {
     private var config: UnsafePointer<module_c>
     private var widgets: [Widget]
+    
+    private var segmentedControl: NSSegmentedControl?
+    private var tabView: NSTabView?
+    
     private var moduleSettings: Settings_v?
     private var popupSettings: Popup_p?
     private var notificationsSettings: NotificationsWrapper?
@@ -33,7 +37,7 @@ open class Settings: NSStackView, Settings_p {
     private var notificationsSettingsContainer: NSStackView?
     
     private var enableControl: NSControl?
-    private var oneViewRow: NSView?
+    private var oneViewBtn: NSSwitch?
     
     private let noWidgetsView: EmptyView = EmptyView(msg: localizedString("No available widgets to configure"))
     private let noPopupSettingsView: EmptyView = EmptyView(msg: localizedString("No options to configure for the popup in this module"))
@@ -51,12 +55,18 @@ open class Settings: NSStackView, Settings_p {
         }
     }
     
+    private var isPopupSettingsAvailable: Bool
+    private var isNotificationsSettingsAvailable: Bool
+    
     init(config: UnsafePointer<module_c>, widgets: UnsafeMutablePointer<[Widget]>, enabled: Bool, moduleSettings: Settings_v?, popupSettings: Popup_p?, notificationsSettings: NotificationsWrapper?) {
         self.config = config
         self.widgets = widgets.pointee
         self.moduleSettings = moduleSettings
         self.popupSettings = popupSettings
         self.notificationsSettings = notificationsSettings
+        
+        self.isPopupSettingsAvailable = config.pointee.settingsConfig["popup"] as? Bool ?? false
+        self.isNotificationsSettingsAvailable = config.pointee.settingsConfig["notifications"] as? Bool ?? false
         
         super.init(frame: NSRect.zero)
         
@@ -72,10 +82,53 @@ open class Settings: NSStackView, Settings_p {
         )
         
         let widgetSelector = WidgetSelectorView(module: self.config.pointee.name, widgets: self.widgets, stateCallback: self.loadWidget)
+        let tabView = self.settingsView()
+        
+        self.addArrangedSubview(widgetSelector)
+        self.addArrangedSubview(tabView)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(listenForOneView), name: .toggleOneView, object: nil)
+        self.segmentedControl?.widthAnchor.constraint(equalTo: self.widthAnchor, constant: -(Constants.Settings.margin*2)).isActive = true
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: .toggleOneView, object: nil)
+    }
+    
+    required public init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    public func setState(_ newState: Bool) {
+        toggleNSControlState(self.enableControl, state: newState ? .on : .off)
+    }
+    
+    private func settingsView() -> NSView {
+        let view = NSStackView()
+        view.orientation = .vertical
+        view.spacing = Constants.Settings.margin
+        
+        var labels: [String] = [
+            localizedString("Module"),
+            localizedString("Widgets")
+        ]
+        if self.isPopupSettingsAvailable {
+            labels.append(localizedString("Popup"))
+        }
+        if self.isNotificationsSettingsAvailable {
+            labels.append(localizedString("Notifications"))
+        }
+        
+        let segmentedControl = NSSegmentedControl(labels: labels, trackingMode: .selectOne, target: self, action: #selector(self.switchTabs))
+        segmentedControl.segmentDistribution = .fillEqually
+        segmentedControl.selectSegment(withTag: 0)
+        self.segmentedControl = segmentedControl
         
         let tabView = NSTabView()
-        tabView.tabViewType = .topTabsBezelBorder
-        tabView.tabViewBorderType = .line
+        tabView.tabViewType = .noTabsNoBorder
+        tabView.tabViewBorderType = .none
+        tabView.drawsBackground = false
+        self.tabView = tabView
         
         let moduleTab: NSTabViewItem = NSTabViewItem()
         moduleTab.label = localizedString("Module")
@@ -90,6 +143,7 @@ open class Settings: NSStackView, Settings_p {
             container.addArrangedSubview(scrollView)
             return container
         }()
+        tabView.addTabViewItem(moduleTab)
         
         let widgetTab: NSTabViewItem = NSTabViewItem()
         widgetTab.label = localizedString("Widgets")
@@ -100,48 +154,38 @@ open class Settings: NSStackView, Settings_p {
             self.loadWidgetSettings()
             return view
         }()
-        
-        let popupTab: NSTabViewItem = NSTabViewItem()
-        popupTab.label = localizedString("Popup")
-        popupTab.view = {
-            let view = ScrollableStackView(frame: tabView.frame)
-            view.stackView.spacing = 0
-            self.popupSettingsContainer = view.stackView
-            self.loadPopupSettings()
-            return view
-        }()
-        
-        let notificationsTab: NSTabViewItem = NSTabViewItem()
-        notificationsTab.label = localizedString("Notifications")
-        notificationsTab.view = {
-            let view = ScrollableStackView(frame: tabView.frame)
-            view.stackView.spacing = 0
-            self.notificationsSettingsContainer = view.stackView
-            self.loadNotificationsSettings()
-            return view
-        }()
-        
-        tabView.addTabViewItem(moduleTab)
         tabView.addTabViewItem(widgetTab)
-        tabView.addTabViewItem(popupTab)
-        tabView.addTabViewItem(notificationsTab)
         
-        self.addArrangedSubview(widgetSelector)
-        self.addArrangedSubview(tabView)
+        if self.isPopupSettingsAvailable {
+            let popupTab: NSTabViewItem = NSTabViewItem()
+            popupTab.label = localizedString("Popup")
+            popupTab.view = {
+                let view = ScrollableStackView(frame: tabView.frame)
+                view.stackView.spacing = 0
+                self.popupSettingsContainer = view.stackView
+                self.loadPopupSettings()
+                return view
+            }()
+            tabView.addTabViewItem(popupTab)
+        }
         
-        NotificationCenter.default.addObserver(self, selector: #selector(listenForOneView), name: .toggleOneView, object: nil)
-    }
-    
-    deinit {
-        NotificationCenter.default.removeObserver(self, name: .toggleOneView, object: nil)
-    }
-    
-    required public init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    public func setState(_ newState: Bool) {
-        toggleNSControlState(self.enableControl, state: newState ? .on : .off)
+        if self.isNotificationsSettingsAvailable {
+            let notificationsTab: NSTabViewItem = NSTabViewItem()
+            notificationsTab.label = localizedString("Notifications")
+            notificationsTab.view = {
+                let view = ScrollableStackView(frame: tabView.frame)
+                view.stackView.spacing = 0
+                self.notificationsSettingsContainer = view.stackView
+                self.loadNotificationsSettings()
+                return view
+            }()
+            tabView.addTabViewItem(notificationsTab)
+        }
+        
+        view.addArrangedSubview(segmentedControl)
+        view.addArrangedSubview(tabView)
+        
+        return view
     }
     
     private func loadWidget() {
@@ -169,31 +213,14 @@ open class Settings: NSStackView, Settings_p {
         }
         
         if self.widgets.filter({ $0.isActive }).count > 1 {
-            let container = NSStackView()
-            container.orientation = .vertical
-            container.distribution = .gravityAreas
-            container.translatesAutoresizingMaskIntoConstraints = false
-            container.edgeInsets = NSEdgeInsets(
-                top: Constants.Settings.margin,
-                left: Constants.Settings.margin,
-                bottom: Constants.Settings.margin,
-                right: Constants.Settings.margin
-            )
-            container.spacing = Constants.Settings.margin
-            
-            let row = toggleSettingRow(
-                title: "\(localizedString("Merge widgets"))",
+            let btn = switchView(
                 action: #selector(self.toggleOneView),
                 state: self.oneViewState
             )
-            container.addArrangedSubview(row)
-            findAndToggleEnableNSControlState(row, state: !self.globalOneView)
-            if self.globalOneView {
-                findAndToggleNSControlState(row, state: .on)
-            }
-            self.oneViewRow = row
-            
-            self.widgetSettingsContainer?.addArrangedSubview(container)
+            self.oneViewBtn = btn
+            self.widgetSettingsContainer?.addArrangedSubview(PreferencesSection([
+                PreferencesRow(localizedString("Merge widgets"), component: btn)
+            ]))
         }
         
         for i in 0...list.count - 1 {
@@ -225,6 +252,10 @@ open class Settings: NSStackView, Settings_p {
         }
     }
     
+    @objc func switchTabs(sender: NSSegmentedControl) {
+        self.tabView?.selectTabViewItem(at: sender.selectedSegment)
+    }
+    
     @objc private func toggleOneView(_ sender: NSControl) {
         guard !self.globalOneView else { return }
         self.oneViewState = controlState(sender)
@@ -233,10 +264,9 @@ open class Settings: NSStackView, Settings_p {
     
     @objc private func listenForOneView(_ notification: Notification) {
         guard notification.userInfo?["module"] == nil else { return }
-        findAndToggleEnableNSControlState(self.oneViewRow, state: !self.globalOneView)
-        
+        self.oneViewBtn?.isEnabled = !self.globalOneView
         if !self.globalOneView {
-            findAndToggleNSControlState(self.oneViewRow, state: self.oneViewState ? .on : .off)
+            self.oneViewBtn?.state = self.oneViewState ? .on : .off
         }
     }
 }
@@ -527,20 +557,14 @@ internal class WidgetPreview: NSStackView {
 
 internal class WidgetSettings: NSStackView {
     public init(title: String, image: NSImage, settingsView: NSView) {
-        super.init(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
+        super.init(frame: NSRect.zero)
         
         self.translatesAutoresizingMaskIntoConstraints = false
         self.orientation = .vertical
-        self.edgeInsets = NSEdgeInsets(
-            top: 0,
-            left: Constants.Settings.margin,
-            bottom: 0,
-            right: Constants.Settings.margin
-        )
         self.spacing = 0
         
         self.addArrangedSubview(self.header(title, image))
-        self.addArrangedSubview(self.settings(settingsView))
+        self.addArrangedSubview(settingsView)
     }
     
     required init?(coder: NSCoder) {
@@ -594,24 +618,6 @@ internal class WidgetSettings: NSStackView {
         container.addArrangedSubview(NSView())
         container.addArrangedSubview(content)
         container.addArrangedSubview(NSView())
-        
-        return container
-    }
-    
-    private func settings(_ view: NSView) -> NSView {
-        let container = NSStackView()
-        container.orientation = .vertical
-        container.spacing = 0
-        container.wantsLayer = true
-        container.layer?.backgroundColor = NSColor.init(calibratedWhite: 0.1, alpha: 0.06).cgColor
-        container.layer?.cornerRadius = 4
-        container.edgeInsets = NSEdgeInsets(
-            top: 2,
-            left: 2,
-            bottom: 2,
-            right: 2
-        )
-        container.addArrangedSubview(view)
         
         return container
     }

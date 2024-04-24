@@ -52,6 +52,7 @@ internal class Popup: PopupWrapper {
     private var eCoresColorView: NSView? = nil
     private var pCoresColorView: NSView? = nil
     
+    private var chartPrefSection: PreferencesSection? = nil
     private var sliderView: NSView? = nil
     
     private var lineChart: LineChartView? = nil
@@ -472,71 +473,62 @@ internal class Popup: PopupWrapper {
     public override func settings() -> NSView? {
         let view = SettingsContainerView()
         
-        view.addArrangedSubview(selectSettingsRow(
-            title: localizedString("System color"),
-            action: #selector(self.toggleSystemColor),
-            items: Color.allColors,
-            selected: self.systemColorState.key
-        ))
+        view.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("System color"), component: selectView(
+                action: #selector(self.toggleSystemColor),
+                items: Color.allColors,
+                selected: self.systemColorState.key
+            )),
+            PreferencesRow(localizedString("User color"), component: selectView(
+                action: #selector(self.toggleUserColor),
+                items: Color.allColors,
+                selected: self.userColorState.key
+            )),
+            PreferencesRow(localizedString("Idle color"), component: selectView(
+                action: #selector(self.toggleIdleColor),
+                items: Color.allColors,
+                selected: self.idleColorState.key
+            ))
+        ]))
         
-        view.addArrangedSubview(selectSettingsRow(
-            title: localizedString("User color"),
-            action: #selector(self.toggleUserColor),
-            items: Color.allColors,
-            selected: self.userColorState.key
-        ))
+        view.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Efficiency cores color"), component: selectView(
+                action: #selector(self.toggleECoresColor),
+                items: Color.allColors,
+                selected: self.eCoresColorState.key
+            )),
+            PreferencesRow(localizedString("Performance cores color"), component: selectView(
+                action: #selector(self.togglePCoresColor),
+                items: Color.allColors,
+                selected: self.pCoresColorState.key
+            ))
+        ]))
         
-        view.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Idle color"),
-            action: #selector(self.toggleIdleColor),
-            items: Color.allColors,
-            selected: self.idleColorState.key
-        ))
-        
-        view.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Chart color"),
-            action: #selector(self.toggleChartColor),
-            items: Color.allColors,
-            selected: self.chartColorState.key
-        ))
-        
-        view.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Efficiency cores color"),
-            action: #selector(self.toggleeCoresColor),
-            items: Color.allColors,
-            selected: self.eCoresColorState.key
-        ))
-        
-        view.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Performance cores color"),
-            action: #selector(self.togglepCoresColor),
-            items: Color.allColors,
-            selected: self.pCoresColorState.key
-        ))
-        
-        view.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Chart duration"),
-            action: #selector(self.toggleLineChartHistory),
-            items: LineChartHistory,
-            selected: "\(self.lineChartHistory)"
-        ))
-        
-        view.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Main chart scaling"),
-            action: #selector(self.toggleLineChartScale),
-            items: Scale.allCases,
-            selected: self.lineChartScale.key
-        ))
-        
-        let slider = sliderSettingsRow(
-            title: localizedString("Scale value"),
+        self.sliderView = sliderView(
             action: #selector(self.toggleLineChartFixedScale),
             value: Int(self.lineChartFixedScale * 100),
-            initialValue: "\(Int(self.lineChartFixedScale * 100)) %",
-            isHidden: self.lineChartScale != .fixed
+            initialValue: "\(Int(self.lineChartFixedScale * 100)) %"
         )
-        self.sliderView = slider
-        view.addArrangedSubview(slider)
+        self.chartPrefSection = PreferencesSection([
+            PreferencesRow(localizedString("Chart color"), component: selectView(
+                action: #selector(self.toggleChartColor),
+                items: Color.allColors,
+                selected: self.chartColorState.key
+            )),
+            PreferencesRow(localizedString("Chart history"), component: selectView(
+                action: #selector(self.toggleLineChartHistory),
+                items: LineChartHistory,
+                selected: "\(self.lineChartHistory)"
+            )),
+            PreferencesRow(localizedString("Main chart scaling"), component: selectView(
+                action: #selector(self.toggleLineChartScale),
+                items: Scale.allCases,
+                selected: self.lineChartScale.key
+            )),
+            PreferencesRow(localizedString("Scale value"), component: self.sliderView!)
+        ])
+        view.addArrangedSubview(self.chartPrefSection!)
+        self.chartPrefSection?.toggleVisibility(3, newState: self.lineChartScale == .fixed)
         
         return view
     }
@@ -578,7 +570,7 @@ internal class Popup: PopupWrapper {
             self.lineChart?.color = color
         }
     }
-    @objc private func toggleeCoresColor(_ sender: NSMenuItem) {
+    @objc private func toggleECoresColor(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String, let newValue = Color.allColors.first(where: { $0.key == key }) else {
             return
         }
@@ -586,7 +578,7 @@ internal class Popup: PopupWrapper {
         Store.shared.set(key: "\(self.title)_eCoresColor", value: key)
         self.eCoresColorView?.layer?.backgroundColor = (newValue.additional as? NSColor)?.cgColor
     }
-    @objc private func togglepCoresColor(_ sender: NSMenuItem) {
+    @objc private func togglePCoresColor(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String, let newValue = Color.allColors.first(where: { $0.key == key }) else {
             return
         }
@@ -603,7 +595,7 @@ internal class Popup: PopupWrapper {
     @objc private func toggleLineChartScale(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String,
               let value = Scale.allCases.first(where: { $0.key == key }) else { return }
-        self.sliderView?.isHidden = value != .fixed
+        self.chartPrefSection?.toggleVisibility(3, newState: value == .fixed)
         self.lineChartScale = value
         self.lineChart?.setScale(self.lineChartScale, fixedScale: self.lineChartFixedScale)
         Store.shared.set(key: "\(self.title)_lineChartScale", value: key)
@@ -612,8 +604,7 @@ internal class Popup: PopupWrapper {
     @objc private func toggleLineChartFixedScale(_ sender: NSSlider) {
         let value = Int(sender.doubleValue)
         
-        if let container = self.sliderView?.subviews.first(where: { $0.identifier == NSUserInterfaceItemIdentifier("container") }),
-           let field = container.subviews.first(where: { $0 is NSTextField }), let view = field as? NSTextField {
+        if let field = self.sliderView?.subviews.first(where: { $0 is NSTextField }), let view = field as? NSTextField {
             view.stringValue = "\(value) %"
         }
         

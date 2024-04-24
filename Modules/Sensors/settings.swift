@@ -33,18 +33,8 @@ internal class Settings: NSStackView, Settings_v {
         self.title = module.rawValue
         self.hidState = SystemKit.shared.device.platform == .m1 ? true : false
         
-        super.init(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
-        
-        self.wantsLayer = true
+        super.init(frame: NSRect.zero)
         self.orientation = .vertical
-        self.distribution = .gravityAreas
-        self.translatesAutoresizingMaskIntoConstraints = false
-        self.edgeInsets = NSEdgeInsets(
-            top: Constants.Settings.margin,
-            left: Constants.Settings.margin,
-            bottom: Constants.Settings.margin,
-            right: Constants.Settings.margin
-        )
         self.spacing = Constants.Settings.margin
         
         self.updateIntervalValue = Store.shared.int(key: "\(self.title)_updateInterval", defaultValue: self.updateIntervalValue)
@@ -53,6 +43,44 @@ internal class Settings: NSStackView, Settings_v {
         self.fansSyncState = Store.shared.bool(key: "\(self.title)_fansSync", defaultValue: self.fansSyncState)
         self.unknownSensorsState = Store.shared.bool(key: "\(self.title)_unknown", defaultValue: self.unknownSensorsState)
         self.fanValueState = FanValue(rawValue: Store.shared.string(key: "\(self.title)_fanValue", defaultValue: self.fanValueState.rawValue)) ?? .percentage
+        
+        self.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Update interval"), component: selectView(
+                action: #selector(self.changeUpdateInterval),
+                items: ReaderUpdateIntervals.map{ KeyValue_t(key: "\($0)", value: "\($0) sec") },
+                selected: "\(self.updateIntervalValue) sec"
+            ))
+        ]))
+        
+        self.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Fan value"), component: selectView(
+                action: #selector(self.toggleFanValue),
+                items: FanValues,
+                selected: self.fanValueState.rawValue
+            )),
+            PreferencesRow(localizedString("Save the fan speed"), component: switchView(
+                action: #selector(self.toggleSpeedState),
+                state: self.fanSpeedState
+            )),
+            PreferencesRow(localizedString("Synchronize fan's control"), component: switchView(
+                action: #selector(self.toggleFansSync),
+                state: self.fansSyncState
+            ))
+        ]))
+        
+        var sensorsPrefs: [PreferencesRow] = [
+            PreferencesRow(localizedString("Show unknown sensors"), component: switchView(
+                action: #selector(self.toggleuUnknownSensors),
+                state: self.unknownSensorsState
+            ))
+        ]
+        if isARM {
+            sensorsPrefs.append(PreferencesRow(localizedString("HID sensors"), component: switchView(
+                action: #selector(self.toggleHID),
+                state: self.hidState
+            )))
+        }
+        self.addArrangedSubview(PreferencesSection(sensorsPrefs))
     }
     
     required init?(coder: NSCoder) {
@@ -68,47 +96,9 @@ internal class Settings: NSStackView, Settings_v {
             sensors = sensors.filter({ $0.group != .unknown })
         }
         
-        self.subviews.forEach{ $0.removeFromSuperview() }
-        
-        self.addArrangedSubview(selectSettingsRowV1(
-            title: localizedString("Update interval"),
-            action: #selector(changeUpdateInterval),
-            items: ReaderUpdateIntervals.map{ "\($0) sec" },
-            selected: "\(self.updateIntervalValue) sec"
-        ))
-        
-        self.addArrangedSubview(toggleSettingRow(
-            title: localizedString("Save the fan speed"),
-            action: #selector(toggleSpeedState),
-            state: self.fanSpeedState
-        ))
-        
-        self.addArrangedSubview(toggleSettingRow(
-            title: localizedString("Synchronize fan's control"),
-            action: #selector(toggleFansSync),
-            state: self.fansSyncState
-        ))
-        
-        self.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Fan value"),
-            action: #selector(toggleFanValue),
-            items: FanValues,
-            selected: self.fanValueState.rawValue
-        ))
-        
-        if isARM {
-            self.addArrangedSubview(toggleSettingRow(
-                title: localizedString("HID sensors"),
-                action: #selector(toggleHID),
-                state: self.hidState
-            ))
+        self.subviews.filter({ $0.identifier == NSUserInterfaceItemIdentifier("sensor") }).forEach { v in
+            v.removeFromSuperview()
         }
-        
-        self.addArrangedSubview(toggleSettingRow(
-            title: localizedString("Show unknown sensors"),
-            action: #selector(toggleuUnknownSensors),
-            state: self.unknownSensorsState
-        ))
         
         var types: [SensorType] = []
         sensors.forEach { (s: Sensor_p) in
@@ -118,18 +108,8 @@ internal class Settings: NSStackView, Settings_v {
         }
         
         types.forEach { (typ: SensorType) in
-            let header = NSStackView()
-            header.heightAnchor.constraint(equalToConstant: Constants.Settings.row).isActive = true
-            header.spacing = 0
-            
-            let titleField: NSTextField = LabelField(frame: NSRect(x: 0, y: 0, width: 0, height: 0), localizedString(typ.rawValue))
-            titleField.font = NSFont.systemFont(ofSize: 13, weight: .medium)
-            titleField.textColor = .labelColor
-            
-            header.addArrangedSubview(titleField)
-            header.addArrangedSubview(NSView())
-            
-            self.addArrangedSubview(header)
+            let section = PreferencesSection(label: typ.rawValue)
+            section.identifier = NSUserInterfaceItemIdentifier("sensor")
             
             let filtered = sensors.filter{ $0.type == typ }
             var groups: [SensorGroup] = []
@@ -138,28 +118,16 @@ internal class Settings: NSStackView, Settings_v {
                     groups.append(s.group)
                 }
             }
-            
-            let container = NSStackView()
-            container.orientation = .vertical
-            container.edgeInsets = NSEdgeInsets(
-                top: 0,
-                left: Constants.Settings.margin,
-                bottom: 0,
-                right: Constants.Settings.margin
-            )
-            container.spacing = 0
-            
             groups.forEach { (group: SensorGroup) in
                 filtered.filter{ $0.group == group }.forEach { (s: Sensor_p) in
-                    let row: NSView = toggleSettingRow(title: localizedString(s.name), action: #selector(self.toggleFan), state: s.state)
-                    row.subviews.filter{ $0 is NSControl }.forEach { (control: NSView) in
-                        control.identifier = NSUserInterfaceItemIdentifier(rawValue: s.key)
-                    }
-                    container.addArrangedSubview(row)
+                    section.add(PreferencesRow(localizedString(s.name), component: switchView(
+                        action: #selector(self.toggleSensor),
+                        state: s.state
+                    )))
                 }
             }
             
-            self.addArrangedSubview(container)
+            self.addArrangedSubview(section)
         }
         
         self.widgets = widgets
@@ -171,12 +139,11 @@ internal class Settings: NSStackView, Settings_v {
         self.load(widgets: self.widgets)
     }
     
-    @objc private func toggleFan(_ sender: NSControl) {
+    @objc private func toggleSensor(_ sender: NSControl) {
         guard let id = sender.identifier else { return }
         Store.shared.set(key: "sensor_\(id.rawValue)", value: controlState(sender))
         self.callback()
     }
-    
     @objc private func changeUpdateInterval(_ sender: NSMenuItem) {
         if let value = Int(sender.title.replacingOccurrences(of: " sec", with: "")) {
             self.updateIntervalValue = value
@@ -184,30 +151,25 @@ internal class Settings: NSStackView, Settings_v {
             self.setInterval(value)
         }
     }
-    
     @objc private func toggleSpeedState(_ sender: NSControl) {
         self.fanSpeedState = controlState(sender)
         Store.shared.set(key: "\(self.title)_speed", value: self.fanSpeedState)
         self.callback()
     }
-    
     @objc private func toggleHID(_ sender: NSControl) {
         self.hidState = controlState(sender)
         Store.shared.set(key: "\(self.title)_hid", value: self.hidState)
         self.HIDcallback()
     }
-    
     @objc private func toggleFansSync(_ sender: NSControl) {
         self.fansSyncState = controlState(sender)
         Store.shared.set(key: "\(self.title)_fansSync", value: self.fansSyncState)
     }
-    
     @objc private func toggleuUnknownSensors(_ sender: NSControl) {
         self.unknownSensorsState = controlState(sender)
         Store.shared.set(key: "\(self.title)_unknown", value: self.unknownSensorsState)
         self.unknownCallback()
     }
-    
     @objc private func toggleFanValue(_ sender: NSMenuItem) {
         if let key = sender.representedObject as? String, let value = FanValue(rawValue: key) {
             self.fanValueState = value
