@@ -208,8 +208,8 @@
 "Merge widgets" = "合并组件";
 "No available widgets to configure" = "没有可配置的小组件";
 "No options to configure for the popup in this module" = "该组件没有可配置的选项";
-"Process" = "Process";
-"Kill process" = "Kill process";
+"Process" = "进程";
+"Kill process" = "结束进程";
 
 // Modules
 "Number of top processes" = "高占用进程数";
