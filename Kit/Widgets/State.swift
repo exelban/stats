@@ -74,19 +74,18 @@ public class StateWidget: WidgetWrapper {
     public override func settings() -> NSView {
         let view = SettingsContainerView()
         
-        view.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Active state color"),
-            action: #selector(self.toggleActiveColor),
-            items: self.colors,
-            selected: self.activeColorState.key
-        ))
-        
-        view.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Nonactive state color"),
-            action: #selector(self.toggleNonactiveColor),
-            items: self.colors,
-            selected: self.nonactiveColorState.key
-        ))
+        view.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Active state color"), component: selectView(
+                action: #selector(self.toggleActiveColor),
+                items: self.colors,
+                selected: self.activeColorState.key
+            )),
+            PreferencesRow(localizedString("Nonactive state color"), component: selectView(
+                action: #selector(self.toggleNonactiveColor),
+                items: self.colors,
+                selected: self.nonactiveColorState.key
+            ))
+        ]))
         
         return view
     }

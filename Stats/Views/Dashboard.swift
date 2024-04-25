@@ -174,7 +174,7 @@ class Dashboard: NSStackView {
         scrollView.stackView.addArrangedSubview(self.deviceView())
         
         scrollView.stackView.addArrangedSubview(PreferencesSection([
-            PreferencesRow(localizedString("Processor"), component: textView(self.processorValue)),
+            PreferencesRow(localizedString("Processor"), "", component: textView(self.processorValue)),
             PreferencesRow(localizedString("Memory"), component: textView(self.memoryValue)),
             PreferencesRow(localizedString("Graphics"), component: textView(self.graphicsValue))
         ]))

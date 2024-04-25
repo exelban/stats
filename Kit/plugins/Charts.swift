@@ -245,14 +245,8 @@ public class LineChartView: NSView {
             
             var str: String = ""
             let flatList = self.points.map{ $0?.value ?? 0 }
-            if let value = flatList.min() {
-                str += self.toolTipFunc != nil ? self.toolTipFunc!(DoubleValue(value)) : "\(Int(value.rounded(toPlaces: 2) * 100))\(self.suffix)"
-            }
             if let value = flatList.max() {
-                if !str.isEmpty {
-                    str += " / "
-                }
-                str += self.toolTipFunc != nil ? self.toolTipFunc!(DoubleValue(value)) : "\(Int(value.rounded(toPlaces: 2) * 100))\(self.suffix)"
+                str = self.toolTipFunc != nil ? self.toolTipFunc!(DoubleValue(value)) : "\(Int(value.rounded(toPlaces: 2) * 100))\(self.suffix)"
             }
             let textWidth = str.widthOfString(usingFont: stringAttributes[NSAttributedString.Key.font] as! NSFont)
             let y = self.flipY ? 1 : height - 9

@@ -22,8 +22,8 @@ public class BarChart: WidgetWrapper {
     private var _pressureLevel: DispatchSource.MemoryPressureEvent = .normal
     private var _colorZones: colorZones = (0.6, 0.8)
     
-    private var boxSettingsView: NSView? = nil
-    private var frameSettingsView: NSView? = nil
+    private var boxSettingsView: NSSwitch? = nil
+    private var frameSettingsView: NSSwitch? = nil
     
     public init(title: String, config: NSDictionary?, preview: Bool = false) {
         var widgetTitle: String = title
@@ -240,32 +240,30 @@ public class BarChart: WidgetWrapper {
     public override func settings() -> NSView {
         let view = SettingsContainerView()
         
-        view.addArrangedSubview(toggleSettingRow(
-            title: localizedString("Label"),
-            action: #selector(self.toggleLabel),
-            state: self.labelState
-        ))
-        
-        self.boxSettingsView = toggleSettingRow(
-            title: localizedString("Box"),
+        let box = switchView(
             action: #selector(self.toggleBox),
             state: self.boxState
         )
-        view.addArrangedSubview(self.boxSettingsView!)
-        
-        self.frameSettingsView = toggleSettingRow(
-            title: localizedString("Frame"),
+        self.boxSettingsView = box
+        let frame = switchView(
             action: #selector(self.toggleFrame),
             state: self.frameState
         )
-        view.addArrangedSubview(self.frameSettingsView!)
+        self.frameSettingsView = frame
         
-        view.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Color"),
-            action: #selector(self.toggleColor),
-            items: self.colors,
-            selected: self.colorState.key
-        ))
+        view.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Label"), component: switchView(
+                action: #selector(self.toggleLabel),
+                state: self.labelState
+            )),
+            PreferencesRow(localizedString("Color"), component: selectView(
+                action: #selector(self.toggleColor),
+                items: self.colors,
+                selected: self.colorState.key
+            )),
+            PreferencesRow(localizedString("Box"), component: box),
+            PreferencesRow(localizedString("Frame"), component: frame)
+        ]))
         
         return view
     }
@@ -281,7 +279,7 @@ public class BarChart: WidgetWrapper {
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_box", value: self.boxState)
         
         if self.frameState {
-            findAndToggleNSControlState(self.frameSettingsView, state: .off)
+            self.frameSettingsView?.state = .off
             self.frameState = false
             Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_frame", value: self.frameState)
         }
@@ -294,7 +292,7 @@ public class BarChart: WidgetWrapper {
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_frame", value: self.frameState)
         
         if self.boxState {
-            findAndToggleNSControlState(self.boxSettingsView, state: .off)
+            self.boxSettingsView?.state = .off
             self.boxState = false
             Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_box", value: self.boxState)
         }

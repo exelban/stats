@@ -54,8 +54,8 @@ public class LineChart: WidgetWrapper {
         }
     }
     
-    private var boxSettingsView: NSView? = nil
-    private var frameSettingsView: NSView? = nil
+    private var boxSettingsView: NSSwitch? = nil
+    private var frameSettingsView: NSSwitch? = nil
     
     public init(title: String, config: NSDictionary?, preview: Bool = false) {
         var widgetTitle: String = title
@@ -263,58 +263,48 @@ public class LineChart: WidgetWrapper {
     public override func settings() -> NSView {
         let view = SettingsContainerView()
         
-        view.addArrangedSubview(toggleSettingRow(
-            title: localizedString("Label"),
-            action: #selector(self.toggleLabel),
-            state: self.labelState
-        ))
-        
-        view.addArrangedSubview(toggleSettingRow(
-            title: localizedString("Value"),
-            action: #selector(self.toggleValue),
-            state: self.valueState
-        ))
-        
-        view.addArrangedSubview(toggleSettingRow(
-            title: localizedString("Colorize value"),
-            action: #selector(self.toggleValueColor),
-            state: self.valueColorState
-        ))
-        
-        self.boxSettingsView = toggleSettingRow(
-            title: localizedString("Box"),
+        let box = switchView(
             action: #selector(self.toggleBox),
             state: self.boxState
         )
-        view.addArrangedSubview(self.boxSettingsView!)
-        
-        self.frameSettingsView = toggleSettingRow(
-            title: localizedString("Frame"),
+        self.boxSettingsView = box
+        let frame = switchView(
             action: #selector(self.toggleFrame),
             state: self.frameState
         )
-        view.addArrangedSubview(self.frameSettingsView!)
+        self.frameSettingsView = frame
         
-        view.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Color"),
-            action: #selector(self.toggleColor),
-            items: self.colors,
-            selected: self.colorState.key
-        ))
-        
-        view.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Number of reads in the chart"),
-            action: #selector(self.toggleHistoryCount),
-            items: self.historyNumbers,
-            selected: "\(self.historyCount)"
-        ))
-        
-        view.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Scaling"),
-            action: #selector(self.toggleScale),
-            items: Scale.allCases.filter({ $0 != .fixed }),
-            selected: self.scaleState.key
-        ))
+        view.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Label"), component: switchView(
+                action: #selector(self.toggleLabel),
+                state: self.labelState
+            )),
+            PreferencesRow(localizedString("Value"), component: switchView(
+                action: #selector(self.toggleValue),
+                state: self.valueState
+            )),
+            PreferencesRow(localizedString("Box"), component: box),
+            PreferencesRow(localizedString("Frame"), component: frame),
+            PreferencesRow(localizedString("Color"), component: selectView(
+                action: #selector(self.toggleColor),
+                items: self.colors,
+                selected: self.colorState.key
+            )),
+            PreferencesRow(localizedString("Colorize value"), component: switchView(
+                action: #selector(self.toggleValueColor),
+                state: self.valueColorState
+            )),
+            PreferencesRow(localizedString("Number of reads in the chart"), component: selectView(
+                action: #selector(self.toggleHistoryCount),
+                items: self.historyNumbers,
+                selected: "\(self.historyCount)"
+            )),
+            PreferencesRow(localizedString("Scaling"), component: selectView(
+                action: #selector(self.toggleScale),
+                items: Scale.allCases.filter({ $0 != .fixed }),
+                selected: self.scaleState.key
+            ))
+        ]))
         
         return view
     }
@@ -330,7 +320,7 @@ public class LineChart: WidgetWrapper {
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_box", value: self.boxState)
         
         if self.frameState {
-            findAndToggleNSControlState(self.frameSettingsView, state: .off)
+            self.frameSettingsView?.state = .off
             self.frameState = false
             Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_frame", value: self.frameState)
         }
@@ -343,7 +333,7 @@ public class LineChart: WidgetWrapper {
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_frame", value: self.frameState)
         
         if self.boxState {
-            findAndToggleNSControlState(self.boxSettingsView, state: .off)
+            self.boxSettingsView?.state = .off
             self.boxState = false
             Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_box", value: self.boxState)
         }

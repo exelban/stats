@@ -36,9 +36,9 @@ public class SpeedWidget: WidgetWrapper {
     
     private var width: CGFloat = 58
     
-    private var valueColorView: NSView? = nil
-    private var transparentIconView: NSView? = nil
-    private var valueAlignmentView: NSView? = nil
+    private var valueColorView: NSSwitch? = nil
+    private var transparentIconView: NSSwitch? = nil
+    private var valueAlignmentView: NSPopUpButton? = nil
     
     private var downloadColor: NSColor {
         self.monochromeState ? MonochromeColor.blue : (self.downloadColorState.additional as? NSColor ?? NSColor.systemBlue)
@@ -427,82 +427,69 @@ public class SpeedWidget: WidgetWrapper {
     public override func settings() -> NSView {
         let view = SettingsContainerView()
         
-        view.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Display mode"),
-            action: #selector(changeDisplayMode),
-            items: SensorsWidgetMode.filter({ $0.key == "oneRow" || $0.key == "twoRows"}),
-            selected: self.modeState
-        ))
-        
-        view.addArrangedSubview(toggleSettingRow(
-            title: localizedString("Reverse order"),
-            action: #selector(toggleReverseOrder),
-            state: self.reverseOrderState
-        ))
-        
-        view.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Pictogram"),
-            action: #selector(toggleIcon),
-            items: SpeedPictogram,
-            selected: self.icon
-        ))
-        
-        self.transparentIconView = toggleSettingRow(
-            title: localizedString("Transparent pictogram when no activity"),
-            action: #selector(toggleTransparentIcons),
+        let pictogramTransparency = switchView(
+            action: #selector(self.toggleTransparentIcons),
             state: self.transparentIconsState
         )
-        view.addArrangedSubview(self.transparentIconView!)
-        findAndToggleEnableNSControlState(self.transparentIconView!, state: self.icon != "none")
+        pictogramTransparency.isEnabled = self.icon != "none"
+        self.transparentIconView = pictogramTransparency
         
-        view.addArrangedSubview(toggleSettingRow(
-            title: localizedString("Value"),
-            action: #selector(toggleValue),
-            state: self.valueState
-        ))
-        
-        self.valueColorView = toggleSettingRow(
-            title: localizedString("Colorize value"),
-            action: #selector(toggleValueColor),
+        let colorizeValue = switchView(
+            action: #selector(self.toggleValueColor),
             state: self.valueColorState
         )
-        view.addArrangedSubview(self.valueColorView!)
-        findAndToggleEnableNSControlState(self.valueColorView, state: self.valueState)
+        colorizeValue.isEnabled = self.valueState
+        self.valueColorView = colorizeValue
         
-        self.valueAlignmentView = selectSettingsRow(
-            title: localizedString("Alignment"),
+        let alignment = selectView(
             action: #selector(toggleValueAlignment),
             items: Alignments,
             selected: self.valueAlignmentState
         )
-        view.addArrangedSubview(self.valueAlignmentView!)
-        findAndToggleEnableNSControlState(self.valueAlignmentView, state: self.valueState)
+        alignment.isEnabled = self.valueState
+        self.valueAlignmentView = alignment
         
-        view.addArrangedSubview(toggleSettingRow(
-            title: localizedString("Units"),
-            action: #selector(toggleUnits),
-            state: self.unitsState
-        ))
-        
-        view.addArrangedSubview(toggleSettingRow(
-            title: localizedString("Monochrome accent"),
-            action: #selector(toggleMonochrome),
-            state: self.monochromeState
-        ))
-        
-        view.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Color of upload"),
-            action: #selector(toggleUploadColor),
-            items: Color.allColors,
-            selected: self.uploadColorState.key
-        ))
-        
-        view.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Color of download"),
-            action: #selector(toggleDownloadColor),
-            items: Color.allColors,
-            selected: self.downloadColorState.key
-        ))
+        view.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Display mode"), component: selectView(
+                action: #selector(self.changeDisplayMode),
+                items: SensorsWidgetMode.filter({ $0.key == "oneRow" || $0.key == "twoRows"}),
+                selected: self.modeState
+            )),
+            PreferencesRow(localizedString("Reverse order"), component: switchView(
+                action: #selector(self.toggleReverseOrder),
+                state: self.reverseOrderState
+            )),
+            PreferencesRow(localizedString("Pictogrammode"), component: selectView(
+                action: #selector(self.toggleIcon),
+                items: SpeedPictogram,
+                selected: self.icon
+            )),
+            PreferencesRow(localizedString("Transparent pictogram when no activity"), component: pictogramTransparency),
+            PreferencesRow(localizedString("Value"), component: switchView(
+                action: #selector(self.toggleValue),
+                state: self.valueState
+            )),
+            PreferencesRow(localizedString("Colorize value"), component: colorizeValue),
+            PreferencesRow(localizedString("Alignment"), component: alignment),
+            PreferencesRow(localizedString("Units"), component: switchView(
+                action: #selector(self.toggleUnits),
+                state: self.unitsState
+            )),
+            PreferencesRow(localizedString("Monochrome accent"), component: switchView(
+                action: #selector(self.toggleMonochrome),
+                state: self.monochromeState
+            )),
+            PreferencesRow(localizedString("Color of download"), component: selectView(
+                action: #selector(self.toggleDownloadColor),
+                items: Color.allColors,
+                selected: self.downloadColorState.key
+            )),
+            PreferencesRow(localizedString("Color of upload"), component: selectView(
+                action: #selector(self.toggleUploadColor),
+                items: Color.allColors,
+                selected: self.uploadColorState.key
+            ))
+        ]))
         
         return view
     }
@@ -523,8 +510,8 @@ public class SpeedWidget: WidgetWrapper {
     @objc private func toggleValue(_ sender: NSControl) {
         self.valueState = controlState(sender)
         
-        findAndToggleEnableNSControlState(self.valueColorView, state: self.valueState)
-        findAndToggleEnableNSControlState(self.valueAlignmentView, state: self.valueState)
+        self.valueColorView?.isEnabled = self.valueState
+        self.valueAlignmentView?.isEnabled = self.valueState
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_value", value: self.valueState)
         self.display()
     }
@@ -538,7 +525,7 @@ public class SpeedWidget: WidgetWrapper {
     @objc private func toggleIcon(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String else { return }
         self.icon = key
-        findAndToggleEnableNSControlState(self.transparentIconView, state: self.icon != "none")
+        self.transparentIconView?.isEnabled = self.icon != "none"
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_icon", value: key)
         self.display()
     }

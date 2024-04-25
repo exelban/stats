@@ -148,24 +148,21 @@ public class MemoryWidget: WidgetWrapper {
     public override func settings() -> NSView {
         let view = SettingsContainerView()
         
-        view.addArrangedSubview(toggleSettingRow(
-            title: localizedString("Reverse values order"),
-            action: #selector(self.toggleOrder),
-            state: self.orderReversedState
-        ))
-        
-        view.addArrangedSubview(toggleSettingRow(
-            title: localizedString("Show symbols"),
-            action: #selector(self.toggleSymbols),
-            state: self.symbolsState
-        ))
-        
-        view.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Color"),
-            action: #selector(self.toggleColor),
-            items: Color.allCases.filter({ $0 != .cluster }),
-            selected: self.colorState.key
-        ))
+        view.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Color"), component: selectView(
+                action: #selector(self.toggleColor),
+                items: Color.allCases.filter({ $0 != .cluster }),
+                selected: self.colorState.key
+            )),
+            PreferencesRow(localizedString("Show symbols"), component: switchView(
+                action: #selector(self.toggleSymbols),
+                state: self.symbolsState
+            )),
+            PreferencesRow(localizedString("Reverse order"), component: switchView(
+                action: #selector(self.toggleOrder),
+                state: self.orderReversedState
+            ))
+        ]))
         
         return view
     }

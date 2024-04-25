@@ -231,26 +231,24 @@ public class StackWidget: WidgetWrapper {
     public override func settings() -> NSView {
         let view = SettingsContainerView()
         
-        view.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Display mode"),
-            action: #selector(self.changeDisplayMode),
-            items: SensorsWidgetMode,
-            selected: self.modeState.rawValue
-        ))
-        
+        var rows = [
+            PreferencesRow(localizedString("Display mode"), component: selectView(
+                action: #selector(self.changeDisplayMode),
+                items: SensorsWidgetMode,
+                selected: self.modeState.rawValue
+            )),
+            PreferencesRow(localizedString("Monospaced font"), component: switchView(
+                action: #selector(self.toggleMonospacedFont),
+                state: self.monospacedFontState
+            ))
+        ]
         if self.title != "Clock" {
-            view.addArrangedSubview(toggleSettingRow(
-                title: localizedString("Static width"),
+            rows.append(PreferencesRow(localizedString("Static width"), component: switchView(
                 action: #selector(self.toggleSize),
                 state: self.fixedSizeState
-            ))
+            )))
         }
-        
-        view.addArrangedSubview(toggleSettingRow(
-            title: localizedString("Monospaced font"),
-            action: #selector(self.toggleMonospacedFont),
-            state: self.monospacedFontState
-        ))
+        view.addArrangedSubview(PreferencesSection(rows))
         
         view.addArrangedSubview(self.orderTableView)
         

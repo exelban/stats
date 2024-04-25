@@ -48,8 +48,8 @@ public class NetworkChart: WidgetWrapper {
     ]
     private var colors: [Color] = Color.allCases
     
-    private var boxSettingsView: NSView? = nil
-    private var frameSettingsView: NSView? = nil
+    private var boxSettingsView: NSSwitch? = nil
+    private var frameSettingsView: NSSwitch? = nil
     
     public var NSLabelCharts: [NSAttributedString] = []
     
@@ -253,59 +253,49 @@ public class NetworkChart: WidgetWrapper {
     public override func settings() -> NSView {
         let view = SettingsContainerView()
         
-        view.addArrangedSubview(toggleSettingRow(
-            title: localizedString("Label"),
-            action: #selector(toggleLabel),
-            state: self.labelState
-        ))
-        
-        self.boxSettingsView = toggleSettingRow(
-            title: localizedString("Box"),
-            action: #selector(toggleBox),
+        let box = switchView(
+            action: #selector(self.toggleBox),
             state: self.boxState
         )
-        view.addArrangedSubview(self.boxSettingsView!)
-        
-        self.frameSettingsView = toggleSettingRow(
-            title: localizedString("Frame"),
-            action: #selector(toggleFrame),
+        self.boxSettingsView = box
+        let frame = switchView(
+            action: #selector(self.toggleFrame),
             state: self.frameState
         )
-        view.addArrangedSubview(self.frameSettingsView!)
+        self.frameSettingsView = frame
         
-        view.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Color of download"),
-            action: #selector(toggleDownloadColor),
-            items: self.colors,
-            selected: self.downloadColor.key
-        ))
-        
-        view.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Color of upload"),
-            action: #selector(toggleUploadColor),
-            items: self.colors,
-            selected: self.uploadColor.key
-        ))
-        
-        view.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Number of reads in the chart"),
-            action: #selector(toggleHistoryCount),
-            items: self.historyNumbers,
-            selected: "\(self.historyCount)"
-        ))
-        
-        view.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Scaling"),
-            action: #selector(toggleScale),
-            items: Scale.allCases.filter({ $0 != .fixed }),
-            selected: self.scaleState.key
-        ))
-        
-        view.addArrangedSubview(toggleSettingRow(
-            title: localizedString("Reverse order"),
-            action: #selector(toggleReverseOrder),
-            state: self.reverseOrderState
-        ))
+        view.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Label"), component: switchView(
+                action: #selector(self.toggleLabel),
+                state: self.labelState
+            )),
+            PreferencesRow(localizedString("Box"), component: box),
+            PreferencesRow(localizedString("Frame"), component: frame),
+            PreferencesRow(localizedString("Reverse order"), component: switchView(
+                action: #selector(self.toggleReverseOrder),
+                state: self.reverseOrderState
+            )),
+            PreferencesRow(localizedString("Color of download"), component: selectView(
+                action: #selector(self.toggleDownloadColor),
+                items: self.colors,
+                selected: self.downloadColor.key
+            )),
+            PreferencesRow(localizedString("Color of upload"), component: selectView(
+                action: #selector(self.toggleUploadColor),
+                items: self.colors,
+                selected: self.uploadColor.key
+            )),
+            PreferencesRow(localizedString("Number of reads in the chart"), component: selectView(
+                action: #selector(self.toggleHistoryCount),
+                items: self.historyNumbers,
+                selected: "\(self.historyCount)"
+            )),
+            PreferencesRow(localizedString("Scaling"), component: selectView(
+                action: #selector(self.toggleScale),
+                items: Scale.allCases.filter({ $0 != .fixed }),
+                selected: self.scaleState.key
+            ))
+        ]))
         
         return view
     }
@@ -321,7 +311,7 @@ public class NetworkChart: WidgetWrapper {
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_box", value: self.boxState)
         
         if self.frameState {
-            findAndToggleNSControlState(self.frameSettingsView, state: .off)
+            self.frameSettingsView?.state = .off
             self.frameState = false
             Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_frame", value: self.frameState)
         }
@@ -334,7 +324,7 @@ public class NetworkChart: WidgetWrapper {
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_frame", value: self.frameState)
         
         if self.boxState {
-            findAndToggleNSControlState(self.boxSettingsView, state: .off)
+            self.boxSettingsView?.state = .off
             self.boxState = false
             Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_box", value: self.boxState)
         }
