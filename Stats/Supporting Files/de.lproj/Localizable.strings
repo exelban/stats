@@ -190,7 +190,7 @@
 "Color of upload" = "Upload Farbe";
 "Monospaced font" = "Monospace-Schrift";
 "Reverse order" = "Reihenfolge umkehren";
-"Chart duration" = "Diagramm-Zeitfenster";
+"Chart history" = "Diagramm-Zeitfenster";
 
 // Module Kit
 "Open module settings" = "Modul Einstellungen öffnen";

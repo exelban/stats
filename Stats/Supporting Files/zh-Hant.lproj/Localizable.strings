@@ -190,7 +190,7 @@
 "Color of upload" = "上傳的顯示色彩";
 "Monospaced font" = "等寬字體";
 "Reverse order" = "排序對調";
-"Chart duration" = "圖表顯示區間";
+"Chart history" = "圖表顯示區間";
 
 // Module Kit
 "Open module settings" = "打開模組設定";
