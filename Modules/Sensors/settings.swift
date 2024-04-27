@@ -125,7 +125,7 @@ internal class Settings: NSStackView, Settings_v {
                         state: s.state
                     )
                     btn.identifier = NSUserInterfaceItemIdentifier(rawValue: s.key)
-                    section.add(PreferencesRow(localizedString(s.name), component:btn))
+                    section.add(PreferencesRow(localizedString(s.name), component: btn))
                 }
             }
             
