@@ -1352,7 +1352,7 @@ public class PreferencesSection: NSStackView {
         self.spacing = 0
         
         if label != "" {
-            self.addLabel(label)
+            self.addLabel(localizedString(label))
         }
         
         self.container.orientation = .vertical

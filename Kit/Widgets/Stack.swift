@@ -354,9 +354,12 @@ private class OrderTableView: NSView, NSTableViewDelegate, NSTableViewDataSource
         text.translatesAutoresizingMaskIntoConstraints = false
         text.identifier = NSUserInterfaceItemIdentifier(item.key)
         
+        debug(item.additional as! String)
         switch tableColumn?.identifier.rawValue {
-        case "name": text.stringValue = item.key
-        default: break
+            case "name":
+                text.stringValue = item.additional is String ? localizedString(item.additional as! String) : item.key
+            default:
+                break
         }
         
         text.sizeToFit()

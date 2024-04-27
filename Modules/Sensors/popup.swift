@@ -347,7 +347,7 @@ internal class ValueSensorView: NSStackView {
         self.spacing = 0
         self.layer?.cornerRadius = 3
         
-        self.labelView.stringValue = sensor.name
+        self.labelView.stringValue = localizedString(sensor.name)
         self.labelView.toolTip = sensor.key
         self.valueView.stringValue = sensor.formattedValue
         
