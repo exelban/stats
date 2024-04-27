@@ -343,10 +343,7 @@ class ApplicationSettings: NSStackView {
         
         if alert.runModal() == .alertFirstButtonReturn {
             Store.shared.reset()
-            if let path = Bundle.main.resourceURL?.deletingLastPathComponent().deletingLastPathComponent().absoluteString {
-                asyncShell("/usr/bin/open \(path)")
-                NSApp.terminate(self)
-            }
+            restartApp(self)
         }
     }
     
