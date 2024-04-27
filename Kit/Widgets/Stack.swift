@@ -36,6 +36,7 @@ public class StackWidget: WidgetWrapper {
     private var modeState: StackMode = .auto
     private var fixedSizeState: Bool = false
     private var monospacedFontState: Bool = false
+    private var showDetailedWidgetState: Bool = false
     
     private var values: [Stack_t] = []
     
@@ -68,6 +69,7 @@ public class StackWidget: WidgetWrapper {
             self.modeState = StackMode(rawValue: Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_mode", defaultValue: self.modeState.rawValue)) ?? .auto
             self.fixedSizeState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_size", defaultValue: self.fixedSizeState)
             self.monospacedFontState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_monospacedFont", defaultValue: self.monospacedFontState)
+            self.showDetailedWidgetState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_detailedWidget", defaultValue: self.showDetailedWidgetState)
         }
         
         self.orderTableView.reorderCallback = { [weak self] in
@@ -151,13 +153,36 @@ public class StackWidget: WidgetWrapper {
             width = element.value.widthOfString(usingFont: font).rounded(.up) + 2
         }
         
-        let rect = CGRect(x: x, y: (Constants.Widget.height-13)/2, width: width, height: 13)
-        let str = NSAttributedString.init(string: element.value, attributes: [
-            NSAttributedString.Key.font: font,
-            NSAttributedString.Key.foregroundColor: NSColor.textColor,
-            NSAttributedString.Key.paragraphStyle: style
-        ])
-        str.draw(with: rect)
+        
+        if self.showDetailedWidgetState {
+            style.alignment = .right
+            let additional = (element.additional as? String ?? "").uppercased()
+            var rect = CGRect(x: x, y: 12, width: width - (Constants.Widget.margin.x*2), height: 7)
+            var stringAttributes = [
+                NSAttributedString.Key.font: NSFont.systemFont(ofSize: 7, weight: .light),
+                NSAttributedString.Key.foregroundColor: isDarkMode ? NSColor.white : NSColor.textColor,
+                NSAttributedString.Key.paragraphStyle: style
+            ]
+            var str = NSAttributedString.init(string: additional, attributes: stringAttributes)
+            str.draw(with: rect)
+            
+            stringAttributes = [
+                NSAttributedString.Key.font: NSFont.systemFont(ofSize: 12, weight: .regular),
+                NSAttributedString.Key.foregroundColor: NSColor.textColor,
+                NSAttributedString.Key.paragraphStyle: style
+            ]
+            rect = CGRect(x: x, y: 1, width: width - (Constants.Widget.margin.x*2), height: 12+1)
+            str = NSAttributedString.init(string: element.value, attributes: stringAttributes)
+            str.draw(with: rect)
+        } else {
+            let rect = CGRect(x: x, y: (Constants.Widget.height-13)/2, width: width, height: 13)
+            let str = NSAttributedString.init(string: element.value, attributes: [
+                NSAttributedString.Key.font: font,
+                NSAttributedString.Key.foregroundColor: NSColor.textColor,
+                NSAttributedString.Key.paragraphStyle: style
+            ])
+            str.draw(with: rect)
+        }
         
         return width
     }
@@ -180,20 +205,29 @@ public class StackWidget: WidgetWrapper {
             NSAttributedString.Key.paragraphStyle: style
         ]
         
+        var topElementStr: String = topElement.value
+        var bottomElementStr: String = bottomElement?.value ?? ""
+        
+        if self.showDetailedWidgetState {
+            topElementStr = "\(topElement.additional is String ? topElement.additional as! String : "/"): \(topElementStr)"
+            bottomElementStr = "\(bottomElement?.additional ?? ""): \(bottomElementStr)"
+        }
+        
         var width: CGFloat = self.twoRowWidth
         if !self.fixedSizeState {
-            let firstRowWidth = topElement.value.widthOfString(usingFont: font)
-            let secondRowWidth = bottomElement?.value.widthOfString(usingFont: font) ?? 0
-            width = max(20, max(firstRowWidth, secondRowWidth)).rounded(.up) + 2
+            let firstRowWidth = topElementStr.widthOfString(usingFont: font)
+            let secondRowWidth = bottomElementStr.widthOfString(usingFont: font)
+            width = max(15, max(firstRowWidth, secondRowWidth)).rounded(.up) + 2
         }
         
         var rect = CGRect(x: x, y: rowHeight+1, width: width, height: rowHeight)
-        var str = NSAttributedString.init(string: topElement.value, attributes: attributes)
+        
+        var str = NSAttributedString.init(string: topElementStr, attributes: attributes)
         str.draw(with: rect)
         
         if bottomElement != nil {
             rect = CGRect(x: x, y: 1, width: width, height: rowHeight)
-            str = NSAttributedString.init(string: bottomElement!.value, attributes: attributes)
+            str = NSAttributedString.init(string: bottomElementStr, attributes: attributes)
             str.draw(with: rect)
         }
         
@@ -240,6 +274,10 @@ public class StackWidget: WidgetWrapper {
             PreferencesRow(localizedString("Monospaced font"), component: switchView(
                 action: #selector(self.toggleMonospacedFont),
                 state: self.monospacedFontState
+            )),
+            PreferencesRow(localizedString("Show widget name"), component: switchView(
+                action: #selector(self.toggleDetailed),
+                state: self.showDetailedWidgetState
             ))
         ]
         if self.title != "Clock" {
@@ -271,6 +309,12 @@ public class StackWidget: WidgetWrapper {
     @objc private func toggleMonospacedFont(_ sender: NSControl) {
         self.monospacedFontState = controlState(sender)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_monospacedFont", value: self.monospacedFontState)
+        self.display()
+    }
+    
+    @objc private func toggleDetailed(_ sender: NSControl) {
+        self.showDetailedWidgetState = controlState(sender)
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_detailedWidget", value: self.showDetailedWidgetState)
         self.display()
     }
 }
@@ -355,10 +399,8 @@ private class OrderTableView: NSView, NSTableViewDelegate, NSTableViewDataSource
         text.identifier = NSUserInterfaceItemIdentifier(item.key)
         
         switch tableColumn?.identifier.rawValue {
-            case "name":
-                text.stringValue = item.additional is String ? localizedString(item.additional as! String) : item.key
-            default:
-                break
+            case "name": text.stringValue = localizedString(item.additional as? String ?? item.key)
+            default: break
         }
         
         text.sizeToFit()
