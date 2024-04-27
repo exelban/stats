@@ -69,6 +69,7 @@
 "Square" = "वर्ग";
 "Cube" = "क्यूब";
 "Logarithmic" = "लघुगणकीय";
+"Fixed scale" = "Fixed";
 "Cores" = "कोर";
 "Settings" = "सेटिंग्स";
 "Name" = "नाम";
@@ -189,7 +190,7 @@
 "Color of upload" = "अपलोड का रंग";
 "Monospaced font" = "मोनोस्पेस्ड फ़ॉन्ट";
 "Reverse order" = "Reverse order";
-"Chart duration" = "Chart duration";
+"Chart history" = "Chart history";
 
 // Module Kit
 "Open module settings" = "ओपन मॉड्यूल सेटिंग्स";
@@ -207,12 +208,16 @@
 "Merge widgets" = "मर्ज विजेट";
 "No available widgets to configure" = "कॉन्फ़िगर करने के लिए कोई उपलब्ध विजेट नहीं";
 "No options to configure for the popup in this module" = "इस मॉड्यूल में पॉपअप के लिए कॉन्फ़िगर करने के लिए कोई विकल्प नहीं";
+"Process" = "Process";
+"Kill process" = "Kill process";
 
 // Modules
 "Number of top processes" = "शीर्ष प्रक्रियाओं की संख्या";
 "Update interval for top processes" = "शीर्ष प्रक्रियाओं के लिए अंतराल अपडेट करें";
 "Notification level" = "अधिसूचना स्तर";
 "Chart color" = "चार्ट रंग";
+"Main chart scaling" = "Main chart scaling";
+"Scale value" = "Scale value";
 
 // CPU
 "CPU usage" = "सीपीयू उपयोग";

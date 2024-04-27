@@ -69,6 +69,7 @@
 "Square" = "Τετραγωνικό";
 "Cube" = "Κυβικό";
 "Logarithmic" = "Λογαριθμικό";
+"Fixed scale" = "Fixed";
 "Cores" = "Πυρήνες";
 "Settings" = "Ρυθμίσεις";
 "Name" = "Name";
@@ -189,7 +190,7 @@
 "Color of upload" = "Χρώμα της μεταφόρτωσης";
 "Monospaced font" = "Μονόχωρη γραμματοσειρά";
 "Reverse order" = "Reverse order";
-"Chart duration" = "Chart duration";
+"Chart history" = "Chart history";
 
 // Module Kit
 "Open module settings" = "Άνοιγμα ρυθμίσεων ενότητας";
@@ -207,12 +208,16 @@
 "Merge widgets" = "Συγχώνευση γραφικών στοιχείων";
 "No available widgets to configure" = "Δεν υπάρχουν διαθέσιμα γραφικά στοιχεία για διαμόρφωση";
 "No options to configure for the popup in this module" = "Δεν υπάρχουν επιλογές για διαμόρφωση για το αναδυόμενο παράθυρο σε αυτήν την ενότητα";
+"Process" = "Process";
+"Kill process" = "Kill process";
 
 // Modules
 "Number of top processes" = "Αριθμός κορυφαίων διεργασιών";
 "Update interval for top processes" = "Ενημέρωση μεσοδιαστήματος για τις κορυφαίες διεργασίες";
 "Notification level" = "Επίπεδο Ειδοποίησης";
 "Chart color" = "Χρώμα γραφήματος";
+"Main chart scaling" = "Main chart scaling";
+"Scale value" = "Scale value";
 
 // CPU
 "CPU usage" = "Χρήση CPU";

@@ -34,16 +34,10 @@ internal class Settings: NSStackView, Settings_v {
         self.splitValueState = Store.shared.bool(key: "\(self.title)_splitValue", defaultValue: self.splitValueState)
         self.notificationLevel = Store.shared.string(key: "\(self.title)_notificationLevel", defaultValue: self.notificationLevel)
         
-        super.init(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
+        super.init(frame: NSRect.zero)
         
         self.orientation = .vertical
         self.distribution = .gravityAreas
-        self.edgeInsets = NSEdgeInsets(
-            top: Constants.Settings.margin,
-            left: Constants.Settings.margin,
-            bottom: Constants.Settings.margin,
-            right: Constants.Settings.margin
-        )
         self.spacing = Constants.Settings.margin
     }
     
@@ -54,41 +48,35 @@ internal class Settings: NSStackView, Settings_v {
     public func load(widgets: [widget_t]) {
         self.subviews.forEach{ $0.removeFromSuperview() }
         
-        self.addArrangedSubview(selectSettingsRowV1(
-            title: localizedString("Update interval"),
-            action: #selector(changeUpdateInterval),
-            items: ReaderUpdateIntervals.map{ "\($0) sec" },
-            selected: "\(self.updateIntervalValue) sec"
-        ))
+        self.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Update interval"), component: selectView(
+                action: #selector(self.changeUpdateInterval),
+                items: ReaderUpdateIntervals.map{ KeyValue_t(key: "\($0)", value: "\($0) sec") },
+                selected: "\(self.updateIntervalValue) sec"
+            )),
+            PreferencesRow(localizedString("Update interval for top processes"), component: selectView(
+                action: #selector(self.changeUpdateTopInterval),
+                items: ReaderUpdateIntervals.map{ KeyValue_t(key: "\($0)", value: "\($0) sec") },
+                selected: "\(self.updateTopIntervalValue) sec"
+            ))
+        ]))
         
-        self.addArrangedSubview(selectSettingsRowV1(
-            title: localizedString("Update interval for top processes"),
-            action: #selector(changeUpdateTopInterval),
-            items: ReaderUpdateIntervals.map{ "\($0) sec" },
-            selected: "\(self.updateTopIntervalValue) sec"
-        ))
-        
-        self.addArrangedSubview(selectSettingsRowV1(
-            title: localizedString("Number of top processes"),
-            action: #selector(changeNumberOfProcesses),
-            items: NumbersOfProcesses.map{ "\($0)" },
-            selected: "\(self.numberOfProcesses)"
-        ))
+        self.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Number of top processes"), component: selectView(
+                action: #selector(changeNumberOfProcesses),
+                items: NumbersOfProcesses.map{ KeyValue_t(key: "\($0)", value: "\($0)") },
+                selected: "\(self.numberOfProcesses)"
+            ))
+        ]))
         
         if !widgets.filter({ $0 == .barChart }).isEmpty {
-            self.addArrangedSubview(toggleSettingRow(
-                title: localizedString("Split the value (App/Wired/Compressed)"),
-                action: #selector(toggleSplitValue),
-                state: self.splitValueState
-            ))
+            self.addArrangedSubview(PreferencesSection([
+                PreferencesRow(localizedString("Split the value (App/Wired/Compressed)"), component: switchView(
+                    action: #selector(toggleSplitValue),
+                    state: self.splitValueState
+                ))
+            ]))
         }
-        
-        self.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Notification level"),
-            action: #selector(changeNotificationLevel),
-            items: notificationLevels,
-            selected: self.notificationLevel == "disabled" ? self.notificationLevel : "\(Int((Double(self.notificationLevel) ?? 0)*100))%"
-        ))
     }
     
     @objc private func changeUpdateInterval(_ sender: NSMenuItem) {
@@ -98,7 +86,6 @@ internal class Settings: NSStackView, Settings_v {
             self.setInterval(value)
         }
     }
-    
     @objc private func changeUpdateTopInterval(_ sender: NSMenuItem) {
         if let value = Int(sender.title.replacingOccurrences(of: " sec", with: "")) {
             self.updateTopIntervalValue = value
@@ -106,7 +93,6 @@ internal class Settings: NSStackView, Settings_v {
             self.setTopInterval(value)
         }
     }
-    
     @objc private func changeNumberOfProcesses(_ sender: NSMenuItem) {
         if let value = Int(sender.title) {
             self.numberOfProcesses = value
@@ -114,27 +100,9 @@ internal class Settings: NSStackView, Settings_v {
             self.callbackWhenUpdateNumberOfProcesses()
         }
     }
-    
-    @objc func toggleSplitValue(_ sender: NSControl) {
-        var state: NSControl.StateValue? = nil
-        if #available(OSX 10.15, *) {
-            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
-        } else {
-            state = sender is NSButton ? (sender as! NSButton).state: nil
-        }
-        
-        self.splitValueState = state! == .on ? true : false
+    @objc private func toggleSplitValue(_ sender: NSControl) {
+        self.splitValueState = controlState(sender)
         Store.shared.set(key: "\(self.title)_splitValue", value: self.splitValueState)
         self.callback()
-    }
-    
-    @objc func changeNotificationLevel(_ sender: NSMenuItem) {
-        guard let key = sender.representedObject as? String else { return }
-        
-        if key == "Disabled" {
-            Store.shared.set(key: "\(self.title)_notificationLevel", value: key)
-        } else if let value = Double(key.replacingOccurrences(of: "%", with: "")) {
-            Store.shared.set(key: "\(self.title)_notificationLevel", value: "\(value/100)")
-        }
     }
 }

@@ -44,32 +44,32 @@ internal class Popup: PopupWrapper {
     private var fanValueState: FanValue = .percentage
     
     private var sensors: [Sensor_p] = []
-    private let settingsView: NSStackView = SettingsContainerView()
+    private let settingsView: NSStackView = NSStackView()
     
     private var fanControlState: Bool {
-        get {
-            Store.shared.bool(key: "Sensors_fanControl", defaultValue: true)
-        }
-        set {
-            Store.shared.set(key: "Sensors_fanControl", value: newValue)
-        }
+        get { Store.shared.bool(key: "Sensors_fanControl", defaultValue: true) }
+        set { Store.shared.set(key: "Sensors_fanControl", value: newValue) }
     }
     
     public init() {
         super.init(frame: NSRect( x: 0, y: 0, width: Constants.Popup.width, height: 0))
         
+        self.fanValueState = FanValue(rawValue: Store.shared.string(key: "Sensors_popup_fanValue", defaultValue: self.fanValueState.rawValue)) ?? .percentage
+        
         self.orientation = .vertical
         self.spacing = 0
         self.translatesAutoresizingMaskIntoConstraints = false
         
-        self.settingsView.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Fan value"),
-            action: #selector(self.toggleFanValue),
-            items: FanValues,
-            selected: self.fanValueState.rawValue
-        ))
+        self.settingsView.orientation = .vertical
+        self.settingsView.spacing = Constants.Settings.margin
         
-        self.fanValueState = FanValue(rawValue: Store.shared.string(key: "Sensors_popup_fanValue", defaultValue: self.fanValueState.rawValue)) ?? .percentage
+        self.settingsView.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Fan value"), component: selectView(
+                action: #selector(self.toggleFanValue),
+                items: FanValues,
+                selected: self.fanValueState.rawValue
+            ))
+        ]))
     }
     
     required init?(coder: NSCoder) {
@@ -86,14 +86,9 @@ internal class Popup: PopupWrapper {
         
         self.subviews.forEach({ $0.removeFromSuperview() })
         if !reload {
-            self.settingsView.subviews.forEach({ $0.removeFromSuperview() })
-            
-            self.settingsView.addArrangedSubview(selectSettingsRow(
-                title: localizedString("Fan value"),
-                action: #selector(self.toggleFanValue),
-                items: FanValues,
-                selected: self.fanValueState.rawValue
-            ))
+            self.settingsView.subviews.filter({ $0.identifier == NSUserInterfaceItemIdentifier("sensor") }).forEach { v in
+                v.removeFromSuperview()
+            }
         }
         
         if !fans.isEmpty {
@@ -141,35 +136,19 @@ internal class Popup: PopupWrapper {
             }
             
             if !reload {
-                let header = NSStackView()
-                header.heightAnchor.constraint(equalToConstant: Constants.Settings.row).isActive = true
-                header.spacing = 0
-                
-                let titleField: NSTextField = LabelField(frame: NSRect(x: 0, y: 0, width: 0, height: 0), localizedString(typ.rawValue))
-                titleField.font = NSFont.systemFont(ofSize: 13, weight: .medium)
-                titleField.textColor = .labelColor
-                
-                header.addArrangedSubview(titleField)
-                header.addArrangedSubview(NSView())
-                
-                self.settingsView.addArrangedSubview(header)
-                
-                let container = NSStackView()
-                container.orientation = .vertical
-                container.edgeInsets = NSEdgeInsets(top: 0, left: Constants.Settings.margin, bottom: 0, right: Constants.Settings.margin)
-                container.spacing = 0
-                
+                let section = PreferencesSection(label: typ.rawValue)
+                section.identifier = NSUserInterfaceItemIdentifier("sensor")
                 groups.forEach { (group: SensorGroup) in
                     filtered.filter{ $0.group == group }.forEach { (s: Sensor_p) in
-                        let row: NSView = toggleSettingRow(title: localizedString(s.name), action: #selector(self.toggleSensor), state: s.popupState)
-                        row.subviews.filter{ $0 is NSControl }.forEach { (control: NSView) in
-                            control.identifier = NSUserInterfaceItemIdentifier(rawValue: s.key)
-                        }
-                        container.addArrangedSubview(row)
+                        let btn = switchView(
+                            action: #selector(self.toggleSensor),
+                            state: s.popupState
+                        )
+                        btn.identifier = NSUserInterfaceItemIdentifier(rawValue: s.key)
+                        section.add(PreferencesRow(localizedString(s.name), component: btn))
                     }
                 }
-                
-                self.settingsView.addArrangedSubview(container)
+                self.settingsView.addArrangedSubview(section)
             }
             
             if typ == .fan { return }

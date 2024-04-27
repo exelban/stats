@@ -41,7 +41,7 @@ internal class Popup: PopupWrapper {
     private var connectivityField: ValueField? = nil
     private var latencyField: ValueField? = nil
     
-    private var publicIPStackView: NSStackView? = nil
+    private var publicIPStackView: NSView? = nil
     private var publicIPv4Field: ValueField? = nil
     private var publicIPv6Field: ValueField? = nil
     
@@ -56,8 +56,12 @@ internal class Popup: PopupWrapper {
     private var connectionInitialized: Bool = false
     
     private var chart: NetworkChartView? = nil
+    private var reverseOrderState: Bool = false
+    private var chartScale: Scale = .none
     private var connectivityChart: GridChartView? = nil
     private var processes: ProcessesView? = nil
+    private var sliderView: NSView? = nil
+    private var publicIPState: Bool = true
     
     private var lastReset: Date = Date()
     
@@ -87,7 +91,6 @@ internal class Popup: PopupWrapper {
         }
         return value
     }
-    private var reverseOrderState: Bool = false
     
     private var latency: [Double] = []
     
@@ -104,6 +107,8 @@ internal class Popup: PopupWrapper {
         self.downloadColorState = Color.fromString(Store.shared.string(key: "\(self.title)_downloadColor", defaultValue: self.downloadColorState.key))
         self.uploadColorState = Color.fromString(Store.shared.string(key: "\(self.title)_uploadColor", defaultValue: self.uploadColorState.key))
         self.reverseOrderState = Store.shared.bool(key: "\(self.title)_reverseOrder", defaultValue: self.reverseOrderState)
+        self.chartScale = Scale.fromString(Store.shared.string(key: "\(self.title)_chartScale", defaultValue: self.chartScale.key))
+        self.publicIPState = Store.shared.bool(key: "\(self.title)_publicIP", defaultValue: self.publicIPState)
         
         self.spacing = 0
         self.orientation = .vertical
@@ -114,6 +119,10 @@ internal class Popup: PopupWrapper {
         self.addArrangedSubview(self.initDetails())
         self.addArrangedSubview(self.initPublicIP())
         self.addArrangedSubview(self.initProcesses())
+        
+        if !self.publicIPState {
+            self.publicIPStackView?.removeFromSuperview()
+        }
         
         self.recalculateHeight()
         
@@ -174,9 +183,8 @@ internal class Popup: PopupWrapper {
         
         let chart = NetworkChartView(
             frame: NSRect(x: 0, y: 1, width: container.frame.width, height: container.frame.height - 2),
-            num: 120, outColor: self.uploadColor, inColor: self.downloadColor, toolTip: true
+            num: 120, reversedOrder: self.reverseOrderState, outColor: self.uploadColor, inColor: self.downloadColor, scale: self.chartScale
         )
-        chart.setReverseOrder(self.reverseOrderState)
         chart.base = self.base
         container.addSubview(chart)
         self.chart = chart
@@ -309,7 +317,7 @@ internal class Popup: PopupWrapper {
         view.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
         container.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
         
-        self.publicIPStackView = container
+        self.publicIPStackView = view
         
         return view
     }
@@ -495,25 +503,40 @@ internal class Popup: PopupWrapper {
     public override func settings() -> NSView? {
         let view = SettingsContainerView()
         
-        view.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Color of upload"),
-            action: #selector(toggleUploadColor),
-            items: Color.allColors,
-            selected: self.uploadColorState.key
-        ))
+        view.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Color of upload"), component: selectView(
+                action: #selector(self.toggleUploadColor),
+                items: Color.allColors,
+                selected: self.uploadColorState.key
+            )),
+            PreferencesRow(localizedString("Color of download"), component: selectView(
+                action: #selector(self.toggleDownloadColor),
+                items: Color.allColors,
+                selected: self.downloadColorState.key
+            ))
+        ]))
         
-        view.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Color of download"),
-            action: #selector(toggleDownloadColor),
-            items: Color.allColors,
-            selected: self.downloadColorState.key
-        ))
+        view.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Reverse order"), component: switchView(
+                action: #selector(self.toggleReverseOrder),
+                state: self.reverseOrderState
+            ))
+        ]))
         
-        view.addArrangedSubview(toggleSettingRow(
-            title: localizedString("Reverse order"),
-            action: #selector(toggleReverseOrder),
-            state: self.reverseOrderState
-        ))
+        view.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Main chart scaling"), component: selectView(
+                action: #selector(self.toggleChartScale),
+                items: Scale.allCases.filter({ $0 != .fixed }),
+                selected: self.chartScale.key
+            ))
+        ]))
+        
+        view.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Public IP"), component: switchView(
+                action: #selector(self.togglePublicIP),
+                state: self.publicIPState
+            ))
+        ]))
         
         return view
     }
@@ -551,6 +574,27 @@ internal class Popup: PopupWrapper {
         self.chart?.setReverseOrder(self.reverseOrderState)
         Store.shared.set(key: "\(self.title)_reverseOrder", value: self.reverseOrderState)
         self.display()
+    }
+    @objc private func toggleChartScale(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String,
+              let value = Scale.allCases.first(where: { $0.key == key }) else { return }
+        self.chartScale = value
+        self.chart?.setScale(self.chartScale)
+        Store.shared.set(key: "\(self.title)_chartScale", value: key)
+        self.display()
+    }
+    @objc private func togglePublicIP(_ sender: NSControl) {
+        self.publicIPState = controlState(sender)
+        Store.shared.set(key: "\(self.title)_publicIP", value: self.publicIPState)
+        
+        DispatchQueue.main.async(execute: {
+            if !self.publicIPState {
+                self.publicIPStackView?.removeFromSuperview()
+            } else if let view = self.publicIPStackView {
+                self.insertArrangedSubview(view, at: 4)
+            }
+            self.recalculateHeight()
+        })
     }
     
     // MARK: - helpers

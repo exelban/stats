@@ -69,6 +69,7 @@
 "Square" = "Square";
 "Cube" = "Cube";
 "Logarithmic" = "Logarithmic";
+"Fixed scale" = "Fixed";
 "Cores" = "Cores";
 "Settings" = "設定";
 "Name" = "名前";
@@ -189,7 +190,7 @@
 "Color of upload" = "アップロードの色";
 "Monospaced font" = "等幅フォント";
 "Reverse order" = "Reverse order";
-"Chart duration" = "Chart duration";
+"Chart history" = "Chart history";
 
 // Module Kit
 "Open module settings" = "このモジュールの設定を開く";
@@ -207,12 +208,16 @@
 "Merge widgets" = "ウィジェットを結合する";
 "No available widgets to configure" = "設定できるウィジェットがありません";
 "No options to configure for the popup in this module" = "このモジュールにはポップアップ用に設定するオプションはありません";
+"Process" = "Process";
+"Kill process" = "Kill process";
 
 // Modules
 "Number of top processes" = "表示する上位プロセスの数";
 "Update interval for top processes" = "上位プロセスの更新間隔";
 "Notification level" = "通知レベル";
 "Chart color" = "チャートの色";
+"Main chart scaling" = "Main chart scaling";
+"Scale value" = "Scale value";
 
 // CPU
 "CPU usage" = "CPU 使用率";

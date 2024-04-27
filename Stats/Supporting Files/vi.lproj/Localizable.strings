@@ -69,6 +69,7 @@
 "Square" = "Hình vuông";
 "Cube" = "Khối lập phương";
 "Logarithmic" = "Logarithmic";
+"Fixed scale" = "Fixed";
 "Cores" = "Cores";
 "Settings" = "Settings";
 "Name" = "Name";
@@ -189,7 +190,7 @@
 "Color of upload" = "Màu tải lên";
 "Monospaced font" = "Monospaced font";
 "Reverse order" = "Reverse order";
-"Chart duration" = "Chart duration";
+"Chart history" = "Chart history";
 
 // Module Kit
 "Open module settings" = "Mở cài đặt module";
@@ -207,12 +208,16 @@
 "Merge widgets" = "Gộp các tiện ích";
 "No available widgets to configure" = "Không có tiện ích nào để định cấu hình";
 "No options to configure for the popup in this module" = "Không có tùy chọn để định cấu hình cho cửa sổ bật lên trong mô-đun này";
+"Process" = "Process";
+"Kill process" = "Kill process";
 
 // Modules
 "Number of top processes" = "Số lượng top tiến trình";
 "Update interval for top processes" = "Khoảng thời gian cập nhật cho các top tiến trình";
 "Notification level" = "Mức độ thông báo";
 "Chart color" = "Chart color";
+"Main chart scaling" = "Main chart scaling";
+"Scale value" = "Scale value";
 
 // CPU
 "CPU usage" = "Sử dụng CPU";

@@ -69,6 +69,7 @@
 "Square" = "Square";
 "Cube" = "Cube";
 "Logarithmic" = "Logarithmic";
+"Fixed scale" = "Fixed";
 "Cores" = "Cores";
 "Settings" = "Settings";
 "Name" = "Name";
@@ -189,7 +190,7 @@
 "Color of upload" = "Färg för tar emot";
 "Monospaced font" = "Typsnitt med monospace";
 "Reverse order" = "Reverse order";
-"Chart duration" = "Chart duration";
+"Chart history" = "Chart history";
 
 // Module Kit
 "Open module settings" = "Öppna modulinställningar";
@@ -207,12 +208,16 @@
 "Merge widgets" = "Slå samman widgetar";
 "No available widgets to configure" = "Inga tillgängliga widgetar att konfigurera";
 "No options to configure for the popup in this module" = "Inga alternativ att konfigurera för popup-fönstret i denna modul";
+"Process" = "Process";
+"Kill process" = "Kill process";
 
 // Modules
 "Number of top processes" = "Antal topprocesser";
 "Update interval for top processes" = "Uppdateringsintervall topprocesser";
 "Notification level" = "Notisnivå";
 "Chart color" = "Diagramfärg";
+"Main chart scaling" = "Main chart scaling";
+"Scale value" = "Scale value";
 
 // CPU
 "CPU usage" = "CPU-användning";

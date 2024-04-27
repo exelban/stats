@@ -69,6 +69,7 @@
 "Square" = "Square";
 "Cube" = "Cube";
 "Logarithmic" = "Logaritmisk";
+"Fixed scale" = "Fixed";
 "Cores" = "Kerner";
 "Settings" = "Indstillinger";
 "Name" = "Navn";
@@ -189,7 +190,7 @@
 "Color of upload" = "Upload farve";
 "Monospaced font" = "Monospaced skrifttype";
 "Reverse order" = "Reverse order";
-"Chart duration" = "Chart duration";
+"Chart history" = "Chart history";
 
 // Module Kit
 "Open module settings" = "Åben indstillinger for moduler";
@@ -207,12 +208,16 @@
 "Merge widgets" = "Sammenlæg widgets";
 "No available widgets to configure" = "Ingen widgets tilgængelig for konfiguration";
 "No options to configure for the popup in this module" = "Det er ikke muligt at konfigurere popup'en i dette modul";
+"Process" = "Process";
+"Kill process" = "Kill process";
 
 // Modules
 "Number of top processes" = "Antal topprocesser";
 "Update interval for top processes" = "Opdateringsinterval for topprocesser";
 "Notification level" = "Notifikationsniveau";
 "Chart color" = "Grafens farve";
+"Main chart scaling" = "Main chart scaling";
+"Scale value" = "Scale value";
 
 // CPU
 "CPU usage" = "CPU brug";

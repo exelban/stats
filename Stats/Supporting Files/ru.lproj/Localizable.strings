@@ -69,6 +69,7 @@
 "Square" = "Квадратное";
 "Cube" = "Кубическое";
 "Logarithmic" = "Логарифмическое";
+"Fixed scale" = "Фиксированное";
 "Cores" = "Ядра";
 "Settings" = "Настройки";
 "Name" = "Название";
@@ -189,7 +190,7 @@
 "Color of upload" = "Цвет выгрузки";
 "Monospaced font" = "Моноширинный шрифт";
 "Reverse order" = "Обратный порядок";
-"Chart duration" = "Продолжительность графика";
+"Chart history" = "Продолжительность графика";
 
 // Module Kit
 "Open module settings" = "Открыть настройки модуля";
@@ -207,12 +208,16 @@
 "Merge widgets" = "Объединить виджеты";
 "No available widgets to configure" = "Нет доступных виджетов для настройки";
 "No options to configure for the popup in this module" = "Нет параметров для настройки всплывающего окна в этом модуле";
+"Process" = "Процесс";
+"Kill process" = "Завершить процесс";
 
 // Modules
 "Number of top processes" = "Количество процессов";
 "Update interval for top processes" = "Интервал обновления процессов";
 "Notification level" = "Уровень уведомления";
 "Chart color" = "Цвет графика";
+"Main chart scaling" = "Масштабирование основного графика";
+"Scale value" = "Значение масштаба";
 
 // CPU
 "CPU usage" = "Использование процессора";

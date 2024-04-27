@@ -19,6 +19,7 @@ internal class Popup: PopupWrapper {
     private var readColor: NSColor { self.readColorState.additional as? NSColor ?? NSColor.systemRed }
     private var writeColorState: Color = .secondRed
     private var writeColor: NSColor { self.writeColorState.additional as? NSColor ?? NSColor.systemBlue }
+    private var reverseOrderState: Bool = false
     
     private var disks: NSStackView = {
         let view = NSStackView()
@@ -45,6 +46,7 @@ internal class Popup: PopupWrapper {
         
         self.readColorState = Color.fromString(Store.shared.string(key: "\(self.title)_readColor", defaultValue: self.readColorState.key))
         self.writeColorState = Color.fromString(Store.shared.string(key: "\(self.title)_writeColor", defaultValue: self.writeColorState.key))
+        self.reverseOrderState = Store.shared.bool(key: "\(self.title)_reverseOrder", defaultValue: self.reverseOrderState)
         
         self.orientation = .vertical
         self.distribution = .fill
@@ -170,19 +172,25 @@ internal class Popup: PopupWrapper {
     public override func settings() -> NSView? {
         let view = SettingsContainerView()
         
-        view.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Write color"),
-            action: #selector(toggleWriteColor),
-            items: Color.allColors,
-            selected: self.writeColorState.key
-        ))
+        view.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Write color"), component: selectView(
+                action: #selector(self.toggleWriteColor),
+                items: Color.allColors,
+                selected: self.writeColorState.key
+            )),
+            PreferencesRow(localizedString("Read color"), component: selectView(
+                action: #selector(self.toggleReadColor),
+                items: Color.allColors,
+                selected: self.readColorState.key
+            ))
+        ]))
         
-        view.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Read color"),
-            action: #selector(toggleReadColor),
-            items: Color.allColors,
-            selected: self.readColorState.key
-        ))
+        view.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Reverse order"), component: switchView(
+                action: #selector(self.toggleReverseOrder),
+                state: self.reverseOrderState
+            ))
+        ]))
         
         return view
     }
@@ -214,6 +222,14 @@ internal class Popup: PopupWrapper {
                 view.setChartColor(read: color)
             }
         }
+    }
+    @objc private func toggleReverseOrder(_ sender: NSControl) {
+        self.reverseOrderState = controlState(sender)
+        for view in self.disks.subviews.filter({ $0 is DiskView }).map({ $0 as! DiskView }) {
+            view.setChartReverseOrder(self.reverseOrderState)
+        }
+        Store.shared.set(key: "\(self.title)_reverseOrder", value: self.reverseOrderState)
+        self.display()
     }
 }
 
@@ -302,6 +318,9 @@ internal class DiskView: NSStackView {
     }
     public func setChartColor(read: NSColor? = nil, write: NSColor? = nil) {
         self.chartView.setColors(read: read, write: write)
+    }
+    public func setChartReverseOrder(_ newValue: Bool) {
+        self.chartView.setReverseOrder(newValue)
     }
 }
 
@@ -429,6 +448,9 @@ internal class ChartView: NSStackView {
     private var writeColor: NSColor {
         Color.fromString(Store.shared.string(key: "\(ModuleType.disk.rawValue)_writeColor", defaultValue: Color.secondRed.key)).additional as! NSColor
     }
+    private var reverseOrder: Bool {
+        Store.shared.bool(key: "\(ModuleType.disk.rawValue)_reverseOrder", defaultValue: false)
+    }
     
     public init(width: CGFloat) {
         super.init(frame: NSRect(x: 0, y: 0, width: width, height: 36))
@@ -441,7 +463,7 @@ internal class ChartView: NSStackView {
             y: 1,
             width: self.frame.width,
             height: self.frame.height - 2
-        ), num: 120, outColor: self.writeColor, inColor: self.readColor)
+        ), num: 120, reversedOrder: self.reverseOrder, outColor: self.writeColor, inColor: self.readColor)
         self.chart = chart
         
         self.addArrangedSubview(chart)
@@ -464,6 +486,10 @@ internal class ChartView: NSStackView {
     
     public func setColors(read: NSColor? = nil, write: NSColor? = nil) {
         self.chart?.setColors(in: read, out: write)
+    }
+    
+    public func setReverseOrder(_ newValue: Bool) {
+        self.chart?.setReverseOrder(newValue)
     }
 }
 

@@ -29,6 +29,7 @@ public struct module_c {
     internal var availableWidgets: [widget_t] = []
     
     internal var widgetsConfig: NSDictionary = NSDictionary()
+    internal var settingsConfig: NSDictionary = NSDictionary()
     
     init(in path: String) {
         let dict: NSDictionary = NSDictionary(contentsOfFile: path)!
@@ -66,6 +67,10 @@ public struct module_c {
             }
             
             self.availableWidgets = list.sorted(by: { $0.1 < $1.1 }).map{ (widget_t(rawValue: $0.key) ?? .unknown) }
+        }
+        
+        if let settingsDict = dict["Settings"] as? NSDictionary {
+            self.settingsConfig = settingsDict
         }
     }
 }

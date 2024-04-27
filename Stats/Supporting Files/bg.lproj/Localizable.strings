@@ -69,6 +69,7 @@
 "Square" = "Квадратно";
 "Cube" = "Кубично";
 "Logarithmic" = "Логаритмично";
+"Fixed scale" = "Fixed";
 "Cores" = "Ядра";
 "Settings" = "Settings";
 "Name" = "Name";
@@ -189,7 +190,7 @@
 "Color of upload" = "Цвят на качването";
 "Monospaced font" = "Monospaced font";
 "Reverse order" = "Reverse order";
-"Chart duration" = "Chart duration";
+"Chart history" = "Chart history";
 
 // Module Kit
 "Open module settings" = "Отваряне на настройките на модула";
@@ -207,12 +208,16 @@
 "Merge widgets" = "Сливане на уиджети";
 "No available widgets to configure" = "Няма налични уиджети за конфигуриране";
 "No options to configure for the popup in this module" = "Няма опции за конфигуриране за изскачащият прозорец в този модул";
+"Process" = "Process";
+"Kill process" = "Kill process";
 
 // Modules
 "Number of top processes" = "Брой топ процеси";
 "Update interval for top processes" = "Интервал на опресняване на топ процесите";
 "Notification level" = "Ниво на известия";
 "Chart color" = "Цвят на графиката";
+"Main chart scaling" = "Main chart scaling";
+"Scale value" = "Scale value";
 
 // CPU
 "CPU usage" = "Употреба на процесора";

@@ -69,6 +69,7 @@
 "Square" = "Square";
 "Cube" = "Cube";
 "Logarithmic" = "Logarithmic";
+"Fixed scale" = "Fixed";
 "Cores" = "Cores";
 "Settings" = "Settings";
 "Name" = "Name";
@@ -189,7 +190,7 @@
 "Color of upload" = "Warna pada unggahan";
 "Monospaced font" = "Fon monospasi";
 "Reverse order" = "Reverse order";
-"Chart duration" = "Chart duration";
+"Chart history" = "Chart history";
 
 // Module Kit
 "Open module settings" = "Buka pengaturan modul";
@@ -207,12 +208,16 @@
 "Merge widgets" = "Gabungkan widget";
 "No available widgets to configure" = "Tidak ada widget yang tersedia untuk dikonfigurasi";
 "No options to configure for the popup in this module" = "Tidak ada opsi untuk mengonfigurasi popup di modul ini";
+"Process" = "Process";
+"Kill process" = "Kill process";
 
 // Modules
 "Number of top processes" = "Jumlah dari proses teratas";
 "Update interval for top processes" = "Pembaruan waktu jeda dari proses teratas";
 "Notification level" = "Tingkat pemberitahuan";
 "Chart color" = "Warna bagan";
+"Main chart scaling" = "Main chart scaling";
+"Scale value" = "Scale value";
 
 // CPU
 "CPU usage" = "Penggunaan CPU";

@@ -21,10 +21,7 @@ internal class Popup: PopupWrapper {
     private let chartHeight: CGFloat = 120 + Constants.Popup.separatorHeight
     private var detailsHeight: CGFloat {
         get {
-            var count: CGFloat = 5
-            if isARM {
-                count = 3
-            }
+            var count: CGFloat = isARM ? 4 : 6
             if SystemKit.shared.device.info.cpu?.eCores != nil {
                 count += 1
             }
@@ -44,6 +41,7 @@ internal class Popup: PopupWrapper {
     private var speedLimitField: NSTextField? = nil
     private var eCoresField: NSTextField? = nil
     private var pCoresField: NSTextField? = nil
+    private var uptimeField: NSTextField? = nil
     private var average1Field: NSTextField? = nil
     private var average5Field: NSTextField? = nil
     private var average15Field: NSTextField? = nil
@@ -53,6 +51,9 @@ internal class Popup: PopupWrapper {
     private var idleColorView: NSView? = nil
     private var eCoresColorView: NSView? = nil
     private var pCoresColorView: NSView? = nil
+    
+    private var chartPrefSection: PreferencesSection? = nil
+    private var sliderView: NSView? = nil
     
     private var lineChart: LineChartView? = nil
     private var barChart: BarChartView? = nil
@@ -69,6 +70,8 @@ internal class Popup: PopupWrapper {
     private var processes: ProcessesView? = nil
     private var maxFreq: Double = 0
     private var lineChartHistory: Int = 180
+    private var lineChartScale: Scale = .none
+    private var lineChartFixedScale: Double = 1
     
     private var systemColorState: Color = .secondRed
     private var systemColor: NSColor { self.systemColorState.additional as? NSColor ?? NSColor.systemRed }
@@ -89,6 +92,19 @@ internal class Popup: PopupWrapper {
     private var processesHeight: CGFloat {
         (self.processHeight*CGFloat(self.numberOfProcesses)) + (self.numberOfProcesses == 0 ? 0 : Constants.Popup.separatorHeight + 22)
     }
+    private var uptimeValue: String {
+        let form = DateComponentsFormatter()
+        form.maximumUnitCount = 2
+        form.unitsStyle = .full
+        form.allowedUnits = [.day, .hour, .minute]
+        var value = localizedString("Unknown")
+        if let bootDate = SystemKit.shared.device.bootDate {
+            if let duration = form.string(from: bootDate, to: Date()) {
+                value = duration
+            }
+        }
+        return value
+    }
     
     public init(_ module: ModuleType) {
         self.title = module.rawValue
@@ -108,6 +124,8 @@ internal class Popup: PopupWrapper {
         self.eCoresColorState = Color.fromString(Store.shared.string(key: "\(self.title)_eCoresColor", defaultValue: self.eCoresColorState.key))
         self.pCoresColorState = Color.fromString(Store.shared.string(key: "\(self.title)_pCoresColor", defaultValue: self.pCoresColorState.key))
         self.lineChartHistory = Store.shared.int(key: "\(self.title)_lineChartHistory", defaultValue: self.lineChartHistory)
+        self.lineChartScale = Scale.fromString(Store.shared.string(key: "\(self.title)_lineChartScale", defaultValue: self.lineChartScale.key))
+        self.lineChartFixedScale = Double(Store.shared.int(key: "\(self.title)_lineChartFixedScale", defaultValue: 100)) / 100
         
         let gridView: NSGridView = NSGridView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height))
         gridView.rowSpacing = 0
@@ -134,6 +152,10 @@ internal class Popup: PopupWrapper {
     
     public override func updateLayer() {
         self.lineChart?.display()
+    }
+    
+    public override func appear() {
+        self.uptimeField?.stringValue = self.uptimeValue
     }
     
     public override func disappear() {
@@ -204,7 +226,8 @@ internal class Popup: PopupWrapper {
             box.layer?.backgroundColor = NSColor.lightGray.withAlphaComponent(0.1).cgColor
             box.layer?.cornerRadius = 3
             
-            self.lineChart = LineChartView(frame: NSRect(x: 1, y: 0, width: box.frame.width, height: box.frame.height), num: self.lineChartHistory)
+            let chartFrame = NSRect(x: 1, y: 0, width: box.frame.width, height: box.frame.height)
+            self.lineChart = LineChartView(frame: chartFrame, num: self.lineChartHistory, scale: self.lineChartScale, fixedScale: self.lineChartFixedScale)
             self.lineChart?.color = self.chartColor
             box.addSubview(self.lineChart!)
             
@@ -253,6 +276,7 @@ internal class Popup: PopupWrapper {
         (self.systemColorView, _, self.systemField) = popupWithColorRow(container, color: self.systemColor, n: 4, title: "\(localizedString("System")):", value: "")
         (self.userColorView, _, self.userField) = popupWithColorRow(container, color: self.userColor, n: 3, title: "\(localizedString("User")):", value: "")
         (self.idleColorView, _, self.idleField) = popupWithColorRow(container, color: self.idleColor.withAlphaComponent(0.5), n: 2, title: "\(localizedString("Idle")):", value: "")
+        
         if !isARM {
             self.shedulerLimitField = popupRow(container, n: 1, title: "\(localizedString("Scheduler limit")):", value: "").1
             self.speedLimitField = popupRow(container, n: 0, title: "\(localizedString("Speed limit")):", value: "").1
@@ -264,6 +288,9 @@ internal class Popup: PopupWrapper {
         if SystemKit.shared.device.info.cpu?.pCores != nil {
             (self.pCoresColorView, _, self.pCoresField) = popupWithColorRow(container, color: self.pCoresColor, n: 0, title: "\(localizedString("Performance cores")):", value: "")
         }
+        
+        self.uptimeField = popupRow(container, n: 0, title: "\(localizedString("Uptime")):", value: self.uptimeValue).1
+        self.uptimeField?.font = NSFont.systemFont(ofSize: 11, weight: .regular)
         
         view.addSubview(separator)
         view.addSubview(container)
@@ -446,54 +473,62 @@ internal class Popup: PopupWrapper {
     public override func settings() -> NSView? {
         let view = SettingsContainerView()
         
-        view.addArrangedSubview(selectSettingsRow(
-            title: localizedString("System color"),
-            action: #selector(self.toggleSystemColor),
-            items: Color.allColors,
-            selected: self.systemColorState.key
-        ))
+        view.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("System color"), component: selectView(
+                action: #selector(self.toggleSystemColor),
+                items: Color.allColors,
+                selected: self.systemColorState.key
+            )),
+            PreferencesRow(localizedString("User color"), component: selectView(
+                action: #selector(self.toggleUserColor),
+                items: Color.allColors,
+                selected: self.userColorState.key
+            )),
+            PreferencesRow(localizedString("Idle color"), component: selectView(
+                action: #selector(self.toggleIdleColor),
+                items: Color.allColors,
+                selected: self.idleColorState.key
+            ))
+        ]))
         
-        view.addArrangedSubview(selectSettingsRow(
-            title: localizedString("User color"),
-            action: #selector(self.toggleUserColor),
-            items: Color.allColors,
-            selected: self.userColorState.key
-        ))
+        view.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Efficiency cores color"), component: selectView(
+                action: #selector(self.toggleECoresColor),
+                items: Color.allColors,
+                selected: self.eCoresColorState.key
+            )),
+            PreferencesRow(localizedString("Performance cores color"), component: selectView(
+                action: #selector(self.togglePCoresColor),
+                items: Color.allColors,
+                selected: self.pCoresColorState.key
+            ))
+        ]))
         
-        view.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Idle color"),
-            action: #selector(self.toggleIdleColor),
-            items: Color.allColors,
-            selected: self.idleColorState.key
-        ))
-        
-        view.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Chart color"),
-            action: #selector(self.toggleChartColor),
-            items: Color.allColors,
-            selected: self.chartColorState.key
-        ))
-        
-        view.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Efficiency cores color"),
-            action: #selector(self.toggleeCoresColor),
-            items: Color.allColors,
-            selected: self.eCoresColorState.key
-        ))
-        
-        view.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Performance cores color"),
-            action: #selector(self.togglepCoresColor),
-            items: Color.allColors,
-            selected: self.pCoresColorState.key
-        ))
-        
-        view.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Chart duration"),
-            action: #selector(self.toggleLineChartHistory),
-            items: LineChartHistory,
-            selected: "\(self.lineChartHistory)"
-        ))
+        self.sliderView = sliderView(
+            action: #selector(self.toggleLineChartFixedScale),
+            value: Int(self.lineChartFixedScale * 100),
+            initialValue: "\(Int(self.lineChartFixedScale * 100)) %"
+        )
+        self.chartPrefSection = PreferencesSection([
+            PreferencesRow(localizedString("Chart color"), component: selectView(
+                action: #selector(self.toggleChartColor),
+                items: Color.allColors,
+                selected: self.chartColorState.key
+            )),
+            PreferencesRow(localizedString("Chart history"), component: selectView(
+                action: #selector(self.toggleLineChartHistory),
+                items: LineChartHistory,
+                selected: "\(self.lineChartHistory)"
+            )),
+            PreferencesRow(localizedString("Main chart scaling"), component: selectView(
+                action: #selector(self.toggleLineChartScale),
+                items: Scale.allCases,
+                selected: self.lineChartScale.key
+            )),
+            PreferencesRow(localizedString("Scale value"), component: self.sliderView!)
+        ])
+        view.addArrangedSubview(self.chartPrefSection!)
+        self.chartPrefSection?.toggleVisibility(3, newState: self.lineChartScale == .fixed)
         
         return view
     }
@@ -535,7 +570,7 @@ internal class Popup: PopupWrapper {
             self.lineChart?.color = color
         }
     }
-    @objc private func toggleeCoresColor(_ sender: NSMenuItem) {
+    @objc private func toggleECoresColor(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String, let newValue = Color.allColors.first(where: { $0.key == key }) else {
             return
         }
@@ -543,7 +578,7 @@ internal class Popup: PopupWrapper {
         Store.shared.set(key: "\(self.title)_eCoresColor", value: key)
         self.eCoresColorView?.layer?.backgroundColor = (newValue.additional as? NSColor)?.cgColor
     }
-    @objc private func togglepCoresColor(_ sender: NSMenuItem) {
+    @objc private func togglePCoresColor(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String, let newValue = Color.allColors.first(where: { $0.key == key }) else {
             return
         }
@@ -556,5 +591,25 @@ internal class Popup: PopupWrapper {
         self.lineChartHistory = value
         Store.shared.set(key: "\(self.title)_lineChartHistory", value: value)
         self.lineChart?.reinit(self.lineChartHistory)
+    }
+    @objc private func toggleLineChartScale(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String,
+              let value = Scale.allCases.first(where: { $0.key == key }) else { return }
+        self.chartPrefSection?.toggleVisibility(3, newState: value == .fixed)
+        self.lineChartScale = value
+        self.lineChart?.setScale(self.lineChartScale, fixedScale: self.lineChartFixedScale)
+        Store.shared.set(key: "\(self.title)_lineChartScale", value: key)
+        self.display()
+    }
+    @objc private func toggleLineChartFixedScale(_ sender: NSSlider) {
+        let value = Int(sender.doubleValue)
+        
+        if let field = self.sliderView?.subviews.first(where: { $0 is NSTextField }), let view = field as? NSTextField {
+            view.stringValue = "\(value) %"
+        }
+        
+        self.lineChartFixedScale = sender.doubleValue / 100
+        self.lineChart?.setScale(self.lineChartScale, fixedScale: self.lineChartFixedScale)
+        Store.shared.set(key: "\(self.title)_lineChartFixedScale", value: value)
     }
 }

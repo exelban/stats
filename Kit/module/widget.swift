@@ -149,6 +149,7 @@ public protocol widget_p: NSView {
     var position: Int { get set }
     
     var widthHandler: (() -> Void)? { get set }
+    var onClick: (() -> Void)? { get set }
     
     func setValues(_ values: [value_t])
     func settings() -> NSView
@@ -159,6 +160,7 @@ open class WidgetWrapper: NSView, widget_p {
     public var title: String
     public var position: Int = -1
     public var widthHandler: (() -> Void)? = nil
+    public var onClick: (() -> Void)? = nil
     public var shadowSize: CGSize
     internal var queue: DispatchQueue
     
@@ -216,6 +218,14 @@ open class WidgetWrapper: NSView, widget_p {
     
     open func settings() -> NSView { return NSView() }
     open func setValues(_ values: [value_t]) {}
+    
+    open override func mouseDown(with event: NSEvent) {
+        if let f = self.onClick {
+            f()
+            return
+        }
+        super.mouseDown(with: event)
+    }
 }
 
 public class Widget {
@@ -430,7 +440,7 @@ public class MenuBar {
                     DispatchQueue.main.async(execute: {
                         s.recalculateWidth()
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                            s.view.addWidget(w.item, position: w.position)
+                            s.view.addWidget(w.item)
                             s.view.recalculate(s.sortedWidgets)
                         }
                     })
@@ -507,7 +517,7 @@ public class MenuBar {
         self.callback?()
     }
     
-    @objc private func togglePopup(_ sender: Any) {
+    @objc private func togglePopup(_ sender: NSEvent) {
         if let item = self.menuBarItem, let window = item.button?.window {
             NotificationCenter.default.post(name: .togglePopup, object: nil, userInfo: [
                 "module": self.moduleName,
@@ -560,7 +570,7 @@ public class MenuBarView: NSView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func addWidget(_ view: NSView, position: Int) {
+    public func addWidget(_ view: NSView) {
         self.addSubview(view)
     }
     

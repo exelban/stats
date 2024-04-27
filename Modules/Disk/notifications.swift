@@ -27,12 +27,13 @@ class Notifications: NotificationsWrapper {
         
         self.utilizationLevel = Store.shared.string(key: "\(self.module)_notifications_utilization", defaultValue: self.utilizationLevel)
         
-        self.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Usage"),
-            action: #selector(self.changeUsage),
-            items: notificationLevels,
-            selected: self.utilizationLevel
-        ))
+        self.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Usage"), component: selectView(
+                action: #selector(self.changeUsage),
+                items: notificationLevels,
+                selected: self.utilizationLevel
+            ))
+        ]))
     }
     
     required init?(coder: NSCoder) {

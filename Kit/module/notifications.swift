@@ -25,12 +25,6 @@ open class NotificationsWrapper: NSStackView {
         self.orientation = .vertical
         self.distribution = .gravityAreas
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.edgeInsets = NSEdgeInsets(
-            top: Constants.Settings.margin,
-            left: Constants.Settings.margin,
-            bottom: Constants.Settings.margin,
-            right: Constants.Settings.margin
-        )
         self.spacing = Constants.Settings.margin
     }
     

@@ -35,6 +35,7 @@ internal class Popup: PopupWrapper {
     private var wiredColorView: NSView? = nil
     private var compressedColorView: NSView? = nil
     private var freeColorView: NSView? = nil
+    private var sliderView: NSView? = nil
     
     private var chart: LineChartView? = nil
     private var circle: PieChartView? = nil
@@ -52,6 +53,9 @@ internal class Popup: PopupWrapper {
     }
     
     private var lineChartHistory: Int = 180
+    private var lineChartScale: Scale = .none
+    private var lineChartFixedScale: Double = 1
+    private var chartPrefSection: PreferencesSection? = nil
     
     private var appColorState: Color = .secondBlue
     private var appColor: NSColor { self.appColorState.additional as? NSColor ?? NSColor.systemRed }
@@ -81,6 +85,8 @@ internal class Popup: PopupWrapper {
         self.freeColorState = Color.fromString(Store.shared.string(key: "\(self.title)_freeColor", defaultValue: self.freeColorState.key))
         self.chartColorState = Color.fromString(Store.shared.string(key: "\(self.title)_chartColor", defaultValue: self.chartColorState.key))
         self.lineChartHistory = Store.shared.int(key: "\(self.title)_lineChartHistory", defaultValue: self.lineChartHistory)
+        self.lineChartScale = Scale.fromString(Store.shared.string(key: "\(self.title)_lineChartScale", defaultValue: self.lineChartScale.key))
+        self.lineChartFixedScale = Double(Store.shared.int(key: "\(self.title)_lineChartFixedScale", defaultValue: 100)) / 100
         
         let gridView: NSGridView = NSGridView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height))
         gridView.rowSpacing = 0
@@ -162,7 +168,8 @@ internal class Popup: PopupWrapper {
         container.layer?.backgroundColor = NSColor.lightGray.withAlphaComponent(0.1).cgColor
         container.layer?.cornerRadius = 3
         
-        self.chart = LineChartView(frame: NSRect(x: 1, y: 0, width: view.frame.width, height: container.frame.height), num: self.lineChartHistory)
+        let chartFrame = NSRect(x: 1, y: 0, width: view.frame.width, height: container.frame.height)
+        self.chart = LineChartView(frame: chartFrame, num: self.lineChartHistory, scale: self.lineChartScale, fixedScale: self.lineChartFixedScale)
         self.chart?.color = self.chartColor
         container.addSubview(self.chart!)
         
@@ -278,43 +285,54 @@ internal class Popup: PopupWrapper {
     public override func settings() -> NSView? {
         let view = SettingsContainerView()
         
-        view.addArrangedSubview(selectSettingsRow(
-            title: localizedString("App color"),
-            action: #selector(toggleAppColor),
-            items: Color.allColors,
-            selected: self.appColorState.key
-        ))
-        view.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Wired color"),
-            action: #selector(toggleWiredColor),
-            items: Color.allColors,
-            selected: self.wiredColorState.key
-        ))
-        view.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Compressed color"),
-            action: #selector(toggleCompressedColor),
-            items: Color.allColors,
-            selected: self.compressedColorState.key
-        ))
-        view.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Free color"),
-            action: #selector(toggleFreeColor),
-            items: Color.allColors,
-            selected: self.freeColorState.key
-        ))
-        view.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Chart color"),
-            action: #selector(toggleChartColor),
-            items: Color.allColors,
-            selected: self.chartColorState.key
-        ))
+        view.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("App color"), component: selectView(
+                action: #selector(toggleAppColor),
+                items: Color.allColors,
+                selected: self.appColorState.key
+            )),
+            PreferencesRow(localizedString("Wired color"), component: selectView(
+                action: #selector(toggleWiredColor),
+                items: Color.allColors,
+                selected: self.wiredColorState.key
+            )),
+            PreferencesRow(localizedString("Compressed color"), component: selectView(
+                action: #selector(toggleCompressedColor),
+                items: Color.allColors,
+                selected: self.compressedColorState.key
+            )),
+            PreferencesRow(localizedString("Free color"), component: selectView(
+                action: #selector(toggleFreeColor),
+                items: Color.allColors,
+                selected: self.freeColorState.key
+            ))
+        ]))
         
-        view.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Chart duration"),
-            action: #selector(self.toggleLineChartHistory),
-            items: LineChartHistory,
-            selected: "\(self.lineChartHistory)"
-        ))
+        self.sliderView = sliderView(
+            action: #selector(self.toggleLineChartFixedScale),
+            value: Int(self.lineChartFixedScale * 100),
+            initialValue: "\(Int(self.lineChartFixedScale * 100)) %"
+        )
+        self.chartPrefSection = PreferencesSection([
+            PreferencesRow(localizedString("Chart color"), component: selectView(
+                action: #selector(self.toggleChartColor),
+                items: Color.allColors,
+                selected: self.chartColorState.key
+            )),
+            PreferencesRow(localizedString("Chart history"), component: selectView(
+                action: #selector(self.toggleLineChartHistory),
+                items: LineChartHistory,
+                selected: "\(self.lineChartHistory)"
+            )),
+            PreferencesRow(localizedString("Main chart scaling"), component: selectView(
+                action: #selector(self.toggleLineChartScale),
+                items: Scale.allCases,
+                selected: self.lineChartScale.key
+            )),
+            PreferencesRow(localizedString("Scale value"), component: self.sliderView!)
+        ])
+        self.chartPrefSection?.toggleVisibility(3, newState: self.lineChartScale == .fixed)
+        view.addArrangedSubview(self.chartPrefSection!)
         
         return view
     }
@@ -379,6 +397,26 @@ internal class Popup: PopupWrapper {
         self.lineChartHistory = value
         Store.shared.set(key: "\(self.title)_lineChartHistory", value: value)
         self.chart?.reinit(self.lineChartHistory)
+    }
+    @objc private func toggleLineChartScale(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String,
+              let value = Scale.allCases.first(where: { $0.key == key }) else { return }
+        self.chartPrefSection?.toggleVisibility(3, newState: value == .fixed)
+        self.lineChartScale = value
+        self.chart?.setScale(self.lineChartScale, fixedScale: self.lineChartFixedScale)
+        Store.shared.set(key: "\(self.title)_lineChartScale", value: key)
+        self.display()
+    }
+    @objc private func toggleLineChartFixedScale(_ sender: NSSlider) {
+        let value = Int(sender.doubleValue)
+        
+        if let field = self.sliderView?.subviews.first(where: { $0 is NSTextField }), let view = field as? NSTextField {
+            view.stringValue = "\(value) %"
+        }
+        
+        self.lineChartFixedScale = sender.doubleValue / 100
+        self.chart?.setScale(self.lineChartScale, fixedScale: self.lineChartFixedScale)
+        Store.shared.set(key: "\(self.title)_lineChartFixedScale", value: value)
     }
 }
 

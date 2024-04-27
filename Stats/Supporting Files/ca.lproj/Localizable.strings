@@ -69,6 +69,7 @@
 "Square" = "Square";
 "Cube" = "Cube";
 "Logarithmic" = "Logarithmic";
+"Fixed scale" = "Fixed";
 "Cores" = "Cores";
 "Settings" = "Settings";
 "Name" = "Name";
@@ -189,7 +190,7 @@
 "Color of upload" = "Color de càrrega";
 "Monospaced font" = "Tipus de lletra monoespaiat";
 "Reverse order" = "Reverse order";
-"Chart duration" = "Chart duration";
+"Chart history" = "Chart history";
 
 // Module Kit
 "Open module settings" = "Obre la configuració del mòdul";
@@ -207,12 +208,16 @@
 "Merge widgets" = "Combina ginys";
 "No available widgets to configure" = "No hi ha widgets disponibles per configurar";
 "No options to configure for the popup in this module" = "No hi ha opcions per configurar per a la finestra emergent en aquest mòdul";
+"Process" = "Process";
+"Kill process" = "Kill process";
 
 // Modules
 "Number of top processes" = "Nombre de processos principals";
 "Update interval for top processes" = "Freqüència de refresc per als processos principals";
 "Notification level" = "Nivell de notificació";
 "Chart color" = "Color del gràfic";
+"Main chart scaling" = "Main chart scaling";
+"Scale value" = "Scale value";
 
 // CPU
 "CPU usage" = "Ús de la CPU";

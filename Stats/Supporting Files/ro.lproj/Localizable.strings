@@ -69,6 +69,7 @@
 "Square" = "Square";
 "Cube" = "Cube";
 "Logarithmic" = "Logarithmic";
+"Fixed scale" = "Fixed";
 "Cores" = "Cores";
 "Settings" = "Settings";
 "Name" = "Name";
@@ -189,7 +190,7 @@
 "Color of upload" = "Color of upload";
 "Monospaced font" = "Monospaced font";
 "Reverse order" = "Reverse order";
-"Chart duration" = "Chart duration";
+"Chart history" = "Chart history";
 
 // Module Kit
 "Open module settings" = "Deschide setăriile modulului";
@@ -207,12 +208,16 @@
 "Merge widgets" = "Îmbinați widget-uri";
 "No available widgets to configure" = "Nu există widgeturi disponibile de configurat";
 "No options to configure for the popup in this module" = "Nu există opțiuni de configurat pentru fereastra pop-up din acest modul";
+"Process" = "Process";
+"Kill process" = "Kill process";
 
 // Modules
 "Number of top processes" = "Numărul proceselor de vârf";
 "Update interval for top processes" = "Update interval for top processes";
 "Notification level" = "Notification level";
 "Chart color" = "Chart color";
+"Main chart scaling" = "Main chart scaling";
+"Scale value" = "Scale value";
 
 // CPU
 "CPU usage" = "Utilizarea procesorului";

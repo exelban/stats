@@ -69,6 +69,7 @@
 "Square" = "Štvorcová";
 "Cube" = "Kubická";
 "Logarithmic" = "Logaritmická";
+"Fixed scale" = "Fixed";
 "Cores" = "Jadrá";
 "Settings" = "Nastavenia";
 "Name" = "Name";
@@ -189,7 +190,7 @@
 "Color of upload" = "Farba nahrávania (upload)";
 "Monospaced font" = "Nerozložené písmo";
 "Reverse order" = "Reverse order";
-"Chart duration" = "Chart duration";
+"Chart history" = "Chart history";
 
 // Module Kit
 "Open module settings" = "Otvoriť nastavenia modulu";
@@ -207,12 +208,16 @@
 "Merge widgets" = "Zlúčiť widgety";
 "No available widgets to configure" = "Žiadne dostupné widgety na konfiguráciu";
 "No options to configure for the popup in this module" = "Žiadne možnosti konfigurácie vyskakovacieho okna v tomto module";
+"Process" = "Process";
+"Kill process" = "Kill process";
 
 // Modules
 "Number of top processes" = "Počet top procesov";
 "Update interval for top processes" = "Interval aktualizácie pre top procesy";
 "Notification level" = "Úroveň upozornenia";
 "Chart color" = "Farba grafu";
+"Main chart scaling" = "Main chart scaling";
+"Scale value" = "Scale value";
 
 // CPU
 "CPU usage" = "Použitie CPU";

@@ -69,6 +69,7 @@
 "Square" = "Carré";
 "Cube" = "Cube";
 "Logarithmic" = "Logarithmique";
+"Fixed scale" = "Fixed";
 "Cores" = "Cœurs";
 "Settings" = "Paramètres";
 "Name" = "Nom";
@@ -189,7 +190,7 @@
 "Color of upload" = "Couleur du téléversement";
 "Monospaced font" = "Police à espacement fixe";
 "Reverse order" = "Reverse order";
-"Chart duration" = "Chart duration";
+"Chart history" = "Chart history";
 
 // Module Kit
 "Open module settings" = "Ouvrir les paramètres du module";
@@ -207,12 +208,16 @@
 "Merge widgets" = "Fusionner les widgets";
 "No available widgets to configure" = "Aucun widget disponible à configurer";
 "No options to configure for the popup in this module" = "Aucune option à configurer pour la fenêtre contextuelle dans ce module";
+"Process" = "Process";
+"Kill process" = "Kill process";
 
 // Modules
 "Number of top processes" = "Nombre de processus principaux";
 "Update interval for top processes" = "Intervalle de mise à jour des processus principaux";
 "Notification level" = "Niveau de notification";
 "Chart color" = "Couleur du graphique";
+"Main chart scaling" = "Main chart scaling";
+"Scale value" = "Scale value";
 
 // CPU
 "CPU usage" = "Utilisation du CPU";

@@ -586,12 +586,13 @@ public class BatteryDetailsWidget: WidgetWrapper {
     public override func settings() -> NSView {
         let view = SettingsContainerView()
         
-        view.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Mode"),
-            action: #selector(self.toggleMode),
-            items: BatteryInfo,
-            selected: self.mode
-        ))
+        view.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Mode"), component: selectView(
+                action: #selector(self.toggleMode),
+                items: BatteryInfo,
+                selected: self.mode
+            ))
+        ]))
         
         return view
     }

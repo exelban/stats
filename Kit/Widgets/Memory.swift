@@ -14,7 +14,10 @@ import Cocoa
 public class MemoryWidget: WidgetWrapper {
     private var orderReversedState: Bool = false
     private var value: (String, String) = ("0", "0")
+    private var percentage: Double = 0
+    private var pressureLevel: DispatchSource.MemoryPressureEvent = .normal
     private var symbolsState: Bool = true
+    private var colorState: Color = .monochrome
     
     private let width: CGFloat = 50
     
@@ -48,6 +51,7 @@ public class MemoryWidget: WidgetWrapper {
         if !preview {
             self.orderReversedState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_orderReversed", defaultValue: self.orderReversedState)
             self.symbolsState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_symbols", defaultValue: self.symbolsState)
+            self.colorState = Color.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_color", defaultValue: self.colorState.key))
         }
         
         if preview {
@@ -72,7 +76,7 @@ public class MemoryWidget: WidgetWrapper {
         
         let style = NSMutableParagraphStyle()
         style.alignment = .right
-        let attributes = [
+        var attributes = [
             NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .light),
             NSAttributedString.Key.foregroundColor: NSColor.textColor,
             NSAttributedString.Key.paragraphStyle: style
@@ -91,10 +95,32 @@ public class MemoryWidget: WidgetWrapper {
             width += x
         }
         
+        var freeColor: NSColor = .controlAccentColor
+        var usedColor: NSColor = .controlAccentColor
+        switch self.colorState {
+        case .systemAccent: 
+            freeColor = .controlAccentColor
+            usedColor = .controlAccentColor
+        case .utilization: 
+            freeColor = (1 - self.percentage).usageColor()
+            usedColor = self.percentage.usageColor()
+        case .pressure:
+            usedColor = self.pressureLevel.pressureColor()
+            freeColor = self.pressureLevel.pressureColor()
+        case .monochrome:
+            freeColor = (isDarkMode ? NSColor.white : NSColor.black)
+            usedColor = (isDarkMode ? NSColor.white : NSColor.black)
+        default: 
+            freeColor = self.colorState.additional as? NSColor ?? .controlAccentColor
+            usedColor = self.colorState.additional as? NSColor ?? .controlAccentColor
+        }
+        
+        attributes[NSAttributedString.Key.foregroundColor] = freeColor
         var rect = CGRect(x: x, y: freeY, width: width - x, height: rowHeight)
         var str = NSAttributedString.init(string: self.value.0, attributes: attributes)
         str.draw(with: rect)
         
+        attributes[NSAttributedString.Key.foregroundColor] = usedColor
         rect = CGRect(x: x, y: usedY, width: width - x, height: rowHeight)
         str = NSAttributedString.init(string: self.value.1, attributes: attributes)
         str.draw(with: rect)
@@ -102,9 +128,18 @@ public class MemoryWidget: WidgetWrapper {
         self.setWidth(width + (Constants.Widget.margin.x*2))
     }
     
-    public func setValue(_ value: (String, String)) {
+    public func setValue(_ value: (String, String), usedPercentage: Double) {
         self.value = value
+        self.percentage = usedPercentage
         
+        DispatchQueue.main.async(execute: {
+            self.display()
+        })
+    }
+    
+    public func setPressure(_ newPressureLevel: DispatchSource.MemoryPressureEvent) {
+        guard self.pressureLevel != newPressureLevel else { return }
+        self.pressureLevel = newPressureLevel
         DispatchQueue.main.async(execute: {
             self.display()
         })
@@ -113,17 +148,21 @@ public class MemoryWidget: WidgetWrapper {
     public override func settings() -> NSView {
         let view = SettingsContainerView()
         
-        view.addArrangedSubview(toggleSettingRow(
-            title: localizedString("Reverse values order"),
-            action: #selector(self.toggleOrder),
-            state: self.orderReversedState
-        ))
-        
-        view.addArrangedSubview(toggleSettingRow(
-            title: localizedString("Show symbols"),
-            action: #selector(self.toggleSymbols),
-            state: self.symbolsState
-        ))
+        view.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Color"), component: selectView(
+                action: #selector(self.toggleColor),
+                items: Color.allCases.filter({ $0 != .cluster }),
+                selected: self.colorState.key
+            )),
+            PreferencesRow(localizedString("Show symbols"), component: switchView(
+                action: #selector(self.toggleSymbols),
+                state: self.symbolsState
+            )),
+            PreferencesRow(localizedString("Reverse order"), component: switchView(
+                action: #selector(self.toggleOrder),
+                state: self.orderReversedState
+            ))
+        ]))
         
         return view
     }
@@ -137,6 +176,15 @@ public class MemoryWidget: WidgetWrapper {
     @objc private func toggleSymbols(_ sender: NSControl) {
         self.symbolsState = controlState(sender)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_symbols", value: self.symbolsState)
+        self.display()
+    }
+    
+    @objc private func toggleColor(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String else { return }
+        if let newColor = Color.allCases.first(where: { $0.key == key }) {
+            self.colorState = newColor
+        }
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_color", value: key)
         self.display()
     }
 }

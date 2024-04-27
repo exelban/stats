@@ -69,6 +69,7 @@
 "Square" = "Kvadratisk";
 "Cube" = "Kubisk";
 "Logarithmic" = "Logaritmisk";
+"Fixed scale" = "Fixed";
 "Cores" = "Kjerner";
 "Settings" = "Innstillinger";
 "Name" = "Navn";
@@ -189,7 +190,7 @@
 "Color of upload" = "Farge for opplasting";
 "Monospaced font" = "Skrifttype med fast bredde";
 "Reverse order" = "Reversert rekkefølge";
-"Chart duration" = "Chart duration";
+"Chart history" = "Chart history";
 
 // Module Kit
 "Open module settings" = "Åpne modulinnstillinger";
@@ -207,12 +208,16 @@
 "Merge widgets" = "Slå sammen diagrammer";
 "No available widgets to configure" = "Ingen tilgjengelige diagrammer å konfigurere";
 "No options to configure for the popup in this module" = "Ingen innstillinger å konfigurere for popup-en i denne modulen";
+"Process" = "Process";
+"Kill process" = "Kill process";
 
 // Modules
 "Number of top processes" = "Antall topp-prosesser";
 "Update interval for top processes" = "Oppdateringsintervall for topp-prosesser";
 "Notification level" = "Varslingsnivå";
 "Chart color" = "Diagramfarge";
+"Main chart scaling" = "Main chart scaling";
+"Scale value" = "Scale value";
 
 // CPU
 "CPU usage" = "CPU-bruk";

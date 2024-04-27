@@ -69,6 +69,7 @@
 "Square" = "Négyzet";
 "Cube" = "Kocka";
 "Logarithmic" = "Logaritmikus";
+"Fixed scale" = "Fixed";
 "Cores" = "Magok";
 "Settings" = "Beállítások";
 "Name" = "Név";
@@ -189,7 +190,7 @@
 "Color of upload" = "Feltöltés színe";
 "Monospaced font" = "Mono betűtípus";
 "Reverse order" = "Fordított sorrend";
-"Chart duration" = "Chart duration";
+"Chart history" = "Chart history";
 
 // Module Kit
 "Open module settings" = "Modul beállításainak megnyitása";
@@ -207,12 +208,16 @@
 "Merge widgets" = "Widgetek egyesítése";
 "No available widgets to configure" = "Nincs elérhető widget a beállításhoz";
 "No options to configure for the popup in this module" = "A modul lenyíló ablakához nem tartozik beállítás";
+"Process" = "Process";
+"Kill process" = "Kill process";
 
 // Modules
 "Number of top processes" = "Top folyamatok száma";
 "Update interval for top processes" = "Top folyamatok frissítési időköze";
 "Notification level" = "Értesítési szint";
 "Chart color" = "Diagram színe";
+"Main chart scaling" = "Main chart scaling";
+"Scale value" = "Scale value";
 
 // CPU
 "CPU usage" = "CPU használat";

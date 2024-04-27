@@ -69,6 +69,7 @@
 "Square" = "Square";
 "Cube" = "Cube";
 "Logarithmic" = "Logarithmic";
+"Fixed scale" = "Fixed";
 "Cores" = "Cores";
 "Settings" = "Settings";
 "Name" = "Name";
@@ -189,7 +190,7 @@
 "Color of upload" = "Kleur van upload";
 "Monospaced font" = "Monospaced lettertype";
 "Reverse order" = "Reverse order";
-"Chart duration" = "Chart duration";
+"Chart history" = "Chart history";
 
 // Module Kit
 "Open module settings" = "Open module-instellingen";
@@ -207,12 +208,16 @@
 "Merge widgets" = "Widgets samenvoegen";
 "No available widgets to configure" = "Geen beschikbare widgets om te configureren";
 "No options to configure for the popup in this module" = "Meervoudige configuratie voor pop-op-vinduet en deze module";
+"Process" = "Process";
+"Kill process" = "Kill process";
 
 // Modules
 "Number of top processes" = "Aantal topprocessen";
 "Update interval for top processes" = "Bewerk interval voor top processen";
 "Notification level" = "Meldingsniveau";
 "Chart color" = "Kortfarve";
+"Main chart scaling" = "Main chart scaling";
+"Scale value" = "Scale value";
 
 // CPU
 "CPU usage" = "CPU gebruik";

@@ -117,5 +117,12 @@
 			</array>
 		</dict>
 	</dict>
+	<key>Settings</key>
+	<dict>
+		<key>popup</key>
+		<true/>
+		<key>notifications</key>
+		<true/>
+	</dict>
 </dict>
 </plist>

@@ -170,7 +170,8 @@ public class RAM: Module {
             case let widget as MemoryWidget:
                 let free = Units(bytes: Int64(value.free)).getReadableMemory()
                 let used = Units(bytes: Int64(value.used)).getReadableMemory()
-                widget.setValue((free, used))
+                widget.setValue((free, used), usedPercentage: value.usage)
+                widget.setPressure(value.pressureLevel)
             case let widget as Tachometer:
                 widget.setValue([
                     circle_segment(value: value.app/total, color: self.appColor),

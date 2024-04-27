@@ -8,6 +8,7 @@
 //
 //  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
 //
+// swiftlint:disable file_length
 
 import Cocoa
 import ServiceManagement
@@ -959,17 +960,9 @@ public func process(path: String, arguments: [String]) -> String? {
 
 public class SettingsContainerView: NSStackView {
     public init() {
-        super.init(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
-        
+        super.init(frame: NSRect.zero)
         self.translatesAutoresizingMaskIntoConstraints = false
         self.orientation = .vertical
-        self.distribution = .gravityAreas
-        self.edgeInsets = NSEdgeInsets(
-            top: Constants.Settings.margin,
-            left: Constants.Settings.margin,
-            bottom: Constants.Settings.margin,
-            right: Constants.Settings.margin
-        )
         self.spacing = Constants.Settings.margin
     }
     
@@ -1347,4 +1340,150 @@ var isDarkMode: Bool {
     default:
         return false
     }
+}
+
+public class PreferencesSection: NSStackView {
+    private let container: NSStackView = NSStackView()
+    
+    public init(label: String = "", _ components: [PreferencesRow] = []) {
+        super.init(frame: .zero)
+        
+        self.orientation = .vertical
+        self.spacing = 0
+        
+        if label != "" {
+            self.addLabel(label)
+        }
+        
+        self.container.orientation = .vertical
+        self.container.wantsLayer = true
+        self.container.layer?.cornerRadius = 5
+        self.container.layer?.borderColor = NSColor.separatorColor.withAlphaComponent(0.05).cgColor
+        self.container.layer?.borderWidth = 1
+        self.container.layer?.backgroundColor = NSColor.quaternaryLabelColor.withAlphaComponent(0.025).cgColor
+        self.container.edgeInsets = NSEdgeInsets(
+            top: Constants.Settings.margin/2,
+            left: Constants.Settings.margin,
+            bottom: Constants.Settings.margin/2,
+            right: Constants.Settings.margin
+        )
+        self.container.spacing = Constants.Settings.margin/2
+        self.addArrangedSubview(self.container)
+        
+        for item in components {
+            self.add(item)
+        }
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    public override func updateLayer() {
+        self.container.layer?.borderColor = NSColor.separatorColor.withAlphaComponent(0.05).cgColor
+        self.container.layer?.backgroundColor = NSColor.quaternaryLabelColor.withAlphaComponent(0.025).cgColor
+    }
+    
+    private func addLabel(_ value: String) {
+        let view = NSStackView()
+        view.heightAnchor.constraint(equalToConstant: 26).isActive = true
+        
+        let space = NSView()
+        space.widthAnchor.constraint(equalToConstant: 4).isActive = true
+        
+        let field: NSTextField = TextView()
+        field.font = NSFont.systemFont(ofSize: 12, weight: .semibold)
+        field.stringValue = value
+        
+        view.addArrangedSubview(space)
+        view.addArrangedSubview(field)
+        view.addArrangedSubview(NSView())
+        
+        self.addArrangedSubview(view)
+    }
+    
+    public func add(_ view: NSView) {
+        if !self.container.subviews.isEmpty {
+            self.container.addArrangedSubview(PreferencesSeparator())
+        }
+        self.container.addArrangedSubview(view)
+    }
+    
+    public func toggleVisibility(_ at: Int, newState: Bool) {
+        for i in self.container.subviews.indices where i/2 == at && Double(i).remainder(dividingBy: 2) == 0 {
+            self.container.subviews[i-1].isHidden = !newState
+            self.container.subviews[i].isHidden = !newState
+        }
+    }
+}
+
+public class PreferencesSeparator: NSView {
+    public init() {
+        super.init(frame: .zero)
+        self.wantsLayer = true
+        self.layer?.backgroundColor = NSColor.separatorColor.withAlphaComponent(0.05).cgColor
+        self.heightAnchor.constraint(equalToConstant: 1).isActive = true
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    public override func updateLayer() {
+        self.layer?.backgroundColor = NSColor.separatorColor.withAlphaComponent(0.05).cgColor
+    }
+}
+
+public class PreferencesRow: NSStackView {
+    public init(_ title: String? = nil, _ description: String? = nil, component: NSView) {
+        super.init(frame: .zero)
+        
+        self.orientation = .horizontal
+        self.distribution = .fill
+        self.alignment = .centerY
+        self.edgeInsets = NSEdgeInsets(top: Constants.Settings.margin/2, left: 0, bottom: (Constants.Settings.margin/2) - 1, right: 0)
+        self.spacing = 0
+        
+        self.addArrangedSubview(self.text(title, description))
+        self.addArrangedSubview(NSView())
+        self.addArrangedSubview(component)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func text(_ title: String? = nil, _ description: String? = nil) -> NSView {
+        let view: NSStackView = NSStackView()
+        view.orientation = .vertical
+        view.spacing = 0
+        
+        if let title {
+            let field: NSTextField = TextView()
+            field.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+            field.stringValue = title
+            view.addArrangedSubview(field)
+        }
+        
+        if let description {
+            let field: NSTextField = TextView()
+            field.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+            field.textColor = .secondaryLabelColor
+            field.stringValue = description
+            view.addArrangedSubview(field)
+            view.addArrangedSubview(NSView())
+            view.alignment = .leading
+        }
+        
+        return view
+    }
+}
+
+public func restartApp(_ sender: Any, afterDelay seconds: TimeInterval = 0.5) -> Never {
+    let task = Process()
+    task.launchPath = "/bin/sh"
+    task.arguments = ["-c", "sleep \(seconds); open \"\(Bundle.main.bundlePath)\""]
+    task.launch()
+    NSApp.terminate(sender)
+    exit(0)
 }

@@ -69,6 +69,7 @@
 "Square" = "Ruut";
 "Cube" = "Kuup";
 "Logarithmic" = "Logaritmiline";
+"Fixed scale" = "Fixed";
 "Cores" = "Tuumad";
 "Settings" = "Seaded";
 "Name" = "Nimi";
@@ -189,7 +190,7 @@
 "Color of upload" = "Üleslaadimise värv";
 "Monospaced font" = "Üheruumiline kirjastiil";
 "Reverse order" = "Reverse order";
-"Chart duration" = "Chart duration";
+"Chart history" = "Chart history";
 
 // Module Kit
 "Open module settings" = "Ava mooduli sätted";
@@ -207,12 +208,16 @@
 "Merge widgets" = "Liida vidinad";
 "No available widgets to configure" = "Vidinaid pole saadaval seadistamiseks";
 "No options to configure for the popup in this module" = "Selles moodulis pole suvandeid konfigureerida hüpikakna jaoks";
+"Process" = "Process";
+"Kill process" = "Kill process";
 
 // Modules
 "Number of top processes" = "Tippprotsesside arv";
 "Update interval for top processes" = "Tippprotsesside värskendusintervall";
 "Notification level" = "Teavitustase";
 "Chart color" = "Diagrammi värv";
+"Main chart scaling" = "Main chart scaling";
+"Scale value" = "Scale value";
 
 // CPU
 "CPU usage" = "CPU kasutus";

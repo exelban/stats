@@ -69,6 +69,7 @@
 "Square" = "Квадратне";
 "Cube" = "Кубічне";
 "Logarithmic" = "Логарифмічне";
+"Fixed scale" = "Фіксована";
 "Cores" = "Ядра";
 "Settings" = "Налаштування";
 "Name" = "Назва";
@@ -189,7 +190,7 @@
 "Color of upload" = "Колір висилання";
 "Monospaced font" = "Моноширинний шрифт";
 "Reverse order" = "Зворотній порядок";
-"Chart duration" = "Тривалість діаграми";
+"Chart history" = "Тривалість діаграми";
 
 // Module Kit
 "Open module settings" = "Відкрити налаштування модуля";
@@ -207,12 +208,16 @@
 "Merge widgets" = "Об’єднайти віджети";
 "No available widgets to configure" = "Немає доступних віджетів для налаштування";
 "No options to configure for the popup in this module" = "У цьому модулі немає параметрів для налаштування спливаючого вікна";
+"Process" = "Процес";
+"Kill process" = "Завершити процес";
 
 // Modules
 "Number of top processes" = "Кількість процесів";
 "Update interval for top processes" = "Інтервал оновлення для процесів";
 "Notification level" = "Рівень сповіщення";
 "Chart color" = "Колір діаграми";
+"Main chart scaling" = "Масштабування основної діаграми";
+"Scale value" = "Значення масштабування";
 
 // CPU
 "CPU usage" = "Використання процесора";

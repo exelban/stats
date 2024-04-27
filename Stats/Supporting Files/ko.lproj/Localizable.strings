@@ -69,6 +69,7 @@
 "Square" = "제곱";
 "Cube" = "세제곱";
 "Logarithmic" = "로그";
+"Fixed scale" = "Fixed";
 "Cores" = "코어 수";
 "Settings" = "설정";
 "Name" = "이름";
@@ -189,7 +190,7 @@
 "Color of upload" = "업로드 색상";
 "Monospaced font" = "고정폭 서체";
 "Reverse order" = "Reverse order";
-"Chart duration" = "Chart duration";
+"Chart history" = "Chart history";
 
 // Module Kit
 "Open module settings" = "모듈 설정 열기";
@@ -207,12 +208,16 @@
 "Merge widgets" = "위젯 병합";
 "No available widgets to configure" = "구성할 위젯이 없습니다";
 "No options to configure for the popup in this module" = "이 모듈은 구성할 팝업 설정이 없습니다.";
+"Process" = "Process";
+"Kill process" = "Kill process";
 
 // Modules
 "Number of top processes" = "상위 프로세스 수";
 "Update interval for top processes" = "상위 프로세스의 업데이트 주기";
 "Notification level" = "알림 수준";
 "Chart color" = "도표 색상";
+"Main chart scaling" = "Main chart scaling";
+"Scale value" = "Scale value";
 
 // CPU
 "CPU usage" = "CPU 사용량";

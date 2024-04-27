@@ -27,19 +27,23 @@ using namespace std;
 - (instancetype) init:(NSString *) name {
     self = [super init];
     if (self) {
-        [self createDB:name];
+        bool status = [self createDB:name];
+        if (!status) {
+            return nil;
+        }
     }
     return self;
 }
 
--(void)createDB:(NSString *) path {
+-(bool)createDB:(NSString *) path {
     leveldb::Options options;
     options.create_if_missing = true;
     leveldb::Status status = leveldb::DB::Open(options, [path UTF8String], &self->db);
     if (false == status.ok()) {
-        NSLog(@"ERROR: Unable to open/create database.");
-        std::cout << status.ToString();
+        NSLog(@"ERROR: Unable to open/create database: %s", status.ToString().c_str());
+        return false;
     }
+    return true;
 }
 
 -(NSArray *)keys:(NSString *)key {

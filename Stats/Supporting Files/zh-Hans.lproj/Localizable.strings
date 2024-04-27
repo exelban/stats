@@ -69,6 +69,7 @@
 "Square" = "平方";
 "Cube" = "立方";
 "Logarithmic" = "对数";
+"Fixed scale" = "固定值";
 "Cores" = "核心数";
 "Settings" = "设置";
 "Name" = "名称";
@@ -80,8 +81,8 @@
 "2 minutes" = "2 分钟";
 "3 minutes" = "3 分钟";
 "10 minutes" = "10 分钟";
-"Import" = "Import";
-"Export" = "Export";
+"Import" = "导入";
+"Export" = "导出";
 
 // Setup
 "Stats Setup" = "Stats 设置";
@@ -189,7 +190,7 @@
 "Color of upload" = "上传颜色";
 "Monospaced font" = "等宽字体";
 "Reverse order" = "调转顺序";
-"Chart duration" = "图表统计时长";
+"Chart history" = "图表统计时长";
 
 // Module Kit
 "Open module settings" = "打开模块设置";
@@ -207,12 +208,16 @@
 "Merge widgets" = "合并组件";
 "No available widgets to configure" = "没有可配置的小组件";
 "No options to configure for the popup in this module" = "该组件没有可配置的选项";
+"Process" = "Process";
+"Kill process" = "Kill process";
 
 // Modules
 "Number of top processes" = "高占用进程数";
 "Update interval for top processes" = "高占用进程的更新间隔";
 "Notification level" = "通知级别";
 "Chart color" = "图表颜色";
+"Main chart scaling" = "主图表缩放";
+"Scale value" = "缩放值";
 
 // CPU
 "CPU usage" = "CPU 占用";
@@ -300,8 +305,8 @@
 "Read color" = "读取颜色";
 "Write color" = "写入颜色";
 "Disk usage" = "磁盘使用";
-"Total read" = "Total read";
-"Total written" = "Total written";
+"Total read" = "总读取量";
+"Total written" = "总写入量";
 
 // Sensors
 "Temperature unit" = "温度单位";

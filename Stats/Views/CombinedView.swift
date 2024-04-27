@@ -12,9 +12,9 @@
 import Cocoa
 import Kit
 
-class CombinedView {
+class CombinedView: NSObject, NSGestureRecognizerDelegate {
     private var menuBarItem: NSStatusItem? = nil
-    private var view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: 100, height: Constants.Widget.height))
+    private var view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: 0, height: Constants.Widget.height))
     private var popup: PopupWindow? = nil
     
     private var status: Bool {
@@ -24,7 +24,18 @@ class CombinedView {
         CGFloat(Int(Store.shared.string(key: "CombinedModules_spacing", defaultValue: "")) ?? 0)
     }
     
-    init() {
+    private var activeModules: [Module] {
+        modules.filter({ $0.enabled }).sorted(by: { $0.combinedPosition < $1.combinedPosition })
+    }
+    
+    private var combinedModulesPopup: Bool {
+        get { Store.shared.bool(key: "CombinedModules_popup", defaultValue: true) }
+        set { Store.shared.set(key: "CombinedModules_popup", value: newValue) }
+    }
+    
+    override init() {
+        super.init()
+        
         modules.forEach { (m: Module) in
             m.menuBar.callback = { [weak self] in
                 if let s = self?.status, s {
@@ -43,6 +54,7 @@ class CombinedView {
         
         NotificationCenter.default.addObserver(self, selector: #selector(listenForOneView), name: .toggleOneView, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(listenForModuleRearrrange), name: .moduleRearrange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(listenCombinedModulesPopup), name: .combinedModulesPopup, object: nil)
     }
     
     deinit {
@@ -54,9 +66,26 @@ class CombinedView {
         self.menuBarItem?.autosaveName = "CombinedModules"
         self.menuBarItem?.button?.addSubview(self.view)
         
-        self.menuBarItem?.button?.target = self
-        self.menuBarItem?.button?.action = #selector(self.togglePopup)
-        self.menuBarItem?.button?.sendAction(on: [.leftMouseDown, .rightMouseDown])
+        if !self.combinedModulesPopup {
+            self.activeModules.forEach { (m: Module) in
+                m.menuBar.widgets.forEach { w in
+                    w.item.onClick = {
+                        if let window = w.item.window {
+                            NotificationCenter.default.post(name: .togglePopup, object: nil, userInfo: [
+                                "module": m.name,
+                                "widget": w.type,
+                                "origin": window.frame.origin,
+                                "center": window.frame.width/2
+                            ])
+                        }
+                    }
+                }
+            }
+        } else {
+            self.menuBarItem?.button?.target = self
+            self.menuBarItem?.button?.action = #selector(self.togglePopup)
+            self.menuBarItem?.button?.sendAction(on: [.leftMouseDown, .rightMouseDown])
+        }
         
         DispatchQueue.main.async(execute: {
             self.recalculate()
@@ -64,6 +93,11 @@ class CombinedView {
     }
     
     public func disable() {
+        self.activeModules.forEach { (m: Module) in
+            m.menuBar.widgets.forEach { w in
+                w.item.onClick = nil
+            }
+        }
         if let item = self.menuBarItem {
             NSStatusBar.system.removeStatusItem(item)
         }
@@ -75,7 +109,7 @@ class CombinedView {
         
         var w: CGFloat = 0
         var i: Int = 0
-        modules.filter({ $0.enabled }).sorted(by: { $0.combinedPosition < $1.combinedPosition }).forEach { (m: Module) in
+        self.activeModules.forEach { (m: Module) in
             self.view.addSubview(m.menuBar.view)
             self.view.subviews[i].setFrameOrigin(NSPoint(x: w, y: 0))
             w += m.menuBar.view.frame.width + self.spacing
@@ -88,7 +122,7 @@ class CombinedView {
     // call when popup appear/disappear
     private func visibilityCallback(_ state: Bool) {}
     
-    @objc private func togglePopup(_ sender: Any) {
+    @objc private func togglePopup(_ sender: NSButton) {
         guard let popup = self.popup, let item = self.menuBarItem, let window = item.button?.window else { return }
         let openedWindows = NSApplication.shared.windows.filter{ $0 is NSPanel }
         openedWindows.forEach{ $0.setIsVisible(false) }
@@ -126,6 +160,36 @@ class CombinedView {
     
     @objc private func listenForModuleRearrrange() {
         self.recalculate()
+    }
+    
+    @objc private func listenCombinedModulesPopup() {
+        if !self.combinedModulesPopup {
+            self.activeModules.forEach { (m: Module) in
+                m.menuBar.widgets.forEach { w in
+                    w.item.onClick = {
+                        if let window = w.item.window {
+                            NotificationCenter.default.post(name: .togglePopup, object: nil, userInfo: [
+                                "module": m.name,
+                                "widget": w.type,
+                                "origin": window.frame.origin,
+                                "center": window.frame.width/2
+                            ])
+                        }
+                    }
+                }
+            }
+            self.menuBarItem?.button?.action = nil
+        } else {
+            self.activeModules.forEach { (m: Module) in
+                m.menuBar.widgets.forEach { w in
+                    w.item.onClick = nil
+                }
+            }
+            
+            self.menuBarItem?.button?.target = self
+            self.menuBarItem?.button?.action = #selector(self.togglePopup)
+            self.menuBarItem?.button?.sendAction(on: [.leftMouseDown, .rightMouseDown])
+        }
     }
 }
 

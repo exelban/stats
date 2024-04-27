@@ -69,6 +69,7 @@
 "Square" = "مربع";
 "Cube" = "مکعب";
 "Logarithmic" = "لگاریتمی";
+"Fixed scale" = "Fixed";
 "Cores" = "هسته ها";
 "Settings" = "Settings";
 "Name" = "Name";
@@ -189,7 +190,7 @@
 "Color of upload" = "رنگ آپلود";
 "Monospaced font" = "Monospaced font";
 "Reverse order" = "Reverse order";
-"Chart duration" = "Chart duration";
+"Chart history" = "Chart history";
 
 // Module Kit
 "Open module settings" = "باز کردن تنظیمات ماژول‌ها";
@@ -207,12 +208,16 @@
 "Merge widgets" = "ادغام ویجت‌ها";
 "No available widgets to configure" = "ویجتی برای پیکربندی در دسترس نیست";
 "No options to configure for the popup in this module" = "در این ماژول تنظیمی برای پاپ‌آپ موجود نیست";
+"Process" = "Process";
+"Kill process" = "Kill process";
 
 // Modules
 "Number of top processes" = "تعداد بالاترین پردازش‌ها";
 "Update interval for top processes" = " بروزرسانی زمان‌بندی برای بالاترین پردازش‌ها";
 "Notification level" = "سطح نوتیفیکیشن";
 "Chart color" = "رنگ نمودار";
+"Main chart scaling" = "Main chart scaling";
+"Scale value" = "Scale value";
 
 // CPU
 "CPU usage" = "مصرف سی پی یو";

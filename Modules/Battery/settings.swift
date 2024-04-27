@@ -28,16 +28,8 @@ internal class Settings: NSStackView, Settings_v {
         self.numberOfProcesses = Store.shared.int(key: "\(self.title)_processes", defaultValue: self.numberOfProcesses)
         self.timeFormat = Store.shared.string(key: "\(self.title)_timeFormat", defaultValue: self.timeFormat)
         
-        super.init(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
-        
+        super.init(frame: NSRect.zero)
         self.orientation = .vertical
-        self.distribution = .gravityAreas
-        self.edgeInsets = NSEdgeInsets(
-            top: Constants.Settings.margin,
-            left: Constants.Settings.margin,
-            bottom: Constants.Settings.margin,
-            right: Constants.Settings.margin
-        )
         self.spacing = Constants.Settings.margin
     }
     
@@ -48,20 +40,22 @@ internal class Settings: NSStackView, Settings_v {
     public func load(widgets: [widget_t]) {
         self.subviews.forEach{ $0.removeFromSuperview() }
         
-        self.addArrangedSubview(selectSettingsRowV1(
-            title: localizedString("Number of top processes"),
-            action: #selector(changeNumberOfProcesses),
-            items: NumbersOfProcesses.map{ "\($0)" },
-            selected: "\(self.numberOfProcesses)"
-        ))
+        self.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Number of top processes"), component: selectView(
+                action: #selector(self.changeNumberOfProcesses),
+                items: NumbersOfProcesses.map{ KeyValue_t(key: "\($0)", value: "\($0)") },
+                selected: "\(self.numberOfProcesses)"
+            ))
+        ]))
         
         if !widgets.filter({ $0 == .battery }).isEmpty {
-            self.addArrangedSubview(selectSettingsRow(
-                title: localizedString("Time format"),
-                action: #selector(toggleTimeFormat),
-                items: ShortLong,
-                selected: self.timeFormat
-            ))
+            self.addArrangedSubview(PreferencesSection([
+                PreferencesRow(localizedString("Time format"), component: selectView(
+                    action: #selector(toggleTimeFormat),
+                    items: ShortLong,
+                    selected: self.timeFormat
+                ))
+            ]))
         }
     }
     
@@ -72,11 +66,8 @@ internal class Settings: NSStackView, Settings_v {
             self.callbackWhenUpdateNumberOfProcesses()
         }
     }
-    
     @objc private func toggleTimeFormat(_ sender: NSMenuItem) {
-        guard let key = sender.representedObject as? String else {
-            return
-        }
+        guard let key = sender.representedObject as? String else { return }
         self.timeFormat = key
         Store.shared.set(key: "\(self.title)_timeFormat", value: key)
         self.callback()

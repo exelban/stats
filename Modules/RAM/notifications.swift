@@ -57,30 +57,28 @@ class Notifications: NotificationsWrapper {
         self.pressureLevel = Store.shared.string(key: "\(self.module)_notifications_pressure", defaultValue: self.pressureLevel)
         self.swapSize = Store.shared.string(key: "\(self.module)_notifications_swap", defaultValue: self.swapSize)
         
-        self.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Usage"),
-            action: #selector(self.changeTotalUsage),
-            items: notificationLevels,
-            selected: self.totalUsageLevel
-        ))
-        self.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Free memory (less than)"),
-            action: #selector(self.changeFree),
-            items: notificationLevels,
-            selected: self.freeLevel
-        ))
-        self.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Memory pressure"),
-            action: #selector(self.changePressure),
-            items: memoryPressureLevels.filter({ $0.key != "normal" }),
-            selected: self.pressureLevel
-        ))
-        self.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Swap size"),
-            action: #selector(self.changeSwap),
-            items: swapSizes,
-            selected: self.swapSize
-        ))
+        self.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Usage"), component: selectView(
+                action: #selector(self.changeTotalUsage),
+                items: notificationLevels,
+                selected: self.totalUsageLevel
+            )),
+            PreferencesRow(localizedString("Free memory (less than)"), component: selectView(
+                action: #selector(self.changeFree),
+                items: notificationLevels,
+                selected: self.freeLevel
+            )),
+            PreferencesRow(localizedString("Memory pressure"), component: selectView(
+                action: #selector(self.changePressure),
+                items: memoryPressureLevels.filter({ $0.key != "normal" }),
+                selected: self.pressureLevel
+            )),
+            PreferencesRow(localizedString("Swap size"), component: selectView(
+                action: #selector(self.changeSwap),
+                items: swapSizes,
+                selected: self.swapSize
+            ))
+        ]))
     }
     
     required init?(coder: NSCoder) {

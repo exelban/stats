@@ -69,6 +69,7 @@
 "Square" = "Kvadratno";
 "Cube" = "Kubično";
 "Logarithmic" = "Logaritmično";
+"Fixed scale" = "Fixed";
 "Cores" = "Jedra";
 "Settings" = "Nastavitve";
 "Name" = "Ime";
@@ -189,7 +190,7 @@
 "Color of upload" = "Barva oddajanja";
 "Monospaced font" = "Pisava s fiksno širino";
 "Reverse order" = "Obratni vrstni red";
-"Chart duration" = "Chart duration";
+"Chart history" = "Chart history";
 
 // Module Kit
 "Open module settings" = "Odpri nastavitve modula";
@@ -207,12 +208,16 @@
 "Merge widgets" = "Združevanje pripomočkov";
 "No available widgets to configure" = "Ni razpoložljivih pripomočkov za konfiguracijo";
 "No options to configure for the popup in this module" = "V tem modulu ni možnosti za konfiguracijo pojavnega okna";
+"Process" = "Process";
+"Kill process" = "Kill process";
 
 // Modules
 "Number of top processes" = "Število glavnih procesov";
 "Update interval for top processes" = "Interval posodabljanja za glavne procese";
 "Notification level" = "Raven za obvestila";
 "Chart color" = "Barva grafa";
+"Main chart scaling" = "Main chart scaling";
+"Scale value" = "Scale value";
 
 // CPU
 "CPU usage" = "CPE poraba";
