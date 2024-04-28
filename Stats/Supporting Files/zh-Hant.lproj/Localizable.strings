@@ -208,8 +208,8 @@
 "Merge widgets" = "合併小工具";
 "No available widgets to configure" = "沒有可用的小工具來進行組態設定";
 "No options to configure for the popup in this module" = "沒有可用於此模組的彈出式視窗組態設定選項";
-"Process" = "Process";
-"Kill process" = "Kill process";
+"Process" = "程序";
+"Kill process" = "結束程序";
 
 // Modules
 "Number of top processes" = "高能耗程序數量";
