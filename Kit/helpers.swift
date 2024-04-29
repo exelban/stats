@@ -1487,3 +1487,76 @@ public func restartApp(_ sender: Any, afterDelay seconds: TimeInterval = 0.5) ->
     NSApp.terminate(sender)
     exit(0)
 }
+
+public class StepperInput: NSStackView, NSTextFieldDelegate {
+    public var callback: ((Int) -> Void) = {_ in }
+    
+    private let value: NSTextField = NSTextField()
+    private let stepper: NSStepper = NSStepper()
+    
+    private let range: NSRange?
+    
+    public init(_ value: Int, range: NSRange? = nil) {
+        self.range = range
+        
+        super.init(frame: .zero)
+        
+        self.orientation = .horizontal
+        self.spacing = 2
+        
+        self.value.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+        self.value.textColor = .textColor
+        self.value.isEditable = true
+        self.value.isSelectable = true
+        self.value.usesSingleLineMode = true
+        self.value.maximumNumberOfLines = 1
+        self.value.focusRingType = .none
+        self.value.delegate = self
+        self.value.stringValue = "\(value)"
+        
+        self.stepper.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+        self.stepper.doubleValue = Double(value)/100
+        if let range {
+            self.stepper.minValue = Double(range.lowerBound)/100
+            self.stepper.maxValue = Double(range.upperBound)/100
+        }
+        self.stepper.increment = 0.01
+        self.stepper.valueWraps = false
+        self.stepper.target = self
+        self.stepper.action = #selector(self.onStepperChange)
+        
+        self.addArrangedSubview(self.value)
+        self.addArrangedSubview(self.stepper)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    public func controlTextDidChange(_ obj: Notification) {
+        guard let field = obj.object as? NSTextField else { return }
+        let filtered = field.stringValue.filter{"0123456789".contains($0)}
+        if filtered != field.stringValue {
+            field.stringValue = filtered
+        }
+        guard var v = Int(field.stringValue) else { return }
+        
+        if let range = self.range {
+            if v > range.upperBound {
+                field.stringValue = "\(range.upperBound)"
+                v = range.upperBound
+            } else if v < range.lowerBound {
+                field.stringValue = "\(range.lowerBound)"
+                v = range.lowerBound
+            }
+        }
+        
+        self.callback(v)
+    }
+    
+    @objc private func onStepperChange(_ sender: NSStepper) {
+        let value = Int(sender.doubleValue*100)
+        self.value.stringValue = "\(value)"
+        self.callback(value)
+    }
+}

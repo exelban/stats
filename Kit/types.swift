@@ -337,3 +337,44 @@ public var LineChartHistory: [KeyValue_p] = [
     KeyValue_t(key: "300", value: "5 minutes"),
     KeyValue_t(key: "600", value: "10 minutes")
 ]
+
+public struct SizeUnit: KeyValue_p, Equatable {
+    public let key: String
+    public let value: String
+    public var additional: Any?
+    
+    public static func == (lhs: SizeUnit, rhs: SizeUnit) -> Bool {
+        return lhs.key == rhs.key
+    }
+}
+
+extension SizeUnit: CaseIterable {
+    public static var byte: SizeUnit { return SizeUnit(key: "byte", value: "Bytes") }
+    public static var KB: SizeUnit { return SizeUnit(key: "KB", value: "KB") }
+    public static var MB: SizeUnit { return SizeUnit(key: "MB", value: "MB") }
+    public static var GB: SizeUnit { return SizeUnit(key: "GB", value: "GB") }
+    public static var TB: SizeUnit { return SizeUnit(key: "TB", value: "TB") }
+    
+    public static var allCases: [SizeUnit] {
+        [.byte, .KB, .MB, .GB, .TB]
+    }
+    
+    public static func fromString(_ key: String, defaultValue: SizeUnit = .byte) -> SizeUnit {
+        return SizeUnit.allCases.first{ $0.key == key } ?? defaultValue
+    }
+    
+    public func toBytes(_ value: Int) -> Int {
+        switch self {
+        case .KB:
+            return value * 1_024
+        case .MB:
+            return value * 1_024 * 1_024
+        case .GB:
+            return value * 1_024 * 1_024 * 1_024
+        case .TB:
+            return value * 1_024 * 1_024 * 1_024 * 1_024
+        default:
+            return value
+        }
+    }
+}

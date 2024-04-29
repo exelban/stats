@@ -58,6 +58,9 @@ internal class Popup: PopupWrapper {
     private var chart: NetworkChartView? = nil
     private var reverseOrderState: Bool = false
     private var chartScale: Scale = .none
+    private var chartFixedScale: Int = 12
+    private var chartFixedScaleSize: SizeUnit = .MB
+    private var chartPrefSection: PreferencesSection? = nil
     private var connectivityChart: GridChartView? = nil
     private var processes: ProcessesView? = nil
     private var sliderView: NSView? = nil
@@ -108,6 +111,8 @@ internal class Popup: PopupWrapper {
         self.uploadColorState = Color.fromString(Store.shared.string(key: "\(self.title)_uploadColor", defaultValue: self.uploadColorState.key))
         self.reverseOrderState = Store.shared.bool(key: "\(self.title)_reverseOrder", defaultValue: self.reverseOrderState)
         self.chartScale = Scale.fromString(Store.shared.string(key: "\(self.title)_chartScale", defaultValue: self.chartScale.key))
+        self.chartFixedScale = Store.shared.int(key: "\(self.title)_chartFixedScale", defaultValue: self.chartFixedScale)
+        self.chartFixedScaleSize = SizeUnit.fromString(Store.shared.string(key: "\(self.title)_chartFixedScaleSize", defaultValue: self.chartFixedScaleSize.key))
         self.publicIPState = Store.shared.bool(key: "\(self.title)_publicIP", defaultValue: self.publicIPState)
         
         self.spacing = 0
@@ -183,7 +188,9 @@ internal class Popup: PopupWrapper {
         
         let chart = NetworkChartView(
             frame: NSRect(x: 0, y: 1, width: container.frame.width, height: container.frame.height - 2),
-            num: 120, reversedOrder: self.reverseOrderState, outColor: self.uploadColor, inColor: self.downloadColor, scale: self.chartScale
+            num: 120, reversedOrder: self.reverseOrderState, outColor: self.uploadColor, inColor: self.downloadColor, 
+            scale: self.chartScale,
+            fixedScale: Double(self.chartFixedScaleSize.toBytes(self.chartFixedScale))
         )
         chart.base = self.base
         container.addSubview(chart)
@@ -523,13 +530,31 @@ internal class Popup: PopupWrapper {
             ))
         ]))
         
-        view.addArrangedSubview(PreferencesSection([
+        self.chartPrefSection = PreferencesSection([
             PreferencesRow(localizedString("Main chart scaling"), component: selectView(
                 action: #selector(self.toggleChartScale),
-                items: Scale.allCases.filter({ $0 != .fixed }),
+                items: Scale.allCases,
                 selected: self.chartScale.key
-            ))
-        ]))
+            )),
+            PreferencesRow(localizedString("Scale value"), component: {
+                let view: NSStackView = NSStackView()
+                view.orientation = .horizontal
+                view.spacing = 2
+                let valueField = StepperInput(self.chartFixedScale, range: NSRange(location: 1, length: 1023))
+                valueField.callback = self.toggleFixedScale
+                valueField.widthAnchor.constraint(equalToConstant: 80).isActive = true
+                view.addArrangedSubview(NSView())
+                view.addArrangedSubview(valueField)
+                view.addArrangedSubview(selectView(
+                    action: #selector(self.toggleUploadScaleSize),
+                    items: SizeUnit.allCases,
+                    selected: self.chartFixedScaleSize.key
+                ))
+                return view
+            }())
+        ])
+        view.addArrangedSubview(self.chartPrefSection!)
+        self.chartPrefSection?.toggleVisibility(1, newState: self.chartScale == .fixed)
         
         view.addArrangedSubview(PreferencesSection([
             PreferencesRow(localizedString("Public IP"), component: switchView(
@@ -579,7 +604,8 @@ internal class Popup: PopupWrapper {
         guard let key = sender.representedObject as? String,
               let value = Scale.allCases.first(where: { $0.key == key }) else { return }
         self.chartScale = value
-        self.chart?.setScale(self.chartScale)
+        self.chart?.setScale(self.chartScale, Double(self.chartFixedScaleSize.toBytes(self.chartFixedScale)))
+        self.chartPrefSection?.toggleVisibility(1, newState: self.chartScale == .fixed)
         Store.shared.set(key: "\(self.title)_chartScale", value: key)
         self.display()
     }
@@ -595,6 +621,18 @@ internal class Popup: PopupWrapper {
             }
             self.recalculateHeight()
         })
+    }
+    @objc private func toggleFixedScale(_ newValue: Int) {
+        self.chart?.setScale(self.chartScale, Double(self.chartFixedScaleSize.toBytes(newValue)))
+        Store.shared.set(key: "\(self.title)_chartFixedScale", value: newValue)
+    }
+    @objc private func toggleUploadScaleSize(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String,
+              let value = SizeUnit.allCases.first(where: { $0.key == key }) else { return }
+        self.chartFixedScaleSize = value
+        self.chart?.setScale(self.chartScale, Double(self.chartFixedScaleSize.toBytes(self.chartFixedScale)))
+        Store.shared.set(key: "\(self.title)_chartFixedScaleSize", value: key)
+        self.display()
     }
     
     // MARK: - helpers
