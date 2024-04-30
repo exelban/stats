@@ -135,8 +135,14 @@ public class Network: Module {
     private let ipUpdater = NSBackgroundActivityScheduler(identifier: "eu.exelban.Stats.Network.IP")
     private let usageReseter = NSBackgroundActivityScheduler(identifier: "eu.exelban.Stats.Network.Usage")
     
+    private var widgetActivationThresholdState: Bool {
+        Store.shared.bool(key: "\(self.config.name)_widgetActivationThresholdState", defaultValue: false)
+    }
     private var widgetActivationThreshold: Int {
-        Store.shared.int(key: "\(self.config.name)_widgetActivationThreshold", defaultValue: 0) * 1_024
+        Store.shared.int(key: "\(self.config.name)_widgetActivationThreshold", defaultValue: 0)
+    }
+    private var widgetActivationThresholdSize: SizeUnit {
+        SizeUnit.fromString(Store.shared.string(key: "\(self.name)_widgetActivationThresholdSize", defaultValue: SizeUnit.MB.key))
     }
     private var publicIPRefreshInterval: String {
         Store.shared.string(key: "\(self.name)_publicIPRefreshInterval", defaultValue: "never")
@@ -212,11 +218,14 @@ public class Network: Module {
         self.popupView.usageCallback(value)
         self.portalView.usageCallback(value)
         
-        var upload: Int64 = 0
-        var download: Int64 = 0
-        if value.bandwidth.upload >= self.widgetActivationThreshold || value.bandwidth.download >= self.widgetActivationThreshold {
-            upload = value.bandwidth.upload
-            download = value.bandwidth.download
+        var upload: Int64 = value.bandwidth.upload
+        var download: Int64 = value.bandwidth.download
+        if self.widgetActivationThresholdState {
+            let threshold = self.widgetActivationThresholdSize.toBytes(self.widgetActivationThreshold)
+            if value.bandwidth.upload >= threshold || value.bandwidth.download >= threshold {
+                upload = 0
+                download = 0
+            }
         }
         
         self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
@@ -256,9 +265,7 @@ public class Network: Module {
         
         self.ipUpdater.repeats = true
         self.ipUpdater.schedule { (completion: @escaping NSBackgroundActivityScheduler.CompletionHandler) in
-            guard self.enabled && self.isAvailable() else {
-                return
-            }
+            guard self.enabled && self.isAvailable() else { return }
             debug("going to automatically refresh IP address...")
             NotificationCenter.default.post(name: .refreshPublicIP, object: nil, userInfo: nil)
             completion(NSBackgroundActivityScheduler.Result.finished)

@@ -18,7 +18,9 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
     private var readerType: String = "interface"
     private var usageReset: String = AppUpdateInterval.atStart.rawValue
     private var VPNModeState: Bool = false
+    private var widgetActivationThresholdState: Bool = false
     private var widgetActivationThreshold: Int = 0
+    private var widgetActivationThresholdSize: SizeUnit = .MB
     private var ICMPHost: String = "1.1.1.1"
     private var publicIPRefreshInterval: String = "never"
     private var baseValue: String = "byte"
@@ -32,6 +34,7 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
     private let title: String
     private var sliderView: NSView? = nil
     private var section: PreferencesSection? = nil
+    private var widgetThresholdSection: PreferencesSection? = nil
     
     private var list: [Network_interface] = []
     
@@ -48,7 +51,9 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
         self.readerType = Store.shared.string(key: "\(self.title)_reader", defaultValue: self.readerType)
         self.usageReset = Store.shared.string(key: "\(self.title)_usageReset", defaultValue: self.usageReset)
         self.VPNModeState = Store.shared.bool(key: "\(self.title)_VPNMode", defaultValue: self.VPNModeState)
+        self.widgetActivationThresholdState = Store.shared.bool(key: "\(self.title)_widgetActivationThresholdState", defaultValue: self.widgetActivationThresholdState)
         self.widgetActivationThreshold = Store.shared.int(key: "\(self.title)_widgetActivationThreshold", defaultValue: self.widgetActivationThreshold)
+        self.widgetActivationThresholdSize = SizeUnit.fromString(Store.shared.string(key: "\(self.title)_widgetActivationThresholdSize", defaultValue: self.widgetActivationThresholdSize.key))
         self.ICMPHost = Store.shared.string(key: "\(self.title)_ICMPHost", defaultValue: self.ICMPHost)
         self.publicIPRefreshInterval = Store.shared.string(key: "\(self.title)_publicIPRefreshInterval", defaultValue: self.publicIPRefreshInterval)
         self.baseValue = Store.shared.string(key: "\(self.title)_base", defaultValue: self.baseValue)
@@ -140,17 +145,30 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
         self.addArrangedSubview(section)
         self.section = section
         
-        self.sliderView = sliderView(
-            action: #selector(self.sliderCallback),
-            value: self.widgetActivationThreshold,
-            initialValue: self.widgetActivationThreshold != 0 ? "\(self.widgetActivationThreshold) KB" : localizedString("Disabled"), 
-            min: 0,
-            max: 1024,
-            valueWidth: 70
-        )
-        self.addArrangedSubview(PreferencesSection([
-            PreferencesRow(localizedString("Widget activation threshold"), component: self.sliderView!)
-        ]))
+        self.widgetThresholdSection = PreferencesSection([
+            PreferencesRow(localizedString("Widget activation threshold"), component: switchView(
+                action: #selector(self.toggleWidgetActivationThreshold),
+                state: self.widgetActivationThresholdState
+            )),
+            PreferencesRow(localizedString("Value"), component: {
+                let view: NSStackView = NSStackView()
+                view.orientation = .horizontal
+                view.spacing = 2
+                let valueField = StepperInput(self.widgetActivationThreshold, range: NSRange(location: 1, length: 1023))
+                valueField.callback = self.changeWidgetActivationThreshold
+                valueField.widthAnchor.constraint(equalToConstant: 80).isActive = true
+                view.addArrangedSubview(NSView())
+                view.addArrangedSubview(valueField)
+                view.addArrangedSubview(selectView(
+                    action: #selector(self.toggleWidgetActivationThresholdSize),
+                    items: SizeUnit.allCases,
+                    selected: self.widgetActivationThresholdSize.key
+                ))
+                return view
+            }())
+        ])
+        self.addArrangedSubview(self.widgetThresholdSection!)
+        self.widgetThresholdSection?.toggleVisibility(1, newState: self.widgetActivationThresholdState)
         
         let valueField: NSTextField = NSTextField()
         valueField.widthAnchor.constraint(equalToConstant: 250).isActive = true
@@ -158,8 +176,6 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
         valueField.textColor = .textColor
         valueField.isEditable = true
         valueField.isSelectable = true
-        valueField.isBezeled = false
-        valueField.canDrawSubviewsIntoLayer = true
         valueField.usesSingleLineMode = true
         valueField.maximumNumberOfLines = 1
         valueField.focusRingType = .none
@@ -209,13 +225,21 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
         self.VPNModeState = controlState(sender)
         Store.shared.set(key: "\(self.title)_VPNMode", value: self.VPNModeState)
     }
-    @objc private func sliderCallback(_ sender: NSSlider) {
-        let value = Int(sender.doubleValue)
-        if let field = self.sliderView?.subviews.first(where: { $0 is NSTextField }), let view = field as? NSTextField {
-            view.stringValue = value == 0 ? localizedString("Disabled") : "\(value) KB"
-        }
-        self.widgetActivationThreshold = value
-        Store.shared.set(key: "\(self.title)_widgetActivationThreshold", value: self.widgetActivationThreshold)
+    @objc func toggleWidgetActivationThreshold(_ sender: NSControl) {
+        self.widgetActivationThresholdState = controlState(sender)
+        Store.shared.set(key: "\(self.title)_widgetActivationThresholdState", value: self.widgetActivationThresholdState)
+        self.widgetThresholdSection?.toggleVisibility(1, newState: self.widgetActivationThresholdState)
+    }
+    @objc private func changeWidgetActivationThreshold(_ newValue: Int) {
+        self.widgetActivationThreshold = newValue
+        Store.shared.set(key: "\(self.title)_widgetActivationThreshold", value: newValue)
+    }
+    @objc private func toggleWidgetActivationThresholdSize(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String,
+              let value = SizeUnit.allCases.first(where: { $0.key == key }) else { return }
+        self.widgetActivationThresholdSize = value
+        Store.shared.set(key: "\(self.title)_widgetActivationThresholdSize", value: key)
+        self.display()
     }
     
     func controlTextDidChange(_ notification: Notification) {

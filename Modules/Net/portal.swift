@@ -26,6 +26,12 @@ public class Portal: PortalWrapper {
     private var chartScale: Scale {
         Scale.fromString(Store.shared.string(key: "\(self.name)_chartScale", defaultValue: Scale.none.key))
     }
+    private var chartFixedScale: Int {
+        Store.shared.int(key: "\(self.name)_chartFixedScale", defaultValue: 12)
+    }
+    private var chartFixedScaleSize: SizeUnit {
+        SizeUnit.fromString(Store.shared.string(key: "\(self.name)_chartFixedScaleSize", defaultValue: SizeUnit.MB.key))
+    }
     
     private var downloadColor: NSColor {
         let v = Color.fromString(Store.shared.string(key: "\(self.name)_downloadColor", defaultValue: Color.secondBlue.key))
@@ -68,7 +74,8 @@ public class Portal: PortalWrapper {
             reversedOrder: self.reverseOrderState,
             outColor: self.uploadColor,
             inColor: self.downloadColor,
-            scale: self.chartScale
+            scale: self.chartScale,
+            fixedScale: Double(self.chartFixedScaleSize.toBytes(self.chartFixedScale))
         )
         chart.base = self.base
         container.addSubview(chart)
@@ -88,7 +95,7 @@ public class Portal: PortalWrapper {
                     chart.base = self.base
                 }
                 chart.addValue(upload: Double(value.bandwidth.upload), download: Double(value.bandwidth.download))
-                chart.setScale(self.chartScale, 1)
+                chart.setScale(self.chartScale, Double(self.chartFixedScaleSize.toBytes(self.chartFixedScale)))
                 chart.setColors(in: self.downloadColor, out: self.uploadColor)
             }
             
