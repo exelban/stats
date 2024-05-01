@@ -158,8 +158,8 @@ public class NetworkChart: WidgetWrapper {
             height: box.bounds.height - offset
         )
         let points = self.points
-        var topMax: Double = (self.reverseOrderState ? points.map{ $0.0 }.max() : points.map{ $0.1 }.max()) ?? 0
-        var bottomMax: Double = (self.reverseOrderState ? points.map{ $0.1 }.max() : points.map{ $0.0 }.max()) ?? 0
+        var topMax: Double = (self.reverseOrderState ? points.map{ $0.1 }.max() : points.map{ $0.0 }.max()) ?? 0
+        var bottomMax: Double = (self.reverseOrderState ? points.map{ $0.0 }.max() : points.map{ $0.1 }.max()) ?? 0
         if topMax == 0 {
             topMax = 1
         }
@@ -176,11 +176,11 @@ public class NetworkChart: WidgetWrapper {
         }
         
         let topYPoint = { (point: Int) -> CGFloat in
-            let value = self.reverseOrderState ? points[point].0 : points[point].1
+            let value = self.reverseOrderState ? points[point].1 : points[point].0
             return scaleValue(scale: self.scaleState, value: value, maxValue: topMax, maxHeight: chartFrame.height/2, limit: 1) + xCenter
         }
         let bottomYPoint = { (point: Int) -> CGFloat in
-            let value = self.reverseOrderState ? points[point].1 : points[point].0
+            let value = self.reverseOrderState ? points[point].0 : points[point].1
             return xCenter - scaleValue(scale: self.scaleState, value: value, maxValue: bottomMax, maxHeight: chartFrame.height/2, limit: 1)
         }
         
