@@ -120,10 +120,12 @@ internal class Settings: NSStackView, Settings_v {
             }
             groups.forEach { (group: SensorGroup) in
                 filtered.filter{ $0.group == group }.forEach { (s: Sensor_p) in
-                    section.add(PreferencesRow(localizedString(s.name), component: switchView(
+                    let btn = switchView(
                         action: #selector(self.toggleSensor),
                         state: s.state
-                    )))
+                    )
+                    btn.identifier = NSUserInterfaceItemIdentifier(rawValue: s.key)
+                    section.add(PreferencesRow(localizedString(s.name), component: btn))
                 }
             }
             
