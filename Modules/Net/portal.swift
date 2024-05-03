@@ -82,7 +82,7 @@ public class Portal: PortalWrapper {
         self.chart = chart
         view.addArrangedSubview(container)
         
-        self.publicIPField = portalRow(view, title: "\(localizedString("Public IP")):", value: localizedString("Unknown"))
+        self.publicIPField = portalRow(view, title: "\(localizedString("Public IP")):", value: localizedString("Unknown"), isSelectable: true)
         view.subviews.last?.heightAnchor.constraint(equalToConstant: 16).isActive = true
         
         self.addArrangedSubview(view)
