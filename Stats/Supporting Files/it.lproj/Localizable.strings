@@ -208,16 +208,16 @@
 "Merge widgets" = "Combina moduli";
 "No available widgets to configure" = "Nessun modulo disponibile";
 "No options to configure for the popup in this module" = "Nessuna opzione da configurare per le notifiche in questo modulo";
-"Process" = "Process";
-"Kill process" = "Kill process";
+"Process" = "Processo";
+"Kill process" = "Chiudi processo";
 
 // Modules
 "Number of top processes" = "Numero di processi principali";
 "Update interval for top processes" = "Intervallo d'aggiornamento per processi principali";
 "Notification level" = "Livello di notifica";
 "Chart color" = "Colore grafico";
-"Main chart scaling" = "Main chart scaling";
-"Scale value" = "Scale value";
+"Main chart scaling" = "Scala del grafico principale";
+"Scale value" = "Valore scala";
 
 // CPU
 "CPU usage" = "Utilizzo CPU";
