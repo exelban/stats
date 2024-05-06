@@ -1346,7 +1346,7 @@ var isDarkMode: Bool {
 public class PreferencesSection: NSStackView {
     private let container: NSStackView = NSStackView()
     
-    public init(label: String = "", _ components: [PreferencesRow] = []) {
+    public init(label: String = "", _ components: [NSView] = []) {
         super.init(frame: .zero)
         
         self.orientation = .vertical
@@ -1489,16 +1489,29 @@ public func restartApp(_ sender: Any, afterDelay seconds: TimeInterval = 0.5) ->
     exit(0)
 }
 
-public class StepperInput: NSStackView, NSTextFieldDelegate {
-    public var callback: ((Int) -> Void) = {_ in }
+public class StepperInput: NSStackView, NSTextFieldDelegate, PreferencesSwitchWith_p {
+    public var callback: ((Int) -> Void)
     
     private let value: NSTextField = NSTextField()
     private let stepper: NSStepper = NSStepper()
+    private var symbol: NSTextField? = nil
     
     private let range: NSRange?
     
-    public init(_ value: Int, range: NSRange? = nil) {
+    private var _isEnabled: Bool = true
+    public var isEnabled: Bool {
+        get { self._isEnabled }
+        set {
+            self.value.isEnabled = newValue
+            self.stepper.isEnabled = newValue
+            self.symbol?.isEnabled = newValue
+            self._isEnabled = newValue
+        }
+    }
+    
+    public init(_ value: Int, range: NSRange? = nil, symbol: String? = nil, callback: @escaping (Int) -> Void = {_ in }) {
         self.range = range
+        self.callback = callback
         
         super.init(frame: .zero)
         
@@ -1514,6 +1527,7 @@ public class StepperInput: NSStackView, NSTextFieldDelegate {
         self.value.focusRingType = .none
         self.value.delegate = self
         self.value.stringValue = "\(value)"
+        self.value.translatesAutoresizingMaskIntoConstraints = false
         
         self.stepper.font = NSFont.systemFont(ofSize: 12, weight: .regular)
         self.stepper.doubleValue = Double(value)/100
@@ -1528,6 +1542,13 @@ public class StepperInput: NSStackView, NSTextFieldDelegate {
         
         self.addArrangedSubview(self.value)
         self.addArrangedSubview(self.stepper)
+        
+        if let symbol {
+            let symbol: NSTextField = LabelField(symbol)
+            symbol.textColor = .textColor
+            self.addArrangedSubview(symbol)
+            self.symbol = symbol
+        }
     }
     
     required init?(coder: NSCoder) {
@@ -1559,5 +1580,41 @@ public class StepperInput: NSStackView, NSTextFieldDelegate {
         let value = Int(sender.doubleValue*100)
         self.value.stringValue = "\(value)"
         self.callback(value)
+    }
+}
+
+public protocol PreferencesSwitchWith_p: NSView {
+    var isEnabled: Bool { get set }
+}
+public class PreferencesSwitch: NSStackView {
+    private let action: (_ sender: NSControl) -> Void
+    private let with: PreferencesSwitchWith_p
+    
+    public init(action: @escaping (_ sender: NSControl) -> Void, state: Bool, with: PreferencesSwitchWith_p) {
+        self.action = action
+        self.with = with
+        
+        super.init(frame: .zero)
+        
+        self.orientation = .horizontal
+        self.alignment = .centerY
+        self.spacing = Constants.Settings.margin
+        
+        let btn = switchView(action: #selector(self.callback), state: state)
+        with.widthAnchor.constraint(equalToConstant: 68).isActive = true
+        with.isEnabled = state
+        
+        self.addArrangedSubview(NSView())
+        self.addArrangedSubview(btn)
+        self.addArrangedSubview(with)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc func callback(_ sender: NSControl) {
+        self.action(sender)
+        self.with.isEnabled = controlState(sender)
     }
 }
