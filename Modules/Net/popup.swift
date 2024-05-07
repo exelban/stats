@@ -57,6 +57,7 @@ internal class Popup: PopupWrapper {
     
     private var chart: NetworkChartView? = nil
     private var reverseOrderState: Bool = false
+    private var chartHistory: Int = 180
     private var chartScale: Scale = .none
     private var chartFixedScale: Int = 12
     private var chartFixedScaleSize: SizeUnit = .MB
@@ -110,6 +111,7 @@ internal class Popup: PopupWrapper {
         self.downloadColorState = Color.fromString(Store.shared.string(key: "\(self.title)_downloadColor", defaultValue: self.downloadColorState.key))
         self.uploadColorState = Color.fromString(Store.shared.string(key: "\(self.title)_uploadColor", defaultValue: self.uploadColorState.key))
         self.reverseOrderState = Store.shared.bool(key: "\(self.title)_reverseOrder", defaultValue: self.reverseOrderState)
+        self.chartHistory = Store.shared.int(key: "\(self.title)_chartHistory", defaultValue: self.chartHistory)
         self.chartScale = Scale.fromString(Store.shared.string(key: "\(self.title)_chartScale", defaultValue: self.chartScale.key))
         self.chartFixedScale = Store.shared.int(key: "\(self.title)_chartFixedScale", defaultValue: self.chartFixedScale)
         self.chartFixedScaleSize = SizeUnit.fromString(Store.shared.string(key: "\(self.title)_chartFixedScaleSize", defaultValue: self.chartFixedScaleSize.key))
@@ -188,7 +190,7 @@ internal class Popup: PopupWrapper {
         
         let chart = NetworkChartView(
             frame: NSRect(x: 0, y: 1, width: container.frame.width, height: container.frame.height - 2),
-            num: 120, reversedOrder: self.reverseOrderState, outColor: self.uploadColor, inColor: self.downloadColor, 
+            num: self.chartHistory, reversedOrder: self.reverseOrderState, outColor: self.uploadColor, inColor: self.downloadColor, 
             scale: self.chartScale,
             fixedScale: Double(self.chartFixedScaleSize.toBytes(self.chartFixedScale))
         )
@@ -531,6 +533,11 @@ internal class Popup: PopupWrapper {
         ]))
         
         self.chartPrefSection = PreferencesSection([
+            PreferencesRow(localizedString("Chart history"), component: selectView(
+                action: #selector(self.togglechartHistory),
+                items: LineChartHistory,
+                selected: "\(self.chartHistory)"
+            )),
             PreferencesRow(localizedString("Main chart scaling"), component: selectView(
                 action: #selector(self.toggleChartScale),
                 items: Scale.allCases,
@@ -554,7 +561,7 @@ internal class Popup: PopupWrapper {
             }())
         ])
         view.addArrangedSubview(self.chartPrefSection!)
-        self.chartPrefSection?.toggleVisibility(1, newState: self.chartScale == .fixed)
+        self.chartPrefSection?.toggleVisibility(2, newState: self.chartScale == .fixed)
         
         view.addArrangedSubview(PreferencesSection([
             PreferencesRow(localizedString("Public IP"), component: switchView(
@@ -600,12 +607,18 @@ internal class Popup: PopupWrapper {
         Store.shared.set(key: "\(self.title)_reverseOrder", value: self.reverseOrderState)
         self.display()
     }
+    @objc private func togglechartHistory(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String, let value = Int(key) else { return }
+        self.chartHistory = value
+        Store.shared.set(key: "\(self.title)_chartHistory", value: value)
+        self.chart?.reinit(self.chartHistory)
+    }
     @objc private func toggleChartScale(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String,
               let value = Scale.allCases.first(where: { $0.key == key }) else { return }
         self.chartScale = value
         self.chart?.setScale(self.chartScale, Double(self.chartFixedScaleSize.toBytes(self.chartFixedScale)))
-        self.chartPrefSection?.toggleVisibility(1, newState: self.chartScale == .fixed)
+        self.chartPrefSection?.toggleVisibility(2, newState: self.chartScale == .fixed)
         Store.shared.set(key: "\(self.title)_chartScale", value: key)
         self.display()
     }
