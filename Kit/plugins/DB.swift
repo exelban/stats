@@ -92,19 +92,6 @@ public class DB {
         return self.values[key] as? T
     }
     
-    public func findMany<T: Decodable>(_ type: T.Type, key: String) -> [T] {
-        guard let values = self.lldb?.findMany(key) as? [String] else { return [] }
-        
-        var list: [T] = []
-        values.forEach({ value in
-            if let value = try? JSONDecoder().decode(type, from: Data(value.utf8)) {
-                list.append(value)
-            }
-        })
-        
-        return list
-    }
-    
     private func clean(_ key: String) {
         guard let keys = self.lldb?.keys(key) as? [String] else { return }
         let maxLiveTS = Date().currentTimeSeconds() - self.ttl

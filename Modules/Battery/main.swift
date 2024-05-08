@@ -13,7 +13,7 @@ import Cocoa
 import Kit
 import IOKit.ps
 
-struct Battery_Usage: value_t, Codable {
+struct Battery_Usage: Codable {
     var powerSource: String = ""
     var state: String? = nil
     var isCharged: Bool = false
@@ -37,12 +37,6 @@ struct Battery_Usage: value_t, Codable {
     var timeToEmpty: Int = 0
     var timeToCharge: Int = 0
     var timeOnACPower: Date? = nil
-    
-    public var widgetValue: Double {
-        get {
-            return self.level
-        }
-    }
 }
 
 public class Battery: Module {

@@ -24,17 +24,6 @@ extension String: LocalizedError {
         return size.width
     }
     
-    public func heightOfString(usingFont font: NSFont) -> CGFloat {
-        let fontAttributes = [NSAttributedString.Key.font: font]
-        let size = self.size(withAttributes: fontAttributes)
-        return size.height
-    }
-    
-    public func sizeOfString(usingFont font: NSFont) -> CGSize {
-        let fontAttributes = [NSAttributedString.Key.font: font]
-        return self.size(withAttributes: fontAttributes)
-    }
-    
     public func condenseWhitespace() -> String {
         let components = self.components(separatedBy: .whitespacesAndNewlines)
         return components.filter { !$0.isEmpty }.joined(separator: " ")
@@ -159,21 +148,6 @@ public extension Double {
             default:
                 return thirdColor
             }
-        }
-    }
-    
-    func percentageColor(color: Bool) -> NSColor {
-        if !color {
-            return NSColor.textColor
-        }
-        
-        switch self {
-        case 0.6...0.8:
-            return NSColor.systemOrange
-        case 0.8...1:
-            return NSColor.systemRed
-        default:
-            return NSColor.systemGreen
         }
     }
     
@@ -442,17 +416,6 @@ public extension NSColor {
     }
 }
 
-public extension CATransaction {
-    static func disableAnimations(_ closure: () -> Void) {
-        CATransaction.begin()
-        CATransaction.setDisableActions(true)
-        CATransaction.setValue(kCFBooleanTrue, forKey: kCATransactionDisableActions)
-        CATransaction.setAnimationDuration(0)
-        closure()
-        CATransaction.commit()
-    }
-}
-
 public class FlippedStackView: NSStackView {
     public override var isFlipped: Bool { return true }
 }
@@ -549,9 +512,6 @@ extension NSTextView {
 public extension Data {
     var socketAddress: sockaddr {
         return withUnsafeBytes { $0.load(as: sockaddr.self) }
-    }
-    var socketAddressInternet: sockaddr_in {
-        return withUnsafeBytes { $0.load(as: sockaddr_in.self) }
     }
 }
 

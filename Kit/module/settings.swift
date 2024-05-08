@@ -16,7 +16,6 @@ public protocol Settings_p: NSView {
 }
 
 public protocol Settings_v: NSView {
-    var callback: (() -> Void) { get set }
     func load(widgets: [widget_t])
 }
 
@@ -58,7 +57,7 @@ open class Settings: NSStackView, Settings_p {
     private var isPopupSettingsAvailable: Bool
     private var isNotificationsSettingsAvailable: Bool
     
-    init(config: UnsafePointer<module_c>, widgets: UnsafeMutablePointer<[Widget]>, enabled: Bool, moduleSettings: Settings_v?, popupSettings: Popup_p?, notificationsSettings: NotificationsWrapper?) {
+    init(config: UnsafePointer<module_c>, widgets: UnsafeMutablePointer<[Widget]>, moduleSettings: Settings_v?, popupSettings: Popup_p?, notificationsSettings: NotificationsWrapper?) {
         self.config = config
         self.widgets = widgets.pointee
         self.moduleSettings = moduleSettings
@@ -271,7 +270,7 @@ open class Settings: NSStackView, Settings_p {
     }
 }
 
-class WidgetSelectorView: NSStackView {
+private class WidgetSelectorView: NSStackView {
     private var module: String
     private var stateCallback: () -> Void = {}
     private var moved: Bool = false
@@ -286,7 +285,7 @@ class WidgetSelectorView: NSStackView {
         return view
     }()
     
-    public init(module: String, widgets: [Widget], stateCallback: @escaping () -> Void) {
+    fileprivate init(module: String, widgets: [Widget], stateCallback: @escaping () -> Void) {
         self.module = module
         self.stateCallback = stateCallback
         
@@ -465,7 +464,7 @@ class WidgetSelectorView: NSStackView {
     }
 }
 
-internal class WidgetPreview: NSStackView {
+private class WidgetPreview: NSStackView {
     private var stateCallback: (_ status: Bool) -> Void = {_ in }
     
     private let rgbImage: NSImage
@@ -475,12 +474,12 @@ internal class WidgetPreview: NSStackView {
     private var state: Bool
     private let id: String
     
-    public var position: Int {
+    fileprivate var position: Int {
         get { Store.shared.int(key: "\(self.id)_position", defaultValue: 0) }
         set { Store.shared.set(key: "\(self.id)_position", value: newValue) }
     }
     
-    public init(id: String, type: widget_t, image: NSImage, isActive: Bool, _ callback: @escaping (_ status: Bool) -> Void) {
+    fileprivate init(id: String, type: widget_t, image: NSImage, isActive: Bool, _ callback: @escaping (_ status: Bool) -> Void) {
         self.id = id
         self.stateCallback = callback
         self.rgbImage = image
@@ -531,7 +530,7 @@ internal class WidgetPreview: NSStackView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func status(_ newState: Bool) {
+    fileprivate func status(_ newState: Bool) {
         self.state = newState
         self.stateCallback(newState)
         self.imageView.image = newState ? self.rgbImage : self.grayImage
@@ -555,8 +554,8 @@ internal class WidgetPreview: NSStackView {
     }
 }
 
-internal class WidgetSettings: NSStackView {
-    public init(title: String, image: NSImage, settingsView: NSView) {
+private class WidgetSettings: NSStackView {
+    fileprivate init(title: String, image: NSImage, settingsView: NSView) {
         super.init(frame: NSRect.zero)
         
         self.translatesAutoresizingMaskIntoConstraints = false

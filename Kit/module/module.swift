@@ -8,18 +8,6 @@
 
 import Cocoa
 
-public protocol Module_p {
-    var available: Bool { get }
-    var enabled: Bool { get }
-    
-    var settings: Settings_p? { get }
-    
-    func mount()
-    func unmount()
-    
-    func terminate()
-}
-
 public struct module_c {
     public var name: String = ""
     public var icon: NSImage?
@@ -75,7 +63,7 @@ public struct module_c {
     }
 }
 
-open class Module: Module_p {
+open class Module {
     public var config: module_c
     
     public var available: Bool = false
@@ -155,7 +143,6 @@ open class Module: Module_p {
         self.settings = Settings(
             config: &self.config,
             widgets: &self.menuBar.widgets,
-            enabled: self.enabled,
             moduleSettings: self.settingsView,
             popupSettings: self.popupView,
             notificationsSettings: self.notificationsView
@@ -232,13 +219,6 @@ open class Module: Module_p {
         self.readers = list.filter({ $0 != nil }).map({ $0! as Reader_p })
     }
     
-    // replace a popup view
-    public func replacePopup(_ view: Popup_p) {
-        self.popup?.setIsVisible(false)
-        self.popupView = view
-        self.popup = PopupWindow(title: self.config.name, view: self.popupView, visibilityCallback: self.visibilityCallback)
-    }
-    
     // determine if module is available (can be overrided in module)
     open func isAvailable() -> Bool { return true }
     
@@ -256,9 +236,6 @@ open class Module: Module_p {
             }
         }
     }
-    
-    // call after widget set up
-    open func widgetDidSet(_ type: widget_t) {}
     
     // call when popup appear/disappear
     private func visibilityCallback(_ state: Bool) {
@@ -339,7 +316,7 @@ open class Module: Module_p {
         }
     }
     
-    @objc private func listenForMouseDownInSettings(_ notification: Notification) {
+    @objc private func listenForMouseDownInSettings() {
         if let popup = self.popup, popup.isVisible && !popup.locked {
             self.popup?.setIsVisible(false)
         }

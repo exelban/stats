@@ -224,6 +224,7 @@ class Dashboard: NSStackView {
         osField.alignment = .center
         osField.font = NSFont.systemFont(ofSize: 12, weight: .regular)
         osField.stringValue = "macOS \(SystemKit.shared.device.os?.name ?? localizedString("Unknown")) (\(SystemKit.shared.device.os?.version.getFullVersion() ?? ""))"
+        osField.toolTip = SystemKit.shared.device.os?.build ?? localizedString("Unknown")
         osField.isSelectable = true
         
         container.addRow(with: [deviceImageView])

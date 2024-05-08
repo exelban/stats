@@ -173,14 +173,7 @@ internal class Settings: NSStackView, Settings_v {
     }
     
     @objc func toggleUsagePerCore(_ sender: NSControl) {
-        var state: NSControl.StateValue? = nil
-        if #available(OSX 10.15, *) {
-            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
-        } else {
-            state = sender is NSButton ? (sender as! NSButton).state: nil
-        }
-        
-        self.usagePerCoreState = state! == .on ? true : false
+        self.usagePerCoreState = controlState(sender)
         Store.shared.set(key: "\(self.title)_usagePerCore", value: self.usagePerCoreState)
         self.callback()
         
@@ -205,53 +198,25 @@ internal class Settings: NSStackView, Settings_v {
     }
     
     @objc func toggleMultithreading(_ sender: NSControl) {
-        var state: NSControl.StateValue? = nil
-        if #available(OSX 10.15, *) {
-            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
-        } else {
-            state = sender is NSButton ? (sender as! NSButton).state: nil
-        }
-        
-        self.hyperthreadState = state! == .on ? true : false
+        self.hyperthreadState = controlState(sender)
         Store.shared.set(key: "\(self.title)_hyperhreading", value: self.hyperthreadState)
         self.callback()
     }
     
     @objc func toggleIPG(_ sender: NSControl) {
-        var state: NSControl.StateValue? = nil
-        if #available(OSX 10.15, *) {
-            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
-        } else {
-            state = sender is NSButton ? (sender as! NSButton).state: nil
-        }
-        
-        self.IPGState = state! == .on ? true : false
+        self.IPGState = controlState(sender)
         Store.shared.set(key: "\(self.title)_IPG", value: self.IPGState)
         self.IPGCallback(self.IPGState)
     }
     
     @objc func toggleSplitValue(_ sender: NSControl) {
-        var state: NSControl.StateValue? = nil
-        if #available(OSX 10.15, *) {
-            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
-        } else {
-            state = sender is NSButton ? (sender as! NSButton).state: nil
-        }
-        
-        self.splitValueState = state! == .on ? true : false
+        self.splitValueState = controlState(sender)
         Store.shared.set(key: "\(self.title)_splitValue", value: self.splitValueState)
         self.callback()
     }
     
     @objc func toggleClustersGroup(_ sender: NSControl) {
-        var state: NSControl.StateValue? = nil
-        if #available(OSX 10.15, *) {
-            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
-        } else {
-            state = sender is NSButton ? (sender as! NSButton).state: nil
-        }
-        
-        self.clustersGroupState = state! == .on ? true : false
+        self.clustersGroupState = controlState(sender)
         Store.shared.set(key: "\(self.title)_clustersGroup", value: self.clustersGroupState)
         
         self.splitValueView?.isEnabled = !(self.usagePerCoreState || self.clustersGroupState)

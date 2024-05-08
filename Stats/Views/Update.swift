@@ -12,7 +12,7 @@
 import Cocoa
 import Kit
 
-class UpdateWindow: NSWindow, NSWindowDelegate {
+internal class UpdateWindow: NSWindow, NSWindowDelegate {
     private let viewController: UpdateViewController = UpdateViewController()
     
     init() {
@@ -39,7 +39,7 @@ class UpdateWindow: NSWindow, NSWindowDelegate {
         windowController.loadWindow()
     }
     
-    public func open(_ v: version_s, settingButton: Bool = false) {
+    internal func open(_ v: version_s, settingButton: Bool = false) {
         if !self.isVisible || settingButton {
             self.setIsVisible(true)
             self.makeKeyAndOrderFront(nil)
@@ -68,7 +68,7 @@ private class UpdateViewController: NSViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func open(_ v: version_s) {
+    internal func open(_ v: version_s) {
         self.update.clear()
         
         if v.newest {
@@ -99,7 +99,7 @@ private class UpdateView: NSView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func newVersion(_ version: version_s) {
+    internal func newVersion(_ version: version_s) {
         self.version = version
         let view: NSStackView = NSStackView(frame: NSRect(
             x: Constants.Settings.margin,
@@ -190,7 +190,7 @@ private class UpdateView: NSView {
         self.addSubview(view)
     }
     
-    public func noUpdates() {
+    internal func noUpdates() {
         let view: NSView = NSView(frame: NSRect(x: 10, y: 10, width: self.frame.width - 20, height: self.frame.height - 20))
         
         let title: NSTextField = TextView(frame: NSRect(x: 0, y: ((view.frame.height - 18)/2), width: view.frame.width, height: 34))
@@ -209,11 +209,11 @@ private class UpdateView: NSView {
         self.addSubview(view)
     }
     
-    public func clear() {
+    internal func clear() {
         self.subviews.filter{ !($0 is NSVisualEffectView) }.forEach{ $0.removeFromSuperview() }
     }
     
-    @objc private func download(_ sender: Any) {
+    @objc private func download() {
         guard let urlString = self.version?.url, let url = URL(string: urlString) else {
             return
         }
@@ -273,17 +273,17 @@ private class UpdateView: NSView {
         self.addSubview(view)
     }
     
-    @objc private func close(_ sender: Any) {
+    @objc private func close() {
         self.window?.close()
     }
     
-    @objc private func changelog(_ sender: Any) {
+    @objc private func changelog() {
         if let version = self.version {
             NSWorkspace.shared.open(URL(string: "https://github.com/exelban/stats/releases/tag/\(version.latest)")!)
         }
     }
     
-    @objc private func install(_ sender: Any) {
+    @objc private func install() {
         updater.install(path: self.path) { error in
             if let error {
                 showAlert("Error update Stats", error, .critical)

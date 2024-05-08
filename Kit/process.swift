@@ -231,17 +231,7 @@ public class ProcessView: NSStackView {
         self.setLock(!self.lock)
     }
     
-    public func set(_ process: Process_p, _ value: String) {
-        if self.lock && process.pid != self.pid { return }
-        
-        self.labelView.stringValue = process.name
-        self.valueViews.first?.stringValue = value
-        self.imageView.image = process.icon
-        self.pid = process.pid
-        self.toolTip = "pid: \(process.pid)"
-    }
-    
-    public func set(_ process: Process_p, _ values: [String]) {
+    fileprivate func set(_ process: Process_p, _ values: [String]) {
         if self.lock && process.pid != self.pid { return }
         
         self.labelView.stringValue = process.name
@@ -251,7 +241,7 @@ public class ProcessView: NSStackView {
         self.toolTip = "pid: \(process.pid)"
     }
     
-    public func clear(_ symbol: String = "") {
+    fileprivate func clear(_ symbol: String = "") {
         self.labelView.stringValue = symbol
         self.valueViews.forEach({ $0.stringValue = symbol })
         self.imageView.image = nil
@@ -260,7 +250,7 @@ public class ProcessView: NSStackView {
         self.toolTip = symbol
     }
     
-    public func setLock(_ state: Bool) {
+    fileprivate func setLock(_ state: Bool) {
         self.lock = state
         if self.lock {
             self.imageView.isHidden = true
@@ -273,7 +263,7 @@ public class ProcessView: NSStackView {
         }
     }
     
-    @objc public func kill() {
+    @objc private func kill() {
         if let pid = self.pid {
             asyncShell("kill \(pid)")
         }

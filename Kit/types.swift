@@ -96,20 +96,20 @@ public let SpeedBase: [KeyValue_t] = [
     KeyValue_t(key: "byte", value: "Byte", additional: DataSizeBase.byte)
 ]
 
-public enum StackMode: String {
+internal enum StackMode: String {
     case auto = "automatic"
     case oneRow = "oneRow"
     case twoRows = "twoRows"
 }
 
-public let SensorsWidgetMode: [KeyValue_t] = [
+internal let SensorsWidgetMode: [KeyValue_t] = [
     KeyValue_t(key: StackMode.auto.rawValue, value: "Automatic"),
     KeyValue_t(key: "separator", value: "separator"),
     KeyValue_t(key: StackMode.oneRow.rawValue, value: "One row"),
     KeyValue_t(key: StackMode.twoRows.rawValue, value: "Two rows")
 ]
 
-public let SpeedPictogram: [KeyValue_t] = [
+internal let SpeedPictogram: [KeyValue_t] = [
     KeyValue_t(key: "none", value: "None"),
     KeyValue_t(key: "separator", value: "separator"),
     KeyValue_t(key: "dots", value: "Dots"),
@@ -117,7 +117,7 @@ public let SpeedPictogram: [KeyValue_t] = [
     KeyValue_t(key: "chars", value: "Characters")
 ]
 
-public let BatteryAdditionals: [KeyValue_t] = [
+internal let BatteryAdditionals: [KeyValue_t] = [
     KeyValue_t(key: "none", value: "None"),
     KeyValue_t(key: "separator", value: "separator"),
     KeyValue_t(key: "innerPercentage", value: "Percentage inside the icon"),
@@ -128,7 +128,7 @@ public let BatteryAdditionals: [KeyValue_t] = [
     KeyValue_t(key: "timeAndPercentage", value: "Time and percentage")
 ]
 
-public let BatteryInfo: [KeyValue_t] = [
+internal let BatteryInfo: [KeyValue_t] = [
     KeyValue_t(key: "percentage", value: "Percentage"),
     KeyValue_t(key: "time", value: "Time"),
     KeyValue_t(key: "percentageAndTime", value: "Percentage and time"),
@@ -143,13 +143,12 @@ public let ShortLong: [KeyValue_t] = [
 public let ReaderUpdateIntervals: [Int] = [1, 2, 3, 5, 10, 15, 30, 60]
 public let NumbersOfProcesses: [Int] = [0, 3, 5, 8, 10, 15]
 
-public typealias Bandwidth = (upload: Int64, download: Int64)
 public let NetworkReaders: [KeyValue_t] = [
     KeyValue_t(key: "interface", value: "Interface based"),
     KeyValue_t(key: "process", value: "Processes based")
 ]
 
-public let Alignments: [KeyValue_t] = [
+internal let Alignments: [KeyValue_t] = [
     KeyValue_t(key: "left", value: "Left alignment", additional: NSTextAlignment.left),
     KeyValue_t(key: "center", value: "Center alignment", additional: NSTextAlignment.center),
     KeyValue_t(key: "right", value: "Right alignment", additional: NSTextAlignment.right)
@@ -226,19 +225,14 @@ extension Color: CaseIterable {
         ]
     }
     
-    public static var random: Color {
-        Color.allColors[.random(in: 0...Color.allColors.count)]
-    }
-    
     public static func fromString(_ key: String, defaultValue: Color = .systemAccent) -> Color {
         return Color.allCases.first{ $0.key == key } ?? defaultValue
     }
 }
 
-public class MonochromeColor {
-    static public let base: NSColor = NSColor.textColor
-    static public let red: NSColor = NSColor(red: (145), green: (145), blue: (145), alpha: 1)
-    static public let blue: NSColor = NSColor(red: (113), green: (113), blue: (113), alpha: 1)
+internal class MonochromeColor {
+    static internal let red: NSColor = NSColor(red: (145), green: (145), blue: (145), alpha: 1)
+    static internal let blue: NSColor = NSColor(red: (113), green: (113), blue: (113), alpha: 1)
 }
 
 public typealias colorZones = (orange: Double, red: Double)
@@ -295,7 +289,6 @@ public let notificationLevels: [KeyValue_t] = [
 public struct Scale: KeyValue_p, Equatable {
     public let key: String
     public let value: String
-    public var additional: Any?
     
     public static func == (lhs: Scale, rhs: Scale) -> Bool {
         return lhs.key == rhs.key
@@ -341,7 +334,6 @@ public var LineChartHistory: [KeyValue_p] = [
 public struct SizeUnit: KeyValue_p, Equatable {
     public let key: String
     public let value: String
-    public var additional: Any?
     
     public static func == (lhs: SizeUnit, rhs: SizeUnit) -> Bool {
         return lhs.key == rhs.key

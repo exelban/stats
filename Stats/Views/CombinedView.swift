@@ -12,7 +12,7 @@
 import Cocoa
 import Kit
 
-class CombinedView: NSObject, NSGestureRecognizerDelegate {
+internal class CombinedView: NSObject, NSGestureRecognizerDelegate {
     private var menuBarItem: NSStatusItem? = nil
     private var view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: 0, height: Constants.Widget.height))
     private var popup: PopupWindow? = nil
@@ -194,7 +194,8 @@ class CombinedView: NSObject, NSGestureRecognizerDelegate {
 }
 
 private class Popup: NSStackView, Popup_p {
-    public var sizeCallback: ((NSSize) -> Void)? = nil
+    fileprivate var sizeCallback: ((NSSize) -> Void)? = nil
+    let log = NextLog(writer: .file)
     
     init() {
         super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: 0))
@@ -217,16 +218,18 @@ private class Popup: NSStackView, Popup_p {
         NotificationCenter.default.removeObserver(self, name: .toggleOneView, object: nil)
     }
     
-    public func settings() -> NSView? { return nil }
-    public func appear() {}
-    public func disappear() {}
+    fileprivate func settings() -> NSView? { return nil }
+    fileprivate func appear() {}
+    fileprivate func disappear() {}
     
     @objc private func reinit() {
         self.subviews.forEach({ $0.removeFromSuperview() })
         
         let availableModules = modules.filter({ $0.enabled && $0.portal != nil })
+        debug("modules: \(availableModules.count)", log: self.log)
         availableModules.forEach { (m: Module) in
             if let p = m.portal {
+                debug("adding: \(m.name) portal", log: self.log)
                 self.addArrangedSubview(p)
             }
         }

@@ -9,7 +9,7 @@
 import Cocoa
 import Kit
 
-public struct CPU_Load: value_t, Codable {
+public struct CPU_Load: Codable {
     var totalUsage: Double = 0
     var usagePerCore: [Double] = []
     var usageECores: Double? = nil
@@ -18,12 +18,6 @@ public struct CPU_Load: value_t, Codable {
     var systemLoad: Double = 0
     var userLoad: Double = 0
     var idleLoad: Double = 0
-    
-    public var widgetValue: Double {
-        get {
-            return self.totalUsage
-        }
-    }
 }
 
 public struct CPU_Limit: Codable {

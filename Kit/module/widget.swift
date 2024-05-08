@@ -54,11 +54,11 @@ public enum widget_t: String {
             preview = SpeedWidget(title: module, config: widgetConfig, preview: true)
             item = SpeedWidget(title: module, config: widgetConfig, preview: false)
         case .battery:
-            preview = BatteryWidget(title: module, config: widgetConfig, preview: true)
-            item = BatteryWidget(title: module, config: widgetConfig, preview: false)
+            preview = BatteryWidget(title: module, preview: true)
+            item = BatteryWidget(title: module, preview: false)
         case .batteryDetails:
-            preview = BatteryDetailsWidget(title: module, config: widgetConfig, preview: true)
-            item = BatteryDetailsWidget(title: module, config: widgetConfig, preview: false)
+            preview = BatteryDetailsWidget(title: module, preview: true)
+            item = BatteryDetailsWidget(title: module, preview: false)
         case .stack:
             preview = StackWidget(title: module, config: widgetConfig, preview: true)
             item = StackWidget(title: module, config: widgetConfig, preview: false)
@@ -66,11 +66,11 @@ public enum widget_t: String {
             preview = MemoryWidget(title: module, config: widgetConfig, preview: true)
             item = MemoryWidget(title: module, config: widgetConfig, preview: false)
         case .label:
-            preview = Label(title: module, config: widgetConfig, preview: true)
-            item = Label(title: module, config: widgetConfig, preview: false)
+            preview = Label(title: module, config: widgetConfig)
+            item = Label(title: module, config: widgetConfig)
         case .tachometer:
-            preview = Tachometer(title: module, config: widgetConfig, preview: true)
-            item = Tachometer(title: module, config: widgetConfig, preview: false)
+            preview = Tachometer(title: module, preview: true)
+            item = Tachometer(title: module, preview: false)
         case .state:
             preview = StateWidget(title: module, config: widgetConfig, preview: true)
             item = StateWidget(title: module, config: widgetConfig, preview: false)
@@ -144,21 +144,15 @@ public enum widget_t: String {
 extension widget_t: CaseIterable {}
 
 public protocol widget_p: NSView {
-    var type: widget_t { get }
-    var title: String { get }
-    var position: Int { get set }
-    
     var widthHandler: (() -> Void)? { get set }
     var onClick: (() -> Void)? { get set }
     
-    func setValues(_ values: [value_t])
     func settings() -> NSView
 }
 
 open class WidgetWrapper: NSView, widget_p {
     public var type: widget_t
     public var title: String
-    public var position: Int = -1
     public var widthHandler: (() -> Void)? = nil
     public var onClick: (() -> Void)? = nil
     public var shadowSize: CGSize
@@ -214,10 +208,7 @@ open class WidgetWrapper: NSView, widget_p {
         return width
     }
     
-    // MARK: - stubs
-    
     open func settings() -> NSView { return NSView() }
-    open func setValues(_ values: [value_t]) {}
     
     open override func mouseDown(with event: NSEvent) {
         if let f = self.onClick {
@@ -273,7 +264,6 @@ public class Widget {
         }
     }
     
-    private var config: NSDictionary = NSDictionary()
     private var menuBarItem: NSStatusItem? = nil
     private var originX: CGFloat
     
@@ -363,7 +353,7 @@ public class Widget {
         }
     }
     
-    @objc private func togglePopup(_ sender: Any) {
+    @objc private func togglePopup() {
         if let item = self.menuBarItem, let window = item.button?.window {
             NotificationCenter.default.post(name: .togglePopup, object: nil, userInfo: [
                 "module": self.module,
@@ -517,7 +507,7 @@ public class MenuBar {
         self.callback?()
     }
     
-    @objc private func togglePopup(_ sender: NSEvent) {
+    @objc private func togglePopup() {
         if let item = self.menuBarItem, let window = item.button?.window {
             NotificationCenter.default.post(name: .togglePopup, object: nil, userInfo: [
                 "module": self.moduleName,

@@ -171,7 +171,7 @@ class ApplicationSettings: NSStackView {
         NotificationCenter.default.removeObserver(self, name: .fanHelperState, object: nil)
     }
     
-    public func viewWillAppear() {
+    internal func viewWillAppear() {
         self.startAtLoginBtn?.state = LaunchAtLogin.isEnabled ? .on : .off
         self.telemetryBtn?.state = telemetry.isEnabled ? .on : .off
         
@@ -240,7 +240,7 @@ class ApplicationSettings: NSStackView {
     
     // MARK: - actions
     
-    @objc private func updateAction(_ sender: NSObject) {
+    @objc private func updateAction() {
         updater.check(force: true, completion: { result, error in
             if error != nil {
                 debug("error updater.check(): \(error!.localizedDescription)")
@@ -309,7 +309,7 @@ class ApplicationSettings: NSStackView {
         NotificationCenter.default.post(name: .combinedModulesPopup, object: nil, userInfo: nil)
     }
     
-    @objc private func importSettings(_ sender: NSObject) {
+    @objc private func importSettings() {
         let panel = NSOpenPanel()
         panel.level = NSWindow.Level(rawValue: Int(CGWindowLevelForKey(.modalPanelWindow)))
         panel.begin { (result) in
@@ -320,7 +320,7 @@ class ApplicationSettings: NSStackView {
         }
     }
     
-    @objc private func exportSettings(_ sender: NSObject) {
+    @objc private func exportSettings() {
         let panel = NSSavePanel()
         panel.nameFieldStringValue = "Stats.plist"
         panel.showsTagField = false
@@ -333,7 +333,7 @@ class ApplicationSettings: NSStackView {
         }
     }
     
-    @objc private func resetSettings(_ sender: NSObject) {
+    @objc private func resetSettings() {
         let alert = NSAlert()
         alert.messageText = localizedString("Reset settings")
         alert.informativeText = localizedString("Reset settings text")
@@ -482,12 +482,10 @@ private class ModuleSelectorView: NSStackView {
     }
 }
 
-internal class ModulePreview: NSStackView {
-    private let id: String
+private class ModulePreview: NSStackView {
     private let imageView: NSImageView
     
-    public init(id: String, icon: NSImage?) {
-        self.id = id
+    fileprivate init(id: String, icon: NSImage?) {
         self.imageView = NSImageView(frame: NSRect(origin: .zero, size: NSSize(width: Constants.Widget.height, height: Constants.Widget.height)))
         
         let size: CGSize = CGSize(width: Constants.Widget.height + (Constants.Widget.spacing * 2), height: Constants.Widget.height)

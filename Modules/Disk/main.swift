@@ -238,12 +238,6 @@ public class Disk: Module {
         self.setReaders([self.capacityReader, self.activityReader, self.processReader])
     }
     
-    public override func widgetDidSet(_ type: widget_t) {
-        if type == .speed && self.capacityReader?.interval != 1 {
-            self.settingsView.setUpdateInterval(value: 1)
-        }
-    }
-    
     private func capacityCallback(_ value: Disks) {
         guard self.enabled else { return }
         
@@ -289,8 +283,16 @@ public class Disk: Module {
         
         self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
             switch w.item {
-            case let widget as SpeedWidget: widget.setValue(upload: d.activity.write, download: d.activity.read)
-            case let widget as NetworkChart: widget.setValue(upload: Double(d.activity.write), download: Double(d.activity.read))
+            case let widget as SpeedWidget: 
+                widget.setValue(upload: d.activity.write, download: d.activity.read)
+                if self.capacityReader?.interval != 1 {
+                    self.settingsView.setUpdateInterval(value: 1)
+                }
+            case let widget as NetworkChart:
+                widget.setValue(upload: Double(d.activity.write), download: Double(d.activity.read))
+                if self.capacityReader?.interval != 1 {
+                    self.settingsView.setUpdateInterval(value: 1)
+                }
             default: break
             }
         }

@@ -80,7 +80,6 @@ public struct os_s {
 
 public struct core_s {
     public var id: Int32
-    public var name: String
     public var type: coreType
 }
 
@@ -112,17 +111,10 @@ public struct gpu_s {
     public var cores: Int? = nil
 }
 
-public struct disk_s {
-    public let name: String
-    public let model: String
-    public let size: Int64
-}
-
 public struct info_s {
     public var cpu: cpu_s? = nil
     public var ram: ram_s? = nil
     public var gpu: [gpu_s]? = nil
-    public var disk: disk_s? = nil
 }
 
 public struct device_s {
@@ -139,7 +131,6 @@ public class SystemKit {
     public static let shared = SystemKit()
     
     public var device: device_s = device_s()
-    private let log: NextLog = NextLog.shared.copy(category: "SystemKit")
     
     public init() {
         let (modelID, serialNumber) = self.modelAndSerialNumber()
@@ -171,7 +162,6 @@ public class SystemKit {
         self.device.info.cpu = self.getCPUInfo()
         self.device.info.ram = self.getRamInfo()
         self.device.info.gpu = self.getGPUInfo()
-        self.device.info.disk = self.getDiskInfo()
         
         if let name = self.device.info.cpu?.name?.lowercased() {
             if name.contains("intel") {
@@ -354,7 +344,7 @@ public class SystemKit {
                         return pointer.load(as: Int32.self)
                     }
                     
-                    list.append(core_s(id: id ?? -1, name: name, type: type))
+                    list.append(core_s(id: id ?? -1, type: type))
                 } else if name.trimmed == "cpus" {
                     eCores = (props.object(forKey: "e-core-count") as? Data)?.withUnsafeBytes { pointer in
                         return pointer.load(as: Int32.self)
@@ -408,51 +398,6 @@ public class SystemKit {
         }
         
         return list
-    }
-    
-    private func getDiskInfo() -> disk_s? {
-        var disk: DADisk? = nil
-        
-        let keys: [URLResourceKey] = [.volumeNameKey]
-        let paths = FileManager.default.mountedVolumeURLs(includingResourceValuesForKeys: keys)!
-        if let session = DASessionCreate(kCFAllocatorDefault) {
-            for url in paths where url.pathComponents.count == 1 {
-                disk = DADiskCreateFromVolumePath(kCFAllocatorDefault, session, url as CFURL)
-            }
-        }
-        
-        if disk == nil {
-            error("empty disk after fetching list")
-            return nil
-        }
-        
-        if let diskDescription = DADiskCopyDescription(disk!) {
-            if let dict = diskDescription as? [String: AnyObject] {
-                if let removable = dict[kDADiskDescriptionMediaRemovableKey as String] {
-                    if removable as! Bool {
-                        return nil
-                    }
-                }
-
-                var name: String = ""
-                var model: String = ""
-                var size: Int64 = 0
-                
-                if let mediaName = dict[kDADiskDescriptionMediaNameKey as String] {
-                    name = mediaName as! String
-                }
-                if let deviceModel = dict[kDADiskDescriptionDeviceModelKey as String] {
-                    model = (deviceModel as! String).trimmingCharacters(in: .whitespacesAndNewlines)
-                }
-                if let mediaSize = dict[kDADiskDescriptionMediaSizeKey as String] {
-                    size = Int64(truncating: mediaSize as! NSNumber)
-                }
-                
-                return disk_s(name: name, model: model, size: size)
-            }
-        }
-        
-        return nil
     }
     
     public func getRamInfo() -> ram_s? {

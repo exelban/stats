@@ -13,7 +13,6 @@ import Cocoa
 
 public class SpeedWidget: WidgetWrapper {
     private var icon: String = "dots"
-    private var state: Bool = false
     private var valueState: Bool = true
     private var unitsState: Bool = true
     private var monochromeState: Bool = false
@@ -27,9 +26,6 @@ public class SpeedWidget: WidgetWrapper {
     private var uploadColorState: Color = .secondRed
     
     private var symbols: [String] = ["U", "D"]
-    
-    private var uploadField: NSTextField? = nil
-    private var downloadField: NSTextField? = nil
     
     private var uploadValue: Int64 = 0
     private var downloadValue: Int64 = 0
@@ -91,10 +87,6 @@ public class SpeedWidget: WidgetWrapper {
             self.reverseOrderState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_reverseOrder", defaultValue: self.reverseOrderState)
         }
         
-        if self.valueState && self.icon != "none" {
-            self.state = true
-        }
-        
         if preview {
             self.downloadValue = 8947141
             self.uploadValue = 478678
@@ -111,9 +103,9 @@ public class SpeedWidget: WidgetWrapper {
         var width: CGFloat = 0
         switch self.modeState {
         case "oneRow":
-            width = self.drawOneRow(dirtyRect)
+            width = self.drawOneRow()
         case "twoRows":
-            width = self.drawTwoRows(dirtyRect)
+            width = self.drawTwoRows()
         default:
             width = 0
         }
@@ -123,7 +115,7 @@ public class SpeedWidget: WidgetWrapper {
     
     // MARK: - one row
     
-    private func drawOneRow(_ dirtyRect: NSRect) -> CGFloat {
+    private func drawOneRow() -> CGFloat {
         var width: CGFloat = Constants.Widget.margin.x
         let downloadIconColor = self.downloadValue >= 1_024 ? self.downloadColor : self.noActivityColor
         let uploadIconColor = self.uploadValue >= 1_024 ? self.uploadColor : self.noActivityColor
@@ -279,17 +271,17 @@ public class SpeedWidget: WidgetWrapper {
     
     // MARK: - two rows
     
-    private func drawTwoRows(_ dirtyRect: NSRect) -> CGFloat {
+    private func drawTwoRows() -> CGFloat {
         var width: CGFloat = 7
         var x: CGFloat = 7
         
         switch self.icon {
         case "dots":
-            self.drawDots(dirtyRect)
+            self.drawDots()
         case "arrows":
-            self.drawArrows(dirtyRect)
+            self.drawArrows()
         case "chars":
-            self.drawChars(dirtyRect)
+            self.drawChars()
         default:
             x = 0
             width = 0
@@ -335,7 +327,7 @@ public class SpeedWidget: WidgetWrapper {
         return width
     }
     
-    private func drawDots(_ dirtyRect: NSRect) {
+    private func drawDots() {
         let rowHeight: CGFloat = self.frame.height / 2
         let size: CGFloat = 6
         let y: CGFloat = (rowHeight-size)/2
@@ -353,7 +345,7 @@ public class SpeedWidget: WidgetWrapper {
         uploadCircle.fill()
     }
     
-    private func drawArrows(_ dirtyRect: NSRect) {
+    private func drawArrows() {
         let arrowAngle = CGFloat(Double.pi / 5)
         let half = self.frame.size.height / 2
         let scaleFactor = NSScreen.main?.backingScaleFactor ?? 1
@@ -394,7 +386,7 @@ public class SpeedWidget: WidgetWrapper {
         uploadArrow.close()
     }
     
-    private func drawChars(_ dirtyRect: NSRect) {
+    private func drawChars() {
         let rowHeight: CGFloat = self.frame.height / 2
         let downloadY: CGFloat = self.reverseOrderState ? rowHeight+1 : 1
         let uploadY: CGFloat = self.reverseOrderState ? 1 : rowHeight+1

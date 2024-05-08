@@ -21,7 +21,7 @@ public struct circle_segment {
     }
 }
 
-public func scaleValue(scale: Scale = .linear, value: Double, maxValue: Double, maxHeight: CGFloat, limit: Double) -> CGFloat {
+internal func scaleValue(scale: Scale = .linear, value: Double, maxValue: Double, maxHeight: CGFloat, limit: Double) -> CGFloat {
     var value = value
     if scale == .none && value > 1 && maxValue != 0 {
         value /= maxValue
@@ -375,8 +375,6 @@ public class LineChartView: NSView {
 }
 
 public class NetworkChartView: NSView {
-    public var id: String = UUID().uuidString
-    
     public var base: DataSizeBase = .byte
     
     private var reversedOrder: Bool
@@ -460,8 +458,6 @@ public class NetworkChartView: NSView {
 }
 
 public class PieChartView: NSView {
-    public var id: String = UUID().uuidString
-    
     private var filled: Bool = false
     private var drawValue: Bool = false
     private var nonActiveSegmentColor: NSColor = NSColor.lightGray
@@ -633,11 +629,11 @@ public class HalfCircleGraphView: NSView {
     }
 }
 
-public class TachometerGraphView: NSView {
+internal class TachometerGraphView: NSView {
     private var filled: Bool
     private var segments: [circle_segment]
     
-    public init(frame: NSRect, segments: [circle_segment], filled: Bool = true) {
+    internal init(frame: NSRect, segments: [circle_segment], filled: Bool = true) {
         self.filled = filled
         self.segments = segments
         
@@ -682,14 +678,14 @@ public class TachometerGraphView: NSView {
         }
     }
     
-    public func setSegments(_ segments: [circle_segment]) {
+    internal func setSegments(_ segments: [circle_segment]) {
         self.segments = segments
         if self.window?.isVisible ?? false {
             self.display()
         }
     }
     
-    public func setFrame(_ frame: NSRect) {
+    internal func setFrame(_ frame: NSRect) {
         var original = self.frame
         original = frame
         self.frame = original

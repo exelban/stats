@@ -66,7 +66,7 @@ public struct Bandwidth: Codable {
     var download: Int64 = 0
 }
 
-public struct Network_Usage: value_t, Codable {
+public struct Network_Usage: Codable {
     var bandwidth: Bandwidth = Bandwidth()
     var total: Bandwidth = Bandwidth()
     
@@ -90,8 +90,6 @@ public struct Network_Usage: value_t, Codable {
         
         self.wifiDetails.reset()
     }
-    
-    public var widgetValue: Double = 0
 }
 
 public struct Network_Connectivity: Codable {

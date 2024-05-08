@@ -77,7 +77,7 @@ public class PopupWindow: NSWindow, NSWindowDelegate {
 }
 
 internal class PopupViewController: NSViewController {
-    public var visibilityCallback: (_ state: Bool) -> Void = {_ in }
+    fileprivate var visibilityCallback: (_ state: Bool) -> Void = {_ in }
     private var popup: PopupView
     
     public init() {
@@ -112,19 +112,18 @@ internal class PopupViewController: NSViewController {
         self.visibilityCallback(false)
     }
     
-    public func setup(title: String, view: Popup_p?) {
+    fileprivate func setup(title: String, view: Popup_p?) {
         self.title = title
         self.popup.setTitle(title)
         self.popup.setView(view)
     }
     
-    public func setCloseButton(_ state: Bool) {
+    fileprivate func setCloseButton(_ state: Bool) {
         self.popup.setCloseButton(state)
     }
 }
 
 internal class PopupView: NSView {
-    private var title: String? = nil
     private var view: Popup_p? = nil
     
     private var foreground: NSVisualEffectView
@@ -190,7 +189,7 @@ internal class PopupView: NSView {
         self.background.layer?.backgroundColor = self.isDarkMode ? .clear : NSColor.white.cgColor
     }
     
-    public func setView(_ view: Popup_p?) {
+    fileprivate func setView(_ view: Popup_p?) {
         self.view = view
         
         var isScrollVisible: Bool = false
@@ -226,12 +225,11 @@ internal class PopupView: NSView {
         }
     }
     
-    public func setTitle(_ newTitle: String) {
-        self.title = newTitle
+    fileprivate func setTitle(_ newTitle: String) {
         self.header.setTitle(newTitle)
     }
     
-    public func setCloseButton(_ state: Bool) {
+    fileprivate func setCloseButton(_ state: Bool) {
         self.header.setCloseButton(state)
     }
     
@@ -299,7 +297,6 @@ internal class PopupView: NSView {
 internal class HeaderView: NSStackView {
     private var titleView: NSTextField? = nil
     private var activityButton: NSButton?
-    private var settingsButton: NSButton?
     
     private var title: String = ""
     private var isCloseAction: Bool = false
@@ -355,7 +352,6 @@ internal class HeaderView: NSStackView {
         settings.target = self
         settings.toolTip = localizedString("Open module settings")
         settings.focusRingType = .none
-        self.settingsButton = settings
         
         self.addArrangedSubview(activity)
         self.addArrangedSubview(title)
@@ -372,7 +368,7 @@ internal class HeaderView: NSStackView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func setTitle(_ newTitle: String) {
+    fileprivate func setTitle(_ newTitle: String) {
         self.title = newTitle
         self.titleView?.stringValue = localizedString(newTitle)
     }
@@ -388,12 +384,12 @@ internal class HeaderView: NSStackView {
         line.stroke()
     }
     
-    @objc func openActivityMonitor(_ sender: Any) {
+    @objc func openActivityMonitor() {
         guard let app = self.app else { return }
         NSWorkspace.shared.open([], withApplicationAt: app, configuration: NSWorkspace.OpenConfiguration())
     }
     
-    @objc func openSettings(_ sender: Any) {
+    @objc func openSettings() {
         NotificationCenter.default.post(name: .toggleSettings, object: nil, userInfo: ["module": self.title])
     }
     
@@ -403,7 +399,7 @@ internal class HeaderView: NSStackView {
         return
     }
     
-    public func setCloseButton(_ state: Bool) {
+    fileprivate func setCloseButton(_ state: Bool) {
         if state && !self.isCloseAction {
             self.activityButton?.image = Bundle(for: type(of: self)).image(forResource: "close")!
             self.activityButton?.toolTip = localizedString("Close popup")

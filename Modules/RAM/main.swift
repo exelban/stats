@@ -12,7 +12,7 @@
 import Cocoa
 import Kit
 
-public struct RAM_Usage: value_t, Codable {
+public struct RAM_Usage: Codable {
     var total: Double
     var used: Double
     var free: Double
@@ -28,12 +28,6 @@ public struct RAM_Usage: value_t, Codable {
     
     var rawPressureLevel: UInt
     var swap: Swap
-    
-    public var widgetValue: Double {
-        get {
-            return self.usage
-        }
-    }
     
     public var usage: Double {
         get {

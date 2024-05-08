@@ -11,18 +11,18 @@
 
 import Foundation
 
-public enum State {
+private enum RepeaterState {
     case paused
     case running
 }
 
-public class Repeater {
+internal class Repeater {
     private var callback: (() -> Void)
-    private var state: State = .paused
+    private var state: RepeaterState = .paused
     
     private var timer: DispatchSourceTimer = DispatchSource.makeTimerSource(queue: DispatchQueue(label: "eu.exelban.Stats.Repeater", qos: .default))
     
-    public init(seconds: Int, callback: @escaping (() -> Void)) {
+    internal init(seconds: Int, callback: @escaping (() -> Void)) {
         self.callback = callback
         self.setupTimer(seconds)
     }
@@ -43,21 +43,21 @@ public class Repeater {
         }
     }
     
-    public func start() {
+    internal func start() {
         guard self.state == .paused else { return }
         
         self.timer.resume()
         self.state = .running
     }
     
-    public func pause() {
+    internal func pause() {
         guard self.state == .running else { return }
         
         self.timer.suspend()
         self.state = .paused
     }
     
-    public func reset(seconds: Int, restart: Bool = false) {
+    internal func reset(seconds: Int, restart: Bool = false) {
         if self.state == .running {
             self.pause()
         }

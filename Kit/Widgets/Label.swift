@@ -11,10 +11,10 @@
 
 import Cocoa
 
-public class Label: WidgetWrapper {
+internal class Label: WidgetWrapper {
     private var label: String
     
-    public init(title: String, config: NSDictionary, preview: Bool = false) {
+    internal init(title: String, config: NSDictionary) {
         if let title = config["Title"] as? String {
             self.label = title
         } else {
@@ -55,13 +55,5 @@ public class Label: WidgetWrapper {
             str.draw(with: rect)
             margin.y += size.height
         }
-    }
-    
-    public func setLabel(_ new: String) {
-        guard self.label != new else { return }
-        self.label = new
-        DispatchQueue.main.async(execute: {
-            self.needsDisplay = true
-        })
     }
 }

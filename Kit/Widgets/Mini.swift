@@ -16,10 +16,6 @@ public class Mini: WidgetWrapper {
     private var colorState: Color = .monochrome
     private var alignmentState: String = "left"
     
-    private var labelLayer: CATextLayer? = nil
-    private var valueLayer: CATextLayer? = nil
-    
-    private let onlyValueWidth: CGFloat = 40
     private var colors: [Color] = Color.allCases
     
     private var _value: Double = 0

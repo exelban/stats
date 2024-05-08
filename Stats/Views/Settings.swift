@@ -211,7 +211,7 @@ class SettingsWindow: NSWindow, NSWindowDelegate, NSToolbarDelegate {
         }
     }
     
-    public func setModules() {
+    internal func setModules() {
         self.sidebarView.setModules(modules)
         if !self.pauseState && modules.filter({ $0.enabled != false && $0.available != false && !$0.menuBar.widgets.filter({ $0.isActive }).isEmpty }).isEmpty {
             self.setIsVisible(true)
@@ -229,7 +229,7 @@ class SettingsWindow: NSWindow, NSWindowDelegate, NSToolbarDelegate {
 // MARK: - MainView
 
 private class MainView: NSView {
-    public let container: NSStackView
+    fileprivate let container: NSStackView
     
     override init(frame: NSRect) {
         self.container = NSStackView(frame: NSRect(x: 0, y: 0, width: frame.width, height: frame.height))
@@ -251,7 +251,7 @@ private class MainView: NSView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func setView(_ view: NSView) {
+    fileprivate func setView(_ view: NSView) {
         self.container.subviews.forEach{ $0.removeFromSuperview() }
         self.container.addArrangedSubview(view)
         
@@ -380,7 +380,7 @@ private class SidebarView: NSStackView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func openMenu(_ title: String) {
+    fileprivate func openMenu(_ title: String) {
         self.scrollView.stackView.subviews.forEach({ (m: NSView) in
             if let menu = m as? MenuItem {
                 if menu.title == title {
@@ -392,7 +392,7 @@ private class SidebarView: NSStackView {
         })
     }
     
-    public func setModules(_ list: [Module]) {
+    fileprivate func setModules(_ list: [Module]) {
         list.reversed().forEach { (m: Module) in
             if !m.available { return }
             let menu: NSView = MenuItem(icon: m.config.icon, title: m.config.name)
@@ -460,26 +460,7 @@ private class SidebarView: NSStackView {
         return vc
     }
     
-    private func supportButton(name: String, image: String, action: Selector) -> NSButton {
-        let button = NSButtonWithPadding()
-        button.frame = CGRect(x: 0, y: 0, width: 24, height: 24)
-        button.verticalPadding = 16
-        button.horizontalPadding = 16
-        button.title = name
-        button.toolTip = name
-        button.bezelStyle = .regularSquare
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.imageScaling = .scaleNone
-        button.image = Bundle(for: type(of: self)).image(forResource: image)!
-        button.isBordered = false
-        button.target = self
-        button.focusRingType = .none
-        button.action = action
-        
-        return button
-    }
-    
-    @objc private func reportBug(_ sender: Any) {
+    @objc private func reportBug() {
         NSWorkspace.shared.open(URL(string: "https://github.com/exelban/stats/issues/new")!)
     }
     
@@ -487,11 +468,11 @@ private class SidebarView: NSStackView {
         self.supportPopover.show(relativeTo: sender.bounds, of: sender, preferredEdge: NSRectEdge.minY)
     }
     
-    @objc private func closeApp(_ sender: Any) {
+    @objc private func closeApp(_ sender: NSButton) {
         NSApp.terminate(sender)
     }
     
-    @objc private func togglePause(_ sender: NSButton) {
+    @objc private func togglePause() {
         self.pauseState = !self.pauseState
         self.pauseButton?.toolTip = localizedString(self.pauseState ? "Resume the Stats" : "Pause the Stats")
         self.pauseButton?.image = self.pauseState ? self.resumeIcon : self.pauseIcon
@@ -505,9 +486,9 @@ private class SidebarView: NSStackView {
 }
 
 private class MenuItem: NSView {
-    public let title: String
-    public var active: Bool = false
+    fileprivate let title: String
     
+    private var active: Bool = false
     private var imageView: NSImageView? = nil
     private var titleView: NSTextField? = nil
     
@@ -560,7 +541,7 @@ private class MenuItem: NSView {
         self.activate()
     }
     
-    public func activate() {
+    fileprivate func activate() {
         guard !self.active else { return }
         self.active = true
         
@@ -571,7 +552,7 @@ private class MenuItem: NSView {
         self.titleView?.textColor = .white
     }
     
-    public func reset() {
+    fileprivate func reset() {
         self.layer?.backgroundColor = .clear
         self.imageView?.contentTintColor = .labelColor
         self.titleView?.textColor = .labelColor

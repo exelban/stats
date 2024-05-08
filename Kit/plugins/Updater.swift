@@ -26,7 +26,7 @@ public struct version_s {
     }
 }
 
-public struct Version {
+internal struct Version {
     var major: Int = 0
     var minor: Int = 0
     var patch: Int = 0

@@ -24,7 +24,7 @@ public class BatteryWidget: WidgetWrapper {
     private var _ACStatus: Bool = false
     private var _optimizedCharging: Bool = false
     
-    public init(title: String, config: NSDictionary?, preview: Bool = false) {
+    public init(title: String, preview: Bool = false) {
         let widgetTitle: String = title
         
         super.init(.battery, title: widgetTitle, frame: CGRect(
@@ -449,7 +449,7 @@ public class BatteryDetailsWidget: WidgetWrapper {
     private var percentage: Double? = nil
     private var time: Int = 0
     
-    public init(title: String, config: NSDictionary?, preview: Bool = false) {
+    public init(title: String, preview: Bool = false) {
         super.init(.batteryDetails, title: title, frame: CGRect(
             x: Constants.Widget.margin.x,
             y: Constants.Widget.margin.y,

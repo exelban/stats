@@ -92,7 +92,6 @@ extension LaunchAtLogin: DeprecationWarningWorkaround {
 public protocol KeyValue_p {
     var key: String { get }
     var value: String { get }
-    var additional: Any? { get }
 }
 
 public struct KeyValue_t: KeyValue_p, Codable {
@@ -431,36 +430,11 @@ public func portalWithColorRow(_ v: NSStackView, color: NSColor, title: String) 
     return (colorView, valueView)
 }
 
-public extension Array where Element: Equatable {
-    func allEqual() -> Bool {
-        if let firstElem = first {
-            return !dropFirst().contains { $0 != firstElem }
-        }
-        return true
-    }
-}
-
 public extension Array where Element: Hashable {
     func difference(from other: [Element]) -> [Element] {
         let thisSet = Set(self)
         let otherSet = Set(other)
         return Array(thisSet.symmetricDifference(otherSet))
-    }
-}
-
-public func findAndToggleNSControlState(_ view: NSView?, state: NSControl.StateValue) {
-    if let control = view?.subviews.first(where: { $0 is NSControl && !($0 is NSTextField) }) {
-        toggleNSControlState(control as? NSControl, state: state)
-    }
-}
-
-public func findAndToggleEnableNSControlState(_ view: NSView?, state: Bool) {
-    if let control = view?.subviews.first(where: { ($0 is NSControl || $0 is NSPopUpButton) && !($0 is NSTextField) }) {
-        if control is NSControl {
-            toggleEnableNSControlState(control as? NSControl, state: state)
-        } else if control is NSPopUpButton {
-            toggleEnableNSControlState(control as? NSPopUpButton, state: state)
-        }
     }
 }
 
@@ -474,30 +448,6 @@ public func toggleNSControlState(_ control: NSControl?, state: NSControl.StateVa
             checkbox.state = state
         }
     }
-}
-
-public func toggleEnableNSControlState(_ control: NSControl?, state: Bool) {
-    if #available(OSX 10.15, *) {
-        if let checkbox = control as? NSSwitch {
-            checkbox.isEnabled = state
-        } else if let checkbox = control as? NSPopUpButton {
-            checkbox.isEnabled = state
-        }
-    } else {
-        if let checkbox = control as? NSButton {
-            checkbox.isEnabled = state
-        }
-    }
-}
-
-public func dialogOKCancel(question: String, text: String) {
-    let alert = NSAlert()
-    alert.messageText = question
-    alert.informativeText = text
-    alert.alertStyle = .warning
-    alert.addButton(withTitle: "OK")
-    alert.addButton(withTitle: "Cancel")
-    alert.runModal()
 }
 
 public func asyncShell(_ args: String) {
@@ -657,21 +607,6 @@ public struct TopProcess: Codable, Process_p {
     }
 }
 
-public func getIOParent(_ obj: io_registry_entry_t) -> io_registry_entry_t? {
-    var parent: io_registry_entry_t = 0
-    
-    if IORegistryEntryGetParentEntry(obj, kIOServicePlane, &parent) != KERN_SUCCESS {
-        return nil
-    }
-    
-    if IOObjectConformsTo(parent, "IOBlockStorageDriver") == 0 {
-        IOObjectRelease(parent)
-        return nil
-    }
-    
-    return parent
-}
-
 public func fetchIOService(_ name: String) -> [NSDictionary]? {
     var iterator: io_iterator_t = io_iterator_t()
     var obj: io_registry_entry_t = 1
@@ -709,7 +644,7 @@ public func getIOProperties(_ entry: io_registry_entry_t) -> NSDictionary? {
     return properties?.takeUnretainedValue()
 }
 
-public func getIOName(_ entry: io_registry_entry_t) -> String? {
+internal func getIOName(_ entry: io_registry_entry_t) -> String? {
     let pointer = UnsafeMutablePointer<io_name_t>.allocate(capacity: 1)
     
     let result = IORegistryEntryGetName(entry, pointer)
@@ -719,29 +654,6 @@ public func getIOName(_ entry: io_registry_entry_t) -> String? {
     }
     
     return String(cString: UnsafeRawPointer(pointer).assumingMemoryBound(to: CChar.self))
-}
-
-public func getIOChildrens(_ entry: io_registry_entry_t) -> [String]? {
-    var iter: io_iterator_t = io_iterator_t()
-    if IORegistryEntryGetChildIterator(entry, kIOServicePlane, &iter) != kIOReturnSuccess {
-        return nil
-    }
-    
-    var iterator: io_registry_entry_t = 1
-    var list: [String] = []
-    while iterator != 0 {
-        iterator = IOIteratorNext(iter)
-        
-        let pointer = UnsafeMutablePointer<io_name_t>.allocate(capacity: 1)
-        if IORegistryEntryGetName(iterator, pointer) != kIOReturnSuccess {
-            continue
-        }
-        
-        list.append(String(cString: UnsafeRawPointer(pointer).assumingMemoryBound(to: CChar.self)))
-        IOObjectRelease(iterator)
-    }
-    
-    return list
 }
 
 public class ColorView: NSView {
@@ -834,38 +746,10 @@ public func sysctlByName(_ name: String) -> Int64 {
     return num
 }
 
-public class CAText: CATextLayer {
-    public init(fontSize: CGFloat = 12, weight: NSFont.Weight = .regular) {
-        super.init()
-        
-        self.font = NSFont.systemFont(ofSize: fontSize, weight: weight)
-        self.fontSize = fontSize
-        
-        self.allowsFontSubpixelQuantization = true
-        self.contentsScale = NSScreen.main?.backingScaleFactor ?? 1
-        self.rasterizationScale = NSScreen.main?.backingScaleFactor ?? 1
-        
-        self.foregroundColor = NSColor.textColor.cgColor
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    public override init(layer: Any) {
-        super.init(layer: layer)
-    }
-    
-    public func getWidth(add: CGFloat = 0) -> CGFloat {
-        let value = self.string as? String ?? ""
-        return value.widthOfString(usingFont: self.font as! NSFont).rounded(.up) + add
-    }
-}
-
-public class WidgetLabelView: NSView {
+internal class WidgetLabelView: NSView {
     private var title: String
     
-    public init(_ title: String, height: CGFloat) {
+    internal init(_ title: String, height: CGFloat) {
         self.title = title
         
         super.init(frame: NSRect(
@@ -903,32 +787,6 @@ public class WidgetLabelView: NSView {
             yMargin += letterHeight
         }
     }
-}
-
-public func isRoot() -> Bool {
-    return getuid() == 0
-}
-
-public func ensureRoot() {
-    if isRoot() {
-        return
-    }
-    
-    let pwd = Bundle.main.bundleURL.absoluteString.replacingOccurrences(of: "file://", with: "")
-    guard let script = NSAppleScript(source: "do shell script \"\(pwd)/Contents/MacOS/Stats > /dev/null 2>&1 &\" with administrator privileges") else {
-        return
-    }
-    
-    var err: NSDictionary? = nil
-    script.executeAndReturnError(&err)
-    
-    if err != nil {
-        print("cannot run script as root: \(String(describing: err))")
-        return
-    }
-    
-    NSApp.terminate(nil)
-    return
 }
 
 public func process(path: String, arguments: [String]) -> String? {
@@ -996,13 +854,6 @@ public class SMCHelper {
             if let result, !result.isEmpty {
                 NSLog("set fan mode: \(result)")
             }
-        }
-    }
-    
-    public func powermetrics(_ samplers: [String], completion: @escaping (String?) -> Void) {
-        guard let helper = self.helper(nil) else { return }
-        helper.powermetrics(samplers) { result in
-            completion(result)
         }
     }
     
@@ -1187,13 +1038,13 @@ public class EmptyView: NSStackView {
     }
 }
 
-public func saveNSStatusItemPosition(id: String) {
+internal func saveNSStatusItemPosition(id: String) {
     let position = Store.shared.int(key: "NSStatusItem Preferred Position \(id)", defaultValue: -1)
     if position != -1 {
         Store.shared.set(key: "NSStatusItem Restore Position \(id)", value: position)
     }
 }
-public func restoreNSStatusItemPosition(id: String) {
+internal func restoreNSStatusItemPosition(id: String) {
     let prevPosition = Store.shared.int(key: "NSStatusItem Restore Position \(id)", defaultValue: -1)
     if prevPosition != -1 {
         Store.shared.set(key: "NSStatusItem Preferred Position \(id)", value: prevPosition)
@@ -1418,7 +1269,7 @@ public class PreferencesSection: NSStackView {
     }
 }
 
-public class PreferencesSeparator: NSView {
+private class PreferencesSeparator: NSView {
     public init() {
         super.init(frame: .zero)
         self.wantsLayer = true
@@ -1601,7 +1452,6 @@ public class PreferencesSwitch: NSStackView {
         self.spacing = Constants.Settings.margin
         
         let btn = switchView(action: #selector(self.callback), state: state)
-        with.widthAnchor.constraint(equalToConstant: 68).isActive = true
         with.isEnabled = state
         
         self.addArrangedSubview(NSView())

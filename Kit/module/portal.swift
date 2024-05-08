@@ -17,7 +17,6 @@ public protocol Portal_p: NSView {
 
 open class PortalWrapper: NSStackView, Portal_p {
     public var name: String
-    
     private let header: PortalHeader
     
     public init(_ type: ModuleType, height: CGFloat = Constants.Popup.portalHeight) {
@@ -102,7 +101,7 @@ public class PortalHeader: NSStackView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    @objc private func openSettings(_ sender: Any) {
+    @objc private func openSettings() {
         self.window?.setIsVisible(false)
         NotificationCenter.default.post(name: .toggleSettings, object: nil, userInfo: ["module": self.name])
     }

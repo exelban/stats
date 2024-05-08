@@ -14,7 +14,6 @@ import Cocoa
 public struct Stack_t: KeyValue_p {
     public var key: String
     public var value: String
-    public var additional: Any?
     
     var index: Int {
         get {
@@ -25,10 +24,9 @@ public struct Stack_t: KeyValue_p {
         }
     }
     
-    public init(key: String, value: String, additional: Any? = nil) {
+    public init(key: String, value: String) {
         self.key = key
         self.value = value
-        self.additional = additional
     }
 }
 
@@ -280,7 +278,7 @@ private class OrderTableView: NSView, NSTableViewDelegate, NSTableViewDataSource
     private let tableView = NSTableView()
     private var dragDropType = NSPasteboard.PasteboardType(rawValue: "\(Bundle.main.bundleIdentifier!).sensors-row")
     
-    public var reorderCallback: () -> Void = {}
+    fileprivate var reorderCallback: () -> Void = {}
     private let list: UnsafeMutablePointer<[Stack_t]>
     
     init(_ list: UnsafeMutablePointer<[Stack_t]>) {
@@ -334,7 +332,7 @@ private class OrderTableView: NSView, NSTableViewDelegate, NSTableViewDataSource
         NotificationCenter.default.removeObserver(self)
     }
     
-    public func update() {
+    fileprivate func update() {
         self.tableView.reloadData()
     }
     

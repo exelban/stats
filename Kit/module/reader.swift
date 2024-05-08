@@ -11,10 +11,6 @@
 
 import Cocoa
 
-public protocol value_t {
-    var widgetValue: Double { get }
-}
-
 public protocol Reader_p {
     var optional: Bool { get }
     var popup: Bool { get }
@@ -60,7 +56,6 @@ open class Reader<T: Codable>: NSObject, ReaderInternal_p {
     private let module: ModuleType
     private var history: Bool
     private var repeatTask: Repeater?
-    private var nilCallbackCounter: Int = 0
     private var locked: Bool = true
     private var initlizalized: Bool = false
     

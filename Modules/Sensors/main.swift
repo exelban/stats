@@ -112,7 +112,7 @@ public class Sensors: Module {
                         value = "\(f.percentage)%"
                     }
                 }
-                list.append(Stack_t(key: s.key, value: value, additional: s.name))
+                list.append(Stack_t(key: s.key, value: value))
             }
         }
         

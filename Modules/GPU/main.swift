@@ -50,17 +50,11 @@ public struct GPU_Info: Codable {
     }
 }
 
-public struct GPUs: value_t, Codable {
+public struct GPUs: Codable {
     public var list: [GPU_Info] = []
     
     internal func active() -> [GPU_Info] {
         return self.list.filter{ $0.state && $0.utilization != nil }.sorted{ $0.utilization ?? 0 > $1.utilization ?? 0 }
-    }
-    
-    public var widgetValue: Double {
-        get {
-            return list.isEmpty ? 0 : (list[0].utilization ?? 0)
-        }
     }
 }
 
