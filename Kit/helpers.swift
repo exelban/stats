@@ -205,6 +205,16 @@ public struct Units {
             return String(format: "%.0f KB", kilobytes)
         }
     }
+    
+    public func toUnit(_ unit: SizeUnit) -> Double {
+        switch unit {
+        case .KB: return self.kilobytes
+        case .MB: return self.megabytes
+        case .GB: return self.gigabytes
+        case .TB: return self.terabytes
+        default: return Double(self.bytes)
+        }
+    }
 }
 
 public struct DiskSize {
@@ -1341,64 +1351,86 @@ public func restartApp(_ sender: Any, afterDelay seconds: TimeInterval = 0.5) ->
 }
 
 public class StepperInput: NSStackView, NSTextFieldDelegate, PreferencesSwitchWith_p {
-    public var callback: ((Int) -> Void)
+    private var callback: ((Int) -> Void)
+    private var unitCallback: ((KeyValue_p) -> Void)
     
-    private let value: NSTextField = NSTextField()
-    private let stepper: NSStepper = NSStepper()
-    private var symbol: NSTextField? = nil
+    private let valueView: NSTextField = NSTextField()
+    private let stepperView: NSStepper = NSStepper()
+    private var symbolView: NSTextField? = nil
+    private var unitsView: NSPopUpButton? = nil
     
     private let range: NSRange?
+    private var units: [KeyValue_p]? = nil
     
     private var _isEnabled: Bool = true
     public var isEnabled: Bool {
         get { self._isEnabled }
         set {
-            self.value.isEnabled = newValue
-            self.stepper.isEnabled = newValue
-            self.symbol?.isEnabled = newValue
+            self.valueView.isEnabled = newValue
+            self.stepperView.isEnabled = newValue
+            self.symbolView?.isEnabled = newValue
+            self.unitsView?.isEnabled = newValue
             self._isEnabled = newValue
         }
     }
     
-    public init(_ value: Int, range: NSRange? = nil, symbol: String? = nil, callback: @escaping (Int) -> Void = {_ in }) {
+    public init(
+        _ value: Int,
+        range: NSRange = NSRange(location: 1, length: 99),
+        unit: String = "%",
+        units: [KeyValue_p]? = nil,
+        callback: @escaping (Int) -> Void = {_ in },
+        unitCallback: @escaping (KeyValue_p) -> Void = {_ in }
+    ) {
         self.range = range
         self.callback = callback
+        self.unitCallback = unitCallback
         
         super.init(frame: .zero)
         
         self.orientation = .horizontal
         self.spacing = 2
         
-        self.value.font = NSFont.systemFont(ofSize: 12, weight: .regular)
-        self.value.textColor = .textColor
-        self.value.isEditable = true
-        self.value.isSelectable = true
-        self.value.usesSingleLineMode = true
-        self.value.maximumNumberOfLines = 1
-        self.value.focusRingType = .none
-        self.value.delegate = self
-        self.value.stringValue = "\(value)"
-        self.value.translatesAutoresizingMaskIntoConstraints = false
+        self.valueView.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+        self.valueView.textColor = .textColor
+        self.valueView.isEditable = true
+        self.valueView.isSelectable = true
+        self.valueView.usesSingleLineMode = true
+        self.valueView.maximumNumberOfLines = 1
+        self.valueView.focusRingType = .none
+        self.valueView.delegate = self
+        self.valueView.stringValue = "\(value)"
+        self.valueView.translatesAutoresizingMaskIntoConstraints = false
         
-        self.stepper.font = NSFont.systemFont(ofSize: 12, weight: .regular)
-        self.stepper.doubleValue = Double(value)/100
-        if let range {
-            self.stepper.minValue = Double(range.lowerBound)/100
-            self.stepper.maxValue = Double(range.upperBound)/100
-        }
-        self.stepper.increment = 0.01
-        self.stepper.valueWraps = false
-        self.stepper.target = self
-        self.stepper.action = #selector(self.onStepperChange)
+        self.stepperView.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+        self.stepperView.doubleValue = Double(value)/100
+        self.stepperView.minValue = Double(range.lowerBound)/100
+        self.stepperView.maxValue = Double(range.upperBound)/100
+        self.stepperView.increment = 0.01
+        self.stepperView.valueWraps = false
+        self.stepperView.target = self
+        self.stepperView.action = #selector(self.onStepperChange)
         
-        self.addArrangedSubview(self.value)
-        self.addArrangedSubview(self.stepper)
+        self.addArrangedSubview(self.valueView)
+        self.addArrangedSubview(self.stepperView)
         
-        if let symbol {
-            let symbol: NSTextField = LabelField(symbol)
+        if units == nil {
+            if unit == "%" {
+                self.widthAnchor.constraint(equalToConstant: 68).isActive = true
+            }
+            let symbol: NSTextField = LabelField(unit)
             symbol.textColor = .textColor
             self.addArrangedSubview(symbol)
-            self.symbol = symbol
+            self.symbolView = symbol
+        } else if let units {
+            self.units = units
+            self.unitsView = selectView(
+                action: #selector(self.onUnitChange),
+                items: units,
+                selected: unit
+            )
+            self.addArrangedSubview(self.unitsView!)
+            self.widthAnchor.constraint(equalToConstant: 124).isActive = true
         }
     }
     
@@ -1429,14 +1461,21 @@ public class StepperInput: NSStackView, NSTextFieldDelegate, PreferencesSwitchWi
     
     @objc private func onStepperChange(_ sender: NSStepper) {
         let value = Int(sender.doubleValue*100)
-        self.value.stringValue = "\(value)"
+        self.valueView.stringValue = "\(value)"
         self.callback(value)
+    }
+    
+    @objc private func onUnitChange(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String, let units = self.units,
+              let value = units.first(where: { $0.key == key }) else { return }
+        self.unitCallback(value)
     }
 }
 
 public protocol PreferencesSwitchWith_p: NSView {
     var isEnabled: Bool { get set }
 }
+extension NSPopUpButton: PreferencesSwitchWith_p {}
 public class PreferencesSwitch: NSStackView {
     private let action: (_ sender: NSControl) -> Void
     private let with: PreferencesSwitchWith_p

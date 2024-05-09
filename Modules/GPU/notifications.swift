@@ -36,7 +36,7 @@ class Notifications: NotificationsWrapper {
         self.addArrangedSubview(PreferencesSection([
             PreferencesRow(localizedString("Usage"), component: PreferencesSwitch(
                 action: self.toggleUsage, state: self.usageState,
-                with: StepperInput(self.usageLevel, range: NSRange(location: 1, length: 99), symbol: "%", callback: self.changeUsage)
+                with: StepperInput(self.usageLevel, callback: self.changeUsage)
             ))
         ]))
     }

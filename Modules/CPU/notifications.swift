@@ -91,15 +91,15 @@ class Notifications: NotificationsWrapper {
         self.addArrangedSubview(PreferencesSection([
             PreferencesRow(localizedString("Total load"), component: PreferencesSwitch(
                 action: self.toggleTotalLoad, state: self.totalLoadState,
-                with: StepperInput(self.totalLoad, range: NSRange(location: 1, length: 99), symbol: "%", callback: self.changeTotalLoad)
+                with: StepperInput(self.totalLoad, callback: self.changeTotalLoad)
             )),
             PreferencesRow(localizedString("System load"), component: PreferencesSwitch(
                 action: self.toggleSystemLoad, state: self.systemLoadState,
-                with: StepperInput(self.systemLoad, range: NSRange(location: 1, length: 99), symbol: "%", callback: self.changeSystemLoad)
+                with: StepperInput(self.systemLoad, callback: self.changeSystemLoad)
             )),
             PreferencesRow(localizedString("User load"), component: PreferencesSwitch(
                 action: self.toggleUserLoad, state: self.userLoadState,
-                with: StepperInput(self.userLoad, range: NSRange(location: 1, length: 99), symbol: "%", callback: self.changeUserLoad)
+                with: StepperInput(self.userLoad, callback: self.changeUserLoad)
             ))
         ]))
         
@@ -107,11 +107,11 @@ class Notifications: NotificationsWrapper {
         self.addArrangedSubview(PreferencesSection([
             PreferencesRow(localizedString("Efficiency cores load"), component: PreferencesSwitch(
                 action: self.toggleECoresLoad, state: self.eCoresLoadState,
-                with: StepperInput(self.eCoresLoad, range: NSRange(location: 1, length: 99), symbol: "%", callback: self.changeECoresLoad)
+                with: StepperInput(self.eCoresLoad, callback: self.changeECoresLoad)
             )),
             PreferencesRow(localizedString("Performance cores load"), component: PreferencesSwitch(
                 action: self.togglePCoresLoad, state: self.pCoresLoadState,
-                with: StepperInput(self.pCoresLoad, range: NSRange(location: 1, length: 99), symbol: "%", callback: self.changePCoresLoad)
+                with: StepperInput(self.pCoresLoad, callback: self.changePCoresLoad)
             ))
         ]))
         #endif

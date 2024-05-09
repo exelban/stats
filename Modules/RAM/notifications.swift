@@ -13,70 +13,95 @@ import Cocoa
 import Kit
 
 internal let memoryPressureLevels: [KeyValue_t] = [
-    KeyValue_t(key: "", value: "Disabled"),
     KeyValue_t(key: "normal", value: "Normal", additional: DispatchSource.MemoryPressureEvent.normal),
     KeyValue_t(key: "warning", value: "Warning", additional: DispatchSource.MemoryPressureEvent.warning),
     KeyValue_t(key: "critical", value: "Critical", additional: DispatchSource.MemoryPressureEvent.critical)
 ]
 
-internal let swapSizes: [KeyValue_t] = [
-    KeyValue_t(key: "", value: "Disabled"),
-    KeyValue_t(key: "512", value: "0.5 GB"),
-    KeyValue_t(key: "1024", value: "1.0 GB"),
-    KeyValue_t(key: "1536", value: "1.5 GB"),
-    KeyValue_t(key: "2048", value: "2.0 GB"),
-    KeyValue_t(key: "2560", value: "2.5 GB"),
-    KeyValue_t(key: "5120", value: "5.0 GB"),
-    KeyValue_t(key: "7680", value: "7.5 GB"),
-    KeyValue_t(key: "10240", value: "10 GB"),
-    KeyValue_t(key: "16384", value: "16 GB")
-]
-
 class Notifications: NotificationsWrapper {
-    private let totalUsageID: String = "totalUsage"
+    private let totalID: String = "totalUsage"
     private let freeID: String = "free"
     private let pressureID: String = "pressure"
     private let swapID: String = "swap"
     
-    private var totalUsageLevel: String = ""
-    private var freeLevel: String = ""
-    private var pressureLevel: String = ""
-    private var swapSize: String = ""
+    private var totalState: Bool = false
+    private var freeState: Bool = false
+    private var pressureState: Bool = false
+    private var swapState: Bool = false
+    
+    private var total: Int = 75
+    private var free: Int = 75
+    private var pressure: String = ""
+    private var swap: Int = 1
+    private var swapUnit: SizeUnit = .GB
     
     public init(_ module: ModuleType) {
-        super.init(module, [self.totalUsageID, self.freeID, self.pressureID, self.swapID])
+        super.init(module, [self.totalID, self.freeID, self.pressureID, self.swapID])
         
-        if Store.shared.exist(key: "\(self.module)_notificationLevel") {
-            let value = Store.shared.string(key: "\(self.module)_notificationLevel", defaultValue: self.totalUsageLevel)
-            Store.shared.set(key: "\(self.module)_notifications_totalUsage", value: value)
-            Store.shared.remove("\(self.module)_notificationLevel")
+        if Store.shared.exist(key: "\(self.module)_notifications_totalUsage") {
+            let value = Store.shared.string(key: "\(self.module)_notifications_totalUsage", defaultValue: "")
+            if let v = Double(value) {
+                Store.shared.set(key: "\(self.module)_notifications_total_state", value: true)
+                Store.shared.set(key: "\(self.module)_notifications_total_value", value: Int(v*100))
+                Store.shared.remove("\(self.module)_notifications_totalUsage")
+            }
+        }
+        if Store.shared.exist(key: "\(self.module)_notifications_free") {
+            let value = Store.shared.string(key: "\(self.module)_notifications_free", defaultValue: "")
+            if let v = Double(value) {
+                Store.shared.set(key: "\(self.module)_notifications_free_state", value: true)
+                Store.shared.set(key: "\(self.module)_notifications_free_value", value: Int(v*100))
+                Store.shared.remove("\(self.module)_notifications_free")
+            }
+        }
+        if Store.shared.exist(key: "\(self.module)_notifications_pressure") {
+            let value = Store.shared.string(key: "\(self.module)_notifications_pressure", defaultValue: "")
+            if value != "" {
+                Store.shared.set(key: "\(self.module)_notifications_pressure_state", value: true)
+                Store.shared.set(key: "\(self.module)_notifications_pressure_value", value: value)
+                Store.shared.remove("\(self.module)_notifications_pressure")
+            }
+        }
+        if Store.shared.exist(key: "\(self.module)_notifications_swap") {
+            let value = Store.shared.string(key: "\(self.module)_notifications_swap", defaultValue: "")
+            if value != ""  {
+                Store.shared.set(key: "\(self.module)_notifications_swap_state", value: true)
+                Store.shared.remove("\(self.module)_notifications_swap")
+            }
         }
         
-        self.totalUsageLevel = Store.shared.string(key: "\(self.module)_notifications_totalUsage", defaultValue: self.totalUsageLevel)
-        self.freeLevel = Store.shared.string(key: "\(self.module)_notifications_free", defaultValue: self.freeLevel)
-        self.pressureLevel = Store.shared.string(key: "\(self.module)_notifications_pressure", defaultValue: self.pressureLevel)
-        self.swapSize = Store.shared.string(key: "\(self.module)_notifications_swap", defaultValue: self.swapSize)
+        self.totalState = Store.shared.bool(key: "\(self.module)_notifications_total_state", defaultValue: self.totalState)
+        self.total = Store.shared.int(key: "\(self.module)_notifications_total_value", defaultValue: self.total)
+        self.freeState = Store.shared.bool(key: "\(self.module)_notifications_free_state", defaultValue: self.freeState)
+        self.free = Store.shared.int(key: "\(self.module)_notifications_free_value", defaultValue: self.free)
+        self.pressureState = Store.shared.bool(key: "\(self.module)_notifications_pressure_state", defaultValue: self.pressureState)
+        self.pressure = Store.shared.string(key: "\(self.module)_notifications_pressure_value", defaultValue: self.pressure)
+        self.swapState = Store.shared.bool(key: "\(self.module)_notifications_swap_state", defaultValue: self.swapState)
+        self.swap = Store.shared.int(key: "\(self.module)_notifications_swap_value", defaultValue: self.swap)
+        self.swapUnit = SizeUnit.fromString(Store.shared.string(key: "\(self.module)_notifications_swap_unit", defaultValue: self.swapUnit.key))
         
         self.addArrangedSubview(PreferencesSection([
-            PreferencesRow(localizedString("Usage"), component: selectView(
-                action: #selector(self.changeTotalUsage),
-                items: notificationLevels,
-                selected: self.totalUsageLevel
+            PreferencesRow(localizedString("Usage"), component: PreferencesSwitch(
+                action: self.toggleTotal, state: self.totalState, with: StepperInput(self.total, callback: self.changeTotal)
             )),
-            PreferencesRow(localizedString("Free memory (less than)"), component: selectView(
-                action: #selector(self.changeFree),
-                items: notificationLevels,
-                selected: self.freeLevel
-            )),
-            PreferencesRow(localizedString("Memory pressure"), component: selectView(
-                action: #selector(self.changePressure),
-                items: memoryPressureLevels.filter({ $0.key != "normal" }),
-                selected: self.pressureLevel
-            )),
-            PreferencesRow(localizedString("Swap size"), component: selectView(
-                action: #selector(self.changeSwap),
-                items: swapSizes,
-                selected: self.swapSize
+            PreferencesRow(localizedString("Free memory (less than)"), component: PreferencesSwitch(
+                action: self.toggleFree, state: self.freeState, with: StepperInput(self.free, callback: self.changeFree)
+            ))
+        ]))
+        
+        self.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Memory pressure"), component: PreferencesSwitch(
+                action: self.togglePressure, state: self.pressureState,
+                with: selectView(action: #selector(self.changePressure), items: memoryPressureLevels, selected: self.pressure)
+            ))
+        ]))
+        
+        self.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Swap size"), component: PreferencesSwitch(
+                action: self.toggleSwap, state: self.swapState, with: StepperInput(
+                    self.swap, range: NSRange(location: 1, length: 1023), unit: self.swapUnit.key, units: SizeUnit.allCases, 
+                    callback: self.changeSwap, unitCallback: self.changeSwapUnit
+                )
             ))
         ]))
     }
@@ -88,17 +113,17 @@ class Notifications: NotificationsWrapper {
     internal func loadCallback(_ value: RAM_Usage) {
         let title = localizedString("RAM utilization threshold")
         
-        if let threshold = Double(self.totalUsageLevel) {
+        if self.totalState {
             let subtitle = localizedString("RAM utilization is", "\(Int((value.usage)*100))%")
-            self.checkDouble(id: self.totalUsageID, value: value.usage, threshold: threshold, title: title, subtitle: subtitle)
+            self.checkDouble(id: self.totalID, value: value.usage, threshold: Double(self.total)/100, title: title, subtitle: subtitle)
         }
-        if let threshold = Double(self.freeLevel) {
+        if self.freeState {
             let free = value.free / value.total
             let subtitle = localizedString("Free RAM is", "\(Int((free)*100))%")
-            self.checkDouble(id: self.freeID, value: free, threshold: threshold, title: title, subtitle: subtitle, less: true)
+            self.checkDouble(id: self.freeID, value: free, threshold: Double(self.free)/100, title: title, subtitle: subtitle, less: true)
         }
         
-        if self.pressureLevel != "", let thresholdPair = memoryPressureLevels.first(where: {$0.key == self.pressureLevel}) {
+        if self.pressureState, self.pressure != "", let thresholdPair = memoryPressureLevels.first(where: {$0.key == self.pressure}) {
             if let threshold = thresholdPair.additional as? DispatchSource.MemoryPressureEvent {
                 self.checkDouble(
                     id: self.pressureID,
@@ -110,34 +135,52 @@ class Notifications: NotificationsWrapper {
             }
         }
         
-        if let threshold = Double(self.swapSize) {
+        if self.swapState {
             let value = Units(bytes: Int64(value.swap.used))
             let subtitle = "\(localizedString("Swap size")): \(value.getReadableMemory())"
-            self.checkDouble(id: self.freeID, value: value.megabytes, threshold: threshold, title: title, subtitle: subtitle)
+            self.checkDouble(id: self.freeID, value: value.toUnit(self.swapUnit), threshold: Double(self.swap), title: title, subtitle: subtitle)
         }
     }
     
-    @objc private func changeTotalUsage(_ sender: NSMenuItem) {
-        guard let key = sender.representedObject as? String else { return }
-        self.totalUsageLevel = key.isEmpty ? "" : "\(Double(key) ?? 0)"
-        Store.shared.set(key: "\(self.module)_notifications_totalUsage", value: self.totalUsageLevel)
+    @objc private func toggleTotal(_ sender: NSControl) {
+        self.totalState = controlState(sender)
+        Store.shared.set(key: "\(self.module)_notifications_total_state", value: self.totalState)
+    }
+    @objc private func changeTotal(_ newValue: Int) {
+        self.total = newValue
+        Store.shared.set(key: "\(self.module)_notifications_total_value", value: self.total)
     }
     
-    @objc private func changeFree(_ sender: NSMenuItem) {
-        guard let key = sender.representedObject as? String else { return }
-        self.freeLevel = key.isEmpty ? "" : "\(Double(key) ?? 0)"
-        Store.shared.set(key: "\(self.module)_notifications_free", value: self.freeLevel)
+    @objc private func toggleFree(_ sender: NSControl) {
+        self.freeState = controlState(sender)
+        Store.shared.set(key: "\(self.module)_notifications_free_state", value: self.freeState)
+    }
+    @objc private func changeFree(_ newValue: Int) {
+        self.free = newValue
+        Store.shared.set(key: "\(self.module)_notifications_free_value", value: self.free)
     }
     
+    @objc private func togglePressure(_ sender: NSControl) {
+        self.pressureState = controlState(sender)
+        Store.shared.set(key: "\(self.module)_notifications_pressure_state", value: self.pressureState)
+    }
     @objc private func changePressure(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String else { return }
-        self.pressureLevel = key
-        Store.shared.set(key: "\(self.module)_notifications_pressure", value: self.pressureLevel)
+        self.pressure = key
+        Store.shared.set(key: "\(self.module)_notifications_pressure_value", value: self.pressure)
     }
     
-    @objc private func changeSwap(_ sender: NSMenuItem) {
-        guard let key = sender.representedObject as? String else { return }
-        self.swapSize = key
-        Store.shared.set(key: "\(self.module)_notifications_swap", value: self.swapSize)
+    @objc private func toggleSwap(_ sender: NSControl) {
+        self.swapState = controlState(sender)
+        Store.shared.set(key: "\(self.module)_notifications_swap_state", value: self.swapState)
+    }
+    @objc private func changeSwap(_ newValue: Int) {
+        self.swap = newValue
+        Store.shared.set(key: "\(self.module)_notifications_swap_value", value: self.swap)
+    }
+    private func changeSwapUnit(_ newValue: KeyValue_p) {
+        guard let newUnit = newValue as? SizeUnit else { return }
+        self.swapUnit = newUnit
+        Store.shared.set(key: "\(self.module)_notifications_swap_unit", value: self.swapUnit.key)
     }
 }
