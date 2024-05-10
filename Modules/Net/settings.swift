@@ -146,26 +146,13 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
         self.section = section
         
         self.widgetThresholdSection = PreferencesSection([
-            PreferencesRow(localizedString("Widget activation threshold"), component: switchView(
-                action: #selector(self.toggleWidgetActivationThreshold),
-                state: self.widgetActivationThresholdState
-            )),
-            PreferencesRow(localizedString("Value"), component: {
-                let view: NSStackView = NSStackView()
-                view.orientation = .horizontal
-                view.spacing = 2
-                let valueField = StepperInput(self.widgetActivationThreshold, range: NSRange(location: 1, length: 1023))
-                valueField.callback = self.changeWidgetActivationThreshold
-                valueField.widthAnchor.constraint(equalToConstant: 80).isActive = true
-                view.addArrangedSubview(NSView())
-                view.addArrangedSubview(valueField)
-                view.addArrangedSubview(selectView(
-                    action: #selector(self.toggleWidgetActivationThresholdSize),
-                    items: SizeUnit.allCases,
-                    selected: self.widgetActivationThresholdSize.key
-                ))
-                return view
-            }())
+            PreferencesRow(localizedString("Widget activation threshold"), component: PreferencesSwitch(
+                action: self.toggleWidgetActivationThreshold, state: self.widgetActivationThresholdState, with: StepperInput(
+                    self.widgetActivationThreshold, range: NSRange(location: 1, length: 1023), 
+                    unit: self.widgetActivationThresholdSize.key, units: SizeUnit.allCases,
+                    callback: self.changeWidgetActivationThreshold, unitCallback: self.toggleWidgetActivationThresholdSize
+                )
+            ))
         ])
         self.addArrangedSubview(self.widgetThresholdSection!)
         self.widgetThresholdSection?.toggleVisibility(1, newState: self.widgetActivationThresholdState)
@@ -234,11 +221,10 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
         self.widgetActivationThreshold = newValue
         Store.shared.set(key: "\(self.title)_widgetActivationThreshold", value: newValue)
     }
-    @objc private func toggleWidgetActivationThresholdSize(_ sender: NSMenuItem) {
-        guard let key = sender.representedObject as? String,
-              let value = SizeUnit.allCases.first(where: { $0.key == key }) else { return }
-        self.widgetActivationThresholdSize = value
-        Store.shared.set(key: "\(self.title)_widgetActivationThresholdSize", value: key)
+    private func toggleWidgetActivationThresholdSize(_ newValue: KeyValue_p) {
+        guard let newUnit = newValue as? SizeUnit else { return }
+        self.widgetActivationThresholdSize = newUnit
+        Store.shared.set(key: "\(self.title)_widgetActivationThresholdSize", value: self.widgetActivationThresholdSize.key)
         self.display()
     }
     

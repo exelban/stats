@@ -543,22 +543,11 @@ internal class Popup: PopupWrapper {
                 items: Scale.allCases,
                 selected: self.chartScale.key
             )),
-            PreferencesRow(localizedString("Scale value"), component: {
-                let view: NSStackView = NSStackView()
-                view.orientation = .horizontal
-                view.spacing = 2
-                let valueField = StepperInput(self.chartFixedScale, range: NSRange(location: 1, length: 1023))
-                valueField.callback = self.toggleFixedScale
-                valueField.widthAnchor.constraint(equalToConstant: 80).isActive = true
-                view.addArrangedSubview(NSView())
-                view.addArrangedSubview(valueField)
-                view.addArrangedSubview(selectView(
-                    action: #selector(self.toggleUploadScaleSize),
-                    items: SizeUnit.allCases,
-                    selected: self.chartFixedScaleSize.key
-                ))
-                return view
-            }())
+            PreferencesRow(localizedString("Scale value"), component: StepperInput(
+                self.chartFixedScale, range: NSRange(location: 1, length: 1023),
+                unit: self.chartFixedScaleSize.key, units: SizeUnit.allCases,
+                callback: self.toggleFixedScale, unitCallback: self.toggleFixedScaleSize
+            ))
         ])
         view.addArrangedSubview(self.chartPrefSection!)
         self.chartPrefSection?.toggleVisibility(2, newState: self.chartScale == .fixed)
@@ -639,12 +628,10 @@ internal class Popup: PopupWrapper {
         self.chart?.setScale(self.chartScale, Double(self.chartFixedScaleSize.toBytes(newValue)))
         Store.shared.set(key: "\(self.title)_chartFixedScale", value: newValue)
     }
-    @objc private func toggleUploadScaleSize(_ sender: NSMenuItem) {
-        guard let key = sender.representedObject as? String,
-              let value = SizeUnit.allCases.first(where: { $0.key == key }) else { return }
-        self.chartFixedScaleSize = value
-        self.chart?.setScale(self.chartScale, Double(self.chartFixedScaleSize.toBytes(self.chartFixedScale)))
-        Store.shared.set(key: "\(self.title)_chartFixedScaleSize", value: key)
+    private func toggleFixedScaleSize(_ newValue: KeyValue_p) {
+        guard let newUnit = newValue as? SizeUnit else { return }
+        self.chartFixedScaleSize = newUnit
+        Store.shared.set(key: "\(self.title)_chartFixedScaleSize", value: self.chartFixedScaleSize.key)
         self.display()
     }
     

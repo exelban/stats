@@ -14,24 +14,28 @@ import Kit
 
 class Notifications: NotificationsWrapper {
     private let utilizationID: String = "usage"
-    private var utilizationLevel: String = ""
+    
+    private var utilizationState: Bool = false
+    private var utilization: Int = 80
     
     public init(_ module: ModuleType) {
         super.init(module, [self.utilizationID])
         
         if Store.shared.exist(key: "\(self.module)_notificationLevel") {
-            let value = Store.shared.string(key: "\(self.module)_notificationLevel", defaultValue: self.utilizationLevel)
-            Store.shared.set(key: "\(self.module)_notifications_utilization", value: value)
-            Store.shared.remove("\(self.module)_notificationLevel")
+            let value = Store.shared.string(key: "\(self.module)_notifications_free", defaultValue: "")
+            if let v = Double(value) {
+                Store.shared.set(key: "\(self.module)_notifications_utilization_state", value: true)
+                Store.shared.set(key: "\(self.module)_notifications_utilization_value", value: Int(v*100))
+                Store.shared.remove("\(self.module)_notificationLevel")
+            }
         }
         
-        self.utilizationLevel = Store.shared.string(key: "\(self.module)_notifications_utilization", defaultValue: self.utilizationLevel)
+        self.utilizationState = Store.shared.bool(key: "\(self.module)_notifications_utilization_state", defaultValue: self.utilizationState)
+        self.utilization = Store.shared.int(key: "\(self.module)_notifications_utilization_value", defaultValue: self.utilization)
         
         self.addArrangedSubview(PreferencesSection([
-            PreferencesRow(localizedString("Usage"), component: selectView(
-                action: #selector(self.changeUsage),
-                items: notificationLevels,
-                selected: self.utilizationLevel
+            PreferencesRow(localizedString("Usage"), component: PreferencesSwitch(
+                action: self.toggleUtilization, state: self.utilizationState, with: StepperInput(self.utilization, callback: self.changeUtilization)
             ))
         ]))
     }
@@ -43,15 +47,18 @@ class Notifications: NotificationsWrapper {
     internal func utilizationCallback(_ value: Double) {
         let title = localizedString("Disk utilization threshold")
         
-        if let threshold = Double(self.utilizationLevel) {
+        if self.utilizationState {
             let subtitle = localizedString("Disk utilization is", "\(Int((value)*100))%")
-            self.checkDouble(id: self.utilizationID, value: value, threshold: threshold, title: title, subtitle: subtitle)
+            self.checkDouble(id: self.utilizationID, value: value, threshold: Double(self.utilization)/100, title: title, subtitle: subtitle)
         }
     }
     
-    @objc private func changeUsage(_ sender: NSMenuItem) {
-        guard let key = sender.representedObject as? String else { return }
-        self.utilizationLevel = key.isEmpty ? "" : "\(Double(key) ?? 0)"
-        Store.shared.set(key: "\(self.module)_notifications_utilization", value: self.utilizationLevel)
+    @objc private func toggleUtilization(_ sender: NSControl) {
+        self.utilizationState = controlState(sender)
+        Store.shared.set(key: "\(self.module)_notifications_utilization_state", value: self.utilizationState)
+    }
+    @objc private func changeUtilization(_ newValue: Int) {
+        self.utilization = newValue
+        Store.shared.set(key: "\(self.module)_notifications_utilization_value", value: self.utilization)
     }
 }
