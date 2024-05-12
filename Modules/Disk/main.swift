@@ -285,9 +285,6 @@ public class Disk: Module {
             switch w.item {
             case let widget as SpeedWidget: 
                 widget.setValue(upload: d.activity.write, download: d.activity.read)
-                if self.capacityReader?.interval != 1 {
-                    self.settingsView.setUpdateInterval(value: 1)
-                }
             case let widget as NetworkChart:
                 widget.setValue(upload: Double(d.activity.write), download: Double(d.activity.read))
                 if self.capacityReader?.interval != 1 {

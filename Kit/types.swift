@@ -140,7 +140,16 @@ public let ShortLong: [KeyValue_t] = [
     KeyValue_t(key: "long", value: "Long")
 ]
 
-public let ReaderUpdateIntervals: [Int] = [1, 2, 3, 5, 10, 15, 30, 60]
+public let ReaderUpdateIntervals: [KeyValue_t] = [
+    KeyValue_t(key: "1", value: "1 sec"),
+    KeyValue_t(key: "2", value: "2 sec"),
+    KeyValue_t(key: "3", value: "3 sec"),
+    KeyValue_t(key: "5", value: "5 sec"),
+    KeyValue_t(key: "10", value: "10 sec"),
+    KeyValue_t(key: "15", value: "15 sec"),
+    KeyValue_t(key: "30", value: "30 sec"),
+    KeyValue_t(key: "60", value: "60 sec")
+]
 public let NumbersOfProcesses: [Int] = [0, 3, 5, 8, 10, 15]
 
 public let NetworkReaders: [KeyValue_t] = [

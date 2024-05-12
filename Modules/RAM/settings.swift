@@ -51,13 +51,13 @@ internal class Settings: NSStackView, Settings_v {
         self.addArrangedSubview(PreferencesSection([
             PreferencesRow(localizedString("Update interval"), component: selectView(
                 action: #selector(self.changeUpdateInterval),
-                items: ReaderUpdateIntervals.map{ KeyValue_t(key: "\($0)", value: "\($0) sec") },
-                selected: "\(self.updateIntervalValue) sec"
+                items: ReaderUpdateIntervals,
+                selected: "\(self.updateIntervalValue)"
             )),
             PreferencesRow(localizedString("Update interval for top processes"), component: selectView(
                 action: #selector(self.changeUpdateTopInterval),
-                items: ReaderUpdateIntervals.map{ KeyValue_t(key: "\($0)", value: "\($0) sec") },
-                selected: "\(self.updateTopIntervalValue) sec"
+                items: ReaderUpdateIntervals,
+                selected: "\(self.updateTopIntervalValue)"
             ))
         ]))
         
