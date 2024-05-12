@@ -180,7 +180,7 @@ class Dashboard: NSStackView {
         ]))
         
         scrollView.stackView.addArrangedSubview(PreferencesSection([
-            PreferencesRow(localizedString("Model id"), component: textView(SystemKit.shared.device.model.id)),
+            PreferencesRow(localizedString("Model identifier"), component: textView(SystemKit.shared.device.model.id)),
             PreferencesRow(localizedString("Production year"), component: textView("\(SystemKit.shared.device.model.year)")),
             PreferencesRow(localizedString("Serial number"), component: textView(SystemKit.shared.device.serialNumber ?? localizedString("Unknown")))
         ]))
