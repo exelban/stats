@@ -136,8 +136,8 @@
 "Show icon in dock" = "在 Dock 上顯示圖示";
 "Start at login" = "登入時打開";
 "Build number" = "組建號碼";
-"Import settings" = "Import settings";
-"Export settings" = "Export settings";
+"Import settings" = "匯入設定";
+"Export settings" = "匯出設定";
 "Reset settings" = "重置設定";
 "Pause the Stats" = "暫停 Stats";
 "Resume the Stats" = "恢復 Stats";
