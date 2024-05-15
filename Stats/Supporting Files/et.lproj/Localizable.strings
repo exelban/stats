@@ -136,6 +136,8 @@
 "Show icon in dock" = "Kuva ikooni dokis";
 "Start at login" = "Alusta sisselogimisest";
 "Build number" = "Ehitamise number";
+"Import settings" = "Import settings";
+"Export settings" = "Export settings";
 "Reset settings" = "Lähtesta seaded";
 "Pause the Stats" = "Peata Statsi";
 "Resume the Stats" = "Jätka Statsi";

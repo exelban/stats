@@ -136,6 +136,8 @@
 "Show icon in dock" = "Vis ikon i dock";
 "Start at login" = "Start ved innlogging";
 "Build number" = "Byggnummer";
+"Import settings" = "Import settings";
+"Export settings" = "Export settings";
 "Reset settings" = "Nullstill innstillinger";
 "Pause the Stats" = "Sett Stats på pause";
 "Resume the Stats" = "Gjenoppta Stats";

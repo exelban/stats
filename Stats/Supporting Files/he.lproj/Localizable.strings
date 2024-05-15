@@ -136,6 +136,8 @@
 "Show icon in dock" = "הצג סמל בשורת התפריטים";
 "Start at login" = "התחל בעלייה";
 "Build number" = "מספר בילד";
+"Import settings" = "Import settings";
+"Export settings" = "Export settings";
 "Reset settings" = "איפוס הגדרות";
 "Pause the Stats" = "Pause the Stats";
 "Resume the Stats" = "Resume the Stats";

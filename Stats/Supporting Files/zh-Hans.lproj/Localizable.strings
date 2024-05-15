@@ -136,6 +136,8 @@
 "Show icon in dock" = "在程序坞显示图标";
 "Start at login" = "登录时打开";
 "Build number" = "版本号";
+"Import settings" = "Import settings";
+"Export settings" = "Export settings";
 "Reset settings" = "初始化所有设置";
 "Pause the Stats" = "暂停 Stats";
 "Resume the Stats" = "恢复 Stats";

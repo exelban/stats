@@ -136,6 +136,8 @@
 "Show icon in dock" = "Tampilkan ikon pada dok";
 "Start at login" = "Mulai saat login";
 "Build number" = "Build number";
+"Import settings" = "Import settings";
+"Export settings" = "Export settings";
 "Reset settings" = "Atur ulang pengaturan";
 "Pause the Stats" = "Pause the Stats";
 "Resume the Stats" = "Resume the Stats";

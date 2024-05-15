@@ -136,6 +136,8 @@
 "Show icon in dock" = "Dock にアイコンを表示";
 "Start at login" = "ログイン時に開く";
 "Build number" = "ビルド番号";
+"Import settings" = "Import settings";
+"Export settings" = "Export settings";
 "Reset settings" = "設定をリセット";
 "Pause the Stats" = "Pause the Stats";
 "Resume the Stats" = "Resume the Stats";

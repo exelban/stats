@@ -136,6 +136,8 @@
 "Show icon in dock" = "Dock에 아이콘 표시";
 "Start at login" = "로그인 시 시작";
 "Build number" = "빌드 번호";
+"Import settings" = "Import settings";
+"Export settings" = "Export settings";
 "Reset settings" = "설정 초기화";
 "Pause the Stats" = "Stats 일시정지";
 "Resume the Stats" = "Stats 재개";

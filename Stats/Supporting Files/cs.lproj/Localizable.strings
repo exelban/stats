@@ -136,6 +136,8 @@
 "Show icon in dock" = "Zobrazovat ikonu v Docku";
 "Start at login" = "Spustit po přihlášení";
 "Build number" = "Číslo sestavení";
+"Import settings" = "Import settings";
+"Export settings" = "Export settings";
 "Reset settings" = "Obnovit nastavení";
 "Pause the Stats" = "Pozastavit Stats";
 "Resume the Stats" = "Obnovit Stats";

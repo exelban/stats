@@ -136,6 +136,8 @@
 "Show icon in dock" = "Mostra l'icona al Dock";
 "Start at login" = "Arranca al iniciar sessió";
 "Build number" = "Build number";
+"Import settings" = "Import settings";
+"Export settings" = "Export settings";
 "Reset settings" = "Reset settings";
 "Pause the Stats" = "Pause the Stats";
 "Resume the Stats" = "Resume the Stats";

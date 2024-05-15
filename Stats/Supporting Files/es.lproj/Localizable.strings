@@ -136,6 +136,8 @@
 "Show icon in dock" = "Muestra el icono en el dock";
 "Start at login" = "Arrancar al iniciar sesión";
 "Build number" = "Número de compilación";
+"Import settings" = "Import settings";
+"Export settings" = "Export settings";
 "Reset settings" = "Restablecer ajustes";
 "Pause the Stats" = "Pausar Stats";
 "Resume the Stats" = "Reanudar Stats";
