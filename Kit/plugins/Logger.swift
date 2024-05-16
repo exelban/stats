@@ -71,14 +71,14 @@ public class NextLog {
         case .file:
             let fm = FileManager.default
             let appSupportURL = fm.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
-            let logDirectoryURL = appSupportURL.appendingPathComponent("Stats")
+            let logDirectoryURL = appSupportURL.appendingPathComponent("Stats/Logs")
             let fileURL = logDirectoryURL.appendingPathComponent("log.txt")
             
             if !fm.fileExists(atPath: logDirectoryURL.path) {
                 do {
                     try fm.createDirectory(at: logDirectoryURL, withIntermediateDirectories: true)
                 } catch let error {
-                    print("failed to create log directory")
+                    print("failed to create log directory: \(error)")
                     self.writer = StdoutOutputStream()
                     return
                 }
