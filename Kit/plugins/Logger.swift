@@ -70,7 +70,19 @@ public class NextLog {
             self.writer = StderrOutputStream()
         case .file:
             let fm = FileManager.default
-            let fileURL = fm.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("log.txt")
+            let appSupportURL = fm.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
+            let logDirectoryURL = appSupportURL.appendingPathComponent("Stats")
+            let fileURL = logDirectoryURL.appendingPathComponent("log.txt")
+            
+            if !fm.fileExists(atPath: logDirectoryURL.path) {
+                do {
+                    try fm.createDirectory(at: logDirectoryURL, withIntermediateDirectories: true)
+                } catch let error {
+                    print("failed to create log directory")
+                    self.writer = StdoutOutputStream()
+                    return
+                }
+            }
             
             if !fm.fileExists(atPath: fileURL.path) {
                 try? "".data(using: .utf8)?.write(to: fileURL)
