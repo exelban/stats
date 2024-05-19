@@ -135,10 +135,10 @@
 "Check for update" = "Verifica la disponibilità di nuove versioni";
 "Show icon in dock" = "Mostra icona nel dock";
 "Start at login" = "Avvia al login";
-"Build number" = "Build number";
-"Import settings" = "Import settings";
-"Export settings" = "Export settings";
-"Reset settings" = "Resetta le impostazioni";
+"Build number" = "Numero Build";
+"Import settings" = "Importa impostazioni;
+"Export settings" = "Esporta impostazioni";
+"Reset settings" = "Resetta impostazioni";
 "Pause the Stats" = "Metti in pausa Stats";
 "Resume the Stats" = "Riprendi Stats";
 "Combined modules" = "Moduli combinati";
