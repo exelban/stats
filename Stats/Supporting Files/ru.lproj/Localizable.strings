@@ -136,8 +136,8 @@
 "Show icon in dock" = "Показать значок в dock";
 "Start at login" = "Запуск при входе";
 "Build number" = "Номер сборки";
-"Import settings" = "Import settings";
-"Export settings" = "Export settings";
+"Import settings" = "Импортировать настройки";
+"Export settings" = "Экспортировать настройки";
 "Reset settings" = "Сбросить настройки";
 "Pause the Stats" = "Приостановить Stats";
 "Resume the Stats" = "Возобновить Stats";

@@ -136,9 +136,9 @@
 "Show icon in dock" = "Pokazuj ikonę w docku";
 "Start at login" = "Uruchom przy logowaniu";
 "Build number" = "Numer kompilacji";
-"Import settings" = "Import settings";
-"Export settings" = "Export settings";
-"Reset settings" = "Resetowanie ustawień";
+"Import settings" = "Importuj ustawienia";
+"Export settings" = "Eksportuj ustawienia";
+"Reset settings" = "Resetuj ustawienia";
 "Pause the Stats" = "Wstrzymaj Stats";
 "Resume the Stats" = "Wznów Stats";
 "Combined modules" = "Połączone moduły";

@@ -136,9 +136,9 @@
 "Show icon in dock" = "Показувати іконку в dock";
 "Start at login" = "Запускати при логуванні";
 "Build number" = "Номер збірки";
-"Import settings" = "Import settings";
-"Export settings" = "Export settings";
-"Reset settings" = "Скинути налаштування";
+"Import settings" = "Імпорт налаштувань";
+"Export settings" = "Експорт налаштувань";
+"Reset settings" = "Скидання налаштувань";
 "Pause the Stats" = "Призупинити Stats";
 "Resume the Stats" = "Відновити Stats";
 "Combined modules" = "Комбіновані модулі";
