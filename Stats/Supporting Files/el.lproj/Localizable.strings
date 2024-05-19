@@ -136,6 +136,8 @@
 "Show icon in dock" = "Εμφάνιση εικονιδίου στο dock";
 "Start at login" = "Εκκίνηση κατά τη σύνδεση";
 "Build number" = "Αριθμός έκδοσης";
+"Import settings" = "Import settings";
+"Export settings" = "Export settings";
 "Reset settings" = "Επαναφορά ρυθμίσεων";
 "Pause the Stats" = "Παύση του Stats";
 "Resume the Stats" = "Ξαναρχίζω το Stats";

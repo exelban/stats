@@ -136,6 +136,8 @@
 "Show icon in dock" = "Показване на икона в Dock";
 "Start at login" = "Автоматично стартиране";
 "Build number" = "Build number";
+"Import settings" = "Import settings";
+"Export settings" = "Export settings";
 "Reset settings" = "Зануляване на настройките";
 "Pause the Stats" = "Паузиране на Stats";
 "Resume the Stats" = "Продължаване на Stats";

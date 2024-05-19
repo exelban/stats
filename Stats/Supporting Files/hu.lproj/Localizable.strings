@@ -136,6 +136,8 @@
 "Show icon in dock" = "Ikon megjelenítése a Dockban";
 "Start at login" = "Alkalmazás indítása bejelentkezéskor";
 "Build number" = "Verziószám";
+"Import settings" = "Import settings";
+"Export settings" = "Export settings";
 "Reset settings" = "Beállítások alaphelyzetbe állítása";
 "Pause the Stats" = "Stats felfüggesztése";
 "Resume the Stats" = "Stats folytatása";

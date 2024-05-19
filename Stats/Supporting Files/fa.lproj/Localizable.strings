@@ -136,6 +136,8 @@
 "Show icon in dock" = "نمایش آیکون در داک";
 "Start at login" = "باز شدن در زمان لاگین";
 "Build number" = "شماره ساخت";
+"Import settings" = "Import settings";
+"Export settings" = "Export settings";
 "Reset settings" = "ریست تنظیمات";
 "Pause the Stats" = "متوقف کردن Stats";
 "Resume the Stats" = "ادامه‌ی کار Stats";

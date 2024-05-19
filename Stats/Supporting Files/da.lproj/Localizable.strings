@@ -136,6 +136,8 @@
 "Show icon in dock" = "Vis ikon i Dock";
 "Start at login" = "Start ved login";
 "Build number" = "Build number";
+"Import settings" = "Import settings";
+"Export settings" = "Export settings";
 "Reset settings" = "Nulstil indstillinger";
 "Pause the Stats" = "Sæt Stats på pause";
 "Resume the Stats" = "Genoptag Stats";

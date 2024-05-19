@@ -136,6 +136,8 @@
 "Show icon in dock" = "Dock'ta göster";
 "Start at login" = "Başlangıçta çalıştır";
 "Build number" = "Sürüm numarası";
+"Import settings" = "Import settings";
+"Export settings" = "Export settings";
 "Reset settings" = "Ayarları sıfırla";
 "Pause the Stats" = "Stats'ı Duraklat";
 "Resume the Stats" = "Stats'ı Sürdür";

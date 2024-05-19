@@ -136,6 +136,8 @@
 "Show icon in dock" = "डॉक में आइकन दिखाएं";
 "Start at login" = "लॉगिन पर शुरू करें";
 "Build number" = "बिल्ड नंबर";
+"Import settings" = "Import settings";
+"Export settings" = "Export settings";
 "Reset settings" = "सेटिंग्स रीसेट करें";
 "Pause the Stats" = "आँकड़ों को रोकें";
 "Resume the Stats" = "आँकड़े फिर से शुरू करें";

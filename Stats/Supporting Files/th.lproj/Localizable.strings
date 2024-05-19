@@ -136,6 +136,8 @@
 "Show icon in dock" = "แสดงไอคอนใน dock";
 "Start at login" = "เริ่มต้นเมื่อเข้าสู่ระบบ";
 "Build number" = "หมายเลข Build";
+"Import settings" = "Import settings";
+"Export settings" = "Export settings";
 "Reset settings" = "รีเซ็ตการตั้งค่า";
 "Pause the Stats" = "หยุด Stats";
 "Resume the Stats" = "เริ่มต้น Stats";

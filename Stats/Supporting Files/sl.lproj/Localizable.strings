@@ -136,6 +136,8 @@
 "Show icon in dock" = "Prikaži ikono v opravilni vrstici";
 "Start at login" = "Zaženi ob prijavi";
 "Build number" = "Številka gradnje";
+"Import settings" = "Import settings";
+"Export settings" = "Export settings";
 "Reset settings" = "Ponastavi nastavitve";
 "Pause the Stats" = "Začasno zaustavi Stats";
 "Resume the Stats" = "Nadaljuj z izvajanjem Stats";
