@@ -468,13 +468,15 @@ internal class Popup: PopupWrapper {
         DispatchQueue.main.async(execute: {
             if (self.window?.isVisible ?? false) || !self.connectionInitialized {
                 var text = "Unknown"
+                var latency = localizedString("Unknown")
                 if let v = value {
                     text = v.status ? "UP" : "DOWN"
+                    if v.status && !self.latency.isEmpty {
+                        latency = "\((self.latency.reduce(0, +) / Double(self.latency.count)).rounded(toPlaces: 2)) ms"
+                    }
                 }
                 self.connectivityField?.stringValue = localizedString(text)
-                if !self.latency.isEmpty {
-                    self.latencyField?.stringValue = "\((self.latency.reduce(0, +) / Double(self.latency.count)).rounded(toPlaces: 2)) ms"
-                }
+                self.latencyField?.stringValue = latency
                 self.connectionInitialized = true
             }
             
