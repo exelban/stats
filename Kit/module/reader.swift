@@ -66,6 +66,8 @@ open class Reader<T: Codable>: NSObject, ReaderInternal_p {
         set { self.activeQueue.sync { self._active = newValue } }
     }
     
+    var lastDBWrite: Date? = nil
+    
     public init(_ module: ModuleType, popup: Bool = false, history: Bool = false, callback: @escaping (T?) -> Void = {_ in }) {
         self.popup = popup
         self.module = module
@@ -84,6 +86,10 @@ open class Reader<T: Codable>: NSObject, ReaderInternal_p {
         debug("Successfully initialize reader", log: self.log)
     }
     
+    deinit {
+        DB.shared.insert(key: "\(self.module.rawValue)@\(self.name)", value: self.value, ts: self.history)
+    }
+    
     public func initStoreValues(title: String) {
         guard self.interval == nil else { return }
         let updateIntervalString = Store.shared.string(key: "\(title)_updateInterval", defaultValue: "\(self.defaultInterval)")
@@ -95,8 +101,14 @@ open class Reader<T: Codable>: NSObject, ReaderInternal_p {
     public func callback(_ value: T?) {
         self.value = value
         if let value {
-            DB.shared.insert(key: "\(self.module.rawValue)@\(self.name)", value: value, ts: self.history)
             self.callbackHandler(value)
+            if let ts = self.lastDBWrite, let interval = self.interval, Date().timeIntervalSince(ts) > interval * 10 {
+                DB.shared.insert(key: "\(self.module.rawValue)@\(self.name)", value: value, ts: self.history)
+                self.lastDBWrite = Date()
+            } else if self.lastDBWrite == nil {
+                DB.shared.insert(key: "\(self.module.rawValue)@\(self.name)", value: value, ts: self.history)
+                self.lastDBWrite = Date()
+            }
         }
     }
     
