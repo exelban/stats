@@ -219,10 +219,12 @@ public class Network: Module {
         var upload: Int64 = value.bandwidth.upload
         var download: Int64 = value.bandwidth.download
         if self.widgetActivationThresholdState {
+            upload = 0
+            download = 0
             let threshold = self.widgetActivationThresholdSize.toBytes(self.widgetActivationThreshold)
             if value.bandwidth.upload >= threshold || value.bandwidth.download >= threshold {
-                upload = 0
-                download = 0
+                upload = value.bandwidth.upload
+                download = value.bandwidth.download
             }
         }
         
