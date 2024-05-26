@@ -69,7 +69,7 @@
 "Square" = "Quadratico";
 "Cube" = "Cubico";
 "Logarithmic" = "Logaritmico";
-"Fixed scale" = "Fixed";
+"Fixed scale" = "Scala fissa";
 "Cores" = "Core";
 "Settings" = "Impostazioni";
 "Name" = "Nome";
@@ -78,9 +78,9 @@
 "Warning" = "Avviso";
 "Critical" = "Critico";
 "Usage" = "Utilizzo";
-"2 minutes" = "2 minutes";
-"3 minutes" = "3 minutes";
-"10 minutes" = "10 minutes";
+"2 minutes" = "2 minuti";
+"3 minutes" = "3 minuti";
+"10 minutes" = "10 minuti";
 "Import" = "Importa";
 "Export" = "Esporta";
 
@@ -292,7 +292,7 @@
 "Compressed color" = "Colore Compressa";
 "Free color" = "Colore Libera";
 "Free memory (less than)" = "Memoria libera (meno di)";
-"Swap size" = "Swap size";
+"Swap size" = "Dimensione swap";
 "Free RAM is" = "RAM libera è %0";
 
 // Disk
