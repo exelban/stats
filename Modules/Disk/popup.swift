@@ -691,7 +691,7 @@ internal class TemperatureView: NSStackView {
         
         self.field.font = NSFont.systemFont(ofSize: 11, weight: .regular)
         self.field.alignment = .right
-        self.field.stringValue = "\(temperature(Double(smart.temperature)))"
+        self.field.stringValue = "\(temperature(Double(smart.temperature)).format())"
         
         self.addArrangedSubview(title)
         self.addArrangedSubview(NSView())
@@ -708,7 +708,7 @@ internal class TemperatureView: NSStackView {
     public func update(_ newValue: smart_t?) {
         if (self.window?.isVisible ?? false) || !self.initialized {
             if let newValue {
-                self.field.stringValue = "\(temperature(Double(newValue.temperature)))"
+                self.field.stringValue = "\(temperature(Double(newValue.temperature)).format())"
             } else {
                 self.field.stringValue = "-"
             }

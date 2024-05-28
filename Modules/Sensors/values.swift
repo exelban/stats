@@ -156,7 +156,7 @@ public struct Sensor: Sensor_p, Codable {
     public var formattedValue: String {
         switch self.type {
         case .temperature:
-            return temperature(value)
+            return temperature(value).format()
         case .voltage:
             let val = value >= 100 ? "\(Int(value))" : String(format: "%.3f", value)
             return "\(val)\(unit)"
@@ -173,7 +173,7 @@ public struct Sensor: Sensor_p, Codable {
     public var formattedPopupValue: String {
         switch self.type {
         case .temperature:
-            return temperature(value, fractionDigits: 1)
+            return temperature(value).format(1)
         case .voltage:
             let val = value >= 100 ? "\(Int(value))" : String(format: "%.3f", value)
             return "\(val)\(unit)"
@@ -190,7 +190,7 @@ public struct Sensor: Sensor_p, Codable {
     public var formattedMiniValue: String {
         switch self.type {
         case .temperature:
-            return temperature(value).replacingOccurrences(of: "C", with: "").replacingOccurrences(of: "F", with: "")
+            return temperature(value).format(temperatureWithoutUnit: true)
         case .voltage, .power, .energy, .current:
             let val = value >= 9.95 ? "\(Int(round(value)))" : String(format: "%.1f", value)
             return "\(val)\(unit)"
