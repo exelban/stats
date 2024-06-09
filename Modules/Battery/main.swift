@@ -33,6 +33,8 @@ struct Battery_Usage: Codable {
     var temperature: Double = 0
     
     var ACwatts: Int = 0
+    var chargingCurrent: Int = 0
+    var chargingVoltage: Int = 0
     
     var timeToEmpty: Int = 0
     var timeToCharge: Int = 0
