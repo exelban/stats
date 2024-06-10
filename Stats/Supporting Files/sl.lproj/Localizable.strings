@@ -69,7 +69,7 @@
 "Square" = "Kvadratno";
 "Cube" = "Kubično";
 "Logarithmic" = "Logaritmično";
-"Fixed scale" = "Fixed";
+"Fixed scale" = "Fiksna skala";
 "Cores" = "Jedra";
 "Settings" = "Nastavitve";
 "Name" = "Ime";
@@ -78,11 +78,11 @@
 "Warning" = "Opozorilo";
 "Critical" = "Kritično";
 "Usage" = "Uporaba";
-"2 minutes" = "2 minutes";
-"3 minutes" = "3 minutes";
-"10 minutes" = "10 minutes";
-"Import" = "Import";
-"Export" = "Export";
+"2 minutes" = "2 minuti";
+"3 minutes" = "3 minute";
+"10 minutes" = "10 minut";
+"Import" = "Uvoz";
+"Export" = "Izvoz";
 
 // Setup
 "Stats Setup" = "Stats konfigurator";
@@ -136,8 +136,8 @@
 "Show icon in dock" = "Prikaži ikono v opravilni vrstici";
 "Start at login" = "Zaženi ob prijavi";
 "Build number" = "Številka gradnje";
-"Import settings" = "Import settings";
-"Export settings" = "Export settings";
+"Import settings" = "Uvozi nastavitve";
+"Export settings" = "Izvozi nastavitve";
 "Reset settings" = "Ponastavi nastavitve";
 "Pause the Stats" = "Začasno zaustavi Stats";
 "Resume the Stats" = "Nadaljuj z izvajanjem Stats";
@@ -192,7 +192,7 @@
 "Color of upload" = "Barva oddajanja";
 "Monospaced font" = "Pisava s fiksno širino";
 "Reverse order" = "Obratni vrstni red";
-"Chart history" = "Chart history";
+"Chart history" = "Zgodovina grafa";
 
 // Module Kit
 "Open module settings" = "Odpri nastavitve modula";
@@ -210,16 +210,16 @@
 "Merge widgets" = "Združevanje pripomočkov";
 "No available widgets to configure" = "Ni razpoložljivih pripomočkov za konfiguracijo";
 "No options to configure for the popup in this module" = "V tem modulu ni možnosti za konfiguracijo pojavnega okna";
-"Process" = "Process";
-"Kill process" = "Kill process";
+"Process" = "Proces";
+"Kill process" = "Ubij proces";
 
 // Modules
 "Number of top processes" = "Število glavnih procesov";
 "Update interval for top processes" = "Interval posodabljanja za glavne procese";
 "Notification level" = "Raven za obvestila";
 "Chart color" = "Barva grafa";
-"Main chart scaling" = "Main chart scaling";
-"Scale value" = "Scale value";
+"Main chart scaling" = "Skaliranje glavnega grafa";
+"Scale value" = "Vrednost skale";
 
 // CPU
 "CPU usage" = "CPE poraba";
@@ -307,8 +307,8 @@
 "Read color" = "Barva branja";
 "Write color" = "Barva pisanja";
 "Disk usage" = "Uporaba diska";
-"Total read" = "Total read";
-"Total written" = "Total written";
+"Total read" = "Skupaj prebrano";
+"Total written" = "Skupaj zapisano";
 
 // Sensors
 "Temperature unit" = "Enota za temperaturo";
@@ -325,11 +325,11 @@
 "Uninstall fan helper" = "Odstrani pomočnika za ventilatorje";
 "Fan value" = "Vrednost ventilatorja";
 "Turn off fan" = "Izklopi ventilator";
-"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Izklopili boste ventilator. To ni priporočljivo dejanje, saj lahko poškoduje vaš mac. Ali ste prepričani, da želite to storiti?";
+"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Izklopili boste ventilator. To ni priporočljivo dejanje, saj lahko poškoduje vaš računalnik. Ali ste prepričani, da želite to storiti?";
 "Sensor threshold" = "Prag zaznavanja";
-"Left fan" = "Levi";
-"Right fan" = "Desni";
-"Fastest fan" = "Najhitrejši";
+"Left fan" = "Levi ventilator";
+"Right fan" = "Desni ventilator";
+"Fastest fan" = "Najhitrejši ventilator";
 
 // Network
 "Uploading" = "Oddajanje";
@@ -408,7 +408,7 @@
 "current / maximum / designed" = "trenutna / največja / predvidena";
 "Low power mode" = "Način nizke porabe";
 "Percentage inside the icon" = "Odstotek znotraj ikone";
-"Colorize battery" = "Obarvanje batarije";
+"Colorize battery" = "Obarvanje baterije";
 
 // Bluetooth
 "Battery to show" = "Prikaz baterije";
