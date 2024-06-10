@@ -136,7 +136,7 @@ public class StackWidget: WidgetWrapper {
     private func drawOneRow(_ x: CGFloat, _ element: Stack_t) -> CGFloat {
         var font: NSFont = NSFont.systemFont(ofSize: 13, weight: .regular)
         if self.monospacedFontState {
-            font = NSFont.monospacedSystemFont(ofSize: 13, weight: .regular)
+            font = NSFont.monospacedDigitSystemFont(ofSize: 13, weight: .regular)
         }
         
         let style = NSMutableParagraphStyle()
