@@ -108,12 +108,8 @@ internal class UsageReader: Reader<Network_Usage> {
     private let variablesQueue = DispatchQueue(label: "eu.exelban.NetworkUsageReader")
     private var _usage: Network_Usage = Network_Usage()
     public var usage: Network_Usage {
-        get {
-            self.variablesQueue.sync { self._usage }
-        }
-        set {
-            self.variablesQueue.sync { self._usage = newValue }
-        }
+        get { self.variablesQueue.sync { self._usage } }
+        set { self.variablesQueue.sync { self._usage = newValue } }
     }
     
     private var primaryInterface: String {
@@ -126,18 +122,12 @@ internal class UsageReader: Reader<Network_Usage> {
     }
     
     private var interfaceID: String {
-        get {
-            return Store.shared.string(key: "Network_interface", defaultValue: self.primaryInterface) 
-        }
-        set {
-            Store.shared.set(key: "Network_interface", value: newValue)
-        }
+        get { Store.shared.string(key: "Network_interface", defaultValue: self.primaryInterface) }
+        set { Store.shared.set(key: "Network_interface", value: newValue) }
     }
     
     private var reader: String {
-        get {
-            return Store.shared.string(key: "Network_reader", defaultValue: "interface") 
-        }
+        get { Store.shared.string(key: "Network_reader", defaultValue: "interface") }
     }
     
     private var vpnConnection: Bool {
@@ -148,14 +138,13 @@ internal class UsageReader: Reader<Network_Usage> {
     }
     
     private var VPNMode: Bool {
-        get {
-            return Store.shared.bool(key: "Network_VPNMode", defaultValue: false)
-        }
+        get { Store.shared.bool(key: "Network_VPNMode", defaultValue: false) }
     }
     
     public override func setup() {
         self.reachability.reachable = {
             if self.active {
+                self.getPublicIP()
                 self.getDetails()
             }
         }
@@ -171,6 +160,7 @@ internal class UsageReader: Reader<Network_Usage> {
         
         DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 1) {
             if self.active {
+                self.getPublicIP()
                 self.getDetails()
             }
         }
@@ -181,6 +171,8 @@ internal class UsageReader: Reader<Network_Usage> {
     }
     
     public override func read() {
+        self.getDetails()
+        
         let current: Bandwidth = self.reader == "interface" ? self.readInterfaceBandwidth() : self.readProcessBandwidth()
         
         // allows to reset the value to 0 when first read
@@ -305,12 +297,6 @@ internal class UsageReader: Reader<Network_Usage> {
     }
     
     public func getDetails() {
-        self.usage.reset()
-        
-        DispatchQueue.global(qos: .background).async {
-            self.getPublicIP()
-        }
-        
         guard self.interfaceID != "" else { return }
         
         for interface in SCNetworkInterfaceCopyAll() as NSArray {
