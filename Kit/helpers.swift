@@ -730,19 +730,31 @@ public extension UnitTemperature {
     }
 }
 
-public func temperature(_ value: Double, defaultUnit: UnitTemperature = UnitTemperature.celsius, fractionDigits: Int = 0) -> String {
-    let formatter = MeasurementFormatter()
-    formatter.locale = Locale.init(identifier: "en_US")
-    formatter.numberFormatter.maximumFractionDigits = fractionDigits
-    if fractionDigits != 0 {
-        formatter.numberFormatter.minimumFractionDigits = fractionDigits
-    }
-    formatter.unitOptions = .providedUnit
-    
-    var measurement = Measurement(value: value, unit: defaultUnit)
+public func temperature(_ value: Double, unit: UnitTemperature = UnitTemperature.celsius) -> Measurement<UnitTemperature> {
+    var measurement = Measurement(value: value, unit: unit)
     measurement.convert(to: UnitTemperature.current)
-    
-    return formatter.string(from: measurement)
+    return measurement
+}
+
+public extension Measurement<UnitTemperature> {
+    func format(_ fractionDigits: Int = 0, temperatureWithoutUnit: Bool = false) -> String {
+        let formatter = MeasurementFormatter()
+        formatter.locale = Locale.init(identifier: "en_US")
+        formatter.numberFormatter.maximumFractionDigits = fractionDigits
+        if fractionDigits != 0 {
+            formatter.numberFormatter.minimumFractionDigits = fractionDigits
+        }
+        formatter.unitOptions = .providedUnit
+
+        var result = formatter.string(from: self)
+        if temperatureWithoutUnit {
+            // This is workaround for formatting temperature without degree letter because `short` unit style or
+            // `temperatureWithoutUnit` unit options formatter settings can't produce formatted string in
+            // expected format for different locales and temperature scales.
+            result = result.replacingOccurrences(of: "C", with: "").replacingOccurrences(of: "F", with: "")
+        }
+        return result
+    }
 }
 
 public func sysctlByName(_ name: String) -> Int64 {

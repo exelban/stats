@@ -26,7 +26,7 @@ class Notifications: NotificationsWrapper {
         super.init(module)
         for p in self.temperatureList {
             if let v = Double(p) {
-                self.temperatureLevels.append(KeyValue_t(key: p, value: temperature(v)))
+                self.temperatureLevels.append(KeyValue_t(key: p, value: temperature(v).format()))
             }
         }
     }
