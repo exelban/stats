@@ -103,6 +103,11 @@ internal class UsageReader: Reader<Battery_Usage> {
                 }
                 self.usage.ACwatts = ACwatts
                 
+                if let chargerData = self.getChargerData() {
+                    self.usage.chargingCurrent = chargerData["ChargingCurrent"] as? Int ?? 0
+                    self.usage.chargingVoltage = chargerData["ChargingVoltage"] as? Int ?? 0
+                }
+                
                 self.callback(self.usage)
             }
         }
@@ -139,6 +144,13 @@ internal class UsageReader: Reader<Battery_Usage> {
     private func getTemperature() -> Double? {
         if let value = IORegistryEntryCreateCFProperty(self.service, "Temperature" as CFString, kCFAllocatorDefault, 0) {
             return value.takeRetainedValue() as! Double / 100.0
+        }
+        return nil
+    }
+    
+    private func getChargerData() -> [String: Any]? {
+        if let chargerData = IORegistryEntryCreateCFProperty(service, "ChargerData" as CFString, kCFAllocatorDefault, 0) {
+            return chargerData.takeRetainedValue() as? [String: Any]
         }
         return nil
     }
