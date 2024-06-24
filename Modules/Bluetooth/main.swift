@@ -28,15 +28,14 @@ public struct BLEDevice: Codable {
     var isPeripheralInitialized: Bool = false
     
     var id: String {
-        get {
-            return self.uuid?.uuidString ?? self.address
-        }
+        get { self.uuid?.uuidString ?? self.address }
     }
     
     var state: Bool {
-        get {
-            return Store.shared.bool(key: "ble_\(self.id)", defaultValue: false)
-        }
+        get { Store.shared.bool(key: "ble_\(self.id)", defaultValue: false) }
+    }
+    var notificationThreshold: String {
+        Store.shared.string(key: "ble_\(self.id)_notification", defaultValue: "")
     }
     
     private enum CodingKeys: String, CodingKey {
@@ -80,11 +79,15 @@ public class Bluetooth: Module {
     private var devicesReader: DevicesReader?
     private let popupView: Popup = Popup()
     private let settingsView: Settings = Settings()
+    private let notificationsView: Notifications
     
     public init() {
+        self.notificationsView = Notifications(.bluetooth)
+        
         super.init(
             popup: self.popupView,
-            settings: self.settingsView
+            settings: self.settingsView,
+            notifications: self.notificationsView
         )
         guard self.available else { return }
         
@@ -106,6 +109,7 @@ public class Bluetooth: Module {
         DispatchQueue.main.async(execute: {
             self.popupView.batteryCallback(active)
             self.settingsView.setList(active)
+            self.notificationsView.callback(active)
         })
         
         var list: [Stack_t] = []
