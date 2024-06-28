@@ -304,6 +304,7 @@ public extension NSView {
     
     func switchView(action: Selector, state: Bool) -> NSSwitch {
         let s = NSSwitch()
+        s.heightAnchor.constraint(equalToConstant: 25).isActive = true
         s.controlSize = .mini
         s.state = state ? .on : .off
         s.action = action
