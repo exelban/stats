@@ -425,6 +425,7 @@
 		5C23BC0929A0EDA300DBA990 /* portal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = portal.swift; sourceTree = "<group>"; };
 		5C23BC0B29A10BE000DBA990 /* portal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = portal.swift; sourceTree = "<group>"; };
 		5C23BC0F29A3B5AE00DBA990 /* portal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = portal.swift; sourceTree = "<group>"; };
+		5C32910A2C315A250010012D /* en-GB */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-GB"; path = "en-GB.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		5C4E8B9F2B6EEE6D00F148B6 /* lldb.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = lldb.h; sourceTree = "<group>"; };
 		5C4E8BA02B6EEE8E00F148B6 /* lldb.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = lldb.m; sourceTree = "<group>"; };
 		5C4E8BA22B6EEEE800F148B6 /* filter_policy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = filter_policy.h; sourceTree = "<group>"; };
@@ -1639,6 +1640,7 @@
 				et,
 				hi,
 				ar,
+				"en-GB",
 			);
 			mainGroup = 9A1410EC229E721100D29793;
 			packageReferences = (
@@ -2154,6 +2156,7 @@
 				5C9F90A02A76B30500D41748 /* et */,
 				0192A7ED2B017E190056F918 /* hi */,
 				5C0E550A2B5D545A00FFF1FB /* ar */,
+				5C32910A2C315A250010012D /* en-GB */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -2526,7 +2529,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				MARKETING_VERSION = 2.10.18;
+				MARKETING_VERSION = 2.10.19;
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = eu.exelban.Stats;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2564,7 +2567,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				MARKETING_VERSION = 2.10.18;
+				MARKETING_VERSION = 2.10.19;
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = eu.exelban.Stats;
 				PRODUCT_NAME = "$(TARGET_NAME)";
