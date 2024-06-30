@@ -69,7 +69,7 @@
 "Square" = "Karesel";
 "Cube" = "Kübik";
 "Logarithmic" = "Logaritmik";
-"Fixed scale" = "Fixed";
+"Fixed scale" = "Belirli ölçek";
 "Cores" = "Çekirdekler";
 "Settings" = "Ayarlar";
 "Name" = "Ad";
@@ -78,11 +78,11 @@
 "Warning" = "Uyarı";
 "Critical" = "Kritik";
 "Usage" = "Kullanım";
-"2 minutes" = "2 minutes";
-"3 minutes" = "3 minutes";
-"10 minutes" = "10 minutes";
-"Import" = "Import";
-"Export" = "Export";
+"2 minutes" = "2 dakika";
+"3 minutes" = "3 dakika";
+"10 minutes" = "10 dakika";
+"Import" = "İçe aktar";
+"Export" = "Dışa aktar";
 
 // Setup
 "Stats Setup" = "Stats Kurulumu";
@@ -122,7 +122,7 @@
 "Close application" = "Uygulamayı kapat";
 "Open application settings" = "Uygulama ayarlarını aç";
 "Open dashboard" = "Paneli aç";
-"No notifications available in this module" = "Bu modülde kullanılabilir bildirim yok";
+"No notifications available in this module" = "Bu modülde kullanılabilir bildirim mevcut değil";
 
 // Application settings
 "Update application" = "Uygulamayı güncelle";
@@ -154,10 +154,10 @@
 "Number of p-cores" = "%0 performans çekirdeği";
 
 // Update
-"The latest version of Stats installed" = "Stats'ın son sürümü kuruldu";
+"The latest version of Stats installed" = "Stats'ın son sürümü kurulu";
 "Downloading..." = "İndiriliyor...";
-"Current version: " = "Şu anki sürüm:  ";
-"Latest version: " = "Son sürüm:    ";
+"Current version: " = "Şu anki sürüm: ";
+"Latest version: " = "Son sürüm: ";
 
 // Widgets
 "Color" = "Renk";
@@ -173,15 +173,15 @@
 "Display mode" = "Ekran modu";
 "One row" = "Tek sıra";
 "Two rows" = "İki sıra";
-"Mini widget" = "Mini widget";
-"Line chart widget" = "Çizgi grafik widget";
-"Bar chart widget" = "Çubuk grafik widget";
-"Pie chart widget" = "Pasta grafik widget";
-"Network chart widget" = "Ağ pasta grafik widget";
-"Speed widget" = "Hız widget";
-"Battery widget" = "Batarya widget";
-"Stack widget" = "Stack";
-"Memory widget" = "Bellek widget";
+"Mini widget" = "Mini widget'ı";
+"Line chart widget" = "Çizgi grafik widget'ı";
+"Bar chart widget" = "Çubuk grafik widget'ı";
+"Pie chart widget" = "Pasta grafik widget'ı";
+"Network chart widget" = "Ağ grafik widget'ı";
+"Speed widget" = "Hız widget'ı";
+"Battery widget" = "Batarya widget'ı";
+"Stack widget" = "Üst üste widget'ı";
+"Memory widget" = "Bellek widget'ı";
 "Static width" = "Sabit genişlik";
 "Tachometer widget" = "Takometre";
 "State widget" = "Durum widget'ı";
@@ -191,35 +191,35 @@
 "Color of download" = "İndirme rengi";
 "Color of upload" = "Yükleme rengi";
 "Monospaced font" = "Eşit aralıklı font";
-"Reverse order" = "Ters sıralama";
-"Chart history" = "Chart history";
+"Reverse order" = "Sıralamayı tersine çevir";
+"Chart history" = "Grafik tarihi";
 
 // Module Kit
 "Open module settings" = "Modül ayarlarını aç";
-"Select widget" = "%0 widgetini seç";
+"Select widget" = "%0 widgetını seç";
 "Open widget settings" = "Widget ayarlarını aç";
 "Update interval" = "Güncelleme aralığı";
 "Usage history" = "Kullanım geçmişi";
 "Details" = "Detaylar";
-"Top processes" = "İşlemler";
+"Top processes" = "Ana İşlemler";
 "Pictogram" = "Piktogram";
 "Module" = "Modül";
 "Widgets" = "Widgets";
-"Popup" = "Pop-up";
+"Popup" = "Açılır Pencere";
 "Notifications" = "Bildirimler";
 "Merge widgets" = "Widget'ları birleştir";
-"No available widgets to configure" = "Yapılandırılacak kullanılabilir widget yok";
-"No options to configure for the popup in this module" = "Bu modülde açılır pencere için yapılandırma seçeneği yok";
-"Process" = "Process";
-"Kill process" = "Kill process";
+"No available widgets to configure" = "Yapılandırılacak kullanılabilir widget mevcut değil";
+"No options to configure for the popup in this module" = "Bu modülde açılır pencere için yapılandırma seçeneği mevcut değil";
+"Process" = "İşlem";
+"Kill process" = "İşlemi sonlandır";
 
 // Modules
 "Number of top processes" = "İşlem sayısı";
 "Update interval for top processes" = "En yüksek işlemler için güncelleme aralığı";
 "Notification level" = "Bildirim düzeyi";
 "Chart color" = "Grafik rengi";
-"Main chart scaling" = "Main chart scaling";
-"Scale value" = "Scale value";
+"Main chart scaling" = "Ana grafik ölçeklendirmesi";
+"Scale value" = "Değeri ölçeklendir";
 
 // CPU
 "CPU usage" = "CPU kullanımı";
@@ -263,7 +263,7 @@
 "Vendor" = "Üretici";
 "Model" = "Model";
 "Status" = "Durum";
-"Active" = "Atkif";
+"Active" = "Aktif";
 "Non active" = "Aktif değil";
 "Fan speed" = "Fan hızı";
 "Core clock" = "Çekirdek frekansı";
@@ -290,10 +290,10 @@
 "App color" = "Uygulama rengi";
 "Wired color" = "Bağlı rengi";
 "Compressed color" = "Sıkıştırılmış rengi";
-"Free color" = "Boşta rengi";
-"Free memory (less than)" = "Boş hafıza (daha az)";
-"Swap size" = "Takas boyutu";
-"Free RAM is" = "Boş RAM %0";
+"Free color" = "Boş rengi";
+"Free memory (less than)" = "Boş hafıza";
+"Swap size" = "Swap boyutu";
+"Free RAM is" = "Boştaki RAM %0";
 
 // Disk
 "Show removable disks" = "Çıkarılabilir diskleri göster";
@@ -307,8 +307,8 @@
 "Read color" = "Oku rengi";
 "Write color" = "Yaz rengi";
 "Disk usage" = "Disk kullanımı";
-"Total read" = "Total read";
-"Total written" = "Total written";
+"Total read" = "Toplam okuma";
+"Total written" = "Toplam yazma";
 
 // Sensors
 "Temperature unit" = "Sıcaklık birimi";
@@ -371,7 +371,7 @@
 "Every 24 hours" = "Her 24 saat";
 "Network activity" = "Ağ aktivitesi";
 "Last reset" = "Son sıfırlama %0 önce";
-"Latency" = "Latency";
+"Latency" = "Gecikme";
 
 // Battery
 "Level" = "Doluluk";
@@ -390,7 +390,7 @@
 "Time to discharge" = "Pilin boşalma süresi";
 "Time to charge" = "Pilin şarj olma süresi";
 "Calculating" = "Hesaplanıyor";
-"Fully charged" = "Tam şarjlı";
+"Fully charged" = "Tam dolu";
 "Not connected" = "Bağlı değil";
 "Low level notification" = "Düşük seviye bildirimi";
 "High level notification" = "Yüksek seviye bildirimi";
@@ -412,7 +412,7 @@
 
 // Bluetooth
 "Battery to show" = "Gösterilecek pil";
-"No Bluetooth devices are available" = "Bluetooth cihazı yok";
+"No Bluetooth devices are available" = "Herhangi bir Bluetooth cihazı mevcut değil";
 
 // Clock
 "Time zone" = "Saat dilimi";
@@ -422,31 +422,31 @@
 "Based on utilization" = "Kullanıma dayalı";
 "Based on pressure" = "Yüke dayalı";
 "Based on cluster" = "Kümeye dayalı";
-"System accent" = "Sistem vurgusu";
-"Monochrome accent" = "Tek renkli vurgu";
+"System accent" = "Sistem teması";
+"Monochrome accent" = "Siyah-beyaz tema";
 "Clear" = "Temizle";
 "White" = "Beyaz";
 "Black" = "Siyah";
 "Gray" = "Gri";
-"Second gray" = "İkinci gri";
+"Second gray" = "İkincil gri";
 "Dark gray" = "Koyu gri";
 "Light gray" = "Açık gri";
 "Red" = "Kırmızı";
-"Second red" = "İkinci kırmızı";
+"Second red" = "İkincil kırmızı";
 "Green" = "Yeşil";
-"Second green" = "İkinci yeşil";
+"Second green" = "İkincil yeşil";
 "Blue" = "Mavi";
-"Second blue" = "İkinci mavi";
+"Second blue" = "İkincil mavi";
 "Yellow" = "Sarı";
-"Second yellow" = "İkinci sarı";
+"Second yellow" = "İkincil sarı";
 "Orange" = "Turuncu";
-"Second orange" = "İkinci turuncu";
+"Second orange" = "İkincil turuncu";
 "Purple" = "Mor";
-"Second purple" = "İkinci mor";
+"Second purple" = "İkincil mor";
 "Brown" = "Kahverengi";
-"Second brown" = "İkinci kahverengi";
+"Second brown" = "İkincil kahverengi";
 "Cyan" = "Açık mavi";
-"Magenta" = "Macenta";
+"Magenta" = "Eflatun";
 "Pink" = "Pembe";
 "Teal" = "Camgöbeği";
 "Indigo" = "Çivit";
