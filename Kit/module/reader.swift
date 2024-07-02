@@ -66,7 +66,7 @@ open class Reader<T: Codable>: NSObject, ReaderInternal_p {
         set { self.activeQueue.sync { self._active = newValue } }
     }
     
-    var lastDBWrite: Date? = nil
+    private var lastDBWrite: Date? = nil
     
     public init(_ module: ModuleType, popup: Bool = false, history: Bool = false, callback: @escaping (T?) -> Void = {_ in }) {
         self.popup = popup

@@ -8,6 +8,7 @@
 
 import Cocoa
 import Kit
+import WidgetKit
 
 public struct CPU_Load: Codable {
     var totalUsage: Double = 0
@@ -81,6 +82,8 @@ public class CPU: Module {
         }
         return color.additional as! NSColor
     }
+    
+    private var userDefaults: UserDefaults? = UserDefaults(suiteName: "eu.exelban.Stats.widgets")
     
     public init() {
         self.settingsView = Settings(.CPU)
@@ -156,6 +159,12 @@ public class CPU: Module {
         self.popupView.loadCallback(value)
         self.portalView.callback(value)
         self.notificationsView.loadCallback(value)
+        
+        if #available(macOS 11.0, *) {
+            guard let blobData = try? JSONEncoder().encode(value) else { return }
+            self.userDefaults?.set(blobData, forKey: "CPU@LoadReader")
+            WidgetCenter.shared.reloadTimelines(ofKind: CPU_entry.kind)
+        }
         
         self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
             switch w.item {
