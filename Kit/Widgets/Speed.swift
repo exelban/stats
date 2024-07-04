@@ -22,8 +22,8 @@ public class SpeedWidget: WidgetWrapper {
     private var modeState: String = "twoRows"
     private var reverseOrderState: Bool = false
     
-    private var downloadColorState: Color = .secondBlue
-    private var uploadColorState: Color = .secondRed
+    private var downloadColorState: SColor = .secondBlue
+    private var uploadColorState: SColor = .secondRed
     
     private var symbols: [String] = ["U", "D"]
     
@@ -79,8 +79,8 @@ public class SpeedWidget: WidgetWrapper {
             self.unitsState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_units", defaultValue: self.unitsState)
             self.monochromeState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_monochrome", defaultValue: self.monochromeState)
             self.valueColorState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_valueColor", defaultValue: self.valueColorState)
-            self.downloadColorState = Color.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_downloadColor", defaultValue: self.downloadColorState.key))
-            self.uploadColorState = Color.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_uploadColor", defaultValue: self.uploadColorState.key))
+            self.downloadColorState = SColor.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_downloadColor", defaultValue: self.downloadColorState.key))
+            self.uploadColorState = SColor.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_uploadColor", defaultValue: self.uploadColorState.key))
             self.transparentIconsState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_transparentIcons", defaultValue: self.transparentIconsState)
             self.valueAlignmentState = Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_valueAlignment", defaultValue: self.valueAlignmentState)
             self.modeState = Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_mode", defaultValue: self.modeState)
@@ -473,12 +473,12 @@ public class SpeedWidget: WidgetWrapper {
             )),
             PreferencesRow(localizedString("Color of download"), component: selectView(
                 action: #selector(self.toggleDownloadColor),
-                items: Color.allColors,
+                items: SColor.allColors,
                 selected: self.downloadColorState.key
             )),
             PreferencesRow(localizedString("Color of upload"), component: selectView(
                 action: #selector(self.toggleUploadColor),
-                items: Color.allColors,
+                items: SColor.allColors,
                 selected: self.uploadColorState.key
             ))
         ]))
@@ -536,7 +536,7 @@ public class SpeedWidget: WidgetWrapper {
     
     @objc private func toggleUploadColor(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String,
-              let newValue = Color.allColors.first(where: { $0.key == key }) else {
+              let newValue = SColor.allColors.first(where: { $0.key == key }) else {
             return
         }
         self.uploadColorState = newValue
@@ -544,7 +544,7 @@ public class SpeedWidget: WidgetWrapper {
     }
     @objc private func toggleDownloadColor(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String,
-              let newValue = Color.allColors.first(where: { $0.key == key }) else {
+              let newValue = SColor.allColors.first(where: { $0.key == key }) else {
             return
         }
         self.downloadColorState = newValue

@@ -12,12 +12,12 @@
 import Cocoa
 
 public class StateWidget: WidgetWrapper {
-    private var activeColorState: Color = .secondGreen
-    private var nonactiveColorState: Color = .secondRed
+    private var activeColorState: SColor = .secondGreen
+    private var nonactiveColorState: SColor = .secondRed
     
     private var value: Bool = false
     
-    private var colors: [Color] = Color.allColors
+    private var colors: [SColor] = SColor.allColors
     
     public init(title: String, config: NSDictionary?, preview: Bool = false) {
         if config != nil {
@@ -43,8 +43,8 @@ public class StateWidget: WidgetWrapper {
         self.canDrawConcurrently = true
         
         if !preview {
-            self.activeColorState = Color.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_activeColor", defaultValue: self.activeColorState.key))
-            self.nonactiveColorState = Color.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_nonactiveColor", defaultValue: self.nonactiveColorState.key))
+            self.activeColorState = SColor.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_activeColor", defaultValue: self.activeColorState.key))
+            self.nonactiveColorState = SColor.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_nonactiveColor", defaultValue: self.nonactiveColorState.key))
         }
     }
     
@@ -92,7 +92,7 @@ public class StateWidget: WidgetWrapper {
     
     @objc private func toggleActiveColor(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String else { return }
-        if let newColor = Color.allCases.first(where: { $0.key == key }) {
+        if let newColor = SColor.allCases.first(where: { $0.key == key }) {
             self.activeColorState = newColor
         }
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_activeColor", value: key)
@@ -101,7 +101,7 @@ public class StateWidget: WidgetWrapper {
     
     @objc private func toggleNonactiveColor(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String else { return }
-        if let newColor = Color.allCases.first(where: { $0.key == key }) {
+        if let newColor = SColor.allCases.first(where: { $0.key == key }) {
             self.nonactiveColorState = newColor
         }
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_nonactiveColor", value: key)

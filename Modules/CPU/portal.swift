@@ -35,15 +35,15 @@ public class Portal: PortalWrapper {
     private var eCoresColorView: NSView? = nil
     private var pCoresColorView: NSView? = nil
     
-    private var systemColorState: Color = .secondRed
+    private var systemColorState: SColor = .secondRed
     private var systemColor: NSColor { self.systemColorState.additional as? NSColor ?? NSColor.systemRed }
-    private var userColorState: Color = .secondBlue
+    private var userColorState: SColor = .secondBlue
     private var userColor: NSColor { self.userColorState.additional as? NSColor ?? NSColor.systemBlue }
-    private var idleColorState: Color = .lightGray
+    private var idleColorState: SColor = .lightGray
     private var idleColor: NSColor { self.idleColorState.additional as? NSColor ?? NSColor.lightGray }
-    private var eCoresColorState: Color = .teal
+    private var eCoresColorState: SColor = .teal
     private var eCoresColor: NSColor { self.eCoresColorState.additional as? NSColor ?? NSColor.systemTeal }
-    private var pCoresColorState: Color = .secondBlue
+    private var pCoresColorState: SColor = .secondBlue
     private var pCoresColor: NSColor { self.pCoresColorState.additional as? NSColor ?? NSColor.systemBlue }
     
     public override func load() {
@@ -73,11 +73,11 @@ public class Portal: PortalWrapper {
     }
     
     public func loadColors() {
-        self.systemColorState = Color.fromString(Store.shared.string(key: "\(self.name)_systemColor", defaultValue: self.systemColorState.key))
-        self.userColorState = Color.fromString(Store.shared.string(key: "\(self.name)_userColor", defaultValue: self.userColorState.key))
-        self.idleColorState = Color.fromString(Store.shared.string(key: "\(self.name)_idleColor", defaultValue: self.idleColorState.key))
-        self.eCoresColorState = Color.fromString(Store.shared.string(key: "\(self.name)_eCoresColor", defaultValue: self.eCoresColorState.key))
-        self.pCoresColorState = Color.fromString(Store.shared.string(key: "\(self.name)_pCoresColor", defaultValue: self.pCoresColorState.key))
+        self.systemColorState = SColor.fromString(Store.shared.string(key: "\(self.name)_systemColor", defaultValue: self.systemColorState.key))
+        self.userColorState = SColor.fromString(Store.shared.string(key: "\(self.name)_userColor", defaultValue: self.userColorState.key))
+        self.idleColorState = SColor.fromString(Store.shared.string(key: "\(self.name)_idleColor", defaultValue: self.idleColorState.key))
+        self.eCoresColorState = SColor.fromString(Store.shared.string(key: "\(self.name)_eCoresColor", defaultValue: self.eCoresColorState.key))
+        self.pCoresColorState = SColor.fromString(Store.shared.string(key: "\(self.name)_pCoresColor", defaultValue: self.pCoresColorState.key))
     }
     
     private func charts() -> NSView {

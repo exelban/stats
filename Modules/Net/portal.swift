@@ -34,7 +34,7 @@ public class Portal: PortalWrapper {
     }
     
     private var downloadColor: NSColor {
-        let v = Color.fromString(Store.shared.string(key: "\(self.name)_downloadColor", defaultValue: Color.secondBlue.key))
+        let v = SColor.fromString(Store.shared.string(key: "\(self.name)_downloadColor", defaultValue: SColor.secondBlue.key))
         var value = NSColor.systemBlue
         if let color = v.additional as? NSColor {
             value = color
@@ -42,7 +42,7 @@ public class Portal: PortalWrapper {
         return value
     }
     private var uploadColor: NSColor {
-        let v = Color.fromString(Store.shared.string(key: "\(self.name)_uploadColor", defaultValue: Color.secondRed.key))
+        let v = SColor.fromString(Store.shared.string(key: "\(self.name)_uploadColor", defaultValue: SColor.secondRed.key))
         var value = NSColor.systemRed
         if let color = v.additional as? NSColor {
             value = color

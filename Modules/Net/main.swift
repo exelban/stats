@@ -228,7 +228,7 @@ public class Network: Module {
             }
         }
         
-        self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
+        self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: SWidget) in
             switch w.item {
             case let widget as SpeedWidget: widget.setValue(upload: upload, download: download)
             case let widget as NetworkChart: widget.setValue(upload: Double(upload), download: Double(download))
@@ -242,7 +242,7 @@ public class Network: Module {
         
         self.popupView.connectivityCallback(value)
         
-        self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
+        self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: SWidget) in
             switch w.item {
             case let widget as StateWidget: widget.setValue(value.status)
             default: break

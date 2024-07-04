@@ -15,9 +15,9 @@ import Kit
 internal class Popup: PopupWrapper {
     private var title: String
     
-    private var readColorState: Color = .secondBlue
+    private var readColorState: SColor = .secondBlue
     private var readColor: NSColor { self.readColorState.additional as? NSColor ?? NSColor.systemRed }
-    private var writeColorState: Color = .secondRed
+    private var writeColorState: SColor = .secondRed
     private var writeColor: NSColor { self.writeColorState.additional as? NSColor ?? NSColor.systemBlue }
     private var reverseOrderState: Bool = false
     
@@ -44,8 +44,8 @@ internal class Popup: PopupWrapper {
         
         super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: 0))
         
-        self.readColorState = Color.fromString(Store.shared.string(key: "\(self.title)_readColor", defaultValue: self.readColorState.key))
-        self.writeColorState = Color.fromString(Store.shared.string(key: "\(self.title)_writeColor", defaultValue: self.writeColorState.key))
+        self.readColorState = SColor.fromString(Store.shared.string(key: "\(self.title)_readColor", defaultValue: self.readColorState.key))
+        self.writeColorState = SColor.fromString(Store.shared.string(key: "\(self.title)_writeColor", defaultValue: self.writeColorState.key))
         self.reverseOrderState = Store.shared.bool(key: "\(self.title)_reverseOrder", defaultValue: self.reverseOrderState)
         
         self.orientation = .vertical
@@ -175,12 +175,12 @@ internal class Popup: PopupWrapper {
         view.addArrangedSubview(PreferencesSection([
             PreferencesRow(localizedString("Write color"), component: selectView(
                 action: #selector(self.toggleWriteColor),
-                items: Color.allColors,
+                items: SColor.allColors,
                 selected: self.writeColorState.key
             )),
             PreferencesRow(localizedString("Read color"), component: selectView(
                 action: #selector(self.toggleReadColor),
-                items: Color.allColors,
+                items: SColor.allColors,
                 selected: self.readColorState.key
             ))
         ]))
@@ -197,7 +197,7 @@ internal class Popup: PopupWrapper {
     
     @objc private func toggleWriteColor(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String,
-              let newValue = Color.allColors.first(where: { $0.key == key }) else {
+              let newValue = SColor.allColors.first(where: { $0.key == key }) else {
             return
         }
         self.writeColorState = newValue
@@ -211,7 +211,7 @@ internal class Popup: PopupWrapper {
     }
     @objc private func toggleReadColor(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String,
-              let newValue = Color.allColors.first(where: { $0.key == key }) else {
+              let newValue = SColor.allColors.first(where: { $0.key == key }) else {
             return
         }
         self.readColorState = newValue
@@ -334,10 +334,10 @@ internal class NameView: NSStackView {
     private var writeState: NSView? = nil
     
     private var readColor: NSColor {
-        Color.fromString(Store.shared.string(key: "\(ModuleType.disk.rawValue)_readColor", defaultValue: Color.secondBlue.key)).additional as! NSColor
+        SColor.fromString(Store.shared.string(key: "\(ModuleType.disk.rawValue)_readColor", defaultValue: SColor.secondBlue.key)).additional as! NSColor
     }
     private var writeColor: NSColor {
-        Color.fromString(Store.shared.string(key: "\(ModuleType.disk.rawValue)_writeColor", defaultValue: Color.secondRed.key)).additional as! NSColor
+        SColor.fromString(Store.shared.string(key: "\(ModuleType.disk.rawValue)_writeColor", defaultValue: SColor.secondRed.key)).additional as! NSColor
     }
     
     public init(width: CGFloat, name: String, size: Int64, free: Int64, path: URL?) {
@@ -443,10 +443,10 @@ internal class ChartView: NSStackView {
     private var ready: Bool = false
     
     private var readColor: NSColor {
-        Color.fromString(Store.shared.string(key: "\(ModuleType.disk.rawValue)_readColor", defaultValue: Color.secondBlue.key)).additional as! NSColor
+        SColor.fromString(Store.shared.string(key: "\(ModuleType.disk.rawValue)_readColor", defaultValue: SColor.secondBlue.key)).additional as! NSColor
     }
     private var writeColor: NSColor {
-        Color.fromString(Store.shared.string(key: "\(ModuleType.disk.rawValue)_writeColor", defaultValue: Color.secondRed.key)).additional as! NSColor
+        SColor.fromString(Store.shared.string(key: "\(ModuleType.disk.rawValue)_writeColor", defaultValue: SColor.secondRed.key)).additional as! NSColor
     }
     private var reverseOrder: Bool {
         Store.shared.bool(key: "\(ModuleType.disk.rawValue)_reverseOrder", defaultValue: false)

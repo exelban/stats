@@ -16,8 +16,8 @@ public class NetworkChart: WidgetWrapper {
     private var frameState: Bool = false
     private var labelState: Bool = false
     private var historyCount: Int = 60
-    private var downloadColor: Color = .secondBlue
-    private var uploadColor: Color = .secondRed
+    private var downloadColor: SColor = .secondBlue
+    private var uploadColor: SColor = .secondRed
     private var scaleState: Scale = .linear
     private var reverseOrderState: Bool = false
     
@@ -46,7 +46,7 @@ public class NetworkChart: WidgetWrapper {
         KeyValue_t(key: "90", value: "90"),
         KeyValue_t(key: "120", value: "120")
     ]
-    private var colors: [Color] = Color.allCases
+    private var colors: [SColor] = SColor.allCases
     
     private var boxSettingsView: NSSwitch? = nil
     private var frameSettingsView: NSSwitch? = nil
@@ -78,8 +78,8 @@ public class NetworkChart: WidgetWrapper {
             self.frameState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_frame", defaultValue: self.frameState)
             self.labelState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_label", defaultValue: self.labelState)
             self.historyCount = Store.shared.int(key: "\(self.title)_\(self.type.rawValue)_historyCount", defaultValue: self.historyCount)
-            self.downloadColor = Color.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_downloadColor", defaultValue: self.downloadColor.key))
-            self.uploadColor = Color.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_uploadColor", defaultValue: self.uploadColor.key))
+            self.downloadColor = SColor.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_downloadColor", defaultValue: self.downloadColor.key))
+            self.uploadColor = SColor.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_uploadColor", defaultValue: self.uploadColor.key))
             self.scaleState = Scale.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_scale", defaultValue: self.scaleState.key))
             self.reverseOrderState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_reverseOrder", defaultValue: self.reverseOrderState)
         }
@@ -350,7 +350,7 @@ public class NetworkChart: WidgetWrapper {
     
     @objc private func toggleDownloadColor(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String else { return }
-        if let newColor = Color.allCases.first(where: { $0.key == key }) {
+        if let newColor = SColor.allCases.first(where: { $0.key == key }) {
             self.downloadColor = newColor
             Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_downloadColor", value: newColor.key)
         }
@@ -359,7 +359,7 @@ public class NetworkChart: WidgetWrapper {
     
     @objc private func toggleUploadColor(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String else { return }
-        if let newColor = Color.allCases.first(where: { $0.key == key }) {
+        if let newColor = SColor.allCases.first(where: { $0.key == key }) {
             self.uploadColor = newColor
             Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_uploadColor", value: newColor.key)
         }

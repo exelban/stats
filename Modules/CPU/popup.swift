@@ -73,17 +73,17 @@ internal class Popup: PopupWrapper {
     private var lineChartScale: Scale = .none
     private var lineChartFixedScale: Double = 1
     
-    private var systemColorState: Color = .secondRed
+    private var systemColorState: SColor = .secondRed
     private var systemColor: NSColor { self.systemColorState.additional as? NSColor ?? NSColor.systemRed }
-    private var userColorState: Color = .secondBlue
+    private var userColorState: SColor = .secondBlue
     private var userColor: NSColor { self.userColorState.additional as? NSColor ?? NSColor.systemBlue }
-    private var idleColorState: Color = .lightGray
+    private var idleColorState: SColor = .lightGray
     private var idleColor: NSColor { self.idleColorState.additional as? NSColor ?? NSColor.lightGray }
-    private var chartColorState: Color = .systemAccent
+    private var chartColorState: SColor = .systemAccent
     private var chartColor: NSColor { self.chartColorState.additional as? NSColor ?? NSColor.systemBlue }
-    private var eCoresColorState: Color = .teal
+    private var eCoresColorState: SColor = .teal
     private var eCoresColor: NSColor { self.eCoresColorState.additional as? NSColor ?? NSColor.systemTeal }
-    private var pCoresColorState: Color = .secondBlue
+    private var pCoresColorState: SColor = .secondBlue
     private var pCoresColor: NSColor { self.pCoresColorState.additional as? NSColor ?? NSColor.systemBlue }
     
     private var numberOfProcesses: Int {
@@ -117,12 +117,12 @@ internal class Popup: PopupWrapper {
         ))
         self.setFrameSize(NSSize(width: self.frame.width, height: self.frame.height + self.detailsHeight + self.processesHeight))
         
-        self.systemColorState = Color.fromString(Store.shared.string(key: "\(self.title)_systemColor", defaultValue: self.systemColorState.key))
-        self.userColorState = Color.fromString(Store.shared.string(key: "\(self.title)_userColor", defaultValue: self.userColorState.key))
-        self.idleColorState = Color.fromString(Store.shared.string(key: "\(self.title)_idleColor", defaultValue: self.idleColorState.key))
-        self.chartColorState = Color.fromString(Store.shared.string(key: "\(self.title)_chartColor", defaultValue: self.chartColorState.key))
-        self.eCoresColorState = Color.fromString(Store.shared.string(key: "\(self.title)_eCoresColor", defaultValue: self.eCoresColorState.key))
-        self.pCoresColorState = Color.fromString(Store.shared.string(key: "\(self.title)_pCoresColor", defaultValue: self.pCoresColorState.key))
+        self.systemColorState = SColor.fromString(Store.shared.string(key: "\(self.title)_systemColor", defaultValue: self.systemColorState.key))
+        self.userColorState = SColor.fromString(Store.shared.string(key: "\(self.title)_userColor", defaultValue: self.userColorState.key))
+        self.idleColorState = SColor.fromString(Store.shared.string(key: "\(self.title)_idleColor", defaultValue: self.idleColorState.key))
+        self.chartColorState = SColor.fromString(Store.shared.string(key: "\(self.title)_chartColor", defaultValue: self.chartColorState.key))
+        self.eCoresColorState = SColor.fromString(Store.shared.string(key: "\(self.title)_eCoresColor", defaultValue: self.eCoresColorState.key))
+        self.pCoresColorState = SColor.fromString(Store.shared.string(key: "\(self.title)_pCoresColor", defaultValue: self.pCoresColorState.key))
         self.lineChartHistory = Store.shared.int(key: "\(self.title)_lineChartHistory", defaultValue: self.lineChartHistory)
         self.lineChartScale = Scale.fromString(Store.shared.string(key: "\(self.title)_lineChartScale", defaultValue: self.lineChartScale.key))
         self.lineChartFixedScale = Double(Store.shared.int(key: "\(self.title)_lineChartFixedScale", defaultValue: 100)) / 100
@@ -476,17 +476,17 @@ internal class Popup: PopupWrapper {
         view.addArrangedSubview(PreferencesSection([
             PreferencesRow(localizedString("System color"), component: selectView(
                 action: #selector(self.toggleSystemColor),
-                items: Color.allColors,
+                items: SColor.allColors,
                 selected: self.systemColorState.key
             )),
             PreferencesRow(localizedString("User color"), component: selectView(
                 action: #selector(self.toggleUserColor),
-                items: Color.allColors,
+                items: SColor.allColors,
                 selected: self.userColorState.key
             )),
             PreferencesRow(localizedString("Idle color"), component: selectView(
                 action: #selector(self.toggleIdleColor),
-                items: Color.allColors,
+                items: SColor.allColors,
                 selected: self.idleColorState.key
             ))
         ]))
@@ -494,12 +494,12 @@ internal class Popup: PopupWrapper {
         view.addArrangedSubview(PreferencesSection([
             PreferencesRow(localizedString("Efficiency cores color"), component: selectView(
                 action: #selector(self.toggleECoresColor),
-                items: Color.allColors,
+                items: SColor.allColors,
                 selected: self.eCoresColorState.key
             )),
             PreferencesRow(localizedString("Performance cores color"), component: selectView(
                 action: #selector(self.togglePCoresColor),
-                items: Color.allColors,
+                items: SColor.allColors,
                 selected: self.pCoresColorState.key
             ))
         ]))
@@ -512,7 +512,7 @@ internal class Popup: PopupWrapper {
         self.chartPrefSection = PreferencesSection([
             PreferencesRow(localizedString("Chart color"), component: selectView(
                 action: #selector(self.toggleChartColor),
-                items: Color.allColors,
+                items: SColor.allColors,
                 selected: self.chartColorState.key
             )),
             PreferencesRow(localizedString("Chart history"), component: selectView(
@@ -534,7 +534,7 @@ internal class Popup: PopupWrapper {
     }
     
     @objc private func toggleSystemColor(_ sender: NSMenuItem) {
-        guard let key = sender.representedObject as? String, let newValue = Color.allColors.first(where: { $0.key == key }) else {
+        guard let key = sender.representedObject as? String, let newValue = SColor.allColors.first(where: { $0.key == key }) else {
             return
         }
         self.systemColorState = newValue
@@ -542,7 +542,7 @@ internal class Popup: PopupWrapper {
         self.systemColorView?.layer?.backgroundColor = (newValue.additional as? NSColor)?.cgColor
     }
     @objc private func toggleUserColor(_ sender: NSMenuItem) {
-        guard let key = sender.representedObject as? String, let newValue = Color.allColors.first(where: { $0.key == key }) else {
+        guard let key = sender.representedObject as? String, let newValue = SColor.allColors.first(where: { $0.key == key }) else {
             return
         }
         self.userColorState = newValue
@@ -550,7 +550,7 @@ internal class Popup: PopupWrapper {
         self.userColorView?.layer?.backgroundColor = (newValue.additional as? NSColor)?.cgColor
     }
     @objc private func toggleIdleColor(_ sender: NSMenuItem) {
-        guard let key = sender.representedObject as? String, let newValue = Color.allColors.first(where: { $0.key == key }) else {
+        guard let key = sender.representedObject as? String, let newValue = SColor.allColors.first(where: { $0.key == key }) else {
             return
         }
         self.idleColorState = newValue
@@ -561,7 +561,7 @@ internal class Popup: PopupWrapper {
         self.idleColorView?.layer?.backgroundColor = (newValue.additional as? NSColor)?.cgColor
     }
     @objc private func toggleChartColor(_ sender: NSMenuItem) {
-        guard let key = sender.representedObject as? String, let newValue = Color.allColors.first(where: { $0.key == key }) else {
+        guard let key = sender.representedObject as? String, let newValue = SColor.allColors.first(where: { $0.key == key }) else {
             return
         }
         self.chartColorState = newValue
@@ -571,7 +571,7 @@ internal class Popup: PopupWrapper {
         }
     }
     @objc private func toggleECoresColor(_ sender: NSMenuItem) {
-        guard let key = sender.representedObject as? String, let newValue = Color.allColors.first(where: { $0.key == key }) else {
+        guard let key = sender.representedObject as? String, let newValue = SColor.allColors.first(where: { $0.key == key }) else {
             return
         }
         self.eCoresColorState = newValue
@@ -579,7 +579,7 @@ internal class Popup: PopupWrapper {
         self.eCoresColorView?.layer?.backgroundColor = (newValue.additional as? NSColor)?.cgColor
     }
     @objc private func togglePCoresColor(_ sender: NSMenuItem) {
-        guard let key = sender.representedObject as? String, let newValue = Color.allColors.first(where: { $0.key == key }) else {
+        guard let key = sender.representedObject as? String, let newValue = SColor.allColors.first(where: { $0.key == key }) else {
             return
         }
         self.pCoresColorState = newValue

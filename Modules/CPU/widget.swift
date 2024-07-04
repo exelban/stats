@@ -12,6 +12,7 @@
 import SwiftUI
 import WidgetKit
 import Charts
+import Kit
 
 public struct CPU_entry: TimelineEntry {
     public static let kind = "CPUWidget"
@@ -61,9 +62,9 @@ public struct CPUWidget: Widget {
                 if let value = entry.value {
                     HStack {
                         Chart {
-                            SectorMark(angle: .value("System load", value.systemLoad), innerRadius: .ratio(0.8)).foregroundStyle(self.systemColor)
-                            SectorMark(angle: .value("User load", value.userLoad), innerRadius: .ratio(0.8)).foregroundStyle(self.userColor)
-                            SectorMark(angle: .value("Idle", value.idleLoad), innerRadius: .ratio(0.8)).foregroundStyle(self.idleColor)
+                            SectorMark(angle: .value(localizedString("System"), value.systemLoad), innerRadius: .ratio(0.8)).foregroundStyle(self.systemColor)
+                            SectorMark(angle: .value(localizedString("User"), value.userLoad), innerRadius: .ratio(0.8)).foregroundStyle(self.userColor)
+                            SectorMark(angle: .value(localizedString("Idle"), value.idleLoad), innerRadius: .ratio(0.8)).foregroundStyle(self.idleColor)
                         }
                         .frame(maxWidth: .infinity, maxHeight: 84)
                         .chartLegend(.hidden)
@@ -81,17 +82,13 @@ public struct CPUWidget: Widget {
                     VStack(spacing: 3) {
                         HStack {
                             Rectangle().fill(self.systemColor).frame(width: 12, height: 12).cornerRadius(2)
-                            Text("System:")
-                                .font(.system(size: 12, weight: .regular))
-                                .foregroundColor(.secondary)
+                            Text(localizedString("System")).font(.system(size: 12, weight: .regular)).foregroundColor(.secondary)
                             Spacer()
                             Text("\(Int(value.systemLoad*100))%")
                         }
                         HStack {
                             Rectangle().fill(self.userColor).frame(width: 12, height: 12).cornerRadius(2)
-                            Text("User:")
-                                .font(.system(size: 12, weight: .regular))
-                                .foregroundColor(.secondary)
+                            Text(localizedString("User")).font(.system(size: 12, weight: .regular)).foregroundColor(.secondary)
                             Spacer()
                             Text("\(Int(value.userLoad*100))%")
                         }

@@ -129,7 +129,7 @@ public class GPU: Module {
         self.portalView.callback(selectedGPU)
         self.notificationsView.usageCallback(utilization)
         
-        self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
+        self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: SWidget) in
             switch w.item {
             case let widget as Mini:
                 widget.setValue(utilization)

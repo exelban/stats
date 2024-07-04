@@ -50,34 +50,34 @@ public class CPU: Module {
         Store.shared.bool(key: "\(self.config.name)_clustersGroup", defaultValue: false)
     }
     private var systemColor: NSColor {
-        let color = Color.secondRed
+        let color = SColor.secondRed
         let key = Store.shared.string(key: "\(self.config.name)_systemColor", defaultValue: color.key)
-        if let c = Color.fromString(key).additional as? NSColor {
+        if let c = SColor.fromString(key).additional as? NSColor {
             return c
         }
         return color.additional as! NSColor
     }
     private var userColor: NSColor {
-        let color = Color.secondBlue
+        let color = SColor.secondBlue
         let key = Store.shared.string(key: "\(self.config.name)_userColor", defaultValue: color.key)
-        if let c = Color.fromString(key).additional as? NSColor {
+        if let c = SColor.fromString(key).additional as? NSColor {
             return c
         }
         return color.additional as! NSColor
     }
     
     private var eCoreColor: NSColor {
-        let color = Color.teal
+        let color = SColor.teal
         let key = Store.shared.string(key: "\(self.config.name)_eCoresColor", defaultValue: color.key)
-        if let c = Color.fromString(key).additional as? NSColor {
+        if let c = SColor.fromString(key).additional as? NSColor {
             return c
         }
         return color.additional as! NSColor
     }
     private var pCoreColor: NSColor {
-        let color = Color.secondBlue
+        let color = SColor.secondBlue
         let key = Store.shared.string(key: "\(self.config.name)_pCoresColor", defaultValue: color.key)
-        if let c = Color.fromString(key).additional as? NSColor {
+        if let c = SColor.fromString(key).additional as? NSColor {
             return c
         }
         return color.additional as! NSColor
@@ -166,7 +166,7 @@ public class CPU: Module {
             WidgetCenter.shared.reloadTimelines(ofKind: CPU_entry.kind)
         }
         
-        self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
+        self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: SWidget) in
             switch w.item {
             case let widget as Mini: widget.setValue(value.totalUsage)
             case let widget as LineChart: widget.setValue(value.totalUsage)

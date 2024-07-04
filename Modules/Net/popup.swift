@@ -79,7 +79,7 @@ internal class Popup: PopupWrapper {
         (22*CGFloat(self.numberOfProcesses)) + (self.numberOfProcesses == 0 ? 0 : Constants.Popup.separatorHeight + 22)
     }
     
-    private var downloadColorState: Color = .secondBlue
+    private var downloadColorState: SColor = .secondBlue
     private var downloadColor: NSColor {
         var value = NSColor.systemBlue
         if let color = self.downloadColorState.additional as? NSColor {
@@ -87,7 +87,7 @@ internal class Popup: PopupWrapper {
         }
         return value
     }
-    private var uploadColorState: Color = .secondRed
+    private var uploadColorState: SColor = .secondRed
     private var uploadColor: NSColor {
         var value = NSColor.systemRed
         if let color = self.uploadColorState.additional as? NSColor {
@@ -108,8 +108,8 @@ internal class Popup: PopupWrapper {
             height: 0
         ))
         
-        self.downloadColorState = Color.fromString(Store.shared.string(key: "\(self.title)_downloadColor", defaultValue: self.downloadColorState.key))
-        self.uploadColorState = Color.fromString(Store.shared.string(key: "\(self.title)_uploadColor", defaultValue: self.uploadColorState.key))
+        self.downloadColorState = SColor.fromString(Store.shared.string(key: "\(self.title)_downloadColor", defaultValue: self.downloadColorState.key))
+        self.uploadColorState = SColor.fromString(Store.shared.string(key: "\(self.title)_uploadColor", defaultValue: self.uploadColorState.key))
         self.reverseOrderState = Store.shared.bool(key: "\(self.title)_reverseOrder", defaultValue: self.reverseOrderState)
         self.chartHistory = Store.shared.int(key: "\(self.title)_chartHistory", defaultValue: self.chartHistory)
         self.chartScale = Scale.fromString(Store.shared.string(key: "\(self.title)_chartScale", defaultValue: self.chartScale.key))
@@ -517,12 +517,12 @@ internal class Popup: PopupWrapper {
         view.addArrangedSubview(PreferencesSection([
             PreferencesRow(localizedString("Color of upload"), component: selectView(
                 action: #selector(self.toggleUploadColor),
-                items: Color.allColors,
+                items: SColor.allColors,
                 selected: self.uploadColorState.key
             )),
             PreferencesRow(localizedString("Color of download"), component: selectView(
                 action: #selector(self.toggleDownloadColor),
-                items: Color.allColors,
+                items: SColor.allColors,
                 selected: self.downloadColorState.key
             ))
         ]))
@@ -566,7 +566,7 @@ internal class Popup: PopupWrapper {
     
     @objc private func toggleUploadColor(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String,
-              let newValue = Color.allColors.first(where: { $0.key == key }) else {
+              let newValue = SColor.allColors.first(where: { $0.key == key }) else {
             return
         }
         self.uploadColorState = newValue
@@ -580,7 +580,7 @@ internal class Popup: PopupWrapper {
     }
     @objc private func toggleDownloadColor(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String,
-              let newValue = Color.allColors.first(where: { $0.key == key }) else {
+              let newValue = SColor.allColors.first(where: { $0.key == key }) else {
             return
         }
         self.downloadColorState = newValue

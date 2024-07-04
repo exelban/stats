@@ -22,13 +22,13 @@ public class Portal: PortalWrapper {
     
     private var initialized: Bool = false
     
-    private var appColorState: Color = .secondBlue
+    private var appColorState: SColor = .secondBlue
     private var appColor: NSColor { self.appColorState.additional as? NSColor ?? NSColor.systemRed }
-    private var wiredColorState: Color = .secondOrange
+    private var wiredColorState: SColor = .secondOrange
     private var wiredColor: NSColor { self.wiredColorState.additional as? NSColor ?? NSColor.systemBlue }
-    private var compressedColorState: Color = .pink
+    private var compressedColorState: SColor = .pink
     private var compressedColor: NSColor { self.compressedColorState.additional as? NSColor ?? NSColor.lightGray }
-    private var freeColorState: Color = .lightGray
+    private var freeColorState: SColor = .lightGray
     private var freeColor: NSColor { self.freeColorState.additional as? NSColor ?? NSColor.systemBlue }
     
     public override func load() {
@@ -57,10 +57,10 @@ public class Portal: PortalWrapper {
     }
     
     public func loadColors() {
-        self.appColorState = Color.fromString(Store.shared.string(key: "\(self.name)_appColor", defaultValue: self.appColorState.key))
-        self.wiredColorState = Color.fromString(Store.shared.string(key: "\(self.name)_wiredColor", defaultValue: self.wiredColorState.key))
-        self.compressedColorState = Color.fromString(Store.shared.string(key: "\(self.name)_compressedColor", defaultValue: self.compressedColorState.key))
-        self.freeColorState = Color.fromString(Store.shared.string(key: "\(self.name)_freeColor", defaultValue: self.freeColorState.key))
+        self.appColorState = SColor.fromString(Store.shared.string(key: "\(self.name)_appColor", defaultValue: self.appColorState.key))
+        self.wiredColorState = SColor.fromString(Store.shared.string(key: "\(self.name)_wiredColor", defaultValue: self.wiredColorState.key))
+        self.compressedColorState = SColor.fromString(Store.shared.string(key: "\(self.name)_compressedColor", defaultValue: self.compressedColorState.key))
+        self.freeColorState = SColor.fromString(Store.shared.string(key: "\(self.name)_freeColor", defaultValue: self.freeColorState.key))
     }
     
     private func charts() -> NSView {

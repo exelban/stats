@@ -253,7 +253,7 @@ public class Disk: Module {
         self.portalView.utilizationCallback(d)
         self.notificationsView.utilizationCallback(d.percentage)
         
-        self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
+        self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: SWidget) in
             switch w.item {
             case let widget as Mini: widget.setValue(d.percentage)
             case let widget as BarChart: widget.setValue([[ColorValue(d.percentage)]])
@@ -281,7 +281,7 @@ public class Disk: Module {
         
         self.portalView.activityCallback(d)
         
-        self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
+        self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: SWidget) in
             switch w.item {
             case let widget as SpeedWidget: 
                 widget.setValue(upload: d.activity.write, download: d.activity.read)

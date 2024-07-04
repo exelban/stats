@@ -15,8 +15,8 @@ public class BarChart: WidgetWrapper {
     private var labelState: Bool = false
     private var boxState: Bool = true
     private var frameState: Bool = false
-    public var colorState: Color = .systemAccent
-    private var colors: [Color] = Color.allCases
+    public var colorState: SColor = .systemAccent
+    private var colors: [SColor] = SColor.allCases
     
     private var _value: [[ColorValue]] = [[]]
     private var _pressureLevel: DispatchSource.MemoryPressureEvent = .normal
@@ -72,7 +72,7 @@ public class BarChart: WidgetWrapper {
             self.boxState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_box", defaultValue: self.boxState)
             self.frameState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_frame", defaultValue: self.frameState)
             self.labelState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_label", defaultValue: self.labelState)
-            self.colorState = Color.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_color", defaultValue: self.colorState.key))
+            self.colorState = SColor.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_color", defaultValue: self.colorState.key))
         }
         
         if preview {

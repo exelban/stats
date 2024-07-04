@@ -57,15 +57,15 @@ internal class Popup: PopupWrapper {
     private var lineChartFixedScale: Double = 1
     private var chartPrefSection: PreferencesSection? = nil
     
-    private var appColorState: Color = .secondBlue
+    private var appColorState: SColor = .secondBlue
     private var appColor: NSColor { self.appColorState.additional as? NSColor ?? NSColor.systemRed }
-    private var wiredColorState: Color = .secondOrange
+    private var wiredColorState: SColor = .secondOrange
     private var wiredColor: NSColor { self.wiredColorState.additional as? NSColor ?? NSColor.systemBlue }
-    private var compressedColorState: Color = .pink
+    private var compressedColorState: SColor = .pink
     private var compressedColor: NSColor { self.compressedColorState.additional as? NSColor ?? NSColor.lightGray }
-    private var freeColorState: Color = .lightGray
+    private var freeColorState: SColor = .lightGray
     private var freeColor: NSColor { self.freeColorState.additional as? NSColor ?? NSColor.systemBlue }
-    private var chartColorState: Color = .systemAccent
+    private var chartColorState: SColor = .systemAccent
     private var chartColor: NSColor { self.chartColorState.additional as? NSColor ?? NSColor.systemBlue }
     
     public init(_ module: ModuleType) {
@@ -79,11 +79,11 @@ internal class Popup: PopupWrapper {
         ))
         self.setFrameSize(NSSize(width: self.frame.width, height: self.frame.height+self.processesHeight))
         
-        self.appColorState = Color.fromString(Store.shared.string(key: "\(self.title)_appColor", defaultValue: self.appColorState.key))
-        self.wiredColorState = Color.fromString(Store.shared.string(key: "\(self.title)_wiredColor", defaultValue: self.wiredColorState.key))
-        self.compressedColorState = Color.fromString(Store.shared.string(key: "\(self.title)_compressedColor", defaultValue: self.compressedColorState.key))
-        self.freeColorState = Color.fromString(Store.shared.string(key: "\(self.title)_freeColor", defaultValue: self.freeColorState.key))
-        self.chartColorState = Color.fromString(Store.shared.string(key: "\(self.title)_chartColor", defaultValue: self.chartColorState.key))
+        self.appColorState = SColor.fromString(Store.shared.string(key: "\(self.title)_appColor", defaultValue: self.appColorState.key))
+        self.wiredColorState = SColor.fromString(Store.shared.string(key: "\(self.title)_wiredColor", defaultValue: self.wiredColorState.key))
+        self.compressedColorState = SColor.fromString(Store.shared.string(key: "\(self.title)_compressedColor", defaultValue: self.compressedColorState.key))
+        self.freeColorState = SColor.fromString(Store.shared.string(key: "\(self.title)_freeColor", defaultValue: self.freeColorState.key))
+        self.chartColorState = SColor.fromString(Store.shared.string(key: "\(self.title)_chartColor", defaultValue: self.chartColorState.key))
         self.lineChartHistory = Store.shared.int(key: "\(self.title)_lineChartHistory", defaultValue: self.lineChartHistory)
         self.lineChartScale = Scale.fromString(Store.shared.string(key: "\(self.title)_lineChartScale", defaultValue: self.lineChartScale.key))
         self.lineChartFixedScale = Double(Store.shared.int(key: "\(self.title)_lineChartFixedScale", defaultValue: 100)) / 100
@@ -288,22 +288,22 @@ internal class Popup: PopupWrapper {
         view.addArrangedSubview(PreferencesSection([
             PreferencesRow(localizedString("App color"), component: selectView(
                 action: #selector(toggleAppColor),
-                items: Color.allColors,
+                items: SColor.allColors,
                 selected: self.appColorState.key
             )),
             PreferencesRow(localizedString("Wired color"), component: selectView(
                 action: #selector(toggleWiredColor),
-                items: Color.allColors,
+                items: SColor.allColors,
                 selected: self.wiredColorState.key
             )),
             PreferencesRow(localizedString("Compressed color"), component: selectView(
                 action: #selector(toggleCompressedColor),
-                items: Color.allColors,
+                items: SColor.allColors,
                 selected: self.compressedColorState.key
             )),
             PreferencesRow(localizedString("Free color"), component: selectView(
                 action: #selector(toggleFreeColor),
-                items: Color.allColors,
+                items: SColor.allColors,
                 selected: self.freeColorState.key
             ))
         ]))
@@ -316,7 +316,7 @@ internal class Popup: PopupWrapper {
         self.chartPrefSection = PreferencesSection([
             PreferencesRow(localizedString("Chart color"), component: selectView(
                 action: #selector(self.toggleChartColor),
-                items: Color.allColors,
+                items: SColor.allColors,
                 selected: self.chartColorState.key
             )),
             PreferencesRow(localizedString("Chart history"), component: selectView(
@@ -339,7 +339,7 @@ internal class Popup: PopupWrapper {
     
     @objc private func toggleAppColor(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String,
-              let newValue = Color.allColors.first(where: { $0.key == key }) else {
+              let newValue = SColor.allColors.first(where: { $0.key == key }) else {
             return
         }
         self.appColorState = newValue
@@ -350,7 +350,7 @@ internal class Popup: PopupWrapper {
     }
     @objc private func toggleWiredColor(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String,
-              let newValue = Color.allColors.first(where: { $0.key == key }) else {
+              let newValue = SColor.allColors.first(where: { $0.key == key }) else {
             return
         }
         self.wiredColorState = newValue
@@ -361,7 +361,7 @@ internal class Popup: PopupWrapper {
     }
     @objc private func toggleCompressedColor(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String,
-              let newValue = Color.allColors.first(where: { $0.key == key }) else {
+              let newValue = SColor.allColors.first(where: { $0.key == key }) else {
             return
         }
         self.compressedColorState = newValue
@@ -372,7 +372,7 @@ internal class Popup: PopupWrapper {
     }
     @objc private func toggleFreeColor(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String,
-              let newValue = Color.allColors.first(where: { $0.key == key }) else {
+              let newValue = SColor.allColors.first(where: { $0.key == key }) else {
             return
         }
         self.freeColorState = newValue
@@ -383,7 +383,7 @@ internal class Popup: PopupWrapper {
     }
     @objc private func toggleChartColor(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String,
-              let newValue = Color.allColors.first(where: { $0.key == key }) else {
+              let newValue = SColor.allColors.first(where: { $0.key == key }) else {
             return
         }
         self.chartColorState = newValue

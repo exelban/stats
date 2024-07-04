@@ -13,10 +13,10 @@ import Cocoa
 
 public class Mini: WidgetWrapper {
     private var labelState: Bool = true
-    private var colorState: Color = .monochrome
+    private var colorState: SColor = .monochrome
     private var alignmentState: String = "left"
     
-    private var colors: [Color] = Color.allCases
+    private var colors: [SColor] = SColor.allCases
     
     private var _value: Double = 0
     private var _pressureLevel: DispatchSource.MemoryPressureEvent = .normal
@@ -78,7 +78,7 @@ public class Mini: WidgetWrapper {
         self.canDrawConcurrently = true
         
         if !preview {
-            self.colorState = Color.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_color", defaultValue: self.colorState.key))
+            self.colorState = SColor.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_color", defaultValue: self.colorState.key))
             self.labelState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_label", defaultValue: self.labelState)
             self.alignmentState = Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_alignment", defaultValue: self.alignmentState)
         }
@@ -207,7 +207,7 @@ public class Mini: WidgetWrapper {
     
     @objc private func toggleColor(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String else { return }
-        if let newColor = Color.allCases.first(where: { $0.key == key }) {
+        if let newColor = SColor.allCases.first(where: { $0.key == key }) {
             self.colorState = newColor
         }
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_color", value: key)

@@ -17,7 +17,7 @@ public class MemoryWidget: WidgetWrapper {
     private var percentage: Double = 0
     private var pressureLevel: DispatchSource.MemoryPressureEvent = .normal
     private var symbolsState: Bool = true
-    private var colorState: Color = .monochrome
+    private var colorState: SColor = .monochrome
     
     private let width: CGFloat = 50
     
@@ -51,7 +51,7 @@ public class MemoryWidget: WidgetWrapper {
         if !preview {
             self.orderReversedState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_orderReversed", defaultValue: self.orderReversedState)
             self.symbolsState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_symbols", defaultValue: self.symbolsState)
-            self.colorState = Color.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_color", defaultValue: self.colorState.key))
+            self.colorState = SColor.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_color", defaultValue: self.colorState.key))
         }
         
         if preview {
@@ -151,7 +151,7 @@ public class MemoryWidget: WidgetWrapper {
         view.addArrangedSubview(PreferencesSection([
             PreferencesRow(localizedString("Color"), component: selectView(
                 action: #selector(self.toggleColor),
-                items: Color.allCases.filter({ $0 != .cluster }),
+                items: SColor.allCases.filter({ $0 != .cluster }),
                 selected: self.colorState.key
             )),
             PreferencesRow(localizedString("Show symbols"), component: switchView(
@@ -181,7 +181,7 @@ public class MemoryWidget: WidgetWrapper {
     
     @objc private func toggleColor(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String else { return }
-        if let newColor = Color.allCases.first(where: { $0.key == key }) {
+        if let newColor = SColor.allCases.first(where: { $0.key == key }) {
             self.colorState = newColor
         }
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_color", value: key)

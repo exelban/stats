@@ -21,7 +21,7 @@ public protocol Settings_v: NSView {
 
 open class Settings: NSStackView, Settings_p {
     private var config: UnsafePointer<module_c>
-    private var widgets: [Widget]
+    private var widgets: [SWidget]
     
     private var segmentedControl: NSSegmentedControl?
     private var tabView: NSTabView?
@@ -57,7 +57,7 @@ open class Settings: NSStackView, Settings_p {
     private var isPopupSettingsAvailable: Bool
     private var isNotificationsSettingsAvailable: Bool
     
-    init(config: UnsafePointer<module_c>, widgets: UnsafeMutablePointer<[Widget]>, moduleSettings: Settings_v?, popupSettings: Popup_p?, notificationsSettings: NotificationsWrapper?) {
+    init(config: UnsafePointer<module_c>, widgets: UnsafeMutablePointer<[SWidget]>, moduleSettings: Settings_v?, popupSettings: Popup_p?, notificationsSettings: NotificationsWrapper?) {
         self.config = config
         self.widgets = widgets.pointee
         self.moduleSettings = moduleSettings
@@ -285,7 +285,7 @@ private class WidgetSelectorView: NSStackView {
         return view
     }()
     
-    fileprivate init(module: String, widgets: [Widget], stateCallback: @escaping () -> Void) {
+    fileprivate init(module: String, widgets: [SWidget], stateCallback: @escaping () -> Void) {
         self.module = module
         self.stateCallback = stateCallback
         

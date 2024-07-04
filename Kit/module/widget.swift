@@ -27,7 +27,7 @@ public enum widget_t: String {
     case tachometer = "tachometer"
     case state = "state"
     
-    public func new(module: String, config: NSDictionary, defaultWidget: widget_t) -> Widget? {
+    public func new(module: String, config: NSDictionary, defaultWidget: widget_t) -> SWidget? {
         guard let widgetConfig: NSDictionary = config[self.rawValue] as? NSDictionary else { return nil }
         
         var image: NSImage? = nil
@@ -116,7 +116,7 @@ public enum widget_t: String {
         }
         
         if let item = item, let image = image {
-            return Widget(self, defaultWidget: defaultWidget, module: module, item: item, image: image)
+            return SWidget(self, defaultWidget: defaultWidget, module: module, item: item, image: image)
         }
         
         return nil
@@ -219,7 +219,7 @@ open class WidgetWrapper: NSView, widget_p {
     }
 }
 
-public class Widget {
+public class SWidget {
     public let type: widget_t
     public let defaultWidget: widget_t
     public let module: String
@@ -367,7 +367,7 @@ public class Widget {
 
 public class MenuBar {
     public var callback: (() -> Void)? = nil
-    public var widgets: [Widget] = []
+    public var widgets: [SWidget] = []
     
     private var moduleName: String
     private var menuBarItem: NSStatusItem? = nil
@@ -379,13 +379,13 @@ public class MenuBar {
     
     public var view: MenuBarView = MenuBarView()
     public var oneView: Bool = false
-    public var activeWidgets: [Widget] {
+    public var activeWidgets: [SWidget] {
         self.widgets.filter({ $0.isActive })
     }
     public var sortedWidgets: [widget_t] {
         get {
             var list: [widget_t: Int] = [:]
-            self.activeWidgets.forEach { (w: Widget) in
+            self.activeWidgets.forEach { (w: SWidget) in
                 list[w.type] = w.position
             }
             return list.sorted { $0.1 < $1.1 }.map{ $0.key }
@@ -423,7 +423,7 @@ public class MenuBar {
         NotificationCenter.default.removeObserver(self, name: .widgetRearrange, object: nil)
     }
     
-    public func append(_ widget: Widget) {
+    public func append(_ widget: SWidget) {
         widget.toggleCallback = { [weak self] (type, state) in
             if let s = self, s.oneView {
                 if state, let w = s.activeWidgets.first(where: { $0.type == type }) {
@@ -526,7 +526,7 @@ public class MenuBar {
     }
     
     private func toggleOneView() {
-        self.activeWidgets.forEach { (w: Widget) in
+        self.activeWidgets.forEach { (w: SWidget) in
             w.disable()
         }
         
@@ -538,7 +538,7 @@ public class MenuBar {
             self.setupMenuBarItem(self.oneView)
         }
         
-        self.activeWidgets.forEach { (w: Widget) in
+        self.activeWidgets.forEach { (w: SWidget) in
             w.enable()
         }
     }

@@ -30,9 +30,7 @@ public struct RAM_Usage: Codable {
     var swap: Swap
     
     public var usage: Double {
-        get {
-            return Double((self.total - self.free) / self.total)
-        }
+        get { Double((self.total - self.free) / self.total) }
     }
     
     public var pressureLevel: DispatchSource.MemoryPressureEvent {
@@ -59,25 +57,25 @@ public class RAM: Module {
         return Store.shared.bool(key: "\(self.config.name)_splitValue", defaultValue: false)
     }
     private var appColor: NSColor {
-        let color = Color.secondBlue
+        let color = SColor.secondBlue
         let key = Store.shared.string(key: "\(self.config.name)_appColor", defaultValue: color.key)
-        if let c = Color.fromString(key).additional as? NSColor {
+        if let c = SColor.fromString(key).additional as? NSColor {
             return c
         }
         return color.additional as! NSColor
     }
     private var wiredColor: NSColor {
-        let color = Color.secondOrange
+        let color = SColor.secondOrange
         let key = Store.shared.string(key: "\(self.config.name)_wiredColor", defaultValue: color.key)
-        if let c = Color.fromString(key).additional as? NSColor {
+        if let c = SColor.fromString(key).additional as? NSColor {
             return c
         }
         return color.additional as! NSColor
     }
     private var compressedColor: NSColor {
-        let color = Color.pink
+        let color = SColor.pink
         let key = Store.shared.string(key: "\(self.config.name)_compressedColor", defaultValue: color.key)
-        if let c = Color.fromString(key).additional as? NSColor {
+        if let c = SColor.fromString(key).additional as? NSColor {
             return c
         }
         return color.additional as! NSColor
@@ -135,7 +133,7 @@ public class RAM: Module {
         self.notificationsView.loadCallback(value)
         
         let total: Double = value.total == 0 ? 1 : value.total
-        self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
+        self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: SWidget) in
             switch w.item {
             case let widget as Mini:
                 widget.setValue(value.usage)
