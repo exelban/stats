@@ -12,10 +12,12 @@
 import SwiftUI
 
 import CPU
+import RAM
 
 @main
 struct WidgetsBundle: WidgetBundle {
     var body: some Widget {
         CPUWidget()
+        RAMWidget()
     }
 }

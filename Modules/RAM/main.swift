@@ -11,6 +11,7 @@
 
 import Cocoa
 import Kit
+import WidgetKit
 
 public struct RAM_Usage: Codable {
     var total: Double
@@ -81,6 +82,8 @@ public class RAM: Module {
         return color.additional as! NSColor
     }
     
+    private var userDefaults: UserDefaults? = UserDefaults(suiteName: "eu.exelban.Stats.widgets")
+    
     public init() {
         self.settingsView = Settings(.RAM)
         self.popupView = Popup(.RAM)
@@ -131,6 +134,12 @@ public class RAM: Module {
         self.popupView.loadCallback(value)
         self.portalView.callback(value)
         self.notificationsView.loadCallback(value)
+        
+        if #available(macOS 11.0, *) {
+            guard let blobData = try? JSONEncoder().encode(value) else { return }
+            self.userDefaults?.set(blobData, forKey: "RAM@UsageReader")
+            WidgetCenter.shared.reloadTimelines(ofKind: RAM_entry.kind)
+        }
         
         let total: Double = value.total == 0 ? 1 : value.total
         self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: SWidget) in
