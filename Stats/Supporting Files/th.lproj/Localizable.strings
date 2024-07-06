@@ -142,11 +142,14 @@
 "Pause the Stats" = "หยุด Stats";
 "Resume the Stats" = "เริ่มต้น Stats";
 "Combined modules" = "โมดูลผสม";
+"Combined details" = "Combined details";
 "Spacing" = "Spacing";
 "Share anonymous telemetry" = "Share anonymous telemetry";
 
 // Dashboard
 "Serial number" = "หมายเลขซีเรียล";
+"Model identifier" = "Model identifier";
+"Production year" = "Production year";
 "Uptime" = "ระยะเวลาที่เครื่องทำงาน";
 "Number of cores" = "%0 cores";
 "Number of threads" = "%0 thread";
@@ -409,6 +412,8 @@
 "Low power mode" = "โหมดพลังงานต่ำ";
 "Percentage inside the icon" = "เปอร์เซ็นต์ภายในไอคอน";
 "Colorize battery" = "Colorize battery";
+"Charging current" = "Charging current";
+"Charging Voltage" = "Charging voltage";
 
 // Bluetooth
 "Battery to show" = "แบตเตอรี่ที่แสดง";

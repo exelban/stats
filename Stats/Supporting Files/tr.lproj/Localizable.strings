@@ -142,11 +142,14 @@
 "Pause the Stats" = "Stats'ı Duraklat";
 "Resume the Stats" = "Stats'ı Sürdür";
 "Combined modules" = "Kombine modüller";
+"Combined details" = "Combined details";
 "Spacing" = "Aralık";
 "Share anonymous telemetry" = "Anonim telemetri paylaş";
 
 // Dashboard
 "Serial number" = "Seri numarası";
+"Model identifier" = "Model identifier";
+"Production year" = "Production year";
 "Uptime" = "Çalışma süresi";
 "Number of cores" = "%0 çekirdek";
 "Number of threads" = "%0 iş parçacığı";
@@ -409,6 +412,8 @@
 "Low power mode" = "Düşük güç modu";
 "Percentage inside the icon" = "Simgenin içinde yüzde";
 "Colorize battery" = "Pili renklendir";
+"Charging current" = "Charging current";
+"Charging Voltage" = "Charging voltage";
 
 // Bluetooth
 "Battery to show" = "Gösterilecek pil";

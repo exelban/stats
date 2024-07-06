@@ -142,11 +142,14 @@
 "Pause the Stats" = "Παύση του Stats";
 "Resume the Stats" = "Ξαναρχίζω το Stats";
 "Combined modules" = "Συνένωση ενοτήτων";
+"Combined details" = "Combined details";
 "Spacing" = "Κενό";
 "Share anonymous telemetry" = "Share anonymous telemetry";
 
 // Dashboard
 "Serial number" = "Σειριακός αριθμός";
+"Model identifier" = "Model identifier";
+"Production year" = "Production year";
 "Uptime" = "Χρόνος Δραστηριότητας";
 "Number of cores" = "%0 πυρήνες";
 "Number of threads" = "%0 threads";
@@ -409,6 +412,8 @@
 "Low power mode" = "Κατάστασης χαμηλής ενέργειας";
 "Percentage inside the icon" = "Ποσοστό μέσα στο εικονίδιο";
 "Colorize battery" = "Colorize battery";
+"Charging current" = "Charging current";
+"Charging Voltage" = "Charging voltage";
 
 // Bluetooth
 "Battery to show" = "Μπαταρία προς εμφάνιση";

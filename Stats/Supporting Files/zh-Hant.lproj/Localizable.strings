@@ -142,11 +142,14 @@
 "Pause the Stats" = "暫停 Stats";
 "Resume the Stats" = "恢復 Stats";
 "Combined modules" = "合併模組";
+"Combined details" = "Combined details";
 "Spacing" = "間距";
 "Share anonymous telemetry" = "分享匿名診斷資料";
 
 // Dashboard
 "Serial number" = "序號";
+"Model identifier" = "Model identifier";
+"Production year" = "Production year";
 "Uptime" = "開機時間";
 "Number of cores" = "%0 核心";
 "Number of threads" = "%0 執行緒";
@@ -409,6 +412,8 @@
 "Low power mode" = "低電量模式";
 "Percentage inside the icon" = "在圖示內顯示百分比";
 "Colorize battery" = "啟用彩色電池圖示";
+"Charging current" = "Charging current";
+"Charging Voltage" = "Charging voltage";
 
 // Bluetooth
 "Battery to show" = "顯示藍牙裝置的電池電量";

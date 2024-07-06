@@ -142,11 +142,14 @@
 "Pause the Stats" = "Pause the Stats";
 "Resume the Stats" = "Resume the Stats";
 "Combined modules" = "Combined modules";
+"Combined details" = "Combined details";
 "Spacing" = "Spacing";
 "Share anonymous telemetry" = "Share anonymous telemetry";
 
 // Dashboard
 "Serial number" = "Số sê-ri";
+"Model identifier" = "Model identifier";
+"Production year" = "Production year";
 "Uptime" = "Thời gian hoạt động";
 "Number of cores" = "%0 nhân";
 "Number of threads" = "%0 luồng";
@@ -409,6 +412,8 @@
 "Low power mode" = "Low power mode";
 "Percentage inside the icon" = "Percentage inside the icon";
 "Colorize battery" = "Colorize battery";
+"Charging current" = "Charging current";
+"Charging Voltage" = "Charging voltage";
 
 // Bluetooth
 "Battery to show" = "Pin hiển thị";

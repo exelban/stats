@@ -142,11 +142,14 @@
 "Pause the Stats" = "Sett Stats på pause";
 "Resume the Stats" = "Gjenoppta Stats";
 "Combined modules" = "Kombinerte moduler";
+"Combined details" = "Combined details";
 "Spacing" = "Mellomrom";
 "Share anonymous telemetry" = "Del anonyme telemetridata";
 
 // Dashboard
 "Serial number" = "Serienummer";
+"Model identifier" = "Model identifier";
+"Production year" = "Production year";
 "Uptime" = "Oppetid";
 "Number of cores" = "%0 kjerner";
 "Number of threads" = "%0 tråder";
@@ -409,6 +412,8 @@
 "Low power mode" = "Lav energi-modus";
 "Percentage inside the icon" = "Prosent inne i ikonet";
 "Colorize battery" = "Fargelegg batteri";
+"Charging current" = "Charging current";
+"Charging Voltage" = "Charging voltage";
 
 // Bluetooth
 "Battery to show" = "Batteri å vise";

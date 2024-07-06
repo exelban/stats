@@ -142,11 +142,14 @@
 "Pause the Stats" = "Pozastavit Stats";
 "Resume the Stats" = "Obnovit Stats";
 "Combined modules" = "Kombinace modulů";
+"Combined details" = "Combined details";
 "Spacing" = "Odsazení";
 "Share anonymous telemetry" = "Share anonymous telemetry";
 
 // Dashboard
 "Serial number" = "Sériové číslo";
+"Model identifier" = "Model identifier";
+"Production year" = "Production year";
 "Uptime" = "Spuštěno";
 "Number of cores" = "%0 jader";
 "Number of threads" = "%0 vláken";
@@ -409,6 +412,8 @@
 "Low power mode" = "Režim nízké spotřeby";
 "Percentage inside the icon" = "Procento uvnitř ikony";
 "Colorize battery" = "Colorize battery";
+"Charging current" = "Charging current";
+"Charging Voltage" = "Charging voltage";
 
 // Bluetooth
 "Battery to show" = "Baterie k zobrazení";

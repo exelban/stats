@@ -142,11 +142,14 @@
 "Pause the Stats" = "Stats felfüggesztése";
 "Resume the Stats" = "Stats folytatása";
 "Combined modules" = "Egyesített modulok";
+"Combined details" = "Combined details";
 "Spacing" = "Helyköz";
 "Share anonymous telemetry" = "Telemetria megosztása névtelenül";
 
 // Dashboard
 "Serial number" = "Sorozatszám";
+"Model identifier" = "Model identifier";
+"Production year" = "Production year";
 "Uptime" = "Indítás óta eltel idő";
 "Number of cores" = "%0 mag";
 "Number of threads" = "%0 szál";
@@ -409,6 +412,8 @@
 "Low power mode" = "Energia takarékos mód";
 "Percentage inside the icon" = "Százalék megjelenítése az ikonban";
 "Colorize battery" = "Akkumlátor színezése";
+"Charging current" = "Charging current";
+"Charging Voltage" = "Charging voltage";
 
 // Bluetooth
 "Battery to show" = "Akkumulátor megjelenítése";

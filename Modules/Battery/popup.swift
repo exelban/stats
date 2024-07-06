@@ -189,8 +189,8 @@ internal class Popup: PopupWrapper {
         
         self.powerField = popupRow(container, n: 3, title: "\(localizedString("Power")):", value: "").1
         self.chargingStateField = popupRow(container, n: 2, title: "\(localizedString("Is charging")):", value: "").1
-        self.chargingCurrentField = popupRow(container, n: 1, title: "\(localizedString("Charging Current")):", value: "").1
-        self.chargingVoltageField = popupRow(container, n: 0, title: "\(localizedString("Charging Voltage")):", value: "").1
+        self.chargingCurrentField = popupRow(container, n: 1, title: "\(localizedString("Charging current")):", value: "").1
+        self.chargingVoltageField = popupRow(container, n: 0, title: "\(localizedString("Charging voltage")):", value: "").1
         
         self.adapterView = view
         

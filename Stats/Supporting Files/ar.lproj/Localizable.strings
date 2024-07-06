@@ -142,11 +142,14 @@
 "Pause the Stats" = "إيقاف الإحصاءات";
 "Resume the Stats" = "استئناف الإحصاءات";
 "Combined modules" = "الوحدات المجتمعة";
+"Combined details" = "Combined details";
 "Spacing" = "التباعد";
 "Share anonymous telemetry" = "مشاركة بيانات التشخيص المجهولة";
 
 // Dashboard
 "Serial number" = "الرقم التسلسلي";
+"Model identifier" = "Model identifier";
+"Production year" = "Production year";
 "Uptime" = "وقت التشغيل";
 "Number of cores" = "%0 نوى";
 "Number of threads" = "%0 خيوط";
@@ -409,6 +412,8 @@
 "Low power mode" = "وضع الطاقة المنخفضة";
 "Percentage inside the icon" = "النسبة المئوية داخل الرمز";
 "Colorize battery" = "تلوين البطارية";
+"Charging current" = "Charging current";
+"Charging Voltage" = "Charging voltage";
 
 // Bluetooth
 "Battery to show" = "البطارية المراد عرضها";

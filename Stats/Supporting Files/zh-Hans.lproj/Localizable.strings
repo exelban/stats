@@ -142,11 +142,14 @@
 "Pause the Stats" = "暂停 Stats";
 "Resume the Stats" = "恢复 Stats";
 "Combined modules" = "合并模块";
+"Combined details" = "Combined details";
 "Spacing" = "间距";
 "Share anonymous telemetry" = "分享匿名诊断数据";
 
 // Dashboard
 "Serial number" = "序列号";
+"Model identifier" = "Model identifier";
+"Production year" = "Production year";
 "Uptime" = "启动时间";
 "Number of cores" = "%0 核心";
 "Number of threads" = "%0 线程";
@@ -409,6 +412,8 @@
 "Low power mode" = "低电量模式";
 "Percentage inside the icon" = "图标内百分比";
 "Colorize battery" = "启用彩色电池图标";
+"Charging current" = "Charging current";
+"Charging Voltage" = "Charging voltage";
 
 // Bluetooth
 "Battery to show" = "显示的设备";

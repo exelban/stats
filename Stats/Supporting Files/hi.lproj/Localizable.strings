@@ -142,11 +142,14 @@
 "Pause the Stats" = "आँकड़ों को रोकें";
 "Resume the Stats" = "आँकड़े फिर से शुरू करें";
 "Combined modules" = "संयुक्त मॉड्यूल";
+"Combined details" = "Combined details";
 "Spacing" = "स्पेसिंग";
 "Share anonymous telemetry" = "अनाम टेलीमेट्री साझा करें";
 
 // Dashboard
 "Serial number" = "सीरियल नंबर";
+"Model identifier" = "Model identifier";
+"Production year" = "Production year";
 "Uptime" = "अपटाइम";
 "Number of cores" = "%0 कोर";
 "Number of threads" = "%0 थ्रेड्स";
@@ -409,6 +412,8 @@
 "Low power mode" = "कम शक्ति मोड";
 "Percentage inside the icon" = "आइकन के अंदर प्रतिशत";
 "Colorize battery" = "रंगीन बैटरी";
+"Charging current" = "Charging current";
+"Charging Voltage" = "Charging voltage";
 
 // Bluetooth
 "Battery to show" = "दिखाने के लिए बैटरी";

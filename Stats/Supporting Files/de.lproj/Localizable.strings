@@ -142,11 +142,14 @@
 "Pause the Stats" = "Stats pausieren";
 "Resume the Stats" = "Stats fortsetzen";
 "Combined modules" = "Zusammengefasste Module";
+"Combined details" = "Combined details";
 "Spacing" = "Abstand";
 "Share anonymous telemetry" = "Anonyme Telemetriedaten teilen";
 
 // Dashboard
 "Serial number" = "Seriennummer";
+"Model identifier" = "Model identifier";
+"Production year" = "Production year";
 "Uptime" = "Betriebszeit";
 "Number of cores" = "%0 Cores";
 "Number of threads" = "%0 Threads";
@@ -409,6 +412,8 @@
 "Low power mode" = "Energiesparmodus";
 "Percentage inside the icon" = "Prozentsatz im Symbol";
 "Colorize battery" = "Akku einfärben";
+"Charging current" = "Charging current";
+"Charging Voltage" = "Charging voltage";
 
 // Bluetooth
 "Battery to show" = "Angezeigter Akku";

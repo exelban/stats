@@ -142,11 +142,14 @@
 "Pause the Stats" = "Peata Statsi";
 "Resume the Stats" = "Jätka Statsi";
 "Combined modules" = "Kombineeritud moodulid";
+"Combined details" = "Combined details";
 "Spacing" = "Vahekaugus";
 "Share anonymous telemetry" = "Jaga anonüümset telemeetriat";
 
 // Dashboard
 "Serial number" = "Seerianumber";
+"Model identifier" = "Model identifier";
+"Production year" = "Production year";
 "Uptime" = "Tööaeg";
 "Number of cores" = "%0 tuumad";
 "Number of threads" = "%0 lõimed";
@@ -409,6 +412,8 @@
 "Low power mode" = "Madala energiatarbega režiim";
 "Percentage inside the icon" = "Protsent ikooni sees";
 "Colorize battery" = "Värvi aku";
+"Charging current" = "Charging current";
+"Charging Voltage" = "Charging voltage";
 
 // Bluetooth
 "Battery to show" = "Patarei, mida näidata";

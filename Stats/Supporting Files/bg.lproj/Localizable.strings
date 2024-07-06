@@ -142,11 +142,14 @@
 "Pause the Stats" = "Паузиране на Stats";
 "Resume the Stats" = "Продължаване на Stats";
 "Combined modules" = "Combined modules";
+"Combined details" = "Combined details";
 "Spacing" = "Spacing";
 "Share anonymous telemetry" = "Share anonymous telemetry";
 
 // Dashboard
 "Serial number" = "Сериен номер";
+"Model identifier" = "Model identifier";
+"Production year" = "Production year";
 "Uptime" = "Време от последно рестартиране";
 "Number of cores" = "%0 ядра";
 "Number of threads" = "%0 нишки";
@@ -409,6 +412,8 @@
 "Low power mode" = "Режим за пестене на енергията";
 "Percentage inside the icon" = "Процент в иконата";
 "Colorize battery" = "Colorize battery";
+"Charging current" = "Charging current";
+"Charging Voltage" = "Charging voltage";
 
 // Bluetooth
 "Battery to show" = "Батерия за показване";

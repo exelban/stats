@@ -142,11 +142,14 @@
 "Pause the Stats" = "Призупинити Stats";
 "Resume the Stats" = "Відновити Stats";
 "Combined modules" = "Комбіновані модулі";
+"Combined details" = "Комбіновані деталі";
 "Spacing" = "Інтервал";
 "Share anonymous telemetry" = "Ділитись анонімною телеметрією";
 
 // Dashboard
 "Serial number" = "Серійний номер";
+"Model identifier" = "Ідентифікатор моделі";
+"Production year" = "Рік випуску";
 "Uptime" = "Час роботи";
 "Number of cores" = "%0 ядер";
 "Number of threads" = "%0 потоків";
@@ -409,6 +412,8 @@
 "Low power mode" = "Режим низької потужності";
 "Percentage inside the icon" = "Відсоток всередині віджету";
 "Colorize battery" = "Розфарбувати акумулятор";
+"Charging current" = "Струм зарядки";
+"Charging Voltage" = "Напруга зарядки";
 
 // Bluetooth
 "Battery to show" = "Активна батарея";

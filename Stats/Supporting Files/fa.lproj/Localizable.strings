@@ -142,11 +142,14 @@
 "Pause the Stats" = "متوقف کردن Stats";
 "Resume the Stats" = "ادامه‌ی کار Stats";
 "Combined modules" = "Combined modules";
+"Combined details" = "Combined details";
 "Spacing" = "Spacing";
 "Share anonymous telemetry" = "Share anonymous telemetry";
 
 // Dashboard
 "Serial number" = "سریال نامبر";
+"Model identifier" = "Model identifier";
+"Production year" = "Production year";
 "Uptime" = "زمان روشن بودن";
 "Number of cores" = "%0 هسته‌ها";
 "Number of threads" = "%0 ترد‌ها";
@@ -409,6 +412,8 @@
 "Low power mode" = "حالت کم مصرف";
 "Percentage inside the icon" = "درصد داخل آیکون";
 "Colorize battery" = "Colorize battery";
+"Charging current" = "Charging current";
+"Charging Voltage" = "Charging voltage";
 
 // Bluetooth
 "Battery to show" = "نشان دادن باتری";

@@ -142,11 +142,14 @@
 "Pause the Stats" = "Sæt Stats på pause";
 "Resume the Stats" = "Genoptag Stats";
 "Combined modules" = "Kombinerede moduler";
+"Combined details" = "Combined details";
 "Spacing" = "Mellemrum";
 "Share anonymous telemetry" = "Del anonym brugsdata";
 
 // Dashboard
 "Serial number" = "Serienummer";
+"Model identifier" = "Model identifier";
+"Production year" = "Production year";
 "Uptime" = "Oppetid";
 "Number of cores" = "%0 kerner";
 "Number of threads" = "%0 tråde";
@@ -409,6 +412,8 @@
 "Low power mode" = "Energibesparende funktion";
 "Percentage inside the icon" = "Procenttegn i ikonet";
 "Colorize battery" = "Farvelæg batteri";
+"Charging current" = "Charging current";
+"Charging Voltage" = "Charging voltage";
 
 // Bluetooth
 "Battery to show" = "Batteri der vises";

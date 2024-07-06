@@ -142,11 +142,14 @@
 "Pause the Stats" = "Stats 일시정지";
 "Resume the Stats" = "Stats 재개";
 "Combined modules" = "모듈 병합";
+"Combined details" = "Combined details";
 "Spacing" = "간격";
 "Share anonymous telemetry" = "익명 사용정보 공유";
 
 // Dashboard
 "Serial number" = "일련 번호";
+"Model identifier" = "Model identifier";
+"Production year" = "Production year";
 "Uptime" = "가동 시간";
 "Number of cores" = "%0 코어";
 "Number of threads" = "%0 스레드";
@@ -409,6 +412,8 @@
 "Low power mode" = "저전력 모드";
 "Percentage inside the icon" = "아이콘 속에 백분율";
 "Colorize battery" = "배터리 색상 표시";
+"Charging current" = "Charging current";
+"Charging Voltage" = "Charging voltage";
 
 // Bluetooth
 "Battery to show" = "표시할 배터리";

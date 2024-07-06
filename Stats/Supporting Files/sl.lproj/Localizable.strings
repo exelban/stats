@@ -142,11 +142,14 @@
 "Pause the Stats" = "Začasno zaustavi Stats";
 "Resume the Stats" = "Nadaljuj z izvajanjem Stats";
 "Combined modules" = "Združeni moduli";
+"Combined details" = "Combined details";
 "Spacing" = "Razmik";
 "Share anonymous telemetry" = "Deli anonimno telemetrijo";
 
 // Dashboard
 "Serial number" = "Serijska številka";
+"Model identifier" = "Model identifier";
+"Production year" = "Production year";
 "Uptime" = "Čas delovanja";
 "Number of cores" = "%0 jeder";
 "Number of threads" = "%0 niti";
@@ -409,6 +412,8 @@
 "Low power mode" = "Način nizke porabe";
 "Percentage inside the icon" = "Odstotek znotraj ikone";
 "Colorize battery" = "Obarvanje baterije";
+"Charging current" = "Charging current";
+"Charging Voltage" = "Charging voltage";
 
 // Bluetooth
 "Battery to show" = "Prikaz baterije";

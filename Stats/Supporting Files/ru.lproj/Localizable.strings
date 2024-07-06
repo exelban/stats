@@ -142,11 +142,14 @@
 "Pause the Stats" = "Приостановить Stats";
 "Resume the Stats" = "Возобновить Stats";
 "Combined modules" = "Комбинированные модули";
+"Combined details" = "Комбинированные детали";
 "Spacing" = "Интервал";
 "Share anonymous telemetry" = "Делится анонимной телеметрией";
 
 // Dashboard
 "Serial number" = "Серийный номер";
+"Model identifier" = "Идентификатор модели";
+"Production year" = "Год выпуска";
 "Uptime" = "Время работы";
 "Number of cores" = "%0 ядер";
 "Number of threads" = "%0 потоков";
@@ -409,6 +412,8 @@
 "Low power mode" = "Режим пониженного энергопотребления";
 "Percentage inside the icon" = "Процент внутри виджета";
 "Colorize battery" = "Раскрасить батарею";
+"Charging current" = "Ток зарядки";
+"Charging Voltage" = "Напряжение зарядки";
 
 // Bluetooth
 "Battery to show" = "Активная батарея";
