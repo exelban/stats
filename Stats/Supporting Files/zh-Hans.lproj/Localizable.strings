@@ -146,9 +146,9 @@
 "Share anonymous telemetry" = "分享匿名诊断数据";
 
 // Dashboard
+"Serial number" = "序列号";
 "Model identifier" = "机型标识符";
 "Production year" = "生产年份";
-"Serial number" = "序列号";
 "Uptime" = "启动时间";
 "Number of cores" = "%0 核心";
 "Number of threads" = "%0 线程";
