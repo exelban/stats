@@ -142,14 +142,14 @@
 "Pause the Stats" = "暂停 Stats";
 "Resume the Stats" = "恢复 Stats";
 "Combined modules" = "合并模块";
-"Combined details" = "Combined details";
+"Combined details" = "合并细节";
 "Spacing" = "间距";
 "Share anonymous telemetry" = "分享匿名诊断数据";
 
 // Dashboard
 "Serial number" = "序列号";
-"Model identifier" = "Model identifier";
-"Production year" = "Production year";
+"Model identifier" = "机型标识符";
+"Production year" = "生产年份";
 "Uptime" = "启动时间";
 "Number of cores" = "%0 核心";
 "Number of threads" = "%0 线程";
