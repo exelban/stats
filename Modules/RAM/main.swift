@@ -135,12 +135,6 @@ public class RAM: Module {
         self.portalView.callback(value)
         self.notificationsView.loadCallback(value)
         
-        if #available(macOS 11.0, *) {
-            guard let blobData = try? JSONEncoder().encode(value) else { return }
-            self.userDefaults?.set(blobData, forKey: "RAM@UsageReader")
-            WidgetCenter.shared.reloadTimelines(ofKind: RAM_entry.kind)
-        }
-        
         let total: Double = value.total == 0 ? 1 : value.total
         self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: SWidget) in
             switch w.item {
@@ -181,6 +175,12 @@ public class RAM: Module {
                 ])
             default: break
             }
+        }
+        
+        if #available(macOS 11.0, *) {
+            guard let blobData = try? JSONEncoder().encode(value) else { return }
+            self.userDefaults?.set(blobData, forKey: "RAM@UsageReader")
+            WidgetCenter.shared.reloadTimelines(ofKind: RAM_entry.kind)
         }
     }
 }

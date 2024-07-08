@@ -160,12 +160,6 @@ public class CPU: Module {
         self.portalView.callback(value)
         self.notificationsView.loadCallback(value)
         
-        if #available(macOS 11.0, *) {
-            guard let blobData = try? JSONEncoder().encode(value) else { return }
-            self.userDefaults?.set(blobData, forKey: "CPU@LoadReader")
-            WidgetCenter.shared.reloadTimelines(ofKind: CPU_entry.kind)
-        }
-        
         self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: SWidget) in
             switch w.item {
             case let widget as Mini: widget.setValue(value.totalUsage)
@@ -212,6 +206,12 @@ public class CPU: Module {
                 ])
             default: break
             }
+        }
+        
+        if #available(macOS 11.0, *) {
+            guard let blobData = try? JSONEncoder().encode(value) else { return }
+            self.userDefaults?.set(blobData, forKey: "CPU@LoadReader")
+            WidgetCenter.shared.reloadTimelines(ofKind: CPU_entry.kind)
         }
     }
 }
