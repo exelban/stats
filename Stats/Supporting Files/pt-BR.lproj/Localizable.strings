@@ -104,7 +104,7 @@
 "Never check for updates (not recommended)" = "Nunca verifique se há atualizações (não recomendado)";
 "Anonymous telemetry for better development decisions" = "Telemetria anônima para melhores decisões de desenvolvimento";
 "Share anonymous telemetry data" = "Compartilhar dados de telemetria anônimos";
-"Do not share anonymous telemetry data" = "Compartilhar dados de telemetria anônimos";
+"Do not share anonymous telemetry data" = "Não compartilhar dados de telemetria anônimos";
 "The configuration is completed" = "A configuração está concluída";
 "finish_setup_message" = "Tudo pronto! \n O Stats é uma ferramenta de código aberto, é gratuita e sempre será. \n Se você gostou, você pode apoiar o projeto, sua ajuda sempre será bem vinda!";
 
