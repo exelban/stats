@@ -293,7 +293,9 @@ public class LineChartView: NSView {
             path.stroke()
             
             let date = self.dateFormatter.string(from: nearest.value.ts)
-            let value = self.toolTipFunc != nil ? self.toolTipFunc!(nearest.value) : "\(Int(nearest.value.value.rounded(toPlaces: 2) * 100))\(self.suffix)"
+            let roundedValue = (nearest.value.value * 100).rounded(toPlaces: 2)
+            let strValue = roundedValue >= 1 ? "\(Int(roundedValue))\(self.suffix)" : "\(roundedValue)\(self.suffix)"
+            let value = self.toolTipFunc != nil ? self.toolTipFunc!(nearest.value) : strValue
             drawToolTip(self.frame, CGPoint(x: nearest.point.x+4, y: nearest.point.y+4), CGSize(width: 78, height: height), value: value, subtitle: date)
         }
     }
