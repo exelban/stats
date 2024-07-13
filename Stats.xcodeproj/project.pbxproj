@@ -1395,6 +1395,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9A141105229E721200D29793 /* Build configuration list for PBXNativeTarget "Stats" */;
 			buildPhases = (
+				5CC0857F2C419E4B00910F90 /* Set widgets extension version */,
 				9A1410F1229E721100D29793 /* Sources */,
 				9A1410F2229E721100D29793 /* Frameworks */,
 				9A1410F3229E721100D29793 /* Resources */,
@@ -1901,6 +1902,25 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		5CC0857F2C419E4B00910F90 /* Set widgets extension version */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Set widgets extension version";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "MARKETING_VERSION=$(/usr/libexec/PlistBuddy -c 'print :objects:9A141107229E721200D29793:buildSettings:MARKETING_VERSION' \"$(PWD)/Stats.xcodeproj/project.pbxproj\")\n/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString $MARKETING_VERSION\" \"$(PWD)/Widgets/Supporting Files/Info.plist\"\nBUNDLE_VERSION=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"$(PWD)/Stats/Supporting Files/Info.plist\")\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $BUNDLE_VERSION\" \"$(PWD)/Widgets/Supporting Files/Info.plist\"\n";
+		};
 		9A88E2672659002E00E2B7B0 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
@@ -2389,13 +2409,13 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 574;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = RP2S87B72W;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GENERATE_INFOPLIST_FILE = YES;
+				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = "Widgets/Supporting Files/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Widgets;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2024 Serhiy Mytrovtsiy. All rights reserved.";
@@ -2406,7 +2426,7 @@
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 2.10.19;
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = eu.exelban.Stats.Widgets;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2428,13 +2448,13 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 574;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = RP2S87B72W;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GENERATE_INFOPLIST_FILE = YES;
+				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = "Widgets/Supporting Files/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Widgets;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2024 Serhiy Mytrovtsiy. All rights reserved.";
@@ -2445,7 +2465,7 @@
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 2.10.19;
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = eu.exelban.Stats.Widgets;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2728,7 +2748,6 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 180;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = RP2S87B72W;
@@ -2767,7 +2786,6 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 180;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = RP2S87B72W;
