@@ -2,7 +2,7 @@
 //  Localizable.strings
 //  Stats
 //
-//  Created by Marcelo Chaves on 11/11/2020, updated by Pedro Serigatto (@pedroserigatto) on 03/03/2023, updated by Paulo Albuquerque (@paulora2405) on 23/10/2023
+//  Created by Marcelo Chaves on 11/11/2020, updated by Pedro Serigatto (@pedroserigatto) on 03/03/2023, updated by Paulo Albuquerque (@paulora2405) on 23/10/2023, updated by Rodrigo Schneider (@SCHrodrigo) on 13/06/2024
 //  Using Swift 5.0.
 //  Running on macOS 10.15.
 //
@@ -52,7 +52,7 @@
 "Long" = "Longo";
 "Statistics" = "Estatísticas";
 "Max" = "Máx";
-"Min" = "Min";
+"Min" = "Mín";
 "Reset" = "Resetar";
 "Alignment" = "Alinhamento";
 "Left alignment" = "Esquerda";
@@ -69,20 +69,20 @@
 "Square" = "Quadrática";
 "Cube" = "Cúbica";
 "Logarithmic" = "Logarítmica";
-"Fixed scale" = "Fixed";
+"Fixed scale" = "Escala fixa";
 "Cores" = "Núcleos";
 "Settings" = "Configurações";
 "Name" = "Nome";
 "Format" = "Formato";
 "Turn off" = "Deligar";
-"Warning" = "Warning";
-"Critical" = "Critical";
-"Usage" = "Usage";
-"2 minutes" = "2 minutes";
-"3 minutes" = "3 minutes";
-"10 minutes" = "10 minutes";
-"Import" = "Import";
-"Export" = "Export";
+"Warning" = "Aviso";
+"Critical" = "Crítico";
+"Usage" = "Uso";
+"2 minutes" = "2 minutos";
+"3 minutes" = "3 minutos";
+"10 minutes" = "10 minutos";
+"Import" = "Importar";
+"Export" = "Exportar";
 
 // Setup
 "Stats Setup" = "Configurar Stats";
@@ -122,7 +122,7 @@
 "Close application" = "Fechar aplicativo";
 "Open application settings" = "Abrir configurações do aplicativo";
 "Open dashboard" = "Abrir painel principal";
-"No notifications available in this module" = "No notifications available in this module";
+"No notifications available in this module" = "Nenhuma notificação disponível neste módulo";
 
 // Application settings
 "Update application" = "Atualizar aplicativo";
@@ -136,20 +136,20 @@
 "Show icon in dock" = "Mostrar ícone no dock";
 "Start at login" = "Iniciar no login";
 "Build number" = "Número da versão (Build)";
-"Import settings" = "Import settings";
-"Export settings" = "Export settings";
+"Import settings" = "Importar configurações";
+"Export settings" = "Exportar configurações";
 "Reset settings" = "Redefinir configurações";
 "Pause the Stats" = "Pausar o Stats";
 "Resume the Stats" = "Retomar o Stats";
 "Combined modules" = "Combinar módulos";
-"Combined details" = "Combined details";
+"Combined details" = "Combinar detalhes";
 "Spacing" = "Espaçamento";
 "Share anonymous telemetry" = "Compartilhar telemetria anônima";
 
 // Dashboard
 "Serial number" = "Número de série";
-"Model identifier" = "Model identifier";
-"Production year" = "Production year";
+"Model identifier" = "Identificador do modelo";
+"Production year" = "Ano de produção";
 "Uptime" = "Tempo de atividade";
 "Number of cores" = "%0 núcleos";
 "Number of threads" = "%0 threads";
@@ -195,7 +195,7 @@
 "Color of upload" = "Cor para upload";
 "Monospaced font" = "Fonte Monoespaçada";
 "Reverse order" = "Ordem Reversa";
-"Chart history" = "Chart history";
+"Chart history" = "Período do gráfico";
 
 // Module Kit
 "Open module settings" = "Abrir configurações do módulo";
@@ -208,21 +208,21 @@
 "Pictogram" = "Pictograma";
 "Module" = "Módulo";
 "Widgets" = "Widgets";
-"Popup" = "Aparecer";
+"Popup" = "Popup";
 "Notifications" = "Notificações";
 "Merge widgets" = "Agrupar widgets";
 "No available widgets to configure" = "Nenhum widget disponível para configurar";
 "No options to configure for the popup in this module" = "Nenhuma opção para configurar o popup neste módulo";
-"Process" = "Process";
-"Kill process" = "Kill process";
+"Process" = "Processo";
+"Kill process" = "Encerrar processo";
 
 // Modules
 "Number of top processes" = "Número de processos principais";
 "Update interval for top processes" = "Intervalo de atualização para processos principais";
 "Notification level" = "Nível de notificação";
 "Chart color" = "Cor do gráfico";
-"Main chart scaling" = "Main chart scaling";
-"Scale value" = "Scale value";
+"Main chart scaling" = "Escala do gráfico principal";
+"Scale value" = "Valor da escala";
 
 // CPU
 "CPU usage" = "Uso da CPU";
@@ -230,10 +230,10 @@
 "CPU frequency" = "Frequência da CPU";
 "System" = "Sistema";
 "User" = "Usuário";
-"Idle" = "Parado";
+"Idle" = "Ocioso";
 "Show usage per core" = "Mostrar uso por núcleo";
 "Show hyper-threading cores" = "Mostrar núcleos hyper-threading";
-"Split the value (System/User)" = "Divida o valor (Sistema/Usuário)";
+"Split the value (System/User)" = "Dividir o valor (Sistema/Usuário)";
 "Scheduler limit" = "Limite do agendador";
 "Speed limit" = "Limite de velocidade";
 "Average load" = "Carga média";
@@ -250,11 +250,11 @@
 "Cluster grouping" = "Agrupamento";
 "Efficiency cores color" = "Cor para Núcleos de Eficiência";
 "Performance cores color" = "Cor para Núcleos de Desempenho";
-"Total load" = "Total load";
-"System load" = "System load";
-"User load" = "User load";
-"Efficiency cores load" = "Efficiency cores load";
-"Performance cores load" = "Performance cores load";
+"Total load" = "Carga total";
+"System load" = "Carga do sistema";
+"User load" = "Carga do usuário";
+"Efficiency cores load" = "Carga dos núcleos de eficiência";
+"Performance cores load" = "Carga dos núcleos de desempenho";
 
 // GPU
 "GPU to show" = "GPU para mostrar";
@@ -281,22 +281,22 @@
 "Memory usage" = "Memória usada";
 "Memory pressure" = "Pressão de memória";
 "Total" = "Total";
-"Used" = "Usado";
+"Used" = "Usada";
 "App" = "App";
-"Wired" = "Com fio";
+"Wired" = "Residente";
 "Compressed" = "Comprimido";
 "Free" = "Livre";
-"Swap" = "Swap";
-"Split the value (App/Wired/Compressed)" = "Divida o valor (App/Com fio/Comprimido)";
+"Swap" = "Troca";
+"Split the value (App/Wired/Compressed)" = "Divida o valor (App/Residente/Comprimido)";
 "RAM utilization threshold" = "Limite de utilização de RAM";
 "RAM utilization is" = "Utilização de RAM de %0";
 "App color" = "Cor do app";
-"Wired color" = "Cor para com fio";
+"Wired color" = "Cor para residente";
 "Compressed color" = "Cor para comprimido";
 "Free color" = "Cor livre";
-"Free memory (less than)" = "Free memory (less than)";
-"Swap size" = "Swap size";
-"Free RAM is" = "Free RAM is %0";
+"Free memory (less than)" = "Memória livre (menor que)";
+"Swap size" = "Troca usada";
+"Free RAM is" = "RAM livre é %0";
 
 // Disk
 "Show removable disks" = "Mostrar discos removíveis";
@@ -310,8 +310,8 @@
 "Read color" = "Cor para Leitura";
 "Write color" = "Cor para Escrita";
 "Disk usage" = "Uso do Disco";
-"Total read" = "Total read";
-"Total written" = "Total written";
+"Total read" = "Total lido";
+"Total written" = "Total escrito";
 
 // Sensors
 "Temperature unit" = "Unidade de temperatura";
@@ -326,13 +326,13 @@
 "Show unknown sensors" = "Mostrar sensores desconhecidos";
 "Install fan helper" = "Instalar software auxiliar para ventoinha";
 "Uninstall fan helper" = "Desinstalar software auxiliar para ventoinha";
-"Fan value" = "Valor do ventoinha";
+"Fan value" = "Valor da ventoinha";
 "Turn off fan" = "Desligar ventoninha";
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Você irá desligar a ventoinha. Esta não é uma ação recomendada, pois pode danificar o seu mac, tem certeza que deseja fazer isto?";
 "Sensor threshold" = "Sensor threshold";
-"Left fan" = "Left";
-"Right fan" = "Right";
-"Fastest fan" = "Fastest";
+"Left fan" = "Esquerda";
+"Right fan" = "Direita";
+"Fastest fan" = "Ventoinha mais rápida";
 
 // Network
 "Uploading" = "Enviando";
@@ -384,7 +384,7 @@
 "Time" = "Tempo";
 "Health" = "Saúde";
 "Amperage" = "Corrente";
-"Voltage" = "Voltagem";
+"Voltage" = "Tensão";
 "Cycles" = "Número de ciclos";
 "Temperature" = "Temperatura";
 "Power adapter" = "Adaptador de energia";
@@ -412,8 +412,8 @@
 "Low power mode" = "Modo de baixa energia";
 "Percentage inside the icon" = "Porcentagem dentro do ícone";
 "Colorize battery" = "Colorir bateria";
-"Charging current" = "Charging current";
-"Charging Voltage" = "Charging voltage";
+"Charging current" = "Corrente de carregamento";
+"Charging Voltage" = "Tensão de carregamento";
 
 // Bluetooth
 "Battery to show" = "Bateria para mostrar";
