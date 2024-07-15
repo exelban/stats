@@ -21,6 +21,7 @@ public class SpeedWidget: WidgetWrapper {
     private var valueAlignmentState: String = "right"
     private var modeState: String = "twoRows"
     private var reverseOrderState: Bool = false
+    private var iconAlignmentState: String = "left"
     
     private var downloadColorState: SColor = .secondBlue
     private var uploadColorState: SColor = .secondRed
@@ -35,6 +36,7 @@ public class SpeedWidget: WidgetWrapper {
     private var valueColorView: NSSwitch? = nil
     private var transparentIconView: NSSwitch? = nil
     private var valueAlignmentView: NSPopUpButton? = nil
+    private var iconAlignmentView: NSPopUpButton? = nil
     
     private var downloadColor: NSColor {
         self.monochromeState ? MonochromeColor.blue : (self.downloadColorState.additional as? NSColor ?? NSColor.systemBlue)
@@ -85,6 +87,7 @@ public class SpeedWidget: WidgetWrapper {
             self.valueAlignmentState = Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_valueAlignment", defaultValue: self.valueAlignmentState)
             self.modeState = Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_mode", defaultValue: self.modeState)
             self.reverseOrderState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_reverseOrder", defaultValue: self.reverseOrderState)
+            self.iconAlignmentState = Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_iconAlignment", defaultValue: self.iconAlignmentState)
         }
         
         if preview {
@@ -160,20 +163,36 @@ public class SpeedWidget: WidgetWrapper {
     private func drawRowItem(initWidth: CGFloat, symbol: String, iconColor: NSColor, value: Int64, valueColor: NSColor) -> CGFloat {
         var width = initWidth
         
-        switch self.icon {
-        case "dots":
-            width += self.drawDot(CGPoint(x: width, y: 0), color: iconColor)
-        case "arrows":
-            width += self.drawArrow(CGPoint(x: width, y: 0), symbol: symbol, color: iconColor)
-        case "chars":
-            width += self.drawChar(CGPoint(x: width, y: 0), symbol: symbol, color: iconColor)
-        default: break
+        if self.iconAlignmentState == "left" {
+            switch self.icon {
+            case "dots":
+                width += self.drawDot(CGPoint(x: width, y: 0), color: iconColor)
+            case "arrows":
+                width += self.drawArrow(CGPoint(x: width, y: 0), symbol: symbol, color: iconColor)
+            case "chars":
+                width += self.drawChar(CGPoint(x: width, y: 0), symbol: symbol, color: iconColor)
+            default: break
+            }
+            width += self.valueState && self.icon != "none" ? 2 : 0
         }
-        
-        width += self.valueState && self.icon != "none" ? 2 : 0
         
         if self.valueState {
             width += self.drawValue(value, offset: CGPoint(x: width, y: 0), color: valueColor)
+        }
+        
+        if self.iconAlignmentState == "right" {
+            if self.valueState {
+                width += 2
+            }
+            switch self.icon {
+            case "dots":
+                width += self.drawDot(CGPoint(x: width, y: 0), color: iconColor)
+            case "arrows":
+                width += self.drawArrow(CGPoint(x: width, y: 0), symbol: symbol, color: iconColor)
+            case "chars":
+                width += self.drawChar(CGPoint(x: width, y: 0), symbol: symbol, color: iconColor)
+            default: break
+            }
         }
         
         return width
@@ -275,14 +294,10 @@ public class SpeedWidget: WidgetWrapper {
         var width: CGFloat = 7
         var x: CGFloat = 7
         
-        switch self.icon {
-        case "dots":
-            self.drawDots()
-        case "arrows":
-            self.drawArrows()
-        case "chars":
-            self.drawChars()
-        default:
+        if self.iconAlignmentState == "right" {
+            x = 0
+        }
+        if self.icon == "none" {
             x = 0
             width = 0
         }
@@ -324,40 +339,54 @@ public class SpeedWidget: WidgetWrapper {
             width += rowWidth
         }
         
+        switch self.icon {
+        case "dots":
+            self.drawDots(width)
+        case "arrows":
+            self.drawArrows(width)
+        case "chars":
+            self.drawChars(width)
+        default: break
+        }
+        
         return width
     }
     
-    private func drawDots() {
+    private func drawDots(_ width: CGFloat) {
         let rowHeight: CGFloat = self.frame.height / 2
         let size: CGFloat = 6
         let y: CGFloat = (rowHeight-size)/2
+        let x: CGFloat = self.iconAlignmentState == "left" ? Constants.Widget.margin.x : Constants.Widget.margin.x+(width-6)
         let downloadY: CGFloat = self.reverseOrderState ? 10.5 : y-0.2
         let uploadY: CGFloat = self.reverseOrderState ? y-0.2 : 10.5
         
         var downloadCircle = NSBezierPath()
-        downloadCircle = NSBezierPath(ovalIn: CGRect(x: Constants.Widget.margin.x, y: downloadY, width: size, height: size))
+        downloadCircle = NSBezierPath(ovalIn: CGRect(x: x, y: downloadY, width: size, height: size))
         (self.downloadValue >= 1_024 ? self.downloadColor : self.noActivityColor).set()
         downloadCircle.fill()
         
         var uploadCircle = NSBezierPath()
-        uploadCircle = NSBezierPath(ovalIn: CGRect(x: Constants.Widget.margin.x, y: uploadY, width: size, height: size))
+        uploadCircle = NSBezierPath(ovalIn: CGRect(x: x, y: uploadY, width: size, height: size))
         (self.uploadValue >= 1_024 ? self.uploadColor : self.noActivityColor).set()
         uploadCircle.fill()
     }
     
-    private func drawArrows() {
+    private func drawArrows(_ width: CGFloat) {
         let arrowAngle = CGFloat(Double.pi / 5)
         let half = self.frame.size.height / 2
         let scaleFactor = NSScreen.main?.backingScaleFactor ?? 1
         let lineWidth: CGFloat = 1
         let arrowSize: CGFloat = 3 + (scaleFactor/2)
-        let x = Constants.Widget.margin.x + arrowSize + (lineWidth / 2)
+        var x = Constants.Widget.margin.x + arrowSize + (lineWidth / 2)
+        if self.iconAlignmentState == "right" {
+            x += (width-7)
+        }
         
         let downloadYStart: CGFloat = self.reverseOrderState ? self.frame.size.height : half - Constants.Widget.spacing/2
-        let downloadYEnd: CGFloat = self.reverseOrderState ? (half + Constants.Widget.spacing/2)+1 : 0
+        let downloadYEnd: CGFloat = self.reverseOrderState ? (half + Constants.Widget.spacing/2)+1 : 1
         
         let uploadYStart: CGFloat = self.reverseOrderState ? 0 : half + Constants.Widget.spacing/2
-        let uploadYEnd: CGFloat = self.reverseOrderState ? (half - Constants.Widget.spacing/2)-1 : self.frame.size.height
+        let uploadYEnd: CGFloat = self.reverseOrderState ? (half - Constants.Widget.spacing/2)-1 : self.frame.size.height-1
         
         let downloadArrow = NSBezierPath()
         downloadArrow.addArrow(
@@ -386,10 +415,11 @@ public class SpeedWidget: WidgetWrapper {
         uploadArrow.close()
     }
     
-    private func drawChars() {
+    private func drawChars(_ width: CGFloat) {
         let rowHeight: CGFloat = self.frame.height / 2
         let downloadY: CGFloat = self.reverseOrderState ? rowHeight+1 : 1
         let uploadY: CGFloat = self.reverseOrderState ? 1 : rowHeight+1
+        let x: CGFloat = self.iconAlignmentState == "left" ? Constants.Widget.margin.x : Constants.Widget.margin.x+(width-6)
         
         if self.symbols.count > 1 {
             let downloadAttributes = [
@@ -397,7 +427,7 @@ public class SpeedWidget: WidgetWrapper {
                 NSAttributedString.Key.foregroundColor: self.downloadValue >= 1_024 ? self.downloadColor : self.noActivityColor,
                 NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
             ]
-            let rect = CGRect(x: Constants.Widget.margin.x, y: downloadY, width: 8, height: rowHeight)
+            let rect = CGRect(x: x, y: downloadY, width: 8, height: rowHeight)
             let str = NSAttributedString.init(string: self.symbols[1], attributes: downloadAttributes)
             str.draw(with: rect)
         }
@@ -408,7 +438,7 @@ public class SpeedWidget: WidgetWrapper {
                 NSAttributedString.Key.foregroundColor: self.uploadValue >= 1_024 ? self.uploadColor : self.noActivityColor,
                 NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
             ]
-            let rect = CGRect(x: Constants.Widget.margin.x, y: uploadY, width: 8, height: rowHeight)
+            let rect = CGRect(x: x, y: uploadY, width: 8, height: rowHeight)
             let str = NSAttributedString.init(string: self.symbols[0], attributes: uploadAttributes)
             str.draw(with: rect)
         }
@@ -433,13 +463,21 @@ public class SpeedWidget: WidgetWrapper {
         colorizeValue.isEnabled = self.valueState
         self.valueColorView = colorizeValue
         
-        let alignment = selectView(
+        let valueAlignment = selectView(
             action: #selector(toggleValueAlignment),
             items: Alignments,
             selected: self.valueAlignmentState
         )
-        alignment.isEnabled = self.valueState
-        self.valueAlignmentView = alignment
+        valueAlignment.isEnabled = self.valueState
+        self.valueAlignmentView = valueAlignment
+        
+        let iconAlignment = selectView(
+            action: #selector(toggleIconAlignment),
+            items: Alignments.filter({ $0.key != "center" }),
+            selected: self.iconAlignmentState
+        )
+        iconAlignment.isEnabled = self.icon != "none"
+        self.iconAlignmentView = iconAlignment
         
         view.addArrangedSubview(PreferencesSection([
             PreferencesRow(localizedString("Display mode"), component: selectView(
@@ -450,23 +488,33 @@ public class SpeedWidget: WidgetWrapper {
             PreferencesRow(localizedString("Reverse order"), component: switchView(
                 action: #selector(self.toggleReverseOrder),
                 state: self.reverseOrderState
-            )),
-            PreferencesRow(localizedString("Pictogrammode"), component: selectView(
+            ))
+        ]))
+        
+        view.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Pictogram"), component: selectView(
                 action: #selector(self.toggleIcon),
                 items: SpeedPictogram,
                 selected: self.icon
             )),
             PreferencesRow(localizedString("Transparent pictogram when no activity"), component: pictogramTransparency),
+            PreferencesRow(localizedString("Alignment"), component: iconAlignment)
+        ]))
+        
+        view.addArrangedSubview(PreferencesSection([
             PreferencesRow(localizedString("Value"), component: switchView(
                 action: #selector(self.toggleValue),
                 state: self.valueState
             )),
             PreferencesRow(localizedString("Colorize value"), component: colorizeValue),
-            PreferencesRow(localizedString("Alignment"), component: alignment),
+            PreferencesRow(localizedString("Alignment"), component: valueAlignment),
             PreferencesRow(localizedString("Units"), component: switchView(
                 action: #selector(self.toggleUnits),
                 state: self.unitsState
-            )),
+            ))
+        ]))
+        
+        view.addArrangedSubview(PreferencesSection([
             PreferencesRow(localizedString("Monochrome accent"), component: switchView(
                 action: #selector(self.toggleMonochrome),
                 state: self.monochromeState
@@ -518,6 +566,7 @@ public class SpeedWidget: WidgetWrapper {
         guard let key = sender.representedObject as? String else { return }
         self.icon = key
         self.transparentIconView?.isEnabled = self.icon != "none"
+        self.iconAlignmentView?.isEnabled = self.icon != "none"
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_icon", value: key)
         self.display()
     }
@@ -582,6 +631,15 @@ public class SpeedWidget: WidgetWrapper {
             self.valueAlignmentState = newAlignment.key
         }
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_valueAlignment", value: key)
+        self.display()
+    }
+    
+    @objc private func toggleIconAlignment(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String else { return }
+        if let newAlignment = Alignments.first(where: { $0.key == key }) {
+            self.iconAlignmentState = newAlignment.key
+        }
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_iconAlignment", value: key)
         self.display()
     }
 }
