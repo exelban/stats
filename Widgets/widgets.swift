@@ -13,11 +13,13 @@ import SwiftUI
 
 import CPU
 import RAM
+import Disk
 
 @main
 struct WidgetsBundle: WidgetBundle {
     var body: some Widget {
         CPUWidget()
         RAMWidget()
+        DiskWidget()
     }
 }

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		5C044F7A2B3DE6F3005F6951 /* portal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C044F792B3DE6F3005F6951 /* portal.swift */; };
 		5C0A2A8A292A5B4D009B4C1F /* SMJobBlessUtil.py in Resources */ = {isa = PBXBuildFile; fileRef = 5C0A2A89292A5B4D009B4C1F /* SMJobBlessUtil.py */; };
+		5C0A9CA22C467AA300EE6A89 /* widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0A9CA12C467AA300EE6A89 /* widget.swift */; };
 		5C21D80B296C7B81005BA16D /* CombinedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C21D80A296C7B81005BA16D /* CombinedView.swift */; };
 		5C2229A329CCB3C400F00E69 /* Clock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C22299D29CCB3C400F00E69 /* Clock.framework */; };
 		5C2229A429CCB3C400F00E69 /* Clock.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5C22299D29CCB3C400F00E69 /* Clock.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -45,8 +46,6 @@
 		5C4E8BC72B6EF98800F148B6 /* DB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4E8BC62B6EF98800F148B6 /* DB.swift */; };
 		5C4E8BE92B71031A00F148B6 /* Kit.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C4E8BE82B7102A700F148B6 /* Kit.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5C5647F82A3F6B100098FFE9 /* Telemetry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5647F72A3F6B100098FFE9 /* Telemetry.swift */; };
-		5C60A4A32C32CE0600E02734 /* CPU.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A97CECA2537331B00742D8F /* CPU.framework */; };
-		5C60A4A42C32CE0600E02734 /* CPU.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A97CECA2537331B00742D8F /* CPU.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5C621D822B4770D6004ED7AF /* process.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C621D812B4770D6004ED7AF /* process.swift */; };
 		5C7C1DF42C29A3A00060387D /* notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7C1DF32C29A3A00060387D /* notifications.swift */; };
 		5C8E001029269C7F0027C75A /* protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CFE493829265055000F2856 /* protocol.swift */; };
@@ -206,13 +205,6 @@
 			remoteGlobalIDString = 9A2846F62666A9CC00EC1F6D;
 			remoteInfo = Kit;
 		};
-		5C60A4A52C32CE0600E02734 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9A1410ED229E721100D29793 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 9A97CEC92537331B00742D8F;
-			remoteInfo = CPU;
-		};
 		5CE7E79A2C318513006BC92C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9A1410ED229E721100D29793 /* Project object */;
@@ -349,17 +341,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		5C60A4A72C32CE0600E02734 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				5C60A4A42C32CE0600E02734 /* CPU.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		5CE7E79D2C318513006BC92C /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -455,6 +436,7 @@
 		4921436D25319699000A1C47 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5C044F792B3DE6F3005F6951 /* portal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = portal.swift; sourceTree = "<group>"; };
 		5C0A2A89292A5B4D009B4C1F /* SMJobBlessUtil.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = SMJobBlessUtil.py; sourceTree = "<group>"; };
+		5C0A9CA12C467AA300EE6A89 /* widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = widget.swift; sourceTree = "<group>"; };
 		5C0E550A2B5D545A00FFF1FB /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5C21D80A296C7B81005BA16D /* CombinedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombinedView.swift; sourceTree = "<group>"; };
 		5C22299D29CCB3C400F00E69 /* Clock.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Clock.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -680,7 +662,6 @@
 			files = (
 				5CE7E78E2C318512006BC92C /* SwiftUI.framework in Frameworks */,
 				5CE7E78C2C318512006BC92C /* WidgetKit.framework in Frameworks */,
-				5C60A4A32C32CE0600E02734 /* CPU.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1217,6 +1198,7 @@
 				5C23BC0F29A3B5AE00DBA990 /* portal.swift */,
 				9AB7FD7B246B48DB00387FDA /* settings.swift */,
 				5CF221182B1F8B90006C583F /* notifications.swift */,
+				5C0A9CA12C467AA300EE6A89 /* widget.swift */,
 				9AF9EE0524648751005D2270 /* Info.plist */,
 				9AF9EE12246492E8005D2270 /* config.plist */,
 				5C2229BB29CF66B100F00E69 /* header.h */,
@@ -1343,12 +1325,10 @@
 				5CE7E7862C318512006BC92C /* Sources */,
 				5CE7E7872C318512006BC92C /* Frameworks */,
 				5CE7E7882C318512006BC92C /* Resources */,
-				5C60A4A72C32CE0600E02734 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				5C60A4A62C32CE0600E02734 /* PBXTargetDependency */,
 			);
 			name = WidgetsExtension;
 			productName = WidgetsExtension;
@@ -2152,6 +2132,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5C0A9CA22C467AA300EE6A89 /* widget.swift in Sources */,
 				9A5AF11B2469CE9B00684737 /* popup.swift in Sources */,
 				9AF9EE1124648ADC005D2270 /* readers.swift in Sources */,
 				5C23BC1029A3B5AE00DBA990 /* portal.swift in Sources */,
@@ -2173,11 +2154,6 @@
 			isa = PBXTargetDependency;
 			target = 9A2846F62666A9CC00EC1F6D /* Kit */;
 			targetProxy = 5C2229B229CDFBF600F00E69 /* PBXContainerItemProxy */;
-		};
-		5C60A4A62C32CE0600E02734 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 9A97CEC92537331B00742D8F /* CPU */;
-			targetProxy = 5C60A4A52C32CE0600E02734 /* PBXContainerItemProxy */;
 		};
 		5CE7E79B2C318513006BC92C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

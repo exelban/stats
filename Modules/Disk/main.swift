@@ -11,6 +11,7 @@
 
 import Cocoa
 import Kit
+import WidgetKit
 
 public struct stats: Codable {
     var read: Int64 = 0
@@ -190,6 +191,7 @@ public class Disk: Module {
     private var processReader: ProcessReader?
     
     private var selectedDisk: String = ""
+    private var userDefaults: UserDefaults? = UserDefaults(suiteName: "eu.exelban.Stats.widgets")
     
     public init() {
         super.init(
@@ -265,6 +267,12 @@ public class Disk: Module {
                 ])
             default: break
             }
+        }
+        
+        if #available(macOS 11.0, *) {
+            guard let blobData = try? JSONEncoder().encode(d) else { return }
+            self.userDefaults?.set(blobData, forKey: "Disk@CapacityReader")
+            WidgetCenter.shared.reloadTimelines(ofKind: Disk_entry.kind)
         }
     }
     
