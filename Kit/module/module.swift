@@ -77,13 +77,10 @@ open class Module {
         config.name
     }
     public var combinedPosition: Int {
-        get {
-            Store.shared.int(key: "\(self.name)_position", defaultValue: 0)
-        }
-        set {
-            Store.shared.set(key: "\(self.name)_position", value: newValue)
-        }
+        get { Store.shared.int(key: "\(self.name)_position", defaultValue: 0) }
+        set {  Store.shared.set(key: "\(self.name)_position", value: newValue) }
     }
+    public var userDefaults: UserDefaults? = UserDefaults(suiteName: "eu.exelban.Stats.widgets")
     
     private var settingsView: Settings_v? = nil
     private var popup: PopupWindow? = nil

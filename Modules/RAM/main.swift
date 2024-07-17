@@ -82,8 +82,6 @@ public class RAM: Module {
         return color.additional as! NSColor
     }
     
-    private var userDefaults: UserDefaults? = UserDefaults(suiteName: "eu.exelban.Stats.widgets")
-    
     public init() {
         self.settingsView = Settings(.RAM)
         self.popupView = Popup(.RAM)

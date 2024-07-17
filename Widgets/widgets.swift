@@ -12,6 +12,7 @@
 import SwiftUI
 
 import CPU
+import GPU
 import RAM
 import Disk
 
@@ -19,6 +20,7 @@ import Disk
 struct WidgetsBundle: WidgetBundle {
     var body: some Widget {
         CPUWidget()
+        GPUWidget()
         RAMWidget()
         DiskWidget()
     }

@@ -191,7 +191,6 @@ public class Disk: Module {
     private var processReader: ProcessReader?
     
     private var selectedDisk: String = ""
-    private var userDefaults: UserDefaults? = UserDefaults(suiteName: "eu.exelban.Stats.widgets")
     
     public init() {
         super.init(

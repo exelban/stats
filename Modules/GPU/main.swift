@@ -11,6 +11,7 @@
 
 import Cocoa
 import Kit
+import WidgetKit
 
 public typealias GPU_type = String
 public enum GPU_types: GPU_type {
@@ -40,13 +41,16 @@ public struct GPU_Info: Codable {
     public var renderUtilization: Double? = nil
     public var tilerUtilization: Double? = nil
     
-    init(id: String, type: GPU_type, IOClass: String, vendor: String? = nil, model: String, cores: Int?) {
+    init(id: String, type: GPU_type, IOClass: String, vendor: String? = nil, model: String, cores: Int?, utilization: Double? = nil, render: Double? = nil, tiler: Double? = nil) {
         self.id = id
         self.type = type
         self.IOClass = IOClass
         self.vendor = vendor
         self.model = model
         self.cores = cores
+        self.utilization = utilization
+        self.renderUtilization = render
+        self.tilerUtilization = tiler
     }
 }
 
@@ -142,6 +146,12 @@ public class GPU: Module {
                 ])
             default: break
             }
+        }
+        
+        if #available(macOS 11.0, *) {
+            guard let blobData = try? JSONEncoder().encode(selectedGPU) else { return }
+            self.userDefaults?.set(blobData, forKey: "GPU@InfoReader")
+            WidgetCenter.shared.reloadTimelines(ofKind: GPU_entry.kind)
         }
     }
 }

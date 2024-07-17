@@ -10,6 +10,11 @@
 		5C044F7A2B3DE6F3005F6951 /* portal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C044F792B3DE6F3005F6951 /* portal.swift */; };
 		5C0A2A8A292A5B4D009B4C1F /* SMJobBlessUtil.py in Resources */ = {isa = PBXBuildFile; fileRef = 5C0A2A89292A5B4D009B4C1F /* SMJobBlessUtil.py */; };
 		5C0A9CA22C467AA300EE6A89 /* widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0A9CA12C467AA300EE6A89 /* widget.swift */; };
+		5C0A9CA42C467F7A00EE6A89 /* widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0A9CA32C467F7A00EE6A89 /* widget.swift */; };
+		5C0A9CA52C46838300EE6A89 /* CPU.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A97CECA2537331B00742D8F /* CPU.framework */; };
+		5C0A9CAA2C46838A00EE6A89 /* GPU.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A90E18924EAD2BB00471E9A /* GPU.framework */; };
+		5C0A9CAF2C46838F00EE6A89 /* RAM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A81C7562449A41400825D92 /* RAM.framework */; };
+		5C0A9CB42C46839500EE6A89 /* Disk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AF9EE0224648751005D2270 /* Disk.framework */; };
 		5C21D80B296C7B81005BA16D /* CombinedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C21D80A296C7B81005BA16D /* CombinedView.swift */; };
 		5C2229A329CCB3C400F00E69 /* Clock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C22299D29CCB3C400F00E69 /* Clock.framework */; };
 		5C2229A429CCB3C400F00E69 /* Clock.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5C22299D29CCB3C400F00E69 /* Clock.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -191,6 +196,34 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		5C0A9CA72C46838300EE6A89 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9A1410ED229E721100D29793 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9A97CEC92537331B00742D8F;
+			remoteInfo = CPU;
+		};
+		5C0A9CAC2C46838A00EE6A89 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9A1410ED229E721100D29793 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9A90E18824EAD2BB00471E9A;
+			remoteInfo = GPU;
+		};
+		5C0A9CB12C46838F00EE6A89 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9A1410ED229E721100D29793 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9A81C7552449A41400825D92;
+			remoteInfo = RAM;
+		};
+		5C0A9CB62C46839500EE6A89 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9A1410ED229E721100D29793 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9AF9EE0124648751005D2270;
+			remoteInfo = Disk;
+		};
 		5C2229A129CCB3C400F00E69 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9A1410ED229E721100D29793 /* Project object */;
@@ -437,6 +470,7 @@
 		5C044F792B3DE6F3005F6951 /* portal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = portal.swift; sourceTree = "<group>"; };
 		5C0A2A89292A5B4D009B4C1F /* SMJobBlessUtil.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = SMJobBlessUtil.py; sourceTree = "<group>"; };
 		5C0A9CA12C467AA300EE6A89 /* widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = widget.swift; sourceTree = "<group>"; };
+		5C0A9CA32C467F7A00EE6A89 /* widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = widget.swift; sourceTree = "<group>"; };
 		5C0E550A2B5D545A00FFF1FB /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5C21D80A296C7B81005BA16D /* CombinedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombinedView.swift; sourceTree = "<group>"; };
 		5C22299D29CCB3C400F00E69 /* Clock.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Clock.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -661,7 +695,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				5CE7E78E2C318512006BC92C /* SwiftUI.framework in Frameworks */,
+				5C0A9CAA2C46838A00EE6A89 /* GPU.framework in Frameworks */,
 				5CE7E78C2C318512006BC92C /* WidgetKit.framework in Frameworks */,
+				5C0A9CB42C46839500EE6A89 /* Disk.framework in Frameworks */,
+				5C0A9CA52C46838300EE6A89 /* CPU.framework in Frameworks */,
+				5C0A9CAF2C46838F00EE6A89 /* RAM.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1070,6 +1108,7 @@
 				5C23BC0929A0EDA300DBA990 /* portal.swift */,
 				9A53EBF824EAFA5200648841 /* settings.swift */,
 				5CF221142B1F4792006C583F /* notifications.swift */,
+				5C0A9CA32C467F7A00EE6A89 /* widget.swift */,
 				9A90E18C24EAD2BB00471E9A /* Info.plist */,
 				9A90E19724EAD3B000471E9A /* config.plist */,
 			);
@@ -1329,6 +1368,10 @@
 			buildRules = (
 			);
 			dependencies = (
+				5C0A9CA82C46838300EE6A89 /* PBXTargetDependency */,
+				5C0A9CAD2C46838A00EE6A89 /* PBXTargetDependency */,
+				5C0A9CB22C46838F00EE6A89 /* PBXTargetDependency */,
+				5C0A9CB72C46839500EE6A89 /* PBXTargetDependency */,
 			);
 			name = WidgetsExtension;
 			productName = WidgetsExtension;
@@ -2061,6 +2104,7 @@
 				9A46C06B266D8602001A1117 /* smc.swift in Sources */,
 				9A90E1A324EAD66600471E9A /* reader.swift in Sources */,
 				9A90E19624EAD35F00471E9A /* main.swift in Sources */,
+				5C0A9CA42C467F7A00EE6A89 /* widget.swift in Sources */,
 				5C23BC0A29A0EDA300DBA990 /* portal.swift in Sources */,
 				9A53EBFB24EB041E00648841 /* popup.swift in Sources */,
 				9A53EBF924EAFA5200648841 /* settings.swift in Sources */,
@@ -2145,6 +2189,26 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		5C0A9CA82C46838300EE6A89 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9A97CEC92537331B00742D8F /* CPU */;
+			targetProxy = 5C0A9CA72C46838300EE6A89 /* PBXContainerItemProxy */;
+		};
+		5C0A9CAD2C46838A00EE6A89 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9A90E18824EAD2BB00471E9A /* GPU */;
+			targetProxy = 5C0A9CAC2C46838A00EE6A89 /* PBXContainerItemProxy */;
+		};
+		5C0A9CB22C46838F00EE6A89 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9A81C7552449A41400825D92 /* RAM */;
+			targetProxy = 5C0A9CB12C46838F00EE6A89 /* PBXContainerItemProxy */;
+		};
+		5C0A9CB72C46839500EE6A89 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9AF9EE0124648751005D2270 /* Disk */;
+			targetProxy = 5C0A9CB62C46839500EE6A89 /* PBXContainerItemProxy */;
+		};
 		5C2229A229CCB3C400F00E69 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 5C22299C29CCB3C400F00E69 /* Clock */;

@@ -83,8 +83,6 @@ public class CPU: Module {
         return color.additional as! NSColor
     }
     
-    private var userDefaults: UserDefaults? = UserDefaults(suiteName: "eu.exelban.Stats.widgets")
-    
     public init() {
         self.settingsView = Settings(.CPU)
         self.popupView = Popup(.CPU)
