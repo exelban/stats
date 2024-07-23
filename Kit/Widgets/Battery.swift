@@ -124,7 +124,7 @@ public class BatteryWidget: WidgetWrapper {
         }
         
         let borderWidth: CGFloat = 1
-        let batterySize: CGSize = CGSize(width: 22, height: 12)
+        let batterySize: CGSize = CGSize(width: 26, height: 14)
         let offset: CGFloat = 0.5 // contant!
         width += batterySize.width + borderWidth*2 // add battery width
         
@@ -133,7 +133,7 @@ public class BatteryWidget: WidgetWrapper {
             y: ((self.frame.size.height - batterySize.height)/2) + offset,
             width: batterySize.width - borderWidth,
             height: batterySize.height - borderWidth
-        ), xRadius: 2, yRadius: 2)
+        ), xRadius: 3, yRadius: 3)
         
         NSColor.textColor.withAlphaComponent(0.5).set()
         batteryFrame.lineWidth = borderWidth
@@ -169,7 +169,7 @@ public class BatteryWidget: WidgetWrapper {
                     y: batteryFrame.bounds.origin.y + innerOffset,
                     width: maxWidth,
                     height: batterySize.height - offset*2 - borderWidth*2 - 1
-                ), xRadius: 1, yRadius: 1)
+                ), xRadius: 2, yRadius: 2)
                 (self.colorState ? color : NSColor.textColor).withAlphaComponent(0.5).set()
                 innerUnderground.fill()
             }
@@ -179,7 +179,7 @@ public class BatteryWidget: WidgetWrapper {
                 y: batteryFrame.bounds.origin.y + innerOffset,
                 width: innerWidth,
                 height: batterySize.height - offset*2 - borderWidth*2 - 1
-            ), xRadius: 1, yRadius: 1)
+            ), xRadius: 2, yRadius: 2)
             
             color.set()
             inner.fill()
@@ -188,13 +188,13 @@ public class BatteryWidget: WidgetWrapper {
                 let style = NSMutableParagraphStyle()
                 style.alignment = .center
                 let attributes = [
-                    NSAttributedString.Key.font: NSFont.systemFont(ofSize: 8, weight: .bold),
+                    NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .bold),
                     NSAttributedString.Key.foregroundColor: NSColor.clear,
                     NSAttributedString.Key.paragraphStyle: style
                 ]
                 
                 let value = "\(Int((percentage.rounded(toPlaces: 2)) * 100))"
-                let rect = CGRect(x: inner.bounds.origin.x, y: (Constants.Widget.height-10)/2, width: maxWidth, height: 8)
+                let rect = CGRect(x: inner.bounds.origin.x, y: (Constants.Widget.height-11)/2, width: maxWidth, height: 9)
                 let str = NSAttributedString.init(string: value, attributes: attributes)
                 
                 ctx.saveGState()
@@ -309,7 +309,7 @@ public class BatteryWidget: WidgetWrapper {
         ]
         
         let rowWidth = value.widthOfString(usingFont: .systemFont(ofSize: 12, weight: .regular))
-        let rect = CGRect(x: x, y: (Constants.Widget.height-12)/2, width: rowWidth, height: 12)
+        let rect = CGRect(x: x, y: (Constants.Widget.height-13)/2, width: rowWidth, height: 12)
         let str = NSAttributedString.init(string: value, attributes: attributes)
         str.draw(with: rect)
         
@@ -386,24 +386,21 @@ public class BatteryWidget: WidgetWrapper {
             additionalOptions = additionalOptions.filter({ $0.key == "none" || $0.key == "percentage" })
         }
         
-        view.addArrangedSubview(selectSettingsRow(
-            title: localizedString("Additional information"),
-            action: #selector(toggleAdditional),
-            items: additionalOptions,
-            selected: self.additional
-        ))
-        
-        view.addArrangedSubview(toggleSettingRow(
-            title: localizedString("Hide additional information when full"),
-            action: #selector(toggleHideAdditionalWhenFull),
-            state: self.hideAdditionalWhenFull
-        ))
-        
-        view.addArrangedSubview(toggleSettingRow(
-            title: localizedString("Colorize"),
-            action: #selector(toggleColor),
-            state: self.colorState
-        ))
+        view.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Additional information"), component: selectView(
+                action: #selector(self.toggleAdditional),
+                items: additionalOptions,
+                selected: self.additional
+            )),
+            PreferencesRow(localizedString("Hide additional information when full"), component: switchView(
+                action: #selector(self.toggleHideAdditionalWhenFull),
+                state: self.hideAdditionalWhenFull
+            )),
+            PreferencesRow(localizedString("Colorize"), component: switchView(
+                action: #selector(self.toggleColor),
+                state: self.colorState
+            ))
+        ]))
         
         return view
     }
@@ -587,7 +584,7 @@ public class BatteryDetailsWidget: WidgetWrapper {
         let view = SettingsContainerView()
         
         view.addArrangedSubview(PreferencesSection([
-            PreferencesRow(localizedString("Mode"), component: selectView(
+            PreferencesRow(localizedString("Details"), component: selectView(
                 action: #selector(self.toggleMode),
                 items: BatteryInfo,
                 selected: self.mode
