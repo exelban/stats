@@ -340,8 +340,8 @@ public func separatorView(_ title: String, origin: NSPoint = NSPoint(x: 0, y: 0)
     return view
 }
 
-public func popupRow(_ view: NSView, n: CGFloat = 0, title: String, value: String) -> (LabelField, ValueField) {
-    let rowView: NSView = NSView(frame: NSRect(x: 0, y: 22*n, width: view.frame.width, height: 22))
+public func popupRow(_ view: NSView, title: String, value: String) -> (LabelField, ValueField) {
+    let rowView: NSView = NSView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: 22))
     
     let labelWidth = title.widthOfString(usingFont: .systemFont(ofSize: 13, weight: .regular)) + 4
     let labelView: LabelField = LabelField(frame: NSRect(x: 0, y: (22-16)/2, width: labelWidth, height: 16), title)
@@ -384,8 +384,8 @@ public func portalRow(_ v: NSStackView, title: String, value: String = "", isSel
     return valueView
 }
 
-public func popupWithColorRow(_ view: NSView, color: NSColor, n: CGFloat, title: String, value: String) -> (NSView, LabelField, ValueField) {
-    let rowView: NSView = NSView(frame: NSRect(x: 0, y: 22*n, width: view.frame.width, height: 22))
+public func popupWithColorRow(_ view: NSView, color: NSColor, title: String, value: String) -> (NSView, LabelField, ValueField) {
+    let rowView: NSView = NSView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: 22))
     
     let colorView: NSView = NSView(frame: NSRect(x: 2, y: 5, width: 12, height: 12))
     colorView.wantsLayer = true

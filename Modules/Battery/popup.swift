@@ -19,10 +19,8 @@ internal class Popup: PopupWrapper {
     
     private let dashboardHeight: CGFloat = 90
     
-    private var detailsHeight: CGFloat {
-        return (22 * 7) + Constants.Popup.separatorHeight
-    }
-    private let batteryHeight: CGFloat = (22 * 4) + Constants.Popup.separatorHeight
+    private var detailsHeight: CGFloat = (22 * 4) + Constants.Popup.separatorHeight
+    private let batteryHeight: CGFloat = (22 * 7) + Constants.Popup.separatorHeight
     private let adapterHeight: CGFloat = (22 * 4) + Constants.Popup.separatorHeight
     private let processHeight: CGFloat = (22 * 1)
     
@@ -151,10 +149,6 @@ internal class Popup: PopupWrapper {
         
         self.levelField = popupRow(container, title: "\(localizedString("Level")):", value: "").1
         self.sourceField = popupRow(container, title: "\(localizedString("Source")):", value: "").1
-        self.healthField = popupRow(container, title: "\(localizedString("Health")):", value: "").1
-        self.capacityField = popupRow(container, title: "\(localizedString("Capacity")):", value: "").1
-        self.capacityField?.toolTip = localizedString("current / maximum / designed")
-        self.cyclesField = popupRow(container, title: "\(localizedString("Cycles")):", value: "").1
         let t = self.labelValue(container, title: "\(localizedString("Time")):", value: "")
         self.timeLabelField = t.0
         self.timeField = t.1
@@ -169,12 +163,19 @@ internal class Popup: PopupWrapper {
     private func initBattery() -> NSView {
         let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.batteryHeight))
         let separator = separatorView(localizedString("Battery"), origin: NSPoint(x: 0, y: self.batteryHeight-Constants.Popup.separatorHeight), width: self.frame.width)
-        let container: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: separator.frame.origin.y))
+        let container: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: separator.frame.origin.y))
+        container.orientation = .vertical
+        container.spacing = 0
         
-        self.amperageField = popupRow(container, n: 3, title: "\(localizedString("Amperage")):", value: "").1
-        self.voltageField = popupRow(container, n: 2, title: "\(localizedString("Voltage")):", value: "").1
-        self.batteryPowerField = popupRow(container, n: 1, title: "\(localizedString("Power")):", value: "").1
-        self.temperatureField = popupRow(container, n: 0, title: "\(localizedString("Temperature")):", value: "").1
+        self.healthField = popupRow(container, title: "\(localizedString("Health")):", value: "").1
+        self.capacityField = popupRow(container, title: "\(localizedString("Capacity")):", value: "").1
+        self.capacityField?.toolTip = localizedString("current / maximum / designed")
+        self.cyclesField = popupRow(container, title: "\(localizedString("Cycles")):", value: "").1
+        
+        self.temperatureField = popupRow(container, title: "\(localizedString("Temperature")):", value: "").1
+        self.batteryPowerField = popupRow(container, title: "\(localizedString("Power")):", value: "").1
+        self.amperageField = popupRow(container, title: "\(localizedString("Current")):", value: "").1
+        self.voltageField = popupRow(container, title: "\(localizedString("Voltage")):", value: "").1
         
         view.addSubview(separator)
         view.addSubview(container)
@@ -185,12 +186,14 @@ internal class Popup: PopupWrapper {
     private func initAdapter() -> NSView {
         let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.adapterHeight))
         let separator = separatorView(localizedString("Power adapter"), origin: NSPoint(x: 0, y: self.adapterHeight-Constants.Popup.separatorHeight), width: self.frame.width)
-        let container: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: separator.frame.origin.y))
+        let container: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: separator.frame.origin.y))
+        container.orientation = .vertical
+        container.spacing = 0
         
-        self.powerField = popupRow(container, n: 3, title: "\(localizedString("Power")):", value: "").1
-        self.chargingStateField = popupRow(container, n: 2, title: "\(localizedString("Is charging")):", value: "").1
-        self.chargingCurrentField = popupRow(container, n: 1, title: "\(localizedString("Charging current")):", value: "").1
-        self.chargingVoltageField = popupRow(container, n: 0, title: "\(localizedString("Charging voltage")):", value: "").1
+        self.chargingStateField = popupRow(container, title: "\(localizedString("Is charging")):", value: "").1
+        self.powerField = popupRow(container, title: "\(localizedString("Power")):", value: "").1
+        self.chargingCurrentField = popupRow(container, title: "\(localizedString("Current")):", value: "").1
+        self.chargingVoltageField = popupRow(container, title: "\(localizedString("Voltage")):", value: "").1
         
         self.adapterView = view
         

@@ -247,8 +247,8 @@ internal class Popup: PopupWrapper {
         
         container.addArrangedSubview(row)
         
-        let totalUpload = popupWithColorRow(container, color: self.uploadColor, n: 0, title: "\(localizedString("Total upload")):", value: "0")
-        let totalDownload = popupWithColorRow(container, color: self.downloadColor, n: 0, title: "\(localizedString("Total download")):", value: "0")
+        let totalUpload = popupWithColorRow(container, color: self.uploadColor, title: "\(localizedString("Total upload")):", value: "0")
+        let totalDownload = popupWithColorRow(container, color: self.downloadColor, title: "\(localizedString("Total download")):", value: "0")
         
         self.uploadColorView = totalUpload.0
         self.totalUploadLabel = totalUpload.1
@@ -258,17 +258,17 @@ internal class Popup: PopupWrapper {
         self.totalDownloadLabel = totalDownload.1
         self.totalDownloadField = totalDownload.2
         
-        self.statusField = popupRow(container, n: 0, title: "\(localizedString("Status")):", value: localizedString("Unknown")).1
-        self.connectivityField = popupRow(container, n: 0, title: "\(localizedString("Internet connection")):", value: localizedString("Unknown")).1
-        self.latencyField = popupRow(container, n: 0, title: "\(localizedString("Latency")):", value: "0 ms").1
+        self.statusField = popupRow(container, title: "\(localizedString("Status")):", value: localizedString("Unknown")).1
+        self.connectivityField = popupRow(container, title: "\(localizedString("Internet connection")):", value: localizedString("Unknown")).1
+        self.latencyField = popupRow(container, title: "\(localizedString("Latency")):", value: "0 ms").1
         
-        self.interfaceField = popupRow(container, n: 0, title: "\(localizedString("Interface")):", value: localizedString("Unknown")).1
-        self.ssidField = popupRow(container, n: 0, title: "\(localizedString("Network")):", value: localizedString("Unknown")).1
-        self.standardField = popupRow(container, n: 0, title: "\(localizedString("Standard")):", value: localizedString("Unknown")).1
-        self.channelField = popupRow(container, n: 0, title: "\(localizedString("Channel")):", value: localizedString("Unknown")).1
+        self.interfaceField = popupRow(container, title: "\(localizedString("Interface")):", value: localizedString("Unknown")).1
+        self.ssidField = popupRow(container, title: "\(localizedString("Network")):", value: localizedString("Unknown")).1
+        self.standardField = popupRow(container, title: "\(localizedString("Standard")):", value: localizedString("Unknown")).1
+        self.channelField = popupRow(container, title: "\(localizedString("Channel")):", value: localizedString("Unknown")).1
         
-        self.macAddressField = popupRow(container, n: 0, title: "\(localizedString("Physical address")):", value: localizedString("Unknown")).1
-        self.localIPField = popupRow(container, n: 0, title: "\(localizedString("Local IP")):", value: localizedString("Unknown")).1
+        self.macAddressField = popupRow(container, title: "\(localizedString("Physical address")):", value: localizedString("Unknown")).1
+        self.localIPField = popupRow(container, title: "\(localizedString("Local IP")):", value: localizedString("Unknown")).1
         
         self.localIPField?.isSelectable = true
         self.macAddressField?.isSelectable = true

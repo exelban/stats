@@ -273,23 +273,23 @@ internal class Popup: PopupWrapper {
         container.orientation = .vertical
         container.spacing = 0
         
-        (self.systemColorView, _, self.systemField) = popupWithColorRow(container, color: self.systemColor, n: 4, title: "\(localizedString("System")):", value: "")
-        (self.userColorView, _, self.userField) = popupWithColorRow(container, color: self.userColor, n: 3, title: "\(localizedString("User")):", value: "")
-        (self.idleColorView, _, self.idleField) = popupWithColorRow(container, color: self.idleColor.withAlphaComponent(0.5), n: 2, title: "\(localizedString("Idle")):", value: "")
+        (self.systemColorView, _, self.systemField) = popupWithColorRow(container, color: self.systemColor, title: "\(localizedString("System")):", value: "")
+        (self.userColorView, _, self.userField) = popupWithColorRow(container, color: self.userColor, title: "\(localizedString("User")):", value: "")
+        (self.idleColorView, _, self.idleField) = popupWithColorRow(container, color: self.idleColor.withAlphaComponent(0.5), title: "\(localizedString("Idle")):", value: "")
         
         if !isARM {
-            self.shedulerLimitField = popupRow(container, n: 1, title: "\(localizedString("Scheduler limit")):", value: "").1
-            self.speedLimitField = popupRow(container, n: 0, title: "\(localizedString("Speed limit")):", value: "").1
+            self.shedulerLimitField = popupRow(container, title: "\(localizedString("Scheduler limit")):", value: "").1
+            self.speedLimitField = popupRow(container, title: "\(localizedString("Speed limit")):", value: "").1
         }
         
         if SystemKit.shared.device.info.cpu?.eCores != nil {
-            (self.eCoresColorView, _, self.eCoresField) = popupWithColorRow(container, color: self.eCoresColor, n: 0, title: "\(localizedString("Efficiency cores")):", value: "")
+            (self.eCoresColorView, _, self.eCoresField) = popupWithColorRow(container, color: self.eCoresColor, title: "\(localizedString("Efficiency cores")):", value: "")
         }
         if SystemKit.shared.device.info.cpu?.pCores != nil {
-            (self.pCoresColorView, _, self.pCoresField) = popupWithColorRow(container, color: self.pCoresColor, n: 0, title: "\(localizedString("Performance cores")):", value: "")
+            (self.pCoresColorView, _, self.pCoresField) = popupWithColorRow(container, color: self.pCoresColor, title: "\(localizedString("Performance cores")):", value: "")
         }
         
-        self.uptimeField = popupRow(container, n: 0, title: "\(localizedString("Uptime")):", value: self.uptimeValue).1
+        self.uptimeField = popupRow(container, title: "\(localizedString("Uptime")):", value: self.uptimeValue).1
         self.uptimeField?.font = NSFont.systemFont(ofSize: 11, weight: .regular)
         
         view.addSubview(separator)
@@ -301,11 +301,13 @@ internal class Popup: PopupWrapper {
     private func initAverage() -> NSView {
         let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.averageHeight))
         let separator = separatorView(localizedString("Average load"), origin: NSPoint(x: 0, y: self.averageHeight-Constants.Popup.separatorHeight), width: self.frame.width)
-        let container: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: separator.frame.origin.y))
+        let container: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: separator.frame.origin.y))
+        container.orientation = .vertical
+        container.spacing = 0
         
-        self.average1Field = popupRow(container, n: 2, title: "\(localizedString("1 minute")):", value: "").1
-        self.average5Field = popupRow(container, n: 1, title: "\(localizedString("5 minutes")):", value: "").1
-        self.average15Field = popupRow(container, n: 0, title: "\(localizedString("15 minutes")):", value: "").1
+        self.average1Field = popupRow(container, title: "\(localizedString("1 minute")):", value: "").1
+        self.average5Field = popupRow(container, title: "\(localizedString("5 minutes")):", value: "").1
+        self.average15Field = popupRow(container, title: "\(localizedString("15 minutes")):", value: "").1
         
         view.addSubview(separator)
         view.addSubview(container)
