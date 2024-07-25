@@ -133,9 +133,9 @@ public class ProcessView: NSStackView {
     private var valueViews: [ValueField] = []
     
     public init(size: CGSize = CGSize(width: 264, height: 22), n: Int = 1) {
-        var rect = NSRect(x: 5, y: 5, width: 12, height: 12)
+        var rect = NSRect(x: 2, y: 5, width: 12, height: 12)
         if size.height != 22 {
-            rect = NSRect(x: 3, y: 3, width: 12, height: 12)
+            rect = NSRect(x: 1, y: 3, width: 12, height: 12)
         }
         self.imageView = NSImageView(frame: rect)
         self.killView = NSButton(frame: rect)
