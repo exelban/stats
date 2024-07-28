@@ -412,8 +412,8 @@
 "Low power mode" = "低電量模式";
 "Percentage inside the icon" = "在圖示內顯示百分比";
 "Colorize battery" = "啟用彩色電池圖示";
-"Charging current" = "Charging current";
-"Charging Voltage" = "Charging voltage";
+"Charging current" = "充電電流";
+"Charging Voltage" = "充電電壓";
 
 // Bluetooth
 "Battery to show" = "顯示藍牙裝置的電池電量";
