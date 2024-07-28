@@ -249,7 +249,7 @@
 "Idle color" = "Colore inattivo";
 "Cluster grouping" = "Raggruppamento cluster";
 "Efficiency cores color" = "Colore per efficiency core";
-"Performance cores color" = "Colore per performance cores";
+"Performance cores color" = "Colore per performance core";
 "Total load" = "Carico totale";
 "System load" = "Carico sistema";
 "User load" = "Carico utente";
@@ -408,12 +408,12 @@
 "Hide additional information when full" = "Nascondi informazioni addizionali quando piena";
 "Last charge" = "Ultima carica";
 "Capacity" = "Capacità";
-"current / maximum / designed" = "corrente / massima / progettata";
+"current / maximum / designed" = "attuale / massima / progettata";
 "Low power mode" = "Modalità risparmio energetico";
 "Percentage inside the icon" = "Percentuale nell'icona";
 "Colorize battery" = "Colora la batteria";
-"Charging current" = "Charging current";
-"Charging Voltage" = "Charging voltage";
+"Charging current" = "Corrente di carica";
+"Charging Voltage" = "Tensione di carica";
 
 // Bluetooth
 "Battery to show" = "Batteria da mostrare";
