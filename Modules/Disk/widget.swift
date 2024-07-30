@@ -72,7 +72,10 @@ public struct DiskWidget: Widget {
                                     let frame = geometry[anchor]
                                     Text("\(Int((100*(value.size-value.free))/value.size))%")
                                         .font(.system(size: 16, weight: .regular))
-                                        .position(x: frame.midX, y: frame.midY)
+                                        .position(x: frame.midX, y: frame.midY-5)
+                                    Text("Disk")
+                                        .font(.system(size: 9, weight: .semibold))
+                                        .position(x: frame.midX, y: frame.midY+10)
                                 }
                             }
                         }

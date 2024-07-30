@@ -71,8 +71,11 @@ public struct RAMWidget: Widget {
                                 if let anchor = chartProxy.plotFrame {
                                     let frame = geometry[anchor]
                                     Text("\(Int((value.used/value.total)*100))%")
-                                        .font(.system(size: 16, weight: .regular))
-                                        .position(x: frame.midX, y: frame.midY)
+                                        .font(.system(size: 14, weight: .regular))
+                                        .position(x: frame.midX, y: frame.midY-5)
+                                    Text("RAM")
+                                        .font(.system(size: 8, weight: .semibold))
+                                        .position(x: frame.midX, y: frame.midY+8)
                                 }
                             }
                         }

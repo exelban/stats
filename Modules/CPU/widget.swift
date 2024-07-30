@@ -74,7 +74,10 @@ public struct CPUWidget: Widget {
                                     let frame = geometry[anchor]
                                     Text("\(Int(value.totalUsage*100))%")
                                         .font(.system(size: 16, weight: .regular))
-                                        .position(x: frame.midX, y: frame.midY)
+                                        .position(x: frame.midX, y: frame.midY-5)
+                                    Text("CPU")
+                                        .font(.system(size: 9, weight: .semibold))
+                                        .position(x: frame.midX, y: frame.midY+10)
                                 }
                             }
                         }
