@@ -16,7 +16,22 @@ import Kit
 
 public struct RAM_entry: TimelineEntry {
     public static let kind = "RAMWidget"
-    public static var snapshot: RAM_entry = RAM_entry()
+    public static var snapshot: RAM_entry = RAM_entry(value:
+        RAM_Usage(
+            total: 34359738368.0,
+            used: 18993741824.0,
+            free: 15365996544.0,
+            active: 14518042624.0,
+            inactive: 13899530240.0,
+            wired: 2209333248.0,
+            compressed: 414629888.0,
+            app: 16369778688.0,
+            cache: 12575948800.0,
+            pressure: 7.636737823486328, 
+            rawPressureLevel: 1,
+            swap: Swap(total: 0, used: 0, free: 0)
+        )
+    )
     
     public var date: Date {
         Calendar.current.date(byAdding: .second, value: 5, to: Date())!

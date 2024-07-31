@@ -16,7 +16,7 @@ import Kit
 
 public struct Disk_entry: TimelineEntry {
     public static let kind = "DiskWidget"
-    public static var snapshot: Disk_entry = Disk_entry()
+    public static var snapshot: Disk_entry = Disk_entry(value: drive(size: 494384795648, free: 251460125440))
     
     public var date: Date {
         Calendar.current.date(byAdding: .second, value: 5, to: Date())!
@@ -103,7 +103,7 @@ public struct DiskWidget: Widget {
             }
         }
         .configurationDisplayName("Disk widget")
-        .description("Displays Disk stats")
+        .description("Displays disk stats")
         .supportedFamilies([.systemSmall])
     }
 }
