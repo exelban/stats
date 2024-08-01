@@ -125,7 +125,7 @@ public class BatteryWidget: WidgetWrapper {
         
         let borderWidth: CGFloat = 1
         let batterySize: CGSize = CGSize(width: 26, height: 14)
-        let offset: CGFloat = 0.5 // contant!
+        let offset: CGFloat = 0.5 // constant!
         width += batterySize.width + borderWidth*2 // add battery width
         
         let batteryFrame = NSBezierPath(roundedRect: NSRect(

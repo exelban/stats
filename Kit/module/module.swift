@@ -216,7 +216,7 @@ open class Module {
         self.readers = list.filter({ $0 != nil }).map({ $0! as Reader_p })
     }
     
-    // determine if module is available (can be overrided in module)
+    // determine if module is available (can be overridden in module)
     open func isAvailable() -> Bool { return true }
     
     // load the widget and set up. Calls when module init
