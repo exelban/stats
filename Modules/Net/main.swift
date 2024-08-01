@@ -12,6 +12,7 @@
 import Cocoa
 import Kit
 import SystemConfiguration
+import WidgetKit
 
 public enum Network_t: String, Codable {
     case wifi
@@ -234,6 +235,12 @@ public class Network: Module {
             case let widget as NetworkChart: widget.setValue(upload: Double(upload), download: Double(download))
             default: break
             }
+        }
+        
+        if #available(macOS 11.0, *) {
+            guard let blobData = try? JSONEncoder().encode(raw) else { return }
+            self.userDefaults?.set(blobData, forKey: "Network@UsageReader")
+            WidgetCenter.shared.reloadTimelines(ofKind: Network_entry.kind)
         }
     }
     

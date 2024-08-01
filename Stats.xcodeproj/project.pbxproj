@@ -52,6 +52,9 @@
 		5C4E8BE92B71031A00F148B6 /* Kit.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C4E8BE82B7102A700F148B6 /* Kit.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5C5647F82A3F6B100098FFE9 /* Telemetry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5647F72A3F6B100098FFE9 /* Telemetry.swift */; };
 		5C621D822B4770D6004ED7AF /* process.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C621D812B4770D6004ED7AF /* process.swift */; };
+		5C645BFF2C591F6600D8342A /* widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C645BFE2C591F6600D8342A /* widget.swift */; };
+		5C645C002C591FFA00D8342A /* Net.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A3E17CC247A94AF00449CD1 /* Net.framework */; };
+		5C645C012C591FFA00D8342A /* Net.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A3E17CC247A94AF00449CD1 /* Net.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5C7C1DF42C29A3A00060387D /* notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7C1DF32C29A3A00060387D /* notifications.swift */; };
 		5C8E001029269C7F0027C75A /* protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CFE493829265055000F2856 /* protocol.swift */; };
 		5CA518382B543FE600EBCCC4 /* portal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA518372B543FE600EBCCC4 /* portal.swift */; };
@@ -238,6 +241,13 @@
 			remoteGlobalIDString = 9A2846F62666A9CC00EC1F6D;
 			remoteInfo = Kit;
 		};
+		5C645C022C591FFA00D8342A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9A1410ED229E721100D29793 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9A3E17CB247A94AF00449CD1;
+			remoteInfo = Net;
+		};
 		5CE7E79A2C318513006BC92C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9A1410ED229E721100D29793 /* Project object */;
@@ -374,6 +384,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		5C645C042C591FFA00D8342A /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				5C645C012C591FFA00D8342A /* Net.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		5CE7E79D2C318513006BC92C /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -509,6 +530,7 @@
 		5C4E8BE82B7102A700F148B6 /* Kit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Kit.h; sourceTree = "<group>"; };
 		5C5647F72A3F6B100098FFE9 /* Telemetry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Telemetry.swift; sourceTree = "<group>"; };
 		5C621D812B4770D6004ED7AF /* process.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = process.swift; sourceTree = "<group>"; };
+		5C645BFE2C591F6600D8342A /* widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = widget.swift; sourceTree = "<group>"; };
 		5C7C1DF32C29A3A00060387D /* notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = notifications.swift; sourceTree = "<group>"; };
 		5C9F90A02A76B30500D41748 /* et */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = et; path = et.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5CA518372B543FE600EBCCC4 /* portal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = portal.swift; sourceTree = "<group>"; };
@@ -697,6 +719,7 @@
 				5CE7E78E2C318512006BC92C /* SwiftUI.framework in Frameworks */,
 				5C0A9CAA2C46838A00EE6A89 /* GPU.framework in Frameworks */,
 				5CE7E78C2C318512006BC92C /* WidgetKit.framework in Frameworks */,
+				5C645C002C591FFA00D8342A /* Net.framework in Frameworks */,
 				5C0A9CB42C46839500EE6A89 /* Disk.framework in Frameworks */,
 				5C0A9CA52C46838300EE6A89 /* CPU.framework in Frameworks */,
 				5C0A9CAF2C46838F00EE6A89 /* RAM.framework in Frameworks */,
@@ -1041,6 +1064,7 @@
 				9A3E17E9247B07BF00449CD1 /* popup.swift */,
 				5C23BC0B29A10BE000DBA990 /* portal.swift */,
 				9A58DEA324B3647600716A9F /* settings.swift */,
+				5C645BFE2C591F6600D8342A /* widget.swift */,
 				9A3E17CF247A94AF00449CD1 /* Info.plist */,
 				9A3E17DC247A94C300449CD1 /* config.plist */,
 			);
@@ -1364,6 +1388,7 @@
 				5CE7E7862C318512006BC92C /* Sources */,
 				5CE7E7872C318512006BC92C /* Frameworks */,
 				5CE7E7882C318512006BC92C /* Resources */,
+				5C645C042C591FFA00D8342A /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1372,6 +1397,7 @@
 				5C0A9CAD2C46838A00EE6A89 /* PBXTargetDependency */,
 				5C0A9CB22C46838F00EE6A89 /* PBXTargetDependency */,
 				5C0A9CB72C46839500EE6A89 /* PBXTargetDependency */,
+				5C645C032C591FFA00D8342A /* PBXTargetDependency */,
 			);
 			name = WidgetsExtension;
 			productName = WidgetsExtension;
@@ -2078,6 +2104,7 @@
 				9A3E17DB247A94BC00449CD1 /* readers.swift in Sources */,
 				9A3E17EA247B07BF00449CD1 /* popup.swift in Sources */,
 				5C23BC0C29A10BE000DBA990 /* portal.swift in Sources */,
+				5C645BFF2C591F6600D8342A /* widget.swift in Sources */,
 				9A58DEA424B3647600716A9F /* settings.swift in Sources */,
 				9A3E17D9247A94B500449CD1 /* main.swift in Sources */,
 			);
@@ -2218,6 +2245,11 @@
 			isa = PBXTargetDependency;
 			target = 9A2846F62666A9CC00EC1F6D /* Kit */;
 			targetProxy = 5C2229B229CDFBF600F00E69 /* PBXContainerItemProxy */;
+		};
+		5C645C032C591FFA00D8342A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9A3E17CB247A94AF00449CD1 /* Net */;
+			targetProxy = 5C645C022C591FFA00D8342A /* PBXContainerItemProxy */;
 		};
 		5CE7E79B2C318513006BC92C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

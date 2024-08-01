@@ -15,6 +15,7 @@ import CPU
 import GPU
 import RAM
 import Disk
+import Net
 
 @main
 struct WidgetsBundle: WidgetBundle {
@@ -23,5 +24,6 @@ struct WidgetsBundle: WidgetBundle {
         GPUWidget()
         RAMWidget()
         DiskWidget()
+        NetworkWidget()
     }
 }
