@@ -196,6 +196,9 @@
 "Monospaced font" = "मोनोस्पेस्ड फ़ॉन्ट";
 "Reverse order" = "Reverse order";
 "Chart history" = "Chart history";
+"Default color" = "Default";
+"Transparent when no activity" = "Transparent when no activity";
+"Constant color" = "Constant";
 
 // Module Kit
 "Open module settings" = "ओपन मॉड्यूल सेटिंग्स";
@@ -366,7 +369,6 @@
 "Nonactive state color" = "नॉनएक्टिव स्टेट कलर";
 "Connectivity host (ICMP)" = "कनेक्टिविटी होस्ट (आईसीएमपी)";
 "Leave empty to disable the check" = "चेक को अक्षम करने के लिए खाली छोड़ दें";
-"Transparent pictogram when no activity" = "पारदर्शी चित्रांकन जब कोई गतिविधि नहीं होती है";
 "Connectivity history" = "कनेक्टिविटी इतिहास";
 "Auto-refresh public IP address" = "ऑटो-रिफ्रेश सार्वजनिक आईपी पता";
 "Every hour" = "हर घंटे";

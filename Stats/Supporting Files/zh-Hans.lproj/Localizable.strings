@@ -196,6 +196,9 @@
 "Monospaced font" = "等宽字体";
 "Reverse order" = "调转顺序";
 "Chart history" = "图表统计时长";
+"Default color" = "Default";
+"Transparent when no activity" = "Transparent when no activity";
+"Constant color" = "Constant";
 
 // Module Kit
 "Open module settings" = "打开模块设置";
@@ -366,7 +369,6 @@
 "Nonactive state color" = "非活跃状态颜色";
 "Connectivity host (ICMP)" = "连接 Host (ICMP)";
 "Leave empty to disable the check" = "不在该选项内输入以禁用检查";
-"Transparent pictogram when no activity" = "不活跃时隐藏标识";
 "Connectivity history" = "连接历史";
 "Auto-refresh public IP address" = "自动刷新公网 IP 地址";
 "Every hour" = "每小时";

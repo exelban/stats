@@ -196,6 +196,9 @@
 "Monospaced font" = "Monospaced font";
 "Reverse order" = "Reverse order";
 "Chart history" = "Chart history";
+"Default color" = "Default";
+"Transparent when no activity" = "Transparent when no activity";
+"Constant color" = "Constant";
 
 // Module Kit
 "Open module settings" = "Otevřít nastavení modulu";
@@ -366,7 +369,6 @@
 "Nonactive state color" = "Barva neaktivního stavu";
 "Connectivity host (ICMP)" = "Hostitel připojení (ICMP)";
 "Leave empty to disable the check" = "Pro vypnutí kontroly ponechte prázdné pole";
-"Transparent pictogram when no activity" = "Průhledný piktogram při inaktivitě";
 "Connectivity history" = "Connectivity history";
 "Auto-refresh public IP address" = "Auto-refresh public IP address";
 "Every hour" = "Every hour";

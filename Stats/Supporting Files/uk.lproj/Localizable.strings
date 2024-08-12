@@ -196,6 +196,9 @@
 "Monospaced font" = "Моноширинний шрифт";
 "Reverse order" = "Зворотній порядок";
 "Chart history" = "Тривалість діаграми";
+"Default color" = "За замовчуванням";
+"Transparent when no activity" = "Прозорий коли немає активності";
+"Constant color" = "Постійний";
 
 // Module Kit
 "Open module settings" = "Відкрити налаштування модуля";
@@ -366,7 +369,6 @@
 "Nonactive state color" = "Колір неактивного стану";
 "Connectivity host (ICMP)" = "Хост підключення (ICMP)";
 "Leave empty to disable the check" = "Залиште пустим, щоб вимкнути перевірку";
-"Transparent pictogram when no activity" = "Прозора піктограма, коли немає активності";
 "Connectivity history" = "Історія підключення";
 "Auto-refresh public IP address" = "Автоматичне оновлення IP-адреси";
 "Every hour" = "Щогодини";

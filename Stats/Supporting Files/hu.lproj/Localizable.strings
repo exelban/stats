@@ -196,6 +196,9 @@
 "Monospaced font" = "Mono betűtípus";
 "Reverse order" = "Fordított sorrend";
 "Chart history" = "Chart history";
+"Default color" = "Default";
+"Transparent when no activity" = "Transparent when no activity";
+"Constant color" = "Constant";
 
 // Module Kit
 "Open module settings" = "Modul beállításainak megnyitása";
@@ -366,7 +369,6 @@
 "Nonactive state color" = "Inaktív állapot színe";
 "Connectivity host (ICMP)" = "Kapcsolati gazdagép (ICMP)";
 "Leave empty to disable the check" = "Hagyd üresen az ellenőrzés kikapcsolásához";
-"Transparent pictogram when no activity" = "Átlátszó ikon, ha nincs forgalom";
 "Connectivity history" = "Kapcsolati előzmények";
 "Auto-refresh public IP address" = "Publikus IP cím automatikus frissítése";
 "Every hour" = "Óránként";

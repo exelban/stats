@@ -16,8 +16,8 @@ public class SpeedWidget: WidgetWrapper {
     private var valueState: Bool = true
     private var unitsState: Bool = true
     private var monochromeState: Bool = false
-    private var valueColorState: Bool = false
-    private var transparentIconsState: Bool = false
+    private var valueColorState: String = "none"
+    private var iconColorState: String = "default"
     private var valueAlignmentState: String = "right"
     private var modeState: String = "twoRows"
     private var reverseOrderState: Bool = false
@@ -33,20 +33,36 @@ public class SpeedWidget: WidgetWrapper {
     
     private var width: CGFloat = 58
     
-    private var valueColorView: NSSwitch? = nil
-    private var transparentIconView: NSSwitch? = nil
+    private var valueColorView: NSPopUpButton? = nil
     private var valueAlignmentView: NSPopUpButton? = nil
     private var iconAlignmentView: NSPopUpButton? = nil
+    private var iconColorView: NSPopUpButton? = nil
     
-    private var downloadColor: NSColor {
-        self.monochromeState ? MonochromeColor.blue : (self.downloadColorState.additional as? NSColor ?? NSColor.systemBlue)
-    }
-    private var uploadColor: NSColor {
-        self.monochromeState ? MonochromeColor.red : (self.uploadColorState.additional as? NSColor ?? NSColor.red)
-    }
-    private var noActivityColor: NSColor {
-        self.transparentIconsState ? NSColor.clear : NSColor.textColor
-    }
+    private var downloadColor: (String) -> NSColor {{ state in
+        if state == "none" { return .textColor }
+        var color = self.monochromeState ? MonochromeColor.blue : (self.downloadColorState.additional as? NSColor ?? NSColor.systemBlue)
+        if self.downloadValue < 1024 {
+            if state == "transparent" {
+                color = .clear
+            } else if state == "default" {
+                color = .textColor
+            }
+        }
+        return color
+    }}
+    private var uploadColor: (String) -> NSColor {{ state in
+        if state == "none" { return .textColor }
+        var color = self.monochromeState ? MonochromeColor.red : (self.uploadColorState.additional as? NSColor ?? NSColor.red)
+        if self.uploadValue < 1024 {
+            if state == "transparent" {
+                color = .clear
+            } else if state == "default" {
+                color = .textColor
+            }
+        }
+        return color
+    }}
+    
     private var valueAlignment: NSTextAlignment {
         get {
             if let alignmentPair = Alignments.first(where: { $0.key == self.valueAlignmentState }) {
@@ -80,14 +96,17 @@ public class SpeedWidget: WidgetWrapper {
             self.icon = Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_icon", defaultValue: self.icon)
             self.unitsState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_units", defaultValue: self.unitsState)
             self.monochromeState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_monochrome", defaultValue: self.monochromeState)
-            self.valueColorState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_valueColor", defaultValue: self.valueColorState)
+            self.valueColorState = Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_valueColor", defaultValue: self.valueColorState)
+            if self.valueColorState == "0" {
+                self.valueColorState = "none"
+            }
             self.downloadColorState = SColor.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_downloadColor", defaultValue: self.downloadColorState.key))
             self.uploadColorState = SColor.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_uploadColor", defaultValue: self.uploadColorState.key))
-            self.transparentIconsState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_transparentIcons", defaultValue: self.transparentIconsState)
             self.valueAlignmentState = Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_valueAlignment", defaultValue: self.valueAlignmentState)
             self.modeState = Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_mode", defaultValue: self.modeState)
             self.reverseOrderState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_reverseOrder", defaultValue: self.reverseOrderState)
             self.iconAlignmentState = Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_iconAlignment", defaultValue: self.iconAlignmentState)
+            self.iconColorState = Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_iconColor", defaultValue: self.iconColorState)
         }
         
         if preview {
@@ -120,40 +139,38 @@ public class SpeedWidget: WidgetWrapper {
     
     private func drawOneRow() -> CGFloat {
         var width: CGFloat = Constants.Widget.margin.x
-        let downloadIconColor = self.downloadValue >= 1_024 ? self.downloadColor : self.noActivityColor
-        let uploadIconColor = self.uploadValue >= 1_024 ? self.uploadColor : self.noActivityColor
         
         if self.reverseOrderState {
             width = self.drawRowItem(
                 initWidth: width,
                 symbol: self.symbols[1],
-                iconColor: downloadIconColor,
+                iconColor: self.downloadColor(self.iconColorState),
                 value: self.downloadValue,
-                valueColor: self.valueColorState && self.downloadValue >= 1_024 ? self.downloadColor : NSColor.textColor
+                valueColor: self.downloadColor(self.valueColorState)
             )
             width += 4
             width = self.drawRowItem(
                 initWidth: width,
                 symbol: self.symbols[0],
-                iconColor: uploadIconColor,
+                iconColor: self.uploadColor(self.iconColorState),
                 value: self.uploadValue,
-                valueColor: self.valueColorState && self.uploadValue >= 1_024 ? self.uploadColor : NSColor.textColor
+                valueColor: self.uploadColor(self.valueColorState)
             )
         } else {
             width = self.drawRowItem(
                 initWidth: width,
                 symbol: self.symbols[0],
-                iconColor: uploadIconColor,
+                iconColor: self.uploadColor(self.iconColorState),
                 value: self.uploadValue,
-                valueColor: self.valueColorState && self.uploadValue >= 1_024 ? self.uploadColor : NSColor.textColor
+                valueColor: self.uploadColor(self.valueColorState)
             )
             width += 4
             width = self.drawRowItem(
                 initWidth: width,
                 symbol: self.symbols[1],
-                iconColor: downloadIconColor,
+                iconColor: self.downloadColor(self.iconColorState),
                 value: self.downloadValue,
-                valueColor: self.valueColorState && self.downloadValue >= 1_024 ? self.downloadColor : NSColor.textColor
+                valueColor: self.downloadColor(self.valueColorState)
             )
         }
         
@@ -310,12 +327,12 @@ public class SpeedWidget: WidgetWrapper {
             
             let downloadStringAttributes = [
                 NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .light),
-                NSAttributedString.Key.foregroundColor: self.valueColorState && self.downloadValue >= 1_024 ? self.downloadColor : NSColor.textColor,
+                NSAttributedString.Key.foregroundColor: self.downloadColor(self.valueColorState),
                 NSAttributedString.Key.paragraphStyle: style
             ]
             let uploadStringAttributes = [
                 NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .light),
-                NSAttributedString.Key.foregroundColor: self.valueColorState && self.uploadValue >= 1_024 ? self.uploadColor : NSColor.textColor,
+                NSAttributedString.Key.foregroundColor: self.uploadColor(self.valueColorState),
                 NSAttributedString.Key.paragraphStyle: style
             ]
             
@@ -362,12 +379,12 @@ public class SpeedWidget: WidgetWrapper {
         
         var downloadCircle = NSBezierPath()
         downloadCircle = NSBezierPath(ovalIn: CGRect(x: x, y: downloadY, width: size, height: size))
-        (self.downloadValue >= 1_024 ? self.downloadColor : self.noActivityColor).set()
+        self.downloadColor(self.iconColorState).set()
         downloadCircle.fill()
         
         var uploadCircle = NSBezierPath()
         uploadCircle = NSBezierPath(ovalIn: CGRect(x: x, y: uploadY, width: size, height: size))
-        (self.uploadValue >= 1_024 ? self.uploadColor : self.noActivityColor).set()
+        self.uploadColor(self.iconColorState).set()
         uploadCircle.fill()
     }
     
@@ -396,7 +413,7 @@ public class SpeedWidget: WidgetWrapper {
             arrowAngle: arrowAngle
         )
         
-        (self.downloadValue >= 1_024 ? self.downloadColor : self.noActivityColor).set()
+        self.downloadColor(self.iconColorState).set()
         downloadArrow.lineWidth = lineWidth
         downloadArrow.stroke()
         downloadArrow.close()
@@ -409,7 +426,7 @@ public class SpeedWidget: WidgetWrapper {
             arrowAngle: arrowAngle
         )
         
-        (self.uploadValue >= 1_024 ? self.uploadColor : self.noActivityColor).set()
+        self.uploadColor(self.iconColorState).set()
         uploadArrow.lineWidth = lineWidth
         uploadArrow.stroke()
         uploadArrow.close()
@@ -424,7 +441,7 @@ public class SpeedWidget: WidgetWrapper {
         if self.symbols.count > 1 {
             let downloadAttributes = [
                 NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .regular),
-                NSAttributedString.Key.foregroundColor: self.downloadValue >= 1_024 ? self.downloadColor : self.noActivityColor,
+                NSAttributedString.Key.foregroundColor: self.downloadColor(self.iconColorState),
                 NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
             ]
             let rect = CGRect(x: x, y: downloadY, width: 8, height: rowHeight)
@@ -435,7 +452,7 @@ public class SpeedWidget: WidgetWrapper {
         if !self.symbols.isEmpty {
             let uploadAttributes = [
                 NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .regular),
-                NSAttributedString.Key.foregroundColor: self.uploadValue >= 1_024 ? self.uploadColor : self.noActivityColor,
+                NSAttributedString.Key.foregroundColor: self.uploadColor(self.iconColorState),
                 NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
             ]
             let rect = CGRect(x: x, y: uploadY, width: 8, height: rowHeight)
@@ -449,22 +466,8 @@ public class SpeedWidget: WidgetWrapper {
     public override func settings() -> NSView {
         let view = SettingsContainerView()
         
-        let pictogramTransparency = switchView(
-            action: #selector(self.toggleTransparentIcons),
-            state: self.transparentIconsState
-        )
-        pictogramTransparency.isEnabled = self.icon != "none"
-        self.transparentIconView = pictogramTransparency
-        
-        let colorizeValue = switchView(
-            action: #selector(self.toggleValueColor),
-            state: self.valueColorState
-        )
-        colorizeValue.isEnabled = self.valueState
-        self.valueColorView = colorizeValue
-        
         let valueAlignment = selectView(
-            action: #selector(toggleValueAlignment),
+            action: #selector(self.toggleValueAlignment),
             items: Alignments,
             selected: self.valueAlignmentState
         )
@@ -472,12 +475,28 @@ public class SpeedWidget: WidgetWrapper {
         self.valueAlignmentView = valueAlignment
         
         let iconAlignment = selectView(
-            action: #selector(toggleIconAlignment),
+            action: #selector(self.toggleIconAlignment),
             items: Alignments.filter({ $0.key != "center" }),
             selected: self.iconAlignmentState
         )
         iconAlignment.isEnabled = self.icon != "none"
         self.iconAlignmentView = iconAlignment
+        
+        let iconColor = selectView(
+            action: #selector(self.toggleIconColor),
+            items: SpeedPictogramColor.filter({ $0.key != "none" }),
+            selected: self.iconColorState
+        )
+        iconColor.isEnabled = self.icon != "none"
+        self.iconColorView = iconColor
+        
+        let valueColor = selectView(
+            action: #selector(self.toggleValueColor),
+            items: SpeedPictogramColor,
+            selected: self.valueColorState
+        )
+        valueColor.isEnabled = self.valueState
+        self.valueColorView = valueColor
         
         view.addArrangedSubview(PreferencesSection([
             PreferencesRow(localizedString("Display mode"), component: selectView(
@@ -497,7 +516,7 @@ public class SpeedWidget: WidgetWrapper {
                 items: SpeedPictogram,
                 selected: self.icon
             )),
-            PreferencesRow(localizedString("Transparent pictogram when no activity"), component: pictogramTransparency),
+            PreferencesRow(localizedString("Colorize"), component: iconColor),
             PreferencesRow(localizedString("Alignment"), component: iconAlignment)
         ]))
         
@@ -506,7 +525,7 @@ public class SpeedWidget: WidgetWrapper {
                 action: #selector(self.toggleValue),
                 state: self.valueState
             )),
-            PreferencesRow(localizedString("Colorize value"), component: colorizeValue),
+            PreferencesRow(localizedString("Colorize value"), component: valueColor),
             PreferencesRow(localizedString("Alignment"), component: valueAlignment),
             PreferencesRow(localizedString("Units"), component: switchView(
                 action: #selector(self.toggleUnits),
@@ -565,7 +584,7 @@ public class SpeedWidget: WidgetWrapper {
     @objc private func toggleIcon(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String else { return }
         self.icon = key
-        self.transparentIconView?.isEnabled = self.icon != "none"
+        self.iconColorView?.isEnabled = self.icon != "none"
         self.iconAlignmentView?.isEnabled = self.icon != "none"
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_icon", value: key)
         self.display()
@@ -577,9 +596,12 @@ public class SpeedWidget: WidgetWrapper {
         self.display()
     }
     
-    @objc private func toggleValueColor(_ sender: NSControl) {
-        self.valueColorState = controlState(sender)
-        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_valueColor", value: self.valueColorState)
+    @objc private func toggleValueColor(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String else { return }
+        if let newColor = SpeedPictogramColor.first(where: { $0.key == key }) {
+            self.valueColorState = newColor.key
+        }
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_valueColor", value: key)
         self.display()
     }
     
@@ -619,12 +641,6 @@ public class SpeedWidget: WidgetWrapper {
         }
     }
     
-    @objc private func toggleTransparentIcons(_ sender: NSControl) {
-        self.transparentIconsState = controlState(sender)
-        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_transparentIcons", value: self.transparentIconsState)
-        self.display()
-    }
-    
     @objc private func toggleValueAlignment(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String else { return }
         if let newAlignment = Alignments.first(where: { $0.key == key }) {
@@ -640,6 +656,15 @@ public class SpeedWidget: WidgetWrapper {
             self.iconAlignmentState = newAlignment.key
         }
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_iconAlignment", value: key)
+        self.display()
+    }
+    
+    @objc private func toggleIconColor(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String else { return }
+        if let newColor = SpeedPictogramColor.first(where: { $0.key == key }) {
+            self.iconColorState = newColor.key
+        }
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_iconColor", value: key)
         self.display()
     }
 }

@@ -196,6 +196,9 @@
 "Monospaced font" = "แบบอักษรโมโนสเปซ";
 "Reverse order" = "Reverse order";
 "Chart history" = "Chart history";
+"Default color" = "Default";
+"Transparent when no activity" = "Transparent when no activity";
+"Constant color" = "Constant";
 
 // Module Kit
 "Open module settings" = "เปิดการตั้งค่าโมดูล";
@@ -366,7 +369,6 @@
 "Nonactive state color" = "สีของสถานะที่ไม่ใช้งาน";
 "Connectivity host (ICMP)" = "โฮสต์ที่เชื่อมต่อ (ICMP)";
 "Leave empty to disable the check" = "เว้นว่างไว้เพื่อปิดการตรวจสอบ";
-"Transparent pictogram when no activity" = "ไอคอนโปร่งใสเมื่อไม่มีกิจกรรม";
 "Connectivity history" = "Connectivity history";
 "Auto-refresh public IP address" = "Auto-refresh public IP address";
 "Every hour" = "Every hour";

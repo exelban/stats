@@ -196,6 +196,9 @@
 "Monospaced font" = "Eşit aralıklı font";
 "Reverse order" = "Sıralamayı tersine çevir";
 "Chart history" = "Grafik tarihi";
+"Default color" = "Default";
+"Transparent when no activity" = "Transparent when no activity";
+"Constant color" = "Constant";
 
 // Module Kit
 "Open module settings" = "Modül ayarlarını aç";
@@ -366,7 +369,6 @@
 "Nonactive state color" = "Etkin olmayan durum rengi";
 "Connectivity host (ICMP)" = "Bağlantı sunucusu (ICMP)";
 "Leave empty to disable the check" = "Kontrolü devre dışı bırakmak için boş bırakın";
-"Transparent pictogram when no activity" = "Aktif olmadığında transparan piktogram";
 "Connectivity history" = "Bağlantı geçmişi";
 "Auto-refresh public IP address" = "Açık IP adresi oto-güncelleme";
 "Every hour" = "Her saat";

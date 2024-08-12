@@ -196,6 +196,9 @@
 "Monospaced font" = "خط ذو تساوي المسافات";
 "Reverse order" = "ترتيب عكسي";
 "Chart history" = "مدة المخطط";
+"Default color" = "Default";
+"Transparent when no activity" = "Transparent when no activity";
+"Constant color" = "Constant";
 
 // Module Kit
 "Open module settings" = "فتح إعدادات الوحدة";
@@ -366,7 +369,6 @@
 "Nonactive state color" = "لون الحالة غير النشطة";
 "Connectivity host (ICMP)" = "مضيف الاتصال (ICMP)";
 "Leave empty to disable the check" = "اتركه فارغًا لتعطيل الفحص";
-"Transparent pictogram when no activity" = "رمز بياني شفاف عند عدم وجود نشاط";
 "Connectivity history" = "سجل الاتصال";
 "Auto-refresh public IP address" = "تحديث تلقائي لعنوان IP العام";
 "Every hour" = "كل ساعة";

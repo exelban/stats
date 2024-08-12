@@ -116,6 +116,13 @@ internal let SpeedPictogram: [KeyValue_t] = [
     KeyValue_t(key: "arrows", value: "Arrows"),
     KeyValue_t(key: "chars", value: "Characters")
 ]
+internal let SpeedPictogramColor: [KeyValue_t] = [
+    KeyValue_t(key: "none", value: "None"),
+    KeyValue_t(key: "separator", value: "separator"),
+    KeyValue_t(key: "default", value: "Default color"),
+    KeyValue_t(key: "transparent", value: "Transparent when no activity"),
+    KeyValue_t(key: "constant", value: "Constant color")
+]
 
 internal let BatteryAdditionals: [KeyValue_t] = [
     KeyValue_t(key: "none", value: "None"),

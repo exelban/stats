@@ -196,6 +196,9 @@
 "Monospaced font" = "Monospaced font";
 "Reverse order" = "Reverse order";
 "Chart history" = "Chart history";
+"Default color" = "Default";
+"Transparent when no activity" = "Transparent when no activity";
+"Constant color" = "Constant";
 
 // Module Kit
 "Open module settings" = "Отваряне на настройките на модула";
@@ -366,7 +369,6 @@
 "Nonactive state color" = "Цвят на неактивното състояние";
 "Connectivity host (ICMP)" = "Connectivity host (ICMP)";
 "Leave empty to disable the check" = "Оставете празно, за да изключите проверката";
-"Transparent pictogram when no activity" = "Transparent pictogram when no activity";
 "Connectivity history" = "Connectivity history";
 "Auto-refresh public IP address" = "Auto-refresh public IP address";
 "Every hour" = "Every hour";

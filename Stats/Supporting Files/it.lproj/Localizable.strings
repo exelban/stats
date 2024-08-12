@@ -196,6 +196,9 @@
 "Monospaced font" = "Font a larghezza fissa";
 "Reverse order" = "Inverti ordine";
 "Chart history" = "Durata grafico";
+"Default color" = "Default";
+"Transparent when no activity" = "Transparent when no activity";
+"Constant color" = "Constant";
 
 // Module Kit
 "Open module settings" = "Apri impostazioni modulo";
@@ -366,7 +369,6 @@
 "Nonactive state color" = "Colore disattivo";
 "Connectivity host (ICMP)" = "Host (ICMP)";
 "Leave empty to disable the check" = "Lascia vuoto per disattivare la verifica";
-"Transparent pictogram when no activity" = "Pittogramma trasparente in assenza di attività";
 "Connectivity history" = "Cronologia connettività";
 "Auto-refresh public IP address" = "Aggiorna automaticamente indirizzo IP pubblico";
 "Every hour" = "Ogni ora";

@@ -196,6 +196,9 @@
 "Monospaced font" = "Monospaced skrifttype";
 "Reverse order" = "Reverse order";
 "Chart history" = "Chart history";
+"Default color" = "Default";
+"Transparent when no activity" = "Transparent when no activity";
+"Constant color" = "Constant";
 
 // Module Kit
 "Open module settings" = "Åben indstillinger for moduler";
@@ -366,7 +369,6 @@
 "Nonactive state color" = "Inaktiv farve";
 "Connectivity host (ICMP)" = "Connectivity host (ICMP)";
 "Leave empty to disable the check" = "Lad feltet være tom for at deaktivere tjekket";
-"Transparent pictogram when no activity" = "Gennemsigtigt pictogram ved inaktivitet";
 "Connectivity history" = "Forbindelseshistorik";
 "Auto-refresh public IP address" = "Automatisk opdatering af offentlig IP adresse";
 "Every hour" = "Hver time";

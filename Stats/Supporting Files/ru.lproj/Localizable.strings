@@ -196,6 +196,9 @@
 "Monospaced font" = "Моноширинный шрифт";
 "Reverse order" = "Обратный порядок";
 "Chart history" = "Продолжительность графика";
+"Default color" = "По умолчанию";
+"Transparent when no activity" = "Прозрачный когда нет активности";
+"Constant color" = "Постоянный";
 
 // Module Kit
 "Open module settings" = "Открыть настройки модуля";
@@ -366,7 +369,6 @@
 "Nonactive state color" = "Цвет неактивного состояния";
 "Connectivity host (ICMP)" = "Хост подключения (ICMP)";
 "Leave empty to disable the check" = "Оставьте пустым, чтобы отключить проверку";
-"Transparent pictogram when no activity" = "Прозрачная пиктограмма при отсутствии активности";
 "Connectivity history" = "История подключения";
 "Auto-refresh public IP address" = "Автоматическое обновление IP-адреса";
 "Every hour" = "Каждый час";

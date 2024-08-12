@@ -196,6 +196,9 @@
 "Monospaced font" = "Monospaced font";
 "Reverse order" = "Reverse order";
 "Chart history" = "Chart history";
+"Default color" = "Default";
+"Transparent when no activity" = "Transparent when no activity";
+"Constant color" = "Constant";
 
 // Module Kit
 "Open module settings" = "باز کردن تنظیمات ماژول‌ها";
@@ -366,7 +369,6 @@
 "Nonactive state color" = "رنگ حالت غیر فعال";
 "Connectivity host (ICMP)" = "میزبان اتصال (ICMP)";
 "Leave empty to disable the check" = "خالی بگذارید تا بررسی غیرفعال شود";
-"Transparent pictogram when no activity" = "Transparent pictogram when no activity";
 "Connectivity history" = "Connectivity history";
 "Auto-refresh public IP address" = "Auto-refresh public IP address";
 "Every hour" = "Every hour";

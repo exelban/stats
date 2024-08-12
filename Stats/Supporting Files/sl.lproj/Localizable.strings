@@ -196,6 +196,9 @@
 "Monospaced font" = "Pisava s fiksno širino";
 "Reverse order" = "Obratni vrstni red";
 "Chart history" = "Zgodovina grafa";
+"Default color" = "Default";
+"Transparent when no activity" = "Transparent when no activity";
+"Constant color" = "Constant";
 
 // Module Kit
 "Open module settings" = "Odpri nastavitve modula";
@@ -366,7 +369,6 @@
 "Nonactive state color" = "Barva neaktivnega stanja";
 "Connectivity host (ICMP)" = "Gostitelj za preverjanje povezljivosti (ICMP)";
 "Leave empty to disable the check" = "Pusti prazno, če želiš onemogočiti preverjanje povezljivosti";
-"Transparent pictogram when no activity" = "Prosojni piktogram, ko ni dejavnosti";
 "Connectivity history" = "Zgodovina povezljivosti";
 "Auto-refresh public IP address" = "Samodejna osvežitev javnega IP naslova";
 "Every hour" = "Vsako uro";

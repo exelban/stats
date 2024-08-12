@@ -196,6 +196,9 @@
 "Monospaced font" = "Üheruumiline kirjastiil";
 "Reverse order" = "Reverse order";
 "Chart history" = "Chart history";
+"Default color" = "Default";
+"Transparent when no activity" = "Transparent when no activity";
+"Constant color" = "Constant";
 
 // Module Kit
 "Open module settings" = "Ava mooduli sätted";
@@ -366,7 +369,6 @@
 "Nonactive state color" = "Mitteaktiivse oleku värv";
 "Connectivity host (ICMP)" = "Ühendushost (ICMP)";
 "Leave empty to disable the check" = "Tšeki keelamiseks jätke tühjaks";
-"Transparent pictogram when no activity" = "Läbipaistev piktogramm, kui tegevus puudub";
 "Connectivity history" = "Ühenduse ajalugu";
 "Auto-refresh public IP address" = "Avaliku IP-aadressi automaatne värskendamine";
 "Every hour" = "Iga tund";
