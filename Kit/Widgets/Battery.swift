@@ -17,6 +17,7 @@ public class BatteryWidget: WidgetWrapper {
     private var iconState: Bool = true
     private var colorState: Bool = false
     private var hideAdditionalWhenFull: Bool = true
+    private var xlSizeState: Bool = false
     
     private var _percentage: Double? = nil
     private var _time: Int = 0
@@ -42,6 +43,7 @@ public class BatteryWidget: WidgetWrapper {
             self.iconState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_icon", defaultValue: self.iconState)
             self.colorState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_color", defaultValue: self.colorState)
             self.hideAdditionalWhenFull = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_hideAdditionalWhenFull", defaultValue: self.hideAdditionalWhenFull)
+            self.xlSizeState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_xlSize", defaultValue: self.xlSizeState)
         }
         
         if preview {
@@ -124,7 +126,8 @@ public class BatteryWidget: WidgetWrapper {
         }
         
         let borderWidth: CGFloat = 1
-        let batterySize: CGSize = CGSize(width: 26, height: 14)
+        let batterySize: CGSize = self.xlSizeState ? CGSize(width: 26, height: 14) : CGSize(width: 22, height: 12)
+        let batteryRadius: CGFloat = self.xlSizeState ? 3 : 2
         let offset: CGFloat = 0.5 // contant!
         width += batterySize.width + borderWidth*2 // add battery width
         
@@ -133,7 +136,7 @@ public class BatteryWidget: WidgetWrapper {
             y: ((self.frame.size.height - batterySize.height)/2) + offset,
             width: batterySize.width - borderWidth,
             height: batterySize.height - borderWidth
-        ), xRadius: 3, yRadius: 3)
+        ), xRadius: batteryRadius, yRadius: batteryRadius)
         
         NSColor.textColor.withAlphaComponent(0.5).set()
         batteryFrame.lineWidth = borderWidth
@@ -159,6 +162,7 @@ public class BatteryWidget: WidgetWrapper {
             let maxWidth = batterySize.width - offset*2 - borderWidth*2 - 1
             let innerWidth: CGFloat = max(1, maxWidth * CGFloat(percentage))
             let innerOffset: CGFloat = -offset + borderWidth + 1
+            let innerRadius: CGFloat = self.xlSizeState ? 2 : 1
             var colorState = self.colorState
             let color = percentage.batteryColor(color: colorState)
             
@@ -169,7 +173,7 @@ public class BatteryWidget: WidgetWrapper {
                     y: batteryFrame.bounds.origin.y + innerOffset,
                     width: maxWidth,
                     height: batterySize.height - offset*2 - borderWidth*2 - 1
-                ), xRadius: 2, yRadius: 2)
+                ), xRadius: innerRadius, yRadius: innerRadius)
                 (self.colorState ? color : NSColor.textColor).withAlphaComponent(0.5).set()
                 innerUnderground.fill()
             }
@@ -179,22 +183,23 @@ public class BatteryWidget: WidgetWrapper {
                 y: batteryFrame.bounds.origin.y + innerOffset,
                 width: innerWidth,
                 height: batterySize.height - offset*2 - borderWidth*2 - 1
-            ), xRadius: 2, yRadius: 2)
+            ), xRadius: innerRadius, yRadius: innerRadius)
             
             color.set()
             inner.fill()
             
             if self.additional == "innerPercentage" && !ACStatus {
+                let fontSize: CGFloat = self.xlSizeState ? 9 : 8
                 let style = NSMutableParagraphStyle()
                 style.alignment = .center
                 let attributes = [
-                    NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .bold),
+                    NSAttributedString.Key.font: NSFont.systemFont(ofSize: fontSize, weight: .bold),
                     NSAttributedString.Key.foregroundColor: NSColor.clear,
                     NSAttributedString.Key.paragraphStyle: style
                 ]
                 
                 let value = "\(Int((percentage.rounded(toPlaces: 2)) * 100))"
-                let rect = CGRect(x: inner.bounds.origin.x, y: (Constants.Widget.height-11)/2, width: maxWidth, height: 9)
+                let rect = CGRect(x: inner.bounds.origin.x, y: (Constants.Widget.height-(fontSize+2))/2, width: maxWidth, height: fontSize)
                 let str = NSAttributedString.init(string: value, attributes: attributes)
                 
                 ctx.saveGState()
@@ -399,6 +404,10 @@ public class BatteryWidget: WidgetWrapper {
             PreferencesRow(localizedString("Colorize"), component: switchView(
                 action: #selector(self.toggleColor),
                 state: self.colorState
+            )),
+            PreferencesRow(localizedString("XL size"), component: switchView(
+                action: #selector(self.toggleXLSize),
+                state: self.xlSizeState
             ))
         ]))
         
@@ -406,35 +415,27 @@ public class BatteryWidget: WidgetWrapper {
     }
     
     @objc private func toggleAdditional(_ sender: NSMenuItem) {
-        guard let key = sender.representedObject as? String else {
-            return
-        }
+        guard let key = sender.representedObject as? String else { return }
         self.additional = key
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_additional", value: key)
         self.display()
     }
     
     @objc private func toggleHideAdditionalWhenFull(_ sender: NSControl) {
-        var state: NSControl.StateValue? = nil
-        if #available(OSX 10.15, *) {
-            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
-        } else {
-            state = sender is NSButton ? (sender as! NSButton).state: nil
-        }
-        self.hideAdditionalWhenFull = state! == .on ? true : false
+        self.hideAdditionalWhenFull = controlState(sender)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_hideAdditionalWhenFull", value: self.hideAdditionalWhenFull)
         self.display()
     }
     
     @objc private func toggleColor(_ sender: NSControl) {
-        var state: NSControl.StateValue? = nil
-        if #available(OSX 10.15, *) {
-            state = sender is NSSwitch ? (sender as! NSSwitch).state: nil
-        } else {
-            state = sender is NSButton ? (sender as! NSButton).state: nil
-        }
-        self.colorState = state! == .on ? true : false
+        self.colorState = controlState(sender)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_color", value: self.colorState)
+        self.display()
+    }
+    
+    @objc private func toggleXLSize(_ sender: NSControl) {
+        self.xlSizeState = controlState(sender)
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_xlSize", value: self.xlSizeState)
         self.display()
     }
 }
