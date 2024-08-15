@@ -280,6 +280,9 @@ private func driveDetails(_ disk: DADisk, removableState: Bool) -> drive? {
                 }
             }
             
+            if let mediaUUID = dict[kDADiskDescriptionMediaUUIDKey as String] {
+                d.uuid = CFUUIDCreateString(kCFAllocatorDefault, (mediaUUID as! CFUUID)) as String
+            }
             if let mediaName = dict[kDADiskDescriptionVolumeNameKey as String] {
                 d.mediaName = mediaName as! String
                 if d.mediaName == "Recovery" {

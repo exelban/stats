@@ -39,6 +39,9 @@ internal class Popup: PopupWrapper {
     private var processes: ProcessesView? = nil
     private var processesView: NSView? = nil
     
+    private let settingsSection = PreferencesSection(label: "Drives")
+    private var lastList: [String] = []
+    
     public init(_ module: ModuleType) {
         self.title = module.rawValue
         
@@ -99,22 +102,37 @@ internal class Popup: PopupWrapper {
             if h > 0 && self.disks.frame.size.height != h {
                 self.disks.setFrameSize(NSSize(width: self.frame.width, height: h))
                 self.recalculateHeight()
+            } else if h < 0 && self.disks.frame.size.height != 0 {
+                self.disks.setFrameSize(NSSize(width: self.frame.width, height: 0))
+                self.recalculateHeight()
+            }
+            self.lastList = value.array.compactMap{ $0.uuid }
+        }
+        
+        self.lastList.filter { !value.map { $0.uuid }.contains($0) }.forEach { self.settingsSection.delete($0) }
+        value.forEach { (drive: drive) in
+            if !self.settingsSection.contains(drive.uuid) {
+                let btn = switchView(
+                    action: #selector(self.toggleDisk),
+                    state: drive.popupState
+                )
+                btn.identifier = NSUserInterfaceItemIdentifier(drive.uuid)
+                self.settingsSection.add(PreferencesRow(drive.mediaName, id: drive.uuid, component: btn))
             }
         }
         
         self.disks.subviews.filter{ $0 is DiskView }.map{ $0 as! DiskView }.forEach { (v: DiskView) in
-            if !value.map({$0.BSDName}).contains(v.BSDName) {
+            if !value.array.filter({ $0.popupState }).map({$0.uuid}).contains(v.uuid) {
                 v.removeFromSuperview()
             }
         }
-        
-        value.forEach { (drive: drive) in
-            if let view = self.disks.subviews.filter({ $0 is DiskView }).map({ $0 as! DiskView }).first(where: { $0.BSDName == drive.BSDName }) {
+        value.array.filter({ $0.popupState }).forEach { (drive: drive) in
+            if let view = self.disks.subviews.filter({ $0 is DiskView }).map({ $0 as! DiskView }).first(where: { $0.uuid == drive.uuid }) {
                 view.update(free: drive.free, smart: drive.smart)
             } else {
                 self.disks.addArrangedSubview(DiskView(
                     width: Constants.Popup.width,
-                    BSDName: drive.BSDName,
+                    uuid: drive.uuid,
                     name: drive.mediaName,
                     size: drive.size,
                     free: drive.free,
@@ -192,6 +210,8 @@ internal class Popup: PopupWrapper {
             ))
         ]))
         
+        view.addArrangedSubview(self.settingsSection)
+        
         return view
     }
     
@@ -231,11 +251,15 @@ internal class Popup: PopupWrapper {
         Store.shared.set(key: "\(self.title)_reverseOrder", value: self.reverseOrderState)
         self.display()
     }
+    @objc private func toggleDisk(_ sender: NSControl) {
+        guard let id = sender.identifier else { return }
+        Store.shared.set(key: "\(self.title)_\(id.rawValue)_popup", value: controlState(sender))
+    }
 }
 
 internal class DiskView: NSStackView {
     public var name: String
-    public var BSDName: String
+    public var uuid: String
     
     private var nameView: NameView
     private var chartView: ChartView
@@ -246,8 +270,8 @@ internal class DiskView: NSStackView {
     private var temperatureView: TemperatureView?
     private var lifeView: LifeView?
     
-    init(width: CGFloat, BSDName: String = "", name: String = "", size: Int64 = 1, free: Int64 = 1, path: URL? = nil, smart: smart_t? = nil) {
-        self.BSDName = BSDName
+    init(width: CGFloat, uuid: String = "", name: String = "", size: Int64 = 1, free: Int64 = 1, path: URL? = nil, smart: smart_t? = nil) {
+        self.uuid = uuid
         self.name = name
         let innerWidth: CGFloat = width - (Constants.Popup.margins * 2)
         self.nameView = NameView(width: innerWidth, name: name, size: size, free: free, path: path)

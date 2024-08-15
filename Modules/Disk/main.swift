@@ -29,6 +29,7 @@ public struct smart_t: Codable {
 public struct drive: Codable {
     var parent: io_object_t = 0
     
+    var uuid: String = ""
     var mediaName: String = ""
     var BSDName: String = ""
     
@@ -54,6 +55,10 @@ public struct drive: Codable {
             usedSpace = 0
         }
         return Double(usedSpace) / Double(total)
+    }
+    
+    public var popupState: Bool {
+        Store.shared.bool(key: "Disk_\(self.uuid)_popup", defaultValue: true)
     }
 }
 

@@ -1207,11 +1207,14 @@ var isDarkMode: Bool {
 public class PreferencesSection: NSStackView {
     private let container: NSStackView = NSStackView()
     
-    public init(label: String = "", _ components: [NSView] = []) {
+    public init(label: String = "", id: String? = nil, _ components: [NSView] = []) {
         super.init(frame: .zero)
         
         self.orientation = .vertical
         self.spacing = 0
+        if let id {
+            self.identifier = NSUserInterfaceItemIdentifier(id)
+        }
         
         if label != "" {
             self.addLabel(label)
@@ -1271,6 +1274,25 @@ public class PreferencesSection: NSStackView {
         self.container.addArrangedSubview(view)
     }
     
+    public func delete(_ id: String) {
+        let views = self.container.subviews.filter({ $0.identifier != nil })
+        views.enumerated().forEach { (i, v) in
+            guard v.identifier?.rawValue == id else { return }
+            if self.container.subviews.indices.contains(i-1) {
+                let prev = self.container.subviews[i-1]
+                if prev.identifier?.rawValue == "PreferencesSeparator" {
+                    prev.removeFromSuperview()
+                }
+            }
+            v.removeFromSuperview()
+        }
+        return
+    }
+    
+    public func contains(_ id: String) -> Bool {
+        self.container.subviews.contains(where: { $0.identifier?.rawValue == id })
+    }
+    
     public func toggleVisibility(_ at: Int, newState: Bool) {
         for i in self.container.subviews.indices where i/2 == at && Double(i).remainder(dividingBy: 2) == 0 {
             self.container.subviews[i-1].isHidden = !newState
@@ -1285,6 +1307,7 @@ private class PreferencesSeparator: NSView {
         self.wantsLayer = true
         self.layer?.backgroundColor = NSColor.separatorColor.withAlphaComponent(0.05).cgColor
         self.heightAnchor.constraint(equalToConstant: 1).isActive = true
+        self.identifier = NSUserInterfaceItemIdentifier("PreferencesSeparator")
     }
     
     required init?(coder: NSCoder) {
@@ -1297,7 +1320,7 @@ private class PreferencesSeparator: NSView {
 }
 
 public class PreferencesRow: NSStackView {
-    public init(_ title: String? = nil, _ description: String? = nil, component: NSView) {
+    public init(_ title: String? = nil, _ description: String? = nil, id: String? = nil, component: NSView) {
         super.init(frame: .zero)
         
         self.orientation = .horizontal
@@ -1305,6 +1328,9 @@ public class PreferencesRow: NSStackView {
         self.alignment = .centerY
         self.edgeInsets = NSEdgeInsets(top: Constants.Settings.margin/2, left: 0, bottom: (Constants.Settings.margin/2) - 1, right: 0)
         self.spacing = 0
+        if let id {
+            self.identifier = NSUserInterfaceItemIdentifier(id)
+        }
         
         self.addArrangedSubview(self.text(title, description))
         self.addArrangedSubview(NSView())
