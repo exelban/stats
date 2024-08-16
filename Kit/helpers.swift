@@ -325,11 +325,11 @@ public extension NSBezierPath {
     }
 }
 
-public func separatorView(_ title: String, origin: NSPoint = NSPoint(x: 0, y: 0), width: CGFloat) -> NSView {
+public func separatorView(_ title: String, origin: NSPoint = NSPoint(x: 0, y: 0), width: CGFloat = 0) -> NSView {
     let view: NSView = NSView(frame: NSRect(x: origin.x, y: origin.y, width: width, height: 30))
     view.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
     
-    let labelView: NSTextField = TextView(frame: NSRect(x: 0, y: (view.frame.height-18)/2, width: view.frame.width, height: 18))
+    let labelView: NSTextField = TextView(frame: NSRect(x: 0, y: (view.frame.height-15)/2, width: view.frame.width, height: 15))
     labelView.stringValue = title
     labelView.alignment = .center
     labelView.textColor = .secondaryLabelColor
@@ -340,7 +340,7 @@ public func separatorView(_ title: String, origin: NSPoint = NSPoint(x: 0, y: 0)
     return view
 }
 
-public func popupRow(_ view: NSView, title: String, value: String) -> (LabelField, ValueField) {
+public func popupRow(_ view: NSView, title: String, value: String) -> (LabelField, ValueField, NSView) {
     let rowView: NSView = NSView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: 22))
     
     let labelWidth = title.widthOfString(usingFont: .systemFont(ofSize: 13, weight: .regular)) + 4
@@ -357,7 +357,7 @@ public func popupRow(_ view: NSView, title: String, value: String) -> (LabelFiel
         view.addSubview(rowView)
     }
     
-    return (labelView, valueView)
+    return (labelView, valueView, rowView)
 }
 
 public func portalRow(_ v: NSStackView, title: String, value: String = "", isSelectable: Bool = false) -> ValueField {
@@ -1502,6 +1502,7 @@ public protocol PreferencesSwitchWith_p: NSView {
     var isEnabled: Bool { get set }
 }
 extension NSPopUpButton: PreferencesSwitchWith_p {}
+extension NSTextField: PreferencesSwitchWith_p {}
 public class PreferencesSwitch: NSStackView {
     private let action: (_ sender: NSControl) -> Void
     private let with: PreferencesSwitchWith_p

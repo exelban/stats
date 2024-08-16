@@ -30,30 +30,34 @@ internal class Popup: PopupWrapper {
     private var downloadColorView: NSView? = nil
     private var uploadColorView: NSView? = nil
     
-    private var localIPField: ValueField? = nil
-    private var interfaceField: ValueField? = nil
-    private var macAddressField: ValueField? = nil
+    private var detailsView: NSStackView? = nil
     private var totalUploadLabel: LabelField? = nil
     private var totalUploadField: ValueField? = nil
     private var totalDownloadLabel: LabelField? = nil
     private var totalDownloadField: ValueField? = nil
     private var statusField: ValueField? = nil
     private var connectivityField: ValueField? = nil
+    private var interfaceField: ValueField? = nil
+    private var macAddressField: ValueField? = nil
     private var latencyField: ValueField? = nil
-    
-    private var publicIPStackView: NSView? = nil
-    private var publicIPv4Field: ValueField? = nil
-    private var publicIPv6Field: ValueField? = nil
     
     private var ssidField: ValueField? = nil
     private var standardField: ValueField? = nil
     private var channelField: ValueField? = nil
+    private var ssidView: NSView? = nil
+    private var standardView: NSView? = nil
+    private var channelView: NSView? = nil
+    
+    private var addressView: NSStackView? = nil
+    private var localIPField: ValueField? = nil
+    private var publicIPv4Field: ValueField? = nil
+    private var publicIPv6Field: ValueField? = nil
+    private var publicIPv4View: NSView? = nil
+    private var publicIPv6View: NSView? = nil
+    private var publicIPState: Bool = true
     
     private var processesView: NSView? = nil
-    
-    private var initialized: Bool = false
-    private var processesInitialized: Bool = false
-    private var connectionInitialized: Bool = false
+    private var processes: ProcessesView? = nil
     
     private var chart: NetworkChartView? = nil
     private var reverseOrderState: Bool = false
@@ -63,11 +67,13 @@ internal class Popup: PopupWrapper {
     private var chartFixedScaleSize: SizeUnit = .MB
     private var chartPrefSection: PreferencesSection? = nil
     private var connectivityChart: GridChartView? = nil
-    private var processes: ProcessesView? = nil
-    private var sliderView: NSView? = nil
-    private var publicIPState: Bool = true
+    
+    private var initialized: Bool = false
+    private var processesInitialized: Bool = false
+    private var connectionInitialized: Bool = false
     
     private var lastReset: Date = Date()
+    private var latency: [Double] = []
     
     private var base: DataSizeBase {
         DataSizeBase(rawValue: Store.shared.string(key: "\(self.title)_base", defaultValue: "byte")) ?? .byte
@@ -96,17 +102,13 @@ internal class Popup: PopupWrapper {
         return value
     }
     
-    private var latency: [Double] = []
-    
     public init(_ module: ModuleType) {
         self.title = module.rawValue
         
-        super.init(frame: NSRect(
-            x: 0,
-            y: 0,
-            width: Constants.Popup.width,
-            height: 0
-        ))
+        super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: 0))
+        
+        self.spacing = 0
+        self.orientation = .vertical
         
         self.downloadColorState = SColor.fromString(Store.shared.string(key: "\(self.title)_downloadColor", defaultValue: self.downloadColorState.key))
         self.uploadColorState = SColor.fromString(Store.shared.string(key: "\(self.title)_uploadColor", defaultValue: self.uploadColorState.key))
@@ -117,18 +119,15 @@ internal class Popup: PopupWrapper {
         self.chartFixedScaleSize = SizeUnit.fromString(Store.shared.string(key: "\(self.title)_chartFixedScaleSize", defaultValue: self.chartFixedScaleSize.key))
         self.publicIPState = Store.shared.bool(key: "\(self.title)_publicIP", defaultValue: self.publicIPState)
         
-        self.spacing = 0
-        self.orientation = .vertical
-        
         self.addArrangedSubview(self.initDashboard())
         self.addArrangedSubview(self.initChart())
         self.addArrangedSubview(self.initConnectivityChart())
         self.addArrangedSubview(self.initDetails())
-        self.addArrangedSubview(self.initPublicIP())
+        self.addArrangedSubview(self.initAddress())
         self.addArrangedSubview(self.initProcesses())
         
         if !self.publicIPState {
-            self.publicIPStackView?.removeFromSuperview()
+            self.addressView?.removeFromSuperview()
         }
         
         self.recalculateHeight()
@@ -145,7 +144,14 @@ internal class Popup: PopupWrapper {
     }
     
     private func recalculateHeight() {
-        let h = self.arrangedSubviews.map({ $0.bounds.height }).reduce(0, +)
+        var h: CGFloat = 0
+        self.arrangedSubviews.forEach { v in
+            if let v = v as? NSStackView {
+                h += v.arrangedSubviews.map({ $0.bounds.height }).reduce(0, +)
+            } else {
+                h += v.bounds.height
+            }
+        }
         if self.frame.size.height != h {
             self.setFrameSize(NSSize(width: self.frame.width, height: h))
             self.sizeCallback?(self.frame.size)
@@ -190,7 +196,7 @@ internal class Popup: PopupWrapper {
         
         let chart = NetworkChartView(
             frame: NSRect(x: 0, y: 1, width: container.frame.width, height: container.frame.height - 2),
-            num: self.chartHistory, reversedOrder: self.reverseOrderState, outColor: self.uploadColor, inColor: self.downloadColor, 
+            num: self.chartHistory, reversedOrder: self.reverseOrderState, outColor: self.uploadColor, inColor: self.downloadColor,
             scale: self.chartScale,
             fixedScale: Double(self.chartFixedScaleSize.toBytes(self.chartFixedScale))
         )
@@ -224,31 +230,13 @@ internal class Popup: PopupWrapper {
     }
     
     private func initDetails() -> NSView {
-        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 0))
-        let container: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: 0))
-        container.orientation = .vertical
-        container.spacing = 0
+        let view = NSStackView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 0))
+        view.orientation = .vertical
+        view.spacing = 0
+        view.addArrangedSubview(separatorView(localizedString("Details"), width: self.frame.width))
         
-        let row: NSView = NSView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Popup.separatorHeight))
-        
-        let button = NSButtonWithPadding()
-        button.frame = CGRect(x: view.frame.width - 18, y: 6, width: 18, height: 18)
-        button.bezelStyle = .regularSquare
-        button.isBordered = false
-        button.imageScaling = NSImageScaling.scaleAxesIndependently
-        button.contentTintColor = .lightGray
-        button.action = #selector(self.resetTotalNetworkUsage)
-        button.target = self
-        button.toolTip = localizedString("Reset")
-        button.image = Bundle(for: Module.self).image(forResource: "refresh")!
-        
-        row.addSubview(separatorView(localizedString("Details"), origin: NSPoint(x: 0, y: 0), width: self.frame.width))
-        row.addSubview(button)
-        
-        container.addArrangedSubview(row)
-        
-        let totalUpload = popupWithColorRow(container, color: self.uploadColor, title: "\(localizedString("Total upload")):", value: "0")
-        let totalDownload = popupWithColorRow(container, color: self.downloadColor, title: "\(localizedString("Total download")):", value: "0")
+        let totalUpload = popupWithColorRow(view, color: self.uploadColor, title: "\(localizedString("Total upload")):", value: "0")
+        let totalDownload = popupWithColorRow(view, color: self.downloadColor, title: "\(localizedString("Total download")):", value: "0")
         
         self.uploadColorView = totalUpload.0
         self.totalUploadLabel = totalUpload.1
@@ -258,40 +246,35 @@ internal class Popup: PopupWrapper {
         self.totalDownloadLabel = totalDownload.1
         self.totalDownloadField = totalDownload.2
         
-        self.statusField = popupRow(container, title: "\(localizedString("Status")):", value: localizedString("Unknown")).1
-        self.connectivityField = popupRow(container, title: "\(localizedString("Internet connection")):", value: localizedString("Unknown")).1
-        self.latencyField = popupRow(container, title: "\(localizedString("Latency")):", value: "0 ms").1
-        
-        self.interfaceField = popupRow(container, title: "\(localizedString("Interface")):", value: localizedString("Unknown")).1
-        self.ssidField = popupRow(container, title: "\(localizedString("Network")):", value: localizedString("Unknown")).1
-        self.standardField = popupRow(container, title: "\(localizedString("Standard")):", value: localizedString("Unknown")).1
-        self.channelField = popupRow(container, title: "\(localizedString("Channel")):", value: localizedString("Unknown")).1
-        
-        self.macAddressField = popupRow(container, title: "\(localizedString("Physical address")):", value: localizedString("Unknown")).1
-        self.localIPField = popupRow(container, title: "\(localizedString("Local IP")):", value: localizedString("Unknown")).1
-        
-        self.localIPField?.isSelectable = true
+        self.statusField = popupRow(view, title: "\(localizedString("Status")):", value: localizedString("Unknown")).1
+        self.connectivityField = popupRow(view, title: "\(localizedString("Internet connection")):", value: localizedString("Unknown")).1
+        self.latencyField = popupRow(view, title: "\(localizedString("Latency")):", value: "0 ms").1
+        self.interfaceField = popupRow(view, title: "\(localizedString("Interface")):", value: localizedString("Unknown")).1
+        self.macAddressField = popupRow(view, title: "\(localizedString("Physical address")):", value: localizedString("Unknown")).1
         self.macAddressField?.isSelectable = true
         
-        view.addSubview(container)
+        let ssid = popupRow(view, title: "\(localizedString("Network")):", value: localizedString("Unknown"))
+        let standard = popupRow(view, title: "\(localizedString("Standard")):", value: localizedString("Unknown"))
+        let channel = popupRow(view, title: "\(localizedString("Channel")):", value: localizedString("Unknown"))
         
-        let h = container.arrangedSubviews.map({ $0.bounds.height }).reduce(0, +)
-        view.setFrameSize(NSSize(width: self.frame.width, height: h))
-        container.setFrameSize(NSSize(width: self.frame.width, height: view.bounds.height))
-        view.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
-        container.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
+        self.ssidField = ssid.1
+        self.standardField = standard.1
+        self.channelField = channel.1
+        self.ssidView = ssid.2
+        self.standardView = standard.2
+        self.channelView = channel.2
         
+        self.detailsView = view
         return view
     }
     
-    private func initPublicIP() -> NSView {
-        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 0))
-        let container: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: 0))
-        container.orientation = .vertical
-        container.spacing = 0
+    private func initAddress() -> NSView {
+        let view = NSStackView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 0))
+        view.orientation = .vertical
+        view.spacing = 0
         
         let row: NSView = NSView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Popup.separatorHeight))
-        
+        row.heightAnchor.constraint(equalToConstant: Constants.Popup.separatorHeight).isActive = true
         let button = NSButtonWithPadding()
         button.frame = CGRect(x: view.frame.width - 18, y: 6, width: 18, height: 18)
         button.bezelStyle = .regularSquare
@@ -302,32 +285,33 @@ internal class Popup: PopupWrapper {
         button.target = self
         button.toolTip = localizedString("Refresh")
         button.image = Bundle(for: Module.self).image(forResource: "refresh")!
-        
-        row.addSubview(separatorView(localizedString("Public IP"), origin: NSPoint(x: 0, y: 0), width: self.frame.width))
+        row.addSubview(separatorView(localizedString("Address"), width: self.frame.width))
         row.addSubview(button)
+        view.addArrangedSubview(row)
         
-        container.addArrangedSubview(row)
+        self.localIPField = popupRow(view, title: "\(localizedString("Local IP")):", value: localizedString("Unknown")).1
         
-        self.publicIPv4Field = popupRow(container, title: "\(localizedString("v4")):", value: localizedString("Unknown")).1
-        self.publicIPv6Field = popupRow(container, title: "\(localizedString("v6")):", value: localizedString("Unknown")).1
+        let ipV4 = popupRow(view, title: "\(localizedString("Public IP")):", value: localizedString("Unknown"))
+        let ipV6 = popupRow(view, title: "\(localizedString("Public IP")):", value: localizedString("Unknown"))
         
+        self.publicIPv4Field = ipV4.1
+        self.publicIPv6Field = ipV6.1
+        self.publicIPv4View = ipV4.2
+        self.publicIPv6View = ipV6.2
+        
+        self.localIPField?.isSelectable = true
         self.publicIPv4Field?.isSelectable = true
+        self.publicIPv6Field?.isSelectable = true
+        
         if let valueView = self.publicIPv6Field {
-            valueView.isSelectable = true
             valueView.font = NSFont.systemFont(ofSize: 10, weight: .regular)
             valueView.setFrameOrigin(NSPoint(x: valueView.frame.origin.x, y: 1))
         }
         
-        view.addSubview(container)
+        ipV4.2.removeFromSuperview()
+        ipV6.2.removeFromSuperview()
         
-        let h = container.arrangedSubviews.map({ $0.bounds.height }).reduce(0, +)
-        view.setFrameSize(NSSize(width: self.frame.width, height: h))
-        container.setFrameSize(NSSize(width: self.frame.width, height: view.bounds.height))
-        view.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
-        container.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
-        
-        self.publicIPStackView = view
-        
+        self.addressView = view
         return view
     }
     
@@ -370,6 +354,7 @@ internal class Popup: PopupWrapper {
     public func usageCallback(_ value: Network_Usage) {
         DispatchQueue.main.async(execute: {
             if (self.window?.isVisible ?? false) || !self.initialized {
+                var resized = false
                 self.uploadValue = value.bandwidth.upload
                 self.downloadValue = value.bandwidth.download
                 self.setUploadDownloadFields()
@@ -396,10 +381,26 @@ internal class Popup: PopupWrapper {
                 }
                 
                 if value.connectionType == .wifi {
+                    if let view = self.ssidView, view.superview == nil && value.wifiDetails.ssid != nil {
+                        self.detailsView?.addArrangedSubview(view)
+                        resized = true
+                    }
+                    if let view = self.standardView, view.superview == nil && value.wifiDetails.standard != nil {
+                        self.detailsView?.addArrangedSubview(view)
+                        resized = true
+                    }
+                    if let view = self.channelView, view.superview == nil && value.wifiDetails.channel != nil {
+                        self.detailsView?.addArrangedSubview(view)
+                        resized = true
+                    }
+                    
                     self.ssidField?.stringValue = value.wifiDetails.ssid ?? localizedString("Unknown")
                     if let v = value.wifiDetails.RSSI {
                         self.ssidField?.stringValue += " (\(v))"
                     }
+                    self.standardField?.stringValue = value.wifiDetails.standard ?? localizedString("Unknown")
+                    self.channelField?.stringValue = value.wifiDetails.channel ?? localizedString("Unknown")
+                    
                     var rssi = localizedString("Unknown")
                     if let v = value.wifiDetails.RSSI {
                         rssi = "\(v) dBm"
@@ -413,31 +414,25 @@ internal class Popup: PopupWrapper {
                         txRate = "\(v) Mbps"
                     }
                     
-                    self.standardField?.stringValue = value.wifiDetails.standard ?? localizedString("Unknown")
-                    self.channelField?.stringValue = value.wifiDetails.channel ?? localizedString("Unknown")
-                    
                     let number = value.wifiDetails.channelNumber ?? localizedString("Unknown")
                     let band = value.wifiDetails.channelBand ?? localizedString("Unknown")
                     let width = value.wifiDetails.channelWidth ?? localizedString("Unknown")
                     self.channelField?.toolTip = "RSSI: \(rssi)\nNoise: \(noise)\nChannel number: \(number)\nChannel band: \(band)\nChannel width: \(width)\nTransmit rate: \(txRate)"
                 } else {
-                    self.ssidField?.stringValue = localizedString("Unavailable")
-                    self.standardField?.stringValue = localizedString("Unavailable")
-                    self.channelField?.stringValue = localizedString("Unavailable")
-                }
-                
-                if let view = self.publicIPv4Field, view.stringValue != value.raddr.v4 {
-                    if let addr = value.raddr.v4 {
-                        view.stringValue = (value.wifiDetails.countryCode != nil) ? "\(addr) (\(value.wifiDetails.countryCode!))" : addr
-                    } else {
-                        view.stringValue = localizedString("Unknown")
+                    if self.ssidView?.superview != nil {
+                        self.ssidField?.stringValue = localizedString("Unavailable")
+                        self.ssidView?.removeFromSuperview()
+                        resized = true
                     }
-                }
-                if let view = self.publicIPv6Field, view.stringValue != value.raddr.v6 {
-                    if let addr = value.raddr.v6 {
-                        view.stringValue = addr
-                    } else {
-                        view.stringValue = localizedString("Unknown")
+                    if self.standardField?.superview != nil {
+                        self.standardField?.stringValue = localizedString("Unavailable")
+                        self.standardView?.removeFromSuperview()
+                        resized = true
+                    }
+                    if self.channelView?.superview != nil {
+                        self.channelField?.stringValue = localizedString("Unavailable")
+                        self.channelView?.removeFromSuperview()
+                        resized = true
                     }
                 }
                 
@@ -445,8 +440,43 @@ internal class Popup: PopupWrapper {
                     self.localIPField?.stringValue = value.laddr ?? localizedString("Unknown")
                 }
                 
+                if let view = self.publicIPv4View {
+                    if let addr = value.raddr.v4 {
+                        if view.superview == nil {
+                            self.addressView?.addArrangedSubview(view)
+                            self.recalculateHeight()
+                        }
+                        if self.publicIPv4Field?.stringValue != addr {
+                            self.publicIPv4Field?.stringValue = (value.wifiDetails.countryCode != nil) ? "\(addr) (\(value.wifiDetails.countryCode!))" : addr
+                        }
+                    } else if view.superview != nil {
+                        view.removeFromSuperview()
+                        self.recalculateHeight()
+                        self.publicIPv4Field?.stringValue = localizedString("Unknown")
+                    }
+                }
+                
+                if let view = self.publicIPv6View {
+                    if let addr = value.raddr.v6 {
+                        if view.superview == nil {
+                            self.addressView?.addArrangedSubview(view)
+                            resized = true
+                        }
+                        if self.publicIPv6Field?.stringValue != addr {
+                            self.publicIPv6Field?.stringValue = addr
+                        }
+                    } else if view.superview != nil {
+                        view.removeFromSuperview()
+                        resized = true
+                        self.publicIPv6Field?.stringValue = localizedString("Unknown")
+                    }
+                }
+                
                 self.statusField?.stringValue = localizedString(value.status ? "UP" : "DOWN")
                 
+                if resized {
+                    self.recalculateHeight()
+                }
                 self.initialized = true
             }
             
@@ -619,8 +649,8 @@ internal class Popup: PopupWrapper {
         
         DispatchQueue.main.async(execute: {
             if !self.publicIPState {
-                self.publicIPStackView?.removeFromSuperview()
-            } else if let view = self.publicIPStackView {
+                self.addressView?.removeFromSuperview()
+            } else if let view = self.addressView {
                 self.insertArrangedSubview(view, at: 4)
             }
             self.recalculateHeight()
@@ -726,6 +756,9 @@ internal class Popup: PopupWrapper {
     
     @objc private func refreshPublicIP() {
         NotificationCenter.default.post(name: .refreshPublicIP, object: nil, userInfo: nil)
+        self.localIPField?.stringValue = localizedString("Updating...")
+        self.publicIPv4Field?.stringValue = localizedString("Updating...")
+        self.publicIPv6Field?.stringValue = localizedString("Updating...")
     }
     
     @objc private func resetTotalNetworkUsage() {
