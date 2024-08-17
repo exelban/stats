@@ -66,7 +66,14 @@ internal class Popup: PopupWrapper {
     }
     
     private func recalculateHeight() {
-        let h = self.subviews.map({ $0.bounds.height }).reduce(0, +)
+        var h: CGFloat = 0
+        self.arrangedSubviews.forEach { v in
+            if let v = v as? NSStackView {
+                h += v.arrangedSubviews.map({ $0.bounds.height }).reduce(0, +)
+            } else {
+                h += v.bounds.height
+            }
+        }
         if self.frame.size.height != h {
             self.setFrameSize(NSSize(width: self.frame.width, height: h))
             self.sizeCallback?(self.frame.size)
@@ -137,7 +144,8 @@ internal class Popup: PopupWrapper {
                     size: drive.size,
                     free: drive.free,
                     path: drive.path,
-                    smart: drive.smart
+                    smart: drive.smart,
+                    resize: self.recalculateHeight
                 ))
             }
         }
@@ -258,21 +266,40 @@ internal class Popup: PopupWrapper {
 }
 
 internal class DiskView: NSStackView {
+    internal var sizeCallback: (() -> Void) = {}
+    
     public var name: String
     public var uuid: String
+    private let width: CGFloat
     
     private var nameView: NameView
     private var chartView: ChartView
     private var barView: BarView
     private var legendView: LegendView
+    private var readView: SpeedView?
+    private var writeView: SpeedView?
     private var readDataView: DataView
     private var writtenDataView: DataView
     private var temperatureView: TemperatureView?
     private var lifeView: LifeView?
     
-    init(width: CGFloat, uuid: String = "", name: String = "", size: Int64 = 1, free: Int64 = 1, path: URL? = nil, smart: smart_t? = nil) {
+    private var detailsState: Bool {
+        get { Store.shared.bool(key: "\(self.uuid)_details", defaultValue: false) }
+        set { Store.shared.set(key: "\(self.uuid)_details", value: newValue) }
+    }
+    
+    private var readColor: NSColor {
+        SColor.fromString(Store.shared.string(key: "\(ModuleType.disk.rawValue)_readColor", defaultValue: SColor.secondBlue.key)).additional as! NSColor
+    }
+    private var writeColor: NSColor {
+        SColor.fromString(Store.shared.string(key: "\(ModuleType.disk.rawValue)_writeColor", defaultValue: SColor.secondRed.key)).additional as! NSColor
+    }
+    
+    init(width: CGFloat, uuid: String = "", name: String = "", size: Int64 = 1, free: Int64 = 1, path: URL? = nil, smart: smart_t? = nil, resize: @escaping () -> Void) {
+        self.sizeCallback = resize
         self.uuid = uuid
         self.name = name
+        self.width = width
         let innerWidth: CGFloat = width - (Constants.Popup.margins * 2)
         self.nameView = NameView(width: innerWidth, name: name, size: size, free: free, path: path)
         self.chartView = ChartView(width: innerWidth)
@@ -285,35 +312,31 @@ internal class DiskView: NSStackView {
             self.lifeView = LifeView(width: innerWidth, smart: smart)
         }
         
-        super.init(frame: NSRect(x: 0, y: 0, width: width, height: 82))
+        super.init(frame: NSRect(x: 0, y: 0, width: width, height: 0))
         
+        self.readView = SpeedView(width: innerWidth, title: "\(localizedString("Read")):", color: self.readColor)
+        self.writeView = SpeedView(width: innerWidth, title: "\(localizedString("Write")):", color: self.writeColor)
+        
+        self.widthAnchor.constraint(equalToConstant: width).isActive = true
         self.orientation = .vertical
         self.distribution = .fillProportionally
         self.spacing = 5
-        self.edgeInsets = NSEdgeInsets(
-            top: 5,
-            left: 0,
-            bottom: 5,
-            right: 0
-        )
+        self.edgeInsets = NSEdgeInsets(top: 5, left: 0, bottom: 5, right: 0)
         self.wantsLayer = true
         self.layer?.cornerRadius = 2
+        
+        self.nameView.detailsCallback = { [weak self] in
+            guard let s = self else { return }
+            s.detailsState = !s.detailsState
+            s.toggleDetails()
+        }
         
         self.addArrangedSubview(self.nameView)
         self.addArrangedSubview(self.chartView)
         self.addArrangedSubview(self.barView)
         self.addArrangedSubview(self.legendView)
-        self.addArrangedSubview(self.readDataView)
-        self.addArrangedSubview(self.writtenDataView)
-        if smart != nil, let temperatureView = self.temperatureView, let lifeView = self.lifeView {
-            self.addArrangedSubview(temperatureView)
-            self.addArrangedSubview(lifeView)
-        }
         
-        let h = self.arrangedSubviews.map({ $0.bounds.height + self.spacing }).reduce(0, +) - 5 + 10
-        self.setFrameSize(NSSize(width: self.frame.width, height: h))
-        self.widthAnchor.constraint(equalToConstant: width).isActive = true
-        self.heightAnchor.constraint(equalToConstant: h).isActive = true
+        self.toggleDetails()
     }
     
     required init?(coder: NSCoder) {
@@ -333,6 +356,8 @@ internal class DiskView: NSStackView {
     }
     
     public func updateReadWrite(read: Int64, write: Int64) {
+        self.readView?.update(read)
+        self.writeView?.update(write)
         self.nameView.update(free: nil, read: read, write: write)
         self.chartView.update(read: read, write: write)
     }
@@ -346,9 +371,39 @@ internal class DiskView: NSStackView {
     public func setChartReverseOrder(_ newValue: Bool) {
         self.chartView.setReverseOrder(newValue)
     }
+    
+    private func toggleDetails() {
+        if self.detailsState {
+            if let view = self.readView {
+                self.addArrangedSubview(view)
+            }
+            if let view = self.writeView {
+                self.addArrangedSubview(view)
+            }
+            self.addArrangedSubview(self.readDataView)
+            self.addArrangedSubview(self.writtenDataView)
+            if let temperatureView = self.temperatureView, let lifeView = self.lifeView {
+                self.addArrangedSubview(temperatureView)
+                self.addArrangedSubview(lifeView)
+            }
+        } else {
+            self.readView?.removeFromSuperview()
+            self.writeView?.removeFromSuperview()
+            self.readDataView.removeFromSuperview()
+            self.writtenDataView.removeFromSuperview()
+            self.temperatureView?.removeFromSuperview()
+            self.lifeView?.removeFromSuperview()
+        }
+        
+        let h = self.arrangedSubviews.map({ $0.bounds.height + self.spacing }).reduce(0, +) - 5 + 10
+        self.setFrameSize(NSSize(width: self.frame.width, height: h))
+        self.sizeCallback()
+    }
 }
 
 internal class NameView: NSStackView {
+    internal var detailsCallback: (() -> Void) = {}
+    
     private let size: Int64
     private let uri: URL?
     private let finder: URL?
@@ -373,57 +428,59 @@ internal class NameView: NSStackView {
         
         self.orientation = .horizontal
         self.alignment = .centerY
-        self.spacing = 0
+        self.spacing = 4
         
         self.toolTip = localizedString("Open disk")
         
-        let nameField: NSTextField = TextView(frame: NSRect(x: 0, y: 0, width: self.frame.width - 64, height: self.frame.height))
-        nameField.widthAnchor.constraint(equalToConstant: nameField.bounds.width).isActive = true
-        nameField.stringValue = name
+        let nameField = NSButton()
+        nameField.bezelStyle = .inline
+        nameField.isBordered = false
+        nameField.contentTintColor = .darkGray
+        nameField.action = #selector(self.openDisk)
+        nameField.target = self
+        nameField.toolTip = localizedString("Control")
+        nameField.title = name
         nameField.cell?.truncatesLastVisibleLine = true
         
-        let activity: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: 64, height: self.frame.height))
-        activity.distribution = .fillEqually
-        activity.spacing = 0
+        let activity: NSStackView = NSStackView()
+        activity.distribution = .fill
+        activity.spacing = 2
         
-        let readView: NSView = NSView(frame: NSRect(x: 0, y: 0, width: 32, height: activity.frame.height))
-        let readField: NSTextField = TextView(frame: NSRect(x: 0, y: 0, width: nameField.frame.width, height: readView.frame.height))
-        readField.stringValue = "R"
-        let readState: NSView = NSView(frame: NSRect(x: 13, y: (readView.frame.height-10)/2, width: 10, height: 10))
+        let readState: NSView = NSView()
+        readState.widthAnchor.constraint(equalToConstant: 8).isActive = true
+        readState.heightAnchor.constraint(equalToConstant: 8).isActive = true
         readState.wantsLayer = true
         readState.layer?.backgroundColor = NSColor.lightGray.withAlphaComponent(0.75).cgColor
-        readState.layer?.cornerRadius = 2
-        
-        let writeView: NSView = NSView(frame: NSRect(x: 0, y: 0, width: 32, height: activity.frame.height))
-        let writeField: NSTextField = TextView(frame: NSRect(x: 0, y: 0, width: nameField.frame.width, height: readView.frame.height))
-        writeField.stringValue = "W"
-        let writeState: NSView = NSView(frame: NSRect(x: 17, y: (writeView.frame.height-10)/2, width: 10, height: 10))
+        readState.layer?.cornerRadius = 4
+        readState.toolTip = localizedString("Read")
+        let writeState: NSView = NSView()
+        writeState.widthAnchor.constraint(equalToConstant: 8).isActive = true
+        writeState.heightAnchor.constraint(equalToConstant: 8).isActive = true
         writeState.wantsLayer = true
         writeState.layer?.backgroundColor = NSColor.lightGray.withAlphaComponent(0.75).cgColor
-        writeState.layer?.cornerRadius = 2
-        
-        readView.addSubview(readField)
-        readView.addSubview(readState)
-        
-        writeView.addSubview(writeField)
-        writeView.addSubview(writeState)
-        
-        activity.addArrangedSubview(readView)
-        activity.addArrangedSubview(writeView)
-        
-        self.addArrangedSubview(nameField)
-        self.addArrangedSubview(activity)
-        
+        writeState.layer?.cornerRadius = 4
+        writeState.toolTip = localizedString("Write")
         self.readState = readState
         self.writeState = writeState
         
-        let trackingArea = NSTrackingArea(
-            rect: CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height),
-            options: [NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited, NSTrackingArea.Options.activeInActiveApp],
-            owner: self,
-            userInfo: nil
-        )
-        self.addTrackingArea(trackingArea)
+        activity.addArrangedSubview(readState)
+        activity.addArrangedSubview(writeState)
+        
+        let button = NSButton()
+        button.frame = CGRect(x: (self.frame.width/3)-20, y: 10, width: 15, height: 15)
+        button.bezelStyle = .regularSquare
+        button.isBordered = false
+        button.imageScaling = NSImageScaling.scaleAxesIndependently
+        button.contentTintColor = .lightGray
+        button.action = #selector(self.toggleDetails)
+        button.target = self
+        button.toolTip = localizedString("Control")
+        button.image = Bundle(for: Module.self).image(forResource: "tune")!
+        
+        self.addArrangedSubview(nameField)
+        self.addArrangedSubview(activity)
+        self.addArrangedSubview(NSView())
+        self.addArrangedSubview(button)
         
         self.widthAnchor.constraint(equalToConstant: self.frame.width).isActive = true
         self.heightAnchor.constraint(equalToConstant: self.frame.height).isActive = true
@@ -436,29 +493,25 @@ internal class NameView: NSStackView {
     public func update(free: Int64?, read: Int64?, write: Int64?) {
         if (self.window?.isVisible ?? false) || !self.ready {
             if let read = read {
-                self.readState?.toolTip = DiskSize(read).getReadableMemory()
+                self.readState?.toolTip = "Read: \(Units(bytes: read).getReadableSpeed())"
                 self.readState?.layer?.backgroundColor = read != 0 ? self.readColor.cgColor : NSColor.lightGray.withAlphaComponent(0.75).cgColor
             }
             if let write = write {
-                self.writeState?.toolTip = DiskSize(write).getReadableMemory()
+                self.writeState?.toolTip = "Write: \(Units(bytes: write).getReadableSpeed())"
                 self.writeState?.layer?.backgroundColor = write != 0 ? self.writeColor.cgColor : NSColor.lightGray.withAlphaComponent(0.75).cgColor
             }
             self.ready = true
         }
     }
     
-    override func mouseEntered(with: NSEvent) {
-        NSCursor.pointingHand.set()
-    }
-    
-    override func mouseExited(with: NSEvent) {
-        NSCursor.arrow.set()
-    }
-    
-    override func mouseDown(with: NSEvent) {
+    @objc private func openDisk() {
         if let uri = self.uri, let finder = self.finder {
             NSWorkspace.shared.open([uri], withApplicationAt: finder, configuration: NSWorkspace.OpenConfiguration())
         }
+    }
+    
+    @objc private func toggleDetails() {
+        self.detailsCallback()
     }
 }
 
@@ -818,6 +871,52 @@ internal class DataView: NSStackView {
     public func update(_ newValue: Int64) {
         if (self.window?.isVisible ?? false) || !self.initialized {
             self.field.stringValue = Units(bytes: newValue).getReadableMemory()
+            self.initialized = true
+        }
+    }
+}
+internal class SpeedView: NSStackView {
+    private var initialized: Bool = false
+    private let field: NSTextField = TextView()
+    
+    init(width: CGFloat, title: String, color: NSColor) {
+        super.init(frame: CGRect(x: 0, y: 0, width: width, height: 16))
+        
+        self.orientation = .horizontal
+        self.spacing = 0
+        
+        let colorView: NSView = NSView(frame: NSRect(x: 0, y: 0, width: 12, height: 12))
+        colorView.widthAnchor.constraint(equalToConstant: 12).isActive = true
+        colorView.heightAnchor.constraint(equalToConstant: 12).isActive = true
+        colorView.wantsLayer = true
+        colorView.layer?.backgroundColor = color.cgColor
+        colorView.layer?.cornerRadius = 2
+        
+        let titleField = TextView()
+        titleField.font = NSFont.systemFont(ofSize: 11, weight: .light)
+        titleField.stringValue = title
+        titleField.cell?.truncatesLastVisibleLine = true
+        
+        self.field.font = NSFont.systemFont(ofSize: 11, weight: .regular)
+        self.field.alignment = .right
+        self.field.stringValue = "0"
+        
+        self.addArrangedSubview(colorView)
+        self.addArrangedSubview(titleField)
+        self.addArrangedSubview(NSView())
+        self.addArrangedSubview(self.field)
+        
+        self.widthAnchor.constraint(equalToConstant: self.frame.width).isActive = true
+        self.heightAnchor.constraint(equalToConstant: self.frame.height).isActive = true
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    public func update(_ newValue: Int64) {
+        if (self.window?.isVisible ?? false) || !self.initialized {
+            self.field.stringValue = Units(bytes: newValue).getReadableSpeed()
             self.initialized = true
         }
     }
