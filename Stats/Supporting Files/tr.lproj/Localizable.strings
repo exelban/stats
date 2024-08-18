@@ -136,20 +136,20 @@
 "Show icon in dock" = "Dock'ta göster";
 "Start at login" = "Başlangıçta çalıştır";
 "Build number" = "Sürüm numarası";
-"Import settings" = "Import settings";
-"Export settings" = "Export settings";
+"Import settings" = "Ayarları içe aktar";
+"Export settings" = "Ayarları dışa aktar";
 "Reset settings" = "Ayarları sıfırla";
 "Pause the Stats" = "Stats'ı Duraklat";
 "Resume the Stats" = "Stats'ı Sürdür";
 "Combined modules" = "Kombine modüller";
-"Combined details" = "Combined details";
+"Combined details" = "Kombine ayrıntılar";
 "Spacing" = "Aralık";
 "Share anonymous telemetry" = "Anonim telemetri paylaş";
 
 // Dashboard
 "Serial number" = "Seri numarası";
-"Model identifier" = "Model identifier";
-"Production year" = "Production year";
+"Model identifier" = "Model tanımlayıcı";
+"Production year" = "Üretim yılı";
 "Uptime" = "Çalışma süresi";
 "Number of cores" = "%0 çekirdek";
 "Number of threads" = "%0 iş parçacığı";
@@ -196,9 +196,9 @@
 "Monospaced font" = "Eşit aralıklı font";
 "Reverse order" = "Sıralamayı tersine çevir";
 "Chart history" = "Grafik tarihi";
-"Default color" = "Default";
-"Transparent when no activity" = "Transparent when no activity";
-"Constant color" = "Constant";
+"Default color" = "Varsayılan renk";
+"Transparent when no activity" = "Aktif değilse transparan";
+"Constant color" = "Sabit renk";
 
 // Module Kit
 "Open module settings" = "Modül ayarlarını aç";
@@ -207,10 +207,10 @@
 "Update interval" = "Güncelleme aralığı";
 "Usage history" = "Kullanım geçmişi";
 "Details" = "Detaylar";
-"Top processes" = "Ana İşlemler";
+"Top processes" = "Ana işlemler";
 "Pictogram" = "Piktogram";
 "Module" = "Modül";
-"Widgets" = "Widgets";
+"Widgets" = "Widget'lar";
 "Popup" = "Açılır Pencere";
 "Notifications" = "Bildirimler";
 "Merge widgets" = "Widget'ları birleştir";
@@ -220,12 +220,12 @@
 "Kill process" = "İşlemi sonlandır";
 
 // Modules
-"Number of top processes" = "İşlem sayısı";
+"Number of top processes" = "Zirve işlemlerin sayısı";
 "Update interval for top processes" = "En yüksek işlemler için güncelleme aralığı";
 "Notification level" = "Bildirim düzeyi";
-"Chart color" = "Grafik rengi";
-"Main chart scaling" = "Ana grafik ölçeklendirmesi";
-"Scale value" = "Değeri ölçeklendir";
+"Chart color" = "Çizelge rengi";
+"Main chart scaling" = "Ana çizelge ölçeklendirmesi";
+"Scale value" = "Ölçekleme değeri";
 
 // CPU
 "CPU usage" = "CPU kullanımı";
@@ -262,8 +262,8 @@
 // GPU
 "GPU to show" = "Gösterilecek GPU";
 "Show GPU type" = "GPU türünü göster";
-"GPU enabled" = "GPU aktif";
-"GPU disabled" = "GPU kapalı";
+"GPU enabled" = "GPU devrede";
+"GPU disabled" = "GPU devre dışı";
 "GPU temperature" = "GPU sıcaklığı";
 "GPU utilization" = "GPU kullanımı";
 "Vendor" = "Üretici";
@@ -429,8 +429,8 @@
 "Based on utilization" = "Kullanıma dayalı";
 "Based on pressure" = "Yüke dayalı";
 "Based on cluster" = "Kümeye dayalı";
-"System accent" = "Sistem teması";
-"Monochrome accent" = "Siyah-beyaz tema";
+"System accent" = "Sistem vurgusu";
+"Monochrome accent" = "Siyah-beyaz vurgu";
 "Clear" = "Temizle";
 "White" = "Beyaz";
 "Black" = "Siyah";
