@@ -318,7 +318,7 @@ internal class SensorView: NSStackView {
     }
     
     public func addHistoryPoint(_ sensor: Sensor_p) {
-        self.chartView.update(sensor.localValue)
+        self.chartView.update(sensor.localValue, sensor.unit)
     }
     
     private func open() {
@@ -435,7 +435,10 @@ internal class ChartSensorView: NSStackView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func update(_ value: Double) {
+    public func update(_ value: Double, _ suffix: String) {
+        if self.chart?.suffix != suffix {
+            self.chart?.suffix = suffix
+        }
         self.chart?.addValue(value/100)
     }
 }
