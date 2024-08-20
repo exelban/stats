@@ -324,14 +324,8 @@ open class Module {
             return
         }
         let isEmpty = self.menuBar.widgets.filter({ $0.isActive }).isEmpty
-        var state = self.enabled
-        
-        if isEmpty && self.enabled {
-            state = false
-        } else if !isEmpty && !self.enabled {
-            state = true
+        if !isEmpty && !self.enabled {
+            NotificationCenter.default.post(name: .toggleModule, object: nil, userInfo: ["module": self.config.name, "state": true])
         }
-        
-        NotificationCenter.default.post(name: .toggleModule, object: nil, userInfo: ["module": self.config.name, "state": state])
     }
 }
