@@ -435,7 +435,7 @@ internal class NameView: NSStackView {
         let nameField = NSButton()
         nameField.bezelStyle = .inline
         nameField.isBordered = false
-        nameField.contentTintColor = .darkGray
+        nameField.contentTintColor = .labelColor
         nameField.action = #selector(self.openDisk)
         nameField.target = self
         nameField.toolTip = localizedString("Control")
