@@ -101,6 +101,11 @@ public class BarChart: WidgetWrapper {
             colorZones = self._colorZones
         }
         
+        guard !value.isEmpty else {
+            self.setWidth(0)
+            return
+        }
+        
         var width: CGFloat = Constants.Widget.margin.x*2
         var x: CGFloat = 0
         let lineWidth = 1 / (NSScreen.main?.backingScaleFactor ?? 1)
