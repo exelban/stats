@@ -1275,7 +1275,7 @@ public class PreferencesSection: NSStackView {
     }
     
     public func delete(_ id: String) {
-        let views = self.container.subviews.filter({ $0.identifier != nil })
+        let views = self.container.subviews
         views.enumerated().forEach { (i, v) in
             guard v.identifier?.rawValue == id else { return }
             if self.container.subviews.indices.contains(i-1) {
@@ -1286,18 +1286,30 @@ public class PreferencesSection: NSStackView {
             }
             v.removeFromSuperview()
         }
-        return
     }
     
     public func contains(_ id: String) -> Bool {
         self.container.subviews.contains(where: { $0.identifier?.rawValue == id })
     }
     
-    public func toggleVisibility(_ at: Int, newState: Bool) {
+    public func setRowVisibility(_ at: Int, newState: Bool) {
         for i in self.container.subviews.indices where i/2 == at && Double(i).remainder(dividingBy: 2) == 0 {
             self.container.subviews[i-1].isHidden = !newState
             self.container.subviews[i].isHidden = !newState
         }
+    }
+    public func setRowVisibility(_ id: String, newState: Bool) {
+        guard let at = self.container.subviews.firstIndex(where: { $0.identifier?.rawValue == id }) else { return }
+        self.setRowVisibility(at/2, newState: newState)
+    }
+    public func setRowVisibility(_ row: PreferencesRow, newState: Bool) {
+        guard let at = self.container.subviews.firstIndex(where: { $0 == row }) else { return }
+        self.setRowVisibility(at/2, newState: newState)
+    }
+    
+    public func findRow(_ id: String) -> PreferencesRow? {
+        let rows: [PreferencesRow] = self.container.subviews.filter({ $0 is PreferencesRow }).compactMap({ $0 as? PreferencesRow })
+        return rows.first(where: { $0.identifier?.rawValue == id })
     }
 }
 
@@ -1339,6 +1351,11 @@ public class PreferencesRow: NSStackView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    public func replaceComponent(with view: NSView) {
+        self.subviews.removeLast()
+        self.addArrangedSubview(view)
     }
     
     private func text(_ title: String? = nil, _ description: String? = nil) -> NSView {

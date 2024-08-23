@@ -23,11 +23,14 @@ public class Sensors: Module {
         FanValue(rawValue: Store.shared.string(key: "\(self.config.name)_fanValue", defaultValue: "percentage")) ?? .percentage
     }
     
+    private var selectedSensor: String
+    
     public init() {
         self.settingsView = Settings(.sensors)
         self.popupView = Popup()
         self.portalView = Portal(.sensors)
         self.notificationsView = Notifications(.sensors)
+        self.selectedSensor = Store.shared.string(key: "\(ModuleType.sensors.rawValue)_sensor", defaultValue: "Average System Total")
         
         super.init(
             popup: self.popupView,
@@ -74,6 +77,11 @@ public class Sensors: Module {
                 }
             }
         }
+        self.selectedSensor = Store.shared.string(key: "\(ModuleType.sensors.rawValue)_sensor", defaultValue: self.selectedSensor)
+        self.settingsView.selectedHandler = { [weak self] value in
+            self?.selectedSensor = value
+            self?.sensorsReader?.read()
+        }
         
         self.setReaders([self.sensorsReader])
     }
@@ -90,31 +98,8 @@ public class Sensors: Module {
         }
     }
     
-    private func checkIfNoSensorsEnabled() {
-        guard let reader = self.sensorsReader else { return }
-        if reader.list.sensors.filter({ $0.state }).isEmpty {
-            NotificationCenter.default.post(name: .toggleModule, object: nil, userInfo: ["module": self.config.name, "state": false])
-        }
-    }
-    
     private func usageCallback(_ raw: Sensors_List?) {
         guard let value = raw, self.enabled else { return }
-        
-        var list: [Stack_t] = []
-        var flatList: [[ColorValue]] = []
-        
-        value.sensors.forEach { (s: Sensor_p) in
-            if s.state {
-                var value = s.formattedMiniValue
-                if let f = s as? Fan {
-                    flatList.append([ColorValue(((f.value*100)/f.maxSpeed)/100)])
-                    if self.fanValueState == .percentage {
-                        value = "\(f.percentage)%"
-                    }
-                }
-                list.append(Stack_t(key: s.key, value: value))
-            }
-        }
         
         self.popupView.usageCallback(value.sensors)
         self.portalView.usageCallback(value.sensors)
@@ -122,8 +107,44 @@ public class Sensors: Module {
         
         self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: SWidget) in
             switch w.item {
-            case let widget as StackWidget: widget.setValues(list)
-            case let widget as BarChart: widget.setValue(flatList)
+            case let widget as Mini:
+                if let active = value.sensors.first(where: { $0.key == self.selectedSensor }) {
+                    var value: Double = active.value/100
+                    var unit: String = active.miniUnit
+                    if let fan = active as? Fan, self.fanValueState == .percentage {
+                        value = Double(fan.percentage)/100
+                        unit = "%"
+                    }
+                    if value > 999 {
+                        unit = ""
+                    }
+                    widget.setValue(value)
+                    widget.setSuffix(unit)
+                }
+            case let widget as StackWidget:
+                var list: [Stack_t] = []
+                
+                value.sensors.forEach { (s: Sensor_p) in
+                    if s.state {
+                        var value = s.formattedMiniValue
+                        if let f = s as? Fan {
+                            if self.fanValueState == .percentage {
+                                value = "\(f.percentage)%"
+                            }
+                        }
+                        list.append(Stack_t(key: s.key, value: value))
+                    }
+                }
+                
+                widget.setValues(list)
+            case let widget as BarChart:
+                var flatList: [[ColorValue]] = []
+                value.sensors.filter{ $0 is Fan }.forEach { (s: Sensor_p) in
+                    if s.state, let f = s as? Fan {
+                        flatList.append([ColorValue(((f.value*100)/f.maxSpeed)/100)])
+                    }
+                }
+                widget.setValue(flatList)
             default: break
             }
         }

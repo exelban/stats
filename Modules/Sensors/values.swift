@@ -46,6 +46,7 @@ public protocol Sensor_p {
     
     var localValue: Double { get }
     var unit: String { get }
+    var miniUnit: String { get }
     var formattedValue: String { get }
     var formattedMiniValue: String { get }
     var formattedPopupValue: String { get }
@@ -152,6 +153,22 @@ public struct Sensor: Sensor_p, Codable {
             return "RPM"
         }
     }
+    public var miniUnit: String {
+        switch self.type {
+        case .temperature:
+            return "°"
+        case .voltage:
+            return "V"
+        case .power:
+            return "W"
+        case .energy:
+            return "Wh"
+        case .current:
+            return "A"
+        default:
+            return ""
+        }
+    }
     
     public var formattedValue: String {
         switch self.type {
@@ -251,6 +268,7 @@ public struct Fan: Sensor_p, Codable {
     public var isComputed: Bool = false
     public var average: Bool = false
     public var unit: String = "RPM"
+    public var miniUnit: String = ""
     
     public var formattedValue: String {
         "\(Int(self.value)) RPM"

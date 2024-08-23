@@ -131,9 +131,9 @@ class ApplicationSettings: NSStackView {
             ))
         ])
         scrollView.stackView.addArrangedSubview(self.combinedModulesView!)
-        self.combinedModulesView?.toggleVisibility(1, newState: self.combinedModulesState)
-        self.combinedModulesView?.toggleVisibility(2, newState: self.combinedModulesState)
-        self.combinedModulesView?.toggleVisibility(3, newState: self.combinedModulesState)
+        self.combinedModulesView?.setRowVisibility(1, newState: self.combinedModulesState)
+        self.combinedModulesView?.setRowVisibility(2, newState: self.combinedModulesState)
+        self.combinedModulesView?.setRowVisibility(3, newState: self.combinedModulesState)
         
         scrollView.stackView.addArrangedSubview(PreferencesSection([
             PreferencesRow(
@@ -292,9 +292,9 @@ class ApplicationSettings: NSStackView {
     
     @objc private func toggleCombinedModules(_ sender: NSButton) {
         self.combinedModulesState = sender.state == NSControl.StateValue.on
-        self.combinedModulesView?.toggleVisibility(1, newState: self.combinedModulesState)
-        self.combinedModulesView?.toggleVisibility(2, newState: self.combinedModulesState)
-        self.combinedModulesView?.toggleVisibility(3, newState: self.combinedModulesState)
+        self.combinedModulesView?.setRowVisibility(1, newState: self.combinedModulesState)
+        self.combinedModulesView?.setRowVisibility(2, newState: self.combinedModulesState)
+        self.combinedModulesView?.setRowVisibility(3, newState: self.combinedModulesState)
         NotificationCenter.default.post(name: .toggleOneView, object: nil, userInfo: nil)
     }
     

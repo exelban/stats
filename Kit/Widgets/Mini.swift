@@ -21,6 +21,7 @@ public class Mini: WidgetWrapper {
     private var _value: Double = 0
     private var _pressureLevel: DispatchSource.MemoryPressureEvent = .normal
     private var _colorZones: colorZones = (0.6, 0.8)
+    private var _suffix: String = "%"
     
     private var defaultLabel: String
     private var _label: String
@@ -95,11 +96,13 @@ public class Mini: WidgetWrapper {
         var pressureLevel: DispatchSource.MemoryPressureEvent = .normal
         var colorZones: colorZones = (0.6, 0.8)
         var label: String = ""
+        var suffix: String = ""
         self.queue.sync {
             value = self._value
             pressureLevel = self._pressureLevel
             colorZones = self._colorZones
             label = self._label
+            suffix = self._suffix
         }
         
         let valueSize: CGFloat = self.labelState ? 12 : 14
@@ -138,7 +141,7 @@ public class Mini: WidgetWrapper {
             NSAttributedString.Key.paragraphStyle: style
         ]
         let rect = CGRect(x: origin.x, y: origin.y, width: self.width - (Constants.Widget.margin.x*2), height: valueSize+1)
-        let str = NSAttributedString.init(string: "\(Int(value.rounded(toPlaces: 2) * 100))%", attributes: stringAttributes)
+        let str = NSAttributedString.init(string: "\(Int(value.rounded(toPlaces: 2) * 100))\(suffix)", attributes: stringAttributes)
         str.draw(with: rect)
         
         self.setWidth(width)
@@ -175,6 +178,14 @@ public class Mini: WidgetWrapper {
     public func setColorZones(_ newColorZones: colorZones) {
         guard self._colorZones != newColorZones else { return }
         self._colorZones = newColorZones
+        DispatchQueue.main.async(execute: {
+            self.display()
+        })
+    }
+    
+    public func setSuffix(_ newSuffix: String) {
+        guard self._suffix != newSuffix else { return }
+        self._suffix = newSuffix
         DispatchQueue.main.async(execute: {
             self.display()
         })
