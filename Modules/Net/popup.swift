@@ -582,7 +582,7 @@ internal class Popup: PopupWrapper {
             ))
         ])
         view.addArrangedSubview(self.chartPrefSection!)
-        self.chartPrefSection?.toggleVisibility(2, newState: self.chartScale == .fixed)
+        self.chartPrefSection?.setRowVisibility(2, newState: self.chartScale == .fixed)
         
         view.addArrangedSubview(PreferencesSection([
             PreferencesRow(localizedString("Public IP"), component: switchView(
@@ -639,7 +639,7 @@ internal class Popup: PopupWrapper {
               let value = Scale.allCases.first(where: { $0.key == key }) else { return }
         self.chartScale = value
         self.chart?.setScale(self.chartScale, Double(self.chartFixedScaleSize.toBytes(self.chartFixedScale)))
-        self.chartPrefSection?.toggleVisibility(2, newState: self.chartScale == .fixed)
+        self.chartPrefSection?.setRowVisibility(2, newState: self.chartScale == .fixed)
         Store.shared.set(key: "\(self.title)_chartScale", value: key)
         self.display()
     }

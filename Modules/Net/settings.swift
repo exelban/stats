@@ -141,7 +141,7 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
             )))
         }
         let section = PreferencesSection(prefs)
-        section.toggleVisibility(1, newState: self.readerType == "interface")
+        section.setRowVisibility(1, newState: self.readerType == "interface")
         self.addArrangedSubview(section)
         self.section = section
         
@@ -155,7 +155,7 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
             ))
         ])
         self.addArrangedSubview(self.widgetThresholdSection!)
-        self.widgetThresholdSection?.toggleVisibility(1, newState: self.widgetActivationThresholdState)
+        self.widgetThresholdSection?.setRowVisibility(1, newState: self.widgetActivationThresholdState)
         
         let valueField: NSTextField = NSTextField()
         valueField.widthAnchor.constraint(equalToConstant: 250).isActive = true
@@ -199,7 +199,7 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
         guard let key = sender.representedObject as? String else { return }
         self.readerType = key
         Store.shared.set(key: "\(self.title)_reader", value: key)
-        self.section?.toggleVisibility(1, newState: self.readerType == "interface")
+        self.section?.setRowVisibility(1, newState: self.readerType == "interface")
         NotificationCenter.default.post(name: .resetTotalNetworkUsage, object: nil, userInfo: nil)
     }
     @objc private func toggleUsageReset(_ sender: NSMenuItem) {
@@ -215,7 +215,7 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
     @objc func toggleWidgetActivationThreshold(_ sender: NSControl) {
         self.widgetActivationThresholdState = controlState(sender)
         Store.shared.set(key: "\(self.title)_widgetActivationThresholdState", value: self.widgetActivationThresholdState)
-        self.widgetThresholdSection?.toggleVisibility(1, newState: self.widgetActivationThresholdState)
+        self.widgetThresholdSection?.setRowVisibility(1, newState: self.widgetActivationThresholdState)
     }
     @objc private func changeWidgetActivationThreshold(_ newValue: Int) {
         self.widgetActivationThreshold = newValue

@@ -333,7 +333,7 @@ internal class Popup: PopupWrapper {
             )),
             PreferencesRow(localizedString("Scale value"), component: self.sliderView!)
         ])
-        self.chartPrefSection?.toggleVisibility(3, newState: self.lineChartScale == .fixed)
+        self.chartPrefSection?.setRowVisibility(3, newState: self.lineChartScale == .fixed)
         view.addArrangedSubview(self.chartPrefSection!)
         
         return view
@@ -403,7 +403,7 @@ internal class Popup: PopupWrapper {
     @objc private func toggleLineChartScale(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String,
               let value = Scale.allCases.first(where: { $0.key == key }) else { return }
-        self.chartPrefSection?.toggleVisibility(3, newState: value == .fixed)
+        self.chartPrefSection?.setRowVisibility(3, newState: value == .fixed)
         self.lineChartScale = value
         self.chart?.setScale(self.lineChartScale, fixedScale: self.lineChartFixedScale)
         Store.shared.set(key: "\(self.title)_lineChartScale", value: key)
