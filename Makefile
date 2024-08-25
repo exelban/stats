@@ -5,14 +5,22 @@ BUILD_PATH = $(PWD)/build
 APP_PATH = "$(BUILD_PATH)/$(APP).app"
 ZIP_PATH = "$(BUILD_PATH)/$(APP).zip"
 
+DISABLE_CODESIGN ?= false
+DISABLE_AUTOCLEAN ?= false
+DISABLE_VERSION_BUMP ?= false
+
 .SILENT: archive notarize sign prepare-dmg prepare-dSYM clean next-version check history disk smc leveldb
 .PHONY: build archive notarize sign prepare-dmg prepare-dSYM clean next-version check history open smc leveldb
 
-build: clean next-version archive notarize sign prepare-dmg prepare-dSYM open
+IF_CLEAN_TARGET := $(if $(filter true,$(DISABLE_AUTOCLEAN)),,clean)
+IF_VERSION_BUMP_TARGET := $(if $(filter true,$(DISABLE_VERSION_BUMP)),,next-version)
+IF_CODESIGN_TARGET := $(if $(filter true,$(DISABLE_CODESIGN)),,archive notarize sign prepare-dmg prepare-dSYM open)
+
+build: $(IF_VERSION_BUMP_TARGET) build-archive $(IF_CODESIGN_TARGET)
 
 # --- MAIN WORLFLOW FUNCTIONS --- #
 
-archive: clean
+build-archive: $(IF_CLEAN_TARGET)
 	osascript -e 'display notification "Exporting application archive..." with title "Build the Stats"'
 	echo "Exporting application archive..."
 
@@ -20,9 +28,12 @@ archive: clean
   		-scheme $(APP) \
   		-destination 'platform=OS X,arch=x86_64' \
   		-configuration Release archive \
+  		$(if $(filter true,$(DISABLE_CODESIGN)),CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO CODE_SIGN_IDENTITY="") \
   		-archivePath $(BUILD_PATH)/$(APP).xcarchive
+	echo "Application built successfully"
 
-	echo "Application built, starting the export archive..."
+archive: build-archive
+	echo "Starting archive export..."
 
 	xcodebuild -exportArchive \
   		-exportOptionsPlist "$(PWD)/exportOptions.plist" \
