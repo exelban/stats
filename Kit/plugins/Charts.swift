@@ -45,8 +45,6 @@ internal func scaleValue(scale: Scale = .linear, value: Double, maxValue: Double
             localMaxValue = cbrt(maxValue)
         }
     case .logarithmic:
-        // Smallest value passed is 1024
-        // Setting y=0 to 256 gives a nice curve
         let zeroVal = 256.0
         if value > 0 {
             value = log(value/zeroVal)
