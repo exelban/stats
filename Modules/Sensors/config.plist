@@ -53,6 +53,8 @@
 		<dict>
 			<key>Default</key>
 			<false/>
+			<key>Title</key>
+			<string>FAN</string>
 			<key>Preview</key>
 			<dict>
 				<key>Value</key>
