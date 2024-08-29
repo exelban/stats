@@ -598,6 +598,7 @@ let deviceDict: [String: model_s] = [
     "MacBookPro16,1": model_s(name: "MacBook Pro 16\"", year: 2019, type: .macbookPro),
     "MacBookPro16,2": model_s(name: "MacBook Pro 13\"", year: 2019, type: .macbookPro),
     "MacBookPro16,3": model_s(name: "MacBook Pro 13\"", year: 2020, type: .macbookPro),
+    "MacBookPro16,4": model_s(name: "MacBook Pro 16\"", year: 2020, type: .macbookPro),
     "MacBookPro17,1": model_s(name: "MacBook Pro 13\" (M1)", year: 2020, type: .macbookPro),
     "MacBookPro18,1": model_s(name: "MacBook Pro 16\" (M1 Pro)", year: 2021, type: .macbookPro),
     "MacBookPro18,2": model_s(name: "MacBook Pro 16\" (M1 Max)", year: 2021, type: .macbookPro),
