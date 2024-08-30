@@ -67,13 +67,8 @@ internal class Popup: PopupWrapper {
     
     private func recalculateHeight() {
         var h: CGFloat = 0
-        self.arrangedSubviews.forEach { v in
-            if let v = v as? NSStackView {
-                h += v.arrangedSubviews.map({ $0.bounds.height }).reduce(0, +)
-            } else {
-                h += v.bounds.height
-            }
-        }
+        h += self.disks.subviews.map({ $0.frame.height + self.disks.spacing }).reduce(0, +) - self.disks.spacing
+        h += self.processesHeight
         if self.frame.size.height != h {
             self.setFrameSize(NSSize(width: self.frame.width, height: h))
             self.sizeCallback?(self.frame.size)
