@@ -69,7 +69,7 @@ internal class Popup: PopupWrapper {
         var h: CGFloat = 0
         h += self.disks.subviews.map({ $0.frame.height + self.disks.spacing }).reduce(0, +) - self.disks.spacing
         h += self.processesHeight
-        if self.frame.size.height != h {
+        if h > 0 && self.frame.size.height != h {
             self.setFrameSize(NSSize(width: self.frame.width, height: h))
             self.sizeCallback?(self.frame.size)
         }
