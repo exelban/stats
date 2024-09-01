@@ -45,11 +45,12 @@ internal func scaleValue(scale: Scale = .linear, value: Double, maxValue: Double
             localMaxValue = cbrt(maxValue)
         }
     case .logarithmic:
+        let zeroVal = 256.0
         if value > 0 {
-            value = log(value*100)
+            value = log(value/zeroVal)
         }
         if localMaxValue > 0 {
-            localMaxValue = log(maxValue*100)
+            localMaxValue = log(maxValue/zeroVal)
         }
     case .fixed:
         if value > limit {
