@@ -233,7 +233,22 @@ internal class Popup: PopupWrapper {
         let view = NSStackView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 0))
         view.orientation = .vertical
         view.spacing = 0
-        view.addArrangedSubview(separatorView(localizedString("Details"), width: self.frame.width))
+        
+        let row: NSView = NSView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Popup.separatorHeight))
+        row.heightAnchor.constraint(equalToConstant: Constants.Popup.separatorHeight).isActive = true
+        let button = NSButtonWithPadding()
+        button.frame = CGRect(x: view.frame.width - 18, y: 6, width: 18, height: 18)
+        button.bezelStyle = .regularSquare
+        button.isBordered = false
+        button.imageScaling = NSImageScaling.scaleAxesIndependently
+        button.contentTintColor = .lightGray
+        button.action = #selector(self.resetTotalNetworkUsage)
+        button.target = self
+        button.toolTip = localizedString("Reset")
+        button.image = Bundle(for: Module.self).image(forResource: "refresh")!
+        row.addSubview(separatorView(localizedString("Details"), width: self.frame.width))
+        row.addSubview(button)
+        view.addArrangedSubview(row)
         
         let totalUpload = popupWithColorRow(view, color: self.uploadColor, title: "\(localizedString("Total upload")):", value: "0")
         let totalDownload = popupWithColorRow(view, color: self.downloadColor, title: "\(localizedString("Total download")):", value: "0")
