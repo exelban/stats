@@ -30,7 +30,7 @@ Stats is an application that allows you to monitor your macOS system.
  - Disk utilization
  - Network usage
  - Battery level
- - Fan's control
+ - Fan's control (not maintained)
  - Sensors information (Temperature/Voltage/Power)
  - Bluetooth devices
  - Multiple time zone clock
@@ -60,6 +60,9 @@ Stats tries to be efficient as it's possible. But reading some data periodically
 ### Why my issue was closed without any response?
 Most probably because it's a duplicated issue and there is an answer to the question, report, or proposition. Please use a search by closed issues to get an answer.
 So, if your issue was closed without any response, most probably it already has a response.
+
+### Fan control
+Fan control is in legacy mode. It does not receive any updates or fixes. It's not dropped from the app just because in the old Macs it works pretty acceptable. I'm open to accepting fixed or improvements (via PR) for this feature in case someone would like to help with that. But have no option and time to provide support for this feature.
 
 ## Supported languages
 - English
