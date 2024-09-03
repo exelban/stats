@@ -109,7 +109,7 @@ public class Sensors: Module {
             switch w.item {
             case let widget as Mini:
                 if let active = value.sensors.first(where: { $0.key == self.selectedSensor }) {
-                    var value: Double = active.value/100
+                    var value: Double = active.localValue/100
                     var unit: String = active.miniUnit
                     if let fan = active as? Fan, self.fanValueState == .percentage {
                         value = Double(fan.percentage)/100
