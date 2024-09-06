@@ -128,6 +128,7 @@ public class LineChartView: NSView {
     public var color: NSColor
     public var suffix: String
     public var toolTipFunc: ((DoubleValue) -> String)?
+    public var isTooltipEnabled: Bool = true
     
     private var scale: Scale
     private var fixedScale: Double
@@ -255,7 +256,7 @@ public class LineChartView: NSView {
             NSAttributedString.init(string: str, attributes: stringAttributes).draw(with: rect)
         }
         
-        if let p = self.cursor, let over = list.first(where: { $0.point.x >= p.x }), let under = list.last(where: { $0.point.x <= p.x }) {
+        if self.isTooltipEnabled, let p = self.cursor, let over = list.first(where: { $0.point.x >= p.x }), let under = list.last(where: { $0.point.x <= p.x }) {
             guard p.y <= height else { return }
             
             let diffOver = over.point.x - p.x
@@ -349,30 +350,36 @@ public class LineChartView: NSView {
     }
     
     public override func mouseEntered(with event: NSEvent) {
+        guard self.isTooltipEnabled else { return }
         self.cursor = convert(event.locationInWindow, from: nil)
         self.needsDisplay = true
     }
     
     public override func mouseMoved(with event: NSEvent) {
+        guard self.isTooltipEnabled else { return }
         self.cursor = convert(event.locationInWindow, from: nil)
         self.needsDisplay = true
     }
     
     public override func mouseDragged(with event: NSEvent) {
+        guard self.isTooltipEnabled else { return }
         self.cursor = convert(event.locationInWindow, from: nil)
         self.needsDisplay = true
     }
     
     public override func mouseExited(with event: NSEvent) {
+        guard self.isTooltipEnabled else { return }
         self.cursor = nil
         self.needsDisplay = true
     }
     
     public override func mouseDown(with: NSEvent) {
+        guard self.isTooltipEnabled else { return }
         self.shadowPoints = self.points
         self.stop = true
     }
     public override func mouseUp(with: NSEvent) {
+        guard self.isTooltipEnabled else { return }
         self.stop = false
     }
 }
@@ -457,6 +464,11 @@ public class NetworkChartView: NSView {
         if let outColor {
             self.outChart.color = outColor
         }
+    }
+    
+    public func setTooltipState(_ newState: Bool) {
+        self.inChart.isTooltipEnabled = newState
+        self.outChart.isTooltipEnabled = newState
     }
 }
 

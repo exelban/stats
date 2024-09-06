@@ -536,6 +536,7 @@ internal class ChartView: NSStackView {
             width: self.frame.width,
             height: self.frame.height - 2
         ), num: 120, reversedOrder: self.reverseOrder, outColor: self.writeColor, inColor: self.readColor)
+        chart.setTooltipState(false)
         self.chart = chart
         
         self.addArrangedSubview(chart)
