@@ -76,12 +76,11 @@ open class Reader<T: Codable>: NSObject, ReaderInternal_p {
         
         super.init()
         DB.shared.setup(T.self, "\(module.rawValue)@\(self.name)")
-        self.setup()
-        
         if let lastValue = DB.shared.findOne(T.self, key: "\(module.rawValue)@\(self.name)") {
             self.value = lastValue
             callback(lastValue)
         }
+        self.setup()
         
         debug("Successfully initialize reader", log: self.log)
     }
@@ -160,6 +159,10 @@ open class Reader<T: Codable>: NSObject, ReaderInternal_p {
         debug("Set update interval: \(Int(value)) sec", log: self.log)
         self.interval = Double(value)
         self.repeatTask?.reset(seconds: value, restart: true)
+    }
+    
+    public func save(_ value: T) {
+        DB.shared.insert(key: "\(self.module.rawValue)@\(self.name)", value: value, ts: self.history, force: true)
     }
 }
 

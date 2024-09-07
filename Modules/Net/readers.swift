@@ -164,6 +164,11 @@ internal class UsageReader: Reader<Network_Usage> {
                 self.getDetails()
             }
         }
+        
+        if let usage = self.value {
+            self.usage = usage
+            self.usage.bandwidth = Bandwidth()
+        }
     }
     
     public override func terminate() {
@@ -422,6 +427,7 @@ internal class UsageReader: Reader<Network_Usage> {
     
     @objc func resetTotalNetworkUsage() {
         self.usage.total = Bandwidth()
+        self.save(self.usage)
     }
 }
 

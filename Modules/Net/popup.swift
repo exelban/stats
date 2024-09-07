@@ -778,6 +778,8 @@ internal class Popup: PopupWrapper {
     
     @objc private func resetTotalNetworkUsage() {
         NotificationCenter.default.post(name: .resetTotalNetworkUsage, object: nil, userInfo: nil)
+        self.totalUploadField?.stringValue = Units(bytes: 0).getReadableMemory()
+        self.totalDownloadField?.stringValue = Units(bytes: 0).getReadableMemory()
         self.lastReset = Date()
     }
     

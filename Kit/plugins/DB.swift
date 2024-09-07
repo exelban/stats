@@ -74,7 +74,7 @@ public class DB {
         }
     }
     
-    public func insert(key: String, value: Codable, ts: Bool = true) {
+    public func insert(key: String, value: Codable, ts: Bool = true, force: Bool = false) {
         self.values[key] = value
         guard let blobData = try? JSONEncoder().encode(value) else { return }
         
@@ -82,7 +82,7 @@ public class DB {
             self.lldb?.insert("\(key)@\(Date().currentTimeSeconds())", value: String(decoding: blobData, as: UTF8.self))
         }
         
-        if let ts = self.writeTS[key], (Date().timeIntervalSince1970-ts.timeIntervalSince1970) < 30 { return }
+        if !force, let ts = self.writeTS[key], (Date().timeIntervalSince1970-ts.timeIntervalSince1970) < 30 { return }
         
         self.lldb?.insert(key, value: String(decoding: blobData, as: UTF8.self))
         self.writeTS[key] = Date()
