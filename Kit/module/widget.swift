@@ -26,6 +26,7 @@ public enum widget_t: String {
     case label = "label"
     case tachometer = "tachometer"
     case state = "state"
+    case text = "text"
     
     public func new(module: String, config: NSDictionary, defaultWidget: widget_t) -> SWidget? {
         guard let widgetConfig: NSDictionary = config[self.rawValue] as? NSDictionary else { return nil }
@@ -74,6 +75,9 @@ public enum widget_t: String {
         case .state:
             preview = StateWidget(title: module, config: widgetConfig, preview: true)
             item = StateWidget(title: module, config: widgetConfig, preview: false)
+        case .text:
+            preview = TextWidget(title: module, config: widgetConfig, preview: true)
+            item = TextWidget(title: module, config: widgetConfig, preview: false)
         default: break
         }
         
@@ -137,6 +141,7 @@ public enum widget_t: String {
         case .label: return localizedString("Label widget")
         case .tachometer: return localizedString("Tachometer widget")
         case .state: return localizedString("State widget")
+        case .text: return localizedString("Text widget")
         default: return ""
         }
     }

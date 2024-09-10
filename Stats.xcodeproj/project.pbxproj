@@ -58,6 +58,7 @@
 		5C7C1DF42C29A3A00060387D /* notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7C1DF32C29A3A00060387D /* notifications.swift */; };
 		5C8E001029269C7F0027C75A /* protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CFE493829265055000F2856 /* protocol.swift */; };
 		5CA518382B543FE600EBCCC4 /* portal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA518372B543FE600EBCCC4 /* portal.swift */; };
+		5CAA50722C8E417700B13E13 /* Text.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CAA50712C8E417700B13E13 /* Text.swift */; };
 		5CB3878A2C35A7110030459D /* widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CB387892C35A7110030459D /* widget.swift */; };
 		5CD342F42B2F2FB700225631 /* notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD342F32B2F2FB700225631 /* notifications.swift */; };
 		5CE7E78C2C318512006BC92C /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CE7E78B2C318512006BC92C /* WidgetKit.framework */; };
@@ -534,6 +535,7 @@
 		5C7C1DF32C29A3A00060387D /* notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = notifications.swift; sourceTree = "<group>"; };
 		5C9F90A02A76B30500D41748 /* et */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = et; path = et.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5CA518372B543FE600EBCCC4 /* portal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = portal.swift; sourceTree = "<group>"; };
+		5CAA50712C8E417700B13E13 /* Text.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Text.swift; sourceTree = "<group>"; };
 		5CB387892C35A7110030459D /* widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = widget.swift; sourceTree = "<group>"; };
 		5CD342F32B2F2FB700225631 /* notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = notifications.swift; sourceTree = "<group>"; };
 		5CE7E78A2C318512006BC92C /* WidgetsExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WidgetsExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1018,6 +1020,7 @@
 				9A28475C2666AA2700EC1F6D /* Speed.swift */,
 				9A9B8C9C27149A3700218374 /* Tachometer.swift */,
 				9AEBBE4C28D773430082A6A1 /* State.swift */,
+				5CAA50712C8E417700B13E13 /* Text.swift */,
 			);
 			path = Widgets;
 			sourceTree = "<group>";
@@ -2064,6 +2067,7 @@
 				9A28480A2666AB3000EC1F6D /* SystemKit.swift in Sources */,
 				9A28477D2666AA5000EC1F6D /* widget.swift in Sources */,
 				9A2848212666AB3600EC1F6D /* helpers.swift in Sources */,
+				5CAA50722C8E417700B13E13 /* Text.swift in Sources */,
 				9A28477A2666AA5000EC1F6D /* settings.swift in Sources */,
 				9A28475F2666AA2700EC1F6D /* LineChart.swift in Sources */,
 				9A302614286A2A3B00B41D57 /* Repeater.swift in Sources */,
