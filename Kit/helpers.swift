@@ -1332,7 +1332,11 @@ private class PreferencesSeparator: NSView {
 }
 
 public class PreferencesRow: NSStackView {
-    public init(_ title: String? = nil, _ description: String? = nil, id: String? = nil, component: NSView) {
+    private var helpCallback: (() -> Void)?
+    
+    public init(_ title: String? = nil, _ description: String? = nil, id: String? = nil, component: NSView, help: (() -> Void)? = nil) {
+        self.helpCallback = help
+        
         super.init(frame: .zero)
         
         self.orientation = .horizontal
@@ -1345,6 +1349,18 @@ public class PreferencesRow: NSStackView {
         }
         
         self.addArrangedSubview(self.text(title, description))
+        if help != nil {
+            let helpBtn = NSButton()
+            helpBtn.bezelStyle = .helpButton
+            helpBtn.controlSize = .small
+            helpBtn.title = ""
+            helpBtn.action = #selector(self.help)
+            helpBtn.target = self
+            let space = NSView()
+            space.widthAnchor.constraint(equalToConstant: 5).isActive = true
+            self.addArrangedSubview(space)
+            self.addArrangedSubview(helpBtn)
+        }
         self.addArrangedSubview(NSView())
         self.addArrangedSubview(component)
     }
@@ -1381,6 +1397,10 @@ public class PreferencesRow: NSStackView {
         }
         
         return view
+    }
+    
+    @objc private func help() {
+        self.helpCallback?()
     }
 }
 
