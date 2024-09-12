@@ -119,9 +119,9 @@ public class Battery: Module {
                 widget.setValue([[ColorValue(value.level)]])
                 widget.setColorZones((0.15, 0.3))
             case let widget as BatteryWidget:
-                widget.setValue(
+                 widget.setValue(
                     percentage: value.level,
-                    ACStatus: !value.isBatteryPowered,
+                    ACStatus: false,  // Always false to avoid showing the power icon
                     isCharging: value.isCharging,
                     optimizedCharging: value.optimizedChargingEngaged,
                     time: value.timeToEmpty == 0 && value.timeToCharge != 0 ? value.timeToCharge : value.timeToEmpty
