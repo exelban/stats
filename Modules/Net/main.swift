@@ -146,6 +146,9 @@ public class Network: Module {
     private var publicIPRefreshInterval: String {
         Store.shared.string(key: "\(self.name)_publicIPRefreshInterval", defaultValue: "never")
     }
+    private var textValue: String {
+        Store.shared.string(key: "\(self.name)_textWidgetValue", defaultValue: "$addr.public - $status")
+    }
     
     public init() {
         self.settingsView = Settings(.network)
@@ -233,13 +236,74 @@ public class Network: Module {
             switch w.item {
             case let widget as SpeedWidget: widget.setValue(upload: upload, download: download)
             case let widget as NetworkChart: widget.setValue(upload: Double(upload), download: Double(download))
+            case let widget as TextWidget:
+                var text = self.textValue
+                let pairs = TextWidget.parseText(text)
+                pairs.forEach { pair in
+                    var replacement: String? = nil
+                    
+                    switch pair.key {
+                    case "$addr":
+                        switch pair.value {
+                        case "public": replacement = value.raddr.v4 ?? value.raddr.v6 ?? "-"
+                        case "publicV4": replacement = value.raddr.v4 ?? "-"
+                        case "publicV6": replacement = value.raddr.v6 ?? "-"
+                        case "private": replacement = value.laddr ?? "-"
+                        default: return
+                        }
+                    case "$interface":
+                        switch pair.value {
+                        case "displayName": replacement = value.interface?.displayName ?? "-"
+                        case "BSDName": replacement = value.interface?.BSDName ?? "-"
+                        case "address": replacement = value.interface?.address ?? "-"
+                        default: return
+                        }
+                    case "$wifi":
+                        switch pair.value {
+                        case "ssid": replacement = value.wifiDetails.ssid ?? "-"
+                        case "bssid": replacement = value.wifiDetails.bssid ?? "-"
+                        case "RSSI": replacement = "\(value.wifiDetails.RSSI ?? 0)"
+                        case "noise": replacement = "\(value.wifiDetails.noise ?? 0)"
+                        case "transmitRate": replacement = "\(value.wifiDetails.transmitRate ?? 0)"
+                        case "standard": replacement = value.wifiDetails.standard ?? "-"
+                        case "mode": replacement = value.wifiDetails.mode ?? "-"
+                        case "security": replacement = value.wifiDetails.security ?? "-"
+                        case "channel": replacement = value.wifiDetails.channel ?? "-"
+                        case "channelBand": replacement = value.wifiDetails.channelBand ?? "-"
+                        case "channelWidth": replacement = value.wifiDetails.channelWidth ?? "-"
+                        case "channelNumber": replacement = value.wifiDetails.channelNumber ?? "-"
+                        default: return
+                        }
+                    case "$status":
+                        replacement = localizedString(value.status ? "UP" : "DOWN")
+                    case "$upload":
+                        switch pair.value {
+                        case "total": replacement = Units(bytes: value.total.upload).getReadableMemory()
+                        default: replacement = Units(bytes: value.bandwidth.upload).getReadableMemory()
+                        }
+                    case "$download":
+                        switch pair.value {
+                        case "total": replacement = Units(bytes: value.total.download).getReadableMemory()
+                        default: replacement = Units(bytes: value.bandwidth.download).getReadableMemory()
+                        }
+                    case "$type":
+                        replacement = value.connectionType?.rawValue ?? "-"
+                    default: return
+                    }
+                    
+                    if let replacement {
+                        let key = pair.value.isEmpty ? pair.key : "\(pair.key).\(pair.value)"
+                        text = text.replacingOccurrences(of: key, with: replacement)
+                    }
+                }
+                widget.setValue(text)
             default: break
             }
         }
         
         if #available(macOS 11.0, *) {
-            guard let blobData = try? JSONEncoder().encode(raw) else { return }
-            self.userDefaults?.set(blobData, forKey: "Network@UsageReader")
+//            guard let blobData = try? JSONEncoder().encode(raw) else { return }
+//            self.userDefaults?.set(blobData, forKey: "Network@UsageReader")
             WidgetCenter.shared.reloadTimelines(ofKind: Network_entry.kind)
         }
     }

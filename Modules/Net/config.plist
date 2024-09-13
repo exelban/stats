@@ -54,6 +54,18 @@
 				<true/>
 			</dict>
 		</dict>
+		<key>text</key>
+		<dict>
+			<key>Default</key>
+			<false/>
+			<key>Order</key>
+			<integer>4</integer>
+			<key>Preview</key>
+			<dict>
+				<key>Value</key>
+				<string>192.168.0.1</string>
+			</dict>
+		</dict>
 	</dict>
 	<key>Settings</key>
 	<dict>

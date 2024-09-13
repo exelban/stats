@@ -13,6 +13,7 @@
 import Cocoa
 import ServiceManagement
 import UserNotifications
+import WebKit
 
 public struct LaunchAtLogin {
     private static let id = "\(Bundle.main.bundleIdentifier!).LaunchAtLogin"
@@ -1569,5 +1570,29 @@ public class PreferencesSwitch: NSStackView {
     @objc func callback(_ sender: NSControl) {
         self.action(sender)
         self.with.isEnabled = controlState(sender)
+    }
+}
+
+public class HelpHUD: NSPanel {
+    public init(_ text: String, origin: CGPoint = CGPoint(x: 0, y: 0), size: CGSize = CGSize(width: 420, height: 300)) {
+        super.init(
+            contentRect: NSRect(origin: origin, size: size),
+            styleMask: [.hudWindow, .titled, .closable],
+            backing: .buffered, defer: false
+        )
+        self.isFloatingPanel = true
+        self.isMovableByWindowBackground = true
+        self.level = .floating
+        self.title = "Help"
+        
+        let webView = WKWebView()
+        webView.setValue(false, forKey: "drawsBackground")
+        webView.loadHTMLString("<html><body style='color: #ffffff;margin: 10px;'>\(text)</body></html>", baseURL: nil)
+        self.contentView = webView
+    }
+    
+    public func show() {
+        self.makeKeyAndOrderFront(self)
+        self.center()
     }
 }

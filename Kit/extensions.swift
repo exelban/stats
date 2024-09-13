@@ -558,3 +558,9 @@ public extension TimeZone {
         }
     }
 }
+
+extension CGFloat {
+    func roundedUpToNearestTen() -> CGFloat {
+        return ceil(self / 10) * 10
+    }
+}

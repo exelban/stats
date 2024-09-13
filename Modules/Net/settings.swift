@@ -13,6 +13,44 @@ import Cocoa
 import Kit
 import SystemConfiguration
 
+var textWidgetHelp = """
+<h2>Description</h2>
+You can use a combination of any of the variables. There is only one limitation: there must be a space between each variable.
+<h3>Examples:</h3>
+<ul>
+<li>$addr.public - $status</li>
+<li>$addr.public - $wifi.ssid - $status</li>
+</ul>
+<h2>Available variables</h2>
+<ul>
+<li><b>$addr.public</b>: <small>Public IP address.</small></li>
+<li><b>$addr.publicV4</b>: <small>Public IPv4 address.</small></li>
+<li><b>$addr.publicV6</b>: <small>Public IPv6 address.</small></li>
+<li><b>$addr.private</b>: <small>Private/local IP address.</small></li>
+<li><b>$interface.displayName</b>: <small>Network interface name.</small></li>
+<li><b>$interface.BSDName</b>: <small>BSD name of the network interface.</small></li>
+<li><b>$interface.address</b>: <small>MAC address of the network interface.</small></li>
+<li><b>$wifi.ssid</b>: <small>Wi-Fi network name.</small></li>
+<li><b>$wifi.bssid</b>: <small>MAC address of the Wi-Fi access point (BSSID).</small></li>
+<li><b>$wifi.RSSI</b>: <small>Signal strength of the Wi-Fi network (RSSI).</small></li>
+<li><b>$wifi.noise</b>: <small>Noise level of the Wi-Fi network.</small></li>
+<li><b>$wifi.transmitRate</b>: <small>Transmit rate (connection speed) of the Wi-Fi network.</small></li>
+<li><b>$wifi.standard</b>: <small>Wi-Fi standard (e.g., 802.11a/b/g/n/ac).</small></li>
+<li><b>$wifi.mode</b>: <small>Operating mode of the Wi-Fi (e.g., infrastructure, adhoc).</small></li>
+<li><b>$wifi.security</b>: <small>Type of security used by the Wi-Fi network.</small></li>
+<li><b>$wifi.channel</b>: <small>Wi-Fi channel being used.</small></li>
+<li><b>$wifi.channelBand</b>: <small>Frequency band of the Wi-Fi channel (e.g., 2.4 GHz, 5 GHz).</small></li>
+<li><b>$wifi.channelWidth</b>: <small>Channel width used in MHz.</small></li>
+<li><b>$wifi.channelNumber</b>: <small>Channel number used by the Wi-Fi network.</small></li>
+<li><b>$status</b>: <small>Status of the network connection. "UP" if active, "DOWN" if inactive.</small></li>
+<li><b>$upload.total</b>: <small>Total amount of data uploaded over the connection.</small></li>
+<li><b>$upload</b>: <small>Current upload bandwidth used.</small></li>
+<li><b>$download.total</b>: <small>Total amount of data downloaded over the connection.</small></li>
+<li><b>$download</b>: <small>Current download bandwidth used.</small></li>
+<li><b>$type</b>: <small>Type of network connection (e.g., Ethernet, Wi-Fi, Cellular).</small></li>
+</ul>
+"""
+
 internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
     private var numberOfProcesses: Int = 8
     private var readerType: String = "interface"
@@ -24,6 +62,7 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
     private var ICMPHost: String = "1.1.1.1"
     private var publicIPRefreshInterval: String = "never"
     private var baseValue: String = "byte"
+    private var textValue: String = "$addr.public - $status"
     
     public var callback: (() -> Void) = {}
     public var callbackWhenUpdateNumberOfProcesses: (() -> Void) = {}
@@ -35,6 +74,7 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
     private var sliderView: NSView? = nil
     private var section: PreferencesSection? = nil
     private var widgetThresholdSection: PreferencesSection? = nil
+    private let textWidgetHelpPanel: HelpHUD = HelpHUD(textWidgetHelp)
     
     private var list: [Network_interface] = []
     
@@ -57,6 +97,7 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
         self.ICMPHost = Store.shared.string(key: "\(self.title)_ICMPHost", defaultValue: self.ICMPHost)
         self.publicIPRefreshInterval = Store.shared.string(key: "\(self.title)_publicIPRefreshInterval", defaultValue: self.publicIPRefreshInterval)
         self.baseValue = Store.shared.string(key: "\(self.title)_base", defaultValue: self.baseValue)
+        self.textValue = Store.shared.string(key: "\(self.title)_textWidgetValue", defaultValue: self.textValue)
         
         super.init(frame: NSRect.zero)
         self.orientation = .vertical
@@ -170,9 +211,38 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
         valueField.delegate = self
         valueField.placeholderString = localizedString("Leave empty to disable the check")
         
+        let ICMPField = self.inputField(id: "ICMP", value: self.ICMPHost, placeholder: localizedString("Leave empty to disable the check"))
         self.addArrangedSubview(PreferencesSection([
-            PreferencesRow(localizedString("Connectivity host (ICMP)"), component: valueField)
+            PreferencesRow(localizedString("Connectivity host (ICMP)"), component: ICMPField) {
+                NSWorkspace.shared.open(URL(string: "https://en.wikipedia.org/wiki/Internet_Control_Message_Protocol")!)
+            }
         ]))
+        
+        if widgets.contains(where: { $0 == .text }) {
+            let textField = self.inputField(id: "text", value: self.textValue, placeholder: localizedString("This will be visible in the text widget"))
+            self.addArrangedSubview(PreferencesSection([
+                PreferencesRow(localizedString("Text widget value"), component: textField) { [weak self] in
+                    self?.textWidgetHelpPanel.show()
+                }
+            ]))
+        }
+    }
+    
+    private func inputField(id: String, value: String, placeholder: String) -> NSView {
+        let field: NSTextField = NSTextField()
+        field.identifier = NSUserInterfaceItemIdentifier(id)
+        field.widthAnchor.constraint(equalToConstant: 250).isActive = true
+        field.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+        field.textColor = .textColor
+        field.isEditable = true
+        field.isSelectable = true
+        field.usesSingleLineMode = true
+        field.maximumNumberOfLines = 1
+        field.focusRingType = .none
+        field.stringValue = value
+        field.delegate = self
+        field.placeholderString = placeholder
+        return field
     }
     
     @objc private func handleSelection(_ sender: NSPopUpButton) {
@@ -229,10 +299,15 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
     }
     
     func controlTextDidChange(_ notification: Notification) {
-        if let textField = notification.object as? NSTextField {
-            self.ICMPHost = textField.stringValue
-            Store.shared.set(key: "\(self.title)_ICMPHost", value: self.ICMPHost)
-            self.ICMPHostCallback(self.ICMPHost.isEmpty)
+        if let field = notification.object as? NSTextField {
+            if field.identifier == NSUserInterfaceItemIdentifier("ICMP") {
+                self.ICMPHost = field.stringValue
+                Store.shared.set(key: "\(self.title)_ICMPHost", value: self.ICMPHost)
+                self.ICMPHostCallback(self.ICMPHost.isEmpty)
+            } else if field.identifier == NSUserInterfaceItemIdentifier("text") {
+                self.textValue = field.stringValue
+                Store.shared.set(key: "\(self.title)_textWidgetValue", value: self.textValue)
+            }
         }
     }
     
