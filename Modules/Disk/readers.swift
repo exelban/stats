@@ -73,6 +73,7 @@ internal class CapacityReader: Reader<Disks> {
                                 d.size = self.totalDiskSpaceInBytes(path)
                             }
                             d.smart = self.getSMARTDetails(for: BSDName)
+                            guard d.size != 0 else { continue }
                             self.list.append(d)
                             self.list.sort()
                         }
