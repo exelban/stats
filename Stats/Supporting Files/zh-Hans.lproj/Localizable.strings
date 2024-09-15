@@ -196,9 +196,9 @@
 "Monospaced font" = "等宽字体";
 "Reverse order" = "调转顺序";
 "Chart history" = "图表统计时长";
-"Default color" = "Default";
-"Transparent when no activity" = "Transparent when no activity";
-"Constant color" = "Constant";
+"Default color" = "默认";
+"Transparent when no activity" = "无活动时保持透明";
+"Constant color" = "恒定颜色";
 
 // Module Kit
 "Open module settings" = "打开模块设置";
