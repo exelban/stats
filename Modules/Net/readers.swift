@@ -350,11 +350,34 @@ internal class UsageReader: Reader<Network_Usage> {
             }
             
             if self.usage.wifiDetails.ssid == nil || self.usage.wifiDetails.ssid == "" {
-                let networksetupResponse = syncShell("networksetup -getairportnetwork \(self.interfaceID)")
-                if networksetupResponse.split(separator: "\n").count == 1 {
-                    let arr = networksetupResponse.split(separator: ":")
-                    if let ssid = arr.last {
-                        self.usage.wifiDetails.ssid = ssid.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+                if #available(macOS 15, *) {
+                    guard let res = process(path: "/usr/sbin/system_profiler", arguments: ["SPAirPortDataType", "-json"]) else {
+                        return
+                    }
+                    do {
+                        if let json = try JSONSerialization.jsonObject(with: Data(res.utf8), options: []) as? [String: Any] {
+                            if let arr = json["SPAirPortDataType"] as? [[String: Any]],
+                               let airport = arr.first(where: { $0["spairport_airport_interfaces"] != nil }),
+                               let interfaces = airport["spairport_airport_interfaces"] as? [[String: Any]],
+                               let interface = interfaces.first(where: { $0["_name"] as? String == self.interfaceID }),
+                               let obj = interface["spairport_current_network_information"] as? [String: Any] {
+                                
+                                self.usage.wifiDetails.ssid = obj["_name"] as? String
+                                self.usage.wifiDetails.countryCode = obj["spairport_network_country_code"] as? String
+                                self.usage.wifiDetails.standard = obj["spairport_network_phymode"] as? String
+                            }
+                        }
+                    } catch let err as NSError {
+                        error("error to parse system_profiler SPAirPortDataType: \(err.localizedDescription)")
+                        return
+                    }
+                } else {
+                    let networksetupResponse = syncShell("networksetup -getairportnetwork \(self.interfaceID)")
+                    if networksetupResponse.split(separator: "\n").count == 1 {
+                        let arr = networksetupResponse.split(separator: ":")
+                        if let ssid = arr.last {
+                            self.usage.wifiDetails.ssid = ssid.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+                        }
                     }
                 }
             }
