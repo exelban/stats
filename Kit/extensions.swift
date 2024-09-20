@@ -11,7 +11,7 @@
 
 import Cocoa
 
-extension String: LocalizedError {
+extension String: @retroactive LocalizedError {
     public var errorDescription: String? { return self }
     
     public var digits: String {
