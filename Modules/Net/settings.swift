@@ -54,7 +54,7 @@ You can use a combination of any of the variables. There is only one limitation:
 internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
     private var numberOfProcesses: Int = 8
     private var readerType: String = "interface"
-    private var usageReset: String = AppUpdateInterval.atStart.rawValue
+    private var usageReset: String = AppUpdateInterval.never.rawValue
     private var VPNModeState: Bool = false
     private var widgetActivationThresholdState: Bool = false
     private var widgetActivationThreshold: Int = 0
@@ -166,7 +166,7 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
             )),
             PreferencesRow(localizedString("Reset data usage"), component: selectView(
                 action: #selector(self.toggleUsageReset),
-                items: AppUpdateIntervals.dropLast(2).filter({ $0.key != "Silent" }),
+                items: AppUpdateIntervals.filter({ $0.key != "Silent" }),
                 selected: self.usageReset
             )),
             PreferencesRow(localizedString("Auto-refresh public IP address"), component: selectView(

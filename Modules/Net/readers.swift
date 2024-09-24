@@ -689,9 +689,11 @@ internal class ConnectivityReader: Reader<Network_Connectivity> {
     
     override func setup() {
         self.interval = 1
-        self.addr = self.resolve()
-        self.openConn()
-        self.read()
+        DispatchQueue.global(qos: .background).async {
+            self.addr = self.resolve()
+            self.openConn()
+            self.read()
+        }
     }
     
     deinit {

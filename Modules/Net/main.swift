@@ -302,8 +302,8 @@ public class Network: Module {
         }
         
         if #available(macOS 11.0, *) {
-//            guard let blobData = try? JSONEncoder().encode(raw) else { return }
-//            self.userDefaults?.set(blobData, forKey: "Network@UsageReader")
+            guard let blobData = try? JSONEncoder().encode(raw) else { return }
+            self.userDefaults?.set(blobData, forKey: "Network@UsageReader")
             WidgetCenter.shared.reloadTimelines(ofKind: Network_entry.kind)
         }
     }
@@ -346,11 +346,12 @@ public class Network: Module {
     private func setUsageReset() {
         self.usageReseter.invalidate()
         
-        switch AppUpdateInterval(rawValue: Store.shared.string(key: "\(self.config.name)_usageReset", defaultValue: AppUpdateInterval.atStart.rawValue)) {
+        switch AppUpdateInterval(rawValue: Store.shared.string(key: "\(self.config.name)_usageReset", defaultValue: AppUpdateInterval.never.rawValue)) {
         case .oncePerDay: self.usageReseter.interval = 60 * 60 * 24
         case .oncePerWeek: self.usageReseter.interval = 60 * 60 * 24 * 7
         case .oncePerMonth: self.usageReseter.interval = 60 * 60 * 24 * 30
-        case .never, .atStart: return
+        case .atStart: NotificationCenter.default.post(name: .resetTotalNetworkUsage, object: nil, userInfo: nil)
+        case .never: return
         default: return
         }
         
