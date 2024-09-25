@@ -146,10 +146,12 @@ internal class UsageReader: Reader<Network_Usage> {
             if self.active {
                 self.getPublicIP()
                 self.getDetails()
+                self.getWiFiDetails()
             }
         }
         self.reachability.unreachable = {
             if self.active {
+                self.getWiFiDetails()
                 self.usage.reset()
                 self.callback(self.usage)
             }
@@ -326,58 +328,68 @@ internal class UsageReader: Reader<Network_Usage> {
         
         guard self.usage.interface != nil else { return }
         
-        if self.usage.connectionType == .wifi {
-            if let interface = CWWiFiClient.shared().interface(withName: self.interfaceID) {
-                self.usage.wifiDetails.ssid = interface.ssid()
-                self.usage.wifiDetails.bssid = interface.bssid()
-                self.usage.wifiDetails.countryCode = interface.countryCode()
-                
-                self.usage.wifiDetails.RSSI = interface.rssiValue()
-                self.usage.wifiDetails.noise = interface.noiseMeasurement()
-                self.usage.wifiDetails.transmitRate = interface.transmitRate()
-                
-                self.usage.wifiDetails.standard = interface.activePHYMode().description
-                self.usage.wifiDetails.mode = interface.interfaceMode().description
-                self.usage.wifiDetails.security = interface.security().description
-                
-                if let ch = interface.wlanChannel() {
-                    self.usage.wifiDetails.channel = ch.description
-                    
-                    self.usage.wifiDetails.channelBand = ch.channelBand.description
-                    self.usage.wifiDetails.channelWidth = ch.channelWidth.description
-                    self.usage.wifiDetails.channelNumber = ch.channelNumber.description
-                }
+        if self.usage.connectionType == .wifi && self.usage.wifiDetails.ssid == nil || self.usage.wifiDetails.ssid == "" {
+            self.getWiFiDetails()
+        }
+    }
+    
+    private func getWiFiDetails() {
+        if let interface = CWWiFiClient.shared().interface(withName: self.interfaceID) {
+            if let ssid = interface.ssid() {
+                self.usage.wifiDetails.ssid = ssid
+            }
+            if let bssid = interface.bssid() {
+                self.usage.wifiDetails.bssid = bssid
+            }
+            if let cc = interface.countryCode() {
+                self.usage.wifiDetails.countryCode = cc
             }
             
-            if self.usage.wifiDetails.ssid == nil || self.usage.wifiDetails.ssid == "" {
-                if #available(macOS 15, *) {
-                    guard let res = process(path: "/usr/sbin/system_profiler", arguments: ["SPAirPortDataType", "-json"]) else {
-                        return
-                    }
-                    do {
-                        if let json = try JSONSerialization.jsonObject(with: Data(res.utf8), options: []) as? [String: Any] {
-                            if let arr = json["SPAirPortDataType"] as? [[String: Any]],
-                               let airport = arr.first(where: { $0["spairport_airport_interfaces"] != nil }),
-                               let interfaces = airport["spairport_airport_interfaces"] as? [[String: Any]],
-                               let interface = interfaces.first(where: { $0["_name"] as? String == self.interfaceID }),
-                               let obj = interface["spairport_current_network_information"] as? [String: Any] {
-                                
-                                self.usage.wifiDetails.ssid = obj["_name"] as? String
-                                self.usage.wifiDetails.countryCode = obj["spairport_network_country_code"] as? String
-                                self.usage.wifiDetails.standard = obj["spairport_network_phymode"] as? String
-                            }
+            self.usage.wifiDetails.RSSI = interface.rssiValue()
+            self.usage.wifiDetails.noise = interface.noiseMeasurement()
+            self.usage.wifiDetails.transmitRate = interface.transmitRate()
+            
+            self.usage.wifiDetails.standard = interface.activePHYMode().description
+            self.usage.wifiDetails.mode = interface.interfaceMode().description
+            self.usage.wifiDetails.security = interface.security().description
+            
+            if let ch = interface.wlanChannel() {
+                self.usage.wifiDetails.channel = ch.description
+                
+                self.usage.wifiDetails.channelBand = ch.channelBand.description
+                self.usage.wifiDetails.channelWidth = ch.channelWidth.description
+                self.usage.wifiDetails.channelNumber = ch.channelNumber.description
+            }
+        }
+        
+        if self.usage.wifiDetails.ssid == nil || self.usage.wifiDetails.ssid == "" {
+            if #available(macOS 15, *) {
+                guard let res = process(path: "/usr/sbin/system_profiler", arguments: ["SPAirPortDataType", "-json"]) else {
+                    return
+                }
+                do {
+                    if let json = try JSONSerialization.jsonObject(with: Data(res.utf8), options: []) as? [String: Any] {
+                        if let arr = json["SPAirPortDataType"] as? [[String: Any]],
+                           let airport = arr.first(where: { $0["spairport_airport_interfaces"] != nil }),
+                           let interfaces = airport["spairport_airport_interfaces"] as? [[String: Any]],
+                           let interface = interfaces.first(where: { $0["_name"] as? String == self.interfaceID }),
+                           let obj = interface["spairport_current_network_information"] as? [String: Any] {
+                            
+                            self.usage.wifiDetails.ssid = obj["_name"] as? String
+                            self.usage.wifiDetails.countryCode = obj["spairport_network_country_code"] as? String
+                            self.usage.wifiDetails.standard = obj["spairport_network_phymode"] as? String
                         }
-                    } catch let err as NSError {
-                        error("error to parse system_profiler SPAirPortDataType: \(err.localizedDescription)")
-                        return
                     }
-                } else {
-                    let networksetupResponse = syncShell("networksetup -getairportnetwork \(self.interfaceID)")
-                    if networksetupResponse.split(separator: "\n").count == 1 {
-                        let arr = networksetupResponse.split(separator: ":")
-                        if let ssid = arr.last {
-                            self.usage.wifiDetails.ssid = ssid.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-                        }
+                } catch let err as NSError {
+                    error("error to parse system_profiler SPAirPortDataType: \(err.localizedDescription)")
+                    return
+                }
+            } else {
+                let networksetupResponse = syncShell("networksetup -getairportnetwork \(self.interfaceID)")
+                if networksetupResponse.split(separator: "\n").count == 1 {
+                    let arr = networksetupResponse.split(separator: ":")
+                    if let ssid = arr.last {
+                        self.usage.wifiDetails.ssid = ssid.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
                     }
                 }
             }
