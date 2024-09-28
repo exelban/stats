@@ -28,7 +28,7 @@ public struct CPU_entry: TimelineEntry {
 public struct Provider: TimelineProvider {
     public typealias Entry = CPU_entry
     
-    private let userDefaults: UserDefaults? = UserDefaults(suiteName: "eu.exelban.Stats.widgets")
+    private let userDefaults: UserDefaults? = UserDefaults(suiteName: "\(Bundle.main.object(forInfoDictionaryKey: "TeamId") as! String).eu.exelban.Stats.widgets")
     
     public func placeholder(in context: Context) -> CPU_entry {
         CPU_entry()

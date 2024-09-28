@@ -28,7 +28,7 @@ public struct GPU_entry: TimelineEntry {
 public struct Provider: TimelineProvider {
     public typealias Entry = GPU_entry
     
-    private let userDefaults: UserDefaults? = UserDefaults(suiteName: "eu.exelban.Stats.widgets")
+    private let userDefaults: UserDefaults? = UserDefaults(suiteName: "\(Bundle.main.object(forInfoDictionaryKey: "TeamId") as! String).eu.exelban.Stats.widgets")
     
     public func placeholder(in context: Context) -> GPU_entry {
         GPU_entry()

@@ -21,5 +21,7 @@
 	</dict>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2024 Serhiy Mytrovtsiy. All rights reserved.</string>
+	<key>TeamId</key>
+	<string>RP2S87B72W</string>
 </dict>
 </plist>

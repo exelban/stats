@@ -6,7 +6,7 @@
 	<true/>
 	<key>com.apple.security.application-groups</key>
 	<array>
-		<string>eu.exelban.Stats.widgets</string>
+		<string>$(TeamIdentifierPrefix)eu.exelban.Stats.widgets</string>
 	</array>
 </dict>
 </plist>
