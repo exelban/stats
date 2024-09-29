@@ -17,7 +17,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleVersion</key>
-	<string>599</string>
+	<string>600</string>
 	<key>Description</key>
 	<string>Simple macOS system monitor in your menu bar</string>
 	<key>LSApplicationCategoryType</key>
@@ -42,7 +42,7 @@
 	<key>SMPrivilegedExecutables</key>
 	<dict>
 		<key>eu.exelban.Stats.SMC.Helper</key>
-		<string>anchor apple generic and identifier &quot;eu.exelban.Stats.SMC.Helper&quot; and (certificate leaf[field.1.2.840.113635.100.6.1.9] /* exists */ or certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = RP2S87B72W)</string>
+		<string>anchor apple generic and identifier "eu.exelban.Stats.SMC.Helper" and (certificate leaf[field.1.2.840.113635.100.6.1.9] /* exists */ or certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = RP2S87B72W)</string>
 	</dict>
 	<key>TeamId</key>
 	<string>RP2S87B72W</string>
