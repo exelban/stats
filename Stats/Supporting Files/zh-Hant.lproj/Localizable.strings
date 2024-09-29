@@ -197,8 +197,8 @@
 "Reverse order" = "排序對調";
 "Chart history" = "圖表顯示區間";
 "Default color" = "Default";
-"Transparent when no activity" = "Transparent when no activity";
-"Constant color" = "Constant";
+"Transparent when no activity" = "沒有活動時維持透明顯示";
+"Constant color" = "恆定色彩";
 
 // Module Kit
 "Open module settings" = "打開模組設定";
