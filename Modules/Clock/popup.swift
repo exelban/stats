@@ -43,7 +43,7 @@ internal class Popup: PopupWrapper {
         var sorted = list.sorted(by: { $0.popupIndex < $1.popupIndex })
         var views = self.subviews.filter{ $0 is ClockView }.compactMap{ $0 as? ClockView }
         
-        if sorted.count != self.orderTableView.list.count {
+        if sorted.count != self.orderTableView.list.count || self.orderTableView.window?.isVisible ?? false {
             self.orderTableView.list = sorted
             self.orderTableView.update()
         }
@@ -149,7 +149,7 @@ private class ClockView: NSStackView {
     }
     
     public func update(_ newClock: Clock_t) {
-        if self.clock.tz != newClock.tz {
+        if self.clock.tz != newClock.tz || self.clock.name != newClock.name {
             self.clock = newClock
             self.setTZ()
         }
@@ -302,10 +302,6 @@ private class OrderTableView: NSView, NSTableViewDelegate, NSTableViewDataSource
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    deinit {
-        NotificationCenter.default.removeObserver(self)
     }
     
     public func update() {
