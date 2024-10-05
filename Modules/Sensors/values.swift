@@ -480,13 +480,16 @@ internal let SensorsList: [Sensor] = [
     Sensor(key: "PCEC", name: "CPU VccEDRAM", group: .CPU, type: .power, platforms: Platform.all),
     
     Sensor(key: "PCPG", name: "GPU Intel Graphics", group: .GPU, type: .power, platforms: Platform.all),
-    Sensor(key: "PG0R", name: "GPU", group: .GPU, type: .power, platforms: Platform.all),
+    Sensor(key: "PG0C", name: "GPU", group: .GPU, type: .power, platforms: Platform.all),
+    Sensor(key: "PG0R", name: "GPU 1", group: .GPU, type: .power, platforms: Platform.all),
+    Sensor(key: "PG1R", name: "GPU 2", group: .GPU, type: .power, platforms: Platform.all),
     Sensor(key: "PCGC", name: "Intel GPU", group: .GPU, type: .power, platforms: Platform.all),
     Sensor(key: "PCGM", name: "Intel GPU (IMON)", group: .GPU, type: .power, platforms: Platform.all),
     
     Sensor(key: "PC3C", name: "RAM", group: .sensor, type: .power, platforms: Platform.all),
     Sensor(key: "PPBR", name: "Battery", group: .sensor, type: .power, platforms: Platform.all),
     Sensor(key: "PDTR", name: "DC In", group: .sensor, type: .power, platforms: Platform.all),
+    Sensor(key: "PMTR", name: "Memory Total", group: .sensor, type: .power, platforms: Platform.all),
     Sensor(key: "PSTR", name: "System Total", group: .sensor, type: .power, platforms: Platform.all),
     
     Sensor(key: "PDBR", name: "Power Delivery Brightness", group: .sensor, type: .power, platforms: [.m1, .m1Pro, .m1Max, .m1Ultra])

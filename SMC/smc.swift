@@ -20,6 +20,7 @@ internal enum SMCDataType: String {
     case SP3C = "sp3c"
     case SP4B = "sp5b"
     case SP5A = "sp5a"
+    case SPA5 = "spa5"
     case SP69 = "sp669"
     case SP78 = "sp78"
     case SP87 = "sp87"
@@ -239,6 +240,9 @@ public class SMC {
             case SMCDataType.SP96.rawValue:
                 let intValue: Double = Double(Int(val.bytes[0]) * 256 + Int(val.bytes[1]))
                 return Double(intValue / 64)
+            case SMCDataType.SPA5.rawValue:
+                let result: Double = Double(UInt16(val.bytes[0]) * 256 + UInt16(val.bytes[1]))
+                return Double(result / 32)
             case SMCDataType.SPB4.rawValue:
                 let intValue: Double = Double(Int(val.bytes[0]) * 256 + Int(val.bytes[1]))
                 return Double(intValue / 16)
