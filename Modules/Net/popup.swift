@@ -319,8 +319,8 @@ internal class Popup: PopupWrapper {
         self.publicIPv6Field?.isSelectable = true
         
         if let valueView = self.publicIPv6Field {
-            valueView.font = NSFont.systemFont(ofSize: 10, weight: .regular)
-            valueView.setFrameOrigin(NSPoint(x: valueView.frame.origin.x, y: 1))
+            valueView.font = NSFont.systemFont(ofSize: 7, weight: .semibold)
+            valueView.setFrameOrigin(NSPoint(x: valueView.frame.origin.x, y: -1))
         }
         
         ipV4.2.removeFromSuperview()
