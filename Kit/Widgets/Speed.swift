@@ -223,7 +223,7 @@ public class SpeedWidget: WidgetWrapper {
         let size: CGFloat = 10
         
         let downloadStringAttributes = [
-            NSAttributedString.Key.font: NSFont.systemFont(ofSize: 11, weight: .regular),
+            NSAttributedString.Key.font: NSFont.systemFont(ofSize: 11, weight: .medium),
             NSAttributedString.Key.foregroundColor: color,
             NSAttributedString.Key.paragraphStyle: style
         ]
@@ -294,7 +294,7 @@ public class SpeedWidget: WidgetWrapper {
         let rowHeight: CGFloat = self.frame.height
         let height: CGFloat = 10
         let downloadAttributes = [
-            NSAttributedString.Key.font: NSFont.systemFont(ofSize: 12, weight: .regular),
+            NSAttributedString.Key.font: NSFont.systemFont(ofSize: 12, weight: .medium),
             NSAttributedString.Key.foregroundColor: color,
             NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
         ]
@@ -326,12 +326,12 @@ public class SpeedWidget: WidgetWrapper {
             style.alignment = self.valueAlignment
             
             let downloadStringAttributes = [
-                NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .light),
+                NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .bold),
                 NSAttributedString.Key.foregroundColor: self.downloadColor(self.valueColorState),
                 NSAttributedString.Key.paragraphStyle: style
             ]
             let uploadStringAttributes = [
-                NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .light),
+				NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .bold),
                 NSAttributedString.Key.foregroundColor: self.uploadColor(self.valueColorState),
                 NSAttributedString.Key.paragraphStyle: style
             ]
@@ -440,7 +440,7 @@ public class SpeedWidget: WidgetWrapper {
         
         if self.symbols.count > 1 {
             let downloadAttributes = [
-                NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .regular),
+                NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .medium),
                 NSAttributedString.Key.foregroundColor: self.downloadColor(self.iconColorState),
                 NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
             ]
@@ -451,7 +451,7 @@ public class SpeedWidget: WidgetWrapper {
         
         if !self.symbols.isEmpty {
             let uploadAttributes = [
-                NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .regular),
+                NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .medium),
                 NSAttributedString.Key.foregroundColor: self.uploadColor(self.iconColorState),
                 NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
             ]
