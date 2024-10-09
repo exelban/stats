@@ -154,6 +154,7 @@ extension Clock {
             KeyValue_t(key: "9", value: "UTC+9:00"),
             KeyValue_t(key: "9:30", value: "UTC+9:30"),
             KeyValue_t(key: "10", value: "UTC+10:00"),
+            KeyValue_t(key: "10:30", value: "UTC+10:30"),
             KeyValue_t(key: "11", value: "UTC+11:00"),
             KeyValue_t(key: "12", value: "UTC+12:00"),
             KeyValue_t(key: "13", value: "UTC+13:00"),
