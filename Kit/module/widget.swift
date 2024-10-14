@@ -342,6 +342,7 @@ public class SWidget {
                     self.item.setFrameOrigin(NSPoint(x: self.originX, y: self.item.frame.origin.y))
                 }
                 self.menuBarItem?.button?.addSubview(self.item)
+                self.menuBarItem?.button?.image = NSImage()
                 
                 if let item = self.menuBarItem, !item.isVisible {
                     self.menuBarItem?.isVisible = true
@@ -485,6 +486,7 @@ public class MenuBar {
                 self.menuBarItem?.isVisible = true
                 
                 self.menuBarItem?.button?.addSubview(self.view)
+                self.menuBarItem?.button?.image = NSImage()
                 self.menuBarItem?.button?.target = self
                 self.menuBarItem?.button?.action = #selector(self.togglePopup)
                 self.menuBarItem?.button?.sendAction(on: [.leftMouseDown, .rightMouseDown])
