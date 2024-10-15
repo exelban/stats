@@ -1596,3 +1596,18 @@ public class HelpHUD: NSPanel {
         self.center()
     }
 }
+
+public class VerticallyCenteredTextFieldCell: NSTextFieldCell {
+    public override func titleRect(forBounds rect: NSRect) -> NSRect {
+        var titleRect = super.titleRect(forBounds: rect)
+        let textSize = self.attributedStringValue.size()
+        let verticalOffset = (rect.size.height - textSize.height) / 2.0
+        titleRect.origin.y += verticalOffset
+        return titleRect
+    }
+    
+    public override func drawInterior(withFrame cellFrame: NSRect, in controlView: NSView) {
+        let titleRect = self.titleRect(forBounds: cellFrame)
+        self.attributedStringValue.draw(in: titleRect)
+    }
+}

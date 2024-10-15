@@ -13,18 +13,34 @@ import Cocoa
 import Kit
 
 internal class Popup: PopupWrapper {
+    private var title: String
+    
     private let orderTableView: OrderTableView = OrderTableView()
     private var list: [Clock_t] = []
     
-    public init() {
+    private var calendarView: CalendarView? = nil
+    private var calendarState: Bool = true
+    
+    public init(_ module: ModuleType) {
+        self.title = module.rawValue
+        
         super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: 0))
+        
+        self.orientation = .vertical
+        self.spacing = Constants.Popup.margins
+        
+        self.calendarView = CalendarView(self.frame.width)
+        self.calendarState = Store.shared.bool(key: "\(self.title)_calendar", defaultValue: self.calendarState)
         
         self.orderTableView.reorderCallback = { [weak self] in
             self?.rearrange()
         }
         
-        self.orientation = .vertical
-        self.spacing = Constants.Popup.margins
+        if let calendar = self.calendarView, self.calendarState {
+            self.addArrangedSubview(calendar)
+        }
+        
+        self.recalculateHeight()
     }
     
     required init?(coder: NSCoder) {
@@ -32,13 +48,7 @@ internal class Popup: PopupWrapper {
     }
     
     internal func callback(_ list: [Clock_t]) {
-        defer {
-            let h = self.arrangedSubviews.map({ $0.bounds.height + self.spacing }).reduce(0, +) - self.spacing
-            if h > 0 && self.frame.size.height != h {
-                self.setFrameSize(NSSize(width: self.frame.width, height: h))
-                self.sizeCallback?(self.frame.size)
-            }
-        }
+        defer { self.recalculateHeight() }
         
         var sorted = list.sorted(by: { $0.popupIndex < $1.popupIndex })
         var views = self.subviews.filter{ $0 is ClockView }.compactMap{ $0 as? ClockView }
@@ -66,9 +76,26 @@ internal class Popup: PopupWrapper {
         self.list = sorted
     }
     
+    private func recalculateHeight() {
+        let h = self.arrangedSubviews.map({ $0.bounds.height + self.spacing }).reduce(0, +) - self.spacing
+        if h > 0 && self.frame.size.height != h {
+            self.setFrameSize(NSSize(width: self.frame.width, height: h))
+            self.sizeCallback?(self.frame.size)
+        }
+    }
+    
     override func settings() -> NSView? {
         let view = SettingsContainerView()
+        
+        view.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Calendar"), component: switchView(
+                action: #selector(self.toggleCalendarState),
+                state: self.calendarState
+            ))
+        ]))
+        
         view.addArrangedSubview(self.orderTableView)
+        
         return view
     }
     
@@ -76,6 +103,296 @@ internal class Popup: PopupWrapper {
         let views = self.subviews.filter{ $0 is ClockView }.compactMap{ $0 as? ClockView }
         views.forEach{ $0.removeFromSuperview() }
         self.callback(self.list)
+    }
+    
+    @objc private func toggleCalendarState(_ sender: NSControl) {
+        self.calendarState = controlState(sender)
+        Store.shared.set(key: "\(self.title)_calendar", value: self.calendarState)
+        
+        guard let view = self.calendarView else { return }
+        if self.calendarState {
+            self.insertArrangedSubview(view, at: 0)
+        } else {
+            view.removeFromSuperview()
+        }
+        self.recalculateHeight()
+    }
+}
+
+private class CalendarView: NSStackView {
+    private let itemSize: CGSize
+    
+    private var year: Int
+    private var month: Int
+    
+    private var currentYear: Int {
+        Calendar.current.component(.year, from: Date())
+    }
+    private var currentMonth: Int {
+        Calendar.current.component(.month, from: Date())
+    }
+    private var currentDay: Int {
+        Calendar.current.component(.day, from: Date())
+    }
+    
+    private var weekDays: [String] {
+        let calendar = Calendar.current
+        let firstWeekdayIndex = calendar.firstWeekday - 1
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale.current
+        dateFormatter.calendar = calendar
+        let weekdaySymbols = dateFormatter.shortWeekdaySymbols
+        return Array(weekdaySymbols![firstWeekdayIndex...]) + weekdaySymbols![..<firstWeekdayIndex]
+    }
+    
+    private var grid: NSGridView = NSGridView()
+    private var current: NSTextField = NSTextField()
+    
+    init(_ width: CGFloat) {
+        self.itemSize = NSSize(
+            width: (width-(Constants.Popup.margins*2))/7,
+            height: (width-(Constants.Popup.spacing*2))/8 - 4
+        )
+        self.year = Calendar.current.component(.year, from: Date())
+        self.month = Calendar.current.component(.month, from: Date())
+        
+        super.init(frame: NSRect(x: 0, y: 0, width: width, height: width - 32))
+        
+        self.spacing = 0
+        self.orientation = .vertical
+        self.edgeInsets = .init(
+            top: Constants.Popup.spacing,
+            left: Constants.Popup.margins,
+            bottom: Constants.Popup.spacing,
+            right: Constants.Popup.margins
+        )
+        self.wantsLayer = true
+        self.layer?.cornerRadius = 2
+        
+        self.addArrangedSubview(self.navigation())
+        self.setup()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func updateLayer() {
+        self.layer?.backgroundColor = (isDarkMode ? NSColor(red: 17/255, green: 17/255, blue: 17/255, alpha: 0.25) : NSColor(red: 245/255, green: 245/255, blue: 245/255, alpha: 1)).cgColor
+    }
+    
+    private func setup() {
+        self.grid.removeFromSuperview()
+        
+        let grid = NSGridView()
+        grid.rowSpacing = 0
+        grid.columnSpacing = 0
+        grid.addRow(with: self.weekDays.map { headerItem($0) })
+          
+        let weeks = self.generateDays(for: self.month, in: self.year)
+        for week in weeks {
+            let labels = week.map { rowItem($0) }
+            grid.addRow(with: labels)
+        }
+        
+        self.grid = grid
+        self.current.stringValue = "\(Calendar.current.standaloneMonthSymbols[self.month-1]) \(self.year)"
+        
+        self.addArrangedSubview(grid)
+    }
+    
+    private func navigation() -> NSView {
+        let view = NSStackView()
+        view.heightAnchor.constraint(equalToConstant: self.itemSize.height).isActive = true
+        view.orientation = .horizontal
+        
+        let details = NSTextField(labelWithString: "\(Calendar.current.standaloneMonthSymbols[self.month-1]) \(self.year)")
+        details.font = .systemFont(ofSize: 16, weight: .medium)
+        self.current = details
+        let buttons = NSStackView()
+        buttons.orientation = .horizontal
+        
+        let prev = NSButton()
+        prev.bezelStyle = .regularSquare
+        prev.translatesAutoresizingMaskIntoConstraints = false
+        prev.imageScaling = .scaleNone
+        if #available(macOS 11.0, *) {
+            prev.image = iconFromSymbol(name: "arrow.left", scale: .medium)!
+        } else {
+            prev.title = "<"
+        }
+        prev.contentTintColor = .labelColor
+        prev.isBordered = false
+        prev.action = #selector(self.prevMonth)
+        prev.target = self
+        prev.toolTip = localizedString("Previous month")
+        prev.focusRingType = .none
+        
+        let next = NSButton()
+        next.bezelStyle = .regularSquare
+        next.translatesAutoresizingMaskIntoConstraints = false
+        next.imageScaling = .scaleNone
+        if #available(macOS 11.0, *) {
+            next.image = iconFromSymbol(name: "arrow.right", scale: .medium)!
+        } else {
+            next.title = ">"
+        }
+        next.contentTintColor = .labelColor
+        next.isBordered = false
+        next.action = #selector(self.nextMonth)
+        next.target = self
+        next.toolTip = localizedString("Next month")
+        next.focusRingType = .none
+        
+        buttons.addArrangedSubview(prev)
+        buttons.addArrangedSubview(next)
+        
+        view.addArrangedSubview(details)
+        view.addArrangedSubview(NSView())
+        view.addArrangedSubview(buttons)
+        
+        return view
+    }
+    
+    private func headerItem(_ value: String) -> NSView {
+        let view = NSTextField()
+        let cell = VerticallyCenteredTextFieldCell(textCell: value)
+        view.cell = cell
+        view.alignment = .center
+        view.textColor = .gray
+        view.font = .systemFont(ofSize: 12)
+        view.widthAnchor.constraint(equalToConstant: self.itemSize.width).isActive = true
+        view.heightAnchor.constraint(equalToConstant: self.itemSize.height).isActive = true
+        return view
+    }
+    
+    private func rowItem(_ day: DateComponents) -> NSView {
+        if day.year == self.currentYear && day.month == self.currentMonth && day.day == self.currentDay {
+            return self.todayItem()
+        }
+        let view = NSTextField()
+        let cell = VerticallyCenteredTextFieldCell(textCell: "\(day.day ?? 0)")
+        view.cell = cell
+        view.alignment = .center
+        if day.month != self.month {
+            view.textColor = .lightGray
+        }
+        
+        view.widthAnchor.constraint(equalToConstant: self.itemSize.width).isActive = true
+        view.heightAnchor.constraint(equalToConstant: self.itemSize.height).isActive = true
+        return view
+    }
+    
+    private func todayItem() -> NSView {
+        let view = NSView()
+        
+        let size: CGFloat = 25
+        let circle = NSView(frame: NSRect(x: (self.itemSize.width-size)/2, y: (self.itemSize.height-size)/2, width: size, height: size))
+        circle.wantsLayer = true
+        circle.layer?.backgroundColor = NSColor.systemRed.cgColor
+        circle.layer?.cornerRadius = size/2
+        
+        let field = NSTextField()
+        field.translatesAutoresizingMaskIntoConstraints = false
+        let cell = VerticallyCenteredTextFieldCell(textCell: "\(self.currentDay)")
+        field.cell = cell
+        field.alignment = .center
+        field.textColor = .white
+        
+        view.addSubview(circle)
+        view.addSubview(field)
+        
+        view.widthAnchor.constraint(equalToConstant: self.itemSize.width).isActive = true
+        view.heightAnchor.constraint(equalToConstant: self.itemSize.height).isActive = true
+        field.widthAnchor.constraint(equalToConstant: self.itemSize.width).isActive = true
+        field.heightAnchor.constraint(equalToConstant: self.itemSize.height).isActive = true
+        return view
+    }
+    
+    private func generateDays(for month: Int, in year: Int) -> [[DateComponents]] {
+        let calendar = Calendar.current
+        let dateComponents = DateComponents(year: year, month: month)
+        
+        guard let range = calendar.range(of: .day, in: .month, for: calendar.date(from: dateComponents)!),
+              let firstDayOfMonth = calendar.date(from: dateComponents),
+              let firstWeekdayOfMonth = calendar.dateComponents([.weekday], from: firstDayOfMonth).weekday else {
+            return []
+        }
+        
+        let localeFirstWeekday = calendar.firstWeekday
+        let daysFromPreviousMonth = (firstWeekdayOfMonth - localeFirstWeekday + 7) % 7
+        
+        var previousMonthComponents = dateComponents
+        previousMonthComponents.month = (month == 1) ? 12 : month - 1
+        previousMonthComponents.year = (month == 1) ? year - 1 : year
+        
+        let previousMonthDate = calendar.date(from: previousMonthComponents)!
+        let previousMonthRange = calendar.range(of: .day, in: .month, for: previousMonthDate)!
+        let lastDayOfPreviousMonth = previousMonthRange.upperBound - 1
+        
+        var nextMonthComponents = dateComponents
+        nextMonthComponents.month = (month == 12) ? 1 : month + 1
+        nextMonthComponents.year = (month == 12) ? year + 1 : year
+        
+        var weeks = [[DateComponents]]()
+        var currentWeek = [DateComponents]()
+        let validDaysFromPreviousMonth = min(daysFromPreviousMonth, lastDayOfPreviousMonth)
+        if validDaysFromPreviousMonth > 0 {
+            for day in (lastDayOfPreviousMonth - validDaysFromPreviousMonth + 1)...lastDayOfPreviousMonth {
+                var components = previousMonthComponents
+                components.day = day
+                currentWeek.append(components)
+            }
+        }
+        
+        for day in range {
+            var components = dateComponents
+            components.day = day
+            currentWeek.append(components)
+            if currentWeek.count == 7 {
+                weeks.append(currentWeek)
+                currentWeek = []
+            }
+        }
+        
+        var nextMonthDay = 1
+        while currentWeek.count < 7 {
+            var components = nextMonthComponents
+            components.day = nextMonthDay
+            currentWeek.append(components)
+            nextMonthDay += 1
+        }
+        weeks.append(currentWeek)
+        
+        if weeks.count < 6 {
+            currentWeek = []
+            for _ in 1...7 {
+                var components = nextMonthComponents
+                components.day = nextMonthDay
+                currentWeek.append(components)
+                nextMonthDay += 1
+            }
+            weeks.append(currentWeek)
+        }
+        
+        return weeks
+    }
+    
+    @objc private func prevMonth() {
+        self.month -= 1
+        if self.month < 1 {
+            self.month = 12
+            self.year -= 1
+        }
+        self.setup()
+    }
+    @objc private func nextMonth() {
+        self.month += 1
+        if self.month > 12 {
+            self.month = 1
+            self.year += 1
+        }
+        self.setup()
     }
 }
 

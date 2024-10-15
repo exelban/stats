@@ -54,7 +54,7 @@ internal class ClockReader: Reader<Date> {
 }
 
 public class Clock: Module {
-    private let popupView: Popup = Popup()
+    private let popupView: Popup = Popup(.clock)
     private let portalView: Portal
     private let settingsView: Settings = Settings(.clock)
     
@@ -75,7 +75,7 @@ public class Clock: Module {
         
         super.init(
             popup: self.popupView,
-            settings: self.settingsView, 
+            settings: self.settingsView,
             portal: self.portalView
         )
         guard self.available else { return }
