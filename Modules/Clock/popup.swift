@@ -507,8 +507,11 @@ internal class ClockChart: NSView {
         
         let context = NSGraphicsContext.current!.cgContext
         context.saveGState()
-        context.setFillColor(self.color.cgColor)
-        context.fillEllipse(in: NSRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height))
+        context.setFillColor(NSColor.controlBackgroundColor.cgColor)
+        context.setStrokeColor((isDarkMode ? NSColor.darkGray : NSColor.lightGray).cgColor)
+        context.setLineWidth(1)
+        context.addEllipse(in: CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height))
+        context.drawPath(using: .fillStroke)
         context.restoreGState()
         
         let anchor = CGPoint(x: 0.5, y: 0)
@@ -518,28 +521,32 @@ internal class ClockChart: NSView {
         let minuteAngle: CGFloat = CGFloat(minute) * CGFloat(360.0 / 60.0)
         let secondsAngle: CGFloat = CGFloat(self.second) * CGFloat(360.0 / 60.0)
         
-        self.hourLayer.backgroundColor = NSColor.white.cgColor
+        self.hourLayer.backgroundColor = NSColor.labelColor.cgColor
         self.hourLayer.anchorPoint = anchor
         self.hourLayer.position = center
-        self.hourLayer.bounds = CGRect(x: 0, y: 0, width: 3, height: self.frame.size.width / 2 - 7)
+        self.hourLayer.cornerRadius = 2
+        self.hourLayer.bounds = CGRect(x: 0, y: 0, width: 2, height: self.frame.size.width / 2 - 4)
         self.hourLayer.transform = CATransform3DMakeRotation(-hourAngle / 180 * CGFloat(Double.pi), 0, 0, 1)
         self.layer?.addSublayer(self.hourLayer)
         
-        self.minuteLayer.backgroundColor = NSColor.white.cgColor
+        self.minuteLayer.backgroundColor = NSColor.secondaryLabelColor.cgColor
         self.minuteLayer.anchorPoint = anchor
         self.minuteLayer.position = center
-        self.minuteLayer.bounds = CGRect(x: 0, y: 0, width: 2, height: self.frame.size.width / 2 - 4)
+        self.minuteLayer.cornerRadius = 2
+        self.minuteLayer.bounds = CGRect(x: 0, y: 0, width: 2, height: self.frame.size.width / 2 - 2)
         self.minuteLayer.transform = CATransform3DMakeRotation(-minuteAngle / 180 * CGFloat(Double.pi), 0, 0, 1)
         self.layer?.addSublayer(self.minuteLayer)
         
         self.secondsLayer.backgroundColor = NSColor.red.cgColor
         self.secondsLayer.anchorPoint = anchor
         self.secondsLayer.position = center
-        self.secondsLayer.bounds = CGRect(x: 0, y: 0, width: 1, height: self.frame.size.width / 2 - 2)
+        self.secondsLayer.cornerRadius = 1
+        self.secondsLayer.bounds = CGRect(x: 0, y: 0, width: 1, height: self.frame.size.width / 2 - 1)
         self.secondsLayer.transform = CATransform3DMakeRotation(-secondsAngle / 180 * CGFloat(Double.pi), 0, 0, 1)
         self.layer?.addSublayer(self.secondsLayer)
         
-        self.pinLayer.fillColor = NSColor.white.cgColor
+        self.pinLayer.fillColor = NSColor.controlBackgroundColor.cgColor
+        self.pinLayer.strokeColor = (isDarkMode ? NSColor.darkGray : NSColor.lightGray).cgColor
         self.pinLayer.anchorPoint = anchor
         self.pinLayer.path = CGMutablePath(roundedRect: CGRect(
             x: center.x - 3 / 2,
@@ -636,7 +643,7 @@ private class OrderTableView: NSView, NSTableViewDelegate, NSTableViewDataSource
         let cell = NSTableCellView()
         
         switch tableColumn?.identifier {
-        case nameColumnID: 
+        case nameColumnID:
             let text: NSTextField = NSTextField()
             text.drawsBackground = false
             text.isBordered = false
