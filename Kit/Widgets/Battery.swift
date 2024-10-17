@@ -18,6 +18,7 @@ public class BatteryWidget: WidgetWrapper {
     private var colorState: Bool = false
     private var hideAdditionalWhenFull: Bool = true
     private var xlSizeState: Bool = false
+    private var chargerIconInside: Bool = true
     
     private var _percentage: Double? = nil
     private var _time: Int = 0
@@ -44,6 +45,7 @@ public class BatteryWidget: WidgetWrapper {
             self.colorState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_color", defaultValue: self.colorState)
             self.hideAdditionalWhenFull = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_hideAdditionalWhenFull", defaultValue: self.hideAdditionalWhenFull)
             self.xlSizeState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_xlSize", defaultValue: self.xlSizeState)
+            self.chargerIconInside = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_chargerInside", defaultValue: self.chargerIconInside)
         }
         
         if preview {
@@ -76,7 +78,7 @@ public class BatteryWidget: WidgetWrapper {
             optimizedCharging = self._optimizedCharging
         }
         
-        var width: CGFloat = Constants.Widget.margin.x*2
+        var width: CGFloat = 0
         var x: CGFloat = 0
         let isShortTimeFormat: Bool = self.timeFormat == "short"
         
@@ -88,14 +90,14 @@ public class BatteryWidget: WidgetWrapper {
                     value = "\(Int((percentage.rounded(toPlaces: 2)) * 100))%"
                 }
                 let rowWidth = self.drawOneRow(value: value, x: x).rounded(.up)
-                width += rowWidth + Constants.Widget.spacing
+                width += rowWidth
                 x += rowWidth + Constants.Widget.spacing
             case "time":
                 let rowWidth = self.drawOneRow(
                     value: Double(time*60).printSecondsToHoursMinutesSeconds(short: isShortTimeFormat),
                     x: x
                 ).rounded(.up)
-                width += rowWidth + Constants.Widget.spacing
+                width += rowWidth
                 x += rowWidth + Constants.Widget.spacing
             case "percentageAndTime":
                 var value = "n/a"
@@ -107,7 +109,7 @@ public class BatteryWidget: WidgetWrapper {
                     second: Double(time*60).printSecondsToHoursMinutesSeconds(short: isShortTimeFormat),
                     x: x
                 ).rounded(.up)
-                width += rowWidth + Constants.Widget.spacing
+                width += rowWidth
                 x += rowWidth + Constants.Widget.spacing
             case "timeAndPercentage":
                 var value = "n/a"
@@ -119,17 +121,37 @@ public class BatteryWidget: WidgetWrapper {
                     second: value,
                     x: x
                 ).rounded(.up)
-                width += rowWidth + Constants.Widget.spacing
+                width += rowWidth
                 x += rowWidth + Constants.Widget.spacing
             default: break
             }
         }
         
-        let borderWidth: CGFloat = 1
         let batterySize: CGSize = self.xlSizeState ? CGSize(width: 26, height: 14) : CGSize(width: 22, height: 12)
+        
+        if ACStatus && !self.chargerIconInside {
+            if x != 0 {
+                width += Constants.Widget.spacing
+                x += Constants.Widget.spacing
+            }
+            self.drawACIcon(
+                ctx: ctx,
+                center: CGPoint(x: x+3, y: self.frame.size.height/2),
+                height: 12,
+                charging: charging
+            )
+            width += 6
+            x += 6 + Constants.Widget.spacing
+        }
+        
+        let borderWidth: CGFloat = 1
         let batteryRadius: CGFloat = self.xlSizeState ? 3 : 2
         let offset: CGFloat = 0.5 // contant!
         width += batterySize.width + borderWidth*2 // add battery width
+        if x != 0 {
+            width += Constants.Widget.spacing
+            x += Constants.Widget.spacing
+        }
         
         let batteryFrame = NSBezierPath(roundedRect: NSRect(
             x: x + borderWidth + offset,
@@ -165,8 +187,9 @@ public class BatteryWidget: WidgetWrapper {
             let innerRadius: CGFloat = self.xlSizeState ? 2 : 1
             var colorState = self.colorState
             let color = percentage.batteryColor(color: colorState)
+            let innerPercentage = self.additional == "innerPercentage" && (!ACStatus || !self.chargerIconInside)
             
-            if self.additional == "innerPercentage" && !ACStatus {
+            if innerPercentage {
                 colorState = false
                 let innerUnderground = NSBezierPath(roundedRect: NSRect(
                     x: batteryFrame.bounds.origin.x + innerOffset,
@@ -188,7 +211,7 @@ public class BatteryWidget: WidgetWrapper {
             color.set()
             inner.fill()
             
-            if self.additional == "innerPercentage" && !ACStatus {
+            if innerPercentage {
                 let fontSize: CGFloat = self.xlSizeState ? 9 : 8
                 let style = NSMutableParagraphStyle()
                 style.alignment = .center
@@ -223,84 +246,17 @@ public class BatteryWidget: WidgetWrapper {
             NSAttributedString.init(string: "?", attributes: attributes).draw(with: rect)
         }
         
-        if ACStatus {
+        if ACStatus && self.chargerIconInside {
             let batteryCenter: CGPoint = CGPoint(
                 x: batteryFrame.bounds.origin.x + (batteryFrame.bounds.width/2),
                 y: batteryFrame.bounds.origin.y + (batteryFrame.bounds.height/2)
             )
-            var points: [CGPoint] = []
-            
-            if charging {
-                let iconSize: CGSize = CGSize(width: 9, height: batterySize.height + 6)
-                let min = CGPoint(
-                    x: batteryCenter.x - (iconSize.width/2),
-                    y: batteryCenter.y - (iconSize.height/2)
-                )
-                let max = CGPoint(
-                    x: batteryCenter.x + (iconSize.width/2),
-                    y: batteryCenter.y + (iconSize.height/2)
-                )
-                
-                points = [
-                    CGPoint(x: batteryCenter.x-3, y: min.y), // bottom
-                    CGPoint(x: max.x, y: batteryCenter.y+1.5),
-                    CGPoint(x: batteryCenter.x+1, y: batteryCenter.y+1.5),
-                    CGPoint(x: batteryCenter.x+3, y: max.y), // top
-                    CGPoint(x: min.x, y: batteryCenter.y-1.5),
-                    CGPoint(x: batteryCenter.x-1, y: batteryCenter.y-1.5)
-                ]
-            } else {
-                let iconSize: CGSize = CGSize(width: 9, height: batterySize.height + 2)
-                let minY = batteryCenter.y - (iconSize.height/2)
-                let maxY = batteryCenter.y + (iconSize.height/2)
-                
-                points = [
-                    CGPoint(x: batteryCenter.x-1.5, y: minY+0.5),
-                    
-                    CGPoint(x: batteryCenter.x+1.5, y: minY+0.5),
-                    CGPoint(x: batteryCenter.x+1.5, y: batteryCenter.y - 2.5),
-                    
-                    CGPoint(x: batteryCenter.x+4, y: batteryCenter.y + 0.5),
-                    CGPoint(x: batteryCenter.x+4, y: batteryCenter.y + 4.25),
-                    
-                    // right
-                    CGPoint(x: batteryCenter.x+2.75, y: batteryCenter.y + 4.25),
-                    CGPoint(x: batteryCenter.x+2.75, y: maxY-0.25),
-                    CGPoint(x: batteryCenter.x+0.25, y: maxY-0.25),
-                    CGPoint(x: batteryCenter.x+0.25, y: batteryCenter.y + 4.25),
-                    
-                    // left
-                    CGPoint(x: batteryCenter.x-0.25, y: batteryCenter.y + 4.25),
-                    CGPoint(x: batteryCenter.x-0.25, y: maxY-0.25),
-                    CGPoint(x: batteryCenter.x-2.75, y: maxY-0.25),
-                    CGPoint(x: batteryCenter.x-2.75, y: batteryCenter.y + 4.25),
-                    
-                    CGPoint(x: batteryCenter.x-4, y: batteryCenter.y + 4.25),
-                    CGPoint(x: batteryCenter.x-4, y: batteryCenter.y + 0.5),
-                    
-                    CGPoint(x: batteryCenter.x-1.5, y: batteryCenter.y - 2.5),
-                    CGPoint(x: batteryCenter.x-1.5, y: minY+0.5)
-                ]
-            }
-            
-            let linePath = NSBezierPath()
-            linePath.move(to: CGPoint(x: points[0].x, y: points[0].y))
-            for i in 1..<points.count {
-                linePath.line(to: CGPoint(x: points[i].x, y: points[i].y))
-            }
-            linePath.line(to: CGPoint(x: points[0].x, y: points[0].y))
-            
-            NSColor.textColor.set()
-            linePath.fill()
-            
-            ctx.saveGState()
-            ctx.setBlendMode(.destinationOut)
-            
-            NSColor.orange.set()
-            linePath.lineWidth = borderWidth
-            linePath.stroke()
-            
-            ctx.restoreGState()
+            self.drawACIcon(
+                ctx: ctx,
+                center: batteryCenter,
+                height: 12,
+                charging: charging
+            )
         }
         
         self.setWidth(width)
@@ -343,6 +299,82 @@ public class BatteryWidget: WidgetWrapper {
         str.draw(with: CGRect(x: x, y: 1, width: rowWidth, height: rowHeight))
         
         return rowWidth
+    }
+    
+    private func drawACIcon(ctx: CGContext, center batteryCenter: CGPoint, height: CGFloat, charging: Bool) {
+        var points: [CGPoint] = []
+        
+        if charging {
+            let iconSize: CGSize = CGSize(width: 9, height: height + 6)
+            let min = CGPoint(
+                x: batteryCenter.x - (iconSize.width/2),
+                y: batteryCenter.y - (iconSize.height/2)
+            )
+            let max = CGPoint(
+                x: batteryCenter.x + (iconSize.width/2),
+                y: batteryCenter.y + (iconSize.height/2)
+            )
+            
+            points = [
+                CGPoint(x: batteryCenter.x-3, y: min.y), // bottom
+                CGPoint(x: max.x, y: batteryCenter.y+1.5),
+                CGPoint(x: batteryCenter.x+1, y: batteryCenter.y+1.5),
+                CGPoint(x: batteryCenter.x+3, y: max.y), // top
+                CGPoint(x: min.x, y: batteryCenter.y-1.5),
+                CGPoint(x: batteryCenter.x-1, y: batteryCenter.y-1.5)
+            ]
+        } else {
+            let iconSize: CGSize = CGSize(width: 9, height: height + 2)
+            let minY = batteryCenter.y - (iconSize.height/2)
+            let maxY = batteryCenter.y + (iconSize.height/2)
+            
+            points = [
+                CGPoint(x: batteryCenter.x-1.5, y: minY+0.5),
+                
+                CGPoint(x: batteryCenter.x+1.5, y: minY+0.5),
+                CGPoint(x: batteryCenter.x+1.5, y: batteryCenter.y - 2.5),
+                
+                CGPoint(x: batteryCenter.x+4, y: batteryCenter.y + 0.5),
+                CGPoint(x: batteryCenter.x+4, y: batteryCenter.y + 4.25),
+                
+                // right
+                CGPoint(x: batteryCenter.x+2.75, y: batteryCenter.y + 4.25),
+                CGPoint(x: batteryCenter.x+2.75, y: maxY-0.25),
+                CGPoint(x: batteryCenter.x+0.25, y: maxY-0.25),
+                CGPoint(x: batteryCenter.x+0.25, y: batteryCenter.y + 4.25),
+                
+                // left
+                CGPoint(x: batteryCenter.x-0.25, y: batteryCenter.y + 4.25),
+                CGPoint(x: batteryCenter.x-0.25, y: maxY-0.25),
+                CGPoint(x: batteryCenter.x-2.75, y: maxY-0.25),
+                CGPoint(x: batteryCenter.x-2.75, y: batteryCenter.y + 4.25),
+                
+                CGPoint(x: batteryCenter.x-4, y: batteryCenter.y + 4.25),
+                CGPoint(x: batteryCenter.x-4, y: batteryCenter.y + 0.5),
+                
+                CGPoint(x: batteryCenter.x-1.5, y: batteryCenter.y - 2.5),
+                CGPoint(x: batteryCenter.x-1.5, y: minY+0.5)
+            ]
+        }
+        
+        let linePath = NSBezierPath()
+        linePath.move(to: CGPoint(x: points[0].x, y: points[0].y))
+        for i in 1..<points.count {
+            linePath.line(to: CGPoint(x: points[i].x, y: points[i].y))
+        }
+        linePath.line(to: CGPoint(x: points[0].x, y: points[0].y))
+        
+        NSColor.textColor.set()
+        linePath.fill()
+        
+        ctx.saveGState()
+        ctx.setBlendMode(.destinationOut)
+        
+        NSColor.textColor.set()
+        linePath.lineWidth = 1
+        linePath.stroke()
+        
+        ctx.restoreGState()
     }
     
     public func setValue(percentage: Double? = nil, ACStatus: Bool? = nil, isCharging: Bool? = nil, optimizedCharging: Bool? = nil, time: Int? = nil) {
@@ -408,6 +440,10 @@ public class BatteryWidget: WidgetWrapper {
             PreferencesRow(localizedString("XL size"), component: switchView(
                 action: #selector(self.toggleXLSize),
                 state: self.xlSizeState
+            )),
+            PreferencesRow(localizedString("Charger state inside the battery"), component: switchView(
+                action: #selector(self.toggleChargerIconInside),
+                state: self.chargerIconInside
             ))
         ]))
         
@@ -436,6 +472,12 @@ public class BatteryWidget: WidgetWrapper {
     @objc private func toggleXLSize(_ sender: NSControl) {
         self.xlSizeState = controlState(sender)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_xlSize", value: self.xlSizeState)
+        self.display()
+    }
+    
+    @objc private func toggleChargerIconInside(_ sender: NSControl) {
+        self.chargerIconInside = controlState(sender)
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_chargerInside", value: self.chargerIconInside)
         self.display()
     }
 }
