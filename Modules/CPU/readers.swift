@@ -212,16 +212,13 @@ public class ProcessReader: Reader<[TopProcess]> {
         
         let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
         let errorData = errorPipe.fileHandleForReading.readDataToEndOfFile()
-        let output = String(decoding: outputData, as: UTF8.self)
-        _ = String(decoding: errorData, as: UTF8.self)
-        
-        if output.isEmpty {
-            return
-        }
+        let output = String(data: outputData, encoding: .utf8)
+        _ = String(data: errorData, encoding: .utf8)
+        guard let output, !output.isEmpty else { return }
         
         var index = 0
         var processes: [TopProcess] = []
-        output.enumerateLines { (line, stop) -> Void in
+        output.enumerateLines { (line, stop) in
             if index != 0 {
                 let str = line.trimmingCharacters(in: .whitespaces)
                 let pidFind = str.findAndCrop(pattern: "^\\d+")
@@ -472,10 +469,9 @@ public class LimitReader: Reader<CPU_Limit> {
         }
         
         let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
-        var lines = String(decoding: outputData, as: UTF8.self).split(separator: "\n")
-        if lines.isEmpty {
-            return
-        }
+        guard let str = String(data: outputData, encoding: .utf8) else { return }
+        var lines = str.split(separator: "\n")
+        guard !lines.isEmpty else { return }
         lines.removeFirst(3)
         
         lines.forEach { (line: Substring) in
@@ -520,7 +516,7 @@ public class AverageReader: Reader<[Double]> {
         }
         
         let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
-        guard let line = String(decoding: outputData, as: UTF8.self).split(separator: "\n").first else {
+        guard let raw = String(data: outputData, encoding: .utf8), let line = raw.split(separator: "\n").first else {
             return
         }
         

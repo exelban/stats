@@ -73,13 +73,13 @@ public class NextLog {
             let fileURL = fm.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("log.txt")
             
             if !fm.fileExists(atPath: fileURL.path) {
-                try? "".data(using: .utf8)?.write(to: fileURL)
+                try? Data("".utf8).write(to: fileURL)
             }
             
             do {
                 let handle = try FileHandle(forWritingTo: fileURL)
                 handle.seekToEndOfFile()
-                handle.write("----------------\n".data(using: .utf8)!)
+                handle.write(Data("----------------\n".utf8))
                 self.writer = FileHandlerOutputStream(handle)
             } catch let err {
                 print("error to init file handler: \(err)")

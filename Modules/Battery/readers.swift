@@ -194,13 +194,11 @@ public class ProcessReader: Reader<[TopProcess]> {
             return
         }
         
-        let output = String(decoding: outputData.advanced(by: outputData.count/2), as: UTF8.self)
-        if output.isEmpty {
-            return
-        }
+        let output = String(data: outputData.advanced(by: outputData.count/2), encoding: .utf8)
+        guard let output, !output.isEmpty else { return }
         
         var processes: [TopProcess] = []
-        output.enumerateLines { (line, _) -> Void in
+        output.enumerateLines { (line, _) in
             if line.matches("^\\d+ *[^(\\d)]*\\d+\\.*\\d* *$") {
                 let str = line.trimmingCharacters(in: .whitespaces)
                 let pidFind = str.findAndCrop(pattern: "^\\d+")

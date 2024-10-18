@@ -170,8 +170,8 @@ extension Helper {
         
         let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
         let errorData = errorPipe.fileHandleForReading.readDataToEndOfFile()
-        let output = String(decoding: outputData, as: UTF8.self)
-        let error = String(decoding: errorData, as: UTF8.self)
+        let output = String(data: outputData, encoding: .utf8)
+        let error = String(data: errorData, encoding: .utf8)
         
         return (output, error)
     }

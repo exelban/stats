@@ -819,11 +819,8 @@ public func process(path: String, arguments: [String]) -> String? {
     }
     
     let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
-    let output = String(decoding: outputData, as: UTF8.self)
-    
-    if output.isEmpty {
-        return nil
-    }
+    let output = String(data: outputData, encoding: .utf8)
+    guard let output, !output.isEmpty else { return nil }
     
     return output
 }

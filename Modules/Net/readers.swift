@@ -271,17 +271,14 @@ internal class UsageReader: Reader<Network_Usage> {
         
         let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
         let errorData = errorPipe.fileHandleForReading.readDataToEndOfFile()
-        let output = String(decoding: outputData, as: UTF8.self)
-        _ = String(decoding: errorData, as: UTF8.self)
-        
-        if output.isEmpty {
-            return Bandwidth()
-        }
+        let output = String(data: outputData, encoding: .utf8)
+        _ = String(data: errorData, encoding: .utf8)
+        guard let output, !output.isEmpty else { return Bandwidth() }
 
         var totalUpload: Int64 = 0
         var totalDownload: Int64 = 0
         var firstLine = false
-        output.enumerateLines { (line, _) -> Void in
+        output.enumerateLines { (line, _) in
             if !firstLine {
                 firstLine = true
                 return
@@ -516,16 +513,13 @@ public class ProcessReader: Reader<[Network_Process]> {
         
         let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
         let errorData = errorPipe.fileHandleForReading.readDataToEndOfFile()
-        let output = String(decoding: outputData, as: UTF8.self)
-        _ = String(decoding: errorData, as: UTF8.self)
-        
-        if output.isEmpty {
-            return
-        }
+        let output = String(data: outputData, encoding: .utf8)
+        _ = String(data: errorData, encoding: .utf8)
+        guard let output, !output.isEmpty else { return }
         
         var list: [Network_Process] = []
         var firstLine = false
-        output.enumerateLines { (line, _) -> Void in
+        output.enumerateLines { (line, _) in
             if !firstLine {
                 firstLine = true
                 return

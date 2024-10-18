@@ -58,7 +58,7 @@ public class Reachability {
                 _ = unmanagedReachability.retain()
                 return UnsafeRawPointer(unmanagedReachability.toOpaque())
             },
-            release: { (info: UnsafeRawPointer) -> Void in
+            release: { (info: UnsafeRawPointer) in
                 Unmanaged<Reachability>.fromOpaque(info).release()
             },
             copyDescription: nil

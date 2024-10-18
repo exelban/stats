@@ -384,7 +384,7 @@ public class ProcessReader: Reader<[Disk_process]> {
         guard self.numberOfProcesses != 0, let output = runProcess(path: "/bin/ps", args: ["-Aceo pid,args", "-r"]) else { return }
         
         var processes: [Disk_process] = []
-        output.enumerateLines { (line, _) -> Void in
+        output.enumerateLines { (line, _) in
             let str = line.trimmingCharacters(in: .whitespaces)
             let pidFind = str.findAndCrop(pattern: "^\\d+")
             guard let pid = Int32(pidFind.cropped) else { return }
@@ -451,5 +451,5 @@ private func runProcess(path: String, args: [String] = []) -> String? {
     }
     
     let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
-    return String(decoding: outputData, as: UTF8.self)
+    return String(data: outputData, encoding: .utf8)
 }
