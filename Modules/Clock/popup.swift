@@ -84,7 +84,7 @@ internal class Popup: PopupWrapper {
         }
     }
     
-    override func settings() -> NSView? {
+    public override func settings() -> NSView? {
         let view = SettingsContainerView()
         
         view.addArrangedSubview(PreferencesSection([
@@ -97,6 +97,12 @@ internal class Popup: PopupWrapper {
         view.addArrangedSubview(self.orderTableView)
         
         return view
+    }
+    
+    public override func appear() {
+        if self.calendarState {
+            self.calendarView?.checkCurrentDay()
+        }
     }
     
     private func rearrange() {
@@ -124,6 +130,7 @@ private class CalendarView: NSStackView {
     
     private var year: Int
     private var month: Int
+    private var day: Int
     
     private var currentYear: Int {
         Calendar.current.component(.year, from: Date())
@@ -155,6 +162,7 @@ private class CalendarView: NSStackView {
         )
         self.year = Calendar.current.component(.year, from: Date())
         self.month = Calendar.current.component(.month, from: Date())
+        self.day = Calendar.current.component(.day, from: Date())
         
         super.init(frame: NSRect(x: 0, y: 0, width: width, height: width - 32))
         
@@ -175,6 +183,16 @@ private class CalendarView: NSStackView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    public func checkCurrentDay() {
+        guard self.day != self.currentDay || self.month != self.currentMonth || self.year != self.currentYear else { return }
+        
+        self.year = self.currentYear
+        self.month = self.currentMonth
+        self.day = self.currentDay
+        
+        self.setup()
     }
     
     override func updateLayer() {
