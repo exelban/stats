@@ -74,15 +74,28 @@ public class TextWidget: WidgetWrapper {
             self.display()
         })
     }
-    
+
     static public func parseText(_ raw: String) -> [KeyValue_t] {
         var pairs: [KeyValue_t] = []
-        raw.split(separator: " ", omittingEmptySubsequences: true).filter({ $0.hasPrefix("$") }).forEach { v in
-            let arr = v.split(separator: ".", omittingEmptySubsequences: true)
-            guard let key = arr.first else { return }
-            let value = arr.count == 1 ? nil : arr.last
-            pairs.append(KeyValue_t(key: String(key), value: String(value ?? "")))
+        do {
+            let regex = try NSRegularExpression(pattern: "(\\$[a-zA-Z0-9_]+)(?:\\.([a-zA-Z0-9_]+))?")
+            let matches = regex.matches(in: raw, range: NSRange(raw.startIndex..., in: raw))
+            for match in matches {
+                if let keyRange = Range(match.range(at: 1), in: raw) {
+                    let key = String(raw[keyRange])
+                    let value: String?
+                    if match.range(at: 2).location != NSNotFound, let valueRange = Range(match.range(at: 2), in: raw) {
+                        value = String(raw[valueRange])
+                    } else {
+                        value = nil
+                    }
+                    pairs.append(KeyValue_t(key: key, value: value ?? ""))
+                }
+            }
+        } catch {
+            print("Error creating regex: \(error.localizedDescription)")
         }
         return pairs
     }
+    
 }
