@@ -42,6 +42,7 @@ identifier_name:
     - _writeTS
     - LineChartHistory
     - SpeedPictogramColor
+    - SensorsWidgetValue
 
 line_length: 200
 

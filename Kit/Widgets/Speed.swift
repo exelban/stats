@@ -20,8 +20,8 @@ public class SpeedWidget: WidgetWrapper {
     private var iconColorState: String = "default"
     private var valueAlignmentState: String = "right"
     private var modeState: String = "twoRows"
-    private var reverseOrderState: Bool = false
     private var iconAlignmentState: String = "left"
+    private var displayValueState: String = "io"
     
     private var downloadColorState: SColor = .secondBlue
     private var uploadColorState: SColor = .secondRed
@@ -37,6 +37,7 @@ public class SpeedWidget: WidgetWrapper {
     private var valueAlignmentView: NSPopUpButton? = nil
     private var iconAlignmentView: NSPopUpButton? = nil
     private var iconColorView: NSPopUpButton? = nil
+    private var displayModeView: NSPopUpButton? = nil
     
     private var downloadColor: (String) -> NSColor {{ state in
         if state == "none" { return .textColor }
@@ -76,6 +77,10 @@ public class SpeedWidget: WidgetWrapper {
         DataSizeBase(rawValue: Store.shared.string(key: "\(self.title)_base", defaultValue: "byte")) ?? .byte
     }
     
+    private var reverseOrderState: Bool {
+        self.displayValueState == "oi"
+    }
+    
     public init(title: String, config: NSDictionary?, preview: Bool = false) {
         let widgetTitle: String = title
         if config != nil {
@@ -104,9 +109,9 @@ public class SpeedWidget: WidgetWrapper {
             self.uploadColorState = SColor.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_uploadColor", defaultValue: self.uploadColorState.key))
             self.valueAlignmentState = Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_valueAlignment", defaultValue: self.valueAlignmentState)
             self.modeState = Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_mode", defaultValue: self.modeState)
-            self.reverseOrderState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_reverseOrder", defaultValue: self.reverseOrderState)
             self.iconAlignmentState = Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_iconAlignment", defaultValue: self.iconAlignmentState)
             self.iconColorState = Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_iconColor", defaultValue: self.iconColorState)
+            self.displayValueState = Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_displayValue", defaultValue: self.displayValueState)
         }
         
         if preview {
@@ -140,21 +145,13 @@ public class SpeedWidget: WidgetWrapper {
     private func drawOneRow() -> CGFloat {
         var width: CGFloat = Constants.Widget.margin.x
         
-        if self.reverseOrderState {
+        if self.displayValueState.first == "i" {
             width = self.drawRowItem(
                 initWidth: width,
                 symbol: self.symbols[1],
                 iconColor: self.downloadColor(self.iconColorState),
                 value: self.downloadValue,
                 valueColor: self.downloadColor(self.valueColorState)
-            )
-            width += 4
-            width = self.drawRowItem(
-                initWidth: width,
-                symbol: self.symbols[0],
-                iconColor: self.uploadColor(self.iconColorState),
-                value: self.uploadValue,
-                valueColor: self.uploadColor(self.valueColorState)
             )
         } else {
             width = self.drawRowItem(
@@ -164,14 +161,27 @@ public class SpeedWidget: WidgetWrapper {
                 value: self.uploadValue,
                 valueColor: self.uploadColor(self.valueColorState)
             )
-            width += 4
-            width = self.drawRowItem(
-                initWidth: width,
-                symbol: self.symbols[1],
-                iconColor: self.downloadColor(self.iconColorState),
-                value: self.downloadValue,
-                valueColor: self.downloadColor(self.valueColorState)
-            )
+        }
+        
+        if self.displayValueState.count > 1 {
+            width += Constants.Widget.spacing*3
+            if self.displayValueState.last == "i" {
+                width = self.drawRowItem(
+                    initWidth: width,
+                    symbol: self.symbols[1],
+                    iconColor: self.downloadColor(self.iconColorState),
+                    value: self.downloadValue,
+                    valueColor: self.downloadColor(self.valueColorState)
+                )
+            } else {
+                width = self.drawRowItem(
+                    initWidth: width,
+                    symbol: self.symbols[0],
+                    iconColor: self.uploadColor(self.iconColorState),
+                    value: self.uploadValue,
+                    valueColor: self.uploadColor(self.valueColorState)
+                )
+            }
         }
         
         return width + Constants.Widget.margin.x
@@ -498,16 +508,21 @@ public class SpeedWidget: WidgetWrapper {
         valueColor.isEnabled = self.valueState
         self.valueColorView = valueColor
         
+        let displayMode = selectView(
+            action: #selector(self.changeDisplayMode),
+            items: SensorsWidgetMode.filter({ $0.key == "oneRow" || $0.key == "twoRows"}),
+            selected: self.modeState
+        )
+        displayMode.isEnabled = self.displayValueState.count > 1
+        self.displayModeView = displayMode
+        
         view.addArrangedSubview(PreferencesSection([
-            PreferencesRow(localizedString("Display mode"), component: selectView(
-                action: #selector(self.changeDisplayMode),
-                items: SensorsWidgetMode.filter({ $0.key == "oneRow" || $0.key == "twoRows"}),
-                selected: self.modeState
+            PreferencesRow(localizedString("Value"), component: selectView(
+                action: #selector(self.changeDisplayValue),
+                items: SensorsWidgetValue,
+                selected: self.displayValueState
             )),
-            PreferencesRow(localizedString("Reverse order"), component: switchView(
-                action: #selector(self.toggleReverseOrder),
-                state: self.reverseOrderState
-            ))
+            PreferencesRow(localizedString("Display mode"), component: displayMode)
         ]))
         
         view.addArrangedSubview(PreferencesSection([
@@ -553,16 +568,27 @@ public class SpeedWidget: WidgetWrapper {
         return view
     }
     
+    @objc private func changeDisplayValue(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String else { return }
+        self.displayValueState = key
+        
+        if key.count == 1 {
+            if self.modeState != "oneRow" {
+                self.modeState = "oneRow"
+                Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_mode", value: self.modeState)
+            }
+            self.displayModeView?.selectItem(at: 0)
+        }
+        self.displayModeView?.isEnabled = key.count > 1
+        
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_displayValue", value: key)
+        self.display()
+    }
+    
     @objc private func changeDisplayMode(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String else { return }
         self.modeState = key
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_mode", value: key)
-        self.display()
-    }
-    
-    @objc private func toggleReverseOrder(_ sender: NSControl) {
-        self.reverseOrderState = controlState(sender)
-        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_reverseOrder", value: self.reverseOrderState)
         self.display()
     }
     

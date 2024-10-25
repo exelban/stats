@@ -102,6 +102,14 @@ internal enum StackMode: String {
     case twoRows = "twoRows"
 }
 
+internal let SensorsWidgetValue: [KeyValue_t] = [
+    KeyValue_t(key: "io", value: "Input/Output"),
+    KeyValue_t(key: "oi", value: "Output/Input"),
+    KeyValue_t(key: "separator", value: "separator"),
+    KeyValue_t(key: "i", value: "Input"),
+    KeyValue_t(key: "o", value: "Output")
+]
+
 internal let SensorsWidgetMode: [KeyValue_t] = [
     KeyValue_t(key: StackMode.auto.rawValue, value: "Automatic"),
     KeyValue_t(key: "separator", value: "separator"),
