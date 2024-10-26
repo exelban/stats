@@ -22,10 +22,19 @@
 			<key>Default</key>
 			<true/>
 			<key>Symbols</key>
-			<array>
+			<dict>
+				<key>Output</key>
 				<string>U</string>
+				<key>Input</key>
 				<string>D</string>
-			</array>
+			</dict>
+			<key>Words</key>
+			<dict>
+				<key>Output</key>
+				<string>Upload</string>
+				<key>Input</key>
+				<string>Download</string>
+			</dict>
 			<key>Order</key>
 			<integer>1</integer>
 		</dict>

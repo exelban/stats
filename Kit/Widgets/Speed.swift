@@ -21,15 +21,16 @@ public class SpeedWidget: WidgetWrapper {
     private var valueAlignmentState: String = "right"
     private var modeState: String = "twoRows"
     private var iconAlignmentState: String = "left"
-    private var displayValueState: String = "io"
+    private var displayValueState: String = "oi"
     
-    private var downloadColorState: SColor = .secondBlue
-    private var uploadColorState: SColor = .secondRed
+    private var inputColorState: SColor = .secondBlue
+    private var outputColorState: SColor = .secondRed
     
-    private var symbols: [String] = ["U", "D"]
+    private var symbols: (input: String, output: String) = ("I", "O")
+    private var words: (input: String, output: String) = ("Input", "Output")
     
-    private var uploadValue: Int64 = 0
-    private var downloadValue: Int64 = 0
+    private var inputValue: Int64 = 0
+    private var outputValue: Int64 = 0
     
     private var width: CGFloat = 58
     
@@ -39,10 +40,10 @@ public class SpeedWidget: WidgetWrapper {
     private var iconColorView: NSPopUpButton? = nil
     private var displayModeView: NSPopUpButton? = nil
     
-    private var downloadColor: (String) -> NSColor {{ state in
+    private var inputColor: (String) -> NSColor {{ state in
         if state == "none" { return .textColor }
-        var color = self.monochromeState ? MonochromeColor.blue : (self.downloadColorState.additional as? NSColor ?? NSColor.systemBlue)
-        if self.downloadValue < 1024 {
+        var color = self.monochromeState ? MonochromeColor.blue : (self.inputColorState.additional as? NSColor ?? NSColor.systemBlue)
+        if self.inputValue < 1024 {
             if state == "transparent" {
                 color = .clear
             } else if state == "default" {
@@ -51,10 +52,10 @@ public class SpeedWidget: WidgetWrapper {
         }
         return color
     }}
-    private var uploadColor: (String) -> NSColor {{ state in
+    private var outputColor: (String) -> NSColor {{ state in
         if state == "none" { return .textColor }
-        var color = self.monochromeState ? MonochromeColor.red : (self.uploadColorState.additional as? NSColor ?? NSColor.red)
-        if self.uploadValue < 1024 {
+        var color = self.monochromeState ? MonochromeColor.red : (self.outputColorState.additional as? NSColor ?? NSColor.red)
+        if self.outputValue < 1024 {
             if state == "transparent" {
                 color = .clear
             } else if state == "default" {
@@ -77,15 +78,18 @@ public class SpeedWidget: WidgetWrapper {
         DataSizeBase(rawValue: Store.shared.string(key: "\(self.title)_base", defaultValue: "byte")) ?? .byte
     }
     
-    private var reverseOrderState: Bool {
-        self.displayValueState == "oi"
-    }
-    
     public init(title: String, config: NSDictionary?, preview: Bool = false) {
         let widgetTitle: String = title
         if config != nil {
-            if let symbols = config!["Symbols"] as? [String] { self.symbols = symbols }
+            if let symbols = config!["Symbols"] as? NSDictionary {
+                if let i = symbols["Input"] as? String { self.symbols.input = i }
+                if let o = symbols["Output"] as? String { self.symbols.output = o }
+            }
             if let icon = config!["Icon"] as? String { self.icon = icon }
+            if let words = config!["Words"] as? NSDictionary {
+                if let i = words["Input"] as? String { self.words.input = i }
+                if let o = words["Output"] as? String { self.words.output = o }
+            }
         }
         
         super.init(.speed, title: widgetTitle, frame: CGRect(
@@ -105,8 +109,8 @@ public class SpeedWidget: WidgetWrapper {
             if self.valueColorState == "0" {
                 self.valueColorState = "none"
             }
-            self.downloadColorState = SColor.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_downloadColor", defaultValue: self.downloadColorState.key))
-            self.uploadColorState = SColor.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_uploadColor", defaultValue: self.uploadColorState.key))
+            self.inputColorState = SColor.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_downloadColor", defaultValue: self.inputColorState.key))
+            self.outputColorState = SColor.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_uploadColor", defaultValue: self.outputColorState.key))
             self.valueAlignmentState = Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_valueAlignment", defaultValue: self.valueAlignmentState)
             self.modeState = Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_mode", defaultValue: self.modeState)
             self.iconAlignmentState = Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_iconAlignment", defaultValue: self.iconAlignmentState)
@@ -115,8 +119,8 @@ public class SpeedWidget: WidgetWrapper {
         }
         
         if preview {
-            self.downloadValue = 8947141
-            self.uploadValue = 478678
+            self.inputValue = 8947141
+            self.outputValue = 478678
         }
     }
     
@@ -148,18 +152,18 @@ public class SpeedWidget: WidgetWrapper {
         if self.displayValueState.first == "i" {
             width = self.drawRowItem(
                 initWidth: width,
-                symbol: self.symbols[1],
-                iconColor: self.downloadColor(self.iconColorState),
-                value: self.downloadValue,
-                valueColor: self.downloadColor(self.valueColorState)
+                symbol: self.symbols.input,
+                iconColor: self.inputColor(self.iconColorState),
+                value: self.inputValue,
+                valueColor: self.inputColor(self.valueColorState)
             )
         } else {
             width = self.drawRowItem(
                 initWidth: width,
-                symbol: self.symbols[0],
-                iconColor: self.uploadColor(self.iconColorState),
-                value: self.uploadValue,
-                valueColor: self.uploadColor(self.valueColorState)
+                symbol: self.symbols.output,
+                iconColor: self.outputColor(self.iconColorState),
+                value: self.outputValue,
+                valueColor: self.outputColor(self.valueColorState)
             )
         }
         
@@ -168,18 +172,18 @@ public class SpeedWidget: WidgetWrapper {
             if self.displayValueState.last == "i" {
                 width = self.drawRowItem(
                     initWidth: width,
-                    symbol: self.symbols[1],
-                    iconColor: self.downloadColor(self.iconColorState),
-                    value: self.downloadValue,
-                    valueColor: self.downloadColor(self.valueColorState)
+                    symbol: self.symbols.input,
+                    iconColor: self.inputColor(self.iconColorState),
+                    value: self.inputValue,
+                    valueColor: self.inputColor(self.valueColorState)
                 )
             } else {
                 width = self.drawRowItem(
                     initWidth: width,
-                    symbol: self.symbols[0],
-                    iconColor: self.uploadColor(self.iconColorState),
-                    value: self.uploadValue,
-                    valueColor: self.uploadColor(self.valueColorState)
+                    symbol: self.symbols.output,
+                    iconColor: self.outputColor(self.iconColorState),
+                    value: self.outputValue,
+                    valueColor: self.outputColor(self.valueColorState)
                 )
             }
         }
@@ -232,7 +236,7 @@ public class SpeedWidget: WidgetWrapper {
         style.alignment = self.valueAlignment
         let size: CGFloat = 10
         
-        let downloadStringAttributes = [
+        let inputStringAttributes = [
             NSAttributedString.Key.font: NSFont.systemFont(ofSize: 11, weight: .regular),
             NSAttributedString.Key.foregroundColor: color,
             NSAttributedString.Key.paragraphStyle: style
@@ -241,7 +245,7 @@ public class SpeedWidget: WidgetWrapper {
         let rect = CGRect(x: offset.x, y: (height-size)/2 + offset.y + 1, width: rowWidth - (Constants.Widget.margin.x*2), height: size)
         let value = NSAttributedString.init(
             string: Units(bytes: value).getReadableSpeed(base: base, omitUnits: !self.unitsState),
-            attributes: downloadStringAttributes
+            attributes: inputStringAttributes
         )
         value.draw(with: rect)
         
@@ -303,13 +307,13 @@ public class SpeedWidget: WidgetWrapper {
     private func drawChar(_ offset: CGPoint, symbol: String, color: NSColor) -> CGFloat {
         let rowHeight: CGFloat = self.frame.height
         let height: CGFloat = 10
-        let downloadAttributes = [
+        let inputAttributes = [
             NSAttributedString.Key.font: NSFont.systemFont(ofSize: 12, weight: .regular),
             NSAttributedString.Key.foregroundColor: color,
             NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
         ]
         let rect = CGRect(x: offset.x, y: offset.y + ((rowHeight-height)/2) + 1, width: 10, height: height)
-        let str = NSAttributedString.init(string: symbol, attributes: downloadAttributes)
+        let str = NSAttributedString.init(string: symbol, attributes: inputAttributes)
         str.draw(with: rect)
         
         return 10
@@ -335,33 +339,33 @@ public class SpeedWidget: WidgetWrapper {
             let style = NSMutableParagraphStyle()
             style.alignment = self.valueAlignment
             
-            let downloadStringAttributes = [
+            let inputStringAttributes = [
                 NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .light),
-                NSAttributedString.Key.foregroundColor: self.downloadColor(self.valueColorState),
+                NSAttributedString.Key.foregroundColor: self.inputColor(self.valueColorState),
                 NSAttributedString.Key.paragraphStyle: style
             ]
-            let uploadStringAttributes = [
+            let outputStringAttributes = [
                 NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .light),
-                NSAttributedString.Key.foregroundColor: self.uploadColor(self.valueColorState),
+                NSAttributedString.Key.foregroundColor: self.outputColor(self.valueColorState),
                 NSAttributedString.Key.paragraphStyle: style
             ]
             
-            let downloadY: CGFloat = self.reverseOrderState ? rowHeight + 1 : 1
-            let uploadY: CGFloat = self.reverseOrderState ? 1 : rowHeight + 1
+            let inputY: CGFloat = self.displayValueState == "io" ? rowHeight + 1 : 1
+            let outputY: CGFloat = self.displayValueState == "io" ? 1 : rowHeight + 1
             
-            var rect = CGRect(x: Constants.Widget.margin.x + x, y: downloadY, width: rowWidth - (Constants.Widget.margin.x*2), height: rowHeight)
-            let download = NSAttributedString.init(
-                string: Units(bytes: self.downloadValue).getReadableSpeed(base: base, omitUnits: !self.unitsState),
-                attributes: downloadStringAttributes
+            var rect = CGRect(x: Constants.Widget.margin.x + x, y: inputY, width: rowWidth - (Constants.Widget.margin.x*2), height: rowHeight)
+            let input = NSAttributedString.init(
+                string: Units(bytes: self.inputValue).getReadableSpeed(base: base, omitUnits: !self.unitsState),
+                attributes: inputStringAttributes
             )
-            download.draw(with: rect)
+            input.draw(with: rect)
             
-            rect = CGRect(x: Constants.Widget.margin.x + x, y: uploadY, width: rowWidth - (Constants.Widget.margin.x*2), height: rowHeight)
-            let upload = NSAttributedString.init(
-                string: Units(bytes: self.uploadValue).getReadableSpeed(base: base, omitUnits: !self.unitsState),
-                attributes: uploadStringAttributes
+            rect = CGRect(x: Constants.Widget.margin.x + x, y: outputY, width: rowWidth - (Constants.Widget.margin.x*2), height: rowHeight)
+            let output = NSAttributedString.init(
+                string: Units(bytes: self.outputValue).getReadableSpeed(base: base, omitUnits: !self.unitsState),
+                attributes: outputStringAttributes
             )
-            upload.draw(with: rect)
+            output.draw(with: rect)
             
             width += rowWidth
         }
@@ -384,18 +388,18 @@ public class SpeedWidget: WidgetWrapper {
         let size: CGFloat = 6
         let y: CGFloat = (rowHeight-size)/2
         let x: CGFloat = self.iconAlignmentState == "left" ? Constants.Widget.margin.x : Constants.Widget.margin.x+(width-6)
-        let downloadY: CGFloat = self.reverseOrderState ? 10.5 : y-0.2
-        let uploadY: CGFloat = self.reverseOrderState ? y-0.2 : 10.5
+        let inputY: CGFloat = self.displayValueState == "io" ? 10.5 : y-0.2
+        let outputdY: CGFloat = self.displayValueState == "io" ? y-0.2 : 10.5
         
-        var downloadCircle = NSBezierPath()
-        downloadCircle = NSBezierPath(ovalIn: CGRect(x: x, y: downloadY, width: size, height: size))
-        self.downloadColor(self.iconColorState).set()
-        downloadCircle.fill()
+        var inputCircle = NSBezierPath()
+        inputCircle = NSBezierPath(ovalIn: CGRect(x: x, y: inputY, width: size, height: size))
+        self.inputColor(self.iconColorState).set()
+        inputCircle.fill()
         
-        var uploadCircle = NSBezierPath()
-        uploadCircle = NSBezierPath(ovalIn: CGRect(x: x, y: uploadY, width: size, height: size))
-        self.uploadColor(self.iconColorState).set()
-        uploadCircle.fill()
+        var outputCircle = NSBezierPath()
+        outputCircle = NSBezierPath(ovalIn: CGRect(x: x, y: outputdY, width: size, height: size))
+        self.outputColor(self.iconColorState).set()
+        outputCircle.fill()
     }
     
     private func drawArrows(_ width: CGFloat) {
@@ -409,66 +413,62 @@ public class SpeedWidget: WidgetWrapper {
             x += (width-7)
         }
         
-        let downloadYStart: CGFloat = self.reverseOrderState ? self.frame.size.height : half - Constants.Widget.spacing/2
-        let downloadYEnd: CGFloat = self.reverseOrderState ? (half + Constants.Widget.spacing/2)+1 : 1
+        let inputYStart: CGFloat = self.displayValueState == "io" ? self.frame.size.height : half - Constants.Widget.spacing/2
+        let inputYEnd: CGFloat = self.displayValueState == "io" ? (half + Constants.Widget.spacing/2)+1 : 1
         
-        let uploadYStart: CGFloat = self.reverseOrderState ? 0 : half + Constants.Widget.spacing/2
-        let uploadYEnd: CGFloat = self.reverseOrderState ? (half - Constants.Widget.spacing/2)-1 : self.frame.size.height-1
+        let outputYStart: CGFloat = self.displayValueState == "io" ? 0 : half + Constants.Widget.spacing/2
+        let uploadYEnd: CGFloat = self.displayValueState == "io" ? (half - Constants.Widget.spacing/2)-1 : self.frame.size.height-1
         
-        let downloadArrow = NSBezierPath()
-        downloadArrow.addArrow(
-            start: CGPoint(x: x, y: downloadYStart),
-            end: CGPoint(x: x, y: downloadYEnd),
+        let inputArrow = NSBezierPath()
+        inputArrow.addArrow(
+            start: CGPoint(x: x, y: inputYStart),
+            end: CGPoint(x: x, y: inputYEnd),
             pointerLineLength: arrowSize,
             arrowAngle: arrowAngle
         )
         
-        self.downloadColor(self.iconColorState).set()
-        downloadArrow.lineWidth = lineWidth
-        downloadArrow.stroke()
-        downloadArrow.close()
+        self.inputColor(self.iconColorState).set()
+        inputArrow.lineWidth = lineWidth
+        inputArrow.stroke()
+        inputArrow.close()
         
-        let uploadArrow = NSBezierPath()
-        uploadArrow.addArrow(
-            start: CGPoint(x: x, y: uploadYStart),
+        let outputArrow = NSBezierPath()
+        outputArrow.addArrow(
+            start: CGPoint(x: x, y: outputYStart),
             end: CGPoint(x: x, y: uploadYEnd),
             pointerLineLength: arrowSize,
             arrowAngle: arrowAngle
         )
         
-        self.uploadColor(self.iconColorState).set()
-        uploadArrow.lineWidth = lineWidth
-        uploadArrow.stroke()
-        uploadArrow.close()
+        self.outputColor(self.iconColorState).set()
+        outputArrow.lineWidth = lineWidth
+        outputArrow.stroke()
+        outputArrow.close()
     }
     
     private func drawChars(_ width: CGFloat) {
         let rowHeight: CGFloat = self.frame.height / 2
-        let downloadY: CGFloat = self.reverseOrderState ? rowHeight+1 : 1
-        let uploadY: CGFloat = self.reverseOrderState ? 1 : rowHeight+1
+        let inputY: CGFloat = self.displayValueState == "io" ? rowHeight+1 : 1
+        let outputY: CGFloat = self.displayValueState == "io" ? 1 : rowHeight+1
         let x: CGFloat = self.iconAlignmentState == "left" ? Constants.Widget.margin.x : Constants.Widget.margin.x+(width-6)
         
-        if self.symbols.count > 1 {
-            let downloadAttributes = [
-                NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .regular),
-                NSAttributedString.Key.foregroundColor: self.downloadColor(self.iconColorState),
-                NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
-            ]
-            let rect = CGRect(x: x, y: downloadY, width: 8, height: rowHeight)
-            let str = NSAttributedString.init(string: self.symbols[1], attributes: downloadAttributes)
-            str.draw(with: rect)
-        }
+        let inputAttributes = [
+            NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .regular),
+            NSAttributedString.Key.foregroundColor: self.inputColor(self.iconColorState),
+            NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
+        ]
+        var rect = CGRect(x: x, y: inputY, width: 8, height: rowHeight)
+        var str = NSAttributedString.init(string: self.symbols.input, attributes: inputAttributes)
+        str.draw(with: rect)
         
-        if !self.symbols.isEmpty {
-            let uploadAttributes = [
-                NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .regular),
-                NSAttributedString.Key.foregroundColor: self.uploadColor(self.iconColorState),
-                NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
-            ]
-            let rect = CGRect(x: x, y: uploadY, width: 8, height: rowHeight)
-            let str = NSAttributedString.init(string: self.symbols[0], attributes: uploadAttributes)
-            str.draw(with: rect)
-        }
+        let outputAttributes = [
+            NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .regular),
+            NSAttributedString.Key.foregroundColor: self.outputColor(self.iconColorState),
+            NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
+        ]
+        rect = CGRect(x: x, y: outputY, width: 8, height: rowHeight)
+        str = NSAttributedString.init(string: self.symbols.output, attributes: outputAttributes)
+        str.draw(with: rect)
     }
     
     // MARK: - settings
@@ -516,10 +516,16 @@ public class SpeedWidget: WidgetWrapper {
         displayMode.isEnabled = self.displayValueState.count > 1
         self.displayModeView = displayMode
         
+        let sensorWidgetValue = SensorsWidgetValue.map { v in
+            var value = v.value.replacingOccurrences(of: "input", with: self.words.input, options: .literal, range: nil)
+            value = value.replacingOccurrences(of: "output", with: self.words.output, options: .literal, range: nil)
+            return KeyValue_t(key: v.key, value: value)
+        }
+        
         view.addArrangedSubview(PreferencesSection([
             PreferencesRow(localizedString("Value"), component: selectView(
                 action: #selector(self.changeDisplayValue),
-                items: SensorsWidgetValue,
+                items: sensorWidgetValue,
                 selected: self.displayValueState
             )),
             PreferencesRow(localizedString("Display mode"), component: displayMode)
@@ -554,14 +560,14 @@ public class SpeedWidget: WidgetWrapper {
                 state: self.monochromeState
             )),
             PreferencesRow(localizedString("Color of download"), component: selectView(
-                action: #selector(self.toggleDownloadColor),
+                action: #selector(self.toggleInputColor),
                 items: SColor.allColors,
-                selected: self.downloadColorState.key
+                selected: self.inputColorState.key
             )),
             PreferencesRow(localizedString("Color of upload"), component: selectView(
-                action: #selector(self.toggleUploadColor),
+                action: #selector(self.toggleOutputColor),
                 items: SColor.allColors,
-                selected: self.uploadColorState.key
+                selected: self.outputColorState.key
             ))
         ]))
         
@@ -631,32 +637,32 @@ public class SpeedWidget: WidgetWrapper {
         self.display()
     }
     
-    @objc private func toggleUploadColor(_ sender: NSMenuItem) {
+    @objc private func toggleOutputColor(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String,
               let newValue = SColor.allColors.first(where: { $0.key == key }) else {
             return
         }
-        self.uploadColorState = newValue
+        self.outputColorState = newValue
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_uploadColor", value: key)
     }
-    @objc private func toggleDownloadColor(_ sender: NSMenuItem) {
+    @objc private func toggleInputColor(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String,
               let newValue = SColor.allColors.first(where: { $0.key == key }) else {
             return
         }
-        self.downloadColorState = newValue
+        self.inputColorState = newValue
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_downloadColor", value: key)
     }
     
-    public func setValue(upload: Int64, download: Int64) {
+    public func setValue(input: Int64, output: Int64) {
         var updated: Bool = false
         
-        if self.downloadValue != download {
-            self.downloadValue = abs(download)
+        if self.inputValue != input {
+            self.inputValue = abs(input)
             updated = true
         }
-        if self.uploadValue != upload {
-            self.uploadValue = abs(upload)
+        if self.outputValue != output {
+            self.outputValue = abs(output)
             updated = true
         }
         

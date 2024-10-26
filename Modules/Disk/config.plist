@@ -94,10 +94,19 @@
 			<key>Icon</key>
 			<string>chars</string>
 			<key>Symbols</key>
-			<array>
+			<dict>
+				<key>Output</key>
 				<string>W</string>
+				<key>Input</key>
 				<string>R</string>
-			</array>
+			</dict>
+			<key>Words</key>
+			<dict>
+				<key>Output</key>
+				<string>Write</string>
+				<key>Input</key>
+				<string>Read</string>
+			</dict>
 			<key>Order</key>
 			<integer>5</integer>
 		</dict>

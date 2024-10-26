@@ -103,11 +103,11 @@ internal enum StackMode: String {
 }
 
 internal let SensorsWidgetValue: [KeyValue_t] = [
-    KeyValue_t(key: "io", value: "Input/Output"),
-    KeyValue_t(key: "oi", value: "Output/Input"),
+    KeyValue_t(key: "oi", value: "output/input"),
+    KeyValue_t(key: "io", value: "input/output"),
     KeyValue_t(key: "separator", value: "separator"),
-    KeyValue_t(key: "i", value: "Input"),
-    KeyValue_t(key: "o", value: "Output")
+    KeyValue_t(key: "i", value: "input"),
+    KeyValue_t(key: "o", value: "output")
 ]
 
 internal let SensorsWidgetMode: [KeyValue_t] = [
