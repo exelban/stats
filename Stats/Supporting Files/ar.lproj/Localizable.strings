@@ -315,6 +315,8 @@
 "Disk usage" = "استخدام القرص";
 "Total read" = "إجمالي القراءة";
 "Total written" = "إجمالي الكتابة";
+"Write speed" = "Write";
+"Read speed" = "Read";
 
 // Sensors
 "Temperature unit" = "وحدة الحرارة";
@@ -377,6 +379,8 @@
 "Network activity" = "نشاط الشبكة";
 "Last reset" = "آخر إعادة تعيين منذ %0";
 "Latency" = "تأخير";
+"Upload speed" = "Upload";
+"Download speed" = "Download";
 
 // Battery
 "Level" = "المستوى";
@@ -424,6 +428,8 @@
 // Clock
 "Time zone" = "المنطقة الزمنية";
 "Local" = "محلي";
+"Calendar" = "Calendar";
+"Local time" = "Local time";
 
 // Colors
 "Based on utilization" = "بناءً على الاستخدام";

@@ -31,9 +31,9 @@
 			<key>Words</key>
 			<dict>
 				<key>Output</key>
-				<string>Upload</string>
+				<string>Upload speed</string>
 				<key>Input</key>
-				<string>Download</string>
+				<string>Download speed</string>
 			</dict>
 			<key>Order</key>
 			<integer>1</integer>

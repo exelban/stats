@@ -103,9 +103,9 @@
 			<key>Words</key>
 			<dict>
 				<key>Output</key>
-				<string>Write</string>
+				<string>Write speed</string>
 				<key>Input</key>
-				<string>Read</string>
+				<string>Read speed</string>
 			</dict>
 			<key>Order</key>
 			<integer>5</integer>

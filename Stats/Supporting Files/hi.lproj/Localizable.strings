@@ -315,6 +315,8 @@
 "Disk usage" = "डिस्क उपयोग";
 "Total read" = "Total read";
 "Total written" = "Total written";
+"Write speed" = "Write";
+"Read speed" = "Read";
 
 // Sensors
 "Temperature unit" = "तापमान इकाई";
@@ -377,6 +379,8 @@
 "Network activity" = "नेटवर्क गतिविधि";
 "Last reset" = "अंतिम रीसेट %0 पहले";
 "Latency" = "Latency";
+"Upload speed" = "Upload";
+"Download speed" = "Download";
 
 // Battery
 "Level" = "स्तर";
@@ -424,6 +428,8 @@
 // Clock
 "Time zone" = "समय क्षेत्र";
 "Local" = "स्थानीय";
+"Calendar" = "Calendar";
+"Local time" = "Local time";
 
 // Colors
 "Based on utilization" = "उपयोग के आधार पर";

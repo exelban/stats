@@ -517,8 +517,8 @@ public class SpeedWidget: WidgetWrapper {
         self.displayModeView = displayMode
         
         let sensorWidgetValue = SensorsWidgetValue.map { v in
-            var value = v.value.replacingOccurrences(of: "input", with: self.words.input, options: .literal, range: nil)
-            value = value.replacingOccurrences(of: "output", with: self.words.output, options: .literal, range: nil)
+            var value = v.value.replacingOccurrences(of: "input", with: localizedString(self.words.input), options: .literal, range: nil)
+            value = value.replacingOccurrences(of: "output", with: localizedString(self.words.output), options: .literal, range: nil)
             return KeyValue_t(key: v.key, value: value)
         }
         

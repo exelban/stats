@@ -315,6 +315,8 @@
 "Disk usage" = "Використання диска";
 "Total read" = "Всього прочитано";
 "Total written" = "Всього записано";
+"Write speed" = "Запис";
+"Read speed" = "Зчитування";
 
 // Sensors
 "Temperature unit" = "Одиниця виміру температури";
@@ -377,6 +379,8 @@
 "Network activity" = "Мережева активність";
 "Last reset" = "Останнє скидання %0 тому";
 "Latency" = "Затримка";
+"Upload speed" = "Висилання";
+"Download speed" = "Завантаження";
 
 // Battery
 "Level" = "Рівень заряду";
@@ -424,6 +428,8 @@
 // Clock
 "Time zone" = "Часовий пояс";
 "Local" = "Місцевий";
+"Calendar" = "Календар";
+"Local time" = "Місцевий час";
 
 // Colors
 "Based on utilization" = "На основі використання";

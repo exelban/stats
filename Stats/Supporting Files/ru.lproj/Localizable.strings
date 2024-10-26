@@ -315,6 +315,8 @@
 "Disk usage" = "Использование диска";
 "Total read" = "Всего прочитано";
 "Total written" = "Всего записано";
+"Write speed" = "Запись";
+"Read speed" = "Чтение";
 
 // Sensors
 "Temperature unit" = "Единица измерения температуры";
@@ -377,6 +379,8 @@
 "Network activity" = "Сетевая активность";
 "Last reset" = "Последний сброс %0 назад";
 "Latency" = "Задержка";
+"Upload speed" = "Выгрузка";
+"Download speed" = "Загрузка";
 
 // Battery
 "Level" = "Уровень заряда";
@@ -424,6 +428,8 @@
 // Clock
 "Time zone" = "Часовой пояс";
 "Local" = "Локальный";
+"Calendar" = "Календарь";
+"Local time" = "Местное время";
 
 // Colors
 "Based on utilization" = "На основе использования";

@@ -315,6 +315,8 @@
 "Disk usage" = "디스크 사용량";
 "Total read" = "Total read";
 "Total written" = "Total written";
+"Write speed" = "Write";
+"Read speed" = "Read";
 
 // Sensors
 "Temperature unit" = "온도 단위";
@@ -377,6 +379,8 @@
 "Network activity" = "네트워크 활동";
 "Last reset" = "마지막 초기화 이후 %0 경과";
 "Latency" = "Latency";
+"Upload speed" = "Upload";
+"Download speed" = "Download";
 
 // Battery
 "Level" = "잔량";
@@ -424,6 +428,8 @@
 // Clock
 "Time zone" = "시간대";
 "Local" = "현지시각";
+"Calendar" = "Calendar";
+"Local time" = "Local time";
 
 // Colors
 "Based on utilization" = "사용률 기준";

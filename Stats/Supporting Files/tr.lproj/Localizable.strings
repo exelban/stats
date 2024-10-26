@@ -315,6 +315,8 @@
 "Disk usage" = "Disk kullanımı";
 "Total read" = "Toplam okuma";
 "Total written" = "Toplam yazma";
+"Write speed" = "Write";
+"Read speed" = "Read";
 
 // Sensors
 "Temperature unit" = "Sıcaklık birimi";
@@ -377,6 +379,8 @@
 "Network activity" = "Ağ aktivitesi";
 "Last reset" = "Son sıfırlama %0 önce";
 "Latency" = "Gecikme";
+"Upload speed" = "Upload";
+"Download speed" = "Download";
 
 // Battery
 "Level" = "Doluluk";
@@ -424,6 +428,8 @@
 // Clock
 "Time zone" = "Saat dilimi";
 "Local" = "Yerel";
+"Calendar" = "Calendar";
+"Local time" = "Local time";
 
 // Colors
 "Based on utilization" = "Kullanıma dayalı";

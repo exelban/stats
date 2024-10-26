@@ -315,6 +315,8 @@
 "Disk usage" = "Uporaba diska";
 "Total read" = "Skupaj prebrano";
 "Total written" = "Skupaj zapisano";
+"Write speed" = "Write";
+"Read speed" = "Read";
 
 // Sensors
 "Temperature unit" = "Enota za temperaturo";
@@ -377,6 +379,8 @@
 "Network activity" = "Dejavnost v omrežju";
 "Last reset" = "Zadnja ponastavitev pred %0";
 "Latency" = "Zakasnitev";
+"Upload speed" = "Upload";
+"Download speed" = "Download";
 
 // Battery
 "Level" = "Raven";
@@ -424,6 +428,8 @@
 // Clock
 "Time zone" = "Časovni pas";
 "Local" = "Lokalno";
+"Calendar" = "Calendar";
+"Local time" = "Local time";
 
 // Colors
 "Based on utilization" = "Na podlagi uporabe";

@@ -315,6 +315,8 @@
 "Disk usage" = "Disk usage";
 "Total read" = "Total read";
 "Total written" = "Total written";
+"Write speed" = "Write";
+"Read speed" = "Read";
 
 // Sensors
 "Temperature unit" = "Jednotka teploty";
@@ -377,6 +379,8 @@
 "Network activity" = "Network activity";
 "Last reset" = "Last reset %0 ago";
 "Latency" = "Latency";
+"Upload speed" = "Upload";
+"Download speed" = "Download";
 
 // Battery
 "Level" = "Úroveň";
@@ -424,6 +428,8 @@
 // Clock
 "Time zone" = "Time zone";
 "Local" = "Local";
+"Calendar" = "Calendar";
+"Local time" = "Local time";
 
 // Colors
 "Based on utilization" = "Na základe využívania";

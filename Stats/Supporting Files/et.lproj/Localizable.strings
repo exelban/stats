@@ -315,6 +315,8 @@
 "Disk usage" = "Kettakasutus";
 "Total read" = "Total read";
 "Total written" = "Total written";
+"Write speed" = "Write";
+"Read speed" = "Read";
 
 // Sensors
 "Temperature unit" = "Temperatuuri ühik";
@@ -377,6 +379,8 @@
 "Network activity" = "Võrgutegevus";
 "Last reset" = "Viimane lähtestamine %0 tagasi";
 "Latency" = "Latency";
+"Upload speed" = "Upload";
+"Download speed" = "Download";
 
 // Battery
 "Level" = "Tase";
@@ -424,6 +428,8 @@
 // Clock
 "Time zone" = "Ajavöönd";
 "Local" = "Kohalik";
+"Calendar" = "Calendar";
+"Local time" = "Local time";
 
 // Colors
 "Based on utilization" = "Põhineb kasutusel";

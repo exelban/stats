@@ -315,6 +315,8 @@
 "Disk usage" = "磁盘使用";
 "Total read" = "总读取量";
 "Total written" = "总写入量";
+"Write speed" = "Write";
+"Read speed" = "Read";
 
 // Sensors
 "Temperature unit" = "温度单位";
@@ -377,6 +379,8 @@
 "Network activity" = "网络活动";
 "Last reset" = "上次重置于 %0 之前";
 "Latency" = "延迟";
+"Upload speed" = "Upload";
+"Download speed" = "Download";
 
 // Battery
 "Level" = "电量";
@@ -424,6 +428,8 @@
 // Clock
 "Time zone" = "时区";
 "Local" = "本地";
+"Calendar" = "Calendar";
+"Local time" = "Local time";
 
 // Colors
 "Based on utilization" = "基于利用率";

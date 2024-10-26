@@ -315,6 +315,8 @@
 "Disk usage" = "Lemez használat";
 "Total read" = "Total read";
 "Total written" = "Total written";
+"Write speed" = "Write";
+"Read speed" = "Read";
 
 // Sensors
 "Temperature unit" = "Hőmérséklet mértékegysége";
@@ -377,6 +379,8 @@
 "Network activity" = "Hálózati tevékenység";
 "Last reset" = "Utolsó visszaállítás óta eltelt idő: %0";
 "Latency" = "Latency";
+"Upload speed" = "Upload";
+"Download speed" = "Download";
 
 // Battery
 "Level" = "Töltöttségi szint";
@@ -424,6 +428,8 @@
 // Clock
 "Time zone" = "Időzóna";
 "Local" = "Helyi";
+"Calendar" = "Calendar";
+"Local time" = "Local time";
 
 // Colors
 "Based on utilization" = "Használat függő";

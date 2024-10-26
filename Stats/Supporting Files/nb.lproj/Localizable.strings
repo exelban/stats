@@ -315,6 +315,8 @@
 "Disk usage" = "Diskbruk";
 "Total read" = "Total read";
 "Total written" = "Total written";
+"Write speed" = "Write";
+"Read speed" = "Read";
 
 // Sensors
 "Temperature unit" = "Temperaturenhet";
@@ -377,6 +379,8 @@
 "Network activity" = "Nettverksaktivitet";
 "Last reset" = "Sist nullstilt %0 siden";
 "Latency" = "Latency";
+"Upload speed" = "Upload";
+"Download speed" = "Download";
 
 // Battery
 "Level" = "Nivå";
@@ -424,6 +428,8 @@
 // Clock
 "Time zone" = "Tidssone";
 "Local" = "Lokal";
+"Calendar" = "Calendar";
+"Local time" = "Local time";
 
 // Colors
 "Based on utilization" = "Basert på bruk";

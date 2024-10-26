@@ -315,6 +315,8 @@
 "Disk usage" = "Uso del disco";
 "Total read" = "Total read";
 "Total written" = "Total written";
+"Write speed" = "Write";
+"Read speed" = "Read";
 
 // Sensors
 "Temperature unit" = "Unidad de temperatura";
@@ -377,6 +379,8 @@
 "Network activity" = "Actividad de red";
 "Last reset" = "Último reinicio hace %0";
 "Latency" = "Latencia";
+"Upload speed" = "Upload";
+"Download speed" = "Download";
 
 // Battery
 "Level" = "Nivel";
@@ -424,6 +428,8 @@
 // Clock
 "Time zone" = "Zona horaria";
 "Local" = "Local";
+"Calendar" = "Calendar";
+"Local time" = "Local time";
 
 // Colors
 "Based on utilization" = "Basado en utilización";
