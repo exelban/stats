@@ -478,7 +478,7 @@ private class ClockView: NSStackView {
     
     private func setTZ() {
         self.nameField.stringValue = "\(self.clock.name)"
-        if let tz = Clock.zones.first(where: { $0.key == self.clock.tz }) {
+        if let tz = Clock.zones.first(where: { $0.key == self.clock.tz }), tz.key != "local" {
             self.nameField.stringValue += " (\(tz.value))"
         }
     }
