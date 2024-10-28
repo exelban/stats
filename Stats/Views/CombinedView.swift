@@ -65,6 +65,7 @@ internal class CombinedView: NSObject, NSGestureRecognizerDelegate {
         self.menuBarItem = NSStatusBar.system.statusItem(withLength: 0)
         self.menuBarItem?.autosaveName = "CombinedModules"
         self.menuBarItem?.button?.addSubview(self.view)
+        self.menuBarItem?.button?.image = NSImage()
         
         if !self.combinedModulesPopup {
             self.activeModules.forEach { (m: Module) in
