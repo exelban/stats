@@ -313,10 +313,10 @@
 "Read color" = "讀取色彩";
 "Write color" = "寫入色彩";
 "Disk usage" = "磁碟使用量";
-"Total read" = "總讀取量";
-"Total written" = "總寫入量";
-"Write speed" = "Write";
-"Read speed" = "Read";
+"Total read" = "總讀取";
+"Total written" = "總寫入";
+"Write speed" = "寫入";
+"Read speed" = "讀取";
 
 // Sensors
 "Temperature unit" = "溫度單位";
@@ -379,8 +379,8 @@
 "Network activity" = "網路活動";
 "Last reset" = "上次重置於 %0 前";
 "Latency" = "延遲";
-"Upload speed" = "Upload";
-"Download speed" = "Download";
+"Upload speed" = "上傳";
+"Download speed" = "下載";
 
 // Battery
 "Level" = "電量";
@@ -428,8 +428,8 @@
 // Clock
 "Time zone" = "時區";
 "Local" = "目前位置";
-"Calendar" = "Calendar";
-"Local time" = "Local time";
+"Calendar" = "日曆";
+"Local time" = "當地時間";
 
 // Colors
 "Based on utilization" = "根據使用率";
