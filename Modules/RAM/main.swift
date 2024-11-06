@@ -25,7 +25,6 @@ public struct RAM_Usage: Codable {
     
     var app: Double
     var cache: Double
-    var pressure: Double
     
     var rawPressureLevel: UInt
     var swap: Swap
@@ -80,6 +79,10 @@ public class RAM: Module {
             return c
         }
         return color.additional as! NSColor
+    }
+    
+    private var textValue: String {
+        Store.shared.string(key: "\(self.name)_textWidgetValue", defaultValue: "$mem.used/$mem.total ($pressure.value)")
     }
     
     public init() {
@@ -171,6 +174,48 @@ public class RAM: Module {
                     circle_segment(value: value.wired/total, color: self.wiredColor),
                     circle_segment(value: value.compressed/total, color: self.compressedColor)
                 ])
+            case let widget as TextWidget:
+                var text = self.textValue
+                let pairs = TextWidget.parseText(text)
+                pairs.forEach { pair in
+                    var replacement: String? = nil
+                    
+                    switch pair.key {
+                    case "$mem":
+                        switch pair.value {
+                        case "total": replacement = Units(bytes: Int64(value.total)).getReadableMemory()
+                        case "used": replacement = Units(bytes: Int64(value.used)).getReadableMemory()
+                        case "free": replacement = Units(bytes: Int64(value.free)).getReadableMemory()
+                        case "active": replacement = Units(bytes: Int64(value.active)).getReadableMemory()
+                        case "inactive": replacement = Units(bytes: Int64(value.inactive)).getReadableMemory()
+                        case "wired": replacement = Units(bytes: Int64(value.wired)).getReadableMemory()
+                        case "compressed": replacement = Units(bytes: Int64(value.compressed)).getReadableMemory()
+                        case "app": replacement = Units(bytes: Int64(value.app)).getReadableMemory()
+                        case "cache": replacement = Units(bytes: Int64(value.cache)).getReadableMemory()
+                        default: return
+                        }
+                    case "$swap":
+                        switch pair.value {
+                        case "total": replacement = Units(bytes: Int64(value.swap.total)).getReadableMemory()
+                        case "used": replacement = Units(bytes: Int64(value.swap.used)).getReadableMemory()
+                        case "free": replacement = Units(bytes: Int64(value.swap.free)).getReadableMemory()
+                        default: return
+                        }
+                    case "$pressure":
+                        switch pair.value {
+                        case "value": replacement = value.pressureLevel.description
+                        case "level": replacement = value.rawPressureLevel.description
+                        default: return
+                        }
+                    default: return
+                    }
+                    
+                    if let replacement {
+                        let key = pair.value.isEmpty ? pair.key : "\(pair.key).\(pair.value)"
+                        text = text.replacingOccurrences(of: key, with: replacement)
+                    }
+                }
+                widget.setValue(text)
             default: break
             }
         }

@@ -76,7 +76,6 @@ internal class UsageReader: Reader<RAM_Usage> {
                 
                 app: used - wired - compressed,
                 cache: purgeable + external,
-                pressure: 100.0 * (wired + compressed) / self.totalSize,
                 
                 rawPressureLevel: UInt(pressureLevel),
                 
