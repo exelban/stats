@@ -16,12 +16,8 @@ public struct Stack_t: KeyValue_p {
     public var value: String
     
     var index: Int {
-        get {
-            Store.shared.int(key: "stack_\(self.key)_index", defaultValue: -1)
-        }
-        set {
-            Store.shared.set(key: "stack_\(self.key)_index", value: newValue)
-        }
+        get { Store.shared.int(key: "stack_\(self.key)_index", defaultValue: -1) }
+        set { Store.shared.set(key: "stack_\(self.key)_index", value: newValue) }
     }
     
     public init(key: String, value: String) {
@@ -37,8 +33,8 @@ public class StackWidget: WidgetWrapper {
     
     private var values: [Stack_t] = []
     
-    private var oneRowWidth: CGFloat = 38
-    private var twoRowWidth: CGFloat = 28
+    private var oneRowWidth: CGFloat = 45
+    private var twoRowWidth: CGFloat = 32
     
     private let orderTableView: OrderTableView
     
