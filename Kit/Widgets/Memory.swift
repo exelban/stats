@@ -15,7 +15,7 @@ public class MemoryWidget: WidgetWrapper {
     private var orderReversedState: Bool = false
     private var value: (String, String) = ("0", "0")
     private var percentage: Double = 0
-    private var pressureLevel: DispatchSource.MemoryPressureEvent = .normal
+    private var pressureLevel: RAMPressure = .normal
     private var symbolsState: Bool = true
     private var colorState: SColor = .monochrome
     
@@ -137,7 +137,7 @@ public class MemoryWidget: WidgetWrapper {
         })
     }
     
-    public func setPressure(_ newPressureLevel: DispatchSource.MemoryPressureEvent) {
+    public func setPressure(_ newPressureLevel: RAMPressure) {
         guard self.pressureLevel != newPressureLevel else { return }
         self.pressureLevel = newPressureLevel
         DispatchQueue.main.async(execute: {

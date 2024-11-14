@@ -74,7 +74,7 @@ public class TextWidget: WidgetWrapper {
             self.display()
         })
     }
-
+    
     static public func parseText(_ raw: String) -> [KeyValue_t] {
         var pairs: [KeyValue_t] = []
         do {
@@ -97,5 +97,4 @@ public class TextWidget: WidgetWrapper {
         }
         return pairs
     }
-    
 }

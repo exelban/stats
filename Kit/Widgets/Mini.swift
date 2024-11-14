@@ -19,7 +19,7 @@ public class Mini: WidgetWrapper {
     private var colors: [SColor] = SColor.allCases
     
     private var _value: Double = 0
-    private var _pressureLevel: DispatchSource.MemoryPressureEvent = .normal
+    private var _pressureLevel: RAMPressure = .normal
     private var _colorZones: colorZones = (0.6, 0.8)
     private var _suffix: String = "%"
     
@@ -93,7 +93,7 @@ public class Mini: WidgetWrapper {
         super.draw(dirtyRect)
         
         var value: Double = 0
-        var pressureLevel: DispatchSource.MemoryPressureEvent = .normal
+        var pressureLevel: RAMPressure = .normal
         var colorZones: colorZones = (0.6, 0.8)
         var label: String = ""
         var suffix: String = ""
@@ -155,7 +155,7 @@ public class Mini: WidgetWrapper {
         })
     }
     
-    public func setPressure(_ newPressureLevel: DispatchSource.MemoryPressureEvent) {
+    public func setPressure(_ newPressureLevel: RAMPressure) {
         guard self._pressureLevel != newPressureLevel else { return }
         self._pressureLevel = newPressureLevel
         DispatchQueue.main.async(execute: {

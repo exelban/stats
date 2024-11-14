@@ -19,7 +19,7 @@ public class BarChart: WidgetWrapper {
     private var colors: [SColor] = SColor.allCases
     
     private var _value: [[ColorValue]] = [[]]
-    private var _pressureLevel: DispatchSource.MemoryPressureEvent = .normal
+    private var _pressureLevel: RAMPressure = .normal
     private var _colorZones: colorZones = (0.6, 0.8)
     
     private var boxSettingsView: NSSwitch? = nil
@@ -93,7 +93,7 @@ public class BarChart: WidgetWrapper {
         super.draw(dirtyRect)
         
         var value: [[ColorValue]] = []
-        var pressureLevel: DispatchSource.MemoryPressureEvent = .normal
+        var pressureLevel: RAMPressure = .normal
         var colorZones: colorZones = (0.6, 0.8)
         self.queue.sync {
             value = self._value
@@ -224,7 +224,7 @@ public class BarChart: WidgetWrapper {
         })
     }
     
-    public func setPressure(_ newPressureLevel: DispatchSource.MemoryPressureEvent) {
+    public func setPressure(_ newPressureLevel: RAMPressure) {
         guard self._pressureLevel != newPressureLevel else { return }
         self._pressureLevel = newPressureLevel
         DispatchQueue.main.async(execute: {

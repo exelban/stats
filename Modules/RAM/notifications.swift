@@ -127,7 +127,7 @@ class Notifications: NotificationsWrapper {
             if let threshold = thresholdPair.additional as? DispatchSource.MemoryPressureEvent {
                 self.checkDouble(
                     id: self.pressureID,
-                    value: Double(value.pressureLevel.rawValue),
+                    value: Double(value.pressure.level),
                     threshold: Double(threshold.rawValue),
                     title: title,
                     subtitle: "\(localizedString("Memory pressure")): \(localizedString(thresholdPair.value))"

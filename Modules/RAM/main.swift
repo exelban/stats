@@ -26,15 +26,11 @@ public struct RAM_Usage: Codable {
     var app: Double
     var cache: Double
     
-    var rawPressureLevel: UInt
     var swap: Swap
+    var pressure: Pressure
     
     public var usage: Double {
         get { Double((self.total - self.free) / self.total) }
-    }
-    
-    public var pressureLevel: DispatchSource.MemoryPressureEvent {
-        DispatchSource.MemoryPressureEvent(rawValue: self.rawPressureLevel)
     }
 }
 
@@ -42,6 +38,11 @@ public struct Swap: Codable {
     var total: Double
     var used: Double
     var free: Double
+}
+
+public struct Pressure: Codable {
+    let level: Int
+    let value: RAMPressure
 }
 
 public class RAM: Module {
@@ -141,10 +142,10 @@ public class RAM: Module {
             switch w.item {
             case let widget as Mini:
                 widget.setValue(value.usage)
-                widget.setPressure(value.pressureLevel)
+                widget.setPressure(value.pressure.value)
             case let widget as LineChart:
                 widget.setValue(value.usage)
-                widget.setPressure(value.pressureLevel)
+                widget.setPressure(value.pressure.value)
             case let widget as BarChart:
                 if self.splitValueState {
                     widget.setValue([[
@@ -155,7 +156,7 @@ public class RAM: Module {
                 } else {
                     widget.setValue([[ColorValue(value.usage)]])
                     widget.setColorZones((0.8, 0.95))
-                    widget.setPressure(value.pressureLevel)
+                    widget.setPressure(value.pressure.value)
                 }
             case let widget as PieChart:
                 widget.setValue([
@@ -167,7 +168,7 @@ public class RAM: Module {
                 let free = Units(bytes: Int64(value.free)).getReadableMemory()
                 let used = Units(bytes: Int64(value.used)).getReadableMemory()
                 widget.setValue((free, used), usedPercentage: value.usage)
-                widget.setPressure(value.pressureLevel)
+                widget.setPressure(value.pressure.value)
             case let widget as Tachometer:
                 widget.setValue([
                     circle_segment(value: value.app/total, color: self.appColor),
@@ -175,7 +176,7 @@ public class RAM: Module {
                     circle_segment(value: value.compressed/total, color: self.compressedColor)
                 ])
             case let widget as TextWidget:
-                var text = self.textValue
+                var text = "\(self.textValue)"
                 let pairs = TextWidget.parseText(text)
                 pairs.forEach { pair in
                     var replacement: String? = nil
@@ -203,8 +204,8 @@ public class RAM: Module {
                         }
                     case "$pressure":
                         switch pair.value {
-                        case "value": replacement = value.pressureLevel.description
-                        case "level": replacement = value.rawPressureLevel.description
+                        case "level": replacement = "\(value.pressure.level)"
+                        case "value": replacement = value.pressure.value.rawValue
                         default: return
                         }
                     default: return

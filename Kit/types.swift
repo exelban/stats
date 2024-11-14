@@ -394,3 +394,20 @@ extension SizeUnit: CaseIterable {
         }
     }
 }
+
+public enum RAMPressure: String, Codable {
+    case normal
+    case warning
+    case critical
+    
+    func pressureColor() -> NSColor {
+        switch self {
+        case .normal:
+            return NSColor.systemGreen
+        case .warning:
+            return NSColor.systemYellow
+        case .critical:
+            return NSColor.systemRed
+        }
+    }
+}

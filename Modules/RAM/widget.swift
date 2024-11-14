@@ -27,8 +27,8 @@ public struct RAM_entry: TimelineEntry {
             compressed: 414629888.0,
             app: 16369778688.0,
             cache: 12575948800.0,
-            rawPressureLevel: 1,
-            swap: Swap(total: 0, used: 0, free: 0)
+            swap: Swap(total: 0, used: 0, free: 0),
+            pressure: Pressure(level: 1, value: .normal)
         )
     )
     
@@ -110,7 +110,7 @@ public struct RAMWidget: Widget {
                         HStack {
                             Text(localizedString("Pressure level")).font(.system(size: 12, weight: .regular)).foregroundColor(.secondary)
                             Spacer()
-                            Text("\(value.rawPressureLevel)")
+                            Text("\(value.pressure.level)")
                         }
                     }
                 } else {

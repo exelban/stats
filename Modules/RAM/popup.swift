@@ -257,7 +257,7 @@ internal class Popup: PopupWrapper {
                     circle_segment(value: value.compressed/value.total, color: self.compressedColor)
                 ])
                 self.circle?.setNonActiveSegmentColor(self.freeColor)
-                self.level?.setLevel(value.pressureLevel)
+                self.level?.setValue(value.pressure)
                 
                 self.initialized = true
             }
@@ -429,7 +429,7 @@ public class PressureView: NSView {
         circle_segment(value: 1/3, color: NSColor.systemRed)
     ]
     
-    private var level: DispatchSource.MemoryPressureEvent = .normal
+    private var value: Pressure = Pressure(level: 1, value: .normal)
     
     public override func draw(_ rect: CGRect) {
         let arcWidth: CGFloat = 7.0
@@ -465,7 +465,7 @@ public class PressureView: NSView {
         let needleEndSize: CGFloat = 2
         let needlePath =  NSBezierPath()
         
-        switch self.level {
+        switch self.value.value {
         case .normal:
             needlePath.move(to: CGPoint(x: self.bounds.width * 0.15, y: self.bounds.width * 0.40))
             needlePath.line(to: CGPoint(x: self.bounds.width/2, y: self.bounds.height/2 - needleEndSize))
@@ -478,7 +478,6 @@ public class PressureView: NSView {
             needlePath.move(to: CGPoint(x: self.bounds.width * 0.85, y: self.bounds.width * 0.40))
             needlePath.line(to: CGPoint(x: self.bounds.width/2, y: self.bounds.height/2 - needleEndSize))
             needlePath.line(to: CGPoint(x: self.bounds.width/2, y: self.bounds.height/2 + needleEndSize))
-        default: break
         }
         
         needlePath.close()
@@ -501,12 +500,12 @@ public class PressureView: NSView {
         ]
         
         let rect = CGRect(x: (self.frame.width-6)/2, y: (self.frame.height-26)/2, width: 6, height: 12)
-        let str = NSAttributedString.init(string: "\(self.level.rawValue)", attributes: stringAttributes)
+        let str = NSAttributedString.init(string: "\(self.value.level)", attributes: stringAttributes)
         str.draw(with: rect)
     }
     
-    public func setLevel(_ level: DispatchSource.MemoryPressureEvent) {
-        self.level = level
+    public func setValue(_ newValue: Pressure) {
+        self.value = newValue
         if self.window?.isVisible ?? true {
             self.display()
         }

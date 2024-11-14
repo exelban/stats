@@ -29,7 +29,7 @@ public class LineChart: WidgetWrapper {
     ), num: 60)
     private var colors: [SColor] = SColor.allCases.filter({ $0 != SColor.cluster })
     private var _value: Double = 0
-    private var _pressureLevel: DispatchSource.MemoryPressureEvent = .normal
+    private var _pressureLevel: RAMPressure = .normal
     
     private var historyNumbers: [KeyValue_p] = [
         KeyValue_t(key: "30", value: "30"),
@@ -129,7 +129,7 @@ public class LineChart: WidgetWrapper {
         guard let context = NSGraphicsContext.current?.cgContext else { return }
         
         var value: Double = 0
-        var pressureLevel: DispatchSource.MemoryPressureEvent = .normal
+        var pressureLevel: RAMPressure = .normal
         self.queue.sync {
             value = self._value
             pressureLevel = self._pressureLevel
@@ -249,7 +249,7 @@ public class LineChart: WidgetWrapper {
         })
     }
     
-    public func setPressure(_ newPressureLevel: DispatchSource.MemoryPressureEvent) {
+    public func setPressure(_ newPressureLevel: RAMPressure) {
         guard self._pressureLevel != newPressureLevel else { return }
         self._pressureLevel = newPressureLevel
         DispatchQueue.main.async(execute: {

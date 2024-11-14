@@ -60,6 +60,13 @@ internal class UsageReader: Reader<RAM_Usage> {
             var pressureLevel: Int = 0
             sysctlbyname("kern.memorystatus_vm_pressure_level", &pressureLevel, &intSize, nil, 0)
             
+            var pressureValue: RAMPressure
+            switch pressureLevel {
+            case 2: pressureValue = .warning
+            case 4: pressureValue = .critical
+            default: pressureValue = .normal
+            }
+            
             var stringSize: size_t = MemoryLayout<xsw_usage>.size
             var swap: xsw_usage = xsw_usage()
             sysctlbyname("vm.swapusage", &swap, &stringSize, nil, 0)
@@ -77,13 +84,12 @@ internal class UsageReader: Reader<RAM_Usage> {
                 app: used - wired - compressed,
                 cache: purgeable + external,
                 
-                rawPressureLevel: UInt(pressureLevel),
-                
                 swap: Swap(
                     total: Double(swap.xsu_total),
                     used: Double(swap.xsu_used),
                     free: Double(swap.xsu_avail)
-                )
+                ),
+                pressure: Pressure(level: pressureLevel, value: pressureValue)
             ))
             return
         }
