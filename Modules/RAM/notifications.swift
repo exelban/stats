@@ -138,7 +138,7 @@ class Notifications: NotificationsWrapper {
         if self.swapState {
             let value = Units(bytes: Int64(value.swap.used))
             let subtitle = "\(localizedString("Swap size")): \(value.getReadableMemory())"
-            self.checkDouble(id: self.freeID, value: value.toUnit(self.swapUnit), threshold: Double(self.swap), title: title, subtitle: subtitle)
+            self.checkDouble(id: self.swapID, value: value.toUnit(self.swapUnit), threshold: Double(self.swap), title: title, subtitle: subtitle)
         }
     }
     
