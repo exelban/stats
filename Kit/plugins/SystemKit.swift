@@ -453,6 +453,9 @@ public class SystemKit {
     private func getIcon(type: deviceType, year: Int) -> NSImage {
         switch type {
         case .macMini:
+            if year >= 2024 {
+                return NSImage(named: NSImage.Name("macbookMini2024"))!
+            }
             return NSImage(named: NSImage.Name("macMini"))!
         case .macStudio:
             return NSImage(named: NSImage.Name("macStudio"))!
@@ -521,6 +524,8 @@ let deviceDict: [String: model_s] = [
     "Macmini9,1": model_s(name: "Mac mini (M1)", year: 2020, type: .macMini),
     "Mac14,3": model_s(name: "Mac mini (M2)", year: 2023, type: .macMini),
     "Mac14,12": model_s(name: "Mac mini (M2 Pro)", year: 2023, type: .macMini),
+    "Mac16,10": model_s(name: "Mac mini (M4)", year: 2024, type: .macMini),
+    "Mac16,11": model_s(name: "Mac mini (M4 Pro)", year: 2024, type: .macMini),
     
     // Mac Studio
     "Mac13,1": model_s(name: "Mac Studio (M1 Max)", year: 2022, type: .macStudio),
@@ -551,6 +556,8 @@ let deviceDict: [String: model_s] = [
     "iMac21,2": model_s(name: "iMac 24-Inch (M1)", year: 2021, type: .iMac),
     "Mac15,4": model_s(name: "iMac 24-Inch (M3, 8 CPU/8 GPU)", year: 2023, type: .iMac),
     "Mac15,5": model_s(name: "iMac 24-Inch (M3, 8 CPU/10 GPU)", year: 2023, type: .iMac),
+    "Mac16,2": model_s(name: "iMac 24-Inch (M4, 8 CPU/8 GPU)", year: 2024, type: .iMac),
+    "Mac16,3": model_s(name: "iMac 24-Inch (M4, 10 CPU/10 GPU)", year: 2024, type: .iMac),
     
     // iMac Pro
     "iMacPro1,1": model_s(name: "iMac Pro", year: 2017, type: .iMacPro),
@@ -615,7 +622,11 @@ let deviceDict: [String: model_s] = [
     "Mac15,8": model_s(name: "MacBook Pro 14\" (M3 Max, 16 CPU/40 GPU)", year: 2023, type: .macbookPro),
     "Mac15,9": model_s(name: "MacBook Pro 16\" (M3 Max, 16 CPU/40 GPU)", year: 2023, type: .macbookPro),
     "Mac15,10": model_s(name: "MacBook Pro 14\" (M3 Max, 14 CPU/30 GPU)", year: 2023, type: .macbookPro),
-    "Mac15,11": model_s(name: "MacBook Pro 16\" (M3 Max, 14 CPU/30 GPU)", year: 2023, type: .macbookPro)
+    "Mac16,1": model_s(name: "MacBook Pro 14\" (M4, 10 CPU/10 GPU)", year: 2024, type: .macbookPro),
+    "Mac16,5": model_s(name: "MacBook Pro 16\" (M4 Max)", year: 2024, type: .macbookPro),
+    "Mac16,6": model_s(name: "MacBook Pro 14\" (M4 Max, 16 CPU/40 GPU)", year: 2024, type: .macbookPro),
+    "Mac16,7": model_s(name: "MacBook Pro 16\" (M4 Pro, 14 CPU/20 GPU)", year: 2024, type: .macbookPro),
+    "Mac16,8": model_s(name: "MacBook Pro 16\" (M4 Pro)", year: 2024, type: .macbookPro)
 ]
 
 let osDict: [String: String] = [
