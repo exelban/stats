@@ -29,11 +29,17 @@ public enum Platform: String, Codable {
     case m3Max
     case m3Ultra
     
+    case m4
+    case m4Pro
+    case m4Max
+    case m4Ultra
+    
     public static var apple: [Platform] {
         return [
             .m1, .m1Pro, .m1Max, .m1Ultra,
             .m2, .m2Pro, .m2Max, .m2Ultra,
-            .m3, .m3Pro, .m3Max, .m3Ultra
+            .m3, .m3Pro, .m3Max, .m3Ultra,
+            .m4, .m4Pro, .m4Max, .m4Ultra
         ]
     }
     
@@ -195,6 +201,16 @@ public class SystemKit {
                     self.device.platform = .m3Ultra
                 } else {
                     self.device.platform = .m3
+                }
+            } else if name.contains("m4") {
+                if name.contains("pro") {
+                    self.device.platform = .m4Pro
+                } else if name.contains("max") {
+                    self.device.platform = .m4Max
+                } else if name.contains("ultra") {
+                    self.device.platform = .m4Ultra
+                } else {
+                    self.device.platform = .m4
                 }
             }
         }
