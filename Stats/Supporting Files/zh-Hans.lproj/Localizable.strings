@@ -315,8 +315,8 @@
 "Disk usage" = "磁盘使用";
 "Total read" = "总读取量";
 "Total written" = "总写入量";
-"Write speed" = "Write";
-"Read speed" = "Read";
+"Write speed" = "写入速度";
+"Read speed" = "读取速度";
 
 // Sensors
 "Temperature unit" = "温度单位";
@@ -379,8 +379,8 @@
 "Network activity" = "网络活动";
 "Last reset" = "上次重置于 %0 之前";
 "Latency" = "延迟";
-"Upload speed" = "Upload";
-"Download speed" = "Download";
+"Upload speed" = "上传速度";
+"Download speed" = "下载速度";
 
 // Battery
 "Level" = "电量";
@@ -418,8 +418,8 @@
 "Low power mode" = "低电量模式";
 "Percentage inside the icon" = "图标内百分比";
 "Colorize battery" = "启用彩色电池图标";
-"Charging current" = "Charging current";
-"Charging Voltage" = "Charging voltage";
+"Charging current" = "充电电流";
+"Charging Voltage" = "充电电压";
 
 // Bluetooth
 "Battery to show" = "显示的设备";
@@ -428,8 +428,8 @@
 // Clock
 "Time zone" = "时区";
 "Local" = "本地";
-"Calendar" = "Calendar";
-"Local time" = "Local time";
+"Calendar" = "日历";
+"Local time" = "本地时间";
 
 // Colors
 "Based on utilization" = "基于利用率";
