@@ -467,6 +467,7 @@ internal let SensorsList: [Sensor] = [
     Sensor(key: "IG0R", name: "GPU High side", group: .sensor, type: .current, platforms: Platform.all),
     Sensor(key: "ID0R", name: "DC In", group: .sensor, type: .current, platforms: Platform.all),
     Sensor(key: "IBAC", name: "Battery", group: .sensor, type: .current, platforms: Platform.all),
+    Sensor(key: "IDBR", name: "Brightness", group: .sensor, type: .current, platforms: Platform.all),
     
     // Power
     Sensor(key: "PC0C", name: "CPU Core", group: .CPU, type: .power, platforms: Platform.all),
