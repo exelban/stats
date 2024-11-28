@@ -28,7 +28,9 @@ public struct RAM_entry: TimelineEntry {
             app: 16369778688.0,
             cache: 12575948800.0,
             swap: Swap(total: 0, used: 0, free: 0),
-            pressure: Pressure(level: 1, value: .normal)
+            pressure: Pressure(level: 1, value: .normal),
+            swapins: 14,
+            swapouts: 16
         )
     )
     

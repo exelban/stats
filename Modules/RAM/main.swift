@@ -29,6 +29,9 @@ public struct RAM_Usage: Codable {
     var swap: Swap
     var pressure: Pressure
     
+    var swapins: Int64
+    var swapouts: Int64
+    
     public var usage: Double {
         get { Double((self.total - self.free) / self.total) }
     }
@@ -131,7 +134,7 @@ public class RAM: Module {
     }
     
     private func loadCallback(_ raw: RAM_Usage?) {
-        guard raw != nil, let value = raw, self.enabled else { return }
+        guard let value = raw, self.enabled else { return }
         
         self.popupView.loadCallback(value)
         self.portalView.callback(value)
@@ -193,6 +196,8 @@ public class RAM: Module {
                         case "compressed": replacement = Units(bytes: Int64(value.compressed)).getReadableMemory()
                         case "app": replacement = Units(bytes: Int64(value.app)).getReadableMemory()
                         case "cache": replacement = Units(bytes: Int64(value.cache)).getReadableMemory()
+                        case "swapins": replacement = "\(value.swapins)"
+                        case "swapouts": replacement = "\(value.swapouts)"
                         default: return
                         }
                     case "$swap":

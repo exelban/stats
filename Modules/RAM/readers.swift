@@ -52,6 +52,8 @@ internal class UsageReader: Reader<RAM_Usage> {
             let compressed = Double(stats.compressor_page_count) * Double(vm_page_size)
             let purgeable = Double(stats.purgeable_count) * Double(vm_page_size)
             let external = Double(stats.external_page_count) * Double(vm_page_size)
+            let swapins = Int64(stats.swapins)
+            let swapouts = Int64(stats.swapouts)
             
             let used = active + inactive + speculative + wired + compressed - purgeable - external
             let free = self.totalSize - used
@@ -89,7 +91,10 @@ internal class UsageReader: Reader<RAM_Usage> {
                     used: Double(swap.xsu_used),
                     free: Double(swap.xsu_avail)
                 ),
-                pressure: Pressure(level: pressureLevel, value: pressureValue)
+                pressure: Pressure(level: pressureLevel, value: pressureValue),
+                
+                swapins: swapins,
+                swapouts: swapouts
             ))
             return
         }
