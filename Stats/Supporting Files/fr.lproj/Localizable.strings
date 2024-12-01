@@ -315,8 +315,8 @@
 "Disk usage" = "Utilisation du disque";
 "Total read" = "Lectures totales";
 "Total written" = "Écritures totales";
-"Write speed" = "Vitesse d'écriture";
-"Read speed" = "Vitesse de lecture";
+"Write speed" = "Écriture";
+"Read speed" = "Lecture";
 
 // Sensors
 "Temperature unit" = "Unité de température";
