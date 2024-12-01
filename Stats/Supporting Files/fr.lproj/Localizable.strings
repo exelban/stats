@@ -93,7 +93,7 @@
 "Finish" = "Terminer";
 "Finish setup" = "Terminer la configuration";
 "Welcome to Stats" = "Bienvenue sur Stats";
-"welcome_message" = "Merci d'utiliser Stats, un moniteur de système macOS gratuit et open source pour votre barre des menus.";
+"welcome_message" = "Merci d'utiliser Stats, un moniteur système open source gratuit pour la barre de menus de macOS.";
 "Start the application automatically when starting your Mac" = "Démarrer l'application automatiquement lors du démarrage de votre Mac";
 "Do not start the application automatically when starting your Mac" = "Ne pas démarrer l'application automatiquement lors du démarrage de votre Mac";
 "Do everything silently in the background (recommended)" = "Effectuer toutes les opérations discrètement en arrière-plan (recommandé)";
@@ -134,7 +134,7 @@
 "Never" = "Jamais";
 "Check for update" = "Vérifier les mises à jour";
 "Show icon in dock" = "Afficher l'icône dans le Dock";
-"Start at login" = "Démarrer à la connexion";
+"Start at login" = "Démarrer à l'ouverture de la session";
 "Build number" = "Numéro de version";
 "Import settings" = "Importer les paramètres";
 "Export settings" = "Exporter les paramètres";
@@ -151,10 +151,10 @@
 "Model identifier" = "Identifiant du modèle";
 "Production year" = "Année de production";
 "Uptime" = "Temps de fonctionnement";
-"Number of cores" = "Nombre de cœurs : %0";
-"Number of threads" = "Nombre de threads : %0";
-"Number of e-cores" = "Nombre de cœurs d'efficacité énergétique : %0";
-"Number of p-cores" = "Nombre de cœurs de performance : %0";
+"Number of cores" = "%0 cœurs";
+"Number of threads" = "%0 threads";
+"Number of e-cores" = "%0 cœurs de perfor­mance";
+"Number of p-cores" = "%0 cœurs à haute effica­cité éner­gétique";
 
 // Update
 "The latest version of Stats installed" = "La dernière version de Stats est installée";
@@ -221,7 +221,7 @@
 
 // Modules
 "Number of top processes" = "Nombre de processus principaux";
-"Update interval for top processes" = "Intervalle de mise à jour des processus principaux";
+"Update interval for top processes" = "Intervalle de mise à jour pour les processus principaux";
 "Notification level" = "Niveau de notification";
 "Chart color" = "Couleur du graphique";
 "Main chart scaling" = "Main chart scaling";
@@ -245,19 +245,19 @@
 "15 minutes" = "15 minutes";
 "CPU usage threshold" = "Seuil d'utilisation du CPU";
 "CPU usage is" = "L'utilisation du CPU est de %0";
-"Efficiency cores" = "Cœurs d'efficacité énergétique";
-"Performance cores" = "Cœurs de performance";
+"Efficiency cores" = "Cœurs à haute effica­cité éner­gétique";
+"Performance cores" = "Cœurs de perfor­mance";
 "System color" = "Couleur du système";
 "User color" = "Couleur de l'utilisateur";
 "Idle color" = "Couleur de l'inactivité";
 "Cluster grouping" = "Regroupement par cluster";
-"Efficiency cores color" = "Couleur des cœurs d'efficacité énergétique";
+"Efficiency cores color" = "Couleur des cœurs à haute effica­cité éner­gétique";
 "Performance cores color" = "Couleur des cœurs de performance";
 "Total load" = "Charge totale";
 "System load" = "Charge système";
 "User load" = "Charge utilisateur";
-"Efficiency cores load" = "Charge des cœurs efficacité";
-"Performance cores load" = "Charge des cœurs performance";
+"Efficiency cores load" = "Charge des cœurs à haute effica­cité éner­gétique";
+"Performance cores load" = "Charge des cœurs de performance";
 
 // GPU
 "GPU to show" = "GPU à afficher";
@@ -315,8 +315,8 @@
 "Disk usage" = "Utilisation du disque";
 "Total read" = "Lectures totales";
 "Total written" = "Écritures totales";
-"Write speed" = "Écriture";
-"Read speed" = "Lecture";
+"Write speed" = "Écritures";
+"Read speed" = "Lectures";
 
 // Sensors
 "Temperature unit" = "Unité de température";
