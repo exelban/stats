@@ -136,25 +136,25 @@
 "Show icon in dock" = "Symbol im Dock anzeigen";
 "Start at login" = "Beim Login starten";
 "Build number" = "Build-Nummer";
-"Import settings" = "Import settings";
-"Export settings" = "Export settings";
+"Import settings" = "Import-Einstellungen";
+"Export settings" = "Export-Einstellungen";
 "Reset settings" = "Einstellungen zurücksetzen";
 "Pause the Stats" = "Stats pausieren";
 "Resume the Stats" = "Stats fortsetzen";
 "Combined modules" = "Zusammengefasste Module";
-"Combined details" = "Combined details";
+"Combined details" = "Zusammengefasste Details";
 "Spacing" = "Abstand";
 "Share anonymous telemetry" = "Anonyme Telemetriedaten teilen";
 
 // Dashboard
 "Serial number" = "Seriennummer";
-"Model identifier" = "Model identifier";
-"Production year" = "Production year";
+"Model identifier" = "Modell-Identifizierung";
+"Production year" = "Produktionsjahr";
 "Uptime" = "Betriebszeit";
-"Number of cores" = "%0 Cores";
+"Number of cores" = "%0 Kerne";
 "Number of threads" = "%0 Threads";
-"Number of e-cores" = "%0 Efficiency Cores";
-"Number of p-cores" = "%0 Performance Cores";
+"Number of e-cores" = "%0 Effizienz-Kerne";
+"Number of p-cores" = "%0 Per­for­mance-Kerne";
 
 // Update
 "The latest version of Stats installed" = "Die neueste Version von Stats ist installiert";
@@ -196,9 +196,9 @@
 "Monospaced font" = "Monospace-Schrift";
 "Reverse order" = "Reihenfolge umkehren";
 "Chart history" = "Diagramm-Zeitfenster";
-"Default color" = "Default";
-"Transparent when no activity" = "Transparent when no activity";
-"Constant color" = "Constant";
+"Default color" = "Standard";
+"Transparent when no activity" = "Transparent bei Inaktivität";
+"Constant color" = "Konstant";
 
 // Module Kit
 "Open module settings" = "Modul Einstellungen öffnen";
@@ -216,8 +216,8 @@
 "Merge widgets" = "Widgets zusammenfassen";
 "No available widgets to configure" = "Keine Widgets zum Konfigurieren verfügbar";
 "No options to configure for the popup in this module" = "Keine weitere Konfigurationsmöglichkeit für das Popup verfügbar";
-"Process" = "Process";
-"Kill process" = "Kill process";
+"Process" = "Prozess";
+"Kill process" = "Prozess abbrechen";
 
 // Modules
 "Number of top processes" = "Anzahl der Top-Prozesse";
@@ -245,19 +245,19 @@
 "15 minutes" = "15 Minuten";
 "CPU usage threshold" = "Schwellenwert für CPU Auslastung erreicht";
 "CPU usage is" = "Auslastung ist %0";
-"Efficiency cores" = "Efficiency Cores";
-"Performance cores" = "Performance Cores";
+"Efficiency cores" = "Effizienz-Kerne";
+"Performance cores" = "Per­for­mance-Kerne";
 "System color" = "System-Farbe";
 "User color" = "Benutzer-Farbe";
 "Idle color" = "Leerlauf-Farbe";
 "Cluster grouping" = "Clustergruppierung";
-"Efficiency cores color" = "Efficiency Cores Farbe";
-"Performance cores color" = "Performance Cores Farbe";
+"Efficiency cores color" = "Effizienz-Kerne-Farbe";
+"Performance cores color" = "Per­for­mance-Kerne-Farbe";
 "Total load" = "Last (Total)";
 "System load" = "Last (System)";
 "User load" = "Last (Benutzer)";
-"Efficiency cores load" = "Last (Efficiency Cores)";
-"Performance cores load" = "Last (Performance Cores)";
+"Efficiency cores load" = "Last (Effizienz-Kerne)";
+"Performance cores load" = "Last (Per­for­mance-Kerne)";
 
 // GPU
 "GPU to show" = "GPU auswählen";
@@ -315,8 +315,8 @@
 "Disk usage" = "Speichernutzung";
 "Total read" = "Insgesamt gelesen";
 "Total written" = "Insgesamt geschrieben";
-"Write speed" = "Write";
-"Read speed" = "Read";
+"Write speed" = "Schreiben";
+"Read speed" = "Lesen";
 
 // Sensors
 "Temperature unit" = "Temperatureinheit";
@@ -418,8 +418,8 @@
 "Low power mode" = "Energiesparmodus";
 "Percentage inside the icon" = "Prozentsatz im Symbol";
 "Colorize battery" = "Akku einfärben";
-"Charging current" = "Charging current";
-"Charging Voltage" = "Charging voltage";
+"Charging current" = "Ladestrom";
+"Charging Voltage" = "Ladespannung";
 
 // Bluetooth
 "Battery to show" = "Angezeigter Akku";
@@ -428,8 +428,8 @@
 // Clock
 "Time zone" = "Zeitzone";
 "Local" = "Lokal";
-"Calendar" = "Calendar";
-"Local time" = "Local time";
+"Calendar" = "Kalender";
+"Local time" = "Ortszeit";
 
 // Colors
 "Based on utilization" = "Basierend auf Auslastung";
