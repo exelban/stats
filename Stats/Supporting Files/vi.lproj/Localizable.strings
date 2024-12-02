@@ -10,7 +10,7 @@
 //
 
 // Modules
-"CPU" = "CPU";
+"CPU" = "Bộ xử lý trung tâm (CPU)";
 "Open CPU settings" = "Mở cài đặt CPU";
 "GPU" = "GPU";
 "Open GPU settings" = "Mở cài đặt GPU";
