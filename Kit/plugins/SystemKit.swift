@@ -470,7 +470,7 @@ public class SystemKit {
         switch type {
         case .macMini:
             if year >= 2024 {
-                return NSImage(named: NSImage.Name("macbookMini2024"))!
+                return NSImage(named: NSImage.Name("macMini2024"))!
             }
             return NSImage(named: NSImage.Name("macMini"))!
         case .macStudio:
