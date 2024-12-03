@@ -3,6 +3,7 @@
 //  Stats
 //
 //  Created by Serhiy Mytrovtsiy on 27/08/2020.
+//  Translate to Vietnamese by HXD.VN.
 //  Using Swift 5.0.
 //  Running on macOS 10.15.
 //
@@ -10,7 +11,7 @@
 //
 
 // Modules
-"CPU" = "CPU";
+"CPU" = "Bộ xử lý trung tâm (CPU)";
 "Open CPU settings" = "Mở cài đặt CPU";
 "GPU" = "GPU";
 "Open GPU settings" = "Mở cài đặt GPU";
