@@ -11,6 +11,7 @@
 //
 
 // Modules
+
 "CPU" = "CPU";
 "Open CPU settings" = "Mở cài đặt CPU";
 "GPU" = "GPU";
