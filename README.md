@@ -76,7 +76,7 @@ Fan control is in legacy mode. It does not receive any updates or fixes. It's no
 - 中文 (繁體) (thanks to [iamch15542](https://github.com/iamch15542) and [jrthsr700tmax](https://github.com/jrthsr700tmax))
 - Spanish (thanks to [jcconca](https://github.com/jcconca))
 - Vietnamese (thanks to [xuandung38](https://github.com/xuandung38))
-- French (thanks to [RomainLt](https://github.com/RomainLt))
+- French (thanks to [RomainLt](https://github.com/RomainLt) and [benjaminach](https://github.com/benjaminach))
 - Italian (thanks to [gmcinalli](https://github.com/gmcinalli))
 - Portuguese (Brazil) (thanks to [marcelochaves95](https://github.com/marcelochaves95) and [pedroserigatto](https://github.com/pedroserigatto))
 - Norwegian Bokmål (thanks to [rubjo](https://github.com/rubjo))
