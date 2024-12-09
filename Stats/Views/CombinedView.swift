@@ -23,6 +23,9 @@ internal class CombinedView: NSObject, NSGestureRecognizerDelegate {
     private var spacing: CGFloat {
         CGFloat(Int(Store.shared.string(key: "CombinedModules_spacing", defaultValue: "")) ?? 0)
     }
+    private var separator: Bool {
+        Store.shared.bool(key: "CombinedModules_separator", defaultValue: false)
+    }
     
     private var activeModules: [Module] {
         modules.filter({ $0.enabled }).sorted(by: { $0.combinedPosition < $1.combinedPosition })
@@ -115,6 +118,15 @@ internal class CombinedView: NSObject, NSGestureRecognizerDelegate {
             self.view.subviews[i].setFrameOrigin(NSPoint(x: w, y: 0))
             w += m.menuBar.view.frame.width + self.spacing
             i += 1
+            
+            if self.separator && i < self.activeModules.count {
+                let separator = NSView(frame: NSRect(x: w, y: 3, width: 1, height: Constants.Widget.height-6))
+                separator.wantsLayer = true
+                separator.layer?.backgroundColor = (separator.isDarkMode ? NSColor.black : NSColor.white).cgColor
+                self.view.addSubview(separator)
+                w += 3 + self.spacing
+                i += 1
+            }
         }
         self.view.setFrameSize(NSSize(width: w, height: self.view.frame.height))
         self.menuBarItem?.length = w
