@@ -43,6 +43,19 @@ public enum Platform: String, Codable {
         ]
     }
     
+    public static var m1Gen: [Platform] {
+        return [.m1, .m1Pro, .m1Max, .m1Ultra]
+    }
+    public static var m2Gen: [Platform] {
+        return [.m2, .m2Pro, .m2Max, .m2Ultra]
+    }
+    public static var m3Gen: [Platform] {
+        return [.m3, .m3Pro, .m3Max, .m3Ultra]
+    }
+    public static var m4Gen: [Platform] {
+        return [.m4, .m4Pro, .m4Max, .m4Ultra]
+    }
+    
     public static var all: [Platform] {
         return apple + [.intel]
     }
