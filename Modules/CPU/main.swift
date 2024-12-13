@@ -90,6 +90,7 @@ public class CPU: Module {
         self.notificationsView = Notifications(.CPU)
         
         super.init(
+            moduleType: .CPU,
             popup: self.popupView,
             settings: self.settingsView,
             portal: self.portalView,

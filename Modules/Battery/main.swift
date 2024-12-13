@@ -61,6 +61,7 @@ public class Battery: Module {
         self.notificationsView = Notifications(.battery)
         
         super.init(
+            moduleType: .battery,
             popup: self.popupView,
             settings: self.settingsView,
             portal: self.portalView,

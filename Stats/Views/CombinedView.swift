@@ -49,7 +49,7 @@ internal class CombinedView: NSObject, NSGestureRecognizerDelegate {
             }
         }
         
-        self.popup = PopupWindow(title: "Combined modules", view: Popup()) { _ in }
+        self.popup = PopupWindow(title: "Combined modules", module: .combined, view: Popup()) { _ in }
         
         if self.status {
             self.enable()

@@ -82,6 +82,8 @@ open class Module {
     }
     public var userDefaults: UserDefaults? = UserDefaults(suiteName: "\(Bundle.main.object(forInfoDictionaryKey: "TeamId") as! String).eu.exelban.Stats.widgets")
     
+    private var moduleType: ModuleType
+    
     private var settingsView: Settings_v? = nil
     private var popup: PopupWindow? = nil
     private var popupView: Popup_p? = nil
@@ -99,7 +101,8 @@ open class Module {
         }
     }
     
-    public init(popup: Popup_p? = nil, settings: Settings_v? = nil, portal: Portal_p? = nil, notifications: NotificationsWrapper? = nil) {
+    public init(moduleType: ModuleType, popup: Popup_p? = nil, settings: Settings_v? = nil, portal: Portal_p? = nil, notifications: NotificationsWrapper? = nil) {
+        self.moduleType = moduleType
         self.portal = portal
         self.config = module_c(in: Bundle(for: type(of: self)).path(forResource: "config", ofType: "plist")!)
         
@@ -145,7 +148,7 @@ open class Module {
             notificationsSettings: self.notificationsView
         )
         
-        self.popup = PopupWindow(title: self.config.name, view: self.popupView, visibilityCallback: self.visibilityCallback)
+        self.popup = PopupWindow(title: self.config.name, module: self.moduleType, view: self.popupView, visibilityCallback: self.visibilityCallback)
     }
     
     deinit {

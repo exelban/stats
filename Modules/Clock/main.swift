@@ -74,6 +74,7 @@ public class Clock: Module {
         self.portalView = Portal(.clock, list: Clock.list)
         
         super.init(
+            moduleType: .clock,
             popup: self.popupView,
             settings: self.settingsView,
             portal: self.portalView

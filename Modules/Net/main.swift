@@ -156,6 +156,7 @@ public class Network: Module {
         self.portalView = Portal(.network)
         
         super.init(
+            moduleType: .network,
             popup: self.popupView,
             settings: self.settingsView,
             portal: self.portalView

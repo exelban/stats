@@ -96,6 +96,7 @@ public class RAM: Module {
         self.notificationsView = Notifications(.RAM)
         
         super.init(
+            moduleType: .RAM,
             popup: self.popupView,
             settings: self.settingsView,
             portal: self.portalView,

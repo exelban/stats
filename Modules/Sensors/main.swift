@@ -33,6 +33,7 @@ public class Sensors: Module {
         self.selectedSensor = Store.shared.string(key: "\(ModuleType.sensors.rawValue)_sensor", defaultValue: "Average System Total")
         
         super.init(
+            moduleType: .sensors,
             popup: self.popupView,
             settings: self.settingsView,
             portal: self.portalView,

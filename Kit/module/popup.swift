@@ -27,11 +27,12 @@ open class PopupWrapper: NSStackView, Popup_p {
 }
 
 public class PopupWindow: NSWindow, NSWindowDelegate {
-    private let viewController: PopupViewController = PopupViewController()
+    private let viewController: PopupViewController
     internal var locked: Bool = false
     internal var openedBy: widget_t? = nil
     
-    public init(title: String, view: Popup_p?, visibilityCallback: @escaping (_ state: Bool) -> Void) {
+    public init(title: String, module: ModuleType, view: Popup_p?, visibilityCallback: @escaping (_ state: Bool) -> Void) {
+        self.viewController = PopupViewController(module: module)
         self.viewController.setup(title: title, view: view)
         
         super.init(
@@ -80,13 +81,13 @@ internal class PopupViewController: NSViewController {
     fileprivate var visibilityCallback: (_ state: Bool) -> Void = {_ in }
     private var popup: PopupView
     
-    public init() {
+    public init(module: ModuleType) {
         self.popup = PopupView(frame: NSRect(
             x: 0,
             y: 0,
             width: Constants.Popup.width + (Constants.Popup.margins * 2),
             height: Constants.Popup.height+Constants.Popup.headerHeight
-        ))
+        ), module: module)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -138,13 +139,13 @@ internal class PopupView: NSView {
     private var windowHeight: CGFloat?
     private var containerHeight: CGFloat?
     
-    override init(frame: NSRect) {
+    init(frame: NSRect, module: ModuleType) {
         self.header = HeaderView(frame: NSRect(
             x: 0,
             y: frame.height - Constants.Popup.headerHeight,
             width: frame.width,
             height: Constants.Popup.headerHeight
-        ))
+        ), module: module)
         self.body = NSScrollView(frame: NSRect(
             x: Constants.Popup.margins,
             y: Constants.Popup.margins,
@@ -300,10 +301,12 @@ internal class HeaderView: NSStackView {
     
     private var title: String = ""
     private var isCloseAction: Bool = false
-    private let app: URL?
+    private let activityMonitor: URL?
+    private let calendar: URL?
     
-    override init(frame: NSRect) {
-        self.app = NSWorkspace.shared.urlForApplication(withBundleIdentifier: "com.apple.ActivityMonitor")
+    init(frame: NSRect, module: ModuleType) {
+        self.activityMonitor = NSWorkspace.shared.urlForApplication(withBundleIdentifier: "com.apple.ActivityMonitor")
+        self.calendar = URL(fileURLWithPath: "/System/Applications/Calendar.app")
         
         super.init(frame: CGRect(x: frame.origin.x, y: frame.origin.y, width: frame.width, height: frame.height))
         
@@ -317,12 +320,18 @@ internal class HeaderView: NSStackView {
         activity.bezelStyle = .regularSquare
         activity.translatesAutoresizingMaskIntoConstraints = false
         activity.imageScaling = .scaleNone
-        activity.image = Bundle(for: type(of: self)).image(forResource: "chart")!
         activity.contentTintColor = .lightGray
         activity.isBordered = false
-        activity.action = #selector(openActivityMonitor)
         activity.target = self
-        activity.toolTip = localizedString("Open Activity Monitor")
+        if module == .clock {
+            activity.action = #selector(self.openCalendar)
+            activity.image = Bundle(for: type(of: self)).image(forResource: "calendar")!
+            activity.toolTip = localizedString("Open Calendar")
+        } else {
+            activity.action = #selector(self.openActivityMonitor)
+            activity.image = Bundle(for: type(of: self)).image(forResource: "chart")!
+            activity.toolTip = localizedString("Open Activity Monitor")
+        }
         activity.focusRingType = .none
         self.activityButton = activity
         
@@ -348,7 +357,7 @@ internal class HeaderView: NSStackView {
         settings.image = Bundle(for: type(of: self)).image(forResource: "settings")!
         settings.contentTintColor = .lightGray
         settings.isBordered = false
-        settings.action = #selector(openSettings)
+        settings.action = #selector(self.openSettings)
         settings.target = self
         settings.toolTip = localizedString("Open module settings")
         settings.focusRingType = .none
@@ -385,7 +394,12 @@ internal class HeaderView: NSStackView {
     }
     
     @objc func openActivityMonitor() {
-        guard let app = self.app else { return }
+        guard let app = self.activityMonitor else { return }
+        NSWorkspace.shared.open([], withApplicationAt: app, configuration: NSWorkspace.OpenConfiguration())
+    }
+    
+    @objc func openCalendar() {
+        guard let app = self.calendar else { return }
         NSWorkspace.shared.open([], withApplicationAt: app, configuration: NSWorkspace.OpenConfiguration())
     }
     

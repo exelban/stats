@@ -199,6 +199,7 @@ public class Disk: Module {
     
     public init() {
         super.init(
+            moduleType: .disk,
             popup: self.popupView,
             settings: self.settingsView,
             portal: self.portalView,

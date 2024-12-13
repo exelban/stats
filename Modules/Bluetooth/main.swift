@@ -85,6 +85,7 @@ public class Bluetooth: Module {
         self.notificationsView = Notifications(.bluetooth)
         
         super.init(
+            moduleType: .bluetooth,
             popup: self.popupView,
             settings: self.settingsView,
             notifications: self.notificationsView

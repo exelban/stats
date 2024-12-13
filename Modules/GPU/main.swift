@@ -87,6 +87,7 @@ public class GPU: Module {
         self.notificationsView = Notifications(.GPU)
         
         super.init(
+            moduleType: .GPU,
             popup: self.popupView,
             settings: self.settingsView,
             portal: self.portalView,
