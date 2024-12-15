@@ -483,6 +483,7 @@
 
 /* Begin PBXFileReference section */
 		0192A7ED2B017E190056F918 /* hi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hi; path = hi.lproj/Localizable.strings; sourceTree = "<group>"; };
+		13BE56042D0E6963001C58EC /* en-AU */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-AU"; path = "en-AU.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		2658929724FC0F3B00FB3B6A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		29AA17CA2926879000709C01 /* fa */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fa; path = fa.lproj/Localizable.strings; sourceTree = "<group>"; };
 		30370F8F253DCBC0006404D8 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
@@ -1806,6 +1807,7 @@
 				hi,
 				ar,
 				"en-GB",
+				"en-AU",
 			);
 			mainGroup = 9A1410EC229E721100D29793;
 			packageReferences = (
@@ -2393,6 +2395,7 @@
 				0192A7ED2B017E190056F918 /* hi */,
 				5C0E550A2B5D545A00FFF1FB /* ar */,
 				5C32910A2C315A250010012D /* en-GB */,
+				13BE56042D0E6963001C58EC /* en-AU */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
