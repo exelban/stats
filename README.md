@@ -99,6 +99,7 @@ Fan control is in legacy mode. It does not receive any updates or fixes. It's no
 - Thai (thanks to [apiphoomchu](https://github.com/apiphoomchu))
 - Estonian (thanks to [postylem](https://github.com/postylem))
 - Hindi (thanks to [patiljignesh](https://github.com/patiljignesh))
+- Finnish (thanks to [eightscrow](https://github.com/eightscrow))
 
 You can help by adding a new language or improving the existing translation.
 
