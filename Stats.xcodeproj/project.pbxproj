@@ -489,6 +489,7 @@
 		40BE2B202745D63800AE9396 /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/Localizable.strings; sourceTree = "<group>"; };
 		47665544298DC92F00F7B709 /* sk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sk; path = sk.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4921436D25319699000A1C47 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
+		4F92E6432D0F293100EA593F /* fi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fi; path = fi.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5C044F792B3DE6F3005F6951 /* portal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = portal.swift; sourceTree = "<group>"; };
 		5C0A2A89292A5B4D009B4C1F /* SMJobBlessUtil.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = SMJobBlessUtil.py; sourceTree = "<group>"; };
 		5C0A9CA12C467AA300EE6A89 /* widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = widget.swift; sourceTree = "<group>"; };
@@ -1806,6 +1807,7 @@
 				hi,
 				ar,
 				"en-GB",
+				fi,
 			);
 			mainGroup = 9A1410EC229E721100D29793;
 			packageReferences = (
@@ -2393,6 +2395,7 @@
 				0192A7ED2B017E190056F918 /* hi */,
 				5C0E550A2B5D545A00FFF1FB /* ar */,
 				5C32910A2C315A250010012D /* en-GB */,
+				4F92E6432D0F293100EA593F /* fi */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
