@@ -560,15 +560,15 @@ internal class Popup: PopupWrapper {
         let view = SettingsContainerView()
         
         view.addArrangedSubview(PreferencesSection([
-            PreferencesRow(localizedString("Color of upload"), component: selectView(
-                action: #selector(self.toggleUploadColor),
-                items: SColor.allColors,
-                selected: self.uploadColorState.key
-            )),
             PreferencesRow(localizedString("Color of download"), component: selectView(
                 action: #selector(self.toggleDownloadColor),
                 items: SColor.allColors,
                 selected: self.downloadColorState.key
+            )),
+            PreferencesRow(localizedString("Color of upload"), component: selectView(
+                action: #selector(self.toggleUploadColor),
+                items: SColor.allColors,
+                selected: self.uploadColorState.key
             ))
         ]))
         
