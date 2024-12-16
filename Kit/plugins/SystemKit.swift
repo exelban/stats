@@ -485,6 +485,9 @@ public class SystemKit {
             if year >= 2024 {
                 return NSImage(named: NSImage.Name("macMini2024"))!
             }
+            if year >= 2020 && year <= 2023 {
+                return NSImage(named: NSImage.Name("macMini2020"))!
+            }
             return NSImage(named: NSImage.Name("macMini"))!
         case .macStudio:
             return NSImage(named: NSImage.Name("macStudio"))!
