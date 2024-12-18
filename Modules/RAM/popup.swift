@@ -241,14 +241,14 @@ internal class Popup: PopupWrapper {
     public func loadCallback(_ value: RAM_Usage) {
         DispatchQueue.main.async(execute: {
             if (self.window?.isVisible ?? false) || !self.initialized {
-                self.appField?.stringValue = Units(bytes: Int64(value.app)).getReadableMemory()
-                self.inactiveField?.stringValue = Units(bytes: Int64(value.inactive)).getReadableMemory()
-                self.wiredField?.stringValue = Units(bytes: Int64(value.wired)).getReadableMemory()
-                self.compressedField?.stringValue = Units(bytes: Int64(value.compressed)).getReadableMemory()
-                self.swapField?.stringValue = Units(bytes: Int64(value.swap.used)).getReadableMemory()
+                self.appField?.stringValue = Units(bytes: Int64(value.app)).getReadableMemory(style: .memory)
+                self.inactiveField?.stringValue = Units(bytes: Int64(value.inactive)).getReadableMemory(style: .memory)
+                self.wiredField?.stringValue = Units(bytes: Int64(value.wired)).getReadableMemory(style: .memory)
+                self.compressedField?.stringValue = Units(bytes: Int64(value.compressed)).getReadableMemory(style: .memory)
+                self.swapField?.stringValue = Units(bytes: Int64(value.swap.used)).getReadableMemory(style: .memory)
                 
-                self.usedField?.stringValue = Units(bytes: Int64(value.used)).getReadableMemory()
-                self.freeField?.stringValue = Units(bytes: Int64(value.free)).getReadableMemory()
+                self.usedField?.stringValue = Units(bytes: Int64(value.used)).getReadableMemory(style: .memory)
+                self.freeField?.stringValue = Units(bytes: Int64(value.free)).getReadableMemory(style: .memory)
                 
                 self.circle?.setValue(value.usage)
                 self.circle?.setSegments([

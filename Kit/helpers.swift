@@ -190,21 +190,16 @@ public struct Units {
         }
     }
     
-    public func getReadableMemory(to round: Int = 1) -> String {
-        switch bytes {
-        case 0..<1_000:
-            return "0 KB"
-        case 1_000..<(1_000 * 1_000):
-            return String(format: "%.0f KB", kilobytes)
-        case 1_000..<(1_000 * 1_000 * 1_000):
-            return String(format: "%.0f MB", megabytes)
-        case 1_000..<(1_000 * 1_000 * 1_000 * 1_000):
-            return String(format: "%.1f GB", gigabytes)
-        case (1_000 * 1_000 * 1_000 * 1_000)...Int64.max:
-            return String(format: "%.1f TB", terabytes)
-        default:
-            return String(format: "%.0f KB", kilobytes)
-        }
+    public func getReadableMemory(style: ByteCountFormatter.CountStyle = .file) -> String {
+        let formatter: ByteCountFormatter = ByteCountFormatter()
+        formatter.countStyle = style
+        formatter.includesUnit = true
+        formatter.isAdaptive = true
+        
+        var value = formatter.string(fromByteCount: Int64(bytes))
+        value = value.replacingOccurrences(of: ",", with: ".")
+        
+        return value
     }
     
     public func toUnit(_ unit: SizeUnit) -> Double {
