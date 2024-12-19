@@ -78,11 +78,11 @@
 "Warning" = "Aviso";
 "Critical" = "Crítico";
 "Usage" = "Uso";
-"2 minutes" = "2 minutes";
-"3 minutes" = "3 minutes";
-"10 minutes" = "10 minutes";
-"Import" = "Import";
-"Export" = "Export";
+"2 minutes" = "2 minutos";
+"3 minutes" = "3 minutos";
+"10 minutes" = "10 minutos";
+"Import" = "Importar";
+"Export" = "Exportar";
 
 // Setup
 "Stats Setup" = "Configuración de Stats";
@@ -93,9 +93,9 @@
 "Finish" = "Finalizar";
 "Finish setup" = "Configuración finalizada";
 "Welcome to Stats" = "Bienvenido a Stats";
-"welcome_message" = "Gracias por usar Stats, un monitor de sistema para su barra de menú gratuito de fuente abierta para macOS.";
-"Start the application automatically when starting your Mac" = "Iniciar la aplicación automaticamente al iniciar tu Mac";
-"Do not start the application automatically when starting your Mac" = "No iniciar la aplicación automaticamente al iniciar tu Mac";
+"welcome_message" = "Gracias por usar Stats, un monitor de sistema para su barra de menú gratuito de código libre para macOS.";
+"Start the application automatically when starting your Mac" = "Iniciar la aplicación automáticamente al iniciar tu Mac";
+"Do not start the application automatically when starting your Mac" = "No iniciar la aplicación automáticamente al iniciar tu Mac";
 "Do everything silently in the background (recommended)" = "Hacer todo silenciosamente en segundo plano (recomendado)";
 "Check for a new version on startup" = "Comprobar si hay una versión nueva al iniciar la aplicación";
 "Check for a new version every day (once a day)" = "Comprobar si hay una versión nueva todos los días (una vez al día)";
@@ -113,7 +113,7 @@
 "Click to install the new version of Stats" = "Haga click para instalar la nueva versión de Stats";
 "Successfully updated" = "Actualización completada con éxito";
 "Stats was updated to v" = "Stats se ha actualizado a v%0";
-"Reset settings text" = "Todos los ajustes de la aplicación serán restablecidos y la aplicación se reiniciará. Seguro que quieres hacer esto?";
+"Reset settings text" = "Todos los ajustes de la aplicación serán restablecidos y la aplicación se reiniciará. ¿Seguro que quieres hacer esto?";
 
 // Settings
 "Open Activity Monitor" = "Abrir Monitor de Actividad";
@@ -195,10 +195,10 @@
 "Color of upload" = "Color de subida";
 "Monospaced font" = "Fuente monoespaciada";
 "Reverse order" = "Orden inverso";
-"Chart history" = "Chart history";
-"Default color" = "Default";
-"Transparent when no activity" = "Transparent when no activity";
-"Constant color" = "Constant";
+"Chart history" = "Historial del gráfico";
+"Default color" = "Color por defecto";
+"Transparent when no activity" = "Transparente sin actividad";
+"Constant color" = "Color constante";
 
 // Module Kit
 "Open module settings" = "Abrir la configruación del módulo";
@@ -216,16 +216,16 @@
 "Merge widgets" = "Unir widgets";
 "No available widgets to configure" = "No hay widgets disponibles para configurar";
 "No options to configure for the popup in this module" = "No hay opciones que configurar para el popup de este módulo";
-"Process" = "Process";
-"Kill process" = "Kill process";
+"Process" = "Proceso";
+"Kill process" = "Cierra el proceso";
 
 // Modules
 "Number of top processes" = "Número de procesos principales";
 "Update interval for top processes" = "Intervalo de actualización para los procesos principales";
 "Notification level" = "Nivel de notificación";
 "Chart color" = "Color de la gráfica";
-"Main chart scaling" = "Main chart scaling";
-"Scale value" = "Scale value";
+"Main chart scaling" = "Escalado del gràfico principal";
+"Scale value" = "Valor de escala";
 
 // CPU
 "CPU usage" = "Uso de la CPU";
@@ -313,10 +313,10 @@
 "Read color" = "Color de lectura";
 "Write color" = "Color de escritura";
 "Disk usage" = "Uso del disco";
-"Total read" = "Total read";
-"Total written" = "Total written";
-"Write speed" = "Write";
-"Read speed" = "Read";
+"Total read" = "Total leído";
+"Total written" = "Total escrito";
+"Write speed" = "Velocidad de escritura";
+"Read speed" = "Velocidad de lectura";
 
 // Sensors
 "Temperature unit" = "Unidad de temperatura";
@@ -379,8 +379,8 @@
 "Network activity" = "Actividad de red";
 "Last reset" = "Último reinicio hace %0";
 "Latency" = "Latencia";
-"Upload speed" = "Upload";
-"Download speed" = "Download";
+"Upload speed" = "Velocidad de carga";
+"Download speed" = "Velocidad de descarga";
 
 // Battery
 "Level" = "Nivel";
@@ -418,18 +418,18 @@
 "Low power mode" = "Modo de bajo consumo";
 "Percentage inside the icon" = "Porcentaje dentro del icono";
 "Colorize battery" = "Colorear batería";
-"Charging current" = "Charging current";
-"Charging Voltage" = "Charging voltage";
+"Charging current" = "Corriente de carga";
+"Charging Voltage" = "Voltaje de carga";
 
 // Bluetooth
-"Battery to show" = "Battery a mostrar";
+"Battery to show" = "Batería a mostrar";
 "No Bluetooth devices are available" = "No hay dipositivos Bluetooth disponibles";
 
 // Clock
 "Time zone" = "Zona horaria";
 "Local" = "Local";
-"Calendar" = "Calendar";
-"Local time" = "Local time";
+"Calendar" = "Calendario";
+"Local time" = "Hora local";
 
 // Colors
 "Based on utilization" = "Basado en utilización";
