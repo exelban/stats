@@ -328,6 +328,9 @@ private func driveDetails(_ disk: DADisk, removableState: Bool) -> drive? {
     if d.path == nil {
         return nil
     }
+    if d.uuid == "" || d.uuid == "00000000-0000-0000-0000-000000000000" {
+        d.uuid = d.BSDName
+    }
     
     let partitionLevel = d.BSDName.filter { "0"..."9" ~= $0 }.count
     if let parent = getDeviceIOParent(DADiskCopyIOMedia(disk), level: Int(partitionLevel)) {
