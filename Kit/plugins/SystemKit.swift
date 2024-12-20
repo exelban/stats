@@ -109,6 +109,8 @@ public struct cpu_s {
     public var eCores: Int32? = nil
     public var pCores: Int32? = nil
     public var cores: [core_s]? = nil
+    public var eCoreFrequencies: [Int32]? = nil
+    public var pCoreFrequencies: [Int32]? = nil
 }
 
 public struct dimm_s {
@@ -128,6 +130,7 @@ public struct gpu_s {
     public var vendor: String? = nil
     public var vram: String? = nil
     public var cores: Int? = nil
+    public var frequencies: [Int32]? = nil
 }
 
 public struct info_s {
@@ -319,6 +322,10 @@ public class SystemKit {
             cpu.pCores = cores.1
             cpu.cores = cores.2
         }
+        if let freq = getFrequencies() {
+            cpu.eCoreFrequencies = freq.0
+            cpu.pCoreFrequencies = freq.1
+        }
         
         return cpu
     }
@@ -386,10 +393,8 @@ public class SystemKit {
                 IOObjectRelease(child)
             }
             IOObjectRelease(entry)
-            
             IOObjectRelease(service)
         }
-        
         IOObjectRelease(iterator)
         
         return (eCores, pCores, list)
@@ -417,6 +422,10 @@ public class SystemKit {
                             gpu.vram = vram
                         }
                         
+                        if let freq = getFrequencies() {
+                            gpu.frequencies = freq.2
+                        }
+                        
                         list.append(gpu)
                     }
                 }
@@ -427,6 +436,36 @@ public class SystemKit {
         }
         
         return list
+    }
+    
+    private func getFrequencies() -> ([Int32], [Int32], [Int32])? {
+        var iterator = io_iterator_t()
+        let result = IOServiceGetMatchingServices(kIOMasterPortDefault, IOServiceMatching("AppleARMIODevice"), &iterator)
+        if result != kIOReturnSuccess {
+            print("Error find AppleARMIODevice: " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
+            return nil
+        }
+        
+        var eFreq: [Int32] = []
+        var pFreq: [Int32] = []
+        var gpuFreq: [Int32] = []
+        
+        while case let child = IOIteratorNext(iterator), child != 0 {
+            defer { IOObjectRelease(child) }
+            guard let name = getIOName(child), name == "pmgr", let props = getIOProperties(child) else { continue }
+            
+            if let data = props.value(forKey: "voltage-states1-sram") {
+                eFreq = convertCFDataToArr(data as! CFData)
+            }
+            if let data = props.value(forKey: "voltage-states5-sram") {
+                pFreq = convertCFDataToArr(data as! CFData)
+            }
+            if let data = props.value(forKey: "voltage-states9-sram") {
+                gpuFreq = convertCFDataToArr(data as! CFData)
+            }
+        }
+        
+        return (eFreq, pFreq, gpuFreq)
     }
     
     public func getRamInfo() -> ram_s? {

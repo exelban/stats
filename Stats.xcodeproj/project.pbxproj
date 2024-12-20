@@ -15,6 +15,7 @@
 		5C0A9CAA2C46838A00EE6A89 /* GPU.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A90E18924EAD2BB00471E9A /* GPU.framework */; };
 		5C0A9CAF2C46838F00EE6A89 /* RAM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A81C7562449A41400825D92 /* RAM.framework */; };
 		5C0A9CB42C46839500EE6A89 /* Disk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AF9EE0224648751005D2270 /* Disk.framework */; };
+		5C1E45562D11D66A00525864 /* libIOReport.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C1E45552D11D66200525864 /* libIOReport.tbd */; };
 		5C21D80B296C7B81005BA16D /* CombinedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C21D80A296C7B81005BA16D /* CombinedView.swift */; };
 		5C2229A329CCB3C400F00E69 /* Clock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C22299D29CCB3C400F00E69 /* Clock.framework */; };
 		5C2229A429CCB3C400F00E69 /* Clock.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5C22299D29CCB3C400F00E69 /* Clock.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -495,6 +496,8 @@
 		5C0A9CA12C467AA300EE6A89 /* widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = widget.swift; sourceTree = "<group>"; };
 		5C0A9CA32C467F7A00EE6A89 /* widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = widget.swift; sourceTree = "<group>"; };
 		5C0E550A2B5D545A00FFF1FB /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Localizable.strings; sourceTree = "<group>"; };
+		5C1E45552D11D66200525864 /* libIOReport.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libIOReport.tbd; path = usr/lib/libIOReport.tbd; sourceTree = SDKROOT; };
+		5C1E45572D11D67600525864 /* bridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bridge.h; sourceTree = "<group>"; };
 		5C21D80A296C7B81005BA16D /* CombinedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombinedView.swift; sourceTree = "<group>"; };
 		5C22299D29CCB3C400F00E69 /* Clock.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Clock.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C2229A829CCB41900F00E69 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -804,6 +807,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5C1E45562D11D66A00525864 /* libIOReport.tbd in Frameworks */,
 				9A2847C22666AA8700EC1F6D /* Kit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1155,6 +1159,7 @@
 				5C3068722C32E83200B05EFA /* widget.swift */,
 				9A97CECD2537331B00742D8F /* Info.plist */,
 				9A97CEFF2537340400742D8F /* config.plist */,
+				5C1E45572D11D67600525864 /* bridge.h */,
 			);
 			path = CPU;
 			sourceTree = "<group>";
@@ -1162,6 +1167,7 @@
 		9A998CD622A199920087ADE7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5C1E45552D11D66200525864 /* libIOReport.tbd */,
 				9ADE7005265D039300D2FBA8 /* IOKit.framework */,
 				9A97CE2A25371B2300742D8F /* IntelPowerGadget.framework */,
 				9A998CD922A199970087ADE7 /* ServiceManagement.framework */,
@@ -1699,7 +1705,7 @@
 					New,
 				);
 				LastSwiftUpdateCheck = 1540;
-				LastUpgradeCheck = 1600;
+				LastUpgradeCheck = 1620;
 				ORGANIZATIONNAME = "Serhiy Mytrovtsiy";
 				TargetAttributes = {
 					5C22299C29CCB3C400F00E69 = {
@@ -2850,7 +2856,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -2888,7 +2893,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
@@ -3259,6 +3263,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = Modules/CPU/bridge.h;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				USE_HEADERMAP = YES;
@@ -3299,6 +3304,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = Modules/CPU/bridge.h;
 				SWIFT_VERSION = 5.0;
 				USE_HEADERMAP = YES;
 				VERSIONING_SYSTEM = "apple-generic";
