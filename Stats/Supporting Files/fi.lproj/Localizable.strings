@@ -83,6 +83,10 @@
 "10 minutes" = "10 minuuttia";
 "Import" = "Tuo";
 "Export" = "Vie";
+"Separator" = "Separator";
+"Read" = "Read";
+"Write" = "Write";
+"Frequency" = "Frequency";
 
 // Setup
 "Stats Setup" = "Stats asennus";
@@ -123,6 +127,7 @@
 "Open application settings" = "Avaa sovelluksen asetukset";
 "Open dashboard" = "Avaa kojelauta";
 "No notifications available in this module" = "Ei ilmoituksia tässä moduulissa";
+"Open Calendar" = "Open Calendar";
 
 // Application settings
 "Update application" = "Päivitä sovellus";
@@ -258,6 +263,7 @@
 "User load" = "Käyttäjäkuorma";
 "Efficiency cores load" = "Tehokkuusytimien kuorma";
 "Performance cores load" = "Suorituskykyytimien kuorma";
+"All cores" = "All cores";
 
 // GPU
 "GPU to show" = "Näytettävä GPU";

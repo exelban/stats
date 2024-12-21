@@ -83,6 +83,10 @@
 "10 minutes" = "10 phút";
 "Import" = "Nhập";
 "Export" = "Xuất";
+"Separator" = "Separator";
+"Read" = "Read";
+"Write" = "Write";
+"Frequency" = "Frequency";
 
 // Setup
 "Stats Setup" = "Thiết lập Stats";
@@ -123,6 +127,7 @@
 "Open application settings" = "Mở cài đặt ứng dụng";
 "Open dashboard" = "Mở bảng điều khiển";
 "No notifications available in this module" = "Không có thông báo nào trong module này";
+"Open Calendar" = "Open Calendar";
 
 // Application settings
 "Update application" = "Cập nhật ứng dụng";
@@ -258,6 +263,7 @@
 "User load" = "Tải người dùng";
 "Efficiency cores load" = "Tải nhân tiết kiệm";
 "Performance cores load" = "Tải nhân hiệu năng";
+"All cores" = "All cores";
 
 // GPU
 "GPU to show" = "GPU hiển thị";

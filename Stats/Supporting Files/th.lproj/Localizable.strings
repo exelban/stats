@@ -83,6 +83,10 @@
 "10 minutes" = "10 minutes";
 "Import" = "Import";
 "Export" = "Export";
+"Separator" = "Separator";
+"Read" = "Read";
+"Write" = "Write";
+"Frequency" = "Frequency";
 
 // Setup
 "Stats Setup" = "การตั้งค่าสถิติ";
@@ -123,6 +127,7 @@
 "Open application settings" = "เปิดการตั้งค่าแอปพลิเคชัน";
 "Open dashboard" = "เปิดแดชบอร์ด";
 "No notifications available in this module" = "No notifications available in this module";
+"Open Calendar" = "Open Calendar";
 
 // Application settings
 "Update application" = "อัพเดทแอปพลิเคชัน";
@@ -258,6 +263,7 @@
 "User load" = "User load";
 "Efficiency cores load" = "Efficiency cores load";
 "Performance cores load" = "Performance cores load";
+"All cores" = "All cores";
 
 // GPU
 "GPU to show" = "แสดง GPU";

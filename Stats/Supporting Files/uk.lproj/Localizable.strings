@@ -83,6 +83,10 @@
 "10 minutes" = "10 хвилин";
 "Import" = "Імпорт";
 "Export" = "Експорт";
+"Separator" = "Роздільник";
+"Read" = "Зчитування";
+"Write" = "Запис";
+"Frequency" = "Частота";
 
 // Setup
 "Stats Setup" = "Налаштування";
@@ -123,6 +127,7 @@
 "Open application settings" = "Відкрити налаштування";
 "Open dashboard" = "Відкрити dashboard";
 "No notifications available in this module" = "У цьому модулі немає повідомлень";
+"Open Calendar" = "Відкрити календар";
 
 // Application settings
 "Update application" = "Оновити програму";
@@ -258,6 +263,7 @@
 "User load" = "Використання користувача";
 "Efficiency cores load" = "Використання енергоефективних ядер";
 "Performance cores load" = "Використання високопродуктивних ядер";
+"All cores" = "Всі ядра";
 
 // GPU
 "GPU to show" = "Активний графічний процесор";

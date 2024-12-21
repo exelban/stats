@@ -83,6 +83,10 @@
 "10 minutes" = "10 dakika";
 "Import" = "İçe aktar";
 "Export" = "Dışa aktar";
+"Separator" = "Separator";
+"Read" = "Read";
+"Write" = "Write";
+"Frequency" = "Frequency";
 
 // Setup
 "Stats Setup" = "Stats Kurulumu";
@@ -123,6 +127,7 @@
 "Open application settings" = "Uygulama ayarlarını aç";
 "Open dashboard" = "Paneli aç";
 "No notifications available in this module" = "Bu modülde kullanılabilir bildirim mevcut değil";
+"Open Calendar" = "Open Calendar";
 
 // Application settings
 "Update application" = "Uygulamayı güncelle";
@@ -258,6 +263,7 @@
 "User load" = "Kullanıcı yükü";
 "Efficiency cores load" = "Verimlilik çekirdekleri yükü";
 "Performance cores load" = "Performans çekirdekleri yükü";
+"All cores" = "All cores";
 
 // GPU
 "GPU to show" = "Gösterilecek GPU";

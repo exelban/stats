@@ -83,6 +83,10 @@
 "10 minutes" = "10 minutes";
 "Import" = "Import";
 "Export" = "Export";
+"Separator" = "Separator";
+"Read" = "Read";
+"Write" = "Write";
+"Frequency" = "Frequency";
 
 // Setup
 "Stats Setup" = "A Stats beállítása";
@@ -123,6 +127,7 @@
 "Open application settings" = "Beállítások megnyitása";
 "Open dashboard" = "Irányítópult megnyitása";
 "No notifications available in this module" = "Nincsenek elérhető értesítések ebben a modulban";
+"Open Calendar" = "Open Calendar";
 
 // Application settings
 "Update application" = "Alkalmazás frissítése";
@@ -258,6 +263,7 @@
 "User load" = "Felhasználó terheltség";
 "Efficiency cores load" = "Energiatakarékos magok terheltsége";
 "Performance cores load" = "Teljesítmény magok terheltsége";
+"All cores" = "All cores";
 
 // GPU
 "GPU to show" = "Megjelenítendő GPU";
