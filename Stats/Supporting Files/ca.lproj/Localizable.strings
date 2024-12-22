@@ -26,8 +26,8 @@
 "Open Battery settings" = "Obre la configuració de bateria";
 "Bluetooth" = "Bluetooth";
 "Open Bluetooth settings" = "Obre la configuració de bluetooth";
-"Clock" = "Clock";
-"Open Clock settings" = "Open clock settings";
+"Clock" = "Rellotge";
+"Open Clock settings" = "Obre la configuració de rellotge";
 
 // Words
 "Unknown" = "Desconegut";
@@ -59,65 +59,65 @@
 "Center alignment" = "Centre";
 "Right alignment" = "Dreta";
 "Dashboard" = "Panell";
-"Enabled" = "Enabled";
+"Enabled" = "Activat";
 "Disabled" = "Desactivat";
-"Silent" = "Silent";
-"Units" = "Units";
+"Silent" = "Silenci";
+"Units" = "Unitats";
 "Fans" = "Ventiladors";
-"Scaling" = "Scaling";
-"Linear" = "Linear";
-"Square" = "Square";
-"Cube" = "Cube";
-"Logarithmic" = "Logarithmic";
-"Fixed scale" = "Fixed";
-"Cores" = "Cores";
-"Settings" = "Settings";
-"Name" = "Name";
+"Scaling" = "Escalant";
+"Linear" = "Liniar";
+"Square" = "Quadrat";
+"Cube" = "Cub";
+"Logarithmic" = "Logarítmic";
+"Fixed scale" = "Escala fixe";
+"Cores" = "Nuclis";
+"Settings" = "Configuració";
+"Name" = "Nom";
 "Format" = "Format";
-"Turn off" = "Turn off";
-"Warning" = "Warning";
-"Critical" = "Critical";
-"Usage" = "Usage";
-"2 minutes" = "2 minutes";
-"3 minutes" = "3 minutes";
-"10 minutes" = "10 minutes";
-"Import" = "Import";
-"Export" = "Export";
+"Turn off" = "Apagar";
+"Warning" = "Alerta";
+"Critical" = "Crític";
+"Usage" = "Ús";
+"2 minutes" = "2 minuts";
+"3 minutes" = "3 minuts";
+"10 minutes" = "10 minuts";
+"Import" = "Importar";
+"Export" = "Exportar";
 "Separator" = "Separator";
 "Read" = "Read";
 "Write" = "Write";
 "Frequency" = "Frequency";
 
 // Setup
-"Stats Setup" = "Stats Setup";
-"Previous" = "Previous";
-"Previous page" = "Previous page";
-"Next" = "Next";
-"Next page" = "Next page";
-"Finish" = "Finish";
-"Finish setup" = "Finish setup";
-"Welcome to Stats" = "Welcome to Stats";
-"welcome_message" = "Thanks for using Stats, a free open source macOS system monitor for your menu bar.";
-"Start the application automatically when starting your Mac" = "Start the application automatically when starting your Mac";
-"Do not start the application automatically when starting your Mac" = "Do not start the application automatically when starting your Mac";
-"Do everything silently in the background (recommended)" = "Do everything silently in the background (recommended)";
-"Check for a new version on startup" = "Check for a new version on startup";
-"Check for a new version every day (once a day)" = "Check for a new version every day (once a day)";
-"Check for a new version every week (once a week)" = "Check for a new version every week (once a week)";
-"Check for a new version every month (once a month)" = "Check for a new version every month (once a month)";
-"Never check for updates (not recommended)" = "Never check for updates (not recommended)";
-"Anonymous telemetry for better development decisions" = "Anonymous telemetry for better development decisions";
-"Share anonymous telemetry data" = "Share anonymous telemetry data";
-"Do not share anonymous telemetry data" = "Do not share anonymous telemetry data";
+"Stats Setup" = "Configuració de Stats";
+"Previous" = "Previ";
+"Previous page" = "Pàgina prèvia";
+"Next" = "Següent";
+"Next page" = "pàgina següent";
+"Finish" = "Finalitzar";
+"Finish setup" = "Finalitzar configuració";
+"Welcome to Stats" = "Benvingut/Benvinguda a Stats";
+"welcome_message" = "Gràcies per fer servir Stats, una aplicació de monitorització per a la teva barra de menús de macOS de codi lliure.";
+"Start the application automatically when starting your Mac" = "Iniciar automàticament l'aplicació al iniciar el teu Mac";
+"Do not start the application automatically when starting your Mac" = "No iniciar automàticament l'aplicació al iniciar el teu Mac";
+"Do everything silently in the background (recommended)" = "Fer tot silenciosament al radere (recomanat)";
+"Check for a new version on startup" = "Comprovar noves versions al iniciar";
+"Check for a new version every day (once a day)" = "Comprovar noves versions cada dia (una vegada al dia)";
+"Check for a new version every week (once a week)" = "Comprovar noves versions cada setmana (una vegada a la setmana)";
+"Check for a new version every month (once a month)" = "Comprovar noves versions cada mes (una vegada al mes)";
+"Never check for updates (not recommended)" = "No comprovar mai noves versions (no recomanat)";
+"Anonymous telemetry for better development decisions" = "Telemetria anònima per proporcionar millors decisions pels desenvolupadors";
+"Share anonymous telemetry data" = "Compartir telemetria anònima";
+"Do not share anonymous telemetry data" = "No compartir telemetria anònima";
 "The configuration is completed" = "The configuration is completed";
-"finish_setup_message" = "Everything is set up! \n The Stats is an open source tool, it's free and always will be. \n If you enjoy it you can support a project, it's always appreciated!";
+"finish_setup_message" = "Tot està configurat! \n Stats és una eina de codi lliure, és gratuït i sempre ho serà. \n Si el gaudeixes pots contribuir al projecte, sempre és benvingut!";
 
 // Alerts
 "New version available" = "Nova versió disponible";
 "Click to install the new version of Stats" = "Clica per a instal·lar la nova versió d'Stats";
 "Successfully updated" = "Actualització completada amb èxit";
 "Stats was updated to v" = "Stats s'ha actualitzat a v%0";
-"Reset settings text" = "All application settings will be reset and the application will be restarted. Are you sure you want to do this?";
+"Reset settings text" = "Tota la configuració actual serà esborrada i l'aplicació es reiniciarà. Estàs segur/segura de voler fer això?";
 
 // Settings
 "Open Activity Monitor" = "Obre el Visor d'Activitat";
@@ -133,33 +133,33 @@
 "Update application" = "Actualitza l'aplicació";
 "Check for updates" = "Busca actualitzacions";
 "At start" = "A l'inici";
-"Once per day" = "Un cop al día";
+"Once per day" = "Un cop al dia";
 "Once per week" = "Un cop per setmana";
 "Once per month" = "Un cop al mes";
 "Never" = "Mai";
 "Check for update" = "Busca actualitzacions";
 "Show icon in dock" = "Mostra l'icona al Dock";
 "Start at login" = "Arranca al iniciar sessió";
-"Build number" = "Build number";
-"Import settings" = "Import settings";
-"Export settings" = "Export settings";
-"Reset settings" = "Reset settings";
-"Pause the Stats" = "Pause the Stats";
-"Resume the Stats" = "Resume the Stats";
-"Combined modules" = "Combined modules";
-"Combined details" = "Combined details";
-"Spacing" = "Spacing";
-"Share anonymous telemetry" = "Share anonymous telemetry";
+"Build number" = "Número de Build";
+"Import settings" = "Importa configuració";
+"Export settings" = "Exporta configuració";
+"Reset settings" = "Reinicia configuració";
+"Pause the Stats" = "Pausa Stats";
+"Resume the Stats" = "Continua Stats";
+"Combined modules" = "Mòduls combinats";
+"Combined details" = "Detalls combinats";
+"Spacing" = "Espaiat";
+"Share anonymous telemetry" = "Comparteix telemetria anònima";
 
 // Dashboard
 "Serial number" = "Número de sèrie";
-"Model identifier" = "Model identifier";
-"Production year" = "Production year";
+"Model identifier" = "Identificador de model";
+"Production year" = "Any de producció";
 "Uptime" = "Temps d'activitat";
-"Number of cores" = "%0 cores";
-"Number of threads" = "%0 threads";
-"Number of e-cores" = "%0 efficiency cores";
-"Number of p-cores" = "%0 performance cores";
+"Number of cores" = "%0 nuclis";
+"Number of threads" = "%0 fils";
+"Number of e-cores" = "%0 nuclis d'eficiència";
+"Number of p-cores" = "%0 nuclis de rendiment";
 
 // Update
 "The latest version of Stats installed" = "L'última versió d'Stats està instal·lada";
@@ -199,11 +199,11 @@
 "Color of download" = "Color de la descàrrega";
 "Color of upload" = "Color de càrrega";
 "Monospaced font" = "Tipus de lletra monoespaiat";
-"Reverse order" = "Reverse order";
-"Chart history" = "Chart history";
-"Default color" = "Default";
-"Transparent when no activity" = "Transparent when no activity";
-"Constant color" = "Constant";
+"Reverse order" = "Canvia l'ordre";
+"Chart history" = "Historial de gràfics";
+"Default color" = "Color per determinat";
+"Transparent when no activity" = "Transparent quan no hi hagi activitat";
+"Constant color" = "Color constant";
 
 // Module Kit
 "Open module settings" = "Obre la configuració del mòdul";
@@ -221,16 +221,16 @@
 "Merge widgets" = "Combina ginys";
 "No available widgets to configure" = "No hi ha widgets disponibles per configurar";
 "No options to configure for the popup in this module" = "No hi ha opcions per configurar per a la finestra emergent en aquest mòdul";
-"Process" = "Process";
-"Kill process" = "Kill process";
+"Process" = "Procés";
+"Kill process" = "Tanca procés";
 
 // Modules
 "Number of top processes" = "Nombre de processos principals";
 "Update interval for top processes" = "Freqüència de refresc per als processos principals";
 "Notification level" = "Nivell de notificació";
 "Chart color" = "Color del gràfic";
-"Main chart scaling" = "Main chart scaling";
-"Scale value" = "Scale value";
+"Main chart scaling" = "Escala del gràfic principal";
+"Scale value" = "Valor d'escala";
 
 // CPU
 "CPU usage" = "Ús de la CPU";
@@ -248,21 +248,21 @@
 "1 minute" = "1 minut";
 "5 minutes" = "5 minuts";
 "15 minutes" = "15 minuts";
-"CPU usage threshold" = "CPU usage threshold";
-"CPU usage is" = "CPU usage is %0";
-"Efficiency cores" = "Efficiency cores";
-"Performance cores" = "Performance cores";
-"System color" = "System color";
-"User color" = "User color";
-"Idle color" = "Idle color";
-"Cluster grouping" = "Cluster grouping";
-"Efficiency cores color" = "Efficiency cores color";
-"Performance cores color" = "Performance cores color";
-"Total load" = "Total load";
-"System load" = "System load";
-"User load" = "User load";
-"Efficiency cores load" = "Efficiency cores load";
-"Performance cores load" = "Performance cores load";
+"CPU usage threshold" = "Límit d'ús de la CPU";
+"CPU usage is" = "L'ús de la CPU és %0";
+"Efficiency cores" = "Nuclis d'eficiència";
+"Performance cores" = "Nuclis de rendiment";
+"System color" = "Color del sistema";
+"User color" = "Color de l'usuari";
+"Idle color" = "Sense color";
+"Cluster grouping" = "Agrupament en cluster";
+"Efficiency cores color" = "Color dels nuclis d'eficiència";
+"Performance cores color" = "Color dels nuclis de rendiment";
+"Total load" = "Càrrega total";
+"System load" = "Càrrega del sistema";
+"User load" = "Càrrega de l'usuari";
+"Efficiency cores load" = "Càrrega dels nuclis d'eficiència";
+"Performance cores load" = "Càrrega dels nuclis de rendiment";
 "All cores" = "All cores";
 
 // GPU
@@ -281,10 +281,10 @@
 "Core clock" = "Rellotge del nucli";
 "Memory clock" = "Rellotge de la memòria";
 "Utilization" = "Ús";
-"Render utilization" = "Render utilization";
-"Tiler utilization" = "Tiler utilization";
-"GPU usage threshold" = "GPU usage threshold";
-"GPU usage is" = "GPU usage is %0";
+"Render utilization" = "Utilització del Render";
+"Tiler utilization" = "Utilització del Tiler";
+"GPU usage threshold" = "Límit d'ús de la GPU";
+"GPU usage is" = "L'ús de la GPU és %0";
 
 // RAM
 "Memory usage" = "Ús de la memòria";
@@ -297,15 +297,15 @@
 "Free" = "Lliure";
 "Swap" = "Swap";
 "Split the value (App/Wired/Compressed)" = "Dividir el valor (Aplicació/Física/Comprimida)";
-"RAM utilization threshold" = "RAM utilization threshold";
-"RAM utilization is" = "RAM utilization is %0";
-"App color" = "App color";
-"Wired color" = "Wired color";
-"Compressed color" = "Compressed color";
-"Free color" = "Free color";
-"Free memory (less than)" = "Free memory (less than)";
-"Swap size" = "Swap size";
-"Free RAM is" = "Free RAM is %0";
+"RAM utilization threshold" = "Límit d'ús de la RAM";
+"RAM utilization is" = "L'ús de la RAM és %0";
+"App color" = "Color de l'aplicació";
+"Wired color" = "Color del Wired";
+"Compressed color" = "Color de la comprimida";
+"Free color" = "Color de la lliure";
+"Free memory (less than)" = "Memòria lliure (menys de)";
+"Swap size" = "Tamany del Swap";
+"Free RAM is" = "La RAM lliure és %0";
 
 // Disk
 "Show removable disks" = "Mostra els discs extraïbles";
@@ -314,15 +314,15 @@
 "Disk to show" = "Disc a mostrar";
 "Open disk" = "Disc obert";
 "Switch view" = "Canviar vista";
-"Disk utilization threshold" = "Disk utilization threshold";
-"Disk utilization is" = "Disk utilization is %0";
-"Read color" = "Read color";
-"Write color" = "Write color";
-"Disk usage" = "Disk usage";
-"Total read" = "Total read";
-"Total written" = "Total written";
-"Write speed" = "Write";
-"Read speed" = "Read";
+"Disk utilization threshold" = "Límit d'ús de la utilització del disc";
+"Disk utilization is" = "La utilització del disc és %0";
+"Read color" = "Color per a la lectura";
+"Write color" = "Color per a l'escriptura'";
+"Disk usage" = "Ús del disc";
+"Total read" = "Total llegit";
+"Total written" = "Total escrit";
+"Write speed" = "Velocitat de escriptura";
+"Read speed" = "Velocitat de lectura";
 
 // Sensors
 "Temperature unit" = "Unitat de temperatura";
@@ -330,20 +330,20 @@
 "Fahrenheit" = "Fahrenheit";
 "Save the fan speed" = "Guarda la velocitat del ventilador";
 "Fan" = "Ventilador";
-"HID sensors" = "HID sensors";
-"Synchronize fan's control" = "Synchronize fan's control";
-"Current" = "Current";
-"Energy" = "Energy";
-"Show unknown sensors" = "Show unknown sensors";
-"Install fan helper" = "Install fan helper";
-"Uninstall fan helper" = "Uninstall fan helper";
-"Fan value" = "Fan value";
-"Turn off fan" = "Turn off fan";
-"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?";
-"Sensor threshold" = "Sensor threshold";
-"Left fan" = "Left";
-"Right fan" = "Right";
-"Fastest fan" = "Fastest";
+"HID sensors" = "Sensors HID";
+"Synchronize fan's control" = "Sincronitza el control del ventilador";
+"Current" = "Corrent";
+"Energy" = "Energia";
+"Show unknown sensors" = "Mostra sensors desconeguts";
+"Install fan helper" = "Instal·la l'ajuda del ventilador";
+"Uninstall fan helper" = "Desinstal·la l'ajuda del ventilador";
+"Fan value" = "Valor del ventilador";
+"Turn off fan" = "Apaga el ventilador";
+"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Estàs a punt d'apagar el ventilador. No està recomanat i pot espatllar el teu mac, estàs segur/segura que vols fer això?";
+"Sensor threshold" = "Límit del sensor";
+"Left fan" = "Ventilador esquerre";
+"Right fan" = "Ventilador dret";
+"Fastest fan" = "Ventilador més ràpid";
 
 // Network
 "Uploading" = "Carregant";
@@ -365,28 +365,28 @@
 "Interface based" = "Interfície";
 "Processes based" = "Procés";
 "Reset data usage" = "Reinicia l'ús de dades";
-"VPN mode" = "VPN mode";
-"Standard" = "Standard";
-"Security" = "Security";
-"Channel" = "Channel";
-"Common scale" = "Common scale";
-"Autodetection" = "Autodetection";
-"Widget activation threshold" = "Widget activation threshold";
-"Internet connection" = "Internet connection";
-"Active state color" = "Active state color";
-"Nonactive state color" = "Nonactive state color";
-"Connectivity host (ICMP)" = "Connectivity host (ICMP)";
-"Leave empty to disable the check" = "Leave empty to disable the check";
-"Connectivity history" = "Connectivity history";
-"Auto-refresh public IP address" = "Auto-refresh public IP address";
-"Every hour" = "Every hour";
-"Every 12 hours" = "Every 12 hours";
-"Every 24 hours" = "Every 24 hours";
-"Network activity" = "Network activity";
-"Last reset" = "Last reset %0 ago";
-"Latency" = "Latency";
-"Upload speed" = "Upload";
-"Download speed" = "Download";
+"VPN mode" = "Mode VPN";
+"Standard" = "Estàndar";
+"Security" = "Seguretat";
+"Channel" = "Canal";
+"Common scale" = "Escala comuna";
+"Autodetection" = "Autodetecció";
+"Widget activation threshold" = "Límit d'activació del giny";
+"Internet connection" = "Connexió a internet";
+"Active state color" = "Color per l'estat actiu";
+"Nonactive state color" = "Color per l'estat inactiu";
+"Connectivity host (ICMP)" = "Connectivitat host (ICMP)";
+"Leave empty to disable the check" = "Deixa en blanc per desactivar el check";
+"Connectivity history" = "Historial de connectivitat";
+"Auto-refresh public IP address" = "Refresca automàticament l'adreça pública IP";
+"Every hour" = "Cada hora";
+"Every 12 hours" = "Cada 12 hores";
+"Every 24 hours" = "Cada 24 hores";
+"Network activity" = "Activitat de la xarxa";
+"Last reset" = "L'últim reinici va ser fa %0";
+"Latency" = "Latència";
+"Upload speed" = "Velocitat de pujada";
+"Download speed" = "Velocitat de baixada";
 
 // Battery
 "Level" = "Nivell";
@@ -414,33 +414,33 @@
 "Battery remaining" = "%0% restant";
 "Battery remaining to full charge" = "%0% fins la càrrega completa";
 "Percentage" = "Percentatge";
-"Percentage and time" = "Percentatge y temps";
-"Time and percentage" = "Temps y percentatge";
+"Percentage and time" = "Percentatge i temps";
+"Time and percentage" = "Temps i percentatge";
 "Time format" = "Format de temps";
 "Hide additional information when full" = "Oculta informació addicional quan la bateria estigui carregada";
 "Last charge" = "Última càrrega";
-"Capacity" = "Capacity";
-"current / maximum / designed" = "current / maximum / designed";
-"Low power mode" = "Low power mode";
-"Percentage inside the icon" = "Percentage inside the icon";
-"Colorize battery" = "Colorize battery";
-"Charging current" = "Charging current";
-"Charging Voltage" = "Charging voltage";
+"Capacity" = "Capacitat";
+"current / maximum / designed" = "actual / màxima / dissenyada";
+"Low power mode" = "Mode de baix consum";
+"Percentage inside the icon" = "Percentatge dins de la icona";
+"Colorize battery" = "Acoloreix la bateria";
+"Charging current" = "Corrent de càrrega";
+"Charging Voltage" = "Voltatge de càrrega";
 
 // Bluetooth
 "Battery to show" = "Bateria a mostrar";
-"No Bluetooth devices are available" = "No Bluetooth devices are available";
+"No Bluetooth devices are available" = "No hi han dispositius Bluetooth disponibles";
 
 // Clock
-"Time zone" = "Time zone";
+"Time zone" = "Zona horària";
 "Local" = "Local";
-"Calendar" = "Calendar";
-"Local time" = "Local time";
+"Calendar" = "Calendari";
+"Local time" = "Hora local";
 
 // Colors
 "Based on utilization" = "Basat en l'utilització";
 "Based on pressure" = "Basat en la pressió";
-"Based on cluster" = "Based on cluster";
+"Based on cluster" = "Basat en el cluster";
 "System accent" = "Accent del sistema";
 "Monochrome accent" = "Accent monocromàtic";
 "Clear" = "Clar";
