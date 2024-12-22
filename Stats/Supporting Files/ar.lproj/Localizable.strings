@@ -83,6 +83,10 @@
 "10 minutes" = "10 دقائق";
 "Import" = "استيراد";
 "Export" = "تصدير";
+"Separator" = "Separator";
+"Read" = "Read";
+"Write" = "Write";
+"Frequency" = "Frequency";
 
 // Setup
 "Stats Setup" = "إعدادات الإحصاءات";
@@ -123,6 +127,7 @@
 "Open application settings" = "فتح إعدادات التطبيق";
 "Open dashboard" = "فتح لوحة التحكم";
 "No notifications available in this module" = "لا توجد إشعارات متاحة في هذه الوحدة";
+"Open Calendar" = "Open Calendar";
 
 // Application settings
 "Update application" = "تحديث التطبيق";
@@ -258,6 +263,7 @@
 "User load" = "حمل المستخدم";
 "Efficiency cores load" = "حمل نوى الكفاءة";
 "Performance cores load" = "حمل نوى الأداء";
+"All cores" = "All cores";
 
 // GPU
 "GPU to show" = "عرض GPU";

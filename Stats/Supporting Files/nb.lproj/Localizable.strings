@@ -83,6 +83,10 @@
 "10 minutes" = "10 minutes";
 "Import" = "Import";
 "Export" = "Export";
+"Separator" = "Separator";
+"Read" = "Read";
+"Write" = "Write";
+"Frequency" = "Frequency";
 
 // Setup
 "Stats Setup" = "Stats-oppsett";
@@ -123,6 +127,7 @@
 "Open application settings" = "Åpne programinnstillinger";
 "Open dashboard" = "Åpne dashboard";
 "No notifications available in this module" = "No notifications available in this module";
+"Open Calendar" = "Open Calendar";
 
 // Application settings
 "Update application" = "Oppdater programmet";
@@ -258,6 +263,7 @@
 "User load" = "User load";
 "Efficiency cores load" = "Efficiency cores load";
 "Performance cores load" = "Performance cores load";
+"All cores" = "All cores";
 
 // GPU
 "GPU to show" = "GPU å vise";

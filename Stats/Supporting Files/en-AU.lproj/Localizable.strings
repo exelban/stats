@@ -2,7 +2,7 @@
 //  Localizable.strings
 //  Stats
 //
-//  Translated with <3 by Coopydood
+//  Created by Will Georges on 15/12/2024.
 //  Using Swift 5.0.
 //  Running on macOS 10.15.
 //
@@ -56,7 +56,7 @@
 "Reset" = "Reset";
 "Alignment" = "Alignment";
 "Left alignment" = "Left";
-"Center alignment" = "Centre";
+"Center alignment" = "Center";
 "Right alignment" = "Right";
 "Dashboard" = "Dashboard";
 "Enabled" = "Enabled";
@@ -83,10 +83,6 @@
 "10 minutes" = "10 minutes";
 "Import" = "Import";
 "Export" = "Export";
-"Separator" = "Separator";
-"Read" = "Read";
-"Write" = "Write";
-"Frequency" = "Frequency";
 
 // Setup
 "Stats Setup" = "Stats Setup";
@@ -127,7 +123,6 @@
 "Open application settings" = "Open application settings";
 "Open dashboard" = "Open dashboard";
 "No notifications available in this module" = "No notifications available in this module";
-"Open Calendar" = "Open Calendar";
 
 // Application settings
 "Update application" = "Update application";
@@ -263,7 +258,6 @@
 "User load" = "User load";
 "Efficiency cores load" = "Efficiency cores load";
 "Performance cores load" = "Performance cores load";
-"All cores" = "All cores";
 
 // GPU
 "GPU to show" = "GPU to show";
@@ -355,7 +349,7 @@
 "Refresh" = "Refresh";
 "Click to copy public IP address" = "Click to copy public IP address";
 "Click to copy local IP address" = "Click to copy local IP address";
-"Click to copy wifi name" = "Click to copy Wi-Fi name";
+"Click to copy wifi name" = "Click to copy WiFi name";
 "Click to copy mac address" = "Click to copy MAC address";
 "No connection" = "No connection";
 "Network interface" = "Network interface";

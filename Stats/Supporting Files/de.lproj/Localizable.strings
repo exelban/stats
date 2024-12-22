@@ -83,6 +83,10 @@
 "10 minutes" = "10 Minuten";
 "Import" = "Importieren";
 "Export" = "Exportieren";
+"Separator" = "Separator";
+"Read" = "Read";
+"Write" = "Write";
+"Frequency" = "Frequency";
 
 // Setup
 "Stats Setup" = "Stats einrichten";
@@ -123,6 +127,7 @@
 "Open application settings" = "Einstellungen öffnen";
 "Open dashboard" = "Dashboard öffnen";
 "No notifications available in this module" = "Keine Benachrichtigungen verfügbar";
+"Open Calendar" = "Open Calendar";
 
 // Application settings
 "Update application" = "Anwendung aktualisieren";
@@ -258,6 +263,7 @@
 "User load" = "Last (Benutzer)";
 "Efficiency cores load" = "Last (Effizienz-Kerne)";
 "Performance cores load" = "Last (Per­for­mance-Kerne)";
+"All cores" = "All cores";
 
 // GPU
 "GPU to show" = "GPU auswählen";

@@ -83,6 +83,10 @@
 "10 minutes" = "10 minut";
 "Import" = "Uvoz";
 "Export" = "Izvoz";
+"Separator" = "Separator";
+"Read" = "Read";
+"Write" = "Write";
+"Frequency" = "Frequency";
 
 // Setup
 "Stats Setup" = "Stats konfigurator";
@@ -123,6 +127,7 @@
 "Open application settings" = "Odpri nastavitve aplikacije";
 "Open dashboard" = "Odpri nadzorno ploščo";
 "No notifications available in this module" = "V tem modulu niso na voljo nobena obvestila";
+"Open Calendar" = "Open Calendar";
 
 // Application settings
 "Update application" = "Posodobi aplikacijo";
@@ -258,6 +263,7 @@
 "User load" = "Uporabniška obremenitev";
 "Efficiency cores load" = "Obremenitev učinkovitih jeder";
 "Performance cores load" = "Obremenitev performančnih jeder";
+"All cores" = "All cores";
 
 // GPU
 "GPU to show" = "GPE za prikaz";

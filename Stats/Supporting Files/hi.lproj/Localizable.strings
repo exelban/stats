@@ -83,6 +83,10 @@
 "10 minutes" = "10 minutes";
 "Import" = "Import";
 "Export" = "Export";
+"Separator" = "Separator";
+"Read" = "Read";
+"Write" = "Write";
+"Frequency" = "Frequency";
 
 // Setup
 "Stats Setup" = "आँकड़े सेटअप";
@@ -123,6 +127,7 @@
 "Open application settings" = "ओपन एप्लिकेशन सेटिंग्स";
 "Open dashboard" = "ओपन डैशबोर्ड";
 "No notifications available in this module" = "No notifications available in this module";
+"Open Calendar" = "Open Calendar";
 
 // Application settings
 "Update application" = "अद्यतन अनुप्रयोग";
@@ -258,6 +263,7 @@
 "User load" = "User load";
 "Efficiency cores load" = "Efficiency cores load";
 "Performance cores load" = "Performance cores load";
+"All cores" = "All cores";
 
 // GPU
 "GPU to show" = "दिखाने के लिए जीपीयू";

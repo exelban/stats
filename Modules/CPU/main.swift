@@ -75,7 +75,7 @@ public class CPU: Module {
         return color.additional as! NSColor
     }
     private var pCoreColor: NSColor {
-        let color = SColor.secondBlue
+        let color = SColor.indigo
         let key = Store.shared.string(key: "\(self.config.name)_pCoresColor", defaultValue: color.key)
         if let c = SColor.fromString(key).additional as? NSColor {
             return c
@@ -115,7 +115,8 @@ public class CPU: Module {
         self.limitReader = LimitReader(.CPU, popup: true) { [weak self] value in
             self?.popupView.limitCallback(value)
         }
-        self.frequencyReader = FrequencyReader(.CPU, popup: true) { [weak self] value in
+        #else
+        self.frequencyReader = FrequencyReader(.CPU, popup: false) { [weak self] value in
             self?.popupView.frequencyCallback(value)
         }
         #endif
@@ -134,12 +135,6 @@ public class CPU: Module {
         }
         self.settingsView.setTopInterval = { [weak self] value in
             self?.processReader?.setInterval(value)
-        }
-        self.settingsView.IPGCallback = { [weak self] value in
-            if value {
-                self?.frequencyReader?.setup()
-            }
-            self?.popupView.toggleFrequency(state: value)
         }
         
         self.setReaders([
