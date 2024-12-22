@@ -16,7 +16,6 @@ internal class Settings: NSStackView, Settings_v {
     private var usagePerCoreState: Bool = false
     private var hyperthreadState: Bool = false
     private var splitValueState: Bool = false
-    private var IPGState: Bool = false
     private var updateIntervalValue: Int = 1
     private var updateTopIntervalValue: Int = 1
     private var numberOfProcesses: Int = 8
@@ -27,7 +26,6 @@ internal class Settings: NSStackView, Settings_v {
     
     public var callback: (() -> Void) = {}
     public var callbackWhenUpdateNumberOfProcesses: (() -> Void) = {}
-    public var IPGCallback: ((_ state: Bool) -> Void) = {_ in }
     public var setInterval: ((_ value: Int) -> Void) = {_ in }
     public var setTopInterval: ((_ value: Int) -> Void) = {_ in }
     
@@ -41,7 +39,6 @@ internal class Settings: NSStackView, Settings_v {
         self.hyperthreadState = Store.shared.bool(key: "\(self.title)_hyperhreading", defaultValue: self.hyperthreadState)
         self.usagePerCoreState = Store.shared.bool(key: "\(self.title)_usagePerCore", defaultValue: self.usagePerCoreState)
         self.splitValueState = Store.shared.bool(key: "\(self.title)_splitValue", defaultValue: self.splitValueState)
-        self.IPGState = Store.shared.bool(key: "\(self.title)_IPG", defaultValue: self.IPGState)
         self.updateIntervalValue = Store.shared.int(key: "\(self.title)_updateInterval", defaultValue: self.updateIntervalValue)
         self.updateTopIntervalValue = Store.shared.int(key: "\(self.title)_updateTopInterval", defaultValue: self.updateTopIntervalValue)
         self.numberOfProcesses = Store.shared.int(key: "\(self.title)_processes", defaultValue: self.numberOfProcesses)
@@ -135,17 +132,6 @@ internal class Settings: NSStackView, Settings_v {
             
             self.addArrangedSubview(PreferencesSection(rows))
         }
-        
-        #if arch(x86_64)
-        if hasIPG {
-            self.addArrangedSubview(PreferencesSection([
-                PreferencesRow("\(localizedString("CPU frequency")) (IPG)", component: switchView(
-                    action: #selector(self.toggleIPG),
-                    state: self.IPGState
-                ))
-            ]))
-        }
-        #endif
     }
     
     @objc private func changeUpdateInterval(_ sender: NSMenuItem) {
@@ -201,12 +187,6 @@ internal class Settings: NSStackView, Settings_v {
         self.hyperthreadState = controlState(sender)
         Store.shared.set(key: "\(self.title)_hyperhreading", value: self.hyperthreadState)
         self.callback()
-    }
-    
-    @objc func toggleIPG(_ sender: NSControl) {
-        self.IPGState = controlState(sender)
-        Store.shared.set(key: "\(self.title)_IPG", value: self.IPGState)
-        self.IPGCallback(self.IPGState)
     }
     
     @objc func toggleSplitValue(_ sender: NSControl) {

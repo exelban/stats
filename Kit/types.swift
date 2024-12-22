@@ -382,13 +382,13 @@ extension SizeUnit: CaseIterable {
     public func toBytes(_ value: Int) -> Int {
         switch self {
         case .KB:
-            return value * 1_024
+            return value * 1_000
         case .MB:
-            return value * 1_024 * 1_024
+            return value * 1_000 * 1_000
         case .GB:
-            return value * 1_024 * 1_024 * 1_024
+            return value * 1_000 * 1_000 * 1_000
         case .TB:
-            return value * 1_024 * 1_024 * 1_024 * 1_024
+            return value * 1_000 * 1_000 * 1_000 * 1_000
         default:
             return value
         }

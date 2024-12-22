@@ -32,6 +32,18 @@ internal class Popup: PopupWrapper {
         }
     }
     private let averageHeight: CGFloat = (22*3) + Constants.Popup.separatorHeight
+    private var frequencyHeight: CGFloat {
+        get {
+            var count: CGFloat = 1
+            if SystemKit.shared.device.info.cpu?.eCores != nil {
+                count += 1
+            }
+            if SystemKit.shared.device.info.cpu?.pCores != nil {
+                count += 1
+            }
+            return (22*count) + Constants.Popup.separatorHeight
+        }
+    }
     private let processHeight: CGFloat = 22
     
     private var systemField: NSTextField? = nil
@@ -45,6 +57,11 @@ internal class Popup: PopupWrapper {
     private var average1Field: NSTextField? = nil
     private var average5Field: NSTextField? = nil
     private var average15Field: NSTextField? = nil
+    private var coresFreqField: NSTextField? = nil
+    private var eCoresFreqField: NSTextField? = nil
+    private var pCoresFreqField: NSTextField? = nil
+    private var eCoresFreqColorView: NSView? = nil
+    private var pCoresFreqColorView: NSView? = nil
     
     private var systemColorView: NSView? = nil
     private var userColorView: NSView? = nil
@@ -83,7 +100,7 @@ internal class Popup: PopupWrapper {
     private var chartColor: NSColor { self.chartColorState.additional as? NSColor ?? NSColor.systemBlue }
     private var eCoresColorState: SColor = .teal
     private var eCoresColor: NSColor { self.eCoresColorState.additional as? NSColor ?? NSColor.systemTeal }
-    private var pCoresColorState: SColor = .secondBlue
+    private var pCoresColorState: SColor = .indigo
     private var pCoresColor: NSColor { self.pCoresColorState.additional as? NSColor ?? NSColor.systemBlue }
     
     private var numberOfProcesses: Int {
@@ -115,7 +132,7 @@ internal class Popup: PopupWrapper {
             width: Constants.Popup.width,
             height: self.dashboardHeight + self.chartHeight + self.averageHeight
         ))
-        self.setFrameSize(NSSize(width: self.frame.width, height: self.frame.height + self.detailsHeight + self.processesHeight))
+        self.setFrameSize(NSSize(width: self.frame.width, height: self.frame.height + self.detailsHeight + self.frequencyHeight + self.processesHeight))
         
         self.systemColorState = SColor.fromString(Store.shared.string(key: "\(self.title)_systemColor", defaultValue: self.systemColorState.key))
         self.userColorState = SColor.fromString(Store.shared.string(key: "\(self.title)_userColor", defaultValue: self.userColorState.key))
@@ -135,12 +152,14 @@ internal class Popup: PopupWrapper {
         gridView.addRow(with: [self.initChart()])
         gridView.addRow(with: [self.initDetails()])
         gridView.addRow(with: [self.initAverage()])
+        gridView.addRow(with: [self.initFrequency()])
         gridView.addRow(with: [self.initProcesses()])
         
         gridView.row(at: 0).height = self.dashboardHeight
         gridView.row(at: 1).height = self.chartHeight
         gridView.row(at: 2).height = self.detailsHeight
         gridView.row(at: 3).height = self.averageHeight
+        gridView.row(at: 4).height = self.frequencyHeight
         
         self.addSubview(gridView)
         self.grid = gridView
@@ -189,7 +208,7 @@ internal class Popup: PopupWrapper {
         
         let usage = NSView(frame: NSRect(x: usageX, y: (view.frame.height - usageSize)/2, width: usageSize, height: usageSize))
         let temperature = NSView(frame: NSRect(x: (usageX - 50)/2, y: (view.frame.height - 50)/2 - 3, width: 50, height: 50))
-        let frequency = NSView(frame: NSRect(x: (usageX+usageSize) + (usageX - 50)/2, y: (view.frame.height - 50)/2 - 3, width: 50, height: 50))
+        let frequency = NSView(frame: NSRect(x: (usageX+usageSize) + (usageX - 50)/2, y: 0, width: 50, height: self.dashboardHeight))
         
         self.circle = PieChartView(frame: NSRect(x: 0, y: 0, width: usage.frame.width, height: usage.frame.height), segments: [], drawValue: true)
         self.circle!.toolTip = localizedString("CPU usage")
@@ -315,6 +334,30 @@ internal class Popup: PopupWrapper {
         return view
     }
     
+    private func initFrequency() -> NSView {
+        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.frequencyHeight))
+        let separator = separatorView(localizedString("Frequency"), origin: NSPoint(x: 0, y: self.frequencyHeight-Constants.Popup.separatorHeight), width: self.frame.width)
+        let container: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: separator.frame.origin.y))
+        container.orientation = .vertical
+        container.spacing = 0
+        
+        self.coresFreqField = popupRow(container, title: "\(localizedString("All cores")):", value: "").1
+        
+        if isARM {
+            if SystemKit.shared.device.info.cpu?.eCores != nil {
+                (self.eCoresFreqColorView, _, self.eCoresFreqField) = popupWithColorRow(container, color: self.eCoresColor, title: "\(localizedString("Efficiency cores")):", value: "")
+            }
+            if SystemKit.shared.device.info.cpu?.pCores != nil {
+                (self.pCoresFreqColorView, _, self.pCoresFreqField) = popupWithColorRow(container, color: self.pCoresColor, title: "\(localizedString("Performance cores")):", value: "")
+            }
+        }
+        
+        view.addSubview(separator)
+        view.addSubview(container)
+        
+        return view
+    }
+    
     private func initProcesses() -> NSView {
         if self.numberOfProcesses == 0 { return NSView() }
         
@@ -388,7 +431,7 @@ internal class Popup: PopupWrapper {
         })
     }
     
-    public func frequencyCallback(_ value: Double?) {
+    public func frequencyCallback(_ value: [Double]?) {
         guard let value else { return }
         
         DispatchQueue.main.async(execute: {
@@ -397,13 +440,33 @@ internal class Popup: PopupWrapper {
             }
             
             if (self.window?.isVisible ?? false) || !self.initializedFrequency {
-                if value > self.maxFreq {
-                    self.maxFreq = value
-                }
-                
-                if let freqCircle = self.frequencyCircle {
-                    freqCircle.setValue((100*value)/self.maxFreq)
-                    freqCircle.setText("\((value/1000).rounded(toPlaces: 2))")
+                if value.count == 1 {
+                    let freq = value.first ?? 0
+                    if freq > self.maxFreq {
+                        self.maxFreq = freq
+                    }
+                    self.coresFreqField?.stringValue = "\(Int(freq)) MHz"
+                    if let circle = self.frequencyCircle {
+                        circle.setValue((100*freq)/self.maxFreq)
+                        circle.setText("\((freq/1000).rounded(toPlaces: 2))")
+                    }
+                } else if value.count == 2 {
+                    let e = value.first ?? 0
+                    let p = value.last ?? 0
+                    self.eCoresFreqField?.stringValue = "\(Int(e)) MHz"
+                    self.pCoresFreqField?.stringValue = "\(Int(p)) MHz"
+                    
+                    if let eCoreCount = SystemKit.shared.device.info.cpu?.eCores, let pCoreCount = SystemKit.shared.device.info.cpu?.pCores {
+                        let freq = ((e * Double(eCoreCount)) + (p * Double(pCoreCount))) / Double(eCoreCount + pCoreCount)
+                        if freq > self.maxFreq {
+                            self.maxFreq = freq
+                        }
+                        self.coresFreqField?.stringValue = "\(Int(freq)) MHz"
+                        if let circle = self.frequencyCircle {
+                            circle.setValue((100*freq)/self.maxFreq)
+                            circle.setText("\((freq/1000).rounded(toPlaces: 2))")
+                        }
+                    }
                 }
                 
                 self.initializedFrequency = true
@@ -458,15 +521,6 @@ internal class Popup: PopupWrapper {
             self.average15Field?.stringValue = "\(value[2])"
             
             self.initializedAverage = true
-        })
-    }
-    
-    public func toggleFrequency(state: Bool) {
-        DispatchQueue.main.async(execute: {
-            if let view = self.frequencyCircle {
-                view.isHidden = !state
-            }
-            self.initializedFrequency = false
         })
     }
     
@@ -578,7 +632,10 @@ internal class Popup: PopupWrapper {
         }
         self.eCoresColorState = newValue
         Store.shared.set(key: "\(self.title)_eCoresColor", value: key)
-        self.eCoresColorView?.layer?.backgroundColor = (newValue.additional as? NSColor)?.cgColor
+        if let color = (newValue.additional as? NSColor) {
+            self.eCoresColorView?.layer?.backgroundColor = color.cgColor
+            self.eCoresFreqColorView?.layer?.backgroundColor = color.cgColor
+        }
     }
     @objc private func togglePCoresColor(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String, let newValue = SColor.allColors.first(where: { $0.key == key }) else {
@@ -586,7 +643,10 @@ internal class Popup: PopupWrapper {
         }
         self.pCoresColorState = newValue
         Store.shared.set(key: "\(self.title)_pCoresColor", value: key)
-        self.pCoresColorView?.layer?.backgroundColor = (newValue.additional as? NSColor)?.cgColor
+        if let color = (newValue.additional as? NSColor) {
+            self.pCoresColorView?.layer?.backgroundColor = color.cgColor
+            self.pCoresFreqColorView?.layer?.backgroundColor = color.cgColor
+        }
     }
     @objc private func toggleLineChartHistory(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String, let value = Int(key) else { return }

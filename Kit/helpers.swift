@@ -132,16 +132,16 @@ public struct Units {
     }
     
     public var kilobytes: Double {
-        return Double(bytes) / 1_024
+        return Double(bytes) / 1_000
     }
     public var megabytes: Double {
-        return kilobytes / 1_024
+        return kilobytes / 1_000
     }
     public var gigabytes: Double {
-        return megabytes / 1_024
+        return megabytes / 1_000
     }
     public var terabytes: Double {
-        return gigabytes / 1_024
+        return gigabytes / 1_000
     }
     
     public func getReadableTuple(base: DataSizeBase = .byte) -> (String, String) {
@@ -149,15 +149,15 @@ public struct Units {
         let multiplier: Double = base == .byte ? 1 : 8
         
         switch bytes {
-        case 0..<1_024:
+        case 0..<1_000:
             return ("0", "K\(stringBase)/s")
-        case 1_024..<(1_024 * 1_024):
+        case 1_000..<(1_000 * 1_000):
             return (String(format: "%.0f", kilobytes*multiplier), "K\(stringBase)/s")
-        case 1_024..<(1_024 * 1_024 * 100):
+        case 1_000..<(1_000 * 1_000 * 100):
             return (String(format: "%.1f", megabytes*multiplier), "M\(stringBase)/s")
-        case (1_024 * 1_024 * 100)..<(1_024 * 1_024 * 1_024):
+        case (1_000 * 1_000 * 100)..<(1_000 * 1_000 * 1_000):
             return (String(format: "%.0f", megabytes*multiplier), "M\(stringBase)/s")
-        case (1_024 * 1_024 * 1_024)...Int64.max:
+        case (1_000 * 1_000 * 1_000)...Int64.max:
             return (String(format: "%.1f", gigabytes*multiplier), "G\(stringBase)/s")
         default:
             return (String(format: "%.0f", kilobytes*multiplier), "K\(stringBase)B/s")
@@ -169,19 +169,19 @@ public struct Units {
         let multiplier: Double = base == .byte ? 1 : 8
         
         switch bytes*Int64(multiplier) {
-        case 0..<1_024:
+        case 0..<1_000:
             let unit = omitUnits ? "" : " K\(stringBase)/s"
             return "0\(unit)"
-        case 1_024..<(1_024 * 1_024):
+        case 1_000..<(1_000 * 1_000):
             let unit = omitUnits ? "" : " K\(stringBase)/s"
             return String(format: "%.0f\(unit)", kilobytes*multiplier)
-        case 1_024..<(1_024 * 1_024 * 100):
+        case 1_000..<(1_000 * 1_000 * 100):
             let unit = omitUnits ? "" : " M\(stringBase)/s"
             return String(format: "%.1f\(unit)", megabytes*multiplier)
-        case (1_024 * 1_024 * 100)..<(1_024 * 1_024 * 1_024):
+        case (1_000 * 1_000 * 100)..<(1_000 * 1_000 * 1_000):
             let unit = omitUnits ? "" : " M\(stringBase)/s"
             return String(format: "%.0f\(unit)", megabytes*multiplier)
-        case (1_024 * 1_024 * 1_024)...Int64.max:
+        case (1_000 * 1_000 * 1_000)...Int64.max:
             let unit = omitUnits ? "" : " G\(stringBase)/s"
             return String(format: "%.1f\(unit)", gigabytes*multiplier)
         default:
@@ -190,21 +190,16 @@ public struct Units {
         }
     }
     
-    public func getReadableMemory() -> String {
-        switch bytes {
-        case 0..<1_024:
-            return "0 KB"
-        case 1_024..<(1_024 * 1_024):
-            return String(format: "%.0f KB", kilobytes)
-        case 1_024..<(1_024 * 1_024 * 1_024):
-            return String(format: "%.0f MB", megabytes)
-        case 1_024..<(1_024 * 1_024 * 1_024 * 1_024):
-            return String(format: "%.1f GB", gigabytes)
-        case (1_024 * 1_024 * 1_024 * 1_024)...Int64.max:
-            return String(format: "%.1f TB", terabytes)
-        default:
-            return String(format: "%.0f KB", kilobytes)
-        }
+    public func getReadableMemory(style: ByteCountFormatter.CountStyle = .file) -> String {
+        let formatter: ByteCountFormatter = ByteCountFormatter()
+        formatter.countStyle = style
+        formatter.includesUnit = true
+        formatter.isAdaptive = true
+        
+        var value = formatter.string(fromByteCount: Int64(bytes))
+        value = value.replacingOccurrences(of: ",", with: ".")
+        
+        return value
     }
     
     public func toUnit(_ unit: SizeUnit) -> Double {
@@ -665,6 +660,23 @@ internal func getIOName(_ entry: io_registry_entry_t) -> String? {
     }
     
     return String(cString: UnsafeRawPointer(pointer).assumingMemoryBound(to: CChar.self))
+}
+
+internal func convertCFDataToArr(_ data: CFData) -> [Int32] {
+    let length = CFDataGetLength(data)
+    var bytes = [UInt8](repeating: 0, count: length)
+    CFDataGetBytes(data, CFRange(location: 0, length: length), &bytes)
+    
+    var arr: [Int32] = []
+    var chunks = stride(from: 0, to: bytes.count, by: 8).map { Array(bytes[$0..<min($0 + 8, bytes.count)])}
+    for chunk in chunks {
+        let v = UInt32(chunk[0]) | UInt32(chunk[1]) << 8 | UInt32(chunk[2]) << 16 | UInt32(chunk[3]) << 24
+        arr.append(Int32(v / 1000 / 1000))
+    }
+    bytes.removeAll()
+    chunks.removeAll()
+    
+    return arr
 }
 
 public class ColorView: NSView {

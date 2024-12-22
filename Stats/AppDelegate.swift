@@ -49,6 +49,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
         Store.shared.bool(key: "pause", defaultValue: false)
     }
     
+    private var startTS: Date?
+    
     static func main() {
         let app = NSApplication.shared
         let delegate = AppDelegate()
@@ -72,6 +74,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
         NotificationCenter.default.addObserver(self, selector: #selector(listenForAppPause), name: .pause, object: nil)
         
         info("Stats started in \((startingPoint.timeIntervalSinceNow * -1).rounded(toPlaces: 4)) seconds")
+        self.startTS = Date()
     }
     
     func applicationWillTerminate(_ aNotification: Notification) {
@@ -87,6 +90,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
             self.clickInNotification = false
             return true
         }
+        guard let startTS = self.startTS, Date().timeIntervalSince(startTS) > 2 else { return false }
         
         if flag {
             self.settingsWindow.makeKeyAndOrderFront(self)
