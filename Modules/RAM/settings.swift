@@ -47,6 +47,7 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
     private var updateTopIntervalValue: Int = 1
     private var numberOfProcesses: Int = 8
     private var splitValueState: Bool = false
+    private var combineProcessesState: Bool = true
     private var notificationLevel: String = "Disabled"
     private var textValue: String = "$mem.used/$mem.total ($pressure.value)"
     
@@ -66,6 +67,7 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
         self.numberOfProcesses = Store.shared.int(key: "\(self.title)_processes", defaultValue: self.numberOfProcesses)
         self.splitValueState = Store.shared.bool(key: "\(self.title)_splitValue", defaultValue: self.splitValueState)
         self.notificationLevel = Store.shared.string(key: "\(self.title)_notificationLevel", defaultValue: self.notificationLevel)
+        self.combineProcessesState = Store.shared.bool(key: "\(self.title)_combineProcesses", defaultValue: self.combineProcessesState)
         
         super.init(frame: NSRect.zero)
         
@@ -99,6 +101,13 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
                 action: #selector(changeNumberOfProcesses),
                 items: NumbersOfProcesses.map{ KeyValue_t(key: "\($0)", value: "\($0)") },
                 selected: "\(self.numberOfProcesses)"
+            ))
+        ]))
+ 
+        self.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Combine processes"), component: switchView(
+                action: #selector(toggleCombineProcesses),
+                state: self.combineProcessesState
             ))
         ]))
         
@@ -162,6 +171,11 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
     @objc private func toggleSplitValue(_ sender: NSControl) {
         self.splitValueState = controlState(sender)
         Store.shared.set(key: "\(self.title)_splitValue", value: self.splitValueState)
+        self.callback()
+    }
+    @objc private func toggleCombineProcesses(_ sender: NSControl) {
+        self.combineProcessesState = controlState(sender)
+        Store.shared.set(key: "\(self.title)_combineProcesses", value: self.combineProcessesState)
         self.callback()
     }
     
