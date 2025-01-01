@@ -103,7 +103,7 @@ extension CWChannel {
     }
 }
 
-internal class UsageReader: Reader<Network_Usage> {
+internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
     private var reachability: Reachability = Reachability(start: true)
     private let variablesQueue = DispatchQueue(label: "eu.exelban.NetworkUsageReader")
     private var _usage: Network_Usage = Network_Usage()
@@ -141,6 +141,8 @@ internal class UsageReader: Reader<Network_Usage> {
         get { Store.shared.bool(key: "Network_VPNMode", defaultValue: false) }
     }
     
+    private let wifiClient = CWWiFiClient.shared()
+    
     public override func setup() {
         self.reachability.reachable = {
             if self.active {
@@ -171,10 +173,14 @@ internal class UsageReader: Reader<Network_Usage> {
             self.usage = usage
             self.usage.bandwidth = Bandwidth()
         }
+        
+        self.wifiClient.delegate = self
+        self.startListeningForWifiEvents()
     }
     
     public override func terminate() {
         self.reachability.stop()
+        self.stopListeningForWifiEvents()
     }
     
     public override func read() {
@@ -460,6 +466,26 @@ internal class UsageReader: Reader<Network_Usage> {
     @objc func resetTotalNetworkUsage() {
         self.usage.total = Bandwidth()
         self.save(self.usage)
+    }
+    
+    private func startListeningForWifiEvents() {
+        do {
+            try self.wifiClient.startMonitoringEvent(with: .ssidDidChange)
+        } catch let err as NSError {
+            error("failed to start monitoring Wi-Fi events: \(err.localizedDescription)")
+        }
+    }
+    
+    private func stopListeningForWifiEvents() {
+        do {
+            try self.wifiClient.stopMonitoringEvent(with: .ssidDidChange)
+        } catch let err as NSError {
+            error("failed to stop monitoring Wi-Fi events: \(err.localizedDescription)")
+        }
+    }
+    
+    func ssidDidChangeForWiFiInterface(withName interfaceName: String) {
+        self.getWiFiDetails()
     }
 }
 
