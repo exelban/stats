@@ -112,97 +112,169 @@ public class ProcessReader: Reader<[TopProcess]> {
         }
     }
     
+    private var combineProcesses: Bool{
+        get {
+            return Store.shared.bool(key: "\(self.title)_combineProcesses", defaultValue: true)
+        }
+    }
+    
     public override func setup() {
         self.popup = true
         self.setInterval(Store.shared.int(key: "\(self.title)_updateTopInterval", defaultValue: 1))
     }
     
     public override func read() {
-        if self.numberOfProcesses == 0 {
+        let initialNumPids = proc_listallpids(nil, 0)
+        guard initialNumPids > 0 else {
+            error("proc_listallpids(): \(String(cString: strerror(errno), encoding: String.Encoding.ascii) ?? "unknown error")", log: self.log)
             return
         }
         
-        let task = Process()
-        task.launchPath = "/usr/bin/top"
-        task.arguments = ["-l", "1", "-o", "mem", "-n", "\(self.numberOfProcesses)", "-stats", "pid,command,mem"]
-        
-        let outputPipe = Pipe()
-        let errorPipe = Pipe()
-        
-        defer {
-            outputPipe.fileHandleForReading.closeFile()
-            errorPipe.fileHandleForReading.closeFile()
-        }
-        
-        task.standardOutput = outputPipe
-        task.standardError = errorPipe
-        
-        do {
-            try task.run()
-        } catch let err {
-            error("top(): \(err.localizedDescription)", log: self.log)
+        let allPids = UnsafeMutablePointer<Int32>.allocate(capacity: Int(initialNumPids))
+        defer { allPids.deallocate() }
+
+        let numPids = proc_listallpids(allPids, Int32(MemoryLayout<Int32>.size) * initialNumPids)
+        guard numPids > 0 else {
+            error("proc_listallpids(): \(String(cString: strerror(errno), encoding: String.Encoding.ascii) ?? "unknown error")", log: self.log)
             return
         }
         
-        let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
-        let errorData = errorPipe.fileHandleForReading.readDataToEndOfFile()
-        let output = String(data: outputData, encoding: .utf8)
-        _ = String(data: errorData, encoding: .utf8)
-        guard let output, !output.isEmpty else { return }
+        var processTree: [Int: ProcessTreeNode] = [:]
+        var groupTree: [ProcessTreeNode] = []
         
-        var processes: [TopProcess] = []
-        output.enumerateLines { (line, _) in
-            if line.matches("^\\d+\\** +.* +\\d+[A-Z]*\\+?\\-? *$") {
-                processes.append(ProcessReader.parseProcess(line))
+        let taskInfo = UnsafeMutablePointer<proc_taskallinfo>.allocate(capacity: 1)
+        defer { taskInfo.deallocate() }
+
+        for index in 0..<numPids {
+            let processId = Int(allPids.advanced(by: Int(index)).pointee)
+
+            memset(taskInfo, 0, MemoryLayout<proc_taskallinfo>.size)
+            let pidInfoSize = proc_pidinfo(Int32(processId),
+                                           PROC_PIDTASKALLINFO,
+                                           0,
+                                           taskInfo,
+                                           Int32(MemoryLayout<proc_taskallinfo>.size))
+            
+            if pidInfoSize > 0 {
+                let thisProcess = taskInfo.pointee
+
+                var treeEntry = processTree[processId]
+                if treeEntry == nil {
+                    treeEntry = ProcessTreeNode(pid: processId)
+                    processTree[processId] = treeEntry
+                }
+                treeEntry!.name = getProcessName(thisProcess)
+                treeEntry!.ownMemoryUsage = thisProcess.ptinfo.pti_resident_size
+                              
+                if combineProcesses {
+                    let originatingPid = findOriginatingPid(thisProcess)
+                    
+                    if originatingPid != processId && originatingPid > 1 {
+                        var originatingEntry = processTree[originatingPid]
+                        if originatingEntry == nil {
+                            originatingEntry = ProcessTreeNode(pid: originatingPid)
+                            processTree[originatingPid] = originatingEntry
+                        }
+                        originatingEntry!.addChildProcess(treeEntry!)
+                    } else {
+                        groupTree.append(treeEntry!)
+                    }
+                } else {
+                    groupTree.append(treeEntry!)
+                }
             }
         }
         
-        self.callback(processes)
+        groupTree = groupTree.sorted { $0.totalMemoryUsage > $1.totalMemoryUsage  }
+        
+        let topProcessList = groupTree.prefix(numberOfProcesses).map({
+            TopProcess(pid: $0.pid, name: $0.name, usage: Double($0.totalMemoryUsage))
+        })
+
+        self.callback(topProcessList)
     }
     
-    static public func parseProcess(_ raw: String) -> TopProcess {
-        var str = raw.trimmingCharacters(in: .whitespaces)
-        let pidString = str.find(pattern: "^\\d+")
+    class ProcessTreeNode {
+        let pid: Int
+        var name: String = "UNKNOWN"
+        var ownMemoryUsage: UInt64 = 0
+        var childMemoryUsage: UInt64 = 0
         
-        if let range = str.range(of: pidString) {
-            str = str.replacingCharacters(in: range, with: "")
+        var totalMemoryUsage: UInt64 {
+            get {
+                #if DEBUG
+                assert(calcTotalMemoryUsage() == ownMemoryUsage + childMemoryUsage)
+                #endif
+                return ownMemoryUsage + childMemoryUsage
+            }
         }
         
-        var arr = str.split(separator: " ")
-        if arr.first == "*" {
-            arr.removeFirst()
+        private var childProcesses: [ProcessTreeNode] = []
+        private weak var parentProcess: ProcessTreeNode?
+        
+        init(pid: Int) {
+            self.pid = pid
         }
         
-        var usageString = str.suffix(6)
-        if let lastElement = arr.last {
-            usageString = lastElement
-            arr.removeLast()
+        func addChildProcess(_ childProcess: ProcessTreeNode) {
+            childProcesses.append(childProcess)
+            childProcess.parentProcess = self
+
+            var currentNode = childProcess
+            while let parent = currentNode.parentProcess {
+                parent.childMemoryUsage += childProcess.totalMemoryUsage
+                currentNode = parent
+            }
         }
         
-        var command = arr.joined(separator: " ")
-            .replacingOccurrences(of: pidString, with: "")
-            .trimmingCharacters(in: .whitespaces)
-        
-        if let regex = try? NSRegularExpression(pattern: " (\\+|\\-)*$", options: .caseInsensitive) {
-            command = regex.stringByReplacingMatches(in: command, options: [], range: NSRange(location: 0, length: command.count), withTemplate: "")
+        #if DEBUG
+        private func calcTotalMemoryUsage() -> UInt64 {
+            childProcesses.reduce(ownMemoryUsage) { $0 + $1.calcTotalMemoryUsage() }
+        }
+        #endif
+    }
+
+    private func getProcessName(_ thisProcess: proc_taskallinfo) -> String {
+        var processName: String
+        if let app = NSRunningApplication(processIdentifier: pid_t(thisProcess.pbsd.pbi_pid)), let n = app.localizedName {
+            processName = n
+        } else {
+            let comm = thisProcess.pbsd.pbi_comm
+            processName = String(cString: Mirror(reflecting: comm).children.map { $0.value as! CChar })
+        }
+        return processName
+    }
+    
+    // Use private Apple API call if found, otherwise fall back to parent pid
+    private func findOriginatingPid(_ thisProcess: proc_taskallinfo) -> Int {
+        if ProcessReader.dynGetResponsiblePidFunc != nil {
+            getResponsiblePid(Int(thisProcess.pbsd.pbi_pid))
+        } else {
+            Int(thisProcess.pbsd.pbi_ppid)
+        }
+    }
+
+    typealias dynGetResponsiblePidFuncType = @convention(c) (CInt) -> CInt
+    
+    // Load function to get responsible pid using private Apple API call
+    private static let dynGetResponsiblePidFunc: UnsafeMutableRawPointer? = {
+        let result = dlsym(UnsafeMutableRawPointer(bitPattern: -1), "responsibility_get_pid_responsible_for_pid")
+        if result == nil {
+            error("Error loading responsibility_get_pid_responsible_for_pid")
+        }
+        return result
+    }()
+    
+    func getResponsiblePid(_ childPid: Int) -> Int {
+        guard ProcessReader.dynGetResponsiblePidFunc != nil else {
+            return childPid
         }
         
-        let pid = Int(pidString.filter("01234567890.".contains)) ?? 0
-        var usage = Double(usageString.filter("01234567890.".contains)) ?? 0
-        if usageString.last == "G" {
-            usage *= 1024 // apply gigabyte multiplier
-        } else if usageString.last == "K" {
-            usage /= 1024 // apply kilobyte divider
-        } else if usageString.last == "M" && usageString.count == 5 {
-            usage /= 1024
-            usage *= 1000
+        let responsiblePid = unsafeBitCast(ProcessReader.dynGetResponsiblePidFunc, to: dynGetResponsiblePidFuncType.self)(CInt(childPid))
+        guard responsiblePid != -1 else {
+            error("Error getting responsible pid for process \(childPid). Setting responsible pid to itself")
+            return childPid
         }
-        
-        var name: String = command
-        if let app = NSRunningApplication(processIdentifier: pid_t(pid)), let n = app.localizedName {
-            name = n
-        }
-        
-        return TopProcess(pid: pid, name: name, usage: usage * Double(1000 * 1000))
+        return Int(responsiblePid)
     }
 }
