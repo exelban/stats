@@ -15,8 +15,6 @@ import Kit
 internal class Popup: PopupWrapper {
     private var title: String
     
-    private var grid: NSGridView? = nil
-    
     private let dashboardHeight: CGFloat = 90
     private let chartHeight: CGFloat = 120 + Constants.Popup.separatorHeight
     private var detailsHeight: CGFloat {
@@ -103,6 +101,9 @@ internal class Popup: PopupWrapper {
     private var pCoresColorState: SColor = .indigo
     private var pCoresColor: NSColor { self.pCoresColorState.additional as? NSColor ?? NSColor.systemBlue }
     
+    private var processesView: NSView? = nil
+    private var frequenciesView: NSView? = nil
+    
     private var numberOfProcesses: Int {
         Store.shared.int(key: "\(self.title)_processes", defaultValue: 8)
     }
@@ -126,13 +127,10 @@ internal class Popup: PopupWrapper {
     public init(_ module: ModuleType) {
         self.title = module.rawValue
         
-        super.init(frame: NSRect(
-            x: 0,
-            y: 0,
-            width: Constants.Popup.width,
-            height: self.dashboardHeight + self.chartHeight + self.averageHeight
-        ))
-        self.setFrameSize(NSSize(width: self.frame.width, height: self.frame.height + self.detailsHeight + self.frequencyHeight + self.processesHeight))
+        super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: 0))
+        
+        self.spacing = 0
+        self.orientation = .vertical
         
         self.systemColorState = SColor.fromString(Store.shared.string(key: "\(self.title)_systemColor", defaultValue: self.systemColorState.key))
         self.userColorState = SColor.fromString(Store.shared.string(key: "\(self.title)_userColor", defaultValue: self.userColorState.key))
@@ -144,25 +142,13 @@ internal class Popup: PopupWrapper {
         self.lineChartScale = Scale.fromString(Store.shared.string(key: "\(self.title)_lineChartScale", defaultValue: self.lineChartScale.key))
         self.lineChartFixedScale = Double(Store.shared.int(key: "\(self.title)_lineChartFixedScale", defaultValue: 100)) / 100
         
-        let gridView: NSGridView = NSGridView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height))
-        gridView.rowSpacing = 0
-        gridView.yPlacement = .fill
+        self.addArrangedSubview(self.initDashboard())
+        self.addArrangedSubview(self.initChart())
+        self.addArrangedSubview(self.initDetails())
+        self.addArrangedSubview(self.initAverage())
+        self.addArrangedSubview(self.initProcesses())
         
-        gridView.addRow(with: [self.initDashboard()])
-        gridView.addRow(with: [self.initChart()])
-        gridView.addRow(with: [self.initDetails()])
-        gridView.addRow(with: [self.initAverage()])
-        gridView.addRow(with: [self.initFrequency()])
-        gridView.addRow(with: [self.initProcesses()])
-        
-        gridView.row(at: 0).height = self.dashboardHeight
-        gridView.row(at: 1).height = self.chartHeight
-        gridView.row(at: 2).height = self.detailsHeight
-        gridView.row(at: 3).height = self.averageHeight
-        gridView.row(at: 4).height = self.frequencyHeight
-        
-        self.addSubview(gridView)
-        self.grid = gridView
+        self.recalculateHeight()
     }
     
     required init?(coder: NSCoder) {
@@ -181,27 +167,24 @@ internal class Popup: PopupWrapper {
         self.processes?.setLock(false)
     }
     
-    public func numberOfProcessesUpdated() {
-        if self.processes?.count == self.numberOfProcesses { return }
-        
-        DispatchQueue.main.async(execute: {
-            let h: CGFloat = self.dashboardHeight + self.chartHeight + self.detailsHeight + self.averageHeight + self.processesHeight
+    private func recalculateHeight() {
+        var h: CGFloat = 0
+        self.arrangedSubviews.forEach { v in
+            if let v = v as? NSStackView {
+                h += v.arrangedSubviews.map({ $0.bounds.height }).reduce(0, +)
+            } else {
+                h += v.bounds.height
+            }
+        }
+        if self.frame.size.height != h {
             self.setFrameSize(NSSize(width: self.frame.width, height: h))
-            
-            self.grid?.setFrameSize(NSSize(width: self.frame.width, height: h))
-            
-            self.grid?.row(at: 4).cell(at: 0).contentView?.removeFromSuperview()
-            self.processes = nil
-            self.grid?.removeRow(at: 4)
-            self.grid?.addRow(with: [self.initProcesses()])
-            self.initializedProcesses = false
-            
             self.sizeCallback?(self.frame.size)
-        })
+        }
     }
     
     private func initDashboard() -> NSView {
         let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.dashboardHeight))
+        view.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
         
         let usageSize = self.dashboardHeight-20
         let usageX = (view.frame.width - usageSize)/2
@@ -233,6 +216,7 @@ internal class Popup: PopupWrapper {
     
     private func initChart() -> NSView {
         let view: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.chartHeight))
+        view.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
         view.orientation = .vertical
         view.spacing = 0
         
@@ -284,6 +268,7 @@ internal class Popup: PopupWrapper {
     
     private func initDetails() -> NSView {
         let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.detailsHeight))
+        view.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
         let separator = separatorView(localizedString("Details"), origin: NSPoint(
             x: 0,
             y: self.detailsHeight-Constants.Popup.separatorHeight
@@ -319,6 +304,7 @@ internal class Popup: PopupWrapper {
     
     private func initAverage() -> NSView {
         let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.averageHeight))
+        view.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
         let separator = separatorView(localizedString("Average load"), origin: NSPoint(x: 0, y: self.averageHeight-Constants.Popup.separatorHeight), width: self.frame.width)
         let container: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: separator.frame.origin.y))
         container.orientation = .vertical
@@ -336,6 +322,7 @@ internal class Popup: PopupWrapper {
     
     private func initFrequency() -> NSView {
         let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.frequencyHeight))
+        view.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
         let separator = separatorView(localizedString("Frequency"), origin: NSPoint(x: 0, y: self.frequencyHeight-Constants.Popup.separatorHeight), width: self.frame.width)
         let container: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: separator.frame.origin.y))
         container.orientation = .vertical
@@ -359,7 +346,11 @@ internal class Popup: PopupWrapper {
     }
     
     private func initProcesses() -> NSView {
-        if self.numberOfProcesses == 0 { return NSView() }
+        if self.numberOfProcesses == 0 {
+            let v = NSView()
+            self.processesView = v
+            return v
+        }
         
         let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.processesHeight))
         let separator = separatorView(localizedString("Top processes"), origin: NSPoint(x: 0, y: self.processesHeight-Constants.Popup.separatorHeight), width: self.frame.width)
@@ -373,6 +364,7 @@ internal class Popup: PopupWrapper {
         view.addSubview(separator)
         view.addSubview(container)
         
+        self.processesView = view
         return view
     }
     
@@ -433,8 +425,14 @@ internal class Popup: PopupWrapper {
     
     public func frequencyCallback(_ value: [Double]?) {
         guard let value else { return }
+        guard !value.filter({ $0 != 0 }).isEmpty else { return }
         
         DispatchQueue.main.async(execute: {
+            if !self.initializedFrequency {
+                self.insertArrangedSubview(self.initFrequency(), at: 4)
+                self.recalculateHeight()
+            }
+            
             if let view = self.frequencyCircle, (view as NSView).isHidden {
                 view.isHidden = false
             }
@@ -490,6 +488,19 @@ internal class Popup: PopupWrapper {
             }
             
             self.initializedProcesses = true
+        })
+    }
+    
+    public func numberOfProcessesUpdated() {
+        if self.processes?.count == self.numberOfProcesses { return }
+        
+        DispatchQueue.main.async(execute: {
+            self.processesView?.removeFromSuperview()
+            self.processesView = nil
+            self.processes = nil
+            self.addArrangedSubview(self.initProcesses())
+            self.initializedProcesses = false
+            self.recalculateHeight()
         })
     }
     
