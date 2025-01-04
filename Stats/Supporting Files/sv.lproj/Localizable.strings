@@ -5,6 +5,8 @@
 //  Created by Fredrik Nilsson on 27/07/2022.
 //  Using Swift 5.0.
 //  Running on macOS 12.
+//  Updated and completed by Patrik Persson on 04/01/2024
+//  Running on macOS 15
 //
 //  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
 //
@@ -27,7 +29,7 @@
 "Bluetooth" = "Bluetooth";
 "Open Bluetooth settings" = "Öppna bluetoothinställningar";
 "Clock" = "Clock";
-"Open Clock settings" = "Open clock settings";
+"Open Clock settings" = "Öppna klockinställningar";
 
 // Words
 "Unknown" = "Okänd";
@@ -59,59 +61,57 @@
 "Center alignment" = "Centrerad";
 "Right alignment" = "Höger";
 "Dashboard" = "Kontrollpanel";
-"Enabled" = "Enabled";
+"Enabled" = "Aktiverad";
 "Disabled" = "Inaktiverad";
 "Silent" = "Tyst";
 "Units" = "Enheter";
 "Fans" = "Fläktar";
-"Scaling" = "Scaling";
-"Linear" = "Linear";
-"Square" = "Square";
-"Cube" = "Cube";
-"Logarithmic" = "Logarithmic";
-"Fixed scale" = "Fixed";
-"Cores" = "Cores";
-"Settings" = "Settings";
-"Name" = "Name";
+"Scaling" = "Skalning";
+"Linear" = "Linjär";
+"Square" = "Kvadrat";
+"Cube" = "Kub";
+"Logarithmic" = "Logaritmiskt";
+"Fixed scale" = "Fast skala";
+"Cores" = "Kärnor";
+"Settings" = "Inställningar";
+"Name" = "Namn";
 "Format" = "Format";
-"Turn off" = "Turn off";
-"Warning" = "Warning";
-"Critical" = "Critical";
-"Usage" = "Usage";
-"2 minutes" = "2 minutes";
-"3 minutes" = "3 minutes";
-"10 minutes" = "10 minutes";
-"Import" = "Import";
-"Export" = "Export";
-"Separator" = "Separator";
-"Read" = "Read";
-"Write" = "Write";
-"Frequency" = "Frequency";
+"Turn off" = "Stäng av";
+"Warning" = "Varning";
+"Critical" = "Kritisk";
+"Usage" = "Använding";
+"2 minutes" = "2 minuter";
+"3 minutes" = "3 minuter";
+"10 minutes" = "10 minuter";
+"Import" = "Importera";
+"Export" = "Exportera";
+"Separator" = "Avgränsare";
+"Read" = "Läsa";
+"Write" = "Skriva";
+"Frequency" = "Frekvens";
 
 // Setup
-"Stats Setup" = "Stats Setup";
-"Previous" = "Previous";
-"Previous page" = "Previous page";
-"Next" = "Next";
-"Next page" = "Next page";
-"Finish" = "Finish";
-"Finish setup" = "Finish setup";
-"Welcome to Stats" = "Welcome to Stats";
-"welcome_message" = "Thanks for using Stats, a free open source macOS system monitor for your menu bar.";
-"Start the application automatically when starting your Mac" = "Start the application automatically when starting your Mac";
-"Do not start the application automatically when starting your Mac" = "Do not start the application automatically when starting your Mac";
-"Do everything silently in the background (recommended)" = "Do everything silently in the background (recommended)";
-"Check for a new version on startup" = "Check for a new version on startup";
-"Check for a new version every day (once a day)" = "Check for a new version every day (once a day)";
-"Check for a new version every week (once a week)" = "Check for a new version every week (once a week)";
-"Check for a new version every month (once a month)" = "Check for a new version every month (once a month)";
-"Never check for updates (not recommended)" = "Never check for updates (not recommended)";
-"Anonymous telemetry for better development decisions" = "Anonymous telemetry for better development decisions";
-"Share anonymous telemetry data" = "Share anonymous telemetry data";
-"Do not share anonymous telemetry data" = "Do not share anonymous telemetry data";
-"The configuration is completed" = "The configuration is completed";
-"finish_setup_message" = "Everything is set up! \n The Stats is an open source tool, it's free and always will be. \n If you enjoy it you can support a project, it's always appreciated!";
-
+"Stats Setup" = "Stats inställning";
+"Previous" = "Föregående";
+"Previous page" = "Föregående sida";
+"Next" = "Nästa";
+"Next page" = "Nästa sida";
+"Finish" = "Avsluta";
+"Finish setup" = "Avsluta inställning";
+"Welcome to Stats" = "Välkommen till Stats";
+"welcome_message" = "Tack för att du använder Stats, en gratis öppen källkod macOS-systemövervakare för din menyrad.";
+"Do not start the application automatically when starting your Mac" = "Starta inte applikationen automatiskt när du startar din Mac";
+"Do everything silently in the background (recommended)" = "Gör allt tyst i bakgrunden (rekommenderas)";
+"Check for a new version on startup" = "Kontrollera efter en ny version vid uppstart";
+"Check for a new version every day (once a day)" = "Kontrollera efter en ny version varje dag (en gång om dagen)";
+"Check for a new version every week (once a week)" = "Kontrollera efter en ny version varje vecka (en gång i veckan)";
+"Check for a new version every month (once a month)" = "Kontrollera efter en ny version varje månad (en gång i månaden)";
+"Never check for updates (not recommended)" = "Kontrollera aldrig efter uppdateringar (inte rekommenderat)";
+"Anonymous telemetry for better development decisions" = "Anonym telemetri för bättre utvecklingsbeslut";
+"Share anonymous telemetry data" = "Dela anonym telemetridata";
+"Do not share anonymous telemetry data" = "Dela inte anonym telemetridata";
+"The configuration is completed" = "Konfigurationen är slutförd";
+"finish_setup_message" = "Allt är inställt! \n Stats är ett verktyg med öppen källkod, det är gratis och kommer alltid att vara det. \n Om du gillar det kan du stödja projektet, det uppskattas alltid!";
 // Alerts
 "New version available" = "Ny version tillgänglig";
 "Click to install the new version of Stats" = "Klicka här för att installera en ny version av Stats";
@@ -126,9 +126,8 @@
 "Close application" = "Avsluta Stats";
 "Open application settings" = "Öppna programinställningar";
 "Open dashboard" = "Öppna kontrollpanelen";
-"No notifications available in this module" = "No notifications available in this module";
-"Open Calendar" = "Open Calendar";
-
+"No notifications available in this module" = "Inga notifikationer tillgängliga i denna modul";
+"Open Calendar" = "Öppna Kalender";
 // Application settings
 "Update application" = "Uppdatering tillgänglig";
 "Check for updates" = "Sök efter uppdateringar";
@@ -141,32 +140,31 @@
 "Show icon in dock" = "Visa i Dock";
 "Start at login" = "Öppna vid inloggning";
 "Build number" = "Byggnummer";
-"Import settings" = "Import settings";
-"Export settings" = "Export settings";
+"Import settings" = "Importera inställningar";
+"Export settings" = "Exportera inställningar";
 "Reset settings" = "Återställ inställningar";
-"Pause the Stats" = "Pause the Stats";
-"Resume the Stats" = "Resume the Stats";
-"Combined modules" = "Combined modules";
-"Combined details" = "Combined details";
-"Spacing" = "Spacing";
-"Share anonymous telemetry" = "Share anonymous telemetry";
+"Pause the Stats" = "Pausa Stats";
+"Resume the Stats" = "Återuppta Stats";
+"Combined modules" = "Kombinerade moduler";
+"Combined details" = "Kombinerade detaljer";
+"Spacing" = "Mellanrum";
+"Share anonymous telemetry" = "Dela anonym telemetri";
 
 // Dashboard
 "Serial number" = "Serienummer";
-"Model identifier" = "Model identifier";
-"Production year" = "Production year";
+"Model identifier" = "Modellidentifierare";
+"Production year" = "Tillverkningsår";
 "Uptime" = "Upptid";
 "Number of cores" = "%0 kärnor";
 "Number of threads" = "%0 trådar";
-"Number of e-cores" = "%0 efficiency cores";
-"Number of p-cores" = "%0 performance cores";
+"Number of e-cores" = "%0 effektivitetskärnor";
+"Number of p-cores" = "%0 prestandakärnor";
 
 // Update
 "The latest version of Stats installed" = "Du har den senaste versionen av Stats";
 "Downloading..." = "Hämtar...";
-"Current version: " = "Nuvarande version:  ";
-"Latest version: " = "Senaste version:    ";
-
+"Current version: " = "Nuvarande version: ";
+"Latest version: " = "Senaste version: ";
 // Widgets
 "Color" = "Färg";
 "Label" = "Etikett";
@@ -192,18 +190,18 @@
 "Memory widget" = "Minne";
 "Static width" = "Fast bredd";
 "Tachometer widget" = "Varvräknare";
-"State widget" = "State widget";
+"State widget" = "Statuswidget";
 "Show symbols" = "Visa symboler";
 "Label widget" = "Etikett";
 "Number of reads in the chart" = "Antal avläsningar i diagram";
 "Color of download" = "Färg för skickar";
 "Color of upload" = "Färg för tar emot";
 "Monospaced font" = "Typsnitt med monospace";
-"Reverse order" = "Reverse order";
-"Chart history" = "Chart history";
-"Default color" = "Default";
-"Transparent when no activity" = "Transparent when no activity";
-"Constant color" = "Constant";
+"Reverse order" = "Omvänd ordning";
+"Chart history" = "Diagramhistorik";
+"Default color" = "Standardfärg";
+"Transparent when no activity" = "Genomskinlig vid inaktivitet";
+"Constant color" = "Konstant färg";
 
 // Module Kit
 "Open module settings" = "Öppna modulinställningar";
@@ -222,15 +220,14 @@
 "No available widgets to configure" = "Inga tillgängliga widgetar att konfigurera";
 "No options to configure for the popup in this module" = "Inga alternativ att konfigurera för popup-fönstret i denna modul";
 "Process" = "Process";
-"Kill process" = "Kill process";
-
+"Kill process" = "Avsluta process";
 // Modules
 "Number of top processes" = "Antal topprocesser";
 "Update interval for top processes" = "Uppdateringsintervall topprocesser";
 "Notification level" = "Notisnivå";
 "Chart color" = "Diagramfärg";
-"Main chart scaling" = "Main chart scaling";
-"Scale value" = "Scale value";
+"Main chart scaling" = "Huvuddiagramskalning";
+"Scale value" = "Skalvärde";
 
 // CPU
 "CPU usage" = "CPU-användning";
@@ -243,27 +240,27 @@
 "Show hyper-threading cores" = "Visa hypertrådskärnor";
 "Split the value (System/User)" = "Visa fördelning (System/Användare)";
 "Scheduler limit" = "Gräns för schemaläggare";
-"Speed limit" = "Hatighetsbegränsning";
-"Average load" = "Gnomsnittlig last";
+"Speed limit" = "Hastighetsbegränsning";
+"Average load" = "Genomsnittlig last";
 "1 minute" = "1 minut";
 "5 minutes" = "5 minuter";
 "15 minutes" = "15 minuter";
 "CPU usage threshold" = "Tröskelvärde CPU-användning";
-"CPU usage is" = "CPU-anvädningen är %0";
-"Efficiency cores" = "Efficiency cores";
-"Performance cores" = "Performance cores";
-"System color" = "System color";
-"User color" = "User color";
-"Idle color" = "Idle color";
-"Cluster grouping" = "Cluster grouping";
-"Efficiency cores color" = "Efficiency cores color";
-"Performance cores color" = "Performance cores color";
-"Total load" = "Total load";
-"System load" = "System load";
-"User load" = "User load";
-"Efficiency cores load" = "Efficiency cores load";
-"Performance cores load" = "Performance cores load";
-"All cores" = "All cores";
+"CPU usage is" = "CPU-användningen är %0";
+"Efficiency cores" = "Effektivitetskärnor";
+"Performance cores" = "Prestandakärnor";
+"System color" = "Systemfärg";
+"User color" = "Användarfärg";
+"Idle color" = "Overksamhetsfärg";
+"Cluster grouping" = "Klustergruppering";
+"Efficiency cores color" = "Effektivitetskärnors färg";
+"Performance cores color" = "Prestandakärnors färg";
+"Total load" = "Total belastning";
+"System load" = "Systembelastning";
+"User load" = "Användarbelastning";
+"Efficiency cores load" = "Effektivitetskärnors belastning";
+"Performance cores load" = "Prestandakärnors belastning";
+"All cores" = "Alla kärnor";
 
 // GPU
 "GPU to show" = "GPU att visa";
@@ -273,7 +270,7 @@
 "GPU temperature" = "GPU-temperatur";
 "GPU utilization" = "GPU-användning";
 "Vendor" = "Tillverkare";
-"Model" = "Model";
+"Model" = "Modell";
 "Status" = "Status";
 "Active" = "Aktiv";
 "Non active" = "Inaktiv";
@@ -299,13 +296,13 @@
 "Split the value (App/Wired/Compressed)" = "Visa fördelning (App/Resident/Komprimerat)";
 "RAM utilization threshold" = "Tröskelvärde minnesanvändning";
 "RAM utilization is" = "Minnesanvändning %0";
-"App color" = "App color";
-"Wired color" = "Wired color";
-"Compressed color" = "Compressed color";
-"Free color" = "Free color";
-"Free memory (less than)" = "Free memory (less than)";
-"Swap size" = "Swap size";
-"Free RAM is" = "Free RAM is %0";
+"App color" = "Appfärg";
+"Wired color" = "Resident minnesfärg";
+"Compressed color" = "Komprimerat minnesfärg";
+"Free color" = "Ledigt minnesfärg";
+"Free memory (less than)" = "Ledigt minne (mindre än)";
+"Swap size" = "Växelfilstorlek";
+"Free RAM is" = "Ledigt RAM är %0";
 
 // Disk
 "Show removable disks" = "Visa flyttbara skivor";
@@ -316,13 +313,13 @@
 "Switch view" = "Växla vy";
 "Disk utilization threshold" = "Tröskelvärde skivanvändning";
 "Disk utilization is" = "Skivanvändning %0";
-"Read color" = "Read color";
-"Write color" = "Write color";
-"Disk usage" = "Disk usage";
-"Total read" = "Total read";
-"Total written" = "Total written";
-"Write speed" = "Write";
-"Read speed" = "Read";
+"Read color" = "Läsfärg";
+"Write color" = "Skrivfärg";
+"Disk usage" = "Diskanvändning";
+"Total read" = "Totalt läst";
+"Total written" = "Totalt skrivet";
+"Write speed" = "Skriv";
+"Read speed" = "Läs";
 
 // Sensors
 "Temperature unit" = "Temperaturenhet";
@@ -332,18 +329,18 @@
 "Fan" = "Fläkt";
 "HID sensors" = "HID-sensorer";
 "Synchronize fan's control" = "Synkronisera fläktkontroll";
-"Current" = "Current";
-"Energy" = "Energy";
-"Show unknown sensors" = "Show unknown sensors";
-"Install fan helper" = "Install fan helper";
-"Uninstall fan helper" = "Uninstall fan helper";
-"Fan value" = "Fan value";
-"Turn off fan" = "Turn off fan";
-"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?";
-"Sensor threshold" = "Sensor threshold";
-"Left fan" = "Left";
-"Right fan" = "Right";
-"Fastest fan" = "Fastest";
+"Current" = "Ström";
+"Energy" = "Energi";
+"Show unknown sensors" = "Visa okända sensorer";
+"Install fan helper" = "Installera fläkthjälpare";
+"Uninstall fan helper" = "Avinstallera fläkthjälpare";
+"Fan value" = "Fläktvärde";
+"Turn off fan" = "Stäng av fläkt";
+"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Du håller på att stänga av fläkten. Detta är en inte rekommenderad åtgärd som kan skada din Mac, är du säker på att du vill göra detta?";
+"Sensor threshold" = "Sensortröskel";
+"Left fan" = "Vänster";
+"Right fan" = "Höger";
+"Fastest fan" = "Snabbaste";
 
 // Network
 "Uploading" = "Skickar";
@@ -356,7 +353,7 @@
 "Click to copy public IP address" = "Klicka för att kopiera publik IP-adress";
 "Click to copy local IP address" = "Klicka för att kopiera lokal IP-adress";
 "Click to copy wifi name" = "Klicka för att kopiera wifi-namn";
-"Click to copy mac address" = "Klicka för att kopiera Click to copy MAC-adress";
+"Click to copy mac address" = "Klicka för att kopiera MAC-adress";
 "No connection" = "Ingen anslutning";
 "Network interface" = "Nätverkskort";
 "Total download" = "Totalt mottaget";
@@ -369,24 +366,24 @@
 "Standard" = "Standard";
 "Security" = "Säkerhet";
 "Channel" = "Kanal";
-"Common scale" = "Common scale";
-"Autodetection" = "Autodetection";
-"Widget activation threshold" = "Widget activation threshold";
-"Internet connection" = "Internet connection";
-"Active state color" = "Active state color";
-"Nonactive state color" = "Nonactive state color";
-"Connectivity host (ICMP)" = "Connectivity host (ICMP)";
-"Leave empty to disable the check" = "Leave empty to disable the check";
-"Connectivity history" = "Connectivity history";
-"Auto-refresh public IP address" = "Auto-refresh public IP address";
-"Every hour" = "Every hour";
-"Every 12 hours" = "Every 12 hours";
-"Every 24 hours" = "Every 24 hours";
-"Network activity" = "Network activity";
-"Last reset" = "Last reset %0 ago";
-"Latency" = "Latency";
-"Upload speed" = "Upload";
-"Download speed" = "Download";
+"Common scale" = "Gemensam skala";
+"Autodetection" = "Autodetektering";
+"Widget activation threshold" = "Widgetaktiveringströskel";
+"Internet connection" = "Internetanslutning";
+"Active state color" = "Aktivt tillståndsfärg";
+"Nonactive state color" = "Inaktivt tillståndsfärg";
+"Connectivity host (ICMP)" = "Anslutningsvärd (ICMP)";
+"Leave empty to disable the check" = "Lämna tomt för att inaktivera kontrollen";
+"Connectivity history" = "Anslutningshistorik";
+"Auto-refresh public IP address" = "Uppdatera publik IP-adress automatiskt";
+"Every hour" = "Varje timme";
+"Every 12 hours" = "Var 12:e timme";
+"Every 24 hours" = "Var 24:e timme";
+"Network activity" = "Nätverksaktivitet";
+"Last reset" = "Senaste återställning %0 sedan";
+"Latency" = "Fördröjning";
+"Upload speed" = "Uppladdning";
+"Download speed" = "Nedladdning";
 
 // Battery
 "Level" = "Nivå";
@@ -420,27 +417,27 @@
 "Hide additional information when full" = "Göm detaljer när fulladdat";
 "Last charge" = "Senaste laddning";
 "Capacity" = "Kapacitet";
-"current / maximum / designed" = "current / nuvarande / ursprunglig";
-"Low power mode" = "Low power mode";
-"Percentage inside the icon" = "Percentage inside the icon";
-"Colorize battery" = "Colorize battery";
-"Charging current" = "Charging current";
-"Charging Voltage" = "Charging voltage";
+"current / maximum / designed" = "nuvarande / maximal / ursprunglig";
+"Low power mode" = "Lågeffektläge";
+"Percentage inside the icon" = "Procent inuti ikonen";
+"Colorize battery" = "Färglägg batteri";
+"Charging current" = "Laddningsström";
+"Charging Voltage" = "Laddningsspänning";
 
 // Bluetooth
 "Battery to show" = "Batteri att visa";
 "No Bluetooth devices are available" = "Inga bluetoothenheter tillgängliga";
 
 // Clock
-"Time zone" = "Time zone";
-"Local" = "Local";
-"Calendar" = "Calendar";
-"Local time" = "Local time";
+"Time zone" = "Tidszon";
+"Local" = "Lokal";
+"Calendar" = "Kalender";
+"Local time" = "Lokal tid";
 
 // Colors
 "Based on utilization" = "Baserat på användning";
 "Based on pressure" = "Baserat på tryck";
-"Based on cluster" = "Based on cluster";
+"Based on cluster" = "Baserat på kluster";
 "System accent" = "Systemets accent";
 "Monochrome accent" = "Svartvit accent";
 "Clear" = "Transparent";
@@ -467,5 +464,5 @@
 "Cyan" = "Cyan";
 "Magenta" = "Magenta";
 "Pink" = "Rosa";
-"Teal" = "Teal";
+"Teal" = "Turkos";
 "Indigo" = "Indigo";
