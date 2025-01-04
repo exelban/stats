@@ -652,6 +652,7 @@ public func getIOProperties(_ entry: io_registry_entry_t) -> NSDictionary? {
 
 internal func getIOName(_ entry: io_registry_entry_t) -> String? {
     let pointer = UnsafeMutablePointer<io_name_t>.allocate(capacity: 1)
+    defer { pointer.deallocate() }
     
     let result = IORegistryEntryGetName(entry, pointer)
     if result != kIOReturnSuccess {
