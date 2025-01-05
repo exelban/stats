@@ -314,6 +314,7 @@ public class FrequencyReader: Reader<[Double]> {
         self.channels = self.getChannels()
         var dict: Unmanaged<CFMutableDictionary>?
         self.subscription = IOReportCreateSubscription(nil, self.channels, &dict, 0, nil)
+        dict?.release()
     }
     
     public override func read() {
