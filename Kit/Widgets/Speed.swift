@@ -278,12 +278,12 @@ public class SpeedWidget: WidgetWrapper {
         let x = arrowSize + (lineWidth / 2)
         let y = (height - size)/2
         
-        var start: CGPoint = CGPoint()
-        var end: CGPoint = CGPoint()
-        if symbol == "D" {
+        var start: CGPoint = CGPoint(x: offset.x + x, y: y)
+        var end: CGPoint = CGPoint(x: offset.x + x, y: size + y)
+        if symbol == "D" || symbol == "R" {
             start = CGPoint(x: offset.x + x, y: size + y)
             end = CGPoint(x: offset.x + x, y: y)
-        } else if symbol == "U" {
+        } else if symbol == "U" || symbol == "W" {
             start = CGPoint(x: offset.x + x, y: y)
             end = CGPoint(x: offset.x + x, y: size + y)
         }
