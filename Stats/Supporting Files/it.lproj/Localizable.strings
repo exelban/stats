@@ -147,14 +147,14 @@
 "Pause the Stats" = "Metti in pausa Stats";
 "Resume the Stats" = "Riprendi Stats";
 "Combined modules" = "Moduli combinati";
-"Combined details" = "Combined details";
+"Combined details" = "Dettagli combinati";
 "Spacing" = "Spazio";
 "Share anonymous telemetry" = "Condividi telemetria anonima";
 
 // Dashboard
 "Serial number" = "Numero di serie";
-"Model identifier" = "Model identifier";
-"Production year" = "Production year";
+"Model identifier" = "Modello";
+"Production year" = "Anno di produzione";
 "Uptime" = "Tempo di attività";
 "Number of cores" = "%0 core";
 "Number of threads" = "%0 thread";
