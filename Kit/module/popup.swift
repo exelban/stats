@@ -52,6 +52,8 @@ public class PopupWindow: NSWindow, NSWindowDelegate {
             visibilityCallback(state)
         }
         
+        self.title = title
+        self.titleVisibility = .hidden
         self.contentViewController = self.viewController
         self.titlebarAppearsTransparent = true
         self.animationBehavior = .default
