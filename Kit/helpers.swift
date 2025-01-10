@@ -663,16 +663,21 @@ internal func getIOName(_ entry: io_registry_entry_t) -> String? {
     return String(cString: UnsafeRawPointer(pointer).assumingMemoryBound(to: CChar.self))
 }
 
-internal func convertCFDataToArr(_ data: CFData) -> [Int32] {
+internal func convertCFDataToArr(_ data: CFData, _ isM4: Bool = false) -> [Int32] {
     let length = CFDataGetLength(data)
     var bytes = [UInt8](repeating: 0, count: length)
     CFDataGetBytes(data, CFRange(location: 0, length: length), &bytes)
+    
+    var multiplier: UInt32 = 1000 * 1000
+    if isM4 {
+        multiplier = 1000
+    }
     
     var arr: [Int32] = []
     var chunks = stride(from: 0, to: bytes.count, by: 8).map { Array(bytes[$0..<min($0 + 8, bytes.count)])}
     for chunk in chunks {
         let v = UInt32(chunk[0]) | UInt32(chunk[1]) << 8 | UInt32(chunk[2]) << 16 | UInt32(chunk[3]) << 24
-        arr.append(Int32(v / 1000 / 1000))
+        arr.append(Int32(v / multiplier))
     }
     bytes.removeAll()
     chunks.removeAll()

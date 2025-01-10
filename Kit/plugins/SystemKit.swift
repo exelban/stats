@@ -184,52 +184,7 @@ public class SystemKit {
         self.device.info.cpu = self.getCPUInfo()
         self.device.info.ram = self.getRamInfo()
         self.device.info.gpu = self.getGPUInfo()
-        
-        if let name = self.device.info.cpu?.name?.lowercased() {
-            if name.contains("intel") {
-                self.device.platform = .intel
-            } else if name.contains("m1") {
-                if name.contains("pro") {
-                    self.device.platform = .m1Pro
-                } else if name.contains("max") {
-                    self.device.platform = .m1Max
-                } else if name.contains("ultra") {
-                    self.device.platform = .m1Ultra
-                } else {
-                    self.device.platform = .m1
-                }
-            } else if name.contains("m2") {
-                if name.contains("pro") {
-                    self.device.platform = .m2Pro
-                } else if name.contains("max") {
-                    self.device.platform = .m2Max
-                } else if name.contains("ultra") {
-                    self.device.platform = .m2Ultra
-                } else {
-                    self.device.platform = .m2
-                }
-            } else if name.contains("m3") {
-                if name.contains("pro") {
-                    self.device.platform = .m3Pro
-                } else if name.contains("max") {
-                    self.device.platform = .m3Max
-                } else if name.contains("ultra") {
-                    self.device.platform = .m3Ultra
-                } else {
-                    self.device.platform = .m3
-                }
-            } else if name.contains("m4") {
-                if name.contains("pro") {
-                    self.device.platform = .m4Pro
-                } else if name.contains("max") {
-                    self.device.platform = .m4Max
-                } else if name.contains("ultra") {
-                    self.device.platform = .m4Ultra
-                } else {
-                    self.device.platform = .m4
-                }
-            }
-        }
+        self.device.platform = self.getPlatform()
     }
     
     public func getModelID() -> String? {
@@ -322,7 +277,7 @@ public class SystemKit {
             cpu.pCores = cores.1
             cpu.cores = cores.2
         }
-        if let freq = getFrequencies() {
+        if let freq = getFrequencies(cpuName: cpu.name ?? "") {
             cpu.eCoreFrequencies = freq.0
             cpu.pCoreFrequencies = freq.1
         }
@@ -422,10 +377,6 @@ public class SystemKit {
                             gpu.vram = vram
                         }
                         
-                        if let freq = getFrequencies() {
-                            gpu.frequencies = freq.2
-                        }
-                        
                         list.append(gpu)
                     }
                 }
@@ -438,34 +389,31 @@ public class SystemKit {
         return list
     }
     
-    private func getFrequencies() -> ([Int32], [Int32], [Int32])? {
+    private func getFrequencies(cpuName: String) -> ([Int32], [Int32])? {
         var iterator = io_iterator_t()
         let result = IOServiceGetMatchingServices(kIOMasterPortDefault, IOServiceMatching("AppleARMIODevice"), &iterator)
         if result != kIOReturnSuccess {
             print("Error find AppleARMIODevice: " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
             return nil
         }
+        let isM4: Bool = cpuName.lowercased().contains("m4")
         
         var eFreq: [Int32] = []
         var pFreq: [Int32] = []
-        var gpuFreq: [Int32] = []
         
         while case let child = IOIteratorNext(iterator), child != 0 {
             defer { IOObjectRelease(child) }
             guard let name = getIOName(child), name == "pmgr", let props = getIOProperties(child) else { continue }
             
             if let data = props.value(forKey: "voltage-states1-sram") {
-                eFreq = convertCFDataToArr(data as! CFData)
+                eFreq = convertCFDataToArr(data as! CFData, isM4)
             }
             if let data = props.value(forKey: "voltage-states5-sram") {
-                pFreq = convertCFDataToArr(data as! CFData)
-            }
-            if let data = props.value(forKey: "voltage-states9-sram") {
-                gpuFreq = convertCFDataToArr(data as! CFData)
+                pFreq = convertCFDataToArr(data as! CFData, isM4)
             }
         }
         
-        return (eFreq, pFreq, gpuFreq)
+        return (eFreq, pFreq)
     }
     
     public func getRamInfo() -> ram_s? {
@@ -582,6 +530,55 @@ public class SystemKit {
             return nil
         }
         
+        return nil
+    }
+    
+    private func getPlatform() -> Platform? {
+        if let name = self.device.info.cpu?.name?.lowercased() {
+            if name.contains("intel") {
+                return .intel
+            } else if name.contains("m1") {
+                if name.contains("pro") {
+                    return .m1Pro
+                } else if name.contains("max") {
+                    return .m1Max
+                } else if name.contains("ultra") {
+                    return .m1Ultra
+                } else {
+                    return .m1
+                }
+            } else if name.contains("m2") {
+                if name.contains("pro") {
+                    return .m2Pro
+                } else if name.contains("max") {
+                    return .m2Max
+                } else if name.contains("ultra") {
+                    return .m2Ultra
+                } else {
+                    return .m2
+                }
+            } else if name.contains("m3") {
+                if name.contains("pro") {
+                    return .m3Pro
+                } else if name.contains("max") {
+                    return .m3Max
+                } else if name.contains("ultra") {
+                    return .m3Ultra
+                } else {
+                    return .m3
+                }
+            } else if name.contains("m4") {
+                if name.contains("pro") {
+                    return .m4Pro
+                } else if name.contains("max") {
+                    return .m4Max
+                } else if name.contains("ultra") {
+                    return .m4Ultra
+                } else {
+                    return .m4
+                }
+            }
+        }
         return nil
     }
 }
