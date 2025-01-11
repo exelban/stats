@@ -323,6 +323,7 @@
 "Total written" = "Kirjoitettu yhteensä";
 "Write speed" = "Kirjoitusnopeus";
 "Read speed" = "Lukunopeus";
+"Drives" = "Drives";
 
 // Sensors
 "Temperature unit" = "Lämpötilan yksikkö";
