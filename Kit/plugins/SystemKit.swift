@@ -694,7 +694,7 @@ let deviceDict: [String: model_s] = [
     "Mac16,5": model_s(name: "MacBook Pro 16\" (M4 Max)", year: 2024, type: .macbookPro),
     "Mac16,6": model_s(name: "MacBook Pro 14\" (M4 Max, 16 CPU/40 GPU)", year: 2024, type: .macbookPro),
     "Mac16,7": model_s(name: "MacBook Pro 16\" (M4 Pro, 14 CPU/20 GPU)", year: 2024, type: .macbookPro),
-    "Mac16,8": model_s(name: "MacBook Pro 16\" (M4 Pro)", year: 2024, type: .macbookPro)
+    "Mac16,8": model_s(name: "MacBook Pro 14\" (M4 Pro)", year: 2024, type: .macbookPro)
 ]
 
 let osDict: [String: String] = [
