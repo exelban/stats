@@ -83,10 +83,10 @@
 "10 minutes" = "10 minuti";
 "Import" = "Importa";
 "Export" = "Esporta";
-"Separator" = "Separator";
-"Read" = "Read";
-"Write" = "Write";
-"Frequency" = "Frequency";
+"Separator" = "Separatore";
+"Read" = "Lettura";
+"Write" = "Scrittura";
+"Frequency" = "Frequenza";
 
 // Setup
 "Stats Setup" = "Configurazione Stats";
@@ -96,7 +96,7 @@
 "Next page" = "Pagina successiva";
 "Finish" = "Completa";
 "Finish setup" = "Completa configurazione";
-"Welcome to Stats" = "Benvenuto in Stats";
+"Welcome to Stats" = "Stats ti dà il benvenuto";
 "welcome_message" = "Grazie per aver scelto Stats, un sistema di monitoraggio del sistema dalla menu bar gratuito e open source per macOS.";
 "Start the application automatically when starting your Mac" = "Avvia l'applicazione automaticamente all'accensione del Mac";
 "Do not start the application automatically when starting your Mac" = "Non avviare l'applicazione automaticamente all'accensione del Mac";
@@ -127,7 +127,7 @@
 "Open application settings" = "Apri le impostazioni dell'applicazione";
 "Open dashboard" = "Apri la dashboard";
 "No notifications available in this module" = "Notifiche non disponibili per questo modulo";
-"Open Calendar" = "Open Calendar";
+"Open Calendar" = "Apri Calendario";
 
 // Application settings
 "Update application" = "Aggiorna applicazione";
@@ -147,14 +147,14 @@
 "Pause the Stats" = "Metti in pausa Stats";
 "Resume the Stats" = "Riprendi Stats";
 "Combined modules" = "Moduli combinati";
-"Combined details" = "Combined details";
+"Combined details" = "Dettagli combinati";
 "Spacing" = "Spazio";
 "Share anonymous telemetry" = "Condividi telemetria anonima";
 
 // Dashboard
 "Serial number" = "Numero di serie";
-"Model identifier" = "Model identifier";
-"Production year" = "Production year";
+"Model identifier" = "Modello";
+"Production year" = "Anno di produzione";
 "Uptime" = "Tempo di attività";
 "Number of cores" = "%0 core";
 "Number of threads" = "%0 thread";
@@ -202,8 +202,8 @@
 "Reverse order" = "Inverti ordine";
 "Chart history" = "Durata grafico";
 "Default color" = "Default";
-"Transparent when no activity" = "Transparent when no activity";
-"Constant color" = "Constant";
+"Transparent when no activity" = "Trasparente in assenza di attività";
+"Constant color" = "Costante";
 
 // Module Kit
 "Open module settings" = "Apri impostazioni modulo";
@@ -263,7 +263,7 @@
 "User load" = "Carico utente";
 "Efficiency cores load" = "Carico efficiency core";
 "Performance cores load" = "Carico performance core";
-"All cores" = "All cores";
+"All cores" = "Tutti i core";
 
 // GPU
 "GPU to show" = "GPU da mostrare";
@@ -321,8 +321,8 @@
 "Disk usage" = "Utilizzo Disco";
 "Total read" = "Totale letto";
 "Total written" = "Totale scritto";
-"Write speed" = "Write";
-"Read speed" = "Read";
+"Write speed" = "Lettura";
+"Read speed" = "Scrittura";
 
 // Sensors
 "Temperature unit" = "Unità di temperatura";
@@ -434,8 +434,8 @@
 // Clock
 "Time zone" = "Fuso Orario";
 "Local" = "Locale";
-"Calendar" = "Calendar";
-"Local time" = "Local time";
+"Calendar" = "Calendario";
+"Local time" = "Ora locale";
 
 // Colors
 "Based on utilization" = "Basato sull'utilizzo";
