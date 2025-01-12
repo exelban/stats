@@ -323,6 +323,7 @@
 "Total written" = "Skupaj zapisano";
 "Write speed" = "Write";
 "Read speed" = "Read";
+"Drives" = "Drives";
 
 // Sensors
 "Temperature unit" = "Enota za temperaturo";

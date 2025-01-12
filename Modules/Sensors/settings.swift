@@ -120,7 +120,7 @@ internal class Settings: NSStackView, Settings_v {
         
         var buttonList: [KeyValue_t] = []
         types.forEach { (typ: SensorType) in
-            let section = PreferencesSection(label: typ.rawValue)
+            let section = PreferencesSection(label: localizedString(typ.rawValue))
             section.identifier = NSUserInterfaceItemIdentifier("sensor")
             
             let filtered = sensors.filter{ $0.type == typ }

@@ -323,6 +323,7 @@
 "Total written" = "总写入量";
 "Write speed" = "写入速度";
 "Read speed" = "读取速度";
+"Drives" = "驱动器";
 
 // Sensors
 "Temperature unit" = "温度单位";

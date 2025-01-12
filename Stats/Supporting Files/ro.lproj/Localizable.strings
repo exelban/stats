@@ -323,6 +323,7 @@
 "Total written" = "Total written";
 "Write speed" = "Write";
 "Read speed" = "Read";
+"Drives" = "Drives";
 
 // Sensors
 "Temperature unit" = "Temperatura unității";

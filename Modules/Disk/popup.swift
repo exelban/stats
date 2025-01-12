@@ -39,7 +39,7 @@ internal class Popup: PopupWrapper {
     private var processes: ProcessesView? = nil
     private var processesView: NSView? = nil
     
-    private let settingsSection = PreferencesSection(label: "Drives")
+    private let settingsSection = PreferencesSection(label: localizedString("Drives"))
     private var lastList: [String] = []
     
     public init(_ module: ModuleType) {

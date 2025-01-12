@@ -323,6 +323,7 @@
 "Total written" = "Tổng dữ liệu ghi";
 "Write speed" = "Tốc độ ghi";
 "Read speed" = "Tốc độ đọc";
+"Drives" = "Drives";
 
 // Sensors
 "Temperature unit" = "Đơn vị nhiệt độ";
