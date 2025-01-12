@@ -275,7 +275,7 @@ internal class Popup: PopupWrapper {
             
             for i in 0..<list.count {
                 let process = list[i]
-                self.processes?.set(i, process, [Units(bytes: Int64(process.usage)).getReadableMemory()])
+                self.processes?.set(i, process, [Units(bytes: Int64(process.usage)).getReadableMemory(style: .memory)])
             }
             
             self.processesInitialized = true
