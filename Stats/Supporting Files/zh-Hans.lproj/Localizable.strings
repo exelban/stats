@@ -83,10 +83,10 @@
 "10 minutes" = "10 分钟";
 "Import" = "导入";
 "Export" = "导出";
-"Separator" = "Separator";
-"Read" = "Read";
-"Write" = "Write";
-"Frequency" = "Frequency";
+"Separator" = "分隔符";
+"Read" = "读取";
+"Write" = "写入";
+"Frequency" = "频率";
 
 // Setup
 "Stats Setup" = "Stats 设置";
@@ -127,7 +127,7 @@
 "Open application settings" = "打开应用设置";
 "Open dashboard" = "打开仪表盘";
 "No notifications available in this module" = "该模块不支持通知";
-"Open Calendar" = "Open Calendar";
+"Open Calendar" = "打开日历";
 
 // Application settings
 "Update application" = "更新应用";
@@ -263,7 +263,7 @@
 "User load" = "用户占用";
 "Efficiency cores load" = "能效核心占用";
 "Performance cores load" = "性能核心占用";
-"All cores" = "All cores";
+"All cores" = "所有核心";
 
 // GPU
 "GPU to show" = "显示的 GPU";

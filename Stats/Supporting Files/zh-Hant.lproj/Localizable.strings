@@ -83,10 +83,10 @@
 "10 minutes" = "10 分鐘";
 "Import" = "匯入";
 "Export" = "匯出";
-"Separator" = "Separator";
-"Read" = "Read";
-"Write" = "Write";
-"Frequency" = "Frequency";
+"Separator" = "分隔符號";
+"Read" = "讀取";
+"Write" = "寫入";
+"Frequency" = "頻率";
 
 // Setup
 "Stats Setup" = "Stats 設定";
@@ -127,7 +127,7 @@
 "Open application settings" = "打開應用程式設定";
 "Open dashboard" = "打開儀表板";
 "No notifications available in this module" = "沒有可用於此模組的通知";
-"Open Calendar" = "Open Calendar";
+"Open Calendar" = "打開「行事曆」";
 
 // Application settings
 "Update application" = "更新應用程式";
@@ -263,7 +263,7 @@
 "User load" = "使用者占用";
 "Efficiency cores load" = "節能核心占用";
 "Performance cores load" = "效能核心占用";
-"All cores" = "All cores";
+"All cores" = "總核心占用";
 
 // GPU
 "GPU to show" = "顯示顯示卡";
