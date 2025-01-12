@@ -164,11 +164,22 @@ public class ProcessReader: Reader<[TopProcess]> {
                     processTree[processId] = treeEntry
                 }
                 treeEntry!.name = getProcessName(thisProcess)
-                treeEntry!.ownMemoryUsage = thisProcess.ptinfo.pti_resident_size
-                              
+                
+                var usage = rusage_info_current()
+                let result = withUnsafeMutablePointer(to: &usage) {
+                    $0.withMemoryRebound(to: (rusage_info_t?.self), capacity: 1) {
+                        proc_pid_rusage(Int32(processId), RUSAGE_INFO_CURRENT, $0)
+                    }
+                }
+                guard result != -1 else {
+                    error("proc_pid_rusage(): \(String(cString: strerror(errno), encoding: String.Encoding.ascii) ?? "unknown error")", log: self.log)
+                    continue
+                }
+                
+                treeEntry!.ownMemoryUsage = usage.ri_phys_footprint
+
                 if combineProcesses {
                     let originatingPid = findOriginatingPid(thisProcess)
-                    
                     if originatingPid != processId && originatingPid > 1 {
                         var originatingEntry = processTree[originatingPid]
                         if originatingEntry == nil {
@@ -190,7 +201,7 @@ public class ProcessReader: Reader<[TopProcess]> {
         let topProcessList = groupTree.prefix(numberOfProcesses).map({
             TopProcess(pid: $0.pid, name: $0.name, usage: Double($0.totalMemoryUsage))
         })
-
+        
         self.callback(topProcessList)
     }
     
