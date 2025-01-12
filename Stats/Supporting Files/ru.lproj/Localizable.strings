@@ -323,7 +323,7 @@
 "Total written" = "Всего записано";
 "Write speed" = "Запись";
 "Read speed" = "Чтение";
-"Drives" = "Drives";
+"Drives" = "Диски";
 
 // Sensors
 "Temperature unit" = "Единица измерения температуры";
