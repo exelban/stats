@@ -345,6 +345,7 @@
 "Left fan" = "Lewy";
 "Right fan" = "Prawy";
 "Fastest fan" = "Najszybszy";
+"Sensor to show" = "Aktywny czujnik";
 
 // Network
 "Uploading" = "Wysyłanie";
@@ -427,6 +428,7 @@
 "Colorize battery" = "Kolorowanie baterii";
 "Charging current" = "Prąd ładowania";
 "Charging Voltage" = "Napięcie ładowania";
+"Charger state inside the battery" = "Stan ładowania wewnątrz akumulatora";
 
 // Bluetooth
 "Battery to show" = "Bateria do wyświetlenia";

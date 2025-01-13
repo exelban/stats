@@ -345,6 +345,7 @@
 "Left fan" = "左側風扇";
 "Right fan" = "右側風扇";
 "Fastest fan" = "最快速度";
+"Sensor to show" = "Sensor to show";
 
 // Network
 "Uploading" = "上傳";
@@ -427,6 +428,7 @@
 "Colorize battery" = "啟用彩色電池圖示";
 "Charging current" = "充電電流";
 "Charging Voltage" = "充電電壓";
+"Charger state inside the battery" = "Charger state inside the battery";
 
 // Bluetooth
 "Battery to show" = "顯示藍牙裝置的電池電量";

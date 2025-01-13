@@ -345,6 +345,7 @@
 "Left fan" = "Лівий";
 "Right fan" = "Правий";
 "Fastest fan" = "Найшвидший";
+"Sensor to show" = "Активний датчик";
 
 // Network
 "Uploading" = "Висилання";
@@ -427,6 +428,7 @@
 "Colorize battery" = "Розфарбувати акумулятор";
 "Charging current" = "Струм зарядки";
 "Charging Voltage" = "Напруга зарядки";
+"Charger state inside the battery" = "Стан зарядки всередині акумулятора";
 
 // Bluetooth
 "Battery to show" = "Активна батарея";

@@ -345,6 +345,7 @@
 "Left fan" = "Sol fan";
 "Right fan" = "Sağ fan";
 "Fastest fan" = "En hızlı fan";
+"Sensor to show" = "Sensor to show";
 
 // Network
 "Uploading" = "Yükleme";
@@ -427,6 +428,7 @@
 "Colorize battery" = "Pili renklendir";
 "Charging current" = "Charging current";
 "Charging Voltage" = "Charging voltage";
+"Charger state inside the battery" = "Charger state inside the battery";
 
 // Bluetooth
 "Battery to show" = "Gösterilecek pil";

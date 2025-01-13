@@ -345,6 +345,7 @@
 "Left fan" = "المروحة اليسرى";
 "Right fan" = "المروحة اليمنى";
 "Fastest fan" = "أسرع مروحة";
+"Sensor to show" = "Sensor to show";
 
 // Network
 "Uploading" = "تحميل";
@@ -427,6 +428,7 @@
 "Colorize battery" = "تلوين البطارية";
 "Charging current" = "Charging current";
 "Charging Voltage" = "Charging voltage";
+"Charger state inside the battery" = "Charger state inside the battery";
 
 // Bluetooth
 "Battery to show" = "البطارية المراد عرضها";

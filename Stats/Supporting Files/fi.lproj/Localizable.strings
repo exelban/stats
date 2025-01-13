@@ -345,6 +345,7 @@
 "Left fan" = "Vasen tuuletin";
 "Right fan" = "Oikea tuuletin";
 "Fastest fan" = "Nopein tuuletin";
+"Sensor to show" = "Sensor to show";
 
 // Network
 "Uploading" = "Lähetys";
@@ -427,6 +428,7 @@
 "Colorize battery" = "Värjää akku";
 "Charging current" = "Latausvirta";
 "Charging Voltage" = "Latausjännite";
+"Charger state inside the battery" = "Charger state inside the battery";
 
 // Bluetooth
 "Battery to show" = "Näytettävä akku";

@@ -345,6 +345,7 @@
 "Left fan" = "Left";
 "Right fan" = "Right";
 "Fastest fan" = "Fastest";
+"Sensor to show" = "Sensor to show";
 
 // Network
 "Uploading" = "업로드";
@@ -427,6 +428,7 @@
 "Colorize battery" = "배터리 색상 표시";
 "Charging current" = "Charging current";
 "Charging Voltage" = "Charging voltage";
+"Charger state inside the battery" = "Charger state inside the battery";
 
 // Bluetooth
 "Battery to show" = "표시할 배터리";

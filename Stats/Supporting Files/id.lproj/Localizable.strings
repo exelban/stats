@@ -345,6 +345,7 @@
 "Left fan" = "Left";
 "Right fan" = "Right";
 "Fastest fan" = "Fastest";
+"Sensor to show" = "Sensor to show";
 
 // Network
 "Uploading" = "Unggah";
@@ -427,6 +428,7 @@
 "Colorize battery" = "Colorize battery";
 "Charging current" = "Charging current";
 "Charging Voltage" = "Charging voltage";
+"Charger state inside the battery" = "Charger state inside the battery";
 
 // Bluetooth
 "Battery to show" = "Baterai untuk ditampilkan";

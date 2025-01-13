@@ -345,6 +345,7 @@
 "Left fan" = "Ventola sinistra";
 "Right fan" = "Ventola destra";
 "Fastest fan" = "Ventola più veloce";
+"Sensor to show" = "Sensor to show";
 
 // Network
 "Uploading" = "Upload";
@@ -427,6 +428,7 @@
 "Colorize battery" = "Colora la batteria";
 "Charging current" = "Corrente di carica";
 "Charging Voltage" = "Tensione di carica";
+"Charger state inside the battery" = "Charger state inside the battery";
 
 // Bluetooth
 "Battery to show" = "Batteria da mostrare";

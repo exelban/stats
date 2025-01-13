@@ -345,6 +345,7 @@
 "Left fan" = "Levi ventilator";
 "Right fan" = "Desni ventilator";
 "Fastest fan" = "Najhitrejši ventilator";
+"Sensor to show" = "Sensor to show";
 
 // Network
 "Uploading" = "Oddajanje";
@@ -427,6 +428,7 @@
 "Colorize battery" = "Obarvanje baterije";
 "Charging current" = "Charging current";
 "Charging Voltage" = "Charging voltage";
+"Charger state inside the battery" = "Charger state inside the battery";
 
 // Bluetooth
 "Battery to show" = "Prikaz baterije";

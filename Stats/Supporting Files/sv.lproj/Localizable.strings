@@ -345,6 +345,7 @@
 "Left fan" = "Vänster";
 "Right fan" = "Höger";
 "Fastest fan" = "Snabbaste";
+"Sensor to show" = "Sensor to show";
 
 // Network
 "Uploading" = "Uppladdning";
@@ -427,6 +428,7 @@
 "Colorize battery" = "Färglägg batteri";
 "Charging current" = "Laddningsström";
 "Charging Voltage" = "Laddningsspänning";
+"Charger state inside the battery" = "Charger state inside the battery";
 
 // Bluetooth
 "Battery to show" = "Batteri att visa";

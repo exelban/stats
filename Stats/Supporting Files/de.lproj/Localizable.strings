@@ -345,6 +345,7 @@
 "Left fan" = "Links";
 "Right fan" = "Rechts";
 "Fastest fan" = "Schnellster";
+"Sensor to show" = "Sensor to show";
 
 // Network
 "Uploading" = "Upload";
@@ -427,6 +428,7 @@
 "Colorize battery" = "Akku einfärben";
 "Charging current" = "Ladestrom";
 "Charging Voltage" = "Ladespannung";
+"Charger state inside the battery" = "Charger state inside the battery";
 
 // Bluetooth
 "Battery to show" = "Angezeigter Akku";
