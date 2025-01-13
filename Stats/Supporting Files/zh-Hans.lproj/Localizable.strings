@@ -345,7 +345,7 @@
 "Left fan" = "左侧风扇";
 "Right fan" = "右侧风扇";
 "Fastest fan" = "最高转速风扇";
-"Sensor to show" = "Sensor to show";
+"Sensor to show" = "要显示的传感器";
 
 // Network
 "Uploading" = "上传";
@@ -428,7 +428,7 @@
 "Colorize battery" = "启用彩色电池图标";
 "Charging current" = "充电电流";
 "Charging Voltage" = "充电电压";
-"Charger state inside the battery" = "Charger state inside the battery";
+"Charger state inside the battery" = "在电池图标内显示充电器状态";
 
 // Bluetooth
 "Battery to show" = "显示的设备";
