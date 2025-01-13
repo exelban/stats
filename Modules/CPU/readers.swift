@@ -70,7 +70,7 @@ internal class LoadReader: Reader<CPU_Load> {
             }
             self.CPUUsageLock.unlock()
             
-            let showHyperthratedCores = Store.shared.bool(key: "CPU_hyperhreading", defaultValue: false) 
+            let showHyperthratedCores = Store.shared.bool(key: "CPU_hyperhreading", defaultValue: false)
             if showHyperthratedCores || !self.hasHyperthreadingCores {
                 self.response.usagePerCore = self.usagePerCore
             } else {
@@ -355,13 +355,15 @@ public class FrequencyReader: Reader<[Double]> {
     
     private func calculateFrequencies(dict: CFDictionary, freqs: [Int32]) -> Double {
         let items = self.getResidencies(dict: dict)
-        let offset = items.firstIndex { $0.0 != "IDLE" && $0.0 != "DOWN" && $0.0 != "OFF" }!
+        guard let offset = items.firstIndex(where: { $0.0 != "IDLE" && $0.0 != "DOWN" && $0.0 != "OFF" }) else { return 0 }
         let usage = items.dropFirst(offset).reduce(0.0) { $0 + Double($1.f) }
         let count = freqs.count
         var avgFreq: Double = 0
         
         for i in 0..<count {
-            let percent = usage == 0 ? 0 : Double(items[i + offset].f) / usage
+            let key = i + offset
+            if !items.indices.contains(key) { continue }
+            let percent = usage == 0 ? 0 : Double(items[key].f) / usage
             avgFreq += percent * Double(freqs[i])
         }
         
