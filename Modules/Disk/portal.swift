@@ -87,9 +87,9 @@ public class Portal: PortalWrapper {
         view.distribution = .fillEqually
         view.spacing = Constants.Popup.spacing*2
         
-        self.nameField = portalRow(view, title: "\(localizedString("Name")):")
-        self.usedField = portalRow(view, title: "\(localizedString("Used")):")
-        self.freeField = portalRow(view, title: "\(localizedString("Free")):")
+        self.nameField = portalRow(view, title: "\(localizedString("Name")):").1
+        self.usedField = portalRow(view, title: "\(localizedString("Used")):").1
+        self.freeField = portalRow(view, title: "\(localizedString("Free")):").1
         
         let chart = NetworkChartView(frame: NSRect.zero, num: 120, minMax: false, outColor: self.writeColor, inColor: self.readColor)
         chart.heightAnchor.constraint(equalToConstant: 26).isActive = true

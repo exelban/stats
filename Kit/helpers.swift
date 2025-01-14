@@ -356,7 +356,7 @@ public func popupRow(_ view: NSView, title: String, value: String) -> (LabelFiel
     return (labelView, valueView, rowView)
 }
 
-public func portalRow(_ v: NSStackView, title: String, value: String = "", isSelectable: Bool = false) -> ValueField {
+public func portalRow(_ v: NSStackView, title: String, value: String = "", isSelectable: Bool = false) -> (LabelField, ValueField, NSStackView) {
     let view: NSStackView = NSStackView()
     view.orientation = .horizontal
     view.distribution = .fillProportionally
@@ -377,7 +377,7 @@ public func portalRow(_ v: NSStackView, title: String, value: String = "", isSel
     
     view.widthAnchor.constraint(equalTo: v.widthAnchor).isActive = true
     
-    return valueView
+    return (labelView, valueView, view)
 }
 
 public func popupWithColorRow(_ view: NSView, color: NSColor, title: String, value: String) -> (NSView, LabelField, ValueField) {

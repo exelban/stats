@@ -70,9 +70,9 @@ public class Portal: PortalWrapper {
         view.distribution = .fillEqually
         view.spacing = Constants.Popup.spacing*2
         
-        self.usageField = portalRow(view, title: "\(localizedString("Usage")):")
-        self.renderField = portalRow(view, title: "\(localizedString("Render")):")
-        self.tilerField = portalRow(view, title: "\(localizedString("Tiler")):")
+        self.usageField = portalRow(view, title: "\(localizedString("Usage")):").1
+        self.renderField = portalRow(view, title: "\(localizedString("Render")):").1
+        self.tilerField = portalRow(view, title: "\(localizedString("Tiler")):").1
         
         return view
     }

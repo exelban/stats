@@ -89,10 +89,10 @@ public class Portal: PortalWrapper {
         view.distribution = .fillEqually
         view.spacing = Constants.Popup.spacing*2
         
-        self.usedField = portalRow(view, title: "\(localizedString("Used")):")
-        self.freeField = portalRow(view, title: "\(localizedString("Free")):")
-        self.swapField = portalRow(view, title: "\(localizedString("Swap")):")
-        self.pressureLevelField = portalRow(view, title: "\(localizedString("Memory pressure")):")
+        self.usedField = portalRow(view, title: "\(localizedString("Used")):").1
+        self.freeField = portalRow(view, title: "\(localizedString("Free")):").1
+        self.swapField = portalRow(view, title: "\(localizedString("Swap")):").1
+        self.pressureLevelField = portalRow(view, title: "\(localizedString("Memory pressure")):").1
         
         return view
     }
