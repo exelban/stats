@@ -35,6 +35,10 @@ let kIOCFPlugInInterfaceID = CFUUIDGetConstantUUIDWithBytes(nil,
 internal class CapacityReader: Reader<Disks> {
     internal var list: Disks = Disks()
     
+    private var SMART: Bool {
+        Store.shared.bool(key: "\(ModuleType.disk.rawValue)_SMART", defaultValue: true)
+    }
+    
     public override func read() {
         let keys: [URLResourceKey] = [.volumeNameKey]
         let removableState = Store.shared.bool(key: "Disk_removable", defaultValue: false)
@@ -129,6 +133,8 @@ internal class CapacityReader: Reader<Disks> {
     }
     
     private func getSMARTDetails(for BSDName: String) -> smart_t? {
+        guard self.SMART else { return nil }
+        
         var disk = IOServiceGetMatchingService(kIOMasterPortDefault, IOBSDNameMatching(kIOMasterPortDefault, 0, BSDName.cString(using: .utf8)))
         guard disk != kIOReturnSuccess else { return nil }
         defer { IOObjectRelease(disk) }

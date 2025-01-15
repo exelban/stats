@@ -19,6 +19,7 @@ internal class Settings: NSStackView, Settings_v {
     private var updateIntervalValue: Int = 10
     private var numberOfProcesses: Int = 5
     private var baseValue: String = "byte"
+    private var SMARTState: Bool = true
     
     public var selectedDiskHandler: (String) -> Void = {_ in }
     public var callback: (() -> Void) = {}
@@ -38,6 +39,7 @@ internal class Settings: NSStackView, Settings_v {
         self.updateIntervalValue = Store.shared.int(key: "\(self.title)_updateInterval", defaultValue: self.updateIntervalValue)
         self.numberOfProcesses = Store.shared.int(key: "\(self.title)_processes", defaultValue: self.numberOfProcesses)
         self.baseValue = Store.shared.string(key: "\(self.title)_base", defaultValue: self.baseValue)
+        self.SMARTState = Store.shared.bool(key: "\(self.title)_SMART", defaultValue: self.SMARTState)
         
         super.init(frame: NSRect.zero)
         
@@ -90,6 +92,13 @@ internal class Settings: NSStackView, Settings_v {
                 ))
             ]))
         }
+        
+        self.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("SMART data"), component: switchView(
+                action: #selector(self.toggleSMART),
+                state: self.SMARTState
+            ))
+        ]))
     }
     
     internal func setList(_ list: Disks) {
@@ -142,5 +151,10 @@ internal class Settings: NSStackView, Settings_v {
         guard let key = sender.representedObject as? String else { return }
         self.baseValue = key
         Store.shared.set(key: "\(self.title)_base", value: self.baseValue)
+    }
+    @objc private func toggleSMART(_ sender: NSControl) {
+        self.SMARTState = controlState(sender)
+        Store.shared.set(key: "\(self.title)_SMART", value: self.SMARTState)
+        self.callback()
     }
 }
