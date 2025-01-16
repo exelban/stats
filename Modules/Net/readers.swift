@@ -419,7 +419,7 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
         }
         
         DispatchQueue.global(qos: .userInitiated).async {
-            let response = syncShell("curl -s -4 https://api.serhiy.io/v1/stats/ip")
+            let response = syncShell("curl -s -4 https://api.mac-stats.com/ip")
             if !response.isEmpty, let data = response.data(using: .utf8),
                let addr = try? JSONDecoder().decode(Addr_s.self, from: data) {
                 if let ip = addr.ipv4, self.isIPv4(ip) {
@@ -428,7 +428,7 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
             }
         }
         DispatchQueue.global(qos: .userInitiated).async {
-            let response = syncShell("curl -s -6 https://api.serhiy.io/v1/stats/ip")
+            let response = syncShell("curl -s -6 https://api.mac-stats.com/ip")
             if !response.isEmpty, let data = response.data(using: .utf8),
                let addr = try? JSONDecoder().decode(Addr_s.self, from: data) {
                 if let ip = addr.ipv6, !self.isIPv4(ip) {

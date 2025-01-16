@@ -32,7 +32,7 @@ public class Telemetry {
         }
     }
     
-    private var url: URL = URL(string: "https://api.serhiy.io/v1/stats/telemetry")!
+    private var url: URL = URL(string: "https://api.mac-stats.com/telemetry")!
     
     private var _isEnabled: Bool = true
     
