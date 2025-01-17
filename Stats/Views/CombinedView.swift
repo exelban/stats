@@ -69,6 +69,7 @@ internal class CombinedView: NSObject, NSGestureRecognizerDelegate {
         self.menuBarItem?.autosaveName = "CombinedModules"
         self.menuBarItem?.button?.addSubview(self.view)
         self.menuBarItem?.button?.image = NSImage()
+        self.menuBarItem?.button?.toolTip = localizedString("Combined modules")
         
         if !self.combinedModulesPopup {
             self.activeModules.forEach { (m: Module) in

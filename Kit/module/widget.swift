@@ -343,6 +343,7 @@ public class SWidget {
                 }
                 self.menuBarItem?.button?.addSubview(self.item)
                 self.menuBarItem?.button?.image = NSImage()
+                self.menuBarItem?.button?.toolTip = "\(localizedString(self.module)): \(self.type.name())"
                 
                 if let item = self.menuBarItem, !item.isVisible {
                     self.menuBarItem?.isVisible = true
@@ -487,6 +488,7 @@ public class MenuBar {
                 
                 self.menuBarItem?.button?.addSubview(self.view)
                 self.menuBarItem?.button?.image = NSImage()
+                self.menuBarItem?.button?.toolTip = "\(localizedString(self.moduleName))"
                 self.menuBarItem?.button?.target = self
                 self.menuBarItem?.button?.action = #selector(self.togglePopup)
                 self.menuBarItem?.button?.sendAction(on: [.leftMouseDown, .rightMouseDown])
