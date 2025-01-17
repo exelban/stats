@@ -138,6 +138,7 @@ public class Portal: PortalWrapper {
                 self.userField?.stringValue = "\(Int(value.userLoad.rounded(toPlaces: 2) * 100))%"
                 self.idleField?.stringValue = "\(Int(value.idleLoad.rounded(toPlaces: 2) * 100))%"
                 
+                self.circle?.toolTip = "\(localizedString("CPU usage")): \(Int(value.totalUsage.rounded(toPlaces: 2) * 100))%"
                 self.circle?.setValue(value.totalUsage)
                 self.circle?.setSegments([
                     circle_segment(value: value.systemLoad, color: self.systemColor),

@@ -15,12 +15,14 @@ import Kit
 internal class Popup: PopupWrapper {
     private var title: String
     
+    private var uploadContainerView: NSView? = nil
     private var uploadView: NSView? = nil
     private var uploadValue: Int64 = 0
     private var uploadValueField: NSTextField? = nil
     private var uploadUnitField: NSTextField? = nil
     private var uploadStateView: ColorView? = nil
     
+    private var downloadContainerView: NSView? = nil
     private var downloadView: NSView? = nil
     private var downloadValue: Int64 = 0
     private var downloadValueField: NSTextField? = nil
@@ -166,6 +168,7 @@ internal class Popup: PopupWrapper {
         
         let leftPart: NSView = NSView(frame: NSRect(x: 0, y: 0, width: view.frame.width / 2, height: view.frame.height))
         let downloadFields = self.topValueView(leftPart, title: localizedString("Downloading"), color: self.downloadColor)
+        self.downloadContainerView = leftPart
         self.downloadView = downloadFields.0
         self.downloadValueField = downloadFields.1
         self.downloadUnitField = downloadFields.2
@@ -173,6 +176,7 @@ internal class Popup: PopupWrapper {
         
         let rightPart: NSView = NSView(frame: NSRect(x: view.frame.width / 2, y: 0, width: view.frame.width / 2, height: view.frame.height))
         let uploadFields = self.topValueView(rightPart, title: localizedString("Uploading"), color: self.uploadColor)
+        self.uploadContainerView = rightPart
         self.uploadView = uploadFields.0
         self.uploadValueField = uploadFields.1
         self.uploadUnitField = uploadFields.2
@@ -688,6 +692,9 @@ internal class Popup: PopupWrapper {
         let topHeight: CGFloat = 30
         let titleHeight: CGFloat = 15
         
+        view.setAccessibilityElement(true)
+        view.toolTip = title
+        
         let valueWidth = "0".widthOfString(usingFont: .systemFont(ofSize: 26, weight: .light)) + 5
         let unitWidth = "KB/s".widthOfString(usingFont: .systemFont(ofSize: 13, weight: .light)) + 5
         let topPartWidth = valueWidth + unitWidth
@@ -738,6 +745,9 @@ internal class Popup: PopupWrapper {
     private func setUploadDownloadFields() {
         let upload = Units(bytes: self.uploadValue).getReadableTuple(base: self.base)
         let download = Units(bytes: self.downloadValue).getReadableTuple(base: self.base)
+        
+        self.uploadContainerView?.toolTip = "\(localizedString("Uploading")): \(upload.0)\(upload.1)"
+        self.downloadContainerView?.toolTip = "\(localizedString("Downloading")): \(download.0)\(download.1)"
         
         var valueWidth = "\(upload.0)".widthOfString(usingFont: .systemFont(ofSize: 26, weight: .light)) + 5
         var unitWidth = upload.1.widthOfString(usingFont: .systemFont(ofSize: 13, weight: .light)) + 5

@@ -486,6 +486,8 @@ public class PieChartView: NSView {
         self.segments = segments
         
         super.init(frame: frame)
+        
+        self.setAccessibilityElement(true)
     }
     
     required init?(coder: NSCoder) {
@@ -574,6 +576,15 @@ public class HalfCircleGraphView: NSView {
     private var text: String? = nil
     
     public var color: NSColor = NSColor.systemBlue
+    
+    public override init(frame: NSRect) {
+        super.init(frame: frame)
+        self.setAccessibilityElement(true)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     public override func draw(_ rect: CGRect) {
         let arcWidth: CGFloat = 7.0

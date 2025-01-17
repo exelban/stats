@@ -111,6 +111,7 @@ public class Portal: PortalWrapper {
                     self.pressureLevelField?.toolTip = localizedString(level.value)
                 }
                 
+                self.circle?.toolTip = "\(localizedString("Memory usage")): \(Int(value.usage*100))%"
                 self.circle?.setValue(value.usage)
                 self.circle?.setSegments([
                     circle_segment(value: value.app/value.total, color: self.appColor),

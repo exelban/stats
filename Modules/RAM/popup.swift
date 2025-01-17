@@ -250,6 +250,7 @@ internal class Popup: PopupWrapper {
                 self.usedField?.stringValue = Units(bytes: Int64(value.used)).getReadableMemory(style: .memory)
                 self.freeField?.stringValue = Units(bytes: Int64(value.free)).getReadableMemory(style: .memory)
                 
+                self.circle?.toolTip = "\(localizedString("Memory usage")): \(Int(value.usage*100))%"
                 self.circle?.setValue(value.usage)
                 self.circle?.setSegments([
                     circle_segment(value: value.app/value.total, color: self.appColor),
@@ -258,6 +259,7 @@ internal class Popup: PopupWrapper {
                 ])
                 self.circle?.setNonActiveSegmentColor(self.freeColor)
                 self.level?.setValue(value.pressure)
+                self.level?.toolTip = "\(localizedString("Memory pressure")): \(value.pressure.value.rawValue)"
                 
                 self.initialized = true
             }
@@ -430,6 +432,15 @@ public class PressureView: NSView {
     ]
     
     private var value: Pressure = Pressure(level: 1, value: .normal)
+    
+    public override init(frame: NSRect) {
+        super.init(frame: frame)
+        self.setAccessibilityElement(true)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     public override func draw(_ rect: CGRect) {
         let arcWidth: CGFloat = 7.0

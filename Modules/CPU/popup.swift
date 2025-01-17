@@ -131,6 +131,8 @@ internal class Popup: PopupWrapper {
         
         self.spacing = 0
         self.orientation = .vertical
+//        self.setAccessibilityElement(true)
+//        self.toolTip = self.title
         
         self.systemColorState = SColor.fromString(Store.shared.string(key: "\(self.title)_systemColor", defaultValue: self.systemColorState.key))
         self.userColorState = SColor.fromString(Store.shared.string(key: "\(self.title)_userColor", defaultValue: self.userColorState.key))
@@ -375,6 +377,7 @@ internal class Popup: PopupWrapper {
                 self.userField?.stringValue = "\(Int(value.userLoad.rounded(toPlaces: 2) * 100))%"
                 self.idleField?.stringValue = "\(Int(value.idleLoad.rounded(toPlaces: 2) * 100))%"
                 
+                self.circle?.toolTip = "\(localizedString("CPU usage")): \(Int(value.totalUsage.rounded(toPlaces: 2) * 100))%"
                 self.circle?.setValue(value.totalUsage)
                 self.circle?.setSegments([
                     circle_segment(value: value.systemLoad, color: self.systemColor),
@@ -416,6 +419,7 @@ internal class Popup: PopupWrapper {
                     view.isHidden = false
                 }
                 
+                self.temperatureCircle?.toolTip = "\(localizedString("CPU temperature")): \(temperature(value))"
                 self.temperatureCircle?.setValue(value)
                 self.temperatureCircle?.setText(temperature(value))
                 self.initializedTemperature = true
@@ -447,6 +451,7 @@ internal class Popup: PopupWrapper {
                     if let circle = self.frequencyCircle {
                         circle.setValue((100*freq)/self.maxFreq)
                         circle.setText("\((freq/1000).rounded(toPlaces: 2))")
+                        circle.toolTip = "\(localizedString("CPU frequency")): \(Int(freq)) MHz - \(((100*freq)/self.maxFreq).rounded(toPlaces: 2))%"
                     }
                 } else if value.count == 2 {
                     let e = value.first ?? 0
@@ -463,6 +468,7 @@ internal class Popup: PopupWrapper {
                         if let circle = self.frequencyCircle {
                             circle.setValue((100*freq)/self.maxFreq)
                             circle.setText("\((freq/1000).rounded(toPlaces: 2))")
+                            circle.toolTip = "\(localizedString("CPU frequency")): \(Int(freq)) MHz - \(((100*freq)/self.maxFreq).rounded(toPlaces: 2))%"
                         }
                     }
                 }

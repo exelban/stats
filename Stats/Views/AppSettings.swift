@@ -513,7 +513,8 @@ private class ModulePreview: NSStackView {
         self.layer?.backgroundColor = NSColor.white.cgColor
         
         self.identifier = NSUserInterfaceItemIdentifier(rawValue: id)
-        self.toolTip = localizedString("Move module", id)
+        self.setAccessibilityElement(true)
+        self.toolTip = id
         
         self.orientation = .vertical
         self.distribution = .fill

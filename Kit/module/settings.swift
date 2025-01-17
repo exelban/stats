@@ -496,7 +496,8 @@ private class WidgetPreview: NSStackView {
         self.layer?.backgroundColor = NSColor.white.cgColor
         
         self.identifier = NSUserInterfaceItemIdentifier(rawValue: type.rawValue)
-        self.toolTip = localizedString("Move widget", type.name())
+        self.setAccessibilityElement(true)
+        self.toolTip = type.name()
         
         self.orientation = .vertical
         self.distribution = .fill

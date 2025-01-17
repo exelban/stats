@@ -90,6 +90,7 @@ public class Portal: PortalWrapper {
                     self.tilerField?.stringValue = "\(Int(value*100))%"
                 }
                 
+                self.circle?.toolTip = "\(localizedString("GPU usage")): \(Int(value.utilization!*100))%"
                 self.circle?.setValue(value.utilization!)
                 self.circle?.setText("\(Int(value.utilization!*100))%")
                 self.initialized = true

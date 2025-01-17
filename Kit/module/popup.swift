@@ -418,7 +418,7 @@ internal class HeaderView: NSStackView {
     fileprivate func setCloseButton(_ state: Bool) {
         if state && !self.isCloseAction {
             self.activityButton?.image = Bundle(for: type(of: self)).image(forResource: "close")!
-            self.activityButton?.toolTip = localizedString("Close popup")
+            self.activityButton?.toolTip = localizedString("Close")
             self.activityButton?.action = #selector(self.closePopup)
             self.isCloseAction = true
         } else if !state && self.isCloseAction {

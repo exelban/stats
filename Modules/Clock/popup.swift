@@ -165,6 +165,8 @@ private class CalendarView: NSStackView {
         self.day = Calendar.current.component(.day, from: Date())
         
         super.init(frame: NSRect(x: 0, y: 0, width: width, height: width - 32))
+        self.setAccessibilityElement(true)
+        self.toolTip = localizedString("Calendar")
         
         self.spacing = 0
         self.orientation = .vertical
@@ -442,6 +444,8 @@ private class ClockView: NSStackView {
         )
         self.wantsLayer = true
         self.layer?.cornerRadius = 2
+        self.setAccessibilityElement(true)
+        self.toolTip = "\(clock.name): \(clock.formatted())"
         
         self.clockView.widthAnchor.constraint(equalToConstant: 34).isActive = true
         
