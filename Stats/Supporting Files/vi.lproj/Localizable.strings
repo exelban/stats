@@ -118,6 +118,7 @@
 "Successfully updated" = "Cập nhật thành công";
 "Stats was updated to v" = "Stats đã được cập nhật lên v%0";
 "Reset settings text" = "Tất cả cài đặt ứng dụng sẽ được đặt lại và ứng dụng sẽ khởi động lại. Bạn có chắc chắn muốn thực hiện không?";
+"Support text" = "Cảm ơn bạn đã sử dụng Stats!\n\n Việc duy trì và cải thiện dự án nguồn mở này cần có thời gian và nguồn lực. Sự hỗ trợ của bạn giúp chúng tôi tiếp tục cung cấp một ứng dụng miễn phí và đáng tin cậy cho mọi người.\n\nNếu bạn thấy Stats hữu ích, vui lòng cân nhắc đóng góp. Mỗi đóng góp nhỏ đều có ích!";
 
 // Settings
 "Open Activity Monitor" = "Mở Activity Monitor";

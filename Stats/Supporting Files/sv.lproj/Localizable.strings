@@ -118,6 +118,7 @@
 "Successfully updated" = "Uppdateringen lyckades";
 "Stats was updated to v" = "Stats uppdaterades till v%0";
 "Reset settings text" = "Alla programinställningar kommer att återställas och programmet startas om. Är du säker på att du vill göra detta?";
+"Support text" = "Tack för att du använder Stats!\n\n Att underhålla och förbättra detta projekt med öppen källkod tar tid och resurser. Ditt stöd hjälper oss att fortsätta tillhandahålla en gratis och tillförlitlig applikation för alla.\n\nOm du tycker att Stats är användbart kan du överväga att ge ett bidrag. Varje liten bit hjälper!";
 
 // Settings
 "Open Activity Monitor" = "Öppna Aktivitetsövervakaren";

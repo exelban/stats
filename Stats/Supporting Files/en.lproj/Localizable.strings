@@ -118,6 +118,7 @@
 "Successfully updated" = "Successfully updated";
 "Stats was updated to v" = "Stats was updated to v%0";
 "Reset settings text" = "All application settings will be reset and the application will be restarted. Are you sure you want to do this?";
+"Support text" = "Thank you for using Stats!\n\n Maintaining and improving this open-source project takes time and resources. Your support helps us continue to provide a free and reliable application for everyone.\n\nIf you find Stats helpful, please consider making a contribution. Every little bit helps!";
 
 // Settings
 "Open Activity Monitor" = "Open Activity Monitor";

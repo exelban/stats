@@ -118,6 +118,7 @@
 "Successfully updated" = "Succesvol geüpdatet";
 "Stats was updated to v" = "Stats is bijgewerkt naar v%0";
 "Reset settings text" = "Alle applicatie instellingen worden gereset en de applicatie wordt opnieuw opgestart. Weet u zeker dat u dit wilt doen?";
+"Support text" = "Bedankt voor het gebruik van Stats! Het onderhouden en verbeteren van dit open-source project kost tijd en middelen. Als je Stats nuttig vindt, overweeg dan alsjeblieft om een bijdrage te leveren. Alle beetjes helpen!";
 
 // Settings
 "Open Activity Monitor" = "Open Activiteitenweergave";

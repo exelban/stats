@@ -95,6 +95,14 @@ extension AppDelegate {
             NSApp.setActivationPolicy(dockIconStatus)
         }
         
+        self.checkIfShouldShowSupportWindow()
+        self.supportActivity.interval = 60 * 60 * 24 * 30
+        self.supportActivity.repeats = true
+        self.supportActivity.schedule { (completion: @escaping NSBackgroundActivityScheduler.CompletionHandler) in
+            self.checkIfShouldShowSupportWindow()
+            completion(NSBackgroundActivityScheduler.Result.finished)
+        }
+        
         if let updateInterval = AppUpdateInterval(rawValue: Store.shared.string(key: "update-interval", defaultValue: AppUpdateInterval.silent.rawValue)) {
             self.updateActivity.invalidate()
             self.updateActivity.repeats = true
@@ -190,6 +198,22 @@ extension AppDelegate {
                 }
             }
         }
+    }
+    
+    func checkIfShouldShowSupportWindow() {
+        let now = Int(Date().timeIntervalSince1970)
+        if !Store.shared.exist(key: "support_ts") {
+            Store.shared.set(key: "support_ts", value: now)
+            self.supportWindow.show()
+            return
+        }
+        let lastShow = Store.shared.int(key: "support_ts", defaultValue: now)
+        let diff = (now - lastShow) / (60 * 60 * 24)
+        if diff <= 31 {
+            debug("The support window was shown \(diff) days ago, stopping...")
+            return
+        }
+        self.supportWindow.show()
     }
     
     private func showUpdateNotification(version: version_s) {

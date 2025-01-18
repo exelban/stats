@@ -118,6 +118,7 @@
 "Successfully updated" = "Erfolgreich aktualisiert";
 "Stats was updated to v" = "Stats wurde auf v%0 aktualisiert";
 "Reset settings text" = "Alle Einstellungen von Stats werden zurückgesetzt und Stats wird neu gestartet. Möchten Sie dies wirklich?";
+"Support text" = "Vielen Dank, dass Sie Stats nutzen!\n\n Die Pflege und Verbesserung dieses Open-Source-Projekts erfordert Zeit und Ressourcen. Ihre Unterstützung hilft uns, weiterhin eine kostenlose und zuverlässige Anwendung für jedermann bereitzustellen.\n\n Wenn Sie Stats hilfreich finden, ziehen Sie bitte eine Spende in Betracht. Jedes kleine bisschen hilft!";
 
 // Settings
 "Open Activity Monitor" = "Aktivitätsanzeige öffnen";

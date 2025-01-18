@@ -118,6 +118,7 @@
 "Successfully updated" = "Úspěšně aktualizováno";
 "Stats was updated to v" = "Stats byly aktualizovány na v%0";
 "Reset settings text" = "Všechna nastavení aplikace budou resetována a aplikace bude restartována. Jste si jisti, že to chcete udělat?";
+"Support text" = "Děkujeme, že používáte Stats!\n\n Udržování a zlepšování tohoto open-source projektu vyžaduje čas a zdroje. Vaše podpora nám pomáhá nadále poskytovat bezplatnou a spolehlivou aplikaci pro každého.\n\nPokud vám Stats pomáhají, zvažte prosím možnost přispět. Každý malý kousek pomůže!";
 
 // Settings
 "Open Activity Monitor" = "Otevřít Monitor aktivity";

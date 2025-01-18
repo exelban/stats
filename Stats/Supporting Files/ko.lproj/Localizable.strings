@@ -118,6 +118,7 @@
 "Successfully updated" = "성공적으로 업데이트되었습니다";
 "Stats was updated to v" = "Stats가 v%0 버전으로 업데이트되었습니다";
 "Reset settings text" = "모든 애플리케이션 설정이 재설정되고 다시 시작됩니다. 계속 진행하시겠습니까?";
+"Support text" = "Stats를 사용해 주셔서 감사합니다!\n\n 이 오픈 소스 프로젝트를 유지 관리하고 개선하는 데는 시간과 리소스가 필요합니다. 여러분의 지원은 모든 사람에게 신뢰할 수 있는 무료 애플리케이션을 계속 제공하는 데 도움이 됩니다.\n\nStats가 도움이 된다면 기여를 고려해 주세요. 여러분의 작은 도움이 큰 힘이 됩니다!";
 
 // Settings
 "Open Activity Monitor" = "활동 모니터 열기";
@@ -126,8 +127,8 @@
 "Close application" = "애플리케이션 닫기";
 "Open application settings" = "애플리케이션 설정 열기";
 "Open dashboard" = "대시보드 열기";
-"No notifications available in this module" = "No notifications available in this module";
-"Open Calendar" = "Open Calendar";
+"No notifications available in this module" = "이 모듈에서 사용할 수 있는 알림이 없습니다";
+"Open Calendar" = "캘린더 열기";
 
 // Application settings
 "Update application" = "애플리케이션 업데이트";

@@ -118,6 +118,7 @@
 "Successfully updated" = "正常にアップデートされました";
 "Stats was updated to v" = "Stats v%0 にアップデートしました";
 "Reset settings text" = "アプリの設定をすべてリセットし、アプリを再起動します。本当に続けますか？";
+"Support text" = "Statsをご利用いただきありがとうございます。Statsが役に立つと感じたら、寄付をご検討ください。少しでも役に立ちます！";
 
 // Settings
 "Open Activity Monitor" = "アクティビティモニタを開く";

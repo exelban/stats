@@ -118,6 +118,7 @@
 "Successfully updated" = "Actualització completada amb èxit";
 "Stats was updated to v" = "Stats s'ha actualitzat a v%0";
 "Reset settings text" = "Tota la configuració actual serà esborrada i l'aplicació es reiniciarà. Estàs segur/segura de voler fer això?";
+"Support text" = "Gràcies per utilitzar Stats!\n\n Mantenir i millorar aquest projecte de codi obert requereix temps i recursos. El vostre suport ens ajuda a continuar oferint una aplicació gratuïta i fiable per a tothom.\n\nSi trobeu útils les estadístiques, penseu a fer una contribució. Cada petita mica ajuda!";
 
 // Settings
 "Open Activity Monitor" = "Obre el Visor d'Activitat";

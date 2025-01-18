@@ -118,6 +118,7 @@
 "Successfully updated" = "Aktualiziranje je uspjelo";
 "Stats was updated to v" = "Stats je aktualiziran na v%0";
 "Reset settings text" = "Sve postavke programa će se resetirati i program će se ponovo pokrenuti. Stvarno to želiš učiniti?";
+"Support text" = "Hvala vam što koristite Stats!\n\n Održavanje i poboljšanje ovog projekta otvorenog koda zahtijeva vrijeme i resurse. Vaša nam podrška pomaže da nastavimo pružati besplatnu i pouzdanu aplikaciju za sve.\n\nAko smatrate da je statistika korisna, razmislite o davanju doprinosa. Svako malo pomaže!";
 
 // Settings
 "Open Activity Monitor" = "Otvori program „Praćenje aktivnosti”";

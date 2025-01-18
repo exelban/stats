@@ -118,6 +118,7 @@
 "Successfully updated" = "更新成功";
 "Stats was updated to v" = "Stats 已更新到 v%0";
 "Reset settings text" = "應用程式的所有設定將會重置，並會重新打開此應用程式。您確定要這樣做嗎？";
+"Support text" = "感謝您使用 Stats！維護和改進這個開放源專案需要時間和資源。如果您覺得 Stats 有幫助，請考慮捐款。一分一毫都有幫助！";
 
 // Settings
 "Open Activity Monitor" = "打開活動監視器";

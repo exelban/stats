@@ -118,6 +118,7 @@
 "Successfully updated" = "Mise à jour effectuée avec succès";
 "Stats was updated to v" = "Stats a été mis à jour en version %0";
 "Reset settings text" = "Tous les paramètres de l'application seront réinitialisés et l'application redémarrera. Êtes-vous sûr de vouloir continuer ?";
+"Support text" = "Merci d'utiliser Stats!\NLa maintenance et l'amélioration de ce projet open-source nécessitent du temps et des ressources. Votre soutien nous aide à continuer à fournir une application gratuite et fiable pour tout le monde.\NSi vous trouvez Stats utile, veuillez envisager de faire une contribution. Chaque petit geste compte!";
 
 // Settings
 "Open Activity Monitor" = "Ouvrir le Moniteur d'activité";

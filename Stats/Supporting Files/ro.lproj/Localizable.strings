@@ -118,6 +118,7 @@
 "Successfully updated" = "Actualizat cu succes";
 "Stats was updated to v" = "Stats a fost actualizat la v%0";
 "Reset settings text" = "All application settings will be reset and the application will be restarted. Are you sure you want to do this?";
+"Support text" = "Vă mulțumim pentru utilizarea Stats!\n\n Menținerea și îmbunătățirea acestui proiect open-source necesită timp și resurse. Sprijinul dumneavoastră ne ajută să continuăm să oferim o aplicație gratuită și fiabilă pentru toată lumea.\n\nDacă Stats vă este util, vă rugăm să luați în considerare posibilitatea de a face o contribuție. Fiecare bănuț ajută!";
 
 // Settings
 "Open Activity Monitor" = "Deschide Monitorul de Activitate";
