@@ -13,8 +13,6 @@ import Cocoa
 import Kit
 
 internal class Popup: PopupWrapper {
-    private var title: String
-    
     private var grid: NSGridView? = nil
     
     private let dashboardHeight: CGFloat = 90
@@ -69,9 +67,7 @@ internal class Popup: PopupWrapper {
     private var chartColor: NSColor { self.chartColorState.additional as? NSColor ?? NSColor.systemBlue }
     
     public init(_ module: ModuleType) {
-        self.title = module.rawValue
-        
-        super.init(frame: NSRect(
+        super.init(module, frame: NSRect(
             x: 0,
             y: 0,
             width: Constants.Popup.width,
@@ -288,6 +284,13 @@ internal class Popup: PopupWrapper {
     
     public override func settings() -> NSView? {
         let view = SettingsContainerView()
+        
+        view.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Keyboard shortcut"), component: KeyboardShartcutView(
+                callback: self.setKeyboardShortcut,
+                value: self.keyboardShortcut
+            ))
+        ]))
         
         view.addArrangedSubview(PreferencesSection([
             PreferencesRow(localizedString("App color"), component: selectView(

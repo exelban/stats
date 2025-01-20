@@ -78,9 +78,13 @@ open class Module {
     }
     public var combinedPosition: Int {
         get { Store.shared.int(key: "\(self.name)_position", defaultValue: 0) }
-        set {  Store.shared.set(key: "\(self.name)_position", value: newValue) }
+        set { Store.shared.set(key: "\(self.name)_position", value: newValue) }
     }
     public var userDefaults: UserDefaults? = UserDefaults(suiteName: "\(Bundle.main.object(forInfoDictionaryKey: "TeamId") as! String).eu.exelban.Stats.widgets")
+    
+    public var popupKeyboardShortcut: [UInt16] {
+        return self.popupView?.keyboardShortcut ?? []
+    }
     
     private var moduleType: ModuleType
     

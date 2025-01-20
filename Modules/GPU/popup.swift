@@ -14,7 +14,7 @@ import Kit
 
 internal class Popup: PopupWrapper {
     public init() {
-        super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: 0))
+        super.init(ModuleType.GPU, frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: 0))
         
         self.orientation = .vertical
         self.spacing = Constants.Popup.margins
@@ -50,6 +50,21 @@ internal class Popup: PopupWrapper {
             self.setFrameSize(NSSize(width: self.frame.width, height: h))
             self.sizeCallback?(self.frame.size)
         }
+    }
+    
+    // MARK: - Settings
+    
+    public override func settings() -> NSView? {
+        let view = SettingsContainerView()
+        
+        view.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Keyboard shortcut"), component: KeyboardShartcutView(
+                callback: self.setKeyboardShortcut,
+                value: self.keyboardShortcut
+            ))
+        ]))
+        
+        return view
     }
 }
 

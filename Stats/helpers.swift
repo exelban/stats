@@ -265,4 +265,25 @@ extension AppDelegate {
     @objc internal func openSettings() {
         NotificationCenter.default.post(name: .toggleSettings, object: nil, userInfo: ["module": "Dashboard"])
     }
+    
+    internal func handleKeyEvent(_ event: NSEvent) {
+        var keyCodes: [UInt16] = []
+        if event.modifierFlags.contains(.control) { keyCodes.append(59) }
+        if event.modifierFlags.contains(.shift) { keyCodes.append(60) }
+        if event.modifierFlags.contains(.command) { keyCodes.append(55) }
+        if event.modifierFlags.contains(.option) { keyCodes.append(58) }
+        keyCodes.append(event.keyCode)
+        
+        guard !keyCodes.isEmpty,
+              let module = modules.first(where: { $0.enabled && $0.popupKeyboardShortcut == keyCodes }),
+              let widget = module.menuBar.widgets.filter({ $0.isActive }).first,
+              let window = widget.item.window else { return }
+        
+        NotificationCenter.default.post(name: .togglePopup, object: nil, userInfo: [
+            "module": module.name,
+            "widget": widget.type,
+            "origin": window.frame.origin,
+            "center": window.frame.width/2
+        ])
+    }
 }

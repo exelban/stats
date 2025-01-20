@@ -10,6 +10,7 @@
 //
 
 import Cocoa
+import Carbon
 
 extension String: @retroactive LocalizedError {
     public var errorDescription: String? { return self }
@@ -312,9 +313,9 @@ public extension NSView {
         return s
     }
     
-    func buttonIconView(_ action: Selector, icon: NSImage) -> NSButton {
+    func buttonIconView(_ action: Selector, icon: NSImage, height: CGFloat = 22) -> NSButton {
         let button = NSButton()
-        button.heightAnchor.constraint(equalToConstant: 22).isActive = true
+        button.heightAnchor.constraint(equalToConstant: height).isActive = true
         button.bezelStyle = .regularSquare
         button.translatesAutoresizingMaskIntoConstraints = false
         button.imageScaling = .scaleNone
@@ -562,5 +563,152 @@ public extension TimeZone {
 extension CGFloat {
     func roundedUpToNearestTen() -> CGFloat {
         return ceil(self / 10) * 10
+    }
+}
+
+public class KeyboardShartcutView: NSStackView {
+    private let callback: (_ value: [UInt16]) -> Void
+    
+    private var startIcon: NSImage {
+        if #available(macOS 12.0, *), let icon = iconFromSymbol(name: "record.circle", scale: .large) {
+            return icon
+        }
+        return NSImage(named: NSImage.Name("record"))!
+    }
+    private var stopIcon: NSImage {
+        if #available(macOS 12.0, *), let icon = iconFromSymbol(name: "stop.circle.fill", scale: .large) {
+            return icon
+        }
+        return NSImage(named: NSImage.Name("stop"))!
+    }
+    
+    private var valueField: NSTextField? = nil
+    private var startButton: NSButton? = nil
+    private var stopButton: NSButton? = nil
+    
+    private var recording: Bool = false
+    private var keyCodes: [UInt16] = []
+    private var value: [UInt16] = []
+    private var interaction: Bool = false
+    
+    public init(callback: @escaping (_ value: [UInt16]) -> Void, value: [UInt16]) {
+        self.callback = callback
+        self.value = value
+        
+        super.init(frame: NSRect.zero)
+        self.orientation = .horizontal
+        
+        let stringValue = value.isEmpty ? localizedString("Disabled") : self.parseValue(value)
+        let valueField: NSTextField = LabelField(stringValue)
+        valueField.font = NSFont.systemFont(ofSize: 13, weight: .regular)
+        valueField.textColor = .textColor
+        valueField.alignment = .center
+        
+        let startButton = buttonIconView(#selector(self.startListening), icon: self.startIcon, height: 15)
+        let stopButton = buttonIconView(#selector(self.stopListening), icon: self.stopIcon, height: 15)
+        
+        self.addArrangedSubview(valueField)
+        self.addArrangedSubview(startButton)
+        
+        self.valueField = valueField
+        self.startButton = startButton
+        self.stopButton = stopButton
+        
+        NSEvent.addLocalMonitorForEvents(matching: [.keyDown, .flagsChanged]) { [weak self] event in
+            self?.handleKeyEvent(event)
+            return event
+        }
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc private func startListening() {
+        guard AXIsProcessTrustedWithOptions([kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: true] as CFDictionary) else { return }
+        if let btn = self.stopButton {
+            self.startButton?.removeFromSuperview()
+            self.addArrangedSubview(btn)
+        }
+        self.valueField?.stringValue = localizedString("Listening...")
+        self.keyCodes = []
+        self.recording = true
+    }
+    
+    @objc private func stopListening() {
+        if let btn = self.startButton {
+            self.stopButton?.removeFromSuperview()
+            self.addArrangedSubview(btn)
+        }
+        
+        if self.keyCodes.isEmpty && !self.interaction {
+            self.value = []
+            self.valueField?.stringValue = localizedString("Disabled")
+        }
+        
+        self.recording = false
+        self.interaction = false
+        self.callback(self.value)
+    }
+    
+    private func handleKeyEvent(_ event: NSEvent) {
+        guard self.recording else { return }
+        self.interaction = true
+        
+        if event.type == .flagsChanged {
+            self.keyCodes = []
+            if event.modifierFlags.contains(.control) { self.keyCodes.append(59) }
+            if event.modifierFlags.contains(.shift) { self.keyCodes.append(60) }
+            if event.modifierFlags.contains(.command) { self.keyCodes.append(55) }
+            if event.modifierFlags.contains(.option) { self.keyCodes.append(58) }
+        } else if event.type == .keyDown {
+            self.keyCodes.append(event.keyCode)
+            self.value = self.keyCodes
+        }
+        
+        let list = self.keyCodes.isEmpty ? self.value : self.keyCodes
+        self.valueField?.stringValue = self.parseValue(list)
+    }
+    
+    private func parseValue(_ list: [UInt16]) -> String {
+        return list.compactMap { self.keyName(virtualKeyCode: $0) }.joined(separator: " + ")
+    }
+    
+    private func keyName(virtualKeyCode: UInt16) -> String? {
+        if virtualKeyCode == 59 {
+            return "Control"
+        } else if virtualKeyCode == 60 {
+            return "Shift"
+        } else if virtualKeyCode == 55 {
+            return "Command"
+        } else if virtualKeyCode == 58 {
+            return "Option"
+        }
+        
+        let maxNameLength = 4
+        var nameBuffer = [UniChar](repeating: 0, count: maxNameLength)
+        var nameLength = 0
+        
+        let modifierKeys = UInt32(alphaLock >> 8) & 0xFF // Caps Lock
+        var deadKeys: UInt32 = 0
+        let keyboardType = UInt32(LMGetKbdType())
+        
+        let source = TISCopyCurrentKeyboardLayoutInputSource().takeRetainedValue()
+        guard let ptr = TISGetInputSourceProperty(source, kTISPropertyUnicodeKeyLayoutData) else {
+            NSLog("Could not get keyboard layout data")
+            return nil
+        }
+        let layoutData = Unmanaged<CFData>.fromOpaque(ptr).takeUnretainedValue() as Data
+        let osStatus = layoutData.withUnsafeBytes {
+            UCKeyTranslate($0.bindMemory(to: UCKeyboardLayout.self).baseAddress, virtualKeyCode, UInt16(kUCKeyActionDown),
+                           modifierKeys, keyboardType, UInt32(kUCKeyTranslateNoDeadKeysMask),
+                           &deadKeys, maxNameLength, &nameLength, &nameBuffer)
+        }
+        guard osStatus == noErr else {
+            NSLog("Code: 0x%04X  Status: %+i", virtualKeyCode, osStatus)
+            return nil
+        }
+        
+        return  String(utf16CodeUnits: nameBuffer, count: nameLength)
     }
 }

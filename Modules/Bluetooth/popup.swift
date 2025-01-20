@@ -16,7 +16,7 @@ internal class Popup: PopupWrapper {
     private let emptyView: EmptyView = EmptyView(height: 30, isHidden: false, msg: localizedString("No Bluetooth devices are available"))
     
     public init() {
-        super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: 30))
+        super.init(ModuleType.bluetooth, frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: 30))
         
         self.orientation = .vertical
         self.spacing = Constants.Popup.margins

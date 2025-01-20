@@ -13,8 +13,6 @@ import Cocoa
 import Kit
 
 internal class Popup: PopupWrapper {
-    private var title: String
-    
     private let orderTableView: OrderTableView = OrderTableView()
     private var list: [Clock_t] = []
     
@@ -22,9 +20,7 @@ internal class Popup: PopupWrapper {
     private var calendarState: Bool = true
     
     public init(_ module: ModuleType) {
-        self.title = module.rawValue
-        
-        super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: 0))
+        super.init(module, frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: 0))
         
         self.orientation = .vertical
         self.spacing = Constants.Popup.margins
@@ -86,6 +82,13 @@ internal class Popup: PopupWrapper {
     
     public override func settings() -> NSView? {
         let view = SettingsContainerView()
+        
+        view.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Keyboard shortcut"), component: KeyboardShartcutView(
+                callback: self.setKeyboardShortcut,
+                value: self.keyboardShortcut
+            ))
+        ]))
         
         view.addArrangedSubview(PreferencesSection([
             PreferencesRow(localizedString("Calendar"), component: switchView(

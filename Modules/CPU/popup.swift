@@ -13,8 +13,6 @@ import Cocoa
 import Kit
 
 internal class Popup: PopupWrapper {
-    private var title: String
-    
     private let dashboardHeight: CGFloat = 90
     private let chartHeight: CGFloat = 120 + Constants.Popup.separatorHeight
     private var detailsHeight: CGFloat {
@@ -125,14 +123,10 @@ internal class Popup: PopupWrapper {
     }
     
     public init(_ module: ModuleType) {
-        self.title = module.rawValue
-        
-        super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: 0))
+        super.init(module, frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: 0))
         
         self.spacing = 0
         self.orientation = .vertical
-//        self.setAccessibilityElement(true)
-//        self.toolTip = self.title
         
         self.systemColorState = SColor.fromString(Store.shared.string(key: "\(self.title)_systemColor", defaultValue: self.systemColorState.key))
         self.userColorState = SColor.fromString(Store.shared.string(key: "\(self.title)_userColor", defaultValue: self.userColorState.key))
@@ -545,6 +539,13 @@ internal class Popup: PopupWrapper {
     
     public override func settings() -> NSView? {
         let view = SettingsContainerView()
+        
+        view.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Keyboard shortcut"), component: KeyboardShartcutView(
+                callback: self.setKeyboardShortcut,
+                value: self.keyboardShortcut
+            ))
+        ]))
         
         view.addArrangedSubview(PreferencesSection([
             PreferencesRow(localizedString("System color"), component: selectView(

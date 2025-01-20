@@ -208,9 +208,12 @@ internal class CombinedView: NSObject, NSGestureRecognizerDelegate {
 }
 
 private class Popup: NSStackView, Popup_p {
+    fileprivate var keyboardShortcut: [UInt16] = []
     fileprivate var sizeCallback: ((NSSize) -> Void)? = nil
     
     init() {
+        self.keyboardShortcut = Store.shared.array(key: "CombinedModules_popup_keyboardShortcut", defaultValue: []) as? [UInt16] ?? []
+        
         super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: 0))
         
         self.orientation = .vertical
@@ -234,6 +237,10 @@ private class Popup: NSStackView, Popup_p {
     fileprivate func settings() -> NSView? { return nil }
     fileprivate func appear() {}
     fileprivate func disappear() {}
+    fileprivate func setKeyboardShortcut(_ binding: [UInt16]) {
+        self.keyboardShortcut = binding
+        Store.shared.set(key: "CombinedModules_popup_keyboardShortcut", value: binding)
+    }
     
     @objc private func reinit() {
         self.subviews.forEach({ $0.removeFromSuperview() })

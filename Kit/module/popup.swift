@@ -12,18 +12,40 @@
 import Cocoa
 
 public protocol Popup_p: NSView {
+    var keyboardShortcut: [UInt16] { get }
     var sizeCallback: ((NSSize) -> Void)? { get set }
+    
     func settings() -> NSView?
     
     func appear()
     func disappear()
+    func setKeyboardShortcut(_ binding: [UInt16])
 }
 
 open class PopupWrapper: NSStackView, Popup_p {
+    public var title: String
+    public var keyboardShortcut: [UInt16] = []
     open var sizeCallback: ((NSSize) -> Void)? = nil
+    
+    public init(_ typ: ModuleType, frame: NSRect) {
+        self.title = typ.rawValue
+        self.keyboardShortcut = Store.shared.array(key: "\(typ.rawValue)_popup_keyboardShortcut", defaultValue: []) as? [UInt16] ?? []
+        
+        super.init(frame: frame)
+    }
+    
+    required public init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     open func settings() -> NSView? { return nil }
     open func appear() {}
     open func disappear() {}
+    
+    open func setKeyboardShortcut(_ binding: [UInt16]) {
+        self.keyboardShortcut = binding
+        Store.shared.set(key: "\(self.title)_popup_keyboardShortcut", value: binding)
+    }
 }
 
 public class PopupWindow: NSWindow, NSWindowDelegate {

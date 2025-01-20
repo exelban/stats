@@ -76,7 +76,7 @@
 	<key>Settings</key>
 	<dict>
 		<key>popup</key>
-		<false/>
+		<true/>
 		<key>notifications</key>
 		<true/>
 	</dict>

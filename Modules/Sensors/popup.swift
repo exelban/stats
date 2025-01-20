@@ -46,7 +46,7 @@ internal class Popup: PopupWrapper {
     }
     
     public init() {
-        super.init(frame: NSRect( x: 0, y: 0, width: Constants.Popup.width, height: 0))
+        super.init(ModuleType.sensors, frame: NSRect( x: 0, y: 0, width: Constants.Popup.width, height: 0))
         
         self.fanValueState = FanValue(rawValue: Store.shared.string(key: "Sensors_popup_fanValue", defaultValue: self.fanValueState.rawValue)) ?? .percentage
         
@@ -56,6 +56,13 @@ internal class Popup: PopupWrapper {
         
         self.settingsView.orientation = .vertical
         self.settingsView.spacing = Constants.Settings.margin
+        
+        self.settingsView.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Keyboard shortcut"), component: KeyboardShartcutView(
+                callback: self.setKeyboardShortcut,
+                value: self.keyboardShortcut
+            ))
+        ]))
         
         self.settingsView.addArrangedSubview(PreferencesSection([
             PreferencesRow(localizedString("Fan value"), component: selectView(
