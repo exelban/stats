@@ -224,6 +224,7 @@
 "No options to configure for the popup in this module" = "このモジュールにはポップアップ用に設定するオプションはありません";
 "Process" = "Process";
 "Kill process" = "Kill process";
+"Keyboard shortcut" = "Keyboard shortcut";
 
 // Modules
 "Number of top processes" = "表示する上位プロセスの数";

@@ -224,6 +224,7 @@
 "No options to configure for the popup in this module" = "Tidak ada opsi untuk mengonfigurasi popup di modul ini";
 "Process" = "Process";
 "Kill process" = "Kill process";
+"Keyboard shortcut" = "Keyboard shortcut";
 
 // Modules
 "Number of top processes" = "Jumlah dari proses teratas";

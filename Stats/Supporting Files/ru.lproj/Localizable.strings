@@ -224,6 +224,7 @@
 "No options to configure for the popup in this module" = "Нет параметров для настройки всплывающего окна в этом модуле";
 "Process" = "Процесс";
 "Kill process" = "Завершить процесс";
+"Keyboard shortcut" = "Сочетание клавиш";
 
 // Modules
 "Number of top processes" = "Количество процессов";

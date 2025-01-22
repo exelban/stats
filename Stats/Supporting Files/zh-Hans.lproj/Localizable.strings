@@ -224,6 +224,7 @@
 "No options to configure for the popup in this module" = "该组件没有可配置的选项";
 "Process" = "进程";
 "Kill process" = "结束进程";
+"Keyboard shortcut" = "Keyboard shortcut";
 
 // Modules
 "Number of top processes" = "高占用进程数";

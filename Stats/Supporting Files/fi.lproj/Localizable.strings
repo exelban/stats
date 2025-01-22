@@ -224,6 +224,7 @@
 "No options to configure for the popup in this module" = "Ei muokattavia asetuksia tälle moduulille";
 "Process" = "Prosessi";
 "Kill process" = "Lopeta prosessi";
+"Keyboard shortcut" = "Keyboard shortcut";
 
 // Modules
 "Number of top processes" = "Suosittujen prosessien määrä";

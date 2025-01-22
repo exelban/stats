@@ -224,6 +224,7 @@
 "No options to configure for the popup in this module" = "Nessuna opzione da configurare per le notifiche in questo modulo";
 "Process" = "Processo";
 "Kill process" = "Chiudi processo";
+"Keyboard shortcut" = "Keyboard shortcut";
 
 // Modules
 "Number of top processes" = "Numero di processi principali";

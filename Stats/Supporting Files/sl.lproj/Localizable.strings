@@ -224,6 +224,7 @@
 "No options to configure for the popup in this module" = "V tem modulu ni možnosti za konfiguracijo pojavnega okna";
 "Process" = "Proces";
 "Kill process" = "Ubij proces";
+"Keyboard shortcut" = "Keyboard shortcut";
 
 // Modules
 "Number of top processes" = "Število glavnih procesov";

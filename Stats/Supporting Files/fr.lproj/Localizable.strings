@@ -224,6 +224,7 @@
 "No options to configure for the popup in this module" = "Aucune option à configurer pour la fenêtre contextuelle dans ce module";
 "Process" = "Processus";
 "Kill process" = "Interrompre le processus";
+"Keyboard shortcut" = "Keyboard shortcut";
 
 // Modules
 "Number of top processes" = "Nombre de processus principaux";

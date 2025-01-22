@@ -224,6 +224,7 @@
 "No options to configure for the popup in this module" = "Bu modülde açılır pencere için yapılandırma seçeneği mevcut değil";
 "Process" = "İşlem";
 "Kill process" = "İşlemi sonlandır";
+"Keyboard shortcut" = "Keyboard shortcut";
 
 // Modules
 "Number of top processes" = "Zirve işlemlerin sayısı";

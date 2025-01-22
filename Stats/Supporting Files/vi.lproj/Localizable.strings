@@ -224,6 +224,7 @@
 "No options to configure for the popup in this module" = "Không có tùy chọn để cấu hình popup trong module này";
 "Process" = "Tiến trình";
 "Kill process" = "Dừng tiến trình";
+"Keyboard shortcut" = "Keyboard shortcut";
 
 // Modules
 "Number of top processes" = "Số lượng tiến trình hàng đầu";

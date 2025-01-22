@@ -224,6 +224,7 @@
 "No options to configure for the popup in this module" = "لا توجد خيارات للتكوين للقائمة المنبثقة في هذه الوحدة";
 "Process" = "عملية";
 "Kill process" = "إيقاف العملية";
+"Keyboard shortcut" = "Keyboard shortcut";
 
 // Modules
 "Number of top processes" = "عدد أعلى العمليات";

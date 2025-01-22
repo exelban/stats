@@ -224,6 +224,7 @@
 "No options to configure for the popup in this module" = "沒有可用於此模組的彈出式視窗組態設定選項";
 "Process" = "程序";
 "Kill process" = "結束程序";
+"Keyboard shortcut" = "Keyboard shortcut";
 
 // Modules
 "Number of top processes" = "高能耗程序數量";

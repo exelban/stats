@@ -224,6 +224,7 @@
 "No options to configure for the popup in this module" = "אין אפשרויות להגדיר עבור החלון הקופץ במודול זה";
 "Process" = "Process";
 "Kill process" = "Kill process";
+"Keyboard shortcut" = "Keyboard shortcut";
 
 // Modules
 "Number of top processes" = "מספר התהליכים המובילים";

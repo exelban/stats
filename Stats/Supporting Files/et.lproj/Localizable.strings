@@ -224,6 +224,7 @@
 "No options to configure for the popup in this module" = "Selles moodulis pole suvandeid konfigureerida hüpikakna jaoks";
 "Process" = "Process";
 "Kill process" = "Kill process";
+"Keyboard shortcut" = "Keyboard shortcut";
 
 // Modules
 "Number of top processes" = "Tippprotsesside arv";

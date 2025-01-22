@@ -224,6 +224,7 @@
 "No options to configure for the popup in this module" = "이 모듈은 구성할 팝업 설정이 없습니다.";
 "Process" = "Process";
 "Kill process" = "Kill process";
+"Keyboard shortcut" = "Keyboard shortcut";
 
 // Modules
 "Number of top processes" = "상위 프로세스 수";

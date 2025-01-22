@@ -224,6 +224,7 @@
 "No options to configure for the popup in this module" = "A modul lenyíló ablakához nem tartozik beállítás";
 "Process" = "Process";
 "Kill process" = "Kill process";
+"Keyboard shortcut" = "Keyboard shortcut";
 
 // Modules
 "Number of top processes" = "Top folyamatok száma";

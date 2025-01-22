@@ -224,6 +224,7 @@
 "No options to configure for the popup in this module" = "У цьому модулі немає параметрів для налаштування спливаючого вікна";
 "Process" = "Процес";
 "Kill process" = "Завершити процес";
+"Keyboard shortcut" = "Комбінація клавіш";
 
 // Modules
 "Number of top processes" = "Кількість процесів";
