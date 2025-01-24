@@ -110,7 +110,7 @@
 "Share anonymous telemetry data" = "Condividi dati anonimi di telemetria";
 "Do not share anonymous telemetry data" = "Non condividere dati anonimi di telemetria";
 "The configuration is completed" = "Configurazione completata";
-"finish_setup_message" = "È tutto pronto! \n Stats è un software open source gratuito, e lo rimarrà per sempre. \n Se ti piace, dacci il tuo supporto: è sempre ben accetto!";
+"finish_setup_message" = "È tutto pronto!\nStats è un software open source gratuito, e lo rimarrà per sempre.\nSe ti piace, dacci il tuo supporto: è sempre ben accetto!";
 
 // Alerts
 "New version available" = "Nuova versione disponibile";
@@ -118,7 +118,7 @@
 "Successfully updated" = "Aggiornato con successo";
 "Stats was updated to v" = "Stats è stato aggiornato alla v%0";
 "Reset settings text" = "Tutte le impostazioni saranno resettate e l'applicazione sarà riavviata. Sei sicuro di volerlo fare?";
-"Support text" = "Grazie per aver usato Stats! Il mantenimento e il miglioramento di questo progetto open-source richiede tempo e risorse. Il vostro sostegno ci aiuta a continuare a fornire un'applicazione gratuita e affidabile per tutti.\n}Se trovate Stats utile, prendete in considerazione l'idea di dare un contributo. Ogni piccolo contributo è utile!";
+"Support text" = "Grazie per aver usato Stats!\n\nIl mantenimento e il miglioramento di questo progetto open-source richiede tempo e risorse. Il vostro sostegno ci aiuta a continuare a fornire un'applicazione gratuita e affidabile per tutti.\n\nSe trovate Stats utile, prendete in considerazione l'idea di dare un contributo. Ogni piccolo contributo è utile!";
 
 // Settings
 "Open Activity Monitor" = "Apri Monitoraggio Attività";
