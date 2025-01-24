@@ -75,6 +75,7 @@
 "Name" = "Ime";
 "Format" = "Format";
 "Turn off" = "Izklopi";
+"Normal" = "Normal";
 "Warning" = "Opozorilo";
 "Critical" = "Kritično";
 "Usage" = "Uporaba";
@@ -194,6 +195,7 @@
 "Static width" = "Statična širina";
 "Tachometer widget" = "Tahometer";
 "State widget" = "Pripomoček stanja";
+"Text widget" = "Text widget";
 "Show symbols" = "Prikaži simbole";
 "Label widget" = "Oznaka";
 "Number of reads in the chart" = "Število branj v grafu";
@@ -326,6 +328,7 @@
 "Write speed" = "Write";
 "Read speed" = "Read";
 "Drives" = "Drives";
+"SMART data" = "SMART data";
 
 // Sensors
 "Temperature unit" = "Enota za temperaturo";
@@ -391,6 +394,7 @@
 "Latency" = "Zakasnitev";
 "Upload speed" = "Upload";
 "Download speed" = "Download";
+"Address" = "Address";
 
 // Battery
 "Level" = "Raven";

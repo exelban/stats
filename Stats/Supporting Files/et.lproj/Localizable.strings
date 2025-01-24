@@ -75,6 +75,7 @@
 "Name" = "Nimi";
 "Format" = "Vorming";
 "Turn off" = "Turn off";
+"Normal" = "Normal";
 "Warning" = "Warning";
 "Critical" = "Critical";
 "Usage" = "Usage";
@@ -194,6 +195,7 @@
 "Static width" = "Liikumatu laius";
 "Tachometer widget" = "Tahhomeeter";
 "State widget" = "Seisund";
+"Text widget" = "Text widget";
 "Show symbols" = "Näita sümboleids";
 "Label widget" = "Silt";
 "Number of reads in the chart" = "Lugemiste arv diagrammis";
@@ -326,6 +328,7 @@
 "Write speed" = "Write";
 "Read speed" = "Read";
 "Drives" = "Drives";
+"SMART data" = "SMART data";
 
 // Sensors
 "Temperature unit" = "Temperatuuri ühik";
@@ -391,6 +394,7 @@
 "Latency" = "Latency";
 "Upload speed" = "Upload";
 "Download speed" = "Download";
+"Address" = "Address";
 
 // Battery
 "Level" = "Tase";

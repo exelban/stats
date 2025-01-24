@@ -75,6 +75,7 @@
 "Name" = "Name";
 "Format" = "Format";
 "Turn off" = "Turn off";
+"Normal" = "Normal";
 "Warning" = "Warning";
 "Critical" = "Critical";
 "Usage" = "Usage";
@@ -194,6 +195,7 @@
 "Static width" = "Pevná šírka";
 "Tachometer widget" = "Tachometer";
 "State widget" = "Stav";
+"Text widget" = "Text widget";
 "Show symbols" = "Zobraziť symboly";
 "Label widget" = "Popis";
 "Number of reads in the chart" = "Počet záznamov v grafe";
@@ -326,6 +328,7 @@
 "Write speed" = "Write";
 "Read speed" = "Read";
 "Drives" = "Drives";
+"SMART data" = "SMART data";
 
 // Sensors
 "Temperature unit" = "Jednotka teploty";
@@ -391,6 +394,7 @@
 "Latency" = "Latency";
 "Upload speed" = "Upload";
 "Download speed" = "Download";
+"Address" = "Address";
 
 // Battery
 "Level" = "Úroveň";

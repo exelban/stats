@@ -75,6 +75,7 @@
 "Name" = "الاسم";
 "Format" = "التنسيق";
 "Turn off" = "إيقاف";
+"Normal" = "Normal";
 "Warning" = "تحذير";
 "Critical" = "حرج";
 "Usage" = "الاستخدام";
@@ -194,6 +195,7 @@
 "Static width" = "عرض ثابت";
 "Tachometer widget" = "عداد سرعة";
 "State widget" = "عداد حالة";
+"Text widget" = "Text widget";
 "Show symbols" = "إظهار الرموز";
 "Label widget" = "تسمية";
 "Number of reads in the chart" = "عدد القراءات في المخطط";
@@ -326,6 +328,7 @@
 "Write speed" = "Write";
 "Read speed" = "Read";
 "Drives" = "Drives";
+"SMART data" = "SMART data";
 
 // Sensors
 "Temperature unit" = "وحدة الحرارة";
@@ -391,6 +394,7 @@
 "Latency" = "تأخير";
 "Upload speed" = "Upload";
 "Download speed" = "Download";
+"Address" = "Address";
 
 // Battery
 "Level" = "المستوى";

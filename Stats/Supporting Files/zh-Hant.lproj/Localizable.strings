@@ -75,6 +75,7 @@
 "Name" = "名稱";
 "Format" = "格式";
 "Turn off" = "關閉";
+"Normal" = "Normal";
 "Warning" = "警告";
 "Critical" = "重要通知";
 "Usage" = "使用量";
@@ -194,6 +195,7 @@
 "Static width" = "靜態寬度";
 "Tachometer widget" = "轉速計";
 "State widget" = "State 小工具";
+"Text widget" = "Text widget";
 "Show symbols" = "顯示符號";
 "Label widget" = "標籤";
 "Number of reads in the chart" = "圖表顯示的未讀計數";
@@ -326,6 +328,7 @@
 "Write speed" = "寫入";
 "Read speed" = "讀取";
 "Drives" = "Drives";
+"SMART data" = "SMART data";
 
 // Sensors
 "Temperature unit" = "溫度單位";
@@ -391,6 +394,7 @@
 "Latency" = "延遲";
 "Upload speed" = "上傳";
 "Download speed" = "下載";
+"Address" = "Address";
 
 // Battery
 "Level" = "電量";

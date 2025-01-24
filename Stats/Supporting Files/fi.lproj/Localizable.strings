@@ -75,6 +75,7 @@
 "Name" = "Nimi";
 "Format" = "Muoto";
 "Turn off" = "Sammuta";
+"Normal" = "Normal";
 "Warning" = "Varoitus";
 "Critical" = "Kriittinen";
 "Usage" = "Käyttö";
@@ -194,6 +195,7 @@
 "Static width" = "Staattinen leveys";
 "Tachometer widget" = "Tachometri";
 "State widget" = "Tila";
+"Text widget" = "Text widget";
 "Show symbols" = "Näytä symbolit";
 "Label widget" = "Tunniste";
 "Number of reads in the chart" = "Lukukertojen määrä kaaviossa";
@@ -326,6 +328,7 @@
 "Write speed" = "Kirjoitusnopeus";
 "Read speed" = "Lukunopeus";
 "Drives" = "Drives";
+"SMART data" = "SMART data";
 
 // Sensors
 "Temperature unit" = "Lämpötilan yksikkö";
@@ -391,6 +394,7 @@
 "Latency" = "Viive";
 "Upload speed" = "Lähetysnopeus";
 "Download speed" = "Latausnopeus";
+"Address" = "Address";
 
 // Battery
 "Level" = "Taso";

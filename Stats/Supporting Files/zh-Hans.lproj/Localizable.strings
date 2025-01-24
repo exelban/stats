@@ -75,8 +75,9 @@
 "Name" = "名称";
 "Format" = "格式";
 "Turn off" = "禁用";
+"Normal" = "正常";
 "Warning" = "警告";
-"Critical" = "重要通知";
+"Critical" = "严重";
 "Usage" = "用量";
 "2 minutes" = "2 分钟";
 "3 minutes" = "3 分钟";
@@ -193,7 +194,8 @@
 "Memory widget" = "容量";
 "Static width" = "固定宽度";
 "Tachometer widget" = "转速计";
-"State widget" = "状态小组件";
+"State widget" = "状态";
+"Text widget" = "文本";
 "Show symbols" = "显示标识";
 "Label widget" = "标签";
 "Number of reads in the chart" = "图表显示的读取次数";
@@ -224,7 +226,7 @@
 "No options to configure for the popup in this module" = "该组件没有可配置的选项";
 "Process" = "进程";
 "Kill process" = "结束进程";
-"Keyboard shortcut" = "Keyboard shortcut";
+"Keyboard shortcut" = "键盘快捷键";
 
 // Modules
 "Number of top processes" = "高占用进程数";
@@ -326,6 +328,7 @@
 "Write speed" = "写入速度";
 "Read speed" = "读取速度";
 "Drives" = "驱动器";
+"SMART data" = "SMART 数据";
 
 // Sensors
 "Temperature unit" = "温度单位";
@@ -391,6 +394,7 @@
 "Latency" = "延迟";
 "Upload speed" = "上传速度";
 "Download speed" = "下载速度";
+"Address" = "地址";
 
 // Battery
 "Level" = "电量";
