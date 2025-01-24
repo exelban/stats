@@ -75,6 +75,7 @@
 "Name" = "Tên";
 "Format" = "Định dạng";
 "Turn off" = "Tắt";
+"Normal" = "Normal";
 "Warning" = "Cảnh báo";
 "Critical" = "Nguy cấp";
 "Usage" = "Sử dụng";
@@ -194,6 +195,7 @@
 "Static width" = "Chiều rộng cố định";
 "Tachometer widget" = "Widget đo tốc độ";
 "State widget" = "Widget trạng thái";
+"Text widget" = "Text widget";
 "Show symbols" = "Hiển thị ký hiệu";
 "Label widget" = "Widget nhãn";
 "Number of reads in the chart" = "Số lần đọc trong biểu đồ";
@@ -326,6 +328,7 @@
 "Write speed" = "Tốc độ ghi";
 "Read speed" = "Tốc độ đọc";
 "Drives" = "Drives";
+"SMART data" = "SMART data";
 
 // Sensors
 "Temperature unit" = "Đơn vị nhiệt độ";
@@ -391,6 +394,7 @@
 "Latency" = "Độ trễ";
 "Upload speed" = "Tốc độ tải lên";
 "Download speed" = "Tốc độ tải xuống";
+"Address" = "Address";
 
 // Battery
 "Level" = "Mức";

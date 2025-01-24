@@ -75,6 +75,7 @@
 "Name" = "이름";
 "Format" = "형식";
 "Turn off" = "끄기";
+"Normal" = "Normal";
 "Warning" = "Warning";
 "Critical" = "Critical";
 "Usage" = "Usage";
@@ -194,6 +195,7 @@
 "Static width" = "너비 고정";
 "Tachometer widget" = "반원 도표";
 "State widget" = "상태 위젯";
+"Text widget" = "Text widget";
 "Show symbols" = "기호 표시";
 "Label widget" = "레이블 위젯";
 "Number of reads in the chart" = "도표의 행 크기";
@@ -326,6 +328,7 @@
 "Write speed" = "Write";
 "Read speed" = "Read";
 "Drives" = "Drives";
+"SMART data" = "SMART data";
 
 // Sensors
 "Temperature unit" = "온도 단위";
@@ -391,6 +394,7 @@
 "Latency" = "Latency";
 "Upload speed" = "Upload";
 "Download speed" = "Download";
+"Address" = "Address";
 
 // Battery
 "Level" = "잔량";

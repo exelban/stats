@@ -75,6 +75,7 @@
 "Name" = "Name";
 "Format" = "Format";
 "Turn off" = "Turn off";
+"Normal" = "Normal";
 "Warning" = "Warning";
 "Critical" = "Critical";
 "Usage" = "Usage";
@@ -194,6 +195,7 @@
 "Static width" = "ความกว้างคงที่";
 "Tachometer widget" = "วัดความเร็ว";
 "State widget" = "เครื่องวัดสถานะ";
+"Text widget" = "Text widget";
 "Show symbols" = "แสดงสัญลักษณ์";
 "Label widget" = "ป้ายชื่อ";
 "Number of reads in the chart" = "จำนวนการอ่านในแผนภูมิ";
@@ -326,6 +328,7 @@
 "Write speed" = "Write";
 "Read speed" = "Read";
 "Drives" = "Drives";
+"SMART data" = "SMART data";
 
 // Sensors
 "Temperature unit" = "หน่วยอุณหภูมิ";
@@ -391,6 +394,7 @@
 "Latency" = "Latency";
 "Upload speed" = "Upload";
 "Download speed" = "Download";
+"Address" = "Address";
 
 // Battery
 "Level" = "ระดับ";

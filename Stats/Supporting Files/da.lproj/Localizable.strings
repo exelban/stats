@@ -75,6 +75,7 @@
 "Name" = "Navn";
 "Format" = "Format";
 "Turn off" = "Sluk";
+"Normal" = "Normal";
 "Warning" = "Warning";
 "Critical" = "Critical";
 "Usage" = "Usage";
@@ -194,6 +195,7 @@
 "Static width" = "Statisk bredde";
 "Tachometer widget" = "Omdrejningstæller";
 "State widget" = "Status";
+"Text widget" = "Text widget";
 "Show symbols" = "Vis symboler";
 "Label widget" = "Label";
 "Number of reads in the chart" = "Antal læsninger i grafen";
@@ -326,6 +328,7 @@
 "Write speed" = "Write";
 "Read speed" = "Read";
 "Drives" = "Drives";
+"SMART data" = "SMART data";
 
 // Sensors
 "Temperature unit" = "Temperaturenhed";
@@ -391,6 +394,7 @@
 "Latency" = "Latency";
 "Upload speed" = "Upload";
 "Download speed" = "Download";
+"Address" = "Address";
 
 // Battery
 "Level" = "Niveau";

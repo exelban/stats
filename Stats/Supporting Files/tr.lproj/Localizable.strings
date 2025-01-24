@@ -75,6 +75,7 @@
 "Name" = "Ad";
 "Format" = "Format";
 "Turn off" = "Kapat";
+"Normal" = "Normal";
 "Warning" = "Uyarı";
 "Critical" = "Kritik";
 "Usage" = "Kullanım";
@@ -194,6 +195,7 @@
 "Static width" = "Sabit genişlik";
 "Tachometer widget" = "Takometre";
 "State widget" = "Durum widget'ı";
+"Text widget" = "Text widget";
 "Show symbols" = "Sembolleri göster";
 "Label widget" = "Etiket";
 "Number of reads in the chart" = "Grafikteki okuma sayısı";
@@ -326,6 +328,7 @@
 "Write speed" = "Write";
 "Read speed" = "Read";
 "Drives" = "Drives";
+"SMART data" = "SMART data";
 
 // Sensors
 "Temperature unit" = "Sıcaklık birimi";
@@ -391,6 +394,7 @@
 "Latency" = "Gecikme";
 "Upload speed" = "Upload";
 "Download speed" = "Download";
+"Address" = "Address";
 
 // Battery
 "Level" = "Doluluk";

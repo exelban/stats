@@ -75,6 +75,7 @@
 "Name" = "Назва";
 "Format" = "Формат";
 "Turn off" = "Вимкнути";
+"Normal" = "Normal";
 "Warning" = "Попереджнння";
 "Critical" = "Критичний";
 "Usage" = "Використання";
@@ -194,6 +195,7 @@
 "Static width" = "Статична ширина";
 "Tachometer widget" = "Тахометр";
 "State widget" = "Стан";
+"Text widget" = "Text widget";
 "Show symbols" = "Показати символи";
 "Label widget" = "Етикетка";
 "Number of reads in the chart" = "Кількість зчитувань на діаграмі";
@@ -326,6 +328,7 @@
 "Write speed" = "Запис";
 "Read speed" = "Зчитування";
 "Drives" = "Диски";
+"SMART data" = "SMART data";
 
 // Sensors
 "Temperature unit" = "Одиниця виміру температури";
@@ -391,6 +394,7 @@
 "Latency" = "Затримка";
 "Upload speed" = "Висилання";
 "Download speed" = "Завантаження";
+"Address" = "Address";
 
 // Battery
 "Level" = "Рівень заряду";

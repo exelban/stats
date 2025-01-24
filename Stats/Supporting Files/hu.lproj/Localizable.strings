@@ -75,6 +75,7 @@
 "Name" = "Név";
 "Format" = "Formátum";
 "Turn off" = "Kikapcsolás";
+"Normal" = "Normal";
 "Warning" = "Figyelmeztetés";
 "Critical" = "Kritikus";
 "Usage" = "Használat";
@@ -194,6 +195,7 @@
 "Static width" = "Fix szélesség";
 "Tachometer widget" = "Fordulatszámmérő";
 "State widget" = "Állapot";
+"Text widget" = "Text widget";
 "Show symbols" = "Szimbólumok mutatása";
 "Label widget" = "Címke";
 "Number of reads in the chart" = "Értékek száma a grafikonon";
@@ -326,6 +328,7 @@
 "Write speed" = "Write";
 "Read speed" = "Read";
 "Drives" = "Drives";
+"SMART data" = "SMART data";
 
 // Sensors
 "Temperature unit" = "Hőmérséklet mértékegysége";
@@ -391,6 +394,7 @@
 "Latency" = "Latency";
 "Upload speed" = "Upload";
 "Download speed" = "Download";
+"Address" = "Address";
 
 // Battery
 "Level" = "Töltöttségi szint";
