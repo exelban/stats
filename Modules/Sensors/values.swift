@@ -468,6 +468,8 @@ internal let SensorsList: [Sensor] = [
     Sensor(key: "ID0R", name: "DC In", group: .sensor, type: .current, platforms: Platform.all),
     Sensor(key: "IBAC", name: "Battery", group: .sensor, type: .current, platforms: Platform.all),
     Sensor(key: "IDBR", name: "Brightness", group: .sensor, type: .current, platforms: Platform.all),
+    Sensor(key: "IU1R", name: "Thunderbolt Left", group: .sensor, type: .current, platforms: Platform.all),
+    Sensor(key: "IU2R", name: "Thunderbolt Right", group: .sensor, type: .current, platforms: Platform.all),
     
     // Power
     Sensor(key: "PC0C", name: "CPU Core", group: .CPU, type: .power, platforms: Platform.all),
@@ -492,6 +494,9 @@ internal let SensorsList: [Sensor] = [
     Sensor(key: "PDTR", name: "DC In", group: .sensor, type: .power, platforms: Platform.all),
     Sensor(key: "PMTR", name: "Memory Total", group: .sensor, type: .power, platforms: Platform.all),
     Sensor(key: "PSTR", name: "System Total", group: .sensor, type: .power, platforms: Platform.all),
+    
+    Sensor(key: "PU1R", name: "Thunderbolt Left", group: .sensor, type: .power, platforms: Platform.all),
+    Sensor(key: "PU2R", name: "Thunderbolt Right", group: .sensor, type: .power, platforms: Platform.all),
     
     Sensor(key: "PDBR", name: "Power Delivery Brightness", group: .sensor, type: .power, platforms: [.m1, .m1Pro, .m1Max, .m1Ultra])
 ]
