@@ -81,7 +81,7 @@
 		<key>popup</key>
 		<true/>
 		<key>notifications</key>
-		<false/>
+		<true/>
 	</dict>
 </dict>
 </plist>

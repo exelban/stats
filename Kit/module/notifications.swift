@@ -62,6 +62,18 @@ open class NotificationsWrapper: NSStackView {
         }
     }
     
+    public func newNotification(id rid: String, title: String, subtitle: String? = nil) {
+        let id = "Stats_\(self.module)_\(rid)"
+        
+        if self.ids[id] != nil {
+            removeNotification(id)
+            self.ids[id] = nil
+        }
+        
+        self.showNotification(id: id, title: title, subtitle: subtitle)
+        self.ids[id] = true
+    }
+    
     public func hideNotification(_ rid: String) {
         let id = "Stats_\(self.module)_\(rid)"
         if self.ids[id] != nil {

@@ -126,6 +126,7 @@ public class Network: Module {
     private let popupView: Popup
     private let settingsView: Settings
     private let portalView: Portal
+    private let notificationsView: Notifications
     
     private var usageReader: UsageReader? = nil
     private var processReader: ProcessReader? = nil
@@ -154,12 +155,14 @@ public class Network: Module {
         self.settingsView = Settings(.network)
         self.popupView = Popup(.network)
         self.portalView = Portal(.network)
+        self.notificationsView = Notifications(.network)
         
         super.init(
             moduleType: .network,
             popup: self.popupView,
             settings: self.settingsView,
-            portal: self.portalView
+            portal: self.portalView,
+            notifications: self.notificationsView
         )
         guard self.available else { return }
         
@@ -220,6 +223,7 @@ public class Network: Module {
         
         self.popupView.usageCallback(value)
         self.portalView.usageCallback(value)
+        self.notificationsView.usageCallback(value)
         
         var upload: Int64 = value.bandwidth.upload
         var download: Int64 = value.bandwidth.download
@@ -313,6 +317,7 @@ public class Network: Module {
         guard let value = raw, self.enabled else { return }
         
         self.popupView.connectivityCallback(value)
+        self.notificationsView.connectivityCallback(value)
         
         self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: SWidget) in
             switch w.item {
