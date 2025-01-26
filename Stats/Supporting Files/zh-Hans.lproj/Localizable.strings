@@ -88,6 +88,14 @@
 "Read" = "读取";
 "Write" = "写入";
 "Frequency" = "频率";
+"1 sec" = "1 秒";
+"2 sec" = "2 秒";
+"3 sec" = "3 秒";
+"5 sec" = "5 秒";
+"10 sec" = "10 秒";
+"15 sec" = "15 秒";
+"30 sec" = "30 秒";
+"60 sec" = "60 秒";
 
 // Setup
 "Stats Setup" = "Stats 设置";
@@ -149,7 +157,7 @@
 "Pause the Stats" = "暂停 Stats";
 "Resume the Stats" = "恢复 Stats";
 "Combined modules" = "合并模块";
-"Combined details" = "合并细节";
+"Combined details" = "合并详情";
 "Spacing" = "间距";
 "Share anonymous telemetry" = "分享匿名诊断数据";
 
@@ -196,6 +204,7 @@
 "Tachometer widget" = "转速计";
 "State widget" = "状态";
 "Text widget" = "文本";
+"Battery details widget" = "电池详情";
 "Show symbols" = "显示标识";
 "Label widget" = "标签";
 "Number of reads in the chart" = "图表显示的读取次数";
@@ -227,6 +236,7 @@
 "Process" = "进程";
 "Kill process" = "结束进程";
 "Keyboard shortcut" = "键盘快捷键";
+"Listening..." = "监听中...";
 
 // Modules
 "Number of top processes" = "高占用进程数";
@@ -235,6 +245,7 @@
 "Chart color" = "图表颜色";
 "Main chart scaling" = "主图表缩放";
 "Scale value" = "缩放值";
+"Text widget value" = "文本小组件值";
 
 // CPU
 "CPU usage" = "CPU 占用";
@@ -395,6 +406,7 @@
 "Upload speed" = "上传速度";
 "Download speed" = "下载速度";
 "Address" = "地址";
+"WiFi network" = "WiFi 网络";
 
 // Battery
 "Level" = "电量";
@@ -445,6 +457,9 @@
 "Local" = "本地";
 "Calendar" = "日历";
 "Local time" = "本地时间";
+"Add new clock" = "添加新时钟";
+"Delete selected clock" = "删除选定的时钟";
+"Help with datetime format" = "日期时间格式帮助";
 
 // Colors
 "Based on utilization" = "基于利用率";

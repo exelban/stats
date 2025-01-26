@@ -88,6 +88,14 @@
 "Read" = "Read";
 "Write" = "Write";
 "Frequency" = "Frequency";
+"1 sec" = "1 sec";
+"2 sec" = "2 sec";
+"3 sec" = "3 sec";
+"5 sec" = "5 sec";
+"10 sec" = "10 sec";
+"15 sec" = "15 sec";
+"30 sec" = "30 sec";
+"60 sec" = "60 sec";
 
 // Setup
 "Stats Setup" = "Stats Kurulumu";
@@ -196,6 +204,7 @@
 "Tachometer widget" = "Takometre";
 "State widget" = "Durum widget'ı";
 "Text widget" = "Text widget";
+"Battery details widget" = "Battery details widget";
 "Show symbols" = "Sembolleri göster";
 "Label widget" = "Etiket";
 "Number of reads in the chart" = "Grafikteki okuma sayısı";
@@ -227,6 +236,7 @@
 "Process" = "İşlem";
 "Kill process" = "İşlemi sonlandır";
 "Keyboard shortcut" = "Keyboard shortcut";
+"Listening..." = "Listening...";
 
 // Modules
 "Number of top processes" = "Zirve işlemlerin sayısı";
@@ -235,6 +245,7 @@
 "Chart color" = "Çizelge rengi";
 "Main chart scaling" = "Ana çizelge ölçeklendirmesi";
 "Scale value" = "Ölçekleme değeri";
+"Text widget value" = "Text widget value";
 
 // CPU
 "CPU usage" = "CPU kullanımı";
@@ -395,6 +406,7 @@
 "Upload speed" = "Upload";
 "Download speed" = "Download";
 "Address" = "Address";
+"WiFi network" = "WiFi network";
 
 // Battery
 "Level" = "Doluluk";
@@ -445,6 +457,9 @@
 "Local" = "Yerel";
 "Calendar" = "Calendar";
 "Local time" = "Local time";
+"Add new clock" = "Add new clock";
+"Delete selected clock" = "Delete selected clock";
+"Help with datetime format" = "Help with datetime format";
 
 // Colors
 "Based on utilization" = "Kullanıma dayalı";

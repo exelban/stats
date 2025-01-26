@@ -88,6 +88,14 @@
 "Read" = "Чтение";
 "Write" = "Запись";
 "Frequency" = "Частота";
+"1 sec" = "1 sec";
+"2 sec" = "2 sec";
+"3 sec" = "3 sec";
+"5 sec" = "5 sec";
+"10 sec" = "10 sec";
+"15 sec" = "15 sec";
+"30 sec" = "30 sec";
+"60 sec" = "60 sec";
 
 // Setup
 "Stats Setup" = "Настройки Stats";
@@ -196,6 +204,7 @@
 "Tachometer widget" = "Тахометр";
 "State widget" = "Состояние";
 "Text widget" = "Текст";
+"Battery details widget" = "Battery details widget";
 "Show symbols" = "Показать символы";
 "Label widget" = "Этикетка";
 "Number of reads in the chart" = "Количество чтений на графике";
@@ -227,6 +236,7 @@
 "Process" = "Процесс";
 "Kill process" = "Завершить процесс";
 "Keyboard shortcut" = "Сочетание клавиш";
+"Listening..." = "Listening...";
 
 // Modules
 "Number of top processes" = "Количество процессов";
@@ -235,6 +245,7 @@
 "Chart color" = "Цвет графика";
 "Main chart scaling" = "Масштабирование основного графика";
 "Scale value" = "Значение масштаба";
+"Text widget value" = "Text widget value";
 
 // CPU
 "CPU usage" = "Использование процессора";
@@ -395,6 +406,7 @@
 "Upload speed" = "Выгрузка";
 "Download speed" = "Загрузка";
 "Address" = "Адрес";
+"WiFi network" = "WiFi network";
 
 // Battery
 "Level" = "Уровень заряда";
@@ -445,6 +457,9 @@
 "Local" = "Локальный";
 "Calendar" = "Календарь";
 "Local time" = "Местное время";
+"Add new clock" = "Add new clock";
+"Delete selected clock" = "Delete selected clock";
+"Help with datetime format" = "Help with datetime format";
 
 // Colors
 "Based on utilization" = "На основе использования";

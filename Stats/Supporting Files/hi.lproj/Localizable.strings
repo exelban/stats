@@ -88,6 +88,14 @@
 "Read" = "Read";
 "Write" = "Write";
 "Frequency" = "Frequency";
+"1 sec" = "1 sec";
+"2 sec" = "2 sec";
+"3 sec" = "3 sec";
+"5 sec" = "5 sec";
+"10 sec" = "10 sec";
+"15 sec" = "15 sec";
+"30 sec" = "30 sec";
+"60 sec" = "60 sec";
 
 // Setup
 "Stats Setup" = "आँकड़े सेटअप";
@@ -196,6 +204,7 @@
 "Tachometer widget" = "टैकोमीटर";
 "State widget" = "राज्य विजेट";
 "Text widget" = "Text widget";
+"Battery details widget" = "Battery details widget";
 "Show symbols" = "प्रतीक दिखाएँ";
 "Label widget" = "लेबल";
 "Number of reads in the chart" = "चार्ट में पढ़ने की संख्या";
@@ -227,6 +236,7 @@
 "Process" = "Process";
 "Kill process" = "Kill process";
 "Keyboard shortcut" = "Keyboard shortcut";
+"Listening..." = "Listening...";
 
 // Modules
 "Number of top processes" = "शीर्ष प्रक्रियाओं की संख्या";
@@ -235,6 +245,7 @@
 "Chart color" = "चार्ट रंग";
 "Main chart scaling" = "Main chart scaling";
 "Scale value" = "Scale value";
+"Text widget value" = "Text widget value";
 
 // CPU
 "CPU usage" = "सीपीयू उपयोग";
@@ -395,6 +406,7 @@
 "Upload speed" = "Upload";
 "Download speed" = "Download";
 "Address" = "Address";
+"WiFi network" = "WiFi network";
 
 // Battery
 "Level" = "स्तर";
@@ -445,6 +457,9 @@
 "Local" = "स्थानीय";
 "Calendar" = "Calendar";
 "Local time" = "Local time";
+"Add new clock" = "Add new clock";
+"Delete selected clock" = "Delete selected clock";
+"Help with datetime format" = "Help with datetime format";
 
 // Colors
 "Based on utilization" = "उपयोग के आधार पर";

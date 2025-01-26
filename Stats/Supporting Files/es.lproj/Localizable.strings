@@ -88,6 +88,14 @@
 "Read" = "Lectura";
 "Write" = "Escritura";
 "Frequency" = "Frecuencia";
+"1 sec" = "1 sec";
+"2 sec" = "2 sec";
+"3 sec" = "3 sec";
+"5 sec" = "5 sec";
+"10 sec" = "10 sec";
+"15 sec" = "15 sec";
+"30 sec" = "30 sec";
+"60 sec" = "60 sec";
 
 // Setup
 "Stats Setup" = "Configuración de Stats";
@@ -196,6 +204,7 @@
 "Tachometer widget" = "Tacómetro";
 "State widget" = "Estado";
 "Text widget" = "Text widget";
+"Battery details widget" = "Battery details widget";
 "Show symbols" = "Mostrar símbolos";
 "Label widget" = "Etiqueta";
 "Number of reads in the chart" = "Número de lecturas en la gráfica";
@@ -227,6 +236,7 @@
 "Process" = "Proceso";
 "Kill process" = "Cierra el proceso";
 "Keyboard shortcut" = "Keyboard shortcut";
+"Listening..." = "Listening...";
 
 // Modules
 "Number of top processes" = "Número de procesos principales";
@@ -235,6 +245,7 @@
 "Chart color" = "Color de la gráfica";
 "Main chart scaling" = "Escalado del gráfico principal";
 "Scale value" = "Valor de la escala";
+"Text widget value" = "Text widget value";
 
 // CPU
 "CPU usage" = "Uso de la CPU";
@@ -395,6 +406,7 @@
 "Upload speed" = "Velocidad de carga";
 "Download speed" = "Velocidad de descarga";
 "Address" = "Address";
+"WiFi network" = "WiFi network";
 
 // Battery
 "Level" = "Nivel";
@@ -445,6 +457,9 @@
 "Local" = "Local";
 "Calendar" = "Calendario";
 "Local time" = "Hora local";
+"Add new clock" = "Add new clock";
+"Delete selected clock" = "Delete selected clock";
+"Help with datetime format" = "Help with datetime format";
 
 // Colors
 "Based on utilization" = "Basado en utilización";

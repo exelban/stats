@@ -88,6 +88,14 @@
 "Read" = "Read";
 "Write" = "Write";
 "Frequency" = "Frequency";
+"1 sec" = "1 sec";
+"2 sec" = "2 sec";
+"3 sec" = "3 sec";
+"5 sec" = "5 sec";
+"10 sec" = "10 sec";
+"15 sec" = "15 sec";
+"30 sec" = "30 sec";
+"60 sec" = "60 sec";
 
 // Setup
 "Stats Setup" = "Stats Setup";
@@ -196,6 +204,7 @@
 "Tachometer widget" = "Tachometer";
 "State widget" = "State widget";
 "Text widget" = "Text widget";
+"Battery details widget" = "Battery details widget";
 "Show symbols" = "Show symbols";
 "Label widget" = "Label";
 "Number of reads in the chart" = "Number of reads in the chart";
@@ -227,6 +236,7 @@
 "Process" = "Process";
 "Kill process" = "Kill process";
 "Keyboard shortcut" = "Keyboard shortcut";
+"Listening..." = "Listening...";
 
 // Modules
 "Number of top processes" = "Numărul proceselor de vârf";
@@ -235,6 +245,7 @@
 "Chart color" = "Chart color";
 "Main chart scaling" = "Main chart scaling";
 "Scale value" = "Scale value";
+"Text widget value" = "Text widget value";
 
 // CPU
 "CPU usage" = "Utilizarea procesorului";
@@ -395,6 +406,7 @@
 "Upload speed" = "Upload";
 "Download speed" = "Download";
 "Address" = "Address";
+"WiFi network" = "WiFi network";
 
 // Battery
 "Level" = "Nivel";
@@ -445,6 +457,9 @@
 "Local" = "Local";
 "Calendar" = "Calendar";
 "Local time" = "Local time";
+"Add new clock" = "Add new clock";
+"Delete selected clock" = "Delete selected clock";
+"Help with datetime format" = "Help with datetime format";
 
 // Colors
 "Based on utilization" = "Based on utilization";
