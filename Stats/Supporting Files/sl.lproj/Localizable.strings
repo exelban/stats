@@ -84,10 +84,10 @@
 "10 minutes" = "10 minut";
 "Import" = "Uvoz";
 "Export" = "Izvoz";
-"Separator" = "Separator";
-"Read" = "Read";
-"Write" = "Write";
-"Frequency" = "Frequency";
+"Separator" = "Ločilnik";
+"Read" = "Branje";
+"Write" = "Pisanje";
+"Frequency" = "Frekvenca";
 
 // Setup
 "Stats Setup" = "Stats konfigurator";
@@ -119,7 +119,7 @@
 "Successfully updated" = "Uspešno posodobljeno";
 "Stats was updated to v" = "Program Stats je bil posodobljen na v%0";
 "Reset settings text" = "Vse nastavitve aplikacije se bodo ponastavile in aplikacija se bo znova zagnala. Ali ste prepričani, da to storiti?";
-"Support text" = "Zahvaljujemo se vam za uporabo Stats!\n\n Vzdrževanje in izboljševanje tega odprtokodnega projekta zahteva čas in sredstva. Vaša podpora nam pomaga še naprej zagotavljati brezplačno in zanesljivo aplikacijo za vsakogar.\n\nČe vam je program Stats koristen, razmislite o prispevku. Vsaka malenkost pomaga!";
+"Support text" = "Zahvaljujemo se vam za uporabo Stats!\n\n Vzdrževanje in izboljševanje tega odprtokodnega projekta zahteva čas in sredstva. Vaša podpora nam pomaga še naprej zagotavljati brezplačno in zanesljivo aplikacijo za vsakogar.\n\nČe vam je program Stats koristen, razmislite o prispevku. Vsaka malenkost šteje!";
 
 // Settings
 "Open Activity Monitor" = "Odpri monitor dejavnosti";
@@ -129,7 +129,7 @@
 "Open application settings" = "Odpri nastavitve aplikacije";
 "Open dashboard" = "Odpri nadzorno ploščo";
 "No notifications available in this module" = "V tem modulu niso na voljo nobena obvestila";
-"Open Calendar" = "Open Calendar";
+"Open Calendar" = "Odpri koledar";
 
 // Application settings
 "Update application" = "Posodobi aplikacijo";
@@ -155,8 +155,8 @@
 
 // Dashboard
 "Serial number" = "Serijska številka";
-"Model identifier" = "Model identifier";
-"Production year" = "Production year";
+"Model identifier" = "Identifikacijska oznaka modela";
+"Production year" = "Leto proizvodnje";
 "Uptime" = "Čas delovanja";
 "Number of cores" = "%0 jeder";
 "Number of threads" = "%0 niti";
@@ -204,9 +204,9 @@
 "Monospaced font" = "Pisava s fiksno širino";
 "Reverse order" = "Obratni vrstni red";
 "Chart history" = "Zgodovina grafa";
-"Default color" = "Default";
-"Transparent when no activity" = "Transparent when no activity";
-"Constant color" = "Constant";
+"Default color" = "Privzeto";
+"Transparent when no activity" = "Prosojno, ko ni dejavnosti";
+"Constant color" = "Stalna";
 
 // Module Kit
 "Open module settings" = "Odpri nastavitve modula";
@@ -226,7 +226,7 @@
 "No options to configure for the popup in this module" = "V tem modulu ni možnosti za konfiguracijo pojavnega okna";
 "Process" = "Proces";
 "Kill process" = "Ubij proces";
-"Keyboard shortcut" = "Keyboard shortcut";
+"Keyboard shortcut" = "Bližnjica na tipkovnici";
 
 // Modules
 "Number of top processes" = "Število glavnih procesov";
@@ -267,7 +267,7 @@
 "User load" = "Uporabniška obremenitev";
 "Efficiency cores load" = "Obremenitev učinkovitih jeder";
 "Performance cores load" = "Obremenitev performančnih jeder";
-"All cores" = "All cores";
+"All cores" = "Vsa jedra";
 
 // GPU
 "GPU to show" = "GPE za prikaz";
@@ -325,9 +325,9 @@
 "Disk usage" = "Uporaba diska";
 "Total read" = "Skupaj prebrano";
 "Total written" = "Skupaj zapisano";
-"Write speed" = "Write";
-"Read speed" = "Read";
-"Drives" = "Drives";
+"Write speed" = "Zapisi";
+"Read speed" = "Branja";
+"Drives" = "Pogoni";
 "SMART data" = "SMART data";
 
 // Sensors
@@ -350,7 +350,7 @@
 "Left fan" = "Levi ventilator";
 "Right fan" = "Desni ventilator";
 "Fastest fan" = "Najhitrejši ventilator";
-"Sensor to show" = "Sensor to show";
+"Sensor to show" = "Senzor za prikaz";
 
 // Network
 "Uploading" = "Oddajanje";
@@ -392,9 +392,9 @@
 "Network activity" = "Dejavnost v omrežju";
 "Last reset" = "Zadnja ponastavitev pred %0";
 "Latency" = "Zakasnitev";
-"Upload speed" = "Upload";
-"Download speed" = "Download";
-"Address" = "Address";
+"Upload speed" = "Oddajanje";
+"Download speed" = "Prenos";
+"Address" = "Naslov";
 
 // Battery
 "Level" = "Raven";
@@ -432,8 +432,8 @@
 "Low power mode" = "Način nizke porabe";
 "Percentage inside the icon" = "Odstotek znotraj ikone";
 "Colorize battery" = "Obarvanje baterije";
-"Charging current" = "Charging current";
-"Charging Voltage" = "Charging voltage";
+"Charging current" = "Tok polnjenja";
+"Charging Voltage" = "Napetost polnjenja";
 "Charger state inside the battery" = "Charger state inside the battery";
 
 // Bluetooth
@@ -443,8 +443,8 @@
 // Clock
 "Time zone" = "Časovni pas";
 "Local" = "Lokalno";
-"Calendar" = "Calendar";
-"Local time" = "Local time";
+"Calendar" = "Koledar";
+"Local time" = "Lokalni čas";
 
 // Colors
 "Based on utilization" = "Na podlagi uporabe";
