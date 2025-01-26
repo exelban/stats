@@ -75,6 +75,7 @@
 "Name" = "नाम";
 "Format" = "प्रारूप";
 "Turn off" = "बंद करें";
+"Normal" = "Normal";
 "Warning" = "Warning";
 "Critical" = "Critical";
 "Usage" = "Usage";
@@ -194,6 +195,7 @@
 "Static width" = "स्थैतिक चौड़ाई";
 "Tachometer widget" = "टैकोमीटर";
 "State widget" = "राज्य विजेट";
+"Text widget" = "Text widget";
 "Show symbols" = "प्रतीक दिखाएँ";
 "Label widget" = "लेबल";
 "Number of reads in the chart" = "चार्ट में पढ़ने की संख्या";
@@ -326,6 +328,7 @@
 "Write speed" = "Write";
 "Read speed" = "Read";
 "Drives" = "Drives";
+"SMART data" = "SMART data";
 
 // Sensors
 "Temperature unit" = "तापमान इकाई";
@@ -391,6 +394,7 @@
 "Latency" = "Latency";
 "Upload speed" = "Upload";
 "Download speed" = "Download";
+"Address" = "Address";
 
 // Battery
 "Level" = "स्तर";

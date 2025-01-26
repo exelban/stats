@@ -75,6 +75,7 @@
 "Name" = "Nom";
 "Format" = "Format";
 "Turn off" = "Éteindre";
+"Normal" = "Normal";
 "Warning" = "Avertissement";
 "Critical" = "Critique";
 "Usage" = "Utilisation";
@@ -194,6 +195,7 @@
 "Static width" = "Largeur fixe";
 "Tachometer widget" = "Tachymètre";
 "State widget" = "Widget d'état";
+"Text widget" = "Text widget";
 "Show symbols" = "Afficher les symboles";
 "Label widget" = "Étiquette";
 "Number of reads in the chart" = "Nombre de lectures sur le graphique";
@@ -326,6 +328,7 @@
 "Write speed" = "Écritures";
 "Read speed" = "Lectures";
 "Drives" = "Drives";
+"SMART data" = "SMART data";
 
 // Sensors
 "Temperature unit" = "Unité de température";
@@ -391,6 +394,7 @@
 "Latency" = "Latence";
 "Upload speed" = "Envoi";
 "Download speed" = "Téléchargement";
+"Address" = "Address";
 
 // Battery
 "Level" = "Niveau";

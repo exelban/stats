@@ -75,6 +75,7 @@
 "Name" = "Название";
 "Format" = "Формат";
 "Turn off" = "Выключить";
+"Normal" = "Normal";
 "Warning" = "Предупреждение";
 "Critical" = "Критический";
 "Usage" = "Использование";
@@ -194,6 +195,7 @@
 "Static width" = "Статическая ширина";
 "Tachometer widget" = "Тахометр";
 "State widget" = "Состояние";
+"Text widget" = "Text widget";
 "Show symbols" = "Показать символы";
 "Label widget" = "Этикетка";
 "Number of reads in the chart" = "Количество чтений на графике";
@@ -326,6 +328,7 @@
 "Write speed" = "Запись";
 "Read speed" = "Чтение";
 "Drives" = "Диски";
+"SMART data" = "SMART data";
 
 // Sensors
 "Temperature unit" = "Единица измерения температуры";
@@ -391,6 +394,7 @@
 "Latency" = "Задержка";
 "Upload speed" = "Выгрузка";
 "Download speed" = "Загрузка";
+"Address" = "Address";
 
 // Battery
 "Level" = "Уровень заряда";
