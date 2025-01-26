@@ -88,6 +88,14 @@
 "Read" = "Read";
 "Write" = "Write";
 "Frequency" = "Frequency";
+"1 sec" = "1 sec";
+"2 sec" = "2 sec";
+"3 sec" = "3 sec";
+"5 sec" = "5 sec";
+"10 sec" = "10 sec";
+"15 sec" = "15 sec";
+"30 sec" = "30 sec";
+"60 sec" = "60 sec";
 
 // Setup
 "Stats Setup" = "Thiết lập Stats";
@@ -130,6 +138,7 @@
 "Open dashboard" = "Mở bảng điều khiển";
 "No notifications available in this module" = "Không có thông báo nào trong module này";
 "Open Calendar" = "Open Calendar";
+"Toggle the module" = "Toggle the module";
 
 // Application settings
 "Update application" = "Cập nhật ứng dụng";
@@ -196,6 +205,7 @@
 "Tachometer widget" = "Widget đo tốc độ";
 "State widget" = "Widget trạng thái";
 "Text widget" = "Text widget";
+"Battery details widget" = "Battery details widget";
 "Show symbols" = "Hiển thị ký hiệu";
 "Label widget" = "Widget nhãn";
 "Number of reads in the chart" = "Số lần đọc trong biểu đồ";
@@ -227,6 +237,7 @@
 "Process" = "Tiến trình";
 "Kill process" = "Dừng tiến trình";
 "Keyboard shortcut" = "Keyboard shortcut";
+"Listening..." = "Listening...";
 
 // Modules
 "Number of top processes" = "Số lượng tiến trình hàng đầu";
@@ -235,6 +246,7 @@
 "Chart color" = "Màu biểu đồ";
 "Main chart scaling" = "Tỷ lệ biểu đồ chính";
 "Scale value" = "Giá trị tỷ lệ";
+"Text widget value" = "Text widget value";
 
 // CPU
 "CPU usage" = "Sử dụng CPU";
@@ -395,6 +407,7 @@
 "Upload speed" = "Tốc độ tải lên";
 "Download speed" = "Tốc độ tải xuống";
 "Address" = "Address";
+"WiFi network" = "WiFi network";
 
 // Battery
 "Level" = "Mức";
@@ -445,6 +458,9 @@
 "Local" = "Địa phương";
 "Calendar" = "Lịch";
 "Local time" = "Giờ địa phương";
+"Add new clock" = "Add new clock";
+"Delete selected clock" = "Delete selected clock";
+"Help with datetime format" = "Help with datetime format";
 
 // Colors
 "Based on utilization" = "Dựa trên mức sử dụng";
