@@ -28,8 +28,8 @@ open class PopupWrapper: NSStackView, Popup_p {
     open var sizeCallback: ((NSSize) -> Void)? = nil
     
     public init(_ typ: ModuleType, frame: NSRect) {
-        self.title = typ.rawValue
-        self.keyboardShortcut = Store.shared.array(key: "\(typ.rawValue)_popup_keyboardShortcut", defaultValue: []) as? [UInt16] ?? []
+        self.title = typ.stringValue
+        self.keyboardShortcut = Store.shared.array(key: "\(typ.stringValue)_popup_keyboardShortcut", defaultValue: []) as? [UInt16] ?? []
         
         super.init(frame: frame)
     }

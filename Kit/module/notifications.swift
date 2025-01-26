@@ -18,7 +18,7 @@ open class NotificationsWrapper: NSStackView {
     private var ids: [String: Bool?] = [:]
     
     public init(_ module: ModuleType, _ ids: [String] = []) {
-        self.module = module.rawValue
+        self.module = module.stringValue
         super.init(frame: NSRect.zero)
         self.initIDs(ids)
         

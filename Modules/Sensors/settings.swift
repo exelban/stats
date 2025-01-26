@@ -33,7 +33,7 @@ internal class Settings: NSStackView, Settings_v {
     private var selectedSensor: String = "Average System Total"
     
     public init(_ module: ModuleType) {
-        self.title = module.rawValue
+        self.title = module.stringValue
         self.hidState = SystemKit.shared.device.platform == .m1 ? true : false
         
         super.init(frame: NSRect.zero)

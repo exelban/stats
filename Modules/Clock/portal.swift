@@ -21,7 +21,7 @@ public class Portal: NSStackView, Portal_p {
     private var multiplyContainer: ScrollableStackView = ScrollableStackView(orientation: .horizontal)
     
     init(_ module: ModuleType, list: [Clock_t]) {
-        self.name = module.rawValue
+        self.name = module.stringValue
         
         super.init(frame: NSRect.zero)
         

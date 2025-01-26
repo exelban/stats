@@ -75,8 +75,8 @@ open class Reader<T: Codable>: NSObject, ReaderInternal_p {
         self.callbackHandler = callback
         
         super.init()
-        DB.shared.setup(T.self, "\(module.rawValue)@\(self.name)")
-        if let lastValue = DB.shared.findOne(T.self, key: "\(module.rawValue)@\(self.name)") {
+        DB.shared.setup(T.self, "\(module.stringValue)@\(self.name)")
+        if let lastValue = DB.shared.findOne(T.self, key: "\(module.stringValue)@\(self.name)") {
             self.value = lastValue
             callback(lastValue)
         }
@@ -86,7 +86,7 @@ open class Reader<T: Codable>: NSObject, ReaderInternal_p {
     }
     
     deinit {
-        DB.shared.insert(key: "\(self.module.rawValue)@\(self.name)", value: self.value, ts: self.history)
+        DB.shared.insert(key: "\(self.module.stringValue)@\(self.name)", value: self.value, ts: self.history)
     }
     
     public func initStoreValues(title: String) {
@@ -102,10 +102,10 @@ open class Reader<T: Codable>: NSObject, ReaderInternal_p {
         if let value {
             self.callbackHandler(value)
             if let ts = self.lastDBWrite, let interval = self.interval, Date().timeIntervalSince(ts) > interval * 10 {
-                DB.shared.insert(key: "\(self.module.rawValue)@\(self.name)", value: value, ts: self.history)
+                DB.shared.insert(key: "\(self.module.stringValue)@\(self.name)", value: value, ts: self.history)
                 self.lastDBWrite = Date()
             } else if self.lastDBWrite == nil {
-                DB.shared.insert(key: "\(self.module.rawValue)@\(self.name)", value: value, ts: self.history)
+                DB.shared.insert(key: "\(self.module.stringValue)@\(self.name)", value: value, ts: self.history)
                 self.lastDBWrite = Date()
             }
         }
@@ -162,7 +162,7 @@ open class Reader<T: Codable>: NSObject, ReaderInternal_p {
     }
     
     public func save(_ value: T) {
-        DB.shared.insert(key: "\(self.module.rawValue)@\(self.name)", value: value, ts: self.history, force: true)
+        DB.shared.insert(key: "\(self.module.stringValue)@\(self.name)", value: value, ts: self.history, force: true)
     }
 }
 

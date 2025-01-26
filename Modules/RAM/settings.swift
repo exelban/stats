@@ -60,7 +60,7 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
     private let textWidgetHelpPanel: HelpHUD = HelpHUD(textWidgetHelp)
     
     public init(_ module: ModuleType) {
-        self.title = module.rawValue
+        self.title = module.stringValue
         self.updateIntervalValue = Store.shared.int(key: "\(self.title)_updateInterval", defaultValue: self.updateIntervalValue)
         self.updateTopIntervalValue = Store.shared.int(key: "\(self.title)_updateTopInterval", defaultValue: self.updateTopIntervalValue)
         self.numberOfProcesses = Store.shared.int(key: "\(self.title)_processes", defaultValue: self.numberOfProcesses)

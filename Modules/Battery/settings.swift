@@ -24,7 +24,7 @@ internal class Settings: NSStackView, Settings_v {
     private var timeFormat: String = "short"
     
     public init(_ module: ModuleType) {
-        self.title = module.rawValue
+        self.title = module.stringValue
         self.numberOfProcesses = Store.shared.int(key: "\(self.title)_processes", defaultValue: self.numberOfProcesses)
         self.timeFormat = Store.shared.string(key: "\(self.title)_timeFormat", defaultValue: self.timeFormat)
         

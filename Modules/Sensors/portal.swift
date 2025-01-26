@@ -25,7 +25,7 @@ public class Portal: NSStackView, Portal_p {
     }
     
     init(_ name: ModuleType) {
-        self.name = name.rawValue
+        self.name = name.stringValue
         
         super.init(frame: NSRect( x: 0, y: 0, width: Constants.Popup.width, height: Constants.Popup.portalHeight))
         

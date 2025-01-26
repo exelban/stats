@@ -51,7 +51,7 @@ internal class Settings: NSStackView, Settings_v, NSTableViewDelegate, NSTableVi
     private var deleteButton: NSButton? = nil
     
     public init(_ module: ModuleType) {
-        self.title = module.rawValue
+        self.title = module.stringValue
         
         super.init(frame: NSRect.zero)
         

@@ -69,7 +69,7 @@ public enum ModuleType: Int {
     
     case combined
     
-    public var rawValue: String {
+    public var stringValue: String {
         switch self {
         case .CPU: return "CPU"
         case .RAM: return "RAM"

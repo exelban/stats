@@ -86,7 +86,7 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
     }
     
     public init(_ module: ModuleType) {
-        self.title = module.rawValue
+        self.title = module.stringValue
         self.numberOfProcesses = Store.shared.int(key: "\(self.title)_processes", defaultValue: self.numberOfProcesses)
         self.readerType = Store.shared.string(key: "\(self.title)_reader", defaultValue: self.readerType)
         self.usageReset = Store.shared.string(key: "\(self.title)_usageReset", defaultValue: self.usageReset)

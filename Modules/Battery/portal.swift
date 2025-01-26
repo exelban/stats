@@ -26,7 +26,7 @@ internal class Portal: NSStackView, Portal_p {
     }
     
     public init(_ module: ModuleType) {
-        self.name = module.rawValue
+        self.name = module.stringValue
         
         super.init(frame: NSRect.zero)
         

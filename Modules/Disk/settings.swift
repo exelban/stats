@@ -32,7 +32,7 @@ internal class Settings: NSStackView, Settings_v {
     private var list: [String] = []
     
     public init(_ module: ModuleType) {
-        self.title = module.rawValue
+        self.title = module.stringValue
         
         self.selectedDisk = Store.shared.string(key: "\(self.title)_disk", defaultValue: "")
         self.removableState = Store.shared.bool(key: "\(self.title)_removable", defaultValue: self.removableState)

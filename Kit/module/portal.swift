@@ -20,8 +20,8 @@ open class PortalWrapper: NSStackView, Portal_p {
     private let header: PortalHeader
     
     public init(_ type: ModuleType, height: CGFloat = Constants.Popup.portalHeight) {
-        self.name = type.rawValue
-        self.header = PortalHeader(type.rawValue)
+        self.name = type.stringValue
+        self.header = PortalHeader(type.stringValue)
         
         super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: height))
         

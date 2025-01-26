@@ -35,7 +35,7 @@ internal class Settings: NSStackView, Settings_v {
     private var groupByClustersView: NSSwitch? = nil
     
     public init(_ module: ModuleType) {
-        self.title = module.rawValue
+        self.title = module.stringValue
         self.hyperthreadState = Store.shared.bool(key: "\(self.title)_hyperhreading", defaultValue: self.hyperthreadState)
         self.usagePerCoreState = Store.shared.bool(key: "\(self.title)_usagePerCore", defaultValue: self.usagePerCoreState)
         self.splitValueState = Store.shared.bool(key: "\(self.title)_splitValue", defaultValue: self.splitValueState)
@@ -62,13 +62,6 @@ internal class Settings: NSStackView, Settings_v {
     
     public func load(widgets: [widget_t]) {
         self.subviews.forEach{ $0.removeFromSuperview() }
-        
-        var hasIPG = false
-        #if arch(x86_64)
-        let path: CFString = "/Library/Frameworks/IntelPowerGadget.framework" as CFString
-        let bundleURL = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, path, CFURLPathStyle.cfurlposixPathStyle, true)
-        hasIPG = CFBundleCreate(kCFAllocatorDefault, bundleURL) != nil
-        #endif
         
         self.addArrangedSubview(PreferencesSection([
             PreferencesRow(localizedString("Update interval"), component: selectView(
