@@ -287,10 +287,10 @@ internal class DiskView: NSStackView {
     }
     
     private var readColor: NSColor {
-        SColor.fromString(Store.shared.string(key: "\(ModuleType.disk.rawValue)_readColor", defaultValue: SColor.secondBlue.key)).additional as! NSColor
+        SColor.fromString(Store.shared.string(key: "\(ModuleType.disk.stringValue)_readColor", defaultValue: SColor.secondBlue.key)).additional as! NSColor
     }
     private var writeColor: NSColor {
-        SColor.fromString(Store.shared.string(key: "\(ModuleType.disk.rawValue)_writeColor", defaultValue: SColor.secondRed.key)).additional as! NSColor
+        SColor.fromString(Store.shared.string(key: "\(ModuleType.disk.stringValue)_writeColor", defaultValue: SColor.secondRed.key)).additional as! NSColor
     }
     
     init(width: CGFloat, uuid: String = "", name: String = "", size: Int64 = 1, free: Int64 = 1, path: URL? = nil, smart: smart_t? = nil, resize: @escaping () -> Void) {
@@ -411,10 +411,10 @@ internal class NameView: NSStackView {
     private var writeState: NSView? = nil
     
     private var readColor: NSColor {
-        SColor.fromString(Store.shared.string(key: "\(ModuleType.disk.rawValue)_readColor", defaultValue: SColor.secondBlue.key)).additional as! NSColor
+        SColor.fromString(Store.shared.string(key: "\(ModuleType.disk.stringValue)_readColor", defaultValue: SColor.secondBlue.key)).additional as! NSColor
     }
     private var writeColor: NSColor {
-        SColor.fromString(Store.shared.string(key: "\(ModuleType.disk.rawValue)_writeColor", defaultValue: SColor.secondRed.key)).additional as! NSColor
+        SColor.fromString(Store.shared.string(key: "\(ModuleType.disk.stringValue)_writeColor", defaultValue: SColor.secondRed.key)).additional as! NSColor
     }
     
     public init(width: CGFloat, name: String, size: Int64, free: Int64, path: URL?) {
@@ -518,13 +518,13 @@ internal class ChartView: NSStackView {
     private var ready: Bool = false
     
     private var readColor: NSColor {
-        SColor.fromString(Store.shared.string(key: "\(ModuleType.disk.rawValue)_readColor", defaultValue: SColor.secondBlue.key)).additional as! NSColor
+        SColor.fromString(Store.shared.string(key: "\(ModuleType.disk.stringValue)_readColor", defaultValue: SColor.secondBlue.key)).additional as! NSColor
     }
     private var writeColor: NSColor {
-        SColor.fromString(Store.shared.string(key: "\(ModuleType.disk.rawValue)_writeColor", defaultValue: SColor.secondRed.key)).additional as! NSColor
+        SColor.fromString(Store.shared.string(key: "\(ModuleType.disk.stringValue)_writeColor", defaultValue: SColor.secondRed.key)).additional as! NSColor
     }
     private var reverseOrder: Bool {
-        Store.shared.bool(key: "\(ModuleType.disk.rawValue)_reverseOrder", defaultValue: false)
+        Store.shared.bool(key: "\(ModuleType.disk.stringValue)_reverseOrder", defaultValue: false)
     }
     
     public init(width: CGFloat) {

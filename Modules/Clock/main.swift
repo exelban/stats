@@ -61,7 +61,7 @@ public class Clock: Module {
     private var reader: ClockReader?
     
     static var list: [Clock_t] {
-        if let objects = Store.shared.data(key: "\(ModuleType.clock.rawValue)_list") {
+        if let objects = Store.shared.data(key: "\(ModuleType.clock.stringValue)_list") {
             let decoder = JSONDecoder()
             if let objectsDecoded = try? decoder.decode(Array.self, from: objects) as [Clock_t] {
                 return objectsDecoded

@@ -30,7 +30,7 @@ public class Sensors: Module {
         self.popupView = Popup()
         self.portalView = Portal(.sensors)
         self.notificationsView = Notifications(.sensors)
-        self.selectedSensor = Store.shared.string(key: "\(ModuleType.sensors.rawValue)_sensor", defaultValue: "Average System Total")
+        self.selectedSensor = Store.shared.string(key: "\(ModuleType.sensors.stringValue)_sensor", defaultValue: "Average System Total")
         
         super.init(
             moduleType: .sensors,
@@ -78,7 +78,7 @@ public class Sensors: Module {
                 }
             }
         }
-        self.selectedSensor = Store.shared.string(key: "\(ModuleType.sensors.rawValue)_sensor", defaultValue: self.selectedSensor)
+        self.selectedSensor = Store.shared.string(key: "\(ModuleType.sensors.stringValue)_sensor", defaultValue: self.selectedSensor)
         self.settingsView.selectedHandler = { [weak self] value in
             self?.selectedSensor = value
             self?.sensorsReader?.read()

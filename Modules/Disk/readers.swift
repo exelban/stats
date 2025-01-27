@@ -36,7 +36,7 @@ internal class CapacityReader: Reader<Disks> {
     internal var list: Disks = Disks()
     
     private var SMART: Bool {
-        Store.shared.bool(key: "\(ModuleType.disk.rawValue)_SMART", defaultValue: true)
+        Store.shared.bool(key: "\(ModuleType.disk.stringValue)_SMART", defaultValue: true)
     }
     
     public override func read() {
@@ -381,7 +381,7 @@ public class ProcessReader: Reader<[Disk_process]> {
     }
     
     private var numberOfProcesses: Int {
-        Store.shared.int(key: "\(ModuleType.disk.rawValue)_processes", defaultValue: 5)
+        Store.shared.int(key: "\(ModuleType.disk.stringValue)_processes", defaultValue: 5)
     }
     
     public override func setup() {
