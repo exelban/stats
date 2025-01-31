@@ -201,18 +201,24 @@ extension AppDelegate {
     }
     
     func checkIfShouldShowSupportWindow() {
+        if !Store.shared.exist(key: "setupProcess") || !Store.shared.exist(key: "runAtLoginInitialized") {
+            return
+        }
+        
         let now = Int(Date().timeIntervalSince1970)
         if !Store.shared.exist(key: "support_ts") {
             Store.shared.set(key: "support_ts", value: now)
             self.supportWindow.show()
             return
         }
+        
         let lastShow = Store.shared.int(key: "support_ts", defaultValue: now)
         let diff = (now - lastShow) / (60 * 60 * 24)
         if diff <= 31 {
             debug("The support window was shown \(diff) days ago, stopping...")
             return
         }
+        
         self.supportWindow.show()
     }
     
