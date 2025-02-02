@@ -255,7 +255,7 @@ internal class Settings: NSStackView, Settings_v, NSTableViewDelegate, NSTableVi
         self.list[i].enabled = sender.state == NSControl.StateValue.on
     }
     @objc private func addNewClock(_ sender: Any) {
-        self.list.append(Clock_t(name: "Clock \(self.list.count)", format: Clock.local.format, tz: Clock.local.tz))
+        self.list.append(Clock_t(name: "\(localizedString("Clock")) \(self.list.count)", format: Clock.local.format, tz: Clock.local.tz))
         self.tableView.reloadData()
     }
     @objc private func deleteClock(_ sender: Any) {

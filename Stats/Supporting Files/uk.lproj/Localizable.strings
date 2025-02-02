@@ -88,6 +88,14 @@
 "Read" = "Зчитування";
 "Write" = "Запис";
 "Frequency" = "Частота";
+"1 sec" = "1 sec";
+"2 sec" = "2 sec";
+"3 sec" = "3 sec";
+"5 sec" = "5 sec";
+"10 sec" = "10 sec";
+"15 sec" = "15 sec";
+"30 sec" = "30 sec";
+"60 sec" = "60 sec";
 
 // Setup
 "Stats Setup" = "Налаштування";
@@ -130,6 +138,7 @@
 "Open dashboard" = "Відкрити dashboard";
 "No notifications available in this module" = "У цьому модулі немає повідомлень";
 "Open Calendar" = "Відкрити календар";
+"Toggle the module" = "Toggle the module";
 
 // Application settings
 "Update application" = "Оновити програму";
@@ -196,6 +205,7 @@
 "Tachometer widget" = "Тахометр";
 "State widget" = "Стан";
 "Text widget" = "Текст";
+"Battery details widget" = "Battery details widget";
 "Show symbols" = "Показати символи";
 "Label widget" = "Етикетка";
 "Number of reads in the chart" = "Кількість зчитувань на діаграмі";
@@ -227,6 +237,7 @@
 "Process" = "Процес";
 "Kill process" = "Завершити процес";
 "Keyboard shortcut" = "Комбінація клавіш";
+"Listening..." = "Listening...";
 
 // Modules
 "Number of top processes" = "Кількість процесів";
@@ -235,6 +246,7 @@
 "Chart color" = "Колір діаграми";
 "Main chart scaling" = "Масштабування основної діаграми";
 "Scale value" = "Значення масштабування";
+"Text widget value" = "Text widget value";
 
 // CPU
 "CPU usage" = "Використання процесора";
@@ -395,6 +407,7 @@
 "Upload speed" = "Висилання";
 "Download speed" = "Завантаження";
 "Address" = "Адреса";
+"WiFi network" = "WiFi network";
 
 // Battery
 "Level" = "Рівень заряду";
@@ -445,6 +458,9 @@
 "Local" = "Місцевий";
 "Calendar" = "Календар";
 "Local time" = "Місцевий час";
+"Add new clock" = "Add new clock";
+"Delete selected clock" = "Delete selected clock";
+"Help with datetime format" = "Help with datetime format";
 
 // Colors
 "Based on utilization" = "На основі використання";
