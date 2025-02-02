@@ -88,14 +88,14 @@
 "Read" = "Odczyt";
 "Write" = "Zapis";
 "Frequency" = "Częstotliwość";
-"1 sec" = "1 sec";
-"2 sec" = "2 sec";
-"3 sec" = "3 sec";
-"5 sec" = "5 sec";
-"10 sec" = "10 sec";
-"15 sec" = "15 sec";
-"30 sec" = "30 sec";
-"60 sec" = "60 sec";
+"1 sec" = "1 sek";
+"2 sec" = "2 sek";
+"3 sec" = "3 sek";
+"5 sec" = "5 sek";
+"10 sec" = "10 sek";
+"15 sec" = "15 sek";
+"30 sec" = "30 sek";
+"60 sec" = "60 sek";
 
 // Setup
 "Stats Setup" = "Konfiguracja Stats";
@@ -138,7 +138,7 @@
 "Open dashboard" = "Otwórz dashboard";
 "No notifications available in this module" = "W tym module nie są dostępne żadne powiadomienia";
 "Open Calendar" = "Otwórz kalendarz";
-"Toggle the module" = "Toggle the module";
+"Toggle the module" = "Przełącz moduł";
 
 // Application settings
 "Update application" = "Aktualizuj aplikacje";
@@ -205,7 +205,7 @@
 "Tachometer widget" = "Tachometr";
 "State widget" = "Stan";
 "Text widget" = "Tekst";
-"Battery details widget" = "Battery details widget";
+"Battery details widget" = "Widżet szczegółów baterii";
 "Show symbols" = "Pokaż symbole";
 "Label widget" = "Etykieta";
 "Number of reads in the chart" = "Liczba odczytów na wykresie";
@@ -237,7 +237,7 @@
 "Process" = "Proces";
 "Kill process" = "Zamknąć proces";
 "Keyboard shortcut" = "Skrót klawiszowy";
-"Listening..." = "Listening...";
+"Listening..." = "Oczekuje...";
 
 // Modules
 "Number of top processes" = "Liczba procesów";
@@ -246,7 +246,7 @@
 "Chart color" = "Kolor wykresu";
 "Main chart scaling" = "Skalowanie wykresu głównego";
 "Scale value" = "Wartość skali";
-"Text widget value" = "Text widget value";
+"Text widget value" = "Wartość widżetu tekstowego";
 
 // CPU
 "CPU usage" = "Obciążenie procesora";
@@ -407,7 +407,7 @@
 "Upload speed" = "Wysyłka";
 "Download speed" = "Pobranie";
 "Address" = "Adres";
-"WiFi network" = "WiFi network";
+"WiFi network" = "Sieć WiFi";
 
 // Battery
 "Level" = "Poziom naładowania";
@@ -458,9 +458,9 @@
 "Local" = "Lokalna";
 "Calendar" = "Kalendarz";
 "Local time" = "Czas lokalny";
-"Add new clock" = "Add new clock";
-"Delete selected clock" = "Delete selected clock";
-"Help with datetime format" = "Help with datetime format";
+"Add new clock" = "Dodaj nowy zegar";
+"Delete selected clock" = "Usuń wybrany zegar";
+"Help with datetime format" = "Pomoc z formatem daty i godziny";
 
 // Colors
 "Based on utilization" = "Na podstawie wykorzystania";
