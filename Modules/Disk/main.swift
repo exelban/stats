@@ -156,7 +156,7 @@ public class Disks: Codable {
 
 public struct Disk_process: Process_p, Codable {
     public var base: DataSizeBase {
-        DataSizeBase(rawValue: Store.shared.string(key: "\(ModuleType.disk.rawValue)_base", defaultValue: "byte")) ?? .byte
+        DataSizeBase(rawValue: Store.shared.string(key: "\(ModuleType.disk.stringValue)_base", defaultValue: "byte")) ?? .byte
     }
     
     public var pid: Int
@@ -223,7 +223,7 @@ public class Disk: Module {
             }
         }
         
-        self.selectedDisk = Store.shared.string(key: "\(ModuleType.disk.rawValue)_disk", defaultValue: self.selectedDisk)
+        self.selectedDisk = Store.shared.string(key: "\(ModuleType.disk.stringValue)_disk", defaultValue: self.selectedDisk)
         
         self.settingsView.selectedDiskHandler = { [weak self] value in
             self?.selectedDisk = value

@@ -88,6 +88,14 @@
 "Read" = "Read";
 "Write" = "Write";
 "Frequency" = "Frequency";
+"1 sec" = "1 sec";
+"2 sec" = "2 sec";
+"3 sec" = "3 sec";
+"5 sec" = "5 sec";
+"10 sec" = "10 sec";
+"15 sec" = "15 sec";
+"30 sec" = "30 sec";
+"60 sec" = "60 sec";
 
 // Setup
 "Stats Setup" = "Stats einrichten";
@@ -130,6 +138,7 @@
 "Open dashboard" = "Dashboard öffnen";
 "No notifications available in this module" = "Keine Benachrichtigungen verfügbar";
 "Open Calendar" = "Open Calendar";
+"Toggle the module" = "Toggle the module";
 
 // Application settings
 "Update application" = "Anwendung aktualisieren";
@@ -196,6 +205,7 @@
 "Tachometer widget" = "Tachometer";
 "State widget" = "Status Widget";
 "Text widget" = "Text widget";
+"Battery details widget" = "Battery details widget";
 "Show symbols" = "Symbole anzeigen";
 "Label widget" = "Text Widget";
 "Number of reads in the chart" = "Anzahl der Elemente im Diagramm";
@@ -227,6 +237,7 @@
 "Process" = "Prozess";
 "Kill process" = "Prozess abbrechen";
 "Keyboard shortcut" = "Keyboard shortcut";
+"Listening..." = "Listening...";
 
 // Modules
 "Number of top processes" = "Anzahl der Top-Prozesse";
@@ -235,6 +246,7 @@
 "Chart color" = "Diagramm-Farbe";
 "Main chart scaling" = "Diagramm-Skalierung";
 "Scale value" = "Skalierung";
+"Text widget value" = "Text widget value";
 
 // CPU
 "CPU usage" = "CPU-Auslastung";
@@ -395,6 +407,7 @@
 "Upload speed" = "Upload";
 "Download speed" = "Download";
 "Address" = "Address";
+"WiFi network" = "WiFi network";
 
 // Battery
 "Level" = "Ladezustand";
@@ -445,6 +458,9 @@
 "Local" = "Lokal";
 "Calendar" = "Kalender";
 "Local time" = "Ortszeit";
+"Add new clock" = "Add new clock";
+"Delete selected clock" = "Delete selected clock";
+"Help with datetime format" = "Help with datetime format";
 
 // Colors
 "Based on utilization" = "Basierend auf Auslastung";

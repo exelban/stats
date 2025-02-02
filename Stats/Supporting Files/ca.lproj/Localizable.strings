@@ -88,6 +88,14 @@
 "Read" = "Read";
 "Write" = "Write";
 "Frequency" = "Frequency";
+"1 sec" = "1 sec";
+"2 sec" = "2 sec";
+"3 sec" = "3 sec";
+"5 sec" = "5 sec";
+"10 sec" = "10 sec";
+"15 sec" = "15 sec";
+"30 sec" = "30 sec";
+"60 sec" = "60 sec";
 
 // Setup
 "Stats Setup" = "Configuració de Stats";
@@ -130,6 +138,7 @@
 "Open dashboard" = "Obre el panell";
 "No notifications available in this module" = "No notifications available in this module";
 "Open Calendar" = "Open Calendar";
+"Toggle the module" = "Toggle the module";
 
 // Application settings
 "Update application" = "Actualitza l'aplicació";
@@ -196,6 +205,7 @@
 "Tachometer widget" = "Tacòmetre";
 "State widget" = "State widget";
 "Text widget" = "Text widget";
+"Battery details widget" = "Battery details widget";
 "Show symbols" = "Mostra els símbols";
 "Label widget" = "Etiqueta";
 "Number of reads in the chart" = "Nombre de lectures al gràfic";
@@ -227,6 +237,7 @@
 "Process" = "Procés";
 "Kill process" = "Tanca procés";
 "Keyboard shortcut" = "Keyboard shortcut";
+"Listening..." = "Listening...";
 
 // Modules
 "Number of top processes" = "Nombre de processos principals";
@@ -235,6 +246,7 @@
 "Chart color" = "Color del gràfic";
 "Main chart scaling" = "Escala del gràfic principal";
 "Scale value" = "Valor d'escala";
+"Text widget value" = "Text widget value";
 
 // CPU
 "CPU usage" = "Ús de la CPU";
@@ -395,6 +407,7 @@
 "Upload speed" = "Velocitat de pujada";
 "Download speed" = "Velocitat de baixada";
 "Address" = "Address";
+"WiFi network" = "WiFi network";
 
 // Battery
 "Level" = "Nivell";
@@ -445,6 +458,9 @@
 "Local" = "Local";
 "Calendar" = "Calendari";
 "Local time" = "Hora local";
+"Add new clock" = "Add new clock";
+"Delete selected clock" = "Delete selected clock";
+"Help with datetime format" = "Help with datetime format";
 
 // Colors
 "Based on utilization" = "Basat en l'utilització";
