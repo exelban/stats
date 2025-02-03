@@ -388,7 +388,11 @@ internal class Popup: PopupWrapper {
                 }
                 
                 if let interface = value.interface {
-                    self.interfaceField?.stringValue = "\(interface.displayName) (\(interface.BSDName))"
+                    self.interfaceField?.stringValue = "\(interface.displayName) (\(interface.BSDName)"
+                    if let cc = value.wifiDetails.countryCode {
+                        self.interfaceField?.stringValue += ", \(cc)"
+                    }
+                    self.interfaceField?.stringValue += ")"
                     self.macAddressField?.stringValue = interface.address
                 } else {
                     self.interfaceField?.stringValue = localizedString("Unknown")
@@ -462,7 +466,10 @@ internal class Popup: PopupWrapper {
                             self.recalculateHeight()
                         }
                         if self.publicIPv4Field?.stringValue != addr {
-                            self.publicIPv4Field?.stringValue = (value.wifiDetails.countryCode != nil) ? "\(addr) (\(value.wifiDetails.countryCode!))" : addr
+                            self.publicIPv4Field?.stringValue = addr
+                            if let cc = value.raddr.countryCode {
+                                self.publicIPv4Field?.stringValue += " (\(cc))"
+                            }
                         }
                     } else if view.superview != nil {
                         view.removeFromSuperview()

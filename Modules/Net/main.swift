@@ -30,6 +30,7 @@ public struct Network_interface: Codable {
 public struct Network_addr: Codable {
     var v4: String? = nil
     var v6: String? = nil
+    var countryCode: String? = nil
 }
 
 public struct Network_wifi: Codable {

@@ -416,6 +416,7 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
         struct Addr_s: Decodable {
             let ipv4: String?
             let ipv6: String?
+            let country: String?
         }
         
         DispatchQueue.global(qos: .userInitiated).async {
@@ -425,6 +426,9 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
                 if let ip = addr.ipv4, self.isIPv4(ip) {
                     self.usage.raddr.v4 = ip
                 }
+                if let countryCode = addr.country {
+                    self.usage.raddr.countryCode = countryCode
+                }
             }
         }
         DispatchQueue.global(qos: .userInitiated).async {
@@ -433,6 +437,9 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
                let addr = try? JSONDecoder().decode(Addr_s.self, from: data) {
                 if let ip = addr.ipv6, !self.isIPv4(ip) {
                     self.usage.raddr.v6 = ip
+                }
+                if let countryCode = addr.country {
+                    self.usage.raddr.countryCode = countryCode
                 }
             }
         }
