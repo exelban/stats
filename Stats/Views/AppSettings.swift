@@ -169,7 +169,24 @@ class ApplicationSettings: NSStackView {
         
         self.addArrangedSubview(scrollView)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(toggleUninstallHelperButton), name: .fanHelperState, object: nil)
+        let CPUeButton = buttonView(#selector(self.toggleCPUeStressTest), text: localizedString("Run"))
+        let CPUpButton = buttonView(#selector(self.toggleCPUpStressTest), text: localizedString("Run"))
+        let GPUButton = buttonView(#selector(self.toggleGPUStressTest), text: localizedString("Run"))
+        
+        self.CPUeButton = CPUeButton
+        self.CPUpButton = CPUpButton
+        self.GPUButton = GPUButton
+        
+        var tests = [
+            PreferencesRow(localizedString("Efficiency cores"), component: CPUeButton),
+            PreferencesRow(localizedString("Performance cores"), component: CPUpButton)
+        ]
+        if self.GPUTest != nil {
+            tests.append(PreferencesRow(localizedString("GPU"), component: GPUButton))
+        }
+        scrollView.stackView.addArrangedSubview(PreferencesSection(label: localizedString("Stress tests"), tests))
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.toggleUninstallHelperButton), name: .fanHelperState, object: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -371,6 +388,38 @@ class ApplicationSettings: NSStackView {
     
     @objc private func uninstallHelper() {
         SMCHelper.shared.uninstall()
+    }
+    
+    @objc private func toggleCPUeStressTest() {
+        if self.CPUeTest.isRunning {
+            self.CPUeTest.stop()
+            self.CPUeButton?.title = localizedString("Run")
+        } else {
+            self.CPUeTest.start()
+            self.CPUeButton?.title = localizedString("Stop")
+        }
+    }
+    
+    @objc private func toggleCPUpStressTest() {
+        if self.CPUpTest.isRunning {
+            self.CPUpTest.stop()
+            self.CPUpButton?.title = localizedString("Run")
+        } else {
+            self.CPUpTest.start()
+            self.CPUpButton?.title = localizedString("Stop")
+        }
+    }
+    
+    @objc private func toggleGPUStressTest() {
+        guard let test = self.GPUTest else { return }
+        
+        if test.isRunning {
+            test.stop()
+            self.GPUButton?.title = localizedString("Run")
+        } else {
+            test.start()
+            self.GPUButton?.title = localizedString("Stop")
+        }
     }
 }
 

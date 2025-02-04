@@ -14,6 +14,7 @@ import Cocoa
 import ServiceManagement
 import UserNotifications
 import WebKit
+import Metal
 
 public struct LaunchAtLogin {
     private static let id = "\(Bundle.main.bundleIdentifier!).LaunchAtLogin"
@@ -1624,5 +1625,163 @@ public class VerticallyCenteredTextFieldCell: NSTextFieldCell {
     public override func drawInterior(withFrame cellFrame: NSRect, in controlView: NSView) {
         let titleRect = self.titleRect(forBounds: cellFrame)
         self.attributedStringValue.draw(in: titleRect)
+    }
+}
+
+public class CPUeStressTest {
+    public var isRunning: Bool = false
+    
+    private var workers: [DispatchWorkItem] = []
+    private let queue = DispatchQueue.global(qos: .background)
+    
+    public init() {}
+    
+    public func start() {
+        guard !self.isRunning else { return }
+        self.isRunning = true
+        
+        let efficientCoreCount = ProcessInfo.processInfo.processorCount / 2
+        self.workers.removeAll()
+
+        for index in 0..<efficientCoreCount {
+            let worker = DispatchWorkItem { [weak self] in
+                self?.test(threadIndex: index)
+            }
+            self.workers.append(worker)
+            self.queue.async(execute: worker)
+        }
+    }
+    
+    public func stop() {
+        self.isRunning = false
+        self.workers.forEach { $0.cancel() }
+        self.workers.removeAll()
+    }
+    
+    private func test(threadIndex: Int) {
+        pthread_set_qos_class_self_np(QOS_CLASS_BACKGROUND, 0)
+        while isRunning {
+            _ = sqrt(987654.321)
+        }
+    }
+}
+
+public class CPUpStressTest {
+    public var isRunning = false
+    
+    private var workers: [DispatchWorkItem] = []
+    private let queue = DispatchQueue.global(qos: .userInteractive)
+
+    public init() {}
+
+    public func start() {
+        guard !self.isRunning else { return }
+        self.isRunning = true
+
+        let performanceCoreCount = ProcessInfo.processInfo.activeProcessorCount
+        self.workers.removeAll()
+
+        for index in 0..<performanceCoreCount {
+            let worker = DispatchWorkItem { [weak self] in
+                self?.test(threadIndex: index)
+            }
+            self.workers.append(worker)
+            self.queue.async(execute: worker)
+        }
+    }
+    
+    public func stop() {
+        self.isRunning = false
+        self.workers.forEach { $0.cancel() }
+        self.workers.removeAll()
+    }
+    
+    private func test(threadIndex: Int) {
+        pthread_set_qos_class_self_np(QOS_CLASS_USER_INTERACTIVE, 0)
+        while isRunning {
+            _ = sqrt(987654.321)
+        }
+    }
+}
+
+public class GPUStressTest {
+    public var isRunning = false
+    
+    private let device: MTLDevice
+    private let commandQueue: MTLCommandQueue
+    private let pipeline: MTLComputePipelineState
+    private let dataSize = 50_000_000 // Large data size for GPU workload
+    private let bufferA: MTLBuffer
+    private let bufferB: MTLBuffer
+    private let bufferC: MTLBuffer
+    
+    public init?() {
+        guard let device = MTLCreateSystemDefaultDevice(), let queue = device.makeCommandQueue() else {
+            return nil
+        }
+        
+        self.device = device
+        self.commandQueue = queue
+        
+        let source = """
+        #include <metal_stdlib>
+        using namespace metal;
+        kernel void full_load_kernel(const device float* inA [[buffer(0)]],
+                                      const device float* inB [[buffer(1)]],
+                                      device float* outC [[buffer(2)]],
+                                      uint id [[thread_position_in_grid]]) {
+            outC[id] = (inA[id] * inB[id]) + sin(inA[id]) + cos(inB[id]) + tan(inA[id]) + log(inB[id]);
+        }
+        """
+        
+        do {
+            let library = try device.makeLibrary(source: source, options: nil)
+            let function = library.makeFunction(name: "full_load_kernel")!
+            self.pipeline = try device.makeComputePipelineState(function: function)
+        } catch {
+            return nil
+        }
+        
+        self.bufferA = device.makeBuffer(length: self.dataSize * MemoryLayout<Float>.size, options: .storageModeShared)!
+        self.bufferB = device.makeBuffer(length: self.dataSize * MemoryLayout<Float>.size, options: .storageModeShared)!
+        self.bufferC = device.makeBuffer(length: self.dataSize * MemoryLayout<Float>.size, options: .storageModeShared)!
+        
+        let dataA = [Float](repeating: 1.0, count: self.dataSize)
+        let dataB = [Float](repeating: 2.0, count: self.dataSize)
+        memcpy(self.bufferA.contents(), dataA, dataA.count * MemoryLayout<Float>.size)
+        memcpy(self.bufferB.contents(), dataB, dataB.count * MemoryLayout<Float>.size)
+    }
+    
+    public func start() {
+        guard !self.isRunning else { return }
+        self.isRunning = true
+        
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            self?.test()
+        }
+    }
+    
+    public func stop() {
+        self.isRunning = false
+    }
+    
+    private func test() {
+        let threadGroupSize = MTLSize(width: 256, height: 1, depth: 1)
+        let gridSize = MTLSize(width: self.dataSize, height: 1, depth: 1)
+        
+        while self.isRunning {
+            guard let commandBuffer = self.commandQueue.makeCommandBuffer(),
+                  let commandEncoder = commandBuffer.makeComputeCommandEncoder() else {
+                break
+            }
+            
+            commandEncoder.setComputePipelineState(self.pipeline)
+            commandEncoder.setBuffer(self.bufferA, offset: 0, index: 0)
+            commandEncoder.setBuffer(self.bufferB, offset: 0, index: 1)
+            commandEncoder.setBuffer(self.bufferC, offset: 0, index: 2)
+            commandEncoder.dispatchThreads(gridSize, threadsPerThreadgroup: threadGroupSize)
+            commandEncoder.endEncoding()
+            commandBuffer.commit()
+        }
     }
 }
