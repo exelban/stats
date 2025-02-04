@@ -350,7 +350,7 @@
 "Fan" = "팬";
 "HID sensors" = "HID 센서";
 "Synchronize fan's control" = "팬 제어 동기화";
-"Current" = "현재";
+"Current" = "전류";
 "Energy" = "에너지";
 "Show unknown sensors" = "알 수 없는 센서 표시";
 "Install fan helper" = "팬 헬퍼 설치";
