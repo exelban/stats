@@ -1040,7 +1040,9 @@ public class EmptyView: NSStackView {
     public init(height: CGFloat = 120, isHidden: Bool = false, msg: String) {
         super.init(frame: NSRect())
         
-        self.heightAnchor.constraint(equalToConstant: height).isActive = true
+        if height != 0 {
+            self.heightAnchor.constraint(equalToConstant: height).isActive = true
+        }
         
         self.translatesAutoresizingMaskIntoConstraints = true
         self.orientation = .vertical
@@ -1049,7 +1051,9 @@ public class EmptyView: NSStackView {
         self.identifier = NSUserInterfaceItemIdentifier(rawValue: "emptyView")
         
         let textView: NSTextView = NSTextView()
-        textView.heightAnchor.constraint(equalToConstant: (height/2)+6).isActive = true
+        if height != 0 {
+            textView.heightAnchor.constraint(equalToConstant: ((height)/2)+6).isActive = true
+        }
         textView.alignment = .center
         textView.isEditable = false
         textView.isSelectable = false

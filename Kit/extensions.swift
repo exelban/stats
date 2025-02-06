@@ -313,6 +313,15 @@ public extension NSView {
         return s
     }
     
+    func buttonView(_ action: Selector, text: String) -> NSButton {
+        let button = NSButton()
+        button.title = text
+        button.contentTintColor = .labelColor
+        button.action = action
+        button.target = self
+        return button
+    }
+    
     func buttonIconView(_ action: Selector, icon: NSImage, height: CGFloat = 22) -> NSButton {
         let button = NSButton()
         button.heightAnchor.constraint(equalToConstant: height).isActive = true

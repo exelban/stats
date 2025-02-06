@@ -96,6 +96,10 @@
 "15 sec" = "15 sec";
 "30 sec" = "30 sec";
 "60 sec" = "60 sec";
+"Save" = "Save";
+"Browse" = "Browse";
+"Run" = "Run";
+"Stop" = "Stop";
 
 // Setup
 "Stats Setup" = "Stats Setup";
