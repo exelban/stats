@@ -107,6 +107,10 @@ internal class Popup: PopupWrapper {
             self.lastList = value.array.compactMap{ $0.uuid }
         }
         
+        if self.settingsSection.contains("empty_view") {
+            self.settingsSection.delete("empty_view")
+        }
+        
         self.lastList.filter { !value.map { $0.uuid }.contains($0) }.forEach { self.settingsSection.delete($0) }
         value.forEach { (drive: drive) in
             if !self.settingsSection.contains(drive.uuid) {
@@ -216,6 +220,9 @@ internal class Popup: PopupWrapper {
             ))
         ]))
         
+        let empty = NSView()
+        empty.identifier = NSUserInterfaceItemIdentifier("empty_view")
+        self.settingsSection.add(empty)
         view.addArrangedSubview(self.settingsSection)
         
         return view
