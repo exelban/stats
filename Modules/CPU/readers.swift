@@ -415,8 +415,8 @@ public class FrequencyReader: Reader<[Double]> {
     private func getSamples() async -> [([IOSample], TimeInterval)] {
         let duration = 500
         let step = UInt64(duration / self.measurementCount)
-        var prev = self.prev ?? self.getSample() ?? self.prev!
         var samples = [([IOSample], TimeInterval)]()
+        guard var prev = self.prev ?? self.getSample() else { return samples }
         
         for _ in 0..<self.measurementCount {
             let milliseconds = UInt64(step) * 1_000_000

@@ -202,6 +202,19 @@ public extension Double {
         
         return "\(h)h \(minutes)min"
     }
+    
+    func power(_ unit: String) -> Double {
+        switch unit {
+        case "mJ":
+            return self / 1e3
+        case "uJ":
+            return self / 1e6
+        case "nJ":
+            return self / 1e9
+        default:
+            return 0
+        }
+    }
 }
 
 public extension NSView {

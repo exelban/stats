@@ -1395,7 +1395,7 @@ public class PreferencesRow: NSStackView {
         self.addArrangedSubview(view)
     }
     
-    private func text(_ title: String? = nil, _ description: String? = nil) -> NSView {
+    fileprivate func text(_ title: String? = nil, _ description: String? = nil) -> NSView {
         let view: NSStackView = NSStackView()
         view.orientation = .vertical
         view.spacing = 0

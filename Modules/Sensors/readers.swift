@@ -25,9 +25,19 @@ internal class SensorsReader: Reader<Sensors_List> {
     }
     private var unknownSensorsState: Bool
     
+    private var channels: CFMutableDictionary? = nil
+    private var subscription: IOReportSubscriptionRef? = nil
+    private var powers: (CPU: Double, GPU: Double, ANE: Double, RAM: Double, PCI: Double) = (0.0, 0.0, 0.0, 0.0, 0.0)
+    
     init(callback: @escaping (T?) -> Void = {_ in }) {
         self.unknownSensorsState = Store.shared.bool(key: "Sensors_unknown", defaultValue: false)
         super.init(.sensors, callback: callback)
+        
+        self.channels = self.getChannels()
+        var dict: Unmanaged<CFMutableDictionary>?
+        self.subscription = IOReportCreateSubscription(nil, self.channels, &dict, 0, nil)
+        dict?.release()
+        
         self.list.sensors = self.sensors()
     }
     
@@ -108,6 +118,7 @@ internal class SensorsReader: Reader<Sensors_List> {
         if self.HIDState {
             results += self.initHIDSensors()
         }
+        results += self.initIOSensors()
         #endif
         results += self.initCalculatedSensors(results)
         
@@ -159,6 +170,24 @@ internal class SensorsReader: Reader<Sensors_List> {
                         self.list.sensors[idx].value = max
                     }
                 }
+            }
+        }
+        
+        if let (cpu, gpu, ane, ram, pci) = self.IOSensors() {
+            if let idx = self.list.sensors.firstIndex(where: { $0.key == "CPU Power" }) {
+                self.list.sensors[idx].value = cpu
+            }
+            if let idx = self.list.sensors.firstIndex(where: { $0.key == "GPU Power" }) {
+                self.list.sensors[idx].value = gpu
+            }
+            if let idx = self.list.sensors.firstIndex(where: { $0.key == "ANE Power" }) {
+                self.list.sensors[idx].value = ane
+            }
+            if let idx = self.list.sensors.firstIndex(where: { $0.key == "RAM Power" }) {
+                self.list.sensors[idx].value = ram
+            }
+            if let idx = self.list.sensors.firstIndex(where: { $0.key == "PCI Power" }) {
+                self.list.sensors[idx].value = pci
             }
         }
         #endif
@@ -446,5 +475,92 @@ extension SensorsReader {
         } else {
             self.list.sensors = self.list.sensors.filter({ $0.group != .hid })
         }
+    }
+}
+
+// MARK: - Apple Silicon power sensors
+
+extension SensorsReader {
+    private func getChannels() -> CFMutableDictionary? {
+        let channelNames: [(String, String?)] = [("Energy Model", nil)]
+        
+        var channels: [CFDictionary] = []
+        for (gname, sname) in channelNames {
+            let channel = IOReportCopyChannelsInGroup(gname as CFString?, sname as CFString?, 0, 0, 0)
+            guard let channel = channel?.takeRetainedValue() else { continue }
+            channels.append(channel)
+        }
+        
+        let chan = channels[0]
+        for i in 1..<channels.count {
+            IOReportMergeChannels(chan, channels[i], nil)
+        }
+        
+        let size = CFDictionaryGetCount(chan)
+        guard let channel = CFDictionaryCreateMutableCopy(kCFAllocatorDefault, size, chan),
+              let chan = channel as? [String: Any], chan["IOReportChannels"] != nil else {
+            return nil
+        }
+        
+        return channel
+    }
+    
+    private func initIOSensors() -> [Sensor] {
+        guard let (cpu, gpu, ane, ram, pci) = self.IOSensors() else { return [] }
+        return [
+            Sensor(key: "CPU Power", name: "CPU Power", value: cpu, group: .CPU, type: .power, platforms: Platform.apple, isComputed: true),
+            Sensor(key: "GPU Power", name: "GPU Power", value: gpu, group: .GPU, type: .power, platforms: Platform.apple, isComputed: true),
+            Sensor(key: "ANE Power", name: "ANE Power", value: ane, group: .system, type: .power, platforms: Platform.apple, isComputed: true),
+            Sensor(key: "RAM Power", name: "RAM Power", value: ram, group: .system, type: .power, platforms: Platform.apple, isComputed: true),
+            Sensor(key: "PCI Power", name: "PCI Power", value: pci, group: .system, type: .power, platforms: Platform.apple, isComputed: true)
+        ]
+    }
+    
+    private func IOSensors() -> (Double, Double, Double, Double, Double)? {
+        guard let sample = IOReportCreateSamples(self.subscription, self.channels, nil)?.takeRetainedValue(),
+              let dict = sample as? [String: Any] else {
+            return nil
+        }
+        let items = dict["IOReportChannels"] as! CFArray
+        
+        let prevCPU = self.powers.CPU
+        let prevGPU = self.powers.GPU
+        let prevANE = self.powers.ANE
+        let prevRAM = self.powers.RAM
+        let prevPCI = self.powers.PCI
+        
+        for i in 0..<CFArrayGetCount(items) {
+            let dict = CFArrayGetValueAtIndex(items, i)
+            let item = unsafeBitCast(dict, to: CFDictionary.self)
+            
+            guard let group = IOReportChannelGetGroup(item)?.takeUnretainedValue() as? String,
+                  group == "Energy Model",
+                  let channel = IOReportChannelGetChannelName(item)?.takeUnretainedValue() as? String,
+                  let unit = IOReportChannelGetUnitLabel(item)?.takeUnretainedValue() as? String else { continue }
+            
+            let value = Double(IOReportSimpleGetIntegerValue(item, 0))
+            
+            if channel.hasSuffix("CPU Energy") {
+                self.powers.CPU = value.power(unit)
+            } else if channel.hasSuffix("GPU Energy") {
+                self.powers.GPU = value.power(unit)
+            } else if channel.starts(with: "ANE") {
+                self.powers.ANE = value.power(unit)
+            } else if channel.starts(with: "DRAM") {
+                self.powers.RAM = value.power(unit)
+            } else if channel.starts(with: "PCI") && channel.hasSuffix("Energy") {
+                self.powers.PCI = value.power(unit)
+            }
+        }
+        
+        guard prevCPU != 0 else { return (0, 0, 0, 0, 0) } // omit first read
+        
+        return (
+            self.powers.CPU - prevCPU,
+            self.powers.GPU - prevGPU,
+            self.powers.ANE - prevANE,
+            self.powers.RAM - prevRAM,
+            self.powers.PCI - prevPCI
+        )
     }
 }
