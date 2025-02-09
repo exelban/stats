@@ -75,7 +75,7 @@
 "Name" = "名稱";
 "Format" = "格式";
 "Turn off" = "關閉";
-"Normal" = "Normal";
+"Normal" = "正常";
 "Warning" = "警告";
 "Critical" = "重要通知";
 "Usage" = "使用量";
@@ -88,14 +88,14 @@
 "Read" = "讀取";
 "Write" = "寫入";
 "Frequency" = "頻率";
-"1 sec" = "1 sec";
-"2 sec" = "2 sec";
-"3 sec" = "3 sec";
-"5 sec" = "5 sec";
-"10 sec" = "10 sec";
-"15 sec" = "15 sec";
-"30 sec" = "30 sec";
-"60 sec" = "60 sec";
+"1 sec" = "1 秒";
+"2 sec" = "2 秒";
+"3 sec" = "3 秒";
+"5 sec" = "5 秒";
+"10 sec" = "10 秒";
+"15 sec" = "15 秒";
+"30 sec" = "30 秒";
+"60 sec" = "60 秒";
 
 // Setup
 "Stats Setup" = "Stats 設定";
@@ -106,15 +106,15 @@
 "Finish" = "完成";
 "Finish setup" = "完成設定";
 "Welcome to Stats" = "歡迎使用 Stats";
-"welcome_message" = "感謝您使用 Stats！「Stats」是一款讓您在選單列能一目瞭然地監看 macOS 系統資源的開源 App。";
+"welcome_message" = "感謝您使用 Stats！「Stats」是一款讓您在選單列一目瞭然地監看 macOS 系統資源的開源 App。";
 "Start the application automatically when starting your Mac" = "啟動 Mac 時自動打開 Stats";
 "Do not start the application automatically when starting your Mac" = "不要在啟動 Mac 時自動打開 Stats";
-"Do everything silently in the background (recommended)" = "在背景寧靜執行 (建議)";
+"Do everything silently in the background (recommended)" = "在背景寧靜執行（建議）";
 "Check for a new version on startup" = "當 Stats 打開時自動檢查新版本";
-"Check for a new version every day (once a day)" = "每天檢查是否有新版本 (1 天 1 次)";
-"Check for a new version every week (once a week)" = "每週檢查是否有新版本 (1 週 1 次)";
-"Check for a new version every month (once a month)" = "每月檢查是否有新版本 (1 個月 1 次)";
-"Never check for updates (not recommended)" = "不要檢查更新 (不建議）";
+"Check for a new version every day (once a day)" = "每天檢查是否有新版本（1 天 1 次）";
+"Check for a new version every week (once a week)" = "每週檢查是否有新版本（1 週 1 次）";
+"Check for a new version every month (once a month)" = "每月檢查是否有新版本（1 個月 1 次）";
+"Never check for updates (not recommended)" = "不要檢查更新（不建議）";
 "Anonymous telemetry for better development decisions" = "匿名診斷資料將用於改善開發決策";
 "Share anonymous telemetry data" = "分享匿名診斷資料";
 "Do not share anonymous telemetry data" = "不同意分享診斷資料";
@@ -127,7 +127,7 @@
 "Successfully updated" = "更新成功";
 "Stats was updated to v" = "Stats 已更新到 v%0";
 "Reset settings text" = "應用程式的所有設定將會重置，並會重新打開此應用程式。您確定要這樣做嗎？";
-"Support text" = "感謝您使用 Stats！維護和改進這個開放源專案需要時間和資源。如果您覺得 Stats 有幫助，請考慮捐款。一分一毫都有幫助！";
+"Support text" = "感謝您使用 Stats！維護並改進此開放原始碼專案需要花費時間與資源。如果覺得 Stats 對您有所幫助，歡迎贊助我們。您的一分一毫都帶給我們莫大的幫助！";
 
 // Settings
 "Open Activity Monitor" = "打開活動監視器";
@@ -138,7 +138,7 @@
 "Open dashboard" = "打開儀表板";
 "No notifications available in this module" = "沒有可用於此模組的通知";
 "Open Calendar" = "打開「行事曆」";
-"Toggle the module" = "Toggle the module";
+"Toggle the module" = "切換為模組顯示";
 
 // Application settings
 "Update application" = "更新應用程式";
@@ -158,7 +158,7 @@
 "Pause the Stats" = "暫停 Stats";
 "Resume the Stats" = "恢復 Stats";
 "Combined modules" = "合併模組";
-"Combined details" = "合併細節";
+"Combined details" = "合併詳細資訊";
 "Spacing" = "間距";
 "Share anonymous telemetry" = "分享匿名診斷資料";
 
@@ -174,9 +174,9 @@
 
 // Update
 "The latest version of Stats installed" = "已安裝最新版本";
-"Downloading..." = "下載中...";
-"Current version: " = "目前版本: ";
-"Latest version: " = "最新版本: ";
+"Downloading..." = "下載中⋯";
+"Current version: " = "目前版本：";
+"Latest version: " = "最新版本：";
 
 // Widgets
 "Color" = "色彩";
@@ -204,18 +204,18 @@
 "Static width" = "靜態寬度";
 "Tachometer widget" = "轉速計";
 "State widget" = "State 小工具";
-"Text widget" = "Text widget";
-"Battery details widget" = "Battery details widget";
+"Text widget" = "文字";
+"Battery details widget" = "電池詳細資訊";
 "Show symbols" = "顯示符號";
 "Label widget" = "標籤";
-"Number of reads in the chart" = "圖表顯示的未讀計數";
+"Number of reads in the chart" = "圖表顯示的未讀標記";
 "Color of download" = "下載的顯示色彩";
 "Color of upload" = "上傳的顯示色彩";
 "Monospaced font" = "等寬字體";
 "Reverse order" = "排序對調";
 "Chart history" = "圖表顯示區間";
 "Default color" = "Default";
-"Transparent when no activity" = "沒有活動時維持透明顯示";
+"Transparent when no activity" = "閒置時以透明顯示";
 "Constant color" = "恆定色彩";
 
 // Module Kit
@@ -236,8 +236,8 @@
 "No options to configure for the popup in this module" = "沒有可用於此模組的彈出式視窗組態設定選項";
 "Process" = "程序";
 "Kill process" = "結束程序";
-"Keyboard shortcut" = "Keyboard shortcut";
-"Listening..." = "Listening...";
+"Keyboard shortcut" = "鍵盤快速鍵";
+"Listening..." = "監聽中⋯";
 
 // Modules
 "Number of top processes" = "高能耗程序數量";
@@ -246,7 +246,7 @@
 "Chart color" = "圖表色彩";
 "Main chart scaling" = "主圖表縮放";
 "Scale value" = "縮放值";
-"Text widget value" = "Text widget value";
+"Text widget value" = "文字小工具值";
 
 // CPU
 "CPU usage" = "處理器使用量";
@@ -265,7 +265,7 @@
 "5 minutes" = "5 分鐘";
 "15 minutes" = "15 分鐘";
 "CPU usage threshold" = "處理器使用量臨界值";
-"CPU usage is" = "處理器使用量為：%0";
+"CPU usage is" = "處理器使用量：%0";
 "Efficiency cores" = "節能核心";
 "Performance cores" = "效能核心";
 "System color" = "系統占用色彩";
@@ -300,7 +300,7 @@
 "Render utilization" = "渲染利用率";
 "Tiler utilization" = "圖塊利用率";
 "GPU usage threshold" = "顯示卡使用量臨界值";
-"GPU usage is" = "顯示卡使用量為：%0";
+"GPU usage is" = "顯示卡使用量：%0";
 
 // RAM
 "Memory usage" = "記憶體使用量";
@@ -314,7 +314,7 @@
 "Swap" = "交換";
 "Split the value (App/Wired/Compressed)" = "分割值 (App/固定/壓縮)";
 "RAM utilization threshold" = "記憶體利用率臨界值";
-"RAM utilization is" = "記憶體利用率為：%0";
+"RAM utilization is" = "記憶體利用率：%0";
 "App color" = "App 色彩";
 "Wired color" = "連動記憶體色彩";
 "Compressed color" = "已壓縮記憶體色彩";
@@ -325,13 +325,13 @@
 
 // Disk
 "Show removable disks" = "顯示抽取式磁碟";
-"Used disk memory" = "總共: %1，已用: %0";
-"Free disk memory" = "總共: %1，可用: %0";
+"Used disk memory" = "總共：%1，已用：%0";
+"Free disk memory" = "總共：%1，可用：%0";
 "Disk to show" = "顯示磁碟";
 "Open disk" = "開啟磁碟";
 "Switch view" = "切換視窗";
 "Disk utilization threshold" = "磁碟利用率臨界值";
-"Disk utilization is" = "磁碟利用率為：%0";
+"Disk utilization is" = "磁碟利用率：%0";
 "Read color" = "讀取色彩";
 "Write color" = "寫入色彩";
 "Disk usage" = "磁碟使用量";
@@ -339,8 +339,8 @@
 "Total written" = "總寫入";
 "Write speed" = "寫入";
 "Read speed" = "讀取";
-"Drives" = "Drives";
-"SMART data" = "SMART data";
+"Drives" = "磁碟機";
+"SMART data" = "SMART 資料";
 
 // Sensors
 "Temperature unit" = "溫度單位";
@@ -362,7 +362,7 @@
 "Left fan" = "左側風扇";
 "Right fan" = "右側風扇";
 "Fastest fan" = "最快速度";
-"Sensor to show" = "Sensor to show";
+"Sensor to show" = "要顯示的感知器";
 
 // Network
 "Uploading" = "上傳";
@@ -394,7 +394,7 @@
 "Internet connection" = "網際網路連線裝態";
 "Active state color" = "已連線狀態色彩";
 "Nonactive state color" = "未連線狀態色彩";
-"Connectivity host (ICMP)" = "連線能力測試的主機 (ICMP)";
+"Connectivity host (ICMP)" = "連線能力測試主機（ICMP）";
 "Leave empty to disable the check" = "留空來停用檢查";
 "Connectivity history" = "連線歷程紀錄";
 "Auto-refresh public IP address" = "自動重新整理公用 IP 位址";
@@ -406,8 +406,8 @@
 "Latency" = "延遲";
 "Upload speed" = "上傳";
 "Download speed" = "下載";
-"Address" = "Address";
-"WiFi network" = "WiFi network";
+"Address" = "位址";
+"WiFi network" = "Wi-Fi 網路";
 
 // Battery
 "Level" = "電量";
@@ -433,7 +433,7 @@
 "Low battery" = "低電量";
 "High battery" = "高電量";
 "Battery remaining" = "剩餘 %0%";
-"Battery remaining to full charge" = "還剩 %0% 充飽";
+"Battery remaining to full charge" = "再 %0% 充飽";
 "Percentage" = "百分比";
 "Percentage and time" = "百分比和時間";
 "Time and percentage" = "時間和百分比";
@@ -447,7 +447,7 @@
 "Colorize battery" = "啟用彩色電池圖示";
 "Charging current" = "充電電流";
 "Charging Voltage" = "充電電壓";
-"Charger state inside the battery" = "Charger state inside the battery";
+"Charger state inside the battery" = "在電池圖示中顯示充電狀態";
 
 // Bluetooth
 "Battery to show" = "顯示藍牙裝置的電池電量";
@@ -458,9 +458,9 @@
 "Local" = "目前位置";
 "Calendar" = "日曆";
 "Local time" = "當地時間";
-"Add new clock" = "Add new clock";
-"Delete selected clock" = "Delete selected clock";
-"Help with datetime format" = "Help with datetime format";
+"Add new clock" = "加入新時鐘";
+"Delete selected clock" = "刪除所選時鐘";
+"Help with datetime format" = "時間日期格式說明";
 
 // Colors
 "Based on utilization" = "根據使用率";
