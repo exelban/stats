@@ -96,6 +96,10 @@
 "15 sec" = "15 sec";
 "30 sec" = "30 sec";
 "60 sec" = "60 sec";
+"Save" = "Save";
+"Run" = "Run";
+"Stop" = "Stop";
+"Uninstall" = "Uninstall";
 
 // Setup
 "Stats Setup" = "Thiết lập Stats";
@@ -161,6 +165,8 @@
 "Combined details" = "Chi tiết kết hợp";
 "Spacing" = "Khoảng cách";
 "Share anonymous telemetry" = "Chia sẻ dữ liệu ẩn danh";
+"Choose file" = "Choose file";
+"Stress tests" = "Stress tests";
 
 // Dashboard
 "Serial number" = "Số serial";

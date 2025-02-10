@@ -96,6 +96,10 @@
 "15 sec" = "15 сек";
 "30 sec" = "30 сек";
 "60 sec" = "60 сек";
+"Save" = "Зберегти";
+"Run" = "Запустити";
+"Stop" = "Зупинити";
+"Uninstall" = "Видалити";
 
 // Setup
 "Stats Setup" = "Налаштування";
@@ -161,6 +165,8 @@
 "Combined details" = "Комбіновані деталі";
 "Spacing" = "Інтервал";
 "Share anonymous telemetry" = "Ділитись анонімною телеметрією";
+"Choose file" = "Виберіть файл";
+"Stress tests" = "Стрес-тести";
 
 // Dashboard
 "Serial number" = "Серійний номер";

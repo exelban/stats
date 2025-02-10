@@ -96,6 +96,10 @@
 "15 sec" = "15 秒";
 "30 sec" = "30 秒";
 "60 sec" = "60 秒";
+"Save" = "Save";
+"Run" = "Run";
+"Stop" = "Stop";
+"Uninstall" = "Uninstall";
 
 // Setup
 "Stats Setup" = "Stats 设置";
@@ -161,6 +165,8 @@
 "Combined details" = "合并详情";
 "Spacing" = "间距";
 "Share anonymous telemetry" = "分享匿名诊断数据";
+"Choose file" = "Choose file";
+"Stress tests" = "Stress tests";
 
 // Dashboard
 "Serial number" = "序列号";

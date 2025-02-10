@@ -134,7 +134,7 @@ class ApplicationSettings: NSStackView {
             ),
             PreferencesRow(
                 localizedString("Import settings"),
-                component: buttonView(#selector(self.importSettings), text: localizedString("Browse"))
+                component: buttonView(#selector(self.importSettings), text: localizedString("Choose file"))
             ),
             PreferencesRow(
                 localizedString("Reset settings"),

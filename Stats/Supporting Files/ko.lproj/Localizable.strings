@@ -96,6 +96,10 @@
 "15 sec" = "15 sec";
 "30 sec" = "30 sec";
 "60 sec" = "60 sec";
+"Save" = "Save";
+"Run" = "Run";
+"Stop" = "Stop";
+"Uninstall" = "Uninstall";
 
 // Setup
 "Stats Setup" = "Stats 설정";
@@ -161,6 +165,8 @@
 "Combined details" = "Combined details";
 "Spacing" = "간격";
 "Share anonymous telemetry" = "익명 사용정보 공유";
+"Choose file" = "Choose file";
+"Stress tests" = "Stress tests";
 
 // Dashboard
 "Serial number" = "일련 번호";
