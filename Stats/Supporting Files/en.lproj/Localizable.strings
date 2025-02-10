@@ -100,6 +100,7 @@
 "Browse" = "Browse";
 "Run" = "Run";
 "Stop" = "Stop";
+"Uninstall" = "Uninstall";
 
 // Setup
 "Stats Setup" = "Stats Setup";
@@ -165,6 +166,7 @@
 "Combined details" = "Combined details";
 "Spacing" = "Spacing";
 "Share anonymous telemetry" = "Share anonymous telemetry";
+"Stress tests" = "Stress tests";
 
 // Dashboard
 "Serial number" = "Serial number";

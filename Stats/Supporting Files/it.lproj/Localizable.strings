@@ -96,6 +96,11 @@
 "15 sec" = "15 sec";
 "30 sec" = "30 sec";
 "60 sec" = "60 sec";
+"Save" = "Save";
+"Browse" = "Browse";
+"Run" = "Run";
+"Stop" = "Stop";
+"Uninstall" = "Uninstall";
 
 // Setup
 "Stats Setup" = "Configurazione Stats";
@@ -161,6 +166,7 @@
 "Combined details" = "Dettagli combinati";
 "Spacing" = "Spazio";
 "Share anonymous telemetry" = "Condividi telemetria anonima";
+"Stress tests" = "Stress tests";
 
 // Dashboard
 "Serial number" = "Numero di serie";

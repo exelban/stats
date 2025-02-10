@@ -96,6 +96,11 @@
 "15 sec" = "15 sec";
 "30 sec" = "30 sec";
 "60 sec" = "60 sec";
+"Save" = "Save";
+"Browse" = "Browse";
+"Run" = "Run";
+"Stop" = "Stop";
+"Uninstall" = "Uninstall";
 
 // Setup
 "Stats Setup" = "Stats asennus";
@@ -161,6 +166,7 @@
 "Combined details" = "Yhdistetyt tiedot";
 "Spacing" = "Spacing";
 "Share anonymous telemetry" = "Jaa anonyymi telemetria";
+"Stress tests" = "Stress tests";
 
 // Dashboard
 "Serial number" = "Sarjanumero";
