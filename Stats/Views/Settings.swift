@@ -72,7 +72,7 @@ class SettingsWindow: NSWindow, NSWindowDelegate, NSToolbarDelegate {
         self.contentViewController = sidebarViewController
         self.titlebarAppearsTransparent = true
         self.backgroundColor = .clear
-//        self.positionCenter()
+        self.positionCenter()
         self.setIsVisible(false)
         
         let windowController = NSWindowController()

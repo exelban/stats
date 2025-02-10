@@ -96,11 +96,10 @@
 "15 sec" = "15 сек";
 "30 sec" = "30 сек";
 "60 sec" = "60 сек";
-"Save" = "Save";
-"Browse" = "Browse";
-"Run" = "Run";
-"Stop" = "Stop";
-"Uninstall" = "Uninstall";
+"Save" = "Сохранить";
+"Run" = "Запустить";
+"Stop" = "Остановить";
+"Uninstall" = "Удалить";
 
 // Setup
 "Stats Setup" = "Настройки Stats";
@@ -166,7 +165,8 @@
 "Combined details" = "Комбинированные детали";
 "Spacing" = "Интервал";
 "Share anonymous telemetry" = "Делится анонимной телеметрией";
-"Stress tests" = "Stress tests";
+"Choose file" = "Выбрать файл";
+"Stress tests" = "Стресс-тесты";
 
 // Dashboard
 "Serial number" = "Серийный номер";

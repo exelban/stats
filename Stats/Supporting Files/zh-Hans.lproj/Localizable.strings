@@ -97,7 +97,6 @@
 "30 sec" = "30 秒";
 "60 sec" = "60 秒";
 "Save" = "保存";
-"Browse" = "浏览";
 "Run" = "运行";
 "Stop" = "停止";
 "Uninstall" = "卸载";
@@ -167,6 +166,7 @@
 "Spacing" = "间距";
 "Share anonymous telemetry" = "分享匿名诊断数据";
 "Stress tests" = "压力测试";
+"Choose file" = "选择文件";
 
 // Dashboard
 "Serial number" = "序列号";

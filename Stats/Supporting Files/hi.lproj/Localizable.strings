@@ -97,7 +97,6 @@
 "30 sec" = "30 sec";
 "60 sec" = "60 sec";
 "Save" = "Save";
-"Browse" = "Browse";
 "Run" = "Run";
 "Stop" = "Stop";
 "Uninstall" = "Uninstall";
@@ -166,6 +165,7 @@
 "Combined details" = "Combined details";
 "Spacing" = "स्पेसिंग";
 "Share anonymous telemetry" = "अनाम टेलीमेट्री साझा करें";
+"Choose file" = "Choose file";
 "Stress tests" = "Stress tests";
 
 // Dashboard

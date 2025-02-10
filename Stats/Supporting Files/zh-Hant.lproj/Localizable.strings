@@ -97,7 +97,6 @@
 "30 sec" = "30 秒";
 "60 sec" = "60 秒";
 "Save" = "Save";
-"Browse" = "Browse";
 "Run" = "Run";
 "Stop" = "Stop";
 "Uninstall" = "Uninstall";
@@ -166,6 +165,7 @@
 "Combined details" = "合併詳細資訊";
 "Spacing" = "間距";
 "Share anonymous telemetry" = "分享匿名診斷資料";
+"Choose file" = "Choose file";
 "Stress tests" = "Stress tests";
 
 // Dashboard
