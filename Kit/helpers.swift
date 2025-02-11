@@ -1715,9 +1715,9 @@ public class GPUStressTest {
     private let commandQueue: MTLCommandQueue
     private let pipeline: MTLComputePipelineState
     private let dataSize = 50_000_000 // Large data size for GPU workload
-    private let bufferA: MTLBuffer
-    private let bufferB: MTLBuffer
-    private let bufferC: MTLBuffer
+    private var bufferA: MTLBuffer?
+    private var bufferB: MTLBuffer?
+    private var bufferC: MTLBuffer?
     
     public init?() {
         guard let device = MTLCreateSystemDefaultDevice(), let queue = device.makeCommandQueue() else {
@@ -1745,20 +1745,32 @@ public class GPUStressTest {
         } catch {
             return nil
         }
+    }
+    
+    private func allocateMemory() {
+        guard self.bufferA == nil, self.bufferB == nil, self.bufferC == nil else { return }
         
-        self.bufferA = device.makeBuffer(length: self.dataSize * MemoryLayout<Float>.size, options: .storageModeShared)!
-        self.bufferB = device.makeBuffer(length: self.dataSize * MemoryLayout<Float>.size, options: .storageModeShared)!
-        self.bufferC = device.makeBuffer(length: self.dataSize * MemoryLayout<Float>.size, options: .storageModeShared)!
+        self.bufferA = self.device.makeBuffer(length: self.dataSize * MemoryLayout<Float>.size, options: .storageModeShared)
+        self.bufferB = self.device.makeBuffer(length: self.dataSize * MemoryLayout<Float>.size, options: .storageModeShared)
+        self.bufferC = self.device.makeBuffer(length: self.dataSize * MemoryLayout<Float>.size, options: .storageModeShared)
         
         let dataA = [Float](repeating: 1.0, count: self.dataSize)
         let dataB = [Float](repeating: 2.0, count: self.dataSize)
-        memcpy(self.bufferA.contents(), dataA, dataA.count * MemoryLayout<Float>.size)
-        memcpy(self.bufferB.contents(), dataB, dataB.count * MemoryLayout<Float>.size)
+        
+        memcpy(self.bufferA?.contents(), dataA, dataA.count * MemoryLayout<Float>.size)
+        memcpy(self.bufferB?.contents(), dataB, dataB.count * MemoryLayout<Float>.size)
+    }
+    
+    private func freeMemory() {
+        self.bufferA = nil
+        self.bufferB = nil
+        self.bufferC = nil
     }
     
     public func start() {
         guard !self.isRunning else { return }
         self.isRunning = true
+        self.allocateMemory()
         
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             self?.test()
@@ -1767,6 +1779,7 @@ public class GPUStressTest {
     
     public func stop() {
         self.isRunning = false
+        self.freeMemory()
     }
     
     private func test() {
@@ -1775,17 +1788,20 @@ public class GPUStressTest {
         
         while self.isRunning {
             guard let commandBuffer = self.commandQueue.makeCommandBuffer(),
-                  let commandEncoder = commandBuffer.makeComputeCommandEncoder() else {
+                  let commandEncoder = commandBuffer.makeComputeCommandEncoder(),
+                  let bufferA = self.bufferA, let bufferB = self.bufferB, let bufferC = self.bufferC else {
                 break
             }
             
             commandEncoder.setComputePipelineState(self.pipeline)
-            commandEncoder.setBuffer(self.bufferA, offset: 0, index: 0)
-            commandEncoder.setBuffer(self.bufferB, offset: 0, index: 1)
-            commandEncoder.setBuffer(self.bufferC, offset: 0, index: 2)
+            commandEncoder.setBuffer(bufferA, offset: 0, index: 0)
+            commandEncoder.setBuffer(bufferB, offset: 0, index: 1)
+            commandEncoder.setBuffer(bufferC, offset: 0, index: 2)
             commandEncoder.dispatchThreads(gridSize, threadsPerThreadgroup: threadGroupSize)
             commandEncoder.endEncoding()
             commandBuffer.commit()
+            
+            commandBuffer.waitUntilCompleted()
         }
     }
 }
