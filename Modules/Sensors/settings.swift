@@ -148,8 +148,6 @@ internal class Settings: NSStackView, Settings_v {
         if let row = self.sensorsPrefs?.findRow("active_sensor") {
             if !widgets.isEmpty {
                 self.sensorsPrefs?.setRowVisibility(row, newState: widgets.contains(where: { $0 == .mini }))
-            } else {
-                self.sensorsPrefs?.setRowVisibility(row, newState: false)
             }
             row.replaceComponent(with: selectView(
                 action: #selector(self.handleSelection),
