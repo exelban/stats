@@ -13,20 +13,18 @@ import Cocoa
 import Kit
 
 internal class Popup: PopupWrapper {
-    private var grid: NSGridView? = nil
-    
     private let dashboardHeight: CGFloat = 90
-    
     private var detailsHeight: CGFloat = (22 * 4) + Constants.Popup.separatorHeight
     private let batteryHeight: CGFloat = (22 * 7) + Constants.Popup.separatorHeight
     private let adapterHeight: CGFloat = (22 * 4) + Constants.Popup.separatorHeight
-    private let processHeight: CGFloat = (22 * 1)
+    private let processHeight: CGFloat = 22
     
     private var dashboardView: NSView? = nil
     private var dashboardBatteryView: BatteryView? = nil
     private var detailsView: NSView? = nil
     private var batteryView: NSView? = nil
     private var adapterView: NSView? = nil
+    private var processesView: NSView? = nil
     
     private var levelField: NSTextField? = nil
     private var sourceField: NSTextField? = nil
@@ -63,33 +61,19 @@ internal class Popup: PopupWrapper {
     }
     
     public init(_ module: ModuleType) {
-        super.init(module, frame: NSRect(
-            x: 0,
-            y: 0,
-            width: Constants.Popup.width,
-            height: self.dashboardHeight + self.batteryHeight + self.adapterHeight
-        ))
-        self.setFrameSize(NSSize(width: self.frame.width, height: self.frame.height + self.detailsHeight + self.processesHeight))
+        super.init(module, frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: 0))
+        
+        self.spacing = 0
+        self.orientation = .vertical
         
         self.colorState = Store.shared.bool(key: "\(self.title)_color", defaultValue: self.colorState)
         
-        let gridView: NSGridView = NSGridView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height))
-        gridView.rowSpacing = 0
-        gridView.yPlacement = .fill
+        self.addArrangedSubview(self.initDashboard())
+        self.addArrangedSubview(self.initDetails())
+        self.addArrangedSubview(self.initBattery())
+        self.addArrangedSubview(self.initProcesses())
         
-        gridView.addRow(with: [self.initDashboard()])
-        gridView.addRow(with: [self.initDetails()])
-        gridView.addRow(with: [self.initBattery()])
-        gridView.addRow(with: [self.initAdapter()])
-        gridView.addRow(with: [self.initProcesses()])
-        
-        gridView.row(at: 0).height = self.dashboardHeight
-        gridView.row(at: 1).height = self.detailsHeight
-        gridView.row(at: 2).height = self.batteryHeight
-        gridView.row(at: 3).height = self.adapterHeight
-        
-        self.addSubview(gridView)
-        self.grid = gridView
+        self.recalculateHeight()
     }
     
     required init?(coder: NSCoder) {
@@ -100,27 +84,24 @@ internal class Popup: PopupWrapper {
         self.processes?.setLock(false)
     }
     
-    public func numberOfProcessesUpdated() {
-        if self.processes?.count == self.numberOfProcesses { return }
-        
-        DispatchQueue.main.async(execute: {
-            let h: CGFloat = self.dashboardHeight + self.detailsHeight + self.batteryHeight + self.adapterHeight + self.processesHeight
+    private func recalculateHeight() {
+        var h: CGFloat = 0
+        self.arrangedSubviews.forEach { v in
+            if let v = v as? NSStackView {
+                h += v.arrangedSubviews.map({ $0.bounds.height }).reduce(0, +)
+            } else {
+                h += v.bounds.height
+            }
+        }
+        if self.frame.size.height != h {
             self.setFrameSize(NSSize(width: self.frame.width, height: h))
-            
-            self.grid?.setFrameSize(NSSize(width: self.frame.width, height: h))
-            
-            self.grid?.row(at: 4).cell(at: 0).contentView?.removeFromSuperview()
-            self.processes = nil
-            self.grid?.removeRow(at: 4)
-            self.grid?.addRow(with: [self.initProcesses()])
-            self.processesInitialized = false
-            
             self.sizeCallback?(self.frame.size)
-        })
+        }
     }
     
     private func initDashboard() -> NSView {
-        let view: NSView = NSView(frame: NSRect(x: 0, y: self.frame.height - self.dashboardHeight, width: self.frame.width, height: self.dashboardHeight))
+        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.dashboardHeight))
+        view.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
         let container: NSView = NSView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: self.dashboardHeight))
         
         self.dashboardBatteryView = BatteryView(frame: NSRect(
@@ -138,6 +119,7 @@ internal class Popup: PopupWrapper {
     
     private func initDetails() -> NSView {
         let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.detailsHeight))
+        view.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
         let separator = separatorView(localizedString("Details"), origin: NSPoint(x: 0, y: self.detailsHeight-Constants.Popup.separatorHeight), width: self.frame.width)
         let container: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: separator.frame.origin.y))
         container.orientation = .vertical
@@ -158,6 +140,7 @@ internal class Popup: PopupWrapper {
     
     private func initBattery() -> NSView {
         let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.batteryHeight))
+        view.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
         let separator = separatorView(localizedString("Battery"), origin: NSPoint(x: 0, y: self.batteryHeight-Constants.Popup.separatorHeight), width: self.frame.width)
         let container: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: separator.frame.origin.y))
         container.orientation = .vertical
@@ -181,6 +164,7 @@ internal class Popup: PopupWrapper {
     
     private func initAdapter() -> NSView {
         let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.adapterHeight))
+        view.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
         let separator = separatorView(localizedString("Power adapter"), origin: NSPoint(x: 0, y: self.adapterHeight-Constants.Popup.separatorHeight), width: self.frame.width)
         let container: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: separator.frame.origin.y))
         container.orientation = .vertical
@@ -214,6 +198,7 @@ internal class Popup: PopupWrapper {
         view.addSubview(separator)
         view.addSubview(container)
         
+        self.processesView = view
         return view
     }
     
@@ -252,12 +237,23 @@ internal class Popup: PopupWrapper {
                 } else {
                     self.timeField?.stringValue = localizedString("Unknown")
                 }
+                
+                if self.adapterView != nil {
+                    self.adapterView?.removeFromSuperview()
+                    self.adapterView = nil
+                    self.recalculateHeight()
+                }
             } else {
                 self.timeLabelField?.stringValue = "\(localizedString("Time to charge")):"
                 if value.timeToCharge != -1 && value.timeToCharge != 0 {
                     self.timeField?.stringValue = Double(value.timeToCharge*60).printSecondsToHoursMinutesSeconds(short: self.timeFormat == "short")
                 } else {
                     self.timeField?.stringValue = localizedString("Unknown")
+                }
+                
+                if self.adapterView == nil {
+                    self.insertArrangedSubview(self.initAdapter(), at: 3)
+                    self.recalculateHeight()
                 }
             }
             
@@ -325,6 +321,19 @@ internal class Popup: PopupWrapper {
             }
             
             self.processesInitialized = true
+        })
+    }
+    
+    public func numberOfProcessesUpdated() {
+        if self.processes?.count == self.numberOfProcesses { return }
+        
+        DispatchQueue.main.async(execute: {
+            self.processesView?.removeFromSuperview()
+            self.processesView = nil
+            self.processes = nil
+            self.addArrangedSubview(self.initProcesses())
+            self.processesInitialized = false
+            self.recalculateHeight()
         })
     }
     
