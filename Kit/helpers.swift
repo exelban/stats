@@ -1646,7 +1646,7 @@ public class CPUeStressTest {
         
         let efficientCoreCount = ProcessInfo.processInfo.processorCount / 2
         self.workers.removeAll()
-
+        
         for index in 0..<efficientCoreCount {
             let worker = DispatchWorkItem { [weak self] in
                 self?.test(threadIndex: index)
@@ -1664,8 +1664,9 @@ public class CPUeStressTest {
     
     private func test(threadIndex: Int) {
         pthread_set_qos_class_self_np(QOS_CLASS_BACKGROUND, 0)
+        var result: Double = 0.0
         while isRunning {
-            _ = sqrt(987654.321)
+            result += sqrt(987654.321)
         }
     }
 }
@@ -1702,8 +1703,9 @@ public class CPUpStressTest {
     
     private func test(threadIndex: Int) {
         pthread_set_qos_class_self_np(QOS_CLASS_USER_INTERACTIVE, 0)
+        var result: Double = 0.0
         while isRunning {
-            _ = sqrt(987654.321)
+            result += sqrt(987654.321)
         }
     }
 }
