@@ -99,7 +99,9 @@ extension AppDelegate {
         self.supportActivity.interval = 60 * 60 * 24 * 30
         self.supportActivity.repeats = true
         self.supportActivity.schedule { (completion: @escaping NSBackgroundActivityScheduler.CompletionHandler) in
-            self.checkIfShouldShowSupportWindow()
+            DispatchQueue.main.async {
+                self.checkIfShouldShowSupportWindow()
+            }
             completion(NSBackgroundActivityScheduler.Result.finished)
         }
         
