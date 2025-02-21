@@ -88,14 +88,6 @@
 "Read" = "Odczyt";
 "Write" = "Zapis";
 "Frequency" = "Częstotliwość";
-"1 sec" = "1 sek";
-"2 sec" = "2 sek";
-"3 sec" = "3 sek";
-"5 sec" = "5 sek";
-"10 sec" = "10 sek";
-"15 sec" = "15 sek";
-"30 sec" = "30 sek";
-"60 sec" = "60 sek";
 "Save" = "Zapisać";
 "Run" = "Uruchomić";
 "Stop" = "Zatrzymać";
