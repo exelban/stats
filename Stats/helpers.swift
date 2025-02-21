@@ -219,6 +219,7 @@ extension AppDelegate {
             return
         }
         
+        Store.shared.set(key: "support_ts", value: now)
         self.supportWindow.show()
     }
     
