@@ -1676,16 +1676,16 @@ public class CPUpStressTest {
     
     private var workers: [DispatchWorkItem] = []
     private let queue = DispatchQueue.global(qos: .userInteractive)
-
+    
     public init() {}
-
+    
     public func start() {
         guard !self.isRunning else { return }
         self.isRunning = true
-
-        let performanceCoreCount = ProcessInfo.processInfo.activeProcessorCount
+        
+        let performanceCoreCount: Int = Int(SystemKit.shared.device.info.cpu?.pCores ?? 4)
         self.workers.removeAll()
-
+        
         for index in 0..<performanceCoreCount {
             let worker = DispatchWorkItem { [weak self] in
                 self?.test(threadIndex: index)
