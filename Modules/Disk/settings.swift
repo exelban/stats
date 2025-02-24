@@ -137,9 +137,8 @@ internal class Settings: NSStackView, Settings_v {
         self.callback()
     }
     @objc private func changeUpdateInterval(_ sender: NSMenuItem) {
-        if let value = Int(sender.title.replacingOccurrences(of: " sec", with: "")) {
-            self.setUpdateInterval(value: value)
-        }
+        guard let key = sender.representedObject as? String, let value = Int(key) else { return }
+        self.setUpdateInterval(value: value)
     }
     public func setUpdateInterval(value: Int) {
         self.updateIntervalValue = value
