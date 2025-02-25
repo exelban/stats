@@ -1644,7 +1644,7 @@ public class CPUeStressTest {
         guard !self.isRunning else { return }
         self.isRunning = true
         
-        let efficientCoreCount = ProcessInfo.processInfo.processorCount / 2
+        let efficientCoreCount: Int = Int(SystemKit.shared.device.info.cpu?.eCores ?? 2)
         self.workers.removeAll()
         
         for index in 0..<efficientCoreCount {
@@ -1664,9 +1664,11 @@ public class CPUeStressTest {
     
     private func test(threadIndex: Int) {
         pthread_set_qos_class_self_np(QOS_CLASS_BACKGROUND, 0)
-        var result: Double = 0.0
-        while isRunning {
-            result += sqrt(987654.321)
+        var x: Double = 1.0
+        while self.isRunning {
+            x = sin(x) + cos(x)
+            if x > 100000 { x = 1.0 }
+            OSMemoryBarrier()
         }
     }
 }
@@ -1703,9 +1705,11 @@ public class CPUpStressTest {
     
     private func test(threadIndex: Int) {
         pthread_set_qos_class_self_np(QOS_CLASS_USER_INTERACTIVE, 0)
-        var result: Double = 0.0
-        while isRunning {
-            result += sqrt(987654.321)
+        var x: Double = 1.0
+        while self.isRunning {
+            x = sin(x) + cos(x)
+            if x > 100000 { x = 1.0 }
+            OSMemoryBarrier()
         }
     }
 }
