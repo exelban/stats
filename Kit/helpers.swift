@@ -197,8 +197,10 @@ public struct Units {
         formatter.includesUnit = true
         formatter.isAdaptive = true
         
-        var value = formatter.string(fromByteCount: Int64(bytes))
-        value = value.replacingOccurrences(of: ",", with: ".")
+        var value = formatter.string(fromByteCount: Int64(self.bytes))
+        if let idx = value.lastIndex(of: ",") {
+            value.replaceSubrange(idx...idx, with: ".")
+        }
         
         return value
     }
