@@ -140,6 +140,9 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
     private var VPNMode: Bool {
         get { Store.shared.bool(key: "Network_VPNMode", defaultValue: false) }
     }
+    private var publicIPState: Bool {
+        get { Store.shared.bool(key: "Network_publicIP", defaultValue: true) }
+    }
     
     private let wifiClient = CWWiFiClient.shared()
     
@@ -413,6 +416,8 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
     }
     
     private func getPublicIP() {
+        guard self.publicIPState else { return }
+        
         struct Addr_s: Decodable {
             let ipv4: String?
             let ipv6: String?
