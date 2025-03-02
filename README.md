@@ -18,6 +18,9 @@ To install it using Homebrew, open the Terminal app and type:
 brew install stats
 ```
 
+### Legacy version
+Legacy version for older systems could be found [here](https://mac-stats.com/downloads).
+
 ## Requirements
 Stats is supported on the released macOS version starting from macOS 10.15 (Catalina).
 
@@ -46,23 +49,37 @@ To change the order of any menu bar icon - macOS Mojave (version 10.14) and up.
 2. Drag the icon to the desired position on the menu bar.
 3. Release ⌘ (command key)
 
-### What if you don't see sensors (M1 macs)?
-Sensors data on the first generation of M1 mac could be obtained only from HID services. It's disabled by default because it consumes a lot of CPU and energy. You can enable it in the Sensors module settings with the option `HID sensors`.
-
-It's only valid for M1 Apple Silicon macs. If you don't see sensors on another mac, please open an issue for that.
-
-### How to show the CPU frequency?
-The CPU frequency is available only on Intel-based macs. You need to have installed [Intel Power Gadget](https://www.intel.com/content/www/us/en/developer/articles/tool/power-gadget.html) (IPG) for that. It allows receiving the CPU frequency from the IPG driver. There is no way to obtain a CPU frequency on Apple silicon macs.
-
 ### How to reduce energy impact or CPU usage of Stats?
 Stats tries to be efficient as it's possible. But reading some data periodically is not a cheap task. Each module has its own "price". So, if you want to reduce energy impact from the Stats you need to disable some Stats modules. The most inefficient modules are Sensors and Bluetooth. Disabling these modules could reduce CPU usage and power efficiency by up to 50% in some cases.
+
+### Fan control
+Fan control is in legacy mode. It does not receive any updates or fixes. It's not dropped from the app just because in the old Macs it works pretty acceptable. I'm open to accepting fixed or improvements (via PR) for this feature in case someone would like to help with that. But have no option and time to provide support for this feature.
+
+### Sensors show incorrect CPU/GPU core count
+CPU/GPU sensors are simply thermal zones (sensors) on the CPU/GPU. They have no relation to the number of cores or specific cores.
+For example, a CPU is typically divided into two clusters: efficiency and performance. Each cluster contains multiple temperature sensors, and Stats simply displays these sensors. However, "CPU Efficient Core 1" does not represent the temperature of a single efficient core—it only indicates one of the temperature sensors within the efficiency core cluster.
+Additionally, with each new SoC, Apple changes the sensor keys. As a result, it takes time to determine which SMC values correspond to the appropriate sensors. If anyone knows how to accurately match the sensors for Apple Silicon, please contact me.
+
+### App crash – what to do?
+First, ensure that you are using the latest version of Stats. There is a high chance that a fix preventing the crash has already been released. If you are already running the latest version, check the open issues. Only if none of the existing issues address your problem should you open a new issue.
 
 ### Why my issue was closed without any response?
 Most probably because it's a duplicated issue and there is an answer to the question, report, or proposition. Please use a search by closed issues to get an answer.
 So, if your issue was closed without any response, most probably it already has a response.
 
-### Fan control
-Fan control is in legacy mode. It does not receive any updates or fixes. It's not dropped from the app just because in the old Macs it works pretty acceptable. I'm open to accepting fixed or improvements (via PR) for this feature in case someone would like to help with that. But have no option and time to provide support for this feature.
+### External API
+Stats uses some external APIs, such as:
+
+- https://api.mac-stats.com – For update checks and retrieving the public IP address
+- https://api.github.com – Fallback for update checks
+
+Both of these APIs are used to check for updates. Additionally, an external request is required to obtain the public IP address. I do not want to use any third-party providers for retrieving the public IP address, so I use my own server for this purpose.
+
+If you have concerns about these requests, you have a few options:
+
+- propose a PR that allows these features to work without an external server
+- block both of these servers using any network filtering app (if you're reading this, you're likely using something like Little Snitch, so you can easily do this). In this case do not expect to receive any updates or see your public IP in the network module.
+
 
 ## Supported languages
 - English
