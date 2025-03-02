@@ -348,7 +348,7 @@
 "Fan" = "Lüfter";
 "HID sensors" = "HID Sensoren";
 "Synchronize fan's control" = "Lüfter synchronisieren";
-"Current" = "Aktuell";
+"Current" = "Strom";
 "Energy" = "Energie";
 "Show unknown sensors" = "Unbekannte Sensoren anzeigen";
 "Install fan helper" = "Lüftersteuerung installieren";
