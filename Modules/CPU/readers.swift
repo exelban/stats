@@ -416,18 +416,21 @@ public class FrequencyReader: Reader<[Double]> {
         let duration = 500
         let step = UInt64(duration / self.measurementCount)
         var samples = [([IOSample], TimeInterval)]()
-        guard var prev = self.prev ?? self.getSample() else { return samples }
+        guard let initialSample = self.getSample() else { return samples }
+        var prev = self.prev ?? initialSample
         
         for _ in 0..<self.measurementCount {
             let milliseconds = UInt64(step) * 1_000_000
             try? await Task.sleep(nanoseconds: milliseconds)
+            
             guard let next = self.getSample() else { continue }
-            guard let diff = IOReportCreateSamplesDelta(prev.samples, next.samples, nil)?.takeRetainedValue() else {
-                continue
+            
+            if let diffCF = IOReportCreateSamplesDelta(prev.samples, next.samples, nil) {
+                let diff = diffCF.takeRetainedValue()
+                let elapsed = next.time - prev.time
+                samples.append((self.collectIOSamples(data: diff), max(elapsed, TimeInterval(1))))
             }
-            let elapsed = Date(timeIntervalSince1970: next.time).timeIntervalSince(Date(timeIntervalSince1970: prev.time))
             prev = next
-            samples.append((self.collectIOSamples(data: diff), max(elapsed, TimeInterval(1))))
         }
         
         self.prev = prev
