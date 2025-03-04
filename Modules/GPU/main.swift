@@ -54,8 +54,30 @@ public struct GPU_Info: Codable {
     }
 }
 
-public struct GPUs: Codable {
-    public var list: [GPU_Info] = []
+public class GPUs: Codable {
+    private var queue: DispatchQueue = DispatchQueue(label: "eu.exelban.Stats.GPU.SynchronizedArray")
+    
+    private var _list: [GPU_Info] = []
+    public var list: [GPU_Info] {
+        get { self.queue.sync { self._list } }
+        set { self.queue.sync { self._list = newValue } }
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case list
+    }
+    
+    required public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.list = try container.decode(Array<GPU_Info>.self, forKey: CodingKeys.list)
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(list, forKey: .list)
+    }
+    
+    init() {}
     
     internal func active() -> [GPU_Info] {
         return self.list.filter{ $0.state && $0.utilization != nil }.sorted{ $0.utilization ?? 0 > $1.utilization ?? 0 }
