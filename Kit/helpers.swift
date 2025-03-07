@@ -1464,6 +1464,7 @@ public class StepperInput: NSStackView, NSTextFieldDelegate, PreferencesSwitchWi
         _ value: Int,
         range: NSRange = NSRange(location: 1, length: 99),
         unit: String = "%",
+        visibileUnit: Bool = true,
         units: [KeyValue_p]? = nil,
         callback: @escaping (Int) -> Void = {_ in },
         unitCallback: @escaping (KeyValue_p) -> Void = {_ in }
@@ -1504,10 +1505,12 @@ public class StepperInput: NSStackView, NSTextFieldDelegate, PreferencesSwitchWi
             if unit == "%" {
                 self.widthAnchor.constraint(equalToConstant: 68).isActive = true
             }
-            let symbol: NSTextField = LabelField(unit)
-            symbol.textColor = .textColor
-            self.addArrangedSubview(symbol)
-            self.symbolView = symbol
+            if visibileUnit {
+                let symbol: NSTextField = LabelField(unit)
+                symbol.textColor = .textColor
+                self.addArrangedSubview(symbol)
+                self.symbolView = symbol
+            }
         } else if let units {
             self.units = units
             self.unitsView = selectView(

@@ -14,36 +14,49 @@ import Kit
 
 class Notifications: NotificationsWrapper {
     private let connectionID: String = "connection"
+    private let connectionThresholdID: String = "connection_threshold"
     private let interfaceID: String = "interface"
     private let localID: String = "localIP"
     private let publicID: String = "publicIP"
     private let wifiID: String = "wifi"
     
     private var connectionState: Bool = false
+    private var connectionThreshold: Int = 2
     private var interfaceState: Bool = false
     private var localIPState: Bool = false
     private var publicIPState: Bool = false
     private var wifiState: Bool = false
     
     private var connection: Bool?
+    private var connectionCount: Int = 0
+    private var connectionPrev: Bool?
     private var interface: String?
     private var localIP: String?
     private var publicIP: String?
     private var wifi: String?
     
+    private var connectionInit: Bool = false
+    private var interfaceInit: Bool = false
+    private var localIPInit: Bool = false
+    private var publicIPInit: Bool = false
+    private var wifiInit: Bool = false
+    
     public init(_ module: ModuleType) {
         super.init(module, [self.connectionID, self.interfaceID, self.localID, self.publicID, self.wifiID])
         
         self.connectionState = Store.shared.bool(key: "\(self.module)_notifications_connection_state", defaultValue: self.connectionState)
+        self.connectionThreshold = Store.shared.int(key: "\(self.module)_notifications_connection_threshold", defaultValue: self.connectionThreshold)
         self.interfaceState = Store.shared.bool(key: "\(self.module)_notifications_interface_state", defaultValue: self.interfaceState)
         self.localIPState = Store.shared.bool(key: "\(self.module)_notifications_localIP_state", defaultValue: self.localIPState)
         self.publicIPState = Store.shared.bool(key: "\(self.module)_notifications_publicIP_state", defaultValue: self.publicIPState)
         self.wifiState = Store.shared.bool(key: "\(self.module)_notifications_wifi_state", defaultValue: self.wifiState)
         
         self.addArrangedSubview(PreferencesSection([
-            PreferencesRow(localizedString("Status"), component: switchView(
-                action: #selector(self.toggleConnectionState),
-                state: self.connectionState
+            PreferencesRow(localizedString("Status"), component: PreferencesSwitch(
+                action: self.toggleConnectionState, state: self.connectionState, with: StepperInput(
+                    self.connectionThreshold, range: NSRange(location: 1, length: 9), visibileUnit: false,
+                    callback: self.changeWidgetConnectionThreshold
+                )
             )),
             PreferencesRow(localizedString("Network interface"), component: switchView(
                 action: #selector(self.toggleInterfaceState),
@@ -69,6 +82,28 @@ class Notifications: NotificationsWrapper {
     }
     
     internal func usageCallback(_ value: Network_Usage) {
+        if !self.interfaceInit {
+            self.interface = value.interface?.BSDName
+            self.interfaceInit = true
+        }
+        if !self.localIPInit {
+            self.localIP = value.laddr
+            self.localIPInit = true
+        }
+        if !self.publicIPInit {
+            if let v4 = value.raddr.v4 {
+                self.publicIP = v4
+                self.publicIPInit = true
+            } else if let v6 = value.raddr.v6 {
+                self.publicIP = v6
+                self.publicIPInit = true
+            }
+        }
+        if !self.wifiInit {
+            self.wifi = value.wifiDetails.ssid
+            self.wifiInit = true
+        }
+        
         if self.interfaceState {
             if value.interface?.BSDName != self.interface {
                 self.newNotification(id: self.interfaceID, title: localizedString("Network interface changed"), subtitle: nil)
@@ -107,35 +142,41 @@ class Notifications: NotificationsWrapper {
         }
         
         if self.connection != value.status {
-            var title: String
-            if value.status {
-                title = localizedString("Internet connection established")
-            } else {
-                title = localizedString("Internet connection lost")
-            }
-            self.newNotification(id: self.connectionID, title: title, subtitle: nil)
+            self.connectionCount += 1
+        } else {
+            self.connectionCount = 0
         }
-        self.connection = value.status
+        
+        if self.connectionCount >= self.connectionThreshold {
+            let title: String = value.status ? localizedString("Internet connection established") : localizedString("Internet connection lost")
+            self.newNotification(id: self.connectionID, title: title, subtitle: nil)
+            self.connection = value.status
+            self.connectionCount = 0
+        }
     }
     
     @objc private func toggleConnectionState(_ sender: NSControl) {
-        self.interfaceState = controlState(sender)
-        Store.shared.set(key: "\(self.module)_notifications_connection_state", value: self.interfaceState)
+        self.connectionState = controlState(sender)
+        Store.shared.set(key: "\(self.module)_notifications_connection_state", value: self.connectionState)
+    }
+    @objc private func changeWidgetConnectionThreshold(_ newValue: Int) {
+        self.connectionThreshold = newValue
+        Store.shared.set(key: "\(self.module)_notifications_connection_threshold", value: newValue)
     }
     @objc private func toggleInterfaceState(_ sender: NSControl) {
         self.interfaceState = controlState(sender)
         Store.shared.set(key: "\(self.module)_notifications_interface_state", value: self.interfaceState)
     }
     @objc private func toggleLocalIPState(_ sender: NSControl) {
-        self.interfaceState = controlState(sender)
-        Store.shared.set(key: "\(self.module)_notifications_localIP_state", value: self.interfaceState)
+        self.localIPState = controlState(sender)
+        Store.shared.set(key: "\(self.module)_notifications_localIP_state", value: self.localIPState)
     }
     @objc private func toggleNPublicIPState(_ sender: NSControl) {
-        self.interfaceState = controlState(sender)
-        Store.shared.set(key: "\(self.module)_notifications_publicIP_state", value: self.interfaceState)
+        self.publicIPState = controlState(sender)
+        Store.shared.set(key: "\(self.module)_notifications_publicIP_state", value: self.publicIPState)
     }
     @objc private func toggleWiFiState(_ sender: NSControl) {
-        self.interfaceState = controlState(sender)
-        Store.shared.set(key: "\(self.module)_notifications_wifi_state", value: self.interfaceState)
+        self.wifiState = controlState(sender)
+        Store.shared.set(key: "\(self.module)_notifications_wifi_state", value: self.wifiState)
     }
 }
