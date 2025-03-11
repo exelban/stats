@@ -186,10 +186,27 @@ internal class CapacityReader: Reader<Disks> {
         let data = NSData(bytes: temperatures, length: 2)
         data.getBytes(&temperature, length: 2)
         
+        let dataUnitsRead = self.extractUInt64(smartData.data_units_read)
+        let dataUnitsWritten = self.extractUInt64(smartData.data_units_written)
+        let bytesPerDataUnit: Int64 = 512 * 1000
+        
+        let powerCycles = withUnsafeBytes(of: smartData.power_cycles) { $0.load(as: UInt32.self) }
+        let powerOnHours = withUnsafeBytes(of: smartData.power_on_hours) { $0.load(as: UInt32.self) }
+        
         return smart_t(
             temperature: Int(UInt16(bigEndian: temperature) - 273),
-            life: 100 - Int(smartData.percent_used)
+            life: 100 - Int(smartData.percent_used),
+            totalRead: dataUnitsRead * bytesPerDataUnit,
+            totalWritten: dataUnitsWritten * bytesPerDataUnit,
+            powerCycles: Int(powerCycles),
+            powerOnHours: Int(powerOnHours)
         )
+    }
+    
+    private func extractUInt64(_ tuple: (UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8)) -> Int64 {
+        let byteArray: [UInt8] = [tuple.0, tuple.1, tuple.2, tuple.3, tuple.4, tuple.5, tuple.6, tuple.7]
+        let uint64Value = byteArray.withUnsafeBytes { $0.load(as: UInt64.self) }
+        return uint64Value > UInt64(Int64.max) ? Int64.max : Int64(bitPattern: uint64Value)
     }
 }
 

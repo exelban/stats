@@ -24,6 +24,10 @@ public struct stats: Codable {
 public struct smart_t: Codable {
     var temperature: Int = 0
     var life: Int = 0
+    var totalRead: Int64 = 0
+    var totalWritten: Int64 = 0
+    var powerCycles: Int = 0
+    var powerOnHours: Int = 0
 }
 
 public struct drive: Codable {
