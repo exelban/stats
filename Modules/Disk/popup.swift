@@ -151,7 +151,6 @@ internal class Popup: PopupWrapper {
         value.reversed().forEach { (drive: drive) in
             if let view = views.first(where: { $0.name == drive.mediaName }) {
                 view.updateReadWrite(read: drive.activity.read, write: drive.activity.write)
-                view.updateReadWritten(read: drive.activity.readBytes, written: drive.activity.writeBytes)
             }
         }
     }
@@ -281,23 +280,11 @@ internal class DiskView: NSStackView {
     private var chartView: ChartView
     private var barView: BarView
     private var legendView: LegendView
-    private var readView: SpeedView?
-    private var writeView: SpeedView?
-    private var readDataView: DataView
-    private var writtenDataView: DataView
-    private var temperatureView: TemperatureView?
-    private var lifeView: LifeView?
+    private var detailsView: DetailsView
     
     private var detailsState: Bool {
         get { Store.shared.bool(key: "\(self.uuid)_details", defaultValue: false) }
         set { Store.shared.set(key: "\(self.uuid)_details", value: newValue) }
-    }
-    
-    private var readColor: NSColor {
-        SColor.fromString(Store.shared.string(key: "\(ModuleType.disk.stringValue)_readColor", defaultValue: SColor.secondBlue.key)).additional as! NSColor
-    }
-    private var writeColor: NSColor {
-        SColor.fromString(Store.shared.string(key: "\(ModuleType.disk.stringValue)_writeColor", defaultValue: SColor.secondRed.key)).additional as! NSColor
     }
     
     init(width: CGFloat, uuid: String = "", name: String = "", size: Int64 = 1, free: Int64 = 1, path: URL? = nil, smart: smart_t? = nil, resize: @escaping () -> Void) {
@@ -310,17 +297,9 @@ internal class DiskView: NSStackView {
         self.chartView = ChartView(width: innerWidth)
         self.barView = BarView(width: innerWidth, size: size, free: free)
         self.legendView = LegendView(width: innerWidth, id: "\(name)_\(path?.absoluteString ?? "")", size: size, free: free)
-        self.readDataView = DataView(width: innerWidth, title: "\(localizedString("Total read")):")
-        self.writtenDataView = DataView(width: innerWidth, title: "\(localizedString("Total written")):")
-        if let smart {
-            self.temperatureView = TemperatureView(width: innerWidth, smart: smart)
-            self.lifeView = LifeView(width: innerWidth, smart: smart)
-        }
+        self.detailsView = DetailsView(width: innerWidth, id: "\(name)_\(path?.absoluteString ?? "")", smart: smart)
         
         super.init(frame: NSRect(x: 0, y: 0, width: width, height: 0))
-        
-        self.readView = SpeedView(width: innerWidth, title: "\(localizedString("Read")):", color: self.readColor)
-        self.writeView = SpeedView(width: innerWidth, title: "\(localizedString("Write")):", color: self.writeColor)
         
         self.widthAnchor.constraint(equalToConstant: width).isActive = true
         self.orientation = .vertical
@@ -340,6 +319,7 @@ internal class DiskView: NSStackView {
         self.addArrangedSubview(self.chartView)
         self.addArrangedSubview(self.barView)
         self.addArrangedSubview(self.legendView)
+        self.addArrangedSubview(self.detailsView)
         
         self.toggleDetails()
     }
@@ -356,19 +336,13 @@ internal class DiskView: NSStackView {
         self.nameView.update(free: free, read: nil, write: nil)
         self.legendView.update(free: free)
         self.barView.update(free: free)
-        self.temperatureView?.update(smart)
-        self.lifeView?.update(smart)
+        self.detailsView.update(smart: smart)
     }
     
     public func updateReadWrite(read: Int64, write: Int64) {
-        self.readView?.update(read)
-        self.writeView?.update(write)
         self.nameView.update(free: nil, read: read, write: write)
         self.chartView.update(read: read, write: write)
-    }
-    public func updateReadWritten(read: Int64, written: Int64) {
-        self.readDataView.update(read)
-        self.writtenDataView.update(written)
+        self.detailsView.update(read: read, write: write)
     }
     public func setChartColor(read: NSColor? = nil, write: NSColor? = nil) {
         self.chartView.setColors(read: read, write: write)
@@ -379,25 +353,9 @@ internal class DiskView: NSStackView {
     
     private func toggleDetails() {
         if self.detailsState {
-            if let view = self.readView {
-                self.addArrangedSubview(view)
-            }
-            if let view = self.writeView {
-                self.addArrangedSubview(view)
-            }
-            self.addArrangedSubview(self.readDataView)
-            self.addArrangedSubview(self.writtenDataView)
-            if let temperatureView = self.temperatureView, let lifeView = self.lifeView {
-                self.addArrangedSubview(temperatureView)
-                self.addArrangedSubview(lifeView)
-            }
+            self.addArrangedSubview(self.detailsView)
         } else {
-            self.readView?.removeFromSuperview()
-            self.writeView?.removeFromSuperview()
-            self.readDataView.removeFromSuperview()
-            self.writtenDataView.removeFromSuperview()
-            self.temperatureView?.removeFromSuperview()
-            self.lifeView?.removeFromSuperview()
+            self.detailsView.removeFromSuperview()
         }
         
         let h = self.arrangedSubviews.map({ $0.bounds.height + self.spacing }).reduce(0, +) - 5 + 10
@@ -636,12 +594,8 @@ internal class LegendView: NSView {
     private var ready: Bool = false
     
     private var showUsedSpace: Bool {
-        get {
-            Store.shared.bool(key: "\(self.id)_usedSpace", defaultValue: false)
-        }
-        set {
-            Store.shared.set(key: "\(self.id)_usedSpace", value: newValue)
-        }
+        get { Store.shared.bool(key: "\(self.id)_usedSpace", defaultValue: false) }
+        set { Store.shared.set(key: "\(self.id)_usedSpace", value: newValue) }
     }
     
     private var legendField: NSTextField? = nil
@@ -757,173 +711,128 @@ internal class LegendView: NSView {
     }
 }
 
-internal class TemperatureView: NSStackView {
-    private var initialized: Bool = false
-    private let field: NSTextField = TextView()
+internal class DetailsView: NSStackView {
+    private var smartHeight: CGFloat {
+        get { (22*6) + Constants.Popup.separatorHeight }
+    }
     
-    init(width: CGFloat, smart: smart_t) {
-        super.init(frame: CGRect(x: 0, y: 0, width: width, height: 16))
+    private var readSpeedValueField: ValueField?
+    private var writeSpeedValueField: ValueField?
+    
+    private var totalReadValueField: ValueField?
+    private var totalWrittenValueField: ValueField?
+    private var temperatureValueField: ValueField?
+    private var healthValueField: ValueField?
+    private var powerCyclesValueField: ValueField?
+    private var powerOnHoursValueField: ValueField?
+    
+    private var readColor: NSColor {
+        SColor.fromString(Store.shared.string(key: "\(ModuleType.disk.stringValue)_readColor", defaultValue: SColor.secondBlue.key)).additional as! NSColor
+    }
+    private var writeColor: NSColor {
+        SColor.fromString(Store.shared.string(key: "\(ModuleType.disk.stringValue)_writeColor", defaultValue: SColor.secondRed.key)).additional as! NSColor
+    }
+    
+    public init(width: CGFloat, id: String, smart: smart_t? = nil) {
+        super.init(frame: CGRect(x: 0, y: 0, width: width, height: 0))
         
-        self.orientation = .horizontal
+        self.orientation = .vertical
+        self.distribution = .fillProportionally
         self.spacing = 0
         
-        let title = TextView()
-        title.font = NSFont.systemFont(ofSize: 11, weight: .light)
-        title.stringValue = "\(localizedString("Temperature")):"
-        title.cell?.truncatesLastVisibleLine = true
+        self.addArrangedSubview(self.initSpeed())
+        self.addArrangedSubview(self.initSmart())
         
-        self.field.font = NSFont.systemFont(ofSize: 11, weight: .regular)
-        self.field.alignment = .right
-        self.field.stringValue = "\(temperature(Double(smart.temperature)))"
-        
-        self.addArrangedSubview(title)
-        self.addArrangedSubview(NSView())
-        self.addArrangedSubview(self.field)
-        
-        self.widthAnchor.constraint(equalToConstant: self.frame.width).isActive = true
-        self.heightAnchor.constraint(equalToConstant: self.frame.height).isActive = true
+        self.recalculateHeight()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func update(_ newValue: smart_t?) {
-        if (self.window?.isVisible ?? false) || !self.initialized {
-            if let newValue {
-                self.field.stringValue = "\(temperature(Double(newValue.temperature)))"
+    private func recalculateHeight() {
+        var h: CGFloat = 0
+        self.arrangedSubviews.forEach { v in
+            if let v = v as? NSStackView {
+                h += v.arrangedSubviews.map({ $0.bounds.height }).reduce(0, +)
             } else {
-                self.field.stringValue = "-"
+                h += v.bounds.height
             }
-            self.initialized = true
+        }
+        if self.frame.size.height != h {
+            self.setFrameSize(NSSize(width: self.frame.width, height: h))
         }
     }
-}
-
-internal class LifeView: NSStackView {
-    private var initialized: Bool = false
-    private let field: NSTextField = TextView()
     
-    init(width: CGFloat, smart: smart_t) {
-        super.init(frame: CGRect(x: 0, y: 0, width: width, height: 16))
+    private func initSpeed() -> NSView {
+        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 44))
+        view.widthAnchor.constraint(equalToConstant: view.bounds.width).isActive = true
+        view.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
+        let container: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height))
+        container.orientation = .vertical
+        container.spacing = 0
         
-        self.orientation = .horizontal
-        self.spacing = 0
+        (_, _, self.readSpeedValueField) = popupWithColorRow(container, color: self.readColor, title: "\(localizedString("Read")):", value: "0 KB/s")
+        (_, _, self.writeSpeedValueField) = popupWithColorRow(container, color: self.writeColor, title: "\(localizedString("Write")):", value: "0 KB/s")
         
-        let title = TextView()
-        title.font = NSFont.systemFont(ofSize: 11, weight: .light)
-        title.stringValue = "\(localizedString("Health")):"
-        title.cell?.truncatesLastVisibleLine = true
+        self.readSpeedValueField?.font = NSFont.systemFont(ofSize: 11, weight: .regular)
+        self.writeSpeedValueField?.font = NSFont.systemFont(ofSize: 11, weight: .regular)
         
-        self.field.font = NSFont.systemFont(ofSize: 11, weight: .regular)
-        self.field.alignment = .right
-        self.field.stringValue = "\(smart.life)%"
+        view.addSubview(container)
         
-        self.addArrangedSubview(title)
-        self.addArrangedSubview(NSView())
-        self.addArrangedSubview(self.field)
-        
-        self.widthAnchor.constraint(equalToConstant: self.frame.width).isActive = true
-        self.heightAnchor.constraint(equalToConstant: self.frame.height).isActive = true
+        return view
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    private func initSmart() -> NSView {
+        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.smartHeight))
+        view.widthAnchor.constraint(equalToConstant: view.bounds.width).isActive = true
+        view.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
+        let separator = separatorView(localizedString("SMART"), origin: NSPoint(x: 0, y: self.smartHeight-Constants.Popup.separatorHeight), width: self.frame.width)
+        let container: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: separator.frame.origin.y))
+        container.orientation = .vertical
+        container.spacing = 0
+        
+        self.totalReadValueField = popupRow(container, title: "\(localizedString("Total read")):", value: "0 KB").1
+        self.totalWrittenValueField = popupRow(container, title: "\(localizedString("Total written")):", value: "0 KB").1
+        self.temperatureValueField = popupRow(container, title: "\(localizedString("Temperature")):", value: "\(temperature(0))").1
+        self.healthValueField = popupRow(container, title: "\(localizedString("Health")):", value: "0%").1
+        self.powerCyclesValueField = popupRow(container, title: "\(localizedString("Power cycles")):", value: "0").1
+        self.powerOnHoursValueField = popupRow(container, title: "\(localizedString("Power on hours")):", value: "0").1
+        
+        self.totalReadValueField?.font = NSFont.systemFont(ofSize: 11, weight: .regular)
+        self.totalWrittenValueField?.font = NSFont.systemFont(ofSize: 11, weight: .regular)
+        self.temperatureValueField?.font = NSFont.systemFont(ofSize: 11, weight: .regular)
+        self.healthValueField?.font = NSFont.systemFont(ofSize: 11, weight: .regular)
+        self.powerCyclesValueField?.font = NSFont.systemFont(ofSize: 11, weight: .regular)
+        self.powerOnHoursValueField?.font = NSFont.systemFont(ofSize: 11, weight: .regular)
+        
+        view.addSubview(separator)
+        view.addSubview(container)
+        
+        return view
     }
     
-    public func update(_ newValue: smart_t?) {
-        if (self.window?.isVisible ?? false) || !self.initialized {
-            if let newValue {
-                self.field.stringValue = "\(newValue.life)%"
-            } else {
-                self.field.stringValue = "-"
-            }
-            self.initialized = true
+    public func update(read: Int64?, write: Int64?) {
+        guard self.window?.isVisible ?? false else { return }
+        
+        if let read = read {
+            self.readSpeedValueField?.stringValue = Units(bytes: read).getReadableSpeed()
+        }
+        if let write = write {
+            self.writeSpeedValueField?.stringValue = Units(bytes: write).getReadableSpeed()
         }
     }
-}
-
-internal class DataView: NSStackView {
-    private var initialized: Bool = false
-    private let field: NSTextField = TextView()
     
-    init(width: CGFloat, title: String) {
-        super.init(frame: CGRect(x: 0, y: 0, width: width, height: 16))
+    public func update(smart: smart_t?) {
+        guard self.window?.isVisible ?? false, let smart else { return }
         
-        self.orientation = .horizontal
-        self.spacing = 0
+        self.totalReadValueField?.stringValue = Units(bytes: smart.totalRead).getReadableMemory(style: .decimal)
+        self.totalWrittenValueField?.stringValue = Units(bytes: smart.totalWritten).getReadableMemory(style: .decimal)
         
-        let titleField = TextView()
-        titleField.font = NSFont.systemFont(ofSize: 11, weight: .light)
-        titleField.stringValue = title
-        titleField.cell?.truncatesLastVisibleLine = true
+        self.temperatureValueField?.stringValue = "\(temperature(Double(smart.temperature)))"
+        self.healthValueField?.stringValue = "\(smart.life)%"
         
-        self.field.font = NSFont.systemFont(ofSize: 11, weight: .regular)
-        self.field.alignment = .right
-        self.field.stringValue = "0"
-        
-        self.addArrangedSubview(titleField)
-        self.addArrangedSubview(NSView())
-        self.addArrangedSubview(self.field)
-        
-        self.widthAnchor.constraint(equalToConstant: self.frame.width).isActive = true
-        self.heightAnchor.constraint(equalToConstant: self.frame.height).isActive = true
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    public func update(_ newValue: Int64) {
-        if (self.window?.isVisible ?? false) || !self.initialized {
-            self.field.stringValue = Units(bytes: newValue).getReadableMemory()
-            self.initialized = true
-        }
-    }
-}
-internal class SpeedView: NSStackView {
-    private var initialized: Bool = false
-    private let field: NSTextField = TextView()
-    
-    init(width: CGFloat, title: String, color: NSColor) {
-        super.init(frame: CGRect(x: 0, y: 0, width: width, height: 16))
-        
-        self.orientation = .horizontal
-        self.spacing = 0
-        
-        let colorView: NSView = NSView(frame: NSRect(x: 0, y: 0, width: 12, height: 12))
-        colorView.widthAnchor.constraint(equalToConstant: 12).isActive = true
-        colorView.heightAnchor.constraint(equalToConstant: 12).isActive = true
-        colorView.wantsLayer = true
-        colorView.layer?.backgroundColor = color.cgColor
-        colorView.layer?.cornerRadius = 2
-        
-        let titleField = TextView()
-        titleField.font = NSFont.systemFont(ofSize: 11, weight: .light)
-        titleField.stringValue = title
-        titleField.cell?.truncatesLastVisibleLine = true
-        
-        self.field.font = NSFont.systemFont(ofSize: 11, weight: .regular)
-        self.field.alignment = .right
-        self.field.stringValue = "0"
-        
-        self.addArrangedSubview(colorView)
-        self.addArrangedSubview(titleField)
-        self.addArrangedSubview(NSView())
-        self.addArrangedSubview(self.field)
-        
-        self.widthAnchor.constraint(equalToConstant: self.frame.width).isActive = true
-        self.heightAnchor.constraint(equalToConstant: self.frame.height).isActive = true
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    public func update(_ newValue: Int64) {
-        if (self.window?.isVisible ?? false) || !self.initialized {
-            self.field.stringValue = Units(bytes: newValue).getReadableSpeed()
-            self.initialized = true
-        }
+        self.powerCyclesValueField?.stringValue = "\(smart.powerCycles)"
+        self.powerOnHoursValueField?.stringValue = "\(smart.powerOnHours)"
     }
 }
