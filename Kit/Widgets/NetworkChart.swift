@@ -205,6 +205,7 @@ public class NetworkChart: WidgetWrapper {
         bottomLinePath.lineWidth = lineWidth
         bottomLinePath.stroke()
         
+        context.restoreGState()
         context.saveGState()
         
         var underLinePath = topLinePath.copy() as! NSBezierPath
