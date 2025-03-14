@@ -294,6 +294,13 @@ public class Network: Module {
                         }
                     case "$type":
                         replacement = value.connectionType?.rawValue ?? "-"
+                    case "$icmp":
+                        guard let connectivity = self.connectivityReader?.value else { return }
+                        switch pair.value {
+                        case "status": replacement = localizedString(connectivity.status ? "UP" : "DOWN")
+                        case "latency": replacement = "\(Int(connectivity.latency)) ms"
+                        default: return
+                        }
                     default: return
                     }
                     

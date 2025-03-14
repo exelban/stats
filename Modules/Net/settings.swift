@@ -48,6 +48,8 @@ You can use a combination of any of the variables. There is only one limitation:
 <li><b>$download.total</b>: <small>Total amount of data downloaded over the connection.</small></li>
 <li><b>$download</b>: <small>Current download bandwidth used.</small></li>
 <li><b>$type</b>: <small>Type of network connection (e.g., Ethernet, Wi-Fi, Cellular).</small></li>
+<li><b>$icmp.status</b>: <small>ICMP status.</small></li>
+<li><b>$icmp.latency</b>: <small>ICMP latency.</small></li>
 </ul>
 """
 
