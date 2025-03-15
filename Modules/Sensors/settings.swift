@@ -169,11 +169,10 @@ internal class Settings: NSStackView, Settings_v {
         self.callback()
     }
     @objc private func changeUpdateInterval(_ sender: NSMenuItem) {
-        if let value = Int(sender.title.replacingOccurrences(of: " sec", with: "")) {
-            self.updateIntervalValue = value
-            Store.shared.set(key: "\(self.title)_updateInterval", value: value)
-            self.setInterval(value)
-        }
+        guard let key = sender.representedObject as? String, let value = Int(key) else { return }
+        self.updateIntervalValue = value
+        Store.shared.set(key: "\(self.title)_updateInterval", value: value)
+        self.setInterval(value)
     }
     @objc private func toggleSpeedState(_ sender: NSControl) {
         self.fanSpeedState = controlState(sender)
