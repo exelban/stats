@@ -22,7 +22,7 @@ public struct Popup_c_s {
 }
 
 public struct Settings_c_s {
-    public let width: CGFloat = 640
+    public let width: CGFloat = 684
     public let height: CGFloat = 480
     public let margin: CGFloat = 10
     public let row: CGFloat = 30
