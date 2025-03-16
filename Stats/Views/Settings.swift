@@ -17,9 +17,9 @@ public extension NSToolbarItem.Identifier {
 }
 
 class SettingsWindow: NSWindow, NSWindowDelegate, NSToolbarDelegate {
-    static let size: CGSize = CGSize(width: 720, height: 480)
+    static let size: CGSize = CGSize(width: Constants.Settings.width + 180, height: 480)
     
-    private let mainView: MainView = MainView(frame: NSRect(x: 0, y: 0, width: 540, height: 480))
+    private let mainView: MainView = MainView(frame: NSRect(x: 0, y: 0, width: Constants.Settings.width, height: 480))
     private let sidebarView: SidebarView = SidebarView(frame: NSRect(x: 0, y: 0, width: 180, height: 480))
     
     private var dashboard: NSView = Dashboard()
@@ -81,8 +81,8 @@ class SettingsWindow: NSWindow, NSWindowDelegate, NSToolbarDelegate {
         
         NSLayoutConstraint.activate([
             self.sidebarView.widthAnchor.constraint(equalToConstant: 180),
-            self.mainView.widthAnchor.constraint(equalToConstant: 540),
-            self.mainView.container.widthAnchor.constraint(equalToConstant: 540),
+            self.mainView.widthAnchor.constraint(equalToConstant: Constants.Settings.width),
+            self.mainView.container.widthAnchor.constraint(equalToConstant: Constants.Settings.width),
             self.mainView.container.topAnchor.constraint(equalTo: (self.contentLayoutGuide as! NSLayoutGuide).topAnchor),
             self.mainView.container.bottomAnchor.constraint(equalTo: (self.contentLayoutGuide as! NSLayoutGuide).bottomAnchor)
         ])

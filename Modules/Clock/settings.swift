@@ -91,7 +91,7 @@ internal class Settings: NSStackView, Settings_v, NSTableViewDelegate, NSTableVi
         let tzColumn = NSTableColumn(identifier: tzColumnID)
         tzColumn.headerCell.title = localizedString("Time zone")
         tzColumn.headerCell.alignment = .center
-        tzColumn.width = 132
+        tzColumn.width = 276
         let statusColumn = NSTableColumn(identifier: statusColumnID)
         statusColumn.headerCell.title = ""
         statusColumn.width = 16
