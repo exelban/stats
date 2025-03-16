@@ -582,12 +582,8 @@ public extension TimeZone {
     }
 
     init(fromKey: String) {
-        if fromKey == "local" {
-            self = TimeZone.current
-            return
-        }
-
-        self = TimeZone(identifier: fromKey) ?? TimeZone.current
+        // previous versions stored UTC offsets as tz keys, so fallback to fromUTC
+        self = TimeZone(identifier: fromKey) ?? TimeZone(fromUTC: fromKey)
     }
 
     func secondsFromCurrentTimeZone(for date: Date = Date()) -> Int {
