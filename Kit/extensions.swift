@@ -540,7 +540,7 @@ public extension Data {
 }
 
 public extension Date {
-    func convertToTimeZone(_ timeZone: TimeZone) -> Date {
+    func adjustToTimeZone(_ timeZone: TimeZone) -> Date {
         return addingTimeInterval(TimeInterval(timeZone.secondsFromGMT(for: self) - TimeZone.current.secondsFromGMT(for: self)))
     }
     
@@ -579,6 +579,21 @@ public extension TimeZone {
         } else {
             self = TimeZone.current
         }
+    }
+
+    init(fromKey: String) {
+        if fromKey == "local" {
+            self = TimeZone.current
+            return
+        }
+
+        self = TimeZone(identifier: fromKey) ?? TimeZone.current
+    }
+
+    func secondsFromCurrentTimeZone(for date: Date = Date()) -> Int {
+        let selfFromGMT = self.secondsFromGMT(for: date)
+        let currentFromGMT = TimeZone.current.secondsFromGMT(for: date)
+        return selfFromGMT - currentFromGMT
     }
 }
 

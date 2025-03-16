@@ -201,7 +201,7 @@ internal class Settings: NSStackView, Settings_v, NSTableViewDelegate, NSTableVi
             text.widthAnchor.constraint(equalTo: cell.widthAnchor).isActive = true
             text.centerYAnchor.constraint(equalTo: cell.centerYAnchor).isActive = true
         case tzColumnID:
-            let select: NSPopUpButton = selectView(action: #selector(self.toggleTZ), items: Clock.zones, selected: item.tz)
+            let select: NSPopUpButton = selectView(action: #selector(self.toggleTZ), items: Clock.zones, selected: item.tzKey)
             select.identifier = NSUserInterfaceItemIdentifier("\(row)")
             select.sizeToFit()
             cell.addSubview(select)
@@ -248,14 +248,14 @@ internal class Settings: NSStackView, Settings_v, NSTableViewDelegate, NSTableVi
     
     @objc private func toggleTZ(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String, let id = sender.identifier, let i = Int(id.rawValue) else { return }
-        self.list[i].tz = key
+        self.list[i].tzKey = key
     }
     @objc private func toggleClock(_ sender: NSButton) {
         guard let id = sender.identifier, let i = Int(id.rawValue) else { return }
         self.list[i].enabled = sender.state == NSControl.StateValue.on
     }
     @objc private func addNewClock(_ sender: Any) {
-        self.list.append(Clock_t(name: "\(localizedString("Clock")) \(self.list.count)", format: Clock.local.format, tz: Clock.local.tz))
+        self.list.append(Clock_t(name: "\(localizedString("Clock")) \(self.list.count)", format: Clock.local.format, tzKey: Clock.local.tzKey))
         self.tableView.reloadData()
     }
     @objc private func deleteClock(_ sender: Any) {

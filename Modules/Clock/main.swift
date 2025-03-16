@@ -18,7 +18,7 @@ public struct Clock_t: Codable {
     
     public var name: String
     public var format: String
-    public var tz: String
+    public var tzKey: String
     
     public var value: Date? = nil
     
@@ -42,7 +42,7 @@ public struct Clock_t: Codable {
     public func formatted() -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = self.format
-        formatter.timeZone = TimeZone(fromUTC: self.tz)
+        formatter.timeZone = TimeZone(fromKey: self.tzKey)
         return formatter.string(from: self.value ?? Date())
     }
 }
@@ -118,48 +118,52 @@ public class Clock: Module {
 extension Clock {
     static let localID: String = UUID().uuidString
     static var local: Clock_t {
-        Clock_t(id: Clock.localID, name: localizedString("Local time"), format: "yyyy-MM-dd HH:mm:ss", tz: "local")
+        Clock_t(id: Clock.localID, name: localizedString("Local time"), format: "yyyy-MM-dd HH:mm:ss", tzKey: "local")
     }
     static var zones: [KeyValue_t] {
         [
             KeyValue_t(key: "local", value: "Local"),
             KeyValue_t(key: "separator", value: "separator"),
-            KeyValue_t(key: "-12", value: "UTC-12:00"),
-            KeyValue_t(key: "-11", value: "UTC-11:00"),
-            KeyValue_t(key: "-10", value: "UTC-10:00"),
-            KeyValue_t(key: "-9", value: "UTC-9:00"),
-            KeyValue_t(key: "-8", value: "UTC-8:00"),
-            KeyValue_t(key: "-7", value: "UTC-7:00"),
-            KeyValue_t(key: "-6", value: "UTC-6:00"),
-            KeyValue_t(key: "-5", value: "UTC-5:00"),
-            KeyValue_t(key: "-4:30", value: "UTC-4:30"),
-            KeyValue_t(key: "-4", value: "UTC-4:00"),
-            KeyValue_t(key: "-3:30", value: "UTC-3:30"),
-            KeyValue_t(key: "-3", value: "UTC-3:00"),
-            KeyValue_t(key: "-2", value: "UTC-2:00"),
-            KeyValue_t(key: "-1", value: "UTC-1:00"),
-            KeyValue_t(key: "0", value: "UTC"),
-            KeyValue_t(key: "1", value: "UTC+1:00"),
-            KeyValue_t(key: "2", value: "UTC+2:00"),
-            KeyValue_t(key: "3", value: "UTC+3:00"),
-            KeyValue_t(key: "3:30", value: "UTC+3:30"),
-            KeyValue_t(key: "4", value: "UTC+4:00"),
-            KeyValue_t(key: "4:30", value: "UTC+4:30"),
-            KeyValue_t(key: "5", value: "UTC+5:00"),
-            KeyValue_t(key: "5:30", value: "UTC+5:30"),
-            KeyValue_t(key: "5:45", value: "UTC+5:45"),
-            KeyValue_t(key: "6", value: "UTC+6:00"),
-            KeyValue_t(key: "6:30", value: "UTC+6:30"),
-            KeyValue_t(key: "7", value: "UTC+7:00"),
-            KeyValue_t(key: "8", value: "UTC+8:00"),
-            KeyValue_t(key: "9", value: "UTC+9:00"),
-            KeyValue_t(key: "9:30", value: "UTC+9:30"),
-            KeyValue_t(key: "10", value: "UTC+10:00"),
-            KeyValue_t(key: "10:30", value: "UTC+10:30"),
-            KeyValue_t(key: "11", value: "UTC+11:00"),
-            KeyValue_t(key: "12", value: "UTC+12:00"),
-            KeyValue_t(key: "13", value: "UTC+13:00"),
-            KeyValue_t(key: "14", value: "UTC+14:00")
+        ] + TimeZone.knownTimeZoneIdentifiers.map {
+            KeyValue_t(key: $0, value: $0)
+        } + [
+            KeyValue_t(key: "separator", value: "separator"),
+            KeyValue_t(key: TimeZone(fromUTC: "-12").identifier, value: "UTC-12:00"),
+            KeyValue_t(key: TimeZone(fromUTC: "-11").identifier, value: "UTC-11:00"),
+            KeyValue_t(key: TimeZone(fromUTC: "-10").identifier, value: "UTC-10:00"),
+            KeyValue_t(key: TimeZone(fromUTC: "-9").identifier, value: "UTC-9:00"),
+            KeyValue_t(key: TimeZone(fromUTC: "-8").identifier, value: "UTC-8:00"),
+            KeyValue_t(key: TimeZone(fromUTC: "-7").identifier, value: "UTC-7:00"),
+            KeyValue_t(key: TimeZone(fromUTC: "-6").identifier, value: "UTC-6:00"),
+            KeyValue_t(key: TimeZone(fromUTC: "-5").identifier, value: "UTC-5:00"),
+            KeyValue_t(key: TimeZone(fromUTC: "-4:30").identifier, value: "UTC-4:30"),
+            KeyValue_t(key: TimeZone(fromUTC: "-4").identifier, value: "UTC-4:00"),
+            KeyValue_t(key: TimeZone(fromUTC: "-3:30").identifier, value: "UTC-3:30"),
+            KeyValue_t(key: TimeZone(fromUTC: "-3").identifier, value: "UTC-3:00"),
+            KeyValue_t(key: TimeZone(fromUTC: "-2").identifier, value: "UTC-2:00"),
+            KeyValue_t(key: TimeZone(fromUTC: "-1").identifier, value: "UTC-1:00"),
+            KeyValue_t(key: TimeZone(fromUTC: "0").identifier, value: "UTC"),
+            KeyValue_t(key: TimeZone(fromUTC: "1").identifier, value: "UTC+1:00"),
+            KeyValue_t(key: TimeZone(fromUTC: "2").identifier, value: "UTC+2:00"),
+            KeyValue_t(key: TimeZone(fromUTC: "3").identifier, value: "UTC+3:00"),
+            KeyValue_t(key: TimeZone(fromUTC: "3:30").identifier, value: "UTC+3:30"),
+            KeyValue_t(key: TimeZone(fromUTC: "4").identifier, value: "UTC+4:00"),
+            KeyValue_t(key: TimeZone(fromUTC: "4:30").identifier, value: "UTC+4:30"),
+            KeyValue_t(key: TimeZone(fromUTC: "5").identifier, value: "UTC+5:00"),
+            KeyValue_t(key: TimeZone(fromUTC: "5:30").identifier, value: "UTC+5:30"),
+            KeyValue_t(key: TimeZone(fromUTC: "5:45").identifier, value: "UTC+5:45"),
+            KeyValue_t(key: TimeZone(fromUTC: "6").identifier, value: "UTC+6:00"),
+            KeyValue_t(key: TimeZone(fromUTC: "6:30").identifier, value: "UTC+6:30"),
+            KeyValue_t(key: TimeZone(fromUTC: "7").identifier, value: "UTC+7:00"),
+            KeyValue_t(key: TimeZone(fromUTC: "8").identifier, value: "UTC+8:00"),
+            KeyValue_t(key: TimeZone(fromUTC: "9").identifier, value: "UTC+9:00"),
+            KeyValue_t(key: TimeZone(fromUTC: "9:30").identifier, value: "UTC+9:30"),
+            KeyValue_t(key: TimeZone(fromUTC: "10").identifier, value: "UTC+10:00"),
+            KeyValue_t(key: TimeZone(fromUTC: "10:30").identifier, value: "UTC+10:30"),
+            KeyValue_t(key: TimeZone(fromUTC: "11").identifier, value: "UTC+11:00"),
+            KeyValue_t(key: TimeZone(fromUTC: "12").identifier, value: "UTC+12:00"),
+            KeyValue_t(key: TimeZone(fromUTC: "13").identifier, value: "UTC+13:00"),
+            KeyValue_t(key: TimeZone(fromUTC: "14").identifier, value: "UTC+14:00")
         ]
     }
 }
