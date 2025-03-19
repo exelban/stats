@@ -826,6 +826,8 @@ internal class DetailsView: NSStackView {
     public func update(smart: smart_t?) {
         guard self.window?.isVisible ?? false, let smart else { return }
         
+        self.totalReadValueField?.toolTip = "\(smart.totalRead / (512 * 1000))"
+        self.totalWrittenValueField?.toolTip = "\(smart.totalWritten / (512 * 1000))"
         self.totalReadValueField?.stringValue = Units(bytes: smart.totalRead).getReadableMemory(style: .decimal)
         self.totalWrittenValueField?.stringValue = Units(bytes: smart.totalWritten).getReadableMemory(style: .decimal)
         
