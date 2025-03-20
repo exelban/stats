@@ -83,7 +83,7 @@ class ApplicationSettings: NSStackView {
         )
         self.telemetryBtn = switchView(
             action: #selector(self.toggleTelemetry),
-            state: telemetry.isEnabled
+            state: Telemetry.shared.isEnabled
         )
         
         scrollView.stackView.addArrangedSubview(PreferencesSection([
@@ -182,7 +182,7 @@ class ApplicationSettings: NSStackView {
     
     internal func viewWillAppear() {
         self.startAtLoginBtn?.state = LaunchAtLogin.isEnabled ? .on : .off
-        self.telemetryBtn?.state = telemetry.isEnabled ? .on : .off
+        self.telemetryBtn?.state = Telemetry.shared.isEnabled ? .on : .off
         
         var idx = self.updateSelector?.indexOfSelectedItem ?? 0
         if let items = self.updateSelector?.menu?.items {
@@ -296,7 +296,7 @@ class ApplicationSettings: NSStackView {
     }
     
     @objc private func toggleTelemetry(_ sender: NSButton) {
-        telemetry.isEnabled = sender.state == NSControl.StateValue.on
+        Telemetry.shared.isEnabled = sender.state == NSControl.StateValue.on
     }
     
     @objc private func toggleCombinedModules(_ sender: NSButton) {
