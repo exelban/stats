@@ -301,6 +301,7 @@ public class FrequencyReader: Reader<[Double]> {
     private var prev: (samples: CFDictionary, time: TimeInterval)? = nil
     
     private let measurementCount: Int = 4
+    private var isReading: Bool = false
     
     private struct IOSample {
         let group: String
@@ -320,7 +321,8 @@ public class FrequencyReader: Reader<[Double]> {
     }
     
     public override func read() {
-        guard !self.eCoreFreqs.isEmpty && !self.pCoreFreqs.isEmpty, self.channels != nil, self.subscription != nil else { return }
+        guard !self.isReading, !self.eCoreFreqs.isEmpty && !self.pCoreFreqs.isEmpty, self.channels != nil, self.subscription != nil else { return }
+        self.isReading = true
         let minECoreFreq = Double(self.eCoreFreqs.min() ?? 0)
         let minPCoreFreq = Double(self.pCoreFreqs.min() ?? 0)
         
@@ -352,6 +354,7 @@ public class FrequencyReader: Reader<[Double]> {
             let pFreq: Double = pCores.reduce(0, { $0 + $1 }) / Double(self.measurementCount)
             
             self.callback([eFreq, pFreq])
+            self.isReading = false
         }
     }
     
@@ -421,7 +424,12 @@ public class FrequencyReader: Reader<[Double]> {
         
         for _ in 0..<self.measurementCount {
             let milliseconds = UInt64(step) * 1_000_000
-            try? await Task.sleep(nanoseconds: milliseconds)
+            do {
+                try await Task.sleep(nanoseconds: milliseconds)
+            } catch {
+                if Task.isCancelled { return [] }
+                continue
+            }
             
             guard let next = self.getSample() else { continue }
             
