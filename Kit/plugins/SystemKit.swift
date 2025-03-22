@@ -77,7 +77,7 @@ public enum deviceType: String {
     }
 }
 
-public enum coreType: Int {
+public enum coreType: Int, Codable {
     case unknown = -1
     case efficiency = 1
     case performance = 2
@@ -97,12 +97,12 @@ public struct os_s {
     public let build: String
 }
 
-public struct core_s {
+public struct core_s: Codable {
     public var id: Int32
     public var type: coreType
 }
 
-public struct cpu_s {
+public struct cpu_s: Codable {
     public var name: String? = nil
     public var physicalCores: Int8? = nil
     public var logicalCores: Int8? = nil
@@ -113,7 +113,7 @@ public struct cpu_s {
     public var pCoreFrequencies: [Int32]? = nil
 }
 
-public struct dimm_s {
+public struct dimm_s: Codable {
     public var bank: Int? = nil
     public var channel: String? = nil
     public var type: String? = nil
@@ -121,11 +121,11 @@ public struct dimm_s {
     public var speed: String? = nil
 }
 
-public struct ram_s {
+public struct ram_s: Codable {
     public var dimms: [dimm_s] = []
 }
 
-public struct gpu_s {
+public struct gpu_s: Codable {
     public var name: String? = nil
     public var vendor: String? = nil
     public var vram: String? = nil

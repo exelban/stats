@@ -76,7 +76,7 @@ public class DB {
     
     public func insert(key: String, value: Codable, ts: Bool = true, force: Bool = false) {
         self.values[key] = value
-        guard let blobData = try? JSONEncoder().encode(value), let str = String(data: blobData, encoding: .utf8)else { return }
+        guard let blobData = try? JSONEncoder().encode(value), let str = String(data: blobData, encoding: .utf8) else { return }
         
         if ts {
             self.lldb?.insert("\(key)@\(Date().currentTimeSeconds())", value: str)

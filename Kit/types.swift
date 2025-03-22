@@ -278,6 +278,8 @@ public extension Notification.Name {
     static let pause = Notification.Name("pause")
     static let toggleFanControl = Notification.Name("toggleFanControl")
     static let combinedModulesPopup = Notification.Name("combinedModulesPopup")
+    static let remoteLoginSuccess = Notification.Name("remoteLoginSuccess")
+    static let remoteState = Notification.Name("remoteState")
 }
 
 public var isARM: Bool {
@@ -410,4 +412,9 @@ public enum RAMPressure: String, Codable {
             return NSColor.systemRed
         }
     }
+}
+
+public struct TokenResponse: Codable {
+    public let access_token: String
+    public let refresh_token: String
 }

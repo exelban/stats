@@ -43,6 +43,8 @@ identifier_name:
     - LineChartHistory
     - SpeedPictogramColor
     - SensorsWidgetValue
+    - access_token
+    - refresh_token
 
 line_length: 200
 
