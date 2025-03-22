@@ -57,6 +57,8 @@ public class LineChart: WidgetWrapper {
     private var boxSettingsView: NSSwitch? = nil
     private var frameSettingsView: NSSwitch? = nil
     
+    public var NSLabelCharts: [NSAttributedString] = []
+    
     public init(title: String, config: NSDictionary?, preview: Bool = false) {
         var widgetTitle: String = title
         if config != nil {
@@ -117,6 +119,19 @@ public class LineChart: WidgetWrapper {
             self.chart.points = list
             self._value = 0.38
         }
+        
+        let style = NSMutableParagraphStyle()
+        style.alignment = .center
+        let stringAttributes = [
+            NSAttributedString.Key.font: NSFont.systemFont(ofSize: 7, weight: .regular),
+            NSAttributedString.Key.foregroundColor: NSColor.textColor,
+            NSAttributedString.Key.paragraphStyle: style
+        ]
+        
+        for char in String(self.title.prefix(3)).uppercased().reversed() {
+            let str = NSAttributedString.init(string: "\(char)", attributes: stringAttributes)
+            self.NSLabelCharts.append(str)
+        }
     }
     
     required init?(coder: NSCoder) {
@@ -156,24 +171,16 @@ public class LineChart: WidgetWrapper {
         }
         
         if self.labelState {
-            let style = NSMutableParagraphStyle()
-            style.alignment = .center
-            let stringAttributes = [
-                NSAttributedString.Key.font: NSFont.systemFont(ofSize: 7, weight: .regular),
-                NSAttributedString.Key.foregroundColor: NSColor.textColor,
-                NSAttributedString.Key.paragraphStyle: style
-            ]
-            
             let letterHeight = self.frame.height / 3
             let letterWidth: CGFloat = 6.0
             
             var yMargin: CGFloat = 0
-            for char in String(self.title.prefix(3)).uppercased().reversed() {
+            for char in self.NSLabelCharts {
                 let rect = CGRect(x: x, y: yMargin, width: letterWidth, height: letterHeight)
-                let str = NSAttributedString.init(string: "\(char)", attributes: stringAttributes)
-                str.draw(with: rect)
+                char.draw(with: rect)
                 yMargin += letterHeight
             }
+            
             width += letterWidth + Constants.Widget.spacing
             x = letterWidth + Constants.Widget.spacing
         }

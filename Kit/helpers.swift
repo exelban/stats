@@ -807,12 +807,12 @@ internal class WidgetLabelView: NSView {
             NSAttributedString.Key.paragraphStyle: style
         ]
         
-        let title = self.title.prefix(3)
+        let title = String(self.title.prefix(3)).uppercased().reversed()
         let letterHeight = self.frame.height / 3
         let letterWidth: CGFloat = self.frame.height / CGFloat(title.count)
         
         var yMargin: CGFloat = 0
-        for char in title.uppercased().reversed() {
+        for char in title {
             let rect = CGRect(x: 0, y: yMargin, width: letterWidth, height: letterHeight-1)
             let str = NSAttributedString.init(string: "\(char)", attributes: stringAttributes)
             str.draw(with: rect)
