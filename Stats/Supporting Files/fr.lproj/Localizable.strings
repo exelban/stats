@@ -167,8 +167,8 @@
 "Uptime" = "Temps de fonctionnement";
 "Number of cores" = "%0 cœurs";
 "Number of threads" = "%0 threads";
-"Number of e-cores" = "%0 cœurs de perfor­mance";
-"Number of p-cores" = "%0 cœurs à haute effica­cité éner­gétique";
+"Number of e-cores" = "%0 cœurs à haute effica­cité éner­gétique";
+"Number of p-cores" = "%0 cœurs de perfor­mance";
 
 // Update
 "The latest version of Stats installed" = "La dernière version de Stats est installée";
