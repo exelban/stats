@@ -92,6 +92,14 @@
 "Run" = "运行";
 "Stop" = "停止";
 "Uninstall" = "卸载";
+"1 sec" = "1 秒";
+"2 sec" = "2 秒";
+"3 sec" = "3 秒";
+"5 sec" = "5 秒";
+"10 sec" = "10 秒";
+"15 sec" = "15 秒";
+"30 sec" = "30 秒";
+"60 sec" = "60 秒";
 
 // Setup
 "Stats Setup" = "Stats 设置";
