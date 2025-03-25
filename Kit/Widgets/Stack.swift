@@ -30,6 +30,7 @@ public class StackWidget: WidgetWrapper {
     private var modeState: StackMode = .auto
     private var fixedSizeState: Bool = false
     private var monospacedFontState: Bool = false
+    private var alignmentState: String = "left"
     
     private var values: [Stack_t] = []
     
@@ -37,6 +38,13 @@ public class StackWidget: WidgetWrapper {
     private var twoRowWidth: CGFloat = 32
     
     private let orderTableView: OrderTableView
+    
+    private var alignment: NSTextAlignment {
+        if let alignmentPair = Alignments.first(where: { $0.key == self.alignmentState }) {
+            return alignmentPair.additional as? NSTextAlignment ?? .left
+        }
+        return .left
+    }
     
     public init(title: String, config: NSDictionary?, preview: Bool = false) {
         if let config, preview {
@@ -62,6 +70,7 @@ public class StackWidget: WidgetWrapper {
             self.modeState = StackMode(rawValue: Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_mode", defaultValue: self.modeState.rawValue)) ?? .auto
             self.fixedSizeState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_size", defaultValue: self.fixedSizeState)
             self.monospacedFontState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_monospacedFont", defaultValue: self.monospacedFontState)
+            self.alignmentState = Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_alignment", defaultValue: self.alignmentState)
         }
         
         self.orderTableView.reorderCallback = { [weak self] in
@@ -136,7 +145,7 @@ public class StackWidget: WidgetWrapper {
         }
         
         let style = NSMutableParagraphStyle()
-        style.alignment = .center
+        style.alignment = self.alignment
         
         var width: CGFloat = self.oneRowWidth
         if !self.fixedSizeState {
@@ -164,7 +173,7 @@ public class StackWidget: WidgetWrapper {
             font = NSFont.systemFont(ofSize: 10, weight: .light)
         }
         let style = NSMutableParagraphStyle()
-        style.alignment = .right
+        style.alignment = self.alignment
         
         let attributes = [
             NSAttributedString.Key.font: font,
@@ -232,6 +241,11 @@ public class StackWidget: WidgetWrapper {
             PreferencesRow(localizedString("Monospaced font"), component: switchView(
                 action: #selector(self.toggleMonospacedFont),
                 state: self.monospacedFontState
+            )),
+            PreferencesRow(localizedString("Alignment"), component: selectView(
+                action: #selector(self.toggleAlignment),
+                items: Alignments,
+                selected: self.alignmentState
             ))
         ]
         if self.title != "Clock" {
@@ -263,6 +277,15 @@ public class StackWidget: WidgetWrapper {
     @objc private func toggleMonospacedFont(_ sender: NSControl) {
         self.monospacedFontState = controlState(sender)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_monospacedFont", value: self.monospacedFontState)
+        self.display()
+    }
+    
+    @objc private func toggleAlignment(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String else { return }
+        if let newAlignment = Alignments.first(where: { $0.key == key }) {
+            self.alignmentState = newAlignment.key
+        }
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_alignment", value: key)
         self.display()
     }
 }
