@@ -21,7 +21,7 @@ public struct circle_segment {
     }
 }
 
-internal func scaleValue(scale: Scale = .linear, value: Double, maxValue: Double, maxHeight: CGFloat, limit: Double) -> CGFloat {
+internal func scaleValue(scale: Scale = .linear, value: Double, maxValue: Double, zeroValue: Double, maxHeight: CGFloat, limit: Double) -> CGFloat {
     var value = value
     if scale == .none && value > 1 && maxValue != 0 {
         value /= maxValue
@@ -45,12 +45,11 @@ internal func scaleValue(scale: Scale = .linear, value: Double, maxValue: Double
             localMaxValue = cbrt(maxValue)
         }
     case .logarithmic:
-        let zeroVal = 256.0
         if value > 0 {
-            value = log(value/zeroVal)
+            value = log(value/zeroValue)
         }
         if localMaxValue > 0 {
-            localMaxValue = log(maxValue/zeroVal)
+            localMaxValue = log(maxValue/zeroValue)
         }
     case .fixed:
         if value > limit {
@@ -132,16 +131,18 @@ public class LineChartView: NSView {
     
     private var scale: Scale
     private var fixedScale: Double
+    private var zeroValue: Double
     
     private var cursor: NSPoint? = nil
     private var stop: Bool = false
     
-    public init(frame: NSRect, num: Int, suffix: String = "%", color: NSColor = .controlAccentColor, scale: Scale = .none, fixedScale: Double = 1) {
+    public init(frame: NSRect, num: Int, suffix: String = "%", color: NSColor = .controlAccentColor, scale: Scale = .none, fixedScale: Double = 1, zeroValue: Double = 0.01) {
         self.points = Array(repeating: nil, count: num)
         self.suffix = suffix
         self.color = color
         self.scale = scale
         self.fixedScale = fixedScale
+        self.zeroValue = zeroValue
         
         super.init(frame: frame)
         
@@ -194,7 +195,7 @@ public class LineChartView: NSView {
                 continue
             }
             
-            var y = scaleValue(scale: self.scale, value: v.value, maxValue: maxValue, maxHeight: height, limit: self.fixedScale)
+            var y = scaleValue(scale: self.scale, value: v.value, maxValue: maxValue, zeroValue: self.zeroValue, maxHeight: height, limit: self.fixedScale)
             if self.flipY {
                 y = height - y
             }
@@ -400,8 +401,8 @@ public class NetworkChartView: NSView {
         let bottomFrame = NSRect(x: 0, y: 0, width: frame.width, height: frame.height/2)
         let inFrame = self.reversedOrder ? topFrame : bottomFrame
         let outFrame = self.reversedOrder ? bottomFrame : topFrame
-        self.inChart = LineChartView(frame: inFrame, num: num, color: inColor, scale: scale, fixedScale: fixedScale)
-        self.outChart = LineChartView(frame: outFrame, num: num, color: outColor, scale: scale, fixedScale: fixedScale)
+        self.inChart = LineChartView(frame: inFrame, num: num, color: inColor, scale: scale, fixedScale: fixedScale, zeroValue: 256.0)
+        self.outChart = LineChartView(frame: outFrame, num: num, color: outColor, scale: scale, fixedScale: fixedScale, zeroValue: 256.0)
         
         super.init(frame: frame)
         

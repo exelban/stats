@@ -177,11 +177,11 @@ public class NetworkChart: WidgetWrapper {
         
         let topYPoint = { (point: Int) -> CGFloat in
             let value = self.reverseOrderState ? points[point].1 : points[point].0
-            return scaleValue(scale: self.scaleState, value: value, maxValue: topMax, maxHeight: chartFrame.height/2, limit: 1) + xCenter
+            return scaleValue(scale: self.scaleState, value: value, maxValue: topMax, zeroValue: 256.0, maxHeight: chartFrame.height/2, limit: 1) + xCenter
         }
         let bottomYPoint = { (point: Int) -> CGFloat in
             let value = self.reverseOrderState ? points[point].0 : points[point].1
-            return xCenter - scaleValue(scale: self.scaleState, value: value, maxValue: bottomMax, maxHeight: chartFrame.height/2, limit: 1)
+            return xCenter - scaleValue(scale: self.scaleState, value: value, maxValue: bottomMax, zeroValue: 256.0, maxHeight: chartFrame.height/2, limit: 1)
         }
         
         let topLinePath = NSBezierPath()
