@@ -88,18 +88,18 @@
 "Read" = "讀取";
 "Write" = "寫入";
 "Frequency" = "頻率";
-"Save" = "Save";
-"Run" = "Run";
-"Stop" = "Stop";
-"Uninstall" = "Uninstall";
-"1 sec" = "1 sec";
-"2 sec" = "2 sec";
-"3 sec" = "3 sec";
-"5 sec" = "5 sec";
-"10 sec" = "10 sec";
-"15 sec" = "15 sec";
-"30 sec" = "30 sec";
-"60 sec" = "60 sec";
+"Save" = "儲存";
+"Run" = "執行";
+"Stop" = "停止";
+"Uninstall" = "解除安裝";
+"1 sec" = "1 秒";
+"2 sec" = "2 秒";
+"3 sec" = "3 秒";
+"5 sec" = "5 秒";
+"10 sec" = "10 秒";
+"15 sec" = "15 秒";
+"30 sec" = "30 秒";
+"60 sec" = "60 秒";
 
 // Setup
 "Stats Setup" = "Stats 設定";
@@ -165,8 +165,8 @@
 "Combined details" = "合併詳細資訊";
 "Spacing" = "間距";
 "Share anonymous telemetry" = "分享匿名診斷資料";
-"Choose file" = "Choose file";
-"Stress tests" = "Stress tests";
+"Choose file" = "選擇檔案";
+"Stress tests" = "壓力測試";
 
 // Dashboard
 "Serial number" = "序號";
