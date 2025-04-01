@@ -14,7 +14,7 @@ import Cocoa
 
 public class Remote {
     public static let shared = Remote()
-    static public var host = URL(string: "https://api.mac-stats.com")! // https://api.mac-stats.com http://localhost:8008
+    static public var host = URL(string: "https://api.system-stats.com")! // https://api.system-stats.com http://localhost:8008
     
     public var state: Bool {
         get { Store.shared.bool(key: "remote_state", defaultValue: false) }
@@ -52,6 +52,13 @@ public class Remote {
     deinit {
         self.ws.disconnect()
         NotificationCenter.default.removeObserver(self, name: .remoteLoginSuccess, object: nil)
+    }
+    
+    public func login() {
+        self.auth.login { url in
+            guard let url else { return }
+            NSWorkspace.shared.open(url)
+        }
     }
     
     public func logout() {
@@ -105,6 +112,12 @@ public class RemoteAuth {
         get { Store.shared.string(key: "refresh_token", defaultValue: "") }
         set { Store.shared.set(key: "refresh_token", value: newValue) }
     }
+    private var clientID: String = "stats"
+    
+    private var deviceCode: String = ""
+    private var userCode: String = ""
+    private var interval: Int = 5
+    private var repeater: Repeater?
     
     public init() {
         NotificationCenter.default.addObserver(self, selector: #selector(self.successLogin), name: .remoteLoginSuccess, object: nil)
@@ -116,6 +129,36 @@ public class RemoteAuth {
     
     public func isAuthorized(completion: @escaping (Bool) -> Void) {
         self.validate(completion)
+    }
+    
+    public func login(completion: @escaping (URL?) -> Void) {
+        self.registerDevice { device in
+            guard let device else {
+                completion(nil)
+                return
+            }
+            completion(device.verification_uri_complete)
+            
+            self.deviceCode = device.device_code
+            self.userCode = device.user_code
+            self.interval = device.interval ?? 5
+            
+            self.repeater = Repeater(seconds: self.interval) {
+                self.pollForToken { error in
+                    guard error == nil else {
+                        print(error?.localizedDescription ?? "error pooling for token")
+                        self.repeater?.pause()
+                        self.repeater = nil
+                        return
+                    }
+                    if !self.accessToken.isEmpty {
+                        self.repeater?.pause()
+                        self.repeater = nil
+                    }
+                }
+            }
+            self.repeater?.start()
+        }
     }
     
     public func logout() {
@@ -172,6 +215,95 @@ public class RemoteAuth {
             self.accessToken = token.access_token
             self.refreshToken = token.refresh_token
             completion(true)
+        }.resume()
+    }
+    
+    private func registerDevice(completion: @escaping (DeviceResponse?) -> Void) {
+        guard let url = URL(string: "\(Remote.host)/auth/device") else {
+            completion(nil)
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        
+        let body = "client_id=\(self.clientID)"
+            .addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+        request.httpBody = body?.data(using: .utf8)
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            guard error == nil, let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200,
+                  let data = data, let resp = try? JSONDecoder().decode(DeviceResponse.self, from: data) else {
+                completion(nil)
+                return
+            }
+            completion(resp)
+        }.resume()
+    }
+    
+    private func pollForToken(completion: @escaping (Error?) -> Void) {
+        guard let url = URL(string: "\(Remote.host)/auth/token") else {
+            completion(nil)
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        
+        let body = "client_id=\(self.clientID)&device_code=\(self.deviceCode)&grant_type=urn:ietf:params:oauth:grant-type:device_code"
+            .addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+        request.httpBody = body?.data(using: .utf8)
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                completion(error)
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse else {
+                completion(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid response"]))
+                return
+            }
+            
+            if httpResponse.statusCode == 200 {
+                guard let data = data else {
+                    completion(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "No data returned"]))
+                    return
+                }
+                
+                do {
+                    let result = try JSONDecoder().decode(TokenResponse.self, from: data)
+                    NotificationCenter.default.post(name: .remoteLoginSuccess, object: nil, userInfo: [
+                        "access_token": result.access_token,
+                        "refresh_token": result.refresh_token
+                    ])
+                    completion(nil)
+                } catch {
+                    completion(error)
+                }
+            } else if httpResponse.statusCode == 400 {
+                guard let data = data, let responseString = String(data: data, encoding: .utf8) else {
+                    completion(NSError(domain: "", code: httpResponse.statusCode, userInfo: [NSLocalizedDescriptionKey: "Bad request"]))
+                    return
+                }
+                
+                if responseString.contains("authorization_pending") {
+                    completion(nil)
+                } else if responseString.contains("expired_token") {
+                    completion(NSError(domain: "", code: httpResponse.statusCode, userInfo: [NSLocalizedDescriptionKey: "Device code expired, please re-register"]))
+                } else if responseString.contains("slow_down") {
+                    DispatchQueue.global().asyncAfter(deadline: .now() + Double(self.interval)) {
+                        completion(nil)
+                    }
+                } else {
+                    completion(NSError(domain: "", code: httpResponse.statusCode, userInfo: [NSLocalizedDescriptionKey: responseString]))
+                }
+            } else {
+                let errorMessage = data.flatMap { String(data: $0, encoding: .utf8) } ?? "Unknown error"
+                completion(NSError(domain: "", code: httpResponse.statusCode, userInfo: [NSLocalizedDescriptionKey: "Failed to get token (\(httpResponse.statusCode)): \(errorMessage)"]))
+            }
         }.resume()
     }
     

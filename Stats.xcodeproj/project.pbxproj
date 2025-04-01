@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		5C038CF62D86EE8A00516809 /* Remote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C038CF52D86EE8700516809 /* Remote.swift */; };
-		5C038CF82D8702D800516809 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C038CF72D8702D600516809 /* Login.swift */; };
 		5C044F7A2B3DE6F3005F6951 /* portal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C044F792B3DE6F3005F6951 /* portal.swift */; };
 		5C0A2A8A292A5B4D009B4C1F /* SMJobBlessUtil.py in Resources */ = {isa = PBXBuildFile; fileRef = 5C0A2A89292A5B4D009B4C1F /* SMJobBlessUtil.py */; };
 		5C0A9CA22C467AA300EE6A89 /* widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0A9CA12C467AA300EE6A89 /* widget.swift */; };
@@ -498,7 +497,6 @@
 		4921436D25319699000A1C47 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4F92E6432D0F293100EA593F /* fi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fi; path = fi.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5C038CF52D86EE8700516809 /* Remote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Remote.swift; sourceTree = "<group>"; };
-		5C038CF72D8702D600516809 /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 		5C044F792B3DE6F3005F6951 /* portal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = portal.swift; sourceTree = "<group>"; };
 		5C0A2A89292A5B4D009B4C1F /* SMJobBlessUtil.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = SMJobBlessUtil.py; sourceTree = "<group>"; };
 		5C0A9CA12C467AA300EE6A89 /* widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = widget.swift; sourceTree = "<group>"; };
@@ -1117,7 +1115,6 @@
 		9A81C74A24499C4B00825D92 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				5C038CF72D8702D600516809 /* Login.swift */,
 				9A81C74C24499C7000825D92 /* Settings.swift */,
 				9A045EB62594F8D100ED58F2 /* Dashboard.swift */,
 				9A81C74B24499C7000825D92 /* AppSettings.swift */,
@@ -2063,7 +2060,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				9AABEB7A243FD26200668CB0 /* AppDelegate.swift in Sources */,
-				5C038CF82D8702D800516809 /* Login.swift in Sources */,
 				9A9EA9452476D34500E3B883 /* Update.swift in Sources */,
 				9A045EB72594F8D100ED58F2 /* Dashboard.swift in Sources */,
 				9A81C74E24499C7000825D92 /* Settings.swift in Sources */,

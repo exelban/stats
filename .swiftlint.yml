@@ -45,6 +45,10 @@ identifier_name:
     - SensorsWidgetValue
     - access_token
     - refresh_token
+    - device_code
+    - user_code
+    - verification_uri_complete
+    - expires_in
 
 line_length: 200
 

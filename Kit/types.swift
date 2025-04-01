@@ -418,3 +418,10 @@ public struct TokenResponse: Codable {
     public let access_token: String
     public let refresh_token: String
 }
+
+public struct DeviceResponse: Codable {
+    public let device_code: String
+    public let user_code: String
+    public let verification_uri_complete: URL
+    public let interval: Int?
+}

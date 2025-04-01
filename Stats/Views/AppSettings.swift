@@ -50,7 +50,6 @@ class ApplicationSettings: NSStackView {
     
     private let updateWindow: UpdateWindow = UpdateWindow()
     private let moduleSelector: ModuleSelectorView = ModuleSelectorView()
-    private let loginWindow: LoginWindow = LoginWindow()
     
     private var CPUeButton: NSButton?
     private var CPUpButton: NSButton?
@@ -438,7 +437,7 @@ class ApplicationSettings: NSStackView {
                 self.remoteView?.setRowVisibility(2, newState: true)
                 return
             } else if state && !auth {
-                self.loginWindow.open()
+                Remote.shared.login()
             }
             self.remoteBtn?.state = .off
             self.remoteView?.setRowVisibility(1, newState: false)
