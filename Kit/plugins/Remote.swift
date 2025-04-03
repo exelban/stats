@@ -14,15 +14,26 @@ import Cocoa
 
 public class Remote {
     public static let shared = Remote()
-    static public var host = URL(string: "https://api.system-stats.com")! // https://api.system-stats.com http://localhost:8008
+    static public var host = URL(string: "http://localhost:8008")! // https://api.system-stats.com http://localhost:8008
     
-    public var state: Bool {
-        get { Store.shared.bool(key: "remote_state", defaultValue: false) }
+    public var monitoring: Bool {
+        get { Store.shared.bool(key: "remote_monitoring", defaultValue: false) }
         set {
-            Store.shared.set(key: "remote_state", value: newValue)
+            Store.shared.set(key: "remote_monitoring", value: newValue)
             if newValue {
                 self.start()
-            } else {
+            } else if !self.control {
+                self.stop()
+            }
+        }
+    }
+    public var control: Bool {
+        get { Store.shared.bool(key: "remote_control", defaultValue: false) }
+        set {
+            Store.shared.set(key: "remote_control", value: newValue)
+            if newValue {
+                self.start()
+            } else if !self.monitoring {
                 self.stop()
             }
         }
@@ -31,19 +42,18 @@ public class Remote {
     public var isAuthorized: Bool = false
     public var auth: RemoteAuth = RemoteAuth()
     
+    private let log: NextLog
     private var ws: WebSocketManager = WebSocketManager()
     private var wsURL: URL?
     private var isConnecting = false
     
     public init() {
+        self.log = NextLog.shared.copy(category: "Remote")
         self.id = UUID(uuidString: Store.shared.string(key: "telemetry_id", defaultValue: UUID().uuidString)) ?? UUID()
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            if self.state {
-                self.start()
-            } else {
-                self.stop()
-            }
+        if self.auth.hasCredentials() {
+            info("Found auth credentials for remote monitoring, starting Remote...", log: self.log)
+            self.start()
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.successLogin), name: .remoteLoginSuccess, object: nil)
@@ -56,7 +66,11 @@ public class Remote {
     
     public func login() {
         self.auth.login { url in
-            guard let url else { return }
+            guard let url else {
+                error("Empty url when try to login", log: self.log)
+                return
+            }
+            debug("Open \(url) to login to Stats Remote", log: self.log)
             NSWorkspace.shared.open(url)
         }
     }
@@ -64,24 +78,21 @@ public class Remote {
     public func logout() {
         self.auth.logout()
         self.isAuthorized = false
-        self.state = false
         self.ws.disconnect()
-        NotificationCenter.default.post(name: .remoteState, object: nil, userInfo: ["auth": self.isAuthorized, "state": self.state])
+        debug("Logout successfully from Stats Remote", log: self.log)
+        NotificationCenter.default.post(name: .remoteState, object: nil, userInfo: ["auth": self.isAuthorized])
     }
     
     public func send(key: String, value: Codable) {
-        guard self.state && self.isAuthorized,
-              let blobData = try? JSONEncoder().encode(value) else { return }
+        guard self.monitoring && self.isAuthorized, let blobData = try? JSONEncoder().encode(value) else { return }
         self.ws.send(key: key, data: blobData)
     }
     
     @objc private func successLogin() {
         self.isAuthorized = true
-        NotificationCenter.default.post(name: .remoteState, object: nil, userInfo: ["auth": self.isAuthorized, "state": self.state])
-        
-        if self.state {
-            self.ws.connect()
-        }
+        NotificationCenter.default.post(name: .remoteState, object: nil, userInfo: ["auth": self.isAuthorized])
+        self.ws.connect()
+        debug("Login successfully on Stats Remote", log: self.log)
     }
     
     public func start() {
@@ -89,7 +100,7 @@ public class Remote {
             guard let self else { return }
             
             self.isAuthorized = status
-            NotificationCenter.default.post(name: .remoteState, object: nil, userInfo: ["auth": self.isAuthorized, "state": self.state])
+            NotificationCenter.default.post(name: .remoteState, object: nil, userInfo: ["auth": self.isAuthorized])
             
             if status {
                 self.ws.connect()
@@ -99,7 +110,7 @@ public class Remote {
     
     private func stop() {
         self.ws.disconnect()
-        NotificationCenter.default.post(name: .remoteState, object: nil, userInfo: ["auth": self.isAuthorized, "state": self.state])
+        NotificationCenter.default.post(name: .remoteState, object: nil, userInfo: ["auth": self.isAuthorized])
     }
 }
 
@@ -128,7 +139,14 @@ public class RemoteAuth {
     }
     
     public func isAuthorized(completion: @escaping (Bool) -> Void) {
+        if !self.hasCredentials() {
+            completion(false)
+            return
+        }
         self.validate(completion)
+    }
+    public func hasCredentials() -> Bool {
+        return !self.accessToken.isEmpty && !self.refreshToken.isEmpty
     }
     
     public func login(completion: @escaping (URL?) -> Void) {
@@ -335,14 +353,17 @@ class WebSocketManager: NSObject {
     private let reconnectDelay: TimeInterval = 3.0
     private var pingTimer: Timer?
     private var reachability: Reachability = Reachability(start: true)
+    private let log: NextLog
     
     override init() {
+        self.log = NextLog.shared.copy(category: "Remote WS")
+        
         super.init()
         
         self.session = URLSession(configuration: .default, delegate: self, delegateQueue: .main)
         
         self.reachability.reachable = {
-            if Remote.shared.state {
+            if Remote.shared.isAuthorized {
                 self.connect()
             }
         }
@@ -367,19 +388,25 @@ class WebSocketManager: NSObject {
             self.webSocket?.resume()
             self.receiveMessage()
             self.isDisconnected = false
+            debug("connected successfully", log: self.log)
         }
     }
     
     public func disconnect() {
+        if self.webSocket == nil && !self.isConnected { return }
         self.isDisconnected = true
         self.webSocket?.cancel(with: .normalClosure, reason: nil)
         self.webSocket = nil
         self.isConnected = false
+        debug("disconnected gracefully", log: self.log)
     }
     
     private func reconnect() {
         guard !self.isDisconnected else { return }
         DispatchQueue.main.asyncAfter(deadline: .now() + self.reconnectDelay) { [weak self] in
+            if let log = self?.log {
+                debug("trying to reconnect after some interruption", log: log)
+            }
             self?.connect()
         }
     }

@@ -42,7 +42,6 @@ class ApplicationSettings: NSStackView {
     private var updateSelector: NSPopUpButton?
     private var startAtLoginBtn: NSSwitch?
     private var telemetryBtn: NSSwitch?
-    private var remoteBtn: NSSwitch?
     
     private var combinedModulesView: PreferencesSection?
     private var fanHelperView: PreferencesSection?
@@ -129,17 +128,19 @@ class ApplicationSettings: NSStackView {
         self.combinedModulesView?.setRowVisibility(3, newState: self.combinedModulesState)
         self.combinedModulesView?.setRowVisibility(4, newState: self.combinedModulesState)
         
-        self.remoteBtn = switchView(
-            action: #selector(self.toggleRemoteState),
-            state: Remote.shared.state
-        )
-        
-        self.remoteView = PreferencesSection(label: localizedString("Stats Remote"), [
-            PreferencesRow(localizedString("Monitoring"), component: self.remoteBtn!),
+        self.remoteView = PreferencesSection(label: localizedString("Stats Remote (beta)"), [
+            PreferencesRow(localizedString("Authorization"), component: buttonView(#selector(self.loginToRemote), text: localizedString("Login"))),
             PreferencesRow(localizedString("Identificator"), component: textView(Remote.shared.id.uuidString)),
+            PreferencesRow(localizedString("Monitoring"), component: switchView(
+                action: #selector(self.toggleRemoteMonitoringState),
+                state: Remote.shared.monitoring
+            )),
             PreferencesRow(component: buttonView(#selector(self.logoutFromRemote), text: localizedString("Logout")))
         ])
         scrollView.stackView.addArrangedSubview(self.remoteView!)
+        self.remoteView?.setRowVisibility(1, newState: false)
+        self.remoteView?.setRowVisibility(2, newState: false)
+        self.remoteView?.setRowVisibility(3, newState: false)
         
         scrollView.stackView.addArrangedSubview(PreferencesSection(label: localizedString("Settings"), [
             PreferencesRow(
@@ -184,7 +185,7 @@ class ApplicationSettings: NSStackView {
         scrollView.stackView.addArrangedSubview(PreferencesSection(label: localizedString("Stress tests"), tests))
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.toggleUninstallHelperButton), name: .fanHelperState, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.remoteState), name: .remoteState, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.handleRemoteState), name: .remoteState, object: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -420,33 +421,37 @@ class ApplicationSettings: NSStackView {
         }
     }
     
+    @objc private func toggleRemoteMonitoringState(_ sender: NSButton) {
+        Remote.shared.monitoring = sender.state == NSControl.StateValue.on
+    }
+    
+    @objc private func handleRemoteState(_ notification: Notification) {
+        guard let auth = notification.userInfo?["auth"] as? Bool else { return }
+        self.setRemoteSettings(auth)
+    }
+    
+    @objc private func loginToRemote() {
+        Remote.shared.login()
+    }
+    
     @objc private func logoutFromRemote() {
         Remote.shared.logout()
     }
     
-    @objc private func remoteState(_ notification: Notification) {
-        guard let state = notification.userInfo?["state"] as? Bool, let auth = notification.userInfo?["auth"] as? Bool else { return }
-        self.setRemoteSettings(state, auth)
-    }
-    
-    private func setRemoteSettings(_ state: Bool, _ auth: Bool) {
+    private func setRemoteSettings(_ auth: Bool) {
         DispatchQueue.main.async {
-            if state && auth {
-                self.remoteBtn?.state = .on
+            if auth {
                 self.remoteView?.setRowVisibility(1, newState: true)
                 self.remoteView?.setRowVisibility(2, newState: true)
-                return
-            } else if state && !auth {
-                Remote.shared.login()
+                self.remoteView?.setRowVisibility(3, newState: true)
+                self.remoteView?.setRowVisibility(0, newState: false)
+            } else {
+                self.remoteView?.setRowVisibility(0, newState: true)
+                self.remoteView?.setRowVisibility(1, newState: false)
+                self.remoteView?.setRowVisibility(2, newState: false)
+                self.remoteView?.setRowVisibility(3, newState: false)
             }
-            self.remoteBtn?.state = .off
-            self.remoteView?.setRowVisibility(1, newState: false)
-            self.remoteView?.setRowVisibility(2, newState: false)
         }
-    }
-    
-    @objc private func toggleRemoteState(_ sender: NSButton) {
-        Remote.shared.state = sender.state == NSControl.StateValue.on
     }
 }
 

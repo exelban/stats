@@ -1316,6 +1316,13 @@ public class PreferencesSection: NSStackView {
     }
     
     public func setRowVisibility(_ at: Int, newState: Bool) {
+        if at == 0 {
+            self.container.subviews[0].isHidden = !newState
+            if self.container.subviews.count > 1 {
+                self.container.subviews[1].isHidden = !newState
+            }
+            return
+        }
         for i in self.container.subviews.indices where i/2 == at && Double(i).remainder(dividingBy: 2) == 0 {
             self.container.subviews[i-1].isHidden = !newState
             self.container.subviews[i].isHidden = !newState
