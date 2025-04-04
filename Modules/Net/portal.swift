@@ -135,8 +135,14 @@ public class Portal: PortalWrapper {
                 }
             }
             
-            if self.localIPField?.stringValue != value.laddr {
-                self.localIPField?.stringValue = value.laddr ?? localizedString("Unknown")
+            var privateIP = localizedString("Unknown")
+            if let v4 = value.laddr.v4, !v4.isEmpty {
+                privateIP = v4
+            } else if let v6 = value.laddr.v6, !v6.isEmpty {
+                privateIP = v6
+            }
+            if self.localIPField?.stringValue != privateIP {
+                self.localIPField?.stringValue = privateIP
             }
         })
     }

@@ -72,7 +72,7 @@ public struct Network_Usage: Codable {
     var bandwidth: Bandwidth = Bandwidth()
     var total: Bandwidth = Bandwidth()
     
-    var laddr: String? = nil // local ip
+    var laddr: Network_addr = Network_addr() // local ip
     var raddr: Network_addr = Network_addr() // remote ip
     
     var interface: Network_interface? = nil
@@ -84,7 +84,7 @@ public struct Network_Usage: Codable {
     mutating func reset() {
         self.bandwidth = Bandwidth()
         
-        self.laddr = nil
+        self.laddr = Network_addr()
         self.raddr = Network_addr()
         
         self.interface = nil
@@ -254,7 +254,9 @@ public class Network: Module {
                         case "public": replacement = value.raddr.v4 ?? value.raddr.v6 ?? "-"
                         case "publicV4": replacement = value.raddr.v4 ?? "-"
                         case "publicV6": replacement = value.raddr.v6 ?? "-"
-                        case "private": replacement = value.laddr ?? "-"
+                        case "private": replacement = value.laddr.v4 ?? value.laddr.v6 ?? "-"
+                        case "privateV4": replacement = value.laddr.v4 ?? "-"
+                        case "privateV6": replacement = value.laddr.v6 ?? "-"
                         default: return
                         }
                     case "$interface":

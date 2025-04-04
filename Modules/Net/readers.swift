@@ -229,16 +229,14 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
         var pointer = interfaceAddresses
         while pointer != nil {
             defer { pointer = pointer?.pointee.ifa_next }
+            guard let pointer = pointer else { break }
             
-            if String(cString: pointer!.pointee.ifa_name) != self.interfaceID {
+            if String(cString: pointer.pointee.ifa_name) != self.interfaceID {
                 continue
             }
+            self.getLocalIP(pointer)
             
-            if let ip = getLocalIP(pointer!), self.usage.laddr != ip {
-                self.usage.laddr = ip
-            }
-            
-            if let info = getBytesInfo(pointer!) {
+            if let info = self.getBytesInfo(pointer) {
                 totalUpload += info.upload
                 totalDownload += info.download
             }
@@ -402,17 +400,19 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
         }
     }
     
-    private func getLocalIP(_ pointer: UnsafeMutablePointer<ifaddrs>) -> String? {
+    private func getLocalIP(_ pointer: UnsafeMutablePointer<ifaddrs>) {
         var addr = pointer.pointee.ifa_addr.pointee
-        
-        guard addr.sa_family == UInt8(AF_INET) else {
-            return nil
-        }
+        guard addr.sa_family == UInt8(AF_INET) || addr.sa_family == UInt8(AF_INET6) else { return}
         
         var ip = [CChar](repeating: 0, count: Int(NI_MAXHOST))
         getnameinfo(&addr, socklen_t(addr.sa_len), &ip, socklen_t(ip.count), nil, socklen_t(0), NI_NUMERICHOST)
         
-        return String(cString: ip)
+        let ipStr = String(cString: ip)
+        if addr.sa_family == UInt8(AF_INET) && !ipStr.isEmpty {
+            self.usage.laddr.v4 = ipStr
+        } else if addr.sa_family == UInt8(AF_INET6) && !ipStr.isEmpty {
+            self.usage.laddr.v6 = ipStr
+        }
     }
     
     private func getPublicIP() {

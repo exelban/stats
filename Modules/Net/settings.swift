@@ -27,6 +27,8 @@ You can use a combination of any of the variables. There is only one limitation:
 <li><b>$addr.publicV4</b>: <small>Public IPv4 address.</small></li>
 <li><b>$addr.publicV6</b>: <small>Public IPv6 address.</small></li>
 <li><b>$addr.private</b>: <small>Private/local IP address.</small></li>
+<li><b>$addr.privateV4</b>: <small>Private/local IPv4 address.</small></li>
+<li><b>$addr.privateV6</b>: <small>Private/local IPv6 address.</small></li>
 <li><b>$interface.displayName</b>: <small>Network interface name.</small></li>
 <li><b>$interface.BSDName</b>: <small>BSD name of the network interface.</small></li>
 <li><b>$interface.address</b>: <small>MAC address of the network interface.</small></li>
