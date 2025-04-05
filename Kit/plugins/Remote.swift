@@ -12,6 +12,10 @@
 import Foundation
 import Cocoa
 
+public protocol RemoteType {
+    func remote() -> Data?
+}
+
 public class Remote {
     public static let shared = Remote()
     static public var host = URL(string: "http://localhost:8008")! // https://api.system-stats.com http://localhost:8008
@@ -83,9 +87,9 @@ public class Remote {
         NotificationCenter.default.post(name: .remoteState, object: nil, userInfo: ["auth": self.isAuthorized])
     }
     
-    public func send(key: String, value: Codable) {
-        guard self.monitoring && self.isAuthorized, let blobData = try? JSONEncoder().encode(value) else { return }
-        self.ws.send(key: key, data: blobData)
+    public func send(key: String, value: Any) {
+        guard self.monitoring && self.isAuthorized, let v = value as? RemoteType, let data = v.remote() else { return }
+        self.ws.send(key: key, data: data)
     }
     
     @objc private func successLogin() {
@@ -462,9 +466,6 @@ class WebSocketManager: NSObject {
     }
     
     public func send(key: String, data: Data) {
-        if key != "details" && !key.contains("CPU@") && !key.contains("GPU@") && !key.contains("RAM@") && !key.contains("Network@") && !key.contains("Sensors@") {
-            return
-        }
         if !self.isConnected { return }
         let message = WebSocketMessage(name: key, data: data)
         guard let messageData = try? JSONEncoder().encode(message) else { return }

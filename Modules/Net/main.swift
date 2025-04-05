@@ -68,7 +68,7 @@ public struct Bandwidth: Codable {
     var download: Int64 = 0
 }
 
-public struct Network_Usage: Codable {
+public struct Network_Usage: Codable, RemoteType {
     var bandwidth: Bandwidth = Bandwidth()
     var total: Bandwidth = Bandwidth()
     
@@ -91,6 +91,12 @@ public struct Network_Usage: Codable {
         self.connectionType = nil
         
         self.wifiDetails.reset()
+    }
+    
+    public func remote() -> Data? {
+        let addr = "\(self.laddr.v4 ?? ""),\(self.laddr.v6 ?? ""),\(self.raddr.v4 ?? ""),\(self.raddr.v6 ?? "")"
+        let string = "1,\(self.interface?.BSDName ?? ""),1,\(self.bandwidth.download),\(self.bandwidth.upload),\(addr)$"
+        return string.data(using: .utf8)
     }
 }
 

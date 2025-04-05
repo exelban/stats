@@ -292,9 +292,11 @@ public class TemperatureReader: Reader<Double> {
 }
 
 // inspired by https://github.com/shank03/StatsBar/blob/e175aa71c914ce882ce2e90163f3eb18262a8e25/StatsBar/Service/IOReport.swift
-public class FrequencyReader: Reader<[Double]> {
+public class FrequencyReader: Reader<CPU_Frequency> {
     private var eCoreFreqs: [Int32] = []
     private var pCoreFreqs: [Int32] = []
+    private var eCoreCount: Double = 0
+    private var pCoreCount: Double = 0
     
     private var channels: CFMutableDictionary? = nil
     private var subscription: IOReportSubscriptionRef? = nil
@@ -314,6 +316,8 @@ public class FrequencyReader: Reader<[Double]> {
     public override func setup() {
         self.eCoreFreqs = SystemKit.shared.device.info.cpu?.eCoreFrequencies ?? []
         self.pCoreFreqs = SystemKit.shared.device.info.cpu?.pCoreFrequencies ?? []
+        self.eCoreCount = Double(SystemKit.shared.device.info.cpu?.eCores ?? 0)
+        self.pCoreCount = Double(SystemKit.shared.device.info.cpu?.pCores ?? 0)
         self.channels = self.getChannels()
         var dict: Unmanaged<CFMutableDictionary>?
         self.subscription = IOReportCreateSubscription(nil, self.channels, &dict, 0, nil)
@@ -352,8 +356,9 @@ public class FrequencyReader: Reader<[Double]> {
             
             let eFreq: Double = eCores.reduce(0, { $0 + $1 }) / Double(self.measurementCount)
             let pFreq: Double = pCores.reduce(0, { $0 + $1 }) / Double(self.measurementCount)
+            let value: Double = ((eFreq * self.eCoreCount) + (pFreq * self.pCoreCount)) / (self.eCoreCount + self.pCoreCount)
             
-            self.callback([eFreq, pFreq])
+            self.callback(CPU_Frequency(value: value, eCore: eFreq, pCore: pFreq))
             self.isReading = false
         }
     }

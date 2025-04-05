@@ -421,9 +421,8 @@ internal class Popup: PopupWrapper {
         })
     }
     
-    public func frequencyCallback(_ value: [Double]?) {
+    public func frequencyCallback(_ value: CPU_Frequency?) {
         guard let value else { return }
-        guard !value.filter({ $0 != 0 }).isEmpty else { return }
         
         DispatchQueue.main.async(execute: {
             if !self.initializedFrequency {
@@ -436,36 +435,18 @@ internal class Popup: PopupWrapper {
             }
             
             if (self.window?.isVisible ?? false) || !self.initializedFrequency {
-                if value.count == 1 {
-                    let freq = value.first ?? 0
-                    if freq > self.maxFreq {
-                        self.maxFreq = freq
-                    }
-                    self.coresFreqField?.stringValue = "\(Int(freq)) MHz"
-                    if let circle = self.frequencyCircle {
-                        circle.setValue((100*freq)/self.maxFreq)
-                        circle.setText("\((freq/1000).rounded(toPlaces: 2))")
-                        circle.toolTip = "\(localizedString("CPU frequency")): \(Int(freq)) MHz - \(((100*freq)/self.maxFreq).rounded(toPlaces: 2))%"
-                    }
-                } else if value.count == 2 {
-                    let e = value.first ?? 0
-                    let p = value.last ?? 0
-                    self.eCoresFreqField?.stringValue = "\(Int(e)) MHz"
-                    self.pCoresFreqField?.stringValue = "\(Int(p)) MHz"
-                    
-                    if let eCoreCount = SystemKit.shared.device.info.cpu?.eCores, let pCoreCount = SystemKit.shared.device.info.cpu?.pCores {
-                        let freq = ((e * Double(eCoreCount)) + (p * Double(pCoreCount))) / Double(eCoreCount + pCoreCount)
-                        if freq > self.maxFreq {
-                            self.maxFreq = freq
-                        }
-                        self.coresFreqField?.stringValue = "\(Int(freq)) MHz"
-                        if let circle = self.frequencyCircle {
-                            circle.setValue((100*freq)/self.maxFreq)
-                            circle.setText("\((freq/1000).rounded(toPlaces: 2))")
-                            circle.toolTip = "\(localizedString("CPU frequency")): \(Int(freq)) MHz - \(((100*freq)/self.maxFreq).rounded(toPlaces: 2))%"
-                        }
-                    }
+                if value.value > self.maxFreq {
+                    self.maxFreq = value.value
                 }
+                
+                self.coresFreqField?.stringValue = "\(Int(value.value)) MHz"
+                if let circle = self.frequencyCircle {
+                    circle.setValue((100*value.value)/self.maxFreq)
+                    circle.setText("\((value.value/1000).rounded(toPlaces: 2))")
+                    circle.toolTip = "\(localizedString("CPU frequency")): \(Int(value.value)) MHz - \(((100*value.value)/self.maxFreq).rounded(toPlaces: 2))%"
+                }
+                self.eCoresFreqField?.stringValue = "\(Int(value.eCore)) MHz"
+                self.pCoresFreqField?.stringValue = "\(Int(value.pCore)) MHz"
                 
                 self.initializedFrequency = true
             }

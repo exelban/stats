@@ -13,7 +13,7 @@ import Cocoa
 import Kit
 import WidgetKit
 
-public struct RAM_Usage: Codable {
+public struct RAM_Usage: Codable, RemoteType {
     var total: Double
     var used: Double
     var free: Double
@@ -34,6 +34,11 @@ public struct RAM_Usage: Codable {
     
     public var usage: Double {
         get { Double((self.total - self.free) / self.total) }
+    }
+    
+    public func remote() -> Data? {
+        let string = "\(self.total),\(self.used),\(self.pressure.level),\(self.swap.used)$"
+        return string.data(using: .utf8)
     }
 }
 

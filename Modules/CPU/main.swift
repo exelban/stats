@@ -10,7 +10,7 @@ import Cocoa
 import Kit
 import WidgetKit
 
-public struct CPU_Load: Codable {
+public struct CPU_Load: Codable, RemoteType {
     var totalUsage: Double = 0
     var usagePerCore: [Double] = []
     var usageECores: Double? = nil
@@ -19,6 +19,26 @@ public struct CPU_Load: Codable {
     var systemLoad: Double = 0
     var userLoad: Double = 0
     var idleLoad: Double = 0
+    
+    public func remote() -> Data? {
+        var string = "1,1,\(self.totalUsage),\(self.usagePerCore.count),"
+        for c in self.usagePerCore {
+            string += "\(c),"
+        }
+        string += "$"
+        return string.data(using: .utf8)
+    }
+}
+
+public struct CPU_Frequency: Codable, RemoteType {
+    var value: Double = 0
+    var eCore: Double = 0
+    var pCore: Double = 0
+    
+    public func remote() -> Data? {
+        let string = "1,1,\(self.value)$"
+        return string.data(using: .utf8)
+    }
 }
 
 public struct CPU_Limit: Codable {
