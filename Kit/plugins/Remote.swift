@@ -18,7 +18,7 @@ public protocol RemoteType {
 
 public class Remote {
     public static let shared = Remote()
-    static public var host = URL(string: "http://localhost:8008")! // https://api.system-stats.com http://localhost:8008
+    static public var host = URL(string: "https://api.system-stats.com")! // https://api.system-stats.com http://localhost:8008
     
     public var monitoring: Bool {
         get { Store.shared.bool(key: "remote_monitoring", defaultValue: false) }
