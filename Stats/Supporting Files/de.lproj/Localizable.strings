@@ -87,19 +87,19 @@
 "Separator" = "Separator";
 "Read" = "Read";
 "Write" = "Write";
-"Frequency" = "Frequency";
-"Save" = "Save";
-"Run" = "Run";
-"Stop" = "Stop";
-"Uninstall" = "Uninstall";
-"1 sec" = "1 sec";
-"2 sec" = "2 sec";
-"3 sec" = "3 sec";
-"5 sec" = "5 sec";
-"10 sec" = "10 sec";
-"15 sec" = "15 sec";
-"30 sec" = "30 sec";
-"60 sec" = "60 sec";
+"Frequency" = "Frequenz";
+"Save" = "Speichern";
+"Run" = "Starten";
+"Stop" = "Beenden";
+"Uninstall" = "Deinstallieren";
+"1 sec" = "1 Sek.";
+"2 sec" = "2 Sek.";
+"3 sec" = "3 Sek.";
+"5 sec" = "5 Sek.";
+"10 sec" = "10 Sek.";
+"15 sec" = "15 Sek.";
+"30 sec" = "30 Sek.";
+"60 sec" = "60 Sek.";
 
 // Setup
 "Stats Setup" = "Stats einrichten";
@@ -115,7 +115,7 @@
 "Do not start the application automatically when starting your Mac" = "Stats nicht automatisch mit dem Mac starten";
 "Do everything silently in the background (recommended)" = "Alles ohne Nachfrage im Hintergrund durchführen. (empfohlen)";
 "Check for a new version on startup" = "Beim Starten auf neue Version prüfen";
-"Check for a new version every day (once a day)" = "Tägliche nach Updates suchen (einmal pro Tag)";
+"Check for a new version every day (once a day)" = "Täglich nach Updates suchen (einmal pro Tag)";
 "Check for a new version every week (once a week)" = "Wöchentlich nach Updates suchen (einmal pro Woche)";
 "Check for a new version every month (once a month)" = "Monatlich nach Updates suchen (einmal pro Monat)";
 "Never check for updates (not recommended)" = "Nie nach neuen Updates suchen (nicht empfohlen)";
@@ -141,8 +141,8 @@
 "Open application settings" = "Einstellungen öffnen";
 "Open dashboard" = "Dashboard öffnen";
 "No notifications available in this module" = "Keine Benachrichtigungen verfügbar";
-"Open Calendar" = "Open Calendar";
-"Toggle the module" = "Toggle the module";
+"Open Calendar" = "Kalender öffnen";
+"Toggle the module" = "Modul ein/aus";
 
 // Application settings
 "Update application" = "Anwendung aktualisieren";
@@ -156,8 +156,8 @@
 "Show icon in dock" = "Symbol im Dock anzeigen";
 "Start at login" = "Beim Login starten";
 "Build number" = "Build-Nummer";
-"Import settings" = "Import-Einstellungen";
-"Export settings" = "Export-Einstellungen";
+"Import settings" = "Einstellungen wiederherstellen";
+"Export settings" = "Einstellungen sichern";
 "Reset settings" = "Einstellungen zurücksetzen";
 "Pause the Stats" = "Stats pausieren";
 "Resume the Stats" = "Stats fortsetzen";
@@ -165,8 +165,8 @@
 "Combined details" = "Zusammengefasste Details";
 "Spacing" = "Abstand";
 "Share anonymous telemetry" = "Anonyme Telemetriedaten teilen";
-"Choose file" = "Choose file";
-"Stress tests" = "Stress tests";
+"Choose file" = "Datei auswählen";
+"Stress tests" = "Stresstests";
 
 // Dashboard
 "Serial number" = "Seriennummer";
@@ -211,7 +211,7 @@
 "Tachometer widget" = "Tachometer";
 "State widget" = "Status Widget";
 "Text widget" = "Text widget";
-"Battery details widget" = "Battery details widget";
+"Battery details widget" = "Batterie-Details Widget";
 "Show symbols" = "Symbole anzeigen";
 "Label widget" = "Text Widget";
 "Number of reads in the chart" = "Anzahl der Elemente im Diagramm";
@@ -242,8 +242,8 @@
 "No options to configure for the popup in this module" = "Keine weitere Konfigurationsmöglichkeit für das Popup verfügbar";
 "Process" = "Prozess";
 "Kill process" = "Prozess abbrechen";
-"Keyboard shortcut" = "Keyboard shortcut";
-"Listening..." = "Listening...";
+"Keyboard shortcut" = "Tastenkombination";
+"Listening..." = "Kombination festlegen…";
 
 // Modules
 "Number of top processes" = "Anzahl der Top-Prozesse";
@@ -252,7 +252,7 @@
 "Chart color" = "Diagramm-Farbe";
 "Main chart scaling" = "Diagramm-Skalierung";
 "Scale value" = "Skalierung";
-"Text widget value" = "Text widget value";
+"Text widget value" = "Text-Widget Wert";
 
 // CPU
 "CPU usage" = "CPU-Auslastung";
@@ -285,7 +285,7 @@
 "User load" = "Last (Benutzer)";
 "Efficiency cores load" = "Last (Effizienz-Kerne)";
 "Performance cores load" = "Last (Per­for­mance-Kerne)";
-"All cores" = "All cores";
+"All cores" = "Alle Kerne";
 
 // GPU
 "GPU to show" = "GPU auswählen";
@@ -345,8 +345,8 @@
 "Total written" = "Insgesamt geschrieben";
 "Write speed" = "Schreiben";
 "Read speed" = "Lesen";
-"Drives" = "Drives";
-"SMART data" = "SMART data";
+"Drives" = "Laufwerke";
+"SMART data" = "SMART-Werte";
 
 // Sensors
 "Temperature unit" = "Temperatureinheit";
@@ -368,7 +368,7 @@
 "Left fan" = "Links";
 "Right fan" = "Rechts";
 "Fastest fan" = "Schnellster";
-"Sensor to show" = "Sensor to show";
+"Sensor to show" = "Angezeigter Sensor";
 
 // Network
 "Uploading" = "Upload";
@@ -412,7 +412,7 @@
 "Latency" = "Latenz";
 "Upload speed" = "Upload";
 "Download speed" = "Download";
-"Address" = "Address";
+"Address" = "Adressen";
 "WiFi network" = "WiFi network";
 
 // Battery
@@ -453,7 +453,7 @@
 "Colorize battery" = "Akku einfärben";
 "Charging current" = "Ladestrom";
 "Charging Voltage" = "Ladespannung";
-"Charger state inside the battery" = "Charger state inside the battery";
+"Charger state inside the battery" = "Ladeindikator innerhalb Batteriesymbol";
 
 // Bluetooth
 "Battery to show" = "Angezeigter Akku";
@@ -464,9 +464,9 @@
 "Local" = "Lokal";
 "Calendar" = "Kalender";
 "Local time" = "Ortszeit";
-"Add new clock" = "Add new clock";
-"Delete selected clock" = "Delete selected clock";
-"Help with datetime format" = "Help with datetime format";
+"Add new clock" = "Uhr hinzufügen";
+"Delete selected clock" = "Uhr löschen";
+"Help with datetime format" = "Formatierungshilfe aufrufen";
 
 // Colors
 "Based on utilization" = "Basierend auf Auslastung";
