@@ -174,7 +174,7 @@ public class CPU: Module {
         self.portalView.callback(value)
         self.notificationsView.loadCallback(value)
         
-        self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: SWidget) in
+        self.menuBar.widgets.filter{ $0.isActive }.forEach { [self] (w: SWidget) in
             switch w.item {
             case let widget as Mini: widget.setValue(value.totalUsage)
             case let widget as LineChart: widget.setValue(value.totalUsage)
