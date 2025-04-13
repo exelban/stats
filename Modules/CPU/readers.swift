@@ -303,7 +303,13 @@ public class FrequencyReader: Reader<CPU_Frequency> {
     private var prev: (samples: CFDictionary, time: TimeInterval)? = nil
     
     private let measurementCount: Int = 4
-    private var isReading: Bool = false
+    private let isReadingQueue = DispatchQueue(label: "com.example.isReadingQueue")
+    
+    private var _isReading: Bool = false
+    private var isReading: Bool {
+        get { self.isReadingQueue.sync { self._isReading } }
+        set { self.isReadingQueue.sync { self._isReading = newValue } }
+    }
     
     private struct IOSample {
         let group: String
