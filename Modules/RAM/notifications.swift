@@ -13,7 +13,6 @@ import Cocoa
 import Kit
 
 internal let memoryPressureLevels: [KeyValue_t] = [
-    KeyValue_t(key: "normal", value: "Normal", additional: DispatchSource.MemoryPressureEvent.normal),
     KeyValue_t(key: "warning", value: "Warning", additional: DispatchSource.MemoryPressureEvent.warning),
     KeyValue_t(key: "critical", value: "Critical", additional: DispatchSource.MemoryPressureEvent.critical)
 ]
