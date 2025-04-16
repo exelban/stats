@@ -540,7 +540,7 @@ public extension Data {
 }
 
 public extension Date {
-    func convertToTimeZone(_ timeZone: TimeZone) -> Date {
+    func adjustToTimeZone(_ timeZone: TimeZone) -> Date {
         return addingTimeInterval(TimeInterval(timeZone.secondsFromGMT(for: self) - TimeZone.current.secondsFromGMT(for: self)))
     }
     
@@ -579,6 +579,17 @@ public extension TimeZone {
         } else {
             self = TimeZone.current
         }
+    }
+
+    init(fromKey: String) {
+        // previous versions stored UTC offsets as tz keys, so fallback to fromUTC
+        self = TimeZone(identifier: fromKey) ?? TimeZone(fromUTC: fromKey)
+    }
+
+    func secondsFromCurrentTimeZone(for date: Date = Date()) -> Int {
+        let selfFromGMT = self.secondsFromGMT(for: date)
+        let currentFromGMT = TimeZone.current.secondsFromGMT(for: date)
+        return selfFromGMT - currentFromGMT
     }
 }
 
