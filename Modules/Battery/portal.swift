@@ -18,6 +18,7 @@ internal class Portal: NSStackView, Portal_p {
     private let batteryView: BatteryView = BatteryView()
     private var levelField: NSTextField = ValueField(frame: NSRect.zero, "")
     private var timeField: NSTextField = ValueField(frame: NSRect.zero, "")
+    private var chargingField: NSTextField = ValueField(frame: NSRect.zero, "")
     
     private var initialized: Bool = false
     
@@ -46,16 +47,34 @@ internal class Portal: NSStackView, Portal_p {
         self.addArrangedSubview(PortalHeader(name))
         
         let box: NSStackView = NSStackView()
-        box.heightAnchor.constraint(equalToConstant: 13).isActive = true
+        box.heightAnchor.constraint(equalToConstant: 15).isActive = true
         box.orientation = .horizontal
+        box.distribution = .fillEqually
         box.spacing = 0
+        box.edgeInsets = NSEdgeInsets(top: 0, left: Constants.Popup.spacing*2, bottom: 0, right: Constants.Popup.spacing*2)
         
         self.levelField.font = NSFont.systemFont(ofSize: 12, weight: .medium)
+        self.levelField.alignment = .left
+        self.chargingField.font = NSFont.systemFont(ofSize: 12, weight: .medium)
+        self.chargingField.alignment = .center
         self.timeField.font = NSFont.systemFont(ofSize: 12, weight: .medium)
+        self.timeField.alignment = .right
         
-        box.addArrangedSubview(self.levelField)
+        let leftStack = NSStackView(views: [self.levelField])
+        leftStack.orientation = .horizontal
+        leftStack.alignment = .leading
+        let centerStack = NSStackView(views: [self.chargingField])
+        centerStack.orientation = .horizontal
+        centerStack.alignment = .centerX
+        let rightStack = NSStackView(views: [self.timeField])
+        rightStack.orientation = .horizontal
+        rightStack.alignment = .trailing
+        
+        box.addArrangedSubview(leftStack)
         box.addArrangedSubview(NSView())
-        box.addArrangedSubview(self.timeField)
+        box.addArrangedSubview(centerStack)
+        box.addArrangedSubview(NSView())
+        box.addArrangedSubview(rightStack)
         
         self.addArrangedSubview(self.batteryView)
         self.addArrangedSubview(box)
@@ -82,6 +101,13 @@ internal class Portal: NSStackView, Portal_p {
             self.timeField.stringValue = seconds != 0 ? seconds.printSecondsToHoursMinutesSeconds(short: self.timeFormat == "short") : ""
             
             self.batteryView.setValue(abs(value.level))
+            
+            if !value.isBatteryPowered {
+                self.chargingField.stringValue = value.isCharging ? localizedString("Charging") : localizedString("Connected")
+            } else if self.chargingField.stringValue != "" {
+                self.chargingField.stringValue = ""
+            }
+            
             self.initialized = true
         })
     }
