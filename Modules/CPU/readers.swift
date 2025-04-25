@@ -173,9 +173,7 @@ public class ProcessReader: Reader<[TopProcess]> {
     private let title: String = "CPU"
     
     private var numberOfProcesses: Int {
-        get {
-            return Store.shared.int(key: "\(self.title)_processes", defaultValue: 8)
-        }
+        get { Store.shared.int(key: "\(self.title)_processes", defaultValue: 8) }
     }
     
     public override func setup() {
@@ -247,6 +245,7 @@ public class TemperatureReader: Reader<Double> {
     var list: [String] = []
     
     public override func setup() {
+        self.popup = true
         switch SystemKit.shared.device.platform {
         case .m1, .m1Pro, .m1Max, .m1Ultra:
             self.list = ["Tp09", "Tp0T", "Tp01", "Tp05", "Tp0D", "Tp0H", "Tp0L", "Tp0P", "Tp0X", "Tp0b"]
@@ -320,6 +319,7 @@ public class FrequencyReader: Reader<CPU_Frequency> {
     }
     
     public override func setup() {
+        self.popup = true
         self.eCoreFreqs = SystemKit.shared.device.info.cpu?.eCoreFrequencies ?? []
         self.pCoreFreqs = SystemKit.shared.device.info.cpu?.pCoreFrequencies ?? []
         self.eCoreCount = Double(SystemKit.shared.device.info.cpu?.eCores ?? 0)
