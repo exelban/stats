@@ -12,6 +12,7 @@
 import Cocoa
 import Kit
 import IOKit.storage
+import CoreServices
 
 let kIONVMeSMARTUserClientTypeID = CFUUIDGetConstantUUIDWithBytes(nil,
                                                                   0xAA, 0x0F, 0xA6, 0xF9,
@@ -38,6 +39,7 @@ internal class CapacityReader: Reader<Disks> {
     private var SMART: Bool {
         Store.shared.bool(key: "\(ModuleType.disk.stringValue)_SMART", defaultValue: true)
     }
+    private var purgableSpace: [URL: (Date, Int64)] = [:]
     
     public override func read() {
         let keys: [URLResourceKey] = [.volumeNameKey]
@@ -96,6 +98,26 @@ internal class CapacityReader: Reader<Disks> {
     }
     
     private func freeDiskSpaceInBytes(_ path: URL) -> Int64 {
+        var stat = statfs()
+        if statfs(path.path, &stat) == 0 {
+            var purgeable: Int64 = 0
+            if self.purgableSpace[path] == nil {
+                let value = CSDiskSpaceGetRecoveryEstimate(path as NSURL)
+                purgeable = Int64(value)
+                self.purgableSpace[path] = (Date(), purgeable)
+            } else if let pair = self.purgableSpace[path] {
+                let delta = Date().timeIntervalSince(pair.0)
+                if delta > 60 {
+                    let value = CSDiskSpaceGetRecoveryEstimate(path as NSURL)
+                    purgeable = Int64(value)
+                    self.purgableSpace[path] = (Date(), purgeable)
+                } else {
+                    purgeable = pair.1
+                }
+            }
+            return (Int64(stat.f_bfree) * Int64(stat.f_bsize)) + Int64(purgeable)
+        }
+        
         do {
             if let url = URL(string: path.absoluteString) {
                 let values = try url.resourceValues(forKeys: [.volumeAvailableCapacityForImportantUsageKey])
