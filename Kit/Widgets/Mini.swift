@@ -15,6 +15,10 @@ public class Mini: WidgetWrapper {
     private var labelState: Bool = true
     private var colorState: SColor = .monochrome
     private var alignmentState: String = "left"
+    private var supportsGB: Bool = false
+    private var showFreeInGBState: Bool = false
+    private var absoluteUnitsState: Bool = false
+    private var _usedBytes: Int64 = 0
     
     private var colors: [SColor] = SColor.allCases
     
@@ -65,6 +69,9 @@ public class Mini: WidgetWrapper {
                     self.colorState = defaultColor
                 }
             }
+            if let configSupportsGB = config?["SupportsGB"] as? Bool {
+                self.supportsGB = configSupportsGB
+            }
         }
         
         self.defaultLabel = widgetTitle
@@ -82,6 +89,10 @@ public class Mini: WidgetWrapper {
             self.colorState = SColor.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_color", defaultValue: self.colorState.key))
             self.labelState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_label", defaultValue: self.labelState)
             self.alignmentState = Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_alignment", defaultValue: self.alignmentState)
+            if self.supportsGB {
+                self.showFreeInGBState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_showGB", defaultValue: false)
+                self.absoluteUnitsState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_absoluteUnits", defaultValue: false)
+            }
         }
     }
     
@@ -140,8 +151,21 @@ public class Mini: WidgetWrapper {
             NSAttributedString.Key.foregroundColor: color,
             NSAttributedString.Key.paragraphStyle: style
         ]
+        
+        let displayText: String
+        if self.supportsGB && (self.showFreeInGBState || self.absoluteUnitsState) && self._usedBytes > 0 {
+            if self.absoluteUnitsState {
+                displayText = DiskSize(self._usedBytes).getReadableMemory()
+            } else {
+                let usedGB = Double(self._usedBytes) / 1_000_000_000.0
+                displayText = String(format: "%.1f GB", usedGB)
+            }
+        } else {
+            displayText = "\(Int(value.rounded(toPlaces: 2) * 100))\(suffix)"
+        }
+        
         let rect = CGRect(x: origin.x, y: origin.y, width: self.width - (Constants.Widget.margin.x*2), height: valueSize+1)
-        let str = NSAttributedString.init(string: "\(Int(value.rounded(toPlaces: 2) * 100))\(suffix)", attributes: stringAttributes)
+        let str = NSAttributedString.init(string: displayText, attributes: stringAttributes)
         str.draw(with: rect)
         
         self.setWidth(width)
@@ -213,6 +237,19 @@ public class Mini: WidgetWrapper {
             ))
         ]))
         
+        if self.supportsGB {
+            view.addArrangedSubview(PreferencesSection([
+                PreferencesRow(localizedString("Show used GB"), component: switchView(
+                    action: #selector(self.toggleShowGB),
+                    state: self.showFreeInGBState
+                )),
+                PreferencesRow(localizedString("Absolute units (MB/GB/TB)"), component: switchView(
+                    action: #selector(self.toggleAbsoluteUnits),
+                    state: self.absoluteUnitsState
+                ))
+            ]))
+        }
+        
         return view
     }
     
@@ -237,6 +274,18 @@ public class Mini: WidgetWrapper {
             self.alignmentState = newAlignment.key
         }
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_alignment", value: key)
+        self.display()
+    }
+    
+    @objc private func toggleShowGB(_ sender: NSControl) {
+        self.showFreeInGBState = controlState(sender)
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_showGB", value: self.showFreeInGBState)
+        self.display()
+    }
+    
+    @objc private func toggleAbsoluteUnits(_ sender: NSControl) {
+        self.absoluteUnitsState = controlState(sender)
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_absoluteUnits", value: self.absoluteUnitsState)
         self.display()
     }
 }
