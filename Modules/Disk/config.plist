@@ -38,6 +38,8 @@
 			</array>
 			<key>Order</key>
 			<integer>1</integer>
+			<key>SupportsGB</key>
+			<true/>
 		</dict>
 		<key>bar_chart</key>
 		<dict>

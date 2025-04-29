@@ -153,13 +153,8 @@ public class Mini: WidgetWrapper {
         ]
         
         let displayText: String
-        if self.supportsGB && (self.showFreeInGBState || self.absoluteUnitsState) && self._usedBytes > 0 {
-            if self.absoluteUnitsState {
-                displayText = DiskSize(self._usedBytes).getReadableMemory()
-            } else {
-                let usedGB = Double(self._usedBytes) / 1_000_000_000.0
-                displayText = String(format: "%.1f GB", usedGB)
-            }
+        if self.supportsGB && self.absoluteUnitsState && self._usedBytes > 0 {
+            displayText = DiskSize(self._usedBytes).getReadableMemory()
         } else {
             displayText = "\(Int(value.rounded(toPlaces: 2) * 100))\(suffix)"
         }
@@ -176,6 +171,13 @@ public class Mini: WidgetWrapper {
         self._value = newValue
         DispatchQueue.main.async(execute: {
             self.display()
+        })
+    }
+    
+    public func setUsedBytes(_ bytes: Int64) {
+        self._usedBytes = bytes
+        DispatchQueue.main.async(execute: {
+            self.needsDisplay = true
         })
     }
     
@@ -220,7 +222,16 @@ public class Mini: WidgetWrapper {
     public override func settings() -> NSView {
         let view = SettingsContainerView()
         
-        view.addArrangedSubview(PreferencesSection([
+        var preferences: [PreferencesRow] = []
+        
+        if self.supportsGB {
+            preferences.append(PreferencesRow(localizedString("Absolute units (MB/GB/TB)"), component: switchView(
+                action: #selector(self.toggleAbsoluteUnits),
+                state: self.absoluteUnitsState
+            )))
+        }
+        
+        preferences += [
             PreferencesRow(localizedString("Label"), component: switchView(
                 action: #selector(self.toggleLabel),
                 state: self.labelState
@@ -235,20 +246,9 @@ public class Mini: WidgetWrapper {
                 items: Alignments,
                 selected: self.alignmentState
             ))
-        ]))
+        ]
         
-        if self.supportsGB {
-            view.addArrangedSubview(PreferencesSection([
-                PreferencesRow(localizedString("Show used GB"), component: switchView(
-                    action: #selector(self.toggleShowGB),
-                    state: self.showFreeInGBState
-                )),
-                PreferencesRow(localizedString("Absolute units (MB/GB/TB)"), component: switchView(
-                    action: #selector(self.toggleAbsoluteUnits),
-                    state: self.absoluteUnitsState
-                ))
-            ]))
-        }
+        view.addArrangedSubview(PreferencesSection(preferences))
         
         return view
     }
