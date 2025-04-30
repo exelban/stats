@@ -15,6 +15,10 @@ public class Mini: WidgetWrapper {
     private var labelState: Bool = true
     private var colorState: SColor = .monochrome
     private var alignmentState: String = "left"
+    private var supportsGB: Bool = false
+    private var showFreeInGBState: Bool = false
+    private var absoluteUnitsState: Bool = false
+    private var _usedBytes: Int64 = 0
     
     private var colors: [SColor] = SColor.allCases
     
@@ -48,6 +52,12 @@ public class Mini: WidgetWrapper {
                     if let value = configuration["Value"] as? String {
                         self._value = Double(value) ?? 0
                     }
+                    if let freeDiskSize = configuration["FreeDiskSize"] as? Int64 {
+                        self._usedBytes = freeDiskSize
+                    }
+                    if let absoluteUnits = configuration["AbsoluteUnits"] as? Bool {
+                        self.absoluteUnitsState = absoluteUnits
+                    }
                 }
             }
             
@@ -64,6 +74,9 @@ public class Mini: WidgetWrapper {
                 if let defaultColor = colors.first(where: { "\($0.self)" == color }) {
                     self.colorState = defaultColor
                 }
+            }
+            if let configSupportsGB = configuration["SupportsGB"] as? Bool {
+                self.supportsGB = configSupportsGB
             }
         }
         
@@ -82,11 +95,52 @@ public class Mini: WidgetWrapper {
             self.colorState = SColor.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_color", defaultValue: self.colorState.key))
             self.labelState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_label", defaultValue: self.labelState)
             self.alignmentState = Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_alignment", defaultValue: self.alignmentState)
+            if self.supportsGB {
+                self.showFreeInGBState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_showGB", defaultValue: false)
+                self.absoluteUnitsState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_absoluteUnits", defaultValue: false)
+            }
+        }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(handleAbsoluteUnitsNotification(_:)), name: NSNotification.Name("toggleAbsoluteUnits"), object: nil)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    @objc private func handleAbsoluteUnitsNotification(_ notification: Notification) {
+        if let isEnabled = notification.userInfo?["isEnabled"] as? Bool {
+            self.absoluteUnitsState = isEnabled
+            DispatchQueue.main.async {
+                self.display()
+            }
         }
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func formatNumber(_ bytes: Int64) -> String {
+        let size = DiskSize(bytes)
+        let fullString = size.getReadableMemory()
+        
+        let components = fullString.split(separator: " ")
+        guard components.count == 2,
+              let value = Double(components[0]),
+              let unit = components.last else {
+            return fullString
+        }
+        
+        let unitStr = String(unit)
+        
+        if value >= 100 {
+            return String(format: "%.0f %@", value, unitStr)
+        } else if value >= 10 {
+            return String(format: "%.1f %@", value, unitStr)
+        } else {
+            return String(format: "%.1f %@", value, unitStr)
+        }
     }
     
     public override func draw(_ dirtyRect: NSRect) {
@@ -105,19 +159,20 @@ public class Mini: WidgetWrapper {
             suffix = self._suffix
         }
         
-        let valueSize: CGFloat = self.labelState ? 12 : 14
+        let initialValueSize: CGFloat = self.labelState ? 12 : 14
+        var valueSize: CGFloat = initialValueSize
         var origin: CGPoint = CGPoint(x: Constants.Widget.margin.x, y: (Constants.Widget.height-valueSize)/2)
         let style = NSMutableParagraphStyle()
         style.alignment = self.labelState ? self.alignment : .center
         
         if self.labelState {
-            let style = NSMutableParagraphStyle()
-            style.alignment = self.alignment
+            let labelStyle = NSMutableParagraphStyle()
+            labelStyle.alignment = self.alignment
             
             let stringAttributes = [
                 NSAttributedString.Key.font: NSFont.systemFont(ofSize: 7, weight: .light),
                 NSAttributedString.Key.foregroundColor: isDarkMode ? NSColor.white : NSColor.textColor,
-                NSAttributedString.Key.paragraphStyle: style
+                NSAttributedString.Key.paragraphStyle: labelStyle
             ]
             let rect = CGRect(x: origin.x, y: 12, width: self.width - (Constants.Widget.margin.x*2), height: 7)
             let str = NSAttributedString.init(string: label, attributes: stringAttributes)
@@ -135,13 +190,43 @@ public class Mini: WidgetWrapper {
         default: color = self.colorState.additional as? NSColor ?? .controlAccentColor
         }
         
+        let displayText: String
+        if self.supportsGB && self.absoluteUnitsState && self._usedBytes > 0 {
+            displayText = formatNumber(self._usedBytes)
+        } else {
+            displayText = "\(Int(value.rounded(toPlaces: 2) * 100))\(suffix)"
+        }
+        
+        let availableWidth = self.width - (2 * Constants.Widget.margin.x)
+        
+        let measureFont = NSFont.systemFont(ofSize: valueSize, weight: .regular)
+        let measureAttributes: [NSAttributedString.Key: Any] = [
+            .font: measureFont,
+            .foregroundColor: color,
+            .paragraphStyle: style
+        ]
+        
+        var textSize = (displayText as NSString).size(withAttributes: measureAttributes)
+        
+        while textSize.width > availableWidth && valueSize > 8 {
+            valueSize -= 0.5
+            let newFont = NSFont.systemFont(ofSize: valueSize, weight: .regular)
+            let newAttributes: [NSAttributedString.Key: Any] = [
+                .font: newFont,
+                .foregroundColor: color,
+                .paragraphStyle: style
+            ]
+            textSize = (displayText as NSString).size(withAttributes: newAttributes)
+        }
+        
         let stringAttributes = [
             NSAttributedString.Key.font: NSFont.systemFont(ofSize: valueSize, weight: .regular),
             NSAttributedString.Key.foregroundColor: color,
             NSAttributedString.Key.paragraphStyle: style
         ]
-        let rect = CGRect(x: origin.x, y: origin.y, width: self.width - (Constants.Widget.margin.x*2), height: valueSize+1)
-        let str = NSAttributedString.init(string: "\(Int(value.rounded(toPlaces: 2) * 100))\(suffix)", attributes: stringAttributes)
+        
+        let rect = CGRect(x: origin.x, y: origin.y, width: availableWidth, height: valueSize+1)
+        let str = NSAttributedString.init(string: displayText, attributes: stringAttributes)
         str.draw(with: rect)
         
         self.setWidth(width)
@@ -152,6 +237,13 @@ public class Mini: WidgetWrapper {
         self._value = newValue
         DispatchQueue.main.async(execute: {
             self.display()
+        })
+    }
+    
+    public func setUsedBytes(_ bytes: Int64) {
+        self._usedBytes = bytes
+        DispatchQueue.main.async(execute: {
+            self.needsDisplay = true
         })
     }
     
@@ -191,12 +283,19 @@ public class Mini: WidgetWrapper {
         })
     }
     
-    // MARK: - Settings
-    
     public override func settings() -> NSView {
         let view = SettingsContainerView()
         
-        view.addArrangedSubview(PreferencesSection([
+        var preferences: [PreferencesRow] = []
+        
+        if self.supportsGB {
+            preferences.append(PreferencesRow(localizedString("Absolute units (MB/GB/TB)"), component: switchView(
+                action: #selector(self.toggleAbsoluteUnitsSwitch),
+                state: self.absoluteUnitsState
+            )))
+        }
+        
+        preferences += [
             PreferencesRow(localizedString("Label"), component: switchView(
                 action: #selector(self.toggleLabel),
                 state: self.labelState
@@ -211,7 +310,9 @@ public class Mini: WidgetWrapper {
                 items: Alignments,
                 selected: self.alignmentState
             ))
-        ]))
+        ]
+        
+        view.addArrangedSubview(PreferencesSection(preferences))
         
         return view
     }
@@ -237,6 +338,19 @@ public class Mini: WidgetWrapper {
             self.alignmentState = newAlignment.key
         }
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_alignment", value: key)
+        self.display()
+    }
+    
+    @objc private func toggleShowGB(_ sender: NSControl) {
+        self.showFreeInGBState = controlState(sender)
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_showGB", value: self.showFreeInGBState)
+        self.display()
+    }
+    
+    @objc private func toggleAbsoluteUnitsSwitch(_ sender: NSControl) {
+        self.absoluteUnitsState = controlState(sender)
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_absoluteUnits", value: self.absoluteUnitsState)
+        NotificationCenter.default.post(name: NSNotification.Name("toggleAbsoluteUnits"), object: nil, userInfo: ["isEnabled": self.absoluteUnitsState])
         self.display()
     }
 }

@@ -49,23 +49,27 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
     private var splitValueState: Bool = false
     private var notificationLevel: String = "Disabled"
     private var textValue: String = "$mem.used/$mem.total ($pressure.value)"
-    
-    private let title: String
+    private var absoluteUnitsState: Bool = false
+    private let type: ModuleType
     
     public var callback: (() -> Void) = {}
     public var callbackWhenUpdateNumberOfProcesses: (() -> Void) = {}
     public var setInterval: ((_ value: Int) -> Void) = {_ in }
     public var setTopInterval: ((_ value: Int) -> Void) = {_ in }
     
+    private let title: String
+    
     private let textWidgetHelpPanel: HelpHUD = HelpHUD(textWidgetHelp)
     
     public init(_ module: ModuleType) {
         self.title = module.stringValue
+        self.type = module
         self.updateIntervalValue = Store.shared.int(key: "\(self.title)_updateInterval", defaultValue: self.updateIntervalValue)
         self.updateTopIntervalValue = Store.shared.int(key: "\(self.title)_updateTopInterval", defaultValue: self.updateTopIntervalValue)
         self.numberOfProcesses = Store.shared.int(key: "\(self.title)_processes", defaultValue: self.numberOfProcesses)
         self.splitValueState = Store.shared.bool(key: "\(self.title)_splitValue", defaultValue: self.splitValueState)
         self.notificationLevel = Store.shared.string(key: "\(self.title)_notificationLevel", defaultValue: self.notificationLevel)
+        self.absoluteUnitsState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_absoluteUnits", defaultValue: false)
         
         super.init(frame: NSRect.zero)
         
@@ -119,6 +123,13 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
                 }
             ]))
         }
+        
+        self.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Absolute units"), component: switchView(
+                action: #selector(toggleAbsoluteUnits),
+                state: self.absoluteUnitsState
+            ))
+        ]))
     }
     
     private func inputField(id: String, value: String, placeholder: String) -> NSView {
@@ -160,6 +171,13 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
     @objc private func toggleSplitValue(_ sender: NSControl) {
         self.splitValueState = controlState(sender)
         Store.shared.set(key: "\(self.title)_splitValue", value: self.splitValueState)
+        self.callback()
+    }
+    
+    @objc private func toggleAbsoluteUnits(_ sender: NSControl) {
+        self.absoluteUnitsState = controlState(sender)
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_absoluteUnits", value: self.absoluteUnitsState)
+        NotificationCenter.default.post(name: NSNotification.Name("toggleAbsoluteUnits"), object: nil, userInfo: ["isEnabled": self.absoluteUnitsState])
         self.callback()
     }
     

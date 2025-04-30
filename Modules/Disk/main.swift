@@ -282,7 +282,9 @@ public class Disk: Module {
         
         self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: SWidget) in
             switch w.item {
-            case let widget as Mini: widget.setValue(d.percentage)
+            case let widget as Mini:
+                widget.setValue(d.percentage)
+                widget.setUsedBytes(d.free)
             case let widget as BarChart: widget.setValue([[ColorValue(d.percentage)]])
             case let widget as MemoryWidget:
                 widget.setValue((DiskSize(d.free).getReadableMemory(), DiskSize(d.size - d.free).getReadableMemory()), usedPercentage: d.percentage)
@@ -316,7 +318,7 @@ public class Disk: Module {
         
         self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: SWidget) in
             switch w.item {
-            case let widget as SpeedWidget: 
+            case let widget as SpeedWidget:
                 widget.setValue(input: d.activity.read, output: d.activity.write)
             case let widget as NetworkChart:
                 widget.setValue(upload: Double(d.activity.write), download: Double(d.activity.read))
