@@ -121,6 +121,28 @@ public class Mini: WidgetWrapper {
         fatalError("init(coder:) has not been implemented")
     }
     
+    private func formatNumber(_ bytes: Int64) -> String {
+        let size = DiskSize(bytes)
+        let fullString = size.getReadableMemory()
+        
+        let components = fullString.split(separator: " ")
+        guard components.count == 2,
+              let value = Double(components[0]),
+              let unit = components.last else {
+            return fullString
+        }
+        
+        let unitStr = String(unit)
+        
+        if value >= 100 {
+            return String(format: "%.0f %@", value, unitStr)
+        } else if value >= 10 {
+            return String(format: "%.1f %@", value, unitStr)
+        } else {
+            return String(format: "%.1f %@", value, unitStr)
+        }
+    }
+    
     public override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         
@@ -170,7 +192,7 @@ public class Mini: WidgetWrapper {
         
         let displayText: String
         if self.supportsGB && self.absoluteUnitsState && self._usedBytes > 0 {
-            displayText = DiskSize(self._usedBytes).getReadableMemory()
+            displayText = formatNumber(self._usedBytes)
         } else {
             displayText = "\(Int(value.rounded(toPlaces: 2) * 100))\(suffix)"
         }
