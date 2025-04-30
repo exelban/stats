@@ -31,6 +31,10 @@
 				<string>SSD</string>
 				<key>Value</key>
 				<string>0.36</string>
+				<key>FreeDiskSize</key>
+				<integer>251460125440</integer>
+				<key>AbsoluteUnits</key>
+				<false/>
 			</dict>
 			<key>Unsupported colors</key>
 			<array>
