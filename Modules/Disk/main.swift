@@ -217,6 +217,10 @@ public class Disk: Module {
     
     private var selectedDisk: String = ""
     
+    private var textValue: String {
+        Store.shared.string(key: "\(self.name)_textWidgetValue", defaultValue: "$capacity.free/$capacity.total")
+    }
+    
     public init() {
         super.init(
             moduleType: .disk,
@@ -290,6 +294,37 @@ public class Disk: Module {
                 widget.setValue([
                     circle_segment(value: d.percentage, color: NSColor.systemBlue)
                 ])
+            case let widget as TextWidget:
+                var text = "\(self.textValue)"
+                let pairs = TextWidget.parseText(text)
+                pairs.forEach { pair in
+                    var replacement: String? = nil
+                    
+                    switch pair.key {
+                    case "$capacity":
+                        switch pair.value {
+                        case "total": replacement = DiskSize(d.size).getReadableMemory()
+                        case "used": replacement = DiskSize(d.size - d.free).getReadableMemory()
+                        case "free": replacement = DiskSize(d.free).getReadableMemory()
+                        default: return
+                        }
+                    case "$percentage":
+                        var percentage: Int
+                        switch pair.value {
+                        case "used": percentage = Int((Double(d.size - d.free) / Double(d.size)) * 100)
+                        case "free": percentage = Int((Double(d.free) / Double(d.size)) * 100)
+                        default: return
+                        }
+                        replacement = "\(percentage < 0 ? 0 : percentage)%"
+                    default: return
+                    }
+                    
+                    if let replacement {
+                        let key = pair.value.isEmpty ? pair.key : "\(pair.key).\(pair.value)"
+                        text = text.replacingOccurrences(of: key, with: replacement)
+                    }
+                }
+                widget.setValue(text)
             default: break
             }
         }

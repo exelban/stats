@@ -125,6 +125,13 @@
 				<string>system</string>
 			</array>
 		</dict>
+		<key>text</key>
+		<dict>
+			<key>Default</key>
+			<false/>
+			<key>Order</key>
+			<integer>7</integer>
+		</dict>
 	</dict>
 	<key>Settings</key>
 	<dict>
