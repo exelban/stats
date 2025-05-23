@@ -73,13 +73,26 @@ public class Store {
     
     public func export(to url: URL) {
         guard let id = Bundle.main.bundleIdentifier,
-              let dicitionary = self.defaults.persistentDomain(forName: id) else { return }
-        NSDictionary(dictionary: dicitionary).write(to: url, atomically: true)
+              var dictionary = self.defaults.persistentDomain(forName: id) else { return }
+        dictionary.removeValue(forKey: "telemetry_id")
+        dictionary.removeValue(forKey: "access_token")
+        dictionary.removeValue(forKey: "refresh_token")
+        NSDictionary(dictionary: dictionary).write(to: url, atomically: true)
     }
     
     public func `import`(from url: URL) {
         guard let id = Bundle.main.bundleIdentifier, let dict = NSDictionary(contentsOf: url) as? [String: Any] else { return }
-        self.defaults.setPersistentDomain(dict, forName: id)
+        
+        var importedDict = dict
+        let keysToPreserve = ["telemetry_id", "access_token", "refresh_token"]
+        
+        for key in keysToPreserve {
+            if let existingValue = self.defaults.string(forKey: key) {
+                importedDict[key] = existingValue
+            }
+        }
+        
+        self.defaults.setPersistentDomain(importedDict, forName: id)
         restartApp(self)
     }
 }
