@@ -485,13 +485,31 @@ private class ClockView: NSStackView {
     
     private func setTZ() {
         self.nameField.stringValue = "\(self.clock.name)"
-        if let tz = Clock.zones.first(where: { $0.key == self.clock.tz }), tz.key != "local" {
-            self.nameField.stringValue += " (\(tz.value))"
+        if let zone = Clock.zones.first(where: { $0.key == self.clock.tzKey }) {
+            let totalSeconds = TimeZone(fromKey: zone.key).secondsFromCurrentTimeZone()
+
+            if totalSeconds != 0 {
+                self.nameField.stringValue += " (" + (totalSeconds >= 0 ? "+" : "-")
+
+                let hours = abs(totalSeconds) / 3600
+                self.nameField.stringValue += String(format: "%02d", hours)
+
+                let minutes = (abs(totalSeconds) % 3600) / 60
+                let seconds = abs(totalSeconds) % 60
+                if minutes > 0 || seconds > 0 {
+                    self.nameField.stringValue += String(format: ":%02d", minutes)
+                }
+                if seconds > 0 {
+                    self.nameField.stringValue += String(format: ":%02d", seconds)
+                }
+
+                self.nameField.stringValue += ")"
+            }
         }
     }
     
     public func update(_ newClock: Clock_t) {
-        if self.clock.tz != newClock.tz || self.clock.name != newClock.name {
+        if self.clock.tzKey != newClock.tzKey || self.clock.name != newClock.name {
             self.clock = newClock
             self.setTZ()
         }
@@ -499,7 +517,7 @@ private class ClockView: NSStackView {
         if (self.window?.isVisible ?? false) || !self.ready {
             self.timeField.stringValue = newClock.formatted()
             if let value = newClock.value {
-                self.clockView.setValue(value.convertToTimeZone(TimeZone(fromUTC: newClock.tz)))
+                self.clockView.setValue(value.adjustToTimeZone(TimeZone(fromKey: newClock.tzKey)))
             }
             self.ready = true
         }
