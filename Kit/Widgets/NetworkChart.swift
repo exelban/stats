@@ -209,23 +209,25 @@ public class NetworkChart: WidgetWrapper {
         context.saveGState()
         
         var underLinePath = topLinePath.copy() as! NSBezierPath
-        underLinePath.line(to: CGPoint(x: columnXPoint(points.count), y: zero))
+        underLinePath.line(to: CGPoint(x: columnXPoint(points.count - 1), y: zero))
         underLinePath.line(to: CGPoint(x: columnXPoint(0), y: zero))
         underLinePath.close()
         underLinePath.addClip()
         bottomColor?.withAlphaComponent(0.5).setFill()
-        NSBezierPath(rect: self.frame).fill()
+        let topFillRect = NSRect(x: chartFrame.origin.x - lineWidth, y: chartFrame.origin.y, width: chartFrame.width + (lineWidth*3), height: chartFrame.height)
+        NSBezierPath(rect: topFillRect).fill()
         
         context.restoreGState()
         context.saveGState()
         
         underLinePath = bottomLinePath.copy() as! NSBezierPath
-        underLinePath.line(to: CGPoint(x: columnXPoint(points.count), y: zero))
+        underLinePath.line(to: CGPoint(x: columnXPoint(points.count - 1), y: zero))
         underLinePath.line(to: CGPoint(x: columnXPoint(0), y: zero))
         underLinePath.close()
         underLinePath.addClip()
         topColor?.withAlphaComponent(0.5).setFill()
-        NSBezierPath(rect: self.frame).fill()
+        let bottomFillRect = NSRect(x: chartFrame.origin.x - lineWidth, y: chartFrame.origin.y, width: chartFrame.width + (lineWidth*3), height: chartFrame.height)
+        NSBezierPath(rect: bottomFillRect).fill()
         
         context.restoreGState()
         
