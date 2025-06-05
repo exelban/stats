@@ -100,9 +100,9 @@ public class Portal: PortalWrapper {
     internal func callback(_ value: RAM_Usage) {
         DispatchQueue.main.async(execute: {
             if (self.window?.isVisible ?? false) || !self.initialized {
-                self.usedField?.stringValue = Units(bytes: Int64(value.used)).getReadableMemory()
-                self.freeField?.stringValue = Units(bytes: Int64(value.free)).getReadableMemory()
-                self.swapField?.stringValue = Units(bytes: Int64(value.swap.used)).getReadableMemory()
+                self.usedField?.stringValue = Units(bytes: Int64(value.used)).getReadableMemory(style: .memory)
+                self.freeField?.stringValue = Units(bytes: Int64(value.free)).getReadableMemory(style: .memory)
+                self.swapField?.stringValue = Units(bytes: Int64(value.swap.used)).getReadableMemory(style: .memory)
                 self.pressureLevelField?.stringValue = value.pressure.value.rawValue
                 
                 self.usedField?.toolTip = "\(Int(value.usage.rounded(toPlaces: 2) * 100))%"

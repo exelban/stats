@@ -174,8 +174,8 @@ public class RAM: Module {
                     circle_segment(value: value.compressed/total, color: self.compressedColor)
                 ])
             case let widget as MemoryWidget:
-                let free = Units(bytes: Int64(value.free)).getReadableMemory()
-                let used = Units(bytes: Int64(value.used)).getReadableMemory()
+                let free = Units(bytes: Int64(value.free)).getReadableMemory(style: .memory)
+                let used = Units(bytes: Int64(value.used)).getReadableMemory(style: .memory)
                 widget.setValue((free, used), usedPercentage: value.usage)
                 widget.setPressure(value.pressure.value)
             case let widget as Tachometer:
@@ -193,24 +193,24 @@ public class RAM: Module {
                     switch pair.key {
                     case "$mem":
                         switch pair.value {
-                        case "total": replacement = Units(bytes: Int64(value.total)).getReadableMemory()
-                        case "used": replacement = Units(bytes: Int64(value.used)).getReadableMemory()
-                        case "free": replacement = Units(bytes: Int64(value.free)).getReadableMemory()
-                        case "active": replacement = Units(bytes: Int64(value.active)).getReadableMemory()
-                        case "inactive": replacement = Units(bytes: Int64(value.inactive)).getReadableMemory()
-                        case "wired": replacement = Units(bytes: Int64(value.wired)).getReadableMemory()
-                        case "compressed": replacement = Units(bytes: Int64(value.compressed)).getReadableMemory()
-                        case "app": replacement = Units(bytes: Int64(value.app)).getReadableMemory()
-                        case "cache": replacement = Units(bytes: Int64(value.cache)).getReadableMemory()
+                        case "total": replacement = Units(bytes: Int64(value.total)).getReadableMemory(style: .memory)
+                        case "used": replacement = Units(bytes: Int64(value.used)).getReadableMemory(style: .memory)
+                        case "free": replacement = Units(bytes: Int64(value.free)).getReadableMemory(style: .memory)
+                        case "active": replacement = Units(bytes: Int64(value.active)).getReadableMemory(style: .memory)
+                        case "inactive": replacement = Units(bytes: Int64(value.inactive)).getReadableMemory(style: .memory)
+                        case "wired": replacement = Units(bytes: Int64(value.wired)).getReadableMemory(style: .memory)
+                        case "compressed": replacement = Units(bytes: Int64(value.compressed)).getReadableMemory(style: .memory)
+                        case "app": replacement = Units(bytes: Int64(value.app)).getReadableMemory(style: .memory)
+                        case "cache": replacement = Units(bytes: Int64(value.cache)).getReadableMemory(style: .memory)
                         case "swapins": replacement = "\(value.swapins)"
                         case "swapouts": replacement = "\(value.swapouts)"
                         default: return
                         }
                     case "$swap":
                         switch pair.value {
-                        case "total": replacement = Units(bytes: Int64(value.swap.total)).getReadableMemory()
-                        case "used": replacement = Units(bytes: Int64(value.swap.used)).getReadableMemory()
-                        case "free": replacement = Units(bytes: Int64(value.swap.free)).getReadableMemory()
+                        case "total": replacement = Units(bytes: Int64(value.swap.total)).getReadableMemory(style: .memory)
+                        case "used": replacement = Units(bytes: Int64(value.swap.used)).getReadableMemory(style: .memory)
+                        case "free": replacement = Units(bytes: Int64(value.swap.free)).getReadableMemory(style: .memory)
                         default: return
                         }
                     case "$pressure":

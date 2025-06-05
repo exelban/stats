@@ -101,13 +101,13 @@ public struct RAMWidget: Widget {
                             Rectangle().fill(self.usedColor).frame(width: 12, height: 12).cornerRadius(2)
                             Text(localizedString("Used")).font(.system(size: 12, weight: .regular)).foregroundColor(.secondary)
                             Spacer()
-                            Text(Units(bytes: Int64(value.used)).getReadableMemory())
+                            Text(Units(bytes: Int64(value.used)).getReadableMemory(style: .memory))
                         }
                         HStack {
                             Rectangle().fill(self.freeColor).frame(width: 12, height: 12).cornerRadius(2)
                             Text(localizedString("Free")).font(.system(size: 12, weight: .regular)).foregroundColor(.secondary)
                             Spacer()
-                            Text(Units(bytes: Int64(value.free)).getReadableMemory())
+                            Text(Units(bytes: Int64(value.free)).getReadableMemory(style: .memory))
                         }
                         HStack {
                             Text(localizedString("Pressure level")).font(.system(size: 12, weight: .regular)).foregroundColor(.secondary)
