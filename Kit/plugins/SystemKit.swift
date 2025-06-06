@@ -608,7 +608,8 @@ let deviceDict: [String: model_s] = [
     "Mac14,8": model_s(name: "Mac Pro (M2 Ultra)", year: 2023, type: .macPro),
     
     // iMac
-    "iMac12,1": model_s(name: "iMac 27-Inch", year: 2011, type: .iMac),
+    "iMac12,1": model_s(name: "iMac 21.5-Inch", year: 2011, type: .iMac),
+    "iMac12,2": model_s(name: "iMac 27-Inch", year: 2011, type: .iMac),
     "iMac13,1": model_s(name: "iMac 21.5-Inch", year: 2012, type: .iMac),
     "iMac13,2": model_s(name: "iMac 27-Inch", year: 2012, type: .iMac),
     "iMac14,2": model_s(name: "iMac 27-Inch", year: 2013, type: .iMac),
