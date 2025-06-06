@@ -193,6 +193,7 @@ class Dashboard: NSStackView {
         self.addArrangedSubview(scrollView)
         
         NotificationCenter.default.addObserver(self, selector: #selector(windowOpens), name: .openModuleSettings, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(windowOpens), name: .toggleSettings, object: nil)
     }
     
     required public init?(coder: NSCoder) {
@@ -201,6 +202,7 @@ class Dashboard: NSStackView {
     
     deinit {
         NotificationCenter.default.removeObserver(self, name: .openModuleSettings, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .toggleSettings, object: nil)
     }
     
     private func deviceView() -> NSView {
@@ -238,7 +240,7 @@ class Dashboard: NSStackView {
     }
     
     @objc private func windowOpens(_ notification: Notification) {
-        guard notification.userInfo?["module"] as? String == "Dashboard" else { return }
+        guard let moduleName = notification.userInfo?["module"] as? String, moduleName == "Dashboard" || moduleName == "Combined modules" else { return }
         self.uptimeField?.stringValue = self.uptimeValue
     }
 }
