@@ -203,6 +203,10 @@ public class ProcessReader: Reader<[TopProcess]> {
             name = n
         }
         
+        if command.contains("com.apple.Virtua") && name.contains("Docker") {
+            name = "Docker"
+        }
+        
         return TopProcess(pid: pid, name: name, usage: usage * Double(1000 * 1000))
     }
 }
