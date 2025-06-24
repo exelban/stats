@@ -42,7 +42,7 @@ public struct Clock_t: Codable {
     public func formatted() -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = self.format
-        formatter.timeZone = TimeZone(fromUTC: self.tz)
+        formatter.timeZone = TimeZone(from: self.tz)
         return formatter.string(from: self.value ?? Date())
     }
 }
@@ -159,7 +159,8 @@ extension Clock {
             KeyValue_t(key: "11", value: "UTC+11:00"),
             KeyValue_t(key: "12", value: "UTC+12:00"),
             KeyValue_t(key: "13", value: "UTC+13:00"),
-            KeyValue_t(key: "14", value: "UTC+14:00")
-        ]
+            KeyValue_t(key: "14", value: "UTC+14:00"),
+            KeyValue_t(key: "separator", value: "separator")
+        ] + TimeZone.knownTimeZoneIdentifiers.map { KeyValue_t(key: $0, value: $0) }
     }
 }
