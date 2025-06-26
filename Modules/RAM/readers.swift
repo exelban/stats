@@ -107,10 +107,14 @@ public class ProcessReader: Reader<[TopProcess]> {
     private let title: String = "RAM"
     
     private var numberOfProcesses: Int {
-        get {
-            return Store.shared.int(key: "\(self.title)_processes", defaultValue: 8)
-        }
+        get { Store.shared.int(key: "\(self.title)_processes", defaultValue: 8) }
     }
+    
+    private var combinedProcesses: Bool{
+        get { Store.shared.bool(key: "\(self.title)_combinedProcesses", defaultValue: false) }
+    }
+    
+    private typealias dynGetResponsiblePidFuncType = @convention(c) (CInt) -> CInt
     
     public override func setup() {
         self.popup = true
@@ -124,7 +128,11 @@ public class ProcessReader: Reader<[TopProcess]> {
         
         let task = Process()
         task.launchPath = "/usr/bin/top"
-        task.arguments = ["-l", "1", "-o", "mem", "-n", "\(self.numberOfProcesses)", "-stats", "pid,command,mem"]
+        if self.combinedProcesses {
+            task.arguments = ["-l", "1", "-o", "mem", "-stats", "pid,command,mem"]
+        } else {
+            task.arguments = ["-l", "1", "-o", "mem", "-n", "\(self.numberOfProcesses)", "-stats", "pid,command,mem"]
+        }
         
         let outputPipe = Pipe()
         let errorPipe = Pipe()
@@ -157,7 +165,64 @@ public class ProcessReader: Reader<[TopProcess]> {
             }
         }
         
-        self.callback(processes)
+        if !self.combinedProcesses {
+            self.callback(processes)
+            return
+        }
+        
+        var processGroups: [String: [TopProcess]] = [:]
+        for process in processes {
+            let responsiblePid = ProcessReader.getResponsiblePid(process.pid)
+            let groupKey = "\(responsiblePid)"
+            
+            if processGroups[groupKey] != nil {
+                processGroups[groupKey]!.append(process)
+            } else {
+                processGroups[groupKey] = [process]
+            }
+        }
+        
+        var result: [TopProcess] = []
+        for (_, processes) in processGroups {
+            let totalUsage = processes.reduce(0) { $0 + $1.usage }
+            let firstProcess = processes.first!
+            let name: String
+            
+            if let app = NSRunningApplication(processIdentifier: pid_t(ProcessReader.getResponsiblePid(firstProcess.pid))),
+               let appName = app.localizedName {
+                name = appName
+            } else {
+                name = firstProcess.name
+            }
+            
+            result.append(TopProcess(
+                pid: ProcessReader.getResponsiblePid(firstProcess.pid),
+                name: name,
+                usage: totalUsage
+            ))
+        }
+        
+        result.sort { $0.usage > $1.usage }
+        self.callback(Array(result.prefix(self.numberOfProcesses)))
+    }
+    
+    private static let dynGetResponsiblePidFunc: UnsafeMutableRawPointer? = {
+        let result = dlsym(UnsafeMutableRawPointer(bitPattern: -1), "responsibility_get_pid_responsible_for_pid")
+        if result == nil {
+            error("Error loading responsibility_get_pid_responsible_for_pid")
+        }
+        return result
+    }()
+    
+    static func getResponsiblePid(_ childPid: Int) -> Int {
+        guard ProcessReader.dynGetResponsiblePidFunc != nil else {
+            return childPid
+        }
+        let responsiblePid = unsafeBitCast(ProcessReader.dynGetResponsiblePidFunc, to: dynGetResponsiblePidFuncType.self)(CInt(childPid))
+        guard responsiblePid != -1 else {
+            return childPid
+        }
+        return Int(responsiblePid)
     }
     
     static public func parseProcess(_ raw: String) -> TopProcess {

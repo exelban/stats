@@ -49,6 +49,7 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
     private var splitValueState: Bool = false
     private var notificationLevel: String = "Disabled"
     private var textValue: String = "$mem.used/$mem.total ($pressure.value)"
+    private var combinedProcessesState: Bool = false
     
     private let title: String
     
@@ -67,6 +68,7 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
         self.splitValueState = Store.shared.bool(key: "\(self.title)_splitValue", defaultValue: self.splitValueState)
         self.notificationLevel = Store.shared.string(key: "\(self.title)_notificationLevel", defaultValue: self.notificationLevel)
         self.textValue = Store.shared.string(key: "\(self.title)_textWidgetValue", defaultValue: self.textValue)
+        self.combinedProcessesState = Store.shared.bool(key: "\(self.title)_combinedProcesses", defaultValue: self.combinedProcessesState)
         
         super.init(frame: NSRect.zero)
         
@@ -96,6 +98,10 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
         ]))
         
         self.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Combined processes"), component: switchView(
+                action: #selector(toggleCombinedProcesses),
+                state: self.combinedProcessesState
+            )),
             PreferencesRow(localizedString("Number of top processes"), component: selectView(
                 action: #selector(changeNumberOfProcesses),
                 items: NumbersOfProcesses.map{ KeyValue_t(key: "\($0)", value: "\($0)") },
@@ -161,6 +167,11 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
     @objc private func toggleSplitValue(_ sender: NSControl) {
         self.splitValueState = controlState(sender)
         Store.shared.set(key: "\(self.title)_splitValue", value: self.splitValueState)
+        self.callback()
+    }
+    @objc private func toggleCombinedProcesses(_ sender: NSControl) {
+        self.combinedProcessesState = controlState(sender)
+        Store.shared.set(key: "\(self.title)_combinedProcesses", value: self.combinedProcessesState)
         self.callback()
     }
     
