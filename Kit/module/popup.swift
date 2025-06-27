@@ -52,6 +52,7 @@ public class PopupWindow: NSWindow, NSWindowDelegate {
     private let viewController: PopupViewController
     internal var locked: Bool = false
     internal var openedBy: widget_t? = nil
+    internal var isPinned: Bool = false
     
     public init(title: String, module: ModuleType, view: Popup_p?, visibilityCallback: @escaping (_ state: Bool) -> Void) {
         self.viewController = PopupViewController(module: module)
@@ -92,12 +93,26 @@ public class PopupWindow: NSWindow, NSWindowDelegate {
     }
     
     public func windowDidResignKey(_ notification: Notification) {
-        if self.locked {
+        if self.locked || self.isPinned {
             return
         }
         
         self.viewController.setCloseButton(false)
         self.setIsVisible(false)
+    }
+    
+    public func pinToTop(_ pin: Bool) {
+        self.isPinned = pin
+        
+        if pin {
+            self.level = .floating
+            self.collectionBehavior = .canJoinAllSpaces
+            self.viewController.setCloseButton(true)
+        } else {
+            self.level = .normal
+            self.collectionBehavior = .moveToActiveSpace
+            self.viewController.setCloseButton(false)
+        }
     }
 }
 
@@ -322,11 +337,13 @@ internal class PopupView: NSView {
 internal class HeaderView: NSStackView {
     private var titleView: NSTextField? = nil
     private var activityButton: NSButton?
+    private var pinButton: NSButton?
     
     private var title: String = ""
     private var isCloseAction: Bool = false
     private let activityMonitor: URL?
     private let calendar: URL?
+    private var isPinned: Bool = false
     
     init(frame: NSRect, module: ModuleType) {
         self.activityMonitor = NSWorkspace.shared.urlForApplication(withBundleIdentifier: "com.apple.ActivityMonitor")
@@ -335,7 +352,7 @@ internal class HeaderView: NSStackView {
         super.init(frame: CGRect(x: frame.origin.x, y: frame.origin.y, width: frame.width, height: frame.height))
         
         self.orientation = .horizontal
-        self.distribution = .gravityAreas
+        self.distribution = .equalCentering
         self.spacing = 0
         
         let activity = NSButtonWithPadding()
@@ -359,6 +376,21 @@ internal class HeaderView: NSStackView {
         activity.focusRingType = .none
         self.activityButton = activity
         
+        let pin = NSButtonWithPadding()
+        pin.frame = CGRect(x: 0, y: 0, width: 24, height: self.frame.height)
+        pin.horizontalPadding = pin.frame.height - 24
+        pin.bezelStyle = .regularSquare
+        pin.translatesAutoresizingMaskIntoConstraints = false
+        pin.imageScaling = .scaleNone
+        pin.image = Bundle(for: type(of: self)).image(forResource: "pin")!
+        pin.contentTintColor = .lightGray
+        pin.isBordered = false
+        pin.action = #selector(self.togglePin)
+        pin.target = self
+        pin.toolTip = localizedString("Pin popup on top")
+        pin.focusRingType = .none
+        self.pinButton = pin
+        
         let title = NSTextField(frame: NSRect(x: 0, y: 0, width: frame.width/2, height: 18))
         title.isEditable = false
         title.isSelectable = false
@@ -370,6 +402,9 @@ internal class HeaderView: NSStackView {
         title.alignment = .center
         title.font = NSFont.systemFont(ofSize: 16, weight: .regular)
         title.stringValue = ""
+        title.lineBreakMode = .byTruncatingTail
+        title.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        title.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         self.titleView = title
         
         let settings = NSButtonWithPadding()
@@ -388,12 +423,21 @@ internal class HeaderView: NSStackView {
         
         self.addArrangedSubview(activity)
         self.addArrangedSubview(title)
+        self.addArrangedSubview(pin)
         self.addArrangedSubview(settings)
         
+        // Center the title by setting equal spacing on both sides
+        self.setCustomSpacing(0, after: activity)
+        self.setCustomSpacing(0, after: title)
+        self.setCustomSpacing(0, after: pin)
+        
+        // Calculate equal spacing for buttons to ensure title is centered
+        let buttonWidth = activity.intrinsicContentSize.width + pin.intrinsicContentSize.width + settings.intrinsicContentSize.width
+        let titleWidth = self.frame.width - buttonWidth - 10 // Small padding
+        
         NSLayoutConstraint.activate([
-            title.widthAnchor.constraint(
-                equalToConstant: self.frame.width - activity.intrinsicContentSize.width - settings.intrinsicContentSize.width
-            )
+            title.widthAnchor.constraint(equalToConstant: titleWidth),
+            title.centerXAnchor.constraint(equalTo: self.centerXAnchor)
         ])
     }
     
@@ -429,6 +473,18 @@ internal class HeaderView: NSStackView {
     
     @objc func openSettings() {
         NotificationCenter.default.post(name: .toggleSettings, object: nil, userInfo: ["module": self.title])
+    }
+    
+    @objc func togglePin() {
+        self.isPinned = !self.isPinned
+        if let window = self.window as? PopupWindow {
+            window.pinToTop(self.isPinned)
+        }
+        
+        // Update pin button tint color based on pin state
+        self.pinButton?.contentTintColor = self.isPinned ? NSColor.systemBlue : NSColor.lightGray
+        
+        self.pinButton?.toolTip = self.isPinned ? localizedString("Unpin popup") : localizedString("Pin popup on top")
     }
     
     @objc private func closePopup() {
