@@ -287,6 +287,7 @@ open class Module {
             }
             
             popup.setFrameOrigin(NSPoint(x: x, y: y))
+            popup.wasMoved = false
             popup.setIsVisible(true)
         } else {
             popup.locked = false

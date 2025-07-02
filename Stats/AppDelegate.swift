@@ -100,6 +100,19 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
         }
         guard let startTS = self.startTS, Date().timeIntervalSince(startTS) > 2 else { return false }
         
+        // Check for any visible pinned popup windows
+        let pinnedPopupsExist = NSApplication.shared.windows.contains { window in
+            if let popupWindow = window as? PopupWindow, popupWindow.isVisible && popupWindow.isPinned {
+                return true
+            }
+            return false
+        }
+        
+        // If there are pinned popups visible, don't do anything
+        if pinnedPopupsExist {
+            return false
+        }
+        
         if flag {
             self.settingsWindow.makeKeyAndOrderFront(self)
         } else {
@@ -128,5 +141,15 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
         }
         
         completionHandler()
+    }
+    
+    func applicationDidBecomeActive(_ notification: Notification) {
+        // Check for any pinned popup windows
+        for window in NSApplication.shared.windows {
+            if let popupWindow = window as? PopupWindow, popupWindow.isPinned {
+                // Ensure pinned popups stay visible when the app becomes active
+                popupWindow.orderFront(nil)
+            }
+        }
     }
 }

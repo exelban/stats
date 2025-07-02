@@ -22,6 +22,11 @@ class ApplicationSettings: NSStackView {
         set { Store.shared.set(key: "temperature_units", value: newValue) }
     }
     
+    private var showPinButtonState: Bool {
+        get { Store.shared.bool(key: "showPinButton", defaultValue: false) }
+        set { Store.shared.set(key: "showPinButton", value: newValue) }
+    }
+    
     private var combinedModulesState: Bool {
         get { Store.shared.bool(key: "CombinedModules", defaultValue: false) }
         set { Store.shared.set(key: "CombinedModules", value: newValue) }
@@ -97,6 +102,10 @@ class ApplicationSettings: NSStackView {
             PreferencesRow(localizedString("Show icon in dock"), component: switchView(
                 action: #selector(self.toggleDock),
                 state: Store.shared.bool(key: "dockIcon", defaultValue: false)
+            )),
+            PreferencesRow(localizedString("Show pin button in popups"), component: switchView(
+                action: #selector(self.togglePinButton),
+                state: self.showPinButtonState
             )),
             PreferencesRow(localizedString("Start at login"), component: self.startAtLoginBtn!),
             PreferencesRow(localizedString("Share anonymous telemetry"), component: self.telemetryBtn!)
@@ -313,6 +322,11 @@ class ApplicationSettings: NSStackView {
     
     @objc private func toggleTelemetry(_ sender: NSButton) {
         Telemetry.shared.isEnabled = sender.state == NSControl.StateValue.on
+    }
+    
+    @objc private func togglePinButton(_ sender: NSButton) {
+        self.showPinButtonState = sender.state == NSControl.StateValue.on
+        NotificationCenter.default.post(name: .togglePinButton, object: nil)
     }
     
     @objc private func toggleCombinedModules(_ sender: NSButton) {
