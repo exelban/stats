@@ -80,7 +80,7 @@ public class Portal: NSStackView, Portal_p {
         let views = self.oneContainer.subviews.compactMap{ $0 as? ClockChart }
         if let view = views.first(where: { $0.identifier?.rawValue == clock.id }) {
             if let value = clock.value {
-                view.setValue(value.convertToTimeZone(TimeZone(fromUTC: clock.tz)))
+                view.setValue(value.convertToTimeZone(TimeZone(from: clock.tz)))
             }
         } else {
             self.oneContainer.addRow(with: [self.clockView(clock)])
@@ -102,7 +102,7 @@ public class Portal: NSStackView, Portal_p {
         sorted.forEach { (c: Clock_t) in
             if let view = views.first(where: { $0.identifier?.rawValue == c.id }) {
                 if let value = c.value {
-                    view.setValue(value.convertToTimeZone(TimeZone(fromUTC: c.tz)))
+                    view.setValue(value.convertToTimeZone(TimeZone(from: c.tz)))
                 }
             } else {
                 self.multiplyContainer.stackView.addArrangedSubview(clockView(c))
@@ -117,7 +117,7 @@ public class Portal: NSStackView, Portal_p {
         view.identifier = NSUserInterfaceItemIdentifier(clock.id)
         
         if let value = clock.value {
-            view.setValue(value.convertToTimeZone(TimeZone(fromUTC: clock.tz)))
+            view.setValue(value.convertToTimeZone(TimeZone(from: clock.tz)))
         }
         
         return view

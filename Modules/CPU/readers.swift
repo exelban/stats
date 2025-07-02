@@ -229,6 +229,9 @@ public class ProcessReader: Reader<[TopProcess]> {
                 if let app = NSRunningApplication(processIdentifier: pid_t(pid)), let n = app.localizedName {
                     name = n
                 }
+                if command.contains("com.apple.Virtua") && name.contains("Docker") {
+                    name = "Docker"
+                }
                 
                 processes.append(TopProcess(pid: pid, name: name, usage: usage))
             }

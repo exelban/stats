@@ -499,7 +499,7 @@ private class ClockView: NSStackView {
         if (self.window?.isVisible ?? false) || !self.ready {
             self.timeField.stringValue = newClock.formatted()
             if let value = newClock.value {
-                self.clockView.setValue(value.convertToTimeZone(TimeZone(fromUTC: newClock.tz)))
+                self.clockView.setValue(value.convertToTimeZone(TimeZone(from: newClock.tz)))
             }
             self.ready = true
         }

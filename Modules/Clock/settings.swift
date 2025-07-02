@@ -204,6 +204,9 @@ internal class Settings: NSStackView, Settings_v, NSTableViewDelegate, NSTableVi
             let select: NSPopUpButton = selectView(action: #selector(self.toggleTZ), items: Clock.zones, selected: item.tz)
             select.identifier = NSUserInterfaceItemIdentifier("\(row)")
             select.sizeToFit()
+            select.preferredEdge = .maxX
+            select.translatesAutoresizingMaskIntoConstraints = false
+            select.widthAnchor.constraint(lessThanOrEqualToConstant: 132).isActive = true
             cell.addSubview(select)
         case statusColumnID:
             let button: NSButton = NSButton(frame: NSRect(x: 0, y: 5, width: 10, height: 10))

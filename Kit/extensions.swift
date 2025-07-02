@@ -550,13 +550,18 @@ public extension Date {
 }
 
 public extension TimeZone {
-    init(fromUTC: String) {
-        if fromUTC == "local" {
+    init(from: String) {
+        if let tz = TimeZone(identifier: from) {
+            self = tz
+            return
+        }
+        
+        if from == "local" {
             self = TimeZone.current
             return
         }
         
-        let arr = fromUTC.split(separator: ":")
+        let arr = from.split(separator: ":")
         guard !arr.isEmpty else {
             self = TimeZone.current
             return
