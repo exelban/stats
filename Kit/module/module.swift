@@ -263,8 +263,25 @@ open class Module {
             return
         }
         
-        let openedWindows = NSApplication.shared.windows.filter{ $0 is NSPanel }
-        openedWindows.forEach{ $0.setIsVisible(false) }
+        // Check if this is the same popup that's already visible
+        let isSamePopup = popup.isVisible && 
+            ((notification.userInfo?["widget"] as? widget_t == popup.openedBy) || 
+            (notification.userInfo?["widget"] == nil && popup.openedBy == nil))
+        
+        // If it's the same popup and it's visible, close it and return
+        if isSamePopup {
+            popup.explicitClose = true
+            popup.setIsVisible(false)
+            popup.explicitClose = false
+            popup.openedBy = nil
+            return
+        }
+        
+        // Close all other popup windows that haven't been moved by the user and aren't pinned
+        NSApplication.shared.windows
+            .compactMap { $0 as? PopupWindow }
+            .filter { !$0.wasMoved && !$0.isPinned }
+            .forEach { $0.setIsVisible(false) }
         
         var reopen: Bool = false
         if let widget = notification.userInfo?["widget"] as? widget_t {

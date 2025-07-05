@@ -53,9 +53,9 @@ public class PopupWindow: NSWindow, NSWindowDelegate {
     internal var locked: Bool = false
     internal var openedBy: widget_t? = nil
     public var isPinned: Bool = false
-    internal var wasMoved: Bool = false
+    public var wasMoved: Bool = false
     internal var isDragging: Bool = false
-    internal var explicitClose: Bool = false
+    public var explicitClose: Bool = false
     
     public override var isVisible: Bool {
         return super.isVisible
@@ -548,7 +548,9 @@ internal class HeaderView: NSStackView {
         title.backgroundColor = .clear
         title.canDrawSubviewsIntoLayer = true
         title.alignment = .center
-        title.font = NSFont.systemFont(ofSize: 16, weight: .medium) // Slightly bolder
+        // Use a smaller font for the combined modules popup to save space
+        let fontSize: CGFloat = module == .combined ? 13 : 16
+        title.font = NSFont.systemFont(ofSize: fontSize, weight: .medium)
         title.stringValue = ""
         title.lineBreakMode = .byTruncatingTail
         self.titleView = title
