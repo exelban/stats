@@ -107,7 +107,7 @@ internal class CapacityReader: Reader<Disks> {
                 self.purgableSpace[path] = (Date(), purgeable)
             } else if let pair = self.purgableSpace[path] {
                 let delta = Date().timeIntervalSince(pair.0)
-                if delta > 60 {
+                if delta > 30 {
                     let value = CSDiskSpaceGetRecoveryEstimate(path as NSURL)
                     purgeable = Int64(value)
                     self.purgableSpace[path] = (Date(), purgeable)
