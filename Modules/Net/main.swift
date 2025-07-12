@@ -205,6 +205,9 @@ public class Network: Module {
                 self?.connectivityCallback(Network_Connectivity(status: false))
             }
         }
+        self.settingsView.setInterval = { [weak self] value in
+            self?.connectivityReader?.setInterval(value)
+        }
         self.settingsView.publicIPRefreshIntervalCallback = { [weak self] in
             self?.setIPUpdater()
         }

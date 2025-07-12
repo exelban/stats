@@ -64,6 +64,7 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
     private var widgetActivationThreshold: Int = 0
     private var widgetActivationThresholdSize: SizeUnit = .MB
     private var ICMPHost: String = "1.1.1.1"
+    private var updateICMPIntervalValue: Int = 1
     private var publicIPState: Bool = true
     private var publicIPRefreshInterval: String = "never"
     private var baseValue: String = "byte"
@@ -73,6 +74,7 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
     public var callbackWhenUpdateNumberOfProcesses: (() -> Void) = {}
     public var usageResetCallback: (() -> Void) = {}
     public var ICMPHostCallback: ((_ newState: Bool) -> Void) = { _ in }
+    public var setInterval: ((_ value: Int) -> Void) = {_ in }
     public var publicIPRefreshIntervalCallback: (() -> Void) = {}
     
     private let title: String
@@ -100,6 +102,7 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
         self.widgetActivationThreshold = Store.shared.int(key: "\(self.title)_widgetActivationThreshold", defaultValue: self.widgetActivationThreshold)
         self.widgetActivationThresholdSize = SizeUnit.fromString(Store.shared.string(key: "\(self.title)_widgetActivationThresholdSize", defaultValue: self.widgetActivationThresholdSize.key))
         self.ICMPHost = Store.shared.string(key: "\(self.title)_ICMPHost", defaultValue: self.ICMPHost)
+        self.updateICMPIntervalValue = Store.shared.int(key: "\(self.title)_updateICMPInterval", defaultValue: self.updateICMPIntervalValue)
         self.publicIPState = Store.shared.bool(key: "\(self.title)_publicIP", defaultValue: self.publicIPState)
         self.publicIPRefreshInterval = Store.shared.string(key: "\(self.title)_publicIPRefreshInterval", defaultValue: self.publicIPRefreshInterval)
         self.baseValue = Store.shared.string(key: "\(self.title)_base", defaultValue: self.baseValue)
@@ -226,7 +229,12 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
         self.addArrangedSubview(PreferencesSection([
             PreferencesRow(localizedString("Connectivity host (ICMP)"), component: ICMPField) {
                 NSWorkspace.shared.open(URL(string: "https://en.wikipedia.org/wiki/Internet_Control_Message_Protocol")!)
-            }
+            },
+            PreferencesRow(localizedString("Update interval"), component: selectView(
+                action: #selector(self.changeICMPUpdateInterval),
+                items: ReaderUpdateIntervals,
+                selected: "\(self.updateICMPIntervalValue)"
+            ))
         ]))
         
         if widgets.contains(where: { $0 == .text }) {
@@ -320,6 +328,12 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
                 Store.shared.set(key: "\(self.title)_textWidgetValue", value: self.textValue)
             }
         }
+    }
+    @objc private func changeICMPUpdateInterval(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String, let value = Int(key) else { return }
+        self.updateICMPIntervalValue = value
+        Store.shared.set(key: "\(self.title)_updateICMPInterval", value: value)
+        self.setInterval(value)
     }
     
     @objc func togglePublicIPState(_ sender: NSControl) {

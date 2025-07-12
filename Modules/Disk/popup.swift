@@ -150,7 +150,7 @@ internal class Popup: PopupWrapper {
         let views = self.disks.subviews.filter{ $0 is DiskView }.map{ $0 as! DiskView }
         value.reversed().forEach { (drive: drive) in
             if let view = views.first(where: { $0.name == drive.mediaName }) {
-                view.updateReadWrite(read: drive.activity.read, write: drive.activity.write)
+                view.updateStats(stats: drive.activity)
             }
         }
     }
@@ -339,10 +339,10 @@ internal class DiskView: NSStackView {
         self.detailsView.update(smart: smart)
     }
     
-    public func updateReadWrite(read: Int64, write: Int64) {
-        self.nameView.update(free: nil, read: read, write: write)
-        self.chartView.update(read: read, write: write)
-        self.detailsView.update(read: read, write: write)
+    public func updateStats(stats: stats) {
+        self.nameView.update(free: nil, read: stats.read, write: stats.write)
+        self.chartView.update(read: stats.read, write: stats.write)
+        self.detailsView.update(stats: stats)
     }
     public func setChartColor(read: NSColor? = nil, write: NSColor? = nil) {
         self.chartView.setColors(read: read, write: write)
@@ -721,6 +721,9 @@ internal class DetailsView: NSStackView {
     
     private var totalReadValueField: ValueField?
     private var totalWrittenValueField: ValueField?
+    
+    private var smartTotalReadValueField: ValueField?
+    private var smartTotalWrittenValueField: ValueField?
     private var temperatureValueField: ValueField?
     private var healthValueField: ValueField?
     private var powerCyclesValueField: ValueField?
@@ -765,7 +768,7 @@ internal class DetailsView: NSStackView {
     }
     
     private func initSpeed() -> NSView {
-        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 44))
+        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 88))
         view.widthAnchor.constraint(equalToConstant: view.bounds.width).isActive = true
         view.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
         let container: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height))
@@ -774,9 +777,13 @@ internal class DetailsView: NSStackView {
         
         (_, _, self.readSpeedValueField) = popupWithColorRow(container, color: self.readColor, title: "\(localizedString("Read")):", value: "0 KB/s")
         (_, _, self.writeSpeedValueField) = popupWithColorRow(container, color: self.writeColor, title: "\(localizedString("Write")):", value: "0 KB/s")
+        self.totalReadValueField = popupRow(container, title: "\(localizedString("Total read")):", value: "0 KB").1
+        self.totalWrittenValueField = popupRow(container, title: "\(localizedString("Total written")):", value: "0 KB").1
         
         self.readSpeedValueField?.font = NSFont.systemFont(ofSize: 11, weight: .regular)
         self.writeSpeedValueField?.font = NSFont.systemFont(ofSize: 11, weight: .regular)
+        self.totalReadValueField?.font = NSFont.systemFont(ofSize: 11, weight: .regular)
+        self.totalWrittenValueField?.font = NSFont.systemFont(ofSize: 11, weight: .regular)
         
         view.addSubview(container)
         
@@ -792,15 +799,15 @@ internal class DetailsView: NSStackView {
         container.orientation = .vertical
         container.spacing = 0
         
-        self.totalReadValueField = popupRow(container, title: "\(localizedString("Total read")):", value: "0 KB").1
-        self.totalWrittenValueField = popupRow(container, title: "\(localizedString("Total written")):", value: "0 KB").1
+        self.smartTotalReadValueField = popupRow(container, title: "\(localizedString("Total read")):", value: "0 KB").1
+        self.smartTotalWrittenValueField = popupRow(container, title: "\(localizedString("Total written")):", value: "0 KB").1
         self.temperatureValueField = popupRow(container, title: "\(localizedString("Temperature")):", value: "\(temperature(0))").1
         self.healthValueField = popupRow(container, title: "\(localizedString("Health")):", value: "0%").1
         self.powerCyclesValueField = popupRow(container, title: "\(localizedString("Power cycles")):", value: "0").1
         self.powerOnHoursValueField = popupRow(container, title: "\(localizedString("Power on hours")):", value: "0").1
         
-        self.totalReadValueField?.font = NSFont.systemFont(ofSize: 11, weight: .regular)
-        self.totalWrittenValueField?.font = NSFont.systemFont(ofSize: 11, weight: .regular)
+        self.smartTotalReadValueField?.font = NSFont.systemFont(ofSize: 11, weight: .regular)
+        self.smartTotalWrittenValueField?.font = NSFont.systemFont(ofSize: 11, weight: .regular)
         self.temperatureValueField?.font = NSFont.systemFont(ofSize: 11, weight: .regular)
         self.healthValueField?.font = NSFont.systemFont(ofSize: 11, weight: .regular)
         self.powerCyclesValueField?.font = NSFont.systemFont(ofSize: 11, weight: .regular)
@@ -812,24 +819,25 @@ internal class DetailsView: NSStackView {
         return view
     }
     
-    public func update(read: Int64?, write: Int64?) {
+    public func update(stats: stats) {
         guard self.window?.isVisible ?? false else { return }
         
-        if let read = read {
-            self.readSpeedValueField?.stringValue = Units(bytes: read).getReadableSpeed()
-        }
-        if let write = write {
-            self.writeSpeedValueField?.stringValue = Units(bytes: write).getReadableSpeed()
-        }
+        self.readSpeedValueField?.stringValue = Units(bytes: stats.read).getReadableSpeed()
+        self.writeSpeedValueField?.stringValue = Units(bytes: stats.write).getReadableSpeed()
+        
+        self.totalReadValueField?.stringValue = Units(bytes: stats.readBytes).getReadableMemory()
+        self.totalReadValueField?.toolTip = "\(stats.readBytes / (512 * 1000))"
+        self.totalWrittenValueField?.stringValue = Units(bytes: stats.writeBytes).getReadableMemory()
+        self.totalWrittenValueField?.toolTip = "\(stats.writeBytes / (512 * 1000))"
     }
     
     public func update(smart: smart_t?) {
         guard self.window?.isVisible ?? false, let smart else { return }
         
-        self.totalReadValueField?.toolTip = "\(smart.totalRead / (512 * 1000))"
-        self.totalWrittenValueField?.toolTip = "\(smart.totalWritten / (512 * 1000))"
-        self.totalReadValueField?.stringValue = Units(bytes: smart.totalRead).getReadableMemory(style: .decimal)
-        self.totalWrittenValueField?.stringValue = Units(bytes: smart.totalWritten).getReadableMemory(style: .decimal)
+        self.smartTotalReadValueField?.toolTip = "\(smart.totalRead / (512 * 1000))"
+        self.smartTotalWrittenValueField?.toolTip = "\(smart.totalWritten / (512 * 1000))"
+        self.smartTotalReadValueField?.stringValue = Units(bytes: smart.totalRead).getReadableMemory()
+        self.smartTotalWrittenValueField?.stringValue = Units(bytes: smart.totalWritten).getReadableMemory()
         
         self.temperatureValueField?.stringValue = "\(temperature(Double(smart.temperature)))"
         self.healthValueField?.stringValue = "\(smart.life)%"

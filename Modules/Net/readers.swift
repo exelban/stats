@@ -732,7 +732,7 @@ internal class ConnectivityReader: Reader<Network_Connectivity> {
     }
     
     override func setup() {
-        self.interval = 1
+        self.setInterval(Store.shared.int(key: "Network_updateICMPInterval", defaultValue: 1))
         DispatchQueue.global(qos: .background).async {
             self.addr = self.resolve()
             self.openConn()
