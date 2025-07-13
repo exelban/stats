@@ -839,9 +839,14 @@ public class BarChartView: NSView {
             values = self.values
         }
         
+        guard !values.isEmpty else { return }
+        
         let blocks: Int = 16
         let spacing: CGFloat = 2
         let count: CGFloat = CGFloat(values.count)
+        // swiftlint:disable:next empty_count
+        guard count > 0, self.frame.width > 0, self.frame.height > 0 else { return }
+        
         let partitionSize: CGSize = CGSize(width: (self.frame.width - (count*spacing)) / count, height: self.frame.height)
         let blockSize = CGSize(width: partitionSize.width-(spacing*2), height: ((partitionSize.height - spacing - 1)/CGFloat(blocks))-1)
         
@@ -892,7 +897,9 @@ public class BarChartView: NSView {
             if let block = matchingBlock {
                 let value = "\(Int(block.value.rounded(toPlaces: 2) * 100))%"
                 let width: CGFloat = block.value == 1 ? 38 : block.value > 0.1 ? 32 : 24
-                drawToolTip(self.frame, CGPoint(x: p.x+4, y: p.y+4), CGSize(width: width, height: partitionSize.height), value: value)
+                let tooltipX = min(p.x+4, self.frame.width - width)
+                let tooltipY = min(p.y+4, self.frame.height - partitionSize.height)
+                drawToolTip(self.frame, CGPoint(x: tooltipX, y: tooltipY), CGSize(width: width, height: min(partitionSize.height, self.frame.height)), value: value)
             }
         }
     }
