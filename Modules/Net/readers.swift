@@ -669,42 +669,26 @@ internal class ConnectivityReader: Reader<Network_Connectivity> {
     
     private var _status: Bool? = nil
     private var status: Bool? {
-        get {
-            self.variablesQueue.sync { self._status }
-        }
-        set {
-            self.variablesQueue.sync { self._status = newValue }
-        }
+        get { self.variablesQueue.sync { self._status } }
+        set { self.variablesQueue.sync { self._status = newValue } }
     }
     
     private var _timeoutTimer: Timer?
     private var timeoutTimer: Timer? {
-        get {
-            self.variablesQueue.sync { self._timeoutTimer }
-        }
-        set {
-            self.variablesQueue.sync { self._timeoutTimer = newValue }
-        }
+        get { self.variablesQueue.sync { self._timeoutTimer } }
+        set { self.variablesQueue.sync { self._timeoutTimer = newValue } }
     }
     
     private var _isPinging: Bool = false
     private var isPinging: Bool {
-        get {
-            self.variablesQueue.sync { self._isPinging }
-        }
-        set {
-            self.variablesQueue.sync { self._isPinging = newValue }
-        }
+        get { self.variablesQueue.sync { self._isPinging } }
+        set { self.variablesQueue.sync { self._isPinging = newValue } }
     }
     
     private var _latency: Double? = nil
     private var latency: Double? {
-        get {
-            self.variablesQueue.sync { self._latency }
-        }
-        set {
-            self.variablesQueue.sync { self._latency = newValue }
-        }
+        get { self.variablesQueue.sync { self._latency } }
+        set { self.variablesQueue.sync { self._latency = newValue } }
     }
     
     var start: DispatchTime? = nil
@@ -733,15 +717,19 @@ internal class ConnectivityReader: Reader<Network_Connectivity> {
     
     override func setup() {
         self.setInterval(Store.shared.int(key: "Network_updateICMPInterval", defaultValue: 1))
+        self.prepare()
+    }
+    
+    deinit {
+        self.closeConn()
+    }
+    
+    private func prepare() {
         DispatchQueue.global(qos: .background).async {
             self.addr = self.resolve()
             self.openConn()
             self.read()
         }
-    }
-    
-    deinit {
-        self.closeConn()
     }
     
     override func read() {
@@ -753,7 +741,7 @@ internal class ConnectivityReader: Reader<Network_Connectivity> {
         }
         
         if self.socket == nil {
-            self.setup()
+            self.prepare()
         }
         
         if self.lastHost != self.host {
