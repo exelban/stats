@@ -15,22 +15,21 @@ import Kit
 public class Portal: NSStackView, Portal_p {
     public var name: String
     
+    private let container = ScrollableStackView()
     private var initialized: Bool = false
-    
-    private var oneContainer: NSGridView = NSGridView()
-    private var multiplyContainer: ScrollableStackView = ScrollableStackView(orientation: .horizontal)
+    private var list: [Clock_t] = []
     
     init(_ module: ModuleType, list: [Clock_t]) {
         self.name = module.stringValue
         
-        super.init(frame: NSRect.zero)
+        super.init(frame: NSRect( x: 0, y: 0, width: Constants.Popup.width, height: Constants.Popup.portalHeight))
         
         self.wantsLayer = true
         self.layer?.backgroundColor = NSColor.windowBackgroundColor.cgColor
         self.layer?.cornerRadius = 3
         
         self.orientation = .vertical
-        self.distribution = .fillEqually
+        self.distribution = .fill
         self.spacing = Constants.Popup.spacing*2
         self.edgeInsets = NSEdgeInsets(
             top: Constants.Popup.spacing*2,
@@ -38,18 +37,14 @@ public class Portal: NSStackView, Portal_p {
             bottom: Constants.Popup.spacing*2,
             right: Constants.Popup.spacing*2
         )
+        
+        self.container.stackView.spacing = 0
+        self.container.widthAnchor.constraint(equalToConstant: Constants.Popup.width).isActive = true
+        
         self.addArrangedSubview(PortalHeader(name))
-        
-        self.oneContainer.rowSpacing = 0
-        self.oneContainer.yPlacement = .center
-        self.oneContainer.xPlacement = .center
-        
-        self.addArrangedSubview(self.oneContainer)
-        self.addArrangedSubview(self.multiplyContainer)
+        self.addArrangedSubview(self.container)
         
         self.callback(list)
-        
-        self.heightAnchor.constraint(equalToConstant: Constants.Popup.portalHeight).isActive = true
     }
     
     required init?(coder: NSCoder) {
@@ -61,65 +56,43 @@ public class Portal: NSStackView, Portal_p {
     }
     
     public func callback(_ list: [Clock_t]) {
-        let list = list.filter({ $0.popupState })
+        var sorted = list.sorted(by: { $0.popupIndex < $1.popupIndex })
+        var views = self.container.stackView.subviews.filter{ $0 is ClockView }.compactMap{ $0 as? ClockView }
         
-        if (self.window?.isVisible ?? false) || !self.initialized {
-            if list.count == 1, let c = list.first {
-                self.loadOne(c)
-            } else {
-                self.loadMultiply(list)
-            }
-            self.initialized = true
-        }
-    }
-    
-    private func loadOne(_ clock: Clock_t) {
-        self.addArrangedSubview(self.oneContainer)
-        self.multiplyContainer.removeFromSuperview()
-        
-        let views = self.oneContainer.subviews.compactMap{ $0 as? ClockChart }
-        if let view = views.first(where: { $0.identifier?.rawValue == clock.id }) {
-            if let value = clock.value {
-                view.setValue(value.convertToTimeZone(TimeZone(from: clock.tz)))
-            }
-        } else {
-            self.oneContainer.addRow(with: [self.clockView(clock)])
-        }
-    }
-    
-    private func loadMultiply(_ list: [Clock_t]) {
-        self.addArrangedSubview(self.multiplyContainer)
-        self.oneContainer.removeFromSuperview()
-        
-        let sorted = list.sorted(by: { $0.popupIndex < $1.popupIndex })
-        var views = self.multiplyContainer.stackView.subviews.compactMap{ $0 as? ClockChart }
+        sorted = sorted.filter({ $0.popupState })
         
         if sorted.count < views.count && !views.isEmpty {
             views.forEach{ $0.removeFromSuperview() }
             views = []
         }
         
-        sorted.forEach { (c: Clock_t) in
-            if let view = views.first(where: { $0.identifier?.rawValue == c.id }) {
-                if let value = c.value {
-                    view.setValue(value.convertToTimeZone(TimeZone(from: c.tz)))
-                }
-            } else {
-                self.multiplyContainer.stackView.addArrangedSubview(clockView(c))
+        var width: CGFloat = self.frame.width - self.edgeInsets.left - self.edgeInsets.right
+        if sorted.count > 2 {
+            width -= self.container.scrollWidth ?? Constants.Popup.margins
+        }
+        
+        if sorted.count != views.count {
+            views.forEach { c in
+                c.widthAnchor.constraint(equalToConstant: width).isActive = true
             }
         }
-    }
-    
-    private func clockView(_ clock: Clock_t) -> ClockChart {
-        let view = ClockChart(frame: NSRect(x: 0, y: 0, width: 57, height: 57))
-        view.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
-        view.heightAnchor.constraint(equalToConstant: view.frame.height).isActive = true
-        view.identifier = NSUserInterfaceItemIdentifier(clock.id)
         
-        if let value = clock.value {
-            view.setValue(value.convertToTimeZone(TimeZone(from: clock.tz)))
+        sorted.forEach { (c: Clock_t) in
+            if let view = views.first(where: { $0.clock.id == c.id }) {
+                view.update(c)
+            } else {
+                self.container.stackView.addArrangedSubview(ClockView(width: width, clock: c))
+            }
         }
         
-        return view
+        self.list = sorted
+    }
+}
+
+private func setFullWidth(_ view: NSView, width: CGFloat) {
+    if let widthConstraint = view.constraints.first(where: { $0.firstAttribute == .width }) {
+        widthConstraint.constant = width
+    } else {
+        view.widthAnchor.constraint(equalToConstant: width).isActive = true
     }
 }

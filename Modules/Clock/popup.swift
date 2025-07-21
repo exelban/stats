@@ -419,7 +419,7 @@ private class CalendarView: NSStackView {
     }
 }
 
-private class ClockView: NSStackView {
+internal class ClockView: NSStackView {
     public var clock: Clock_t
     
     open override var intrinsicContentSize: CGSize {

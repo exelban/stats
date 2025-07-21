@@ -444,7 +444,7 @@ public class FlippedStackView: NSStackView {
     public override var isFlipped: Bool { return true }
 }
 
-public class ScrollableStackView: NSView {
+open class ScrollableStackView: NSView {
     public var stackView: NSStackView = FlippedStackView()
     
     private let clipView: NSClipView = NSClipView()
