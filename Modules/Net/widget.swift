@@ -16,7 +16,12 @@ import Kit
 
 public struct Network_entry: TimelineEntry {
     public static let kind = "NetworkWidget"
-    public static var snapshot: Network_entry = Network_entry()
+    public static var snapshot: Network_entry = Network_entry(value: Network_Usage(
+        bandwidth: Bandwidth(upload: 1_238_400, download: 18_732_000),
+        raddr: Network_addr(v4: "192.168.0.1"),
+        interface: Network_interface(displayName: "Stats"),
+        status: true
+    ))
     
     public var date: Date {
         Calendar.current.date(byAdding: .second, value: 5, to: Date())!
