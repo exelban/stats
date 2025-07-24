@@ -73,7 +73,8 @@ internal func scaleValue(scale: Scale = .linear, value: Double, maxValue: Double
     return y
 }
 
-private let subtitleFont = NSFont.systemFont(ofSize: 9, weight: .medium)
+private let titleFont = NSFont.monospacedDigitSystemFont(ofSize: 12, weight: .regular)
+private let subtitleFont = NSFont.monospacedDigitSystemFont(ofSize: 9, weight: .medium)
 
 private func drawToolTip(_ frame: NSRect, _ point: CGPoint, _ size: CGSize, value: String, subtitle: String? = nil) {
     guard !value.isEmpty else { return }
@@ -105,7 +106,7 @@ private func drawToolTip(_ frame: NSRect, _ point: CGPoint, _ size: CGSize, valu
     box.fill()
     
     var attributes = [
-        NSAttributedString.Key.font: NSFont.systemFont(ofSize: 12, weight: .regular),
+        NSAttributedString.Key.font: titleFont,
         NSAttributedString.Key.foregroundColor: isDarkMode ? NSColor.white : NSColor.textColor
     ]
     var rect = CGRect(x: position.x, y: position.y+valueOffset, width: size.width, height: 12)
