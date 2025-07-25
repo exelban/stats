@@ -195,6 +195,7 @@ public class GPU: Module {
             guard let blobData = try? JSONEncoder().encode(selectedGPU) else { return }
             self.userDefaults?.set(blobData, forKey: "GPU@InfoReader")
             WidgetCenter.shared.reloadTimelines(ofKind: GPU_entry.kind)
+            WidgetCenter.shared.reloadTimelines(ofKind: "UnitedWidget")
         }
     }
 }

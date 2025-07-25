@@ -25,5 +25,6 @@ struct WidgetsBundle: WidgetBundle {
         RAMWidget()
         DiskWidget()
         NetworkWidget()
+        UnitedWidget()
     }
 }

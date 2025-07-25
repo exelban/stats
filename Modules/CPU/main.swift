@@ -11,7 +11,7 @@ import Kit
 import WidgetKit
 
 public struct CPU_Load: Codable, RemoteType {
-    var totalUsage: Double = 0
+    public var totalUsage: Double = 0
     var usagePerCore: [Double] = []
     var usageECores: Double? = nil
     var usagePCores: Double? = nil
@@ -226,6 +226,7 @@ public class CPU: Module {
             guard let blobData = try? JSONEncoder().encode(value) else { return }
             self.userDefaults?.set(blobData, forKey: "CPU@LoadReader")
             WidgetCenter.shared.reloadTimelines(ofKind: CPU_entry.kind)
+            WidgetCenter.shared.reloadTimelines(ofKind: "UnitedWidget")
         }
     }
 }

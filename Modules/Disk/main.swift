@@ -51,7 +51,7 @@ public struct drive: Codable {
     var activity: stats = stats()
     var smart: smart_t? = nil
     
-    var percentage: Double {
+    public var percentage: Double {
         let total = self.size
         let free = self.free
         var usedSpace = total - free
@@ -333,6 +333,7 @@ public class Disk: Module {
             guard let blobData = try? JSONEncoder().encode(d) else { return }
             self.userDefaults?.set(blobData, forKey: "Disk@CapacityReader")
             WidgetCenter.shared.reloadTimelines(ofKind: Disk_entry.kind)
+            WidgetCenter.shared.reloadTimelines(ofKind: "UnitedWidget")
         }
     }
     

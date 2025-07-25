@@ -236,6 +236,7 @@ public class RAM: Module {
             guard let blobData = try? JSONEncoder().encode(value) else { return }
             self.userDefaults?.set(blobData, forKey: "RAM@UsageReader")
             WidgetCenter.shared.reloadTimelines(ofKind: RAM_entry.kind)
+            WidgetCenter.shared.reloadTimelines(ofKind: "UnitedWidget")
         }
     }
 }
