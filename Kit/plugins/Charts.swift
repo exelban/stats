@@ -73,8 +73,8 @@ internal func scaleValue(scale: Scale = .linear, value: Double, maxValue: Double
     return y
 }
 
-private let titleFont = NSFont.monospacedDigitSystemFont(ofSize: 12, weight: .regular)
-private let subtitleFont = NSFont.monospacedDigitSystemFont(ofSize: 9, weight: .medium)
+private let titleFont = NSFont.systemFont(ofSize: 12, weight: .regular)
+private let subtitleFont = NSFont.systemFont(ofSize: 9, weight: .medium)
 
 private func drawToolTip(_ frame: NSRect, _ point: CGPoint, _ size: CGSize, value: String, subtitle: String? = nil) {
     guard !value.isEmpty else { return }
