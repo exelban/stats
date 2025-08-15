@@ -177,6 +177,7 @@
 "Number of threads" = "%0 iş parçacığı";
 "Number of e-cores" = "%0 verimlilik çekirdeği";
 "Number of p-cores" = "%0 performans çekirdeği";
+"Disks" = "Disks";
 
 // Update
 "The latest version of Stats installed" = "Stats'ın son sürümü kurulu";

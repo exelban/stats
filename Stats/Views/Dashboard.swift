@@ -141,6 +141,23 @@ class Dashboard: NSStackView {
         }
         return value
     }
+    private var disksValue: String {
+        guard let disks = SystemKit.shared.device.info.disk else {
+            return localizedString("Unknown")
+        }
+        
+        var value = ""
+        for i in 0..<disks.count {
+            var row = disks[i].name != nil ? disks[i].name! : localizedString("Unknown")
+            if let size = disks[i].size {
+                let value = ByteCountFormatter.string(fromByteCount: size, countStyle: .file)
+                row += " (\(value))"
+            }
+            value += "\(row)\(i == disks.count-1 ? "" : "\n")"
+        }
+        
+        return value
+    }
     private var uptimeValue: String {
         let form = DateComponentsFormatter()
         form.maximumUnitCount = 2
@@ -176,7 +193,8 @@ class Dashboard: NSStackView {
         scrollView.stackView.addArrangedSubview(PreferencesSection([
             PreferencesRow(localizedString("Processor"), "", component: textView(self.processorValue)),
             PreferencesRow(localizedString("Memory"), component: textView(self.memoryValue)),
-            PreferencesRow(localizedString("Graphics"), component: textView(self.graphicsValue))
+            PreferencesRow(localizedString("Graphics"), component: textView(self.graphicsValue)),
+            PreferencesRow(localizedString("Disks"), component: textView(self.disksValue))
         ]))
         
         scrollView.stackView.addArrangedSubview(PreferencesSection([

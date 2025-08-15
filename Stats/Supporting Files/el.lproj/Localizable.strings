@@ -177,6 +177,7 @@
 "Number of threads" = "%0 threads";
 "Number of e-cores" = "%0 πυρήνες απόδοσης";
 "Number of p-cores" = "%0 πυρήνες επίδοσης";
+"Disks" = "Disks";
 
 // Update
 "The latest version of Stats installed" = "Η τελευταία έκδοση του Stats είναι εγκατεστημένη";

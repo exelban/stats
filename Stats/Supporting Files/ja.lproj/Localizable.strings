@@ -177,6 +177,7 @@
 "Number of threads" = "%0 スレッド";
 "Number of e-cores" = "%0 高効率コア";
 "Number of p-cores" = "%0 高性能コア";
+"Disks" = "Disks";
 
 // Update
 "The latest version of Stats installed" = "最新の Stats がインストールされています";

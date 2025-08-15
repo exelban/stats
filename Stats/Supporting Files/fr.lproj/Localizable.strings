@@ -177,6 +177,7 @@
 "Number of threads" = "%0 threads";
 "Number of e-cores" = "%0 cœurs à haute effica­cité éner­gétique";
 "Number of p-cores" = "%0 cœurs de perfor­mance";
+"Disks" = "Disks";
 
 // Update
 "The latest version of Stats installed" = "La dernière version de Stats est installée";

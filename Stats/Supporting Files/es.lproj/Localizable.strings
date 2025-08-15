@@ -177,6 +177,7 @@
 "Number of threads" = "Número de hilos";
 "Number of e-cores" = "Número de núcleos de eficiencia";
 "Number of p-cores" = "Número de núcleos de rendimiento";
+"Disks" = "Disks";
 
 // Update
 "The latest version of Stats installed" = "La última versión de Stats está instalada";

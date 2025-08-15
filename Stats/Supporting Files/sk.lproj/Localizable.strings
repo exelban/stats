@@ -177,6 +177,7 @@
 "Number of threads" = "%0 vlákien";
 "Number of e-cores" = "%0 efektívnych jadier";
 "Number of p-cores" = "%0 výkonných jadier";
+"Disks" = "Disks";
 
 // Update
 "The latest version of Stats installed" = "Bola nainštalovaná najnovšia verzia Stats";

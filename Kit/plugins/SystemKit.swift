@@ -133,14 +133,26 @@ public struct gpu_s: Codable {
     public var frequencies: [Int32]? = nil
 }
 
+public struct disk_s: Codable {
+    public var id: String? = nil
+    public var name: String? = nil
+    public var size: Int64? = nil
+}
+
 public struct info_s {
     public var cpu: cpu_s? = nil
     public var ram: ram_s? = nil
     public var gpu: [gpu_s]? = nil
+    public var disk: [disk_s]? = nil
 }
 
 public struct device_s {
-    public var model: model_s = model_s(name: localizedString("Unknown"), year: Calendar.current.component(.year, from: Date()), type: .unknown)
+    public var model: model_s = model_s(
+        name: localizedString("Unknown"),
+        year: Calendar.current.component(.year, from: Date()),
+        type: .unknown,
+    )
+    public var arch: String = "unknown"
     public var serialNumber: String? = nil
     public var bootDate: Date? = nil
     
@@ -167,6 +179,12 @@ public class SystemKit {
             self.device.model = model
         }
         
+        #if arch(x86_64)
+        self.device.arch = "x86_64"
+        #elseif arch(arm64)
+        self.device.arch = "arm64"
+        #endif
+        
         self.device.bootDate = self.bootDate()
         
         let procInfo = ProcessInfo()
@@ -184,6 +202,7 @@ public class SystemKit {
         self.device.info.cpu = self.getCPUInfo()
         self.device.info.ram = self.getRamInfo()
         self.device.info.gpu = self.getGPUInfo()
+        self.device.info.disk = self.getDiskInfo()
         self.device.platform = self.getPlatform()
     }
     
@@ -387,6 +406,104 @@ public class SystemKit {
         }
         
         return list
+    }
+    
+    private func getDiskInfo() -> [disk_s]? {
+        var bootableDisks: [disk_s] = []
+        
+        guard let output = process(path: "/usr/sbin/diskutil", arguments: ["list", "-plist"]) else {
+            return nil
+        }
+        
+        do {
+            if let data = output.data(using: .utf8),
+               let plist = try PropertyListSerialization.propertyList(from: data, options: [], format: nil) as? [String: Any],
+               let allDisksAndPartitions = plist["AllDisksAndPartitions"] as? [[String: Any]] {
+                
+                for disk in allDisksAndPartitions {
+                    if let partitions = disk["Partitions"] as? [[String: Any]] {
+                        for partition in partitions {
+                            if let bootable = partition["Bootable"] as? Bool, bootable {
+                                var bootableDisk = disk_s()
+                                if let id = partition["DiskUUID"] as? String {
+                                    bootableDisk.id = id
+                                } else if let deviceIdentifier = partition["DeviceIdentifier"] as? String {
+                                    bootableDisk.id = "/dev/" + deviceIdentifier
+                                }
+                                if let volumeName = partition["VolumeName"] as? String {
+                                    bootableDisk.name = volumeName
+                                }
+                                if let size = partition["Size"] as? Int64 {
+                                    bootableDisk.size = size
+                                }
+                                if bootableDisk.id != nil {
+                                    bootableDisks.append(bootableDisk)
+                                }
+                            }
+                        }
+                    }
+                    
+                    if let contentType = disk["Content"] as? String, contentType == "Apple_APFS_Container" || contentType == "Apple_CoreStorage" {
+                        if let deviceIdentifier = disk["DeviceIdentifier"] as? String,
+                           let infoOutput = process(path: "/usr/sbin/diskutil", arguments: ["info", "-plist", deviceIdentifier]),
+                           let infoData = infoOutput.data(using: .utf8),
+                           let info = try PropertyListSerialization.propertyList(from: infoData, options: [], format: nil) as? [String: Any] {
+                            if let isBootDisk = info["BootableVolume"] as? Bool, isBootDisk {
+                                var bootableDisk = disk_s()
+                                if let id = info["DiskUUID"] as? String {
+                                    bootableDisk.id = id
+                                } else {
+                                    bootableDisk.id = "/dev/" + deviceIdentifier
+                                }
+                                if let name = info["VolumeName"] as? String {
+                                    bootableDisk.name = name
+                                } else if let name = disk["DeviceIdentifier"] as? String {
+                                    bootableDisk.name = name
+                                }
+                                
+                                if let size = disk["Size"] as? Int64 {
+                                    bootableDisk.size = size
+                                } else if let total = info["TotalSize"] as? Int64 {
+                                    bootableDisk.size = total
+                                }
+                                
+                                if bootableDisk.id != nil {
+                                    bootableDisks.append(bootableDisk)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } catch {
+            print("Error parsing diskutil output: \(error)")
+            return nil
+        }
+        
+        if bootableDisks.isEmpty {
+            if let startupDiskInfo = process(path: "/usr/sbin/diskutil", arguments: ["info", "-plist", "/"]) {
+                if let data = startupDiskInfo.data(using: .utf8),
+                   let plist = try? PropertyListSerialization.propertyList(from: data, options: [], format: nil) as? [String: Any] {
+                    var bootDisk = disk_s()
+                    if let id = plist["DiskUUID"] as? String {
+                        bootDisk.id = id
+                    } else if let deviceNode = plist["DeviceNode"] as? String {
+                        bootDisk.id = deviceNode
+                    }
+                    if let volumeName = plist["VolumeName"] as? String {
+                        bootDisk.name = volumeName
+                    }
+                    if let totalSize = plist["TotalSize"] as? Int64 {
+                        bootDisk.size = totalSize
+                    }
+                    if bootDisk.id != nil {
+                        bootableDisks.append(bootDisk)
+                    }
+                }
+            }
+        }
+        
+        return bootableDisks
     }
     
     private func getFrequencies(cpuName: String) -> ([Int32], [Int32])? {

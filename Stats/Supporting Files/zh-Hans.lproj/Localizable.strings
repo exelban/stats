@@ -177,6 +177,7 @@
 "Number of threads" = "%0 线程";
 "Number of e-cores" = "%0 能效核心";
 "Number of p-cores" = "%0 性能核心";
+"Disks" = "Disks";
 
 // Update
 "The latest version of Stats installed" = "已安装最新版 Stats";

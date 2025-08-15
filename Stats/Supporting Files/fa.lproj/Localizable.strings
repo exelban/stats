@@ -177,6 +177,7 @@
 "Number of threads" = "%0 ترد‌ها";
 "Number of e-cores" = "%0 هسته‌های کم‌مصرف";
 "Number of p-cores" = "%0 هسته‌های پرقدرت";
+"Disks" = "Disks";
 
 // Update
 "The latest version of Stats installed" = "آخرین نسخه‌ی Stats نصب شده است";

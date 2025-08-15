@@ -177,6 +177,7 @@
 "Number of threads" = "%0 niti";
 "Number of e-cores" = "%0 učinkovitih jeder";
 "Number of p-cores" = "%0 performančnih jeder";
+"Disks" = "Disks";
 
 // Update
 "The latest version of Stats installed" = "Nameščena je najnovejša različica programa Stats";

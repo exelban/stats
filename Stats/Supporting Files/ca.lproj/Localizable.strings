@@ -177,6 +177,7 @@
 "Number of threads" = "%0 fils";
 "Number of e-cores" = "%0 nuclis d'eficiència";
 "Number of p-cores" = "%0 nuclis de rendiment";
+"Disks" = "Disks";
 
 // Update
 "The latest version of Stats installed" = "L'última versió d'Stats està instal·lada";

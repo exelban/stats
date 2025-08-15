@@ -386,7 +386,7 @@ class WebSocketManager: NSObject {
             
             var wsHost = Remote.host.absoluteString
             wsHost = wsHost.replacingOccurrences(of: "https", with: "wss").replacingOccurrences(of: "http", with: "ws")
-            let url = URL(string: "\(wsHost)/remote?jwt=\(Remote.shared.auth.accessToken)&device_id=\(Remote.shared.id.uuidString)")!
+            let url = URL(string: "\(wsHost)/remote?jwt=\(Remote.shared.auth.accessToken)&machine_id=\(Remote.shared.id.uuidString)")!
             
             self.webSocket = self.session?.webSocketTask(with: url)
             self.webSocket?.resume()
@@ -434,12 +434,14 @@ class WebSocketManager: NSObject {
             let model: String?
             let modelID: String?
             let os: OS
+            let arch: String?
         }
         
         struct Hardware: Codable {
             let cpu: cpu_s?
             let gpu: [gpu_s]?
             let ram: [dimm_s]?
+            let disk: [disk_s]?
         }
         
         let details = Details(
@@ -453,12 +455,14 @@ class WebSocketManager: NSObject {
                     name: SystemKit.shared.device.os?.name,
                     version: SystemKit.shared.device.os?.version.getFullVersion(),
                     build: SystemKit.shared.device.os?.build
-                )
+                ),
+                arch: SystemKit.shared.device.arch
             ),
             hardware: Hardware(
                 cpu: SystemKit.shared.device.info.cpu,
                 gpu: SystemKit.shared.device.info.gpu,
-                ram: SystemKit.shared.device.info.ram?.dimms
+                ram: SystemKit.shared.device.info.ram?.dimms,
+                disk: SystemKit.shared.device.info.disk,
             )
         )
         let jsonData = try? JSONEncoder().encode(details)

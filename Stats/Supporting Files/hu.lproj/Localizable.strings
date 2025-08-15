@@ -177,6 +177,7 @@
 "Number of threads" = "%0 szál";
 "Number of e-cores" = "%0 energiatakarékos mag";
 "Number of p-cores" = "%0 teljesítményre optimalizált mag";
+"Disks" = "Disks";
 
 // Update
 "The latest version of Stats installed" = "A Stats legújabb verziója van telepítve";

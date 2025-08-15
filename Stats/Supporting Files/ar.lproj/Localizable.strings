@@ -177,6 +177,7 @@
 "Number of threads" = "%0 خيوط";
 "Number of e-cores" = "%0 نوى كفاءة";
 "Number of p-cores" = "%0 نوى أداء";
+"Disks" = "Disks";
 
 // Update
 "The latest version of Stats installed" = "تم تثبيت أحدث إصدار من الإحصاءات";

@@ -177,6 +177,7 @@
 "Number of threads" = "%0 wątków";
 "Number of e-cores" = "%0 rdzeni energooszczędnych";
 "Number of p-cores" = "%0 rdzeni wydajnościowych";
+"Disks" = "Dyski";
 
 // Update
 "The latest version of Stats installed" = "Najnowsza wersja Stats zainstalowana";

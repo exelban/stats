@@ -177,6 +177,7 @@
 "Number of threads" = "%0 нишки";
 "Number of e-cores" = "%0 ефикасни ядра";
 "Number of p-cores" = "%0 производителни ядра";
+"Disks" = "Disks";
 
 // Update
 "The latest version of Stats installed" = "Имате най-новата версия на Stats";

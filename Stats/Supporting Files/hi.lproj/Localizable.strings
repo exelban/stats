@@ -177,6 +177,7 @@
 "Number of threads" = "%0 थ्रेड्स";
 "Number of e-cores" = "%0 दक्षता कोर";
 "Number of p-cores" = "%0 प्रदर्शन कोर";
+"Disks" = "Disks";
 
 // Update
 "The latest version of Stats installed" = "आँकड़े का नवीनतम संस्करण स्थापित है";

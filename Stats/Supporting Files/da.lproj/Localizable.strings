@@ -177,6 +177,7 @@
 "Number of threads" = "%0 tråde";
 "Number of e-cores" = "%0 efficiency kerner";
 "Number of p-cores" = "%0 performance kerner";
+"Disks" = "Disks";
 
 // Update
 "The latest version of Stats installed" = "Den nyeste udgave af Stats er installeret";

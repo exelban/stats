@@ -177,6 +177,7 @@
 "Number of threads" = "%0 потоків";
 "Number of e-cores" = "%0 енергоефективних ядер";
 "Number of p-cores" = "%0 високопродуктивних ядер";
+"Disks" = "Диски";
 
 // Update
 "The latest version of Stats installed" = "Встановлено останню версію";

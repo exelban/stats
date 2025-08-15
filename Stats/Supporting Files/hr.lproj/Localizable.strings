@@ -177,6 +177,7 @@
 "Number of threads" = "Broj komponenti procesa: %0";
 "Number of e-cores" = "%0 efficiency cores";
 "Number of p-cores" = "%0 performance cores";
+"Disks" = "Disks";
 
 // Update
 "The latest version of Stats installed" = "Instalirana je najnovija verzija programa Stats";

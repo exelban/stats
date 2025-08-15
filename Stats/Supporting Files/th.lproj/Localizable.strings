@@ -177,6 +177,7 @@
 "Number of threads" = "%0 thread";
 "Number of e-cores" = "%0 cores ประสิทธิภาพ";
 "Number of p-cores" = "%0 cores ประสิทธิผล";
+"Disks" = "Disks";
 
 // Update
 "The latest version of Stats installed" = "เวอร์ชันล่าสุดของ Stats ได้รับการติดตั้งแล้ว";

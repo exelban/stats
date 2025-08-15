@@ -177,6 +177,7 @@
 "Number of threads" = "%0 säiettä";
 "Number of e-cores" = "%0 e-ydintä";
 "Number of p-cores" = "%0 p-ydintä";
+"Disks" = "Disks";
 
 // Update
 "The latest version of Stats installed" = "Stats on päivitetty viimeisimpään versioon";
