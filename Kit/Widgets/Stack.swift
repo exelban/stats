@@ -85,24 +85,31 @@ public class StackWidget: WidgetWrapper {
     public override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         
-        guard !self.values.isEmpty else {
+        var values: [Stack_t] = []
+        var mode: StackMode = .auto
+        self.queue.sync {
+            values = self.values
+            mode = self.modeState
+        }
+        
+        guard !values.isEmpty else {
             self.setWidth(0)
             return
         }
         
-        let num: Int = Int(round(Double(self.values.count) / 2))
+        let num: Int = Int(round(Double(values.count) / 2))
         var totalWidth: CGFloat = Constants.Widget.spacing  // opening space
         var x: CGFloat = Constants.Widget.spacing
         
         var i = 0
-        while i < self.values.count {
-            switch self.modeState {
+        while i < values.count {
+            switch mode {
             case .auto, .twoRows:
-                let firstElement: Stack_t = self.values[i]
-                let secondElement: Stack_t? = self.values.indices.contains(i+1) ? self.values[i+1] : nil
+                let firstElement: Stack_t = values[i]
+                let secondElement: Stack_t? = values.indices.contains(i+1) ? values[i+1] : nil
                 
                 var width: CGFloat = 0
-                if self.modeState == .auto && secondElement == nil {
+                if mode == .auto && secondElement == nil {
                     width += self.drawOneRow(x, firstElement)
                 } else {
                     width += self.drawTwoRows(x, firstElement, secondElement)
@@ -118,13 +125,13 @@ public class StackWidget: WidgetWrapper {
                 
                 i += 1
             case .oneRow:
-                let width = self.drawOneRow(x, self.values[i])
+                let width = self.drawOneRow(x, values[i])
                 
                 x += width
                 totalWidth += width
                 
                 // add margins between columns
-                if self.values.count != 1 && i != self.values.count {
+                if values.count != 1 && i != values.count {
                     x += Constants.Widget.spacing
                     totalWidth += Constants.Widget.spacing
                 }
@@ -139,16 +146,25 @@ public class StackWidget: WidgetWrapper {
     }
     
     private func drawOneRow(_ x: CGFloat, _ element: Stack_t) -> CGFloat {
+        var monospacedFontState: Bool = false
+        var fixedSizeState: Bool = false
+        var alignment: NSTextAlignment = .left
+        self.queue.sync {
+            monospacedFontState = self.monospacedFontState
+            fixedSizeState = self.fixedSizeState
+            alignment = self.alignment
+        }
+        
         var font: NSFont = NSFont.systemFont(ofSize: 13, weight: .regular)
-        if self.monospacedFontState {
+        if monospacedFontState {
             font = NSFont.monospacedDigitSystemFont(ofSize: 13, weight: .regular)
         }
         
         let style = NSMutableParagraphStyle()
-        style.alignment = self.alignment
+        style.alignment = alignment
         
         var width: CGFloat = self.oneRowWidth
-        if !self.fixedSizeState {
+        if !fixedSizeState {
             width = element.value.widthOfString(usingFont: font).rounded(.up) + 2
         }
         
@@ -165,15 +181,23 @@ public class StackWidget: WidgetWrapper {
     
     private func drawTwoRows(_ x: CGFloat, _ topElement: Stack_t, _ bottomElement: Stack_t?) -> CGFloat {
         let rowHeight: CGFloat = self.frame.height / 2
+        var monospacedFontState: Bool = false
+        var fixedSizeState: Bool = false
+        var alignment: NSTextAlignment = .left
+        self.queue.sync {
+            monospacedFontState = self.monospacedFontState
+            fixedSizeState = self.fixedSizeState
+            alignment = self.alignment
+        }
         
         var font: NSFont
-        if self.monospacedFontState {
+        if monospacedFontState {
             font = NSFont.monospacedDigitSystemFont(ofSize: 10, weight: .light)
         } else {
             font = NSFont.systemFont(ofSize: 10, weight: .light)
         }
         let style = NSMutableParagraphStyle()
-        style.alignment = self.alignment
+        style.alignment = alignment
         
         let attributes = [
             NSAttributedString.Key.font: font,
@@ -182,7 +206,7 @@ public class StackWidget: WidgetWrapper {
         ]
         
         var width: CGFloat = self.twoRowWidth
-        if !self.fixedSizeState {
+        if !fixedSizeState {
             let firstRowWidth = topElement.value.widthOfString(usingFont: font)
             let secondRowWidth = bottomElement?.value.widthOfString(usingFont: font) ?? 0
             width = max(20, max(firstRowWidth, secondRowWidth)).rounded(.up) + 2
