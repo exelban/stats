@@ -115,18 +115,41 @@ public class NetworkChart: WidgetWrapper {
         
         guard let context = NSGraphicsContext.current?.cgContext else { return }
         
+        var points: [(Double, Double)] = []
+        var labelState: Bool = false
+        var boxState: Bool = false
+        var frameState: Bool = false
+        var scaleState: Scale = .linear
+        var reverseOrderState: Bool = false
+        var originWidth: CGFloat = 0
+        var labelString: [NSAttributedString] = []
+        var downloadColor: SColor = .secondBlue
+        var uploadColor: SColor = .secondRed
+        self.queue.sync {
+            points = self.points
+            labelState = self.labelState
+            boxState = self.boxState
+            frameState = self.frameState
+            scaleState = self.scaleState
+            reverseOrderState = self.reverseOrderState
+            labelString = self.NSLabelCharts
+            originWidth = self.width
+            downloadColor = self.downloadColor
+            uploadColor = self.uploadColor
+        }
+        
         let lineWidth = 1 / (NSScreen.main?.backingScaleFactor ?? 1)
         let offset = lineWidth / 2
-        let boxSize: CGSize = CGSize(width: self.width - (Constants.Widget.margin.x*2), height: self.frame.size.height)
+        let boxSize: CGSize = CGSize(width: originWidth - (Constants.Widget.margin.x*2), height: self.frame.size.height)
         var x: CGFloat = 0
-        var width = self.width + (Constants.Widget.margin.x*2)
+        var width = originWidth + (Constants.Widget.margin.x*2)
         
-        if self.labelState {
+        if labelState {
             let letterHeight = self.frame.height / 3
             let letterWidth: CGFloat = 6.0
             
             var yMargin: CGFloat = 0
-            for char in self.NSLabelCharts {
+            for char in labelString {
                 let rect = CGRect(x: x, y: yMargin, width: letterWidth, height: letterHeight)
                 char.draw(with: rect)
                 yMargin += letterHeight
@@ -139,11 +162,11 @@ public class NetworkChart: WidgetWrapper {
         let box = NSBezierPath(roundedRect: NSRect(
             x: x + offset,
             y: offset,
-            width: self.width - offset*2,
+            width: originWidth - offset*2,
             height: boxSize.height - (offset*2)
         ), xRadius: 2, yRadius: 2)
         
-        if self.boxState {
+        if boxState {
             (isDarkMode ? NSColor.white : NSColor.black).set()
             box.stroke()
             box.fill()
@@ -157,9 +180,8 @@ public class NetworkChart: WidgetWrapper {
             width: box.bounds.width - (offset*2+lineWidth),
             height: box.bounds.height - offset
         )
-        let points = self.points
-        var topMax: Double = (self.reverseOrderState ? points.map{ $0.1 }.max() : points.map{ $0.0 }.max()) ?? 0
-        var bottomMax: Double = (self.reverseOrderState ? points.map{ $0.0 }.max() : points.map{ $0.1 }.max()) ?? 0
+        var topMax: Double = (reverseOrderState ? points.map{ $0.1 }.max() : points.map{ $0.0 }.max()) ?? 0
+        var bottomMax: Double = (reverseOrderState ? points.map{ $0.0 }.max() : points.map{ $0.1 }.max()) ?? 0
         if topMax == 0 {
             topMax = 1
         }
@@ -176,12 +198,12 @@ public class NetworkChart: WidgetWrapper {
         }
         
         let topYPoint = { (point: Int) -> CGFloat in
-            let value = self.reverseOrderState ? points[point].1 : points[point].0
-            return scaleValue(scale: self.scaleState, value: value, maxValue: topMax, zeroValue: 256.0, maxHeight: chartFrame.height/2, limit: 1) + xCenter
+            let value = reverseOrderState ? points[point].1 : points[point].0
+            return scaleValue(scale: scaleState, value: value, maxValue: topMax, zeroValue: 256.0, maxHeight: chartFrame.height/2, limit: 1) + xCenter
         }
         let bottomYPoint = { (point: Int) -> CGFloat in
-            let value = self.reverseOrderState ? points[point].0 : points[point].1
-            return xCenter - scaleValue(scale: self.scaleState, value: value, maxValue: bottomMax, zeroValue: 256.0, maxHeight: chartFrame.height/2, limit: 1)
+            let value = reverseOrderState ? points[point].0 : points[point].1
+            return xCenter - scaleValue(scale: scaleState, value: value, maxValue: bottomMax, zeroValue: 256.0, maxHeight: chartFrame.height/2, limit: 1)
         }
         
         let topLinePath = NSBezierPath()
@@ -194,8 +216,8 @@ public class NetworkChart: WidgetWrapper {
             bottomLinePath.line(to: CGPoint(x: columnXPoint(i), y: bottomYPoint(i)))
         }
         
-        let topColor = (self.reverseOrderState ? self.uploadColor : self.downloadColor).additional as? NSColor
-        let bottomColor = (self.reverseOrderState ? self.downloadColor : self.uploadColor).additional as? NSColor
+        let topColor = (reverseOrderState ? self.uploadColor : downloadColor).additional as? NSColor
+        let bottomColor = (reverseOrderState ? self.downloadColor : uploadColor).additional as? NSColor
         
         bottomColor?.setStroke()
         topLinePath.lineWidth = lineWidth
@@ -208,11 +230,11 @@ public class NetworkChart: WidgetWrapper {
         context.restoreGState()
         context.saveGState()
         
-        var underLinePath = topLinePath.copy() as! NSBezierPath
-        underLinePath.line(to: CGPoint(x: columnXPoint(points.count - 1), y: zero))
-        underLinePath.line(to: CGPoint(x: columnXPoint(0), y: zero))
-        underLinePath.close()
-        underLinePath.addClip()
+        guard let topUnderLinePath = topLinePath.copy() as? NSBezierPath else { return }
+        topUnderLinePath.line(to: CGPoint(x: columnXPoint(points.count - 1), y: zero))
+        topUnderLinePath.line(to: CGPoint(x: columnXPoint(0), y: zero))
+        topUnderLinePath.close()
+        topUnderLinePath.addClip()
         bottomColor?.withAlphaComponent(0.5).setFill()
         let topFillRect = NSRect(x: chartFrame.origin.x - lineWidth, y: chartFrame.origin.y, width: chartFrame.width + (lineWidth*3), height: chartFrame.height)
         NSBezierPath(rect: topFillRect).fill()
@@ -220,18 +242,18 @@ public class NetworkChart: WidgetWrapper {
         context.restoreGState()
         context.saveGState()
         
-        underLinePath = bottomLinePath.copy() as! NSBezierPath
-        underLinePath.line(to: CGPoint(x: columnXPoint(points.count - 1), y: zero))
-        underLinePath.line(to: CGPoint(x: columnXPoint(0), y: zero))
-        underLinePath.close()
-        underLinePath.addClip()
+        guard let bottomUnderLinePath = bottomLinePath.copy() as? NSBezierPath else { return }
+        bottomUnderLinePath.line(to: CGPoint(x: columnXPoint(points.count - 1), y: zero))
+        bottomUnderLinePath.line(to: CGPoint(x: columnXPoint(0), y: zero))
+        bottomUnderLinePath.close()
+        bottomUnderLinePath.addClip()
         topColor?.withAlphaComponent(0.5).setFill()
         let bottomFillRect = NSRect(x: chartFrame.origin.x - lineWidth, y: chartFrame.origin.y, width: chartFrame.width + (lineWidth*3), height: chartFrame.height)
         NSBezierPath(rect: bottomFillRect).fill()
         
         context.restoreGState()
         
-        if self.boxState || self.frameState {
+        if boxState || frameState {
             (isDarkMode ? NSColor.white : NSColor.black).set()
             box.lineWidth = lineWidth
             box.stroke()
@@ -341,11 +363,9 @@ public class NetworkChart: WidgetWrapper {
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_historyCount", value: self.historyCount)
         
         if num < self.points.count {
-            self.points = Array(self.points[self.points.count-num..<self.points.count])
-        } else {
-            let origin = self.points
-            self.points = Array(repeating: (0, 0), count: num)
-            self.points.replaceSubrange(Range(uncheckedBounds: (lower: origin.count, upper: num)), with: origin)
+            self.points = Array(self.points.suffix(num))
+        } else if num > self.points.count {
+            self.points = Array(repeating: (0, 0), count: num - self.points.count) + self.points
         }
         
         self.display()
