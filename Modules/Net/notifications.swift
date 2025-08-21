@@ -87,10 +87,10 @@ class Notifications: NotificationsWrapper {
             self.interfaceInit = true
         }
         if !self.localIPInit {
-            if let v4 = value.raddr.v4 {
+            if let v4 = value.laddr.v4 {
                 self.localIP = v4
                 self.localIPInit = true
-            } else if let v6 = value.raddr.v6 {
+            } else if let v6 = value.laddr.v6 {
                 self.localIP = v6
                 self.localIPInit = true
             }
@@ -117,17 +117,19 @@ class Notifications: NotificationsWrapper {
         }
         
         if self.localIPState {
-            if value.laddr.v4 ?? value.laddr.v6 != self.localIP {
+            let addr = value.laddr.v4 ?? value.laddr.v6
+            if addr != self.localIP {
                 self.newNotification(id: self.localID, title: localizedString("Local IP changed"), subtitle: nil)
             }
-            self.localIP = value.laddr.v4 ?? value.laddr.v6
+            self.localIP = addr
         }
         
         if self.publicIPState {
-            if value.raddr.v4 ?? value.raddr.v6 != self.publicIP {
+            let addr = value.raddr.v4 ?? value.raddr.v6
+            if addr != self.publicIP {
                 self.newNotification(id: self.publicID, title: localizedString("Public IP changed"), subtitle: nil)
             }
-            self.publicIP = value.raddr.v4 ?? value.raddr.v6
+            self.publicIP = addr
         }
         
         if self.wifiState {
