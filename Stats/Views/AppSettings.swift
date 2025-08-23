@@ -42,6 +42,7 @@ class ApplicationSettings: NSStackView {
     private var updateSelector: NSPopUpButton?
     private var startAtLoginBtn: NSSwitch?
     private var telemetryBtn: NSSwitch?
+    private var remoteControlBtn: NSSwitch?
     
     private var combinedModulesView: PreferencesSection?
     private var fanHelperView: PreferencesSection?
@@ -128,13 +129,18 @@ class ApplicationSettings: NSStackView {
         self.combinedModulesView?.setRowVisibility(3, newState: self.combinedModulesState)
         self.combinedModulesView?.setRowVisibility(4, newState: self.combinedModulesState)
         
-        self.remoteView = PreferencesSection(label: localizedString("Stats Remote (beta)"), [
+        self.remoteControlBtn = switchView(
+            action: #selector(self.toggleRemoteControlState),
+            state: Remote.shared.control
+        )
+        self.remoteView = PreferencesSection(label: localizedString("Remote (beta)"), [
             PreferencesRow(localizedString("Authorization"), component: buttonView(#selector(self.loginToRemote), text: localizedString("Login"))),
             PreferencesRow(localizedString("Identificator"), component: textView(Remote.shared.id.uuidString)),
             PreferencesRow(localizedString("Monitoring"), component: switchView(
                 action: #selector(self.toggleRemoteMonitoringState),
                 state: Remote.shared.monitoring
             )),
+            PreferencesRow(localizedString("Control"), component: self.remoteControlBtn!),
             PreferencesRow(component: buttonView(#selector(self.logoutFromRemote), text: localizedString("Logout")))
         ])
         scrollView.stackView.addArrangedSubview(self.remoteView!)
@@ -199,6 +205,7 @@ class ApplicationSettings: NSStackView {
     internal func viewWillAppear() {
         self.startAtLoginBtn?.state = LaunchAtLogin.isEnabled ? .on : .off
         self.telemetryBtn?.state = Telemetry.shared.isEnabled ? .on : .off
+        self.remoteControlBtn?.state = Remote.shared.control ? .on : .off
         
         var idx = self.updateSelector?.indexOfSelectedItem ?? 0
         if let items = self.updateSelector?.menu?.items {
@@ -423,6 +430,24 @@ class ApplicationSettings: NSStackView {
     
     @objc private func toggleRemoteMonitoringState(_ sender: NSButton) {
         Remote.shared.monitoring = sender.state == NSControl.StateValue.on
+    }
+    @objc private func toggleRemoteControlState(_ sender: NSButton) {
+        if sender.state == .on {
+            let alert = NSAlert()
+            alert.messageText = localizedString("Warning")
+            alert.informativeText = localizedString("It is not recommended to enable remote control unless you know what you are doing.")
+            alert.alertStyle = .warning
+            alert.addButton(withTitle: localizedString("Enable"))
+            alert.addButton(withTitle: localizedString("Cancel"))
+            let response = alert.runModal()
+            if response == .alertFirstButtonReturn {
+                Remote.shared.control = true
+            } else {
+                sender.state = .off
+            }
+        } else {
+            Remote.shared.control = false
+        }
     }
     
     @objc private func handleRemoteState(_ notification: Notification) {
