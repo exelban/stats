@@ -439,6 +439,11 @@ public class RemoteAuth {
     private var interval: Int = 5
     private var repeater: Repeater?
     
+    private var lastValidationTime: Date?
+    private var validationAttempts: Int = 0
+    private let baseCooldown: TimeInterval = 2.0 // Start with 2 seconds
+    private let maxCooldown: TimeInterval = 60.0 // Max 60 seconds
+    
     public init() {
         NotificationCenter.default.addObserver(self, selector: #selector(self.successLogin), name: .remoteLoginSuccess, object: nil)
     }
@@ -452,6 +457,14 @@ public class RemoteAuth {
             completion(false)
             return
         }
+        
+        if !self.accessToken.isEmpty && !self.isTokenExpired() {
+            DispatchQueue.main.async {
+                completion(true)
+            }
+            return
+        }
+        
         self.validate(completion)
     }
     public func hasCredentials() -> Bool {
@@ -499,6 +512,19 @@ public class RemoteAuth {
             return
         }
         
+        let now = Date()
+        let dynamicCooldown = min(self.baseCooldown * pow(2.0, Double(self.validationAttempts)), self.maxCooldown)
+        if let lastTime = self.lastValidationTime, now.timeIntervalSince(lastTime) < dynamicCooldown {
+            let remainingTime = dynamicCooldown - now.timeIntervalSince(lastTime)
+            DispatchQueue.main.asyncAfter(deadline: .now() + remainingTime) {
+                self.validate(completion)
+            }
+            return
+        }
+        
+        self.lastValidationTime = now
+        self.validationAttempts += 1
+        
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.setValue("Bearer \(self.accessToken)", forHTTPHeaderField: "Authorization")
@@ -511,10 +537,18 @@ public class RemoteAuth {
             
             if httpResponse.statusCode == 401 {
                 self.refreshTokenFunc { ok in
+                    if ok == true {
+                        self.validationAttempts = 0
+                        self.lastValidationTime = nil
+                    }
                     completion(ok ?? false)
                 }
             } else if httpResponse.statusCode == 200 {
+                self.validationAttempts = 0
+                self.lastValidationTime = nil
                 completion(true)
+            } else {
+                completion(false)
             }
         }.resume()
     }
@@ -642,6 +676,28 @@ public class RemoteAuth {
         self.accessToken = accessToken
         self.refreshToken = refreshToken
     }
+    
+    private func isTokenExpired() -> Bool {
+        let parts = self.accessToken.components(separatedBy: ".")
+        guard parts.count == 3 else { return true }
+        
+        let payload = parts[1]
+        var base64 = payload
+            .replacingOccurrences(of: "-", with: "+")
+            .replacingOccurrences(of: "_", with: "/")
+        
+        while base64.count % 4 != 0 {
+            base64 += "="
+        }
+        
+        guard let data = Data(base64Encoded: base64),
+              let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+              let exp = json["exp"] as? TimeInterval else {
+            return true
+        }
+        
+        return Date().timeIntervalSince1970 >= exp
+    }
 }
 
 struct MQTTMessage {
@@ -671,7 +727,9 @@ class MQTTManager: NSObject {
     private var session: URLSession?
     private var isConnected = false
     private var isDisconnected = false
-    private let reconnectDelay: TimeInterval = 3.0
+    private var isReconnecting = false
+    private var reconnectAttempts = 0
+    private var maxReconnectDelay: TimeInterval = 60.0
     private var pingTimer: Timer?
     private var reachability: Reachability = Reachability(start: true)
     private let log: NextLog
@@ -727,12 +785,29 @@ class MQTTManager: NSObject {
     }
     
     private func reconnect() {
-        guard !self.isDisconnected else { return }
-        DispatchQueue.main.asyncAfter(deadline: .now() + self.reconnectDelay) { [weak self] in
-            if let log = self?.log {
-                debug("trying to reconnect MQTT after interruption", log: log)
+        guard !self.isDisconnected && !self.isReconnecting else { return }
+        
+        self.isReconnecting = true
+        
+        let delays: [TimeInterval] = [1, 3, 5, 10, 20, 40]
+        let delayIndex = min(self.reconnectAttempts, delays.count - 1)
+        let delay = self.reconnectAttempts >= delays.count ? self.maxReconnectDelay : delays[delayIndex]
+        
+        debug("Waiting \(delay) seconds before next MQTT reconnection attempt...", log: self.log)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [weak self] in
+            guard let self else { return }
+            
+            self.isReconnecting = false
+            
+            guard !self.isDisconnected && !self.isConnected else {
+                self.reconnectAttempts = 0
+                return
             }
-            self?.connect()
+            
+            self.reconnectAttempts += 1
+            debug("Attempting MQTT reconnection #\(self.reconnectAttempts)", log: self.log)
+            self.connect()
         }
     }
     
@@ -929,6 +1004,8 @@ class MQTTManager: NSObject {
         let returnCode = data[3]
         if returnCode == 0 {
             self.isConnected = true
+            self.isReconnecting = false
+            self.reconnectAttempts = 0
             self.startPingTimer()
             self.subscribeToControlTopics()
             self.sendStatus(true)
