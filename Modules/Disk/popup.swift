@@ -685,7 +685,7 @@ internal class LegendView: NSView {
         if self.showUsedSpace {
             percentage = Int((Double(self.size - free) / Double(self.size)) * 100)
         } else {
-            percentage = Int((Double(free) / Double(self.size)) * 100)
+            percentage = Int((Double(free) / Double(self.size)).rounded(toPlaces: 2) * 100)
         }
         
         return "\(percentage < 0 ? 0 : percentage)%"
