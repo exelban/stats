@@ -71,6 +71,7 @@ public struct Bandwidth: Codable {
 public struct Network_Usage: Codable, RemoteType {
     var bandwidth: Bandwidth = Bandwidth()
     var total: Bandwidth = Bandwidth()
+    var today: Bandwidth = Bandwidth()
     
     var laddr: Network_addr = Network_addr() // local ip
     var raddr: Network_addr = Network_addr() // remote ip
@@ -91,6 +92,10 @@ public struct Network_Usage: Codable, RemoteType {
         self.connectionType = nil
         
         self.wifiDetails.reset()
+    }
+    
+    mutating func resetToday() {
+        self.today = Bandwidth()
     }
     
     public func remote() -> Data? {
