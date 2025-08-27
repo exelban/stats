@@ -73,6 +73,8 @@ internal func scaleValue(scale: Scale = .linear, value: Double, maxValue: Double
     return y
 }
 
+private let subtitleFont = NSFont.systemFont(ofSize: 9, weight: .medium)
+
 private func drawToolTip(_ frame: NSRect, _ point: CGPoint, _ size: CGSize, value: String, subtitle: String? = nil) {
     guard !value.isEmpty else { return }
     
@@ -111,7 +113,7 @@ private func drawToolTip(_ frame: NSRect, _ point: CGPoint, _ size: CGSize, valu
     str.draw(with: rect)
     
     if let subtitle {
-        attributes[NSAttributedString.Key.font] = NSFont.systemFont(ofSize: 9, weight: .medium)
+        attributes[NSAttributedString.Key.font] = subtitleFont
         attributes[NSAttributedString.Key.foregroundColor] = (isDarkMode ? NSColor.white : NSColor.textColor).withAlphaComponent(0.7)
         rect = CGRect(x: position.x, y: position.y, width: size.width-8, height: 9)
         str = NSAttributedString.init(string: subtitle, attributes: attributes)
@@ -152,7 +154,9 @@ public class LineChartView: NSView {
         
         super.init(frame: frame)
         
-        self.dateFormatter.dateFormat = "dd/MM HH:mm:ss"
+        self.dateFormatter.locale = Locale.current
+        self.dateFormatter.dateStyle = .short
+        self.dateFormatter.timeStyle = .medium
         
         self.addTrackingArea(NSTrackingArea(
             rect: CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height),
@@ -327,10 +331,12 @@ public class LineChartView: NSView {
                 path.stroke()
                 
                 let date = self.dateFormatter.string(from: nearest.value.ts)
+                let subtitleWidth = date.widthOfString(usingFont: subtitleFont)
+                let width = max(70, subtitleWidth) + 8
                 let roundedValue = (nearest.value.value * 100).rounded(toPlaces: 2)
                 let strValue = roundedValue >= 1 ? "\(Int(roundedValue))\(suffix)" : "\(roundedValue)\(suffix)"
                 let value = toolTipFunc != nil ? toolTipFunc!(nearest.value) : strValue
-                drawToolTip(self.frame, CGPoint(x: nearest.point.x+4, y: nearest.point.y+4), CGSize(width: 78, height: height), value: value, subtitle: date)
+                drawToolTip(self.frame, CGPoint(x: nearest.point.x+4, y: nearest.point.y+4), CGSize(width: width, height: height), value: value, subtitle: date)
             }
         }
     }
