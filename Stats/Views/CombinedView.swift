@@ -62,6 +62,8 @@ internal class CombinedView: NSObject, NSGestureRecognizerDelegate {
     
     deinit {
         NotificationCenter.default.removeObserver(self, name: .toggleOneView, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .moduleRearrange, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .combinedModulesPopup, object: nil)
     }
     
     public func enable() {
@@ -138,8 +140,20 @@ internal class CombinedView: NSObject, NSGestureRecognizerDelegate {
     
     @objc private func togglePopup(_ sender: NSButton) {
         guard let popup = self.popup, let item = self.menuBarItem, let window = item.button?.window else { return }
-        let openedWindows = NSApplication.shared.windows.filter{ $0 is NSPanel }
-        openedWindows.forEach{ $0.setIsVisible(false) }
+        
+        // If the popup is already visible, close it regardless of whether it's pinned or moved
+        if popup.isVisible {
+            popup.explicitClose = true
+            popup.setIsVisible(false)
+            popup.explicitClose = false
+            return
+        }
+        
+        // Close all other popup windows that haven't been moved by the user and aren't pinned
+        NSApplication.shared.windows
+            .compactMap { $0 as? PopupWindow }
+            .filter { !$0.wasMoved && !$0.isPinned }
+            .forEach { $0.setIsVisible(false) }
         
         if popup.occlusionState.rawValue == 8192 {
             NSApplication.shared.activate(ignoringOtherApps: true)
@@ -231,7 +245,7 @@ private class Popup: NSStackView, Popup_p {
     }
     
     deinit {
-        NotificationCenter.default.removeObserver(self, name: .toggleOneView, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .toggleModule, object: nil)
     }
     
     fileprivate func settings() -> NSView? { return nil }

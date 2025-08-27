@@ -266,6 +266,7 @@ public extension Notification.Name {
     static let toggleModule = Notification.Name("toggleModule")
     static let togglePopup = Notification.Name("togglePopup")
     static let toggleWidget = Notification.Name("toggleWidget")
+    static let toggleWidgetIcon = Notification.Name("toggleWidgetIcon")
     static let openModuleSettings = Notification.Name("openModuleSettings")
     static let clickInSettings = Notification.Name("clickInSettings")
     static let refreshPublicIP = Notification.Name("refreshPublicIP")
@@ -280,6 +281,10 @@ public extension Notification.Name {
     static let combinedModulesPopup = Notification.Name("combinedModulesPopup")
     static let remoteLoginSuccess = Notification.Name("remoteLoginSuccess")
     static let remoteState = Notification.Name("remoteState")
+    static let themeChanged = Notification.Name("themeChanged")
+    static let switchToTab = Notification.Name("switchToTab")
+    static let toggleSplitStatus = Notification.Name("toggleSplitStatus")
+    static let togglePinButton = Notification.Name("togglePinButton")
 }
 
 public var isARM: Bool {
