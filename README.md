@@ -5,7 +5,7 @@
   <img width="400" alt="Warp sponsorship" src="https://github.com/user-attachments/assets/67ff3655-983d-43cf-9e99-51ce76afa3e7"/>
  </a>
  <br><br>
- <a href="https://go.warp.dev/stats">Warp is the agentic development environment, built for coding with multiple AI agents</a>
+ <a href="https://go.warp.dev/stats">Warp is built for coding with multiple AI agents</a>
 </div>
 
 ---
