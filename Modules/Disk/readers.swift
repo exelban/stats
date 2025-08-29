@@ -286,9 +286,11 @@ internal class ActivityReader: Reader<Disks> {
     }
     
     private func driveStats(_ idx: Int, _ d: drive) {
-        guard let props = getIOProperties(d.parent) else {
-            return
-        }
+        let service = IOServiceGetMatchingService(kIOMasterPortDefault, IOBSDNameMatching(kIOMasterPortDefault, 0, d.BSDName))
+        if service == 0 { return }
+        IOObjectRelease(service)
+        
+        guard let props = getIOProperties(d.parent) else { return }
         
         if let statistics = props.object(forKey: "Statistics") as? NSDictionary {
             let readBytes = statistics.object(forKey: "Bytes (Read)") as? Int64 ?? 0

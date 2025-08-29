@@ -134,12 +134,11 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
     }
     
     internal func setList(_ list: Disks) {
-        let disks = list.map{ $0.mediaName }
         DispatchQueue.main.async(execute: {
+            let disks = list.map{ $0.mediaName }
             if self.button?.itemTitles.count != disks.count {
                 self.button?.removeAllItems()
             }
-            
             if disks != self.button?.itemTitles {
                 self.button?.addItems(withTitles: disks)
                 self.list = disks
