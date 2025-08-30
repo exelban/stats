@@ -35,6 +35,10 @@ internal class Popup: PopupWrapper {
     private var totalUploadField: ValueField? = nil
     private var totalDownloadLabel: LabelField? = nil
     private var totalDownloadField: ValueField? = nil
+    private var todayUploadLabel: LabelField? = nil
+    private var todayUploadField: ValueField? = nil
+    private var todayDownloadLabel: LabelField? = nil
+    private var todayDownloadField: ValueField? = nil
     private var statusField: ValueField? = nil
     private var connectivityField: ValueField? = nil
     private var interfaceField: ValueField? = nil
@@ -261,6 +265,15 @@ internal class Popup: PopupWrapper {
         self.totalDownloadLabel = totalDownload.1
         self.totalDownloadField = totalDownload.2
         
+        let todayUpload = popupWithColorRow(view, color: self.uploadColor, title: "\(localizedString("Today upload")):", value: "0")
+        let todayDownload = popupWithColorRow(view, color: self.downloadColor, title: "\(localizedString("Today download")):", value: "0")
+        
+        self.todayUploadLabel = todayUpload.1
+        self.todayUploadField = todayUpload.2
+        
+        self.todayDownloadLabel = todayDownload.1
+        self.todayDownloadField = todayDownload.2
+        
         self.statusField = popupRow(view, title: "\(localizedString("Status")):", value: localizedString("Unknown")).1
         self.connectivityField = popupRow(view, title: "\(localizedString("Internet connection")):", value: localizedString("Unknown")).1
         self.latencyField = popupRow(view, title: "\(localizedString("Latency")):", value: "0 ms").1
@@ -376,6 +389,9 @@ internal class Popup: PopupWrapper {
                 
                 self.totalUploadField?.stringValue = Units(bytes: value.total.upload).getReadableMemory()
                 self.totalDownloadField?.stringValue = Units(bytes: value.total.download).getReadableMemory()
+                
+                self.todayUploadField?.stringValue = Units(bytes: value.today.upload).getReadableMemory()
+                self.todayDownloadField?.stringValue = Units(bytes: value.today.download).getReadableMemory()
                 
                 let form = DateComponentsFormatter()
                 form.maximumUnitCount = 2
@@ -811,10 +827,14 @@ internal class Popup: PopupWrapper {
         NotificationCenter.default.post(name: .resetTotalNetworkUsage, object: nil, userInfo: nil)
         self.totalUploadField?.stringValue = Units(bytes: 0).getReadableMemory()
         self.totalDownloadField?.stringValue = Units(bytes: 0).getReadableMemory()
+        self.todayUploadField?.stringValue = Units(bytes: 0).getReadableMemory()
+        self.todayDownloadField?.stringValue = Units(bytes: 0).getReadableMemory()
         self.lastReset = Date()
     }
     
     @objc private func resetTotalNetworkUsageCallback() {
         self.lastReset = Date()
+        self.todayUploadField?.stringValue = Units(bytes: 0).getReadableMemory()
+        self.todayDownloadField?.stringValue = Units(bytes: 0).getReadableMemory()
     }
 }

@@ -387,6 +387,8 @@
 "Network interface" = "Network interface";
 "Total download" = "Total download";
 "Total upload" = "Total upload";
+"Today download" = "Today download";
+"Today upload" = "Today upload";
 "Reader type" = "Reader type";
 "Interface based" = "Interface based";
 "Processes based" = "Process based";
