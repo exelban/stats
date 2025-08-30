@@ -232,9 +232,7 @@ public class SWidget {
     public var item: widget_p
     
     public var isActive: Bool {
-        get {
-            self.list.contains{ $0 == self.type }
-        }
+        get { self.list.contains{ $0 == self.type } }
         set {
             if newValue {
                 self.list.append(self.type)
@@ -251,12 +249,8 @@ public class SWidget {
         NextLog.shared.copy(category: self.module)
     }
     public var position: Int {
-        get {
-            Store.shared.int(key: "\(self.module)_\(self.type)_position", defaultValue: 0)
-        }
-        set {
-            Store.shared.set(key: "\(self.module)_\(self.type)_position", value: newValue)
-        }
+        get { Store.shared.int(key: "\(self.module)_\(self.type)_position", defaultValue: 0) }
+        set { Store.shared.set(key: "\(self.module)_\(self.type)_position", value: newValue) }
     }
     
     private var list: [widget_t] {
@@ -264,9 +258,7 @@ public class SWidget {
             let string = Store.shared.string(key: "\(self.module)_widget", defaultValue: self.defaultWidget.rawValue)
             return string.split(separator: ",").map{ (widget_t(rawValue: String($0)) ?? .unknown)}
         }
-        set {
-            Store.shared.set(key: "\(self.module)_widget", value: newValue.map{ $0.rawValue }.joined(separator: ","))
-        }
+        set { Store.shared.set(key: "\(self.module)_widget", value: newValue.map{ $0.rawValue }.joined(separator: ",")) }
     }
     
     private var menuBarItem: NSStatusItem? = nil
@@ -576,8 +568,6 @@ public class MenuBarView: NSView {
     public func removeWidget(type: widget_t) {
         if let view = self.subviews.first(where: { $0.identifier == NSUserInterfaceItemIdentifier(type.rawValue) }) {
             view.removeFromSuperview()
-        } else {
-            error("\(type) could not be removed from the one view because not found!")
         }
     }
     

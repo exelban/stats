@@ -58,10 +58,14 @@ internal class CombinedView: NSObject, NSGestureRecognizerDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(listenForOneView), name: .toggleOneView, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(listenForModuleRearrrange), name: .moduleRearrange, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(listenCombinedModulesPopup), name: .combinedModulesPopup, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(listenForModule), name: .toggleModule, object: nil)
     }
     
     deinit {
         NotificationCenter.default.removeObserver(self, name: .toggleOneView, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .moduleRearrange, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .combinedModulesPopup, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .toggleModule, object: nil)
     }
     
     public func enable() {
@@ -203,6 +207,26 @@ internal class CombinedView: NSObject, NSGestureRecognizerDelegate {
             self.menuBarItem?.button?.target = self
             self.menuBarItem?.button?.action = #selector(self.togglePopup)
             self.menuBarItem?.button?.sendAction(on: [.leftMouseDown, .rightMouseDown])
+        }
+    }
+    
+    @objc private func listenForModule(_ notification: Notification) {
+        guard let name = notification.userInfo?["module"] as? String,
+              let state = notification.userInfo?["state"] as? Bool,
+              state,
+              let module = self.activeModules.first(where: { $0.name == name }) else { return }
+        
+        module.menuBar.widgets.forEach { w in
+            w.item.onClick = {
+                if let window = w.item.window {
+                    NotificationCenter.default.post(name: .togglePopup, object: nil, userInfo: [
+                        "module": module.name,
+                        "widget": w.type,
+                        "origin": window.frame.origin,
+                        "center": window.frame.width/2
+                    ])
+                }
+            }
         }
     }
 }
