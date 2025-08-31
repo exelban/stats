@@ -126,6 +126,7 @@ public struct ram_s: Codable {
 }
 
 public struct gpu_s: Codable {
+    public var id: String? = nil
     public var name: String? = nil
     public var vendor: String? = nil
     public var vram: String? = nil
@@ -380,11 +381,13 @@ public class SystemKit {
         }
         
         var list: [gpu_s] = []
+        var i = 0
         do {
             if let json = try JSONSerialization.jsonObject(with: Data(res.utf8), options: []) as? [String: Any] {
                 if let arr = json["SPDisplaysDataType"] as? [[String: Any]] {
                     for obj in arr {
                         var gpu: gpu_s = gpu_s()
+                        gpu.id = "\(i)"
                         
                         gpu.name = obj["sppci_model"] as? String
                         gpu.vendor = obj["spdisplays_vendor"] as? String
@@ -397,6 +400,7 @@ public class SystemKit {
                         }
                         
                         list.append(gpu)
+                        i += 1
                     }
                 }
             }

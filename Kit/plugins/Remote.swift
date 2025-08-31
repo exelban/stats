@@ -55,6 +55,7 @@ public class Remote {
     private var isConnecting = false
     
     private var lastSleepTime: Date?
+    private var lastRegisterTime: Date?
     
     struct Details: Codable {
         let client: Client
@@ -169,6 +170,14 @@ public class Remote {
     }
     
     private func registerDevice() {
+        let oneHour: TimeInterval = 3600
+        let now = Date()
+        if let lastTime = self.lastRegisterTime, now.timeIntervalSince(lastTime) < oneHour {
+            debug("Device registration skipped: cooldown period not met", log: self.log)
+            return
+        }
+        self.lastRegisterTime = now
+        
         guard let url = URL(string: "\(Remote.host)/remote/device") else { return }
         
         var request = URLRequest(url: url)
@@ -758,13 +767,18 @@ class MQTTManager: NSObject {
         guard !self.isConnected else { return }
         
         Remote.shared.auth.isAuthorized { [weak self] status in
-            guard status, let self else { return }
+            guard let self else { return }
             
-            self.webSocket = self.session?.webSocketTask(with: Remote.brokerHost, protocols: ["mqtt"])
-            self.webSocket?.resume()
-            self.receiveMessage()
-            self.isDisconnected = false
-            debug("MQTT WebSocket connecting...", log: self.log)
+            if status {
+                self.webSocket = self.session?.webSocketTask(with: Remote.brokerHost, protocols: ["mqtt"])
+                self.webSocket?.resume()
+                self.receiveMessage()
+                self.isDisconnected = false
+                debug("MQTT WebSocket connecting...", log: self.log)
+            } else {
+                debug("Authorization failed, retrying connection...", log: self.log)
+                self.reconnect()
+            }
         }
     }
     
