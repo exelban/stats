@@ -152,7 +152,7 @@ public class LineChartView: NSView {
         
         super.init(frame: frame)
         
-        self.dateFormatter.dateFormat = "dd/MM HH:mm:ss"
+        self.dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         
         self.addTrackingArea(NSTrackingArea(
             rect: CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height),
@@ -330,7 +330,7 @@ public class LineChartView: NSView {
                 let roundedValue = (nearest.value.value * 100).rounded(toPlaces: 2)
                 let strValue = roundedValue >= 1 ? "\(Int(roundedValue))\(suffix)" : "\(roundedValue)\(suffix)"
                 let value = toolTipFunc != nil ? toolTipFunc!(nearest.value) : strValue
-                drawToolTip(self.frame, CGPoint(x: nearest.point.x+4, y: nearest.point.y+4), CGSize(width: 78, height: height), value: value, subtitle: date)
+                drawToolTip(self.frame, CGPoint(x: nearest.point.x+4, y: nearest.point.y+4), CGSize(width: 105, height: height), value: value, subtitle: date)
             }
         }
     }
