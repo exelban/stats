@@ -100,6 +100,11 @@ public class Remote {
         self.mqtt.registerCallback = { [weak self] in
             self?.registerDevice()
         }
+        self.mqtt.unregisterHandler = { [weak self] in
+            guard let self else { return }
+            info("Unregistered from MQTT broker, stopping Remote...", log: self.log)
+            self.logout()
+        }
         
         if self.auth.hasCredentials() {
             info("Found auth credentials for remote monitoring, starting Remote...", log: self.log)
@@ -126,9 +131,9 @@ public class Remote {
     }
     
     public func logout() {
+        self.mqtt.disconnect()
         self.auth.logout()
         self.isAuthorized = false
-        self.mqtt.disconnect()
         debug("Logout successfully from Stats Remote", log: self.log)
         NotificationCenter.default.post(name: .remoteState, object: nil, userInfo: ["auth": self.isAuthorized])
     }
@@ -165,7 +170,6 @@ public class Remote {
     }
     
     public func terminate() {
-        self.mqtt.sendStatus(false)
         self.mqtt.disconnect()
     }
     
@@ -731,6 +735,7 @@ enum MQTTPacketType: UInt8 {
 class MQTTManager: NSObject {
     public var registerCallback: (() -> Void)? = nil
     public var commandCallback: ((String, Data?) -> Void)? = nil
+    public var unregisterHandler: (() -> Void)? = nil
     
     private var webSocket: URLSessionWebSocketTask?
     private var session: URLSession?
@@ -786,10 +791,8 @@ class MQTTManager: NSObject {
         if self.webSocket == nil && !self.isConnected { return }
         self.isDisconnected = true
         
-        if self.isConnected {
-            self.sendDisconnect()
-            self.sendStatus(false)
-        }
+        self.sendStatus(false)
+        self.sendDisconnect()
         
         self.webSocket?.cancel(with: .normalClosure, reason: nil)
         self.webSocket = nil
@@ -1006,7 +1009,7 @@ class MQTTManager: NSObject {
         case .suback:
             break
         case .publish:
-            self.processCommand(data)
+            self.handlePublish(data)
         default:
             break
         }
@@ -1021,7 +1024,7 @@ class MQTTManager: NSObject {
             self.isReconnecting = false
             self.reconnectAttempts = 0
             self.startPingTimer()
-            self.subscribeToControlTopics()
+            self.subscribeToTopics()
             self.sendStatus(true)
             debug("MQTT connected successfully", log: self.log)
             self.registerCallback?()
@@ -1030,9 +1033,9 @@ class MQTTManager: NSObject {
         }
     }
     
-    private func subscribeToControlTopics() {
-        let controlTopic = "stats/\(Remote.shared.id.uuidString)/control/+"
-        self.subscribe(to: controlTopic)
+    private func subscribeToTopics() {
+        self.subscribe(to: "stats/\(Remote.shared.id.uuidString)/control/+")
+        self.subscribe(to: "stats/\(Remote.shared.id.uuidString)/unregister")
     }
     
     private func receiveMessage() {
@@ -1075,7 +1078,7 @@ class MQTTManager: NSObject {
         }
     }
     
-    private func processCommand(_ data: Data) {
+    private func handlePublish(_ data: Data) {
         var offset = 1
         while data[offset] & 0x80 != 0 { offset += 1 }
         offset += 1
@@ -1088,6 +1091,11 @@ class MQTTManager: NSObject {
         let topicData = data.subdata(in: offset..<(offset + topicLength))
         let topic = String(data: topicData, encoding: .utf8) ?? "<invalid topic>"
         offset += topicLength
+  
+        if topic.hasSuffix("unregister") {
+            self.unregisterHandler?()
+            return
+        }
         
         let prefix = "stats/\(Remote.shared.id.uuidString)/control/"
         let commandName = topic.hasPrefix(prefix) ? String(topic.dropFirst(prefix.count)) : topic
