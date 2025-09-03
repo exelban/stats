@@ -387,6 +387,8 @@
 "Network interface" = "Netzwerkschnittstelle";
 "Total download" = "Empfangen";
 "Total upload" = "Gesendet";
+"Today download" = "Heute empfangen";
+"Today upload" = "Heute gesendet";
 "Reader type" = "Lesertyp";
 "Interface based" = "Schnittstelle";
 "Processes based" = "Prozess";

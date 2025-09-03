@@ -112,6 +112,11 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
         set { self.variablesQueue.sync { self._usage = newValue } }
     }
     
+    private var lastResetDate: Date {
+        get { Store.shared.date(key: "Network_lastResetDate", defaultValue: Date()) }
+        set { Store.shared.set(key: "Network_lastResetDate", value: newValue) }
+    }
+    
     private var primaryInterface: String {
         get {
             if let global = SCDynamicStoreCopyValue(nil, "State:/Network/Global/IPv4" as CFString), let name = global["PrimaryInterface"] as? String {
@@ -204,6 +209,17 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
         
         self.usage.total.upload += self.usage.bandwidth.upload
         self.usage.total.download += self.usage.bandwidth.download
+        
+        // Check if we need to reset today's totals (new day)
+        let calendar = Calendar.current
+        if !calendar.isDate(self.lastResetDate, inSameDayAs: Date()) {
+            self.usage.resetToday()
+            self.lastResetDate = Date()
+        }
+        
+        // Add to today's totals
+        self.usage.today.upload += self.usage.bandwidth.upload
+        self.usage.today.download += self.usage.bandwidth.download
         
         self.usage.status = self.reachability.isReachable
         
@@ -477,6 +493,8 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
     
     @objc func resetTotalNetworkUsage() {
         self.usage.total = Bandwidth()
+        self.usage.resetToday()
+        self.lastResetDate = Date()
         self.save(self.usage)
     }
     
