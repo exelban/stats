@@ -71,7 +71,9 @@ class SettingsWindow: NSWindow, NSWindowDelegate, NSToolbarDelegate {
         self.toolbar = newToolbar
         self.contentViewController = sidebarViewController
         self.titlebarAppearsTransparent = true
-        self.backgroundColor = .clear
+        if #unavailable(macOS 26.0) {
+            self.backgroundColor = .clear
+        }
         self.positionCenter()
         self.setIsVisible(false)
         
@@ -80,7 +82,6 @@ class SettingsWindow: NSWindow, NSWindowDelegate, NSToolbarDelegate {
         windowController.loadWindow()
         
         NSLayoutConstraint.activate([
-            self.sidebarView.widthAnchor.constraint(equalToConstant: 180),
             self.mainView.widthAnchor.constraint(equalToConstant: 540),
             self.mainView.container.widthAnchor.constraint(equalToConstant: 540),
             self.mainView.container.topAnchor.constraint(equalTo: (self.contentLayoutGuide as! NSLayoutGuide).topAnchor),
@@ -126,6 +127,7 @@ class SettingsWindow: NSWindow, NSWindowDelegate, NSToolbarDelegate {
                 switchButton.state = .on
                 switchButton.action = #selector(self.toggleEnable)
                 switchButton.target = self
+                switchButton.controlSize = .small
                 toggleBtn = switchButton
             } else {
                 let button: NSButton = NSButton()
@@ -143,6 +145,7 @@ class SettingsWindow: NSWindow, NSWindowDelegate, NSToolbarDelegate {
             let toolbarItem = NSToolbarItem(itemIdentifier: itemIdentifier)
             toolbarItem.toolTip = localizedString("Toggle the module")
             toolbarItem.view = toggleBtn
+            toolbarItem.isBordered = false
             
             return toolbarItem
         default:

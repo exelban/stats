@@ -181,7 +181,7 @@ class Dashboard: NSStackView {
         
         let scrollView = ScrollableStackView(orientation: .vertical)
         scrollView.stackView.edgeInsets = NSEdgeInsets(
-            top: Constants.Settings.margin,
+            top: 0,
             left: Constants.Settings.margin,
             bottom: Constants.Settings.margin,
             right: Constants.Settings.margin
