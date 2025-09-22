@@ -338,10 +338,34 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
     }
     
     private func getWiFiDetails() {
-        if let interface = CWWiFiClient.shared().interface(withName: self.interfaceID) {
-            if let ssid = interface.ssid() {
-                self.usage.wifiDetails.ssid = ssid
+        // Get SSID using networksetup which also works on macOS 26
+        let task = Process()
+        task.launchPath = "/bin/bash"
+        let script = """
+        en=$(networksetup -listallhardwareports | awk '/Wi-Fi|AirPort/{getline; print $NF}')
+        if [ -n "$en" ]; then
+          if ! ipconfig getsummary "$en" | grep -Fxq "  Active : FALSE"; then
+            networksetup -listpreferredwirelessnetworks "$en" | sed -n '2s/^\\t//p'
+          fi
+        fi
+        """
+        task.arguments = ["-c", script]
+        let pipe = Pipe()
+        task.standardOutput = pipe
+        do {
+            try task.run()
+            task.waitUntilExit()
+            
+            let data = pipe.fileHandleForReading.readDataToEndOfFile()
+            if let output = String(data: data, encoding: .utf8) {
+                let ssid = output.trimmingCharacters(in: .whitespacesAndNewlines)
+                if !ssid.isEmpty {
+                    self.usage.wifiDetails.ssid = ssid
+                }
             }
+        } catch {}
+        
+        if let interface = CWWiFiClient.shared().interface(withName: self.interfaceID) {
             if let bssid = interface.bssid() {
                 self.usage.wifiDetails.bssid = bssid
             }
@@ -366,6 +390,7 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
             }
         }
         
+        // Fallback to system_profiler if needed
         if self.usage.wifiDetails.ssid == nil || self.usage.wifiDetails.ssid == "" {
             if #available(macOS 15, *) {
                 guard let res = process(path: "/usr/sbin/system_profiler", arguments: ["SPAirPortDataType", "-json"]) else {
