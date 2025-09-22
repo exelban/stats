@@ -73,7 +73,7 @@ open class Settings: NSStackView, Settings_p {
         self.distribution = .fill
         self.spacing = Constants.Settings.margin
         self.edgeInsets = NSEdgeInsets(
-            top: Constants.Settings.margin,
+            top: 0,
             left: Constants.Settings.margin,
             bottom: Constants.Settings.margin,
             right: Constants.Settings.margin
@@ -312,12 +312,18 @@ private class WidgetSelectorView: NSStackView {
     private var background: NSVisualEffectView = {
         let view = NSVisualEffectView(frame: NSRect.zero)
         view.blendingMode = .withinWindow
-        view.material = .contentBackground
+        if #available(macOS 26.0, *) {
+            view.material = .titlebar
+        } else {
+            view.material = .contentBackground
+        }
         view.state = .active
         view.wantsLayer = true
         view.layer?.cornerRadius = 5
         return view
     }()
+    
+    private var separator: NSView?
     
     fileprivate init(module: String, widgets: [SWidget], stateCallback: @escaping () -> Void) {
         self.module = module
@@ -366,8 +372,9 @@ private class WidgetSelectorView: NSStackView {
         let separator = NSView()
         separator.identifier = NSUserInterfaceItemIdentifier(rawValue: "separator")
         separator.wantsLayer = true
-        separator.layer?.backgroundColor = NSColor(red: 213/255, green: 213/255, blue: 213/255, alpha: 1).cgColor
+        separator.layer?.backgroundColor = NSColor.separatorColor.withAlphaComponent(isDarkMode ? 0.35 : 0.15).cgColor
         self.addArrangedSubview(separator)
+        self.separator = separator
         
         inactive.forEach { (widget: WidgetPreview) in
             self.addArrangedSubview(widget)
@@ -379,7 +386,7 @@ private class WidgetSelectorView: NSStackView {
         NSLayoutConstraint.activate([
             self.heightAnchor.constraint(equalToConstant: Constants.Widget.height + (Constants.Settings.margin*2)),
             separator.widthAnchor.constraint(equalToConstant: 1),
-            separator.heightAnchor.constraint(equalTo: self.heightAnchor, constant: -6)
+            separator.heightAnchor.constraint(equalTo: self.heightAnchor, constant: -18)
         ])
     }
     
@@ -389,6 +396,7 @@ private class WidgetSelectorView: NSStackView {
     
     override func updateLayer() {
         self.background.setFrameSize(self.frame.size)
+        self.separator?.layer?.backgroundColor = NSColor.separatorColor.withAlphaComponent(isDarkMode ? 0.35 : 0.15).cgColor
     }
     
     override func mouseUp(with event: NSEvent) {
