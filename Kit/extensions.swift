@@ -294,7 +294,7 @@ public extension NSView {
     }
     
     func selectView(action: Selector, items: [KeyValue_p], selected: String) -> NSPopUpButton {
-        let select: NSPopUpButton = NSPopUpButton(frame: NSRect(x: 0, y: 0, width: 50, height: 28))
+        let select: NSPopUpButton = NSPopUpButton(frame: NSRect(x: 0, y: 4, width: 50, height: 28))
         select.target = self
         select.action = action
         

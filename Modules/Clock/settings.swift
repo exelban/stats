@@ -79,7 +79,7 @@ internal class Settings: NSStackView, Settings_v, NSTableViewDelegate, NSTableVi
         if #available(macOS 11.0, *) {
             self.tableView.style = .plain
         }
-        self.tableView.rowHeight = 27
+        self.tableView.rowHeight = 32
         
         let nameColumn = NSTableColumn(identifier: nameColumnID)
         nameColumn.headerCell.title = localizedString("Name")
@@ -209,7 +209,7 @@ internal class Settings: NSStackView, Settings_v, NSTableViewDelegate, NSTableVi
             select.widthAnchor.constraint(lessThanOrEqualToConstant: 132).isActive = true
             cell.addSubview(select)
         case statusColumnID:
-            let button: NSButton = NSButton(frame: NSRect(x: 0, y: 5, width: 10, height: 10))
+            let button: NSButton = NSButton(frame: NSRect(x: 0, y: 8, width: 10, height: 10))
             button.identifier = NSUserInterfaceItemIdentifier("\(row)")
             button.setButtonType(.switch)
             button.state = item.enabled ? .on : .off

@@ -1245,17 +1245,15 @@ public class PreferencesSection: NSStackView {
         
         self.container.orientation = .vertical
         self.container.wantsLayer = true
-        self.container.layer?.cornerRadius = 5
-        self.container.layer?.borderColor = NSColor.separatorColor.withAlphaComponent(0.05).cgColor
-        self.container.layer?.borderWidth = 1
         self.container.layer?.backgroundColor = NSColor.quaternaryLabelColor.withAlphaComponent(0.025).cgColor
+        self.container.layer?.cornerRadius = Constants.Settings.margin
         self.container.edgeInsets = NSEdgeInsets(
-            top: Constants.Settings.margin/2,
+            top: Constants.Settings.margin/1.25,
             left: Constants.Settings.margin,
-            bottom: Constants.Settings.margin/2,
+            bottom: Constants.Settings.margin/1.25,
             right: Constants.Settings.margin
         )
-        self.container.spacing = Constants.Settings.margin/2
+        self.container.spacing = Constants.Settings.margin/1.25
         self.addArrangedSubview(self.container)
         
         for item in components {
@@ -1268,7 +1266,6 @@ public class PreferencesSection: NSStackView {
     }
     
     public override func updateLayer() {
-        self.container.layer?.borderColor = NSColor.separatorColor.withAlphaComponent(0.05).cgColor
         self.container.layer?.backgroundColor = NSColor.quaternaryLabelColor.withAlphaComponent(0.025).cgColor
     }
     
