@@ -406,17 +406,6 @@ internal class HeaderView: NSStackView {
         self.titleView?.stringValue = localizedString(newTitle)
     }
     
-    override func draw(_ dirtyRect: NSRect) {
-        super.draw(dirtyRect)
-        
-        NSColor.gridColor.set()
-        let line = NSBezierPath()
-        line.move(to: NSPoint(x: 0, y: 0))
-        line.line(to: NSPoint(x: self.frame.width, y: 0))
-        line.lineWidth = 1
-        line.stroke()
-    }
-    
     @objc func openActivityMonitor() {
         guard let app = self.activityMonitor else { return }
         NSWorkspace.shared.open([], withApplicationAt: app, configuration: NSWorkspace.OpenConfiguration())
