@@ -1,3 +1,15 @@
+<div align="center" markdown="1">
+ <sup>Special thanks to:</sup>
+ <br><br>
+ <a href="https://go.warp.dev/stats">
+  <img width="400" alt="Warp sponsorship" src="https://github.com/user-attachments/assets/67ff3655-983d-43cf-9e99-51ce76afa3e7"/>
+ </a>
+ <br><br>
+ <a href="https://go.warp.dev/stats">Warp is built for coding with multiple AI agents</a>
+</div>
+
+---
+
 # Stats
 
 <a href="https://github.com/exelban/stats/releases"><p align="center"><img src="https://github.com/exelban/stats/raw/master/Stats/Supporting%20Files/Assets.xcassets/AppIcon.appiconset/icon_256x256.png" width="120"></p></a>
