@@ -454,7 +454,7 @@ public class PressureView: NSView {
         context.setShouldAntialias(true)
         
         context.setLineWidth(arcWidth)
-        context.setLineCap(.butt)
+        context.setLineCap(.round)
         
         let startAngle: CGFloat = -(1/4)*CGFloat.pi
         let endCircle: CGFloat = (7/4)*CGFloat.pi - (1/4)*CGFloat.pi

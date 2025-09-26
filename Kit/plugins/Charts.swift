@@ -673,7 +673,7 @@ public class HalfCircleGraphView: NSView {
         context.setShouldAntialias(true)
         
         context.setLineWidth(arcWidth)
-        context.setLineCap(.butt)
+        context.setLineCap(.round)
         
         var segments: [circle_segment] = [
             circle_segment(value: value, color: color)
