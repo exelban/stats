@@ -533,11 +533,13 @@ public class LimitReader: Reader<CPU_Limit> {
     }
 }
 
-public class AverageReader: Reader<[Double]> {
+public class AverageLoadReader: Reader<CPU_AverageLoad> {
     private let title: String = "CPU"
+    private var load: CPU_AverageLoad = CPU_AverageLoad()
     
     public override func setup() {
-        self.setInterval(60)
+        self.popup = false
+        self.setInterval(15)
     }
     
     public override func read() {
@@ -565,16 +567,19 @@ public class AverageReader: Reader<[Double]> {
         let str = line.trimmingCharacters(in: .whitespaces)
         let strFind = str.findAndCrop(pattern: "(\\d+(.|,)\\d+ *){3}$")
         let strArr = strFind.cropped.split(separator: " ")
-        guard strArr.count == 3 else {
-            return
-        }
+        guard strArr.count == 3 else { return }
         
         var list: [Double] = []
         strArr.forEach { (n: Substring) in
             let value = Double(n.replacingOccurrences(of: ",", with: ".")) ?? 0
             list.append(value)
         }
+        guard list.count == 3 else { return }
         
-        self.callback(list)
+        self.load.load1 = list[0]
+        self.load.load5 = list[1]
+        self.load.load15 = list[2]
+        
+        self.callback(self.load)
     }
 }

@@ -47,6 +47,17 @@ public struct CPU_Limit: Codable {
     var speed: Int = 0
 }
 
+public struct CPU_AverageLoad: Codable, RemoteType {
+    var load1: Double = 0
+    var load5: Double = 0
+    var load15: Double = 0
+    
+    public func remote() -> Data? {
+        let string = "1,1,\(self.load1),\(self.load5),\(self.load15)$"
+        return string.data(using: .utf8)
+    }
+}
+
 public class CPU: Module {
     private let popupView: Popup
     private let settingsView: Settings
@@ -58,7 +69,7 @@ public class CPU: Module {
     private var temperatureReader: TemperatureReader? = nil
     private var frequencyReader: FrequencyReader? = nil
     private var limitReader: LimitReader? = nil
-    private var averageReader: AverageReader? = nil
+    private var averageLoadReader: AverageLoadReader? = nil
     
     private var usagePerCoreState: Bool {
         Store.shared.bool(key: "\(self.config.name)_usagePerCore", defaultValue: false)
@@ -124,7 +135,7 @@ public class CPU: Module {
         self.processReader = ProcessReader(.CPU) { [weak self] value in
             self?.popupView.processCallback(value)
         }
-        self.averageReader = AverageReader(.CPU, popup: true) { [weak self] value in
+        self.averageLoadReader = AverageLoadReader(.CPU, popup: true) { [weak self] value in
             self?.popupView.averageCallback(value)
         }
         self.temperatureReader = TemperatureReader(.CPU, popup: true) { [weak self] value in
@@ -163,7 +174,7 @@ public class CPU: Module {
             self.temperatureReader,
             self.frequencyReader,
             self.limitReader,
-            self.averageReader
+            self.averageLoadReader
         ])
     }
     

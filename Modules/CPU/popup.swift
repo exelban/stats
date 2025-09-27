@@ -500,17 +500,17 @@ internal class Popup: PopupWrapper {
         })
     }
     
-    public func averageCallback(_ value: [Double]?) {
-        guard let value, value.count == 3 else { return }
+    public func averageCallback(_ value: CPU_AverageLoad?) {
+        guard let value else { return }
         
         DispatchQueue.main.async(execute: {
             if !(self.window?.isVisible ?? false) && self.initializedAverage {
                 return
             }
             
-            self.average1Field?.stringValue = "\(value[0])"
-            self.average5Field?.stringValue = "\(value[1])"
-            self.average15Field?.stringValue = "\(value[2])"
+            self.average1Field?.stringValue = "\(value.load1)"
+            self.average5Field?.stringValue = "\(value.load5)"
+            self.average15Field?.stringValue = "\(value.load15)"
             
             self.initializedAverage = true
         })
