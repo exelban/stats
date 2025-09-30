@@ -415,6 +415,8 @@
 "Download speed" = "Download";
 "Address" = "Address";
 "WiFi network" = "WiFi network";
+"Local IP changed from %@ to %@" = "A helyi IP címe megváltozott: %@ → %@";
+"Public IP changed from %@ to %@" = "A Publikus IP címe megváltozott: %@ → %@";
 
 // Battery
 "Level" = "Töltöttségi szint";

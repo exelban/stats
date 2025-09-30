@@ -415,6 +415,8 @@
 "Download speed" = "Завантаження";
 "Address" = "Адреса";
 "WiFi network" = "Мережа WiFi";
+"Local IP changed from %@ to %@" = "Локальний IP було змінено з %@ на %@";
+"Public IP changed from %@ to %@" = "Публічний IP було змінено з %@ на %@";
 
 // Battery
 "Level" = "Рівень заряду";

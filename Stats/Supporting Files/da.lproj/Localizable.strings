@@ -415,6 +415,8 @@
 "Download speed" = "Download";
 "Address" = "Address";
 "WiFi network" = "WiFi network";
+"Local IP changed from %@ to %@" = "Lokal IP-adresse ændret fra %@ til %@";
+"Public IP changed from %@ to %@" = "Offentlig IP-adresse ændret fra %@ til %@";
 
 // Battery
 "Level" = "Niveau";

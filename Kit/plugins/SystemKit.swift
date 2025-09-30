@@ -151,7 +151,7 @@ public struct device_s {
     public var model: model_s = model_s(
         name: localizedString("Unknown"),
         year: Calendar.current.component(.year, from: Date()),
-        type: .unknown,
+        type: .unknown
     )
     public var arch: String = "unknown"
     public var serialNumber: String? = nil

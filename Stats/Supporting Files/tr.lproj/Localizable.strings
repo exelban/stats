@@ -415,6 +415,8 @@
 "Download speed" = "Download";
 "Address" = "Address";
 "WiFi network" = "WiFi network";
+"Local IP changed from %@ to %@" = "Yerel IP %@ değerinden %@ değerine değişti";
+"Public IP changed from %@ to %@" = "Genel IP %@ değerinden %@ değerine değişti";
 
 // Battery
 "Level" = "Doluluk";
