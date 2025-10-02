@@ -140,6 +140,20 @@ public struct disk_s: Codable {
     public var size: Int64? = nil
 }
 
+public struct display_s: Codable {
+    public var id: String? = nil
+    public var name: String? = nil
+    public var resolution: CGSize? = nil
+    public var size: Double? = nil
+    public var refreshRate: Double? = nil
+    public var isBuiltIn: Bool? = nil
+    public var isMain: Bool? = nil
+    
+    public var vendor: String? = nil
+    public var model: String? = nil
+    public var serialNumber: String? = nil
+}
+
 public struct info_s {
     public var cpu: cpu_s? = nil
     public var ram: ram_s? = nil
@@ -160,6 +174,7 @@ public struct device_s {
     public var os: os_s? = nil
     public var info: info_s = info_s()
     public var platform: Platform? = nil
+    public var display: [display_s]? = nil
 }
 
 public class SystemKit {
@@ -205,6 +220,7 @@ public class SystemKit {
         self.device.info.gpu = self.getGPUInfo()
         self.device.info.disk = self.getDiskInfo()
         self.device.platform = self.getPlatform()
+        self.device.display = self.getDisplayInfo()
     }
     
     public func getModelID() -> String? {
@@ -701,6 +717,61 @@ public class SystemKit {
             }
         }
         return nil
+    }
+    
+    private func getDisplayInfo() -> [display_s]? {
+        var displays: [display_s] = []
+        
+        for screen in NSScreen.screens {
+            guard let displayID = screen.deviceDescription[NSDeviceDescriptionKey(rawValue: "NSScreenNumber")] as? CGDirectDisplayID else {
+                continue
+            }
+            
+            let mmSize = CGDisplayScreenSize(displayID)
+            let widthInches = mmSize.width / 25.4
+            let heightInches = mmSize.height / 25.4
+            let diagonal = sqrt(widthInches * widthInches + heightInches * heightInches)
+            
+            var display = display_s(
+                id: String(displayID),
+                size: diagonal.rounded(),
+                isBuiltIn: CGDisplayIsBuiltin(displayID) != 0,
+                isMain: CGDisplayIsMain(displayID) != 0,
+                vendor: String(CGDisplayVendorNumber(displayID)),
+                model: String(CGDisplayModelNumber(displayID)),
+                serialNumber: String(CGDisplaySerialNumber(displayID))
+            )
+            
+            if let mode = CGDisplayCopyDisplayMode(displayID) {
+                let pw = mode.pixelWidth
+                let ph = mode.pixelHeight
+                let width = pw > 0 ? pw : CGDisplayPixelsWide(displayID)
+                let height = ph > 0 ? ph : CGDisplayPixelsHigh(displayID)
+                display.resolution = CGSize(width: width, height: height)
+                let hz = mode.refreshRate
+                display.refreshRate = hz > 0 ? hz : nil
+            } else {
+                let width = CGDisplayPixelsWide(displayID)
+                let height = CGDisplayPixelsHigh(displayID)
+                if width > 0 && height > 0 {
+                    display.resolution = CGSize(width: width, height: height)
+                }
+            }
+            
+            display.name = screen.localizedName
+            
+            if display.name == nil {
+                if display.isMain == true {
+                    display.name = display.isBuiltIn == true ? "Built-in Display" : "External Display (Main)"
+                } else {
+                    display.name = display.isBuiltIn == true ? "Built-in Display" : "External Display"
+                }
+            }
+            
+            displays.append(display)
+        }
+        
+        return displays.isEmpty ? nil : displays
     }
 }
 

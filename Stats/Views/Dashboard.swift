@@ -158,6 +158,38 @@ class Dashboard: NSStackView {
         
         return value
     }
+    private var displaysValue: String {
+        guard let displays = SystemKit.shared.device.display else {
+            return localizedString("Unknown")
+        }
+        
+        var value = ""
+        for i in 0..<displays.count {
+            var row = displays[i].name != nil ? displays[i].name! : localizedString("Unknown")
+            if let size = displays[i].size {
+                let displaySize = String(format: "%.1f", size).replacingOccurrences(of: ".0", with: "")
+                row += " (\(displaySize)\")"
+            }
+            if displays[i].resolution != nil || displays[i].refreshRate != nil {
+                var details = ""
+                if let res = displays[i].resolution {
+                    details = "\(Int(res.width))x\(Int(res.height))"
+                }
+                if let rr = displays[i].refreshRate {
+                    if !details.isEmpty {
+                        details += ", "
+                    }
+                    details += "\(String(format: "%.0f", rr))Hz"
+                }
+                if !details.isEmpty {
+                    row += "\n\(details)"
+                }
+            }
+            value += "\(row)\(i == displays.count-1 ? "" : "\n")"
+        }
+        
+        return value
+    }
     private var uptimeValue: String {
         let form = DateComponentsFormatter()
         form.maximumUnitCount = 2
@@ -191,10 +223,11 @@ class Dashboard: NSStackView {
         scrollView.stackView.addArrangedSubview(self.deviceView())
         
         scrollView.stackView.addArrangedSubview(PreferencesSection([
-            PreferencesRow(localizedString("Processor"), "", component: textView(self.processorValue)),
-            PreferencesRow(localizedString("Memory"), component: textView(self.memoryValue)),
-            PreferencesRow(localizedString("Graphics"), component: textView(self.graphicsValue)),
-            PreferencesRow(localizedString("Disks"), component: textView(self.disksValue))
+            PreferencesRow(localizedString("Processor"), "", component: textView(self.processorValue, alignment: .right)),
+            PreferencesRow(localizedString("Memory"), component: textView(self.memoryValue, alignment: .right)),
+            PreferencesRow(localizedString("Graphics"), component: textView(self.graphicsValue, alignment: .right)),
+            PreferencesRow(localizedString("Disks"), component: textView(self.disksValue, alignment: .right)),
+            PreferencesRow(localizedString("Displays"), "", component: textView(self.displaysValue, alignment: .right))
         ]))
         
         scrollView.stackView.addArrangedSubview(PreferencesSection([

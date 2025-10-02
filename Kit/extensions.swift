@@ -350,11 +350,12 @@ public extension NSView {
         return button
     }
     
-    func textView(_ value: String) -> NSTextField {
+    func textView(_ value: String, alignment: NSTextAlignment = .left) -> NSTextField {
         let field: NSTextField = TextView()
         field.font = NSFont.systemFont(ofSize: 13, weight: .regular)
         field.stringValue = value
         field.isSelectable = true
+        field.alignment = alignment
         return field
     }
     
