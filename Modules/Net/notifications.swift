@@ -119,7 +119,14 @@ class Notifications: NotificationsWrapper {
         if self.localIPState {
             let addr = value.laddr.v4 ?? value.laddr.v6
             if addr != self.localIP {
-                self.newNotification(id: self.localID, title: localizedString("Local IP changed"), subtitle: nil)
+                self.newNotification(
+                    id: self.localID,
+                    title: String(
+                        format: NSLocalizedString("Local IP changed from %@ to %@", comment: ""),
+                        addr ?? "unknown",
+                        self.localIP  ?? "unknown"
+                    ),
+                    subtitle: nil)
             }
             self.localIP = addr
         }
@@ -127,7 +134,15 @@ class Notifications: NotificationsWrapper {
         if self.publicIPState {
             let addr = value.raddr.v4 ?? value.raddr.v6
             if addr != self.publicIP {
-                self.newNotification(id: self.publicID, title: localizedString("Public IP changed"), subtitle: nil)
+                self.newNotification(
+                    id: self.publicID,
+                    title: String(
+                        format: NSLocalizedString("Public IP changed from %@ to %@", comment: ""),
+                        addr ?? "unknown",
+                        self.publicIP ?? "unknown"
+                    ),
+                    subtitle: nil
+                )
             }
             self.publicIP = addr
         }

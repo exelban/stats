@@ -415,6 +415,8 @@
 "Download speed" = "Tốc độ tải xuống";
 "Address" = "Address";
 "WiFi network" = "WiFi network";
+"Local IP changed from %@ to %@" = "Địa chỉ IP cục bộ đã thay đổi từ %@ sang %@";
+"Public IP changed from %@ to %@" = "Địa chỉ IP công khai đã thay đổi từ %@ sang %@";
 
 // Battery
 "Level" = "Mức";

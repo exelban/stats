@@ -415,6 +415,8 @@
 "Download speed" = "Download";
 "Address" = "Address";
 "WiFi network" = "WiFi network";
+"Local IP changed from %@ to %@" = "Adresa IP locală s-a schimbat de la %@ la %@";
+"Public IP changed from %@ to %@" = "Adresa IP publică s-a schimbat de la %@ la %@";
 
 // Battery
 "Level" = "Nivel";
