@@ -415,8 +415,6 @@
 "Download speed" = "Download";
 "Address" = "Address";
 "WiFi network" = "WiFi network";
-"Local IP changed from %@ to %@" = "로컬 IP가 %@에서 %@로 변경되었습니다";
-"Public IP changed from %@ to %@" = "공용 IP가 %@에서 %@로 변경되었습니다";
 
 // Battery
 "Level" = "잔량";

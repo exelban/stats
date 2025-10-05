@@ -415,8 +415,6 @@
 "Download speed" = "Download";
 "Address" = "Address";
 "WiFi network" = "WiFi network";
-"Local IP changed from %@ to %@" = "Het lokale IP is gewijzigd van %@ naar %@";
-"Public IP changed from %@ to %@" = "Het Openbaar IP is gewijzigd van %@ naar %@";
 
 // Battery
 "Level" = "Niveau";

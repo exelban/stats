@@ -415,8 +415,6 @@
 "Download speed" = "Download";
 "Address" = "Address";
 "WiFi network" = "WiFi network";
-"Local IP changed from %@ to %@" = "लोकल आईपी %@ से %@ में बदल गया";
-"Public IP changed from %@ to %@" = "पब्लिक आईपी %@ से %@ में बदल गया";
 
 // Battery
 "Level" = "स्तर";

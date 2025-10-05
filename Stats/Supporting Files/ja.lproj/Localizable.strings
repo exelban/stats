@@ -415,8 +415,6 @@
 "Download speed" = "Download";
 "Address" = "Address";
 "WiFi network" = "WiFi network";
-"Local IP changed from %@ to %@" = "ローカルIPが%@から%@に変更されました";
-"Public IP changed from %@ to %@" = "パブリックIPが%@から%@に変更されました";
 
 // Battery
 "Level" = "充電残量";

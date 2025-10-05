@@ -415,8 +415,6 @@
 "Download speed" = "Download";
 "Address" = "Address";
 "WiFi network" = "WiFi network";
-"Local IP changed from %@ to %@" = "Kohalik IP muutus väärtuselt %@ väärtusele %@";
-"Public IP changed from %@ to %@" = "Avalik IP muutus väärtuselt %@ väärtusele %@";
 
 // Battery
 "Level" = "Tase";

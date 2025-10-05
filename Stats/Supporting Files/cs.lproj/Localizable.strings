@@ -415,8 +415,6 @@
 "Download speed" = "Download";
 "Address" = "Address";
 "WiFi network" = "WiFi network";
-"Local IP changed from %@ to %@" = "Místní IP adresa byla změněna z %@ na %@";
-"Public IP changed from %@ to %@" = "Veřejná IP adresa byla změněna z %@ na %@";
 
 // Battery
 "Level" = "Úroveň";

@@ -415,8 +415,6 @@
 "Download speed" = "下载速度";
 "Address" = "地址";
 "WiFi network" = "WiFi 网络";
-"Local IP changed from %@ to %@" = "本地 IP 已从 %@ 更改为 %@";
-"Public IP changed from %@ to %@" = "公网 IP 已从 %@ 更改为 %@";
 
 // Battery
 "Level" = "电量";

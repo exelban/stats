@@ -415,8 +415,6 @@
 "Download speed" = "Latausnopeus";
 "Address" = "Address";
 "WiFi network" = "WiFi network";
-"Local IP changed from %@ to %@" = "Paikallinen IP muuttui arvosta %@ arvoon %@";
-"Public IP changed from %@ to %@" = "Julkinen IP muuttui arvosta %@ arvoon %@";
 
 // Battery
 "Level" = "Taso";

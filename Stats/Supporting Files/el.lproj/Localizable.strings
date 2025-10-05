@@ -415,8 +415,6 @@
 "Download speed" = "Download";
 "Address" = "Address";
 "WiFi network" = "WiFi network";
-"Local IP changed from %@ to %@" = "Η τοπική διεύθυνση IP άλλαξε από %@ σε %@";
-"Public IP changed from %@ to %@" = "Η Δημόσια διεύθυνση IP άλλαξε από %@ σε %@";
 
 // Battery
 "Level" = "Επίπεδο";

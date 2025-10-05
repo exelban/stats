@@ -415,8 +415,6 @@
 "Download speed" = "Prenos";
 "Address" = "Naslov";
 "WiFi network" = "WiFi network";
-"Local IP changed from %@ to %@" = "Lokalni IP se je spremenil iz %@ v %@";
-"Public IP changed from %@ to %@" = "Javni IP se je spremenil iz %@ v %@";
 
 // Battery
 "Level" = "Raven";
