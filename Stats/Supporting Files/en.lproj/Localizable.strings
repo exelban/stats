@@ -28,6 +28,8 @@
 "Open Bluetooth settings" = "Open bluetooth settings";
 "Clock" = "Clock";
 "Open Clock settings" = "Open clock settings";
+"Ports" = "Ports";
+"Open Ports settings" = "Open ports settings";
 
 // Words
 "Unknown" = "Unknown";
@@ -501,3 +503,15 @@
 "Pink" = "Pink";
 "Teal" = "Teal";
 "Indigo" = "Indigo";
+
+// Ports
+"Active Ports" = "Active Ports";
+"Port" = "Port";
+"Process" = "Process";
+"Action" = "Action";
+"Kill" = "Kill";
+"Refresh" = "Refresh";
+"Kill Process" = "Kill Process";
+"Are you sure you want to kill process '%@' (PID: %d) on port %d?" = "Are you sure you want to kill process '%@' (PID: %d) on port %d?";
+"Error" = "Error";
+"Failed to kill process. You may need administrator privileges." = "Failed to kill process. You may need administrator privileges.";

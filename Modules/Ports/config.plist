@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Name</key>
+	<string>Ports</string>
+	<key>State</key>
+	<true/>
+	<key>Symbol</key>
+	<string>network</string>
+	<key>Widgets</key>
+	<dict>
+		<key>mini</key>
+		<dict>
+			<key>Default</key>
+			<true/>
+			<key>Order</key>
+			<integer>0</integer>
+		</dict>
+	</dict>
+	<key>Settings</key>
+	<dict>
+		<key>popup</key>
+		<true/>
+	</dict>
+</dict>
+</plist>

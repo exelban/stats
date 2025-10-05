@@ -28,6 +28,8 @@
 "Open Bluetooth settings" = "Bluetooth ayarlarını aç";
 "Clock" = "Saat";
 "Open Clock settings" = "Saat ayarlarını aç";
+"Ports" = "Portlar";
+"Open Ports settings" = "Port ayarlarını aç";
 
 // Words
 "Unknown" = "Bilinmeyen";
@@ -501,3 +503,15 @@
 "Pink" = "Pembe";
 "Teal" = "Camgöbeği";
 "Indigo" = "Çivit";
+
+// Ports
+"Active Ports" = "Aktif Portlar";
+"Port" = "Port";
+"Process" = "İşlem";
+"Action" = "Eylem";
+"Kill" = "Kapat";
+"Refresh" = "Yenile";
+"Kill Process" = "İşlemi Kapat";
+"Are you sure you want to kill process '%@' (PID: %d) on port %d?" = "'%@' işlemini (PID: %d) port %d üzerinde kapatmak istediğinizden emin misiniz?";
+"Error" = "Hata";
+"Failed to kill process. You may need administrator privileges." = "İşlem kapatılamadı. Yönetici yetkilerine ihtiyacınız olabilir.";

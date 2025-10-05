@@ -66,6 +66,7 @@ public enum ModuleType: Int {
     case battery
     case bluetooth
     case clock
+    case Ports
     
     case combined
     
@@ -80,6 +81,7 @@ public enum ModuleType: Int {
         case .battery: return "Battery"
         case .bluetooth: return "Bluetooth"
         case .clock: return "Clock"
+        case .Ports: return "Ports"
         case .combined: return ""
         }
     }
