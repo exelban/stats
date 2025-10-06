@@ -108,8 +108,13 @@ internal class Settings: NSStackView, Settings_v, NSTableViewDelegate, NSTableVi
         self.addArrangedSubview(separator)
         self.addArrangedSubview(self.footer())
         
+        var hight: CGFloat = 296
+        if #available(macOS 26.0, *) {
+            hight = 290
+        }
+        
         NSLayoutConstraint.activate([
-            self.scrollView.heightAnchor.constraint(equalToConstant: 296)
+            self.scrollView.heightAnchor.constraint(equalToConstant: hight)
         ])
     }
     
