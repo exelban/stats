@@ -52,7 +52,7 @@ open class Reader<T: Codable>: NSObject, ReaderInternal_p {
     }
     
     public var interval: Double? = nil
-    public var defaultInterval: Double = 1
+    public var defaultInterval: Int = 1
     public var optional: Bool = false
     public var popup: Bool = false
     
@@ -96,10 +96,8 @@ open class Reader<T: Codable>: NSObject, ReaderInternal_p {
     
     public func initStoreValues(title: String) {
         guard self.interval == nil else { return }
-        let updateIntervalString = Store.shared.string(key: "\(title)_updateInterval", defaultValue: "\(self.defaultInterval)")
-        if let updateInterval = Double(updateIntervalString) {
-            self.interval = updateInterval
-        }
+        let updateInterval = Store.shared.int(key: "\(title)_updateInterval", defaultValue: self.defaultInterval)
+        self.interval = Double(updateInterval)
     }
     
     public func callback(_ value: T?) {

@@ -332,6 +332,10 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
         
         guard self.usage.interface != nil else { return }
         
+        if self.usage.wifiDetails.ssid != nil && (self.usage.wifiDetails.ssid == "" || self.usage.wifiDetails.ssid == "<redacted>") {
+            self.usage.wifiDetails.ssid = nil
+        }
+        
         if self.usage.connectionType == .wifi && self.usage.wifiDetails.ssid == nil || self.usage.wifiDetails.ssid == "" {
             self.getWiFiDetails()
         }
@@ -341,6 +345,11 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
         if let interface = CWWiFiClient.shared().interface(withName: self.interfaceID) {
             if let ssid = interface.ssid() {
                 self.usage.wifiDetails.ssid = ssid
+            } else if let cfg = interface.configuration(),
+                      let set = (cfg.value(forKey: "networkProfiles") as? NSOrderedSet),
+                      let first = set.firstObject as? CWNetworkProfile,
+                      let raw = first.ssid, !raw.isEmpty {
+                self.usage.wifiDetails.ssid = raw.replacingOccurrences(of: "’", with: "'").replacingOccurrences(of: "‘", with: "'").trimmingCharacters(in: .whitespacesAndNewlines)
             }
             if let bssid = interface.bssid() {
                 self.usage.wifiDetails.bssid = bssid

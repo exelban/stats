@@ -82,6 +82,9 @@ internal class UsageReader: Reader<Battery_Usage> {
                 
                 self.usage.currentCapacity = self.getIntValue("AppleRawCurrentCapacity" as CFString) ?? 0
                 self.usage.designedCapacity = self.getIntValue("DesignCapacity" as CFString) ?? 1
+                if self.usage.designedCapacity == 0 {
+                    self.usage.designedCapacity = 1
+                }
                 self.usage.maxCapacity = self.getIntValue((isARM ? "AppleRawMaxCapacity" : "MaxCapacity") as CFString) ?? 1
                 if !isARM {
                     self.usage.state = list[kIOPSBatteryHealthKey] as? String
