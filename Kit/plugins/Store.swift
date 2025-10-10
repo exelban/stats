@@ -46,7 +46,9 @@ public class Store {
     }
     
     public func exist(key: String) -> Bool {
-        return self.getValue(for: key, type: Any.self) != nil
+        return self.cacheQueue.sync {
+            self.cache.keys.contains(key) || self.defaults.object(forKey: key) != nil
+        }
     }
     
     public func remove(_ key: String) {
