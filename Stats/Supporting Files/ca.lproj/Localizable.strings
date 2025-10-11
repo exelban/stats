@@ -178,6 +178,7 @@
 "Number of e-cores" = "%0 nuclis d'eficiència";
 "Number of p-cores" = "%0 nuclis de rendiment";
 "Disks" = "Disks";
+"Display" = "Display";
 
 // Update
 "The latest version of Stats installed" = "L'última versió d'Stats està instal·lada";
@@ -415,6 +416,10 @@
 "Download speed" = "Velocitat de baixada";
 "Address" = "Address";
 "WiFi network" = "WiFi network";
+"Local IP changed" = "Local IP has changed";
+"Public IP changed" = "Public IP has changed";
+"Previous IP" = "Previous IP: %0";
+"New IP" = "New IP: %0";
 
 // Battery
 "Level" = "Nivell";

@@ -178,6 +178,7 @@
 "Number of e-cores" = "%0 能效核心";
 "Number of p-cores" = "%0 性能核心";
 "Disks" = "Disks";
+"Display" = "Display";
 
 // Update
 "The latest version of Stats installed" = "已安装最新版 Stats";
@@ -415,6 +416,10 @@
 "Download speed" = "下载速度";
 "Address" = "地址";
 "WiFi network" = "WiFi 网络";
+"Local IP changed" = "Local IP has changed";
+"Public IP changed" = "Public IP has changed";
+"Previous IP" = "Previous IP: %0";
+"New IP" = "New IP: %0";
 
 // Battery
 "Level" = "电量";

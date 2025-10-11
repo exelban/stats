@@ -227,7 +227,7 @@ class Dashboard: NSStackView {
             PreferencesRow(localizedString("Memory"), component: textView(self.memoryValue, alignment: .right)),
             PreferencesRow(localizedString("Graphics"), component: textView(self.graphicsValue, alignment: .right)),
             PreferencesRow(localizedString("Disks"), component: textView(self.disksValue, alignment: .right)),
-            PreferencesRow(localizedString("Displays"), "", component: textView(self.displaysValue, alignment: .right))
+            PreferencesRow(localizedString("Display"), "", component: textView(self.displaysValue, alignment: .right))
         ]))
         
         scrollView.stackView.addArrangedSubview(PreferencesSection([

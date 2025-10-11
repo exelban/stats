@@ -178,6 +178,7 @@
 "Number of e-cores" = "%0 енергоефективних ядер";
 "Number of p-cores" = "%0 високопродуктивних ядер";
 "Disks" = "Диски";
+"Display" = "Монітор";
 
 // Update
 "The latest version of Stats installed" = "Встановлено останню версію";
@@ -415,6 +416,10 @@
 "Download speed" = "Завантаження";
 "Address" = "Адреса";
 "WiFi network" = "Мережа WiFi";
+"Local IP changed" = "Локальна IP-адреса була змінена";
+"Public IP changed" = "Публічна IP-адреса була змінена";
+"Previous IP" = "Попередня IP-адреса: %0";
+"New IP" = "Нова IP-адреса: %0";
 
 // Battery
 "Level" = "Рівень заряду";

@@ -178,6 +178,7 @@
 "Number of e-cores" = "%0 e-ydintä";
 "Number of p-cores" = "%0 p-ydintä";
 "Disks" = "Disks";
+"Display" = "Display";
 
 // Update
 "The latest version of Stats installed" = "Stats on päivitetty viimeisimpään versioon";
@@ -415,6 +416,10 @@
 "Download speed" = "Latausnopeus";
 "Address" = "Address";
 "WiFi network" = "WiFi network";
+"Local IP changed" = "Local IP has changed";
+"Public IP changed" = "Public IP has changed";
+"Previous IP" = "Previous IP: %0";
+"New IP" = "New IP: %0";
 
 // Battery
 "Level" = "Taso";

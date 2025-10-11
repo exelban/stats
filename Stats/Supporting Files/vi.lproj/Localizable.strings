@@ -178,6 +178,7 @@
 "Number of e-cores" = "%0 nhân tiết kiệm";
 "Number of p-cores" = "%0 nhân hiệu năng";
 "Disks" = "Disks";
+"Display" = "Display";
 
 // Update
 "The latest version of Stats installed" = "Phiên bản Stats mới nhất đã được cài đặt";
@@ -415,6 +416,10 @@
 "Download speed" = "Tốc độ tải xuống";
 "Address" = "Address";
 "WiFi network" = "WiFi network";
+"Local IP changed" = "Local IP has changed";
+"Public IP changed" = "Public IP has changed";
+"Previous IP" = "Previous IP: %0";
+"New IP" = "New IP: %0";
 
 // Battery
 "Level" = "Mức";
