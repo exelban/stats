@@ -208,8 +208,8 @@ internal class CapacityReader: Reader<Disks> {
         let data = NSData(bytes: temperatures, length: 2)
         data.getBytes(&temperature, length: 2)
         
-        let dataUnitsRead = self.extractUInt64(smartData.data_units_read)
-        let dataUnitsWritten = self.extractUInt64(smartData.data_units_written)
+        let dataUnitsRead = self.extractUInt128(smartData.data_units_read)
+        let dataUnitsWritten = self.extractUInt128(smartData.data_units_written)
         let bytesPerDataUnit: Int64 = 512 * 1000
         
         let powerCycles = withUnsafeBytes(of: smartData.power_cycles) { $0.load(as: UInt32.self) }
@@ -225,10 +225,20 @@ internal class CapacityReader: Reader<Disks> {
         )
     }
     
-    private func extractUInt64(_ tuple: (UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8)) -> Int64 {
-        let byteArray: [UInt8] = [tuple.0, tuple.1, tuple.2, tuple.3, tuple.4, tuple.5, tuple.6, tuple.7]
-        let uint64Value = byteArray.withUnsafeBytes { $0.load(as: UInt64.self) }
-        return uint64Value > UInt64(Int64.max) ? Int64.max : Int64(bitPattern: uint64Value)
+    private func extractUInt128(_ tuple: (UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8)) -> Int64 {
+        let byteArray: [UInt8] = [
+            tuple.0, tuple.1, tuple.2, tuple.3, tuple.4, tuple.5, tuple.6, tuple.7,
+            tuple.8, tuple.9, tuple.10, tuple.11, tuple.12, tuple.13, tuple.14, tuple.15
+        ]
+        
+        let uint64Value = byteArray.prefix(8).withUnsafeBytes { $0.load(as: UInt64.self) }
+        let hasHigherBytes = byteArray.suffix(8).contains(where: { $0 != 0 })
+        
+        if hasHigherBytes || uint64Value > UInt64(Int64.max) {
+            return Int64.max
+        }
+        
+        return Int64(uint64Value)
     }
 }
 
