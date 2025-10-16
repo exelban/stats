@@ -203,6 +203,10 @@ public class LineChartView: NSView {
         if !transparent {
             gradientColor = color.withAlphaComponent(0.8)
         }
+        let gradient = NSGradient(colors: [
+            gradientColor.withAlphaComponent(0.5),
+            gradientColor.withAlphaComponent(1.0)
+        ])
         
         let offset: CGFloat = 1 / (NSScreen.main?.backingScaleFactor ?? 1)
         let height: CGFloat = self.frame.height - offset
@@ -262,8 +266,12 @@ public class LineChartView: NSView {
             path.line(to: CGPoint(x: linePoints[linePoints.count-1].x, y: zero))
             path.line(to: CGPoint(x: linePoints[0].x, y: zero))
             path.close()
-            gradientColor.set()
-            path.fill()
+            if let gradient {
+                gradient.draw(in: path, angle: 90)
+            } else {
+                gradientColor.set()
+                path.fill()
+            }
         }
         
         if minMax {
