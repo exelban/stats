@@ -10,8 +10,6 @@
 //
 
 #include <libproc.h>
-#include <IOKit/IOKitLib.h>
-#include <IOKit/IOCFPlugIn.h>
 #include <IOKit/hidsystem/IOHIDEventSystemClient.h>
 
 struct nvme_smart_log {
