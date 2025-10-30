@@ -1,0 +1,505 @@
+//
+//  Localizable.strings
+//  Stats (Tamil Translation)
+//  Created By Navaneetha Krishnan / நவநீத கிருஷ்ணன்
+//
+
+/* Modules */
+"CPU" = "சிபியூ";
+"Open CPU settings" = "சிபியூ அமைப்புகளை திறக்கவும்";
+"GPU" = "ஜிபியூ";
+"Open GPU settings" = "ஜிபியூ அமைப்புகளை திறக்கவும்";
+"RAM" = "RAM";
+"Open RAM settings" = "RAM அமைப்புகளை திறக்கவும்";
+"Disk" = "வட்டகம்";
+"Open Disk settings" = "வட்டகம் அமைப்புகளை திறக்கவும்";
+"Sensors" = "சென்சார்கள்";
+"Open Sensors settings" = "சென்சார் அமைப்புகளை திறக்கவும்";
+"Network" = "பிணையம்";
+"Open Network settings" = "பிணைய அமைப்புகளை திறக்கவும்";
+"Battery" = "மின்கலம்";
+"Open Battery settings" = "மின்கலம் அமைப்புகளை திறக்கவும்";
+"Bluetooth" = "ப்ளூடூத்";
+"Open Bluetooth settings" = "ப்ளூடூத் அமைப்புகளை திறக்கவும்";
+"Clock" = "கடிகாரம்";
+"Open Clock settings" = "கடிகாரம் அமைப்புகளை திறக்கவும்";
+
+/* Words */
+"Unknown" = "தெரியவில்லை";
+"Version" = "பதிப்பு";
+"Processor" = "செயலி";
+"Memory" = "நினைவகம்";
+"Graphics" = "படக்காட்சிகள்";
+"Close" = "மூடு";
+"Download" = "பதிவிறக்க";
+"Install" = "நிறுவு";
+"Cancel" = "ரத்து செய்";
+"Unavailable" = "கிடைக்கவில்லை";
+"Yes" = "ஆம்";
+"No" = "இல்லை";
+"Automatic" = "தானியங்கி";
+"Manual" = "கையேடு";
+"None" = "அதுவும் இல்லை";
+"Dots" = "புள்ளிகள்";
+"Arrows" = "அம்புகள்";
+"Characters" = "எழுத்துக்கள்";
+"Short" = "குறும்";
+"Long" = "நீளம்";
+"Statistics" = "புள்ளி விவரங்கள்";
+"Max" = "அதிகபட்சம்";
+"Min" = "குறைந்தபட்சம்";
+"Reset" = "மீட்டமை";
+"Alignment" = "சரிசெய்தல்";
+"Left alignment" = "இடது";
+"Center alignment" = "மையம்";
+"Right alignment" = "வலது";
+"Dashboard" = "டாஷ்போர்டு";
+"Enabled" = "செயல்படுத்தப்பட்டவை";
+"Disabled" = "மூடப்பட்டது";
+"Silent" = "அமைதியான";
+"Units" = "அலகுகள்";
+"Fans" = "அரைவட்டிகள்";
+"Scaling" = "அளவீடு";
+"Linear" = "நேரியல்";
+"Square" = "வர்க்கம்";
+"Cube" = "க்யூப்";
+"Logarithmic" = "தொலைவியல்";
+"Fixed scale" = "நிலையான அளவீடு";
+"Cores" = "கோர்கள்";
+"Settings" = "அமைப்புகள்";
+"Name" = "பெயர்";
+"Format" = "வடிவம்";
+"Turn off" = "கழுத்து";
+"Normal" = "சாதாரணம்";
+"Warning" = "எச்சரிக்கை";
+"Critical" = "கிட்டத்தட்ட";
+"Usage" = "பயன்பாடு";
+"2 minutes" = "2 நிமிடம்";
+"3 minutes" = "3 நிமிடம்";
+"10 minutes" = "10 நிமிடம்";
+"Import" = "ஓதுக";
+"Export" = "ஏற்றுமதி";
+"Separator" = "பிரிப்பான்";
+"Read" = "படிக்கவும்";
+"Write" = "எழுது";
+"Frequency" = "அதிர்வெண்";
+"Save" = "சேமி";
+"Run" = "நடப்பி";
+"Stop" = "நிறுத்து";
+"Uninstall" = "அந்‌இன்ஸ்டால்";
+"1 sec" = "1 நி";
+"2 sec" = "2 நி";
+"3 sec" = "3 நி";
+"5 sec" = "5 நி";
+"10 sec" = "10 நி";
+"15 sec" = "15 நி";
+"30 sec" = "30 நி";
+"60 sec" = "60 நி";
+
+/* Setup */
+"Stats Setup" = "Stats அமைப்பு";
+"Previous" = "முந்தைய";
+"Previous page" = "முந்தைய பக்கம்";
+"Next" = "அடுத்தது";
+"Next page" = "அடுத்த பக்கம்";
+"Finish" = "முடித்து வை";
+"Finish setup" = "அமைப்பை முடிக்கவும்";
+"Welcome to Stats" = "Stats-இல் வரவேற்கிறோம்";
+"welcome_message" = "Stats-ஐப் பயன்படுத்துவதற்கு நன்றி — இது உங்கள் மெனு பட்டைக்கான ஒரு இலவச திறந்த மூல macOS கண்காணிப்பான்.";
+"Start the application automatically when starting your Mac" = "Mac-ஐ துவங்கும்போது பயன்பாட்டை தானாகத் தொடங்கு";
+"Do not start the application automatically when starting your Mac" = "Mac-ஐ துவங்கும் போது பயன்பாட்டை தானாகத் தொடங்க வேண்டாம்";
+"Do everything silently in the background (recommended)" = "தனியார்வாயில் அனைத்தையும் அமைதியாக பின்னணியில் இயக்குக (பரிந்துரை செயபபடி)";
+"Check for a new version on startup" = "துவக்கத்தில் புதிய பதிப்புக்கு சோதனை செய்";
+"Check for a new version every day (once a day)" = "ஒவ்வொரு நாளும் (ஒரு முறை நாள்) புதிய பதிப்பைச் சோதிக்கவும்";
+"Check for a new version every week (once a week)" = "ஒவ்வொரு வாரமும் (ஒரு முறை) புதிய பதிப்பைச் சோதிக்கவும்";
+"Check for a new version every month (once a month)" = "ஒவ்வொரு மாதமும் (ஒரு முறை) புதிய பதிப்பைச் சோதிக்கவும்";
+"Never check for updates (not recommended)" = "பதிப்புகளைச் சோதிக்குவது இல்லை (பரிந்துரைக்கப்படவில்லை)";
+"Anonymous telemetry for better development decisions" = "மிகவும் சிறந்த டெவலப்பர் முடிவுகளுக்காக அனான்யமஸ் டெலிமெட்ரி";
+"Share anonymous telemetry data" = "அனான்யமஸ் டெலிமெட்ரி தரவைப் பகிர்க";
+"Do not share anonymous telemetry data" = "அனான்யமஸ் டெலிமெட்ரி தரவைப் பகிர்வதில்லை";
+"The configuration is completed" = "கொள்கலன் முடிந்தது";
+"finish_setup_message" = "அனைத்து அமைப்புகளும் செய்யப்பட்டன!\nStats ஒரு திறந்த மூல கருவி; இது இலவசமாக இருக்கும். \nஉப்பயோகப்படுத்தினால், திட்டத்தை ஆதரிக்க நீங்கள் உதவலாம் — அது எப்போதும் பாராட்டப்படுகிறத. ";
+
+/* Alerts */
+"New version available" = "புதிய பதிப்பு கிடைக்கும்";
+"Click to install the new version of Stats" = "Stats-இன் புதிய பதிப்பை நிறுவ கிளிக் செய்க";
+"Successfully updated" = "வெற்றி ரீதியாக புதுப்பிக்கப்பட்டது";
+"Stats was updated to v" = "Stats v-க்கு புதுப்பிக்கப்பட்டது";
+"Reset settings text" = "அனைத்து பயன்பாட்டு அமைப்புகளும் மீட்டமைக்கப்பட்டு, பயன்பாடு மறுதொடக்கம் செய்யப்படும். நீங்கள் இதை நிச்சயமாக விரும்புகிறீர்களா?";
+"Support text" = "Stats-ஐ பயன்படுத்தியதற்கு நன்றி!\n\nஇந்த திறந்த மூல திட்டத்தை பராமரிக்க மற்றும் மேம்படுத்த தனிநபர் மற்றும் வளங்கள் தேவைப்படுகிறது. நீங்கள் ஆதரிக்க விரும்பினால், அது மிகவும் உதவும்.\n\nStats உங்களுக்கு பயனுள்ளதாக இருந்தால், தயவுசெய்து கொடுக்க உதவுங்கள்!";
+
+/* Settings */
+"Open Activity Monitor" = "செயல்பாட்டு கண்காணிப்பு-ஐ திறக்கவும்";
+"Report a bug" = "பிழையைப் புகாரளிக்கவும்";
+"Support the application" = "பயன்பாட்டுக்கு ஆதரவு கொடு";
+"Close application" = "பயன்பாட்டை மூடு";
+"Open application settings" = "பயன்பாட்டு அமைப்புகளை திறக்கவும்";
+"Open dashboard" = "டாஷ்போர்டை திறக்கவும்";
+"No notifications available in this module" = "இந்த மொத்தத்தில் அறிவிப்புகள் இல்லை";
+"Open Calendar" = "கேலண்டரை திறக்கவும்";
+"Toggle the module" = "மொத்தத்தை மாற்றவும்";
+
+/* Application settings */
+"Update application" = "பயன்பாட்டை புதுப்பிக்கவும்";
+"Check for updates" = "புதுப்பிப்புகளைச் சோதிக்கவும்";
+"At start" = "துவக்கத்தில்";
+"Once per day" = "பதினொன்று நாள் ஒன்றுக்கு";
+"Once per week" = "ஒரு வாரத்திற்கு ஒரு முறை";
+"Once per month" = "ஒரு மாதத்திற்கு ஒரு முறை";
+"Never" = "ஒருபோதும்";
+"Check for update" = "புதுப்பிப்பிற்குச் சரிபார்க்கவும்";
+"Show icon in dock" = "டாக்கில் ஐகானை காட்டவும்";
+"Start at login" = "உள்நுழையும்போது தொடங்கு";
+"Build number" = "பில்ட் எண்";
+"Import settings" = "அமைப்புகளை இறக்குமதி செய்";
+"Export settings" = "அமைப்புகள் ஏற்றுமதி செய்";
+"Reset settings" = "அமைப்புகளை மீட்டமை";
+"Pause the Stats" = "Stats-ஐ இடைநிறுத்து";
+"Resume the Stats" = "Stats-ஐ மீண்டும் துவங்கு";
+"Combined modules" = "ஒன்றிணைந்த மொத்தங்கள்";
+"Combined details" = "ஒன்றிணைந்த விவரங்கள்";
+"Spacing" = "இடைவெளி";
+"Share anonymous telemetry" = "அனான்யமஸ் டெலிமெட்ரி பகிர்";
+"Choose file" = "கோப்பை தேர்ந்தெடு";
+"Stress tests" = "மறுஆக்கப் பரிசோதனைகள்";
+
+/* Dashboard */
+"Serial number" = "சிறியல் எண்";
+"Model identifier" = "மாதிரி அடையாளம்";
+"Production year" = "உற்பத்தி ஆண்டு";
+"Uptime" = "ஊப்டைம்";
+"Number of cores" = "%0 கோர்கள்";
+"Number of threads" = "%0 த்ரெட்கள்";
+"Number of e-cores" = "%0 திறன் கோர்கள்";
+"Number of p-cores" = "%0 செயல்திறன் கோர்கள்";
+"Disks" = "வட்டகங்கள்";
+"Display" = "காட்சி";
+
+/* Update */
+"The latest version of Stats installed" = "Stats-இன் சமீபத்திய பதிப்பு நிறுவப்பட்டுவிட்டது";
+"Downloading..." = "பதிவிறக்கம் செய்கிறோம்...";
+"Current version: " = "தற்போதைய பதிப்பு: ";
+"Latest version: " = "சமீபத்திய பதிப்பு: ";
+
+/* Widgets */
+"Color" = "நிறம்";
+"Label" = "லேபல்";
+"Box" = "பாக்ஸ்";
+"Frame" = "கட்ட/frame";
+"Value" = "மதிப்பு";
+"Colorize" = "நிறமிடு";
+"Colorize value" = "மதிப்பை நிறமிடு";
+"Additional information" = "கூடுதல் தகவல்";
+"Reverse values order" = "மதிப்புகளின் வரிசையை மாற்று";
+"Base" = "அடித்தளம்";
+"Display mode" = "காட்சி முறை";
+"One row" = "ஒரு வரி";
+"Two rows" = "இரு வரிகள்";
+"Mini widget" = "மினி";
+"Line chart widget" = "லைன் சார்ட்";
+"Bar chart widget" = "பார் சார்ட்";
+"Pie chart widget" = "பை சார்ட்";
+"Network chart widget" = "பிணைய சார்ட்";
+"Speed widget" = "வேகம்";
+"Battery widget" = "மின்கலம்";
+"Stack widget" = "ஸ்டாக்";
+"Memory widget" = "நினைவக-widget";
+"Static width" = "நிலையான அகலம்";
+"Tachometer widget" = "டாஸ்கோமீட்டர்";
+"State widget" = "நிலைக்கு";
+"Text widget" = "உரை";
+"Battery details widget" = "பேட்டரி விவரங்கள்";
+"Show symbols" = "சின்னங்களை காட்டு";
+"Label widget" = "லேபல்";
+"Number of reads in the chart" = "விளக்கப்படத்தில் உள்ள வாசிப்புகளின் எண்ணிக்கை";
+"Color of download" = "பதிவிறக்க நிறம்";
+"Color of upload" = "பதிவுேற்ற நிறம்";
+"Monospaced font" = "மோனோஸ்பேஸ் எழுத்துரு";
+"Reverse order" = "வரிசையை மாற்று";
+"Chart history" = "சார்ட் வரலாறு";
+"Default color" = "இயல்புநிலை";
+"Transparent when no activity" = "செயலில் இல்லை என்றால் தெளிவாக";
+"Constant color" = "நிலையான நிறம்";
+
+/* Module Kit */
+"Open module settings" = "Module அமைப்புகளை திறக்கவும்";
+"Select widget" = "விட்ஜெட்டைத் தேர்ந்தெடுக்கவும்";
+"Open widget settings" = "விட்ஜெட்டைத் அமைப்புகளை திறக்கவும்";
+"Update interval" = "புதுப்பிப்பு இடைவேளை";
+"Usage history" = "பயன்பாட்டு வரலாறு";
+"Details" = "விவரங்கள்";
+"Top processes" = "மேல் செயலிகள்";
+"Pictogram" = "பிக் டோக்ராம்";
+"Module" = "மொத்தம்";
+"Widgets" = "விஜெட்டுகள்";
+"Popup" = "பாப்பப்";
+"Notifications" = "அறிவிப்புகள்";
+"Merge widgets" = "விஜெட்டுகளை இணைக்க";
+"No available widgets to configure" = "கான்பிகர் செய்ய கிடைக்கும் விகெட்டுகள் எதுவுமில்லை";
+"No options to configure for the popup in this module" = "இந்த தொகுதி பாப்பப்பிற்கு அமைக்க வழியில்லை";
+"Process" = "செயல்";
+"Kill process" = "செயலை நிறுத்து";
+"Keyboard shortcut" = "கீபோர்டு சுருக்கம்";
+"Listening..." = "கேட்கப்படுகிறது...";
+
+/* Modules */
+"Number of top processes" = "முக்கிய செயல்களின் எண்ணிக்கை";
+"Update interval for top processes" = "முக்கிய செயல்களுக்கு புதுப்பிப்பு இடைவேளை";
+"Notification level" = "அறிவிப்பு நிலை";
+"Chart color" = "சார்ட் நிறம்";
+"Main chart scaling" = "முக்கிய சார்ட் அளவீடு";
+"Scale value" = "அளவீட்டு மதிப்பு";
+"Text widget value" = "உரை விட்ஜெட் மதிப்பு";
+
+/* CPU */
+"CPU usage" = "சிபியூ பயன்பாடு";
+"CPU temperature" = "சிபியூ வெப்பநிலை";
+"CPU frequency" = "சிபியூ அதிரவை";
+"System" = "கணினி";
+"User" = "பயனர்";
+"Idle" = "சேமிப்பு";
+"Show usage per core" = "ஒவ்வொரு கோருக்கும் பயன்பாட்டைக் காட்டு";
+"Show hyper-threading cores" = "ஹைபர்-த்ரெடிங் குைர்களைக் காட்டு";
+"Split the value (System/User)" = "மதிப்பை பிரிக்கவும் (கணினி/பயனர்)";
+"Scheduler limit" = "அட்டவணை வரம்பு";
+"Speed limit" = "வேக வரம்பு";
+"Average load" = "சராசரி சுமை";
+"1 minute" = "1 நிமிடம்";
+"5 minutes" = "5 நிமிடம்";
+"15 minutes" = "15 நிமிடம்";
+"CPU usage threshold" = "சிபியூ பயன்பாட்டு எல்லை";
+"CPU usage is" = "சிபியூ பயன்பாடு %0 ஆகும்";
+"Efficiency cores" = "திறன் கோர்கள்";
+"Performance cores" = "செயல்திறன் கோர்கள்";
+"System color" = "கணினி நிறம்";
+"User color" = "பயனர் நிறம்";
+"Idle color" = "ஐடில் நிறம்";
+"Cluster grouping" = "கிளஸ்டர் குழு";
+"Efficiency cores color" = "திறன் கோர்கள் நிறம்";
+"Performance cores color" = "செயல்திறன் கோர்கள் நிறம்";
+"Total load" = "மொத்த சுமை";
+"System load" = "கணினி சுமை";
+"User load" = "பயனர் சுமை";
+"Efficiency cores load" = "திறன் கோர்கள் சுமை";
+"Performance cores load" = "செயல்திறன் கோர்கள் சுமை";
+"All cores" = "அனைத்து கோர்கள்";
+
+/* GPU */
+"GPU to show" = "காட்டு ஜிபியூ";
+"Show GPU type" = "ஜிபியூ வகையை காட்டு";
+"GPU enabled" = "ஜிபியூ இயக்கு";
+"GPU disabled" = "ஜிபியூ அணை";
+"GPU temperature" = "ஜிபியூ வெப்பநிலை";
+"GPU utilization" = "ஜிபியூ பயன்பாடு";
+"Vendor" = "விற்பனையாளர்";
+"Model" = "மாதிரி";
+"Status" = "நிலை";
+"Active" = "செயலில்";
+"Non active" = "செயலில் இல்லை";
+"Fan speed" = "பங்கு வேகம்";
+"Core clock" = "கோர் கடிகாரம்";
+"Memory clock" = "நினைவக கடிகாரம்";
+"Utilization" = "பயன்பாடு";
+"Render utilization" = "ரெண்டர் பயன்பாடு";
+"Tiler utilization" = "டைலர் பயன்பாடு";
+"GPU usage threshold" = "ஜிபியூ பயன்பாடு எல்லை";
+"GPU usage is" = "ஜிபியூ பயன்பாடு %0 ஆகும்";
+
+/* RAM */
+"Memory usage" = "நினைவகம் பயன்பாடு";
+"Memory pressure" = "நினைவகம் அழுத்தம்";
+"Total" = "மொத்தம்";
+"Used" = "பயன்பட்டது";
+"App" = "ஆப்";
+"Wired" = "வயர்ட்";
+"Compressed" = "ச்சுருக்கப்பட்ட";
+"Free" = "விடுதலை";
+"Swap" = "ஸ்வாப்ப்";
+"Split the value (App/Wired/Compressed)" = "மதிப்பை பிரி (ஆப்/வயர்ட்/ச்சுருக்கம்)";
+"RAM utilization threshold" = "RAM பயன்பாட்டு எல்லை";
+"RAM utilization is" = "RAM பயன்பாடு %0 ஆகும்";
+"App color" = "ஆப் நிறம்";
+"Wired color" = "வயர்ட் நிறம்";
+"Compressed color" = "ச்சுருக்கப்பட்ட நிறம்";
+"Free color" = "விடுதலை நிறம்";
+"Free memory (less than)" = "விடுதலை நினைவகம் (கடுமையாக)";
+"Swap size" = "ஸ்வாப்ப் அளவு";
+"Free RAM is" = "இலவச RAM %0";
+
+/* Disk */
+"Show removable disks" = "இழப்பூவுகளைக் காட்டு";
+"Used disk memory" = "%1 இன் %0 பயன்படுத்தப்பட்டுள்ளது";
+"Free disk memory" = "%1 இன் %0 விடுதலை";
+"Disk to show" = "காண்பிக்க வேண்டிய வட்டு";
+"Open disk" = "வட்டத்தை திறக்கவும்";
+"Switch view" = "காட்சி மாறுதலை செய்";
+"Disk utilization threshold" = "வட்டு பயன்பாட்டு எல்லை";
+"Disk utilization is" = "வட்டு பயன்பாடு %0";
+"Read color" = "படிப்பு நிறம்";
+"Write color" = "எழுத்து நிறம்";
+"Disk usage" = "வட்டு பயன்பாடு";
+"Total read" = "மொத்தம் படிக்கப்பட்டது";
+"Total written" = "மொத்தம் எழுதப்பட்டது";
+"Write speed" = "எழுதும் வேகம்";
+"Read speed" = "படிக்கும் வேகம்";
+"Drives" = "ஐயங்கள்";
+"SMART data" = "SMART தரவை";
+
+/* Sensors */
+"Temperature unit" = "வெப்பநிலை அலகு";
+"Celsius" = "செல்சியஸ்";
+"Fahrenheit" = "பாரன்ஹீட்";
+"Save the fan speed" = "ஏர் வேகத்தை சேமி";
+"Fan" = "பங்கு";
+"HID sensors" = "HID சென்சார்கள்";
+"Synchronize fan's control" = "அரையின் கட்டுப்பாட்டை ஒத்திசை";
+"Current" = "தற்போது";
+"Energy" = "எரிசி";
+"Show unknown sensors" = "தெரியாத சென்சார்கள் காண்பி";
+"Install fan helper" = "ஃபேன் உதவியாளரை நிறுவு";
+"Uninstall fan helper" = "ஃபேன் உதவியாளரை நீக்கு";
+"Fan value" = "ஃபேன் மதிப்பு";
+"Turn off fan" = "ஃபேன் அணை";
+"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "நீங்கள் ஃபேனை அணைக்கப் போகிறீர்கள். இது உங்கள் Mac-க்கு சேதமுகமாக இருக்கும்; நீங்கள் உண்மையாகவே தொடர விரும்புகிறீர்களா?";
+"Sensor threshold" = "சென்சார் எல்லை";
+"Left fan" = "இடது";
+"Right fan" = "வலது";
+"Fastest fan" = "மிக சீக்கிரமான ஃபேன்";
+"Sensor to show" = "காட்ட வேண்டிய சென்சார்";
+
+/* Network */
+"Uploading" = "பதிவேற்றப்படுகிறது";
+"Downloading" = "பதிவிறக்கம் செய்யப்படுகிறது";
+"Public IP" = "பகிர்வு IP";
+"Local IP" = "உள்நாட்டுத் IP";
+"Interface" = "இணைப்பு";
+"Physical address" = "பிறப்பிட முகவரி";
+"Refresh" = "புதுப்பி";
+"Click to copy public IP address" = "பொதுவான IP முகவரியை நகலெடுக்க கிளிக் செய்க";
+"Click to copy local IP address" = "உள்ளூர் IP முகவரியை நகலெடுக்க கிளிக் செய்க";
+"Click to copy wifi name" = "Wi-Fi பெயரை நகலெடுக்க கிளிக் செய்க";
+"Click to copy mac address" = "MAC முகவரியை நகலெடுக்க கிளிக் செய்க";
+"No connection" = "இணைப்பு இல்லை";
+"Network interface" = "பிணைய இணைப்பு";
+"Total download" = "மொத்த பதிவிறக்கம்";
+"Total upload" = "மொத்த பதிவேற்றம்";
+"Reader type" = "ரீடர் வகை";
+"Interface based" = "இணைப்பு அடிப்படையான";
+"Processes based" = "செயல்கள் அடிப்படையான";
+"Reset data usage" = "தரவு பயன்பாட்டை மீட்டமை";
+"VPN mode" = "VPN முறை";
+"Standard" = "மாதிரியாக";
+"Security" = "பாதுகாப்பு";
+"Channel" = "சேனல்";
+"Common scale" = "பொதுவான அளவீடு";
+"Autodetection" = "தானான கண்டறிதல்";
+"Widget activation threshold" = "விஜெட் செயலாக்க எல்லை";
+"Internet connection" = "இணைய இணைப்பு";
+"Active state color" = "செயலில் நிறம்";
+"Nonactive state color" = "செயலில் இல்லாத நிறம்";
+"Connectivity host (ICMP)" = "இணைப்பு ஹோஸ்ட் (ICMP)";
+"Leave empty to disable the check" = "சோதனை நிறுத்த காலியாக விடுங்கள்";
+"Connectivity history" = "இணைப்பு வரலாறு";
+"Auto-refresh public IP address" = "பொதுப் IP ஐ தானாக புதுப்பி";
+"Every hour" = "ஒவ்வொரு மணி நேரம்";
+"Every 12 hours" = "ஒவ்வொரு 12 மணிநேரமும்";
+"Every 24 hours" = "ஒவ்வொரு 24 மணிநேரமும்";
+"Network activity" = "நெட்வொர்க் செயல்பாடு";
+"Last reset" = "கடைசி மீட்டமை %0 முன்";
+"Latency" = "மந்தம்";
+"Upload speed" = "பதிவேற்ற வேகம்";
+"Download speed" = "பதிவிறக்க வேகம்";
+"Address" = "முகவரி";
+"WiFi network" = "Wi-Fi நெட்வொர்க்";
+"Local IP changed" = "உள்ளூர் IP மாறியுள்ளது";
+"Public IP changed" = "பொழுப்பு IP மாறியுள்ளது";
+"Previous IP" = "முந்தைய IP: %0";
+"New IP" = "புதிய IP: %0";
+
+/* Battery */
+"Level" = "நிலை";
+"Source" = "மூலம்";
+"AC Power" = "AC சக்தி";
+"Battery Power" = "பெட்டரி சக்தி";
+"Time" = "நேரம்";
+"Health" = "நிலை";
+"Amperage" = "அம்பேரேஜ்";
+"Voltage" = "வோல்டேஜ்";
+"Cycles" = "சுழற்சிகள்";
+"Temperature" = "வெப்பநிலை";
+"Power adapter" = "பவர் அடாப்டர்";
+"Power" = "சக்தி";
+"Is charging" = "சார்ஜ் ஆகிறது";
+"Time to discharge" = "கரையசோதனை நேரம்";
+"Time to charge" = "சார்ஜ் ஆகும் நேரம்";
+"Calculating" = "கணக்கிடப்படுகிறது";
+"Fully charged" = "முழுமையாக சார்ஜ்";
+"Not connected" = "இணைக்கவில்லை";
+"Low level notification" = "குறைந்த நிலை அறிவிப்பு";
+"High level notification" = "உயர் நிலை அறிவிப்பு";
+"Low battery" = "குறைந்த பேட்டரி";
+"High battery" = "உயர் பேட்டரி";
+"Battery remaining" = "%0% மீதமுள்ளது";
+"Battery remaining to full charge" = "%0% நிறைவு சார்ஜ்க்கு";
+"Percentage" = "சதவிகிதம்";
+"Percentage and time" = "சதவிகிதமும் நேரமும்";
+"Time and percentage" = "நேரமும் சதவிகிதமும்";
+"Time format" = "நேர வடிவம்";
+"Hide additional information when full" = "முழு ஆனபோது கூடுதல் தகவலை மறை";
+"Last charge" = "கடைசி சார்ஜ்";
+"Capacity" = "திறன்";
+"current / maximum / designed" = "தற்போதைய / அதிகபட்ச / வடிவமைக்கப்பட்ட";
+"Low power mode" = "குறைந்த சக்தி முறை";
+"Percentage inside the icon" = "ஐகானில் சதவிகிதம்";
+"Colorize battery" = "பேட்டரியை நிறமிடு";
+"Charging current" = "சார்ஜ் தரம்";
+"Charging Voltage" = "சார்ஜ் வோல்டேஜ்";
+"Charger state inside the battery" = "பேட்டரிக்கு உள்ளே சார்ஜர் நிலை";
+
+/* Bluetooth */
+"Battery to show" = "காட்ட வேண்டிய பேட்டரி";
+"No Bluetooth devices are available" = "ப்ளூடூத் சாதனங்கள் கிடைக்கவில்லை";
+
+/* Clock */
+"Time zone" = "நேர மண்டலம்";
+"Local" = "உள்ளூர்";
+"Calendar" = "காலண்டர்";
+"Local time" = "உள்ளூர் நேரம்";
+"Add new clock" = "புதிய கடிகாரம் சேர்க்கவும்";
+"Delete selected clock" = "தேர்ந்த கடிகாரத்தை நீக்கு";
+"Help with datetime format" = "தேதி-நேர வடிவம் உதவி";
+
+/* Colors */
+"Based on utilization" = "பயன்பாடு அடிப்படையில்";
+"Based on pressure" = "அழுத்தத்தின் அடிப்படையில்";
+"Based on cluster" = "கிளஸ்டர் அடிப்படையில்";
+"System accent" = "கணினி சிலையல்";
+"Monochrome accent" = "ஒரே நிற சிறப்பு";
+"Clear" = "தெளிவான";
+"White" = "வெள்ளை";
+"Black" = "கருப்பு";
+"Gray" = "சாம்பல்";
+"Second gray" = "இரண்டாவது சாம்பல்";
+"Dark gray" = "கருப்பு சாம்பல்";
+"Light gray" = "ஒளி சாம்பல்";
+"Red" = "சிவப்பு";
+"Second red" = "இரண்டாவது சிவப்பு";
+"Green" = "பச்சை";
+"Second green" = "இரண்டாவது பச்சை";
+"Blue" = "ஆலம்";
+"Second blue" = "இரண்டாவது நீலம்";
+"Yellow" = "மஞ்சள்";
+"Second yellow" = "இரண்டாவது மஞ்சள்";
+"Orange" = "ஆரஞ்சு";
+"Second orange" = "இரண்டாவது ஆரஞ்சு";
+"Purple" = "ஊதா";
+"Second purple" = "இரண்டாவது ஊதா";
+"Brown" = "பழுப்பு";
+"Second brown" = "இரண்டாவது பழுப்பு";
+"Cyan" = "சைன்";
+"Magenta" = "மேஜென்டா";
+"Pink" = "சிவப்பு-மஞ்சள்";
+"Teal" = "டீல்";
+"Indigo" = "ஈன்டிகோ";
+
+/* End of file */
