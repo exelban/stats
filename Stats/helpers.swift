@@ -257,7 +257,9 @@ extension AppDelegate {
     internal func icon() {
         if self.pauseState {
             self.menuBarItem = NSStatusBar.system.statusItem(withLength: AppIcon.size.width)
-            self.menuBarItem?.autosaveName = "Stats"
+            DispatchQueue.main.async(execute: {
+                self.menuBarItem?.autosaveName = "Stats"
+            })
             self.menuBarItem?.button?.addSubview(AppIcon())
             
             self.menuBarItem?.button?.target = self
