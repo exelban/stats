@@ -268,6 +268,12 @@ public class Network: Module {
                         case "privateV6": replacement = value.laddr.v6 ?? "-"
                         default: return
                         }
+                    case "$flag":
+                        if let countryCode = value.raddr.countryCode {
+                            replacement = countryCodeToFlag(countryCode)
+                        } else {
+                            replacement = "🏳️"
+                        }
                     case "$interface":
                         switch pair.value {
                         case "displayName": replacement = value.interface?.displayName ?? "-"
@@ -321,6 +327,8 @@ public class Network: Module {
                     }
                 }
                 widget.setValue(text)
+            case let widget as FlagWidget:
+                widget.setFlag(value.raddr.countryCode)
             default: break
             }
         }

@@ -20,9 +20,11 @@ You can use a combination of any of the variables. There is only one limitation:
 <ul>
 <li>$addr.public - $status</li>
 <li>$addr.public - $wifi.ssid - $status</li>
+<li>$flag $addr.public</li>
 </ul>
 <h2>Available variables</h2>
 <ul>
+<li><b>$flag</b>: <small>Country flag emoji based on public IP location.</small></li>
 <li><b>$addr.public</b>: <small>Public IP address.</small></li>
 <li><b>$addr.publicV4</b>: <small>Public IPv4 address.</small></li>
 <li><b>$addr.publicV6</b>: <small>Public IPv6 address.</small></li>

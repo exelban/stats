@@ -1820,3 +1820,16 @@ public class GPUStressTest {
         }
     }
 }
+
+public func countryCodeToFlag(_ countryCode: String) -> String {
+    let base: UInt32 = 127397
+    var flag = ""
+    for scalar in countryCode.uppercased().unicodeScalars {
+        if scalar.value >= 65 && scalar.value <= 90 { // A-Z only
+            if let flagScalar = UnicodeScalar(base + scalar.value) {
+                flag.append(String(flagScalar))
+            }
+        }
+    }
+    return flag.isEmpty ? "🏳️" : flag
+}
