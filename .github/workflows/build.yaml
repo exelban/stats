@@ -18,4 +18,16 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - run: xcodebuild -scheme Stats -destination 'platform=macOS' -configuration Release archive CODE_SIGNING_ALLOWED=NO
+      - run: xcodebuild -scheme Stats -destination 'platform=macOS' -configuration Release archive CODE_SIGNING_ALLOWED=NO -archivePath ${{ runner.temp }}/Stats.xcarchive
+
+      - name: Export app
+        run: |
+          mkdir -p ${{ runner.temp }}/export
+          cp -R ${{ runner.temp }}/Stats.xcarchive/Products/Applications/Stats.app ${{ runner.temp }}/export/
+
+      - name: Upload app artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Stats-app
+          path: ${{ runner.temp }}/export/Stats.app
+          retention-days: 7
