@@ -420,6 +420,8 @@
 "Public IP changed" = "Public IP has changed";
 "Previous IP" = "Previous IP: %0";
 "New IP" = "New IP: %0";
+"Internet connection lost" = "Internet connection lost";
+"Internet connection established" = "Internet connection established";
 
 // Battery
 "Level" = "Tase";

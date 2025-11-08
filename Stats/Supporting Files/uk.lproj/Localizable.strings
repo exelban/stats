@@ -420,6 +420,8 @@
 "Public IP changed" = "Публічна IP-адреса була змінена";
 "Previous IP" = "Попередня IP-адреса: %0";
 "New IP" = "Нова IP-адреса: %0";
+"Internet connection lost" = "З’єднання з інтернетом втрачено";
+"Internet connection established" = "З’єднання з інтернетом відновлено";
 
 // Battery
 "Level" = "Рівень заряду";
