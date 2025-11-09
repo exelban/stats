@@ -70,7 +70,9 @@ internal class CombinedView: NSObject, NSGestureRecognizerDelegate {
     
     public func enable() {
         self.menuBarItem = NSStatusBar.system.statusItem(withLength: 0)
-        self.menuBarItem?.autosaveName = "CombinedModules"
+        DispatchQueue.main.async(execute: {
+            self.menuBarItem?.autosaveName = "CombinedModules"
+        })
         self.menuBarItem?.button?.addSubview(self.view)
         self.menuBarItem?.button?.image = NSImage()
         self.menuBarItem?.button?.toolTip = localizedString("Combined modules")
