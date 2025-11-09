@@ -75,7 +75,7 @@
 "Name" = "Tên";
 "Format" = "Định dạng";
 "Turn off" = "Tắt";
-"Normal" = "Normal";
+"Normal" = "Bình thường";
 "Warning" = "Cảnh báo";
 "Critical" = "Nguy cấp";
 "Usage" = "Sử dụng";
@@ -84,22 +84,22 @@
 "10 minutes" = "10 phút";
 "Import" = "Nhập";
 "Export" = "Xuất";
-"Separator" = "Separator";
-"Read" = "Read";
-"Write" = "Write";
-"Frequency" = "Frequency";
-"Save" = "Save";
-"Run" = "Run";
-"Stop" = "Stop";
-"Uninstall" = "Uninstall";
-"1 sec" = "1 sec";
-"2 sec" = "2 sec";
-"3 sec" = "3 sec";
-"5 sec" = "5 sec";
-"10 sec" = "10 sec";
-"15 sec" = "15 sec";
-"30 sec" = "30 sec";
-"60 sec" = "60 sec";
+"Separator" = "Phân cách";
+"Read" = "Đọc";
+"Write" = "Ghi";
+"Frequency" = "Tần số";
+"Save" = "Lưu";
+"Run" = "Chạy";
+"Stop" = "Dừng";
+"Uninstall" = "Gỡ cài đặt";
+"1 sec" = "1 giây";
+"2 sec" = "2 giây";
+"3 sec" = "3 giây";
+"5 sec" = "5 giây";
+"10 sec" = "10 giây";
+"15 sec" = "15 giây";
+"30 sec" = "30 giây";
+"60 sec" = "60 giây";
 
 // Setup
 "Stats Setup" = "Thiết lập Stats";
@@ -141,8 +141,8 @@
 "Open application settings" = "Mở cài đặt ứng dụng";
 "Open dashboard" = "Mở bảng điều khiển";
 "No notifications available in this module" = "Không có thông báo nào trong module này";
-"Open Calendar" = "Open Calendar";
-"Toggle the module" = "Toggle the module";
+"Open Calendar" = "Mở Lịch";
+"Toggle the module" = "Bật/tắt module";
 
 // Application settings
 "Update application" = "Cập nhật ứng dụng";
@@ -165,8 +165,8 @@
 "Combined details" = "Chi tiết kết hợp";
 "Spacing" = "Khoảng cách";
 "Share anonymous telemetry" = "Chia sẻ dữ liệu ẩn danh";
-"Choose file" = "Choose file";
-"Stress tests" = "Stress tests";
+"Choose file" = "Chọn tập tin";
+"Stress tests" = "Kiểm tra áp lực";
 
 // Dashboard
 "Serial number" = "Số serial";
@@ -244,8 +244,8 @@
 "No options to configure for the popup in this module" = "Không có tùy chọn để cấu hình popup trong module này";
 "Process" = "Tiến trình";
 "Kill process" = "Dừng tiến trình";
-"Keyboard shortcut" = "Keyboard shortcut";
-"Listening..." = "Listening...";
+"Keyboard shortcut" = "Phím tắt";
+"Listening..." = "Đang lắng nghe...";
 
 // Modules
 "Number of top processes" = "Số lượng tiến trình hàng đầu";
@@ -287,7 +287,7 @@
 "User load" = "Tải người dùng";
 "Efficiency cores load" = "Tải nhân tiết kiệm";
 "Performance cores load" = "Tải nhân hiệu năng";
-"All cores" = "All cores";
+"All cores" = "Tất cả các nhân";
 
 // GPU
 "GPU to show" = "GPU hiển thị";
@@ -347,8 +347,8 @@
 "Total written" = "Tổng dữ liệu ghi";
 "Write speed" = "Tốc độ ghi";
 "Read speed" = "Tốc độ đọc";
-"Drives" = "Drives";
-"SMART data" = "SMART data";
+"Drives" = "Ổ đĩa";
+"SMART data" = "Dữ liệu SMART";
 
 // Sensors
 "Temperature unit" = "Đơn vị nhiệt độ";
@@ -370,7 +370,7 @@
 "Left fan" = "Quạt bên trái";
 "Right fan" = "Quạt bên phải";
 "Fastest fan" = "Quạt nhanh nhất";
-"Sensor to show" = "Sensor to show";
+"Sensor to show" = "Cảm biến hiển thị";
 
 // Network
 "Uploading" = "Đang tải lên";
@@ -414,12 +414,12 @@
 "Latency" = "Độ trễ";
 "Upload speed" = "Tốc độ tải lên";
 "Download speed" = "Tốc độ tải xuống";
-"Address" = "Address";
-"WiFi network" = "WiFi network";
-"Local IP changed" = "Local IP has changed";
-"Public IP changed" = "Public IP has changed";
-"Previous IP" = "Previous IP: %0";
-"New IP" = "New IP: %0";
+"Address" = "Địa chỉ";
+"WiFi network" = "Mạng WiFi";
+"Local IP changed" = "IP nội bộ đã thay đổi";
+"Public IP changed" = "IP công khai đã thay đổi";
+"Previous IP" = "IP trước đây: %0";
+"New IP" = "IP mới: %0";
 "Internet connection lost" = "Internet connection lost";
 "Internet connection established" = "Internet connection established";
 
@@ -461,7 +461,7 @@
 "Colorize battery" = "Tô màu pin";
 "Charging current" = "Dòng sạc";
 "Charging Voltage" = "Điện áp sạc";
-"Charger state inside the battery" = "Charger state inside the battery";
+"Charger state inside the battery" = "Trạng thái sạc bên trong pin";
 
 // Bluetooth
 "Battery to show" = "Hiển thị pin";
@@ -472,9 +472,9 @@
 "Local" = "Địa phương";
 "Calendar" = "Lịch";
 "Local time" = "Giờ địa phương";
-"Add new clock" = "Add new clock";
-"Delete selected clock" = "Delete selected clock";
-"Help with datetime format" = "Help with datetime format";
+"Add new clock" = "Thêm đồng hồ mới";
+"Delete selected clock" = "Xóa đồng hồ đã chọn";
+"Help with datetime format" = "Trợ giúp về định dạng ngày giờ";
 
 // Colors
 "Based on utilization" = "Dựa trên mức sử dụng";
