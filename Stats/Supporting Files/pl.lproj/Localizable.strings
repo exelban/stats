@@ -420,6 +420,8 @@
 "Public IP changed" = "Publiczny adres IP został zmieniony";
 "Previous IP" = "Poprzedni adres IP: %0";
 "New IP" = "Nowy adres IP: %0";
+"Internet connection lost" = "Utracono połączenie z internetem";
+"Internet connection established" = "Połączenie z internetem zostało przywrócone";
 
 // Battery
 "Level" = "Poziom naładowania";

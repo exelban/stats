@@ -213,6 +213,12 @@ open class WidgetWrapper: NSView, widget_p {
         return width
     }
     
+    public func redraw() {
+        DispatchQueue.main.async { [weak self] in
+            self?.display()
+        }
+    }
+    
     open func settings() -> NSView { return NSView() }
     
     open override func mouseDown(with event: NSEvent) {
@@ -318,18 +324,12 @@ public class SWidget {
     
     public func setMenuBarItem(state: Bool) {
         if state {
-            let prevTag = "NSStatusItem Preferred Position \(self.module)_\(self.type.name())"
-            let prevPosition = Store.shared.int(key: prevTag, defaultValue: -1)
-            if prevPosition != -1 {
-                Store.shared.set(key: "NSStatusItem Preferred Position \(self.module)_\(self.type.rawValue)", value: prevPosition)
-                Store.shared.remove(prevTag)
-            }
-            
             restoreNSStatusItemPosition(id: "\(self.module)_\(self.type.rawValue)")
-            
             DispatchQueue.main.async(execute: {
                 self.menuBarItem = NSStatusBar.system.statusItem(withLength: self.item.frame.width)
-                self.menuBarItem?.autosaveName = "\(self.module)_\(self.type.rawValue)"
+                DispatchQueue.main.async(execute: {
+                    self.menuBarItem?.autosaveName = "\(self.module)_\(self.type.rawValue)"
+                })
                 if self.item.frame.origin.x != self.originX {
                     self.item.setFrameOrigin(NSPoint(x: self.originX, y: self.item.frame.origin.y))
                 }
@@ -393,12 +393,8 @@ public class MenuBar {
     
     private var _active: Bool = false
     public var active: Bool {
-        get {
-            self.queue.sync { self._active }
-        }
-        set {
-            self.queue.sync { self._active = newValue }
-        }
+        get { self.queue.sync { self._active } }
+        set { self.queue.sync { self._active = newValue } }
     }
     
     init(moduleName: String) {
@@ -475,7 +471,9 @@ public class MenuBar {
             if state && self.active {
                 restoreNSStatusItemPosition(id: self.moduleName)
                 self.menuBarItem = NSStatusBar.system.statusItem(withLength: 0)
-                self.menuBarItem?.autosaveName = self.moduleName
+                DispatchQueue.main.async(execute: {
+                    self.menuBarItem?.autosaveName = self.moduleName
+                })
                 self.menuBarItem?.isVisible = true
                 
                 self.menuBarItem?.button?.addSubview(self.view)
