@@ -26,7 +26,7 @@
 "Open Battery settings" = "Batterieeinstellungen öffnen";
 "Bluetooth" = "Bluetooth";
 "Open Bluetooth settings" = "Bluetooth-Einstellungen öffnen";
-"Clock" = "Clock";
+"Clock" = "Uhr";
 "Open Clock settings" = "Uhr-Einstellungen öffnen";
 
 // Words
@@ -177,8 +177,8 @@
 "Number of threads" = "%0 Threads";
 "Number of e-cores" = "%0 Effizienz-Kerne";
 "Number of p-cores" = "%0 Per­for­mance-Kerne";
-"Disks" = "Disks";
-"Display" = "Display";
+"Disks" = "Festplatten";
+"Display" = "Bildschirm";
 
 // Update
 "The latest version of Stats installed" = "Die neueste Version von Stats ist installiert";
@@ -212,7 +212,7 @@
 "Static width" = "Feste Breite";
 "Tachometer widget" = "Tachometer";
 "State widget" = "Status Widget";
-"Text widget" = "Text widget";
+"Text widget" = "Text Widget";
 "Battery details widget" = "Batterie-Details Widget";
 "Show symbols" = "Symbole anzeigen";
 "Label widget" = "Text Widget";
@@ -415,13 +415,13 @@
 "Upload speed" = "Upload";
 "Download speed" = "Download";
 "Address" = "Adressen";
-"WiFi network" = "WiFi network";
-"Local IP changed" = "Local IP has changed";
-"Public IP changed" = "Public IP has changed";
-"Previous IP" = "Previous IP: %0";
-"New IP" = "New IP: %0";
-"Internet connection lost" = "Internet connection lost";
-"Internet connection established" = "Internet connection established";
+"WiFi network" = "WLAN-Netzwerk";
+"Local IP changed" = "Neue Lokale IP-Adresse";
+"Public IP changed" = "Neue öffentliche IP-Adresse";
+"Previous IP" = "Bisherige IP: %0";
+"New IP" = "Neue IP: %0";
+"Internet connection lost" = "Internetverbindung verloren";
+"Internet connection established" = "Internetverbindung hergestellt";
 
 // Battery
 "Level" = "Ladezustand";
