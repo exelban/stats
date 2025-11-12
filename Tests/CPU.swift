@@ -2,10 +2,11 @@
 //  CPU.swift
 //  Tests
 //
-//  Created to test CPU performance cores utilization calculation fix.
-//  Testing issue #2785: Performance cores showing 75% instead of 100% when fully utilized.
+//  Created by Ivan Karpan on 11/11/2025.
+//  Using Swift 5.0.
+//  Running on macOS 10.15.
 //
-//  Copyright © 2025. All rights reserved.
+//  Copyright © 2025 Serhiy Mytrovtsiy. All rights reserved.
 //
 
 import XCTest
