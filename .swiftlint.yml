@@ -5,7 +5,7 @@ disabled_rules:
   - trailing_whitespace
   - opening_brace
   - implicit_getter
-  - implicit_optional_initialization
+  - redundant_optional_initialization
   - large_tuple
   - function_body_length
 

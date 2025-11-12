@@ -14,7 +14,6 @@ import Kit
 
 class CPU: XCTestCase {
     
-    /// Helper function to create core_s instances using JSON decoding
     private func makeCore(id: Int32, type: coreType) -> core_s {
         let json = """
         {"id": \(id), "type": \(type.rawValue)}
@@ -26,22 +25,12 @@ class CPU: XCTestCase {
         return core
     }
     
-    /// Test that reproduces issue #2785: Performance cores showing 75% instead of 100%
-    /// This test demonstrates the bug scenario where CPU IDs don't match sequential indices
-    /// The test EXPECTS 100% (correct behavior) and will FAIL with buggy code showing 75%
     func testPerformanceCoresShouldShow100Percent_Issue2785() throws {
-        // Simulate M4 Pro 12/16: 4 efficiency + 8 performance cores = 12 total
-        // usagePerCore is built sequentially from host_processor_info (indices 0-11)
-        // All performance cores (indices 4-11) are at 100% utilization
         let usagePerCore: [Double] = [
-            0.5, 0.5, 0.5, 0.5,  // indices 0-3: efficiency cores
-            1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0  // indices 4-11: performance cores (ALL at 100%)
+            0.5, 0.5, 0.5, 0.5,
+            1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0
         ]
         
-        // BUG SCENARIO: Cores array has performance cores with IDs that don't all match sequential indices
-        // Some performance cores have IDs 4-9 (valid), but 2 have IDs 20,21 (out of bounds)
-        // This simulates what might happen when IORegistry returns CPU IDs that don't align
-        // with the sequential logical CPU indices from host_processor_info
         let cores: [core_s] = [
             makeCore(id: 0, type: coreType.efficiency),
             makeCore(id: 1, type: coreType.efficiency),
@@ -53,23 +42,17 @@ class CPU: XCTestCase {
             makeCore(id: 7, type: coreType.performance),
             makeCore(id: 8, type: coreType.performance),
             makeCore(id: 9, type: coreType.performance),
-            makeCore(id: 20, type: coreType.performance),  // CPU ID 20 is out of bounds for usagePerCore[0-11]
-            makeCore(id: 21, type: coreType.performance)   // CPU ID 21 is out of bounds for usagePerCore[0-11]
+            makeCore(id: 20, type: coreType.performance),
+            makeCore(id: 21, type: coreType.performance)
         ]
         
-        // Test the actual implementation function from LoadReader
-        // This tests the fix for issue #2785: positional matching instead of CPU ID matching
         let usagePCores = calculatePerformanceCoresUsage(cores: cores, usagePerCore: usagePerCore)
         
-        // EXPECTATION: Should show 100% when all performance cores are at 100%
-        // With buggy ID-based code, this would show 75% (6 cores at 100%, 2 at 0%) instead of 100%
         XCTAssertNotNil(usagePCores, "Performance cores usage should be calculated")
         XCTAssertEqual(usagePCores!, 1.0, accuracy: 0.01,
                       "When all 8 performance cores are at 100%, should show 100%, not 75%")
         XCTAssertEqual(cores.filter({ $0.type == .performance }).count, 8, "Should have 8 performance cores")
     }
-    
-    // MARK: - calculatePerformanceCoresUsage Tests
     
     func testCalculatePerformanceCoresUsage_AllCoresAt100Percent() throws {
         let cores: [core_s] = [
@@ -120,7 +103,7 @@ class CPU: XCTestCase {
             makeCore(id: 0, type: .performance),
             makeCore(id: 1, type: .performance)
         ]
-        let usagePerCore: [Double] = [1.0, 1.0, 1.0]  // 3 elements, but only 2 cores
+        let usagePerCore: [Double] = [1.0, 1.0, 1.0]
         
         let result = calculatePerformanceCoresUsage(cores: cores, usagePerCore: usagePerCore)
         
@@ -137,14 +120,13 @@ class CPU: XCTestCase {
     }
     
     func testCalculatePerformanceCoresUsage_PositionalMatching() throws {
-        // Test that positional matching works correctly even with non-sequential IDs
         let cores: [core_s] = [
             makeCore(id: 0, type: .efficiency),
-            makeCore(id: 5, type: .performance),  // ID 5, but position 1
-            makeCore(id: 10, type: .performance), // ID 10, but position 2
-            makeCore(id: 20, type: .performance)  // ID 20, but position 3
+            makeCore(id: 5, type: .performance),
+            makeCore(id: 10, type: .performance),
+            makeCore(id: 20, type: .performance)
         ]
-        let usagePerCore: [Double] = [0.3, 0.8, 0.9, 1.0]  // Position-based, not ID-based
+        let usagePerCore: [Double] = [0.3, 0.8, 0.9, 1.0]
         
         let result = calculatePerformanceCoresUsage(cores: cores, usagePerCore: usagePerCore)
         
@@ -152,8 +134,6 @@ class CPU: XCTestCase {
         let expected = (0.8 + 0.9 + 1.0) / 3.0
         XCTAssertEqual(result!, expected, accuracy: 0.01, "Should use positional matching, not ID-based")
     }
-    
-    // MARK: - calculateEfficiencyCoresUsage Tests
     
     func testCalculateEfficiencyCoresUsage_AllCoresAt50Percent() throws {
         let cores: [core_s] = [
@@ -204,7 +184,7 @@ class CPU: XCTestCase {
             makeCore(id: 0, type: .efficiency),
             makeCore(id: 1, type: .efficiency)
         ]
-        let usagePerCore: [Double] = [0.5, 0.6, 0.7]  // 3 elements, but only 2 cores
+        let usagePerCore: [Double] = [0.5, 0.6, 0.7]
         
         let result = calculateEfficiencyCoresUsage(cores: cores, usagePerCore: usagePerCore)
         
@@ -212,13 +192,12 @@ class CPU: XCTestCase {
     }
     
     func testCalculateEfficiencyCoresUsage_PositionalMatching() throws {
-        // Test that positional matching works correctly even with non-sequential IDs
         let cores: [core_s] = [
-            makeCore(id: 100, type: .efficiency), // ID 100, but position 0
-            makeCore(id: 200, type: .efficiency), // ID 200, but position 1
+            makeCore(id: 100, type: .efficiency),
+            makeCore(id: 200, type: .efficiency),
             makeCore(id: 300, type: .performance)
         ]
-        let usagePerCore: [Double] = [0.4, 0.6, 1.0]  // Position-based, not ID-based
+        let usagePerCore: [Double] = [0.4, 0.6, 1.0]
         
         let result = calculateEfficiencyCoresUsage(cores: cores, usagePerCore: usagePerCore)
         

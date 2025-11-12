@@ -12,9 +12,6 @@
 import Cocoa
 import Kit
 
-/// Calculate performance cores usage from cores and usagePerCore arrays
-/// Uses positional matching (cores[i] -> usagePerCore[i]) to handle cases where CPU IDs don't match sequential indices
-/// This fixes issue #2785
 public func calculatePerformanceCoresUsage(cores: [core_s], usagePerCore: [Double]) -> Double? {
     guard cores.count == usagePerCore.count else { return nil }
     let pCoresList: [Double] = cores.enumerated().compactMap { (index, core) -> Double? in
@@ -27,8 +24,6 @@ public func calculatePerformanceCoresUsage(cores: [core_s], usagePerCore: [Doubl
     return pCoresList.reduce(0, +) / Double(pCoresList.count)
 }
 
-/// Calculate efficiency cores usage from cores and usagePerCore arrays
-/// Uses positional matching (cores[i] -> usagePerCore[i]) to handle cases where CPU IDs don't match sequential indices
 public func calculateEfficiencyCoresUsage(cores: [core_s], usagePerCore: [Double]) -> Double? {
     guard cores.count == usagePerCore.count else { return nil }
     let eCoresList: [Double] = cores.enumerated().compactMap { (index, core) -> Double? in
@@ -159,8 +154,6 @@ internal class LoadReader: Reader<CPU_Load> {
         self.response.totalUsage = self.response.systemLoad + self.response.userLoad
         
         if let cores = self.cores {
-            // Use positional matching instead of CPU ID to fix issue #2785
-            // Match cores to usagePerCore by position in the array, not by CPU ID
             self.response.usageECores = calculateEfficiencyCoresUsage(cores: cores, usagePerCore: self.response.usagePerCore)
             self.response.usagePCores = calculatePerformanceCoresUsage(cores: cores, usagePerCore: self.response.usagePerCore)
         }

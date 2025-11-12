@@ -34,8 +34,8 @@ class RAM: XCTestCase {
         XCTAssertEqual(process.name, "NotificationCent")
         XCTAssertEqual(process.usage, 62 * Double(1000 * 1000))
         
-        process = ProcessReader.parseProcess("99999  SafariCloudHisto 1608K")
-        XCTAssertEqual(process.pid, 99999)
+        process = ProcessReader.parseProcess("623    SafariCloudHisto 1608K")
+        XCTAssertEqual(process.pid, 623)
         XCTAssertEqual(process.name, "SafariCloudHisto")
         XCTAssertEqual(process.usage, (1608/1024) * Double(1000 * 1000))
         

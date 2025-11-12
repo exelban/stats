@@ -852,6 +852,7 @@ public class BarChartView: NSView {
         let blocks: Int = 16
         let spacing: CGFloat = 2
         let count: CGFloat = CGFloat(values.count)
+        // swiftlint:disable:next empty_count
         guard count > 0, self.frame.width > 0, self.frame.height > 0 else { return }
         
         let partitionSize: CGSize = CGSize(width: (self.frame.width - (count*spacing)) / count, height: self.frame.height)
