@@ -234,12 +234,10 @@ public class CPU: Module {
         }
         
         if #available(macOS 11.0, *) {
-            if #unavailable(macOS 26.0) {
-                guard let blobData = try? JSONEncoder().encode(value) else { return }
-                self.userDefaults?.set(blobData, forKey: "CPU@LoadReader")
-                WidgetCenter.shared.reloadTimelines(ofKind: CPU_entry.kind)
-                WidgetCenter.shared.reloadTimelines(ofKind: "UnitedWidget")
-            }
+            guard let blobData = try? JSONEncoder().encode(value) else { return }
+            self.userDefaults?.set(blobData, forKey: "CPU@LoadReader")
+            WidgetCenter.shared.reloadTimelines(ofKind: CPU_entry.kind)
+            WidgetCenter.shared.reloadTimelines(ofKind: "UnitedWidget")
         }
     }
 }

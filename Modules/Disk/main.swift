@@ -330,12 +330,10 @@ public class Disk: Module {
         }
         
         if #available(macOS 11.0, *) {
-            if #unavailable(macOS 26.0) {
-                guard let blobData = try? JSONEncoder().encode(d) else { return }
-                self.userDefaults?.set(blobData, forKey: "Disk@CapacityReader")
-                WidgetCenter.shared.reloadTimelines(ofKind: Disk_entry.kind)
-                WidgetCenter.shared.reloadTimelines(ofKind: "UnitedWidget")
-            }
+            guard let blobData = try? JSONEncoder().encode(d) else { return }
+            self.userDefaults?.set(blobData, forKey: "Disk@CapacityReader")
+            WidgetCenter.shared.reloadTimelines(ofKind: Disk_entry.kind)
+            WidgetCenter.shared.reloadTimelines(ofKind: "UnitedWidget")
         }
     }
     

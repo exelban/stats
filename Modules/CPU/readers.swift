@@ -113,9 +113,9 @@ internal class LoadReader: Reader<CPU_Load> {
         let niceDiff = Double(cpuInfo!.cpu_ticks.3 - self.previousInfo.cpu_ticks.3)
         let totalTicks = sysDiff + userDiff + niceDiff + idleDiff
         
-        let system = sysDiff  / totalTicks
-        let user = userDiff  / totalTicks
-        let idle = idleDiff  / totalTicks
+        let system = sysDiff / totalTicks
+        let user = userDiff / totalTicks
+        let idle = idleDiff / totalTicks
         
         if !system.isNaN {
             self.response.systemLoad  = system
