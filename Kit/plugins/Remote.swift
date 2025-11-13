@@ -19,7 +19,8 @@ public protocol RemoteType {
 
 public class Remote {
     public static let shared = Remote()
-    static public var host = URL(string: "https://api.system-stats.com")! // https://api.system-stats.com http://localhost:8008
+    static public var host = URL(string: "https://api.system-stats.com")!
+    static public var authHost = URL(string: "https://oauth.system-stats.com")!
     static public var brokerHost = URL(string: "wss://broker.system-stats.com:8084/mqtt")!
     
     public var monitoring: Bool {
@@ -520,7 +521,7 @@ public class RemoteAuth {
     }
     
     private func validate(_ completion: @escaping (Bool) -> Void) {
-        guard !self.accessToken.isEmpty && !self.refreshToken.isEmpty, let url = URL(string: "\(Remote.host)/auth/me") else {
+        guard !self.accessToken.isEmpty && !self.refreshToken.isEmpty, let url = URL(string: "\(Remote.authHost)/me") else {
             completion(false)
             return
         }
@@ -567,7 +568,7 @@ public class RemoteAuth {
     }
     
     private func refreshTokenFunc(completion: @escaping (Bool?) -> Void) {
-        guard let url = URL(string: "\(Remote.host)/auth/token") else {
+        guard let url = URL(string: "\(Remote.authHost)/token") else {
             completion(nil)
             return
         }
@@ -593,7 +594,7 @@ public class RemoteAuth {
     }
     
     private func registerDevice(completion: @escaping (DeviceResponse?) -> Void) {
-        guard let url = URL(string: "\(Remote.host)/auth/device") else {
+        guard let url = URL(string: "\(Remote.authHost)/device") else {
             completion(nil)
             return
         }
@@ -617,7 +618,7 @@ public class RemoteAuth {
     }
     
     private func pollForToken(completion: @escaping (Error?) -> Void) {
-        guard let url = URL(string: "\(Remote.host)/auth/token") else {
+        guard let url = URL(string: "\(Remote.authHost)/token") else {
             completion(nil)
             return
         }
