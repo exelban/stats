@@ -12,6 +12,30 @@
 import Cocoa
 import Kit
 
+public func calculatePerformanceCoresUsage(cores: [core_s], usagePerCore: [Double]) -> Double? {
+    guard cores.count == usagePerCore.count else { return nil }
+    let pCoresList: [Double] = cores.enumerated().compactMap { (index, core) -> Double? in
+        guard core.type == .performance, index < usagePerCore.count else {
+            return nil
+        }
+        return usagePerCore[index]
+    }
+    guard !pCoresList.isEmpty else { return nil }
+    return pCoresList.reduce(0, +) / Double(pCoresList.count)
+}
+
+public func calculateEfficiencyCoresUsage(cores: [core_s], usagePerCore: [Double]) -> Double? {
+    guard cores.count == usagePerCore.count else { return nil }
+    let eCoresList: [Double] = cores.enumerated().compactMap { (index, core) -> Double? in
+        guard core.type == .efficiency, index < usagePerCore.count else {
+            return nil
+        }
+        return usagePerCore[index]
+    }
+    guard !eCoresList.isEmpty else { return nil }
+    return eCoresList.reduce(0, +) / Double(eCoresList.count)
+}
+
 internal class LoadReader: Reader<CPU_Load> {
     private var cpuInfo: processor_info_array_t!
     private var prevCpuInfo: processor_info_array_t?
@@ -130,21 +154,8 @@ internal class LoadReader: Reader<CPU_Load> {
         self.response.totalUsage = self.response.systemLoad + self.response.userLoad
         
         if let cores = self.cores {
-            let eCoresList: [Double] = cores.filter({ $0.type == .efficiency }).compactMap { (c: core_s) in
-                if self.response.usagePerCore.indices.contains(Int(c.id)) {
-                    return self.response.usagePerCore[Int(c.id)]
-                }
-                return 0
-            }
-            let pCoresList: [Double] = cores.filter({ $0.type == .performance }).compactMap { (c: core_s) in
-                if self.response.usagePerCore.indices.contains(Int(c.id)) {
-                    return self.response.usagePerCore[Int(c.id)]
-                }
-                return 0
-            }
-            
-            self.response.usageECores = eCoresList.reduce(0, +)/Double(eCoresList.count)
-            self.response.usagePCores = pCoresList.reduce(0, +)/Double(pCoresList.count)
+            self.response.usageECores = calculateEfficiencyCoresUsage(cores: cores, usagePerCore: self.response.usagePerCore)
+            self.response.usagePCores = calculatePerformanceCoresUsage(cores: cores, usagePerCore: self.response.usagePerCore)
         }
         
         self.callback(self.response)
