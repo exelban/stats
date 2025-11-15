@@ -472,7 +472,7 @@ internal class Popup: PopupWrapper {
                             self.recalculateHeight()
                         }
                         var ip = addr
-                        if let cc = value.raddr.countryCode {
+                        if let cc = value.raddr.countryCode, !cc.isEmpty {
                             ip += " (\(cc))"
                         }
                         if self.publicIPv4Field?.stringValue != ip {
