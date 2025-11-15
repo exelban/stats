@@ -420,8 +420,8 @@
 "Public IP changed" = "IP công khai đã thay đổi";
 "Previous IP" = "IP trước đây: %0";
 "New IP" = "IP mới: %0";
-"Internet connection lost" = "Internet connection lost";
-"Internet connection established" = "Internet connection established";
+"Internet connection lost" = "Mất kết nối internet";
+"Internet connection established" = "Kết nối internet được thiết lập";
 
 // Battery
 "Level" = "Mức";
