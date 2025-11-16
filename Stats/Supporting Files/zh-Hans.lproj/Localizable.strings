@@ -416,12 +416,12 @@
 "Download speed" = "下载速度";
 "Address" = "地址";
 "WiFi network" = "WiFi 网络";
-"Local IP changed" = "Local IP has changed";
-"Public IP changed" = "Public IP has changed";
-"Previous IP" = "Previous IP: %0";
-"New IP" = "New IP: %0";
-"Internet connection lost" = "Internet connection lost";
-"Internet connection established" = "Internet connection established";
+"Local IP changed" = "本地 IP 已更改";
+"Public IP changed" = "公网 IP 已更改";
+"Previous IP" = "旧 IP: %0";
+"New IP" = "新 IP: %0";
+"Internet connection lost" = "互联网连接已断开";
+"Internet connection established" = "互联网连接已建立";
 
 // Battery
 "Level" = "电量";
