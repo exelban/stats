@@ -66,7 +66,7 @@ internal class SetupWindow: NSWindow, NSWindowDelegate {
 }
 
 private class SetupContainer: NSStackView {
-    private let pages: [NSView] = [SetupView_1(), SetupView_2(), SetupView_3(), SetupView_4(), SetupView_end()]
+    private let pages: [NSView] = [SetupView_1(), SetupView_2(), SetupView_3(), SetupView_end()]
     
     private var main: NSView = NSView()
     private var prevBtn: NSButton = NSButton()
@@ -364,70 +364,6 @@ private class SetupView_3: NSStackView {
     @objc private func toggle(_ sender: NSButton) {
         guard let key = sender.identifier?.rawValue, !key.isEmpty else { return }
         Store.shared.set(key: "update-interval", value: key)
-    }
-}
-
-private class SetupView_4: NSStackView {
-    init() {
-        super.init(frame: NSRect(x: 0, y: 0, width: setupSize.width, height: setupSize.height - 60))
-        
-        let container: NSGridView = NSGridView()
-        container.rowSpacing = 0
-        container.yPlacement = .center
-        container.xPlacement = .center
-        
-        let title: NSTextField = TextView(frame: NSRect(x: 0, y: 0, width: container.frame.width, height: 22))
-        title.alignment = .center
-        title.font = NSFont.systemFont(ofSize: 20, weight: .semibold)
-        title.stringValue = localizedString("Anonymous telemetry for better development decisions")
-        title.toolTip = localizedString("Anonymous telemetry for better development decisions")
-        title.isSelectable = false
-        
-        container.addRow(with: [title])
-        container.addRow(with: [self.content()])
-        
-        container.row(at: 0).height = 100
-        
-        self.addArrangedSubview(container)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    private func content() -> NSView {
-        let container: NSGridView = NSGridView()
-        
-        container.addRow(with: [self.option(
-            tag: 1,
-            state: Telemetry.shared.isEnabled,
-            text: localizedString("Share anonymous telemetry data")
-        )])
-        container.addRow(with: [self.option(
-            tag: 2,
-            state: !Telemetry.shared.isEnabled,
-            text: localizedString("Do not share anonymous telemetry data")
-        )])
-        
-        return container
-    }
-    
-    private func option(tag: Int, state: Bool, text: String) -> NSView {
-        let button: NSButton = NSButton(frame: NSRect(x: 0, y: 0, width: 30, height: 20))
-        button.setButtonType(.radio)
-        button.state = state ? .on : .off
-        button.title = text
-        button.action = #selector(self.toggle)
-        button.isBordered = false
-        button.isTransparent = false
-        button.target = self
-        button.tag = tag
-        
-        return button
-    }
-    
-    @objc private func toggle(_ sender: NSButton) {
-        Telemetry.shared.isEnabled = sender.tag == 1
     }
 }
 

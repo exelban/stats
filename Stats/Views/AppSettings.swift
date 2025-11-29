@@ -41,7 +41,6 @@ class ApplicationSettings: NSStackView {
     
     private var updateSelector: NSPopUpButton?
     private var startAtLoginBtn: NSSwitch?
-    private var telemetryBtn: NSSwitch?
     private var remoteControlBtn: NSSwitch?
     
     private var combinedModulesView: PreferencesSection?
@@ -83,10 +82,6 @@ class ApplicationSettings: NSStackView {
             action: #selector(self.toggleLaunchAtLogin),
             state: LaunchAtLogin.isEnabled
         )
-        self.telemetryBtn = switchView(
-            action: #selector(self.toggleTelemetry),
-            state: Telemetry.shared.isEnabled
-        )
         
         scrollView.stackView.addArrangedSubview(PreferencesSection([
             PreferencesRow(localizedString("Check for updates"), component: self.updateSelector!),
@@ -99,8 +94,7 @@ class ApplicationSettings: NSStackView {
                 action: #selector(self.toggleDock),
                 state: Store.shared.bool(key: "dockIcon", defaultValue: false)
             )),
-            PreferencesRow(localizedString("Start at login"), component: self.startAtLoginBtn!),
-            PreferencesRow(localizedString("Share anonymous telemetry"), component: self.telemetryBtn!)
+            PreferencesRow(localizedString("Start at login"), component: self.startAtLoginBtn!)
         ]))
         
         self.combinedModulesView = PreferencesSection([
@@ -205,7 +199,6 @@ class ApplicationSettings: NSStackView {
     
     internal func viewWillAppear() {
         self.startAtLoginBtn?.state = LaunchAtLogin.isEnabled ? .on : .off
-        self.telemetryBtn?.state = Telemetry.shared.isEnabled ? .on : .off
         self.remoteControlBtn?.state = Remote.shared.control ? .on : .off
         
         var idx = self.updateSelector?.indexOfSelectedItem ?? 0
@@ -317,10 +310,6 @@ class ApplicationSettings: NSStackView {
         if !Store.shared.exist(key: "runAtLoginInitialized") {
             Store.shared.set(key: "runAtLoginInitialized", value: true)
         }
-    }
-    
-    @objc private func toggleTelemetry(_ sender: NSButton) {
-        Telemetry.shared.isEnabled = sender.state == NSControl.StateValue.on
     }
     
     @objc private func toggleCombinedModules(_ sender: NSButton) {
