@@ -93,7 +93,16 @@ public class Remote {
     
     public init() {
         self.log = NextLog.shared.copy(category: "Remote")
-        self.id = UUID(uuidString: Store.shared.string(key: "telemetry_id", defaultValue: UUID().uuidString)) ?? UUID()
+        
+        var id = UUID(uuidString: Store.shared.string(key: "remote_id", defaultValue: UUID().uuidString)) ?? UUID()
+        if Store.shared.exist(key: "telemetry_id") {
+            id = UUID(uuidString: Store.shared.string(key: "telemetry_id", defaultValue: UUID().uuidString)) ?? UUID()
+            Store.shared.remove("telemetry_id")
+        }
+        if !Store.shared.exist(key: "remote_id") {
+            Store.shared.set(key: "remote_id", value: id.uuidString)
+        }
+        self.id = id
         
         self.mqtt.commandCallback = { [weak self] cmd, payload in
             self?.command(cmd: cmd, payload: payload)
