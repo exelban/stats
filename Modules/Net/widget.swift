@@ -44,6 +44,7 @@ public struct Provider: TimelineProvider {
     }
     
     public func getTimeline(in context: Context, completion: @escaping (Timeline<Network_entry>) -> Void) {
+        self.userDefaults?.set(Date().timeIntervalSince1970, forKey: Network_entry.kind)
         var entry = Network_entry()
         if let raw = userDefaults?.data(forKey: "Network@UsageReader"), let load = try? JSONDecoder().decode(Network_Usage.self, from: raw) {
             entry.value = load

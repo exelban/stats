@@ -73,18 +73,14 @@ open class Module {
     public var settings: Settings_p? = nil
     public let portal: Portal_p?
     
-    public var name: String {
-        config.name
-    }
+    public var name: String { config.name }
     public var combinedPosition: Int {
         get { Store.shared.int(key: "\(self.name)_position", defaultValue: 0) }
         set { Store.shared.set(key: "\(self.name)_position", value: newValue) }
     }
     public var userDefaults: UserDefaults? = UserDefaults(suiteName: "\(Bundle.main.object(forInfoDictionaryKey: "TeamId") as! String).eu.exelban.Stats.widgets")
     
-    public var popupKeyboardShortcut: [UInt16] {
-        return self.popupView?.keyboardShortcut ?? []
-    }
+    public var popupKeyboardShortcut: [UInt16] { self.popupView?.keyboardShortcut ?? [] }
     
     private var moduleType: ModuleType
     
@@ -97,12 +93,8 @@ open class Module {
     private var readers: [Reader_p] = []
     
     private var pauseState: Bool {
-        get {
-            Store.shared.bool(key: "pause", defaultValue: false)
-        }
-        set {
-            Store.shared.set(key: "pause", value: newValue)
-        }
+        get { Store.shared.bool(key: "pause", defaultValue: false) }
+        set { Store.shared.set(key: "pause", value: newValue) }
     }
     
     public init(moduleType: ModuleType, popup: Popup_p? = nil, settings: Settings_v? = nil, portal: Portal_p? = nil, notifications: NotificationsWrapper? = nil) {

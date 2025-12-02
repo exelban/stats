@@ -233,12 +233,11 @@ public class RAM: Module {
         }
         
         if #available(macOS 11.0, *) {
-            if #unavailable(macOS 26.0) {
-                guard let blobData = try? JSONEncoder().encode(value) else { return }
+            if isWidgetActive(self.userDefaults, [RAM_entry.kind, "UnitedWidget"]), let blobData = try? JSONEncoder().encode(value) {
                 self.userDefaults?.set(blobData, forKey: "RAM@UsageReader")
-                WidgetCenter.shared.reloadTimelines(ofKind: RAM_entry.kind)
-                WidgetCenter.shared.reloadTimelines(ofKind: "UnitedWidget")
             }
+            WidgetCenter.shared.reloadTimelines(ofKind: RAM_entry.kind)
+            WidgetCenter.shared.reloadTimelines(ofKind: "UnitedWidget")
         }
     }
 }

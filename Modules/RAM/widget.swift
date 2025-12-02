@@ -55,6 +55,7 @@ public struct Provider: TimelineProvider {
     }
     
     public func getTimeline(in context: Context, completion: @escaping (Timeline<RAM_entry>) -> Void) {
+        self.userDefaults?.set(Date().timeIntervalSince1970, forKey: RAM_entry.kind)
         var entry = RAM_entry()
         if let raw = userDefaults?.data(forKey: "RAM@UsageReader"), let load = try? JSONDecoder().decode(RAM_Usage.self, from: raw) {
             entry.value = load

@@ -21,7 +21,12 @@ public struct Value {
 
 public struct United_entry: TimelineEntry {
     public static let kind = "UnitedWidget"
-    public static var snapshot: United_entry = United_entry()
+    public static var snapshot: United_entry = United_entry(
+        cpu: Value(value: 0.34),
+        gpu: Value(value: 0.45),
+        ram: Value(value: 0.67),
+        disk: Value(value: 0.78)
+    )
     
     public var date: Date {
         Calendar.current.date(byAdding: .second, value: 5, to: Date())!
@@ -48,6 +53,8 @@ public struct Provider: TimelineProvider {
     }
     
     public func getTimeline(in context: Context, completion: @escaping (Timeline<United_entry>) -> Void) {
+        self.userDefaults?.set(Date().timeIntervalSince1970, forKey: United_entry.kind)
+        
         var entry = United_entry()
         if let raw = userDefaults?.data(forKey: "CPU@LoadReader"), let value = try? JSONDecoder().decode(CPU_Load.self, from: raw) {
             entry.cpu = Value(value: value.totalUsage)

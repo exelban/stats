@@ -39,6 +39,7 @@ public struct Provider: TimelineProvider {
     }
     
     public func getTimeline(in context: Context, completion: @escaping (Timeline<Disk_entry>) -> Void) {
+        self.userDefaults?.set(Date().timeIntervalSince1970, forKey: Disk_entry.kind)
         var entry = Disk_entry()
         if let raw = userDefaults?.data(forKey: "Disk@CapacityReader"), let load = try? JSONDecoder().decode(drive.self, from: raw) {
             entry.value = load

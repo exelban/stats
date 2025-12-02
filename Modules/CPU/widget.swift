@@ -39,8 +39,9 @@ public struct Provider: TimelineProvider {
     }
     
     public func getTimeline(in context: Context, completion: @escaping (Timeline<CPU_entry>) -> Void) {
+        self.userDefaults?.set(Date().timeIntervalSince1970, forKey: CPU_entry.kind)
         var entry = CPU_entry()
-        if let raw = userDefaults?.data(forKey: "CPU@LoadReader"), let load = try? JSONDecoder().decode(CPU_Load.self, from: raw) {
+        if let raw = self.userDefaults?.data(forKey: "CPU@LoadReader"), let load = try? JSONDecoder().decode(CPU_Load.self, from: raw) {
             entry.value = load
         }
         let entries: [CPU_entry] = [entry]
