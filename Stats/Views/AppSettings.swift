@@ -39,6 +39,11 @@ class ApplicationSettings: NSStackView {
         set { Store.shared.set(key: "CombinedModules_popup", value: newValue) }
     }
     
+    private var systemWidgetsUpdatesState: Bool {
+        get { Store.shared.bool(key: "systemWidgetsUpdates_state", defaultValue: true) }
+        set { Store.shared.set(key: "systemWidgetsUpdates_state", value: newValue) }
+    }
+    
     private var updateSelector: NSPopUpButton?
     private var startAtLoginBtn: NSSwitch?
     private var remoteControlBtn: NSSwitch?
@@ -95,6 +100,13 @@ class ApplicationSettings: NSStackView {
                 state: Store.shared.bool(key: "dockIcon", defaultValue: false)
             )),
             PreferencesRow(localizedString("Start at login"), component: self.startAtLoginBtn!)
+        ]))
+        
+        scrollView.stackView.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("System widgets updates"), component: switchView(
+                action: #selector(self.toggleSystemWidgetsUpdatesState),
+                state: self.systemWidgetsUpdatesState
+            ))
         ]))
         
         self.combinedModulesView = PreferencesSection([
@@ -469,6 +481,10 @@ class ApplicationSettings: NSStackView {
                 self.remoteView?.setRowVisibility(4, newState: false)
             }
         }
+    }
+    
+    @objc private func toggleSystemWidgetsUpdatesState(_ sender: NSButton) {
+        self.systemWidgetsUpdatesState = sender.state == NSControl.StateValue.on
     }
 }
 

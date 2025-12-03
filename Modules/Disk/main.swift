@@ -221,6 +221,10 @@ public class Disk: Module {
         Store.shared.string(key: "\(self.name)_textWidgetValue", defaultValue: "$capacity.free/$capacity.total")
     }
     
+    private var systemWidgetsUpdatesState: Bool {
+        Store.shared.bool(key: "systemWidgetsUpdates_state", defaultValue: true)
+    }
+    
     public init() {
         super.init(
             moduleType: .disk,
@@ -329,12 +333,14 @@ public class Disk: Module {
             }
         }
         
-        if #available(macOS 11.0, *) {
-            if isWidgetActive(self.userDefaults, [Disk_entry.kind, "UnitedWidget"]), let blobData = try? JSONEncoder().encode(d) {
-                self.userDefaults?.set(blobData, forKey: "Disk@CapacityReader")
+        if self.systemWidgetsUpdatesState {
+            if #available(macOS 11.0, *) {
+                if isWidgetActive(self.userDefaults, [Disk_entry.kind, "UnitedWidget"]), let blobData = try? JSONEncoder().encode(d) {
+                    self.userDefaults?.set(blobData, forKey: "Disk@CapacityReader")
+                }
+                WidgetCenter.shared.reloadTimelines(ofKind: Disk_entry.kind)
+                WidgetCenter.shared.reloadTimelines(ofKind: "UnitedWidget")
             }
-            WidgetCenter.shared.reloadTimelines(ofKind: Disk_entry.kind)
-            WidgetCenter.shared.reloadTimelines(ofKind: "UnitedWidget")
         }
     }
     

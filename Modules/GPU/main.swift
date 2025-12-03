@@ -117,9 +117,11 @@ public class GPU: Module {
     private var notificationID: String? = nil
     
     private var showType: Bool {
-        get {
-            return Store.shared.bool(key: "\(self.config.name)_showType", defaultValue: false)
-        }
+        Store.shared.bool(key: "\(self.config.name)_showType", defaultValue: false)
+    }
+    
+    private var systemWidgetsUpdatesState: Bool {
+        Store.shared.bool(key: "systemWidgetsUpdates_state", defaultValue: true)
     }
     
     public init() {
@@ -191,12 +193,14 @@ public class GPU: Module {
             }
         }
         
-        if #available(macOS 11.0, *) {
-            if isWidgetActive(self.userDefaults, [GPU_entry.kind, "UnitedWidget"]), let blobData = try? JSONEncoder().encode(selectedGPU) {
-                self.userDefaults?.set(blobData, forKey: "GPU@InfoReader")
+        if self.systemWidgetsUpdatesState {
+            if #available(macOS 11.0, *) {
+                if isWidgetActive(self.userDefaults, [GPU_entry.kind, "UnitedWidget"]), let blobData = try? JSONEncoder().encode(selectedGPU) {
+                    self.userDefaults?.set(blobData, forKey: "GPU@InfoReader")
+                }
+                WidgetCenter.shared.reloadTimelines(ofKind: GPU_entry.kind)
+                WidgetCenter.shared.reloadTimelines(ofKind: "UnitedWidget")
             }
-            WidgetCenter.shared.reloadTimelines(ofKind: GPU_entry.kind)
-            WidgetCenter.shared.reloadTimelines(ofKind: "UnitedWidget")
         }
     }
 }

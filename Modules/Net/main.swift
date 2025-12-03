@@ -158,6 +158,10 @@ public class Network: Module {
         Store.shared.string(key: "\(self.name)_textWidgetValue", defaultValue: "$addr.public - $status")
     }
     
+    private var systemWidgetsUpdatesState: Bool {
+        Store.shared.bool(key: "systemWidgetsUpdates_state", defaultValue: true)
+    }
+    
     public init() {
         self.settingsView = Settings(.network)
         self.popupView = Popup(.network)
@@ -325,11 +329,13 @@ public class Network: Module {
             }
         }
         
-        if #available(macOS 11.0, *) {
-            if isWidgetActive(self.userDefaults, [Network_entry.kind]), let blobData = try? JSONEncoder().encode(raw) {
-                self.userDefaults?.set(blobData, forKey: "Network@UsageReader")
+        if self.systemWidgetsUpdatesState {
+            if #available(macOS 11.0, *) {
+                if isWidgetActive(self.userDefaults, [Network_entry.kind]), let blobData = try? JSONEncoder().encode(raw) {
+                    self.userDefaults?.set(blobData, forKey: "Network@UsageReader")
+                }
+                WidgetCenter.shared.reloadTimelines(ofKind: Network_entry.kind)
             }
-            WidgetCenter.shared.reloadTimelines(ofKind: Network_entry.kind)
         }
     }
     

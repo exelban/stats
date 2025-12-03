@@ -94,6 +94,10 @@ public class RAM: Module {
         Store.shared.string(key: "\(self.name)_textWidgetValue", defaultValue: "$mem.used/$mem.total ($pressure.value)")
     }
     
+    private var systemWidgetsUpdatesState: Bool {
+        Store.shared.bool(key: "systemWidgetsUpdates_state", defaultValue: true)
+    }
+    
     public init() {
         self.settingsView = Settings(.RAM)
         self.popupView = Popup(.RAM)
@@ -232,12 +236,14 @@ public class RAM: Module {
             }
         }
         
-        if #available(macOS 11.0, *) {
-            if isWidgetActive(self.userDefaults, [RAM_entry.kind, "UnitedWidget"]), let blobData = try? JSONEncoder().encode(value) {
-                self.userDefaults?.set(blobData, forKey: "RAM@UsageReader")
+        if self.systemWidgetsUpdatesState {
+            if #available(macOS 11.0, *) {
+                if isWidgetActive(self.userDefaults, [RAM_entry.kind, "UnitedWidget"]), let blobData = try? JSONEncoder().encode(value) {
+                    self.userDefaults?.set(blobData, forKey: "RAM@UsageReader")
+                }
+                WidgetCenter.shared.reloadTimelines(ofKind: RAM_entry.kind)
+                WidgetCenter.shared.reloadTimelines(ofKind: "UnitedWidget")
             }
-            WidgetCenter.shared.reloadTimelines(ofKind: RAM_entry.kind)
-            WidgetCenter.shared.reloadTimelines(ofKind: "UnitedWidget")
         }
     }
 }
