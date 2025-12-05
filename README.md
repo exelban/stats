@@ -99,7 +99,7 @@ If you have concerns about these requests, you have a few options:
 - Українська
 - Русский
 - 中文 (简体) (thanks to [chenguokai](https://github.com/chenguokai), [Tai-Zhou](https://github.com/Tai-Zhou), and [Jerry](https://github.com/Jerry23011))
-- Türkçe (thanks to [yusufozgul](https://github.com/yusufozgul))
+- Türkçe (thanks to [yusufozgul](https://github.com/yusufozgul) and [setanarut](https://github.com/setanarut))
 - 한국어 (thanks to [escapeanaemia](https://github.com/escapeanaemia) and [iamhslee](https://github.com/iamhslee))
 - German (thanks to [natterstefan](https://github.com/natterstefan) and [aneitel](https://github.com/aneitel))
 - 中文 (繁體) (thanks to [iamch15542](https://github.com/iamch15542) and [jrthsr700tmax](https://github.com/jrthsr700tmax))
