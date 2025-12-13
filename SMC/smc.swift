@@ -377,27 +377,18 @@ public class SMC {
         }
         
         let fansMode = Int(self.getValue("FS! ") ?? 0)
-        var newMode: UInt8 = 0
-        
-        if fansMode == 0 && id == 0 && mode == .forced {
-            newMode = 1
-        } else if fansMode == 0 && id == 1 && mode == .forced {
-            newMode = 2
-        } else if fansMode == 1 && id == 0 && mode == .automatic {
-            newMode = 0
-        } else if fansMode == 1 && id == 1 && mode == .forced {
-            newMode = 3
-        } else if fansMode == 2 && id == 1 && mode == .automatic {
-            newMode = 0
-        } else if fansMode == 2 && id == 0 && mode == .forced {
-            newMode = 3
-        } else if fansMode == 3 && id == 0 && mode == .automatic {
-            newMode = 2
-        } else if fansMode == 3 && id == 1 && mode == .automatic {
-            newMode = 1
+        var newMode32: UInt32 = UInt32(fansMode)
+
+        // FS! uses a bitmask where each bit corresponds to a fan (bit 0 = fan 0, bit 1 = fan 1, ...)
+        // Support 3+ fans by setting/clearing the appropriate bit in the mask.
+        let bitMask: UInt32 = 1 << UInt32(id)
+        if mode == .forced {
+            newMode32 = newMode32 | bitMask
+        } else {
+            newMode32 = newMode32 & ~bitMask
         }
-        
-        if fansMode == newMode {
+
+        if Int(newMode32) == fansMode {
             return
         }
         
@@ -410,12 +401,14 @@ public class SMC {
             return
         }
         
-        value.bytes = [0, newMode, UInt8(0), UInt8(0), UInt8(0), UInt8(0),
-                       UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0),
-                       UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0),
-                       UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0),
-                       UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0),
-                       UInt8(0), UInt8(0)]
+        let highByte = UInt8((newMode32 >> 8) & 0xff)
+        let lowByte  = UInt8(newMode32 & 0xff)
+        value.bytes = [highByte, lowByte, UInt8(0), UInt8(0), UInt8(0), UInt8(0),
+                   UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0),
+                   UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0),
+                   UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0),
+                   UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0),
+                   UInt8(0), UInt8(0)]
         
         result = write(value)
         if result != kIOReturnSuccess {
@@ -426,7 +419,13 @@ public class SMC {
     
     public func setFanSpeed(_ id: Int, speed: Int) {
         let maxSpeed = Int(self.getValue("F\(id)Mx") ?? 4000)
-        
+
+        // Allow 0 for "off", but validate against negative and above max
+        if speed < 0 {
+            print("new fan speed (\(speed)) is negative")
+            return
+        }
+
         if speed > maxSpeed {
             print("new fan speed (\(speed)) is more than maximum speed (\(maxSpeed))")
             return
@@ -458,16 +457,6 @@ public class SMC {
         if result != kIOReturnSuccess {
             print("Error write: " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
             return
-        }
-    }
-    
-    public func resetFans() {
-        var value = SMCVal_t("FS! ")
-        value.dataSize = 2
-        
-        let result = write(value)
-        if result != kIOReturnSuccess {
-            print("Error write: " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
         }
     }
     

@@ -65,6 +65,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
         self.parseArguments()
         self.parseVersion()
         SMCHelper.shared.checkForUpdate()
+        SMCHelper.shared.establishConnection()
         self.setup {
             modules.reversed().forEach{ $0.mount() }
             self.settingsWindow.setModules()
