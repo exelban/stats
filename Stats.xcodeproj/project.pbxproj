@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9BE151742910443A9CD72DF8 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42DC1431FC8D45A69127B6ED /* main.swift */; };
+		E93EAA35B78C4F75B1F9A0DC /* readers.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6739277F5184295B9C84E0C /* readers.swift */; };
+		638C94C8DF3F4EB58310F118 /* popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A2E84AB45A0464782B20CBC /* popup.swift */; };
+		B4313A521D9F4C77A98D09CD /* settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDCD18DF04C24229911625F8 /* settings.swift */; };
+		442855D711B24C4188460745 /* config.plist in Resources */ = {isa = PBXBuildFile; fileRef = D9E0917FE73F45BD86663977 /* config.plist */; };
+		CD21443B9BC84A95990DEBA8 /* Kit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A2846F72666A9CC00EC1F6D /* Kit.framework */; };
+		E930EB62F4DB48029E21109C /* Remote.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30DB81BB3954459A9540E349 /* Remote.framework */; };
+		CB5CB9D855914DC0ACAC3AF7 /* Remote.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 30DB81BB3954459A9540E349 /* Remote.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5C038CF62D86EE8A00516809 /* Remote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C038CF52D86EE8700516809 /* Remote.swift */; };
 		5C044F7A2B3DE6F3005F6951 /* portal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C044F792B3DE6F3005F6951 /* portal.swift */; };
 		5C0A2A8A292A5B4D009B4C1F /* SMJobBlessUtil.py in Resources */ = {isa = PBXBuildFile; fileRef = 5C0A2A89292A5B4D009B4C1F /* SMJobBlessUtil.py */; };
@@ -387,6 +395,13 @@
 			remoteGlobalIDString = 9AF9EE0124648751005D2270;
 			remoteInfo = Disk;
 		};
+		161A07865725496292A7F074 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9A6CFBF122A1C9F4001E782D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1E41768A506347C2BCAE6253;
+			remoteInfo = Remote;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -396,7 +411,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				5C645C012C591FFA00D8342A /* Net.framework in Embed Frameworks */,
+				
+				CB5CB9D855914DC0ACAC3AF7 /* Remote.framework in Embed Frameworks */,5C645C012C591FFA00D8342A /* Net.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -715,6 +731,13 @@
 		CE47845D298F55F900F564FD /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F8A38F83253303A8006D4D81 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		FCBD9253255C7D9900E1621A /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		30DB81BB3954459A9540E349 /* Remote.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Remote.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		42DC1431FC8D45A69127B6ED /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		A6739277F5184295B9C84E0C /* readers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = readers.swift; sourceTree = "<group>"; };
+		7A2E84AB45A0464782B20CBC /* popup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = popup.swift; sourceTree = "<group>"; };
+		BDCD18DF04C24229911625F8 /* settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = settings.swift; sourceTree = "<group>"; };
+		D9E0917FE73F45BD86663977 /* config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = config.plist; sourceTree = "<group>"; };
+		78C578DC29B540E48E59A84F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -857,6 +880,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				9A2847D12666AA9500EC1F6D /* Kit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EA2CE998DC094458AB782D5E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CD21443B9BC84A95990DEBA8 /* Kit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1291,6 +1322,19 @@
 			path = Disk;
 			sourceTree = "<group>";
 		};
+		BACF1A2562E7494AB9BA002B /* Remote */ = {
+			isa = PBXGroup;
+			children = (
+				42DC1431FC8D45A69127B6ED /* main.swift */,
+				A6739277F5184295B9C84E0C /* readers.swift */,
+				7A2E84AB45A0464782B20CBC /* popup.swift */,
+				BDCD18DF04C24229911625F8 /* settings.swift */,
+				D9E0917FE73F45BD86663977 /* config.plist */,
+				78C578DC29B540E48E59A84F /* Info.plist */,
+			);
+			path = Remote;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -1706,6 +1750,23 @@
 			productReference = 9AF9EE0224648751005D2270 /* Disk.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		1E41768A506347C2BCAE6253 /* Remote */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DAD2145C8ECA456CBCF8F31C /* Build configuration list for PBXNativeTarget "Remote" */;
+			buildPhases = (
+				7F4A381994BE4CEDBC764C77 /* Sources */,
+				EA2CE998DC094458AB782D5E /* Frameworks */,
+				CF57463EE8AC4639ACF5632C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Remote;
+			productName = Remote;
+			productReference = 30DB81BB3954459A9540E349 /* Remote.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -1969,6 +2030,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				9AB14B78248CEF3B00DC6731 /* config.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CF57463EE8AC4639ACF5632C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				442855D711B24C4188460745 /* config.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2241,6 +2310,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		7F4A381994BE4CEDBC764C77 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9BE151742910443A9CD72DF8 /* main.swift in Sources */,
+				E93EAA35B78C4F75B1F9A0DC /* readers.swift in Sources */,
+				638C94C8DF3F4EB58310F118 /* popup.swift in Sources */,
+				B4313A521D9F4C77A98D09CD /* settings.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -2373,6 +2453,11 @@
 			isa = PBXTargetDependency;
 			target = 9AF9EE0124648751005D2270 /* Disk */;
 			targetProxy = 9AF9EE0724648751005D2270 /* PBXContainerItemProxy */;
+		};
+		3E820BA138614A368BD19ECF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1E41768A506347C2BCAE6253 /* Remote */;
+			targetProxy = 161A07865725496292A7F074 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -3632,6 +3717,64 @@
 			};
 			name = Release;
 		};
+		EF5D5B62FF3D4D27BE80299A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = RP2S87B72W;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Modules/Remote/Info.plist;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = eu.exelban.Stats.Remote;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		3126642156C14FC68AEDB0C6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = RP2S87B72W;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Modules/Remote/Info.plist;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = eu.exelban.Stats.Remote;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -3784,6 +3927,15 @@
 			buildConfigurations = (
 				9AF9EE0B24648751005D2270 /* Debug */,
 				9AF9EE0C24648751005D2270 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DAD2145C8ECA456CBCF8F31C /* Build configuration list for PBXNativeTarget "Remote" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EF5D5B62FF3D4D27BE80299A /* Debug */,
+				3126642156C14FC68AEDB0C6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

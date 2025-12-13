@@ -1,0 +1,30 @@
+# Stats Remote Daemon - Systemd Service
+#
+# Installation:
+#   1. Copy stats-remote-daemon.py to /usr/local/bin/
+#   2. Make it executable: chmod +x /usr/local/bin/stats-remote-daemon.py
+#   3. Copy this file to /etc/systemd/system/stats-remote.service
+#   4. Enable and start: systemctl enable --now stats-remote
+#
+# Check status: systemctl status stats-remote
+# View logs: journalctl -u stats-remote -f
+
+[Unit]
+Description=Stats Remote Metrics Daemon
+Documentation=https://github.com/exelban/stats
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /usr/local/bin/stats-remote-daemon.py
+Restart=always
+RestartSec=5
+
+# Security hardening
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+
+[Install]
+WantedBy=multi-user.target
