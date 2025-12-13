@@ -497,10 +497,7 @@ internal class FanView: NSStackView {
     private var horizontalMargin: CGFloat {
         self.edgeInsets.top + self.edgeInsets.bottom + (self.spacing*CGFloat(self.arrangedSubviews.count))
     }
-    
-    private var willSleepMode: FanMode? = nil // fan mode before sleep
-    private var willSleepSpeed: Int? = nil // fan speed before sleep
-    
+
     public init(_ fan: Fan, width: CGFloat, callback: @escaping (() -> Void)) {
         self.fan = fan
         self.sizeCallback = callback
@@ -529,6 +526,7 @@ internal class FanView: NSStackView {
         NotificationCenter.default.addObserver(self, selector: #selector(self.syncFanSpeed), name: .syncFansControl, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.changeHelperState), name: .fanHelperState, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.controlCallback), name: .toggleFanControl, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.handleFanError), name: .fanControlError, object: nil)
         
         if let fanMode = self.fan.customMode, self.speedState && fanMode != FanMode.automatic {
             SMCHelper.shared.setFanMode(fan.id, mode: fanMode.rawValue)
@@ -550,6 +548,7 @@ internal class FanView: NSStackView {
         NSWorkspace.shared.notificationCenter.removeObserver(self)
         NotificationCenter.default.removeObserver(self, name: .syncFansControl, object: nil)
         NotificationCenter.default.removeObserver(self, name: .fanHelperState, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .fanControlError, object: nil)
         NotificationCenter.default.removeObserver(self, name: .toggleSettings, object: nil)
     }
     
@@ -643,7 +642,9 @@ internal class FanView: NSStackView {
                 self?.fan.customMode = mode
                 SMCHelper.shared.setFanMode(fan.id, mode: mode.rawValue)
             }
-            self?.toggleControlView(mode == .forced)
+            DispatchQueue.main.async {
+                self?.toggleControlView(mode == .forced)
+            }
         }
         buttons.off = { [weak self] in
             if let fan = self?.fan {
@@ -654,7 +655,9 @@ internal class FanView: NSStackView {
                 SMCHelper.shared.setFanSpeed(fan.id, speed: 0)
                 self?.fan.customSpeed = 0
             }
-            self?.toggleControlView(false)
+            DispatchQueue.main.async {
+                self?.toggleControlView(false)
+            }
         }
         buttons.turbo = { [weak self] in
             if let fan = self?.fan {
@@ -665,7 +668,9 @@ internal class FanView: NSStackView {
                 SMCHelper.shared.setFanSpeed(fan.id, speed: Int(fan.maxSpeed))
                 self?.fan.customSpeed = Int(fan.maxSpeed)
             }
-            self?.toggleControlView(false)
+            DispatchQueue.main.async {
+                self?.toggleControlView(false)
+            }
         }
         
         view.addSubview(buttons)
@@ -684,7 +689,7 @@ internal class FanView: NSStackView {
         controls.spacing = 0
         
         let slider: NSSlider = NSSlider(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: 26))
-        slider.minValue = self.fan.minSpeed
+        slider.minValue = 0  // Allow 0 RPM (off) via slider
         slider.maxValue = self.fan.maxSpeed
         slider.doubleValue = self.speed
         slider.isContinuous = true
@@ -748,12 +753,11 @@ internal class FanView: NSStackView {
         
         if state {
             self.slider?.doubleValue = self.speed
+            self.sliderValueField?.stringValue = "\(Int(self.speed)) RPM"
             if self.speedState {
-                self.setSpeed(value: Int(self.speed), then: {
-                    DispatchQueue.main.async {
-                        self.sliderValueField?.textColor = .systemBlue
-                    }
-                })
+                self.sliderValueField?.textColor = .systemBlue
+            } else {
+                self.sliderValueField?.textColor = .secondaryLabelColor
             }
             self.addArrangedSubview(view)
         } else {
@@ -791,12 +795,13 @@ internal class FanView: NSStackView {
     
     @objc private func sliderCallback(_ sender: NSSlider) {
         var value = sender.doubleValue
+        // Clamp to valid range: 0 (off) to maxSpeed
         if value > self.fan.maxSpeed {
             value = self.fan.maxSpeed
-        } else if value < self.fan.minSpeed {
-            value = self.fan.minSpeed
+        } else if value < 0 {
+            value = 0
         }
-        
+
         self.minBtn?.state = .off
         self.maxBtn?.state = .off
         
@@ -806,10 +811,11 @@ internal class FanView: NSStackView {
                 self.sliderValueField?.textColor = .systemBlue
             }
         })
-        
+
         if sender.tag != 4 {
-            if self.fan.minSpeed != 0 && self.fan.maxSpeed != 0 && self.fan.maxSpeed != self.fan.minSpeed {
-                let percentage = Int((100*(value-self.fan.minSpeed))/(self.fan.maxSpeed - self.fan.minSpeed))
+            if self.fan.maxSpeed > 0 {
+                // Slider is now 0-maxSpeed, so percentage is simply value/maxSpeed
+                let percentage = Int((100 * value) / self.fan.maxSpeed)
                 NotificationCenter.default.post(name: .syncFansControl, object: nil, userInfo: ["percentage": percentage])
             } else {
                 NotificationCenter.default.post(name: .syncFansControl, object: nil, userInfo: ["speed": Int(value)])
@@ -832,40 +838,14 @@ internal class FanView: NSStackView {
     }
     
     @objc private func wakeListener(aNotification: NSNotification) {
+        // After wake, the system should be cool so keep fans in automatic mode
+        // User can manually adjust if needed - no need to restore previous settings
         self.resetModeAfterSleep = true
-        
-        if self.speedState {
-            if let mode = self.willSleepMode, let speed = self.willSleepSpeed {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                    SMCHelper.shared.setFanMode(self.fan.id, mode: mode.rawValue)
-                    self.modeButtons?.setMode(mode)
-                    if mode != .automatic {
-                        self.setSpeed(value: speed, then: {
-                            DispatchQueue.main.async {
-                                self.sliderValueField?.textColor = .systemBlue
-                            }
-                        })
-                    }
-                }
-            }
-            self.willSleepMode = nil
-            self.willSleepSpeed = nil
-        }
-        
-        if let value = self.fan.customSpeed, self.fan.mode != .automatic {
-            self.setSpeed(value: value, then: {
-                DispatchQueue.main.async {
-                    self.sliderValueField?.textColor = .systemBlue
-                }
-            })
-        }
     }
     
     @objc private func sleepListener(aNotification: NSNotification) {
         guard SMCHelper.shared.isActive() && self.fan.customMode != .automatic else { return }
-        
-        self.willSleepMode = self.fan.customMode
-        self.willSleepSpeed = self.fan.customSpeed
+
         SMCHelper.shared.setFanMode(fan.id, mode: FanMode.automatic.rawValue)
         self.modeButtons?.setMode(.automatic)
     }
@@ -874,19 +854,37 @@ internal class FanView: NSStackView {
         guard self.syncState else { return }
         var speed = notification.userInfo?["speed"] as? Int
         if let percentage = notification.userInfo?["percentage"] as? Int {
-            speed = ((Int(self.fan.maxSpeed - self.fan.minSpeed)*percentage)/100) + Int(self.fan.minSpeed)
+            // Slider is now 0-maxSpeed
+            speed = (Int(self.fan.maxSpeed) * percentage) / 100
         }
-        
+
         guard let speed, self.fan.customSpeed != speed else { return }
-        
+
         let slider = NSSlider()
         slider.tag = 4
         slider.maxValue = 30000
         slider.intValue = Int32(speed)
-        
+
         self.sliderCallback(slider)
     }
-    
+
+    @objc private func handleFanError(_ notification: Notification) {
+        guard let userInfo = notification.userInfo,
+              let fanId = userInfo["fanId"] as? Int,
+              let message = userInfo["message"] as? String,
+              fanId == self.fan.id else { return }
+
+        // Show error to user on main thread
+        DispatchQueue.main.async {
+            let alert = NSAlert()
+            alert.messageText = localizedString("Fan Control Error")
+            alert.informativeText = message
+            alert.alertStyle = .warning
+            alert.addButton(withTitle: "OK")
+            alert.runModal()
+        }
+    }
+
     public func update(_ value: Fan) {
         DispatchQueue.main.async(execute: {
             if (self.window?.isVisible ?? false) || !self.ready {
@@ -926,6 +924,18 @@ internal class FanView: NSStackView {
     @objc private func installHelper(_ sender: NSButton) {
         SMCHelper.shared.install { status in
             NotificationCenter.default.post(name: .fanHelperState, object: nil, userInfo: ["state": status])
+
+            // Show error if installation failed
+            if !status {
+                DispatchQueue.main.async {
+                    let alert = NSAlert()
+                    alert.messageText = localizedString("SMC Helper Installation Failed")
+                    alert.informativeText = localizedString("Unable to install the privileged helper. Check Console.app for details.")
+                    alert.alertStyle = .critical
+                    alert.addButton(withTitle: "OK")
+                    alert.runModal()
+                }
+            }
         }
     }
     

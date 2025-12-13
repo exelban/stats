@@ -871,17 +871,37 @@ public class SMCHelper {
     public func setFanSpeed(_ id: Int, speed: Int) {
         guard let helper = self.helper(nil) else { return }
         helper.setFanSpeed(id: id, value: speed) { result in
-            if let result, !result.isEmpty {
-                NSLog("set fan speed: \(result)")
+            if result == nil {
+                // Error occurred - result is nil means failure
+                NotificationCenter.default.post(name: .fanControlError, object: nil, userInfo: [
+                    "operation": "setFanSpeed",
+                    "fanId": id,
+                    "message": "Failed to set fan speed"
+                ])
             }
         }
     }
     
     public func setFanMode(_ id: Int, mode: Int) {
+        // Validate mode is a valid FanMode rawValue (0 = automatic, 1 = forced)
+        guard mode == 0 || mode == 1 else {
+            NSLog("Invalid fan mode: \(mode). Must be 0 (automatic) or 1 (forced)")
+            NotificationCenter.default.post(name: .fanControlError, object: nil, userInfo: [
+                "operation": "setFanMode",
+                "fanId": id,
+                "message": "Invalid fan mode value: \(mode)"
+            ])
+            return
+        }
+
         guard let helper = self.helper(nil) else { return }
         helper.setFanMode(id: id, mode: mode) { result in
-            if let result, !result.isEmpty {
-                NSLog("set fan mode: \(result)")
+            if result == nil {
+                NotificationCenter.default.post(name: .fanControlError, object: nil, userInfo: [
+                    "operation": "setFanMode",
+                    "fanId": id,
+                    "message": "Failed to set fan mode"
+                ])
             }
         }
     }
@@ -908,6 +928,51 @@ public class SMCHelper {
                 }
             }
         }
+    }
+
+    public func establishConnection(retryCount: Int = 3, retryDelay: TimeInterval = 0.5) {
+        guard self.isInstalled else {
+            NSLog("SMC Helper not installed, skipping connection establishment")
+            return
+        }
+
+        var attempts = 0
+
+        func attemptConnection() {
+            attempts += 1
+            NSLog("Attempting to establish SMC Helper connection (attempt \(attempts)/\(retryCount))")
+
+            guard let helper = self.helper(nil) else {
+                if attempts < retryCount {
+                    NSLog("Failed to connect to SMC Helper, retrying in \(retryDelay) seconds...")
+                    DispatchQueue.main.asyncAfter(deadline: .now() + retryDelay) {
+                        attemptConnection()
+                    }
+                } else {
+                    NSLog("Failed to establish SMC Helper connection after \(retryCount) attempts")
+                }
+                return
+            }
+
+            // Verify connection by getting version
+            helper.version { version in
+                if version.isEmpty {
+                    // Version call failed, retry if attempts remain
+                    if attempts < retryCount {
+                        NSLog("Version check failed, retrying...")
+                        DispatchQueue.main.asyncAfter(deadline: .now() + retryDelay) {
+                            attemptConnection()
+                        }
+                    } else {
+                        NSLog("Failed to verify SMC Helper connection after \(retryCount) attempts")
+                    }
+                } else {
+                    NSLog("SMC Helper connection established successfully (version: \(version))")
+                }
+            }
+        }
+
+        attemptConnection()
     }
     
     public func install(completion: @escaping (_ installed: Bool) -> Void) {
@@ -963,7 +1028,17 @@ public class SMCHelper {
         let connection = NSXPCConnection(machServiceName: "eu.exelban.Stats.SMC.Helper", options: .privileged)
         connection.exportedObject = self
         connection.remoteObjectInterface = NSXPCInterface(with: HelperProtocol.self)
+
+        connection.interruptionHandler = {
+            NSLog("SMC Helper connection interrupted, will reconnect on next use")
+            OperationQueue.main.addOperation {
+                self.connection?.invalidate()
+                self.connection = nil
+            }
+        }
+
         connection.invalidationHandler = {
+            NSLog("SMC Helper connection invalidated")
             self.connection?.invalidationHandler = nil
             OperationQueue.main.addOperation {
                 self.connection = nil
@@ -972,7 +1047,8 @@ public class SMCHelper {
         
         self.connection = connection
         self.connection?.resume()
-        
+
+        NSLog("SMC Helper XPC connection established")
         return self.connection
     }
     

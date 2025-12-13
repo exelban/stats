@@ -353,19 +353,20 @@ extension SensorsReader {
     
     private func getFanMode(_ id: Int) -> FanMode {
         let fansMode: Int = Int(SMC.shared.getValue("FS! ") ?? 0)
-        var mode: FanMode = .automatic
-        
-        if fansMode == 0 {
-            mode = .automatic
-        } else if fansMode == 3 {
-            mode = .forced
-        } else if fansMode == 1 && id == 0 {
-            mode = .forced
-        } else if fansMode == 2 && id == 1 {
-            mode = .forced
+
+        // FS! uses a bitmask: bit N corresponds to fan N (bit 0 = fan 0, bit 1 = fan 1, ...)
+        // Prefer reading the FS! bit for the given fan id if available.
+        let bitMask = 1 << id
+        if (fansMode & bitMask) != 0 {
+            return .forced
         }
-        
-        return mode
+
+        // If FS! doesn't indicate forced mode for this fan, try the individual register F{id}Md
+        if let individualMode = SMC.shared.getValue("F\(id)Md") {
+            return individualMode == 0 ? .automatic : .forced
+        }
+
+        return .automatic
     }
 }
 
