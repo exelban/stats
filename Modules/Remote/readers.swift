@@ -1,11 +1,3 @@
-//
-//  readers.swift
-//  Remote
-//
-//  Created by Serhiy Mytrovtsiy on 09/04/2020.
-//  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
-//
-
 import Foundation
 import Kit
 

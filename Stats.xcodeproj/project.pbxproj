@@ -397,7 +397,7 @@
 		};
 		161A07865725496292A7F074 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 9A6CFBF122A1C9F4001E782D /* Project object */;
+			containerPortal = 9A1410ED229E721100D29793 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 1E41768A506347C2BCAE6253;
 			remoteInfo = Remote;
@@ -474,6 +474,7 @@
 				9A3E17D4247A94AF00449CD1 /* Net.framework in Embed Frameworks */,
 				9A90E19124EAD2BB00471E9A /* GPU.framework in Embed Frameworks */,
 				9A97CED22537331B00742D8F /* CPU.framework in Embed Frameworks */,
+				CB5CB9D855914DC0ACAC3AF7 /* Remote.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1258,6 +1259,7 @@
 				9ABFF8F7248BEBCB00C9041A /* Battery */,
 				9A11AAD0266FD77F000C1C05 /* Bluetooth */,
 				5C22299E29CCB3C400F00E69 /* Clock */,
+				BACF1A2562E7494AB9BA002B /* Remote */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -1536,6 +1538,7 @@
 				9A11AAD5266FD77F000C1C05 /* PBXTargetDependency */,
 				5C2229A229CCB3C400F00E69 /* PBXTargetDependency */,
 				5CE7E79B2C318513006BC92C /* PBXTargetDependency */,
+				3E820BA138614A368BD19ECF /* PBXTargetDependency */,
 			);
 			name = Stats;
 			packageProductDependencies = (
@@ -1909,6 +1912,7 @@
 				9AE29AD4249A50350071B02D /* Sensors */,
 				9A11AACE266FD77F000C1C05 /* Bluetooth */,
 				5C22299C29CCB3C400F00E69 /* Clock */,
+				1E41768A506347C2BCAE6253 /* Remote */,
 				9AAC5E29280ACC120043D892 /* Tests */,
 				5CFE492629264DF1000F2856 /* Helper */,
 				5CE7E7892C318512006BC92C /* WidgetsExtension */,

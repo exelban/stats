@@ -1,11 +1,3 @@
-//
-//  popup.swift
-//  Remote
-//
-//  Created by Serhiy Mytrovtsiy on 09/04/2020.
-//  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
-//
-
 import Cocoa
 import Kit
 
@@ -331,11 +323,11 @@ internal class Popup: PopupWrapper {
 
         DispatchQueue.main.async {
             // Update pie chart
-            self.circle?.setValue([
+            self.circle?.setSegments([
                 circle_segment(value: value.cpu.systemLoad, color: self.systemColor),
                 circle_segment(value: value.cpu.userLoad, color: self.userColor)
             ])
-            self.circle?.setText(value.cpu.totalUsage)
+            self.circle?.setValue(value.cpu.totalUsage)
 
             // Update line chart
             self.lineChart?.addValue(value.cpu.totalUsage)
