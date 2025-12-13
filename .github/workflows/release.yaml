@@ -1,0 +1,92 @@
+name: release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version tag (e.g., v2.11.63)'
+        required: false
+
+jobs:
+  build:
+    runs-on: macos-15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build Stats
+        run: |
+          xcodebuild -scheme Stats \
+            -destination 'platform=macOS' \
+            -configuration Release \
+            -archivePath build/Stats.xcarchive \
+            archive \
+            CODE_SIGNING_ALLOWED=NO
+
+      - name: Export app
+        run: |
+          xcodebuild -exportArchive \
+            -archivePath build/Stats.xcarchive \
+            -exportPath build/export \
+            -exportOptionsPlist ExportOptions.plist || true
+
+          # Fallback: copy from archive if export fails
+          if [ ! -d "build/export/Stats.app" ]; then
+            mkdir -p build/export
+            cp -R build/Stats.xcarchive/Products/Applications/Stats.app build/export/
+          fi
+
+      - name: Create DMG
+        run: |
+          brew install create-dmg || true
+          create-dmg \
+            --volname "Stats" \
+            --window-pos 200 120 \
+            --window-size 600 400 \
+            --icon-size 100 \
+            --icon "Stats.app" 150 185 \
+            --app-drop-link 450 185 \
+            build/Stats.dmg \
+            build/export/Stats.app || true
+
+          # Fallback: create zip if dmg fails
+          if [ ! -f "build/Stats.dmg" ]; then
+            cd build/export && zip -r ../Stats.zip Stats.app
+          fi
+
+      - name: Get version
+        id: version
+        run: |
+          if [ -n "${{ github.event.inputs.version }}" ]; then
+            echo "version=${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
+          elif [[ "$GITHUB_REF" == refs/tags/* ]]; then
+            echo "version=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+          else
+            echo "version=dev-$(date +%Y%m%d-%H%M%S)" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Stats-${{ steps.version.outputs.version }}
+          path: |
+            build/Stats.dmg
+            build/Stats.zip
+          if-no-files-found: warn
+
+      - name: Create Release
+        if: startsWith(github.ref, 'refs/tags/') || github.event.inputs.version
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.version.outputs.version }}
+          name: Stats ${{ steps.version.outputs.version }}
+          files: |
+            build/Stats.dmg
+            build/Stats.zip
+          draft: false
+          prerelease: ${{ contains(steps.version.outputs.version, 'dev') }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
