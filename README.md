@@ -49,6 +49,51 @@ Stats is an application that allows you to monitor your macOS system.
  - Sensors information (Temperature/Voltage/Power)
  - Bluetooth devices
  - Multiple time zone clock
+ - **Remote** - Monitor Linux/Unix servers (fork feature)
+
+## Remote Module
+
+This fork adds a Remote module for monitoring external Linux servers from your Mac menu bar.
+
+### Server Setup
+
+On your Linux server, run the daemon:
+
+```bash
+# Copy the daemon script
+scp Modules/Remote/scripts/stats-remote-daemon.py user@server:~/
+
+# On the server
+pip3 install psutil
+python3 stats-remote-daemon.py --port 9090
+```
+
+Or install as a systemd service for autostart.
+
+### Stats Configuration
+
+In Stats → Remote → Settings, set your server URL (e.g., `http://server:9090`) and click Test.
+
+### Updating This Fork
+
+To get upstream updates while keeping the Remote module:
+
+```bash
+# One-time setup
+git remote add upstream https://github.com/exelban/stats.git
+
+# To update
+git fetch upstream
+git merge upstream/master
+# Resolve any conflicts in project.pbxproj if needed
+git push origin master
+```
+
+Then build from Xcode or trigger the release workflow on GitHub Actions.
+
+### Releases
+
+Pre-built versions are available under [Releases](../../releases). Trigger a new build manually via Actions → release → Run workflow.
 
 ## FAQs
 
