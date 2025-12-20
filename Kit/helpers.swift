@@ -325,15 +325,21 @@ public extension NSBezierPath {
 }
 
 public func separatorView(_ title: String, origin: NSPoint = NSPoint(x: 0, y: 0), width: CGFloat = 0) -> NSView {
-    let view: NSView = NSView(frame: NSRect(x: origin.x, y: origin.y, width: width, height: 30))
+    let topPadding: CGFloat = 8
+    let view: NSView = NSView(frame: NSRect(x: origin.x, y: origin.y, width: width, height: 30 + topPadding))
     view.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
     
-    let labelView: NSTextField = TextView(frame: NSRect(x: 0, y: (view.frame.height-15)/2, width: view.frame.width, height: 15))
+    let line: NSView = NSView(frame: NSRect(x: 0, y: view.frame.height - topPadding - 1, width: width, height: 1))
+    line.wantsLayer = true
+    line.layer?.backgroundColor = NSColor.separatorColor.cgColor
+
+    let labelView: NSTextField = TextView(frame: NSRect(x: 0, y: (view.frame.height - topPadding - 15)/2, width: view.frame.width, height: 15))
     labelView.stringValue = title
     labelView.alignment = .center
     labelView.textColor = .secondaryLabelColor
     labelView.font = NSFont.systemFont(ofSize: 12, weight: .medium)
     
+    view.addSubview(line)
     view.addSubview(labelView)
     
     return view

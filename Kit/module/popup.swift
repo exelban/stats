@@ -81,6 +81,7 @@ public class PopupWindow: NSWindow, NSWindowDelegate {
         self.animationBehavior = .default
         self.collectionBehavior = .moveToActiveSpace
         self.backgroundColor = .clear
+        self.isOpaque = false
         self.hasShadow = true
         self.setIsVisible(false)
         self.delegate = self
@@ -180,12 +181,12 @@ internal class PopupView: NSView {
         self.containerHeight = self.body.documentView?.frame.height
         
         self.foreground = NSVisualEffectView(frame: frame)
-        self.foreground.material = .titlebar
+        self.foreground.material = .menu
         self.foreground.blendingMode = .behindWindow
         self.foreground.state = .active
         self.foreground.wantsLayer = true
-        self.foreground.layer?.backgroundColor = NSColor.red.cgColor
         self.foreground.layer?.cornerRadius = 6
+        self.foreground.layer?.masksToBounds = true
         
         self.background = NSView(frame: frame)
         self.background.wantsLayer = true
@@ -211,7 +212,7 @@ internal class PopupView: NSView {
     }
     
     override func updateLayer() {
-        self.background.layer?.backgroundColor = self.isDarkMode ? .clear : NSColor.white.cgColor
+        self.background.layer?.backgroundColor = .clear
     }
     
     fileprivate func setView(_ view: Popup_p?) {
