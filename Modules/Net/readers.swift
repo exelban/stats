@@ -332,6 +332,8 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
         
         guard self.usage.interface != nil else { return }
         
+        self.getDNSServers()
+        
         if self.usage.wifiDetails.ssid != nil && (self.usage.wifiDetails.ssid == "" || self.usage.wifiDetails.ssid == "<redacted>") {
             self.usage.wifiDetails.ssid = nil
         }
@@ -339,6 +341,23 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
         if self.usage.connectionType == .wifi && self.usage.wifiDetails.ssid == nil || self.usage.wifiDetails.ssid == "" {
             self.getWiFiDetails()
         }
+    }
+    
+    private func getDNSServers() {
+        guard let raw = SCDynamicStoreCopyValue(nil, "State:/Network/Global/DNS" as CFString) else {
+            self.usage.dnsServers = []
+            return
+        }
+        guard let dict = raw as? [String: Any] else {
+            self.usage.dnsServers = []
+            return
+        }
+        
+        let servers = (dict["ServerAddresses"] as? [String] ?? [])
+            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+            .filter { !$0.isEmpty }
+        
+        self.usage.dnsServers = servers
     }
     
     private func getWiFiDetails() {

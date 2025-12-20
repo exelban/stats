@@ -55,6 +55,7 @@ internal class Popup: PopupWrapper {
     private var publicIPv4View: NSView? = nil
     private var publicIPv6View: NSView? = nil
     private var publicIPState: Bool = true
+    private var dnsField: ValueField? = nil
     
     private var processesView: NSView? = nil
     private var processes: ProcessesView? = nil
@@ -305,6 +306,7 @@ internal class Popup: PopupWrapper {
         view.addArrangedSubview(row)
         
         self.localIPField = popupRow(view, title: "\(localizedString("Local IP")):", value: localizedString("Unknown")).1
+        self.dnsField = popupRow(view, title: "\(localizedString("DNS servers")):", value: localizedString("Unknown")).1
         
         let ipV4 = popupRow(view, title: "\(localizedString("Public IP")):", value: localizedString("Unknown"))
         let ipV6 = popupRow(view, title: "\(localizedString("Public IP")):", value: localizedString("Unknown"))
@@ -315,6 +317,7 @@ internal class Popup: PopupWrapper {
         self.publicIPv6View = ipV6.2
         
         self.localIPField?.isSelectable = true
+        self.dnsField?.isSelectable = true
         self.publicIPv4Field?.isSelectable = true
         self.publicIPv6Field?.isSelectable = true
         
@@ -463,6 +466,11 @@ internal class Popup: PopupWrapper {
                 }
                 if self.localIPField?.stringValue != privateIP {
                     self.localIPField?.stringValue = privateIP
+                }
+                
+                let dns = value.dnsServers.isEmpty ? localizedString("Unknown") : value.dnsServers.joined(separator: ", ")
+                if self.dnsField?.stringValue != dns {
+                    self.dnsField?.stringValue = dns
                 }
                 
                 if let view = self.publicIPv4View {
