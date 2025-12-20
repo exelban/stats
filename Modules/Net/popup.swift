@@ -56,6 +56,7 @@ internal class Popup: PopupWrapper {
     private var publicIPv6View: NSView? = nil
     private var publicIPState: Bool = true
     private var dnsField: ValueField? = nil
+    private var dnsView: NSView? = nil
     
     private var processesView: NSView? = nil
     private var processes: ProcessesView? = nil
@@ -306,15 +307,17 @@ internal class Popup: PopupWrapper {
         view.addArrangedSubview(row)
         
         self.localIPField = popupRow(view, title: "\(localizedString("Local IP")):", value: localizedString("Unknown")).1
-        self.dnsField = popupRow(view, title: "\(localizedString("DNS servers")):", value: localizedString("Unknown")).1
         
         let ipV4 = popupRow(view, title: "\(localizedString("Public IP")):", value: localizedString("Unknown"))
         let ipV6 = popupRow(view, title: "\(localizedString("Public IP")):", value: localizedString("Unknown"))
+        let dns = popupRow(view, title: "\(localizedString("DNS servers")):", value: localizedString("Unknown"))
         
         self.publicIPv4Field = ipV4.1
         self.publicIPv6Field = ipV6.1
         self.publicIPv4View = ipV4.2
         self.publicIPv6View = ipV6.2
+        self.dnsField = dns.1
+        self.dnsView = dns.2
         
         self.localIPField?.isSelectable = true
         self.dnsField?.isSelectable = true
@@ -476,7 +479,12 @@ internal class Popup: PopupWrapper {
                 if let view = self.publicIPv4View {
                     if let addr = value.raddr.v4 {
                         if view.superview == nil {
-                            self.addressView?.addArrangedSubview(view)
+                            if let container = self.addressView as? NSStackView, let dnsView = self.dnsView {
+                                let idx = container.arrangedSubviews.firstIndex(of: dnsView) ?? container.arrangedSubviews.count
+                                container.insertArrangedSubview(view, at: idx)
+                            } else {
+                                self.addressView?.addArrangedSubview(view)
+                            }
                             self.recalculateHeight()
                         }
                         var ip = addr
@@ -496,7 +504,12 @@ internal class Popup: PopupWrapper {
                 if let view = self.publicIPv6View {
                     if let addr = value.raddr.v6 {
                         if view.superview == nil {
-                            self.addressView?.addArrangedSubview(view)
+                            if let container = self.addressView as? NSStackView, let dnsView = self.dnsView {
+                                let idx = container.arrangedSubviews.firstIndex(of: dnsView) ?? container.arrangedSubviews.count
+                                container.insertArrangedSubview(view, at: idx)
+                            } else {
+                                self.addressView?.addArrangedSubview(view)
+                            }
                             resized = true
                         }
                         var ip = addr
