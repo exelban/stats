@@ -57,7 +57,6 @@ internal class Popup: PopupWrapper {
     private var publicIPState: Bool = true
     private var dnsField: ValueField? = nil
     private var dnsView: NSView? = nil
-    private var dnsViewHeightConstraint: NSLayoutConstraint? = nil
     
     private var processesView: NSView? = nil
     private var processes: ProcessesView? = nil
@@ -311,28 +310,14 @@ internal class Popup: PopupWrapper {
         
         let ipV4 = popupRow(view, title: "\(localizedString("Public IP")):", value: localizedString("Unknown"))
         let ipV6 = popupRow(view, title: "\(localizedString("Public IP")):", value: localizedString("Unknown"))
-        
-        let dnsRow = NSView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: 22))
-        let dnsTitle = "\(localizedString("DNS servers")):"
-        let dnsLabelWidth = dnsTitle.widthOfString(usingFont: .systemFont(ofSize: 12, weight: .regular)) + 4
-        let dnsLabelView = LabelField(frame: NSRect(x: 0, y: (22-16)/2, width: dnsLabelWidth, height: 16), dnsTitle)
-        let dnsValueView = ValueField(frame: NSRect(x: dnsLabelWidth, y: (22-16)/2, width: dnsRow.frame.width - dnsLabelWidth, height: 16), localizedString("Unknown"))
-        dnsValueView.cell?.usesSingleLineMode = false
-        dnsValueView.cell?.wraps = true
-        
-        dnsRow.addSubview(dnsLabelView)
-        dnsRow.addSubview(dnsValueView)
-        
-        self.dnsViewHeightConstraint = dnsRow.heightAnchor.constraint(equalToConstant: 22)
-        self.dnsViewHeightConstraint?.isActive = true
-        view.addArrangedSubview(dnsRow)
+        let dns = popupRow(view, title: "\(localizedString("DNS servers")):", value: localizedString("Unknown"))
         
         self.publicIPv4Field = ipV4.1
         self.publicIPv6Field = ipV6.1
         self.publicIPv4View = ipV4.2
         self.publicIPv6View = ipV6.2
-        self.dnsField = dnsValueView
-        self.dnsView = dnsRow
+        self.dnsField = dns.1
+        self.dnsView = dns.2
         
         self.localIPField?.isSelectable = true
         self.dnsField?.isSelectable = true
@@ -486,30 +471,9 @@ internal class Popup: PopupWrapper {
                     self.localIPField?.stringValue = privateIP
                 }
                 
-                let dnsList = value.dnsServers
-                let dnsString = dnsList.isEmpty ? localizedString("Unknown") : dnsList.joined(separator: "\n")
-                
-                if self.dnsField?.stringValue != dnsString {
-                    self.dnsField?.stringValue = dnsString
-                    
-                    let count = max(1, dnsList.count)
-                    let newHeight = CGFloat(count * 16 + 6)
-                    if let constraint = self.dnsViewHeightConstraint, constraint.constant != newHeight {
-                        constraint.constant = newHeight
-                        self.dnsView?.setFrameSize(NSSize(width: self.dnsView!.frame.width, height: newHeight))
-                        
-                        if let label = self.dnsView?.subviews.first(where: { $0 is LabelField }) {
-                            label.setFrameOrigin(NSPoint(x: label.frame.origin.x, y: newHeight - 19))
-                        }
-                        
-                        if let valueView = self.dnsField {
-                            let valueHeight = CGFloat(count * 16)
-                            valueView.setFrameSize(NSSize(width: valueView.frame.width, height: valueHeight))
-                            valueView.setFrameOrigin(NSPoint(x: valueView.frame.origin.x, y: newHeight - 3 - valueHeight))
-                        }
-                        
-                        resized = true
-                    }
+                let dns = value.dnsServers.isEmpty ? localizedString("Unknown") : value.dnsServers.joined(separator: ", ")
+                if self.dnsField?.stringValue != dns {
+                    self.dnsField?.stringValue = dns
                 }
                 
                 if let view = self.publicIPv4View {
