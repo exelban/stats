@@ -34,7 +34,7 @@
 "Version" = "版本";
 "Processor" = "處理器";
 "Memory" = "記憶體";
-"Graphics" = "圖形處理器";
+"Graphics" = "顯示卡";
 "Close" = "關閉";
 "Download" = "下載";
 "Install" = "安裝";
