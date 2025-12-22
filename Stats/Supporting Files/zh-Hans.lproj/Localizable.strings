@@ -11,9 +11,9 @@
 
 // Modules
 "CPU" = "CPU";
-"Open CPU settings" = "打开 CPU 设置";
+"Open CPU settings" = "打开CPU设置";
 "GPU" = "GPU";
-"Open GPU settings" = "打开 GPU 设置";
+"Open GPU settings" = "打开GPU设置";
 "RAM" = "内存";
 "Open RAM settings" = "打开内存设置";
 "Disk" = "磁盘";
@@ -102,17 +102,17 @@
 "60 sec" = "60 秒";
 
 // Setup
-"Stats Setup" = "Stats 设置";
+"Stats Setup" = "Stats设置";
 "Previous" = "上一步";
 "Previous page" = "上一页";
 "Next" = "下一步";
 "Next page" = "下一页";
 "Finish" = "完成";
 "Finish setup" = "完成设置";
-"Welcome to Stats" = "欢迎使用 Stats";
-"welcome_message" = "感谢你使用 Stats，一个免费的开源 macOS 菜单栏系统监视器。";
-"Start the application automatically when starting your Mac" = "在启动你的 Mac 时自动开启应用程序";
-"Do not start the application automatically when starting your Mac" = "在启动你的 Mac 时不要自动开启应用程序";
+"Welcome to Stats" = "欢迎使用Stats";
+"welcome_message" = "感谢你使用Stats，一个免费的开源macOS菜单栏系统监视器。";
+"Start the application automatically when starting your Mac" = "在启动你的Mac时自动开启应用程序";
+"Do not start the application automatically when starting your Mac" = "在启动你的Mac时不要自动开启应用程序";
 "Do everything silently in the background (recommended)" = "在后台静默运行（推荐）";
 "Check for a new version on startup" = "启动时检查新版本";
 "Check for a new version every day (once a day)" = "每天检查一次新版本（一天一次）";
@@ -123,15 +123,15 @@
 "Share anonymous telemetry data" = "分享匿名诊断数据";
 "Do not share anonymous telemetry data" = "不分享匿名诊断数据";
 "The configuration is completed" = "配置完成";
-"finish_setup_message" = "设置完成！Stats 是一个开源且永远免费的工具。如果你喜欢它，你可以支持这个项目，非常感谢!";
+"finish_setup_message" = "设置完成！Stats是一个开源且永远免费的工具。如果你喜欢它，你可以支持这个项目，非常感谢!";
 
 // Alerts
 "New version available" = "新版本可用";
-"Click to install the new version of Stats" = "点击安装 Stats 的新版本";
+"Click to install the new version of Stats" = "点击安装Stats的新版本";
 "Successfully updated" = "更新成功";
-"Stats was updated to v" = "Stats 已更新到 v%0";
+"Stats was updated to v" = "Stats已更新到 v%0";
 "Reset settings text" = "应用程序的所有设置将会被重置，应用程序也将重新启动。你确定要这么做吗？";
-"Support text" = "感谢您使用 Stats！\n\n 维护和改进这个开源项目需要花费时间和资源。您的支持能帮助我们继续给每个人提供这样免费且可靠的应用程序。\n\n如果您觉得 Stats 对您有帮助，请考虑给我们一份捐助。即使是一点一滴都有很大的帮助！";
+"Support text" = "感谢您使用Stats！\n\n 维护和改进这个开源项目需要花费时间和资源。您的支持能帮助我们继续给每个人提供这样免费且可靠的应用程序。\n\n如果您觉得Stats对您有帮助，请考虑给我们一份捐助。即使是一点一滴都有很大的帮助！";
 
 // Settings
 "Open Activity Monitor" = "打开活动监视器";
@@ -159,8 +159,8 @@
 "Import settings" = "导入设置";
 "Export settings" = "导出设置";
 "Reset settings" = "初始化所有设置";
-"Pause the Stats" = "暂停 Stats";
-"Resume the Stats" = "恢复 Stats";
+"Pause the Stats" = "暂停Stats";
+"Resume the Stats" = "恢复Stats";
 "Combined modules" = "合并模块";
 "Combined details" = "合并详情";
 "Spacing" = "间距";
@@ -181,7 +181,7 @@
 "Display" = "Display";
 
 // Update
-"The latest version of Stats installed" = "已安装最新版 Stats";
+"The latest version of Stats installed" = "已安装最新版Stats";
 "Downloading..." = "下载中...";
 "Current version: " = "当前版本：";
 "Latest version: " = "最新版本：";
@@ -257,9 +257,9 @@
 "Text widget value" = "文本小组件值";
 
 // CPU
-"CPU usage" = "CPU 占用";
-"CPU temperature" = "CPU 温度";
-"CPU frequency" = "CPU 频率";
+"CPU usage" = "CPU占用";
+"CPU temperature" = "CPU温度";
+"CPU frequency" = "CPU频率";
 "System" = "系统";
 "User" = "用户";
 "Idle" = "闲置";
@@ -272,8 +272,8 @@
 "1 minute" = "1 分钟";
 "5 minutes" = "5 分钟";
 "15 minutes" = "15 分钟";
-"CPU usage threshold" = "CPU 占用阈值";
-"CPU usage is" = "CPU 利用率是 %0";
+"CPU usage threshold" = "CPU占用阈值";
+"CPU usage is" = "CPU利用率是 %0";
 "Efficiency cores" = "能效核心";
 "Performance cores" = "性能核心";
 "System color" = "系统占用颜色";
@@ -290,12 +290,12 @@
 "All cores" = "所有核心";
 
 // GPU
-"GPU to show" = "显示的 GPU";
-"Show GPU type" = "显示 GPU 类型";
-"GPU enabled" = "GPU 启用";
-"GPU disabled" = "GPU 禁用";
-"GPU temperature" = "GPU 温度";
-"GPU utilization" = "GPU 利用率";
+"GPU to show" = "显示的GPU";
+"Show GPU type" = "显示GPU类型";
+"GPU enabled" = "GPU启用";
+"GPU disabled" = "GPU禁用";
+"GPU temperature" = "GPU温度";
+"GPU utilization" = "GPU利用率";
 "Vendor" = "厂商";
 "Model" = "型号";
 "Status" = "状态";
@@ -306,24 +306,24 @@
 "Memory clock" = "显存频率";
 "Utilization" = "利用率";
 "Render utilization" = "渲染利用率";
-"Tiler utilization" = "Tiler 利用率";
-"GPU usage threshold" = "GPU 占用阈值";
-"GPU usage is" = "GPU 利用率是 %0";
+"Tiler utilization" = "Tiler利用率";
+"GPU usage threshold" = "GPU占用阈值";
+"GPU usage is" = "GPU利用率是 %0";
 
 // RAM
 "Memory usage" = "内存占用";
 "Memory pressure" = "内存压力";
 "Total" = "共计";
 "Used" = "已用";
-"App" = "App 内存";
+"App" = "App内存";
 "Wired" = "联动内存";
 "Compressed" = "被压缩";
 "Free" = "可用";
 "Swap" = "交换区";
-"Split the value (App/Wired/Compressed)" = "柱状图区分显示（App 内存/联动内存/被压缩）";
-"RAM utilization threshold" = "RAM 占用阈值";
-"RAM utilization is" = "RAM 利用率是 %0";
-"App color" = "App 内存颜色";
+"Split the value (App/Wired/Compressed)" = "柱状图区分显示（App内存/联动内存/被压缩）";
+"RAM utilization threshold" = "RAM占用阈值";
+"RAM utilization is" = "RAM利用率是 %0";
+"App color" = "App内存颜色";
 "Wired color" = "联动内存颜色";
 "Compressed color" = "被压缩内存颜色";
 "Free color" = "可用内存颜色";
@@ -348,7 +348,7 @@
 "Write speed" = "写入速度";
 "Read speed" = "读取速度";
 "Drives" = "驱动器";
-"SMART data" = "SMART 数据";
+"SMART data" = "SMART数据";
 
 // Sensors
 "Temperature unit" = "温度单位";
@@ -365,7 +365,7 @@
 "Uninstall fan helper" = "卸载风扇控制程序";
 "Fan value" = "风扇转数";
 "Turn off fan" = "禁用风扇";
-"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "你想禁用你的风扇，这可能损害你的 Mac。不推荐进行这个操作，你确定要继续吗？";
+"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "你想禁用你的风扇，这可能损害你的Mac。不推荐进行这个操作，你确定要继续吗？";
 "Sensor threshold" = "传感器阈值";
 "Left fan" = "左侧风扇";
 "Right fan" = "右侧风扇";
@@ -375,15 +375,15 @@
 // Network
 "Uploading" = "上传";
 "Downloading" = "下载";
-"Public IP" = "公网 IP";
-"Local IP" = "本地 IP";
+"Public IP" = "公网IP";
+"Local IP" = "本地IP";
 "Interface" = "接口";
 "Physical address" = "物理地址";
 "Refresh" = "刷新";
-"Click to copy public IP address" = "点击拷贝公网 IP";
-"Click to copy local IP address" = "点击拷贝本地 IP";
-"Click to copy wifi name" = "点击拷贝 Wi-Fi 名称";
-"Click to copy mac address" = "点击拷贝 MAC 地址";
+"Click to copy public IP address" = "点击拷贝公网IP";
+"Click to copy local IP address" = "点击拷贝本地IP";
+"Click to copy wifi name" = "点击拷贝Wi-Fi名称";
+"Click to copy mac address" = "点击拷贝MAC地址";
 "No connection" = "无网络连接";
 "Network interface" = "网络接口";
 "Total download" = "总下载";
@@ -405,17 +405,17 @@
 "Connectivity host (ICMP)" = "连接 Host (ICMP)";
 "Leave empty to disable the check" = "不在该选项内输入以禁用检查";
 "Connectivity history" = "连接历史";
-"Auto-refresh public IP address" = "自动刷新公网 IP 地址";
+"Auto-refresh public IP address" = "自动刷新公网IP地址";
 "Every hour" = "每小时";
-"Every 12 hours" = "每 12 小时";
-"Every 24 hours" = "每 24 小时";
+"Every 12 hours" = "每12小时";
+"Every 24 hours" = "每24小时";
 "Network activity" = "网络活动";
 "Last reset" = "上次重置于 %0 之前";
 "Latency" = "延迟";
 "Upload speed" = "上传速度";
 "Download speed" = "下载速度";
 "Address" = "地址";
-"WiFi network" = "WiFi 网络";
+"WiFi network" = "WiFi网络";
 "Local IP changed" = "Local IP has changed";
 "Public IP changed" = "Public IP has changed";
 "Previous IP" = "Previous IP: %0";
