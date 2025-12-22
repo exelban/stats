@@ -55,8 +55,8 @@ internal class Popup: PopupWrapper {
     private var publicIPv4View: NSView? = nil
     private var publicIPv6View: NSView? = nil
     private var publicIPState: Bool = true
-    private var dnsField: ValueField? = nil
-    private var dnsView: NSView? = nil
+    private var dnsValueFields: [ValueField] = []
+    private var dnsRowViews: [NSView] = []
     
     private var processesView: NSView? = nil
     private var processes: ProcessesView? = nil
@@ -310,17 +310,13 @@ internal class Popup: PopupWrapper {
         
         let ipV4 = popupRow(view, title: "\(localizedString("Public IP")):", value: localizedString("Unknown"))
         let ipV6 = popupRow(view, title: "\(localizedString("Public IP")):", value: localizedString("Unknown"))
-        let dns = popupRow(view, title: "\(localizedString("DNS servers")):", value: localizedString("Unknown"))
         
         self.publicIPv4Field = ipV4.1
         self.publicIPv6Field = ipV6.1
         self.publicIPv4View = ipV4.2
         self.publicIPv6View = ipV6.2
-        self.dnsField = dns.1
-        self.dnsView = dns.2
         
         self.localIPField?.isSelectable = true
-        self.dnsField?.isSelectable = true
         self.publicIPv4Field?.isSelectable = true
         self.publicIPv6Field?.isSelectable = true
         
@@ -471,17 +467,40 @@ internal class Popup: PopupWrapper {
                     self.localIPField?.stringValue = privateIP
                 }
                 
-                let dns = value.dnsServers.isEmpty ? localizedString("Unknown") : value.dnsServers.joined(separator: ", ")
-                if self.dnsField?.stringValue != dns {
-                    self.dnsField?.stringValue = dns
+                let dnsList = value.dnsServers.isEmpty ? [localizedString("Unknown")] : value.dnsServers
+                if dnsList.count != self.dnsValueFields.count {
+                    self.dnsRowViews.forEach { $0.removeFromSuperview() }
+                    self.dnsRowViews.removeAll()
+                    self.dnsValueFields.removeAll()
+                    
+                    if let container = self.addressView {
+                        for (idx, dns) in dnsList.enumerated() {
+                            let titleBase = localizedString("DNS servers")
+                            let title = dnsList.count > 1 ? "\(titleBase) \(idx + 1):" : "\(titleBase):"
+                            let row = popupRow(container, title: title, value: dns)
+                            row.1.isSelectable = true
+                            self.dnsValueFields.append(row.1)
+                            self.dnsRowViews.append(row.2)
+                        }
+                    }
+                    resized = true
+                } else {
+                    for (idx, dns) in dnsList.enumerated() where self.dnsValueFields.indices.contains(idx) {
+                        if self.dnsValueFields[idx].stringValue != dns {
+                            self.dnsValueFields[idx].stringValue = dns
+                        }
+                    }
                 }
                 
                 if let view = self.publicIPv4View {
                     if let addr = value.raddr.v4 {
                         if view.superview == nil {
-                            if let container = self.addressView as? NSStackView, let dnsView = self.dnsView {
-                                let idx = container.arrangedSubviews.firstIndex(of: dnsView) ?? container.arrangedSubviews.count
-                                container.insertArrangedSubview(view, at: idx)
+                            if let container = self.addressView as? NSStackView {
+                                if let dnsView = self.dnsRowViews.first, let idx = container.arrangedSubviews.firstIndex(of: dnsView) {
+                                    container.insertArrangedSubview(view, at: idx)
+                                } else {
+                                    container.addArrangedSubview(view)
+                                }
                             } else {
                                 self.addressView?.addArrangedSubview(view)
                             }
@@ -504,9 +523,12 @@ internal class Popup: PopupWrapper {
                 if let view = self.publicIPv6View {
                     if let addr = value.raddr.v6 {
                         if view.superview == nil {
-                            if let container = self.addressView as? NSStackView, let dnsView = self.dnsView {
-                                let idx = container.arrangedSubviews.firstIndex(of: dnsView) ?? container.arrangedSubviews.count
-                                container.insertArrangedSubview(view, at: idx)
+                            if let container = self.addressView as? NSStackView {
+                                if let dnsView = self.dnsRowViews.first, let idx = container.arrangedSubviews.firstIndex(of: dnsView) {
+                                    container.insertArrangedSubview(view, at: idx)
+                                } else {
+                                    container.addArrangedSubview(view)
+                                }
                             } else {
                                 self.addressView?.addArrangedSubview(view)
                             }
