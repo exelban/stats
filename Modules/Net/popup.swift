@@ -479,6 +479,7 @@ internal class Popup: PopupWrapper {
                             let title = dnsList.count > 1 ? "\(titleBase) \(idx + 1):" : "\(titleBase):"
                             let row = popupRow(container, title: title, value: dns)
                             row.1.isSelectable = true
+                            self.applyDNSCompactLayout(row.1, value: dns)
                             self.dnsValueFields.append(row.1)
                             self.dnsRowViews.append(row.2)
                         }
@@ -489,6 +490,7 @@ internal class Popup: PopupWrapper {
                         if self.dnsValueFields[idx].stringValue != dns {
                             self.dnsValueFields[idx].stringValue = dns
                         }
+                        self.applyDNSCompactLayout(self.dnsValueFields[idx], value: dns)
                     }
                 }
                 
@@ -841,6 +843,14 @@ internal class Popup: PopupWrapper {
         
         self.uploadStateView?.setState(self.uploadValue != 0)
         self.downloadStateView?.setState(self.downloadValue != 0)
+    }
+    
+    private func applyDNSCompactLayout(_ field: ValueField?, value: String) {
+        guard let field else { return }
+        let isLong = value.count > 22
+        field.font = NSFont.systemFont(ofSize: isLong ? 7 : 13, weight: isLong ? .semibold : .regular)
+        let y: CGFloat = isLong ? -1 : 3
+        field.setFrameOrigin(NSPoint(x: field.frame.origin.x, y: y))
     }
     
     @objc private func refreshPublicIP() {
