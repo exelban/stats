@@ -475,7 +475,7 @@ internal class Popup: PopupWrapper {
                     
                     if let container = self.addressView {
                         for (idx, dns) in dnsList.enumerated() {
-                            let titleBase = localizedString("DNS servers")
+                            let titleBase = localizedString("DNS")
                             let title = dnsList.count > 1 ? "\(titleBase) \(idx + 1):" : "\(titleBase):"
                             let row = popupRow(container, title: title, value: dns)
                             row.1.isSelectable = true
