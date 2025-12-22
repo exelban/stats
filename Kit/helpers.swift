@@ -1831,3 +1831,54 @@ public func isWidgetActive(_ defaults: UserDefaults?, _ widgets: [String]) -> Bo
     }
     return false
 }
+
+// MARK: - Menu Bar Visibility Detection (macOS 26+)
+
+/// Checks if a menu bar item is properly visible in the menu bar area.
+/// On macOS 26+, a new "Allow in Menu Bar" permission can cause items to be
+/// rendered off-screen when disabled. This function detects that condition
+/// and alerts the user with instructions to fix it.
+///
+/// Related: https://github.com/exelban/stats/issues/2704
+public func checkMenuBarItemVisibility(_ statusItem: NSStatusItem) {
+    // Only check once per session to avoid spamming the user
+    let checkKey = "menuBarVisibilityChecked"
+    guard !Store.shared.bool(key: checkKey, defaultValue: false) else { return }
+
+    // Delay check to allow the status item to be positioned by the system
+    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+        guard let window = statusItem.button?.window else { return }
+
+        let windowY = window.frame.origin.y
+        guard let screen = NSScreen.main else { return }
+        let screenHeight = screen.frame.height
+
+        // Menu bar items should be positioned near the top of the screen (within ~100 points)
+        // If the item's Y position is significantly below the top, it's likely hidden
+        let expectedMinY = screenHeight - 100
+
+        if windowY < expectedMinY {
+            Store.shared.set(key: checkKey, value: true)
+
+            DispatchQueue.main.async {
+                let alert = NSAlert()
+                alert.messageText = localizedString("Menu Bar Permission Required")
+                alert.informativeText = localizedString("Stats widgets are not visible in the menu bar. Please enable 'Allow in the Menu Bar' for Stats in System Settings → General → Login Items & Extensions.")
+                alert.alertStyle = .warning
+                alert.addButton(withTitle: localizedString("Open System Settings"))
+                alert.addButton(withTitle: localizedString("Dismiss"))
+
+                let response = alert.runModal()
+                if response == .alertFirstButtonReturn {
+                    // Open System Settings to Login Items & Extensions
+                    if let url = URL(string: "x-apple.systempreferences:com.apple.LoginItems-Settings.extension") {
+                        NSWorkspace.shared.open(url)
+                    }
+                }
+            }
+        } else {
+            // Items are visible, mark as checked so we don't check again
+            Store.shared.set(key: checkKey, value: true)
+        }
+    }
+}

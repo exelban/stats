@@ -344,6 +344,11 @@ public class SWidget {
                 self.menuBarItem?.button?.target = self
                 self.menuBarItem?.button?.action = #selector(self.togglePopup)
                 self.menuBarItem?.button?.sendAction(on: [.leftMouseDown, .rightMouseDown])
+
+                // Check if menu bar item is visible (macOS 26+ permission issue)
+                if let item = self.menuBarItem {
+                    checkMenuBarItemVisibility(item)
+                }
             })
         } else if let item = self.menuBarItem {
             saveNSStatusItemPosition(id: "\(self.module)_\(self.type.rawValue)")
