@@ -322,22 +322,29 @@ internal class PopupView: NSView {
 internal class HeaderView: NSStackView {
     private var titleView: NSTextField? = nil
     private var activityButton: NSButton?
-    
+
     private var title: String = ""
     private var isCloseAction: Bool = false
     private let activityMonitor: URL?
     private let calendar: URL?
-    
+    private let moduleType: ModuleType
+
     init(frame: NSRect, module: ModuleType) {
         self.activityMonitor = NSWorkspace.shared.urlForApplication(withBundleIdentifier: "com.apple.ActivityMonitor")
         self.calendar = URL(fileURLWithPath: "/System/Applications/Calendar.app")
-        
+        self.moduleType = module
+
         super.init(frame: CGRect(x: frame.origin.x, y: frame.origin.y, width: frame.width, height: frame.height))
-        
+
         self.orientation = .horizontal
         self.distribution = .gravityAreas
         self.spacing = 0
-        
+
+        let leftContainer = NSStackView()
+        leftContainer.orientation = .horizontal
+        leftContainer.distribution = .fill
+        leftContainer.spacing = 0
+
         let activity = NSButtonWithPadding()
         activity.frame = CGRect(x: 0, y: 0, width: 24, height: self.frame.height)
         activity.horizontalPadding = activity.frame.height - 24
@@ -358,7 +365,24 @@ internal class HeaderView: NSStackView {
         }
         activity.focusRingType = .none
         self.activityButton = activity
-        
+
+        let refresh = NSButtonWithPadding()
+        refresh.frame = CGRect(x: 0, y: 0, width: 24, height: self.frame.height)
+        refresh.horizontalPadding = 0
+        refresh.bezelStyle = .regularSquare
+        refresh.translatesAutoresizingMaskIntoConstraints = false
+        refresh.imageScaling = .scaleNone
+        refresh.image = Bundle(for: type(of: self)).image(forResource: "refresh")!
+        refresh.contentTintColor = .lightGray
+        refresh.isBordered = false
+        refresh.action = #selector(self.refreshModule)
+        refresh.target = self
+        refresh.toolTip = localizedString("Refresh")
+        refresh.focusRingType = .none
+
+        leftContainer.addArrangedSubview(activity)
+        leftContainer.addArrangedSubview(refresh)
+
         let title = NSTextField(frame: NSRect(x: 0, y: 0, width: frame.width/2, height: 18))
         title.isEditable = false
         title.isSelectable = false
@@ -371,7 +395,7 @@ internal class HeaderView: NSStackView {
         title.font = NSFont.systemFont(ofSize: 16, weight: .regular)
         title.stringValue = ""
         self.titleView = title
-        
+
         let settings = NSButtonWithPadding()
         settings.frame = CGRect(x: 0, y: 0, width: 24, height: self.frame.height)
         settings.horizontalPadding = activity.frame.height - 24
@@ -385,14 +409,14 @@ internal class HeaderView: NSStackView {
         settings.target = self
         settings.toolTip = localizedString("Open module settings")
         settings.focusRingType = .none
-        
-        self.addArrangedSubview(activity)
+
+        self.addArrangedSubview(leftContainer)
         self.addArrangedSubview(title)
         self.addArrangedSubview(settings)
-        
+
         NSLayoutConstraint.activate([
             title.widthAnchor.constraint(
-                equalToConstant: self.frame.width - activity.intrinsicContentSize.width - settings.intrinsicContentSize.width
+                equalToConstant: self.frame.width - leftContainer.fittingSize.width - settings.intrinsicContentSize.width
             )
         ])
     }
@@ -419,7 +443,11 @@ internal class HeaderView: NSStackView {
     @objc func openSettings() {
         NotificationCenter.default.post(name: .toggleSettings, object: nil, userInfo: ["module": self.title])
     }
-    
+
+    @objc func refreshModule() {
+        NotificationCenter.default.post(name: .refreshModule, object: nil, userInfo: ["module": self.moduleType.stringValue])
+    }
+
     @objc private func closePopup() {
         self.window?.setIsVisible(false)
         self.setCloseButton(false)

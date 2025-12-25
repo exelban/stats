@@ -128,6 +128,7 @@ open class Module {
         NotificationCenter.default.addObserver(self, selector: #selector(listenForModuleToggle), name: .toggleModule, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(listenForPopupToggle), name: .togglePopup, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(listenForToggleWidget), name: .toggleWidget, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(listenForRefreshModule), name: .refreshModule, object: nil)
         
         // swiftlint:disable empty_count
         if self.config.widgetsConfig.count != 0 {
@@ -328,6 +329,17 @@ open class Module {
         let isEmpty = self.menuBar.widgets.filter({ $0.isActive }).isEmpty
         if !isEmpty && !self.enabled {
             NotificationCenter.default.post(name: .toggleModule, object: nil, userInfo: ["module": self.config.name, "state": true])
+        }
+    }
+
+    @objc private func listenForRefreshModule(_ notification: Notification) {
+        guard let name = notification.userInfo?["module"] as? String, name == self.config.name else {
+            return
+        }
+        self.readers.forEach { (reader: Reader_p) in
+            DispatchQueue.global(qos: .background).async {
+                reader.read()
+            }
         }
     }
 }

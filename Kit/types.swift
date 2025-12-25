@@ -269,6 +269,7 @@ public extension Notification.Name {
     static let openModuleSettings = Notification.Name("openModuleSettings")
     static let clickInSettings = Notification.Name("clickInSettings")
     static let refreshPublicIP = Notification.Name("refreshPublicIP")
+    static let refreshModule = Notification.Name("refreshModule")
     static let resetTotalNetworkUsage = Notification.Name("resetTotalNetworkUsage")
     static let syncFansControl = Notification.Name("syncFansControl")
     static let fanHelperState = Notification.Name("fanHelperState")
