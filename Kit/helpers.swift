@@ -1603,24 +1603,29 @@ public class PreferencesSwitch: NSStackView {
 }
 
 public class HelpHUD: NSPanel {
+    private let text: String
+
     public init(_ text: String, origin: CGPoint = CGPoint(x: 0, y: 0), size: CGSize = CGSize(width: 420, height: 300)) {
+        self.text = text
         super.init(
             contentRect: NSRect(origin: origin, size: size),
-            styleMask: [.hudWindow, .titled, .closable],
+            styleMask: [.hudWindow, .utilityWindow, .titled, .closable],
             backing: .buffered, defer: false
         )
         self.isFloatingPanel = true
         self.isMovableByWindowBackground = true
         self.level = .floating
         self.title = "Help"
-        
-        let webView = WKWebView()
-        webView.setValue(false, forKey: "drawsBackground")
-        webView.loadHTMLString("<html><body style='color: #ffffff;margin: 10px;'>\(text)</body></html>", baseURL: nil)
-        self.contentView = webView
     }
     
     public func show() {
+        if self.contentView as? WKWebView == nil {
+            let webView = WKWebView()
+            webView.setValue(false, forKey: "drawsBackground")
+            webView.loadHTMLString("<html><body style='color: #ffffff;margin: 10px;'>\(self.text)</body></html>", baseURL: nil)
+            self.contentView = webView
+        }
+        
         self.makeKeyAndOrderFront(self)
         self.center()
     }
