@@ -14,7 +14,7 @@ import Cocoa
 public struct DoubleValue {
     public var ts: Date = Date()
     public let value: Double
-    
+
     public init(_ value: Double = 0) {
         self.value = value
     }
@@ -26,12 +26,12 @@ extension [DoubleValue] {
 public struct ColorValue: Equatable {
     public let value: Double
     public let color: NSColor?
-    
+
     public init(_ value: Double, color: NSColor? = nil) {
         self.value = value
         self.color = color
     }
-    
+
     // swiftlint:disable operator_whitespace
     public static func ==(lhs: ColorValue, rhs: ColorValue) -> Bool {
         return lhs.value == rhs.value
@@ -165,7 +165,7 @@ public let ReaderUpdateIntervals: [KeyValue_t] = [
     KeyValue_t(key: "30", value: "30 sec"),
     KeyValue_t(key: "60", value: "60 sec")
 ]
-public let NumbersOfProcesses: [Int] = [0, 3, 5, 8, 10, 15]
+public let NumbersOfProcesses: [Int] = [0, 3, 5, 8, 10, 15, 20, 25, 50, 75, 100, 150, 200, 300]
 
 public let NetworkReaders: [KeyValue_t] = [
     KeyValue_t(key: "interface", value: "Interface based"),
@@ -182,7 +182,7 @@ public struct SColor: KeyValue_p, Equatable {
     public let key: String
     public let value: String
     public var additional: Any?
-    
+
     public static func == (lhs: SColor, rhs: SColor) -> Bool {
         return lhs.key == rhs.key
     }
@@ -192,14 +192,14 @@ extension SColor: CaseIterable {
     public static var utilization: SColor { return SColor(key: "utilization", value: "Based on utilization", additional: NSColor.black) }
     public static var pressure: SColor { return SColor(key: "pressure", value: "Based on pressure", additional: NSColor.black) }
     public static var cluster: SColor { return SColor(key: "cluster", value: "Based on cluster", additional: NSColor.controlAccentColor) }
-    
+
     public static var separator1: SColor { return SColor(key: "separator_1", value: "separator_1", additional: NSColor.black) }
-    
+
     public static var systemAccent: SColor { return SColor(key: "system", value: "System accent", additional: NSColor.controlAccentColor) }
     public static var monochrome: SColor { return SColor(key: "monochrome", value: "Monochrome accent", additional: NSColor.textColor) }
-    
+
     public static var separator2: SColor { return SColor(key: "separator_2", value: "separator_2", additional: NSColor.black) }
-    
+
     public static var clear: SColor { return SColor(key: "clear", value: "Clear", additional: NSColor.clear) }
     public static var white: SColor { return SColor(key: "white", value: "White", additional: NSColor.white) }
     public static var black: SColor { return SColor(key: "black", value: "Black", additional: NSColor.black) }
@@ -230,7 +230,7 @@ extension SColor: CaseIterable {
     } else {
         return SColor(key: "indigo", value: "Indigo", additional: NSColor(red: 75, green: 0, blue: 130, alpha: 1))
     } }
-    
+
     public static var allCases: [SColor] {
         return [.utilization, .pressure, .cluster, separator1,
                 .systemAccent, .monochrome, separator2,
@@ -240,7 +240,7 @@ extension SColor: CaseIterable {
                 .cyan, .magenta, .pink, .teal, .indigo
         ]
     }
-    
+
     public static var allColors: [SColor] {
         return [.systemAccent, .monochrome, .separator2, .clear, .white, .black, .gray, .secondGray, .darkGray, .lightGray,
                 .red, .secondRed, .green, .secondGreen, .blue, .secondBlue, .yellow, .secondYellow,
@@ -248,7 +248,7 @@ extension SColor: CaseIterable {
                 .cyan, .magenta, .pink, .teal, .indigo
         ]
     }
-    
+
     public static func fromString(_ key: String, defaultValue: SColor = .systemAccent) -> SColor {
         return SColor.allCases.first{ $0.key == key } ?? defaultValue
     }
@@ -315,7 +315,7 @@ public let notificationLevels: [KeyValue_t] = [
 public struct Scale: KeyValue_p, Equatable {
     public let key: String
     public let value: String
-    
+
     public static func == (lhs: Scale, rhs: Scale) -> Bool {
         return lhs.key == rhs.key
     }
@@ -330,11 +330,11 @@ extension Scale: CaseIterable {
     public static var logarithmic: Scale { return Scale(key: "logarithmic", value: "Logarithmic") }
     public static var separator2: Scale { return Scale(key: "separator", value: "separator") }
     public static var fixed: Scale { return Scale(key: "fixed", value: "Fixed scale") }
-    
+
     public static var allCases: [Scale] {
         return [.none, .separator, .linear, .square, .cube, .logarithmic, .separator2, .fixed]
     }
-    
+
     public static func fromString(_ key: String, defaultValue: Scale = .linear) -> Scale {
         return Scale.allCases.first{ $0.key == key } ?? defaultValue
     }
@@ -360,7 +360,7 @@ public var LineChartHistory: [KeyValue_p] = [
 public struct SizeUnit: KeyValue_p, Equatable {
     public let key: String
     public let value: String
-    
+
     public static func == (lhs: SizeUnit, rhs: SizeUnit) -> Bool {
         return lhs.key == rhs.key
     }
@@ -372,15 +372,15 @@ extension SizeUnit: CaseIterable {
     public static var MB: SizeUnit { return SizeUnit(key: "MB", value: "MB") }
     public static var GB: SizeUnit { return SizeUnit(key: "GB", value: "GB") }
     public static var TB: SizeUnit { return SizeUnit(key: "TB", value: "TB") }
-    
+
     public static var allCases: [SizeUnit] {
         [.byte, .KB, .MB, .GB, .TB]
     }
-    
+
     public static func fromString(_ key: String, defaultValue: SizeUnit = .byte) -> SizeUnit {
         return SizeUnit.allCases.first{ $0.key == key } ?? defaultValue
     }
-    
+
     public func toBytes(_ value: Int) -> Int {
         switch self {
         case .KB:
@@ -401,7 +401,7 @@ public enum RAMPressure: String, Codable {
     case normal
     case warning
     case critical
-    
+
     func pressureColor() -> NSColor {
         switch self {
         case .normal:

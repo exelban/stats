@@ -225,8 +225,9 @@ internal class PopupView: NSView {
         
         self.windowHeight = NSScreen.main?.visibleFrame.height // for height recalculate when appear/disappear
         self.containerHeight = self.body.documentView?.frame.height // for scroll diff calculation
-        if let screenHeight = NSScreen.main?.visibleFrame.height, size.height > screenHeight {
-            size.height = screenHeight - Constants.Widget.height
+        let maxAllowedHeight = min(NSScreen.main?.visibleFrame.height ?? Constants.Popup.maxHeight, Constants.Popup.maxHeight)
+        if size.height > maxAllowedHeight {
+            size.height = maxAllowedHeight - Constants.Widget.height
             isScrollVisible = true
         }
         if let screenWidth = NSScreen.main?.visibleFrame.width, size.width > screenWidth {
@@ -289,8 +290,9 @@ internal class PopupView: NSView {
         
         self.windowHeight = NSScreen.main?.visibleFrame.height // for height recalculate when appear/disappear
         self.containerHeight = self.body.documentView?.frame.height // for scroll diff calculation
-        if let screenHeight = NSScreen.main?.visibleFrame.height, windowSize.height > screenHeight {
-            windowSize.height = screenHeight - Constants.Widget.height
+        let maxAllowedHeight = min(NSScreen.main?.visibleFrame.height ?? Constants.Popup.maxHeight, Constants.Popup.maxHeight)
+        if windowSize.height > maxAllowedHeight {
+            windowSize.height = maxAllowedHeight - Constants.Widget.height
             isScrollVisible = true
         }
         if let screenWidth = NSScreen.main?.visibleFrame.width, windowSize.width > screenWidth {

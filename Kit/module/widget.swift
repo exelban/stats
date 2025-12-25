@@ -353,6 +353,13 @@ public class SWidget {
     }
     
     @objc private func togglePopup() {
+        guard let event = NSApp.currentEvent else { return }
+
+        if event.type == .rightMouseDown {
+            self.showContextMenu()
+            return
+        }
+
         if let item = self.menuBarItem, let window = item.button?.window {
             NotificationCenter.default.post(name: .togglePopup, object: nil, userInfo: [
                 "module": self.module,
@@ -361,6 +368,40 @@ public class SWidget {
                 "center": window.frame.width/2
             ])
         }
+    }
+
+    private func showContextMenu() {
+        let menu = NSMenu()
+
+        let settingsItem = NSMenuItem(title: localizedString("Settings"), action: #selector(openSettings), keyEquivalent: ",")
+        settingsItem.target = self
+        menu.addItem(settingsItem)
+
+        menu.addItem(NSMenuItem.separator())
+
+        let restartItem = NSMenuItem(title: localizedString("Restart"), action: #selector(restartApplication), keyEquivalent: "")
+        restartItem.target = self
+        menu.addItem(restartItem)
+
+        let quitItem = NSMenuItem(title: localizedString("Quit"), action: #selector(quitApplication), keyEquivalent: "q")
+        quitItem.target = self
+        menu.addItem(quitItem)
+
+        if let button = self.menuBarItem?.button {
+            menu.popUp(positioning: nil, at: NSPoint(x: 0, y: button.bounds.height + 5), in: button)
+        }
+    }
+
+    @objc private func openSettings() {
+        NotificationCenter.default.post(name: .toggleSettings, object: nil, userInfo: ["module": self.module])
+    }
+
+    @objc private func restartApplication() {
+        restartApp(self)
+    }
+
+    @objc private func quitApplication() {
+        NSApplication.shared.terminate(nil)
     }
 }
 
@@ -507,6 +548,13 @@ public class MenuBar {
     }
     
     @objc private func togglePopup() {
+        guard let event = NSApp.currentEvent else { return }
+
+        if event.type == .rightMouseDown {
+            self.showContextMenu()
+            return
+        }
+
         if let item = self.menuBarItem, let window = item.button?.window {
             NotificationCenter.default.post(name: .togglePopup, object: nil, userInfo: [
                 "module": self.moduleName,
@@ -515,7 +563,41 @@ public class MenuBar {
             ])
         }
     }
-    
+
+    private func showContextMenu() {
+        let menu = NSMenu()
+
+        let settingsItem = NSMenuItem(title: localizedString("Settings"), action: #selector(openSettings), keyEquivalent: ",")
+        settingsItem.target = self
+        menu.addItem(settingsItem)
+
+        menu.addItem(NSMenuItem.separator())
+
+        let restartItem = NSMenuItem(title: localizedString("Restart"), action: #selector(restartApplication), keyEquivalent: "")
+        restartItem.target = self
+        menu.addItem(restartItem)
+
+        let quitItem = NSMenuItem(title: localizedString("Quit"), action: #selector(quitApplication), keyEquivalent: "q")
+        quitItem.target = self
+        menu.addItem(quitItem)
+
+        if let button = self.menuBarItem?.button {
+            menu.popUp(positioning: nil, at: NSPoint(x: 0, y: button.bounds.height + 5), in: button)
+        }
+    }
+
+    @objc private func openSettings() {
+        NotificationCenter.default.post(name: .toggleSettings, object: nil, userInfo: ["module": self.moduleName])
+    }
+
+    @objc private func restartApplication() {
+        restartApp(self)
+    }
+
+    @objc private func quitApplication() {
+        NSApplication.shared.terminate(nil)
+    }
+
     @objc private func listenForOneView(_ notification: Notification) {
         if notification.userInfo?["module"] as? String == nil {
             self.toggleOneView()
