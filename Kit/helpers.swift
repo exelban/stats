@@ -339,12 +339,20 @@ public func separatorView(_ title: String, origin: NSPoint = NSPoint(x: 0, y: 0)
     return view
 }
 
-public func popupRow(_ view: NSView, title: String, value: String) -> (LabelField, ValueField, NSView) {
-    let rowView: NSView = NSView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: 22))
+public func popupRow(_ view: NSView? = nil, title: String, value: String, multiline: Bool = false) -> (LabelField, ValueField, NSView) {
+    let lines: CGFloat = CGFloat(multiline ? value.filter { $0 == "\n" }.count + 1 : 1)
+    let width = view?.frame.width ?? 0
+    let height = multiline ? ((lines*16) + (22-16)): 22
+    
+    let rowView: NSView = NSView(frame: NSRect(x: 0, y: 0, width: width, height: height))
     
     let labelWidth = title.widthOfString(usingFont: .systemFont(ofSize: 12, weight: .regular)) + 4
-    let labelView: LabelField = LabelField(frame: NSRect(x: 0, y: (22-16)/2, width: labelWidth, height: 16), title)
-    let valueView: ValueField = ValueField(frame: NSRect(x: labelWidth, y: (22-16)/2, width: rowView.frame.width - labelWidth, height: 16), value)
+    let labelView: LabelField = LabelField(frame: NSRect(x: 0, y: ((22-16)/2) + ((lines-1)*16), width: labelWidth, height: 16), title)
+    let valueView: ValueField = ValueField(frame: NSRect(x: labelWidth, y: (22-16)/2, width: rowView.frame.width - labelWidth, height: multiline ? 16*lines : 16), value)
+    
+    if multiline {
+        valueView.cell?.usesSingleLineMode = false
+    }
     
     rowView.addSubview(labelView)
     rowView.addSubview(valueView)
@@ -352,7 +360,7 @@ public func popupRow(_ view: NSView, title: String, value: String) -> (LabelFiel
     if let view = view as? NSStackView {
         rowView.heightAnchor.constraint(equalToConstant: rowView.bounds.height).isActive = true
         view.addArrangedSubview(rowView)
-    } else {
+    } else if let view {
         view.addSubview(rowView)
     }
     

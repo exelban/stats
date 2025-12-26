@@ -22,9 +22,11 @@ public enum Network_t: String, Codable {
 }
 
 public struct Network_interface: Codable {
+    var status: Bool = false
     var displayName: String = ""
     var BSDName: String = ""
     var address: String = ""
+    var transmitRate: Double = 0
 }
 
 public struct Network_addr: Codable {
@@ -39,7 +41,6 @@ public struct Network_wifi: Codable {
     var bssid: String? = nil
     var RSSI: Int? = nil
     var noise: Int? = nil
-    var transmitRate: Double? = nil
     
     var standard: String? = nil
     var mode: String? = nil
@@ -55,7 +56,6 @@ public struct Network_wifi: Codable {
         self.ssid = nil
         self.RSSI = nil
         self.noise = nil
-        self.transmitRate = nil
         self.standard = nil
         self.mode = nil
         self.security = nil
@@ -75,6 +75,8 @@ public struct Network_Usage: Codable, RemoteType {
     var laddr: Network_addr = Network_addr() // local ip
     var raddr: Network_addr = Network_addr() // remote ip
     
+    var dns: [String] = []
+    
     var interface: Network_interface? = nil
     var connectionType: Network_t? = nil
     var status: Bool = false
@@ -86,6 +88,8 @@ public struct Network_Usage: Codable, RemoteType {
         
         self.laddr = Network_addr()
         self.raddr = Network_addr()
+        
+        self.dns = []
         
         self.interface = nil
         self.connectionType = nil
@@ -277,6 +281,7 @@ public class Network: Module {
                         case "displayName": replacement = value.interface?.displayName ?? "-"
                         case "BSDName": replacement = value.interface?.BSDName ?? "-"
                         case "address": replacement = value.interface?.address ?? "-"
+                        case "transmitRate": replacement = "\(value.interface?.transmitRate ?? 0)"
                         default: return
                         }
                     case "$wifi":
@@ -285,7 +290,6 @@ public class Network: Module {
                         case "bssid": replacement = value.wifiDetails.bssid ?? "-"
                         case "RSSI": replacement = "\(value.wifiDetails.RSSI ?? 0)"
                         case "noise": replacement = "\(value.wifiDetails.noise ?? 0)"
-                        case "transmitRate": replacement = "\(value.wifiDetails.transmitRate ?? 0)"
                         case "standard": replacement = value.wifiDetails.standard ?? "-"
                         case "mode": replacement = value.wifiDetails.mode ?? "-"
                         case "security": replacement = value.wifiDetails.security ?? "-"

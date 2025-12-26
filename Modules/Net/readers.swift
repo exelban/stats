@@ -234,6 +234,17 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
             if String(cString: pointer.pointee.ifa_name) != self.interfaceID {
                 continue
             }
+            self.usage.interface?.status = (pointer.pointee.ifa_flags & UInt32(IFF_UP)) != 0
+            
+            if let raw = pointer.pointee.ifa_data {
+                let dataPtr = raw.assumingMemoryBound(to: if_data.self)
+                let ifData = dataPtr.pointee
+                let baud = UInt64(ifData.ifi_baudrate)
+                if baud > 0 {
+                    self.usage.interface?.transmitRate = Double(baud) / 1_000_000.0
+                }
+            }
+            
             self.getLocalIP(pointer)
             
             if let info = self.getBytesInfo(pointer) {
@@ -330,6 +341,18 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
             }
         }
         
+        if let prefs = SCPreferencesCreate(nil, "Stats" as CFString, nil), let services = SCNetworkServiceCopyAll(prefs) as? [SCNetworkService] {
+            for service in services {
+                if let interface = SCNetworkServiceGetInterface(service), let name = SCNetworkInterfaceGetBSDName(interface), name as String == self.interfaceID,
+                   let serviceID = SCNetworkServiceGetServiceID(service) {
+                    let key = "State:/Network/Service/\(serviceID)/DNS" as CFString
+                    if let settings = SCDynamicStoreCopyValue(nil, key) as? [String: Any] {
+                        self.usage.dns = settings["ServerAddresses"] as? [String] ?? []
+                    }
+                }
+            }
+        }
+        
         guard self.usage.interface != nil else { return }
         
         if self.usage.wifiDetails.ssid != nil && (self.usage.wifiDetails.ssid == "" || self.usage.wifiDetails.ssid == "<redacted>") {
@@ -360,7 +383,6 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
             
             self.usage.wifiDetails.RSSI = interface.rssiValue()
             self.usage.wifiDetails.noise = interface.noiseMeasurement()
-            self.usage.wifiDetails.transmitRate = interface.transmitRate()
             
             self.usage.wifiDetails.standard = interface.activePHYMode().description
             self.usage.wifiDetails.mode = interface.interfaceMode().description
@@ -505,8 +527,28 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
         }
     }
     
-    func ssidDidChangeForWiFiInterface(withName interfaceName: String) {
+    public func ssidDidChangeForWiFiInterface(withName interfaceName: String) {
         self.getWiFiDetails()
+    }
+    
+    private func isInterfaceUp(_ ifName: String) -> Bool {
+        var addrs: UnsafeMutablePointer<ifaddrs>? = nil
+        guard getifaddrs(&addrs) == 0, let first = addrs else { return false }
+        defer { freeifaddrs(addrs) }
+        
+        var ptr = first
+        while true {
+            let name = String(cString: ptr.pointee.ifa_name)
+            if name == ifName {
+                return (ptr.pointee.ifa_flags & UInt32(IFF_UP)) != 0
+            }
+            if let next = ptr.pointee.ifa_next {
+                ptr = next
+            } else {
+                break
+            }
+        }
+        return false
     }
 }
 

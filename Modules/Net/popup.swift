@@ -12,6 +12,7 @@
 import Cocoa
 import Kit
 
+// swiftlint:disable:next type_body_length
 internal class Popup: PopupWrapper {
     private var uploadContainerView: NSView? = nil
     private var uploadView: NSView? = nil
@@ -30,23 +31,30 @@ internal class Popup: PopupWrapper {
     private var downloadColorView: NSView? = nil
     private var uploadColorView: NSView? = nil
     
-    private var detailsView: NSStackView? = nil
     private var totalUploadLabel: LabelField? = nil
     private var totalUploadField: ValueField? = nil
     private var totalDownloadLabel: LabelField? = nil
     private var totalDownloadField: ValueField? = nil
     private var statusField: ValueField? = nil
     private var connectivityField: ValueField? = nil
-    private var interfaceField: ValueField? = nil
-    private var macAddressField: ValueField? = nil
     private var latencyField: ValueField? = nil
     
+    private var interfaceView: NSStackView? = nil
+    private var interfaceField: ValueField? = nil
+    private var interfaceStatusField: ValueField? = nil
+    private var macAddressField: ValueField? = nil
     private var ssidField: ValueField? = nil
     private var standardField: ValueField? = nil
     private var channelField: ValueField? = nil
     private var ssidView: NSView? = nil
+    
+    private var interfaceDetailsState: Bool = false
     private var standardView: NSView? = nil
     private var channelView: NSView? = nil
+    private var interfaceSpeedView: NSView? = nil
+    private var interfaceSpeedField: ValueField? = nil
+    private var dnsServersView: NSView? = nil
+    private var dnsServersField: ValueField? = nil
     
     private var addressView: NSStackView? = nil
     private var localIPField: ValueField? = nil
@@ -116,11 +124,13 @@ internal class Popup: PopupWrapper {
         self.chartFixedScale = Store.shared.int(key: "\(self.title)_chartFixedScale", defaultValue: self.chartFixedScale)
         self.chartFixedScaleSize = SizeUnit.fromString(Store.shared.string(key: "\(self.title)_chartFixedScaleSize", defaultValue: self.chartFixedScaleSize.key))
         self.publicIPState = Store.shared.bool(key: "\(self.title)_publicIP", defaultValue: self.publicIPState)
+        self.interfaceDetailsState = Store.shared.bool(key: "\(self.title)_interfaceDetails", defaultValue: self.interfaceDetailsState)
         
         self.addArrangedSubview(self.initDashboard())
         self.addArrangedSubview(self.initChart())
         self.addArrangedSubview(self.initConnectivityChart())
         self.addArrangedSubview(self.initDetails())
+        self.addArrangedSubview(self.initInterface())
         self.addArrangedSubview(self.initAddress())
         self.addArrangedSubview(self.initProcesses())
         
@@ -264,22 +274,61 @@ internal class Popup: PopupWrapper {
         self.statusField = popupRow(view, title: "\(localizedString("Status")):", value: localizedString("Unknown")).1
         self.connectivityField = popupRow(view, title: "\(localizedString("Internet connection")):", value: localizedString("Unknown")).1
         self.latencyField = popupRow(view, title: "\(localizedString("Latency")):", value: "0 ms").1
+        
+        return view
+    }
+    
+    private func initInterface() -> NSView {
+        let view = NSStackView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 0))
+        view.orientation = .vertical
+        view.spacing = 0
+        
+        let row: NSView = NSView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Popup.separatorHeight))
+        row.heightAnchor.constraint(equalToConstant: Constants.Popup.separatorHeight).isActive = true
+        
+        let button = NSButtonWithPadding()
+        button.frame = CGRect(x: view.frame.width - 18, y: 6, width: 18, height: 18)
+        button.bezelStyle = .regularSquare
+        button.isBordered = false
+        button.imageScaling = NSImageScaling.scaleAxesIndependently
+        button.contentTintColor = .lightGray
+        button.action = #selector(self.toggleInterfaceDetails)
+        button.target = self
+        button.toolTip = localizedString("Details")
+        button.image = Bundle(for: Module.self).image(forResource: "tune")!
+        
+        row.addSubview(separatorView(localizedString("Interface"), width: self.frame.width))
+        row.addSubview(button)
+        
+        view.addArrangedSubview(row)
+        
         self.interfaceField = popupRow(view, title: "\(localizedString("Interface")):", value: localizedString("Unknown")).1
+        self.interfaceStatusField = popupRow(view, title: "\(localizedString("Status")):", value: localizedString("Unknown")).1
         self.macAddressField = popupRow(view, title: "\(localizedString("Physical address")):", value: localizedString("Unknown")).1
         self.macAddressField?.isSelectable = true
         
         let ssid = popupRow(view, title: "\(localizedString("Network")):", value: localizedString("Unknown"))
-        let standard = popupRow(view, title: "\(localizedString("Standard")):", value: localizedString("Unknown"))
-        let channel = popupRow(view, title: "\(localizedString("Channel")):", value: localizedString("Unknown"))
+        let standard = popupRow(view, title: "\(localizedString("Standard")):", value: localizedString("Unavailable"))
+        let channel = popupRow(view, title: "\(localizedString("Channel")):", value: localizedString("Unavailable"))
+        let speed = popupRow(view, title: "\(localizedString("Speed")):", value: localizedString("Unknown"))
         
         self.ssidField = ssid.1
         self.standardField = standard.1
         self.channelField = channel.1
+        self.interfaceSpeedField = speed.1
+        
         self.ssidView = ssid.2
         self.standardView = standard.2
         self.channelView = channel.2
+        self.interfaceSpeedView = speed.2
         
-        self.detailsView = view
+        if !self.interfaceDetailsState {
+            self.standardView?.removeFromSuperview()
+            self.channelView?.removeFromSuperview()
+            self.interfaceSpeedView?.removeFromSuperview()
+        }
+        
+        self.interfaceView = view
         return view
     }
     
@@ -393,23 +442,27 @@ internal class Popup: PopupWrapper {
                         self.interfaceField?.stringValue += ", \(cc)"
                     }
                     self.interfaceField?.stringValue += ")"
+                    self.interfaceStatusField?.stringValue = localizedString(interface.status ? "UP" : "DOWN")
                     self.macAddressField?.stringValue = interface.address
+                    self.interfaceSpeedField?.stringValue = "\(Int(interface.transmitRate.rounded()))baseT"
                 } else {
                     self.interfaceField?.stringValue = localizedString("Unknown")
+                    self.interfaceStatusField?.stringValue = localizedString("Unknown")
                     self.macAddressField?.stringValue = localizedString("Unknown")
+                    self.interfaceSpeedField?.stringValue = localizedString("Unknown")
                 }
                 
                 if value.connectionType == .wifi {
                     if let view = self.ssidView, view.superview == nil && value.wifiDetails.ssid != nil {
-                        self.detailsView?.addArrangedSubview(view)
+                        self.interfaceView?.addArrangedSubview(view)
                         resized = true
                     }
-                    if let view = self.standardView, view.superview == nil && value.wifiDetails.standard != nil {
-                        self.detailsView?.addArrangedSubview(view)
+                    if self.interfaceDetailsState, let view = self.standardView, view.superview == nil && value.wifiDetails.standard != nil {
+                        self.interfaceView?.addArrangedSubview(view)
                         resized = true
                     }
-                    if let view = self.channelView, view.superview == nil && value.wifiDetails.channel != nil {
-                        self.detailsView?.addArrangedSubview(view)
+                    if self.interfaceDetailsState, let view = self.channelView, view.superview == nil && value.wifiDetails.channel != nil {
+                        self.interfaceView?.addArrangedSubview(view)
                         resized = true
                     }
                     
@@ -428,15 +481,11 @@ internal class Popup: PopupWrapper {
                     if let v = value.wifiDetails.noise {
                         noise = "\(v) dBm"
                     }
-                    var txRate = localizedString("Unknown")
-                    if let v = value.wifiDetails.transmitRate {
-                        txRate = "\(v) Mbps"
-                    }
                     
                     let number = value.wifiDetails.channelNumber ?? localizedString("Unknown")
                     let band = value.wifiDetails.channelBand ?? localizedString("Unknown")
                     let width = value.wifiDetails.channelWidth ?? localizedString("Unknown")
-                    self.channelField?.toolTip = "RSSI: \(rssi)\nNoise: \(noise)\nChannel number: \(number)\nChannel band: \(band)\nChannel width: \(width)\nTransmit rate: \(txRate)"
+                    self.channelField?.toolTip = "RSSI: \(rssi)\nNoise: \(noise)\nChannel number: \(number)\nChannel band: \(band)\nChannel width: \(width)\n"
                 } else {
                     if self.ssidView?.superview != nil {
                         self.ssidField?.stringValue = localizedString("Unavailable")
@@ -469,7 +518,7 @@ internal class Popup: PopupWrapper {
                     if let addr = value.raddr.v4 {
                         if view.superview == nil {
                             self.addressView?.addArrangedSubview(view)
-                            self.recalculateHeight()
+                            resized = true
                         }
                         var ip = addr
                         if let cc = value.raddr.countryCode, !cc.isEmpty {
@@ -480,7 +529,7 @@ internal class Popup: PopupWrapper {
                         }
                     } else if view.superview != nil {
                         view.removeFromSuperview()
-                        self.recalculateHeight()
+                        resized = true
                         self.publicIPv4Field?.stringValue = localizedString("Unknown")
                     }
                 }
@@ -502,6 +551,31 @@ internal class Popup: PopupWrapper {
                         view.removeFromSuperview()
                         resized = true
                         self.publicIPv6Field?.stringValue = localizedString("Unknown")
+                    }
+                }
+                
+                if self.interfaceDetailsState {
+                    if !value.dns.isEmpty {
+                        let servers = value.dns.joined(separator: "\n")
+                        
+                        if self.dnsServersField == nil || value.dns.count != self.dnsServersField?.stringValue.split(separator: "\n").count {
+                            if let view = self.dnsServersView {
+                                view.removeFromSuperview()
+                            }
+                            let view = popupRow(self.interfaceView, title: "\(localizedString("DNS Server")):", value: servers, multiline: true)
+                            self.dnsServersField = view.1
+                            self.dnsServersView = view.2
+                            self.dnsServersField?.isSelectable = true
+                        }
+                        
+                        if self.dnsServersField?.stringValue != servers {
+                            self.dnsServersField?.stringValue = servers
+                        }
+                        
+                        resized = true
+                    } else if let view = self.dnsServersView {
+                        view.removeFromSuperview()
+                        resized = true
                     }
                 }
                 
@@ -705,6 +779,32 @@ internal class Popup: PopupWrapper {
         self.chartFixedScaleSize = newUnit
         Store.shared.set(key: "\(self.title)_chartFixedScaleSize", value: self.chartFixedScaleSize.key)
         self.display()
+    }
+    @objc private func toggleInterfaceDetails() {
+        self.interfaceDetailsState = !self.interfaceDetailsState
+        Store.shared.set(key: "\(self.title)_interfaceDetails", value: self.interfaceDetailsState)
+        
+        if !self.interfaceDetailsState {
+            self.standardView?.removeFromSuperview()
+            self.channelView?.removeFromSuperview()
+            self.interfaceSpeedView?.removeFromSuperview()
+            self.dnsServersView?.removeFromSuperview()
+        } else {
+            if let view = self.standardView, view.superview == nil && self.standardField?.stringValue != localizedString("Unavailable") {
+                self.interfaceView?.addArrangedSubview(view)
+            }
+            if let view = self.channelView, view.superview == nil && self.channelField?.stringValue != localizedString("Unavailable") {
+                self.interfaceView?.addArrangedSubview(view)
+            }
+            if let view = self.interfaceSpeedView, view.superview == nil {
+                self.interfaceView?.addArrangedSubview(view)
+            }
+            if let view = self.dnsServersView, view.superview == nil {
+                self.interfaceView?.addArrangedSubview(view)
+            }
+        }
+        
+        self.recalculateHeight()
     }
     
     // MARK: - helpers
