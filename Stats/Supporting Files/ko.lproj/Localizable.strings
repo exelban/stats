@@ -69,7 +69,7 @@
 "Square" = "제곱";
 "Cube" = "세제곱";
 "Logarithmic" = "로그";
-"Fixed scale" = "Fixed";
+"Fixed scale" = "고정 스케일";
 "Cores" = "코어 수";
 "Settings" = "설정";
 "Name" = "이름";
@@ -142,7 +142,7 @@
 "Open dashboard" = "대시보드 열기";
 "No notifications available in this module" = "이 모듈에서 사용할 수 있는 알림이 없습니다";
 "Open Calendar" = "캘린더 열기";
-"Toggle the module" = "Toggle the module";
+"Toggle the module" = "모듈 전환";
 
 // Application settings
 "Update application" = "애플리케이션 업데이트";
