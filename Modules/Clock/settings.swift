@@ -20,17 +20,14 @@ let statusColumnID = NSUserInterfaceItemIdentifier(rawValue: "status")
 internal class Settings: NSStackView, Settings_v, NSTableViewDelegate, NSTableViewDataSource, NSTextFieldDelegate {
     public var callback: (() -> Void) = {}
     
+    private var cachedList: [Clock_t] = []
     private var list: [Clock_t] {
         get {
-            if let objects = Store.shared.data(key: "\(self.title)_list") {
-                let decoder = JSONDecoder()
-                if let objectsDecoded = try? decoder.decode(Array.self, from: objects) as [Clock_t] {
-                    return objectsDecoded
-                }
-            }
-            return [Clock.local]
+            return self.cachedList
         }
         set {
+            self.cachedList = newValue
+            
             if newValue.isEmpty {
                 Store.shared.remove("\(self.title)_list")
             } else {
@@ -54,6 +51,16 @@ internal class Settings: NSStackView, Settings_v, NSTableViewDelegate, NSTableVi
         self.title = module.stringValue
         
         super.init(frame: NSRect.zero)
+        
+        if let objects = Store.shared.data(key: "\(self.title)_list") {
+            let decoder = JSONDecoder()
+            if let objectsDecoded = try? decoder.decode(Array.self, from: objects) as [Clock_t] {
+                self.cachedList = objectsDecoded
+            }
+        }
+        if self.cachedList.isEmpty {
+            self.cachedList = [Clock.local]
+        }
         
         self.orientation = .vertical
         self.distribution = .gravityAreas
