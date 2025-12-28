@@ -10,10 +10,10 @@
 //
 
 // Modules
-"CPU" = "處理器";
-"Open CPU settings" = "打開處理器設定";
-"GPU" = "顯示卡";
-"Open GPU settings" = "打開顯示卡設定";
+"CPU" = "CPU";
+"Open CPU settings" = "打開CPU設定";
+"GPU" = "GPU";
+"Open GPU settings" = "打開GPU設定";
 "RAM" = "記憶體";
 "Open RAM settings" = "打開記憶體設定";
 "Disk" = "磁碟";
@@ -257,9 +257,9 @@
 "Text widget value" = "文字小工具值";
 
 // CPU
-"CPU usage" = "處理器使用量";
-"CPU temperature" = "處理器溫度";
-"CPU frequency" = "處理器頻率";
+"CPU usage" = "CPU使用量";
+"CPU temperature" = "CPU溫度";
+"CPU frequency" = "CPU頻率";
 "System" = "根據系統";
 "User" = "使用者";
 "Idle" = "閒置";
@@ -272,8 +272,8 @@
 "1 minute" = "1 分鐘";
 "5 minutes" = "5 分鐘";
 "15 minutes" = "15 分鐘";
-"CPU usage threshold" = "處理器使用量臨界值";
-"CPU usage is" = "處理器使用量：%0";
+"CPU usage threshold" = "CPU使用量臨界值";
+"CPU usage is" = "CPU使用量：%0";
 "Efficiency cores" = "節能核心";
 "Performance cores" = "效能核心";
 "System color" = "系統占用色彩";
@@ -290,12 +290,12 @@
 "All cores" = "總核心占用";
 
 // GPU
-"GPU to show" = "顯示顯示卡";
-"Show GPU type" = "顯示顯示卡類型";
-"GPU enabled" = "啟用顯示卡";
-"GPU disabled" = "停用顯示卡";
-"GPU temperature" = "顯示卡溫度";
-"GPU utilization" = "顯示卡使用率";
+"GPU to show" = "顯示GPU";
+"Show GPU type" = "顯示GPU類型";
+"GPU enabled" = "啟用GPU";
+"GPU disabled" = "停用GPU";
+"GPU temperature" = "GPU溫度";
+"GPU utilization" = "GPU使用率";
 "Vendor" = "製造商";
 "Model" = "型號";
 "Status" = "狀態";
@@ -307,8 +307,8 @@
 "Utilization" = "利用率";
 "Render utilization" = "渲染利用率";
 "Tiler utilization" = "圖塊利用率";
-"GPU usage threshold" = "顯示卡使用量臨界值";
-"GPU usage is" = "顯示卡使用量：%0";
+"GPU usage threshold" = "GPU使用量臨界值";
+"GPU usage is" = "GPU使用量：%0";
 
 // RAM
 "Memory usage" = "記憶體使用量";
