@@ -26,8 +26,8 @@
 "Open Battery settings" = "バッテリーの設定を開く";
 "Bluetooth" = "Bluetooth";
 "Open Bluetooth settings" = "Bluetooth の設定を開く";
-"Clock" = "Clock";
-"Open Clock settings" = "Open clock settings";
+"Clock" = "時計";
+"Open Clock settings" = "時計の設定を開く";
 
 // Words
 "Unknown" = "不明";
