@@ -16,6 +16,7 @@ open class NotificationsWrapper: NSStackView {
     public let module: String
     
     private var ids: [String: Bool?] = [:]
+    private var holdStart: [String: Date?] = [:]
     
     public init(_ module: ModuleType, _ ids: [String] = []) {
         self.module = module.stringValue
@@ -42,11 +43,12 @@ open class NotificationsWrapper: NSStackView {
         for id in ids {
             let notificationID = "Stats_\(self.module)_\(id)"
             self.ids[notificationID] = nil
+            self.holdStart[notificationID] = nil
             removeNotification(notificationID)
         }
     }
     
-    public func checkDouble(id rid: String, value: Double, threshold: Double, title: String, subtitle: String, less: Bool = false) {
+    public func checkDouble(id rid: String, value: Double, threshold: Double, title: String, subtitle: String, less: Bool = false, duration: TimeInterval? = nil) {
         let id = "Stats_\(self.module)_\(rid)"
         let first = less ? value > threshold : value < threshold
         let second = less ? value <= threshold : value >= threshold
@@ -54,11 +56,27 @@ open class NotificationsWrapper: NSStackView {
         if self.ids[id] != nil, first {
             removeNotification(id)
             self.ids[id] = nil
+            self.holdStart[id] = nil
         }
         
-        if self.ids[id] == nil && second {
-            self.showNotification(id: id, title: title, subtitle: subtitle)
-            self.ids[id] = true
+        if second {
+            if let duration = duration {
+                let start = self.holdStart[id] ?? Date()
+                self.holdStart[id] = start
+                if Date().timeIntervalSince(start) >= duration {
+                    if self.ids[id] == nil {
+                        self.showNotification(id: id, title: title, subtitle: subtitle)
+                        self.ids[id] = true
+                    }
+                }
+            } else {
+                if self.ids[id] == nil {
+                    self.showNotification(id: id, title: title, subtitle: subtitle)
+                    self.ids[id] = true
+                }
+            }
+        } else {
+            self.holdStart[id] = nil
         }
     }
     

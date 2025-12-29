@@ -14,9 +14,12 @@ import Kit
 
 class Notifications: NotificationsWrapper {
     private let usageID: String = "usage"
+    private let sustainedID: String = "delay10s"
     
     private var usageState: Bool = false
     private var usageLevel: Int = 75
+    private var sustainedState: Bool = false
+    private let sustainedDuration: TimeInterval = 10
     
     public init(_ module: ModuleType) {
         super.init(module, [self.usageID])
@@ -32,11 +35,18 @@ class Notifications: NotificationsWrapper {
         
         self.usageState = Store.shared.bool(key: "\(self.module)_notifications_usage_state", defaultValue: self.usageState)
         self.usageLevel = Store.shared.int(key: "\(self.module)_notifications_usage_value", defaultValue: self.usageLevel)
+        self.sustainedState = Store.shared.bool(key: "\(self.module)_notifications_\(self.sustainedID)_state", defaultValue: self.sustainedState)
         
         self.addArrangedSubview(PreferencesSection([
             PreferencesRow(localizedString("Usage"), component: PreferencesSwitch(
                 action: self.toggleUsage, state: self.usageState,
                 with: StepperInput(self.usageLevel, callback: self.changeUsage)
+            ))
+        ]))
+        
+        self.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Delay alerts by 10 seconds"), component: PreferencesSwitch(
+                action: self.toggleSustained, state: self.sustainedState
             ))
         ]))
     }
@@ -50,7 +60,14 @@ class Notifications: NotificationsWrapper {
         
         if self.usageState {
             let subtitle = localizedString("GPU usage is", "\(Int((value)*100))%")
-            self.checkDouble(id: self.usageID, value: value, threshold: Double(self.usageLevel)/100, title: title, subtitle: subtitle)
+            self.checkDouble(
+                id: self.usageID,
+                value: value,
+                threshold: Double(self.usageLevel)/100,
+                title: title,
+                subtitle: subtitle,
+                duration: self.sustainedState ? self.sustainedDuration : nil
+            )
         }
     }
     
@@ -61,5 +78,9 @@ class Notifications: NotificationsWrapper {
     @objc private func changeUsage(_ newValue: Int) {
         self.usageLevel = newValue
         Store.shared.set(key: "\(self.module)_notifications_usage_value", value: self.usageLevel)
+    }
+    @objc private func toggleSustained(_ sender: NSControl) {
+        self.sustainedState = controlState(sender)
+        Store.shared.set(key: "\(self.module)_notifications_\(self.sustainedID)_state", value: self.sustainedState)
     }
 }
