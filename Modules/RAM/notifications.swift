@@ -22,17 +22,20 @@ class Notifications: NotificationsWrapper {
     private let freeID: String = "free"
     private let pressureID: String = "pressure"
     private let swapID: String = "swap"
+    private let sustainedID: String = "delay10s"
     
     private var totalState: Bool = false
     private var freeState: Bool = false
     private var pressureState: Bool = false
     private var swapState: Bool = false
+    private var sustainedState: Bool = false
     
     private var total: Int = 75
     private var free: Int = 75
     private var pressure: String = ""
     private var swap: Int = 1
     private var swapUnit: SizeUnit = .GB
+    private let sustainedDuration: TimeInterval = 10
     
     public init(_ module: ModuleType) {
         super.init(module, [self.totalID, self.freeID, self.pressureID, self.swapID])
@@ -78,6 +81,7 @@ class Notifications: NotificationsWrapper {
         self.swapState = Store.shared.bool(key: "\(self.module)_notifications_swap_state", defaultValue: self.swapState)
         self.swap = Store.shared.int(key: "\(self.module)_notifications_swap_value", defaultValue: self.swap)
         self.swapUnit = SizeUnit.fromString(Store.shared.string(key: "\(self.module)_notifications_swap_unit", defaultValue: self.swapUnit.key))
+        self.sustainedState = Store.shared.bool(key: "\(self.module)_notifications_\(self.sustainedID)_state", defaultValue: self.sustainedState)
         
         self.addArrangedSubview(PreferencesSection([
             PreferencesRow(localizedString("Usage"), component: PreferencesSwitch(
@@ -103,6 +107,12 @@ class Notifications: NotificationsWrapper {
                 )
             ))
         ]))
+
+        self.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Delay alerts by 10 seconds"), component: PreferencesSwitch(
+                action: self.toggleSustained, state: self.sustainedState
+            ))
+        ]))
     }
     
     required init?(coder: NSCoder) {
@@ -114,12 +124,27 @@ class Notifications: NotificationsWrapper {
         
         if self.totalState {
             let subtitle = localizedString("RAM utilization is", "\(Int((value.usage)*100))%")
-            self.checkDouble(id: self.totalID, value: value.usage, threshold: Double(self.total)/100, title: title, subtitle: subtitle)
+            self.checkDouble(
+                id: self.totalID,
+                value: value.usage,
+                threshold: Double(self.total)/100,
+                title: title,
+                subtitle: subtitle,
+                duration: self.sustainedState ? self.sustainedDuration : nil
+            )
         }
         if self.freeState {
             let free = value.free / value.total
             let subtitle = localizedString("Free RAM is", "\(Int((free)*100))%")
-            self.checkDouble(id: self.freeID, value: free, threshold: Double(self.free)/100, title: title, subtitle: subtitle, less: true)
+            self.checkDouble(
+                id: self.freeID,
+                value: free,
+                threshold: Double(self.free)/100,
+                title: title,
+                subtitle: subtitle,
+                less: true,
+                duration: self.sustainedState ? self.sustainedDuration : nil
+            )
         }
         
         if self.pressureState, self.pressure != "", let thresholdPair = memoryPressureLevels.first(where: {$0.key == self.pressure}) {
@@ -129,7 +154,8 @@ class Notifications: NotificationsWrapper {
                     value: Double(value.pressure.level),
                     threshold: Double(threshold.rawValue),
                     title: title,
-                    subtitle: "\(localizedString("Memory pressure")): \(localizedString(thresholdPair.value))"
+                    subtitle: "\(localizedString("Memory pressure")): \(localizedString(thresholdPair.value))",
+                    duration: self.sustainedState ? self.sustainedDuration : nil
                 )
             }
         }
@@ -137,7 +163,14 @@ class Notifications: NotificationsWrapper {
         if self.swapState {
             let value = Units(bytes: Int64(value.swap.used))
             let subtitle = "\(localizedString("Swap size")): \(value.getReadableMemory())"
-            self.checkDouble(id: self.swapID, value: value.toUnit(self.swapUnit), threshold: Double(self.swap), title: title, subtitle: subtitle)
+            self.checkDouble(
+                id: self.swapID,
+                value: value.toUnit(self.swapUnit),
+                threshold: Double(self.swap),
+                title: title,
+                subtitle: subtitle,
+                duration: self.sustainedState ? self.sustainedDuration : nil
+            )
         }
     }
     
@@ -181,5 +214,10 @@ class Notifications: NotificationsWrapper {
         guard let newUnit = newValue as? SizeUnit else { return }
         self.swapUnit = newUnit
         Store.shared.set(key: "\(self.module)_notifications_swap_unit", value: self.swapUnit.key)
+    }
+    
+    @objc private func toggleSustained(_ sender: NSControl) {
+        self.sustainedState = controlState(sender)
+        Store.shared.set(key: "\(self.module)_notifications_\(self.sustainedID)_state", value: self.sustainedState)
     }
 }
