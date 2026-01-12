@@ -9,6 +9,8 @@
 //  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
 //
 
+// macOS automatically inserts subtle spacing between Latin letters or numbers and Chinese characters. Do not add extra spaces here.
+
 // Modules
 "CPU" = "CPU";
 "Open CPU settings" = "打开CPU设置";
