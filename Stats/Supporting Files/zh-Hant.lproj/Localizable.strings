@@ -9,6 +9,8 @@
 //  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
 //
 
+// macOS automatically inserts subtle spacing between Latin letters or numbers and Chinese characters. Do not add extra spaces here.
+
 // Modules
 "CPU" = "CPU";
 "Open CPU settings" = "打開CPU設定";
@@ -79,9 +81,9 @@
 "Warning" = "警告";
 "Critical" = "重要通知";
 "Usage" = "使用量";
-"2 minutes" = "2 分鐘";
-"3 minutes" = "3 分鐘";
-"10 minutes" = "10 分鐘";
+"2 minutes" = "2分鐘";
+"3 minutes" = "3分鐘";
+"10 minutes" = "10分鐘";
 "Import" = "匯入";
 "Export" = "匯出";
 "Separator" = "分隔符號";
@@ -92,17 +94,17 @@
 "Run" = "執行";
 "Stop" = "停止";
 "Uninstall" = "解除安裝";
-"1 sec" = "1 秒";
-"2 sec" = "2 秒";
-"3 sec" = "3 秒";
-"5 sec" = "5 秒";
-"10 sec" = "10 秒";
-"15 sec" = "15 秒";
-"30 sec" = "30 秒";
-"60 sec" = "60 秒";
+"1 sec" = "1秒";
+"2 sec" = "2秒";
+"3 sec" = "3秒";
+"5 sec" = "5秒";
+"10 sec" = "10秒";
+"15 sec" = "15秒";
+"30 sec" = "30秒";
+"60 sec" = "60秒";
 
 // Setup
-"Stats Setup" = "Stats 設定";
+"Stats Setup" = "Stats設定";
 "Previous" = "上一步";
 "Previous page" = "上一頁";
 "Next" = "下一步";
