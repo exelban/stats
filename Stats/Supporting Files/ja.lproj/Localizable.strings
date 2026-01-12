@@ -140,9 +140,9 @@
 "Close application" = "Stats を終了";
 "Open application settings" = "Stats の設定を開く";
 "Open dashboard" = "ダッシュボードを開く";
-"No notifications available in this module" = "No notifications available in this module";
-"Open Calendar" = "Open Calendar";
-"Toggle the module" = "Toggle the module";
+"No notifications available in this module" = "このモジュールには利用可能な通知がありません";
+"Open Calendar" = "カレンダーを開く";
+"Toggle the module" = "モジュールの切り替え";
 
 // Application settings
 "Update application" = "アプリをアップデートする";
