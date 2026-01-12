@@ -212,8 +212,8 @@
 "Static width" = "너비 고정";
 "Tachometer widget" = "반원 도표";
 "State widget" = "상태 위젯";
-"Text widget" = "Text widget";
-"Battery details widget" = "Battery details widget";
+"Text widget" = "텍스트 위젯";
+"Battery details widget" = "배터리 세부 정보 위젯";
 "Show symbols" = "기호 표시";
 "Label widget" = "레이블 위젯";
 "Number of reads in the chart" = "도표의 행 크기";
