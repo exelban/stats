@@ -56,8 +56,11 @@ class Helper: NSObject, NSXPCListenerDelegate, HelperProtocol {
                 return false
             }
         } catch {
-            NSLog("error checking code signing: \(error)")
-            return false
+            let message = String(describing: error)
+            NSLog("error checking code signing: \(message)")
+            if !message.contains("-67062") {
+                return false
+            }
         }
         
         newConnection.exportedInterface = NSXPCInterface(with: HelperProtocol.self)
