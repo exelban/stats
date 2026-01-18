@@ -1,14 +1,3 @@
-//
-//  widget.swift
-//  Net
-//
-//  Created by Serhiy Mytrovtsiy on 30/07/2024
-//  Using Swift 5.0
-//  Running on macOS 14.5
-//
-//  Copyright © 2024 Serhiy Mytrovtsiy. All rights reserved.
-//  
-
 import SwiftUI
 import WidgetKit
 import Charts
@@ -26,6 +15,7 @@ public struct Network_entry: TimelineEntry {
     public var date: Date {
         Calendar.current.date(byAdding: .second, value: 5, to: Date())!
     }
+    
     public var value: Network_Usage? = nil
 }
 
@@ -33,7 +23,9 @@ public struct Network_entry: TimelineEntry {
 public struct Provider: TimelineProvider {
     public typealias Entry = Network_entry
     
-    private let userDefaults: UserDefaults? = UserDefaults(suiteName: "\(Bundle.main.object(forInfoDictionaryKey: "TeamId") as! String).eu.exelban.Stats.widgets")
+    private let userDefaults: UserDefaults? = UserDefaults(
+        suiteName: "\(Bundle.main.object(forInfoDictionaryKey: "TeamId") as! String).eu.exelban.Stats.widgets"
+    )
     
     public func placeholder(in context: Context) -> Network_entry {
         Network_entry()
@@ -46,7 +38,8 @@ public struct Provider: TimelineProvider {
     public func getTimeline(in context: Context, completion: @escaping (Timeline<Network_entry>) -> Void) {
         self.userDefaults?.set(Date().timeIntervalSince1970, forKey: Network_entry.kind)
         var entry = Network_entry()
-        if let raw = userDefaults?.data(forKey: "Network@UsageReader"), let load = try? JSONDecoder().decode(Network_Usage.self, from: raw) {
+        if let raw = userDefaults?.data(forKey: "Network@UsageReader"),
+           let load = try? JSONDecoder().decode(Network_Usage.self, from: raw) {
             entry.value = load
         }
         let entries: [Network_entry] = [entry]
@@ -66,44 +59,78 @@ public struct NetworkWidget: Widget {
             VStack(spacing: 10) {
                 if let value = entry.value {
                     VStack {
+                        // Download & Upload
                         HStack {
                             VStack {
                                 VStack(spacing: 0) {
-                                    Text(Units(bytes: value.bandwidth.download).getReadableTuple().0).font(.system(size: 24, weight: .regular))
-                                    Text(Units(bytes: value.bandwidth.download).getReadableTuple().1).font(.system(size: 10, weight: .regular))
+                                    Text(Units(bytes: value.bandwidth.download).getReadableTuple().0)
+                                        .font(.system(size: 24, weight: .regular))
+                                    Text(Units(bytes: value.bandwidth.download).getReadableTuple().1)
+                                        .font(.system(size: 10, weight: .regular))
                                 }
-                                Text("Download").font(.system(size: 12, weight: .regular)).foregroundColor(.gray)
-                            }.frame(maxWidth: .infinity)
+                                Text("Download")
+                                    .font(.system(size: 12, weight: .regular))
+                                    .foregroundColor(.gray)
+                            }
+                            .frame(maxWidth: .infinity)
+                            
                             VStack {
                                 VStack(spacing: 0) {
-                                    Text(Units(bytes: value.bandwidth.upload).getReadableTuple().0).font(.system(size: 24, weight: .regular))
-                                    Text(Units(bytes: value.bandwidth.upload).getReadableTuple().1).font(.system(size: 10, weight: .regular))
+                                    Text(Units(bytes: value.bandwidth.upload).getReadableTuple().0)
+                                        .font(.system(size: 24, weight: .regular))
+                                    Text(Units(bytes: value.bandwidth.upload).getReadableTuple().1)
+                                        .font(.system(size: 10, weight: .regular))
                                 }
-                                Text("Upload").font(.system(size: 12, weight: .regular)).foregroundColor(.gray)
-                            }.frame(maxWidth: .infinity)
+                                Text("Upload")
+                                    .font(.system(size: 12, weight: .regular))
+                                    .foregroundColor(.gray)
+                            }
+                            .frame(maxWidth: .infinity)
                         }
                         .frame(maxHeight: .infinity)
+                        
+                        // Details: Status, Interface, IP
                         VStack(spacing: 3) {
+                            // Status
                             HStack {
-                                Text("Status").font(.system(size: 12, weight: .regular)).foregroundColor(.secondary)
+                                Text("Status")
+                                    .font(.system(size: 12, weight: .regular))
+                                    .foregroundColor(.secondary)
                                 Spacer()
                                 Text(value.status ? "UP" : "DOWN")
                             }
+                            
+                            // Interface
                             if let interface = value.interface {
                                 HStack {
-                                    Text("Interface").font(.system(size: 12, weight: .regular)).foregroundColor(.secondary)
+                                    Text("Interface")
+                                        .font(.system(size: 12, weight: .regular))
+                                        .foregroundColor(.secondary)
                                     Spacer()
                                     Text(value.wifiDetails.ssid ?? interface.displayName)
                                 }
                             }
+                            
+                            // IP + Flag
                             HStack {
-                                Text("IP").font(.system(size: 12, weight: .regular)).foregroundColor(.secondary)
+                                Text("IP")
+                                    .font(.system(size: 12))
+                                    .foregroundColor(.secondary)
+                                
                                 Spacer()
+                                
+                                if let flag = loadFlag(countryCode: value.raddr.countryCode) {
+                                    flag
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 18, height: 12)
+                                        .padding(.trailing, 4)
+                                }
+                                
                                 if let raddr = value.raddr.v6 {
                                     Text(raddr)
                                         .font(.system(size: 8))
                                         .multilineTextAlignment(.trailing)
-                                        .frame(maxWidth: .infinity, alignment: .center)
                                 } else if let raddr = value.raddr.v4 {
                                     Text(raddr)
                                 } else {
@@ -123,5 +150,20 @@ public struct NetworkWidget: Widget {
         .configurationDisplayName("Network widget")
         .description("Displays network stats")
         .supportedFamilies([.systemSmall])
+    }
+    
+    private func loadFlag(countryCode: String?) -> Image? {
+        guard let code = countryCode?.lowercased() else { return nil }
+        
+        let fm = FileManager.default
+        guard let appSupport = fm.urls(for: .applicationSupportDirectory, in: .userDomainMask).first else { return nil }
+        
+        let url = appSupport
+            .appendingPathComponent("Net/flags")
+            .appendingPathComponent("\(code).png")
+        
+        guard let nsImage = NSImage(contentsOf: url) else { return nil }
+        
+        return Image(nsImage: nsImage)
     }
 }

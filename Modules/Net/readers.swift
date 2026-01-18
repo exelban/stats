@@ -464,6 +464,7 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
                 }
                 if let countryCode = addr.country {
                     self.usage.raddr.countryCode = countryCode
+                    self.saveCountryFlag(countryCode: countryCode)
                 }
             }
         }
@@ -476,6 +477,7 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
                 }
                 if let countryCode = addr.country {
                     self.usage.raddr.countryCode = countryCode
+                    self.saveCountryFlag(countryCode: countryCode)
                 }
             }
         }
@@ -550,6 +552,43 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
         }
         return false
     }
+    // MARK: - Country Flag Handling
+
+    private func saveCountryFlag(countryCode: String) {
+        let code = countryCode.lowercased()
+        let urlString = "https://flagcdn.com/w80/\(code).png"
+
+        guard let url = URL(string: urlString) else { return }
+        let fileManager = FileManager.default
+        // ~/Library/Application Support/Net/flags
+        let appSupport = fileManager.urls(
+            for: .applicationSupportDirectory,
+            in: .userDomainMask
+        ).first!
+
+        let flagsDir = appSupport.appendingPathComponent("Net/flags", isDirectory: true)
+
+     // Create directory if needed
+        if !fileManager.fileExists(atPath: flagsDir.path) {
+            try? fileManager.createDirectory(
+            at: flagsDir,
+            withIntermediateDirectories: true,
+            attributes: nil
+        )
+    }
+
+        let fileURL = flagsDir.appendingPathComponent("\(code).png")
+
+        // Cached → do nothing
+        if fileManager.fileExists(atPath: fileURL.path) {
+            return
+        }
+
+        URLSession.shared.dataTask(with: url) { data, _, error in
+            guard let data = data, error == nil else { return }
+            try? data.write(to: fileURL, options: .atomic)
+     }.resume()
+}
 }
 
 public class ProcessReader: Reader<[Network_Process]> {

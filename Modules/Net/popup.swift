@@ -66,6 +66,7 @@ internal class Popup: PopupWrapper {
     
     private var processesView: NSView? = nil
     private var processes: ProcessesView? = nil
+    private var publicIPFlagView: NSImageView? = nil
     
     private var chart: NetworkChartView? = nil
     private var reverseOrderState: Bool = false
@@ -277,6 +278,15 @@ internal class Popup: PopupWrapper {
         
         return view
     }
+    private func loadFlag(countryCode: String?) -> NSImage? {
+        guard let code = countryCode?.lowercased() else { return nil }
+        let fm = FileManager.default
+        guard let appSupport = fm.urls(for: .applicationSupportDirectory, in: .userDomainMask).first else { return nil }
+        let url = appSupport
+            .appendingPathComponent("Net/flags")
+            .appendingPathComponent("\(code).png")
+        return NSImage(contentsOf: url)
+    }
     
     private func initInterface() -> NSView {
         let view = NSStackView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 0))
@@ -366,6 +376,25 @@ internal class Popup: PopupWrapper {
         self.localIPField?.isSelectable = true
         self.publicIPv4Field?.isSelectable = true
         self.publicIPv6Field?.isSelectable = true
+        // --- Create the flag image view for IPv4 ---
+        let flagView = NSImageView(frame: NSRect(x: 0, y: 0, width: 18, height: 12))
+        flagView.imageScaling = .scaleProportionallyUpOrDown
+        flagView.isHidden = true
+        self.publicIPFlagView = flagView
+
+        // Wrap the IPv4 field and flag in a container
+        let container = NSView(frame: NSRect(
+             x: 0,
+             y: 0,
+            width: ipV4.1.frame.width + 22,
+            height: ipV4.1.frame.height
+        ))
+        container.addSubview(flagView)
+        ipV4.1.setFrameOrigin(NSPoint(x: 22, y: 0))
+        container.addSubview(ipV4.1)
+        self.publicIPv4View = container
+// Add the container to the address stack
+view.addArrangedSubview(container)
         
         if let valueView = self.publicIPv6Field {
             valueView.font = NSFont.systemFont(ofSize: 7, weight: .semibold)
@@ -593,6 +622,12 @@ internal class Popup: PopupWrapper {
                 }
                 chart.addValue(upload: Double(value.bandwidth.upload), download: Double(value.bandwidth.download))
             }
+            if let cc = value.raddr.countryCode, let flag = self.loadFlag(countryCode: cc) {
+                self.publicIPFlagView?.image = flag
+                self.publicIPFlagView?.isHidden = false
+            } else {
+                self.publicIPFlagView?.isHidden = true
+        }
         })
     }
     
