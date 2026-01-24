@@ -349,6 +349,7 @@
 "Read speed" = "Read";
 "Drives" = "Drives";
 "SMART data" = "SMART data";
+"Mini widget value" = "소형 위젯 값";
 
 // Sensors
 "Temperature unit" = "온도 단위";

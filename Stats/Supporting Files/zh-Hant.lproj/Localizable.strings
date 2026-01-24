@@ -349,6 +349,7 @@
 "Read speed" = "讀取";
 "Drives" = "磁碟機";
 "SMART data" = "SMART 資料";
+"Mini widget value" = "小型小工具數值";
 
 // Sensors
 "Temperature unit" = "溫度單位";

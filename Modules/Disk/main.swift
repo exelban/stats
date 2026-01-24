@@ -225,6 +225,10 @@ public class Disk: Module {
         Store.shared.bool(key: "systemWidgetsUpdates_state", defaultValue: true)
     }
     
+    private var miniWidgetValue: String {
+        Store.shared.string(key: "\(ModuleType.disk.stringValue)_miniWidgetValue", defaultValue: "usage")
+    }
+    
     public init() {
         super.init(
             moduleType: .disk,
@@ -269,6 +273,9 @@ public class Disk: Module {
                 self?.processReader?.read()
             }
         }
+        self.settingsView.miniWidgetValueHandler = { [weak self] _ in
+            self?.capacityReader?.read()
+        }
         
         self.setReaders([self.capacityReader, self.activityReader, self.processReader])
     }
@@ -290,7 +297,18 @@ public class Disk: Module {
         
         self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: SWidget) in
             switch w.item {
-            case let widget as Mini: widget.setValue(d.percentage)
+            case let widget as Mini:
+                if self.miniWidgetValue == "temperature", let temp = d.smart?.temperature, temp > 0 {
+                    let temperatureC = Double(temp).rounded(.up)
+                    let temperatureVal = Measurement(value: temperatureC, unit: UnitTemperature.celsius)
+                        .converted(to: UnitTemperature.current)
+                        .value.rounded(.up) / 100
+                    widget.setValue(temperatureVal)
+                    widget.setSuffix(UnitTemperature.current.symbol)
+                } else {
+                    widget.setValue(d.percentage)
+                    widget.setSuffix("%")
+                }
             case let widget as BarChart: widget.setValue([[ColorValue(d.percentage)]])
             case let widget as MemoryWidget:
                 widget.setValue((DiskSize(d.free).getReadableMemory(), DiskSize(d.size - d.free).getReadableMemory()), usedPercentage: d.percentage)

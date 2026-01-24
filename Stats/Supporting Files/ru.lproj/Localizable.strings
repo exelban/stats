@@ -349,6 +349,7 @@
 "Read speed" = "Чтение";
 "Drives" = "Диски";
 "SMART data" = "SMART данные";
+"Mini widget value" = "Значение мини-виджета";
 
 // Sensors
 "Temperature unit" = "Единица измерения температуры";

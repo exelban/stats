@@ -349,6 +349,7 @@
 "Read speed" = "Lukunopeus";
 "Drives" = "Drives";
 "SMART data" = "SMART data";
+"Mini widget value" = "Mini-widgetin arvo";
 
 // Sensors
 "Temperature unit" = "Lämpötilan yksikkö";

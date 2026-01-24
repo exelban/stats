@@ -349,6 +349,7 @@
 "Read speed" = "读取速度";
 "Drives" = "驱动器";
 "SMART data" = "SMART数据";
+"Mini widget value" = "迷你小组件数值";
 
 // Sensors
 "Temperature unit" = "温度单位";

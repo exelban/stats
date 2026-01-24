@@ -349,6 +349,7 @@
 "Read speed" = "Branja";
 "Drives" = "Pogoni";
 "SMART data" = "SMART data";
+"Mini widget value" = "Vrednost mini widgeta";
 
 // Sensors
 "Temperature unit" = "Enota za temperaturo";

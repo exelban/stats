@@ -349,6 +349,7 @@
 "Read speed" = "Okuma hızı";
 "Drives" = "Sürücüler";
 "SMART data" = "SMART verisi";
+"Mini widget value" = "Mini widget değeri";
 
 // Sensors
 "Temperature unit" = "Sıcaklık birimi";

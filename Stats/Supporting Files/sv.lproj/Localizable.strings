@@ -349,6 +349,7 @@
 "Read speed" = "Läs";
 "Drives" = "Drives";
 "SMART data" = "SMART data";
+"Mini widget value" = "Mini-widget-värde";
 
 // Sensors
 "Temperature unit" = "Temperaturenhet";

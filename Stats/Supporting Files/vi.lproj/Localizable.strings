@@ -349,6 +349,7 @@
 "Read speed" = "Tốc độ đọc";
 "Drives" = "Ổ đĩa";
 "SMART data" = "Dữ liệu SMART";
+"Mini widget value" = "Giá trị widget nhỏ";
 
 // Sensors
 "Temperature unit" = "Đơn vị nhiệt độ";
