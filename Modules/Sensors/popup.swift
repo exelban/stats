@@ -638,10 +638,14 @@ internal class FanView: NSStackView {
             height: view.frame.height - 8
         ), mode: self.fan.mode)
         buttons.callback = { [weak self] (mode: FanMode) in
-            if let fan = self?.fan, fan.mode != mode {
-                self?.fan.mode = mode
-                self?.fan.customMode = mode
-                SMCHelper.shared.setFanMode(fan.id, mode: mode.rawValue)
+            if let fan = self?.fan {
+                // Always call setFanMode for automatic to ensure Ftst is reset
+                // For manual, only call if mode changed to avoid redundant unlock
+                if mode == .automatic || fan.mode != mode {
+                    self?.fan.mode = mode
+                    self?.fan.customMode = mode
+                    SMCHelper.shared.setFanMode(fan.id, mode: mode.rawValue)
+                }
             }
             self?.toggleControlView(mode == .forced)
         }

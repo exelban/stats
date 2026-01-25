@@ -387,6 +387,20 @@
 			remoteGlobalIDString = 9AF9EE0124648751005D2270;
 			remoteInfo = Disk;
 		};
+		B2D05E752F253BFA0021E479 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9A1410ED229E721100D29793 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9ADE6FD7265D032100D2FBA8;
+			remoteInfo = SMC;
+		};
+		B2D05E792F2548790021E479 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9A1410ED229E721100D29793 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5CFE492629264DF1000F2856;
+			remoteInfo = Helper;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -1481,6 +1495,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				B2D05E7A2F2548790021E479 /* PBXTargetDependency */,
+				B2D05E762F253BFA0021E479 /* PBXTargetDependency */,
 				9A81C75C2449A41400825D92 /* PBXTargetDependency */,
 				9AF9EE0824648751005D2270 /* PBXTargetDependency */,
 				9A3E17D2247A94AF00449CD1 /* PBXTargetDependency */,
@@ -2373,6 +2389,16 @@
 			isa = PBXTargetDependency;
 			target = 9AF9EE0124648751005D2270 /* Disk */;
 			targetProxy = 9AF9EE0724648751005D2270 /* PBXContainerItemProxy */;
+		};
+		B2D05E762F253BFA0021E479 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9ADE6FD7265D032100D2FBA8 /* SMC */;
+			targetProxy = B2D05E752F253BFA0021E479 /* PBXContainerItemProxy */;
+		};
+		B2D05E7A2F2548790021E479 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5CFE492629264DF1000F2856 /* Helper */;
+			targetProxy = B2D05E792F2548790021E479 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
