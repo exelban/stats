@@ -88,6 +88,16 @@ public class Sensors: Module {
     }
     
     public override func willTerminate() {
+        // Always reset Ftst first (Apple Silicon) - critical for safety
+        if SMCHelper.shared.isAppleSilicon && SMCHelper.shared.isFtstUnlocked {
+            // Synchronous reset to ensure it completes before app exits
+            let semaphore = DispatchSemaphore(value: 0)
+            SMCHelper.shared.lockFtst { _ in
+                semaphore.signal()
+            }
+            _ = semaphore.wait(timeout: .now() + 2)
+        }
+        
         guard SMCHelper.shared.isActive(), let reader = self.sensorsReader else { return }
         
         reader.list.sensors.filter({ $0 is Fan }).forEach { (s: Sensor_p) in

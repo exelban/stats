@@ -10,11 +10,17 @@
 //
 
 import Foundation
+import Darwin
+
+// Async-signal-safe flag for emergency Ftst reset
+nonisolated(unsafe) var gEmergencyFtstReset: Int32 = 0
 
 let helper = Helper()
 helper.run()
 
 class Helper: NSObject, NSXPCListenerDelegate, HelperProtocol {
+    static var shared: Helper?
+    
     private let listener: NSXPCListener
     
     private var connections = [NSXPCConnection]()
@@ -23,10 +29,77 @@ class Helper: NSObject, NSXPCListenerDelegate, HelperProtocol {
     
     private var smc: String? = nil
     
+    // Ftst state tracking
+    private var ftstUnlocked: Bool = false
+    private var ftstLastActivity: Date?
+    private let ftstInactivityTimeout: TimeInterval = 60 // 1 minute of inactivity
+    private let ftstPidFile = "/tmp/stats-ftst-unlock.pid"
+    private var ftstWatchdogRunning = false
+    
     override init() {
         self.listener = NSXPCListener(machServiceName: "eu.exelban.Stats.SMC.Helper")
         super.init()
         self.listener.delegate = self
+        Helper.shared = self
+        
+        setupSignalHandlers()
+        checkStaleFtstState()
+    }
+    
+    private func setupSignalHandlers() {
+        // Use async-signal-safe pattern: set flag, let atexit do cleanup
+        signal(SIGTERM) { _ in
+            gEmergencyFtstReset = 1
+            exit(0)
+        }
+        signal(SIGINT) { _ in
+            gEmergencyFtstReset = 1
+            exit(0)
+        }
+        
+        // atexit is safe for complex operations
+        atexit {
+            if gEmergencyFtstReset == 1 || Helper.shared?.ftstUnlocked == true {
+                Helper.shared?.emergencyFtstReset()
+            }
+        }
+    }
+    
+    private func checkStaleFtstState() {
+        // Check for stale PID file from previous crash
+        if FileManager.default.fileExists(atPath: ftstPidFile) {
+            NSLog("Found stale Ftst PID file - previous crash detected, resetting Ftst")
+            emergencyFtstReset()
+        }
+    }
+    
+    private func emergencyFtstReset() {
+        // Try to find SMC tool if path not set
+        var smcPath = self.smc
+        if smcPath == nil {
+            // Common locations
+            let possiblePaths = [
+                "/Applications/Stats.app/Contents/Resources/smc",
+                Bundle.main.path(forResource: "smc", ofType: nil)
+            ].compactMap { $0 }
+            
+            for path in possiblePaths {
+                if FileManager.default.fileExists(atPath: path) {
+                    smcPath = path
+                    break
+                }
+            }
+        }
+        
+        if let smc = smcPath {
+            let result = syncShell("\(smc) lock")
+            NSLog("Emergency Ftst reset: \(result.output ?? "no output")")
+        } else {
+            NSLog("Emergency Ftst reset: SMC tool not found, skipping")
+        }
+        
+        try? FileManager.default.removeItem(atPath: ftstPidFile)
+        ftstUnlocked = false
     }
     
     public func run() {
@@ -136,6 +209,9 @@ extension Helper {
             return
         }
         
+        // Reset inactivity timer
+        ftstLastActivity = Date()
+        
         let result = syncShell("\(smc) fan \(id) -v \(value)")
         
         if let error = result.error, !error.isEmpty {
@@ -145,6 +221,113 @@ extension Helper {
         }
         
         completion(result.output)
+    }
+    
+    // MARK: - Ftst Unlock (Apple Silicon)
+    
+    func setFtstUnlock(completion: (Bool, String?) -> Void) {
+        guard let smc = self.smc else {
+            completion(false, "missing smc tool")
+            return
+        }
+        
+        let result = syncShell("\(smc) unlock")
+        let success = result.error == nil || result.error?.isEmpty == true
+        
+        if success {
+            ftstUnlocked = true
+            ftstLastActivity = Date()
+            
+            // Write PID file for crash recovery
+            do {
+                try "\(getpid())".write(toFile: ftstPidFile, atomically: true, encoding: .utf8)
+            } catch {
+                NSLog("Failed to write Ftst PID file: \(error)")
+            }
+            
+            // Start inactivity watchdog
+            startFtstWatchdog()
+            
+            // Start orphan detection
+            startOrphanDetection()
+            
+            NSLog("Ftst unlock successful")
+        } else {
+            NSLog("Ftst unlock failed: \(result.error ?? "unknown error")")
+        }
+        
+        completion(success, result.output)
+    }
+    
+    func setFtstLock(completion: (Bool, String?) -> Void) {
+        guard let smc = self.smc else {
+            completion(false, "missing smc tool")
+            return
+        }
+        
+        let result = syncShell("\(smc) lock")
+        
+        ftstUnlocked = false
+        ftstLastActivity = nil
+        
+        // Remove PID file
+        try? FileManager.default.removeItem(atPath: ftstPidFile)
+        
+        let success = result.error == nil || result.error?.isEmpty == true
+        NSLog("Ftst lock: \(success ? "successful" : "failed")")
+        
+        completion(success, result.output)
+    }
+    
+    func getFtstStatus(completion: (Bool, Int, String?) -> Void) {
+        guard let smc = self.smc else {
+            completion(false, -1, "missing smc tool")
+            return
+        }
+        
+        let result = syncShell("\(smc) ftst")
+        completion(ftstUnlocked, ftstUnlocked ? 1 : 0, result.output)
+    }
+    
+    private func startFtstWatchdog() {
+        guard !ftstWatchdogRunning else { return }
+        ftstWatchdogRunning = true
+        
+        DispatchQueue.global(qos: .utility).async { [weak self] in
+            while self?.ftstUnlocked == true {
+                sleep(10) // Check every 10 seconds
+                
+                guard let self = self else { break }
+                
+                if let lastActivity = self.ftstLastActivity,
+                   Date().timeIntervalSince(lastActivity) > self.ftstInactivityTimeout {
+                    NSLog("Ftst auto-lock: inactivity timeout (\(self.ftstInactivityTimeout)s)")
+                    self.setFtstLock { _, _ in }
+                    break
+                }
+            }
+            self?.ftstWatchdogRunning = false
+        }
+    }
+    
+    private func startOrphanDetection() {
+        DispatchQueue.global(qos: .utility).async { [weak self] in
+            while self?.ftstUnlocked == true {
+                sleep(30) // Check every 30 seconds
+                
+                guard let self = self else { break }
+                
+                // Check if main app is still running using pgrep (works without AppKit)
+                let result = syncShell("pgrep -f 'Stats.app' 2>/dev/null")
+                let statsRunning = !(result.output?.isEmpty ?? true)
+                
+                if !statsRunning {
+                    NSLog("Main app terminated while Ftst unlocked - resetting")
+                    self.setFtstLock { _, _ in }
+                    break
+                }
+            }
+        }
     }
     
     func powermetrics(_ samplers: [String], completion: @escaping (String?) -> Void) {

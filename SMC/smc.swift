@@ -46,6 +46,15 @@ internal enum SMCKeys: UInt8 {
 public enum FanMode: Int, Codable {
     case automatic = 0
     case forced = 1
+    case system = 3  // Apple Silicon default (thermalmonitord active)
+    
+    public var description: String {
+        switch self {
+        case .automatic: return "automatic"
+        case .forced: return "manual"
+        case .system: return "system"
+        }
+    }
 }
 
 internal struct SMCKeyData_t {
@@ -205,7 +214,7 @@ public class SMC {
         }
         
         if val.dataSize > 0 {
-            if val.bytes.first(where: { $0 != 0 }) == nil && val.key != "FS! " && val.key != "F0Md" && val.key != "F1Md" {
+            if val.bytes.first(where: { $0 != 0 }) == nil && val.key != "FS! " && val.key != "F0Md" && val.key != "F1Md" && val.key != "Ftst" {
                 return nil
             }
             
@@ -352,6 +361,7 @@ public class SMC {
     // MARK: - fans
     
     public func setFanMode(_ id: Int, mode: FanMode) {
+        // Write F0Md/F1Md directly
         if self.getValue("F\(id)Md") != nil {
             var result: kern_return_t = 0
             var value = SMCVal_t("F\(id)Md")
@@ -374,6 +384,11 @@ public class SMC {
                 print("Error write: " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
                 return
             }
+        }
+        
+        // Skip FS! bitmask on Apple Silicon (it's an Intel-only key)
+        if isAppleSilicon {
+            return
         }
         
         let fansMode = Int(self.getValue("FS! ") ?? 0)
@@ -432,6 +447,12 @@ public class SMC {
             return
         }
         
+        // On Apple Silicon, write mode=1 first to enable fan target control
+        // This is required even though the mode readback may still show 0
+        if isAppleSilicon {
+            self.setFanMode(id, mode: .forced)
+        }
+        
         var result: kern_return_t = 0
         var value = SMCVal_t("F\(id)Tg")
         
@@ -469,6 +490,126 @@ public class SMC {
         if result != kIOReturnSuccess {
             print("Error write: " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
         }
+    }
+    
+    // MARK: - Apple Silicon Ftst Unlock
+    
+    /// Check if running on Apple Silicon
+    public var isAppleSilicon: Bool {
+        #if arch(arm64)
+        return true
+        #else
+        return false
+        #endif
+    }
+    
+    /// Get current Ftst value (0 = locked, 1 = unlocked)
+    public func getFtstValue() -> UInt8? {
+        guard let value = self.getValue("Ftst") else { return nil }
+        return UInt8(value)
+    }
+    
+    /// Check if Ftst key exists (indicates Apple Silicon fan control support)
+    public func hasFtstKey() -> Bool {
+        return self.getValue("Ftst") != nil
+    }
+    
+    /// Unlock Ftst for Apple Silicon fan control
+    /// - Returns: kIOReturnSuccess on success, error code on failure
+    public func setFtstUnlock() -> kern_return_t {
+        return writeFtst(value: 1)
+    }
+    
+    /// Lock Ftst to return to automatic fan control
+    /// - Returns: kIOReturnSuccess on success, error code on failure
+    public func setFtstLock() -> kern_return_t {
+        return writeFtst(value: 0)
+    }
+    
+    /// Write Ftst value
+    private func writeFtst(value: UInt8) -> kern_return_t {
+        var val = SMCVal_t("Ftst")
+        val.dataSize = 1
+        val.bytes = [value, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        return write(val)
+    }
+    
+    /// Wait for fan mode to transition after Ftst unlock
+    /// - Parameter timeout: Maximum time to wait in seconds
+    /// - Returns: true if mode transitioned from 3 to 0, false on timeout
+    public func waitForModeTransition(timeout: TimeInterval = 10.0) -> Bool {
+        let startTime = Date()
+        let checkInterval: useconds_t = 200_000 // 200ms
+        
+        while Date().timeIntervalSince(startTime) < timeout {
+            if let mode = self.getValue("F0Md"), Int(mode) == 0 {
+                return true
+            }
+            usleep(checkInterval)
+        }
+        return false
+    }
+    
+    /// Validate SMC connection is still active
+    public func validateConnection() -> Bool {
+        // Try to read FNum as connectivity check
+        return getValue("FNum") != nil
+    }
+    
+    // MARK: - Safe Fan Control (with Ftst handling)
+    
+    /// Set fan speed with safety checks and automatic Ftst handling for Apple Silicon
+    /// - Parameters:
+    ///   - id: Fan index
+    ///   - speed: Target RPM
+    ///   - autoUnlock: Whether to automatically handle Ftst unlock (default: true)
+    /// - Returns: true on success, false on failure
+    @discardableResult
+    public func setFanSpeedSafe(_ id: Int, speed: Int, autoUnlock: Bool = true) -> Bool {
+        // Safety: Get min/max RPM
+        let minSpeed = Int(self.getValue("F\(id)Mn") ?? 1000)
+        let maxSpeed = Int(self.getValue("F\(id)Mx") ?? 6000)
+        
+        // Safety: Block zero RPM writes
+        if speed <= 0 {
+            print("[SAFETY] BLOCKED: Zero or negative RPM write rejected")
+            return false
+        }
+        
+        // Safety: Clamp to minimum
+        var safeSpeed = speed
+        if speed < minSpeed {
+            print("[SAFETY] RPM \(speed) below minimum \(minSpeed), clamping to minimum")
+            safeSpeed = minSpeed
+        }
+        
+        // Safety: Clamp to maximum
+        if speed > maxSpeed {
+            print("[SAFETY] RPM \(speed) above maximum \(maxSpeed), clamping to maximum")
+            safeSpeed = maxSpeed
+        }
+        
+        // Apple Silicon: Handle Ftst unlock
+        if isAppleSilicon && autoUnlock {
+            let currentFtst = getFtstValue() ?? 0
+            if currentFtst == 0 {
+                let unlockResult = setFtstUnlock()
+                if unlockResult != kIOReturnSuccess {
+                    print("[ERROR] Ftst unlock failed: \(unlockResult)")
+                    return false
+                }
+                
+                // Wait for mode transition
+                if !waitForModeTransition(timeout: 5.0) {
+                    print("[WARNING] Mode transition timeout, attempting write anyway")
+                }
+            }
+        }
+        
+        // Write the speed
+        setFanSpeed(id, speed: safeSpeed)
+        return true
     }
     
     // MARK: - internal functions

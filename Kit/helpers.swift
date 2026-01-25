@@ -876,6 +876,71 @@ public class SMCHelper {
     
     private var connection: NSXPCConnection? = nil
     
+    // MARK: - Apple Silicon Ftst Support
+    
+    private let ftstQueue = DispatchQueue(label: "eu.exelban.Stats.FtstQueue")
+    private var ftstUnlockInProgress = false
+    private var ftstUnlocked = false
+    
+    /// Check if running on Apple Silicon
+    public var isAppleSilicon: Bool {
+        #if arch(arm64)
+        return true
+        #else
+        return false
+        #endif
+    }
+    
+    /// Check if Ftst is currently unlocked
+    public var isFtstUnlocked: Bool {
+        return ftstUnlocked
+    }
+    
+    /// Check if fan control is supported on this platform
+    public var fanControlSupported: Bool {
+        guard SMC.shared.getValue("FNum") != nil else { return false }
+        if isAppleSilicon {
+            return SMC.shared.hasFtstKey()
+        }
+        return true
+    }
+    
+    /// Lock Ftst to return to automatic fan control
+    public func lockFtst(completion: @escaping (Bool) -> Void) {
+        guard isAppleSilicon else {
+            completion(true)
+            return
+        }
+        
+        guard let helper = self.helper(nil) else {
+            completion(false)
+            return
+        }
+        
+        helper.setFtstLock { [weak self] success, output in
+            if success {
+                self?.ftstUnlocked = false
+                NSLog("Ftst locked: \(output ?? "")")
+            } else {
+                NSLog("Ftst lock failed: \(output ?? "unknown error")")
+            }
+            completion(success)
+        }
+    }
+    
+    /// Sync Ftst state with helper daemon (call on app startup)
+    public func syncFtstState() {
+        guard isAppleSilicon else { return }
+        guard let helper = self.helper(nil) else { return }
+        
+        helper.getFtstStatus { [weak self] unlocked, _, _ in
+            self?.ftstUnlocked = unlocked
+            NSLog("Ftst state synced: \(unlocked ? "unlocked" : "locked")")
+        }
+    }
+    
+    // MARK: - Fan Control
+    
     public func setFanSpeed(_ id: Int, speed: Int) {
         guard let helper = self.helper(nil) else { return }
         helper.setFanSpeed(id: id, value: speed) { result in
