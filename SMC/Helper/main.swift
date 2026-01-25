@@ -115,33 +115,41 @@ extension Helper {
     }
     
     func setFanMode(id: Int, mode: Int, completion: (String?) -> Void) {
+        NSLog("setFanMode called: fan=\(id), mode=\(mode)")
         guard let smc = self.smc else {
+            NSLog("setFanMode failed: missing smc tool path")
             completion("missing smc tool")
             return
         }
         let result = syncShell("\(smc) fan \(id) -m \(mode)")
         
         if let error = result.error, !error.isEmpty {
-            NSLog("error set fan mode: \(error)")
-            completion(nil)
-            return
+            NSLog("setFanMode stderr: \(error)")
+        }
+        if let output = result.output, !output.isEmpty {
+            NSLog("setFanMode stdout: \(output)")
         }
         
         completion(result.output)
     }
     
     func setFanSpeed(id: Int, value: Int, completion: (String?) -> Void) {
+        NSLog("setFanSpeed called: fan=\(id), speed=\(value)")
         guard let smc = self.smc else {
+            NSLog("setFanSpeed failed: missing smc tool path")
             completion("missing smc tool")
             return
         }
         
-        let result = syncShell("\(smc) fan \(id) -v \(value)")
+        let cmd = "\(smc) fan \(id) -v \(value)"
+        NSLog("executing: \(cmd)")
+        let result = syncShell(cmd)
         
         if let error = result.error, !error.isEmpty {
-            NSLog("error set fan speed: \(error)")
-            completion(nil)
-            return
+            NSLog("setFanSpeed stderr: \(error)")
+        }
+        if let output = result.output, !output.isEmpty {
+            NSLog("setFanSpeed stdout: \(output)")
         }
         
         completion(result.output)

@@ -877,19 +877,27 @@ public class SMCHelper {
     private var connection: NSXPCConnection? = nil
     
     public func setFanSpeed(_ id: Int, speed: Int) {
-        guard let helper = self.helper(nil) else { return }
+        print("[SMCHelper] setFanSpeed: fan=\(id), speed=\(speed)")
+        guard let helper = self.helper(nil) else {
+            print("[SMCHelper] setFanSpeed: failed to get helper connection")
+            return
+        }
         helper.setFanSpeed(id: id, value: speed) { result in
             if let result, !result.isEmpty {
-                NSLog("set fan speed: \(result)")
+                print("[SMCHelper] setFanSpeed result: \(result)")
             }
         }
     }
     
     public func setFanMode(_ id: Int, mode: Int) {
-        guard let helper = self.helper(nil) else { return }
+        print("[SMCHelper] setFanMode: fan=\(id), mode=\(mode)")
+        guard let helper = self.helper(nil) else {
+            print("[SMCHelper] setFanMode: failed to get helper connection")
+            return
+        }
         helper.setFanMode(id: id, mode: mode) { result in
             if let result, !result.isEmpty {
-                NSLog("set fan mode: \(result)")
+                print("[SMCHelper] setFanMode result: \(result)")
             }
         }
     }
@@ -1003,10 +1011,15 @@ public class SMCHelper {
     
     public func uninstall(silent: Bool = false) {
         if let count = SMC.shared.getValue("FNum") {
+            print("[SMCHelper] found \(Int(count)) fan(s) to reset")
             for i in 0..<Int(count) {
+                print("[SMCHelper] resetting fan \(i) to automatic mode")
                 self.setFanMode(i, mode: 0)
             }
+        } else {
+            print("[SMCHelper] could not read fan count (FNum)")
         }
+        
         guard let helper = self.helper(nil) else { return }
         helper.uninstall()
         if !silent {

@@ -530,7 +530,9 @@ internal class FanView: NSStackView {
         NotificationCenter.default.addObserver(self, selector: #selector(self.changeHelperState), name: .fanHelperState, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.controlCallback), name: .toggleFanControl, object: nil)
         
-        if let fanMode = self.fan.customMode, self.speedState && fanMode != FanMode.automatic {
+        if SMCHelper.shared.isInstalled,
+           let fanMode = self.fan.customMode,
+           self.speedState && fanMode != FanMode.automatic {
             SMCHelper.shared.setFanMode(fan.id, mode: fanMode.rawValue)
             self.modeButtons?.setMode(FanMode(rawValue: fanMode.rawValue) ?? .automatic)
             
@@ -966,6 +968,16 @@ internal class FanView: NSStackView {
     @objc private func changeHelperState(_ notification: Notification) {
         guard let state = notification.userInfo?["state"] as? Bool else { return }
         self.setupControls(state)
+        
+        if state, let fanMode = self.fan.customMode, fanMode != .automatic {
+            SMCHelper.shared.setFanMode(fan.id, mode: fanMode.rawValue)
+            self.modeButtons?.setMode(fanMode)
+            self.setSpeed(value: Int(self.speed), then: {
+                DispatchQueue.main.async {
+                    self.sliderValueField?.textColor = .systemBlue
+                }
+            })
+        }
     }
     
     @objc private func controlCallback(_ notification: Notification) {
