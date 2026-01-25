@@ -381,13 +381,14 @@ public class SMC {
                 }
                 
                 let prevMode = value.bytes[0]
-                value.bytes[0] = 0
-                result = write(value)
-                guard result == kIOReturnSuccess else {
-                    print(smcError("write mode=0", key: modeKey, result: result))
-                    return
+                if prevMode == 0 {
+                    print("[\(modeKey)] already in automatic mode")
+                } else {
+                    value.bytes[0] = 0
+                    if !writeWithRetry(value, context: "mode \(prevMode)->0") {
+                        return
+                    }
                 }
-                print("[\(modeKey)] mode \(prevMode) -> 0")
             }
             
             // Set target to 0 (Apple Silicon uses flt IEEE 754 float format)
@@ -405,12 +406,9 @@ public class SMC {
             targetValue.bytes[2] = bytes[2]
             targetValue.bytes[3] = bytes[3]
             
-            result = write(targetValue)
-            guard result == kIOReturnSuccess else {
-                print(smcError("write target=0", key: targetKey, result: result))
+            if !writeWithRetry(targetValue, context: "write target=0") {
                 return
             }
-            print("[\(targetKey)] target set to 0")
             
             if otherFansManual == 0 {
                 if resetFanControl() {
@@ -544,11 +542,17 @@ public class SMC {
             value.bytes[3] = UInt8(0)
         }
         
+        #if arch(arm64)
+        if !writeWithRetry(value, context: "set speed to \(speed)") {
+            return
+        }
+        #else
         result = write(value)
         if result != kIOReturnSuccess {
             print("Error write: " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
             return
         }
+        #endif
     }
     
     public func resetFans() {
@@ -623,12 +627,9 @@ public class SMC {
                 return false
             }
             ftstVal.bytes[0] = 1
-            let ftstResult = write(ftstVal)
-            guard ftstResult == kIOReturnSuccess else {
-                print(smcError("write Ftst=1", key: "Ftst", result: ftstResult))
+            if !writeWithRetry(ftstVal, context: "unlock (set to 1)") {
                 return false
             }
-            print("[Ftst] unlocked (set to 1)")
         }
         
         // Retry writing mode=1 until thermalmonitord releases control
