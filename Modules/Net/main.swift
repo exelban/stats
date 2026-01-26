@@ -107,6 +107,7 @@ public struct Network_Usage: Codable, RemoteType {
 public struct Network_Connectivity: Codable {
     var status: Bool = false
     var latency: Double = 0
+    var jitter: Double = 0
 }
 
 public struct Network_Process: Codable, Process_p {

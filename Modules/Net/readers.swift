@@ -742,6 +742,18 @@ internal class ConnectivityReader: Reader<Network_Connectivity> {
         set { self.variablesQueue.sync { self._latency = newValue } }
     }
     
+    private var _previousLatency: Double? = nil
+    private var previousLatency: Double? {
+        get { self.variablesQueue.sync { self._previousLatency } }
+        set { self.variablesQueue.sync { self._previousLatency = newValue } }
+    }
+    
+    private var _jitter: Double? = nil
+    private var jitter: Double? {
+        get { self.variablesQueue.sync { self._jitter } }
+        set { self.variablesQueue.sync { self._jitter = newValue } }
+    }
+    
     var start: DispatchTime? = nil
     
     private struct ICMPHeader {
@@ -817,6 +829,9 @@ internal class ConnectivityReader: Reader<Network_Connectivity> {
             if let l = self.latency {
                 self.wrapper.latency = l
             }
+            if let j = self.jitter {
+                self.wrapper.jitter = j
+            }
             self.callback(self.wrapper)
         }
     }
@@ -831,6 +846,17 @@ internal class ConnectivityReader: Reader<Network_Connectivity> {
         let end = DispatchTime.now()
         
         self.latency = Double(end.uptimeNanoseconds - (self.start?.uptimeNanoseconds ?? 0)) / 1_000_000
+        
+        if let prev = self.previousLatency {
+            let d = abs((self.latency ?? 0) - prev)
+            if self.jitter == nil {
+                self.jitter = d
+            } else {
+                self.jitter! += (d - self.jitter!) / 16.0
+            }
+        }
+        self.previousLatency = self.latency
+        
         self.status = error == nil
         self.isPinging = false
         self.timeoutTimer?.invalidate()
