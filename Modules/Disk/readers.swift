@@ -97,6 +97,12 @@ internal class CapacityReader: Reader<Disks> {
         self.callback(self.list)
     }
     
+    public func resetPurgableSpace(for uuid: String) {
+        if let disk = self.list.first(where: { $0.uuid == uuid }), let path = disk.path {
+            self.purgableSpace.removeValue(forKey: path)
+        }
+    }
+    
     private func freeDiskSpaceInBytes(_ path: URL) -> Int64 {
         var stat = statfs()
         if statfs(path.path, &stat) == 0 {
