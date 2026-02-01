@@ -226,24 +226,24 @@ public class StackWidget: WidgetWrapper {
     }
     
     public func setValues(_ values: [Stack_t]) {
-        var tableNeedsToBeUpdated: Bool = false
-        
-        values.forEach { (p: Stack_t) in
-            if let idx = self.values.firstIndex(where: { $0.key == p.key }) {
-                self.values[idx].value = p.value
-                return
-            }
-            tableNeedsToBeUpdated = true
-            self.values.append(p)
-        }
-        
-        let diff = self.values.filter({ v in values.contains(where: { $0.key == v.key }) })
-        if diff.count != self.values.count {
-            tableNeedsToBeUpdated = true
-        }
-        self.values = diff.sorted(by: { $0.index < $1.index })
-        
         DispatchQueue.main.async(execute: {
+            var tableNeedsToBeUpdated: Bool = false
+            
+            values.forEach { (p: Stack_t) in
+                if let idx = self.values.firstIndex(where: { $0.key == p.key }) {
+                    self.values[idx].value = p.value
+                    return
+                }
+                tableNeedsToBeUpdated = true
+                self.values.append(p)
+            }
+            
+            let diff = self.values.filter({ v in values.contains(where: { $0.key == v.key }) })
+            if diff.count != self.values.count {
+                tableNeedsToBeUpdated = true
+            }
+            self.values = diff.sorted(by: { $0.index < $1.index })
+            
             if tableNeedsToBeUpdated {
                 self.orderTableView.update()
             }
