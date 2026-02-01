@@ -38,6 +38,7 @@ internal class Popup: PopupWrapper {
     private var statusField: ValueField? = nil
     private var connectivityField: ValueField? = nil
     private var latencyField: ValueField? = nil
+    private var jitterField: ValueField? = nil
     
     private var interfaceView: NSStackView? = nil
     private var interfaceField: ValueField? = nil
@@ -82,6 +83,7 @@ internal class Popup: PopupWrapper {
     
     private var lastReset: Date = Date()
     private var latency: [Double] = []
+    private var jitter: [Double] = []
     
     private var base: DataSizeBase {
         DataSizeBase(rawValue: Store.shared.string(key: "\(self.title)_base", defaultValue: "byte")) ?? .byte
@@ -274,6 +276,7 @@ internal class Popup: PopupWrapper {
         self.statusField = popupRow(view, title: "\(localizedString("Status")):", value: localizedString("Unknown")).1
         self.connectivityField = popupRow(view, title: "\(localizedString("Internet connection")):", value: localizedString("Unknown")).1
         self.latencyField = popupRow(view, title: "\(localizedString("Latency")):", value: "0 ms").1
+        self.jitterField = popupRow(view, title: "\(localizedString("Jitter")):", value: "0 ms").1
         
         return view
     }
@@ -602,18 +605,30 @@ internal class Popup: PopupWrapper {
         }
         self.latency.append(value?.latency ?? 0)
         
+        if self.jitter.count >= 90 {
+            self.jitter.remove(at: 0)
+        }
+        self.jitter.append(value?.jitter ?? 0)
+        
         DispatchQueue.main.async(execute: {
             if (self.window?.isVisible ?? false) || !self.connectionInitialized {
                 var text = "Unknown"
                 var latency = localizedString("Unknown")
+                var jitter = localizedString("Unknown")
+                
                 if let v = value {
                     text = v.status ? "UP" : "DOWN"
                     if v.status && !self.latency.isEmpty {
                         latency = "\((self.latency.reduce(0, +) / Double(self.latency.count)).rounded(toPlaces: 2)) ms"
                     }
+                    if v.status && !self.jitter.isEmpty {
+                        jitter = "\((self.jitter.reduce(0, +) / Double(self.jitter.count)).rounded(toPlaces: 2)) ms"
+                    }
                 }
-                self.connectivityField?.stringValue = localizedString(text)
                 self.latencyField?.stringValue = latency
+                self.jitterField?.stringValue = jitter
+                
+                self.connectivityField?.stringValue = localizedString(text)
                 self.connectionInitialized = true
             }
             

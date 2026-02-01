@@ -265,7 +265,9 @@ public class ProcessView: NSStackView {
     
     @objc private func kill() {
         if let pid = self.pid {
-            asyncShell("kill \(pid)")
+            _ = syncShell("kill -9 \(pid)")
+            self.clear()
+            self.setLock(false)
         }
     }
 }

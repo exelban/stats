@@ -249,17 +249,17 @@ public class LineChart: WidgetWrapper {
     }
     
     public func setValue(_ newValue: Double) {
-        self._value = newValue
         DispatchQueue.main.async(execute: {
+            self._value = newValue
             self.chart.addValue(newValue)
             self.display()
         })
     }
     
     public func setPressure(_ newPressureLevel: RAMPressure) {
-        guard self._pressureLevel != newPressureLevel else { return }
-        self._pressureLevel = newPressureLevel
         DispatchQueue.main.async(execute: {
+            guard self._pressureLevel != newPressureLevel else { return }
+            self._pressureLevel = newPressureLevel
             self.display()
         })
     }

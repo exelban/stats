@@ -263,10 +263,10 @@ public class NetworkChart: WidgetWrapper {
     }
     
     public func setValue(upload: Double, download: Double) {
-        self.points.remove(at: 0)
-        self.points.append((upload, download))
-        
         DispatchQueue.main.async(execute: {
+            self.points.remove(at: 0)
+            self.points.append((upload, download))
+            
             if self.window?.isVisible ?? false {
                 self.display()
             }

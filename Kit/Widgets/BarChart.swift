@@ -223,27 +223,33 @@ public class BarChart: WidgetWrapper {
     }
     
     public func setValue(_ newValue: [[ColorValue]]) {
-        let tolerance: CGFloat = 0.01
-        let isDifferent = self._value.count != newValue.count || zip(self._value, newValue).contains { row1, row2 in
-            row1.count != row2.count || zip(row1, row2).contains { val1, val2 in
-                abs(val1.value - val2.value) > tolerance || val1.color != val2.color
+        DispatchQueue.main.async(execute: {
+            let tolerance: CGFloat = 0.01
+            let isDifferent = self._value.count != newValue.count || zip(self._value, newValue).contains { row1, row2 in
+                row1.count != row2.count || zip(row1, row2).contains { val1, val2 in
+                    abs(val1.value - val2.value) > tolerance || val1.color != val2.color
+                }
             }
-        }
-        guard isDifferent else { return }
-        self._value = newValue
-        self.redraw()
+            guard isDifferent else { return }
+            self._value = newValue
+            self.redraw()
+        })
     }
     
     public func setPressure(_ newPressureLevel: RAMPressure) {
-        guard self._pressureLevel != newPressureLevel else { return }
-        self._pressureLevel = newPressureLevel
-        self.redraw()
+        DispatchQueue.main.async(execute: {
+            guard self._pressureLevel != newPressureLevel else { return }
+            self._pressureLevel = newPressureLevel
+            self.redraw()
+        })
     }
     
     public func setColorZones(_ newColorZones: colorZones) {
-        guard self._colorZones != newColorZones else { return }
-        self._colorZones = newColorZones
-        self.redraw()
+        DispatchQueue.main.async(execute: {
+            guard self._colorZones != newColorZones else { return }
+            self._colorZones = newColorZones
+            self.redraw()
+        })
     }
     
     // MARK: - Settings

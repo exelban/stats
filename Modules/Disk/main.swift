@@ -251,6 +251,11 @@ public class Disk: Module {
             }
         }
         
+        self.popupView.refreshCallback = { [weak self] uuid in
+            self?.capacityReader?.resetPurgableSpace(for: uuid)
+            self?.capacityReader?.read()
+        }
+        
         self.selectedDisk = Store.shared.string(key: "\(ModuleType.disk.stringValue)_disk", defaultValue: self.selectedDisk)
         
         self.settingsView.selectedDiskHandler = { [weak self] value in
