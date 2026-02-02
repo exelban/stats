@@ -23,6 +23,8 @@ class Helper: NSObject, NSXPCListenerDelegate, HelperProtocol {
     
     private var smc: String? = nil
     
+    private let smcQueue = DispatchQueue(label: "eu.exelban.Stats.SMC.Helper.smcQueue")
+    
     override init() {
         self.listener = NSXPCListener(machServiceName: "eu.exelban.Stats.SMC.Helper")
         super.init()
@@ -121,16 +123,19 @@ extension Helper {
             completion("missing smc tool")
             return
         }
-        let result = syncShell("\(smc) fan \(id) -m \(mode)")
         
-        if let error = result.error, !error.isEmpty {
-            NSLog("setFanMode stderr: \(error)")
+        smcQueue.sync {
+            let result = syncShell("\(smc) fan \(id) -m \(mode)")
+            
+            if let error = result.error, !error.isEmpty {
+                NSLog("setFanMode stderr: \(error)")
+            }
+            if let output = result.output, !output.isEmpty {
+                NSLog("setFanMode stdout: \(output)")
+            }
+            
+            completion(result.output)
         }
-        if let output = result.output, !output.isEmpty {
-            NSLog("setFanMode stdout: \(output)")
-        }
-        
-        completion(result.output)
     }
     
     func setFanSpeed(id: Int, value: Int, completion: (String?) -> Void) {
@@ -141,18 +146,42 @@ extension Helper {
             return
         }
         
-        let cmd = "\(smc) fan \(id) -v \(value)"
-        NSLog("executing: \(cmd)")
-        let result = syncShell(cmd)
-        
-        if let error = result.error, !error.isEmpty {
-            NSLog("setFanSpeed stderr: \(error)")
+        smcQueue.sync {
+            let cmd = "\(smc) fan \(id) -v \(value)"
+            NSLog("executing: \(cmd)")
+            let result = syncShell(cmd)
+            
+            if let error = result.error, !error.isEmpty {
+                NSLog("setFanSpeed stderr: \(error)")
+            }
+            if let output = result.output, !output.isEmpty {
+                NSLog("setFanSpeed stdout: \(output)")
+            }
+            
+            completion(result.output)
         }
-        if let output = result.output, !output.isEmpty {
-            NSLog("setFanSpeed stdout: \(output)")
+    }
+    
+    func resetFanControl(completion: (String?) -> Void) {
+        NSLog("resetFanControl called")
+        guard let smc = self.smc else {
+            NSLog("resetFanControl failed: missing smc tool path")
+            completion("missing smc tool")
+            return
         }
         
-        completion(result.output)
+        smcQueue.sync {
+            let result = syncShell("\(smc) reset")
+            
+            if let error = result.error, !error.isEmpty {
+                NSLog("resetFanControl stderr: \(error)")
+            }
+            if let output = result.output, !output.isEmpty {
+                NSLog("resetFanControl stdout: \(output)")
+            }
+            
+            completion(result.output)
+        }
     }
     
     func powermetrics(_ samplers: [String], completion: @escaping (String?) -> Void) {

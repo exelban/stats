@@ -71,6 +71,41 @@ internal class Popup: PopupWrapper {
                 selected: self.fanValueState.rawValue
             ))
         ]))
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(checkFanModesAndResetFtst),
+            name: .checkFanModes,
+            object: nil
+        )
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: .checkFanModes, object: nil)
+    }
+    
+    @objc private func checkFanModesAndResetFtst() {
+        #if arch(arm64)
+        var allAutomatic = true
+        var fanCount = 0
+        
+        for (_, view) in self.list {
+            if let fanView = view as? FanView {
+                fanCount += 1
+                if fanView.fan.mode != .automatic {
+                    allAutomatic = false
+                    break
+                }
+            }
+        }
+        
+        print("[checkFanModes] fanCount=\(fanCount), allAutomatic=\(allAutomatic)")
+        
+        if fanCount > 0 && allAutomatic {
+            print("[checkFanModes] all fans automatic, resetting Ftst")
+            SMCHelper.shared.resetFanControl()
+        }
+        #endif
     }
     
     required init?(coder: NSCoder) {
@@ -455,7 +490,7 @@ internal class ChartSensorView: NSStackView {
 internal class FanView: NSStackView {
     public var sizeCallback: (() -> Void)
     
-    private var fan: Fan
+    internal var fan: Fan
     private var ready: Bool = false
     
     private var helperView: NSView? = nil
@@ -639,15 +674,22 @@ internal class FanView: NSStackView {
             width: view.frame.width,
             height: view.frame.height - 8
         ), mode: self.fan.mode)
+        buttons.fanId = self.fan.id
         buttons.callback = { [weak self] (mode: FanMode) in
+            print("[ModeButtons.callback] invoked for fan \(self?.fan.id ?? -1), mode=\(mode)")
             if let fan = self?.fan {
                 // Always call setFanMode for automatic to ensure Ftst is reset
                 // For manual, only call if mode changed to avoid redundant unlock
                 if mode == .automatic || fan.mode != mode {
+                    print("[ModeButtons.callback] setting fan \(fan.id) to mode \(mode.rawValue)")
                     self?.fan.mode = mode
                     self?.fan.customMode = mode
                     SMCHelper.shared.setFanMode(fan.id, mode: mode.rawValue)
+                } else {
+                    print("[ModeButtons.callback] skipped: mode=\(mode), fan.mode=\(fan.mode)")
                 }
+            } else {
+                print("[ModeButtons.callback] self or fan is nil")
             }
             self?.toggleControlView(mode == .forced)
         }
@@ -967,9 +1009,11 @@ internal class FanView: NSStackView {
     
     @objc private func changeHelperState(_ notification: Notification) {
         guard let state = notification.userInfo?["state"] as? Bool else { return }
+        print("[changeHelperState] fan \(self.fan.id): state=\(state), customMode=\(String(describing: self.fan.customMode)), customSpeed=\(String(describing: self.fan.customSpeed))")
         self.setupControls(state)
         
         if state, let fanMode = self.fan.customMode, fanMode != .automatic {
+            print("[changeHelperState] fan \(self.fan.id): restoring mode=\(fanMode), speed=\(Int(self.speed))")
             SMCHelper.shared.setFanMode(fan.id, mode: fanMode.rawValue)
             self.modeButtons?.setMode(fanMode)
             self.setSpeed(value: Int(self.speed), then: {
@@ -991,6 +1035,7 @@ private class ModeButtons: NSStackView {
     public var callback: (FanMode) -> Void = {_ in }
     public var turbo: () -> Void = {}
     public var off: () -> Void = {}
+    public var fanId: Int = -1
     
     private var fansSyncState: Bool {
         Store.shared.bool(key: "Sensors_fansSync", defaultValue: false)
@@ -1077,6 +1122,7 @@ private class ModeButtons: NSStackView {
     }
     
     @objc private func autoMode(_ sender: NSButton) {
+        print("[autoMode] fan \(self.fanId): sender.state=\(sender.state.rawValue)")
         if sender.state.rawValue == 0 {
             self.autoBtn.state = .on
             return
@@ -1085,9 +1131,17 @@ private class ModeButtons: NSStackView {
         self.manualBtn.state = .off
         self.offBtn.state = .off
         self.turboBtn.state = .off
+        print("[autoMode] fan \(self.fanId): calling callback")
         self.callback(.automatic)
         
-        NotificationCenter.default.post(name: .syncFansControl, object: nil, userInfo: ["mode": "automatic"])
+        print("[autoMode] fan \(self.fanId): posting sync notification")
+        NotificationCenter.default.post(
+            name: .syncFansControl,
+            object: nil,
+            userInfo: ["mode": "automatic", "sourceFanId": self.fanId]
+        )
+        print("[autoMode] fan \(self.fanId): notification posted, checking if all fans are automatic")
+        NotificationCenter.default.post(name: .checkFanModes, object: nil)
     }
     
     @objc private func manualMode(_ sender: NSButton) {
@@ -1101,7 +1155,11 @@ private class ModeButtons: NSStackView {
         self.turboBtn.state = .off
         self.callback(.forced)
         
-        NotificationCenter.default.post(name: .syncFansControl, object: nil, userInfo: ["mode": "forced"])
+        NotificationCenter.default.post(
+            name: .syncFansControl,
+            object: nil,
+            userInfo: ["mode": "forced", "sourceFanId": self.fanId]
+        )
     }
     
     @objc private func offMode(_ sender: NSButton) {
@@ -1139,7 +1197,11 @@ private class ModeButtons: NSStackView {
         self.off()
         
         if sender.tag != 4 {
-            NotificationCenter.default.post(name: .syncFansControl, object: nil, userInfo: ["mode": "off"])
+            NotificationCenter.default.post(
+                name: .syncFansControl,
+                object: nil,
+                userInfo: ["mode": "off", "sourceFanId": self.fanId]
+            )
         }
     }
     
@@ -1156,15 +1218,29 @@ private class ModeButtons: NSStackView {
         self.turbo()
         
         if sender.tag != 4 {
-            NotificationCenter.default.post(name: .syncFansControl, object: nil, userInfo: ["mode": "turbo"])
+            NotificationCenter.default.post(
+                name: .syncFansControl,
+                object: nil,
+                userInfo: ["mode": "turbo", "sourceFanId": self.fanId]
+            )
         }
     }
     
     @objc private func syncFanMode(_ notification: Notification) {
-        guard let mode = notification.userInfo?["mode"] as? String, self.fansSyncState else {
+        let sourceFanId = notification.userInfo?["sourceFanId"] as? Int ?? -1
+        print("[syncFanMode] fan \(self.fanId): received notification from fan \(sourceFanId), fansSyncState=\(self.fansSyncState)")
+        
+        if sourceFanId == self.fanId {
+            print("[syncFanMode] fan \(self.fanId): ignoring own notification")
             return
         }
         
+        guard let mode = notification.userInfo?["mode"] as? String, self.fansSyncState else {
+            print("[syncFanMode] fan \(self.fanId): guard failed: mode=\(notification.userInfo?["mode"] ?? "nil")")
+            return
+        }
+        
+        print("[syncFanMode] fan \(self.fanId): processing mode=\(mode)")
         if mode == "automatic" {
             self.setMode(.automatic)
         } else if mode == "forced" {
@@ -1183,6 +1259,7 @@ private class ModeButtons: NSStackView {
     }
     
     public func setMode(_ mode: FanMode) {
+        print("[ModeButtons.setMode] fan \(self.fanId): called with mode=\(mode)")
         if mode == .automatic {
             self.autoBtn.state = .on
             self.manualBtn.state = .off

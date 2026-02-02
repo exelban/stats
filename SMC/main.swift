@@ -16,6 +16,7 @@ enum CMDType: String {
     case set
     case fan
     case fans
+    case reset
     case help
     case unknown
     
@@ -25,6 +26,7 @@ enum CMDType: String {
         case "set": self = .set
         case "fan": self = .fan
         case "fans": self = .fans
+        case "reset": self = .reset
         case "help": self = .help
         default: self = .unknown
         }
@@ -136,6 +138,16 @@ func main() {
             
             print()
         }
+    case .reset:
+        #if arch(arm64)
+        if SMC.shared.resetFanControl() {
+            print("[reset] Ftst reset to 0, thermalmonitord has control")
+        } else {
+            print("[reset] Ftst reset FAILED")
+        }
+        #else 
+        print("[reset] not needed on Intel Macs")
+        #endif
     case .help, .unknown:
         print("SMC tool\n")
         print("Usage:")
@@ -145,6 +157,7 @@ func main() {
         print("  set      set value to a key")
         print("  fan      set fan speed")
         print("  fans     list of fans")
+        print("  reset    reset Ftst (Apple Silicon only)")
         print("  help     help menu\n")
         print("Available Flags:")
         print("  -t    list temperature sensors")

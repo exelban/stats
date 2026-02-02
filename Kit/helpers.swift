@@ -875,9 +875,11 @@ public class SMCHelper {
     }
     
     private var connection: NSXPCConnection? = nil
+    private var verificationTasks: [Int: DispatchWorkItem] = [:]
+    private let verificationLock = NSLock()
     
     public func setFanSpeed(_ id: Int, speed: Int) {
-        print("[SMCHelper] setFanSpeed: fan=\(id), speed=\(speed)")
+        print("[SMCHelper] setFanSpeed: fan=\(id), speed=\(speed) (queued)")
         guard let helper = self.helper(nil) else {
             print("[SMCHelper] setFanSpeed: failed to get helper connection")
             return
@@ -887,10 +889,67 @@ public class SMCHelper {
                 print("[SMCHelper] setFanSpeed result: \(result)")
             }
         }
+        
+        scheduleVerification(fanId: id, targetRPM: speed)
+    }
+    
+    private func scheduleVerification(fanId: Int, targetRPM: Int) {
+        verificationLock.lock()
+        
+        if let existing = verificationTasks[fanId] {
+            existing.cancel()
+            print("[Fan \(fanId)] cancelled previous verification")
+        }
+        
+        var workItem: DispatchWorkItem!
+        workItem = DispatchWorkItem { [weak self] in
+            self?.verifyFanSpeed(fanId: fanId, targetRPM: targetRPM, task: workItem)
+        }
+        verificationTasks[fanId] = workItem
+        verificationLock.unlock()
+        
+        DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + 0.5, execute: workItem)
+    }
+    
+    private func verifyFanSpeed(
+        fanId: Int,
+        targetRPM: Int,
+        task: DispatchWorkItem,
+        timeout: TimeInterval = 30.0,
+        interval: TimeInterval = 2.0
+    ) {
+        if task.isCancelled {
+            return
+        }
+        
+        print("[Fan \(fanId)] verifying target \(targetRPM) RPM...")
+        let startTime = Date()
+        let tolerance = 0.10
+        
+        while Date().timeIntervalSince(startTime) < timeout {
+            if task.isCancelled {
+                print("[Fan \(fanId)] verification superseded by newer request")
+                return
+            }
+            
+            if let actualRPM = SMC.shared.getValue("F\(fanId)Ac") {
+                let diff = abs(Double(actualRPM) - Double(targetRPM)) / max(Double(targetRPM), 1)
+                if diff <= tolerance {
+                    let elapsed = Date().timeIntervalSince(startTime)
+                    print("[Fan \(fanId)] verified: \(Int(actualRPM)) RPM (target: \(targetRPM)) after \(String(format: "%.1f", elapsed))s")
+                    return
+                }
+            }
+            Thread.sleep(forTimeInterval: interval)
+        }
+        
+        if let actualRPM = SMC.shared.getValue("F\(fanId)Ac") {
+            print("[Fan \(fanId)] timeout: at \(Int(actualRPM)) RPM after 30s (target was \(targetRPM))")
+        }
     }
     
     public func setFanMode(_ id: Int, mode: Int) {
-        print("[SMCHelper] setFanMode: fan=\(id), mode=\(mode)")
+        print("[SMCHelper] setFanMode: fan=\(id), mode=\(mode) (queued)")
         guard let helper = self.helper(nil) else {
             print("[SMCHelper] setFanMode: failed to get helper connection")
             return
@@ -898,6 +957,19 @@ public class SMCHelper {
         helper.setFanMode(id: id, mode: mode) { result in
             if let result, !result.isEmpty {
                 print("[SMCHelper] setFanMode result: \(result)")
+            }
+        }
+    }
+    
+    public func resetFanControl() {
+        print("[SMCHelper] resetFanControl")
+        guard let helper = self.helper(nil) else {
+            print("[SMCHelper] resetFanControl: failed to get helper connection")
+            return
+        }
+        helper.resetFanControl { result in
+            if let result, !result.isEmpty {
+                print("[SMCHelper] resetFanControl result: \(result)")
             }
         }
     }
@@ -919,6 +991,13 @@ public class SMCHelper {
             self.install { installed in
                 if installed {
                     print("the new version of SMC helper was successfully installed")
+                    DispatchQueue.main.async {
+                        NotificationCenter.default.post(
+                            name: .fanHelperState,
+                            object: nil,
+                            userInfo: ["state": true]
+                        )
+                    }
                 } else {
                     print("error when installing a new version of the SMC helper")
                 }

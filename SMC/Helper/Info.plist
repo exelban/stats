@@ -7,9 +7,9 @@
 	<key>CFBundleName</key>
 	<string>eu.exelban.Stats.SMC.Helper</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0.3</string>
+	<string>1.0.22</string>
 	<key>CFBundleVersion</key>
-	<string>4</string>
+	<string>22</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>SMAuthorizedClients</key>
