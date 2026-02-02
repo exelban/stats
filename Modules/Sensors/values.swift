@@ -255,10 +255,15 @@ public struct Fan: Sensor_p, Codable {
     public var mode: FanMode
     
     public var percentage: Int {
-        if self.value != 0 && self.maxSpeed != 0 && self.value != 1 && self.maxSpeed != 1 {
-            return (100*Int(self.value)) / Int(self.maxSpeed)
-        }
-        return 0
+        let range = self.maxSpeed - self.minSpeed
+        // Avoid division by zero and handle edge cases
+        guard range > 0 && self.maxSpeed > 1 else { return 0 }
+        
+        // Calculate percentage based on min/max range
+        // value at minSpeed = 0%, value at maxSpeed = 100%
+        let normalized = self.value - self.minSpeed
+        if normalized <= 0 { return 0 }
+        return min(100, Int((100 * normalized) / range))
     }
     
     public var group: SensorGroup = .sensor
