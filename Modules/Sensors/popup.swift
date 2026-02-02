@@ -1236,7 +1236,6 @@ private class ModeButtons: NSStackView {
         }
         
         guard let mode = notification.userInfo?["mode"] as? String, self.fansSyncState else {
-            print("[syncFanMode] fan \(self.fanId): guard failed: mode=\(notification.userInfo?["mode"] ?? "nil")")
             return
         }
         

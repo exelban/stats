@@ -1077,7 +1077,12 @@ public class SMCHelper {
             return nil
         }
         guard let service = helper.remoteObjectProxyWithErrorHandler({ error in
-            print(error)
+            let nsError = error as NSError
+            // Suppress expected XPC errors during helper update/restart
+            if nsError.code == 4097 || nsError.code == 4099 {
+                return
+            }
+            print("[SMCHelper] XPC error: \(error.localizedDescription)")
         }) as? HelperProtocol else {
             completion?(false)
             return nil
