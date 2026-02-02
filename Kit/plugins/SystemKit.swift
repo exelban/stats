@@ -34,12 +34,15 @@ public enum Platform: String, Codable {
     case m4Max
     case m4Ultra
     
+    case m5
+    
     public static var apple: [Platform] {
         return [
             .m1, .m1Pro, .m1Max, .m1Ultra,
             .m2, .m2Pro, .m2Max, .m2Ultra,
             .m3, .m3Pro, .m3Max, .m3Ultra,
-            .m4, .m4Pro, .m4Max, .m4Ultra
+            .m4, .m4Pro, .m4Max, .m4Ultra,
+            .m5
         ]
     }
     
@@ -54,6 +57,9 @@ public enum Platform: String, Codable {
     }
     public static var m4Gen: [Platform] {
         return [.m4, .m4Pro, .m4Max, .m4Ultra]
+    }
+    public static var m5Gen: [Platform] {
+        return [.m5 ]
     }
     
     public static var all: [Platform] {
@@ -533,7 +539,9 @@ public class SystemKit {
             print("Error find AppleARMIODevice: " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
             return nil
         }
-        let isM4: Bool = cpuName.lowercased().contains("m4")
+        
+        let chipsToMatch = ["m4", "m5"]
+        let isCpuStartFromM4 = chipsToMatch.contains { cpuName.lowercased().contains($0) }
         
         var eFreq: [Int32] = []
         var pFreq: [Int32] = []
@@ -543,10 +551,10 @@ public class SystemKit {
             guard let name = getIOName(child), name == "pmgr", let props = getIOProperties(child) else { continue }
             
             if let data = props.value(forKey: "voltage-states1-sram") {
-                eFreq = convertCFDataToArr(data as! CFData, isM4)
+                eFreq = convertCFDataToArr(data as! CFData, isCpuStartFromM4)
             }
             if let data = props.value(forKey: "voltage-states5-sram") {
-                pFreq = convertCFDataToArr(data as! CFData, isM4)
+                pFreq = convertCFDataToArr(data as! CFData, isCpuStartFromM4)
             }
         }
         
@@ -713,6 +721,10 @@ public class SystemKit {
                     return .m4Ultra
                 } else {
                     return .m4
+                }
+            } else if name.contains("m5") {
+                if name.contains("pro") {
+                    return .m5
                 }
             }
         }
