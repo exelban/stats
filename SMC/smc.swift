@@ -46,6 +46,11 @@ internal enum SMCKeys: UInt8 {
 public enum FanMode: Int, Codable {
     case automatic = 0
     case forced = 1
+    case auto3 = 3
+
+    public var isAutomatic: Bool {
+        self == .automatic || self == .auto3
+    }
 }
 
 internal struct SMCKeyData_t {
@@ -363,10 +368,26 @@ public class SMC {
             }
             print("[fan \(id)] successfully set to manual mode")
         } else {
-            // Setting to automatic on Apple Silicon:
-            // F%dMd is read-only - mode is controlled by thermalmonitord based on Ftst
-            // Just set target to 0. Caller should reset Ftst when ALL fans are automatic.
+            // Setting to automatic on Apple Silicon: write F%dMd=0 and F%dTg=0
+            // App calls resetFanControl() when all fans are automatic (Ftst=0)
+            let modeKey = "F\(id)Md"
             let targetKey = "F\(id)Tg"
+            
+            if self.getValue(modeKey) != nil {
+                var modeVal = SMCVal_t(modeKey)
+                let readResult = read(&modeVal)
+                guard readResult == kIOReturnSuccess else {
+                    print(smcError("read", key: modeKey, result: readResult))
+                    return
+                }
+                let prevMode = modeVal.bytes[0]
+                if prevMode != 0 {
+                    modeVal.bytes[0] = 0
+                    if !writeWithRetry(modeVal, context: "mode \(prevMode)->0") {
+                        return
+                    }
+                }
+            }
             
             var targetValue = SMCVal_t(targetKey)
             let result = read(&targetValue)
@@ -664,7 +685,8 @@ public class SMC {
             if let exclude = fanId, i == exclude { continue }
             var modeVal = SMCVal_t("F\(i)Md")
             if read(&modeVal) == kIOReturnSuccess {
-                if modeVal.bytes[0] == 1 {
+                let mode = FanMode(rawValue: Int(modeVal.bytes[0]))
+                if let m = mode, !m.isAutomatic {
                     count += 1
                 }
             }
