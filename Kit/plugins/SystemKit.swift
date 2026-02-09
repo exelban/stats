@@ -723,9 +723,7 @@ public class SystemKit {
                     return .m4
                 }
             } else if name.contains("m5") {
-                if name.contains("pro") {
-                    return .m5
-                }
+                return .m5
             }
         }
         return nil
