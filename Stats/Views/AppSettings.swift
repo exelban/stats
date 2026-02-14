@@ -40,8 +40,14 @@ class ApplicationSettings: NSStackView {
     }
     
     private var systemWidgetsUpdatesState: Bool {
-        get { Store.shared.bool(key: "systemWidgetsUpdates_state", defaultValue: true) }
-        set { Store.shared.set(key: "systemWidgetsUpdates_state", value: newValue) }
+        get {
+            let userDefaults = UserDefaults(suiteName: "\(Bundle.main.object(forInfoDictionaryKey: "TeamId") as! String).eu.exelban.Stats.widgets")
+            return userDefaults?.bool(forKey: "systemWidgetsUpdates_state") ?? false
+        }
+        set {
+            let userDefaults = UserDefaults(suiteName: "\(Bundle.main.object(forInfoDictionaryKey: "TeamId") as! String).eu.exelban.Stats.widgets")
+            userDefaults?.set(newValue, forKey: "systemWidgetsUpdates_state")
+        }
     }
     
     private var updateSelector: NSPopUpButton?
@@ -103,7 +109,7 @@ class ApplicationSettings: NSStackView {
         ]))
         
         scrollView.stackView.addArrangedSubview(PreferencesSection([
-            PreferencesRow(localizedString("System widgets updates"), component: switchView(
+            PreferencesRow(localizedString("macOS widgets"), component: switchView(
                 action: #selector(self.toggleSystemWidgetsUpdatesState),
                 state: self.systemWidgetsUpdatesState
             ))

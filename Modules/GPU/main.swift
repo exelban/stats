@@ -121,7 +121,7 @@ public class GPU: Module {
     }
     
     private var systemWidgetsUpdatesState: Bool {
-        Store.shared.bool(key: "systemWidgetsUpdates_state", defaultValue: true)
+        self.userDefaults?.bool(forKey: "systemWidgetsUpdates_state") ?? false
     }
     
     public init() {

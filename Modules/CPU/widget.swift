@@ -30,6 +30,10 @@ public struct Provider: TimelineProvider {
     
     private let userDefaults: UserDefaults? = UserDefaults(suiteName: "\(Bundle.main.object(forInfoDictionaryKey: "TeamId") as! String).eu.exelban.Stats.widgets")
     
+    public var systemWidgetsUpdatesState: Bool {
+        self.userDefaults?.bool(forKey: "systemWidgetsUpdates_state") ?? false
+    }
+    
     public func placeholder(in context: Context) -> CPU_entry {
         CPU_entry()
     }
@@ -60,7 +64,7 @@ public struct CPUWidget: Widget {
     public var body: some WidgetConfiguration {
         StaticConfiguration(kind: CPU_entry.kind, provider: Provider()) { entry in
             VStack(spacing: 10) {
-                if let value = entry.value {
+                if Provider().systemWidgetsUpdatesState, let value = entry.value {
                     HStack {
                         Chart {
                             SectorMark(angle: .value(localizedString("System"), value.systemLoad), innerRadius: .ratio(0.8)).foregroundStyle(self.systemColor)
@@ -97,6 +101,10 @@ public struct CPUWidget: Widget {
                             Text("\(Int(value.userLoad*100))%")
                         }
                     }
+                } else if !Provider().systemWidgetsUpdatesState {
+                    Text("Enable in Settings")
+                        .font(.system(size: 12, weight: .regular))
+                        .foregroundColor(.secondary)
                 } else {
                     Text("No data")
                 }
