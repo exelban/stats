@@ -71,39 +71,23 @@ internal class Popup: PopupWrapper {
                 selected: self.fanValueState.rawValue
             ))
         ]))
-        
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(checkFanModesAndResetFtst),
-            name: .checkFanModes,
-            object: nil
-        )
+        #if arch(arm64)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.checkFanModesAndResetFtst), name: .checkFanModes, object: nil)
+        #endif
     }
     
     deinit {
-        NotificationCenter.default.removeObserver(self, name: .checkFanModes, object: nil)
+        NotificationCenter.default.removeObserver(self)
     }
     
+    #if arch(arm64)
     @objc private func checkFanModesAndResetFtst() {
-        #if arch(arm64)
-        var allAutomatic = true
-        var fanCount = 0
-        
-        for (_, view) in self.list {
-            if let fanView = view as? FanView {
-                fanCount += 1
-                if fanView.fan.mode != .automatic {
-                    allAutomatic = false
-                    break
-                }
-            }
-        }
-        
-        if fanCount > 0 && allAutomatic {
-            SMCHelper.shared.resetFanControl()
-        }
-        #endif
+        let fanViews = self.list.values.compactMap { $0 as? FanView }
+        guard !fanViews.isEmpty else { return }
+        guard fanViews.allSatisfy({ $0.fan.mode == .automatic }) else { return }
+        SMCHelper.shared.resetFanControl()
     }
+    #endif
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -669,14 +653,11 @@ internal class FanView: NSStackView {
             width: view.frame.width,
             height: view.frame.height - 8
         ), mode: self.fan.mode)
-        buttons.fanId = self.fan.id
         buttons.callback = { [weak self] (mode: FanMode) in
-            if let fan = self?.fan {
-                if mode == .automatic || fan.mode != mode {
-                    self?.fan.mode = mode
-                    self?.fan.customMode = mode
-                    SMCHelper.shared.setFanMode(fan.id, mode: mode.rawValue)
-                }
+            if let fan = self?.fan, mode == .automatic || fan.mode != mode {
+                self?.fan.mode = mode
+                self?.fan.customMode = mode
+                SMCHelper.shared.setFanMode(fan.id, mode: mode.rawValue)
             }
             self?.toggleControlView(mode == .forced)
         }
@@ -1010,7 +991,6 @@ private class ModeButtons: NSStackView {
     public var callback: (FanMode) -> Void = {_ in }
     public var turbo: () -> Void = {}
     public var off: () -> Void = {}
-    public var fanId: Int = -1
     
     private var fansSyncState: Bool {
         Store.shared.bool(key: "Sensors_fansSync", defaultValue: false)

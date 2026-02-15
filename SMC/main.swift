@@ -145,7 +145,7 @@ func main() {
         } else {
             print("[reset] Ftst reset FAILED")
         }
-        #else 
+        #else
         print("[reset] not needed on Intel Macs")
         #endif
     case .help, .unknown:

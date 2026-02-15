@@ -540,7 +540,7 @@ public class SMC {
     }
     
     private func writeWithRetry(_ value: SMCVal_t, maxAttempts: Int = 10, delayMicros: UInt32 = 50_000) -> Bool {
-        var mutableValue = value
+        let mutableValue = value
         var lastResult: kern_return_t = kIOReturnSuccess
         for attempt in 0..<maxAttempts {
             lastResult = write(mutableValue)
@@ -671,14 +671,12 @@ public class SMC {
         
         let result = self.call(SMCKeys.kernelIndex.rawValue, input: &input, output: &output)
         if result != kIOReturnSuccess {
-            print("Error write \(value.key): 0x\(String(result, radix: 16))")
             return result
         }
         
         // IOKit can return kIOReturnSuccess but SMC firmware may still reject the write.
         // Check SMC-level result code (0x00 = success, non-zero = error)
         if output.result != 0x00 {
-            print("Error write \(value.key) SMC: 0x\(String(output.result, radix: 16))")
             return kIOReturnError
         }
         
