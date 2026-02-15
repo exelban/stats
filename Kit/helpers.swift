@@ -894,11 +894,6 @@ public class SMCHelper {
         }
     }
     
-    public func resetFanControl() {
-        guard let helper = self.helper(nil) else { return }
-        helper.resetFanControl { _ in }
-    }
-    
     public func isActive() -> Bool {
         return self.connection != nil
     }
@@ -995,11 +990,7 @@ public class SMCHelper {
             return nil
         }
         guard let service = helper.remoteObjectProxyWithErrorHandler({ error in
-            let nsError = error as NSError
-            if nsError.code == 4097 || nsError.code == 4099 {
-                return
-            }
-            print("XPC error: \(error.localizedDescription)")
+            print(error)
         }) as? HelperProtocol else {
             completion?(false)
             return nil

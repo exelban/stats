@@ -23,8 +23,6 @@ class Helper: NSObject, NSXPCListenerDelegate, HelperProtocol {
     
     private var smc: String? = nil
     
-    private let smcQueue = DispatchQueue(label: "eu.exelban.Stats.SMC.Helper.smcQueue")
-    
     override init() {
         self.listener = NSXPCListener(machServiceName: "eu.exelban.Stats.SMC.Helper")
         super.init()
@@ -121,13 +119,15 @@ extension Helper {
             completion("missing smc tool")
             return
         }
-        smcQueue.sync {
-            let result = syncShell("\(smc) fan \(id) -m \(mode)")
-            if let error = result.error, !error.isEmpty {
-                NSLog("error set fan mode: \(error)")
-            }
-            completion(result.output)
+        let result = syncShell("\(smc) fan \(id) -m \(mode)")
+        
+        if let error = result.error, !error.isEmpty {
+            NSLog("error set fan mode: \(error)")
+            completion(nil)
+            return
         }
+        
+        completion(result.output)
     }
     
     func setFanSpeed(id: Int, value: Int, completion: (String?) -> Void) {
@@ -135,27 +135,16 @@ extension Helper {
             completion("missing smc tool")
             return
         }
-        smcQueue.sync {
-            let result = syncShell("\(smc) fan \(id) -v \(value)")
-            if let error = result.error, !error.isEmpty {
-                NSLog("error set fan speed: \(error)")
-            }
-            completion(result.output)
-        }
-    }
-    
-    func resetFanControl(completion: (String?) -> Void) {
-        guard let smc = self.smc else {
-            completion("missing smc tool")
+        
+        let result = syncShell("\(smc) fan \(id) -v \(value)")
+        
+        if let error = result.error, !error.isEmpty {
+            NSLog("error set fan speed: \(error)")
+            completion(nil)
             return
         }
-        smcQueue.sync {
-            let result = syncShell("\(smc) reset")
-            if let error = result.error, !error.isEmpty {
-                NSLog("error reset fan control: \(error)")
-            }
-            completion(result.output)
-        }
+        
+        completion(result.output)
     }
     
     func powermetrics(_ samplers: [String], completion: @escaping (String?) -> Void) {

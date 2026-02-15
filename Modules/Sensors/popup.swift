@@ -71,38 +71,6 @@ internal class Popup: PopupWrapper {
                 selected: self.fanValueState.rawValue
             ))
         ]))
-        
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(checkFanModesAndResetFtst),
-            name: .checkFanModes,
-            object: nil
-        )
-    }
-    
-    deinit {
-        NotificationCenter.default.removeObserver(self, name: .checkFanModes, object: nil)
-    }
-    
-    @objc private func checkFanModesAndResetFtst() {
-        #if arch(arm64)
-        var allAutomatic = true
-        var fanCount = 0
-        
-        for (_, view) in self.list {
-            if let fanView = view as? FanView {
-                fanCount += 1
-                if fanView.fan.mode != .automatic {
-                    allAutomatic = false
-                    break
-                }
-            }
-        }
-        
-        if fanCount > 0 && allAutomatic {
-            SMCHelper.shared.resetFanControl()
-        }
-        #endif
     }
     
     required init?(coder: NSCoder) {
@@ -487,7 +455,7 @@ internal class ChartSensorView: NSStackView {
 internal class FanView: NSStackView {
     public var sizeCallback: (() -> Void)
     
-    internal var fan: Fan
+    private var fan: Fan
     private var ready: Bool = false
     
     private var helperView: NSView? = nil
@@ -669,14 +637,11 @@ internal class FanView: NSStackView {
             width: view.frame.width,
             height: view.frame.height - 8
         ), mode: self.fan.mode)
-        buttons.fanId = self.fan.id
         buttons.callback = { [weak self] (mode: FanMode) in
-            if let fan = self?.fan {
-                if mode == .automatic || fan.mode != mode {
-                    self?.fan.mode = mode
-                    self?.fan.customMode = mode
-                    SMCHelper.shared.setFanMode(fan.id, mode: mode.rawValue)
-                }
+            if let fan = self?.fan, fan.mode != mode {
+                self?.fan.mode = mode
+                self?.fan.customMode = mode
+                SMCHelper.shared.setFanMode(fan.id, mode: mode.rawValue)
             }
             self?.toggleControlView(mode == .forced)
         }
@@ -1010,7 +975,6 @@ private class ModeButtons: NSStackView {
     public var callback: (FanMode) -> Void = {_ in }
     public var turbo: () -> Void = {}
     public var off: () -> Void = {}
-    public var fanId: Int = -1
     
     private var fansSyncState: Bool {
         Store.shared.bool(key: "Sensors_fansSync", defaultValue: false)
@@ -1108,7 +1072,6 @@ private class ModeButtons: NSStackView {
         self.callback(.automatic)
         
         NotificationCenter.default.post(name: .syncFansControl, object: nil, userInfo: ["mode": "automatic"])
-        NotificationCenter.default.post(name: .checkFanModes, object: nil)
     }
     
     @objc private func manualMode(_ sender: NSButton) {
