@@ -352,6 +352,14 @@ extension SensorsReader {
     }
     
     private func getFanMode(_ id: Int) -> FanMode {
+        #if arch(arm64)
+        // Apple Silicon: Read F%dMd directly
+        // Mode values: 0 = auto, 1 = manual, 3 = system (treated as auto for UI)
+        let modeValue = Int(SMC.shared.getValue("F\(id)Md") ?? 0)
+        return modeValue == 1 ? .forced : .automatic
+        #else
+        // Legacy Intel: Use FS! bitmask
+        // Bitmask: 0 = all auto, 1 = fan 0 forced, 2 = fan 1 forced, 3 = both forced
         let fansMode: Int = Int(SMC.shared.getValue("FS! ") ?? 0)
         var mode: FanMode = .automatic
         
@@ -366,6 +374,7 @@ extension SensorsReader {
         }
         
         return mode
+        #endif
     }
 }
 
