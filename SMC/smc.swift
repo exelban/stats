@@ -357,19 +357,10 @@ public class SMC {
     // MARK: - fans
     
     public func setFanMode(_ id: Int, mode: FanMode) {
-        print("[setFanMode] fan \(id) -> \(mode == .forced ? "manual" : "automatic")")
-        
         #if arch(arm64)
-        // Apple Silicon: unlock before setting manual mode
         if mode == .forced {
-            if !unlockFanControl(fanId: id) {
-                print("[fan \(id)] FAILED to unlock fan control")
-                return
-            }
-            print("[fan \(id)] successfully set to manual mode")
+            if !unlockFanControl(fanId: id) { return }
         } else {
-            // Setting to automatic on Apple Silicon: write F%dMd=0 and F%dTg=0
-            // App calls resetFanControl() when all fans are automatic (Ftst=0)
             let modeKey = "F\(id)Md"
             let targetKey = "F\(id)Tg"
             
@@ -380,12 +371,9 @@ public class SMC {
                     print(smcError("read", key: modeKey, result: readResult))
                     return
                 }
-                let prevMode = modeVal.bytes[0]
-                if prevMode != 0 {
+                if modeVal.bytes[0] != 0 {
                     modeVal.bytes[0] = 0
-                    if !writeWithRetry(modeVal, context: "mode \(prevMode)->0") {
-                        return
-                    }
+                    if !writeWithRetry(modeVal) { return }
                 }
             }
             
@@ -402,11 +390,7 @@ public class SMC {
             targetValue.bytes[2] = bytes[2]
             targetValue.bytes[3] = bytes[3]
             
-            if !writeWithRetry(targetValue, context: "write target=0") {
-                return
-            }
-            
-            print("[fan \(id)] target set to 0, automatic mode requested")
+            if !writeWithRetry(targetValue) { return }
         }
         #else
         // Intel
@@ -484,16 +468,12 @@ public class SMC {
     }
     
     public func setFanSpeed(_ id: Int, speed: Int) {
-        print("[setFanSpeed] fan \(id) -> \(speed) RPM")
-        
-        // Enforce recommended max as safety limit
-        if let maxSpeed = self.getValue("F\(id)Mx"), speed > Int(maxSpeed) {
-            print("[fan \(id)] speed \(speed) exceeds max \(Int(maxSpeed)), clamping")
+        if let maxSpeed = self.getValue("F\(id)Mx"),
+           speed > Int(maxSpeed) {
             return setFanSpeed(id, speed: Int(maxSpeed))
         }
         
         #if arch(arm64)
-        // Apple Silicon: ensure fan is in manual mode before setting speed
         var modeVal = SMCVal_t("F\(id)Md")
         let modeResult = read(&modeVal)
         guard modeResult == kIOReturnSuccess else {
@@ -501,10 +481,7 @@ public class SMC {
             return
         }
         if modeVal.bytes[0] != 1 {
-            if !unlockFanControl(fanId: id) {
-                print("Error: Failed to unlock fan \(id) for speed change")
-                return
-            }
+            if !unlockFanControl(fanId: id) { return }
         }
         #endif
         
@@ -531,7 +508,7 @@ public class SMC {
         }
         
         #if arch(arm64)
-        if !writeWithRetry(value, context: "SMC write target=\(speed)") {
+        if !writeWithRetry(value) {
             return
         }
         #else
@@ -558,143 +535,94 @@ public class SMC {
     #if arch(arm64)
     /// Format SMC error for logging with context
     private func smcError(_ operation: String, key: String, result: kern_return_t) -> String {
-        let errorDesc = String(cString: mach_error_string(result), encoding: .ascii)
-            ?? "unknown error"
+        let errorDesc = String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"
         return "[\(key)] \(operation) failed: \(errorDesc) (0x\(String(result, radix: 16)))"
     }
     
-    /// Write an SMC value with retry logic for thermalmonitord contention
-    /// - Parameters:
-    ///   - value: The SMC value to write
-    ///   - maxAttempts: Maximum retry attempts (default 10)
-    ///   - delayMicros: Delay between retries in microseconds (default 50ms)
-    ///   - context: Description for logging
-    /// - Returns: Success or failure
-    private func writeWithRetry(
-        _ value: SMCVal_t,
-        maxAttempts: Int = 10,
-        delayMicros: UInt32 = 50_000,
-        context: String
-    ) -> Bool {
+    private func writeWithRetry(_ value: SMCVal_t, maxAttempts: Int = 10, delayMicros: UInt32 = 50_000) -> Bool {
         var mutableValue = value
         var lastResult: kern_return_t = kIOReturnSuccess
         for attempt in 0..<maxAttempts {
             lastResult = write(mutableValue)
             if lastResult == kIOReturnSuccess {
-                if attempt > 0 {
-                    print("[\(value.key)] \(context) (attempt \(attempt + 1))")
-                } else {
-                    print("[\(value.key)] \(context)")
-                }
                 return true
             }
             if attempt < maxAttempts - 1 {
                 usleep(delayMicros)
             }
         }
-        let errDesc = String(cString: mach_error_string(lastResult), encoding: .ascii)
-            ?? "unknown"
-        print("[\(value.key)] \(context) FAILED after \(maxAttempts) attempts (\(errDesc))")
+        print(smcError("write", key: value.key, result: lastResult))
         return false
     }
     
-    /// Unlock fan control for Apple Silicon by writing Ftst=1
-    /// This prevents thermalmonitord from overriding manual fan settings
     private func unlockFanControl(fanId: Int) -> Bool {
         var ftstCheck = SMCVal_t("Ftst")
-        var result = read(&ftstCheck)
-        guard result == kIOReturnSuccess else {
-            print(smcError("read", key: "Ftst", result: result))
+        let ftstResult = read(&ftstCheck)
+        guard ftstResult == kIOReturnSuccess else {
+            print(smcError("read", key: "Ftst", result: ftstResult))
             return false
         }
-        let alreadyUnlocked = ftstCheck.bytes[0] == 1
-        print("[Ftst] current value: \(ftstCheck.bytes[0]), alreadyUnlocked: \(alreadyUnlocked)")
+        let ftstActive = ftstCheck.bytes[0] == 1
         
-        if !alreadyUnlocked {
-            var ftstVal = SMCVal_t("Ftst")
-            result = read(&ftstVal)
-            guard result == kIOReturnSuccess else {
-                print(smcError("read", key: "Ftst", result: result))
-                return false
-            }
-            ftstVal.bytes[0] = 1
-            if !writeWithRetry(ftstVal, maxAttempts: 100, delayMicros: 50_000,
-                              context: "unlock (set to 1)") {
-                return false
-            }
-            
-            // Wait for thermalmonitord to yield control (typically 3-4 seconds)
-            print("[Ftst] waiting for thermalmonitord to release control...")
-            usleep(3_000_000)
+        if ftstActive {
+            return retryModeWrite(fanId: fanId, maxAttempts: 20)
         }
         
-        // Retry writing mode=1 until thermalmonitord releases control
+        // Try direct write first (works on M1 without Ftst)
         let modeKey = "F\(fanId)Md"
         var modeVal = SMCVal_t(modeKey)
-        guard read(&modeVal) == kIOReturnSuccess else {
+        let modeRead = read(&modeVal)
+        guard modeRead == kIOReturnSuccess else {
+            print(smcError("read", key: modeKey, result: modeRead))
+            return false
+        }
+        modeVal.bytes[0] = 1
+        if write(modeVal) == kIOReturnSuccess {
+            return true
+        }
+        
+        // Direct failed; fall back to Ftst unlock
+        var ftstVal = SMCVal_t("Ftst")
+        let ftstRead = read(&ftstVal)
+        guard ftstRead == kIOReturnSuccess else {
+            print(smcError("read", key: "Ftst", result: ftstRead))
+            return false
+        }
+        ftstVal.bytes[0] = 1
+        if !writeWithRetry(ftstVal, maxAttempts: 100) {
+            return false
+        }
+        
+        // Wait for thermalmonitord to yield control
+        usleep(3_000_000)
+        
+        return retryModeWrite(fanId: fanId, maxAttempts: 300)
+    }
+    
+    private func retryModeWrite(fanId: Int, maxAttempts: Int) -> Bool {
+        let modeKey = "F\(fanId)Md"
+        var modeVal = SMCVal_t(modeKey)
+        let result = read(&modeVal)
+        guard result == kIOReturnSuccess else {
             print(smcError("read", key: modeKey, result: result))
             return false
         }
         modeVal.bytes[0] = 1
-        
-        // Use longer delays: 100ms between attempts, up to 30 seconds total
-        let maxAttempts = alreadyUnlocked ? 20 : 300
-        let delayMicros: UInt32 = 100_000
-        
-        if writeWithRetry(modeVal, maxAttempts: maxAttempts, delayMicros: delayMicros,
-                          context: "set fan \(fanId) to manual mode") {
-            return true
-        }
-        print("[F\(fanId)Md] timeout setting fan to manual mode")
-        return false
+        return writeWithRetry(modeVal, maxAttempts: maxAttempts, delayMicros: 100_000)
     }
     
-    /// Reset Ftst to 0, returning control to thermalmonitord
-    /// Call this ONLY when ALL fans are returning to automatic mode
-    /// - Returns: true if successfully reset, false otherwise
     public func resetFanControl() -> Bool {
         var value = SMCVal_t("Ftst")
-        let readResult = read(&value)
-        guard readResult == kIOReturnSuccess else {
-            print(smcError("read", key: "Ftst", result: readResult))
+        let result = read(&value)
+        guard result == kIOReturnSuccess else {
+            print(smcError("read", key: "Ftst", result: result))
             return false
         }
-        
-        let currentValue = value.bytes[0]
-        print("[Ftst] current value before reset: \(currentValue)")
-        
-        if currentValue == 0 {
-            print("[Ftst] already 0, skipping write")
-            return true
-        }
-        
+        if value.bytes[0] == 0 { return true }
         value.bytes[0] = 0
-        return writeWithRetry(value, maxAttempts: 10, delayMicros: 50_000,
-                              context: "reset to 0 (return control to thermalmonitord)")
+        return writeWithRetry(value)
     }
     
-    /// Check how many fans are currently in manual mode
-    /// - Parameter excluding: Optional fan ID to exclude from count (for checking OTHER fans)
-    private func countManualFans(excluding fanId: Int? = nil) -> Int {
-        guard let fanCount = getValue("FNum") else {
-            print("[FNum] failed to read fan count")
-            return 0
-        }
-        var count = 0
-        for i in 0..<Int(fanCount) {
-            if let exclude = fanId, i == exclude { continue }
-            var modeVal = SMCVal_t("F\(i)Md")
-            if read(&modeVal) == kIOReturnSuccess {
-                let mode = FanMode(rawValue: Int(modeVal.bytes[0]))
-                if let m = mode, !m.isAutomatic {
-                    count += 1
-                }
-            }
-        }
-        let excludeStr = fanId.map { "excluding fan \($0)" } ?? "all fans"
-        print("[countManualFans] \(excludeStr): \(count) in manual mode")
-        return count
-    }
     #endif
     
     // MARK: - internal functions
@@ -743,14 +671,14 @@ public class SMC {
         
         let result = self.call(SMCKeys.kernelIndex.rawValue, input: &input, output: &output)
         if result != kIOReturnSuccess {
-            print("[\(value.key)] IOKit error: 0x\(String(result, radix: 16))")
+            print("Error write \(value.key): 0x\(String(result, radix: 16))")
             return result
         }
         
         // IOKit can return kIOReturnSuccess but SMC firmware may still reject the write.
         // Check SMC-level result code (0x00 = success, non-zero = error)
         if output.result != 0x00 {
-            print("[\(value.key)] SMC result: 0x\(String(output.result, radix: 16))")
+            print("Error write \(value.key) SMC: 0x\(String(output.result, radix: 16))")
             return kIOReturnError
         }
         
