@@ -18,6 +18,7 @@ internal class Popup: PopupWrapper {
     
     private var calendarView: CalendarView? = nil
     private var calendarState: Bool = true
+    private var weekNumbersState: Bool = false
     
     public init(_ module: ModuleType) {
         super.init(module, frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: 0))
@@ -25,8 +26,9 @@ internal class Popup: PopupWrapper {
         self.orientation = .vertical
         self.spacing = Constants.Popup.margins
         
-        self.calendarView = CalendarView(self.frame.width)
         self.calendarState = Store.shared.bool(key: "\(self.title)_calendar", defaultValue: self.calendarState)
+        self.weekNumbersState = Store.shared.bool(key: "\(self.title)_calendarWeekNumbers", defaultValue: self.weekNumbersState)
+        self.calendarView = CalendarView(self.frame.width, showWeekNumbers: self.weekNumbersState)
         
         self.orderTableView.reorderCallback = { [weak self] in
             self?.rearrange()
@@ -94,6 +96,10 @@ internal class Popup: PopupWrapper {
             PreferencesRow(localizedString("Calendar"), component: switchView(
                 action: #selector(self.toggleCalendarState),
                 state: self.calendarState
+            )),
+            PreferencesRow(localizedString("Show week numbers"), component: switchView(
+                action: #selector(self.toggleWeekNumbersState),
+                state: self.weekNumbersState
             ))
         ]))
         
@@ -126,10 +132,19 @@ internal class Popup: PopupWrapper {
         }
         self.recalculateHeight()
     }
+    
+    @objc private func toggleWeekNumbersState(_ sender: NSControl) {
+        self.weekNumbersState = controlState(sender)
+        Store.shared.set(key: "\(self.title)_calendarWeekNumbers", value: self.weekNumbersState)
+        self.calendarView?.setShowWeekNumbers(self.weekNumbersState)
+        self.recalculateHeight()
+    }
 }
 
 private class CalendarView: NSStackView {
-    private let itemSize: CGSize
+    private var itemSize: CGSize
+    private var showWeekNumbers: Bool
+    private var navigationHeightConstraint: NSLayoutConstraint?
     
     private var year: Int
     private var month: Int
@@ -158,11 +173,9 @@ private class CalendarView: NSStackView {
     private var grid: NSGridView = NSGridView()
     private var current: NSTextField = NSTextField()
     
-    init(_ width: CGFloat) {
-        self.itemSize = NSSize(
-            width: (width-(Constants.Popup.margins*2))/7,
-            height: (width-(Constants.Popup.spacing*2))/8 - 4
-        )
+    init(_ width: CGFloat, showWeekNumbers: Bool) {
+        self.showWeekNumbers = showWeekNumbers
+        self.itemSize = NSSize.zero
         self.year = Calendar.current.component(.year, from: Date())
         self.month = Calendar.current.component(.month, from: Date())
         self.day = Calendar.current.component(.day, from: Date())
@@ -182,6 +195,7 @@ private class CalendarView: NSStackView {
         self.wantsLayer = true
         self.layer?.cornerRadius = 2
         
+        self.updateItemSize()
         self.addArrangedSubview(self.navigation())
         self.setup()
     }
@@ -200,6 +214,13 @@ private class CalendarView: NSStackView {
         self.setup()
     }
     
+    public func setShowWeekNumbers(_ state: Bool) {
+        guard self.showWeekNumbers != state else { return }
+        self.showWeekNumbers = state
+        self.updateItemSize()
+        self.setup()
+    }
+    
     override func updateLayer() {
         self.layer?.backgroundColor = (isDarkMode ? NSColor(red: 17/255, green: 17/255, blue: 17/255, alpha: 0.25) : NSColor(red: 245/255, green: 245/255, blue: 245/255, alpha: 1)).cgColor
     }
@@ -210,11 +231,21 @@ private class CalendarView: NSStackView {
         let grid = NSGridView()
         grid.rowSpacing = 0
         grid.columnSpacing = 0
-        grid.addRow(with: self.weekDays.map { headerItem($0) })
+        
+        var headerRow: [NSView] = []
+        if self.showWeekNumbers {
+            headerRow.append(self.weekNumberHeaderItem())
+        }
+        headerRow.append(contentsOf: self.weekDays.map { headerItem($0) })
+        grid.addRow(with: headerRow)
           
         let weeks = self.generateDays(for: self.month, in: self.year)
         for week in weeks {
-            let labels = week.map { rowItem($0) }
+            var labels: [NSView] = []
+            if self.showWeekNumbers {
+                labels.append(self.weekNumberItem(week))
+            }
+            labels.append(contentsOf: week.map { rowItem($0) })
             grid.addRow(with: labels)
         }
         
@@ -226,14 +257,21 @@ private class CalendarView: NSStackView {
     
     private func navigation() -> NSView {
         let view = NSStackView()
-        view.heightAnchor.constraint(equalToConstant: self.itemSize.height).isActive = true
+        view.distribution = .fill
+        view.alignment = .centerY
+        self.navigationHeightConstraint = view.heightAnchor.constraint(greaterThanOrEqualToConstant: max(self.itemSize.height, 24))
+        self.navigationHeightConstraint?.isActive = true
         view.orientation = .horizontal
         
         let details = NSTextField(labelWithString: "\(Calendar.current.standaloneMonthSymbols[self.month-1]) \(self.year)")
         details.font = .systemFont(ofSize: 16, weight: .medium)
+        details.lineBreakMode = .byTruncatingTail
+        details.maximumNumberOfLines = 1
+        details.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         self.current = details
         let buttons = NSStackView()
         buttons.orientation = .horizontal
+        buttons.setContentCompressionResistancePriority(.required, for: .horizontal)
         
         let prev = NSButton()
         prev.bezelStyle = .regularSquare
@@ -277,6 +315,15 @@ private class CalendarView: NSStackView {
         return view
     }
     
+    private func updateItemSize() {
+        let columns: CGFloat = self.showWeekNumbers ? 8 : 7
+        self.itemSize = NSSize(
+            width: (self.frame.width-(Constants.Popup.margins*2))/columns,
+            height: (self.frame.width-(Constants.Popup.spacing*2))/8 - 4
+        )
+        self.navigationHeightConstraint?.constant = max(self.itemSize.height, 24)
+    }
+    
     private func headerItem(_ value: String) -> NSView {
         let view = NSTextField()
         let cell = VerticallyCenteredTextFieldCell(textCell: value)
@@ -304,6 +351,55 @@ private class CalendarView: NSStackView {
         view.widthAnchor.constraint(equalToConstant: self.itemSize.width).isActive = true
         view.heightAnchor.constraint(equalToConstant: self.itemSize.height).isActive = true
         return view
+    }
+    
+    private func weekNumberHeaderItem() -> NSView {
+        let view = NSTextField()
+        let cell = VerticallyCenteredTextFieldCell(textCell: localizedString("Wk"))
+        view.cell = cell
+        view.alignment = .center
+        view.textColor = .secondaryLabelColor
+        view.font = .systemFont(ofSize: 11)
+        view.widthAnchor.constraint(equalToConstant: self.itemSize.width).isActive = true
+        view.heightAnchor.constraint(equalToConstant: self.itemSize.height).isActive = true
+        self.addRightBorder(view)
+        return view
+    }
+    
+    private func weekNumberItem(_ week: [DateComponents]) -> NSView {
+        let calendar = Calendar.current
+        let firstDate = week.compactMap { calendar.date(from: $0) }.first ?? Date()
+        let weekNumber = calendar.component(.weekOfYear, from: firstDate)
+        
+        let view = NSTextField()
+        let cell = VerticallyCenteredTextFieldCell(textCell: "\(weekNumber)")
+        view.cell = cell
+        view.alignment = .center
+        view.textColor = .secondaryLabelColor
+        view.font = .systemFont(ofSize: 11)
+        view.widthAnchor.constraint(equalToConstant: self.itemSize.width).isActive = true
+        view.heightAnchor.constraint(equalToConstant: self.itemSize.height).isActive = true
+        self.addRightBorder(view)
+        return view
+    }
+    
+    private func addRightBorder(_ view: NSView) {
+        let border = NSView()
+        border.wantsLayer = true
+        let borderColor = self.isDarkMode
+            ? NSColor.white.withAlphaComponent(0.4)
+            : NSColor.separatorColor
+        border.layer?.backgroundColor = borderColor.cgColor
+        border.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(border)
+        
+        let lineWidth = 1 / (NSScreen.main?.backingScaleFactor ?? 1)
+        NSLayoutConstraint.activate([
+            border.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            border.topAnchor.constraint(equalTo: view.topAnchor),
+            border.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            border.widthAnchor.constraint(equalToConstant: lineWidth)
+        ])
     }
     
     private func todayItem() -> NSView {
