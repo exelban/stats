@@ -71,7 +71,23 @@ internal class Popup: PopupWrapper {
                 selected: self.fanValueState.rawValue
             ))
         ]))
+        #if arch(arm64)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.checkFanModesAndResetFtst), name: .checkFanModes, object: nil)
+        #endif
     }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    #if arch(arm64)
+    @objc private func checkFanModesAndResetFtst() {
+        let fanViews = self.list.values.compactMap { $0 as? FanView }
+        guard !fanViews.isEmpty else { return }
+        guard fanViews.allSatisfy({ $0.fan.mode == .automatic }) else { return }
+        SMCHelper.shared.resetFanControl()
+    }
+    #endif
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -455,7 +471,7 @@ internal class ChartSensorView: NSStackView {
 internal class FanView: NSStackView {
     public var sizeCallback: (() -> Void)
     
-    private var fan: Fan
+    internal var fan: Fan
     private var ready: Bool = false
     
     private var helperView: NSView? = nil
@@ -638,7 +654,7 @@ internal class FanView: NSStackView {
             height: view.frame.height - 8
         ), mode: self.fan.mode)
         buttons.callback = { [weak self] (mode: FanMode) in
-            if let fan = self?.fan, fan.mode != mode {
+            if let fan = self?.fan, mode == .automatic || fan.mode != mode {
                 self?.fan.mode = mode
                 self?.fan.customMode = mode
                 SMCHelper.shared.setFanMode(fan.id, mode: mode.rawValue)
@@ -1072,6 +1088,7 @@ private class ModeButtons: NSStackView {
         self.callback(.automatic)
         
         NotificationCenter.default.post(name: .syncFansControl, object: nil, userInfo: ["mode": "automatic"])
+        NotificationCenter.default.post(name: .checkFanModes, object: nil)
     }
     
     @objc private func manualMode(_ sender: NSButton) {

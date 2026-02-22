@@ -894,6 +894,11 @@ public class SMCHelper {
         }
     }
     
+    public func resetFanControl() {
+        guard let helper = self.helper(nil) else { return }
+        helper.resetFanControl { _ in }
+    }
+    
     public func isActive() -> Bool {
         return self.connection != nil
     }
