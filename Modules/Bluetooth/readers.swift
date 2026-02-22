@@ -225,8 +225,6 @@ internal class DevicesReader: Reader<[BLEDevice]>, CBCentralManagerDelegate, CBP
     // MARK: - system_profiler
     
     private func profilerDevices() -> ([bleDevice], [String]) {
-        if #unavailable(macOS 11) { return ([], []) }
-        
         guard let res = process(path: "/usr/sbin/system_profiler", arguments: ["SPBluetoothDataType", "-json"]) else {
             return ([], [])
         }

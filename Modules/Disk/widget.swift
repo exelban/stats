@@ -24,7 +24,6 @@ public struct Disk_entry: TimelineEntry {
     public var value: drive? = nil
 }
 
-@available(macOS 11.0, *)
 public struct Provider: TimelineProvider {
     public typealias Entry = Disk_entry
     

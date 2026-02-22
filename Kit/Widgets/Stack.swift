@@ -347,9 +347,7 @@ private class OrderTableView: NSView, NSTableViewDelegate, NSTableViewDataSource
         self.tableView.registerForDraggedTypes([dragDropType])
         self.tableView.gridColor = .gridColor
         self.tableView.gridStyleMask = [.solidVerticalGridLineMask, .solidHorizontalGridLineMask]
-        if #available(macOS 11.0, *) {
-            self.tableView.style = .plain
-        }
+        self.tableView.style = .plain
         
         self.tableView.addTableColumn(NSTableColumn(identifier: NSUserInterfaceItemIdentifier(rawValue: "name")))
         

@@ -597,18 +597,8 @@ extension CGFloat {
 public class KeyboardShartcutView: NSStackView {
     private let callback: (_ value: [UInt16]) -> Void
     
-    private var startIcon: NSImage {
-        if #available(macOS 12.0, *), let icon = iconFromSymbol(name: "record.circle", scale: .large) {
-            return icon
-        }
-        return NSImage(named: NSImage.Name("record"))!
-    }
-    private var stopIcon: NSImage {
-        if #available(macOS 12.0, *), let icon = iconFromSymbol(name: "stop.circle.fill", scale: .large) {
-            return icon
-        }
-        return NSImage(named: NSImage.Name("stop"))!
-    }
+    private var startIcon: NSImage { iconFromSymbol(name: "record.circle", scale: .large) }
+    private var stopIcon: NSImage { iconFromSymbol(name: "stop.circle.fill", scale: .large) }
     
     private var valueField: NSTextField? = nil
     private var startButton: NSButton? = nil

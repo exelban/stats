@@ -37,13 +37,7 @@ public struct Widget_c_s {
         }
     }
     public var margin: CGPoint {
-        get {
-            var point: CGPoint = CGPoint(x: 2, y: 2)
-            if #available(macOS 11.0, *) {
-                point.x = 0
-            }
-            return point
-        }
+        get { CGPoint(x: 0, y: 2) }
     }
     public let spacing: CGFloat = 2
 }

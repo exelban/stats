@@ -24,7 +24,6 @@ public struct CPU_entry: TimelineEntry {
     public var value: CPU_Load? = nil
 }
 
-@available(macOS 11.0, *)
 public struct Provider: TimelineProvider {
     public typealias Entry = CPU_entry
     

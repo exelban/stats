@@ -280,49 +280,13 @@ private class SidebarView: NSStackView {
         set { Store.shared.set(key: "pause", value: newValue) }
     }
     
-    private var dashboardIcon: NSImage {
-        if #available(macOS 11.0, *), let icon = NSImage(systemSymbolName: "circle.grid.3x3.fill", accessibilityDescription: nil) {
-            return icon
-        }
-        return NSImage(named: NSImage.Name("apps"))!
-    }
-    private var settingsIcon: NSImage {
-        if #available(macOS 11.0, *), let icon = iconFromSymbol(name: "gear", scale: .large) {
-            return icon
-        }
-        return NSImage(named: NSImage.Name("settings"))!
-    }
-    
-    private var bugIcon: NSImage {
-        if #available(macOS 12.0, *), let icon = iconFromSymbol(name: "ladybug", scale: .large) {
-            return icon
-        }
-        return NSImage(named: NSImage.Name("bug"))!
-    }
-    private var supportIcon: NSImage {
-        if #available(macOS 12.0, *), let icon = iconFromSymbol(name: "heart.fill", scale: .large) {
-            return icon
-        }
-        return NSImage(named: NSImage.Name("donate"))!
-    }
-    private var pauseIcon: NSImage {
-        if #available(macOS 11.0, *), let icon = iconFromSymbol(name: "pause.fill", scale: .large) {
-            return icon
-        }
-        return NSImage(named: NSImage.Name("pause"))!
-    }
-    private var resumeIcon: NSImage {
-        if #available(macOS 11.0, *), let icon = iconFromSymbol(name: "play.fill", scale: .large) {
-            return icon
-        }
-        return NSImage(named: NSImage.Name("resume"))!
-    }
-    private var closeIcon: NSImage {
-        if #available(macOS 12.0, *), let icon = iconFromSymbol(name: "power", scale: .large) {
-            return icon
-        }
-        return NSImage(named: NSImage.Name("power"))!
-    }
+    private var dashboardIcon: NSImage { NSImage(systemSymbolName: "circle.grid.3x3.fill", accessibilityDescription: nil)! }
+    private var settingsIcon: NSImage { iconFromSymbol(name: "gear", scale: .large) }
+    private var bugIcon: NSImage { iconFromSymbol(name: "ladybug", scale: .large) }
+    private var supportIcon: NSImage { iconFromSymbol(name: "heart.fill", scale: .large) }
+    private var pauseIcon: NSImage { iconFromSymbol(name: "pause.fill", scale: .large) }
+    private var resumeIcon: NSImage { iconFromSymbol(name: "play.fill", scale: .large) }
+    private var closeIcon: NSImage { iconFromSymbol(name: "power", scale: .large) }
     
     override init(frame: NSRect) {
         self.scrollView = ScrollableStackView(frame: NSRect(x: 0, y: 0, width: frame.width, height: frame.height))
@@ -362,9 +326,6 @@ private class SidebarView: NSStackView {
         let emptySpace = NSView()
         emptySpace.heightAnchor.constraint(equalToConstant: 28).isActive = true
         
-        if #unavailable(macOS 11) {
-            self.addArrangedSubview(emptySpace)
-        }
         self.addArrangedSubview(self.scrollView)
         self.addArrangedSubview(additionalButtons)
         

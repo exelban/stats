@@ -83,9 +83,7 @@ internal class Settings: NSStackView, Settings_v, NSTableViewDelegate, NSTableVi
         self.tableView.allowsColumnResizing = false
         self.tableView.gridStyleMask = [.solidVerticalGridLineMask, .solidHorizontalGridLineMask]
         self.tableView.usesAlternatingRowBackgroundColors = true
-        if #available(macOS 11.0, *) {
-            self.tableView.style = .plain
-        }
+        self.tableView.style = .plain
         self.tableView.rowHeight = 32
         
         let nameColumn = NSTableColumn(identifier: nameColumnID)
@@ -140,11 +138,7 @@ internal class Settings: NSStackView, Settings_v, NSTableViewDelegate, NSTableVi
             btn.widthAnchor.constraint(equalToConstant: 27).isActive = true
             btn.heightAnchor.constraint(equalToConstant: 27).isActive = true
             btn.bezelStyle = .rounded
-            if #available(macOS 11.0, *) {
-                btn.image =  iconFromSymbol(name: "plus", scale: .medium)
-            } else {
-                btn.title = localizedString("Add")
-            }
+            btn.image =  iconFromSymbol(name: "plus", scale: .medium)
             btn.action = #selector(self.addNewClock)
             btn.target = self
             btn.toolTip = localizedString("Add new clock")
@@ -156,11 +150,7 @@ internal class Settings: NSStackView, Settings_v, NSTableViewDelegate, NSTableVi
             btn.widthAnchor.constraint(equalToConstant: 27).isActive = true
             btn.heightAnchor.constraint(equalToConstant: 27).isActive = true
             btn.bezelStyle = .rounded
-            if #available(macOS 11.0, *) {
-                btn.image =  iconFromSymbol(name: "minus", scale: .medium)
-            } else {
-                btn.title = localizedString("Delete")
-            }
+            btn.image =  iconFromSymbol(name: "minus", scale: .medium)
             btn.action = #selector(self.deleteClock)
             btn.target = self
             btn.toolTip = localizedString("Delete selected clock")

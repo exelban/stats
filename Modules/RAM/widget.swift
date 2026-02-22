@@ -40,7 +40,6 @@ public struct RAM_entry: TimelineEntry {
     public var value: RAM_Usage? = nil
 }
 
-@available(macOS 11.0, *)
 public struct Provider: TimelineProvider {
     public typealias Entry = RAM_entry
     

@@ -28,10 +28,10 @@ public struct module_c {
         if let state = dict["State"] as? Bool {
             self.defaultState = state
         }
-        if let symbol = dict["Symbol"] as? String, #available(macOS 11.0, *) {
+        if let symbol = dict["Symbol"] as? String {
             self.icon = NSImage(systemSymbolName: symbol, accessibilityDescription: nil)
         }
-        if self.icon == nil, #available(macOS 11.0, *), let symbol = dict["AlternativeSymbol"] as? String {
+        if self.icon == nil, let symbol = dict["AlternativeSymbol"] as? String {
             self.icon = NSImage(systemSymbolName: symbol, accessibilityDescription: nil)
         }
         

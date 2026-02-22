@@ -194,13 +194,11 @@ public class GPU: Module {
         }
         
         if self.systemWidgetsUpdatesState {
-            if #available(macOS 11.0, *) {
-                if isWidgetActive(self.userDefaults, [GPU_entry.kind, "UnitedWidget"]), let blobData = try? JSONEncoder().encode(selectedGPU) {
-                    self.userDefaults?.set(blobData, forKey: "GPU@InfoReader")
-                }
-                WidgetCenter.shared.reloadTimelines(ofKind: GPU_entry.kind)
-                WidgetCenter.shared.reloadTimelines(ofKind: "UnitedWidget")
+            if isWidgetActive(self.userDefaults, [GPU_entry.kind, "UnitedWidget"]), let blobData = try? JSONEncoder().encode(selectedGPU) {
+                self.userDefaults?.set(blobData, forKey: "GPU@InfoReader")
             }
+            WidgetCenter.shared.reloadTimelines(ofKind: GPU_entry.kind)
+            WidgetCenter.shared.reloadTimelines(ofKind: "UnitedWidget")
         }
     }
 }

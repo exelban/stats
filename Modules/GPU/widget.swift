@@ -24,7 +24,6 @@ public struct GPU_entry: TimelineEntry {
     public var value: GPU_Info? = nil
 }
 
-@available(macOS 11.0, *)
 public struct Provider: TimelineProvider {
     public typealias Entry = GPU_entry
     

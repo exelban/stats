@@ -32,11 +32,11 @@ public struct ColorValue: Equatable {
         self.color = color
     }
     
-    // swiftlint:disable operator_whitespace
+    // swiftlint:disable function_name_whitespace
     public static func ==(lhs: ColorValue, rhs: ColorValue) -> Bool {
         return lhs.value == rhs.value
     }
-    // swiftlint:enable operator_whitespace
+    // swiftlint:enable function_name_whitespace
 }
 
 public enum AppUpdateInterval: String {

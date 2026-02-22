@@ -1005,12 +1005,8 @@ private class ModeButtons: NSStackView {
         var turboIcon: NSImage = NSImage(named: NSImage.Name("ac_unit"))!
         var offIcon: NSImage = NSImage(named: NSImage.Name("ac_unit"))!
         if #available(macOS 12.0, *) {
-            if let icon = iconFromSymbol(name: "snowflake", scale: .large) {
-                turboIcon = icon
-            }
-            if let icon = iconFromSymbol(name: "fanblades.slash", scale: .medium) {
-                offIcon = icon
-            }
+            turboIcon = iconFromSymbol(name: "snowflake", scale: .large)
+            offIcon = iconFromSymbol(name: "fanblades.slash", scale: .medium)
         }
         
         self.offBtn = NSButton(image: offIcon, target: nil, action: #selector(offMode))

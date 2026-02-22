@@ -277,11 +277,7 @@ private class CalendarView: NSStackView {
         prev.bezelStyle = .regularSquare
         prev.translatesAutoresizingMaskIntoConstraints = false
         prev.imageScaling = .scaleNone
-        if #available(macOS 11.0, *) {
-            prev.image = iconFromSymbol(name: "arrow.left", scale: .medium)!
-        } else {
-            prev.title = "<"
-        }
+        prev.image = iconFromSymbol(name: "arrow.left", scale: .medium)
         prev.contentTintColor = .labelColor
         prev.isBordered = false
         prev.action = #selector(self.prevMonth)
@@ -293,11 +289,7 @@ private class CalendarView: NSStackView {
         next.bezelStyle = .regularSquare
         next.translatesAutoresizingMaskIntoConstraints = false
         next.imageScaling = .scaleNone
-        if #available(macOS 11.0, *) {
-            next.image = iconFromSymbol(name: "arrow.right", scale: .medium)!
-        } else {
-            next.title = ">"
-        }
+        next.image = iconFromSymbol(name: "arrow.right", scale: .medium)
         next.contentTintColor = .labelColor
         next.isBordered = false
         next.action = #selector(self.nextMonth)
@@ -719,9 +711,7 @@ private class OrderTableView: NSView, NSTableViewDelegate, NSTableViewDataSource
         self.tableView.registerForDraggedTypes([dragDropType])
         self.tableView.gridColor = .gridColor
         self.tableView.gridStyleMask = [.solidVerticalGridLineMask, .solidHorizontalGridLineMask]
-        if #available(macOS 11.0, *) {
-            self.tableView.style = .plain
-        }
+        self.tableView.style = .plain
         
         let nameColumn = NSTableColumn(identifier: nameColumnID)
         nameColumn.headerCell.title = localizedString("Name")

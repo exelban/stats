@@ -335,12 +335,10 @@ public class Network: Module {
         }
         
         if self.systemWidgetsUpdatesState {
-            if #available(macOS 11.0, *) {
-                if isWidgetActive(self.userDefaults, [Network_entry.kind]), let blobData = try? JSONEncoder().encode(raw) {
-                    self.userDefaults?.set(blobData, forKey: "Network@UsageReader")
-                }
-                WidgetCenter.shared.reloadTimelines(ofKind: Network_entry.kind)
+            if isWidgetActive(self.userDefaults, [Network_entry.kind]), let blobData = try? JSONEncoder().encode(raw) {
+                self.userDefaults?.set(blobData, forKey: "Network@UsageReader")
             }
+            WidgetCenter.shared.reloadTimelines(ofKind: Network_entry.kind)
         }
     }
     

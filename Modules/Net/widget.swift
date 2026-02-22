@@ -29,7 +29,6 @@ public struct Network_entry: TimelineEntry {
     public var value: Network_Usage? = nil
 }
 
-@available(macOS 11.0, *)
 public struct Provider: TimelineProvider {
     public typealias Entry = Network_entry
     

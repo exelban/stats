@@ -1211,13 +1211,12 @@ public func controlState(_ sender: NSControl) -> Bool {
     return state == .on
 }
 
-@available(macOS 11.0, *)
-public func iconFromSymbol(name: String, scale: NSImage.SymbolScale) -> NSImage? {
+public func iconFromSymbol(name: String, scale: NSImage.SymbolScale) -> NSImage {
     let config = NSImage.SymbolConfiguration(textStyle: .body, scale: scale)
-    if let symbol = NSImage(systemSymbolName: name, accessibilityDescription: nil) {
-        return symbol.withSymbolConfiguration(config)
+    if let symbol = NSImage(systemSymbolName: name, accessibilityDescription: nil), let icon = symbol.withSymbolConfiguration(config) {
+        return icon
     }
-    return nil
+    return NSImage()
 }
 
 public func showAlert(_ message: String, _ information: String? = nil, _ style: NSAlert.Style = .informational) {

@@ -38,7 +38,6 @@ public struct United_entry: TimelineEntry {
     public var disk: Value? = nil
 }
 
-@available(macOS 11.0, *)
 public struct Provider: TimelineProvider {
     public typealias Entry = United_entry
     

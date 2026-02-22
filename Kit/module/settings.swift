@@ -678,18 +678,8 @@ private class ButtonSelectorView: NSStackView {
         return view
     }()
     
-    private var settingsIcon: NSImage {
-        if #available(macOS 12.0, *), let icon = iconFromSymbol(name: "gear", scale: .large) {
-            return icon
-        }
-        return NSImage(named: NSImage.Name("settings"))!
-    }
-    private var previewIcon: NSImage {
-        if #available(macOS 12.0, *), let icon = iconFromSymbol(name: "command", scale: .large) {
-            return icon
-        }
-        return NSImage(named: NSImage.Name("chart"))!
-    }
+    private var settingsIcon: NSImage { iconFromSymbol(name: "gear", scale: .large) }
+    private var previewIcon: NSImage { iconFromSymbol(name: "command", scale: .large) }
     
     private var button: NSButton? = nil
     private var isSettingsEnabled: Bool = false
