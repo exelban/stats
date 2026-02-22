@@ -471,6 +471,7 @@
 "Time zone" = "Aikavyöhyke";
 "Local" = "Paikallinen";
 "Calendar" = "Kalenteri";
+"Show week numbers" = "Show week numbers";
 "Local time" = "Paikallinen aika";
 "Add new clock" = "Add new clock";
 "Delete selected clock" = "Delete selected clock";

@@ -471,6 +471,7 @@
 "Time zone" = "Часовий пояс";
 "Local" = "Місцевий";
 "Calendar" = "Календар";
+"Show week numbers" = "Показати номери тижнів";
 "Local time" = "Місцевий час";
 "Add new clock" = "Додати новий годинник";
 "Delete selected clock" = "Видалити вибраний годинник";

@@ -471,6 +471,7 @@
 "Time zone" = "Часовой пояс";
 "Local" = "Локальный";
 "Calendar" = "Календарь";
+"Show week numbers" = "Показать номер недели";
 "Local time" = "Местное время";
 "Add new clock" = "Добавить новые часы";
 "Delete selected clock" = "Удалить выбранные часы";

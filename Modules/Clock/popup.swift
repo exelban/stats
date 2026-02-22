@@ -355,7 +355,7 @@ private class CalendarView: NSStackView {
     
     private func weekNumberHeaderItem() -> NSView {
         let view = NSTextField()
-        let cell = VerticallyCenteredTextFieldCell(textCell: localizedString("Wk"))
+        let cell = VerticallyCenteredTextFieldCell(textCell: "")
         view.cell = cell
         view.alignment = .center
         view.textColor = .secondaryLabelColor

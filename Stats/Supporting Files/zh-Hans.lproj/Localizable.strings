@@ -471,6 +471,7 @@
 "Time zone" = "时区";
 "Local" = "本地";
 "Calendar" = "日历";
+"Show week numbers" = "Show week numbers";
 "Local time" = "本地时间";
 "Add new clock" = "添加新时钟";
 "Delete selected clock" = "删除选定的时钟";

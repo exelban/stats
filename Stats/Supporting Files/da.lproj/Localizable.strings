@@ -471,6 +471,7 @@
 "Time zone" = "Tidszone";
 "Local" = "Lokalt";
 "Calendar" = "Calendar";
+"Show week numbers" = "Show week numbers";
 "Local time" = "Local time";
 "Add new clock" = "Add new clock";
 "Delete selected clock" = "Delete selected clock";
