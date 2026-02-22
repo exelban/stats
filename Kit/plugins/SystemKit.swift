@@ -1,3 +1,35 @@
+// Apple Silicon 机型核心数映射表
+let appleSiliconCoreMap: [String: (total: Int8, pCores: Int8, eCores: Int8)] = [
+    // M1 系列
+    "MacBookAir10,1": (8, 4, 4), // M1 Air
+    "Macmini9,1": (8, 4, 4),     // M1 mini
+    "iMac21,1": (8, 4, 4),       // M1 iMac
+    "iMac21,2": (8, 4, 4),
+    "MacBookPro17,1": (8, 4, 4), // M1 Pro 13"
+    // M1 Pro/Max/Ultra
+    "MacBookPro18,1": (10, 8, 2), // M1 Pro 16"
+    "MacBookPro18,2": (10, 8, 2), // M1 Max 16"
+    "MacBookPro18,3": (8, 6, 2),  // M1 Pro 14"
+    "MacBookPro18,4": (8, 6, 2),
+    "Mac13,1": (10, 8, 2),        // M1 Max Studio
+    "Mac13,2": (20, 16, 4),       // M1 Ultra Studio
+    // M2 系列
+    "Mac14,2": (8, 4, 4),         // M2 Air 13"
+    "Mac14,7": (8, 4, 4),         // M2 Pro 13"
+    "Mac14,3": (8, 4, 4),         // M2 mini
+    "Mac14,12": (10, 6, 4),       // M2 Pro mini
+    "Mac14,13": (12, 8, 4),       // M2 Max Studio
+    "Mac14,14": (24, 16, 8),      // M2 Ultra Studio
+    // M3 系列（部分）
+    "Mac15,12": (8, 4, 4),        // M3 Air 13"
+    "Mac15,13": (8, 4, 4),        // M3 Air 15"
+    "Mac15,3": (8, 4, 4),         // M3 Pro 14"
+    "Mac15,6": (11, 5, 6),        // M3 Pro 14"
+    "Mac15,7": (14, 6, 8),        // M3 Pro 16"
+    "Mac15,8": (16, 6, 10),       // M3 Max 14"
+    "Mac15,9": (16, 6, 10),       // M3 Max 16"
+    // 其他机型可补充
+]
 //
 //  SystemKit.swift
 //  Kit
@@ -197,6 +229,13 @@ public class SystemKit {
             self.device.model = model
             self.device.model.id = modelName
             self.device.model.icon = self.getIcon(type: self.device.model.type, year: self.device.model.year)
+            // 写入Apple Silicon核心数
+            if let coreInfo = appleSiliconCoreMap[modelName] {
+                if self.device.info.cpu == nil { self.device.info.cpu = cpu_s() }
+                self.device.info.cpu?.physicalCores = coreInfo.total
+                self.device.info.cpu?.pCores = Int32(coreInfo.pCores)
+                self.device.info.cpu?.eCores = Int32(coreInfo.eCores)
+            }
         } else if let model = self.getModel() {
             self.device.model = model
         }
