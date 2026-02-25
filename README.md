@@ -67,6 +67,15 @@ Stats tries to be efficient as it's possible. But reading some data periodically
 ### Fan control
 Fan control is in legacy mode. It does not receive any updates or fixes. It's not dropped from the app just because in the old Macs it works pretty acceptable. I'm open to accepting fixed or improvements (via PR) for this feature in case someone would like to help with that. But have no option and time to provide support for this feature.
 
+### Fan control recovery (2.12.0 sleep/wake regression)
+If fan mode/speed was persisted incorrectly after sleep/wake on version 2.12.0, you can clear the stale values:
+```bash
+defaults delete eu.exelban.Stats fan_0_mode
+defaults delete eu.exelban.Stats fan_1_mode
+defaults delete eu.exelban.Stats fan_0_speed
+defaults delete eu.exelban.Stats fan_1_speed
+```
+
 ### Sensors show incorrect CPU/GPU core count
 CPU/GPU sensors are simply thermal zones (sensors) on the CPU/GPU. They have no relation to the number of cores or specific cores.
 For example, a CPU is typically divided into two clusters: efficiency and performance. Each cluster contains multiple temperature sensors, and Stats simply displays these sensors. However, "CPU Efficient Core 1" does not represent the temperature of a single efficient core—it only indicates one of the temperature sensors within the efficiency core cluster.

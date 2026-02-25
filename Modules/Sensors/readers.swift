@@ -331,8 +331,8 @@ extension SensorsReader {
                 }
             }
             
-            if let md = SMC.shared.getValue("F\(i)Md") {
-                mode = FanMode(rawValue: Int(md)) ?? .automatic
+            if let md = SMC.shared.getValue("F\(i)Md"), let parsed = FanMode(rawValue: Int(md)) {
+                mode = parsed.isAutomatic ? .automatic : parsed
             } else {
                 mode = self.getFanMode(i)
             }

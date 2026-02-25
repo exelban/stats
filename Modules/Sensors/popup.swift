@@ -84,7 +84,7 @@ internal class Popup: PopupWrapper {
     @objc private func checkFanModesAndResetFtst() {
         let fanViews = self.list.values.compactMap { $0 as? FanView }
         guard !fanViews.isEmpty else { return }
-        guard fanViews.allSatisfy({ $0.fan.mode == .automatic }) else { return }
+        guard fanViews.allSatisfy({ $0.fan.mode.isAutomatic }) else { return }
         SMCHelper.shared.resetFanControl()
     }
     #endif
@@ -855,7 +855,7 @@ internal class FanView: NSStackView {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                     SMCHelper.shared.setFanMode(self.fan.id, mode: mode.rawValue)
                     self.modeButtons?.setMode(mode)
-                    if mode != .automatic {
+                    if !mode.isAutomatic {
                         self.setSpeed(value: speed, then: {
                             DispatchQueue.main.async {
                                 self.sliderValueField?.textColor = .systemBlue
@@ -868,7 +868,7 @@ internal class FanView: NSStackView {
             self.willSleepSpeed = nil
         }
         
-        if let value = self.fan.customSpeed, self.fan.mode != .automatic {
+        if let value = self.fan.customSpeed, !self.fan.mode.isAutomatic {
             self.setSpeed(value: value, then: {
                 DispatchQueue.main.async {
                     self.sliderValueField?.textColor = .systemBlue
@@ -878,9 +878,9 @@ internal class FanView: NSStackView {
     }
     
     @objc private func sleepListener(aNotification: NSNotification) {
-        guard SMCHelper.shared.isActive() && self.fan.customMode != .automatic else { return }
+        guard SMCHelper.shared.isActive(), let mode = self.fan.customMode, !mode.isAutomatic else { return }
         
-        self.willSleepMode = self.fan.customMode
+        self.willSleepMode = mode
         self.willSleepSpeed = self.fan.customSpeed
         SMCHelper.shared.setFanMode(fan.id, mode: FanMode.automatic.rawValue)
         self.modeButtons?.setMode(.automatic)
@@ -925,7 +925,7 @@ internal class FanView: NSStackView {
                     v.setFrameSize(NSSize(width: width, height: v.frame.height))
                 }
                 
-                if self.resetModeAfterSleep && value.mode != .automatic {
+                if self.resetModeAfterSleep && !value.mode.isAutomatic {
                     if self.sliderValueField?.stringValue != "" && self.slider?.doubleValue != value.value {
                         self.slider?.doubleValue = value.value
                         self.sliderValueField?.stringValue = ""
@@ -1031,7 +1031,7 @@ private class ModeButtons: NSStackView {
         self.autoBtn.setButtonType(.toggle)
         self.autoBtn.isBordered = false
         self.autoBtn.target = self
-        self.autoBtn.state = mode == .automatic ? .on : .off
+        self.autoBtn.state = mode.isAutomatic ? .on : .off
         
         self.manualBtn.setButtonType(.toggle)
         self.manualBtn.isBordered = false
@@ -1180,7 +1180,7 @@ private class ModeButtons: NSStackView {
     }
     
     public func setMode(_ mode: FanMode) {
-        if mode == .automatic {
+        if mode.isAutomatic {
             self.autoBtn.state = .on
             self.manualBtn.state = .off
             self.offBtn.state = .off
