@@ -1,15 +1,3 @@
-<div align="center" markdown="1">
- <sup>Special thanks to:</sup>
- <br><br>
- <a href="https://go.warp.dev/stats">
-  <img width="400" alt="Warp sponsorship" src="https://github.com/user-attachments/assets/67ff3655-983d-43cf-9e99-51ce76afa3e7"/>
- </a>
- <br><br>
- <a href="https://go.warp.dev/stats">Warp is built for coding with multiple AI agents</a>
-</div>
-
----
-
 # Stats
 
 <a href="https://github.com/exelban/stats/releases"><p align="center"><img src="https://github.com/exelban/stats/raw/master/Stats/Supporting%20Files/Assets.xcassets/AppIcon.appiconset/icon_256x256.png" width="120"></p></a>
@@ -66,15 +54,6 @@ Stats tries to be efficient as it's possible. But reading some data periodically
 
 ### Fan control
 Fan control is in legacy mode. It does not receive any updates or fixes. It's not dropped from the app just because in the old Macs it works pretty acceptable. I'm open to accepting fixed or improvements (via PR) for this feature in case someone would like to help with that. But have no option and time to provide support for this feature.
-
-### Fan control recovery (2.12.0 sleep/wake regression)
-If fan mode/speed was persisted incorrectly after sleep/wake on version 2.12.0, you can clear the stale values:
-```bash
-defaults delete eu.exelban.Stats fan_0_mode
-defaults delete eu.exelban.Stats fan_1_mode
-defaults delete eu.exelban.Stats fan_0_speed
-defaults delete eu.exelban.Stats fan_1_speed
-```
 
 ### Sensors show incorrect CPU/GPU core count
 CPU/GPU sensors are simply thermal zones (sensors) on the CPU/GPU. They have no relation to the number of cores or specific cores.
