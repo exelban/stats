@@ -238,14 +238,22 @@ open class Module {
     
     // call when popup appear/disappear
     private func visibilityCallback(_ state: Bool) {
-        self.readers.filter{ $0.popup }.forEach { (reader: Reader_p) in
-            if state {
+        let popupReaders = self.readers.filter { $0.popup }
+
+        if state {
+            popupReaders.forEach { (reader: Reader_p) in
                 reader.unlock()
                 reader.start()
-            } else {
-                reader.pause()
-                reader.lock()
             }
+            self.readers.filter { !$0.popup }.forEach { (reader: Reader_p) in
+                reader.replay()
+            }
+            return
+        }
+
+        popupReaders.forEach { (reader: Reader_p) in
+            reader.pause()
+            reader.lock()
         }
     }
     

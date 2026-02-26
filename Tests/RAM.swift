@@ -11,6 +11,7 @@
 
 import XCTest
 import RAM
+import Kit
 
 class RAM: XCTestCase {
     func testProcessReader_parseProcess() throws {
@@ -77,5 +78,84 @@ class RAM: XCTestCase {
         XCTAssertEqual(process.pid, 0)
         XCTAssertEqual(process.name, "Safari")
         XCTAssertEqual(process.usage, 658 * Double(1000 * 1000))
+    }
+}
+
+final class ReaderLifecycleTests: XCTestCase {
+    private final class ProbeReader: Reader<Int> {
+        private let queue = DispatchQueue(label: "io.serhiy.Stats.Tests.ProbeReader")
+        private var _readCount: Int = 0
+        var onRead: ((Int) -> Void)?
+
+        var readCount: Int {
+            self.queue.sync { self._readCount }
+        }
+
+        override func read() {
+            self.queue.sync {
+                self._readCount += 1
+                let current = self._readCount
+                self.onRead?(current)
+            }
+            self.callback(self.readCount)
+        }
+    }
+
+    func testPopupReaderForcesReadWhenReopened() {
+        let reader = ProbeReader(.CPU, popup: true)
+        reader.unlock()
+
+        let firstRead = expectation(description: "first read")
+        reader.onRead = { count in
+            if count == 1 {
+                firstRead.fulfill()
+            }
+        }
+
+        reader.start()
+        wait(for: [firstRead], timeout: 5)
+
+        reader.pause()
+
+        let secondRead = expectation(description: "second read after reopen")
+        reader.onRead = { count in
+            if count == 2 {
+                secondRead.fulfill()
+            }
+        }
+
+        reader.start()
+        wait(for: [secondRead], timeout: 5)
+
+        reader.stop()
+    }
+
+    func testReplayEmitsCachedValueWithoutNewRead() {
+        var callbackValues: [Int] = []
+        let reader = ProbeReader(.CPU) { value in
+            if let value {
+                callbackValues.append(value)
+            }
+        }
+        let firstRead = expectation(description: "initial read")
+        reader.onRead = { count in
+            if count == 1 {
+                firstRead.fulfill()
+            }
+        }
+
+        reader.start()
+        wait(for: [firstRead], timeout: 5)
+
+        XCTAssertEqual(reader.readCount, 1)
+        let callbacksBeforeReplay = callbackValues.count
+
+        reader.replay()
+
+        XCTAssertEqual(reader.readCount, 1)
+        XCTAssertEqual(callbackValues.count, callbacksBeforeReplay + 1)
+        XCTAssertEqual(callbackValues.last, 1)
+
+        reader.stop()
     }
 }
