@@ -38,6 +38,10 @@ class ApplicationSettings: NSStackView {
         get { Store.shared.bool(key: "CombinedModules_popup", defaultValue: true) }
         set { Store.shared.set(key: "CombinedModules_popup", value: newValue) }
     }
+    private var liquidGlassPopup: Bool {
+        get { Store.shared.bool(key: "liquidGlass_popup", defaultValue: false) }
+        set { Store.shared.set(key: "liquidGlass_popup", value: newValue) }
+    }
     
     private var systemWidgetsUpdatesState: Bool {
         get {
@@ -94,7 +98,7 @@ class ApplicationSettings: NSStackView {
             state: LaunchAtLogin.isEnabled
         )
         
-        scrollView.stackView.addArrangedSubview(PreferencesSection([
+        var appPreferences: [PreferencesRow] = [
             PreferencesRow(localizedString("Check for updates"), component: self.updateSelector!),
             PreferencesRow(localizedString("Temperature"), component: selectView(
                 action: #selector(self.toggleTemperatureUnits),
@@ -106,7 +110,14 @@ class ApplicationSettings: NSStackView {
                 state: Store.shared.bool(key: "dockIcon", defaultValue: false)
             )),
             PreferencesRow(localizedString("Start at login"), component: self.startAtLoginBtn!)
-        ]))
+        ]
+        if #available(macOS 26.0, *) {
+            appPreferences.append(PreferencesRow(localizedString("Liquid Glass"), component: switchView(
+                action: #selector(self.toggleLiquidGlassPopup),
+                state: self.liquidGlassPopup
+            )))
+        }
+        scrollView.stackView.addArrangedSubview(PreferencesSection(appPreferences))
         
         scrollView.stackView.addArrangedSubview(PreferencesSection([
             PreferencesRow(localizedString("macOS widgets"), component: switchView(
@@ -353,6 +364,10 @@ class ApplicationSettings: NSStackView {
     @objc private func toggleCombinedModulesPopup(_ sender: NSButton) {
         self.combinedModulesPopup = sender.state == NSControl.StateValue.on
         NotificationCenter.default.post(name: .combinedModulesPopup, object: nil, userInfo: nil)
+    }
+    
+    @objc private func toggleLiquidGlassPopup(_ sender: NSButton) {
+        self.liquidGlassPopup = sender.state == NSControl.StateValue.on
     }
     
     @objc private func importSettings() {
