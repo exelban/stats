@@ -80,6 +80,39 @@ public struct LaunchAtLogin {
     }
 }
 
+public func presentAfterApplicationActivationIfNeeded(useLiquidGlass: Bool, action: @escaping () -> Void) {
+    NSApplication.shared.activate(ignoringOtherApps: true)
+    
+    // Non-Liquid-Glass popups (or already-active app) should present immediately.
+    guard useLiquidGlass, #available(macOS 26.0, *), !NSApplication.shared.isActive else {
+        action()
+        return
+    }
+    
+    var observer: NSObjectProtocol?
+    var didRun = false
+    let runAction: () -> Void = {
+        guard !didRun else { return }
+        didRun = true
+        if let observer {
+            NotificationCenter.default.removeObserver(observer)
+        }
+        action()
+    }
+    
+    observer = NotificationCenter.default.addObserver(
+        forName: NSApplication.didBecomeActiveNotification,
+        object: nil,
+        queue: .main
+    ) { _ in
+        runAction()
+    }
+    
+    DispatchQueue.main.asyncAfter(deadline: .now() + Constants.Popup.activationFallbackDelay) {
+        runAction()
+    }
+}
+
 private protocol DeprecationWarningWorkaround {
     static var jobsDict: [[String: AnyObject]]? { get }
 }

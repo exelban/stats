@@ -148,21 +148,28 @@ internal class CombinedView: NSObject, NSGestureRecognizerDelegate {
         openedWindows.forEach{ $0.setIsVisible(false) }
         
         if popup.occlusionState.rawValue == 8192 {
-            NSApplication.shared.activate(ignoringOtherApps: true)
+            let useLiquidGlass: Bool = {
+                if #available(macOS 26.0, *) {
+                    return Store.shared.bool(key: "liquidGlass_popup", defaultValue: false)
+                }
+                return false
+            }()
             
-            popup.contentView?.invalidateIntrinsicContentSize()
-            
-            let windowCenter = popup.contentView!.intrinsicContentSize.width / 2
-            var x = window.frame.origin.x - windowCenter + window.frame.width/2
-            let y = window.frame.origin.y - popup.contentView!.intrinsicContentSize.height - 3
-            
-            let maxWidth = NSScreen.screens.map{ $0.frame.width }.reduce(0, +)
-            if x + popup.contentView!.intrinsicContentSize.width > maxWidth {
-                x = maxWidth - popup.contentView!.intrinsicContentSize.width - 3
+            presentAfterApplicationActivationIfNeeded(useLiquidGlass: useLiquidGlass) {
+                popup.contentView?.invalidateIntrinsicContentSize()
+                
+                let windowCenter = popup.contentView!.intrinsicContentSize.width / 2
+                var x = window.frame.origin.x - windowCenter + window.frame.width/2
+                let y = window.frame.origin.y - popup.contentView!.intrinsicContentSize.height - 3
+                
+                let maxWidth = NSScreen.screens.map{ $0.frame.width }.reduce(0, +)
+                if x + popup.contentView!.intrinsicContentSize.width > maxWidth {
+                    x = maxWidth - popup.contentView!.intrinsicContentSize.width - 3
+                }
+                
+                popup.setFrameOrigin(NSPoint(x: x, y: y))
+                popup.setIsVisible(true)
             }
-            
-            popup.setFrameOrigin(NSPoint(x: x, y: y))
-            popup.setIsVisible(true)
         } else {
             popup.setIsVisible(false)
         }

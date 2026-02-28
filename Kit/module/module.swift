@@ -268,21 +268,28 @@ open class Module {
         }
         
         if popup.occlusionState.rawValue == 8192 || reopen {
-            NSApplication.shared.activate(ignoringOtherApps: true)
+            let useLiquidGlass: Bool = {
+                if #available(macOS 26.0, *) {
+                    return Store.shared.bool(key: "liquidGlass_popup", defaultValue: false)
+                }
+                return false
+            }()
             
-            popup.contentView?.invalidateIntrinsicContentSize()
-            
-            let windowCenter = popup.contentView!.intrinsicContentSize.width / 2
-            var x = buttonOrigin.x - windowCenter + buttonCenter
-            let y = buttonOrigin.y - popup.contentView!.intrinsicContentSize.height - 3
-            
-            let maxWidth = NSScreen.screens.map{ $0.frame.width }.reduce(0, +)
-            if x + popup.contentView!.intrinsicContentSize.width > maxWidth {
-                x = maxWidth - popup.contentView!.intrinsicContentSize.width - 3
+            presentAfterApplicationActivationIfNeeded(useLiquidGlass: useLiquidGlass) {
+                popup.contentView?.invalidateIntrinsicContentSize()
+                
+                let windowCenter = popup.contentView!.intrinsicContentSize.width / 2
+                var x = buttonOrigin.x - windowCenter + buttonCenter
+                let y = buttonOrigin.y - popup.contentView!.intrinsicContentSize.height - 3
+                
+                let maxWidth = NSScreen.screens.map{ $0.frame.width }.reduce(0, +)
+                if x + popup.contentView!.intrinsicContentSize.width > maxWidth {
+                    x = maxWidth - popup.contentView!.intrinsicContentSize.width - 3
+                }
+                
+                popup.setFrameOrigin(NSPoint(x: x, y: y))
+                popup.setIsVisible(true)
             }
-            
-            popup.setFrameOrigin(NSPoint(x: x, y: y))
-            popup.setIsVisible(true)
         } else {
             popup.locked = false
             popup.openedBy = nil
