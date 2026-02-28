@@ -178,8 +178,9 @@ public class RAM: Module {
                     circle_segment(value: value.compressed/total, color: self.compressedColor)
                 ])
             case let widget as MemoryWidget:
-                let free = Units(bytes: Int64(value.free)).getReadableMemory(style: .memory)
-                let used = Units(bytes: Int64(value.used)).getReadableMemory(style: .memory)
+                let fractionDigits: Int? = widget.showDecimalsState ? nil : 0
+                let free = Units(bytes: Int64(value.free)).getReadableMemory(style: .memory, fractionDigits: fractionDigits)
+                let used = Units(bytes: Int64(value.used)).getReadableMemory(style: .memory, fractionDigits: fractionDigits)
                 widget.setValue((free, used), usedPercentage: value.usage)
                 widget.setPressure(value.pressure.value)
             case let widget as Tachometer:

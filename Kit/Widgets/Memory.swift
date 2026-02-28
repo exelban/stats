@@ -18,6 +18,7 @@ public class MemoryWidget: WidgetWrapper {
     private var pressureLevel: RAMPressure = .normal
     private var symbolsState: Bool = true
     private var colorState: SColor = .monochrome
+    public var showDecimalsState: Bool = true
     
     private let width: CGFloat = 50
     
@@ -52,6 +53,7 @@ public class MemoryWidget: WidgetWrapper {
             self.orderReversedState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_orderReversed", defaultValue: self.orderReversedState)
             self.symbolsState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_symbols", defaultValue: self.symbolsState)
             self.colorState = SColor.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_color", defaultValue: self.colorState.key))
+            self.showDecimalsState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_showDecimals", defaultValue: self.showDecimalsState)
         }
         
         if preview {
@@ -161,6 +163,10 @@ public class MemoryWidget: WidgetWrapper {
             PreferencesRow(localizedString("Reverse order"), component: switchView(
                 action: #selector(self.toggleOrder),
                 state: self.orderReversedState
+            )),
+            PreferencesRow(localizedString("Show decimals"), component: switchView(
+                action: #selector(self.toggleDecimals),
+                state: self.showDecimalsState
             ))
         ]))
         
@@ -179,6 +185,12 @@ public class MemoryWidget: WidgetWrapper {
         self.display()
     }
     
+    @objc private func toggleDecimals(_ sender: NSControl) {
+        self.showDecimalsState = controlState(sender)
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_showDecimals", value: self.showDecimalsState)
+        self.display()
+    }
+
     @objc private func toggleColor(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String else { return }
         if let newColor = SColor.allCases.first(where: { $0.key == key }) {

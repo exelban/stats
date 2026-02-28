@@ -191,17 +191,23 @@ public struct Units {
         }
     }
     
-    public func getReadableMemory(style: ByteCountFormatter.CountStyle = .file) -> String {
+    public func getReadableMemory(style: ByteCountFormatter.CountStyle = .file, fractionDigits: Int? = nil) -> String {
+        if let fractionDigits, fractionDigits == 0, abs(self.gigabytes) >= 1 {
+            let divisor: Double = style == .memory ? 1_073_741_824 : 1_000_000_000
+            let gb = Double(self.bytes) / divisor
+            return "\(Int(gb.rounded())) GB"
+        }
+
         let formatter: ByteCountFormatter = ByteCountFormatter()
         formatter.countStyle = style
         formatter.includesUnit = true
         formatter.isAdaptive = true
-        
+
         var value = formatter.string(fromByteCount: Int64(self.bytes))
         if let idx = value.lastIndex(of: ",") {
             value.replaceSubrange(idx...idx, with: ".")
         }
-        
+
         return value
     }
     
