@@ -41,13 +41,20 @@ internal class SensorsReader: Reader<Sensors_List> {
         self.list.sensors = self.sensors()
     }
     
-    private func sensors() -> [Sensor_p] {
+    public func sensors() -> [Sensor_p] {
         var available: [String] = SMC.shared.getAllKeys()
         var list: [Sensor_p] = []
         var sensorsList = SensorsList
         
         if let platform = SystemKit.shared.device.platform {
-            sensorsList = sensorsList.filter({ $0.platforms.contains(platform) })
+            // Replicate v2.11.66 behavior for M5 (where it was unrecognized/nil) 
+            // by skipping the strict platform filter.
+            if !Platform.m5Gen.contains(platform) {
+                let filtered = sensorsList.filter({ $0.platforms.contains(platform) })
+                if !filtered.isEmpty {
+                    sensorsList = filtered
+                }
+            }
         }
         
         if let count = SMC.shared.getValue("FNum") {
@@ -106,7 +113,9 @@ internal class SensorsReader: Reader<Sensors_List> {
         
         var results: [Sensor_p] = []
         results += list.filter({ (s: Sensor_p) -> Bool in
-            if s.type == .temperature && (s.value == 0 || s.value > 110) {
+            if s.type == .temperature && s.value > 110 {
+                return false
+            } else if s.type == .temperature && s.value == 0 && s.group == .unknown {
                 return false
             } else if s.type == .current && s.value > 100 {
                 return false
@@ -131,10 +140,6 @@ internal class SensorsReader: Reader<Sensors_List> {
             if !self.unknownSensorsState && self.list.sensors[i].group == .unknown { continue }
             
             var newValue = SMC.shared.getValue(self.list.sensors[i].key) ?? 0
-            if self.list.sensors[i].type == .temperature && self.list.sensors[i].group == .CPU &&
-                (newValue < 10 || newValue > 120) { // fix for m2 broken sensors
-                newValue = self.list.sensors[i].value
-            }
             self.list.sensors[i].value = newValue
         }
         
@@ -307,6 +312,7 @@ internal class SensorsReader: Reader<Sensors_List> {
     
     public func unknownCallback() {
         self.unknownSensorsState = Store.shared.bool(key: "Sensors_unknown", defaultValue: false)
+        self.list.sensors = self.sensors()
     }
 }
 
@@ -479,11 +485,7 @@ extension SensorsReader {
     }
     
     public func HIDCallback() {
-        if self.HIDState {
-            self.list.sensors += self.initHIDSensors()
-        } else {
-            self.list.sensors = self.list.sensors.filter({ $0.group != .hid })
-        }
+        self.list.sensors = self.sensors()
     }
 }
 
