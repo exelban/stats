@@ -208,7 +208,7 @@ public class Network: Module {
         self.settingsView.usageResetCallback = { [weak self] in
             self?.setUsageReset()
         }
-        self.settingsView.ICMPHostCallback = { [weak self] isDisabled in
+        self.settingsView.connectivityHostCallback = { [weak self] isDisabled in
             if isDisabled {
                 self?.popupView.resetConnectivityView()
                 self?.connectivityCallback(Network_Connectivity(status: false))
