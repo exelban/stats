@@ -49,6 +49,7 @@ internal class DevicesReader: Reader<[BLEDevice]>, CBCentralManagerDelegate, CBP
         let hid = self.HIDDevices()
         let SPB = self.profilerDevices()
         var list = self.cacheDevices()
+        let pmsetLevels = self.pmsetAccessoryLevels()
         
         hid.forEach { v in
             if !list.contains(where: {$0.address == v.address}) {
@@ -140,6 +141,43 @@ internal class DevicesReader: Reader<[BLEDevice]>, CBCentralManagerDelegate, CBP
         }
         if !SPB.1.isEmpty {
             self.devices = self.devices.filter({ !SPB.1.contains($0.address) })
+        }
+        
+        pmsetLevels.forEach { p in
+            let pmsetName = (p.name ?? "")
+                .trimmingCharacters(in: .whitespacesAndNewlines)
+                .lowercased()
+            
+            if !pmsetName.isEmpty,
+               let idx = self.devices.firstIndex(where: {
+                   $0.name.trimmingCharacters(in: .whitespacesAndNewlines).lowercased() == pmsetName
+               }) {
+                if !p.batteryLevel.isEmpty {
+                    self.devices[idx].batteryLevel = p.batteryLevel
+                }
+                return
+            }
+            
+            if !p.address.isEmpty,
+               let idx = self.devices.firstIndex(where: {
+                   !$0.address.isEmpty &&
+                   $0.address.caseInsensitiveCompare(p.address) == .orderedSame
+               }) {
+                if !p.batteryLevel.isEmpty {
+                    self.devices[idx].batteryLevel = p.batteryLevel
+                }
+                return
+            }
+            
+            self.devices.append(BLEDevice(
+                address: p.address,
+                name: p.name ?? "",
+                uuid: p.uuid,
+                RSSI: 100,
+                batteryLevel: p.batteryLevel,
+                isConnected: true,
+                isPaired: false
+            ))
         }
         
         self.callback(self.devices.filter({ $0.RSSI != nil }))
@@ -329,5 +367,126 @@ internal class DevicesReader: Reader<[BLEDevice]>, CBCentralManagerDelegate, CBP
         if let batteryLevel = characteristic.value?[0] {
             self.bleLevels[peripheral.identifier] = KeyValue_t(key: "battery", value: "\(batteryLevel)")
         }
+    }
+    
+    // MARK: - PMSET data
+    private func pmsetAccessoryLevels() -> [bleDevice] {
+        guard let res = process(path: "/usr/bin/pmset", arguments: ["-g", "accps"]) else { return [] }
+        
+        struct Entry {
+            let originalName: String
+            let normalizedName: String
+            let percent: Int
+            let id: String
+            let isCase: Bool
+            let state: String? // "charging" | "discharging"
+        }
+        
+        var grouped: [String: [Entry]] = [:]
+        var displayNameForGroup: [String: String] = [:]
+        
+        for raw in res.components(separatedBy: .newlines) {
+            let line = raw.trimmingCharacters(in: .whitespacesAndNewlines)
+            guard line.hasPrefix("-"), let tabIdx = line.firstIndex(of: "\t") else { continue }
+            
+            var namePart = String(line[line.index(after: line.startIndex)..<tabIdx]).trimmingCharacters(in: .whitespaces)
+            
+            var parsedID = ""
+            if let idMatch = namePart.range(of: #"(?<=\(id=)\d+(?=\))"#, options: .regularExpression) {
+                parsedID = String(namePart[idMatch])
+            }
+            if let idRange = namePart.range(of: #"\s*\(id=\d+\)$"#, options: .regularExpression) {
+                namePart.removeSubrange(idRange)
+            }
+            guard !namePart.isEmpty else { continue }
+            
+            let details = String(line[line.index(after: tabIdx)...]).trimmingCharacters(in: .whitespaces)
+            guard let first = details.split(separator: ";").first else { continue }
+            
+            let pctString = first.replacingOccurrences(of: "%", with: "").trimmingCharacters(in: .whitespaces)
+            guard let pct = Int(pctString) else { continue }
+            
+            let normalized = namePart.lowercased()
+            let isCase = normalized.contains("etui") || normalized.contains("case")
+            
+            if !isCase && details.range(of: #"\bremaining\b"#, options: .regularExpression) != nil {
+                continue
+            }
+            
+            let groupKey = normalized
+                .replacingOccurrences(of: #"^\s*(etui|case)\s+"#, with: "", options: .regularExpression)
+                .trimmingCharacters(in: .whitespaces)
+            
+            let state: String?
+            if details.range(of: #"\bcharging\b"#, options: .regularExpression) != nil {
+                state = "charging"
+            } else if details.range(of: #"\bdischarging\b"#, options: .regularExpression) != nil {
+                state = "discharging"
+            } else {
+                state = nil
+            }
+            
+            grouped[groupKey, default: []].append(Entry(
+                originalName: namePart,
+                normalizedName: normalized,
+                percent: pct,
+                id: parsedID,
+                isCase: isCase,
+                state: state
+            ))
+            
+            if displayNameForGroup[groupKey] == nil {
+                let display = namePart
+                    .replacingOccurrences(of: #"^\s*(?i:etui|case)\s+"#, with: "", options: .regularExpression)
+                    .trimmingCharacters(in: .whitespaces)
+                displayNameForGroup[groupKey] = display
+            }
+        }
+        
+        var out: [bleDevice] = []
+        
+        for (groupKey, entries) in grouped {
+            let displayName = displayNameForGroup[groupKey] ?? entries.first?.originalName ?? groupKey
+            var kv: [KeyValue_t] = []
+            
+            if entries.count == 1, let e = entries.first {
+                kv = [KeyValue_t(key: "battery", value: "\(e.percent)", additional: e.state)]
+            } else {
+                if let c = entries.first(where: { $0.isCase }) {
+                    kv.append(KeyValue_t(key: "case", value: "\(c.percent)", additional: c.state))
+                }
+                
+                let buds = entries
+                    .filter { !$0.isCase }
+                    .sorted { lhs, rhs in
+                        let li = Int(lhs.id) ?? Int.max
+                        let ri = Int(rhs.id) ?? Int.max
+                        if li != ri { return li < ri }
+                        return lhs.id < rhs.id
+                    }
+                
+                if buds.count >= 1 {
+                    kv.append(KeyValue_t(key: "first", value: "\(buds[0].percent)", additional: buds[0].state))
+                }
+                if buds.count >= 2 {
+                    kv.append(KeyValue_t(key: "second", value: "\(buds[1].percent)", additional: buds[1].state))
+                }
+                
+                if kv.isEmpty, let first = entries.first {
+                    kv = [KeyValue_t(key: "battery", value: "\(first.percent)", additional: first.state)]
+                }
+            }
+            
+            let mergedAddress = entries.map { $0.id }.sorted().joined(separator: "x")
+            
+            out.append(bleDevice(
+                name: displayName,
+                address: mergedAddress,
+                uuid: nil,
+                batteryLevel: kv
+            ))
+        }
+        
+        return out
     }
 }

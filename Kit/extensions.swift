@@ -15,6 +15,8 @@ import Carbon
 extension String: @retroactive LocalizedError {
     public var errorDescription: String? { return self }
     
+    public var nilIfEmpty: String? { self.isEmpty ? nil : self }
+    
     public var digits: String {
         return components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
     }

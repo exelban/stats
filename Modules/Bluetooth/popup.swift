@@ -113,6 +113,11 @@ internal class BLEView: NSStackView {
         batteryLevel.forEach { (pair: KeyValue_t) in
             if let view = self.levels.first(where: { $0.identifier?.rawValue == pair.key }) {
                 view.stringValue = "\(pair.value)%"
+                if let additional = pair.additional as? String {
+                    view.toolTip = "\(pair.key) - \(additional)"
+                } else {
+                    view.toolTip = pair.key
+                }
             } else {
                 self.addLevel(pair)
             }
@@ -124,7 +129,11 @@ internal class BLEView: NSStackView {
         valueView.identifier = NSUserInterfaceItemIdentifier(rawValue: pair.key)
         valueView.font = NSFont.systemFont(ofSize: 12, weight: .regular)
         valueView.stringValue = "\(pair.value)%"
-        valueView.toolTip = pair.key
+        if let additional = pair.additional as? String {
+            valueView.toolTip = "\(pair.key) - \(additional)"
+        } else {
+            valueView.toolTip = pair.key
+        }
         self.addArrangedSubview(valueView)
         self.levels.append(valueView)
     }
