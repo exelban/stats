@@ -312,6 +312,7 @@ private class WidgetSelectorView: NSStackView {
     private var background: NSVisualEffectView = {
         let view = NSVisualEffectView(frame: NSRect.zero)
         view.blendingMode = .withinWindow
+        view.translatesAutoresizingMaskIntoConstraints = false
         if #available(macOS 26.0, *) {
             view.material = .titlebar
         } else {
@@ -386,7 +387,8 @@ private class WidgetSelectorView: NSStackView {
         NSLayoutConstraint.activate([
             self.heightAnchor.constraint(equalToConstant: Constants.Widget.height + (Constants.Settings.margin*2)),
             separator.widthAnchor.constraint(equalToConstant: 1),
-            separator.heightAnchor.constraint(equalTo: self.heightAnchor, constant: -18)
+            separator.heightAnchor.constraint(equalTo: self.heightAnchor, constant: -18),
+            self.background.widthAnchor.constraint(equalTo: self.widthAnchor)
         ])
     }
     

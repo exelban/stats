@@ -17,7 +17,8 @@ public extension NSToolbarItem.Identifier {
 }
 
 class SettingsWindow: NSWindow, NSWindowDelegate, NSToolbarDelegate {
-    static let size: CGSize = CGSize(width: 720, height: 480)
+    private static let size: CGSize = CGSize(width: 720, height: 480)
+    private static let frameAutosaveName = "eu.exelban.Stats.Settings.WindowFrame"
     
     private let mainView: MainView = MainView(frame: NSRect(x: 0, y: 0, width: 540, height: 480))
     private let sidebarView: SidebarView = SidebarView(frame: NSRect(x: 0, y: 0, width: 180, height: 480))
@@ -28,9 +29,7 @@ class SettingsWindow: NSWindow, NSWindowDelegate, NSToolbarDelegate {
     private var toggleButton: NSControl? = nil
     private var activeModuleName: String? = nil
     
-    private var pauseState: Bool {
-        Store.shared.bool(key: "pause", defaultValue: false)
-    }
+    private var pauseState: Bool { Store.shared.bool(key: "pause", defaultValue: false) }
     
     init() {
         super.init(
@@ -40,7 +39,7 @@ class SettingsWindow: NSWindow, NSWindowDelegate, NSToolbarDelegate {
                 width: SettingsWindow.size.width,
                 height: SettingsWindow.size.height
             ),
-            styleMask: [.closable, .titled, .miniaturizable, .fullSizeContentView],
+            styleMask: [.closable, .titled, .miniaturizable, .fullSizeContentView, .resizable],
             backing: .buffered,
             defer: false
         )
@@ -61,6 +60,8 @@ class SettingsWindow: NSWindow, NSWindowDelegate, NSToolbarDelegate {
         sidebarViewController.addSplitViewItem(sidebarItem)
         sidebarViewController.addSplitViewItem(contentItem)
         
+        contentItem.minimumThickness = 540
+        
         let newToolbar = NSToolbar(identifier: "eu.exelban.Stats.Settings.Toolbar")
         newToolbar.allowsUserCustomization = false
         newToolbar.autosavesConfiguration = true
@@ -74,19 +75,17 @@ class SettingsWindow: NSWindow, NSWindowDelegate, NSToolbarDelegate {
         if #unavailable(macOS 26.0) {
             self.backgroundColor = .clear
         }
-        self.positionCenter()
+        self.isRestorable = true
+        self.setFrameAutosaveName(SettingsWindow.frameAutosaveName)
+        if !self.setFrameUsingName(SettingsWindow.frameAutosaveName) {
+            self.positionCenter()
+        }
         self.setIsVisible(false)
+        self.minSize = NSSize(width: SettingsWindow.size.width, height: SettingsWindow.size.height-Constants.Popup.headerHeight)
         
         let windowController = NSWindowController()
         windowController.window = self
         windowController.loadWindow()
-        
-        NSLayoutConstraint.activate([
-            self.mainView.widthAnchor.constraint(equalToConstant: 540),
-            self.mainView.container.widthAnchor.constraint(equalToConstant: 540),
-            self.mainView.container.topAnchor.constraint(equalTo: (self.contentLayoutGuide as! NSLayoutGuide).topAnchor),
-            self.mainView.container.bottomAnchor.constraint(equalTo: (self.contentLayoutGuide as! NSLayoutGuide).bottomAnchor)
-        ])
         
         NotificationCenter.default.addObserver(self, selector: #selector(menuCallback), name: .openModuleSettings, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(toggleSettingsHandler), name: .toggleSettings, object: nil)
@@ -121,30 +120,16 @@ class SettingsWindow: NSWindow, NSWindowDelegate, NSToolbarDelegate {
     func toolbar(_ toolbar: NSToolbar, itemForItemIdentifier itemIdentifier: NSToolbarItem.Identifier, willBeInsertedIntoToolbar flag: Bool) -> NSToolbarItem? {
         switch itemIdentifier {
         case .toggleButton:
-            var toggleBtn: NSControl = NSControl()
-            if #available(OSX 10.15, *) {
-                let switchButton = NSSwitch()
-                switchButton.state = .on
-                switchButton.action = #selector(self.toggleEnable)
-                switchButton.target = self
-                switchButton.controlSize = .small
-                toggleBtn = switchButton
-            } else {
-                let button: NSButton = NSButton()
-                button.setButtonType(.switch)
-                button.state = .on
-                button.title = ""
-                button.action = #selector(self.toggleEnable)
-                button.isBordered = false
-                button.isTransparent = false
-                button.target = self
-                toggleBtn = button
-            }
-            self.toggleButton = toggleBtn
+            let switchButton = NSSwitch()
+            switchButton.state = .on
+            switchButton.action = #selector(self.toggleEnable)
+            switchButton.target = self
+            switchButton.controlSize = .small
+            self.toggleButton = switchButton
             
             let toolbarItem = NSToolbarItem(itemIdentifier: itemIdentifier)
             toolbarItem.toolTip = localizedString("Toggle the module")
-            toolbarItem.view = toggleBtn
+            toolbarItem.view = switchButton
             toolbarItem.isBordered = false
             
             return toolbarItem
@@ -232,22 +217,21 @@ class SettingsWindow: NSWindow, NSWindowDelegate, NSToolbarDelegate {
 // MARK: - MainView
 
 private class MainView: NSView {
-    fileprivate let container: NSStackView
+    fileprivate let container: NSStackView = NSStackView()
     
     override init(frame: NSRect) {
-        self.container = NSStackView(frame: NSRect(x: 0, y: 0, width: frame.width, height: frame.height))
-        
-        let foreground = NSVisualEffectView(frame: NSRect(x: 0, y: 0, width: frame.width, height: frame.height))
-        foreground.blendingMode = .withinWindow
-        foreground.material = .windowBackground
-        foreground.state = .active
-        
         super.init(frame: NSRect.zero)
         
         self.container.translatesAutoresizingMaskIntoConstraints = false
         
-        self.addSubview(foreground, positioned: .below, relativeTo: .none)
         self.addSubview(self.container)
+        
+        NSLayoutConstraint.activate([
+            self.container.leadingAnchor.constraint(equalTo: leadingAnchor),
+            self.container.trailingAnchor.constraint(equalTo: trailingAnchor),
+            self.container.topAnchor.constraint(equalTo: topAnchor, constant: Constants.Popup.headerHeight*1.4),
+            self.container.bottomAnchor.constraint(equalTo: bottomAnchor)
+        ])
     }
     
     required init?(coder: NSCoder) {
