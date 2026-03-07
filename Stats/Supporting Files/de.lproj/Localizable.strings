@@ -189,7 +189,7 @@
 // Widgets
 "Color" = "Farbe";
 "Label" = "Beschriftung";
-"Box" = "Box";
+"Box" = "Karton"; // translategemma:4b
 "Frame" = "Rahmen";
 "Value" = "Wert";
 "Colorize" = "Einfärben";
@@ -210,7 +210,7 @@
 "Stack widget" = "Stapel";
 "Memory widget" = "Speicher";
 "Static width" = "Feste Breite";
-"Tachometer widget" = "Tachometer";
+"Tachometer widget" = "Drehzahlmesser"; // translategemma:4b
 "State widget" = "Status-Widget";
 "Text widget" = "Text-Widget";
 "Battery details widget" = "Batteriedetails-Widget";
@@ -237,7 +237,7 @@
 "Pictogram" = "Piktogramm";
 "Module" = "Modul";
 "Widgets" = "Widgets";
-"Popup" = "Popup";
+"Popup" = "Pop-up"; // translategemma:4b
 "Notifications" = "Benachrichtigungen";
 "Merge widgets" = "Widgets zusammenführen";
 "No available widgets to configure" = "Keine Widgets zum Konfigurieren verfügbar";
@@ -373,8 +373,8 @@
 "Sensor to show" = "Anzuzeigender Sensor";
 
 // Network
-"Uploading" = "Upload";
-"Downloading" = "Download";
+"Uploading" = "Hochladen"; // translategemma:4b
+"Downloading" = "Herunterladen"; // translategemma:4b
 "Public IP" = "Öffentliche IP";
 "Local IP" = "Lokale IP";
 "Interface" = "Schnittstelle";
@@ -412,8 +412,8 @@
 "Network activity" = "Netzwerkaktivität";
 "Last reset" = "Letzte Zurücksetzung vor %0";
 "Latency" = "Latenz";
-"Upload speed" = "Upload";
-"Download speed" = "Download";
+"Upload speed" = "Hochladen"; // translategemma:4b
+"Download speed" = "Herunterladen"; // translategemma:4b
 "Address" = "Adresse";
 "WiFi network" = "WLAN-Netzwerk";
 "Local IP changed" = "Lokale IP hat sich geändert";
@@ -471,7 +471,7 @@
 "Time zone" = "Zeitzone";
 "Local" = "Lokal";
 "Calendar" = "Kalender";
-"Show week numbers" = "Show week numbers";
+"Show week numbers" = "Zeige die Wochennummern"; // translategemma:4b
 "Local time" = "Ortszeit";
 "Add new clock" = "Neue Uhr hinzufügen";
 "Delete selected clock" = "Ausgewählte Uhr löschen";

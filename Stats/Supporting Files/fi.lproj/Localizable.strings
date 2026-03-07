@@ -12,7 +12,7 @@
 // Modules
 "CPU" = "CPU";
 "Open CPU settings" = "Avaa CPU asetukset";
-"GPU" = "GPU";
+"GPU" = "Näytönohjain"; // translategemma:4b
 "Open GPU settings" = "Avaa GPU asetukset";
 "RAM" = "RAM";
 "Open RAM settings" = "Avaa RAM asetukset";
@@ -75,7 +75,7 @@
 "Name" = "Nimi";
 "Format" = "Muoto";
 "Turn off" = "Sammuta";
-"Normal" = "Normal";
+"Normal" = "Normaali"; // translategemma:4b
 "Warning" = "Varoitus";
 "Critical" = "Kriittinen";
 "Usage" = "Käyttö";
@@ -84,22 +84,22 @@
 "10 minutes" = "10 minuuttia";
 "Import" = "Tuo";
 "Export" = "Vie";
-"Separator" = "Separator";
-"Read" = "Read";
-"Write" = "Write";
-"Frequency" = "Frequency";
-"Save" = "Save";
-"Run" = "Run";
-"Stop" = "Stop";
-"Uninstall" = "Uninstall";
-"1 sec" = "1 sec";
-"2 sec" = "2 sec";
-"3 sec" = "3 sec";
-"5 sec" = "5 sec";
-"10 sec" = "10 sec";
-"15 sec" = "15 sec";
-"30 sec" = "30 sec";
-"60 sec" = "60 sec";
+"Separator" = "Erotin"; // translategemma:4b
+"Read" = "Lue"; // translategemma:4b
+"Write" = "Kirjoita"; // translategemma:4b
+"Frequency" = "Taajuus"; // translategemma:4b
+"Save" = "Tallenna"; // translategemma:4b
+"Run" = "Juokse"; // translategemma:4b
+"Stop" = "Pysäytä"; // translategemma:4b
+"Uninstall" = "Poista asennus"; // translategemma:4b
+"1 sec" = "1 sekunti"; // translategemma:4b
+"2 sec" = "2 sekuntia"; // translategemma:4b
+"3 sec" = "3 sekuntia"; // translategemma:4b
+"5 sec" = "5 sekuntia"; // translategemma:4b
+"10 sec" = "10 sekuntia"; // translategemma:4b
+"15 sec" = "15 sekuntia"; // translategemma:4b
+"30 sec" = "30 sekuntia"; // translategemma:4b
+"60 sec" = "60 sekuntia"; // translategemma:4b
 
 // Setup
 "Stats Setup" = "Stats asennus";
@@ -141,8 +141,8 @@
 "Open application settings" = "Avaa sovelluksen asetukset";
 "Open dashboard" = "Avaa kojelauta";
 "No notifications available in this module" = "Ei ilmoituksia tässä moduulissa";
-"Open Calendar" = "Open Calendar";
-"Toggle the module" = "Toggle the module";
+"Open Calendar" = "Avaa kalenteri"; // translategemma:4b
+"Toggle the module" = "Ota moduuli käyttöön/poista käytöstä"; // translategemma:4b
 
 // Application settings
 "Update application" = "Päivitä sovellus";
@@ -163,10 +163,10 @@
 "Resume the Stats" = "Jatka Statsin käyttöä";
 "Combined modules" = "Yhdistetyt moduulit";
 "Combined details" = "Yhdistetyt tiedot";
-"Spacing" = "Spacing";
+"Spacing" = "Rivien väli"; // translategemma:4b
 "Share anonymous telemetry" = "Jaa anonyymi telemetria";
-"Choose file" = "Choose file";
-"Stress tests" = "Stress tests";
+"Choose file" = "Valitse tiedosto"; // translategemma:4b
+"Stress tests" = "Stressitestit"; // translategemma:4b
 
 // Dashboard
 "Serial number" = "Sarjanumero";
@@ -177,8 +177,8 @@
 "Number of threads" = "%0 säiettä";
 "Number of e-cores" = "%0 e-ydintä";
 "Number of p-cores" = "%0 p-ydintä";
-"Disks" = "Disks";
-"Display" = "Display";
+"Disks" = "Levyt"; // translategemma:4b
+"Display" = "Näyttö"; // translategemma:4b
 
 // Update
 "The latest version of Stats installed" = "Stats on päivitetty viimeisimpään versioon";
@@ -200,7 +200,7 @@
 "Display mode" = "Näyttötila";
 "One row" = "Yksi rivi";
 "Two rows" = "Kaksi riviä";
-"Mini widget" = "Mini";
+"Mini widget" = "Pieni"; // translategemma:4b
 "Line chart widget" = "Viivakaavio";
 "Bar chart widget" = "Pylväskaavio";
 "Pie chart widget" = "Ympyräkaavio";
@@ -212,8 +212,8 @@
 "Static width" = "Staattinen leveys";
 "Tachometer widget" = "Tachometri";
 "State widget" = "Tila";
-"Text widget" = "Text widget";
-"Battery details widget" = "Battery details widget";
+"Text widget" = "Tekstikomponentti"; // translategemma:4b
+"Battery details widget" = "Akun tiedot -widget"; // translategemma:4b
 "Show symbols" = "Näytä symbolit";
 "Label widget" = "Tunniste";
 "Number of reads in the chart" = "Lukukertojen määrä kaaviossa";
@@ -244,8 +244,8 @@
 "No options to configure for the popup in this module" = "Ei muokattavia asetuksia tälle moduulille";
 "Process" = "Prosessi";
 "Kill process" = "Lopeta prosessi";
-"Keyboard shortcut" = "Keyboard shortcut";
-"Listening..." = "Listening...";
+"Keyboard shortcut" = "Näppäimistön yhdistelmä"; // translategemma:4b
+"Listening..." = "Kuuntelen…"; // translategemma:4b
 
 // Modules
 "Number of top processes" = "Suosittujen prosessien määrä";
@@ -254,7 +254,7 @@
 "Chart color" = "Kaavion väri";
 "Main chart scaling" = "Pääkaavion skaalaus";
 "Scale value" = "Skaalausarvo";
-"Text widget value" = "Text widget value";
+"Text widget value" = "Tekstikomponentin arvo"; // translategemma:4b
 
 // CPU
 "CPU usage" = "Suorittimen käyttö";
@@ -287,7 +287,7 @@
 "User load" = "Käyttäjäkuorma";
 "Efficiency cores load" = "Tehokkuusytimien kuorma";
 "Performance cores load" = "Suorituskykyytimien kuorma";
-"All cores" = "All cores";
+"All cores" = "Kaikki ytimet"; // translategemma:4b
 
 // GPU
 "GPU to show" = "Näytettävä GPU";
@@ -347,8 +347,8 @@
 "Total written" = "Kirjoitettu yhteensä";
 "Write speed" = "Kirjoitusnopeus";
 "Read speed" = "Lukunopeus";
-"Drives" = "Drives";
-"SMART data" = "SMART data";
+"Drives" = "Voimansiirrot"; // translategemma:4b
+"SMART data" = "SMART-data"; // translategemma:4b
 
 // Sensors
 "Temperature unit" = "Lämpötilan yksikkö";
@@ -370,7 +370,7 @@
 "Left fan" = "Vasen tuuletin";
 "Right fan" = "Oikea tuuletin";
 "Fastest fan" = "Nopein tuuletin";
-"Sensor to show" = "Sensor to show";
+"Sensor to show" = "Anturi, joka näyttää"; // translategemma:4b
 
 // Network
 "Uploading" = "Lähetys";
@@ -414,14 +414,14 @@
 "Latency" = "Viive";
 "Upload speed" = "Lähetysnopeus";
 "Download speed" = "Latausnopeus";
-"Address" = "Address";
-"WiFi network" = "WiFi network";
-"Local IP changed" = "Local IP has changed";
-"Public IP changed" = "Public IP has changed";
-"Previous IP" = "Previous IP: %0";
-"New IP" = "New IP: %0";
-"Internet connection lost" = "Internet connection lost";
-"Internet connection established" = "Internet connection established";
+"Address" = "Osoite"; // translategemma:4b
+"WiFi network" = "Wi-Fi-verkko"; // translategemma:4b
+"Local IP changed" = "Paikallinen IP-osoite on muuttunut"; // translategemma:4b
+"Public IP changed" = "Julkinen IP-osoite on muuttunut"; // translategemma:4b
+"Previous IP" = "Edellinen IP-osoite: %0"; // translategemma:4b
+"New IP" = "Uusi IP-osoite: %0"; // translategemma:4b
+"Internet connection lost" = "Internet-yhteys katkennut"; // translategemma:4b
+"Internet connection established" = "Internet-yhteys muodostettu"; // translategemma:4b
 
 // Battery
 "Level" = "Taso";
@@ -461,7 +461,7 @@
 "Colorize battery" = "Värjää akku";
 "Charging current" = "Latausvirta";
 "Charging Voltage" = "Latausjännite";
-"Charger state inside the battery" = "Charger state inside the battery";
+"Charger state inside the battery" = "Latauksen tila akun sisällä"; // translategemma:4b
 
 // Bluetooth
 "Battery to show" = "Näytettävä akku";
@@ -471,11 +471,11 @@
 "Time zone" = "Aikavyöhyke";
 "Local" = "Paikallinen";
 "Calendar" = "Kalenteri";
-"Show week numbers" = "Show week numbers";
+"Show week numbers" = "Näytä viikonumerot"; // translategemma:4b
 "Local time" = "Paikallinen aika";
-"Add new clock" = "Add new clock";
-"Delete selected clock" = "Delete selected clock";
-"Help with datetime format" = "Help with datetime format";
+"Add new clock" = "Lisää uusi kello"; // translategemma:4b
+"Delete selected clock" = "Poista valittu kellonaika"; // translategemma:4b
+"Help with datetime format" = "Apua päivämäärän ja ajan muotoilussa"; // translategemma:4b
 
 // Colors
 "Based on utilization" = "Perustuu käyttöasteeseen";

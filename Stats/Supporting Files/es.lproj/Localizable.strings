@@ -65,7 +65,7 @@
 "Units" = "Unidades";
 "Fans" = "Ventiladores";
 "Scaling" = "Escala";
-"Linear" = "Linear";
+"Linear" = "Lineal"; // translategemma:4b
 "Square" = "Cuadrática";
 "Cube" = "Cúbica";
 "Logarithmic" = "Logarítmica";
@@ -88,18 +88,18 @@
 "Read" = "Lectura";
 "Write" = "Escritura";
 "Frequency" = "Frecuencia";
-"Save" = "Save";
-"Run" = "Run";
-"Stop" = "Stop";
-"Uninstall" = "Uninstall";
-"1 sec" = "1 sec";
-"2 sec" = "2 sec";
-"3 sec" = "3 sec";
-"5 sec" = "5 sec";
-"10 sec" = "10 sec";
-"15 sec" = "15 sec";
-"30 sec" = "30 sec";
-"60 sec" = "60 sec";
+"Save" = "Guardar"; // translategemma:4b
+"Run" = "Ejecutar"; // translategemma:4b
+"Stop" = "Detener"; // translategemma:4b
+"Uninstall" = "Desinstalar"; // translategemma:4b
+"1 sec" = "1 segundo"; // translategemma:4b
+"2 sec" = "2 segundos"; // translategemma:4b
+"3 sec" = "3 segundos"; // translategemma:4b
+"5 sec" = "5 segundos"; // translategemma:4b
+"10 sec" = "10 segundos"; // translategemma:4b
+"15 sec" = "15 segundos"; // translategemma:4b
+"30 sec" = "30 segundos"; // translategemma:4b
+"60 sec" = "60 segundos"; // translategemma:4b
 
 // Setup
 "Stats Setup" = "Configuración de Stats";
@@ -141,8 +141,8 @@
 "Open application settings" = "Abrir la configuración de la aplicación";
 "Open dashboard" = "Abrir panel";
 "No notifications available in this module" = "No hay notificaciones disponibles para este módulo";
-"Open Calendar" = "Open Calendar";
-"Toggle the module" = "Toggle the module";
+"Open Calendar" = "Abrir calendario"; // translategemma:4b
+"Toggle the module" = "Activar/desactivar el módulo"; // translategemma:4b
 
 // Application settings
 "Update application" = "Actualizar la aplicación";
@@ -162,11 +162,11 @@
 "Pause the Stats" = "Pausar Stats";
 "Resume the Stats" = "Reanudar Stats";
 "Combined modules" = "Combinar módulos";
-"Combined details" = "Combined details";
+"Combined details" = "Detalles combinados"; // translategemma:4b
 "Spacing" = "Espaciado";
 "Share anonymous telemetry" = "Compartir telemetría anónima";
-"Choose file" = "Choose file";
-"Stress tests" = "Stress tests";
+"Choose file" = "Seleccionar archivo"; // translategemma:4b
+"Stress tests" = "Pruebas de estrés"; // translategemma:4b
 
 // Dashboard
 "Serial number" = "Número de serie";
@@ -177,8 +177,8 @@
 "Number of threads" = "Número de hilos";
 "Number of e-cores" = "Número de núcleos de eficiencia";
 "Number of p-cores" = "Número de núcleos de rendimiento";
-"Disks" = "Disks";
-"Display" = "Display";
+"Disks" = "Discos"; // translategemma:4b
+"Display" = "Pantalla"; // translategemma:4b
 
 // Update
 "The latest version of Stats installed" = "La última versión de Stats está instalada";
@@ -212,8 +212,8 @@
 "Static width" = "Ancho fijo";
 "Tachometer widget" = "Tacómetro";
 "State widget" = "Estado";
-"Text widget" = "Text widget";
-"Battery details widget" = "Battery details widget";
+"Text widget" = "Control de texto"; // translategemma:4b
+"Battery details widget" = "Widget de detalles de la batería"; // translategemma:4b
 "Show symbols" = "Mostrar símbolos";
 "Label widget" = "Etiqueta";
 "Number of reads in the chart" = "Número de lecturas en la gráfica";
@@ -244,8 +244,8 @@
 "No options to configure for the popup in this module" = "No hay opciones que configurar para la ventana emergente de este módulo";
 "Process" = "Proceso";
 "Kill process" = "Cierra el proceso";
-"Keyboard shortcut" = "Keyboard shortcut";
-"Listening..." = "Listening...";
+"Keyboard shortcut" = "Atajo de teclado"; // translategemma:4b
+"Listening..." = "Escuchando..."; // translategemma:4b
 
 // Modules
 "Number of top processes" = "Número de procesos principales";
@@ -254,7 +254,7 @@
 "Chart color" = "Color de la gráfica";
 "Main chart scaling" = "Escalado del gráfico principal";
 "Scale value" = "Valor de la escala";
-"Text widget value" = "Text widget value";
+"Text widget value" = "Valor del widget de texto"; // translategemma:4b
 
 // CPU
 "CPU usage" = "Uso de la CPU";
@@ -315,7 +315,7 @@
 "Memory pressure" = "Presión de la memoria";
 "Total" = "Total";
 "Used" = "Usado";
-"App" = "App";
+"App" = "Aplicación"; // translategemma:4b
 "Wired" = "Física";
 "Compressed" = "Comprimida";
 "Free" = "Libre";
@@ -348,7 +348,7 @@
 "Write speed" = "Velocidad de escritura";
 "Read speed" = "Velocidad de lectura";
 "Drives" = "Unidades";
-"SMART data" = "SMART data";
+"SMART data" = "Datos SMART"; // translategemma:4b
 
 // Sensors
 "Temperature unit" = "Unidad de temperatura";
@@ -414,14 +414,14 @@
 "Latency" = "Latencia";
 "Upload speed" = "Velocidad de carga";
 "Download speed" = "Velocidad de descarga";
-"Address" = "Address";
-"WiFi network" = "WiFi network";
-"Local IP changed" = "Local IP has changed";
-"Public IP changed" = "Public IP has changed";
-"Previous IP" = "Previous IP: %0";
-"New IP" = "New IP: %0";
-"Internet connection lost" = "Internet connection lost";
-"Internet connection established" = "Internet connection established";
+"Address" = "Dirección"; // translategemma:4b
+"WiFi network" = "Red Wi-Fi"; // translategemma:4b
+"Local IP changed" = "La dirección IP local ha cambiado."; // translategemma:4b
+"Public IP changed" = "La dirección IP pública ha cambiado."; // translategemma:4b
+"Previous IP" = "Dirección IP anterior: %0"; // translategemma:4b
+"New IP" = "Nueva dirección IP: %0"; // translategemma:4b
+"Internet connection lost" = "Se ha perdido la conexión a Internet."; // translategemma:4b
+"Internet connection established" = "Conexión a Internet establecida"; // translategemma:4b
 
 // Battery
 "Level" = "Nivel";
@@ -471,11 +471,11 @@
 "Time zone" = "Zona horaria";
 "Local" = "Local";
 "Calendar" = "Calendario";
-"Show week numbers" = "Show week numbers";
+"Show week numbers" = "Mostrar los números de la semana"; // translategemma:4b
 "Local time" = "Hora local";
-"Add new clock" = "Add new clock";
-"Delete selected clock" = "Delete selected clock";
-"Help with datetime format" = "Help with datetime format";
+"Add new clock" = "Añadir un nuevo reloj"; // translategemma:4b
+"Delete selected clock" = "Eliminar reloj seleccionado"; // translategemma:4b
+"Help with datetime format" = "Ayuda con el formato de fecha y hora"; // translategemma:4b
 
 // Colors
 "Based on utilization" = "Basado en utilización";

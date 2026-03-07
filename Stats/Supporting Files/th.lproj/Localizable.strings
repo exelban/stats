@@ -10,9 +10,9 @@
 //
 
 // Modules
-"CPU" = "CPU";
+"CPU" = "ซีพียู"; // translategemma:4b
 "Open CPU settings" = "เปิดการตั้งค่า CPU";
-"GPU" = "GPU";
+"GPU" = "หน่วยประมวลผลกราฟิก (GPU)"; // translategemma:4b
 "Open GPU settings" = "เปิดการตั้งค่า GPU";
 "RAM" = "RAM";
 "Open RAM settings" = "เปิดการตั้งค่า RAM";
@@ -26,8 +26,8 @@
 "Open Battery settings" = "เปิดการตั้งค่าแบตเตอรี่";
 "Bluetooth" = "บลูทูธ";
 "Open Bluetooth settings" = "เปิดการตั้งค่าบลูทูธ";
-"Clock" = "Clock";
-"Open Clock settings" = "Open clock settings";
+"Clock" = "นาฬิกา"; // translategemma:4b
+"Open Clock settings" = "เปิดการตั้งค่านาฬิกา"; // translategemma:4b
 
 // Words
 "Unknown" = "ไม่ทราบที่มา";
@@ -69,37 +69,37 @@
 "Square" = "สี่เหลี่ยม";
 "Cube" = "ลูกบาศก์";
 "Logarithmic" = "ลอการิทึม";
-"Fixed scale" = "Fixed";
+"Fixed scale" = "แก้ไขแล้ว"; // translategemma:4b
 "Cores" = "หน่วยความจำ";
 "Settings" = "การตั้งค่า";
-"Name" = "Name";
-"Format" = "Format";
-"Turn off" = "Turn off";
-"Normal" = "Normal";
-"Warning" = "Warning";
-"Critical" = "Critical";
-"Usage" = "Usage";
-"2 minutes" = "2 minutes";
-"3 minutes" = "3 minutes";
-"10 minutes" = "10 minutes";
-"Import" = "Import";
-"Export" = "Export";
-"Separator" = "Separator";
-"Read" = "Read";
-"Write" = "Write";
-"Frequency" = "Frequency";
-"Save" = "Save";
-"Run" = "Run";
-"Stop" = "Stop";
-"Uninstall" = "Uninstall";
-"1 sec" = "1 sec";
-"2 sec" = "2 sec";
-"3 sec" = "3 sec";
-"5 sec" = "5 sec";
-"10 sec" = "10 sec";
-"15 sec" = "15 sec";
-"30 sec" = "30 sec";
-"60 sec" = "60 sec";
+"Name" = "ชื่อ"; // translategemma:4b
+"Format" = "รูปแบบ"; // translategemma:4b
+"Turn off" = "ปิด"; // translategemma:4b
+"Normal" = "ปกติ"; // translategemma:4b
+"Warning" = "คำเตือน"; // translategemma:4b
+"Critical" = "สำคัญ"; // translategemma:4b
+"Usage" = "การใช้งาน"; // translategemma:4b
+"2 minutes" = "2 นาที"; // translategemma:4b
+"3 minutes" = "3 นาที"; // translategemma:4b
+"10 minutes" = "10 นาที"; // translategemma:4b
+"Import" = "นำเข้า"; // translategemma:4b
+"Export" = "ส่งออก"; // translategemma:4b
+"Separator" = "ตัวแบ่ง"; // translategemma:4b
+"Read" = "อ่าน"; // translategemma:4b
+"Write" = "เขียน"; // translategemma:4b
+"Frequency" = "ความถี่"; // translategemma:4b
+"Save" = "บันทึก"; // translategemma:4b
+"Run" = "รัน"; // translategemma:4b
+"Stop" = "หยุด"; // translategemma:4b
+"Uninstall" = "ถอนการติดตั้ง"; // translategemma:4b
+"1 sec" = "1 วินาที"; // translategemma:4b
+"2 sec" = "2 วินาที"; // translategemma:4b
+"3 sec" = "3 วินาที"; // translategemma:4b
+"5 sec" = "5 วินาที"; // translategemma:4b
+"10 sec" = "10 วินาที"; // translategemma:4b
+"15 sec" = "15 วินาที"; // translategemma:4b
+"30 sec" = "30 วินาที"; // translategemma:4b
+"60 sec" = "60 วินาที"; // translategemma:4b
 
 // Setup
 "Stats Setup" = "การตั้งค่าสถิติ";
@@ -119,9 +119,9 @@
 "Check for a new version every week (once a week)" = "ตรวจสอบเวอร์ชันใหม่ทุกสัปดาห์ (สัปดาห์ละครั้ง)";
 "Check for a new version every month (once a month)" = "ตรวจสอบเวอร์ชันใหม่ทุกเดือน (เดือนละครั้ง)";
 "Never check for updates (not recommended)" = "ไม่เช็คการอัปเดต (ไม่แนะนำ)";
-"Anonymous telemetry for better development decisions" = "Anonymous telemetry for better development decisions";
-"Share anonymous telemetry data" = "Share anonymous telemetry data";
-"Do not share anonymous telemetry data" = "Do not share anonymous telemetry data";
+"Anonymous telemetry for better development decisions" = "ข้อมูล telemetry ที่ไม่ระบุชื่อ เพื่อการตัดสินใจในการพัฒนาที่ดีขึ้น"; // translategemma:4b
+"Share anonymous telemetry data" = "แบ่งปันข้อมูล telemetry ที่ไม่ระบุตัวตน"; // translategemma:4b
+"Do not share anonymous telemetry data" = "ห้ามเปิดเผยข้อมูล telemetry ที่ไม่ระบุตัวตน"; // translategemma:4b
 "The configuration is completed" = "การกำหนดค่าเสร็จสมบูรณ์";
 "finish_setup_message" = "ทุกอย่างถูกตั้งค่า! \n Stats เป็นเครื่องมือโอเพ่นซอร์สที่ฟรีและจะเป็นแบบนี้ตลอดไป \n ถ้าคุณชอบ คุณสามารถสนับสนุนโปรเจคนี้ เราพร้อมรับและขอบคุณเสมอ!";
 
@@ -140,9 +140,9 @@
 "Close application" = "ปิดแอปพลิเคชัน";
 "Open application settings" = "เปิดการตั้งค่าแอปพลิเคชัน";
 "Open dashboard" = "เปิดแดชบอร์ด";
-"No notifications available in this module" = "No notifications available in this module";
-"Open Calendar" = "Open Calendar";
-"Toggle the module" = "Toggle the module";
+"No notifications available in this module" = "ไม่มีการแจ้งเตือนใด ๆ ในโมดูลนี้"; // translategemma:4b
+"Open Calendar" = "เปิดปฏิทิน"; // translategemma:4b
+"Toggle the module" = "เปิด/ปิดโมดูล"; // translategemma:4b
 
 // Application settings
 "Update application" = "อัพเดทแอปพลิเคชัน";
@@ -156,29 +156,29 @@
 "Show icon in dock" = "แสดงไอคอนใน dock";
 "Start at login" = "เริ่มต้นเมื่อเข้าสู่ระบบ";
 "Build number" = "หมายเลข Build";
-"Import settings" = "Import settings";
-"Export settings" = "Export settings";
+"Import settings" = "นำเข้าการตั้งค่า"; // translategemma:4b
+"Export settings" = "การตั้งค่าการส่งออก"; // translategemma:4b
 "Reset settings" = "รีเซ็ตการตั้งค่า";
 "Pause the Stats" = "หยุด Stats";
 "Resume the Stats" = "เริ่มต้น Stats";
 "Combined modules" = "โมดูลผสม";
-"Combined details" = "Combined details";
-"Spacing" = "Spacing";
-"Share anonymous telemetry" = "Share anonymous telemetry";
-"Choose file" = "Choose file";
-"Stress tests" = "Stress tests";
+"Combined details" = "รายละเอียดที่รวบรวม"; // translategemma:4b
+"Spacing" = "ระยะห่าง"; // translategemma:4b
+"Share anonymous telemetry" = "แบ่งปันข้อมูล telemetry แบบไม่ระบุตัวตน"; // translategemma:4b
+"Choose file" = "เลือกไฟล์"; // translategemma:4b
+"Stress tests" = "การทดสอบความเครียด"; // translategemma:4b
 
 // Dashboard
 "Serial number" = "หมายเลขซีเรียล";
-"Model identifier" = "Model identifier";
-"Production year" = "Production year";
+"Model identifier" = "รหัสรุ่น"; // translategemma:4b
+"Production year" = "ปีที่ผลิต"; // translategemma:4b
 "Uptime" = "ระยะเวลาที่เครื่องทำงาน";
-"Number of cores" = "%0 cores";
+"Number of cores" = "%0 คอร์"; // translategemma:4b
 "Number of threads" = "%0 thread";
 "Number of e-cores" = "%0 cores ประสิทธิภาพ";
 "Number of p-cores" = "%0 cores ประสิทธิผล";
-"Disks" = "Disks";
-"Display" = "Display";
+"Disks" = "ฮาร์ดดิสก์"; // translategemma:4b
+"Display" = "แสดงผล"; // translategemma:4b
 
 // Update
 "The latest version of Stats installed" = "เวอร์ชันล่าสุดของ Stats ได้รับการติดตั้งแล้ว";
@@ -207,24 +207,24 @@
 "Network chart widget" = "แผนภูมิเครือข่าย";
 "Speed widget" = "ความเร็ว";
 "Battery widget" = "แบตเตอรี่";
-"Stack widget" = "Stack";
+"Stack widget" = "คอลัม"; // translategemma:4b
 "Memory widget" = "หน่วยความจำ";
 "Static width" = "ความกว้างคงที่";
 "Tachometer widget" = "วัดความเร็ว";
 "State widget" = "เครื่องวัดสถานะ";
-"Text widget" = "Text widget";
-"Battery details widget" = "Battery details widget";
+"Text widget" = "ส่วนประกอบสำหรับแสดงข้อความ"; // translategemma:4b
+"Battery details widget" = "หน้าปัดข้อมูลแบตเตอรี่"; // translategemma:4b
 "Show symbols" = "แสดงสัญลักษณ์";
 "Label widget" = "ป้ายชื่อ";
 "Number of reads in the chart" = "จำนวนการอ่านในแผนภูมิ";
 "Color of download" = "สีของการดาวน์โหลด";
 "Color of upload" = "สีของการอัพโหลด";
 "Monospaced font" = "แบบอักษรโมโนสเปซ";
-"Reverse order" = "Reverse order";
-"Chart history" = "Chart history";
-"Default color" = "Default";
-"Transparent when no activity" = "Transparent when no activity";
-"Constant color" = "Constant";
+"Reverse order" = "ลำดับย้อนกลับ"; // translategemma:4b
+"Chart history" = "ประวัติการสร้างกราฟ"; // translategemma:4b
+"Default color" = "ค่าเริ่มต้น"; // translategemma:4b
+"Transparent when no activity" = "โปร่งใสเมื่อไม่มีการใช้งาน"; // translategemma:4b
+"Constant color" = "คงที่"; // translategemma:4b
 
 // Module Kit
 "Open module settings" = "เปิดการตั้งค่าโมดูล";
@@ -242,19 +242,19 @@
 "Merge widgets" = "รวมวิดเจ็ต";
 "No available widgets to configure" = "ไม่มีวิดเจ็ตที่สามารถกำหนดค่าได้";
 "No options to configure for the popup in this module" = "ไม่มีตัวเลือกที่สามารถกำหนดค่าสำหรับป๊อปอัปในโมดูลนี้";
-"Process" = "Process";
-"Kill process" = "Kill process";
-"Keyboard shortcut" = "Keyboard shortcut";
-"Listening..." = "Listening...";
+"Process" = "กระบวนการ"; // translategemma:4b
+"Kill process" = "หยุดกระบวนการ"; // translategemma:4b
+"Keyboard shortcut" = "ปุ่มลัดคีย์"; // translategemma:4b
+"Listening..." = "กำลังฟัง..."; // translategemma:4b
 
 // Modules
 "Number of top processes" = "จำนวนของกระบวนการสูงสุด";
 "Update interval for top processes" = "ช่วงเวลาปรับปรุงสำหรับกระบวนการสูงสุด";
 "Notification level" = "ระดับแจ้งเตือน";
 "Chart color" = "สีแผนภูมิ";
-"Main chart scaling" = "Main chart scaling";
-"Scale value" = "Scale value";
-"Text widget value" = "Text widget value";
+"Main chart scaling" = "การปรับขนาดกราฟหลัก"; // translategemma:4b
+"Scale value" = "ค่าสเกล"; // translategemma:4b
+"Text widget value" = "ค่าสำหรับส่วนประกอบ Text"; // translategemma:4b
 
 // CPU
 "CPU usage" = "การใช้งาน CPU";
@@ -280,14 +280,14 @@
 "User color" = "สีของผู้ใช้";
 "Idle color" = "สีของว่างเปล่า";
 "Cluster grouping" = "การจัดกลุ่ม Cluster";
-"Efficiency cores color" = "Efficiency cores color";
-"Performance cores color" = "Performance cores color";
-"Total load" = "Total load";
-"System load" = "System load";
-"User load" = "User load";
-"Efficiency cores load" = "Efficiency cores load";
-"Performance cores load" = "Performance cores load";
-"All cores" = "All cores";
+"Efficiency cores color" = "จำนวนคอร์ประสิทธิภาพ สี"; // translategemma:4b
+"Performance cores color" = "สีของคอร์ประสิทธิภาพ"; // translategemma:4b
+"Total load" = "ปริมาณการใช้งานทั้งหมด"; // translategemma:4b
+"System load" = "ภาระของระบบ"; // translategemma:4b
+"User load" = "ปริมาณการใช้งานของผู้ใช้"; // translategemma:4b
+"Efficiency cores load" = "การโหลดคอร์ประสิทธิภาพ"; // translategemma:4b
+"Performance cores load" = "การโหลดคอร์ประสิทธิภาพ"; // translategemma:4b
+"All cores" = "ทุกคอร์"; // translategemma:4b
 
 // GPU
 "GPU to show" = "แสดง GPU";
@@ -302,8 +302,8 @@
 "Active" = "ทำงาน";
 "Non active" = "ไม่ได้ทำงาน";
 "Fan speed" = "ความเร็วพัดลม";
-"Core clock" = "Core clock";
-"Memory clock" = "Memory clock";
+"Core clock" = "ความถี่หลัก"; // translategemma:4b
+"Memory clock" = "ความถี่ของหน่วยความจำ"; // translategemma:4b
 "Utilization" = "ปริมาณการใช้งาน";
 "Render utilization" = "ปริมาณการใช้งาน Render";
 "Tiler utilization" = "ปริมาณการใช้งาน Tiler";
@@ -316,7 +316,7 @@
 "Total" = "รวม";
 "Used" = "ใช้งาน";
 "App" = "แอพ";
-"Wired" = "Wired";
+"Wired" = "แบบมีสาย"; // translategemma:4b
 "Compressed" = "บีบอัด";
 "Free" = "ว่าง";
 "Swap" = "Swap";
@@ -327,9 +327,9 @@
 "Wired color" = "สี Wired";
 "Compressed color" = "สีที่บีบอัด";
 "Free color" = "สีที่ว่าง";
-"Free memory (less than)" = "Free memory (less than)";
-"Swap size" = "Swap size";
-"Free RAM is" = "Free RAM is %0";
+"Free memory (less than)" = "หน่วยความจำเหลือ (น้อยกว่า)"; // translategemma:4b
+"Swap size" = "ขนาดของการแลกเปลี่ยน"; // translategemma:4b
+"Free RAM is" = "RAM ที่เหลือคือ %0"; // translategemma:4b
 
 // Disk
 "Show removable disks" = "แสดงดิสก์ถอดได้";
@@ -340,15 +340,15 @@
 "Switch view" = "สลับมุมมอง";
 "Disk utilization threshold" = "เกณฑ์การใช้งานดิสก์";
 "Disk utilization is" = "ปริมาณการใช้งานดิสก์คือ %0";
-"Read color" = "Read color";
-"Write color" = "Write color";
-"Disk usage" = "Disk usage";
-"Total read" = "Total read";
-"Total written" = "Total written";
-"Write speed" = "Write";
-"Read speed" = "Read";
-"Drives" = "Drives";
-"SMART data" = "SMART data";
+"Read color" = "อ่านสี"; // translategemma:4b
+"Write color" = "ระบุสี"; // translategemma:4b
+"Disk usage" = "การใช้พื้นที่ดิสก์"; // translategemma:4b
+"Total read" = "จำนวนที่อ่านทั้งหมด"; // translategemma:4b
+"Total written" = "ยอดที่เขียน"; // translategemma:4b
+"Write speed" = "เขียน"; // translategemma:4b
+"Read speed" = "อ่าน"; // translategemma:4b
+"Drives" = "อุปกรณ์"; // translategemma:4b
+"SMART data" = "ข้อมูล SMART"; // translategemma:4b
 
 // Sensors
 "Temperature unit" = "หน่วยอุณหภูมิ";
@@ -364,13 +364,13 @@
 "Install fan helper" = "ติดตั้งตัวช่วยพัดลม";
 "Uninstall fan helper" = "ถอนการติดตั้งตัวช่วยพัดลม";
 "Fan value" = "ค่าพัดลม";
-"Turn off fan" = "Turn off fan";
-"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?";
-"Sensor threshold" = "Sensor threshold";
-"Left fan" = "Left";
-"Right fan" = "Right";
-"Fastest fan" = "Fastest";
-"Sensor to show" = "Sensor to show";
+"Turn off fan" = "ปิดพัดลม"; // translategemma:4b
+"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "คุณกำลังจะปิดพัดลม นี่เป็นการกระทำที่ไม่แนะนำ ซึ่งอาจทำให้เครื่อง Mac ของคุณเสียหาย คุณแน่ใจหรือไม่ว่าคุณต้องการทำเช่นนั้น"; // translategemma:4b
+"Sensor threshold" = "ขีดจำกัดของเซ็นเซอร์"; // translategemma:4b
+"Left fan" = "ซ้าย"; // translategemma:4b
+"Right fan" = "ถูกต้อง"; // translategemma:4b
+"Fastest fan" = "เร็วที่สุด"; // translategemma:4b
+"Sensor to show" = "เซ็นเซอร์เพื่อแสดงผล"; // translategemma:4b
 
 // Network
 "Uploading" = "กำลังอัปโหลด";
@@ -404,24 +404,24 @@
 "Nonactive state color" = "สีของสถานะที่ไม่ใช้งาน";
 "Connectivity host (ICMP)" = "โฮสต์ที่เชื่อมต่อ (ICMP)";
 "Leave empty to disable the check" = "เว้นว่างไว้เพื่อปิดการตรวจสอบ";
-"Connectivity history" = "Connectivity history";
-"Auto-refresh public IP address" = "Auto-refresh public IP address";
-"Every hour" = "Every hour";
-"Every 12 hours" = "Every 12 hours";
-"Every 24 hours" = "Every 24 hours";
-"Network activity" = "Network activity";
-"Last reset" = "Last reset %0 ago";
-"Latency" = "Latency";
-"Upload speed" = "Upload";
-"Download speed" = "Download";
-"Address" = "Address";
-"WiFi network" = "WiFi network";
-"Local IP changed" = "Local IP has changed";
-"Public IP changed" = "Public IP has changed";
-"Previous IP" = "Previous IP: %0";
-"New IP" = "New IP: %0";
-"Internet connection lost" = "Internet connection lost";
-"Internet connection established" = "Internet connection established";
+"Connectivity history" = "ประวัติการเชื่อมต่อ"; // translategemma:4b
+"Auto-refresh public IP address" = "อัปเดตที่อยู่ IP สาธารณะโดยอัตโนมัติ"; // translategemma:4b
+"Every hour" = "ทุกชั่วโมง"; // translategemma:4b
+"Every 12 hours" = "ทุก 12 ชั่วโมง"; // translategemma:4b
+"Every 24 hours" = "ทุก 24 ชั่วโมง"; // translategemma:4b
+"Network activity" = "กิจกรรมบนเครือข่าย"; // translategemma:4b
+"Last reset" = "การรีเซ็ตครั้งล่าสุดเมื่อ `%0` ที่แล้ว"; // translategemma:4b
+"Latency" = "ความหน่วง"; // translategemma:4b
+"Upload speed" = "อัปโหลด"; // translategemma:4b
+"Download speed" = "ดาวน์โหลด"; // translategemma:4b
+"Address" = "ที่อยู่"; // translategemma:4b
+"WiFi network" = "เครือข่าย Wi-Fi"; // translategemma:4b
+"Local IP changed" = "ที่อยู่ IP ในเครื่องเปลี่ยนไปแล้ว"; // translategemma:4b
+"Public IP changed" = "ที่อยู่ IP สาธารณะมีการเปลี่ยนแปลง"; // translategemma:4b
+"Previous IP" = "IP ก่อนหน้า: %0"; // translategemma:4b
+"New IP" = "IP ใหม่: %0"; // translategemma:4b
+"Internet connection lost" = "การเชื่อมต่ออินเทอร์เน็ตขาด"; // translategemma:4b
+"Internet connection established" = "การเชื่อมต่ออินเทอร์เน็ตสำเร็จ"; // translategemma:4b
 
 // Battery
 "Level" = "ระดับ";
@@ -458,29 +458,29 @@
 "current / maximum / designed" = "ปัจจุบัน / สูงสุด / ออกแบบ";
 "Low power mode" = "โหมดพลังงานต่ำ";
 "Percentage inside the icon" = "เปอร์เซ็นต์ภายในไอคอน";
-"Colorize battery" = "Colorize battery";
-"Charging current" = "Charging current";
-"Charging Voltage" = "Charging voltage";
-"Charger state inside the battery" = "Charger state inside the battery";
+"Colorize battery" = "ระบุสีแบตเตอรี่"; // translategemma:4b
+"Charging current" = "กระแสไฟฟ้าที่ใช้ในการชาร์จ"; // translategemma:4b
+"Charging Voltage" = "แรงดันไฟฟ้าในการชาร์จ"; // translategemma:4b
+"Charger state inside the battery" = "สถานะของเครื่องชาร์จภายในแบตเตอรี่"; // translategemma:4b
 
 // Bluetooth
 "Battery to show" = "แบตเตอรี่ที่แสดง";
 "No Bluetooth devices are available" = "ไม่มีอุปกรณ์ Bluetooth ที่ใช้งานได้";
 
 // Clock
-"Time zone" = "Time zone";
-"Local" = "Local";
-"Calendar" = "Calendar";
-"Show week numbers" = "Show week numbers";
-"Local time" = "Local time";
-"Add new clock" = "Add new clock";
-"Delete selected clock" = "Delete selected clock";
-"Help with datetime format" = "Help with datetime format";
+"Time zone" = "เขตเวลา"; // translategemma:4b
+"Local" = "ในพื้นที่"; // translategemma:4b
+"Calendar" = "ปฏิทิน"; // translategemma:4b
+"Show week numbers" = "แสดงหมายเลขสัปดาห์"; // translategemma:4b
+"Local time" = "เวลาท้องถิ่น"; // translategemma:4b
+"Add new clock" = "เพิ่มนาฬิกาใหม่"; // translategemma:4b
+"Delete selected clock" = "ลบนาฬิกาที่เลือก"; // translategemma:4b
+"Help with datetime format" = "ขอความช่วยเหลือเกี่ยวกับการจัดรูปแบบวันที่และเวลา"; // translategemma:4b
 
 // Colors
 "Based on utilization" = "อ้างอิงจากการใช้งาน";
 "Based on pressure" = "อ้างอิงจากความดัน";
-"Based on cluster" = "Based on cluster";
+"Based on cluster" = "อ้างอิงจากกลุ่ม"; // translategemma:4b
 "System accent" = "สีโปรแกรมระบบ";
 "Monochrome accent" = "สีขาวและดำ";
 "Clear" = "ล้าง";

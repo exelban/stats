@@ -16,7 +16,7 @@
 "Open GPU settings" = "Öppna GPU-inställningar";
 "RAM" = "RAM";
 "Open RAM settings" = "Öppna RAM-inställningar";
-"Disk" = "Disk";
+"Disk" = "Hårddisk"; // translategemma:4b
 "Open Disk settings" = "Öppna diskinställningar";
 "Sensors" = "Sensorer";
 "Open Sensors settings" = "Öppna sensorinställningar";
@@ -52,7 +52,7 @@
 "Long" = "Lång";
 "Statistics" = "Statistik";
 "Max" = "Max";
-"Min" = "Min";
+"Min" = "Mitt"; // translategemma:4b
 "Reset" = "Återställ";
 "Alignment" = "Justering";
 "Left alignment" = "Vänster";
@@ -88,18 +88,18 @@
 "Read" = "Läs";
 "Write" = "Skriv";
 "Frequency" = "Frekvens";
-"Save" = "Save";
-"Run" = "Run";
-"Stop" = "Stop";
-"Uninstall" = "Uninstall";
-"1 sec" = "1 sec";
-"2 sec" = "2 sec";
-"3 sec" = "3 sec";
-"5 sec" = "5 sec";
-"10 sec" = "10 sec";
-"15 sec" = "15 sec";
-"30 sec" = "30 sec";
-"60 sec" = "60 sec";
+"Save" = "Spara"; // translategemma:4b
+"Run" = "Kör"; // translategemma:4b
+"Stop" = "Stopp"; // translategemma:4b
+"Uninstall" = "Avinstallera"; // translategemma:4b
+"1 sec" = "1 sekund"; // translategemma:4b
+"2 sec" = "2 sekunder"; // translategemma:4b
+"3 sec" = "3 sekunder"; // translategemma:4b
+"5 sec" = "5 sekunder"; // translategemma:4b
+"10 sec" = "10 sek"; // translategemma:4b
+"15 sec" = "15 sek"; // translategemma:4b
+"30 sec" = "30 sekunder"; // translategemma:4b
+"60 sec" = "60 sekunder"; // translategemma:4b
 
 // Setup
 "Stats Setup" = "Stats-installation";
@@ -142,7 +142,7 @@
 "Open dashboard" = "Öppna instrumentpanelen";
 "No notifications available in this module" = "Inga notifikationer tillgängliga i denna modul";
 "Open Calendar" = "Öppna Kalender";
-"Toggle the module" = "Toggle the module";
+"Toggle the module" = "Aktivera/inaktivera modulen"; // translategemma:4b
 
 // Application settings
 "Update application" = "Uppdatera applikationen";
@@ -165,8 +165,8 @@
 "Combined details" = "Kombinerade detaljer";
 "Spacing" = "Mellanrum";
 "Share anonymous telemetry" = "Dela anonym telemetri";
-"Choose file" = "Choose file";
-"Stress tests" = "Stress tests";
+"Choose file" = "Välj fil"; // translategemma:4b
+"Stress tests" = "Spänningstester"; // translategemma:4b
 
 // Dashboard
 "Serial number" = "Serienummer";
@@ -177,8 +177,8 @@
 "Number of threads" = "%0 trådar";
 "Number of e-cores" = "%0 effektivitetskärnor";
 "Number of p-cores" = "%0 prestandakärnor";
-"Disks" = "Disks";
-"Display" = "Display";
+"Disks" = "Skivor"; // translategemma:4b
+"Display" = "Visning"; // translategemma:4b
 
 // Update
 "The latest version of Stats installed" = "Den senaste versionen av Stats är installerad";
@@ -212,8 +212,8 @@
 "Static width" = "Fast bredd";
 "Tachometer widget" = "Varvräknare";
 "State widget" = "Statwidget";
-"Text widget" = "Text widget";
-"Battery details widget" = "Battery details widget";
+"Text widget" = "Textwidget"; // translategemma:4b
+"Battery details widget" = "Widget för batteriinformation"; // translategemma:4b
 "Show symbols" = "Visa symboler";
 "Label widget" = "Etikett";
 "Number of reads in the chart" = "Antal avläsningar i diagrammet";
@@ -236,7 +236,7 @@
 "Top processes" = "Topprocesser";
 "Pictogram" = "Piktogram";
 "Module" = "Modul";
-"Widgets" = "Widgets";
+"Widgets" = "Widgetar"; // translategemma:4b
 "Popup" = "Popup";
 "Notifications" = "Notifikationer";
 "Merge widgets" = "Slå samman widgets";
@@ -244,8 +244,8 @@
 "No options to configure for the popup in this module" = "Inga alternativ att konfigurera för popup-fönstret i denna modul";
 "Process" = "Process";
 "Kill process" = "Avsluta process";
-"Keyboard shortcut" = "Keyboard shortcut";
-"Listening..." = "Listening...";
+"Keyboard shortcut" = "Tangentbordsgenväg"; // translategemma:4b
+"Listening..." = "Lyssna..."; // translategemma:4b
 
 // Modules
 "Number of top processes" = "Antal topprocesser";
@@ -254,7 +254,7 @@
 "Chart color" = "Diagramfärg";
 "Main chart scaling" = "Huvuddiagramskalning";
 "Scale value" = "Skalvärde";
-"Text widget value" = "Text widget value";
+"Text widget value" = "Värdet för textwidget"; // translategemma:4b
 
 // CPU
 "CPU usage" = "CPU-användning";
@@ -347,8 +347,8 @@
 "Total written" = "Totalt skrivet";
 "Write speed" = "Skriv";
 "Read speed" = "Läs";
-"Drives" = "Drives";
-"SMART data" = "SMART data";
+"Drives" = "Drivs"; // translategemma:4b
+"SMART data" = "SMART-data"; // translategemma:4b
 
 // Sensors
 "Temperature unit" = "Temperaturenhet";
@@ -370,7 +370,7 @@
 "Left fan" = "Vänster";
 "Right fan" = "Höger";
 "Fastest fan" = "Snabbaste";
-"Sensor to show" = "Sensor to show";
+"Sensor to show" = "Sensor för att visa"; // translategemma:4b
 
 // Network
 "Uploading" = "Uppladdning";
@@ -414,14 +414,14 @@
 "Latency" = "Fördröjning";
 "Upload speed" = "Uppladdning";
 "Download speed" = "Nedladdning";
-"Address" = "Address";
-"WiFi network" = "WiFi network";
-"Local IP changed" = "Local IP has changed";
-"Public IP changed" = "Public IP has changed";
-"Previous IP" = "Previous IP: %0";
-"New IP" = "New IP: %0";
-"Internet connection lost" = "Internet connection lost";
-"Internet connection established" = "Internet connection established";
+"Address" = "Adress"; // translategemma:4b
+"WiFi network" = "WiFi-nätverk"; // translategemma:4b
+"Local IP changed" = "Det lokala IP-adressen har ändrats"; // translategemma:4b
+"Public IP changed" = "Den publika IP-adressen har ändrats"; // translategemma:4b
+"Previous IP" = "Tidigare IP-adress: %0"; // translategemma:4b
+"New IP" = "Ny IP-adress: %0"; // translategemma:4b
+"Internet connection lost" = "Förlorad internetanslutning"; // translategemma:4b
+"Internet connection established" = "Internetanslutning etablerad"; // translategemma:4b
 
 // Battery
 "Level" = "Nivå";
@@ -461,7 +461,7 @@
 "Colorize battery" = "Färglägg batteri";
 "Charging current" = "Laddningsström";
 "Charging Voltage" = "Laddningsspänning";
-"Charger state inside the battery" = "Charger state inside the battery";
+"Charger state inside the battery" = "Laddningsstatus inuti batteriet"; // translategemma:4b
 
 // Bluetooth
 "Battery to show" = "Batteri att visa";
@@ -471,11 +471,11 @@
 "Time zone" = "Tidszon";
 "Local" = "Lokal";
 "Calendar" = "Kalender";
-"Show week numbers" = "Show week numbers";
+"Show week numbers" = "Visa veknummer"; // translategemma:4b
 "Local time" = "Lokal tid";
-"Add new clock" = "Add new clock";
-"Delete selected clock" = "Delete selected clock";
-"Help with datetime format" = "Help with datetime format";
+"Add new clock" = "Lägg till en ny klocka"; // translategemma:4b
+"Delete selected clock" = "Ta bort vald klocka"; // translategemma:4b
+"Help with datetime format" = "Hjälp med att formatera datum och tid"; // translategemma:4b
 
 // Colors
 "Based on utilization" = "Baserat på användning";

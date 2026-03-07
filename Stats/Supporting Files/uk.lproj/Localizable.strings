@@ -58,7 +58,7 @@
 "Left alignment" = "Ліворуч";
 "Center alignment" = "По центру";
 "Right alignment" = "Праворуч";
-"Dashboard" = "Dashboard";
+"Dashboard" = "Головний екран"; // translategemma:4b
 "Enabled" = "Включено";
 "Disabled" = "Виключено";
 "Silent" = "Безшумно";
@@ -189,7 +189,7 @@
 // Widgets
 "Color" = "Колір";
 "Label" = "Етикетка";
-"Box" = "Box";
+"Box" = "Коробка"; // translategemma:4b
 "Frame" = "Рамка";
 "Value" = "Значення";
 "Colorize" = "Розфарбувати";

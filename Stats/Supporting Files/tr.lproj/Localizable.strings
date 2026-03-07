@@ -10,7 +10,7 @@
 //
 
 // Modules
-"CPU" = "CPU";
+"CPU" = "Çekirdek"; // translategemma:4b
 "Open CPU settings" = "CPU ayalarını aç";
 "GPU" = "GPU";
 "Open GPU settings" = "GPU ayarlarını aç";
@@ -52,7 +52,7 @@
 "Long" = "Uzun";
 "Statistics" = "İstatistik";
 "Max" = "Maks";
-"Min" = "Min";
+"Min" = "Minimum"; // translategemma:4b
 "Reset" = "Sıfırla";
 "Alignment" = "Hizalama";
 "Left alignment" = "Sola hizalı";
@@ -73,7 +73,7 @@
 "Cores" = "Çekirdekler";
 "Settings" = "Ayarlar";
 "Name" = "Ad";
-"Format" = "Format";
+"Format" = "Biçim"; // translategemma:4b
 "Turn off" = "Kapat";
 "Normal" = "Normal";
 "Warning" = "Uyarı";
@@ -461,7 +461,7 @@
 "Colorize battery" = "Pili renklendir";
 "Charging current" = "Şarj akımı";
 "Charging Voltage" = "Şarj Voltajı";
-"Charger state inside the battery" = "Charger state inside the battery";
+"Charger state inside the battery" = "Şarj durumunun pilin içinde"; // translategemma:4b
 
 // Bluetooth
 "Battery to show" = "Gösterilecek pil";
@@ -471,7 +471,7 @@
 "Time zone" = "Saat dilimi";
 "Local" = "Yerel";
 "Calendar" = "Takvim";
-"Show week numbers" = "Show week numbers";
+"Show week numbers" = "Hafta numaralarını göster"; // translategemma:4b
 "Local time" = "Yerel zaman";
 "Add new clock" = "Yeni saat ekle";
 "Delete selected clock" = "Seçili saati sil";

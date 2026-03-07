@@ -58,11 +58,11 @@
 "Left alignment" = "по левому";
 "Center alignment" = "по центру";
 "Right alignment" = "по правому";
-"Dashboard" = "Dashboard";
+"Dashboard" = "Главная страница"; // translategemma:4b
 "Enabled" = "Включено";
 "Disabled" = "Отключено";
 "Silent" = "Бесшумно";
-"Units" = "Units";
+"Units" = "Единицы"; // translategemma:4b
 "Fans" = "Вентиляторы";
 "Scaling" = "Масштабирование";
 "Linear" = "Линейное";
@@ -189,7 +189,7 @@
 // Widgets
 "Color" = "Цвет";
 "Label" = "Метка";
-"Box" = "Box";
+"Box" = "Коробка"; // translategemma:4b
 "Frame" = "Рамка";
 "Value" = "Значение";
 "Colorize" = "Раскрасить";

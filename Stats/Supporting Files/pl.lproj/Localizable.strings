@@ -58,7 +58,7 @@
 "Left alignment" = "Do lewej";
 "Center alignment" = "Centrum";
 "Right alignment" = "Do prawej";
-"Dashboard" = "Dashboard";
+"Dashboard" = "Panel kontrolny"; // translategemma:4b
 "Enabled" = "Włączone";
 "Disabled" = "Wyłączone";
 "Silent" = "Tryb cichy";
@@ -189,7 +189,7 @@
 // Widgets
 "Color" = "Kolor";
 "Label" = "Etykieta";
-"Box" = "Box";
+"Box" = "Pudełko"; // translategemma:4b
 "Frame" = "Ramka";
 "Value" = "Wartość";
 "Colorize" = "Kolorowanie";
@@ -298,7 +298,7 @@
 "GPU utilization" = "Wykorzystanie GPU";
 "Vendor" = "Producent";
 "Model" = "Model";
-"Status" = "Status";
+"Status" = "Stan"; // translategemma:4b
 "Active" = "Aktywny";
 "Non active" = "Nieaktywny";
 "Fan speed" = "Prędkość wentylatora";

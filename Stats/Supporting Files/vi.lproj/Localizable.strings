@@ -177,8 +177,8 @@
 "Number of threads" = "%0 luồng";
 "Number of e-cores" = "%0 nhân tiết kiệm";
 "Number of p-cores" = "%0 nhân hiệu năng";
-"Disks" = "Disks";
-"Display" = "Display";
+"Disks" = "Ổ cứng"; // translategemma:4b
+"Display" = "Hiển thị"; // translategemma:4b
 
 // Update
 "The latest version of Stats installed" = "Phiên bản Stats mới nhất đã được cài đặt";
@@ -212,8 +212,8 @@
 "Static width" = "Chiều rộng cố định";
 "Tachometer widget" = "Widget đo tốc độ";
 "State widget" = "Widget trạng thái";
-"Text widget" = "Text widget";
-"Battery details widget" = "Battery details widget";
+"Text widget" = "Bộ điều khiển văn bản"; // translategemma:4b
+"Battery details widget" = "Widget hiển thị thông tin pin"; // translategemma:4b
 "Show symbols" = "Hiển thị ký hiệu";
 "Label widget" = "Widget nhãn";
 "Number of reads in the chart" = "Số lần đọc trong biểu đồ";
@@ -235,9 +235,9 @@
 "Details" = "Chi tiết";
 "Top processes" = "Các tiến trình hàng đầu";
 "Pictogram" = "Biểu tượng";
-"Module" = "Module";
-"Widgets" = "Widgets";
-"Popup" = "Popup";
+"Module" = "Mô-đun"; // translategemma:4b
+"Widgets" = "Widget"; // translategemma:4b
+"Popup" = "Hiển thị cửa sổ"; // translategemma:4b
 "Notifications" = "Thông báo";
 "Merge widgets" = "Gộp các widget";
 "No available widgets to configure" = "Không có widget nào để cấu hình";
@@ -254,7 +254,7 @@
 "Chart color" = "Màu biểu đồ";
 "Main chart scaling" = "Tỷ lệ biểu đồ chính";
 "Scale value" = "Giá trị tỷ lệ";
-"Text widget value" = "Text widget value";
+"Text widget value" = "Giá trị của widget văn bản"; // translategemma:4b
 
 // CPU
 "CPU usage" = "Sử dụng CPU";
@@ -471,7 +471,7 @@
 "Time zone" = "Múi giờ";
 "Local" = "Địa phương";
 "Calendar" = "Lịch";
-"Show week numbers" = "Show week numbers";
+"Show week numbers" = "Hiển thị số thứ tự tuần"; // translategemma:4b
 "Local time" = "Giờ địa phương";
 "Add new clock" = "Thêm đồng hồ mới";
 "Delete selected clock" = "Xóa đồng hồ đã chọn";

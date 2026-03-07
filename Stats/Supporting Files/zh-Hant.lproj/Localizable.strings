@@ -222,7 +222,7 @@
 "Monospaced font" = "等寬字體";
 "Reverse order" = "排序對調";
 "Chart history" = "圖表顯示區間";
-"Default color" = "Default";
+"Default color" = "預設"; // translategemma:4b
 "Transparent when no activity" = "閒置時以透明顯示";
 "Constant color" = "恆定色彩";
 

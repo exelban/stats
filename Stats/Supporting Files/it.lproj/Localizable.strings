@@ -51,14 +51,14 @@
 "Short" = "Corto";
 "Long" = "Lungo";
 "Statistics" = "Statistiche";
-"Max" = "Max";
+"Max" = "Massimo"; // translategemma:4b
 "Min" = "Min";
 "Reset" = "Resetta";
 "Alignment" = "Allineamento";
 "Left alignment" = "Sinistra";
 "Center alignment" = "Centro";
 "Right alignment" = "Destra";
-"Dashboard" = "Dashboard";
+"Dashboard" = "Pannello di controllo"; // translategemma:4b
 "Enabled" = "Abilitato";
 "Disabled" = "Disabilitato";
 "Silent" = "Silenzioso";
@@ -75,7 +75,7 @@
 "Name" = "Nome";
 "Format" = "Formato";
 "Turn off" = "Disattiva";
-"Normal" = "Normal";
+"Normal" = "Normale"; // translategemma:4b
 "Warning" = "Avviso";
 "Critical" = "Critico";
 "Usage" = "Utilizzo";
@@ -88,18 +88,18 @@
 "Read" = "Lettura";
 "Write" = "Scrittura";
 "Frequency" = "Frequenza";
-"Save" = "Save";
-"Run" = "Run";
-"Stop" = "Stop";
-"Uninstall" = "Uninstall";
-"1 sec" = "1 sec";
-"2 sec" = "2 sec";
-"3 sec" = "3 sec";
-"5 sec" = "5 sec";
-"10 sec" = "10 sec";
-"15 sec" = "15 sec";
-"30 sec" = "30 sec";
-"60 sec" = "60 sec";
+"Save" = "Salva"; // translategemma:4b
+"Run" = "Esegui"; // translategemma:4b
+"Stop" = "Smetta"; // translategemma:4b
+"Uninstall" = "Disinstallare"; // translategemma:4b
+"1 sec" = "1 secondo"; // translategemma:4b
+"2 sec" = "2 secondi"; // translategemma:4b
+"3 sec" = "3 secondi"; // translategemma:4b
+"5 sec" = "5 secondi"; // translategemma:4b
+"10 sec" = "10 secondi"; // translategemma:4b
+"15 sec" = "15 secondi"; // translategemma:4b
+"30 sec" = "30 secondi"; // translategemma:4b
+"60 sec" = "60 secondi"; // translategemma:4b
 
 // Setup
 "Stats Setup" = "Configurazione Stats";
@@ -142,7 +142,7 @@
 "Open dashboard" = "Apri la dashboard";
 "No notifications available in this module" = "Notifiche non disponibili per questo modulo";
 "Open Calendar" = "Apri Calendario";
-"Toggle the module" = "Toggle the module";
+"Toggle the module" = "Attiva/disattiva il modulo"; // translategemma:4b
 
 // Application settings
 "Update application" = "Aggiorna applicazione";
@@ -165,8 +165,8 @@
 "Combined details" = "Dettagli combinati";
 "Spacing" = "Spazio";
 "Share anonymous telemetry" = "Condividi telemetria anonima";
-"Choose file" = "Choose file";
-"Stress tests" = "Stress tests";
+"Choose file" = "Seleziona file"; // translategemma:4b
+"Stress tests" = "Test di stress"; // translategemma:4b
 
 // Dashboard
 "Serial number" = "Numero di serie";
@@ -177,8 +177,8 @@
 "Number of threads" = "%0 thread";
 "Number of e-cores" = "%0 efficiency core";
 "Number of p-cores" = "%0 performance core";
-"Disks" = "Disks";
-"Display" = "Display";
+"Disks" = "Dischi"; // translategemma:4b
+"Display" = "Schermo"; // translategemma:4b
 
 // Update
 "The latest version of Stats installed" = "L'ultima versione di Stats è installata";
@@ -212,8 +212,8 @@
 "Static width" = "Larghezza fissa";
 "Tachometer widget" = "Tachimetro";
 "State widget" = "Widget di stato";
-"Text widget" = "Text widget";
-"Battery details widget" = "Battery details widget";
+"Text widget" = "Elemento di testo"; // translategemma:4b
+"Battery details widget" = "Widget per dettagli della batteria"; // translategemma:4b
 "Show symbols" = "Mostra simboli";
 "Label widget" = "Etichetta widget";
 "Number of reads in the chart" = "Numero di letture nel grafico";
@@ -222,7 +222,7 @@
 "Monospaced font" = "Font a larghezza fissa";
 "Reverse order" = "Inverti ordine";
 "Chart history" = "Durata grafico";
-"Default color" = "Default";
+"Default color" = "Predefinito"; // translategemma:4b
 "Transparent when no activity" = "Trasparente in assenza di attività";
 "Constant color" = "Costante";
 
@@ -236,16 +236,16 @@
 "Top processes" = "Processi principali";
 "Pictogram" = "Pittogramma";
 "Module" = "Modulo";
-"Widgets" = "Widgets";
-"Popup" = "Popup";
+"Widgets" = "Componenti"; // translategemma:4b
+"Popup" = "Finestra di dialogo"; // translategemma:4b
 "Notifications" = "Notifiche";
 "Merge widgets" = "Combina moduli";
 "No available widgets to configure" = "Nessun modulo disponibile";
 "No options to configure for the popup in this module" = "Nessuna opzione da configurare per le notifiche in questo modulo";
 "Process" = "Processo";
 "Kill process" = "Chiudi processo";
-"Keyboard shortcut" = "Keyboard shortcut";
-"Listening..." = "Listening...";
+"Keyboard shortcut" = "Combinazione di tasti"; // translategemma:4b
+"Listening..." = "In ascolto..."; // translategemma:4b
 
 // Modules
 "Number of top processes" = "Numero di processi principali";
@@ -254,7 +254,7 @@
 "Chart color" = "Colore grafico";
 "Main chart scaling" = "Scala del grafico principale";
 "Scale value" = "Valore scala";
-"Text widget value" = "Text widget value";
+"Text widget value" = "Valore dell'elemento di testo"; // translategemma:4b
 
 // CPU
 "CPU usage" = "Utilizzo CPU";
@@ -347,8 +347,8 @@
 "Total written" = "Totale scritto";
 "Write speed" = "Lettura";
 "Read speed" = "Scrittura";
-"Drives" = "Drives";
-"SMART data" = "SMART data";
+"Drives" = "Dischi"; // translategemma:4b
+"SMART data" = "Dati SMART"; // translategemma:4b
 
 // Sensors
 "Temperature unit" = "Unità di temperatura";
@@ -370,11 +370,11 @@
 "Left fan" = "Ventola sinistra";
 "Right fan" = "Ventola destra";
 "Fastest fan" = "Ventola più veloce";
-"Sensor to show" = "Sensor to show";
+"Sensor to show" = "Sensore da visualizzare"; // translategemma:4b
 
 // Network
-"Uploading" = "Upload";
-"Downloading" = "Download";
+"Uploading" = "Caricamento"; // translategemma:4b
+"Downloading" = "Scarica"; // translategemma:4b
 "Public IP" = "IP Pubblico";
 "Local IP" = "IP Locale";
 "Interface" = "Interfaccia";
@@ -412,16 +412,16 @@
 "Network activity" = "Attività di rete";
 "Last reset" = "Ultimo reset %0 fa";
 "Latency" = "Latenza";
-"Upload speed" = "Upload";
-"Download speed" = "Download";
-"Address" = "Address";
-"WiFi network" = "WiFi network";
-"Local IP changed" = "Local IP has changed";
-"Public IP changed" = "Public IP has changed";
-"Previous IP" = "Previous IP: %0";
-"New IP" = "New IP: %0";
-"Internet connection lost" = "Internet connection lost";
-"Internet connection established" = "Internet connection established";
+"Upload speed" = "Caricamento"; // translategemma:4b
+"Download speed" = "Scarica"; // translategemma:4b
+"Address" = "Indirizzo"; // translategemma:4b
+"WiFi network" = "Rete WiFi"; // translategemma:4b
+"Local IP changed" = "L'indirizzo IP locale è stato modificato"; // translategemma:4b
+"Public IP changed" = "L'indirizzo IP pubblico è cambiato."; // translategemma:4b
+"Previous IP" = "Indirizzo IP precedente: %0"; // translategemma:4b
+"New IP" = "Nuovo indirizzo IP: %0"; // translategemma:4b
+"Internet connection lost" = "Connessione a Internet persa"; // translategemma:4b
+"Internet connection established" = "Connessione a Internet stabilita"; // translategemma:4b
 
 // Battery
 "Level" = "Livello";
@@ -461,7 +461,7 @@
 "Colorize battery" = "Colora la batteria";
 "Charging current" = "Corrente di carica";
 "Charging Voltage" = "Tensione di carica";
-"Charger state inside the battery" = "Charger state inside the battery";
+"Charger state inside the battery" = "Stato del caricatore all'interno della batteria"; // translategemma:4b
 
 // Bluetooth
 "Battery to show" = "Batteria da mostrare";
@@ -471,11 +471,11 @@
 "Time zone" = "Fuso Orario";
 "Local" = "Locale";
 "Calendar" = "Calendario";
-"Show week numbers" = "Show week numbers";
+"Show week numbers" = "Mostra i numeri della settimana"; // translategemma:4b
 "Local time" = "Ora locale";
-"Add new clock" = "Add new clock";
-"Delete selected clock" = "Delete selected clock";
-"Help with datetime format" = "Help with datetime format";
+"Add new clock" = "Aggiungi un nuovo orologio"; // translategemma:4b
+"Delete selected clock" = "Elimina l'orologio selezionato"; // translategemma:4b
+"Help with datetime format" = "Assistenza per la formattazione di date e orari"; // translategemma:4b
 
 // Colors
 "Based on utilization" = "Basato sull'utilizzo";

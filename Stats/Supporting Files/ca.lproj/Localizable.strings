@@ -18,7 +18,7 @@
 "Open RAM settings" = "Obre la configuració de RAM";
 "Disk" = "Disc";
 "Open Disk settings" = "Obre la configuració de disc";
-"Sensors" = "Sensors";
+"Sensors" = "Sensores"; // translategemma:4b
 "Open Sensors settings" = "Obre la configuració de sensors";
 "Network" = "Xarxa";
 "Open Network settings" = "Obre la configuració de xarxa";
@@ -84,22 +84,22 @@
 "10 minutes" = "10 minuts";
 "Import" = "Importar";
 "Export" = "Exportar";
-"Separator" = "Separator";
-"Read" = "Read";
-"Write" = "Write";
-"Frequency" = "Frequency";
-"Save" = "Save";
-"Run" = "Run";
-"Stop" = "Stop";
-"Uninstall" = "Uninstall";
-"1 sec" = "1 sec";
-"2 sec" = "2 sec";
-"3 sec" = "3 sec";
-"5 sec" = "5 sec";
-"10 sec" = "10 sec";
-"15 sec" = "15 sec";
-"30 sec" = "30 sec";
-"60 sec" = "60 sec";
+"Separator" = "Separador"; // translategemma:4b
+"Read" = "Llegeix"; // translategemma:4b
+"Write" = "Escriure"; // translategemma:4b
+"Frequency" = "Frecència"; // translategemma:4b
+"Save" = "Guarda"; // translategemma:4b
+"Run" = "Executar"; // translategemma:4b
+"Stop" = "Atura"; // translategemma:4b
+"Uninstall" = "Desinstal·lar"; // translategemma:4b
+"1 sec" = "1 segon"; // translategemma:4b
+"2 sec" = "2 segons"; // translategemma:4b
+"3 sec" = "3 segons"; // translategemma:4b
+"5 sec" = "5 segons"; // translategemma:4b
+"10 sec" = "10 segons"; // translategemma:4b
+"15 sec" = "15 segons"; // translategemma:4b
+"30 sec" = "30 segons"; // translategemma:4b
+"60 sec" = "60 segons"; // translategemma:4b
 
 // Setup
 "Stats Setup" = "Configuració de Stats";
@@ -122,7 +122,7 @@
 "Anonymous telemetry for better development decisions" = "Telemetria anònima per proporcionar millors decisions pels desenvolupadors";
 "Share anonymous telemetry data" = "Compartir telemetria anònima";
 "Do not share anonymous telemetry data" = "No compartir telemetria anònima";
-"The configuration is completed" = "The configuration is completed";
+"The configuration is completed" = "La configuració ha estat finalitzada"; // translategemma:4b
 "finish_setup_message" = "Tot està configurat! \n Stats és una eina de codi lliure, és gratuït i sempre ho serà. \n Si el gaudeixes pots contribuir al projecte, sempre és benvingut!";
 
 // Alerts
@@ -140,9 +140,9 @@
 "Close application" = "Tanca l'aplicació";
 "Open application settings" = "Obre la configuració de l'aplicació";
 "Open dashboard" = "Obre el panell";
-"No notifications available in this module" = "No notifications available in this module";
-"Open Calendar" = "Open Calendar";
-"Toggle the module" = "Toggle the module";
+"No notifications available in this module" = "No hi ha notificaciones disponibles en aquest mòdul."; // translategemma:4b
+"Open Calendar" = "Obrir calendari"; // translategemma:4b
+"Toggle the module" = "Activa/desactiva el mòdul"; // translategemma:4b
 
 // Application settings
 "Update application" = "Actualitza l'aplicació";
@@ -165,8 +165,8 @@
 "Combined details" = "Detalls combinats";
 "Spacing" = "Espaiat";
 "Share anonymous telemetry" = "Comparteix telemetria anònima";
-"Choose file" = "Choose file";
-"Stress tests" = "Stress tests";
+"Choose file" = "Seleccionar fitxer"; // translategemma:4b
+"Stress tests" = "Tests de resistència"; // translategemma:4b
 
 // Dashboard
 "Serial number" = "Número de sèrie";
@@ -177,8 +177,8 @@
 "Number of threads" = "%0 fils";
 "Number of e-cores" = "%0 nuclis d'eficiència";
 "Number of p-cores" = "%0 nuclis de rendiment";
-"Disks" = "Disks";
-"Display" = "Display";
+"Disks" = "Discs"; // translategemma:4b
+"Display" = "Pantalla"; // translategemma:4b
 
 // Update
 "The latest version of Stats installed" = "L'última versió d'Stats està instal·lada";
@@ -207,13 +207,13 @@
 "Network chart widget" = "Gràfic de xarxa";
 "Speed widget" = "Velocitat";
 "Battery widget" = "Bateria";
-"Stack widget" = "Stack";
+"Stack widget" = "Pila"; // translategemma:4b
 "Memory widget" = "Memòria";
 "Static width" = "Ample fixe";
 "Tachometer widget" = "Tacòmetre";
-"State widget" = "State widget";
-"Text widget" = "Text widget";
-"Battery details widget" = "Battery details widget";
+"State widget" = "Widget d'estat"; // translategemma:4b
+"Text widget" = "Element de text"; // translategemma:4b
+"Battery details widget" = "Widget de detalls de la bateria"; // translategemma:4b
 "Show symbols" = "Mostra els símbols";
 "Label widget" = "Etiqueta";
 "Number of reads in the chart" = "Nombre de lectures al gràfic";
@@ -237,15 +237,15 @@
 "Pictogram" = "Pictograma";
 "Module" = "Mòdul";
 "Widgets" = "Ginys";
-"Popup" = "Popup";
+"Popup" = "Finestra emergència"; // translategemma:4b
 "Notifications" = "Notificacions";
 "Merge widgets" = "Combina ginys";
 "No available widgets to configure" = "No hi ha widgets disponibles per configurar";
 "No options to configure for the popup in this module" = "No hi ha opcions per configurar per a la finestra emergent en aquest mòdul";
 "Process" = "Procés";
 "Kill process" = "Tanca procés";
-"Keyboard shortcut" = "Keyboard shortcut";
-"Listening..." = "Listening...";
+"Keyboard shortcut" = "Atall de teclat"; // translategemma:4b
+"Listening..." = "Escoltant..."; // translategemma:4b
 
 // Modules
 "Number of top processes" = "Nombre de processos principals";
@@ -254,7 +254,7 @@
 "Chart color" = "Color del gràfic";
 "Main chart scaling" = "Escala del gràfic principal";
 "Scale value" = "Valor d'escala";
-"Text widget value" = "Text widget value";
+"Text widget value" = "Valor del widget de text"; // translategemma:4b
 
 // CPU
 "CPU usage" = "Ús de la CPU";
@@ -287,7 +287,7 @@
 "User load" = "Càrrega de l'usuari";
 "Efficiency cores load" = "Càrrega dels nuclis d'eficiència";
 "Performance cores load" = "Càrrega dels nuclis de rendiment";
-"All cores" = "All cores";
+"All cores" = "Totes les nuclis"; // translategemma:4b
 
 // GPU
 "GPU to show" = "GPU a mostrar";
@@ -347,8 +347,8 @@
 "Total written" = "Total escrit";
 "Write speed" = "Velocitat de escriptura";
 "Read speed" = "Velocitat de lectura";
-"Drives" = "Drives";
-"SMART data" = "SMART data";
+"Drives" = "Discos"; // translategemma:4b
+"SMART data" = "Dades SMART"; // translategemma:4b
 
 // Sensors
 "Temperature unit" = "Unitat de temperatura";
@@ -370,7 +370,7 @@
 "Left fan" = "Ventilador esquerre";
 "Right fan" = "Ventilador dret";
 "Fastest fan" = "Ventilador més ràpid";
-"Sensor to show" = "Sensor to show";
+"Sensor to show" = "Sensor per mostrar"; // translategemma:4b
 
 // Network
 "Uploading" = "Carregant";
@@ -414,14 +414,14 @@
 "Latency" = "Latència";
 "Upload speed" = "Velocitat de pujada";
 "Download speed" = "Velocitat de baixada";
-"Address" = "Address";
-"WiFi network" = "WiFi network";
-"Local IP changed" = "Local IP has changed";
-"Public IP changed" = "Public IP has changed";
-"Previous IP" = "Previous IP: %0";
-"New IP" = "New IP: %0";
-"Internet connection lost" = "Internet connection lost";
-"Internet connection established" = "Internet connection established";
+"Address" = "Adreça"; // translategemma:4b
+"WiFi network" = "Xarxa Wi-Fi"; // translategemma:4b
+"Local IP changed" = "La direcció IP local s'ha modificat"; // translategemma:4b
+"Public IP changed" = "La direcció IP pública ha canviat."; // translategemma:4b
+"Previous IP" = "Adreça IP anterior: %0"; // translategemma:4b
+"New IP" = "Nova IP: %0"; // translategemma:4b
+"Internet connection lost" = "S'ha perdut la connexió a Internet"; // translategemma:4b
+"Internet connection established" = "Connexió a Internet establerta"; // translategemma:4b
 
 // Battery
 "Level" = "Nivell";
@@ -461,7 +461,7 @@
 "Colorize battery" = "Acoloreix la bateria";
 "Charging current" = "Corrent de càrrega";
 "Charging Voltage" = "Voltatge de càrrega";
-"Charger state inside the battery" = "Charger state inside the battery";
+"Charger state inside the battery" = "Estat del carregador dins de la bateria"; // translategemma:4b
 
 // Bluetooth
 "Battery to show" = "Bateria a mostrar";
@@ -471,11 +471,11 @@
 "Time zone" = "Zona horària";
 "Local" = "Local";
 "Calendar" = "Calendari";
-"Show week numbers" = "Show week numbers";
+"Show week numbers" = "Mostrar els números de la setmana"; // translategemma:4b
 "Local time" = "Hora local";
-"Add new clock" = "Add new clock";
-"Delete selected clock" = "Delete selected clock";
-"Help with datetime format" = "Help with datetime format";
+"Add new clock" = "Afegir un nou rellotge"; // translategemma:4b
+"Delete selected clock" = "Eliminar l'horari seleccionat"; // translategemma:4b
+"Help with datetime format" = "Ajuda amb el format de data i hora"; // translategemma:4b
 
 // Colors
 "Based on utilization" = "Basat en l'utilització";

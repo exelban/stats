@@ -18,9 +18,9 @@
 "Open RAM settings" = "Åpne minneinnstillinger";
 "Disk" = "Disk";
 "Open Disk settings" = "Åpne diskinnstillinger";
-"Sensors" = "Sensors";
+"Sensors" = "Sensorer"; // translategemma:4b
 "Open Sensors settings" = "Åpne sensorinnstillinger";
-"Network" = "Network";
+"Network" = "Nettverk"; // translategemma:4b
 "Open Network settings" = "Åpne nettverksinnstillinger";
 "Battery" = "Batteri";
 "Open Battery settings" = "Åpne batteriinnstillinger";
@@ -52,7 +52,7 @@
 "Long" = "Lang";
 "Statistics" = "Statistikk";
 "Max" = "Maks";
-"Min" = "Min";
+"Min" = "Mitt"; // translategemma:4b
 "Reset" = "Nullstill";
 "Alignment" = "Justering";
 "Left alignment" = "Venstre";
@@ -69,37 +69,37 @@
 "Square" = "Kvadratisk";
 "Cube" = "Kubisk";
 "Logarithmic" = "Logaritmisk";
-"Fixed scale" = "Fixed";
+"Fixed scale" = "Løst"; // translategemma:4b
 "Cores" = "Kjerner";
 "Settings" = "Innstillinger";
 "Name" = "Navn";
 "Format" = "Format";
 "Turn off" = "Slå av";
 "Normal" = "Normal";
-"Warning" = "Warning";
-"Critical" = "Critical";
-"Usage" = "Usage";
-"2 minutes" = "2 minutes";
-"3 minutes" = "3 minutes";
-"10 minutes" = "10 minutes";
+"Warning" = "Advarsel"; // translategemma:4b
+"Critical" = "Kritisk"; // translategemma:4b
+"Usage" = "Bruk"; // translategemma:4b
+"2 minutes" = "2 minutter"; // translategemma:4b
+"3 minutes" = "3 minutter"; // translategemma:4b
+"10 minutes" = "10 minutter"; // translategemma:4b
 "Import" = "Import";
-"Export" = "Export";
-"Separator" = "Separator";
-"Read" = "Read";
-"Write" = "Write";
-"Frequency" = "Frequency";
-"Save" = "Save";
-"Run" = "Run";
-"Stop" = "Stop";
-"Uninstall" = "Uninstall";
-"1 sec" = "1 sec";
-"2 sec" = "2 sec";
-"3 sec" = "3 sec";
-"5 sec" = "5 sec";
-"10 sec" = "10 sec";
-"15 sec" = "15 sec";
-"30 sec" = "30 sec";
-"60 sec" = "60 sec";
+"Export" = "Eksport"; // translategemma:4b
+"Separator" = "Skillelinje"; // translategemma:4b
+"Read" = "Les"; // translategemma:4b
+"Write" = "Skriv"; // translategemma:4b
+"Frequency" = "Frekvens"; // translategemma:4b
+"Save" = "Lagre"; // translategemma:4b
+"Run" = "Kjør"; // translategemma:4b
+"Stop" = "Stopp"; // translategemma:4b
+"Uninstall" = "Fjern"; // translategemma:4b
+"1 sec" = "1 sekund"; // translategemma:4b
+"2 sec" = "2 sekunder"; // translategemma:4b
+"3 sec" = "3 sekunder"; // translategemma:4b
+"5 sec" = "5 sek"; // translategemma:4b
+"10 sec" = "10 sek"; // translategemma:4b
+"15 sec" = "15 sek"; // translategemma:4b
+"30 sec" = "30 sek"; // translategemma:4b
+"60 sec" = "60 sek"; // translategemma:4b
 
 // Setup
 "Stats Setup" = "Stats-oppsett";
@@ -140,9 +140,9 @@
 "Close application" = "Lukk programmet";
 "Open application settings" = "Åpne programinnstillinger";
 "Open dashboard" = "Åpne dashboard";
-"No notifications available in this module" = "No notifications available in this module";
-"Open Calendar" = "Open Calendar";
-"Toggle the module" = "Toggle the module";
+"No notifications available in this module" = "Ingen varsler er tilgjengelige i dette modulen"; // translategemma:4b
+"Open Calendar" = "Åpne kalender"; // translategemma:4b
+"Toggle the module" = "Aktiver/deaktiver modulen"; // translategemma:4b
 
 // Application settings
 "Update application" = "Oppdater programmet";
@@ -156,29 +156,29 @@
 "Show icon in dock" = "Vis ikon i dock";
 "Start at login" = "Start ved innlogging";
 "Build number" = "Byggnummer";
-"Import settings" = "Import settings";
-"Export settings" = "Export settings";
+"Import settings" = "Importinnstillinger"; // translategemma:4b
+"Export settings" = "Eksportinnstillinger"; // translategemma:4b
 "Reset settings" = "Nullstill innstillinger";
 "Pause the Stats" = "Sett Stats på pause";
 "Resume the Stats" = "Gjenoppta Stats";
 "Combined modules" = "Kombinerte moduler";
-"Combined details" = "Combined details";
+"Combined details" = "Samlet informasjon"; // translategemma:4b
 "Spacing" = "Mellomrom";
 "Share anonymous telemetry" = "Del anonyme telemetridata";
-"Choose file" = "Choose file";
-"Stress tests" = "Stress tests";
+"Choose file" = "Velg fil"; // translategemma:4b
+"Stress tests" = "Stress-tester"; // translategemma:4b
 
 // Dashboard
 "Serial number" = "Serienummer";
-"Model identifier" = "Model identifier";
-"Production year" = "Production year";
+"Model identifier" = "Modell-identifikator"; // translategemma:4b
+"Production year" = "Produksjonsår"; // translategemma:4b
 "Uptime" = "Oppetid";
 "Number of cores" = "%0 kjerner";
 "Number of threads" = "%0 tråder";
 "Number of e-cores" = "%0 effektivitetskjerner";
 "Number of p-cores" = "%0 ytelseskjerner";
-"Disks" = "Disks";
-"Display" = "Display";
+"Disks" = "Disker"; // translategemma:4b
+"Display" = "Visning"; // translategemma:4b
 
 // Update
 "The latest version of Stats installed" = "Du har den nyeste versjonen av Stats";
@@ -196,7 +196,7 @@
 "Colorize value" = "Fargelegg verdi";
 "Additional information" = "Tilleggsinformasjon";
 "Reverse values order" = "Reverser rekkefølge på verdier";
-"Base" = "Base";
+"Base" = "Grunn"; // translategemma:4b
 "Display mode" = "Visningsmodus";
 "One row" = "En rad";
 "Two rows" = "To rader";
@@ -210,10 +210,10 @@
 "Stack widget" = "Bunke";
 "Memory widget" = "Tall";
 "Static width" = "Statisk bredde";
-"Tachometer widget" = "Tachometer";
+"Tachometer widget" = "Hastometer"; // translategemma:4b
 "State widget" = "Tilstandsdiagram";
-"Text widget" = "Text widget";
-"Battery details widget" = "Battery details widget";
+"Text widget" = "Tekstfelt"; // translategemma:4b
+"Battery details widget" = "Widget for batteriinformasjon"; // translategemma:4b
 "Show symbols" = "Vis symboler";
 "Label widget" = "Merkelapp";
 "Number of reads in the chart" = "Antall avlesninger i diagrammet";
@@ -221,10 +221,10 @@
 "Color of upload" = "Farge for opplasting";
 "Monospaced font" = "Skrifttype med fast bredde";
 "Reverse order" = "Reversert rekkefølge";
-"Chart history" = "Chart history";
-"Default color" = "Default";
-"Transparent when no activity" = "Transparent when no activity";
-"Constant color" = "Constant";
+"Chart history" = "Grafhistorikk"; // translategemma:4b
+"Default color" = "Standard"; // translategemma:4b
+"Transparent when no activity" = "Transparent når det ikke er noen aktivitet"; // translategemma:4b
+"Constant color" = "Konstant"; // translategemma:4b
 
 // Module Kit
 "Open module settings" = "Åpne modulinnstillinger";
@@ -237,24 +237,24 @@
 "Pictogram" = "Piktogram";
 "Module" = "Modul";
 "Widgets" = "Widgeter";
-"Popup" = "Popup";
+"Popup" = "Pop-up"; // translategemma:4b
 "Notifications" = "Varsler";
 "Merge widgets" = "Slå sammen diagrammer";
 "No available widgets to configure" = "Ingen tilgjengelige diagrammer å konfigurere";
 "No options to configure for the popup in this module" = "Ingen innstillinger å konfigurere for popup-en i denne modulen";
-"Process" = "Process";
-"Kill process" = "Kill process";
-"Keyboard shortcut" = "Keyboard shortcut";
-"Listening..." = "Listening...";
+"Process" = "Prosess"; // translategemma:4b
+"Kill process" = "Avslutt prosessen"; // translategemma:4b
+"Keyboard shortcut" = "Tastatursnarvei"; // translategemma:4b
+"Listening..." = "Lytt..."; // translategemma:4b
 
 // Modules
 "Number of top processes" = "Antall topp-prosesser";
 "Update interval for top processes" = "Oppdateringsintervall for topp-prosesser";
 "Notification level" = "Varslingsnivå";
 "Chart color" = "Diagramfarge";
-"Main chart scaling" = "Main chart scaling";
-"Scale value" = "Scale value";
-"Text widget value" = "Text widget value";
+"Main chart scaling" = "Hovedskala for diagrammet"; // translategemma:4b
+"Scale value" = "Skalaverdi"; // translategemma:4b
+"Text widget value" = "Verdi for tekstfelt"; // translategemma:4b
 
 // CPU
 "CPU usage" = "CPU-bruk";
@@ -282,12 +282,12 @@
 "Cluster grouping" = "Klyngegruppering";
 "Efficiency cores color" = "Farge på effektivitetskjerner";
 "Performance cores color" = "Farge på ytelseskjerner";
-"Total load" = "Total load";
-"System load" = "System load";
-"User load" = "User load";
-"Efficiency cores load" = "Efficiency cores load";
-"Performance cores load" = "Performance cores load";
-"All cores" = "All cores";
+"Total load" = "Total last"; // translategemma:4b
+"System load" = "Systembelastning"; // translategemma:4b
+"User load" = "Brukerbelastning"; // translategemma:4b
+"Efficiency cores load" = "Effektivitetskerner laster"; // translategemma:4b
+"Performance cores load" = "Ytelseskjerner lastes"; // translategemma:4b
+"All cores" = "Alle kjerner"; // translategemma:4b
 
 // GPU
 "GPU to show" = "GPU å vise";
@@ -327,9 +327,9 @@
 "Wired color" = "Bundet farge";
 "Compressed color" = "Komprimert farge";
 "Free color" = "Ledig farge";
-"Free memory (less than)" = "Free memory (less than)";
-"Swap size" = "Swap size";
-"Free RAM is" = "Free RAM is %0";
+"Free memory (less than)" = "Gratis minne (mindre enn)"; // translategemma:4b
+"Swap size" = "Byttes størrelse"; // translategemma:4b
+"Free RAM is" = "Gratis RAM er %0"; // translategemma:4b
 
 // Disk
 "Show removable disks" = "Vis utløsbare disker";
@@ -343,12 +343,12 @@
 "Read color" = "Lesefarge";
 "Write color" = "Skrivefarge";
 "Disk usage" = "Diskbruk";
-"Total read" = "Total read";
-"Total written" = "Total written";
-"Write speed" = "Write";
-"Read speed" = "Read";
+"Total read" = "Total lest"; // translategemma:4b
+"Total written" = "Totalt skrevet"; // translategemma:4b
+"Write speed" = "Skriv"; // translategemma:4b
+"Read speed" = "Les"; // translategemma:4b
 "Drives" = "Drives";
-"SMART data" = "SMART data";
+"SMART data" = "SMART-data"; // translategemma:4b
 
 // Sensors
 "Temperature unit" = "Temperaturenhet";
@@ -366,11 +366,11 @@
 "Fan value" = "Vifteverdi";
 "Turn off fan" = "Slå av viften";
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Du slå nå av viften. Dette er en ikke-anbefalt handling som kan skade Mac-en din, er du sikker på at vil gjøre dette?";
-"Sensor threshold" = "Sensor threshold";
-"Left fan" = "Left";
-"Right fan" = "Right";
-"Fastest fan" = "Fastest";
-"Sensor to show" = "Sensor to show";
+"Sensor threshold" = "Sensortilstand"; // translategemma:4b
+"Left fan" = "Venstre"; // translategemma:4b
+"Right fan" = "Riktig"; // translategemma:4b
+"Fastest fan" = "Raskest"; // translategemma:4b
+"Sensor to show" = "Sensor for å vise"; // translategemma:4b
 
 // Network
 "Uploading" = "Opplasting";
@@ -411,17 +411,17 @@
 "Every 24 hours" = "Hver 24. time";
 "Network activity" = "Nettverksaktivitet";
 "Last reset" = "Sist nullstilt %0 siden";
-"Latency" = "Latency";
-"Upload speed" = "Upload";
-"Download speed" = "Download";
-"Address" = "Address";
-"WiFi network" = "WiFi network";
-"Local IP changed" = "Local IP has changed";
-"Public IP changed" = "Public IP has changed";
-"Previous IP" = "Previous IP: %0";
-"New IP" = "New IP: %0";
-"Internet connection lost" = "Internet connection lost";
-"Internet connection established" = "Internet connection established";
+"Latency" = "Forsinkelse"; // translategemma:4b
+"Upload speed" = "Last opp"; // translategemma:4b
+"Download speed" = "Last ned"; // translategemma:4b
+"Address" = "Adresse"; // translategemma:4b
+"WiFi network" = "WiFi-nettverk"; // translategemma:4b
+"Local IP changed" = "Den lokale IP-adressen har endret seg."; // translategemma:4b
+"Public IP changed" = "Den offentlige IP-adressen har endret seg."; // translategemma:4b
+"Previous IP" = "Tidligere IP-adresse: %0"; // translategemma:4b
+"New IP" = "Ny IP: %0"; // translategemma:4b
+"Internet connection lost" = "Internett-tilkoblingen er tapt."; // translategemma:4b
+"Internet connection established" = "Internett-tilkobling etablert"; // translategemma:4b
 
 // Battery
 "Level" = "Nivå";
@@ -459,9 +459,9 @@
 "Low power mode" = "Lav energi-modus";
 "Percentage inside the icon" = "Prosent inne i ikonet";
 "Colorize battery" = "Fargelegg batteri";
-"Charging current" = "Charging current";
-"Charging Voltage" = "Charging voltage";
-"Charger state inside the battery" = "Charger state inside the battery";
+"Charging current" = "Lade-strøm"; // translategemma:4b
+"Charging Voltage" = "Ladevoltat"; // translategemma:4b
+"Charger state inside the battery" = "Tilstand for laderen inne i batteriet"; // translategemma:4b
 
 // Bluetooth
 "Battery to show" = "Batteri å vise";
@@ -470,12 +470,12 @@
 // Clock
 "Time zone" = "Tidssone";
 "Local" = "Lokal";
-"Calendar" = "Calendar";
-"Show week numbers" = "Show week numbers";
-"Local time" = "Local time";
-"Add new clock" = "Add new clock";
-"Delete selected clock" = "Delete selected clock";
-"Help with datetime format" = "Help with datetime format";
+"Calendar" = "Kalender"; // translategemma:4b
+"Show week numbers" = "Vis ukenummer"; // translategemma:4b
+"Local time" = "Lokal tid"; // translategemma:4b
+"Add new clock" = "Legg til ny klokke"; // translategemma:4b
+"Delete selected clock" = "Slett valgt klokke"; // translategemma:4b
+"Help with datetime format" = "Hjelp med formatering av dato og klokkeslett"; // translategemma:4b
 
 // Colors
 "Based on utilization" = "Basert på bruk";

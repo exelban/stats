@@ -75,7 +75,7 @@
 "Name" = "الاسم";
 "Format" = "التنسيق";
 "Turn off" = "إيقاف";
-"Normal" = "Normal";
+"Normal" = "طبيعي"; // translategemma:4b
 "Warning" = "تحذير";
 "Critical" = "حرج";
 "Usage" = "الاستخدام";
@@ -84,22 +84,22 @@
 "10 minutes" = "10 دقائق";
 "Import" = "استيراد";
 "Export" = "تصدير";
-"Separator" = "Separator";
-"Read" = "Read";
-"Write" = "Write";
-"Frequency" = "Frequency";
-"Save" = "Save";
-"Run" = "Run";
-"Stop" = "Stop";
-"Uninstall" = "Uninstall";
-"1 sec" = "1 sec";
-"2 sec" = "2 sec";
-"3 sec" = "3 sec";
-"5 sec" = "5 sec";
-"10 sec" = "10 sec";
-"15 sec" = "15 sec";
-"30 sec" = "30 sec";
-"60 sec" = "60 sec";
+"Separator" = "فاصل"; // translategemma:4b
+"Read" = "اقرأ"; // translategemma:4b
+"Write" = "اكتب"; // translategemma:4b
+"Frequency" = "التردد"; // translategemma:4b
+"Save" = "حفظ"; // translategemma:4b
+"Run" = "تشغيل"; // translategemma:4b
+"Stop" = "توقف"; // translategemma:4b
+"Uninstall" = "إلغاء التثبيت"; // translategemma:4b
+"1 sec" = "1 ثانية"; // translategemma:4b
+"2 sec" = "2 ثانية"; // translategemma:4b
+"3 sec" = "3 ثانية"; // translategemma:4b
+"5 sec" = "5 ثانية"; // translategemma:4b
+"10 sec" = "10 ثانية"; // translategemma:4b
+"15 sec" = "15 ثانية"; // translategemma:4b
+"30 sec" = "30 ثانية"; // translategemma:4b
+"60 sec" = "60 ثانية"; // translategemma:4b
 
 // Setup
 "Stats Setup" = "إعدادات الإحصاءات";
@@ -141,8 +141,8 @@
 "Open application settings" = "فتح إعدادات التطبيق";
 "Open dashboard" = "فتح لوحة التحكم";
 "No notifications available in this module" = "لا توجد إشعارات متاحة في هذه الوحدة";
-"Open Calendar" = "Open Calendar";
-"Toggle the module" = "Toggle the module";
+"Open Calendar" = "فتح التقويم"; // translategemma:4b
+"Toggle the module" = "تشغيل/إيقاف الوحدة."; // translategemma:4b
 
 // Application settings
 "Update application" = "تحديث التطبيق";
@@ -156,29 +156,29 @@
 "Show icon in dock" = "إظهار الرمز في القائمة";
 "Start at login" = "بدء التشغيل عند تسجيل الدخول";
 "Build number" = "رقم الإصدار";
-"Import settings" = "Import settings";
-"Export settings" = "Export settings";
+"Import settings" = "استيراد الإعدادات"; // translategemma:4b
+"Export settings" = "إعدادات التصدير"; // translategemma:4b
 "Reset settings" = "إعادة ضبط الإعدادات";
 "Pause the Stats" = "إيقاف الإحصاءات";
 "Resume the Stats" = "استئناف الإحصاءات";
 "Combined modules" = "الوحدات المجتمعة";
-"Combined details" = "Combined details";
+"Combined details" = "تفاصيل مجمعة"; // translategemma:4b
 "Spacing" = "التباعد";
 "Share anonymous telemetry" = "مشاركة بيانات التشخيص المجهولة";
-"Choose file" = "Choose file";
-"Stress tests" = "Stress tests";
+"Choose file" = "اختر الملف"; // translategemma:4b
+"Stress tests" = "اختبارات تحمل الضغط"; // translategemma:4b
 
 // Dashboard
 "Serial number" = "الرقم التسلسلي";
-"Model identifier" = "Model identifier";
-"Production year" = "Production year";
+"Model identifier" = "معرف النموذج"; // translategemma:4b
+"Production year" = "سنة الإنتاج"; // translategemma:4b
 "Uptime" = "وقت التشغيل";
 "Number of cores" = "%0 نوى";
 "Number of threads" = "%0 خيوط";
 "Number of e-cores" = "%0 نوى كفاءة";
 "Number of p-cores" = "%0 نوى أداء";
-"Disks" = "Disks";
-"Display" = "Display";
+"Disks" = "الأقراص"; // translategemma:4b
+"Display" = "عرض"; // translategemma:4b
 
 // Update
 "The latest version of Stats installed" = "تم تثبيت أحدث إصدار من الإحصاءات";
@@ -212,8 +212,8 @@
 "Static width" = "عرض ثابت";
 "Tachometer widget" = "عداد سرعة";
 "State widget" = "عداد حالة";
-"Text widget" = "Text widget";
-"Battery details widget" = "Battery details widget";
+"Text widget" = "عنصري نص"; // translategemma:4b
+"Battery details widget" = "وحدة معلومات البطارية"; // translategemma:4b
 "Show symbols" = "إظهار الرموز";
 "Label widget" = "تسمية";
 "Number of reads in the chart" = "عدد القراءات في المخطط";
@@ -222,9 +222,9 @@
 "Monospaced font" = "خط ذو تساوي المسافات";
 "Reverse order" = "ترتيب عكسي";
 "Chart history" = "مدة المخطط";
-"Default color" = "Default";
-"Transparent when no activity" = "Transparent when no activity";
-"Constant color" = "Constant";
+"Default color" = "القيمة الافتراضية"; // translategemma:4b
+"Transparent when no activity" = "شفاف عندما لا يوجد نشاط"; // translategemma:4b
+"Constant color" = "ثابت"; // translategemma:4b
 
 // Module Kit
 "Open module settings" = "فتح إعدادات الوحدة";
@@ -244,8 +244,8 @@
 "No options to configure for the popup in this module" = "لا توجد خيارات للتكوين للقائمة المنبثقة في هذه الوحدة";
 "Process" = "عملية";
 "Kill process" = "إيقاف العملية";
-"Keyboard shortcut" = "Keyboard shortcut";
-"Listening..." = "Listening...";
+"Keyboard shortcut" = "اختصار لوحة المفاتيح"; // translategemma:4b
+"Listening..." = "الاستماع..."; // translategemma:4b
 
 // Modules
 "Number of top processes" = "عدد أعلى العمليات";
@@ -254,7 +254,7 @@
 "Chart color" = "لون المخطط";
 "Main chart scaling" = "تحجيم المخطط الرئيسي";
 "Scale value" = "قيمة المقياس";
-"Text widget value" = "Text widget value";
+"Text widget value" = "قيمة عنصر واجهة النص"; // translategemma:4b
 
 // CPU
 "CPU usage" = "استخدام المعالج";
@@ -287,7 +287,7 @@
 "User load" = "حمل المستخدم";
 "Efficiency cores load" = "حمل نوى الكفاءة";
 "Performance cores load" = "حمل نوى الأداء";
-"All cores" = "All cores";
+"All cores" = "جميع النواة"; // translategemma:4b
 
 // GPU
 "GPU to show" = "عرض GPU";
@@ -345,10 +345,10 @@
 "Disk usage" = "استخدام القرص";
 "Total read" = "إجمالي القراءة";
 "Total written" = "إجمالي الكتابة";
-"Write speed" = "Write";
-"Read speed" = "Read";
-"Drives" = "Drives";
-"SMART data" = "SMART data";
+"Write speed" = "اكتب"; // translategemma:4b
+"Read speed" = "اقرأ"; // translategemma:4b
+"Drives" = "محركات"; // translategemma:4b
+"SMART data" = "بيانات ذكية"; // translategemma:4b
 
 // Sensors
 "Temperature unit" = "وحدة الحرارة";
@@ -370,7 +370,7 @@
 "Left fan" = "المروحة اليسرى";
 "Right fan" = "المروحة اليمنى";
 "Fastest fan" = "أسرع مروحة";
-"Sensor to show" = "Sensor to show";
+"Sensor to show" = "جهاز إشارة"; // translategemma:4b
 
 // Network
 "Uploading" = "تحميل";
@@ -412,16 +412,16 @@
 "Network activity" = "نشاط الشبكة";
 "Last reset" = "آخر إعادة تعيين منذ %0";
 "Latency" = "تأخير";
-"Upload speed" = "Upload";
-"Download speed" = "Download";
-"Address" = "Address";
-"WiFi network" = "WiFi network";
-"Local IP changed" = "Local IP has changed";
-"Public IP changed" = "Public IP has changed";
-"Previous IP" = "Previous IP: %0";
-"New IP" = "New IP: %0";
-"Internet connection lost" = "Internet connection lost";
-"Internet connection established" = "Internet connection established";
+"Upload speed" = "تحميل"; // translategemma:4b
+"Download speed" = "تنزيل"; // translategemma:4b
+"Address" = "العنوان"; // translategemma:4b
+"WiFi network" = "شبكة Wi-Fi"; // translategemma:4b
+"Local IP changed" = "تغير عنوان IP المحلي"; // translategemma:4b
+"Public IP changed" = "تغير عنوان IP العام."; // translategemma:4b
+"Previous IP" = "عنوان IP السابق: %0"; // translategemma:4b
+"New IP" = "عنوان IP الجديد: %0"; // translategemma:4b
+"Internet connection lost" = "فقدان الاتصال بالإنترنت"; // translategemma:4b
+"Internet connection established" = "تم إنشاء اتصال بالإنترنت"; // translategemma:4b
 
 // Battery
 "Level" = "المستوى";
@@ -459,9 +459,9 @@
 "Low power mode" = "وضع الطاقة المنخفضة";
 "Percentage inside the icon" = "النسبة المئوية داخل الرمز";
 "Colorize battery" = "تلوين البطارية";
-"Charging current" = "Charging current";
-"Charging Voltage" = "Charging voltage";
-"Charger state inside the battery" = "Charger state inside the battery";
+"Charging current" = "تيار الشحن"; // translategemma:4b
+"Charging Voltage" = "جهد الشحن"; // translategemma:4b
+"Charger state inside the battery" = "حالة الشاحن داخل البطارية"; // translategemma:4b
 
 // Bluetooth
 "Battery to show" = "البطارية المراد عرضها";
@@ -470,12 +470,12 @@
 // Clock
 "Time zone" = "المنطقة الزمنية";
 "Local" = "محلي";
-"Calendar" = "Calendar";
-"Show week numbers" = "Show week numbers";
-"Local time" = "Local time";
-"Add new clock" = "Add new clock";
-"Delete selected clock" = "Delete selected clock";
-"Help with datetime format" = "Help with datetime format";
+"Calendar" = "تقويم"; // translategemma:4b
+"Show week numbers" = "عرض أرقام الأسابيع"; // translategemma:4b
+"Local time" = "الوقت المحلي"; // translategemma:4b
+"Add new clock" = "أضف ساعة جديدة"; // translategemma:4b
+"Delete selected clock" = "حذف الساعة المحددة"; // translategemma:4b
+"Help with datetime format" = "مساعدة في تنسيق التاريخ والوقت"; // translategemma:4b
 
 // Colors
 "Based on utilization" = "بناءً على الاستخدام";
