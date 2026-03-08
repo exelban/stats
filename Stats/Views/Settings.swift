@@ -219,14 +219,34 @@ class SettingsWindow: NSWindow, NSWindowDelegate, NSToolbarDelegate {
 private class MainView: NSView {
     fileprivate let container: NSStackView = NSStackView()
     
+    private let background: NSVisualEffectView = {
+        let view = NSVisualEffectView(frame: NSRect.zero)
+        view.blendingMode = .withinWindow
+        view.material = .contentBackground
+        view.state = .active
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        view.setContentHuggingPriority(.defaultLow, for: .vertical)
+        view.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        view.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
+        return view
+    }()
+    
     override init(frame: NSRect) {
         super.init(frame: NSRect.zero)
         
+        self.translatesAutoresizingMaskIntoConstraints = false
         self.container.translatesAutoresizingMaskIntoConstraints = false
         
+        self.addSubview(self.background, positioned: .below, relativeTo: .none)
         self.addSubview(self.container)
         
         NSLayoutConstraint.activate([
+            self.background.leadingAnchor.constraint(equalTo: leadingAnchor),
+            self.background.trailingAnchor.constraint(equalTo: trailingAnchor),
+            self.background.topAnchor.constraint(equalTo: topAnchor),
+            self.background.bottomAnchor.constraint(equalTo: bottomAnchor),
+            
             self.container.leadingAnchor.constraint(equalTo: leadingAnchor),
             self.container.trailingAnchor.constraint(equalTo: trailingAnchor),
             self.container.topAnchor.constraint(equalTo: topAnchor, constant: Constants.Popup.headerHeight*1.4),
