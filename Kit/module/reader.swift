@@ -22,6 +22,7 @@ public protocol Reader_p {
     func start()
     func pause()
     func stop()
+    func replay()
     
     func lock()
     func unlock()
@@ -138,14 +139,16 @@ open class Reader<T: Codable>: NSObject, ReaderInternal_p {
             }
         }
         
-        if !self.initlizalized {
+        let shouldPrimeRead = !self.initlizalized || (self.popup && !self.active)
+        self.active = true
+
+        if shouldPrimeRead {
             DispatchQueue.global(qos: .background).async {
                 self.read()
             }
             self.initlizalized = true
         }
         self.repeatTask?.start()
-        self.active = true
     }
     
     open func pause() {
@@ -164,6 +167,11 @@ open class Reader<T: Codable>: NSObject, ReaderInternal_p {
         debug("Set update interval: \(Int(value)) sec", log: self.log)
         self.interval = Double(value)
         self.repeatTask?.reset(seconds: value, restart: true)
+    }
+
+    public func replay() {
+        guard self.active, let value = self.value else { return }
+        self.callbackHandler(value)
     }
     
     public func save(_ value: T) {
