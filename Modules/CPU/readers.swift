@@ -107,10 +107,10 @@ internal class LoadReader: Reader<CPU_Load> {
             return
         }
         
-        let userDiff = Double(cpuInfo!.cpu_ticks.0 - self.previousInfo.cpu_ticks.0)
-        let sysDiff  = Double(cpuInfo!.cpu_ticks.1 - self.previousInfo.cpu_ticks.1)
-        let idleDiff = Double(cpuInfo!.cpu_ticks.2 - self.previousInfo.cpu_ticks.2)
-        let niceDiff = Double(cpuInfo!.cpu_ticks.3 - self.previousInfo.cpu_ticks.3)
+        let userDiff = Double(cpuInfo!.cpu_ticks.0 &- self.previousInfo.cpu_ticks.0)
+        let sysDiff  = Double(cpuInfo!.cpu_ticks.1 &- self.previousInfo.cpu_ticks.1)
+        let idleDiff = Double(cpuInfo!.cpu_ticks.2 &- self.previousInfo.cpu_ticks.2)
+        let niceDiff = Double(cpuInfo!.cpu_ticks.3 &- self.previousInfo.cpu_ticks.3)
         let totalTicks = sysDiff + userDiff + niceDiff + idleDiff
         
         let system = sysDiff / totalTicks
