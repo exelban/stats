@@ -624,6 +624,85 @@ public struct TopProcess: Codable, Process_p {
     }
 }
 
+public enum ProcessMemoryTrackMode: String, Codable {
+    case process = "process"
+    case application = "application"
+
+    public var title: String {
+        switch self {
+        case .process: return localizedString("Single process")
+        case .application: return localizedString("Combined application")
+        }
+    }
+}
+
+public struct ProcessMemorySelection: Codable {
+    public let pid: Int
+    public let responsiblePid: Int
+    public let name: String
+    public let bundleIdentifier: String?
+    public let mode: ProcessMemoryTrackMode
+
+    public init(pid: Int, responsiblePid: Int, name: String, bundleIdentifier: String?, mode: ProcessMemoryTrackMode) {
+        self.pid = pid
+        self.responsiblePid = responsiblePid
+        self.name = name
+        self.bundleIdentifier = bundleIdentifier
+        self.mode = mode
+    }
+
+    public var displayName: String {
+        if !self.name.isEmpty {
+            return self.name
+        }
+        return "\(self.mode.title) \(self.mode == .application ? self.responsiblePid : self.pid)"
+    }
+
+    public static func storeKey(module: String) -> String {
+        "\(module)_processMemorySelection"
+    }
+
+    public static func load(module: String) -> ProcessMemorySelection? {
+        guard let raw = Store.shared.data(key: self.storeKey(module: module)),
+              let value = try? JSONDecoder().decode(ProcessMemorySelection.self, from: raw) else {
+            return nil
+        }
+        return value
+    }
+
+    public func save(module: String) {
+        guard let raw = try? JSONEncoder().encode(self) else { return }
+        Store.shared.set(key: Self.storeKey(module: module), value: raw)
+    }
+
+    public static func clear(module: String) {
+        Store.shared.remove(self.storeKey(module: module))
+    }
+}
+
+public struct TrackedProcessMemory: Codable {
+    public let selection: ProcessMemorySelection
+    public let pid: Int?
+    public let name: String
+    public let usage: Double?
+    public let bundleIdentifier: String?
+
+    public init(selection: ProcessMemorySelection, pid: Int?, name: String, usage: Double?, bundleIdentifier: String?) {
+        self.selection = selection
+        self.pid = pid
+        self.name = name
+        self.usage = usage
+        self.bundleIdentifier = bundleIdentifier
+    }
+
+    public var displayName: String {
+        if !self.name.isEmpty {
+            return self.name
+        }
+        return self.selection.displayName
+    }
+}
+
 public func fetchIOService(_ name: String) -> [NSDictionary]? {
     var iterator: io_iterator_t = io_iterator_t()
     var obj: io_registry_entry_t = 1

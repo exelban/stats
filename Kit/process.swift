@@ -25,6 +25,11 @@ public class ProcessesView: NSStackView {
     }
     private var list: [ProcessView] = []
     private var colorViews: [ColorView] = []
+    public var contextualMenu: ((Process_p) -> NSMenu?)? {
+        didSet {
+            self.list.forEach { $0.contextualMenu = self.contextualMenu }
+        }
+    }
     
     public init(frame: NSRect, values: [ProcessHeader], n: Int = 0) {
         super.init(frame: frame)
@@ -37,6 +42,7 @@ public class ProcessesView: NSStackView {
         
         for _ in 0..<n {
             let view = ProcessView(n: values.count)
+            view.contextualMenu = self.contextualMenu
             self.addArrangedSubview(view)
             self.list.append(view)
         }
@@ -122,6 +128,8 @@ public class ProcessView: NSStackView {
     
     private var pid: Int? = nil
     private var lock: Bool = false
+    fileprivate var contextualMenu: ((Process_p) -> NSMenu?)? = nil
+    private var currentProcess: Process_p? = nil
     
     private var imageView: NSImageView = NSImageView()
     private var killView: NSButton = NSButton()
@@ -230,10 +238,21 @@ public class ProcessView: NSStackView {
     public override func mouseDown(with: NSEvent) {
         self.setLock(!self.lock)
     }
+
+    public override func rightMouseDown(with event: NSEvent) {
+        guard let process = self.currentProcess,
+              let menu = self.contextualMenu?(process),
+              menu.items.isEmpty == false else {
+            super.rightMouseDown(with: event)
+            return
+        }
+        NSMenu.popUpContextMenu(menu, with: event, for: self)
+    }
     
     fileprivate func set(_ process: Process_p, _ values: [String]) {
         if self.lock && process.pid != self.pid { return }
         
+        self.currentProcess = process
         self.labelView.stringValue = process.name
         values.enumerated().forEach({ self.valueViews[$0.offset].stringValue = $0.element })
         self.imageView.image = process.icon
@@ -246,6 +265,7 @@ public class ProcessView: NSStackView {
         self.valueViews.forEach({ $0.stringValue = symbol })
         self.imageView.image = nil
         self.pid = nil
+        self.currentProcess = nil
         self.setLock(false)
         self.toolTip = symbol
     }

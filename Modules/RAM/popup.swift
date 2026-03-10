@@ -12,6 +12,16 @@
 import Cocoa
 import Kit
 
+private final class ProcessPinPayload: NSObject {
+    let process: TopProcess
+    let mode: ProcessMemoryTrackMode
+
+    init(process: TopProcess, mode: ProcessMemoryTrackMode) {
+        self.process = process
+        self.mode = mode
+    }
+}
+
 internal class Popup: PopupWrapper {
     private var grid: NSGridView? = nil
     
@@ -42,9 +52,13 @@ internal class Popup: PopupWrapper {
     private var processesInitialized: Bool = false
     
     private var processes: ProcessesView? = nil
+    public var pinProcessCallback: ((TopProcess, ProcessMemoryTrackMode) -> Void) = { _, _ in }
     
     private var numberOfProcesses: Int {
         Store.shared.int(key: "\(self.title)_processes", defaultValue: 8)
+    }
+    private var combinedProcessesState: Bool {
+        Store.shared.bool(key: "\(self.title)_combinedProcesses", defaultValue: false)
     }
     private var processesHeight: CGFloat {
         (self.processHeight*CGFloat(self.numberOfProcesses)) + (self.numberOfProcesses == 0 ? 0 : Constants.Popup.separatorHeight + 22)
@@ -205,6 +219,9 @@ internal class Popup: PopupWrapper {
             values: [(localizedString("Usage"), nil)],
             n: self.numberOfProcesses
         )
+        container.contextualMenu = { [weak self] process in
+            self?.processMenu(for: process)
+        }
         self.processes = container
         
         view.addSubview(separator)
@@ -278,6 +295,41 @@ internal class Popup: PopupWrapper {
             
             self.processesInitialized = true
         })
+    }
+
+    private func processMenu(for process: Process_p) -> NSMenu? {
+        guard let process = process as? TopProcess else { return nil }
+
+        let menu = NSMenu()
+        let pinProcessItem = NSMenuItem(
+            title: localizedString("Pin %0 process memory to the menu bar", process.name),
+            action: #selector(self.pinProcess),
+            keyEquivalent: ""
+        )
+        pinProcessItem.target = self
+        pinProcessItem.representedObject = ProcessPinPayload(process: process, mode: .process)
+
+        let pinApplicationItem = NSMenuItem(
+            title: localizedString("Pin %0 app memory to the menu bar", process.name),
+            action: #selector(self.pinProcess),
+            keyEquivalent: ""
+        )
+        pinApplicationItem.target = self
+        pinApplicationItem.representedObject = ProcessPinPayload(process: process, mode: .application)
+
+        if self.combinedProcessesState {
+            menu.addItem(pinApplicationItem)
+        } else {
+            menu.addItem(pinProcessItem)
+            menu.addItem(pinApplicationItem)
+        }
+
+        return menu
+    }
+
+    @objc private func pinProcess(_ sender: NSMenuItem) {
+        guard let payload = sender.representedObject as? ProcessPinPayload else { return }
+        self.pinProcessCallback(payload.process, payload.mode)
     }
     
     // MARK: - Settings

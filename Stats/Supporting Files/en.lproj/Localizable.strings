@@ -213,6 +213,7 @@
 "Tachometer widget" = "Tachometer";
 "State widget" = "State widget";
 "Text widget" = "Text widget";
+"Process memory widget" = "Process memory";
 "Battery details widget" = "Battery details widget";
 "Show symbols" = "Show symbols";
 "Label widget" = "Label";
@@ -243,6 +244,10 @@
 "No available widgets to configure" = "No available widgets to configure";
 "No options to configure for the popup in this module" = "No options to configure for the popup in this module";
 "Process" = "Process";
+"Selected item" = "Selected item";
+"Tracking" = "Tracking";
+"Single process" = "Single process";
+"Combined application" = "Combined application";
 "Kill process" = "Kill process";
 "Keyboard shortcut" = "Keyboard shortcut";
 "Listening..." = "Listening...";
@@ -330,6 +335,8 @@
 "Free memory (less than)" = "Free memory (less than)";
 "Swap size" = "Swap size";
 "Free RAM is" = "Free RAM is %0";
+"Pin %0 process memory to the menu bar" = "Pin %0 process memory to the menu bar";
+"Pin %0 app memory to the menu bar" = "Pin %0 app memory to the menu bar";
 
 // Disk
 "Show removable disks" = "Show removable disks";

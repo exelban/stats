@@ -98,3 +98,223 @@ public class TextWidget: WidgetWrapper {
         return pairs
     }
 }
+
+public class ProcessMemoryWidget: WidgetWrapper {
+    private var showIconState: Bool = true
+    private var showLabelState: Bool = true
+
+    private var selection: ProcessMemorySelection? = nil
+    private var value: TrackedProcessMemory? = nil
+
+    public init(title: String, config: NSDictionary?, preview: Bool = false) {
+        super.init(.processMemory, title: title, frame: CGRect(
+            x: 0,
+            y: Constants.Widget.margin.y,
+            width: 90,
+            height: Constants.Widget.height - (2 * Constants.Widget.margin.y)
+        ))
+
+        if preview {
+            let selection = ProcessMemorySelection(
+                pid: 0,
+                responsiblePid: 0,
+                name: "Fabriqa",
+                bundleIdentifier: nil,
+                mode: .application
+            )
+            self.selection = selection
+            self.value = TrackedProcessMemory(
+                selection: selection,
+                pid: nil,
+                name: "Fabriqa",
+                usage: 2.12 * Double(1024 * 1024 * 1024),
+                bundleIdentifier: nil
+            )
+        } else {
+            self.showIconState = Store.shared.bool(
+                key: "\(self.title)_\(self.type.rawValue)_showIcon",
+                defaultValue: self.showIconState
+            )
+            self.showLabelState = Store.shared.bool(
+                key: "\(self.title)_\(self.type.rawValue)_showLabel",
+                defaultValue: self.showLabelState
+            )
+            self.selection = ProcessMemorySelection.load(module: title)
+        }
+
+        self.canDrawConcurrently = true
+        self.updateTooltip()
+    }
+
+    required public init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    public override func draw(_ dirtyRect: NSRect) {
+        super.draw(dirtyRect)
+
+        var selection: ProcessMemorySelection? = nil
+        var value: TrackedProcessMemory? = nil
+        self.queue.sync {
+            selection = self.selection
+            value = self.value
+        }
+
+        let label = self.shortLabel(value?.displayName ?? selection?.displayName ?? localizedString("None"))
+        let usageValue = value?.usage == nil
+            ? "--"
+            : Units(bytes: Int64(value?.usage ?? 0)).getReadableMemory(style: .memory)
+        let icon = self.icon(selection: selection, value: value)
+        let iconSize: CGFloat = 14
+        let labelSize: CGFloat = 7
+        let valueSize: CGFloat = self.showLabelState ? 11 : 12
+
+        let style = NSMutableParagraphStyle()
+        style.alignment = .left
+
+        let labelAttributes: [NSAttributedString.Key: Any] = [
+            .font: NSFont.systemFont(ofSize: labelSize, weight: .light),
+            .foregroundColor: NSColor.secondaryLabelColor,
+            .paragraphStyle: style
+        ]
+        let valueAttributes: [NSAttributedString.Key: Any] = [
+            .font: NSFont.systemFont(ofSize: valueSize, weight: .regular),
+            .foregroundColor: NSColor.textColor,
+            .paragraphStyle: style
+        ]
+
+        let labelWidth = NSAttributedString(string: label, attributes: labelAttributes)
+            .boundingRect(with: CGSize(width: .greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude), options: [.usesLineFragmentOrigin, .usesFontLeading]).width
+        let valueWidth = NSAttributedString(string: usageValue, attributes: valueAttributes)
+            .boundingRect(with: CGSize(width: .greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude), options: [.usesLineFragmentOrigin, .usesFontLeading]).width
+
+        var x = Constants.Widget.margin.x
+        if self.showIconState {
+            let iconRect = CGRect(
+                x: x,
+                y: ((Constants.Widget.height - iconSize) / 2) - 0.5,
+                width: iconSize,
+                height: iconSize
+            )
+            icon.draw(in: iconRect)
+            x += iconSize + 4
+        }
+
+        let textWidth = max(labelWidth, valueWidth)
+        if self.showLabelState {
+            let labelRect = CGRect(
+                x: x,
+                y: 11.5,
+                width: textWidth,
+                height: labelSize + 1
+            )
+            NSAttributedString(string: label, attributes: labelAttributes).draw(with: labelRect)
+        }
+
+        let valueY: CGFloat = self.showLabelState ? 0.5 : ((Constants.Widget.height - valueSize) / 2) - 0.5
+        let valueRect = CGRect(
+            x: x,
+            y: valueY,
+            width: textWidth,
+            height: valueSize + 1
+        )
+        NSAttributedString(string: usageValue, attributes: valueAttributes).draw(with: valueRect)
+
+        let width = (x + textWidth + Constants.Widget.margin.x).roundedUpToNearestTen()
+        self.setWidth(width)
+    }
+
+    public func setSelection(_ selection: ProcessMemorySelection?) {
+        self.queue.sync {
+            self.selection = selection
+        }
+        self.updateTooltip()
+        DispatchQueue.main.async {
+            self.display()
+        }
+    }
+
+    public func setValue(_ value: TrackedProcessMemory?) {
+        self.queue.sync {
+            self.value = value
+            if let selection = value?.selection {
+                self.selection = selection
+            }
+        }
+        self.updateTooltip()
+        DispatchQueue.main.async {
+            self.display()
+        }
+    }
+
+    public override func settings() -> NSView {
+        let view = SettingsContainerView()
+        let selection = self.queue.sync { self.selection } ?? ProcessMemorySelection.load(module: self.title)
+        let trackedName = selection?.displayName ?? localizedString("None")
+        let trackingMode = selection?.mode.title ?? localizedString("None")
+
+        view.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Selected item"), component: textView(trackedName, alignment: .right)),
+            PreferencesRow(localizedString("Tracking"), component: textView(trackingMode, alignment: .right))
+        ]))
+
+        view.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Pictogram"), component: switchView(
+                action: #selector(self.toggleShowIcon),
+                state: self.showIconState
+            )),
+            PreferencesRow(localizedString("Label"), component: switchView(
+                action: #selector(self.toggleShowLabel),
+                state: self.showLabelState
+            ))
+        ]))
+
+        return view
+    }
+
+    @objc private func toggleShowIcon(_ sender: NSControl) {
+        self.showIconState = controlState(sender)
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_showIcon", value: self.showIconState)
+        self.display()
+    }
+
+    @objc private func toggleShowLabel(_ sender: NSControl) {
+        self.showLabelState = controlState(sender)
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_showLabel", value: self.showLabelState)
+        self.display()
+    }
+
+    private func shortLabel(_ raw: String) -> String {
+        let trimmed = raw.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard trimmed.count > 10 else { return trimmed }
+        return "\(trimmed.prefix(9))…"
+    }
+
+    private func icon(selection: ProcessMemorySelection?, value: TrackedProcessMemory?) -> NSImage {
+        if let pid = value?.pid,
+           let app = NSRunningApplication(processIdentifier: pid_t(pid)),
+           let icon = app.icon {
+            return icon
+        }
+        if let bundleIdentifier = value?.bundleIdentifier ?? selection?.bundleIdentifier,
+           let app = NSRunningApplication.runningApplications(withBundleIdentifier: bundleIdentifier).first,
+           let icon = app.icon {
+            return icon
+        }
+        if let pid = selection?.responsiblePid,
+           let app = NSRunningApplication(processIdentifier: pid_t(pid)),
+           let icon = app.icon {
+            return icon
+        }
+        return Constants.defaultProcessIcon
+    }
+
+    private func updateTooltip() {
+        let selection = self.queue.sync { self.selection }
+        let trackedName = selection?.displayName ?? localizedString("None")
+        let trackingMode = selection?.mode.title ?? localizedString("None")
+        DispatchQueue.main.async {
+            self.toolTip = "\(trackedName) (\(trackingMode))"
+        }
+    }
+}

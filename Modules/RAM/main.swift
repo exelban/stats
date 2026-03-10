@@ -61,6 +61,7 @@ public class RAM: Module {
     
     private var usageReader: UsageReader? = nil
     private var processReader: ProcessReader? = nil
+    private var pinnedProcessReader: PinnedProcessReader? = nil
     
     private var splitValueState: Bool {
         return Store.shared.bool(key: "\(self.config.name)_splitValue", defaultValue: false)
@@ -115,6 +116,8 @@ public class RAM: Module {
         
         self.settingsView.callback = { [weak self] in
             self?.usageReader?.read()
+            self?.processReader?.read()
+            self?.pinnedProcessReader?.read()
         }
         self.settingsView.setInterval = { [weak self] value in
             self?.processReader?.read()
@@ -122,6 +125,7 @@ public class RAM: Module {
         }
         self.settingsView.setTopInterval = { [weak self] value in
             self?.processReader?.setInterval(value)
+            self?.pinnedProcessReader?.setInterval(value)
         }
         
         self.usageReader = UsageReader(.RAM) { [weak self] value in
@@ -132,6 +136,12 @@ public class RAM: Module {
                 self?.popupView.processCallback(list)
             }
         }
+        self.pinnedProcessReader = PinnedProcessReader(.RAM) { [weak self] value in
+            self?.loadTrackedProcess(value)
+        }
+        self.popupView.pinProcessCallback = { [weak self] process, mode in
+            self?.pinProcess(process, mode: mode)
+        }
         
         self.settingsView.callbackWhenUpdateNumberOfProcesses = { [weak self] in
             self?.popupView.numberOfProcessesUpdated()
@@ -140,7 +150,8 @@ public class RAM: Module {
             }
         }
         
-        self.setReaders([self.usageReader, self.processReader])
+        self.setReaders([self.usageReader, self.processReader, self.pinnedProcessReader])
+        self.syncPinnedProcessWidgets()
     }
     
     private func loadCallback(_ raw: RAM_Usage?) {
@@ -242,6 +253,46 @@ public class RAM: Module {
             }
             WidgetCenter.shared.reloadTimelines(ofKind: RAM_entry.kind)
             WidgetCenter.shared.reloadTimelines(ofKind: "UnitedWidget")
+        }
+    }
+
+    private func pinProcess(_ process: TopProcess, mode: ProcessMemoryTrackMode) {
+        let selection = ProcessReader.selection(for: process, mode: mode)
+        selection.save(module: self.config.name)
+        self.loadTrackedProcess(TrackedProcessMemory(
+            selection: selection,
+            pid: nil,
+            name: selection.displayName,
+            usage: nil,
+            bundleIdentifier: selection.bundleIdentifier
+        ))
+
+        if let widget = self.menuBar.widgets.first(where: { $0.type == .processMemory }), !widget.isActive {
+            widget.toggle(true)
+        }
+
+        DispatchQueue.global(qos: .background).async {
+            self.pinnedProcessReader?.read()
+        }
+    }
+
+    private func syncPinnedProcessWidgets(_ selection: ProcessMemorySelection? = nil) {
+        let target = selection ?? ProcessMemorySelection.load(module: self.config.name)
+        self.menuBar.widgets.forEach { widget in
+            if let processWidget = widget.item as? ProcessMemoryWidget {
+                processWidget.setSelection(target)
+            }
+        }
+    }
+
+    private func loadTrackedProcess(_ raw: TrackedProcessMemory?) {
+        let selection = raw?.selection ?? ProcessMemorySelection.load(module: self.config.name)
+
+        self.menuBar.widgets.forEach { widget in
+            if let processWidget = widget.item as? ProcessMemoryWidget {
+                processWidget.setSelection(selection)
+                processWidget.setValue(raw)
+            }
         }
     }
 }
