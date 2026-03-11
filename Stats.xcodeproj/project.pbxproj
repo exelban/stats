@@ -63,6 +63,7 @@
 		5CA518382B543FE600EBCCC4 /* portal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA518372B543FE600EBCCC4 /* portal.swift */; };
 		5CAA50722C8E417700B13E13 /* Text.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CAA50712C8E417700B13E13 /* Text.swift */; };
 		5CB3878A2C35A7110030459D /* widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CB387892C35A7110030459D /* widget.swift */; };
+		5CC3B4E52F5A033000775E2C /* reader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC3B4E42F5A032E00775E2C /* reader.swift */; };
 		5CCA5CD52D4E8DB3002917F0 /* libIOReport.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C1E45552D11D66200525864 /* libIOReport.tbd */; };
 		5CD342F42B2F2FB700225631 /* notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD342F32B2F2FB700225631 /* notifications.swift */; };
 		5CE7E78C2C318512006BC92C /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CE7E78B2C318512006BC92C /* WidgetKit.framework */; };
@@ -548,6 +549,7 @@
 		5CA518372B543FE600EBCCC4 /* portal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = portal.swift; sourceTree = "<group>"; };
 		5CAA50712C8E417700B13E13 /* Text.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Text.swift; sourceTree = "<group>"; };
 		5CB387892C35A7110030459D /* widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = widget.swift; sourceTree = "<group>"; };
+		5CC3B4E42F5A032E00775E2C /* reader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = reader.swift; sourceTree = "<group>"; };
 		5CD342F32B2F2FB700225631 /* notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = notifications.swift; sourceTree = "<group>"; };
 		5CE7E78A2C318512006BC92C /* WidgetsExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WidgetsExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CE7E78B2C318512006BC92C /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
@@ -867,6 +869,7 @@
 			isa = PBXGroup;
 			children = (
 				5C2229A829CCB41900F00E69 /* main.swift */,
+				5CC3B4E42F5A032E00775E2C /* reader.swift */,
 				5C2229B729CE3F3300F00E69 /* popup.swift */,
 				5C044F792B3DE6F3005F6951 /* portal.swift */,
 				5C2229AE29CDC08700F00E69 /* settings.swift */,
@@ -1717,7 +1720,7 @@
 					New,
 				);
 				LastSwiftUpdateCheck = 1540;
-				LastUpgradeCheck = 2620;
+				LastUpgradeCheck = 2630;
 				ORGANIZATIONNAME = "Serhiy Mytrovtsiy";
 				TargetAttributes = {
 					5C22299C29CCB3C400F00E69 = {
@@ -2021,6 +2024,7 @@
 			files = (
 				5C2229AF29CDC08700F00E69 /* settings.swift in Sources */,
 				5C044F7A2B3DE6F3005F6951 /* portal.swift in Sources */,
+				5CC3B4E52F5A033000775E2C /* reader.swift in Sources */,
 				5C2229B829CE3F3300F00E69 /* popup.swift in Sources */,
 				5C2229A929CCB41900F00E69 /* main.swift in Sources */,
 			);

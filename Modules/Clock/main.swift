@@ -23,20 +23,12 @@ public struct Clock_t: Codable {
     public var value: Date? = nil
     
     var popupIndex: Int {
-        get {
-            Store.shared.int(key: "clock_\(self.id)_popupIndex", defaultValue: -1)
-        }
-        set {
-            Store.shared.set(key: "clock_\(self.id)_popupIndex", value: newValue)
-        }
+        get { Store.shared.int(key: "clock_\(self.id)_popupIndex", defaultValue: -1) }
+        set { Store.shared.set(key: "clock_\(self.id)_popupIndex", value: newValue) }
     }
     var popupState: Bool {
-        get {
-            Store.shared.bool(key: "clock_\(self.id)_popupState", defaultValue: true)
-        }
-        set {
-            Store.shared.set(key: "clock_\(self.id)_popupState", value: newValue)
-        }
+        get { Store.shared.bool(key: "clock_\(self.id)_popupState", defaultValue: true) }
+        set { Store.shared.set(key: "clock_\(self.id)_popupState", value: newValue) }
     }
     
     public func formatted() -> String {
@@ -44,12 +36,6 @@ public struct Clock_t: Codable {
         formatter.dateFormat = self.format
         formatter.timeZone = TimeZone(from: self.tz)
         return formatter.string(from: self.value ?? Date())
-    }
-}
-
-internal class ClockReader: Reader<Date> {
-    public override func read() {
-        self.callback(Date())
     }
 }
 
@@ -83,6 +69,12 @@ public class Clock: Module {
         
         self.reader = ClockReader(.clock) { [weak self] value in
             self?.callback(value)
+        }
+        
+        self.settingsView.callback = { [weak self] in
+            guard let self, self.enabled, let reader = self.reader else { return }
+            reader.stop()
+            reader.start()
         }
         
         self.setReaders([self.reader])
