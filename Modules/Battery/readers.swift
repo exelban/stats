@@ -96,19 +96,28 @@ internal class UsageReader: Reader<Battery_Usage> {
                 self.usage.temperature = self.getTemperature() ?? 0
                 
                 var ACwatts: Int = 0
+                var adapterCurrent: Int = 0
+                var adapterVoltage: Int = 0
                 if let ACDetails = IOPSCopyExternalPowerAdapterDetails() {
                     if let ACList = ACDetails.takeRetainedValue() as? [String: Any] {
-                        guard let watts = ACList[kIOPSPowerAdapterWattsKey] else {
-                            return
+                        if let watts = self.anyToInt(ACList[kIOPSPowerAdapterWattsKey]) {
+                            ACwatts = watts
                         }
-                        ACwatts = Int(watts as! Int)
+                        adapterCurrent = self.anyToInt(ACList["Current"]) ?? 0
+                        adapterVoltage = self.anyToInt(ACList["AdapterVoltage"]) ?? 0
                     }
                 }
                 self.usage.ACwatts = ACwatts
+                self.usage.chargingCurrent = adapterCurrent
+                self.usage.chargingVoltage = adapterVoltage
                 
-                if let chargerData = self.getChargerData() {
-                    self.usage.chargingCurrent = chargerData["ChargingCurrent"] as? Int ?? 0
-                    self.usage.chargingVoltage = chargerData["ChargingVoltage"] as? Int ?? 0
+                if self.usage.chargingCurrent == 0 || self.usage.chargingVoltage == 0, let chargerData = self.getChargerData() {
+                    if self.usage.chargingCurrent == 0 {
+                        self.usage.chargingCurrent = chargerData["ChargingCurrent"] as? Int ?? 0
+                    }
+                    if self.usage.chargingVoltage == 0 {
+                        self.usage.chargingVoltage = chargerData["ChargingVoltage"] as? Int ?? 0
+                    }
                 }
                 
                 self.callback(self.usage)
@@ -154,6 +163,16 @@ internal class UsageReader: Reader<Battery_Usage> {
     private func getChargerData() -> [String: Any]? {
         if let chargerData = IORegistryEntryCreateCFProperty(service, "ChargerData" as CFString, kCFAllocatorDefault, 0) {
             return chargerData.takeRetainedValue() as? [String: Any]
+        }
+        return nil
+    }
+    
+    private func anyToInt(_ value: Any?) -> Int? {
+        if let v = value as? Int {
+            return v
+        }
+        if let v = value as? NSNumber {
+            return v.intValue
         }
         return nil
     }

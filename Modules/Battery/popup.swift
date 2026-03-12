@@ -302,8 +302,8 @@ internal class Popup: PopupWrapper {
             
             self.powerField?.stringValue = value.isBatteryPowered ? localizedString("Not connected") : "\(value.ACwatts) W"
             self.chargingStateField?.stringValue = value.isCharging ? localizedString("Yes") : localizedString("No")
-            self.chargingCurrentField?.stringValue = value.isBatteryPowered ? localizedString("Not connected") : "\(value.chargingCurrent) mA"
-            self.chargingVoltageField?.stringValue = value.isBatteryPowered ? localizedString("Not connected") : "\(value.chargingVoltage) mV"
+            self.chargingCurrentField?.stringValue = value.isBatteryPowered ? localizedString("Not connected") : "\((Double(value.chargingCurrent) / 1000).roundTo(decimalPlaces: 2)) A"
+            self.chargingVoltageField?.stringValue = value.isBatteryPowered ? localizedString("Not connected") : "\((Double(value.chargingVoltage) / 1000).roundTo(decimalPlaces: 2)) V"
         })
     }
     
