@@ -462,6 +462,7 @@
 "Charging current" = "Charging current";
 "Charging Voltage" = "Charging voltage";
 "Charger state inside the battery" = "Charger state inside the battery";
+"Adapter wattage" = "Adapter wattage";
 
 // Bluetooth
 "Battery to show" = "Battery to show";

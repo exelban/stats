@@ -19,12 +19,14 @@ public class BatteryWidget: WidgetWrapper {
     private var hideAdditionalWhenFull: Bool = true
     private var xlSizeState: Bool = false
     private var chargerIconInside: Bool = true
+    private var adapterWattage: Bool = false
     
     private var _percentage: Double? = nil
     private var _time: Int = 0
     private var _charging: Bool = false
     private var _ACStatus: Bool = false
     private var _optimizedCharging: Bool = false
+    private var _ACwatts: Int = 0
     
     public init(title: String, preview: Bool = false) {
         let widgetTitle: String = title
@@ -46,6 +48,10 @@ public class BatteryWidget: WidgetWrapper {
             self.hideAdditionalWhenFull = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_hideAdditionalWhenFull", defaultValue: self.hideAdditionalWhenFull)
             self.xlSizeState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_xlSize", defaultValue: self.xlSizeState)
             self.chargerIconInside = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_chargerInside", defaultValue: self.chargerIconInside)
+            // Keep backward compatibility with the previous key.
+            self.adapterWattage = Store.shared.exist(key: "\(self.title)_\(self.type.rawValue)_adapterWattage")
+                ? Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_adapterWattage", defaultValue: self.adapterWattage)
+                : Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_showAdapterWattage", defaultValue: self.adapterWattage)
         }
         
         if preview {
@@ -53,6 +59,8 @@ public class BatteryWidget: WidgetWrapper {
             self.additional = "none"
             self.iconState = true
             self.colorState = false
+            self._ACStatus = true
+            self._ACwatts = 65
         }
     }
     
@@ -70,12 +78,14 @@ public class BatteryWidget: WidgetWrapper {
         var charging: Bool = false
         var ACStatus: Bool = false
         var optimizedCharging: Bool = false
+        var ACwatts: Int = 0
         self.queue.sync {
             percentage = self._percentage
             time = self._time
             charging = self._charging
             ACStatus = self._ACStatus
             optimizedCharging = self._optimizedCharging
+            ACwatts = self._ACwatts
         }
         
         var width: CGFloat = 0
@@ -142,6 +152,18 @@ public class BatteryWidget: WidgetWrapper {
             )
             width += 6
             x += 6 + Constants.Widget.spacing
+            
+            if self.adapterWattage {
+                let wattsValue = "\(max(ACwatts, 0))W"
+                let rowWidth = self.drawOneRow(value: wattsValue, x: x).rounded(.up)
+                width += rowWidth
+                x += rowWidth + Constants.Widget.spacing
+            }
+        } else if ACStatus && self.adapterWattage {
+            let wattsValue = "\(max(ACwatts, 0))W"
+            let rowWidth = self.drawOneRow(value: wattsValue, x: x).rounded(.up)
+            width += rowWidth
+            x += rowWidth + Constants.Widget.spacing
         }
         
         let borderWidth: CGFloat = 1
@@ -377,7 +399,7 @@ public class BatteryWidget: WidgetWrapper {
         ctx.restoreGState()
     }
     
-    public func setValue(percentage: Double? = nil, ACStatus: Bool? = nil, isCharging: Bool? = nil, optimizedCharging: Bool? = nil, time: Int? = nil) {
+    public func setValue(percentage: Double? = nil, ACStatus: Bool? = nil, isCharging: Bool? = nil, optimizedCharging: Bool? = nil, time: Int? = nil, ACwatts: Int? = nil) {
         var updated: Bool = false
         let timeFormat: String = Store.shared.string(key: "\(self.title)_timeFormat", defaultValue: self.timeFormat)
         
@@ -403,6 +425,10 @@ public class BatteryWidget: WidgetWrapper {
         }
         if let state = optimizedCharging, self._optimizedCharging != state {
             self._optimizedCharging = state
+            updated = true
+        }
+        if let ACwatts = ACwatts, self._ACwatts != ACwatts {
+            self._ACwatts = ACwatts
             updated = true
         }
         
@@ -445,6 +471,10 @@ public class BatteryWidget: WidgetWrapper {
             PreferencesRow(localizedString("Charger state inside the battery"), component: switchView(
                 action: #selector(self.toggleChargerIconInside),
                 state: self.chargerIconInside
+            )),
+            PreferencesRow(localizedString("Adapter wattage"), component: switchView(
+                action: #selector(self.toggleAdapterWattage),
+                state: self.adapterWattage
             ))
         ]))
         
@@ -479,6 +509,12 @@ public class BatteryWidget: WidgetWrapper {
     @objc private func toggleChargerIconInside(_ sender: NSControl) {
         self.chargerIconInside = controlState(sender)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_chargerInside", value: self.chargerIconInside)
+        self.display()
+    }
+    
+    @objc private func toggleAdapterWattage(_ sender: NSControl) {
+        self.adapterWattage = controlState(sender)
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_adapterWattage", value: self.adapterWattage)
         self.display()
     }
 }
