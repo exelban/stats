@@ -11,7 +11,7 @@
 
 import Cocoa
 
-internal class Label: WidgetWrapper {
+public class Label: WidgetWrapper {
     private var label: String
     
     internal init(title: String, config: NSDictionary) {

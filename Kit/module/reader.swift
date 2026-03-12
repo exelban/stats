@@ -12,8 +12,9 @@
 import Cocoa
 
 public protocol Reader_p {
-    var optional: Bool { get }
     var popup: Bool { get }
+    var preview: Bool { get }
+    var sleep: Bool { get }
     
     func setup()
     func read()
@@ -28,6 +29,7 @@ public protocol Reader_p {
     
     func initStoreValues(title: String)
     func setInterval(_ value: Int)
+    func sleepMode(state: Bool)
 }
 
 public protocol ReaderInternal_p {
@@ -55,6 +57,8 @@ open class Reader<T: Codable>: NSObject, ReaderInternal_p {
     public var defaultInterval: Int = 1
     public var optional: Bool = false
     public var popup: Bool = false
+    public var preview: Bool = false
+    public var sleep: Bool = false
     
     public var callbackHandler: (T?) -> Void
     
@@ -73,8 +77,9 @@ open class Reader<T: Codable>: NSObject, ReaderInternal_p {
     
     private var lastDBWrite: Date? = nil
     
-    public init(_ module: ModuleType, popup: Bool = false, history: Bool = false, callback: @escaping (T?) -> Void = {_ in }) {
+    public init(_ module: ModuleType, popup: Bool = false, preview: Bool = false, history: Bool = false, callback: @escaping (T?) -> Void = {_ in }) {
         self.popup = popup
+        self.preview = preview
         self.module = module
         self.history = history
         self.callbackHandler = callback
@@ -121,7 +126,7 @@ open class Reader<T: Codable>: NSObject, ReaderInternal_p {
     open func terminate() {}
     
     open func start() {
-        if self.popup && self.locked {
+        if (self.popup || self.preview) && self.locked {
             DispatchQueue.global(qos: .background).async {
                 self.read()
             }
@@ -168,6 +173,19 @@ open class Reader<T: Codable>: NSObject, ReaderInternal_p {
     
     public func save(_ value: T) {
         DB.shared.insert(key: "\(self.module.stringValue)@\(self.name)", value: value, ts: self.history, force: true)
+    }
+    
+    public func sleepMode(state: Bool) {
+        guard state != self.sleep else { return }
+
+        debug("Sleep mode: \(state ? "on" : "off")", log: self.log)
+        self.sleep = state
+
+        if state {
+            self.pause()
+        } else {
+            self.start()
+        }
     }
 }
 

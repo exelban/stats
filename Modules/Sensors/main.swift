@@ -106,7 +106,10 @@ public class Sensors: Module {
         self.portalView.usageCallback(value.sensors)
         self.notificationsView.usageCallback(value.sensors)
         
-        self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: SWidget) in
+        let activeWidgets = self.menuBar.widgets.filter{ $0.isActive }
+        self.sensorsReader?.sleepMode(state: activeWidgets.contains(where: {$0.item is Label}) && activeWidgets.count == 1)
+        
+        activeWidgets.forEach { (w: SWidget) in
             switch w.item {
             case let widget as Mini:
                 if let active = value.sensors.first(where: { $0.key == self.selectedSensor }) {
