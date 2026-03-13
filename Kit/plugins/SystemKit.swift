@@ -35,6 +35,9 @@ public enum Platform: String, Codable {
     case m4Ultra
     
     case m5
+    case m5Pro
+    case m5Max
+    case m5Ultra
     
     public static var apple: [Platform] {
         return [
@@ -42,7 +45,7 @@ public enum Platform: String, Codable {
             .m2, .m2Pro, .m2Max, .m2Ultra,
             .m3, .m3Pro, .m3Max, .m3Ultra,
             .m4, .m4Pro, .m4Max, .m4Ultra,
-            .m5
+            .m5, .m5Pro, .m5Max, .m5Ultra
         ]
     }
     
@@ -59,7 +62,7 @@ public enum Platform: String, Codable {
         return [.m4, .m4Pro, .m4Max, .m4Ultra]
     }
     public static var m5Gen: [Platform] {
-        return [.m5 ]
+        return [.m5, .m5Pro, .m5Max, .m5Ultra]
     }
     
     public static var all: [Platform] {
@@ -74,12 +77,13 @@ public enum deviceType: String {
     case iMac
     case iMacPro
     case macbook
+    case macbookNeo
     case macbookAir
     case macbookPro
     case macStudio
     
     public static var all: [deviceType] {
-        return [.macMini, .macPro, .iMac, .iMacPro, .macbook, .macbookAir, .macbookPro, .macStudio]
+        return [.macMini, .macPro, .iMac, .iMacPro, .macbook, .macbookNeo, .macbookAir, .macbookPro, .macStudio]
     }
 }
 
@@ -636,6 +640,8 @@ public class SystemKit {
             return NSImage(named: NSImage.Name("imac"))!
         case .macbook:
             return NSImage(named: NSImage.Name("macbookAir"))!
+        case .macbookNeo:
+            return NSImage(named: NSImage.Name("macbookNeo"))!
         case .macbookAir:
             if year >= 2022 {
                 return NSImage(named: NSImage.Name("macbookAir"))!
@@ -723,7 +729,15 @@ public class SystemKit {
                     return .m4
                 }
             } else if name.contains("m5") {
-                return .m5
+                if name.contains("pro") {
+                    return .m5Pro
+                } else if name.contains("max") {
+                    return .m5Max
+                } else if name.contains("ultra") {
+                    return .m5Ultra
+                } else {
+                    return .m5
+                }
             }
         }
         return nil
@@ -860,6 +874,9 @@ let deviceDict: [String: model_s] = [
     "MacBook9,1": model_s(name: "MacBook", year: 2016, type: .macbook),
     "MacBook10,1": model_s(name: "MacBook", year: 2017, type: .macbook),
     
+    // MacBook Neo
+    "Mac17,5": model_s(name: "MacBook Neo", year: 2026, type: .macbookNeo),
+    
     // MacBook Air
     "MacBookAir1,1": model_s(name: "MacBook Air 13\"", year: 2008, type: .macbookAir),
     "MacBookAir2,1": model_s(name: "MacBook Air 13\"", year: 2009, type: .macbookAir),
@@ -881,6 +898,11 @@ let deviceDict: [String: model_s] = [
     "Mac14,15": model_s(name: "MacBook Air 15\" (M2)", year: 2023, type: .macbookAir),
     "Mac15,12": model_s(name: "MacBook Air 13\" (M3)", year: 2024, type: .macbookAir),
     "Mac15,13": model_s(name: "MacBook Air 15\" (M3)", year: 2024, type: .macbookAir),
+    "Mac16,12": model_s(name: "MacBook Air 13\" (M4)", year: 2025, type: .macbookAir),
+    "Mac16,13": model_s(name: "MacBook Air 15\" (M4)", year: 2025, type: .macbookAir),
+    "Mac17,2": model_s(name: "MacBook Air 14\" (M5)", year: 2026, type: .macbookAir),
+    "Mac17,3": model_s(name: "MacBook Air 13\" (M5)", year: 2026, type: .macbookAir),
+    "Mac17,4": model_s(name: "MacBook Air 15\" (M5)", year: 2026, type: .macbookAir),
     
     // MacBook Pro
     "MacBookPro1,1": model_s(name: "MacBook Pro 15\"", year: 2006, type: .macbookPro),
@@ -944,7 +966,11 @@ let deviceDict: [String: model_s] = [
     "Mac16,5": model_s(name: "MacBook Pro 16\" (M4 Max)", year: 2024, type: .macbookPro),
     "Mac16,6": model_s(name: "MacBook Pro 14\" (M4 Max)", year: 2024, type: .macbookPro),
     "Mac16,7": model_s(name: "MacBook Pro 16\" (M4 Pro)", year: 2024, type: .macbookPro),
-    "Mac16,8": model_s(name: "MacBook Pro 14\" (M4 Pro)", year: 2024, type: .macbookPro)
+    "Mac16,8": model_s(name: "MacBook Pro 14\" (M4 Pro)", year: 2024, type: .macbookPro),
+    "Mac17,6": model_s(name: "MacBook Pro 16\" (M5 Max)", year: 2026, type: .macbookPro),
+    "Mac17,7": model_s(name: "MacBook Pro 14\" (M5 Max)", year: 2026, type: .macbookPro),
+    "Mac17,8": model_s(name: "MacBook Pro 16\" (M5 Pro)", year: 2026, type: .macbookPro),
+    "Mac17,9": model_s(name: "MacBook Pro 14\" (M5 Pro)", year: 2024, type: .macbookPro)
 ]
 
 let osDict: [String: String] = [
