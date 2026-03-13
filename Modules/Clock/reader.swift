@@ -34,6 +34,7 @@ internal class ClockReader: Reader<Date> {
     }
     
     public override func setup() {
+        self.alignToSecondBoundary = true
         self.syncWithNTP()
     }
     

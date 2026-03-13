@@ -60,6 +60,9 @@ open class Reader<T: Codable>: NSObject, ReaderInternal_p {
     public var preview: Bool = false
     public var sleep: Bool = false
     
+    public var alignToSecondBoundary: Bool = false
+    public var alignOffset: TimeInterval = 0
+    
     public var callbackHandler: (T?) -> Void
     
     private let module: ModuleType
@@ -76,6 +79,9 @@ open class Reader<T: Codable>: NSObject, ReaderInternal_p {
     }
     
     private var lastDBWrite: Date? = nil
+    
+    private var alignWorkItem: DispatchWorkItem?
+    private let alignQueue = DispatchQueue(label: "eu.exelban.readerAlignQueue")
     
     public init(_ module: ModuleType, popup: Bool = false, preview: Bool = false, history: Bool = false, callback: @escaping (T?) -> Void = {_ in }) {
         self.popup = popup
@@ -133,32 +139,30 @@ open class Reader<T: Codable>: NSObject, ReaderInternal_p {
             return
         }
         
-        if let interval = self.interval, self.repeatTask == nil {
-            if !self.popup && !self.optional {
-                debug("Set up update interval: \(Int(interval)) sec", log: self.log)
-            }
-            
-            self.repeatTask = Repeater.init(seconds: Int(interval)) { [weak self] in
-                self?.read()
-            }
-        }
-        
         if !self.initlizalized {
-            DispatchQueue.global(qos: .background).async {
-                self.read()
+            if self.alignToSecondBoundary {
+                self.startAlignedRepeater()
+            } else {
+                self.startNormalRepeater()
+                DispatchQueue.global(qos: .background).async { self.read() }
+                self.repeatTask?.start()
             }
             self.initlizalized = true
+        } else {
+            self.repeatTask?.start()
         }
-        self.repeatTask?.start()
+        
         self.active = true
     }
     
     open func pause() {
+        self.alignWorkItem?.cancel()
         self.repeatTask?.pause()
         self.active = false
     }
     
     open func stop() {
+        self.alignWorkItem?.cancel()
         self.repeatTask?.pause()
         self.repeatTask = nil
         self.active = false
@@ -166,13 +170,65 @@ open class Reader<T: Codable>: NSObject, ReaderInternal_p {
     }
     
     public func setInterval(_ value: Int) {
-        debug("Set update interval: \(Int(value)) sec", log: self.log)
+        debug("Set update interval: \(value) sec", log: self.log)
         self.interval = Double(value)
-        self.repeatTask?.reset(seconds: value, restart: true)
+        
+        if self.alignToSecondBoundary {
+            self.repeatTask?.pause()
+            self.repeatTask = nil
+            self.alignWorkItem?.cancel()
+            if self.active {
+                self.startAlignedRepeater()
+            }
+        } else {
+            self.repeatTask?.reset(seconds: value, restart: true)
+        }
     }
     
     public func save(_ value: T) {
         DB.shared.insert(key: "\(self.module.stringValue)@\(self.name)", value: value, ts: self.history, force: true)
+    }
+    
+    private func delayToNextSecondBoundary() -> TimeInterval {
+        let now = Date().addingTimeInterval(self.alignOffset)
+        let fractional = now.timeIntervalSince1970.truncatingRemainder(dividingBy: 1.0)
+        let baseDelay = (fractional == 0) ? 0.0 : (1.0 - fractional)
+        let safety: TimeInterval = 0.005 // 5ms past the boundary
+        return baseDelay + safety
+    }
+    
+    private func startNormalRepeater() {
+        guard let interval = self.interval, self.repeatTask == nil else { return }
+        
+        if !self.popup && !self.preview {
+            debug("Set up update interval: \(Int(interval)) sec", log: self.log)
+        }
+        
+        self.repeatTask = Repeater(seconds: Int(interval)) { [weak self] in
+            self?.read()
+        }
+    }
+    
+    private func startAlignedRepeater() {
+        guard let interval = self.interval, self.repeatTask == nil else { return }
+        
+        if !self.popup && !self.preview {
+            debug("Set up update interval: \(Int(interval)) sec (aligned)", log: self.log)
+        }
+        
+        let work = DispatchWorkItem { [weak self] in
+            guard let self else { return }
+            
+            self.read()
+            self.repeatTask = Repeater(seconds: Int(interval)) { [weak self] in
+                self?.read()
+            }
+            self.repeatTask?.start()
+        }
+        
+        self.alignWorkItem?.cancel()
+        self.alignWorkItem = work
+        self.alignQueue.asyncAfter(deadline: .now() + self.delayToNextSecondBoundary(), execute: work)
     }
     
     public func sleepMode(state: Bool) {
