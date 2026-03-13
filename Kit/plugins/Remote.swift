@@ -196,6 +196,7 @@ public class Remote {
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
+        request.timeoutInterval = 30
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue("Bearer \(Remote.shared.auth.accessToken)", forHTTPHeaderField: "Authorization")
         
@@ -232,16 +233,44 @@ public class Remote {
             )
         )
         
-        guard let body = try? JSONEncoder().encode(payload) else { return }
+        guard let body = try? JSONEncoder().encode(payload) else {
+            error("Failed to encode register payload", log: self.log)
+            return
+        }
         request.httpBody = body
         
-        URLSession.shared.dataTask(with: request) { data, response, _ in
-            guard let httpResponse = response as? HTTPURLResponse else { return }
+        self.registerDeviceRequest(request, attempt: 0)
+    }
+    
+    private func registerDeviceRequest(_ request: URLRequest, attempt: Int) {
+        let maxRetries = 2
+        
+        URLSession.shared.dataTask(with: request) { [weak self] data, response, err in
+            guard let self else { return }
+            
+            if let err = err {
+                if attempt < maxRetries {
+                    let delay = pow(2.0, Double(attempt)) * 1.0
+                    debug("Register device request failed: \(err.localizedDescription), retrying in \(delay)s (attempt \(attempt + 1)/\(maxRetries))", log: self.log)
+                    DispatchQueue.global().asyncAfter(deadline: .now() + delay) {
+                        self.registerDeviceRequest(request, attempt: attempt + 1)
+                    }
+                } else {
+                    error("Register device failed after \(maxRetries) retries: \(err.localizedDescription)", log: self.log)
+                }
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse else {
+                error("Register device received invalid response", log: self.log)
+                return
+            }
+            
             if httpResponse.statusCode == 200 {
                 debug("Registered device: \(Remote.shared.id.uuidString)", log: self.log)
             } else {
                 let bodyString = data.flatMap { String(data: $0, encoding: .utf8) } ?? ""
-                debug("Register remote failed (\(httpResponse.statusCode)): \(bodyString)", log: self.log)
+                error("Register remote failed (\(httpResponse.statusCode)): \(bodyString)", log: self.log)
             }
         }.resume()
     }
@@ -550,10 +579,21 @@ public class RemoteAuth {
         
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
+        request.timeoutInterval = 15
         request.setValue("Bearer \(self.accessToken)", forHTTPHeaderField: "Authorization")
         
-        URLSession.shared.dataTask(with: request) { [weak self] _, response, error in
-            guard let self = self, error == nil, let httpResponse = response as? HTTPURLResponse else {
+        URLSession.shared.dataTask(with: request) { [weak self] _, response, err in
+            guard let self = self else {
+                completion(false)
+                return
+            }
+            if let err = err {
+                debug("Validation request failed: \(err.localizedDescription)", log: NextLog.shared)
+                completion(false)
+                return
+            }
+            guard let httpResponse = response as? HTTPURLResponse else {
+                debug("Validation received invalid response", log: NextLog.shared)
                 completion(false)
                 return
             }
@@ -571,12 +611,15 @@ public class RemoteAuth {
                 self.lastValidationTime = nil
                 completion(true)
             } else {
+                debug("Validation failed with status \(httpResponse.statusCode)", log: NextLog.shared)
                 completion(false)
             }
         }.resume()
     }
     
-    private func refreshTokenFunc(completion: @escaping (Bool?) -> Void) {
+    private func refreshTokenFunc(completion: @escaping (Bool?) -> Void, attempt: Int = 0) {
+        let maxRetries = 2
+        
         guard let url = URL(string: "\(Remote.authHost)/token") else {
             completion(nil)
             return
@@ -584,25 +627,60 @@ public class RemoteAuth {
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
+        request.timeoutInterval = 15
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         
         let body = "grant_type=refresh_token&refresh_token=\(self.refreshToken)"
             .addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
         request.httpBody = body?.data(using: .utf8)
         
-        URLSession.shared.dataTask(with: request) { data, response, error in
-            guard error == nil, let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200,
-                  let data = data, let token = try? JSONDecoder().decode(TokenResponse.self, from: data) else {
+        URLSession.shared.dataTask(with: request) { [weak self] data, response, err in
+            guard let self = self else {
                 completion(nil)
                 return
             }
+            
+            if let err = err {
+                if attempt < maxRetries {
+                    let delay = pow(2.0, Double(attempt)) * 1.0
+                    debug("Refresh token failed: \(err.localizedDescription), retrying in \(delay)s (attempt \(attempt + 1)/\(maxRetries))", log: NextLog.shared)
+                    DispatchQueue.global().asyncAfter(deadline: .now() + delay) {
+                        self.refreshTokenFunc(completion: completion, attempt: attempt + 1)
+                    }
+                } else {
+                    debug("Refresh token failed after \(maxRetries) retries: \(err.localizedDescription)", log: NextLog.shared)
+                    completion(nil)
+                }
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse else {
+                debug("Refresh token received invalid response", log: NextLog.shared)
+                completion(nil)
+                return
+            }
+            
+            guard httpResponse.statusCode == 200, let data = data else {
+                debug("Refresh token failed with status \((response as? HTTPURLResponse)?.statusCode ?? -1)", log: NextLog.shared)
+                completion(nil)
+                return
+            }
+            
+            guard let token = try? JSONDecoder().decode(TokenResponse.self, from: data) else {
+                debug("Refresh token failed to decode response", log: NextLog.shared)
+                completion(nil)
+                return
+            }
+            
             self.accessToken = token.access_token
             self.refreshToken = token.refresh_token
             completion(true)
         }.resume()
     }
     
-    private func registerDevice(completion: @escaping (DeviceResponse?) -> Void) {
+    private func registerDevice(completion: @escaping (DeviceResponse?) -> Void, attempt: Int = 0) {
+        let maxRetries = 2
+        
         guard let url = URL(string: "\(Remote.authHost)/device") else {
             completion(nil)
             return
@@ -610,18 +688,46 @@ public class RemoteAuth {
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
+        request.timeoutInterval = 15
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         
         let body = "client_id=\(self.clientID)"
             .addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
         request.httpBody = body?.data(using: .utf8)
         
-        URLSession.shared.dataTask(with: request) { data, response, error in
-            guard error == nil, let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200,
-                  let data = data, let resp = try? JSONDecoder().decode(DeviceResponse.self, from: data) else {
+        URLSession.shared.dataTask(with: request) { [weak self] data, response, err in
+            if let err = err {
+                if attempt < maxRetries {
+                    let delay = pow(2.0, Double(attempt)) * 1.0
+                    debug("Auth register device failed: \(err.localizedDescription), retrying in \(delay)s (attempt \(attempt + 1)/\(maxRetries))", log: NextLog.shared)
+                    DispatchQueue.global().asyncAfter(deadline: .now() + delay) {
+                        self?.registerDevice(completion: completion, attempt: attempt + 1)
+                    }
+                } else {
+                    debug("Auth register device failed after \(maxRetries) retries: \(err.localizedDescription)", log: NextLog.shared)
+                    completion(nil)
+                }
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse else {
+                debug("Auth register device received invalid response", log: NextLog.shared)
                 completion(nil)
                 return
             }
+            
+            guard httpResponse.statusCode == 200, let data = data else {
+                debug("Auth register device failed with status \(httpResponse.statusCode)", log: NextLog.shared)
+                completion(nil)
+                return
+            }
+            
+            guard let resp = try? JSONDecoder().decode(DeviceResponse.self, from: data) else {
+                debug("Auth register device failed to decode response", log: NextLog.shared)
+                completion(nil)
+                return
+            }
+            
             completion(resp)
         }.resume()
     }
@@ -634,6 +740,7 @@ public class RemoteAuth {
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
+        request.timeoutInterval = 15
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         
         let body = "client_id=\(self.clientID)&device_code=\(self.deviceCode)&grant_type=urn:ietf:params:oauth:grant-type:device_code"
