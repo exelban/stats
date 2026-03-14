@@ -26,7 +26,7 @@ public class ProcessesView: NSStackView {
     private var list: [ProcessView] = []
     private var colorViews: [ColorView] = []
     
-    public init(frame: NSRect, values: [ProcessHeader], n: Int = 0) {
+    public init(frame: NSRect = .zero, values: [ProcessHeader], n: Int = 0) {
         super.init(frame: frame)
         
         self.orientation = .vertical

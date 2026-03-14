@@ -9,7 +9,7 @@
 import Cocoa
 
 public struct module_c {
-    public var name: String = ""
+    public var name: String
     public var icon: NSImage?
     
     public var defaultState: Bool = false
@@ -18,13 +18,19 @@ public struct module_c {
     
     internal var widgetsConfig: NSDictionary = NSDictionary()
     internal var settingsConfig: NSDictionary = NSDictionary()
+    internal var previewConfig: NSDictionary = NSDictionary()
+    
+    public var hasPreview: Bool { self.previewConfig["enabled"] as? Bool ?? false }
     
     init(in path: String) {
         let dict: NSDictionary = NSDictionary(contentsOfFile: path)!
         
         if let name = dict["Name"] as? String {
             self.name = name
+        } else {
+            fatalError("failed to initialize module, name is missing")
         }
+        
         if let state = dict["State"] as? Bool {
             self.defaultState = state
         }
@@ -60,6 +66,10 @@ public struct module_c {
         if let settingsDict = dict["Settings"] as? NSDictionary {
             self.settingsConfig = settingsDict
         }
+        
+        if let previewDict = dict["Preview"] as? NSDictionary {
+            self.previewConfig = previewDict
+        }
     }
 }
 
@@ -70,7 +80,7 @@ open class Module {
     public var enabled: Bool = false
     
     public var menuBar: MenuBar
-    public var settings: Settings_p? = nil
+    public var window: Window? = nil
     public let portal: Portal_p?
     
     public var name: String { config.name }
@@ -88,6 +98,7 @@ open class Module {
     private var popup: PopupWindow? = nil
     private var popupView: Popup_p? = nil
     private var notificationsView: NotificationsWrapper? = nil
+    private var previewView: Preview_v? = nil
     
     private let log: NextLog
     private var readers: [Reader_p] = []
@@ -97,7 +108,14 @@ open class Module {
         set { Store.shared.set(key: "pause", value: newValue) }
     }
     
-    public init(moduleType: ModuleType, popup: Popup_p? = nil, settings: Settings_v? = nil, portal: Portal_p? = nil, notifications: NotificationsWrapper? = nil) {
+    public init(
+        moduleType: ModuleType,
+        popup: Popup_p? = nil,
+        settings: Settings_v? = nil,
+        portal: Portal_p? = nil,
+        notifications: NotificationsWrapper? = nil,
+        preview: Preview_v? = nil
+    ) {
         self.moduleType = moduleType
         self.portal = portal
         self.config = module_c(in: Bundle(for: type(of: self)).path(forResource: "config", ofType: "plist")!)
@@ -106,6 +124,7 @@ open class Module {
         self.settingsView = settings
         self.popupView = popup
         self.notificationsView = notifications
+        self.previewView = preview
         self.menuBar = MenuBar(moduleName: self.config.name)
         self.available = self.isAvailable()
         self.enabled = Store.shared.bool(key: "\(self.config.name)_state", defaultValue: self.config.defaultState)
@@ -128,6 +147,7 @@ open class Module {
         NotificationCenter.default.addObserver(self, selector: #selector(listenForModuleToggle), name: .toggleModule, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(listenForPopupToggle), name: .togglePopup, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(listenForToggleWidget), name: .toggleWidget, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(listenForWindowOpen), name: .openWindow, object: nil)
         
         // swiftlint:disable empty_count
         if self.config.widgetsConfig.count != 0 {
@@ -137,15 +157,16 @@ open class Module {
             debug("Module started without widget", log: self.log)
         }
         
-        self.settings = Settings(
+        self.window = Window(
             config: &self.config,
             widgets: &self.menuBar.widgets,
+            modulePreview: self.previewView,
             moduleSettings: self.settingsView,
             popupSettings: self.popupView,
             notificationsSettings: self.notificationsView
         )
         
-        self.popup = PopupWindow(title: self.config.name, module: self.moduleType, view: self.popupView, visibilityCallback: self.visibilityCallback)
+        self.popup = PopupWindow(title: self.config.name, module: self.moduleType, view: self.popupView, visibilityCallback: self.popupVisibilityCallback)
     }
     
     deinit {
@@ -194,7 +215,7 @@ open class Module {
             reader.start()
         }
         self.menuBar.enable()
-        self.settings?.setState(self.enabled)
+        self.window?.setState(self.enabled)
         debug("Module enabled", log: self.log)
     }
     
@@ -209,7 +230,7 @@ open class Module {
         }
         self.readers.forEach{ $0.stop() }
         self.menuBar.disable()
-        self.settings?.setState(self.enabled)
+        self.window?.setState(self.enabled)
         self.popup?.setIsVisible(false)
         debug("Module disabled", log: self.log)
     }
@@ -237,8 +258,26 @@ open class Module {
     }
     
     // call when popup appear/disappear
-    private func visibilityCallback(_ state: Bool) {
-        self.readers.filter{ $0.popup }.forEach { (reader: Reader_p) in
+    private func popupVisibilityCallback(_ state: Bool) {
+        self.readers.filter{ $0.popup || $0.sleep }.forEach { (reader: Reader_p) in
+            if state {
+                reader.unlock()
+                reader.start()
+            } else {
+                reader.pause()
+                reader.lock()
+            }
+        }
+    }
+    
+    @objc private func listenForWindowOpen(_ notification: Notification) {
+        guard var state = notification.userInfo?["state"] as? Bool else { return }
+        
+        if state, let name = notification.userInfo?["module"] as? String, self.config.name != name {
+            state = false
+        }
+        
+        self.readers.filter{ $0.preview || $0.sleep }.forEach { (reader: Reader_p) in
             if state {
                 reader.unlock()
                 reader.start()

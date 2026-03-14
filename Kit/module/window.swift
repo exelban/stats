@@ -11,21 +11,20 @@
 
 import Cocoa
 
-public protocol Settings_p: NSView {
-    func setState(_ newState: Bool)
-}
-
 public protocol Settings_v: NSView {
     func load(widgets: [widget_t])
 }
 
-open class Settings: NSStackView, Settings_p {
+public protocol Preview_v: NSView {}
+
+open class Window: NSStackView {
     private var config: UnsafePointer<module_c>
     private var widgets: [SWidget]
     
     private var segmentedControl: NSSegmentedControl?
     private var tabView: NSTabView?
     
+    private var modulePreview: Preview_v?
     private var moduleSettings: Settings_v?
     private var popupSettings: Popup_p?
     private var notificationsSettings: NotificationsWrapper?
@@ -50,18 +49,29 @@ open class Settings: NSStackView, Settings_p {
         set { Store.shared.set(key: "\(self.config.pointee.name)_oneView", value: newValue) }
     }
     
+    private var isPreviewAvailable: Bool
     private var isPopupSettingsAvailable: Bool
     private var isNotificationsSettingsAvailable: Bool
     
     private var previewView: NSView? = nil
     private var settingsView: NSView? = nil
     
-    init(config: UnsafePointer<module_c>, widgets: UnsafeMutablePointer<[SWidget]>, moduleSettings: Settings_v?, popupSettings: Popup_p?, notificationsSettings: NotificationsWrapper?) {
+    init(
+        config: UnsafePointer<module_c>,
+        widgets: UnsafeMutablePointer<[SWidget]>,
+        modulePreview: Preview_v?,
+        moduleSettings: Settings_v?,
+        popupSettings: Popup_p?,
+        notificationsSettings: NotificationsWrapper?
+    ) {
         self.config = config
         self.widgets = widgets.pointee
+        self.modulePreview = modulePreview
         self.moduleSettings = moduleSettings
         self.popupSettings = popupSettings
         self.notificationsSettings = notificationsSettings
+        
+        self.isPreviewAvailable = config.pointee.previewConfig["enabled"] as? Bool ?? false
         
         self.isPopupSettingsAvailable = config.pointee.settingsConfig["popup"] as? Bool ?? false
         self.isNotificationsSettingsAvailable = config.pointee.settingsConfig["notifications"] as? Bool ?? false
@@ -79,22 +89,27 @@ open class Settings: NSStackView, Settings_p {
             right: Constants.Settings.margin
         )
         
-        let header = self.header()
         let settingsView = self.settings()
         self.settingsView = settingsView
         let previewView = self.preview()
         self.previewView = previewView
         
-        self.addArrangedSubview(header)
         self.addArrangedSubview(settingsView)
         self.addArrangedSubview(previewView)
         
         NotificationCenter.default.addObserver(self, selector: #selector(listenForOneView), name: .toggleOneView, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(listenForToggleView), name: .togglePreview, object: nil)
+        
         self.segmentedControl?.widthAnchor.constraint(equalTo: self.widthAnchor, constant: -(Constants.Settings.margin*2)).isActive = true
+        
+        if self.isPreviewAvailable {
+            self.toggleView()
+        }
     }
     
     deinit {
         NotificationCenter.default.removeObserver(self, name: .toggleOneView, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .togglePreview, object: nil)
     }
     
     required public init?(coder: NSCoder) {
@@ -105,28 +120,20 @@ open class Settings: NSStackView, Settings_p {
         toggleNSControlState(self.enableControl, state: newState ? .on : .off)
     }
     
-    private func header() -> NSView {
-        let view = NSStackView()
-        view.orientation = .horizontal
-        view.spacing = Constants.Settings.margin
-        
-        let widgetSelector = WidgetSelectorView(module: self.config.pointee.name, widgets: self.widgets, stateCallback: self.loadWidget)
-//        let button = ButtonSelectorView { [weak self] in
-//            self?.toggleView()
-//        }
-        
-        view.addArrangedSubview(widgetSelector)
-//        view.addArrangedSubview(button)
-        
-        return view
-    }
-    
     private func preview() -> NSView {
-        let view = NSStackView()
-        view.isHidden = true
-        view.orientation = .vertical
-        view.addArrangedSubview(EmptyView(height: 0, msg: localizedString("Preview is not available for that module")))
-        return view
+        let container = NSStackView()
+        container.isHidden = true
+        container.orientation = .vertical
+        
+        var view: NSView = EmptyView(height: 0, msg: localizedString("Preview is not available for that module"))
+        
+        if self.isPreviewAvailable, let v = self.modulePreview {
+            view = v
+        }
+        
+        container.addArrangedSubview(view)
+        
+        return container
     }
     
     private func settings() -> NSView {
@@ -208,6 +215,9 @@ open class Settings: NSStackView, Settings_p {
             tabView.addTabViewItem(notificationsTab)
         }
         
+        let widgetSelector = WidgetSelectorView(module: self.config.pointee.name, widgets: self.widgets, stateCallback: self.loadWidget)
+        
+        view.addArrangedSubview(widgetSelector)
         view.addArrangedSubview(segmentedControl)
         view.addArrangedSubview(tabView)
         
@@ -296,9 +306,12 @@ open class Settings: NSStackView, Settings_p {
         }
     }
     
-    @objc private func toggleView() {
+    @objc private func listenForToggleView(_ notification: Notification) {
+        guard let moduleName = notification.userInfo?["module"], self.config.pointee.name == moduleName as? String else { return }
+        self.toggleView()
+    }
+    private func toggleView() {
         guard let preview = self.previewView, let settings = self.settingsView else { return }
-        
         preview.isHidden = !preview.isHidden
         settings.isHidden = !settings.isHidden
     }
@@ -310,7 +323,7 @@ private class WidgetSelectorView: NSStackView {
     private var moved: Bool = false
     
     private var background: NSVisualEffectView = {
-        let view = NSVisualEffectView(frame: NSRect.zero)
+        let view = NSVisualEffectView(frame: .zero)
         view.blendingMode = .withinWindow
         view.translatesAutoresizingMaskIntoConstraints = false
         if #available(macOS 26.0, *) {
@@ -664,82 +677,5 @@ private class WidgetSettings: NSStackView {
         container.addArrangedSubview(NSView())
         
         return container
-    }
-}
-
-private class ButtonSelectorView: NSStackView {
-    private var callback: () -> Void
-    
-    private var background: NSVisualEffectView = {
-        let view = NSVisualEffectView(frame: NSRect.zero)
-        view.blendingMode = .withinWindow
-        view.material = .contentBackground
-        view.state = .active
-        view.wantsLayer = true
-        view.layer?.cornerRadius = 5
-        return view
-    }()
-    
-    private var settingsIcon: NSImage { iconFromSymbol(name: "gear", scale: .large) }
-    private var previewIcon: NSImage { iconFromSymbol(name: "command", scale: .large) }
-    
-    private var button: NSButton? = nil
-    private var isSettingsEnabled: Bool = false
-    
-    fileprivate init(callback: @escaping () -> Void) {
-        self.callback = callback
-        
-        super.init(frame: NSRect.zero)
-        
-        self.heightAnchor.constraint(equalToConstant: Constants.Widget.height + (Constants.Settings.margin*2)).isActive = true
-        self.translatesAutoresizingMaskIntoConstraints = false
-        self.edgeInsets = NSEdgeInsets(
-            top: Constants.Settings.margin,
-            left: Constants.Settings.margin,
-            bottom: Constants.Settings.margin,
-            right: Constants.Settings.margin
-        )
-        self.spacing = Constants.Settings.margin
-        
-        self.addSubview(self.background, positioned: .below, relativeTo: .none)
-        
-        let button = NSButton()
-        button.toolTip = localizedString("Open module settings")
-        button.bezelStyle = .regularSquare
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.imageScaling = .scaleNone
-        button.image = self.settingsIcon
-        button.contentTintColor = .secondaryLabelColor
-        button.isBordered = false
-        button.action = #selector(self.action)
-        button.target = self
-        button.focusRingType = .none
-        button.widthAnchor.constraint(equalToConstant: Constants.Widget.height).isActive = true
-        self.button = button
-        
-        self.addArrangedSubview(button)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func updateLayer() {
-        self.background.setFrameSize(self.frame.size)
-    }
-    
-    @objc private func action() {
-        guard let button = self.button else { return }
-        self.callback()
-        
-        self.isSettingsEnabled = !self.isSettingsEnabled
-        
-        if self.isSettingsEnabled {
-            button.image = self.previewIcon
-            button.toolTip = localizedString("Close module settings")
-        } else {
-            button.image = self.settingsIcon
-            button.toolTip = localizedString("Open module settings")
-        }
     }
 }

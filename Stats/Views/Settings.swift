@@ -14,6 +14,7 @@ import Kit
 
 public extension NSToolbarItem.Identifier {
     static let toggleButton = NSToolbarItem.Identifier("toggleButton")
+    static let previewButton = NSToolbarItem.Identifier("previewButton")
 }
 
 class SettingsWindow: NSWindow, NSWindowDelegate, NSToolbarDelegate {
@@ -28,6 +29,7 @@ class SettingsWindow: NSWindow, NSWindowDelegate, NSToolbarDelegate {
     
     private var toggleButton: NSControl? = nil
     private var activeModuleName: String? = nil
+    private var settingsPreviewButton: NSView? = nil
     
     private var pauseState: Bool { Store.shared.bool(key: "pause", defaultValue: false) }
     
@@ -119,6 +121,18 @@ class SettingsWindow: NSWindow, NSWindowDelegate, NSToolbarDelegate {
     
     func toolbar(_ toolbar: NSToolbar, itemForItemIdentifier itemIdentifier: NSToolbarItem.Identifier, willBeInsertedIntoToolbar flag: Bool) -> NSToolbarItem? {
         switch itemIdentifier {
+        case .previewButton:
+            let button = SettingsPreviewButton { [weak self] in
+                guard let moduleName = self?.activeModuleName else { return }
+                NotificationCenter.default.post(name: .togglePreview, object: nil, userInfo: ["module": moduleName])
+            }
+            self.settingsPreviewButton = button
+            
+            let toolbarItem = NSToolbarItem(itemIdentifier: itemIdentifier)
+            toolbarItem.view = button
+            toolbarItem.isBordered = false
+            
+            return toolbarItem
         case .toggleButton:
             let switchButton = NSSwitch()
             switchButton.state = .on
@@ -139,10 +153,10 @@ class SettingsWindow: NSWindow, NSWindowDelegate, NSToolbarDelegate {
     }
     
     func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
-        return [.flexibleSpace, .toggleButton]
+        return [.flexibleSpace, .previewButton, .toggleButton]
     }
     func toolbarDefaultItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
-        return [.flexibleSpace, .toggleButton]
+        return [.flexibleSpace, .previewButton, .toggleButton]
     }
     
     @objc private func toggleSettingsHandler(_ notification: Notification) {
@@ -164,19 +178,25 @@ class SettingsWindow: NSWindow, NSWindowDelegate, NSToolbarDelegate {
         if let title = notification.userInfo?["module"] as? String {
             var view: NSView = NSView()
             if let detectedModule = modules.first(where: { $0.config.name == title }) {
-                if let v = detectedModule.settings {
+                if let v = detectedModule.window {
                     view = v
                 }
                 self.activeModuleName = detectedModule.config.name
                 toggleNSControlState(self.toggleButton, state: detectedModule.enabled ? .on : .off)
                 self.toggleButton?.isHidden = false
+                self.settingsPreviewButton?.isHidden = !detectedModule.config.hasPreview
+                NotificationCenter.default.post(name: .openWindow, object: nil, userInfo: ["module": detectedModule.config.name, "state": true])
             } else if title == "Dashboard" {
                 view = self.dashboard
                 self.toggleButton?.isHidden = true
+                self.settingsPreviewButton?.isHidden = true
+                NotificationCenter.default.post(name: .openWindow, object: nil, userInfo: ["state": false])
             } else if title == "Settings" {
                 self.settings.viewWillAppear()
                 view = self.settings
                 self.toggleButton?.isHidden = true
+                self.settingsPreviewButton?.isHidden = true
+                NotificationCenter.default.post(name: .openWindow, object: nil, userInfo: ["state": false])
             }
             
             self.title = localizedString(title)
@@ -521,5 +541,65 @@ private class MenuItem: NSView {
         self.imageView?.contentTintColor = .labelColor
         self.titleView?.textColor = .labelColor
         self.active = false
+    }
+}
+
+private class SettingsPreviewButton: NSStackView {
+    private var callback: () -> Void
+    
+    private var settingsIcon: NSImage { iconFromSymbol(name: "gear", scale: .large) }
+    private var previewIcon: NSImage { iconFromSymbol(name: "command", scale: .large) }
+    
+    private var button: NSButton? = nil
+    private var isSettingsEnabled: Bool = false
+    
+    fileprivate init(callback: @escaping () -> Void) {
+        self.callback = callback
+        
+        super.init(frame: .zero)
+        
+        self.translatesAutoresizingMaskIntoConstraints = false
+        self.edgeInsets = NSEdgeInsets(
+            top: Constants.Settings.margin,
+            left: Constants.Settings.margin,
+            bottom: Constants.Settings.margin,
+            right: Constants.Settings.margin
+        )
+        self.spacing = Constants.Settings.margin
+        
+        let button = NSButton()
+        button.toolTip = localizedString("Open module settings")
+        button.bezelStyle = .regularSquare
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.imageScaling = .scaleNone
+        button.image = self.settingsIcon
+        button.contentTintColor = .secondaryLabelColor
+        button.isBordered = false
+        button.action = #selector(self.action)
+        button.target = self
+        button.focusRingType = .none
+        button.widthAnchor.constraint(equalToConstant: Constants.Widget.height).isActive = true
+        self.button = button
+        
+        self.addArrangedSubview(button)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc private func action() {
+        guard let button = self.button else { return }
+        self.callback()
+        
+        self.isSettingsEnabled = !self.isSettingsEnabled
+        
+        if self.isSettingsEnabled {
+            button.image = self.previewIcon
+            button.toolTip = localizedString("Close module settings")
+        } else {
+            button.image = self.settingsIcon
+            button.toolTip = localizedString("Open module settings")
+        }
     }
 }
