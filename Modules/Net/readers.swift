@@ -146,6 +146,8 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
     
     private let wifiClient = CWWiFiClient.shared()
     
+    private var lastDetailsReadTS: Date = .distantPast
+    
     public override func setup() {
         self.reachability.reachable = {
             if self.active {
@@ -321,6 +323,9 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
     public func getDetails() {
         guard self.interfaceID != "" else { return }
         
+        let now = Date()
+        if now.timeIntervalSince(self.lastDetailsReadTS) < 15 { return }
+        
         for interface in SCNetworkInterfaceCopyAll() as NSArray {
             if let bsdName = SCNetworkInterfaceGetBSDName(interface as! SCNetworkInterface), bsdName as String == self.interfaceID,
                let type = SCNetworkInterfaceGetInterfaceType(interface as! SCNetworkInterface),
@@ -362,6 +367,8 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
         if self.usage.connectionType == .wifi && self.usage.wifiDetails.ssid == nil || self.usage.wifiDetails.ssid == "" {
             self.getWiFiDetails()
         }
+        
+        self.lastDetailsReadTS = Date()
     }
     
     private func getWiFiDetails() {
