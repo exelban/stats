@@ -464,7 +464,6 @@ internal let SensorsList: [Sensor] = [
     Sensor(key: "Tm0p", name: "Memory Proximity 1", group: .sensor, type: .temperature, platforms: Platform.m4Gen),
     Sensor(key: "Tm1p", name: "Memory Proximity 2", group: .sensor, type: .temperature, platforms: Platform.m4Gen),
     Sensor(key: "Tm2p", name: "Memory Proximity 3", group: .sensor, type: .temperature, platforms: Platform.m4Gen),
-
     
     // M5
     Sensor(key: "Tp00", name: "CPU efficiency core 1", group: .CPU, type: .temperature, platforms: Platform.m5Gen, average: true),
