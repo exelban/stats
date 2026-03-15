@@ -19,6 +19,7 @@ internal class SensorsReader: Reader<Sensors_List> {
     
     private var lastRead: Date = Date()
     private let firstRead: Date = Date()
+    private var lastIOSensorsRead: Date? = nil
     
     private var HIDState: Bool {
         Store.shared.bool(key: "Sensors_hid", defaultValue: false)
@@ -525,12 +526,18 @@ extension SensorsReader {
         ]
     }
     
+    private static func appleSiliconPower(currentEnergy: Double, previousEnergy: Double, elapsed: TimeInterval) -> Double {
+        guard elapsed > 0 else { return 0 }
+        return (currentEnergy - previousEnergy) / elapsed
+    }
+
     private func IOSensors() -> (Double, Double, Double, Double, Double)? {
-        guard let sample = IOReportCreateSamples(self.subscription, self.channels, nil)?.takeRetainedValue(),
-              let dict = sample as? [String: Any] else {
+        guard let reportSample = IOReportCreateSamples(self.subscription, self.channels, nil)?.takeRetainedValue(),
+              let dict = reportSample as? [String: Any] else {
             return nil
         }
         let items = dict["IOReportChannels"] as! CFArray
+        let now = Date()
         
         let prevCPU = self.powers.CPU
         let prevGPU = self.powers.GPU
@@ -562,14 +569,23 @@ extension SensorsReader {
             }
         }
         
-        guard prevCPU != 0 else { return (0, 0, 0, 0, 0) } // omit first read
+        guard let lastIOSensorsRead = self.lastIOSensorsRead else {
+            self.lastIOSensorsRead = now
+            return (0, 0, 0, 0, 0)
+        }
+        guard prevCPU != 0 else {
+            self.lastIOSensorsRead = now
+            return (0, 0, 0, 0, 0)
+        } // omit first read
         
+        let elapsed = now.timeIntervalSince(lastIOSensorsRead)
+        defer { self.lastIOSensorsRead = now }
         return (
-            self.powers.CPU - prevCPU,
-            self.powers.GPU - prevGPU,
-            self.powers.ANE - prevANE,
-            self.powers.RAM - prevRAM,
-            self.powers.PCI - prevPCI
+            Self.appleSiliconPower(currentEnergy: self.powers.CPU, previousEnergy: prevCPU, elapsed: elapsed),
+            Self.appleSiliconPower(currentEnergy: self.powers.GPU, previousEnergy: prevGPU, elapsed: elapsed),
+            Self.appleSiliconPower(currentEnergy: self.powers.ANE, previousEnergy: prevANE, elapsed: elapsed),
+            Self.appleSiliconPower(currentEnergy: self.powers.RAM, previousEnergy: prevRAM, elapsed: elapsed),
+            Self.appleSiliconPower(currentEnergy: self.powers.PCI, previousEnergy: prevPCI, elapsed: elapsed)
         )
     }
 }
