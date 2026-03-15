@@ -447,7 +447,7 @@ internal class Popup: PopupWrapper {
                     self.interfaceField?.stringValue += ")"
                     self.interfaceStatusField?.stringValue = localizedString(interface.status ? "UP" : "DOWN")
                     self.macAddressField?.stringValue = interface.address
-                    self.interfaceSpeedField?.stringValue = "\(Int(interface.transmitRate.rounded()))baseT"
+                    self.interfaceSpeedField?.stringValue = "\(Int(interface.transmitRate.rounded()))Mbps"
                 } else {
                     self.interfaceField?.stringValue = localizedString("Unknown")
                     self.interfaceStatusField?.stringValue = localizedString("Unknown")

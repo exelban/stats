@@ -237,18 +237,26 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
                 continue
             }
             self.usage.interface?.status = (pointer.pointee.ifa_flags & UInt32(IFF_UP)) != 0
-            
-            if let raw = pointer.pointee.ifa_data {
-                let dataPtr = raw.assumingMemoryBound(to: if_data.self)
-                let ifData = dataPtr.pointee
-                let baud = UInt64(ifData.ifi_baudrate)
-                if baud > 0 {
-                    self.usage.interface?.transmitRate = Double(baud) / 1_000_000.0
+
+            // For Wi‑Fi, `if_data.ifi_baudrate` is often empty; use CoreWLAN.
+            if let wifiInterface = CWWiFiClient.shared().interface(withName: self.interfaceID) {
+                let rate = wifiInterface.transmitRate()
+                if rate > 0 {
+                    self.usage.interface?.transmitRate = rate
+                }
+            } else {
+                if let raw = pointer.pointee.ifa_data {
+                    let dataPtr = raw.assumingMemoryBound(to: if_data.self)
+                    let ifData = dataPtr.pointee
+                    let baud = UInt64(ifData.ifi_baudrate)
+                    if baud > 0 {
+                        self.usage.interface?.transmitRate = Double(baud) / 1_000_000.0
+                    }
                 }
             }
-            
+
             self.getLocalIP(pointer)
-            
+
             if let info = self.getBytesInfo(pointer) {
                 totalUpload += info.upload
                 totalDownload += info.download
