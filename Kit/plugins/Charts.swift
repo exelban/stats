@@ -157,9 +157,10 @@ public class LineChartView: NSView {
         self.addTrackingArea(NSTrackingArea(
             rect: CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height),
             options: [
-                NSTrackingArea.Options.activeAlways,
-                NSTrackingArea.Options.mouseEnteredAndExited,
-                NSTrackingArea.Options.mouseMoved
+                .activeAlways,
+                .mouseEnteredAndExited,
+                .mouseMoved,
+                .inVisibleRect
             ],
             owner: self, userInfo: nil
         ))
@@ -346,11 +347,12 @@ public class LineChartView: NSView {
     public override func updateTrackingAreas() {
         self.trackingAreas.forEach({ self.removeTrackingArea($0) })
         self.addTrackingArea(NSTrackingArea(
-            rect: CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height),
+            rect: .zero,
             options: [
-                NSTrackingArea.Options.activeAlways,
-                NSTrackingArea.Options.mouseEnteredAndExited,
-                NSTrackingArea.Options.mouseMoved
+                .activeAlways,
+                .mouseEnteredAndExited,
+                .mouseMoved,
+                .inVisibleRect
             ],
             owner: self, userInfo: nil
         ))
@@ -538,7 +540,7 @@ public class PieChartView: NSView {
     private var segments: [circle_segment] = []
     private var queue: DispatchQueue = DispatchQueue(label: "eu.exelban.Stats.charts.pie")
     
-    public init(frame: NSRect, segments: [circle_segment], filled: Bool = false, drawValue: Bool = false) {
+    public init(frame: NSRect = .zero, segments: [circle_segment] = [], filled: Bool = false, drawValue: Bool = false) {
         self.filled = filled
         self.drawValue = drawValue
         self.segments = segments
@@ -817,10 +819,10 @@ internal class TachometerGraphView: NSView {
     }
 }
 
-public class BarChartView: NSView {
+public class ColumnChartView: NSView {
     private var values: [ColorValue] = []
     private var cursor: CGPoint? = nil
-    private var queue: DispatchQueue = DispatchQueue(label: "eu.exelban.Stats.charts.bar")
+    private var queue: DispatchQueue = DispatchQueue(label: "eu.exelban.Stats.charts.column")
     
     public init(frame: NSRect = NSRect.zero, num: Int) {
         super.init(frame: frame)
@@ -829,9 +831,10 @@ public class BarChartView: NSView {
         self.addTrackingArea(NSTrackingArea(
             rect: CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height),
             options: [
-                NSTrackingArea.Options.activeAlways,
-                NSTrackingArea.Options.mouseEnteredAndExited,
-                NSTrackingArea.Options.mouseMoved
+                .activeAlways,
+                .mouseEnteredAndExited,
+                .mouseMoved,
+                .inVisibleRect
             ],
             owner: self, userInfo: nil
         ))
@@ -935,6 +938,21 @@ public class BarChartView: NSView {
     public override func mouseExited(with event: NSEvent) {
         self.cursor = nil
         self.display()
+    }
+    
+    public override func updateTrackingAreas() {
+        self.trackingAreas.forEach({ self.removeTrackingArea($0) })
+        self.addTrackingArea(NSTrackingArea(
+            rect: .zero,
+            options: [
+                .activeAlways,
+                .mouseEnteredAndExited,
+                .mouseMoved,
+                .inVisibleRect
+            ],
+            owner: self, userInfo: nil
+        ))
+        super.updateTrackingAreas()
     }
 }
 

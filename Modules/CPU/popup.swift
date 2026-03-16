@@ -69,7 +69,7 @@ internal class Popup: PopupWrapper {
     private var sliderView: NSView? = nil
     
     private var lineChart: LineChartView? = nil
-    private var barChart: BarChartView? = nil
+    private var columnChart: ColumnChartView? = nil
     private var circle: PieChartView? = nil
     private var temperatureCircle: HalfCircleGraphView? = nil
     private var frequencyCircle: HalfCircleGraphView? = nil
@@ -244,13 +244,13 @@ internal class Popup: PopupWrapper {
                 box.layer?.backgroundColor = NSColor.lightGray.withAlphaComponent(0.1).cgColor
                 box.layer?.cornerRadius = 3
                 
-                let chart = BarChartView(frame: NSRect(
+                let chart = ColumnChartView(frame: NSRect(
                     x: Constants.Popup.spacing,
                     y: Constants.Popup.spacing,
                     width: view.frame.width - (Constants.Popup.spacing*2),
                     height: box.frame.height - (Constants.Popup.spacing*2)
                 ), num: Int(cores))
-                self.barChart = chart
+                self.columnChart = chart
                 
                 box.addSubview(chart)
                 
@@ -396,7 +396,7 @@ internal class Popup: PopupWrapper {
                         usagePerCore.append(ColorValue(value.usagePerCore[i], color: NSColor.systemBlue))
                     }
                 }
-                self.barChart?.setValues(usagePerCore)
+                self.columnChart?.setValues(usagePerCore)
                 
                 self.initialized = true
             }

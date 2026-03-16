@@ -14,7 +14,7 @@ import Kit
 
 public class Portal: PortalWrapper {
     private var circle: PieChartView? = nil
-    private var barChart: BarChartView? = nil
+    private var columnChart: ColumnChartView? = nil
     
     private var initialized: Bool = false
     
@@ -99,8 +99,8 @@ public class Portal: PortalWrapper {
                 box.layer?.backgroundColor = NSColor.lightGray.withAlphaComponent(0.1).cgColor
                 box.layer?.cornerRadius = 3
                 
-                let chart = BarChartView(num: Int(cores))
-                self.barChart = chart
+                let chart = ColumnChartView(num: Int(cores))
+                self.columnChart = chart
                 box.addArrangedSubview(chart)
                 
                 return box
@@ -163,7 +163,7 @@ public class Portal: PortalWrapper {
                         usagePerCore.append(ColorValue(value.usagePerCore[i], color: NSColor.systemBlue))
                     }
                 }
-                self.barChart?.setValues(usagePerCore)
+                self.columnChart?.setValues(usagePerCore)
                 
                 self.initialized = true
             }
