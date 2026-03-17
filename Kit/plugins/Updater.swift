@@ -199,6 +199,11 @@ public class Updater {
             
             _ = syncShell("/usr/bin/hdiutil detach $TMPDIR/Stats")
             _ = syncShell("/usr/bin/hdiutil attach \(path) -mountpoint /tmp/Stats -noverify -nobrowse -noautoopen")
+        } else if res.contains("attach failed") { // Attach can fail due to edge cases like MDM restrictions.
+            let errorMessage = res.replacingOccurrences(of: "hdiutil: attach failed - ", with: "")
+            completion("Could not mount DMG (attach failed) - \(errorMessage)")
+            _ = syncShell("rm \(dmg)")
+            return
         }
         
         _ = syncShell("cp -rf /tmp/Stats/Stats.app/Contents/Resources/Scripts/updater.sh $TMPDIR/updater.sh") // copy updater script to tmp folder
