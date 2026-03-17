@@ -120,13 +120,14 @@ internal class CombinedView: NSObject, NSGestureRecognizerDelegate {
         
         var w: CGFloat = 0
         var i: Int = 0
-        self.activeModules.forEach { (m: Module) in
+        let visibleModules = self.activeModules.filter { $0.menuBar.view.frame.width > 0 }
+        visibleModules.forEach { (m: Module) in
             self.view.addSubview(m.menuBar.view)
             self.view.subviews[i].setFrameOrigin(NSPoint(x: w, y: 0))
             w += m.menuBar.view.frame.width + self.spacing
             i += 1
             
-            if self.separator && i < 2 * self.activeModules.count - 1 {
+            if self.separator && i < 2 * visibleModules.count - 1 {
                 let separator = NSView(frame: NSRect(x: w, y: 3, width: 1, height: Constants.Widget.height-6))
                 separator.wantsLayer = true
                 separator.layer?.backgroundColor = (separator.isDarkMode ? NSColor.black : NSColor.white).cgColor

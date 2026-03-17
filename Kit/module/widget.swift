@@ -155,7 +155,9 @@ extension widget_t: CaseIterable {}
 
 public protocol widget_p: NSView {
     var widthHandler: (() -> Void)? { get set }
+    var visibilityHandler: ((Bool) -> Void)? { get set }
     var onClick: (() -> Void)? { get set }
+    var occupiesMenuBarSpace: Bool { get }
     
     func settings() -> NSView
 }
@@ -164,6 +166,7 @@ open class WidgetWrapper: NSView, widget_p {
     public var type: widget_t
     public var title: String
     public var widthHandler: (() -> Void)? = nil
+    public var visibilityHandler: ((Bool) -> Void)? = nil
     public var onClick: (() -> Void)? = nil
     public var shadowSize: CGSize
     internal var queue: DispatchQueue
@@ -223,6 +226,10 @@ open class WidgetWrapper: NSView, widget_p {
             self?.display()
         }
     }
+
+    open var occupiesMenuBarSpace: Bool {
+        true
+    }
     
     open func settings() -> NSView { return NSView() }
     
@@ -255,6 +262,7 @@ public class SWidget {
     
     public var toggleCallback: ((widget_t, Bool) -> Void)? = nil
     public var sizeCallback: (() -> Void)? = nil
+    public var visibilityCallback: ((Bool) -> Void)? = nil
     
     public var log: NextLog {
         NextLog.shared.copy(category: self.module)
@@ -274,6 +282,7 @@ public class SWidget {
     
     private var menuBarItem: NSStatusItem? = nil
     private var originX: CGFloat
+    private var usesStandaloneMenuBarItem: Bool = true
     
     public init(_ type: widget_t, defaultWidget: widget_t, module: String, item: widget_p, image: NSImage) {
         self.type = type
@@ -285,8 +294,14 @@ public class SWidget {
         
         self.item.widthHandler = { [weak self] in
             self?.sizeCallback?()
-            if let s = self, let item = s.menuBarItem, let width: CGFloat = self?.item.frame.width, item.length != width {
-                item.length = width
+            if self?.usesStandaloneMenuBarItem == true {
+                self?.syncMenuBarItemVisibility()
+            }
+        }
+        self.item.visibilityHandler = { [weak self] visible in
+            self?.visibilityCallback?(visible)
+            if self?.usesStandaloneMenuBarItem == true {
+                self?.syncMenuBarItemVisibility()
             }
         }
         self.item.identifier = NSUserInterfaceItemIdentifier(self.type.rawValue)
@@ -328,8 +343,13 @@ public class SWidget {
     }
     
     public func setMenuBarItem(state: Bool) {
-        if state {
-            DispatchQueue.main.async(execute: {
+        DispatchQueue.main.async(execute: {
+            guard state && self.item.occupiesMenuBarSpace else {
+                self.removeMenuBarItem()
+                return
+            }
+
+            if self.menuBarItem == nil {
                 self.menuBarItem = NSStatusBar.system.statusItem(withLength: self.item.frame.width)
                 DispatchQueue.main.async(execute: {
                     self.menuBarItem?.autosaveName = "\(self.module)_\(self.type.rawValue)"
@@ -340,18 +360,42 @@ public class SWidget {
                 self.menuBarItem?.button?.addSubview(self.item)
                 self.menuBarItem?.button?.image = NSImage()
                 self.menuBarItem?.button?.toolTip = "\(localizedString(self.module)): \(self.type.name())"
-                
-                if let item = self.menuBarItem, !item.isVisible {
-                    self.menuBarItem?.isVisible = true
-                }
-                
                 self.menuBarItem?.button?.target = self
                 self.menuBarItem?.button?.action = #selector(self.togglePopup)
                 self.menuBarItem?.button?.sendAction(on: [.leftMouseDown, .rightMouseDown])
+            }
+
+            self.menuBarItem?.length = self.item.frame.width
+            if let item = self.menuBarItem, !item.isVisible {
+                self.menuBarItem?.isVisible = true
+            }
+        })
+    }
+
+    private func syncMenuBarItemVisibility() {
+        guard self.isActive else { return }
+
+        if self.item.occupiesMenuBarSpace {
+            self.setMenuBarItem(state: true)
+        } else {
+            DispatchQueue.main.async(execute: {
+                self.removeMenuBarItem()
             })
-        } else if let item = self.menuBarItem {
-            NSStatusBar.system.removeStatusItem(item)
-            self.menuBarItem = nil
+        }
+    }
+
+    private func removeMenuBarItem() {
+        guard let item = self.menuBarItem else { return }
+        NSStatusBar.system.removeStatusItem(item)
+        self.menuBarItem = nil
+    }
+
+    public func setUsesStandaloneMenuBarItem(_ state: Bool) {
+        self.usesStandaloneMenuBarItem = state
+        if !state {
+            DispatchQueue.main.async(execute: {
+                self.removeMenuBarItem()
+            })
         }
     }
     
@@ -384,10 +428,13 @@ public class MenuBar {
     public var activeWidgets: [SWidget] {
         self.widgets.filter({ $0.isActive })
     }
+    public var visibleWidgets: [SWidget] {
+        self.activeWidgets.filter({ $0.item.occupiesMenuBarSpace })
+    }
     public var sortedWidgets: [widget_t] {
         get {
             var list: [widget_t: Int] = [:]
-            self.activeWidgets.forEach { (w: SWidget) in
+            self.visibleWidgets.forEach { (w: SWidget) in
                 list[w.type] = w.position
             }
             return list.sorted { $0.1 < $1.1 }.map{ $0.key }
@@ -424,29 +471,40 @@ public class MenuBar {
     public func append(_ widget: SWidget) {
         widget.toggleCallback = { [weak self] (type, state) in
             if let s = self, s.oneView {
-                if state, let w = s.activeWidgets.first(where: { $0.type == type }) {
+                widget.setUsesStandaloneMenuBarItem(false)
+                if state, let w = s.activeWidgets.first(where: { $0.type == type }), w.item.occupiesMenuBarSpace {
                     DispatchQueue.main.async(execute: {
+                        s.view.addWidget(w.item)
                         s.recalculateWidth()
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                            s.view.addWidget(w.item)
-                            s.view.recalculate(s.sortedWidgets)
-                        }
+                        s.view.recalculate(s.sortedWidgets)
                     })
                 } else {
                     DispatchQueue.main.async(execute: {
                         s.view.removeWidget(type: type)
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                            s.recalculateWidth()
-                            s.view.recalculate(s.sortedWidgets)
-                        }
+                        s.recalculateWidth()
+                        s.view.recalculate(s.sortedWidgets)
                     })
                 }
             } else {
+                widget.setUsesStandaloneMenuBarItem(true)
                 widget.setMenuBarItem(state: state)
             }
         }
         widget.sizeCallback = { [weak self] in
             self?.recalculateWidth()
+        }
+        widget.visibilityCallback = { [weak self, weak widget] visible in
+            guard let s = self, let widget = widget, s.oneView else { return }
+
+            DispatchQueue.main.async(execute: {
+                if visible && widget.isActive {
+                    s.view.addWidget(widget.item)
+                } else {
+                    s.view.removeWidget(type: widget.type)
+                }
+                s.recalculateWidth()
+                s.view.recalculate(s.sortedWidgets)
+            })
         }
         self.widgets.append(widget)
     }
@@ -497,10 +555,16 @@ public class MenuBar {
     
     private func recalculateWidth() {
         guard self.oneView, self.active else { return }
-        
-        let w = self.activeWidgets.map({ $0.item.frame.width }).reduce(0, +) +
-            (CGFloat(self.activeWidgets.count - 1) * Constants.Widget.spacing) +
-            Constants.Widget.spacing * 2
+
+        let visibleWidgets = self.visibleWidgets
+        let w: CGFloat
+        if visibleWidgets.isEmpty {
+            w = 0
+        } else {
+            w = visibleWidgets.map({ $0.item.frame.width }).reduce(0, +) +
+                (CGFloat(visibleWidgets.count - 1) * Constants.Widget.spacing) +
+                Constants.Widget.spacing * 2
+        }
         self.menuBarItem?.length = w
         self.view.setFrameOrigin(NSPoint(x: 0, y: 0))
         self.view.setFrameSize(NSSize(width: w, height: Constants.Widget.height))
@@ -563,6 +627,10 @@ public class MenuBarView: NSView {
     }
     
     public func addWidget(_ view: NSView) {
+        if let existingView = self.subviews.first(where: { $0.identifier == view.identifier }) {
+            guard existingView !== view else { return }
+            existingView.removeFromSuperview()
+        }
         self.addSubview(view)
     }
     

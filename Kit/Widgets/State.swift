@@ -137,6 +137,10 @@ public class PressureDotWidget: WidgetWrapper {
                 defaultValue: self.hideWhenNormalState
             )
         }
+
+        let width = self.isDotVisible ? self.visibleWidth : 0
+        self.shadowSize.width = width
+        self.setFrameSize(NSSize(width: width, height: self.frame.size.height))
     }
 
     required init?(coder: NSCoder) {
@@ -156,6 +160,10 @@ public class PressureDotWidget: WidgetWrapper {
         ))
         self.pressure.pressureColor().set()
         circle.fill()
+    }
+
+    public override var occupiesMenuBarSpace: Bool {
+        self.isDotVisible
     }
 
     public func setPressure(_ pressure: RAMPressure) {
@@ -185,13 +193,21 @@ public class PressureDotWidget: WidgetWrapper {
     }
 
     private func updateVisibility() {
-        let width = self.isDotVisible ? self.visibleWidth : 0
+        let wasVisible = self.shadowSize.width > 0
+        let isVisible = self.isDotVisible
+        let width = isVisible ? self.visibleWidth : 0
         let widthChanged = self.shadowSize.width != width
+        let visibilityChanged = wasVisible != isVisible
 
         self.shadowSize.width = width
         DispatchQueue.main.async {
             if widthChanged {
                 self.setFrameSize(NSSize(width: width, height: self.frame.size.height))
+            }
+            if visibilityChanged {
+                self.visibilityHandler?(isVisible)
+            }
+            if widthChanged {
                 self.widthHandler?()
             }
             self.needsDisplay = true
