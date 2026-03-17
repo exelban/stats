@@ -113,6 +113,8 @@ public class PressureDotWidget: WidgetWrapper {
     private let visibleWidth: CGFloat = 8 + (2*Constants.Widget.margin.x)
     private var pressure: RAMPressure = .normal
     private var hideWhenNormalState: Bool = false
+    private var useMenuBarColorWhenNormalState: Bool = false
+    private weak var useMenuBarColorWhenNormalSwitch: NSSwitch?
 
     public init(title: String, config: NSDictionary?, preview: Bool = false) {
         if let config, preview,
@@ -136,6 +138,10 @@ public class PressureDotWidget: WidgetWrapper {
                 key: "\(self.title)_\(self.type.rawValue)_hideWhenNormal",
                 defaultValue: self.hideWhenNormalState
             )
+            self.useMenuBarColorWhenNormalState = Store.shared.bool(
+                key: "\(self.title)_\(self.type.rawValue)_useMenuBarColorWhenNormal",
+                defaultValue: self.useMenuBarColorWhenNormalState
+            )
         }
 
         let width = self.isDotVisible ? self.visibleWidth : 0
@@ -158,7 +164,7 @@ public class PressureDotWidget: WidgetWrapper {
             width: 8,
             height: 8
         ))
-        self.pressure.pressureColor().set()
+        self.dotColor.set()
         circle.fill()
     }
 
@@ -177,19 +183,34 @@ public class PressureDotWidget: WidgetWrapper {
 
     public override func settings() -> NSView {
         let view = SettingsContainerView()
+        let useMenuBarColorWhenNormalSwitch = switchView(
+            action: #selector(self.toggleUseMenuBarColorWhenNormal),
+            state: self.useMenuBarColorWhenNormalState
+        )
+        self.useMenuBarColorWhenNormalSwitch = useMenuBarColorWhenNormalSwitch
 
         view.addArrangedSubview(PreferencesSection([
             PreferencesRow(localizedString("Hide when memory pressure is normal"), component: switchView(
                 action: #selector(self.toggleHideWhenNormal),
                 state: self.hideWhenNormalState
-            ))
+            )),
+            PreferencesRow(localizedString("Use menu bar color when memory pressure is normal"), component: useMenuBarColorWhenNormalSwitch)
         ]))
+
+        self.updateUseMenuBarColorWhenNormalSwitchState()
 
         return view
     }
 
     private var isDotVisible: Bool {
         !(self.hideWhenNormalState && self.pressure == .normal)
+    }
+
+    private var dotColor: NSColor {
+        if self.pressure == .normal && !self.hideWhenNormalState && self.useMenuBarColorWhenNormalState {
+            return .textColor
+        }
+        return self.pressure.pressureColor()
     }
 
     private func updateVisibility() {
@@ -210,13 +231,27 @@ public class PressureDotWidget: WidgetWrapper {
             if widthChanged {
                 self.widthHandler?()
             }
+            self.updateUseMenuBarColorWhenNormalSwitchState()
             self.needsDisplay = true
         }
+    }
+
+    private func updateUseMenuBarColorWhenNormalSwitchState() {
+        self.useMenuBarColorWhenNormalSwitch?.isEnabled = !self.hideWhenNormalState
     }
 
     @objc private func toggleHideWhenNormal(_ sender: NSControl) {
         self.hideWhenNormalState = controlState(sender)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_hideWhenNormal", value: self.hideWhenNormalState)
+        self.updateVisibility()
+    }
+
+    @objc private func toggleUseMenuBarColorWhenNormal(_ sender: NSControl) {
+        self.useMenuBarColorWhenNormalState = controlState(sender)
+        Store.shared.set(
+            key: "\(self.title)_\(self.type.rawValue)_useMenuBarColorWhenNormal",
+            value: self.useMenuBarColorWhenNormalState
+        )
         self.updateVisibility()
     }
 }

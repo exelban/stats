@@ -213,6 +213,7 @@
 "Tachometer widget" = "टैकोमीटर";
 "Pressure dot widget" = "Pressure dot widget";
 "Hide when memory pressure is normal" = "Hide when memory pressure is normal";
+"Use menu bar color when memory pressure is normal" = "Use menu bar color when memory pressure is normal";
 "State widget" = "राज्य विजेट";
 "Text widget" = "टेक्स्ट विजेट"; // translategemma:4b
 "Battery details widget" = "बैटरी विवरण विजेट"; // translategemma:4b

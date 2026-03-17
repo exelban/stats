@@ -213,6 +213,7 @@
 "Tachometer widget" = "Tacòmetre";
 "Pressure dot widget" = "Pressure dot widget";
 "Hide when memory pressure is normal" = "Hide when memory pressure is normal";
+"Use menu bar color when memory pressure is normal" = "Use menu bar color when memory pressure is normal";
 "State widget" = "Widget d'estat"; // translategemma:4b
 "Text widget" = "Element de text"; // translategemma:4b
 "Battery details widget" = "Widget de detalls de la bateria"; // translategemma:4b

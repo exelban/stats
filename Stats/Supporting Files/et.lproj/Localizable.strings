@@ -213,6 +213,7 @@
 "Tachometer widget" = "Tahhomeeter";
 "Pressure dot widget" = "Pressure dot widget";
 "Hide when memory pressure is normal" = "Hide when memory pressure is normal";
+"Use menu bar color when memory pressure is normal" = "Use menu bar color when memory pressure is normal";
 "State widget" = "Seisund";
 "Text widget" = "Teksti atribuut"; // translategemma:4b
 "Battery details widget" = "Aku üksikasjade vidžit"; // translategemma:4b

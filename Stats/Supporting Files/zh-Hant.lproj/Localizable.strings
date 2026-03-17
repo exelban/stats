@@ -213,6 +213,7 @@
 "Tachometer widget" = "轉速計";
 "Pressure dot widget" = "Pressure dot widget";
 "Hide when memory pressure is normal" = "Hide when memory pressure is normal";
+"Use menu bar color when memory pressure is normal" = "Use menu bar color when memory pressure is normal";
 "State widget" = "State小工具";
 "Text widget" = "文字";
 "Battery details widget" = "電池詳細資訊";

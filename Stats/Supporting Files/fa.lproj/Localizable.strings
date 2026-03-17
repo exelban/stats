@@ -213,6 +213,7 @@
 "Tachometer widget" = "تاکومتر";
 "Pressure dot widget" = "Pressure dot widget";
 "Hide when memory pressure is normal" = "Hide when memory pressure is normal";
+"Use menu bar color when memory pressure is normal" = "Use menu bar color when memory pressure is normal";
 "State widget" = "ویجت حالت";
 "Text widget" = "کد مربوط به ویجت متنی"; // translategemma:4b
 "Battery details widget" = "ویجت اطلاعات باتری"; // translategemma:4b

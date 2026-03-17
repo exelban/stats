@@ -213,6 +213,7 @@
 "Tachometer widget" = "טכומטר";
 "Pressure dot widget" = "Pressure dot widget";
 "Hide when memory pressure is normal" = "Hide when memory pressure is normal";
+"Use menu bar color when memory pressure is normal" = "Use menu bar color when memory pressure is normal";
 "State widget" = "רכיב ממשלתי"; // translategemma:4b
 "Text widget" = "רכיב טקסט"; // translategemma:4b
 "Battery details widget" = "מדד פרטי סוללה"; // translategemma:4b

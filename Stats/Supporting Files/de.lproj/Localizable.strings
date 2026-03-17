@@ -213,6 +213,7 @@
 "Tachometer widget" = "Drehzahlmesser"; // translategemma:4b
 "Pressure dot widget" = "Pressure dot widget";
 "Hide when memory pressure is normal" = "Hide when memory pressure is normal";
+"Use menu bar color when memory pressure is normal" = "Use menu bar color when memory pressure is normal";
 "State widget" = "Status-Widget";
 "Text widget" = "Text-Widget";
 "Battery details widget" = "Batteriedetails-Widget";

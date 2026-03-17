@@ -213,6 +213,7 @@
 "Tachometer widget" = "Tachometr";
 "Pressure dot widget" = "Pressure dot widget";
 "Hide when memory pressure is normal" = "Hide when memory pressure is normal";
+"Use menu bar color when memory pressure is normal" = "Use menu bar color when memory pressure is normal";
 "State widget" = "Stan";
 "Text widget" = "Tekst";
 "Battery details widget" = "Widżet szczegółów baterii";

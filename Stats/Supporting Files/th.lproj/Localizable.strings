@@ -213,6 +213,7 @@
 "Tachometer widget" = "วัดความเร็ว";
 "Pressure dot widget" = "Pressure dot widget";
 "Hide when memory pressure is normal" = "Hide when memory pressure is normal";
+"Use menu bar color when memory pressure is normal" = "Use menu bar color when memory pressure is normal";
 "State widget" = "เครื่องวัดสถานะ";
 "Text widget" = "ส่วนประกอบสำหรับแสดงข้อความ"; // translategemma:4b
 "Battery details widget" = "หน้าปัดข้อมูลแบตเตอรี่"; // translategemma:4b

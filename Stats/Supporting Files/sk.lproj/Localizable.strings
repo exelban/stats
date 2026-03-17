@@ -213,6 +213,7 @@
 "Tachometer widget" = "Rýchlomer"; // translategemma:4b
 "Pressure dot widget" = "Pressure dot widget";
 "Hide when memory pressure is normal" = "Hide when memory pressure is normal";
+"Use menu bar color when memory pressure is normal" = "Use menu bar color when memory pressure is normal";
 "State widget" = "Stav";
 "Text widget" = "Textové pole"; // translategemma:4b
 "Battery details widget" = "Widget s informáciami o batérii"; // translategemma:4b
