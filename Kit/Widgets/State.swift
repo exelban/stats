@@ -110,7 +110,9 @@ public class StateWidget: WidgetWrapper {
 }
 
 public class PressureDotWidget: WidgetWrapper {
+    private let visibleWidth: CGFloat = 8 + (2*Constants.Widget.margin.x)
     private var pressure: RAMPressure = .normal
+    private var hideWhenNormalState: Bool = false
 
     public init(title: String, config: NSDictionary?, preview: Bool = false) {
         if let config, preview,
@@ -123,11 +125,18 @@ public class PressureDotWidget: WidgetWrapper {
         super.init(.pressureDot, title: title, frame: CGRect(
             x: 0,
             y: Constants.Widget.margin.y,
-            width: 8 + (2*Constants.Widget.margin.x),
+            width: self.visibleWidth,
             height: Constants.Widget.height - (2*Constants.Widget.margin.y)
         ))
 
         self.canDrawConcurrently = true
+
+        if !preview {
+            self.hideWhenNormalState = Store.shared.bool(
+                key: "\(self.title)_\(self.type.rawValue)_hideWhenNormal",
+                defaultValue: self.hideWhenNormalState
+            )
+        }
     }
 
     required init?(coder: NSCoder) {
@@ -136,6 +145,8 @@ public class PressureDotWidget: WidgetWrapper {
 
     public override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
+
+        guard self.isDotVisible else { return }
 
         let circle = NSBezierPath(ovalIn: CGRect(
             x: Constants.Widget.margin.x,
@@ -148,10 +159,48 @@ public class PressureDotWidget: WidgetWrapper {
     }
 
     public func setPressure(_ pressure: RAMPressure) {
-        guard self.pressure != pressure else { return }
+        guard self.pressure != pressure else {
+            self.updateVisibility()
+            return
+        }
         self.pressure = pressure
+        self.updateVisibility()
+    }
+
+    public override func settings() -> NSView {
+        let view = SettingsContainerView()
+
+        view.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Hide when memory pressure is normal"), component: switchView(
+                action: #selector(self.toggleHideWhenNormal),
+                state: self.hideWhenNormalState
+            ))
+        ]))
+
+        return view
+    }
+
+    private var isDotVisible: Bool {
+        !(self.hideWhenNormalState && self.pressure == .normal)
+    }
+
+    private func updateVisibility() {
+        let width = self.isDotVisible ? self.visibleWidth : 0
+        let widthChanged = self.shadowSize.width != width
+
+        self.shadowSize.width = width
         DispatchQueue.main.async {
+            if widthChanged {
+                self.setFrameSize(NSSize(width: width, height: self.frame.size.height))
+                self.widthHandler?()
+            }
             self.needsDisplay = true
         }
+    }
+
+    @objc private func toggleHideWhenNormal(_ sender: NSControl) {
+        self.hideWhenNormalState = controlState(sender)
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_hideWhenNormal", value: self.hideWhenNormalState)
+        self.updateVisibility()
     }
 }

@@ -212,6 +212,7 @@
 "Static width" = "Statická šířka";
 "Tachometer widget" = "Tachometr";
 "Pressure dot widget" = "Pressure dot widget";
+"Hide when memory pressure is normal" = "Hide when memory pressure is normal";
 "State widget" = "Stav";
 "Text widget" = "Prvek pro zobrazení textu"; // translategemma:4b
 "Battery details widget" = "Widget s informacemi o baterii"; // translategemma:4b

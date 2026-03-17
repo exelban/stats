@@ -212,6 +212,7 @@
 "Static width" = "Static width";
 "Tachometer widget" = "Tachometer";
 "Pressure dot widget" = "Pressure dot widget";
+"Hide when memory pressure is normal" = "Hide when memory pressure is normal";
 "State widget" = "State widget";
 "Text widget" = "Text widget";
 "Battery details widget" = "Battery details widget";

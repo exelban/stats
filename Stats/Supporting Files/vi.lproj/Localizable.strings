@@ -212,6 +212,7 @@
 "Static width" = "Chiều rộng cố định";
 "Tachometer widget" = "Widget đo tốc độ";
 "Pressure dot widget" = "Pressure dot widget";
+"Hide when memory pressure is normal" = "Hide when memory pressure is normal";
 "State widget" = "Widget trạng thái";
 "Text widget" = "Bộ điều khiển văn bản"; // translategemma:4b
 "Battery details widget" = "Widget hiển thị thông tin pin"; // translategemma:4b

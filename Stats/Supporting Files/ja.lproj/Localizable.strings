@@ -212,6 +212,7 @@
 "Static width" = "固定幅";
 "Tachometer widget" = "タコメーター";
 "Pressure dot widget" = "Pressure dot widget";
+"Hide when memory pressure is normal" = "Hide when memory pressure is normal";
 "State widget" = "ステートウィジェット"; // translategemma:4b
 "Text widget" = "テキストウィジェット"; // translategemma:4b
 "Battery details widget" = "バッテリー詳細ウィジェット"; // translategemma:4b

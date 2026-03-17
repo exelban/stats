@@ -212,6 +212,7 @@
 "Static width" = "Statična širina";
 "Tachometer widget" = "Tahometar";
 "Pressure dot widget" = "Pressure dot widget";
+"Hide when memory pressure is normal" = "Hide when memory pressure is normal";
 "State widget" = "Komponenta stanja"; // translategemma:4b
 "Text widget" = "Komponenta za prikaz teksta"; // translategemma:4b
 "Battery details widget" = "Widget s detaljima baterije"; // translategemma:4b

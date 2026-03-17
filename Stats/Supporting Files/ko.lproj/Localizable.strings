@@ -212,6 +212,7 @@
 "Static width" = "너비 고정";
 "Tachometer widget" = "반원 도표";
 "Pressure dot widget" = "Pressure dot widget";
+"Hide when memory pressure is normal" = "Hide when memory pressure is normal";
 "State widget" = "상태 위젯";
 "Text widget" = "텍스트 위젯";
 "Battery details widget" = "배터리 세부 정보 위젯";

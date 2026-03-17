@@ -212,6 +212,7 @@
 "Static width" = "Sabit genişlik";
 "Tachometer widget" = "Takometre widget'ı";
 "Pressure dot widget" = "Pressure dot widget";
+"Hide when memory pressure is normal" = "Hide when memory pressure is normal";
 "State widget" = "Durum widget'ı";
 "Text widget" = "Metin widget'ı";
 "Battery details widget" = "Batarya detayları widget'ı";

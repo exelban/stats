@@ -212,6 +212,7 @@
 "Static width" = "Largeur fixe";
 "Tachometer widget" = "Tachymètre";
 "Pressure dot widget" = "Pressure dot widget";
+"Hide when memory pressure is normal" = "Hide when memory pressure is normal";
 "State widget" = "Widget d'état";
 "Text widget" = "Widget de texte"; // translategemma:4b
 "Battery details widget" = "Widget pour afficher les détails de la batterie"; // translategemma:4b

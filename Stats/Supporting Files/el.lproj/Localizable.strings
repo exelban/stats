@@ -212,6 +212,7 @@
 "Static width" = "Σταθερό πλάτος";
 "Tachometer widget" = "Ταχύμετρο";
 "Pressure dot widget" = "Pressure dot widget";
+"Hide when memory pressure is normal" = "Hide when memory pressure is normal";
 "State widget" = "Στικ του κράτους"; // translategemma:4b
 "Text widget" = "Widget κειμένου"; // translategemma:4b
 "Battery details widget" = "Widget με πληροφορίες για την μπαταρία"; // translategemma:4b

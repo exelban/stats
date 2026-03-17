@@ -212,6 +212,7 @@
 "Static width" = "Lățime fixă"; // translategemma:4b
 "Tachometer widget" = "Contor de turație"; // translategemma:4b
 "Pressure dot widget" = "Pressure dot widget";
+"Hide when memory pressure is normal" = "Hide when memory pressure is normal";
 "State widget" = "Widget de stare"; // translategemma:4b
 "Text widget" = "Widget de text"; // translategemma:4b
 "Battery details widget" = "Widget cu detalii despre baterie"; // translategemma:4b

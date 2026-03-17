@@ -212,6 +212,7 @@
 "Static width" = "Lebar statis";
 "Tachometer widget" = "Takometer";
 "Pressure dot widget" = "Pressure dot widget";
+"Hide when memory pressure is normal" = "Hide when memory pressure is normal";
 "State widget" = "Widget negara"; // translategemma:4b
 "Text widget" = "Elemen widget teks"; // translategemma:4b
 "Battery details widget" = "Widget detail baterai"; // translategemma:4b

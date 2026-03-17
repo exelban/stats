@@ -212,6 +212,7 @@
 "Static width" = "Fix szélesség";
 "Tachometer widget" = "Fordulatszámmérő";
 "Pressure dot widget" = "Pressure dot widget";
+"Hide when memory pressure is normal" = "Hide when memory pressure is normal";
 "State widget" = "Állapot";
 "Text widget" = "Tekstbox"; // translategemma:4b
 "Battery details widget" = "A akkumulátor részletei widget"; // translategemma:4b

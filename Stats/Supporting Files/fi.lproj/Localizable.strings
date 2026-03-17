@@ -212,6 +212,7 @@
 "Static width" = "Staattinen leveys";
 "Tachometer widget" = "Tachometri";
 "Pressure dot widget" = "Pressure dot widget";
+"Hide when memory pressure is normal" = "Hide when memory pressure is normal";
 "State widget" = "Tila";
 "Text widget" = "Tekstikomponentti"; // translategemma:4b
 "Battery details widget" = "Akun tiedot -widget"; // translategemma:4b
