@@ -485,7 +485,7 @@ internal class FanView: NSStackView {
     private var modeButtons: ModeButtons? = nil
     private var debouncer: DispatchWorkItem? = nil
     
-    private var barView: NSView? = nil
+    private var barView: BarChartView? = nil
     
     private var minBtn: NSButton? = nil
     private var maxBtn: NSButton? = nil
@@ -593,28 +593,18 @@ internal class FanView: NSStackView {
         valueField.stringValue = self.fanValue == .percentage ? "\(self.fan.percentage)%" : self.fan.formattedValue
         valueField.toolTip = "\(value)"
         
-        let bar: NSView = NSView(frame: NSRect(x: 0, y: 0, width: 80, height: 8))
-        bar.widthAnchor.constraint(equalToConstant: bar.bounds.width).isActive = true
-        bar.heightAnchor.constraint(equalToConstant: bar.bounds.height).isActive = true
-        bar.wantsLayer = true
-        bar.layer?.backgroundColor = NSColor.textBackgroundColor.cgColor
-        bar.layer?.borderColor = NSColor.quaternaryLabelColor.cgColor
-        bar.layer?.borderWidth = 1
-        bar.layer?.cornerRadius = 2
-        
-        let width: CGFloat = (bar.frame.width * CGFloat(self.fan.percentage < 0 ? 0 : self.fan.percentage)) / 100
-        let barInner = NSView(frame: NSRect(x: 0, y: 0, width: width, height: bar.frame.height))
-        barInner.wantsLayer = true
-        barInner.layer?.backgroundColor = NSColor.controlAccentColor.cgColor
-        
-        bar.addSubview(barInner)
+        let bar = BarChartView(frame: NSRect(x: 0, y: 0, width: 80, height: 8), horizontal: true)
+        bar.widthAnchor.constraint(equalToConstant: 80).isActive = true
+        bar.heightAnchor.constraint(equalToConstant: 8).isActive = true
+        let percentage = self.fan.percentage < 0 ? 0 : self.fan.percentage
+        bar.setValue(ColorValue(Double(percentage) / 100))
         
         row.addArrangedSubview(nameField)
         row.addArrangedSubview(bar)
         row.addArrangedSubview(valueField)
         
         self.valueField = valueField
-        self.barView = barInner
+        self.barView = bar
         
         self.addArrangedSubview(row)
     }
@@ -921,8 +911,8 @@ internal class FanView: NSStackView {
                 self.valueField?.toolTip = value.formattedValue
                 
                 if let v = self.barView {
-                    let width: CGFloat = (80 * CGFloat(value.percentage < 0 ? 0 : value.percentage)) / 100
-                    v.setFrameSize(NSSize(width: width, height: v.frame.height))
+                    let percentage = value.percentage < 0 ? 0 : value.percentage
+                    v.setValue(ColorValue(Double(percentage) / 100))
                 }
                 
                 if self.resetModeAfterSleep && !value.mode.isAutomatic {

@@ -142,7 +142,7 @@ public class LineChartView: NSView {
     private var cursor: NSPoint? = nil
     private var stop: Bool = false
     
-    public init(frame: NSRect, num: Int, suffix: String = "%", color: NSColor = .controlAccentColor, scale: Scale = .none, fixedScale: Double = 1, zeroValue: Double = 0.01) {
+    public init(frame: NSRect = .zero, num: Int, suffix: String = "%", color: NSColor = .controlAccentColor, scale: Scale = .none, fixedScale: Double = 1, zeroValue: Double = 0.01) {
         self.points = Array(repeating: nil, count: max(num, 1))
         self.suffix = suffix
         self.color = color
@@ -233,7 +233,7 @@ public class LineChartView: NSView {
             }
             
             let point = CGPoint(
-                x: (CGFloat(i) * xRatio) + dirtyRect.origin.x,
+                x: CGFloat(i) * xRatio,
                 y: y
             )
             line.append(point)
@@ -1012,6 +1012,97 @@ public class GridChartView: NSView {
             self.values.append(value ? self.okColor : self.notOkColor)
         }
         
+        if self.window?.isVisible ?? false {
+            self.display()
+        }
+    }
+}
+
+public class BarChartView: NSView {
+    private var values: [ColorValue] = []
+    private var cursor: CGPoint? = nil
+    private var queue: DispatchQueue = DispatchQueue(label: "eu.exelban.Stats.charts.bar")
+    
+    private var size: CGFloat?
+    private var horizontal: Bool
+    
+    public init(frame: NSRect = NSRect.zero, size: CGFloat? = nil, horizontal: Bool = false) {
+        self.size = size
+        self.horizontal = horizontal
+        
+        super.init(frame: frame)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    public override func draw(_ dirtyRect: NSRect) {
+        var widthHeight: CGFloat? = nil
+        var isHorizontal: Bool = false
+        var values: [ColorValue] = []
+        self.queue.sync {
+            widthHeight = self.size
+            isHorizontal = self.horizontal
+            values = self.values
+        }
+        
+        guard !values.isEmpty else { return }
+        
+        let totalValue = values.reduce(0) { $0 + $1.value }
+        if totalValue < 1 {
+            values.append(ColorValue(1 - totalValue, color: NSColor.lightGray.withAlphaComponent(0.25)))
+        }
+        
+        let barSize = widthHeight ?? (isHorizontal ? self.frame.height : self.frame.width)
+        let adjustedTotal = values.reduce(0) { $0 + $1.value }
+        guard adjustedTotal > 0 else { return }
+        
+        guard let context = NSGraphicsContext.current?.cgContext else { return }
+        
+        let barRect: NSRect = isHorizontal
+            ? NSRect(x: 0, y: (self.frame.height - barSize) / 2, width: self.frame.width, height: barSize)
+            : NSRect(x: (self.frame.width - barSize) / 2, y: 0, width: barSize, height: self.frame.height)
+        let clipPath = NSBezierPath(roundedRect: barRect, xRadius: 3, yRadius: 3)
+        
+        context.saveGState()
+        clipPath.addClip()
+        
+        var list: [(value: Double, path: NSBezierPath)] = []
+        var offset: CGFloat = 0
+        
+        for value in values {
+            let color = value.color ?? .controlAccentColor
+            let segmentLength = CGFloat(value.value / adjustedTotal) * (isHorizontal ? self.frame.width : self.frame.height)
+            
+            let rect: NSRect = isHorizontal
+                ? NSRect(x: offset, y: (self.frame.height - barSize) / 2, width: segmentLength, height: barSize)
+                : NSRect(x: (self.frame.width - barSize) / 2, y: offset, width: barSize, height: segmentLength)
+            
+            let path = NSBezierPath(rect: rect)
+            color.setFill()
+            path.fill()
+            
+            list.append((value: value.value, path: path))
+            offset += segmentLength
+        }
+        
+        context.restoreGState()
+    }
+    
+    public func setValue(_ values: ColorValue) {
+        self.queue.async(flags: .barrier) {
+            self.values = [values]
+        }
+        if self.window?.isVisible ?? false {
+            self.display()
+        }
+    }
+    
+    public func setValues(_ values: [ColorValue]) {
+        self.queue.async(flags: .barrier) {
+            self.values = values
+        }
         if self.window?.isVisible ?? false {
             self.display()
         }

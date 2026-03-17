@@ -279,10 +279,11 @@ internal class DiskView: NSStackView {
     public var name: String
     public var uuid: String
     private let width: CGFloat
+    private let size: Int64
     
     private var nameView: NameView
     private var chartView: ChartView
-    private var barView: BarView
+    private var barView: BarChartView
     private var legendView: LegendView
     private var detailsView: DetailsView
     
@@ -297,10 +298,16 @@ internal class DiskView: NSStackView {
         self.uuid = uuid
         self.name = name
         self.width = width
+        self.size = size
         let innerWidth: CGFloat = width - (Constants.Popup.margins * 2)
         self.nameView = NameView(width: innerWidth, name: name, size: size, free: free, path: path)
         self.chartView = ChartView(width: innerWidth)
-        self.barView = BarView(width: innerWidth, size: size, free: free)
+        self.barView = BarChartView(frame: NSRect(x: 0, y: 0, width: innerWidth, height: 10), horizontal: true)
+        self.barView.widthAnchor.constraint(equalToConstant: innerWidth).isActive = true
+        self.barView.heightAnchor.constraint(equalToConstant: 10).isActive = true
+        if size != 0 {
+            self.barView.setValue(ColorValue(Double(size - free) / Double(size)))
+        }
         self.legendView = LegendView(width: innerWidth, id: "\(name)_\(path?.absoluteString ?? "")", size: size, free: free)
         self.detailsView = DetailsView(width: innerWidth, id: "\(name)_\(path?.absoluteString ?? "")", smart: smart)
         
@@ -344,7 +351,9 @@ internal class DiskView: NSStackView {
     public func update(free: Int64, smart: smart_t?) {
         self.nameView.update(free: free, read: nil, write: nil)
         self.legendView.update(free: free)
-        self.barView.update(free: free)
+        if size != 0 {
+            self.barView.setValue(ColorValue(Double(self.size - free) / Double(self.size)))
+        }
         self.detailsView.update(smart: smart)
     }
     
@@ -557,59 +566,6 @@ internal class ChartView: NSStackView {
     
     public func setReverseOrder(_ newValue: Bool) {
         self.chart?.setReverseOrder(newValue)
-    }
-}
-
-internal class BarView: NSView {
-    private let size: Int64
-    private var usedBarSpace: NSView? = nil
-    private var ready: Bool = false
-    
-    private var background: NSView? = nil
-    
-    public init(width: CGFloat, size: Int64, free: Int64) {
-        self.size = size
-        
-        super.init(frame: NSRect(x: 0, y: 0, width: width, height: 10))
-        
-        let view: NSView = NSView(frame: NSRect(x: 1, y: 0, width: self.frame.width - 2, height: self.frame.height))
-        view.wantsLayer = true
-        view.layer?.borderColor = NSColor.secondaryLabelColor.cgColor
-        view.layer?.borderWidth = 0.25
-        view.layer?.cornerRadius = 3
-        self.background = view
-        
-        let percentage = CGFloat(size - free) / CGFloat(size)
-        let width: CGFloat = (view.frame.width * (percentage < 0 ? 0 : percentage)) / 1
-        self.usedBarSpace = NSView(frame: NSRect(x: 0, y: 0, width: width, height: view.frame.height))
-        self.usedBarSpace?.wantsLayer = true
-        self.usedBarSpace?.layer?.backgroundColor = NSColor.controlAccentColor.cgColor
-        
-        view.addSubview(self.usedBarSpace!)
-        self.addSubview(view)
-        
-        self.widthAnchor.constraint(equalToConstant: self.frame.width).isActive = true
-        self.heightAnchor.constraint(equalToConstant: self.frame.height).isActive = true
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func updateLayer() {
-        self.background?.layer?.backgroundColor = self.isDarkMode ? NSColor.lightGray.withAlphaComponent(0.1).cgColor : NSColor.white.cgColor
-    }
-    
-    public func update(free: Int64?) {
-        if (self.window?.isVisible ?? false) || !self.ready {
-            if let free = free, self.usedBarSpace != nil {
-                let percentage = CGFloat(self.size - free) / CGFloat(self.size)
-                let width: CGFloat = ((self.frame.width - 2) * (percentage < 0 ? 0 : percentage)) / 1
-                self.usedBarSpace?.setFrameSize(NSSize(width: width, height: self.usedBarSpace!.frame.height))
-            }
-            
-            self.ready = true
-        }
     }
 }
 
