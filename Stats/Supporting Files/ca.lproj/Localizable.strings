@@ -211,6 +211,7 @@
 "Memory widget" = "Memòria";
 "Static width" = "Ample fixe";
 "Tachometer widget" = "Tacòmetre";
+"Pressure dot widget" = "Pressure dot widget";
 "State widget" = "Widget d'estat"; // translategemma:4b
 "Text widget" = "Element de text"; // translategemma:4b
 "Battery details widget" = "Widget de detalls de la bateria"; // translategemma:4b

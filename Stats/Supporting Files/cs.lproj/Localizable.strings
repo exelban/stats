@@ -211,6 +211,7 @@
 "Memory widget" = "Paměť";
 "Static width" = "Statická šířka";
 "Tachometer widget" = "Tachometr";
+"Pressure dot widget" = "Pressure dot widget";
 "State widget" = "Stav";
 "Text widget" = "Prvek pro zobrazení textu"; // translategemma:4b
 "Battery details widget" = "Widget s informacemi o baterii"; // translategemma:4b

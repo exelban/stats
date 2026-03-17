@@ -211,6 +211,7 @@
 "Memory widget" = "Geheugenwidget";
 "Static width" = "Vaste breedte"; // translategemma:4b
 "Tachometer widget" = "Snelheidsmeter"; // translategemma:4b
+"Pressure dot widget" = "Pressure dot widget";
 "State widget" = "Statuswidget"; // translategemma:4b
 "Text widget" = "Tekstwidget"; // translategemma:4b
 "Battery details widget" = "Widget met batterijgegevens"; // translategemma:4b

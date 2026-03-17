@@ -211,6 +211,7 @@
 "Memory widget" = "Minne";
 "Static width" = "Fast bredd";
 "Tachometer widget" = "Varvräknare";
+"Pressure dot widget" = "Pressure dot widget";
 "State widget" = "Statwidget";
 "Text widget" = "Textwidget"; // translategemma:4b
 "Battery details widget" = "Widget för batteriinformation"; // translategemma:4b

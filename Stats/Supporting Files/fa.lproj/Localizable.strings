@@ -211,6 +211,7 @@
 "Memory widget" = "حافظه";
 "Static width" = "عرض ثابت";
 "Tachometer widget" = "تاکومتر";
+"Pressure dot widget" = "Pressure dot widget";
 "State widget" = "ویجت حالت";
 "Text widget" = "کد مربوط به ویجت متنی"; // translategemma:4b
 "Battery details widget" = "ویجت اطلاعات باتری"; // translategemma:4b

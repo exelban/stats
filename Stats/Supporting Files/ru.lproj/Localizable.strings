@@ -211,6 +211,7 @@
 "Memory widget" = "Память";
 "Static width" = "Статическая ширина";
 "Tachometer widget" = "Тахометр";
+"Pressure dot widget" = "Pressure dot widget";
 "State widget" = "Состояние";
 "Text widget" = "Текст";
 "Battery details widget" = "Виджет сведений о батарее";

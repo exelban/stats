@@ -211,6 +211,7 @@
 "Memory widget" = "Памет";
 "Static width" = "Постоянна ширина";
 "Tachometer widget" = "Тахометър";
+"Pressure dot widget" = "Pressure dot widget";
 "State widget" = "Състояние на елемента"; // translategemma:4b
 "Text widget" = "Текстово поле"; // translategemma:4b
 "Battery details widget" = "Widget за информация за батерията"; // translategemma:4b

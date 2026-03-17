@@ -14,6 +14,7 @@ import Cocoa
 public enum widget_t: String {
     case unknown = ""
     case mini = "mini"
+    case pressureDot = "pressure_dot"
     case lineChart = "line_chart"
     case barChart = "bar_chart"
     case pieChart = "pie_chart"
@@ -39,6 +40,9 @@ public enum widget_t: String {
         case .mini:
             preview = Mini(title: module, config: widgetConfig, preview: true)
             item = Mini(title: module, config: widgetConfig, preview: false)
+        case .pressureDot:
+            preview = PressureDotWidget(title: module, config: widgetConfig, preview: true)
+            item = PressureDotWidget(title: module, config: widgetConfig, preview: false)
         case .lineChart:
             preview = LineChart(title: module, config: widgetConfig, preview: true)
             item = LineChart(title: module, config: widgetConfig, preview: false)
@@ -129,6 +133,7 @@ public enum widget_t: String {
     public func name() -> String {
         switch self {
         case .mini: return localizedString("Mini widget")
+        case .pressureDot: return localizedString("Pressure dot widget")
         case .lineChart: return localizedString("Line chart widget")
         case .barChart: return localizedString("Bar chart widget")
         case .pieChart: return localizedString("Pie chart widget")

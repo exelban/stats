@@ -211,6 +211,7 @@
 "Memory widget" = "容量";
 "Static width" = "固定宽度";
 "Tachometer widget" = "转速计";
+"Pressure dot widget" = "Pressure dot widget";
 "State widget" = "状态";
 "Text widget" = "文本";
 "Battery details widget" = "电池详情";

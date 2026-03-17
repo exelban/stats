@@ -211,6 +211,7 @@
 "Memory widget" = "عداد ذاكرة";
 "Static width" = "عرض ثابت";
 "Tachometer widget" = "عداد سرعة";
+"Pressure dot widget" = "Pressure dot widget";
 "State widget" = "عداد حالة";
 "Text widget" = "عنصري نص"; // translategemma:4b
 "Battery details widget" = "وحدة معلومات البطارية"; // translategemma:4b

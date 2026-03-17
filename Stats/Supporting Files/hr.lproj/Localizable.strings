@@ -211,6 +211,7 @@
 "Memory widget" = "Memorija";
 "Static width" = "Statična širina";
 "Tachometer widget" = "Tahometar";
+"Pressure dot widget" = "Pressure dot widget";
 "State widget" = "Komponenta stanja"; // translategemma:4b
 "Text widget" = "Komponenta za prikaz teksta"; // translategemma:4b
 "Battery details widget" = "Widget s detaljima baterije"; // translategemma:4b

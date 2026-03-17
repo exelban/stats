@@ -211,6 +211,7 @@
 "Memory widget" = "Memory";
 "Static width" = "Static width";
 "Tachometer widget" = "Tachometer";
+"Pressure dot widget" = "Pressure dot widget";
 "State widget" = "State widget";
 "Text widget" = "Text widget";
 "Battery details widget" = "Battery details widget";

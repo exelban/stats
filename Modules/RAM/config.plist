@@ -29,6 +29,18 @@
 			<key>Order</key>
 			<integer>1</integer>
 		</dict>
+		<key>pressure_dot</key>
+		<dict>
+			<key>Default</key>
+			<false/>
+			<key>Preview</key>
+			<dict>
+				<key>Pressure</key>
+				<string>warning</string>
+			</dict>
+			<key>Order</key>
+			<integer>2</integer>
+		</dict>
 		<key>line_chart</key>
 		<dict>
 			<key>Default</key>
@@ -36,7 +48,7 @@
 			<key>Color</key>
 			<string>systemAccent</string>
 			<key>Order</key>
-			<integer>2</integer>
+			<integer>3</integer>
 		</dict>
 		<key>bar_chart</key>
 		<dict>
@@ -60,7 +72,7 @@
 				<string>0.48</string>
 			</dict>
 			<key>Order</key>
-			<integer>3</integer>
+			<integer>4</integer>
 			<key>Unsupported colors</key>
 			<array>
 				<string>cluster</string>
@@ -71,7 +83,7 @@
 			<key>Default</key>
 			<false/>
 			<key>Order</key>
-			<integer>4</integer>
+			<integer>5</integer>
 		</dict>
 		<key>memory</key>
 		<dict>
@@ -83,21 +95,21 @@
 				<string>7.75 GB, 8.25 GB</string>
 			</dict>
 			<key>Order</key>
-			<integer>5</integer>
+			<integer>6</integer>
 		</dict>
 		<key>tachometer</key>
 		<dict>
 			<key>Default</key>
 			<false/>
 			<key>Order</key>
-			<integer>6</integer>
+			<integer>7</integer>
 		</dict>
 		<key>text</key>
 		<dict>
 			<key>Default</key>
 			<false/>
 			<key>Order</key>
-			<integer>7</integer>
+			<integer>8</integer>
 		</dict>
 	</dict>
 	<key>Settings</key>

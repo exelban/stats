@@ -156,6 +156,8 @@ public class RAM: Module {
             case let widget as Mini:
                 widget.setValue(value.usage)
                 widget.setPressure(value.pressure.value)
+            case let widget as PressureDotWidget:
+                widget.setPressure(value.pressure.value)
             case let widget as LineChart:
                 widget.setValue(value.usage)
                 widget.setPressure(value.pressure.value)

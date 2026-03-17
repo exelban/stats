@@ -211,6 +211,7 @@
 "Memory widget" = "메모리 위젯";
 "Static width" = "너비 고정";
 "Tachometer widget" = "반원 도표";
+"Pressure dot widget" = "Pressure dot widget";
 "State widget" = "상태 위젯";
 "Text widget" = "텍스트 위젯";
 "Battery details widget" = "배터리 세부 정보 위젯";

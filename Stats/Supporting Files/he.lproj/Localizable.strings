@@ -211,6 +211,7 @@
 "Memory widget" = "זכרון";
 "Static width" = "אורך סטאטי";
 "Tachometer widget" = "טכומטר";
+"Pressure dot widget" = "Pressure dot widget";
 "State widget" = "רכיב ממשלתי"; // translategemma:4b
 "Text widget" = "רכיב טקסט"; // translategemma:4b
 "Battery details widget" = "מדד פרטי סוללה"; // translategemma:4b
