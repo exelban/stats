@@ -183,10 +183,6 @@ public class Updater {
             return
         }
         
-        defer {
-            self.lastInstallTS = Int(Date().timeIntervalSince1970)
-        }
-        
         print("Started new version installation...")
         
         _ = syncShell("mkdir /tmp/Stats") // make sure that directory exist
@@ -213,6 +209,10 @@ public class Updater {
         asyncShell("sh $TMPDIR/updater.sh --app \(pwd) --dmg \(dmg) >/dev/null &") // run updater script in in background
         
         print("Run updater.sh with app: \(pwd) and dmg: \(dmg)")
+        
+        defer {
+            self.lastInstallTS = Int(Date().timeIntervalSince1970)
+        }
         
         exit(0)
     }
