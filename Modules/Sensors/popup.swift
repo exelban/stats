@@ -33,12 +33,12 @@ private struct Sensor_t: KeyValue_p {
 
 internal class Popup: PopupWrapper {
     private var list: [String: NSView] = [:]
-    
+
     private var unknownSensorsState: Bool { Store.shared.bool(key: "Sensors_unknown", defaultValue: false) }
     private var fanValueState: FanValue = .percentage
-    
+
     private var sensors: [Sensor_p] = []
-    private let settingsView: NSStackView = NSStackView()
+    private let orderTableView: SensorOrderListView = SensorOrderListView()
     
     private var fanControlState: Bool {
         get { Store.shared.bool(key: "Sensors_fanControl", defaultValue: true) }
@@ -54,23 +54,9 @@ internal class Popup: PopupWrapper {
         self.spacing = 0
         self.translatesAutoresizingMaskIntoConstraints = false
         
-        self.settingsView.orientation = .vertical
-        self.settingsView.spacing = Constants.Settings.margin
-        
-        self.settingsView.addArrangedSubview(PreferencesSection([
-            PreferencesRow(localizedString("Keyboard shortcut"), component: KeyboardShartcutView(
-                callback: self.setKeyboardShortcut,
-                value: self.keyboardShortcut
-            ))
-        ]))
-        
-        self.settingsView.addArrangedSubview(PreferencesSection([
-            PreferencesRow(localizedString("Fan value"), component: selectView(
-                action: #selector(self.toggleFanValue),
-                items: FanValues,
-                selected: self.fanValueState.rawValue
-            ))
-        ]))
+        self.orderTableView.reorderCallback = { [weak self] in
+            self?.rearrange()
+        }
         #if arch(arm64)
         NotificationCenter.default.addObserver(self, selector: #selector(self.checkFanModesAndResetFtst), name: .checkFanModes, object: nil)
         #endif
@@ -94,27 +80,34 @@ internal class Popup: PopupWrapper {
     }
     
     internal func setup(_ values: [Sensor_p]? = nil, reload: Bool = false) {
-        guard let values = reload ? self.sensors : values else { return }
-        let fans = values.filter({ $0.type == .fan && $0.popupState })
-        var sensors = values
+        guard var values = reload ? self.sensors : values else { return }
         if !self.unknownSensorsState {
-            sensors = sensors.filter({ $0.group != .unknown })
+            values = values.filter({ $0.group != .unknown })
         }
-        
+
+        // Assign default popupIndex to sensors that don't have one yet
+        for i in values.indices where values[i].popupIndex == -1 {
+            values[i].popupIndex = i
+        }
+
+        var sorted = values.sorted(by: { $0.popupIndex < $1.popupIndex })
+
+        // Update the order table when sensor list changes or settings are visible
+        if sorted.count != self.orderTableView.list.count || self.orderTableView.window?.isVisible ?? false {
+            self.orderTableView.list = sorted
+            self.orderTableView.update()
+        }
+
         self.subviews.forEach({ $0.removeFromSuperview() })
-        if !reload {
-            self.settingsView.subviews.filter({ $0.identifier == NSUserInterfaceItemIdentifier("sensor") }).forEach { v in
-                v.removeFromSuperview()
-            }
-        }
-        
+
+        let fans = sorted.filter({ $0.type == .fan && $0.popupState })
         if !fans.isEmpty {
             self.addArrangedSubview(self.fansSeparatorView())
-            
+
             let container = NSStackView()
             container.orientation = .vertical
             container.spacing = Constants.Popup.spacing
-            
+
             fans.forEach { (f: Sensor_p) in
                 if let fan = f as? Fan {
                     if f.isComputed {
@@ -134,65 +127,33 @@ internal class Popup: PopupWrapper {
                     }
                 }
             }
-            
+
             let h = container.arrangedSubviews.map({ $0.bounds.height + container.spacing }).reduce(0, +) - container.spacing
             if container.frame.size.height != h {
                 container.setFrameSize(NSSize(width: container.frame.width, height: h))
             }
             self.addArrangedSubview(container)
         }
-        
-        var types: [SensorType] = []
-        sensors.forEach { (s: Sensor_p) in
-            if !types.contains(s.type) {
-                types.append(s.type)
-            }
-        }
-        
+
+        // Group remaining sensors by type, preserving popupIndex order and type order
+        let types = self.orderTableView.orderedTypes(from: sorted)
+
         types.forEach { (typ: SensorType) in
-            var filtered = sensors.filter{ $0.type == typ }
-            var groups: [SensorGroup] = []
-            filtered.forEach { (s: Sensor_p) in
-                if !groups.contains(s.group) {
-                    groups.append(s.group)
-                }
-            }
-            
-            if !reload {
-                let section = PreferencesSection(label: localizedString(typ.rawValue))
-                section.identifier = NSUserInterfaceItemIdentifier("sensor")
-                groups.forEach { (group: SensorGroup) in
-                    filtered.filter{ $0.group == group }.forEach { (s: Sensor_p) in
-                        let btn = switchView(
-                            action: #selector(self.toggleSensor),
-                            state: s.popupState
-                        )
-                        btn.identifier = NSUserInterfaceItemIdentifier(rawValue: s.key)
-                        section.add(PreferencesRow(localizedString(s.name), component: btn))
-                    }
-                }
-                self.settingsView.addArrangedSubview(section)
-            }
-            
             if typ == .fan { return }
-            filtered = filtered.filter{ $0.popupState }
+            let filtered = sorted.filter{ $0.type == typ && $0.popupState }
             if filtered.isEmpty { return }
-            
+
             self.addArrangedSubview(separatorView(localizedString(typ.rawValue), width: self.frame.width))
-            groups.forEach { (group: SensorGroup) in
-                filtered.filter{ $0.group == group }.forEach { (s: Sensor_p) in
-                    let sensor = SensorView(s, width: self.frame.width) { [weak self] in
-                        self?.recalculateHeight()
-                    }
-                    self.addArrangedSubview(sensor)
-                    self.list[s.key] = sensor
+            filtered.forEach { (s: Sensor_p) in
+                let sensor = SensorView(s, width: self.frame.width) { [weak self] in
+                    self?.recalculateHeight()
                 }
+                self.addArrangedSubview(sensor)
+                self.list[s.key] = sensor
             }
         }
-        
-        if !reload {
-            self.sensors = values
-        }
+
+        self.sensors = values
         self.recalculateHeight()
     }
     
@@ -230,9 +191,28 @@ internal class Popup: PopupWrapper {
     }
     
     // MARK: - Settings
-    
+
     public override func settings() -> NSView? {
-        self.settingsView
+        let view = SettingsContainerView()
+
+        view.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Keyboard shortcut"), component: KeyboardShartcutView(
+                callback: self.setKeyboardShortcut,
+                value: self.keyboardShortcut
+            ))
+        ]))
+
+        view.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Fan value"), component: selectView(
+                action: #selector(self.toggleFanValue),
+                items: FanValues,
+                selected: self.fanValueState.rawValue
+            ))
+        ]))
+
+        view.addArrangedSubview(self.orderTableView)
+
+        return view
     }
     
     @objc private func toggleFanValue(_ sender: NSMenuItem) {
@@ -281,9 +261,7 @@ internal class Popup: PopupWrapper {
         return view
     }
     
-    @objc private func toggleSensor(_ sender: NSControl) {
-        guard let id = sender.identifier else { return }
-        Store.shared.set(key: "sensor_\(id.rawValue)_popup", value: controlState(sender))
+    private func rearrange() {
         self.setup(reload: true)
     }
     
@@ -1193,5 +1171,423 @@ private class ModeButtons: NSStackView {
             self.turboBtn.state = .off
             self.callback(.forced)
         }
+    }
+}
+
+// MARK: - Sensor order list view
+
+internal class SensorOrderListView: NSStackView {
+    public var reorderCallback: () -> Void = {}
+    public var list: [Sensor_p] = []
+
+    init() {
+        super.init(frame: NSRect.zero)
+        self.orientation = .vertical
+        self.spacing = Constants.Settings.margin
+        self.wantsLayer = true
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    // MARK: - Type order persistence
+
+    private static func typeOrder() -> [String] {
+        let raw = Store.shared.string(key: "Sensors_popup_typeOrder", defaultValue: "")
+        return raw.isEmpty ? [] : raw.components(separatedBy: ",")
+    }
+
+    private static func setTypeOrder(_ order: [String]) {
+        Store.shared.set(key: "Sensors_popup_typeOrder", value: order.joined(separator: ","))
+    }
+
+    public func orderedTypes() -> [SensorType] {
+        var types: [SensorType] = []
+        self.list.forEach { s in
+            if !types.contains(s.type) {
+                types.append(s.type)
+            }
+        }
+
+        let saved = SensorOrderListView.typeOrder()
+        if !saved.isEmpty {
+            types.sort { a, b in
+                let ia = saved.firstIndex(of: a.rawValue) ?? Int.max
+                let ib = saved.firstIndex(of: b.rawValue) ?? Int.max
+                return ia < ib
+            }
+        }
+        return types
+    }
+
+    public func orderedTypes(from sensors: [Sensor_p]) -> [SensorType] {
+        var types: [SensorType] = []
+        sensors.forEach { s in
+            if !types.contains(s.type) {
+                types.append(s.type)
+            }
+        }
+        let saved = SensorOrderListView.typeOrder()
+        if !saved.isEmpty {
+            types.sort { a, b in
+                let ia = saved.firstIndex(of: a.rawValue) ?? Int.max
+                let ib = saved.firstIndex(of: b.rawValue) ?? Int.max
+                return ia < ib
+            }
+        }
+        return types
+    }
+
+    private func saveTypeOrder(_ types: [SensorType]) {
+        SensorOrderListView.setTypeOrder(types.map { $0.rawValue })
+    }
+
+    // MARK: - Build UI
+
+    public func update() {
+        self.subviews.forEach { $0.removeFromSuperview() }
+        let types = self.orderedTypes()
+
+        for (typeIdx, typ) in types.enumerated() {
+            let filtered = self.list.enumerated().filter { $0.element.type == typ }
+            if filtered.isEmpty { continue }
+
+            let section = DraggableSection(
+                type: typ,
+                label: localizedString(typ.rawValue),
+                isFirst: typeIdx == 0,
+                isLast: typeIdx == types.count - 1
+            )
+            section.sectionDragCallback = { [weak self] direction in
+                self?.moveSection(typ, direction: direction)
+            }
+
+            for (globalIndex, sensor) in filtered {
+                let row = DraggableSensorRow(
+                    key: sensor.key,
+                    name: localizedString(sensor.name),
+                    isOn: sensor.popupState,
+                    onToggle: { [weak self] state in
+                        self?.list[globalIndex].popupState = state
+                        self?.reorderCallback()
+                    }
+                )
+                section.addRow(row)
+            }
+
+            section.rowDragCallback = { [weak self] fromKey, toKey in
+                self?.swapSensors(fromKey: fromKey, toKey: toKey)
+            }
+
+            self.addArrangedSubview(section)
+        }
+    }
+
+    // MARK: - Reorder sections
+
+    private func moveSection(_ type: SensorType, direction: Int) {
+        var types = self.orderedTypes()
+        guard let idx = types.firstIndex(of: type) else { return }
+        let newIdx = idx + direction
+        guard types.indices.contains(newIdx) else { return }
+        types.remove(at: idx)
+        types.insert(type, at: newIdx)
+        self.saveTypeOrder(types)
+        self.update()
+        self.reorderCallback()
+    }
+
+    // MARK: - Reorder sensors within type
+
+    private func swapSensors(fromKey: String, toKey: String) {
+        guard let i = self.list.firstIndex(where: { $0.key == fromKey }),
+              let j = self.list.firstIndex(where: { $0.key == toKey }) else { return }
+        let idxA = self.list[i].popupIndex
+        let idxB = self.list[j].popupIndex
+        self.list[i].popupIndex = idxB
+        self.list[j].popupIndex = idxA
+        self.list = self.list.sorted(by: { $0.popupIndex < $1.popupIndex })
+        self.update()
+        self.reorderCallback()
+    }
+}
+
+// MARK: - Draggable section (category)
+
+private class DraggableSection: NSStackView {
+    private let container: NSStackView = NSStackView()
+    private var rows: [DraggableSensorRow] = []
+    private let sensorType: SensorType
+
+    public var sectionDragCallback: ((_ direction: Int) -> Void)?
+    public var rowDragCallback: ((_ fromKey: String, _ toKey: String) -> Void)?
+
+    init(type: SensorType, label: String, isFirst: Bool, isLast: Bool) {
+        self.sensorType = type
+        super.init(frame: .zero)
+
+        self.orientation = .vertical
+        self.spacing = 0
+        self.wantsLayer = true
+
+        // Section header with drag handle
+        let header = NSStackView()
+        header.heightAnchor.constraint(equalToConstant: 26).isActive = true
+        header.orientation = .horizontal
+        header.spacing = 4
+
+        let grip = NSImageView()
+        grip.image = iconFromSymbol(name: "line.3.horizontal", scale: .medium)
+        grip.contentTintColor = .tertiaryLabelColor
+        grip.widthAnchor.constraint(equalToConstant: 16).isActive = true
+        grip.toolTip = localizedString("Drag to reorder")
+        grip.setAccessibilityLabel("Drag to reorder category")
+
+        let space = NSView()
+        space.widthAnchor.constraint(equalToConstant: 0).isActive = true
+
+        let field: NSTextField = TextView()
+        field.font = NSFont.systemFont(ofSize: 12, weight: .semibold)
+        field.stringValue = label
+
+        header.addArrangedSubview(space)
+        header.addArrangedSubview(grip)
+        header.addArrangedSubview(field)
+        header.addArrangedSubview(NSView())
+
+        self.addArrangedSubview(header)
+
+        self.container.orientation = .vertical
+        self.container.wantsLayer = true
+        self.container.layer?.backgroundColor = NSColor.quaternaryLabelColor.withAlphaComponent(0.025).cgColor
+        self.container.layer?.cornerRadius = Constants.Settings.margin
+        self.container.edgeInsets = NSEdgeInsets(
+            top: Constants.Settings.margin / 1.25,
+            left: Constants.Settings.margin,
+            bottom: Constants.Settings.margin / 1.25,
+            right: Constants.Settings.margin
+        )
+        self.container.spacing = Constants.Settings.margin / 1.25
+        self.addArrangedSubview(self.container)
+
+        // Track mouse on header for section drag
+        header.identifier = NSUserInterfaceItemIdentifier("sectionHeader")
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func updateLayer() {
+        self.container.layer?.backgroundColor = NSColor.quaternaryLabelColor.withAlphaComponent(0.025).cgColor
+    }
+
+    public func addRow(_ row: DraggableSensorRow) {
+        if !self.rows.isEmpty {
+            let sep = NSView()
+            sep.wantsLayer = true
+            sep.layer?.backgroundColor = NSColor.separatorColor.withAlphaComponent(0.05).cgColor
+            sep.heightAnchor.constraint(equalToConstant: 1).isActive = true
+            self.container.addArrangedSubview(sep)
+        }
+        self.rows.append(row)
+        self.container.addArrangedSubview(row)
+    }
+
+    // MARK: - Drag handling
+
+    override func mouseDown(with event: NSEvent) {
+        let location = convert(event.locationInWindow, from: nil)
+
+        // Check if mouse is on the header (section drag)
+        if let header = self.arrangedSubviews.first,
+           header.frame.contains(location) {
+            self.handleSectionDrag(event)
+            return
+        }
+
+        // Check if mouse is on a row's grip handle
+        for row in self.rows {
+            let rowLocation = row.convert(event.locationInWindow, from: nil)
+            if row.isGripHit(rowLocation) {
+                self.handleRowDrag(event, row: row)
+                return
+            }
+        }
+
+        super.mouseDown(with: event)
+    }
+
+    private func handleSectionDrag(_ event: NSEvent) {
+        guard let parent = self.superview as? NSStackView, let window = self.window else { return }
+
+        let copy = ViewCopy(self)
+        copy.zPosition = 2
+        copy.opacity = 0.8
+
+        self.alphaValue = 0.3
+        parent.layer?.addSublayer(copy)
+
+        defer {
+            copy.removeFromSuperlayer()
+            self.alphaValue = 1.0
+        }
+
+        let originY = self.frame.origin.y
+        let originCenter = self.frame.midY
+        let p0 = parent.convert(event.locationInWindow, from: nil).y
+
+        window.trackEvents(matching: [.leftMouseDragged, .leftMouseUp], timeout: 1e6, mode: .eventTracking) { evt, stop in
+            guard let evt = evt else {
+                stop.pointee = true
+                return
+            }
+
+            if evt.type == .leftMouseDragged {
+                let p1 = parent.convert(evt.locationInWindow, from: nil).y
+                let diff = p1 - p0
+
+                CATransaction.begin()
+                CATransaction.setDisableActions(true)
+                copy.frame.origin.y = originY + diff
+                CATransaction.commit()
+
+                let sections = parent.arrangedSubviews.compactMap { $0 as? DraggableSection }
+                let reordered = sections.map {
+                    (view: $0, y: $0 !== self ? $0.frame.midY : originCenter + diff)
+                }.sorted { $0.y > $1.y }.map { $0.view }
+
+                if let nextIndex = reordered.firstIndex(of: self),
+                   let prevIndex = sections.firstIndex(of: self),
+                   nextIndex != prevIndex {
+                    let direction = nextIndex > prevIndex ? 1 : -1
+                    self.sectionDragCallback?(direction)
+                    stop.pointee = true
+                }
+            } else {
+                stop.pointee = true
+            }
+        }
+    }
+
+    private func handleRowDrag(_ event: NSEvent, row: DraggableSensorRow) {
+        guard let window = self.window else { return }
+
+        let copy = ViewCopy(row)
+        copy.zPosition = 2
+        copy.opacity = 0.8
+
+        let containerOrigin = self.container.convert(NSPoint.zero, to: self)
+
+        row.alphaValue = 0.3
+        self.layer?.addSublayer(copy)
+
+        // Position the copy relative to self's layer
+        copy.frame.origin.x = containerOrigin.x + self.container.edgeInsets.left
+        copy.frame.origin.y = row.frame.origin.y + containerOrigin.y
+
+        defer {
+            copy.removeFromSuperlayer()
+            row.alphaValue = 1.0
+        }
+
+        let originY = copy.frame.origin.y
+        let p0 = self.convert(event.locationInWindow, from: nil).y
+
+        window.trackEvents(matching: [.leftMouseDragged, .leftMouseUp], timeout: 1e6, mode: .eventTracking) { evt, stop in
+            guard let evt = evt else {
+                stop.pointee = true
+                return
+            }
+
+            if evt.type == .leftMouseDragged {
+                let p1 = self.convert(evt.locationInWindow, from: nil).y
+                let diff = p1 - p0
+
+                CATransaction.begin()
+                CATransaction.setDisableActions(true)
+                copy.frame.origin.y = originY + diff
+                CATransaction.commit()
+
+                // Find which row we're hovering over
+                let dragCenterY = copy.frame.midY - containerOrigin.y
+                for other in self.rows where other !== row {
+                    let otherMidY = other.frame.midY
+                    if abs(dragCenterY - otherMidY) < other.frame.height / 2 {
+                        self.rowDragCallback?(row.sensorKey, other.sensorKey)
+                        stop.pointee = true
+                        return
+                    }
+                }
+            } else {
+                stop.pointee = true
+            }
+        }
+    }
+}
+
+// MARK: - Draggable sensor row
+
+private class DraggableSensorRow: NSStackView {
+    public let sensorKey: String
+    private let gripView: NSImageView
+    private var toggleCallback: ((Bool) -> Void)?
+
+    init(key: String, name: String, isOn: Bool, onToggle: @escaping (Bool) -> Void) {
+        self.sensorKey = key
+        self.gripView = NSImageView()
+        self.toggleCallback = onToggle
+
+        super.init(frame: .zero)
+
+        self.orientation = .horizontal
+        self.alignment = .centerY
+        self.distribution = .fill
+        self.spacing = 4
+        self.edgeInsets = NSEdgeInsets(
+            top: Constants.Settings.margin / 2,
+            left: 0,
+            bottom: (Constants.Settings.margin / 2) - 1,
+            right: 0
+        )
+
+        self.gripView.image = iconFromSymbol(name: "line.3.horizontal", scale: .small)
+        self.gripView.contentTintColor = .tertiaryLabelColor
+        self.gripView.widthAnchor.constraint(equalToConstant: 14).isActive = true
+        self.gripView.toolTip = localizedString("Drag to reorder")
+        self.gripView.setAccessibilityLabel("Drag to reorder sensor")
+        self.gripView.identifier = NSUserInterfaceItemIdentifier("grip")
+
+        let label: NSTextField = TextView()
+        label.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+        label.stringValue = name
+        label.cell?.truncatesLastVisibleLine = true
+
+        let toggle = switchView(
+            action: #selector(self.toggleAction),
+            state: isOn
+        )
+        toggle.target = self
+
+        self.addArrangedSubview(self.gripView)
+        self.addArrangedSubview(label)
+        self.addArrangedSubview(NSView())
+        self.addArrangedSubview(toggle)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    public func isGripHit(_ location: NSPoint) -> Bool {
+        let gripFrame = self.gripView.convert(self.gripView.bounds, to: self)
+        // Extend hit area a bit for easier grabbing
+        let hitArea = gripFrame.insetBy(dx: -8, dy: -4)
+        return hitArea.contains(location)
+    }
+
+    @objc private func toggleAction(_ sender: NSControl) {
+        self.toggleCallback?(controlState(sender))
     }
 }

@@ -35,15 +35,16 @@ public protocol Sensor_p {
     var name: String { get }
     var value: Double { get set }
     var state: Bool { get }
-    var popupState: Bool { get }
+    var popupState: Bool { get set }
+    var popupIndex: Int { get set }
     var notificationThreshold: String { get }
-    
+
     var group: SensorGroup { get }
     var type: SensorType { get }
     var platforms: [Platform] { get }
     var isComputed: Bool { get }
     var average: Bool { get }
-    
+
     var localValue: Double { get }
     var unit: String { get }
     var miniUnit: String { get }
@@ -226,12 +227,17 @@ public struct Sensor: Sensor_p, Codable {
         Store.shared.bool(key: "sensor_\(self.key)", defaultValue: false)
     }
     public var popupState: Bool {
-        Store.shared.bool(key: "sensor_\(self.key)_popup", defaultValue: true)
+        get { Store.shared.bool(key: "sensor_\(self.key)_popup", defaultValue: true) }
+        set { Store.shared.set(key: "sensor_\(self.key)_popup", value: newValue) }
+    }
+    public var popupIndex: Int {
+        get { Store.shared.int(key: "sensor_\(self.key)_popupIndex", defaultValue: -1) }
+        set { Store.shared.set(key: "sensor_\(self.key)_popupIndex", value: newValue) }
     }
     public var notificationThreshold: String {
         Store.shared.string(key: "sensor_\(self.key)_notification", defaultValue: "")
     }
-    
+
     public func copy() -> Sensor {
         Sensor(
             key: self.key,
@@ -287,12 +293,17 @@ public struct Fan: Sensor_p, Codable {
         Store.shared.bool(key: "sensor_\(self.key)", defaultValue: false)
     }
     public var popupState: Bool {
-        Store.shared.bool(key: "sensor_\(self.key)_popup", defaultValue: true)
+        get { Store.shared.bool(key: "sensor_\(self.key)_popup", defaultValue: true) }
+        set { Store.shared.set(key: "sensor_\(self.key)_popup", value: newValue) }
+    }
+    public var popupIndex: Int {
+        get { Store.shared.int(key: "sensor_\(self.key)_popupIndex", defaultValue: -1) }
+        set { Store.shared.set(key: "sensor_\(self.key)_popupIndex", value: newValue) }
     }
     public var notificationThreshold: String {
         Store.shared.string(key: "sensor_\(self.key)_notification", defaultValue: "")
     }
-    
+
     public var customSpeed: Int? {
         get {
             if !Store.shared.exist(key: "fan_\(self.id)_speed") {
