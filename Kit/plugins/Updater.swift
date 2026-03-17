@@ -186,7 +186,7 @@ public class Updater {
         print("Started new version installation...")
         
         _ = syncShell("mkdir /tmp/Stats") // make sure that directory exist
-        let res = syncShell("/usr/bin/hdiutil attach \(path) -mountpoint /tmp/Stats -noverify -nobrowse -noautoopen") // mount the dmg
+        let res = syncShell("/usr/bin/hdiutil attach \(path) -mountpoint /tmp/Stats -noverify -nobrowse -noautoopen 2>&1") // mount the dmg
         
         print("DMG is mounted")
         
