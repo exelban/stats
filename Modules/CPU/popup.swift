@@ -283,10 +283,12 @@ internal class Popup: PopupWrapper {
         }
         
         if SystemKit.shared.device.info.cpu?.eCores != nil {
-            (self.eCoresColorView, _, self.eCoresField) = popupWithColorRow(container, color: self.eCoresColor, title: "\(localizedString("Efficiency cores")):", value: "")
+            let eCoresLabel = coreType.efficiency.displayName(platform: SystemKit.shared.device.platform)
+            (self.eCoresColorView, _, self.eCoresField) = popupWithColorRow(container, color: self.eCoresColor, title: "\(eCoresLabel):", value: "")
         }
         if SystemKit.shared.device.info.cpu?.pCores != nil {
-            (self.pCoresColorView, _, self.pCoresField) = popupWithColorRow(container, color: self.pCoresColor, title: "\(localizedString("Performance cores")):", value: "")
+            let pCoresLabel = coreType.performance.displayName(platform: SystemKit.shared.device.platform)
+            (self.pCoresColorView, _, self.pCoresField) = popupWithColorRow(container, color: self.pCoresColor, title: "\(pCoresLabel):", value: "")
         }
         
         self.uptimeField = popupRow(container, title: "\(localizedString("Uptime")):", value: self.uptimeValue).1
@@ -328,10 +330,12 @@ internal class Popup: PopupWrapper {
         
         if isARM {
             if SystemKit.shared.device.info.cpu?.eCores != nil {
-                (self.eCoresFreqColorView, _, self.eCoresFreqField) = popupWithColorRow(container, color: self.eCoresColor, title: "\(localizedString("Efficiency cores")):", value: "")
+                let eCoresLabel = coreType.efficiency.displayName(platform: SystemKit.shared.device.platform)
+                (self.eCoresFreqColorView, _, self.eCoresFreqField) = popupWithColorRow(container, color: self.eCoresColor, title: "\(eCoresLabel):", value: "")
             }
             if SystemKit.shared.device.info.cpu?.pCores != nil {
-                (self.pCoresFreqColorView, _, self.pCoresFreqField) = popupWithColorRow(container, color: self.pCoresColor, title: "\(localizedString("Performance cores")):", value: "")
+                let pCoresLabel = coreType.performance.displayName(platform: SystemKit.shared.device.platform)
+                (self.pCoresFreqColorView, _, self.pCoresFreqField) = popupWithColorRow(container, color: self.pCoresColor, title: "\(pCoresLabel):", value: "")
             }
         }
         
@@ -546,13 +550,16 @@ internal class Popup: PopupWrapper {
             ))
         ]))
         
+        let platform = SystemKit.shared.device.platform
+        let eCoresSettingsLabel = "\(coreType.efficiency.displayName(platform: platform)) \(localizedString("Color").lowercased())"
+        let pCoresSettingsLabel = "\(coreType.performance.displayName(platform: platform)) \(localizedString("Color").lowercased())"
         view.addArrangedSubview(PreferencesSection([
-            PreferencesRow(localizedString("Efficiency cores color"), component: selectView(
+            PreferencesRow(eCoresSettingsLabel, component: selectView(
                 action: #selector(self.toggleECoresColor),
                 items: SColor.allColors,
                 selected: self.eCoresColorState.key
             )),
-            PreferencesRow(localizedString("Performance cores color"), component: selectView(
+            PreferencesRow(pCoresSettingsLabel, component: selectView(
                 action: #selector(self.togglePCoresColor),
                 items: SColor.allColors,
                 selected: self.pCoresColorState.key

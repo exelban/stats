@@ -276,6 +276,7 @@
 "CPU usage is" = "CPU usage is %0";
 "Efficiency cores" = "Efficiency cores";
 "Performance cores" = "Performance cores";
+"Super cores" = "Super cores";
 "System color" = "System color";
 "User color" = "User color";
 "Idle color" = "Idle color";

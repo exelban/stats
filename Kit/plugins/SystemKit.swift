@@ -64,6 +64,9 @@ public enum Platform: String, Codable {
     public static var m5Gen: [Platform] {
         return [.m5, .m5Pro, .m5Max, .m5Ultra]
     }
+    public static var m5ProAndAbove: [Platform] {
+        return [.m5Pro, .m5Max, .m5Ultra]
+    }
     
     public static var all: [Platform] {
         return apple + [.intel]
@@ -91,6 +94,23 @@ public enum coreType: Int, Codable {
     case unknown = -1
     case efficiency = 1
     case performance = 2
+
+    public func displayName(platform: Platform?) -> String {
+        switch self {
+        case .efficiency:
+            if let platform, Platform.m5ProAndAbove.contains(platform) {
+                return localizedString("Performance cores")
+            }
+            return localizedString("Efficiency cores")
+        case .performance:
+            if let platform, Platform.m5Gen.contains(platform) {
+                return localizedString("Super cores")
+            }
+            return localizedString("Performance cores")
+        default:
+            return localizedString("Unknown")
+        }
+    }
 }
 
 public struct model_s {

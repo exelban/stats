@@ -104,12 +104,13 @@ class Notifications: NotificationsWrapper {
         ]))
         
         #if arch(arm64)
+        let platform = SystemKit.shared.device.platform
         self.addArrangedSubview(PreferencesSection([
-            PreferencesRow(localizedString("Efficiency cores load"), component: PreferencesSwitch(
+            PreferencesRow("\(coreType.efficiency.displayName(platform: platform)) \(localizedString("load"))", component: PreferencesSwitch(
                 action: self.toggleECoresLoad, state: self.eCoresLoadState,
                 with: StepperInput(self.eCoresLoad, callback: self.changeECoresLoad)
             )),
-            PreferencesRow(localizedString("Performance cores load"), component: PreferencesSwitch(
+            PreferencesRow("\(coreType.performance.displayName(platform: platform)) \(localizedString("load"))", component: PreferencesSwitch(
                 action: self.togglePCoresLoad, state: self.pCoresLoadState,
                 with: StepperInput(self.pCoresLoad, callback: self.changePCoresLoad)
             ))
@@ -139,13 +140,14 @@ class Notifications: NotificationsWrapper {
             self.checkDouble(id: self.userLoadID, value: value.userLoad, threshold: Double(self.userLoad)/100, title: title, subtitle: subtitle)
         }
         
+        let platform = SystemKit.shared.device.platform
         if self.eCoresLoadState, let usage = value.usageECores {
-            let subtitle = "\(localizedString("Efficiency cores load")): \(Int((usage)*100))%"
+            let subtitle = "\(coreType.efficiency.displayName(platform: platform)) \(localizedString("load")): \(Int((usage)*100))%"
             self.checkDouble(id: self.eCoresLoadID, value: usage, threshold: Double(self.eCoresLoad)/100, title: title, subtitle: subtitle)
         }
-        
+
         if self.pCoresLoadState, let usage = value.usagePCores {
-            let subtitle = "\(localizedString("Performance cores load")): \(Int((usage)*100))%"
+            let subtitle = "\(coreType.performance.displayName(platform: platform)) \(localizedString("load")): \(Int((usage)*100))%"
             self.checkDouble(id: self.pCoresLoadID, value: usage, threshold: Double(self.pCoresLoad)/100, title: title, subtitle: subtitle)
         }
     }
