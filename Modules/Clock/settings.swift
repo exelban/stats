@@ -122,9 +122,9 @@ internal class Settings: NSStackView, Settings_v, NSTableViewDelegate, NSTableVi
         self.addArrangedSubview(separator)
         self.addArrangedSubview(self.footer())
         
-        var hight: CGFloat = 296
+        var hight: CGFloat = 254
         if #available(macOS 26.0, *) {
-            hight = 290
+            hight = 248
         }
         
         NSLayoutConstraint.activate([
