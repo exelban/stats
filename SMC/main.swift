@@ -134,16 +134,16 @@ func main() {
             print("Minimal speed:", SMC.shared.getValue("F\(i)Mn") ?? -1)
             print("Maximum speed:", SMC.shared.getValue("F\(i)Mx") ?? -1)
             print("Target speed:", SMC.shared.getValue("F\(i)Tg") ?? -1)
-            print("Mode:", FanMode(rawValue: Int(SMC.shared.getValue("F\(i)Md") ?? -1)) ?? .forced)
+            print("Mode:", FanMode(rawValue: Int(SMC.shared.getValue(SMC.shared.fanModeKey(i)) ?? -1)) ?? .forced)
             
             print()
         }
     case .reset:
         #if arch(arm64)
         if SMC.shared.resetFanControl() {
-            print("[reset] Ftst reset to 0, thermalmonitord has control")
+            print("[reset] fan control restored to automatic")
         } else {
-            print("[reset] Ftst reset FAILED")
+            print("[reset] fan control reset FAILED")
         }
         #else
         print("[reset] not needed on Intel Macs")

@@ -332,7 +332,7 @@ extension SensorsReader {
                 }
             }
             
-            if let md = SMC.shared.getValue("F\(i)Md"), let parsed = FanMode(rawValue: Int(md)) {
+            if let md = SMC.shared.getValue(SMC.shared.fanModeKey(i)), let parsed = FanMode(rawValue: Int(md)) {
                 mode = parsed.isAutomatic ? .automatic : parsed
             } else {
                 mode = self.getFanMode(i)
@@ -356,7 +356,7 @@ extension SensorsReader {
         #if arch(arm64)
         // Apple Silicon: Read F%dMd directly
         // Mode values: 0 = auto, 1 = manual, 3 = system (treated as auto for UI)
-        let modeValue = Int(SMC.shared.getValue("F\(id)Md") ?? 0)
+        let modeValue = Int(SMC.shared.getValue(SMC.shared.fanModeKey(id)) ?? 0)
         return modeValue == 1 ? .forced : .automatic
         #else
         // Legacy Intel: Use FS! bitmask
