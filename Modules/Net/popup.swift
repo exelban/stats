@@ -64,6 +64,7 @@ internal class Popup: PopupWrapper {
     private var publicIPv4View: NSView? = nil
     private var publicIPv6View: NSView? = nil
     private var publicIPState: Bool = true
+    private var publicIPShowFlag: Bool = true
     
     private var processesView: NSView? = nil
     private var processes: ProcessesView? = nil
@@ -126,6 +127,7 @@ internal class Popup: PopupWrapper {
         self.chartFixedScale = Store.shared.int(key: "\(self.title)_chartFixedScale", defaultValue: self.chartFixedScale)
         self.chartFixedScaleSize = SizeUnit.fromString(Store.shared.string(key: "\(self.title)_chartFixedScaleSize", defaultValue: self.chartFixedScaleSize.key))
         self.publicIPState = Store.shared.bool(key: "\(self.title)_publicIP", defaultValue: self.publicIPState)
+        self.publicIPShowFlag = Store.shared.bool(key: "\(self.title)_publicIPShowFlag", defaultValue: self.publicIPShowFlag)
         self.interfaceDetailsState = Store.shared.bool(key: "\(self.title)_interfaceDetails", defaultValue: self.interfaceDetailsState)
         
         self.addArrangedSubview(self.initDashboard())
@@ -525,7 +527,7 @@ internal class Popup: PopupWrapper {
                         }
                         var ip = addr
                         if let cc = value.raddr.countryCode, !cc.isEmpty {
-                            if let flag = countryFlag(cc) {
+                            if self.publicIPShowFlag, let flag = countryFlag(cc) {
                                 ip += " \(flag)"
                             } else {
                                 ip += " (\(cc))"
@@ -550,7 +552,7 @@ internal class Popup: PopupWrapper {
                         }
                         var ip = addr
                         if let cc = value.raddr.countryCode {
-                            if let flag = countryFlag(cc) {
+                            if self.publicIPShowFlag, let flag = countryFlag(cc) {
                                 ip += " \(flag)"
                             } else {
                                 ip += " (\(cc))"

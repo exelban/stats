@@ -70,6 +70,7 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
     private var updateConnectivityIntervalValue: Int = 1
     private var connectivityMode: ConnectivityReader.ConnectivityMode = .icmp
     private var publicIPState: Bool = true
+    private var publicIPShowFlag: Bool = true
     private var publicIPRefreshInterval: String = "never"
     private var baseValue: String = "byte"
     private var textValue: String = "$addr.public - $status"
@@ -112,6 +113,7 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
         self.updateConnectivityIntervalValue = Store.shared.int(key: "\(self.title)_updateICMPInterval", defaultValue: self.updateConnectivityIntervalValue)
         self.connectivityMode = ConnectivityReader.ConnectivityMode(rawValue: Store.shared.string(key: "\(self.title)_connectivityMode", defaultValue: "icmp")) ?? .icmp
         self.publicIPState = Store.shared.bool(key: "\(self.title)_publicIP", defaultValue: self.publicIPState)
+        self.publicIPShowFlag = Store.shared.bool(key: "\(self.title)_publicIPShowFlag", defaultValue: self.publicIPShowFlag)
         self.publicIPRefreshInterval = Store.shared.string(key: "\(self.title)_publicIPRefreshInterval", defaultValue: self.publicIPRefreshInterval)
         self.baseValue = Store.shared.string(key: "\(self.title)_base", defaultValue: self.baseValue)
         self.textValue = Store.shared.string(key: "\(self.title)_textWidgetValue", defaultValue: self.textValue)
@@ -190,6 +192,10 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
                 action: #selector(self.togglePublicIPState),
                 state: self.publicIPState
             )),
+            PreferencesRow(localizedString("Show country flag"), component: switchView(
+                action: #selector(self.togglePublicIPShowFlag),
+                state: self.publicIPShowFlag
+            )),
             PreferencesRow(localizedString("Auto-refresh public IP address"), component: selectView(
                 action: #selector(self.toggleRefreshIPInterval),
                 items: PublicIPAddressRefreshIntervals,
@@ -205,6 +211,7 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
         let section = PreferencesSection(prefs)
         section.setRowVisibility(1, newState: self.readerType == "interface")
         section.setRowVisibility(5, newState: self.publicIPState)
+        section.setRowVisibility(6, newState: self.publicIPState)
         self.addArrangedSubview(section)
         self.section = section
         
@@ -355,6 +362,11 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
         self.publicIPState = controlState(sender)
         Store.shared.set(key: "\(self.title)_publicIP", value: self.publicIPState)
         self.section?.setRowVisibility(5, newState: self.publicIPState)
+        self.section?.setRowVisibility(6, newState: self.publicIPState)
+    }
+    @objc func togglePublicIPShowFlag(_ sender: NSControl) {
+        self.publicIPShowFlag = controlState(sender)
+        Store.shared.set(key: "\(self.title)_publicIPShowFlag", value: self.publicIPShowFlag)
     }
     @objc private func toggleRefreshIPInterval(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String else { return }
