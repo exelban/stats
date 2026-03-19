@@ -466,17 +466,25 @@ internal let SensorsList: [Sensor] = [
     Sensor(key: "Tm2p", name: "Memory Proximity 3", group: .sensor, type: .temperature, platforms: Platform.m4Gen),
     
     // M5
-    Sensor(key: "Tp00", name: "CPU efficiency core 1", group: .CPU, type: .temperature, platforms: Platform.m5Gen, average: true),
-    Sensor(key: "Tp04", name: "CPU efficiency core 2", group: .CPU, type: .temperature, platforms: Platform.m5Gen, average: true),
-    Sensor(key: "Tp0C", name: "CPU efficiency core 3", group: .CPU, type: .temperature, platforms: Platform.m5Gen, average: true),
-    Sensor(key: "Tp0G", name: "CPU efficiency core 4", group: .CPU, type: .temperature, platforms: Platform.m5Gen, average: true),
-    Sensor(key: "Tp0X", name: "CPU efficiency core 5", group: .CPU, type: .temperature, platforms: Platform.m5Gen, average: true),
-    Sensor(key: "Tp0a", name: "CPU efficiency core 6", group: .CPU, type: .temperature, platforms: Platform.m5Gen, average: true),
+    Sensor(key: "Tp00", name: "CPU super core 1", group: .CPU, type: .temperature, platforms: Platform.m5Gen, average: true),
+    Sensor(key: "Tp04", name: "CPU super core 2", group: .CPU, type: .temperature, platforms: Platform.m5Gen, average: true),
+    Sensor(key: "Tp08", name: "CPU super core 3", group: .CPU, type: .temperature, platforms: Platform.m5Gen, average: true),
+    Sensor(key: "Tp0C", name: "CPU super core 4", group: .CPU, type: .temperature, platforms: Platform.m5Gen, average: true),
+    Sensor(key: "Tp0G", name: "CPU super core 5", group: .CPU, type: .temperature, platforms: Platform.m5Gen, average: true),
+    Sensor(key: "Tp0K", name: "CPU super core 6", group: .CPU, type: .temperature, platforms: Platform.m5Gen, average: true),
     
-    Sensor(key: "Tp0y", name: "CPU performance core 1", group: .CPU, type: .temperature, platforms: Platform.m5Gen, average: true),
-    Sensor(key: "Tp12", name: "CPU performance core 2", group: .CPU, type: .temperature, platforms: Platform.m5Gen, average: true),
-    Sensor(key: "Tp16", name: "CPU performance core 3", group: .CPU, type: .temperature, platforms: Platform.m5Gen, average: true),
-    Sensor(key: "Tp1E", name: "CPU performance core 4", group: .CPU, type: .temperature, platforms: Platform.m5Gen, average: true),
+    Sensor(key: "Tp0O", name: "CPU performance core 1", group: .CPU, type: .temperature, platforms: Platform.m5Gen, average: true),
+    Sensor(key: "Tp0R", name: "CPU performance core 2", group: .CPU, type: .temperature, platforms: Platform.m5Gen, average: true),
+    Sensor(key: "Tp0U", name: "CPU performance core 3", group: .CPU, type: .temperature, platforms: Platform.m5Gen, average: true),
+    Sensor(key: "Tp0X", name: "CPU performance core 4", group: .CPU, type: .temperature, platforms: Platform.m5Gen, average: true),
+    Sensor(key: "Tp0a", name: "CPU performance core 5", group: .CPU, type: .temperature, platforms: Platform.m5Gen, average: true),
+    Sensor(key: "Tp0d", name: "CPU performance core 6", group: .CPU, type: .temperature, platforms: Platform.m5Gen, average: true),
+    Sensor(key: "Tp0g", name: "CPU performance core 7", group: .CPU, type: .temperature, platforms: Platform.m5Gen, average: true),
+    Sensor(key: "Tp0j", name: "CPU performance core 8", group: .CPU, type: .temperature, platforms: Platform.m5Gen, average: true),
+    Sensor(key: "Tp0m", name: "CPU performance core 9", group: .CPU, type: .temperature, platforms: Platform.m5Gen, average: true),
+    Sensor(key: "Tp0p", name: "CPU performance core 10", group: .CPU, type: .temperature, platforms: Platform.m5Gen, average: true),
+    Sensor(key: "Tp0u", name: "CPU performance core 11", group: .CPU, type: .temperature, platforms: Platform.m5Gen, average: true),
+    Sensor(key: "Tp0y", name: "CPU performance core 12", group: .CPU, type: .temperature, platforms: Platform.m5Gen, average: true),
     
     Sensor(key: "Tg0U", name: "GPU 1", group: .GPU, type: .temperature, platforms: Platform.m5Gen, average: true),
     Sensor(key: "Tg0X", name: "GPU 2", group: .GPU, type: .temperature, platforms: Platform.m5Gen, average: true),
@@ -488,7 +496,6 @@ internal let SensorsList: [Sensor] = [
     Sensor(key: "Tg1g", name: "GPU 8", group: .GPU, type: .temperature, platforms: Platform.m5Gen, average: true),
     
     // Apple Silicon
-    
     Sensor(key: "TaLP", name: "Airflow left", group: .sensor, type: .temperature, platforms: Platform.apple),
     Sensor(key: "TaRF", name: "Airflow right", group: .sensor, type: .temperature, platforms: Platform.apple),
     
