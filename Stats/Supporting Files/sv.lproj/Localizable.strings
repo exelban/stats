@@ -405,6 +405,7 @@
 "Connectivity host (ICMP)" = "Anslutningsvärd (ICMP)";
 "Leave empty to disable the check" = "Lämna tomt för att inaktivera kontrollen";
 "Connectivity history" = "Anslutningshistorik";
+"Show country flag" = "Show country flag";
 "Auto-refresh public IP address" = "Uppdatera publik IP-adress automatiskt";
 "Every hour" = "Varje timme";
 "Every 12 hours" = "Var 12:e timme";

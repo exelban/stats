@@ -405,6 +405,7 @@
 "Connectivity host (ICMP)" = "مضيف الاتصال (ICMP)";
 "Leave empty to disable the check" = "اتركه فارغًا لتعطيل الفحص";
 "Connectivity history" = "سجل الاتصال";
+"Show country flag" = "Show country flag";
 "Auto-refresh public IP address" = "تحديث تلقائي لعنوان IP العام";
 "Every hour" = "كل ساعة";
 "Every 12 hours" = "كل 12 ساعة";

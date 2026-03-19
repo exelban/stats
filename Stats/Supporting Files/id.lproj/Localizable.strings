@@ -405,6 +405,7 @@
 "Connectivity host (ICMP)" = "Host koneksi (ICMP)"; // translategemma:4b
 "Leave empty to disable the check" = "Kosongkan untuk menonaktifkan pemeriksaan"; // translategemma:4b
 "Connectivity history" = "Riwayat koneksi"; // translategemma:4b
+"Show country flag" = "Show country flag";
 "Auto-refresh public IP address" = "Perbarui otomatis alamat IP publik"; // translategemma:4b
 "Every hour" = "Setiap jam"; // translategemma:4b
 "Every 12 hours" = "Setiap 12 jam"; // translategemma:4b

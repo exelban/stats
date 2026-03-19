@@ -405,6 +405,7 @@
 "Connectivity host (ICMP)" = "Hostitel připojení (ICMP)";
 "Leave empty to disable the check" = "Pro vypnutí kontroly ponechte prázdné pole";
 "Connectivity history" = "Historie připojení"; // translategemma:4b
+"Show country flag" = "Show country flag";
 "Auto-refresh public IP address" = "Automatické obnovení veřejné IP adresy"; // translategemma:4b
 "Every hour" = "Každou hodinu"; // translategemma:4b
 "Every 12 hours" = "Každých 12 hodin"; // translategemma:4b

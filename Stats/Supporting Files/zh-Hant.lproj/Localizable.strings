@@ -405,6 +405,7 @@
 "Connectivity host (ICMP)" = "連線能力測試主機（ICMP）";
 "Leave empty to disable the check" = "留空來停用檢查";
 "Connectivity history" = "連線歷程紀錄";
+"Show country flag" = "Show country flag";
 "Auto-refresh public IP address" = "自動重新整理公用IP位址";
 "Every hour" = "每小時";
 "Every 12 hours" = "每12小時";

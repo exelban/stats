@@ -405,6 +405,7 @@
 "Connectivity host (ICMP)" = "Gostitelj za preverjanje povezljivosti (ICMP)";
 "Leave empty to disable the check" = "Pusti prazno, če želiš onemogočiti preverjanje povezljivosti";
 "Connectivity history" = "Zgodovina povezljivosti";
+"Show country flag" = "Show country flag";
 "Auto-refresh public IP address" = "Samodejna osvežitev javnega IP naslova";
 "Every hour" = "Vsako uro";
 "Every 12 hours" = "Vsakih 12 ur";

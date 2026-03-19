@@ -405,6 +405,7 @@
 "Connectivity host (ICMP)" = "连接 Host (ICMP)";
 "Leave empty to disable the check" = "不在该选项内输入以禁用检查";
 "Connectivity history" = "连接历史";
+"Show country flag" = "Show country flag";
 "Auto-refresh public IP address" = "自动刷新公网IP地址";
 "Every hour" = "每小时";
 "Every 12 hours" = "每12小时";

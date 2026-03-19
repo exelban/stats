@@ -405,6 +405,7 @@
 "Connectivity host (ICMP)" = "Хост підключення (ICMP)";
 "Leave empty to disable the check" = "Залиште пустим, щоб вимкнути перевірку";
 "Connectivity history" = "Історія підключення";
+"Show country flag" = "Show country flag";
 "Auto-refresh public IP address" = "Автоматичне оновлення IP-адреси";
 "Every hour" = "Щогодини";
 "Every 12 hours" = "Кожні 12 годин";

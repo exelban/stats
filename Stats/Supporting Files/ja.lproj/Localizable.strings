@@ -405,6 +405,7 @@
 "Connectivity host (ICMP)" = "接続ホスト (ICMP)"; // translategemma:4b
 "Leave empty to disable the check" = "空欄にすることで、機能を無効化します。"; // translategemma:4b
 "Connectivity history" = "接続履歴"; // translategemma:4b
+"Show country flag" = "Show country flag";
 "Auto-refresh public IP address" = "自動でパブリックなIPアドレスを更新する"; // translategemma:4b
 "Every hour" = "1時間ごとに"; // translategemma:4b
 "Every 12 hours" = "12時間ごとに"; // translategemma:4b

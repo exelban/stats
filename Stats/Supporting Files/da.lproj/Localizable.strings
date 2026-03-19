@@ -405,6 +405,7 @@
 "Connectivity host (ICMP)" = "Host for forbindelse (ICMP)"; // translategemma:4b
 "Leave empty to disable the check" = "Lad feltet være tom for at deaktivere tjekket";
 "Connectivity history" = "Forbindelseshistorik";
+"Show country flag" = "Show country flag";
 "Auto-refresh public IP address" = "Automatisk opdatering af offentlig IP adresse";
 "Every hour" = "Hver time";
 "Every 12 hours" = "Hver 12 timer";

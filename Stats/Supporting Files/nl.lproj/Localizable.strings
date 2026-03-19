@@ -405,6 +405,7 @@
 "Connectivity host (ICMP)" = "Host voor verbinding (ICMP)"; // translategemma:4b
 "Leave empty to disable the check" = "Laat dit vel leeg, om de controle uit te schakelen."; // translategemma:4b
 "Connectivity history" = "Historie van verbindingen"; // translategemma:4b
+"Show country flag" = "Show country flag";
 "Auto-refresh public IP address" = "Automatisch IP-adres van het publieke netwerk herstellen"; // translategemma:4b
 "Every hour" = "Elke uur"; // translategemma:4b
 "Every 12 hours" = "Elke 12 uur"; // translategemma:4b

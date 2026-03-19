@@ -405,6 +405,7 @@
 "Connectivity host (ICMP)" = "Bağlantı sunucusu (ICMP)";
 "Leave empty to disable the check" = "Kontrolü devre dışı bırakmak için boş bırakın";
 "Connectivity history" = "Bağlantı geçmişi";
+"Show country flag" = "Show country flag";
 "Auto-refresh public IP address" = "Açık IP adresi oto-yenile";
 "Every hour" = "Her saat";
 "Every 12 hours" = "Her 12 saat";

@@ -405,6 +405,7 @@
 "Connectivity host (ICMP)" = "Host da conexão (ICMP)";
 "Leave empty to disable the check" = "Deixar vazio para desativar o check";
 "Connectivity history" = "Histórico de conectividade"; // translategemma:4b
+"Show country flag" = "Show country flag";
 "Auto-refresh public IP address" = "Atualização automática do endereço IP público"; // translategemma:4b
 "Every hour" = "A cada hora"; // translategemma:4b
 "Every 12 hours" = "A cada 12 horas"; // translategemma:4b

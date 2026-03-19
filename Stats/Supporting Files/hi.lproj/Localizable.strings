@@ -405,6 +405,7 @@
 "Connectivity host (ICMP)" = "कनेक्टिविटी होस्ट (आईसीएमपी)";
 "Leave empty to disable the check" = "चेक को अक्षम करने के लिए खाली छोड़ दें";
 "Connectivity history" = "कनेक्टिविटी इतिहास";
+"Show country flag" = "Show country flag";
 "Auto-refresh public IP address" = "ऑटो-रिफ्रेश सार्वजनिक आईपी पता";
 "Every hour" = "हर घंटे";
 "Every 12 hours" = "हर 12 घंटे";

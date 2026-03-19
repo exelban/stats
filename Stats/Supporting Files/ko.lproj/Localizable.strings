@@ -405,6 +405,7 @@
 "Connectivity host (ICMP)" = "연결성 확인 호스트 (ICMP)";
 "Leave empty to disable the check" = "연결성 확인을 비활성화하려면 이 란을 비워 두세요";
 "Connectivity history" = "연결성 기록";
+"Show country flag" = "Show country flag";
 "Auto-refresh public IP address" = "공개 IP주소 자동으로 새로고침";
 "Every hour" = "매 시간마다";
 "Every 12 hours" = "12시간마다";

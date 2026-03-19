@@ -405,6 +405,7 @@
 "Connectivity host (ICMP)" = "Máy chủ kết nối (ICMP)";
 "Leave empty to disable the check" = "Để trống để tắt kiểm tra";
 "Connectivity history" = "Lịch sử kết nối";
+"Show country flag" = "Show country flag";
 "Auto-refresh public IP address" = "Tự làm mới địa chỉ IP công khai";
 "Every hour" = "Mỗi giờ";
 "Every 12 hours" = "Mỗi 12 giờ";

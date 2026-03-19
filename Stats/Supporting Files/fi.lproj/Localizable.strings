@@ -405,6 +405,7 @@
 "Connectivity host (ICMP)" = "Yhteyden isäntä (ICMP)";
 "Leave empty to disable the check" = "Jätä tyhjäksi poistaaksesi tarkistuksen käytöstä";
 "Connectivity history" = "Yhteyshistoria";
+"Show country flag" = "Show country flag";
 "Auto-refresh public IP address" = "Päivitä julkinen IP-osoite automaattisesti";
 "Every hour" = "Joka tunti";
 "Every 12 hours" = "Joka 12. tunti";

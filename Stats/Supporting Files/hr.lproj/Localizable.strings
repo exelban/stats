@@ -405,6 +405,7 @@
 "Connectivity host (ICMP)" = "Host za konekciju (ICMP)"; // translategemma:4b
 "Leave empty to disable the check" = "Ostavite praznim kako biste isključili provjeru."; // translategemma:4b
 "Connectivity history" = "Historija konektivnosti"; // translategemma:4b
+"Show country flag" = "Show country flag";
 "Auto-refresh public IP address" = "Automatsko ažuriranje javne IP adrese"; // translategemma:4b
 "Every hour" = "Svaki sat"; // translategemma:4b
 "Every 12 hours" = "Svaki 12 sati"; // translategemma:4b

@@ -405,6 +405,7 @@
 "Connectivity host (ICMP)" = "Υπολογιστής διασύνδεσης (ICMP)"; // translategemma:4b
 "Leave empty to disable the check" = "Αφήστε το κενό για να απενεργοποιήσετε τον έλεγχο."; // translategemma:4b
 "Connectivity history" = "Ιστορικό σύνδεσης"; // translategemma:4b
+"Show country flag" = "Show country flag";
 "Auto-refresh public IP address" = "Αυτόματη ανανέωση της δημόσιας διεύθυνσης IP"; // translategemma:4b
 "Every hour" = "Κάθε ώρα"; // translategemma:4b
 "Every 12 hours" = "Κάθε 12 ώρες"; // translategemma:4b

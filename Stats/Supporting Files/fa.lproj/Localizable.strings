@@ -405,6 +405,7 @@
 "Connectivity host (ICMP)" = "میزبان اتصال (ICMP)";
 "Leave empty to disable the check" = "خالی بگذارید تا بررسی غیرفعال شود";
 "Connectivity history" = "تاریخچه اتصال"; // translategemma:4b
+"Show country flag" = "Show country flag";
 "Auto-refresh public IP address" = "به‌طور خودکار، آدرس IP عمومی را به‌روزرسانی کنید."; // translategemma:4b
 "Every hour" = "هر ساعت"; // translategemma:4b
 "Every 12 hours" = "هر ۱۲ ساعت"; // translategemma:4b

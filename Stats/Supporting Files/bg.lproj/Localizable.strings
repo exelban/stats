@@ -405,6 +405,7 @@
 "Connectivity host (ICMP)" = "Хост за свързаност (ICMP)"; // translategemma:4b
 "Leave empty to disable the check" = "Оставете празно, за да изключите проверката";
 "Connectivity history" = "История на връзките"; // translategemma:4b
+"Show country flag" = "Show country flag";
 "Auto-refresh public IP address" = "Автоматично обновяване на публичния IP адрес"; // translategemma:4b
 "Every hour" = "На всеки час"; // translategemma:4b
 "Every 12 hours" = "Всеки 12 часа"; // translategemma:4b

@@ -405,6 +405,7 @@
 "Connectivity host (ICMP)" = "Server de conectivitate (ICMP)"; // translategemma:4b
 "Leave empty to disable the check" = "Lăsați câmpul gol pentru a dezactiva verificarea."; // translategemma:4b
 "Connectivity history" = "Istoricul conexiunilor"; // translategemma:4b
+"Show country flag" = "Show country flag";
 "Auto-refresh public IP address" = "Actualizare automată a adresei IP publice"; // translategemma:4b
 "Every hour" = "La fiecare oră"; // translategemma:4b
 "Every 12 hours" = "La fiecare 12 ore"; // translategemma:4b

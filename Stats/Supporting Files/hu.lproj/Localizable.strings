@@ -405,6 +405,7 @@
 "Connectivity host (ICMP)" = "Kapcsolati gazdagép (ICMP)";
 "Leave empty to disable the check" = "Hagyd üresen az ellenőrzés kikapcsolásához";
 "Connectivity history" = "Kapcsolati előzmények";
+"Show country flag" = "Show country flag";
 "Auto-refresh public IP address" = "Publikus IP cím automatikus frissítése";
 "Every hour" = "Óránként";
 "Every 12 hours" = "12 óránként";

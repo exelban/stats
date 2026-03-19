@@ -405,6 +405,7 @@
 "Connectivity host (ICMP)" = "Connectivitat host (ICMP)";
 "Leave empty to disable the check" = "Deixa en blanc per desactivar el check";
 "Connectivity history" = "Historial de connectivitat";
+"Show country flag" = "Show country flag";
 "Auto-refresh public IP address" = "Refresca automàticament l'adreça pública IP";
 "Every hour" = "Cada hora";
 "Every 12 hours" = "Cada 12 hores";
