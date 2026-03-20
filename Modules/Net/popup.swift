@@ -64,6 +64,7 @@ internal class Popup: PopupWrapper {
     private var publicIPv4View: NSView? = nil
     private var publicIPv6View: NSView? = nil
     private var publicIPState: Bool = true
+    private var emojiCCState: Bool = true
     
     private var processesView: NSView? = nil
     private var processes: ProcessesView? = nil
@@ -127,6 +128,7 @@ internal class Popup: PopupWrapper {
         self.chartFixedScaleSize = SizeUnit.fromString(Store.shared.string(key: "\(self.title)_chartFixedScaleSize", defaultValue: self.chartFixedScaleSize.key))
         self.publicIPState = Store.shared.bool(key: "\(self.title)_publicIP", defaultValue: self.publicIPState)
         self.interfaceDetailsState = Store.shared.bool(key: "\(self.title)_interfaceDetails", defaultValue: self.interfaceDetailsState)
+        self.emojiCCState = Store.shared.bool(key: "\(self.title)_emojiCC", defaultValue: self.emojiCCState)
         
         self.addArrangedSubview(self.initDashboard())
         self.addArrangedSubview(self.initChart())
@@ -525,7 +527,7 @@ internal class Popup: PopupWrapper {
                         }
                         var ip = addr
                         if let cc = value.raddr.countryCode, !cc.isEmpty {
-                            if let flag = countryFlag(cc) {
+                            if self.emojiCCState, let flag = countryFlag(cc) {
                                 ip += " \(flag)"
                             } else {
                                 ip += " (\(cc))"
@@ -550,7 +552,7 @@ internal class Popup: PopupWrapper {
                         }
                         var ip = addr
                         if let cc = value.raddr.countryCode {
-                            if let flag = countryFlag(cc) {
+                            if self.emojiCCState, let flag = countryFlag(cc) {
                                 ip += " \(flag)"
                             } else {
                                 ip += " (\(cc))"
@@ -727,6 +729,10 @@ internal class Popup: PopupWrapper {
             PreferencesRow(localizedString("Public IP"), component: switchView(
                 action: #selector(self.togglePublicIP),
                 state: self.publicIPState
+            )),
+            PreferencesRow(localizedString("Show country code instead of emoji"), component: switchView(
+                action: #selector(self.toggleEmojiCC),
+                state: !self.emojiCCState
             ))
         ]))
         
@@ -830,6 +836,10 @@ internal class Popup: PopupWrapper {
         }
         
         self.recalculateHeight()
+    }
+    @objc private func toggleEmojiCC(_ sender: NSControl) {
+        self.emojiCCState = !controlState(sender)
+        Store.shared.set(key: "\(self.title)_emojiCC", value: self.emojiCCState)
     }
     
     // MARK: - helpers
