@@ -21,18 +21,23 @@ public struct Network_entry: TimelineEntry {
         raddr: Network_addr(v4: "192.168.0.1"),
         interface: Network_interface(displayName: "Stats"),
         status: true
-    ))
+    ), isPreview: true)
     
     public var date: Date {
         Calendar.current.date(byAdding: .second, value: 5, to: Date())!
     }
     public var value: Network_Usage? = nil
+    public var isPreview: Bool = false
 }
 
 public struct Provider: TimelineProvider {
     public typealias Entry = Network_entry
     
     private let userDefaults: UserDefaults? = UserDefaults(suiteName: "\(Bundle.main.object(forInfoDictionaryKey: "TeamId") as! String).eu.exelban.Stats.widgets")
+    
+    public var systemWidgetsUpdatesState: Bool {
+        self.userDefaults?.bool(forKey: "systemWidgetsUpdates_state") ?? false
+    }
     
     public func placeholder(in context: Context) -> Network_entry {
         Network_entry()
@@ -63,7 +68,7 @@ public struct NetworkWidget: Widget {
     public var body: some WidgetConfiguration {
         StaticConfiguration(kind: Network_entry.kind, provider: Provider()) { entry in
             VStack(spacing: 10) {
-                if let value = entry.value {
+                if Provider().systemWidgetsUpdatesState || entry.isPreview, let value = entry.value {
                     VStack {
                         HStack {
                             VStack {
@@ -111,6 +116,10 @@ public struct NetworkWidget: Widget {
                             }
                         }
                     }
+                } else if !Provider().systemWidgetsUpdatesState {
+                    Text("Enable in Settings")
+                        .font(.system(size: 12, weight: .regular))
+                        .foregroundColor(.secondary)
                 } else {
                     Text("No data")
                 }

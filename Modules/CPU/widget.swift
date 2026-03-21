@@ -16,12 +16,13 @@ import Kit
 
 public struct CPU_entry: TimelineEntry {
     public static let kind = "CPUWidget"
-    public static var snapshot: CPU_entry = CPU_entry(value: CPU_Load(totalUsage: 0.34, systemLoad: 0.11, userLoad: 0.23, idleLoad: 0.66))
+    public static var snapshot: CPU_entry = CPU_entry(value: CPU_Load(totalUsage: 0.34, systemLoad: 0.11, userLoad: 0.23, idleLoad: 0.66), isPreview: true)
     
     public var date: Date {
         Calendar.current.date(byAdding: .second, value: 5, to: Date())!
     }
     public var value: CPU_Load? = nil
+    public var isPreview: Bool = false
 }
 
 public struct Provider: TimelineProvider {
@@ -63,7 +64,7 @@ public struct CPUWidget: Widget {
     public var body: some WidgetConfiguration {
         StaticConfiguration(kind: CPU_entry.kind, provider: Provider()) { entry in
             VStack(spacing: 10) {
-                if Provider().systemWidgetsUpdatesState, let value = entry.value {
+                if Provider().systemWidgetsUpdatesState || entry.isPreview, let value = entry.value {
                     HStack {
                         Chart {
                             SectorMark(angle: .value(localizedString("System"), value.systemLoad), innerRadius: .ratio(0.8)).foregroundStyle(self.systemColor)

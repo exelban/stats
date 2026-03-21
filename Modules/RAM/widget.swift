@@ -31,19 +31,25 @@ public struct RAM_entry: TimelineEntry {
             pressure: Pressure(level: 1, value: .normal),
             swapins: 14,
             swapouts: 16
-        )
+        ),
+        isPreview: true
     )
     
     public var date: Date {
         Calendar.current.date(byAdding: .second, value: 5, to: Date())!
     }
     public var value: RAM_Usage? = nil
+    public var isPreview: Bool = false
 }
 
 public struct Provider: TimelineProvider {
     public typealias Entry = RAM_entry
     
     private let userDefaults: UserDefaults? = UserDefaults(suiteName: "\(Bundle.main.object(forInfoDictionaryKey: "TeamId") as! String).eu.exelban.Stats.widgets")
+    
+    public var systemWidgetsUpdatesState: Bool {
+        self.userDefaults?.bool(forKey: "systemWidgetsUpdates_state") ?? false
+    }
     
     public func placeholder(in context: Context) -> RAM_entry {
         RAM_entry()
@@ -74,7 +80,7 @@ public struct RAMWidget: Widget {
     public var body: some WidgetConfiguration {
         StaticConfiguration(kind: RAM_entry.kind, provider: Provider()) { entry in
             VStack(spacing: 10) {
-                if let value = entry.value {
+                if Provider().systemWidgetsUpdatesState || entry.isPreview, let value = entry.value {
                     HStack {
                         Chart {
                             SectorMark(angle: .value(localizedString("Used"), value.used/value.total), innerRadius: .ratio(0.8)).foregroundStyle(self.usedColor)
@@ -115,6 +121,10 @@ public struct RAMWidget: Widget {
                             Text("\(value.pressure.level)")
                         }
                     }
+                } else if !Provider().systemWidgetsUpdatesState {
+                    Text("Enable in Settings")
+                        .font(.system(size: 12, weight: .regular))
+                        .foregroundColor(.secondary)
                 } else {
                     Text("No data")
                 }
